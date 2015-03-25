@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -725,6 +726,12 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				processing.setFocus(true);
 			}
 		}
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				processing.scrollCursorIntoView();
+			}
+		});
 	}
 
 	/**

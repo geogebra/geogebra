@@ -1610,6 +1610,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		        .getActualEditedValue(seMayLatex);
 	}
 
+	public void scrollCursorIntoView() {
+		DrawEquationWeb.scrollCursorIntoView(this, seMayLatex, newCreationMode);
+	}
+
 	public void scrollIntoView() {
 		this.getElement().scrollIntoView();
 	}

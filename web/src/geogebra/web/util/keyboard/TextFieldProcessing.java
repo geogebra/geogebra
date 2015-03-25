@@ -498,4 +498,18 @@ public class TextFieldProcessing {
 			break;
 		}
 	}
+
+	/**
+	 * Method just used for RadioButtonTreeItem for now
+	 */
+	public void scrollCursorIntoView() {
+		switch (state) {
+		case newRadioButtonTreeItem:
+		case radioButtonTreeItem:
+			((RadioButtonTreeItem) field).scrollCursorIntoView();
+			break;
+		default:
+			break;
+		}
+	}
 }
