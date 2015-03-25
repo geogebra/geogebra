@@ -62,7 +62,7 @@ public class CASTableCellController extends
 			// copied/selected etc..
 			return true;
 		case KeyEvent.VK_ENTER:
-			handleEnterKey(geogebra.euclidian.event.KeyEvent.wrapEvent(e), app);
+			handleEnterKey(AppD.isControlDown(e), AppD.isAltDown(e), app);
 			consumeEvent = true;
 			// needUndo remains false because handleEnterKey handles Undo!
 			break;
