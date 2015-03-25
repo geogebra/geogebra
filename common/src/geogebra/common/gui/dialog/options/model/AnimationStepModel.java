@@ -43,7 +43,7 @@ public class AnimationStepModel extends OptionsModel {
 		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, TEXT_FIELD_FRACTION_DIGITS,false);
 
 		if (equalStep){
-			GeoElement stepGeo = geo0.getAnimationStepObject();
+			GeoElement stepGeo = geo0.getAnimationStepObject().toGeoElement();
 			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent()))) {
 				listener.setText(
 						kernel.formatAngle(geo0.getAnimationStep(), highPrecision, ((GeoAngle)geo0).getAngleStyle() == AngleStyle.UNBOUNDED).toString());

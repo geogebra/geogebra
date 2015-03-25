@@ -495,7 +495,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public GeoElement(final Construction c) {
 		super(c);
-		
 		c.usedGeos.add(this.getGeoClassType());
 
 		graphicsadapter = kernel.getApplication().newGeoElementGraphicsAdapter();
@@ -2390,11 +2389,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return animation step as geo
 	 */
-	public GeoElement getAnimationStepObject() {
+	public NumberValue getAnimationStepObject() {
 		if (animationIncrement == null) {
 			return null;
 		}
-		return animationIncrement.toGeoElement();
+		return animationIncrement;
 	}
 
 	/**
@@ -5403,7 +5402,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (isChangeable()) {
 			sb.append("\t<animation");
 			final String animStep = animationIncrement == null ? "1"
-					: getAnimationStepObject().getLabel(tpl);
+					: getAnimationStepObject().toGeoElement().getLabel(tpl);
 			sb.append(" step=\"");
 			StringUtil.encodeXML(sb, animStep);
 			sb.append("\"");
