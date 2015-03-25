@@ -4,11 +4,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.DialogBoxW;
-import geogebra.web.gui.util.AnimatedGifEncoderW;
 import geogebra.web.gui.util.FrameCollectorW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -208,13 +208,24 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		if (event.getSource() == cancelBtn) { // cancel button clicked
 			hide();
 		} else { // save button clicked
-			GeoGebraTubeAPIW api = new GeoGebraTubeAPIW(app.getClientInfo(),
-			        app.isPrerelease());
-			String sliderName = sliderComboBox.getSelectedValue().split(" ")[0];
-			api.exportAnimGif(app, sliderName);
+			export();
 			hide();
 		}
 	}
+
+	private GeoPointND createExportPoint(int idx, int corner) {
+		GeoElement p = app.getKernel().lookupLabel("Export_" + idx);
+		if (p instanceof GeoPointND) {
+			return (GeoPointND) p;
+		}
+
+		return app
+		        .getKernel()
+		        .getAlgebraProcessor()
+		        .evaluateToPoint("Export_" + idx + "=Corner[" + corner + "]",
+		                false, false);
+	}
+
 
 	private void export() {
 		// implementation taken and modified from
@@ -236,75 +247,13 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 			return;
 		}
 
-		app.getKernel().getAnimatonManager().stopAnimation();
+		GeoGebraTubeAPIW api = new GeoGebraTubeAPIW(app.getClientInfo(),
+		        app.isPrerelease());
+		String sliderName = sliderComboBox.getSelectedValue().split(" ")[0];
+		GeoPointND p1 = createExportPoint(1, 1);
+		GeoPointND p2 = createExportPoint(2, 3);
+		api.exportAnimGif(app, sliderName, timeBetweenFrames, isLoop.getValue());
 
-		GeoNumeric num = (GeoNumeric) geoNumerics.get(selectedGeo);
-
-		int type = num.getAnimationType();
-		double min = num.getIntervalMin();
-		double max = num.getIntervalMax();
-
-		double val;
-
-		double step;
-		int n;
-
-		switch (type) {
-		case GeoElement.ANIMATION_DECREASING:
-			step = -num.getAnimationStep();
-			n = (int) ((max - min) / -step);
-			if (Kernel.isZero(((max - min) / -step) - n))
-				n++;
-			if (n == 0)
-				n = 1;
-			val = max;
-			break;
-		case GeoElement.ANIMATION_OSCILLATING:
-			step = num.getAnimationStep();
-			n = (int) ((max - min) / step) * 2;
-			if (Kernel.isZero(((max - min) / step * 2) - n))
-				n++;
-			if (n == 0)
-				n = 1;
-			val = min;
-			break;
-		default: // GeoElement.ANIMATION_INCREASING:
-			     // GeoElement.ANIMATION_INCREASING_ONCE:
-			step = num.getAnimationStep();
-			n = (int) ((max - min) / step);
-			if (Kernel.isZero(((max - min) / step) - n))
-				n++;
-			if (n == 0)
-				n = 1;
-			val = min;
-		}
-
-		final AnimatedGifEncoderW gifEncoder = new AnimatedGifEncoderW(
-		        timeBetweenFrames, isLoop.getValue());
-
-		FrameCollectorW collector = new FrameCollectorW() {
-
-			public void addFrame(String url) {
-				gifEncoder.addFrame(url);
-			}
-
-			public void finish() {
-				gifEncoder.finish();
-			}
-		};
-		// hide dialog
-		setVisible(false);
-
-		app.setWaitCursor();
-
-		try {
-			this.exportAnimatedGIF(collector, num, n, val, min, max, step);
-		} catch (Exception ex) {
-			app.showError("SaveFileFailed");
-			ex.printStackTrace();
-		} finally {
-			app.setDefaultCursor();
-		}
 	}
 
 

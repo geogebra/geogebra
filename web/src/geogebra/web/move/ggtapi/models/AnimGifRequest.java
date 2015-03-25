@@ -14,6 +14,8 @@ public class AnimGifRequest implements Request {
 
 	private AppW app;
 	private String sliderName;
+	private int timing;
+	private boolean isLoop;
 
 	/**
 	 * @param app
@@ -21,15 +23,18 @@ public class AnimGifRequest implements Request {
 	 * @param material
 	 *            {@link Material}
 	 */
-	AnimGifRequest(AppW app, String sliderName) {
+	AnimGifRequest(AppW app, String sliderName, int timing, boolean isLoop) {
 		this.app = app;
 		this.sliderName = sliderName;
+		this.timing = timing;
+		this.isLoop = isLoop;
 	}
 
 	@Override
 	public String toJSONString(ClientInfo client) {
 		JSONObject request = new JSONObject();
 		JSONObject api = new JSONObject();
+		StringBuilder params = new StringBuilder();
 		api.put("-api", new JSONString(this.API));
 
 		// login
@@ -46,8 +51,13 @@ public class AnimGifRequest implements Request {
 
 		task.put("-type", new JSONString(TYPE));
 		task.put("file", ggbBase64);
-		task.put("slidername", new JSONString(sliderName));
-
+		params.append("--slider=");
+		params.append(sliderName);
+		// params.append(" -timing ");
+		// params.append(timing);
+		// params.append(" -loop ");
+		// params.append(isLoop);
+		task.put("params", new JSONString(params.toString()));
 		api.put("task", task);
 		request.put("request", api);
 		return request.toString();
@@ -60,7 +70,8 @@ public class AnimGifRequest implements Request {
 	 *            The slider of animation steps
 	 * @return AnimGifRequest
 	 */
-	public static AnimGifRequest getRequestElement(AppW app, String sliderName) {
-		return new AnimGifRequest(app, sliderName);
+	public static AnimGifRequest getRequestElement(AppW app, String sliderName,
+	        int timing, boolean isLoop) {
+		return new AnimGifRequest(app, sliderName, timing, isLoop);
 	}
 }

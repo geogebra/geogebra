@@ -48,7 +48,7 @@ public interface StyleBar3DResources extends ClientBundle {
 	@Source("stylingbar_graphics3D_view_perspective.gif")
 	ImageResource viewPerspective();
 
-	@Source("stylingbar_graphics3D_view_glases.gif")
+	@Source("stylingbar_graphics3D_view_glasses.gif")
 	ImageResource viewGlasses();
 
 	@Source("stylingbar_graphics3D_view_oblique.gif")

@@ -3828,14 +3828,19 @@ Arrays.asList(coordsPanel,
 		App.debug("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
+
 		if (geos != null && geos.length != 0) {
 			wrappedPanel.setVisible(true);
+
+			// app.setShowAuxiliaryObjects(true);
+
 			for (OptionsTab tab: tabs) {
 				tab.update(geos);
 			}
 
 			
 		} else {
+			;
 			wrappedPanel.setVisible(false);
 			App.debug("No geos");
 		}

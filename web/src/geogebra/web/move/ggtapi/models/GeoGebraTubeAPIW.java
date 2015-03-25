@@ -417,7 +417,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 * @param cb
 	 *            {@link MaterialCallback}
 	 */
-	public void exportAnimGif(AppW app, String sliderName) {
+	public void exportAnimGif(AppW app, String sliderName, int timing,
+	        boolean isLoop) {
 		RequestCallback cb = new RequestCallback() {
 
 			public void onResponseReceived(Request request, Response response) {
@@ -451,7 +452,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, getUrl());
 
 		App.debug("[URL] " + getUrl());
-		String req = AnimGifRequest.getRequestElement(app, sliderName)
+		String req = AnimGifRequest.getRequestElement(app, sliderName, timing,
+		        isLoop)
 		        .toJSONString(client);
 		App.debug("[REQUEST]: " + req);
 		try {
@@ -461,6 +463,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			e.printStackTrace();
 		}
 	}
+
 
 	@Override
 	protected String getToken() {

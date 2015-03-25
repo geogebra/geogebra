@@ -758,7 +758,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void onDrop(DropEvent event) {
 		app.setActiveView(App.VIEW_EUCLIDIAN);
 		app.setActiveView(App.VIEW_EUCLIDIAN2);
-
+			
 		EuclidianViewInterfaceCommon ev = 
 				app.getActiveEuclidianView();
 
