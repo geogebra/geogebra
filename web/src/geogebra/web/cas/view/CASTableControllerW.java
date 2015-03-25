@@ -306,7 +306,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			break;
 		}
 		if (e.isEnterKey()) {
-			this.handleEnterKey(e, app);
+			this.handleEnterKey(e.isCtrlDown(), e.isAltDown(), app);
 			e.preventDefault();
 		}
 	}

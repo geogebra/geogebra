@@ -29,6 +29,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -385,6 +386,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	@Override
 	public void updatePosition(ScrollableSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(ihtml);
+	}
+
+	@Override
+	public Widget toWidget() {
+		return this;
 	}
 
 }

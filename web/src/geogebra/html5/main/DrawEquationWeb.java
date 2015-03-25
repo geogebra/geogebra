@@ -19,7 +19,7 @@ import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.html5.gui.view.algebra.GeoContainer;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -701,7 +701,8 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            the same element as in drawEquationMathQuillGGB
 	 */
 	public static native void editEquationMathQuillGGB(
-	        RadioButtonTreeItem rbti, Element parentElement,
+GeoContainer rbti,
+	        Element parentElement,
 	        boolean newCreationMode) /*-{
 
 		var elfirst = parentElement.firstChild.firstChild;
@@ -739,15 +740,15 @@ public class DrawEquationWeb extends DrawEquation {
 							}
 							if (code == 13) {//enter
 								if (newCreationMode) {
-									@geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								} else {
-									@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							} else if (code == 27) {//esc
 								if (newCreationMode) {
-									@geogebra.html5.main.DrawEquationWeb::stornoFormulaMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@geogebra.html5.main.DrawEquationWeb::stornoFormulaMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								} else {
-									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							} else {
 								// it would be counterproductive to call autoScroll and history popup
@@ -757,7 +758,7 @@ public class DrawEquationWeb extends DrawEquation {
 								// but still better to put this in keypress later,
 								// just it should be assigned in the bubbling phase of keypress
 								// after MathQuillGGB has executed its own code, just it is not easy...
-								@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+								@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 
 								if (newCreationMode) {
 									var querr = elsecondInside;
@@ -767,9 +768,9 @@ public class DrawEquationWeb extends DrawEquation {
 										// or we should not hide the old... e.g. up/down arrows should not hide...
 										// is there any other case? (up/down will unset later here)
 										if (querr.GeoGebraSuggestionPopupCanShow === true) {
-											@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
+											@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/GeoContainer;)(rbti);
 										} else {
-											@geogebra.html5.main.DrawEquationWeb::hideSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
+											@geogebra.html5.main.DrawEquationWeb::hideSuggestions(Lgeogebra/html5/gui/view/algebra/GeoContainer;)(rbti);
 										}
 									}
 								}
@@ -798,7 +799,7 @@ public class DrawEquationWeb extends DrawEquation {
 				})
 				.select(
 						function(event7) {
-							@geogebra.html5.main.DrawEquationWeb::scrollSelectionIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+							@geogebra.html5.main.DrawEquationWeb::scrollSelectionIntoView(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 						});
 		// could be: mouseover, mouseout, mousemove, mouseup, but this seemed to be enough
 
@@ -832,7 +833,7 @@ public class DrawEquationWeb extends DrawEquation {
 								// note that this will be called every time
 								// focus is called as well
 								if ($wnd.mqggbmousein.mout) {
-									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 								event.stopPropagation();
 								event.preventDefault();
@@ -852,7 +853,7 @@ public class DrawEquationWeb extends DrawEquation {
 					// so let's change it:
 					delete elsecondInside.GeoGebraSuggestionPopupCanShow;
 
-					@geogebra.html5.main.DrawEquationWeb::shuffleSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Z)(rbti, false);
+					@geogebra.html5.main.DrawEquationWeb::shuffleSuggestions(Lgeogebra/html5/gui/view/algebra/GeoContainer;Z)(rbti, false);
 					event.stopPropagation();
 					event.preventDefault();
 					return false;
@@ -861,12 +862,12 @@ public class DrawEquationWeb extends DrawEquation {
 					// so let's change it:
 					delete elsecondInside.GeoGebraSuggestionPopupCanShow;
 
-					@geogebra.html5.main.DrawEquationWeb::shuffleSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Z)(rbti, true);
+					@geogebra.html5.main.DrawEquationWeb::shuffleSuggestions(Lgeogebra/html5/gui/view/algebra/GeoContainer;Z)(rbti, true);
 					event.stopPropagation();
 					event.preventDefault();
 					return false;
 				}
-				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(code, event.altKey, event.shiftKey, parentElement, rbti);
+				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;Lgeogebra/html5/gui/view/algebra/GeoContainer;)(code, event.altKey, event.shiftKey, parentElement, rbti);
 				if (captureSuccess) {
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
 					// so let's change it: (it should not be true for pi, o and i!)
@@ -895,7 +896,7 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static boolean specKeyDown(int keyCode, boolean altDown,
-	        boolean shiftDown, Element parentElement, RadioButtonTreeItem rbti) {
+	        boolean shiftDown, Element parentElement, GeoContainer rbti) {
 
 		boolean Hungarian = false;
 		String locale = rbti.getApplication().getLocalization().getLocaleStr();
@@ -1102,15 +1103,15 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 	}-*/;
 
-	public static void popupSuggestions(RadioButtonTreeItem rbti) {
+	public static void popupSuggestions(GeoContainer rbti) {
 		rbti.popupSuggestions();
 	}
 
-	public static void hideSuggestions(RadioButtonTreeItem rbti) {
+	public static void hideSuggestions(GeoContainer rbti) {
 		rbti.hideSuggestions();
 	}
 
-	public static void shuffleSuggestions(RadioButtonTreeItem rbti, boolean down) {
+	public static void shuffleSuggestions(GeoContainer rbti, boolean down) {
 		rbti.shuffleSuggestions(down);
 	}
 
@@ -1128,7 +1129,8 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static native void newFormulaCreatedMathQuillGGB(
-	        RadioButtonTreeItem rbti, Element parentElement) /*-{
+GeoContainer rbti,
+	        Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
@@ -1138,14 +1140,15 @@ public class DrawEquationWeb extends DrawEquation {
 
 		//elsecond.previousSibling.style.display = "block"; // this does not apply here!!
 
-		@geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;Ljava/lang/String;Ljava/lang/String;)(rbti,parentElement,latexq,latexx);
+		@geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Ljava/lang/String;Ljava/lang/String;)(rbti,parentElement,latexq,latexx);
 
 		// this method also takes care of calling more JSNI code in a callback,
 		// that originally belonged here: newFormulaCreatedMathQuillGGBCallback
 	}-*/;
 
 	public static native void stornoFormulaMathQuillGGB(
-	        RadioButtonTreeItem rbti, Element parentElement) /*-{
+GeoContainer rbti,
+	        Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
@@ -1239,7 +1242,8 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static boolean newFormulaCreatedMathQuillGGB(
-	        final RadioButtonTreeItem rbti, final Element parentElement, final String input, final String latex) {
+	        final GeoContainer rbti, final Element parentElement,
+	        final String input, final String latex) {
 		AsyncOperation callback = new AsyncOperation() {
 			public void callback(Object o) {
 				// this should only be called when the new formula creation
@@ -1252,7 +1256,8 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	public static native void escEditingEquationMathQuillGGB(
-	        RadioButtonTreeItem rbti, Element parentElement) /*-{
+GeoContainer rbti,
+	        Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		var elsecondInside = elsecond.lastChild;
@@ -1260,12 +1265,13 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var latexq = null;
 		elsecond.previousSibling.style.display = "block";
-		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
 		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
 
 	public static native void endEditingEquationMathQuillGGB(
-	        RadioButtonTreeItem rbti, Element parentElement) /*-{
+GeoContainer rbti,
+	        Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
@@ -1273,14 +1279,14 @@ public class DrawEquationWeb extends DrawEquation {
 		var latexq = thisjq.mathquillggb('text');
 		elsecond.previousSibling.style.display = "block";
 		//var rett =
-		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
 		//if (rett) {
 		thisjq.mathquillggb('revert').mathquillggb();
 		//}
 	}-*/;
 
 	public static boolean endEditingEquationMathQuillGGB(
-	        RadioButtonTreeItem rbti,
+GeoContainer rbti,
 	        String latex) {
 		return rbti.stopEditing(latex);
 	}
@@ -1381,7 +1387,7 @@ public class DrawEquationWeb extends DrawEquation {
 		return resultNode;
 	}-*//*;*/
 
-	public static void scrollSelectionIntoView(RadioButtonTreeItem rbti,
+	public static void scrollSelectionIntoView(GeoContainer rbti,
 	        Element parentElement, boolean newCreationMode) {
 		JavaScriptObject jo = grabSelectionFocusForScrollIntoView(parentElement);
 		if (jo != null)
@@ -1399,7 +1405,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 * Moreover, we also need to scroll to the cursor, which can be done in one
 	 * operation in cases we need that...
 	 */
-	public static void scrollCursorIntoView(RadioButtonTreeItem rbti,
+	public static void scrollCursorIntoView(GeoContainer rbti,
 	        Element parentElement, boolean newCreationMode) {
 		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
 		if (jo != null) {
@@ -1410,7 +1416,7 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	private static void scrollJSOIntoView(JavaScriptObject jo,
-	        RadioButtonTreeItem rbti, Element parentElement,
+	        GeoContainer rbti, Element parentElement,
 	        boolean newCreationMode) {
 
 		Element joel = Element.as(jo);

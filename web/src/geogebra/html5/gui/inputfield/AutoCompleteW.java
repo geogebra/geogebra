@@ -3,9 +3,9 @@ package geogebra.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
 
-public interface AutoCompleteW extends IsWidget {
+public interface AutoCompleteW {
 	public boolean getAutoComplete();
 
 	public List<String> resetCompletions();
@@ -31,4 +31,6 @@ public interface AutoCompleteW extends IsWidget {
 	public boolean isSuggesting();
 
 	public void requestFocus();
+
+	public Widget toWidget();
 }

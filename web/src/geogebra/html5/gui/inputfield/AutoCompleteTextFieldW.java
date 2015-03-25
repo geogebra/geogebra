@@ -1658,4 +1658,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		this.keyBoardModeText = keyBoardModeText;
 	}
 
+	@Override
+	public Widget toWidget() {
+		return this;
+	}
+
 }

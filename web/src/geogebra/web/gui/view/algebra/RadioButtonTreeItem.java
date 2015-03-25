@@ -46,6 +46,7 @@ import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.gui.util.LongTouchManager;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
+import geogebra.html5.gui.view.algebra.GeoContainer;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.util.EventUtil;
@@ -53,7 +54,6 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.SliderW;
-import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
@@ -117,7 +117,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class RadioButtonTreeItem extends FlowPanel implements
         DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
         MouseOverHandler, MouseOutHandler, GeoContainer,
-        geogebra.html5.gui.view.algebra.RadioButtonTreeItem, TouchStartHandler,
+ TouchStartHandler,
         TouchMoveHandler, TouchEndHandler, LongTouchHandler {
 
 	GeoElement geo;
@@ -801,6 +801,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				text = geo.getLaTeXAlgebraDescription(true,
 				        StringTemplate.latexTemplateMQ);
 				if ((text != null)
+						&& text.length() < 500
 				        && geo.isLaTeXDrawableGeo()
 				        && (geo.isGeoList() ? !((GeoList) geo).isMatrix()
 				                : true)) {

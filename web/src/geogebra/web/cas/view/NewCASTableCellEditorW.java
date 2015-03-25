@@ -1,7 +1,11 @@
 package geogebra.web.cas.view;
 
 import geogebra.common.cas.view.CASTableCellEditor;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.gui.inputfield.AutoCompleteW;
+import geogebra.html5.gui.view.algebra.GeoContainer;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.view.algebra.EquationEditor;
@@ -12,13 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class NewCASTableCellEditorW extends Label implements
         CASTableCellEditor, CASEditorW,
-        EquationEditorListener {
+ EquationEditorListener, GeoContainer {
 
 	// private AutoCompleteTextFieldW textField;
 	private CASTableW table;
@@ -26,17 +32,27 @@ public class NewCASTableCellEditorW extends Label implements
 	private EquationEditor editor;
 	private String input;
 	private final SpanElement seMayLaTex;
+	private CASTableControllerW ml;
 
 	public NewCASTableCellEditorW(CASTableW table, AppW app,
 	        final CASTableControllerW ml) {
 		this.app = app;
 		this.table = table;
+		this.ml = ml;
 		this.editor = new EquationEditor(app, this);
 		this.seMayLaTex = DOM.createSpan().cast();
 		DrawEquationWeb.drawEquationAlgebraView(seMayLaTex, "", true);
 		EquationEditor.updateNewStatic(seMayLaTex);
-
+		DrawEquationWeb.editEquationMathQuillGGB(this, seMayLaTex, true);
 		this.getElement().appendChild(seMayLaTex);
+		this.addDomHandler(new MouseUpHandler() {
+
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				event.stopPropagation();
+
+			}
+		}, MouseUpEvent.getType());
 
 		/*
 		 * textField = new AutoCompleteTextFieldW(0, app, true, null, true);
@@ -70,7 +86,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public String getInputSelectedText() {
 		// TODO Auto-generated method stub
-		return this.input;
+		return "";
 	}
 
 	public String getInput() {
@@ -146,7 +162,7 @@ public class NewCASTableCellEditorW extends Label implements
 	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
-		return null;
+		return input;
 	}
 
 	@Override
@@ -162,7 +178,8 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public void requestFocus() {
-		// TODO Auto-generated method stub
+		// TODO check this
+		this.seMayLaTex.focus();
 
 	}
 
@@ -180,5 +197,60 @@ public class NewCASTableCellEditorW extends Label implements
 	public void updatePosition(ScrollableSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(this);
 
+	}
+
+	@Override
+	public GeoElement getGeo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hideSuggestions() {
+		return editor.hideSuggestions();
+	}
+
+	@Override
+	public boolean stopNewFormulaCreation(String input2, String latex,
+	        AsyncOperation callback) {
+		// TODO Auto-generated method stub
+		App.debug("STOPPED" + input2 + "," + latex);
+		this.input = input2;
+		this.ml.handleEnterKey(false, false, app);
+		return false;
+	}
+
+	@Override
+	public boolean popupSuggestions() {
+		return editor.popupSuggestions();
+	}
+
+	@Override
+	public boolean stopEditing(String latex) {
+		// TODO Auto-generated method stub
+		App.debug("STOPPED" + latex);
+		return false;
+	}
+
+	@Override
+	public void scrollIntoView() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean shuffleSuggestions(boolean down) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public App getApplication() {
+		return app;
+	}
+
+	@Override
+	public Widget toWidget() {
+		return this;
 	}
 }

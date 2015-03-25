@@ -1,7 +1,7 @@
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.main.SelectionManager;
-import geogebra.web.gui.view.algebra.Marble.GeoContainer;
+import geogebra.html5.gui.view.algebra.GeoContainer;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

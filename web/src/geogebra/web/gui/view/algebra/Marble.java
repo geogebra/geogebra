@@ -1,7 +1,7 @@
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.html5.gui.view.algebra.GeoContainer;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -22,17 +22,6 @@ public class Marble extends SimplePanel
 	private GeoContainer gc;
 	/** whether the last switch was done using touch (ignore onclick in that case) */
 	boolean touchUsed;
-	
-	/**
-	 * Object providing the corresponding geo
-	 */
-	public interface GeoContainer {
-		/**
-		 * @return corresponding geo
-		 */
-		public GeoElement getGeo();
-		
-	}
 	
 	/**
 	 * Toggle visibility of corresponding geo

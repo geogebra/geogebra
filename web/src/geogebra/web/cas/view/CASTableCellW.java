@@ -89,7 +89,7 @@ public class CASTableCellW extends VerticalPanel {
 	 */
 	public void startEditing(AutoCompleteW editor) {
 		clear();
-		add(editor);
+		add(editor.toWidget());
 		textField = editor;
 		textBeforeEdit = inputPanel.getText();
 		editor.setText(textBeforeEdit);
