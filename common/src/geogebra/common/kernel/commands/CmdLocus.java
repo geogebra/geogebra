@@ -61,10 +61,10 @@ public class CmdLocus extends CommandProcessor {
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))) {
-				GeoPoint p1 = (GeoPoint) arg[0];
+				GeoPointND p1 = (GeoPointND) arg[0];
 				GeoNumeric p2 = (GeoNumeric) arg[1];
 
-				GeoElement[] ret = { getAlgoDispatcher().Locus(c.getLabel(),
+				GeoElement[] ret = { locus(c.getLabel(),
 						p1, p2) };
 				return ret;
 			} else {
@@ -87,6 +87,10 @@ public class CmdLocus extends CommandProcessor {
 	 * @return locus
 	 */
 	protected GeoElement locus(String label, GeoPointND p1, GeoPointND p2) {
-		return getAlgoDispatcher().Locus(label, (GeoPoint) p1, (GeoPoint) p2);
+		return getAlgoDispatcher().Locus(label, p1, p2);
 	}
+	protected GeoElement locus(String label, GeoPointND p, GeoNumeric slider){
+		return getAlgoDispatcher().Locus(label, (GeoPoint)p, slider);
+	}
+
 }

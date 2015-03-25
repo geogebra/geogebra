@@ -2126,4 +2126,11 @@ public class Manager3D implements Manager3DInterface {
 
 	}
 
+	@Override
+	public GeoElement Locus3D(String label, GeoPointND Q, GeoNumeric slider) {
+		// TODO Auto-generated method stub
+		return null;
+		//return null;
+	}
+
 }

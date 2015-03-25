@@ -936,6 +936,8 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement Locus3D(String label, GeoPointND Q, GeoPointND P);
 
+	public GeoElement Locus3D(String label, GeoPointND Q, GeoNumeric slider);
+
 	/*
 	 * tangent to parametric curve
 	 */
