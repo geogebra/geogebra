@@ -2365,7 +2365,8 @@ public abstract class App implements UpdateSelection {
 			}
 		}
 
-		if (hasEuclidianView3D() && getEuclidianView3D().getStyleBar() != null) {
+		if (hasEuclidianView3D() && isEuclidianView3Dinited()
+				&& getEuclidianView3D().getStyleBar() != null) {
 			getEuclidianView3D().getStyleBar().reinit();
 		}
 
