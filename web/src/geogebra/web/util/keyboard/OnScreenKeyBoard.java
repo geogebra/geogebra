@@ -77,7 +77,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		supportedLocales.put(Language.Italian.localeGWT, "it");
 		// supportedLocales.put(Language.Japanese.localeGWT, value);
 		// supportedLocales.put(Language.Kazakh.localeGWT, "kk");
-		supportedLocales.put(Language.Korean.localeGWT, "ko");
+		// supportedLocales.put(Language.Korean.localeGWT, "ko");
 		supportedLocales.put(Language.Latvian.localeGWT, "en");
 		supportedLocales.put(Language.Lithuanian.localeGWT, "lt");
 		// supportedLocales.put(Language.Macedonian.localeGWT, "mk");
@@ -188,8 +188,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		}
 		OnScreenKeyBoard instance = instances.get(appW);
 		if (instance == null) {
-			instance = new OnScreenKeyBoard();
-			instance.app = appW;
+			instance = new OnScreenKeyBoard(appW);
 			instances.put(appW,instance);
 		}
 
@@ -231,11 +230,18 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	/**
 	 * should not be called; use getInstance instead
+	 * 
+	 * @param appW
 	 */
-	private OnScreenKeyBoard() {
+	private OnScreenKeyBoard(AppW appW) {
 		super(true);
+		this.app = appW;
 		addStyleName("KeyBoard");
 		createKeyBoard();
+		if (this.app.isPrerelease()) {
+			// this is needed until we support other fonts than Latin
+			supportedLocales.put(Language.Korean.localeGWT, "ko");
+		}
 	}
 
 	@Override
