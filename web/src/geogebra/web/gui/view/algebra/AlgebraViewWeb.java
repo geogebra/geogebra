@@ -1042,6 +1042,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			        kernel));
 			inputPanelTreeItem.getWidget().getElement().getParentElement()
 			        .addClassName("NewRadioButtonTreeItemParent");
+			((NewRadioButtonTreeItem) inputPanelTreeItem.getWidget())
+			        .replaceXButtonDOM();
 		}
 		if(inputPanel != null){
 			//make sure we do not trigger long touch here
@@ -1105,6 +1107,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
 				inputPanelTreeItem.getWidget().getElement().getParentElement()
 				        .addClassName("NewRadioButtonTreeItemParent");
+				((NewRadioButtonTreeItem) inputPanelTreeItem.getWidget())
+				        .replaceXButtonDOM();
 			} else {
 				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 			}

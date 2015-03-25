@@ -42,6 +42,8 @@
 	/* afaik, ::after is relative this this element this way */
 	position: relative !important;
 	display: block !important;
+	box-sizing: border-box;
+	padding-right: 30px;
 	width: 100%;
 }
 
@@ -3727,7 +3729,7 @@ body.application[dir=rtl] .imageCorner {
 
 .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
 .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField,
-.NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
+.NewRadioButtonTreeItemParent.SymbolCanBeShown .TextField {
 	padding-right: 40px;
 }
 body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
@@ -3751,7 +3753,7 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	margin-top: -0.66em;
 }
 
-.NewRadioButtonTreeItem .SymbolToggleButton {
+.NewRadioButtonTreeItemParent .SymbolToggleButton {
 	position: absolute;
 	right: 5px;
 	top: 50%;
@@ -3769,8 +3771,8 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown,
 .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused,
-.NewRadioButtonTreeItem .SymbolToggleButton.shown,
-.NewRadioButtonTreeItem .SymbolToggleButton.ShowSymbolButtonFocused {
+.NewRadioButtonTreeItemParent .SymbolToggleButton.shown,
+.NewRadioButtonTreeItemParent .SymbolToggleButton.ShowSymbolButtonFocused {
 	display: inline-block;
 }
 

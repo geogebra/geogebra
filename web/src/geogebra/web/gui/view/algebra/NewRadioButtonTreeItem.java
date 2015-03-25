@@ -99,7 +99,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// why? web programming knowledge helps: we should add position:
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
 		add(xButton);// dirty hack of adding it two times!
-		ihtml.getElement().appendChild(xButton.getElement());
+		// this was necessary earlier in conjuction with add(xButton)
+		// ihtml.getElement().appendChild(xButton.getElement());
+		// but later this.replaceXButtonDOM() should be used instead
 
 		xButton.getElement().setAttribute("data-visible", "true");
 		addStyleName("SymbolCanBeShown");
@@ -113,6 +115,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			}
 		};
 		tim.schedule(500);
+	}
+
+	public void replaceXButtonDOM() {
+		getElement().getParentElement().appendChild(xButton.getElement());
 	}
 
 	/**
