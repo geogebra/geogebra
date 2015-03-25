@@ -17,13 +17,14 @@ public class CASTableCellController {
 	 * @param app
 	 *            application
 	 */
-	protected synchronized void handleEnterKey(
-			geogebra.common.euclidian.event.KeyEvent e, App app) {
+	public synchronized void handleEnterKey(
+boolean control, boolean alt,
+			App app) {
 		// AppD app = view.getApp();
 		int mode = app.getMode();
 
 		// Ctrl + Enter toggles between the modes Evaluate and Numeric
-		if (e.isCtrlDown()) {
+		if (control) {
 			if (mode == EuclidianConstants.MODE_CAS_NUMERIC) {
 				app.setMode(EuclidianConstants.MODE_CAS_EVALUATE);
 			} else {
@@ -34,7 +35,7 @@ public class CASTableCellController {
 		}
 
 		// Alt + Enter toggles between the modes Evaluate and Keep Input
-		if (e.isAltDown()) {
+		if (alt) {
 			if (mode == EuclidianConstants.MODE_CAS_KEEP_INPUT) {
 				app.setMode(EuclidianConstants.MODE_CAS_EVALUATE);
 			} else {
