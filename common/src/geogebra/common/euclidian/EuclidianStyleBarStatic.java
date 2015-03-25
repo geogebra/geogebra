@@ -305,41 +305,13 @@ public class EuclidianStyleBarStatic {
 		}
 		
 		GeoElement geo = null;
-		if (mode == EuclidianConstants.MODE_MOVE) {
-			for (int i = 0; i < geos.length; i++) {
-				if (((GeoElement) geos[i]).isLabelShowable()
-						|| ((GeoElement) geos[i]).isGeoAngle()
-						|| (((GeoElement) geos[i]).isGeoNumeric() ? ((GeoNumeric) geos[i])
-								.isSliderFixed() : false)) {
-					geo = (GeoElement) geos[i];
-					return geo;
-				}
-			}
-		} else if (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF) {
-			for (int i = 0; i < geos.length; i++) {
-				if (((GeoElement) geos[i]).isGeoAngle()) { // angle is always specific case
-					geo = (GeoElement) geos[i];
-					return geo;
-				}
-			}
-		} else if (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY) {
-			for (int i = 0; i < geos.length; i++) {
-				if ((((GeoElement) geos[i]).isLabelShowable()
-						&& ((GeoElement) geos[i]).isGeoPoint())
-						|| ((GeoElement) geos[i]).isGeoAngle()) { // angle is always specific case
-					geo = (GeoElement) geos[i];
-					return geo;
-				}
-			}
-		} else {
-			for (int i = 0; i < geos.length; i++) {
-				if (((GeoElement) geos[i]).isLabelShowable()
-						|| ((GeoElement) geos[i]).isGeoAngle()
-						|| (((GeoElement) geos[i]).isGeoNumeric() ? ((GeoNumeric) geos[i])
-								.isSliderFixed() : false)) {
-					geo = (GeoElement) geos[i];
-					return geo;
-				}
+		for (int i = 0; i < geos.length; i++) {
+			if (((GeoElement) geos[i]).isLabelShowable()
+					|| ((GeoElement) geos[i]).isGeoAngle()
+					|| (((GeoElement) geos[i]).isGeoNumeric() ? ((GeoNumeric) geos[i])
+							.isSliderFixed() : false)) {
+				geo = (GeoElement) geos[i];
+				return geo;
 			}
 		}
 		
@@ -355,20 +327,9 @@ public class EuclidianStyleBarStatic {
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if ((mode == EuclidianConstants.MODE_MOVE && (geo.isLabelShowable()
-					|| geo.isGeoAngle() || (geo.isGeoNumeric() ? ((GeoNumeric) geo)
-					.isSliderFixed() : false)))
-					|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY
-							&& geo.isLabelShowable() && geo.isGeoPoint())
-					|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON
-							&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
-								.isGeoNumeric() ? ((GeoNumeric) geo)
-							.isSliderFixed() : false))
-					|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC
-							&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
-								.isGeoNumeric() ? ((GeoNumeric) geo)
-							.isSliderFixed() : false))
-					|| geo.isGeoAngle()	
+			if (geo.isLabelShowable()
+					|| geo.isGeoAngle() 
+					|| (geo.isGeoNumeric() ? ((GeoNumeric) geo).isSliderFixed() : false)
 					) {
 				geo.setLabelModeFromStylebar(index);
 			}
