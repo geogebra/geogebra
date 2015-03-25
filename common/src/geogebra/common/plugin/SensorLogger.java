@@ -35,6 +35,11 @@ public abstract class SensorLogger {
 			Types(String s) {
 				this.string = s;
 			}
+
+		@Override
+		public String toString() {
+			return string;
+		}
 	
 			public static Types lookup(String s) {
 				for (Types type : Types.values()) {
