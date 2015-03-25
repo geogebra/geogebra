@@ -76,11 +76,16 @@ public class Ggb2giac {
 				"ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"
 						+ "normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
 		p("CSolutions.2", "ggbsort(normal(cZeros(%0,%1)))");
+
+		// DO NOT wrap in normal() otherwise these don't work
+		// CSolve[z²=k a^2,z]
+		// CSolve[3z^2-2a*(k+1)*z+a^2*k=0,z]
+		// (alternative is assume(ggbtmpvara, complex))
 		p("CSolve.1",
 				"ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"
-						+ "normal(csolve(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
+						+ "regroup(csolve(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
 
-		p("CSolve.2", "ggbsort(normal(csolve(%0,%1)))");
+		p("CSolve.2", "ggbsort(regroup(csolve(%0,%1)))");
 		p("Degree.1", "degree(%0)");
 		p("Degree.2", "degree(%0,%1)");
 		p("Denominator.1", "denom(%0)");
