@@ -26,7 +26,9 @@ public abstract class SensorLogger {
 			TIMESTAMP("time"), ACCELEROMETER_X("Ax"), ACCELEROMETER_Y("Ay"), ACCELEROMETER_Z(
 					"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
 					"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
-					"Mz"), DATA_COUNT("datacount"), EDAQ0("EDAQ0"), EDAQ1("EDAQ1"), EDAQ2(
+				"Mz"), PROXIMITY("proximity"), LIGHT("light"), LOUDNESS(
+				"loudness"), DATA_COUNT("datacount"), EDAQ0("EDAQ0"), EDAQ1(
+				"EDAQ1"), EDAQ2(
 				"EDAQ2"), PORT("port"), APP_ID("appID");
 			private String string;
 	
