@@ -897,7 +897,7 @@ public class AlgoDispatcher {
 				Q.getPath() != null || !P.isParentOf(Q))
 			return null;
 		AlgoLocusSlider algo = new AlgoLocusSlider(cons, label, Q, P);
-		return algo.getLocus();
+		return (GeoLocus) algo.getLocus();
 	}
 
 	/**
