@@ -458,30 +458,24 @@
   color: black;
   border-color: black;
 }
+
 .mathquillggb-editable .textarea,
 .mathquillggb-rendered-math .textarea {
-  position: relative;
   -webkit-user-select: text;
   -moz-user-select: text;
   user-select: text;
-}
-.mathquillggb-editable .textarea,
-.mathquillggb-rendered-math .textarea {
+
   /* in order to prevent flickering when typing here: */
   /* position should be changed from absolute to fixed! */
   position: fixed;
   /* this should be invisible! */
-  /* maybe z-index is not necessary, but */
   z-index: -32000;
+  /* although clip is for absolute position, necessary! */
+  /* as it is deprecated, may cause CSS challenges later */
+  clip: rect(1em 1em 1em 1em);
 
-  /* also, to exclude every possible wrongs coming */
-  /* from initial coordinates of fixed positioning: */
-  /* although the following lines may be redundant: */
-
-  /* top/bottom is Okay as textarea will be there anyway */
-  /* hopefully there will something else than z-index: -32003 */
-  top: 0px;
-  left: 0px;
+  /* we should NOT specify top/left, because when the */
+  /* formula/page is scrolled, it would be wrong! */
 
   /* why not? */
   width: 1px;
@@ -489,7 +483,19 @@
 }
 
 .mathquillggb-editable .textarea textarea,
-.mathquillggb-rendered-math .textarea textarea,
+.mathquillggb-rendered-math .textarea textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
+  /*position: relative;
+  z-index: -32001;*/
+  /*clip: rect(1em 1em 1em 1em);*/
+
+  /* why not? */
+  width: 1px;
+  height: 1px;
+}
+
 .mathquillggb-editable .selectable,
 .mathquillggb-rendered-math .selectable {
   /* above newer hacks not applied to non-textarea */
@@ -499,9 +505,4 @@
   user-select: text;
   position: absolute;
   clip: rect(1em 1em 1em 1em);
-
-  /* why not? */
-  z-index: -32001;
-  width: 1px;
-  height: 1px;
 }
