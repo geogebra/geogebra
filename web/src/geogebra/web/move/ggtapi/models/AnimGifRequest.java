@@ -53,10 +53,10 @@ public class AnimGifRequest implements Request {
 		task.put("file", ggbBase64);
 		params.append("--slider=");
 		params.append(sliderName);
-		// params.append(" -timing ");
-		// params.append(timing);
-		// params.append(" -loop ");
-		// params.append(isLoop);
+		params.append(" --loop=");
+		params.append(isLoop);
+		params.append(" --delay=");
+		params.append(timing);
 		task.put("params", new JSONString(params.toString()));
 		api.put("task", task);
 		request.put("request", api);
