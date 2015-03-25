@@ -1,6 +1,7 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.app.ShowKeyboardButton;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
@@ -16,6 +17,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	SimplePanel simplep;
 	AlgebraViewW aview = null;
 	AlgebraInputW inputPanel = new AlgebraInputW();
+	private ShowKeyboardButton keyboardButton;
 
 	public AlgebraDockPanelW() {
 		super(
@@ -71,7 +73,12 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 	@Override
 	public void onResize() {
-		// noting to do here
+		// ignore super method
+
+		// update position of the keyboard-button
+		if (keyboardButton != null) {
+			keyboardButton.updatePosition();
+		}
     }
 
 	@Override
@@ -91,4 +98,13 @@ public class AlgebraDockPanelW extends DockPanelW {
 		this.algebrap.scrollToBottom();
 	}
 
+	/**
+	 * set a ShowKeyBoardButton that will be updated, if this panel is resized
+	 * 
+	 * @param button
+	 *            the button to be updated
+	 */
+	public void setKeyBoardButton(ShowKeyboardButton button) {
+		this.keyboardButton = button;
+	}
 }

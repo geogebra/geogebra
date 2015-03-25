@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.GuiManagerInterfaceW;
@@ -175,10 +176,18 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 */
 	public void showKeyboardButton(boolean show, final Widget textField) {
 		if (showKeyboardButton == null) {
-			showKeyboardButton = new ShowKeyboardButton(this, textField,
-					((Widget) guiManagerW.getLayout().getDockManager()
-							.getPanel(App.VIEW_ALGEBRA)).getElement()
-			);
+			DockPanel algebraDockPanel = guiManagerW.getLayout()
+					.getDockManager()
+					.getPanel(App.VIEW_ALGEBRA);
+
+			if (algebraDockPanel != null) {
+				showKeyboardButton = new ShowKeyboardButton(this, textField,
+						((Widget) algebraDockPanel).getElement());
+				if (algebraDockPanel instanceof AlgebraDockPanelW) {
+					((AlgebraDockPanelW) algebraDockPanel)
+							.setKeyBoardButton(showKeyboardButton);
+				}
+			}
 		}
 		showKeyboardButton.show(show, textField);
 	}

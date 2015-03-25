@@ -69,6 +69,6 @@ public class ShowKeyboardButton extends PopupPanel {
 	 */
 	public void updatePosition() {
 		this.setPopupPosition(parent.getOffsetLeft(), parent.getOffsetHeight()
-		        + parent.getOffsetTop() - this.HEIGHT);
+				+ parent.getAbsoluteTop() - this.HEIGHT);
 	}
 }
