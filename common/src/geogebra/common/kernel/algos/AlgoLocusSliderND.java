@@ -15,8 +15,8 @@ package geogebra.common.kernel.algos;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.MyPoint;
@@ -28,7 +28,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoLocusND;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 
@@ -52,7 +51,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	/** maximum time for the computation of one locus point in millis **/
 	public static int MAX_TIME_FOR_ONE_STEP = 500;
 
-	private static int MAX_X_PIXEL_DIST = 5;
+	protected static int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
 	private GeoPointND locusPoint; // input (Q)
@@ -69,22 +68,27 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	private GeoPointND Qcopy;
 	protected GeoPointND QstartPos;
 	private GeoNumeric Pcopy, PstartPos;
-	protected double lastX, lastY, maxXdist, maxYdist, xmin, xmax, ymin, ymax,
-			farXmin, farXmax, farYmin, farYmax;
+	protected double lastX, lastY;
 
-	protected double maxXdist2, maxYdist2, xmin2, xmax2, ymin2, ymax2,
-			farXmin2,
-			farXmax2, farYmin2, farYmax2;
+	protected double[] maxXdist, maxYdist;
+	protected final double[] xmin = new double[3], xmax = new double[3],
+			ymin = new double[3],
+			ymax = new double[3], farXmin = new double[3],
+			farXmax = new double[3], farYmin = new double[3],
+			farYmax = new double[3];
+
+
 
 	// private Line2D.Double tempLine = new Line2D.Double();
-	protected GRectangle2D nearToScreenRect = geogebra.common.factories.AwtFactory.prototype
-			.newRectangle2D();
+	protected GRectangle2D[] nearToScreenRect = new GRectangle2D[] {
+			AwtFactory.prototype.newRectangle2D(),
+			AwtFactory.prototype.newRectangle2D(),
+			AwtFactory.prototype.newRectangle2D() };
 
-	protected GRectangle2D nearToScreenRect2 = geogebra.common.factories.AwtFactory.prototype
-			.newRectangle2D();
+
 
 	private boolean continuous;
-	protected boolean lastFarAway, lastFarAway2;
+	protected boolean lastFarAway[] = { false, false, false };
 	private boolean foundDefined;
 	private boolean maxTimeExceeded;
 	private Construction macroCons;
@@ -98,9 +102,10 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	// private Updater updater;
 
-	public AlgoLocusSliderND(Construction cons, String label, GeoPoint Q,
+	public AlgoLocusSliderND(Construction cons, String label, GeoPointND Q,
 			GeoNumeric P) {
 		super(cons);
+		createMaxDistances();
 		this.movingSlider = P;
 		this.locusPoint = Q;
 
@@ -110,7 +115,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		PstartPos = new GeoNumeric(cons);
 		this.qcopyCache = createQCopyCache();
 		// we may need locus in init => row order important
-		locus = newGeoLocus();
+		locus = newGeoLocus(cons);
 		init();
 		updateScreenBorders();
 
@@ -124,6 +129,12 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		// path.pointChanged(P);
 
 		locus.setLabel(label);
+
+	}
+
+	protected void createMaxDistances() {
+		maxXdist = new double[3];
+		maxYdist = new double[3];
 	}
 
 	protected abstract void createStartPos(Construction cons);
@@ -141,7 +152,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	// }
 	// }
 
-	protected abstract GeoLocusND<T> newGeoLocus();
+	protected abstract GeoLocusND<T> newGeoLocus(Construction cons);
 	@Override
 	public Commands getClassName() {
 		return Commands.Locus;
@@ -302,7 +313,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			Pcopy.setFixed(false);
 			// Pcopy.setPath(movingSlider.getPath());
 
-			Qcopy = (GeoPoint) macroKernel.lookupLabel(locusPoint
+			Qcopy = (GeoPointND) macroKernel.lookupLabel(locusPoint
 					.toGeoElement()
 					.getLabelSimple());
 			macroCons = macroKernel.getConstruction();
@@ -533,8 +544,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			// AND if the direction of moving along the path
 			// is positive like in the beginning
 			if (sliderMover.hasPositiveOrientation()) {
-				boolean equal = areEqual(QstartPos, Qcopy,
-						Kernel.MIN_PRECISION);
+				boolean equal = areEqual(QstartPos, Qcopy);
 				if (equal)
 					break;
 			}
@@ -562,10 +572,32 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	protected abstract boolean differentFromLast(GeoPointND qcopy2);
 
 	protected abstract boolean areEqual(GeoPointND qstartPos2,
-			GeoPointND qcopy2,
-			double minPrecision);
+ GeoPointND qcopy2);
 
-	protected abstract boolean distanceOK(GeoPointND qcopy2);
+	protected boolean distanceOK(GeoPointND Q) {
+		boolean[] distanceOK = { false, false, false };
+
+		for (int i = 0; i < distanceOK.length; i++) {
+			if (lastFarAway[i] && isFarAway(Q, i)) {
+				distanceOK[i] = distanceOK(Q, nearToScreenRect[i]);
+			} else {
+				distanceOK[i] = distanceSmall(Q, false);
+			}
+		}
+
+		for (int i = 0; i < distanceOK.length; i++) {
+			if (!distanceOK[i]) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	abstract protected boolean isFarAway(GeoPointND point, int i);
+
+	protected abstract boolean distanceOK(GeoPointND qcopy2,
+			GRectangle2D nearToScreenRect3);
 
 	/**
 	 * Calls Pcopy.updateCascade() to compute Qcopy. For non-continous
@@ -643,7 +675,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	protected abstract T newCache();
 
-	private GPoint2D getCachedPoint(double param) {
+	private T getCachedPoint(double param) {
 		// search for cached parameter
 		for (int i = 0; i < paramCache.length; i++) {
 			if (param == paramCache[i])
@@ -677,8 +709,8 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	protected abstract boolean distanceSmall(GeoPointND Q,
 			boolean orInsteadOfAnd);
-	boolean visibleEV1 = false;
-	boolean visibleEV2 = false;
+
+	protected boolean visibleEV[] = new boolean[] { false, false, false };
 
 	boolean isVisibleInEV1() {
 		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN))
@@ -697,81 +729,97 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	}
 
 	void updateScreenBordersIfNecessary() {
-		if (isVisibleInEV1() != visibleEV1 || isVisibleInEV2() != visibleEV2) {
+		if (isVisibleInEV1() != visibleEV[0]
+				|| isVisibleInEV2() != visibleEV[1]
+				|| isVisibleInEV2() != visibleEV[2]) {
 			updateScreenBorders();
 		}
 	}
 
-	private void updateScreenBorders() {
+	boolean isVisibleInEV(int i) {
+		switch (i) {
+		case 1:
+			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN))
+				return false;
+			if (!kernel.getApplication().getEuclidianView1().isShowing())
+				return false;
+			return true;
 
-		visibleEV1 = isVisibleInEV1();
-		visibleEV2 = isVisibleInEV2();
+		case 2:
+			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2))
+				return false;
+			if (!kernel.getApplication().hasEuclidianView2(1))
+				return false;
+			return true;
 
-		if (visibleEV1 && visibleEV2) {
+		case 3:
+			if (!locus.isVisibleInView3D())
+				return false;
+			if (kernel.getApplication().isEuclidianView3Dinited())
+				return kernel.getApplication().getEuclidianView3D().isShowing();
+		}
+		return false;
+
+	}
+
+	void updateScreenBorders() {
+
+		for (int i = 0; i < visibleEV.length; i++) {
+			visibleEV[i] = isVisibleInEV(i + 1);
+		}
+
+		if (visibleEV[0] && visibleEV[1]) {
 			views = 2;
 		} else {
 			views = 1;
 		}
 
-		if (visibleEV1) {
-			xmax = kernel.getXmax(true, false);
-			xmin = kernel.getXmin(true, false);
-			ymax = kernel.getYmax(true, false);
-			ymin = kernel.getYmin(true, false);
-
-			double widthRW = xmax - xmin;
-			double heightRW = ymax - ymin;
-			maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(true, false); // widthRW
-																			// /
-																			// 100;
-			maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(true, false); // heightRW
-																			// /
-																			// 100;
-
-			// we take a bit more than the screen
-			// itself so that we don't loose locus
-			// lines too often
-			// that leave and reenter the screen
-
-			farXmin = xmin - widthRW / 2;
-			farXmax = xmax + widthRW / 2;
-			farYmin = ymin - heightRW / 2;
-			farYmax = ymax + heightRW / 2;
-
-			// near to screen rectangle
-			nearToScreenRect.setFrame(farXmin, farYmin, farXmax - farXmin,
-					farYmax - farYmin);
+		if (visibleEV[2]) {
+			views++;
 		}
 
-		if (visibleEV2) {
-			xmax2 = kernel.getXmax(false, true);
-			xmin2 = kernel.getXmin(false, true);
-			ymax2 = kernel.getYmax(false, true);
-			ymin2 = kernel.getYmin(false, true);
-
-			double widthRW = xmax2 - xmin2;
-			double heightRW = ymax2 - ymin2;
-			maxXdist2 = MAX_X_PIXEL_DIST / kernel.getXscale(false, true); // widthRW
-																			// /
-																			// 100;
-			maxYdist2 = MAX_Y_PIXEL_DIST / kernel.getYscale(false, true); // heightRW
-																			// /
-																			// 100;
-
-			// we take a bit more than the screen
-			// itself so that we don't loose locus
-			// lines too often
-			// that leave and reenter the screen
-
-			farXmin2 = xmin2 - widthRW / 2;
-			farXmax2 = xmax2 + widthRW / 2;
-			farYmin2 = ymin2 - heightRW / 2;
-			farYmax2 = ymax2 + heightRW / 2;
-
-			// near to screen rectangle
-			nearToScreenRect2.setFrame(farXmin2, farYmin2, farXmax2 - farXmin2,
-					farYmax2 - farYmin2);
+		for (int i = 0; i < visibleEV.length; i++) {
+			if (visibleEV[i]) {
+				updateScreenBorders(i);
+			}
 		}
+
+	}
+
+	private void updateScreenBorders(int v) {
+
+
+				xmax[v] = kernel.getXmax(true, false);
+				xmin[v] = kernel.getXmin(true, false);
+				ymax[v] = kernel.getYmax(true, false);
+				ymin[v] = kernel.getYmin(true, false);
+
+		setMaxDistances(v);
+
+		nearToScreenRect[v].setFrame(farXmin[v], farYmin[v], farXmax[v]
+				- farXmin[v], farYmax[v] - farYmin[v]);
+
+	}
+
+	protected void setMaxDistances(int v) {
+		double widthRW = xmax[v] - xmin[v];
+		double heightRW = ymax[v] - ymin[v];
+		maxXdist[v] = MAX_X_PIXEL_DIST / kernel.getXscale(true, false); // widthRW
+		// /
+		// 100;
+		maxYdist[v] = MAX_Y_PIXEL_DIST / kernel.getYscale(true, false); // heightRW
+		// /
+		// 100;
+
+		// we take a bit more than the screen
+		// itself so that we don't loose locus
+		// lines too often
+		// that leave and reenter the screen
+
+		farXmin[v] = xmin[v] - widthRW / 2;
+		farXmax[v] = xmax[v] + widthRW / 2;
+		farYmin[v] = ymin[v] - heightRW / 2;
+		farYmax[v] = ymax[v] + heightRW / 2;
 	}
 
 	@Override

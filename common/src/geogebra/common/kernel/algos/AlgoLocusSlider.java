@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import geogebra.common.awt.GRectangle2D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -31,11 +32,12 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> implements
 	public AlgoLocusSlider(Construction cons, String label, GeoPoint Q,
 			GeoNumeric P) {
 		super(cons, label, Q, P);
+
 	}
 
 	@Override
-	protected GeoLocusND<MyPoint> newGeoLocus() {
-		return new GeoLocus(cons);
+	protected GeoLocusND<MyPoint> newGeoLocus(Construction cons2) {
+		return new GeoLocus(cons2);
 	}
 
 	@Override
@@ -52,24 +54,20 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> implements
 		((GeoLocus) locus).insertPoint(x, y, lineTo);
 		lastX = x;
 		lastY = y;
-		lastFarAway = isFarAway(lastX, lastY);
-		lastFarAway2 = isFarAway2(lastX, lastY);
+		for (int i = 0; i < lastFarAway.length; i++) {
+			lastFarAway[i] = isFarAway(lastX, lastY, i);
+		}
+
 	}
 
-	protected boolean isFarAway(double x, double y) {
-		boolean farAway = (x > farXmax || x < farXmin || y > farYmax || y < farYmin);
+	protected boolean isFarAway(double x, double y, int i) {
+		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i] || y < farYmin[i]);
 		return farAway;
 	}
 
-	protected boolean isFarAway2(double x, double y) {
-		boolean farAway = (x > farXmax2 || x < farXmin2 || y > farYmax2 || y < farYmin2);
-		return farAway;
-	}
-
-	protected boolean distanceOK(GeoPointND QND) {
-		boolean distanceOK, distanceOK2;
+	@Override
+	protected boolean distanceOK(GeoPointND QND, GRectangle2D rec) {
 		GeoPoint Q = (GeoPoint) QND;
-		if (lastFarAway && isFarAway(Q.inhomX, Q.inhomY)) {
 			// if last point Q' was far away and Q is far away
 			// then the distance is probably OK (return true),
 			// so we probably don't need smaller step,
@@ -88,57 +86,43 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> implements
 				lengthX = -lengthX;
 			if (lengthY < 0)
 				lengthY = -lengthY;
-			distanceOK = !nearToScreenRect.intersects(minX, minY, lengthX,
+		return !rec.intersects(minX, minY, lengthX,
 					lengthY);
-		} else {
-			distanceOK = distanceSmall(Q, false);
-		}
 
-		if (lastFarAway2 && isFarAway2(Q.inhomX, Q.inhomY)) {
-			// if last point Q' was far away and Q is far away
-			// then the distance is probably OK (return true),
-			// so we probably don't need smaller step,
-			// except if the rectangle of the segment Q'Q
-			// intersects the near to screen rectangle
-			// (it will probably not be on the screen anyway)
-			double minX = lastX;
-			double minY = lastY;
-			double lengthX = Q.inhomX - lastX;
-			double lengthY = Q.inhomY - lastY;
-			if (Q.inhomX < minX)
-				minX = Q.inhomX;
-			if (Q.inhomY < minY)
-				minY = Q.inhomY;
-			if (lengthX < 0)
-				lengthX = -lengthX;
-			if (lengthY < 0)
-				lengthY = -lengthY;
-			distanceOK2 = !nearToScreenRect2.intersects(minX, minY, lengthX,
-					lengthY);
-		} else {
-			distanceOK2 = distanceSmall(Q, false);
-		}
 
-		return distanceOK && distanceOK2;
+		
 	}
 
+	@Override
 	protected boolean distanceSmall(GeoPointND QND, boolean orInsteadOfAnd) {
 		GeoPoint Q = (GeoPoint) QND;
-		boolean distSmall = Math.abs(Q.inhomX - lastX) < maxXdist
-				&& Math.abs(Q.inhomY - lastY) < maxYdist;
-		boolean distSmall2 = Math.abs(Q.inhomX - lastX) < maxXdist2
-				&& Math.abs(Q.inhomY - lastY) < maxYdist2;
 
-		if (orInsteadOfAnd) {
-			return (distSmall && visibleEV1) || (distSmall2 && visibleEV2);
+		boolean[] distSmall = new boolean[3];
+		for (int i = 0; i < distSmall.length; i++) {
+			distSmall[i] = Math.abs(Q.inhomX - lastX) < maxXdist[i]
+					&& Math.abs(Q.inhomY - lastY) < maxYdist[i];
 		}
 
-		return (distSmall || !visibleEV1) && (distSmall2 || !visibleEV2);
+		if (orInsteadOfAnd) {
+			for (int i = 0; i < distSmall.length; i++) {
+				if (distSmall[i] && visibleEV[i]) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		for (int i = 0; i < distSmall.length; i++) {
+			if (!distSmall[i] && visibleEV[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 	// TODO Consider locusequability
 
 	@Override
-	protected boolean areEqual(GeoPointND A, GeoPointND B, double minPrecision) {
+	protected boolean areEqual(GeoPointND A, GeoPointND B) {
 		return ((GeoPoint) A).isEqual(B.toGeoElement(), Kernel.MIN_PRECISION);
 	}
 
@@ -168,6 +152,12 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> implements
 		t.setX(((GeoPoint) qCopy2).inhomX);
 		t.setY(((GeoPoint) qCopy2).inhomY);
 
+	}
+
+	@Override
+	protected boolean isFarAway(GeoPointND point, int i) {
+		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY,
+				i);
 	}
 
 }
