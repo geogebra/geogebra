@@ -2762,4 +2762,8 @@ public class NoExceptionsTest {
 		t("StartRecord[false]");
 		t("StartRecord[true]");
 	}
+	
+	public void cmdRepeat(){
+		t("Repeat[UpdateConstruction[],2]");
+	}
 }
