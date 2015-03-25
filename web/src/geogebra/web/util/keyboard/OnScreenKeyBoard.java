@@ -317,12 +317,15 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	}
 
 	/**
-	 * 70 = width of button; 82 = padding
+	 * check the minimum width. Either width of ABC panel or 123 panel. 70 =
+	 * width of button; 82 = padding
 	 * 
 	 * @return
 	 */
 	private int getMinWidthWithoutScaling() {
-		return numVisibleButtons * 70 + 82;
+		int abc = numVisibleButtons * 70 + 82;
+		int numbers = 850;
+		return Math.max(abc, numbers);
 	}
 
 	private SimplePanel getCloseButton() {
