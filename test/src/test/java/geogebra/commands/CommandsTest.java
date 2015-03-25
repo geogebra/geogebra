@@ -97,4 +97,16 @@ public class CommandsTest extends Assert{
 		t("Midpoint[(x-1)^2+(y-1)^2=pi]","(1, 1)");
 	}
 	
+	@Test
+	public void cmdIsInRegion(){
+		t("IsInRegion[(0,0),Circle[(1,1),2]]","true");
+		t("IsInRegion[(0,0),Circle[(1,1),1]]","false");
+		t("IsInRegion[(0,0,0),x+y+z=1]","false");
+		t("IsInRegion[(0,0,0),x+y+z=0]","true");
+		t("IsInRegion[(0,0,0),Polygon[(0,0,1),(1,0,0),(0,1,0)]]","false");
+		t("IsInRegion[(1/3,1/3,1/3),Polygon[(0,0,1),(1,0,0),(0,1,0)]]","true");
+		//move the centroid a bit in z-axis, it should no longer be inside
+		t("IsInRegion[(1/3,1/3,1/2),Polygon[(0,0,1),(1,0,0),(0,1,0)]]","false");
+	}
+	
 }
