@@ -73,7 +73,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	private Coords[] drawCoords = null;
 
-	private Coords tmpCoords = new Coords(4), tmpCoords2;
+	private Coords tmpCoords = new Coords(4), tmpCoords2, vn = new Coords(4);
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -111,7 +111,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				return true;
 			}
 
-			Coords vn = ((AlgoAngle) algo).getVn();
+			vn.setValues(((AlgoAngle) algo).getVn(), 3);
 
 			Coords center;
 			if (algo instanceof AlgoAnglePlanes) { // draw angle at center of

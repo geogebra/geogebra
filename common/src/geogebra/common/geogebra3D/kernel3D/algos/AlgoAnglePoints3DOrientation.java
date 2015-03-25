@@ -67,12 +67,8 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 		if (!getAngle().isDefined() || Kernel.isZero(getAngle().getValue())) {
 			return;
 		}
-
-		if (vn.dotproduct(orientation.getDirectionInD3()) < 0) {
-			GeoAngle a = getAngle();
-			a.setValue(2 * Math.PI - a.getValue());
-			vn = vn.mul(-1);
-		}
+		
+		checkOrientation(vn, orientation, getAngle());
 	}
 
 	@Override

@@ -65,11 +65,7 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 			return;
 		}
 
-		if (vn.dotproduct(orientation.getDirectionInD3()) < 0) {
-			GeoAngle a = getAngle();
-			a.setValue(2 * Math.PI - a.getValue());
-			vn = vn.mul(-1);
-		}
+		checkOrientation(vn, orientation, getAngle());
 	}
 
 	@Override
