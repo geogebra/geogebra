@@ -9,7 +9,6 @@ import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.gui.dialog.options.model.OptionsModel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoTableText;
@@ -834,18 +833,8 @@ axesIcon, iconHeight);
 
 			@Override
 			public void update(Object[] geos) {
-				boolean geosOK = false;
-				GeoElement geo = null;
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					if (!geo.isIndependent()
-							&& (geo instanceof AngleProperties) 
-							&& !geo.isGeoList() || OptionsModel.isAngleList(geo)) {
-						
-						geosOK = true;
-						break;
-					}
-				}
+				GeoElement geo = EuclidianStyleBarStatic.checkGeosForAngleInterval(geos);
+				boolean geosOK = (geo != null);
 				this.setVisible(geosOK);
 
 				if (geosOK) {

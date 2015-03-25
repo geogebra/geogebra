@@ -1,6 +1,7 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.gui.dialog.options.model.OptionsModel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -804,6 +805,30 @@ public class EuclidianStyleBarStatic {
 			}
 		}
 		return true;
+	}
+	
+	
+	/**
+	 * check geos for "angle interval" button
+	 * @param geos geos
+	 * @return true if "angle interval" button applies on all geos
+	 */
+	final static public GeoElement checkGeosForAngleInterval(Object[] geos){
+		if (geos.length <= 0) {
+			return null;
+		}
+
+		for (int i = 0; i < geos.length; i++) {
+			GeoElement geo = (GeoElement) geos[i];
+			if ((geo.isDefaultGeo() || !geo.isIndependent())
+					&& (geo instanceof AngleProperties) 
+					&& !geo.isGeoList() || OptionsModel.isAngleList(geo)) {
+				
+				return geo;
+			}
+		}
+		
+		return null;
 	}
 
 	/**
