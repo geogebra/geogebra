@@ -344,4 +344,6 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public double getAnimationValue();
 	
 	public void setAnimationValue(double val);
+
+	public void setAnimating(boolean start);
 }
