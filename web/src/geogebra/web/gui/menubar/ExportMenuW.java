@@ -49,7 +49,7 @@ public class ExportMenuW extends MenuBar {
 			        }
 		        });
 
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.image_x_generic()
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		// translation not needed
 		        .getSafeUri().asString(), "png",
 		        true), true, new Command() {
