@@ -43,7 +43,7 @@
 	position: relative !important;
 	display: block !important;
 	box-sizing: border-box;
-	padding-right: 30px;
+	padding-right: 40px;
 	width: 100%;
 }
 
@@ -3728,8 +3728,7 @@ body.application[dir=rtl] .imageCorner {
 }
 
 .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
-.GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField,
-.NewRadioButtonTreeItemParent.SymbolCanBeShown .TextField {
+.GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField {
 	padding-right: 40px;
 }
 body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
@@ -3755,6 +3754,7 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 
 .NewRadioButtonTreeItemParent .SymbolToggleButton {
 	position: absolute;
+	box-sizing: content-box;
 	right: 5px;
 	top: 50%;
 	margin-top: -9px;
