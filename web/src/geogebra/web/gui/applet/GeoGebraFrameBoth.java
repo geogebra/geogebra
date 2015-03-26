@@ -258,8 +258,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	private void showKeyboardButton(boolean show, Widget textField) {
 		if (showKeyboardButton == null) {
-			showKeyboardButton = new ShowKeyboardButton(this, textField,
-			        this.getElement());
+			showKeyboardButton = new ShowKeyboardButton(this, textField, this);
 		}
 		showKeyboardButton.show(show, textField);
 	}

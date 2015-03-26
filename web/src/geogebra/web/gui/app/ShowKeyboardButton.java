@@ -4,7 +4,6 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -17,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ShowKeyboardButton extends PopupPanel {
 	
 	private final int HEIGHT = 33;
-	private Element parent;
+	private Widget parent;
 
 	/**
 	 * @param listener
@@ -28,7 +27,7 @@ public class ShowKeyboardButton extends PopupPanel {
 	 *            {@link Element}
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
-	        final Widget textField, Element parent) {
+			final Widget textField, Widget parent) {
 
 		this.parent = parent;
 		this.addStyleName("openKeyboardButton");
@@ -57,9 +56,11 @@ public class ShowKeyboardButton extends PopupPanel {
 			addAutoHidePartner(textField.getElement());
 		}
 
-		if (show) {
+		if (show && parent.isVisible()) {
 			updatePosition();
 			show();
+		} else {
+			hide();
 		}
 
 	}

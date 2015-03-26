@@ -182,7 +182,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 			if (algebraDockPanel != null) {
 				showKeyboardButton = new ShowKeyboardButton(this, textField,
-						((Widget) algebraDockPanel).getElement());
+						((Widget) algebraDockPanel));
 				if (algebraDockPanel instanceof AlgebraDockPanelW) {
 					((AlgebraDockPanelW) algebraDockPanel)
 							.setKeyBoardButton(showKeyboardButton);
