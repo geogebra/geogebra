@@ -163,9 +163,12 @@ public class DrawLocus extends Drawable {
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape() : gp;
-		if (t == null)
+		if (t == null) {
 			return false; // hasn't been drawn yet (hidden)
-
+		}
+		if (gp.getCurrentPoint() == null) {
+			return false; // 3D locus with no points in 2D
+		}
 		if (strokedShape == null) {
 			strokedShape = objStroke.createStrokedShape(gp);
 		}
