@@ -7208,7 +7208,7 @@ public abstract class EuclidianController {
 
 			// if fixed checkbox dragged, behave as if it's been clicked
 			// important for electronic whiteboards / tablets
-			if (isCheckboxFixed(movedGeoBoolean)) {
+			if (!isMoveCheckboxExpected()) {
 				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
 				selection.removeSelectedGeo(movedGeoBoolean); // make sure
 																// doesn't get
@@ -7345,6 +7345,13 @@ public abstract class EuclidianController {
 				&& ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
 	}
 
+	protected boolean isMoveCheckboxExpected() {// int hitThreshold) {
+		// TEMPORARY_MODE true -> dragging checknox using Checkbox Tool
+		// or right-hand mouse button
+		return ((temporaryMode && app.isRightClickEnabled())
+				|| !movedGeoBoolean.isCheckboxFixed() || app
+				.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
+	}
 	protected void setStartPointLocation(double x, double y) {
 		startPoint.setLocation(x, y);
 

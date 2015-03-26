@@ -56,6 +56,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 		setEuclidianVisible(true);
 		setAuxiliaryObject(true);
+		setFixed(true);
 	}
 	/**
 	 * Creates new button

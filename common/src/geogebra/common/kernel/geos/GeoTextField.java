@@ -33,6 +33,7 @@ public class GeoTextField extends GeoButton {
 	public GeoTextField(Construction c) {
 		super(c);
 		length = defaultLength;
+		setFixed(true);
 	}
 	/**
 	 * @param cons construction

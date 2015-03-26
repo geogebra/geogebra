@@ -34,7 +34,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		GeoNumberValue, AbsoluteScreenLocateable, HasExtendedAV {
 
 	private boolean value = false;
-	private boolean checkboxFixed = false;
+	private boolean checkboxFixed;
 
 	private ArrayList<GeoElement> condListenersShowObject;
 
@@ -44,6 +44,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 */
 	public GeoBoolean(Construction c) {
 		super(c);
+		checkboxFixed = true;
 		setEuclidianVisible(false);
 	}
 
