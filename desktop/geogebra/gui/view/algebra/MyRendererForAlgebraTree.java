@@ -52,8 +52,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		setIconShown(app.getScaledIcon("algebra_shown.png"));
 		setIconHidden(app.getScaledIcon("algebra_hidden.png"));
 
-		setOpenIcon(app.getScaledIcon("tree_closed.png"));
-		setClosedIcon(app.getScaledIcon("tree_open.png"));
+		setOpenIcon(app.getScaledIcon("tree_open.png"));
+		setClosedIcon(app.getScaledIcon("tree_closed.png"));
 
 		latexIcon = new ImageIcon();
 
