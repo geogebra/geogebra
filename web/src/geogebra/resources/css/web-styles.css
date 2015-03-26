@@ -3571,7 +3571,8 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 }
 
 #View_2>div {
-	padding: 5px !important;
+	padding: 0px !important;
+	margin-bottom: 10px;
 }
 #View_2 .avItem {
 	padding: 3px 10px !important;
@@ -3719,6 +3720,10 @@ body.application[dir=rtl] .imageCorner {
 	margin: 0px;
 }
 
+.NewRadioButtonTreeItemParent {
+	padding-top: 0px !important;
+}
+
 .NewRadioButtonTreeItem .hasCursorPermanent {
 	border-color: #EDEDED;
 }
@@ -3754,10 +3759,20 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 
 .NewRadioButtonTreeItemParent .SymbolToggleButton {
 	position: absolute;
-	box-sizing: content-box;
+	/*box-sizing: content-box;
 	right: 5px;
 	top: 50%;
-	margin-top: -9px;
+	margin-top: -19px;*/
+	
+	/* I created this, so xButton overlaps text */
+	width: 30px;
+	background-color: #FFFFFF;
+	top: 0px;
+	right: 0px;
+	z-index: 10;
+	margin-top: 1px;
+	padding-top: 1.45em;
+	height: 1.5em;
 }
 
 .advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
