@@ -130,7 +130,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			@Override
 			public void run() {
 				// show the keyboard button
-				if (app.isPrerelease() && app.getAlgebraView() != null
+				if (app.getAlgebraView() != null
 						&& !keyboardShowing
 						&& app.getInputPosition() == InputPositon.algebraView) {
 					showKeyboardButton(true,
@@ -215,7 +215,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				showKeyboardButton.hide();
 			}
 		} else {
-			if (app.isPrerelease() && app.getAlgebraView() != null) {
+			if (app.getAlgebraView() != null) {
 				showKeyboardButton(
 						true,
 						textField != null ? textField : ((AlgebraViewWeb) app

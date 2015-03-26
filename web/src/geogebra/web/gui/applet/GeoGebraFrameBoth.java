@@ -149,9 +149,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		if (show && textField != null) {
 			addKeyboard(textField);
 		} else {
-			if (app.isPrerelease()) {
-				showKeyboardButton(true, textField);
-			}
+			showKeyboardButton(true, textField);
 			removeKeyboard(textField);
 		}
 
@@ -182,9 +180,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void addKeyboard(Widget textField) {
-		if (!app.isPrerelease()) {
-			return;
-		}
 		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
 		        textField, this, app);
 		this.keyboardShowing = true;
