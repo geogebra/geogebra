@@ -324,4 +324,24 @@ public class EquationEditor {
 		se.setDir("ltr");
 	}
 
+	/**
+	 * As adding focus handlers to JavaScript code would be too complex, let's
+	 * do it even before they actually get focus, i.e. make a method that
+	 * triggers focus, and then override it if necessary
+	 * 
+	 * @param b
+	 *            focus (false: blur)
+	 */
+	public void setFocus(boolean b) {
+		App.debug("FOCUS" + b);
+		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
+		        component.getLaTeXSpan(), b);
+
+		// as the focus operation sometimes also scrolls
+		// if (b)
+		// geogebra.html5.main.DrawEquationWeb.scrollCursorIntoView(this,
+		// seMayLatex);
+		// put to focus handler
+	}
+
 }

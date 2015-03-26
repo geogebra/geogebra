@@ -149,7 +149,7 @@ public class CASTableW extends Grid implements CASTable {
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
 			// TODO allow new editor in prerelease
-			editor = app.isPrerelease() ? new CASTableCellEditorW(this, app,
+			editor = app.isPrerelease() ? new NewCASTableCellEditorW(this, app,
 			        ml) : new CASTableCellEditorW(this, app, ml);
 		}
 		return editor;
