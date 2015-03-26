@@ -261,16 +261,16 @@ public class ToolTipManagerW {
 
 		bottomInfoTipPanel.setVisible(true);
 
+		if (app != null) {
 		// Helps to align the InfoTooltip in the center of the screen:
-		Style style = bottomInfoTipPanel
-		        .getElement()
-.getStyle();
-		style.setLeft(
-		        app.getLeft()
-		                + (app.getWidth() - bottomInfoTipPanel.getOffsetWidth())
-		                / 2,
-		        Unit.PX);
-		style.setTop(app.getTop() + app.getHeight() - 70, Unit.PX);
+			// TODO: why it app gets null here?
+			Style style = bottomInfoTipPanel.getElement().getStyle();
+			style.setLeft(
+			        app.getLeft()
+			                + (app.getWidth() - bottomInfoTipPanel
+			                        .getOffsetWidth()) / 2, Unit.PX);
+			style.setTop(app.getTop() + app.getHeight() - 70, Unit.PX);
+		}
 	}
 
 	/**

@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
 import geogebra.common.plugin.SensorLogger;
-import geogebra.html5.main.AppW;
 import geogebra.html5.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -149,7 +148,6 @@ public class WebsocketLogger extends SensorLogger {
 		connection.onMessage(new MessageEventHandler() {
 
 			public void message(JavaScriptObject msg) {
-				AppW.nativeConsole(msg);
 				String data = JSON.get(msg, "data");
 				JavaScriptObject jsonData = JSON.parse(data);
 				handle(jsonData);
