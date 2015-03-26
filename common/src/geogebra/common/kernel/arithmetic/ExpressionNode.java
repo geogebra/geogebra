@@ -4720,7 +4720,8 @@ kernel, left,
 						fun2);
 
 				ExpressionNode ret = new ExpressionNode(kernel, geoFun,
-						Operation.FUNCTION, fv2);
+						Operation.FUNCTION, right).multiply(right
+						.derivative(fv));
 
 				return ret;
 			}
