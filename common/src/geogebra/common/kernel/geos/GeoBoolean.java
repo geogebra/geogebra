@@ -40,7 +40,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	/**
 	 * Creates new boolean
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoBoolean(Construction c) {
 		super(c);
@@ -50,8 +52,11 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	/**
 	 * Creates new boolean
-	 * @param cons construction
-	 * @param value value
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param value
+	 *            value
 	 */
 	public GeoBoolean(Construction cons, boolean value) {
 		this(cons);
@@ -70,7 +75,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	/**
 	 * Changes value of this boolean
-	 * @param val new value
+	 * 
+	 * @param val
+	 *            new value
 	 */
 	public void setValue(boolean val) {
 		value = val;
@@ -94,16 +101,21 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	/**
 	 * Registers geo as a listener for updates of this boolean object. If this
 	 * object is updated it calls geo.updateConditions()
-	 * @param geo geo which should use this boolean as condition to show
+	 * 
+	 * @param geo
+	 *            geo which should use this boolean as condition to show
 	 */
 	public void registerConditionListener(GeoElement geo) {
 		if (condListenersShowObject == null)
 			condListenersShowObject = new ArrayList<GeoElement>();
 		condListenersShowObject.add(geo);
 	}
+
 	/**
 	 * Unregisters geo as a listener for updates of this boolean object.
-	 * @param geo geo which uses this boolean as condition to show
+	 * 
+	 * @param geo
+	 *            geo which uses this boolean as condition to show
 	 */
 	public void unregisterConditionListener(GeoElement geo) {
 		if (condListenersShowObject != null) {
@@ -164,7 +176,8 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public boolean isFixable() {
 		// visible checkbox should not be fixable
-		return isIndependent() && !isSetEuclidianVisible() && this.condShowObject == null;
+		return isIndependent() && !isSetEuclidianVisible()
+				&& this.condShowObject == null;
 	}
 
 	@Override
@@ -213,7 +226,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return sbToString.toString();
 	}
 
-
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
@@ -258,12 +270,17 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return isIndependent();
 	}
 
-	public void setAbsoluteScreenLoc(int x, int y) {
-		if (checkboxFixed)
+	public void setAbsoluteScreenLoc(int x, int y, boolean forced) {
+		if (!forced && checkboxFixed) {
 			return;
+		}
 
 		labelOffsetX = x;
 		labelOffsetY = y;
+	}
+
+	public void setAbsoluteScreenLoc(int x, int y) {
+		setAbsoluteScreenLoc(x, y, false);
 	}
 
 	public int getAbsoluteScreenLocX() {
@@ -275,20 +292,23 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	public void setAbsoluteScreenLocActive(boolean flag) {
-		//do nothing
+		// do nothing
 	}
 
 	public void setRealWorldLoc(double x, double y) {
-		//do nothing
+		// do nothing
 	}
+
 	/**
 	 * @return true for fixed checkboxes
 	 */
 	public final boolean isCheckboxFixed() {
 		return checkboxFixed;
 	}
+
 	/**
-	 * @param checkboxFixed true to fix checkbox
+	 * @param checkboxFixed
+	 *            true to fix checkbox
 	 */
 	public final void setCheckboxFixed(boolean checkboxFixed) {
 		this.checkboxFixed = checkboxFixed;
@@ -351,40 +371,41 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 			((GeoBoolean) oldGeo).condListenersShowObject = null;
 		}
 	}
-	
+
 	@Override
-	public void setEuclidianVisible(boolean visible){
-		if(visible && labelOffsetX == 0 && labelOffsetY == 0 && isIndependent()){
+	public void setEuclidianVisible(boolean visible) {
+		if (visible && labelOffsetX == 0 && labelOffsetY == 0
+				&& isIndependent()) {
 			initScreenLocation();
 		}
 		super.setEuclidianVisible(visible);
 	}
-	
+
 	private void initScreenLocation() {
 		int count = countCheckboxes();
 		labelOffsetX = 5;
-		EuclidianViewInterfaceSlim ev = kernel.getApplication().getActiveEuclidianView();
-		if(ev != null){
+		EuclidianViewInterfaceSlim ev = kernel.getApplication()
+				.getActiveEuclidianView();
+		if (ev != null) {
 			labelOffsetY = ev.getSliderOffsetY() - 45 + 30 * count;
-		}else{
+		} else {
 			labelOffsetY = 5 + 30 * count;
 		}
 		// make sure checkbox is visible on screen
-		labelOffsetY = labelOffsetY / 400 * 10 + labelOffsetY % 400;		
+		labelOffsetY = labelOffsetY / 400 * 10 + labelOffsetY % 400;
 	}
-	
+
 	private int countCheckboxes() {
 		int count = 0;
 
 		// get all number and angle sliders
-		TreeSet<GeoElement> bools = cons
-				.getGeoSetLabelOrder(GeoClass.BOOLEAN);
+		TreeSet<GeoElement> bools = cons.getGeoSetLabelOrder(GeoClass.BOOLEAN);
 
 		if (bools != null) {
 			Iterator<GeoElement> it = bools.iterator();
 			while (it.hasNext()) {
 				GeoBoolean num = (GeoBoolean) it.next();
-				if (num.isIndependent() && num.isEuclidianVisible()){
+				if (num.isIndependent() && num.isEuclidianVisible()) {
 					count++;
 				}
 			}

@@ -192,7 +192,7 @@ public class CheckboxCreationDialog extends JDialog implements
 		// create new GeoBoolean
 		if (geoBoolean == null) {
 			geoBoolean = new GeoBoolean(app.getKernel().getConstruction());
-			geoBoolean.setAbsoluteScreenLoc(location.x, location.y);
+			geoBoolean.setAbsoluteScreenLoc(location.x, location.y, true);
 			geoBoolean.setLabel(null);
 		}
 

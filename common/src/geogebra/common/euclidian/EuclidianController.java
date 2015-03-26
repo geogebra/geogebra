@@ -5977,7 +5977,8 @@ public abstract class EuclidianController {
 		// part of snap to grid code
 		movedGeoBoolean.setAbsoluteScreenLoc(
 				view.toScreenCoordX(xRW - getStartPointX()),
-				view.toScreenCoordY(yRW - getStartPointY()));
+				view.toScreenCoordY(yRW - getStartPointY()),
+				isMoveCheckboxExpected());
 
 		if (repaint) {
 			movedGeoBoolean.updateRepaint();

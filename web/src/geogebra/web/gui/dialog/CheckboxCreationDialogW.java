@@ -280,7 +280,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		// create new GeoBoolean
 		if (geoBoolean == null) {
 			geoBoolean = new GeoBoolean(app.getKernel().getConstruction());
-			geoBoolean.setAbsoluteScreenLoc(location.x, location.y);
+			geoBoolean.setAbsoluteScreenLoc(location.x, location.y, true);
 			geoBoolean.setLabel(null);
 		}
 
