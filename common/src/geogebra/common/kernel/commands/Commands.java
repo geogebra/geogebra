@@ -315,8 +315,10 @@ public enum Commands implements CommandsConstants, GetCommand {
 	// ==
 
 	Reflect(TABLE_ENGLISH), CFactor(TABLE_CAS), CIFactor(TABLE_CAS), IFactor(
-			TABLE_ALGEBRA), CommonDenominator(TABLE_ALGEBRA), Cross(TABLE_CAS), CSolutions(
-			TABLE_CAS), CSolve(TABLE_CAS), Dot(TABLE_CAS), Eliminate(TABLE_CAS), GroebnerLex(
+			TABLE_ALGEBRA), CommonDenominator(TABLE_ALGEBRA), Cross(
+			TABLE_ALGEBRA), CSolutions(
+TABLE_CAS), CSolve(TABLE_CAS), Dot(
+			TABLE_ALGEBRA), Eliminate(TABLE_CAS), GroebnerLex(
 			TABLE_CAS), GroebnerDegRevLex(TABLE_CAS), GroebnerLexDeg(TABLE_CAS), NIntegral(
 			TABLE_CAS), NSolve(TABLE_CAS), NSolutions(TABLE_CAS), Numeric(
 			TABLE_CAS), Evaluate(TABLE_ENGLISH), MixedNumber(TABLE_CAS), Rationalize(
