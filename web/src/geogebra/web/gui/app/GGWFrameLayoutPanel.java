@@ -191,7 +191,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				}
 			}
 		}
-		showKeyboardButton.show(show, textField);
+		showKeyboardButton.show(app.isKeyboardNeeded(), textField);
 	}
 
 	/**

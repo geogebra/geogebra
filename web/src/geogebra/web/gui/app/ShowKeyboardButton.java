@@ -1,5 +1,6 @@
 package geogebra.web.gui.app;
 
+import geogebra.common.main.App;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
@@ -62,6 +63,7 @@ public class ShowKeyboardButton extends PopupPanel {
 			updatePosition();
 			show();
 		} else {
+			App.printStacktrace("");
 			hide();
 		}
 

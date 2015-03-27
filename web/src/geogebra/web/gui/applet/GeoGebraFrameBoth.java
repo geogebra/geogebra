@@ -149,7 +149,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		if (show) {
 			addKeyboard(textField);
 		} else {
-			showKeyboardButton(true, textField);
+			showKeyboardButton(textField);
 			removeKeyboard(textField);
 		}
 
@@ -249,16 +249,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		                .shouldBeShown()) {
 			doShowKeyBoard(show, textField);
 		} else {
-			showKeyboardButton(show, textField);
+			showKeyboardButton(textField);
 		}
 
 	}
 
-	private void showKeyboardButton(boolean show, Widget textField) {
+	private void showKeyboardButton(Widget textField) {
 		if (showKeyboardButton == null) {
 			showKeyboardButton = new ShowKeyboardButton(this, textField, this);
 		}
-		showKeyboardButton.show(show, textField);
+		showKeyboardButton.show(app.isKeyboardNeeded(), textField);
 	}
 
 	public void showKeyboardButton(boolean show) {

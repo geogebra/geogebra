@@ -2477,8 +2477,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void closePopups() {
 		justClosedPopup = false;
-		App.printStacktrace("");
-		App.debug("closing popups:" + popups.size());
 		for (Widget widget : popups) {
 			justClosedPopup = true;
 			widget.setVisible(false);
