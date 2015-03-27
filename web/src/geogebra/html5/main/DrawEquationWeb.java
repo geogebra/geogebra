@@ -699,6 +699,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            the tree item for callback
 	 * @param parentElement
 	 *            the same element as in drawEquationMathQuillGGB
+	 * @param newCreationMode
 	 */
 	public static native void editEquationMathQuillGGB(
 GeoContainer rbti,
@@ -805,13 +806,10 @@ GeoContainer rbti,
 
 		// hacking to deselect the editing when the user does something else like in Desktop
 		if (!newCreationMode) {
-			var mqggbmousein = {};
-			mqggbmousein.mout = false;
-			$wnd.mqggbmousein = mqggbmousein;
 			$wnd.$ggbQuery(elsecondInside).mouseenter(function(event2) {
-				$wnd.mqggbmousein.mout = false;
+				@geogebra.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
 			}).mouseleave(function(event3) {
-				$wnd.mqggbmousein.mout = true;
+				@geogebra.html5.main.DrawEquationWeb::setMouseOut(Z)(true);
 
 				// focus and blur propagate the event
 				// to its textarea, so "focusin" is also called
@@ -832,7 +830,7 @@ GeoContainer rbti,
 							function(event) {
 								// note that this will be called every time
 								// focus is called as well
-								if ($wnd.mqggbmousein.mout) {
+								if (@geogebra.html5.main.DrawEquationWeb::isMouseOut()()) {
 									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 								event.stopPropagation();
@@ -1626,4 +1624,15 @@ GeoContainer rbti,
 
 		return new GDimensionW((int) dimLeftCorr, (int) dimTopCorr);
 	}
+
+	private static boolean mouseOut = false;
+
+	public static void setMouseOut(boolean b) {
+		mouseOut = b;
+	}
+	
+	private static boolean isMouseOut(){
+		return mouseOut;
+	}
+
 }

@@ -759,7 +759,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param shift
 	 *            boolean
 	 */
-	public void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
+	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
+		App.debug("KEY UP" + key + "ALLOWED"
+		        + (av.isEditing() || isThisEdited() || newCreationMode));
 		if (av.isEditing() || isThisEdited() || newCreationMode) {
 			geogebra.html5.main.DrawEquationWeb.triggerKeyUp(seMayLatex, key,
 			        alt, ctrl, shift);
@@ -1270,6 +1272,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			av.startEditing(geo, shif);
+			app.showKeyboard(this);
+			this.setFocus(true);
 			// if (app.isPrerelease() && tb != null) {
 			// app.showKeyboard(tb);
 			// // update the keyboard, if it is already visible

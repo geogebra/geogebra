@@ -1,5 +1,9 @@
 package geogebra.web.util.keyboard;
 
+import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.html5.gui.util.ClickStartHandler;
+import geogebra.html5.main.DrawEquationWeb;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,6 +45,14 @@ public class KeyBoardButton extends SimplePanel {
 	 */
 	protected KeyBoardButton(ClickHandler handler) {
 		addDomHandler(handler, ClickEvent.getType());
+		ClickStartHandler.init(this, new ClickStartHandler(true, true){
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				DrawEquationWeb.setMouseOut(false);
+			}
+
+		});
 		addStyleName("KeyBoardButton");
 	}
 
