@@ -139,6 +139,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
     }
 
 	public void doShowKeyBoard(final boolean show, Widget textField) {
+		app.closePopups();
 		if (this.keyboardShowing == show) {
 			return;
 		}

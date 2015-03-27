@@ -47,7 +47,8 @@ public abstract class AppWFull extends AppW {
 		if (articleElement.getDataParamShowStartTooltip()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-			        "New to GeoGebra?<br/>Click ? to get help.",
+			        getPlain("NewToGeoGebra") + "<br/>"
+			                + getPlain("ClickHereToGetHelp"),
 			        GeoGebraConstants.QUICKSTART_URL, ToolTipLinkType.Help,
 			        this);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);

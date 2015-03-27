@@ -134,6 +134,7 @@ public class ToolTipManagerW {
 	 */
 	private Element tipElement;
 	private static boolean enabled = true;
+	private String helpURL;
 
 	/** Singleton instance of ToolTipManager. */
 	final static ToolTipManagerW sharedInstance = new ToolTipManagerW();
@@ -192,6 +193,18 @@ public class ToolTipManagerW {
 
 		bottomInfoTipPanel.setVisible(false);
 		RootPanel.get().add(bottomInfoTipPanel);
+		ClickEndHandler.init(bottomInfoTipPanel, new ClickEndHandler() {
+
+
+			@Override
+			public void onClickEnd(int x, int y,
+ PointerEventType type) {
+				if (helpURL != null) {
+					openWindow(helpURL);
+					hideAllToolTips();
+				}
+			}
+		});
 	}
 
 	public boolean isToolTipBlocked() {
@@ -208,14 +221,14 @@ public class ToolTipManagerW {
 	/**
 	 * @param text
 	 *            String
-	 * @param helpURL
+	 * @param helpLinkURL
 	 *            String
 	 * @param link
 	 *            {@link ToolTipLinkType}
 	 * @param app
 	 *            app for positioning
 	 */
-	public void showBottomInfoToolTip(String text, final String helpURL,
+	public void showBottomInfoToolTip(String text, final String helpLinkURL,
 	        ToolTipLinkType link, AppW app) {
 		if (blockToolTip) {
 			return;
@@ -229,7 +242,10 @@ public class ToolTipManagerW {
 
 		boolean online = app == null || app.getNetworkOperation() == null
 		        || app.getNetworkOperation().isOnline();
-		if (helpURL != null && helpURL.length() > 0 && link != null && online) {
+		this.helpURL = helpLinkURL;
+		if (helpLinkURL != null && helpLinkURL.length() > 0 && link != null
+		        && online) {
+
 			helpLabel = new Label();
 
 			if (link.equals(ToolTipLinkType.Help)) {
@@ -241,13 +257,7 @@ public class ToolTipManagerW {
 			}
 			// IE and FF block popups if they are comming from mousedown, so use
 			// mouseup instead
-				ClickEndHandler.init(helpLabel, new ClickEndHandler() {
-					@Override
-					public void onClickEnd(int x, int y, PointerEventType type) {
-						openWindow(helpURL);
-					hideAllToolTips();
-					}
-				});
+
 
 			helpLabel.addStyleName("manualLink");
 
