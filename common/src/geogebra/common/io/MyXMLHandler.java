@@ -4691,7 +4691,8 @@ public class MyXMLHandler implements DocHandler {
 		if (geo instanceof GeoList) {
 			((GeoList) geo).setTypeStringForXML(val);
 		} else {
-			throw new MyError(loc, "handleLength: " + geo.getGeoClassType());
+			Log.error("handleListType: expected LIST, got "
+					+ geo.getGeoClassType());
 		}
 
 		return true;
