@@ -446,4 +446,9 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean isKeyboardShowing() {
+		return this.frameLayout.keyboardShowing;
+	}
 }

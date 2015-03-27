@@ -315,4 +315,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		app.closePopups();
 	}
 
+	@Override
+	public boolean isKeyboardShowing() {
+		return this.keyboardShowing;
+	}
+
 }

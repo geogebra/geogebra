@@ -8,6 +8,7 @@ import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
+import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.util.keyboard.KeyBoardButtonFunctional.Action;
 import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
@@ -195,7 +196,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// set keyboard used to false for the old text field
 		instance.setUsed(false);
-		instance.setTextField(textField);
+		instance.setTextField(textField == null ? ((AlgebraViewWeb) appW
+		        .getAlgebraView()).getInputTreeItem() : textField);
 		// set keyboard used to true for the new text field
 		instance.setUsed(true);
 

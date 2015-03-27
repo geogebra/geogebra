@@ -68,4 +68,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	public void showKeyBoard(boolean b, Widget textField, boolean forceShow) {
 		// no keyboard either
 	}
+
+	@Override
+	public boolean isKeyboardShowing() {
+		return false;
+	}
 }
