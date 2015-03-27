@@ -213,8 +213,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 																	// value...
 		}
 		// increase grid size for big screen, #1563
-		gridWidth = 60;
-		gridHeight = 60;
+		gridWidth = 120;
+		gridHeight = 120;
 		updatePath(viewBounds[0], viewBounds[3], viewBounds[1] - viewBounds[0],
 				viewBounds[3] - viewBounds[2], viewBounds[4], viewBounds[5]);
 	}
@@ -325,6 +325,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			px = lin(C, D, 0);
 			P = new MyPoint(px, py, false);
 			Q = new MyPoint(qx, qy, true);
+			App.error("UNHANDLED");
 			return new MyPoint[] {P, Q};
 		case T0001:
 			qx = A[0];
@@ -333,6 +334,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			px = lin(C, D, 0);
 			P = new MyPoint(px, py, false);
 			Q = new MyPoint(qx, qy, true);
+			App.error("UNHANDLED");
 			return new MyPoint[] {P, Q};
 		case T1001:
 			py = C[1];

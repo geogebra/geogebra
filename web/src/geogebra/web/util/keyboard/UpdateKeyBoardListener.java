@@ -9,4 +9,6 @@ public interface UpdateKeyBoardListener {
 	public abstract void keyBoardNeeded(boolean show, Widget textField);
 
 	public abstract void doShowKeyBoard(boolean b, Widget textField);
+
+	public abstract void closePopups();
 }

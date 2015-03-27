@@ -113,4 +113,11 @@ public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 		}
 
 	}
+	
+	@Override
+	public native void printStacktrace()/*-{
+		if ($wnd.console && $wnd.console.trace) {
+			$wnd.console.trace();
+		}
+	}-*/;
 }

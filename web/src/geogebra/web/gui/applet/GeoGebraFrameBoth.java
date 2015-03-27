@@ -1,5 +1,6 @@
 package geogebra.web.gui.applet;
 
+import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
@@ -138,7 +139,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
     }
 
 	public void doShowKeyBoard(final boolean show, Widget textField) {
-		app.closePopups();
 		if (this.keyboardShowing == show) {
 			return;
 		}
@@ -146,7 +146,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		// this.mainPanel.clear();
 
 		app.persistWidthAndHeight();
-		if (show && textField != null) {
+		if (show) {
 			addKeyboard(textField);
 		} else {
 			showKeyboardButton(true, textField);
@@ -170,6 +170,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	private void removeKeyboard(Widget textField) {
 		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
 		        textField, this, app);
+		App.printStacktrace("HIDE KEYBOARD");
 		this.keyboardShowing = false;
 		app.addToHeight(keyboardHeight);
 		this.remove(keyBoard);
@@ -182,6 +183,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	private void addKeyboard(Widget textField) {
 		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
 		        textField, this, app);
+		App.printStacktrace("SHOW KEYBOARD");
 		this.keyboardShowing = true;
 		keyBoard.show();
 		keyBoard.setVisible(false);
@@ -238,6 +240,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	@Override
 	public void keyBoardNeeded(boolean show, Widget textField) {
+		App.debug(keyboardShowing + "");
 		if (app.getLAF().isTablet()
 		        || keyboardShowing // if keyboard is already
 		                           // showing, we don't have
@@ -286,6 +289,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			        && app.isKeyboardNeeded()
 			        && app.getArticleElement().getDataParamBase64String()
 			                .length() == 0) {
+				App.printStacktrace("SHOW KEYBOARD");
 				keyboardShowing = true;
 				app.getGuiManager().invokeLater(new Runnable() {
 
@@ -304,6 +308,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 				this.showKeyboardButton.hide();
 			}
 		}
+	}
+
+	@Override
+	public void closePopups() {
+		app.closePopups();
 	}
 
 }

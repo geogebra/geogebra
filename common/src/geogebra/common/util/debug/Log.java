@@ -522,4 +522,8 @@ public abstract class Log {
 			logger.log(logger.CRITICAL, message);
 		}
 	}
+
+	public void printStacktrace() {
+
+	}
 }

@@ -397,4 +397,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			this.ggwMenuBar.updateHeight(height);
 	    }
 	}
+
+	@Override
+	public void closePopups() {
+		app.closePopups();
+	}
 }
