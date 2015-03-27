@@ -1510,7 +1510,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		algebraVisible = geo.algebraVisible;
 		labelOffsetX = geo.labelOffsetX;
 		labelOffsetY = geo.labelOffsetY;
-//		labelMode = geo.labelMode;
 		caption = geo.caption;
 		inverseFill = geo.inverseFill;
 		if (isTraceable() && geo.isTraceable()) {
