@@ -1317,9 +1317,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (deleteButton == null) {
 				deleteButton = new Image(
 				        GuiResources.INSTANCE.algebraViewDeleteEntry());
-				deleteButton.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+				ClickStartHandler.init(deleteButton, new ClickStartHandler(
+				        true, true) {
+
+					@Override
+					public void onClickStart(int x, int y, PointerEventType type) {
 						geo.remove();
+
 					}
 				});
 			}
