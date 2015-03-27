@@ -1117,14 +1117,18 @@ GeoContainer rbti,
 
 	public static native void focusEquationMathQuillGGB(Element parentElement,
 	        boolean focus) /*-{
-		//var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		//var elsecondInside = elsecond.lastChild;
-		//$wnd.$ggbQuery(elsecondInside).focus();
-		if (focus) {
-			$wnd.$ggbQuery(parentElement).find(".mathquillggb-editable")
-					.focus();
-		} else {
-			$wnd.$ggbQuery(parentElement).find(".mathquillggb-editable").blur();
+		var edl = $wnd.$ggbQuery(parentElement).find(".mathquillggb-editable");
+
+		if (edl.length) {
+			// maybe it's already in focus, then let's blur first, anyway! (for bugfixing)
+			//edl[0].blur();// no, it does not fix the bug!
+
+			if (focus) {
+				// now it can get focus!
+				edl[0].focus();
+			} else {
+				edl[0].blur();
+			}
 		}
 	}-*/;
 
