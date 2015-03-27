@@ -26,7 +26,12 @@ public class WindowW {
 
 	public native static void postMessage(JavaScriptObject gifWnd,
 	        String message) /*-{
-		var domain = $wnd.location.origin;
-		gifWnd.postMessage(message, domain);
+		gifWnd.postMessage(message, '*');
+	}-*/;
+
+	public native static JavaScriptObject openFromData(String data) /*-{
+		// TODO Auto-generated method stub
+		return $wnd.open("data:text/html," + encodeURIComponent(data),
+				"_blank", "");
 	}-*/;
 }

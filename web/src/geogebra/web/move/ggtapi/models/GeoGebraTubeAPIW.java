@@ -422,8 +422,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	public void exportAnimGif(AppW app, String sliderName, int timing,
 	        boolean isLoop) {
 
-		final JavaScriptObject gifWnd = WindowW.open("creategif.html",
-		        "Creating Animated GIF...", "");
+		String data = createGifResponsePage();
+		final JavaScriptObject gifWnd = WindowW.openFromData(data);
 		WindowW.postMessage(gifWnd, "progressing...");
 
 		RequestCallback cb = new RequestCallback() {
@@ -454,7 +454,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 						if (responses == null || responses.isObject() == null) {
 							App.debug("[ANIMGIF] responses is null");
 							WindowW.postMessage(gifWnd,
-							        "fail: responses is null");
+							        "fail: responses is null code"
+							                + response.getStatusCode());
 							return;
 						}
 
@@ -493,6 +494,35 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		}
 	}
 
+
+	private String createGifResponsePage() {
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("<!doctype html> \n");
+	    sb.append("	 <html> \n");
+	 	sb.append("  <head>\n");
+	    sb.append("    <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n");
+	    sb.append("    <title>creategif</title>\n");
+	    sb.append("    <script>\n");
+	    sb.append("	window.addEventListener('message',function(event) {\n");
+	    sb.append("		console.log('received response:  ',event.data);\n");
+	    sb.append("		var result = document.getElementById('result');\n");
+	    sb.append("		result.innerHTML = event.data;\n");
+	    sb.append("		var button = document.getElementById('close');\n");
+	    sb.append("		button.setAttribute('style', 'display: block');\n");
+	    sb.append("		},false);\n");
+	    sb.append("    </script>\n");
+	    sb.append("  </head>\n");
+
+	    sb.append("  <body>\n");
+	    sb.append("    <iframe src=\"javascript:''\" id=\"__gwt_historyFrame\" tabIndex='-1' style=\"position:absolute;width:0;height:0;border:0\"></iframe>\n");
+	    sb.append("	<h1>Creating Animated GIF on server</h1>\n");
+	    sb.append("	<p id=\"result\">Please, wait...</p>\n");
+	    sb.append("	<button type=\"button\" id=\"close\" onclick=\"window.close();\" style=\"display: none;\">Close</button>\n");
+	    sb.append("   </body>\n");
+	    sb.append("</html>\n");
+	    		
+	    return sb.toString();
+    }
 
 	@Override
 	protected String getToken() {
