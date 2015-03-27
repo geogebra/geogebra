@@ -768,6 +768,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void handleLongTouch(int x, int y) {
+		if (newCreationMode) {
+			// maybe this fixes a bug with not focusing
+			setFocus(true);
+		}
 		onRightClick(x, y);
 	}
 
@@ -1404,12 +1408,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (event.isRightClick()) {
 			onRightClick(event.getX(), event.getY());
 		} else if (av.isEditing() || isThisEdited() || newCreationMode) {
+			if (newCreationMode) {
+				// put earlier, maybe it freezes afterwards?
+				setFocus(true);
+			}
 			app.showKeyboard(this);
 			PointerEvent pointerEvent = (PointerEvent) event;
 			pointerEvent.getWrappedEvent().stopPropagation();
-			if (newCreationMode) {
-				setFocus(true);
-			}
 		}
 	}
 
