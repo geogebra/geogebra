@@ -50,7 +50,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 	}
 
 	@Override
-	public Widget loadComponent() {
+	protected Widget loadComponent() {
 		setViewImage(getResources().styleBar_graphics2View());
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);

@@ -36,8 +36,6 @@ import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.main.TimerSystemW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
-import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 
 import java.util.List;
 
@@ -593,15 +591,6 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianController euclidiancontroller, int evNo) {
 
 		Canvas canvas = euclidianViewPanel.getCanvas();
-		if (canvas == null) {
-			if (evNo == 1) {
-				((EuclidianDockPanelW) euclidianViewPanel).loadComponent();
-			}
-			if (evNo == 2) {
-				((Euclidian2DockPanelW) euclidianViewPanel).loadComponent();
-			}
-			canvas = euclidianViewPanel.getCanvas();
-		}
 		this.evNo = evNo;
 
 		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);

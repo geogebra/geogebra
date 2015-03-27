@@ -78,7 +78,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 	
 	@Override
-	public Widget loadComponent() {
+	protected Widget loadComponent() {
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
