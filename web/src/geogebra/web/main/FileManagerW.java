@@ -1,6 +1,5 @@
 package geogebra.web.main;
 
-import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
@@ -256,16 +255,16 @@ public class FileManagerW extends FileManager {
 	}
 
 	public final boolean createRemoteAnimGif(AppW app) {
-		// TODO: Login needed.
-		// not logged in and can't log in
-		if (!app.getLoginOperation().isLoggedIn()) {
-			App.debug("[ANIMGIF] Login needed.");
-		// app.getGuiManager().listenToLogin();
-		// ((SignInButton) app.getLAF().getSignInButton(app)).login();
-		// // logged in
-		} else {
+		// // TODO: Login needed.
+		// // not logged in and can't log in
+		// if (!app.getLoginOperation().isLoggedIn()) {
+		// App.debug("[ANIMGIF] Login needed.");
+		// // app.getGuiManager().listenToLogin();
+		// // ((SignInButton) app.getLAF().getSignInButton(app)).login();
+		// // // logged in
+		// } else {
 			((DialogManagerW) app.getDialogManager()).showAnimGifExportDialog();
-		}
+		// }
 		return true;
 	}
 
