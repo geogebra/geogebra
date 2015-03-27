@@ -1037,14 +1037,15 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	public void setInputPanel(final AlgebraInputW inputPanel){
 		this.inputPanel = inputPanel;
-		// if (app.isPrerelease()) {
+		if (!app.getLocalization().getLanguage().equals("ko")
+		        || app.isPrerelease()) {
 			this.inputPanelTreeItem = new TreeItem(new NewRadioButtonTreeItem(
 			        kernel));
 			inputPanelTreeItem.getWidget().getElement().getParentElement()
 			        .addClassName("NewRadioButtonTreeItemParent");
 			((NewRadioButtonTreeItem) inputPanelTreeItem.getWidget())
 			        .replaceXButtonDOM();
-		// }
+		}
 		if(inputPanel != null){
 			//make sure we do not trigger long touch here
 			inputPanel.getTextField().addDomHandler(new TouchStartHandler(){
@@ -1090,7 +1091,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			super.removeItem(inputPanelTreeItem);
 		}
 		if(this.app.getInputPosition() == InputPositon.algebraView){
-			// if (app.isPrerelease()) {
+			if (!app.getLocalization().getLanguage().equals("ko")
+			        || app.isPrerelease()) {
 				if (inputPanelLatex == null) {
 					inputPanelLatex = new NewRadioButtonTreeItem(kernel);
 
@@ -1109,9 +1111,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				        .addClassName("NewRadioButtonTreeItemParent");
 				((NewRadioButtonTreeItem) inputPanelTreeItem.getWidget())
 				        .replaceXButtonDOM();
-			// } else {
-			// inputPanelTreeItem = super.addItem(inputPanel.getTextField());
-			// }
+			} else {
+				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+			}
 		}
 	}
 	
