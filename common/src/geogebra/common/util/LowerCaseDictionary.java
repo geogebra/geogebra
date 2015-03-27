@@ -141,9 +141,8 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 		Iterator<String> it = getIterator();
 		while (it.hasNext()) {
 			String str = it.next();
-
 			if (Korean.flattenKorean(str).startsWith(koreanCurr)) {
-				completions.add(str);
+				completions.add(Korean.unflattenKorean(str).toString());
 			}
 		}
 

@@ -101,7 +101,74 @@ public class Korean {
 	}
 
 	/*
+	 * convert eg \u1103\u116e\u11af to \uB458
+	 */
+	public static StringBuilder unflattenKorean(String str) {
+
+		StringBuilder ret = new StringBuilder();
+
+		char lead = 0;
+		char vowel = 0;
+		char tail = 0;
+
+		for (int i = 0; i < str.length(); i++) {
+
+			boolean korean = false;
+
+			char c = str.charAt(i);
+
+			if (isKoreanLeadChar(c)) {
+				korean = true;
+				if (lead != 0) {
+					appendKoreanChar(ret, lead, vowel, tail);
+					lead = 0;
+					vowel = 0;
+					tail = 0;
+				}
+				lead = c;
+			}
+			if (isKoreanVowelChar(c)) {
+				korean = true;
+				vowel = c;
+			}
+			if (isKoreanTailChar(c)) {
+				korean = true;
+				tail = c;
+				appendKoreanChar(ret, lead, vowel, tail);
+				lead = 0;
+				vowel = 0;
+				tail = 0;
+			}
+
+			if (!korean) {
+				ret.append(c);
+			}
+		}
+
+		// make sure last char done!
+		if (lead != 0) {
+			appendKoreanChar(ret, lead, vowel, tail);
+		}
+
+		return ret;
+	}
+
+	private static void appendKoreanChar(StringBuilder ret, char lead,
+			char vowel, char tail) {
+
+		int lead0 = lead - 0x1100 + 1;
+		int vowel0 = vowel - 0x1161 + 1;
+		int tail0 = tail == 0 ? 0 : tail - 0x11a8 + 1;
+
+		// http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
+		char unicode = (char) (tail0 + (vowel0 - 1) * 28 + (lead0 - 1) * 588 + 44032);
+
+		ret.append(unicode);
+	}
+
+	/*
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
+	 * http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
 	 */
 	private static void appendKoreanMultiChar(StringBuilder sb, char c) {
 		char tail = (char) (0x11a7 + (c - 44032) % 28);
