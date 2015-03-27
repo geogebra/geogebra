@@ -617,7 +617,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public boolean isFixable() {
 		// visible slider should not be fixable
-		return !isSetEuclidianVisible();
+		return !isSetEuclidianVisible() && !isDefaultGeo();
 	}
 
 	/**

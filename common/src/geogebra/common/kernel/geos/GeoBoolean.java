@@ -177,7 +177,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	public boolean isFixable() {
 		// visible checkbox should not be fixable
 		return isIndependent() && !isSetEuclidianVisible()
-				&& this.condShowObject == null;
+				&& this.condShowObject == null && !isDefaultGeo();
 	}
 
 	@Override
