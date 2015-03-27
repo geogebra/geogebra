@@ -1799,7 +1799,8 @@ function createRoot(jQ, root, textbox, editable) {
 
     e.stopPropagation();
   }).blur(function(e) {
-    cursor.hide().parent.blur();
+	if (cursor.parent)
+      cursor.hide().parent.blur();
     if (cursor.selection)
       cursor.selection.jQ.addClass('blur');
 
@@ -1821,12 +1822,44 @@ function createRoot(jQ, root, textbox, editable) {
 
   // That's why a better solution is needed here:
   jQ.attr('tabindex', 0).bind('focus.mathquillggb', function(e1) {
-	jQ.blur();// hopefully this will make things clear
-	setTimeout(function() { textarea.focus(); });
+	// making sure stopPropagation is really get called
     e1.stopPropagation(); // it will be called in textarea?
+
+	//textarea.blurCalledFromFocus = true;
+	jQ.blur();
+	// if jQ just gets focus, why was here jQ.blur???
+	// to make this blur before textarea.focus() makes it blur,
+	// because it may be too late and trigger textarea.blur()
+	// after textarea.focus(), I think, which is too late
+	// but still in this case, textarea.blur may be called too
+	// late, setTimeout is not the best solution:
+
+	setTimeout(function() { textarea.focus(); });
+	// but we should call textarea.focus after this gets blurred
+	// how to do it? in jQ.blur, call textarea.focus when
+	// it was called from here, and textarea.blur when not.
+	// Hence the textarea.blurCalledFromFocus property
+    
   }).bind('blur.mathquillggb', function(e3) {
-    textarea.blur();
+    // making sure stopPropagation is really get called
     e3.stopPropagation(); // it will be called in textarea?
+
+    //if (textarea.blurCalledFromFocus) {
+    //  textarea.blurCalledFromFocus = false;
+      // in case textarea is already focused,
+      // maybe we need to blur it first; but it which event
+      // gets called earlier? focus or blur? I think blur!
+    //  textarea.blur();
+    //  textarea.focus();
+      // maybe it's better (and more efficient):
+      //if ((document.activeElement === textarea) && document.hasFocus()) {
+    	// do nothing in this case
+      //}
+      // but maybe we need to run the code in the focus event handler
+    //} else {
+      textarea.blur();
+    //}
+    
   }).blur();
 }
 
