@@ -24,4 +24,9 @@ public class WindowW {
 		return $wnd.open(url, name, features);
 	}-*/;
 
+	public native static void postMessage(JavaScriptObject gifWnd,
+	        String message) /*-{
+		var domain = $wnd.location.origin;
+		gifWnd.postMessage(message, domain);
+	}-*/;
 }

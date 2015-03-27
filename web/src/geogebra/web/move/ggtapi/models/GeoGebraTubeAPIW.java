@@ -11,10 +11,12 @@ import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.GeoGebraTubeAPIWSimple;
+import geogebra.html5.util.WindowW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -419,23 +421,50 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 */
 	public void exportAnimGif(AppW app, String sliderName, int timing,
 	        boolean isLoop) {
+
+		final JavaScriptObject gifWnd = WindowW.open("creategif.html",
+		        "Creating Animated GIF...", "");
+		WindowW.postMessage(gifWnd, "progressing...");
+
 		RequestCallback cb = new RequestCallback() {
 
 			public void onResponseReceived(Request request, Response response) {
 
 				if (response != null) {
-					JSONObject responseObject = new JSONObject();
 					try {
+						String respData = response.getText();
+						if (respData == null || respData.equals("")) {
+							App.debug("[ANIMGIF] no response");
+							return;
+						}
+						App.debug("[ANIMGIF] respData is: " + respData);
+						JSONValue responseObject = JSONParser
+						        .parseStrict(respData);
+						if (responseObject == null
+						        || responseObject.isObject() == null) {
+							App.debug("[ANIMGIF] responseObject is null");
+							WindowW.postMessage(gifWnd,
+							        "fail: responseObject is null");
+							return;
+						}
 
-						responseObject = JSONParser.parseStrict(
-						        response.getText()).isObject();
-						JSONValue base64 = responseObject.isObject()
-						        .get("responses").isObject().get("response")
+						JSONValue responses = responseObject.isObject().get(
+						        "responses");
+
+						if (responses == null || responses.isObject() == null) {
+							App.debug("[ANIMGIF] responses is null");
+							WindowW.postMessage(gifWnd,
+							        "fail: responses is null");
+							return;
+						}
+
+						JSONValue base64 = responses.isObject().get("response")
 						        .isObject().get("value");
 
 						String downloadUrl = "data:image/gif;base64,"
 						        + base64.isString().stringValue();
 						AppW.download(downloadUrl, "ggbanim.gif");
+						WindowW.postMessage(gifWnd, "success");
 					} catch (Throwable t) {
 						App.debug(t.getMessage());
 						App.debug("'" + response + "'");
