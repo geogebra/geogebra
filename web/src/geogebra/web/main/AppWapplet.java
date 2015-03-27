@@ -526,6 +526,7 @@ public class AppWapplet extends AppWFull {
 	public void updateContentPane() {
 
 		super.updateContentPane();
+		frame.setApplication(this);
 		frame.refreshKeyboard();
 
 

@@ -1,6 +1,5 @@
 package geogebra.web.gui.applet;
 
-import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
@@ -271,7 +270,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	public void refreshKeyboard() {
-		App.debug("refresh keyboard");
 		if (keyboardShowing) {
 			final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
 			        null, this, app);
@@ -288,7 +286,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			        && app.isKeyboardNeeded()
 			        && app.getArticleElement().getDataParamBase64String()
 			                .length() == 0) {
+				keyboardShowing = true;
+				app.getGuiManager().invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						app.persistWidthAndHeight();
 						addKeyboard(null);
+
+					}
+				});
 
 			}
 
