@@ -1362,17 +1362,18 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void onTouchEnd(TouchEndEvent event) {
 		if (newCreationMode) {
 			setFocus(true);
-		} else {
-			long time = System.currentTimeMillis();
-			if (time - latestTouchEndTime < 500) {
-				// ctrl key, shift key for TouchEndEvent? interesting...
-				latestTouchEndTime = time;
+		}
+		long time = System.currentTimeMillis();
+		if (time - latestTouchEndTime < 500) {
+			// ctrl key, shift key for TouchEndEvent? interesting...
+			latestTouchEndTime = time;
+			if (!newCreationMode) {
 				onDoubleClickAction(false, // event.isControlKeyDown(),
 				        false // event.isShiftKeyDown()
 				);
-			} else {
-				latestTouchEndTime = time;
 			}
+		} else {
+			latestTouchEndTime = time;
 		}
 		longTouchManager.cancelTimer();
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
