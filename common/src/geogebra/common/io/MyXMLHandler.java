@@ -4747,7 +4747,8 @@ public class MyXMLHandler implements DocHandler {
 
 			while (it.hasNext()) {
 				GeoExpPair pair = it.next();
-				GeoBoolean condition = algProc.evaluateToBoolean(pair.exp);
+				GeoBoolean condition = algProc.evaluateToBoolean(pair.exp,
+						false);
 				pair.getGeo().setShowObjectCondition(condition);
 			}
 		} catch (Exception e) {

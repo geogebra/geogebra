@@ -975,7 +975,7 @@ public class AlgebraProcessor {
 	 *            string to process
 	 * @return resulting boolean
 	 */
-	public GeoBoolean evaluateToBoolean(String str) {
+	public GeoBoolean evaluateToBoolean(String str, boolean showError) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -986,13 +986,19 @@ public class AlgebraProcessor {
 			bool = (GeoBoolean) temp[0];
 		} catch (CircularDefinitionException e) {
 			App.debug("CircularDefinition");
+			if (showError) {
 			app.showError("CircularDefinition");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (showError) {
 			app.showError("InvalidInput", str);
+			}
 		} catch (MyError e) {
 			e.printStackTrace();
+			if (showError) {
 			app.showError(e);
+			}
 		} catch (Error e) {
 			e.printStackTrace();
 			app.showError("InvalidInput", str);

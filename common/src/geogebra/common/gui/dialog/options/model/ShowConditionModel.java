@@ -61,7 +61,8 @@ public class ShowConditionModel extends OptionsModel {
 
 			strCond = replaceEqualsSigns(strCond);
 
-			cond = kernel.getAlgebraProcessor().evaluateToBoolean(strCond);
+			cond = kernel.getAlgebraProcessor()
+					.evaluateToBoolean(strCond, true);
 		}
 
 		if (cond != null || strCond.trim().length() == 0) {

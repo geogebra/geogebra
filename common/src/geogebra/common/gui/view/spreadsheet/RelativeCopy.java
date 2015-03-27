@@ -583,7 +583,8 @@ public class RelativeCopy {
 			try {
 				// Application.debug("new condition to show object: "+boolText);
 				GeoBoolean newConditionToShowObject = kernel
-						.getAlgebraProcessor().evaluateToBoolean(boolText);
+						.getAlgebraProcessor().evaluateToBoolean(boolText,
+								false);
 				value2.setShowObjectCondition(newConditionToShowObject);
 				value2.update(); // needed to hide/show object as appropriate
 			} catch (Exception e) {
