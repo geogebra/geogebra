@@ -83,8 +83,8 @@ public class CmdCopyFreeObject extends CommandProcessor {
 				geo = arg[0].deepCopyGeo();
 			}
 
-			geo.setLabel(label);
 			geo.setVisualStyle(arg[0]);
+			geo.setLabel(label);
 			GeoElement[] ret = { geo };
 			if (!arg[0].isLabelSet())
 				arg[0].remove();
