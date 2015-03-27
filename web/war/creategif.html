@@ -10,7 +10,7 @@
 		result.innerHTML = event.data;
 		
 		var button = document.getElementById('close');
-		button.setAttribute('display', 'block');
+		button.setAttribute('style', 'display: block');
 		
 		},false);
     	
@@ -21,6 +21,6 @@
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
 	<h1>Creating Animated GIF on server</h1>
 	<p id="result">Please, wait...</p>
-	<div><input type="button" id="close" onclick="close();" style="display: none;" name="Close"></div>
+	<button type="button" id="close" onclick="window.close();" style="display: none;">Close</button>
    </body>
 </html>
