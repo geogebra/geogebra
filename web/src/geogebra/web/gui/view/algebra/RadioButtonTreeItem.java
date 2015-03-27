@@ -760,8 +760,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 *            boolean
 	 */
 	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		App.debug("KEY UP" + key + "ALLOWED"
-		        + (av.isEditing() || isThisEdited() || newCreationMode));
 		if (av.isEditing() || isThisEdited() || newCreationMode) {
 			geogebra.html5.main.DrawEquationWeb.triggerKeyUp(seMayLatex, key,
 			        alt, ctrl, shift);
