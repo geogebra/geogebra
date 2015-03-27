@@ -489,8 +489,11 @@ namespace giac {
 	return 0;
     case _SYMB:
       return derive_SYMB(e,i,contextptr);
-    case _VECT:
-      return derive_VECT(*e._VECTptr,i,contextptr);
+    case _VECT: {
+      gen res=derive_VECT(*e._VECTptr,i,contextptr);
+      if (res.type==_VECT) res.subtype=e.subtype;
+      return res;
+    }
     case _FRAC:
       return fraction(derive(e._FRACptr->num,i,contextptr)*e._FRACptr->den-(e._FRACptr->num)*derive(e._FRACptr->den,i,contextptr),e._FRACptr->den);
     default:
