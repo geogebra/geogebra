@@ -36,6 +36,10 @@ public class DrawEquationWeb extends DrawEquation {
 
 	static boolean scriptloaded = false;
 
+	private static GeoContainer currentWidget;
+
+	private static Element currentElement;
+
 	// private HashMap<String, SpanElement> equations = new HashMap<String,
 	// SpanElement>();
 	// private HashMap<String, Integer> equationAges = new HashMap<String,
@@ -691,6 +695,20 @@ public class DrawEquationWeb extends DrawEquation {
 
 	}-*/;
 
+	public static void escEditing() {
+		if (currentWidget != null) {
+			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
+			        currentElement);
+		}
+	}
+	private static void setCurrentWidget(GeoContainer rbti,
+	        Element parentElement) {
+		if (currentWidget != rbti) {
+			DrawEquationWeb.escEditing();
+		}
+		currentWidget = rbti;
+		currentElement = parentElement;
+	}
 	/**
 	 * Edits a MathQuillGGB equation which was created by
 	 * drawEquationMathQuillGGB
@@ -805,6 +823,7 @@ GeoContainer rbti,
 		// could be: mouseover, mouseout, mousemove, mouseup, but this seemed to be enough
 
 		// hacking to deselect the editing when the user does something else like in Desktop
+		@geogebra.html5.main.DrawEquationWeb::setCurrentWidget(Lgeogebra/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 		if (!newCreationMode) {
 			$wnd.$ggbQuery(elsecondInside).mouseenter(function(event2) {
 				@geogebra.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
@@ -1257,7 +1276,7 @@ GeoContainer rbti,
 		return rbti.stopNewFormulaCreation(input, latex, callback);
 	}
 
-	public static native void escEditingEquationMathQuillGGB(
+	private static native void escEditingEquationMathQuillGGB(
 GeoContainer rbti,
 	        Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
