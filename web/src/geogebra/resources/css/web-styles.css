@@ -2670,7 +2670,7 @@ body.application[dir=rtl] .toolbar_item {
 
 .toolbar_submenu {
 	position: absolute;
-	z-index: 200;
+	z-index: 501;
 	display: none;
 }
 
@@ -2813,7 +2813,7 @@ body.application[dir=rtl] .button.redoButton {
 ###       DIALOGS
 #####################################################################################*/
 .DialogBox,.gwt-DialogBox {
-	z-index: 200;
+	z-index: 501;
 }
 
 .gwt-DialogBox .Caption {
@@ -5536,4 +5536,8 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
  .red {
  	background:red;
+ }
+ /* make sure popup glass pane hides KB button too*/
+ div.openKeyboardButton{
+ z-index:99;
  }
