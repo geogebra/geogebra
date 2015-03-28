@@ -45,7 +45,7 @@ public class KeyBoardButton extends SimplePanel {
 	 */
 	protected KeyBoardButton(ClickHandler handler) {
 		addDomHandler(handler, ClickEvent.getType());
-		ClickStartHandler.init(this, new ClickStartHandler(true, true){
+		ClickStartHandler.init(this, new ClickStartHandler() {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
