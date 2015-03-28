@@ -199,7 +199,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * DOM in the process so it may steal focus from currently selected element.
 	 */
 	public void doShowKeyBoard(boolean show, Widget textField) {
-		app.closePopups();
 		// make sure the main part of this method is called ONLY WHEN NECESSARY
 		if (this.keyboardShowing == show) {
 			return;
