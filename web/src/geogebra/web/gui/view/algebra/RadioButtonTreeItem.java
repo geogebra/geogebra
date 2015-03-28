@@ -942,7 +942,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (newCreationMode) {
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, true);
-		} else if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
+		} else if (shouldEditLaTeX()) {
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, false);
 		} else {
@@ -1270,8 +1270,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			av.startEditing(geo, shif);
-			app.showKeyboard(this);
-			this.setFocus(true);
+			if (shouldEditLaTeX()) {
+				app.showKeyboard(this);
+				this.setFocus(true);
+			}
 			// if (app.isPrerelease() && tb != null) {
 			// app.showKeyboard(tb);
 			// // update the keyboard, if it is already visible
@@ -1286,6 +1288,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			// OnScreenKeyBoard.setResetComponent(this);
 			// }
 		}
+	}
+
+	private boolean shouldEditLaTeX() {
+		return LaTeX && !geo.isGeoVector() && geo.isIndependent();
 	}
 
 	@Override
