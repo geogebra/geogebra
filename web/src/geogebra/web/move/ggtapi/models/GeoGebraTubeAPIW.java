@@ -1,6 +1,7 @@
 package geogebra.web.move.ggtapi.models;
 
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.AjaxCallback;
 import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.ClientInfo;
@@ -422,7 +423,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	public void exportAnimGif(AppW app, String sliderName, int timing,
 	        boolean isLoop) {
 
-		String data = createGifResponsePage();
+		String data = createGifResponsePage(app.getLocalization());
 		final JavaScriptObject gifWnd = WindowW.openFromData(data);
 		WindowW.postMessage(gifWnd, "progressing...");
 
@@ -495,13 +496,14 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	}
 
 
-	private String createGifResponsePage() {
+	private static String createGifResponsePage(Localization loc) {
 	    StringBuilder sb = new StringBuilder();
 	    sb.append("<!doctype html> \n");
 	    sb.append("	 <html> \n");
 	 	sb.append("  <head>\n");
 	    sb.append("    <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n");
-	    sb.append("    <title>creategif</title>\n");
+		sb.append("    <title>" + loc.getPlain("AnimatedGIFExport")
+		        + "</title>\n");
 	    sb.append("    <script>\n");
 	    sb.append("	window.addEventListener('message',function(event) {\n");
 	    sb.append("		console.log('received response:  ',event.data);\n");
@@ -515,8 +517,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 	    sb.append("  <body>\n");
 	    sb.append("    <iframe src=\"javascript:''\" id=\"__gwt_historyFrame\" tabIndex='-1' style=\"position:absolute;width:0;height:0;border:0\"></iframe>\n");
-	    sb.append("	<h1>Creating Animated GIF on server</h1>\n");
-	    sb.append("	<p id=\"result\">Please, wait...</p>\n");
+		sb.append("	<h1>" + loc.getPlain("CreatingAnimatedGIF") + "</h1>\n");
+		sb.append("	<p id=\"result\">"
+		        + loc.getPlain("AnimatedGIF.Calculating") + "</p>\n");
 	    sb.append("	<button type=\"button\" id=\"close\" onclick=\"window.close();\" style=\"display: none;\">Close</button>\n");
 	    sb.append("   </body>\n");
 	    sb.append("</html>\n");
