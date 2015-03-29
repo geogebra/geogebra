@@ -134,29 +134,48 @@ public class CommandDispatcherGiac {
 		/** symbolic sum */
 		sum(Operation.SUM),
 
+		/** If[] */
 		piecewise(Operation.IF_ELSE),
 		
-		/*
+		/**
 		 * eg hyperplan({3,5,-1},point[0,0,-37/10])
 		 */
 		point(Operation.NO_OPERATION),
-		/*
+		/**
 		 * returned from plane(4*x + 3*y + z = 1)
 		 * 
-		 * eg hyperplan({3,5,-1},point[0,0,-37/10])
-		 * hyperplan({3,5,-1},{0,0,1})
+		 * eg hyperplan({3,5,-1},point[0,0,-37/10]) hyperplan({3,5,-1},{0,0,1})
 		 */
 		hyperplan(Operation.NO_OPERATION),
 
-		/** laplace functions, need to generate an error */
+		/** if returned from Giac -> error */
 		laplace(Operation.NO_OPERATION),
+
+		/** if returned from Giac -> error */
 		ilaplace(Operation.NO_OPERATION),
+
+		/** if returned from Giac -> error */
 		invlaplace(Operation.NO_OPERATION),
 
+		/** returned by eg BinomialDist[72,1/7,n,true] -> error */
+		binomial_cdf(Operation.NO_OPERATION),
+
+		/** if returned from Giac -> error */
+		fisher_cdf(Operation.NO_OPERATION),
+
+		/** if returned from Giac -> error */
+		normald_cdf(Operation.NO_OPERATION),
+
+		/** if returned from Giac -> error */
+		student_cdf(Operation.NO_OPERATION),
+
+		/** if returned from Giac -> error */
+		chisquare_cdf(Operation.NO_OPERATION),
 
 		/** polar coordinate */
 		ggb_ang(Operation.NO_OPERATION),
 
+		/** if returned from Giac -> error */
 		poly1(Operation.NO_OPERATION),
 
 		/** fsolve, shouldn't get returned  */
@@ -195,6 +214,8 @@ public class CommandDispatcherGiac {
 	 *            CommandDispatcherGiac.commands
 	 * @param args
 	 *            list of command arguments
+	 * @param kernel
+	 *            kernel
 	 */
 	public static ExpressionNode processCommand(String cmdName, GetItem args, Kernel kernel) {
 
@@ -497,6 +518,11 @@ public class CommandDispatcherGiac {
 			case rootof: // rootof should get removed by evalfa()
 				Log.warn("'rootof()' returned from giac");
 				// fall through
+			case binomial_cdf:
+			case fisher_cdf:
+			case normald_cdf:
+			case student_cdf:
+			case chisquare_cdf:
 			case laplace:
 			case ilaplace:
 			case invlaplace:
@@ -504,7 +530,7 @@ public class CommandDispatcherGiac {
 			case solve:
 			case poly1: // eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))
 			case integrate: // eg Integral[exp(x^3)]
-			case bounded_function: // eg Limit[cos(x),∞]			
+			case bounded_function: // eg Limit[cos(x),∞]
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 
