@@ -420,12 +420,13 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 * @param cb
 	 *            {@link MaterialCallback}
 	 */
-	public void exportAnimGif(AppW app, String sliderName, int timing,
+	public void exportAnimGif(final AppW app, String sliderName, int timing,
 	        boolean isLoop) {
 
 		String data = createGifResponsePage(app.getLocalization());
 		final JavaScriptObject gifWnd = WindowW.openFromData(data);
-		WindowW.postMessage(gifWnd, "progressing...");
+		WindowW.postMessage(gifWnd,
+		        app.getLocalization().getPlain("AnimatedGIF.Processing"));
 
 		RequestCallback cb = new RequestCallback() {
 
@@ -444,8 +445,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 						if (responseObject == null
 						        || responseObject.isObject() == null) {
 							App.debug("[ANIMGIF] responseObject is null");
-							WindowW.postMessage(gifWnd,
-							        "fail: responseObject is null");
+							WindowW.postMessage(gifWnd, app.getLocalization()
+							        .getPlain("AnimatedGIF.ErrorA", respData));
 							return;
 						}
 
@@ -453,10 +454,12 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 						        "responses");
 
 						if (responses == null || responses.isObject() == null) {
-							App.debug("[ANIMGIF] responses is null");
-							WindowW.postMessage(gifWnd,
-							        "fail: responses is null code"
-							                + response.getStatusCode());
+							App.debug("[ANIMGIF] responses is " + responses);
+							WindowW.postMessage(
+							        gifWnd,
+							        app.getLocalization().getPlain(
+							                "AnimatedGIF.ErrorA",
+							                "" + response.getStatusCode()));
 							return;
 						}
 
@@ -466,7 +469,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 						String downloadUrl = "data:image/gif;base64,"
 						        + base64.isString().stringValue();
 						AppW.download(downloadUrl, "ggbanim.gif");
-						WindowW.postMessage(gifWnd, "success");
+						WindowW.postMessage(gifWnd, app.getLocalization()
+						        .getPlain("AnimatedGIF.Success"));
 					} catch (Throwable t) {
 						App.debug(t.getMessage());
 						App.debug("'" + response + "'");
