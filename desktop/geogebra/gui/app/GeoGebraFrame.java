@@ -792,26 +792,30 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		if (args != null && args.containsArg("exportAnimation")
 				&& args.containsArg("slider")) {
 
-			// maximize window
-			// avoids clipping unless export size is especially large
-			Frame frame = app.getFrame();
-			frame.setExtendedState(frame.getExtendedState()
-					| Frame.MAXIMIZED_BOTH);
+			String dpiStr = args.getStringValue("dpi");
+
+			final int dpi = Integer
+					.parseInt(dpiStr.equals("") ? "300" : dpiStr);
+
+			final EuclidianView ev = app.getActiveEuclidianView();
+			final String filename0 = args.getStringValue("exportAnimation");
+
+			final String extension = AppD.getExtension(filename0);
+
+			final String filename = AppD.removeExtension(filename0);
+
+			if ("gif".equals(extension)) {
+				// maximize window
+				// avoids clipping unless export size is especially large
+				// needed for Animated GIF export from GeoGebraWeb
+				// which runs this server-side
+				Frame frame = app.getFrame();
+				frame.setExtendedState(frame.getExtendedState()
+						| Frame.MAXIMIZED_BOTH);
+			}
 
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-
-					String dpiStr = args.getStringValue("dpi");
-
-					final int dpi = Integer.parseInt(dpiStr.equals("") ? "300"
-							: dpiStr);
-
-					EuclidianView ev = app.getActiveEuclidianView();
-					String filename = args.getStringValue("exportAnimation");
-
-					final String extension = AppD.getExtension(filename);
-
-					filename = AppD.removeExtension(filename);
 
 					String sliderName = args.getStringValue("slider");
 					GeoElement slider = app.getKernel().lookupLabel(sliderName);
@@ -962,11 +966,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			App.debug("attempting to export: " + filename + " at " + dpiStr
 					+ "dpi");
 
-			// maximize window
-			// avoids clipping unless export size is especially large
-			Frame frame = app.getFrame();
-			frame.setExtendedState(frame.getExtendedState()
-					| Frame.MAXIMIZED_BOTH);
 
 			// wait for EuclidianView etc to initialize before export
 			SwingUtilities.invokeLater(new Runnable() {
