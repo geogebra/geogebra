@@ -333,7 +333,6 @@ public class EquationEditor {
 	 *            focus (false: blur)
 	 */
 	public void setFocus(boolean b) {
-		App.debug("FOCUS" + b);
 		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
 		        component.getLaTeXSpan(), b);
 

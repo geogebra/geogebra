@@ -115,7 +115,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				setFocus(true);
 			}
 		};
-		tim.schedule(500);
+		// tim.schedule(500);
 	}
 
 	public void replaceXButtonDOM() {
@@ -223,6 +223,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void setFocus(boolean b) {
+		App.printStacktrace("FOCUS" + b);
 		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
 
