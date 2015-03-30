@@ -66,7 +66,8 @@ import org.freehep.util.UserProperties;
  */
 public class GraphicExportDialog extends JDialog implements KeyListener {
 
-	private static final int EXTRA_MARGIN = 3;
+	// #4979
+	private static final int EXTRA_MARGIN = 4;
 
 	private static final long serialVersionUID = 1L;
 
