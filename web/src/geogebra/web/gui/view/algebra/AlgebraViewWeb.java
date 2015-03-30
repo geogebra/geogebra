@@ -1101,7 +1101,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 					Scheduler.get().scheduleDeferred(
 							new Scheduler.ScheduledCommand() {
 								public void execute() {
+							        // if (app != null) {
 									app.showKeyboard(inputPanelLatex, true);
+							        // }
 								}
 							});
 				}

@@ -6,6 +6,7 @@ package geogebra.web.gui.app;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
@@ -39,7 +40,6 @@ import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -367,7 +367,8 @@ public class GeoGebraAppFrame extends ResizeComposite implements
     }
 	
 	@Override
-	public void showKeyBoard(boolean show, Widget textField, boolean forceShow) {
+	public void showKeyBoard(boolean show, MathKeyboardListener textField,
+	        boolean forceShow) {
 		if (forceShow) {
 			this.frameLayout.doShowKeyBoard(show, textField);
 		} else {

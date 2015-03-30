@@ -1,7 +1,8 @@
 package geogebra.html5.main;
 
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
+
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor suggests wheter the AppWapplet, AppWsimple has applet
@@ -86,7 +87,8 @@ public interface HasAppletProperties {
 
 	public JavaScriptObject getOnLoadCallback();
 
-	public void showKeyBoard(boolean b, Widget textField, boolean forceShow);
+	public void showKeyBoard(boolean b, MathKeyboardListener textField,
+	        boolean forceShow);
 
 	public boolean isKeyboardShowing();
 }

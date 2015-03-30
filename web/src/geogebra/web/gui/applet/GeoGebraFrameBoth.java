@@ -6,6 +6,7 @@ import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
@@ -27,7 +28,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class GeoGebraFrameBoth extends GeoGebraFrame implements
         HeaderPanelDeck, UpdateKeyBoardListener {
@@ -139,7 +139,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	    
     }
 
-	public void doShowKeyBoard(final boolean show, Widget textField) {
+	public void doShowKeyBoard(final boolean show,
+	        MathKeyboardListener textField) {
 		if (this.keyboardShowing == show) {
 			return;
 		}
@@ -168,7 +169,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		timer.schedule(0);
 	}
 
-	private void removeKeyboard(Widget textField) {
+	private void removeKeyboard(MathKeyboardListener textField) {
 		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
 		        textField, this, app);
 		App.printStacktrace("HIDE KEYBOARD");
@@ -181,7 +182,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		keyBoard.resetKeyboardState();
 	}
 
-	private void addKeyboard(Widget textField) {
+	private void addKeyboard(MathKeyboardListener textField) {
 		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
 		        textField, this, app);
 		App.printStacktrace("SHOW KEYBOARD");
@@ -235,12 +236,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		}
 	}
 
-	public void showKeyBoard(boolean show, Widget textField, boolean forceShow) {
+	public void showKeyBoard(boolean show, MathKeyboardListener textField,
+	        boolean forceShow) {
 		keyBoardNeeded(show, textField);
 	}
 
 	@Override
-	public void keyBoardNeeded(boolean show, Widget textField) {
+	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
 		App.debug(keyboardShowing + "");
 		if (app.getLAF().isTablet()
 		        || keyboardShowing // if keyboard is already
@@ -255,7 +257,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	}
 
-	private void showKeyboardButton(Widget textField) {
+	private void showKeyboardButton(MathKeyboardListener textField) {
 		if (showKeyboardButton == null) {
 			DockPanelW algebraDockPanel = (DockPanelW) app.getGuiManager()
 			        .getLayout()

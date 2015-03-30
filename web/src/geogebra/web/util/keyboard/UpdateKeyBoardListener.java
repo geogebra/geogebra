@@ -1,14 +1,16 @@
 package geogebra.web.util.keyboard;
 
-import com.google.gwt.user.client.ui.Widget;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 
 public interface UpdateKeyBoardListener {
 
 	public abstract void showInputField();
 
-	public abstract void keyBoardNeeded(boolean show, Widget textField);
+	public abstract void keyBoardNeeded(boolean show,
+	        MathKeyboardListener textField);
 
-	public abstract void doShowKeyBoard(boolean b, Widget textField);
+	public abstract void doShowKeyBoard(boolean b,
+	        MathKeyboardListener textField);
 
 	public abstract void closePopups();
 }

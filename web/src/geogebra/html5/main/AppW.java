@@ -75,6 +75,7 @@ import geogebra.html5.gui.ToolBarInterface;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.ViewsChangedListener;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.io.ConstructionException;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.javax.swing.GOptionPaneW;
@@ -3121,15 +3122,14 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
 	 */
-	public void showKeyboard(@SuppressWarnings("unused") Widget textField) {
+	public void showKeyboard(MathKeyboardListener textField) {
 		// Overwritten in subclass - nothing to do here
 	}
 
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
 	 */
-	public void showKeyboard(@SuppressWarnings("unused") Widget textField,
-			@SuppressWarnings("unused") boolean forceShow) {
+	public void showKeyboard(MathKeyboardListener textField, boolean forceShow) {
 		// Overwritten in subclass - nothing to do here
 	}
 
@@ -3140,7 +3140,8 @@ public abstract class AppW extends App implements SetLabels {
 	 *            after the update the input of the keyboard is written into
 	 *            this field
 	 */
-	public void updateKeyBoardField(@SuppressWarnings("unused") Widget field) {
+	public void updateKeyBoardField(
+	        @SuppressWarnings("unused") MathKeyboardListener field) {
 		// Overwritten in subclass - nothing to do here
 	}
 

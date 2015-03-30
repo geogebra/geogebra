@@ -5,11 +5,10 @@ import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
-
-import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AppWFull extends AppW {
 
@@ -18,7 +17,7 @@ public abstract class AppWFull extends AppW {
 	}
 
 	@Override
-	public void showKeyboard(Widget textField) {
+	public void showKeyboard(MathKeyboardListener textField) {
 		getAppletFrame().showKeyBoard(true, textField, false);
 		if (textField != null) {
 			CancelEventTimer.keyboardSetVisible();
@@ -26,7 +25,7 @@ public abstract class AppWFull extends AppW {
 	}
 
 	@Override
-	public void showKeyboard(Widget textField, boolean forceShow) {
+	public void showKeyboard(MathKeyboardListener textField, boolean forceShow) {
 		getAppletFrame().showKeyBoard(true, textField, forceShow);
 		if (textField != null) {
 			CancelEventTimer.keyboardSetVisible();
@@ -34,7 +33,7 @@ public abstract class AppWFull extends AppW {
 	}
 
 	@Override
-	public void updateKeyBoardField(Widget field) {
+	public void updateKeyBoardField(MathKeyboardListener field) {
 		OnScreenKeyBoard.setInstanceTextField(this, field);
 	}
 

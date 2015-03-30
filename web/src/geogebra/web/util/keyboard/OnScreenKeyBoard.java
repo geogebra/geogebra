@@ -3,6 +3,7 @@ package geogebra.web.util.keyboard;
 import geogebra.common.main.App;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ScriptLoadCallback;
@@ -30,7 +31,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * on screen keyboard containing mathematical symbols and formulas
@@ -143,7 +143,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	// private FlowPanel contentGreek = new FlowPanel();
 	// TODO remove for mobile devices
 	private FlowPanel contentLetters = new FlowPanel();
-	private Widget textField;
+	private MathKeyboardListener textField;
 	private TextFieldProcessing processing = new TextFieldProcessing();
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 	private KeyPanel letters;
@@ -194,7 +194,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 *            {@link AppW}
 	 * @return instance of onScreenKeyBoard
 	 */
-	public static OnScreenKeyBoard getInstance(Widget textField,
+	public static OnScreenKeyBoard getInstance(MathKeyboardListener textField,
 	        UpdateKeyBoardListener listener, AppW appW) {
 
 		if (instances == null) {
@@ -290,7 +290,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * @param textField
 	 *            the new textField
 	 */
-	public static void setInstanceTextField(App app, Widget textField) {
+	public static void setInstanceTextField(App app,
+	        MathKeyboardListener textField) {
 		if (instances != null && instances.get(app) != null) {
 			instances.get(app).setTextField(textField);
 		}
@@ -951,7 +952,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * @param textField
 	 *            the text field connected to the keyboard
 	 */
-	public void setTextField(Widget textField) {
+	public void setTextField(MathKeyboardListener textField) {
 		this.textField = textField;
 		this.processing.setField(textField);
 	}

@@ -8,6 +8,7 @@ import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ClickStartHandler;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
@@ -153,7 +154,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 *            text field receiving the text from keyboard
 	 */
 	@Override
-	public void keyBoardNeeded(boolean show, Widget textField) {
+	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
 
 		if (app.getLAF().isTablet()
 		        || keyboardShowing // if keyboard is already
@@ -176,7 +177,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * @param textField
 	 *            text field receiving the text from keyboard
 	 */
-	public void showKeyboardButton(boolean show, final Widget textField) {
+	public void showKeyboardButton(boolean show,
+	        final MathKeyboardListener textField) {
 		if (showKeyboardButton == null) {
 			DockPanel algebraDockPanel = guiManagerW.getLayout()
 					.getDockManager()
@@ -198,7 +200,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * Shows or hides keyboard. In case keyboard state changed, it rebuilds the
 	 * DOM in the process so it may steal focus from currently selected element.
 	 */
-	public void doShowKeyBoard(boolean show, Widget textField) {
+	public void doShowKeyBoard(boolean show, MathKeyboardListener textField) {
 		// make sure the main part of this method is called ONLY WHEN NECESSARY
 		if (this.keyboardShowing == show) {
 			return;

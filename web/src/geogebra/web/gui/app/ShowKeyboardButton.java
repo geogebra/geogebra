@@ -3,12 +3,15 @@ package geogebra.web.gui.app;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.main.App;
 import geogebra.html5.gui.util.ClickStartHandler;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,7 +33,7 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            {@link Element}
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
-	        final Widget textField, Widget parent) {
+	        final MathKeyboardListener textField, Widget parent) {
 
 		this.parent = parent;
 		this.addStyleName("openKeyboardButton");
@@ -47,6 +50,17 @@ public class ShowKeyboardButton extends SimplePanel {
  PointerEventType type) {
 				App.debug("show keyboard");
 				listener.doShowKeyBoard(true, textField);
+
+				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+
+					@Override
+					public boolean execute() {
+						textField.ensureEditing();
+						textField.setFocus(true);
+						return false;
+					}
+				}, 0);
+
 			}
 		});
 	}
@@ -58,7 +72,7 @@ public class ShowKeyboardButton extends SimplePanel {
 	 * @param textField
 	 *            {@link Widget} to set as AutoHidePartner
 	 */
-	public void show(boolean show, Widget textField) {
+	public void show(boolean show, MathKeyboardListener textField) {
 
 
 		if (show && parent.isVisible()) {

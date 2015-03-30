@@ -29,6 +29,7 @@ import geogebra.html5.event.KeyListenerW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ClickStartHandler;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppW;
@@ -69,7 +70,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
-        AutoCompleteW,
+        AutoCompleteW, MathKeyboardListener,
         geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler,
         KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>,
         SelectionHandler<Suggestion>, VirtualKeyboardListener, HasSymbolPopup {
@@ -1661,6 +1662,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public Widget toWidget() {
 		return this;
+	}
+
+	@Override
+	public void ensureEditing() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

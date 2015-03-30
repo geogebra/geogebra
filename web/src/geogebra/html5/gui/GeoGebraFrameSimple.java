@@ -2,6 +2,7 @@ package geogebra.html5.gui;
 
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.laf.GLookAndFeelI;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
@@ -13,7 +14,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class GeoGebraFrameSimple extends GeoGebraFrame {
 
@@ -65,7 +65,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	}
 
 	@Override
-	public void showKeyBoard(boolean b, Widget textField, boolean forceShow) {
+	public void showKeyBoard(boolean b, MathKeyboardListener textField,
+	        boolean forceShow) {
 		// no keyboard either
 	}
 

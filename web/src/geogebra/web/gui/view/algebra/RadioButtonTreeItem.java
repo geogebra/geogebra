@@ -47,6 +47,7 @@ import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.gui.util.LongTouchManager;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.gui.view.algebra.GeoContainer;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.util.EventUtil;
@@ -116,7 +117,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RadioButtonTreeItem extends FlowPanel implements
         DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
-        MouseOverHandler, MouseOutHandler, GeoContainer,
+        MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
  TouchStartHandler,
         TouchMoveHandler, TouchEndHandler, LongTouchHandler {
 
@@ -1002,7 +1003,22 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				@Override
 				public void onClickStart(int x, int y,
 				        final PointerEventType type) {
-					OnScreenKeyBoard.setInstanceTextField(app, tb);
+
+					OnScreenKeyBoard.setInstanceTextField(app,
+					        new MathKeyboardListener() {
+
+						        @Override
+						        public void setFocus(boolean focus) {
+							        tb.setFocus(focus);
+
+						        }
+
+						        @Override
+						        public void ensureEditing() {
+							        // TODO Auto-generated method stub
+
+						        }
+					        });
 					// prevent that keyboard is closed on clicks (changing
 					// cursor position)
 					CancelEventTimer.keyboardSetVisible();
@@ -1690,5 +1706,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	public App getApplication() {
 		return app;
+	}
+
+	@Override
+	public void ensureEditing() {
+		if (!isThisEdited()) {
+			startEditing();
+		}
 	}
 }

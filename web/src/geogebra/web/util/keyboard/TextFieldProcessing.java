@@ -2,6 +2,7 @@ package geogebra.web.util.keyboard;
 
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.textbox.GTextBox;
+import geogebra.html5.gui.view.algebra.MathKeyboardListener;
 import geogebra.web.gui.view.algebra.NewRadioButtonTreeItem;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * manages the processing of the different types of widgets that
@@ -38,7 +38,7 @@ public class TextFieldProcessing {
 	private static final int LEFT_ARROW = 37;
 	private static final int RIGHT_ARROW = 39;
 
-	private Widget field;
+	private MathKeyboardListener field;
 	private State state = State.empty;
 	private ArrayList<String> needsLbrace = new ArrayList<String>();
 
@@ -59,7 +59,7 @@ public class TextFieldProcessing {
 		needsLbrace.add("arctan");
 	}
 
-	public void setField(Widget field) {
+	public void setField(MathKeyboardListener field) {
 		this.field = field;
 		if (field == null) {
 			state = State.empty;
