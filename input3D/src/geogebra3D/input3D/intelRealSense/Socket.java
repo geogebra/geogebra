@@ -4,25 +4,18 @@ import java.util.Arrays;
 
 import intel.rssdk.PXCMCapture;
 import intel.rssdk.PXCMCaptureManager;
-import intel.rssdk.PXCMFaceData.AlertData;
 import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandConfiguration.AlertHandler;
 import intel.rssdk.PXCMHandConfiguration.GestureHandler;
 import intel.rssdk.PXCMHandData.AlertType;
-import intel.rssdk.PXCMHandData.FingerData;
-import intel.rssdk.PXCMHandData.FingerType;
 import intel.rssdk.PXCMHandData.GestureData;
-import intel.rssdk.PXCMHandData.JointData;
 import intel.rssdk.PXCMHandData;
-import intel.rssdk.PXCMHandData.JointType;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPoint4DF32;
-import intel.rssdk.PXCMPointF32;
 import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
-import geogebra.common.awt.GPoint;
 import geogebra.common.main.App;
 
 
