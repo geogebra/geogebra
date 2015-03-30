@@ -369,8 +369,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		Util.addKeyListenerToAll(this, this);
 
 		updateSizeLabel();
-		int width = getPreferredSize().width + app.getFontSize() * 2;
-		setPreferredSize(new Dimension(width, getPreferredSize().height));
+		setPreferredSize(new Dimension(getPreferredSize().width
+				+ app.getFontSize() * 2, getPreferredSize().height
+				+ app.getFontSize() * 2));
 		centerOnScreen();
 
 	}
