@@ -166,9 +166,7 @@ public class DrawLocus extends Drawable {
 		if (t == null) {
 			return false; // hasn't been drawn yet (hidden)
 		}
-		if (gp.getCurrentPoint() == null) {
-			return false; // 3D locus with no points in 2D
-		}
+
 		if (strokedShape == null) {
 			strokedShape = objStroke.createStrokedShape(gp);
 		}

@@ -51,7 +51,8 @@ public class GBasicStrokeD implements geogebra.common.awt.GBasicStroke {
 		Shape shapeD = geogebra.awt.GGenericShapeD.getAwtShape(shape);
 		if (shapeD instanceof Path2D) {
 			Path2D p2d = (Path2D) shapeD;
-			if (Double.isNaN(p2d.getCurrentPoint().getX())) {
+			if (p2d.getCurrentPoint() != null
+					&& Double.isNaN(p2d.getCurrentPoint().getX())) {
 				App.debug("fix kicks in");
 				return new geogebra.awt.GGenericShapeD(shapeD);
 			}
