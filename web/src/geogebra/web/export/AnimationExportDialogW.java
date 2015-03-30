@@ -222,7 +222,9 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		GeoPointND ret = app
 		        .getKernel()
 		        .getAlgebraProcessor()
-		        .evaluateToPoint("Export_" + idx + "=Corner[" + corner + "]",
+		        .evaluateToPoint(
+		                "Export_" + idx + "=CopyFreeObject[Corner[" + corner
+		                        + "]]",
 		                false, false);
 
 		ret.setEuclidianVisible(false);
