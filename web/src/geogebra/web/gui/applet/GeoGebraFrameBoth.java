@@ -302,6 +302,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 				});
 
 			}
+ else if (app != null && app.isKeyboardNeeded()) {
+				this.showKeyboardButton(true);
+			}
 
 			else if (app != null && !app.isKeyboardNeeded()
 			        && this.showKeyboardButton != null) {
