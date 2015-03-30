@@ -1,5 +1,7 @@
 package geogebra3D.input3D.intelRealSense;
 
+import java.util.Arrays;
+
 import intel.rssdk.PXCMCapture;
 import intel.rssdk.PXCMCaptureManager;
 import intel.rssdk.PXCMFaceData.AlertData;
@@ -58,48 +60,70 @@ public class Socket {
 	private pxcmStatus sts;
 	private PXCMHandData handData;
 	
-	private DataAverage dataAverage;
+	private DataSampler dataSampler;
 	
-	private class DataAverage{
+	private abstract class DataSampler {
 		
-		private int samples;
-		private int index;
+		protected int samples;
+		protected int index;
+
 		
-		/*
-		private float[] imageX, imageY;
-		private float imageXSum, imageYSum;
-		*/
+		protected float[] worldX, worldY, worldZ;
 		
-		private float[] worldX, worldY, worldZ;
-		private float worldXSum, worldYSum, worldZSum;
+		protected float[] handOrientationX, handOrientationY, handOrientationZ, handOrientationW;
 		
-		private float[] handOrientationX, handOrientationY, handOrientationZ, handOrientationW;
-		private float handOrientationXSum, handOrientationYSum, handOrientationZSum, handOrientationWSum;
-		
-		public DataAverage(int samples){
+		public DataSampler(int samples){
 			this.samples = samples;
 			index = 0;
-			
-			/*
-			imageX = new float[samples];
-			imageY = new float[samples];
-			
-			imageXSum = 0f;
-			imageYSum = 0f;
-			*/
+
 			
 			worldX = new float[samples];
 			worldY = new float[samples];
 			worldZ = new float[samples];
 			
-			worldXSum = 0f;
-			worldYSum = 0f;
-			worldZSum = 0f;
 			
 			handOrientationX = new float[samples];
 			handOrientationY = new float[samples];
 			handOrientationZ = new float[samples];
 			handOrientationW = new float[samples];
+			
+			
+
+		}
+
+		public abstract void addData(//float imx, float imy, 
+				float wx, float wy, float wz, float ox, float oy, float oz, float ow);
+
+		public abstract double getWorldX();
+
+		public abstract double getWorldY();
+
+		public abstract double getWorldZ();
+
+		public abstract double getHandOrientationX();
+
+		public abstract double getHandOrientationY();
+
+		public abstract double getHandOrientationZ();
+
+		public abstract double getHandOrientationW();
+
+	}
+	
+	private class DataAverage extends DataSampler{
+		
+		private float worldXSum, worldYSum, worldZSum;
+		
+		private float handOrientationXSum, handOrientationYSum, handOrientationZSum, handOrientationWSum;
+		
+		public DataAverage(int samples){
+			
+			super(samples);
+			
+			worldXSum = 0f;
+			worldYSum = 0f;
+			worldZSum = 0f;
+			
 			
 			handOrientationXSum = 0f;
 			handOrientationYSum = 0f;
@@ -109,6 +133,7 @@ public class Socket {
 
 		}
 		
+		@Override
 		public void addData(//float imx, float imy, 
 				float wx, float wy, float wz,
 				float ox, float oy, float oz, float ow){
@@ -140,17 +165,7 @@ public class Socket {
 				return;
 			}
 			
-			
-			/*
-			imageXSum -= imageX[index];
-			imageYSum -= imageY[index];
-			
-			imageX[index] = imx;
-			imageY[index] = imy;
-			
-			imageXSum += imageX[index];
-			imageYSum += imageY[index];
-			*/
+
 			
 			worldXSum -= worldX[index];
 			worldYSum -= worldY[index];
@@ -186,44 +201,44 @@ public class Socket {
 			}
 		}
 		
-		/*
-		public float getImageX(){
-			return 640 - imageXSum / samples;
-		}
 
-		public float getImageY(){
-			return imageYSum / samples;
-		}
-		
-		public float getImageScale(){
-			return worldZSum / samples;
-		}
-		*/
-
+		@Override
 		public double getWorldX(){
 			return -worldXSum * SCREEN_REAL_DIM_FACTOR / samples;
 		}
 		
+
+		@Override
 		public double getWorldY(){
 			return worldYSum * SCREEN_REAL_DIM_FACTOR / samples;
 		}
 		
+
+		@Override
 		public double getWorldZ(){
 			return (worldZSum / samples - 0.2f) * SCREEN_REAL_DIM_FACTOR;
 		}
 		
+
+		@Override
 		public double getHandOrientationX(){
 			return - handOrientationXSum / samples;
 		}
 		
+
+		@Override
 		public double getHandOrientationY(){
 			return - handOrientationYSum / samples;
 		}
 		
+
+		@Override
 		public double getHandOrientationZ(){
 			return handOrientationZSum / samples;
 		}
 		
+
+		@Override
 		public double getHandOrientationW(){
 			return handOrientationWSum / samples;
 		}
@@ -232,6 +247,72 @@ public class Socket {
 		
 
 		
+	}
+	
+	private class DataMedian extends DataAverage{
+
+		public DataMedian(int samples){
+
+			super(samples);
+			
+			sortedArray = new float[samples];
+		}
+		
+		private float[] sortedArray;
+		
+		private float getMedian(float[] values){
+			
+			for (int i = 0 ; i < samples ; i++){
+				sortedArray[i] = values[i];
+			}
+			
+			Arrays.sort(sortedArray);
+			
+			return sortedArray[samples/2];
+			
+		}
+		
+		
+		@Override
+		public double getWorldX(){
+			return -getMedian(worldX) * SCREEN_REAL_DIM_FACTOR;
+		}
+		
+
+		@Override
+		public double getWorldY(){
+			return getMedian(worldY) * SCREEN_REAL_DIM_FACTOR;
+		}
+		
+
+		@Override
+		public double getWorldZ(){
+			return (getMedian(worldZ) - 0.2f) * SCREEN_REAL_DIM_FACTOR;
+		}
+		
+
+		@Override
+		public double getHandOrientationX(){
+			return - getMedian(handOrientationX);
+		}
+		
+
+		@Override
+		public double getHandOrientationY(){
+			return - getMedian(handOrientationY);
+		}
+		
+
+		@Override
+		public double getHandOrientationZ(){
+			return getMedian(handOrientationZ);
+		}
+		
+
+		@Override
+		public double getHandOrientationW(){
+			return getMedian(handOrientationW);
+		}
 	}
 	
 	
@@ -335,7 +416,8 @@ public class Socket {
 			return;
 		}
 
-		dataAverage = new DataAverage(SAMPLES);
+		dataSampler = new DataAverage(SAMPLES);
+		//dataSampler = new DataMedian(SAMPLES);
 
 		sts = senseMgr.Init();
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)>=0) {
@@ -425,7 +507,7 @@ public class Socket {
 			
 			
 			
-			dataAverage.addData(
+			dataSampler.addData(
 					//image.x, image.y, 
 					world.x, world.y, world.z,
 					palmOrientation.x, palmOrientation.y, palmOrientation.z, palmOrientation.w);
@@ -437,16 +519,16 @@ public class Socket {
 			hand2Dfactor = getScaleFactor(dataAverage.getImageScale());
 			*/
 			
-			birdX = dataAverage.getWorldX();
-			birdY = dataAverage.getWorldY();
-			birdZ = dataAverage.getWorldZ();
+			birdX = dataSampler.getWorldX();
+			birdY = dataSampler.getWorldY();
+			birdZ = dataSampler.getWorldZ();
 			
 			
 			
-			birdOrientationX = dataAverage.getHandOrientationX();
-			birdOrientationY = dataAverage.getHandOrientationY();
-			birdOrientationZ = dataAverage.getHandOrientationZ();
-			birdOrientationW = dataAverage.getHandOrientationW();
+			birdOrientationX = dataSampler.getHandOrientationX();
+			birdOrientationY = dataSampler.getHandOrientationY();
+			birdOrientationZ = dataSampler.getHandOrientationZ();
+			birdOrientationW = dataSampler.getHandOrientationW();
 			
 			
 			/*
