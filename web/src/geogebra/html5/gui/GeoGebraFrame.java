@@ -47,15 +47,17 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 
 	private boolean resize = false;
 	private boolean move = false;
-
+	private static int counter = 1;
 	/**
 	 * Splash Dialog to get it work quickly
 	 */
 	public SplashDialog splash;
+	private int frameID;
 
 	/** Creates new GeoGebraFrame */
 	public GeoGebraFrame(GLookAndFeelI laf) {
 		super();
+		this.frameID = counter++;
 		this.laf = laf;
 		instances.add(this);
 		activeInstance = this;
@@ -609,4 +611,8 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	}
 
 	public abstract void showBrowser(HeaderPanel bg);
+
+	public int getFrameID() {
+		return frameID;
+	}
 }
