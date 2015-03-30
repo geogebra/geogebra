@@ -4175,6 +4175,11 @@ LatexCmds.ang = LatexCmds.angle = LatexCmds['\u2220'] =
 // GeoGebra MEASURED ANGLE "\u2221"
 LatexCmds['\u2221'] = bind(VanillaSymbol, '\\\u2221 ', '&#8737;', '\u2221');
 
+// eulerChar can still come from input, for which this is a workaround
+// although we could keep eulerChar internally, that might cause
+// different difficulties e.g. on-screen keyboard, non-variable, etc.
+// so let's just convert eulerChar to a simple variable like "e"
+LatexCmds['\u212f'] = bind(Variable, 'e');
 
 var NonItalicizedFunction = P(Symbol, function(_, _super) {
   _.init = function(fn) {
