@@ -17,6 +17,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.ImageFactory;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.app.ShowKeyboardButton;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.PerspectiveResources;
 import geogebra.web.gui.util.StandardButton;
@@ -363,6 +364,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private ResourcePrototype viewImage;
 
+	private SimplePanel kbButtonSpace;
+
 	public int getHeight() {
 		return dockPanel.getOffsetHeight();
 	}
@@ -532,6 +535,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 			}
 			updateStyleBarVisibility();
 		}
+		kbButtonSpace = new SimplePanel();
+		dockPanel.addSouth(kbButtonSpace, 0);
 
 		if (component != null) {
 			dockPanel.add(component);
@@ -1382,5 +1387,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 			return;
 		}
 		closeButtonPanel.setVisible(isVisible);
+	}
+
+	public void addSouth(ShowKeyboardButton showKeyboardButton) {
+		this.kbButtonSpace.setWidget(showKeyboardButton);
 	}
 }

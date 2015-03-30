@@ -366,10 +366,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		if (this.menuContainer != null && this.getWidgetIndex(this.menuContainer) != -1) {
 			updateSize();
 		}
-		if (this.showKeyboardButton != null
-		        && this.showKeyboardButton.isShowing()) {
-			this.showKeyboardButton.updatePosition();
-		}
 	}
 
 	/**

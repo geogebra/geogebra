@@ -75,10 +75,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	public void onResize() {
 		// ignore super method
 
-		// update position of the keyboard-button
-		if (keyboardButton != null) {
-			keyboardButton.updatePosition();
-		}
+
     }
 
 	@Override

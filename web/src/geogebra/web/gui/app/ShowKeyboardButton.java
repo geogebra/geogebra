@@ -1,21 +1,24 @@
 package geogebra.web.gui.app;
 
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.main.App;
+import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
+import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A PopupPanel in the bottom left corner of the application which represents a
  * button to open the {@link OnScreenKeyBoard}
  */
-public class ShowKeyboardButton extends PopupPanel {
+public class ShowKeyboardButton extends SimplePanel {
 	
 	private final int HEIGHT = 33;
 	private Widget parent;
@@ -29,21 +32,37 @@ public class ShowKeyboardButton extends PopupPanel {
 	 *            {@link Element}
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
-			final Widget textField, Widget parent) {
+	        final Widget textField, Widget parent) {
 
 		this.parent = parent;
 		this.addStyleName("openKeyboardButton");
 		NoDragImage showKeyboard = new NoDragImage(GuiResources.INSTANCE
 		        .keyboard_show().getSafeUri().asString());
 		this.add(showKeyboard);
-		addDomHandler(new ClickHandler() {
+
+		((DockPanelW) parent).addSouth(this);
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			@Override
-			public void onClick(ClickEvent event) {
-				listener.closePopups();
-				listener.doShowKeyBoard(true, textField);
+			public void execute() {
+				App.debug("ADDING LISTENER"
+				        + ShowKeyboardButton.this.getElement());
+				ClickStartHandler.init(ShowKeyboardButton.this,
+				        new ClickStartHandler(true, true) {
+
+					        @Override
+					        public void onClickStart(int x, int y,
+					                PointerEventType type) {
+						        App.debug("show keyboard");
+						        listener.doShowKeyBoard(true, textField);
+					        }
+
+				        });
+
 			}
-		}, ClickEvent.getType());
+		});
+
+
 
 	}
 
@@ -55,26 +74,19 @@ public class ShowKeyboardButton extends PopupPanel {
 	 *            {@link Widget} to set as AutoHidePartner
 	 */
 	public void show(boolean show, Widget textField) {
-		if (textField != null) {
-			addAutoHidePartner(textField.getElement());
-		}
+
 
 		if (show && parent.isVisible()) {
-			updatePosition();
-			show();
+			setVisible(true);
 		} else {
 			App.printStacktrace("");
-			hide();
+			setVisible(false);
 		}
 
 	}
 
-	/**
-	 * updates the popup position
-	 */
-	public void updatePosition() {
-		this.setPopupPosition(parent.getAbsoluteLeft(),
-				parent.getOffsetHeight()
-				+ parent.getAbsoluteTop() - this.HEIGHT);
+	public void hide() {
+		setVisible(false);
 	}
+
 }
