@@ -135,9 +135,9 @@ public class LongTouchTimer extends Timer {
 	 */
 	public void rescheduleIfRunning(LongTouchHandler handler, int x, int y,
 	        int delayMillis, boolean shouldCancel) {
-		if (isRunning() && !pointWithinLimit(x, y)) {
+		if (isRunning()) {
 			cancel();
-			if (!shouldCancel) {
+			if (!shouldCancel || pointWithinLimit(x, y)) {
 				schedule(handler, x, y, delayMillis);
 			}
 		}
