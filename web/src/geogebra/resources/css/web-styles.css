@@ -2334,6 +2334,10 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	background-color: #F8F8F8;
 }
 
+.KeyBoardButton.accentDown {
+	background-color: #dcdcdc;
+}
+
 .KeyBoardButton.supScript .gwt-Label {
 	margin-top: -6px;
 }

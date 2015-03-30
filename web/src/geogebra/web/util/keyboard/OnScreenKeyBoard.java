@@ -15,6 +15,7 @@ import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -149,6 +150,17 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private KeyBoardButton switchABCGreek;
 	private int numVisibleButtons;
 	private AppW app;
+
+	private boolean accentDown = false;
+	private KeyBoardButton accentButton;
+	/** contains the unicode string for the specific letter with acute accent */
+	private HashMap<String, String> accentAcute = new HashMap<String, String>();
+	/** contains the unicode string for the specific letter with grave accent */
+	private HashMap<String, String> accentGrave = new HashMap<String, String>();
+	/** contains the unicode string for the specific letter with caron accent */
+	private HashMap<String, String> accentCaron = new HashMap<String, String>();
+	/** contains the unicode string for the specific letter with circumflex */
+	private HashMap<String, String> accentCircumflex = new HashMap<String, String>();
 	/**
 	 * positioning (via setPopupPosition) needs to be enabled in order to
 	 * prevent automatic positioning in the constructor
@@ -205,6 +217,72 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		return instance;
 	}
 
+	private void initAccentAcuteLetters() {
+		accentAcute.put("a", "\u00e1");
+		accentAcute.put("A", "\u00c1");
+		accentAcute.put("e", "\u00e9");
+		accentAcute.put("E", "\u00C9");
+		accentAcute.put("i", "\u00ed");
+		accentAcute.put("I", "\u00cd");
+		accentAcute.put("l", "\u013A");
+		accentAcute.put("L", "\u0139");
+		accentAcute.put("o", "\u00f3");
+		accentAcute.put("O", "\u00d3");
+		accentAcute.put("r", "\u0155");
+		accentAcute.put("R", "\u0154");
+		accentAcute.put("u", "\u00fa");
+		accentAcute.put("U", "\u00da");
+		accentAcute.put("y", "\u00fd");
+		accentAcute.put("Y", "\u00dd");
+	}
+
+	private void initAccentGraveLetters() {
+		accentGrave.put("a", "\u00e0");
+		accentGrave.put("A", "\u00c0");
+		accentGrave.put("e", "\u00e8");
+		accentGrave.put("E", "\u00C8");
+		accentGrave.put("i", "\u00ec");
+		accentGrave.put("I", "\u00cc");
+		accentGrave.put("o", "\u00f2");
+		accentGrave.put("O", "\u00d2");
+		accentGrave.put("u", "\u00f9");
+		accentGrave.put("U", "\u00d9");
+	}
+
+	private void initAccentCaronLetters() {
+		accentCaron.put("c", "\u010d");
+		accentCaron.put("C", "\u010c");
+		accentCaron.put("d", "\u010F");
+		accentCaron.put("D", "\u010e");
+		accentCaron.put("e", "\u011b");
+		accentCaron.put("E", "\u011A");
+		accentCaron.put("l", "\u013E");
+		accentCaron.put("L", "\u013D");
+		accentCaron.put("n", "\u0148");
+		accentCaron.put("N", "\u0147");
+		accentCaron.put("r", "\u0159");
+		accentCaron.put("R", "\u0158");
+		accentCaron.put("s", "\u0161");
+		accentCaron.put("S", "\u0160");
+		accentCaron.put("t", "\u0165");
+		accentCaron.put("T", "\u0164");
+		accentCaron.put("z", "\u017e");
+		accentCaron.put("Z", "\u017d");
+	}
+
+	private void initAccentCircumflexLetters() {
+		accentCircumflex.put("a", "\u00e2");
+		accentCircumflex.put("A", "\u00c2");
+		accentCircumflex.put("e", "\u00ea");
+		accentCircumflex.put("E", "\u00Ca");
+		accentCircumflex.put("i", "\u00ee");
+		accentCircumflex.put("I", "\u00ce");
+		accentCircumflex.put("o", "\u00f4");
+		accentCircumflex.put("O", "\u00d4");
+		accentCircumflex.put("u", "\u00fb");
+		accentCircumflex.put("U", "\u00db");
+	}
+
 	/**
 	 * updates the textField of the current instance, if the instance is not
 	 * null
@@ -245,6 +323,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			// this is needed until we support other fonts than Latin
 			supportedLocales.put(Language.Korean.localeGWT, "ko");
 		}
+		initAccentAcuteLetters();
+		initAccentGraveLetters();
+		initAccentCaronLetters();
+		initAccentCircumflexLetters();
 	}
 
 	@Override
@@ -667,6 +749,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 			switch (button.getAction()) {
 			case SHIFT:
+				removeAccents();
 				processShift();
 				break;
 			case BACKSPACE:
@@ -704,6 +787,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 					if (shiftIsDown) {
 						processShift();
 					}
+					if (accentDown) {
+						removeAccents();
+					}
 					setKeyboardMode(KeyboardMode.TEXT);
 				} else if (caption.equals(SPECIAL_CHARS)) {
 					setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
@@ -712,11 +798,16 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		} else if (source != null && source instanceof KeyBoardButton) {
 
 			String text = ((KeyBoardButton) source).getFeedback();
+
 			if (isAccent(text)) {
-				processing.onAccent(text);
+				processAccent(text, (KeyBoardButton) source);
 			} else {
 				processing.insertString(text);
+				if (accentDown) {
+					removeAccents();
+				}
 			}
+
 			if (shiftIsDown && !isAccent(text)) {
 				processShift();
 			}
@@ -734,6 +825,101 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				processing.scrollCursorIntoView();
 			}
 		});
+	}
+
+	private void processAccent(String accent, KeyBoardButton source) {
+		if (accentDown && source != accentButton) {
+			removeAccents();
+			setToAccents(accent, source);
+		} else if (!accentDown) {
+			setToAccents(accent, source);
+		} else {
+			removeAccents();
+		}
+	}
+
+    private void removeAccents() {
+		for (KeyBoardButton button : letters.getButtons()) {
+			if (hasAccent(button.getCaption())) {
+				button.setCaption(getWithoutAccent(button.getCaption()));
+			}
+		}
+	    accentButton.removeStyleName("accentDown");
+		accentDown = false;
+    }
+
+	/**
+	 * @param accent
+	 */
+	private void setToAccents(String accent, KeyBoardButton source) {
+		accentButton = source;
+		accentButton.addStyleName("accentDown");
+
+		HashMap<String, String> accents = getAccentList(accent);
+
+		for (KeyBoardButton button : letters.getButtons()) {
+			if (canHaveAccent(button.getCaption(), accents)) {
+				button.setCaption(accents.get(button.getCaption()));
+			}
+		}
+		accentDown = true;
+	}
+
+	/**
+	 * @param accent
+	 * @return
+	 */
+	private HashMap<String, String> getAccentList(String accent) {
+		HashMap<String, String> accents;
+		if (accent.equals(KeyboardConstants.ACCENT_ACUTE)) {
+			accents = accentAcute;
+		} else if (accent.equals(KeyboardConstants.ACCENT_CARON)) {
+			accents = accentCaron;
+		} else if (accent.equals(KeyboardConstants.ACCENT_CIRCUMFLEX)) {
+			accents = accentCircumflex;
+		} else {
+			accents = accentGrave;
+		}
+		return accents;
+	}
+
+	private boolean canHaveAccent(String letter, HashMap<String, String> accents) {
+		return accents.get(letter) != null;
+	}
+
+	private boolean hasAccent(String letter) {
+		return accentAcute.containsValue(letter)
+		        || accentCaron.containsValue(letter)
+		        || accentCircumflex.containsValue(letter)
+		        || accentGrave.containsValue(letter);
+	}
+
+	/**
+	 * check {@link #hasAccent(String)} before calling this
+	 * 
+	 * @param letter
+	 *            String
+	 * @return letter without accent
+	 */
+	private String getWithoutAccent(String letter) {
+		HashMap<String, String> accents;
+		if (accentAcute.containsValue(letter)) {
+			accents = accentAcute;
+		} else if (accentCaron.containsValue(letter)) {
+			accents = accentCaron;
+		} else if (accentCircumflex.containsValue(letter)) {
+			accents = accentCircumflex;
+		} else {
+			accents = accentGrave;
+		}
+
+		Set<String> keys = accents.keySet();
+		for (String key : keys) {
+			if (accents.get(key).equals(letter)) {
+				return key;
+			}
+		}
+		return letter;
 	}
 
 	/**
