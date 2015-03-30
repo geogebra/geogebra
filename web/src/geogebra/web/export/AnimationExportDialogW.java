@@ -260,6 +260,8 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		GeoPointND p1 = createExportPoint(1, 1);
 		GeoPointND p2 = createExportPoint(2, 3);
 		api.exportAnimGif(app, sliderName, timeBetweenFrames, isLoop.getValue());
+		p1.remove();
+		p2.remove();
 
 	}
 
