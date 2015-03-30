@@ -126,10 +126,15 @@ public class AlgoPointsFromList extends AlgoElement {
 				GeoElement geo = list.get(i);
 				if (geo.isGeoList()) {
 					GeoList geoList = ((GeoList) geo);
-					GeoElement geoX = geoList.get(0);
-					GeoElement geoY = geoList.get(1);
-					x[i] = ((GeoNumeric) geoX).getDouble();
-					y[i] = ((GeoNumeric) geoY).getDouble();
+					if (geoList.size() < 2) {
+						x[i] = Double.NaN;
+						y[i] = Double.NaN;
+					} else {
+						GeoElement geoX = geoList.get(0);
+						GeoElement geoY = geoList.get(1);
+						x[i] = ((GeoNumeric) geoX).getDouble();
+						y[i] = ((GeoNumeric) geoY).getDouble();
+					}
 				}
 			}
 			length = x.length;
