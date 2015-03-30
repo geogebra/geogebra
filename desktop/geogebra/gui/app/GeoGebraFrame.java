@@ -792,6 +792,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		if (args != null && args.containsArg("exportAnimation")
 				&& args.containsArg("slider")) {
 
+			// maximize window
+			// avoids clipping unless export size is especially large
+			Frame frame = app.getFrame();
+			frame.setExtendedState(frame.getExtendedState()
+					| Frame.MAXIMIZED_BOTH);
+
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 
@@ -956,6 +962,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			App.debug("attempting to export: " + filename + " at " + dpiStr
 					+ "dpi");
 
+			// maximize window
+			// avoids clipping unless export size is especially large
+			Frame frame = app.getFrame();
+			frame.setExtendedState(frame.getExtendedState()
+					| Frame.MAXIMIZED_BOTH);
 
 			// wait for EuclidianView etc to initialize before export
 			SwingUtilities.invokeLater(new Runnable() {
