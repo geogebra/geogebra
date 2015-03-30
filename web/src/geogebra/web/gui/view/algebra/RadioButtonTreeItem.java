@@ -1418,10 +1418,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void onPointerDown(AbstractEvent event) {
-		if (newCreationMode) {
-			// put earlier, maybe it freezes afterwards?
-			setFocus(true);
-		}
+
 		if (event.isRightClick()) {
 			onRightClick(event.getX(), event.getY());
 		} else if (av.isEditing() || isThisEdited() || newCreationMode) {
@@ -1431,6 +1428,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			app.showKeyboard(this);
 			PointerEvent pointerEvent = (PointerEvent) event;
 			pointerEvent.getWrappedEvent().stopPropagation();
+			if (newCreationMode) {
+				// put earlier, maybe it freezes afterwards?
+				setFocus(true);
+			}
 		}
 	}
 

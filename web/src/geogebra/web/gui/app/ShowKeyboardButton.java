@@ -9,8 +9,6 @@ import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -41,29 +39,16 @@ public class ShowKeyboardButton extends SimplePanel {
 		this.add(showKeyboard);
 
 		((DockPanelW) parent).addSouth(this);
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+		ClickStartHandler.init(ShowKeyboardButton.this, new ClickStartHandler(
+		        true, true) {
 
 			@Override
-			public void execute() {
-				App.debug("ADDING LISTENER"
-				        + ShowKeyboardButton.this.getElement());
-				ClickStartHandler.init(ShowKeyboardButton.this,
-				        new ClickStartHandler(true, true) {
-
-					        @Override
-					        public void onClickStart(int x, int y,
-					                PointerEventType type) {
-						        App.debug("show keyboard");
-						        listener.doShowKeyBoard(true, textField);
-					        }
-
-				        });
-
+			public void onClickStart(int x, int y,
+ PointerEventType type) {
+				App.debug("show keyboard");
+				listener.doShowKeyBoard(true, textField);
 			}
 		});
-
-
-
 	}
 
 	/**
