@@ -286,5 +286,13 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			GeoVectorND v) {
 		return getManager3D().Translate3D(label, geoTrans, v);
 	}
+	
+	@Override
+	protected GeoElement LocusNoCheck(String label, GeoPointND Q, GeoNumeric P){
+		if (Q.isGeoElement3D()){
+			return getManager3D().Locus3D(label, Q, P);
+		}
+		return super.LocusNoCheck(label, Q, P);
+	}
 
 }

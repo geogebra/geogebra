@@ -46,7 +46,6 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-
 import java.util.ArrayList;
 
 public class AlgoDispatcher {
@@ -889,14 +888,18 @@ public class AlgoDispatcher {
 	/**
 	 * locus line for Q dependent on P. Note: P must be a visible slider
 	 */
-	final public GeoLocus Locus(String label, GeoPoint Q, GeoNumeric P) {
+	final public GeoElement Locus(String label, GeoPointND Q, GeoNumeric P) {
 		if (!P.isSlider() || !P.isDefined() || !P.isAnimatable() || // !P.isSliderable()
 																	// ||
 																	// !P.isDrawable()
 																	// ||
 				Q.getPath() != null || !P.isParentOf(Q))
 			return null;
-		AlgoLocusSlider algo = new AlgoLocusSlider(cons, label, Q, P);
+		return LocusNoCheck(label, Q, P);
+	}
+	
+	protected GeoElement LocusNoCheck(String label, GeoPointND Q, GeoNumeric P){
+		AlgoLocusSlider algo = new AlgoLocusSlider(cons, label, (GeoPoint) Q, P);
 		return (GeoLocus) algo.getLocus();
 	}
 

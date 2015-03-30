@@ -2721,11 +2721,11 @@ public abstract class EuclidianController {
 			ret[0] = locus;
 			return ret;
 		} else if ((selPoints() == 1) && (selNumbers() == 1)) {
-			GeoPoint[] points = getSelectedPoints();
+			GeoPointND[] points = getSelectedPointsND();
 			GeoNumeric[] numbers = getSelectedNumbers();
 			checkZooming();
 
-			GeoLocus locus = getAlgoDispatcher().Locus(null, points[0],
+			GeoElement locus = getAlgoDispatcher().Locus(null, points[0],
 					numbers[0]);
 			GeoElement[] ret = { locus };
 			return ret;
