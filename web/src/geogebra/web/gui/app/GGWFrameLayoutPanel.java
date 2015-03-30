@@ -200,7 +200,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * Shows or hides keyboard. In case keyboard state changed, it rebuilds the
 	 * DOM in the process so it may steal focus from currently selected element.
 	 */
-	public void doShowKeyBoard(boolean show, MathKeyboardListener textField) {
+	public void doShowKeyBoard(boolean show,
+	        final MathKeyboardListener textField) {
 		// make sure the main part of this method is called ONLY WHEN NECESSARY
 		if (this.keyboardShowing == show) {
 			return;
@@ -233,9 +234,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				onResize();
 				dockPanel.onResize();
 				scrollToInputField();
+				textField.setFocus(true);
+				textField.ensureEditing();
 			}
 		};
-		timer.schedule(0);
+		timer.schedule(500);
 	}
 
 	@Override
