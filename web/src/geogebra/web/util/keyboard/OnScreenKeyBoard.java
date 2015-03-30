@@ -296,8 +296,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * keyboard needs to be scaled
 	 */
 	void updateSize() {
-		// -10 because of padding
-		this.setWidth(app.getWidth() - 10 + "px");
+		// -10 because of padding, -2 for applet border
+		this.setWidth(app.getWidth() - 12 + "px");
 	}
 
 	/**
