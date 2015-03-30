@@ -66,6 +66,8 @@ import org.freehep.util.UserProperties;
  */
 public class GraphicExportDialog extends JDialog implements KeyListener {
 
+	private static final int EXTRA_MARGIN = 3;
+
 	private static final long serialVersionUID = 1L;
 
 	private final AppD app;
@@ -153,7 +155,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initGUI() {
-		// setResizable(false);
+		setResizable(false);
 		setTitle(app.getPlain("ExportAsPicture"));
 		JPanel cp = new JPanel(new BorderLayout(5, 5));
 		cp.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -370,8 +372,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		updateSizeLabel();
 		setPreferredSize(new Dimension(getPreferredSize().width
-				+ app.getFontSize() * 2, getPreferredSize().height
-				+ app.getFontSize() * 2));
+				+ app.getFontSize() * EXTRA_MARGIN, getPreferredSize().height
+				+ app.getFontSize() * EXTRA_MARGIN));
 		centerOnScreen();
 
 	}
