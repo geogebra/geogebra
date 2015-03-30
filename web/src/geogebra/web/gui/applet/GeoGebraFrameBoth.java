@@ -18,6 +18,7 @@ import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
+import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
@@ -304,6 +305,18 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 					public void run() {
 						app.persistWidthAndHeight();
 						addKeyboard(null);
+						new Timer() {
+
+							@Override
+							public void run() {
+								((AlgebraViewW) app.getAlgebraView())
+								        .setFocus(true);
+								((AlgebraViewW) app.getAlgebraView())
+						        .getInputTreeItem().ensureEditing();
+
+
+							}
+						}.schedule(500);
 
 					}
 				});

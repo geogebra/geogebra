@@ -1,6 +1,7 @@
 package geogebra.web.util.keyboard;
 
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.main.DrawEquationWeb;
 
@@ -50,6 +51,7 @@ public class KeyBoardButton extends SimplePanel {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				DrawEquationWeb.setMouseOut(false);
+				ToolTipManagerW.hideAllToolTips();
 			}
 
 		});
