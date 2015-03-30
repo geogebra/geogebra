@@ -153,9 +153,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initGUI() {
-		setResizable(false);
+		// setResizable(false);
 		setTitle(app.getPlain("ExportAsPicture"));
-
 		JPanel cp = new JPanel(new BorderLayout(5, 5));
 		cp.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		getContentPane().add(cp);
@@ -370,7 +369,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		Util.addKeyListenerToAll(this, this);
 
 		updateSizeLabel();
+		int width = getPreferredSize().width + app.getFontSize() * 2;
+		setPreferredSize(new Dimension(width, getPreferredSize().height));
 		centerOnScreen();
+
 	}
 
 	/**
