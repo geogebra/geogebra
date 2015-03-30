@@ -458,7 +458,11 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 						        "responses");
 
 						if (responses == null || responses.isObject() == null) {
-							App.debug("[ANIMGIF] responses is " + responses);
+							JSONValue error = responseObject.isObject()
+							        .get("error").isObject().get("-type")
+							        .isString();
+							App.debug("[ANIMGIF] error is " + error.toString());
+
 							WindowW.postMessage(
 							        gifWnd,
 							        StringUtil
@@ -466,7 +470,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 							                        .getLocalization()
 							                        .getPlain(
 							                "AnimatedGIF.ErrorA",
-							                                ""
+							                " " + error.toString() + " ("
 							                                        + response
 							                                                .getStatusCode())));
 							return;
@@ -497,7 +501,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, getUrl());
 
 		App.debug("[URL] " + getUrl());
-		String req = AnimGifRequest.getRequestElement(app, sliderName, timing,
+		String req = AnimGifRequest.getRequestElement(app, sliderName,
+		        timing,
 		        isLoop)
 		        .toJSONString(client);
 		App.debug("[REQUEST]: " + req);
