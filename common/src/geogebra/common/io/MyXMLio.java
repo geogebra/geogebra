@@ -45,9 +45,9 @@ public abstract class MyXMLio {
 	 */
 	final public static String XML_FILE_THUMBNAIL = "geogebra_thumbnail.png";
 	/** max no of horizontal pixels of thumbnail */
-	final public static double THUMBNAIL_PIXELS_X = 200.0;
+	final public static double THUMBNAIL_PIXELS_X = 256.0;
 	/** max no of vertical pixels of thumbnail */
-	final public static double THUMBNAIL_PIXELS_Y = 200.0;
+	final public static double THUMBNAIL_PIXELS_Y = 256.0;
 	/** application */
 	protected App app;
 	/** kernel */
