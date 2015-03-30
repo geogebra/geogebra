@@ -442,6 +442,18 @@ var manageTextarea = (function() {
 
       handleKey();
 
+      // detecting TAB (for Mozilla Firefox, Chrome, etc)
+      // although keypress is prevented, keyup/blur is not,
+      // that's why we need to prevent them explicitly here!
+      // TAB is not always prevented in RootMathBlock.onKey,
+      // which is probably wrong but easier to fix it here,
+      // for all possible cases, e.g. TextBlock, etc.
+      if (e.keyCode === 9) {
+    	// as a side-effect, keypress is prevented in
+    	// Mozilla Firefox as well, so no preventDefault
+    	// needed at keypress, this quick fix is enough
+    	e.preventDefault();
+      }
       //e.stopPropagation();
       //return true;
     }
@@ -1979,6 +1991,8 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       } else {
         this.cursor.selectLeft();
       }
+      // was no break??
+      break;
 
     case 'Shift-Down':
       if (this.cursor[R]) {
@@ -1987,6 +2001,8 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       else {
         this.cursor.selectRight();
       }
+      // was no break??
+      break;
 
     case 'Ctrl-Up': break;
     case 'Ctrl-Down': break;
