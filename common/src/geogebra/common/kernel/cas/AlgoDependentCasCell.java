@@ -119,12 +119,11 @@ public class AlgoDependentCasCell extends AlgoElement implements
 			}
 		}
 
-		/*
-		 * This was required until PhantomJS did not support Giac because
-		 * missing Float64Array support:
-		 * 
-		 * if (kernel.getApplication().isScreenshotGenerator()) { return; }
-		 */
+		// Do not recompute CAS cell:
+		if (kernel.getApplication().isScreenshotGenerator()) {
+			return;
+		}
+
 		if (inputDefined) {
 			// compute output of CAS cell and update twin GeoElement
 			casCell.computeOutput();
