@@ -3,23 +3,7 @@ package geogebra.cas;
 import static geogebra.test.util.IsEqualPolynomialEquation.equalToPolynomialEquation;
 import static geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertThat;
-import geogebra.CommandLineArguments;
 import geogebra.cas.logging.CASTestLogger;
-import geogebra.common.cas.CASparser;
-import geogebra.common.kernel.GeoGebraCasInterface;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
-import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.App;
-import geogebra.common.util.Unicode;
-import geogebra.common.util.debug.Log;
-import geogebra.main.AppD;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -28,15 +12,31 @@ import javax.swing.JFrame;
 
 import junit.framework.Assert;
 
+import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.kernel.GeoGebraCasInterface;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.main.AppD;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
+
+
 
 
 import com.google.common.base.Throwables;

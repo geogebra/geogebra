@@ -1,13 +1,6 @@
 package geogebra.commands;
 
-import geogebra.CommandLineArguments;
-import geogebra.common.cas.GeoGebraCAS;
-import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.common.kernel.commands.Commands;
-import geogebra.common.main.App;
 import geogebra.io.XmlTest;
-import geogebra.main.AppD;
-import geogebra3D.App3D;
 
 import java.lang.reflect.Method;
 import java.util.Locale;
@@ -18,6 +11,13 @@ import javax.swing.JFrame;
 
 import junit.framework.Assert;
 
+import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.main.App;
+import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.geogebra3D.App3D;
+import org.geogebra.desktop.main.AppD;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

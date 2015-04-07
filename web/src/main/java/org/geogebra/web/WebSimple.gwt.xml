@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='webSimple'>
+  <inherits name='org.geogebra.web.Html5'/>
+
+  <entry-point class='org.geogebra.web.html5.WebSimple'/>
+
+  <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
+  <set-property name="user.agent" value="safari, gecko1_8, ie9, ie10" />
+  <!--<set-property name="user.agent" value="safari, gecko1_8" /> -->
+
+  <source path='plugin'/>
+  <public path='pub' />
+
+  <!-- Compile only one permutation -->
+  <collapse-all-properties />
+</module>

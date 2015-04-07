@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='html5'>  
+
+  <define-linker name="appcachelinker" class="org.geogebra.web.linker.AppCacheLinker" />
+  <add-linker name="appcachelinker" />
+
+  <source path='linker'/>
+</module>

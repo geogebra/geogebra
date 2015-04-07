@@ -1,19 +1,17 @@
 package geogebra.commands;
 
-import geogebra.CommandLineArguments;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
-import geogebra.main.AppD;
-import geogebra3D.App3D;
-
 import java.util.Locale;
 
 import javax.swing.JFrame;
 
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
+import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.geogebra3D.App3D;
+import org.geogebra.desktop.main.AppD;
 import org.junit.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

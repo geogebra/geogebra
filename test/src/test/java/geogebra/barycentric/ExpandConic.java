@@ -1,13 +1,13 @@
 package geogebra.barycentric;
 
-import geogebra.CommandLineArguments;
-import geogebra.main.AppD;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.TreeSet;
 
 import javax.swing.JFrame;
+
+import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.main.AppD;
 /**
  * This class parses the Mathematica data for cubics by Bernard Gibert an helps generate the Java code
  * @author Bernard Gibert

@@ -1,0 +1,2861 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
+
+package org.geogebra.common.kernel.geos;
+
+import java.util.ArrayList;
+
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.javax.swing.AbstractJComboBox;
+import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.PathMover;
+import org.geogebra.common.kernel.PathMoverGeneric;
+import org.geogebra.common.kernel.PathNormalizer;
+import org.geogebra.common.kernel.PathOrPoint;
+import org.geogebra.common.kernel.PathParameter;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
+import org.geogebra.common.kernel.algos.AlgoConicPartConicPoints;
+import org.geogebra.common.kernel.algos.AlgoDependentList;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoMacroInterface;
+import org.geogebra.common.kernel.algos.AlgoSemicircle;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.ListValue;
+import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
+import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
+
+/**
+ * List of GeoElements
+ */
+public class GeoList extends GeoElement implements ListValue,
+PointProperties, TextProperties, Traceable, Path, Transformable,
+SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
+AngleProperties {
+
+	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
+
+	private boolean trace;
+
+	private final static String STR_OPEN = "{";
+	private final static String STR_CLOSE = "}";
+
+	// GeoElement list members
+	private final ArrayList<GeoElement> geoList;
+
+	// lists will often grow and shrink dynamically,
+	// so we keep a cacheList of all old list elements
+	private final ArrayList<GeoElement> cacheList;
+
+	private boolean isDefined = true;
+	private boolean isDrawable = true;
+	private boolean drawAsComboBox = false;
+	private GeoClass elementType = ELEMENT_TYPE_MIXED;
+
+	/**
+	 * Whether this lists show all properties in the properties dialog. This is
+	 * just recommended for the default GeoList in order to show all possible
+	 * properties in the default configuration dialog.
+	 */
+	private boolean showAllProperties = false;
+
+	private ArrayList<GeoElement> colorFunctionListener; // Michael Borcherds
+	// 2008-04-02
+
+	/**
+	 * Creates new GeoList, size defaults to 20
+	 * @param c construction
+	 */
+	public GeoList(final Construction c) {
+		this(c, 20);
+	}
+
+	private GeoList(final Construction c, final int size) {
+		super(c);
+
+		// moved from GeoElement's constructor
+		// must be called from the subclass, see
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		setConstructionDefaults(); // init visual settings
+
+		geoList = new ArrayList<GeoElement>(size);
+		cacheList = new ArrayList<GeoElement>(size);
+		setEuclidianVisible(false);
+	}
+
+	@Override
+	public void setParentAlgorithm(final AlgoElement algo) {
+		super.setParentAlgorithm(algo);
+		setEuclidianVisible(true);
+	}
+	/**
+	 * Copy constructor
+	 * @param list list to copy
+	 */
+	public GeoList(final GeoList list) {
+		this(list.cons, list.size());
+		set(list);
+	}
+
+	@Override
+	public GeoClass getGeoClassType() {
+		return GeoClass.LIST;
+	}
+
+	/**
+	 * Returns the element type of this list.
+	 * 
+	 * @return ELEMENT_TYPE_MIXED == GeoClass.DEFAULT or GeoClass.NUMERIC, GeoClass.POINT etc constant
+	 */
+	public GeoClass getElementType() {
+		return elementType;
+	}
+
+	@Override
+	public GeoList copy() {
+		return new GeoList(this);
+	}
+
+	@Override
+	public GeoList deepCopyGeo() {
+		GeoList ret = new GeoList(cons);
+		
+		for (int i = 0 ; i < geoList.size() ; i++) {
+			ret.add(geoList.get(i).deepCopyGeo());
+		}
+		
+		return ret;
+	}
+
+	@Override
+	public void set(final GeoElement geo) {
+
+		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
+			// 1 -> first element
+			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble(), true);
+			isDefined = true;
+
+			return;
+		}
+		final GeoList l = (GeoList) geo;
+
+		if ((l.cons != cons) && isAlgoMacroOutput()) {
+			// MACRO CASE
+			// this object is an output object of AlgoMacro
+			// we need to check the references to all geos in the list
+			final AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
+			algoMacro.initList(l, this);
+		} else {
+			// STANDARD CASE
+			// copy geoList
+			copyListElements(l);
+		}
+
+		isDefined = l.isDefined;
+		elementType = l.elementType;
+	}
+
+	/**
+	 * Set if the list should show all properties in the properties dialog. This
+	 * is just recommended for the default list.
+	 * 
+	 * @param showAllProperties true to show all properties
+	 */
+	public void setShowAllProperties(final boolean showAllProperties) {
+		this.showAllProperties = showAllProperties;
+	}
+
+	private void copyListElements(final GeoList otherList) {
+		final int otherListSize = otherList.size();
+		ensureCapacity(otherListSize);
+		geoList.clear();
+
+		for (int i = 0; i < otherListSize; i++) {
+			final GeoElement otherElement = otherList.get(i);
+			GeoElement thisElement = null;
+
+			// try to reuse cached GeoElement
+			if (i < cacheList.size()) {
+				final GeoElement cachedGeo = cacheList.get(i);
+				if (!cachedGeo.isLabelSet()
+						&& (cachedGeo.getGeoClassType() == otherElement
+						.getGeoClassType())) {
+					// cached geo is unlabeled and has needed object type: use
+					// it
+					cachedGeo.set(otherElement);
+					thisElement = cachedGeo;
+				}
+			}
+
+			// could not use cached element -> get copy element
+			if (thisElement == null) {
+				thisElement = getCopyForList(otherElement);
+			}
+
+			// set list element
+			add(thisElement);
+		}
+	}
+
+	private GeoElement getCopyForList(final GeoElement geo) {
+		if (geo.isLabelSet()) {
+			// take original element
+			return geo;
+		}
+		// create a copy of geo
+		final GeoElement ret = geo.copyInternal(cons);
+		ret.setParentAlgorithm(getParentAlgorithm());
+		return ret;
+	}
+
+	private void applyVisualStyle(final GeoElement geo) {
+
+		if (!geo.isLabelSet()) {
+			geo.setObjColor(getObjectColor());
+
+			geo.setColorSpace(getColorSpace());
+
+			// copy color function
+			if (getColorFunction() != null) {
+				geo.setColorFunction(getColorFunction());
+			} else {
+				geo.removeColorFunction();
+			}
+
+			geo.setLineThickness(getLineThickness());
+			geo.setLineType(getLineType());
+
+			if (geo instanceof PointProperties) {
+				((PointProperties) geo).setPointSize(getPointSize());
+				((PointProperties) geo).setPointStyle(getPointStyle());
+			}
+
+			if (geo instanceof TextProperties) {
+				((TextProperties) geo).setFontSizeMultiplier(getFontSizeMultiplier());
+				((TextProperties) geo).setFontStyle(getFontStyle());
+				((TextProperties) geo).setSerifFont(isSerifFont());
+				if (useSignificantFigures) {
+					((TextProperties) geo).setPrintFigures(getPrintFigures(),
+							false);
+				} else {
+					((TextProperties) geo).setPrintDecimals(getPrintDecimals(),
+							false);
+				}
+
+			}
+
+			geo.setFillType(fillType);
+			geo.setHatchingAngle(hatchingAngle);
+			geo.setHatchingDistance(hatchingDistance);
+			if(!geo.getGeoElementForPropertiesDialog().isGeoImage())
+				geo.setImageFileName(getGraphicsAdapter().getImageFileName());
+			geo.setAlphaValue(getAlphaValue());
+
+			geo.setLayer(getLayer());
+
+			// copy ShowObjectCondition, unless it generates a
+			// CirclularDefinitionException
+			try {
+				geo.setShowObjectCondition(getShowObjectCondition());
+			} catch (final Exception e) {
+				//Circular definition -- do nothing
+			}
+
+			setElementEuclidianVisible(geo, isSetEuclidianVisible());
+		}
+	}
+
+	@Override
+	public final void removeColorFunction() {
+		super.removeColorFunction();
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.removeColorFunction();
+			}
+		}
+	}
+
+	@Override
+	public final void setColorFunction(final GeoList col) {
+		super.setColorFunction(col);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setColorFunction(col);
+			}
+		}
+
+	}
+
+	@Override
+	public final void setColorSpace(final int colorSpace) {
+		super.setColorSpace(colorSpace);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setColorSpace(colorSpace);
+			}
+		}
+
+	}
+
+	/*
+	 * we DON'T want to do this, as objects without label set eg the point in
+	 * this {(1,1)} are drawn by the list public final void setLayer(int layer)
+	 * { super.setLayer(layer);
+	 * 
+	 * if (geoList == null || geoList.size() == 0) return;
+	 * 
+	 * int size = geoList.size(); for (int i=0; i < size; i++) { GeoElement geo
+	 * = (GeoElement)geoList.get(i); if (!geo.isLabelSet()) geo.setLayer(layer);
+	 * }
+	 * 
+	 * }
+	 */
+
+	@Override
+	public final void setShowObjectCondition(final GeoBoolean bool)
+			throws CircularDefinitionException {
+		super.setShowObjectCondition(bool);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setShowObjectCondition(bool);
+			}
+		}
+
+	}
+
+	@Override
+	public void setVisualStyle(final GeoElement style) {
+		super.setVisualStyle(style);
+
+		// set point style
+		if (style instanceof PointProperties) {
+			setPointSize(((PointProperties) style).getPointSize());
+			setPointStyle(((PointProperties) style).getPointStyle());
+		}
+
+		// set visual style
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setVisualStyle(style);
+			}
+		}
+	}
+
+	@Override
+	public void setObjColor(final GColor color) {
+		super.setObjColor(color);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = get(i);
+			if (!geo.isLabelSet()) {
+				geo.setObjColor(color);
+			}
+		}
+	}
+
+	@Override
+	public void setBackgroundColor(final GColor color) {
+		super.setBackgroundColor(color);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = get(i);
+			if (!geo.isLabelSet()) {
+				geo.setBackgroundColor(color);
+			}
+		}
+	}
+
+	@Override
+	public void setEuclidianVisible(final boolean visible) {
+		super.setEuclidianVisible(visible);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = get(i);
+			setElementEuclidianVisible(geo, visible);
+		}
+	}
+
+	private static void setElementEuclidianVisible(final GeoElement geo,
+			final boolean visible) {
+		if (!geo.isLabelSet() && !geo.isGeoNumeric()) {
+			geo.setEuclidianVisible(visible);
+		}
+	}
+
+	@Override
+	public void setVisibility(int viewId, boolean setVisible) {
+		super.setVisibility(viewId, setVisible);
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = get(i);
+			if (!geo.isLabelSet()) {
+				geo.setVisibility(viewId, setVisible);
+			}
+		}
+	}
+
+	/**
+	 * Returns this GeoList as a MyList object.
+	 */
+	public MyList getMyList() {
+		final int size = geoList.size();
+		final MyList myList = new MyList(kernel, size);
+
+		for (int i = 0; i < size; i++) {
+			myList.addListElement(new ExpressionNode(kernel, geoList.get(i)));
+		}
+
+		return myList;
+	}
+
+	@Override
+	final public boolean isDefined() {
+		return isDefined;
+	}
+
+	/**
+	 * @param flag true to make this list defined
+	 */
+	public void setDefined(final boolean flag) {
+
+		isDefined = flag;
+
+		if (!isDefined) {
+			
+			final int size = geoList.size();
+			for (int i = 0; i < size; i++) {
+				final GeoElement geo = geoList.get(i);
+				if (!geo.isLabelSet()) {
+					geo.setUndefined();
+				}
+			}
+			
+			//set also cached geos to undefined (for lists of lists)
+			for (int i = size; i < cacheList.size(); i++) {
+				final GeoElement geo = cacheList.get(i);
+				if (!geo.isLabelSet()) {
+					geo.setUndefined();
+				}
+			}
+		
+		}
+	}
+
+	@Override
+	public void setUndefined() {
+		setDefined(false);
+	}
+
+	@Override
+	protected boolean showInEuclidianView() {
+		return isDefined() && isDrawable();
+	}
+
+	@Override
+	public boolean isDrawable() {
+		return isDrawable || drawAsComboBox();
+	}
+
+	@Override
+	public boolean showInAlgebraView() {
+		return true;
+	}
+
+	/**
+	 * Clear the list
+	 */
+	public final void clear() {
+		geoList.clear();
+
+		comboBox = null;
+		comboBox2 = null;
+	}
+
+	/**
+	 * free up memory and set undefined
+	 */
+	public final void clearCache() {
+		if (cacheList.size() > 0) {
+			for (int i = 0; i < cacheList.size(); i++) {
+				final GeoElement geo = cacheList.get(i);
+				if ((geo != null) && !geo.isLabelSet()) {
+					geo.remove();
+				}
+			}
+		}
+		cacheList.clear();
+		clear();
+		setUndefined();
+	}
+	/**
+	 * Adds a geo to this list
+	 * @param geo geo to be added
+	 */
+	public final void add(final GeoElement geo) {
+		// add geo to end of list
+		geoList.add(geo);
+		
+		if (geoList.size() == 1) {
+			setTypeStringForXML(geo.getXMLtypeString());
+		}
+
+		/*
+		 * // needed for Corner[Element[text // together with swapping these
+		 * lines over in MyXMLio: //kernel.updateConstruction();
+		 * //kernel.setNotifyViewsActive(oldVal);
+		 * 
+		 * if (geo.isGeoText()) {
+		 * ((GeoText)geo).setNeedsUpdatedBoundingBox(true); }
+		 */
+
+		// add to cache
+		final int pos = geoList.size() - 1;
+		if (pos < cacheList.size()) {
+			cacheList.set(pos, geo);
+		} else {
+			cacheList.add(geo);
+		}
+
+		// init element type
+		if (pos == 0) {
+			isDrawable = true;
+			elementType = geo.getGeoClassType();
+		}
+		// check element type
+		else if (elementType != geo.getGeoClassType()) {
+			elementType = ELEMENT_TYPE_MIXED;
+		}
+		isDrawable = isDrawable && geo.isDrawable() && !geo.isGeoBoolean()
+				&& !(geo instanceof GeoNumeric && ((GeoNumeric)geo).isSlider());
+
+		// set visual style of this list
+		applyVisualStyle(geo);
+		if (!geo.isLabelSet()) {
+			geo.setViewFlags(getViewSet());
+			geo.setVisibleInView3D(this);
+		}		
+		rebuildComboBoxes();
+
+
+	}
+
+	/**
+	 * Removes geo from this list. Note: geo is not removed from the
+	 * construction.
+	 * 
+	 * @param geo
+	 *            element to be removed
+	 */
+	public final void remove(final GeoElement geo) {
+		geoList.remove(geo);
+		
+		rebuildComboBoxes();
+	}
+
+	/**
+	 * Removes the first geo from the beginning of this list,
+	 * and adds a new geo to its end (useful for indefinite appending)
+	 * 
+	 * @param geo element to be added
+	 */
+	public final void addQueue(final GeoElement geo) {
+		GeoElement first = get(0);
+		remove(first);
+		first.remove();
+		add(geo);
+	}
+
+	/**
+	 * Removes i-th element from this list. Note: this element is not removed
+	 * from the construction.
+	 * 
+	 * @param index
+	 *            position of element to be removed
+	 */
+	public final void remove(final int index) {
+		geoList.remove(index);
+
+		rebuildComboBoxes();
+
+	}
+
+	/**
+	 * Returns the element at the specified position in this list.
+	 * 
+	 * @param index
+	 *            element position
+	 * @return the element at the specified position in this list.
+	 */
+	final public GeoElement get(final int index) {
+		return geoList.get(index);
+	}
+
+	/**
+	 * Returns the element at the specified position in this (2D) list.
+	 * 
+	 * @param index
+	 *            element position -- row
+	 * @param index2
+	 *            element position -- column
+	 * @return the element at the specified position in this (2D) list.
+	 */
+	final public GeoElement get(final int index, final int index2) {
+		return ((GeoList) geoList.get(index)).get(index2);
+	}
+
+	/**
+	 * Tries to return this list as an array of double values
+	 * 
+	 * @return array of double values from this list
+	 */
+	public double[] toDouble() {
+		try {
+			final double[] valueArray = new double[geoList.size()];
+			for (int i = 0; i < valueArray.length; i++) {
+				valueArray[i] = ((NumberValue) geoList.get(i)).getDouble();
+			}
+			return valueArray;
+		} catch (final Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Increases capcity of this list if necessary
+	 * @param size capcity to ensure
+	 */
+	final public void ensureCapacity(final int size) {
+		geoList.ensureCapacity(size);
+		cacheList.ensureCapacity(size);
+	}
+
+	final public int size() {
+		return geoList.size();
+	}
+	/**
+	 * @return number of elements in this list's cache
+	 */
+	final public int getCacheSize() {
+		return cacheList.size();
+	}
+
+	/**
+	 * Returns the cached element at the specified position in this list's
+	 * cache.
+	 * 
+	 * @param index
+	 *            element position
+	 * @return cached alement at given position
+	 */
+	final public GeoElement getCached(final int index) {
+		return cacheList.get(index);
+	}
+
+	@Override
+	public String toString(StringTemplate tpl) {
+		StringBuilder sbToString = new StringBuilder(50);
+		sbToString.setLength(0);
+		sbToString.append(label);
+		sbToString.append(" = ");
+		sbToString.append(buildValueString(tpl).toString());
+		return sbToString.toString();
+	}
+
+	@Override
+	public String toStringMinimal(StringTemplate tpl) {
+		sbBuildValueString.setLength(0);
+		if (!isDefined) {
+			sbBuildValueString.append("?");
+			return sbBuildValueString.toString();
+		}
+
+		// first (n-1) elements
+		final int lastIndex = geoList.size() - 1;
+		if (lastIndex > -1) {
+			for (int i = 0; i < lastIndex; i++) {
+				final GeoElement geo = geoList.get(i);
+
+				sbBuildValueString
+				.append(geo.getAlgebraDescriptionRegrOut(tpl));
+				sbBuildValueString.append(" ");
+			}
+
+			// last element
+			final GeoElement geo = geoList.get(lastIndex);
+			sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut(tpl));
+		}
+
+		return sbBuildValueString.toString();
+	}
+
+
+
+	@Override
+	public String toValueString(StringTemplate tpl) {
+		return buildValueString(tpl).toString();
+	}
+
+	private StringBuilder buildValueString(StringTemplate tpl) {
+		sbBuildValueString.setLength(0);
+		if (!isDefined) {
+			sbBuildValueString.append("?");
+			return sbBuildValueString;
+		}
+
+		if (tpl.getStringType().equals(StringType.LATEX)) {
+			sbBuildValueString.append("\\left\\");
+		}
+		sbBuildValueString.append(STR_OPEN);
+
+		// first (n-1) elements
+		final int lastIndex = geoList.size() - 1;
+		if (lastIndex > -1) {
+			for (int i = 0; i < lastIndex; i++) {
+				final GeoElement geo = geoList.get(i);
+				sbBuildValueString.append(geo.toOutputValueString(tpl));
+				sbBuildValueString.append(getLoc().unicodeComma);
+				sbBuildValueString.append(" ");
+			}
+
+			// last element
+			final GeoElement geo = geoList.get(lastIndex);
+			sbBuildValueString.append(geo.toOutputValueString(tpl));
+		}
+		
+		if (tpl.getStringType().equals(StringType.LATEX)) {
+			sbBuildValueString.append("\\right\\");
+		}
+		sbBuildValueString.append(STR_CLOSE);
+
+		return sbBuildValueString;
+	}
+
+	private final StringBuilder sbBuildValueString = new StringBuilder(50);
+
+	@Override
+	public boolean isGeoList() {
+		return true;
+	}
+
+	@Override
+	public boolean evaluatesToList() {
+		return true;
+	}
+
+	/**
+	 * save object in XML format
+	 */
+	@Override
+	public final void getXML(boolean getListenersToo, final StringBuilder sb) {
+
+		// an independent list needs to add
+		// its expression itself
+		// e.g. {1,2,3}
+		if (isIndependent() && (getDefaultGeoType() < 0)) {
+			sb.append("<expression");
+			sb.append(" label =\"");
+			StringUtil.encodeXML(sb, label);
+			sb.append("\" exp=\"");
+			StringUtil
+					.encodeXML(sb, toValueString(StringTemplate.xmlTemplate));
+			sb.append("\"/>\n");
+		}
+
+		sb.append("<element");
+		sb.append(" type=\"list\"");
+		sb.append(" label=\"");
+		sb.append(label);
+		if (getDefaultGeoType() >= 0) {
+			sb.append("\" default=\"");
+			sb.append(getDefaultGeoType());
+		}
+		sb.append("\">\n");
+		getXMLtags(sb);
+		
+		if (size() == 0 && getTypeStringForXML() != null) {
+			sb.append("<listType val=\"");
+			sb.append(getTypeStringForXML());
+			sb.append("\"/>\n");
+		}
+
+		if (selectedIndex != 0) {
+			sb.append("\t<selectedIndex val=\"");
+			sb.append(selectedIndex);
+			sb.append("\"/>\n");
+		}
+
+		if (drawAsComboBox == true) {
+			sb.append("\t<comboBox val=\"true\"/>\n");			
+		}
+
+		// point style
+		sb.append("\t<pointSize val=\"");
+		sb.append(pointSize);
+		sb.append("\"/>\n");
+
+		sb.append("\t<pointStyle val=\"");
+		sb.append(pointStyle);
+		sb.append("\"/>\n");
+
+		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, kernel.getApplication());
+
+		// print decimals
+		if ((printDecimals >= 0) && !useSignificantFigures) {
+			sb.append("\t<decimals val=\"");
+			sb.append(printDecimals);
+			sb.append("\"/>\n");
+		}
+
+		// print significant figures
+		if ((printFigures >= 0) && useSignificantFigures) {
+			sb.append("\t<significantfigures val=\"");
+			sb.append(printFigures);
+			sb.append("\"/>\n");
+		}
+				
+		// AngleProperties
+		if (angleStyle != AngleStyle.ANTICLOCKWISE) {
+			sb.append("\t<allowReflexAngle val=\"");
+			sb.append(angleStyle != AngleStyle.NOTREFLEX);
+			sb.append("\"/>\n");
+		}
+		if (angleStyle == AngleStyle.ISREFLEX) {
+			sb.append("\t<forceReflexAngle val=\"");
+			sb.append(true);
+			sb.append("\"/>\n");
+		}
+
+		if (!emphasizeRightAngle) { 		
+			// only store emphasizeRightAngle if "false"
+			sb.append("\t<emphasizeRightAngle val=\"");
+			sb.append(emphasizeRightAngle);
+			sb.append("\"/>\n");		
+		}
+		// AngleProperties end
+
+
+		// for ComboBoxes (and comments)
+		getCaptionXML(sb);
+		if (getListenersToo) getListenerTagsXML(sb);
+
+		sb.append("</element>\n");
+
+	}
+	
+	// needed for eg x(Element[list1,1]) when list1 is saved as an empty list
+	// The Element command needs to know in advance what type of geo the list will hold
+	private String typeStringForXML = null;
+
+	/**
+	 * needed for eg x(Element[list1,1]) when list1 is saved as an empty list
+	 * The Element/Cell/Object command needs to know in advance what type of geo the list will hold
+	 * 
+	 * @return type, eg "point"
+	 */
+	public String getTypeStringForXML() {
+		return typeStringForXML;
+	}
+
+	/**
+	 * needed for eg x(Element[list1,1]) when list1 is saved as an empty list
+	 * The Element/Cell/Object command needs to know in advance what type of geo the list will hold
+	 *
+	 * @param type eg "point"
+	 */
+	public void setTypeStringForXML(String type) {
+		typeStringForXML = type;
+	}
+
+	/**
+	 * Registers geo as a listener for updates of this boolean object. If this
+	 * object is updated it calls geo.updateConditions()
+	 * 
+	 * @param geo element which should use this list as dynamic color
+	 */
+	public void registerColorFunctionListener(final GeoElement geo) {
+		if (colorFunctionListener == null) {
+			colorFunctionListener = new ArrayList<GeoElement>();
+		}
+		colorFunctionListener.add(geo);
+	}
+	/**
+	 * Unregisters geo as a listener for updates of this boolean object.
+	 * 
+	 * @param geo element which uses this list as dynamic color
+	 */
+	public void unregisterColorFunctionListener(final GeoElement geo) {
+		if (colorFunctionListener != null) {
+			colorFunctionListener.remove(geo);
+		}
+	}
+
+	/**
+	 * Calls super.update() and update() for all registered condition listener
+	 * geos. // Michael Borcherds 2008-04-02
+	 */
+	@Override
+	public void update() {
+
+		super.update();
+
+		// update information on whether this path is fit for AlgoLocus
+		// or it can only support AlgoLocusList (call this method here again
+		// because the GeoList might change - code will run only if locus used it)
+		shouldUseAlgoLocusList(false);
+
+		// update all registered locatables (they have this point as start
+		// point)
+		if (colorFunctionListener != null) {
+			//AbstractApplication.debug("GeoList update listeners");
+			for (int i = 0; i < colorFunctionListener.size(); i++) {
+				final GeoElement geo = colorFunctionListener.get(i);
+				// kernel.notifyUpdate(geo);
+				// geo.toGeoElement().updateCascade();
+				geo.updateVisualStyle();
+				//AbstractApplication.debug(geo);
+			}
+			// kernel.notifyRepaint();
+		}
+	}
+
+	/**
+	 * Tells conidition listeners that their condition is removed and calls
+	 * super.remove() // Michael Borcherds 2008-04-02
+	 */
+	@Override
+	public void doRemove() {
+
+		if (colorFunctionListener != null) {
+			// copy conditionListeners into array
+			final Object[] geos = colorFunctionListener.toArray();
+			colorFunctionListener.clear();
+
+			// tell all condition listeners
+			for (int i = 0; i < geos.length; i++) {
+				final GeoElement geo = (GeoElement) geos[i];
+				geo.removeColorFunction();
+				kernel.notifyUpdate(geo);
+			}
+		}
+
+		super.doRemove();
+	}
+
+	/**
+	 * return whether this list equals GeoList list Michael Borcherds 2008-04-12
+	 */
+	@Override
+	final public boolean isEqual(final GeoElement geo) {
+
+		if (!geo.isGeoList()) {
+			return false;
+		}
+
+		final GeoList list = (GeoList) geo;
+
+		// check sizes
+		if (geoList.size() != list.size()) {
+			return false;
+		}
+
+		// check each element
+		for (int i = 0; i < list.geoList.size(); i++) {
+			final GeoElement geoA = geoList.get(i);
+			final GeoElement geoB = list.get(i);
+
+			if (!geoA.isEqual(geoB)) {
+				return false;
+				/*
+				 * if (geoA.isGeoNumeric() && geoB.isGeoNumeric()) { if
+				 * (!((GeoNumeric)geoA).equals((GeoNumeric)geoB)) return false;
+				 * } else if (geoA.isGeoConicPart() && geoB.isGeoConicPart()) {
+				 * if (!((GeoConicPart)geoA).equals((GeoConicPart)geoB)) return
+				 * false; } else if (geoA.isGeoConic() && geoB.isGeoConic()) {
+				 * if (!((GeoConic)geoA).equals((GeoConic)geoB)) return false; }
+				 * else if (geoA.isGeoAngle() && geoB.isGeoAngle()) { if
+				 * (!((GeoAngle)geoA).equals((GeoAngle)geoB)) return false; }
+				 * else if (geoA.isGeoPoint() && geoB.isGeoPoint()) { if
+				 * (!((GeoPoint)geoA).equals((GeoPoint)geoB)) return false; }
+				 * else if (geoA.isGeoPolygon() && geoB.isGeoPolygon()) { if
+				 * (!((GeoPolygon)geoA).equals((GeoPolygon)geoB)) return false;
+				 * } else if (geoA.isGeoSegment() && geoB.isGeoSegment()) { if
+				 * (!((GeoSegment)geoA).equals((GeoSegment)geoB)) return false;
+				 * } else if (geoA.isGeoList() && geoB.isGeoList()) { if
+				 * (!((GeoList)geoA).equals((GeoList)geoB)) return false; } else
+				 * if (!geoA.equals(geoB)) return false;
+				 */
+			}
+		}
+
+		// all list elements equal
+		return true;
+	}
+
+	@Override
+	public void setZero() {
+		geoList.clear();
+	}
+
+	@Override
+	public void setLineThickness(final int thickness) {
+
+		super.setLineThickness(thickness);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setLineThickness(thickness);
+			}
+		}
+
+		// Application.debug("GeoList.setLineThickness "+thickness);
+	}
+
+	/**
+	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
+	 *         etc)
+	 */
+	@Override
+	public int getMinimumLineThickness() {
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return 1;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				if (geo.getMinimumLineThickness() == 1) {
+					return 1;
+				}
+			}
+		}
+
+		return 0;
+	}
+
+	@Override
+	public void setLineType(final int type) {
+
+		super.setLineType(type);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setLineType(type);
+			}
+		}
+
+		// Application.debug("GeoList.setLineType");
+
+	}
+
+	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+	private int pointStyle = -1; // use global option if -1
+
+	public void setPointSize(final int size) {
+		pointSize = size;
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet() && (geo instanceof PointProperties)) {
+				((PointProperties) geo).setPointSize(size);
+			}
+		}
+	}
+
+	public int getPointSize() {
+		return pointSize;
+	}
+
+	public void setPointStyle(final int style) {
+		pointStyle = style;
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet() && (geo instanceof PointProperties)) {
+				((PointProperties) geo).setPointStyle(style);
+			}
+		}
+	}
+
+	@Override
+	public float getAlphaValue() {
+		if (super.getAlphaValue() == -1) {
+			// no alphaValue set
+			// so we need to set it to that of the first element, if there is
+			// one
+			if ((geoList != null) && (geoList.size() > 0)) {
+
+				// get alpha value of first element
+				final float alpha = geoList.get(0).getAlphaValue();
+
+				// Application.debug("setting list alpha to "+alpha);
+
+				super.setAlphaValue(alpha);
+
+				// set all the other elements in the list
+				// if appropriate
+				if (geoList.size() > 1) {
+					for (int i = 1; i < geoList.size(); i++) {
+						final GeoElement geo = geoList.get(i);
+						if (!geo.isLabelSet()) {
+							geo.setAlphaValue(alpha);
+						}
+					}
+
+				}
+			} else {
+				return -1.0f;
+			}
+		}
+
+		return super.getAlphaValue();
+	}
+
+	@Override
+	public void setAlphaValue(final float alpha) {
+
+		if (alpha == -1) {
+			// wait until we have a GeoElement in the list to use
+			// see getAlphaValue()
+			alphaValue = -1;
+			return;
+		}
+
+		super.setAlphaValue(alpha);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setAlphaValue(alpha);
+			}
+		}
+
+	}
+
+	public int getPointStyle() {
+		return pointStyle;
+	}
+
+	@Override
+	public boolean isFillable() {
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return false;
+		}
+
+		boolean someFillable = false;
+		boolean allLabelsSet = true;
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (geo.isFillable()) {
+				someFillable = true;
+			}
+			if (!geo.isLabelSet()) {
+				allLabelsSet = false;
+			}
+		}
+
+		return someFillable && !allLabelsSet;
+	}
+
+	@Override
+	public GeoElement getGeoElementForPropertiesDialog() {
+		if ((geoList.size() > 0) && (elementType != ELEMENT_TYPE_MIXED)) {
+			return get(0).getGeoElementForPropertiesDialog(); // getGeoElementForPropertiesDialog()
+			// to cope with
+			// lists of
+			// lists
+		}
+		return this;
+	}
+
+	/**
+	 * @return true iff this list is in the form { {1,2}, {3,4}, {5,6} } etc
+	 */
+	@Override
+	public boolean isMatrix() {
+
+		if (!getElementType().equals(GeoClass.LIST) || (size() == 0)) {
+			return false;
+		}
+
+		final GeoElement geo0 = get(0);
+		if (geo0.isGeoList()) {
+			final int length = ((GeoList) geo0).size();
+			if (length == 0) {
+				return false;
+			}
+			if (size() > 0) {
+				for (int i = 0; i < size(); i++) {
+					final GeoElement geoi = get(i);
+					// Application.debug(((GeoList)geoi).get(0).getGeoClassType()+"");
+					if (!get(i).isGeoList() || (((GeoList) geoi).size() == 0)
+							|| (((GeoList) geoi).size() != length)) {
+						return false;
+					}
+					for (int j = 0; j < ((GeoList) geoi).size(); j++) {
+						final GeoElement geoij = ((GeoList) geoi).get(j);
+						if (!geoij.getGeoClassType().equals(GeoClass.NUMERIC)
+								&& !geoij.getGeoClassType().equals(
+										GeoClass.FUNCTION)
+										&& !geoij.getGeoClassType().equals(
+												GeoClass.FUNCTION_NVAR)) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	// font options
+	private boolean serifFont = false;
+	private int fontStyle = GFont.PLAIN;
+	private double fontSizeD = 1; // size relative to default font size
+	private int printDecimals = -1;
+	private int printFigures = -1;
+	private boolean useSignificantFigures = false;
+
+	public double getFontSizeMultiplier() {
+		return fontSizeD;
+	}
+
+	public void setFontSizeMultiplier(final double size) {
+		fontSizeD = size;
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
+				((TextProperties) geo).setFontSizeMultiplier(size);
+			}
+		}
+	}
+
+	public int getFontStyle() {
+		return fontStyle;
+	}
+
+	public void setFontStyle(final int fontStyle) {
+		this.fontStyle = fontStyle;
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
+				((TextProperties) geo).setFontStyle(fontStyle);
+			}
+		}
+	}
+
+	final public int getPrintDecimals() {
+		return printDecimals;
+	}
+
+	final public int getPrintFigures() {
+		return printFigures;
+	}
+
+	public void setPrintDecimals(final int printDecimals, final boolean update) {
+		this.printDecimals = printDecimals;
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
+				((TextProperties) geo).setPrintDecimals(printDecimals, update);
+			}
+		}
+	}
+
+	public void setPrintFigures(final int printFigures, final boolean update) {
+		this.printFigures = printFigures;
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
+				((TextProperties) geo).setPrintFigures(printFigures, update);
+			}
+		}
+	}
+
+	public boolean useSignificantFigures() {
+		return useSignificantFigures;
+
+	}
+
+	public boolean isSerifFont() {
+		return serifFont;
+	}
+
+	public void setSerifFont(final boolean serifFont) {
+		this.serifFont = serifFont;
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
+				((TextProperties) geo).setSerifFont(serifFont);
+			}
+		}
+	}
+
+	@Override
+	public void setHatchingAngle(final int angle) {
+		super.setHatchingAngle(angle);
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setHatchingAngle(angle);
+			}
+		}
+	}
+
+	@Override
+	public void setHatchingDistance(final int distance) {
+		super.setHatchingDistance(distance);
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setHatchingDistance(distance);
+			}
+		}
+	}
+
+	@Override
+	public void setFillType(final FillType type) {
+		super.setFillType(type);
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setFillType(type);
+			}
+		}
+	}
+
+	@Override
+	public void setFillImage(final String filename) {
+		super.setFillImage(filename);
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setFillImage(filename);
+			}
+		}
+	}
+
+	@Override
+	public void setImageFileName(final String filename) {
+		super.setImageFileName(filename);
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setImageFileName(filename);
+			}
+		}
+	}
+
+	/**
+	 * for a list like this: {Circle[B, A], (x(A), y(A)), "text"} we want to be
+	 * able to set the line properties
+	 * @return true if all elements have line properties
+	 */
+	@Override
+	public boolean showLineProperties() {
+		if (showAllProperties) {
+			return true;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (geo.showLineProperties() && !geo.isLabelSet()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * for a list like this: {Circle[B, A], (x(A), y(A)), "text"} we want to be
+	 * able to set the point properties
+	 * @return true if all elements have point properties
+	 */
+	public boolean showPointProperties() {
+		if (showAllProperties) {
+			return true;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof PointProperties) && !geo.isLabelSet()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
+
+		if (isMatrix()) {
+
+			// int rows = size();
+			final int cols = ((GeoList) get(0)).size();
+
+			final StringBuilder sb = new StringBuilder();
+
+			if (kernel.getApplication().isHTML5Applet()) {
+				sb.append("\\left(\\ggbtable{");
+				for (int i = 0; i < size(); i++) {
+					final GeoList geo = (GeoList) get(i);
+					sb.append("\\ggbtr{");
+					for (int j = 0; j < geo.size(); j++) {
+						sb.append("\\ggbtd{");
+						sb.append(geo.get(j).toLaTeXString(symbolic, tpl));
+						sb.append("}");
+					}
+					sb.append("}");
+				}
+				sb.append("}\\right)");
+				return sb.toString();
+			}
+
+			sb.append("\\left(\\begin{array}{");
+			// eg rr
+			for (int i = 0; i < cols; i++) {
+				sb.append('r');
+			}
+			sb.append("}");
+			for (int i = 0; i < size(); i++) {
+				final GeoList geo = (GeoList) get(i);
+				for (int j = 0; j < geo.size(); j++) {
+					sb.append(geo.get(j).toLaTeXString(symbolic, tpl));
+					if (j < (geo.size() - 1)) {
+						sb.append("&");
+					}
+				}
+				sb.append("\\\\");
+			}
+			sb.append(" \\end{array}\\right)");
+			return sb.toString();
+			// return "\\begin{array}{ll}1&2 \\\\ 3&4 \\\\ \\end{array}";
+		}
+
+		return super.toLaTeXString(symbolic, tpl);
+
+	}
+
+	@Override
+	protected void getXMLtags(final StringBuilder sb) {
+		super.getXMLtags(sb);
+
+		getLineStyleXML(sb);
+		getScriptTags(sb);
+
+	}
+
+	/*
+	 * for CmdSetLabelMode
+	 * 
+	 * removed: no point setting labelmode for objects with no labels and we
+	 * don't want to set labelmode for objects with labels... public void
+	 * setLabelMode(int mode) { super.setLabelMode(mode);
+	 * 
+	 * for (int i = 0; i < geoList.size(); i++) { GeoElement geo = (GeoElement)
+	 * geoList.get(i); if (!geo.isLabelSet()) geo.setLabelMode(mode); }
+	 * 
+	 * }
+	 */
+
+	// G.Sturr 2010-6-12
+	// Selection index for lists used in comboBoxes
+	private int selectedIndex = 0;
+
+	private int closestPointIndex;
+
+	private AbstractJComboBox comboBox, comboBox2;
+
+	/**
+	 * @return selected index
+	 */
+	public int getSelectedIndex() {
+
+		if (selectedIndex >= size()) {
+			selectedIndex = 0;
+		}
+
+		return selectedIndex;
+	}
+
+	/**
+	 * @param selectedIndex0 new selected index
+	 * @param update t
+	 */
+	public void setSelectedIndex(final int selectedIndex0, boolean update) {
+		selectedIndex = selectedIndex0;
+		
+		if (selectedIndex < 0 || selectedIndex > size() - 1) { 
+			selectedIndex = 0; 
+		}
+
+		if (update) {
+			updateCascade();
+			getKernel().notifyRepaint(); 
+			getKernel().storeUndoInfo();
+
+			if (comboBox != null) {
+				comboBox.setSelectedIndex(getSelectedIndex());
+			}
+			if (comboBox2 != null) {
+				comboBox2.setSelectedIndex(getSelectedIndex());
+			}
+
+		}
+
+
+	}
+
+	// END G.Sturr
+
+	/*
+	 * mathieu : for drawing 3D elements of the list
+	 */
+	@Override
+	public boolean hasDrawable3D() {
+		return true;
+	}
+
+	/**
+	 * when list is visible (as a combobox) this returns the element selected by
+	 * the user or null if there's a problem
+	 * @return selected element
+	 */
+	public GeoElement getSelectedElement() {
+		if ((selectedIndex > -1) && (selectedIndex < size())) {
+			return get(selectedIndex);
+		}
+		return null;
+	}
+
+	public void setTrace(final boolean trace) {
+		this.trace = trace;
+	}
+
+	public boolean getTrace() {
+		return trace;
+	}
+
+	@Override
+	public boolean isTraceable() {
+		return true;
+	}
+
+	@Override
+	public boolean isLimitedPath() {
+		return false;
+	}
+
+	@Override
+	public boolean isPath() {
+		return true;
+	}
+
+	/*
+	 * adapted from GeoLocus
+	 */
+	public void pointChanged(final GeoPointND P) {
+		// Application.debug("pointChanged",1);
+
+		// GeoPoint P = (GeoPoint) PI;
+
+		P.updateCoords();
+
+		// update closestPointIndex
+		getNearestPoint(P);
+		if(geoList.size()==0){
+			if(P.isDefined())
+				P.setUndefined();
+			return;
+		}
+		final GeoElement geo = get(closestPointIndex);
+		if (!(geo instanceof PathOrPoint)) {
+			App.debug("TODO: " + geo.getGeoClassType()
+					+ " should implement PathOrPoint interface");
+			return;
+		}
+		final PathOrPoint path = (PathOrPoint) get(closestPointIndex);
+		
+		int type = P.getPathParameter().getPathType();
+
+		path.pointChanged(P);
+
+		final PathParameter pp = P.getPathParameter();
+		
+		pp.setPathType(type);
+
+		// update path param
+		// 0-1 for first obj
+		// 1-2 for second
+		// etc
+		// Application.debug(pp.t+" "+path.getMinParameter()+" "+path.getMaxParameter());
+
+		int closestPointIndexBack = closestPointIndex;
+		if (directionInfoOrdering != null)
+			for (int i = 0; i < this.size(); i++) {
+				if (directionInfoOrdering[i] == closestPointIndex) {
+					closestPointIndexBack = i;
+					break;
+				}
+			}
+
+		if ((directionInfoArray == null) || directionInfoArray[closestPointIndex])
+			pp.t = closestPointIndexBack
+				+ PathNormalizer.toNormalizedPathParameter(pp.t,
+						path.getMinParameter(), path.getMaxParameter());
+		else
+			pp.t = closestPointIndexBack
+				+ 1 - PathNormalizer.toNormalizedPathParameter(pp.t,
+						path.getMinParameter(), path.getMaxParameter());
+
+		// Application.debug(pp.t);
+	}
+
+	/**
+	 * Nearest point to p
+	 * @param p point
+	 */
+	public void getNearestPoint(final GeoPointND p) {
+		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
+		double distance = Double.POSITIVE_INFINITY;
+		closestPointIndex = 0; // default - first object
+		
+		// double closestIndex = -1;
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (geo instanceof PathOrPoint){
+				final double d = p.distanceToPath((PathOrPoint) geo);
+
+				//App.debug(i+" "+d+" "+distance+" "+geo);
+				if (d < distance) {
+					distance = d;
+					closestPointIndex = i;
+				}
+			}
+		}
+
+		// Application.debug("closestPointIndex="+closestPointIndex);
+
+		// return get(closestPointIndex).getNearestPoint(p);
+	}
+
+	@Override
+	public double distance(final GeoPoint p) {
+		double distance = Double.POSITIVE_INFINITY;
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			final double d = geo.distance(p);
+			if (d < distance) {
+				distance = d;
+			}
+		}
+
+		return distance;
+	}
+	
+	@Override
+	public double distance(final GeoPointND p) {
+		double distance = Double.POSITIVE_INFINITY;
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			final double d = geo.distance(p);
+			if (d < distance) {
+				distance = d;
+			}
+		}
+
+		return distance;
+	}
+	
+	
+
+	public void pathChanged(final GeoPointND PI) {
+		if(size()==0){
+			PI.setUndefined();
+			return;
+		}
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters(PI)) {
+			pointChanged(PI);
+			return;
+		}
+
+		final PathParameter pp = PI.getPathParameter();
+
+		double t = pp.getT();
+		int n0 = (int) Math.floor(t);
+		int n = n0;
+
+		// check n is in a sensible range
+		if ((n >= size()) || (n < 0)) {
+			final double check = t - size();
+			// t = size() when at very end of path
+			// so check == 0 is OK, just need to set n = size() - 1
+			if (check != 0.0) {
+				App.debug("problem with path param "
+						+ PI.getLabel(StringTemplate.defaultTemplate));
+			}
+			n = (n < 0) ? 0 : size() - 1;
+		}
+
+		int n1 = n;
+
+		if (directionInfoOrdering != null)
+			n = directionInfoOrdering[n];
+		
+		GeoElement elementN = get(n);
+		
+		if (!(elementN instanceof PathOrPoint)) {
+			App.debug("not path or point");
+			return;
+		}
+
+		final PathOrPoint path = (PathOrPoint) elementN;
+
+		int pt = pp.getPathType();
+		if (path instanceof GeoQuadricND) {
+			pp.setPathType(((GeoQuadricND)path).getType());
+		}
+		
+		// check direction of the path, as it is not sure that the main list path
+		// has the same direction for minParameter and maxParameter as the subpathes
+		if ((directionInfoArray == null) || directionInfoArray[n]) {
+			pp.setT(PathNormalizer.toParentPathParameter(t - n1,
+				path.getMinParameter(), path.getMaxParameter()));
+		} else {
+			pp.setT(PathNormalizer.toParentPathParameter(n1 - t + 1,
+				path.getMinParameter(), path.getMaxParameter()));
+		}
+		
+		// Application.debug("pathChanged "+n);
+
+		path.pathChanged(PI);
+
+		t = pp.getT();
+		// Application.debug(PathNormalizer.toNormalizedPathParameter(t,
+		// path.getMinParameter(), path.getMaxParameter()));
+
+		if ((directionInfoArray == null) || directionInfoArray[n])
+			pp.setT(PathNormalizer.toNormalizedPathParameter(t,
+				path.getMinParameter(), path.getMaxParameter())
+				+ n1);
+		else
+			pp.setT(1-PathNormalizer.toNormalizedPathParameter(t,
+				path.getMinParameter(), path.getMaxParameter())
+				+ n1);
+
+		pp.setPathType(pt);
+	}
+
+	public boolean isOnPath(final GeoPointND PI, final double eps) {
+		// Application.debug("isOnPath",1);
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (((PathOrPoint) geo).isOnPath(PI, eps)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public double getMinParameter() {
+		return 0;
+	}
+
+	public double getMaxParameter() {
+		return geoList.size();
+	}
+
+	public boolean isClosedPath() {
+		return !shouldUseAlgoLocusList;
+	}
+
+	public PathMover createPathMover() {
+		return new PathMoverGeneric(this);
+	}
+
+	public boolean justFontSize() {
+		return false;
+	}
+
+	@Override
+	public boolean hasMoveableInputPoints(final EuclidianViewInterfaceSlim view) {
+		// we don't want e.g. DotPlots to be dragged
+		if (!((getParentAlgorithm() == null) || (getParentAlgorithm() instanceof AlgoDependentList))) {
+			return false;
+		}
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+
+			if (geo.isGeoPoint()) {
+				if (!geo.isMoveable()) {
+					return false;
+				}
+			} else {
+				// not point
+				if (!geo.hasMoveableInputPoints(view)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/*
+	 * allow lists like this to be dragged {Segment[A, B], Segment[B, C], (3.92,
+	 * 4)}
+	 */
+	@Override
+	public ArrayList<GeoPointND> getFreeInputPoints(
+			final EuclidianViewInterfaceSlim view) {
+		final ArrayList<GeoPointND> al = new ArrayList<GeoPointND>();
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+
+			if (geo.isGeoPoint()) {
+				final GeoPoint p = (GeoPoint) geo;
+				if (p.isMoveable() && !al.contains(p)) {
+					al.add(p);
+				}
+
+			} else {
+				final ArrayList<GeoPointND> al2 = geo.getFreeInputPoints(view);
+
+				if (al2 != null) {
+					for (int j = 0; j < al2.size(); j++) {
+						final GeoPointND p = al2.get(j);
+						// make sure duplicates aren't added
+						if (!al.contains(p)) {
+							al.add(p);
+						}
+					}
+				}
+			}
+		}
+		return al;
+
+	}
+
+	@Override
+	final public boolean isCasEvaluableObject() {
+		return true;
+	}
+
+	@Override
+	public String getCASString(StringTemplate tpl, final boolean symbolic) {
+
+		// isMatrix() is rather expensive, and we only need it
+		// if we're using Maxima, so test for that first
+		final StringType casPrinttype = tpl.getStringType();
+		if ((!casPrinttype.equals(StringType.GIAC)) || !isMatrix()) {
+			return super.getCASString(tpl, symbolic);
+		}
+
+		final StringBuilder sb = new StringBuilder();
+		if (casPrinttype.equals(StringType.GIAC)) {
+			sb.append("matrix(");
+			for (int i = 0; i < size(); i++) {
+				final GeoList geo = (GeoList) get(i);
+				sb.append('[');
+				for (int j = 0; j < geo.size(); j++) {
+					sb.append(geo.get(j).getCASString(tpl, symbolic));
+					if (j != (geo.size() - 1)) {
+						sb.append(',');
+					}
+				}
+				sb.append(']');
+				if (i != (size() - 1)) {
+					sb.append(',');
+				}
+			}
+			sb.append(')');
+		} else {
+			sb.append("mat(");
+			for (int i = 0; i < size(); i++) {
+				final GeoList geo = (GeoList) get(i);
+				sb.append("(");
+				for (int j = 0; j < geo.size(); j++) {
+					sb.append(geo.get(j).getCASString(tpl, symbolic));
+					if (j != (geo.size() - 1)) {
+						sb.append(',');
+					}
+				}
+				sb.append(')');
+				if (i != (size() - 1)) {
+					sb.append(',');
+				}
+			}
+			sb.append(')');
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Returns true if this list contains given geo
+	 * (check based on ==, not value equality)
+	 * @param geo geo to check
+	 * @return true if the list contains given geo
+	 */
+	public boolean listContains(final GeoElement geo) {
+		if (geoList == null) {
+			return true;
+		}
+		return geoList.contains(geo);
+	}
+
+	@Override
+	public boolean isLaTeXDrawableGeo() {
+		if(size()==0){
+			return false;
+		}
+		// check for matrix
+		if (getElementType().equals(GeoClass.LIST)) {
+			GeoClass geoClass =((GeoList)get(0)).getElementType();
+			return geoClass.equals(GeoClass.NUMERIC) || geoClass.equals(GeoClass.FUNCTION)
+					||geoClass.equals(GeoClass.NUMERIC);
+		}
+
+		// don't check getGeoElementForPropertiesDialog
+		// as we want matrices to use latex
+		if (getElementType().equals(GeoClass.NUMERIC)) {
+			return false;
+		}
+		boolean ret = true;
+		for (int i = 0 ; i < geoList.size() ; i++) {
+			GeoElement geo1 = geoList.get(i);
+			if (!geo1.isLaTeXDrawableGeo()){
+				return false;
+			}
+		}
+		return ret;
+	}
+
+	@Override
+	public void updateColumnHeadingsForTraceValues(){
+
+		resetSpreadsheetColumnHeadings();
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (geo instanceof SpreadsheetTraceable) {
+				final ArrayList<GeoText> geoHead = geo.getColumnHeadings();
+				for (int j = 0; j < geoHead.size(); j++) {
+					spreadsheetColumnHeadings.add(geoHead.get(j));
+				}
+			}
+		}
+		
+
+	}
+	
+	
+	private TraceModesEnum traceModes = null;
+
+	private boolean showOnAxis;
+	
+	
+	/**
+	 * @param geos list of geos
+	 * @return available trace to spreadsheet mode (values/copy) for the geos list
+	 */
+	final static public TraceModesEnum getTraceModes(ArrayList<GeoElement> geos){
+		
+		TraceModesEnum traceModes = null;
+		
+
+		for (GeoElement geo: geos){
+			
+			if (!geo.isSpreadsheetTraceable()){
+				traceModes = TraceModesEnum.NOT_TRACEABLE;
+				return traceModes;
+			}
+			
+			TraceModesEnum geoMode = geo.getTraceModes();
+			if (traceModes == null){
+				traceModes = geoMode;
+				if (geoMode==TraceModesEnum.NOT_TRACEABLE)
+					return traceModes;
+			}else{
+				switch(geoMode){
+				case NOT_TRACEABLE:
+					traceModes = TraceModesEnum.NOT_TRACEABLE;
+					return traceModes;
+				case ONE_VALUE_ONLY:
+				case SEVERAL_VALUES_ONLY:
+					if (traceModes == TraceModesEnum.ONLY_COPY){
+						traceModes = TraceModesEnum.NOT_TRACEABLE;
+						return traceModes;
+					}
+
+					traceModes = TraceModesEnum.SEVERAL_VALUES_ONLY;
+					break;
+					
+				case ONE_VALUE_OR_COPY:
+				case SEVERAL_VALUES_OR_COPY:
+					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY)
+						traceModes = TraceModesEnum.SEVERAL_VALUES_ONLY;
+					else if (traceModes == TraceModesEnum.ONE_VALUE_OR_COPY)
+						traceModes = TraceModesEnum.SEVERAL_VALUES_OR_COPY;
+					break;
+				
+				case ONLY_COPY:
+					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY 
+					|| traceModes == TraceModesEnum.SEVERAL_VALUES_ONLY){
+						traceModes = TraceModesEnum.NOT_TRACEABLE;
+						return traceModes;
+					}
+
+					traceModes = TraceModesEnum.ONLY_COPY;
+					break;
+					
+				}
+			}
+		}
+		
+		
+		return traceModes;
+		
+	}
+
+	@Override
+	public TraceModesEnum getTraceModes(){
+		
+		if (traceModes != null)
+			return traceModes;
+		
+		if(getParentAlgorithm()!=null && (getParentAlgorithm() instanceof AlgoDependentList)){
+			// list = {A, B} : traceModes is computed from A, B
+			traceModes = getTraceModes(geoList);
+		}else{
+			// e.g. Sequence[...] is only copied
+			traceModes = TraceModesEnum.ONLY_COPY;
+		}
+		
+		
+		
+		return traceModes;
+	}
+	
+	@Override
+	public boolean hasSpreadsheetTraceModeTraceable(){
+		return getTraceModes()!=TraceModesEnum.NOT_TRACEABLE;
+	}
+
+
+	@Override
+	public String getTraceDialogAsValues(){
+
+		StringBuilder sb = new StringBuilder();
+		
+		if(getParentAlgorithm()!=null && (getParentAlgorithm() instanceof AlgoDependentList)){
+			// list = {A, B} : names for A, B
+			boolean notFirst = false;
+			for (GeoElement geo: geoList){
+				if (notFirst)
+					sb.append(", ");
+				sb.append(geo.getTraceDialogAsValues());
+				notFirst = true;
+			}
+		}else{
+			// e.g. Sequence[...] : name of the list
+			sb.append(super.getTraceDialogAsValues());
+		}
+
+		return sb.toString();
+	}
+
+
+	/*
+	 * default for elements implementing NumberValue interface eg GeoSegment,
+	 * GeoPolygon
+	 */
+	@Override
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (geo instanceof SpreadsheetTraceable) {
+				((SpreadsheetTraceable) geo)
+						.addToSpreadsheetTraceList(spreadsheetTraceList);
+			}
+		}
+
+	}
+
+	/**
+	 * Performs all GeoScriptActions contained in this list
+	 * @return number of actions that were performed
+	 */
+	public int performScriptActions() {
+		int actions = 0;
+		for (int i = 0; i < size(); i++) {
+			if (get(i) instanceof GeoScriptAction) {
+				((GeoScriptAction) get(i)).perform();
+				actions++;
+			}
+			if (get(i) instanceof GeoList)
+				actions += ((GeoList) get(i)).performScriptActions();
+		}
+		return actions;
+	}
+
+	/**
+	 * Returns position of needle in this list or -1 when not found
+	 * @param needle geo to be found
+	 * @return position of needle in this list or -1 when not found
+	 */
+	public int find(GeoElement needle) {
+		return geoList.indexOf(needle);
+	}
+	/**
+	 * @return whether this list should be drawn as combobox
+	 */
+	public boolean drawAsComboBox() {
+		return drawAsComboBox;
+	}
+	/**
+	 * @param b whether this list should be drawn as combobox
+	 */
+	public void setDrawAsComboBox(boolean b) {
+		drawAsComboBox = b;
+	}
+	/**
+	 * 
+	 * @param viewID view ID (AbstractApplication.VIEW_EUCLIDIAN or AbstractApplication.VIEW_EUCLIDIAN2)
+	 * @return combobox for given view
+	 */
+	public AbstractJComboBox getComboBox(int viewID) {
+
+		if (comboBox == null) {
+			comboBox = buildComboBox(App.VIEW_EUCLIDIAN);
+		}
+
+		if (viewID != App.VIEW_EUCLIDIAN2) {
+			return comboBox;		
+		}
+
+		if (comboBox2 == null) {
+			comboBox2 = buildComboBox(App.VIEW_EUCLIDIAN2);
+		}
+
+		return comboBox2;
+
+	}
+
+	private AbstractJComboBox buildComboBox(AbstractJComboBox cb) {
+
+		//AbstractJComboBox cb = SwingFactory.prototype.newJComboBox();
+
+		cb.removeAllItems();
+
+		cb.setEditable(false);
+
+		if (size() > 0) {
+			for (int i = 0 ; i < size() ; i++) {
+				String item;
+				item = get(i).toValueString(StringTemplate.defaultTemplate);
+				cb.addItem(item);
+			}
+			cb.setSelectedIndex(getSelectedIndex());			
+		}
+
+
+		return cb;
+
+
+	}
+
+	private AbstractJComboBox buildComboBox(int view) {
+		return buildComboBox(kernel.getApplication().getSwingFactory().newJComboBox(kernel.getApplication(), view));
+	}
+	/**
+	 * Rebuilds combobox if some items changed
+	 * @param cb combo box
+	 */
+	public void rebuildComboxBoxIfNecessary(AbstractJComboBox cb) {
+
+		if (cb.getItemCount() != size()) {
+			// definitely needs rebuilding
+			buildComboBox(cb);
+			return;
+		}
+
+
+		if (size() > 0) {
+			for (int i = 0 ; i < size() ; i++) {
+				String item;
+				
+				item = get(i).toValueString(StringTemplate.defaultTemplate);
+
+				if (!cb.getItemAt(i).toString().equals(item)) {
+					// list changed, so rebuild
+					buildComboBox(cb);
+					return;
+				}
+			}
+		}
+
+	}
+
+	private void rebuildComboBoxes() {
+		if(comboBox==null)
+			return;
+		comboBox = buildComboBox(App.VIEW_EUCLIDIAN);
+		comboBox2 = buildComboBox(App.VIEW_EUCLIDIAN);
+
+	}
+
+	@Override
+	public boolean isAbsoluteScreenLocateable() {
+		return drawAsComboBox();
+	}
+
+	@Override
+	public boolean isMoveable() {
+		return drawAsComboBox();
+	}
+
+	public boolean isAbsoluteScreenLocActive() {		
+		return true;
+	}
+
+	public void setAbsoluteScreenLoc(int x, int y) {		
+
+		labelOffsetX = x;
+		labelOffsetY = y;		
+	}
+
+	public int getAbsoluteScreenLocX() {	
+		return labelOffsetX;
+	}
+
+	public int getAbsoluteScreenLocY() {		
+		return labelOffsetY;
+	}
+
+	public void setAbsoluteScreenLocActive(boolean flag) {
+		//do nothing
+	}
+
+	public void setRealWorldLoc(double x, double y) {
+		//do nothing
+	}
+
+	public double getRealWorldLocX() {
+		return 0;
+	}
+
+	public double getRealWorldLocY() {
+		return 0;
+	}
+
+	public boolean isFurniture() {
+		return drawAsComboBox();
+	}
+
+	public ExpressionValue getListElement(int i) {
+		return get(i);
+	}
+
+	/**
+	 * attempts to calculate mean of the list
+	 * if any non-numeric elements are found, Double.NAN will be returned
+	 * @return mean or Double.NAN
+	 */
+	public double mean() {
+		
+		if (size() == 0) {
+			return Double.NaN;
+		}
+		
+		double sum = 0;
+		for (int i = 0 ; i < size() ; i++) {
+			GeoElement geo = get(i);
+			if (geo instanceof NumberValue) {
+				sum += ((NumberValue)geo).getDouble();
+			} else {
+				return Double.NaN;
+			}
+		}
+		
+		return sum / size();
+		
+		
+	}
+
+	private boolean [] directionInfoArray = null; // true if minParameter is for start
+	private int [] directionInfoOrdering = null; // simple map to the ordered indexes
+	private boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not enough
+	private boolean locusCalledAlgoLocusList = false;// if a locus ever used this list as a path
+
+	/**
+	 * Before creating a locus based on this GeoList as a path,
+	 * this method decides whether the locus algo should be AlgoLocus or AlgoLocusList.
+	 * @param locusCalling whether this method was called by locus
+	 * 
+	 * @return boolean true if AlgoLocusList should be used.
+	 */
+	public boolean shouldUseAlgoLocusList(boolean locusCalling) {
+
+		GeoPoint [] minParArray = new GeoPoint[this.size()];
+		GeoPoint [] maxParArray = new GeoPoint[this.size()];
+		GeoPoint [] minParStatic = new GeoPoint[this.size()];
+		GeoPoint [] maxParStatic = new GeoPoint[this.size()];
+
+		// if there is no locus using this, the answer is not important
+		if (!locusCalledAlgoLocusList && !locusCalling) {
+			directionInfoArray = null;
+			directionInfoOrdering = null;
+			return true;
+		}
+
+		directionInfoArray = new boolean[this.size()];
+		directionInfoOrdering = new int[this.size()];
+		shouldUseAlgoLocusList = true;
+		locusCalledAlgoLocusList = true;
+
+		int i = 0;
+		for (; i < this.size(); i++)
+		{
+			directionInfoArray[i] = true;// at first this is used as helper array
+			directionInfoOrdering[i] = i;
+
+			if ((Path)get(i) instanceof GeoSegment) {
+				minParArray[i] = ((GeoSegment)get(i)).getStartPoint();
+				maxParArray[i] = ((GeoSegment)get(i)).getEndPoint();
+			} else if ((Path)get(i) instanceof GeoLine) {
+				minParArray[i] = ((GeoLine)get(i)).getStartPoint();
+				maxParArray[i] = ((GeoLine)get(i)).getEndPoint();
+			} else if ((Path)get(i) instanceof GeoConicPart) {
+				if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartConicPoints) {
+					minParArray[i] =
+						(GeoPoint) ((AlgoConicPartConicPoints)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getStartPoint();
+					maxParArray[i] = 
+						(GeoPoint) ((AlgoConicPartConicPoints)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getEndPoint();
+				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartCircumcircle) {
+					minParArray[i] = (GeoPoint)
+						((AlgoConicPartCircumcircle)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
+					maxParArray[i] = (GeoPoint)
+						((AlgoConicPartCircumcircle)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[2];
+				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoSemicircle) {
+					// AlgoSemiCircle's endpoints counted in reverse order in GeoConicPart
+					minParArray[i] = (GeoPoint)
+						((AlgoSemicircle)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[1];
+					maxParArray[i] = (GeoPoint)
+						((AlgoSemicircle)
+							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
+				} else {
+					minParArray[i] = ((GeoConicPart)get(i)).getPointParam(0);
+					maxParArray[i] = ((GeoConicPart)get(i)).getPointParam(1);
+				}
+			} else {
+				minParArray[i] = null;
+				maxParArray[i] = null;
+				break;
+			}
+			minParStatic[i] = minParArray[i];
+			maxParStatic[i] = maxParArray[i];
+		}
+
+		if (i < this.size() || minParArray[this.size() - 1] == null) {
+			directionInfoArray = null;
+			directionInfoOrdering = null;
+			return true;
+		}
+
+		// this algorithm is just for deciding if this is a "directed graph circle"
+
+		for (int j = 0; j < this.size(); j++) {
+			// to get this data, at first the subpaths should be joined,
+			// to have compatible directions, and then the joined thing
+			// should be made compatible with the main path too
+
+			for (i = j + 1; i < this.size(); i++) {//search, join
+				if (GeoPoint.samePosition(minParArray[j], minParArray[i])) {
+					minParArray[i] = maxParArray[j];
+					i = 0;
+					break;
+				} else if (GeoPoint.samePosition(minParArray[j], maxParArray[i])) {
+					maxParArray[i] = maxParArray[j];
+					i = 0;
+					break;
+				} else if (GeoPoint.samePosition(maxParArray[j], minParArray[i])) {
+					minParArray[i] = minParArray[j];
+					i = 0;
+					break;
+				} else if (GeoPoint.samePosition(maxParArray[j], maxParArray[i])) {
+					maxParArray[i] = minParArray[j];
+					i = 0;
+					break;
+				}
+			}
+
+			if (i != 0 && j < this.size() - 1) {
+				// there was no match, so this path is not a circle graph
+				directionInfoArray = null;
+				directionInfoOrdering = null;
+				return true;//AlgoLocusList
+			}
+		}
+		// otherwise everything has been reduced to one
+		if (!GeoPoint.samePosition(minParArray[this.size() - 1], maxParArray[this.size() - 1])) {
+			// this path is not a circle graph, but a line graph
+			directionInfoArray = null;
+			directionInfoOrdering = null;
+			return true;//AlgoLocusList
+		}
+
+		// otherwise use AlgoLocus
+
+		// now it's time to get the final contents of directionInfoArray
+
+		// directionInfoOrdering: which index is the next
+		// at first search for a minimum index to start from
+		int ii = 0;
+		boolean direction = true;//min-max direction is true in theory... (why false in testing?)
+
+		// starting from ii, determine the ordering
+		// here we use the information that this is a "directed graph circle"
+		for (int j = 0; j < this.size(); j++) {
+			directionInfoOrdering[j] = ii;
+			directionInfoArray[ii] = direction;//direction of ii
+
+			// search for the thing after ii with the help of the ref tree
+			for (i = 0; i < this.size(); i++) {
+				if (i == ii) continue;// it is not the same as itself
+
+				if (j > 0)// it is not the same as the previous (or other direction)
+					if (directionInfoOrdering[j-1] == i)
+						continue;
+
+				if (direction) {
+					// if direction of ii is true, then use its maxParStatic
+					// end to match with i
+					if (GeoPoint.samePosition(maxParStatic[ii], minParStatic[i])) {
+						ii = i;
+						direction = true;
+						break;
+					} else if (GeoPoint.samePosition(maxParStatic[ii], maxParStatic[i])) {
+						ii = i;
+						direction = false;
+						break;
+					}
+				} else {
+					if (GeoPoint.samePosition(minParStatic[ii], minParStatic[i])) {
+						ii = i;
+						direction = true;
+						break;
+					} else if (GeoPoint.samePosition(minParStatic[ii], maxParStatic[i])) {
+						ii = i;
+						direction = false;
+						break;
+					}
+				}
+			}
+		}
+
+		shouldUseAlgoLocusList = false;
+		return false;
+	}
+
+	public boolean showOnAxis() {
+		return showOnAxis;
+	}
+
+	/**
+	 * For inequalities.
+	 * 
+	 * @param showOnAxis
+	 *            true iff should be drawn on x-Axis only
+	 */
+	public void setShowOnAxis(boolean showOnAxis) {
+		this.showOnAxis = showOnAxis;
+		
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet() && (geo instanceof InequalityProperties)) {
+				((InequalityProperties) geo).setShowOnAxis(showOnAxis);
+			}
+		}
+	}
+	
+	
+	/**
+	 * @return true if this list contains a 3D geo
+	 */
+	public boolean containsGeoElement3D(){
+		for (GeoElement geo : geoList){
+			boolean contains = false;
+			if (geo.isGeoList()){
+				contains = ((GeoList) geo).containsGeoElement3D();
+			}else{
+				contains = geo.isGeoElement3D();
+			}
+			if (contains)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	
+	@Override
+	final public Coords getMainDirection() {
+		return geoList.get(closestPointIndex).getMainDirection();
+	}
+
+	public boolean isLaTeXTextCommand() {
+		return false;
+	}
+
+	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
+	private boolean emphasizeRightAngle = true;
+	private int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
+
+	public void setAngleStyle(int style) {
+		setAngleStyle(AngleStyle.getStyle(style));
+	}
+
+	/**
+	 * Changes angle style and recomputes the value from raw.
+	 * See GeoAngle.ANGLE_*
+	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
+	 */
+	public void setAngleStyle(AngleStyle angleStyle) {
+		AngleStyle newAngleStyle = angleStyle;
+		if (newAngleStyle == this.angleStyle)
+			return;
+
+		this.angleStyle = newAngleStyle;
+		switch (newAngleStyle) {
+		//case GeoAngle.ANGLE_ISCLOCKWISE:
+		//	newAngleStyle = GeoAngle.ANGLE_ISCLOCKWISE;
+		//	break;
+
+		case NOTREFLEX:
+			newAngleStyle = AngleStyle.NOTREFLEX;
+			break;
+
+		case ISREFLEX:
+			newAngleStyle = AngleStyle.ISREFLEX;
+			break;
+
+		default:
+			newAngleStyle = AngleStyle.ANTICLOCKWISE;
+		}
+
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setAngleStyle(angleStyle);
+			}
+		}
+	}
+
+
+	public AngleStyle getAngleStyle() {
+		return angleStyle;
+	}
+
+	public boolean hasOrientation() {
+		return true;
+	}
+
+	/**
+	 * Depending upon angleStyle, some values > pi will be changed to (2pi -
+	 * value). raw_value contains the original value.
+	 * @param allowReflexAngle If true, angle is allowed to be> 180 degrees
+	 * 
+	 */
+	final public void setAllowReflexAngle(boolean allowReflexAngle) {
+		switch (angleStyle) {
+		case NOTREFLEX:
+			if (allowReflexAngle)
+				setAngleStyle(AngleStyle.ANTICLOCKWISE);
+			break;
+		case ISREFLEX:
+			// do nothing
+			break;
+		default: // ANGLE_ISANTICLOCKWISE
+			if (!allowReflexAngle)
+				setAngleStyle(AngleStyle.NOTREFLEX);
+			break;
+
+		}
+		if (allowReflexAngle)
+			setAngleStyle(AngleStyle.ANTICLOCKWISE);
+		else
+			setAngleStyle(AngleStyle.NOTREFLEX);
+	
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setAllowReflexAngle(allowReflexAngle);
+			}
+		}
+		
+	}
+
+	/**
+	 * Sets this angle shuld be drawn differently when right
+	 * @param emphasizeRightAngle true iff this angle shuld be drawn differently when right
+	 */
+	public void setEmphasizeRightAngle(boolean emphasizeRightAngle) {
+		this.emphasizeRightAngle = emphasizeRightAngle;
+	
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setEmphasizeRightAngle(emphasizeRightAngle);
+			}
+		}
+		
+	}
+
+	/**
+	 * Forces angle to be reflex or switches it to anticlockwise
+	 * @param forceReflexAngle switch to reflex for true
+	 */
+	final public void setForceReflexAngle(boolean forceReflexAngle) {
+
+		if (forceReflexAngle){
+			setAngleStyle(AngleStyle.ISREFLEX);
+		}
+		else if(angleStyle == AngleStyle.ISREFLEX){
+			setAngleStyle(AngleStyle.ANTICLOCKWISE);
+		}		
+	
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setForceReflexAngle(forceReflexAngle);
+			}
+		}
+		
+	}
+	
+	@Override
+	public void setDecorationType(int type) {
+		if (type >= GeoAngle.getDecoTypes().length || type < 0) {
+			decorationType = DECORATION_NONE;
+		} else {
+			decorationType = type;
+		}
+		
+		if (geoList != null) {
+			for (GeoElement geo: geoList) {
+				if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+					((AngleProperties) geo).setDecorationType(type);
+				}
+			}
+		}
+
+	}
+
+
+	/** 
+	 * Change the size of the arc in pixels, 
+	 * @param i arc size, should be in <10,100>
+	 */
+	public void setArcSize(int i) {
+		arcSize = i;
+	
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setArcSize(i);
+			}
+		}
+		
+	}
+
+	/** 
+	 * returns size of the arc in pixels
+	 * @return arc size in pixels
+	 */
+	public int getArcSize() {
+		return arcSize;
+	}
+
+	/**
+	 *
+	 * @return true iff this angle should be drawn differently when 90 degrees
+	 */
+	public boolean isEmphasizeRightAngle() {
+		return emphasizeRightAngle;
+	}
+
+	/**
+	 * @param vars sequence variable that should be replaced by its free copy
+	 */
+	public void replaceChildrenByValues(GeoElement vars) {
+		if(this.elementType != GeoClass.FUNCTION &&
+				this.elementType != GeoClass.CURVE_CARTESIAN &&
+				this.elementType != GeoClass.FUNCTION_NVAR &&
+				this.elementType != GeoClass.SURFACECARTESIAN3D &&
+				this.elementType != GeoClass.LIST &&
+				this.elementType != ELEMENT_TYPE_MIXED){
+			return;
+		}
+		for(GeoElement listElement:this.geoList){
+			if (listElement.isGeoFunction()
+					|| listElement.isGeoFunctionBoolean()) {
+				GeoFunction f = (GeoFunction) listElement;
+				f.replaceChildrenByValues(vars);
+			}
+			// GeoCurve
+			else if (listElement.isGeoCurveCartesian()) {
+				GeoCurveCartesianND curve = (GeoCurveCartesianND) listElement;
+				curve.replaceChildrenByValues(vars);
+			}
+
+			else if (listElement.isGeoFunctionNVar()) {
+				GeoFunctionNVar fnv = (GeoFunctionNVar) listElement;
+				fnv.replaceChildrenByValues(vars);
+			}
+			else if (listElement.isGeoSurfaceCartesian()) {
+				GeoSurfaceCartesianND surface = (GeoSurfaceCartesianND) listElement;
+				surface.replaceChildrenByValues(vars);
+			}
+
+			else if(listElement.isGeoList()){
+				((GeoList)listElement).replaceChildrenByValues(vars);
+			}
+		}
+		
+	}
+	
+	@Override
+	public String getLabelDescription() {
+		if (labelMode == LABEL_CAPTION) {
+			return getCaption(StringTemplate.defaultTemplate);
+		}
+		
+		// return label;
+		// Mathieu Blossier - 2009-06-30
+		return getLabel(StringTemplate.defaultTemplate);
+	}
+	
+	
+	@Override
+	final public HitType getLastHitType(){
+		// TODO check elements
+		return HitType.ON_FILLING;
+	}
+	
+
+}

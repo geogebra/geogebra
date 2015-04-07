@@ -1,0 +1,46 @@
+project.setDescription('Common parts of GeoGebra for various platforms')
+
+buildscript {
+	repositories {
+    	maven {
+    		url 'https://plugins.gradle.org/m2/'
+		}
+		maven {
+			name 'GeoGebra Dev'
+			url 'http://dev.geogebra.org/maven2'
+		}
+	}
+	dependencies {
+		classpath "ca.coglinc:javacc-gradle-plugin:2.1.0"
+		
+	}
+	configurations.all {
+		resolutionStrategy {
+			force 'net.java.dev.javacc:javacc:5.0'
+		}
+	}
+}
+
+apply plugin: 'ca.coglinc.javacc'
+apply plugin: 'java'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+sourceSets {
+	main {
+    	java {
+        	srcDir compileJavacc.outputDirectory
+    	}
+	}
+}
+
+eclipseClasspath.dependsOn('compileJavacc')
+
+eclipse.project {
+ 	natures 'sf.eclipse.javacc.javaccnature'
+}
+
+compileJavacc {
+	arguments = [static: 'false']
+}

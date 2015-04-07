@@ -1,4 +1,0 @@
-*.jar
-jogl*
-javacc
-ogp

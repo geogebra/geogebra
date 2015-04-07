@@ -1,17 +1,15 @@
 package geogebra.io;
-import geogebra.CommandLineArguments;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.util.StringUtil;
-import geogebra.main.AppD;
-
 import java.util.Locale;
 
 import javax.swing.JFrame;
 
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.main.AppD;
 import org.junit.Assert;
-
 import org.junit.Test;
 public class SerializationTest {
 	

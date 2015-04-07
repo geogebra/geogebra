@@ -1,0 +1,76 @@
+project.setDescription('Parts of GeoGebra related to desktop platforms')
+
+apply plugin: 'application'
+
+repositories {
+    maven {
+        url 'http://dev.geogebra.org/maven2'
+    }
+}
+
+File javaHome = new File(System.properties['java.home'])
+javaHome = javaHome.name == 'jre' ? javaHome.parentFile : javaHome
+String jfxrtLocation = new File("${javaHome}/jre/lib/jfxrt.jar").absolutePath
+// JavaFX locations for JDK7, JDK7, JDK8
+for (location in ['lib/jfxrt.jar', 'jre/lib/jfxrt.jar', 'jre/lib/ext/jfxrt.jar']) {
+    File file = new File(javaHome, location)
+    if (file.exists()) {
+        jfxrtLocation = file.absolutePath
+        break
+    }
+}
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+List jlatexmath = [
+	'org.scilab.forge:jlatexmath-minimal:1.0.3b',
+	'org.scilab.forge:jlm_cyrillic:1.0.3',
+	'org.scilab.forge:jlm_greek:1.0.3']
+
+List ext = [
+	'netscape.javascript:jsobject:1', 
+	'com.apple:mac_extensions:20040714', 
+	'com.ogprover:OpenGeoProver:20120725',
+	'com.sun:jna:4.1.0']
+
+dependencies {
+	compile project(':common'), project(':jogl2'), project(':input3D:stub'), project(':giac-jni'), jlatexmath, ext, files(jfxrtLocation)
+
+	runtime "com.jogamp:jogl-all:$joglver:natives-linux-amd64",
+            "com.jogamp:jogl-all:$joglver:natives-windows-i586",
+            "com.jogamp:jogl-all:$joglver:natives-windows-amd64", 
+            "com.jogamp:jogl-all:$joglver:natives-macosx-universal",
+            "com.jogamp:jogl-all:$joglver:natives-linux-i586"
+    runtime "com.jogamp:gluegen-rt:$joglver:natives-linux-amd64", 
+            "com.jogamp:gluegen-rt:$joglver:natives-windows-i586",
+            "com.jogamp:gluegen-rt:$joglver:natives-windows-amd64", 
+            "com.jogamp:gluegen-rt:$joglver:natives-macosx-universal"
+            // "com.jogamp:gluegen-rt:$joglver:natives-linux-i586"
+    runtime "fr.ujf-grenoble:javagiac:$javagiacver:natives-linux-amd64",
+	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-linux-i586",
+	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-windows-amd64",
+	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-windows-i586",
+	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-macosx-universal"
+}
+
+mainClassName = "org.geogebra.desktop.GeoGebra3D"
+
+run {
+    // Copying JOGL related native JARs into the same directory where the non-native JAR takes place.
+    // JOGL is simply dumb, it cannot work neither with java.library.path nor classpath or anything. Arrgh. 
+	def gluegen = project.configurations.compile.find { it.name == "gluegen-rt-${joglver}.jar" }
+	def gluegen_natives = project.configurations.runtime.findAll { it.name.startsWith("gluegen-rt-$joglver-natives") }
+	def gluegen_dir = gluegen.getParent()
+	for (i in gluegen_natives) {
+		def gluegen_native_path = i.getPath()
+		ant.copy(file:"$gluegen_native_path", todir:"$gluegen_dir")
+		}
+	def jogl = project.configurations.compile.find { it.name == "jogl-all-${joglver}.jar" }
+	def jogl_natives = project.configurations.runtime.findAll { it.name.startsWith("jogl-all-$joglver-natives") }
+	def jogl_dir = jogl.getParent()
+	for (i in jogl_natives) {
+		def jogl_native_path = i.getPath()
+		ant.copy(file:"$jogl_native_path", todir:"$jogl_dir")
+		}
+	}

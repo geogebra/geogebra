@@ -1,5 +1,0 @@
-*.jar
-*.dll
-*.jnilib
-*.so
-download

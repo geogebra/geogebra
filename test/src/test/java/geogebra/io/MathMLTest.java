@@ -1,8 +1,7 @@
 package geogebra.io;
 
+import org.geogebra.common.io.MathMLParser;
 import org.junit.Test;
-
-import geogebra.common.io.MathMLParser;
 
 public class MathMLTest {
 	private static String[] mathmlTest = {

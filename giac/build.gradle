@@ -1,0 +1,32 @@
+apply plugin: 'cpp'
+
+libraries {
+    giac {
+	binaries.all {
+	    cppCompiler.define "GIAC_GGB"
+	    cppCompiler.define "IN_GIAC"
+	    cppCompiler.define "GIAC_GENERIC_CONSTANTS"
+	    cppCompiler.define "HAVE_UNISTD_H"
+	    cppCompiler.define "HAVE_LIBPTHREAD"
+	    cppCompiler.define "HAVE_SYSCONF"
+	    cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
+	    cppCompiler.define "VERSION", '"1.1.3"'
+	}
+    }
+}
+
+executables {
+    icas {
+        binaries.all {
+            lib libraries.giac.static
+	    linker.args "-lgmp"
+	    linker.args "-lpthread"
+        }
+    }
+}
+
+task run (dependsOn: 'icasExecutable', type: Exec) {
+	description "Runs Giac's icas terminal"
+	commandLine 'build/binaries/icasExecutable/icas'
+	standardInput = System.in
+}

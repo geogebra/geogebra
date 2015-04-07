@@ -1,0 +1,9 @@
+project.setDescription('Parts of GeoGebra related to Java OpenGL')
+
+List jogl = [
+	"com.jogamp:gluegen-rt:$joglver",
+	"com.jogamp:jogl-all:$joglver"]
+
+dependencies {
+	compile jogl
+}

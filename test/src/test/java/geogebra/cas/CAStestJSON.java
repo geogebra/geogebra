@@ -2,17 +2,7 @@ package geogebra.cas;
 
 import static geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.assertThat;
-import geogebra.CommandLineArguments;
 import geogebra.cas.logging.CASTestLogger;
-import geogebra.common.kernel.GeoGebraCasInterface;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
-import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.App;
-import geogebra.common.util.debug.Log;
-import geogebra.main.AppD;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -25,6 +15,16 @@ import java.util.Locale;
 
 import javax.swing.JFrame;
 
+import org.geogebra.common.kernel.GeoGebraCasInterface;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.main.AppD;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.BeforeClass;

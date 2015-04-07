@@ -1,0 +1,26 @@
+subprojects {
+	apply plugin: 'eclipse'
+	apply plugin: 'java'
+
+	repositories {
+		maven {
+			url 'http://dev.geogebra.org/maven2'
+		}
+		mavenCentral()
+    }
+
+	eclipse.project {
+		natures 'org.springsource.ide.eclipse.gradle.core.nature'
+	}
+
+	tasks.eclipse.dependsOn('cleanEclipse')
+
+}
+
+ext.joglver = '2.2.0'
+ext.javagiacver = '201503271100'
+
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.0'
+}

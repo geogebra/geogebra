@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='html5'>
+  <inherits name="com.google.gwt.resources.Resources" />
+  <inherits name="com.google.gwt.http.HTTP"/>
+  <inherits name='com.google.gwt.user.User'/> 
+  <inherits name="com.google.gwt.json.JSON" />
+  <inherits name='org.geogebra.Common'/>
+  <inherits name='org.geogebra.GgbJdk'/>
+  
+  <define-linker name="appcachelinker" class="org.geogebra.web.linker.AppCacheLinker" />
+  <!-- Use it -->
+  <add-linker name="appcachelinker" />
+  
+  <!-- Specify the paths for translatable code                    -->
+  <source path='html5'/>
+  <resource path='resources'/>
+  <super-source path='html5-super' />
+  
+  <!-- #3511 -->
+  <set-property name="compiler.stackMode" value="strip"/>
+  <set-configuration-property name="compiler.enum.name.obfuscate" value="true"/>
+
+</module>

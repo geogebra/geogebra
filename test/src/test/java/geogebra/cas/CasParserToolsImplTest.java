@@ -2,8 +2,8 @@ package geogebra.cas;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import geogebra.common.cas.CasParserToolsImpl;
 
+import org.geogebra.common.cas.CasParserToolsImpl;
 import org.junit.Before;
 import org.junit.Test;
 

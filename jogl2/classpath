@@ -1,7 +1,0 @@
-#!/bin/sh
-# Explodes the classpath from .classpath.
-# Input: the absolute path to here (optional),
-# which helps the caller script to create the full classpath easily.
-
-cat .classpath | grep classpathentry | grep "kind=\"lib" | cut -f6 -d\" | awk '{printf "'$1'"$0; printf ":"}'
-echo

@@ -1,11 +1,6 @@
 package geogebra.commands;
 
 import static org.junit.Assert.*;
-import geogebra.CommandLineArguments;
-import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.common.kernel.parser.ParseException;
-import geogebra.common.main.App;
-import geogebra.main.AppD;
 
 import java.util.Locale;
 
@@ -13,6 +8,11 @@ import javax.swing.JFrame;
 
 import junit.framework.Assert;
 
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.App;
+import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.main.AppD;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

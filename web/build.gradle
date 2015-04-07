@@ -1,0 +1,78 @@
+project.setDescription('Parts of GeoGebra related to web platforms')
+
+buildscript {
+	repositories {
+		jcenter()
+        dependencies {
+        	classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+    	}
+	}
+}
+
+apply plugin: 'gwt-compiler'
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+	mavenCentral()
+	maven {
+		url 'http://dev.geogebra.org/maven2'
+	}
+}
+
+dependencies {
+	compile project(':web:dev'), 
+		project(':common'),
+		project(':ggbjdk'),
+		files(project(':common').sourceSets.main.allSource.srcDirs),
+		files(project(':ggbjdk').sourceSets.main.java.srcDirs),
+		'com.google.apis:google-api-services-drive:v1-rev118-1.15.0-rc',
+		'com.google.apis:google-api-services-oauth2:v2-rev39-1.15.0-rc',
+		'com.google.api:gwt-oauth2:0.2',
+		'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
+		'com.googlecode.gwtquery:gwtquery:1.4.3',
+		'com.googlecode:gwtgl:0.9.1',
+		'com.googlecode:gwtgl:0.9.1:sources'
+}
+
+// exclude from the eclipse classpath the java files in the resources dir
+eclipse.classpath.file { 
+	whenMerged { classpath ->
+		classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
+	}
+}
+
+gwt {
+	gwtVersion = '2.7.0'
+	modules 'org.geogebra.web.Web3D'
+	maxHeapSize = '2500M'
+}
+
+configurations.all {
+   resolutionStrategy {
+       failOnVersionConflict()
+       force 'com.google.gwt:gwt-user:2.7.0'
+       force 'com.google.gwt:gwt-dev:2.7.0'
+   }
+}
+
+task deployIntoWar(dependsOn: 'compileGwt', type: Copy) {
+	description 'Copies the GWT production compilation directory (web3d) to the war directory.'
+	from(file('build/gwt/out/web3d'))
+	into(file('war/web3d'))
+}
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+task run (dependsOn: 'deployIntoWar', type: Exec) {
+	description 'Runs GeoGebraWeb in Google Chrome'
+	def startpage = 'war/app.html'
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+	    commandLine 'cmd', '/c', 'start', 'chrome', startpage
+	    }
+	if (Os.isFamily(Os.FAMILY_UNIX)) {
+	 	commandLine 'google-chrome', startpage
+	    }
+}

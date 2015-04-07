@@ -1,8 +1,5 @@
 package geogebra.io;
 
-import geogebra.CommandLineArguments;
-import geogebra.main.AppD;
-
 import java.io.StringReader;
 import java.net.URL;
 import java.util.Locale;
@@ -17,6 +14,8 @@ import javax.xml.validation.Validator;
 
 import junit.framework.Assert;
 
+import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.main.AppD;
 import org.junit.Test;
 
 public class XmlTest {
