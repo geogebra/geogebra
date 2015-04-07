@@ -47,7 +47,7 @@ eclipse.classpath.file {
 gwt {
 	gwtVersion = '2.7.0'
 	modules 'org.geogebra.web.Web3D'
-	maxHeapSize = '2500M'
+	maxHeapSize = '1500M'
 }
 
 configurations.all {
