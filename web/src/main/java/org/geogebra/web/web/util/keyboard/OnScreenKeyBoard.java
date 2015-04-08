@@ -823,7 +823,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				processing.scrollCursorIntoView();
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					public void execute() {
+						processing.scrollCursorIntoView();
+					}
+				});
 			}
 		});
 	}

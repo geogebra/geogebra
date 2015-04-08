@@ -207,7 +207,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			return;
 		}
 		this.keyboardShowing = show;
-		this.mainPanel.clear();
+		//this.mainPanel.clear();
+		this.mainPanel.setVisible(false);
+
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
 		        this, app);
 		if (show && textField != null) {
@@ -219,6 +221,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			}
 		} else {
 			if (app.getAlgebraView() != null) {
+				this.mainPanel.remove(keyBoard);
 				showKeyboardButton(
 						true,
 						textField != null ? textField : ((AlgebraViewWeb) app
@@ -226,7 +229,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			}
 			keyBoard.resetKeyboardState();
 		}
-		this.mainPanel.add(this.dockPanel);
+		//this.mainPanel.add(this.dockPanel);
+		this.mainPanel.setVisible(true);
 
 		Timer timer = new Timer() {
 			@Override

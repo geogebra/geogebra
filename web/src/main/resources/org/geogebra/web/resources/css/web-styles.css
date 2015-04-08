@@ -3637,10 +3637,6 @@ body.application[dir=rtl] .marble {
 	font-weight: normal;
 }
 
-.algebraPanel>div {
-	height: 100%;
-}
-
 .algebraPanel.NoHorizontalScroll {
 	overflow-x: hidden !important;
 	overflow-y: auto !important;
