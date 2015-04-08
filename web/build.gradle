@@ -49,6 +49,15 @@ gwt {
 	modules 'org.geogebra.web.Web3D'
 	devModules 'org.geogebra.web.Web3D'
 	maxHeapSize = '1500M'
+	
+	compiler {
+		// Customize the GWT compiler here
+		// strict = true;
+        // enableClosureCompiler = true;
+        // disableClassMetadata = true;
+        // disableCastChecking = true;
+        // style = PRETTY // DETAILED, OBF
+	}
 }
 
 configurations.all {
