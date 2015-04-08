@@ -1515,9 +1515,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& right.evaluatesToVectorNotPoint()) {
 				// App.debug(left.getClass()+" "+right.getClass());
 				// eg Vectors (1,2)-(3,4)
+				sb.append('(');
 				sb.append(leftStr);
-				sb.append("-");
+				sb.append("-(");
 				sb.append(rightStr);
+				sb.append("))");
 
 			} else if (right instanceof MyVecNDNode
 					&& left instanceof MyVecNDNode) {
@@ -1531,10 +1533,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 				boolean rightIsVector = rightVN.isCASVector();
 
 				if (leftIsVector && rightIsVector) {
-					// Vector + Vector
+					// Vector - Vector
+					sb.append('(');
 					sb.append(leftStr);
-					sb.append("-");
+					sb.append("-(");
 					sb.append(rightStr);
+					sb.append("))");
 
 				} else if (!leftIsVector && !rightIsVector) {
 					// Point + Point
