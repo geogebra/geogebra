@@ -370,7 +370,7 @@ public class FastArrayList <E> extends ArrayList<E> {
 
         // Compare the sets of elements for equality
         if (fast) {
-            ListIterator li1 = list.listIterator();
+            ListIterator<E> li1 = list.listIterator();
             ListIterator li2 = lo.listIterator();
             while (li1.hasNext() && li2.hasNext()) {
                 Object o1 = li1.next();
@@ -381,7 +381,7 @@ public class FastArrayList <E> extends ArrayList<E> {
             return (!(li1.hasNext() || li2.hasNext()));
         } else {
             synchronized (list) {
-                ListIterator li1 = list.listIterator();
+                ListIterator<E> li1 = list.listIterator();
                 ListIterator li2 = lo.listIterator();
                 while (li1.hasNext() && li2.hasNext()) {
                     Object o1 = li1.next();
@@ -424,7 +424,7 @@ public class FastArrayList <E> extends ArrayList<E> {
 
         if (fast) {
             int hashCode = 1;
-            java.util.Iterator i = list.iterator();
+            java.util.Iterator<E> i = list.iterator();
             while (i.hasNext()) {
                 Object o = i.next();
                 hashCode = 31 * hashCode + (o == null ? 0 : o.hashCode());
@@ -433,7 +433,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         } else {
             synchronized (list) {
                 int hashCode = 1;
-                java.util.Iterator i = list.iterator();
+                java.util.Iterator<E> i = list.iterator();
                 while (i.hasNext()) {
                     Object o = i.next();
                     hashCode = 31 * hashCode + (o == null ? 0 : o.hashCode());
@@ -584,7 +584,7 @@ public class FastArrayList <E> extends ArrayList<E> {
 
         if (fast) {
             synchronized (this) {
-                ArrayList temp = (ArrayList) list.clone();
+                ArrayList<E> temp = (ArrayList<E>) list.clone();
                 boolean result = temp.remove(element);
                 list = temp;
                 return (result);
@@ -610,7 +610,7 @@ public class FastArrayList <E> extends ArrayList<E> {
 
         if (fast) {
             synchronized (this) {
-                ArrayList temp = (ArrayList) list.clone();
+                ArrayList<E> temp = (ArrayList<E>) list.clone();
                 boolean result = temp.removeAll(collection);
                 list = temp;
                 return (result);
@@ -636,7 +636,7 @@ public class FastArrayList <E> extends ArrayList<E> {
 
         if (fast) {
             synchronized (this) {
-                ArrayList temp = (ArrayList) list.clone();
+                ArrayList<E> temp = (ArrayList<E>) list.clone();
                 boolean result = temp.retainAll(collection);
                 list = temp;
                 return (result);
@@ -774,7 +774,7 @@ public class FastArrayList <E> extends ArrayList<E> {
 
         if (fast) {
             synchronized (this) {
-                ArrayList temp = (ArrayList) list.clone();
+                ArrayList<E> temp = (ArrayList<E>) list.clone();
                 temp.trimToSize();
                 list = temp;
             }
@@ -826,7 +826,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public boolean remove(Object o) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     boolean r = get(temp).remove(o);
                     if (r) last--;
                     list = temp;
@@ -843,7 +843,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public boolean removeAll(Collection<?> o) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     List sub = get(temp);
                     boolean r = sub.removeAll(o);
                     if (r) last = first + sub.size();
@@ -861,7 +861,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public boolean retainAll(Collection<?> o) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     List sub = get(temp);
                     boolean r = sub.retainAll(o);
                     if (r) last = first + sub.size();
@@ -962,7 +962,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public boolean add(E o) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     boolean r = get(temp).add(o);
                     if (r) last++;
                     list = temp;
@@ -979,7 +979,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public boolean addAll(Collection<? extends E> o) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     boolean r = get(temp).addAll(o);
                     if (r) last += o.size();
                     list = temp;
@@ -996,7 +996,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public void add(int i, E o) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     get(temp).add(i, o);
                     last++;
                     list = temp;
@@ -1012,7 +1012,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public boolean addAll(int i, Collection<? extends E> o) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     boolean r = get(temp).addAll(i, o);
                     list = temp;
                     if (r) last += o.size();
@@ -1029,7 +1029,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public E remove(int i) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     E o = get(temp).remove(i);
                     last--;
                     list = temp;
@@ -1046,7 +1046,7 @@ public class FastArrayList <E> extends ArrayList<E> {
         public E set(int i, E a) {
             if (fast) {
                 synchronized (FastArrayList.this) {
-                    ArrayList temp = (ArrayList) list.clone();
+                    ArrayList<E> temp = (ArrayList<E>) list.clone();
                     E o = get(temp).set(i, a);
                     list = temp;
                     expected = temp;
@@ -1222,7 +1222,7 @@ public class FastArrayList <E> extends ArrayList<E> {
             }
         }
 
-        List get() {
+        List<E> get() {
             return expected;
         }
 

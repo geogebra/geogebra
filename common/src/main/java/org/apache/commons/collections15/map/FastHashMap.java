@@ -111,7 +111,7 @@ public class FastHashMap <K,V> extends HashMap<K, V> {
      *
      * @param map the map whose mappings are to be copied
      */
-    public FastHashMap(Map map) {
+    public FastHashMap(Map<K, V> map) {
         super();
         this.map = new HashMap<K, V>(map);
     }
@@ -484,7 +484,7 @@ public class FastHashMap <K,V> extends HashMap<K, V> {
         public boolean remove(Object o) {
             if (fast) {
                 synchronized (FastHashMap.this) {
-                    HashMap temp = (HashMap) map.clone();
+                    HashMap<K, V> temp = (HashMap<K, V>) map.clone();
                     boolean r = get(temp).remove(o);
                     map = temp;
                     return r;
@@ -499,7 +499,7 @@ public class FastHashMap <K,V> extends HashMap<K, V> {
         public boolean removeAll(Collection<?> o) {
             if (fast) {
                 synchronized (FastHashMap.this) {
-                    HashMap temp = (HashMap) map.clone();
+                    HashMap<K, V> temp = (HashMap<K, V>) map.clone();
                     boolean r = get(temp).removeAll(o);
                     map = temp;
                     return r;
@@ -514,7 +514,7 @@ public class FastHashMap <K,V> extends HashMap<K, V> {
         public boolean retainAll(Collection<?> o) {
             if (fast) {
                 synchronized (FastHashMap.this) {
-                    HashMap temp = (HashMap) map.clone();
+                    HashMap<K, V> temp = (HashMap<K, V>) map.clone();
                     boolean r = get(temp).retainAll(o);
                     map = temp;
                     return r;
@@ -644,7 +644,7 @@ public class FastHashMap <K,V> extends HashMap<K, V> {
                     throw new ConcurrentModificationException();
                 }
                 lastReturned = (Map.Entry) iterator.next();
-                return iteratorNext(lastReturned);
+                return iteratorNext((Entry<K,V>)lastReturned);
             }
 
             public void remove() {
@@ -673,7 +673,7 @@ public class FastHashMap <K,V> extends HashMap<K, V> {
      */
     private class KeySet extends CollectionView<K> implements Set<K> {
 
-        protected Collection get(Map<K, V> map) {
+        protected Collection<K> get(Map<K, V> map) {
             return map.keySet();
         }
 
@@ -689,7 +689,7 @@ public class FastHashMap <K,V> extends HashMap<K, V> {
      */
     private class Values extends CollectionView<V> {
 
-        protected Collection get(Map<K, V> map) {
+        protected Collection<V> get(Map<K, V> map) {
             return map.values();
         }
 
