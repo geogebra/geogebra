@@ -223,7 +223,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void setFocus(boolean b) {
-		App.printStacktrace("FOCUS" + b);
+		//App.printStacktrace("FOCUS" + b);
 		org.geogebra.web.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
 
