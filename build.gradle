@@ -1,3 +1,5 @@
+project.setDescription('GeoGebra')
+
 subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
@@ -22,5 +24,6 @@ ext.javagiacver = '201503271100'
 
 
 task wrapper(type: Wrapper) {
+	description = 'Creates the gradle wrapper'
 	gradleVersion = '2.0'
 }

@@ -1,3 +1,5 @@
+project.setDescription('Developer tools required to compile web platforms')
+
 buildscript {
 	repositories {
 		jcenter()

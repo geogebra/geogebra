@@ -1,3 +1,5 @@
+project.setDescription('Minimal version of Giac CAS for GeoGebra')
+
 apply plugin: 'cpp'
 
 libraries {

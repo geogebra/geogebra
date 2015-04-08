@@ -1,3 +1,5 @@
+project.setDescription('Parts of GeoGebra related to input devices (Leonar3Do, Intel RealSense)')
+
 repositories {
 	mavenCentral()
 }

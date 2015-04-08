@@ -1,3 +1,5 @@
+project.setDescription('Parts of GeoGebra related to input devices (standard)')
+
 dependencies {
 	compile project(':common')
 }
