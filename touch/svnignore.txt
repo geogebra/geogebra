@@ -1,8 +1,0 @@
-gwt-unitCache
-bin
-lib
-build
-*.class
-*.jar
-*.jnilib
-*.so
