@@ -104,4 +104,9 @@ public interface AlgebraView extends View, SetLabels{
 	public SortMode getTreeMode();
 
 	void setTreeMode(SortMode value);
+
+	/**
+	 * This is just used from Html5/Web, but interface is in Common
+	 */
+	public void setShowAlgebraInput(boolean b);
 }

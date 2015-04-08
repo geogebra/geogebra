@@ -420,6 +420,14 @@ public abstract class AppW extends App implements SetLabels {
 
 		// inputField.setDictionary(getCommandDictionary());
 
+		AlgebraView av = getAlgebraView();
+		if (av != null) {
+			// this is necessary (and hopefully enough)
+			// to change the look of AV Input Bar to adapt to language
+			av.setShowAlgebraInput(false);
+			av.setShowAlgebraInput(true);
+		}
+
 		examWelcome();
 	}
 

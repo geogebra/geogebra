@@ -1183,4 +1183,8 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		// temporary change to fix it because it did not compile
 		return null;
 	}
+
+	public void setShowAlgebraInput(boolean b) {
+		// only used in web
+	}
 } // AlgebraView
