@@ -18,7 +18,7 @@ public class RowHeaderD extends JList implements RowHeader {
 	/**
 	 * Width of row headers
 	 */
-	public static final int ROW_HEADER_WIDTH = 30;
+	public static final int ROW_HEADER_WIDTH = 50;
 
 	private RowHeaderRenderer renderer;
 

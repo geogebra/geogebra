@@ -48,8 +48,8 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 		super(new GridBagLayout());
 		c = new GridBagConstraints();
 		app = (AppD) casTable.getApplication();
-		iconShown = app.getScaledIcon("shown.gif");
-		iconHidden = app.getScaledIcon("hidden.gif");
+		iconShown = app.getScaledIcon("algebra_shown.gif");
+		iconHidden = app.getScaledIcon("algebra_hidden.gif");
 		numLabel = new JLabel("", SwingConstants.CENTER);
 		this.casTable = casTable;
 		// setBorder(BorderFactory.createEmptyBorder(5, 5, 10, 5));
@@ -69,8 +69,8 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 	}
 
 	public void updateIcons() {
-		iconShown = app.getScaledIcon("shown.gif");
-		iconHidden = app.getScaledIcon("hidden.gif");
+		iconShown = app.getScaledIcon("algebra_shown.png");
+		iconHidden = app.getScaledIcon("algebra_hidden.png");
 		setMarbleValue(marbleValue);
 	}
 
