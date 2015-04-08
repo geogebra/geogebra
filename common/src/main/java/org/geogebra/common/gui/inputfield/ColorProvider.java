@@ -26,7 +26,7 @@ public class ColorProvider {
 	private static final int TEXT_LENGHT_LIMIT = 1000;
 
 	/** Regular expression strings */
-	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\p{Nd})*)";
+	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\p{Nd})*'?(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\p{Nd})*)";
 	private static final String LABEL_PARAM = LABEL_REGEX_STRING + "(\\(|\\[)?";
 	private static final String STRING = "((\\P{M}\\p{M}*)*)";
 	private static final String WHITESPACE = "\\p{Z}*";
