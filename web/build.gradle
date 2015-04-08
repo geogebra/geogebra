@@ -56,7 +56,7 @@ gwt {
         // enableClosureCompiler = true;
         // disableClassMetadata = true;
         // disableCastChecking = true;
-        // style = PRETTY // DETAILED, OBF
+        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY // DETAILED, OBF
 	}
 }
 
