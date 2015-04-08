@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='phone'>
-  <!-- Inherit the core Web Toolkit stuff.                        -->
-  <!-- Priority matters! Latter definitions override former (even in former xml-s -->
-    <inherits name="com.google.gwt.resources.Resources" />
-  <!-- Other module inherits        -->
-  
-  <!-- GeoGebraTube upload -->
-  <inherits name="com.google.gwt.http.HTTP"/>
-  <inherits name="com.google.gwt.json.JSON" />
-  <inherits name='geogebra.Html5'/>
-  <!-- CAS -->
- 
   <inherits name="com.google.gwt.query.Query" />
+  <inherits name='org.geogebra.web.Touch'/> 
  
   <!-- query param's name is locale, cookie paramname is also locale. 
   The application searches for the user agent locale if queryparam i.e. URL parameter and the cookie parameter are not set -->
@@ -19,60 +9,20 @@
   <!--<set-configuration-property name='locale.useragent' value='Y' />-->
   <!--<set-configuration-property name='locale.searchorder' value='queryparam,cookie,useragent' /> -->
  
-  <!-- Currently we want to use only the cookies for the language settings --> 
-  <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
-  <define-property name="gwt.logging.firebugHandler" values="DISABLED"/>
-  <define-property name="gwt.logging.popupHandler" values="DISABLED"/>
-  
-  <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
-  <inherits name='com.googlecode.gwtgl.binding'/>
- 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='geogebra.phone.Phone'/>
+  <entry-point class='org.geogebra.web.phone.Phone'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
   <set-property name="user.agent" value="safari, gecko1_8" />
   <!--<set-property name="user.agent" value="safari, gecko1_8" /> -->
-  <add-linker name="xsiframe" />
-  
-  <!-- Define a custom App Cache linker -->
-  <define-linker name="appcachelinker" class="geogebra.linker.AppCacheLinker"/>-->
-  <!-- Use it -->
-  <add-linker name="appcachelinker"/>-->
-  
-  
+ 
   <!-- Specify the paths for translatable code                    -->
-  <source path='web'/>
-  <source path='html5'/>
-  <source path='touch'/>
   <source path='phone'/>
-  <source path='geogebra3D'/>
-  <source path='plugin'/>
-  <super-source path='/common/src/geogebra/jre' />
   
-  <replace-with class="geogebra.touch.gui.layout.SplitterImplTouch">
-    <when-type-is class="geogebra.web.gui.layout.SplitterImpl"/>
+  <replace-with class="org.geogebra.web.phone.main.app.AppletFactoryPhone">
+    <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
   </replace-with>
-  
-  <replace-with class="geogebra.web.gui.PNGImageFactory">
-    <when-type-is class="geogebra.web.gui.ImageFactory" />    
-  </replace-with>
-  
-  <replace-with class="geogebra.phone.main.app.AppletFactoryPhone">
-    <when-type-is class="geogebra.web.gui.applet.AppletFactory" />    
-  </replace-with>
-   
-  
-  
-  <!-- Images, js-es will be copied from here.
-  You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
-  <public path="pub" />
-  
-  <set-configuration-property name="devModeRedirectEnabled" value="true"/>
-  <set-configuration-property name="devModeUrlWhitelistRegexp" value="http://(localhost|140\.78\.(116\.188|165\.223|184\.249|116\.176|.*\..*))(:\d+)?/.*" />
 
-  <set-property name="compiler.useSourceMaps" value="true" />
-  
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>

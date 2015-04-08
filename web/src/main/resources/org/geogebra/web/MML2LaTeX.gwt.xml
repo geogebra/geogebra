@@ -6,9 +6,8 @@
   
   <source path='mml'/>
   
-  <entry-point class='geogebra.mml.MML2LaTeX'/>
+  <entry-point class='org.geogebra.web.mml.MML2LaTeX'/>
   <!-- #3511 -->
   <set-property name="compiler.stackMode" value="strip"/>
-  <set-configuration-property name="compiler.enum.name.obfuscate" value="true"/>
   <collapse-all-properties />
 </module>

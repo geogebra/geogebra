@@ -1,74 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='tablet'>
-  <!-- Inherit the core Web Toolkit stuff.                        -->
-  <!-- Priority matters! Latter definitions override former (even in former xml-s -->
-    <inherits name="com.google.gwt.resources.Resources" />
-   <!-- Other module inherits        -->
+  <inherits name='org.geogebra.web.Tablet'/>
   
-    <!-- GeoGebraTube upload -->
-  <inherits name="com.google.gwt.http.HTTP"/>  
-  <inherits name='com.google.gwt.xml.XML' /> 
-  <inherits name='geogebra.Html5'/>
-  <!-- CAS -->
- 
- 
-
- <set-configuration-property name="devModeRedirectEnabled" value="false"/>
- <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
-
-  <!-- This was added to remove a compile error in a general case -->
- <define-property name="gwt.logging.popupHandler" values="DISABLED"/>
-  <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
-   
-  <inherits name='com.googlecode.gwtgl.binding'/>
- 
-  <!-- Specify the app entry point class.                         -->
-  <entry-point class='geogebra.tablet.Tablet'/>
-
-  <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
-  <set-property name="user.agent" value="safari, gecko1_8, ie9, ie10" />
-  <!--<set-property name="user.agent" value="safari, gecko1_8" /> -->
-  <add-linker name="xsiframe" />
-  
-  <!-- Define a custom App Cache linker -->
-  <define-linker name="appcachelinker" class="geogebra.linker.AppCacheLinker"/>-->
-  <!-- Use it -->
-  <add-linker name="appcachelinker"/>-->
-  
-  
-  <!-- Specify the paths for translatable code                    -->
-  <source path='web'/>
-  <source path='html5'/>
-  <source path='touch'/>
-  <source path='tablet'/>
-  <source path='geogebra3D'/>
-  <source path='plugin'/>
-  <super-source path='/common/src/geogebra/jre' />
-  
-  <replace-with class="geogebra.touch.gui.layout.SplitterImplTouch">
-    <when-type-is class="geogebra.web.gui.layout.SplitterImpl"/>
+  <replace-with class="org.geogebra.web.tablet.main.TabletDeviceWin">
+    <when-type-is class="org.geogebra.web.tablet.main.TabletDevice" />    
   </replace-with>
-  
-  <replace-with class="geogebra.web.gui.PNGImageFactory">
-    <when-type-is class="geogebra.web.gui.ImageFactory" />    
-  </replace-with>
-  
-  <!-- Switch the replace-with rule to 2D when compiling for slow tablets -->
-  <!--replace-with class="geogebra.web.gui.applet.AppletFactory2D"-->
-  <replace-with class="geogebra.geogebra3D.AppletFactory3D">
-    <when-type-is class="geogebra.web.gui.applet.AppletFactory" />    
-  </replace-with>
-  
-  <replace-with class="geogebra.tablet.main.TabletDeviceWin">
-    <when-type-is class="geogebra.tablet.main.TabletDevice" />    
-  </replace-with>
-   
-   
-    <inherits name="com.google.gwt.json.JSON" />
-  
-  <!-- Images, js-es will be copied from here.
-  You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
-  <public path="pub" />
   
   <!-- Compile only one permutation -->
   <collapse-all-properties />
