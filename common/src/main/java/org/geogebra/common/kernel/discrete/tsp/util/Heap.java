@@ -4,73 +4,30 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * çµŒè·¯æŽ¢ç´¢ã�®ã�Ÿã‚�ã�®ãƒ’ãƒ¼ãƒ—ã�§ã�™ã€‚
- * ã‚­ãƒ¼ã�«å¯¾ã�—ã�¦å€¤ã‚’æŒ�ã�Ÿã�›ã€�å€¤ã�®æ¯”è¼ƒã�«ã‚ˆã�£ã�¦ã€�ãƒ’ãƒ¼ãƒ—ï¼ˆå„ªå…ˆåº¦ä»˜ã‚­ãƒ¥ãƒ¼ï¼‰ã‚’æ§‹ç¯‰ã�—ã�¾ã�™ã€‚
- * Comparatorã‚’ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã�«ä¸Žã�ˆã�ªã�‘ã‚Œã�°ã€�è¦�ç´ ã�¯æœ€å°�ã�®å€¤ã‚’æ ¹ã�«ã�—ã�¦ãƒ’ãƒ¼ãƒ—ã‚’æ§‹æˆ�ã�—ã�¾ã�™ã€‚
- * 
- * ã‚­ãƒ¼ã�«å¯¾ã�™ã‚‹å€¤ã‚’æ›´æ–°ã�™ã‚‹å ´å�ˆã�«ã�¯ã€�ä»¥å‰�ã�®å€¤ã‚ˆã‚Šã‚‚æ ¹ã�«è¿‘ã�„ï¼ˆå°�ã�•ã�„ï¼‰ã�¨è©•ä¾¡ã�•ã‚Œã‚‹å ´å�ˆã�®ã�¿
- * æ›´æ–°ã�•ã‚Œã�¾ã�™ã€‚
- *
- * @author ma38su
- * @param <E> 
- *
- */
 public class Heap<E> {
 
-	/**
-	 * æ¨™æº–ã�®åˆ�æœŸå®¹é‡�
-	 */
 	private static final int DEFAULT_CAPACITY = 10;
 
-	/**
-	 * ã‚½ãƒ¼ãƒˆã�•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	 */
 	private E[] entries;
 
-	/**
-	 * ãƒ’ãƒ¼ãƒ—ã�®ã‚µã‚¤ã‚º
-	 */
 	private int size;
 
-	/**
-	 * ã‚­ãƒ¼ã�®ç®¡ç�†ã�®ã�Ÿã‚�ã�®Map
-	 */
 	private final Map<E, Integer> table;
-	
-	/**
-	 * é †åº�ä»˜ã�‘
-	 */
+
 	private final Comparator<E> comparator;
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 *
-	 */
 	public Heap() {
 		this(null);
 	}
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 * @param initialCapacity åˆ�æœŸå®¹é‡�
-	 */
 	public Heap(int initialCapacity) {
 		this(initialCapacity, null);
 	}
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 * @param comparator
-	 */
+
 	public Heap(Comparator<E> comparator) {
 		this(Heap.DEFAULT_CAPACITY, comparator);
 	}
 
-	/**
-	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-	 * @param initialCapacity åˆ�æœŸå®¹é‡�
-	 * @param comparator
-	 */
 	@SuppressWarnings("unchecked")
 	public Heap(int initialCapacity, Comparator<E> comparator) {
 		if (initialCapacity < 1) {
@@ -82,12 +39,6 @@ public class Heap<E> {
 		this.comparator = comparator;
 	}
 
-	/**
-	 * keyã�Œå­˜åœ¨ã�—ã�¦ã�„ã‚Œã�°valueæ›´æ–°ã€�keyã�Œå­˜åœ¨ã�—ã�¦ã�ªã�‘ã‚Œã�°å ´å�ˆã�¯æŒ¿å…¥ã�™ã‚‹
-	 * @param key æŒ¿å…¥ã�™ã‚‹ key
-	 * @param value æŒ¿å…¥ã�™ã‚‹ value
-	 * @return æ›´æ–°ã�¾ã�Ÿã�¯æŒ¿å…¥ã�Œã�Šã�“ã�ªã�ˆã‚Œã�°true
-	 */
 	@SuppressWarnings("unchecked")
 	public boolean add(E key) {
 		E entry = key;
@@ -95,7 +46,7 @@ public class Heap<E> {
 		if (pointer != null) {
 			int index = pointer.intValue();
 			if (this.comparator == null) {
-				if(((Comparable<E>)this.entries[index]).compareTo(entry) > 0) {
+				if (((Comparable<E>) this.entries[index]).compareTo(entry) > 0) {
 					this.entries[index] = entry;
 					this.fixUp(index);
 				} else {
@@ -120,6 +71,7 @@ public class Heap<E> {
 
 	/**
 	 * å…¥ã‚Œæ›¿ã�ˆã‚‹
+	 * 
 	 * @param index1
 	 * @param index2
 	 */
@@ -132,7 +84,9 @@ public class Heap<E> {
 	}
 
 	/**
-	 * ãƒ’ãƒ¼ãƒ—ã�®å…ˆé ­ï¼ˆæ ¹ï¼‰ã�®è¦�ç´ ã‚’å‰Šé™¤ã�—ã�¦å�–ã‚Šå‡ºã�™
+	 * ãƒ’ãƒ¼ãƒ—ã�®å…ˆé ­ï¼ˆæ ¹ï¼‰ã�®è¦�
+	 * ç´ ã‚’å‰Šé™¤ã�—ã�¦å�–ã‚Šå‡ºã�™
+	 * 
 	 * @return ãƒ’ãƒ¼ãƒ—ã�®å…ˆé ­ã�®è¦�ç´ 
 	 */
 	public E poll() {
@@ -154,7 +108,10 @@ public class Heap<E> {
 	}
 
 	/**
-	 * å‰Šé™¤ã�›ã�šã�«ãƒ’ãƒ¼ãƒ—ã�®å…ˆé ­ï¼ˆæ ¹ï¼‰ã�®è¦�ç´ ã‚’å�–ã‚Šå‡ºã�™
+	 * å‰Šé™¤ã�›ã�šã�«ãƒ’ãƒ¼ãƒ—ã�®å…ˆé�
+	 * �­ï¼ˆæ ¹ï¼‰ã�®è¦�ç´ ã‚’å�–ã‚Šå‡
+	 * ºã�™
+	 * 
 	 * @return ãƒ’ãƒ¼ãƒ—ã�®å…ˆé ­ã�®è¦�ç´ 
 	 */
 	public E peek() {
@@ -162,7 +119,8 @@ public class Heap<E> {
 	}
 
 	/**
-	 * @param key ç¢ºèª�ã�™ã‚‹ key
+	 * @param key
+	 *            ç¢ºèª�ã�™ã‚‹ key
 	 * @return keyã�Œå�«ã�¾ã‚Œã�¦ã�„ã‚Œã�° true
 	 */
 	public boolean containsKey(Object key) {
@@ -177,19 +135,19 @@ public class Heap<E> {
 		this.size = 0;
 	}
 
-	/**
-	 * å­�ã�¨ã�®çŠ¶æ…‹ã�®æ¯”è¼ƒ
-	 * @param index
-	 */
+
 	@SuppressWarnings("unchecked")
 	private void fixDown(int index) {
 		int son;
 		if (this.comparator == null) {
 			while ((son = index << 1) <= this.size) {
-				if (son < this.size && ((Comparable<E>) this.entries[son]).compareTo(this.entries[son+1]) > 0) {
+				if (son < this.size
+						&& ((Comparable<E>) this.entries[son])
+								.compareTo(this.entries[son + 1]) > 0) {
 					son++;
 				}
-				if (((Comparable<E>) this.entries[index]).compareTo(this.entries[son]) <= 0) {
+				if (((Comparable<E>) this.entries[index])
+						.compareTo(this.entries[son]) <= 0) {
 					break;
 				}
 				this.swap(index, son);
@@ -197,10 +155,13 @@ public class Heap<E> {
 			}
 		} else {
 			while ((son = index << 1) <= this.size) {
-				if (son < this.size && this.comparator.compare(this.entries[son], this.entries[son+1]) > 0) {
+				if (son < this.size
+						&& this.comparator.compare(this.entries[son],
+								this.entries[son + 1]) > 0) {
 					son++;
 				}
-				if (this.comparator.compare(this.entries[index], this.entries[son]) <= 0) {
+				if (this.comparator.compare(this.entries[index],
+						this.entries[son]) <= 0) {
 					break;
 				}
 				this.swap(index, son);
@@ -211,6 +172,7 @@ public class Heap<E> {
 
 	/**
 	 * è¦ªã�¨ã�®çŠ¶æ…‹ã‚’ç¢ºèª�
+	 * 
 	 * @param index
 	 */
 	@SuppressWarnings("unchecked")
@@ -218,7 +180,8 @@ public class Heap<E> {
 		int parent;
 		if (this.comparator == null) {
 			while ((parent = index >> 1) > 0) {
-				if (((Comparable<E>) this.entries[index]).compareTo(this.entries[parent]) >= 0) {
+				if (((Comparable<E>) this.entries[index])
+						.compareTo(this.entries[parent]) >= 0) {
 					break;
 				}
 				this.swap(index, parent);
@@ -226,7 +189,8 @@ public class Heap<E> {
 			}
 		} else {
 			while ((parent = index >> 1) > 0) {
-				if (this.comparator.compare(this.entries[index], this.entries[parent]) >= 0) {
+				if (this.comparator.compare(this.entries[index],
+						this.entries[parent]) >= 0) {
 					break;
 				}
 				this.swap(index, parent);
@@ -236,15 +200,21 @@ public class Heap<E> {
 	}
 
 	/**
-	 * ãƒ’ãƒ¼ãƒ—ã�Œç©ºã�§ã�ªã�„ã�‹ç¢ºã�‹ã‚�ã‚‹ã€‚
-	 * @return ãƒ’ãƒ¼ãƒ—ã�«è¦�ç´ ã�Œã�ªã�‘ã‚Œã�°true
+	 * ãƒ’ãƒ¼ãƒ—ã�Œç©ºã�§ã�ªã�„ã�‹ç¢ºã�
+	 * �‹ã‚�ã‚‹ã€‚
+	 * 
+	 * @return 
+	 *         ãƒ’ãƒ¼ãƒ—ã�«è¦�ç´ ã�Œã�ªã�‘ã‚�
+	 *         �ã�°true
 	 */
 	public boolean isEmpty() {
 		return this.size == 0;
 	}
 
 	/**
-	 * é…�åˆ—ã�®ã‚µã‚¤ã‚ºã‚’æ‹¡å¼µã�™ã‚‹
+	 * é…�åˆ—ã�®ã‚µã‚¤ã‚ºã‚’æ‹¡å¼µã��
+	 * �ã‚‹
+	 * 
 	 * @param index
 	 */
 	@SuppressWarnings("unchecked")
@@ -275,16 +245,13 @@ public class Heap<E> {
 			return "";
 		}
 		final StringBuilder sb = new StringBuilder(this.entries[1].toString());
-		for(int i = 2; i <= this.size; i++) {
+		for (int i = 2; i <= this.size; i++) {
 			sb.append("," + this.entries[i].toString());
 		}
 		return sb.toString();
 	}
 
-	/**
-	 * ãƒ’ãƒ¼ãƒ—ã�®ã‚µã‚¤ã‚ºã‚’è¿”ã�—ã�¾ã�™ã€‚
-	 * @return ãƒ’ãƒ¼ãƒ—ã�®ã‚µã‚¤ã‚º
-	 */
+
 	public int size() {
 		return this.size;
 	}

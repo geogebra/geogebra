@@ -5,10 +5,6 @@ import java.util.List;
 import org.geogebra.common.kernel.discrete.tsp.model.Node;
 
 
-/**
- * 3-Optã�«ã‚ˆã‚‹å·¡å›žã‚»ãƒ¼ãƒ«ã‚¹ãƒžãƒ³å•�é¡Œã�®æ”¹å–„æ³•ã�§ã�™ã€‚
- * @author ma38su
- */
 public class Opt3 implements TspImprovement {
 	public boolean method(List<Node> route) {
 		int length = route.size();
@@ -29,7 +25,6 @@ public class Opt3 implements TspImprovement {
 					double before = d1 + d2 + s3.getDistance(t3);
 					double after = s1.getDistance(t2) + s3.getDistance(t1) + s2.getDistance(t3);
 					if (before > after) {
-						// ãƒªã‚¹ãƒˆã�®å›žè»¢ã‚’è¡Œã�„ã�¾ã�™ã€‚
 						this.reverse(route, i, j - 1);
 						this.reverse(route, j, k - 1);
 						this.reverse(route, i, k - 1);
@@ -108,12 +103,6 @@ public class Opt3 implements TspImprovement {
 		return false;
 	}
 
-	/**
-	 * æŒ‡å®šã�—ã�Ÿã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é–“ã�®è¦�ç´ ã‚’é€†é †ã�«ä¸¦ã�¹æ›¿ã�ˆã�¾ã�™ã€‚
-	 * @param route ãƒªã‚¹ãƒˆ 
-	 * @param s ä¸¦ã�¹æ›¿ã�ˆã‚‹è¦�ç´ ã�®æœ€å°�ã�®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 * @param t ä¸¦ã�¹æ›¿ã�ˆã‚‹è¦�ç´ ã�®æœ€å¤§ã�®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 */
 	public void reverse(int[] route, int s, int t) {
 		int length = route.length;
 		for (int i = (t - s) / 2; i >= 0; i--) {
@@ -123,12 +112,6 @@ public class Opt3 implements TspImprovement {
 		}
 	}
 	
-	/**
-	 * æŒ‡å®šã�—ã�Ÿã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é–“ã�®è¦�ç´ ã‚’é€†é †ã�«ä¸¦ã�¹æ›¿ã�ˆã�¾ã�™ã€‚
-	 * @param route ãƒªã‚¹ãƒˆ 
-	 * @param s ä¸¦ã�¹æ›¿ã�ˆã‚‹è¦�ç´ ã�®æœ€å°�ã�®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 * @param t ä¸¦ã�¹æ›¿ã�ˆã‚‹è¦�ç´ ã�®æœ€å¤§ã�®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 */
 	public void reverse(List<Node> route, int s, int t) {
 		int length = route.size();
 		for (int i = (t - s) / 2; i >= 0; i--) {

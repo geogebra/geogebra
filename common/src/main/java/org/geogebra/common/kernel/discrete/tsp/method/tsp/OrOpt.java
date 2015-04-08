@@ -5,12 +5,6 @@ import java.util.List;
 import org.geogebra.common.kernel.discrete.tsp.model.Node;
 
 
-/**
- * Or-Optã�«ã‚ˆã‚‹å·¡å›žã‚»ãƒ¼ãƒ«ã‚¹ãƒžãƒ³å•�é¡Œã�®æ”¹å–„æ³•ã�§ã�™ã€‚
- * é€£ç¶šã�™ã‚‹3é ‚ç‚¹ã�¾ã�§ã�®éƒ¨åˆ†è·¯ã‚’ä»–ã�®ä½�ç½®ã�«ç§»å‹•æŒ¿å…¥ã�—ã�¾ã�™ã€‚
- * æž�ã‚’3æœ¬åˆˆã‚‹ã�Ÿã‚�ã€�3-Optã�¨æŒ™å‹•ã�¯å�Œã�˜ã�§ã�‚ã‚‹ã€‚
- * @author ma38su
- */
 public class OrOpt implements TspImprovement {	
 
 	public boolean method(List<Node> route) {
@@ -88,7 +82,7 @@ public class OrOpt implements TspImprovement {
 	}
 
 	public boolean method(int[] route, double[][] table) {
-		// TODO è‡ªå‹•ç”Ÿæˆ�ã�•ã‚Œã�Ÿãƒ¡ã‚½ãƒƒãƒ‰ãƒ»ã‚¹ã‚¿ãƒ–
+		// TODO 
 		return false;
 	}
 }

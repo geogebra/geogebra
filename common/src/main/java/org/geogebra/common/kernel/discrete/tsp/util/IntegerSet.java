@@ -1,17 +1,11 @@
 package org.geogebra.common.kernel.discrete.tsp.util;
 
-/**
- * Integeråž‹ã�®ã‚»ãƒƒãƒˆ
- * @author ma38su
- */
+
 public class IntegerSet {
 	private int[] bitset;
 	private int[] list;
 	private int size;
-	/**
-	 * è¦�ç´ ã�®æ•°ã‚’è¿”ã�™ãƒ¡ã‚½ãƒƒãƒ‰
-	 * @return è¦�ç´ ã�®æ•°
-	 */
+
 	public int size() {
 		return this.size;
 	}
@@ -30,20 +24,10 @@ public class IntegerSet {
 		}
 	}
 
-	/**
-	 * è¦�ç´ ã‚’å�«ã‚€ã�‹ã�©ã�†ã�‹ç¢ºèª�ã�™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-	 * @param value è¦�ç´ 
-	 * @return è¦�ç´ ã‚’å�«ã‚“ã�§ã�„ã‚Œã�°trueã‚’è¿”ã�™ã€�falseã‚’è¿”ã�™ã€‚
-	 */
 	public boolean contains(int value) {
 		return this.bitset[value] > 0;
 	}
 
-	/**
-	 * è¦�ç´ ã‚’åŠ ã�ˆã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-	 * @param value åŠ ã�ˆã‚‹è¦�ç´ 
-	 * @return è¦�ç´ ã�Œå�«ã�¾ã‚Œã�¦ã�„ã�ªã�‘ã‚Œã�°trueã€�å�«ã�¾ã‚Œã�¦ã�„ã�ªã�‘ã‚Œã�°falseã‚’è¿”ã�™ã€‚
-	 */
 	public boolean add(int value) {
 		if (this.bitset[value] == 0) {
 			this.list[this.size++] = value;
@@ -60,11 +44,6 @@ public class IntegerSet {
 		return this.list[index];
 	}
 	
-	/**
-	 * è¦�ç´ ã‚’å‰Šé™¤ã�™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-	 * @param value å‰Šé™¤ã�™ã‚‹è¦�ç´ 
-	 * @return è¦�ç´ ã�Œå�«ã�¾ã‚Œã�¦ã�„ã‚Œã�°trueã€�å�«ã�¾ã‚Œã�¦ã�„ã�ªã�‘ã‚Œã�°falseã‚’è¿”ã�™ã€‚
-	 */
 	public boolean remove(int value) {
 		if (this.bitset[value] > 0) {
 			int index = this.bitset[value] - 1;

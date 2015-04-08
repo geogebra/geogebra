@@ -5,11 +5,6 @@ import java.util.List;
 import org.geogebra.common.kernel.discrete.tsp.model.Node;
 
 
-/**
- * æ”¹å–„æ³•ã‚’é †åº�ã‚’æŒ‡å®šã�—ã�¦é�©ç”¨ã�™ã‚‹ã�Ÿã‚�ã�®ã‚¯ãƒ©ã‚¹
- * æ”¹å–„æ³•ã�Œé�©ç”¨ã�§ã��ã�ªã��ã�ªã‚Œã�°ã€�æ”¹ã‚�ã�¦æœ€åˆ�ã�®æ”¹å–„æ³•ã�‹ã‚‰é�©ç”¨ã�—ã�¦ã�„ã��ã�¾ã�™ã€‚
- * @author ma38su
- */
 public class ImproveRoutine implements TspImprovement {
 	TspImprovement[] algorithm;
 	
