@@ -18,9 +18,12 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *         http://emp.byui.edu/BrownD
  *         /Mathematics/Calculus-Rn-Rm/Gaussian-curvature.pdf
  * 
- *         test-cases z=x^2+y^2, k=4/(1+4x^2+4y^2)^2 z=x^2-y^2,
- *         k=-4/(1+4x^2+4y^2)^2 z=x^3+y^3, k=-36x y / (1 + 9x⁴ + 9y⁴)²
- *         z=sqrt(1-x^2-y^2), k=1 (sphere) z=a x + b y, k=0 (plane!)
+ *         test-cases 
+ *         z=x^2+y^2, k=4/(1+4x^2+4y^2)^2 
+ *         z=x^2-y^2, k=-4/(1+4x^2+4y^2)^2 
+ *         z=x^3+y^3, k=-36x y / (1 + 9x^4 + 9y^4)^2
+ *         z=sqrt(1-x^2-y^2), k=1 (sphere) 
+ *         z=a x + b y, k=0 (plane!)
  */
 
 public class AlgoCurvatureSurface extends AlgoElement {
