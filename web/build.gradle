@@ -47,6 +47,7 @@ eclipse.classpath.file {
 gwt {
 	gwtVersion = '2.7.0'
 	modules 'org.geogebra.web.Web3D'
+	devModules 'org.geogebra.web.Web3D'
 	maxHeapSize = '1500M'
 }
 
@@ -64,10 +65,27 @@ task deployIntoWar(dependsOn: 'compileGwt', type: Copy) {
 	into(file('war/web3d'))
 }
 
+task draftDeployIntoWar(dependsOn: 'draftCompileGwt', type: Copy) {
+	description 'Copies the GWT draft compilation directory (web3d) to the war directory.'
+	from(file('build/gwt/draftOut/web3d'))
+	into(file('war/web3d'))
+}
+
 import org.apache.tools.ant.taskdefs.condition.Os
 
 task run (dependsOn: 'deployIntoWar', type: Exec) {
 	description 'Runs GeoGebraWeb in Google Chrome'
+	def startpage = file('war/app.html').absolutePath
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+	    commandLine 'cmd', '/c', 'start', 'chrome', startpage
+	    }
+	if (Os.isFamily(Os.FAMILY_UNIX)) {
+	 	commandLine 'google-chrome', startpage
+	    }
+}
+
+task draftRun (dependsOn: 'deployIntoWar', type: Exec) {
+	description 'Runs GeoGebraWeb draft in Google Chrome'
 	def startpage = file('war/app.html').absolutePath
 	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
 	    commandLine 'cmd', '/c', 'start', 'chrome', startpage
