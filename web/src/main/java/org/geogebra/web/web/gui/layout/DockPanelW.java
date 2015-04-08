@@ -405,6 +405,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		titleBarPanel.setStyleName("TitleBarPanel");
 		titleBarPanel.addStyleName("cursor_drag");
 		
+		kbButtonSpace = new SimplePanel();
+		
 		titleBarPanelContent = new FlowPanel();
 		titleBarPanelContent.setStyleName("TitleBarPanelContent");
 		titleBarPanel.add(titleBarPanelContent);
@@ -535,7 +537,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			}
 			updateStyleBarVisibility();
 		}
-		kbButtonSpace = new SimplePanel();
+
 		dockPanel.addSouth(kbButtonSpace, 0);
 
 		if (component != null) {
@@ -1390,6 +1392,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	public void addSouth(ShowKeyboardButton showKeyboardButton) {
+		if (this.kbButtonSpace == null) {
+			return;
+		}
 		this.kbButtonSpace.setWidget(showKeyboardButton);
 	}
 }

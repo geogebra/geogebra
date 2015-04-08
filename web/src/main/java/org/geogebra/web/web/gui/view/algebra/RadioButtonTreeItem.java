@@ -817,13 +817,19 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
-				text = DrawEquationWeb.inputLatexCosmetics(text);
-				int tl = text.length();
-				text = DrawEquationWeb.stripEqnArray(text);
-				updateColor(seMayLatex);
-				DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{" + text
+				if ("".equals(text)) {
+					DrawEquationWeb.updateEquationMathQuillGGB("", seMayLatex,
+					        true);
+				} else {
+					text = DrawEquationWeb.inputLatexCosmetics(text);
+					int tl = text.length();
+					text = DrawEquationWeb.stripEqnArray(text);
+					updateColor(seMayLatex);
+					DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{"
+					        + text
 				        + "}", seMayLatex, tl == text.length());
-				updateColor(seMayLatex);
+					updateColor(seMayLatex);
+				}
 			} else if (newLaTeX) {
 				SpanElement se = DOM.createSpan().cast();
 				EquationEditor.updateNewStatic(se);

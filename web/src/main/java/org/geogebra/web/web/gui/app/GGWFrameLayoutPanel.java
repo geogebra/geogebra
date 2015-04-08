@@ -15,6 +15,7 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.util.keyboard.UpdateKeyBoardListener;
@@ -185,7 +186,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 					.getPanel(App.VIEW_ALGEBRA);
 
 			if (algebraDockPanel != null) {
-				showKeyboardButton = new ShowKeyboardButton(this, textField,
+				showKeyboardButton = new ShowKeyboardButton(this,
+				        textField == null ? (((AlgebraViewW) app
+				                .getAlgebraView()).getInputTreeItem())
+				                : textField,
 						((Widget) algebraDockPanel));
 				if (algebraDockPanel instanceof AlgebraDockPanelW) {
 					((AlgebraDockPanelW) algebraDockPanel)
@@ -238,8 +242,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				onResize();
 				dockPanel.onResize();
 				scrollToInputField();
-				textField.setFocus(true);
-				textField.ensureEditing();
+				if(textField!= null){
+					textField.setFocus(true);
+					textField.ensureEditing();
+				}
 			}
 		};
 		timer.schedule(500);

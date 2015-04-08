@@ -1,11 +1,5 @@
 package org.geogebra.web.web.gui.layout;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -19,10 +13,18 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
+//import org.geogebra.web.html5.openjdk.awt.geom.Rectangle;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.TreeSet;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -391,7 +393,7 @@ public class DockManagerW extends DockManager {
 		
 			markAlonePanel();
 			
-			setActiveToolBarDefault();
+			setActiveToolBarDefault(dpData);
 
 			// is focused dock panel not visible anymore => choose another one
 		//	if(focusedDockPanel == null || !focusedDockPanel.isVisible()) {
@@ -1069,7 +1071,7 @@ public class DockManagerW extends DockManager {
 				app.setShowToolBar(true, true);
 				// active toolbar should not be the panel's any more
 				if (app.getGuiManager().getActiveToolbarId() == panel.getViewId()) {
-					setActiveToolBarDefault();
+					setActiveToolBarDefault(null);
 				}
 			}
 			
@@ -1085,19 +1087,42 @@ public class DockManagerW extends DockManager {
 	}
 	
 	
+	private TreeSet<Integer> viewsInPerspective = new TreeSet<Integer>();
 	/**
 	 * set active toolbar to default
 	 */
-	private void setActiveToolBarDefault() {
+	private void setActiveToolBarDefault(DockPanelData[] dpData) {
 
 		GuiManagerInterfaceW guiManager = app.getGuiManager();
 
 		// default
 		int toolbarID = App.VIEW_EUCLIDIAN;
-
+		if (dpData != null) {
+			viewsInPerspective.clear();
+			for (int i = 0; i < dpData.length; i++) {
+				if (dpData[i].isVisible() && !dpData[i].isOpenInFrame()) {
+					viewsInPerspective.add(dpData[i].getViewId());
+				}
+			}
+			if (viewsInPerspective.contains(App.VIEW_CAS)) {
+				toolbarID = App.VIEW_CAS;
+			} else if (viewsInPerspective.contains(App.VIEW_SPREADSHEET)) {
+				toolbarID = App.VIEW_SPREADSHEET;
+			} else if (viewsInPerspective.contains(App.VIEW_EUCLIDIAN)) {
+				toolbarID = App.VIEW_EUCLIDIAN;
+			} else if (viewsInPerspective.contains(App.VIEW_EUCLIDIAN2)) {
+				toolbarID = App.VIEW_EUCLIDIAN2;
+			} else if (viewsInPerspective.contains(App.VIEW_EUCLIDIAN3D)) {
+				toolbarID = App.VIEW_EUCLIDIAN3D;
+			} else if (viewsInPerspective
+			        .contains(App.VIEW_PROBABILITY_CALCULATOR)) {
+				toolbarID = App.VIEW_PROBABILITY_CALCULATOR;
+			}
+		}
 		// show CAS-toolbar in CAS-perspective (same for Spreadsheet)
 		// in the other perspectives use Euclidian-toolbar (if available)
-		if (guiManager.hasCasView() && getPanel(App.VIEW_CAS) != null && getPanel(App.VIEW_CAS).isVisible()) {
+		else if (guiManager.hasCasView() && getPanel(App.VIEW_CAS) != null
+		        && getPanel(App.VIEW_CAS).isVisible()) {
 			toolbarID = App.VIEW_CAS;
 		} else if (guiManager.hasSpreadsheetView() && getPanel(App.VIEW_SPREADSHEET) != null && getPanel(App.VIEW_SPREADSHEET).isVisible()) {
 			toolbarID = App.VIEW_SPREADSHEET;

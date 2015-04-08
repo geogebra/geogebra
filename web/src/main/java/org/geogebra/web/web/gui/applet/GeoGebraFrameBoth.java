@@ -263,7 +263,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			DockPanelW algebraDockPanel = (DockPanelW) app.getGuiManager()
 			        .getLayout()
 			        .getDockManager().getPanel(App.VIEW_ALGEBRA);
-			showKeyboardButton = new ShowKeyboardButton(this, textField,
+			showKeyboardButton = new ShowKeyboardButton(this,
+			        textField == null ? (((AlgebraViewW) app.getAlgebraView())
+			                .getInputTreeItem()) : textField,
 			        algebraDockPanel);
 		}
 		showKeyboardButton.show(app.isKeyboardNeeded(), textField);
