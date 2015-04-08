@@ -2499,15 +2499,5 @@ SymbolicParametersBotanaAlgo {
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_BOUNDARY;
-	}
-
-	@Override 
-	public void setLabel(String newLabel) { 
-		super.setLabel(newLabel); 
-		if (newLabel.endsWith("'")) { 
-			if (cons.lookupLabel(newLabel.substring(0, newLabel.length() - 1)) != null) { 
-				setObjColor(GColor.DARK_GRAY); 
-			} 
-		} 
 	} 
 }
