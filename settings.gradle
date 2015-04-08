@@ -1,1 +1,4 @@
-include 'common', 'desktop', 'jogl2', 'giac-jni', 'input3D:stub', 'input3D:impl', 'web', 'web:dev', 'ggbjdk'
+include 'common', 'ggbjdk'
+include 'desktop', 'jogl2', 'giac-jni', 'input3D:stub', 'input3D:impl'
+include 'web', 'web:dev'
+include 'app', 'giac', 'iwb', 'test', 'tools', 'touch'

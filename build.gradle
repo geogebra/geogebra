@@ -16,7 +16,6 @@ subprojects {
 	}
 
 	tasks.eclipse.dependsOn('cleanEclipse')
-
 }
 
 ext.joglver = '2.2.0'
@@ -26,4 +25,4 @@ ext.javagiacver = '201503271100'
 task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
 	gradleVersion = '2.0'
-}
+}
