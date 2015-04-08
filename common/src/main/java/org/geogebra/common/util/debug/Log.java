@@ -523,7 +523,7 @@ public abstract class Log {
 		}
 	}
 
-	public void printStacktrace() {
+	public void printStacktrace(String message) {
 
 	}
 }

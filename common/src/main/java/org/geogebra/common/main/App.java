@@ -1128,7 +1128,9 @@ public abstract class App implements UpdateSelection {
 	 *            message to appear on top of the stacktrace
 	 */
 	public static void printStacktrace(Object message) {
-		Log.logger.printStacktrace();
+		if(Log.logger != null){
+			Log.logger.printStacktrace(message == null ? "null" : message.toString());
+		}
 		try {
 			throw new Exception(message == null ? "null" : message.toString());
 		} catch (Exception e) {

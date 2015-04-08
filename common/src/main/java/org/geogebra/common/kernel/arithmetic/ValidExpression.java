@@ -452,6 +452,18 @@ public abstract class ValidExpression implements ExpressionValue {
 			}
 		});
 	}
+	
+	public final boolean containsFunctionVariable(final String name) {
+		return this.inspect(new Inspecting() {
+
+			@Override
+			public boolean check(ExpressionValue v) {
+				return v instanceof FunctionVariable
+						&& (name == null || name.equals(((FunctionVariable) v)
+								.getSetVarString()));
+			}
+		});
+	}
 
 	/**
 	 * Here we just check for number values, overridden in ExpressionNode

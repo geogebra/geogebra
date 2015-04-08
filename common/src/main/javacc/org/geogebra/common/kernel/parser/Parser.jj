@@ -285,7 +285,7 @@ TOKEN :  {
   | < #INDEXDIGIT:                                     // unicode digits
        [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3"] >
   | < PI:       ( "pi" | "Pi" | "\u03c0" ) >
-  | < EULER_GAMMA:       ( "euler_gamma" | "\u212F_\u03B3" ) > // Eulerâ€“Mascheroni constant
+  | < EULER_GAMMA:       ( "euler_gamma" | "\u212F_\u03B3" ) > // Euler–Mascheroni constant
   | < E:        ("\u212f") > // Euler constant
   | < IMAGINARY: ("\u03af") > // imaginary constant
   // 02da is "Ring Above", Alt-k in iPad
@@ -441,7 +441,7 @@ ValidExpression buildValidExpression() :
         lhs = expressionnode() <EQUAL> rhs = expressionnode()
         {             
             // maybe it's an assignment, i.e. there is no x, y, or z on the right side
-      if (!rhs.containsFreeFunctionVariable())
+      if (!rhs.containsFreeFunctionVariable(null))
       {
           // assignment, e.g. z = 23
           if (lhs.isSingleVariable()) {                                                   
@@ -498,7 +498,8 @@ ValidExpression buildValidExpression() :
     ( <POLAR_SEPARATOR> | <EOF> )     
     {                      
         if (labels.size() > 0) ve.addLabel(labels);  // command with ouput labels
-        else if (ve.labelCount() == 0)        {
+        else if (ve.labelCount() == 0)
+        {
           ve.addLabel(l.image);  // standard case
         }                         
         return ve;
@@ -794,7 +795,7 @@ ExpressionNode expression():
     rhs = expressionnode()              
     {
       // Giac uses x,y not ggbtmpvarx/y
-        if (!GeoGebraCASParsing && !GiacParsing && rhs.containsFreeFunctionVariable()) {
+        if (!GeoGebraCASParsing && !GiacParsing && rhs.containsFreeFunctionVariable(null)) {
           throw new MyError(loc, "IncompleteEquation");
         }
         
@@ -914,20 +915,37 @@ ExpressionNode functionExpressionnode():
           // allow f(y) in CAS but not in GeoGebra
     //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image)) 
       //      throw new MyError(app, "InvalidInput");
-      	if(condition != null)      	{			rhs = new ExpressionNode(kernel, condition, Operation.IF, rhs);
+      	if(condition != null)
+      	{
+			rhs = new ExpressionNode(kernel, condition, Operation.IF, rhs);
       	}
         String funLabel = funName.image.substring(0,funName.image.length()-1);   
 
       // command without variables: return expressionnode
       // only check for function variables outside of command, eg Derivative[f(x)]+x #4533
-        if (rhs.getLeft() instanceof Command && !rhs.containsFreeFunctionVariable()) {
+        if (rhs.getLeft() instanceof Command && !rhs.containsFreeFunctionVariable(null)) {
         rhs.setLabel(funLabel);
         return rhs;
       }
+      
 
         // function: wrap function in ExpressionNode
       // number of vars
       int n = localVars.size();
+      Operation op = app.getParserFunctions().get(funLabel,n);
+      if(op!=null)
+      {
+        if(n==1)
+        {
+          return new Equation(kernel,new FunctionVariable(kernel,localVars.get(0)).wrap().apply(op),rhs).wrap();
+        }
+        MyList vars = new MyList(kernel, n);
+        for (int i=0;i<n; i++){
+          FunctionVariable funVar = new FunctionVariable(kernel,localVars.get(i));
+          vars.addListElement(funVar);
+        }
+        return new Equation(kernel,vars.wrap(),rhs).wrap();
+      }
       
       FunctionVariable[] funVar = new FunctionVariable[n];
         for (int i=0;i<n; i++){
@@ -1314,7 +1332,8 @@ ExpressionValue multterm():
                      normal = false;
                   //c*(a)(b) in Giac: function applied on right subtree
                   } else if(leftIsExpxTimesVar){
-                      Command cmd = new Command(kernel, ((ExpressionNode)ret).getRight().toString(StringTemplate.defaultTemplate), true, true);                      ((ExpressionNode)ret).setRight(cmd);
+                      Command cmd = new Command(kernel, ((ExpressionNode)ret).getRight().toString(StringTemplate.defaultTemplate), true, true);
+                      ((ExpressionNode)ret).setRight(cmd);
                        cmd.addArgument(f.wrap());
                        normal = false;
                   }
@@ -1987,11 +2006,16 @@ ExpressionNode numberFunction():
             cell = kernel.lookupCasCellLabel(funcName);
         
             if (cell==null && (geo == null || !(geo.isGeoFunction() || geo.isGeoCurveCartesian())))  {
-              	if(label.startsWith("log_"))              	{
+              	if(label.startsWith("log_"))
+              	{
               	  	String logIndex = label.substring(4);
-              	  	if(logIndex.startsWith("{"))              	  	{						logIndex = logIndex.substring(1,logIndex.length() -1);
+              	  	if(logIndex.startsWith("{"))
+              	  	{
+						logIndex = logIndex.substring(1,logIndex.length() -1);
               	  	}
-              	  	double indexVal = MyDouble.parseDouble(loc, logIndex);              	  	  					return new ExpressionNode(kernel, new MyDouble(kernel, indexVal), Operation.LOGB, myList.getListElement(0));
+              	  	double indexVal = MyDouble.parseDouble(loc, logIndex);
+              	  	  
+					return new ExpressionNode(kernel, new MyDouble(kernel, indexVal), Operation.LOGB, myList.getListElement(0));
               	}
                 while (index >=0 && c.image.charAt(index) == '\''){
                     order++; 

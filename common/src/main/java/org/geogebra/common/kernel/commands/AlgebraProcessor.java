@@ -11,11 +11,6 @@ the Free Software Foundation.
  */
 package org.geogebra.common.kernel.commands;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -54,17 +49,18 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.Variable;
-import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectFunctionVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.Variable;
+import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -84,7 +80,6 @@ import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
@@ -102,6 +97,11 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -2084,7 +2084,7 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processEquation(Equation equ) throws MyError {
 		if (equ.getLHS().unwrap() instanceof FunctionVariable
-				&& !equ.getRHS().containsFreeFunctionVariable()
+				&& !equ.getRHS().containsFreeFunctionVariable(null)
 				&& !equ.getRHS().evaluatesToNumber(true)) {
 			equ.getRHS().setLabel(
 					equ.getLHS().toString(StringTemplate.defaultTemplate));
@@ -2143,7 +2143,9 @@ public class AlgebraProcessor {
 			// test for "y= <rhs>" here as well
 			String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate)
 					.trim();
-			if (lhsStr.equals("y")) {
+
+			if (lhsStr.equals("y")
+					&& !equ.getRHS().containsFreeFunctionVariable("y")) {
 
 				Function fun = new Function(equ.getRHS());
 				// try to use label of equation
@@ -2356,7 +2358,7 @@ public class AlgebraProcessor {
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables();
 		String label = n.getLabel();
-		if (n.containsFreeFunctionVariable()) {
+		if (n.containsFreeFunctionVariable(null)) {
 			Set<String> fvSet = new TreeSet<String>();
 			FVarCollector fvc = FVarCollector.getCollector(fvSet);
 			n.traverse(fvc);

@@ -5353,24 +5353,25 @@ kernel, left,
 	/**
 	 * @return whether this contains FVar that is not part of equation or list
 	 */
-	public boolean containsFreeFunctionVariable() {
-		return checkForFreeVars(left)
-				|| (right != null && checkForFreeVars(right))
+	public boolean containsFreeFunctionVariable(String name) {
+		return checkForFreeVars(left, name)
+				|| (right != null && checkForFreeVars(right, name))
 				|| (operation == Operation.FUNCTION_NVAR
 						&& right instanceof MyList && ((ValidExpression) right)
-							.containsFunctionVariable());
+							.containsFunctionVariable(name));
 	}
 
-	private boolean checkForFreeVars(ExpressionValue ev) {
+	private boolean checkForFreeVars(ExpressionValue ev, String name) {
 		if (ev instanceof FunctionVariable) {
-			return true;
+			return name == null
+					|| name.equals(((FunctionVariable) ev).getSetVarString());
 		}
 		if (ev instanceof ExpressionNode) {
-			return ((ExpressionNode) ev).containsFreeFunctionVariable();
+			return ((ExpressionNode) ev).containsFreeFunctionVariable(name);
 		}
 		if (ev instanceof MyVecNode) {
-			return checkForFreeVars(((MyVecNode) ev).getX())
-					|| checkForFreeVars(((MyVecNode) ev).getY());
+			return checkForFreeVars(((MyVecNode) ev).getX(), name)
+					|| checkForFreeVars(((MyVecNode) ev).getY(), name);
 		}
 		return false;
 	}
