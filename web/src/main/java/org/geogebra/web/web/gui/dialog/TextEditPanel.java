@@ -116,6 +116,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		} else {
 			editor.updateFonts();
 			previewer.updateFonts();
+			advancedPanel.updateGeoList(); 
 			updatePreviewPanel();
 			
 		}
