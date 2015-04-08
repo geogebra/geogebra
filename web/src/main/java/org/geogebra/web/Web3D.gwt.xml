@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='web3d'>
 
-  <inherits name='org.geogebra.web.Web'/>
+  <inherits name='org.geogebra.web.Html5'/>
   <!-- webGL -->
   <inherits name='com.googlecode.gwtgl.binding'/>
     
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.geogebra.web.geogebra3D.web.Web3D'/>
   
-
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
   <set-property name="user.agent" value="safari, gecko1_8, ie9, ie10" />
   <!--<set-property name="user.agent" value="safari, gecko1_8" /> -->
   
   <!-- Specify the paths for translatable code                    -->
   <source path='geogebra3D'/>
-
+  <source path="web"/>
+  <source path="plugin"/>
+  <public path="pub" />
+  <extend-property name="locale" values="ar"/>
+  
   <replace-with class="org.geogebra.web.geogebra3D.AppletFactory3D">
     <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
   </replace-with>
