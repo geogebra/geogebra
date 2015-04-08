@@ -5522,19 +5522,27 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	display: block;
 }
 
-.ggbFavorite{
-	float:right;
-}
-
 /*
    ########################################
    ###    END OF MANAGE TOOLS DIALOG    ###
    ######################################## */
 
- .red {
- 	background:red;
- }
- /* make sure popup glass pane hides KB button too*/
- div.openKeyboardButton{
- z-index:99;
- }
+.ggbFavorite{
+	float:right;
+}
+
+
+
+.red {
+	background:red;
+}
+
+/* make sure popup glass pane hides KB button too*/
+div.openKeyboardButton{
+	z-index:99;
+}
+ 
+ 
+div.SymbolTablePopup{
+	z-index:501;
+}
