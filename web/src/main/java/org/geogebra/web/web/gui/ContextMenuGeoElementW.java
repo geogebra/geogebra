@@ -143,7 +143,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						showLabelCmd();
 					}
 				});
-				cbItem.setSelected(geo.isLabelVisible());
+				cbItem.setSelected(isLabelShown());
 				wrappedPopup.addItem(cbItem);
 			}
 

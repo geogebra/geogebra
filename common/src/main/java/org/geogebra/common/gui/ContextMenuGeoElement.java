@@ -281,12 +281,25 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
+		public boolean isLabelShown() {
+				return isLabelShown(checkOneGeo());
+			}
+		
+			public boolean isLabelShown(ArrayList<GeoElement> geos2) {
+				boolean show = true;
+				for (int i = geos2.size() - 1; i >= 0; i--) {
+					show = show && geos2.get(i).isLabelVisible();
+				}
+				return show;
+			}
+		
+
 	public void showLabelCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
-
+		boolean show = isLabelShown(geos2); 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			geo1.setLabelVisible(!geo1.isLabelVisible());
+			geo1.setLabelVisible(!show);
 			geo1.updateRepaint();
 
 		}

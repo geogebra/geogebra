@@ -462,7 +462,7 @@ public class ContextMenuGeoElementD extends
 			if (geo.isLabelShowable()) {
 				// show label
 				cbItem = new JCheckBoxMenuItem(app.getPlain("ShowLabel"));
-				cbItem.setSelected(geo.isLabelVisible());
+				cbItem.setSelected(isLabelShown());
 				cbItem.setIcon(((AppD) app)
 						.getScaledIcon("mode_showhidelabel_16.gif"));
 				cbItem.addActionListener(new ActionListener() {
