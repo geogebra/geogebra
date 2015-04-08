@@ -442,18 +442,6 @@ var manageTextarea = (function() {
 
       handleKey();
 
-      // detecting TAB (for Mozilla Firefox, Chrome, etc)
-      // although keypress is prevented, keyup/blur is not,
-      // that's why we need to prevent them explicitly here!
-      // TAB is not always prevented in RootMathBlock.onKey,
-      // which is probably wrong but easier to fix it here,
-      // for all possible cases, e.g. TextBlock, etc.
-      if (e.keyCode === 9) {
-    	// as a side-effect, keypress is prevented in
-    	// Mozilla Firefox as well, so no preventDefault
-    	// needed at keypress, this quick fix is enough
-    	e.preventDefault();
-      }
       //e.stopPropagation();
       //return true;
     }
@@ -1577,13 +1565,14 @@ function createRoot(jQ, root, textbox, editable) {
   root.renderLatex(contents.text());
 
   //textarea stuff
-  var textareaHtmlString = '<textarea></textarea>'
+  var textareaHtmlString = '<textarea tabindex="-1"></textarea>';
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test(window.navigator.userAgent)) {
-	textareaHtmlString = '<textarea disabled="disabled"></textarea>'  
+	textareaHtmlString = '<textarea disabled="disabled"></textarea>';
   }
   var textareaSpan = root.textarea = $('<span class="textarea">' + textareaHtmlString + '</span>'),
   textarea = textareaSpan.children();
+  var textareaDOM = textarea[0];
 
   /******
    * TODO [Han]: Document this
@@ -1791,53 +1780,68 @@ function createRoot(jQ, root, textbox, editable) {
   if (textbox)
     jQ.addClass('mathquillggb-textbox');
 
+  textareaDOM.hadFocus = false;
+
   //focus and blur handling
-  textarea.focus(function(e) {
-    if (!cursor.parent)
-      cursor.appendTo(root);
-    cursor.parent.jQ.addClass('hasCursor');
-    if (cursor.selection) {
-      cursor.selection.jQ.removeClass('blur');
-      setTimeout(root.selectionChanged); //re-select textarea contents after tabbing away and back
-    }
-    else
-      cursor.show();
+  textarea.focus(function(e1) {
+    e1.stopPropagation();
 
+    if (textareaDOM.hadFocus === false) {
+      textareaDOM.hadFocus = true;
+      if (!cursor.parent)
+        cursor.appendTo(root);
+      cursor.parent.jQ.addClass('hasCursor');
+      if (cursor.selection) {
+        cursor.selection.jQ.removeClass('blur');
+        setTimeout(root.selectionChanged); //re-select textarea contents after tabbing away and back
+      } else {
+        cursor.show();
+      }
+    }
     // dirty hack, but effective, as mathquillggb.js is used
     // from GeoGebraWeb anyway (if not, it does no harm)
     if (root.common.newCreationMode) {
-    	textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
+      textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
     }
+  }).blur(function(e2) {
+    e2.stopPropagation();
 
-    e.stopPropagation();
-  }).blur(function(e) {
-	if (cursor.parent)
-      cursor.hide().parent.blur();
-    if (cursor.selection)
-      cursor.selection.jQ.addClass('blur');
-
+    if (textareaDOM.hadFocus === true) {
+      textareaDOM.hadFocus = false;
+      if (cursor.parent)
+        cursor.hide().parent.blur();
+      if (cursor.selection)
+        cursor.selection.jQ.addClass('blur');
+    }
     // dirty hack, but effective, as mathquillggb.js is used
     // from GeoGebraWeb anyway (if not, it does no harm)
     if (root.common.newCreationMode) {
-    	textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
+      textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
     }
-    e.stopPropagation();
   });
 
   // to make things clear:
-  // - jQ will have tabindex=0, event orders:
+  // - jQ will have tabindex=1, event orders:
   // A. in case none has focus:
   // jQ.focus, textarea.focusin, jQ.blur, textarea.focus
   // more exactly:
   // jQ.focus, jQ.focusOut, textarea.focusin, jQ.blur, textarea.blur triggered,
   // now which comes first? textarea.focus or textarea.focusout & textarea.blur?
 
+  // there is a bug when TAB moves tabindex back to the same element,
+  // so maybe we will need a dummy element with a tabindex 0,
+  // which is later than the tab index of the mathquillggb-editable element!
+  jQ.prev().attr('tabindex', 2);
+
   // That's why a better solution is needed here:
-  jQ.attr('tabindex', 0).bind('focus.mathquillggb', function(e1) {
-	// making sure stopPropagation is really get called
+  jQ.attr('tabindex', 1).bind('focus.mathquillggb', function(e1) {
+    // it gets tabindex of 1 to get focus ASAP,
+    // and also because the blur event on TAB should
+    // really leave this element in case TAB is pressed!
+
+    // making sure stopPropagation is really get called
     e1.stopPropagation(); // it will be called in textarea?
 
-	//textarea.blurCalledFromFocus = true;
 	jQ.blur();
 	// if jQ just gets focus, why was here jQ.blur???
 	// to make this blur before textarea.focus() makes it blur,
@@ -1845,33 +1849,18 @@ function createRoot(jQ, root, textbox, editable) {
 	// after textarea.focus(), I think, which is too late
 	// but still in this case, textarea.blur may be called too
 	// late, setTimeout is not the best solution:
-
 	setTimeout(function() { textarea.focus(); });
-	// but we should call textarea.focus after this gets blurred
-	// how to do it? in jQ.blur, call textarea.focus when
-	// it was called from here, and textarea.blur when not.
-	// Hence the textarea.blurCalledFromFocus property
-    
-  }).bind('blur.mathquillggb', function(e3) {
-    // making sure stopPropagation is really get called
-    e3.stopPropagation(); // it will be called in textarea?
 
-    //if (textarea.blurCalledFromFocus) {
-    //  textarea.blurCalledFromFocus = false;
-      // in case textarea is already focused,
-      // maybe we need to blur it first; but it which event
-      // gets called earlier? focus or blur? I think blur!
-    //  textarea.blur();
-    //  textarea.focus();
-      // maybe it's better (and more efficient):
-      //if ((document.activeElement === textarea) && document.hasFocus()) {
-    	// do nothing in this case
-      //}
-      // but maybe we need to run the code in the focus event handler
-    //} else {
-      textarea.blur();
-    //}
-    
+    // so here are other setTimeout's, as
+    // the bug just turned out to be a timeout issue,
+    // which may be fixed differently but this works for sure:
+    setTimeout(function() { textarea.focus(); },100);
+    setTimeout(function() { textarea.focus(); },300);
+    setTimeout(function() { textarea.focus(); },500);
+
+  }).bind('blur.mathquillggb', function(e3) {
+    e3.stopPropagation();
+    textarea.blur();
   }).blur();
 }
 
@@ -4194,8 +4183,8 @@ LatexCmds['\u2221'] = bind(VanillaSymbol, '\\\u2221 ', '&#8737;', '\u2221');
 // eulerChar can still come from input, for which this is a workaround
 // although we could keep eulerChar internally, that might cause
 // different difficulties e.g. on-screen keyboard, non-variable, etc.
-// so let's just convert eulerChar to a simple variable like "e"
-LatexCmds['\u212f'] = bind(Variable, 'e');
+// so let's just convert eulerChar to a simple VanillaSymbol like "e"
+LatexCmds['\u212f'] = bind(VanillaSymbol, '\u212f', 'e', '\u212f');
 
 var NonItalicizedFunction = P(Symbol, function(_, _super) {
   _.init = function(fn) {
