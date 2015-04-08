@@ -131,6 +131,9 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_GUI_PERSPECTIVE_VIEWS = 404; // <perspective>
 																// <views />
 																// </perspective>
+	
+	private static final int MODE_DEFAULTS = 500;
+	private static final int MODE_DEFAULT_GEO = 501;
 
 	/** available font sizes (will be reused in OptionsAdvanced) */
 	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32,
@@ -437,6 +440,10 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_MACRO:
 			startMacroElement(eName, attrs);
 			break;
+			
+		case MODE_DEFAULTS:
+			startDefault(eName, attrs);
+			break;
 
 		case MODE_CONSTRUCTION:
 			startConstructionElement(eName, attrs);
@@ -627,6 +634,10 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CONSTRUCTION:
 			endConstructionElement(eName);
 			break;
+			
+		case MODE_DEFAULTS:
+			endDefaultElement(eName);
+			break;
 
 		case MODE_MACRO:
 			if ("macro".equals(eName)) {
@@ -709,6 +720,9 @@ public class MyXMLHandler implements DocHandler {
 			constMode = MODE_CONST_CAS_CELL;
 		} else if ("keyboard".equals(eName)) {
 			handleKeyboard(attrs);
+		} else if ("defaults".equals(eName)) {
+			mode = MODE_DEFAULTS;
+			constMode = MODE_DEFAULTS;
 		} else {
 			System.err.println("unknown tag in <geogebra>: " + eName);
 		}
@@ -2979,6 +2993,34 @@ public class MyXMLHandler implements DocHandler {
 			System.err.println("error in <useAsText>: " + eName);
 
 	}
+	
+
+	private void startDefault(String eName,
+			LinkedHashMap<String, String> attrs) {
+		
+		switch (constMode) {
+		case MODE_DEFAULTS:
+			if ("element".equals(eName)) {
+				boolean old = kernel.getElementDefaultAllowed();
+				kernel.setElementDefaultAllowed(true);
+				constMode = MODE_DEFAULT_GEO;
+				geo = getGeoElement(attrs);
+				kernel.setElementDefaultAllowed(old);
+			} else {
+				System.err.println("unknown tag in <default>: " + eName);
+			}
+			break;
+
+		case MODE_DEFAULT_GEO:
+			startGeoElement(eName, attrs);
+			break;
+
+		default:
+			System.err.println("unknown default mode:" + constMode);
+		}
+
+		
+	}
 
 	private void startConstructionElement(String eName,
 			LinkedHashMap<String, String> attrs) {
@@ -3076,6 +3118,28 @@ public class MyXMLHandler implements DocHandler {
 		default:
 			constMode = MODE_CONSTRUCTION; // set back mode
 			System.err.println("unknown construction mode:" + constMode);
+		}
+	}
+	
+	private void endDefaultElement(String eName) {
+		switch (constMode) {
+		case MODE_DEFAULTS:
+			if ("defaults".equals(eName)) {
+				mode = MODE_GEOGEBRA;
+				constMode = MODE_CONSTRUCTION;
+			}
+			break;
+
+			
+		case MODE_DEFAULT_GEO:
+			if ("element".equals(eName))
+				constMode = MODE_DEFAULTS;
+			break;
+
+
+		default:
+			constMode = MODE_DEFAULTS; // set back mode
+			System.err.println("unknown defaults mode:" + constMode);
 		}
 	}
 

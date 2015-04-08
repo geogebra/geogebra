@@ -106,13 +106,15 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoConic3D intersectionCurve = new GeoConic3D(cons);
 		intersectionCurve.setLocalVariableLabel("Intersection curve");
 		intersectionCurve.setObjColor(colIntersectionCurve);
-		intersectionCurve.setAlphaValue(DEFAULT_POLYGON_ALPHA);
+		intersectionCurve.setAlphaValue(DEFAULT_POLYGON_ALPHA);		
+		intersectionCurve.setDefaultGeoType(DEFAULT_INTERSECTION_CURVE);
 		defaultGeoElements.put(DEFAULT_INTERSECTION_CURVE, intersectionCurve);
 
 		// axis
 		GeoAxis3D axis = new GeoAxis3D(cons);
 		// axis.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		axis.setLocalVariableLabel("Axis3D");
+		axis.setDefaultGeoType(DEFAULT_AXIS3D);
 		defaultGeoElements.put(DEFAULT_AXIS3D, axis);
 
 		// curve
@@ -120,6 +122,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		curve.setLocalVariableLabel("Curve3D");
 		// curve.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		curve.setObjColor(colCurveCartesian3D);
+		curve.setDefaultGeoType(DEFAULT_CURVECARTESIAN3D);
 		defaultGeoElements.put(DEFAULT_CURVECARTESIAN3D, curve);
 
 		// plane
@@ -130,6 +133,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		plane.setLineThickness(DEFAULT_PLANE3D_GRID_THICKNESS);
 		plane.setFading(DEFAULT_PLANE3D_FADING);
 		// plane.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		plane.setDefaultGeoType(DEFAULT_PLANE3D);
 		defaultGeoElements.put(DEFAULT_PLANE3D, plane);
 
 		// polyhedron
@@ -137,6 +141,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		polyhedron.setLocalVariableLabel("Polyhedron");
 		polyhedron.setObjColor(colPolyhedron);
 		polyhedron.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
+		polyhedron.setDefaultGeoType(DEFAULT_POLYHEDRON);
 		defaultGeoElements.put(DEFAULT_POLYHEDRON, polyhedron);
 
 		// polyhedron
@@ -144,6 +149,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		polyhedronNet.setLocalVariableLabel("Net");
 		polyhedronNet.setObjColor(colPolyhedron);
 		polyhedronNet.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
+		polyhedronNet.setDefaultGeoType(DEFAULT_NET);
 		defaultGeoElements.put(DEFAULT_NET, polyhedronNet);
 
 		// quadric
@@ -151,6 +157,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		quadric.setLocalVariableLabel("Quadric");
 		quadric.setObjColor(colQuadric);
 		quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
+		quadric.setDefaultGeoType(DEFAULT_QUADRIC);
 		defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
 
 		// surface
@@ -158,6 +165,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		surface.setLocalVariableLabel("surface");
 		surface.setObjColor(colQuadric);
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
+		surface.setDefaultGeoType(DEFAULT_SURFACECARTESIAN3D);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
 	}
 

@@ -944,4 +944,17 @@ public class ConstructionDefaults {
 		}
 	}
 
+	/**
+	 * save construction defaults
+	 * @param sb string
+	 */
+	public void getDefaultsXML(StringBuilder sb) {
+		sb.append("<defaults>\n");
+		for (GeoElement geo : defaultGeoElements.values()){
+			geo.getXML(false, sb);
+		}
+		sb.append("</defaults>\n");
+		
+	}
+
 }

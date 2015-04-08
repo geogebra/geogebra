@@ -195,6 +195,9 @@ public abstract class MyXMLio {
 
 		// save gui settings
 		sb.append(app.getCompleteUserInterfaceXML(false));
+		
+		// construction defaults
+		cons.getConstructionDefaults().getDefaultsXML(sb);
 
 		// save construction
 		cons.getConstructionXML(sb, false);
