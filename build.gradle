@@ -1,4 +1,4 @@
-project.setDescription('GeoGebra')
+project.description = 'GeoGebra'
 
 subprojects {
 	apply plugin: 'eclipse'
@@ -15,7 +15,7 @@ subprojects {
 		natures 'org.springsource.ide.eclipse.gradle.core.nature'
 	}
 
-	tasks.eclipse.dependsOn('cleanEclipse')
+	tasks.eclipse.dependsOn 'cleanEclipse'
 }
 
 ext.joglver = '2.2.0'
