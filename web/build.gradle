@@ -83,11 +83,11 @@ def appendPath(path, file) {
 }
 
 task run(dependsOn: 'deployIntoWar') << {
-	description 'Runs GeoGebraWeb in Google Chrome'
+	description 'Runs GeoGebraWeb in the default web browser'
 	java.awt.Desktop.desktop.browse getAppHtmlURI(warDir, appHtml)
 }
 
 task draftRun(dependsOn: 'draftDeployIntoWar') << {
-	description 'Runs GeoGebraWeb draft in Google Chrome'
+	description 'Runs GeoGebraWeb draft in the default web browser'
 	java.awt.Desktop.desktop.browse getAppHtmlURI(warDir, appHtml)
 }
