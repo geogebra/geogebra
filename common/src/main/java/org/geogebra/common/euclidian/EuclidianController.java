@@ -6575,7 +6575,7 @@ public abstract class EuclidianController {
 			} else {
 				if (!moveModeSelectionHandled) {
 					GeoElement geo = chooseGeo(geos, true);
-					if (geo != null) {
+					if (geo != null && !geo.isGeoButton()) {
 						selection.clearSelectedGeos(false);
 						selection.addSelectedGeo(geo);
 					}
