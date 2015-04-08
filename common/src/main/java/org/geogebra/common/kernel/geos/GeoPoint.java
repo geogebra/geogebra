@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.AnimationManager;
@@ -2499,4 +2500,14 @@ SymbolicParametersBotanaAlgo {
 	final public HitType getLastHitType(){
 		return HitType.ON_BOUNDARY;
 	}
+
+	@Override 
+	public void setLabel(String newLabel) { 
+		super.setLabel(newLabel); 
+		if (newLabel.endsWith("'")) { 
+			if (cons.lookupLabel(newLabel.substring(0, newLabel.length() - 1)) != null) { 
+				setObjColor(GColor.DARK_GRAY); 
+			} 
+		} 
+	} 
 }
