@@ -68,7 +68,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 task run (dependsOn: 'deployIntoWar', type: Exec) {
 	description 'Runs GeoGebraWeb in Google Chrome'
-	def startpage = 'war/app.html'
+	def startpage = file('war/app.html').absolutePath
 	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
 	    commandLine 'cmd', '/c', 'start', 'chrome', startpage
 	    }
