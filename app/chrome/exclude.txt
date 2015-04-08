@@ -1,5 +1,0 @@
-.svn/*
-web/statictexts/*
-web/web.devmode.js
-svnignore.txt
-manifest.json.template
