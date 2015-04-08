@@ -183,10 +183,10 @@ public class GeoGebraIcon extends BasicIcons{
 			break;			
 //			 Michael Borcherds 2007-11-19 BEGIN
 			case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
-				url =  GuiResources.INSTANCE.deco_angle_arrow_down();
+				url =  GuiResources.INSTANCE.deco_angle_arrow_up();
 			break;
 			case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
-				url =  GuiResources.INSTANCE.deco_angle_arrow_up();
+				url =  GuiResources.INSTANCE.deco_angle_arrow_down();
 			break;
 			default:
 				url =  GuiResources.INSTANCE.deco_angle_1line();
