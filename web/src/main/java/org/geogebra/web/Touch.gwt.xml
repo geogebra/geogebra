@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='tablet'>
+  <inherits name='org.geogebra.web.Html5'/>
+
+  <!-- This was added to remove a compile error in a general case -->
+  <define-property name="gwt.logging.popupHandler" values="DISABLED"/>
+
+  <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
+  <inherits name='com.googlecode.gwtgl.binding'/>
+
+  <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
+  <set-property name="user.agent" value="safari, gecko1_8, ie9, ie10" />
+  
+  <!-- Specify the paths for translatable code                    -->
+  <source path='web'/>
+  <source path='touch'/>
+  <source path='geogebra3D'/>
+  <source path="plugin"/>
+  <public path="pub" />
+  
+  <replace-with class="org.geogebra.web.touch.gui.layout.SplitterImplTouch">
+    <when-type-is class="org.geogebra.web.web.gui.layout.SplitterImpl"/>
+  </replace-with>
+  
+  <replace-with class="org.geogebra.web.web.gui.PNGImageFactory">
+    <when-type-is class="org.geogebra.web.web.gui.ImageFactory" />    
+  </replace-with>
+  
+  <!-- Switch the replace-with rule to 2D when compiling for slow tablets -->
+  <!--replace-with class="geogebra.web.gui.applet.AppletFactory2D"-->
+  <replace-with class="org.geogebra.web.geogebra3D.AppletFactory3D">
+    <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
+  </replace-with>
+
+  <!-- Compile only one permutation -->
+  <collapse-all-properties />
+</module>
