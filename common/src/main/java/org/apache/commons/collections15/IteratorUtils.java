@@ -877,9 +877,9 @@ public class IteratorUtils {
 
         } else {
             try {
-                Method method = obj.getClass().getMethod("iterator", null);
+                Method method = obj.getClass().getMethod("iterator", (Class<?>) null);
                 if (Iterator.class.isAssignableFrom(method.getReturnType())) {
-                    Iterator it = (Iterator) method.invoke(obj, null);
+                    Iterator it = (Iterator) method.invoke(obj, (Object) null);
                     if (it != null) {
                         return it;
                     }
