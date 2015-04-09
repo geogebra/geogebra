@@ -211,8 +211,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			return;
 		}
 		this.keyboardShowing = show;
-		//this.mainPanel.clear();
-		this.mainPanel.setVisible(false);
+
+		this.mainPanel.clear();
+		// clear is necessary since no widget should be added after addCenter!
+		//this.mainPanel.setVisible(false);
 
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
 		        this, app);
@@ -225,7 +227,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			}
 		} else {
 			if (app.getAlgebraView() != null) {
-				this.mainPanel.remove(keyBoard);
+
+				// as clear is called, remove is not necessary
+				//this.mainPanel.remove(keyBoard);
+
 				showKeyboardButton(
 						true,
 						textField != null ? textField : ((AlgebraViewWeb) app
@@ -233,8 +238,12 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			}
 			keyBoard.resetKeyboardState();
 		}
-		//this.mainPanel.add(this.dockPanel);
-		this.mainPanel.setVisible(true);
+
+		// superdev mode: after this, no widget may be added!!!
+		// this clear/add is necessary for this reason,
+		// just calling setVisible is not enough!
+		this.mainPanel.add(this.dockPanel);
+		//this.mainPanel.setVisible(true);
 
 		Timer timer = new Timer() {
 			@Override
