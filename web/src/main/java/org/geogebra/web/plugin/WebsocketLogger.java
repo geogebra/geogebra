@@ -113,11 +113,7 @@ public class WebsocketLogger extends SensorLogger {
 			log(Types.ORIENTATION_Z, Float.parseFloat(JSON.get(json,
 			                Types.ORIENTATION_Z.toString())));
 		}
-		if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
-			log(Types.ACCELEROMETER_X,
-			        Float.parseFloat(JSON.get(json,
-			                Types.ACCELEROMETER_X.toString())));
-		}
+		
 		if (JSON.get(json, Types.DATA_COUNT.toString()) != null) {
 			log(Types.DATA_COUNT,
  Float.parseFloat(JSON.get(json,
