@@ -470,7 +470,7 @@
   -moz-user-select: text;
   user-select: text;
 
-  /* position:fixed is doing a lot of trouble in Chrome, but  we may need it in IE */
+  position:fixed;/* is doing a lot of trouble in Chrome, but  we may need it in IE */
   
   /* this should be invisible! */
   z-index: -32000;
@@ -482,8 +482,8 @@
   /* formula/page is scrolled, it would be wrong! */
 
   /* why not? */
-  width: 0px;
-  height: 0px;
+  width: 1px;
+  height: 1px;
 }
 
 .mathquillggb-editable .textarea textarea,
