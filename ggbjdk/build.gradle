@@ -1,3 +1,5 @@
+apply plugin: 'java'
+
 dependencies {
 	compile project(':common')
 }
