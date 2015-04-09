@@ -26,3 +26,5 @@ task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
 	gradleVersion = '2.0'
 }
+
+apply from: 'deploy.gradle'
