@@ -459,6 +459,11 @@
   border-color: black;
 }
 
+.mathquillggb-rendered-math .selectable{
+	width:1px;
+	overflow:hidden;	
+}
+
 .mathquillggb-editable .textarea,
 .mathquillggb-rendered-math .textarea {
   -webkit-user-select: text;
