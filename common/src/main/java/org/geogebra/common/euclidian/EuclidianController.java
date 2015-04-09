@@ -6680,7 +6680,9 @@ public abstract class EuclidianController {
 
 		// DEPENDENT object: changeable parents?
 		// move free parent points (e.g. for segments)
-		else if (!movedGeoElement.isMoveable(view)) {
+		else if (!movedGeoElement.isMoveable(view)
+				&& ! (isMoveButtonExpected(geo) || isMoveTextFieldExpected(geo)))
+		{
 			handleMovedElementDependent();
 		}
 
@@ -7244,7 +7246,18 @@ public abstract class EuclidianController {
 			// for applets:
 			// allow buttons to be dragged only if the button tool is selected
 			// (important for tablets)
-			if (!app.isApplet() || temporaryMode) {
+			boolean textField = movedGeoElement instanceof GeoTextField;
+			boolean textFieldSelected = textField && 
+					oldMode == EuclidianConstants.MODE_TEXTFIELD_ACTION;
+			boolean buttonSelected = !textField &&
+					oldMode == EuclidianConstants.MODE_BUTTON_ACTION;
+			boolean moveSelected = oldMode == EuclidianConstants.MODE_MOVE;
+			
+			if ((!app.isApplet() || temporaryMode)
+					&& (textFieldSelected || buttonSelected ||
+							(moveSelected && app.isRightClickEnabled())
+							)
+					) {
 				// ie Button Mode is really selected
 
 				movedGeoButton = (Furniture) movedGeoElement;
@@ -7346,13 +7359,36 @@ public abstract class EuclidianController {
 				&& ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
 	}
 
-	protected boolean isMoveCheckboxExpected() {// int hitThreshold) {
-		// TEMPORARY_MODE true -> dragging checknox using Checkbox Tool
-		// or right-hand mouse button
+	protected boolean isMoveCheckboxExpected() {
 		return ((temporaryMode && app.isRightClickEnabled())
 				|| !movedGeoBoolean.isCheckboxFixed() || app
 				.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 	}
+	
+	protected boolean isMoveButtonExpected(GeoElement geo) {
+		if (!geo.isGeoButton()) {
+			return false;
+		}
+		GeoButton button = (GeoButton) geo;
+		return (!button.isTextField() && ((temporaryMode
+				&& app.isRightClickEnabled() || !button.isFixed() || app
+					.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)
+				));
+	}
+
+	protected boolean isMoveTextFieldExpected(GeoElement geo) {
+		if (!geo.isGeoTextField()) {
+			return false;
+		}
+		GeoButton textField = (GeoTextField) geo;
+		return (textField.isTextField() && ((temporaryMode
+				&& app
+.isRightClickEnabled() || !textField.isFixed() || app
+					.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION)
+				));
+	}
+
+
 	protected void setStartPointLocation(double x, double y) {
 		startPoint.setLocation(x, y);
 
@@ -7783,7 +7819,8 @@ public abstract class EuclidianController {
 
 			geo = th.get(0);
 
-			if (geo.isFixed()) {
+			if (geo.isFixed() && !isMoveButtonExpected(geo)
+				&& !isMoveTextFieldExpected(geo)) {
 				runScriptsIfNeeded(geo);
 				moveMode = MOVE_NONE;
 				resetMovedGeoPoint();
@@ -7792,7 +7829,9 @@ public abstract class EuclidianController {
 			}
 		}
 
-		if ((geo != null) && !geo.isFixed()) {
+		if ((geo != null)
+				&& (!geo.isFixed() || isMoveButtonExpected(geo) || isMoveTextFieldExpected(geo))) {
+
 			moveModeSelectionHandled = true;
 		} else {
 			// no geo clicked at
