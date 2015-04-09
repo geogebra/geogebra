@@ -644,7 +644,7 @@ public class FastHashMap <K,V> extends HashMap<K, V> {
                     throw new ConcurrentModificationException();
                 }
                 lastReturned = (Map.Entry) iterator.next();
-                return iteratorNext((Entry<K,V>)lastReturned);
+                return iteratorNext((Map.Entry<K,V>)lastReturned);
             }
 
             public void remove() {
