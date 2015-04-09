@@ -1857,7 +1857,10 @@ function createRoot(jQ, root, textbox, editable) {
     setTimeout(function() { textarea.focus(); },100);
     setTimeout(function() { textarea.focus(); },300);
     setTimeout(function() { textarea.focus(); },500);
-
+    //do this immediately (ATM also happens in timeout, might not be needed)
+    if (root.common.newCreationMode) {
+        textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
+      }
   }).bind('blur.mathquillggb', function(e3) {
     e3.stopPropagation();
     textarea.blur();
