@@ -91,12 +91,16 @@ def appendPath(path, file) {
 	return path + '/' + file
 }
 
-task run(dependsOn: 'deployIntoWar') << {
+task run(dependsOn: 'deployIntoWar') {
 	description 'Runs GeoGebraWeb in the default web browser'
-	java.awt.Desktop.desktop.browse getAppHtmlURI(warDir, appHtml)
+	doLast {
+		java.awt.Desktop.desktop.browse getAppHtmlURI(warDir, appHtml)
+	}
 }
 
-task draftRun(dependsOn: 'draftDeployIntoWar') << {
+task draftRun(dependsOn: 'draftDeployIntoWar') {
 	description 'Runs GeoGebraWeb draft in the default web browser'
-	java.awt.Desktop.desktop.browse getAppHtmlURI(warDir, appHtml)
+	doLast {
+		java.awt.Desktop.desktop.browse getAppHtmlURI(warDir, appHtml)
+	}
 }
