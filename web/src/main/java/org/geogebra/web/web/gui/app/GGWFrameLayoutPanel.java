@@ -28,6 +28,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GGWFrameLayoutPanel extends LayoutPanel implements
@@ -44,6 +45,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	EuclidianDockPanelW ggwGraphicView;
 	MyDockPanelLayout dockPanel;
 	MyDockPanelLayout mainPanel;
+	SimplePanel spaceForKeyboard;
 	boolean keyboardShowing = false;
 	ShowKeyboardButton showKeyboardButton;
 	
@@ -60,6 +62,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		ggwGraphicView = new EuclidianDockPanelW(true);
 		glassPane = new DockGlassPaneW();
 		mainPanel = new MyDockPanelLayout(Style.Unit.PX);
+		spaceForKeyboard = new SimplePanel();
+		mainPanel.addSouth(spaceForKeyboard, 0);
 		mainPanel.add(dockPanel);
 
 		ClickStartHandler.init(dockPanel, new ClickStartHandler() {
@@ -212,7 +216,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		}
 		this.keyboardShowing = show;
 
-		this.mainPanel.clear();
+		//this.mainPanel.clear();
 		// clear is necessary since no widget should be added after addCenter!
 		//this.mainPanel.setVisible(false);
 
@@ -221,7 +225,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		if (show && textField != null) {
 			keyBoard.show();
 			CancelEventTimer.keyboardSetVisible();
-			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
+
+			//this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
+			this.mainPanel.setWidgetSize(spaceForKeyboard, keyBoard.getOffsetHeight());
+			spaceForKeyboard.add(keyBoard);
+
 			if (showKeyboardButton != null) {
 				showKeyboardButton.hide();
 			}
@@ -230,6 +238,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 				// as clear is called, remove is not necessary
 				//this.mainPanel.remove(keyBoard);
+				this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
+				spaceForKeyboard.remove(keyBoard);
 
 				showKeyboardButton(
 						true,
@@ -242,7 +252,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		// superdev mode: after this, no widget may be added!!!
 		// this clear/add is necessary for this reason,
 		// just calling setVisible is not enough!
-		this.mainPanel.add(this.dockPanel);
+		//this.mainPanel.add(this.dockPanel);
 		//this.mainPanel.setVisible(true);
 
 		Timer timer = new Timer() {
