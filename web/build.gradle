@@ -44,10 +44,12 @@ eclipse.classpath.file {
 	}
 }
 
+def devModule = 'org.geogebra.web.Web3D'
+
 gwt {
 	gwtVersion = '2.7.0'
 	modules 'org.geogebra.web.Web3D'
-	devModules 'org.geogebra.web.Web3D'
+	devModules devModule
 	maxHeapSize = '1500M'
 	
 	compiler {
@@ -68,39 +70,49 @@ configurations.all {
    }
 }
 
-def warDir = 'war'
+def warDirRel = 'war'
+def warDirAbs = file(warDirRel).toURI()
 
 task deployIntoWar(type: Copy) {
 	description 'Copies the GWT production compilation directory (web3d) to the war directory.'
 	from compileGwt
-	into warDir
+	into warDirRel
 }
 
 task draftDeployIntoWar(type: Copy) {
 	description 'Copies the GWT draft compilation directory (web3d) to the war directory.'
 	from draftCompileGwt
-	into warDir
+	into warDirRel
 }
 
-def appHtml = 'app.html'
-
-def getAppHtmlURI(warDir, appHtml) {
-	return file(appendPath(warDir, appHtml)).toURI()
-}
-def appendPath(path, file) {
-	return path + '/' + file
-}
+def appHtmlRel = 'app.html'
+def appHtmlAbs = file("${warDirAbs}/${appHtmlRel}").toURI()
 
 task run(dependsOn: 'deployIntoWar') {
 	description 'Runs GeoGebraWeb in the default web browser'
 	doLast {
-		java.awt.Desktop.desktop.browse getAppHtmlURI(warDir, appHtml)
+		java.awt.Desktop.desktop.browse appHtmlAbs
 	}
 }
 
 task draftRun(dependsOn: 'draftDeployIntoWar') {
 	description 'Runs GeoGebraWeb draft in the default web browser'
 	doLast {
-		java.awt.Desktop.desktop.browse getAppHtmlURI(warDir, appHtml)
+		java.awt.Desktop.desktop.browse appHtmlAbs
 	}
+}
+
+task runSuperDev(type: JavaExec, dependsOn: 'jar') {
+	description 'Starts a codeserver, and a simple webserver for development'
+	main 'com.google.gwt.dev.DevMode'
+	maxHeapSize '2048m'
+	classpath ((configurations.compile as Set<String>) + (sourceSets.main.allSource.srcDirs as Set<String>) + (jar.archivePath as String))
+	workingDir file(warDirRel)
+	args '-startupUrl', appHtmlRel,
+		'-logLevel', 'INFO',
+		'-codeServerPort', '9997',
+		'-port', '8888',
+		'-superDevMode',
+		'-war', file(warDirRel),
+		devModule
 }
