@@ -1095,4 +1095,17 @@ public class MyList extends ValidExpression implements ListValue,
 		return new ExpressionNode(kernel, this);
 	}
 
+	public void addQue(double val, int offset) {
+		if(listElements.size() < offset +1){
+			return;
+		}
+		MyDouble removed = (MyDouble) listElements.get(offset);
+		for(int read = offset + 1; read < listElements.size(); read++){
+			listElements.set(read-1, listElements.get(read));
+		}
+		removed.add(val - removed.getDouble());
+		listElements.set(listElements.size()-1, removed);
+		
+	}
+
 }

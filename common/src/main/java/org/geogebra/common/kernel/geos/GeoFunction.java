@@ -276,6 +276,10 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		set(f);
 	}
 
+	public GeoFunction(ExpressionNode en, FunctionVariable fv) {
+		this(en.getKernel().getConstruction(), new Function(en,fv));
+	}
+
 	@Override
 	public GeoElement copy() {
 		return new GeoFunction(this);

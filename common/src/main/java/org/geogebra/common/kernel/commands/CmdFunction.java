@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -46,6 +48,15 @@ public class CmdFunction extends CommandProcessor {
 		boolean mayUseIndependent;
 		String label;
 		switch (n) {
+		case 0: 
+			FunctionVariable fv = new FunctionVariable(kernelA);
+			MyList ml = new MyList(kernelA);
+			ml.addListElement(new MyDouble(kernelA));
+			ml.addListElement(new MyDouble(kernelA, -1));
+			ExpressionNode en = new ExpressionNode(kernelA,fv,Operation.FREEHAND,
+					ml);
+			GeoFunction geo = new GeoFunction(en,fv);
+			return new GeoElement[]{geo};
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoList()) {
@@ -66,7 +77,7 @@ public class CmdFunction extends CommandProcessor {
 
 			// file might be saved with old Function[sin(x),1,2]
 			if (!cons.isFileLoading()) {
-				FunctionVariable fv = null;
+				fv = null;
 				if (varName != null
 						|| kernelA.getConstruction()
 								.getRegisteredFunctionVariable() != null) {
@@ -144,7 +155,7 @@ public class CmdFunction extends CommandProcessor {
 				if (varName == null)
 					varName = kernelA.getConstruction()
 							.getRegisteredFunctionVariable();
-				FunctionVariable fv = new FunctionVariable(kernelA, varName);
+				fv = new FunctionVariable(kernelA, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
 				c.getArgument(0).replaceVariables(varName, fv);
 				if (r > 0) {

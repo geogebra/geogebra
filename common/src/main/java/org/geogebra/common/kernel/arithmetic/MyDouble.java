@@ -591,7 +591,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
-
+	final public void add(double a){
+		val += a;
+	}
 	/**
 	 * @return abs(this)
 	 */

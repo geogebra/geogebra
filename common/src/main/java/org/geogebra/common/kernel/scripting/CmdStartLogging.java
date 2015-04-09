@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -57,6 +58,22 @@ public class CmdStartLogging extends CmdScripting {
 						logger.registerGeoList(
 								((GeoText) text).getTextString(),
 								(GeoList) argument);
+					}
+				} else if ((text = arg[i]) instanceof GeoText
+						&& argument instanceof GeoFunction) {
+					// it should be possible to add an optional third parameter
+					// to lists - size limit of logging
+					if ((i < n - 2)
+							&& (limit = arg[i + 2]) instanceof GeoNumeric) {
+						logger.registerGeoFunction(
+								((GeoText) text).getTextString(),
+								(GeoFunction) argument,
+								((GeoNumeric) limit).getValue());
+						i++;
+					} else {
+						logger.registerGeoFunction(
+								((GeoText) text).getTextString(),
+								(GeoFunction) argument);
 					}
 				} else {
 					throw argErr(app, c.getName(),

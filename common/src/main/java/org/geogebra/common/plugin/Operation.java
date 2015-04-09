@@ -361,38 +361,40 @@ public enum Operation {
 			if (lt instanceof NumberValue && rt instanceof ListValue) {
 				double x = ((NumberValue) lt).getDouble();
 				double ret = Double.NaN;
-				if (rt.isGeoElement()) {
-					GeoList list = (GeoList) rt;
-					int n = list.size() - 3;
-					if ((n >= 1)
-							&& list.getElementType().equals(GeoClass.NUMERIC)) {
-						double min = ((NumberValue) (list.get(0))).getDouble();
-						double max = ((NumberValue) (list.get(1))).getDouble();
+				
+				ListValue list = (ListValue) rt;
+				if(list instanceof GeoList && ((GeoList)list).getElementType() != GeoClass.NUMERIC ){
+					return new MyDouble(ev.getKernel(), Double.NaN);
+				}
+				int n = list.size() - 3;
+				if (n >= 1) {
+					double min = ((NumberValue) (list.getListElement(0))).getDouble();
+					double max = ((NumberValue) (list.getListElement(1))).getDouble();
 
-						if ((min > max) || (x > max) || (x < min)) {
-							return new MyDouble(ev.getKernel(), Double.NaN);
-						}
+					if ((min > max) || (x > max) || (x < min)) {
+						return new MyDouble(ev.getKernel(), Double.NaN);
+					}
 
-						double step = (max - min) / n;
+					double step = (max - min) / n;
 
-						int index = (int) Math.floor((x - min) / step);
+					int index = (int) Math.floor((x - min) / step);
 
-						if (index > (n - 1)) {
-							ret = ((NumberValue) (list.get(n + 2))).getDouble();
-						} else {
+					if (index > (n - 1)) {
+						ret = ((NumberValue) (list.getListElement(n + 2))).getDouble();
+					} else {
 
-							double y1 = ((NumberValue) (list.get(index + 2)))
-									.getDouble();
-							double y2 = ((NumberValue) (list.get(index + 3)))
-									.getDouble();
-							double x1 = min + (index * step);
+						double y1 = ((NumberValue) (list.getListElement(index + 2)))
+								.getDouble();
+						double y2 = ((NumberValue) (list.getListElement(index + 3)))
+								.getDouble();
+						double x1 = min + (index * step);
 
-							// linear interpolation between (x1,y1) and
-							// (x2,y2+step) to give (x,ret)
-							ret = y1 + (((x - x1) * (y2 - y1)) / step);
-						}
+						// linear interpolation between (x1,y1) and
+						// (x2,y2+step) to give (x,ret)
+						ret = y1 + (((x - x1) * (y2 - y1)) / step);
 					}
 				}
+				
 
 				return new MyDouble(ev.getKernel(), ret);
 
