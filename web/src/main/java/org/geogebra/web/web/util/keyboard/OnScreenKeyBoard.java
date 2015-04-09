@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 /**
  * on screen keyboard containing mathematical symbols and formulas
  */
-public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
+public class OnScreenKeyBoard extends PopupPanel {
 
 	/**
 	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,
@@ -740,13 +740,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		return button;
 	}
 
-	@Override
-	public void onClick(ClickEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-		Object source = event.getSource();
-		if (source != null && source instanceof KeyBoardButtonFunctional) {
-			KeyBoardButtonFunctional button = (KeyBoardButtonFunctional) source;
+	public void onClick(KeyBoardButton btn) {		
+		if (btn instanceof KeyBoardButtonFunctional) {
+			KeyBoardButtonFunctional button = (KeyBoardButtonFunctional) btn;
 
 			switch (button.getAction()) {
 			case SHIFT:
@@ -796,12 +792,12 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 					setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
 				}
 			}
-		} else if (source != null && source instanceof KeyBoardButton) {
+		} else if (btn instanceof KeyBoardButton) {
 
-			String text = ((KeyBoardButton) source).getFeedback();
+			String text = ((KeyBoardButton) btn).getFeedback();
 
 			if (isAccent(text)) {
-				processAccent(text, (KeyBoardButton) source);
+				processAccent(text, (KeyBoardButton) btn);
 			} else {
 				processing.insertString(text);
 				if (accentDown) {

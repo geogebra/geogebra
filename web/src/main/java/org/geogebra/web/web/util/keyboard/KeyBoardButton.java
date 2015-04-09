@@ -29,7 +29,7 @@ public class KeyBoardButton extends SimplePanel {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public KeyBoardButton(String caption, String feedback, ClickHandler handler) {
+	public KeyBoardButton(String caption, String feedback, OnScreenKeyBoard handler) {
 		this(handler);
 		this.label = new Label();
 		setCaption(caption);
@@ -44,14 +44,15 @@ public class KeyBoardButton extends SimplePanel {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	protected KeyBoardButton(ClickHandler handler) {
-		addDomHandler(handler, ClickEvent.getType());
-		ClickStartHandler.init(this, new ClickStartHandler() {
+	protected KeyBoardButton(final OnScreenKeyBoard handler) {
+		//addDomHandler(handler, ClickEvent.getType());
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				DrawEquationWeb.setMouseOut(false);
 				ToolTipManagerW.hideAllToolTips();
+				handler.onClick(KeyBoardButton.this);
 			}
 
 		});

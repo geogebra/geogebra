@@ -31,7 +31,7 @@ public class KeyBoardButtonFunctional extends KeyBoardButton {
 	 * @param action
 	 *            {@link Action}
 	 */
-	public KeyBoardButtonFunctional(ImageResource image, ClickHandler handler,
+	public KeyBoardButtonFunctional(ImageResource image, OnScreenKeyBoard handler,
 	        Action action) {
 		super(handler);
 		this.image = new Image(image);
@@ -51,7 +51,7 @@ public class KeyBoardButtonFunctional extends KeyBoardButton {
 	 * @param action
 	 *            {@link Action}
 	 */
-	public KeyBoardButtonFunctional(String caption, ClickHandler handler,
+	public KeyBoardButtonFunctional(String caption, OnScreenKeyBoard handler,
 	        Action action) {
 		super(caption, caption, handler);
 		this.action = action;

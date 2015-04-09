@@ -465,9 +465,8 @@
   -moz-user-select: text;
   user-select: text;
 
-  /* in order to prevent flickering when typing here: */
-  /* position should be changed from absolute to fixed! */
-  position: fixed;
+  /* position:fixed is doing a lot of trouble in Chrome, but  we may need it in IE */
+  
   /* this should be invisible! */
   z-index: -32000;
   /* although clip is for absolute position, necessary! */
@@ -478,8 +477,8 @@
   /* formula/page is scrolled, it would be wrong! */
 
   /* why not? */
-  width: 1px;
-  height: 1px;
+  width: 0px;
+  height: 0px;
 }
 
 .mathquillggb-editable .textarea textarea,
