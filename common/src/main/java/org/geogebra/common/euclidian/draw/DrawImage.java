@@ -253,7 +253,7 @@ public final class DrawImage extends Drawable {
 					g3.draw(labelRectangle);
 				}
 			} else {
-				org.geogebra.common.awt.GAffineTransform oldAT = g3.getTransform();
+				g3.saveTransform();
 				g3.transform(at);
 
 				// improve rendering quality for transformed images
@@ -263,6 +263,7 @@ public final class DrawImage extends Drawable {
 				// g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
 				g3.drawImage(image, 0, 0);
+				g3.restoreTransform();
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
@@ -300,14 +301,12 @@ public final class DrawImage extends Drawable {
 							(float) corner4.getY());
 					highlighting.lineTo((float) corner1.getX(),
 							(float) corner1.getY());
-					g3.setTransform(oldAT);
 					g3.draw(highlighting);
 
 				}
 
 				// reset previous values
 				g3.resetInterpolationHint(oldInterpolationHint);
-				g3.setTransform(oldAT);
 			}
 
 			g3.setComposite(oldComp);

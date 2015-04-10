@@ -45,7 +45,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	private GFontW currentFont = new GFontW("normal");
 	private GColor color = new GColorW(255, 255, 255, 255);
-	private GAffineTransform savedTransform;
+	private GAffineTransform currentTransform;
 	private float[] dash_array = null;
 
 	GPaint currentPaint = new GColorW(255, 255, 255, 255);
@@ -70,7 +70,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		setDirection();
 
 		this.context = (MyContext2d) canvas.getContext2d();
-		savedTransform = new AffineTransform();
+		currentTransform = new AffineTransform();
 		preventContextMenu(canvas.getElement());
 		// TODO put this back in
 		// devicePixelRatio = checkPixelRatio(canvas.getElement());
@@ -362,33 +362,33 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	public void translate(double tx, double ty) {
 		context.translate(tx, ty);
-		savedTransform.translate(tx, ty);
+		currentTransform.translate(tx, ty);
 
 	}
 
 	public void scale(double sx, double sy) {
 		context.scale(sx, sy);
-		savedTransform.scale(sx, sy);
+		currentTransform.scale(sx, sy);
 	}
 
 	public void transform(GAffineTransform Tx) {
 		context.transform(Tx.getScaleX(), Tx.getShearY(), Tx.getShearX(),
 		        Tx.getScaleY(), ((AffineTransform) Tx).getTranslateX(),
 		        ((AffineTransform) Tx).getTranslateY());
-		savedTransform.concatenate(Tx);
+		currentTransform.concatenate(Tx);
 	}
 
 	public void setTransform(GAffineTransform Tx) {
 		context.setTransform(Tx.getScaleX(), Tx.getShearY(), Tx.getShearX(),
 		        Tx.getScaleY(), ((AffineTransform) Tx).getTranslateX(),
 		        ((AffineTransform) Tx).getTranslateY());
-		savedTransform = Tx;
+		currentTransform = Tx;
 
 	}
 
 	public GAffineTransform getTransform() {
 		GAffineTransform ret = new AffineTransform();
-		ret.setTransform(savedTransform);
+		ret.setTransform(currentTransform);
 		return ret;
 	}
 
@@ -989,6 +989,22 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	public Integer getID() {
 		return this.id;
+	}
+
+	private GAffineTransform savedTransform;
+
+	@Override
+	public void saveTransform() {
+		savedTransform = getTransform();
+	}
+
+	@Override
+	public void restoreTransform() {
+		if (savedTransform == null) {
+			throw new RuntimeException("The method saveTransform() was not called");
+		}
+		setTransform(savedTransform);
+		savedTransform = null;
 	}
 
 }

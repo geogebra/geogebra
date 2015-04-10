@@ -362,53 +362,6 @@ public interface GGraphics2D {
 	public abstract void transform(GAffineTransform Tx);
 
 	/**
-	 * Overwrites the Transform in the <code>Graphics2D</code> context. WARNING:
-	 * This method should <b>never</b> be used to apply a new coordinate
-	 * transform on top of an existing transform because the
-	 * <code>Graphics2D</code> might already have a transform that is needed for
-	 * other purposes, such as rendering Swing components or applying a scaling
-	 * transformation to adjust for the resolution of a printer.
-	 * <p>
-	 * To add a coordinate transform, use the <code>transform</code>,
-	 * <code>rotate</code>, <code>scale</code>, or <code>shear</code> methods.
-	 * The <code>setTransform</code> method is intended only for restoring the
-	 * original <code>Graphics2D</code> transform after rendering, as shown in
-	 * this example:
-	 * 
-	 * <pre>
-	 * <blockquote>
-	 * // Get the current transform
-	 * AffineTransform saveAT = g2.getTransform();
-	 * // Perform transformation
-	 * g2d.transform(...);
-	 * // Render
-	 * g2d.draw(...);
-	 * // Restore original transform
-	 * g2d.setTransform(saveAT);
-	 * </blockquote>
-	 * </pre>
-	 *
-	 * @param Tx
-	 *            the <code>AffineTransform</code> that was retrieved from the
-	 *            <code>getTransform</code> method
-	 * @see #transform
-	 * @see #getTransform
-	 * @see GAffineTransform
-	 */
-	public abstract void setTransform(GAffineTransform Tx);
-
-	/**
-	 * Returns a copy of the current <code>Transform</code> in the
-	 * <code>Graphics2D</code> context.
-	 * 
-	 * @return the current <code>AffineTransform</code> in the
-	 *         <code>Graphics2D</code> context.
-	 * @see #transform
-	 * @see #setTransform
-	 */
-	public abstract GAffineTransform getTransform();
-
-	/**
 	 * Returns the current <code>Composite</code> in the <code>Graphics2D</code>
 	 * context.
 	 * 
@@ -528,4 +481,15 @@ public interface GGraphics2D {
 
 	public abstract void drawStraightLine(double xCrossPix, double d,
 			double xCrossPix2, double i);
+
+	/**
+	 * Saves the state of the current transformation matrix.
+	 */
+	public void saveTransform();
+
+	/**
+	 * Restores the transformation matrix to the state where
+	 * <b>saveTransform()</b> was called.
+	 */
+	public void restoreTransform();
 }

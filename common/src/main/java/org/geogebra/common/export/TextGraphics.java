@@ -270,4 +270,14 @@ public class TextGraphics implements org.geogebra.common.awt.GGraphics2D {
 		this.draw(line);
 	}
 
+	@Override
+	public void saveTransform() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void restoreTransform() {
+		// TODO Auto-generated method stub
+	}
+
 }

@@ -3,6 +3,7 @@ package org.geogebra.desktop.awt;
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.Map;
@@ -182,16 +183,6 @@ public class GGraphics2DD implements org.geogebra.common.awt.GGraphics2D {
 	public void transform(GAffineTransform Tx) {
 		impl.transform(org.geogebra.desktop.awt.GAffineTransformD.getAwtAffineTransform(Tx));
 
-	}
-
-	public void setTransform(GAffineTransform Tx) {
-		impl.setTransform(org.geogebra.desktop.awt.GAffineTransformD
-				.getAwtAffineTransform(Tx));
-
-	}
-
-	public GAffineTransform getTransform() {
-		return new org.geogebra.desktop.awt.GAffineTransformD(impl.getTransform());
 	}
 
 	public GPaint getPaint() {
@@ -452,6 +443,22 @@ public class GGraphics2DD implements org.geogebra.common.awt.GGraphics2D {
 			impl.drawImage(img.getImage(), x, y, width, height, io);
 		}
 
+	}
+
+	private AffineTransform affineTransform;
+
+	@Override
+	public void saveTransform() {
+		affineTransform = impl.getTransform();
+	}
+
+	@Override
+	public void restoreTransform() {
+		if (affineTransform == null) {
+			throw new RuntimeException("Save transform was not called!");
+		}
+		impl.setTransform(affineTransform);
+		affineTransform = null;
 	}
 
 }
