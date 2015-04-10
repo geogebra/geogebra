@@ -470,16 +470,21 @@
   -moz-user-select: text;
   user-select: text;
 
-  position:fixed;/* is doing a lot of trouble in Chrome, but  we may need it in IE */
-  
+  /* position: fixed does not work when transform or backface-visibility is used in Chrome */
+  /*position:fixed; is doing a lot of trouble in Chrome, but  we may need it in IE */
+  position: absolute;
+  top: 0px;
+
+  /* "left" will be adjusted with scrollLeft position */
+  left: 0px;
+
   /* this should be invisible! */
   z-index: -32000;
   /* although clip is for absolute position, necessary! */
   /* as it is deprecated, may cause CSS challenges later */
   clip: rect(1em 1em 1em 1em);
 
-  /* we should NOT specify top/left, because when the */
-  /* formula/page is scrolled, it would be wrong! */
+  /* top/left will be specified dynamically, depending on scrollbar */
 
   /* why not? */
   width: 1px;

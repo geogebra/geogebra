@@ -29,6 +29,22 @@ var $ = $ggbQuery;
 	
 function noop() {}
 
+function adjustFixedTextarea(rootJQ) {
+  // it would be good to call GWT's Element.getAbsoluteLeft,
+  // Element.getAbsoluteTop from here! But documentation says
+  // DOM element.getBoundingClientRect is pretty cross-browser,
+  // so it can be used for our needs in modern browsers... 
+  if ((rootJQ === undefined) || (rootJQ === noop)) {
+    return;
+  }
+  var rel = rootJQ.parents('.NewRadioButtonTreeItem');
+  var taa = rootJQ.find('.textarea')[0];
+  if ((rel[0] !== undefined) && (taa !== undefined)) {
+	// taa is position: fixed, and this way it will be hopefully on-screen
+    taa.style.left = (rel[0].scrollLeft + (rel[0].offsetWidth / 2)) + 'px';
+  }
+}
+
 /**
  * A utility higher-order function that makes defining variadic
  * functions more convenient by letting you essentially define functions
@@ -318,6 +334,7 @@ var manageTextarea = (function() {
     var pasteCallback = opts.paste || noop;
     var onCut = opts.cut || noop;
     var onCopy = opts.copy || noop;
+    var rootJQ = opts.rootJQ || noop;
 
     var textarea = $(el);
     var target = $(opts.container || textarea);
@@ -439,6 +456,8 @@ var manageTextarea = (function() {
     function onKeydown(e) {
       keydown = e;
       keypress = null;
+
+      adjustFixedTextarea(rootJQ);
 
       handleKey();
 
@@ -1666,7 +1685,7 @@ function createRoot(jQ, root, textbox, editable) {
   });
 
   if (!editable) {
-    var textareaManager = manageTextarea(textarea, { container: jQ });
+    var textareaManager = manageTextarea(textarea, { container: jQ, rootJQ: jQ });
     jQ.bind('cut paste', false).bind('copy', setTextareaSelection)
       .prepend('<span class="selectable">$'+root.latex()+'$</span>');
     textarea.blur(function() {
@@ -1682,6 +1701,7 @@ function createRoot(jQ, root, textbox, editable) {
   var textareaManager = manageTextarea(textarea, {
     //container: jQ,
     container: textarea,
+    rootJQ: jQ,
     key: function(key, evt) {
       cursor.parent.bubble('onKey', cursor, key, evt);
     },
@@ -1842,6 +1862,8 @@ function createRoot(jQ, root, textbox, editable) {
     // making sure stopPropagation is really get called
     e1.stopPropagation(); // it will be called in textarea?
 
+    adjustFixedTextarea(jQ);
+
 	jQ.blur();
 	// if jQ just gets focus, why was here jQ.blur???
 	// to make this blur before textarea.focus() makes it blur,
@@ -1849,6 +1871,7 @@ function createRoot(jQ, root, textbox, editable) {
 	// after textarea.focus(), I think, which is too late
 	// but still in this case, textarea.blur may be called too
 	// late, setTimeout is not the best solution:
+
 	setTimeout(function() { textarea.focus(); });
 
     // so here are other setTimeout's, as
