@@ -297,6 +297,7 @@ public abstract class CommandDispatcher {
 			case RigidPolygon:
 			case Relation:
 			case CopyFreeObject:
+			case DataFunction:
 			case SetColor:
 			case SetBackgroundColor:
 			case SetDynamicColor:

@@ -216,7 +216,7 @@ public enum Commands implements CommandsConstants, GetCommand {
 	// =============================================================
 	// scripting
 	// =============================================================
-	CopyFreeObject(TABLE_SCRIPTING), SetColor(TABLE_SCRIPTING), SetBackgroundColor(
+	CopyFreeObject(TABLE_SCRIPTING), DataFunction(TABLE_SCRIPTING), SetColor(TABLE_SCRIPTING), SetBackgroundColor(
 			TABLE_SCRIPTING), SetDynamicColor(TABLE_SCRIPTING), SetConditionToShowObject(
 			TABLE_SCRIPTING), SetFilling(TABLE_SCRIPTING), SetLineThickness(
 			TABLE_SCRIPTING), SetLineStyle(TABLE_SCRIPTING), SetPointStyle(

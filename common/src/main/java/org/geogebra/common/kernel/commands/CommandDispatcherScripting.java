@@ -77,6 +77,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdRelation(kernel);
 		case CopyFreeObject:
 			return new CmdCopyFreeObject(kernel);
+		case DataFunction:
+			return new CmdFunction(kernel);
 		case SetColor:
 			return new CmdSetColor(kernel);
 		case SetBackgroundColor:
