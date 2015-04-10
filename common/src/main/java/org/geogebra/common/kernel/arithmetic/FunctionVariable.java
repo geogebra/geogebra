@@ -90,20 +90,20 @@ public class FunctionVariable extends MyDouble {
 	// }
 
 	@Override
-	public ExpressionValue derivative(FunctionVariable fv) {
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
 		if (fv == this) {
-			return new MyDouble(kernel, 1);
+			return new MyDouble(kernel0, 1);
 		}
-		return new MyDouble(kernel, 0);
+		return new MyDouble(kernel0, 0);
 	}
 
 	@Override
-	public ExpressionValue integral(FunctionVariable fv) {
+	public ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
 		if (fv == this) {
-			return new ExpressionNode(kernel, this, Operation.POWER,
-					new MyDouble(kernel, 2)).divide(2);
+			return new ExpressionNode(kernel0, this, Operation.POWER,
+					new MyDouble(kernel0, 2)).divide(2);
 		}
-		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
+		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 
 }

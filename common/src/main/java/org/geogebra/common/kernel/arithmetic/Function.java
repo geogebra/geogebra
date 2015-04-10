@@ -93,7 +93,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	@Override
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public Function deepCopy(Kernel kernel1) {
 		return new Function(this, kernel1);
 	}
 
@@ -630,6 +630,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				// these functions can be omitted as f(x) = 0 iff x = 0
 				return addPolynomialFactors(node.getLeft(), l, symbolic,
 						rootFindingSimplification, assumeFalseIfCASNeeded);
+			default:
+				break;
 			}
 		}
 
@@ -1103,7 +1105,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		ExpressionNode expDeriv = expression;
 
 		for (int i = 0; i < n; i++) {
-			expDeriv = expDeriv.derivative(fVars[0]);
+			expDeriv = expDeriv.derivative(fVars[0], kernel);
 		}
 		expDeriv.simplifyConstantIntegers();
 		return new Function(expDeriv, fVars[0]);
@@ -1115,7 +1117,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	public Function getIntegralNoCAS() {
 
-		return new Function(expression.integral(fVars[0]), fVars[0]);
+		return new Function(expression.integral(fVars[0], kernel), fVars[0]);
 	}
 
 	/**
@@ -1155,13 +1157,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	@Override
-	public ExpressionValue derivative(FunctionVariable fv) {
-		return expression.derivative(fv);
-	}
-
-	@Override
-	public ExpressionValue integral(FunctionVariable fv) {
-		return expression.integral(fv);
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
+		return expression.derivative(fv, kernel0);
 	}
 
 }

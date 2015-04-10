@@ -228,7 +228,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 
 			GeoFunction fun = (GeoFunction) algoFitPoly.getOutput(0);
 			FunctionVariable fv = fun.getFunction().getFunctionVariable();
-			ExpressionValue derivFit = fun.getFunction().derivative(fv);
+			ExpressionValue derivFit = fun.getFunction().derivative(fv, kernel);
 
 			fv.set(a);
 

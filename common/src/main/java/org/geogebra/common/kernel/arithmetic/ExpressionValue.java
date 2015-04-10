@@ -223,14 +223,14 @@ public interface ExpressionValue {
 	 *            variable with respect to which the derivative is computed
 	 * @return derivative
 	 */
-	public ExpressionValue derivative(FunctionVariable fv);
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel);
 
 	/**
 	 * @param fv
 	 *            variable with respect to which the integral is computed
 	 * @return integral
 	 */
-	ExpressionValue integral(FunctionVariable fv);
+	ExpressionValue integral(FunctionVariable fv, Kernel kernel);
 
 	/**
 	 * @param def

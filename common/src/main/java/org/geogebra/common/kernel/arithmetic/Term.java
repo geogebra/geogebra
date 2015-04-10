@@ -204,6 +204,8 @@ public class Term implements Comparable<Object>, Serializable {
 					case MINUS:
 						return sub(add(a, ben.getLeft(), kernel),
 								ben.getRight(), kernel);
+					default:
+						break;
 					}
 				}
 			} // else
@@ -283,6 +285,8 @@ public class Term implements Comparable<Object>, Serializable {
 						case DIVIDE:
 							return divide(multiply(a, ben.getLeft(), kernel),
 									ben.getRight(), kernel);
+						default:
+							break;
 						}
 					}
 				}
@@ -329,6 +333,9 @@ public class Term implements Comparable<Object>, Serializable {
 				case DIVIDE:
 					return multiply(divide(a, ben.getLeft(), kernel),
 							ben.getRight(), kernel);
+				//TODO muliply?
+				default:
+					break;
 				}
 			}
 			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);

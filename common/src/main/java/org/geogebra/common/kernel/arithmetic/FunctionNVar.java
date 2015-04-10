@@ -139,7 +139,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return kernel;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public FunctionNVar deepCopy(Kernel kernel1) {
 		return new FunctionNVar(this, kernel1);
 	}
 
@@ -704,6 +704,8 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 			return Operation.NOT_EQUAL;
 		case NOT_EQUAL:
 			return Operation.EQUAL_BOOLEAN;
+		default:
+			break;
 		}
 		return Operation.NO_OPERATION;
 	}
@@ -959,7 +961,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		ExpressionNode expDeriv = expression;
 
 		for (int i = 0; i < n; i++) {
-			expDeriv = expDeriv.derivative(fv);
+			expDeriv = expDeriv.derivative(fv, kernel);
 		}
 		expDeriv.simplifyConstantIntegers();
 		return new FunctionNVar(expDeriv, fVars);
@@ -973,7 +975,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	 */
 	public FunctionNVar getIntegralNoCAS(FunctionVariable fv) {
 
-		return new FunctionNVar(expression.integral(fv), fVars);
+		return new FunctionNVar(expression.integral(fv, kernel), fVars);
 	}
 
 	/**
@@ -1013,13 +1015,13 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	}
 
 	@Override
-	public ExpressionValue derivative(FunctionVariable fv) {
-		return expression.derivative(fv);
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel) {
+		return expression.derivative(fv, kernel);
 	}
 
 	@Override
-	public ExpressionValue integral(FunctionVariable fv) {
-		return expression.integral(fv);
+	public final ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
+		return expression.integral(fv, kernel0);
 	}
 
 }

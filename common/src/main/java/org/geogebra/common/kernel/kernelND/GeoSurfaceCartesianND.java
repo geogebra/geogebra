@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -76,10 +77,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			functionExpander = new FunctionExpander();
 		}
 		for (int i = 0; i < fun.length; i++) {
-			ValidExpression ve = (ValidExpression) fun[i].deepCopy(getKernel());
-			ve = (ValidExpression) ve.traverse(functionExpander);
+			ExpressionValue ve = fun[i].deepCopy(getKernel()).traverse(functionExpander);
 			for (int j = 0; j < vars.length; j++) {				
-				fun1[j][i] = new FunctionNVar(ve.derivative(vars[j]).wrap(), vars);
+				fun1[j][i] = new FunctionNVar(ve.derivative(vars[j], getKernel()).wrap(), vars);
 			}
 		}
 		

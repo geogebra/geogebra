@@ -527,6 +527,8 @@ public class ExpressionNode extends ValidExpression implements
 				}
 			}
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -831,6 +833,8 @@ public class ExpressionNode extends ValidExpression implements
 						((ExpressionNode) left).getLeft(), Operation.SQRT, null);
 				operation = Operation.MULTIPLY;
 			}
+		default:
+			break;
 		}
 
 		return undecided.size();
@@ -992,7 +996,7 @@ public class ExpressionNode extends ValidExpression implements
 					base = new Function(
 							((Functional) ((ExpressionNode) left).getLeft())
 							.getFunction().derivative(
-base.getFunctionVariable())
+base.getFunctionVariable(), kernel)
 									.wrap(), base.getFunctionVariable());
 				}
 
@@ -1081,8 +1085,9 @@ kernel, left,
 		case FUNCTION:
 		case FUNCTION_NVAR:
 			return true;
+		default:
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -3806,6 +3811,8 @@ kernel, left,
 				return lc / getRightTree().evaluateDouble();
 			}
 			break;
+		default:
+			break;
 		}
 
 		if ((left.contains(fv) || right.contains(fv))) {
@@ -3840,8 +3847,10 @@ kernel, left,
 		case PERPENDICULAR:
 		case PARALLEL:
 			return true;
+		default:
+			return false;
 		}
-		return false;
+		
 	}
 
 	private static boolean isConstantDouble(ExpressionValue ev, double v) {
@@ -4483,7 +4492,7 @@ kernel, left,
 	}
 
 	@Override
-	public ExpressionNode derivative(FunctionVariable fv) {
+	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel) {
 		switch (operation) {
 
 		// for eg (x < x1) * (a1 x² + b1 x + c1)
@@ -4507,108 +4516,108 @@ kernel, left,
 				}
 
 				return wrap(left).power(wrap(right).subtract(1))
-						.multiply(left.derivative(fv)).multiply(right);
+						.multiply(left.derivative(fv, kernel)).multiply(right);
 			}
 
 			return wrap(left).power(right).multiply(
-					wrap(right.derivative(fv)).multiply(wrap(left).ln()).plus(
-							wrap(right).multiply(left.derivative(fv)).divide(
+					wrap(right.derivative(fv, kernel)).multiply(wrap(left).ln()).plus(
+							wrap(right).multiply(left.derivative(fv, kernel)).divide(
 									left)));
 
 		case NO_OPERATION:
-			return wrap(left.derivative(fv));
+			return wrap(left.derivative(fv, kernel));
 		case DIVIDE:
 			if (right.isNumberValue() && !right.contains(fv)) {
-				return wrap(left).derivative(fv).divide(right);
+				return wrap(left).derivative(fv, kernel).divide(right);
 			}
-			return wrap(left.derivative(fv)).multiply(right)
-					.subtract(wrap(right.derivative(fv)).multiply(left))
+			return wrap(left.derivative(fv, kernel)).multiply(right)
+					.subtract(wrap(right.derivative(fv, kernel)).multiply(left))
 					.divide(wrap(right).square());
 		case MULTIPLY:
 			if (right.isNumberValue() && !right.contains(fv)) {
-				return wrap(left).derivative(fv).multiply(right);
+				return wrap(left).derivative(fv, kernel).multiply(right);
 			}
 			if (left.isNumberValue() && !left.contains(fv)) {
-				return wrap(right).derivative(fv).multiply(left);
+				return wrap(right).derivative(fv, kernel).multiply(left);
 			}
-			return wrap(left).multiply(right.derivative(fv)).plus(
-					wrap(right).multiply(left.derivative(fv)));
+			return wrap(left).multiply(right.derivative(fv, kernel)).plus(
+					wrap(right).multiply(left.derivative(fv, kernel)));
 		case PLUS:
-			return wrap(left.derivative(fv)).plus(right.derivative(fv));
+			return wrap(left.derivative(fv, kernel)).plus(right.derivative(fv, kernel));
 		case MINUS:
-			return wrap(left.derivative(fv)).subtract(right.derivative(fv));
+			return wrap(left.derivative(fv, kernel)).subtract(right.derivative(fv, kernel));
 		case SIN:
 			return new ExpressionNode(kernel, left, Operation.COS, null)
-					.multiply((left).derivative(fv));
+					.multiply((left).derivative(fv, kernel));
 		case COS:
 			return new ExpressionNode(kernel, left, Operation.SIN, null)
-					.multiply((left).derivative(fv)).multiply(-1);
+					.multiply((left).derivative(fv, kernel)).multiply(-1);
 		case TAN:
 			return new ExpressionNode(kernel, left, Operation.SEC, null)
-					.square().multiply((left).derivative(fv));
+					.square().multiply((left).derivative(fv, kernel));
 		case SEC:
 			return new ExpressionNode(kernel, left, Operation.SEC, null)
 					.multiply(
 							new ExpressionNode(kernel, left, Operation.TAN,
-									null)).multiply((left).derivative(fv));
+									null)).multiply((left).derivative(fv, kernel));
 		case CSC:
 			return new ExpressionNode(kernel, left, Operation.CSC, null)
 					.multiply(
 							new ExpressionNode(kernel, left, Operation.COT,
-									null)).multiply((left).derivative(fv))
+									null)).multiply((left).derivative(fv, kernel))
 					.multiply(-1);
 		case COT:
 			return new ExpressionNode(kernel, left, Operation.CSC, null)
-					.square().multiply((left).derivative(fv)).multiply(-1);
+					.square().multiply((left).derivative(fv, kernel)).multiply(-1);
 		case SINH:
 			return new ExpressionNode(kernel, left, Operation.COSH, null)
-					.multiply((left).derivative(fv));
+					.multiply((left).derivative(fv, kernel));
 		case COSH:
 			return new ExpressionNode(kernel, left, Operation.SINH, null)
-					.multiply((left).derivative(fv));
+					.multiply((left).derivative(fv, kernel));
 		case TANH:
 			return new ExpressionNode(kernel, left, Operation.SECH, null)
-					.square().multiply((left).derivative(fv));
+					.square().multiply((left).derivative(fv, kernel));
 		case SECH:
 			return new ExpressionNode(kernel, left, Operation.SECH, null)
 					.multiply(
 							new ExpressionNode(kernel, left, Operation.TANH,
-									null)).multiply((left).derivative(fv))
+									null)).multiply((left).derivative(fv, kernel))
 					.multiply(-1);
 		case CSCH:
 			return new ExpressionNode(kernel, left, Operation.CSCH, null)
 					.multiply(
 							new ExpressionNode(kernel, left, Operation.COTH,
-									null)).multiply((left).derivative(fv))
+									null)).multiply((left).derivative(fv, kernel))
 					.multiply(-1);
 		case COTH:
 			return new ExpressionNode(kernel, left, Operation.CSCH, null)
-					.square().multiply((left).derivative(fv)).multiply(-1);
+					.square().multiply((left).derivative(fv, kernel)).multiply(-1);
 
 		case ARCSIN:
-			return wrap(left.derivative(fv)).divide(
+			return wrap(left.derivative(fv, kernel)).divide(
 					wrap(left).square().subtractR(1).sqrt());
 		case ARCCOS:
-			return wrap(left.derivative(fv)).divide(
+			return wrap(left.derivative(fv, kernel)).divide(
 					wrap(left).square().subtractR(1).sqrt()).multiply(-1);
 		case ARCTAN:
-			return wrap(left.derivative(fv))
+			return wrap(left.derivative(fv, kernel))
 					.divide(wrap(left).square().plus(1));
 
 		case ASINH:
-			return wrap(left.derivative(fv)).divide(
+			return wrap(left.derivative(fv, kernel)).divide(
 					wrap(left).square().plus(1).sqrt());
 		case ACOSH:
 			// sqrt(x+1)sqrt(x-1) not sqrt(x^2-1) as has wrong domain
-			return wrap(left.derivative(fv)).divide(
+			return wrap(left.derivative(fv, kernel)).divide(
 					wrap(left).plus(1).sqrt()
 							.multiply(wrap(left).subtract(1).sqrt()));
 		case ATANH:
-			return wrap(left.derivative(fv)).divide(
+			return wrap(left.derivative(fv, kernel)).divide(
 					wrap(left).square().subtractR(1));
 
 		case ABS:
-			return wrap(left.derivative(fv)).multiply(left).divide(
+			return wrap(left.derivative(fv, kernel)).multiply(left).divide(
 					wrap(left).abs());
 
 		case SGN:
@@ -4616,31 +4625,31 @@ kernel, left,
 			return wrap(new MyDouble(kernel, 0)).divide(fv);
 
 		case EXP:
-			return wrap(left.derivative(fv)).multiply(wrap(left).exp());
+			return wrap(left.derivative(fv, kernel)).multiply(wrap(left).exp());
 
 		case SI:
-			return wrap(left.derivative(fv)).multiply(
+			return wrap(left.derivative(fv, kernel)).multiply(
 					wrap(left).sin().divide(left));
 
 		case CI:
-			return wrap(left.derivative(fv)).multiply(
+			return wrap(left.derivative(fv, kernel)).multiply(
 					wrap(left).cos().divide(left));
 
 		case EI:
-			return wrap(left.derivative(fv)).multiply(
+			return wrap(left.derivative(fv, kernel)).multiply(
 					wrap(left).exp().divide(left));
 
 		case ERF:
-			return wrap(left.derivative(fv)).multiply(wrap(2)).divide(
+			return wrap(left.derivative(fv, kernel)).multiply(wrap(2)).divide(
 					wrap(left).square().exp().multiply(wrap(Math.PI).sqrt()));
 
 		case PSI:
-			return wrap(left.derivative(fv)).multiply(wrap(left).polygamma(1));
+			return wrap(left.derivative(fv, kernel)).multiply(wrap(left).polygamma(1));
 
 		case POLYGAMMA:
 			if (left.isNumberValue() && !left.contains(fv)) {
 				double n = ((NumberValue) left).getDouble();
-				return wrap(right.derivative(fv)).multiply(
+				return wrap(right.derivative(fv, kernel)).multiply(
 						wrap(right).polygamma(n + 1));
 			}
 
@@ -4650,37 +4659,37 @@ kernel, left,
 		case IF_ELSE:
 			MyNumberPair np = (MyNumberPair) left;
 
-			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv));
+			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv, kernel));
 
 			return new ExpressionNode(kernel, np, Operation.IF_ELSE,
-					right.derivative(fv));
+					right.derivative(fv, kernel));
 
 		case IF:
 
 			return new ExpressionNode(kernel, left, Operation.IF,
-					right.derivative(fv));
+					right.derivative(fv, kernel));
 
 		case IF_LIST:
 			MyList rtDiff = new MyList(kernel);
 			MyList rt = (MyList) right;
 			for (int i = 0; i < rt.size(); i++) {
-				rtDiff.addListElement(rt.getListElement(i).derivative(fv));
+				rtDiff.addListElement(rt.getListElement(i).derivative(fv, kernel));
 			}
 			return new ExpressionNode(kernel, left, Operation.IF_LIST, rtDiff);
 
 		case LOG:
 			// base e (ln)
-			return wrap(left.derivative(fv)).divide(left);
+			return wrap(left.derivative(fv, kernel)).divide(left);
 
 		case LOG10:
-			return wrap(left.derivative(fv)).divide(left).divide(Math.log(10));
+			return wrap(left.derivative(fv, kernel)).divide(left).divide(Math.log(10));
 
 		case LOG2:
-			return wrap(left.derivative(fv)).divide(left).divide(Math.log(2));
+			return wrap(left.derivative(fv, kernel)).divide(left).divide(Math.log(2));
 
 		case LOGB:
 			if (left.isNumberValue() && !left.contains(fv)) {
-				return wrap(right.derivative(fv)).divide(right).divide(
+				return wrap(right.derivative(fv, kernel)).divide(right).divide(
 						Math.log(((NumberValue) left).getDouble()));
 			}
 
@@ -4689,7 +4698,7 @@ kernel, left,
 
 		case NROOT:
 			if (right.isNumberValue() && !right.contains(fv)) {
-				return wrap(left.derivative(fv)).multiply(
+				return wrap(left.derivative(fv, kernel)).multiply(
 						wrap(left).nroot(right)).divide(
 						wrap(left).multiply(right));
 			}
@@ -4699,21 +4708,21 @@ kernel, left,
 
 		case SQRT:
 		case SQRT_SHORT:
-			return wrap(left.derivative(fv)).multiply(wrap(left).power(-0.5))
+			return wrap(left.derivative(fv, kernel)).multiply(wrap(left).power(-0.5))
 					.divide(2);
 		case CBRT:
 			// wrong domain
 			// return
-			// wrap(left.derivative(fv)).multiply(wrap(left).power(-2d/3d)).divide(3);
+			// wrap(left.derivative(fv, kernel)).multiply(wrap(left).power(-2d/3d)).divide(3);
 			// correct domain
-			return wrap(left.derivative(fv)).divide(wrap(left).square().cbrt())
+			return wrap(left.derivative(fv, kernel)).divide(wrap(left).square().cbrt())
 					.divide(3);
 
 		case FUNCTION:
 			if (left instanceof GeoFunction) {
 				Function fun = ((GeoFunction) left).getFunction();
 				FunctionVariable fv2 = fun.fVars[0];
-				ExpressionValue deriv = fun.derivative(fv2);
+				ExpressionValue deriv = fun.derivative(fv2, kernel);
 
 				Function fun2 = new Function((ExpressionNode) deriv, fv2);
 				GeoFunction geoFun = new GeoFunction(kernel.getConstruction(),
@@ -4721,11 +4730,108 @@ kernel, left,
 
 				ExpressionNode ret = new ExpressionNode(kernel, geoFun,
 						Operation.FUNCTION, right).multiply(right
-						.derivative(fv));
+						.derivative(fv, kernel));
 
 				return ret;
 			}
 			break;
+		case $VAR_COL:
+			break;
+		case $VAR_ROW:
+			break;
+		case $VAR_ROW_COL:
+			break;
+		case AND:
+			break;
+		case AND_INTERVAL:
+			break;
+		case ARBCOMPLEX:
+			break;
+		case ARBCONST:
+			break;
+		case ARBINT:
+			break;
+		case ARCTAN2:
+			break;
+		case ARG:
+			break;
+		case BETA:
+			break;
+		case BETA_INCOMPLETE:
+			break;
+		case BETA_INCOMPLETE_REGULARIZED:
+			break;
+		case CEIL:
+			break;
+		case CONJUGATE:
+			break;
+		case DERIVATIVE:
+			break;
+		case DIFF:
+			break;
+		case ELEMENT_OF:
+			break;
+		case EQUAL_BOOLEAN:
+			break;
+		case FACTORIAL:
+			break;
+		case FLOOR:
+			break;
+		case FRACTIONAL_PART:
+			break;
+		case FREEHAND:
+			break;
+		case FUNCTION_NVAR:
+			break;
+		case GAMMA:
+			break;
+		case GAMMA_INCOMPLETE:
+			break;
+		case GAMMA_INCOMPLETE_REGULARIZED:
+			break;
+		case IMAGINARY:
+			break;
+		case IMPLICATION:
+			break;
+		case INTEGRAL:
+			break;
+		case IS_ELEMENT_OF:
+			break;
+		case IS_SUBSET_OF:
+			break;
+		case IS_SUBSET_OF_STRICT:
+			break;
+		case MULTIPLY_OR_FUNCTION:
+			break;
+		case NOT_EQUAL:
+			break;
+		case OR:
+			break;
+		case PARALLEL:
+			break;
+		case PERPENDICULAR:
+			break;
+		case RANDOM:
+			break;
+		case REAL:
+			break;
+		case ROUND:
+			break;
+		case SET_DIFFERENCE:
+			break;
+		case SUBSTITUTION:
+			break;
+		case SUM:
+			break;
+		case VECTORPRODUCT:
+			break;
+		case VEC_FUNCTION:
+			break;
+		case ZETA:
+			break;
+		default:
+			break;
+		
 		}
 
 		App.error("unhandled operation in derivative() (no CAS version): "
@@ -4740,7 +4846,7 @@ kernel, left,
 	}
 
 	@Override
-	public ExpressionNode integral(FunctionVariable fv) {
+	public ExpressionNode integral(FunctionVariable fv, Kernel kernel) {
 		switch (operation) {
 
 		case XCOORD:
@@ -4811,10 +4917,10 @@ kernel, left,
 			break;
 
 		case NO_OPERATION:
-			return wrap(left.integral(fv));
+			return wrap(left.integral(fv, kernel));
 		case DIVIDE:
 			if (right.isNumberValue() && !right.contains(fv)) {
-				return wrap(left.integral(fv)).divide(right);
+				return wrap(left.integral(fv, kernel)).divide(right);
 			}
 
 			if (left.isNumberValue() && !left.contains(fv) && right == fv) {
@@ -4826,18 +4932,18 @@ kernel, left,
 
 		case MULTIPLY:
 			if (right.isNumberValue() && !right.contains(fv)) {
-				return wrap(left.integral(fv)).multiplyR(right);
+				return wrap(left.integral(fv, kernel)).multiplyR(right);
 			} else if (left.isNumberValue() && !left.contains(fv)) {
-				return wrap(right.integral(fv)).multiplyR(left);
+				return wrap(right.integral(fv, kernel)).multiplyR(left);
 			}
 
 			// can't do by parts without simplification (use Polynomial?)
 			break;
 
 		case PLUS:
-			return wrap(left.integral(fv)).plus(right.integral(fv));
+			return wrap(left.integral(fv, kernel)).plus(right.integral(fv, kernel));
 		case MINUS:
-			return wrap(left.integral(fv)).subtract(right.integral(fv));
+			return wrap(left.integral(fv, kernel)).subtract(right.integral(fv, kernel));
 		case SIN:
 			return linearIntegral(-1, Operation.COS, fv);
 		case COS:
@@ -4992,15 +5098,15 @@ kernel, left,
 		case IF_ELSE:
 			MyNumberPair np = (MyNumberPair) left;
 
-			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv));
+			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv, kernel));
 
 			return new ExpressionNode(kernel, np, Operation.IF_ELSE,
-					right.integral(fv));
+					right.integral(fv, kernel));
 
 		case IF:
 
 			return new ExpressionNode(kernel, left, Operation.IF,
-					right.integral(fv));
+					right.integral(fv, kernel));
 
 		case LOG:
 			// base e (ln)
@@ -5105,6 +5211,8 @@ kernel, left,
 						.multiply(coeff * 3d / 4d);
 			}
 
+			break;
+		default:
 			break;
 
 		}
@@ -5318,6 +5426,8 @@ kernel, left,
 			return Math.cos(left.evaluateDouble());
 		case SQRT:
 			return Math.sqrt(left.evaluateDouble());
+		default:
+			break;
 		}
 		// TODO: evaluate basic operations here, but make sure errors a thwown
 		// wehen necessary

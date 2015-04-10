@@ -185,10 +185,10 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			// Jacobian matrix
 			// partial derivative of eg enx2 wrt
 			// curve.getFunX().getFunctionVariable() is zero, so ignore
-			ExpressionNode j00 = enx1.derivative(fVarx1);
-			ExpressionNode minusj10 = enx2.derivative(fVarx2);
-			ExpressionNode j01 = eny1.derivative(fVary1);
-			ExpressionNode minusj11 = eny2.derivative(fVary2);
+			ExpressionNode j00 = enx1.derivative(fVarx1, kernel);
+			ExpressionNode minusj10 = enx2.derivative(fVarx2, kernel);
+			ExpressionNode j01 = eny1.derivative(fVary1, kernel);
+			ExpressionNode minusj11 = eny2.derivative(fVary2, kernel);
 
 			// App.debug(j00.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
 			// App.debug(minusj10.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));

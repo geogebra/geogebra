@@ -390,9 +390,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handleMult(ExpressionValue lt, ExpressionValue rt,
 			StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyDouble num;
-		GeoVec2D vec;
 		MyStringBuffer msb;
-		Polynomial poly;
 
 		// App.debug(lt.getClass()+" "+lt.toString());
 		// App.debug(rt.getClass()+" "+rt.toString());
@@ -570,7 +568,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		MyDouble num;
 		GeoVec2D vec;
 		MyStringBuffer msb;
-		Polynomial poly;
 		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
 			MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
@@ -694,7 +691,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		String[] str;
 		MyDouble num;
 		GeoVec2D vec;
-		Polynomial poly;
 		if (rt instanceof NumberValue) {
 			// number / number
 			if (lt instanceof NumberValue) {
@@ -766,7 +762,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		String[] str;
 		MyDouble num;
 		GeoVec2D vec;
-		Polynomial poly;
 		// number - number
 		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
@@ -833,7 +828,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handlePower(ExpressionValue lt, ExpressionValue rt,
 			ExpressionValue right) {
 		String[] str;
-		Polynomial poly;
 		MyDouble num;
 		GeoVec2D vec, vec2;
 		// number ^ number

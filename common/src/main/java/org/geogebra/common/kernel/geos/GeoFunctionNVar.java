@@ -222,7 +222,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		ValidExpression ve = (ValidExpression) fun.deepCopy(getKernel());
 		ve = (ValidExpression) ve.traverse(functionExpander);
 		for (int i = 0; i < vars.length; i++) {
-			fun1[i] = new FunctionNVar(ve.derivative(vars[i]).wrap(), vars);
+			fun1[i] = new FunctionNVar(ve.derivative(vars[i], kernel).wrap(), vars);
 		}
 	}
 

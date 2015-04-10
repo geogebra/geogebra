@@ -623,7 +623,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble ceil() {
 		// angle in degrees
-		// kernel.checkInteger() needed otherwise ceil(241�) fails
+		// kernel.checkInteger() needed otherwise ceil(241deg) fails
 		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
 					* Math.ceil(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
@@ -1061,9 +1061,6 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return toValueString(tpl);
 	}
 
-	public Kernel getKernel() {
-		return kernel;
-	}
 
 	/*
 	 * needed for AlgoUnique (non-Javadoc) so that Kernel.isZero() is used
@@ -1117,13 +1114,13 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	@Override
-	public ExpressionValue derivative(FunctionVariable fv) {
-		return new MyDouble(kernel, 0);
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
+		return new MyDouble(kernel0, 0);
 	}
 
 	@Override
-	public ExpressionValue integral(FunctionVariable fv) {
-		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
+	public ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
+		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 
 	/**

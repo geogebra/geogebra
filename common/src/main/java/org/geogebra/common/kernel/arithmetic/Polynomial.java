@@ -227,16 +227,6 @@ public class Polynomial implements Serializable {
 	}
 
 	/**
-	 * divides through a polynomial's constant coefficient
-	 * 
-	 * @param poly
-	 *            polynomial
-	 */
-	private void divide(Polynomial poly) {
-		divide(poly.getConstantCoefficient());
-	}
-
-	/**
 	 * multiply every term with a double store result in this Polynomial
 	 * 
 	 * @param d
@@ -589,6 +579,8 @@ public class Polynomial implements Serializable {
 				return rt;
 			}
 			return apply(operation, rt.getConstantCoefficient(), equ);
+		default:
+			break;
 		}
 		return this;
 	}
@@ -634,6 +626,8 @@ public class Polynomial implements Serializable {
 			break;
 		case DIVIDE:
 			this.divide(rt);
+			break;
+		default:
 			break;
 		}
 		return this;

@@ -146,7 +146,7 @@ public class MySpecialDouble extends MyDouble {
 
 			if (tpl.hasType(StringType.GIAC)) {
 
-				return tpl.convertScientificNotationGiac(originalString);
+				return StringTemplate.convertScientificNotationGiac(originalString);
 			}
 
 			// if we are printing result of numeric and user didn't force us to
@@ -201,6 +201,8 @@ public class MySpecialDouble extends MyDouble {
 				return "\\textit{e}";
 				// return Unicode.EULER_STRING;
 			}
+			break;
+		default:
 			break;
 		}
 

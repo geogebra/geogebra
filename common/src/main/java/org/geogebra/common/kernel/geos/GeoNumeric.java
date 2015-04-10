@@ -1396,8 +1396,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public ExpressionValue integral(FunctionVariable fv) {
-		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
+	public ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
+		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 	
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {

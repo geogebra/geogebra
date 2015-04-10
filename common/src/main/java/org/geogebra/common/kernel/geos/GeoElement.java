@@ -3964,7 +3964,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		kernel.notifyRepaint();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Deprecated
 	@Override
 	final public String toString() {
@@ -4841,8 +4840,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * all special characters in str to HTML examples: "a_1" becomes
 	 * "a<sub>1</sub>" "s_{AB}" becomes "s<sub>AB</sub>"
 	 */
-	private static String subBegin = "<sub><font size=\"-1\">";
-	private static String subEnd = "</font></sub>";
 
 	/**
 	 * @param str raw string
@@ -7482,10 +7479,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Implementation for numbers, segments etc.
 	 */
-	public ExpressionValue derivative(FunctionVariable fv) {
-		return new MyDouble(fv.getKernel(), 0);
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
+		return new MyDouble(kernel, 0);
 	}
-	public ExpressionValue integral(FunctionVariable fv) {
+	
+	public ExpressionValue integral(FunctionVariable fv, Kernel kernel) {
 		return null;
 	}
 

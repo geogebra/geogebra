@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.arithmetic;
 import java.util.Set;
 import java.util.Vector;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -207,6 +208,8 @@ public abstract class ValidExpression implements ExpressionValue {
 			sb.append(getLabelForAssignment());
 			sb.append(getDelayedAssignmentOperator());
 			break;
+		case NONE:
+			break;
 		}
 
 		sb.append(toString(tpl));
@@ -233,6 +236,8 @@ public abstract class ValidExpression implements ExpressionValue {
 		case DELAYED:
 			sb.append(tpl.printVariableName(getLabelForAssignment()));
 			sb.append(getDelayedAssignmentOperatorLaTeX());
+			break;
+		case NONE:
 			break;
 		}
 
@@ -317,7 +322,6 @@ public abstract class ValidExpression implements ExpressionValue {
 		return (Function) ev;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
 	public final String toString() {
@@ -389,12 +393,12 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 
-	public ExpressionValue derivative(FunctionVariable fv) {
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel) {
 		App.debug("derivative from " + this.getClass());
 		return null;
 	}
 
-	public ExpressionValue integral(FunctionVariable fv) {
+	public ExpressionValue integral(FunctionVariable fv, Kernel kernel) {
 		App.debug("integral from " + this.getClass());
 		return null;
 	}
