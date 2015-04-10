@@ -102,6 +102,9 @@ task draftRun(dependsOn: 'draftDeployIntoWar') {
 	}
 }
 
+// As now this task doesn't finish until the java process exits.
+// This causes some problems as the IDE cannot run any other tasks.
+// https://issues.gradle.org/browse/GRADLE-1254
 task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 	description 'Starts a codeserver, and a simple webserver for development'
 	main 'com.google.gwt.dev.DevMode'
