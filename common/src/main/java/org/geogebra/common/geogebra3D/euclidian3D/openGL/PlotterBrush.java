@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.kernel.Kernel;
@@ -357,7 +358,10 @@ public class PlotterBrush implements PathPlotter {
 			moveTo(p2);
 			break;
 		case ARROW_TYPE_SIMPLE:
-			factor = (12 + lineThickness) * LINE3D_THICKNESS / scale;
+			factor = (float) (DrawVector.getFactor(lineThickness) * LINE3D_THICKNESS / scale);
+			if (ARROW_LENGTH * factor > 0.9f * length){
+				factor = 0.9f * length / ARROW_LENGTH;
+			}
 			arrowPos = ARROW_LENGTH / length * factor;
 			arrowBase = start.getCenter().mul(arrowPos)
 					.add(p2.mul(1 - arrowPos));

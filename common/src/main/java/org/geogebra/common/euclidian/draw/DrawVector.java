@@ -154,6 +154,13 @@ public class DrawVector extends Drawable implements Previewable {
 			}
 		}
 	}
+	
+	static final public double getFactor(double lineThickness){
+		
+		// changed to make arrow-heads a bit bigger for line thickness 8-13
+		return lineThickness < 8 ? 12.0 + lineThickness
+				: 3 * lineThickness;
+	}
 
 	/**
 	 * Sets the line and arrow of the vector.
@@ -167,12 +174,13 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// calculate endpoint F at base of arrow
 
-		// changed to make arrow-heads a bit bigger for line thickness 8-13
-		double factor = lineThickness < 8 ? 12.0 + lineThickness
-				: 3 * lineThickness;
+
+
+		double factor = getFactor(lineThickness);
 
 		double length = MyMath.length(coordsV[0], coordsV[1]);
 
+		
 		// decrease arrowhead size if it's longer than the vector
 		if (length < factor) {
 			factor = length;
