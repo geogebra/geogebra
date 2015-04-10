@@ -74,3 +74,5 @@ run {
 		ant.copy(file:"$jogl_native_path", todir:"$jogl_dir")
 		}
 	}
+
+apply from: 'deploy.gradle'
