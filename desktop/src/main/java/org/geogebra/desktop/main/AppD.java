@@ -5151,19 +5151,12 @@ public class AppD extends App implements KeyEventDispatcher {
 				.getFirstToolbar().getFirstMode());
 	}
 
-	public void insertFile(File file) {
+	final public void insertFile(File file) {
 
 		// using code from newWindowAction, combined with
 		// Michael's suggestion
-		AppD ad = new AppD(new CommandLineArguments(null), new JPanel(), true);// true
-																				// as
-																				// undo
-																				// info
-																				// is
-																				// necessary
-																				// for
-																				// copy-paste!
-
+		AppD ad = newAppForTemplateOrInsertFile();
+		
 		// now, we have to load the file into AppD
 		ad.getGuiManager().loadFile(file, false);
 
@@ -5201,7 +5194,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 	
-	protected AppD newAppForTemplate(){
+	protected AppD newAppForTemplateOrInsertFile(){
 		return new AppD(new CommandLineArguments(null), new JPanel(), true);
 	}
 
@@ -5210,7 +5203,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// using code from newWindowAction, combined with
 		// Michael's suggestion
 		// true as undo info is necessary for copy-paste!
-		AppD ad = newAppForTemplate();
+		AppD ad = newAppForTemplateOrInsertFile();
 
 		// now, we have to load the file into AppD
 		ad.getGuiManager().loadFile(file, false);

@@ -475,58 +475,8 @@ public class App3D extends AppD {
 		return useShaders;
 	}
 
-	@Override
-	public void insertFile(File file) {
-
-		// using code from newWindowAction, combined with
-		// Michael's suggestion
-		App3D ad = new App3D(new CommandLineArguments(null), new JPanel(), true);// true
-																					// as
-																					// undo
-																					// info
-																					// is
-																					// necessary
-																					// for
-																					// copy-paste!
-
-		// now, we have to load the file into AppD
-		ad.getGuiManager().loadFile(file, false);
-
-		// now we have to copy the macros from ad to app
-		// in order to make some advanced constructions work
-		// as it was hard to copy macro classes, let's use
-		// strings, but how to load them into the application?
-		try {
-			getXMLio().processXMLString(ad.getMacroXML(), false, true);
-
-			// alternative solution
-			// app.addMacroXML(ad.getKernel().getMacroXML(
-			// ad.getKernel().getAllMacros()));
-		} catch (Exception ex) {
-			App.debug("Could not load any macros at \"Insert File\"");
-			ex.printStackTrace();
-		}
-
-		// afterwards, the file is loaded into "ad" in theory,
-		// so we have to use the CopyPaste class to copy it
-
-		CopyPaste.INSTANCE.copyToXML(ad, new ArrayList<GeoElement>(ad
-				.getKernel().getConstruction()
-				.getGeoSetWithCasCellsConstructionOrder()), true);
-
-		// and paste
-		CopyPaste.INSTANCE.pasteFromXML(this, true);
-
-		// forgotten something important!
-		// ad should be closed!
-		ad.exit();
-		// this is also needed to make it possible
-		// to load the same file once again
-		ad.getFrame().dispose();
-
-	}
 	
-	protected AppD newAppForTemplate(){
+	protected AppD newAppForTemplateOrInsertFile(){
 		return new App3D(new CommandLineArguments(null), new JPanel(), true);
 	}
 
