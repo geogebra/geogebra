@@ -1,4 +1,4 @@
-package geogebra3D.input3D;
+package org.geogebra.desktop.geogebra3D.input3D;
 
 import org.geogebra.common.euclidian3D.Input3D;
 
