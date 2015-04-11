@@ -6286,7 +6286,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				GeoElement in = input[1];
 				if (in.isGeoVector()) {
 					if (in.isIndependent()) {
-						in.moveVector(rwTransVec, endPosition);
+						movedGeo = in.moveVector(rwTransVec, endPosition);
 						addParentToUpdateList(in, updateGeos,
 								tempMoveObjectList);
 					} else if (in.getParentAlgorithm() instanceof AlgoVectorPoint) {
@@ -6294,7 +6294,7 @@ public abstract class GeoElement extends ConstructionElement implements
 								.getParentAlgorithm();
 						GeoElement p = (GeoElement) algoVector.getP();
 						if (p.isIndependent()){
-							p.movePoint(rwTransVec, endPosition);
+							movedGeo = p.movePoint(rwTransVec, endPosition);
 							addParentToUpdateList(p, updateGeos,
 									tempMoveObjectList);
 						}
