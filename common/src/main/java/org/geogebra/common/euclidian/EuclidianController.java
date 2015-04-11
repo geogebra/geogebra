@@ -9620,7 +9620,9 @@ public abstract class EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
-			if (this.view.getEuclidianViewNo() == 1 && app.hasEuclidianView2(1)) {
+			// do the following only once, from last EuclidianView
+			// prevent clearSelections() from a next EV would break it all
+			if (view != kernel.getLastAttachedEV()){
 				return previewDrawable;
 			}
 			// select all hidden objects

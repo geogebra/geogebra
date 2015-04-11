@@ -3523,11 +3523,23 @@ public class Kernel {
 	 * methods for view-Pattern (Model-View-Controller)
 	 * ******************************************************
 	 */
+	
+	
+	private EuclidianView lastAttachedEV = null;
+	
+	
+	final public EuclidianView getLastAttachedEV(){
+		return lastAttachedEV;
+	}
 
 	public void attach(View view) {
 
 		if (!views.contains(view)) {
 			views.add(view);
+		}
+		
+		if (view instanceof EuclidianView){
+			lastAttachedEV = (EuclidianView) view;
 		}
 
 		printAttachedViews();
