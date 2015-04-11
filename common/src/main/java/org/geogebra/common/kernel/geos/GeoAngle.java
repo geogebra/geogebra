@@ -247,7 +247,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		if (geo.isGeoAngle()) {
 			GeoAngle ang = (GeoAngle) geo;
 			arcSize = ang.arcSize;
-			if (!ang.isIndependent()){ // avoids also default angle to apply its style (angle interval)
+			if (!ang.isIndependent() || this.isDefaultGeo()){ // avoids also default angle to apply its style (angle interval)
 									   // to all new angles (e.g. independent angles)
 				setAngleStyle(ang.angleStyle); // to update the value
 			}

@@ -5200,17 +5200,23 @@ public class AppD extends App implements KeyEventDispatcher {
 		ad.getFrame().dispose();
 
 	}
+	
+	protected AppD newAppForTemplate(){
+		return new AppD(new CommandLineArguments(null), new JPanel(), true);
+	}
 
-	public void applyTemplate(File file) {
+	final public void applyTemplate(File file) {
 
 		// using code from newWindowAction, combined with
 		// Michael's suggestion
 		// true as undo info is necessary for copy-paste!
-		AppD ad = new AppD(new CommandLineArguments(null), new JPanel(), true);
+		AppD ad = newAppForTemplate();
 
 		// now, we have to load the file into AppD
 		ad.getGuiManager().loadFile(file, false);
-
+		
+		setLabelingStyle(ad.getLabelingStyle());
+		getKernel().setConstructionDefaults(ad.getKernel());
 		getKernel().setVisualStyles(ad.getKernel());
 		getKernel().updateConstruction();
 

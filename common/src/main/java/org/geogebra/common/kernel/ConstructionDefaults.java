@@ -960,5 +960,14 @@ public class ConstructionDefaults {
 		sb.append("</defaults>\n");
 		
 	}
+	
+	public void setConstructionDefaults(ConstructionDefaults otherDefaults){
+		for (GeoElement geo : defaultGeoElements.values()){
+			GeoElement otherGeo = otherDefaults.getDefaultGeo(geo.getDefaultGeoType());
+			if (otherGeo != null){
+				geo.setVisualStyle(otherGeo);
+			}
+		}
+	}
 
 }

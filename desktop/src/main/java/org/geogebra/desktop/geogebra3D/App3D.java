@@ -525,5 +525,9 @@ public class App3D extends AppD {
 		ad.getFrame().dispose();
 
 	}
+	
+	protected AppD newAppForTemplate(){
+		return new App3D(new CommandLineArguments(null), new JPanel(), true);
+	}
 
 }

@@ -832,6 +832,14 @@ public class Kernel {
 			}
 		}
 	}
+	
+	
+	public void setConstructionDefaults(Kernel otherKernel){
+		getConstruction().getConstructionDefaults().setConstructionDefaults(
+				otherKernel.getConstruction().getConstructionDefaults());
+		
+		
+	}
 
 	/**
 	 * @param flag
