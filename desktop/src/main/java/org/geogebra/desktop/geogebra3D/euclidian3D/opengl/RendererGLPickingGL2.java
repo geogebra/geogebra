@@ -1,8 +1,5 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import geogebra3D.euclidian3D.opengl.RendererJogl;
-import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
@@ -15,6 +12,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 public class RendererGLPickingGL2 extends RendererGL2 {
 

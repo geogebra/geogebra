@@ -1,9 +1,5 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import geogebra3D.euclidian3D.opengl.RendererJogl;
-import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
-import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,6 +24,9 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.main.AppD;
 
 /**

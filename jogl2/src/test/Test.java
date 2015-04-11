@@ -2,9 +2,9 @@ package test;
 
 /*
 
-import geogebra3D.euclidian3D.opengl.Animator;
-import geogebra3D.euclidian3D.opengl.Component3D;
-import geogebra3D.euclidian3D.opengl.RendererJogl;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Animator;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Component3D;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;

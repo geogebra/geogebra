@@ -1,4 +1,4 @@
-package geogebra3D.euclidian3D.opengl;
+package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
 import java.awt.Component;
 import java.awt.Dimension;

@@ -1,13 +1,12 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 /**
  * 

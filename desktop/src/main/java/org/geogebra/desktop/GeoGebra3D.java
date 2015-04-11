@@ -18,7 +18,7 @@
  */
 package org.geogebra.desktop;
 
-import geogebra3D.euclidian3D.opengl.RendererJogl;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
 
 public class GeoGebra3D extends GeoGebra {
 
