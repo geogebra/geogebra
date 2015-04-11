@@ -75,4 +75,7 @@ run {
 		}
 	}
 
-apply from: 'deploy.gradle'
+if (new File('deploy.gradle').exists()) {
+    apply from: 'deploy.gradle'
+    }
+
