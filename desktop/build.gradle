@@ -39,14 +39,14 @@ dependencies {
 
 	runtime "com.jogamp:jogl-all:$joglver:natives-linux-amd64",
             "com.jogamp:jogl-all:$joglver:natives-windows-i586",
-            "com.jogamp:jogl-all:$joglver:natives-windows-amd64", 
+            "com.jogamp:jogl-all:$joglver:natives-windows-amd64",
             "com.jogamp:jogl-all:$joglver:natives-macosx-universal",
             "com.jogamp:jogl-all:$joglver:natives-linux-i586"
-    runtime "com.jogamp:gluegen-rt:$joglver:natives-linux-amd64", 
+    runtime "com.jogamp:gluegen-rt:$joglver:natives-linux-amd64",
             "com.jogamp:gluegen-rt:$joglver:natives-windows-i586",
             "com.jogamp:gluegen-rt:$joglver:natives-windows-amd64", 
-            "com.jogamp:gluegen-rt:$joglver:natives-macosx-universal"
-            // "com.jogamp:gluegen-rt:$joglver:natives-linux-i586"
+            "com.jogamp:gluegen-rt:$joglver:natives-macosx-universal",
+            "com.jogamp:gluegen-rt:$joglver:natives-linux-i586"
     runtime "fr.ujf-grenoble:javagiac:$javagiacver:natives-linux-amd64",
 	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-linux-i586",
 	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-windows-amd64",
