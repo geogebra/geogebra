@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.main.App;
 
 /**
  *
@@ -82,6 +83,8 @@ public class AlgoRadius extends AlgoElement {
 															// QUADRIC_SPHERE
 															// are equal
 			num.setValue(c.getHalfAxis(0));
+		} else if (c.type == GeoConicNDConstants.CONIC_SINGLE_POINT) {
+			num.setValue(0);
 		} else {
 			num.setUndefined();
 		}
