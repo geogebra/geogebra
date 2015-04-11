@@ -17,8 +17,6 @@ the Free Software Foundation.
  */
 package org.geogebra.desktop.geogebra3D;
 
-import geogebra3D.input3D.Input3DFactory;
-
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.image.BufferedImage;
@@ -59,6 +57,7 @@ import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianControllerInput
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import org.geogebra.desktop.geogebra3D.gui.GuiManager3D;
 import org.geogebra.desktop.geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
+import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory;
 import org.geogebra.desktop.geogebra3D.util.ImageManager3D;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
