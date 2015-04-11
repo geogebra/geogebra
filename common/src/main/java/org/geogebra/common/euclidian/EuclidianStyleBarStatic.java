@@ -594,11 +594,11 @@ public class EuclidianStyleBarStatic {
 	public static HashMap<Integer, Integer> createDefaultMap() {
 		HashMap<Integer, Integer> defaultGeoMap = new HashMap<Integer, Integer>();
 		defaultGeoMap.put(EuclidianConstants.MODE_POINT,
-				ConstructionDefaults.DEFAULT_POINT_FREE);
+				ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX);
 		defaultGeoMap.put(EuclidianConstants.MODE_COMPLEX_NUMBER,
-				ConstructionDefaults.DEFAULT_POINT_FREE);
+				ConstructionDefaults.DEFAULT_POINT_COMPLEX);
 		defaultGeoMap.put(EuclidianConstants.MODE_POINT_ON_OBJECT,
-				ConstructionDefaults.DEFAULT_POINT_IN_REGION);
+				ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX);
 		defaultGeoMap.put(EuclidianConstants.MODE_INTERSECT,
 				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
 		defaultGeoMap.put(EuclidianConstants.MODE_MIDPOINT,

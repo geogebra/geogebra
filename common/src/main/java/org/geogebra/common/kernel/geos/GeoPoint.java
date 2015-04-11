@@ -131,14 +131,22 @@ SymbolicParametersBotanaAlgo {
 	public GeoPoint(Construction c) {
 		this(c, false);
 	}
+	public GeoPoint(Construction c, int coordMode) {
+		this(c, false, coordMode);
+	}
+
+	public GeoPoint(Construction c, boolean isHelpere) {		
+		this(c, isHelpere, Kernel.COORD_CARTESIAN);
+	}
 
 	/**
 	 * @param c construction
 	 * @param isHelper if is helper point, then don't set construction defaults, etc.
 	 */
-	public GeoPoint(Construction c, boolean isHelper) {
+	public GeoPoint(Construction c, boolean isHelper, int coordMode) {
 		super(c);	
 		if (!isHelper){
+			setMode(coordMode);
 			setConstructionDefaults();
 			setAnimationType(ANIMATION_INCREASING);
 		}

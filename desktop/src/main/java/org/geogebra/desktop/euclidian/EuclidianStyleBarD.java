@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -348,7 +349,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			// get the current default geo
 			ArrayList<GeoElement> justCreatedGeos = ec.getJustCreatedGeos();
 			Integer type = defaultGeoMap.get(mode);
-			if (type != null && !type.equals(ConstructionDefaults.DEFAULT_POINT_COMPLEX) && justCreatedGeos.size() == 1){
+			if (type.equals(ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX) && justCreatedGeos.size() == 1){
 				GeoElement justCreated = justCreatedGeos.get(0);
 				if (justCreated.isGeoPoint()){
 					// get default type regarding what type of point has been created
@@ -358,14 +359,27 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 						type = ConstructionDefaults.DEFAULT_POINT_IN_REGION;
 					}else if (!((GeoPointND) justCreated).isIndependent()){
 						type = ConstructionDefaults.DEFAULT_POINT_DEPENDENT;
+					}else{
+						type = ConstructionDefaults.DEFAULT_POINT_FREE;
 					}
-					// type was DEFAULT_POINT_FREE at start
 				}
 			}
 			
-			GeoElement geo = cons.getConstructionDefaults().getDefaultGeo(type);
-			if (geo != null){
-				activeGeoList.add(geo);
+			if (type.equals(ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX)){
+				// add all non-complex default points
+				activeGeoList.add(cons.getConstructionDefaults().getDefaultGeo(
+						ConstructionDefaults.DEFAULT_POINT_FREE));
+				activeGeoList.add(cons.getConstructionDefaults().getDefaultGeo(
+						ConstructionDefaults.DEFAULT_POINT_ON_PATH));
+				activeGeoList.add(cons.getConstructionDefaults().getDefaultGeo(
+						ConstructionDefaults.DEFAULT_POINT_IN_REGION));
+				activeGeoList.add(cons.getConstructionDefaults().getDefaultGeo(
+						ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
+			}else{
+				GeoElement geo = cons.getConstructionDefaults().getDefaultGeo(type);
+				if (geo != null){
+					activeGeoList.add(geo);
+				}
 			}
 
 			// update the defaultGeos field (needed elsewhere for adjusting

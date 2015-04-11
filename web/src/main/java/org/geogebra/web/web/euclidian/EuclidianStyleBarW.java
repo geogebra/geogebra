@@ -308,34 +308,47 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			// get the current default geo
 			ArrayList<GeoElement> justCreatedGeos = ec.getJustCreatedGeos();
 			Integer type = defaultGeoMap.get(mode);
-			GeoElement geo;
 			if (mode == EuclidianConstants.MODE_PEN) {
-				geo = ec.getPen().DEFAULT_PEN_LINE;
+				GeoElement geo = ec.getPen().DEFAULT_PEN_LINE;
+				if (geo != null) {
+					activeGeoList.add(geo);
+				}
 			} else {
-				if (type != null
-				        && !type.equals(ConstructionDefaults.DEFAULT_POINT_COMPLEX)
-				        && justCreatedGeos.size() == 1) {
+				if (type.equals(ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX) && justCreatedGeos.size() == 1){
 					GeoElement justCreated = justCreatedGeos.get(0);
-					if (justCreated.isGeoPoint()) {
-						// get default type regarding what type of point has
-						// been created
-						if (((GeoPointND) justCreated).hasPath()) {
+					if (justCreated.isGeoPoint()){
+						// get default type regarding what type of point has been created
+						if (((GeoPointND) justCreated).hasPath()){
 							type = ConstructionDefaults.DEFAULT_POINT_ON_PATH;
-						} else if (((GeoPointND) justCreated).hasRegion()) {
+						}else if (((GeoPointND) justCreated).hasRegion()){
 							type = ConstructionDefaults.DEFAULT_POINT_IN_REGION;
-						} else if (!((GeoPointND) justCreated).isIndependent()) {
+						}else if (!((GeoPointND) justCreated).isIndependent()){
 							type = ConstructionDefaults.DEFAULT_POINT_DEPENDENT;
+						}else{
+							type = ConstructionDefaults.DEFAULT_POINT_FREE;
 						}
-						// type was DEFAULT_POINT_FREE at start
 					}
 				}
-
-				geo = cons.getConstructionDefaults().getDefaultGeo(type);
+				
+				if (type.equals(ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX)){
+					// add all non-complex default points
+					activeGeoList.add(cons.getConstructionDefaults().getDefaultGeo(
+							ConstructionDefaults.DEFAULT_POINT_FREE));
+					activeGeoList.add(cons.getConstructionDefaults().getDefaultGeo(
+							ConstructionDefaults.DEFAULT_POINT_ON_PATH));
+					activeGeoList.add(cons.getConstructionDefaults().getDefaultGeo(
+							ConstructionDefaults.DEFAULT_POINT_IN_REGION));
+					activeGeoList.add(cons.getConstructionDefaults().getDefaultGeo(
+							ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
+				}else{
+					GeoElement geo = cons.getConstructionDefaults().getDefaultGeo(type);
+					if (geo != null){
+						activeGeoList.add(geo);
+					}
+				}
 			}
 
-			if (geo != null) {
-				activeGeoList.add(geo);
-			}
+			
 
 			// update the defaultGeos field (needed elsewhere for adjusting
 			// default geo state)

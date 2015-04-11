@@ -74,20 +74,9 @@ public class AlgoDispatcher {
 	/** Point label with cartesian coordinates (x,y) */
 	final public GeoPoint Point(String label, double x, double y,
 			boolean complex) {
-		GeoPoint p = new GeoPoint(cons);
+		int mode = complex ? Kernel.COORD_COMPLEX : Kernel.COORD_CARTESIAN;
+		GeoPoint p = new GeoPoint(cons, mode);
 		p.setCoords(x, y, 1.0);
-		if (complex) {
-			p.setMode(Kernel.COORD_COMPLEX);
-			/*
-			 * removed as this sets the mode back to COORD_CARTESIAN
-			 * 
-			 * // we have to reset the visual style as the constructor // did
-			 * not know that this was a complex number
-			 * //p.setConstructionDefaults();
-			 */
-		} else {
-			p.setMode(Kernel.COORD_CARTESIAN);
-		}
 		p.setLabel(label); // invokes add()
 		return p;
 	}

@@ -68,6 +68,8 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_POINT_IN_REGION = 13;
 	/** default complex point */
 	public static final int DEFAULT_POINT_COMPLEX = 14;
+	/** default type for free point */
+	public static final int DEFAULT_POINT_ALL_BUT_COMPLEX = 15;
 
 	/** default line */
 	public static final int DEFAULT_LINE = 20;
@@ -310,6 +312,7 @@ public class ConstructionDefaults {
 		complexPoint.setObjColor(colComplexPoint);
 		complexPoint.setPointSize(pointSize);
 		complexPoint.setDefaultGeoType(DEFAULT_POINT_COMPLEX);
+		complexPoint.setMode(Kernel.COORD_COMPLEX);
 		defaultGeoElements.put(DEFAULT_POINT_COMPLEX, complexPoint);
 
 		// line
@@ -682,6 +685,7 @@ public class ConstructionDefaults {
 			// should get the default values of a line
 			type = DEFAULT_LINE;
 		}
+		
 
 		return type;
 	}
