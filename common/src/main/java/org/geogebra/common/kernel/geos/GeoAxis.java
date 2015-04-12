@@ -27,7 +27,6 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	private GeoPoint origin;
 	private int type;
 
-	private String axisLabel;
 	/**
 	 * Creates new axis
 	 * @param cons construction

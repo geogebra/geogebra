@@ -42,6 +42,8 @@ public class CmdCAStoOperation extends CommandProcessor {
 		case MULTIPLY:
 		case VECTORPRODUCT:
 			en = new ExpressionNode(kernelA, args[0], op, args[1]);
+		default:
+			break;
 		}
 		return kernelA.getAlgebraProcessor().processExpressionNode(en);
 	}

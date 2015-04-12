@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
@@ -36,8 +35,6 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	protected GeoQuadricND c; // input
 	protected GeoLineND[] axes; // output
 
-	private GeoVec2D[] eigenvec;
-	private GeoVec2D b;
 
 	protected AlgoAxesQuadricND(Construction cons, String label, GeoQuadricND c) {
 		this(cons, c);

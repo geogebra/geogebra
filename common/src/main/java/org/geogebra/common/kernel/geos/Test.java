@@ -558,6 +558,8 @@ Test {
 				return gen(GEOLINE,second);
 			case GEOPOINT:
 				return gen(GEONUMERIC, second);
+		default:
+			break;
 		}
 		return false;
 	}

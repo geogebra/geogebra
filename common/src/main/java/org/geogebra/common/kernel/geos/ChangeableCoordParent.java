@@ -18,7 +18,6 @@ public class ChangeableCoordParent {
 	private GeoElement changeableCoordDirector = null;
 	private double startValue;
 	private Coords direction;
-	private GeoElement child;
 	
 	/**
 	 * constructor
@@ -27,7 +26,6 @@ public class ChangeableCoordParent {
 	 * @param director director
 	 */
 	public ChangeableCoordParent(GeoElement child, GeoNumeric number, GeoElement director){
-		this.child = child;
 		changeableCoordNumber = number;
 		changeableCoordDirector = director;
 	}
@@ -95,7 +93,7 @@ public class ChangeableCoordParent {
 		if (endPosition == null) { // comes from arrows keys -- all is added
 			var.setValue(var.getValue() + rwTransVec.getX() + rwTransVec.getY()
 					+ rwTransVec.getZ());
-			child.addChangeableCoordParentNumberToUpdateList(var, updateGeos,
+			GeoElement.addChangeableCoordParentNumberToUpdateList(var, updateGeos,
 					tempMoveObjectList);
 			return true;
 		}
@@ -126,7 +124,7 @@ public class ChangeableCoordParent {
 		}
 		
 		var.setValue(val);
-		child.addChangeableCoordParentNumberToUpdateList(var, updateGeos,
+		GeoElement.addChangeableCoordParentNumberToUpdateList(var, updateGeos,
 				tempMoveObjectList);
 		return true;
 

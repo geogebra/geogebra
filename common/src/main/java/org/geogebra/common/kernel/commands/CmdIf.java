@@ -63,8 +63,8 @@ public class CmdIf extends CommandProcessor {
 		arg = resArgs(c);
 		if (arg[0] instanceof GeoBoolean) {
 			// standard case: simple boolean condition
-			ArrayList<GeoBoolean> cond = new ArrayList();
-			ArrayList<GeoElement> alternatives = new ArrayList();
+			ArrayList<GeoBoolean> cond = new ArrayList<GeoBoolean>();
+			ArrayList<GeoElement> alternatives = new ArrayList<GeoElement>();
 			for (int i = 0; i < n - 1; i += 2) {
 				if (arg[i] instanceof GeoBoolean) {
 					cond.add((GeoBoolean) arg[i]);

@@ -302,6 +302,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdFinancialPV(kernel);
 		case FutureValue:
 			return new CmdFinancialFV(kernel);
+		default:
+			break;
 		}
 		return null;
 	}

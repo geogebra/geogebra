@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.Matrix;
 
-import org.geogebra.common.kernel.Kernel;
 
 /**
  * class for 3 floats (x, y, z)

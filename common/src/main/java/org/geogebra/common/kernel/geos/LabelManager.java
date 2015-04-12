@@ -19,7 +19,7 @@ public class LabelManager {
 			String name = nameToCheck;
 			if (name == null) return true;
 
-			if (name.startsWith(CopyPaste.INSTANCE.labelPrefix))
+			if (name.startsWith(CopyPaste.labelPrefix))
 				return false;
 
 			name = StringUtil.toLowerCase(name);

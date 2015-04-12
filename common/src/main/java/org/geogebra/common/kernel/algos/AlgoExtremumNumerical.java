@@ -251,7 +251,6 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		return xres;
 	}// getX()
 
-	private static final boolean DEBUG = true;
 
 	// TODO Consider locusequability
 

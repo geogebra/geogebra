@@ -1531,11 +1531,7 @@ public class CoordMatrix {
 		matrix.setVy(new Coords(-1, 1, -1, 0));
 		matrix.setVz(new Coords(1, 2, 5, 0));
 		matrix.setOrigin(new Coords(4, 5, 6, 1));
-		
-		Coords res = new Coords(2,3,4,1);
-		
-		Coords sol = new Coords(4);
-		
+				
 		System.out.println("==== MATRIX ====\n"+matrix.toString());
 		
 		System.out.println("==== INVERSE ====\n"+matrix.inverse().toString());

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GImage;
-import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -67,7 +66,7 @@ public class GeoTurtle extends GeoPoint{
 	
 	private boolean autoUpdate = true;
 	
-	private MyImage turtleImage = null;
+	//private MyImage turtleImage = null;
 	
 	/**
 	 * Constructor with label

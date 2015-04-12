@@ -3,11 +3,11 @@ package org.geogebra.common.kernel.advanced;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 
 /**
  * Computes values corresponding to Excel's financial functions Rate, Nper, PMT,
@@ -232,20 +232,6 @@ public class AlgoFinancial extends AlgoElement {
 
 	}
 
-	private void debug() {
-		App.debug(" rate: " + rate);
-		App.debug(" nper: " + nper);
-		App.debug(" pmt: " + pmt);
-		App.debug(" pv: " + pv);
-		App.debug(" fv: " + fv);
-
-		// App.debug("setRate()" + setRate());
-		// App.debug("setNper()" + setNper());
-		// App.debug("setPMT()" + setPmt());
-		// App.debug("setPV()" + setPV());
-		// App.debug("setFV()" + setFV());
-	}
-
 	// ================================================
 	// Utility functions for compute
 	// ================================================
@@ -270,18 +256,18 @@ public class AlgoFinancial extends AlgoElement {
 		for (int i = 0; i < maxIterations; i++) {
 
 			y = f(rate);
-			if (Math.abs(y) < kernel.STANDARD_PRECISION) {
+			if (Math.abs(y) < Kernel.STANDARD_PRECISION) {
 				return true;
 			}
 
 			yPrime = df(rate);
 			// make sure we don't have a small denominator
-			if (Math.abs(yPrime) < kernel.MAX_DOUBLE_PRECISION) {
+			if (Math.abs(yPrime) < Kernel.MAX_DOUBLE_PRECISION) {
 				return false;
 			}
 
 			double rate2 = rate - (y / df(rate));
-			if (Math.abs(rate2 - rate) < kernel.STANDARD_PRECISION) {
+			if (Math.abs(rate2 - rate) < Kernel.STANDARD_PRECISION) {
 				rate = rate2;
 				return true;
 			}
@@ -317,7 +303,6 @@ public class AlgoFinancial extends AlgoElement {
 		double n = nper;
 		double b = pmt;
 		double c = pmtType;
-		double d = fv;
 
 		// Using the above constants the fundamental formula is:
 		// f = a(1 + x)^n + b(1 + cx)((1 + x)^n - 1) / x + d;
@@ -337,6 +322,7 @@ public class AlgoFinancial extends AlgoElement {
 	// that is nearly zero.
 	//
 	// Code adapted from http://www.cflib.org/udf/excelRate
+	@SuppressWarnings("unused")
 	private boolean computeRate2() {
 
 		double financialPrecision = 1.0e-08;

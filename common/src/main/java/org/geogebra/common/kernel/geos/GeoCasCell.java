@@ -297,6 +297,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 							sb.append(outputVE.getDelayedAssignmentOperator()
 									.trim());
 							break;
+						case NONE:
+							break;
+
 						}
 					}
 					if (!(geo instanceof GeoLocus)) {
@@ -1341,6 +1344,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					break;
 				case DELAYED:
 					sb.append(getInputVE().getDelayedAssignmentOperator());
+					break;
+				case NONE:
 					break;
 				}
 

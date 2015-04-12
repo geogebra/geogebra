@@ -12,6 +12,7 @@ import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.commands.Commands;
@@ -379,7 +380,7 @@ public class AlgoEnvelope extends AlgoElement {
             visitedAlgos.add(algo);
             EquationList eqs = scope.getRestrictionsFromAlgo(algo);
             App.debug("[Envelope] Restrictions init");
-            App.debug("[Envelope] Construction " + algo.getOutput()[0].toString());
+            App.debug("[Envelope] Construction " + algo.getOutput()[0].toString(StringTemplate.defaultTemplate));
             for(Equation eq : eqs) {
             	App.debug(eq.toString());
             }

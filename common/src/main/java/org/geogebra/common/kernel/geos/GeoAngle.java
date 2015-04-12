@@ -301,6 +301,12 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			if (angVal < Math.PI)
 				angVal = 2.0 * Math.PI - angVal;
 			break;
+		case ANTICLOCKWISE:
+			break;
+		case UNBOUNDED:
+			break;
+		default:
+			break;
 		}		
 		
 		return angVal;

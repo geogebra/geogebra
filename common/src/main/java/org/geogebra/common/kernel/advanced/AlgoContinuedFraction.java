@@ -166,6 +166,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 					}
 				}
 				break;
+			default:
+				break;
 
 			}
 			text.setLaTeX(true, false);

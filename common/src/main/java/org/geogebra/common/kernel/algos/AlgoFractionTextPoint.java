@@ -117,6 +117,8 @@ public class AlgoFractionTextPoint extends AlgoElement {
 
 				text.setTextString(sb.toString());
 				break;
+			default:
+				break;
 
 			}
 

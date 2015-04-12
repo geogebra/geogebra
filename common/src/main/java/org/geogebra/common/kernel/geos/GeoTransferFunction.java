@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.plugin.GeoClass;
@@ -72,7 +71,6 @@ public class GeoTransferFunction extends GeoElement {
 		super(c);
 		if (num.getElementType().equals(GeoClass.NUMERIC) && den.getElementType().equals(GeoClass.NUMERIC)){
 			omegaStart = omega;
-			AlgebraProcessor ap = kernel.getAlgebraProcessor();
 			Function strFunc = createFunction(num, den);
 			GeoFunction f = new GeoFunction(c, strFunc);
 			geoFunction = new GeoFunction(f);

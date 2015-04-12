@@ -31,9 +31,6 @@ public class AlgoMatrixPlot extends AlgoElement {
 
 	private GeoList inputList; // input
 	private GeoCanvasImage outputImage; // output
-	private int size;
-	private int rowCount;
-	private int columnCount;
 	private double[][] data;
 
 	public AlgoMatrixPlot(Construction cons, String label, GeoList inputList) {

@@ -48,6 +48,8 @@ public class CommandDispatcherDiscrete implements CommandDispatcherInterface {
 			return new CmdTravelingSalesman(kernel);
 		case ShortestDistance:
 			return new CmdShortestDistance(kernel);
+		default:
+			break;
 
 		}
 		return null;

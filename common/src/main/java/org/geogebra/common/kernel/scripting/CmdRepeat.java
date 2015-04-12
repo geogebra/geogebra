@@ -25,8 +25,6 @@ public class CmdRepeat extends CmdScripting {
 	@Override
 	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
-
 
 		if (n < 2) {
 			throw argNumErr(app, c.getName(), n);

@@ -402,9 +402,10 @@ public class AlgoFunctionInvert extends AlgoElement {
 			return Operation.LOG;
 		case LOG:
 			return Operation.EXP;
+		default:
+			return null;
 		}
 
-		return null;
 	}
 
 	// TODO Consider locusequability

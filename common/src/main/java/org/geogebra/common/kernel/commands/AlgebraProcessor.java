@@ -676,7 +676,7 @@ public class AlgebraProcessor {
 						AsyncOperation callback = null;
 						if (callback0 != null) {
 
-							final FunctionVariable fvX2 = fvX;
+							//final FunctionVariable fvX2 = fvX;
 							final ValidExpression ve2 = ve;
 
 							callback = new AsyncOperation() {
@@ -1981,8 +1981,10 @@ public class AlgebraProcessor {
 				return computeCoord(exp.getLeftTree(), i).multiply(
 						exp.getRight());
 			}
+		default:
+			return new ExpressionNode(kernel, exp, ops[i], null);
 		}
-		return new ExpressionNode(kernel, exp, ops[i], null);
+		
 	}
 
 	private static int getDirection(ExpressionNode enLeft) {

@@ -938,6 +938,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			case GREATER_EQUAL:
 				bounds0[0] = bound;
 				break;
+			default:
+				break;
 			}
 		}	
 		
@@ -1027,7 +1029,11 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 									P.setX(bound + epsilon);
 								}
 								break;
+							default:
+								break;
 							}
+						default:
+							break;
 						}
 					}
 				}

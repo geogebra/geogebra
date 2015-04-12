@@ -146,6 +146,10 @@ public class AlgoVertexIneq extends AlgoElement {
 				break;
 			case INEQUALITY_1VAR_Y:
 				intParamXY(a, b);
+			case INEQUALITY_IMPLICIT:
+				break;
+			case INEQUALITY_INVALID:
+				break;
 			}
 			break;
 		case INEQUALITY_PARAMETRIC_Y:
@@ -164,6 +168,8 @@ public class AlgoVertexIneq extends AlgoElement {
 				break;
 			case INEQUALITY_1VAR_Y:
 				intParamOneVar(a, b, ai, bi, false);
+			default:
+				break;
 			}
 			break;
 		case INEQUALITY_LINEAR:
@@ -179,6 +185,8 @@ public class AlgoVertexIneq extends AlgoElement {
 				break;
 			case INEQUALITY_1VAR_Y:
 				intLinearY(a, b);
+			default:
+				break;
 			}
 			break;
 		case INEQUALITY_CONIC:
@@ -191,6 +199,8 @@ public class AlgoVertexIneq extends AlgoElement {
 				break;
 			case INEQUALITY_1VAR_Y:
 				intConicY(a, b);
+			default:
+				break;
 			}
 			break;
 		case INEQUALITY_1VAR_X:
@@ -200,6 +210,8 @@ public class AlgoVertexIneq extends AlgoElement {
 				break;
 			case INEQUALITY_1VAR_Y:
 				intXY(a, b);
+				break;
+			default:
 				break;
 			}
 			break;

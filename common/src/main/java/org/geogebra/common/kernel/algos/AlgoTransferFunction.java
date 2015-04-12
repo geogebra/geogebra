@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
@@ -22,7 +21,6 @@ public class AlgoTransferFunction extends AlgoElement {
 	private GeoList num;
 	private GeoList den;
 
-	private GeoFunction function;
 
 	/**
 	 * @param c
@@ -46,7 +44,6 @@ public class AlgoTransferFunction extends AlgoElement {
 
 		gcf = new GeoTransferFunction(c, label, num, den,
 				(int) this.omegaStart.getDouble());
-		this.function = gcf.getGeoFunction();
 		this.num = num;
 		this.den = den;
 		setInputOutput();
@@ -58,7 +55,6 @@ public class AlgoTransferFunction extends AlgoElement {
 			GeoList den) {
 		super(c);
 		gcf = new GeoTransferFunction(c, label, num, den, 10);
-		this.function = gcf.getGeoFunction();
 		this.num = num;
 		this.den = den;
 		setInputOutput();

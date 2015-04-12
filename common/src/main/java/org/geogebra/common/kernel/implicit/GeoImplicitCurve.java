@@ -220,7 +220,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	private double[][] grid;
-	private boolean[][] evald;
 
 	private double rectX;
 	private double rectY;
@@ -252,7 +251,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		App.debug("res" + xScale + " " + yScale);
 
 		grid = new double[gridHeight][gridWidth];
-		evald = new boolean[gridHeight - 1][gridWidth - 1];
 
 		for (int i = 0; i < gridHeight; i++) {
 			for (int j = 0; j < gridWidth; j++) {
@@ -282,15 +280,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				}
 			}
 		}
-	}
-
-	private MyPoint[] getPointsForGridX(int i, int j) {
-		MyPoint P, Q;
-		double[] A = getRealWorldCoordinates(i, j);
-		double[] C = getRealWorldCoordinates(i + 1, j + 1);
-		P = new MyPoint(A[0], A[1], false);
-		Q = new MyPoint(C[0], C[1], true);
-		return new MyPoint[] { P, Q };
 	}
 
 	private MyPoint[] getPointsForGrid(int i, int j) {
@@ -365,6 +354,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			P = new MyPoint(0, 0, false);
 			Q = new MyPoint(0, 0, true);
 			return new MyPoint[] {P, Q};
+		case T0000:
+			break;
 		}
 		return null;
 	}
@@ -433,14 +424,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return -1;
 	}
 
-	private int signAbsSum(double args[]) {
-		int s = 0;
-		for (int i = 0; i < args.length; i++) {
-			s += mySignFun(args[i]);
-		}
-		return Math.abs(s);
-	}
-
 	private double getRealWorldY(int i) {
 		double s = rectH / gridHeight;
 		return rectY - i * s;
@@ -451,7 +434,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return rectX + j * s;
 	}
 
-	private double[] rwCoords = new double[2];
 	private boolean trace;
 
 	private double[] getRealWorldCoordinates(int i, int j) {

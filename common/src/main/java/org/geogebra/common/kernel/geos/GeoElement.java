@@ -2278,6 +2278,79 @@ public abstract class GeoElement extends ConstructionElement implements
 				}
 			}
 			break;
+		case ANGLE:
+			break;
+		case ANGLE3D:
+			break;
+		case AXIS:
+			break;
+		case AXIS3D:
+			break;
+		case BOOLEAN:
+			break;
+		case BUTTON:
+			break;
+		case CAS_CELL:
+			break;
+		case CLIPPINGCUBE3D:
+			break;
+		case CONICSECTION:
+			//TODO make moveable?
+			break;
+		case CURVE_CARTESIAN:
+			break;
+		case CURVE_CARTESIAN3D:
+			break;
+		case CURVE_POLAR:
+			break;
+		case DEFAULT:
+			break;
+		case FUNCTION:
+			break;
+		case FUNCTIONCONDITIONAL:
+			break;
+		case FUNCTION_NVAR:
+			break;
+		case IMPLICIT_CURVE:
+			break;
+		case IMPLICIT_POLY:
+			break;
+		case INTERVAL:
+			break;
+		case LIST:
+			break;
+		case LOCUS:
+			break;
+		case NET:
+			break;
+		case NUMERIC:
+			break;
+		case PLANE3D:
+			break;
+		case POINT:
+			break;
+		case POINT3D:
+			break;
+		case POLYHEDRON:
+			break;
+		case QUADRIC:
+			break;
+		case QUADRIC_LIMITED:
+			break;
+		case QUADRIC_PART:
+			break;
+		case SPACE:
+			break;
+		case SPLINE:
+			break;
+		case SURFACECARTESIAN3D:
+			break;
+		case TEXTFIELD:
+			break;
+		case TURTLE:
+			break;
+		default:
+			break;
 		}
 
 		return false;
@@ -5214,6 +5287,8 @@ public abstract class GeoElement extends ConstructionElement implements
 					break;
 				case FALSE:
 					EVs += 8; // we have to store it to distinguish from not set
+					break;
+				case NOT_SET:
 					break;
 				}
 			}

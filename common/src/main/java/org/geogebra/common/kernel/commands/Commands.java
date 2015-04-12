@@ -401,6 +401,8 @@ TABLE_CAS), CSolve(TABLE_CAS), Dot(
 			return Textfield;
 		case IntersectCircle:
 			return IntersectConic;
+		default:
+			break;
 		}
 		return comm;
 	}

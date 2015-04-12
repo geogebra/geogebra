@@ -1,11 +1,9 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoIntersectLineConicRegion;
 import org.geogebra.common.kernel.algos.AlgoIntersectPathLinePolygon;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -81,7 +79,7 @@ public class CmdIntersectPath extends CommandProcessor {
 	 * IntersectLineConic yields intersection points named label1, label2 of
 	 * line g and conic c and intersection lines named in lowcase of the label
 	 */
-	final private GeoLine[] intersectLineConicRegion(String[] labels,
+	/*final private GeoLine[] intersectLineConicRegion(String[] labels,
 			GeoLine g, GeoConic c) {
 		AlgoIntersectLineConicRegion algo = new AlgoIntersectLineConicRegion(
 				cons, labels, g, c);
@@ -89,7 +87,7 @@ public class CmdIntersectPath extends CommandProcessor {
 		GeoLine[] lines = algo.getIntersectionLines();
 
 		return lines;
-	}
+	}*/
 
 	/**
 	 * yields intersection segments named label of line g and polygon p (as

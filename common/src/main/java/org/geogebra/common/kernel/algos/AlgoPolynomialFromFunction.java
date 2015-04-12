@@ -13,13 +13,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.parser.Parser;
 
 /**
  * Try to expand the given function to a polynomial.
@@ -30,14 +28,11 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 
 	private GeoFunction f; // input
 	private GeoFunction g; // output
-	private Parser parser;
 
 	public AlgoPolynomialFromFunction(Construction cons, String label,
 			GeoFunction f) {
 		super(cons);
 		this.f = f;
-
-		parser = new Parser(cons.getKernel(), cons);
 
 		g = new GeoFunction(cons);
 		setInputOutput(); // for AlgoElement
@@ -98,16 +93,6 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 		g.setDefined(true);
 	}
 
-	private double evaluateToDouble(String str) {
-		try {
-			ExpressionNode en = parser.parseExpression(str);
-			return en.evaluateDouble();
-		} catch (Exception e) {
-			return Double.NaN;
-		} catch (Error e) {
-			return Double.NaN;
-		}
-	}
 
 	// TODO Consider locusequability
 

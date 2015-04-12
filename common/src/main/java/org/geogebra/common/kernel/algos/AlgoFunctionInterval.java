@@ -112,7 +112,7 @@ public class AlgoFunctionInterval extends AlgoElement {
 		return equal;
 	}
 
-	private ExpressionNode exp, exp2, expCond; // current expression of f
+	private ExpressionNode exp; // current expression of f
 												// (needed to notice change of
 												// f)
 

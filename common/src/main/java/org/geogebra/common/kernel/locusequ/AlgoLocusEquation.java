@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -115,7 +116,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		old_system = system;
 
 		if (system != null) {
-			EquationTranslator trans = new CASTranslator(cons.getKernel());
+			EquationTranslator<StringBuilder> trans = new CASTranslator(cons.getKernel());
 			try{
 				this.geoPoly.setCoeff(trans.eliminateSystem(system)); // eliminateSystem() is heavy
 				this.geoPoly.setDefined();
@@ -186,7 +187,7 @@ public class AlgoLocusEquation extends AlgoElement {
             visitedAlgos.add(algo);
             EquationList eqs = scope.getRestrictionsFromAlgo(algo);
             App.debug("[LocusEqu] Restrictions init");
-            App.debug("[LocusEqu] Construction " + algo.getOutput()[0].toString());
+            App.debug("[LocusEqu] Construction " + algo.getOutput()[0].toString(StringTemplate.defaultTemplate));
             for(Equation eq : eqs) {
             	App.debug(eq.toString());
             }

@@ -78,7 +78,7 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 		case CopyFreeObject:
 			return new CmdCopyFreeObject(kernel);
 		case DataFunction:
-			return new CmdFunction(kernel);
+			return new CmdDataFunction(kernel);
 		case SetColor:
 			return new CmdSetColor(kernel);
 		case SetBackgroundColor:
@@ -202,6 +202,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdRunUpdateScript(kernel);
 			// case DensityPlot:
 			// return new CmdDensityPlot(kernel);
+		default:
+			break;
 		}
 		return null;
 	}
