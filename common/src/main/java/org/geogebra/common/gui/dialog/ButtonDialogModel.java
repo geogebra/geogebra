@@ -83,6 +83,7 @@ public class ButtonDialogModel {
 
 		button.setEuclidianVisible(true);
 		button.setLabelVisible(true);
+		button.setFixed(true);
 		button.updateRepaint();
 
 		geoResult = button;
