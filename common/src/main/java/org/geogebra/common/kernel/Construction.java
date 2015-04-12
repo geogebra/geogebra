@@ -2445,31 +2445,29 @@ public class Construction {
 		boolean fix = true;
 		boolean auxilliary = true;
 		String label = labelNew;
+		int length = label.length();
 		// expression like AB, autocreate AB=Distance[A,B] or AB = A * B
 		// according to whether A,B are points or numbers
-		if (label.length() == 2) {
-			GeoElement geo1 = kernel.lookupLabel(label.charAt(0) + "");
-			if (geo1 != null && geo1.isGeoPoint()) {
-				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
-				if (geo2 != null && geo2.isGeoPoint()) {
-					AlgoDistancePoints dist = new AlgoDistancePoints(this,
-							null, (GeoPointND) geo1, (GeoPointND) geo2);
-					createdGeo = dist.getDistance();
-					fix = false;
-				}
-			} else if (geo1 != null && geo1 instanceof NumberValue) {
-				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
-				if (geo2 != null && geo2 instanceof NumberValue) {
-					ExpressionNode node = new ExpressionNode(kernel, geo1,
-							Operation.MULTIPLY, geo2);
-					AlgoDependentNumber algo = new AlgoDependentNumber(this,
-							null, node, false);
-					createdGeo = algo.getNumber();
-					fix = false;
-				}
-			}
+		if (length == 3 && label.charAt(2) == '\'') {
+			createdGeo = distanceOrProduct(label.charAt(0)+"",label.charAt(1)+"'");
+			fix = false;
 
-		} else if (label.length() == 1) {
+		}
+		else if (length == 3 && label.charAt(1) == '\'') {
+			createdGeo = distanceOrProduct(label.charAt(0)+"'",label.charAt(2)+"");
+			fix = false;
+
+		}
+		else if (length == 4 && label.charAt(1) == '\'' && label.charAt(3) == '\'') {
+			createdGeo = distanceOrProduct(label.charAt(0)+"'",label.charAt(2)+"'");
+			fix = false;
+
+		}
+		else if (length == 2) {
+			createdGeo = distanceOrProduct(label.charAt(0)+"",label.charAt(1)+"");
+			fix = false;
+
+		} else if (length == 1) {
 			if (label.equals("O")) {
 
 				createdGeo = new GeoPoint(this, 0d, 0d, 1d);
@@ -2502,6 +2500,29 @@ public class Construction {
 		createdGeo = GeoElementSpreadsheet.autoCreate(label, this);
 
 		return createdGeo;
+	}
+
+	private GeoElement distanceOrProduct(String string, String string2) {
+		GeoElement geo1 = kernel.lookupLabel(string);
+		if (geo1 != null && geo1.isGeoPoint()) {
+			GeoElement geo2 = kernel.lookupLabel(string2);
+			if (geo2 != null && geo2.isGeoPoint()) {
+				AlgoDistancePoints dist = new AlgoDistancePoints(this,
+						null, (GeoPointND) geo1, (GeoPointND) geo2);
+				return dist.getDistance();
+				
+			}
+		} else if (geo1 != null && geo1 instanceof NumberValue) {
+			GeoElement geo2 = kernel.lookupLabel(string2 + "");
+			if (geo2 != null && geo2 instanceof NumberValue) {
+				ExpressionNode node = new ExpressionNode(kernel, geo1,
+						Operation.MULTIPLY, geo2);
+				AlgoDependentNumber algo = new AlgoDependentNumber(this,
+						null, node, false);
+				return algo.getNumber();				
+			}
+		}
+		return null;
 	}
 
 	/**
