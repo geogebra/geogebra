@@ -1,0 +1,518 @@
+@charset "utf-8";
+
+/*@import url(http://fonts.googleapis.com/css?family=Muli:300);*/
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #666666;
+    visibility: hidden;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    overflow-x: hidden;
+    -ms-touch-action: none;
+}
+
+body,
+h1,
+h2,
+p,
+ul,
+li,
+ol,
+table {
+    margin: 0px;
+    padding: 0px;
+    -ms-touch-action: none;
+}
+
+h1, h2 {
+	font-family: 'Century Gothic', 'Muli', sans-serif;
+    text-align: left;
+    color: #6161FF;
+    font-weight: normal;
+}
+
+h1 {
+	font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+h2 {
+	font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.small {
+    font-size: 15px;
+}
+
+a,
+a:visited{
+    color: #666666;
+}
+a:hover,
+a:active {
+    color: #6161FF;
+}
+
+#content {
+    overflow: hidden;
+}
+
+#menuBg {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 300px;
+	min-height: 300px;
+	z-index: 2;
+	overflow: hidden;
+
+	box-shadow: 1px 0px 3px #F7F7F7;
+    border-right: 1px solid #EEEEEE;
+}
+
+.applet_container {
+    font-size: initial;
+}
+
+#menu {
+    width: 300px;
+    position: absolute;
+	top: 0px;
+	left: 0px;
+    z-index: 3;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: inherit;
+	min-height: 300px;
+}
+
+#menu li {
+	width: 360px;
+    display: block;
+    cursor: pointer;
+    cursor: hand;
+	clear: both;
+}
+
+#menu .menu-wrapper {
+	width: 299px;
+	float: left;
+	
+	/* needed, that the menu doesn't jump */
+	border: #CCCCCC 1px solid;
+	border-right: none;
+	border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+	
+	*border: none;
+}
+
+#menu li.sel .menu-wrapper {
+    background-image: -webkit-linear-gradient(left, #EDEDED, #FAFAFA);
+    background-image: -moz-linear-gradient(left, #EDEDED, #FAFAFA);
+    background-image: -ms-linear-gradient(left, #EDEDED, #FAFAFA);
+    background-image: -o-linear-gradient(left, #EDEDED, #FAFAFA);
+    background-image: linear-gradient(left, #EDEDED, #FAFAFA);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr='#EDEDED', endColorstr='#FAFAFA');
+    zoom: 1;
+	
+	/*border*/
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	border: #CCCCCC 1px solid;
+	border-right: none;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+#menu li:hover .menu-wrapper {
+	color: #333333;
+}
+
+#menu .menu-image {
+	display: table-cell;
+	vertical-align: middle;
+	width: 55px;
+	height: 100px;
+	background: url(../images/book/menu-arrow-closed.png) 25px center no-repeat;
+	
+	*float: left;
+	*padding-top: 30px;
+	*height: 70px;
+}
+
+#menu li:hover .menu-image,
+#menu li.sel .menu-image {
+	background: url(../images/book/menu-arrow-closed-active.png) 25px center no-repeat;
+}
+
+#menu .menu-wrapper.open .menu-image {
+	background: url(../images/book/menu-arrow-opened.png) 25px center no-repeat;
+}
+
+#menu li:hover .menu-wrapper.open .menu-image,
+#menu li.sel .menu-wrapper.open .menu-image  {
+	background: url(../images/book/menu-arrow-opened-active.png) 25px center no-repeat;
+}
+
+#menu #menu_title.menu-closed .menu-image {
+	background: url(../images/book/menu-home.png) 25px center no-repeat;
+}
+
+#menu #menu_title.menu-closed:hover .menu-image,
+#menu #menu_title.menu-closed.sel .menu-image {
+	background: url(../images/book/menu-home-active.png) 25px center no-repeat;
+}
+
+#menu li .menu-item {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 25px;
+    height: 100px;
+	width: 299px;
+	
+	*float: left;
+	*padding-top: 25px;
+	*height: 75px;
+}
+
+#menu li:hover .menu-item,
+#menu li.sel .menu-item {
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1); 
+}
+
+#menu li p.title {
+    font-weight: bold;
+	font-size: 1.2em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select:none;
+}
+
+#menu li p.small {
+	font-weight: normal;
+}
+
+#menu .submenu-items {
+	padding-left: 12px;
+	padding-bottom: 10px;
+    display: none;
+}
+
+#menu .submenu-items ol {
+    list-style: decimal;
+    padding-left: 35px;
+}
+
+#menu .submenu-items li {
+    display: list-item;
+	height: auto;
+	width: auto;
+	padding: 5px 15px 5px 0;
+}
+
+#menu .submenu-items li:hover,
+#menu .submenu-items li.sel {
+	color: #6666FF;
+}
+
+.bookmark-arrow {
+	width: 57px;
+	height: 102px;
+	background: url('../images/book/bookmark-arrow.png') -3px 10px no-repeat;
+    display: block;
+    position: absolute;
+    left: 300px;
+	float: left;
+    z-index: 2000;
+}
+#bookmark-overlay {
+    width: 57px;
+    height: 80px;
+    display: block;
+    position: fixed;
+    left: 0;
+    cursor: pointer;
+    z-index: 2000;
+}
+
+#menu .chapter-number {
+	display: none;
+}
+
+#submenu_title .author {
+	margin: 30px 0;
+}
+
+.titleImg img {
+	/*float: left;*/
+	margin-right: 20px;
+	margin-bottom: 10px;
+    display: block;
+}
+
+.clear {
+	clear: both;
+}
+
+.toc h2 {
+	margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.toc ol.toc_chaptlist {
+    max-width: 500px;
+    font-weight: bold;
+}
+
+.toc ol.toc_wslist {
+	margin-bottom: 20px;
+    font-weight: normal;
+}
+
+.toc .toc_wslist li {
+    padding-top: 5px;
+}
+
+.wsf-wrapper.chapter {
+    width: auto;
+    padding-bottom: 0px;
+}
+
+.wsf-wrapper.chapter .description {
+    width: 800px;
+}
+
+.wsf-wrapper {
+    padding: 20px 50px;
+}
+
+.toc li,
+.bbcode-list li {
+    margin-left: 1.5em;
+}
+
+.page .border {
+	border-radius: 5px;
+	border: 1px solid #CCCCCC;
+	padding: 5px;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	background-color: #FFFFFF;
+    width: 400px;
+}
+
+.submenu {
+    height: inherit;
+    overflow: auto;
+}
+
+.submenu .thumb, .text {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.submenu .submenu_matlist li {
+    margin-bottom: 20px;
+    list-style: none;
+    /*width: 250px;*/
+    width: 234px;
+	min-height: 230px;
+	float: left;
+	padding-right: 20px;
+    cursor: pointer;
+}
+
+.submenu .toc li {
+    cursor: pointer;
+}
+
+.submenu li:hover .border {
+	border-color: #6666FF;
+}
+
+.submenu div.thumb {
+    width: 180px;
+    height: 130px;
+    margin-right: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.submenu .thumb img {
+    max-width: 180px;
+    max-height: 130px;
+    overflow: hidden;
+}
+
+.submenu .text {
+    padding-top: 15px;
+    max-width: 300px;
+}
+
+.submenu li:hover .text {
+	color: #6161FF;
+}
+
+/* Worksheet */
+#nav_home {
+	float: left;
+	margin-left: -40px;
+	margin-top: 12px;
+    display: none;
+}
+
+.bookNavigation {
+    position: absolute;
+    left: 630px;
+    top: 20px;
+    z-index: 300;
+}
+.link_cell {
+    float: left;
+}
+.nav_prev,
+.nav_next {
+    width: 35px;
+    height: 20px;
+    margin-top: 10px;
+}
+.nav_prev {
+    text-align: center;
+    background: url('../images/book/menu-prev.png') no-repeat 10px center;
+}
+.nav_next {
+    text-align: center;
+    background: url('../images/book/menu-next.png') no-repeat 10px center;
+}
+.nav_overview {
+    width: 80px;
+    text-align: center;
+}
+
+.link_cell:hover {
+    cursor: pointer;
+}
+.link_cell a img {
+    border: none;
+}
+.link_cell.inactive {
+    visibility: hidden;
+}
+
+.padding-top {
+	padding-top: 10px;
+}
+
+.pageHeader {
+    /*max-width: 1200px;*/
+    max-width: 700px;
+}
+
+.footer {
+    margin-left: 50px;
+}
+
+
+body > .dummyParent, body > .ToolTip, body > .gwt-Image {
+    position: absolute;
+    top: -1000px;
+}
+
+.message {
+    text-align: center;
+    font-style: italic;
+}
+
+.worksheet_tbl {
+    width: 100%;
+    border-spacing: 0;
+}
+.applet_container, .applet_container_preview {
+    margin: 5px 0 5px 0;
+}
+
+
+
+
+/** touchSwipe styles */
+#page_container {
+    margin: 0;
+    height:900px;
+    width:1000px;
+    overflow: hidden;
+    margin-left: 300px;
+}
+
+
+#pages {
+    float:left;
+    display:inline;
+    white-space: nowrap;
+    padding:0 75px 0 75px;
+    margin:0px;
+}
+
+
+/*.page {
+    padding-top: 15px;
+    padding-left: 70px;
+    padding-right: 20px;
+    vertical-align: top;
+    overflow-y: auto;
+    white-space: normal;
+    position: relative;
+
+    height:800px;
+    width:1000px;
+    display: inline-block;
+    -ms-touch-action: pan-y;
+
+}*/
+
+/* new for flexible worksheets: */
+.page {
+    white-space: normal;
+    position: relative;
+    vertical-align: top;
+
+    height:800px;
+    width:1000px;
+    display: inline-block;
+    -ms-touch-action: pan-y;
+}
+
+.page .applet_container {
+    position: absolute;
+    top: -2000px;
+}
+.page .applet_container_preview {
+    display: block;
+}
+
+.applet_container.showapplet {
+    position: static;
+    top: auto;
+}
+.applet_container_preview.showapplet {
+    display: none;
+}
+
+.page.showapplet .applet_container {
+    position: static;
+    top: auto;
+}
+.page.showapplet .applet_container_preview {
+    display: none;
+}
+
+.page.ajax-load {
+    background:url(../images/ajax-loader.gif) no-repeat center center;
+}
+
+.nav_overview a {
+    text-decoration:none;
+}

@@ -1,0 +1,89 @@
+2A95DC79EFD1CC9E605179B053B70C9C.cache.js
+ClientBundle.enableInlining true
+audioElementSupport maybe
+canvasElementSupport maybe
+compiler.emulatedStack false
+compiler.predeclare.cross.fragment.references false
+compiler.stackMode strip
+compiler.useSourceMaps false
+compiler.useSymbolMaps false
+dragEventSupport maybe
+gwt.enableDebugId false
+gwt.forceBidi false
+gwt.logging.enabled FALSE
+gwt.suppressNonStaticFinalFieldWarnings false
+locale default
+rpc.XserializeFinalFields false
+superdevmode off
+touchEventSupport maybe
+user.agent gecko1_8
+videoElementSupport maybe
+webApiUsage modern
+
+2A95DC79EFD1CC9E605179B053B70C9C.cache.js
+ClientBundle.enableInlining true
+audioElementSupport maybe
+canvasElementSupport maybe
+compiler.emulatedStack false
+compiler.predeclare.cross.fragment.references false
+compiler.stackMode strip
+compiler.useSourceMaps false
+compiler.useSymbolMaps false
+dragEventSupport maybe
+gwt.enableDebugId false
+gwt.forceBidi false
+gwt.logging.enabled FALSE
+gwt.suppressNonStaticFinalFieldWarnings false
+locale default
+rpc.XserializeFinalFields false
+superdevmode off
+touchEventSupport no
+user.agent ie10
+videoElementSupport maybe
+webApiUsage modern
+
+2A95DC79EFD1CC9E605179B053B70C9C.cache.js
+ClientBundle.enableInlining true
+audioElementSupport maybe
+canvasElementSupport maybe
+compiler.emulatedStack false
+compiler.predeclare.cross.fragment.references false
+compiler.stackMode strip
+compiler.useSourceMaps false
+compiler.useSymbolMaps false
+dragEventSupport maybe
+gwt.enableDebugId false
+gwt.forceBidi false
+gwt.logging.enabled FALSE
+gwt.suppressNonStaticFinalFieldWarnings false
+locale default
+rpc.XserializeFinalFields false
+superdevmode off
+touchEventSupport no
+user.agent ie9
+videoElementSupport maybe
+webApiUsage modern
+
+2A95DC79EFD1CC9E605179B053B70C9C.cache.js
+ClientBundle.enableInlining true
+audioElementSupport maybe
+canvasElementSupport maybe
+compiler.emulatedStack false
+compiler.predeclare.cross.fragment.references false
+compiler.stackMode strip
+compiler.useSourceMaps false
+compiler.useSymbolMaps false
+dragEventSupport maybe
+gwt.enableDebugId false
+gwt.forceBidi false
+gwt.logging.enabled FALSE
+gwt.suppressNonStaticFinalFieldWarnings false
+locale default
+rpc.XserializeFinalFields false
+superdevmode off
+touchEventSupport maybe
+user.agent safari
+videoElementSupport maybe
+webApiUsage modern
+
+Devmode:devmode.js

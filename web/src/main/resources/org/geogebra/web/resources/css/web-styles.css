@@ -4854,6 +4854,11 @@ body.zoomedBody .gwt-PopupPanel {
 	-moz-transform: scale(0.6, 0.6);
 }
 
+body.zoomedBody .gwt-PopupPanel.KeyBoard{
+	-moz-transform:none;
+	-webkit-transform:none;
+	transform:none;
+}
 
 body.zoomedBody .gwt-PopupPanel.SymbolTablePopup {
 	-webkit-transform: scale(0.6, 0.6);

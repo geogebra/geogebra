@@ -1,0 +1,718 @@
+.msg-box {
+  position: fixed;
+  left: 50%;
+  z-index: 5000;
+}
+.msg-box a {
+  color: #d3d3d3;
+}
+.msg-box#save-info-undo {
+  bottom: 50px;
+}
+.msg-box#save-info-undo .message {
+  padding-right: 25px;
+}
+.msg-box#save-info-inprogress,
+.msg-box#save-info-successful,
+.msg-box#save-info-error {
+  bottom: 50px;
+}
+.msg-box .message {
+  position: relative;
+  left: -50%;
+  background-color: #808080;
+  color: #d3d3d3;
+  border: 1px solid darkgrey;
+  -webkit-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  padding: 8px;
+}
+.msg-box .close {
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 5px;
+  width: 15px;
+  height: 15px;
+  background: url("../images/worksheet/icon-close.png") no-repeat center center;
+}
+.msg-box .close:hover {
+  background-image: url("../images/worksheet/icon-close-active.png");
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: #666666;
+  -webkit-tap-highlight-color: rgba(255,255,255,0);
+  -ms-touch-action: none;
+  overflow: hidden;
+}
+body,
+h1,
+h2,
+h4,
+h5,
+p,
+ul,
+li,
+ol,
+table,
+input,
+textarea,
+select {
+  margin: 0px;
+  padding: 0px;
+}
+h1 {
+  font-family: 'Century Gothic', 'Muli', sans-serif;
+  color: #6666FF;
+  font-size: 2em;
+  font-weight: normal;
+  margin-bottom: 30px;
+}
+h5 {
+  font-size: 1.3em;
+  font-weight: normal;
+  margin-bottom: 15px;
+}
+h6 {
+  font-size: 1em;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+.more-options {
+  text-decoration: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #666666;
+}
+.more-options h5 {
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 5px 15px;
+  border-bottom: 1px solid #DCDCDC;
+  background: url('../images/worksheet/grey-arrow-big-right.png') no-repeat 10px center;
+  padding-left: 40px;
+  cursor: pointer;
+  cursor: hand;
+  margin-top: 30px;
+}
+.more-options h6 {
+  margin-left: -5px;
+  margin-right: -5px;
+  padding: 5px 15px;
+  border-bottom: 1px solid #DCDCDC;
+  background: url('../images/worksheet/grey-arrow-small-right.png') no-repeat 5px center;
+  padding-left: 30px;
+  cursor: pointer;
+  cursor: hand;
+  margin-top: 30px;
+}
+.more-options.options-open h5 {
+  background: url('../images/worksheet/grey-arrow-big-down.png') no-repeat 10px center;
+}
+.more-options.options-open h6 {
+  background: url('../images/worksheet/grey-arrow-small-down.png') no-repeat 5px center;
+}
+a {
+  cursor: pointer;
+  cursor: hand;
+  color: #666666;
+  text-decoration: underline;
+}
+a:hover,
+a:active {
+  color: #6161FF;
+}
+label {
+  color: #666666;
+}
+.wsf-small-text {
+  font-size: 0.8em;
+}
+img.wsf-icon {
+  width: 32px;
+  height: 32px;
+  padding: 2px;
+  border-radius: 2px;
+  border: 1px solid #DCDCDC;
+  margin: 2px;
+  vertical-align: middle;
+}
+#content {
+  position: relative;
+  overflow: hidden;
+}
+.wsf-ws-scroller {
+  overflow: auto;
+}
+.wsf-ws-scroller.info-shown.fullscreen {
+  width: 100%;
+}
+.wsf-ws-scroller.info-shown.fullscreen #wsf-button-information {
+  display: none;
+}
+.wsf-wrapper {
+  position: relative;
+  width: 800px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.wsf-info-wrapper {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 0px;
+  padding-left: 0px;
+  transition: width 1s;
+  -webkit-transition: width 1s;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  z-index: 3000;
+}
+.wsf-info-wrapper.shown {
+  transition: width 1s;
+  -webkit-transition: width 1s;
+  width: 833px;
+  padding-left: 3px;
+}
+.wsf-info-wrapper.shown.fullscreen {
+  width: 100% !important;
+  padding-left: 50px;
+}
+.wsf-info-wrapper .teacher-info-field {
+  display: none;
+}
+.wsf-info-wrapper.teacher-info .teacher-info-field {
+  display: inline-block;
+}
+.wsf-info-wrapper .wsf-info-scroller {
+  position: relative;
+  left: 0px;
+  width: 100%;
+  min-width: 800px;
+  border-left: 1px solid #DCDCDC;
+  box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+  background-color: #FFFFFF;
+  background-color: rgba(255,255,255,0.95);
+  z-index: 800;
+  overflow: auto;
+}
+.wsf-info-wrapper .wsf-wrapper {
+  padding: 20px 50px;
+}
+.wsf-button-information-wrapper {
+  display: none;
+  position: absolute;
+  top: 3px;
+  left: 775px;
+  transition: left 1s;
+  -webkit-transition: left 1s;
+  width: 78px;
+  height: 100%;
+  z-index: 1000;
+}
+.wsf-button-information-close {
+  background: url("../images/worksheet/icon-close.png") no-repeat center center;
+  position: absolute;
+  left: 15px;
+  height: 20px;
+  width: 20px;
+  top: 28px;
+}
+.wsf-button-information-close:hover {
+  background-image: url("../images/worksheet/icon-close-active.png");
+}
+.wsf-ws-scroller.fullscreen.info-shown {
+  overflow: hidden;
+}
+.wsf-button-information {
+  position: absolute;
+  display: block;
+  height: 33px;
+  width: 60px;
+  top: 19px;
+  border-radius: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right: 0px;
+  z-index: 700;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-image: url('../images/worksheet/icon-info.png');
+}
+.wsf-button-information.inline {
+  position: relative;
+  display: inline-block;
+  top: 7px;
+}
+.wsf-button-information:hover,
+.wsf-button-information.selected {
+  background-image: url('../images/worksheet/icon-info-hover.png');
+}
+.wsf-button-information .wsf-button-info-arrow {
+  display: none;
+  right: -20px;
+  top: -1px;
+  position: absolute;
+  height: 40px;
+  width: 20px;
+  background: url('../images/worksheet/information-arrow.png') no-repeat top left;
+}
+.message-box {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.message-box .messages {
+  position: relative;
+}
+.message-box .messages ul {
+  list-style: none;
+  display: inline-block;
+  border: 1px solid #6161FF;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+  margin: 0 0 1em 0;
+  padding: 0px;
+}
+.message-box .messages ul li {
+  padding: 0.75em 1.5em;
+  margin: 0;
+}
+.message-box .messages ul li.green {
+  color: #666666;
+}
+.message-box .messages ul li.red {
+  color: #666666;
+}
+.message-box .messages .message-arrow {
+  background: url('../images/new-images/message-arrow.png') no-repeat center top;
+  position: absolute;
+  bottom: -1px;
+  height: 17px;
+  width: 100%;
+}
+button,
+a.button,
+.upload-file {
+  border-radius: 5px;
+  border: #6666FF 1px solid;
+  padding: 5px 20px 3px 20px;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.65), 0px 0px 2px rgba(204,204,204,0.5);
+  cursor: pointer;
+  cursor: hand;
+  color: #6666FF;
+  font-size: 1.1em;
+  display: inline-block;
+  text-decoration: none;
+  min-height: 30px;
+  background: none;
+  margin: 0px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  position: relative;
+}
+button input.upload,
+a.button input.upload,
+.upload-file input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  width: 100%;
+}
+button img,
+a.button img,
+.upload-file img {
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+button.small,
+a.button.small,
+.upload-file.small {
+  font-size: 1em;
+  padding: 3px 15px 2px 15px;
+}
+button:hover,
+a.button:hover,
+.upload-file:hover {
+  background: rgba(160,160,160,0.1);
+  background: linear-gradient(rgba(255,255,255,0.15),rgba(102,102,255,0.15));
+}
+button:active,
+a.button:active,
+.upload-file:active {
+  background: rgba(102,102,255,0.15);
+}
+button.grey,
+a.button.grey,
+.upload-file.grey {
+  color: #666666;
+  border-color: #999999;
+}
+button.grey:hover,
+a.button.grey:hover,
+.upload-file.grey:hover {
+  background: linear-gradient(rgba(255,255,255,0.15),rgba(160,160,160,0.15));
+}
+button.grey:active,
+a.button.grey:active,
+.upload-file.grey:active {
+  background: rgba(160,160,160,0.15);
+}
+button[disabled="disabled"],
+a.button[disabled="disabled"],
+.upload-file[disabled="disabled"] {
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  cursor: default;
+}
+button[disabled="disabled"]:hover,
+button[disabled="disabled"]:active,
+a.button[disabled="disabled"]:hover,
+a.button[disabled="disabled"]:active,
+.upload-file[disabled="disabled"]:hover,
+.upload-file[disabled="disabled"]:active {
+  background: none;
+}
+a.button,
+.upload-file {
+  padding-top: 5px;
+  padding-bottom: 3px;
+}
+a.button.small,
+.upload-file.small {
+  padding-top: 5px;
+  padding-bottom: 2px;
+}
+input[type="text"],
+input[type="number"],
+select,
+textarea,
+.custom-combobox {
+  border-radius: 5px;
+  border: #DCDCDC 1px solid;
+  background-color: #FFFFFF;
+  color: inherit;
+  font: inherit;
+  padding: 4px 5px;
+  outline: none;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  min-height: 30px;
+  box-shadow: none;
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus,
+.custom-combobox:focus {
+  border-color: #6666FF;
+}
+html body.simple {
+  padding: 0px;
+}
+h1 {
+  margin-bottom: 10px;
+}
+.wsf-wrapper {
+  padding: 20px 50px;
+}
+.wsf-worksheet-title {
+  padding-right: 140px;
+  min-height: 35px;
+}
+.wsf-teacher-info-button {
+  height: 31px;
+}
+.wsf-content-added {
+  list-style: none;
+  margin-bottom: 8px;
+}
+.worksheet_element {
+  margin-bottom: 8px;
+  position: relative;
+}
+.ws-element-header {
+  min-height: 28px;
+  padding-bottom: 13px;
+}
+.ws-element-header .ws-element-title {
+  padding-top: 10px;
+  padding-right: 150px;
+}
+.ws-element-header .ws-element-title h5 {
+  font-size: 1.3em;
+  font-weight: normal;
+  margin: 0px;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+.ws-element-header .wsf-element-toolbar {
+  list-style-type: none;
+  position: absolute;
+  top: 10px;
+  right: 5px;
+}
+.ws-element-header .wsf-element-toolbar li {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.ws-element-header .wsf-element-toolbar.noheading {
+  top: 0px;
+  right: -40px;
+  padding-left: 5px;
+}
+.ws-element-header .wsf-element-toolbar .wsf-element-info-button {
+  height: 18px;
+  width: 18px;
+  margin: 0px;
+  margin-left: 10px;
+  background-image: url('../images/worksheet/icon-info.png');
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.ws-element-header .wsf-element-toolbar .wsf-evaluation-toolbar .points_of_mat input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.ws-element-header .wsf-element-toolbar .wsf-evaluation-toolbar .points_of_mat input {
+  position: relative;
+  border: none;
+  padding: .2rem;
+  width: 35px;
+  text-align: right;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: #666;
+  -moz-appearance: textfield;
+}
+.ws-element-header .wsf-element-toolbar .wsf-evaluation-toolbar h4,
+.ws-element-header .wsf-element-toolbar .wsf-evaluation-toolbar span,
+.ws-element-header .wsf-element-toolbar .wsf-evaluation-toolbar div,
+.ws-element-header .wsf-element-toolbar .wsf-exercise-toolbar h4,
+.ws-element-header .wsf-element-toolbar .wsf-exercise-toolbar span,
+.ws-element-header .wsf-element-toolbar .wsf-exercise-toolbar div {
+  display: inline;
+}
+.ws-element-header.notitle {
+  min-height: 0px;
+}
+.ws-element-header.notitle .wsf-element-toolbar {
+  top: 0px;
+  right: -20px;
+}
+.wsf-ws-student {
+  min-height: 28px;
+  font-weight: 400;
+  font-size: medium;
+  margin: 30px 0px 13px 0;
+}
+.student-state {
+  text-transform: uppercase;
+  text-align: center;
+}
+.ws-element-text,
+.ws-question-text,
+.ws-element-image img {
+  max-width: 700px;
+}
+.ws-element-question {
+  margin: 0.8em 0;
+}
+.ws-element-question .ws-question-text {
+  margin-bottom: 10px;
+}
+.ws-element-question .ws-question-choices {
+  margin: 1em 0 2em 1.5em;
+}
+.ws-element-question .ws-question-choices .answer {
+  background-position: center center;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: default;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+}
+.ws-element-question .ws-question-choices .answer.placeholder {
+  background: none repeat scroll 0% 0% transparent;
+}
+.ws-element-question .ws-question-choices .answer.correct {
+  background-image: url('../images/ggb-select-selected.png');
+}
+.ws-element-question .ws-question-choices .answer.incorrect {
+  background-image: url('../images/modal-close-small.png');
+}
+.ws-element-question .ws-question-choices .ws-question-choice {
+  margin-bottom: 0.5em;
+  display: block;
+}
+.ws-element-question .ws-question-choices .ws-question-choice.ticked {
+  border-width: 2px;
+  border-style: solid;
+  border-color: green;
+  background-color: #b0ff9b;
+}
+.ws-element-question .ws-element-question-answertext textarea {
+  width: 100%;
+  resize: vertical;
+}
+.ws-element-question .ws-element-question-answertext .ws-open-question-solution {
+  border-width: 2px;
+  border-style: solid;
+  border-color: green;
+  background-color: #b0ff9b;
+  white-space: pre-line;
+}
+.ws-exercise-task {
+  padding-top: 5px;
+}
+#wsf-content-info {
+  list-style-type: none;
+}
+.wsf-element-info-button:hover,
+.wsf-element-info-button.selected {
+  background-image: url('../images/worksheet/icon-info-hover.png');
+}
+.bbcode-list {
+  margin: 0.5em 0 0.5em 0;
+}
+.bbcode-list li {
+  margin-left: 2em;
+}
+.footer {
+  border-top: 1px solid #CCCCCC;
+  margin-top: 0px;
+  padding-top: 10px;
+  max-width: 700px;
+}
+.footer,
+.element_footer {
+  margin-bottom: 5px;
+  color: #666666;
+  font-size: 0.8em;
+  clear: left;
+}
+.footer a,
+.element_footer a {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #666666;
+}
+.footer a:hover,
+.element_footer a:hover {
+  color: #6161FF;
+}
+.applet_container,
+.applet_container_preview {
+  margin: 5px 0 5px 0;
+}
+.wsf-applet-controls {
+  position: absolute;
+  top: -25px;
+  right: 0px;
+}
+.wsf-applet-controls button {
+  border: 1px solid #6161ff;
+  border-radius: 2px;
+  color: #666666;
+  padding: 2px;
+  margin: 2px;
+  cursor: pointer;
+}
+.ws-element-applet.fixed,
+.ws-element-exercise.fixed {
+  position: fixed;
+  z-index: 100000000;
+}
+.grid .box_1,
+.grid .box_2,
+.grid .box_3,
+.grid .box_4,
+.grid .box_5,
+.grid .box_6,
+.grid .box_7,
+.grid .box_8,
+.grid .box_9,
+.grid .box_10,
+.grid .box_11,
+.grid .box_12 {
+  display: inline;
+  float: left;
+  position: relative;
+  margin-right: 0.5%;
+  max-width: 100%;
+}
+.grid .box_1 {
+  width: 7.33333%;
+}
+.grid .box_2 {
+  width: 15.66666%;
+}
+.grid .box_3 {
+  width: 23.99999%;
+}
+.grid .box_4 {
+  width: 32.33332%;
+  min-width: 250px;
+}
+.grid .box_5 {
+  width: 40.66665%;
+}
+.grid .box_6 {
+  width: 48.99998%;
+  min-width: 250px;
+}
+.grid .box_7 {
+  width: 57.33331%;
+}
+.grid .box_8 {
+  width: 65.66664%;
+  min-width: 250px;
+}
+.grid .box_9 {
+  width: 73.99997%;
+}
+.grid .box_10 {
+  width: 82.3333%;
+}
+.grid .box_11 {
+  width: 90.66663%;
+}
+.grid .box_12 {
+  width: 98.99996%;
+}
+.grid .clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}

@@ -287,6 +287,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		tbutton.getElement().focus();
 		event.stopPropagation();
 		if (event.getSource() == tbutton) { // if click ended on the button
+			if(event instanceof TouchEndEvent && app.getLAF().isSmart()){
+				return;
+			}
 			// if enter was pressed
 			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
 				setMenuVisibility(!isMenuShown());
