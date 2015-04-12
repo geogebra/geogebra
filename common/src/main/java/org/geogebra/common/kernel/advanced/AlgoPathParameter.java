@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Adapted from AlgoPerimeterPoly
@@ -27,17 +27,17 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public class AlgoPathParameter extends AlgoElement {
 
 	// Take a polygon as input
-	private GeoPoint point;
+	private GeoPointND point;
 
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric value;
 
-	public AlgoPathParameter(Construction cons, String label, GeoPoint point) {
+	public AlgoPathParameter(Construction cons, String label, GeoPointND point) {
 		this(cons, point);
 		value.setLabel(label);
 	}
 
-	AlgoPathParameter(Construction cons, GeoPoint point) {
+	AlgoPathParameter(Construction cons, GeoPointND point) {
 		super(cons);
 		this.point = point;
 
@@ -54,7 +54,7 @@ public class AlgoPathParameter extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = point;
+		input[0] = (GeoElement) point;
 
 		super.setOutputLength(1);
 		super.setOutput(0, value);
