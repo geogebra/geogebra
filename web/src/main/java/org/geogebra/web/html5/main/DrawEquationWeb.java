@@ -939,7 +939,7 @@ GeoContainer rbti,
 			} else if (keyCode == GWTKeycodes.KEY_I) {
 				s += Unicode.IMAGINARY;
 			} else if (keyCode == GWTKeycodes.KEY_A) {
-				// A, OK in Hungarian, although invisibly ä
+				// A, OK in Hungarian, although invisibly Ã¤
 				if (shiftDown) {
 					s += Unicode.Alpha;
 				} else {
@@ -969,15 +969,15 @@ GeoContainer rbti,
 				// U, euro sign is shown on HU
 				s += Unicode.Infinity;
 			} else if (keyCode == GWTKeycodes.KEY_L && !Hungarian) {
-				// L, ? sign is shown on HU
+				// L, \u0141 sign is shown on HU
 				if (shiftDown) {
 					s += Unicode.Lambda;
 				} else {
 					s += Unicode.lambda;
 				}
 			} else if (keyCode == GWTKeycodes.KEY_M && !Hungarian) {
-				// M: Although Alt-? the same as Alt-M,
-				// not sure ? is present on all kinds of Hungarian keyboard
+				// M: Although Alt-\u00CD the same as Alt-M,
+				// not sure \u00CD is present on all kinds of Hungarian keyboard
 				if (shiftDown) {
 					s += Unicode.Mu;
 				} else {
