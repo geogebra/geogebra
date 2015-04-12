@@ -98,17 +98,17 @@ public class AlgoSample extends AlgoElement {
 
 		if (withReplacement) {
 			for (int i = 0; i < size; i++) {
-				NumberValue geo;
+				GeoElement geo;
 
 				try {
-					geo = (NumberValue) inputList.get((int) Math
+					geo = inputList.get((int) Math
 							.floor(cons.getApplication().getRandomNumber()
 									* inputListSize));
 				} catch (ClassCastException e) {
 					outputList.setUndefined();
 					return;
 				}
-				setListElement(i, geo.getDouble());
+				setListElement(i, geo);
 			}
 		} else {
 
@@ -142,21 +142,22 @@ public class AlgoSample extends AlgoElement {
 
 	// copied from AlgoIterationList.java
 	// TODO should it be centralised?
-	private void setListElement(int index, double value) {
-		GeoNumeric listElement;
+	private void setListElement(int index, GeoElement geo) {
+		GeoElement listElement;
 		if (index < outputList.getCacheSize()) {
 			// use existing list element
-			listElement = (GeoNumeric) outputList.getCached(index);
+			listElement = outputList.getCached(index);
+			listElement.set(geo);
 		} else {
 			// create a new list element
-			listElement = new GeoNumeric(cons);
+			listElement = geo.copy();
 			listElement.setParentAlgorithm(this);
 			listElement.setConstructionDefaults();
 			listElement.setUseVisualDefaults(false);
 		}
 
 		outputList.add(listElement);
-		listElement.setValue(value);
+		
 	}
 
 	// TODO Consider locusequability
