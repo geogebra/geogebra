@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -156,11 +157,14 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	@Override
 	public final void compute() {
 		int view = (int) viewID.getDouble();
-		EuclidianView ev = null;
-		if (view == 2)
-			ev = kernel.getApplication().getEuclidianView2(1);
-		else if (view == 1)
-			ev = kernel.getApplication().getEuclidianView1();
+		
+		// #5014
+		// use Settings so we don't need to initialise EV2
+		EuclidianSettings ev = null;
+		if (view == 1 || view == 2) {
+			ev = kernel.getApplication().getSettings().getEuclidian(view);
+		}
+		
 		if (ev == null && view != 0) {
 			outGeo.setUndefined();
 			return;
@@ -174,11 +178,11 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		} else {
 			outGeo.set(inGeo);
 		}
-		
+
 		if (!outGeo.isDefined()) {
 			return;
 		}
-		
+
 		if (view == 0)
 			return;
 

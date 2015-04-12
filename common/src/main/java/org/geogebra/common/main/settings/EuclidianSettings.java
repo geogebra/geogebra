@@ -890,4 +890,30 @@ public class EuclidianSettings extends AbstractSettings {
 	public boolean isViewForPlane() {
 		return false;
 	}
+	
+	/**
+	 * convert screen coordinate x to real world coordinate x
+	 * 
+	 * @param x
+	 *            screen coord
+	 * @return real world equivalent of screen x-coord
+	 */
+	final public double toRealWorldCoordX(double x) {
+		//return (x - getxZero()) * getInvXscale();
+		return (x - xZero) / xscale;
+	}
+
+	/**
+	 * convert screen coordinate y to real world coordinate y
+	 * 
+	 * @param y
+	 *            screen coord
+	 * @return real world equivalent of screen y-coord
+	 */
+	final public double toRealWorldCoordY(double y) {
+		//return (getyZero() - y) * getInvYscale();
+		return (yZero - y) / yscale;
+	}
+
+
 }
