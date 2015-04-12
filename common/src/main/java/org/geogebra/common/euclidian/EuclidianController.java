@@ -347,6 +347,8 @@ public abstract class EuclidianController {
 	private boolean externalHandling;
 
 	private long lastMouseRelease;
+	
+	private long lastTouchRelease;
 
 	int index;
 
@@ -8541,7 +8543,8 @@ public abstract class EuclidianController {
 	private long lastMousePressedTime;
 
 	public void wrapMousePressed(AbstractEvent event) {
-		if (this.lastMouseRelease + EuclidianConstants.DOUBLE_CLICK_DELAY > System
+		long last = event.getType() == PointerEventType.MOUSE ? this.lastMouseRelease : this.lastTouchRelease;
+		if (last + EuclidianConstants.DOUBLE_CLICK_DELAY > System
 				.currentTimeMillis()
 				&& MyMath.length(event.getX() - lastMouseUpLoc.x, event.getY()
 						- lastMouseUpLoc.y) <= 3) {
@@ -8931,7 +8934,11 @@ public abstract class EuclidianController {
 			wrapMouseclicked(control, 2, type);
 		}
 		this.doubleClickStarted = false;
-		this.lastMouseRelease = System.currentTimeMillis();
+		if(type == PointerEventType.MOUSE){
+			this.lastMouseRelease = System.currentTimeMillis();
+		}else{
+			this.lastTouchRelease = System.currentTimeMillis();
+		}
 		this.lastMouseUpLoc = new GPoint(x, y);
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
