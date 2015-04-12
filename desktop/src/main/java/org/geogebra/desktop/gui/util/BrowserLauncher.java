@@ -34,10 +34,10 @@ public class BrowserLauncher {
 				// java.awt.Desktop.getDesktop().browse(uri)
 				Class<?> desktopClass = Class.forName("java.awt.Desktop");
 				Method getDesktop = desktopClass.getDeclaredMethod(
-						"getDesktop", null);
+						"getDesktop", (Class<?>)null);
 				Method browse = desktopClass.getDeclaredMethod("browse",
 						new Class[] { URI.class });
-				Object desktopObj = getDesktop.invoke(null, null);
+				Object desktopObj = getDesktop.invoke((Object[])null, (Object[])null);
 				browse.invoke(desktopObj, new Object[] { uri });
 
 				return; // java 1.6 was successful

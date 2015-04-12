@@ -97,8 +97,8 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		try {
 			Class clazz = Class.forName("sun.awt.X11GraphicsEnvironment");
 			displayX11 = true;
-			Method method = clazz.getMethod("isDisplayLocal", null);
-			Boolean result = (Boolean) method.invoke(null, null);
+			Method method = clazz.getMethod("isDisplayLocal", (Class<?>)null);
+			Boolean result = (Boolean) method.invoke((Object[])null, (Object[])null);
 			displayLocal = result.booleanValue();
 		} catch (ClassNotFoundException e) {
 			// Windows case...
