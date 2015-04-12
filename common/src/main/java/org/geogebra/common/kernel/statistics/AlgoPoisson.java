@@ -42,7 +42,6 @@ public class AlgoPoisson extends AlgoDistribution {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public final void compute() {
 
 		if (input[0].isDefined() && input[1].isDefined()

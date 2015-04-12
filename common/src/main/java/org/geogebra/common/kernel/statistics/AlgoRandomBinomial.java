@@ -85,9 +85,9 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements
 
 	}
 
-	private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
+	//private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
 
-	private static double logtable[] = new double[10];
+	//private static double logtable[] = new double[10];
 
 	// private int[] DecimalToFraction(double Decimal, double AccuracyFactor) {
 	// double FractionNumerator, FractionDenominator;

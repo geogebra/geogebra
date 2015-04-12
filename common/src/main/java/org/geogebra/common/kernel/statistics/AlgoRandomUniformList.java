@@ -23,8 +23,6 @@ public class AlgoRandomUniformList extends AlgoElement implements
 	protected NumberValue a, b, length; // input
 	protected GeoList list; // output
 
-	private double[] numberArray, parms;
-
 	public AlgoRandomUniformList(Construction cons, String label,
 			NumberValue a, NumberValue b, NumberValue length) {
 		super(cons);
@@ -32,7 +30,6 @@ public class AlgoRandomUniformList extends AlgoElement implements
 		this.b = b;
 		this.length = length;
 
-		parms = new double[2];
 
 		// output is a list of random numbers
 		list = new GeoList(cons);

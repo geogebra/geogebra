@@ -39,7 +39,7 @@ public class AlgoTTest extends AlgoElement {
 	private GeoList result; // output
 	private TTestImpl tTestImpl;
 	private double[] val;
-	private double p, testStat, se;
+	private double p, testStat;
 
 	public AlgoTTest(Construction cons, String label, GeoList geoList,
 			GeoNumeric hypMean, GeoText tail) {

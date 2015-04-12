@@ -73,7 +73,7 @@ public class AlgoShuffle extends AlgoElement {
 			return;
 		}
 
-		ArrayList<GeoElement> list = new ArrayList();
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 
 		// copy inputList into arraylist
 		for (int i = 0; i < size; i++) {

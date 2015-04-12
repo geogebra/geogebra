@@ -212,7 +212,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		return strHeader;
 	}
 
-	private double scaleFactor;
 
 	@Override
 	public final void compute() {

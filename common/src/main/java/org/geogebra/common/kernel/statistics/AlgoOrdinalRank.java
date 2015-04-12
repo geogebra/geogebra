@@ -129,10 +129,10 @@ public class AlgoOrdinalRank extends AlgoElement {
 		}
 	}
 
-	public static Comparator getComparator() {
+	public static Comparator<OrderedPair> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator() {
-				public int compare(Object a, Object b) {
+			comparator = new Comparator<OrderedPair>() {
+				public int compare(OrderedPair a, OrderedPair b) {
 					OrderedPair itemA = (OrderedPair) a;
 					OrderedPair itemB = (OrderedPair) b;
 
@@ -146,7 +146,7 @@ public class AlgoOrdinalRank extends AlgoElement {
 		return comparator;
 	}
 
-	private static Comparator comparator;
+	private static Comparator<OrderedPair> comparator;
 
 	// TODO Consider locusequability
 

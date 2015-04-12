@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public abstract class AlgoStats1DGrouped extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; // input
 	private GeoList geoList2; // input
 	public GeoNumeric Truncate; // input
