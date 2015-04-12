@@ -35,7 +35,7 @@ import com.google.gwt.user.client.DOM;
 public class DrawEquationWeb extends DrawEquation {
 
 	static boolean scriptloaded = false;
-
+ 
 	private static GeoContainer currentWidget;
 
 	private static Element currentElement;
@@ -969,15 +969,15 @@ GeoContainer rbti,
 				// U, euro sign is shown on HU
 				s += Unicode.Infinity;
 			} else if (keyCode == GWTKeycodes.KEY_L && !Hungarian) {
-				// L, Ł sign is shown on HU
+				// L, ? sign is shown on HU
 				if (shiftDown) {
 					s += Unicode.Lambda;
 				} else {
 					s += Unicode.lambda;
 				}
 			} else if (keyCode == GWTKeycodes.KEY_M && !Hungarian) {
-				// M: Although Alt-Í the same as Alt-M,
-				// not sure Í is present on all kinds of Hungarian keyboard
+				// M: Although Alt-? the same as Alt-M,
+				// not sure ? is present on all kinds of Hungarian keyboard
 				if (shiftDown) {
 					s += Unicode.Mu;
 				} else {
