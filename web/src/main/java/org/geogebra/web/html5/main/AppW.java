@@ -641,6 +641,7 @@ public abstract class AppW extends App implements SetLabels {
 		// Handling of construction and macro file
 		String construction = archive.remove(MyXMLio.XML_FILE);
 		String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
+		String defaults = archive.remove(MyXMLio.XML_FILE_DEFAULTS);
 		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
@@ -692,6 +693,10 @@ public abstract class AppW extends App implements SetLabels {
 			App.debug("start processing" + System.currentTimeMillis());
 			getXMLio().processXMLString(construction, true, false);
 			App.debug("end processing" + System.currentTimeMillis());
+			// defaults (optional)
+			if (defaults != null) {
+				getXMLio().processXMLString(defaults, false, false);
+			}
 			setCurrentFile(archiveContent);
 			afterLoadFileAppOrNot();
 		} else {
@@ -700,7 +705,9 @@ public abstract class AppW extends App implements SetLabels {
 			/* DataUtil.utf8Decode( */construction/*
 												 * )/*DataUtil.utf8Decode
 												 * (construction)
-												 */, getXMLio(), this);
+												 */,
+												 defaults,
+												 getXMLio(), this);
 			setCurrentFile(archiveContent);
 
 		}

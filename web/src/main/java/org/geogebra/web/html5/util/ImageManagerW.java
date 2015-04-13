@@ -27,6 +27,7 @@ public class ImageManagerW extends ImageManager {
 		externalImageSrcs = new HashMap<String, String>();
 		imagesLoaded = 0;
 		construction = null;
+		defaults = null;
 		myXMLio = null;
 		app = null;
 	}
@@ -47,7 +48,7 @@ public class ImageManagerW extends ImageManager {
 		}
 	};
 
-	private String construction;
+	private String construction, defaults;
 	private MyXMLioW myXMLio;
 	private AppW app = null;
 
@@ -71,6 +72,10 @@ public class ImageManagerW extends ImageManager {
 			try {
 				App.debug("images loaded");
 				myXMLio.processXMLString(construction, true, false);
+				// defaults (optional)
+				if (defaults != null) {
+					myXMLio.processXMLString(defaults, false, false);
+				}
 				app.afterLoadFileAppOrNot();
 				imagesLoaded = 0;
 			} catch (Exception e) {
@@ -138,9 +143,10 @@ public class ImageManagerW extends ImageManager {
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
-	public void triggerImageLoading(String construction, MyXMLioW myXMLio,
+	public void triggerImageLoading(String construction, String defaults, MyXMLioW myXMLio,
 	        AppW app) {
 		this.construction = construction;
+		this.defaults = defaults;
 		this.myXMLio = myXMLio;
 		this.app = app;
 		if (externalImageSrcs.entrySet() != null) {
