@@ -1923,10 +1923,14 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     // Tab or Esc -> go one block right if it exists, else escape right.
     case 'Esc':
-    case 'Tab':
-    //case 'Spacebar':
       this.cursor.escapeDir(R, key, e);
       return;
+
+    case 'Tab':
+      if (this.cursor[R]) {
+        this.selectNextSyntaxHelp();
+      }
+      break;
 
     // Shift-Tab -> go one block left if it exists, else escape left.
     case 'Shift-Tab':
