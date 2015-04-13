@@ -1178,4 +1178,8 @@ public class OnScreenKeyBoard extends PopupPanel {
 		checkLanguage();
 		super.show();
 	}
+
+	public AppW getApp() {
+		return app;
+	}
 }

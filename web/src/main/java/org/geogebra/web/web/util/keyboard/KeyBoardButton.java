@@ -2,6 +2,7 @@ package org.geogebra.web.web.util.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 
@@ -52,7 +53,17 @@ public class KeyBoardButton extends SimplePanel {
 			public void onClickStart(int x, int y, PointerEventType type) {
 				DrawEquationWeb.setMouseOut(false);
 				ToolTipManagerW.hideAllToolTips();
+				if(handler.getApp().getLAF().isSmart() && type == PointerEventType.TOUCH){
+					return;
+				}
 				handler.onClick(KeyBoardButton.this);
+			}
+
+		});
+		ClickEndHandler.init(this, new ClickEndHandler(true, true) {
+
+			@Override
+			public void onClickEnd(int x, int y, PointerEventType type) {
 			}
 
 		});
