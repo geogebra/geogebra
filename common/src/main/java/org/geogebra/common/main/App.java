@@ -1980,7 +1980,8 @@ public abstract class App implements UpdateSelection {
 	 */
 	final public void initKernel() {
 		kernel = companion.newKernel();
-		selection = new SelectionManager(kernel, this);
+		// ensure that the selection manager is created
+		getSelectionManager();
 	}
 
 	/**
