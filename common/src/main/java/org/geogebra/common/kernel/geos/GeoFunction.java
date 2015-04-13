@@ -319,7 +319,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	 */
 	public void setFunction(Function f) {
 		fun = f;
-		
+		//reset this for garbage collection, also the flag needs update for #5054
+		this.includesNonContinuousIntegralFun = null;
 		for (SurfaceEvaluable geo : surfaceEvaluables){
 			geo.resetDerivatives();
 		}
