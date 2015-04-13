@@ -227,8 +227,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			CancelEventTimer.keyboardSetVisible();
 
 			//this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
+			//this.mainPanel.setVisible(false);
 			this.mainPanel.setWidgetSize(spaceForKeyboard, keyBoard.getOffsetHeight());
 			spaceForKeyboard.add(keyBoard);
+			//this.mainPanel.setVisible(true);
 
 			if (showKeyboardButton != null) {
 				showKeyboardButton.hide();
@@ -254,6 +256,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		// just calling setVisible is not enough!
 		//this.mainPanel.add(this.dockPanel);
 		//this.mainPanel.setVisible(true);
+		this.mainPanel.forceLayout();
 
 		Timer timer = new Timer() {
 			@Override
