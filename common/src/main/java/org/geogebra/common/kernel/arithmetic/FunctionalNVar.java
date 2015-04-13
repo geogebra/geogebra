@@ -74,4 +74,6 @@ public interface FunctionalNVar extends ExpressionValue {
 
 	public Kernel getKernel();
 
+	public void setDefined(boolean b);
+
 }

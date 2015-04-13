@@ -949,6 +949,10 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return true;
 	}
 
+	public void setDefined(boolean b) {
+		// nothing to do
+	}
+
 	/**
 	 * @param fv
 	 *            variable with respect to which the derivative is computed

@@ -152,6 +152,8 @@ public class AlgoNumerator extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
+		
+		((FunctionalNVar) g).setDefined(true);
 
 	}
 
