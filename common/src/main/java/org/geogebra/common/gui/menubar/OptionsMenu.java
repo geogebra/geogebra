@@ -205,7 +205,6 @@ public class OptionsMenu {
 
 		int pos = app.getLabelingStyleForMenu();
 		menuLabeling.setSelected(pos);
-		App.debug("updateMenuLabeling : "+pos);
 	}
 
 	public void addFontSizeMenu(MenuInterface menu) {
