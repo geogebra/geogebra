@@ -164,7 +164,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		}
 
 		addViewButton();
-		setLabels();
+		setToolTips();
 	}
 
 	/**

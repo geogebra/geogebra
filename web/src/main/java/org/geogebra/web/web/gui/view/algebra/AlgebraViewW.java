@@ -143,9 +143,8 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	/**
 	 * @return {@link AlgebraStyleBarW}
 	 */
-	@Override
-	public AlgebraStyleBarW getStyleBar() {
-		if (this.styleBar == null) {
+	public AlgebraStyleBarW getStyleBar(boolean mayCreate) {
+		if (mayCreate && this.styleBar == null) {
 			this.styleBar = new AlgebraStyleBarW(app);
 		}
 		return this.styleBar;

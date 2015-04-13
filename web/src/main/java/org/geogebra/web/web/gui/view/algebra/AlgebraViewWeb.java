@@ -1142,10 +1142,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		 return this.nodeTable.isEmpty();
 	}
 
-	public AlgebraStyleBarW getStyleBar() {
-		return null;
-	}
-
 	public void setActiveTreeItem(RadioButtonTreeItem radioButtonTreeItem) {
 		if (!app.isPrerelease()) {
 			return;

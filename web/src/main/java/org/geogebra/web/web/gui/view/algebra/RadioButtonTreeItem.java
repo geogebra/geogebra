@@ -1340,8 +1340,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
 		        ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
-
-		((AlgebraViewWeb) this.av).getStyleBar().update(this.getGeo());
+		if(((AlgebraViewW) this.av).getStyleBar(false) != null){
+			((AlgebraViewW) this.av).getStyleBar(false).update(this.getGeo());
+		}
 
 		if (app.isPrerelease() && geo != null) {
 			if (deleteButton == null) {

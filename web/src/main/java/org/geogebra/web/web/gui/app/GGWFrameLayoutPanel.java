@@ -69,8 +69,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		ClickStartHandler.init(dockPanel, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, final PointerEventType type) {
-				AlgebraStyleBarW styleBar = ((AlgebraViewWeb) app
-						.getView(App.VIEW_ALGEBRA)).getStyleBar();
+				AlgebraStyleBarW styleBar = ((AlgebraViewW) app
+						.getView(App.VIEW_ALGEBRA)).getStyleBar(false);
 				if (styleBar != null) {
 					styleBar.update(null);
 				}

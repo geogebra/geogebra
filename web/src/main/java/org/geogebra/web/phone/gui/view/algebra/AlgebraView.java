@@ -48,7 +48,7 @@ public class AlgebraView extends AbstractView {
 
 	@Override
 	public StyleBar createStyleBar() {
-		return new AlgebraStyleBar(algebraView.getStyleBar());
+		return new AlgebraStyleBar(algebraView.getStyleBar(true));
 	}
 
 }
