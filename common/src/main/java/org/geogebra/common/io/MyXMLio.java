@@ -35,6 +35,8 @@ public abstract class MyXMLio {
 	 * XML_FILE_MACRO for the macros
 	 */
 	final public static String XML_FILE_MACRO = "geogebra_macro.xml";
+	
+	final public static String XML_FILE_DEFAULTS = "geogebra_defaults.xml";
 
 	/** library JavaScript available to objects with JavaScript scripts */
 	final public static String JAVASCRIPT_FILE = "geogebra_javascript.js";
@@ -196,9 +198,6 @@ public abstract class MyXMLio {
 		// save gui settings
 		sb.append(app.getCompleteUserInterfaceXML(false));
 		
-		// construction defaults
-		cons.getConstructionDefaults().getDefaultsXML(sb);
-
 		// save construction
 		cons.getConstructionXML(sb, false);
 

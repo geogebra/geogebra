@@ -125,6 +125,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		// read the XML file into a buffer first
 		byte[] xmlFileBuffer = null;
 		byte[] macroXmlFileBuffer = null;
+		byte[] defaultsXmlFileBuffer = null;
 		boolean xmlFound = false;
 		boolean macroXMLfound = false;
 		boolean javaScriptFound = false;
@@ -141,6 +142,11 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 				// load xml file into memory first
 				xmlFileBuffer = Util.loadIntoMemory(zip);
 				xmlFound = true;
+				ggbHandler = true;
+				handler = getGGBHandler();
+			} else if (name.equals(XML_FILE_DEFAULTS)) {
+				// load defaults xml file into memory first
+				defaultsXmlFileBuffer = Util.loadIntoMemory(zip);
 				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (name.equals(XML_FILE_MACRO)) {
@@ -201,6 +207,16 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			processXMLBuffer(xmlFileBuffer, !macroXMLfound, isGGTfile);
 			kernel.getConstruction().setFileLoading(false);
 		}
+		
+		
+		// process defaults (after construction for labeling styles)
+		if (defaultsXmlFileBuffer != null){
+			kernel.getConstruction().setFileLoading(true);
+			processXMLBuffer(defaultsXmlFileBuffer, false, isGGTfile);
+			kernel.getConstruction().setFileLoading(false);
+		}
+
+		
 		if (!javaScriptFound && !isGGTfile)
 			kernel.resetLibraryJavaScript();
 		if (!(macroXMLfound || xmlFound))
@@ -419,6 +435,17 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			// write library JavaScript to one special file in zip
 			zip.putNextEntry(new ZipEntry(JAVASCRIPT_FILE));
 			osw.write(kernel.getLibraryJavaScript());
+			osw.flush();
+			zip.closeEntry();
+			
+			// write XML file for defaults
+			zip.putNextEntry(new ZipEntry(XML_FILE_DEFAULTS));
+			StringBuilder sb = new StringBuilder();
+			addXMLHeader(sb);
+			addGeoGebraHeader(sb, true, null);
+			cons.getConstructionDefaults().getDefaultsXML(sb);
+			sb.append("</geogebra>");
+			osw.write(sb.toString());
 			osw.flush();
 			zip.closeEntry();
 
