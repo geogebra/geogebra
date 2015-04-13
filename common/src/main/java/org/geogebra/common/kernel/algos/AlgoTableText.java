@@ -833,6 +833,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					&& text1.indexOf("}") == -1
 					&& text1.indexOf("+") == -1
 					&& text1.indexOf("-") == -1
+					&& text1.indexOf("=") == -1
 					&& text1.indexOf("\\") == -1
 
 			) {
