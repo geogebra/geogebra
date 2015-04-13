@@ -516,7 +516,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		default:
-			System.err.println("unknown mode: " + mode);
+			App.error("unknown mode: " + mode);
 		}
 	}
 
@@ -531,7 +531,7 @@ public class MyXMLHandler implements DocHandler {
 			boolean scriptingDisabled = "true".equals(attrs.get("disabled"));
 			app.setScriptingDisabled(scriptingDisabled);
 		} catch (Exception e) {
-			System.err.println("error in element <scripting>");
+			App.error("error in element <scripting>");
 		}
 	}
 
@@ -724,7 +724,7 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_DEFAULTS;
 			constMode = MODE_DEFAULTS;
 		} else {
-			System.err.println("unknown tag in <geogebra>: " + eName);
+			App.error("unknown tag in <geogebra>: " + eName);
 		}
 	}
 
@@ -743,7 +743,7 @@ public class MyXMLHandler implements DocHandler {
 			kbs.setKeyboardLocale(attrs.get("language"));
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("error in element <keyboard>");
+			App.error("error in element <keyboard>");
 		}
 
 	}
@@ -758,7 +758,7 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
 		} else {
-			System.err.println("unknown tag in <macro>: " + eName);
+			App.error("unknown tag in <macro>: " + eName);
 		}
 	}
 
@@ -880,7 +880,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 		default:
-			System.err.println("unknown tag in <euclidianView>: " + eName);
+			App.error("unknown tag in <euclidianView>: " + eName);
 		}
 
 		return ok;
@@ -954,7 +954,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		if (!startEuclidianViewElementSwitch(eName, attrs, firstChar(eName)))
-			System.err.println("error in <euclidianView>: " + eName);
+			App.error("error in <euclidianView>: " + eName);
 	}
 
 	// ====================================
@@ -1002,11 +1002,11 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 		default:
-			System.err.println("unknown tag in <spreadsheetView>: " + eName);
+			App.error("unknown tag in <spreadsheetView>: " + eName);
 		}
 
 		if (!ok)
-			System.err.println("error in <spreadsheetView>: " + eName);
+			App.error("error in <spreadsheetView>: " + eName);
 	}
 
 	// ====================================
@@ -1031,12 +1031,12 @@ public class MyXMLHandler implements DocHandler {
 				break;
 			}
 		default:
-			System.err.println("unknown tag in <probabilityCalculator>: "
+			App.error("unknown tag in <probabilityCalculator>: "
 					+ eName);
 		}
 
 		if (!ok)
-			System.err.println("error in <probabilityCalculator>: " + eName);
+			App.error("error in <probabilityCalculator>: " + eName);
 	}
 
 	private boolean handleProbabilityDistribution(
@@ -1111,11 +1111,11 @@ public class MyXMLHandler implements DocHandler {
 				break;
 			}
 		default:
-			System.err.println("unknown tag in <algebraView>: " + eName);
+			App.error("unknown tag in <algebraView>: " + eName);
 		}
 
 		if (!ok)
-			System.err.println("error in <algebraView>: " + eName);
+			App.error("error in <algebraView>: " + eName);
 	}
 
 	// ====================================
@@ -1133,11 +1133,11 @@ public class MyXMLHandler implements DocHandler {
 	// }
 	//
 	// default:
-	// System.err.println("unknown tag in <casView>: " + eName);
+	// App.error("unknown tag in <casView>: " + eName);
 	// }
 	//
 	// if (!ok)
-	// System.err.println("error in <casView>: " + eName);
+	// App.error("error in <casView>: " + eName);
 	//
 	// }
 
@@ -1668,8 +1668,10 @@ public class MyXMLHandler implements DocHandler {
 			handleKernelLocalization(attrs);
 		} else if ("casSettings".equals(eName)) {
 			handleCasSettings(attrs);
+		} else if ("uses3D".equals(eName)) {
+			// nothing to do
 		} else
-			System.err.println("unknown tag in <kernel>: " + eName);
+			App.error("unknown tag in <kernel>: " + eName);
 	}
 
 	private boolean handleAngleUnit(LinkedHashMap<String, String> attrs) {
@@ -2134,7 +2136,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println(e.getMessage() + ": " + e.getCause());
+			App.error(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2686,7 +2688,7 @@ public class MyXMLHandler implements DocHandler {
 			if (date != null)
 				cons.setDate(date);
 		} catch (Exception e) {
-			System.err.println("error in <construction>");
+			App.error("error in <construction>");
 		}
 	}
 
@@ -2730,7 +2732,7 @@ public class MyXMLHandler implements DocHandler {
 			parser = new Parser(macroKernel, cons);
 
 		} catch (Exception e) {
-			System.err.println("error in <macro>");
+			App.error("error in <macro>");
 		}
 	}
 
@@ -2765,7 +2767,7 @@ public class MyXMLHandler implements DocHandler {
 				casMode = MODE_CAS_CELL_PAIR;
 				startCellPair();
 			} else {
-				System.err.println("unknown tag in <cellPair>: " + eName);
+				App.error("unknown tag in <cellPair>: " + eName);
 			}
 			break;
 
@@ -2777,7 +2779,7 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("useAsText".equals(eName)) {
 				casMode = MODE_CAS_TEXT_CELL;
 			} else {
-				System.err.println("unknown tag in <cellPair>: " + eName);
+				App.error("unknown tag in <cellPair>: " + eName);
 			}
 			break;
 
@@ -2794,7 +2796,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		default:
-			System.err.println("unknown cas session mode:" + constMode);
+			App.error("unknown cas session mode:" + constMode);
 		}
 	}
 
@@ -2833,7 +2835,7 @@ public class MyXMLHandler implements DocHandler {
 
 		default:
 			casMode = MODE_CONST_CAS_CELL; // set back mode
-			System.err.println("unknown cas session mode:" + constMode);
+			App.error("unknown cas session mode:" + constMode);
 		}
 
 	}
@@ -2844,7 +2846,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private void endCellPair(String eName) {
 		if (geoCasCell == null) {
-			System.err.println("no element set for <" + eName + ">");
+			App.error("no element set for <" + eName + ">");
 			return;
 		}
 
@@ -2901,7 +2903,7 @@ public class MyXMLHandler implements DocHandler {
 				KernelCAS.DependentCasCell(geoCasCell);
 			}
 		} catch (Exception e) {
-			System.err.println("error when processing <cellpair>: "
+			App.error("error when processing <cellpair>: "
 					+ e.getMessage());
 			e.printStackTrace();
 		}
@@ -2910,7 +2912,7 @@ public class MyXMLHandler implements DocHandler {
 	private void startCellOutputElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		if (geoCasCell == null) {
-			System.err.println("no element set for <" + eName + ">");
+			App.error("no element set for <" + eName + ">");
 			return;
 		}
 
@@ -2923,18 +2925,18 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 		default:
-			System.err.println("unknown tag in <outputCell>: " + eName);
+			App.error("unknown tag in <outputCell>: " + eName);
 		}
 
 		if (!ok)
-			System.err.println("error in <outputCell>: " + eName);
+			App.error("error in <outputCell>: " + eName);
 
 	}
 
 	private void startCellInputElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		if (geoCasCell == null) {
-			System.err.println("no element set for <" + eName + ">");
+			App.error("no element set for <" + eName + ">");
 			return;
 		}
 
@@ -2953,17 +2955,17 @@ public class MyXMLHandler implements DocHandler {
 			// }
 
 		default:
-			System.err.println("unknown tag in <inputCell>: " + eName);
+			App.error("unknown tag in <inputCell>: " + eName);
 		}
 
 		if (!ok)
-			System.err.println("error in <inputCell>: " + eName);
+			App.error("error in <inputCell>: " + eName);
 	}
 
 	private void startCellTextElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		if (geoCasCell == null) {
-			System.err.println("no element set for <" + eName + ">");
+			App.error("no element set for <" + eName + ">");
 			return;
 		}
 
@@ -2987,10 +2989,10 @@ public class MyXMLHandler implements DocHandler {
 							.newColor(Integer.parseInt(r), Integer.parseInt(g),
 									Integer.parseInt(b)));
 		} else
-			System.err.println("unknown tag in <useAsText>: " + eName);
+			App.error("unknown tag in <useAsText>: " + eName);
 
 		if (!ok)
-			System.err.println("error in <useAsText>: " + eName);
+			App.error("error in <useAsText>: " + eName);
 
 	}
 	
@@ -3007,7 +3009,7 @@ public class MyXMLHandler implements DocHandler {
 				geo = getGeoElement(attrs);
 				kernel.setElementDefaultAllowed(old);
 			} else {
-				System.err.println("unknown tag in <default>: " + eName);
+				App.error("unknown tag in <default>: " + eName);
 			}
 			break;
 
@@ -3016,7 +3018,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		default:
-			System.err.println("unknown default mode:" + constMode);
+			App.error("unknown default mode:" + constMode);
 		}
 
 		
@@ -3046,7 +3048,7 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("worksheetText".equals(eName)) {
 				handleWorksheetText(attrs);
 			} else {
-				System.err.println("unknown tag in <construction>: " + eName);
+				App.error("unknown tag in <construction>: " + eName);
 			}
 			break;
 
@@ -3063,7 +3065,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		default:
-			System.err.println("unknown construction mode:" + constMode);
+			App.error("unknown construction mode:" + constMode);
 		}
 	}
 
@@ -3117,7 +3119,7 @@ public class MyXMLHandler implements DocHandler {
 
 		default:
 			constMode = MODE_CONSTRUCTION; // set back mode
-			System.err.println("unknown construction mode:" + constMode);
+			App.error("unknown construction mode:" + constMode);
 		}
 	}
 	
@@ -3139,7 +3141,7 @@ public class MyXMLHandler implements DocHandler {
 
 		default:
 			constMode = MODE_DEFAULTS; // set back mode
-			System.err.println("unknown defaults mode:" + constMode);
+			App.error("unknown defaults mode:" + constMode);
 		}
 	}
 
@@ -3270,7 +3272,7 @@ public class MyXMLHandler implements DocHandler {
 	protected void startGeoElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		if (geo == null) {
-			System.err.println("no element set for <" + eName + ">");
+			App.error("no element set for <" + eName + ">");
 			return;
 		}
 
@@ -3517,11 +3519,11 @@ public class MyXMLHandler implements DocHandler {
 				}
 
 			default:
-				System.err.println("unknown tag in <element>: " + eName);
+				App.error("unknown tag in <element>: " + eName);
 			}
 
 		if (!ok) {
-			System.err.println("error in <element>: " + eName);
+			App.error("error in <element>: " + eName);
 		}
 	}
 
@@ -3646,7 +3648,7 @@ public class MyXMLHandler implements DocHandler {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.err.println("Error loading Dynamic Colors");
+				App.error("Error loading Dynamic Colors");
 			}
 
 		String angle = attrs.get("hatchAngle");
@@ -3782,7 +3784,7 @@ public class MyXMLHandler implements DocHandler {
 				String parameter = attrs.get("parameter");
 				line.setToParametric(parameter);
 			} else {
-				System.err.println("unknown style for line in <eqnStyle>: "
+				App.error("unknown style for line in <eqnStyle>: "
 						+ style);
 				return false;
 			}
@@ -3798,12 +3800,12 @@ public class MyXMLHandler implements DocHandler {
 			} else if (style.equals("explicit")) {
 				conic.setToExplicit();
 			} else {
-				System.err.println("unknown style for conic in <eqnStyle>: "
+				App.error("unknown style for conic in <eqnStyle>: "
 						+ style);
 				return false;
 			}
 		} else {
-			System.err.println("wrong element type for <eqnStyle>: "
+			App.error("wrong element type for <eqnStyle>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -3844,7 +3846,7 @@ public class MyXMLHandler implements DocHandler {
 	// for point or vector
 	private boolean handleCoordStyle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof CoordStyle)) {
-			System.err.println("wrong element type for <coordStyle>: "
+			App.error("wrong element type for <coordStyle>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -3861,7 +3863,7 @@ public class MyXMLHandler implements DocHandler {
 		} else if (style.equals("spherical")) {
 			v.setSpherical();
 		} else {
-			System.err.println("unknown style in <coordStyle>: " + style);
+			App.error("unknown style in <coordStyle>: " + style);
 			return false;
 		}
 		return true;
@@ -3932,7 +3934,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleCheckbox(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoBoolean())) {
-			System.err.println("wrong element type for <checkbox>: "
+			App.error("wrong element type for <checkbox>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4120,7 +4122,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleSlider(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoNumeric())) {
-			System.err.println("wrong element type for <slider>: "
+			App.error("wrong element type for <slider>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4161,7 +4163,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleTrace(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof Traceable)) {
-			System.err.println("wrong element type for <trace>: "
+			App.error("wrong element type for <trace>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4180,7 +4182,7 @@ public class MyXMLHandler implements DocHandler {
 		// G.Sturr 2010-5-30
 		// XML handling for new tracing code
 		if (!geo.isSpreadsheetTraceable()) {
-			System.err.println("wrong element type for <trace>: "
+			App.error("wrong element type for <trace>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4228,7 +4230,7 @@ public class MyXMLHandler implements DocHandler {
 		 * OLD CODE
 		 * 
 		 * if (!(geo instanceof GeoPoint)) {
-		 * System.err.println("wrong element type for <trace>: " +
+		 * App.error("wrong element type for <trace>: " +
 		 * geo.getClass()); return false; }
 		 * 
 		 * try { GeoPoint p = (GeoPoint) geo;
@@ -4320,7 +4322,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleFile(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoImage() || geo.isGeoButton() || geo.isGeoTurtle())) {
-			System.err.println("wrong element type for <file>: "
+			App.error("wrong element type for <file>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4336,7 +4338,7 @@ public class MyXMLHandler implements DocHandler {
 	// <font serif="false" size="12" style="0">
 	private boolean handleTextFont(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof TextProperties)) {
-			System.err.println("wrong element type for <font>: "
+			App.error("wrong element type for <font>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4371,7 +4373,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleTextDecimals(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof TextProperties)) {
-			System.err.println("wrong element type for <decimals>: "
+			App.error("wrong element type for <decimals>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4387,7 +4389,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleTextFigures(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof TextProperties)) {
-			System.err.println("wrong element type for <decimals>: "
+			App.error("wrong element type for <decimals>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4403,7 +4405,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleInBackground(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoImage())) {
-			System.err.println("wrong element type for <inBackground>: "
+			App.error("wrong element type for <inBackground>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4418,7 +4420,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleInterpolate(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoImage())) {
-			System.err.println("wrong element type for <interpolate>: "
+			App.error("wrong element type for <interpolate>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4522,7 +4524,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleComboBox(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoList())) {
-			System.err.println("wrong element type for <comboBox>: "
+			App.error("wrong element type for <comboBox>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4539,7 +4541,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleAngleStyle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AngleProperties)) {
-			System.err.println("wrong element type for <angleStyle>: "
+			App.error("wrong element type for <angleStyle>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4559,7 +4561,7 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handleForceReflexAngle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AngleProperties)) {
-			System.err.println("wrong element type for <forceReflexAngle>: "
+			App.error("wrong element type for <forceReflexAngle>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4612,7 +4614,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleSlopeTriangleSize(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoNumeric())) {
-			System.err.println("wrong element type for <slopeTriangleSize>: "
+			App.error("wrong element type for <slopeTriangleSize>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4637,7 +4639,7 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handleStartPoint(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof Locateable)) {
-			System.err.println("wrong element type for <startPoint>: "
+			App.error("wrong element type for <startPoint>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4945,7 +4947,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoConic())) {
-			System.err.println("wrong element type for <eigenvectors>: "
+			App.error("wrong element type for <eigenvectors>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4968,7 +4970,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleMatrix(LinkedHashMap<String, String> attrs) {
 		if (!geo.isGeoConic() && !geo.isGeoQuadric()) {
-			System.err.println("wrong element type for <matrix>: "
+			App.error("wrong element type for <matrix>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -5159,10 +5161,10 @@ public class MyXMLHandler implements DocHandler {
 		} else if ("outputSizes".equals(eName)) {
 			ok = handleCmdOutputSizes(attrs);
 		} else
-			System.err.println("unknown tag in <command>: " + eName);
+			App.error("unknown tag in <command>: " + eName);
 
 		if (!ok)
-			System.err.println("error in <command>: " + eName);
+			App.error("error in <command>: " + eName);
 	}
 
 	private boolean handleCmdInput(LinkedHashMap<String, String> attrs) {
@@ -5266,7 +5268,7 @@ public class MyXMLHandler implements DocHandler {
 			if (attrs.size() != cmdOutput.length) {
 				App.debug("error in <output>: wrong number of labels for command "
 						+ cmdName);
-				System.err.println("   cmdOutput.length = " + cmdOutput.length
+				App.error("   cmdOutput.length = " + cmdOutput.length
 						+ ", labels = " + attrs.size());
 				return false;
 			}
@@ -5405,20 +5407,20 @@ public class MyXMLHandler implements DocHandler {
 			if (result != null && label != null && result.length == 1) {
 				result[0].setLoadedLabel(label);
 			} else {
-				System.err.println("error in <expression>: " + exp
+				App.error("error in <expression>: " + exp
 						+ ", label: " + label);
 			}
 
 		} catch (Exception e) {
 			String msg = "error in <expression>: label=" + label + ", exp= "
 					+ exp;
-			System.err.println(msg);
+			App.error(msg);
 			e.printStackTrace();
 			throw new MyError(loc, msg);
 		} catch (Error e) {
 			String msg = "error in <expression>: label = " + label + ", exp = "
 					+ exp;
-			System.err.println(msg);
+			App.error(msg);
 			e.printStackTrace();
 			throw new MyError(loc, msg);
 		}

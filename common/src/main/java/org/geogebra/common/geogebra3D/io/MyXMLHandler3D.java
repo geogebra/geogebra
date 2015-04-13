@@ -141,11 +141,11 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			 */
 
 		default:
-			System.err.println("unknown tag in <euclidianView3D>: " + eName);
+			App.error("unknown tag in <euclidianView3D>: " + eName);
 		}
 
 		if (!ok) {
-			System.err.println("error in <euclidianView3D>: " + eName);
+			App.error("error in <euclidianView3D>: " + eName);
 		}
 	}
 
