@@ -259,6 +259,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
+		if(app.getLAF().isSmart()){
+			return;
+		}
 		if (showKeyboardButton == null) {
 			DockPanelW algebraDockPanel = (DockPanelW) app.getGuiManager()
 			        .getLayout()

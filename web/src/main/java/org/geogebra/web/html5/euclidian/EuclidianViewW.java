@@ -658,7 +658,9 @@ public class EuclidianViewW extends EuclidianView implements
 		evPanel.addDomHandler(euclidiancontroller, MouseMoveEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOverEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
+		if (app.getLAF() == null || !app.getLAF().isSmart()) {
+			evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
+		}
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 
 		if (Browser.supportsPointerEvents()) {

@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.common.main.App;
 import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,6 +12,7 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -39,7 +41,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 * @param image
 	 */
 	
-	public MyCJButton(final Image image) {
+	public MyCJButton() {
 		button = new Label("");
 		buttonContent = new Label("");
 		buttonContent.setStyleName("buttonContent");
@@ -48,33 +50,10 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		button.addMouseUpHandler(this);
 		
 		loadHandlerAllowed = true;
-		image.addLoadHandler(new LoadHandler() {
-			
-			public void onLoad(LoadEvent event) {
 
-				if (!loadHandlerAllowed) {
-					return;
-				}
-				buttonContent.getElement().getStyle().setBackgroundImage(image.getUrl());
-			}
-		});
-		RootPanel.get().add(image);
 		initWidget(button);
 		setStyleName("MyCanvasButton");
 		isEnabled = true;
-    }
-	
-	/**
-	 *  Creates a CanvasButton with empty image
-	 */
-	public MyCJButton() {
-		this(new Image() {
-			{
-				//setWidth(DEFAULT_BUTTON_WIDTH+"px");
-				//setHeight(DEFAULT_BUTTON_HEIGHT+"px");
-				setUrl(AppResources.INSTANCE.empty().getSafeUri());
-			}
-		});
     }
 
 	/**

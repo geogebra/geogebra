@@ -187,6 +187,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 */
 	public void showKeyboardButton(boolean show,
 	        final MathKeyboardListener textField) {
+		if(app.getLAF().isSmart()){
+			return;
+		}
 		if (showKeyboardButton == null) {
 			DockPanel algebraDockPanel = guiManagerW.getLayout()
 					.getDockManager()
