@@ -163,7 +163,11 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			addMenuButton();
 		}
 		//addViewButton is too expensive
-		add(getViewButton());
+		if(getViewButton() == null){
+			addViewButton();
+		}else{
+			add(getViewButton());
+		}
 		setToolTips();
 	}
 
@@ -215,31 +219,33 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		supportedModes.add(SortMode.ORDER);
 
 		ImageOrText[] strTreeMode = getTreeModeStr();
-		treeModeButton = new PopupMenuButton(app, strTreeMode,
-		        strTreeMode.length, 1,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
-
-		ImageOrText icon = new ImageOrText();
-		icon.setUrl(StyleBarResources.INSTANCE.sortObjects().getSafeUri()
-		        .asString());
-		treeModeButton.setFixedIcon(icon);
-
-		treeModeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				SortMode selectedMode = app.getAlgebraView().getTreeMode();
-				treeModeButton.setSelectedIndex(supportedModes
-				        .indexOf(selectedMode));
-			}
-		});
-
-		treeModeButton.addPopupHandler(new PopupMenuHandler() {
-			@Override
-			public void fireActionPerformed(PopupMenuButton actionButton) {
-				// called if a object of the popup is clicked
-				int i = treeModeButton.getSelectedIndex();
-				app.getAlgebraView().setTreeMode(supportedModes.get(i));
-			}
-		});
+		if(treeModeButton == null){
+			treeModeButton = new PopupMenuButton(app, strTreeMode,
+			        strTreeMode.length, 1,
+			        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+	
+			ImageOrText icon = new ImageOrText();
+			icon.setUrl(StyleBarResources.INSTANCE.sortObjects().getSafeUri()
+			        .asString());
+			treeModeButton.setFixedIcon(icon);
+	
+			treeModeButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					SortMode selectedMode = app.getAlgebraView().getTreeMode();
+					treeModeButton.setSelectedIndex(supportedModes
+					        .indexOf(selectedMode));
+				}
+			});
+	
+			treeModeButton.addPopupHandler(new PopupMenuHandler() {
+				@Override
+				public void fireActionPerformed(PopupMenuButton actionButton) {
+					// called if a object of the popup is clicked
+					int i = treeModeButton.getSelectedIndex();
+					app.getAlgebraView().setTreeMode(supportedModes.get(i));
+				}
+			});
+		}
 		add(treeModeButton);
 	}
 

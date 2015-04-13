@@ -29,6 +29,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	protected final int ICON_HEIGHT = 24;
 
 	PopupMenuButton viewButton;
+	MyCJButton menuButton;
 	public AppW app;
 	int viewID;
 	protected OptionType optionType;
@@ -59,23 +60,25 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	 * adds a {@link MyCJButton button} to show properties dialog
 	 */
 	protected void addMenuButton(){
-		MyCJButton menuButton = new MyCJButton();
-
-		ImageOrText icon = new ImageOrText();
-		icon.setUrl(GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString());
-		menuButton.setIcon(icon);
-
-		menuButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				if(app.getGuiManager().showView(App.VIEW_PROPERTIES)){
-					app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
-				} else if(!app.getSelectionManager().getSelectedGeos().isEmpty() || optionType == null){
-					app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
-				} else{
-					app.getDialogManager().showPropertiesDialog(optionType, null);
-				}
-            }
-		});
+		if(menuButton == null){
+			menuButton = new MyCJButton();
+	
+			ImageOrText icon = new ImageOrText();
+			icon.setUrl(GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString());
+			menuButton.setIcon(icon);
+	
+			menuButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					if(app.getGuiManager().showView(App.VIEW_PROPERTIES)){
+						app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
+					} else if(!app.getSelectionManager().getSelectedGeos().isEmpty() || optionType == null){
+						app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
+					} else{
+						app.getDialogManager().showPropertiesDialog(optionType, null);
+					}
+	            }
+			});
+		}
 		add(menuButton);
 	}
 	protected PopupMenuButton getViewButton(){

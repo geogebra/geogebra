@@ -477,7 +477,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		addMenuButton();
-		addViewButton();
+		if(getViewButton() == null){
+			addViewButton();
+		}else{
+			add(getViewButton());
+		}
 	}
 
 	protected void addBtnRotateView() {
