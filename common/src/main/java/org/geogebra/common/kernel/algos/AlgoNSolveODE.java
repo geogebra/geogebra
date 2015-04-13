@@ -185,7 +185,6 @@ public class AlgoNSolveODE extends AlgoElement {
 		}
 
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
-			@SuppressWarnings("hiding")
 			double input[] = new double[dim + 1];
 			input[0] = t;
 			for (int i = 0; i < dim; i++) {

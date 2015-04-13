@@ -83,9 +83,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		this.right = right;
 		this.georight = right.toGeoElement();
 
-		// make sure root points are not null
-		int number = (labels == null ? 1 : Math.max(1, labels.length));
-
 		setInputOutput();
 
 		compute();
