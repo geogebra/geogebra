@@ -131,7 +131,7 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_GUI_PERSPECTIVE_VIEWS = 404; // <perspective>
 																// <views />
 																// </perspective>
-	
+
 	private static final int MODE_DEFAULTS = 500;
 	private static final int MODE_DEFAULT_GEO = 501;
 
@@ -440,7 +440,7 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_MACRO:
 			startMacroElement(eName, attrs);
 			break;
-			
+
 		case MODE_DEFAULTS:
 			startDefault(eName, attrs);
 			break;
@@ -634,7 +634,7 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CONSTRUCTION:
 			endConstructionElement(eName);
 			break;
-			
+
 		case MODE_DEFAULTS:
 			endDefaultElement(eName);
 			break;
@@ -1441,8 +1441,8 @@ public class MyXMLHandler implements DocHandler {
 
 			int hScroll = Integer.parseInt(attrs.get("hScroll"));
 			int vScroll = Integer.parseInt(attrs.get("vScroll"));
-			settings.setScrollPosition(new org.geogebra.common.awt.GPoint(hScroll,
-					vScroll));
+			settings.setScrollPosition(new org.geogebra.common.awt.GPoint(
+					hScroll, vScroll));
 
 			int row = Integer.parseInt(attrs.get("row"));
 			int column = Integer.parseInt(attrs.get("column"));
@@ -2995,11 +2995,9 @@ public class MyXMLHandler implements DocHandler {
 			App.error("error in <useAsText>: " + eName);
 
 	}
-	
 
-	private void startDefault(String eName,
-			LinkedHashMap<String, String> attrs) {
-		
+	private void startDefault(String eName, LinkedHashMap<String, String> attrs) {
+
 		switch (constMode) {
 		case MODE_DEFAULTS:
 			if ("element".equals(eName)) {
@@ -3021,7 +3019,6 @@ public class MyXMLHandler implements DocHandler {
 			App.error("unknown default mode:" + constMode);
 		}
 
-		
 	}
 
 	private void startConstructionElement(String eName,
@@ -3122,7 +3119,7 @@ public class MyXMLHandler implements DocHandler {
 			App.error("unknown construction mode:" + constMode);
 		}
 	}
-	
+
 	private void endDefaultElement(String eName) {
 		switch (constMode) {
 		case MODE_DEFAULTS:
@@ -3132,12 +3129,10 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 
-			
 		case MODE_DEFAULT_GEO:
 			if ("element".equals(eName))
 				constMode = MODE_DEFAULTS;
 			break;
-
 
 		default:
 			constMode = MODE_DEFAULTS; // set back mode
@@ -3717,8 +3712,8 @@ public class MyXMLHandler implements DocHandler {
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return org.geogebra.common.factories.AwtFactory.prototype.newColor(red,
-					green, blue);
+			return org.geogebra.common.factories.AwtFactory.prototype.newColor(
+					red, green, blue);
 		} catch (Exception e) {
 			return null;
 		}
@@ -3734,8 +3729,8 @@ public class MyXMLHandler implements DocHandler {
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
 			int alpha = Integer.parseInt(attrs.get("alpha"));
-			return org.geogebra.common.factories.AwtFactory.prototype.newColor(red,
-					green, blue, alpha);
+			return org.geogebra.common.factories.AwtFactory.prototype.newColor(
+					red, green, blue, alpha);
 		} catch (Exception e) {
 			return null;
 		}
@@ -4952,7 +4947,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 		try {
-			GeoConic conic = (GeoConic) geo;
+			GeoConicND conic = (GeoConicND) geo;
 			// set eigenvectors, but don't classify conic now
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
@@ -4993,7 +4988,7 @@ public class MyXMLHandler implements DocHandler {
 	protected void handleMatrixConicOrQuadric(
 			LinkedHashMap<String, String> attrs) throws Exception {
 		if (geo.isGeoConic()) {
-			GeoConic conic = (GeoConic) geo;
+			GeoConicND conic = (GeoConicND) geo;
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier
 			double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
