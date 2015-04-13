@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -17,9 +18,11 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
+import org.geogebra.web.web.gui.view.algebra.NewRadioButtonTreeItem;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.util.keyboard.UpdateKeyBoardListener;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -216,9 +219,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		}
 		this.keyboardShowing = show;
 
-		//this.mainPanel.clear();
-		// clear is necessary since no widget should be added after addCenter!
-		//this.mainPanel.setVisible(false);
+		final int pos = ((AlgebraViewWeb)app.getAlgebraView()).getInputTreeItem().getElement().getScrollLeft();
 
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
 		        this, app);
@@ -226,20 +227,15 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			keyBoard.show();
 			CancelEventTimer.keyboardSetVisible();
 
-			//this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
-			//this.mainPanel.setVisible(false);
 			this.mainPanel.setWidgetSize(spaceForKeyboard, keyBoard.getOffsetHeight());
 			spaceForKeyboard.add(keyBoard);
-			//this.mainPanel.setVisible(true);
-
+			
 			if (showKeyboardButton != null) {
 				showKeyboardButton.hide();
 			}
 		} else {
 			if (app.getAlgebraView() != null) {
 
-				// as clear is called, remove is not necessary
-				//this.mainPanel.remove(keyBoard);
 				this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
 				spaceForKeyboard.remove(keyBoard);
 
@@ -251,12 +247,17 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			keyBoard.resetKeyboardState();
 		}
 
-		// superdev mode: after this, no widget may be added!!!
-		// this clear/add is necessary for this reason,
-		// just calling setVisible is not enough!
-		//this.mainPanel.add(this.dockPanel);
-		//this.mainPanel.setVisible(true);
+		// necessary to prevent lag when resizing panels/widgets
 		this.mainPanel.forceLayout();
+
+		// necessary in Internet Explorer, should not do harm in other browsers
+		// although we can add browser check here if necessary, but it may be slower?
+		//if (Browser.isIE())// also might not cover every exception
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				((AlgebraViewWeb)app.getAlgebraView()).getInputTreeItem().getElement().setScrollLeft(pos);
+			}
+		});
 
 		Timer timer = new Timer() {
 			@Override
@@ -268,6 +269,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 					textField.setFocus(true);
 					textField.ensureEditing();
 				}
+				// necessary in Internet Explorer, should not do harm in other browsers
+				// although we can add browser check here if necessary, but it may be slower?
+				//if (Browser.isIE())// also might not cover every exception
+				((AlgebraViewWeb)app.getAlgebraView()).getInputTreeItem().getElement().setScrollLeft(pos);
 			}
 		};
 		timer.schedule(500);
