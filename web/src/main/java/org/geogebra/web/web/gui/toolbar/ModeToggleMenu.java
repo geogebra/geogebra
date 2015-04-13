@@ -44,7 +44,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class ModeToggleMenu extends ListItem implements MouseDownHandler, MouseUpHandler, 
 TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHandler{
 
-	private static final long serialVersionUID = 1L;
 
 	private FlowPanel tbutton;
 	protected ToolbarSubemuW submenu;
@@ -287,15 +286,12 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		tbutton.getElement().focus();
 		event.stopPropagation();
 		if (event.getSource() == tbutton) { // if click ended on the button
-			if(event instanceof TouchEndEvent && app.getLAF().isSmart()){
-				return;
-			}
 			// if enter was pressed
 			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
 				setMenuVisibility(!isMenuShown());
 			}
 			// if submenu was open
-			if (wasMenuShownOnMouseDown) {
+			if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
 				hideMenu();
 			}
 		} else { // click ended on menu item
@@ -358,7 +354,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 * Handles the touchstart and mousedown events on main tools.
 	 * @param event
 	 */
-	public void onStart(DomEvent event){
+	public void onStart(DomEvent<?> event){
 		event.preventDefault();
 		event.stopPropagation();
 		this.setFocus(true);
