@@ -123,7 +123,13 @@ public class Ggb2giac {
 		// p("Dot.2",
 		// "[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]], regroup(dot(ggbdotarg0,ggbdotarg1))][1]");
 		p("Dot.2",
-				"[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]], regroup(xcoord(ggbdotarg0)*xcoord(ggbdotarg1)+ycoord(ggbdotarg0)*ycoord(ggbdotarg1)+zcoord(ggbdotarg0)*zcoord(ggbdotarg1))][1]");
+				"[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]],"+
+						"when(type(ggbdotarg0)==DOM_LIST && subtype(ggbdotarg0)!=27,"+
+						// eg lists length 4 (and not ggbvect)
+						"regroup(ggbdotarg0 * ggbdotarg1)"+
+						","+
+						" regroup(xcoord(ggbdotarg0)*xcoord(ggbdotarg1)+ycoord(ggbdotarg0)*ycoord(ggbdotarg1)+zcoord(ggbdotarg0)*zcoord(ggbdotarg1))"+
+						")][1]");
 
 		// GeoGebra indexes lists from 1, giac from 0
 
