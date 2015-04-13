@@ -78,7 +78,9 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		});
 		add(menuButton);
 	}
-
+	protected PopupMenuButton getViewButton(){
+		return this.viewButton;
+	}
 	/**
 	 * adds a {@link PopupMenuButton button} to show a popup, where the user can
 	 * either close this view or open another one.
