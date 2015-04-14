@@ -1269,7 +1269,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		        && this.generalToolbarDefinition != null) {
 			def = this.generalToolbarDefinition;
 		}
-		App.debug(toolbarID + ":" + def);
 		setToolBarDefinition(def);
 
 		if (this.toolbarID != toolbarID && toolbarPanel != null) {
