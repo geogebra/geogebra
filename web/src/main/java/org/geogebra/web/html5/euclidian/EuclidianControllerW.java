@@ -286,8 +286,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
 
-		org.geogebra.common.util.debug.Log
-		        .info("EuclidianControllerW.textfieldJustFocusedW");
+
 		if (isComboboxFocused()) {
 			org.geogebra.common.util.debug.Log.info("isComboboxFocused!");
 			this.draggingOccured = false;
