@@ -2,10 +2,8 @@ project.setDescription('Parts of GeoGebra related to desktop platforms')
 
 apply plugin: 'application'
 
-def deployGradle = (project(':desktop').getRootDir().getAbsolutePath()) + "/desktop/deploy.gradle"
-
-if (new File(deployGradle).exists()) {
-    apply from: deployGradle
+if (file('deploy.gradle').exists()) {
+    apply from: file('deploy.gradle')
     }
 else {
     ext.deploy_deps = []
