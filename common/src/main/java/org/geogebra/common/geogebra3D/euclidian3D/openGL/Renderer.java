@@ -770,6 +770,9 @@ public abstract class Renderer {
 		// drawFPS();
 		
 		// absolute texts
+		if (enableClipPlanes) {
+			disableClipPlanes();
+		}
 		drawFaceToScreenEnd();
 		
 
