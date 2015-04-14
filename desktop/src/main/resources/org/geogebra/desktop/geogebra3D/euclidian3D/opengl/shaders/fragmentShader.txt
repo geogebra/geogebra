@@ -1,0 +1,119 @@
+/* Introducing the OpenGL ES 2 Fragment shader
+ *
+ * The main loop of the fragment shader gets executed for each visible
+ * pixel fragment on the render buffer.
+ *
+ *       vertex-> *
+ *      (0,1,-1) /f\
+ *              /ffF\ <- This fragment F gl_FragCoord get interpolated
+ *             /fffff\                   to (0.25,0.25,-1) based on the
+ *   vertex-> *fffffff* <-vertex         three vertex gl_Position.
+ *  (-1,-1,-1)           (1,-1,-1)
+ *
+ *
+ * All incomming "varying" and gl_FragCoord data to the fragment shader
+ * gets interpolated based on the vertex positions.
+ *
+ * The fragment shader produce and store the final color data output into
+ * gl_FragColor.
+ *
+ * Is up to you to set the final colors and calculate lightning here based on
+ * supplied position, color and normal data.
+ *
+ * The whole fragment shader program are a String containing GLSL ES language
+ * http://www.khronos.org/registry/gles/specs/2.0/GLSL_ES_Specification_1.0.17.pdf
+ * sent to the GPU driver for compilation.
+ */
+
+#if __VERSION__ >= 130
+  #define varying in
+  out vec4 mgl_FragColor;
+  #define texture2D texture
+  #define gl_FragColor mgl_FragColor
+#endif 
+
+#ifdef GL_ES 
+precision mediump float; 
+precision mediump int; 
+#endif 
+
+
+
+
+
+// uniform
+uniform int textureType;
+
+uniform int enableClipPlanes;
+uniform vec3 clipPlanesMin;
+uniform vec3 clipPlanesMax;
+
+uniform float dashValues[4];
+
+uniform sampler2D Texture0;
+
+// in (incomming varying data to the frament shader sent from the vertex shader)
+varying   vec4    varying_Color;  
+varying   vec2	  coordTexture;  
+varying   vec3    realWorldCoords;
+
+
+void main (void) 
+{ 
+	
+
+	if (enableClipPlanes == 1  // clip the scene
+		&& (   realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x
+			|| realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y 
+			|| realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z 			
+		   )){
+		discard;
+		
+	}	
+		
+	// default
+	if (textureType == 0){
+		gl_FragColor = varying_Color;
+		return;
+	}
+			
+	// fading	
+	if (textureType == 1){ // TEXTURE_TYPE_FADING = 1
+		float factor;
+		float x = max(coordTexture.x, 0.0);
+		float y = max(coordTexture.y, 0.0);
+		gl_FragColor.rgb  = varying_Color.rgb;
+		gl_FragColor.a = varying_Color.a * (1.0 - x) * (1.0 - y);
+		
+		return;
+	}
+	
+		
+	// text	
+	if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;
+		vec4 textureVal = texture2D(Texture0, coordTexture);
+		if (textureVal.a < 0.25){
+	  		discard; // don't write
+  		}
+  	
+		gl_FragColor.rgb = varying_Color.rgb;
+		gl_FragColor.a = textureVal.a;
+	
+		return;
+	}
+		
+		
+	// dash
+		
+		float x =  mod(dashValues[0] * coordTexture.x, 1.0);
+		if (x > dashValues[1] || (x > dashValues[2] && x <= dashValues[3])){
+			discard;
+		}
+		
+		gl_FragColor = varying_Color;
+
+	
+
+} 
+
+

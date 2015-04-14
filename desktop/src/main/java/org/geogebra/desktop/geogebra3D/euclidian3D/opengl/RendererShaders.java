@@ -95,7 +95,7 @@ public class RendererShaders extends RendererD implements
 	private String loadTextFile(String file) {
 
 		return ((AppD) view3D.getApplication())
-				.loadTextFile("/geogebra3D/euclidian3D/opengl/shaders/" + file
+				.loadTextFile("/org/geogebra/desktop/geogebra3D/euclidian3D/opengl/shaders/" + file
 						+ ".txt");
 	}
 

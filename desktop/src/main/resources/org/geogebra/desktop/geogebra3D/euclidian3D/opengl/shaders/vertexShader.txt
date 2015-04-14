@@ -1,0 +1,176 @@
+/* Introducing the OpenGL ES 2 Vertex shader
+ *
+ * The main loop inside the vertex shader gets executed
+ * one time for each vertex.
+ *
+ *      vertex -> *       uniform data -> mat4 projection = ( 1, 0, 0, 0,
+ *      (0,1,0)  / \                                          0, 1, 0, 0,
+ *              / . \  <- origo (0,0,0)                       0, 0, 1, 0,
+ *             /     \                                        0, 0,-1, 1 );
+ *  vertex -> *-------* <- vertex
+ *  (-1,-1,0)             (1,-1,0) <- attribute data can be used
+ *                        (0, 0,1)    for color, position, normals etc.
+ *
+ * The vertex shader recive input data in form of
+ * "uniform" data that are common to all vertex
+ * and
+ * "attribute" data that are individual to each vertex.
+ * One vertex can have several "attribute" data sources enabled.
+ *
+ * The vertex shader produce output used by the fragment shader.
+ * gl_Position are expected to get set to the final vertex position.
+ * You can also send additional user defined
+ * "varying" data to the fragment shader.
+ *
+ * Model Translate, Scale and Rotate are done here by matrix-multiplying a
+ * projection matrix against each vertex position.
+ *
+ * The whole vertex shader program are a String containing GLSL ES language
+ * http://www.khronos.org/registry/gles/specs/2.0/GLSL_ES_Specification_1.0.17.pdf
+ * sent to the GPU driver for compilation.
+ */
+ 
+ 
+
+
+// For GLSL 1 and 1.1 code i highly recomend to not include a 
+// GLSL ES language #version line, GLSL ES section 3.4
+// Many GPU drivers refuse to compile the shader if #version is different from
+// the drivers internal GLSL version.
+//
+// This demo use GLSL version 1.1 (the implicit version)
+
+
+#if __VERSION__ >= 130 // GLSL 130+ uses in and out
+  #define attribute in // instead of attribute and varying 
+  #define varying out  // used by OpenGL 3 core and later. 
+#endif 
+
+#ifdef GL_ES 
+precision mediump float;  // Precision Qualifiers
+precision mediump int;    // GLSL ES section 4.5.2
+#endif 
+
+
+//in -- uniform
+uniform mat4    matrix ;  
+//uniform mat3	normalMatrix; 
+uniform vec3	lightPosition;
+uniform vec4	eyePosition;
+uniform vec2	ambiantDiffuse;
+uniform int		enableLight;
+uniform int		culling;
+uniform vec4	color;
+uniform vec3	normal;
+uniform vec4	center;
+
+uniform int labelRendering;
+uniform vec3 labelOrigin;
+
+//in -- attributes
+attribute vec3  attribute_Position;  
+attribute vec3  attribute_Normal;  
+attribute vec4  attribute_Color;  
+attribute vec2	attribute_Texture;   
+
+
+//out
+varying vec4    varying_Color;  
+varying vec2	coordTexture;
+varying vec3    realWorldCoords;
+
+
+void main(void) 
+{ 
+  
+  // position
+  vec3 position;
+  if (center.w > 0.0){ // use center
+  	position = vec3(center) + center.w * attribute_Position;
+  }else{
+  	position = attribute_Position;
+  }
+  gl_Position = matrix * vec4(position, 1.0); 
+  
+  if (labelRendering == 1){ // use special origin for labels
+      realWorldCoords = labelOrigin;
+  }else{
+	  realWorldCoords = position;
+  }
+  
+  // color
+  vec4 c;
+  if (color[0] < 0.0){ // then use per-vertex-color
+  	c = attribute_Color;
+  }else{ // use per-object-color
+  	c = color;
+  }
+  
+  // light
+  if (enableLight == 1){// color with light
+	  vec3 n;
+	  if (normal.x > 1.5){ // then use per-vertex normal
+	  	n = attribute_Normal;
+	  }else{
+	  	n = normal;
+	  }
+	  
+	  float factor = float(culling) * dot(n, lightPosition);
+	  factor = max(0.0, factor);
+	  
+	  float ambiant = ambiantDiffuse[0];
+	  float diffuse = ambiantDiffuse[1];
+	  
+	  /*
+	  // specular
+	  
+	  // makes natural specular
+	  vec3 viewDirection;
+	  if (eyePosition[3] < 0.5){ // parallel projection
+	  	viewDirection = vec3(eyePosition);
+	  }else{ // perspective projection
+	  	viewDirection = position - vec3(eyePosition);
+	  }
+	  vec3 lightReflect = normalize(reflect(lightPosition, n));
+	  float specular = dot(lightReflect, viewDirection);
+	  
+	  
+	  // makes specular has if eye was lighting
+	  //float specular = - dot(n, viewDirection);
+	  //if (culling == 1){ // front-face culling
+	  //	specular = -specular;
+	  //}
+	  
+	  
+	  // specular as diffuse
+	  //float specular = factor;
+	  
+	  if (specular > 0.0){
+	  	specular = pow(specular, 32.0);
+	  }else{
+	  	specular = 0.0;
+	  } 
+	  
+	  // specular light from eye
+	  //varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb + 0.5 * specular * vec3(1.0, 1.0, 1.0);
+	  //specular natural way
+	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb + 0.8 * specular * vec3(1.0, 1.0, 1.0);
+	  
+	  */
+	  
+	  
+	  
+	  // no specular
+	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
+	  varying_Color.a = c.a;
+	  
+
+  }else{ //no light
+	  varying_Color = c;
+  }
+      
+  // texture
+  coordTexture = attribute_Texture;
+                        
+  
+} 
