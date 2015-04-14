@@ -658,6 +658,9 @@ public abstract class Renderer {
 	protected void draw() {
 
 		// labels
+		if (enableClipPlanes) {
+			enableClipPlanes();
+		}
 		drawFaceToScreen();
 
 		// init drawing matrix to view3D toScreen matrix
