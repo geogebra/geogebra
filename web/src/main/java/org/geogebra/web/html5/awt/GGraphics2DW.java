@@ -35,7 +35,7 @@ import com.google.gwt.canvas.dom.client.Context2d.Repetition;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 
 public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 

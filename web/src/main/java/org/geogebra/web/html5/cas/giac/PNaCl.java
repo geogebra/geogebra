@@ -220,7 +220,7 @@ public class PNaCl {
 		String[] toolchains = data_tools.split(" ");
 		String[] configs = data_configs.split(" ");
 
-		HashMap<String, String> attrs = new HashMap();
+		HashMap<String, String> attrs = new HashMap<String, String>();
 
 		String tc = toolchains[0];
 		String config = configs[0];
@@ -228,7 +228,6 @@ public class PNaCl {
 		String path = pathFormat.replace("{tc}", tc)
 		        .replace("{config}", config);
 
-		boolean isRelease = path.toLowerCase().indexOf("release") != -1;
 
 		loadFunction(data_name, tc, path, 0, 0, attrs);
 	}

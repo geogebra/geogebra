@@ -3,7 +3,7 @@ package org.geogebra.web.html5.gui.view.autocompletion;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;

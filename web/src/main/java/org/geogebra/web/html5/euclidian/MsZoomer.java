@@ -4,7 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.ZeroOffset;
 
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 
 public class MsZoomer {
 
@@ -100,8 +100,7 @@ public class MsZoomer {
 									$wnd.second.x = e.x;
 									$wnd.second.y = e.y;
 									zoomer
-											.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersMove(
-													DDDD)($wnd.first.x,
+											.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,
 													$wnd.first.y,
 													$wnd.second.x,
 													$wnd.second.y);
@@ -132,8 +131,7 @@ public class MsZoomer {
 							}
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								zoomer
-										.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersDown(
-												DDDD)($wnd.first.x,
+										.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,
 												$wnd.first.y, $wnd.second.x,
 												$wnd.second.y);
 							}

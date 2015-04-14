@@ -20,10 +20,6 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		clear();
     }
 
-	private void registerListeners() {
-		// TODO Auto-generated method stub
-	    
-    }
 
 	public void addTextField(AutoCompleteW autoCompleteTextField) {
 		this.textField = autoCompleteTextField;

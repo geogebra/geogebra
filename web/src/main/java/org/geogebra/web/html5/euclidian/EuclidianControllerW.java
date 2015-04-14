@@ -69,8 +69,6 @@ public class EuclidianControllerW extends EuclidianController implements
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
         HasOffsets, IsEuclidianController, LongTouchHandler, DropHandler {
 
-	private PointerEvent waitingTouchMove = null;
-	private PointerEvent waitingMouseMove = null;
 
 
 	/**
@@ -172,10 +170,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.twoTouchMove(touch, touch2);
 	}
 
-	private void onTouchMoveNow(PointerEvent event, long time,
-	        boolean startCapture) {
-		mtg.onTouchMoveNow(event, time, startCapture);
-	}
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {

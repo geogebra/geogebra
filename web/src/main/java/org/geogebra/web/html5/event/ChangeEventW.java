@@ -14,4 +14,8 @@ public class ChangeEventW extends ActionEvent {
 	public static ChangeEventW wrapEvent(ChangeEvent e) {
 		return new ChangeEventW(e);
 	}
+
+	public ChangeEvent getEvent() {
+		return event;
+	}
 }

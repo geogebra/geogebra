@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -9,6 +8,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -16,7 +16,6 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
@@ -280,8 +279,7 @@ public class ToolTipManagerW {
 			        app.getLeft()
 			                + ((app.getWidth() - bottomInfoTipPanel
 			                        .getOffsetWidth()) * app.getArticleElement().getScaleX()) / 2, Unit.PX);
-			App.debug(app.getTop()+","+(app.getHeight()
-			        - (app.getAppletFrame().isKeyboardShowing() ? 250 : 70))+","+app.getArticleElement().getScaleY());
+
 			style.setTop(
 			        app.getTop() + (app.getHeight()
 			        - (app.getAppletFrame().isKeyboardShowing() ? 250 : 70)) * app.getArticleElement().getScaleY() ,

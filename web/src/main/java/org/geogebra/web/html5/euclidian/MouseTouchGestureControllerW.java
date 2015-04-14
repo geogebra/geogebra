@@ -704,7 +704,7 @@ public class MouseTouchGestureControllerW implements
 
 	public void initToolTipManager() {
 		// set tooltip manager
-		ToolTipManagerW ttm = ToolTipManagerW.sharedInstance();
+		ToolTipManagerW.sharedInstance();
 		// ttm.setInitialDelay(defaultInitialDelay / 2);
 		// ttm.setEnabled((AppW.getAllowToolTips());
 
