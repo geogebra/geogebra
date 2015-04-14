@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -277,11 +278,13 @@ public class ToolTipManagerW {
 			Style style = bottomInfoTipPanel.getElement().getStyle();
 			style.setLeft(
 			        app.getLeft()
-			                + (app.getWidth() - bottomInfoTipPanel
-			                        .getOffsetWidth()) / 2, Unit.PX);
+			                + ((app.getWidth() - bottomInfoTipPanel
+			                        .getOffsetWidth()) * app.getArticleElement().getScaleX()) / 2, Unit.PX);
+			App.debug(app.getTop()+","+(app.getHeight()
+			        - (app.getAppletFrame().isKeyboardShowing() ? 250 : 70))+","+app.getArticleElement().getScaleY());
 			style.setTop(
-			        app.getTop() + app.getHeight()
-			        - (app.getAppletFrame().isKeyboardShowing() ? 250 : 70),
+			        app.getTop() + (app.getHeight()
+			        - (app.getAppletFrame().isKeyboardShowing() ? 250 : 70)) * app.getArticleElement().getScaleY() ,
 			        Unit.PX);
 		}
 	}
