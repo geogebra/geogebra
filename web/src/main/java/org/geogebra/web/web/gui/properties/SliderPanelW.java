@@ -12,6 +12,8 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -111,6 +113,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 
 			}});
+		tfMin.addBlurHandler(new BlurHandler() {
+			
+			@Override
+			public void onBlur(BlurEvent event) {
+				applyMin();
+			}
+		});
 
 		tfMax = new AngleTextFieldW(6, app);
 		tfMax.addKeyDownHandler(new KeyDownHandler(){
@@ -120,6 +129,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 					applyMax();
 				}
 			}});
+
+		tfMax.addBlurHandler(new BlurHandler() {
+			
+			@Override
+			public void onBlur(BlurEvent event) {
+				applyMax();
+			}
+		});
 
 
 		tfWidth = new AutoCompleteTextFieldW(8, app);
@@ -131,6 +148,15 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 					applyWidth();
 				}
 			}});
+		
+		tfWidth.addBlurHandler(new BlurHandler() {
+			
+			@Override
+			public void onBlur(BlurEvent event) {
+				applyWidth();
+			}
+		});
+
 
 		maxLabel = new Label();
 		minLabel = new Label();
