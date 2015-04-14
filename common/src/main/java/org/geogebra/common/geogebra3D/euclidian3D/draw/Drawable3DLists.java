@@ -460,16 +460,53 @@ public class Drawable3DLists {
 	 */
 	public void drawLabel(Renderer renderer) {
 
-		for (int i = 0; i < Drawable3D.DRAW_TYPE_LISTS; i++){
+		for (int i = 0; i < Drawable3D.DRAW_TYPE_TEXTS; i++){
 			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();){
 				d.next().drawLabel(renderer);
 			}
 		}
 		
+	}
+	
+	/**
+	 * draw texts (not in absolute position)
+	 * 
+	 * @param renderer
+	 *            opengl context
+	 */
+	public void drawNotAbsoluteText(Renderer renderer) {
+
+		// texts
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
+			((DrawText3D) d).drawNotAbsolutePosition(renderer);
+		}
+		
 		// lists
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-			((DrawList3D) d).getDrawable3DLists().drawTexts(renderer);
+			((DrawList3D) d).getDrawable3DLists().drawNotAbsoluteText(renderer);
 		}
+
+	}
+	
+	
+	/**
+	 * draw texts (in absolute position)
+	 * 
+	 * @param renderer
+	 *            opengl context
+	 */
+	public void drawAbsoluteText(Renderer renderer) {
+
+		// texts
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
+			((DrawText3D) d).drawAbsolutePosition(renderer);
+		}
+		
+		// lists
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d).getDrawable3DLists().drawAbsoluteText(renderer);
+		}
+		
 
 	}
 

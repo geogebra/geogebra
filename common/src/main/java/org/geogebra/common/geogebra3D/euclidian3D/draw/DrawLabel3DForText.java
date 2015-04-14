@@ -104,4 +104,33 @@ public class DrawLabel3DForText extends DrawLabel3D {
 
 		highLightIndex = -1;
 	}
+	
+	
+	/**
+	 * update draw position
+	 */
+	public void updateDrawPosition() {
+		
+		if (geo.isAbsoluteScreenLocActive()){
+			if (origin == null) {
+				return;
+			}
+			
+			drawX = (int) (origin.getX() 
+					- drawable.getView3D().getWidth()/2 
+					+ xOffset2 / getFontScale());
+			drawY = (int) (drawable.getView3D().getHeight()/2 
+					- origin.getY()
+					+ yOffset2 / getFontScale());
+			drawZ = 0;
+			
+		}else{
+			super.updateDrawPosition();
+		}
+
+
+		
+
+	}
+
 }

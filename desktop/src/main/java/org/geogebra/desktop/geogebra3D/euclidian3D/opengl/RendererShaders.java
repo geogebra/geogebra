@@ -1169,6 +1169,14 @@ public class RendererShaders extends RendererD implements
 		super.drawFaceToScreen();
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
 	}
+	
+	@Override
+	protected void drawFaceToScreenEnd() {
+		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 1);
+		resetCenter();
+		super.drawFaceToScreenEnd();
+		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
+	}
 
 	@Override
 	public void setLabelOrigin(Coords origin) {

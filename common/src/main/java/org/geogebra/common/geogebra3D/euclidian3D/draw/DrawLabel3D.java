@@ -34,7 +34,8 @@ public class DrawLabel3D {
 	protected Coords origin;
 	/** x and y offset */
 	private float xOffset, yOffset;
-	private float xOffset2, yOffset2;
+	protected float xOffset2;
+	protected float yOffset2;
 	/** says if there's an anchor to do */
 	private boolean anchor;
 	/** says if the label is visible */
@@ -59,7 +60,7 @@ public class DrawLabel3D {
 			.newBufferedImage(1, 1, GBufferedImage.TYPE_INT_ARGB)
 			.createGraphics();
 
-	private Drawable3D drawable;
+	protected Drawable3D drawable;
 
 	/**
 	 * common constructor

@@ -519,24 +519,16 @@ public abstract class Renderer {
 	 */
 	protected void drawFaceToScreen() {
 
-		// drawing labels
-		// getGL().glEnable(GLlocal.GL_CULL_FACE);
-		// getGL().glCullFace(GLlocal.GL_BACK);
+		// drawing labels and texts
 
 		enableAlphaTest();
 		disableLighting();
 		enableBlending();
 
 		enableTextures();
-		// getGL().glDisable(GLlocal.GL_BLEND);
-		// getGL().glDepthMask(false);
 		drawable3DLists.drawLabel(this);
+		drawable3DLists.drawNotAbsoluteText(this);
 
-		// getGL().glDepthMask(true);
-		// getGL().glAlphaFunc(GLlocal.GL_EQUAL, 1);
-		// drawable3DLists.drawLabel(this);
-
-		// getGL().glAlphaFunc(GLlocal.GL_GREATER, 0);
 
 		disableTextures();
 
@@ -547,6 +539,27 @@ public abstract class Renderer {
 
 		if (enableClipPlanes)
 			enableClipPlanes();
+
+	}
+	
+	
+	/**
+	 * draw face-to screen parts at end (absolute texts, ...)
+	 */
+	protected void drawFaceToScreenEnd() {
+
+		// drawing texts
+
+		enableAlphaTest();
+		disableLighting();
+		enableBlending();
+
+		enableTextures();
+		
+		drawable3DLists.drawAbsoluteText(this);
+
+
+		disableTextures();
 
 	}
 
@@ -747,15 +760,18 @@ public abstract class Renderer {
 		// draw surface outlines
 		// drawSurfacesOutline();
 
-		// FPS
 		disableLighting();
 		disableDepthTest();
 
 		// drawWireFrame();
-
+		
 		unsetMatrixView();
 
 		// drawFPS();
+		
+		// absolute texts
+		drawFaceToScreenEnd();
+		
 
 		enableDepthTest();
 		enableLighting();

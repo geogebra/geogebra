@@ -158,5 +158,21 @@ public class DrawText3D extends Drawable3DCurves {
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_TEXTS);
 	}
+	
+	public void drawNotAbsolutePosition(Renderer renderer) {
+		GeoText text = (GeoText) getGeoElement();
+		if (!text.isAbsoluteScreenLocActive()){
+			drawLabel(renderer);
+		}
+		
+	}
+
+	public void drawAbsolutePosition(Renderer renderer) {
+		GeoText text = (GeoText) getGeoElement();
+		if (text.isAbsoluteScreenLocActive()){
+			drawLabel(renderer);
+		}
+		
+	}
 
 }

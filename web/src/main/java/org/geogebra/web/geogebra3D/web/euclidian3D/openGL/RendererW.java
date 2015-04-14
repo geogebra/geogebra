@@ -1489,6 +1489,14 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		super.drawFaceToScreen();
 		glContext.uniform1i(labelRenderingLocation, 0);
 	}
+	
+	@Override
+	protected void drawFaceToScreenEnd() {
+		glContext.uniform1i(labelRenderingLocation, 1);
+		resetCenter();
+		super.drawFaceToScreenEnd();
+		glContext.uniform1i(labelRenderingLocation, 0);
+	}
 
 	@Override
 	public void setLabelOrigin(Coords origin) {
