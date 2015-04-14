@@ -1490,11 +1490,11 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	position: relative;
 }
 
-.geogebraweb .applet-focused {
+.GeoGebraFrame.applet-focused {
 	border-color: #000000;
 }
 
-.geogebraweb .applet-unfocused {
+.GeoGebraFrame.applet-unfocused {
 	border-color: #D3D3D3;
 }
 
