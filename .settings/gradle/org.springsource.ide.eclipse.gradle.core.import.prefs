@@ -7,4 +7,4 @@ enableAfterTasks=true
 enableBeforeTasks=true
 enableDSLD=false
 enableDependendencyManagement=false
-projects=input3D/impl;
+projects=;common;desktop;ggbjdk;giac-jni;input3D/stub;jogl2;web;web/dev;
