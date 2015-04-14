@@ -376,6 +376,14 @@ public abstract class CopyPasteCut {
 		app.getSettings().getSpreadsheet().setEqualsRequired(true);
 
 		boolean succ = true;
+
+		// Fixing NPE in chrome:
+		if (data == null) {
+			return false;
+		} else if (data[0] == null) {
+			return false;
+		}
+
 		int rowStep = data.length;
 		int columnStep = data[0].length;
 
