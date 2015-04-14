@@ -391,7 +391,6 @@ public class AppWapplet extends AppWFull {
  frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
-		App.debug("Tutorial: " + articleElement.getDataParamShowStartTooltip());
 		showStartTooltip();
 	}
 

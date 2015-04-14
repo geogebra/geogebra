@@ -1465,7 +1465,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 *            otherwise.
 	 */
 	public static void showSymbolButtonIfExists(Object source, boolean show) {
-		App.debug(source.getClass().getName() + "," + show);
 		if (source instanceof HasSymbolPopup) {
 			((HasSymbolPopup) source).showPopup(show);
 		}

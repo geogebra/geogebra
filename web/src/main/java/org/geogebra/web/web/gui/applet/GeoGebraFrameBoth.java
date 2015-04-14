@@ -244,7 +244,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	@Override
 	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
-		App.debug(keyboardShowing + "");
 		if (app.getLAF().isTablet()
 		        || keyboardShowing // if keyboard is already
 		                           // showing, we don't have
