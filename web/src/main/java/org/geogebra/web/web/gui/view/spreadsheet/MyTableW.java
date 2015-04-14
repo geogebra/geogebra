@@ -2368,6 +2368,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
+	public boolean paste(String cont) {
+		return ((CopyPasteCutW)copyPasteCut).paste(getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow(), cont);
+	}
+
 	public boolean cut() {
 		return copyPasteCut.cut(getSelectedColumn(), getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow());

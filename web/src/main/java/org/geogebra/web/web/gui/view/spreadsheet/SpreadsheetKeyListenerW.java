@@ -10,6 +10,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -577,4 +578,21 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		});
 	}
 
+	public native void addPasteHandlerTo(Element elem) /*-{
+		var self = this;
+		elem.onpaste = function(event) {
+			if (event.clipboardData) {
+				var cbd = event.clipboardData;
+				var text = cbd.getData('text/plain');
+				self.@org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetKeyListenerW::onPaste(Ljava/lang/String;)(text);
+			}
+		}
+	}-*/;
+
+	public void onPaste(String text) {
+		boolean storeUndo = table.paste(text);
+		view.rowHeaderRevalidate();
+		if (storeUndo)
+			app.storeUndoInfo();
+	}
 }
