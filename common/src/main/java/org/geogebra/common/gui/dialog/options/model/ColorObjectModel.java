@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import java.awt.Color;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -34,7 +32,6 @@ public class ColorObjectModel extends OptionsModel {
 	private boolean hasImageGeo;
 	private IColorObjectListener listener;
 	private Kernel kernel;
-	private Color selectedColor;
 	private static App app;
 	public ColorObjectModel(App app, IColorObjectListener listener) {
 		this.listener = listener;
