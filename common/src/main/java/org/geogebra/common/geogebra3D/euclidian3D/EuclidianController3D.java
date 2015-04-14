@@ -3986,5 +3986,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected GeoVectorND createVectorForTranslation(String label) {
 		return ((AlgoDispatcher3D) getAlgoDispatcher()).Vector3D(label);
 	}
+	
+	@Override
+	protected int getModeForShallMoveView(){
+		return EuclidianConstants.MODE_ROTATEVIEW;
+	}
 
 }

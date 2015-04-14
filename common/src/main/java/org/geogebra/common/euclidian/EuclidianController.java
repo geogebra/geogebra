@@ -8640,7 +8640,7 @@ public abstract class EuclidianController {
 			if (hits.isEmpty() || !app.isPrerelease()) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
-				view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+				view.setMode(getModeForShallMoveView());
 			}
 			// if over an axis, force the correct cursor to be displayed
 			if (view.getHits().hasXAxis() || view.getHits().hasYAxis()) {
@@ -8649,6 +8649,10 @@ public abstract class EuclidianController {
 		}
 
 		switchModeForMousePressed(event);
+	}
+	
+	protected int getModeForShallMoveView(){
+		return EuclidianConstants.MODE_TRANSLATEVIEW;
 	}
 
 	private boolean shallMoveView(AbstractEvent event) {
