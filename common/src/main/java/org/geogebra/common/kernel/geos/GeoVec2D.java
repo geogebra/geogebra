@@ -1126,6 +1126,7 @@ final public class GeoVec2D extends ValidExpression implements
 				return Unicode.IMAGINARY;
 			}
 		}else if(mode == Kernel.COORD_COMPLEX){
+			initStringBuilder();
 			sbToString.setLength(0);
 			sbToString.append(tpl.leftBracket());
 			sbToString.append(kernel.format(x, tpl));
@@ -1135,7 +1136,7 @@ final public class GeoVec2D extends ValidExpression implements
 			sbToString.append(tpl.rightBracket());
 			return sbToString.toString();
 		}
-
+		initStringBuilder();
 		sbToString.setLength(0);
 		if (tpl.getStringType().equals(StringType.GIAC)) {
 			sbToString.append("point");			
@@ -1148,7 +1149,14 @@ final public class GeoVec2D extends ValidExpression implements
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
+	private StringBuilder sbToString;
+
+	private void initStringBuilder() {
+		if (sbToString == null) {
+			sbToString = new StringBuilder(50);
+		}
+		sbToString.setLength(0);
+	}
 
 	/**
 	 * interface VectorValue implementation
