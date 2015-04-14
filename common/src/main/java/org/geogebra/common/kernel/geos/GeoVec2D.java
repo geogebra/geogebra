@@ -1155,7 +1155,6 @@ final public class GeoVec2D extends ValidExpression implements
 		if (sbToString == null) {
 			sbToString = new StringBuilder(50);
 		}
-		sbToString.setLength(0);
 	}
 
 	/**
