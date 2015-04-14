@@ -5532,6 +5532,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    ###    END OF MANAGE TOOLS DIALOG    ###
    ######################################## */
 
+.popupSliderLabel,
 .ggbFavorite{
 	float:right;
 }

@@ -13,6 +13,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 
@@ -23,6 +25,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	private ButtonPopupMenu myPopup;
 	private PopupMenuHandler popupHandler;
 	private Slider mySlider;
+	private Label sliderLabel;
 	private SelectionTable myTable;
 	private boolean hasTable;
 	/** flag to determine if the popup should persist after a mouse click */
@@ -325,6 +328,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	public void onChange(ChangeEvent event) {
 		if(mySlider != null) {
 			   setSliderValue(mySlider.getValue());
+			   
 		}
 		if (changeEventHandler != null) {
 			changeEventHandler.fireActionPerformed(this);
@@ -351,14 +355,20 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	}
 	
 	private void initSlider() {
+		
 		mySlider = new Slider(0,100);
 		mySlider.setMajorTickSpacing(25);
 		mySlider.setMinorTickSpacing(5);
 		mySlider.setPaintTicks(false);
 		mySlider.setPaintLabels(false);
 		mySlider.addChangeHandler(this);
-
-		myPopup.getPanel().add(mySlider);
+		sliderLabel = new Label();
+		FlowPanel panel = new FlowPanel();
+		panel.add(mySlider);
+		panel.add(sliderLabel);
+		sliderLabel.addStyleName("popupSliderLabel");
+		panel.addStyleName("panelRow");
+		myPopup.getPanel().add(panel);
 	}
 	
 	/**
@@ -370,6 +380,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 			return;
 		}
 		mySlider.setValue(value);
+		sliderLabel.setText(value + "");
 		updateGUI();
 	}
 
