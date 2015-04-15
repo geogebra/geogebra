@@ -69,12 +69,6 @@ public class Heap<E> {
 		return true;
 	}
 
-	/**
-	 * å…¥ã‚Œæ›¿ã�ˆã‚‹
-	 * 
-	 * @param index1
-	 * @param index2
-	 */
 	private void swap(int index1, int index2) {
 		final E tmp = this.entries[index1];
 		this.entries[index1] = this.entries[index2];
@@ -83,12 +77,6 @@ public class Heap<E> {
 		this.table.put(this.entries[index2], index2);
 	}
 
-	/**
-	 * ãƒ’ãƒ¼ãƒ—ã�®å…ˆé ­ï¼ˆæ ¹ï¼‰ã�®è¦�
-	 * ç´ ã‚’å‰Šé™¤ã�—ã�¦å�–ã‚Šå‡ºã�™
-	 * 
-	 * @return ãƒ’ãƒ¼ãƒ—ã�®å…ˆé ­ã�®è¦�ç´ 
-	 */
 	public E poll() {
 		if (this.size == 0) {
 			return null;
@@ -107,22 +95,10 @@ public class Heap<E> {
 		return entry;
 	}
 
-	/**
-	 * å‰Šé™¤ã�›ã�šã�«ãƒ’ãƒ¼ãƒ—ã�®å…ˆé�
-	 * �­ï¼ˆæ ¹ï¼‰ã�®è¦�ç´ ã‚’å�–ã‚Šå‡
-	 * ºã�™
-	 * 
-	 * @return ãƒ’ãƒ¼ãƒ—ã�®å…ˆé ­ã�®è¦�ç´ 
-	 */
 	public E peek() {
 		return this.entries[1];
 	}
 
-	/**
-	 * @param key
-	 *            ç¢ºèª�ã�™ã‚‹ key
-	 * @return keyã�Œå�«ã�¾ã‚Œã�¦ã�„ã‚Œã�° true
-	 */
 	public boolean containsKey(Object key) {
 		return this.table.containsKey(key);
 	}
@@ -170,11 +146,6 @@ public class Heap<E> {
 		}
 	}
 
-	/**
-	 * è¦ªã�¨ã�®çŠ¶æ…‹ã‚’ç¢ºèª�
-	 * 
-	 * @param index
-	 */
 	@SuppressWarnings("unchecked")
 	private void fixUp(int index) {
 		int parent;
@@ -199,24 +170,10 @@ public class Heap<E> {
 		}
 	}
 
-	/**
-	 * ãƒ’ãƒ¼ãƒ—ã�Œç©ºã�§ã�ªã�„ã�‹ç¢ºã�
-	 * �‹ã‚�ã‚‹ã€‚
-	 * 
-	 * @return 
-	 *         ãƒ’ãƒ¼ãƒ—ã�«è¦�ç´ ã�Œã�ªã�‘ã‚�
-	 *         �ã�°true
-	 */
 	public boolean isEmpty() {
 		return this.size == 0;
 	}
 
-	/**
-	 * é…�åˆ—ã�®ã‚µã‚¤ã‚ºã‚’æ‹¡å¼µã��
-	 * �ã‚‹
-	 * 
-	 * @param index
-	 */
 	@SuppressWarnings("unchecked")
 	private void grow(int index) {
 		int newLength = this.entries.length;
