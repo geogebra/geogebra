@@ -385,7 +385,7 @@ public abstract class EuclidianStatic {
 		if (frc != null)
 			return AwtFactory.prototype.newTextLayout(tempStr, font, frc)
 					.getAdvance();
-		return StringUtil.estimateLength(tempStr, font);
+		return StringUtil.prototype.estimateLength(tempStr, font);
 	}
 
 	/**

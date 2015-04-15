@@ -299,9 +299,9 @@ public abstract class Drawable extends DrawableND {
 				// if we use name = value, this may still be called pretty
 				// often.
 				// Hence use heuristic here instead of measurement
-				heightEstimate = (int) (StringUtil.estimateHeight(labelDesc,
+				heightEstimate = (int) (StringUtil.prototype.estimateHeight(labelDesc,
 						font) * Ymultiplier);
-				widthEstimate = (int) (StringUtil.estimateLengthHTML(labelDesc,
+				widthEstimate = (int) (StringUtil.prototype.estimateLengthHTML(labelDesc,
 						font) * Xmultiplier);
 			}
 		}

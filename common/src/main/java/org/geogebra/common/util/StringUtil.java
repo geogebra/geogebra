@@ -1087,7 +1087,7 @@ public class StringUtil {
 	 *            label, may contain bold, italic, indices
 	 * @return ratio of estimated string length and font size
 	 */
-	public static double estimateLengthHTML(String label, GFont font) {
+	public double estimateLengthHTML(String label, GFont font) {
 		String str = label;
 		boolean bold = false;
 		if (str.startsWith("<i>") && str.endsWith("</i>")) {
@@ -1103,7 +1103,7 @@ public class StringUtil {
 		return estimateLength(label, bold ? font.deriveFont(GFont.BOLD) : font);
 	}
 
-	public static double estimateLength(String label, GFont font) {
+	public double estimateLength(String label, GFont font) {
 		String str = label;
 		boolean bold = font.isBold();
 		double visibleChars = 0;
@@ -1127,7 +1127,7 @@ public class StringUtil {
 				* font.getSize();
 	}
 
-	public static double estimateHeight(String string, GFont font) {
+	public double estimateHeight(String string, GFont font) {
 		if (font == null) {
 			return 0;
 		}

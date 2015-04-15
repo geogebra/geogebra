@@ -5221,17 +5221,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private static double estimateNumberHeight(GFont fontAxes2) {
-		return StringUtil.estimateHeight("", fontAxes2);
+		return StringUtil.prototype.estimateHeight("", fontAxes2);
 	}
 
 	private double estimateNumberWidth(double d, GFont fontAxes2) {
 		String s = kernel.formatPiE(d, axesNumberFormat[0],
 				StringTemplate.defaultTemplate);
-		return StringUtil.estimateLength(s, fontAxes2);
+		return StringUtil.prototype.estimateLength(s, fontAxes2);
 	}
 
 	private static double estimateTextWidth(String s, GFont fontAxes2) {
-		return StringUtil.estimateLength(s, fontAxes2);
+		return StringUtil.prototype.estimateLength(s, fontAxes2);
 	}
 
 	public int getSliderOffsetY() {
