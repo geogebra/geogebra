@@ -9752,13 +9752,6 @@ public abstract class EuclidianController {
 	}
 
 	public void zoomInOut(double factor, int steps) {
-		boolean allowZoom = !app.isApplet()
-				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
-				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| app.isShiftDragZoomEnabled();
-		if (!allowZoom) {
-			return;
-		}
 		double px, py;
 		if (mouseLoc != null) {
 			px = mouseLoc.x;
@@ -9767,15 +9760,29 @@ public abstract class EuclidianController {
 			px = view.getWidth() / 2;
 			py = view.getHeight() / 2;
 		}
+		zoomInOut(factor, steps, px, py);
+	}
+
+	public void zoomInOut(double factor, int steps, double px, double py) {
+		if (!allowZoom()) {
+			return;
+		}
 		// make zooming a little bit smoother by having some steps
 		view.setAnimatedCoordSystem(
-		// px + dx * factor,
-		// py + dy * factor,
+				// px + dx * factor,
+				// py + dy * factor,
 				px, py, factor, view.getXscale() * factor, steps, false);
 		// view.yscale * factor);
 		app.setUnsaved();
-
 	}
+
+	public boolean allowZoom() {
+		return !app.isApplet()
+				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
+				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
+				|| app.isShiftDragZoomEnabled();
+	}
+
 
 	public App getApplication() {
 		return app;
