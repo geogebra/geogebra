@@ -35,7 +35,6 @@ public abstract class ValidExpression implements ExpressionValue {
 
 	private Vector<String> labels;
 	private boolean inTree; // used by ExpressionNode
-	private boolean keepInputUsed; // flag used by GeoGebraCAS
 	
 
 	/**
