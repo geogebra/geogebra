@@ -22,6 +22,7 @@ ext.joglver = '2.2.0'
 ext.javagiacver = '201503271100'
 
 ext.ggver = getGeogebraVersion()
+ext.ggrev = getGeogebraRevision()
 
 def getGeogebraVersion() {
     def version = "undef"
@@ -34,6 +35,22 @@ def getGeogebraVersion() {
         }
     return version
     }
+
+def getGeogebraRevision() {
+// This may not run under Windows. TODO: Check and fix it.
+    def rev = "undef"
+    new ByteArrayOutputStream().withStream { os ->
+        def result = exec {
+            executable = 'svn'
+            args = ['info']
+            standardOutput = os
+            }
+        def outputAsString = os.toString()
+        def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
+        rev = matchLastChangedRev[0][1]
+        }
+    return rev
+}
 
 task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
