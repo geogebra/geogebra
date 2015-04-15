@@ -61,12 +61,6 @@ public class OrOpt implements TspImprovement {
 		return false;
 	}
 	
-	/**
-	 * æŒ‡å®šã�—ã�Ÿã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é–“ã�®è¦�ç´ ã‚’é€†é †ã�«ä¸¦ã�¹æ›¿ã�ˆã�¾ã�™ã€‚
-	 * @param route ãƒªã‚¹ãƒˆ 
-	 * @param s ä¸¦ã�¹æ›¿ã�ˆã‚‹è¦�ç´ ã�®æœ€å°�ã�®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 * @param t ä¸¦ã�¹æ›¿ã�ˆã‚‹è¦�ç´ ã�®æœ€å¤§ã�®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 */
 	public void reverse(List<Node> route, int s, int t) {
 		int length = route.size();
 		for (int i = (t - s) / 2; i >= 0; i--) {

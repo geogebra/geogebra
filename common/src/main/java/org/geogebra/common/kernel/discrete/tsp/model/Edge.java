@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.discrete.tsp.model;
 
 /**
- * ç„¡å�‘ã‚°ãƒ©ãƒ•ã�«ã�Šã�‘ã‚‹ãƒ«ãƒ¼ãƒˆ
  * @author Masayasu Fujiwara
  */
 public class Edge {
@@ -32,11 +31,6 @@ public class Edge {
 		return false;
 	}
 
-	/**
-	 * 2é ‚ç‚¹é–“ã�®è·�é›¢ã‚’è¨ˆç®—ã�—ã�¾ã�™ã€‚
-	 * å€¤ã�¯ä¿�æŒ�ã�›ã�šã€�å‘¼ã�³å‡ºã�™åº¦ã�«å†�è¨ˆç®—ã�—ã�¾ã�™ã€‚
-	 * @return 2é ‚ç‚¹é–“ã�®ãƒ¦ãƒ¼ã‚¯ãƒªãƒƒãƒ‰è·�é›¢
-	 */
 	public double getDistance() {
 		double dx = this.start.getX() - this.end.getX();
 		double dy = this.start.getY() - this.end.getY();

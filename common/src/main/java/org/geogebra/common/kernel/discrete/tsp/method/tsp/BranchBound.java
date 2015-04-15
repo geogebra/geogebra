@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.discrete.tsp.method.tsp;
 import org.geogebra.common.kernel.discrete.tsp.model.Node;
 import org.geogebra.common.kernel.discrete.tsp.util.Heap;
 import org.geogebra.common.kernel.discrete.tsp.util.IntegerSet;
+import org.geogebra.common.util.Unicode;
 
 public class BranchBound {
 
@@ -424,9 +425,9 @@ public class BranchBound {
 	@Override
 	public String toString() {
 		if (this.opt != null) {
-			return "Branch and Bound - " + this.opt + " Ã— " + this.limit;
+			return "Branch and Bound - " + this.opt + " " + Unicode.multiply + " " + this.limit;
 		} else {
-			return "Branch and Bound Ã— " + this.limit;
+			return "Branch and Bound " + Unicode.multiply + " " + this.limit;
 		}
 	}
 

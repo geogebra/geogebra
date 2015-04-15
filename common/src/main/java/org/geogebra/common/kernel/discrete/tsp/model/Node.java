@@ -21,11 +21,6 @@ public class Node {
 		return false;
 	}
 	
-	/**
-	 * é ‚ç‚¹é–“ã�®ç›´ç·šè·�é›¢ã‚’è¨ˆç®—ã�—ã�¾ã�™ã€‚
-	 * @param node è·�é›¢ã‚’è¨ˆç®—ã�™ã‚‹é ‚ç‚¹
-	 * @return é ‚ç‚¹é–“ã�®ç›´ç·šè·�é›¢
-	 */
 	public double getDistance(Node node) {
 		double dx = this.x - node.x;
 		double dy = this.y - node.y;
