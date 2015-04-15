@@ -270,7 +270,6 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
-		App.debug("hhhhasFooocussss");
 		return false;
 	}
 
@@ -336,6 +335,11 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 		OptionsObjectW panel = getObjectPanel();
 		if (panel != null) {
 			panel.updateGUI();
+			if (optionType == OptionType.OBJECTS) {
+				if (!panel.getWrappedPanel().isVisible()) {
+					setOptionPanel(OptionType.EUCLIDIAN);
+				}
+			}
 		}
 
 		//		   if (optionType == OptionType.OBJECTS)  {

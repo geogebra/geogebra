@@ -85,6 +85,7 @@ import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
@@ -109,6 +110,7 @@ import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.web.gui.properties.IOptionPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
+import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
 import org.geogebra.web.web.gui.util.ColorChooserW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
@@ -3565,8 +3567,8 @@ org.geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				{			
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
-				updateGUI();
-
+	//			updateGUI();
+				((PropertiesViewW)app.getGuiManager().getPropertiesView()).updatePropertiesView();
 			}
 				});
 		tabPanel.setStyleName("propertiesTabPanel");
@@ -3841,9 +3843,8 @@ Arrays.asList(coordsPanel,
 
 			
 		} else {
-			;
 			wrappedPanel.setVisible(false);
-			App.debug("No geos");
+
 		}
 
 
