@@ -1012,7 +1012,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				node = (ExpressionNode) node.wrap().getCopy(kernel)
 						.traverse(fex);
 				String result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
-						node, null, StringTemplate.numericNoLocal, kernel);
+						node, null, StringTemplate.numericNoLocal, AssignmentType.DEFAULT, kernel);
 				boolean mode = kernel.isSilentMode();
 				kernel.setSilentMode(true);
 				GeoElement geo = kernel.getAlgebraProcessor()

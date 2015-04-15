@@ -36,22 +36,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	private Vector<String> labels;
 	private boolean inTree; // used by ExpressionNode
 	private boolean keepInputUsed; // flag used by GeoGebraCAS
-	private AssignmentType assignmentType = AssignmentType.NONE;
-
-	/**
-	 * @param assignmentType
-	 *            the {@link AssignmentType} to set
-	 */
-	public void setAssignmentType(AssignmentType assignmentType) {
-		this.assignmentType = assignmentType;
-	}
-
-	/**
-	 * @return the current {@link AssignmentType}
-	 */
-	public AssignmentType getAssignmentType() {
-		return assignmentType;
-	}
+	
 
 	/**
 	 * @param label
@@ -191,7 +176,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	 *            String template
 	 * @return assignment in the form L:=R
 	 */
-	public String toAssignmentString(StringTemplate tpl) {
+	public String toAssignmentString(StringTemplate tpl, AssignmentType assignmentType) {
 		if (labels == null) {
 			return toString(tpl);
 		}
@@ -222,7 +207,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	 *            string template
 	 * @return assignment in LaTeX
 	 */
-	public final String toAssignmentLaTeXString(StringTemplate tpl) {
+	public final String toAssignmentLaTeXString(StringTemplate tpl, AssignmentType assignmentType) {
 		if (labels == null) {
 			return toLaTeXString(true, tpl);
 		}

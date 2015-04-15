@@ -732,7 +732,7 @@ public class CASInputHandler {
 			}
 		}
 		if (ve != null
-				&& !ve.getAssignmentType().equals(AssignmentType.DELAYED)) {
+				&& !cell.getAssignmentType().equals(AssignmentType.DELAYED)) {
 			if (cell.showOutput()
 					&& !cell.isError()
 					&& (isPlottable || !ve.unwrap().inspect(

@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
@@ -322,7 +323,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		if (fitter.formalSolution.length() > 0
 				&& Kernel.isEqual(ve.evaluateDouble(), num)) {
 			sb.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve, null,
-					tpl, kernel));
+					tpl, AssignmentType.DEFAULT, kernel));
 			return;
 		}
 
@@ -437,7 +438,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		if (fitter0.formalSolution.length() > 0
 				&& Kernel.isEqual(ve0.evaluateDouble(), y)) {
 			sb1.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,
-					tpl, kernel));
+					tpl,AssignmentType.DEFAULT, kernel));
 
 			// t2 = System.currentTimeMillis();
 			// System.out.println("time of ve to CAS: " + (t2-t1));
@@ -455,7 +456,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					.getGeoGebraCAS()
 					.getCASparser()
 					.parseGeoGebraCASInputAndResolveDummyVars(sb.toString(),
-							getKernel());
+							getKernel(),null);
 		}
 		return null;
 	}

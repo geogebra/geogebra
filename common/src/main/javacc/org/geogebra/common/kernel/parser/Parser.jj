@@ -122,11 +122,11 @@ public class Parser implements ParserInterface{
      /**
      * Parses a String and returns a ValidExpression Object     
      */
-    public ValidExpression parseGeoGebraCAS(String parseString) throws ParseException {           
+    public ValidExpression parseGeoGebraCAS(String parseString, GeoCasCell cell) throws ParseException {           
         myReInit( parseString );
         // parse x^2 + y^2 as an expression and don't throw Incomplete Equation error
         GeoGebraCASParsing = true;                        
-        ValidExpression ret = buildCASExpression();
+        ValidExpression ret = buildCASExpression(cell);
         return ret;     
     }
     
@@ -509,7 +509,7 @@ ValidExpression buildValidExpression() :
 /**
  *  parse GeoGebra CAS input
  */
-ValidExpression buildCASExpression() : 
+ValidExpression buildCASExpression(GeoCasCell cell) : 
 {
     ValidExpression ve;
     ExpressionNode lhs, rhs;
@@ -524,7 +524,7 @@ ValidExpression buildCASExpression() :
        // f(a) := a^2 + 3a
      (
         LOOKAHEAD(2147483647)   
-        ve = casFunction()
+        ve = casFunction(cell)
     |     
 /*       // h: X = (3,2) + t (5,a)
  *      LOOKAHEAD(2147483647) 
@@ -574,7 +574,9 @@ ValidExpression buildCASExpression() :
     return cmd;
           }           
           ve.addLabel(l.image);
-          ve.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+          if(cell != null){
+          	cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+          }
        }                          
         return ve;
     }    
@@ -594,7 +596,7 @@ ValidExpression buildMathPiperExpression() :
 {         
     (     
     // try to parse MathPiper string as standard GeoGebra expression 
-      ve = buildCASExpression()                 
+      ve = buildCASExpression(null)                 
   )                     
     ( <POLAR_SEPARATOR> | <EOF> )     
     {                                  
@@ -615,7 +617,7 @@ private ValidExpression buildGiacExpression() :
 {         
     (     
     // try to parse Giac string as standard GeoGebra expression 
-      ve = buildCASExpression()                 
+      ve = buildCASExpression(null)                 
   )                     
     ( <POLAR_SEPARATOR> | <EOF> )     
     {                                  
@@ -635,7 +637,7 @@ ValidExpression buildMaximaExpression() :
 {         
     (
       // try to parse Maxima string as standard GeoGebra expression 
-      ve = buildCASExpression() 
+      ve = buildCASExpression(null) 
   )                     
     ( <POLAR_SEPARATOR> | <EOF> )     
     {                                  
@@ -976,7 +978,7 @@ ExpressionNode functionExpressionnode():
 /**
  * CAS function =   label(var) := expressionnode 
  */
-FunctionNVar casFunction():          
+FunctionNVar casFunction(GeoCasCell cell):          
 {
     ExpressionNode rhs;
     Token funName = null;
@@ -1018,13 +1020,17 @@ FunctionNVar casFunction():
             case 1: // single variable function          
         Function fun = new Function(rhs, funVar[0]);
         fun.setLabel(funLabel);
-        fun.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+        if(cell != null){
+          	cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+        }
         return fun;
 
              default: // multi variable function
              FunctionNVar funn = new FunctionNVar(rhs, funVar);
         funn.setLabel(funLabel);
-        funn.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+        if(cell != null){
+          	cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+        }
         return funn;
           }
       }   

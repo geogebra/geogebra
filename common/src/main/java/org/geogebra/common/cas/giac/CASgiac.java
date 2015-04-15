@@ -174,7 +174,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	final public synchronized String evaluateGeoGebraCAS(
 			final ValidExpression inputExpression,
-			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
+			MyArbitraryConstant arbconst, StringTemplate tpl, AssignmentType assignmentType, Kernel kernel)
 			throws CASException {
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
@@ -196,7 +196,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (casInput instanceof FunctionNVar) {
 			// delayed function definition f(x)::= Derivative[x^2] should return
 			// Derivative[x^2]
-			if (casInput.getAssignmentType() == AssignmentType.DELAYED) {
+			if (assignmentType == AssignmentType.DELAYED) {
 				return casInput.toString(StringTemplate.numericNoLocal);
 			}
 			// function definition f(x) := x^2 should return x^2

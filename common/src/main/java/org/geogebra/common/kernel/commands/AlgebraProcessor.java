@@ -1486,9 +1486,9 @@ public class AlgebraProcessor {
 							// GeoElements from parsing
 							ValidExpression vexp = (ValidExpression) ve
 									.unwrap();
-							vexp.setAssignmentType(AssignmentType.DEFAULT);
+							cell.setAssignmentType(AssignmentType.DEFAULT);
 							cell.setInput(vexp
-									.toAssignmentString(StringTemplate.defaultTemplate));
+									.toAssignmentString(StringTemplate.defaultTemplate, cell.getAssignmentType()));
 							processCasCell(cell, false);
 						} else {
 							cons.replace(replaceable, newGeo);

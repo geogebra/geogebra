@@ -3,6 +3,7 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.Set;
 
+import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -110,8 +111,10 @@ public interface GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression exp,
-			MyArbitraryConstant arbConst, StringTemplate tpl, Kernel kernel)
+			MyArbitraryConstant arbConst, StringTemplate tpl, AssignmentType assignmentType, Kernel kernel)
 			throws CASException;
+	
+	
 
 	/**
 	 * Returns the CAS command for the currently set CAS using the given key and

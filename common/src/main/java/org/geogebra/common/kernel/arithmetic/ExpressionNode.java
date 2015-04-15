@@ -5545,5 +5545,8 @@ kernel, left,
 			return leftVars;
 		}
 	}
-
+	
+	public ExpressionNode expand(){
+		return this;
+	}
 }

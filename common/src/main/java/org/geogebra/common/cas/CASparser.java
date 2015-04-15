@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionReplacer;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -63,11 +64,11 @@ public class CASparser implements CASParserInterface {
 		this.parserFunctions = pf;
 	}
 
-	public ValidExpression parseGeoGebraCASInput(final String exp)
+	public ValidExpression parseGeoGebraCASInput(final String exp, GeoCasCell cell)
 			throws CASException {
 		CASException c;
 		try {
-			return parser.parseGeoGebraCAS(exp);
+			return parser.parseGeoGebraCAS(exp, cell);
 		} catch (ParseException e) {
 			c = new CASException(e);
 			c.setKey("InvalidInput");
@@ -80,13 +81,13 @@ public class CASparser implements CASParserInterface {
 	}
 
 	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(
-			final String inValue, Kernel kernel) throws CASException {
+			final String inValue, Kernel kernel, GeoCasCell cell) throws CASException {
 		if (inValue == null || inValue.length() == 0)
 			return null;
 
 		try {
 			// parse input into valid expression
-			ValidExpression ve = parseGeoGebraCASInput(inValue);
+			ValidExpression ve = parseGeoGebraCASInput(inValue, cell);
 
 			// resolve Variable objects in ValidExpression as GeoDummy objects
 			resolveVariablesForCAS(ve, kernel);
