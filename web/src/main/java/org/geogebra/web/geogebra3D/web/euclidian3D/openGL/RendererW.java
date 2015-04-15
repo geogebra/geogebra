@@ -316,7 +316,6 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		disableTextures();
 
 		setModelViewIdentity();
-		enableTexturesForText();
 
 		super.draw();
 
@@ -566,8 +565,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	@Override
 	protected void unsetMatrixView() {
-		// TODO Auto-generated method stub
-
+		setModelViewIdentity();
 	}
 
 	@Override
@@ -1371,7 +1369,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	 * enable text textures
 	 */
 	final public void enableTexturesForText() {
-		enableTextures();
+		super.enableTexturesForText();
 		setCurrentTextureType(TEXTURE_TYPE_TEXT);
 	}
 

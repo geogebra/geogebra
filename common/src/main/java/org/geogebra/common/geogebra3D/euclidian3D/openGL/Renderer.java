@@ -525,7 +525,7 @@ public abstract class Renderer {
 		disableLighting();
 		enableBlending();
 
-		enableTextures();
+		enableTexturesForText();
 		drawable3DLists.drawLabel(this);
 		drawable3DLists.drawNotAbsoluteText(this);
 
@@ -554,7 +554,7 @@ public abstract class Renderer {
 		disableLighting();
 		enableBlending();
 
-		enableTextures();
+		enableTexturesForText();
 		
 		drawable3DLists.drawAbsoluteText(this);
 
@@ -776,6 +776,7 @@ public abstract class Renderer {
 		if (enableClipPlanes) {
 			disableClipPlanes();
 		}
+		enableTexturesForText();
 		drawFaceToScreenEnd();
 		
 
@@ -1925,6 +1926,13 @@ public abstract class Renderer {
 	 * enable fading (e.g. for planes)
 	 */
 	abstract public void enableFading();
+	
+	/**
+	 * enable text textures
+	 */
+	public void enableTexturesForText() {
+		enableTextures();
+	}
 
 	/**
 	 * enable fading (e.g. for planes)

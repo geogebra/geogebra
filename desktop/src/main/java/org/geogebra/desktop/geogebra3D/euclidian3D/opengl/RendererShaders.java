@@ -507,7 +507,6 @@ public class RendererShaders extends RendererD implements
 		disableTextures();
 
 		setModelViewIdentity();
-		enableTexturesForText();
 
 		super.draw();
 	}
@@ -719,8 +718,7 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	protected void unsetMatrixView() {
-		// TODO Auto-generated method stub
-
+		setModelViewIdentity();
 	}
 
 	@Override
@@ -1072,7 +1070,7 @@ public class RendererShaders extends RendererD implements
 	 * enable text textures
 	 */
 	final public void enableTexturesForText() {
-		enableTextures();
+		super.enableTexturesForText();
 		setCurrentTextureType(TEXTURE_TYPE_TEXT);
 	}
 
