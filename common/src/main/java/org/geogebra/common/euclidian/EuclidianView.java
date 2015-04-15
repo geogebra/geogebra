@@ -3409,8 +3409,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 						getFontLine().deriveFont(axesLabelsStyle[0]), frc);
 				layout.draw(
 						g2,
-						(int) (getWidth() - 10 - estimateTextWidth(
-								axesLabels[0], getFontAxes())),
+						(int) (getWidth() - 10 - layout.getAdvance()),
 						(int) (yCrossPix - 4));
 			}
 
@@ -3696,8 +3695,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 								sb.append(axesUnitLabels[1]);
 							}
 
-							double width = estimateTextWidth(sb.toString(),
-									getFontAxes());
+							GTextLayout layout = AwtFactory.prototype.newTextLayout(sb.toString(),
+									getFontAxes(), g2.getFontRenderContext());
+
+							double width = layout.getAdvance();
 
 							int x = (int) ((xCrossPix + xoffset) - width);
 							int y;
