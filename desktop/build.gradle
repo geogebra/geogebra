@@ -2,13 +2,6 @@ project.setDescription('Parts of GeoGebra related to desktop platforms')
 
 apply plugin: 'application'
 
-if (file('deploy.gradle').exists()) {
-    apply from: file('deploy.gradle')
-    }
-else {
-    ext.deploy_deps = []
-    }
-
 repositories {
     maven {
         url 'http://dev.geogebra.org/maven2'
@@ -43,8 +36,7 @@ List ext = [
 
 
 dependencies {
-	compile project(':common'), project(':jogl2'), project(':input3D:stub'), project(':giac-jni'), jlatexmath, ext, files(jfxrtLocation),
-            deploy_deps
+	compile project(':common'), project(':jogl2'), project(':input3D:stub'), project(':giac-jni'), jlatexmath, ext, files(jfxrtLocation)
 
 	runtime "com.jogamp:jogl-all:$joglver:natives-linux-amd64",
             "com.jogamp:jogl-all:$joglver:natives-windows-i586",
@@ -84,4 +76,7 @@ run {
 		}
 	}
 
-
+if (file('deploy.gradle').exists()) {
+    apply from: file('deploy.gradle')
+    }
+
