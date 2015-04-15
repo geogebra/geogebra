@@ -119,3 +119,9 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 		'-war', file(warDirRel),
 		devModule
 }
+
+// https://issues.gradle.org/browse/GRADLE-2778
+// http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
+javadoc {
+        options.addStringOption("sourcepath", "")
+    }
