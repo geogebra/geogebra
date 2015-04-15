@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
@@ -353,10 +354,23 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 						table.copy(altDown);
 					} else if (keyCode == GWTKeycodes.KEY_V) {
 						// KeyEvent.VK_V) {
+
+						// nooo! this cannot get what should be
+						// pasted well! so using the "paste"
+						// event instead, addPasteHandlerTo!
+
+						// sadly, this is needed in Internet Explorer!
+						// workaround comes later... Browser.isIE is wrong!
 						boolean storeUndo = table.paste();
 						view.rowHeaderRevalidate();
 						if (storeUndo)
 							app.storeUndoInfo();
+
+						// but still, CTRL+V should survive the
+						// keypress event in order to properly
+						// send a paste event in Firefox!
+						// workaround could come here, but we
+						// can also detect CTRL+v at keypress
 					} else if (keyCode == GWTKeycodes.KEY_X) {
 						// KeyEvent.VK_X) {
 						boolean storeUndo = table.cut();
@@ -534,7 +548,17 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 		// make sure e.g. SHIFT+ doesn't trigger default browser action
 		e.stopPropagation();
-		e.preventDefault();
+
+		// prevent default action in all cases here except CTRL+V
+		// but how to detect CTRL+V? Just detect "V" and "v", and
+		// check e.ctrlKeyDown! This is only needed in Firefox, to
+		// properly trigger the "paste" event... in other browsers
+		// we could call preventDefault unconditionally (paste OK)
+		if (!e.isControlKeyDown()) {
+			e.preventDefault();
+		} else if (e.getCharCode() != 86 && e.getCharCode() != 118) {
+			e.preventDefault();
+		}
 
 		// pass the event on to the cell editor if editing
 		if (table.isEditing) {
