@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -182,6 +183,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	String keyboardLocale = "";
 	private KeyBoardButtonFunctional shiftButton;
 	private KeyBoardButton backspaceButton;
+	private Localization loc;
 
 	/**
 	 * creates a keyboard instance
@@ -318,6 +320,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	private OnScreenKeyBoard(AppW appW) {
 		super(true);
 		this.app = appW;
+		this.loc = app.getLocalization();
 		addStyleName("KeyBoard");
 		createKeyBoard();
 		if (this.app.isPrerelease()) {
@@ -455,9 +458,9 @@ public class OnScreenKeyBoard extends PopupPanel {
 
 		// fill next row
 		index++;
-		addButton("sin", index, functions);
-		addButton("cos", index, functions);
-		addButton("tan", index, functions);
+		addButton(loc.getPlain("Function.sin"), index, functions);
+		addButton(loc.getPlain("Function.cos"), index, functions);
+		addButton(loc.getPlain("Function.tan"), index, functions);
 		addButton("e^x", KeyboardConstants.EULER + "^", index, functions)
 		        .addStyleName("supScript");
 		addButton("|x|", "abs", index, functions);
@@ -594,15 +597,15 @@ public class OnScreenKeyBoard extends PopupPanel {
 
 		// fill second row
 		index++;
-		addButton("sinh", index, functions);
-		addButton("cosh", index, functions);
-		addButton("tanh", index, functions);
+		addButton(loc.getPlain("Function.sinh"), "sinh", index, functions);
+		addButton(loc.getPlain("Function.cosh"), "cosh", index, functions);
+		addButton(loc.getPlain("Function.tanh"), "tanh", index, functions);
 
 		// fill third row
 		index++;
-		addButton("arcsin", index, functions);
-		addButton("arccos", index, functions);
-		addButton("arctan", index, functions);
+		addButton(loc.getPlain("Function.sin") + "^-1", "arcsin", index, functions);
+		addButton(loc.getPlain("Function.cos") + "^-1", "arccos", index, functions);
+		addButton(loc.getPlain("Function.tan") + "^-1", "arctan", index, functions);
 
 		// fill forth row
 		index++;
