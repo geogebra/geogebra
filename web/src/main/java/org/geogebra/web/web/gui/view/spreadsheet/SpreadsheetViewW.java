@@ -15,6 +15,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.web.html5.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
@@ -23,6 +24,8 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Touch;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -30,6 +33,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.Widget;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
 
@@ -53,7 +57,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// TODO: should traceDialog belong to the SpreadsheetTraceManager?
 	// private TraceDialog traceDialog;
 
-	protected FocusPanel spreadsheetWrapper;
+	protected AdvancedFocusPanel spreadsheetWrapper;
 	private int defaultDividerLocation = 150;
 	private SpreadsheetStyleBarW styleBar;
 
@@ -132,11 +136,11 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// Build the spreadsheet table and enclosing scrollpane
 		buildSpreadsheet();
 
-		spreadsheetWrapper = new FocusPanel(spreadsheet);
+		spreadsheetWrapper = new AdvancedFocusPanel(spreadsheet);
 		SpreadsheetKeyListenerW sskl = new SpreadsheetKeyListenerW(app, table);
-		spreadsheetWrapper.addKeyDownHandler(sskl);
-		spreadsheetWrapper.addKeyPressHandler(sskl);
-		sskl.addPasteHandlerTo(spreadsheetWrapper.getElement());
+		spreadsheetWrapper.addDomHandler(sskl, KeyDownEvent.getType());
+		spreadsheetWrapper.addDomHandler(sskl, KeyPressEvent.getType());
+		sskl.addPasteHandlerTo(spreadsheetWrapper.getTextarea());
 	}
 
 	private void buildSpreadsheet() {
@@ -1162,7 +1166,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	};
 
-	public FocusPanel getFocusPanel() {
+	public Widget getFocusPanel() {
 		return spreadsheetWrapper;
 	}
 

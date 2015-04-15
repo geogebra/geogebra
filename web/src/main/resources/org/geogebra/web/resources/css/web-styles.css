@@ -95,6 +95,23 @@
 	direction: ltr;
 }
 
+.AdvancedFocusPanelsTextarea {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1px;
+	height: 1px;
+	z-index: -32000;
+
+	/* almost good, but caret is still visible in IE */
+	/* so we shall use things from MathQuillGGB */
+	clip: rect(1em 1em 1em 1em);
+
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
+}
+
 /*hack for toolbar submenu, that is isn't hidden by 
  dockpanel standard div styling (overflow:hidden) */
 .ggbdockpanelhack>div {

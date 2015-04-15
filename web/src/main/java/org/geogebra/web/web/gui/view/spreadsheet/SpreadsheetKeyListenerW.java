@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
