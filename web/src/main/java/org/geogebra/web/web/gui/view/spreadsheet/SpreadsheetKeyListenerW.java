@@ -359,12 +359,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 						// pasted well! so using the "paste"
 						// event instead, addPasteHandlerTo!
 
-						// sadly, this is needed in Internet Explorer!
-						// workaround comes later... Browser.isIE is wrong!
-						boolean storeUndo = table.paste();
-						view.rowHeaderRevalidate();
-						if (storeUndo)
-							app.storeUndoInfo();
+						//boolean storeUndo = table.paste();
+						//view.rowHeaderRevalidate();
+						//if (storeUndo)
+						//	app.storeUndoInfo();
 
 						// but still, CTRL+V should survive the
 						// keypress event in order to properly
@@ -606,9 +604,24 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 	public native void addPasteHandlerTo(Element elem) /*-{
 		var self = this;
 		elem.onpaste = function(event) {
-			if (event.clipboardData) {
-				var cbd = event.clipboardData;
-				var text = cbd.getData('text/plain');
+			var text, cbd;
+			if ($wnd.clipboardData) {
+				// Windows Internet Explorer
+				cbd = $wnd.clipboardData;
+				if (cbd.getData) {
+					text = cbd.getData('Text');
+				}
+			}
+			if (text === undefined) {
+				// all the other browsers
+				if (event.clipboardData) {
+					cbd = event.clipboardData;
+					if (cbd.getData) {
+						text = cbd.getData('text/plain');
+					}
+				}
+			}
+			if (text !== undefined) {
 				self.@org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetKeyListenerW::onPaste(Ljava/lang/String;)(text);
 			}
 		}
