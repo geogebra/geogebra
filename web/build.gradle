@@ -73,14 +73,14 @@ configurations.all {
 def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 
-task deployIntoWar(type: Copy) {
-	description 'Copies the GWT production compilation directory (web3d) to the war directory.'
+task deployIntoWar(type: Sync) {
+	description 'Copies/updates the GWT production compilation directory (web3d) to the war directory.'
 	from compileGwt
 	into warDirRel
 }
 
-task draftDeployIntoWar(type: Copy) {
-	description 'Copies the GWT draft compilation directory (web3d) to the war directory.'
+task draftDeployIntoWar(type: Sync) {
+	description 'Copies/updates the GWT draft compilation directory (web3d) to the war directory.'
 	from draftCompileGwt
 	into warDirRel
 }
