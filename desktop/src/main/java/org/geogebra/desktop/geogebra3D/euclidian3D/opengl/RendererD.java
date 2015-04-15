@@ -621,7 +621,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	@Override
 	protected void selectFBO(){
 		
-		if (fboID == -1){
+		if (fboID < 0){
 			fboScale = 1f;
 			view3D.setFontScale(1);
 			return;
@@ -643,7 +643,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	@Override
 	protected void unselectFBO(){
 		
-		if (fboID == -1){
+		if (fboID < 0){
 			return;
 		}
 		
@@ -727,6 +727,12 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 					GLlocal.GL_DEPTH_ATTACHMENT,GLlocal.GL_RENDERBUFFER,fboDepthTextureID);
 
 			jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
+			
+			// check if frame buffer is complete
+			if(jogl.getGL2().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) != GLlocal.GL_FRAMEBUFFER_COMPLETE){
+				App.error("Frame buffer is not complete");
+				fboID = -1;
+			}
 		}catch(Exception e){
 			App.error(e.getMessage());
 			fboID = -1;
@@ -752,7 +758,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		
 		bi = null;
 		try{
-			if (fboID == -1){ // use screen buffer
+			if (fboID < 0){ // use screen buffer
 				jogl.getGL2().glReadBuffer(GLlocal.GL_FRONT); 
 				int width = right - left; 
 				int height = top - bottom; 
