@@ -12,8 +12,10 @@ import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
 
@@ -248,7 +250,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		if (!queue.contains(cmd)) {
 			queue.add(cmd);
 		}
-
+		final GeoCasCell cell = null;
 		if (casThread == null || !casThread.isAlive()) {
 			casThread = new Thread() {
 				@Override
@@ -264,22 +266,23 @@ public class CASgiacD extends CASgiac implements Evaluate {
 						if (queue.size() > 0)
 							queue.remove(0);
 						try {
-							inVE = casParser.parseGeoGebraCASInput(input);
+							inVE = casParser.parseGeoGebraCASInput(input, null);
 							// TODO: arbconst()
 							result = evaluateGeoGebraCAS(inVE,
 									new MyArbitraryConstant(
 											(ConstructionElement) command),
 									StringTemplate.defaultTemplate,
+									cell,
 									// take kernel from cmd, in case macro
 									// kernel matters (?)
 									cmd.getKernel());
-							CASAsyncFinished(inVE, result, null, command, input);
+							CASAsyncFinished(inVE, result, null, command, input, cell);
 						} catch (Throwable exception) {
 							App.debug("exception handling ...");
 							exception.printStackTrace();
 							result = "";
 							CASAsyncFinished(inVE, result, exception, command,
-									input);
+									input, cell);
 						}
 					}
 					App.debug("thread is quitting");

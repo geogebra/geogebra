@@ -16,7 +16,7 @@ public interface MyImage {
 
 	boolean isSVG();
 
-	GBufferedImage getSubimage(int x, int y, int width, int height);
+	void drawSubimage(int x, int y, int width, int height, GGraphics2D g, int posX, int posY);
 
 	GGraphics2D createGraphics();
 

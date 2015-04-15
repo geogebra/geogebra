@@ -211,9 +211,9 @@ public class MyButton implements Observer {
 
 		// draw image
 		if (geoButton.getFillImage() != null) {
-			g.drawImage(
-					geoButton.getFillImage().getSubimage(startX, startY,
-							imgWidth, imgHeight), null,
+			
+					geoButton.getFillImage().drawSubimage(startX, startY,
+							imgWidth, imgHeight,g,
 					x + (geoButton.getWidth() - imgWidth) / 2, (int) (y
 							+ marginTopMultiplier * margin + imgStart));
 		}

@@ -25,7 +25,7 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 	        boolean opaque) {
 
 		if (canvas == null)
-			canv = Canvas.createIfSupported();
+			canv = makeCanvas();
 		else
 			canv = canvas;
 
@@ -66,7 +66,7 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 	// this clones this bufferedimage!
 	public GBufferedImageW(Canvas cv) {
 		if (cv != null) {// This should not called with null
-			canv = Canvas.createIfSupported();
+			canv = makeCanvas();
 			canv.setCoordinateSpaceWidth(cv.getCoordinateSpaceWidth());
 			canv.setCoordinateSpaceHeight(cv.getCoordinateSpaceHeight());
 			canv.setWidth(cv.getCanvasElement().getWidth() + "px");
@@ -83,7 +83,7 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 	}
 
 	public GBufferedImageW(ImageData imageData) {
-		canv = Canvas.createIfSupported();
+		canv = makeCanvas();
 		canv.setCoordinateSpaceWidth(imageData.getWidth());
 		canv.setCoordinateSpaceHeight(imageData.getHeight());
 		canv.setWidth(imageData.getWidth() + "px");
@@ -128,7 +128,7 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 
 	public Canvas getCanvas() {
 		if (canv == null) {
-			canv = Canvas.createIfSupported();
+			canv = makeCanvas();
 			canv.setCoordinateSpaceWidth(img.getWidth());
 			canv.setCoordinateSpaceHeight(img.getHeight());
 			canv.setWidth(getWidth() + "px");
@@ -137,6 +137,11 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 			c2d.drawImage(img, 0, 0);
 		}
 		return canv;
+	}
+
+	private Canvas makeCanvas() {
+		App.printStacktrace("new canvas");
+		return Canvas.createIfSupported();
 	}
 
 	public boolean isLoaded() {

@@ -167,11 +167,11 @@ public class MyImageD implements MyImage {
 		return 1;
 	}
 
-	public GBufferedImage getSubimage(int startX, int startY, int imgWidth,
-			int imgHeight) {
-		return new org.geogebra.desktop.awt.GBufferedImageD(
+	public void drawSubimage(int startX, int startY, int imgWidth,
+			int imgHeight, GGraphics2D g, int posX, int posY) {
+		GGraphics2DD.getAwtGraphics(g).drawImage( 
 				((BufferedImage) img).getSubimage(startX, startY, imgWidth,
-						imgHeight));
+						imgHeight),null,posX,posY);
 	}
 
 	public GGraphics2D createGraphics() {
