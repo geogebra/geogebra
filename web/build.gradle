@@ -48,7 +48,7 @@ def devModule = 'org.geogebra.web.Web3D'
 
 gwt {
 	gwtVersion = '2.7.0'
-	modules 'org.geogebra.web.Web3D'
+	modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web']
 	devModules devModule
 	maxHeapSize = '1500M'
 	
@@ -124,4 +124,8 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 // http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
 javadoc {
         options.addStringOption("sourcepath", "")
+    }
+
+if (file('deploy.gradle').exists()) {
+    apply from: file('deploy.gradle')
     }
