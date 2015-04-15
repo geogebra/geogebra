@@ -1,6 +1,7 @@
 package org.geogebra.web.web.main;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -15,6 +16,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
@@ -35,7 +38,9 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
+import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.helper.ObjectPool;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
@@ -43,6 +48,7 @@ import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -309,6 +315,7 @@ public class AppWapplet extends AppWFull {
 
 	public void attachSplitLayoutPanel() {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
+		
 		if (oldSplitLayoutPanel != null) {
 			if (getArticleElement().getDataParamShowMenuBar(false)) {
 				this.splitPanelWrapper = new HorizontalPanel();
@@ -320,6 +327,26 @@ public class AppWapplet extends AppWFull {
 			}
 			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
 		}
+		ClickStartHandler.init(oldSplitLayoutPanel, new ClickStartHandler() {
+			@Override
+			public void onClickStart(int x, int y, final PointerEventType type) {
+				AlgebraStyleBarW styleBar = ((AlgebraViewW) 
+						getView(App.VIEW_ALGEBRA)).getStyleBar(false);
+				if (styleBar != null) {
+					styleBar.update(null);
+				}
+
+				if (!CancelEventTimer.cancelKeyboardHide()) {
+					Timer timer = new Timer() {
+						@Override
+						public void run() {
+							frame.keyBoardNeeded(false, null);
+						}
+					};
+					timer.schedule(0);
+				}
+			}
+		});
 	}
 
 	@Override
