@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -19,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MaxSizeHashMap;
@@ -104,14 +104,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	public String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst, StringTemplate tpl, AssignmentType assignmentType, Kernel kernel)
+			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
 			throws CASException {
 
 		String result = null;
 		CASException exception = null;
 		try {
 			result = getCurrentCAS().evaluateGeoGebraCAS(casInput, arbconst,
-					tpl, assignmentType, kernel);
+					tpl, cell, kernel);
 		} catch (CASException ce) {
 			exception = ce;
 		} finally {
@@ -121,7 +121,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// check if keep input command was successful
 		// e.g. for KeepInput[Substitute[...]]
 		// otherwise return input
-		if (casInput.isKeepInputUsed()
+		if (cell != null && cell.isKeepInputUsed()
 				&& (exception != null || "?".equals(result))) {
 			// return original input
 			return casInput.toString(tpl);
@@ -148,7 +148,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			throws CASException {
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp, null);
-			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, AssignmentType.DEFAULT, kernel);
+			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, null, kernel);
 			if (ret == null)
 				throw new CASException(new Exception(app.getLocalization()
 						.getError("CAS.GeneralErrorMessage")));

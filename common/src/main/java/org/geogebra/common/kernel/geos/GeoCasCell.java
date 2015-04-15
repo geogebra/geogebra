@@ -64,6 +64,8 @@ import org.geogebra.common.util.debug.Log;
 public class GeoCasCell extends GeoElement implements VarString, TextProperties {
 	private AssignmentType assignmentType = AssignmentType.NONE;
 
+	private boolean keepInputUsed;
+
 	/**
 	 * @param assignmentType
 	 *            the {@link AssignmentType} to set
@@ -78,6 +80,16 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	public AssignmentType getAssignmentType() {
 		return assignmentType;
 	}
+	
+	/**
+	 * @return whether KeepInput command is part of this expression
+	 */
+	public boolean isKeepInputUsed() {
+		return keepInputUsed;
+	}
+
+	
+	
 	/**
 	 * Symbol for static reference
 	 */
@@ -1309,10 +1321,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 *            true if KeepInput was used
 	 */
 	public void setKeepInputUsed(final boolean keepInputUsed) {
-		if (getInputVE() != null)
-			getInputVE().setKeepInputUsed(keepInputUsed);
-		if (evalVE != null)
-			evalVE.setKeepInputUsed(keepInputUsed);
+		this.keepInputUsed = keepInputUsed;
 	}
 
 	/**
@@ -1695,7 +1704,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
 				evalVE = wrapEvaluate(evalVE,
-						isSubstitute && !inputVE.isKeepInputUsed());
+						isSubstitute && !isKeepInputUsed());
 				
 				// wrap in PointList if the top level command is Solutions
 				// and the assignment variable is defined
@@ -1711,9 +1720,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 				// compute the result using CAS
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE, arbconst, StringTemplate.numericNoLocal,
-						this.assignmentType, kernel);
+						this, kernel);
 				// if KeepInput was used, return the input, except for the Substitute command
-				if(!isSubstitute && inputVE != null && inputVE.isKeepInputUsed()) {
+				if(!isSubstitute && inputVE != null && isKeepInputUsed()) {
 					result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
 				}
 				success = result != null;
@@ -2510,11 +2519,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			
 			setAssignmentType(AssignmentType.DEFAULT);
 			getEvalVE().setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));
-			boolean wasKeepInputUsed = inputVE.isKeepInputUsed();
+			boolean wasKeepInputUsed = isKeepInputUsed();
 			boolean wasNumericUsed = evalCmd.equals("Numeric");
 			setInput(ex.toAssignmentString(StringTemplate.numericDefault,AssignmentType.DEFAULT));
 			if (wasKeepInputUsed) {
-				inputVE.setKeepInputUsed(true);
+				setKeepInputUsed(true);
 				setEvalCommand("KeepInput");
 			} else if (wasNumericUsed) {
 				setProcessingInformation("", "Numeric[" + inputVE.toString(StringTemplate.defaultTemplate) + "]","");

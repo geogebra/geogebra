@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DiffReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -174,11 +175,11 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	final public synchronized String evaluateGeoGebraCAS(
 			final ValidExpression inputExpression,
-			MyArbitraryConstant arbconst, StringTemplate tpl, AssignmentType assignmentType, Kernel kernel)
+			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
 			throws CASException {
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
-		boolean keepInput = casInput.isKeepInputUsed()
+		boolean keepInput = (cell != null && cell.isKeepInputUsed())
 				|| (cmd != null && "KeepInput".equals(cmd.getName()));
 		String plainResult = getPlainResult(casInput, kernel);
 
@@ -196,7 +197,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (casInput instanceof FunctionNVar) {
 			// delayed function definition f(x)::= Derivative[x^2] should return
 			// Derivative[x^2]
-			if (assignmentType == AssignmentType.DELAYED) {
+			if (cell != null && cell.getAssignmentType() == AssignmentType.DELAYED) {
 				return casInput.toString(StringTemplate.numericNoLocal);
 			}
 			// function definition f(x) := x^2 should return x^2
@@ -377,7 +378,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *            input string (for caching)
 	 */
 	public void CASAsyncFinished(ValidExpression exp, String result2,
-			Throwable exception, AsynchronousCommand c, String input) {
+			Throwable exception, AsynchronousCommand c, String input, GeoCasCell cell) {
 		String result = result2;
 		// pass on exception
 		if (exception != null) {
@@ -387,7 +388,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		// check if keep input command was successful
 		// e.g. for KeepInput[Substitute[...]]
 		// otherwise return input
-		if (exp.isKeepInputUsed() && ("?".equals(result))) {
+		if (cell.isKeepInputUsed() && ("?".equals(result))) {
 			// return original input
 			c.handleCASoutput(exp.toString(StringTemplate.maxPrecision),
 					input.hashCode());

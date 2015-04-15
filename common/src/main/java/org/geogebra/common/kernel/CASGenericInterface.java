@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.settings.SettingListener;
 
@@ -49,7 +50,7 @@ public interface CASGenericInterface extends SettingListener {
 	 *             if evaluation fails
 	 */
 	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst, StringTemplate tpl, AssignmentType assignmentType, Kernel kernel)
+			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
 			throws CASException;
 
 	/**

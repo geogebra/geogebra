@@ -266,20 +266,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		// do nothing, see Command, ExpressionNode classes
 	}
 
-	/**
-	 * @return whether KeepInput command is part of this expression
-	 */
-	public boolean isKeepInputUsed() {
-		return keepInputUsed;
-	}
-
-	/**
-	 * @param keepInputUsed
-	 *            true if KeepInput command is part of this expression
-	 */
-	public void setKeepInputUsed(boolean keepInputUsed) {
-		this.keepInputUsed = keepInputUsed;
-	}
+	
 
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		return this;

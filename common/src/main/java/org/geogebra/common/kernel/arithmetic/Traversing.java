@@ -997,7 +997,7 @@ public interface Traversing {
 						ValidExpression ve = ((GeoCasCell) geo)
 								.getOutputValidExpression();
 						// related to #4126 -- maybe not needed though
-						if (((GeoCasCell) geo).getInputVE().isKeepInputUsed()) {
+						if (((GeoCasCell) geo).isKeepInputUsed()) {
 							ve = expand((GeoCasCell) geo).wrap();
 						}
 						en2 = ve.unwrap() instanceof FunctionNVar ? ((FunctionNVar) ve
@@ -1072,7 +1072,7 @@ public interface Traversing {
 					return expand(geo);
 			} else if (ev instanceof GeoCasCell) {
 				// expanding the cell here is necessary #4126
-				if (((GeoCasCell) ev).getInputVE().isKeepInputUsed()) {
+				if (((GeoCasCell) ev).isKeepInputUsed()) {
 					return expand((GeoCasCell) ev);
 				}
 				return ((GeoCasCell) ev).getOutputValidExpression().wrap()

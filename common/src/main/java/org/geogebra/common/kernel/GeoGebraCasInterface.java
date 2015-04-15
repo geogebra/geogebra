@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 
 /**
  * Interface for GeoGebraCAS
@@ -111,7 +112,7 @@ public interface GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression exp,
-			MyArbitraryConstant arbConst, StringTemplate tpl, AssignmentType assignmentType, Kernel kernel)
+			MyArbitraryConstant arbConst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
 			throws CASException;
 	
 	

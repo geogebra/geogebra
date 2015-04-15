@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
