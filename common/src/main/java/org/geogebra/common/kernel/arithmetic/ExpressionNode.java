@@ -5546,7 +5546,61 @@ kernel, left,
 		}
 	}
 	
-	public ExpressionNode expand(){
-		return this;
+	public void getFraction(ExpressionValue[] parts){
+		if(!kernel.getApplication().isPrerelease()){
+			if(operation == Operation.DIVIDE){
+				parts[0] = left;
+				parts[1] = right;
+				
+			}else{
+				parts[0] = this;
+				parts[1] = null;
+			}
+			return;
+		}
+		ExpressionValue numL, numR, denL = null, denR = null;
+		if(left instanceof ExpressionNode){
+			((ExpressionNode) left).getFraction(parts);
+			numL = parts[0];
+			denL = parts[1];
+		}else{
+			numL = left;
+		}
+		
+		if(right instanceof ExpressionNode){
+			((ExpressionNode) right).getFraction(parts);
+			numR = parts[0];
+			denR = parts[1];
+		}else{
+			numR = right;
+		}
+		switch(operation){
+		case MULTIPLY:
+			parts[0] = numL.wrap().multiply(numR);
+			parts[1] = multiplyCheck(denR, denL);
+			return;
+		case DIVIDE:
+			parts[0] = multiplyCheck(denR,numL);
+			parts[1] = multiplyCheck(denL,numR);
+			return;
+		case PLUS:
+			parts[0] = multiplyCheck(denR,numL).wrap().plus(multiplyCheck(denL,numR));
+			parts[1] = multiplyCheck(denR,denL);
+			return;
+		case MINUS:
+			parts[0] = multiplyCheck(denR,numL).wrap().subtract(multiplyCheck(denL,numR));
+			parts[1] = multiplyCheck(denR,denL);
+			return;
+		default:
+			parts[0] = this;
+			parts[1] = null;
+			return;
+		}
+		
+	}
+
+	private ExpressionValue multiplyCheck(ExpressionValue denR,
+			ExpressionValue denL) {
+		return denL == null ? denR : (denR== null ? denL : denL.wrap().multiply(denR));
 	}
 }

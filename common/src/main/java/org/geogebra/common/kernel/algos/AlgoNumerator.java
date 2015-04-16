@@ -81,14 +81,14 @@ public class AlgoNumerator extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
-
-		ExpressionNode root = f.getFunctionExpression();
-		if (root.getOperation() != Operation.DIVIDE) {
+		ExpressionValue[] numDen = new ExpressionValue[2];
+		f.getFunctionExpression().deepCopy(kernel).wrap().getFraction(numDen);;
+		if (numDen[1] == null) {
 			g.setUndefined();
 			return;
 		}
 
-		ExpressionValue ev = getPart(root); // get Numerator
+		ExpressionValue ev = getPart(numDen); // get Numerator
 
 		// Application.debug(root.left.getClass()+"");
 
@@ -160,8 +160,8 @@ public class AlgoNumerator extends AlgoElement {
 	/**
 	 * over-ridden in AlgoDenominator
 	 */
-	protected ExpressionValue getPart(ExpressionNode node) {
-		return node.getLeft();
+	protected ExpressionValue getPart(ExpressionValue[] node) {
+		return node[0];
 	}
 
 	// TODO Consider locusequability

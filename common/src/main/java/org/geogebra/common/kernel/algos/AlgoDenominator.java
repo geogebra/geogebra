@@ -44,8 +44,8 @@ public class AlgoDenominator extends AlgoNumerator {
 	}
 
 	@Override
-	protected ExpressionValue getPart(ExpressionNode node) {
-		return node.getRight();
+	protected ExpressionValue getPart(ExpressionValue[] node) {
+		return node[1];
 	}
 
 	@Override
