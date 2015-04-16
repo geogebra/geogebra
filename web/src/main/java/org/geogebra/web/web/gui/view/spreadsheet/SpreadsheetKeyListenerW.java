@@ -347,16 +347,16 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			if (!editor.isEditing()) {
 				if (!(ctrlDown || e.isAltKeyDown())) {
 					letterOrDigitTyped();
-				} else if (ctrlDown) {
+				} // else if (ctrlDown) {
 					// e.consume();
-					if (keyCode == GWTKeycodes.KEY_C) {
+				//	if (keyCode == GWTKeycodes.KEY_C) {
 						// KeyEvent.VK_C) {
 
 						// instead, natural copy event will happen
 						// on the hidden textarea, with selected content
-						// but temporarily keep this as it does something
-						table.copy(altDown);
-					} else if (keyCode == GWTKeycodes.KEY_V) {
+						// this is also needed, but moved to onCopy()
+						// table.copy(altDown);
+				//	} else if (keyCode == GWTKeycodes.KEY_V) {
 						// KeyEvent.VK_V) {
 
 						// nooo! this cannot get what should be
@@ -373,17 +373,17 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 						// send a paste event in Firefox!
 						// workaround could come here, but we
 						// can also detect CTRL+v at keypress
-					} else if (keyCode == GWTKeycodes.KEY_X) {
+				//	} else if (keyCode == GWTKeycodes.KEY_X) {
 						// KeyEvent.VK_X) {
 
 						// instead, natural cut event will happen
 						// on the hidden textarea, with selected content
-						// but temporarily keep this as it does something
-						boolean storeUndo = table.cut();
-						if (storeUndo)
-							app.storeUndoInfo();
-					}
-				}
+						// this is also needed, but moved to onCut()
+						//boolean storeUndo = table.cut();
+						//if (storeUndo)
+						//	app.storeUndoInfo();
+				//	}
+				//}
 			}
 			break;
 
@@ -635,6 +635,16 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				self.@org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetKeyListenerW::onPaste(Ljava/lang/String;)(text);
 			}
 		}
+		elem.oncopy = function(even2) {
+			self.@org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetKeyListenerW::onCopy(Z)(even2.altKey);
+			// do not prevent default!!!
+			// it will take care of the copy...
+		}
+		elem.oncut = function(even3) {
+			self.@org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetKeyListenerW::onCut()();
+			// do not prevent default!!!
+			// it will take care of the cut...
+		}
 	}-*/;
 
 	public void onPaste(String text) {
@@ -642,5 +652,40 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		view.rowHeaderRevalidate();
 		if (storeUndo)
 			app.storeUndoInfo();
+	}
+
+	public void onCopy(final boolean altDown) {
+		// the default action of the browser just modifies
+		// the textarea of the AdvancedFocusPanel, does
+		// no harm to the other parts of the code, and
+		// consequently, it should ideally be done before this!
+		// so let's run the original code afterwards...
+
+		// not sure one ScheduleDeferred is enough...
+		// but in theory, it should be as code continues from
+		// here towards the default action, as we are in the event
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				table.copy(altDown);
+			}
+		});
+	}
+
+	public void onCut() {
+		// the default action of the browser just modifies
+		// the textarea of the AdvancedFocusPanel, does
+		// no harm to the other parts of the code, and
+		// consequently, it should ideally be done before this!
+
+		// not sure one ScheduleDeferred is enough...
+		// but in theory, it should be as code continues from
+		// here towards the default action, as we are in the event
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				boolean storeUndo = table.cut();
+				if (storeUndo)
+					app.storeUndoInfo();
+			}
+		});
 	}
 }
