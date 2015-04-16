@@ -172,8 +172,13 @@ public class GeoText extends GeoElement implements Locateable,
 		try {
 			if (gt.startPoint != null) {
 				if (gt.hasAbsoluteLocation()) {
-					// create new location point
-					setStartPoint(gt.startPoint.copy());
+					if (this.startPoint != null && this.hasAbsoluteLocation()) {
+						//just use the value
+						this.startPoint.set(gt.startPoint);
+					} else {
+						// create new location point
+						setStartPoint(gt.startPoint.copy());
+					}
 				} else {
 					// take existing location point
 					setStartPoint(gt.startPoint);
