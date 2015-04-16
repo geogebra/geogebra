@@ -2880,7 +2880,7 @@ public class Kernel {
 	 * @return may return null
 	 */
 	final public GeoElement lookupLabel(String label) {
-		return lookupLabel(label, false);
+		return lookupLabel(label, false, isResolveUnkownVarsAsDummyGeos());
 	}
 
 	/**
@@ -2914,10 +2914,10 @@ public class Kernel {
 	 *            true iff new geo should be created if missing
 	 * @return GeoElement with given label
 	 */
-	final public GeoElement lookupLabel(String label, boolean autoCreate) {
+	final public GeoElement lookupLabel(String label, boolean autoCreate, boolean useDummies) {
 		GeoElement geo = cons.lookupLabel(label, autoCreate);
 
-		if ((geo == null) && isResolveUnkownVarsAsDummyGeos()) {
+		if ((geo == null) && useDummies) {
 			// lookup CAS variables too
 			geo = lookupCasCellLabel(label);
 

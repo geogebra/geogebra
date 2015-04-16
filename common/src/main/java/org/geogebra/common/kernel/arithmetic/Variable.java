@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
@@ -102,7 +103,7 @@ public class Variable extends ValidExpression {
 
 		// lookup variable name, create missing variables automatically if
 		// allowed
-		GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement);
+		GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement, kernel.isResolveUnkownVarsAsDummyGeos());
 		if (geo != null || !throwError)
 			return geo;
 
@@ -240,9 +241,10 @@ public class Variable extends ValidExpression {
 
 	@Override
 	public boolean hasCoords() {
-		GeoElement ge = kernel.lookupLabel(name);
+		GeoElement ge = kernel.lookupLabel(name, false, true);
 		if (ge != null && !(ge instanceof GeoDummyVariable))
 			return ge.hasCoords();
+		
 		return false;
 	}
 

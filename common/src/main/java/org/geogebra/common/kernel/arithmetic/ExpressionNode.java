@@ -2930,11 +2930,11 @@ kernel, left,
 			break;
 
 		case XCOORD:
-			if (valueForm
+			if (stringType != StringType.GIAC && valueForm
 					&& (leftEval = left.evaluate(tpl)) instanceof VectorValue) {
 				sb.append(kernel.format(((VectorValue) leftEval).getVector()
 						.getX(), tpl));
-			} else if (valueForm
+			} else if (stringType != StringType.GIAC && valueForm
 					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(kernel.format(
 						((Vector3DValue) leftEval).getPointAsDouble()[0], tpl));

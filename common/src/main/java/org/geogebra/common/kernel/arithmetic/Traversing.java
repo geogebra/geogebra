@@ -427,7 +427,7 @@ public interface Traversing {
 			if (ev instanceof Variable) {
 				Variable v = (Variable) ev;
 				String name = v.getName(StringTemplate.defaultTemplate);
-				ExpressionValue replace = kernel.lookupLabel(name, true);
+				ExpressionValue replace = kernel.lookupLabel(name, true, kernel.isResolveUnkownVarsAsDummyGeos());
 				if (replace == null) {
 					replace = Variable.replacement(kernel, name);
 				}

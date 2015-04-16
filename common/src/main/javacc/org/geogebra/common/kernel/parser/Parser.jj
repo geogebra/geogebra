@@ -1897,12 +1897,8 @@ ExpressionNode numberFunction():
     c = <X_FUNC> en = expressionOrEquation() (")"|"]")
       {
         if (GeoGebraCASParsing) 
-        {
-            // GeoGebra CAS view: x(...) is interpreted as a function
-            String funName = c.image.substring(0,c.image.length()-1);
-            Command cmd = new Command(kernel, funName, true, !ExternalCASParsing );
-      cmd.addArgument( en );      
-      return new ExpressionNode(kernel, cmd);
+        {            
+      		return Command.xyzCAS(en, 0,!ExternalCASParsing, undecided);
         }
         else
         {
@@ -1916,10 +1912,7 @@ ExpressionNode numberFunction():
         if (GeoGebraCASParsing) 
         {
             // GeoGebra CAS view: y(...) is interpreted as a function
-            String funName = c.image.substring(0,c.image.length()-1);
-            Command cmd = new Command(kernel, funName, true );
-      cmd.addArgument( en );      
-      return new ExpressionNode(kernel, cmd);
+            return Command.xyzCAS(en, 1,!ExternalCASParsing, undecided);
         }
         else
         {
@@ -1932,11 +1925,7 @@ ExpressionNode numberFunction():
      {
         if (GeoGebraCASParsing) 
         {
-            // GeoGebra CAS view: z(...) is interpreted as a function
-            String funName = c.image.substring(0,c.image.length()-1);
-            Command cmd = new Command(kernel, funName, true, !ExternalCASParsing );
-      cmd.addArgument( en );      
-      return new ExpressionNode(kernel, cmd);
+            return Command.xyzCAS(en,2,!ExternalCASParsing, undecided);
         }
         else
         {

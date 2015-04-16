@@ -30,8 +30,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -636,6 +638,35 @@ public class Command extends ValidExpression implements
 
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
+	}
+
+	public static ExpressionNode xyzCAS(ExpressionNode en, int i, boolean mayCheck,ArrayList<ExpressionNode > undecided) {
+			Operation[] ops = new Operation[]{Operation.XCOORD, Operation.YCOORD, Operation.ZCOORD};
+			Kernel k = en.getKernel();
+			
+			ExpressionNode en2;
+			if(en.evaluatesToList()){
+				  Command cmd = new Command(k, "Element", true, mayCheck );
+		          cmd.addArgument( en );
+		          //Element uses 1 for first element
+		          cmd.addArgument( new MyDouble(k,i+1).wrap() );
+		          en2 = cmd.wrap();
+			}else if(en.hasCoords()){
+				en2 = new ExpressionNode(k,en.unwrap(),ops[i],null);
+				/*char funName = (char) ('x'+i);
+				  Command cmd = new Command(k, funName+"", true, mayCheck );
+		          cmd.addArgument( en );
+		          en2 = cmd.wrap();*/
+			}else{ 
+				char funName = (char) ('x'+i);
+				en2 = new ExpressionNode(k,new FunctionVariable(k,funName+""),Operation.MULTIPLY_OR_FUNCTION,en);
+				undecided.add(en2);
+			}
+			Log.debug(en2);
+			//App.printStacktrace("");
+			return en2;
+	     
+          
 	}
 
 }
