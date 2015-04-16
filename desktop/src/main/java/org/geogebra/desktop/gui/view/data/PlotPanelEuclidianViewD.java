@@ -10,7 +10,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
@@ -102,10 +101,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		plotPanelEV = this;
 
 		// create cursors for DnD
-		grabCursor = getCursorForImage(getApplication().getScaledIcon(
-				"cursor_grab.gif").getImage());
-		grabbingCursor = getCursorForImage(getApplication().getScaledIcon(
-				"cursor_grabbing.gif").getImage());
+		grabCursor = getCursorForImage("grab");
+		grabbingCursor = getCursorForImage("grabbing");
 
 		// enable/disable mouseListeners
 		setMouseEnabled(false, true);
@@ -287,7 +284,6 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	private class MyMouseListener implements MouseListener {
 
 		public void mouseClicked(MouseEvent e) {
-			Object ob = e.getSource();
 			// right click shows context menu
 			if (AppD.isRightClick(e)) {
 				e.consume();
@@ -487,7 +483,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 
 	protected void enableDnD() {
 		ds = new DragSource();
-		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(
+		ds.createDefaultDragGestureRecognizer(
 				this.getJPanel(), DnDConstants.ACTION_COPY, this);
 	}
 
@@ -532,14 +528,12 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		private final DataFlavor supportedFlavors[] = { plotPanelFlavor,
 				DataFlavor.imageFlavor };
 
-		private final String plotPanelIdentifier;
 		private final Image image;
 
 		// private final Action act;
 
 		public TransferablePlotPanel() {
 			image = plotPanelEV.getExportImage(1d);
-			plotPanelIdentifier = "ProbabilityCalculator";
 			// act = sampleAction;
 		}
 

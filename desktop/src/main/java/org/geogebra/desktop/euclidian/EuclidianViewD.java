@@ -242,8 +242,7 @@ public class EuclidianViewD extends EuclidianView implements
 	 */
 	public void setGrabbingCursor() {
 		// TODO gui/image/cursor..
-		setCursor(getCursorForImage(getApplication().getInternalImage(
-				"cursor_grabbing.gif")));
+		setCursor(getCursorForImage("grabbing"));
 	}
 
 	public void setHitCursor() {
@@ -268,30 +267,32 @@ public class EuclidianViewD extends EuclidianView implements
 
 		switch (getMode()) {
 		case EuclidianConstants.MODE_ZOOM_IN:
-			defaultCursor = getCursorForImage(getApplication()
-					.getInternalImage("cursor_zoomin.gif"));
+			defaultCursor = getCursorForImage("zoomin");
 			break;
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
-			defaultCursor = getCursorForImage(getApplication()
-					.getInternalImage("cursor_zoomout.gif"));
+			defaultCursor = getCursorForImage("zoomout");
 			break;
 
 		case EuclidianConstants.MODE_TRANSLATEVIEW:
-			defaultCursor = getCursorForImage(getApplication()
-					.getInternalImage("cursor_grab.gif"));
+			defaultCursor = getCursorForImage("grab");
 			break;
 		}
 
 		setDefaultCursor();
 	}
 
+	protected Cursor getCursorForImage(String name) {
+		return getCursorForImage(getApplication()
+		.getInternalImage("/gui/images/cursor_"+name+".gif"));
+		
+	}
 	/**
 	 * @param image
 	 *            image file
 	 * @return cursor created from image
 	 */
-	protected Cursor getCursorForImage(Image image) {
+	private Cursor getCursorForImage(Image image) {
 		if (image == null) {
 			return null;
 		}
