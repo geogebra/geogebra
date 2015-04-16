@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -12,6 +13,7 @@ import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.View;
+import org.geogebra.web.html5.util.debug.GeoGebraLogger;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
@@ -567,6 +569,9 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	public static void renderArticleElementWithFrame(final Element element,
 	        GeoGebraFrame frame, JavaScriptObject onLoadCallback) {
 		final ArticleElement article = ArticleElement.as(element);
+		if(Log.logger == null){
+			GeoGebraLogger.startLogger(article);
+		}
 		article.clear();
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME + creationDate.getTime());
