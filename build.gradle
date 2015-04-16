@@ -21,38 +21,11 @@ subprojects {
 ext.joglver = '2.2.0'
 ext.javagiacver = '201503271100'
 
-ext.ggver = getGeogebraVersion()
-ext.ggrev = getGeogebraRevision()
-
-def getGeogebraVersion() {
-    def version = "undef"
-    file('common/src/main/java/org/geogebra/common/GeoGebraConstants.java').eachLine { line ->
-        def pattern = ~/ VERSION_STRING = "(.*)"/
-        def matcher = (line =~ pattern)
-        if (matcher) {
-            version = line.substring(matcher.start(1), matcher.end(1))
-            }
-        }
-    return version
-    }
-
-def getGeogebraRevision() {
-// This may not run under Windows. TODO: Check and fix it.
-    def rev = "undef"
-    new ByteArrayOutputStream().withStream { os ->
-        def result = exec {
-            executable = 'svn'
-            args = ['info']
-            standardOutput = os
-            }
-        def outputAsString = os.toString()
-        def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
-        rev = matchLastChangedRev[0][1]
-        }
-    return rev
-}
-
 task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
 	gradleVersion = '2.1'
 }
+
+if (file('deploy.gradle').exists()) {
+    apply from: file('deploy.gradle')
+    }
