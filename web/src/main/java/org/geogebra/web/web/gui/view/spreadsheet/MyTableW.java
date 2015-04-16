@@ -807,8 +807,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		public void valueChange() {
-			// setRepaintAll();
+			updateCopiableSelection();
 		}
+	}
+
+	public void updateCopiableSelection() {
+		// TODO: can this be made more efficient?
+		if (view != null && view.spreadsheetWrapper != null)
+			view.spreadsheetWrapper.setSelectedContent(copyString());
 	}
 
 	private void updateRowCount() {
@@ -1070,6 +1076,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			// ?// getTableHeader().repaint();
 		}
 
+		updateCopiableSelection();
 		// App.debug("------------------");
 		// for (CellRange cr: selectedCellRanges)cr.debug();
 	}
@@ -2358,6 +2365,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	//
 	// this is temporary code while cleaning up
 	// ===========================================
+	public String copyString() {
+		return ((CopyPasteCutW)copyPasteCut).copyString(getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow());
+	}
+
 	public void copy(boolean altDown) {
 		copyPasteCut.copy(getSelectedColumn(), getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow(), altDown);

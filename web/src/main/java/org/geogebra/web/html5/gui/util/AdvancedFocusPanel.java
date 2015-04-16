@@ -1,13 +1,14 @@
 package org.geogebra.web.html5.gui.util;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AdvancedFocusPanel extends SimplePanel {
 
-	Element focusTextarea;
+	TextAreaElement focusTextarea;
 
 	public AdvancedFocusPanel() {
 		// Here it is not the getContainerElement()
@@ -28,7 +29,7 @@ public class AdvancedFocusPanel extends SimplePanel {
 		// which will make it possible for us to add "paste"
 		// events to the AdvancedFocusPanel, not just "keydown",
 		// "keypress", "keyup", etc events.
-		focusTextarea = DOM.createTextArea();
+		focusTextarea = DOM.createTextArea().cast();
 
 		// the only problem with focusTextarea seems to be its style:
 		// so it is still visible on the page, unless we hide it!
@@ -71,6 +72,20 @@ public class AdvancedFocusPanel extends SimplePanel {
 	}
 
 	public Element getTextarea() {
-		return focusTextarea;
+		return (Element)focusTextarea;
+	}
+
+	/**
+	 * In order for the copy/cut events to work naturally,
+	 * the focusTextarea should contain a selection which
+	 * contains the string to be copied. So as to work
+	 * properly, this string should be continuously
+	 * updated as the spreadsheet view has selected cells
+	 * 
+	 * @param str string for copying/cutting
+	 */
+	public void setSelectedContent(String str) {
+		focusTextarea.setValue(str);
+		focusTextarea.select();
 	}
 }

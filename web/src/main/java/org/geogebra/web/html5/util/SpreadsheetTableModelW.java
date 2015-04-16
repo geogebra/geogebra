@@ -142,13 +142,15 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		}
 
 		defaultTableModel.set(row * colNum + column, value);
-		if (listener != null)
-			listener.valueChange();
 
 		if (table != null) {
 			table.updateTableCellValue(value, row, column);
 		}
 
+		// do this after updateTableCellValue, as it does no harm
+		// and the valueChange might need the table cell value!
+		if (listener != null)
+			listener.valueChange();
 	}
 
 	public boolean hasFocus() {

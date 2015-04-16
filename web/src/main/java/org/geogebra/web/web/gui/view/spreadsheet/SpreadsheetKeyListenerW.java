@@ -351,6 +351,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					// e.consume();
 					if (keyCode == GWTKeycodes.KEY_C) {
 						// KeyEvent.VK_C) {
+
+						// instead, natural copy event will happen
+						// on the hidden textarea, with selected content
+						// but temporarily keep this as it does something
 						table.copy(altDown);
 					} else if (keyCode == GWTKeycodes.KEY_V) {
 						// KeyEvent.VK_V) {
@@ -371,6 +375,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 						// can also detect CTRL+v at keypress
 					} else if (keyCode == GWTKeycodes.KEY_X) {
 						// KeyEvent.VK_X) {
+
+						// instead, natural cut event will happen
+						// on the hidden textarea, with selected content
+						// but temporarily keep this as it does something
 						boolean storeUndo = table.cut();
 						if (storeUndo)
 							app.storeUndoInfo();
@@ -554,7 +562,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		// we could call preventDefault unconditionally (paste OK)
 		if (!e.isControlKeyDown()) {
 			e.preventDefault();
-		} else if (e.getCharCode() != 86 && e.getCharCode() != 118) {
+		} else if (e.getCharCode() != 86 && e.getCharCode() != 118 && // "V"
+				e.getCharCode() != 67 && e.getCharCode() != 99 && // "C"
+				e.getCharCode() != 88 && e.getCharCode() != 120) {// "X"
 			e.preventDefault();
 		}
 

@@ -17,6 +17,44 @@ public class CopyPasteCutW extends CopyPasteCut {
 		super(app);
 	}
 
+	/**
+	 * Just copying the selection as string text format, independently!
+	 */
+	public String copyString(int column1, int row1, int column2, int row2) {
+		StringBuilder cellBufferStrLoc = new StringBuilder();
+		for (int row = row1; row <= row2; ++row) {
+			for (int column = column1; column <= column2; ++column) {
+				GeoElement value = RelativeCopy.getValue(app, column, row);
+				if (value != null) {
+					String valueString = value
+							.toValueString(StringTemplate.maxPrecision);
+
+					// for aesthetical copying, it is also good to remove
+					// trailing zeroes (zero is nothing anyway):
+					int indx = valueString.indexOf(app.getKernel().getLocalization().unicodeDecimalPoint);
+					if (indx > -1) {
+						int end = valueString.length() - 1;
+						// only in this case, we should remove trailing zeroes!
+						while (valueString.charAt(end) == '0')
+							end--;
+						if (end == indx)
+							end--;
+						valueString = valueString.substring(0, end + 1);
+					}
+
+					cellBufferStrLoc.append(valueString);
+				}
+				if (column != column2) {
+					cellBufferStrLoc.append('\t');
+				}
+			}
+			if (row != row2) {
+				cellBufferStrLoc.append('\n');
+			}
+		}
+		return new String(cellBufferStrLoc);
+	}
+
 	@Override
 	public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy) {
