@@ -666,7 +666,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		// here towards the default action, as we are in the event
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				table.copy(altDown);
+				table.copy(altDown, true);
 			}
 		});
 	}
@@ -682,7 +682,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		// here towards the default action, as we are in the event
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				boolean storeUndo = table.cut();
+				boolean storeUndo = table.cut(true);
 				if (storeUndo)
 					app.storeUndoInfo();
 			}

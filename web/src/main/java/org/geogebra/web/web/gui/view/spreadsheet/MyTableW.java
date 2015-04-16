@@ -2375,6 +2375,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        getMaxSelectedColumn(), getMaxSelectedRow(), altDown);
 	}
 
+	public void copy(boolean altDown, boolean nat) {
+		((CopyPasteCutW)copyPasteCut).copy(getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow(), altDown, nat);
+	}
+
 	public boolean paste() {
 		return copyPasteCut.paste(getSelectedColumn(), getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow());
@@ -2388,6 +2393,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public boolean cut() {
 		return copyPasteCut.cut(getSelectedColumn(), getSelectedRow(),
 		        getMaxSelectedColumn(), getMaxSelectedRow());
+	}
+
+	public boolean cut(boolean nat) {
+		return ((CopyPasteCutW)copyPasteCut).cut(getSelectedColumn(), getSelectedRow(),
+		        getMaxSelectedColumn(), getMaxSelectedRow(), nat);
 	}
 
 	public boolean delete() {

@@ -58,6 +58,11 @@ public class CopyPasteCutW extends CopyPasteCut {
 	@Override
 	public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy) {
+		copy(column1, row1, column2, row2, skipGeoCopy, false);
+	}
+
+	public void copy(int column1, int row1, int column2, int row2,
+			boolean skipGeoCopy, boolean nat) {
 		sourceColumn1 = column1;
 		sourceRow1 = row1;
 
@@ -91,7 +96,13 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 		// a clipboard inside this application is better than nothing
 		//staticClipboardString = new String(cellBufferStr);
-		setClipboardContents(new String(cellBufferStr));
+		if (nat) {
+			// if called from native event, setting clipboard contents
+			// is not crucial, and redundant/harmful in IE...
+			setInternalClipboardContents(new String(cellBufferStr));
+		} else {
+			setClipboardContents(new String(cellBufferStr));
+		}
 
 		// store copies of the actual geos in the internal buffer
 		if (skipGeoCopy) {
@@ -186,7 +197,32 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 		return succ;
 	}
-	
+
+	/**
+	 * Just for the copy, removing redundancy runtime
+	 */
+	public boolean cut(int column1, int row1, int column2, int row2, boolean nat) {
+
+		copy(column1, row1, column2, row2, false, nat);
+		// null out the external buffer so that paste will not do a relative
+		// copy
+		cellBufferStr = null;
+		return delete(column1, row1, column2, row2);
+	}
+
+	/**
+	 * When using the default functionality of the browser,
+	 * getting/setting clipboard contents is solved quite well,
+	 * and it uses the external clipboard. Thus this method is
+	 * redundant in case it's called from paste event! For the
+	 * same reason, it is not called from there.
+	 * 
+	 * However, we may call the same thing from GeoGebraWeb
+	 * context menu, and in that case the form of this method
+	 * is just Okay.
+	 * 
+	 * @return String
+	 */
 	private String getClipboardContents() {
 		String clipboard = null;
 		if (isChromeWebapp()) { // use chrome web app paste API
@@ -199,18 +235,41 @@ public class CopyPasteCutW extends CopyPasteCut {
 		}
 		return clipboard;
 	}
-	
+
+	/**
+	 * When using the default functionality of the browser,
+	 * getting/setting clipboard contents is solved quite well,
+	 * and it uses the external clipboard. Thus this method is
+	 * redundant in case it's called from copy or cut events,
+	 * maybe does the same thing twice in Internet Explorer.
+	 * 
+	 * However, we may call the same thing from GeoGebraWeb
+	 * context menu, and in that case the form of this method
+	 * is just Okay. Note that in order to make the
+	 * staticClipboardString function well from context menu,
+	 * we need to set it every case this method is called,
+	 * and every case the cut/paste events happen.  
+	 * 
+	 * @param value String
+	 */
 	private void setClipboardContents(String value) {
 		if (isChromeWebapp()) { // use chrome web app copy API
 			copyToSystemClipboardChromeWebapp(value);
 			getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
 		} else if (isInternetExplorer()) {
-			App.debug("is IE");
+			//App.debug("is IE");
 			copyToSystemClipboardIE(value);
-		} else { // use internal clipboard
-			App.debug("static");
-			staticClipboardString = value;
 		}
+		// use internal clipboard too, every time
+		staticClipboardString = value;
+	}
+
+	/**
+	 * As copying to system clipboard is supposed to have done
+	 * @param value String
+	 */
+	private void setInternalClipboardContents(String value) {
+		staticClipboardString = value;
 	}
 
 	private static native boolean isChromeWebapp() /*-{
