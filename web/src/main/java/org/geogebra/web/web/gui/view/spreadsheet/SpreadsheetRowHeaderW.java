@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
+import org.geogebra.web.html5.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
@@ -60,7 +61,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	private Grid grid;
 	private FlowPanel container;
 
-	private FocusPanel focusPanel;
+	AdvancedFocusPanel focusPanel;
 
 	private int mouseYOffset, resizingRow = -1;
 	private boolean doRowResize = false;
@@ -131,8 +132,11 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			initializeCell(row);
 		}
 
-		focusPanel = new FocusPanel();
-		focusPanel.addKeyDownHandler(this);
+		focusPanel = new AdvancedFocusPanel();
+		//focusPanel.addKeyDownHandler(this);
+		focusPanel.addDomHandler(this, KeyDownEvent.getType());
+		addPasteHandlerTo(focusPanel.getTextarea());
+
 		Style s = focusPanel.getElement().getStyle();
 		// s.setDisplay(Style.Display.NONE);
 		s.setPosition(Style.Position.ABSOLUTE);
@@ -438,43 +442,46 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 		case KeyCodes.KEY_C:
 			// control + c
-			if (ctrlDown && table.minSelectionRow != -1
-			        && table.maxSelectionRow != -1) {
-				table.copyPasteCut.copy(0, table.minSelectionRow, table
-				        .getModel().getColumnCount() - 1,
-				        table.maxSelectionRow, altDown);
-			}
+			// handled in browser copy event! ctrlDown implied
+			//if (ctrlDown && table.minSelectionRow != -1
+			//        && table.maxSelectionRow != -1) {
+			//	table.copyPasteCut.copy(0, table.minSelectionRow, table
+			//	        .getModel().getColumnCount() - 1,
+			//	        table.maxSelectionRow, altDown);
+			//}
 			break;
 
 		case KeyCodes.KEY_V: // control + v
-			if (ctrlDown && table.minSelectionRow != -1
-			        && table.maxSelectionRow != -1) {
-				boolean storeUndo = table.copyPasteCut.paste(0,
-				        table.minSelectionRow, table.getModel()
-				                .getColumnCount() - 1, table.maxSelectionRow);
-				if (storeUndo)
-					app.storeUndoInfo();
-			}
+			// handled in browser paste event! ctrlDown implied
+			//if (ctrlDown && table.minSelectionRow != -1
+			 //       && table.maxSelectionRow != -1) {
+			//	boolean storeUndo = table.copyPasteCut.paste(0,
+			//	        table.minSelectionRow, table.getModel()
+			//	                .getColumnCount() - 1, table.maxSelectionRow);
+			//	if (storeUndo)
+			//		app.storeUndoInfo();
+			//}
 			break;
 
 		case KeyCodes.KEY_X: // control + x
-			if (ctrlDown && table.minSelectionRow != -1
-			        && table.maxSelectionRow != -1) {
-				table.copyPasteCut.copy(0, table.minSelectionRow, table
-				        .getModel().getColumnCount() - 1,
-				        table.maxSelectionRow, altDown);
-			}
-			boolean storeUndo = table.copyPasteCut.delete(0,
-			        table.minSelectionRow,
-			        table.getModel().getColumnCount() - 1,
-			        table.maxSelectionRow);
-			if (storeUndo)
-				app.storeUndoInfo();
+			// handled in browser cut event! ctrlDown implied
+			//if (ctrlDown && table.minSelectionRow != -1
+			//        && table.maxSelectionRow != -1) {
+			//	table.copyPasteCut.copy(0, table.minSelectionRow, table
+			//	        .getModel().getColumnCount() - 1,
+			//	        table.maxSelectionRow, altDown);
+			//}
+			//boolean storeUndo = table.copyPasteCut.delete(0,
+			//        table.minSelectionRow,
+			//        table.getModel().getColumnCount() - 1,
+			//        table.maxSelectionRow);
+			//if (storeUndo)
+			//	app.storeUndoInfo();
 			break;
 
 		case KeyCodes.KEY_DELETE: // delete
 		case KeyCodes.KEY_BACKSPACE: // delete on MAC
-			storeUndo = table.copyPasteCut.delete(0, table.minSelectionRow,
+			boolean storeUndo = table.copyPasteCut.delete(0, table.minSelectionRow,
 			        table.getModel().getColumnCount() - 1,
 			        table.maxSelectionRow);
 			if (storeUndo)
@@ -735,5 +742,98 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		} else {
 			popup.show(new GPoint(x, y));
 		}
+	}
+
+	public native void addPasteHandlerTo(Element elem) /*-{
+		var self = this;
+		elem.onpaste = function(event) {
+			var text, cbd;
+			if ($wnd.clipboardData) {
+				// Windows Internet Explorer
+				cbd = $wnd.clipboardData;
+				if (cbd.getData) {
+					text = cbd.getData('Text');
+				}
+			}
+			if (text === undefined) {
+				// all the other browsers
+				if (event.clipboardData) {
+					cbd = event.clipboardData;
+					if (cbd.getData) {
+						text = cbd.getData('text/plain');
+					}
+				}
+			}
+			if (text !== undefined) {
+				self.@org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetRowHeaderW::onPaste(Ljava/lang/String;)(text);
+			}
+		}
+		elem.oncopy = function(even2) {
+			self.@org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetRowHeaderW::onCopy(Z)(even2.altKey);
+			// do not prevent default!!!
+			// it will take care of the copy...
+		}
+		elem.oncut = function(even3) {
+			self.@org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetRowHeaderW::onCut()();
+			// do not prevent default!!!
+			// it will take care of the cut...
+		}
+	}-*/;
+
+	public void onPaste(String text) {
+		if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
+			boolean storeUndo = ((CopyPasteCutW)table.copyPasteCut).paste(0,
+			        table.minSelectionRow, table.getModel()
+			                .getColumnCount() - 1, table.maxSelectionRow, text);
+			if (storeUndo)
+				app.storeUndoInfo();
+		}
+	}
+
+	public void onCopy(final boolean altDown) {
+		// the default action of the browser just modifies
+		// the textarea of the AdvancedFocusPanel, does
+		// no harm to the other parts of the code, and
+		// consequently, it should ideally be done before this!
+		// so let's run the original code afterwards...
+
+		// not sure one ScheduleDeferred is enough...
+		// but in theory, it should be as code continues from
+		// here towards the default action, as we are in the event
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
+					((CopyPasteCutW)table.copyPasteCut).copy(0, table.minSelectionRow, table
+					        .getModel().getColumnCount() - 1,
+					        table.maxSelectionRow, altDown, true);
+				}
+			}
+		});
+	}
+
+	public void onCut() {
+		// the default action of the browser just modifies
+		// the textarea of the AdvancedFocusPanel, does
+		// no harm to the other parts of the code, and
+		// consequently, it should ideally be done before this!
+
+		// not sure one ScheduleDeferred is enough...
+		// but in theory, it should be as code continues from
+		// here towards the default action, as we are in the event
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
+					((CopyPasteCutW)table.copyPasteCut).copy(0, table.minSelectionRow, table
+					        .getModel().getColumnCount() - 1,
+					        table.maxSelectionRow, false, true);
+				}
+				boolean storeUndo = table.copyPasteCut.delete(0,
+				        table.minSelectionRow,
+				        table.getModel().getColumnCount() - 1,
+				        table.maxSelectionRow);
+				if (storeUndo)
+					app.storeUndoInfo();
+			}
+		});
 	}
 }

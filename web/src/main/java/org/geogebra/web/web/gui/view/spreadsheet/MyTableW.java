@@ -813,8 +813,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	public void updateCopiableSelection() {
 		// TODO: can this be made more efficient?
-		if (view != null && view.spreadsheetWrapper != null)
-			view.spreadsheetWrapper.setSelectedContent(copyString());
+		if (view != null && view.spreadsheetWrapper != null) {
+			String cs = copyString();
+			view.spreadsheetWrapper.setSelectedContent(cs);
+			if (rowHeader != null && selectionType == MyTable.ROW_SELECT)
+				rowHeader.focusPanel.setSelectedContent(cs);
+		} else if (rowHeader != null && selectionType == MyTable.ROW_SELECT) {
+			rowHeader.focusPanel.setSelectedContent(copyString());
+		}
 	}
 
 	private void updateRowCount() {
