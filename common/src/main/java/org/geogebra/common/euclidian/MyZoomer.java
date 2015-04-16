@@ -254,6 +254,8 @@ public abstract class MyZoomer {
 			// setDrawMode(DRAW_MODE_DIRECT_DRAW);
 			add = 1.0 / MAX_STEPS;
 			break;
+		case ZOOM_RW:
+			break;
 		}
 		counter = 0;
 

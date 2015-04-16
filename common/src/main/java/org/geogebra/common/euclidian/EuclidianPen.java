@@ -883,9 +883,9 @@ public class EuclidianPen {
 					.checkDecimalFraction(freehand1[i])));
 		}
 
-		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, null, list);
+		new AlgoFunctionFreehand(cons, null, list).getGeoElements();
 
-		GeoElement fun = algo.getGeoElements()[0];
+		//GeoElement fun = algo.getGeoElements()[0];
 
 		// fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		// fun.setLineType(penLineStyle);

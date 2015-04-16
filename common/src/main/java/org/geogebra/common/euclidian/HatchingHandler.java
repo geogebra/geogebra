@@ -148,6 +148,10 @@ public class HatchingHandler {
 			width = (int) t.getAscent() + (int) t.getDescent() - 1;
 			height = (int) t.getAscent() + (int) t.getDescent() - 1;
 			break;
+		case IMAGE:
+			break;
+		case STANDARD:
+			break;
 		}
 
 		// paint with the texturing brush

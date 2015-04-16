@@ -102,7 +102,7 @@ public class CurvePlotter {
 		return labelPoint;
 	}
 
-	private static int plotIntervals = 0;
+	//private static int plotIntervals = 0;
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].

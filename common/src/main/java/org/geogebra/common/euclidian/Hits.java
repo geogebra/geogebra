@@ -541,6 +541,8 @@ public class Hits extends ArrayList<GeoElement> {
 				}
 
 				break;
+			default:
+				break;
 			}
 		}
 

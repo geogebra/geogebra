@@ -33,8 +33,6 @@ public class AlgoMinimumSpanningTree extends AlgoHull {
 			return;
 		} 
 
-		double inhom[] = new double[2];
-
 		WeightedGraph weightedGraph = new WeightedGraph(Type.UNDIRECTED);
 
 		Vertex[] vertices = new Vertex[size];
