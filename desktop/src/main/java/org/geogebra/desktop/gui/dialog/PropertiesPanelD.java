@@ -76,7 +76,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
@@ -147,7 +146,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -190,8 +188,8 @@ import org.geogebra.desktop.main.LocalizationD;
  * @see #update(Graphics) PropertiesPanel
  * @author Markus Hohenwarter
  */
+@SuppressWarnings({"unchecked","rawtypes"})
 public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
-	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	AppD app;
 	LocalizationD loc;
@@ -811,6 +809,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private abstract class OptionPanel extends JPanel implements ItemListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 	};
 
 	private class CheckboxPanel extends OptionPanel implements
@@ -881,20 +884,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			checkbox.setSelected(value);
 		}
 
-		public BooleanOptionModel getModel() {
-			return model;
-		}
-
 		public void setModel(BooleanOptionModel model) {
 			this.model = model;
 		}
 
 		public JCheckBox getCheckbox() {
 			return checkbox;
-		}
-
-		public void setCheckbox(JCheckBox checkbox) {
-			this.checkbox = checkbox;
 		}
 	}
 
@@ -980,10 +975,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public JLabel getLabel() {
 			return label;
-		}
-
-		public void setLabel(JLabel label) {
-			this.label = label;
 		}
 
 		public MultipleOptionsModel getModel() {
@@ -1851,6 +1842,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 */
 	private class CheckBoxInterpolateImage extends CheckboxPanel {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public CheckBoxInterpolateImage() {
 			super("Interpolate");
 			setModel(new InterpolateImageModel(this));
@@ -1904,6 +1900,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 */
 	private class ListsAsComboBoxPanel extends CheckboxPanel implements
 			IListAsComboListener {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * 
 		 */
@@ -1972,7 +1973,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			intervalCombo.addActionListener(this);
 		}
 
-		@SuppressWarnings("unchecked")
 		public void setComboLabels() {
 			int idx = intervalCombo.getSelectedIndex();
 			intervalCombo.removeAllItems();
@@ -2115,7 +2115,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
 		private StartPointModel model;
 		private JLabel label;
 		private JComboBox cbLocation;
@@ -2923,6 +2922,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		class ComboBoxRenderer extends JLabel implements ListCellRenderer {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			JSeparator separator;
 
 			public ComboBoxRenderer() {
@@ -3553,7 +3556,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// for testing only ...
 
 			imgFileNameList = new ArrayList<String>();
-			String imagePath = "/org/geogebra/desktop/gui/images/";
+			String imagePath = "/geogebra/gui/images/";
 
 			imgFileNameList.add(""); // for delete
 			imgFileNameList.add(imagePath + "go-down.png");
@@ -3564,8 +3567,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			imgFileNameList.add(imagePath + "nav_rewind.png");
 			imgFileNameList.add(imagePath + "nav_skipback.png");
 			imgFileNameList.add(imagePath + "nav_skipforward.png");
-			imgFileNameList.add("/org/geogebra/desktop/main/nav_play.png");
-			imgFileNameList.add("/org/geogebra/desktop/main/nav_pause.png");
+			imgFileNameList.add("/geogebra/main/nav_play.png");
+			imgFileNameList.add("/geogebra/main/nav_pause.png");
 
 			imgFileNameList.add(imagePath + "exit.png");
 
@@ -3940,19 +3943,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		class LatexTableFill extends SelectionTable implements MenuElement {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			private Object[] latexArray;
 			private PopupMenuButton popupButton;
-			private org.geogebra.common.gui.util.SelectionTable mode;
-			FillingPanel panel;
 
 			public LatexTableFill(AppD app, FillingPanel panel,
 					PopupMenuButton popupButton, Object[] data, int rows,
 					int columns, org.geogebra.common.gui.util.SelectionTable mode) {
 				super(app, data, rows, columns, new Dimension(24, 24), mode);
-				this.panel = panel;
 				this.latexArray = data;
 				this.popupButton = popupButton;
-				this.mode = mode;
 				setHorizontalAlignment(SwingConstants.CENTER);
 				setSelectedIndex(0);
 				this.setShowGrid(true);
@@ -4276,10 +4279,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// slider.setFont(app.getSmallFont());
 		}
 
-		public void setSelectedIndex(int index) {
-			dashCB.setSelectedIndex(index);
-		}
-
 		public void setThicknessSliderValue(int value) {
 			thicknessSlider.setValue(value);
 		}
@@ -4552,8 +4551,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] geos;
-		private JSlider slider;
 		
 		private JLabel label;
 		private LodModel model;
@@ -4639,6 +4636,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author mathieu
 	 */
+	@SuppressWarnings("unused")
 	private class ShowView2D extends JPanel implements ItemListener, SetLabels,
 			UpdateFonts, UpdateablePropertiesPanel {
 		/**
@@ -4710,7 +4708,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// absolute screen location flag changed
 			if (source == cb2DView) {
 				boolean flag = cb2DView.isSelected();
-				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				for (int i = 0; i < geos.length; i++) {
 					geo = (ViewCreator) geos[i];
 					geo.setView2DVisible(flag);
@@ -4780,7 +4777,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == decoCombo) {
-				GeoSegment geo;
 				int type = ((Integer) decoCombo.getSelectedItem()).intValue();
 				model.applyChanges(type);
 			}
@@ -4814,6 +4810,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private class DecoAnglePanel extends JPanel implements ActionListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel,
 			IDecoAngleListener {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
 		private DecoAngleModel model;
@@ -4852,7 +4852,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == decoCombo) {
-				AngleProperties geo;
 				int type = ((Integer) decoCombo.getSelectedItem()).intValue();
 				model.applyChanges(type);
 			}
@@ -4890,6 +4889,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	// added 3/11/06
 	private class RightAnglePanel extends CheckboxPanel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		RightAnglePanel() {
 
@@ -5117,7 +5121,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 	}
 
 	public String replaceEqualsSigns(String strCond) {
-		return propPanel.replaceEqualsSigns(strCond);
+		return PropertiesPanelD.replaceEqualsSigns(strCond);
 	}
 }
 
@@ -5126,6 +5130,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
  * 
  * @author Michael Borcherds 2008-04-01
  */
+@SuppressWarnings({"unchecked","rawtypes"})
 class ColorFunctionPanel extends JPanel implements ActionListener,
 		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
 		IColorFunctionListener {
@@ -5147,7 +5152,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 
 	private Kernel kernel;
 	private PropertiesPanelD propPanel;
-
+	
 	public ColorFunctionPanel(AppD app, PropertiesPanelD propPanel) {
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
@@ -5426,12 +5431,10 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	private Kernel kernel;
 	private AppD app;
-	private PropertiesPanelD propPanel;
 
 	public GraphicsViewLocationPanel(AppD app, PropertiesPanelD propPanel) {
 		this.app = app;
 		kernel = app.getKernel();
-		this.propPanel = propPanel;
 		model = new GraphicsViewLocationModel(app, this);
 
 		cbGraphicsView = new JCheckBox();
@@ -5541,8 +5544,6 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 	private JLabel labelPixelH;
 	private Localization loc;
 	private JCheckBox cbUseFixedSize;
-	private int precHeight;
-	private int precWidth;
 
 	public ButtonSizePanel(AppD app, Localization loc) {
 		this.loc = loc;
@@ -5822,7 +5823,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		tfDefinition.removeActionListener(this);
 		model.getDefInputHandler().setGeoElement(geo);
-		tfDefinition.setText(model.getDefText(geo));
+		tfDefinition.setText(ObjectNameModel.getDefText(geo));
 		tfDefinition.addActionListener(this);
 
 		// App.printStacktrace(""+geo);
