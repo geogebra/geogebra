@@ -3005,11 +3005,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			drawGrid(g);
 		}
 
-		if (getApplication().showResetIcon()
-				&& (getApplication().isApplet() || getApplication()
-						.isHTML5Applet())) {
+		if (showResetIcon()) {
 			drawResetIcon(g);
 		}
+	}
+
+	boolean showResetIcon() {
+		if(!getApplication().showResetIcon()
+				|| ! (getApplication().isApplet() || getApplication().isHTML5Applet())){
+			return false;
+		};
+		return isPrimaryEV();
 	}
 
 	private GEllipse2DDouble circle = AwtFactory.prototype.newEllipse2DDouble(); // polar
@@ -5053,10 +5059,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		GetViewId evp = gui.getLayout().getDockManager()
 				.getFocusedEuclidianPanel();
 		if (evp == null) {
-			return true;
+			return isPrimaryEV();
 		}
 
 		return this.getViewID() == evp.getViewId();
+	}
+
+	private boolean isPrimaryEV() {
+		return this.getEuclidianViewNo() ==1 || (!app.showView(App.VIEW_EUCLIDIAN) && this.isDefault2D());
 	}
 
 	/**

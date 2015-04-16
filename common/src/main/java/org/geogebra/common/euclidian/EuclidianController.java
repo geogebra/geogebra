@@ -6374,7 +6374,7 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean hitResetIcon() {
-		return app.showResetIcon()
+		return view.showResetIcon()
 				&& ((mouseLoc.y < 30) && (mouseLoc.x > (view.getViewWidth() - 24)));
 	}
 
