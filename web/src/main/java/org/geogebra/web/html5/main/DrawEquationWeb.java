@@ -939,7 +939,7 @@ GeoContainer rbti,
 			} else if (keyCode == GWTKeycodes.KEY_I) {
 				s += Unicode.IMAGINARY;
 			} else if (keyCode == GWTKeycodes.KEY_A) {
-				// A, OK in Hungarian, although invisibly Ã¤
+				// A, OK in Hungarian, although invisibly a different one
 				if (shiftDown) {
 					s += Unicode.Alpha;
 				} else {
