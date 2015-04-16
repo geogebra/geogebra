@@ -159,7 +159,7 @@ public interface GeoGebraConstants {
 	public static final String WEB_CUSTOM_HTML_ELEMENT_NAME = "geogebra-web";
 	public static final boolean SINGULARWS_ENABLED_BY_DEFAULT = false;
 
-	public static final String DATA_LOGGING_WEBSOCKET_URL = "ws://test.geogebratube.org:8011";
+	public static final String DATA_LOGGING_WEBSOCKET_URL = "ws://data-logger.geogebra.org:80";
 
 	public static final String QUICKSTART_URL = "http://tube.geogebra.org/student/b308593";
 }
