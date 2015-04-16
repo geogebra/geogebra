@@ -926,9 +926,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 
-		GeoElement[] arg = { geo, new GeoNumeric(kernel.getConstruction(), x) };
 
-		CmdSetValue.setValue2(arg);
+		CmdSetValue.setValue2(geo,new GeoNumeric(kernel.getConstruction(), x));
 
 		/*
 		 * if (geo.isGeoNumeric()) { ((GeoNumeric) geo).setValue(x);

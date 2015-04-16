@@ -41,7 +41,7 @@ public class CmdSetValue extends CmdScripting {
 
 		switch (n) {
 		case 2:
-			setValue2(arg);
+			setValue2(arg[0],arg[1]);
 			return;
 		case 3:
 			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent()))
@@ -121,43 +121,43 @@ public class CmdSetValue extends CmdScripting {
 	 * 
 	 * @param arg
 	 */
-	public static void setValue2(GeoElement[] arg) {
-		if (arg[0].isGeoFunction() && arg[1].isGeoFunctionable()) {
+	public static void setValue2(GeoElement arg0, GeoElement arg1) {
+		if (arg0.isGeoFunction() && arg1.isGeoFunctionable()) {
 			// eg f(x)=x^2
 			// SetValue[f,1]
-			GeoFunction fun = (GeoFunction) arg[0];
-			GeoFunctionable val = (GeoFunctionable) arg[1];
+			GeoFunction fun = (GeoFunction) arg0;
+			GeoFunctionable val = (GeoFunctionable) arg1;
 			fun.set(val.getGeoFunction());
 			fun.updateRepaint();
-		} else if (arg[0].isGeoList() && arg[1].isNumberValue()) {
-			((GeoList) arg[0]).setSelectedIndex(
-					(int) Math.round(arg[1].evaluateDouble()) - 1, true);
+		} else if (arg0.isGeoList() && arg1.isNumberValue()) {
+			((GeoList) arg0).setSelectedIndex(
+					(int) Math.round(arg1.evaluateDouble()) - 1, true);
 
-		} else if (arg[0].isIndependent() || arg[0].isMoveable()) {
-			if (arg[0].isGeoNumeric() && arg[1] instanceof NumberValue) {
-				NumberValue num = (NumberValue) arg[1];
-				((GeoNumeric) arg[0]).setValue(num.getDouble());
+		} else if (arg0.isIndependent() || arg0.isMoveable()) {
+			if (arg0.isGeoNumeric() && arg1 instanceof NumberValue) {
+				NumberValue num = (NumberValue) arg1;
+				((GeoNumeric) arg0).setValue(num.getDouble());
 			} else {
-				if (arg[1].isGeoNumeric()
-						&& Double.isNaN(arg[1].evaluateDouble())) {
+				if (arg1.isGeoNumeric()
+						&& Double.isNaN(arg1.evaluateDouble())) {
 					// eg SetValue[a,?] for line
-					arg[0].setUndefined();
+					arg0.setUndefined();
 				} else {
-					arg[0].set(arg[1]);
+					arg0.set(arg1);
 				}
 			}
-			arg[0].updateRepaint();
-		} else if (arg[1] instanceof NumberValue && arg[0].isGeoNumeric()
-				&& arg[0].getParentAlgorithm() instanceof SetRandomValue) {
+			arg0.updateRepaint();
+		} else if (arg1 instanceof NumberValue && arg0.isGeoNumeric()
+				&& arg0.getParentAlgorithm() instanceof SetRandomValue) {
 			// eg a = RandomBetween[0,10]
-			SetRandomValue algo = (SetRandomValue) arg[0].getParentAlgorithm();
-			algo.setRandomValue(((NumberValue) arg[1]).getDouble());
-		} else if (arg[1] instanceof NumberValue
-				&& arg[0].getParentAlgorithm() instanceof AlgoDependentNumber) {
+			SetRandomValue algo = (SetRandomValue) arg0.getParentAlgorithm();
+			algo.setRandomValue(((NumberValue) arg1).getDouble());
+		} else if (arg1 instanceof NumberValue
+				&& arg0.getParentAlgorithm() instanceof AlgoDependentNumber) {
 			// eg a = random()
-			double val = ((NumberValue) arg[1]).getDouble();
+			double val = ((NumberValue) arg1).getDouble();
 			if (val >= 0 && val <= 1) {
-				AlgoDependentNumber al = (AlgoDependentNumber) arg[0]
+				AlgoDependentNumber al = (AlgoDependentNumber) arg0
 						.getParentAlgorithm();
 				ExpressionNode en = al.getExpression();
 				if (en.getOperation().equals(Operation.RANDOM)) {
