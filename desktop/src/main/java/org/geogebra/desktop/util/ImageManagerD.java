@@ -179,17 +179,21 @@ public class ImageManagerD extends ImageManager {
 	 * @return image from the full path name
 	 */
 	public Image getImageResource(String name) {
+		String path = name;
+		if(name.startsWith("/geogebra")){
+			path = name.replace("/geogebra", "/org/geogebra/desktop");
+		}
 		Image img = null;
 
 		try {
-			java.net.URL url = ImageManagerD.class.getResource(name);
+			java.net.URL url = ImageManagerD.class.getResource(path);
 			if (url != null) {
 				img = toolKit.getImage(url);
 				tracker.addImage(img, 0);
 				try {
 					tracker.waitForAll();
 				} catch (InterruptedException e) {
-					App.debug("Interrupted while loading Image: " + name);
+					App.debug("Interrupted while loading Image: " + path);
 				}
 				tracker.removeImage(img);
 			}
