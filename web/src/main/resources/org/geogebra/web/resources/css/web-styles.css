@@ -3440,6 +3440,13 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	text-shadow: none;
 	color: #666666;
 	border-bottom: 2px solid #666666;
+	text-align: center;
+	background-color: #f8f8f8;
+	border-right: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+	padding-left: 2px;
+ 	padding-right: 2px;
+ 	font-weight: normal;
 }
 
 .cpScrollPanel tbody tr:hover {
@@ -3453,9 +3460,16 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 }
 
 .cpScrollPanel td {
-	line-height: 2;
 	border: none;
 	border-bottom: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+	padding-left: 2px;
+  	padding-right: 2px;
+}
+
+.cpScrollPanel tbody tr td:FIRST-CHILD {
+	background-color: #f8f8f8;
+	text-align: center;
 }
 
 /* TOUCH */
