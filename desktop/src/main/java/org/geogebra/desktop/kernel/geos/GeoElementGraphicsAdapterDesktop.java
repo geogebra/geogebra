@@ -27,6 +27,10 @@ public class GeoElementGraphicsAdapterDesktop extends GeoElementGraphicsAdapter 
 
 		if (imageFileName.startsWith("/geogebra")) {
 			Image im = app.getImageManager().getImageResource(imageFileName);
+			if(im == null){
+				App.error(imageFileName+ " does not exist");
+				return null;
+			}
 			image = new MyImageD(ImageManagerD.toBufferedImage(im));
 		} else {
 			/*
