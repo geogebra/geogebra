@@ -763,6 +763,9 @@ public interface Traversing {
 		private Set<String> commands;
 
 		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof Equation){
+				return ev.wrap();
+			}
 			if (ev instanceof FunctionVariable)
 				commands.add(((FunctionVariable) ev).getSetVarString());
 			return ev;

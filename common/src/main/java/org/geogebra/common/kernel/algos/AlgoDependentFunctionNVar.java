@@ -57,7 +57,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 	 *            input function
 	 */
 	AlgoDependentFunctionNVar(Construction cons, FunctionNVar fun) {
-		super(cons);
+		super(cons);		
 		this.fun = fun;
 		f = new GeoFunctionNVar(cons);
 		f.setFunction(fun);
@@ -71,14 +71,6 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 
 		compute();
 		f.setConstructionDefaults();
-	}
-
-	/**
-	 * @param cons
-	 *            construction
-	 */
-	public AlgoDependentFunctionNVar(Construction cons) {
-		super(cons);
 	}
 
 	@Override

@@ -543,6 +543,9 @@ public class Equation extends ValidExpression {
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
+		if(v != this){
+			return v;
+		}
 		lhs = lhs.traverse(t).wrap();
 		rhs = rhs.traverse(t).wrap();
 		return v;
