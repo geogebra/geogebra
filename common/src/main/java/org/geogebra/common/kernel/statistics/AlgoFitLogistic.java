@@ -75,7 +75,7 @@ import org.geogebra.common.plugin.Operation;
  *          list and suggestions for the parameters?
  */
 
-public final class AlgoFitLogistic extends AlgoElement {
+public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// Tuning of noisefilter, Levenberg-Marquardt iteration, debug, rounding off
 	// errors
@@ -568,6 +568,10 @@ public final class AlgoFitLogistic extends AlgoElement {
 	 */// SNIP
 		// END==========================================================================================================
 
-	// TODO Consider locusequability
+	@Override
+	public double[] getCoeffs() {
+		double[] ret = {a, b, c};
+		return ret;
+	}
 
 }// class AlgoFitLogistic

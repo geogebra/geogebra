@@ -32,15 +32,18 @@ import org.geogebra.common.plugin.Operation;
  * @author Hans-Petter Ulven
  * @version 24.04.08
  */
-public class AlgoFitLog extends AlgoElement {
+public class AlgoFitLog extends AlgoElement implements FitAlgo {
 
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
+	private RegressionMath regMath;
 
 	public AlgoFitLog(Construction cons, String label, GeoList geolist) {
 		this(cons, geolist);
 		geofunction.setLabel(label);
-	}// Constructor
+		
+		regMath = new RegressionMath();
+	}
 
 	public AlgoFitLog(Construction cons, GeoList geolist) {
 		super(cons);
@@ -76,7 +79,6 @@ public class AlgoFitLog extends AlgoElement {
 			geofunction.setUndefined();
 			return;
 		}
-		RegressionMath regMath = new RegressionMath();
 		regok = regMath.doLog(geolist);
 		if (regok) {
 			a = regMath.getP1();
@@ -97,7 +99,13 @@ public class AlgoFitLog extends AlgoElement {
 			return;
 		}// if error in regression
 			// if error in parameters
-	}// compute()
+	}
+	
+	@Override
+	public double[] getCoeffs() {
+		double[] ret = {regMath.getP1(), regMath.getP2()};
+		return ret;
+	}
 
 	// TODO Consider locusequability
 

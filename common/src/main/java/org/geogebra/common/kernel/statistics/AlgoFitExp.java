@@ -32,7 +32,7 @@ import org.geogebra.common.plugin.Operation;
  * @author Hans-Petter Ulven
  * @version 24.04.08
  */
-public class AlgoFitExp extends AlgoElement {
+public class AlgoFitExp extends AlgoElement implements FitAlgo {
 
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
@@ -105,6 +105,12 @@ public class AlgoFitExp extends AlgoElement {
 			return;
 		}// if error in regression
 	}// compute()
+
+	@Override
+	public double[] getCoeffs() {
+		double[] ret = {regMath.getP1(), regMath.getP2()};
+		return ret;
+	}
 
 	// TODO Consider locusequability
 

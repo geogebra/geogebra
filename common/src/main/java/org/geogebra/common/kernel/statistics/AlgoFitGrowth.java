@@ -34,7 +34,7 @@ import org.geogebra.common.plugin.Operation;
  * @version 2010-02-2010
  */
 
-public class AlgoFitGrowth extends AlgoElement {
+public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
@@ -103,8 +103,12 @@ public class AlgoFitGrowth extends AlgoElement {
 			geofunction.setUndefined();
 			return;
 		}// if error in regression
-	}// compute()
-
-	// TODO Consider locusequability
+	}	
+	
+	@Override
+	public double[] getCoeffs() {
+		double[] ret = {regMath.getP1(), regMath.getP2()};
+		return ret;
+	}
 
 }// class AlgoFitGrowth

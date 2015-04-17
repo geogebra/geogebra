@@ -36,6 +36,7 @@ public class AlgoFitPoly extends AlgoElement {
 	private NumberValue degree; // input
 	private GeoFunction geofunction; // output
 	private GeoElement geodegree;
+	private RegressionMath regMath;
 
 	public AlgoFitPoly(Construction cons, String label, GeoList geolist,
 			NumberValue degree) {
@@ -45,6 +46,7 @@ public class AlgoFitPoly extends AlgoElement {
 
 	public AlgoFitPoly(Construction cons, GeoList geolist, NumberValue degree) {
 		super(cons);
+		regMath = new RegressionMath();
 		this.geolist = geolist;
 		this.degree = degree;
 		geodegree = degree.toGeoElement();
@@ -85,7 +87,6 @@ public class AlgoFitPoly extends AlgoElement {
 			return;
 		}
 		// if error in parameters :
-		RegressionMath regMath = new RegressionMath();
 		switch (par) {
 		case RegressionMath.LINEAR: // 24.04.08: moved up linear case from
 									// default

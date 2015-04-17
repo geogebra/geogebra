@@ -83,7 +83,7 @@ import org.geogebra.common.plugin.Operation;
  *          user feedback indicates a need for more sophistication.
  */
 
-public class AlgoFitSin extends AlgoElement {
+public class AlgoFitSin extends AlgoElement implements FitAlgo {
 
 	// Tuning of noisefilter, Levenberg-Marquardt iteration, debug, rounding off
 	// errors
@@ -666,6 +666,10 @@ public class AlgoFitSin extends AlgoElement {
 	 * beta2(xd,yd,a,b,c,d);}
 	 */// SNIP END--------------------------------------
 
-	// TODO Consider locusequability
+	@Override
+	public double[] getCoeffs() {
+		double[] ret = {a, b, c, d};
+		return ret;
+	}
 
 }// class AlgoFitSin
