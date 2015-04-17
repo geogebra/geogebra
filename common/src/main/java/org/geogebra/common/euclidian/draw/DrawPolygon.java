@@ -20,6 +20,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation;
+import org.geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.Convexity;
+import org.geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
@@ -30,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -79,6 +83,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		updatePreview();
 	}
 
+
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
@@ -87,17 +92,19 @@ public class DrawPolygon extends Drawable implements Previewable {
 			updateStrokes(poly);
 
 			// build general path for this polygon
-			isVisible = addPointsToPath(poly.getPointsLength());
+			if (isAllPointsOnScreen()) {
+				isVisible = addPointsToPath(poly.getPointsLength());
+				if (geo.isInverseFill()) {
+					createShape();
+				}
+			} else {
+				triangularize();
+				isVisible = true;
+			}
+			
 			if (!isVisible)
 				return;
 			gp.closePath();
-			if (geo.isInverseFill()) {
-				setShape(org.geogebra.common.factories.AwtFactory.prototype
-						.newArea(view.getBoundingPath()));
-				getShape().subtract(
-						org.geogebra.common.factories.AwtFactory.prototype
-								.newArea(gp));
-			}
 			// polygon on screen?
 			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())
 					&& !geo.isInverseFill()) {
@@ -120,6 +127,85 @@ public class DrawPolygon extends Drawable implements Previewable {
 			}
 
 		}
+		
+	}
+	
+	private void createShape() {
+		setShape(org.geogebra.common.factories.AwtFactory.prototype
+				.newArea(view.getBoundingPath()));
+		getShape().subtract(
+				org.geogebra.common.factories.AwtFactory.prototype
+						.newArea(gp));
+
+	}
+	private PolygonTriangulation pt = new PolygonTriangulation();
+
+	private void triangularize() {
+		createShape();
+		pt.clear();
+		pt.setPolygon(poly);
+		Coords n = poly.getMainDirection();
+		
+		try {
+			// simplify the polygon and check if there are at least 3 points
+			// left
+			if (pt.updatePoints() > 2) {
+
+				// check if the polygon is convex
+				Coords[] vertices = new Coords[poly.getPointsLength()];
+				for (int i=0; i < poly.getPointsLength(); i++) {
+					vertices[i] = poly.getPointND(i).getCoords();
+				}
+				Convexity convexity = pt.checkIsConvex();
+				if (convexity != Convexity.NOT) {
+					boolean reverse = poly.getReverseNormalForDrawing()
+							^ (convexity == Convexity.CLOCKWISE);
+		
+//					drawPolygonConvex(n,
+//							vertices, poly.getPointsLength(), reverse);
+				} else {
+					// set intersections (if needed) and divide the polygon into
+					// non self-intersecting polygons
+					pt.setIntersections();
+
+					// convert the set of polygons to triangle fans
+					pt.triangulate();
+
+					// compute 3D coords for intersections
+					Coords[] verticesWithIntersections = pt
+							.getCompleteVertices(vertices,
+									poly.getCoordSys(), poly.getPointsLength());
+
+					// draw the triangle fans
+					for (TriangleFan triFan : pt.getTriangleFans()) {
+						drawTriangleFan(n, vertices, triFan);
+					}
+				}
+
+			}
+		} catch (Exception e) {
+			App.debug(e.getMessage());
+			e.printStackTrace();
+		}		
+	}
+	
+	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
+		App.debug("[POLY] drawTriangleFan");
+		org.geogebra.common.awt.GGraphics2D g2 = view
+				.getBackgroundGraphics();
+		
+		Coords coordsApex = v[triFan.getApexPoint()];
+		gp.reset();
+		for (int i=0; i < triFan.size(); i++) {
+			gp.moveTo(coordsApex.getX(), coordsApex.getY());
+			Coords coord = v[triFan.getVertexIndex(i)];			
+			gp.lineTo(coord.getX(), coord.getY());
+		}
+		gp.closePath();
+		getShape().add(
+				org.geogebra.common.factories.AwtFactory.prototype
+						.newArea(gp));
+		
 	}
 
 	private Coords getCoords(int i) {
@@ -180,6 +266,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+		
 		if (isVisible) {
 			fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
 																		// using
@@ -378,4 +465,18 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return super.getShape();
 	}
 
-}
+	private boolean isAllPointsOnScreen() {
+//		if (poly.getPoints() == null) {
+//			return false;
+//		}
+//		for (GeoPointND p : poly.getPoints()) {
+//			double x = view.toScreenCoordXd(p.getInhomX());
+//			double y = view.toScreenCoordYd(p.getInhomY());
+//			if (x < 0 || x > view.getWidth() ||
+//					y < 0 || y > view.getHeight()) {
+//				return false;
+//			}
+//		}
+		return true;
+	}
+	}
