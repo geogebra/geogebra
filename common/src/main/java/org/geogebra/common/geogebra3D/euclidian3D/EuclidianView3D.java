@@ -304,7 +304,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	abstract protected Renderer createRenderer();
 
-	private void start() {
+	protected void start() {
 
 		drawable3DLists = new Drawable3DListsForView(this);
 		drawable3DListToBeAdded = new LinkedList<Drawable3D>();

@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian3D;
 
+import java.awt.Dimension;
+import java.awt.Point;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 
@@ -23,10 +26,12 @@ public interface Input3D {
 
 	/**
 	 * update values
+	 * @param panelPosition TODO
+	 * @param panelDimension TODO
 	 * 
 	 * @return true if the update worked
 	 */
-	public boolean update();
+	public boolean update(Point panelPosition, Dimension panelDimension);
 
 	/**
 	 * Center is center of the screen, unit is pixels
@@ -153,5 +158,23 @@ public interface Input3D {
 	 * @return true if we use z offset to make the scene out of the screen
 	 */
 	public boolean useScreenZOffset();
+
+	/**
+	 * 
+	 * @return true if it uses stereo buffers
+	 */
+	public boolean isStereoBuffered();
+
+	/**
+	 * 
+	 * @return true if uses polarized monitor with interlaced lines
+	 */
+	public boolean useInterlacedPolarization();
+
+	/**
+	 * 
+	 * @return true if using completing delay (e.g. for hand tracking -- no button)
+	 */
+	public boolean useCompletingDelay();
 
 }

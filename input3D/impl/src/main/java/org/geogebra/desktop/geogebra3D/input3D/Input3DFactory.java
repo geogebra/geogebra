@@ -18,5 +18,6 @@ public class Input3DFactory {
 		//return null; //use this to switch off 3D input
 		//return new InputLeo3D(); //use this for Leonar3do input
 		return new InputIntelRealsense3D(); //use this for intel realsense input
+		//return new InputZSpace3D(); //use this for zspace
 	}
 }

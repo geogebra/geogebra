@@ -1,7 +1,9 @@
 package org.geogebra.desktop.geogebra3D.input3D.intelRealSense;
 
+import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -60,7 +62,7 @@ public class InputIntelRealsense3D implements Input3D {
 	}
 	
 	
-	public boolean update(){
+	public boolean update(Point panelPosition, Dimension panelDimension){
 	
 		boolean updateOccured = false;
 		
@@ -214,6 +216,18 @@ public class InputIntelRealsense3D implements Input3D {
 	
 	public boolean useScreenZOffset(){
 		return false;
+	}
+	
+	public boolean isStereoBuffered() {
+		return false;
+	}
+	
+	public boolean useInterlacedPolarization(){
+		return false;
+	}
+	
+	public boolean useCompletingDelay(){
+		return true;
 	}
 	
 }

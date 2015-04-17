@@ -1,4 +1,4 @@
-package org.geogebra.desktop.geogebra3D.input3D.leonar3do;
+package org.geogebra.desktop.geogebra3D.input3D.zspace;
 
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
@@ -18,10 +18,10 @@ import org.geogebra.common.main.App;
  * @author mathieu
  *
  */
-public class InputLeo3D implements Input3D {
+public class InputZSpace3D implements Input3D {
 
 	
-	private LeoSocket leoSocket;
+	private Socket socket;
 	
 
 	private double[] mousePosition;
@@ -30,7 +30,6 @@ public class InputLeo3D implements Input3D {
 	
 	private boolean isRightPressed, isLeftPressed;
 	
-	private double screenHalfWidth;
 	
 	
 	private double[] glassesPosition;
@@ -40,7 +39,7 @@ public class InputLeo3D implements Input3D {
 	/**
 	 * constructor
 	 */
-	public InputLeo3D() {
+	public InputZSpace3D() {
 		
 		// 3D mouse position
 		mousePosition = new double[3];
@@ -52,93 +51,61 @@ public class InputLeo3D implements Input3D {
 		glassesPosition = new double[3];
 		
 		
-		// screen dimensions
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		screenHalfWidth = gd.getDisplayMode().getWidth()/2;
-		//screenHalfHeight = gd.getDisplayMode().getHeight()/2;		
-		//App.debug("screen:"+screenWidth+"x"+screenHeight);
 		
-		//App.error("height/2="+gd.getDisplayMode().getHeight()/2);
-		
-		
-		leoSocket = new LeoSocket();
+		socket = new Socket();
 	}
 	
 	
 	public boolean update(Point panelPosition, Dimension panelDimension){
 	
-		boolean updateOccured = false;
+		// set view port and check if changed
+		boolean viewPortChanged = socket.setViewPort(panelPosition, panelDimension);
 		
-		// update from last message
-		if (leoSocket.gotMessage){
+		// check if new message
+		if (socket.getData() || viewPortChanged){
+			
+			
 			
 			// mouse position
-			mousePosition[0] = leoSocket.birdX * screenHalfWidth;
-			mousePosition[1] = leoSocket.birdY * screenHalfWidth;
-			mousePosition[2] = leoSocket.birdZ * screenHalfWidth;
+			mousePosition[0] = socket.stylusX;
+			mousePosition[1] = socket.stylusY;
+			mousePosition[2] = socket.stylusZ;
 			
-			/*
-			App.debug("\norientation"
-			+"\nx="+leoSocket.birdOrientationX
-			+"\ny="+leoSocket.birdOrientationY
-			+"\nz="+leoSocket.birdOrientationZ
-			+"\nw="+leoSocket.birdOrientationW
-			+"\nagnle="+(2*Math.acos(leoSocket.birdOrientationW)*180/Math.PI)+"");
-			*/
+			
 			
 			// mouse position
-			mouseOrientation[0] = leoSocket.birdOrientationX;
-			mouseOrientation[1] = leoSocket.birdOrientationY;
-			mouseOrientation[2] = leoSocket.birdOrientationZ;
-			mouseOrientation[3] = leoSocket.birdOrientationW;
+			mouseOrientation[0] = 1;//socket.birdOrientationX;
+			mouseOrientation[1] = 0;//socket.birdOrientationY;
+			mouseOrientation[2] = 0;//socket.birdOrientationZ;
+			mouseOrientation[3] = 0;//socket.birdOrientationW;
 
 			
 			// right button
-			isRightPressed = (leoSocket.bigButton > 0.5);
+			isRightPressed = socket.buttonRight;
 			
 			// left button
-			isLeftPressed = (leoSocket.smallButton > 0.5);
+			isLeftPressed = socket.buttonLeft;
 			
-		
+			 
 			
 			
 			
 			// eye separation
-			eyeSeparation = (leoSocket.leftEyeX - leoSocket.rightEyeX) * screenHalfWidth;
+			eyeSeparation = socket.getEyeSeparation();//(socket.leftEyeX - socket.rightEyeX) * screenHalfWidth;
 
 			// glasses position
-			glassesPosition[0] = leoSocket.leftEyeX * screenHalfWidth + eyeSeparation/2;
-			glassesPosition[1] = leoSocket.leftEyeY * screenHalfWidth;
-			glassesPosition[2] = leoSocket.leftEyeZ * screenHalfWidth;
+			glassesPosition[0] = socket.leftEyeX;//socket.leftEyeX * screenHalfWidth + eyeSeparation/2;
+			glassesPosition[1] = socket.leftEyeY;//socket.leftEyeY * screenHalfWidth;
+			glassesPosition[2] = socket.leftEyeZ;//socket.leftEyeZ * screenHalfWidth;
 
-			/*
-			App.debug("\nleft eye"
-					+"\nx="+leftEyePosition[0]
-					+"\ny="+leftEyePosition[1]
-					+"\nz="+leftEyePosition[2]
-				    +
-					"\nright eye"
-					+"\nx="+rightEyePosition[0]
-					+"\ny="+rightEyePosition[1]
-					+"\nz="+rightEyePosition[2]);
-					
-			App.debug("\nleft-right="+(rightEyePosition[0]-leftEyePosition[0])+"\nheight="+GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight());
-			*/
 			
-			/*
-			App.debug("\nbuttons"
-					+"\nbig = "+leoSocket.bigButton
-					+"\nright = "+isRightPressed
-					);
-					*/
+			return true;
 			
-			updateOccured = true;
 		}
 		
-		// request next message
-		leoSocket.getLeoData();		
+			
 		
-		return updateOccured;
+		return false;
 		
 	}
 	
@@ -167,7 +134,7 @@ public class InputLeo3D implements Input3D {
 	}
 	
 	public boolean useInputDepthForHitting(){
-		return true;
+		return false;
 	}
 	
 	public boolean useMouseRobot(){
@@ -206,29 +173,29 @@ public class InputLeo3D implements Input3D {
 	}
 	
 	public boolean getLeftButton(){
-		return leoSocket.smallButton > 0.5;
+		return socket.buttonLeft;
 	}
 
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
 			double screenHalfWidth, double screenHalfHeight, int panelPositionX, int panelPositionY,
 			int panelDimW, int panelDimH) {
-		panelPos.setX(absolutePos[0] + screenHalfWidth - panelPositionX
-				- panelDimW / 2);
-		panelPos.setY(absolutePos[1] - screenHalfHeight + panelPositionY
-				+ panelDimH / 2);				
-
+		// transform has been done before
+		panelPos.setX(absolutePos[0]);
+		panelPos.setY(absolutePos[1]);
+		panelPos.setZ(absolutePos[2]);
+		
 	}
 	
 	public boolean useScreenZOffset(){
-		return true;
-	}
-	
-	public boolean isStereoBuffered() {
 		return false;
 	}
 	
-	public boolean useInterlacedPolarization(){
+	public boolean isStereoBuffered() {
 		return true;
+	}
+	
+	public boolean useInterlacedPolarization(){
+		return false;
 	}
 	
 	public boolean useCompletingDelay(){

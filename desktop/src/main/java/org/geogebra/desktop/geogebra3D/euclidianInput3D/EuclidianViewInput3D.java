@@ -40,13 +40,17 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			EuclidianSettings settings) {
 		super(ec, settings);
 
-		input3D = ((EuclidianControllerInput3D) ec).input3D;
 
 		mouse3DScenePosition = new Coords(4);
 		mouse3DScenePosition.setW(1);
 
 		startPos = new Coords(4);
 		startPos.setW(1);
+	}
+	
+	protected void start(){
+		input3D = ((EuclidianControllerInput3D) euclidianController).input3D;
+		super.start();
 	}
 
 	private Coords mouse3DScreenPosition = null;
@@ -73,8 +77,10 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			transparentMouseCursorMatrix.setOrigin(mouse3DScenePosition);
 		}
 
-		if (drawCompletingCursor(renderer1)) {
-			return;
+		if (input3D.useCompletingDelay()){
+			if (drawCompletingCursor(renderer1)) {
+				return;
+			}
 		}
 
 		drawMouseCursor(renderer1, mouse3DScreenPosition);
@@ -152,7 +158,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	public boolean isPolarized() {
-		return true;
+		return input3D.useInterlacedPolarization();
 	}
 
 	@Override
@@ -280,7 +286,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		}
 
 		// not moving a geo : see if user stays on the same hit to select it
-		if (getEuclidianController().getMoveMode() == EuclidianController.MOVE_NONE
+		if (input3D.useCompletingDelay()
+				&& getEuclidianController().getMoveMode() == EuclidianController.MOVE_NONE
 				&& !input3D.getLeftButton()) {
 			long time = System.currentTimeMillis();
 			hittedGeo.setHitted(getHits3D(), time, mouse3DScreenPosition);
@@ -500,5 +507,10 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		}
 
 		return input3D.hasMouse(this);
+	}
+	
+
+	public boolean isStereoBuffered() {
+		return input3D.isStereoBuffered();
 	}
 }

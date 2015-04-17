@@ -125,15 +125,17 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	@Override
 	public void updateInput3D() {
-		if (input3D.update()) {
+		
+		// update panel values
+		panelDimension = ((EuclidianView3DD) view3D).getJPanel().getSize();
+		panelPosition = ((EuclidianView3DD) view3D).getJPanel().getLocationOnScreen();
+
+		
+		if (input3D.update(panelPosition, panelDimension)) {
 
 			// ////////////////////
 			// set values
 
-			// update panel values
-			panelDimension = ((EuclidianView3DD) view3D).getJPanel().getSize();
-			panelPosition = ((EuclidianView3DD) view3D).getJPanel()
-					.getLocationOnScreen();
 
 			// eyes : set position only if we use glasses
 			if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
@@ -141,7 +143,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				setPositionXYOnPanel(pos, glassesPosition);
 				glassesPosition.setZ(pos[2]);
 
-				// App.debug("\n"+glassesPosition);
+				//App.debug("\n"+glassesPosition);
 
 				// App.debug(input3D.getGlassesPosition()[2]+"");
 				// if (eyeSepIsNotSet){
