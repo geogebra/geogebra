@@ -66,6 +66,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		ExpressionValue lt, rt;
 
 		lt = left.evaluate(tpl); // left tree
+		//TODO Evaluation of equations is expensive, but better soln needed #4816
+		if(left instanceof Equation){
+			expressionNode.setLeft(lt);
+		}
 		if (operation.equals(Operation.NO_OPERATION)) {
 			return lt;
 		}
