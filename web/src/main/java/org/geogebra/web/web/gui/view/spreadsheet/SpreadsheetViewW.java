@@ -1064,6 +1064,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	Scheduler.ScheduledCommand requestFocusCommand = new Scheduler.ScheduledCommand() {
 		public void execute() {
 			spreadsheetWrapper.setFocus(true);
+			table.updateCopiableSelection();
 		}
 	};
 
