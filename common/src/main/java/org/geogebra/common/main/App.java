@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Random;
+import java.util.Vector;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
@@ -44,6 +45,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -51,6 +53,7 @@ import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.commands.MyException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -185,7 +188,8 @@ public abstract class App implements UpdateSelection {
 		 */
 		bottom
 	}
-
+	private AlgoDispatcher algoDispatcher;
+	public Vector<GeoImage> images = new Vector<GeoImage>();
 	/**
 	 * where to show the inputBar (respective inputBox)
 	 */

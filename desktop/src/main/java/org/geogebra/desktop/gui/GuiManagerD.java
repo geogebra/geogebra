@@ -1182,7 +1182,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				geoImage.setCorner(loc2, 1);
 				geoImage.setLabel(null);
 
-				GeoImage.updateInstances();
+				GeoImage.updateInstances(app);
 			}
 			// make sure only the last image will be selected
 			GeoElement[] geos = { geoImage, loc, loc2 };
@@ -2981,7 +2981,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				geoImage.setLabel(null);
 
-				GeoImage.updateInstances();
+				GeoImage.updateInstances(app);
 			}
 			// make sure only the last image will be selected
 			GeoElement[] geos = { geoImage };

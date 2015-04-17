@@ -1491,7 +1491,7 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		geoImage.setLabel(null);
-		GeoImage.updateInstances();
+		GeoImage.updateInstances(this);
 
 		// these things are done in Desktop GuiManager.loadImage too
 		GeoElement[] geos = { geoImage };

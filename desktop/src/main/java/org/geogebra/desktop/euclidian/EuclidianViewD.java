@@ -728,7 +728,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 			geoImage.update();
 
-			GeoImage.updateInstances();
+			GeoImage.updateInstances(app);
 
 		}
 

@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -55,8 +57,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	// corner points for transformations
 	private GeoPoint[] tempPoints;
 
-	private static Vector<GeoImage> instances = new Vector<GeoImage>();
-
 	/**
 	 * Creates new image
 	 * 
@@ -78,7 +78,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		// three corners of the image: first, second and fourth
 		corners = new GeoPoint[3];
 
-		instances.add(this);
+		kernel.getApplication().images.add(this);
 		defined = true;
 	}
 
@@ -183,9 +183,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	/**
 	 * Reloads images from internal image cache
 	 */
-	public static void updateInstances() {
-		for (int i = instances.size() - 1; i >= 0; i--) {
-			GeoImage geo = instances.get(i);
+	public static void updateInstances(App kernel) {
+		for (int i = kernel.images.size() - 1; i >= 0; i--) {
+			GeoImage geo = kernel.images.get(i);
 			geo.setImageFileName(geo.getGraphicsAdapter().getImageFileName());
 			geo.updateCascade();
 		}
@@ -349,7 +349,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public void doRemove() {
-		instances.remove(this);
+		kernel.getApplication().images.remove(this);
 
 		// remove background image
 		if (inBackground) {
