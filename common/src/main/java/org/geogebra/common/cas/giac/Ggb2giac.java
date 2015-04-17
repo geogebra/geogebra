@@ -584,16 +584,31 @@ public class Ggb2giac {
 				+ "normal(map(desolve(%0),x->y=x)[0])" + ","
 				// add y'= if it's missing
 				+ "normal(map(desolve(y'=%0),x->y=x)[0])" + ")");
-		p("SolveODE.2", "when((%0)[0]=='=',"
-				+ "normal(map(desolve(%0,%1),x->y=x)[0])" + ","
-				// add y'= if it's missing
-				+ "normal(map(desolve(y'=%0,%1),x->y=x)[0])" + ")");
+		
+		// goes through 1 point
+		// SolveODE[y''=x, (1,1)]
+		// goes through 1 point, y'= missing
+		// SolveODE[x,(1, 1)]
+		// goes through 2 points
+		// SolveODE[y''=x, {(1,1),(2,2)}]
+		// can't do [solveodearg0:=%0] as y' is immediately simplified to 1
+		p("SolveODE.2", ""+
+				"normal(y=when(type(%1)==DOM_LIST,"+
+				// list of 2 points
+				"desolve([%0,y(xcoord(%1[0]))=ycoord(%1[0]),y(xcoord(%1[1]))=ycoord(%1[1])],x,y)"+
+				","+
+				// one point
+				"desolve(when((%0)[0]=='=',%0,y'=%0),x,y,%1)"+
+				")"+
+				""+
+				"[0])");
+				
 		p("SolveODE.3",
 				"when((%0)[0]=='=',"
-						+ "normal(map(desolve(%0,%2,%1),(type(%1)==6)?(x->%1=x):(x->y=x))[0])"
+						+ "normal(map(desolve(%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
 						+ ","
 						// add y'= if it's missing
-						+ "normal(map(desolve(y'=%0,%2,%1),(type(%1)==6)?(x->%1=x):(x->y=x))[0])"
+						+ "normal(map(desolve(y'=%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
 						+ ")");
 		p("SolveODE.4", "when((%0)[0]=='=',"
 				+ "normal(map(desolve(%0,%2,%1,%3),x->%1=x)[0])" + ","
