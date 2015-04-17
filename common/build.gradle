@@ -36,6 +36,7 @@ sourceSets {
 	}
 }
 
+cleanEclipse.dependsOn('cleanJavacc')
 eclipseClasspath.dependsOn('compileJavacc')
 
 eclipse.project {
@@ -44,4 +45,8 @@ eclipse.project {
 
 compileJavacc {
 	arguments = [static: 'false']
+}
+
+task cleanJavacc(type: Delete) {
+	delete compileJavacc.outputDirectory
 }
