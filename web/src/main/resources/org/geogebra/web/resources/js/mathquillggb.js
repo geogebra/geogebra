@@ -1927,14 +1927,37 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       return;
 
     case 'Tab':
+      var cursorLeft = this.cursor[L];
+      if (this.cursor.selection) {
+    	// in any case, clear the previous selection
+    	// so that new selection may happen, even if
+    	// it will be the same selection as this one
+        this.cursor.clearSelection();
+
+        // in order not to select the same thing again,
+        // move right if possible, otherwise move to
+        // the beginning of the formula!
+        if (this.cursor[R]) {
+          this.cursor.moveRight();
+        } else {
+          this.cursor.insertBefore(this.ch[L]);
+        }
+        if (this.cursor[R]) {
+          // Okay, can call method later
+        } else {
+          // make it possible to have cursor[R]
+          this.cursor.insertBefore(this.ch[L]);
+        }
+      }
       if (this.cursor[R]) {
+    	// now this means we have something
         this.selectNextSyntaxHelp();
         if (this.cursor.selection) {
           // success!
         } else if (this.cursor[L]) {
           // we can still try to go to the left,
           // and try again!
-          var cursorLeft = this.cursor[L];
+          //var cursorLeft = this.cursor[L];
           this.cursor.insertBefore(this.ch[L]);
           this.selectNextSyntaxHelp();
           if (this.cursor.selection) {
