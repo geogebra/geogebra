@@ -64,6 +64,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
 import org.geogebra.desktop.export.GraphicExportDialog;
+import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.main.AppD;
@@ -377,6 +378,9 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
+		if(!PrintPreview.justPreview){
+			pageIndex = PrintPreview.computePageIndex(pageIndex);
+		}
 		if (pageIndex > 0) {
 			return (NO_SUCH_PAGE);
 		}

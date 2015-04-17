@@ -640,6 +640,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	// =================================================
 
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
+		if(!PrintPreview.justPreview){
+			pageIndex = PrintPreview.computePageIndex(pageIndex);
+		}
 		if (pageIndex > 0)
 			return (NO_SUCH_PAGE);
 

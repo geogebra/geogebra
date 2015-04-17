@@ -28,6 +28,7 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.util.ArrayList;
 
+import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.view.Gridable;
 
 public class PrintGridable implements Printable {
@@ -48,7 +49,11 @@ public class PrintGridable implements Printable {
 
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
 			throws PrinterException {
-
+		
+		if(!PrintPreview.justPreview){
+			pageIndex = PrintPreview.computePageIndex(pageIndex);
+		}
+		
 		double pWidth = pageFormat.getImageableWidth();
 		double pHeight = pageFormat.getImageableHeight() - this.titleOffset;
 

@@ -79,6 +79,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
@@ -1301,6 +1302,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
 			throws PrinterException {
+		
+		if(!PrintPreview.justPreview){
+			pageIndex = PrintPreview.computePageIndex(pageIndex);
+		}
 
 		if (!isViewAttached) {
 			data.clearView();

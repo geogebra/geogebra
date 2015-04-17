@@ -24,6 +24,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.print.Book;
 import java.awt.print.PageFormat;
 import java.awt.print.Pageable;
 import java.awt.print.Paper;
@@ -77,6 +78,10 @@ public class PrintPreview extends JDialog {
 	protected ActionListener lst;
 
 	protected boolean kernelChanged = false;
+	public static boolean justPreview = true;
+	public static int[] targetPages;
+
+	private Book book;
 
 	static Graphics tempGraphics;
 	static {
@@ -163,13 +168,15 @@ public class PrintPreview extends JDialog {
 					public void run() {
 						try {
 							PrinterJob prnJob = PrinterJob.getPrinterJob();
-							prnJob.setPageable(m_preview);
+							prnJob.setPageable(book);
 
 							if (!prnJob.printDialog())
 								return;
 							setCursor(Cursor
 									.getPredefinedCursor(Cursor.WAIT_CURSOR));
-							prnJob.print();
+							justPreview = false;
+							prnJob.print();							
+							justPreview = true;
 							setCursor(Cursor
 									.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 							setVisible(false);
@@ -579,13 +586,18 @@ public class PrintPreview extends JDialog {
 
 		int pageIndex = 0;
 		int targetIndex = 0;
+		book = new Book();
+		targetPages = new int[m_target.size()];
 		while (true) {
 			if (pageExists(targetIndex, pageIndex)) {
 				PagePreview pp = new PagePreview(m_target.get(targetIndex),
 						pageFormat, pageIndex, targetIndex, app);
 				pp.setScale(m_scale);
 				m_preview.add(pp);
-			} else {
+				//book.append(m_target.get(targetIndex), pageFormat);
+			} else {			
+				book.append(m_target.get(targetIndex), pageFormat, pageIndex);
+				targetPages[targetIndex] = pageIndex;
 				targetIndex++;
 				pageIndex = -1;
 			}
@@ -594,6 +606,13 @@ public class PrintPreview extends JDialog {
 			}
 			pageIndex++;
 		}
+	}
+	
+	public static int computePageIndex(int pageIndex){
+		for (int i=0; i<targetPages.length && targetPages[i] <= pageIndex; i++ ){
+			pageIndex -= targetPages[i];
+		}
+		return pageIndex;
 	}
 
 	private static PageFormat getDefaultPageFormat() {
