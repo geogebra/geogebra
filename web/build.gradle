@@ -39,7 +39,7 @@ dependencies {
 }
 
 // exclude from the eclipse classpath the java files in the resources dir
-eclipse.classpath.file { 
+eclipse.classpath.file {
 	whenMerged { classpath ->
 		classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
 	}
@@ -52,13 +52,13 @@ gwt {
 	modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web']
 	devModules devModule
 	maxHeapSize = '1500M'
-	
+
 	compiler {
-		// Customize the GWT compiler here
-		// strict = true;
+	// Customize the GWT compiler here
+	// strict = true;
         // enableClosureCompiler = true;
-        // disableClassMetadata = true;
-        // disableCastChecking = true;
+        disableClassMetadata = true;
+        disableCastChecking = true;
         // style = de.richsource.gradle.plugins.gwt.Style.PRETTY // DETAILED, OBF
 	}
 }
