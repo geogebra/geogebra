@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.WebStatic;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
 
@@ -183,17 +182,6 @@ public class View {
 	public void processBase64String(String dataParamBase64String) {
 		String workerUrls = prepareFileReading();
 		populateArchiveContent(dataParamBase64String, workerUrls, this, false);
-	}
-
-	public void openFromLastApp() {
-		try {
-			archiveContent = WebStatic.lastApp.getGgbApi()
-			        .createArchiveContent(false);
-			maybeLoadFile();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	private int zippedLength = 0;

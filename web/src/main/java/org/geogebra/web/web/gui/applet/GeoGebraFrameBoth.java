@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
-import org.geogebra.web.html5.WebStatic;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -45,7 +44,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	protected AppW createApplication(ArticleElement ae,
 	        GLookAndFeelI laf) {
 		AppW app = factory.getApplet(ae, this, laf);
-		WebStatic.lastApp = app;
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
 		return app;
@@ -53,7 +51,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrame gf) {
 		AppW app = new AppWsimple(ae, gf);
-		WebStatic.lastApp = app;
 		return app;
 	}
 
@@ -69,11 +66,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			inst.ae = articleElement;
 			GeoGebraLogger.startLogger(inst.ae);
 			inst.createSplash(articleElement);
-			if(WebStatic.panelForApplets == null){
-				RootPanel.get(articleElement.getId()).add(inst);
-			}else{
-				WebStatic.panelForApplets.add(inst);
-			}
+			RootPanel.get(articleElement.getId()).add(inst);
 		}
 	}
 	

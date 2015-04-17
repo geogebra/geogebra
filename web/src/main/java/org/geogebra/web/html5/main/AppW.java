@@ -70,7 +70,6 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.WebStatic;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
@@ -1834,7 +1833,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	protected void requestFocusInWindow() {
-		if (WebStatic.panelForApplets == null && !articleElement.preventFocus()) {
+		if (!articleElement.preventFocus()) {
 			euclidianView.requestFocusInWindow();
 		}
 	}

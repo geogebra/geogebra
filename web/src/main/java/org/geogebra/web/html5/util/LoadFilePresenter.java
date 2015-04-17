@@ -8,7 +8,6 @@ import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.WebStatic;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.GWT;
@@ -35,17 +34,12 @@ public class LoadFilePresenter {
 
 		View view = getView();
 		String base64String;
-		String fileId;
 		String filename;
 		view.adjustScale();
 		final AppW app = view.getApplication();
 		boolean fileOpened = true;
 		boolean specialPerspective = false;
-		if (WebStatic.urlToOpen != null) {
-			getView().showLoadAnimation();
-			getView().processFileName(WebStatic.urlToOpen);
-			WebStatic.urlToOpen = null;
-		} else if (isReloadDataInStorage()) {
+		if (isReloadDataInStorage()) {
 			// do nothing here - everything done in isReloadDataInStorage()
 			// function
 		} else if (!"".equals((filename = view.getDataParamJSON()))) {

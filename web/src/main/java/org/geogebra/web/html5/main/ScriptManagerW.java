@@ -560,10 +560,6 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::debug(Ljava/lang/String;)(str);
 		};
 
-		api.startEditing = function(str) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::startEditing()();
-		};
-
 		api.setWidth = function(width) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setWidth(I)(width);
 		};

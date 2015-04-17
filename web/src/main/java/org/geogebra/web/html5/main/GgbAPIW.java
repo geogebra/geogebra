@@ -732,10 +732,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		});
 	}
 
-	public void startEditing() {
-		new View(RootPanel.getBodyElement(), (AppW) app).openFromLastApp();
-	}
-
 	/**
 	 * @param width
 	 *            setst the applet widht
