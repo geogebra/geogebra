@@ -43,10 +43,8 @@
 #define VERSION "1.1"
 
 
-#define EMCC
 #define GIAC_NO_OPTIMIZATIONS
 #define HAVE_NO_HOME_DIRECTORY
-#define TIMEOUT
 
 #define HAVE_SYSCONF
 #define HAVE_LIBMPFR
