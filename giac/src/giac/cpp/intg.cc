@@ -2156,7 +2156,7 @@ namespace giac {
     // Step -3: replace when by piecewise
     e=when2piecewise(e,contextptr);
     e=Heavisidetosign(e,contextptr);
-    if (is_constant_wrt(e,gen_x,contextptr))
+    if (is_constant_wrt(e,gen_x,contextptr) && lop(e,at_sign).empty())
       return e*gen_x;
     if (e.type!=_SYMB) {
       remains_to_integrate=zero;
