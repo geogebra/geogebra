@@ -1929,6 +1929,21 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     case 'Tab':
       if (this.cursor[R]) {
         this.selectNextSyntaxHelp();
+        if (this.cursor.selection) {
+          // success!
+        } else if (this.cursor[L]) {
+          // we can still try to go to the left,
+          // and try again!
+          var cursorLeft = this.cursor[L];
+          this.cursor.insertBefore(this.ch[L]);
+          this.selectNextSyntaxHelp();
+          if (this.cursor.selection) {
+        	  // success, keep cursor position!
+          } else {
+        	  // fail, revert to previous cursor pos
+        	  this.cursor.insertAfter(cursorLeft);
+          }
+        }
       }
       break;
 
