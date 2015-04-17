@@ -30,7 +30,7 @@ public class GeoGebra3D extends GeoGebra {
 		(new GeoGebra3D()).doMain(cmdArgs);
 	}
 
-	protected GeoGebra3D() {
+	public GeoGebra3D() {
 	}
 
 	protected void startGeoGebra(CommandLineArguments args) {
