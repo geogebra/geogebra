@@ -389,6 +389,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	Scheduler.ScheduledCommand requestFocusCommand = new Scheduler.ScheduledCommand() {
 		public void execute() {
 			focusPanel.setFocus(true);
+			table.updateCopiableSelection();
 		}
 	};
 
