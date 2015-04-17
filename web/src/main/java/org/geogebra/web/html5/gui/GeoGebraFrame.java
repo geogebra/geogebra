@@ -609,7 +609,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		this.ae.removeFromParent();
 		this.ae = null;
 		this.app = null;
-		fileLoader.setView(null);;
+		fileLoader.setView(null);
 		remove = null;
 		if (GeoGebraFrame.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
