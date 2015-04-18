@@ -26,7 +26,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -59,8 +58,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		editor = new EquationEditor(app, this);
 
 
-
-		addHistoryPopup(app.showInputTop());
+		//should depend on number of previoous elements?
+		addHistoryPopup(true);
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
@@ -92,14 +91,19 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				// event.stopPropagation is called
 			}
 		});
-
-		xButton.setFocus(false);
+		try{
+			//TRY-CATCH needed for Win8 app //TODO find better solution
+			xButton.setFocus(false);
+		}catch(Throwable t){
+		}
 		// add(textField);// done in super()
 
 		// it seems this would be part of the Tree, not of TreeItem...
 		// why? web programming knowledge helps: we should add position:
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
+		
 		add(xButton);// dirty hack of adding it two times!
+		
 		// this was necessary earlier in conjuction with add(xButton)
 		// ihtml.getElement().appendChild(xButton.getElement());
 		// but later this.replaceXButtonDOM() should be used instead
@@ -109,13 +113,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		// When scheduleDeferred does not work...
 		// this code makes the cursor show when the page loads...
-		Timer tim = new Timer() {
-			@Override
-			public void run() {
-				setFocus(true);
-			}
-		};
-		// tim.schedule(500);
 	}
 
 	public void replaceXButtonDOM() {
