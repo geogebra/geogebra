@@ -79,13 +79,13 @@ task cleanWar(type: Delete){
 	delete warDirRel + '/web3d'
 }
 
-task deployIntoWar(type: Copy, dependsOn: cleanWar) {
+task deployIntoWar(type: Sync) {
 	description 'Copies/updates the GWT production compilation directory (web3d) to the war directory.'
 	from compileGwt	
 	into warDirRel
 }
 
-task draftDeployIntoWar(type: Copy) {
+task draftDeployIntoWar(type: Copy, dependsOn: cleanWar) {
 	description 'Copies/updates the GWT draft compilation directory (web3d) to the war directory.'
 	from draftCompileGwt
 	into warDirRel
