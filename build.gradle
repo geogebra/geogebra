@@ -1,5 +1,8 @@
 project.description = 'GeoGebra'
 
+ext.javagiacver = '201503271100'
+ext.joglver = '2.2.0'
+
 subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
@@ -18,23 +21,7 @@ subprojects {
 	tasks.eclipse.dependsOn 'cleanEclipse'
 }
 
-buildscript {
-	repositories {
-		jcenter()
-        dependencies {
-		classpath 'org.hidetake:gradle-ssh-plugin:1.1.2'
-    	    }
-	}
-}
-
-ext.joglver = '2.2.0'
-ext.javagiacver = '201503271100'
-
 task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
 	gradleVersion = '2.1'
 }
-
-if (file('deploy.gradle').exists()) {
-    apply from: file('deploy.gradle')
-    }

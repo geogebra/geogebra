@@ -5,7 +5,6 @@ buildscript {
 		jcenter()
         dependencies {
         	classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-			classpath 'org.hidetake:gradle-ssh-plugin:1.1.2'
 		}
 	}
 }
@@ -125,8 +124,4 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 // http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
 javadoc {
         options.addStringOption("sourcepath", "")
-    }
-
-if (file('deploy.gradle').exists()) {
-    apply from: file('deploy.gradle')
     }

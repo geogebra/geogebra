@@ -75,8 +75,3 @@ run {
 		ant.copy(file:"$jogl_native_path", todir:"$jogl_dir")
 		}
 	}
-
-if (file('deploy.gradle').exists()) {
-    apply from: file('deploy.gradle')
-    }
-
