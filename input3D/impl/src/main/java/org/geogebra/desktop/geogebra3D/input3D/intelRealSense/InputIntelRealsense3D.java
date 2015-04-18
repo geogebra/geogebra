@@ -153,7 +153,7 @@ public class InputIntelRealsense3D implements Input3D {
 		return isLeftPressed;
 	}
 
-	public double[] getGlassesPosition(){
+	public double[] getGlassesPosition(int i){
 		return glassesPosition;
 	}
 	

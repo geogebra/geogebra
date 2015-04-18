@@ -43,7 +43,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	protected Coords startMouse3DPosition;
 
-	private Coords glassesPosition;
+	private Coords[] glassesPosition;
 
 	private Quaternion mouse3DOrientation, startMouse3DOrientation;
 	private Coords rotV;
@@ -79,8 +79,11 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		this.input3D = input3d;
 
 		// glasses position
-		glassesPosition = new Coords(3);
-
+		glassesPosition = new Coords[2];
+		for (int i = 0 ; i < 2 ; i++){
+			glassesPosition[i] = new Coords(3);
+		}
+		
 		// 3D mouse position
 		mouse3DPosition = new Coords(3);
 		// mouse3DPosition.setW(1);
@@ -139,21 +142,24 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 			// eyes : set position only if we use glasses
 			if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
-				double[] pos = input3D.getGlassesPosition();
-				setPositionXYOnPanel(pos, glassesPosition);
-				glassesPosition.setZ(pos[2]);
+				for (int i = 0 ; i < 2 ; i++){
+					double[] pos = input3D.getGlassesPosition(i);
+					setPositionXYOnPanel(pos, glassesPosition[i]);
+					glassesPosition[i].setZ(pos[2]);
+				}
 
 				//App.debug("\n"+glassesPosition);
 
 				// App.debug(input3D.getGlassesPosition()[2]+"");
 				// if (eyeSepIsNotSet){
-				view3D.setEyes(input3D.getEyeSeparation(),
-						glassesPosition.getX(), glassesPosition.getY());
+				view3D.setEyes(
+						glassesPosition[0].getX(), glassesPosition[0].getY(),
+						glassesPosition[1].getX(),glassesPosition[1].getY());
 				// eyeSepIsNotSet = false;
 				// }
 
-				view3D.setProjectionPerspectiveEyeDistance(glassesPosition
-						.getZ());
+				view3D.setProjectionPerspectiveEyeDistance(
+						glassesPosition[0].getZ(), glassesPosition[1].getZ());
 
 			}
 

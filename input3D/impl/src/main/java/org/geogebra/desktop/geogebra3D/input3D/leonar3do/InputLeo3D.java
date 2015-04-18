@@ -33,7 +33,7 @@ public class InputLeo3D implements Input3D {
 	private double screenHalfWidth;
 	
 	
-	private double[] glassesPosition;
+	private double[][] glassesPosition;
 	
 	private double eyeSeparation;
 	
@@ -49,8 +49,10 @@ public class InputLeo3D implements Input3D {
 		mouseOrientation = new double[4];
 		
 		// glasses position
-		glassesPosition = new double[3];
-		
+		glassesPosition = new double[2][];
+		for (int i = 0 ; i < 2 ; i++){
+			glassesPosition[i] = new double[3];
+		}
 		
 		// screen dimensions
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -107,9 +109,12 @@ public class InputLeo3D implements Input3D {
 			eyeSeparation = (leoSocket.leftEyeX - leoSocket.rightEyeX) * screenHalfWidth;
 
 			// glasses position
-			glassesPosition[0] = leoSocket.leftEyeX * screenHalfWidth + eyeSeparation/2;
-			glassesPosition[1] = leoSocket.leftEyeY * screenHalfWidth;
-			glassesPosition[2] = leoSocket.leftEyeZ * screenHalfWidth;
+			glassesPosition[0][0] = leoSocket.leftEyeX * screenHalfWidth;
+			glassesPosition[0][1] = leoSocket.leftEyeY * screenHalfWidth;
+			glassesPosition[0][2] = leoSocket.leftEyeZ * screenHalfWidth;
+			glassesPosition[1][0] = leoSocket.rightEyeX * screenHalfWidth;
+			glassesPosition[1][1] = leoSocket.rightEyeY * screenHalfWidth;
+			glassesPosition[1][2] = leoSocket.rightEyeZ * screenHalfWidth;
 
 			/*
 			App.debug("\nleft eye"
@@ -158,8 +163,8 @@ public class InputLeo3D implements Input3D {
 		return isLeftPressed;
 	}
 
-	public double[] getGlassesPosition(){
-		return glassesPosition;
+	public double[] getGlassesPosition(int i){
+		return glassesPosition[i];
 	}
 	
 	public double getEyeSeparation(){

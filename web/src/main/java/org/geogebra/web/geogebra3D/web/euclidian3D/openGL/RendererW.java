@@ -830,28 +830,30 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 		super.updatePerspValues();
 
-		projectionMatrix.set(1, 1, 2 * perspNear / (perspRight - perspLeft));
+		projectionMatrix.set(1, 1, 2 * perspNear[eye] / (perspRight[eye] - perspLeft[eye]));
 		projectionMatrix.set(2, 1, 0);
 		projectionMatrix.set(3, 1, 0);
 		projectionMatrix.set(4, 1, 0);
 
 		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2 * perspNear / (perspTop - perspBottom));
+		projectionMatrix.set(2, 2, 2 * perspNear[eye] / (perspTop[eye] - perspBottom[eye]));
 		projectionMatrix.set(3, 2, 0);
 		projectionMatrix.set(4, 2, 0);
 
-		perspXZ = (perspRight + perspLeft) / (perspRight - perspLeft);
+		perspXZ = (perspRight[eye] + perspLeft[eye]) / (perspRight[eye] - perspLeft[eye]);
 
 		projectionMatrix.set(1, 3, perspXZ);
-		projectionMatrix.set(2, 3, (perspTop + perspBottom)
-		        / (perspTop - perspBottom));
+		projectionMatrix.set(2, 3, (perspTop[eye] + perspBottom[eye])
+				/ (perspTop[eye] - perspBottom[eye]));
 		projectionMatrix.set(3, 3, 0);
 		projectionMatrix.set(4, 3, -1);
 
-		projectionMatrix.set(1, 4, 0);
-		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(1, 4, 0);// (perspRight+perspLeft)/(perspRight-perspLeft)
+										// * perspFocus);
+		projectionMatrix.set(2, 4, 0);// (perspTop+perspBottom)/(perspTop-perspBottom)
+										// * perspFocus);
 		projectionMatrix.set(3, 4, -getVisibleDepth() / 2);
-		projectionMatrix.set(4, 4, -perspFocus);
+		projectionMatrix.set(4, 4, -perspFocus[eye]);
 
 	}
 
@@ -860,8 +862,8 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	@Override
 	public void updateGlassesValues() {
 		super.updateGlassesValues();
-		glassesXZ = 2 * (perspNear * glassesEyeSep / perspFocus)
-		        / (perspRight - perspLeft);
+		glassesXZ = (perspNear[eye] * (glassesEyeX[EYE_LEFT] - glassesEyeX[EYE_RIGHT]) / perspFocus[eye])
+				/ (perspRight[eye] - perspLeft[eye]);
 	}
 
 	@Override

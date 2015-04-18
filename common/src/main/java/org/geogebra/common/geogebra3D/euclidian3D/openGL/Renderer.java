@@ -1255,8 +1255,8 @@ public abstract class Renderer {
 			return d * (1 - z);
 		}
 
-		return eyeToScreenDistance * (z - 1 - d / eyeToScreenDistance)
-				/ (z - 1 - eyeToScreenDistance / d) - view3D.getScreenZOffset();
+		return eyeToScreenDistance[EYE_LEFT] * (z - 1 - d / eyeToScreenDistance[EYE_LEFT])
+				/ (z - 1 - eyeToScreenDistance[EYE_LEFT] / d) - view3D.getScreenZOffset();
 	}
 
 	// ////////////////////////////////
@@ -1547,51 +1547,54 @@ public abstract class Renderer {
 	 */
 	abstract protected void viewOrtho();
 
-	protected double eyeToScreenDistance = 0;
+	protected double[] eyeToScreenDistance = new double[2];
 
-	final public void setNear(double val) {
-		eyeToScreenDistance = val;
+	final public void setNear(double left, double right) {
+		eyeToScreenDistance[EYE_LEFT] = left;
+		eyeToScreenDistance[EYE_RIGHT] = right;
 		updatePerspValues();
 		updatePerspEye();
 	}
 
 	/** distance camera-near plane */
 	private final static double PERSP_NEAR_MIN = 10;
-	protected double perspNear = PERSP_NEAR_MIN;
-	protected double perspLeft;
-	protected double perspRight;
-	protected double perspBottom;
-	protected double perspTop;
-	protected double perspFar;
-	protected double perspDistratio;
-	protected double perspFocus;
+	protected double[] perspNear = {PERSP_NEAR_MIN, PERSP_NEAR_MIN};
+	protected double[] perspLeft = new double[2];
+	protected double[] perspRight = new double[2];
+	protected double[] perspBottom = new double[2];
+	protected double[] perspTop = new double[2];
+	protected double[] perspFar = new double[2];
+	protected double[] perspDistratio = new double[2];
+	protected double[] perspFocus = new double[2];
 	protected Coords perspEye;
 
 	protected void updatePerspValues() {
 
-		perspNear = eyeToScreenDistance - getVisibleDepth() / 2;
-		if (perspNear < PERSP_NEAR_MIN) {
-			perspNear = PERSP_NEAR_MIN;
+		for (int i = 0 ; i < 2 ; i++){
+			perspNear[i] = eyeToScreenDistance[i] - getVisibleDepth() / 2;
+			if (perspNear[i] < PERSP_NEAR_MIN) {
+				perspNear[i] = PERSP_NEAR_MIN;
+			}
+
+			perspFocus[i] = -eyeToScreenDistance[i] + view3D.getScreenZOffset();
+			// App.error(""+ view3D.getScreenZOffset());
+
+			// ratio so that distance on screen plane are not changed
+			perspDistratio[i] = perspNear[i] / eyeToScreenDistance[i];
+
+			// frustum
+			perspLeft[i] = getLeft() * perspDistratio[i];
+			perspRight[i] = getRight() * perspDistratio[i];
+			perspBottom[i] = getBottom() * perspDistratio[i];
+			perspTop[i] = getTop() * perspDistratio[i];
+			// distance camera-far plane
+			perspFar[i] = perspNear[i] + getVisibleDepth();
 		}
-
-		perspFocus = -eyeToScreenDistance + view3D.getScreenZOffset();
-		// App.error(""+ view3D.getScreenZOffset());
-
-		// ratio so that distance on screen plane are not changed
-		perspDistratio = perspNear / (eyeToScreenDistance);
-
-		// frustum
-		perspLeft = getLeft() * perspDistratio;
-		perspRight = getRight() * perspDistratio;
-		perspBottom = getBottom() * perspDistratio;
-		perspTop = getTop() * perspDistratio;
-		// distance camera-far plane
-		perspFar = perspNear + getVisibleDepth();
 
 	}
 
 	private void updatePerspEye() {
-		perspEye = new Coords(glassesEyesSide, glassesEyesHeight, -perspFocus,
+		perspEye = new Coords(glassesEyeX[1], glassesEyeY[1], -perspFocus[EYE_LEFT],
 				1); // perspFocus is negative
 	}
 
@@ -1608,36 +1611,32 @@ public abstract class Renderer {
 	 * @return eyes separation (half of, in real coords)
 	 */
 	public double getEyeSep() {
-		return glassesEyeSep;
+		return (glassesEyeX[0] - glassesEyeX[1]) / 2;
 	}
 
 	abstract protected void viewPersp();
 
-	protected double glassesEyeSep;
-	protected double glassesEyeSep1;
-	protected double glassesEyesSide;
-	protected double glassesEyesSide1;
-	protected double glassesEyesHeight;
-	protected double glassesEyesHeight1;
+	protected double[] glassesEyeX = new double[2];
+	protected double[] glassesEyeX1 = new double[2];
+	protected double[] glassesEyeY = new double[2];
+	protected double[] glassesEyeY1 = new double[2];
 
 	public void updateGlassesValues() {
-		// half eye separation
-		glassesEyeSep = -view3D.getEyeSep() / 2;
-		glassesEyesSide = view3D.getEyesSide();
-		glassesEyesHeight = view3D.getEyesHeight();
-		// eye separation for frustum
-		glassesEyeSep1 = glassesEyeSep * perspDistratio;// (1-distratio);
-		glassesEyesSide1 = glassesEyesSide * perspDistratio;
-		glassesEyesHeight1 = glassesEyesHeight * perspDistratio;
-		// Application.debug("eyesep="+eyesep+"\ne1="+e1);
+		for (int i = 0 ; i < 2 ; i++){
+			// eye values
+			glassesEyeX[i] = view3D.getEyeX(i);
+			glassesEyeY[i] = view3D.getEyeY(i);
+			// eye values for frustum
+			glassesEyeX1[i] = glassesEyeX[i] * perspDistratio[i];
+			glassesEyeY1[i] = glassesEyeY[i] * perspDistratio[i];
+		}
 	}
 
 	abstract protected void viewGlasses();
 
-	private static final int EYE_ONE = -1;
 	protected static final int EYE_LEFT = 0;
 	protected static final int EYE_RIGHT = 1;
-	protected int eye = EYE_ONE;
+	protected int eye = EYE_LEFT;
 
 	protected void setColorMask() {
 
@@ -1768,7 +1767,7 @@ public abstract class Renderer {
 	public double getEyeToScreenDistance() {
 		if (view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
 				|| view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
-			return eyeToScreenDistance;
+			return eyeToScreenDistance[EYE_LEFT];
 		}
 
 		return Double.POSITIVE_INFINITY;

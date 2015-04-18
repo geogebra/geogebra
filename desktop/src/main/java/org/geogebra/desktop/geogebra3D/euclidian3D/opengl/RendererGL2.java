@@ -141,21 +141,21 @@ public abstract class RendererGL2 extends RendererD {
 		if (mouse instanceof GPointWithZ) {
 
 			if (view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
-				double f = eyeToScreenDistance
-						/ (eyeToScreenDistance - ((GPointWithZ) mouse).getZ());
+				double f = eyeToScreenDistance[EYE_LEFT]
+						/ (eyeToScreenDistance[EYE_LEFT] - ((GPointWithZ) mouse).getZ());
 				x = dim.width / 2 + f * (x - dim.width / 2);
 				y = dim.height / 2 + f * (y - dim.height / 2);
 
 			} else if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
-				double f = eyeToScreenDistance
-						/ (eyeToScreenDistance - ((GPointWithZ) mouse).getZ() - view3D
+				double f = eyeToScreenDistance[EYE_LEFT]
+						/ (eyeToScreenDistance[EYE_LEFT] - ((GPointWithZ) mouse).getZ() - view3D
 								.getScreenZOffset());
 				x = dim.width / 2 + f
-						* (x + glassesEyeSep - glassesEyesSide - dim.width / 2)
-						- glassesEyeSep + glassesEyesSide;
+						* (x + glassesEyeX[EYE_LEFT] - dim.width / 2)
+						- glassesEyeX[EYE_LEFT];
 				y = dim.height / 2 + f
-						* (y + glassesEyesHeight - dim.height / 2)
-						- glassesEyesHeight;
+						* (y + glassesEyeY[EYE_LEFT] - dim.height / 2)
+						- glassesEyeY[EYE_LEFT];
 
 			}
 
@@ -367,30 +367,22 @@ public abstract class RendererGL2 extends RendererD {
 	@Override
 	protected void viewPersp() {
 
-		jogl.getGL2().glFrustum(perspLeft, perspRight, perspBottom, perspTop,
-				perspNear, perspFar);
-		jogl.getGL2().glTranslated(0, 0, perspFocus);
+		jogl.getGL2().glFrustum(perspLeft[EYE_LEFT], perspRight[EYE_LEFT], perspBottom[EYE_LEFT], perspTop[EYE_LEFT],
+				perspNear[EYE_LEFT], perspFar[EYE_LEFT]);
+		jogl.getGL2().glTranslated(0, 0, perspFocus[EYE_LEFT]);
 	}
 
 	@Override
 	protected void viewGlasses() {
 
-		// eye separation
-		double eyesep, eyesep1;
-		if (eye == EYE_LEFT) {
-			eyesep = -glassesEyeSep;
-			eyesep1 = -glassesEyeSep1;
-		} else {
-			eyesep = glassesEyeSep;
-			eyesep1 = glassesEyeSep1;
-		}
-
-		jogl.getGL2().glFrustum(perspLeft + eyesep1 - glassesEyesSide1,
-				perspRight + eyesep1 - glassesEyesSide1,
-				perspBottom - glassesEyesHeight1,
-				perspTop - glassesEyesHeight1, perspNear, perspFar);
-		jogl.getGL2().glTranslated(eyesep - glassesEyesSide,
-				-glassesEyesHeight, perspFocus);
+		jogl.getGL2().glFrustum(perspLeft[eye] - glassesEyeX1[eye],
+				perspRight[eye] - glassesEyeX1[eye],
+				perspBottom[eye] - glassesEyeY1[eye],
+				perspTop[eye] - glassesEyeY1[eye], 
+				perspNear[eye], perspFar[eye]);
+		jogl.getGL2().glTranslated(-glassesEyeX[eye],
+				-glassesEyeY[eye], 
+				perspFocus[eye]);
 	}
 
 	@Override

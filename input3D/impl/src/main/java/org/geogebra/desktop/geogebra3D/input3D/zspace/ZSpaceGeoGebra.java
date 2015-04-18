@@ -1,13 +1,18 @@
 package org.geogebra.desktop.geogebra3D.input3D.zspace;
 
 
+/**
+ * dummy class waiting for zspace jars
+ * @author mathieu
+ *
+ */
 
 public class ZSpaceGeoGebra {
 	
 	
 	
 	
-    public static final double EYE_SEP = 1;
+    public static final double EYE_SEP_HALF = 1;
 
 
 

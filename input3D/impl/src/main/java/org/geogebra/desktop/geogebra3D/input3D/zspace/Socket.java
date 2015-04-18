@@ -133,7 +133,7 @@ public class Socket {
 	 * @return eye separation
 	 */
 	public double getEyeSeparation() {
-		return ZSpaceGeoGebra.EYE_SEP * zsggb.toPixelRatio();
+		return 2 * ZSpaceGeoGebra.EYE_SEP_HALF * zsggb.toPixelRatio();
 	}
     
  

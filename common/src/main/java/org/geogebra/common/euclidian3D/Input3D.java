@@ -69,7 +69,7 @@ public interface Input3D {
 	 * 
 	 * @return glasses position (two eyes center)
 	 */
-	public double[] getGlassesPosition();
+	public double[] getGlassesPosition(int i);
 
 	/**
 	 * 

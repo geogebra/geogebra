@@ -2776,12 +2776,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// projection
 		sb.append("\t<projection type=\"");
 		sb.append(getProjection());
-		int eyeDistance = (int) projectionPerspectiveEyeDistance;
+		int eyeDistance = (int) projectionPerspectiveEyeDistance[0];
 		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT){
 			sb.append("\" distance=\"");
 			sb.append(eyeDistance);
 		}
-		int sep = (int) eyeSep;
+		int sep = (int) getEyeSep();
 		if (sep != EuclidianSettings3D.EYE_SEP_DEFAULT){
 			sb.append("\" separation=\"");
 			sb.append(sep);
@@ -3485,7 +3485,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		setDefault2DCursor();
 	}
 
-	private double projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
+	private double[] projectionPerspectiveEyeDistance = 
+		{PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT, PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT};
 	
 	private static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
 	
@@ -3505,8 +3506,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * 
 	 * @param distance
 	 */
-	public void setProjectionPerspectiveEyeDistance(double distance) {
-		projectionPerspectiveEyeDistance = distance;
+	public void setProjectionPerspectiveEyeDistance(double distanceLeft, double distanceRight) {
+		projectionPerspectiveEyeDistance[0] = distanceLeft;
+		projectionPerspectiveEyeDistance[1] = distanceRight;
 		if (projection != PROJECTION_PERSPECTIVE
 				&& projection != PROJECTION_GLASSES)
 			projection = PROJECTION_PERSPECTIVE;
@@ -3518,7 +3520,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	final private void updateProjectionPerspectiveEyeDistance() {
 
-		renderer.setNear(projectionPerspectiveEyeDistance);
+		renderer.setNear(projectionPerspectiveEyeDistance[0], projectionPerspectiveEyeDistance[1]);
 	}
 
 	/**
@@ -3526,7 +3528,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return eye distance to the screen for perspective
 	 */
 	public double getProjectionPerspectiveEyeDistance() {
-		return projectionPerspectiveEyeDistance;
+		return projectionPerspectiveEyeDistance[0];
 	}
 
 	public void setProjectionGlasses() {
@@ -3593,30 +3595,29 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return projection == PROJECTION_GLASSES && isGlassesShutDownGreen();
 	}
 
-	private double eyeSep = 200;
+	private double[] eyeX = {-100, 100}, eyeY = {0 , 0};
 
-	public void setEyes(double sep, double side, double height) {
-		eyeSep = sep;
-		eyesSide = side;
-		eyesHeight = height;
+	public void setEyes(double leftX, double leftY, double rightX, double rightY) {
+		eyeX[0] = leftX;
+		eyeY[0] = leftY;
+		eyeX[1] = rightX;
+		eyeY[1] = rightY;
 		renderer.updateGlassesValues();
 	}
 
 	public double getEyeSep() {
-		return eyeSep;
+		return eyeX[1] - eyeX[0];
+	}
+	
+	
+	public double getEyeX(int i){
+		return eyeX[i];
 	}
 
-	private double eyesHeight = 0;
-
-	public double getEyesHeight() {
-		return eyesHeight;
+	public double getEyeY(int i){
+		return eyeY[i];
 	}
 
-	private double eyesSide = 0;
-
-	public double getEyesSide() {
-		return eyesSide;
-	}
 
 	public boolean isUnitAxesRatio() {
 		// TODO Auto-generated method stub
@@ -3922,8 +3923,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		setShowPlate(evs.getShowPlate());
 
-		setProjectionPerspectiveEyeDistance(evs.getProjectionPerspectiveEyeDistance());
-		eyeSep = evs.getEyeSep();
+		setProjectionPerspectiveEyeDistance(
+				evs.getProjectionPerspectiveEyeDistance(),
+				evs.getProjectionPerspectiveEyeDistance());
+		eyeX[0] = - evs.getEyeSep()/2;
+		eyeX[1] = - eyeX[0];
+		eyeY[0] = 0;
+		eyeY[1] = 0;
 		projectionObliqueAngle = evs.getProjectionObliqueAngle();
 		projectionObliqueFactor = evs.getProjectionObliqueFactor();
 
