@@ -326,27 +326,28 @@ public class AppWapplet extends AppWFull {
 				frame.add(oldSplitLayoutPanel);
 			}
 			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
+		
+			ClickStartHandler.init(oldSplitLayoutPanel, new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y, final PointerEventType type) {
+					AlgebraStyleBarW styleBar = ((AlgebraViewW) 
+							getView(App.VIEW_ALGEBRA)).getStyleBar(false);
+					if (styleBar != null) {
+						styleBar.update(null);
+					}
+	
+					if (!CancelEventTimer.cancelKeyboardHide()) {
+						Timer timer = new Timer() {
+							@Override
+							public void run() {
+								frame.keyBoardNeeded(false, null);
+							}
+						};
+						timer.schedule(0);
+					}
+				}
+			});
 		}
-		ClickStartHandler.init(oldSplitLayoutPanel, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, final PointerEventType type) {
-				AlgebraStyleBarW styleBar = ((AlgebraViewW) 
-						getView(App.VIEW_ALGEBRA)).getStyleBar(false);
-				if (styleBar != null) {
-					styleBar.update(null);
-				}
-
-				if (!CancelEventTimer.cancelKeyboardHide()) {
-					Timer timer = new Timer() {
-						@Override
-						public void run() {
-							frame.keyBoardNeeded(false, null);
-						}
-					};
-					timer.schedule(0);
-				}
-			}
-		});
 	}
 
 	@Override
