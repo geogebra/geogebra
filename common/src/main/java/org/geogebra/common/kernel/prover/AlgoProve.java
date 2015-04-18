@@ -146,7 +146,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 	public void compute() {
 		if (processing == 1) {
 			App.debug("PROCESSING mode: list undefined (1->2)");
-			bool.setUndefined();
+			bool.setUndefinedProverOnly();
 			processing = 2; // Next time we should call initialCompute()
 			return;
 		}
@@ -158,7 +158,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 
 		if (result != null) {
 			if (result == ProofResult.UNKNOWN) {
-				bool.setUndefined();
+				bool.setUndefinedProverOnly();
 				return;
 			}
 			bool.setDefined();
