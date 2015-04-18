@@ -2968,10 +2968,10 @@ kernel, left,
 
 		case YCOORD:
 			leftEval = left.evaluate(tpl);
-			if (valueForm && leftEval instanceof VectorValue) {
+			if (stringType != StringType.GIAC && valueForm && leftEval instanceof VectorValue) {
 				sb.append(kernel.format(((VectorValue) leftEval).getVector()
 						.getY(), tpl));
-			} else if (valueForm
+			} else if (stringType != StringType.GIAC && valueForm
 					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(kernel.format(
 						((Vector3DValue) leftEval).getPointAsDouble()[1], tpl));
@@ -3004,7 +3004,7 @@ kernel, left,
 			break;
 
 		case ZCOORD:
-			if (valueForm
+			if (stringType != StringType.GIAC && valueForm
 					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(kernel.format(
 						((Vector3DValue) leftEval).getPointAsDouble()[2], tpl));
@@ -4488,6 +4488,9 @@ kernel, left,
 	public boolean hasCoords() {
 		if (isLeaf())
 			return left != null && left.hasCoords();
+		if(operation == Operation.FUNCTION_NVAR){
+			App.printStacktrace(left+","+left.getClass()+","+left.hasCoords());
+		}
 		return getLeft().hasCoords() || getRight().hasCoords();
 	}
 
