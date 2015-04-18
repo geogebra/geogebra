@@ -53,12 +53,14 @@ gwt {
 	maxHeapSize = '1500M'
 
 	compiler {
-	// Customize the GWT compiler here
-	// strict = true;
+		// Customize the GWT compiler here
+		// strict = true;
         // enableClosureCompiler = true;
         disableClassMetadata = true;
         disableCastChecking = true;
-        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY // DETAILED, OBF
+        // style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
+        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;
+        
 	}
 }
 
@@ -73,13 +75,17 @@ configurations.all {
 def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 
-task deployIntoWar(type: Sync) {
+task cleanWar(type: Delete){
+	delete warDirRel + '/web3d'
+}
+
+task deployIntoWar(type: Copy, dependsOn: cleanWar) {
 	description 'Copies/updates the GWT production compilation directory (web3d) to the war directory.'
-	from compileGwt
+	from compileGwt	
 	into warDirRel
 }
 
-task draftDeployIntoWar(type: Sync) {
+task draftDeployIntoWar(type: Copy) {
 	description 'Copies/updates the GWT draft compilation directory (web3d) to the war directory.'
 	from draftCompileGwt
 	into warDirRel
