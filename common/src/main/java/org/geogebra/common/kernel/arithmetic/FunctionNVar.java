@@ -1027,5 +1027,9 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	public final ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
 		return expression.integral(fv, kernel0);
 	}
+	
+	public final boolean hasCoords(){
+		return expression.hasCoords();
+	}
 
 }
