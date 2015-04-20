@@ -196,13 +196,16 @@ public class DrawPolygon extends Drawable implements Previewable {
 		
 		Coords coordsApex = v[triFan.getApexPoint()];
 		gp.reset();
+
+		gp.moveTo(coordsApex.getX(), coordsApex.getY());
 		for (int i=0; i < triFan.size(); i++) {
-			gp.moveTo(coordsApex.getX(), coordsApex.getY());
-			gp.lineTo(coordsApex.getX(), coordsApex.getY());
 			Coords coord = v[triFan.getVertexIndex(i)];			
 			gp.lineTo(coord.getX(), coord.getY());
 		}
+
+		gp.lineTo(coordsApex.getX(), coordsApex.getY());
 		gp.closePath();
+		fill(g2, gp, false);
 		getShape().add(
 				org.geogebra.common.factories.AwtFactory.prototype
 						.newArea(gp));
