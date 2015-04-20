@@ -894,6 +894,33 @@ public interface Traversing {
 		private Set<String> commands;
 
 		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof ExpressionNode){
+				ExpressionNode en = (ExpressionNode) ev;
+				if(en.getOperation() == Operation.POWER && en.getLeft() instanceof Command){
+					Command c = (Command)en.getLeft();
+					if(commands.contains(c.getName())){
+						return new GeoDummyVariable(
+								c.getKernel().getConstruction(), c.getName())
+								.wrap().multiply(c.getArgument(0).power(en.getRight()));
+					}
+				}
+				if(en.getOperation() == Operation.FACTORIAL && en.getLeft() instanceof Command){
+					Command c = (Command)en.getLeft();
+					if(commands.contains(c.getName())){
+						return new GeoDummyVariable(
+								c.getKernel().getConstruction(), c.getName())
+								.wrap().multiply(c.getArgument(0).factorial());
+					}
+				}
+				if(en.getOperation() == Operation.SQRT_SHORT && en.getLeft() instanceof Command){
+					Command c = (Command)en.getLeft();
+					if(commands.contains(c.getName())){
+						return new GeoDummyVariable(
+								c.getKernel().getConstruction(), c.getName())
+								.wrap().sqrt().multiply(c.getArgument(0));
+					}
+				}
+			}
 			if (ev instanceof Command) {
 				Command c = (Command) ev;
 				if (commands.contains(c.getName())
