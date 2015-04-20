@@ -480,8 +480,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						 */
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						DockManagerD dm = gui.getLayout().getDockManager();
+						int viewId = (dm.getFocusedPanel() == null) ? -1 : dm.getFocusedPanel().getViewId();
 						org.geogebra.desktop.export.PrintPreview pre = org.geogebra.desktop.export.PrintPreview
-								.get(app, dm.getFocusedPanel().getViewId(),
+								.get(app, viewId,
 										PageFormat.LANDSCAPE);
 
 						pre.setVisible(true);
