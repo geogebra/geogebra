@@ -113,7 +113,7 @@ public class Parser implements ParserInterface{
      * Parses a String and returns a ValidExpression Object     
      */
     public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {           
-        myReInit( parseString );                         
+        myReInit( parseString.charAt(0)=='=' ? parseString.substring(1):parseString );                         
         ValidExpression ret = buildValidExpression();
         processUndecided();
         return ret;     
