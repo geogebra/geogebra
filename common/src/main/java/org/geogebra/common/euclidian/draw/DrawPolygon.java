@@ -92,7 +92,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			updateStrokes(poly);
 
 			// build general path for this polygon
-			if (isAllPointsOnScreen() || !getView().getApplication().isPrerelease()) {
+			if (!getView().getApplication().isPrerelease() || isAllPointsOnScreen()) {
 				isVisible = addPointsToPath(poly.getPointsLength());
 				if (geo.isInverseFill()) {
 					createShape();
