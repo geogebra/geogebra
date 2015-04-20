@@ -901,7 +901,7 @@ public interface Traversing {
 					if(commands.contains(c.getName())){
 						return new GeoDummyVariable(
 								c.getKernel().getConstruction(), c.getName())
-								.wrap().multiply(c.getArgument(0).power(en.getRight()));
+								.wrap().multiply(c.getArgument(0).traverse(this).wrap().power(en.getRight()));
 					}
 				}
 				if(en.getOperation() == Operation.FACTORIAL && en.getLeft() instanceof Command){
@@ -909,7 +909,7 @@ public interface Traversing {
 					if(commands.contains(c.getName())){
 						return new GeoDummyVariable(
 								c.getKernel().getConstruction(), c.getName())
-								.wrap().multiply(c.getArgument(0).factorial());
+								.wrap().multiply(c.getArgument(0).traverse(this).wrap().factorial());
 					}
 				}
 				if(en.getOperation() == Operation.SQRT_SHORT && en.getLeft() instanceof Command){
@@ -917,7 +917,7 @@ public interface Traversing {
 					if(commands.contains(c.getName())){
 						return new GeoDummyVariable(
 								c.getKernel().getConstruction(), c.getName())
-								.wrap().sqrt().multiply(c.getArgument(0));
+								.wrap().sqrt().multiply(c.getArgument(0).traverse(this));
 					}
 				}
 			}
@@ -927,7 +927,7 @@ public interface Traversing {
 						&& c.getArgumentNumber() == 1)
 					return new GeoDummyVariable(
 							c.getKernel().getConstruction(), c.getName())
-							.wrap().multiply(c.getArgument(0));
+							.wrap().multiply(c.getArgument(0).traverse(this));
 			}
 			return ev;
 		}
