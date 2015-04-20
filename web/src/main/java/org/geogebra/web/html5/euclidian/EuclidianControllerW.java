@@ -382,7 +382,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	protected void switchModeForMousePressed(AbstractEvent e) {
-		startPosition = new GPoint(e.getX(), e.getY());
+		startPosition = null;
 
 		super.switchModeForMousePressed(e);
 
@@ -394,7 +394,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
 		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE
 		                || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON || this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS)) {
-
+			startPosition = new GPoint(e.getX(), e.getY());
 			this.mouseLoc = new GPoint(e.getX(), e.getY());
 			this.view.setHits(this.mouseLoc, e.getType());
 
