@@ -1,16 +1,11 @@
 package org.geogebra.desktop.geogebra3D.input3D.zspace;
 
 import java.awt.Dimension;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian3D.Input3D;
-import org.geogebra.common.euclidian3D.Input3D.DeviceType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.App;
 
 
 /**
@@ -77,10 +72,10 @@ public class InputZSpace3D implements Input3D {
 			
 			
 			// mouse position
-			mouseOrientation[0] = 1;//socket.birdOrientationX;
-			mouseOrientation[1] = 0;//socket.birdOrientationY;
-			mouseOrientation[2] = 0;//socket.birdOrientationZ;
-			mouseOrientation[3] = 0;//socket.birdOrientationW;
+			mouseOrientation[0] = socket.stylusOrientationX;
+			mouseOrientation[1] = socket.stylusOrientationY;
+			mouseOrientation[2] = socket.stylusOrientationZ;
+			mouseOrientation[3] = socket.stylusOrientationW;
 
 			
 			// right button

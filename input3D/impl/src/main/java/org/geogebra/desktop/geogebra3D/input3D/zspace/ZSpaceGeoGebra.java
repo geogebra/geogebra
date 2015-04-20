@@ -132,4 +132,24 @@ public class ZSpaceGeoGebra {
 	}
 
 
+
+
+
+	public double getStylusQX() {
+		return 0;
+	}
+
+	public double getStylusQY() {
+		return 0;
+	}
+
+	public double getStylusQZ() {
+		return 0;
+	}
+
+	public double getStylusQW() {
+		return 0;
+	}
+
+
 }

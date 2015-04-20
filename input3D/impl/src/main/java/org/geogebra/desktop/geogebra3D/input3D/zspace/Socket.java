@@ -20,7 +20,7 @@ public class Socket {
     /** stylus z position */
     public double stylusZ;
 	
-    public double birdOrientationX, birdOrientationY, birdOrientationZ, birdOrientationW;
+    public double stylusOrientationX, stylusOrientationY, stylusOrientationZ, stylusOrientationW;
      
     public double leftEyeX, leftEyeY, leftEyeZ;
     public double rightEyeX, rightEyeY, rightEyeZ;
@@ -59,6 +59,12 @@ public class Socket {
     		stylusY = zsggb.getStylusY();
     		stylusZ = zsggb.getStylusZ();
 //    		App.debug("\nstylus: "+stylusX+","+stylusY+","+stylusZ);
+    		
+    		stylusOrientationX = zsggb.getStylusQX();
+    		stylusOrientationY = zsggb.getStylusQY();
+    		stylusOrientationZ = zsggb.getStylusQZ();
+    		stylusOrientationW = zsggb.getStylusQW();
+//    		App.debug("\n"+zsggb.getStylusMatrix());
     		
     		
     		leftEyeX = zsggb.getLeftEyeX();
