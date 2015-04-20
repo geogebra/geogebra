@@ -3589,11 +3589,11 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	height: 100%;
 }
 
-#View_2 div table {
+#View_2 div table:not(.spec) {
 	width: 100%;
 }
 
-#View_2 div table tr>td+td {
+#View_2 div table:not(.spec) tr>td+td {
 	width: 100%;
 }
 

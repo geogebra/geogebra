@@ -2503,13 +2503,13 @@ var hatHTML = '<span class="array non-leaf vbottom"><span class="hat">^</span><s
 LatexCmds.hat = bind(SomethingHTML, '\\hat', hatHTML);
 
 // MathQuillGGB hacks by GeoGebra
-var vecHTML = '<table style="display:inline-table;vertical-align:65%;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
+var vecHTML = '<table class="spec" style="display:inline-table;vertical-align:65%;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
 LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
 LatexCmds.vec = bind(SomethingHTML, '\\vec', vecHTML);
 LatexCmds.cr = bind(Symbol, '\\cr', '<div style="display:block;height:1px;width:1px;"> </div>');
 LatexCmds.equals = bind(Symbol, '\\equals', ' <span>=</span> ');// to be different from simple "="
 
-var ggbtableHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0">&0</table>';
+var ggbtableHTML = '<table class="spec" style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0">&0</table>';
 var ggbtrHTML = '<tr>&0</tr>';
 var ggbtrlHTML = '<tr style="border-top: black solid 2px; border-bottom: black solid 2px;">&0</tr>';
 var ggbtrltHTML = '<tr style="border-top: black solid 2px;">&0</tr>';
