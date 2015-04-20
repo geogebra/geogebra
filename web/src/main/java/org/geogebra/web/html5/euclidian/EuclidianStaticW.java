@@ -32,11 +32,11 @@ public class EuclidianStaticW extends org.geogebra.common.euclidian.EuclidianSta
 		return new Rectangle(x, y, dim.getWidth(), dim.getHeight());
 	}
 
-	private static GFont getIndexFont(GFont f) {
+	/*private static GFont getIndexFont(GFont f) {
 		// index font size should be at least 8pt
 		int newSize = Math.max((int) (f.getSize() * 0.9), 8);
 		return f.deriveFont(f.getStyle(), newSize);
-	}
+	}*/
 
 	// to make code more efficient in the following method
 	private boolean repaintDeferred = false;

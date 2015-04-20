@@ -772,7 +772,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			// TODO: h should equal the geo height, this is just an
 			// estimate
 			int x = event.getNativeEvent().getClientX();
-			double h = 2 * app.getFontSize();
+			//double h = 2 * app.getFontSize();
 			int y = event.getNativeEvent().getClientY();
 
 			geo0.setRealWorldLoc(ev.toRealWorldCoordX(touchEventX(x)),
