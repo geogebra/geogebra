@@ -89,14 +89,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		}
 	}
 	private boolean[] childVisible = new boolean[0];
-	private boolean isBrowserShowing = false;
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
 	
 	@Override
     public void showBrowser(HeaderPanel bg) {
-		this.isBrowserShowing = true;
 		GeoGebraFrame frameLayout = this;
 	    final int count = frameLayout.getWidgetCount();
 		final int oldHeight = this.getOffsetHeight();
@@ -118,7 +116,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	@Override
     public void hideBrowser(MyHeaderPanel bg) {
-		this.isBrowserShowing = false;
 		GeoGebraFrame frameLayout = this;
 		frameLayout.remove(bg);
 		final int count = frameLayout.getWidgetCount();
@@ -251,7 +248,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
-		if(app.getLAF().isSmart()){
+		if(app.getLAF().isSmart() || !app.showAlgebraInput()){
 			return;
 		}
 		if (showKeyboardButton == null) {

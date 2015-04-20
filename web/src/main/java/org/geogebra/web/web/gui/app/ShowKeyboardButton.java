@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ShowKeyboardButton extends SimplePanel {
 	
-	private final int HEIGHT = 33;
 	private Widget parent;
 
 	/**

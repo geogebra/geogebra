@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -18,7 +17,6 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
-import org.geogebra.web.web.gui.view.algebra.NewRadioButtonTreeItem;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.util.keyboard.UpdateKeyBoardListener;
 
@@ -187,7 +185,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 */
 	public void showKeyboardButton(boolean show,
 	        final MathKeyboardListener textField) {
-		if(app.getLAF().isSmart()){
+		if(app.getLAF().isSmart() || !app.showAlgebraInput()){
 			return;
 		}
 		if (showKeyboardButton == null) {
