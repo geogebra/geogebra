@@ -140,7 +140,6 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 	}
 
 	private Canvas makeCanvas() {
-		App.printStacktrace("new canvas");
 		return Canvas.createIfSupported();
 	}
 
