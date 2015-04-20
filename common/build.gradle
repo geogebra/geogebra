@@ -36,13 +36,6 @@ sourceSets {
 	}
 }
 
-cleanEclipse.dependsOn('cleanJavacc')
-eclipseClasspath.dependsOn('compileJavacc')
-
-eclipse.project {
- 	natures 'sf.eclipse.javacc.javaccnature'
-}
-
 compileJavacc {
 	arguments = [static: 'false']
 }

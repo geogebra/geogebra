@@ -18,10 +18,54 @@ subprojects {
 		natures 'org.springsource.ide.eclipse.gradle.core.nature'
 	}
 
-	tasks.eclipse.dependsOn 'cleanEclipse'
+	// add auto formatter to every project
+	task eclipseJdtPrepare(type: Copy) {
+		from rootProject.file('eclipse/org.eclipse.jdt.core.prefs')
+		into project.file('.settings/')
+		outputs.upToDateWhen { false }
+	}
+
+	task eclipseJdtUi(type: Copy) {
+		from rootProject.file('eclipse/org.eclipse.jdt.ui.prefs')
+		into project.file('.settings/')
+		outputs.upToDateWhen { false }
+	}
+
+	task cleanEclipseJdtUi(type: Delete) {
+		delete project.file('.settings/org.eclipse.jdt.ui.prefs')
+	}
+
+	tasks['eclipseJdt'].dependsOn(eclipseJdtPrepare)
+	tasks['cleanEclipse'].dependsOn(cleanEclipseJdtUi)
+	tasks['eclipse'].dependsOn(eclipseJdtPrepare, eclipseJdtUi, cleanEclipse)
 }
 
 task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
 	gradleVersion = '2.1'
 }
+
+if (file('deploy.gradle').exists()) {
+    apply from: file('deploy.gradle')
+}
+
+// eclipse related tasks
+project(':common') {
+	
+	cleanEclipse.dependsOn('cleanJavacc')
+	eclipseClasspath.dependsOn('compileJavacc')
+
+	eclipse.project {
+ 		natures 'sf.eclipse.javacc.javaccnature'
+	}
+}
+
+project(':web') {
+	// exclude from the eclipse classpath the java files in the resources dir
+	eclipse.classpath.file { 
+		whenMerged { classpath ->
+			classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
+		}
+	}
+}
+
