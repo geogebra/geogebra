@@ -366,7 +366,6 @@ public class OnScreenKeyBoard extends PopupPanel {
 		add(p);
 
 		resetKeyboardState();
-		
 		Window.addResizeHandler(new ResizeHandler() {
 			
 			@Override
@@ -1179,6 +1178,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 		this.keyboardWanted = true;
 		updateSize();
 		checkLanguage();
+		setStyleName();//maybe not needed always, but definitely in Win8 app
 		super.show();
 	}
 
