@@ -45,10 +45,6 @@ task wrapper(type: Wrapper) {
 	gradleVersion = '2.1'
 }
 
-if (file('deploy.gradle').exists()) {
-    apply from: file('deploy.gradle')
-}
-
 // eclipse related tasks
 project(':common') {
 	
