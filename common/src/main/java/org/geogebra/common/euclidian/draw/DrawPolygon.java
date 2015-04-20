@@ -92,7 +92,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			updateStrokes(poly);
 
 			// build general path for this polygon
-			if (isAllPointsOnScreen()) {
+			if (isAllPointsOnScreen() || !getView().getApplication().isPrerelease()) {
 				isVisible = addPointsToPath(poly.getPointsLength());
 				if (geo.isInverseFill()) {
 					createShape();
@@ -198,6 +198,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		gp.reset();
 		for (int i=0; i < triFan.size(); i++) {
 			gp.moveTo(coordsApex.getX(), coordsApex.getY());
+			gp.lineTo(coordsApex.getX(), coordsApex.getY());
 			Coords coord = v[triFan.getVertexIndex(i)];			
 			gp.lineTo(coord.getX(), coord.getY());
 		}
