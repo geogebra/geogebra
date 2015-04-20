@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;

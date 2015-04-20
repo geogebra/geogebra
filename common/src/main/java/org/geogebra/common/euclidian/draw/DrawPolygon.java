@@ -20,13 +20,13 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation;
-import org.geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.Convexity;
-import org.geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -138,7 +138,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 						.newArea(gp));
 
 	}
-	private PolygonTriangulation pt = new PolygonTriangulation();
+	private org.geogebra.common.kernel.discrete.PolygonTriangulation pt = new PolygonTriangulation();
 
 	private void triangularize() {
 		createShape();
@@ -466,17 +466,17 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private boolean isAllPointsOnScreen() {
-//		if (poly.getPoints() == null) {
-//			return false;
-//		}
-//		for (GeoPointND p : poly.getPoints()) {
-//			double x = view.toScreenCoordXd(p.getInhomX());
-//			double y = view.toScreenCoordYd(p.getInhomY());
-//			if (x < 0 || x > view.getWidth() ||
-//					y < 0 || y > view.getHeight()) {
-//				return false;
-//			}
-//		}
+		if (poly.getPoints() == null) {
+			return false;
+		}
+		for (GeoPointND p : poly.getPoints()) {
+			double x = view.toScreenCoordXd(p.getInhomX());
+			double y = view.toScreenCoordYd(p.getInhomY());
+			if (x < 0 || x > view.getWidth() ||
+					y < 0 || y > view.getHeight()) {
+				return false;
+			}
+		}
 		return true;
 	}
 	}
