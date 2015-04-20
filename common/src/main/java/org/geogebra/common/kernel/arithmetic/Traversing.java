@@ -935,7 +935,7 @@ public interface Traversing {
 				App.debug(geo + ":"
 						+ ((GeoCasCell) geo).getOutputValidExpression());
 				return ((GeoCasCell) geo).getOutputValidExpression()
-						.deepCopy(geo.getKernel()).traverse(this);
+						.deepCopy(geo.getKernel()).traverse(this).unwrap();
 			}
 			return geo;
 		}
