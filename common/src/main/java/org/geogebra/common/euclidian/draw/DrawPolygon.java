@@ -93,8 +93,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 			
 			// build general path for this polygon
 			isVisible = addPointsToPath(poly.getPointsLength());
-			if (!isVisible)
+			if (!isVisible) {
 				return;
+			}
 			gp.closePath();
 			
 			if (!getView().getApplication().isPrerelease() || isAllPointsOnScreen()) {				
@@ -118,8 +119,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 				isTracing = true;
 				org.geogebra.common.awt.GGraphics2D g2 = view
 						.getBackgroundGraphics();
-				if (g2 != null)
+				if (g2 != null) {
 					fill(g2, gp, false);
+				}
 			} else {
 				if (isTracing) {
 					isTracing = false;
