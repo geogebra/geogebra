@@ -83,7 +83,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		updatePreview();
 	}
 
-
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
@@ -92,7 +91,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 			updateStrokes(poly);
 
 			// build general path for this polygon
-			if (!getView().getApplication().isPrerelease() || isAllPointsOnScreen()) {
+			if (!getView().getApplication().isPrerelease()
+					|| isAllPointsOnScreen()) {
 				isVisible = addPointsToPath(poly.getPointsLength());
 				if (geo.isInverseFill()) {
 					createShape();
@@ -101,7 +101,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				triangularize();
 				isVisible = true;
 			}
-			
+
 			if (!isVisible)
 				return;
 			gp.closePath();
@@ -127,17 +127,17 @@ public class DrawPolygon extends Drawable implements Previewable {
 			}
 
 		}
-		
+
 	}
-	
+
 	private void createShape() {
 		setShape(org.geogebra.common.factories.AwtFactory.prototype
 				.newArea(view.getBoundingPath()));
 		getShape().subtract(
-				org.geogebra.common.factories.AwtFactory.prototype
-						.newArea(gp));
+				org.geogebra.common.factories.AwtFactory.prototype.newArea(gp));
 
 	}
+
 	private org.geogebra.common.kernel.discrete.PolygonTriangulation pt = new PolygonTriangulation();
 
 	private void triangularize() {
@@ -145,7 +145,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		pt.clear();
 		pt.setPolygon(poly);
 		Coords n = poly.getMainDirection();
-		
+
 		try {
 			// simplify the polygon and check if there are at least 3 points
 			// left
@@ -153,16 +153,16 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 				// check if the polygon is convex
 				Coords[] vertices = new Coords[poly.getPointsLength()];
-				for (int i=0; i < poly.getPointsLength(); i++) {
+				for (int i = 0; i < poly.getPointsLength(); i++) {
 					vertices[i] = poly.getPointND(i).getCoords();
 				}
 				Convexity convexity = pt.checkIsConvex();
 				if (convexity != Convexity.NOT) {
 					boolean reverse = poly.getReverseNormalForDrawing()
 							^ (convexity == Convexity.CLOCKWISE);
-		
-//					drawPolygonConvex(n,
-//							vertices, poly.getPointsLength(), reverse);
+
+					// drawPolygonConvex(n,
+					// vertices, poly.getPointsLength(), reverse);
 				} else {
 					// set intersections (if needed) and divide the polygon into
 					// non self-intersecting polygons
@@ -173,8 +173,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 					// compute 3D coords for intersections
 					Coords[] verticesWithIntersections = pt
-							.getCompleteVertices(vertices,
-									poly.getCoordSys(), poly.getPointsLength());
+							.getCompleteVertices(vertices, poly.getCoordSys(),
+									poly.getPointsLength());
 
 					// draw the triangle fans
 					for (TriangleFan triFan : pt.getTriangleFans()) {
@@ -186,20 +186,19 @@ public class DrawPolygon extends Drawable implements Previewable {
 		} catch (Exception e) {
 			App.debug(e.getMessage());
 			e.printStackTrace();
-		}		
+		}
 	}
-	
+
 	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
 		App.debug("[POLY] drawTriangleFan");
-		org.geogebra.common.awt.GGraphics2D g2 = view
-				.getBackgroundGraphics();
-		
+		org.geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+
 		Coords coordsApex = v[triFan.getApexPoint()];
 		gp.reset();
 
 		gp.moveTo(coordsApex.getX(), coordsApex.getY());
-		for (int i=0; i < triFan.size(); i++) {
-			Coords coord = v[triFan.getVertexIndex(i)];			
+		for (int i = 0; i < triFan.size(); i++) {
+			Coords coord = v[triFan.getVertexIndex(i)];
 			gp.lineTo(coord.getX(), coord.getY());
 		}
 
@@ -207,9 +206,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		gp.closePath();
 		fill(g2, gp, false);
 		getShape().add(
-				org.geogebra.common.factories.AwtFactory.prototype
-						.newArea(gp));
-		
+				org.geogebra.common.factories.AwtFactory.prototype.newArea(gp));
+
 	}
 
 	private Coords getCoords(int i) {
@@ -270,7 +268,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
-		
+
 		if (isVisible) {
 			fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
 																		// using
@@ -428,7 +426,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		org.geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape() : gp;
+		org.geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape()
+				: gp;
 		return t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y
 						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
@@ -476,11 +475,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 		for (GeoPointND p : poly.getPoints()) {
 			double x = view.toScreenCoordXd(p.getInhomX());
 			double y = view.toScreenCoordYd(p.getInhomY());
-			if (x < 0 || x > view.getWidth() ||
-					y < 0 || y > view.getHeight()) {
+			if (x < 0 || x > view.getWidth() || y < 0 || y > view.getHeight()) {
 				return false;
 			}
 		}
 		return true;
 	}
-	}
+}
