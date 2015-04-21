@@ -2278,10 +2278,14 @@ namespace giac {
 	    for (unsigned i=0;i<res._VECTptr->size();++i){
 	      gen v2=(*res._VECTptr)[i];
 	      gen v2val=v2.is_symb_of_sommet(at_equal)?v2._SYMBptr->feuille._VECTptr->back():v2;
-	      gen res2=_simplify(subst(eq1,var2,v2val,false,contextptr),contextptr);
+	      gen res2=derive(eq1,var1,contextptr);
+	      if (!is_zero(res2))
+		res2=_simplify(subst(eq1,var2,v2val,false,contextptr),contextptr);
 	      if (!is_zero(res2))
 		res2=_simplify(_solve(makesequence(symb_equal(res2,0),var1),contextptr),contextptr);
-	      gen res3=_simplify(subst(eq2,var2,v2val,false,contextptr),contextptr);
+	      gen res3=derive(eq2,var1,contextptr);
+	      if (!is_zero(res3))
+		res3=_simplify(subst(eq2,var2,v2val,false,contextptr),contextptr);
 	      if (!is_zero(res3)){
 		res3=_simplify(_solve(makesequence(symb_equal(res3,0),var1),contextptr),contextptr);
 		if (is_zero(res2))
@@ -2304,10 +2308,14 @@ namespace giac {
 	    for (unsigned i=0;i<res._VECTptr->size();++i){
 	      gen v1=(*res._VECTptr)[i];
 	      gen v1val=v1.is_symb_of_sommet(at_equal)?v1._SYMBptr->feuille._VECTptr->back():v1;
-	      gen res2=_simplify(subst(eq1,var1,v1val,false,contextptr),contextptr);
+	      gen res2=derive(eq1,var2,contextptr);
+	      if (!is_zero(res2))
+		res2=_simplify(subst(eq1,var1,v1val,false,contextptr),contextptr);
 	      if (!is_zero(res2))
 		res2=_simplify(_solve(makesequence(symb_equal(res2,0),var2),contextptr),contextptr);
-	      gen res3=_simplify(subst(eq2,var1,v1val,false,contextptr),contextptr);
+	      gen res3=derive(eq2,var2,contextptr);
+	      if (!is_zero(res3))
+		res3=_simplify(subst(eq2,var1,v1val,false,contextptr),contextptr);
 	      if (!is_zero(res3)){
 		res3=_simplify(_solve(makesequence(symb_equal(res3,0),var2),contextptr),contextptr);
 		if (is_zero(res2))
