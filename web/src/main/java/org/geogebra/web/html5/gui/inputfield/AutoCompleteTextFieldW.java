@@ -743,7 +743,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// show help if available
 		if (help != null) {
 			app.showError(new MyError(loc, loc.getPlain("Syntax") + ":\n"
-			        + help, cmd));
+					+ help, cmd, null));
 		} else if (app.getGuiManager() != null) {
 			app.getGuiManager().openCommandHelp(null);
 		}
