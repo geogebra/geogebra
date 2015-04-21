@@ -20,21 +20,21 @@ subprojects {
 
 	// add auto formatter to every project
 	task eclipseJdtPrepare(type: Copy) {
-		description 'Copies Eclipse jdt.core preference file'
+		description 'Copies Eclipse jdt.core preference file.'
 		from rootProject.file('eclipse/org.eclipse.jdt.core.prefs')
 		into project.file('.settings/')
 		outputs.upToDateWhen { false }
 	}
 
 	task eclipseJdtUi(type: Copy) {
-		description 'Copies Eclipse jdt.ui preference file'
+		description 'Copies Eclipse jdt.ui preference file.'
 		from rootProject.file('eclipse/org.eclipse.jdt.ui.prefs')
 		into project.file('.settings/')
 		outputs.upToDateWhen { false }
 	}
 
 	task cleanEclipseJdtUi(type: Delete) {
-		description 'Cleans Eclipse jdt.ui preference file'
+		description 'Cleans Eclipse jdt.ui preference file.'
 		delete project.file('.settings/org.eclipse.jdt.ui.prefs')
 	}
 
