@@ -41,7 +41,9 @@ import org.junit.rules.Timeout;
 
 
 public class GeoGebraCasIntegrationTest {
-  static public boolean silent = false;
+  private static final String GermanSolve = "L\u00f6se";
+
+static public boolean silent = false;
 
   static GeoGebraCasInterface cas;
   static Kernel kernel;
@@ -3090,7 +3092,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricEOP_6 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]", "Löse[(5.5, 2.5) = (3, 2) + t * (5, 1)]");
+    tk("Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]", GermanSolve + "[(5.5, 2.5) = (3, 2) + t * (5, 1)]");
   }
 
   /* Parametric Function One Parameter */
@@ -3123,7 +3125,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricFOP_4 () {
     t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[f(t) = (5.5, 2.5)]", "Löse[f(t) = (5.5, 2.5)]");
+    tk("Solve[f(t) = (5.5, 2.5)]", GermanSolve + "[f(t) = (5.5, 2.5)]");
   }
 
   /* Parametric Equation Multiple Parameters */
@@ -3240,7 +3242,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricFMP_11 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[f(t, s) = (7, -8), {t, s}]", "Löse[f(t, s) = (7, -8), {t, s}]");
+    tk("Solve[f(t, s) = (7, -8), {t, s}]", GermanSolve + "[f(t, s) = (7, -8), {t, s}]");
   }
 
   /* Parametric Equations Twosided */
@@ -3273,7 +3275,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricET_5 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]", "Löse[(3, 2) + t * (5, 1) = (4, 1) + s * (2, -2), {t, s}]");
+    tk("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]", GermanSolve + "[(3, 2) + t * (5, 1) = (4, 1) + s * (2, -2), {t, s}]");
   }
 
   /* Multiple Parametric Equations Eloquent */
@@ -3307,7 +3309,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricMEE_5 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
     tk("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]",
-        "Löse[{(x, y) = (3, 2) + t * (5, 1), (x, y) = (4, 1) + s * (2, -2)}, {x, y, t, s}]");
+        GermanSolve + "[{(x, y) = (3, 2) + t * (5, 1), (x, y) = (4, 1) + s * (2, -2)}, {x, y, t, s}]");
   }
 
   /* Multiple Parametric Equations Abbreviation */
@@ -3340,7 +3342,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricMEA_5 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]", "Löse[{X = (3, 2) + t * (5, 1), X = (4, 1) + s * (2, -2)}, {t, s}]");
+    tk("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]", GermanSolve + "[{X = (3, 2) + t * (5, 1), X = (4, 1) + s * (2, -2)}, {t, s}]");
   }
 
   /* Multiple Parametric Equations Labeled */
@@ -3378,7 +3380,7 @@ public class GeoGebraCasIntegrationTest {
     t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
     t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[{f, g}, {t, s, x, y}]", "Löse[{f, g}, {t, s, x, y}]");
+    tk("Solve[{f, g}, {t, s, x, y}]", GermanSolve + "[{f, g}, {t, s, x, y}]");
   }
 
   @Test
@@ -3386,7 +3388,7 @@ public class GeoGebraCasIntegrationTest {
     t("f: X = (3, 2) + t (5, 1)", "X = (5 * t + 3, t + 2)");
     t("g: X = (4, 1) + s (2, -2)", "X = (2 * s + 4, -2 * s + 1)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[{f, g}, {t, s}]", "Löse[{f, g}, {t, s}]");
+    tk("Solve[{f, g}, {t, s}]", GermanSolve + "[{f, g}, {t, s}]");
   }
 
   /* Multiple Parametric Functions */
@@ -3431,7 +3433,7 @@ public class GeoGebraCasIntegrationTest {
     t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
     t("g(s) := (4, 1) + s (2, -2)", "(2 * s + 4, -2 * s + 1)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[f(u) = g(v), {u, v}]", "Löse[f(u) = g(v), {u, v}]");
+    tk("Solve[f(u) = g(v), {u, v}]", GermanSolve + "[f(u) = g(v), {u, v}]");
   }
 
   @Test
@@ -3456,7 +3458,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricTD_2 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[(2, 3, -1) = (3, 1, 2) + t (-2, 4, -6), t]", "Löse[(2, 3, -1) = (3, 1, 2) + t * (-2, 4, -6), t]");
+    tk("Solve[(2, 3, -1) = (3, 1, 2) + t (-2, 4, -6), t]", GermanSolve + "[(2, 3, -1) = (3, 1, 2) + t * (-2, 4, -6), t]");
   }
 
   @Test
@@ -3475,7 +3477,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricTD_5 () {
     t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[f(t) = (2, 3, -1), t]", "Löse[f(t) = (2, 3, -1), t]");
+    tk("Solve[f(t) = (2, 3, -1), t]", GermanSolve + "[f(t) = (2, 3, -1), t]");
   }
 
   @Test
@@ -3494,7 +3496,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricTD_8 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
     tk("Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), (x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]",
-        "Löse[{(x, y, z) = (3, 1, 2) + t * (-2, 4, -6), (x, y, z) = (3, 7, -4) + s * (1, 4, -3)}, {x, y, z, t, s}]");
+        GermanSolve + "[{(x, y, z) = (3, 1, 2) + t * (-2, 4, -6), (x, y, z) = (3, 7, -4) + s * (1, 4, -3)}, {x, y, z, t, s}]");
   }
 
   @Test
@@ -3511,7 +3513,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricTD_11 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
     tk("Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]",
-        "Löse[{X = (3, 1, 2) + t * (-2, 4, -6), X = (3, 7, -4) + s * (1, 4, -3)}, {t, s}]");
+        GermanSolve + "[{X = (3, 1, 2) + t * (-2, 4, -6), X = (3, 7, -4) + s * (1, 4, -3)}, {t, s}]");
   }
 
   @Test
@@ -3533,7 +3535,7 @@ public class GeoGebraCasIntegrationTest {
     t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[f(u) = g(v), {u, v}]", "Löse[f(u) = g(v), {u, v}]");
+    tk("Solve[f(u) = g(v), {u, v}]", GermanSolve + "[f(u) = g(v), {u, v}]");
   }
 
   @Test
@@ -3555,7 +3557,7 @@ public class GeoGebraCasIntegrationTest {
     t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)", "(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (4, 7, -4) + t (1, 4, -3)", "(t + 4, 4 * t + 7, -3 * t - 4)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[f(u, v) = g(w), {u, v, w}]", "Löse[f(u, v) = g(w), {u, v, w}]");
+    tk("Solve[f(u, v) = g(w), {u, v, w}]", GermanSolve + "[f(u, v) = g(w), {u, v, w}]");
   }
 
 
