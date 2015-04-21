@@ -148,6 +148,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		pt.clear();
 		pt.setPolygon(poly);
 		Coords n = poly.getMainDirection();
+
+		pt.setCorners(getCorners());
 		
 		try {
 			// simplify the polygon and check if there are at least 3 points
@@ -211,7 +213,69 @@ public class DrawPolygon extends Drawable implements Previewable {
 			e.printStackTrace();
 		}		
 	}
+
+	private Coords getCorner(int idx) {
+
+		GeoPointND p = view.getApplication().getKernel().getAlgebraProcessor()
+				.evaluateToPoint("Corner[" + idx + "]", false, false);
+		Coords c = p.getCoords();
+		p.remove();
+		return c;
+	}
+
+	private final Coords[] getCorners() {
+		Coords[] coords = new Coords[8];
 	
+		// Screen corners
+		coords[0] = getCorner(1);
+		coords[1] = getCorner(2);
+		coords[2] = getCorner(3);
+		coords[3] = getCorner(4);
+
+		Coords[] polyRect = getPolyBoundingRect();
+
+		coords[4] = polyRect[0];
+		coords[5] = polyRect[1];
+		coords[6] = polyRect[2];
+		coords[7] = polyRect[3];
+
+		return coords;
+	}
+
+	private final Coords[] getPolyBoundingRect() {
+		Coords[] coords = new Coords[4];
+		double xmin = Double.MAX_VALUE;
+		double ymin = Double.MAX_VALUE;
+		double xmax = Double.MIN_VALUE;
+		double ymax = Double.MIN_VALUE;
+
+		for (GeoPointND p : poly.getPoints()) {
+			Coords c = p.getCoords();
+			double x = c.getX();
+			double y = c.getY();
+
+			if (x < xmin) {
+				xmin = x;
+			} else if (x > xmax) {
+				xmax = x;
+			}
+
+			if (y < ymin) {
+				ymin = y;
+			} else if (y > ymax) {
+				ymax = y;
+			}
+
+		}
+
+		coords[0] = new Coords(xmin, ymin);
+		coords[1] = new Coords(xmax, ymin);
+		coords[2] = new Coords(xmax, ymax);
+		coords[3] = new Coords(xmin, ymax);
+
+		return coords;
+	}
+
 	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
 		App.debug("[POLY] drawTriangleFan");
 		

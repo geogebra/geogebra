@@ -2038,6 +2038,7 @@ public class PolygonTriangulation {
 	}
 
 	private Coords[] completeVertices = new Coords[0];
+	private Coords[] corners = new Coords[8];
 
 	/**
 	 * 
@@ -2073,4 +2074,9 @@ public class PolygonTriangulation {
 		return completeVertices;
 	}
 
+	public void setCorners(Coords[] corners) {
+		for (Coords c : corners) {
+			App.debug("Corner " + c.get());
+		}
+	}
 }
