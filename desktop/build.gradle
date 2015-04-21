@@ -1,7 +1,7 @@
 project.setDescription('Parts of GeoGebra related to desktop platforms')
 
 apply plugin: 'application'
-
+apply plugin: 'jacoco'
 repositories {
     maven {
         url 'http://dev.geogebra.org/maven2'
@@ -81,3 +81,16 @@ run {
 		ant.copy(file:"$jogl_native_path", todir:"$jogl_dir")
 		}
 	}
+	
+// http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
+gradle.projectsEvaluated {
+    // include src from all dependent projects (compile dependency) in JaCoCo test report
+    jacocoTestReport {
+        // get all projects we have a (compile) dependency on
+        def projs = configurations.compile.getAllDependencies().withType(ProjectDependency).collect{it.getDependencyProject()}
+        projs.each {
+            additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
+            additionalClassDirs files(it.sourceSets.main.output)
+        }
+    }
+}	
