@@ -466,7 +466,7 @@ public abstract class CommandProcessor {
 		sb.append(app1.getPlain("Syntax"));
 		sb.append(":\n");
 		sb.append(app1.getCommandSyntax(cmd));
-		return new MyError(app1, sb.toString(), cmd);
+		return new MyError(app1, sb.toString(), cmd, null);
 	}
 
 	/**
@@ -487,7 +487,7 @@ public abstract class CommandProcessor {
 			sb.setLength(0);
 		getCommandSyntax(sb, app1.getLocalization(), cmd, argNumber);
 		App.debug(getClass().getName());
-		return new MyError(app1.getLocalization(), sb.toString(), cmd);
+		return new MyError(app1.getLocalization(), sb.toString(), cmd, null);
 	}
 
 	/**

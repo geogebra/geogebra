@@ -952,7 +952,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 		// show help if available
 		if (help != null) {
 			app.showError(new MyError(loc, loc.getPlain("Syntax") + ":\n"
-					+ help, cmd));
+					+ help, cmd, null));
 		} else {
 			app.getGuiManager().openCommandHelp(null);
 		}

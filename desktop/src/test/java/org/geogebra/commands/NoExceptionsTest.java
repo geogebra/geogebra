@@ -9,9 +9,8 @@ import java.util.TreeSet;
 
 import javax.swing.JFrame;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
-import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.App;
@@ -149,12 +148,20 @@ public class NoExceptionsTest {
 					false, false, true, false));
 			syntaxes--;
 			System.out.print("+");
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			System.out.println("error occured:" + e.getClass().getName());
-			e.printStackTrace();
+			Throwable t = e;
+			while(t.getCause() != null){
+				t = t.getCause();
+			}
+			StackTraceElement ste[] = t.getStackTrace();
+			String out = "";
+			for(int i = 0;i<ste.length;i++){
+				out += ste[i].getClassName()+"."+ste[i].getMethodName()+":"+ste[i].getLineNumber();
+			}
 			syntaxes--;
 			System.out.print("-");
-			Assert.assertNull(e.getMessage()+","+e.getClass(),e);
+			Assert.assertNull(e.getMessage()+","+t.getMessage()+out,e);
 		}
 
 	}

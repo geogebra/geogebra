@@ -52,9 +52,9 @@ public class MyError extends java.lang.Error {
 	 * @param commandName
 	 *            associated command name
 	 */
-	public MyError(Localization app, String errorName, String commandName) {
+	public MyError(Localization app, String errorName, String commandName, Throwable cause) {
 		// set localized message
-		super(errorName);
+		super(errorName, cause);
 		this.l10n = app;
 		this.commandName = commandName;
 	}

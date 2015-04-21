@@ -38,7 +38,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 * @param label label
 	 * @param equ equation
 	 */
-	public AlgoDependentImplicitPoly(Construction c,String label, Equation equ, boolean simplify) {
+	public AlgoDependentImplicitPoly(Construction c, Equation equ, boolean simplify) {
 		super(c, false);
 		equation=equ;
 		Polynomial lhs = equ.getNormalForm();
@@ -82,7 +82,12 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
     	
     	compute(true); 
 
-    	geoElement.setLabel(label);
+    	
+    }
+	
+	public AlgoDependentImplicitPoly(Construction c,String label, Equation equ, boolean simplify) {
+		this(c,equ, simplify);
+		geoElement.setLabel(label);
     }
 	
 	@Override

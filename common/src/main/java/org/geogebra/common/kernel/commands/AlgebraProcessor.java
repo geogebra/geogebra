@@ -895,7 +895,7 @@ public class AlgebraProcessor {
 				e.printStackTrace();
 			} else if (throwMyError) {
 				throw new MyError(loc, e.getLocalizedMessage(),
-						e.getcommandName());
+						e.getcommandName(),e);
 			}
 			return null;
 		} catch (CircularDefinitionException e) {
