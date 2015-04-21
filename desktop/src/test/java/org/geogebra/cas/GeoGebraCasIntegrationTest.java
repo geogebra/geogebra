@@ -11,7 +11,7 @@ import java.util.Locale;
 
 import javax.swing.JFrame;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -136,14 +136,14 @@ public class GeoGebraCasIntegrationTest {
 
   /**
    * ta contains the code shared by {@link #t} and {@link #tk}. In explicit: If tkiontki is false, it behaves exactly like t used to. If tkiontki is
-   * true, it switches to KeepInput mode, simulating evaluation with KeepInput.
+   * true, it switches to Keepinput mode, simulating evaluation with Keepinput.
    * 
    * <p>
    * Note: Direct calls to ta are "Not Recommended". Use t or tk instead.
    * </p>
    * 
    * @param tkiontki
-   *          To KeepInput or not to KeepInput.
+   *          To Keepinput or not to Keepinput.
    * @param input
    *          The input.
    * @param expectedResult
@@ -161,7 +161,7 @@ public class GeoGebraCasIntegrationTest {
       f.setInput(input);
 
       if (tkiontki) {
-        f.setEvalCommand("KeepInput");
+        f.setEvalCommand("Keepinput");
       }
       f.computeOutput();
 
@@ -1381,7 +1381,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Exponential_0 () {
     // TODO not sure if second is acceptable
-    t("Exponential[2, 1]", "(ℯ^(2) - 1) / ℯ^(2)", "1 - 1 / ℯ^(2)");
+    t("Exponential[2, 1]", "("+ Unicode.EULER_STRING +"^(2) - 1) / "+ Unicode.EULER_STRING +"^(2)", "1 - 1 / "+ Unicode.EULER_STRING +"^(2)");
   }
 
   /* FDistribution */
@@ -1562,7 +1562,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void FitExp_0 () {
     // Giac only supports 13dp
-    t("Numeric[FitExp[{(0, 1), (2, 4)}], 15]", "ℯ^(0.693147180559945 * x)", "ℯ^(0.6931471805599 * x)");
+    t("Numeric[FitExp[{(0, 1), (2, 4)}], 15]", ""+ Unicode.EULER_STRING +"^(0.693147180559945 * x)", ""+ Unicode.EULER_STRING +"^(0.6931471805599 * x)");
   }
 
 
@@ -1570,7 +1570,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void FitLog_0 () {
-    t("FitLog[{(ℯ,1), (ℯ^2, 4)}]", "3 * log(x) - 2");
+    t("FitLog[{("+ Unicode.EULER_STRING +"�,1), ("+ Unicode.EULER_STRING +"^2, 4)}]", "3 * log(x) - 2");
   }
 
 
@@ -1596,7 +1596,7 @@ public class GeoGebraCasIntegrationTest {
 
   // @Test
   // public void FitSin_0() {
-  // t("FitSin[{(1, 1), (2, 2), (3, 1), (4, 0), (5, 1), (6, 2)}]", "1 + sin((π / 2) * x + π / 2)");
+  // t("FitSin[{(1, 1), (2, 2), (3, 1), (4, 0), (5, 1), (6, 2)}]", "1 + sin((pi / 2) * x + pi / 2)");
   // }
 
   // TODO Abstract, as well?
@@ -1783,12 +1783,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void IntegralBetween_0 () {
-    t("IntegralBetween[sin(x), cos(x), π / 4, π * 5 / 4]", "2 * sqrt(2)");
+    t("IntegralBetween[sin(x), cos(x), pi / 4, pi * 5 / 4]", "2 * sqrt(2)");
   }
 
   @Test
   public void IntegralBetween_1 () {
-    t("IntegralBetween[a * sin(t), a * cos(t), t, π / 4, π * 5 / 4]", "2 * sqrt(2) * a", "2 * a * sqrt(2)");
+    t("IntegralBetween[a * sin(t), a * cos(t), t, pi / 4, pi * 5 / 4]", "2 * sqrt(2) * a", "2 * a * sqrt(2)");
   }
 
   @Test
@@ -2122,13 +2122,13 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void NIntegral_0 () {
     // Giac only supports 13dp
-    t("NIntegral[ℯ^(-x^2), 0, 1]", "0.746824132812427", "0.7468241328124");
+    t("NIntegral["+ Unicode.EULER_STRING +"^(-x^2), 0, 1]", "0.746824132812427", "0.7468241328124");
   }
 
   @Test
   public void NIntegral_1 () {
     // Giac only supports 13dp
-    t("NIntegral[ℯ^(-a^2), a, 0, 1]", "0.746824132812427", "0.7468241328124");
+    t("NIntegral["+ Unicode.EULER_STRING +"^(-a^2), a, 0, 1]", "0.746824132812427", "0.7468241328124");
   }
 
 
@@ -2170,7 +2170,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Numerator_0 () {
-    t("Numerator[(3x² + 1) / (2x - 1)]", "3 * x^(2) + 1");
+    t("Numerator[(3x"+Unicode.Superscript_2+" + 1) / (2x - 1)]", "3 * x^(2) + 1");
   }
 
   @Test
@@ -2195,7 +2195,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void NumericEvaluation_ConstantsOnly_2 () {
-    t("Numeric[π,15]", "3.14159265358979");
+    t("Numeric[pi,15]", "3.14159265358979");
   }
 
   @Test
@@ -2922,14 +2922,14 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_Trig_0 () {
-    // "{x = (4 * k_INDEX * π - π) / 4}"
-    s("Solve[3 * tan(x) + 3 = 0]", "{x = k_INDEX * π - 1 / 4 * π}");
+    // "{x = (4 * k_INDEX * pi - pi) / 4}"
+    s("Solve[3 * tan(x) + 3 = 0]", "{x = k_INDEX * " + Unicode.PI_STRING + " - 1 / 4 * " + Unicode.PI_STRING + "}");
   }
 
   @Test
   public void Solve_Trig_1 () {
-    // s("Solve[2*cos(x)^2+sqrt(2)*cos(x)-2,x]","{x = (8 * k_INDEX * π + π) / 4, x = (8 * k_INDEX * π - π) / 4}");
-    s("Solve[2 * cos(x)^2 + sqrt(2) * cos(x) - 2, x]", "{x = 2 * k_INDEX * π - 1 / 4 * π, x = 2 * k_INDEX * π + 1 / 4 * π}");
+    // s("Solve[2*cos(x)^2+sqrt(2)*cos(x)-2,x]","{x = (8 * k_INDEX * pi + pi) / 4, x = (8 * k_INDEX * pi - pi) / 4}");
+    s("Solve[2 * cos(x)^2 + sqrt(2) * cos(x) - 2, x]", "{x = 2 * k_INDEX * " + Unicode.PI_STRING + " - 1 / 4 * " + Unicode.PI_STRING + ", x = 2 * k_INDEX * " + Unicode.PI_STRING + " + 1 / 4 * " + Unicode.PI_STRING + "}");
   }
 
   /* Several Equations and Variables */
@@ -3859,7 +3859,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void ToExponential_0 () {
-    t("ToExponential[1 +  \u03af]", "sqrt(2) * ℯ^(\u03af * π / 4)");
+    t("ToExponential[1 +  \u03af]", "sqrt(2) * "+ Unicode.EULER_STRING +"^(\u03af * " + Unicode.PI_STRING + " / 4)");
   }
 
 
@@ -3875,12 +3875,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void ToPolar_0 () {
-    t("ToPolar[(1, sqrt(3))]", "(2; π / 3)");
+    t("ToPolar[(1, sqrt(3))]", "(2; " + Unicode.PI_STRING + " / 3)");
   }
 
   @Test
   public void ToPolar_1 () {
-    t("ToPolar[1 + sqrt(3) *  \u03af]", "(2; π / 3)");
+    t("ToPolar[1 + sqrt(3) *  \u03af]", "(2; " + Unicode.PI_STRING + " / 3)");
   }
 
 
@@ -4064,7 +4064,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Ticket_Ticket1274_0 () {
     // TODO the third option is a bit ugly, maybe remove
-    t("Derivative[ℯ^(2 * x)]", "2 * (ℯ^(x))^(2)", "2 * ℯ^(2 * x)", "ℯ^(2 * x) * 2");
+    t("Derivative["+ Unicode.EULER_STRING +"^(2 * x)]", "2 * ("+Unicode.EULER_STRING +"^(x))^(2)", "2 * "+ Unicode.EULER_STRING +"^(2 * x)", ""+ Unicode.EULER_STRING +"^(2 * x) * 2");
   }
 
   /* Ticket 1336: Support for brackets with built-in functions */
@@ -4140,7 +4140,7 @@ public class GeoGebraCasIntegrationTest {
     GeoCasCell f = new GeoCasCell(kernel.getConstruction());
     kernel.getConstruction().addToConstructionList(f, false);
     f.setInput("Integral[x^2, x, 1, 2]");
-    f.setEvalCommand("KeepInput");
+    f.setEvalCommand("Keepinput");
     f.computeOutput();
 
     Assert.assertEquals("\\mathbf{\\int\\limits_{1}^{2}x^{2}\\,\\mathrm{d}x}", f.getLaTeXOutput());
@@ -4151,7 +4151,7 @@ public class GeoGebraCasIntegrationTest {
     GeoCasCell f = new GeoCasCell(kernel.getConstruction());
     kernel.getConstruction().addToConstructionList(f, false);
     f.setInput("Integral[f(y), y, somevar, g(h)]");
-    f.setEvalCommand("KeepInput");
+    f.setEvalCommand("Keepinput");
     f.computeOutput();
 
     Assert.assertEquals("\\mathbf{\\int\\limits_{somevar}^{g \\left(h \\right)}f \\left(y \\right)\\,\\mathrm{d}y}", f.getLaTeXOutput());
@@ -4162,7 +4162,7 @@ public class GeoGebraCasIntegrationTest {
     GeoCasCell f = new GeoCasCell(kernel.getConstruction());
     kernel.getConstruction().addToConstructionList(f, false);
     f.setInput("Sum[x^2, x, 1, 2]");
-    f.setEvalCommand("KeepInput");
+    f.setEvalCommand("Keepinput");
     f.computeOutput();
 
     Assert.assertEquals("\\mathbf{\\sum_{x=1}^{2}x^{2}}", f.getLaTeXOutput());
@@ -4173,7 +4173,7 @@ public class GeoGebraCasIntegrationTest {
     GeoCasCell f = new GeoCasCell(kernel.getConstruction());
     kernel.getConstruction().addToConstructionList(f, false);
     f.setInput("Sum[f(y), y, somevar, g(h)]");
-    f.setEvalCommand("KeepInput");
+    f.setEvalCommand("Keepinput");
     f.computeOutput();
 
     Assert.assertEquals("\\mathbf{\\sum_{y=somevar}^{g \\left(h \\right)}f \\left(y \\right)}", f.getLaTeXOutput());
@@ -4371,10 +4371,10 @@ public class GeoGebraCasIntegrationTest {
     t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}, c]", "{c = -1, c = 1}");
   }
 
-  /* Ticket 3579: KeepInput Being Kept */
+  /* Ticket 3579: Keepinput Being Kept */
 
   /**
-   * Test is ignored. KeepInput is no user command anymore, internal use seems to meet our expectations.
+   * Test is ignored. Keepinput is no user command anymore, internal use seems to meet our expectations.
    * 
    * Therefore we don't want to mess with this anytime soon, except somebody complains.
    */
@@ -4411,7 +4411,7 @@ public class GeoGebraCasIntegrationTest {
     f.setInput("f(x) := a * x^3 + b * x^2 + c * x + d");
     f.computeOutput();
 
-    Assert.assertEquals("f(x):=a x³ + b x² + c x + d", f.getOutput(StringTemplate.defaultTemplate));
+    Assert.assertEquals("f(x):=a x"+Unicode.Superscript_3+" + b x"+Unicode.Superscript_2+" + c x + d", f.getOutput(StringTemplate.defaultTemplate));
   }
 
 

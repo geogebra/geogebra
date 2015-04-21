@@ -15,6 +15,7 @@ import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.main.AppD;
@@ -76,7 +77,7 @@ public class NoExceptionsTest {
 		t("b2=n2==4");
 		t("impl1:x^4+y^4=1");
 		t("comp=2+3*i");
-		t("a1=30°");
+		t("a1=30"+Unicode.degree);
 		t("list1 = {1,2,3,4,5}");
 		t("list2 = {2,3,4}");
 		t("list3 = list2");
@@ -165,6 +166,9 @@ public class NoExceptionsTest {
 		for (int i = 0; i < mtds.length; i++)
 			methodNames.add(mtds[i].getName());
 		mtds = NoExceptions3DTest.class.getMethods();
+		for (int i = 0; i < mtds.length; i++)
+			methodNames.add(mtds[i].getName());
+		mtds = CommandsTest.class.getMethods();
 		for (int i = 0; i < mtds.length; i++)
 			methodNames.add(mtds[i].getName());
 		StringBuilder missing = new StringBuilder();
