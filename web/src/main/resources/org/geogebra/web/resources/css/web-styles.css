@@ -2227,7 +2227,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 }
 
 .InputPanel {
-	overflow: auto;
+	overflow: hidden;
 }
 
 .InputPanel .TextField {
