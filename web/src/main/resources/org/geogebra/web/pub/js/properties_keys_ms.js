@@ -1695,7 +1695,7 @@ __GGB__keysVar.ms.menu = {
     "Perspective.Geometry": "Geometri",
     "Perspective.Primary": "Utama",
     "Perspective.Probability": "Kebarangkalian",
-    "Perspective.Spreadsheet": "Lembaran Kerja",
+    "Perspective.Spreadsheet": "Hamparan Kerja",
     "Perspective.TableAndGraphics": "Jadual & Grafik",
     "Perspective.Whiteboard": "Papan Putih",
     "PerspectivePanel": "Panel Perspektif",
