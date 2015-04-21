@@ -88,7 +88,10 @@ public class Ggb2giac {
 		p("CSolve.2", "ggbsort(regroup(csolve(%0,%1)))");
 		p("Degree.1", "degree(%0)");
 		p("Degree.2", "degree(%0,%1)");
-		p("Denominator.1", "denom(%0)");
+
+		// denom() cancels down first
+		// p("Denominator.1", "denom(%0)");
+		p("Denominator.1", "getDenom(%0)");
 
 		// this chooses x if it's in the expression
 		// otherwise the first variable alphabetcially
@@ -473,7 +476,9 @@ public class Ggb2giac {
 		p("NSolutions.2",
 				"ggbsort([[ggbnsans:=fsolve(%0,%1)],when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])][1])");
 
-		p("Numerator.1", "numer(%0)");
+		// numer() cancels down first
+		// p("Numerator.1", "numer(%0)");
+		p("Numerator.1", "getNum(%0)");
 
 		p("Numeric.1",
 				"[[ggbnumans:=%0],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,"
