@@ -895,7 +895,7 @@ namespace giac {
 	gen expo=g0_._VECTptr->back();
 	gen base=g0_._VECTptr->front();
 	vecteur lv=lvarxwithinv(base,x,contextptr);//rlvarx(base,x);
-	if (lv.size()==1){
+	if (lv.size()==1 && lv.front()==x){
 	  int na=0,nb=0;
 	  for (;;){
 	    gen tmp=_quorem(makesequence(base,x-a,x),contextptr);
