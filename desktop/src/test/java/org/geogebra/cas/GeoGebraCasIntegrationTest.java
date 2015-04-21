@@ -12,12 +12,12 @@ import java.util.Locale;
 import javax.swing.JFrame;
 
 import org.junit.Assert;
-
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -1570,7 +1570,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void FitLog_0 () {
-    t("FitLog[{("+ Unicode.EULER_STRING +"�,1), ("+ Unicode.EULER_STRING +"^2, 4)}]", "3 * log(x) - 2");
+    t("FitLog[{("+ Unicode.EULER_STRING +"�,1), ("+ Unicode.EULER_STRING +"^2, 4)}]", "3 * log(x) - 2");
   }
 
 
@@ -4223,47 +4223,47 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Ticket_Ticket3385_3 () {
-    t("a ∈ {a, b, c}", "true");
+    t("a "+ExpressionNodeConstants.strIS_ELEMENT_OF+"{a, b, c}", "true");
   }
 
   @Test
   public void Ticket_Ticket3385_4 () {
-    t("d ∈ {a, b, c}", "false");
+    t("d "+ExpressionNodeConstants.strIS_ELEMENT_OF+" {a, b, c}", "false");
   }
 
   @Test
   public void Ticket_Ticket3385_5 () {
-    t("{} ⊆ {}", "true");
+    t("{} "+ExpressionNodeConstants.strIS_SUBSET_OF+" {}", "true");
   }
 
   @Test
   public void Ticket_Ticket3385_6 () {
-    t("{a, b} ⊆ {a, b, c}", "true");
+    t("{a, b} "+ExpressionNodeConstants.strIS_SUBSET_OF+"{a, b, c}", "true");
   }
 
   @Test
   public void Ticket_Ticket3385_7 () {
-    t("{a, b, c} ⊆ {a, b, c}", "true");
+    t("{a, b, c} "+ExpressionNodeConstants.strIS_SUBSET_OF+" {a, b, c}", "true");
   }
 
   @Test
   public void Ticket_Ticket3385_8 () {
-    t("{a, b, c} ⊆ {a, b}", "false");
+    t("{a, b, c} "+ExpressionNodeConstants.strIS_SUBSET_OF+" {a, b}", "false");
   }
 
   @Test
   public void Ticket_Ticket3385_9 () {
-    t("{} ⊂ {}", "false");
+    t("{} "+ExpressionNodeConstants.strIS_SUBSET_OF_STRICT+" {}", "false");
   }
 
   @Test
   public void Ticket_Ticket3385_10 () {
-    t("{a, b} ⊂ {a, b, c}", "true");
+    t("{a, b} "+ExpressionNodeConstants.strIS_SUBSET_OF_STRICT+" {a, b, c}", "true");
   }
 
   @Test
   public void Ticket_Ticket3385_11 () {
-    t("{a, b, c} ⊂ {a, b, c}", "false");
+    t("{a, b, c} "+ExpressionNodeConstants.strIS_SUBSET_OF_STRICT+" {a, b, c}", "false");
   }
 
   /* Ticket 3524: Solve fails for large numbers and definition as function */
