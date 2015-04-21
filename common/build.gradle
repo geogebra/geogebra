@@ -41,5 +41,6 @@ compileJavacc {
 }
 
 task cleanJavacc(type: Delete) {
+	description 'Cleans the javacc generated files'
 	delete compileJavacc.outputDirectory
 }
