@@ -5,12 +5,9 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian3D.Input3D;
-import org.geogebra.common.euclidian3D.Input3D.DeviceType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.App;
 
 
 /**
@@ -240,4 +237,12 @@ public class InputLeo3D implements Input3D {
 		return false;
 	}
 	
+	public boolean hasMouseDirection() {
+		return false;
+	}
+
+	public double[] getMouse3DDirection() {
+		return null;
+	}
+
 }

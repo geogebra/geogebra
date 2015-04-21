@@ -230,4 +230,12 @@ public class InputIntelRealsense3D implements Input3D {
 		return true;
 	}
 	
+	public boolean hasMouseDirection() {
+		return false;
+	}
+
+	public double[] getMouse3DDirection() {
+		return null;
+	}
+
 }

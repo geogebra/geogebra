@@ -39,7 +39,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	protected Input3D input3D;
 
-	protected Coords mouse3DPosition;
+	protected Coords mouse3DPosition, mouse3DScenePosition, mouse3DDirection;
 
 	protected Coords startMouse3DPosition;
 
@@ -63,7 +63,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	protected Robot robot;
 	protected int robotX, robotY;
-	protected double[] inputPosition;
+	protected double[] inputPosition, inputDirection;
 
 	/**
 	 * constructor
@@ -88,6 +88,16 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		mouse3DPosition = new Coords(3);
 		// mouse3DPosition.setW(1);
 		startMouse3DPosition = new Coords(3);
+
+		mouse3DScenePosition = new Coords(4);
+		mouse3DScenePosition.setW(1);
+
+		// 3D mouse direction
+		if (input3D.hasMouseDirection()) {
+			mouse3DDirection = new Coords(4);
+		} else {
+			mouse3DDirection = null;
+		}
 
 		// 3D mouse orientation
 		mouse3DOrientation = new Quaternion();
@@ -197,6 +207,16 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 					updateMouse3DEvent();
 
+					// mouse direction
+					if (input3D.hasMouseDirection()) {
+						mouse3DDirection.setMul(view3D.getRotationMatrix(),
+								input3D.getMouse3DDirection());
+						mouse3DScenePosition.set(mouse3DPosition);
+						view3D.toSceneCoords3D(mouse3DScenePosition);
+						((EuclidianViewInput3D) view3D).updateStylusBeam(
+								mouse3DScenePosition, mouse3DDirection);
+					}
+
 					// mouse orientation
 					mouse3DOrientation.set(input3D.getMouse3DOrientation());
 
@@ -271,6 +291,24 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	public Coords getMouse3DPosition() {
 
 		return mouse3DPosition;
+	}
+
+	/**
+	 * 
+	 * @return 3D mouse position (scene coords)
+	 */
+	public Coords getMouse3DScenePosition() {
+
+		return mouse3DScenePosition;
+	}
+
+	/**
+	 * 
+	 * @return 3D mouse direction
+	 */
+	public Coords getMouse3DDirection() {
+
+		return mouse3DDirection;
 	}
 
 	private void storeOrientation() {

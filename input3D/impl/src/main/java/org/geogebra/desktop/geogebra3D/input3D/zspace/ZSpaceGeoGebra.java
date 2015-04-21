@@ -152,4 +152,16 @@ public class ZSpaceGeoGebra {
 	}
 
 
+	public double getStylusDX() {
+		return 0;
+	}
+
+	public double getStylusDY() {
+		return 0;
+	}
+
+	public double getStylusDZ() {
+		return 0;
+	}
+
 }

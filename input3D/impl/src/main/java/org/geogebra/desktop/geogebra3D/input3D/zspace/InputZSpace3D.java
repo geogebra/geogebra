@@ -21,6 +21,8 @@ public class InputZSpace3D implements Input3D {
 
 	private double[] mousePosition;
 	
+	private double[] mouseDirection;
+
 	private double[] mouseOrientation;
 	
 	private boolean isRightPressed, isLeftPressed;
@@ -39,8 +41,12 @@ public class InputZSpace3D implements Input3D {
 		// 3D mouse position
 		mousePosition = new double[3];
 		
+		// 3D mouse direction
+		mouseDirection = new double[3];
+
 		// 3D mouse orientation
 		mouseOrientation = new double[4];
+
 
 		// glasses position
 		glassesPosition = new double[2][];
@@ -69,6 +75,10 @@ public class InputZSpace3D implements Input3D {
 			mousePosition[1] = socket.stylusY;
 			mousePosition[2] = socket.stylusZ;
 			
+			// mouse direction
+			mouseDirection[0] = socket.stylusDX;
+			mouseDirection[1] = socket.stylusDY;
+			mouseDirection[2] = socket.stylusDZ;
 			
 			
 			// mouse position
@@ -203,4 +213,12 @@ public class InputZSpace3D implements Input3D {
 		return false;
 	}
 	
+	public boolean hasMouseDirection() {
+		return true;
+	}
+
+	public double[] getMouse3DDirection() {
+		return mouseDirection;
+	}
+
 }

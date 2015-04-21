@@ -3,9 +3,6 @@ package org.geogebra.desktop.geogebra3D.input3D.zspace;
 import java.awt.Dimension;
 import java.awt.Point;
 
-import org.geogebra.common.main.App;
-import org.geogebra.desktop.geogebra3D.input3D.zspace.ZSpaceGeoGebra;
-
 
 public class Socket {
  
@@ -20,6 +17,13 @@ public class Socket {
     /** stylus z position */
     public double stylusZ;
 	
+	/** stylus x direction */
+	public double stylusDX;
+	/** stylus y direction */
+	public double stylusDY;
+	/** stylus z direction */
+	public double stylusDZ;
+
     public double stylusOrientationX, stylusOrientationY, stylusOrientationZ, stylusOrientationW;
      
     public double leftEyeX, leftEyeY, leftEyeZ;
@@ -60,11 +64,17 @@ public class Socket {
     		stylusZ = zsggb.getStylusZ();
 //    		App.debug("\nstylus: "+stylusX+","+stylusY+","+stylusZ);
     		
+			stylusDX = zsggb.getStylusDX();
+			stylusDY = zsggb.getStylusDY();
+			stylusDZ = zsggb.getStylusDZ();
+			// App.debug("\nstylus: " + stylusDX + "," + stylusDY + "," +
+			// stylusDZ);
+
     		stylusOrientationX = zsggb.getStylusQX();
     		stylusOrientationY = zsggb.getStylusQY();
     		stylusOrientationZ = zsggb.getStylusQZ();
     		stylusOrientationW = zsggb.getStylusQW();
-//    		App.debug("\n"+zsggb.getStylusMatrix());
+			// App.debug("\n" + zsggb.getStylusMatrix());
     		
     		
     		leftEyeX = zsggb.getLeftEyeX();

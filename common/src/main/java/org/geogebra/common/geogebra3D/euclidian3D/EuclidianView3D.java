@@ -823,6 +823,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	/**
 	 * 
+	 * @return direction for hitting
+	 */
+	public Coords getHittingDirection() {
+		return getViewDirection();
+	}
+
+	/**
+	 * 
 	 * @return eye position
 	 */
 	public Coords getEyePosition() {
@@ -1159,6 +1167,17 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 
 		return pickPoint.copyVector();
+	}
+
+	public Coords getHittingOrigin(GPoint mouse) {
+		Coords origin = getPickPoint(mouse);
+		if (getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
+				|| getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+			origin = getRenderer().getPerspEye().copyVector();
+		}
+		toSceneCoords3D(origin);
+
+		return origin;
 	}
 
 	/**

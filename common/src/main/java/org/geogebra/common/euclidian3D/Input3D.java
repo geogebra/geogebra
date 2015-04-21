@@ -177,4 +177,16 @@ public interface Input3D {
 	 */
 	public boolean useCompletingDelay();
 
+	/**
+	 * 
+	 * @return true if the input has direction for mouse
+	 */
+	public boolean hasMouseDirection();
+
+	/**
+	 * 
+	 * @return mouse direction
+	 */
+	public double[] getMouse3DDirection();
+
 }

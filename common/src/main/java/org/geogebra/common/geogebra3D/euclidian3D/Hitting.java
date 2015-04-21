@@ -57,13 +57,8 @@ public class Hitting {
 
 		view.setCenteredPosition(mouseLoc, pos);
 
-		origin = view.getPickPoint(mouseLoc);
-		if (view.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
-				|| view.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
-			origin = view.getRenderer().getPerspEye().copyVector();
-		}
-		view.toSceneCoords3D(origin);
-		direction = view.getViewDirection();
+		origin = view.getHittingOrigin(mouseLoc);
+		direction = view.getHittingDirection();
 
 		this.threshold = threshold;
 

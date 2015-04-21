@@ -1,14 +1,17 @@
 package org.geogebra.desktop.geogebra3D.euclidianInput3D;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawRay3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -48,6 +51,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		startPos.setW(1);
 	}
 	
+	@Override
 	protected void start(){
 		input3D = ((EuclidianControllerInput3D) euclidianController).input3D;
 		super.start();
@@ -85,6 +89,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 		drawMouseCursor(renderer1, mouse3DScreenPosition);
 
+	}
+	
+	@Override
+	public void drawCursor(Renderer renderer1) {
+		
+		super.drawCursor(renderer1);
 	}
 
 	static public Coords CompletingCursorColorGrabbing = new Coords(0f, 0.5f,
@@ -510,7 +520,108 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 	
 
+	@Override
 	public boolean isStereoBuffered() {
 		return input3D.isStereoBuffered();
+	}
+
+	@Override
+	public Coords getHittingDirection() {
+		if (input3D.hasMouseDirection()) {
+			return ((EuclidianControllerInput3D) euclidianController)
+					.getMouse3DDirection();
+		}
+		return super.getHittingDirection();
+	}
+
+	@Override
+	public Coords getHittingOrigin(GPoint mouse) {
+		if (input3D.hasMouseDirection()) {
+			return ((EuclidianControllerInput3D) euclidianController)
+					.getMouse3DScenePosition();
+		}
+		return super.getHittingOrigin(mouse);
+	}
+
+	private GeoRay3D stylusBeam;
+	private DrawRay3D stylusBeamDrawable;
+
+	@Override
+	public void initAxisAndPlane() {
+		super.initAxisAndPlane();
+
+		if (input3D.hasMouseDirection()) {
+			stylusBeam = new GeoRay3D(getKernel().getConstruction());
+			stylusBeam.setCoord(Coords.O, Coords.VX);
+			stylusBeam.setObjColor(GColor.GREEN);
+
+			stylusBeamDrawable = new DrawRay3D(this, stylusBeam) {
+				@Override
+				protected boolean isVisible() {
+					return true;
+				}
+			};
+		}
+
+
+	}
+
+	/**
+	 * update stylus beam
+	 * 
+	 * @param o
+	 *            origin
+	 * @param d
+	 *            direction
+	 */
+	public void updateStylusBeam(Coords o, Coords d) {
+		stylusBeam.setCoord(o, d);
+		stylusBeamDrawable.setWaitForUpdate();
+		stylusBeamDrawable.update();
+	}
+
+	@Override
+	public void resetAllVisualStyles() {
+		super.resetAllVisualStyles();
+		if (input3D.hasMouseDirection()) {
+			stylusBeamDrawable.setWaitForUpdateVisualStyle();
+		}
+	}
+
+	@Override
+	public void resetOwnDrawables() {
+		super.resetOwnDrawables();
+
+		if (input3D.hasMouseDirection()) {
+			stylusBeamDrawable.setWaitForReset();
+		}
+	}
+
+	@Override
+	public void update() {
+		super.update();
+
+		if (input3D.hasMouseDirection()) {
+			stylusBeamDrawable.update();
+		}
+	}
+
+	@Override
+	public void draw(Renderer renderer1) {
+		super.draw(renderer1);
+
+		if (input3D.hasMouseDirection()) {
+			stylusBeamDrawable.drawOutline(renderer1);
+		}
+
+	}
+
+	@Override
+	public void drawHidden(Renderer renderer1) {
+		super.drawHidden(renderer1);
+
+		if (input3D.hasMouseDirection()) {
+			stylusBeamDrawable.drawHidden(renderer1);
+		}
 	}
 }

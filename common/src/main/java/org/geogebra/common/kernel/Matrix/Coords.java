@@ -1843,6 +1843,30 @@ public class Coords {
 	}
 
 	/**
+	 * set this = m*v
+	 * 
+	 * @param m
+	 *            matrix
+	 * @param v
+	 *            vector
+	 * @return this
+	 */
+	public Coords setMul(CoordMatrix m, double[] v) {
+
+		for (int i = 1; i <= getLength(); i++) {
+
+			double r = 0;
+			for (int j = 0; j < v.length; j++) {
+				r += m.get(i, j + 1) * v[j];
+			}
+
+			set(i, r);
+		}
+
+		return this;
+	}
+
+	/**
 	 * set this = m*(x,y,z,1)
 	 * @param m matrix
 	 * @param x point x coord
