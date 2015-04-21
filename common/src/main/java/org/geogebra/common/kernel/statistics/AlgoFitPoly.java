@@ -36,7 +36,7 @@ public class AlgoFitPoly extends AlgoElement {
 	private NumberValue degree; // input
 	private GeoFunction geofunction; // output
 	private GeoElement geodegree;
-	private RegressionMath regMath;
+	private final RegressionMath regMath;
 
 	public AlgoFitPoly(Construction cons, String label, GeoList geolist,
 			NumberValue degree) {

@@ -36,7 +36,7 @@ public class AlgoFitPow extends AlgoElement implements FitAlgo {
 
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
-	private RegressionMath regMath;
+	private final RegressionMath regMath;
 
 	public AlgoFitPow(Construction cons, String label, GeoList geolist) {
 		this(cons, geolist);

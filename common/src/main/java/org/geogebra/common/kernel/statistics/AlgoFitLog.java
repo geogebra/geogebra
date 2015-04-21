@@ -36,19 +36,20 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
-	private RegressionMath regMath;
+	private final RegressionMath regMath;
 
 	public AlgoFitLog(Construction cons, String label, GeoList geolist) {
 		this(cons, geolist);
 		geofunction.setLabel(label);
 		
-		regMath = new RegressionMath();
+		
 	}
 
 	public AlgoFitLog(Construction cons, GeoList geolist) {
-		super(cons);
+		super(cons);		
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);
+		regMath = new RegressionMath();
 		setInputOutput();
 		compute();
 	}// Constructor
