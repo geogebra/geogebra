@@ -1,4 +1,4 @@
-package geogebra.io;
+package org.geogebra.io;
 
 import java.io.StringReader;
 import java.net.URL;

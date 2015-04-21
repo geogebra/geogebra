@@ -1,6 +1,6 @@
-package geogebra.test.util;
+package org.geogebra.test.util;
 
-import geogebra.cas.logging.CASTestLogger;
+import org.geogebra.cas.logging.CASTestLogger;
 
 import org.hamcrest.Description;
 import org.hamcrest.Factory;

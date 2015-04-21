@@ -1,4 +1,4 @@
-package geogebra.io;
+package org.geogebra.io;
 import java.util.Locale;
 
 import javax.swing.JFrame;

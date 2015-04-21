@@ -1,8 +1,9 @@
-package geogebra.cas;
+package org.geogebra.cas;
 
-import static geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
+import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.assertThat;
-import geogebra.cas.logging.CASTestLogger;
+
+import org.geogebra.cas.logging.CASTestLogger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -28,8 +29,9 @@ import org.geogebra.desktop.main.AppD;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
-
+@Ignore
 public class CAStestJSON {
 
 	  static GeoGebraCasInterface cas;

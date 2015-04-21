@@ -1,9 +1,10 @@
-package geogebra.cas;
+package org.geogebra.cas;
 
-import static geogebra.test.util.IsEqualPolynomialEquation.equalToPolynomialEquation;
-import static geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
+import static org.geogebra.test.util.IsEqualPolynomialEquation.equalToPolynomialEquation;
+import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.*;
-import geogebra.cas.logging.CASTestLogger;
+
+import org.geogebra.cas.logging.CASTestLogger;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -33,13 +34,11 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
 
 
 
-import com.google.common.base.Throwables;
 
 public class GeoGebraCasIntegrationTest {
   static public boolean silent = false;
@@ -102,15 +101,15 @@ public class GeoGebraCasIntegrationTest {
    */
   private static String executeInCAS (String input) throws Throwable {
     CASparser parser = (CASparser) cas.getCASparser();
-    ValidExpression inputVe = parser.parseGeoGebraCASInputAndResolveDummyVars(input, kernel);
-    String result = cas.evaluateGeoGebraCAS(inputVe, arbconst, StringTemplate.numericDefault, kernel);
+    ValidExpression inputVe = parser.parseGeoGebraCASInputAndResolveDummyVars(input, kernel, null);
+    String result = cas.evaluateGeoGebraCAS(inputVe, arbconst, StringTemplate.numericDefault,null, kernel);
 
     if (result == null || result.length() <= 0) {
       return "";
     }
 
     // Parse input into valid expression.
-    ExpressionValue outputVe = parser.parseGeoGebraCASInput(result);
+    ExpressionValue outputVe = parser.parseGeoGebraCASInput(result, null);
 
     // Resolve Variable objects in ValidExpression as GeoDummy objects.
     parser.resolveVariablesForCAS(outputVe, kernel);
@@ -211,7 +210,7 @@ public class GeoGebraCasIntegrationTest {
       String result = executeInCAS(input);
       assertThat(result, equalToPolynomialEquation(expectedResult));
     } catch (Throwable t) {
-      Throwables.propagate(t);
+      propagate(t);
     }
   }
 
@@ -329,7 +328,7 @@ public class GeoGebraCasIntegrationTest {
     try {
       t("Delete[testvar]", "true");
     } catch (Throwable t) {
-      Throwables.propagate(t);
+      propagate(t);
     }
   }
 
@@ -1202,7 +1201,7 @@ public class GeoGebraCasIntegrationTest {
     try {
       executeInCAS("Delete[a]");
     } catch (Throwable t) {
-      Throwables.propagate(t);
+      propagate(t);
     }
     t("Derivative[a x^3]", "3 * a * x^(2)", "3 * x^(2) * a");
   }
@@ -1721,7 +1720,7 @@ public class GeoGebraCasIntegrationTest {
     try {
       executeInCAS("Delete[A]");
     } catch (Throwable t) {
-      Throwables.propagate(t);
+      propagate(t);
     }
   }
 
@@ -2293,7 +2292,7 @@ public class GeoGebraCasIntegrationTest {
       executeInCAS("Delete[a]");
       executeInCAS("Delete[b]");
     } catch (Throwable t) {
-      Throwables.propagate(t);
+      propagate(t);
     }
     t("PerpendicularVector[(a, b)]", "(-b, a)");
   }
@@ -3606,7 +3605,7 @@ public class GeoGebraCasIntegrationTest {
       executeInCAS("Delete[y]");
       executeInCAS("Delete[z]");
     } catch (Throwable t) {
-      Throwables.propagate(t);
+      propagate(t);
     }
     t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "2 * a - b + 6","2 * a + 6 - b");
   }
@@ -3787,7 +3786,7 @@ public class GeoGebraCasIntegrationTest {
       executeInCAS("Delete[a]");
       executeInCAS("Delete[x]");
     } catch (Throwable t) {
-      Throwables.propagate(t);
+      propagate(t);
     }
 
     t("TaylorPolynomial[x^2, 3, 1]", "9 +6 * (x - 3)");
@@ -3799,13 +3798,17 @@ public class GeoGebraCasIntegrationTest {
       executeInCAS("Delete[a]");
       executeInCAS("Delete[x]");
     } catch (Throwable t) {
-      Throwables.propagate(t);
+      propagate(t);
     }
 
     t("TaylorPolynomial[x^2, a, 1]", "a^(2) + 2 * a*(x-a)");
   }
 
-  /* Variable specified */
+  private static void propagate(Throwable t) {
+	throw new RuntimeException(t);
+  }
+
+/* Variable specified */
 
   @Test
   public void TaylorPolynomial_VariableSpecified_0 () {

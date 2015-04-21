@@ -1,6 +1,6 @@
-package geogebra.cas.logging;
+package org.geogebra.cas.logging;
 
-import geogebra.cas.GeoGebraCasIntegrationTest;
+import org.geogebra.cas.GeoGebraCasIntegrationTest;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,4 +1,4 @@
-package geogebra.commands;
+package org.geogebra.commands;
 
 import java.util.Locale;
 

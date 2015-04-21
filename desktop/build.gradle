@@ -53,6 +53,9 @@ dependencies {
 	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-windows-amd64",
 	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-windows-i586",
 	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-macosx-universal"
+	testCompile 'junit:junit:4.+'
+			
+	
 }
 
 mainClassName = "org.geogebra.desktop.GeoGebra3D"

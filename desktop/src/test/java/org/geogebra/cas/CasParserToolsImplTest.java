@@ -1,4 +1,4 @@
-package geogebra.cas;
+package org.geogebra.cas;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;

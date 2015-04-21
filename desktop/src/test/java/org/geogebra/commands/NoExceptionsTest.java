@@ -1,6 +1,6 @@
-package geogebra.commands;
+package org.geogebra.commands;
 
-import geogebra.io.XmlTest;
+import org.geogebra.io.XmlTest;
 
 import java.lang.reflect.Method;
 import java.util.Locale;
