@@ -788,11 +788,18 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	private void updateScreenBorders(int v) {
 
-
-				xmax[v] = kernel.getXmax(true, false);
-				xmin[v] = kernel.getXmin(true, false);
-				ymax[v] = kernel.getYmax(true, false);
-				ymin[v] = kernel.getYmin(true, false);
+		if (v == 0) {
+			xmax[v] = kernel.getXmax(true, false);
+			xmin[v] = kernel.getXmin(true, false);
+			ymax[v] = kernel.getYmax(true, false);
+			ymin[v] = kernel.getYmin(true, false);
+		} else {
+			// TODO: differenciate 3D view!
+			xmax[v] = kernel.getXmax(false, true);
+			xmin[v] = kernel.getXmin(false, true);
+			ymax[v] = kernel.getYmax(false, true);
+			ymin[v] = kernel.getYmin(false, true);
+		}
 
 		setMaxDistances(v);
 
@@ -804,12 +811,17 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	protected void setMaxDistances(int v) {
 		double widthRW = xmax[v] - xmin[v];
 		double heightRW = ymax[v] - ymin[v];
-		maxXdist[v] = MAX_X_PIXEL_DIST / kernel.getXscale(true, false); // widthRW
-		// /
-		// 100;
-		maxYdist[v] = MAX_Y_PIXEL_DIST / kernel.getYscale(true, false); // heightRW
-		// /
-		// 100;
+		if (v == 0) {
+			maxXdist[v] = MAX_X_PIXEL_DIST / kernel.getXscale(true, false); // widthRW
+			// /
+			// 100;
+			maxYdist[v] = MAX_Y_PIXEL_DIST / kernel.getYscale(true, false); // heightRW
+			// /
+			// 100;
+		} else {
+			maxXdist[v] = MAX_X_PIXEL_DIST / kernel.getXscale(false, true);
+			maxYdist[v] = MAX_Y_PIXEL_DIST / kernel.getYscale(false, true);
+		}
 
 		// we take a bit more than the screen
 		// itself so that we don't loose locus
