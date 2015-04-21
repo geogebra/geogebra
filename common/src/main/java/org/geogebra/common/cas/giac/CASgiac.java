@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -28,6 +29,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.CASSettings;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.regexp.shared.MatchResult;
@@ -243,7 +245,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		Command cmd = casInput.getTopLevelCommand();
 
 		if (cmd != null && "Delete".equals(cmd.getName())) {
-			String label = cmd.getArgument(0).toString(
+			ExpressionValue toDelete = cmd.getArgument(0).unwrap();
+			if(toDelete.isExpressionNode() && (((ExpressionNode)toDelete).getOperation() == Operation.FUNCTION
+					|| ((ExpressionNode)toDelete).getOperation() == Operation.FUNCTION_NVAR)){
+				toDelete = ((ExpressionNode)toDelete).getLeft();
+			}
+			String label = toDelete.toString(
 					StringTemplate.defaultTemplate);
 			GeoElement geo = kernel.lookupLabel(label);
 			if (geo == null)
