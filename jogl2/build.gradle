@@ -1,9 +1,8 @@
 project.setDescription('Parts of GeoGebra related to Java OpenGL')
 
-List jogl = [
-	"com.jogamp:gluegen-rt:$joglver",
-	"com.jogamp:jogl-all:$joglver"]
+def joglVersion = '2.2.0';
 
 dependencies {
-	compile jogl
+	compile "com.jogamp:gluegen-rt:$joglVersion"
+	compile "com.jogamp:jogl-all:$joglVersion"
 }

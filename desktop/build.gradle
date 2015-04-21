@@ -23,6 +23,8 @@ for (location in ['lib/jfxrt.jar', 'jre/lib/jfxrt.jar', 'jre/lib/ext/jfxrt.jar']
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
+def javaGiacVersion = '201503271100'
+
 List jlatexmath = [
 	'org.scilab.forge:jlatexmath-minimal:1.0.3b',
 	'org.scilab.forge:jlm_cyrillic:1.0.3',
@@ -48,11 +50,11 @@ dependencies {
             "com.jogamp:gluegen-rt:$joglver:natives-windows-amd64", 
             "com.jogamp:gluegen-rt:$joglver:natives-macosx-universal",
             "com.jogamp:gluegen-rt:$joglver:natives-linux-i586"
-    runtime "fr.ujf-grenoble:javagiac:$javagiacver:natives-linux-amd64",
-	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-linux-i586",
-	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-windows-amd64",
-	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-windows-i586",
-	    "fr.ujf-grenoble:javagiac:$javagiacver:natives-macosx-universal"
+    runtime "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
+	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-i586",
+	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64",
+	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
+	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
 	testCompile 'junit:junit:4.+'
 			
 	

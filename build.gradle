@@ -1,8 +1,5 @@
 project.description = 'GeoGebra'
 
-ext.javagiacver = '201503271100'
-ext.joglver = '2.2.0'
-
 subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
