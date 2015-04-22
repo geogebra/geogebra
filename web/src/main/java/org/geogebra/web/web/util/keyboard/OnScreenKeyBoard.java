@@ -145,7 +145,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	// TODO remove for mobile devices
 	private FlowPanel contentLetters = new FlowPanel();
 	private MathKeyboardListener textField;
-	private TextFieldProcessing processing = new TextFieldProcessing();
+	TextFieldProcessing processing = new TextFieldProcessing();
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 	private KeyPanel letters;
 	private KeyBoardButton switchABCGreek;
@@ -177,7 +177,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 
 	private boolean shiftIsDown = false;
 	private boolean greekActive = false;
-	private boolean keyboardWanted = false;
+	boolean keyboardWanted = false;
 
 	/** language of application */
 	String keyboardLocale = "";
@@ -389,7 +389,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	 * adds a specific styleName to the keyboard (if keyboard has to be scaled
 	 * or not)
 	 */
-	private void setStyleName() {
+	void setStyleName() {
 		if (app.getWidth() < getMinWidthWithoutScaling()) {
 			addStyleName("scale");
 			removeStyleName("normal");
@@ -886,7 +886,8 @@ public class OnScreenKeyBoard extends PopupPanel {
 		return accents;
 	}
 
-	private boolean canHaveAccent(String letter, HashMap<String, String> accents) {
+	private static boolean canHaveAccent(String letter,
+			HashMap<String, String> accents) {
 		return accents.get(letter) != null;
 	}
 

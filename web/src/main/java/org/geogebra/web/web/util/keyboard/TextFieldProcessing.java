@@ -269,8 +269,7 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
 				        false, false);
 			} else if (text.startsWith(KeyboardConstants.EULER)) {
-				((RadioButtonTreeItem) field)
-				        .insertString(KeyboardConstants.EULER);
+				((RadioButtonTreeItem) field).insertString("e");
 				// inserts: ^{}
 				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
 						false, false);
@@ -294,9 +293,7 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).keypress(
 				// text.codePointAt is the same as text.charAt for low ranges
 				// but I think String.fromCharCode will wait for Unicode int
-				        text.codePointAt(0),
-				        false, false,
-						false);
+						text.codePointAt(0), false, false, false);
 			} else if (text.equals("abs")) {
 				((RadioButtonTreeItem) field).keypress(PIPE, false, false,
 						false);
@@ -313,7 +310,7 @@ public class TextFieldProcessing {
 	 *            to insert
 	 * @return {@code true} if the RadioButtonTreeItem needs a keyPress event.
 	 */
-    private boolean keyPressNeeded(String text) {
+	private static boolean keyPressNeeded(String text) {
 	    return text.equals("/") || text.equals("_") || text.equals("$")
 	            || text.equals(" ") || text.equals("|") || text.equals(",")
 		        || text.equals("*") || text.startsWith("(")
