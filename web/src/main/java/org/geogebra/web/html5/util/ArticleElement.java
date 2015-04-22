@@ -511,4 +511,8 @@ public final class ArticleElement extends Element {
 		return "true".equals(getAttribute("data-param-showTutorialLink"));
 	}
 
+	public boolean getDataParamEnableFileFeatures() {
+		return "true".equals(getAttribute("data-param-enableFileFeatures"));
+	}
+
 }

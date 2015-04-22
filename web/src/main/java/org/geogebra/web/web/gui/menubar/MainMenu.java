@@ -68,7 +68,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private void init() {
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();
-		this.createFileMenu();
+		if(app.enableFileFeatures()){
+			this.createFileMenu();
+		}
 		this.createPerspectivesMenu();
 		this.createEditMenu();
 		this.createViewMenu();
@@ -77,7 +79,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (!exam) {
 			this.createHelpMenu();
 			this.createUserMenu();
-			this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
+			if(!app.enableFileFeatures()){
+				this.menus = new GMenuBar[]{editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};	
+			}else{
+				this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
+			}
 		} else {
 			this.menus = new GMenuBar[]{fileMenu, editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu};
 		}
@@ -117,7 +123,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			@Override
 			public void showStack(int index) {
 				super.showStack(index);
-				app.getGuiManager().setDraggingViews(index == 3 || index == 2, false);
+				app.getGuiManager().setDraggingViews(menus[index] == perspectivesMenu || menus[index] == viewMenu, false);
 			}
 
 			@Override
@@ -162,8 +168,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 		};
 		this.menuPanel.addStyleName("menuPanel");
-		
-		this.menuPanel.add(fileMenu, getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
+		if(app.enableFileFeatures()){	
+			this.menuPanel.add(fileMenu, getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
+		}
 		this.menuPanel.add(editMenu, getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"), true);
 		this.menuPanel.add(perspectivesMenu, getHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
 		this.menuPanel.add(viewMenu, getHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
@@ -182,6 +189,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 
 	public void render(boolean online) {
+		if(!app.enableFileFeatures()){
+			return;
+		}
 		if (online && app.getLoginOperation().isLoggedIn()) {
 			addUserMenu();
 		} else if(online){
@@ -316,6 +326,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	@Override
 	public void renderEvent(final BaseEvent event) {
+		if(!app.enableFileFeatures()){
+			return;
+		}
 		if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
 			this.menuPanel.remove(this.signInMenu);
 			addUserMenu();

@@ -272,7 +272,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
             }
 		}, KeyUpEvent.getType());
 
-		if (!exam) {
+		if (!exam && app.enableFileFeatures()) {
 			openSearchButton = new StandardButton(pr.button_open_search(),null,32);
 			openSearchButton.addFastClickHandler(new FastClickHandler() {
 				@Override

@@ -3257,4 +3257,8 @@ public abstract class AppW extends App implements SetLabels {
 	public double getTop() {
 		return this.getFrameElement().getOffsetTop();
 	}
+
+	public boolean enableFileFeatures() {
+		return this.articleElement.getDataParamEnableFileFeatures();
+	}
 }
