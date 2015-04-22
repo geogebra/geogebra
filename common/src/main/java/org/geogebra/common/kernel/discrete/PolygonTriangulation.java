@@ -647,6 +647,19 @@ public class PolygonTriangulation {
 	}
 
 	/**
+	 * set point id
+	 * 
+	 * @param point
+	 * @param s
+	 *            name
+	 */
+	private void setName(Point point, String s) {
+		if (DEBUG) {
+			point.name = s;
+		}
+	}
+
+	/**
 	 * update points list: creates a chain from firstPoint to next points ; two
 	 * consecutive points can't be equal ; three consecutive points can't be
 	 * aligned. For each point orientation to the next (angle about Ox) is
@@ -685,7 +698,7 @@ public class PolygonTriangulation {
 				if (!Kernel.isEqual(point.x, x1)
 						|| !Kernel.isEqual(point.y, y1)) {
 					point.next = new Point(x1, y1, length + i);
-					setName(point.next, i);
+					setName(point.next, "corner" + i);
 					point.next.prev = point;
 					point = point.next;
 					n++;
@@ -1451,6 +1464,10 @@ public class PolygonTriangulation {
 		}
 
 		if (a.rightPoint == b.rightPoint) {
+			return;
+		}
+
+		if (a.leftPoint == b.leftPoint) {
 			return;
 		}
 
