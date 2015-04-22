@@ -81,7 +81,8 @@ public class Hitting {
 		}
 		view.getDrawList3D().hit(this, hits);
 
-		hits.sort();
+		double zNear = hits.sort();
+		view.setZNearest(zNear);
 	}
 
 	/**

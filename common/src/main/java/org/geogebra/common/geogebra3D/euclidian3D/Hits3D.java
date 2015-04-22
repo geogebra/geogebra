@@ -194,7 +194,7 @@ public class Hits3D extends Hits {
 	}
 
 	/** sort all hits in different sets */
-	public void sort() {
+	public double sort() {
 
 		hitSetSet.clear();
 
@@ -203,12 +203,21 @@ public class Hits3D extends Hits {
 			// App.debug(i+"--"+hitSet[i]);
 		}
 
+		// return nearest zNear
+		double zNear = Double.NaN;
+
 		// top hits
-		for (Iterator<Drawable3D> iter = hitSetSet.first().iterator(); iter
-				.hasNext();) {
-			Drawable3D d = iter.next();
+		Iterator<Drawable3D> iter1 = hitSetSet.first().iterator();
+		if (iter1.hasNext()) {
+			Drawable3D d = iter1.next();
+			topHits.add(d.getGeoElement());
+			zNear = d.getZPickNear();
+		}
+		while (iter1.hasNext()) {
+			Drawable3D d = iter1.next();
 			topHits.add(d.getGeoElement());
 		}
+
 
 		// App.error(""+topHits);
 
@@ -254,6 +263,8 @@ public class Hits3D extends Hits {
 		 * Application
 		 * .debug(toString()+"\n first label : "+getLabelHit().getLabel());
 		 */
+
+		return zNear;
 	}
 
 	/**

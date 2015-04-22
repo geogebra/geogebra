@@ -7,11 +7,11 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawRay3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -63,7 +63,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public void drawMouseCursor(Renderer renderer1) {
 
-		if (input3D.currentlyUseMouse2D()) {
+		if (input3D.currentlyUseMouse2D() || input3D.hasMouseDirection()) {
 			return;
 		}
 
@@ -543,19 +543,19 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		return super.getHittingOrigin(mouse);
 	}
 
-	private GeoRay3D stylusBeam;
-	private DrawRay3D stylusBeamDrawable;
+	private GeoSegment3D stylusBeam;
+	private DrawSegment3D stylusBeamDrawable;
 
 	@Override
 	public void initAxisAndPlane() {
 		super.initAxisAndPlane();
 
 		if (input3D.hasMouseDirection()) {
-			stylusBeam = new GeoRay3D(getKernel().getConstruction());
+			stylusBeam = new GeoSegment3D(getKernel().getConstruction());
 			stylusBeam.setCoord(Coords.O, Coords.VX);
 			stylusBeam.setObjColor(GColor.GREEN);
 
-			stylusBeamDrawable = new DrawRay3D(this, stylusBeam) {
+			stylusBeamDrawable = new DrawSegment3D(this, stylusBeam) {
 				@Override
 				protected boolean isVisible() {
 					return true;
@@ -566,18 +566,25 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	}
 
-	/**
-	 * update stylus beam
-	 * 
-	 * @param o
-	 *            origin
-	 * @param d
-	 *            direction
-	 */
-	public void updateStylusBeam(Coords o, Coords d) {
-		stylusBeam.setCoord(o, d);
-		stylusBeamDrawable.setWaitForUpdate();
-		stylusBeamDrawable.update();
+
+	private double zNearest = 4;
+
+	@Override
+	public void setZNearest(double zNear) {
+		if (input3D.hasMouseDirection()) {
+			if (Double.isNaN(zNear)) {
+				zNearest = 4;
+			} else {
+				zNearest = -zNear;
+			}
+			stylusBeam.setCoord(
+					((EuclidianControllerInput3D) euclidianController)
+							.getMouse3DScenePosition(),
+					((EuclidianControllerInput3D) euclidianController)
+							.getMouse3DDirection().mul(zNearest));
+			stylusBeamDrawable.setWaitForUpdate();
+			stylusBeamDrawable.update();
+		}
 	}
 
 	@Override

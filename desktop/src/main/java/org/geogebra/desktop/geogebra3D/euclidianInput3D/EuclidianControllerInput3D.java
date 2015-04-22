@@ -233,8 +233,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 								input3D.getMouse3DDirection());
 						mouse3DScenePosition.set(mouse3DPosition);
 						view3D.toSceneCoords3D(mouse3DScenePosition);
-						((EuclidianViewInput3D) view3D).updateStylusBeam(
-								mouse3DScenePosition, mouse3DDirection);
 					}
 
 					// mouse orientation

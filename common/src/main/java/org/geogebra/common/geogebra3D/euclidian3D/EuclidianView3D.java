@@ -4106,4 +4106,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public double getFontScale() {
 		return fontScale;
 	}
+
+	/**
+	 * set zNear nearest value
+	 * 
+	 * @param zNear
+	 */
+	public void setZNearest(double zNear) {
+		// used for some input3D
+	}
 }
