@@ -124,11 +124,23 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				break;
 			}
 		}
-		((AlgebraViewWeb) app.getAlgebraView()).setShowAlgebraInput(app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView);
+		((AlgebraViewWeb) app.getAlgebraView()).setShowAlgebraInput(app
+				.showAlgebraInput()
+				&& app.getInputPosition() == InputPositon.algebraView);
+
 
 		if (app.getGuiManager().getRootComponent() != null) {
 			dockPanel.add(app.getGuiManager().getRootComponent());
 			app.getGuiManager().getRootComponent().setStyleName("ApplicationPanel");
+		}
+
+		// keyboard is visible and material with input bar is opened -> hide
+		// keyboard
+		if (app.getInputPosition() != InputPositon.algebraView
+				&& keyboardShowing) {
+			keyboardShowing = false;
+			this.mainPanel.clear();
+			this.mainPanel.add(this.dockPanel);
 		}
 
 		onResize();
@@ -143,6 +155,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 					showKeyboardButton(true,
 							((AlgebraViewWeb) app.getAlgebraView())
 									.getInputTreeItem());
+				} else {
+					if (showKeyboardButton != null) {
+						showKeyboardButton.show(false, null);
+					}
 				}
 			}
 		};
@@ -205,7 +221,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				}
 			}
 		}
-		showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+		showKeyboardButton.show(show || app.isKeyboardNeeded(), textField);
 	}
 
 	/**
@@ -298,7 +314,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		        && app.getInputPosition() == InputPositon.algebraView) {
 			((AlgebraDockPanelW) (app.getGuiManager().getLayout()
 			        .getDockManager()
-			        .getPanel(org.geogebra.common.main.App.VIEW_ALGEBRA)))
+			        .getPanel(App.VIEW_ALGEBRA)))
 			        .scrollToBottom();
 		}
 	}

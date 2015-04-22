@@ -12,6 +12,7 @@ import org.geogebra.web.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -22,6 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ShowKeyboardButton extends SimplePanel {
 	
 	private Widget parent;
+	MathKeyboardListener mathKeyboardListener;
 
 	/**
 	 * @param listener
@@ -40,22 +42,24 @@ public class ShowKeyboardButton extends SimplePanel {
 		        .keyboard_show().getSafeUri().asString());
 		this.add(showKeyboard);
 
+		mathKeyboardListener = textField;
+
 		((DockPanelW) parent).addSouth(this);
 		ClickStartHandler.init(ShowKeyboardButton.this, new ClickStartHandler(
 		        true, true) {
 
 			@Override
-			public void onClickStart(int x, int y,
- PointerEventType type) {
-				App.debug("show keyboard");
-				listener.doShowKeyBoard(true, textField);
+			public void onClickStart(int x, int y, PointerEventType type) {
+				listener.doShowKeyBoard(true, mathKeyboardListener);
 
 				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 
 					@Override
 					public boolean execute() {
-						textField.ensureEditing();
-						textField.setFocus(true);
+						if (mathKeyboardListener != null) {
+							mathKeyboardListener.ensureEditing();
+							mathKeyboardListener.setFocus(true);
+						}
 						return false;
 					}
 				}, 0);
@@ -69,10 +73,12 @@ public class ShowKeyboardButton extends SimplePanel {
 	 * @param show
 	 *            {@code true} to show the button to open the OnScreenKeyboard
 	 * @param textField
-	 *            {@link Widget} to set as AutoHidePartner
+	 *            {@link Widget} to receive the text input
 	 */
 	public void show(boolean show, MathKeyboardListener textField) {
-
+		if (textField != null && show) {
+			this.mathKeyboardListener = textField;
+		}
 
 		if (show && parent.isVisible()) {
 			setVisible(true);
