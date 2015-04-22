@@ -656,7 +656,7 @@ public class PolygonTriangulation {
 	 */
 	public int updatePoints() {
 
-		maxPointIndex = polygon.getPointsLength() + CORNERS_NUMBER;
+		maxPointIndex = polygon.getPointsLength();
 
 		// feed the list with no successively equal points
 		Point point = new Point(polygon.getPointX(0), polygon.getPointY(0), 0);
@@ -677,16 +677,19 @@ public class PolygonTriangulation {
 		}
 
 		// corners
-
-		for (int i = 0; i < CORNERS_NUMBER; i++) {
-			double x1 = corners[i].getX();
-			double y1 = corners[i].getY();
-			if (!Kernel.isEqual(point.x, x1) || !Kernel.isEqual(point.y, y1)) {
-				point.next = new Point(x1, y1, length + i);
-				setName(point.next, i);
-				point.next.prev = point;
-				point = point.next;
-				n++;
+		if (corners != null) {
+			maxPointIndex += CORNERS_NUMBER;
+			for (int i = 0; i < CORNERS_NUMBER; i++) {
+				double x1 = corners[i].getX();
+				double y1 = corners[i].getY();
+				if (!Kernel.isEqual(point.x, x1)
+						|| !Kernel.isEqual(point.y, y1)) {
+					point.next = new Point(x1, y1, length + i);
+					setName(point.next, i);
+					point.next.prev = point;
+					point = point.next;
+					n++;
+				}
 			}
 		}
 
@@ -2054,7 +2057,7 @@ public class PolygonTriangulation {
 	}
 
 	private Coords[] completeVertices = new Coords[0];
-	private Coords[] corners = new Coords[8];
+	private Coords[] corners = null;
 
 	/**
 	 * 
