@@ -3405,7 +3405,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (xAxisOnscreen()) {
 			// erase the grid to make space for labels, use two rectangles
 
-			yoffset = fontsize + 4;
+			yoffset = getYOffsetForXAxis(fontsize);
 			xoffset = 1;
 
 			// label of x axis
@@ -3816,6 +3816,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private boolean yAxisOnscreen() {
 		return showAxes[1] && (getXmin() < axisCross[1])
 				&& (getXmax() > axisCross[1]);
+	}
+
+	protected int getYOffsetForXAxis(int fontSize) {
+		return fontSize + 4;
 	}
 
 	private ArrayList<Integer> axesLabelsPositionsY = new ArrayList<Integer>();
