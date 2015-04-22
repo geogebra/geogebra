@@ -90,7 +90,7 @@ gradle.projectsEvaluated {
         def projs = configurations.compile.getAllDependencies().withType(ProjectDependency).collect{it.getDependencyProject()}
         projs.each {
             additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
-            additionalClassDirs files(it.sourceSets.main.output)
+            additionalClassDirs files(it.sourceSets.main.output.classesDir)
         }
     }
 }	
