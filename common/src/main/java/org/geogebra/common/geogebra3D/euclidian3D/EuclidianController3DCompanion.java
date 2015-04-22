@@ -109,7 +109,7 @@ public class EuclidianController3DCompanion extends
 					movedGeoPoint3D.getCoords().projectNearLine(
 							o,
 							((EuclidianController3D) ec).view3D
-									.getViewDirection(), 
+									.getHittingDirection(),
 							((EuclidianController3D) ec)
 									.getNormalTranslateDirection(),
 									tmpCoords1);
@@ -194,7 +194,7 @@ public class EuclidianController3DCompanion extends
 			// GgbVector v = new GgbVector(new double[] {0,0,1,0});
 			// view3D.toSceneCoords3D(view3D.getViewDirection());
 			o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-					((EuclidianController3D) ec).view3D.getViewDirection(),
+					((EuclidianController3D) ec).view3D.getHittingDirection(),
 					tmpCoords1, tmpCoords2); // TODO
 												// use
 												// current
@@ -438,7 +438,7 @@ public class EuclidianController3DCompanion extends
 		point3D.setMoveNormalDirection(point3D.getRegionParameters()
 				.getNormal());
 
-		// App.debug(point3D);
+
 
 		if (region == ec.getKernel().getXOYPlane()) {
 			Coords coords = point3D.getInhomCoords();
@@ -482,6 +482,7 @@ public class EuclidianController3DCompanion extends
 
 			return ret;
 		}
+
 
 		return point3D;
 

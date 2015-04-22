@@ -2141,7 +2141,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	private void updateCursorOnXOYPlane() {
 		cursorOnXOYPlane.setWillingCoords(getCursor3D().getCoords());
-		cursorOnXOYPlane.setWillingDirection(getViewDirection());
+		cursorOnXOYPlane.setWillingDirection(getHittingDirection());
 		cursorOnXOYPlane.doRegion();
 
 		// cursorOnXOYPlaneVisible =
@@ -2192,7 +2192,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		double t;
 
 		Coords v;
-		CoordMatrix m;
 		if (getEuclidianController().getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
 
 			switch (getCursor3DType()) {

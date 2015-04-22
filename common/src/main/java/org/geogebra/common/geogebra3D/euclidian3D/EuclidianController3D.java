@@ -327,7 +327,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// getting new position of the point
 		o.projectPlaneThruVIfPossible(getCurrentPlane(),
-				view3D.getViewDirection(), tmpCoords);
+				view3D.getHittingDirection(), tmpCoords);
 
 		// min-max x and y values
 		checkXYMinMax(tmpCoords);
@@ -378,8 +378,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param point
 	 *            a point
 	 */
-	protected void setMouseInformation(GeoPoint3D point) {
+	final protected void setMouseInformation(GeoPoint3D point) {
 
+		setMouseOrigin(point);
+
+		point.setWillingDirection(view3D.getHittingDirection());
+	}
+
+	/**
+	 * set mouse origin information
+	 * 
+	 * @param point
+	 *            a point
+	 */
+	protected void setMouseOrigin(GeoPoint3D point) {
 		// Michael Borcherds
 		// move mouse fast, sometimes get mouseLoc = null
 		if (mouseLoc == null)
@@ -390,8 +402,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		addOffsetForTranslation(o);
 		point.setWillingCoords(o);
-
-		point.setWillingDirection(view3D.getViewDirection());
 	}
 
 	/**
@@ -414,7 +424,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// (o.sub(startPoint3D)).projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
 		// view3D.getViewDirection())[0];
 		o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-				view3D.getViewDirection(), tmpCoords);
+				view3D.getHittingDirection(), tmpCoords);
 		// Application.debug(o);
 		// ((GeoPoint2)
 		// movedGeoText.getStartPoint()).setCoords(o.getX(),o.getY(), 1.0);
@@ -3427,7 +3437,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// project on xOy
 		startPoint3D.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-				view3D.getViewDirection(), startPoint3DxOy);
+				view3D.getHittingDirection(), startPoint3DxOy);
 	}
 
 	@Override
@@ -3480,9 +3490,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.toSceneCoords3D(o);
 		if (translateDirection == null) {
 			o.projectPlaneThruVIfPossible(Coords.VX, Coords.VY, Coords.VZ,
-					startPoint3D, view3D.getViewDirection(), tmpCoords);
+					startPoint3D, view3D.getHittingDirection(), tmpCoords);
 		} else {
-			startPoint3D.projectNearLine(o, view3D.getViewDirection(),
+			startPoint3D.projectNearLine(o, view3D.getHittingDirection(),
 					translateDirection, tmpCoords);
 		}
 
@@ -3532,7 +3542,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		updateTranslationVector();
 		GeoElement.moveObjects(translateableGeos, translationVec3D,
-				startPoint3D, view3D.getViewDirection(), view3D);
+				startPoint3D, view3D.getHittingDirection(), view3D);
 
 		kernel.notifyRepaint();
 	}

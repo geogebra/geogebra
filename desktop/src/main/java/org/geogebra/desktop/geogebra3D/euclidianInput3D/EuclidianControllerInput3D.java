@@ -17,6 +17,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -63,7 +64,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	protected Robot robot;
 	protected int robotX, robotY;
-	protected double[] inputPosition, inputDirection;
+	protected double[] inputPosition, inputPositionOnScreen, inputDirection;
 
 	/**
 	 * constructor
@@ -104,6 +105,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		startMouse3DOrientation = new Quaternion();
 		rotV = new Coords(4);
 		toSceneRotMatrix = new CoordMatrix4x4();
+
+		// 3D mouse position on screen (screen coords)
+		inputPositionOnScreen = new double[2];
 
 		// screen dimensions
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment()
@@ -176,11 +180,27 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			// input position
 			inputPosition = input3D.getMouse3DPosition();
 
+
 			// 2D cursor pos
 			if (robot != null) {
-				int x = (int) (inputPosition[0] + screenHalfWidth);
+
+				if (input3D.hasMouseDirection()) { // project position on screen
+					double dz = input3D.getMouse3DDirection()[2];
+					if (dz < 0) {
+						double t = -inputPosition[2] / dz;
+						inputPositionOnScreen[0] = inputPosition[0] + t
+								* input3D.getMouse3DDirection()[0];
+						inputPositionOnScreen[1] = inputPosition[1] + t
+								* input3D.getMouse3DDirection()[1];
+					}
+				} else {
+					inputPositionOnScreen[0] = inputPosition[0];
+					inputPositionOnScreen[1] = inputPosition[1];
+				}
+
+				int x = (int) (inputPositionOnScreen[0] + screenHalfWidth);
 				if (x >= 0 && x <= screenHalfWidth * 2) {
-					int y = (int) (screenHalfHeight - inputPosition[1]);
+					int y = (int) (screenHalfHeight - inputPositionOnScreen[1]);
 					if (y >= 0 && y <= screenHalfHeight * 2) {
 
 						// process mouse
@@ -209,7 +229,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 					// mouse direction
 					if (input3D.hasMouseDirection()) {
-						mouse3DDirection.setMul(view3D.getRotationMatrix(),
+						mouse3DDirection.setMul(view3D.getUndoRotationMatrix(),
 								input3D.getMouse3DDirection());
 						mouse3DScenePosition.set(mouse3DPosition);
 						view3D.toSceneCoords3D(mouse3DScenePosition);
@@ -622,5 +642,15 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 
 		return mouse3DLoc;
+	}
+
+	@Override
+	protected void setMouseOrigin(GeoPoint3D point) {
+
+		if (input3D.hasMouseDirection()) {
+			point.setWillingCoords(getMouse3DScenePosition());
+		} else {
+			super.setMouseOrigin(point);
+		}
 	}
 }

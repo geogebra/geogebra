@@ -35,9 +35,9 @@ import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
 import org.geogebra.common.kernel.algos.PolygonAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -1343,7 +1343,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		// Application.debug("isInRegion : "+isInRegion(P));
 
-		if (!isInRegion(P)) {
+		if (!isInRegion(P.getX2D(), P.getY2D())) {
 			pointChanged(P);
 			rp.setIsOnPath(true);
 		} else {

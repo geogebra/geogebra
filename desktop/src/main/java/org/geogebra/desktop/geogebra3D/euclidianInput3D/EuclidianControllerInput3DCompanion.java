@@ -59,7 +59,9 @@ public class EuclidianControllerInput3DCompanion extends
 	@Override
 	public void movePoint(boolean repaint, AbstractEvent event) {
 
-		if (((EuclidianControllerInput3D) ec).input3D.currentlyUseMouse2D()) {
+		if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()
+				|| ((EuclidianControllerInput3D) ec).input3D
+						.currentlyUseMouse2D()) {
 			super.movePoint(repaint, event);
 		} else {
 			Coords v = new Coords(4);
