@@ -48,6 +48,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private GeneralPathClipped gp, gpTriangularize;
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
+	private Coords[] extraCoords;
 
 	/**
 	 * Creates new DrawPolygon
@@ -61,8 +62,27 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.view = view;
 		this.poly = poly;
 		geo = poly;
-
+		extraCoords = new Coords[8];
+		for (int i = 0; i < 8; i++) {
+			extraCoords[i] = new Coords(0, 0);
+		}
 		update();
+
+	}
+
+	private void calculateViewCorners() {
+		extraCoords[0].setX(view.getXmin());
+		extraCoords[0].setY(view.getYmin());
+
+		extraCoords[1].setX(view.getXmax());
+		extraCoords[1].setY(view.getYmin());
+
+		extraCoords[2].setX(view.getXmax());
+		extraCoords[2].setY(view.getYmax());
+
+		extraCoords[3].setX(view.getXmin());
+		extraCoords[3].setY(view.getYmax());
+
 	}
 
 	/**
@@ -147,10 +167,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 	
 		pt.clear();
 		pt.setPolygon(poly);
-		Coords n = poly.getMainDirection();
 
-		pt.setCorners(getCorners());
+		Coords n = poly.getMainDirection();
 		
+		calculateCorners();
+
+		pt.setCorners(extraCoords);
+
 		try {
 			// simplify the polygon and check if there are at least 3 points
 			// left
@@ -214,36 +237,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}		
 	}
 
-	private Coords getCorner(int idx) {
 
-		GeoPointND p = view.getApplication().getKernel().getAlgebraProcessor()
-				.evaluateToPoint("Corner[" + idx + "]", false, false);
-		Coords c = p.getCoords();
-		p.remove();
-		return c;
+	private final void calculateCorners() {
+		calculateViewCorners();
+		calculateBounds();
 	}
 
-	private final Coords[] getCorners() {
-		Coords[] coords = new Coords[8];
-	
-		// Screen corners
-		coords[0] = getCorner(1);
-		coords[1] = getCorner(2);
-		coords[2] = getCorner(3);
-		coords[3] = getCorner(4);
-
-		Coords[] polyRect = getPolyBoundingRect();
-
-		coords[4] = polyRect[0];
-		coords[5] = polyRect[1];
-		coords[6] = polyRect[2];
-		coords[7] = polyRect[3];
-
-		return coords;
-	}
-
-	private final Coords[] getPolyBoundingRect() {
-		Coords[] coords = new Coords[4];
+	private final void calculateBounds() {
 		double xmin = Double.MAX_VALUE;
 		double ymin = Double.MAX_VALUE;
 		double xmax = Double.MIN_VALUE;
@@ -256,24 +256,33 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 			if (x < xmin) {
 				xmin = x;
-			} else if (x > xmax) {
+			}
+
+			if (x > xmax) {
 				xmax = x;
 			}
 
 			if (y < ymin) {
 				ymin = y;
-			} else if (y > ymax) {
+			}
+			if (y > ymax) {
 				ymax = y;
 			}
 
 		}
 
-		coords[0] = new Coords(xmin, ymin);
-		coords[1] = new Coords(xmax, ymin);
-		coords[2] = new Coords(xmax, ymax);
-		coords[3] = new Coords(xmin, ymax);
+		 
+		extraCoords[4].setX(xmin);
+		extraCoords[4].setY(ymin);
 
-		return coords;
+		extraCoords[5].setX(xmax);
+		extraCoords[5].setY(ymin);
+
+		extraCoords[6].setX(xmax);
+		extraCoords[6].setY(ymax);
+
+		extraCoords[7].setX(xmin);
+		extraCoords[7].setY(ymax);
 	}
 
 	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
