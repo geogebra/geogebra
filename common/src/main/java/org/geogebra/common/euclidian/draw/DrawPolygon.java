@@ -180,10 +180,17 @@ public class DrawPolygon extends Drawable implements Previewable {
 			if (pt.updatePoints() > 2) {
 
 				// check if the polygon is convex
-				Coords[] vertices = new Coords[poly.getPointsLength()];
+				int length = poly.getPointsLength();
+				Coords[] vertices = new Coords[length
+						+ PolygonTriangulation.CORNERS_NUMBER];
 				for (int i = 0; i < poly.getPointsLength(); i++) {
 					vertices[i] = poly.getPointND(i).getCoords();
 				}
+
+				for (int i = 0; i < PolygonTriangulation.CORNERS_NUMBER; i++) {
+					vertices[length + i] = extraCoords[i];
+				}
+
 				Convexity convexity = pt.checkIsConvex();
 				if (convexity != Convexity.NOT) {
 					boolean reverse = poly.getReverseNormalForDrawing()

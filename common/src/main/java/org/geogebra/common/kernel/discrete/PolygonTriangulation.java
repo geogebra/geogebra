@@ -99,6 +99,8 @@ public class PolygonTriangulation {
 
 	final static private boolean DEBUG = false;
 
+	public static final int CORNERS_NUMBER = 8;
+
 	/**
 	 * message debug
 	 * 
@@ -654,14 +656,15 @@ public class PolygonTriangulation {
 	 */
 	public int updatePoints() {
 
-		maxPointIndex = polygon.getPointsLength();
+		maxPointIndex = polygon.getPointsLength() + CORNERS_NUMBER;
 
 		// feed the list with no successively equal points
 		Point point = new Point(polygon.getPointX(0), polygon.getPointY(0), 0);
 		setName(point, 0);
 		firstPoint = point;
 		int n = 1;
-		for (int i = 1; i < polygon.getPointsLength(); i++) {
+		int length = polygon.getPointsLength();
+		for (int i = 1; i < length; i++) {
 			double x1 = polygon.getPointX(i);
 			double y1 = polygon.getPointY(i);
 			if (!Kernel.isEqual(point.x, x1) || !Kernel.isEqual(point.y, y1)) {
@@ -671,7 +674,20 @@ public class PolygonTriangulation {
 				point = point.next;
 				n++;
 			}
+		}
 
+		// corners
+
+		for (int i = 0; i < CORNERS_NUMBER; i++) {
+			double x1 = corners[i].getX();
+			double y1 = corners[i].getY();
+			if (!Kernel.isEqual(point.x, x1) || !Kernel.isEqual(point.y, y1)) {
+				point.next = new Point(x1, y1, length + i);
+				setName(point.next, i);
+				point.next.prev = point;
+				point = point.next;
+				n++;
+			}
 		}
 
 		// check first point <> last point
@@ -2075,8 +2091,7 @@ public class PolygonTriangulation {
 	}
 
 	public void setCorners(Coords[] corners) {
-		for (Coords c : corners) {
-			App.debug("Corner " + c.get());
-		}
+		this.corners = corners;
+
 	}
 }
