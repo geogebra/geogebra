@@ -57,6 +57,7 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.gui.util.TableSymbolsLaTeX;
@@ -71,8 +72,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
-import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.DynamicTextInputPane.DynamicTextField;
+import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.LatexTable;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
@@ -105,6 +106,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 	private GeoText editGeo;
 	private boolean isLaTeX;
 	GeoPointND startPoint;
+	boolean rw;
 	private boolean isTextMode = false;
 
 	// recent symbol fields
@@ -135,11 +137,13 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 	 * @param isTextMode
 	 */
 	public TextInputDialog(App app2, String title, GeoText editGeo,
-			GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
+			GeoPointND startPoint, boolean rw, int cols, int rows,
+			boolean isTextMode) {
 
 		super(((AppD) app2).getFrame(), false, ((AppD) app2).getLocalization());
 		this.app = (AppD) app2;
 		this.startPoint = startPoint;
+		this.rw = rw;
 		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
 		textInputDialog = this;
@@ -221,9 +225,10 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 	 * app.getGuiManager().setCurrentTextfield(this, true); }
 	 */
 
-	public void reInitEditor(GeoText text, GeoPointND startPoint) {
+	public void reInitEditor(GeoText text, GeoPointND startPoint, boolean rw) {
 
 		this.startPoint = startPoint;
+		this.rw = rw;
 		setGeoText(text);
 		textPreviewer.updatePreviewText(text,
 				editor.buildGeoGebraString(isLaTeX), isLaTeX);
@@ -1077,6 +1082,8 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 					if (isLaTeX)
 						t.setSerifFont(true);
 
+					EuclidianViewInterfaceCommon activeView = kernel.getApplication().getActiveEuclidianView();
+					
 					if (startPoint.isLabelSet()) {
 						try {
 							t.setStartPoint(startPoint);
@@ -1090,14 +1097,36 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 						// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
 						// euclidianView.toScreenCoordY(startPoint.inhomY));
 						// t.setAbsoluteScreenLocActive(true);
-						Coords coords = startPoint.getInhomCoordsInD3();
-						t.setRealWorldLoc(coords.getX(), coords.getY());
-						t.setAbsoluteScreenLocActive(false);
+						if (rw) {
+							Coords coords = startPoint.getInhomCoordsInD3();
+							t.setRealWorldLoc(coords.getX(), coords.getY());
+							t.setAbsoluteScreenLocActive(false);
+						} else {
+							Coords coords = startPoint.getInhomCoordsInD3();
+							t.setAbsoluteScreenLoc((int) coords.getX(),
+									(int) coords.getY());
+							t.setAbsoluteScreenLocActive(true);
+
+						}
+
+						// when not a point clicked, show text only in active
+						// view
+						if (activeView.isEuclidianView3D()) {
+							app.removeFromEuclidianView(t);
+						} else if (activeView.isDefault2D()) {
+							t.removeView(App.VIEW_EUCLIDIAN3D);
+							if (kernel.getApplication()
+									.isEuclidianView3Dinited()) {
+								kernel.getApplication().getEuclidianView3D()
+										.remove(t);
+							}
+						}
 					}
 
+
+
 					// make sure (only) the output of the text tool is selected
-					kernel.getApplication().getActiveEuclidianView()
-							.getEuclidianController()
+					activeView.getEuclidianController()
 							.memorizeJustCreatedGeos(ret);
 
 					t.updateRepaint();

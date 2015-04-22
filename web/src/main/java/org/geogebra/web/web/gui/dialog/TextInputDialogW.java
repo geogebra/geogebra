@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.dialog;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
@@ -17,14 +18,16 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 	GeoText editGeo;
 	GeoPointND startPoint;
+	private boolean rw;
 	private TextEditPanel editor;
 
 	public TextInputDialogW(App app2, String title, GeoText editGeo,
-            GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
+            GeoPointND startPoint, boolean rw, int cols, int rows, boolean isTextMode) {
 	    // TODO Auto-generated constructor stub
 		super(false);
 		this.app = (AppW) app2;
 		this.startPoint = startPoint;
+		this.rw = rw;
 //		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
 //		textInputDialog = this;
@@ -131,6 +134,9 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 					if (isLatex())
 						t.setSerifFont(true);
 
+					EuclidianViewInterfaceCommon activeView = kernel
+							.getApplication().getActiveEuclidianView();
+
 					if (startPoint.isLabelSet()) {
 						try {
 							t.setStartPoint(startPoint);
@@ -144,14 +150,34 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 						// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
 						// euclidianView.toScreenCoordY(startPoint.inhomY));
 						// t.setAbsoluteScreenLocActive(true);
-						Coords coords = startPoint.getInhomCoordsInD3();
-						t.setRealWorldLoc(coords.getX(), coords.getY());
-						t.setAbsoluteScreenLocActive(false);
+						if (rw) {
+							Coords coords = startPoint.getInhomCoordsInD3();
+							t.setRealWorldLoc(coords.getX(), coords.getY());
+							t.setAbsoluteScreenLocActive(false);
+						} else {
+							Coords coords = startPoint.getInhomCoordsInD3();
+							t.setAbsoluteScreenLoc((int) coords.getX(),
+									(int) coords.getY());
+							t.setAbsoluteScreenLocActive(true);
+
+						}
+
+						// when not a point clicked, show text only in active
+						// view
+						if (activeView.isEuclidianView3D()) {
+							app.removeFromEuclidianView(t);
+						} else if (activeView.isDefault2D()) {
+							t.removeView(App.VIEW_EUCLIDIAN3D);
+							if (kernel.getApplication()
+									.isEuclidianView3Dinited()) {
+								kernel.getApplication().getEuclidianView3D()
+										.remove(t);
+							}
+						}
 					}
 
 					// make sure (only) the output of the text tool is selected
-					kernel.getApplication().getActiveEuclidianView()
-							.getEuclidianController()
+					activeView.getEuclidianController()
 							.memorizeJustCreatedGeos(ret);
 
 					t.updateRepaint();
@@ -211,8 +237,9 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		}
 	}
 
-	public void reInitEditor(GeoText text, GeoPointND startPoint2) {
+	public void reInitEditor(GeoText text, GeoPointND startPoint2, boolean rw) {
 		this.startPoint = startPoint2;
+		this.rw = rw;
 		setGeoText(text);
 		focus();
     }

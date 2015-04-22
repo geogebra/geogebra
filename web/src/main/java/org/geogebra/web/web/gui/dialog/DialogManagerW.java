@@ -546,8 +546,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	}
 
 	@Override
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
-		return new TextInputDialogW(app, app.getPlain("Text"), text, startPoint, 30,
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
+		return new TextInputDialogW(app, app.getPlain("Text"), text,
+				startPoint, rw, 30,
 	        6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 

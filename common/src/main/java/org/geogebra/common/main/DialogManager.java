@@ -411,25 +411,31 @@ public abstract class DialogManager {
 	 * Displays the text dialog for a given text.
 	 */
 	final public void showTextDialog(GeoText text) {
-		showTextDialog(text, null);
+		showTextDialog(text, null, true);
 	}
 
 	/**
 	 * Creates a new text at given startPoint
+	 * 
+	 * @param startPoint
+	 *            start point position
+	 * @param rw
+	 *            true iff in real world coordinates
 	 */
-	final public void showTextCreationDialog(GeoPointND startPoint) {
-		showTextDialog(null, startPoint);
+	final public void showTextCreationDialog(GeoPointND startPoint, boolean rw) {
+		showTextDialog(null, startPoint, rw);
 	}
 
 	public abstract void openToolHelp();
 
-	protected void showTextDialog(GeoText text, GeoPointND startPoint) {
+	protected void showTextDialog(GeoText text, GeoPointND startPoint,
+			boolean rw) {
 		app.setWaitCursor();
 
 		if (textInputDialog == null) {
-			textInputDialog = createTextDialog(text, startPoint);
+			textInputDialog = createTextDialog(text, startPoint, rw);
 		} else {
-			textInputDialog.reInitEditor(text, startPoint);
+			textInputDialog.reInitEditor(text, startPoint, rw);
 		}
 
 		textInputDialog.setVisible(true);
@@ -437,7 +443,7 @@ public abstract class DialogManager {
 	}
 
 	public abstract TextInputDialog createTextDialog(GeoText text,
-			GeoPointND startPoint);
+			GeoPointND startPoint, boolean rw);
 
 	// public abstract void showOpenFromGGTDialog();
 

@@ -28,9 +28,9 @@ import org.geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D.ConfigLinePlane;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectPlanes;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVector3D;
-import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D.ConfigLinePlane;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCoordSys1D;
@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -65,7 +66,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.geos.Transformable;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -3990,6 +3990,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected int getModeForShallMoveView(){
 		return EuclidianConstants.MODE_ROTATEVIEW;
+	}
+
+	@Override
+	protected boolean setCoordsToMouseLoc(GeoPointND loc) {
+		loc.setCoords(mouseLoc.x, mouseLoc.y, 1.0);
+		return false;
 	}
 
 }

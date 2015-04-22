@@ -62,11 +62,11 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -83,7 +83,6 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -3189,6 +3188,7 @@ public abstract class EuclidianController {
 
 	protected final boolean text(Hits hits) {
 		GeoPointND loc = null; // location
+		boolean rw = true;
 
 		if (hits.isEmpty()) {
 			if (selectionPreview) {
@@ -3198,7 +3198,7 @@ public abstract class EuclidianController {
 			checkZooming();
 
 			loc = new GeoPoint(kernel.getConstruction());
-			loc.setCoords(xRW, yRW, 1.0);
+			rw = setCoordsToMouseLoc(loc);
 		} else {
 
 			// points needed
@@ -3211,17 +3211,29 @@ public abstract class EuclidianController {
 				checkZooming();
 
 				loc = new GeoPoint(kernel.getConstruction());
-				loc.setCoords(xRW, yRW, 1.0);
+				rw = setCoordsToMouseLoc(loc);
 			}
 		}
 
 		// got location
 		if (loc != null) {
-			getDialogManager().showTextCreationDialog(loc);
+			getDialogManager().showTextCreationDialog(loc, rw);
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * set coords of the point to mouse loc
+	 * 
+	 * @param loc
+	 *            point
+	 * @return true if set to real world coords
+	 */
+	protected boolean setCoordsToMouseLoc(GeoPointND loc) {
+		loc.setCoords(xRW, yRW, 1.0);
+		return true;
 	}
 
 	public boolean isAltDown() {
