@@ -1985,6 +1985,11 @@ static public boolean silent = false;
   public void Limits_Limit_11 () {
     t("Limit[sqrt(2) * pi^n / exp(1), -Infinity]", "0");
   }
+  
+  @Test
+  public void Limits_Limit_12 () {
+    t("Limit[1 - 0.4^n,n, Infinity]", "1");
+  }
 
   /* LimitAbove */
 
@@ -2165,6 +2170,11 @@ static public boolean silent = false;
   @Test
   public void Normal_0 () {
     t("Normal[2, 0.5, 1]", "(-erf(2 / sqrt(2)) + 1) / 2", "(erf(-sqrt(2)) + 1) / 2");
+  }
+  
+  @Test
+  public void Normal_1 () {
+    t("NSolve[Normal[0, 1, eps]-Normal[0, 1, -eps]=0.5]", "{eps = 0.6744897501961}");
   }
 
 
@@ -3055,13 +3065,17 @@ static public boolean silent = false;
   public void Solve_Several_23 () {
     t("Solve[{x = 3 + 5 t, y = 2 + t, x = 8 + 10 s, y = 3 + 2 s}, {x, y, t, s}]", "{{x = 10 * s + 8, y = 2 * s + 3, t = 2 * s + 1, s = s}}");
   }
-
+  @Test
+  public void Solve_Poly_Deg5 () {
+    t("Solve[(22a^5+135a^3)/125=1.75*1784/125,a]", "{a = 2.312054500480007}");
+  }
 
   /* Parametric Equations One Parameter */
 
   @Test
   public void Solve_ParametricEOP_0 () {
     t("Solve[(3, 2) = (3, 2) + t * (5, 1), t]", "{t = 0}");
+    t("Solve[(3t+5,2t-3)=(20,7),t]", "{t = 5}");
   }
 
   @Test
@@ -4713,7 +4727,13 @@ static public boolean silent = false;
     t("Delete[g]", "true");
     t("Delete[h]", "true");
   }
-
+  @Test
+  public void SolveArbconst(){
+	  t("a(t):=2t+3","2 * t + 3");
+	  t("v(t):=Integral[a(t),t]","t^(2) + 3 * t + c_1");
+	  t("Solve[v(0)=0,c_1]","{c_1 = 0}");
+  }
+  
   @Test
 	public void ExponentialEqs() {
 	  	/* Setting the timeout here is not a good idea since setting it back will not work.
@@ -4740,4 +4760,5 @@ static public boolean silent = false;
 		kernel.getApplication().getSettings().getCasSettings()
 				.setTimeoutMilliseconds(original_timeout);
 	}
+  
 }
