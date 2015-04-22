@@ -83,6 +83,20 @@ public class DrawPolygon extends Drawable implements Previewable {
 		extraCoords[3].setX(view.getXmin());
 		extraCoords[3].setY(view.getYmax());
 
+		// // set half values for test
+		// extraCoords[0].setX(0);
+		// extraCoords[0].setY(0);
+		//
+		// extraCoords[1].setX(1);
+		// extraCoords[1].setY(0);
+		//
+		// extraCoords[2].setX(1);
+		// extraCoords[2].setY(1);
+		//
+		// extraCoords[3].setX(0);
+		// extraCoords[3].setY(1);
+
+
 	}
 
 	/**
@@ -117,13 +131,17 @@ public class DrawPolygon extends Drawable implements Previewable {
 				return;
 			}
 			gp.closePath();
-			
-			if (!getView().getApplication().isPrerelease() || isAllPointsOnScreen()) {				
+			fillShape = false;
+
+			if (!getView().getApplication().isPrerelease() ||
+					isAllPointsOnScreen()) {
 				if (geo.isInverseFill()) {
 					createShape();
+					fillShape = true;
 				}
 			} else {
 				triangularize();
+				fillShape = true;
 			}
 			
 			
@@ -256,10 +274,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 		double xmax = Double.MIN_VALUE;
 		double ymax = Double.MIN_VALUE;
 
-		for (GeoPointND p : poly.getPoints()) {
-			Coords c = p.getCoords();
-			double x = c.getX();
-			double y = c.getY();
+		for (int i = 0; i < poly.getPointsLength(); i++) {
+			double x = poly.getPointX(i);
+			double y = poly.getPointY(i);
 
 			if (x < xmin) {
 				xmin = x;
@@ -375,11 +392,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return true;
 	}
 
+	private boolean fillShape = false;
+
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 
 		if (isVisible) {
-			fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
+			fill(g2, (fillShape ? getShape() : gp), false); // fill
 																		// using
 																		// default/hatching/image
 																		// as
