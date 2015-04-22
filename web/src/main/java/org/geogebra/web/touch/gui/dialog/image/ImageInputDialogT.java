@@ -141,7 +141,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.inputPanel.setWidget(this.filePanel);
 	}
 	
-	private void cameraClicked() {
+	protected void cameraClicked() {
 		if (this.pictureFromCameraString != null && !this.pictureFromCameraString.equals("")) {
 			imageAvailable();
 		} else {
