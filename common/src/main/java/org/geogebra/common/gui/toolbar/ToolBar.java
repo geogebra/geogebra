@@ -454,13 +454,13 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
 		sb.append(" , ");
 		// sb.append(EuclidianView.MODE_SEMICIRCLE);
-		// sb.append("  ");
-		// sb.append(EuclidianView.MODE_CIRCLE_ARC_THREE_POINTS);
-		// sb.append(" ");
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
-		sb.append(" , ");
-		// sb.append(EuclidianView.MODE_CIRCLE_SECTOR_THREE_POINTS);
-		// sb.append(" ");
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
 
 		// sb.append( " | ");
