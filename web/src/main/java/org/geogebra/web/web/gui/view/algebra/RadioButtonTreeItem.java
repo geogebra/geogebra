@@ -106,6 +106,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -154,7 +155,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * panel to correctly display an extended slider entry
 	 */
-	private FlowPanel sliderPanel;
+	private VerticalPanel sliderPanel;
 
 	/**
 	 * this panel contains the marble (radio) and the play button for extended
@@ -177,6 +178,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * used to delete the geo.
 	 */
 	private Image deleteButton;
+
+	/**
+	 * whether the playButton currently shows a play or a pause icon
+	 */
+	private boolean playButtonValue;
 
 	/**
 	 * TODO this will be replaced by a check-box in the settings
@@ -322,7 +328,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				}
 			});
 
-			sliderPanel = new FlowPanel();
+			sliderPanel = new VerticalPanel();
 			add(sliderPanel);
 
 			if (geo.isAnimatable()) {
@@ -717,7 +723,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
 		if (av.isEditing() || isThisEdited() || newCreationMode) {
-			org.geogebra.web.html5.main.DrawEquationWeb.triggerKeydown(seMayLatex, key,
+			DrawEquationWeb.triggerKeydown(seMayLatex, key,
 			        alt, ctrl, shift);
 		}
 	}
@@ -741,7 +747,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	public void keypress(int character, boolean alt, boolean ctrl, boolean shift) {
 		if (av.isEditing() || isThisEdited() || newCreationMode) {
-			org.geogebra.web.html5.main.DrawEquationWeb.triggerKeypress(seMayLatex,
+			DrawEquationWeb.triggerKeypress(seMayLatex,
 			        character, alt, ctrl, shift);
 		}
 	}
@@ -762,7 +768,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
 		if (av.isEditing() || isThisEdited() || newCreationMode) {
-			org.geogebra.web.html5.main.DrawEquationWeb.triggerKeyUp(seMayLatex, key,
+			DrawEquationWeb.triggerKeyUp(seMayLatex, key,
 			        alt, ctrl, shift);
 		}
 	}
@@ -777,8 +783,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public void repaint() {
-		if (needsUpdate)
+		if (needsUpdate
+				|| playButtonValue != (geo.isAnimating() && app.getKernel()
+						.getAnimatonManager().isRunning())) {
 			doUpdate();
+		}
 	}
 
 	private void doUpdate() {
@@ -892,6 +901,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			radio.setChecked(geo.isEuclidianVisible());
 		}
 
+		updatePlayButton();
+
 		if (geo != null && geo instanceof GeoNumeric && slider != null
 		        && sliderPanel != null) {
 			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
@@ -909,7 +920,18 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
-
+	void updatePlayButton() {
+		 if (playButton != null) {
+			 // update the icon of the playButton (if animation is started/paused
+			 // from another place)
+			 // TODO store actual icon and check before replacing it
+			 playButtonValue = geo.isAnimating()
+			 && app.getKernel().getAnimatonManager().isRunning();
+			 ImageResource newIcon = playButtonValue ? AppResources.INSTANCE
+			 .nav_pause() : AppResources.INSTANCE.nav_play();
+			 playButton.setResource(newIcon);
+		 }
+	}
 
 	private void updateColor(SpanElement se) {
 		if (geo != null) {
@@ -947,10 +969,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void startEditing() {
 		thisIsEdited = true;
 		if (newCreationMode) {
-			org.geogebra.web.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
+			DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, true);
 		} else if (shouldEditLaTeX()) {
-			org.geogebra.web.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
+			DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, false);
 		} else {
 			removeSpecial(ihtml);
@@ -1623,7 +1645,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 *            focus (false: blur)
 	 */
 	public void setFocus(boolean b) {
-		org.geogebra.web.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
+		DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
 
 		// as the focus operation sometimes also scrolls
@@ -1647,13 +1669,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
 		// seMayLatex, "" + text.charAt(i), "", false);
 
-		org.geogebra.web.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
-		        seMayLatex, text, "", false);
+		DrawEquationWeb.writeLatexInPlaceOfCurrentWord(seMayLatex, text, "", false);
 	}
 
 	public String getText() {
-		return org.geogebra.web.html5.main.DrawEquationWeb
-		        .getActualEditedValue(seMayLatex);
+		return DrawEquationWeb.getActualEditedValue(seMayLatex);
 	}
 
 	public void scrollCursorIntoView() {

@@ -3,15 +3,17 @@ package org.geogebra.web.web.gui.view.algebra;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -19,7 +21,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
-import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
@@ -48,6 +49,12 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
 			doRepaint2();
+		}
+	};
+
+	private AnimationScheduler.AnimationCallback specialRepaintCallback = new AnimationScheduler.AnimationCallback() {
+		public void execute(double ts) {
+			doRepaint3();
 		}
 	};
 
@@ -115,10 +122,20 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		repaintScheduler.requestAnimationFrame(repaintCallback);
 	}
 	
+	public void doSpecialRepaint() {
+		repaintScheduler.requestAnimationFrame(specialRepaintCallback);
+	}
+
 	/**
 	 * timer system suggests a repaint
 	 */
 	public boolean suggestRepaint(){
+
+		if (app.isPrerelease() && RadioButtonTreeItem.showSliderOrTextBox
+				&& waitForRepaint != TimerSystemW.REPAINT_FLAG) {
+			doSpecialRepaint();
+		}
+
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
 			return false;
 		}
@@ -130,7 +147,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			}
 			return true;
 		}
-		
+
 		waitForRepaint--;
 		return true;
 	}
@@ -205,6 +222,28 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 					repaintChildren(ti);
 				}
 
+			}
+		}
+	}
+
+	/**
+	 * updates only GeoNumerics; used for animated
+	 */
+	protected void doRepaint3() {
+		Object geo;
+		for (int i = 0; i < getItemCount(); i++) {
+			TreeItem ti = getItem(i);
+			if (ti != null) {
+				for (int j = 0; j < ti.getChildCount(); j++) {
+					geo = ti.getChild(j).getUserObject();
+					if (geo instanceof GeoNumeric) {
+						((RadioButtonTreeItem) ti.getChild(j).getWidget())
+								.repaint();
+
+						// TODO needed?
+						ti.setSelected(((GeoElement) geo).doHighlighting());
+					}
+				}
 			}
 		}
 	}

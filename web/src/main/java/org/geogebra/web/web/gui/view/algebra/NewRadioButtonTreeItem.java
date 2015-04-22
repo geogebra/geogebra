@@ -142,6 +142,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 * In case the suggestion list is showing, shuffle its selected element
 	 * up/down, otherwise consider up/down event for the history popup!
 	 */
+	@Override
 	public boolean shuffleSuggestions(boolean down) {
 		if (editor.sug.isSuggestionListShowing()) {
 			if (down) {
@@ -221,8 +222,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	@Override
 	public void setFocus(boolean b) {
 		//App.printStacktrace("FOCUS" + b);
-		org.geogebra.web.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
-		        seMayLatex, b);
+		DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
 
 		// if (b)
 		// geogebra.html5.main.DrawEquationWeb.scrollCursorIntoView(this,
