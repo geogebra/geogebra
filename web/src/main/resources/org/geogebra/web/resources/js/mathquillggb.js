@@ -1432,6 +1432,17 @@ var MathBlock = P(MathElement, function(_) {
       // e.g. (), {}, sin(), sqrt(), x^(), etc. this
       // will be syntactically incorrect in theory, anyway
       return '';
+    } else if (this.parent.ctrlSeq.substring(0,9) === '\\ggbtable' ||
+    		   this.parent.ctrlSeq.substring(0,6) === '\\ggbtr' ||
+    	       this.parent.ctrlSeq.substring(0,6) === '\\ggbtd') {
+      var ret = this.ch[L].text();
+      if (this.ch[L] !== this.ch[R]) {
+        ret = this.join('text');
+      }
+      if ((ret !== undefined) && (ret.length > 0) && (ret[ret.length - 1] === ',')) {
+        ret = ret.substring(0, ret.length - 1);
+      }
+      return ret;
     }
     return this.ch[L] === this.ch[R] ?
       this.ch[L].text() :
@@ -2484,8 +2495,8 @@ LatexCmds.brown = bind(Style, '\\brown', 'span', 'style="color:#993300"');
 LatexCmds.aqua = bind(Style, '\\aqua', 'span', 'style="color:#BCD4E6"');
 
 var SomethingHTML = P(MathCommand, function(_, _super) {
-  _.init = function(ctrlSeq, HTML) {
-   _super.init.call(this, ctrlSeq, HTML);
+  _.init = function(ctrlSeq, HTML, texttemp) {
+   _super.init.call(this, ctrlSeq, HTML, texttemp);
   };
 });
 
@@ -2530,26 +2541,26 @@ var ggbtdlLHTML = '<td style="border-left: black solid 2px; border-right: black 
 var ggbtdllLHTML = '<td style="border-left: black solid 2px; min-width: 1em; text-align: left; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
 var ggbtdlrLHTML = '<td style="border-right: black solid 2px; min-width: 1em; text-align: left; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
 
-LatexCmds.ggbtable = bind(SomethingHTML, '\\ggbtable', ggbtableHTML);
-LatexCmds.ggbtr = bind(SomethingHTML, '\\ggbtr', ggbtrHTML);
-LatexCmds.ggbtrl = bind(SomethingHTML, '\\ggbtrl', ggbtrlHTML);
-LatexCmds.ggbtrlt = bind(SomethingHTML, '\\ggbtrlt', ggbtrltHTML);
-LatexCmds.ggbtrlb = bind(SomethingHTML, '\\ggbtrlb', ggbtrlbHTML);
+LatexCmds.ggbtable = bind(SomethingHTML, '\\ggbtable', ggbtableHTML, ['{','}']);
+LatexCmds.ggbtr = bind(SomethingHTML, '\\ggbtr', ggbtrHTML, ['{','},']);
+LatexCmds.ggbtrl = bind(SomethingHTML, '\\ggbtrl', ggbtrlHTML, ['{','},']);
+LatexCmds.ggbtrlt = bind(SomethingHTML, '\\ggbtrlt', ggbtrltHTML, ['{','},']);
+LatexCmds.ggbtrlb = bind(SomethingHTML, '\\ggbtrlb', ggbtrlbHTML, ['{','},']);
 
-LatexCmds.ggbtdR = bind(SomethingHTML, '\\ggbtdR', ggbtdRHTML);
-LatexCmds.ggbtdlR = bind(SomethingHTML, '\\ggbtdlR', ggbtdlRHTML);
-LatexCmds.ggbtdllR = bind(SomethingHTML, '\\ggbtdllR', ggbtdllRHTML);
-LatexCmds.ggbtdlrR = bind(SomethingHTML, '\\ggbtdlrR', ggbtdlrRHTML);
+LatexCmds.ggbtdR = bind(SomethingHTML, '\\ggbtdR', ggbtdRHTML, ['',',']);
+LatexCmds.ggbtdlR = bind(SomethingHTML, '\\ggbtdlR', ggbtdlRHTML, ['',',']);
+LatexCmds.ggbtdllR = bind(SomethingHTML, '\\ggbtdllR', ggbtdllRHTML, ['',',']);
+LatexCmds.ggbtdlrR = bind(SomethingHTML, '\\ggbtdlrR', ggbtdlrRHTML, ['',',']);
 
-LatexCmds.ggbtd = bind(SomethingHTML, '\\ggbtd', ggbtdCHTML);
-LatexCmds.ggbtdl = bind(SomethingHTML, '\\ggbtdl', ggbtdlCHTML);
-LatexCmds.ggbtdll = bind(SomethingHTML, '\\ggbtdll', ggbtdllCHTML);
-LatexCmds.ggbtdlr = bind(SomethingHTML, '\\ggbtdlr', ggbtdlrCHTML);
+LatexCmds.ggbtd = bind(SomethingHTML, '\\ggbtd', ggbtdCHTML, ['',',']);
+LatexCmds.ggbtdl = bind(SomethingHTML, '\\ggbtdl', ggbtdlCHTML, ['',',']);
+LatexCmds.ggbtdll = bind(SomethingHTML, '\\ggbtdll', ggbtdllCHTML, ['',',']);
+LatexCmds.ggbtdlr = bind(SomethingHTML, '\\ggbtdlr', ggbtdlrCHTML, ['',',']);
 
-LatexCmds.ggbtdL = bind(SomethingHTML, '\\ggbtdL', ggbtdLHTML);
-LatexCmds.ggbtdlL = bind(SomethingHTML, '\\ggbtdlL', ggbtdlLHTML);
-LatexCmds.ggbtdllL = bind(SomethingHTML, '\\ggbtdllL', ggbtdllLHTML);
-LatexCmds.ggbtdlrL = bind(SomethingHTML, '\\ggbtdlrL', ggbtdlrLHTML);
+LatexCmds.ggbtdL = bind(SomethingHTML, '\\ggbtdL', ggbtdLHTML, ['',',']);
+LatexCmds.ggbtdlL = bind(SomethingHTML, '\\ggbtdlL', ggbtdlLHTML, ['',',']);
+LatexCmds.ggbtdllL = bind(SomethingHTML, '\\ggbtdllL', ggbtdllLHTML, ['',',']);
+LatexCmds.ggbtdlrL = bind(SomethingHTML, '\\ggbtdlrL', ggbtdlrLHTML, ['',',']);
 
 // TextColorGeneric is a template for \textcolor, \fgcolor, \bgcolor
 // `\textcolor{color}{math}` will apply a color to the given math content, where
