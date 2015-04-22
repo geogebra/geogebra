@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.layout;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.gui.layout.DockComponent;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
@@ -67,7 +68,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public abstract class DockPanelW extends ResizeComposite implements
-        org.geogebra.common.gui.layout.DockPanel, DockComponent, MouseDownHandler {
+        DockPanel, DockComponent, MouseDownHandler {
 	protected DockManagerW dockManager;
 
 	protected AppW app;
@@ -336,9 +337,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * 
 	 * @param dockManager
 	 */
-	public void register(DockManagerW dockManager) {
-		this.dockManager = dockManager;
-		app = dockManager.getLayout().getApplication();
+	public void register(DockManagerW dockManager1) {
+		this.dockManager = dockManager1;
+		app = dockManager1.getLayout().getApplication();
 
 		buildDockPanel();
 
@@ -364,7 +365,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private ResourcePrototype viewImage;
 
-	private SimplePanel kbButtonSpace;
+	// needs to be initialized here, because the button might be added in
+	// adSouth(), before setLayout() is called
+	private final SimplePanel kbButtonSpace = new SimplePanel();
 
 	public int getHeight() {
 		return dockPanel.getOffsetHeight();
@@ -405,7 +408,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		titleBarPanel.setStyleName("TitleBarPanel");
 		titleBarPanel.addStyleName("cursor_drag");
 		
-		kbButtonSpace = new SimplePanel();
+//		kbButtonSpace = new SimplePanel();
 		
 		titleBarPanelContent = new FlowPanel();
 		titleBarPanelContent.setStyleName("TitleBarPanelContent");
@@ -1036,10 +1039,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 			}
 		}
 
-		else {
-
-		}
-
 		// call callback methods for focus changes
 		if (hasFocus) {
 			focusGained();
@@ -1153,9 +1152,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public void setToolbarString(String toolbarString) {
 		if (toolbarString == null && hasToolbar()) {
-			toolbarString = defaultToolbarString;
+			this.toolbarString = defaultToolbarString;
+		} else {
+			this.toolbarString = toolbarString;
 		}
-		this.toolbarString = toolbarString;
 	}
 
 	/**
