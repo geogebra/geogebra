@@ -1056,9 +1056,8 @@ public class EuclidianViewD extends EuclidianView implements
 	public void clearView() {
 		evjpanel.removeAll(); // remove hotEqns
 		resetLists();
-		initView(false);
 		updateBackgroundImage(); // clear traces and images
-		// resetMode();
+		// We call this on file loading, so we don't want to mess up the settings we have just loaded using initView
 	}
 
 	public org.geogebra.common.awt.GColor getBackgroundCommon() {
