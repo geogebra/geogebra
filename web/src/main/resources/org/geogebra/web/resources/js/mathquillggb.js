@@ -1518,6 +1518,19 @@ var MathBlock = P(MathElement, function(_) {
   };
   _.selectOutOf = function(dir, cursor) {
     var cmd = this.parent;
+    // for simplicity, select the whole matrix
+    // in every case! thus cmd should be
+    // changed in case it's matrix command:
+    if (cmd.ctrlSeq.indexOf('\\ggbtd') > -1) {
+      if (cmd.parent.parent) {
+        cmd = cmd.parent.parent;
+      }
+    }
+    if (cmd.ctrlSeq.indexOf('\\ggbtr') > -1) {
+      if (cmd.parent.parent) {
+    	cmd = cmd.parent.parent;
+      }
+    }
     cursor.insertAdjacent(dir, cmd);
 
     var seln = cursor.selection;
@@ -2554,6 +2567,18 @@ LatexCmds.aqua = bind(Style, '\\aqua', 'span', 'style="color:#BCD4E6"');
 var SomethingHTML = P(MathCommand, function(_, _super) {
   _.init = function(ctrlSeq, HTML, texttemp) {
    _super.init.call(this, ctrlSeq, HTML, texttemp);
+   var thisthis = this;
+   if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
+     if (this.parent.parent) {
+       thisthis = this.parent.parent;
+     }
+   }
+   if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
+     if (thisthis.parent.parent) {
+       thisthis = thisthis.parent.parent;
+     }
+   }
+   this.maint = thisthis;
   };
   _.moveTowards = function(dir, cursor) {
     cursor.appendDir(-dir, this.ch[-dir]);
@@ -2570,6 +2595,22 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       // in case of ggbtr we only need this once
       cursor.appendDir(-dir, cursor[dir].ch[-dir]);
     }
+  };
+  _.createSelection = function(dir, cursor) {
+    this.maint.createSelection(dir, cursor);
+  };
+  _.expandSelection = function(dir, cursor) {
+    this.maint.expandSelection(dir, cursor);
+  };
+  _.clearSelection = function(dir, cursor) {
+    this.maint.clearSelection(dir, cursor);
+  };
+  _.retractSelection = function(dir, cursor) {
+    this.maint.retractSelection(dir, cursor);
+  };
+  _.deleteTowards = _.createSelection;
+  _.selectChildren = function(cursor) {
+	this.maint.selectChildren(cursor);
   };
 });
 
