@@ -640,7 +640,9 @@ public abstract class AppW extends App implements SetLabels {
 		// Handling of construction and macro file
 		String construction = archive.remove(MyXMLio.XML_FILE);
 		String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
-		String defaults = archive.remove(MyXMLio.XML_FILE_DEFAULTS);
+		String defaults = null;
+		// removed, causes problems in web (2d) with 3D objects
+		// defaults = archive.remove(MyXMLio.XML_FILE_DEFAULTS);
 		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
