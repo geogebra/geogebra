@@ -61,6 +61,7 @@ import org.geogebra.common.plugin.Operation;
  */
 public class StatGeo {
 
+	private static final double DEFAULT_BUFFER = 0.01;
 	private App app;
 	private Kernel kernel;
 	private Construction cons;
@@ -927,6 +928,7 @@ public class StatGeo {
 			double yBuffer = .25 * (yMaxData - yMinData);
 			settings.yMin = yMinData - yBuffer;
 			settings.yMax = yMaxData + yBuffer;
+			
 		}
 
 		settings.showYAxis = true;
@@ -997,11 +999,11 @@ public class StatGeo {
 
 		if (settings.isAutomaticWindow()) {
 
-			double xBuffer = xBufferScale * (xMaxData - xMinData);
+			double xBuffer = Kernel.isEqual(xMaxData, xMinData) ? DEFAULT_BUFFER : xBufferScale * (xMaxData - xMinData);
 			settings.xMin = xMinData - xBuffer;
 			settings.xMax = xMaxData + xBuffer;
 
-			double yBuffer = yBufferScale * (yMaxData - yMinData);
+			double yBuffer = Kernel.isEqual(yMaxData, yMinData) ? DEFAULT_BUFFER : yBufferScale * (yMaxData - yMinData);
 			settings.yMin = yMinData - yBuffer;
 			settings.yMax = yMaxData + yBuffer;
 		}
