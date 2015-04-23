@@ -102,7 +102,7 @@ public class LayoutW extends Layout implements SettingListener {
 		}
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
-		app.setInputPositon(perspective.getInputPosition(), false);
+		app.setInputPositon(app.getArticleElement().getAlgebraPosition(perspective.getInputPosition()), false);
 
 		// change the dock panel layout
 		app.setKeyboardNeeded(false);

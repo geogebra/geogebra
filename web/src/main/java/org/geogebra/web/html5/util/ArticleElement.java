@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -150,6 +151,20 @@ public final class ArticleElement extends Element {
 	 */
 	public boolean getDataParamShowAlgebraInput(boolean def) {
 		return getBoolParam("data-param-showAlgebraInput", def);
+	}
+	
+	public InputPositon getAlgebraPosition(InputPositon def) {
+		String pos = this.getAttribute("data-param-algebraInputPosition").toLowerCase().trim();
+		if("top".equals(pos)){
+			return InputPositon.top;
+		}
+		if("bottom".equals(pos)){
+			return InputPositon.bottom;
+		}
+		if(pos.length() > 0){
+			return InputPositon.algebraView;
+		}
+		return def;
 	}
 
 	private boolean getBoolParam(String attr, boolean def) {

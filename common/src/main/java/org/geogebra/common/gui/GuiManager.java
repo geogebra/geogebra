@@ -544,9 +544,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 			app.setMoveMode();
 		}
 
-		if (mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
+		if ((mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
-				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
+				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) && m == ModeSetter.TOOLBAR) {
 			// save the selected geos so they can be re-selected later
 			ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 			if (app.getSelectionManager().getSelectedGeos() != null) {
