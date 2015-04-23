@@ -42,7 +42,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		addFontSizeMenu();
 		//language menu
 		addLanguageMenu();
-		if (!app.isApplet()){
+		if (!app.isApplet() && app.enableFileFeatures()){
 			addSeparator();
 			addSaveSettingsMenu();
 			addRestoreDefaultSettingsMenu();

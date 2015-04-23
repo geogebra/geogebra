@@ -527,7 +527,7 @@ public final class ArticleElement extends Element {
 	}
 
 	public boolean getDataParamEnableFileFeatures() {
-		return "true".equals(getAttribute("data-param-enableFileFeatures"));
+		return !"false".equals(getAttribute("data-param-enableFileFeatures"));
 	}
 
 }
