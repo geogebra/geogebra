@@ -201,7 +201,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 */
 	public void showKeyboardButton(boolean show,
 	        final MathKeyboardListener textField) {
-		if(app.getLAF().isSmart() || !app.showAlgebraInput()){
+		if(app.getLAF().isSmart() || !(app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView)){
 			return;
 		}
 		if (showKeyboardButton == null) {

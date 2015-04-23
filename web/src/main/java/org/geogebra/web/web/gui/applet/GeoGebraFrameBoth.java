@@ -248,7 +248,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
-		if(app.getLAF().isSmart() || !app.showAlgebraInput()){
+		if(app.getLAF().isSmart() || !(app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView)){
 			return;
 		}
 		if (showKeyboardButton == null) {
