@@ -1459,10 +1459,6 @@ var MathBlock = P(MathElement, function(_) {
 	// note that appendDir waits for MathBlock,
 	// while insertAdjacent waits for MathCommand!
 	var thisthis = this;
-	// this: child of ggbtd, parent of spec
-	// thisthis: child of ggbtr, parent of ggbtd
-	// later thisthis: child of ggbtable, parent of ggbtr
-	// later later thisthis?
     if (this[dir]) {
       // this is actually not a move out of,
       // but move to a sibling MathBlock e.g. &0 &1
@@ -1481,15 +1477,13 @@ var MathBlock = P(MathElement, function(_) {
           // moving out of, and moving into
           // the next element immediately
           // this applies for \\ggbtd
-          cursor[dir].moveTowards(dir, cursor);
-          // i.e. cursor.appendDir(-dir, cursor[dir].ch[-dir]);
-          return;
+          //cursor[dir].moveTowards(dir, cursor);
+          cursor.appendDir(-dir, cursor[dir].ch[-dir]);
         // there are no sibling blocks in case of ggbtd
         //} else if (thisthis[dir]) {
         } else {
           // we probably encounter the end of a \\ggbtr,
-          // so we should move out of it! TODO: test
-          // as these special cases are non-trivial
+          // so we should move out of it!
           if (thisthis.parent) {
             cursor.insertAdjacent(dir, thisthis.parent);
             // just moved inside a table block, tr's are children
@@ -1498,60 +1492,28 @@ var MathBlock = P(MathElement, function(_) {
               // child of thisthis.parent.parent
               if (cursor[dir]) {
                 // moving into the next "tr"
-                cursor[dir].moveTowards(dir, cursor);
-                // i.e. cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+                //cursor[dir].moveTowards(dir, cursor);
+                cursor.appendDir(-dir, cursor[dir].ch[-dir]);
                 // moving into its first "td"
                 if (cursor[dir]) {
-                  cursor[dir].moveTowards(dir, cursor);
-                  // i.e. cursor.appendDir(-dir, cursor[dir].ch[-dir]);
-                } /*else {
-                  // unexpected end! TODO: finish these
-                }*/
+                  //cursor[dir].moveTowards(dir, cursor);
+                  cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+                } //else unexpected end!
               } else if (thisthis.parent.parent) {
             	// end of \\ggbtable, probably!
-            	// expected end
             	thisthis = thisthis.parent.parent;
             	// later thisthis: child of ggbtable, parent of ggbtr
             	if (thisthis.parent) {//ggbtable
             	  // expected end!
                   cursor.insertAdjacent(dir, thisthis.parent);
-            	} /*else {
-            	  // unexpected end!
-            	}*/
-              } /*else {
-            	// unexpected end!
-              }*/
-            } /*else {
-           	  thisthis = thisthis.parent.parent;
-
-              // end of \\ggbtable, probably!
-           	  // unexpected end! TODO: debug?
-           	  if (thisthis.parent) {
-        	    cursor.insertAdjacent(dir, thisthis.parent);
-           	  }
-            }*/
+            	} // else unexpected end!
+              } // else unexpected end!
+            } // else unexpected end!
           }
         }
         // there are more possible cases!!!
-      } /*else if (this.parent.ctrlSeq.indexOf('\\ggbtr') > -1) {
-        // will be unexpected end!
-        if (cursor[dir]) {
-          // moving into the next "tr"
-          cursor.appendDir(-dir, cursor[dir]);
-          // moving into its first "td"
-          if (cursor[dir]) {
-            cursor.appendDir(-dir, cursor[dir]);
-          } else {
-            // unexpected end! TODO: finish these
-          }
-        } else if (this.parent.parent) {
-          thisthis = this.parent.parent;
-          if (thisthis.parent) {
-            cursor.insertAdjacent(dir, thisthis.parent);
-          }
-          // many unexpected ends
-        }
-      }*/
+      } // else unexpected end!
+      // TODO: can the user click between two ggbtr, for example?
     }
   };
   _.selectOutOf = function(dir, cursor) {
@@ -2592,6 +2554,22 @@ LatexCmds.aqua = bind(Style, '\\aqua', 'span', 'style="color:#BCD4E6"');
 var SomethingHTML = P(MathCommand, function(_, _super) {
   _.init = function(ctrlSeq, HTML, texttemp) {
    _super.init.call(this, ctrlSeq, HTML, texttemp);
+  };
+  _.moveTowards = function(dir, cursor) {
+    cursor.appendDir(-dir, this.ch[-dir]);
+    // Okay, we've moved into this, but maybe
+    // we need more in case of ggbtable & ggbtd
+    var thisthis = cursor[dir];
+    if (this.ctrlSeq === '\\ggbtable') {
+      cursor.appendDir(-dir, thisthis.ch[-dir]);
+      // we're in the ggbtd, but that is also not enough!
+      if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
+        cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+      }
+    } else if (this.ctrlSeq.indexOf('\\ggbtr') > -1) {
+      // in case of ggbtr we only need this once
+      cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+    }
   };
 });
 
