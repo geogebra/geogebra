@@ -70,7 +70,7 @@ def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 
 task cleanWar(type: Delete){
-	delete warDirRel + '/web3d'
+	delete warDirRel + '/web3d', warDirRel + '/web',warDirRel + '/webSimple',warDirRel + '/tablet'
 }
 
 task deployIntoWar(type: Sync) {
