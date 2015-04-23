@@ -660,11 +660,11 @@ public class PolygonTriangulation {
 		}
 	}
 
-	private Point addPointToChain(Point point, double x, double y, int i,
-			int offset, String prefix) {
+	private Point addPointToChain(Point point, double x, double y, int id,
+			String name) {
 		if (!Kernel.isEqual(point.x, x) || !Kernel.isEqual(point.y, y)) {
-			point.next = new Point(x, y, offset + i);
-			setName(point.next, prefix + i);
+			point.next = new Point(x, y, id);
+			setName(point.next, name);
 			point.next.prev = point;
 			return point.next;
 		}
@@ -687,10 +687,11 @@ public class PolygonTriangulation {
 		setName(point, 0);
 		firstPoint = point;
 		int n = 1;
+		int id = 1;
 		int length = polygon.getPointsLength();
 		for (int i = 1; i < length; i++) {
 			Point p = addPointToChain(point, polygon.getPointX(i),
-					polygon.getPointY(i), i, 0, "");
+					polygon.getPointY(i), n, "" + i);
 			if (p != null) {
 				point = p;
 				n++;
@@ -703,7 +704,7 @@ public class PolygonTriangulation {
 			maxPointIndex += EXTRA_POINTS;
 			// re-add first polygon point
 			Point p = addPointToChain(point, polygon.getPointX(0),
-					polygon.getPointY(0), 0, length, "");
+					polygon.getPointY(0), n, "" + length + 1);
 			if (p != null) {
 				point = p;
 				n++;
@@ -712,7 +713,7 @@ public class PolygonTriangulation {
 			// add first four corners
 			for (int i = 0; i < CORNERS; i++) {
 				p = addPointToChain(point, corners[i].getX(),
-						corners[i].getY(), i, length + 1, "corner");
+						corners[i].getY(), n, "corner " + i);
 				if (p != null) {
 					point = p;
 					n++;
@@ -721,8 +722,8 @@ public class PolygonTriangulation {
 			}
 
 			// re-add first corner
-			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), 0,
-					length + CORNERS + 1, "corner");
+			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), n,
+					"corner re1st");
 
 			if (p != null) {
 				point = p;
@@ -732,8 +733,7 @@ public class PolygonTriangulation {
 			// add last four corners
 			for (int i = CORNERS; i < CORNERS_ALL; i++) {
 				p = addPointToChain(point, corners[i].getX(),
-						corners[i].getY(), i, length + CORNERS + 2,
-						"corner");
+						corners[i].getY(), n, "corner " + i);
 				if (p != null) {
 					point = p;
 					n++;
@@ -742,8 +742,7 @@ public class PolygonTriangulation {
 
 			// re-add first of last four corner
 			p = addPointToChain(point, corners[CORNERS].getX(),
-					corners[CORNERS].getY(), 0, length + CORNERS_ALL + 3,
-					"corner");
+					corners[CORNERS].getY(), n, "corner re 4");
 			if (p != null) {
 				point = p;
 				n++;
@@ -751,8 +750,8 @@ public class PolygonTriangulation {
 
 
 			// re-add first corner
-			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), 0,
-					length + CORNERS_ALL + 4, "corner");
+			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), n,
+					"corner re 0");
 
 			if (p != null) {
 				point = p;
