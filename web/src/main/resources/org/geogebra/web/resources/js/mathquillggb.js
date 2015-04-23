@@ -2597,20 +2597,22 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     }
   };
   _.createSelection = function(dir, cursor) {
-    this.maint.createSelection(dir, cursor);
+    // we can do things like this because _super class
+    // shall be the same as _super class of this.maint
+    _super.createSelection.call(this.maint, dir, cursor);
   };
   _.expandSelection = function(dir, cursor) {
-    this.maint.expandSelection(dir, cursor);
+    _super.expandSelection.call(this.maint, dir, cursor);
   };
   _.clearSelection = function(dir, cursor) {
-    this.maint.clearSelection(dir, cursor);
+    _super.clearSelection.call(this.maint, dir, cursor);
   };
   _.retractSelection = function(dir, cursor) {
-    this.maint.retractSelection(dir, cursor);
+    _super.retractSelection.call(this.maint, dir, cursor);
   };
   _.deleteTowards = _.createSelection;
   _.selectChildren = function(cursor) {
-	this.maint.selectChildren(cursor);
+	_super.selectChildren.call(this.maint, cursor);
   };
 });
 
