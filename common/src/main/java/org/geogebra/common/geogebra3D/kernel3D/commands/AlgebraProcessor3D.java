@@ -264,10 +264,11 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 			}
 			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
-
+			cons.removeFromConstructionList(nx);
 			AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
+			cons.removeFromConstructionList(ny);
 			AlgoDependentNumber nz = new AlgoDependentNumber(cons, cz, false);
-
+			cons.removeFromConstructionList(nz);
 			GeoNumeric from = new GeoNumeric(cons, -10);
 			GeoNumeric to = new GeoNumeric(cons, 10);
 			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons, label,
