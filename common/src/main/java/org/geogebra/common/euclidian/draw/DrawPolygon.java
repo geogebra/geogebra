@@ -199,15 +199,35 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 				// check if the polygon is convex
 				int length = poly.getPointsLength();
+
 				Coords[] vertices = new Coords[length
 						+ PolygonTriangulation.EXTRA_POINTS];
+				int j = 0;
 				for (int i = 0; i < poly.getPointsLength(); i++) {
 					vertices[i] = poly.getPointND(i).getCoords();
+					j++;
 				}
 
-				for (int i = 0; i < PolygonTriangulation.EXTRA_POINTS; i++) {
-					vertices[length + i] = extraCoords[i];
+				vertices[j] = poly.getPointND(0).getCoords();
+				j++;
+
+				for (int i = 0; i < PolygonTriangulation.CORNERS; i++) {
+					vertices[j] = extraCoords[i];
+					j++;
 				}
+
+				vertices[j] = extraCoords[0];
+				j++;
+
+				for (int i = 0; i < PolygonTriangulation.CORNERS; i++) {
+					vertices[j] = extraCoords[4 + i];
+					j++;
+				}
+
+				vertices[j] = extraCoords[4];
+				j++;
+
+				vertices[j] = extraCoords[0];
 
 				Convexity convexity = pt.checkIsConvex();
 				if (convexity != Convexity.NOT) {
