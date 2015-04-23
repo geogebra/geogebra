@@ -4432,8 +4432,7 @@ public class Kernel {
 	 * @param type
 	 *            String as produced by GeoElement.getXMLtypeString()
 	 */
-	public GeoElement createGeoElement(Construction cons1, String type)
-			throws MyError {
+	public GeoElement createGeoElement(Construction cons1, String type) {
 		// the type strings are the classnames in lowercase without the
 		// beginning "geo"
 		// due to a bug in GeoGebra 2.6c the type strings for conics
@@ -4531,11 +4530,11 @@ public class Kernel {
 
 		case 'v': // vector
 			return new GeoVector(cons1);
-
 		default:
-			throw new MyError(cons1.getApplication().getLocalization(),
+			App.error(
 					"Kernel: GeoElement of type " + type
 							+ " could not be created.");
+			return new GeoNumeric(cons1);
 		}
 	}
 
