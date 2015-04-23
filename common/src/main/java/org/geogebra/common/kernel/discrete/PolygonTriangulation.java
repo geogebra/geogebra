@@ -99,8 +99,9 @@ public class PolygonTriangulation {
 
 	final static private boolean DEBUG = false;
 
-	public static final int CORNERS_NUMBER = 8;
-
+	public static final int CORNERS = 4;
+	public static final int CORNERS_ALL = CORNERS * 2;
+	public static final int EXTRA_POINTS = 12;
 	/**
 	 * message debug
 	 * 
@@ -659,6 +660,16 @@ public class PolygonTriangulation {
 		}
 	}
 
+	private Point addPointToChain(Point point, double x, double y, int i,
+			int offset, String prefix) {
+		if (!Kernel.isEqual(point.x, x) || !Kernel.isEqual(point.y, y)) {
+			point.next = new Point(x, y, offset + i);
+			setName(point.next, prefix + i);
+			point.next.prev = point;
+			return point.next;
+		}
+		return null;
+	}
 	/**
 	 * update points list: creates a chain from firstPoint to next points ; two
 	 * consecutive points can't be equal ; three consecutive points can't be
@@ -678,33 +689,79 @@ public class PolygonTriangulation {
 		int n = 1;
 		int length = polygon.getPointsLength();
 		for (int i = 1; i < length; i++) {
-			double x1 = polygon.getPointX(i);
-			double y1 = polygon.getPointY(i);
-			if (!Kernel.isEqual(point.x, x1) || !Kernel.isEqual(point.y, y1)) {
-				point.next = new Point(x1, y1, i);
-				setName(point.next, i);
-				point.next.prev = point;
-				point = point.next;
+			Point p = addPointToChain(point, polygon.getPointX(i),
+					polygon.getPointY(i), i, 0, "");
+			if (p != null) {
+				point = p;
 				n++;
 			}
 		}
 
+
 		// corners
 		if (corners != null) {
-			maxPointIndex += CORNERS_NUMBER;
-			for (int i = 0; i < CORNERS_NUMBER; i++) {
-				double x1 = corners[i].getX();
-				double y1 = corners[i].getY();
-				if (!Kernel.isEqual(point.x, x1)
-						|| !Kernel.isEqual(point.y, y1)) {
-					point.next = new Point(x1, y1, length + i);
-					setName(point.next, "corner" + i);
-					point.next.prev = point;
-					point = point.next;
+			maxPointIndex += EXTRA_POINTS;
+			// re-add first polygon point
+			Point p = addPointToChain(point, polygon.getPointX(0),
+					polygon.getPointY(0), 0, length, "");
+			if (p != null) {
+				point = p;
+				n++;
+			}
+
+			// add first four corners
+			for (int i = 0; i < CORNERS; i++) {
+				p = addPointToChain(point, corners[i].getX(),
+						corners[i].getY(), i, length + 1, "corner");
+				if (p != null) {
+					point = p;
+					n++;
+				}
+
+			}
+
+			// re-add first corner
+			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), 0,
+					length + CORNERS + 1, "corner");
+
+			if (p != null) {
+				point = p;
+				n++;
+			}
+
+			// add last four corners
+			for (int i = CORNERS; i < CORNERS_ALL; i++) {
+				p = addPointToChain(point, corners[i].getX(),
+						corners[i].getY(), i, length + CORNERS + 2,
+						"corner");
+				if (p != null) {
+					point = p;
 					n++;
 				}
 			}
-		}
+
+			// re-add first of last four corner
+			p = addPointToChain(point, corners[CORNERS].getX(),
+					corners[CORNERS].getY(), 0, length + CORNERS_ALL + 3,
+					"corner");
+			if (p != null) {
+				point = p;
+				n++;
+			}
+
+
+			// re-add first corner
+			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), 0,
+					length + CORNERS_ALL + 4, "corner");
+
+			if (p != null) {
+				point = p;
+				n++;
+			}
+				n++;
+			}
+
+
 
 		// check first point <> last point
 		if (Kernel.isEqual(point.x, firstPoint.x)

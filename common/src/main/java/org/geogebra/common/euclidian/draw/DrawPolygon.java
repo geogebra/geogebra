@@ -200,12 +200,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 				// check if the polygon is convex
 				int length = poly.getPointsLength();
 				Coords[] vertices = new Coords[length
-						+ PolygonTriangulation.CORNERS_NUMBER];
+						+ PolygonTriangulation.EXTRA_POINTS];
 				for (int i = 0; i < poly.getPointsLength(); i++) {
 					vertices[i] = poly.getPointND(i).getCoords();
 				}
 
-				for (int i = 0; i < PolygonTriangulation.CORNERS_NUMBER; i++) {
+				for (int i = 0; i < PolygonTriangulation.EXTRA_POINTS; i++) {
 					vertices[length + i] = extraCoords[i];
 				}
 
@@ -214,8 +214,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 					boolean reverse = poly.getReverseNormalForDrawing()
 							^ (convexity == Convexity.CLOCKWISE);
 
-					// drawPolygonConvex(n,
-					// vertices, poly.getPointsLength(), reverse);
+					drawPolygonConvex(n, vertices, poly.getPointsLength(),
+							reverse);
 				} else {
 					// set intersections (if needed) and divide the polygon into
 					// non self-intersecting polygons
@@ -295,7 +295,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		}
 
-		 
+		xmin = xmin < 0 ? xmin : view.getXmin();
+		xmax = xmax > view.getXmax() ? xmax : view.getXmax();
+
+		ymin = ymin < 0 ? ymin : view.getYmin();
+		ymax = ymax > view.getYmax() ? ymax : view.getYmax();
+
 		extraCoords[4].setX(xmin);
 		extraCoords[4].setY(ymin);
 
@@ -307,6 +312,30 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		extraCoords[7].setX(xmin);
 		extraCoords[7].setY(ymax);
+	}
+
+	private void drawPolygonConvex(Coords n, Coords[] vertices, int length,
+			boolean reverse) {
+		App.debug("[POLY] drawPolygonConvex");
+		Coords coordsApex = vertices[0];
+		coords[0] = coordsApex.getX();
+		coords[1] = coordsApex.getY();
+		view.toScreenCoords(coords);
+		double startX = coords[0];
+		double startY = coords[1];
+		gpTriangularize.moveTo(coords[0], coords[1]);
+		for (int i = length - 1; i < 0; i--) {
+			Coords coord = vertices[i];
+			coords[0] = coord.getX();
+			coords[1] = coord.getY();
+			view.toScreenCoords(coords);
+			gpTriangularize.lineTo(coords[0], coords[1]);
+		}
+
+		// we have to move back manually to apex since we may have new fan to
+		// draw
+		gpTriangularize.moveTo(startX, startY);
+
 	}
 
 	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
