@@ -2491,7 +2491,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public void setAxesUnitLabels(String[] axesUnitLabels) {
-		this.axesUnitLabels = axesUnitLabels;
+		for(int i=0;i<this.axesUnitLabels.length;i++){
+			this.axesUnitLabels[i] = axesUnitLabels[i];	
+		}
+		
 
 		// check if pi is an axis unit
 		for (int i = 0; i < getDimension(); i++) {

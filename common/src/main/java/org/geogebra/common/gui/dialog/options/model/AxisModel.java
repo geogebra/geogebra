@@ -150,8 +150,24 @@ public class AxisModel {
 	public void applyUnitLabel(String text) {
 		String[] labels = view.getAxesUnitLabels();
 		labels[axis] = text;
-		view.setAxesUnitLabels(labels);
+		
+		if (app.getEuclidianView1() == view) {
+			app.getSettings().getEuclidian(1).setAxesUnitLabels(labels);
+
+
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setAxesUnitLabels(labels);
+		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setAxesUnitLabels(labels);
+
+
+		}
+		else {
+			view.setAxesUnitLabels(labels);
+		}
+		
 		view.updateBackground();
+		view.repaintView();
 	}
 
 	public void applyAxisLabel(String text) {
