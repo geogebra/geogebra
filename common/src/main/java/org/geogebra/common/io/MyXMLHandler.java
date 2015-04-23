@@ -3228,8 +3228,9 @@ public class MyXMLHandler implements DocHandler {
 				// wrong default setting, act as if there were no default set
 				geo1 = kernel.lookupLabel(label);
 				if (geo1 == null) {
+					
 					geo1 = kernel.createGeoElement(cons, type);
-					geo1.setLoadedLabel(label);
+					//geo1.setLoadedLabel(label);
 					geo1.setEuclidianVisible(false);
 				}
 			}
