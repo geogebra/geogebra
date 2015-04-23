@@ -1456,8 +1456,103 @@ var MathBlock = P(MathElement, function(_) {
   // and selection of the MathQuillGGB tree, these all take in a direction and
   // the cursor
   _.moveOutOf = function(dir, cursor) {
-    if (this[dir]) cursor.appendDir(-dir, this[dir]);
-    else cursor.insertAdjacent(dir, this.parent);
+	// note that appendDir waits for MathBlock,
+	// while insertAdjacent waits for MathCommand!
+	var thisthis = this;
+	// this: child of ggbtd, parent of spec
+	// thisthis: child of ggbtr, parent of ggbtd
+	// later thisthis: child of ggbtable, parent of ggbtr
+	// later later thisthis?
+    if (this[dir]) {
+      // this is actually not a move out of,
+      // but move to a sibling MathBlock e.g. &0 &1
+      cursor.appendDir(-dir, this[dir]);
+    } else {
+      // this would move out of the block to
+      // put the cursor beside the parent command;
+      // however, we want more in case of \\ggbtd and \\ggbtr
+      cursor.insertAdjacent(dir, this.parent);
+
+      // parent block, we're inside a tr block, probably
+      thisthis = this.parent.parent;
+      // we have already moved out to the block of this.parent!
+      if (this.parent.ctrlSeq.indexOf('\\ggbtd') > -1) {
+        if (cursor[dir]) {
+          // moving out of, and moving into
+          // the next element immediately
+          // this applies for \\ggbtd
+          cursor[dir].moveTowards(dir, cursor);
+          // i.e. cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+          return;
+        // there are no sibling blocks in case of ggbtd
+        //} else if (thisthis[dir]) {
+        } else {
+          // we probably encounter the end of a \\ggbtr,
+          // so we should move out of it! TODO: test
+          // as these special cases are non-trivial
+          if (thisthis.parent) {
+            cursor.insertAdjacent(dir, thisthis.parent);
+            // just moved inside a table block, tr's are children
+
+            if (thisthis.parent.ctrlSeq.indexOf('\\ggbtr') > -1) {
+              // child of thisthis.parent.parent
+              if (cursor[dir]) {
+                // moving into the next "tr"
+                cursor[dir].moveTowards(dir, cursor);
+                // i.e. cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+                // moving into its first "td"
+                if (cursor[dir]) {
+                  cursor[dir].moveTowards(dir, cursor);
+                  // i.e. cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+                } /*else {
+                  // unexpected end! TODO: finish these
+                }*/
+              } else if (thisthis.parent.parent) {
+            	// end of \\ggbtable, probably!
+            	// expected end
+            	thisthis = thisthis.parent.parent;
+            	// later thisthis: child of ggbtable, parent of ggbtr
+            	if (thisthis.parent) {//ggbtable
+            	  // expected end!
+                  cursor.insertAdjacent(dir, thisthis.parent);
+            	} /*else {
+            	  // unexpected end!
+            	}*/
+              } /*else {
+            	// unexpected end!
+              }*/
+            } /*else {
+           	  thisthis = thisthis.parent.parent;
+
+              // end of \\ggbtable, probably!
+           	  // unexpected end! TODO: debug?
+           	  if (thisthis.parent) {
+        	    cursor.insertAdjacent(dir, thisthis.parent);
+           	  }
+            }*/
+          }
+        }
+        // there are more possible cases!!!
+      } /*else if (this.parent.ctrlSeq.indexOf('\\ggbtr') > -1) {
+        // will be unexpected end!
+        if (cursor[dir]) {
+          // moving into the next "tr"
+          cursor.appendDir(-dir, cursor[dir]);
+          // moving into its first "td"
+          if (cursor[dir]) {
+            cursor.appendDir(-dir, cursor[dir]);
+          } else {
+            // unexpected end! TODO: finish these
+          }
+        } else if (this.parent.parent) {
+          thisthis = this.parent.parent;
+          if (thisthis.parent) {
+            cursor.insertAdjacent(dir, thisthis.parent);
+          }
+          // many unexpected ends
+        }
+      }*/
+    }
   };
   _.selectOutOf = function(dir, cursor) {
     var cmd = this.parent;
@@ -4959,8 +5054,7 @@ var Cursor = P(Point, function(_) {
     // never insert before textarea
     if (dir === L && el.textarea) {
       jQinsertAdjacent(-dir, this.jQ, el.textarea);
-    }
-    else {
+    } else {
       jQappendDir(dir, this.jQ, el.jQ);
     }
 
