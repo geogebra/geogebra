@@ -470,7 +470,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (sbToString == null) {
-			return null;
+			sbToString =  new StringBuilder(50);
 		}
 		
 		// #4186
@@ -489,8 +489,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * @return string representation for regression output
 	 */
 	final public String toStringMinimal() {
-		if (sbToString == null)
-			return null;
+		if (sbToString == null) {
+			sbToString =  new StringBuilder(50);
+		}
 		sbToString.setLength(0);
 		sbToString.append(toValueStringMinimal());
 		return sbToString.toString();
@@ -503,7 +504,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return regrFormat(value);
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
+	private StringBuilder sbToString;
 	private ArrayList<GeoNumeric> minMaxListeners;
 	private boolean randomSlider = false;
 
