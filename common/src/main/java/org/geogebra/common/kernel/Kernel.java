@@ -3746,7 +3746,9 @@ public class Kernel {
 
 	public final void notifyRemove(GeoElement geo) {
 		if (notifyViewsActive) {
-			this.deleteList.add(geo);
+			if(geo.isLabelSet()){
+				this.deleteList.add(geo);
+			}
 			for (View view : views) {
 				if ((view.getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {

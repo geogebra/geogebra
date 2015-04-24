@@ -228,6 +228,9 @@ public abstract class AnimationManager {
 			adaptFrameRate(compTime);
 			// System.out.println("UPDATE compTime: " + compTime +
 			// ", frameRate: " + frameRate);
+			
+			//collect some potential garbage
+			kernel.notifyRemoveGroup();
 		}
 	}
 
