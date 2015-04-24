@@ -183,33 +183,35 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 			// 2D cursor pos
 			if (robot != null) {
-
-				if (input3D.hasMouseDirection()) { // project position on screen
-					double dz = input3D.getMouse3DDirection()[2];
-					if (dz < 0) {
-						double t = -inputPosition[2] / dz;
-						inputPositionOnScreen[0] = inputPosition[0] + t
-								* input3D.getMouse3DDirection()[0];
-						inputPositionOnScreen[1] = inputPosition[1] + t
-								* input3D.getMouse3DDirection()[1];
+				if (moveMode == MOVE_NONE || !input3D.hasMouseDirection()) {
+					if (input3D.hasMouseDirection()) { // project position on
+														// screen
+						double dz = input3D.getMouse3DDirection()[2];
+						if (dz < 0) {
+							double t = -inputPosition[2] / dz;
+							inputPositionOnScreen[0] = inputPosition[0] + t
+									* input3D.getMouse3DDirection()[0];
+							inputPositionOnScreen[1] = inputPosition[1] + t
+									* input3D.getMouse3DDirection()[1];
+						}
+					} else {
+						inputPositionOnScreen[0] = inputPosition[0];
+						inputPositionOnScreen[1] = inputPosition[1];
 					}
-				} else {
-					inputPositionOnScreen[0] = inputPosition[0];
-					inputPositionOnScreen[1] = inputPosition[1];
-				}
 
-				int x = (int) (inputPositionOnScreen[0] + screenHalfWidth);
-				if (x >= 0 && x <= screenHalfWidth * 2) {
-					int y = (int) (screenHalfHeight - inputPositionOnScreen[1]);
-					if (y >= 0 && y <= screenHalfHeight * 2) {
+					int x = (int) (inputPositionOnScreen[0] + screenHalfWidth);
+					if (x >= 0 && x <= screenHalfWidth * 2) {
+						int y = (int) (screenHalfHeight - inputPositionOnScreen[1]);
+						if (y >= 0 && y <= screenHalfHeight * 2) {
 
-						// process mouse
-						if (robotX != x || robotY != y) {
-							// App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
-							// App.debug(x+","+y);
-							robotX = x;
-							robotY = y;
-							robot.mouseMove(robotX, robotY);
+							// process mouse
+							if (robotX != x || robotY != y) {
+								// App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
+								// App.debug(x+","+y);
+								robotX = x;
+								robotY = y;
+								robot.mouseMove(robotX, robotY);
+							}
 						}
 					}
 				}
@@ -233,6 +235,11 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 								input3D.getMouse3DDirection());
 						mouse3DScenePosition.set(mouse3DPosition);
 						view3D.toSceneCoords3D(mouse3DScenePosition);
+
+						if (moveMode != MOVE_NONE) {
+							((EuclidianViewInput3D) view3D)
+									.updateStylusBeamForMovedGeo();
+						}
 					}
 
 					// mouse orientation

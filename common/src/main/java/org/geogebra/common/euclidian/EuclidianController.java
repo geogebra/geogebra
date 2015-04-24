@@ -10102,4 +10102,12 @@ public abstract class EuclidianController {
 		
 	}
 
+	/**
+	 * 
+	 * @return currently moved geo
+	 */
+	public GeoElement getMovedGeoElement() {
+		return movedGeoElement;
+	}
+
 }
