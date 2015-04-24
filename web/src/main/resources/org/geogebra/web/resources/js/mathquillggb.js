@@ -2583,6 +2583,13 @@ LatexCmds.aqua = bind(Style, '\\aqua', 'span', 'style="color:#BCD4E6"');
 var SomethingHTML = P(MathCommand, function(_, _super) {
   _.init = function(ctrlSeq, HTML, texttemp) {
    _super.init.call(this, ctrlSeq, HTML, texttemp);
+   if (ctrlSeq === '\\pwtable') {
+	 // boolean is quicker than string comparison every time
+	 // TODO: maybe do this for other ctrlSeq as well!
+	 this.pwtable = true;
+   } else {
+	 this.pwtable = false;
+   }
    var thisthis = this;
    if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
      if (this.parent.parent) {
@@ -2630,6 +2637,25 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
   _.selectChildren = function(cursor) {
 	_super.selectChildren.call(this.maint, cursor);
   };
+  _.text = function() {
+    // in case of ggbtable/pwtable, we shall do them one by one
+    if (this.pwtable) {
+      // this just have to append its children to one another
+      // with no question
+      return this.foldChildren('', function(text, child) {
+        return text + child.text();
+      });
+    } else if (this.ctrlSeq.indexOf('\\ggbtr') > -1) {
+      // if this is a descendant of pwtable, do custom algorithm
+      // otherwise do the conventional case (end of method)
+    } else if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
+      // if this is a descendant of pwtable, do custom algorithm
+      // otherwise do the conventional case (end of method)
+    }
+    // conventional case (e.g. \\vec, \\hat)
+    // do the conventional way (also \\ggbtable)
+    return _super.text.call(this);
+  };
 });
 
 var scbHTML = '<span><span style="display: none;">&0</span><span>&1</span></span>';
@@ -2672,6 +2698,10 @@ var ggbtdLHTML = '<td style="min-width: 1em; text-align: left; vertical-align: m
 var ggbtdlLHTML = '<td style="border-left: black solid 2px; border-right: black solid 2px; min-width: 1em; text-align: left; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
 var ggbtdllLHTML = '<td style="border-left: black solid 2px; min-width: 1em; text-align: left; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
 var ggbtdlrLHTML = '<td style="border-right: black solid 2px; min-width: 1em; text-align: left; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
+
+// why bother with differentiating ggbtable from pwtable,
+// when we can create them separately?
+LatexCmds.pwtable = bind(SomethingHTML, '\\pwtable', ggbtableHTML, ['','']);
 
 LatexCmds.ggbtable = bind(SomethingHTML, '\\ggbtable', ggbtableHTML, ['{','}']);
 LatexCmds.ggbtr = bind(SomethingHTML, '\\ggbtr', ggbtrHTML, ['{','},']);
@@ -3026,14 +3056,17 @@ LatexCmds.nthroot = P(SquareRoot, function(_, _super) {
 
 
 var HalfBracket = P(MathCommand, function(_, _super) {
-  _.init = function(open, close, ctrlSeq) {
+  _.init = function(open, close, ctrlSeq, textt) {
+    var tex = [open, close];
+    if (textt) {
+      tex = textt; 
+    }
     _super.init.call(this, ctrlSeq,
       '<span class="non-leaf paren-parent">'
       +   '<span class="scaled paren">'+open+'</span>'
       +   '<span class="non-leaf">&0</span>'
       +   '<span class="scaled paren">'+close+'</span>'
-      + '</span>',
-    [open, close]);
+      + '</span>', tex);
 
     // note that either open or close should be empty,
     // or this makes a different syntax to brackets!
@@ -3089,7 +3122,7 @@ var HalfBracket = P(MathCommand, function(_, _super) {
 
 // differentiating piecewise functions from openbraceonly of ggbtable
 // so that piecewise functions can be identified by this condition
-LatexCmds.piecewise = bind(HalfBracket, '{', '', '\\piecewise');
+LatexCmds.piecewise = bind(HalfBracket, '{', '', '\\piecewise', ['', '']);
 
 LatexCmds.openbraceonly = bind(HalfBracket, '{', '', '\\openbraceonly');
 LatexCmds.closebraceonly = bind(HalfBracket, '', '}', '\\closebraceonly');
