@@ -632,6 +632,8 @@ public class PolygonTriangulation {
 		fansList.clear();
 		maxPointIndex = 0;
 		firstPoint = null;
+
+		comparedSameOrientationSegment = null;
 	}
 
 	/**
@@ -664,11 +666,28 @@ public class PolygonTriangulation {
 		}
 	}
 
+	/**
+	 * add a point to chain
+	 * 
+	 * @param point
+	 *            current point
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param id
+	 *            id in chain
+	 * @param name
+	 *            name
+	 * @param nameId
+	 *            id in polygon when name == null
+	 * @return null if new point equals current
+	 */
 	private Point addPointToChain(Point point, double x, double y, int id,
-			String name) {
+			String name, int nameId) {
 		if (!Kernel.isEqual(point.x, x) || !Kernel.isEqual(point.y, y)) {
 			point.next = new Point(x, y, id);
-			setName(point.next, name, id);
+			setName(point.next, name, nameId);
 			point.next.prev = point;
 			return point.next;
 		}
@@ -691,11 +710,10 @@ public class PolygonTriangulation {
 		setName(point, 0);
 		firstPoint = point;
 		int n = 1;
-		int id = 1;
 		int length = polygon.getPointsLength();
 		for (int i = 1; i < length; i++) {
 			Point p = addPointToChain(point, polygon.getPointX(i),
-					polygon.getPointY(i), n, null);
+					polygon.getPointY(i), n, null, i);
 			if (p != null) {
 				point = p;
 				n++;
@@ -708,7 +726,7 @@ public class PolygonTriangulation {
 			maxPointIndex += EXTRA_POINTS;
 			// re-add first polygon point
 			Point p = addPointToChain(point, polygon.getPointX(0),
-					polygon.getPointY(0), 0, null);
+					polygon.getPointY(0), n, null, 0);
 			if (p != null) {
 				point = p;
 				n++;
@@ -717,7 +735,7 @@ public class PolygonTriangulation {
 			// add first four corners
 			for (int i = 0; i < CORNERS; i++) {
 				p = addPointToChain(point, corners[i].getX(),
-						corners[i].getY(), n, "c" + i);
+						corners[i].getY(), n, "c" + i, i);
 				if (p != null) {
 					point = p;
 					n++;
@@ -727,7 +745,7 @@ public class PolygonTriangulation {
 
 			// re-add first corner
 			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), n,
-					"c0");
+					"c0", 0);
 
 			if (p != null) {
 				point = p;
@@ -737,7 +755,7 @@ public class PolygonTriangulation {
 			// add last four corners
 			for (int i = CORNERS; i < CORNERS_ALL; i++) {
 				p = addPointToChain(point, corners[i].getX(),
-						corners[i].getY(), n, "c" + i);
+						corners[i].getY(), n, "c" + i, i);
 				if (p != null) {
 					point = p;
 					n++;
@@ -746,7 +764,7 @@ public class PolygonTriangulation {
 
 			// re-add first of last four corner
 			p = addPointToChain(point, corners[CORNERS].getX(),
-					corners[CORNERS].getY(), n, "c4");
+					corners[CORNERS].getY(), n, "c4", 4);
 			if (p != null) {
 				point = p;
 				n++;
@@ -755,14 +773,14 @@ public class PolygonTriangulation {
 
 			// re-add first corner
 			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), n,
-					"c0");
+					"c0", 0);
 
 			if (p != null) {
 				point = p;
 				n++;
 			}
-				n++;
-			}
+
+		}
 
 
 
@@ -1127,11 +1145,14 @@ public class PolygonTriangulation {
 		// same points are merged
 		// aligned segments to right are cut
 		// aligned segments to left are ignored
+		error("=========== store points ============");
 		MyTreeSet<Point> pointSet = new MyTreeSet<Point>();
 
 		for (point = firstPoint; point.next != firstPoint; point = point.next) {
+			debug("" + point.name + "(" + point.id + ")");
 			pointSet.add(point);
 		}
+		debug("" + point.name + "(" + point.id + ")");
 		pointSet.add(point);
 
 		// at this time, pointSet only contains different points, each points

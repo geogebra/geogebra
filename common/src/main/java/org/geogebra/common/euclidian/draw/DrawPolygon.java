@@ -83,7 +83,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		extraCoords[3].setX(view.getXmin());
 		extraCoords[3].setY(view.getYmax());
 
-		// // set half values for test
+		// // set 0 to 1 values for test
 		// extraCoords[0].setX(0);
 		// extraCoords[0].setY(0);
 		//
@@ -315,11 +315,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		}
 
-		xmin = xmin < view.getXmin() ? xmin : view.getXmin();
-		xmax = xmax > view.getXmax() ? xmax : view.getXmax();
+		xmin = xmin < extraCoords[0].getX() ? xmin : extraCoords[0].getX();
+		xmax = xmax > extraCoords[2].getX() ? xmax : extraCoords[2].getX();
 
-		ymin = ymin < view.getYmin() ? ymin : view.getYmin();
-		ymax = ymax > view.getYmax() ? ymax : view.getYmax();
+		ymin = ymin < extraCoords[0].getY() ? ymin : extraCoords[0].getY();
+		ymax = ymax > extraCoords[2].getY() ? ymax : extraCoords[2].getY();
 
 		extraCoords[4].setX(xmin);
 		extraCoords[4].setY(ymin);
