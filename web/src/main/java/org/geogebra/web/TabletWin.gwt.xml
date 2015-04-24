@@ -6,6 +6,10 @@
     <when-type-is class="org.geogebra.web.tablet.main.TabletDevice" />    
   </replace-with>
   
+  <replace-with class="org.geogebra.web.tablet.TabletWinLookAndFeel">
+    <when-type-is class="org.geogebra.web.tablet.TabletLookAndFeel" />    
+  </replace-with>
+  
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>

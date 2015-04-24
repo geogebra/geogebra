@@ -45,7 +45,7 @@ public class ExportMenuW extends MenuBar {
 
 			        @Override
 			        public void doExecute() {
-				        ((GuiManagerW) app.getGuiManager()).openFilePicker();
+				        app.getFileManager().export(app);
 			        }
 		        });
 

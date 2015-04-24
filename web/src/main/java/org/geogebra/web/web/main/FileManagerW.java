@@ -226,6 +226,10 @@ public class FileManagerW extends FileManager {
 	public void saveLoggedOut(AppW app) {
 		app.getGuiManager().openFilePicker();
 	}
+	
+	public void export(AppW app) {
+		app.getGuiManager().openFilePicker();
+	}
 
 	@Override
 	public void setTubeID(String localID, Material mat) {

@@ -41,4 +41,6 @@ public interface FileManagerI {
 	void getFromTube(int id, boolean fromAnotherDevice);
 
 	boolean isSyncing();
+
+	void export(AppW app);
 }

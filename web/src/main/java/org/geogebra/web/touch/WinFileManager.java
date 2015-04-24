@@ -272,5 +272,26 @@ public class WinFileManager extends FileManager {
 			$wnd.android.updateFile(id, title, json, base64);
 		}
 	}-*/;
+	
+	public void export(AppW app) {
+		String title = app.getKernel().getConstruction().getTitle();
+		if(title == null || title.length() ==0){
+			title = "construction";
+		}
+		final String title1 = title;
+		app.getGgbApi().getBase64(true, new StringHandler(){
+
+			@Override
+			public void handle(final String data) {
+				saveDialog(data, title1);
+			}
+			});
+	}
+	
+	private native void saveDialog(String data, String title)/*-{
+		if ($wnd.android && $wnd.android.callPlugin) {
+			$wnd.android.callPlugin('SaveDialog', [data, title]);
+		}
+	}-*/;
 
 }

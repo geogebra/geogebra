@@ -20,6 +20,7 @@ import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
+import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.main.GDevice;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -183,7 +184,7 @@ public class Tablet implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame() {
-		appFrame = new GeoGebraAppFrame(new TabletLookAndFeel(),
+		appFrame = new GeoGebraAppFrame((GLookAndFeel) GWT.create(TabletLookAndFeel.class),
 		        (GDevice) GWT.create(TabletDevice.class),
 		        (AppletFactory) GWT.create(AppletFactory.class));
 		appFrame.addStyleName("Tablet");
@@ -206,7 +207,7 @@ public class Tablet implements EntryPoint {
 	        JavaScriptObject clb) {
 		GeoGebraFrameBoth.renderArticleElement(el,
 		        (AppletFactory) GWT.create(AppletFactory.class),
-		        new TabletLookAndFeel(), clb);
+		        (GLookAndFeel) GWT.create(TabletLookAndFeel.class), clb);
 	}
 
 	/*
@@ -251,7 +252,7 @@ public class Tablet implements EntryPoint {
 	static void startGeoGebra(final ArrayList<ArticleElement> geoGebraMobileTags) {
 		org.geogebra.web.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags,
 		        (AppletFactory) GWT.create(AppletFactory.class),
-		        new TabletLookAndFeel());
+		        (GLookAndFeel) GWT.create(TabletLookAndFeel.class));
 	}
 
 }
