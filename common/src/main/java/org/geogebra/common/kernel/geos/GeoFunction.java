@@ -2352,7 +2352,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 					sbLaTeX.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
 					sbLaTeX.append("} \\ggbtdL{ : \\space ");
 					if (i == cases.size() - 1 && complete) {
-						sbLaTeX.append("\\text{");
+						sbLaTeX.append("\\textotherwise{");
 						sbLaTeX.append(getLoc().getPlain("otherwise"));
 						sbLaTeX.append("}");
 					} else {

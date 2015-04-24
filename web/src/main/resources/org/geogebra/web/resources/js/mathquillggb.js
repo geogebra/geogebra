@@ -2654,13 +2654,18 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
         // and we're interested in the MathBlock's children, which are ggbtd's
         // but for special cases we might still want to check
         if (this.ch[L] && this.ch[L].ch[L] && this.ch[L].ch[R]) {
-          var ret = "If[";
-          ret += this.ch[L].ch[R].text();
-          ret += ",";
-          ret += this.ch[L].ch[L].text();
-          ret += ",";
-          // here will come the next If[, or end
-          return ret;
+          if (this[R]) {
+            var ret = "If[";
+            ret += this.ch[L].ch[R].text();
+            ret += ",";
+            ret += this.ch[L].ch[L].text();
+            ret += ",";
+            // here will come the next If[, or end
+            return ret;
+          } else {
+            // if this is the last row, things should be more simple:
+        	return this.ch[L].ch[L].text();
+          }
         }
       }
     } else if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
@@ -4692,6 +4697,9 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
 		  // for quotationtext, text and html mode is this,
 		  // but behold the latex mode...
 		  return this.textContents();
+	  } else if (this.ctrlSeq === '\\textotherwise') {
+		// maybe this won't be used...
+		return "true";
 	  }
 	  return '"' + this.textContents() + '"';
   };
@@ -4999,6 +5007,9 @@ function makeQuotationText() {
 
 // hack to make CharCmds['"'] work in GeoGebraWeb history
 //LatexCmds.quotationtext = makeQuotationText();
+
+LatexCmds.textotherwise =
+  makeTextBlock('\\textotherwise', 'span', 'class="text"');
 
 LatexCmds.sf = LatexCmds.textsf =
   makeTextBlock('\\textsf', 'span', 'class="sans-serif text"');
