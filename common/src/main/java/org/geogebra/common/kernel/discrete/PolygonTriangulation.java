@@ -206,7 +206,7 @@ public class PolygonTriangulation {
 			if (toLeft != null) {
 				s += "/ to left : ";
 				for (Segment segment : toLeft) {
-					s += ((int) (segment.orientation * 180 / Math.PI)) + "Â°:"
+					s += ((int) (segment.orientation * 180 / Math.PI)) + "°:"
 							+ segment.leftPoint.name + "(" + segment.usable
 							+ "), ";
 				}
@@ -215,7 +215,7 @@ public class PolygonTriangulation {
 
 				s += "/ to right : ";
 				for (Segment segment : toRight) {
-					s += ((int) (segment.orientation * 180 / Math.PI)) + "Â°:"
+					s += ((int) (segment.orientation * 180 / Math.PI)) + "°:"
 							+ segment.rightPoint.name + "(" + segment.usable
 							+ "), ";
 				}
@@ -654,9 +654,13 @@ public class PolygonTriangulation {
 	 * @param s
 	 *            name
 	 */
-	private void setName(Point point, String s) {
+	private void setName(Point point, String s, int i) {
 		if (DEBUG) {
-			point.name = s;
+			if (s == null) {
+				setName(point, i);
+			} else {
+				point.name = s;
+			}
 		}
 	}
 
@@ -664,7 +668,7 @@ public class PolygonTriangulation {
 			String name) {
 		if (!Kernel.isEqual(point.x, x) || !Kernel.isEqual(point.y, y)) {
 			point.next = new Point(x, y, id);
-			setName(point.next, name);
+			setName(point.next, name, id);
 			point.next.prev = point;
 			return point.next;
 		}
@@ -691,7 +695,7 @@ public class PolygonTriangulation {
 		int length = polygon.getPointsLength();
 		for (int i = 1; i < length; i++) {
 			Point p = addPointToChain(point, polygon.getPointX(i),
-					polygon.getPointY(i), n, "" + i);
+					polygon.getPointY(i), n, null);
 			if (p != null) {
 				point = p;
 				n++;
@@ -704,7 +708,7 @@ public class PolygonTriangulation {
 			maxPointIndex += EXTRA_POINTS;
 			// re-add first polygon point
 			Point p = addPointToChain(point, polygon.getPointX(0),
-					polygon.getPointY(0), n, "" + length + 1);
+					polygon.getPointY(0), 0, null);
 			if (p != null) {
 				point = p;
 				n++;
@@ -713,7 +717,7 @@ public class PolygonTriangulation {
 			// add first four corners
 			for (int i = 0; i < CORNERS; i++) {
 				p = addPointToChain(point, corners[i].getX(),
-						corners[i].getY(), n, "corner " + i);
+						corners[i].getY(), n, "c" + i);
 				if (p != null) {
 					point = p;
 					n++;
@@ -723,7 +727,7 @@ public class PolygonTriangulation {
 
 			// re-add first corner
 			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), n,
-					"corner re1st");
+					"c0");
 
 			if (p != null) {
 				point = p;
@@ -733,7 +737,7 @@ public class PolygonTriangulation {
 			// add last four corners
 			for (int i = CORNERS; i < CORNERS_ALL; i++) {
 				p = addPointToChain(point, corners[i].getX(),
-						corners[i].getY(), n, "corner " + i);
+						corners[i].getY(), n, "c" + i);
 				if (p != null) {
 					point = p;
 					n++;
@@ -742,7 +746,7 @@ public class PolygonTriangulation {
 
 			// re-add first of last four corner
 			p = addPointToChain(point, corners[CORNERS].getX(),
-					corners[CORNERS].getY(), n, "corner re 4");
+					corners[CORNERS].getY(), n, "c4");
 			if (p != null) {
 				point = p;
 				n++;
@@ -751,7 +755,7 @@ public class PolygonTriangulation {
 
 			// re-add first corner
 			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), n,
-					"corner re 0");
+					"c0");
 
 			if (p != null) {
 				point = p;
@@ -872,10 +876,10 @@ public class PolygonTriangulation {
 			String s = "";
 			for (point = firstPoint; point.next != firstPoint; point = point.next) {
 				s += point.name + "("
-						+ (point.orientationToNext * 180 / Math.PI) + "Â°), ";
+						+ (point.orientationToNext * 180 / Math.PI) + "°), ";
 			}
 			s += point.name + "(" + (point.orientationToNext * 180 / Math.PI)
-					+ "Â°)";
+					+ "°)";
 			debug(s);
 		}
 
@@ -908,10 +912,10 @@ public class PolygonTriangulation {
 		}
 		boolean positive = (delta > 0);
 		debug(point1.name + "(" + (point1.orientationToNext * 180 / Math.PI)
-				+ "Â°)");
+				+ "°)");
 		debug(point2.name + "(" + (point2.orientationToNext * 180 / Math.PI)
-				+ "Â°)");
-		debug("delta : " + (delta * 180 / Math.PI) + "Â°)");
+				+ "°)");
+		debug("delta : " + (delta * 180 / Math.PI) + "°)");
 		debug("positive : " + positive);
 		boolean convex = true;
 		point1 = point2;
@@ -929,8 +933,8 @@ public class PolygonTriangulation {
 			}
 			convex = positive ^ (delta < 0);
 			debug(point2.name + "("
-					+ (point2.orientationToNext * 180 / Math.PI) + "Â°) -- "
-					+ "(" + (delta * 180 / Math.PI) + "Â°) -- " + convex);
+					+ (point2.orientationToNext * 180 / Math.PI) + "°) -- "
+					+ "(" + (delta * 180 / Math.PI) + "°) -- " + convex);
 			point1 = point2;
 			point2 = point1.next;
 			pointLengthMinus2++;
@@ -1633,7 +1637,7 @@ public class PolygonTriangulation {
 	final private void createSegment(Point point) {
 
 		// debug(point.name+", "+((int)
-		// (point.orientationToNext*180/Math.PI))+"Â°, "+point.next.name);
+		// (point.orientationToNext*180/Math.PI))+"°, "+point.next.name);
 		Segment segment;
 		if (Kernel.isGreater(point.orientationToNext, -Math.PI / 2)
 				&& Kernel.isGreaterEqual(Math.PI / 2, point.orientationToNext)) { // point
@@ -1956,8 +1960,8 @@ public class PolygonTriangulation {
 
 	static final private boolean needsDiagonal(Segment seg1, Segment seg2) {
 		// debug(seg1+"("+((int)
-		// (seg1.orientation*180/Math.PI))+"Â°)"+","+seg2+"("+((int)
-		// (seg2.orientation*180/Math.PI))+"Â°)");
+		// (seg1.orientation*180/Math.PI))+"°)"+","+seg2+"("+((int)
+		// (seg2.orientation*180/Math.PI))+"°)");
 		if (seg1.orientation < seg2.orientation) {
 			return true;
 		}
