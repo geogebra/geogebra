@@ -125,7 +125,8 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		// read the XML file into a buffer first
 		byte[] xmlFileBuffer = null;
 		byte[] macroXmlFileBuffer = null;
-		byte[] defaultsXmlFileBuffer = null;
+		byte[] defaults2dXmlFileBuffer = null;
+		byte[] defaults3dXmlFileBuffer = null;
 		boolean xmlFound = false;
 		boolean macroXMLfound = false;
 		boolean javaScriptFound = false;
@@ -144,9 +145,14 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 				xmlFound = true;
 				ggbHandler = true;
 				handler = getGGBHandler();
-			} else if (name.equals(XML_FILE_DEFAULTS)) {
+			} else if (name.equals(XML_FILE_DEFAULTS_2D)) {
 				// load defaults xml file into memory first
-				defaultsXmlFileBuffer = Util.loadIntoMemory(zip);
+				defaults2dXmlFileBuffer = Util.loadIntoMemory(zip);
+				ggbHandler = true;
+				handler = getGGBHandler();
+			} else if (name.equals(XML_FILE_DEFAULTS_3D)) {
+				// load defaults xml file into memory first
+				defaults3dXmlFileBuffer = Util.loadIntoMemory(zip);
 				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (name.equals(XML_FILE_MACRO)) {
@@ -210,9 +216,14 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		
 		
 		// process defaults (after construction for labeling styles)
-		if (defaultsXmlFileBuffer != null){
+		if (defaults2dXmlFileBuffer != null) {
 			kernel.getConstruction().setFileLoading(true);
-			processXMLBuffer(defaultsXmlFileBuffer, false, isGGTfile);
+			processXMLBuffer(defaults2dXmlFileBuffer, false, isGGTfile);
+			kernel.getConstruction().setFileLoading(false);
+		}
+		if (defaults3dXmlFileBuffer != null) {
+			kernel.getConstruction().setFileLoading(true);
+			processXMLBuffer(defaults3dXmlFileBuffer, false, isGGTfile);
 			kernel.getConstruction().setFileLoading(false);
 		}
 
@@ -439,15 +450,25 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			zip.closeEntry();
 			
 			// write XML file for defaults
-			zip.putNextEntry(new ZipEntry(XML_FILE_DEFAULTS));
-			StringBuilder sb = new StringBuilder();
-			addXMLHeader(sb);
-			addGeoGebraHeader(sb, true, null);
-			cons.getConstructionDefaults().getDefaultsXML(sb);
-			sb.append("</geogebra>");
-			osw.write(sb.toString());
+			StringBuilder sb2d = new StringBuilder();
+			StringBuilder sb3d = new StringBuilder();
+			addXMLHeader(sb2d);
+			addXMLHeader(sb3d);
+			addGeoGebraHeader(sb2d, true, null);
+			addGeoGebraHeader(sb3d, true, null);
+			cons.getConstructionDefaults().getDefaultsXML(sb2d, sb3d);
+			sb2d.append("</geogebra>");
+			sb3d.append("</geogebra>");
+
+			zip.putNextEntry(new ZipEntry(XML_FILE_DEFAULTS_2D));
+			osw.write(sb2d.toString());
 			osw.flush();
 			zip.closeEntry();
+			zip.putNextEntry(new ZipEntry(XML_FILE_DEFAULTS_3D));
+			osw.write(sb3d.toString());
+			osw.flush();
+			zip.closeEntry();
+
 
 			// write XML file for construction
 			zip.putNextEntry(new ZipEntry(XML_FILE));

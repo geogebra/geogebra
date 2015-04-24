@@ -950,14 +950,24 @@ public class ConstructionDefaults {
 
 	/**
 	 * save construction defaults
-	 * @param sb string
+	 * 
+	 * @param sb2d
+	 *            string for 2d geos
+	 * @param sb3d
+	 *            string for 3d geos
 	 */
-	public void getDefaultsXML(StringBuilder sb) {
-		sb.append("<defaults>\n");
+	public void getDefaultsXML(StringBuilder sb2d, StringBuilder sb3d) {
+		sb2d.append("<defaults>\n");
+		sb3d.append("<defaults>\n");
 		for (GeoElement geo : defaultGeoElements.values()){
-			geo.getXML(false, sb);
+			if (geo.isGeoElement3D()) {
+				geo.getXML(false, sb3d);
+			} else {
+				geo.getXML(false, sb2d);
+			}
 		}
-		sb.append("</defaults>\n");
+		sb2d.append("</defaults>\n");
+		sb3d.append("</defaults>\n");
 		
 	}
 	

@@ -36,7 +36,15 @@ public abstract class MyXMLio {
 	 */
 	final public static String XML_FILE_MACRO = "geogebra_macro.xml";
 	
-	final public static String XML_FILE_DEFAULTS = "geogebra_defaults.xml";
+	/**
+	 * defaults for 2D geos
+	 */
+	final public static String XML_FILE_DEFAULTS_2D = "geogebra_defaults2d.xml";
+
+	/**
+	 * defaults for 3D geos
+	 */
+	final public static String XML_FILE_DEFAULTS_3D = "geogebra_defaults3d.xml";
 
 	/** library JavaScript available to objects with JavaScript scripts */
 	final public static String JAVASCRIPT_FILE = "geogebra_javascript.js";
