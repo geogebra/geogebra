@@ -2648,9 +2648,38 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     } else if (this.ctrlSeq.indexOf('\\ggbtr') > -1) {
       // if this is a descendant of pwtable, do custom algorithm
       // otherwise do the conventional case (end of method)
+      if (this.parent && this.parent.parent && this.parent.parent.pwtable) {
+        // lucky that there are only 2 columns
+        // as "this" is a MathCommand, "this.ch[L]" is its child MathBlock
+        // and we're interested in the MathBlock's children, which are ggbtd's
+        // but for special cases we might still want to check
+        if (this.ch[L] && this.ch[L].ch[L] && this.ch[L].ch[R]) {
+          var ret = "If[";
+          ret += this.ch[L].ch[R].text();
+          ret += ",";
+          ret += this.ch[L].ch[L].text();
+          ret += ",";
+          // here will come the next If[, or end
+          return ret;
+        }
+      }
     } else if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
       // if this is a descendant of pwtable, do custom algorithm
       // otherwise do the conventional case (end of method)
+      if (this.parent && this.parent.parent) {
+    	var self = this.parent.parent;
+    	if (self.parent && self.parent.parent && self.parent.parent.pwtable) {
+    	  // remove : and space!
+    	  var ret = this.foldChildren('', function(text, child) {
+    	    return text + child.text();
+          });
+    	  ret = ret.replace(':', '');
+    	  ret = ret.replace('space ', ' ');
+    	  ret = ret.replace(' space', ' ');
+    	  ret = ret.replace('space', ' ');
+    	  return ret;
+    	}
+      }
     }
     // conventional case (e.g. \\vec, \\hat)
     // do the conventional way (also \\ggbtable)
