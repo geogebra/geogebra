@@ -4,6 +4,9 @@ repositories {
 	mavenCentral()
 }
 
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
 dependencies {
 	compile project(':common'),
 		'org.eclipse.jetty:jetty-io:9.3.0.M2',

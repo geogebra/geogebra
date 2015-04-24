@@ -1,5 +1,8 @@
 project.setDescription('Parts of GeoGebra related to input devices (standard)')
 
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
 dependencies {
 	compile project(':common')
 }
