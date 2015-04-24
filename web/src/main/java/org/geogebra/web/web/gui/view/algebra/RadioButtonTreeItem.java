@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -420,8 +419,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
 			        StringTemplate.latexTemplateMQ);
 			seNoLatex = se;
-			if ((latexStr != null) && geo.isLaTeXDrawableGeo()
-			        && (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
+			if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
 				this.needsUpdate = true;
 				av.repaintView();
 			}
@@ -663,8 +661,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				// latexStr = "?";
 			}
 			seNoLatex = se;
-			if ((ge != null) && (latexStr != null) && geo.isLaTeXDrawableGeo()
-			        && (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
+			if ((ge != null) && (latexStr != null) && geo.isLaTeXDrawableGeo()) {
 				this.needsUpdate = true;
 				av.repaintView();
 			} else if (ge == null) {
@@ -816,9 +813,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				        StringTemplate.latexTemplateMQ);
 				if ((text != null)
 						&& text.length() < 500
-				        && geo.isLaTeXDrawableGeo()
-				        && (geo.isGeoList() ? !((GeoList) geo).isMatrix()
-				                : true)) {
+						&& geo.isLaTeXDrawableGeo()) {
 					newLaTeX = true;
 				}
 			} else {

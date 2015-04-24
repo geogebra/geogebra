@@ -1543,6 +1543,22 @@ var MathBlock = P(MathElement, function(_) {
     }
   };
   _.deleteOutOf = function(dir, cursor) {
+	// in case we are in ggbtable, don't allow
+	// deleting out of this mathblock!
+	var cmd = this.parent;
+    if (cmd.ctrlSeq.indexOf('\\ggbtd') > -1) {
+      // do nothing!
+      return;
+    }
+    if (cmd.ctrlSeq.indexOf('\\ggbtr') > -1) {
+      // do nothing!
+      return;
+    }
+    if (cmd.ctrlSeq === '\\ggbtable') {
+      // do nothing!
+      return;
+    }
+	// old behaviour
     cursor.unwrapGramp();
   };
   _.selectChildren = function(cursor, first, last) {
@@ -5385,9 +5401,17 @@ var Cursor = P(Point, function(_) {
     clearUpDownCache(this);
     this.show();
 
+    // deleteSelection shall be Okay as no selection
+    // should select only part of a ggbtable!
     if (this.deleteSelection()); // pass
+    // deleteTowards only calls createSelection,
+    // which shall be Okay, or deletes symbols (OK)
     else if (this[dir]) this[dir].deleteTowards(dir, this);
+    // deleteOutOf is fixed for MathBlock
+    // otherwise it shall be Okay
     else if (this.parent !== this.root) this.parent.deleteOutOf(dir, this);
+    // this way there may be a lot of empty
+    // matrix cells, but it shall be Okay
 
     if (this[L])
       this[L].respace();
@@ -5488,6 +5512,11 @@ var Cursor = P(Point, function(_) {
   _.deleteSelection = function() {
     if (!this.selection) return false;
 
+    // we shall only delete the selection
+    // when it's not selecting parts of ggbtable,
+    // but let's suppose this is the case here,
+    // as selection bugs are already fixed...
+    // and deleting a whole ggbtable is Okay.
     this[L] = this.selection.ends[L][L];
     this[R] = this.selection.ends[R][R];
     this.selection.remove();
