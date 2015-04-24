@@ -27,6 +27,7 @@ import java.util.Iterator;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -4516,6 +4517,37 @@ kernel, left,
 			if (right.isNumberValue() && !right.contains(fv)) {
 				if (Kernel.isZero(right.evaluateDouble())) {
 					return wrap(new MyDouble(kernel, 0d));
+				}
+
+				// make sure Tangent[x^(1/3), A] works when x(A)<0
+				if (right.isConstant()) {
+
+					double rightDoub = right.evaluateDouble();
+
+					// not an integer, convert to x^(a/b)
+					if (!Kernel.isInteger(rightDoub)) {
+
+						double[] fraction = AlgoFractionText.DecimalToFraction(
+								rightDoub, Kernel.STANDARD_PRECISION);
+
+						double a = fraction[0];
+						double b = fraction[1];
+
+						// App.debug(a + " / " + b);
+
+						if (b == 0) {
+							return wrap(new MyDouble(kernel, Double.NaN));
+						}
+
+						// a/b-1 = (a-b)/b
+						ExpressionNode newPower = wrap(
+								new MyDouble(kernel, a - b)).divide(
+								new MyDouble(kernel, b));
+
+						// x^(1/b-1) * a / b * x'
+						return wrap(left).power(newPower).multiply(a).divide(b)
+								.multiply(left.derivative(fv, kernel));
+					}
 				}
 
 				return wrap(left).power(wrap(right).subtract(1))
