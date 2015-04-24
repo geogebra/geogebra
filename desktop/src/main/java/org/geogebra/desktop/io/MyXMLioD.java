@@ -150,7 +150,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 				defaults2dXmlFileBuffer = Util.loadIntoMemory(zip);
 				ggbHandler = true;
 				handler = getGGBHandler();
-			} else if (name.equals(XML_FILE_DEFAULTS_3D)) {
+			} else if (app.is3D() && name.equals(XML_FILE_DEFAULTS_3D)) {
 				// load defaults xml file into memory first
 				defaults3dXmlFileBuffer = Util.loadIntoMemory(zip);
 				ggbHandler = true;
@@ -453,21 +453,27 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			StringBuilder sb2d = new StringBuilder();
 			StringBuilder sb3d = new StringBuilder();
 			addXMLHeader(sb2d);
-			addXMLHeader(sb3d);
 			addGeoGebraHeader(sb2d, true, null);
-			addGeoGebraHeader(sb3d, true, null);
+			if (app.is3D()) {
+				addXMLHeader(sb3d);
+				addGeoGebraHeader(sb3d, true, null);
+			}
 			cons.getConstructionDefaults().getDefaultsXML(sb2d, sb3d);
 			sb2d.append("</geogebra>");
-			sb3d.append("</geogebra>");
+			if (app.is3D()) {
+				sb3d.append("</geogebra>");
+			}
 
 			zip.putNextEntry(new ZipEntry(XML_FILE_DEFAULTS_2D));
 			osw.write(sb2d.toString());
 			osw.flush();
 			zip.closeEntry();
-			zip.putNextEntry(new ZipEntry(XML_FILE_DEFAULTS_3D));
-			osw.write(sb3d.toString());
-			osw.flush();
-			zip.closeEntry();
+			if (app.is3D()) {
+				zip.putNextEntry(new ZipEntry(XML_FILE_DEFAULTS_3D));
+				osw.write(sb3d.toString());
+				osw.flush();
+				zip.closeEntry();
+			}
 
 
 			// write XML file for construction

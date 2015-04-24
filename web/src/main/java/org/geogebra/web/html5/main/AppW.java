@@ -640,9 +640,11 @@ public abstract class AppW extends App implements SetLabels {
 		// Handling of construction and macro file
 		String construction = archive.remove(MyXMLio.XML_FILE);
 		String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
-		String defaults = null;
-		// removed, causes problems in web (2d) with 3D objects
-		// defaults = archive.remove(MyXMLio.XML_FILE_DEFAULTS);
+		String defaults2d = archive.remove(MyXMLio.XML_FILE_DEFAULTS_2D);
+		String defaults3d = null;
+		if (is3D()) {
+			defaults3d = archive.remove(MyXMLio.XML_FILE_DEFAULTS_3D);
+		}
 		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
@@ -695,8 +697,11 @@ public abstract class AppW extends App implements SetLabels {
 			getXMLio().processXMLString(construction, true, false);
 			App.debug("end processing" + System.currentTimeMillis());
 			// defaults (optional)
-			if (defaults != null) {
-				getXMLio().processXMLString(defaults, false, false);
+			if (defaults2d != null) {
+				getXMLio().processXMLString(defaults2d, false, false);
+			}
+			if (defaults3d != null) {
+				getXMLio().processXMLString(defaults3d, false, false);
 			}
 			setCurrentFile(archiveContent);
 			afterLoadFileAppOrNot();
@@ -706,9 +711,8 @@ public abstract class AppW extends App implements SetLabels {
 			/* DataUtil.utf8Decode( */construction/*
 												 * )/*DataUtil.utf8Decode
 												 * (construction)
-												 */,
-												 defaults,
-												 getXMLio(), this);
+												 */, defaults2d, defaults3d,
+					getXMLio(), this);
 			setCurrentFile(archiveContent);
 
 		}

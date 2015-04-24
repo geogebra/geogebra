@@ -27,7 +27,8 @@ public class ImageManagerW extends ImageManager {
 		externalImageSrcs = new HashMap<String, String>();
 		imagesLoaded = 0;
 		construction = null;
-		defaults = null;
+		defaults2d = null;
+		defaults3d = null;
 		myXMLio = null;
 		app = null;
 	}
@@ -48,7 +49,7 @@ public class ImageManagerW extends ImageManager {
 		}
 	};
 
-	private String construction, defaults;
+	private String construction, defaults2d, defaults3d;
 	private MyXMLioW myXMLio;
 	private AppW app = null;
 
@@ -73,8 +74,11 @@ public class ImageManagerW extends ImageManager {
 				App.debug("images loaded");
 				myXMLio.processXMLString(construction, true, false);
 				// defaults (optional)
-				if (defaults != null) {
-					myXMLio.processXMLString(defaults, false, false);
+				if (defaults2d != null) {
+					myXMLio.processXMLString(defaults2d, false, false);
+				}
+				if (defaults3d != null) {
+					myXMLio.processXMLString(defaults3d, false, false);
 				}
 				app.afterLoadFileAppOrNot();
 				imagesLoaded = 0;
@@ -143,10 +147,12 @@ public class ImageManagerW extends ImageManager {
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
-	public void triggerImageLoading(String construction, String defaults, MyXMLioW myXMLio,
+	public void triggerImageLoading(String construction, String defaults2d,
+			String defaults3d, MyXMLioW myXMLio,
 	        AppW app) {
 		this.construction = construction;
-		this.defaults = defaults;
+		this.defaults2d = defaults2d;
+		this.defaults3d = defaults3d;
 		this.myXMLio = myXMLio;
 		this.app = app;
 		if (externalImageSrcs.entrySet() != null) {
