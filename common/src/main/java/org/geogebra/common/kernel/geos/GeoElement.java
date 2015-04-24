@@ -63,6 +63,7 @@ import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.EquationElementInterface;
 import org.geogebra.common.kernel.algos.TableAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
@@ -71,7 +72,6 @@ import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -643,6 +643,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (index == 0) {
 			setLabelVisible(false);
 			if (isDefaultGeo()) {
+				if (labelMode == LABEL_DEFAULT) {
+					// set to default label mode
+					setLabelModeDefault();
+					// shift for LABEL_DEFAULT_NAME_VALUE, etc.
+					labelMode += 5;
+				}
+
+				// tells app that no labeling style is selected
 				App app = getKernel().getApplication();
 				if (app != null) {
 					app.setLabelingStyleIsNotSelected();
