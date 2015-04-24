@@ -294,7 +294,7 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 	
-	public native void exportPng(String url, String title)/*-{
+	public native void exportImage(String url, String title)/*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
 			$wnd.android.callPlugin('SaveDialog', [url.substring(url.indexOf(',')+1), title, 'png']);
 		}

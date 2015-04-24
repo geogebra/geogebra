@@ -26,7 +26,9 @@ public class WindowW {
 
 	public native static void postMessage(JavaScriptObject gifWnd,
 	        String message) /*-{
-		gifWnd.postMessage(message, '*');
+	    if(gifWnd && gifWnd.postMessage){    	
+			gifWnd.postMessage(message, '*');
+	    }
 	}-*/;
 
 	public native static JavaScriptObject openFromData(String data) /*-{

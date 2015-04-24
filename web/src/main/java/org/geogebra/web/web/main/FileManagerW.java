@@ -272,7 +272,7 @@ public class FileManagerW extends FileManager {
 		return true;
 	}
 	
-	public native void exportPng(String url,
+	public native void exportImage(String url,
 	        String title) /*-{
 
 		if ($wnd.navigator.msSaveBlob) {

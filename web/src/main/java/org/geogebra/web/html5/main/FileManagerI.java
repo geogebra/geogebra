@@ -44,5 +44,5 @@ public interface FileManagerI {
 
 	void export(AppW app);
 
-	void exportPng(String url, String string);
+	void exportImage(String url, String string);
 }

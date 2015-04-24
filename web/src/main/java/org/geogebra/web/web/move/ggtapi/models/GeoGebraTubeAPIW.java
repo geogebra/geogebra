@@ -425,7 +425,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	        boolean isLoop) {
 
 		String data = createGifResponsePage(app.getLocalization());
-		final JavaScriptObject gifWnd = WindowW.openFromData(data);
+		final JavaScriptObject gifWnd = app.getLAF().isTablet() ? null : WindowW.openFromData(data);
 		WindowW.postMessage(gifWnd,
 		        StringUtil.toHTMLString(app.getLocalization().getPlain(
 		                "AnimatedGIF.Processing")));
@@ -481,7 +481,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 						String downloadUrl = "data:image/gif;base64,"
 						        + base64.isString().stringValue();
-						AppW.download(downloadUrl, "ggbanim.gif");
+						app.getFileManager().exportImage(downloadUrl, "ggbanim.gif");
 						WindowW.postMessage(gifWnd, StringUtil.toHTMLString(app
 						        .getLocalization().getPlain(
 						                "AnimatedGIF.Success")));
@@ -507,6 +507,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		        .toJSONString(client);
 		App.debug("[REQUEST]: " + req);
 		try {
+			rb.setHeader("Content-type", "text/plain");
 			rb.sendRequest(req, cb);
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block

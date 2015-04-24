@@ -57,7 +57,7 @@ public class ExportMenuW extends MenuBar {
 			public void execute() {
 				String url = ((EuclidianViewW) app.getActiveEuclidianView())
 				        .getExportImageDataUrl(1.0, false);
-				app.getFileManager().exportPng(url, "export-png");
+				app.getFileManager().exportImage(url, "export-png");
 			}
 		});
 
