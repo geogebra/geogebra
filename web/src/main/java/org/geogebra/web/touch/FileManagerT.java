@@ -1049,4 +1049,11 @@ public class FileManagerT extends FileManager {
 	public void export(AppW app) {
 		//TODO maybe share?
 	}
+
+	@Override
+	public native void exportPng(String url, String string) /*-{
+		if ($wnd.android) {
+			$wnd.android.share(base64, title, 'png');
+		}
+	}-*/;
 }

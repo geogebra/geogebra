@@ -57,7 +57,7 @@ public class ExportMenuW extends MenuBar {
 			public void execute() {
 				String url = ((EuclidianViewW) app.getActiveEuclidianView())
 				        .getExportImageDataUrl(1.0, false);
-				download(url, "export-png");
+				app.getFileManager().exportPng(url, "export-png");
 			}
 		});
 
@@ -71,24 +71,5 @@ public class ExportMenuW extends MenuBar {
 		});
 	}
 
-	public static native void download(String url,
-	        String title) /*-{
-
-		if ($wnd.navigator.msSaveBlob) {
-			//works for chrome and internet explorer
-			var image = document.createElement('img');
-			image.src = image;
-
-			$wnd.navigator.msSaveBlob(image, title);
-		} else {
-			//works for firefox
-			var a = $doc.createElement("a");
-			$doc.body.appendChild(a);
-			a.style = "display: none";
-			a.href = url;
-			a.download = title;
-			a.click();
-		}
-
-	}-*/;
+	
 }

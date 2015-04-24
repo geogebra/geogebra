@@ -43,4 +43,6 @@ public interface FileManagerI {
 	boolean isSyncing();
 
 	void export(AppW app);
+
+	void exportPng(String url, String string);
 }

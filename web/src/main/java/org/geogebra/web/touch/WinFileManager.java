@@ -290,7 +290,13 @@ public class WinFileManager extends FileManager {
 	
 	private native void saveDialog(String data, String title)/*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
-			$wnd.android.callPlugin('SaveDialog', [data, title]);
+			$wnd.android.callPlugin('SaveDialog', [data, title, 'ggb']);
+		}
+	}-*/;
+	
+	public native void exportPng(String url, String title)/*-{
+		if ($wnd.android && $wnd.android.callPlugin) {
+			$wnd.android.callPlugin('SaveDialog', [url.substring(url.indexOf(',')+1), title, 'png']);
 		}
 	}-*/;
 

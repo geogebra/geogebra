@@ -271,5 +271,26 @@ public class FileManagerW extends FileManager {
 		// }
 		return true;
 	}
+	
+	public native void exportPng(String url,
+	        String title) /*-{
+
+		if ($wnd.navigator.msSaveBlob) {
+			//works for chrome and internet explorer
+			var image = document.createElement('img');
+			image.src = image;
+
+			$wnd.navigator.msSaveBlob(image, title);
+		} else {
+			//works for firefox
+			var a = $doc.createElement("a");
+			$doc.body.appendChild(a);
+			a.style = "display: none";
+			a.href = url;
+			a.download = title;
+			a.click();
+		}
+
+	}-*/;
 
 }
