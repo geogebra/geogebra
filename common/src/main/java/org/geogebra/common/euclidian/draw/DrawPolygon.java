@@ -315,10 +315,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		}
 
-		xmin = xmin < 0 ? xmin : view.getXmin();
+		xmin = xmin < view.getXmin() ? xmin : view.getXmin();
 		xmax = xmax > view.getXmax() ? xmax : view.getXmax();
 
-		ymin = ymin < 0 ? ymin : view.getYmin();
+		ymin = ymin < view.getYmin() ? ymin : view.getYmin();
 		ymax = ymax > view.getYmax() ? ymax : view.getYmax();
 
 		extraCoords[4].setX(xmin);
