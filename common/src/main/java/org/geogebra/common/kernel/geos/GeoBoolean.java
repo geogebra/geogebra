@@ -248,7 +248,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		// checkbox fixed
-		if (!checkboxFixed) {
+		if (checkboxFixed) {
 			sb.append("\t<checkbox fixed=\"");
 			sb.append(checkboxFixed);
 			sb.append("\"/>\n");
