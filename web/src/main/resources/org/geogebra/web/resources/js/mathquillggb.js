@@ -2642,9 +2642,18 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     if (this.pwtable) {
       // this just have to append its children to one another
       // with no question
-      return this.foldChildren('', function(text, child) {
+      var brackets = '';
+      var i = 0;
+      var ret = this.ch[L].foldChildren('', function(text, child) {
+    	if (i > 0) {
+    	  brackets += ']';
+    	}
+    	i++;
         return text + child.text();
       });
+      ret += brackets;
+      // and also, some closing brackets should be appended
+      return ret;
     } else if (this.ctrlSeq.indexOf('\\ggbtr') > -1) {
       // if this is a descendant of pwtable, do custom algorithm
       // otherwise do the conventional case (end of method)
