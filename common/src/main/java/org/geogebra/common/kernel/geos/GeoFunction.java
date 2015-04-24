@@ -2346,7 +2346,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			boolean complete = collectCases(expr,cases, conditions, new Bounds());
 
 			if (kernel.getApplication().isHTML5Applet()) {
-				sbLaTeX.append("\\openbraceonly{ \\ggbtable{ ");
+				sbLaTeX.append("\\piecewise{ \\ggbtable{ ");
 				for (int i = 0; i < cases.size(); i++) {
 					sbLaTeX.append("\\ggbtr{ \\ggbtdL{ ");
 					sbLaTeX.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));

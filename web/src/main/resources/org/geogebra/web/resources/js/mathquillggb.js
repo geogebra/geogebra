@@ -3087,6 +3087,10 @@ var HalfBracket = P(MathCommand, function(_, _super) {
   };
 });
 
+// differentiating piecewise functions from openbraceonly of ggbtable
+// so that piecewise functions can be identified by this condition
+LatexCmds.piecewise = bind(HalfBracket, '{', '', '\\piecewise');
+
 LatexCmds.openbraceonly = bind(HalfBracket, '{', '', '\\openbraceonly');
 LatexCmds.closebraceonly = bind(HalfBracket, '', '}', '\\closebraceonly');
 
