@@ -28,13 +28,13 @@ public class CmdSetCoords extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
 		switch (n) {
 		case 3:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			// we don't want to change coords unless the point is free or
 			// Point[path/region]
 			if ((ok[0] = (arg[0] instanceof GeoVec3D && arg[0].isMoveable()))
@@ -55,7 +55,7 @@ public class CmdSetCoords extends CmdScripting {
 				} else
 					throw argErr(app, c.getName(), arg[0]);
 
-				return;
+				return arg;
 
 			} else if ((ok[0] = (arg[0].isGeoTurtle()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
@@ -64,7 +64,7 @@ public class CmdSetCoords extends CmdScripting {
 				double x = ((GeoNumeric) arg[1]).getDouble();
 				double y = ((GeoNumeric) arg[2]).getDouble();
 				geo.setCoords(x, y);
-				return;
+				return arg;
 			} else if ((ok[0] = (arg[0] instanceof AbsoluteScreenLocateable))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
@@ -81,7 +81,7 @@ public class CmdSetCoords extends CmdScripting {
 
 				asl.updateRepaint();
 
-				return;
+				return arg;
 
 			} else if (!ok[0]) {
 				throw argErr(app, c.getName(), arg[0]);

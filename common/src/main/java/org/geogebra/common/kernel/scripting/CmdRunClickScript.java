@@ -20,7 +20,7 @@ public class CmdRunClickScript extends CmdScripting {
 	}
 
 	@Override
-	protected void perform(Command c) {
+	protected GeoElement[] perform(Command c) {
 
 		int n = c.getArgumentNumber();
 		GeoElement[] args;
@@ -30,10 +30,10 @@ public class CmdRunClickScript extends CmdScripting {
 		case 1:
 			args = resArgs(c);
 			if (args[0].getScript(EventType.CLICK) == null) {
-				return;
+				return args;
 			}
 			args[0].runClickScripts(null);
-			break;
+			return args;
 
 		default:
 			throw argNumErr(app, c.getName(), n);

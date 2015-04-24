@@ -4,6 +4,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
@@ -22,12 +23,12 @@ public class CmdSetSpinSpeed extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[0] instanceof GeoNumberValue) {
 				GeoNumberValue v = (GeoNumberValue) arg[0];
 
@@ -36,7 +37,7 @@ public class CmdSetSpinSpeed extends CmdScripting {
 
 				view3D.setRotContinueAnimation(0, v.getDouble() * 0.01);
 
-				return;
+				return arg;
 
 			}
 

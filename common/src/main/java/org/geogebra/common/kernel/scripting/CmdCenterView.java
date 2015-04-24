@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
@@ -22,18 +23,18 @@ public class CmdCenterView extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoPoint()) {
 				GeoPointND p = (GeoPointND) arg[0];
 
 				EuclidianViewInterfaceSlim ev = app.getActiveEuclidianView();
 				ev.centerView(p);
-				return;
+				return arg;
 
 			}
 			throw argErr(app, c.getName(), arg[0]);

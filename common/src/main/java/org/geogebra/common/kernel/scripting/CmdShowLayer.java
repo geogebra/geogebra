@@ -25,12 +25,12 @@ public class CmdShowLayer extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[0] instanceof NumberValue) {
 				NumberValue layerGeo = (NumberValue) arg[0];
 				int layer = (int) layerGeo.getDouble();
@@ -44,7 +44,7 @@ public class CmdShowLayer extends CmdScripting {
 						geo.updateRepaint();
 					}
 				}
-				return;
+				return arg;
 
 			}
 			throw argErr(app, c.getName(), null);

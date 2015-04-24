@@ -14,7 +14,7 @@ public class CmdPerspective extends CmdScripting {
 	}
 
 	@Override
-	protected void perform(Command c) {
+	protected GeoElement[] perform(Command c) {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1) {
 			throw this.argNumErr(app, c.getName(), args.length);
@@ -22,7 +22,7 @@ public class CmdPerspective extends CmdScripting {
 		if (args[0] instanceof GeoText || args[0] instanceof GeoNumberValue) {
 			String code = args[0].toValueString(StringTemplate.defaultTemplate);
 			app.getGgbApi().setPerspective(code);
-			return;
+			return args;
 		}
 
 		throw this.argErr(app, c.getName(), args[0]);

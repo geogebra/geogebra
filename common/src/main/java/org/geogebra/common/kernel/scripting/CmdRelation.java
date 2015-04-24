@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -21,19 +22,19 @@ public class CmdRelation extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 
 			// show relation string in a message dialog
 			if ((ok[0] = (arg[0].isGeoElement()))
 					&& (ok[1] = (arg[1].isGeoElement()))) {
 				app.showRelation(arg[0], arg[1]);
-				return;
+				return arg;
 			}
 
 			// syntax error

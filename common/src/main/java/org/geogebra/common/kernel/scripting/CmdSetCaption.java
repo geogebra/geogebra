@@ -23,12 +23,12 @@ public class CmdSetCaption extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[1].isGeoText()) {
 
 				GeoElement geo = arg[0];
@@ -39,7 +39,7 @@ public class CmdSetCaption extends CmdScripting {
 
 				geo.updateRepaint();
 
-				return;
+				return arg;
 			}
 			throw argErr(app, c.getName(), arg[1]);
 

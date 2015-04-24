@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.MyError;
 
@@ -23,12 +24,12 @@ public class CmdSetPointStyle extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean ok;
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 
 			if ((ok = arg[0] instanceof PointProperties)
 					&& arg[1] instanceof NumberValue) {
@@ -40,7 +41,7 @@ public class CmdSetPointStyle extends CmdScripting {
 				point.setPointStyle(style);
 				point.updateRepaint();
 
-				return;
+				return arg;
 			} else if (!ok)
 				throw argErr(app, c.getName(), arg[0]);
 			else

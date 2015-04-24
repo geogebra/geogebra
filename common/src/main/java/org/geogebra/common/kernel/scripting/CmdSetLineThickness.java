@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -22,11 +23,11 @@ public class CmdSetLineThickness extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 
 			if (arg[1] instanceof NumberValue) {
 
@@ -35,7 +36,7 @@ public class CmdSetLineThickness extends CmdScripting {
 				arg[0].setLineThicknessOrVisibility(thickness);
 				arg[0].updateRepaint();
 
-				return;
+				return arg;
 			}
 			throw argErr(app, c.getName(), arg[1]);
 

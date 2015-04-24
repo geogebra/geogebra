@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.main.MyError;
@@ -23,14 +24,14 @@ public class CmdRepeat extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		if (n < 2) {
 			throw argNumErr(app, c.getName(), n);
 		}
 
-		arg = resArgs(c);
+		GeoElement[] arg = resArgs(c);
 		if (arg[0] instanceof GeoNumberValue) {
 
 			int loopMax = (int) arg[0].evaluateDouble();
@@ -51,7 +52,7 @@ public class CmdRepeat extends CmdScripting {
 				}
 			}
 
-			return;
+			return arg;
 		}
 		throw argErr(app, c.getName(), arg[0]);
 

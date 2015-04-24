@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -24,7 +25,7 @@ public class CmdStartAnimation extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		// dummy
@@ -33,15 +34,15 @@ public class CmdStartAnimation extends CmdScripting {
 		case 0:
 
 			app.getKernel().getAnimatonManager().startAnimation();
-			return;
+			return new GeoElement[0];
 
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if ((arg[0].isGeoNumeric() && ((GeoNumeric) arg[0]).isIndependent())
 					|| arg[0].isPointOnPath()) {
 				arg[0].setAnimating(true);
 				app.getKernel().getAnimatonManager().startAnimation();
-				return;
+				return arg;
 			} else if (arg[0].isGeoBoolean()) {
 
 				GeoBoolean geo = (GeoBoolean) arg[0];
@@ -52,7 +53,7 @@ public class CmdStartAnimation extends CmdScripting {
 				} else {
 					app.getKernel().getAnimatonManager().stopAnimation();
 				}
-				return;
+				return arg;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
 		default:
@@ -76,7 +77,7 @@ public class CmdStartAnimation extends CmdScripting {
 					app.getKernel().getAnimatonManager().startAnimation();
 			}
 
-			return;
+			return arg;
 		}
 	}
 }

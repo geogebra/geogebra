@@ -69,7 +69,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 			throws MyError;
 
 	@Override
-	public final void perform(Command c) throws MyError {
+	public final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		if (n < 1) {
 			throw argNumErr(app, c.getName(), n);
@@ -79,5 +79,6 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 			throw argErr(app, c.getName(), args[0]);
 		}
 		performTurtleCommand(c.getName(), args);
+		return args;
 	}
 }

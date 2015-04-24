@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -22,7 +23,7 @@ public class CmdUpdateConstruction extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -30,16 +31,16 @@ public class CmdUpdateConstruction extends CmdScripting {
 			app.getKernel().updateConstruction();
 			app.setUnsaved();
 
-			return;
+			return new GeoElement[0];
 
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[0] instanceof NumberValue) {
 				double val = ((NumberValue) arg[0]).getDouble();
 				if (Kernel.isInteger(val)) {
 					app.getKernel().updateConstruction((int) val);
 					app.setUnsaved();
-					return;
+					return arg;
 				}
 			}
 

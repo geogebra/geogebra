@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
@@ -26,12 +27,12 @@ public class CmdZoomIn extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
@@ -47,7 +48,7 @@ public class CmdZoomIn extends CmdScripting {
 
 				app.setUnsaved();
 
-				return;
+				return arg;
 
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -70,7 +71,7 @@ public class CmdZoomIn extends CmdScripting {
 
 				app.setUnsaved();
 
-				return;
+				return arg;
 
 			}
 			throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
@@ -87,7 +88,7 @@ public class CmdZoomIn extends CmdScripting {
 			evs.setYminObject((GeoNumeric) arg[1], false);
 			evs.setYmaxObject((GeoNumeric) arg[3], true);
 			app.getActiveEuclidianView().repaintView();
-			return;
+			return arg;
 
 		default:
 			throw argNumErr(app, c.getName(), n);

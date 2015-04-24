@@ -32,12 +32,12 @@ public class CmdSetColor extends CmdScripting {
 	}
 
 	@Override
-	protected void perform(Command c) throws MyError {
+	protected GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-
+		GeoElement[] arg;
 		if (n == 2) {
 			// adapted from resArgs()
 
@@ -99,7 +99,7 @@ public class CmdSetColor extends CmdScripting {
 
 				arg[0].updateRepaint();
 
-				return;
+				return arg;
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -137,7 +137,7 @@ public class CmdSetColor extends CmdScripting {
 
 				arg[0].updateRepaint();
 
-				return;
+				return arg;
 
 			} else if (!ok[1])
 				throw argErr(app, c.getName(), arg[1]);

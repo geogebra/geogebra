@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -22,7 +23,7 @@ public class CmdStartRecord extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		// dummy
@@ -30,10 +31,10 @@ public class CmdStartRecord extends CmdScripting {
 		switch (n) {
 		case 0:
 			app.getTraceManager().pauseAllTraces(false);
-			return;
+			return new GeoElement[0];
 
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoBoolean()) {
 
 				GeoBoolean geo = (GeoBoolean) arg[0];
@@ -44,7 +45,7 @@ public class CmdStartRecord extends CmdScripting {
 				} else {
 					app.getTraceManager().pauseAllTraces(true);
 				}
-				return;
+				return arg;
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		default:

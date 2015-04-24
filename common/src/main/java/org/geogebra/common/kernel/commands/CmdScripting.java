@@ -17,7 +17,7 @@ import org.geogebra.common.main.MyError;
  */
 public abstract class CmdScripting extends CommandProcessor {
 	/** array of arguments */
-	protected GeoElement[] arg;
+	//protected GeoElement[] arg;
 
 	/**
 	 * Create new command processor
@@ -36,7 +36,7 @@ public abstract class CmdScripting extends CommandProcessor {
 	 * @param c
 	 *            command
 	 */
-	protected abstract void perform(Command c);
+	protected abstract GeoElement[] perform(Command c);
 
 	/**
 	 * Perform the actual command and remove all unlabeled inputs
@@ -45,7 +45,7 @@ public abstract class CmdScripting extends CommandProcessor {
 	 *            command
 	 */
 	public void performAndClean(Command c) {
-		perform(c);
+		GeoElement[] arg = perform(c);
 		for (int i = 0; arg != null && i < arg.length; i++)
 			if (arg[i] != null && !arg[i].isLabelSet()
 					&& !arg[i].isGeoCasCell())

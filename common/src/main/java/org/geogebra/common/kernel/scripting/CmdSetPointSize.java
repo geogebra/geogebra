@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
@@ -25,11 +26,11 @@ public class CmdSetPointSize extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 
 			boolean ok = false;
 			if (arg[1] instanceof NumberValue) {
@@ -47,7 +48,7 @@ public class CmdSetPointSize extends CmdScripting {
 					}
 					arg[0].updateRepaint();
 
-					return;
+					return arg;
 				}
 
 				if (arg[0] instanceof GeoPolyhedronInterface) {
@@ -58,7 +59,7 @@ public class CmdSetPointSize extends CmdScripting {
 
 					poly.setPointSizeOrVisibility(size);
 
-					return;
+					return arg;
 				}
 
 				if (arg[0].isGeoPolygon()) {
@@ -69,7 +70,7 @@ public class CmdSetPointSize extends CmdScripting {
 
 					poly.setPointSizeOrVisibility(size);
 
-					return;
+					return arg;
 				}
 			}
 

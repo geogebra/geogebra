@@ -21,7 +21,7 @@ public class CmdRunUpdateScript extends CmdScripting {
 	}
 
 	@Override
-	protected void perform(Command c) {
+	protected GeoElement[] perform(Command c) {
 		int n = c.getArgumentNumber();
 		GeoElement[] args;
 
@@ -30,12 +30,12 @@ public class CmdRunUpdateScript extends CmdScripting {
 		case 1:
 			args = resArgs(c);
 			if (args[0].getScript(EventType.UPDATE) == null) {
-				return;
+				return args;
 			}
 
 			kernelA.getApplication().dispatchEvent(
 					new Event(EventType.UPDATE, args[0], true));
-			break;
+			return args;
 
 		default:
 			throw argNumErr(app, c.getName(), n);

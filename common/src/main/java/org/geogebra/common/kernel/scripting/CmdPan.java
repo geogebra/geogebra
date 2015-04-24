@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
@@ -24,13 +25,13 @@ public class CmdPan extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean ok;
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric()) {
 
 				GeoNumeric x = (GeoNumeric) arg[0];
@@ -40,7 +41,7 @@ public class CmdPan extends CmdScripting {
 				ev.translateCoordSystemInPixels((int) x.getDouble(),
 						-(int) y.getDouble(), 0, EuclidianController.MOVE_VIEW);
 
-				return;
+				return arg;
 			} else if (!ok)
 				throw argErr(app, c.getName(), arg[0]);
 			else
@@ -59,7 +60,7 @@ public class CmdPan extends CmdScripting {
 						-(int) y.getDouble(), (int) z.getDouble(),
 						EuclidianController.MOVE_VIEW);
 
-				return;
+				return arg;
 			} else if (!ok)
 				throw argErr(app, c.getName(), arg[0]);
 			else

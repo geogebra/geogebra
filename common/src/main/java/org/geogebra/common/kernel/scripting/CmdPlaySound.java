@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -28,7 +29,7 @@ public class CmdPlaySound extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 
 		int n = c.getArgumentNumber();
 
@@ -37,23 +38,23 @@ public class CmdPlaySound extends CmdScripting {
 
 		if (sm == null) {
 			App.debug("no sound manager available");
-			return;
+			return new GeoElement[0];
 		}
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 
 			// play a midi file
 			if (arg[0].isGeoText()) {
 				sm.playFile((((GeoText) arg[0])
 						.toValueString(StringTemplate.defaultTemplate)));
-				return;
+				return arg;
 			}
 			// pause/resume current sound
 			else if (arg[0].isGeoBoolean()) {
 				sm.pauseResumeSound((((GeoBoolean) arg[0]).getBoolean()));
-				return;
+				return arg;
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
 			}
@@ -70,7 +71,7 @@ public class CmdPlaySound extends CmdScripting {
 				sm.playSequenceNote((int) ((GeoNumeric) arg[0]).getDouble(),
 						((GeoNumeric) arg[1]).getDouble(), 0, 127);
 
-				return;
+				return arg;
 			}
 
 			else if ((ok[0] = arg[0].isGeoText())
@@ -79,7 +80,7 @@ public class CmdPlaySound extends CmdScripting {
 				sm.playSequenceFromString((((GeoText) arg[0])
 						.toValueString(StringTemplate.defaultTemplate)),
 						(int) ((GeoNumeric) arg[1]).getDouble());
-				return;
+				return arg;
 			}
 
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -97,7 +98,7 @@ public class CmdPlaySound extends CmdScripting {
 						(int) ((GeoNumeric) arg[2]).getDouble(), // instrument
 						127); // 100% of external volume control
 
-				return;
+				return arg;
 			}
 
 			else if ((ok[0] = arg[0].isGeoFunction())
@@ -107,7 +108,7 @@ public class CmdPlaySound extends CmdScripting {
 				sm.playFunction(((GeoFunction) arg[0]).threadSafeCopy(), // function
 						((GeoNumeric) arg[1]).getDouble(), // min value
 						((GeoNumeric) arg[2]).getDouble()); // max value
-				return;
+				return arg;
 			}
 
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -127,7 +128,7 @@ public class CmdPlaySound extends CmdScripting {
 						(int) ((GeoNumeric) arg[3]).getDouble(), // sample rate
 						(int) ((GeoNumeric) arg[4]).getDouble()); // bit depth
 
-				return;
+				return arg;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 

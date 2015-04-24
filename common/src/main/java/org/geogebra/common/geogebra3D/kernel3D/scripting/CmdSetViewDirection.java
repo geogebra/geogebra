@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -24,12 +25,12 @@ public class CmdSetViewDirection extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[0] instanceof GeoDirectionND) {
 				GeoDirectionND d = (GeoDirectionND) arg[0];
 
@@ -40,7 +41,7 @@ public class CmdSetViewDirection extends CmdScripting {
 					view3D.setClosestRotAnimation(v);
 				}
 
-				return;
+				return arg;
 
 			}
 
@@ -55,7 +56,7 @@ public class CmdSetViewDirection extends CmdScripting {
 
 				}
 
-				return;
+				return arg;
 
 			}
 

@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -35,12 +36,12 @@ public class CmdShowAxes extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		EuclidianViewInterfaceCommon ev = null;
 
-		arg = resArgs(c);
+		GeoElement[] arg = resArgs(c);
 		switch (n) {
 		case 0:
 			ev = app.getActiveEuclidianView();
@@ -88,5 +89,6 @@ public class CmdShowAxes extends CmdScripting {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+		return arg;
 	}
 }

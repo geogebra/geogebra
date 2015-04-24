@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.SensorLogger;
 
 public class CmdStopLogging extends CmdScripting {
@@ -11,7 +12,7 @@ public class CmdStopLogging extends CmdScripting {
 	}
 
 	@Override
-	protected void perform(Command c) {
+	protected GeoElement[] perform(Command c) {
 
 		SensorLogger logger = app.getSensorLogger();
 		if (logger != null) {
@@ -19,6 +20,7 @@ public class CmdStopLogging extends CmdScripting {
 		} else {
 			// no need for error
 		}
+		return new GeoElement[0];
 
 	}
 

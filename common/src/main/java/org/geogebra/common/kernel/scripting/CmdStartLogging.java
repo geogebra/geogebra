@@ -17,14 +17,14 @@ public class CmdStartLogging extends CmdScripting {
 	}
 
 	@Override
-	protected void perform(Command c) {
+	protected GeoElement[] perform(Command c) {
 
 		int n = c.getArgumentNumber();
 
 		// ignore last parameter if odd
 		// n = (n / 2) * 2;
 
-		arg = resArgs(c);
+		GeoElement[] arg = resArgs(c);
 
 		boolean success = false;
 
@@ -89,5 +89,6 @@ public class CmdStartLogging extends CmdScripting {
 		if (!success) {
 			throw new MyError(loc, loc.getError("NoLogging"));
 		}
+		return arg;
 	}
 }

@@ -22,13 +22,13 @@ public class CmdSelectObjects extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		app.getSelectionManager().clearSelectedGeos(false);
 
 		if (n > 0) {
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			for (int i = 0; i < n; i++) {
 				if ((arg[i].isGeoElement())) {
 					GeoElement geo = arg[i];
@@ -37,13 +37,15 @@ public class CmdSelectObjects extends CmdScripting {
 			}
 
 			kernelA.notifyRepaint();
+			return arg;
 
 		} else {
 			kernelA.notifyRepaint();
 			app.updateSelection(false);
+			return new GeoElement[0];
 		}
 
-		return;
+		
 
 	}
 }

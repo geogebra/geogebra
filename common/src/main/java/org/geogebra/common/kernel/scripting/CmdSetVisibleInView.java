@@ -25,12 +25,12 @@ public class CmdSetVisibleInView extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 3:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (!(arg[1] instanceof NumberValue))
 				throw argErr(app, c.getName(), arg[1]);
 
@@ -76,7 +76,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 					geo.updateRepaint();
 				}
 
-				return;
+				return arg;
 			}
 			throw argErr(app, c.getName(), arg[2]);
 

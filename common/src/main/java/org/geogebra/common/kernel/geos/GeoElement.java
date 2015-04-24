@@ -2753,7 +2753,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (cons.isSuppressLabelsActive()) {
 			return;
 		}
-
+		
 		// don't want any '$'s in actual labels
 		if ((newLabel != null) && (newLabel.indexOf('$') > -1)) {
 			newLabel = newLabel.replaceAll("\\$", "");

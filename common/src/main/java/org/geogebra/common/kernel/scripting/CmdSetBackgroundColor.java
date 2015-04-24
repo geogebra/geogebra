@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -21,7 +22,7 @@ public class CmdSetBackgroundColor extends CmdSetColor {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
-		super.perform(c);
+	protected final GeoElement[] perform(Command c) throws MyError {
+		return super.perform(c);
 	}
 }

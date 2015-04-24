@@ -24,7 +24,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement arg2[];
 		switch (n) {
@@ -42,7 +42,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 				}
 				geo.updateRepaint();
 
-				return;
+				return arg2;
 			}
 			throw argErr(app, c.getName(), arg2[1]);
 

@@ -34,15 +34,15 @@ public class CmdSetValue extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		arg = resArgs(c);
+		GeoElement[] arg = resArgs(c);
 		boolean ok;
 
 		switch (n) {
 		case 2:
 			setValue2(arg[0],arg[1]);
-			return;
+			return arg;
 		case 3:
 			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent()))
 					&& arg[1] instanceof NumberValue) {
@@ -57,7 +57,7 @@ public class CmdSetValue extends CmdScripting {
 			} else
 				throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 
-			return;
+			return arg;
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
@@ -23,15 +24,15 @@ public class CmdSetActiveView extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		if (!app.isUsingFullGui())
-			return;
+			return new GeoElement[0];
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
@@ -52,7 +53,7 @@ public class CmdSetActiveView extends CmdScripting {
 				// Euclidian Views added
 				}
 
-				return;
+				return arg;
 
 			} else if (arg[0].isGeoText()) {
 				String code = arg[0]
@@ -82,7 +83,7 @@ public class CmdSetActiveView extends CmdScripting {
 					}
 				}
 
-				return;
+				return arg;
 			}
 			throw argErr(app, c.getName(), arg[0]);
 

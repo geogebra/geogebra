@@ -30,14 +30,15 @@ public class CmdDelete extends CmdScripting {
 	}
 
 	@Override
-	protected final void perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
 		case 1:
+			GeoElement[] arg;
 			try {
 				arg = resArgs(c);
 			} catch (Error e) {
-				return;
+				return new GeoElement[0];
 			}
 			App.printStacktrace("");
 
@@ -64,7 +65,7 @@ public class CmdDelete extends CmdScripting {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			}
 
-			return;
+			return arg;
 
 		default:
 			throw argNumErr(app, c.getName(), n);
