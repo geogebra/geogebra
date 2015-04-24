@@ -451,18 +451,11 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			
 			// write XML file for defaults
 			StringBuilder sb2d = new StringBuilder();
-			StringBuilder sb3d = new StringBuilder();
-			addXMLHeader(sb2d);
-			addGeoGebraHeader(sb2d, true, null);
+			StringBuilder sb3d = null;
 			if (app.is3D()) {
-				addXMLHeader(sb3d);
-				addGeoGebraHeader(sb3d, true, null);
+				sb3d = new StringBuilder();
 			}
 			cons.getConstructionDefaults().getDefaultsXML(sb2d, sb3d);
-			sb2d.append("</geogebra>");
-			if (app.is3D()) {
-				sb3d.append("</geogebra>");
-			}
 
 			zip.putNextEntry(new ZipEntry(XML_FILE_DEFAULTS_2D));
 			osw.write(sb2d.toString());

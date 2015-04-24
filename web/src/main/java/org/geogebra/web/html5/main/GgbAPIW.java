@@ -221,6 +221,13 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		adjustConstructionImages(getConstruction(), "");
 		String constructionXml = getApplication().getXML();
 		String macroXml = getApplication().getMacroXMLorEmpty();
+		StringBuilder defaults2d = new StringBuilder();
+		StringBuilder defaults3d = null;
+		if (app.is3D()) {
+			defaults3d = new StringBuilder();
+		}
+		getKernel().getConstruction().getConstructionDefaults()
+				.getDefaultsXML(defaults2d, defaults3d);
 		String geogebra_javascript = getKernel().getLibraryJavaScript();
 		writeConstructionImages(getConstruction(), "", archiveContent);
 
@@ -233,6 +240,16 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		if (!macroXml.equals("")) {
 			writeMacroImages(archiveContent);
 			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
+		}
+
+		if (defaults2d.length() > 0) {
+			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_2D,
+					defaults2d.toString());
+		}
+
+		if (defaults3d != null && defaults3d.length() > 0) {
+			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_3D,
+					defaults3d.toString());
 		}
 
 		archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);

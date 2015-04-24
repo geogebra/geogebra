@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -957,17 +958,31 @@ public class ConstructionDefaults {
 	 *            string for 3d geos
 	 */
 	public void getDefaultsXML(StringBuilder sb2d, StringBuilder sb3d) {
+
+		MyXMLio.addXMLHeader(sb2d);
+		MyXMLio.addGeoGebraHeader(sb2d, true, null);
 		sb2d.append("<defaults>\n");
-		sb3d.append("<defaults>\n");
+
+		if (sb3d != null) {
+			MyXMLio.addXMLHeader(sb3d);
+			MyXMLio.addGeoGebraHeader(sb3d, true, null);
+			sb3d.append("<defaults>\n");
+		}
+
 		for (GeoElement geo : defaultGeoElements.values()){
 			if (geo.isGeoElement3D()) {
-				geo.getXML(false, sb3d);
+				if (sb3d != null) {
+					geo.getXML(false, sb3d);
+				}
 			} else {
 				geo.getXML(false, sb2d);
 			}
 		}
-		sb2d.append("</defaults>\n");
-		sb3d.append("</defaults>\n");
+		sb2d.append("</defaults>\n</geogebra>");
+
+		if (sb3d != null) {
+			sb3d.append("</defaults>\n</geogebra>");
+		}
 		
 	}
 	

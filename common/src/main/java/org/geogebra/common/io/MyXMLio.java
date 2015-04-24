@@ -152,7 +152,7 @@ public abstract class MyXMLio {
 	 * @param uniqueId
 	 *            construction ID
 	 */
-	protected final static void addGeoGebraHeader(StringBuilder sb,
+	public final static void addGeoGebraHeader(StringBuilder sb,
 			boolean isMacro, String uniqueId) {
 
 		// make sure File -> Share works in HTML5 App
@@ -184,7 +184,7 @@ public abstract class MyXMLio {
 	 * @param sb
 	 *            builder
 	 */
-	protected final static void addXMLHeader(StringBuilder sb) {
+	public final static void addXMLHeader(StringBuilder sb) {
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	}
 
