@@ -5296,8 +5296,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public ImageIcon getMenuIcon(String name) {
 		if (isMacOS()) {
-			// no scaling for mac menu
-			return getImageIcon(name);
+			// fixed-size, 16x16 icons for mac menu
+			return getScaledIcon(name, 16);
 		}
 
 		return getScaledIcon(name);
