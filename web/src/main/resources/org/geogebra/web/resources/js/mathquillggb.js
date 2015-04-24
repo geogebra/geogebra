@@ -5410,7 +5410,23 @@ var Cursor = P(Point, function(_) {
     var leftEnd = selection.ends[L];
     var rightEnd = selection.ends[R];
     var lca = leftEnd.parent;
-
+    // apparently leftEnd and rightEnd are on the same level
+    // and lca is their parent MathBlock...
+    // but in case leftEnd or rightEnd is ggbtd or ggbtr,
+    // then it's not good for us, so we have to select only
+    // one element, the ggbtable!
+    if (leftEnd.ctrlSeq.indexOf('\\ggbtd') > -1) {
+      if (lca.parent && lca.parent.parent) {
+        rightEnd = leftEnd = lca.parent;
+        lca = leftEnd.parent;
+      }
+    }
+    if (leftEnd.ctrlSeq.indexOf('\\ggbtr') > -1) {
+      if (lca.parent && lca.parent.parent) {
+        rightEnd = leftEnd = lca.parent;
+        lca = leftEnd.parent;
+      }
+    }
     lca.selectChildren(this.hide(), leftEnd, rightEnd);
     this.root.selectionChanged();
   };
