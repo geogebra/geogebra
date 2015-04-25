@@ -1308,7 +1308,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		selection.clearSelectedGeos();
 		ev.resetMode();
 		if (geo != null && !ctrl) {
-			av.startEditing(geo, shif);
+			av.startEditing(geo, !shif);
 			if (shouldEditLaTeX()) {
 				app.showKeyboard(this);
 				this.setFocus(true);
