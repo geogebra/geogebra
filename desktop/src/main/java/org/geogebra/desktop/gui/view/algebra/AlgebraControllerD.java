@@ -66,7 +66,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 			app.updateSelection(false);
 			ev.resetMode();
 			if (geo != null && !AppD.isControlDown(e)) {
-				view.startEditing(geo, e.isShiftDown());
+				view.startEditing(geo, !e.isShiftDown());
 			}
 			return true;
 		}
