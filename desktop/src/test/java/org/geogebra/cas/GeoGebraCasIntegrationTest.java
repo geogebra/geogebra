@@ -4735,6 +4735,13 @@ static public boolean silent = false;
   }
   
   @Test
+  public void assignSolve(){
+	  t("f(x):=a*x^2+3x-5","a * x^(2) + 3 * x -5");
+	  t("Solve[f(x)=0]","{x = (sqrt(20 * a + 9) - 3) / (2 * a), x = (-sqrt(20 * a + 9) - 3) / (2 * a)}");
+	  t("Solve[20a + 9 = 0]","{a = -9/20}");
+  }
+  
+  @Test
 	public void ExponentialEqs() {
 	  	/* Setting the timeout here is not a good idea since setting it back will not work.
 	  	 * Maybe it is because of running this test in a thread. Instead, it is better
@@ -4760,5 +4767,6 @@ static public boolean silent = false;
 		kernel.getApplication().getSettings().getCasSettings()
 				.setTimeoutMilliseconds(original_timeout);
 	}
+  
   
 }
