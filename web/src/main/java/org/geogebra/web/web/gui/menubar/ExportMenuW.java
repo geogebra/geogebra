@@ -60,15 +60,16 @@ public class ExportMenuW extends MenuBar {
 				app.getFileManager().exportImage(url, "export-png");
 			}
 		});
-
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-		        .getSafeUri().asString(), app.getPlain("AnimatedGIF"),
-		        true), true, new Command() {
-			public void execute() {
-				        ((FileManagerW) app.getFileManager())
-				                .createRemoteAnimGif(app);
-				        }
-		});
+		if(!app.getLAF().isTablet()){
+			addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+			        .getSafeUri().asString(), app.getPlain("AnimatedGIF"),
+			        true), true, new Command() {
+				public void execute() {
+					        ((FileManagerW) app.getFileManager())
+					                .createRemoteAnimGif(app);
+					        }
+			});
+		}
 	}
 
 	

@@ -285,6 +285,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_skydrive();
 		}
+		if (app.getLAF().supportsLocalSave()) {
+			providerImages[providerCount++] = BrowseResources.INSTANCE
+			        .location_local();
+		}
 		if (providerPopup != null) {
 			buttonPanel.remove(providerPopup);
 		}
@@ -302,6 +306,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(app.getFileManager()
 			        .getFileProvider() == Provider.GOOGLE ? 1 : 0);
+		}else if(app.getLAF().supportsLocalSave()) {
+			providerPopup.addPopupHandler(this);
+			providerPopup.setSelectedIndex(app.getFileManager()
+			        .getFileProvider() == Provider.LOCAL ? 1 : 0);
 		}
 		providerPopup.getElement().getStyle()
 		        .setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
@@ -321,6 +329,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			saveLocal();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
+		}else if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
+			app.getFileManager().export(app);
 		} else {
 			if (app.getActiveMaterial() == null) {
 				app.setActiveMaterial(new Material(0, MaterialType.ggb));
@@ -628,12 +638,18 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	@Override
 	public void fireActionPerformed(PopupMenuButton actionButton) {
 		if (actionButton.getSelectedIndex() == 1) {
+			if(app.getLAF().supportsGoogleDrive()){
 			if (!app.isOffline()) {
 				listBox.setVisible(false);
 			}
 			app.getFileManager()
 			        .setFileProvider(
 			                org.geogebra.common.move.ggtapi.models.Material.Provider.GOOGLE);
+			}else{
+				app.getFileManager()
+				        .setFileProvider(
+				                org.geogebra.common.move.ggtapi.models.Material.Provider.LOCAL);	
+			}
 		} else {
 			app.getFileManager().setFileProvider(
 			        org.geogebra.common.move.ggtapi.models.Material.Provider.TUBE);

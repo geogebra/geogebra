@@ -417,8 +417,8 @@ null,
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
 
-	public void setFileProvider(Provider google) {
-		this.provider = google;
+	public void setFileProvider(Provider provider) {
+		this.provider = provider;
 	}
 
 	public Provider getFileProvider() {
