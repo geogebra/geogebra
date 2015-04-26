@@ -424,7 +424,7 @@ __GGB__keysVar.hr.command = {
     "Intersect.SyntaxCAS": "[ <funkcija>, <funkcija> ]",
     "IntersectConic": "Presje\u010dnaKonika",
     "IntersectConic.Syntax": "[ <ravnina>, <ploha drugog reda> ]\n[ <ploha drugog reda>, <ploha drugog reda> ]",
-    "IntersectPath": "PresjekPutanja",
+    "IntersectPath": "PutanjaPresjeka",
     "IntersectPath.Syntax": "[ <pravac>, <mnogokut> ]\n[ <mnogokut>, <mnogokut> ]",
     "IntersectPath.Syntax3D": "[ <pravac>, <mnogokut> ]\n[ <mnogokut>, <mnogokut> ]\n[ <ravnina>, <mnogokut> ]\n[ <ravnina>, <ploha drugog reda> ]",
     "Intersection": "Presjek",
