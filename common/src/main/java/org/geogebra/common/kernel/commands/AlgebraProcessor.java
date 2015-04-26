@@ -1673,7 +1673,7 @@ public class AlgebraProcessor {
 
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
 			ExpressionValue ev, FunctionVariable fv, String label) {
-		if (ev instanceof VectorValue) {
+		if (ev instanceof VectorValue && ((VectorValue)ev).getMode() != Kernel.COORD_COMPLEX) {
 			GeoNumeric loc = new GeoNumeric(cons);
 			loc.setLocalVariableLabel(fv.getSetVarString());
 			exp.replace(fv, loc);
