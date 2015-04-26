@@ -4738,7 +4738,7 @@ static public boolean silent = false;
   public void assignSolve(){
 	  t("f(x):=a*x^2+3x-5","a * x^(2) + 3 * x -5");
 	  t("Solve[f(x)=0]","{x = (sqrt(20 * a + 9) - 3) / (2 * a), x = (-sqrt(20 * a + 9) - 3) / (2 * a)}");
-	  t("Solve[20a + 9 = 0]","{a = -9/20}");
+	  t("Solve[20a + 9 = 0]","{a = (-9) / 20}");
   }
   
   @Test
