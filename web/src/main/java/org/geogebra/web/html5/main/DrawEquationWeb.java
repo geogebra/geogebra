@@ -20,6 +20,7 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
+import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -724,6 +725,8 @@ GeoContainer rbti,
 	        Element parentElement,
 	        boolean newCreationMode) /*-{
 
+		var DrawEquation = @org.geogebra.web.html5.main.DrawEquationWeb::getNonStaticCopy(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
+
 		var elfirst = parentElement.firstChild.firstChild;
 
 		elfirst.style.display = 'none';
@@ -827,25 +830,30 @@ GeoContainer rbti,
 
 		if (!newCreationMode) {
 			// need to call this one more time because the property is static!
-			@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
+			DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
 
-			$wnd.$ggbQuery(elsecondInside).mouseenter(function(event2) {
-				@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
-			}).mouseleave(function(event3) {
-				@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(true);
+			$wnd
+					.$ggbQuery(elsecondInside)
+					.mouseenter(
+							function(event2) {
+								DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
+							})
+					.mouseleave(
+							function(event3) {
+								DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(true);
 
-				// focus and blur propagate the event
-				// to its textarea, so "focusin" is also called
-				// on calling .focus(), which makes the following
-				// part of code harmful: 
-				//$wnd.$ggbQuery(this).focus();
+								// focus and blur propagate the event
+								// to its textarea, so "focusin" is also called
+								// on calling .focus(), which makes the following
+								// part of code harmful: 
+								//$wnd.$ggbQuery(this).focus();
 
-				// but still, we can make use of the following:
-				$wnd.$ggbQuery(this).find('textarea').focus();
-				// which is the simplest workaround of the appearing
-				// bug, as it makes it almost equivalent to the previous
-				// state, together with the following:
-			});
+								// but still, we can make use of the following:
+								$wnd.$ggbQuery(this).find('textarea').focus();
+								// which is the simplest workaround of the appearing
+								// bug, as it makes it almost equivalent to the previous
+								// state, together with the following:
+							});
 			$wnd
 					.$ggbQuery(elsecondInside)
 					.find('textarea')
@@ -853,7 +861,7 @@ GeoContainer rbti,
 							function(event) {
 								// note that this will be called every time
 								// focus is called as well
-								if (@org.geogebra.web.html5.main.DrawEquationWeb::isMouseOut()()) {
+								if (DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::isMouseOut()()) {
 									@org.geogebra.web.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 								event.stopPropagation();
@@ -1648,14 +1656,20 @@ GeoContainer rbti,
 		return new GDimensionW((int) dimLeftCorr, (int) dimTopCorr);
 	}
 
-	private static boolean mouseOut = false;
+	private boolean mouseOut = false;
 
-	public static void setMouseOut(boolean b) {
+	public void setMouseOut(boolean b) {
 		mouseOut = b;
 	}
 	
-	private static boolean isMouseOut(){
+	private boolean isMouseOut() {
 		return mouseOut;
 	}
 
+	public static DrawEquationWeb getNonStaticCopy(GeoContainer rbti) {
+		if (rbti instanceof RadioButtonTreeItem)// which should be true
+			return (DrawEquationWeb) ((RadioButtonTreeItem) rbti)
+					.getApplication().getDrawEquation();
+		return null;
+	}
 }

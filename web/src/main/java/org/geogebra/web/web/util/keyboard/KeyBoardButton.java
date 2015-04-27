@@ -8,7 +8,6 @@ import org.geogebra.web.html5.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -51,7 +50,7 @@ public class KeyBoardButton extends SimplePanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				DrawEquationWeb.setMouseOut(false);
+				((DrawEquationWeb) handler.getApp().getDrawEquation()).setMouseOut(false);
 				ToolTipManagerW.hideAllToolTips();
 				if(handler.getApp().getLAF().isSmart() && type == PointerEventType.TOUCH){
 					return;
