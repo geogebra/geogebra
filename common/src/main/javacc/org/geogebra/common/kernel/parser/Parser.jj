@@ -2067,7 +2067,7 @@ ExpressionNode numberFunction():
         }
         //f(t):=(t,t) produces line, we do not want CAS to use that line
         //Perhaps we should prefer cell over geo in all cases ?
-        if(cell!=null && (geo==null || geo.isGeoLine()))  {
+        if(cell!=null && (geo==null || geo.isGeoLine() || geo.isGeoConic()))  {
           if(((GeoCasCell)cell).getFunctionVariables().length <2)
           {
             
