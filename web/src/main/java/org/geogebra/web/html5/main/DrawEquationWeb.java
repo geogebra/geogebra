@@ -20,10 +20,10 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
-import org.scilab.forge.jlatexmath.ColorUtil;
 import org.scilab.forge.jlatexmath.CreateLibrary;
 import org.scilab.forge.jlatexmath.TeXIcon;
 import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
 import org.scilab.forge.jlatexmath.platform.graphics.Color;
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
@@ -258,7 +258,6 @@ public class DrawEquationWeb extends DrawEquation {
 	        final GColor fgColor, GColor bgColor, boolean useCache,
 	        boolean updateAgain) {
 		if (app1.isPrerelease()) {
-			App.debug(latexString0);
 			TeXIcon icon = CreateLibrary.createIcon(latexString0,
 					font.getSize(), font.getStyle());
 			Graphics2DInterface g3 = new Graphics2DW(
@@ -266,7 +265,9 @@ public class DrawEquationWeb extends DrawEquation {
 			icon.paintIcon(new HasForegroundColor() {
 				@Override
 				public Color getForegroundColor() {
-					return ColorUtil.decode(GColor.getColorString(fgColor));
+					return FactoryProvider.INSTANCE.getGraphicsFactory().
+createColor(fgColor.getRed(), fgColor.getGreen(),
+									fgColor.getBlue());
 				}
 			}, g3, x, y);
 			return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());

@@ -39,17 +39,15 @@ dependencies {
 		'org.scilab.forge:jlatexmath-gwt:20150427:sources',
 		'org.scilab.forge:jlatexmath-share:20150427',
 		'org.scilab.forge:jlatexmath-share:20150427:sources'
-		
-		
-		
-		
+
 }
 
-def devModule = 'org.geogebra.web.Web'
+def devModule = 'org.geogebra.web.Web3D'
 
 gwt {
 	gwtVersion = '2.7.0'
-	modules = ['org.geogebra.web.Web3D']
+	modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',  
+ 	                'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D']
 	devModules devModule
 	maxHeapSize = '1500M'
 

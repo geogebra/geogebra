@@ -757,7 +757,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 		GeoElement geo = app.getAlgebraView().getDraggedGeo();
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("\""
+		list.add(geo.isLabelSet() ? geo.getLabelSimple() : "\""
 		        + geo.getLaTeXAlgebraDescription(true,
 		                StringTemplate.latexTemplate) + "\"");
 		String text = EuclidianView.getDraggedLabels(list);
