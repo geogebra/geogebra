@@ -307,7 +307,8 @@ public class AlgoStemPlot extends AlgoElement {
 		}
 		high.append("} \\\\ "); // newline in LaTeX ie \\
 
-		if (kernel.getApplication().isHTML5Applet()) {
+		if (kernel.getApplication().isHTML5Applet()
+				&& !kernel.getApplication().useJLaTeXMathInWeb()) {
 			stemPlotMQ(data, outlierIndex, multUnit, stemLines);
 		} else {
 			stemPlot(data, outlierIndex, multUnit, stemLines);

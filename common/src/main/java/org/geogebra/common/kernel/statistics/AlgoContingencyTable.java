@@ -407,7 +407,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void endTable(StringBuilder sb2) {
-		if (kernel.getApplication().isHTML5Applet()) {
+		if (!useJLaTeXMath()) {
 			sb2.append("}");
 		} else {
 			sb2.append("\\end{array}");
@@ -426,7 +426,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		cons.removeFromConstructionList(test);
 		GeoList result = test.getResult();
 
-		String split = kernel.getApplication().isHTML5Applet() ? "}\\ggbtdl{"
+		String split = !useJLaTeXMath() ? "}\\ggbtdl{"
 				: "&";
 
 		String rowHeader = getLoc().getMenu("DegreesOfFreedom.short") + split
@@ -443,7 +443,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		sb.append(getLoc().getMenu("ChiSquaredTest"));
 		sb.append("}\\\\");
 
-		if (kernel.getApplication().isHTML5Applet()) {
+		if (!useJLaTeXMath()) {
 			sb.append("\\ggbtable{\\ggbtrl{\\ggbtdl{");
 
 			sb.append(rowHeader);
@@ -466,7 +466,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void beginTable() {
-		if (kernel.getApplication().isHTML5Applet()) {
+		if (!useJLaTeXMath()) {
 			tableSb.append("\\ggbtable{");
 		} else {
 			tableSb.append("\\begin{array}{|l");
@@ -555,7 +555,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void startRow(StringBuilder sb, boolean lineBelow, boolean lineAbove) {
-		if (kernel.getApplication().isHTML5Applet()) {
+		if (!useJLaTeXMath()) {
 			sb.append(lineBelow ? (lineAbove ? "\\ggbtrl{" : "\\ggbtrlb{")
 					: (lineAbove ? "\\ggbtrlt{" : "\\ggbtr{"));
 			sb.append("\\ggbtdl{");
@@ -564,8 +564,13 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		}
 	}
 
+	private boolean useJLaTeXMath() {
+		return !kernel.getApplication().isHTML5Applet()
+				|| kernel.getApplication().useJLaTeXMathInWeb();
+	}
+
 	private void endRow(StringBuilder sb, boolean lineBelow) {
-		if (kernel.getApplication().isHTML5Applet()) {
+		if (!useJLaTeXMath()) {
 			sb.append("}}");
 		} else {
 			sb.append("\\\\");
@@ -576,7 +581,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void endCell(StringBuilder sb) {
-		if (kernel.getApplication().isHTML5Applet()) {
+		if (!useJLaTeXMath()) {
 			sb.append("}\\ggbtdl{");
 		} else {
 			sb.append("&");

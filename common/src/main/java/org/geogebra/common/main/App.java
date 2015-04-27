@@ -3643,4 +3643,8 @@ public abstract class App implements UpdateSelection {
 		return true;
 	}
 
+	public boolean useJLaTeXMathInWeb() {
+		return isPrerelease();
+	}
+
 }

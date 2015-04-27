@@ -363,7 +363,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		if (tpl.getStringType().equals(StringType.MATHML)) {
 			mathml(tpl);
 		} else {
-			if (kernel.getApplication().isHTML5Applet()) {
+			if (kernel.getApplication().isHTML5Applet()
+					&& !kernel.getApplication().useJLaTeXMathInWeb()) {
 				latexMQ(tpl);
 			} else {
 				latex(tpl);
