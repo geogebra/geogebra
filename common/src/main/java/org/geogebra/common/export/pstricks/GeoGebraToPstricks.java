@@ -35,10 +35,12 @@ import org.geogebra.common.kernel.algos.AlgoSlope;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoLocus;
@@ -52,8 +54,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -2182,11 +2182,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			}
 			if (c.equals(GColor.BLACK))
 				sb.append("black");
-			else if (c.equals(GColor.DARK_GRAY))
+			else if (c.equals(GColor.darkGray))
 				sb.append("darkgray");
 			else if (c.equals(GColor.GRAY))
 				sb.append("gray");
-			else if (c.equals(GColor.LIGHT_GRAY))
+			else if (c.equals(GColor.lightGray))
 				sb.append("lightgray");
 			else if (c.equals(GColor.WHITE))
 				sb.append("white");
@@ -2197,11 +2197,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			// suffix="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			if (c.equals(GColor.BLACK))
 				sb.append("black");
-			else if (c.equals(GColor.DARK_GRAY))
+			else if (c.equals(GColor.darkGray))
 				sb.append("darkgray");
 			else if (c.equals(GColor.GRAY))
 				sb.append("gray");
-			else if (c.equals(GColor.LIGHT_GRAY))
+			else if (c.equals(GColor.lightGray))
 				sb.append("lightgray");
 			else if (c.equals(GColor.WHITE))
 				sb.append("white");

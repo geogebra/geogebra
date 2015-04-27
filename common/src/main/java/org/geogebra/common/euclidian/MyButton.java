@@ -5,10 +5,10 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.kernel.geos.GeoButton.Observer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
-import org.geogebra.common.kernel.geos.GeoButton.Observer;
 
 //import java.awt.Color;
 
@@ -200,7 +200,7 @@ public class MyButton implements Observer {
 				geoButton.getHeight(), arcSize, arcSize);
 
 		// draw border
-		g.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
+		g.setColor(org.geogebra.common.awt.GColor.darkGray);
 		g.setStroke(EuclidianStatic.getDefaultStroke());
 		g.drawRoundRect(x, y, getWidth() + (int) add - 1, getHeight() - 1,
 				arcSize, arcSize);

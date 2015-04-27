@@ -39,7 +39,7 @@ public class BasicIcons {
 		}
 
 		if (isRollOver) {
-			g2.setColor(GColor.LIGHT_GRAY);
+			g2.setColor(GColor.lightGray);
 			g2.fillRect(0, 0, w - 1, h - 1);
 		}
 
@@ -48,7 +48,7 @@ public class BasicIcons {
 		if (isRollOver)
 			g2.setColor(GColor.BLACK);
 		else
-			g2.setColor(GColor.DARK_GRAY);
+			g2.setColor(GColor.darkGray);
 
 		int midx = w / 2;
 		int midy = h / 2;

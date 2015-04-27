@@ -488,7 +488,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 	public void paint(org.geogebra.common.awt.GGraphics2D g2) {
 		if (!plane.isDefined()) {
 			// draws the view in gray
-			g2.setColor(GColor.LIGHT_GRAY);
+			g2.setColor(GColor.lightGray);
 			g2.fillRect(0, 0, view.getWidth(), view.getHeight());
 			return;
 		}

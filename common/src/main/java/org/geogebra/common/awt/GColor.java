@@ -13,8 +13,6 @@ public abstract class GColor implements GPaint {
 	public static GColor GRAY;
 	public static GColor GREEN;
 	public static GColor YELLOW;
-	public static GColor DARK_GRAY;
-	public static GColor LIGHT_GRAY;
 	public static GColor CYAN;
 	public static GColor MAGENTA;
 	public static GColor red;
@@ -40,8 +38,6 @@ public abstract class GColor implements GPaint {
 		GRAY = f.newColor(128, 128, 128);
 		GREEN = f.newColor(0, 255, 0);
 		YELLOW = f.newColor(255, 255, 0);
-		DARK_GRAY = f.newColor(68, 68, 68);
-		LIGHT_GRAY = f.newColor(192, 192, 192);
 		CYAN = f.newColor(0, 255, 255);
 		MAGENTA = f.newColor(255, 0, 255);
 		red = f.newColor(255, 0, 0);
