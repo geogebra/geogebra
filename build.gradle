@@ -42,7 +42,7 @@ subprojects {
 
 task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
-	gradleVersion = '2.1'
+	gradleVersion = '2.3'
 }
 
 // eclipse related tasks
