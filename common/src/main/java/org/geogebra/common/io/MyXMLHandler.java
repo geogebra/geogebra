@@ -1166,7 +1166,7 @@ public class MyXMLHandler implements DocHandler {
 				if (strYscale != null) {
 					yscale = StringUtil.parseDouble(strYscale);
 				}
-				ev.setCoordSystem(xZero, yZero, scale, yscale);
+				ev.setCoordSystem(xZero, yZero, scale, yscale, true);
 
 				xmin.put(ev, null);
 				xmax.put(ev, null);

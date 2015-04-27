@@ -58,10 +58,10 @@ public class EuclidianSettings extends AbstractSettings {
 	private int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
 	// settings for the base EuclidianView (or null if this is the base)
-	private final EuclidianSettings euclidianSettings1;
+	//private final EuclidianSettings euclidianSettings1;
 
 	public EuclidianSettings(EuclidianSettings euclidianSettings1) {
-		this.euclidianSettings1 = euclidianSettings1;
+		//this.euclidianSettings1 = euclidianSettings1;
 		xZero = EuclidianView.XZERO_STANDARD;
 		yZero = EuclidianView.YZERO_STANDARD;
 		preferredSize = AwtFactory.prototype.newDimension(0, 0);
@@ -636,7 +636,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public void setCoordSystem(double xZero, double yZero, double xscale,
-			double yscale) {
+			double yscale, boolean fire) {
 		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
@@ -650,7 +650,9 @@ public class EuclidianSettings extends AbstractSettings {
 		this.yZero = yZero;
 		this.xscale = xscale;
 		this.yscale = yscale;
-		settingChanged();
+		if(fire){
+			settingChanged();
+		}
 
 	}
 

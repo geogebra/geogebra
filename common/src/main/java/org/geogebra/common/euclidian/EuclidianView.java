@@ -556,6 +556,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			setAxesIntervals(getXscale(), 0);
 			setAxesIntervals(getYscale(), 1);
 			calcPrintingScale();
+			settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
 			if (isLockedAxesRatio()) {
 				this.updateBoundObjects();
 			}
@@ -918,7 +919,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/** Sets coord system from mouse move */
-	public void translateCoordSystemInPixels(int dx, int dy, int dz, int mode) {
+	public void translateCoordSystemInPixels(int dx, int dy, int dz, int mode) {		
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
