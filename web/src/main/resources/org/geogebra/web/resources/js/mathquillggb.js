@@ -1433,6 +1433,7 @@ var MathBlock = P(MathElement, function(_) {
       // will be syntactically incorrect in theory, anyway
       return '';
     } else if (this.parent.ctrlSeq.substring(0,9) === '\\ggbtable' ||
+    		   this.parent.pwtable ||
     		   this.parent.ctrlSeq.substring(0,6) === '\\ggbtr' ||
     	       this.parent.ctrlSeq.substring(0,6) === '\\ggbtd') {
       var ret = this.ch[L].text();
@@ -1557,6 +1558,10 @@ var MathBlock = P(MathElement, function(_) {
     if (cmd.ctrlSeq === '\\ggbtable') {
       // do nothing!
       return;
+    }
+    if (cmd.pwtable) {
+    	// do nothing!
+    	return;
     }
 	// old behaviour
     cursor.unwrapGramp();
@@ -2608,7 +2613,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     // Okay, we've moved into this, but maybe
     // we need more in case of ggbtable & ggbtd
     var thisthis = cursor[dir];
-    if (this.ctrlSeq === '\\ggbtable') {
+    if (this.ctrlSeq === '\\ggbtable' || this.pwtable) {
       cursor.appendDir(-dir, thisthis.ch[-dir]);
       // we're in the ggbtd, but that is also not enough!
       if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
