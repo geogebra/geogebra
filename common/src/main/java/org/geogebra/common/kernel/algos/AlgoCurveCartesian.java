@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -28,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.main.App;
 
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from,
@@ -42,6 +44,8 @@ public class AlgoCurveCartesian extends AlgoElement {
 	private NumberValue from, to; // input
 	private GeoNumeric localVar; // input
 	private GeoCurveCartesianND curve; // output
+	private boolean[] containsFunctions;
+	private ExpressionNode[] exp;
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoCurveCartesian(Construction cons, String label,
@@ -60,14 +64,16 @@ public class AlgoCurveCartesian extends AlgoElement {
 		FunctionVariable funVar = new FunctionVariable(kernel);
 		funVar.setVarString(localVar.getLabelSimple());
 
-		ExpressionNode[] exp = new ExpressionNode[coords.length];
+		exp = new ExpressionNode[coords.length];
 		Function[] fun = new Function[coords.length];
+		containsFunctions = new boolean[coords.length];
 
 		for (int i = 0; i < coords.length; i++) {
 			exp[i] = kernel.convertNumberValueToExpressionNode(coords[i]
 					.toGeoElement());
 			exp[i] = exp[i].replace(localVar, funVar).wrap();
 			fun[i] = new Function(exp[i], funVar);
+			containsFunctions[i] = AlgoDependentFunction.containsFunctions(exp[i]);
 		}
 
 		// create the curve
@@ -132,6 +138,37 @@ public class AlgoCurveCartesian extends AlgoElement {
 						return;
 					}
 				}
+			}
+			if(containsFunctions[i]){
+				ExpressionValue ev = null;
+				try { // needed for eg f(x)=floor(x) f'(x)
+
+					// boolean internationalizeDigits =
+					// Kernel.internationalizeDigits;
+					// Kernel.internationalizeDigits = false;
+					// TODO: seems that we never read internationalize digits flag
+					// here ...
+					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(exp[i].deepCopy(kernel));
+
+					// Kernel.internationalizeDigits = internationalizeDigits;
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					App.debug("derivative failed");
+				}
+				if (ev == null) {
+					curve.setUndefined();
+					return;
+				}
+				ExpressionNode node;
+				if (ev.isExpressionNode())
+					node = (ExpressionNode) ev;
+				else
+					node = new ExpressionNode(kernel, ev);
+
+				//expandedFun.setExpression(node);
+				
+				curve.getFun(i).setExpression(node);
 			}
 		}
 		curve.setDefined(true);

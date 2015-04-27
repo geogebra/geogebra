@@ -479,7 +479,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(cmd.getArgumentNumber());
 		if (casParser.isCommandAvailable(sbCASCommand.toString()))
 			return true;
-
+		App.debug("NOT AVAILABLE"+sbCASCommand);
 		sbCASCommand.setLength(0);
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".N");

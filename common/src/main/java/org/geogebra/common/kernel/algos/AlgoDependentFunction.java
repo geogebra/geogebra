@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
@@ -273,6 +274,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 								|| ((ExpressionNode) leftValue).getOperation() == Operation.$VAR_ROW || ((ExpressionNode) leftValue)
 								.getOperation() == Operation.$VAR_ROW_COL))
 					leftValue = ((ExpressionNode) leftValue).getLeft();
+				if(leftValue instanceof GeoCasCell){
+					return ((Functional) ((GeoCasCell)leftValue).getTwinGeo()).getGeoDerivative(order);	
+				}
 				return ((Functional) leftValue).getGeoDerivative(order);
 
 				// remove spreadsheet $ references, i.e. $A1 -> A1
