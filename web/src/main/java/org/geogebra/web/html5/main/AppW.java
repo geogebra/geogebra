@@ -3135,12 +3135,6 @@ public abstract class AppW extends App implements SetLabels {
 		return null;
 	}
 
-	@Override
-	public boolean isPrerelease() {
-		return getArticleElement() != null
-		        && getArticleElement().getDataParamPrerelease();
-	}
-
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
 	 */
@@ -3268,5 +3262,9 @@ public abstract class AppW extends App implements SetLabels {
 
 	public boolean enableFileFeatures() {
 		return this.articleElement.getDataParamEnableFileFeatures();
+	}
+
+	public void setPrerelease(boolean dataParamPrerelease) {
+		this.prerelease = dataParamPrerelease;
 	}
 }

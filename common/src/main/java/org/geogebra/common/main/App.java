@@ -3612,7 +3612,10 @@ public abstract class App implements UpdateSelection {
 
 	public abstract String getEnglishCommand(String command);
 
-	public abstract boolean isPrerelease();
+	protected boolean prerelease;
+	public final boolean isPrerelease(){
+		return prerelease;
+	}
 
 	private int tubeID = 0;
 

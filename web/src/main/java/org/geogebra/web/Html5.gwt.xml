@@ -6,6 +6,8 @@
   <inherits name="com.google.gwt.json.JSON" />
   <inherits name='org.geogebra.Common'/>
   <inherits name='org.geogebra.GgbJdk'/>
+  <inherits name="org.scilab.forge.JLaTeXMath" />
+  <inherits name='org.scilab.forge.JLaTeXMathGWT'/>
   
   <define-linker name="appcachelinker" class="org.geogebra.web.linker.AppCacheLinker" />
   <!-- Use it -->

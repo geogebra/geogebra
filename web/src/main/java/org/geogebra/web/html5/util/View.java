@@ -136,6 +136,10 @@ public class View {
 		return ((ArticleElement) container).getDataParamAllowStyleBar();
 	}
 
+	public ArticleElement getArticleElement() {
+		return ((ArticleElement) container);
+	}
+
 	private void maybeLoadFile() {
 		if (app == null || archiveContent == null) {
 			return;

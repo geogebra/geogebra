@@ -5224,7 +5224,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private boolean popupsDone = false;
 
-	private boolean prerelease;
+	
 
 	public void showPopUps() {
 		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
@@ -5310,10 +5310,5 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		return getScaledInternalImage(name);
-	}
-
-	@Override
-	public boolean isPrerelease() {
-		return prerelease;
 	}
 }

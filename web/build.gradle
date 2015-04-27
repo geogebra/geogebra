@@ -34,15 +34,22 @@ dependencies {
 		'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
 		'com.googlecode.gwtquery:gwtquery:1.4.3',
 		'com.googlecode:gwtgl:0.9.1',
-		'com.googlecode:gwtgl:0.9.1:sources'
+		'com.googlecode:gwtgl:0.9.1:sources',
+		'org.scilab.forge:jlatexmath-gwt:20150427',
+		'org.scilab.forge:jlatexmath-gwt:20150427:sources',
+		'org.scilab.forge:jlatexmath-share:20150427',
+		'org.scilab.forge:jlatexmath-share:20150427:sources'
+		
+		
+		
+		
 }
 
-def devModule = 'org.geogebra.web.Web3D'
+def devModule = 'org.geogebra.web.Web'
 
 gwt {
 	gwtVersion = '2.7.0'
-	modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web', 
-		'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D']
+	modules = ['org.geogebra.web.Web3D']
 	devModules devModule
 	maxHeapSize = '1500M'
 
@@ -52,6 +59,7 @@ gwt {
         // enableClosureCompiler = true;
         disableClassMetadata = true;
         disableCastChecking = true;
+        //logLevel = 'ALL';
         // style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
         // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;
         
@@ -73,7 +81,7 @@ task cleanWar(type: Delete){
 	delete warDirRel + '/web3d', warDirRel + '/web',warDirRel + '/webSimple',warDirRel + '/tablet'
 }
 
-task deployIntoWar(type: Sync) {
+task deployIntoWar(type: Copy, dependsOn: cleanWar) {
 	description 'Copies/updates the GWT production compilation directory (web3d) to the war directory.'
 	from compileGwt	
 	into warDirRel
