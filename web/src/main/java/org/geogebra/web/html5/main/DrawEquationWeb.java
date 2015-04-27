@@ -824,7 +824,11 @@ GeoContainer rbti,
 
 		// hacking to deselect the editing when the user does something else like in Desktop
 		@org.geogebra.web.html5.main.DrawEquationWeb::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+
 		if (!newCreationMode) {
+			// need to call this one more time because the property is static!
+			@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
+
 			$wnd.$ggbQuery(elsecondInside).mouseenter(function(event2) {
 				@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
 			}).mouseleave(function(event3) {
