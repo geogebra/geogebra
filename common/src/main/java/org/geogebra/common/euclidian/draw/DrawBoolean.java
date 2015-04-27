@@ -244,6 +244,9 @@ public final class DrawBoolean extends Drawable {
 			this.ev = ev;
 		}
 
+		private static GBasicStroke stroke13 = null;
+		private static GBasicStroke stroke26 = null;
+
 		/**
 		 * Draws the checkbox on graphics
 		 * 
@@ -265,9 +268,8 @@ public final class DrawBoolean extends Drawable {
 
 			{
 				// outer bevel
-				if (true) {
 					// Draw rounded border
-					g.setColor(AwtFactory.prototype.newColor(220, 220, 220));
+					g.setColor(GColor.darkGray);
 					g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 
 					// Draw rectangle with rounded borders
@@ -278,24 +280,32 @@ public final class DrawBoolean extends Drawable {
 					}
 					g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2,
 							csize / 5, csize / 5);
-				}
 
-				g.setColor(AwtFactory.prototype.newColor(102, 102, 102));
+					g.setColor(GColor.darkGray);
 
 				// paint check
 
 				if (checked) {
 					if (csize == 13) {
-						g.setStroke(AwtFactory.prototype
-								.newBasicStroke(2f, GBasicStroke.CAP_ROUND,
-										GBasicStroke.JOIN_ROUND));
+						
+						if (stroke13 == null) {
+							AwtFactory.prototype
+							.newBasicStroke(2f, GBasicStroke.CAP_ROUND,
+									GBasicStroke.JOIN_ROUND);
+						}
+						
+						g.setStroke(stroke13);
 						g.drawLine(x + 2, y + 7, x + 5, y + 10);
 						g.drawLine(x + 5, y + 10, x + 10, y + 3);
 
 					} else { // csize == 26
-						g.setStroke(AwtFactory.prototype
-								.newBasicStroke(4f, GBasicStroke.CAP_ROUND,
-										GBasicStroke.JOIN_ROUND));
+						
+						if (stroke26 == null) {
+							stroke26 = AwtFactory.prototype
+									.newBasicStroke(4f, GBasicStroke.CAP_ROUND,
+											GBasicStroke.JOIN_ROUND);
+						}
+						g.setStroke(stroke26);
 						g.drawLine(x + 5, y + 15, x + 10, y + 20);
 						g.drawLine(x + 10, y + 20, x + 20, y + 6);
 
