@@ -83,6 +83,15 @@ namespace giac {
 
   static gen derive_SYMB(const gen &g_orig,const identificateur & i,GIAC_CONTEXT){
     const symbolic & s = *g_orig._SYMBptr;
+    if (s.sommet==at_pnt){
+      gen f=g_orig._SYMBptr->feuille;
+      if (f.type==_VECT && !f._VECTptr->empty()){
+	vecteur v=*f._VECTptr;
+	v[0]=derive(v[0],i,contextptr);
+	f=gen(v,f.subtype);
+	return symbolic(at_pnt,f);
+      }
+    }
     // if s does not depend on i return 0
     if (!depend(g_orig,i))
       return zero;
