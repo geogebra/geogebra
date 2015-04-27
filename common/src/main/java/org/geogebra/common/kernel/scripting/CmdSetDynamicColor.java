@@ -34,10 +34,10 @@ public class CmdSetDynamicColor extends CmdScripting {
 		case 4:
 			boolean[] ok = new boolean[n];
 			arg2 = resArgs(c);
+			
 			if ((ok[1] = arg2[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg2[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg2[3] instanceof GeoNumberValue)) {
-
 				GeoElement geo = arg2[0];
 
 				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
@@ -53,7 +53,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 				geo.setColorFunction(list);
 				geo.updateRepaint();
 
-				return arg2;
+				return new GeoElement[0];
 
 			} else if (!ok[1])
 				throw argErr(app, c.getName(), arg2[1]);
@@ -84,7 +84,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 				geo.setColorFunction(list);
 				geo.updateRepaint();
 
-				return arg2;
+				return new GeoElement[0];
 
 			} else if (!ok[1])
 				throw argErr(app, c.getName(), arg2[1]);

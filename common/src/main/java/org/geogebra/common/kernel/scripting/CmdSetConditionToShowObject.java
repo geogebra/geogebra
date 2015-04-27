@@ -42,7 +42,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 				}
 				geo.updateRepaint();
 
-				return arg2;
+				return new GeoElement[0];
 			}
 			throw argErr(app, c.getName(), arg2[1]);
 
