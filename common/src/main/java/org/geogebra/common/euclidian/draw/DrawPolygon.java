@@ -133,16 +133,17 @@ public class DrawPolygon extends Drawable implements Previewable {
 			gp.closePath();
 			fillShape = false;
 
-			if (!getView().getApplication().isPrerelease() ||
-					isAllPointsOnScreen()) {
+			// uncomment this when triangularize() will be working
+			// if (!getView().getApplication().isPrerelease() ||
+			// isAllPointsOnScreen()) {
 				if (geo.isInverseFill()) {
 					createShape();
 					fillShape = true;
 				}
-			} else {
-				triangularize();
-				fillShape = true;
-			}
+			// } else {
+			// triangularize();
+			// fillShape = true;
+			// }
 			
 			
 			// polygon on screen?
