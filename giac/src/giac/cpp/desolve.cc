@@ -1229,7 +1229,7 @@ namespace giac {
 	return desolve(args,f1,f[0],ordre,parameters,contextptr);
       }
       gen vx,vy;
-      lv=lidnt(args);
+      lv=lidnt(evalf(args,1,contextptr));
       if (lv.size()==2){
 	vx=lv[0];
 	vy=lv[1];
