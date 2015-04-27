@@ -23,7 +23,7 @@ public abstract class SensorSetting extends FlowPanel {
 		private final int EMPTY_SELECTION_INDEX = 0;
 		private Types type;
 		private GeoElement selection;
-		private ArrayList<GeoElement> items = new ArrayList<>();
+		private ArrayList<GeoElement> items = new ArrayList<GeoElement>();
 
 		public GeoListBox(Types type) {
 			this.type = type;
@@ -65,7 +65,7 @@ public abstract class SensorSetting extends FlowPanel {
 	 */
 	FlowPanel dataValues;
 	/** the listBoxes */
-	private ArrayList<GeoListBox> listBoxes = new ArrayList<>();
+	private ArrayList<GeoListBox> listBoxes = new ArrayList<GeoListBox>();
 
 	private AppW app;
 

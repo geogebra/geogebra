@@ -51,13 +51,13 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private FlowPanel dataCollectionTab;
 
 	/** GeoElements that are available and not used from another sensor */
-	ArrayList<GeoElement> availableObjects = new ArrayList<>();
+	ArrayList<GeoElement> availableObjects = new ArrayList<GeoElement>();
 	/** list of all used GeoElements */
-	private ArrayList<GeoElement> usedObjects = new ArrayList<>();
+	private ArrayList<GeoElement> usedObjects = new ArrayList<GeoElement>();
 
 	/** panel with the available sensors */
 	private FlowPanel sensorsPanel;
-	private ArrayList<SensorSetting> sensors = new ArrayList<>();
+	private ArrayList<SensorSetting> sensors = new ArrayList<SensorSetting>();
 
 	private MyToggleButton2 connectButton;
 	private TextBox appIDTextBox;
@@ -441,7 +441,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 *         GeoElement
 	 */
 	public HashMap<Types, GeoElement> getActivedSensors() {
-		HashMap<Types, GeoElement> activeSensors = new HashMap<>();
+		HashMap<Types, GeoElement> activeSensors = new HashMap<Types, GeoElement>();
 
 		for (SensorSetting setting : this.sensors) {
 			if (setting.isOn()) {
