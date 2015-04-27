@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -37,7 +38,6 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Variable;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -3746,7 +3746,7 @@ public class Kernel {
 
 	public final void notifyRemove(GeoElement geo) {
 		if (notifyViewsActive) {
-			if(geo.isLabelSet()){
+			if (geo.isLabelSet()) {
 				this.deleteList.add(geo);
 			}
 			for (View view : views) {
