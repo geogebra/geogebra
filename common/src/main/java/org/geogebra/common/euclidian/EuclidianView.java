@@ -2806,7 +2806,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return;
 		}
 
-		g2.setColor(org.geogebra.common.awt.GColor.darkGray);
+		g2.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
 		g2.setFont(getFontLine());
 		g2.drawString(getXYscaleRatioString(), pos.x + 15, pos.y + 30);
 	}
@@ -2947,7 +2947,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				Kernel.checkDecimalFraction(euclidianController.yRW), tpl));
 		sb.append(')');
 
-		g2.setColor(GColor.darkGray);
+		g2.setColor(GColor.DARK_GRAY);
 		g2.setFont(getFontCoords());
 		g2.drawString(sb.toString(), pos.x + 15, pos.y + 15);
 	}
@@ -4588,7 +4588,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 			ptList.add(new GPoint(xi, yi));
 		}
-		doDrawPoints(ge, ptList, GColor.black,
+		doDrawPoints(ge, ptList, GColor.BLACK,
 				EuclidianStyleConstants.LINE_TYPE_FULL, 1);
 
 	}
@@ -5114,11 +5114,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// init grid's line type
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(GColor.black); // Michael Borcherds
+		setAxesColor(GColor.BLACK); // Michael Borcherds
 									// 2008-01-26 was
 									// darkgray
-		setGridColor(GColor.lightGray);
-		setBackground(GColor.white);
+		setGridColor(GColor.LIGHT_GRAY);
+		setBackground(GColor.WHITE);
 
 		// showAxes = true;
 		// showGrid = false;

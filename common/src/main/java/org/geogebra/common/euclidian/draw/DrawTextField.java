@@ -419,7 +419,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				label.setOpaque(true);
-				label.setBackground(GColor.lightGray);
+				label.setBackground(GColor.LIGHT_GRAY);
 
 			} else {
 				label.setOpaque(false);

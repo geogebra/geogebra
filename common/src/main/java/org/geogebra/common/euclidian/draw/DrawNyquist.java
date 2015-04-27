@@ -110,7 +110,7 @@ public class DrawNyquist extends Drawable {
 		double x2 = view.toScreenCoordXd(coordsList.get(i - 1).getX());
 		double angle = getAngle(x1, y1, x2, y2);
 		GColor color = g2.getColor();
-		g2.setColor(GColor.blue);
+		g2.setColor(GColor.BLUE);
 		fill(g2, y2, x2, angle);
 		y1 = view.toScreenCoordYd(-coordsList.get(i).getY());
 		y2 = view.toScreenCoordYd(-coordsList.get(i + 1).getY());

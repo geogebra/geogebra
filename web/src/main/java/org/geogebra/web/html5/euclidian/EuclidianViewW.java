@@ -74,7 +74,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public org.geogebra.web.html5.awt.GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
 	public org.geogebra.web.html5.awt.GGraphics2DW g4copy = null;
-	private org.geogebra.common.awt.GColor backgroundColor = GColor.white;
+	private org.geogebra.common.awt.GColor backgroundColor = GColor.WHITE;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		@Override
@@ -857,9 +857,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 		if (highlightAnimationButtons) {
 			// draw filled circle to highlight button
-			g2.setColor(org.geogebra.common.awt.GColor.darkGray);
+			g2.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
 		} else {
-			g2.setColor(org.geogebra.common.awt.GColor.lightGray);
+			g2.setColor(org.geogebra.common.awt.GColor.LIGHT_GRAY);
 		}
 
 		g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic

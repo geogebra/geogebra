@@ -24,6 +24,16 @@ public class HatchingHandler {
 
 	private GBufferedImage bufferedImage = null;
 	private GBufferedImage subImage = null;
+	private GGeneralPath path;
+	private GRectangle rect;
+
+	/**
+	 * 
+	 */
+	public HatchingHandler() {
+		path = AwtFactory.prototype.newGeneralPath();
+		rect = AwtFactory.prototype.newRectangle(0, 0, 1, 1);
+	}
 
 	/**
 	 * Prototype decides what implementation will be used for static methods
@@ -119,6 +129,11 @@ public class HatchingHandler {
 			height = (int) (dist * 3);
 			width = (int) (2 * side);
 			break;
+		case WEAVING:
+			startY = startX = xInt / 2;
+			height = width = startX * 4;
+			drawWeaving(angle, xInt / 2, g2d);
+			break;
 		case BRICK:
 			if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)
 					|| Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
@@ -154,14 +169,11 @@ public class HatchingHandler {
 			break;
 		}
 
-		// paint with the texturing brush
-		GRectangle rect = AwtFactory.prototype
-				.newRectangle(0, 0, width, height);
-
 		// use the middle square of our 3 x 3 grid to fill with
 		GPaint ret = AwtFactory.prototype.newTexturePaint(
 				subImage = bufferedImage.getSubimage(startX, startY, width,
-						height), rect);
+						height), AwtFactory.prototype.newRectangle(0, 0, width,
+						height));
 		g3.setPaint(ret);
 		return ret;
 	}
@@ -261,17 +273,61 @@ public class HatchingHandler {
 		g3.setPaint(tp);
 	}
 
-	private static void drawBricks(double angle, int xInt, int yInt,
+	private void drawWeaving(double angle, int dist, GGraphics2D g2d) {
+		if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
+			g2d.drawLine(2 * dist, dist, 5 * dist, 4 * dist);
+			g2d.drawLine(3 * dist, 0, 5 * dist, 2 * dist);
+			g2d.drawLine(3 * dist, 2 * dist, 0, 5 * dist);
+			g2d.drawLine(4 * dist, 3 * dist, 2 * dist, 5 * dist);
+			g2d.drawLine(2 * dist, dist, dist, 2 * dist);
+			g2d.drawLine(2 * dist, 3 * dist, dist, 2 * dist);
+			g2d.drawLine(4 * dist, 5 * dist, 6 * dist, 3 * dist);
+			g2d.drawLine(3 * dist, 4 * dist, 5 * dist, 6 * dist);
+			path.reset();
+			path.moveTo(dist, 2 * dist);
+			path.lineTo(2 * dist, dist);
+			path.lineTo(3 * dist + 1, 2 * dist + 1);
+			path.lineTo(2 * dist + 1, 3 * dist + 1);
+			g2d.fill(path);
+			path.reset();
+			path.moveTo(3 * dist, 4 * dist);
+			path.lineTo(4 * dist, 3 * dist);
+			path.lineTo(5 * dist + 1, 4 * dist);
+			path.lineTo(4 * dist, 5 * dist + 1);
+			g2d.fill(path);
+		} else { // 0 degrees
+			rect.setRect(dist, dist, 3 * dist, dist);
+			g2d.draw(rect);
+			rect.setRect(2 * dist, 2 * dist, dist, 3 * dist);
+			g2d.draw(rect);
+			rect.setRect(3 * dist, 3 * dist, 3 * dist, dist);
+			g2d.draw(rect);
+			rect.setRect(4 * dist, 0, dist, 3 * dist);
+			g2d.draw(rect);
+			rect.setRect(-1 * dist, 3 * dist, 3 * dist, dist);
+			g2d.draw(rect);
+			rect.setRect(4 * dist, 4 * dist, dist, 3 * dist);
+			g2d.draw(rect);
+			g2d.drawLine(4 * dist, 3 * dist, 5 * dist, 3 * dist);
+			g2d.drawLine(4 * dist, 4 * dist, 5 * dist, 4 * dist);
+			g2d.fillRect(dist, 2 * dist, dist, dist);
+			g2d.fillRect(3 * dist, 2 * dist, dist, dist);
+			g2d.fillRect(dist, 4 * dist, dist, dist);
+			g2d.fillRect(3 * dist, 4 * dist, dist, dist);
+		}
+	}
+
+	private void drawBricks(double angle, int xInt, int yInt,
 			GGraphics2D g2d) {
 		if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)) {
-			GRectangle rect = AwtFactory.prototype.newRectangle(xInt / 2, yInt,
+			rect.setRect(xInt / 2, yInt,
 					2 * xInt, yInt);
 			g2d.draw(rect);
 			g2d.drawLine(xInt + xInt / 2, yInt / 2, xInt + xInt / 2, yInt);
 			g2d.drawLine(xInt + xInt / 2, yInt * 2, xInt + xInt / 2, yInt * 2
 					+ yInt / 2);
 		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
-			GRectangle rect = AwtFactory.prototype.newRectangle(xInt, yInt / 2,
+			rect.setRect(xInt, yInt / 2,
 					xInt, 2 * yInt);
 			g2d.draw(rect);
 			g2d.drawLine(xInt / 2, yInt + yInt / 2, xInt, yInt + yInt / 2);
@@ -303,10 +359,9 @@ public class HatchingHandler {
 				2 * distInt, size, size));
 	}
 
-	private static boolean drawChessboard(double angle, float hatchDist,
+	private boolean drawChessboard(double angle, float hatchDist,
 			GGraphics2D g2d) {
 		if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
-			GGeneralPath path = AwtFactory.prototype.newGeneralPath();
 			float dist = (float) (hatchDist * Math.sin(angle));
 			path.moveTo(dist / 2, dist / 2 - 1);
 			path.lineTo(2 * dist + dist / 2, dist / 2 - 1);
@@ -326,9 +381,8 @@ public class HatchingHandler {
 		return true;
 	}
 
-	private static void drawHoneycomb(float dist, GGraphics2D g2d) {
+	private void drawHoneycomb(float dist, GGraphics2D g2d) {
 
-		GGeneralPath path = AwtFactory.prototype.newGeneralPath();
 		float centerX = (float) (dist * Math.sqrt(3) / 2);
 		float width = centerX + centerX;
 		path.moveTo(centerX, dist);

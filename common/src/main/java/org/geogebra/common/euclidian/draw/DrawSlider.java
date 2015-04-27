@@ -174,7 +174,7 @@ public class DrawSlider extends Drawable {
 			g2.fill(circle);
 
 			// black stroke
-			g2.setPaint(org.geogebra.common.awt.GColor.black);
+			g2.setPaint(org.geogebra.common.awt.GColor.BLACK);
 			g2.setStroke(borderStroke);
 			g2.draw(circle);
 

@@ -870,7 +870,7 @@ public abstract class GlobalKeyDispatcher {
 
 		if (blackWhiteMode) {
 			geo.setAlphaValue(0f);
-			geo.setObjColor(GColor.black);
+			geo.setObjColor(GColor.BLACK);
 		}
 	}
 

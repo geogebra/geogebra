@@ -269,19 +269,19 @@ public final class DrawBoolean extends Drawable {
 			{
 				// outer bevel
 					// Draw rounded border
-					g.setColor(GColor.darkGray);
+					g.setColor(GColor.DARK_GRAY);
 					g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 
 					// Draw rectangle with rounded borders
 					if (highlighted) {
 						g.setColor(highlightBackground);
 					} else {
-						g.setColor(GColor.white);
+						g.setColor(GColor.WHITE);
 					}
 					g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2,
 							csize / 5, csize / 5);
 
-					g.setColor(GColor.darkGray);
+					g.setColor(GColor.DARK_GRAY);
 
 				// paint check
 

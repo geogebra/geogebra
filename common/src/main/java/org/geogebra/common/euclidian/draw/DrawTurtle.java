@@ -350,7 +350,7 @@ public class DrawTurtle extends Drawable {
 		// back legs
 		g2.setStroke(stroke2);
 
-		g2.setColor(GColor.black);
+		g2.setColor(GColor.BLACK);
 
 		g2.draw(legs);
 
@@ -359,15 +359,15 @@ public class DrawTurtle extends Drawable {
 		g2.setStroke(stroke1);
 
 		// head
-		g2.setColor(GColor.gray);
+		g2.setColor(GColor.GRAY);
 		g2.fill(head);
-		g2.setColor(GColor.black);
+		g2.setColor(GColor.BLACK);
 		g2.draw(head);
 
 		// body
-		g2.setColor(GColor.green);
+		g2.setColor(GColor.GREEN);
 		g2.fill(body);
-		g2.setColor(GColor.black);
+		g2.setColor(GColor.BLACK);
 		g2.draw(body);
 
 		// pen color dot

@@ -271,8 +271,8 @@ public abstract class TextPreviewer {
 		if (isErrorMessage) {
 			geo.setVisualStyle(cons.getConstructionDefaults().getDefaultGeo(
 					ConstructionDefaults.DEFAULT_TEXT));
-			geo.setObjColor(GColor.red);
-			geo.setBackgroundColor(GColor.white);
+			geo.setObjColor(GColor.RED);
+			geo.setBackgroundColor(GColor.WHITE);
 			// geo.setFontSize(app.geGFontSize());
 			geo.setFontStyle(GFont.ITALIC);
 			geo.setLaTeX(false, true);
@@ -286,7 +286,7 @@ public abstract class TextPreviewer {
 				if (isLaTeX) {
 					geo.setSerifFont(true);
 				}
-				geo.setObjColor(GColor.black);
+				geo.setObjColor(GColor.BLACK);
 			}
 			geo.setLaTeX(isLaTeX, true);
 		}

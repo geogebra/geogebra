@@ -32,7 +32,7 @@ public final class DrawText extends Drawable {
 	/**
 	 * color used to draw rectangle around text when highlighted
 	 */
-	public static final org.geogebra.common.awt.GColor HIGHLIGHT_COLOR = org.geogebra.common.awt.GColor.lightGray;
+	public static final org.geogebra.common.awt.GColor HIGHLIGHT_COLOR = org.geogebra.common.awt.GColor.LIGHT_GRAY;
 
 	// private static final int SELECTION_DIAMETER_ADD = 4;
 	// private static final int SELECTION_OFFSET = SELECTION_DIAMETER_ADD / 2;

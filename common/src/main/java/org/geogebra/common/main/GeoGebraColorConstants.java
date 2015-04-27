@@ -17,12 +17,12 @@ public class GeoGebraColorConstants {
 	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR = AwtFactory.prototype
 			.newColor(214, 224, 245);
 	/** background of selected row / column header */
-	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR_HEADER = GColor.lightGray;
+	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR_HEADER = GColor.LIGHT_GRAY;
 	/** background of row / column header */
 	public static final GColor TABLE_BACKGROUND_COLOR_HEADER = AwtFactory.prototype
 			.newColor(232, 238, 247);
 	/** grid color for spreadsheet */
-	public static final GColor TABLE_GRID_COLOR = GColor.gray;
+	public static final GColor TABLE_GRID_COLOR = GColor.GRAY;
 
 	// ggb color constants
 	/** red */

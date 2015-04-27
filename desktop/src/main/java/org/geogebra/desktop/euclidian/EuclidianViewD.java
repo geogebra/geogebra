@@ -618,9 +618,9 @@ public class EuclidianViewD extends EuclidianView implements
 
 		if (highlightAnimationButtons) {
 			// draw filled circle to highlight button
-			g2.setColor(org.geogebra.common.awt.GColor.darkGray);
+			g2.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
 		} else {
-			g2.setColor(org.geogebra.common.awt.GColor.lightGray);
+			g2.setColor(org.geogebra.common.awt.GColor.LIGHT_GRAY);
 		}
 
 		g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic

@@ -120,9 +120,9 @@ public class ConstructionDefaults {
 	// DEFAULT COLORs
 	// points
 	/** default color for points */
-	public static final GColor colPoint = GColor.blue;
+	public static final GColor colPoint = GColor.BLUE;
 	/** default color for dependent points */
-	public static final GColor colDepPoint = GColor.darkGray;
+	public static final GColor colDepPoint = GColor.DARK_GRAY;
 	/** default color for points on path */
 	public static final GColor colPathPoint = GeoGebraColorConstants.LIGHTBLUE; // new
 																				// Color(125,
@@ -135,12 +135,12 @@ public class ConstructionDefaults {
 
 	// lines
 	/** default color for lines */
-	private static final GColor colLine = GColor.black;
+	private static final GColor colLine = GColor.BLACK;
 	/** default color for inequalities */
-	private static final GColor colInequality = GColor.blue;
+	private static final GColor colInequality = GColor.BLUE;
 
 	/** Color for conics **/
-	protected static final GColor colConic = GColor.black;
+	protected static final GColor colConic = GColor.BLACK;
 	/** default alpha for conics */
 	public static final float DEFAULT_CONIC_ALPHA = 0f;
 
@@ -167,10 +167,10 @@ public class ConstructionDefaults {
 	public static final float DEFAULT_NUMBER_ALPHA = 0.1f;
 
 	// locus lines
-	private static final GColor colLocus = GColor.black;
+	private static final GColor colLocus = GColor.BLACK;
 
 	// functions
-	private static final GColor colFunction = GColor.black;
+	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
 	private static final GColor colList = GeoGebraColorConstants.DARKGREEN; // new
@@ -186,7 +186,7 @@ public class ConstructionDefaults {
 			.newColor(255, 0, 0);
 
 	/** preview color */
-	public static final GColor colPreview = GColor.darkGray;
+	public static final GColor colPreview = GColor.DARK_GRAY;
 	/** preview fill color */
 	public static final GColor colPreviewFill = org.geogebra.common.factories.AwtFactory.prototype
 			.newColor(colPolygon.getRed(), colPolygon.getGreen(),
@@ -788,7 +788,7 @@ public class ConstructionDefaults {
 
 		if (blackWhiteMode) {
 			// use black color and no filling
-			geo.setObjColor(GColor.black);
+			geo.setObjColor(GColor.BLACK);
 			geo.setAlphaValue(0f);
 		}
 

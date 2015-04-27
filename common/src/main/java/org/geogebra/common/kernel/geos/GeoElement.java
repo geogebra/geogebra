@@ -223,7 +223,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/** cartesian, polar or complex */
 	public int toStringMode = Kernel.COORD_CARTESIAN;
 	/** default (foreground) color */
-	protected GColor objColor = GColor.black;
+	protected GColor objColor = GColor.BLACK;
 	/** background color*/
 	protected GColor bgColor = null; // none by default
 	/** color when selected */
@@ -272,40 +272,48 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 		/**
 		 * Simple fill (color+opacity)
+		 * 
+		 * need to be in menu order here
+		 * 
+		 * the integer is used in the XML so can't be changed
 		 */
-		STANDARD (0,false),
+		STANDARD(0, false),
 		/**
 		 * Hatched fill
 		 */
-		HATCH (1,true),
+		HATCH(1, true),
 		/**
 		 * Crosshatched fill
 		 */
-		CROSSHATCHED (2,true),
+		CROSSHATCHED(2, true),
 		/**
 		 * Chessboard fill, upright or diagonal
 		 */
-		CHESSBOARD (3,true),
+		CHESSBOARD(3, true),
 		/**
 		 * Dotted fill
 		 */
-		DOTTED (4,true),
+		DOTTED(4, true),
 		/**
 		 * Honeycomb fill
 		 */
-		HONEYCOMB (5,true),
+		HONEYCOMB(5, true),
 		/**
 		 * Brick fill
 		 */
-		BRICK (6,true),
+		BRICK(6, true),
+		/**
+		 * Weaving fill
+		 */
+		WEAVING(9, true),
 		/**
 		 * Unicode symbols fill
 		 */
-		SYMBOLS (7,true),		
+		SYMBOLS(7, true),
 		/**
 		 * Image background
 		 */
-		IMAGE (8,false);
+		IMAGE(8, false);
 		
 		
 		
@@ -1201,7 +1209,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public GColor getAlgebraColor() {
 		final GColor col = getLabelColor();
-		return col.equals(GColor.white) ? GColor.black : col;
+		return col.equals(GColor.WHITE) ? GColor.BLACK : col;
 	}
 
 	/**

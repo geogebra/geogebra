@@ -56,7 +56,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	private static final GColor DISPLAY_GEO_COLOR = GColor.RED;
 	private static final GColor DISPLAY_GEO2_COLOR = GColor.RED;
 	private static final GColor EVEN_ROW_COLOR = new GColorW(241, 245, 250);
-	private static final GColor TABLE_GRID_COLOR = GColor.gray;
+	private static final GColor TABLE_GRID_COLOR = GColor.GRAY;
 	private static final int TAB_INTERVAL_IDX = 0;
 	private static final String[] DEFAULT_XY_HEADERS = { "x", "y(x)" };
 	private static final String PREFIX = "[FUNC_ISPECTOR]";
@@ -251,7 +251,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			color = TABLE_GRID_COLOR;
 			break;
 		default:
-			color = GColor.black;
+			color = GColor.BLACK;
 			break;
 		}
 		return color;

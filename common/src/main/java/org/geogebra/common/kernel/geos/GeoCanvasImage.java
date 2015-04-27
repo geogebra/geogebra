@@ -70,7 +70,7 @@ public class GeoCanvasImage extends GeoImage {
 		pixelWidth = width;
 		pixelHeight = height;
 
-		this.setBackgroundColor(GColor.blue);
+		this.setBackgroundColor(GColor.BLUE);
 		GBasicStroke objStroke = EuclidianStatic.getDefaultStroke();
 		createImage(objStroke, getAlgebraColor(), this.getBackgroundColor(),
 				alphaValue, pixelWidth, pixelHeight);

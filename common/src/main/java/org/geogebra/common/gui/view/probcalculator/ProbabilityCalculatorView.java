@@ -28,10 +28,10 @@ import org.geogebra.common.kernel.algos.AlgoStickGraph;
 import org.geogebra.common.kernel.algos.AlgoTake;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -65,8 +65,8 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Unicode;
@@ -501,7 +501,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			}
 
 			if (isCumulative) {
-				discreteIntervalGraph.setObjColor(GColor.red);
+				discreteIntervalGraph.setObjColor(GColor.RED);
 				discreteIntervalGraph.setLineThickness(3);
 				discreteIntervalGraph
 						.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
@@ -622,7 +622,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 						null);
 				cons.removeFromConstructionList(seg1);
 				xSegment = seg1.getGeoElements()[0];
-				xSegment.setObjColor(GColor.blue);
+				xSegment.setObjColor(GColor.BLUE);
 				xSegment.setLineThickness(3);
 				xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 				xSegment.setEuclidianVisible(showProbGeos);
@@ -645,7 +645,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 						curvePoint, v);
 				cons.removeFromConstructionList(seg2);
 				ySegment = seg2.getGeoElements()[0];
-				ySegment.setObjColor(GColor.red);
+				ySegment.setObjColor(GColor.RED);
 				ySegment.setLineThickness(3);
 				ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 				ySegment.setEuclidianVisible(showProbGeos);

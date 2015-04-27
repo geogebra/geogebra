@@ -90,9 +90,9 @@ public class EuclidianSettings extends AbstractSettings {
 
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(GColor.black); // Michael Borcherds 2008-01-26 was darkgray
-		setGridColor(GColor.lightGray);
-		setBackground(GColor.white);
+		setAxesColor(GColor.BLACK); // Michael Borcherds 2008-01-26 was darkgray
+		setGridColor(GColor.LIGHT_GRAY);
+		setBackground(GColor.WHITE);
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 

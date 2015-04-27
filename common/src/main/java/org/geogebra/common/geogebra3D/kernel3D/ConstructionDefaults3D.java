@@ -61,7 +61,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	// plane
 	/** default color for 3D planes */
-	private static final GColor colPlane3D = GColor.darkCyan; // new Color(99,
+	private static final GColor colPlane3D = GColor.DARK_CYAN; // new Color(99,
 																// 219, 219);
 	/** default alpha for 3D planes */
 	public static final float DEFAULT_PLANE3D_ALPHA = 0.5f;
@@ -80,12 +80,12 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	// intersection
 
-	public static final GColor colIntersectionCurve = GColor.orange;
+	public static final GColor colIntersectionCurve = GColor.ORANGE;
 
 	// axes TODO use gui
-	public static final GColor colXAXIS = GColor.red;
-	public static final GColor colYAXIS = GColor.green;
-	public static final GColor colZAXIS = GColor.blue;
+	public static final GColor colXAXIS = GColor.RED;
+	public static final GColor colYAXIS = GColor.GREEN;
+	public static final GColor colZAXIS = GColor.BLUE;
 
 	/**
 	 * default constructor

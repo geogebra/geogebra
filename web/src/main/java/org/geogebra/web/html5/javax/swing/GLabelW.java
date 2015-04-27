@@ -9,7 +9,7 @@ import com.google.gwt.user.client.DOM;
 public class GLabelW extends org.geogebra.common.javax.swing.GLabel {
 
 	private com.google.gwt.user.client.ui.HTML impl;
-	private GColor color = GColor.white;
+	private GColor color = GColor.WHITE;
 	private boolean opaque = false;
 
 	GLabelW() {

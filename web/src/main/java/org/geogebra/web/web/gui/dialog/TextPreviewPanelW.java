@@ -83,7 +83,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 		
 			rect = EuclidianStatic.drawMultilineLaTeX(app,
 			        ev.getTempGraphics2D(textFont), previewGeo, ev.g2p,
-			        app.getPlainFontCommon(), GColor.black, GColor.white,
+			        app.getPlainFontCommon(), GColor.BLACK, GColor.WHITE,
 			        previewGeo.getTextString(), 0, 0, serif);
 			
 		} else {

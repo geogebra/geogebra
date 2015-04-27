@@ -249,7 +249,7 @@ public final class DrawImage extends Drawable {
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(org.geogebra.common.awt.GColor.lightGray);
+					g3.setPaint(org.geogebra.common.awt.GColor.LIGHT_GRAY);
 					g3.draw(labelRectangle);
 				}
 			} else {
@@ -267,7 +267,7 @@ public final class DrawImage extends Drawable {
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(org.geogebra.common.awt.GColor.lightGray);
+					g3.setPaint(org.geogebra.common.awt.GColor.LIGHT_GRAY);
 
 					// changed to code below so that the line thicknesses aren't
 					// transformed

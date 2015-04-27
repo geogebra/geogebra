@@ -172,7 +172,7 @@ public class MyButton implements Observer {
 		org.geogebra.common.awt.GPaint p;
 		org.geogebra.common.awt.GColor bg = geoButton.getBackgroundColor(), bg2;
 		if (bg == null)
-			bg = org.geogebra.common.awt.GColor.lightGray;
+			bg = org.geogebra.common.awt.GColor.LIGHT_GRAY;
 		if (isSelected()) {
 			/*
 			 * bg2 = bg; bg = bg.darker();
@@ -200,14 +200,14 @@ public class MyButton implements Observer {
 				geoButton.getHeight(), arcSize, arcSize);
 
 		// draw border
-		g.setColor(org.geogebra.common.awt.GColor.darkGray);
+		g.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
 		g.setStroke(EuclidianStatic.getDefaultStroke());
 		g.drawRoundRect(x, y, getWidth() + (int) add - 1, getHeight() - 1,
 				arcSize, arcSize);
 
 		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
-		this.setForeground(org.geogebra.common.awt.GColor.white);
+		this.setForeground(org.geogebra.common.awt.GColor.WHITE);
 
 		// draw image
 		if (geoButton.getFillImage() != null) {

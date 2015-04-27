@@ -114,7 +114,7 @@ public class AlgoDensityPlot extends AlgoElement {
 				imageSize + 2 * offset);
 		g = outputImage.getGraphics();
 		g.setFont(font);
-		g.setColor(GColor.white);
+		g.setColor(GColor.WHITE);
 		g.fillRect(0, 0, imageSize + 2 * offset, offset);
 		df = new DecimalFormat("0.##");
 		imagePlusOffset = imageSize + offset;
@@ -161,7 +161,7 @@ public class AlgoDensityPlot extends AlgoElement {
 	}
 
 	private void drawGrid() {
-		g.setColor(GColor.lightGray);
+		g.setColor(GColor.LIGHT_GRAY);
 		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
 			g.drawLine(i, offset, i, imagePlusOffset);
 		}
@@ -173,12 +173,12 @@ public class AlgoDensityPlot extends AlgoElement {
 	private void drawAxes() {
 		double xx = minX;
 		double yy = maxY;
-		g.setColor(GColor.gray);
+		g.setColor(GColor.GRAY);
 		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
 			g.drawLine(i, imagePlusOffset, i, imagePlusOffset + 2);
 			g.drawLine(offset - 2, i, offset, i);
 		}
-		g.setColor(GColor.black);
+		g.setColor(GColor.BLACK);
 		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
 			t = org.geogebra.common.factories.AwtFactory.prototype.newTextLayout(
 					df.format(xx), font, g.getFontRenderContext());
@@ -226,7 +226,7 @@ public class AlgoDensityPlot extends AlgoElement {
 	}
 
 	private void deleteAxes() {
-		g.setColor(GColor.white);
+		g.setColor(GColor.WHITE);
 		g.fillRect(0, imagePlusOffset, imagePlusOffset + 2 * offset, offset);
 		g.fillRect(0, offset, offset, imagePlusOffset);
 		g.fillRect(0, 0, imagePlusOffset + 2 * offset, offset);

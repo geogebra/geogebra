@@ -7,9 +7,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoTextField;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -65,6 +65,7 @@ public class FillingModel extends MultipleOptionsModel {
 				loc.getMenu("Filling.Dotted"), // index 4
 				loc.getMenu("Filling.Honeycomb"),// index 5
 				loc.getMenu("Filling.Brick"),// index 6
+				loc.getMenu("Filling.Weaving"),// index 6
 				loc.getMenu("Filling.Symbol"),// index 7
 				loc.getMenu("Filling.Image") // index 8
 				);
@@ -82,6 +83,7 @@ public class FillingModel extends MultipleOptionsModel {
 			break;
 		case CROSSHATCHED:
 		case CHESSBOARD:
+		case WEAVING:
 			getFillingListener().setCrossHatchedFillType();
 			break;
 		case BRICK:

@@ -4,54 +4,36 @@ import org.geogebra.common.factories.AwtFactory;
 
 public abstract class GColor implements GPaint {
 
-	public static GColor white;
-	public static GColor black;
-	public static GColor RED;
 	public static GColor WHITE;
 	public static GColor BLACK;
-	public static GColor BLUE;
-	public static GColor GRAY;
-	public static GColor GREEN;
+	public static GColor RED;
+	public static GColor ORANGE;
 	public static GColor YELLOW;
+	public static GColor GREEN;
+	public static GColor BLUE;
 	public static GColor CYAN;
+	public static GColor DARK_CYAN;
+	public static GColor DARK_GREEN;
 	public static GColor MAGENTA;
-	public static GColor red;
-	public static GColor orange;
-	public static GColor yellow;
-	public static GColor green;
-	public static GColor blue;
-	public static GColor cyan;
-	public static GColor darkCyan;
-	public static GColor darkGreen;
-	public static GColor magenta;
-	public static GColor lightGray;
-	public static GColor gray;
-	public static GColor darkGray;
+	public static GColor LIGHT_GRAY;
+	public static GColor GRAY;
+	public static GColor DARK_GRAY;
 
 	public static void initColors(AwtFactory f) {
-		white = f.newColor(255, 255, 255);
-		black = f.newColor(0, 0, 0);
-		RED = f.newColor(255, 0, 0);
 		WHITE = f.newColor(255, 255, 255);
 		BLACK = f.newColor(0, 0, 0);
-		BLUE = f.newColor(0, 0, 255);
-		GRAY = f.newColor(128, 128, 128);
-		GREEN = f.newColor(0, 255, 0);
+		RED = f.newColor(255, 0, 0);
+		ORANGE = f.newColor(255, 127, 0);
 		YELLOW = f.newColor(255, 255, 0);
+		GREEN = f.newColor(0, 255, 0);
+		BLUE = f.newColor(0, 0, 255);
 		CYAN = f.newColor(0, 255, 255);
+		DARK_CYAN = f.newColor(99, 219, 219);
+		DARK_GREEN = f.newColor(0, 127, 0);
 		MAGENTA = f.newColor(255, 0, 255);
-		red = f.newColor(255, 0, 0);
-		orange = f.newColor(255, 127, 0);
-		yellow = f.newColor(255, 255, 0);
-		green = f.newColor(0, 255, 0);
-		blue = f.newColor(0, 0, 255);
-		cyan = f.newColor(0, 255, 255);
-		darkCyan = f.newColor(99, 219, 219);
-		darkGreen = f.newColor(0, 127, 0);
-		magenta = f.newColor(255, 0, 255);
-		lightGray = f.newColor(192, 192, 192);
-		gray = f.newColor(128, 128, 128);
-		darkGray = f.newColor(68, 68, 68);
+		LIGHT_GRAY = f.newColor(192, 192, 192);
+		GRAY = f.newColor(128, 128, 128);
+		DARK_GRAY = f.newColor(68, 68, 68);
 	}
 
 	public abstract int getRed();
@@ -62,7 +44,8 @@ public abstract class GColor implements GPaint {
 
 	public abstract int getAlpha();
 
-	/* ÉJ float[] */public abstract void getRGBColorComponents(float[] rgb);
+	/* float[] */
+	public abstract void getRGBColorComponents(float[] rgb);
 
 	// public Color(float r, float g, float b, float alpha);
 	public static int HSBtoRGB(float hue, float saturation, float brightness) {

@@ -1275,7 +1275,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	protected void initView(boolean repaint) {
 		super.initView(repaint);
-		setBackground(GColor.white);
+		setBackground(GColor.WHITE);
 		updateMatrix();
 	}
 

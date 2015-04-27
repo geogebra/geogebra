@@ -2086,6 +2086,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			case CHESSBOARD:
 			case HONEYCOMB:
 			case BRICK:
+			case WEAVING:
 			case DOTTED:
 				dotted = true;
 			case CROSSHATCHED:
@@ -2182,11 +2183,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			}
 			if (c.equals(GColor.BLACK))
 				sb.append("black");
-			else if (c.equals(GColor.darkGray))
+			else if (c.equals(GColor.DARK_GRAY))
 				sb.append("darkgray");
 			else if (c.equals(GColor.GRAY))
 				sb.append("gray");
-			else if (c.equals(GColor.lightGray))
+			else if (c.equals(GColor.LIGHT_GRAY))
 				sb.append("lightgray");
 			else if (c.equals(GColor.WHITE))
 				sb.append("white");
@@ -2197,11 +2198,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			// suffix="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			if (c.equals(GColor.BLACK))
 				sb.append("black");
-			else if (c.equals(GColor.darkGray))
+			else if (c.equals(GColor.DARK_GRAY))
 				sb.append("darkgray");
 			else if (c.equals(GColor.GRAY))
 				sb.append("gray");
-			else if (c.equals(GColor.lightGray))
+			else if (c.equals(GColor.LIGHT_GRAY))
 				sb.append("lightgray");
 			else if (c.equals(GColor.WHITE))
 				sb.append("white");

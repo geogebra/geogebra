@@ -138,7 +138,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		}
 		else {
 			this.setIcon(GeoGebraIcon.createNullSymbolIcon(iconSize.getWidth(), iconSize.getHeight()));
-			this.getElement().getStyle().setBorderColor(GColor.black.toString());
+			this.getElement().getStyle().setBorderColor(GColor.BLACK.toString());
 		}
 	}
 
