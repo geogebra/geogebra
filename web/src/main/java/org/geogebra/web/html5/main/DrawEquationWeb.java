@@ -20,7 +20,6 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
-import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -1667,9 +1666,6 @@ GeoContainer rbti,
 	}
 
 	public static DrawEquationWeb getNonStaticCopy(GeoContainer rbti) {
-		if (rbti instanceof RadioButtonTreeItem)// which should be true
-			return (DrawEquationWeb) ((RadioButtonTreeItem) rbti)
-					.getApplication().getDrawEquation();
-		return null;
+		return (DrawEquationWeb) rbti.getApplication().getDrawEquation();
 	}
 }
