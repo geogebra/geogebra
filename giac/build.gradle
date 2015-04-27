@@ -2,27 +2,129 @@ project.setDescription('Minimal version of Giac CAS for GeoGebra')
 
 apply plugin: 'cpp'
 
-libraries {
-    giac {
-	binaries.all {
-	    cppCompiler.define "GIAC_GGB"
-	    cppCompiler.define "IN_GIAC"
-	    cppCompiler.define "GIAC_GENERIC_CONSTANTS"
-	    cppCompiler.define "HAVE_UNISTD_H"
-	    cppCompiler.define "HAVE_LIBPTHREAD"
-	    cppCompiler.define "HAVE_SYSCONF"
-	    cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
-	    cppCompiler.define "VERSION", '"1.1.3"'
-	}
-    }
-}
+def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
 
-executables {
-    icas {
-        binaries.all {
-            lib libraries.giac.static
-	    linker.args "-lgmp"
-	    linker.args "-lpthread"
+// println java_home
+
+model {
+    repositories {
+        libs(PrebuiltLibraries) {
+            mpfr {
+                binaries.withType(StaticLibraryBinary) {
+		    def arch = targetPlatform.architecture.name
+		    def os = targetPlatform.operatingSystem.name
+                    staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libmpfr.a")
+                }
+            }
+            gmp {
+                binaries.withType(StaticLibraryBinary) {
+		    def arch = targetPlatform.architecture.name
+		    def os = targetPlatform.operatingSystem.name
+                    staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libgmp.a")
+                }
+            }
+        }
+    }
+    platforms {
+        win32 {
+            architecture 'i386'
+            operatingSystem 'windows'
+        }
+        win64 {
+            architecture 'x64'
+            operatingSystem 'windows'
+        }
+    }
+
+    toolChains {
+        mingw(Gcc) {
+            target('win32') {
+                cppCompiler.executable 'i686-w64-mingw32-g++'
+                linker.executable 'i686-w64-mingw32-g++'
+            }
+            target('win64') {
+                cppCompiler.executable 'x86_64-w64-mingw32-g++'
+                linker.executable 'x86_64-w64-mingw32-g++'
+            }
+        }
+    }
+    components {
+        // giac static libary
+        giac(NativeLibrarySpec) {
+            binaries.all{ 
+                cppCompiler.define "GIAC_GGB"
+                cppCompiler.define "IN_GIAC"
+                cppCompiler.define "GIAC_GENERIC_CONSTANTS"
+                cppCompiler.define "HAVE_UNISTD_H"
+                cppCompiler.define "HAVE_LIBPTHREAD"
+                cppCompiler.define "HAVE_SYSCONF"
+                cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
+                cppCompiler.define "VERSION", '"1.1.3"'
+                cppCompiler.define "TIMEOUT"
+                cppCompiler.define "EMCC"
+
+            }
+        }
+
+        icas(NativeExecutableSpec) {
+            binaries.all {
+                lib library: 'giac', linkage: 'static'
+                linker.args '-lgmp', '-lpthread'
+            }
+        }
+
+        javagiac(NativeLibrarySpec) {
+            sources.cpp {
+                source {
+                    srcDirs 'src/giac/cpp', 'src/jni/cpp'
+                    exclude '**/first.cc', '**/firstcc.cc', '**/hello.cc'
+                }
+                exportedHeaders {
+                    srcDirs 'src/giac/headers', 'src/jni/jdkHeaders', 'src/jni/jdkHeaders/win32'
+                }
+                lib library: 'mpfr', linkage: 'static'
+                lib library: 'gmp', linkage: 'static'
+            }
+            targetPlatform 'win32'
+            targetPlatform 'win64'
+
+            binaries.withType(SharedLibraryBinary) {
+                cppCompiler.define "IN_GIAC"
+                if (targetPlatform.operatingSystem.name == 'windows') {
+                    cppCompiler.define 'HAVE_CONFIG_H'
+                    cppCompiler.define 'GIAC_MPQS'
+                    cppCompiler.define '__MINGW_H'
+                    cppCompiler.define 'SIZEOF_INT', '4'
+                    cppCompiler.define 'SIZEOF_LONG_LONG', '8'
+                    cppCompiler.define 'HAVE_MPFR_H', '1'
+                    cppCompiler.define 'VERSION', '"1.1"'
+                    cppCompiler.define 'HAVE_NO_SYS_TIMES_H'
+                    cppCompiler.define 'HAVE_NO_SYS_RESOURCE_WAIT_H'
+                    cppCompiler.define 'HAVE_NO_PWD_H'
+                    cppCompiler.define 'HAVE_NO_CWD'
+                    cppCompiler.define 'usleep',''
+                    cppCompiler.define 'YY_NO_UNISTD_H'
+
+                    if (targetPlatform.architecture.name == 'i386') {
+                        cppCompiler.define 'SIZEOF_LONG', '8'
+                        cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
+                        cppCompiler.define 'SMARTPTR64'
+            	    } else {
+                        cppCompiler.define 'SIZEOF_LONG', '4'
+                    }
+
+                    cppCompiler.args '-fexceptions'
+                    cppCompiler.args '-Os'
+                    cppCompiler.args '-s'
+                    cppCompiler.args '-I.'
+
+                    linker.args '-Wl,--add-stdcall-alias'
+                    linker.args '-s'
+		    linker.args '-static-libgcc'
+		    linker.args '-static-libstdc++'
+                    linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
+                }
+            }
         }
     }
 }
