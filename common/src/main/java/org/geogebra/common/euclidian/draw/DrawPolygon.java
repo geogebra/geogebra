@@ -359,30 +359,61 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	}
 
+	private double[][] fanCoords;
+
+	private static final int FAN_DELTA = 10;
+
+	private boolean isOutView(double[] c) {
+		return c[0] < -FAN_DELTA || c[1] < -FAN_DELTA
+				|| c[0] > view.getWidth() + FAN_DELTA
+				|| c[1] > view.getHeight() + FAN_DELTA;
+	}
+
+
 	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
 		App.debug("[POLY] drawTriangleFan");
 		
+		int size = triFan.size();
 		
+		if (fanCoords == null || fanCoords.length < size) {
+			fanCoords = new double[size][];
+		}
+		
+		// apex coords to screen, check it's inside
 		Coords coordsApex = v[triFan.getApexPoint()];
 		coords[0] = coordsApex.getX();
 		coords[1] = coordsApex.getY();
 		view.toScreenCoords(coords);
-		double startX = coords[0];
-		double startY = coords[1];
-		gpTriangularize.moveTo(coords[0], coords[1]);
-		for (int i=0; i < triFan.size(); i++) {
+		if (isOutView(coords)) {
+			return;
+		}
+
+		// fan coords to screen, check it's inside
+		for (int i = 0; i < size; i++) {
 			Coords coord = v[triFan.getVertexIndex(i)];		
-			coords[0] = coord.getX();
-			coords[1] = coord.getY();
-			view.toScreenCoords(coords);
-			gpTriangularize.lineTo(coords[0], coords[1]);
+			if (fanCoords[i] == null) {
+				fanCoords[i] = new double[2];
+			}
+			fanCoords[i][0] = coord.getX();
+			fanCoords[i][1] = coord.getY();
+			view.toScreenCoords(fanCoords[i]);
+			if (isOutView(fanCoords[i])) {
+				return;
+			}
 		}
 		
+		// all vertices inside : draw
+
+		// start
+		gpTriangularize.moveTo(coords[0], coords[1]);
+
+		// fan
+		for (int i = 0; i < size; i++) {
+			gpTriangularize.lineTo(fanCoords[i][0], fanCoords[i][1]);
+		}
+
 		// we have to move back manually to apex since we may have new fan to draw
-		gpTriangularize.moveTo(startX, startY);
-		
-		
-		
+		gpTriangularize.lineTo(coords[0], coords[1]);
 		
 	}
 
