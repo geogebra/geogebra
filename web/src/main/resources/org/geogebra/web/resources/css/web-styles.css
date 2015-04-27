@@ -2832,6 +2832,7 @@ body.application[dir=rtl] .button.redoButton {
 #####################################################################################*/
 .DialogBox,.gwt-DialogBox {
 	z-index: 501;
+	box-shadow: 1px 1px 6px 1px #666666;
 }
 
 .gwt-DialogBox .Caption {
@@ -3414,7 +3415,142 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	max-width:60px;
 }
 
-/*=========== Navigation Bar end =============*/
+
+/*#####################################################################################
+###       Data collection
+#####################################################################################*/
+
+/* Navigation */
+.dataCollectionNav {
+	position: absolute;
+  	background-color: #F8F8F8;
+  	width: 100%;
+  	bottom: 0px;
+  	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.3);
+  	border-top: 1px solid #EDEDED;
+  	cursor: default;
+  	padding: 5px;
+  	box-sizing: border-box;
+}
+
+.dataCollectionNav .settingsButton:hover,
+.dataCollectionNav .startStopButton:hover {
+	border-color: #6666ff;
+}
+
+.dataCollectionNav .settingsButton {
+	float: right;
+}
+
+.dataCollectionNav .startStopButton {
+	float: left;
+	background: #FFFFFF;
+	border: 1px solid #CDCDCD;
+	box-shadow: none;
+	border-radius: 5px;
+  	width: 30px;
+  	height: 23px;
+  	text-align: center;
+  	padding-top: 7px;
+  	cursor: pointer;
+  	cursor: hand;
+}
+
+/* View - Settings */
+.dataCollectionView .closeButtonPanel {
+  	position: absolute;
+  	top: 0px;
+  	right: 0px;
+  	padding: 5px;
+  	cursor: pointer;
+  	cursor: hand;
+}
+
+.dataCollectionView .gwt-Label {
+	cursor: default;
+}
+
+.dataCollectionView .gwt-TabLayoutPanel {
+	  height: 100%;
+}
+
+.dataCollectionView .panelTitle {
+	  margin-bottom: 10px;
+	  margin-top: 10px;
+	  height: 20px;
+}
+
+/** CONNECTION */
+.dataCollectionView .connection .panelIndent .gwt-TextBox {
+	float: left;
+  	width: 80px;
+}
+
+.dataCollectionView .connectButton {
+	margin-left: 20px;
+  	float: left;
+}
+
+.dataCollectionView .connectButton:hover {
+  	border: 1px solid #6666ff;
+  	cursor: pointer;
+  	cursor: hand;
+}
+
+.dataCollectionView .connectButton.gwt-ToggleButton-down {
+	border-color: #DCDCDC !important;
+}
+
+/** SETTINGS */
+
+.dataCollectionView .panelIndent {
+	display: inline-block;
+}
+
+.dataCollectionView .panelIndent .gwt-Label {
+	float: left;
+  	padding-top: 5px;
+  	padding-right: 15px;
+}
+
+.dataCollectionView .collapse {
+	float: right;
+	padding-top: 2px;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.dataCollectionView .panelTitle .gwt-Label {
+	float: left;
+}
+
+.dataCollectionView .rowContainer {
+	display: inline-block;
+  	width: 100%;
+  	padding-bottom: 5px;
+}
+
+.dataCollectionView .gwt-ListBox {
+	float: left;
+	height: 31px;
+	min-width: 80px;
+}
+
+.dataCollectionView .sensorOnOffButton {
+	float: left;
+  	padding-right: 5px;
+  	padding-top: 1px;
+    cursor: pointer;
+  	cursor: hand;
+}
+
+.gwt-Label.connectedLabel {
+  padding-left: 15px;
+  font-size: 90%;
+  font-style: italic;
+  padding-top: 7px !important;
+  opacity: 0.5;
+}
 
 /*#####################################################################################
 ###       CONSTRUCTION PROTOCOL

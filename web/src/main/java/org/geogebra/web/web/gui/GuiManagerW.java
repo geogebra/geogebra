@@ -61,6 +61,7 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.CASDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.DataAnalysisViewDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.DataCollectionDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -76,6 +77,8 @@ import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
+import org.geogebra.web.web.gui.view.dataCollection.DataCollectionNavigation;
+import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
@@ -131,6 +134,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
 	private ToolBarW updateToolBar = null;
+	private DataCollectionNavigation dataCollectionNav;
+	private boolean dataCollectionIsShowing;
+
+	private DataCollectionView dataCollectionView;
+
+	private int activeViewID;
 
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
@@ -680,6 +689,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// register data analysis view
 		layout.registerPanel(new DataAnalysisViewDockPanelW((AppW) app));
 
+		//register data collection view
+		layout.registerPanel(new DataCollectionDockPanelW((AppW) app));
+		
 		if (!app.isApplet()) {
 			// register python view
 			// layout.registerPanel(new PythonDockPanel(app));
@@ -967,7 +979,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void attachAssignmentView() {
 		App.debug("unimplemented");
 	}
+	
+	public DataCollectionView getDataCollectionView() {
+		if (dataCollectionView == null) {
+			dataCollectionView = new DataCollectionView((AppW) app);
+		}
+		return dataCollectionView;
+	}
 
+	public void updateDataCollectionView() {
+		this.dataCollectionView.updateGeoList();
+	}
+	
 	public EuclidianView getActiveEuclidianView() {
 
 		if (layout == null)
@@ -1461,12 +1484,22 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void setActiveView(final int evID) {
+		this.activeViewID = evID;
 		if (layout == null || layout.getDockManager() == null) {
 			return;
 		}
 		layout.getDockManager().setFocusedPanel(evID);
 	}
 
+	/**
+	 * 
+	 * @return ID of the active view
+	 * @see #setActiveView(int)
+	 */
+	public int getActiveViewID() {
+		return this.activeViewID;
+	}
+	
 	@Override
 	public boolean isDraggingViews() {
 		return draggingViews;
@@ -1682,5 +1715,37 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
 
+	/**
+	 * creates a new {@link DataCollectionNavigation} if needed and adds it to the
+	 * {@link EuclidianDockPanelW}
+	 * @return {@link DataCollectionNavigation}
+	 */
+	private DataCollectionNavigation getDataCollectionBar() {
+		AppW appW = (AppW) app;
+		if (this.dataCollectionNav == null) {
+			this.dataCollectionNav = new DataCollectionNavigation(appW);
+			((EuclidianDockPanelW) appW.getEuclidianViewpanel())
+					.addDataCollectionBar(this.dataCollectionNav);
+		}
+		return this.dataCollectionNav;
+	}
+	
+	/**
+	 * shows/hides the {@link DataCollectionNavigation} and updates the checkbox of the menu
+	 */
+	public void toggleDataCollectionBar() {
+		if (app.showConsProtNavigation()) {
+			app.toggleShowConstructionProtocolNavigation();
+		}
+		dataCollectionIsShowing = !dataCollectionIsShowing;
+		getDataCollectionBar().setVisible(dataCollectionIsShowing);
+		updateMenubar();
+	}
 
+	/**
+	 * @return {@code true} if the {@link DataCollectionNavigation} is opened
+	 */
+	public boolean isDataCollectionVisible() {
+		return this.dataCollectionIsShowing;
+	}
 }

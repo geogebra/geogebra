@@ -31,6 +31,7 @@ import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
+import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.web.helper.ObjectPool;
 import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
@@ -59,6 +60,7 @@ public class AppWapplication extends AppWFull {
 	private CustomizeToolbarGUI ct;
 	protected final GDevice device;
 	private boolean macroRestored;
+	private DataCollection dataCollection;
 
 	/********************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb
@@ -587,5 +589,21 @@ public class AppWapplication extends AppWFull {
 	public HasAppletProperties getAppletFrame() {
 		return appFrame;
 	}
+	
+	
+	@Override
+	public void toggleShowConstructionProtocolNavigation() {
+		if (((GuiManagerW) this.guiManager).isDataCollectionVisible()) {
+			((GuiManagerW) this.guiManager).toggleDataCollectionBar();
+		}
+		super.toggleShowConstructionProtocolNavigation();
+		((GuiManagerW) this.guiManager).updateMenubar();
+	}
 
+	public DataCollection getDataCollection() {
+		if (this.dataCollection == null) {
+			this.dataCollection = new DataCollection(this);
+		}
+		return this.dataCollection;
+	}
 }

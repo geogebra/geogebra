@@ -6,6 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
+import org.geogebra.web.web.gui.view.dataCollection.DataCollectionNavigation;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -24,7 +25,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	Canvas eview1 = null;// static foreground
 
 	private ConstructionProtocolNavigationW consProtNav;
-
+	
 	/**
 	 * This constructor is used by the Application
 	 * and by the other constructor
@@ -98,13 +99,16 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		updateNavigationBar();
 	}
 	
+	public void addDataCollectionBar(DataCollectionNavigation dataCollNav) {
+		euclidianpanel.add(dataCollNav);
+	}
+	
 	public void updateNavigationBar(){
 //		ConstructionProtocolSettings cps = app.getSettings()
 //		        .getConstructionProtocol();
 //		((ConstructionProtocolNavigationW) consProtNav).settingsChanged(cps);
 //		cps.addListener((ConstructionProtocolNavigation)consProtNav);
 
-		
 		if (app.getShowCPNavNeedsUpdate()) {
 			app.setShowConstructionProtocolNavigation(app
 			        .showConsProtNavigation());

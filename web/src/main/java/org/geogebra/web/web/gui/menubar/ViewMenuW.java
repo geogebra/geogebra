@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.menubar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.view.Views;
@@ -18,11 +19,18 @@ public class ViewMenuW extends GMenuBar {
 
 	
 	/**
+	 * set to true if you want to enable DataCollection
+	 */
+	private boolean enableDataCollection = false;
+
+	/**
 	 * Menuitem with checkbox for show algebra view
 	 */
 	GCheckBoxMenuItem[] items;
 	AppW app;
 	GCheckBoxMenuItem inputBarItem;
+	private GCheckBoxMenuItem dataCollectionBar;
+	private GCheckBoxMenuItem consProtNav;
 	
 	/**
 	 * Constructs the "View" menu
@@ -118,6 +126,32 @@ public class ViewMenuW extends GMenuBar {
 		        });
 		addItem(inputBarItem.getMenuItem());
 		
+		consProtNav = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		        .getSafeUri().asString(), app.getMenu("NavigationBar"), true),
+		        new MenuCommand(app) {
+			
+			        @Override
+                    public void execute() {
+			        	app.toggleShowConstructionProtocolNavigation();
+			        }
+		        });
+		addItem(consProtNav.getMenuItem());
+		
+		if (enableDataCollection) {
+			dataCollectionBar = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
+					AppResources.INSTANCE.empty().getSafeUri().asString(),
+					app.getMenu("Data Collection"), true),
+					new MenuCommand(app) {
+
+						@Override
+						public void execute() {
+							((GuiManagerW) app.getGuiManager())
+									.toggleDataCollectionBar();
+						}
+					});
+			addItem(dataCollectionBar.getMenuItem());
+		}
+		
 		addSeparator();
 		
 		initRefreshActions();
@@ -132,6 +166,11 @@ public class ViewMenuW extends GMenuBar {
 			}
 		}
 		inputBarItem.setSelected(app.getInputPosition() != InputPositon.algebraView);
+		if (enableDataCollection) {
+			dataCollectionBar.setSelected(((GuiManagerW) app.getGuiManager())
+					.isDataCollectionVisible());
+		}
+		consProtNav.setSelected(app.showConsProtNavigation());
 	}
 
 }

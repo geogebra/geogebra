@@ -332,4 +332,17 @@ public interface GuiResources extends ClientBundle {
 	// ALGEBRA VIEW
 	@Source("org/geogebra/web/web/gui/images/view-close.png")
 	ImageResource algebraViewDeleteEntry();
+	
+	// DATA COLLECTION
+	@Source("org/geogebra/web/web/gui/images/datacollection_on.png")
+	ImageResource datacollection_on();
+	
+	@Source("org/geogebra/web/web/gui/images/datacollection_off.png")
+	ImageResource datacollection_off();
+
+	@Source("org/geogebra/web/web/gui/images/collapse24.png")
+	ImageResource collapse();
+
+	@Source("org/geogebra/web/web/gui/images/expand24.png")
+	ImageResource expand();
 }

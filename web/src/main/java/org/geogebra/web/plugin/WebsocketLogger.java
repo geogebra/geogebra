@@ -15,13 +15,13 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class WebsocketLogger extends SensorLogger {
 
-	private WebSocketConnection connection = null;
+	protected WebSocketConnection connection = null;
 
 	public WebsocketLogger(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
-	protected void createConnection() {
+	public void createConnection() {
 		if (this.connection == null
 		        || this.connection.getReadyState() != WebSocketConnection.OPEN) {
 			this.connection = WebSocketFactory
@@ -29,7 +29,6 @@ public class WebsocketLogger extends SensorLogger {
 			this.connection.onOpen(new OpenEventHandler() {
 
 				public void open(JavaScriptObject event) {
-					App.debug("websocket connection opened");
 					startHandShake();
 				}
 
@@ -51,16 +50,27 @@ public class WebsocketLogger extends SensorLogger {
 
 		initCloseHandler();
 		
+		initErrorHandler();
+
 		return true;
 	}
 
-	private void startHandShake() {
+	protected void initErrorHandler() {
+		connection.onError(new ErrorEventHandler() {
+
+			public void error(JavaScriptObject e) {
+				App.debug("Error with webSocket");
+			}
+		});
+	}
+
+	protected void startHandShake() {
 		JSONObject obj = new JSONObject();
 		obj.put("appID", new JSONString(appID));
 		connection.send(obj.toString());
 	}
 
-	private void initCloseHandler() {
+	protected void initCloseHandler() {
 		connection.onClose(new CloseEventHandler() {
 
 			public void close(JavaScriptObject event) {
@@ -69,7 +79,7 @@ public class WebsocketLogger extends SensorLogger {
 		});
 	}
 
-	void handle(JavaScriptObject json) {
+	protected void handle(JavaScriptObject json) {
 		// TODO : Maybe do it faster somehow - only logging that is sent?
 		if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
 			log(Types.ACCELEROMETER_X,
@@ -115,13 +125,11 @@ public class WebsocketLogger extends SensorLogger {
 		}
 		
 		if (JSON.get(json, Types.DATA_COUNT.toString()) != null) {
-			log(Types.DATA_COUNT,
- Float.parseFloat(JSON.get(json,
+			log(Types.DATA_COUNT, Float.parseFloat(JSON.get(json,
 			        Types.DATA_COUNT.toString())));
 		}
 		if (JSON.get(json, Types.TIMESTAMP.toString()) != null) {
-			log(Types.TIMESTAMP,
- Float.parseFloat(JSON.get(json,
+			log(Types.TIMESTAMP, Float.parseFloat(JSON.get(json,
 			        Types.TIMESTAMP.toString())));
 		}
 		if (JSON.get(json, Types.LOUDNESS.toString()) != null) {
@@ -129,36 +137,32 @@ public class WebsocketLogger extends SensorLogger {
 			        Float.parseFloat(JSON.get(json, Types.LOUDNESS.toString())));
 		}
 		if (JSON.get(json, Types.PROXIMITY.toString()) != null) {
-			log(Types.PROXIMITY,
- Float.parseFloat(JSON.get(json,
+			log(Types.PROXIMITY, Float.parseFloat(JSON.get(json,
 			        Types.PROXIMITY.toString())));
 		}
 		if (JSON.get(json, Types.LIGHT.toString()) != null) {
 			log(Types.LIGHT,
-			        Float.parseFloat(JSON.get(json, Types.LIGHT.toString())));
+					Float.parseFloat(JSON.get(json, Types.LIGHT.toString())));
 		}
-
 	}
 
-	private void initMsgHandler() {
+	protected void initMsgHandler() {
 		connection.onMessage(new MessageEventHandler() {
 
 			public void message(JavaScriptObject msg) {
 				String data = JSON.get(msg, "data");
 				JavaScriptObject jsonData = JSON.parse(data);
 				handle(jsonData);
-
 			}
 		});
 	}
 
 	@Override
-	protected void closeSocket() {
+	public void closeSocket() {
 		if (connection != null
 		        && connection.getReadyState() != WebSocketConnection.CONNECTING) {
 			connection.close();
 			connection = null;
 		}
 	}
-
 }
