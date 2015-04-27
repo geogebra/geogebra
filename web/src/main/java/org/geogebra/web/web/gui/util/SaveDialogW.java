@@ -325,13 +325,13 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * private, than link to GGT
 	 */
 	protected void onSave() {
-		if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
+	   if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
+				app.getFileManager().export(app);
+		}else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
 			saveLocal();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
-		}else if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
-			app.getFileManager().export(app);
-		} else {
+		}else {
 			if (app.getActiveMaterial() == null) {
 				app.setActiveMaterial(new Material(0, MaterialType.ggb));
 			}
