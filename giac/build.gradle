@@ -34,6 +34,10 @@ model {
             architecture 'x64'
             operatingSystem 'windows'
         }
+	linux_i686 {
+            architecture 'i386'
+            operatingSystem 'linux'
+        }
 	linux64 {
             architecture 'x64'
             operatingSystem 'linux'
@@ -79,6 +83,7 @@ model {
         javagiac(NativeLibrarySpec) {
             targetPlatform 'win32'
             targetPlatform 'win64'
+	    targetPlatform 'linux_i686'
 	    targetPlatform 'linux64'
 
             sources.cpp {
