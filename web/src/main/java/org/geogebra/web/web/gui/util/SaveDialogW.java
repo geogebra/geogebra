@@ -101,6 +101,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private FlowPanel buttonPanel;
 	private ListBox listBox;
 	private MaterialType saveType;
+	private ArrayList<Material.Provider> supportedProviders = new ArrayList<Material.Provider>();
 
 	// private MaterialCallback materialCB;
 
@@ -280,14 +281,17 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		        && app.getLAF().supportsGoogleDrive()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_drive();
+			this.supportedProviders.add(Provider.TUBE);
 		}
 		if (user != null && user.hasOneDrive()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_skydrive();
+			this.supportedProviders.add(Provider.ONE);
 		}
 		if (app.getLAF().supportsLocalSave()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_local();
+			this.supportedProviders.add(Provider.ONE);
 		}
 		if (providerPopup != null) {
 			buttonPanel.remove(providerPopup);
@@ -326,7 +330,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	protected void onSave() {
 	   if (app.getFileManager().getFileProvider() == Provider.LOCAL) {
-				app.getFileManager().export(app);
+			app.getKernel().getConstruction().setTitle(this.title.getText());
+			app.getFileManager().export(app);
 		}else if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
 			saveLocal();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
@@ -538,14 +543,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		super.show();
 		setTitle();
 		if (app.isOffline()) {
-			this.providerPopup.setVisible(false);
-			this.listBox.setVisible(false);
+			this.providerPopup.setVisible(this.supportedProviders
+					.contains(Provider.LOCAL));
 		} else {
 			this.providerPopup.setVisible(true);
-			this.providerPopup.setSelectedIndex(0);
-			app.getFileManager().setFileProvider(
-			        org.geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
-			this.listBox.setVisible(true);
+			this.providerPopup.setSelectedIndex(this.supportedProviders
+					.indexOf(app.getFileManager().getFileProvider()));
+			// app.getFileManager().setFileProvider(
+			// org.geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
 			if (app.getActiveMaterial() != null) {
 				if (app.getActiveMaterial().getVisibility()
 				        .equals(Visibility.Public.getToken())) {
@@ -637,26 +642,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	@Override
 	public void fireActionPerformed(PopupMenuButton actionButton) {
-		if (actionButton.getSelectedIndex() == 1) {
-			if(app.getLAF().supportsGoogleDrive()){
-			if (!app.isOffline()) {
-				listBox.setVisible(false);
-			}
-			app.getFileManager()
-			        .setFileProvider(
-			                org.geogebra.common.move.ggtapi.models.Material.Provider.GOOGLE);
-			}else{
-				app.getFileManager()
-				        .setFileProvider(
-				                org.geogebra.common.move.ggtapi.models.Material.Provider.LOCAL);	
-			}
-		} else {
-			app.getFileManager().setFileProvider(
-			        org.geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
-			if (!app.isOffline()) {
-				listBox.setVisible(true);
-			}
-		}
+		Provider provider = this.supportedProviders.get(actionButton.getSelectedIndex());
+		app.getFileManager().setFileProvider(provider);
+
+		listBox.setVisible(provider == Provider.TUBE);
+
 		providerPopup.getMyPopup().hide();
 	}
 

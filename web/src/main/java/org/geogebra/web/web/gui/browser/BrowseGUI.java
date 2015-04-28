@@ -11,8 +11,8 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
+import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -153,9 +153,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 				loadAllMaterials();
 			}
 		});
-		// TODO: Only visible if user is logged in with google Account
-		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
-		        .getLoggedInUser();
 
 		setAvailableProviders();
 	}
@@ -271,6 +268,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 	public void openFileAsGgb(final JavaScriptObject fileToHandle,
 	        final JavaScriptObject callback) {
+		if (app.getLAF().supportsLocalSave()) {
+			app.getFileManager().setFileProvider(Provider.LOCAL);
+		}
 		app.openFileAsGgb(fileToHandle, callback);
 	}
 
