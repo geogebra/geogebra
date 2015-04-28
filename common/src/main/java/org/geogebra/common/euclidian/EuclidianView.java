@@ -915,6 +915,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	final public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
 		setCoordSystem(xZero, yZero, xscale, yscale, true);
+		settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
 	}
 
 	/** Sets coord system from mouse move */
