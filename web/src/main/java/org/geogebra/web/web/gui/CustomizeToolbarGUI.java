@@ -914,6 +914,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				Vector<Integer> menu = element.getMenu();
 				final DraggableTool tool = new DraggableTool(menu.get(0));
 
+				if (app.isModeValid(tool.getMode())) {
 				toolTree.addTool(tool, false);
 
 				for (int j = 0; j < menu.size(); j++) {
@@ -922,6 +923,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 						usedTools.add(modeInt);
 						tool.addTool(new DraggableTool(modeInt));
 					}
+				}
 				}
 			}
 		}

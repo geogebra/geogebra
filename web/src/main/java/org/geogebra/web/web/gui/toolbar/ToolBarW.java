@@ -204,7 +204,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 			ToolbarItem ob = toolbarVec.get(i);
 			Vector<Integer> menu = ob.getMenu();
 
-			if (!"".equals(app.getToolName(menu.get(0).intValue()))) {
+			if (app.isModeValid(menu.get(0).intValue())) {
 				ModeToggleMenu mtm = createModeToggleMenu(app, menu, i);
 				mtm.setButtonTabIndex(-1);
 
