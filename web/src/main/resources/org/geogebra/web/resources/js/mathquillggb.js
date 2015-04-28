@@ -1356,10 +1356,16 @@ var MathCommand = P(MathElement, function(_, _super) {
       var child_text = child.text();
       if (text && child_text[0] === '(' && child_text.slice(-1) === ')' &&
    		  (thisMathCommand.textTemplate[i] === '(' || // no () inside parentheses (orientation?)
-           (thisMathCommand.textTemplate[i] === ')' &&
-            thisMathCommand.textTemplate[i-1] !== '/') || // sin((?)), sqrt((7x)), etc.
-   		   thisMathCommand.textTemplate[i] === ']' || // no () inside square brackets
-   		   thisMathCommand.textTemplate[i] === '}')) // no () inside curly braces
+            (thisMathCommand.textTemplate[i] === ')' &&
+             thisMathCommand.textTemplate[i-1] !== '/') || // sin((?)), sqrt((7x)), etc.
+
+            (thisMathCommand.textTemplate[i] === ']' && // no () inside square brackets
+   		     !(child.ch[L] === child.ch[R] &&
+   		       child.ch[L] instanceof Bracket)) ||
+   		// except if child is about intentional brackets, e.g. Vector[(1,2)]
+   		// noting that child is a MathBlock, so "(" usually comes from it
+
+   	      thisMathCommand.textTemplate[i] === '}')) // no () inside curly braces
     	// maybe we should have used (i-1) and left parentheses/brackets/braces
         return text + child_text.slice(1, -1) + thisMathCommand.textTemplate[i];
       return text + child.text() + (thisMathCommand.textTemplate[i] || '');
