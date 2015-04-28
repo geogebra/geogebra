@@ -1,8 +1,7 @@
-/* config.h.  Generated from config.h.in by configure.  */
-/* config.h.in.  Generated from configure.in by autoheader.  */
+// This file has been taylored after autogenerating it by the autoconf machinery.
+// Which is, actually, no longer used.
 
-/* Taylored by Balazs Bence <balazs.bencze@geogebra.org>.
- * Additional settings or overrides should be put
+/* Additional settings or overrides should be put
  * into build.gradle. This file should be considered as
  * as a "common base" for all platforms.
  */
@@ -20,16 +19,16 @@
 #define PACKAGE_NAME "giac"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "giac 1.1"
+#define PACKAGE_STRING "giac 1.1.3"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "giac"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.1"
+#define PACKAGE_VERSION "1.1.3"
 
 /* Version number of package */
-#define VERSION "1.1"
+#define VERSION "1.1.3"
 
 #define GIAC_NO_OPTIMIZATIONS
 #define HAVE_NO_HOME_DIRECTORY

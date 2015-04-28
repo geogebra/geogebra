@@ -159,16 +159,15 @@ model {
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
 		    cppCompiler.args '-fno-strict-aliasing' // maybe not needed
 		    cppCompiler.args '-DPIC' // maybe not needed
-		    
+
 		    linker.args '-s' // stripping
 
 		    // Add libgcc and libstdc++ statically
 		    linker.args '-static-libgcc'
 		    linker.args '-static-libstdc++'
 
-
             	    }
-            	    
+
                 if (targetPlatform.operatingSystem.name == 'osx') {
                     cppCompiler.define 'HAVE_UNISTD_H'
                     cppCompiler.define 'APPLE_SMART'
@@ -197,4 +196,39 @@ task run (dependsOn: 'icasExecutable', type: Exec) {
     description "Runs Giac's icas terminal"
     commandLine 'build/binaries/icasExecutable/icas'
     standardInput = System.in
+    }
+
+tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
+    if ((taskName.startsWith('emccCompile_')) && (taskName.endsWith('Cc'))) {
+	def basename = (taskName - 'Cc').substring('emccCompile_'.length())
+        task(taskName) {
+	    def input = "src/giac/cpp/${basename}.cc"
+	    inputs.file input
+	    def output = "build/objs/giac.js/${basename}.o"
+	    outputs.file output
+	    doLast {
+		file("build/objs/giac.js").mkdirs()
+		exec {
+		    // Be very careful when changing this: config.h also contains some entries! 
+		    commandLine 'emcc', '-DIN_GIAC', '-DGIAC_GENERIC_CONSTANTS', '-DNO_STDEXCEPT', 
+			'-Dgammaf=', '-Dhusleep=', '-DHAVE_CONFIG_H', '-DHAVE_UNISTD_H',
+			'-DTIMEOUT',
+			'-s', 'PRECISE_I32_MUL=1', '-DGIAC_GGB', '-DEMCC',
+			'-Isrc/giac/headers', '-c', input, '-o', output
+		    }
+		}
+	    }
+	}
+    }
+
+task emccCompile {
+    def list = []
+    FileTree files = fileTree(dir: 'src/giac/cpp')
+    files.visit { f ->
+	if (f.name.endsWith('.cc')) {
+    	    def emccCompileTask = 'emccCompile_' + f.name - '.cc' + 'Cc'
+	    list << emccCompileTask
+	    }
+	}
+    dependsOn list
     }

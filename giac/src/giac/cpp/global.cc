@@ -3248,7 +3248,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 
 #ifndef HAVE_NO_SYS_TIMES_H
    double delta_tms(struct tms tmp1,struct tms tmp2){
-#if defined(HAVE_SYSCONF) && !defined(EMCC)
+#if defined(HAVE_SYSCONF) // && !defined(EMCC) // New EMCC supports _SC_CLK_TCK instead of CLK_TCK
      return double( tmp2.tms_utime+tmp2.tms_stime+tmp2.tms_cutime+tmp2.tms_cstime-(tmp1.tms_utime+tmp1.tms_stime+tmp1.tms_cutime+tmp1.tms_cstime) )/sysconf(_SC_CLK_TCK);
 #else
     return double( tmp2.tms_utime+tmp2.tms_stime+tmp2.tms_cutime+tmp2.tms_cstime-(tmp1.tms_utime+tmp1.tms_stime+tmp1.tms_cutime+tmp1.tms_cstime) )/CLK_TCK;
