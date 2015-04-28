@@ -1,4 +1,4 @@
-project.setDescription('Minimal version of Giac CAS for GeoGebra')
+project.setDescription('Giac CAS for GeoGebra')
 
 apply plugin: 'cpp'
 
@@ -7,24 +7,6 @@ def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
 // println java_home
 
 model {
-    repositories {
-        libs(PrebuiltLibraries) {
-            mpfr {
-                binaries.withType(StaticLibraryBinary) {
-		    def arch = targetPlatform.architecture.name
-		    def os = targetPlatform.operatingSystem.name
-                    staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libmpfr.a")
-                }
-            }
-            gmp {
-                binaries.withType(StaticLibraryBinary) {
-		    def arch = targetPlatform.architecture.name
-		    def os = targetPlatform.operatingSystem.name
-                    staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libgmp.a")
-                }
-            }
-        }
-    }
     platforms {
         win32 {
             architecture 'i386'
@@ -34,7 +16,7 @@ model {
             architecture 'x64'
             operatingSystem 'windows'
         }
-	linux_i686 {
+	linux_i686 { // this will be fixed in Gradle 2.4 (-> linux32)
             architecture 'i386'
             operatingSystem 'linux'
         }
@@ -69,7 +51,6 @@ model {
                 cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
                 cppCompiler.define "VERSION", '"1.1.3"'
                 cppCompiler.define "TIMEOUT"
-                cppCompiler.define "EMCC"
             }
         }
 
@@ -83,27 +64,36 @@ model {
         javagiac(NativeLibrarySpec) {
             targetPlatform 'win32'
             targetPlatform 'win64'
-	    targetPlatform 'linux_i686'
+	    targetPlatform 'linux_i686' // this will be fixed in Gradle 2.4 (-> linux32)
 	    targetPlatform 'linux64'
 
             sources.cpp {
                 source {
                     srcDirs 'src/giac/cpp', 'src/jni/cpp'
-                    exclude '**/first.cc', '**/firstcc.cc', '**/hello.cc'
+                    exclude '**/first.cc', '**/firstcc.cc', '**/hello.cc' // consider removing them from SVN
             	    }
                 exportedHeaders {
                     srcDirs 'src/giac/headers', 'src/jni/jdkHeaders'
             	    }
-                lib library: 'mpfr', linkage: 'static'
-                lib library: 'gmp', linkage: 'static'
         	}
 
             binaries.withType(SharedLibraryBinary) {
-                cppCompiler.define "IN_GIAC"
+		// Common settings for all platforms and architectures:
+                cppCompiler.define 'IN_GIAC'
                 cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
-		// Additional settings are defined in config.h. They are automatically
-		// loaded if HAVE_CONFIG_H is defined below.
+		// Additional settings can be defined in config.h.
+		// They are automatically loaded if HAVE_CONFIG_H is defined below:
+                cppCompiler.define 'HAVE_CONFIG_H'
 
+                cppCompiler.args '-fexceptions'
+                cppCompiler.args '-Os' // size optimization
+                cppCompiler.args '-s' // stripping (maybe not needed)
+                cppCompiler.args '-I.'
+
+                linker.args '-s' // stripping
+                linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
+
+		// Architecture based settings:
                 if (targetPlatform.architecture.name == 'i386') {
                     cppCompiler.define 'SMARTPTR64'
                     cppCompiler.define 'SIZEOF_LONG', '8'
@@ -111,8 +101,8 @@ model {
                     cppCompiler.define 'SIZEOF_LONG', '4'
             	    }
 
+		// OS based settings:
                 if (targetPlatform.operatingSystem.name == 'windows') {
-                    cppCompiler.define 'HAVE_CONFIG_H'
                     cppCompiler.define 'GIAC_MPQS'
                     cppCompiler.define '__MINGW_H'
                     cppCompiler.define 'HAVE_NO_SYS_TIMES_H'
@@ -123,25 +113,22 @@ model {
                     cppCompiler.define 'YY_NO_UNISTD_H'
 
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
+		    // Insert prebuilt libraries
             	    linker.args '-Wl,--add-stdcall-alias'
+		    linker.args '-Wl,-Bstatic', '-lmpfr', '-lgmp'
+		    linker.args '-L', "src/jni/prebuilt/windows/${targetPlatform.architecture.name}"
+		    // Add libgcc and libstdc++ statically
+		    linker.args '-static-libgcc'
+		    linker.args '-static-libstdc++'
 		    }
 
                 if (targetPlatform.operatingSystem.name == 'linux') {
-                    cppCompiler.define 'HAVE_CONFIG_H'
                     cppCompiler.define 'HAVE_UNISTD_H'
 
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
+		    cppCompiler.args '-fno-strict-aliasing' // maybe not needed
+		    cppCompiler.args '-DPIC' // maybe not needed
             	    }
-
-                cppCompiler.args '-fexceptions'
-                cppCompiler.args '-Os'
-                cppCompiler.args '-s'
-                cppCompiler.args '-I.'
-
-                linker.args '-s'
-		linker.args '-static-libgcc'
-		linker.args '-static-libstdc++'
-                linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
         	}
     	    }
 	}
