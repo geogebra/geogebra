@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.Feature;
 
 /**
  * FrequencyTable[] algorithm based on AlgoFrequency
@@ -365,7 +366,8 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void createLaTeXTable(boolean useClassList) {
-		if (kernel.getApplication().isHTML5Applet()) {
+		if (kernel.getApplication().isHTML5Applet()
+				&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
 			createLaTeXTableMQ(useClassList);
 		} else {
 			createLaTeXTableD(useClassList);

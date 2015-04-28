@@ -23,15 +23,16 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.Geo3DVec;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -210,7 +211,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		default:
 			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
 
-				if (kernel.getApplication().isHTML5Applet()) {
+				if (kernel.getApplication().isHTML5Applet()
+						&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
 					sb.append(" \\left( \\ggbtable{");
 
 					sb.append("\\ggbtr{ \\ggbtdL{  ");

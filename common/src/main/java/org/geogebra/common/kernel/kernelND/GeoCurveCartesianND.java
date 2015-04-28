@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -400,7 +401,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 
 			String param = getVarString(tpl);
 
-			if (this.kernel.getApplication().isHTML5Applet()) {
+			if (this.kernel.getApplication().isHTML5Applet()
+					&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
 				if (!hideRangeInFormula) {
 					sbTemp.append("\\closebraceonly{ ");
 				}
