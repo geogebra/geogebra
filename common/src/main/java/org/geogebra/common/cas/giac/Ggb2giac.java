@@ -968,7 +968,7 @@ public class Ggb2giac {
 
 		p("OrthogonalVector.1", "convert([[0,-1],[1,0]]*(%0),25)");
 		p("UnitOrthogonalVector.1",
-				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
+				"when(type(%0)==DOM_LIST && size(%0) != 2,?,convert(unitV([-ycoord(%0),xcoord(%0)]),25))");
 		p("UnitVector.1",
 				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',"
 						+ "convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25),"
