@@ -67,6 +67,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	public void performTokenLogin(String token, boolean automatic) {
 		if("".equals(token)){
 			stayLoggedOut();
+			return;
 		}
 		doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
 	}
