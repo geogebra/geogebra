@@ -513,7 +513,10 @@ namespace giac {
 
   string & add_print(string & s,const gen & g,GIAC_CONTEXT){
     if (g.type==_IDNT){
-      (s += g._IDNTptr->print(contextptr));
+      if (calc_mode(contextptr)==1 && (is_inf(g) || is_undef(g)))
+	s += "?";
+      else
+	(s += g._IDNTptr->print(contextptr));
       return s;
     }
     int l=s.size();
