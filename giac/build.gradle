@@ -100,6 +100,7 @@ model {
 
             binaries.withType(SharedLibraryBinary) {
                 cppCompiler.define "IN_GIAC"
+                cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
 		// Additional settings are defined in config.h. They are automatically
 		// loaded if HAVE_CONFIG_H is defined below.
 
@@ -111,7 +112,6 @@ model {
             	    }
 
                 if (targetPlatform.operatingSystem.name == 'windows') {
-                    cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
                     cppCompiler.define 'HAVE_CONFIG_H'
                     cppCompiler.define 'GIAC_MPQS'
                     cppCompiler.define '__MINGW_H'
