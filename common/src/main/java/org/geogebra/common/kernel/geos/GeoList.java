@@ -722,7 +722,7 @@ AngleProperties {
 	 * 
 	 * @param index
 	 *            element position
-	 * @return cached alement at given position
+	 * @return cached element at given position
 	 */
 	final public GeoElement getCached(final int index) {
 		return cacheList.get(index);
@@ -996,8 +996,8 @@ AngleProperties {
 	}
 
 	/**
-	 * Tells conidition listeners that their condition is removed and calls
-	 * super.remove() // Michael Borcherds 2008-04-02
+	 * Tells condition listeners that their condition is removed and calls
+	 * super.remove() 
 	 */
 	@Override
 	public void doRemove() {
@@ -1019,7 +1019,7 @@ AngleProperties {
 	}
 
 	/**
-	 * return whether this list equals GeoList list Michael Borcherds 2008-04-12
+	 * return whether this list equals GeoList list
 	 */
 	@Override
 	final public boolean isEqual(final GeoElement geo) {
@@ -1042,25 +1042,6 @@ AngleProperties {
 
 			if (!geoA.isEqual(geoB)) {
 				return false;
-				/*
-				 * if (geoA.isGeoNumeric() && geoB.isGeoNumeric()) { if
-				 * (!((GeoNumeric)geoA).equals((GeoNumeric)geoB)) return false;
-				 * } else if (geoA.isGeoConicPart() && geoB.isGeoConicPart()) {
-				 * if (!((GeoConicPart)geoA).equals((GeoConicPart)geoB)) return
-				 * false; } else if (geoA.isGeoConic() && geoB.isGeoConic()) {
-				 * if (!((GeoConic)geoA).equals((GeoConic)geoB)) return false; }
-				 * else if (geoA.isGeoAngle() && geoB.isGeoAngle()) { if
-				 * (!((GeoAngle)geoA).equals((GeoAngle)geoB)) return false; }
-				 * else if (geoA.isGeoPoint() && geoB.isGeoPoint()) { if
-				 * (!((GeoPoint)geoA).equals((GeoPoint)geoB)) return false; }
-				 * else if (geoA.isGeoPolygon() && geoB.isGeoPolygon()) { if
-				 * (!((GeoPolygon)geoA).equals((GeoPolygon)geoB)) return false;
-				 * } else if (geoA.isGeoSegment() && geoB.isGeoSegment()) { if
-				 * (!((GeoSegment)geoA).equals((GeoSegment)geoB)) return false;
-				 * } else if (geoA.isGeoList() && geoB.isGeoList()) { if
-				 * (!((GeoList)geoA).equals((GeoList)geoB)) return false; } else
-				 * if (!geoA.equals(geoB)) return false;
-				 */
 			}
 		}
 
@@ -1556,20 +1537,7 @@ AngleProperties {
 
 	}
 
-	/*
-	 * for CmdSetLabelMode
-	 * 
-	 * removed: no point setting labelmode for objects with no labels and we
-	 * don't want to set labelmode for objects with labels... public void
-	 * setLabelMode(int mode) { super.setLabelMode(mode);
-	 * 
-	 * for (int i = 0; i < geoList.size(); i++) { GeoElement geo = (GeoElement)
-	 * geoList.get(i); if (!geo.isLabelSet()) geo.setLabelMode(mode); }
-	 * 
-	 * }
-	 */
 
-	// G.Sturr 2010-6-12
 	// Selection index for lists used in comboBoxes
 	private int selectedIndex = 0;
 
@@ -1617,7 +1585,6 @@ AngleProperties {
 
 	}
 
-	// END G.Sturr
 
 	/*
 	 * mathieu : for drawing 3D elements of the list
@@ -1667,8 +1634,6 @@ AngleProperties {
 	 */
 	public void pointChanged(final GeoPointND P) {
 		// Application.debug("pointChanged",1);
-
-		// GeoPoint P = (GeoPoint) PI;
 
 		P.updateCoords();
 

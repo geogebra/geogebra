@@ -232,7 +232,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	protected GColor labelColor = objColor;
 	/** color for fill*/
 	protected GColor fillColor = objColor;
-	private int layer = 0; // Michael Borcherds 2008-02-23
+	private int layer = 0; 
 	private NumberValue animationIncrement;
 	private NumberValue animationSpeedObj;
 	private GeoCasCell correspondingCasCell; // used by GeoCasCell
@@ -473,7 +473,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/** Decoration type for angles: three ticks */
 	public static final int DECORATION_ANGLE_THREE_TICKS = 5;
 
-	/** Decoration type for angles: anticlockwise arrow 
+	/** Decoration type for angles: counterclockwise arrow 
 	 * @author Michael Borcherds, 2007-10-22*/
 	public static final int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6; 
 	/** Decoration type for angles: clockwise arrow 

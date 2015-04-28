@@ -13,14 +13,12 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
