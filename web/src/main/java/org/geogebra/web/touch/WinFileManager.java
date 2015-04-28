@@ -273,30 +273,50 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 	
-	public void export(AppW app) {
+	public void export(final AppW app) {
 		String title = app.getKernel().getConstruction().getTitle();
 		if(title == null || title.length() ==0){
 			title = "construction";
 		}
 		final String title1 = title;
+		app.getGgbApi().showTooltip(app.getPlain("Saving"));
 		app.getGgbApi().getBase64(true, new StringHandler(){
 
 			@Override
 			public void handle(final String data) {
-				saveDialog(data, title1);
+				saveDialog(data, title1, new StringHandler() {
+
+					@Override
+					public void handle(final String path) {
+						app.getGgbApi().showTooltip("");
+						((DialogManagerW) app.getDialogManager())
+								.getSaveDialog().hide();
+					}
+				});
 			}
 			});
 	}
-	
-	private native void saveDialog(String data, String title)/*-{
+
+
+
+	native void saveDialog(String data, String title,
+			StringHandler handler)/*-{
+		var that = this;
 		if ($wnd.android && $wnd.android.callPlugin) {
-			$wnd.android.callPlugin('SaveDialog', [data, title, 'ggb']);
+			$wnd.android
+					.callPlugin(
+							'SaveDialog',
+							[ data, title, 'ggb' ],
+							function(path) {
+								handler.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(path);
+							});
 		}
 	}-*/;
 	
 	public native void exportImage(String url, String title)/*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
-			$wnd.android.callPlugin('SaveDialog', [url.substring(url.indexOf(',')+1), title, 'png']);
+			$wnd.android.callPlugin('SaveDialog', [
+					url.substring(url.indexOf(',') + 1), title, 'png' ]);
 		}
 	}-*/;
 
