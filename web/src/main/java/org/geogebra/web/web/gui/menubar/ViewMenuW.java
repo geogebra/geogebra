@@ -161,7 +161,7 @@ public class ViewMenuW extends GMenuBar {
 			}
 		}
 		inputBarItem.setSelected(app.getInputPosition() != InputPositon.algebraView);
-		if (enableDataCollection) {
+		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollectionBar.setSelected(((GuiManagerW) app.getGuiManager())
 					.isDataCollectionVisible());
 		}
