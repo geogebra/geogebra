@@ -3644,4 +3644,7 @@ public abstract class App implements UpdateSelection {
 		return true;
 	}
 
+	public boolean isModeValid(int mode) {
+		return !"".equals(getToolName(mode));
+	}
 }
