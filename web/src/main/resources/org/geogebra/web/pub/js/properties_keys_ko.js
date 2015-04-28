@@ -1429,6 +1429,7 @@ __GGB__keysVar.ko.menu = {
     "Filling.Image": "\uadf8\ub9bc",
     "Filling.Standard": "\ud45c\uc900",
     "Filling.Symbol": "\ud2b9\uc218\uae30\ud638",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "\uc801\ud569\uace1\uc120",
     "FitCurve.Help": "\uc120\ud0dd \uc0ac\uac01\ud615\uc774\ub098, \uc810\uc758 \ub9ac\uc2a4\ud2b8\ub97c \uc0ac\uc6a9\ud558\uc5ec \uc810\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
     "FitLine": "\uc801\ud569\uc120",

@@ -1429,6 +1429,7 @@ __GGB__keysVar.is.menu = {
     "Filling.Image": "MyndFylling",
     "Filling.Standard": "Sta\xf0alfylling",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Besti ferill",
     "FitCurve.Help": "Velji\xf0 punkta me\xf0 \xfev\xed a\xf0 nota valr\xe9tthyrning e\xf0a lista af punktum",
     "FitLine": "Besta l\xedna",

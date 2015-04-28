@@ -1429,6 +1429,7 @@ __GGB__keysVar.ca.menu = {
     "Filling.Image": "Imatge",
     "Filling.Standard": "Est\xe0ndard",
     "Filling.Symbol": "S\xedmbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Corba de millor ajust",
     "FitCurve.Help": "Seleccioneu un conjunt de punts mitjan\xe7ant el rectangle de selecci\xf3 o b\xe9 una llista de punts",
     "FitLine": "Recta de regressi\xf3",

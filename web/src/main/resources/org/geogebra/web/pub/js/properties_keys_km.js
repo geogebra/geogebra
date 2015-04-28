@@ -1429,6 +1429,7 @@ __GGB__keysVar.km.menu = {
     "Filling.Image": "\u179a\u17bc\u1794\u1797\u17b6\u1796",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "\u1793\u17b7\u1798\u17b7\u178f\u17d2\u178f\u179f\u1789\u17d2\u1789\u17b6",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Best Fit Curve",
     "FitCurve.Help": "Select points using selection rectangle, or list of points",
     "FitLine": "Best Fit Line",

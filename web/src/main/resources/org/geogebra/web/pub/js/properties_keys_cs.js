@@ -1429,6 +1429,7 @@ __GGB__keysVar.cs.menu = {
     "Filling.Image": "Obr\xe1zek",
     "Filling.Standard": "Standardn\xed",
     "Filling.Symbol": "Znak",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Nejvhodn\u011bj\u0161\xed k\u0159ivka",
     "FitCurve.Help": "Vybrat body pomoc\xed ozna\u010dovac\xedho obd\xe9ln\xedku nebo pomoc\xed seznamu bod\u016f",
     "FitLine": "Line\xe1rn\xed regrese",

@@ -1429,6 +1429,7 @@ __GGB__keysVar.pl.menu = {
     "Filling.Image": "Obraz",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Linia Trendu",
     "FitCurve.Help": "Wybierz punkty u\u017cywaj\u0105c prostok\u0105ta wyboru lub list\u0119 punkt\xf3w",
     "FitLine": "Linia trendu",

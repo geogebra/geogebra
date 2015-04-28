@@ -1429,6 +1429,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Filling.Image": "Afbeelding",
     "Filling.Standard": "Standaard",
     "Filling.Symbol": "Symbool",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Regressiekromme",
     "FitCurve.Help": "Selecteer punten door rechthoek te slepen",
     "FitLine": "Regressielijn",

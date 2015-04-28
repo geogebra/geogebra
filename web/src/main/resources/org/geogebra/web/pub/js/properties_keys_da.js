@@ -1429,6 +1429,7 @@ __GGB__keysVar.da.menu = {
     "Filling.Image": "Billede",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Bedste kurvetiln\xe6rmelse",
     "FitCurve.Help": "V\xe6lg punkter ved at bruge den rektangul\xe6re udv\xe6lger eller en liste med punkter.",
     "FitLine": "Bedste rette linje",

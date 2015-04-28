@@ -1429,6 +1429,7 @@ __GGB__keysVar.sk.menu = {
     "Filling.Image": "Obr\xe1zok",
     "Filling.Standard": "\u0160tandardn\xfd",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Najvhodnej\u0161ie krivka",
     "FitCurve.Help": "Vyzna\u010d body v danej oblasti, alebo ako zoznam bodov",
     "FitLine": "Line\xe1rna regresia",

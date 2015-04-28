@@ -1429,6 +1429,7 @@ __GGB__keysVar.fr.menu = {
     "Filling.Image": "Image",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Symboles",
+    "Filling.Weaving": "Tissage",
     "FitCurve": "Ajustement",
     "FitCurve.Help": "S\xe9lectionner des points \xe0 l'aide d'un rectangle de s\xe9lection, ou une liste de points",
     "FitLine": "Droite d'ajustement",

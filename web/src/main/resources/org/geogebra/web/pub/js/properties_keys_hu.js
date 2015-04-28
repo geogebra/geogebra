@@ -1429,6 +1429,7 @@ __GGB__keysVar.hu.menu = {
     "Filling.Image": "K\xe9p",
     "Filling.Standard": "\xc1ltal\xe1nos",
     "Filling.Symbol": "Szimb\xf3lum",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Legjobban illeszked\u0151 g\xf6rbe",
     "FitCurve.Help": "Pontok kijel\xf6l\xe9se keretben vagy pontok list\xe1ja",
     "FitLine": "Legjobban illeszked\u0151 egyenes",

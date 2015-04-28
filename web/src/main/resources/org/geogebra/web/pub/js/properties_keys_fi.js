@@ -1429,6 +1429,7 @@ __GGB__keysVar.fi.menu = {
     "Filling.Image": "Kuva",
     "Filling.Standard": "Normaali",
     "Filling.Symbol": "Merkki",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Sovita k\xe4yr\xe4",
     "FitCurve.Help": "Valitse pisteit\xe4 tai pistelista",
     "FitLine": "Sovita suora",

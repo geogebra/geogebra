@@ -1429,6 +1429,7 @@ __GGB__keysVar.ms.menu = {
     "Filling.Image": "Imej",
     "Filling.Standard": "Piawai",
     "Filling.Symbol": "Simbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Lengkung Penyuaian Terbaik",
     "FitCurve.Help": "Pilih titik-titik menggunakan pemilihan segiempat tepat, atau senarai titik-titik.",
     "FitLine": "Garis Penyuaian Terbaik",

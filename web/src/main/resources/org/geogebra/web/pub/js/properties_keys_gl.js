@@ -1429,6 +1429,7 @@ __GGB__keysVar.gl.menu = {
     "Filling.Image": "Imaxe",
     "Filling.Standard": "Est\xe1ndar",
     "Filling.Symbol": "S\xedmbolo",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Curva de mellor axuste",
     "FitCurve.Help": "Selecci\xf3n da lista de puntos ou enmarcado directo.",
     "FitLine": "Regresi\xf3n lineal",

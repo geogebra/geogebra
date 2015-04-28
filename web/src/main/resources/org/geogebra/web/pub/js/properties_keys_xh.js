@@ -1429,6 +1429,7 @@ __GGB__keysVar.xh.menu = {
     "Filling.Image": "Umfanekiso",
     "Filling.Standard": "Umgangatho",
     "Filling.Symbol": "iSimboli",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "EyonaGrafuIsondeleyo",
     "FitCurve.Help": "Khetha amachaphaza usebenzisa uxande okanye uluhlu lwamachaphaza",
     "FitLine": "Owona Mgca Usondeleyo",

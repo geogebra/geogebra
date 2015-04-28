@@ -1429,6 +1429,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Filling.Image": "\u5716\u7247",
     "Filling.Standard": "\u6a19\u6e96",
     "Filling.Symbol": "\u7b26\u865f",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "\u6700\u9069\u66f2\u7dda",
     "FitCurve.Help": "\u5148\u6846\u9078\u4e00\u4e9b\u9ede\uff0c\u6216\u4e00\u500b\u9ede\u96c6\u3002",
     "FitLine": "\u8ff4\u6b78\u7dda",

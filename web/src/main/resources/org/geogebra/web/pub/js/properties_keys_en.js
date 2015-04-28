@@ -1429,6 +1429,7 @@ __GGB__keysVar.en.menu = {
     "Filling.Image": "Image",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Best Fit Curve",
     "FitCurve.Help": "Select points using selection rectangle, or list of points",
     "FitLine": "Best Fit Line",

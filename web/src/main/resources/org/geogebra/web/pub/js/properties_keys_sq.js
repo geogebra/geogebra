@@ -1429,6 +1429,7 @@ __GGB__keysVar.sq.menu = {
     "Filling.Image": "Imazh",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Kurbe e Pershtatjes me te Mire",
     "FitCurve.Help": "Selekto pikat duke perdorur drejtkendshin e selektimit, ose listen e pikave",
     "FitLine": "Vije e Pershtatjes me te mire",

@@ -1429,6 +1429,7 @@ __GGB__keysVar.eo.menu = {
     "Filling.Image": "Bildo",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Simbolo",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Best Fit Curve",
     "FitCurve.Help": "Elektu punktojn per ortangulo a\u016d liston de punktoj",
     "FitLine": "Best Fit Line",

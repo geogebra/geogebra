@@ -1429,6 +1429,7 @@ __GGB__keysVar.in.menu = {
     "Filling.Image": "Gambar",
     "Filling.Standard": "Standar",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Kurva Cocok Terbaik",
     "FitCurve.Help": "Pilih titik menggunakan kotak seleksi, atau daftar titik",
     "FitLine": "Cocokan Garis Terbaik",

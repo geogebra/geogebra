@@ -1429,6 +1429,7 @@ __GGB__keysVar.es_UY.menu = {
     "Filling.Image": "Imagen",
     "Filling.Standard": "Est\xe1ndar",
     "Filling.Symbol": "S\xedmbolo",
+    "Filling.Weaving": "Tejido",
     "FitCurve": "Curva de mejor ajuste",
     "FitCurve.Help": "Selecci\xf3n de la lista de puntos o enmarcado directo.",
     "FitLine": "Ajuste lineal",

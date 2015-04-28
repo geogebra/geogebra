@@ -1429,6 +1429,7 @@ __GGB__keysVar.lt.menu = {
     "Filling.Image": "Vaizdas",
     "Filling.Standard": "Standartinis",
     "Filling.Symbol": "Simbolis",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Geriausiai tinkanti kreiv\u0117",
     "FitCurve.Help": "Pasirinkite ta\u0161kus pasinaudodami sta\u010diakampiu arba ta\u0161k\u0173 s\u0105ra\u0161u",
     "FitLine": "Tiesin\u0117s regresijos lygtis",

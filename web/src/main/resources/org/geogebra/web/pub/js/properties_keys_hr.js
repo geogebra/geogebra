@@ -1429,6 +1429,7 @@ __GGB__keysVar.hr.menu = {
     "Filling.Image": "slika",
     "Filling.Standard": "puna",
     "Filling.Symbol": "Simbol",
+    "Filling.Weaving": "Tkanje",
     "FitCurve": "Krivulja najbolje prilagodbe",
     "FitCurve.Help": "Odaberite to\u010dke provokutnikom odabira ili odaberite listu to\u010daka",
     "FitLine": "Pravac regresije",

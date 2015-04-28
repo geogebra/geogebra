@@ -1429,6 +1429,7 @@ __GGB__keysVar.sv.menu = {
     "Filling.Image": "Bild",
     "Filling.Standard": "Toning (std)",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Regressionskurva",
     "FitCurve.Help": "V\xe4lj punkter genom att dra upp en rektangel, eller ange en lista",
     "FitLine": "Anpassa linje",

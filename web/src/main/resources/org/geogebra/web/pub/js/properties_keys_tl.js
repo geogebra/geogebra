@@ -1429,6 +1429,7 @@ __GGB__keysVar.tl.menu = {
     "Filling.Image": "Image",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Best Fit Curve",
     "FitCurve.Help": "Pumili ng points gamit ang selection rectangle, o lista ng points",
     "FitLine": "Best Fit Line",

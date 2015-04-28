@@ -1429,6 +1429,7 @@ __GGB__keysVar.no_NN.menu = {
     "Filling.Image": "Bilde",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Beste tilpassa kurve",
     "FitCurve.Help": "Vel punkt med markeringsrektangelet eller vel liste med punkt",
     "FitLine": "Beste tilpassa linje",

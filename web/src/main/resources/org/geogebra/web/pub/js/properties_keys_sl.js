@@ -1429,6 +1429,7 @@ __GGB__keysVar.sl.menu = {
     "Filling.Image": "Slika",
     "Filling.Standard": "Standardno",
     "Filling.Symbol": "Simbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Najbolje prilegao\u010da se krivulja",
     "FitCurve.Help": "Izberi to\u010dke z uporabo izbirnega pravokotnika, ali seznama to\u010dk",
     "FitLine": "Trendna \u010drta",

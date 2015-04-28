@@ -1429,6 +1429,7 @@ __GGB__keysVar.ja.menu = {
     "Filling.Image": "\u753b\u50cf",
     "Filling.Standard": "\u6a19\u6e96",
     "Filling.Symbol": "\u8a18\u53f7",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "\u6700\u826f\u8fd1\u4f3c\u66f2\u7dda",
     "FitCurve.Help": "\u9078\u629e\u9577\u65b9\u5f62\u3067\u70b9\u3092\u9078\u629e\u3059\u308b\u304b\u3001\u70b9\u306e\u30ea\u30b9\u30c8\u3092\u9078\u629e\u3059\u308b",
     "FitLine": "\u6700\u826f\u8fd1\u4f3c\u76f4\u7dda",

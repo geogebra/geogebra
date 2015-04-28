@@ -1429,6 +1429,7 @@ __GGB__keysVar.it.menu = {
     "Filling.Image": "Immagine",
     "Filling.Standard": "Normale",
     "Filling.Symbol": "Simbolo",
+    "Filling.Weaving": "Intreccio",
     "FitCurve": "Curva di regressione",
     "FitCurve.Help": "Selezionare una lista di punti o selezionare i punti con un rettangolo di selezione",
     "FitLine": "Retta di regressione",

@@ -1429,6 +1429,7 @@ __GGB__keysVar.cy.menu = {
     "Filling.Image": "Delwedd",
     "Filling.Standard": "Safonol",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Cromlin Ffit Orau",
     "FitCurve.Help": "Dewis pwyntiau gan ddefnyddio petryal neu rhestr o bwyntiau",
     "FitLine": "Llinell ffit orau",

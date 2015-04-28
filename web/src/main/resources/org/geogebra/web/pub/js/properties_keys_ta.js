@@ -1429,6 +1429,7 @@ __GGB__keysVar.ta.menu = {
     "Filling.Image": "\u0b89\u0bb0\u0bc1\u0bb5\u0baa\u0bcd\u0baa\u0b9f\u0bae\u0bcd",
     "Filling.Standard": "\u0ba4\u0bbf\u0b9f\u0bcd\u0b9f",
     "Filling.Symbol": "\u0b95\u0bc1\u0bb1\u0bbf\u0baf\u0bc0\u0b9f\u0bc1",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Best Fit Curve",
     "FitCurve.Help": "Select points using selection rectangle, or list of points",
     "FitLine": "\u0ba8\u0ba9\u0bcd\u0b95\u0bc1 \u0baa\u0bca\u0bb0\u0bc1\u0ba4\u0bcd\u0ba4\u0bae\u0bbe\u0ba9 \u0b95\u0bcb\u0b9f\u0bc1",

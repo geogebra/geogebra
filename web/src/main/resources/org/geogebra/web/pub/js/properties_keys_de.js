@@ -1429,6 +1429,7 @@ __GGB__keysVar.de.menu = {
     "Filling.Image": "Bild",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Symbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Regressionskurve",
     "FitCurve.Help": "W\xe4hle Punkte durch Aufziehen eines Rechtecks oder als Liste von Punkten",
     "FitLine": "Regressionsgerade",

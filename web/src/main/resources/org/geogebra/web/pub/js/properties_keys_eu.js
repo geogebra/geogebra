@@ -1429,6 +1429,7 @@ __GGB__keysVar.eu.menu = {
     "Filling.Image": "Irudia",
     "Filling.Standard": "Estandarra",
     "Filling.Symbol": "Ikurra",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Doikuntza Oneneko Kurba",
     "FitCurve.Help": "Aukeratu puntuak hautespen-laukizuzenaren bidez, edo puntuen zerrenda",
     "FitLine": "Doikuntza Lineala",

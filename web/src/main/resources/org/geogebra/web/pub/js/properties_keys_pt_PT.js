@@ -1429,6 +1429,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Filling.Image": "Imagem",
     "Filling.Standard": "Padr\xe3o",
     "Filling.Symbol": "S\xedmbolo",
+    "Filling.Weaving": "Tecelagem",
     "FitCurve": "Curva de Regress\xe3o",
     "FitCurve.Help": "Selecione pontos, utilizando um ret\xe2ngulo de sele\xe7\xe3o, ou lista de pontos",
     "FitLine": "Reta de Regress\xe3o Linear",

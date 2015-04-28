@@ -1429,6 +1429,7 @@ __GGB__keysVar.ro.menu = {
     "Filling.Image": "Imagine",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Simbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Curb\u0103 de regresie",
     "FitCurve.Help": "Selectare puncte utiliz\xe2nd dreptunghiul de selec\u021bie sau list\u0103 de puncte",
     "FitLine": "Linie de regresie",

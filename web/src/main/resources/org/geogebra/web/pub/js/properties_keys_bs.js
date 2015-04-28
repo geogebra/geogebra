@@ -1429,6 +1429,7 @@ __GGB__keysVar.bs.menu = {
     "Filling.Image": "Slika",
     "Filling.Standard": "Standard",
     "Filling.Symbol": "Simbol",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Najbolja Kriva Regresije",
     "FitCurve.Help": "Ozna\u010dite ta\u010dke ozna\u010davaju\u0107i pravougaonu povr\u0161 na radnoj povr\u0161i ili liste ta\u010daka",
     "FitLine": "Najbolja Linearna Regresija",

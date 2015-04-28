@@ -1429,6 +1429,7 @@ __GGB__keysVar.lv.menu = {
     "Filling.Image": "Att\u0113ls",
     "Filling.Standard": "Standarts",
     "Filling.Symbol": "Simbols",
+    "Filling.Weaving": "Weaving",
     "FitCurve": "Vislab\u0101k atbilsto\u0161\u0101 L\u012bkne",
     "FitCurve.Help": "Izv\u0113l\u0113ties punktus, izmantojot izv\u0113l\u0113tu taisnst\u016bri vai punktu sarakstu",
     "FitLine": "Vislab\u0101k atbilsto\u0161\u0101 Taisne",
