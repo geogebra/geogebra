@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -133,17 +134,16 @@ public class DrawPolygon extends Drawable implements Previewable {
 			gp.closePath();
 			fillShape = false;
 
-			// uncomment this when triangularize() will be working
-			// if (!getView().getApplication().isPrerelease() ||
-			// isAllPointsOnScreen()) {
+			if (!getView().getApplication().has(Feature.POLYGON_TRIANGULATION)
+					|| isAllPointsOnScreen()) {
 				if (geo.isInverseFill()) {
 					createShape();
 					fillShape = true;
 				}
-			// } else {
-			// triangularize();
-			// fillShape = true;
-			// }
+			} else {
+				triangularize();
+				fillShape = true;
+			}
 			
 			
 			// polygon on screen?
