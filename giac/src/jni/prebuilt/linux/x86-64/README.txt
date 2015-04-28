@@ -7,4 +7,5 @@ The --with-pic option is mandatory. Without it, an error message like
 making a shared object; recompile with -fPIC" will be shown (also when
 using the shipped version of gmp or mpfr from Ubuntu).
 
-TODO: add automatic compilation of these .a files into the Gradle build.
+TODO: add automatic compilation or download of these .a files into the
+Gradle build.

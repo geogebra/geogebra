@@ -43,6 +43,10 @@ model {
             architecture 'x64'
             operatingSystem 'linux'
     	    }
+        osx_amd64 {
+            architecture 'amd64'
+            operatingSystem 'osx'
+	    }
 	}
 
     toolChains {
@@ -54,6 +58,12 @@ model {
             target('win64') {
                 cppCompiler.executable 'x86_64-w64-mingw32-g++'
                 linker.executable 'x86_64-w64-mingw32-g++'
+        	}
+    	    }
+        clang(Clang) {
+            target('osx_amd64') {
+                cppCompiler.executable 'clang'
+                linker.executable 'gcc'
         	}
     	    }
 	}
@@ -85,6 +95,7 @@ model {
             targetPlatform 'win64'
 	    targetPlatform 'linux_i686' // this will be fixed in Gradle 2.4 (-> linux32)
 	    targetPlatform 'linux64'
+	    targetPlatform 'osx_amd64'
 
             sources.cpp {
                 source {
@@ -108,14 +119,9 @@ model {
 
                 cppCompiler.args '-fexceptions'
                 cppCompiler.args '-Os' // size optimization
-                cppCompiler.args '-s' // stripping (maybe not needed)
                 cppCompiler.args '-I.'
 
-                linker.args '-s' // stripping
                 linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
-		// Add libgcc and libstdc++ statically
-		linker.args '-static-libgcc'
-		linker.args '-static-libstdc++'
 
 		// Architecture based settings:
                 if (targetPlatform.architecture.name == 'i386') {
@@ -139,6 +145,12 @@ model {
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
 		    // Insert prebuilt libraries
             	    linker.args '-Wl,--add-stdcall-alias'
+            	    linker.args '-s' // stripping
+
+		    // Add libgcc and libstdc++ statically
+		    linker.args '-static-libgcc'
+		    linker.args '-static-libstdc++'
+            	    
 		    }
 
                 if (targetPlatform.operatingSystem.name == 'linux') {
@@ -147,7 +159,35 @@ model {
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
 		    cppCompiler.args '-fno-strict-aliasing' // maybe not needed
 		    cppCompiler.args '-DPIC' // maybe not needed
+		    
+		    linker.args '-s' // stripping
+
+		    // Add libgcc and libstdc++ statically
+		    linker.args '-static-libgcc'
+		    linker.args '-static-libstdc++'
+
+
             	    }
+            	    
+                if (targetPlatform.operatingSystem.name == 'osx') {
+                    cppCompiler.define 'HAVE_UNISTD_H'
+                    cppCompiler.define 'APPLE_SMART'
+            	    cppCompiler.define 'NO_SCANDIR'
+            	    cppCompiler.define 'gettext', ''
+            	    cppCompiler.args '-mmacosx-version-min=10.6'
+            	    cppCompiler.args '-isysroot', '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk'
+            	    cppCompiler.args '-I/System/Library/Frameworks/CoreFoundation.framework/Headers'
+
+		    cppCompiler.args '-I', file('src/jni/jdkHeaders/darwin').toString()
+
+		    linker.args '-Wl,-search_paths_first'
+		    linker.args '-L', file('src/jni/prebuilt/osx/x86-64').toString()
+
+		    linker.args '-stdlib=libstdc++', '-lstdc++'
+		    linker.args '-lgmp', '-lmpfr', '-lpthread', '-dynamiclib'
+		    linker.args '-framework', 'Accelerate'
+		    linker.args '-framework', 'CoreFoundation'
+		    }
         	}
     	    }
 	}
