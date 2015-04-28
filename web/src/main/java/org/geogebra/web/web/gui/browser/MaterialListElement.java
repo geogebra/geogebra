@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -327,7 +328,7 @@ public class MaterialListElement extends FlowPanel implements
 			background.add(deco);
 		}
 		if ((this.app.getFileManager().shouldKeep(this.material.getId()) || this.app
-		        .isPrerelease())
+				.has(Feature.LOCALSTORAGE_FILES))
 		        && this.material.getType() != MaterialType.book
 		        && this.material.getSyncStamp() > 0
 		        && this.material.getModified() <= this.material.getSyncStamp()) {

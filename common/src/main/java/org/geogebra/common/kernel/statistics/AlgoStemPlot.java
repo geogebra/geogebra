@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -308,7 +309,7 @@ public class AlgoStemPlot extends AlgoElement {
 		high.append("} \\\\ "); // newline in LaTeX ie \\
 
 		if (kernel.getApplication().isHTML5Applet()
-				&& !kernel.getApplication().useJLaTeXMathInWeb()) {
+				&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
 			stemPlotMQ(data, outlierIndex, multUnit, stemLines);
 		} else {
 			stemPlot(data, outlierIndex, multUnit, stemLines);

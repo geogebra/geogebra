@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.BracketsError;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
@@ -2157,7 +2158,7 @@ public class AlgebraProcessor {
 			}
 			if (equ.mayBePolynomial()) {
 				return processImplicitPoly(equ);
-			} else if (app.isPrerelease()) {
+			} else if (app.has(Feature.TUBE_BETA)) {
 
 				return processImplicitCurve(equ);
 			}

@@ -84,6 +84,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
@@ -3673,7 +3674,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		fixCheckboxPanel = new FixCheckboxPanel();
 		basicTab.add(fixCheckboxPanel.getWidget());
 
-		if (app.isPrerelease() && RadioButtonTreeItem.showSliderOrTextBox) {
+		if (app.has(Feature.AV_EXTENSIONS)
+				&& RadioButtonTreeItem.showSliderOrTextBox) {
 			if (!isDefaults) {
 				avPanel = new ExtendedAVPanel();
 				checkboxPanel.add(avPanel.getWidget());

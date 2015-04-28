@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
@@ -323,7 +324,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 		this.loc = app.getLocalization();
 		addStyleName("KeyBoard");
 		createKeyBoard();
-		if (this.app.isPrerelease()) {
+		if (app.has(Feature.KOREAN_KEYBOARD)) {
 			// this is needed until we support other fonts than Latin
 			supportedLocales.put(Language.Korean.localeGWT, "ko");
 		}

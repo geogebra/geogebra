@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Unicode;
 
 /**
@@ -566,7 +567,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 	private boolean useJLaTeXMath() {
 		return !kernel.getApplication().isHTML5Applet()
-				|| kernel.getApplication().useJLaTeXMathInWeb();
+				|| kernel.getApplication().has(Feature.JLM_IN_WEB);
 	}
 
 	private void endRow(StringBuilder sb, boolean lineBelow) {

@@ -22,6 +22,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
@@ -285,7 +286,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolButtonPanel.add(btDelete);
 		btDelete.setText(loc.getPlain("Delete"));
 
-		if (app.isPrerelease()) {
+		if (app.has(Feature.TOOL_EDITOR)) {
 			btOpen = new Button();
 			toolButtonPanel.add(btOpen);
 			btOpen.setText(loc.getPlain("Open"));

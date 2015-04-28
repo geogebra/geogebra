@@ -11,6 +11,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -125,7 +126,8 @@ public class AppWapplet extends AppWFull {
 			this.initSignInEventFlow(new LoginOperationW(this), true);
 		} else {
 			if (Browser.runningLocal()) {
-				new GeoGebraTubeAPIWSimple(isPrerelease()).checkAvailable(null);
+				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA))
+						.checkAvailable(null);
 			}
 		}
 	}

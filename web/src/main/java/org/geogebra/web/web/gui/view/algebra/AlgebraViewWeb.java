@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
@@ -131,7 +132,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 */
 	public boolean suggestRepaint(){
 
-		if (app.isPrerelease() && RadioButtonTreeItem.showSliderOrTextBox
+		if (app.has(Feature.AV_EXTENSIONS)
+				&& RadioButtonTreeItem.showSliderOrTextBox
 				&& waitForRepaint != TimerSystemW.REPAINT_FLAG) {
 			doSpecialRepaint();
 		}
@@ -1077,7 +1079,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	public void setInputPanel(final AlgebraInputW inputPanel){
 		this.inputPanel = inputPanel;
 		if ((!app.getLocalization().getLanguage().equals("ko")
-		        || app.isPrerelease()) && !app.getLAF().isSmart()) {
+ || app
+				.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
 			this.inputPanelTreeItem = new TreeItem(new NewRadioButtonTreeItem(
 			        kernel));
 			inputPanelTreeItem.getWidget().getElement().getParentElement()
@@ -1131,7 +1134,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		}
 		if(this.app.getInputPosition() == InputPositon.algebraView){
 			if ((!app.getLocalization().getLanguage().equals("ko")
-			        || app.isPrerelease())&& !app.getLAF().isSmart()) {
+ || app
+					.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
 				if (inputPanelLatex == null) {
 					inputPanelLatex = new NewRadioButtonTreeItem(kernel);
 
@@ -1182,7 +1186,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	}
 
 	public void setActiveTreeItem(RadioButtonTreeItem radioButtonTreeItem) {
-		if (!app.isPrerelease()) {
+		if (!app.has(Feature.AV_EXTENSIONS)) {
 			return;
 		}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
@@ -38,7 +39,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 		labels = new ArrayList<Label>();
 		cols = estimateCols();
 		for (Language l : Language.values()) {
-			if (!l.fullyTranslated && app.isPrerelease()) {
+			if (!l.fullyTranslated && app.has(Feature.ALL_LANGUAGES)) {
 				continue;
 			}
 

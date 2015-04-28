@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -59,7 +60,7 @@ public class AppWsimple extends AppW {
 		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
 		if (Browser.runningLocal()) {
-			new GeoGebraTubeAPIWSimple(isPrerelease())
+			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA))
 			        .checkAvailable(null);
 		}
 	}

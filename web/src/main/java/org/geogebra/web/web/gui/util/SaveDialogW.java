@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -198,7 +199,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			}
 
 			private void saveLocalIfNeeded(long modified, SaveState state) {
-				if (app.getFileManager().shouldKeep(0) || app.isPrerelease()
+				if (app.getFileManager().shouldKeep(0)
+						|| app.has(Feature.LOCALSTORAGE_FILES)
 				        || state == SaveState.ERROR) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,

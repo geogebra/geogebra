@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.AsyncOperation;
@@ -303,7 +304,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		add(marblePanel);
 
 		// Sliders
-		if (showSliderOrTextBox && app.isPrerelease()
+		if (showSliderOrTextBox && app.has(Feature.AV_EXTENSIONS)
 		        && geo instanceof GeoNumeric
 		        && ((GeoNumeric) geo).isShowingExtendedAV()) {
 			if (!geo.isEuclidianVisible()) {
@@ -375,7 +376,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ihtml.getElement().appendChild(se2);
 		// String text = "";
 
-		if (showSliderOrTextBox && app.isPrerelease()
+		if (showSliderOrTextBox && app.has(Feature.AV_EXTENSIONS)
 		        && geo instanceof GeoBoolean) {
 			// CheckBoxes
 			checkBox = new CheckBox();

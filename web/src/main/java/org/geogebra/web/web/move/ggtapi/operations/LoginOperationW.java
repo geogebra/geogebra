@@ -2,6 +2,7 @@ package org.geogebra.web.web.move.ggtapi.operations;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
@@ -55,7 +56,8 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public GeoGebraTubeAPI getGeoGebraTubeAPI() {
-		return new GeoGebraTubeAPIW(app.getClientInfo(), app.isPrerelease());
+		return new GeoGebraTubeAPIW(app.getClientInfo(),
+				app.has(Feature.TUBE_BETA));
 
 	}
 

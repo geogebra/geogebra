@@ -3,10 +3,11 @@ package org.geogebra.web.web.main;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
@@ -139,7 +140,7 @@ public class FileManagerW extends FileManager {
 	private TreeSet<Integer> offlineIDs = new TreeSet<Integer>();
 	@Override
 	public boolean shouldKeep(int id) {
-		if (!getApp().isPrerelease()) {
+		if (!getApp().has(Feature.LOCALSTORAGE_FILES)) {
 			return false;
 		}
 		if (offlineIDs.contains(id)) {

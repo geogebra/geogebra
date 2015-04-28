@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -52,7 +53,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		super(app, App.VIEW_ALGEBRA);
 		app.getSettings().getAlgebra().addListener(this);
 
-		if (app.isPrerelease()) {
+		if (app.has(Feature.AV_EXTENSIONS)) {
 			update(null);
 		} else {
 			addAuxiliaryButton();

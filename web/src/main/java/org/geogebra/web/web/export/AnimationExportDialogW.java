@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
@@ -255,7 +256,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		}
 
 		GeoGebraTubeAPIW api = new GeoGebraTubeAPIW(app.getClientInfo(),
-		        app.isPrerelease());
+				app.has(Feature.TUBE_BETA));
 		String sliderName = sliderComboBox.getSelectedValue().split(" ")[0];
 		GeoPointND p1 = createExportPoint(1, 1);
 		GeoPointND p2 = createExportPoint(2, 3);

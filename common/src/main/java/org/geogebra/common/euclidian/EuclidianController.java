@@ -97,6 +97,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
@@ -8046,7 +8047,7 @@ public abstract class EuclidianController {
 				// set zoom rectangle's size
 				// right-drag: zoom
 				// Shift-right-drag: zoom without preserving aspect ratio
-				if (app.isPrerelease()) {
+				if (app.has(Feature.SF_DRAG)) {
 					updateSelectionRectangle(false);
 				} else {
 					updateSelectionRectangle((app.isRightClick(event) && !event
@@ -8649,7 +8650,7 @@ public abstract class EuclidianController {
 				dontClearSelection = true;
 			}
 
-			if (hits.isEmpty() || !app.isPrerelease()) {
+			if (hits.isEmpty() || !app.has(Feature.SF_DRAG)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
 				view.setMode(getModeForShallMoveView());
@@ -8668,7 +8669,7 @@ public abstract class EuclidianController {
 	}
 
 	private boolean shallMoveView(AbstractEvent event) {
-		if (!app.isPrerelease()) {
+		if (!app.has(Feature.SF_DRAG)) {
 			return app.isShiftDragZoomEnabled() && (
 			// MacOS: shift-cmd-drag is zoom
 					(event.isShiftDown() && !app.isControlDown(event)) // All
@@ -9294,7 +9295,7 @@ public abstract class EuclidianController {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
-		if (!app.isPrerelease() && type != PointerEventType.TOUCH
+		if (!app.has(Feature.SF_DRAG) && type != PointerEventType.TOUCH
 				&& processZoomRectangle()) {
 			return;
 			// Michael Borcherds 2007-10-08

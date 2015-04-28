@@ -3613,6 +3613,10 @@ public abstract class App implements UpdateSelection {
 	public abstract String getEnglishCommand(String command);
 
 	protected boolean prerelease;
+	
+	public final boolean has(Feature f){
+		return prerelease;
+	}
 	public final boolean isPrerelease(){
 		return prerelease;
 	}
@@ -3641,10 +3645,6 @@ public abstract class App implements UpdateSelection {
 
 	public boolean hasFocus() {
 		return true;
-	}
-
-	public boolean useJLaTeXMathInWeb() {
-		return isPrerelease();
 	}
 
 }

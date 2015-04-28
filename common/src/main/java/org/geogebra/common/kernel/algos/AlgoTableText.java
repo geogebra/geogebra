@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.regexp.shared.MatchResult;
@@ -364,7 +365,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			mathml(tpl);
 		} else {
 			if (kernel.getApplication().isHTML5Applet()
-					&& !kernel.getApplication().useJLaTeXMathInWeb()) {
+					&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
 				latexMQ(tpl);
 			} else {
 				latex(tpl);
