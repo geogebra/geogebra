@@ -555,8 +555,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			yZero = yscale * ymax2;
 			setAxesIntervals(getXscale(), 0);
 			setAxesIntervals(getYscale(), 1);
-			calcPrintingScale();
-			settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
+			calcPrintingScale();			
 			if (isLockedAxesRatio()) {
 				this.updateBoundObjects();
 			}
