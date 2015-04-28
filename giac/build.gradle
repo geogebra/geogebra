@@ -92,6 +92,9 @@ model {
 
                 linker.args '-s' // stripping
                 linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
+		// Add libgcc and libstdc++ statically
+		linker.args '-static-libgcc'
+		linker.args '-static-libstdc++'
 
 		// Architecture based settings:
                 if (targetPlatform.architecture.name == 'i386') {
@@ -117,9 +120,6 @@ model {
             	    linker.args '-Wl,--add-stdcall-alias'
 		    linker.args '-Wl,-Bstatic', '-lmpfr', '-lgmp'
 		    linker.args '-L', "src/jni/prebuilt/windows/${targetPlatform.architecture.name}"
-		    // Add libgcc and libstdc++ statically
-		    linker.args '-static-libgcc'
-		    linker.args '-static-libstdc++'
 		    }
 
                 if (targetPlatform.operatingSystem.name == 'linux') {
@@ -128,6 +128,16 @@ model {
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
 		    cppCompiler.args '-fno-strict-aliasing' // maybe not needed
 		    cppCompiler.args '-DPIC' // maybe not needed
+
+            	    if (targetPlatform.architecture.name == 'i686') {
+			linker.args '-Wl,-Bstatic', '-lmpfr', '-lgmp'
+            		} else {
+			// 64 bit Linux versions require libgmp and libmpfr preinstalled:
+			linker.args '-Wl,-Bdynamic', '-lmpfr', '-lgmp'
+			// We cannot link them statically because we get always an error like
+			// "relocation R_X86_64_32 against `.rodata.str1.1' can not be used when making a shared object; recompile with -fPIC"
+			// TODO: try to fix this somehow.
+			}
             	    }
         	}
     	    }
