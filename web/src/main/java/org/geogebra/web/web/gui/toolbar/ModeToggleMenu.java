@@ -501,12 +501,17 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				// tm.addSeparator();
 			} else { // standard case: add mode
 				// check mode
+				if (addMode == 100002) {
+					App.debug("[BADMODE] THISISIT");
+				}
 				if (!"".equals(app.getToolName(addMode))) {
 					ListItem subLi = submenu.addItem(addMode);
 					addDomHandlers(subLi);
 					subLi.addDomHandler(this, MouseOverEvent.getType());
 					subLi.addDomHandler(this, MouseOutEvent.getType());
 					subLi.addDomHandler(this, KeyUpEvent.getType());
+				} else {
+					App.debug("BADMODE: " + addMode);
 				}
 			}
 		}
