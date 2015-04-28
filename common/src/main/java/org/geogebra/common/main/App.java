@@ -3617,9 +3617,6 @@ public abstract class App implements UpdateSelection {
 	public final boolean has(Feature f){
 		return prerelease;
 	}
-	public final boolean isPrerelease(){
-		return prerelease;
-	}
 
 	private int tubeID = 0;
 
