@@ -232,3 +232,28 @@ task emccCompile {
 	}
     dependsOn list
     }
+
+task emccGiacJs {
+    def list = []
+    def linkerArgs = []
+    FileTree files = fileTree(dir: 'build/objs/giac.js')
+    files.visit { f ->
+	if (!f.name.startsWith("first")) { // consider completely removing first*.cc
+    	    def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
+	    list << emccCompileTask
+	    linkerArgs << "build/objs/giac.js/${f.name}"
+	    }
+	}
+    def output = "build/binaries/giac.js/giac.js"
+    doLast {
+	file("build/binaries/giac.js").mkdirs()
+	exec {
+	    linkerArgs << "src/giac.js/prebuilt/libgmp.a"
+	    linkerArgs << "src/giac.js/prebuilt/libmpfr.a"
+	    linkerArgs << '-s' << 'PRECISE_I32_MUL=1' << '-DGIAC_GGB'
+	    linkerArgs << '-o' << output
+	    commandLine 'emcc'
+	    args linkerArgs
+	    }
+	}
+    }
