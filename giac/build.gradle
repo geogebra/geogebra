@@ -34,6 +34,10 @@ model {
             architecture 'x64'
             operatingSystem 'windows'
         }
+	linux64 {
+            architecture 'x64'
+            operatingSystem 'linux'
+        }
     }
 
     toolChains {
@@ -62,7 +66,6 @@ model {
                 cppCompiler.define "VERSION", '"1.1.3"'
                 cppCompiler.define "TIMEOUT"
                 cppCompiler.define "EMCC"
-
             }
         }
 
@@ -74,30 +77,39 @@ model {
         }
 
         javagiac(NativeLibrarySpec) {
+            targetPlatform 'win32'
+            targetPlatform 'win64'
+	    targetPlatform 'linux64'
+
             sources.cpp {
                 source {
                     srcDirs 'src/giac/cpp', 'src/jni/cpp'
                     exclude '**/first.cc', '**/firstcc.cc', '**/hello.cc'
-                }
+            	    }
                 exportedHeaders {
-                    srcDirs 'src/giac/headers', 'src/jni/jdkHeaders', 'src/jni/jdkHeaders/win32'
-                }
+                    srcDirs 'src/giac/headers', 'src/jni/jdkHeaders'
+            	    }
                 lib library: 'mpfr', linkage: 'static'
                 lib library: 'gmp', linkage: 'static'
-            }
-            targetPlatform 'win32'
-            targetPlatform 'win64'
+        	}
 
             binaries.withType(SharedLibraryBinary) {
                 cppCompiler.define "IN_GIAC"
+		// Additional settings are defined in config.h. They are automatically
+		// loaded if HAVE_CONFIG_H is defined below.
+
+                if (targetPlatform.architecture.name == 'i386') {
+                    cppCompiler.define 'SMARTPTR64'
+                    cppCompiler.define 'SIZEOF_LONG', '8'
+            	    } else {
+                    cppCompiler.define 'SIZEOF_LONG', '4'
+            	    }
+
                 if (targetPlatform.operatingSystem.name == 'windows') {
+                    cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
                     cppCompiler.define 'HAVE_CONFIG_H'
                     cppCompiler.define 'GIAC_MPQS'
                     cppCompiler.define '__MINGW_H'
-                    cppCompiler.define 'SIZEOF_INT', '4'
-                    cppCompiler.define 'SIZEOF_LONG_LONG', '8'
-                    cppCompiler.define 'HAVE_MPFR_H', '1'
-                    cppCompiler.define 'VERSION', '"1.1"'
                     cppCompiler.define 'HAVE_NO_SYS_TIMES_H'
                     cppCompiler.define 'HAVE_NO_SYS_RESOURCE_WAIT_H'
                     cppCompiler.define 'HAVE_NO_PWD_H'
@@ -105,32 +117,33 @@ model {
                     cppCompiler.define 'usleep',''
                     cppCompiler.define 'YY_NO_UNISTD_H'
 
-                    if (targetPlatform.architecture.name == 'i386') {
-                        cppCompiler.define 'SIZEOF_LONG', '8'
-                        cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
-                        cppCompiler.define 'SMARTPTR64'
-            	    } else {
-                        cppCompiler.define 'SIZEOF_LONG', '4'
-                    }
+		    cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
+            	    linker.args '-Wl,--add-stdcall-alias'
+		    }
 
-                    cppCompiler.args '-fexceptions'
-                    cppCompiler.args '-Os'
-                    cppCompiler.args '-s'
-                    cppCompiler.args '-I.'
+                if (targetPlatform.operatingSystem.name == 'linux') {
+                    cppCompiler.define 'HAVE_CONFIG_H'
+                    cppCompiler.define 'HAVE_UNISTD_H'
 
-                    linker.args '-Wl,--add-stdcall-alias'
-                    linker.args '-s'
-		    linker.args '-static-libgcc'
-		    linker.args '-static-libstdc++'
-                    linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
-                }
-            }
-        }
+		    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
+            	    }
+
+                cppCompiler.args '-fexceptions'
+                cppCompiler.args '-Os'
+                cppCompiler.args '-s'
+                cppCompiler.args '-I.'
+
+                linker.args '-s'
+		linker.args '-static-libgcc'
+		linker.args '-static-libstdc++'
+                linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
+        	}
+    	    }
+	}
     }
-}
 
 task run (dependsOn: 'icasExecutable', type: Exec) {
-	description "Runs Giac's icas terminal"
-	commandLine 'build/binaries/icasExecutable/icas'
-	standardInput = System.in
-}
+    description "Runs Giac's icas terminal"
+    commandLine 'build/binaries/icasExecutable/icas'
+    standardInput = System.in
+    }
