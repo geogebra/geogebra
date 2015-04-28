@@ -911,15 +911,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Sets real world coord system, where zero point has screen coords (xZero,
 	 * yZero) and one unit is xscale pixels wide on the x-Axis and yscale pixels
 	 * heigh on the y-Axis.
+	 * 
+	 * Also updates settings *before* all the algos that might need them are updated
 	 */
 	final public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
-		setCoordSystem(xZero, yZero, xscale, yscale, true);
 		settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
+		setCoordSystem(xZero, yZero, xscale, yscale, true);
+		
 	}
 
 	/** Sets coord system from mouse move */
-	public void translateCoordSystemInPixels(int dx, int dy, int dz, int mode) {		
+	public void translateCoordSystemInPixels(int dx, int dy, int dz, int mode) {
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
