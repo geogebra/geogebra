@@ -7,37 +7,56 @@ def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
 // println java_home
 
 model {
+    repositories {
+        libs(PrebuiltLibraries) {
+            mpfr {
+                binaries.withType(StaticLibraryBinary) {
+		    def arch = targetPlatform.architecture.name
+		    def os = targetPlatform.operatingSystem.name
+                    staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libmpfr.a")
+            	    }
+    		}
+            gmp {
+                binaries.withType(StaticLibraryBinary) {
+		    def arch = targetPlatform.architecture.name
+		    def os = targetPlatform.operatingSystem.name
+                    staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libgmp.a")
+            	    }
+        	}
+    	    }
+	}
+
     platforms {
         win32 {
             architecture 'i386'
             operatingSystem 'windows'
-        }
+    	    }
         win64 {
             architecture 'x64'
             operatingSystem 'windows'
-        }
+    	    }
 	linux_i686 { // this will be fixed in Gradle 2.4 (-> linux32)
             architecture 'i386'
             operatingSystem 'linux'
-        }
+    	    }
 	linux64 {
             architecture 'x64'
             operatingSystem 'linux'
-        }
-    }
+    	    }
+	}
 
     toolChains {
         mingw(Gcc) {
             target('win32') {
                 cppCompiler.executable 'i686-w64-mingw32-g++'
                 linker.executable 'i686-w64-mingw32-g++'
-            }
+        	}
             target('win64') {
                 cppCompiler.executable 'x86_64-w64-mingw32-g++'
                 linker.executable 'x86_64-w64-mingw32-g++'
-            }
-        }
-    }
+        	}
+    	    }
+	}
     components {
         // giac static libary
         giac(NativeLibrarySpec) {
@@ -51,15 +70,15 @@ model {
                 cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
                 cppCompiler.define "VERSION", '"1.1.3"'
                 cppCompiler.define "TIMEOUT"
-            }
-        }
+        	}
+    	    }
 
         icas(NativeExecutableSpec) {
             binaries.all {
                 lib library: 'giac', linkage: 'static'
                 linker.args '-lgmp', '-lpthread'
-            }
-        }
+        	}
+    	    }
 
         javagiac(NativeLibrarySpec) {
             targetPlatform 'win32'
@@ -75,6 +94,8 @@ model {
                 exportedHeaders {
                     srcDirs 'src/giac/headers', 'src/jni/jdkHeaders'
             	    }
+                lib library: 'mpfr', linkage: 'static'
+                lib library: 'gmp', linkage: 'static'
         	}
 
             binaries.withType(SharedLibraryBinary) {
@@ -118,8 +139,6 @@ model {
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
 		    // Insert prebuilt libraries
             	    linker.args '-Wl,--add-stdcall-alias'
-		    linker.args '-Wl,-Bstatic', '-lmpfr', '-lgmp'
-		    linker.args '-L', "src/jni/prebuilt/windows/${targetPlatform.architecture.name}"
 		    }
 
                 if (targetPlatform.operatingSystem.name == 'linux') {
@@ -128,16 +147,6 @@ model {
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
 		    cppCompiler.args '-fno-strict-aliasing' // maybe not needed
 		    cppCompiler.args '-DPIC' // maybe not needed
-
-            	    if (targetPlatform.architecture.name == 'i686') {
-			linker.args '-Wl,-Bstatic', '-lmpfr', '-lgmp'
-            		} else {
-			// 64 bit Linux versions require libgmp and libmpfr preinstalled:
-			linker.args '-Wl,-Bdynamic', '-lmpfr', '-lgmp'
-			// We cannot link them statically because we get always an error like
-			// "relocation R_X86_64_32 against `.rodata.str1.1' can not be used when making a shared object; recompile with -fPIC"
-			// TODO: try to fix this somehow.
-			}
             	    }
         	}
     	    }
