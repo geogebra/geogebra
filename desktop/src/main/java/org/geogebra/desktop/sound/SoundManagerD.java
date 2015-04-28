@@ -13,8 +13,8 @@ import org.geogebra.desktop.main.AppD;
 public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 
 	private AppD app;
-	private MidiSound midiSound;
-	private FunctionSound functionSound;
+	private MidiSoundD midiSound;
+	private FunctionSoundD functionSound;
 
 	private static final int SOUNDTYPE_NONE = -1;
 	private static final int SOUNDTYPE_MIDI = 0;
@@ -49,10 +49,10 @@ public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 	 * Retrieves field midiSound. Creates a new instance of MidiSound if none
 	 * exists.
 	 */
-	private MidiSound getMidiSound() {
+	private MidiSoundD getMidiSound() {
 		if (midiSound == null)
 			try {
-				midiSound = new MidiSound(app);
+				midiSound = new MidiSoundD(app);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -64,10 +64,10 @@ public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 	 * Retrieves field functionSound. Creates a new instance of FunctionSound if
 	 * none exists.
 	 */
-	private FunctionSound getFunctionSound() {
+	private FunctionSoundD getFunctionSound() {
 		if (functionSound == null)
 			try {
-				functionSound = new FunctionSound(app);
+				functionSound = new FunctionSoundD(app);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

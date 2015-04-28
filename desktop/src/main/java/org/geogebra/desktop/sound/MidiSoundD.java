@@ -32,7 +32,7 @@ import org.jfugue.Player;
  * @author G. Sturr 2010-9-18
  * 
  */
-public class MidiSound implements MetaEventListener {
+public class MidiSoundD implements MetaEventListener {
 
 	private final AppD app;
 	private Synthesizer synthesizer;
@@ -50,7 +50,7 @@ public class MidiSound implements MetaEventListener {
 	/***********************************************
 	 * Constructor
 	 */
-	public MidiSound(AppD app) {
+	public MidiSoundD(AppD app) {
 		this.app = app;
 	}
 

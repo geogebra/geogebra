@@ -17,7 +17,7 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  *
  */
-public final class FunctionSound implements LineListener {
+public final class FunctionSoundD implements LineListener {
 
 	private AppD app;
 
@@ -48,7 +48,7 @@ public final class FunctionSound implements LineListener {
 	 * 
 	 * @throws Exception
 	 */
-	public FunctionSound(AppD app) throws Exception {
+	public FunctionSoundD(AppD app) throws Exception {
 
 		this.app = app;
 		bitDepth = DEFAULT_BIT_RATE;
