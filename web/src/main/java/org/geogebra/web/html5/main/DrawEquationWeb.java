@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Language;
@@ -257,7 +258,7 @@ public class DrawEquationWeb extends DrawEquation {
 	        int x, int y, String latexString0, GFont font, boolean serif,
 	        final GColor fgColor, GColor bgColor, boolean useCache,
 	        boolean updateAgain) {
-		if (app1.isPrerelease()) {
+		if (app1.has(Feature.JLM_IN_WEB)) {
 			TeXIcon icon = CreateLibrary.createIcon(latexString0,
 					font.getSize(), font.getStyle());
 			Graphics2DInterface g3 = new Graphics2DW(

@@ -9305,7 +9305,7 @@ public abstract class EuclidianController {
 		if ((app.isMacOS() && control) || !right) {
 			return;
 		}
-		if (draggingOccured && app.isPrerelease()) {
+		if (draggingOccured && app.has(Feature.SF_DRAG)) {
 			if (allowSelectionRectangle()) {
 				processSelectionRectangle(false, control);
 				return;

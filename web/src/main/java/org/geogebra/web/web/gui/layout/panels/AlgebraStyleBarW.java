@@ -140,7 +140,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 
 	public void update(GeoElement selectedItem) {
 
-		if (!app.isPrerelease()) {
+		if (!app.has(Feature.AV_EXTENSIONS)) {
 			return;
 		}
 

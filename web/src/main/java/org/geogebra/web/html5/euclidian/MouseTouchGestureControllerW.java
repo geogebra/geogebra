@@ -1003,8 +1003,7 @@ public class MouseTouchGestureControllerW implements
 			} else if (scaleConic.getFreeInputPoints(ec.view)
 			        .size() == 2) {
 				this.multitouchMode = MultitouchMode.circle2Points;
-			} else if (app.isPrerelease()
-			        && scaleConic.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
+			} else if (scaleConic.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
 				this.multitouchMode = MultitouchMode.circleRadius;
 				AlgoElement algo = scaleConic.getParentAlgorithm();
 				NumberValue radius = (NumberValue) algo.input[1];

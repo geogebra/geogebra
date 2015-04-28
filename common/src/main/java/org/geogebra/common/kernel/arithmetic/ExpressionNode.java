@@ -5581,21 +5581,10 @@ kernel, left,
 		}
 	}
 	
-	public void getFraction(ExpressionValue[] parts){
-		if(!kernel.getApplication().isPrerelease()){
-			if(operation == Operation.DIVIDE){
-				parts[0] = left;
-				parts[1] = right;
-				
-			}else{
-				parts[0] = this;
-				parts[1] = null;
-			}
-			return;
-		}
+	public void getFraction(ExpressionValue[] parts, boolean expandPlus){
 		ExpressionValue numL, numR, denL = null, denR = null;
 		if(left instanceof ExpressionNode){
-			((ExpressionNode) left).getFraction(parts);
+			((ExpressionNode) left).getFraction(parts, expandPlus);
 			numL = parts[0];
 			denL = parts[1];
 		}else{
@@ -5603,7 +5592,7 @@ kernel, left,
 		}
 		
 		if(right instanceof ExpressionNode){
-			((ExpressionNode) right).getFraction(parts);
+			((ExpressionNode) right).getFraction(parts, expandPlus);
 			numR = parts[0];
 			denR = parts[1];
 		}else{
@@ -5619,13 +5608,17 @@ kernel, left,
 			parts[1] = multiplyCheck(denL,numR);
 			return;
 		case PLUS:
-			parts[0] = multiplyCheck(denR,numL).wrap().plus(multiplyCheck(denL,numR));
-			parts[1] = multiplyCheck(denR,denL);
-			return;
+			if(expandPlus){
+				parts[0] = multiplyCheck(denR,numL).wrap().plus(multiplyCheck(denL,numR));
+				parts[1] = multiplyCheck(denR,denL);
+				return;
+			}
 		case MINUS:
-			parts[0] = multiplyCheck(denR,numL).wrap().subtract(multiplyCheck(denL,numR));
-			parts[1] = multiplyCheck(denR,denL);
-			return;
+			if(expandPlus){
+				parts[0] = multiplyCheck(denR,numL).wrap().subtract(multiplyCheck(denL,numR));
+				parts[1] = multiplyCheck(denR,denL);
+				return;
+			}
 		default:
 			parts[0] = this;
 			parts[1] = null;

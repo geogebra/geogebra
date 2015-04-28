@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * Find Numerator
@@ -82,10 +81,9 @@ public class AlgoNumerator extends AlgoElement {
 			return;
 		}
 		ExpressionValue[] numDen = new ExpressionValue[2];
-		f.getFunctionExpression().deepCopy(kernel).wrap().getFraction(numDen);;
+		f.getFunctionExpression().deepCopy(kernel).wrap().getFraction(numDen, false);;
 		if (numDen[1] == null) {
-			g.setUndefined();
-			return;
+			numDen[1] = new ExpressionNode(kernel,1);
 		}
 
 		ExpressionValue ev = getPart(numDen); // get Numerator

@@ -1362,7 +1362,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			((AlgebraViewW) this.av).getStyleBar(false).update(this.getGeo());
 		}
 
-		if (app.isPrerelease() && geo != null) {
+		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
 			if (deleteButton == null) {
 				deleteButton = new Image(
 				        GuiResources.INSTANCE.algebraViewDeleteEntry());
