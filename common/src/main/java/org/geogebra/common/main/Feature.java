@@ -24,4 +24,6 @@ public enum Feature {
 	DELETE_IN_ALGEBRA,
 
 	POLYGON_TRIANGULATION,
+	
+	DATA_COLLECTION,
 }

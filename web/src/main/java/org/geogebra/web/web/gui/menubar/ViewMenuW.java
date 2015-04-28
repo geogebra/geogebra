@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -16,12 +17,6 @@ import com.google.gwt.user.client.Timer;
  * For application use ViewMenuApplicationW class
  */
 public class ViewMenuW extends GMenuBar {
-
-	
-	/**
-	 * set to true if you want to enable DataCollection
-	 */
-	private boolean enableDataCollection = false;
 
 	/**
 	 * Menuitem with checkbox for show algebra view
@@ -137,7 +132,7 @@ public class ViewMenuW extends GMenuBar {
 		        });
 		addItem(consProtNav.getMenuItem());
 		
-		if (enableDataCollection) {
+		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollectionBar = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(),
 					app.getMenu("Data Collection"), true),
