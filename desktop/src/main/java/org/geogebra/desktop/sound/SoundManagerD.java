@@ -10,7 +10,7 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class SoundManager implements org.geogebra.common.sound.SoundManager {
+public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 
 	private AppD app;
 	private MidiSound midiSound;
@@ -29,7 +29,7 @@ public class SoundManager implements org.geogebra.common.sound.SoundManager {
 	 * 
 	 * @param app
 	 */
-	public SoundManager(AppD app) {
+	public SoundManagerD(AppD app) {
 		this.app = app;
 	}
 

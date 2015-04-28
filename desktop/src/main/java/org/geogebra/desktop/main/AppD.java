@@ -184,7 +184,7 @@ import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.PluginManager;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
-import org.geogebra.desktop.sound.SoundManager;
+import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.DownloadManager;
 import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.GeoGebraLogger;
@@ -4498,12 +4498,12 @@ public class AppD extends App implements KeyEventDispatcher {
 	// SOUNDS
 	// **************************************************************************
 
-	private SoundManager soundManager = null;
+	private SoundManagerD soundManager = null;
 
 	@Override
-	public SoundManager getSoundManager() {
+	public SoundManagerD getSoundManager() {
 		if (soundManager == null) {
-			soundManager = new SoundManager(this);
+			soundManager = new SoundManagerD(this);
 		}
 		return soundManager;
 	}
