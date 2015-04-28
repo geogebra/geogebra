@@ -277,13 +277,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		ImageResource[] providerImages = new ImageResource[3];
 		providerImages[0] = BrowseResources.INSTANCE.location_tube();
 		int providerCount = 1;
+		this.supportedProviders.add(Provider.TUBE);
 		GeoGebraTubeUser user = app.getLoginOperation().getModel()
 		        .getLoggedInUser();
 		if (user != null && user.hasGoogleDrive()
 		        && app.getLAF().supportsGoogleDrive()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_drive();
-			this.supportedProviders.add(Provider.TUBE);
+			this.supportedProviders.add(Provider.GOOGLE);
 		}
 		if (user != null && user.hasOneDrive()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
@@ -293,7 +294,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		if (app.getLAF().supportsLocalSave()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_local();
-			this.supportedProviders.add(Provider.ONE);
+			this.supportedProviders.add(Provider.LOCAL);
 		}
 		if (providerPopup != null) {
 			buttonPanel.remove(providerPopup);
