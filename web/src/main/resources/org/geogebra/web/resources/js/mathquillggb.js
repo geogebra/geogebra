@@ -1995,9 +1995,9 @@ function createRoot(jQ, root, textbox, editable) {
 	// but still in this case, textarea.blur may be called too
 	// late, setTimeout is not the best solution:
 	if(window.mqTouchEvents){
-		textarea.attr("disabled","true");
+		//textarea.attr("disabled","true");
 	}else if(window.mqTouchEvents === false){
-		textarea.attr("disabled","false");
+		//textarea.attr("disabled","false");
 	}
 	setTimeout(function() { textarea.focus(); });
 
