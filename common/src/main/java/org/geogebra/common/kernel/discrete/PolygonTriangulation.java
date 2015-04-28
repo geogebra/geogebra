@@ -178,6 +178,9 @@ public class PolygonTriangulation {
 
 	};
 
+	final static double POINT_DELTA = Kernel.STANDARD_PRECISION;
+	final static double ORIENTATION_DELTA = Kernel.STANDARD_PRECISION;
+
 	private class Point implements Comparable<Point> {
 		public double x, y;
 		public int id;
@@ -258,18 +261,18 @@ public class PolygonTriangulation {
 			}
 
 			// smallest x
-			if (Kernel.isGreater(p2.x, x)) {
+			if (Kernel.isGreater(p2.x, x, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(x, p2.x)) {
+			if (Kernel.isGreater(x, p2.x, POINT_DELTA)) {
 				return 1;
 			}
 
 			// then smallest y
-			if (Kernel.isGreater(p2.y, y)) {
+			if (Kernel.isGreater(p2.y, y, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(y, p2.y)) {
+			if (Kernel.isGreater(y, p2.y, POINT_DELTA)) {
 				return 1;
 			}
 
@@ -313,18 +316,18 @@ public class PolygonTriangulation {
 		final public int compareToOnly(Point p2) {
 
 			// smallest x
-			if (Kernel.isGreater(p2.x, x)) {
+			if (Kernel.isGreater(p2.x, x, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(x, p2.x)) {
+			if (Kernel.isGreater(x, p2.x, POINT_DELTA)) {
 				return 1;
 			}
 
 			// then smallest y
-			if (Kernel.isGreater(p2.y, y)) {
+			if (Kernel.isGreater(p2.y, y, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(y, p2.y)) {
+			if (Kernel.isGreater(y, p2.y, POINT_DELTA)) {
 				return 1;
 			}
 
@@ -345,18 +348,18 @@ public class PolygonTriangulation {
 		final public int compareTo(double x1, double y1) {
 
 			// smallest x
-			if (Kernel.isGreater(x1, x)) {
+			if (Kernel.isGreater(x1, x, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(x, x1)) {
+			if (Kernel.isGreater(x, x1, POINT_DELTA)) {
 				return 1;
 			}
 
 			// then smallest y
-			if (Kernel.isGreater(y1, y)) {
+			if (Kernel.isGreater(y1, y, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(y, y1)) {
+			if (Kernel.isGreater(y, y1, POINT_DELTA)) {
 				return 1;
 			}
 
@@ -472,11 +475,13 @@ public class PolygonTriangulation {
 				return 0;
 			}
 
-			if (Kernel.isGreater(seg.orientation, orientation)) {
+			if (Kernel.isGreater(seg.orientation, orientation,
+					ORIENTATION_DELTA)) {
 				return -1;
 			}
 
-			if (Kernel.isGreater(orientation, seg.orientation)) {
+			if (Kernel.isGreater(orientation, seg.orientation,
+					ORIENTATION_DELTA)) {
 				return 1;
 			}
 
@@ -661,7 +666,7 @@ public class PolygonTriangulation {
 			if (s == null) {
 				setName(point, i);
 			} else {
-				point.name = s;
+				point.name = s + i;
 			}
 		}
 	}
@@ -675,23 +680,22 @@ public class PolygonTriangulation {
 	 *            x coord
 	 * @param y
 	 *            y coord
-	 * @param id
-	 *            id in chain
 	 * @param name
 	 *            name
 	 * @param nameId
 	 *            id in polygon when name == null
 	 * @return null if new point equals current
 	 */
-	private Point addPointToChain(Point point, double x, double y, int id,
+	private Point addPointToChain(Point point, double x, double y,
 			String name, int nameId) {
-		if (!Kernel.isEqual(point.x, x) || !Kernel.isEqual(point.y, y)) {
-			point.next = new Point(x, y, id);
+		if (!Kernel.isEqual(point.x, x, POINT_DELTA)
+				|| !Kernel.isEqual(point.y, y, POINT_DELTA)) {
+			point.next = new Point(x, y, point.id + 1);
 			setName(point.next, name, nameId);
 			point.next.prev = point;
 			return point.next;
 		}
-		return null;
+		return point;
 	}
 	/**
 	 * update points list: creates a chain from firstPoint to next points ; two
@@ -709,15 +713,10 @@ public class PolygonTriangulation {
 		Point point = new Point(polygon.getPointX(0), polygon.getPointY(0), 0);
 		setName(point, 0);
 		firstPoint = point;
-		int n = 1;
 		int length = polygon.getPointsLength();
 		for (int i = 1; i < length; i++) {
-			Point p = addPointToChain(point, polygon.getPointX(i),
-					polygon.getPointY(i), n, null, i);
-			if (p != null) {
-				point = p;
-				n++;
-			}
+			point = addPointToChain(point, polygon.getPointX(i),
+					polygon.getPointY(i), null, i);
 		}
 
 
@@ -725,68 +724,43 @@ public class PolygonTriangulation {
 		if (corners != null) {
 			maxPointIndex += EXTRA_POINTS;
 			// re-add first polygon point
-			Point p = addPointToChain(point, polygon.getPointX(0),
-					polygon.getPointY(0), n, null, 0);
-			if (p != null) {
-				point = p;
-				n++;
-			}
+			point = addPointToChain(point, polygon.getPointX(0),
+					polygon.getPointY(0), null, 0);
 
 			// add first four corners
 			for (int i = 0; i < CORNERS; i++) {
-				p = addPointToChain(point, corners[i].getX(),
-						corners[i].getY(), n, "c" + i, i);
-				if (p != null) {
-					point = p;
-					n++;
-				}
+				point = addPointToChain(point, corners[i].getX(),
+						corners[i].getY(), "c", i);
 
 			}
 
 			// re-add first corner
-			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), n,
-					"c0", 0);
+			point = addPointToChain(point, corners[0].getX(),
+					corners[0].getY(), "c", 0);
 
-			if (p != null) {
-				point = p;
-				n++;
-			}
 
 			// add last four corners
 			for (int i = CORNERS; i < CORNERS_ALL; i++) {
-				p = addPointToChain(point, corners[i].getX(),
-						corners[i].getY(), n, "c" + i, i);
-				if (p != null) {
-					point = p;
-					n++;
-				}
+				point = addPointToChain(point, corners[i].getX(),
+						corners[i].getY(), "c", i);
 			}
 
 			// re-add first of last four corner
-			p = addPointToChain(point, corners[CORNERS].getX(),
-					corners[CORNERS].getY(), n, "c4", 4);
-			if (p != null) {
-				point = p;
-				n++;
-			}
+			point = addPointToChain(point, corners[CORNERS].getX(),
+					corners[CORNERS].getY(), "c", 4);
 
 
 			// re-add first corner
-			p = addPointToChain(point, corners[0].getX(), corners[0].getY(), n,
-					"c0", 0);
-
-			if (p != null) {
-				point = p;
-				n++;
-			}
+			point = addPointToChain(point, corners[0].getX(),
+					corners[0].getY(), "c", 0);
 
 		}
 
-
+		int n = point.id + 1;
 
 		// check first point <> last point
-		if (Kernel.isEqual(point.x, firstPoint.x)
-				&& Kernel.isEqual(point.y, firstPoint.y)) {
+		if (Kernel.isEqual(point.x, firstPoint.x, POINT_DELTA)
+				&& Kernel.isEqual(point.y, firstPoint.y, POINT_DELTA)) {
 			firstPoint = firstPoint.next;
 			n--;
 		}
@@ -838,10 +812,11 @@ public class PolygonTriangulation {
 				nextPoint.prev = prevPoint;
 				removedPoints++;
 				point = nextPoint;
-			} else if (Kernel.isEqual(delta, Math.PI)) { // U-turn
+			} else if (Kernel.isEqual(delta, Math.PI, ORIENTATION_DELTA)) { // U-turn
 				debug("U-turn");
-				if (Kernel.isEqual(nextPoint.x, prevPoint.x)
-						&& Kernel.isEqual(nextPoint.y, prevPoint.y)) {
+				if (Kernel.isEqual(nextPoint.x, prevPoint.x, POINT_DELTA)
+						&& Kernel
+								.isEqual(nextPoint.y, prevPoint.y, POINT_DELTA)) {
 					// same point
 					debug(prevPoint.name + "==" + nextPoint.name);
 
@@ -1215,7 +1190,8 @@ public class PolygonTriangulation {
 								- segment.leftPoint.y, pt.x
 								- segment.leftPoint.x);
 						// error(segment.leftPoint.name+pt.name+" : "+orientation);
-						if (Kernel.isEqual(orientation, segment.orientation)) {
+						if (Kernel.isEqual(orientation, segment.orientation,
+								ORIENTATION_DELTA)) {
 							error("(1)" + pt.name + " aligned with " + segment);
 
 							// cut the segment
@@ -1243,7 +1219,8 @@ public class PolygonTriangulation {
 								- segment.leftPoint.y, pt.x
 								- segment.leftPoint.x);
 						// error(segment.leftPoint.name+pt.name+" : "+orientation);
-						if (Kernel.isEqual(orientation, segment.orientation)) {
+						if (Kernel.isEqual(orientation, segment.orientation,
+								ORIENTATION_DELTA)) {
 							error("(2)" + pt.name + " aligned with " + segment);
 
 							// cut the segment
