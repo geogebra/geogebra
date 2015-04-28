@@ -1636,8 +1636,21 @@ var MathBlock = P(MathElement, function(_) {
       cmd = VanillaSymbol(ch);
     }
 
-    if (replacedFragment) cmd.replaces(replacedFragment);
-
+    if (replacedFragment) {
+      // maybe the MathQuill guys were not aware that
+      // this is harmful! Surely harmful in case of " marks,
+      // in other cases there can be more errors...
+      // so instead of calling this:
+      //cmd.replaces(replacedFragment);
+      // let's just get rid of replacedFragment,
+      // just like in case of prepareEdit instead of prepareWrite,
+      // or the replaces method of Symbol 
+      replacedFragment.remove();
+    } else if (cursor.selection) {
+      // by the way, I would do it this way,
+      // not calling this method with replacedFragment
+      cursor.deleteSelection();
+    }
     cmd.createBefore(cursor);
   };
 
