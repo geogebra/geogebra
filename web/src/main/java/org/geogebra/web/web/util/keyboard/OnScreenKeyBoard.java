@@ -187,6 +187,12 @@ public class OnScreenKeyBoard extends PopupPanel {
 	private Localization loc;
 
 	/**
+	 * buttons that need to be updated when the language is changed and their
+	 * default label (which can be found in loc.getPlain)
+	 */
+	private HashMap<KeyBoardButton, String> updateButton = new HashMap<KeyBoardButton, String>();
+
+	/**
 	 * creates a keyboard instance
 	 * 
 	 * @param textField
@@ -342,7 +348,8 @@ public class OnScreenKeyBoard extends PopupPanel {
 	}
 
 	private void createKeyBoard() {
-		
+		this.updateButton = new HashMap<KeyBoardButton, String>();
+
 		// number - keyboard
 		createFunctionsKeyPanel();
 		createNumbersKeyPanel();
@@ -458,9 +465,15 @@ public class OnScreenKeyBoard extends PopupPanel {
 
 		// fill next row
 		index++;
-		addButton(loc.getPlain("Function.sin"), index, functions);
-		addButton(loc.getPlain("Function.cos"), index, functions);
-		addButton(loc.getPlain("Function.tan"), index, functions);
+		updateButton.put(
+				addButton(loc.getPlain("Function.sin"), index, functions),
+				"Function.sin");
+		updateButton.put(
+				addButton(loc.getPlain("Function.cos"), index, functions),
+				"Function.cos");
+		updateButton.put(
+				addButton(loc.getPlain("Function.tan"), index, functions),
+				"Function.tan");
 		addButton("e^x", KeyboardConstants.EULER + "^", index, functions)
 		        .addStyleName("supScript");
 		addButton("|x|", "abs", index, functions);
@@ -597,15 +610,27 @@ public class OnScreenKeyBoard extends PopupPanel {
 
 		// fill second row
 		index++;
-		addButton(loc.getPlain("Function.sinh"), "sinh", index, functions);
-		addButton(loc.getPlain("Function.cosh"), "cosh", index, functions);
-		addButton(loc.getPlain("Function.tanh"), "tanh", index, functions);
+		updateButton.put(
+				addButton(loc.getPlain("Function.sinh"), "sinh", index,
+						functions), "Function.sinh");
+		updateButton.put(
+				addButton(loc.getPlain("Function.cosh"), "cosh", index,
+						functions), "Function.cosh");
+		updateButton.put(
+				addButton(loc.getPlain("Function.tanh"), "tanh", index,
+						functions), "Function.tanh");
 
 		// fill third row
 		index++;
-		addButton(loc.getPlain("Function.sin") + "^-1", "arcsin", index, functions);
-		addButton(loc.getPlain("Function.cos") + "^-1", "arccos", index, functions);
-		addButton(loc.getPlain("Function.tan") + "^-1", "arctan", index, functions);
+		updateButton
+				.put(addButton(loc.getPlain("Function.sin") + "^-1", "arcsin",
+						index, functions), loc.getPlain("Function.sin") + "^-1");
+		updateButton
+				.put(addButton(loc.getPlain("Function.cos") + "^-1", "arccos",
+						index, functions), loc.getPlain("Function.cos") + "^-1");
+		updateButton
+				.put(addButton(loc.getPlain("Function.tan") + "^-1", "arctan",
+						index, functions), loc.getPlain("Function.tan") + "^-1");
 
 		// fill forth row
 		index++;
@@ -1093,6 +1118,19 @@ public class OnScreenKeyBoard extends PopupPanel {
 				}
 			}
 		}
+
+		// update e.g. sin/cos/tansins
+		for (KeyBoardButton b : updateButton.keySet()) {
+			String captionPlain = updateButton.get(b);
+			if (captionPlain.endsWith("^-1")) {
+				captionPlain = captionPlain.substring(0,
+						captionPlain.lastIndexOf("^-1"));
+				b.setCaption(loc.getPlain(captionPlain) + "^-1");
+			} else {
+				b.setCaption(loc.getPlain(captionPlain));
+			}
+		}
+
 		checkStyle();
 	}
 
