@@ -916,7 +916,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	final public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
-		settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
+		if(settings != null){
+			settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
+		}
 		setCoordSystem(xZero, yZero, xscale, yscale, true);
 		
 	}
@@ -2388,7 +2390,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		if (addBoldItalicTags) {
 			for (int axis = 0; axis < axesLabels.length; axis++) {
-				if (axesLabels[axis] != null) {
+				if (axesLabels[axis] != null && this.settings!=null) {
 					ret[axis] = this.settings.axisLabelForXML(axis);
 				}
 			}
@@ -4496,7 +4498,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		sbxml.append("\" show=\"");
 		sbxml.append(getShowAxis(i));
 		sbxml.append("\" label=\"");
-		if (axesLabels[i] != null) {
+		if (axesLabels[i] != null && settings!=null) {
 			StringUtil.encodeXML(sbxml, this.settings.axisLabelForXML(i));
 		}
 		sbxml.append("\" unitLabel=\"");
