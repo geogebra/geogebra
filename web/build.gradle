@@ -34,11 +34,8 @@ dependencies {
 		'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
 		'com.googlecode.gwtquery:gwtquery:1.4.3',
 		'com.googlecode:gwtgl:0.9.1',
-		'com.googlecode:gwtgl:0.9.1:sources',
-		'org.scilab.forge:jlatexmath-gwt:20150427',
-		'org.scilab.forge:jlatexmath-gwt:20150427:sources',
-		'org.scilab.forge:jlatexmath-share:20150427',
-		'org.scilab.forge:jlatexmath-share:20150427:sources'
+		'com.googlecode:gwtgl:0.9.1:sources'
+	gwt 'org.scilab.forge:jlatexmath-gwt:20150429:all'
 
 }
 
