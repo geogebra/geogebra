@@ -34,8 +34,8 @@ dependencies {
 		'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
 		'com.googlecode.gwtquery:gwtquery:1.4.3',
 		'com.googlecode:gwtgl:0.9.1',
-		'com.googlecode:gwtgl:0.9.1:sources'
-	gwt 'org.scilab.forge:jlatexmath-gwt:20150429:all'
+		'com.googlecode:gwtgl:0.9.1:sources',
+	    'org.scilab.forge:jlatexmath-gwt:20150429:all'
 
 }
 
@@ -114,8 +114,7 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 	maxHeapSize '2048m'
 	classpath ((configurations.compile as Set<String>) + (sourceSets.main.allSource.srcDirs as Set<String>) + (jar.archivePath as String))
 	workingDir file(warDirRel)
-	args '-startupUrl', appHtmlRel,
-		'-logLevel', 'INFO',
+	args '-logLevel', 'INFO',
 		'-codeServerPort', '9997',
 		'-port', '8888',
 		'-superDevMode',
