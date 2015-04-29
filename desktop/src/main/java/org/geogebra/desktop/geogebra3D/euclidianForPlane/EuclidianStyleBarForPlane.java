@@ -48,7 +48,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 
 	@Override
 	protected boolean isVisibleInThisView(GeoElement geo) {
-		return geo.isVisibleInView3D();
+		return geo.isVisibleInViewForPlane();
 	}
 
 	@Override

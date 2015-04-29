@@ -193,4 +193,32 @@ public abstract class App3DCompanion extends AppCompanion {
 		return new Settings(3);
 	}
 
+	@Override
+	public boolean hasEuclidianViewForPlane() {
+		return euclidianViewForPlaneCompanionList != null
+				&& euclidianViewForPlaneCompanionList.size() > 0;
+	}
+
+	@Override
+	public void addToViewsForPlane(GeoElement geo) {
+		if (euclidianViewForPlaneCompanionList == null) {
+			return;
+		}
+
+		for (EuclidianViewForPlaneCompanion c : euclidianViewForPlaneCompanionList) {
+			c.getView().add(geo);
+		}
+	}
+
+	@Override
+	public void removeFromViewsForPlane(GeoElement geo) {
+		if (euclidianViewForPlaneCompanionList == null) {
+			return;
+		}
+
+		for (EuclidianViewForPlaneCompanion c : euclidianViewForPlaneCompanionList) {
+			c.getView().remove(geo);
+		}
+	}
+
 }

@@ -5307,6 +5307,17 @@ public abstract class GeoElement extends ConstructionElement implements
 				case NOT_SET:
 					break;
 				}
+				
+				switch (visibleInViewForPlane){
+				case TRUE:
+					EVs += 16;
+					break;
+				case FALSE:
+					EVs += 32; // we have to store it to distinguish from not set
+					break;
+				case NOT_SET:
+					break;
+				}
 			}
 
 			if (EVs != 0) {
@@ -6894,7 +6905,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	final public void addView(final int viewId) {
 		if (viewId == App.VIEW_EUCLIDIAN3D) {
-			visibleInView3D = VisibleInView3D.TRUE;
+			visibleInView3D = VisibleInView.TRUE;
 		} else {
 			setVisibility(viewId, true);
 		}
@@ -6906,7 +6917,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void removeView(final int viewId) {
 		if (viewId == App.VIEW_EUCLIDIAN3D) {
-			visibleInView3D = VisibleInView3D.FALSE;
+			visibleInView3D = VisibleInView.FALSE;
 		} else {
 			setVisibility(viewId, false);
 		}
@@ -6955,12 +6966,12 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (hasDrawable3D()) {
 				if (isGeoElement3D() || isVisibleInView(App.VIEW_EUCLIDIAN)) {
 					// visible: we set it
-					visibleInView3D = VisibleInView3D.TRUE;
+					visibleInView3D = VisibleInView.TRUE;
 					return true;
 				}
 
 				// not visible: we set it
-				visibleInView3D = VisibleInView3D.FALSE;
+				visibleInView3D = VisibleInView.FALSE;
 				return false;
 			}
 
@@ -6972,11 +6983,34 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	}
 
-	private enum VisibleInView3D {
+	/**
+	 * 
+	 * @return true if visible in view for plane
+	 */
+	public boolean isVisibleInViewForPlane() {
+		switch (visibleInViewForPlane) {
+		case NOT_SET:
+		default:
+			if(isVisibleInView3D()){
+				visibleInViewForPlane = VisibleInView.TRUE;
+				return true;
+			}
+			visibleInViewForPlane = VisibleInView.FALSE;
+			return false;
+		case TRUE:
+			return true;
+		case FALSE:
+			return false;
+		}
+		
+	}
+
+	private enum VisibleInView {
 		NOT_SET, TRUE, FALSE
 	}
 
-	private VisibleInView3D visibleInView3D = VisibleInView3D.NOT_SET;
+	private VisibleInView visibleInView3D = VisibleInView.NOT_SET,
+			visibleInViewForPlane = VisibleInView.NOT_SET;
 
 	/**
 	 * set if this is visible in 3D view or not
@@ -6986,9 +7020,23 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void setVisibleInView3D(boolean flag) {
 		if (flag) {
-			visibleInView3D = VisibleInView3D.TRUE;
+			visibleInView3D = VisibleInView.TRUE;
 		} else {
-			visibleInView3D = VisibleInView3D.FALSE;
+			visibleInView3D = VisibleInView.FALSE;
+		}
+	}
+
+	/**
+	 * set if this is visible in view for plane or not
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setVisibleInViewForPlane(boolean flag) {
+		if (flag) {
+			visibleInViewForPlane = VisibleInView.TRUE;
+		} else {
+			visibleInViewForPlane = VisibleInView.FALSE;
 		}
 	}
 
@@ -7000,6 +7048,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void setVisibleInView3D(GeoElement geo) {
 		visibleInView3D = geo.visibleInView3D;
+	}
+
+	/**
+	 * set visibility in view for plane equal to geo
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void setVisibleInViewForPlane(GeoElement geo) {
+		visibleInViewForPlane = geo.visibleInViewForPlane;
 	}
 
 	/**

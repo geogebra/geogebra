@@ -130,6 +130,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 						segment.setLabelVisible(showNewSegmentsLabels);
 						segment.setViewFlags(((GeoElement) A).getViewSet());
 						segment.setVisibleInView3D((GeoElement) A);
+						segment.setVisibleInViewForPlane((GeoElement) A);
 						return segment;
 					}
 				});
@@ -150,6 +151,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 						newPoint.setLabelVisible(showNewPointsLabels);
 						newPoint.setViewFlags(((GeoElement) A).getViewSet());
 						newPoint.setVisibleInView3D((GeoElement) A);
+						newPoint.setVisibleInViewForPlane((GeoElement) A);
 						GeoBoolean conditionToShow = ((GeoElement) A)
 								.getShowObjectCondition();
 						if (conditionToShow == null)

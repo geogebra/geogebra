@@ -5428,7 +5428,8 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	private GraphicsViewLocationModel model;
 
-	private JCheckBox cbGraphicsView, cbGraphicsView2, cbGraphicsView3D;
+	private JCheckBox cbGraphicsView, cbGraphicsView2, cbGraphicsView3D,
+			cbGraphicsViewForPlane;
 
 	private Kernel kernel;
 	private AppD app;
@@ -5445,12 +5446,15 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		
 		cbGraphicsView3D = new JCheckBox();
 		cbGraphicsView3D.addActionListener(this);
+		cbGraphicsViewForPlane = new JCheckBox();
+		cbGraphicsViewForPlane.addActionListener(this);
 
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(cbGraphicsView);
 		add(cbGraphicsView2);
 		add(cbGraphicsView3D);
+		add(cbGraphicsViewForPlane);
 
 		setLabels();
 	}
@@ -5461,6 +5465,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		cbGraphicsView.setText(app.getPlain("DrawingPad"));
 		cbGraphicsView2.setText(app.getPlain("DrawingPad2"));
 		cbGraphicsView3D.setText(app.getPlain("GraphicsView3D"));
+		cbGraphicsViewForPlane.setText(app.getPlain("GraphicsViewForPlane"));
 
 	}
 
@@ -5473,12 +5478,14 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		cbGraphicsView.removeActionListener(this);
 		cbGraphicsView2.removeActionListener(this);
 		cbGraphicsView3D.removeActionListener(this);
+		cbGraphicsViewForPlane.removeActionListener(this);
 
 		model.updateProperties();
 
 		cbGraphicsView.addActionListener(this);
 		cbGraphicsView2.addActionListener(this);
 		cbGraphicsView3D.addActionListener(this);
+		cbGraphicsViewForPlane.addActionListener(this);
 
 		return this;
 	}
@@ -5491,7 +5498,9 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 			model.applyToEuclidianView2(cbGraphicsView2.isSelected());
 		}else if (e.getSource() == cbGraphicsView3D) {
 			model.applyToEuclidianView3D(cbGraphicsView3D.isSelected());
-
+		} else if (e.getSource() == cbGraphicsViewForPlane) {
+			model.applyToEuclidianViewForPlane(cbGraphicsViewForPlane
+					.isSelected());
 		}
 
 	}
@@ -5503,6 +5512,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		cbGraphicsView.setFont(font);
 		cbGraphicsView2.setFont(font);
 		cbGraphicsView3D.setFont(font);
+		cbGraphicsViewForPlane.setFont(font);
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
@@ -5521,12 +5531,19 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		case 2:
 			cbGraphicsView3D.setSelected(isSelected);
 			break;
+		case 3:
+			cbGraphicsViewForPlane.setSelected(isSelected);
+			break;
 			
 		}
 	}
 
 	public void setCheckBox3DVisible(boolean flag) {
 		cbGraphicsView3D.setVisible(flag);		
+	}
+
+	public void setCheckBoxForPlaneVisible(boolean flag) {
+		cbGraphicsViewForPlane.setVisible(flag);
 	}
 
 }

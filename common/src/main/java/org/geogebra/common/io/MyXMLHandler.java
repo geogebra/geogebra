@@ -3577,6 +3577,16 @@ public class MyXMLHandler implements DocHandler {
 				geo.removeView(App.VIEW_EUCLIDIAN3D);
 			}
 
+			if ((EVs & 16) == 16) { // bit 4
+				geo.setVisibleInViewForPlane(true);
+				app.addToViewsForPlane(geo);
+			}
+
+			if ((EVs & 32) == 32) { // bit 5
+				geo.setVisibleInViewForPlane(false);
+				app.removeFromViewsForPlane(geo);
+			}
+
 			return true;
 
 		} catch (Exception e) {

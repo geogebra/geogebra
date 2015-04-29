@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.settings.Settings;
 
@@ -127,6 +128,34 @@ public class AppCompanion {
 				app.getEuclidianView2(1).updateFonts();
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @return true if some view for plane exists
+	 */
+	public boolean hasEuclidianViewForPlane() {
+		return false;
+	}
+
+	/**
+	 * add to views for plane (if any)
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void addToViewsForPlane(GeoElement geo) {
+		// implemented in App3DCompanion
+	}
+
+	/**
+	 * remove to views for plane (if any)
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void removeFromViewsForPlane(GeoElement geo) {
+		// implemented in App3DCompanion
 	}
 
 }

@@ -3649,6 +3649,30 @@ public abstract class App implements UpdateSelection {
 		return true;
 	}
 
+	final public boolean hasEuclidianViewForPlane() {
+		return companion.hasEuclidianViewForPlane();
+	}
+	
+	/**
+	 * add to views for plane (if any)
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	final public void addToViewsForPlane(GeoElement geo) {
+		companion.addToViewsForPlane(geo);
+	}
+
+	/**
+	 * remove from views for plane (if any)
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	final public void removeFromViewsForPlane(GeoElement geo) {
+		companion.removeFromViewsForPlane(geo);
+	}
+
 	public boolean isModeValid(int mode) {
 		return !"".equals(getToolName(mode));
 	}

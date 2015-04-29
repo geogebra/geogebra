@@ -2,16 +2,15 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.kernel.algos.AlgoTransformation;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.main.App;
 
 public class GraphicsViewLocationModel extends OptionsModel {
 	public interface IGraphicsViewLocationListener {
 		public void selectView(int index, boolean isSelected);
 		public void setCheckBox3DVisible(boolean flag);
+
+		public void setCheckBoxForPlaneVisible(boolean flag);
 	}
 	
 	private IGraphicsViewLocationListener listener;
@@ -27,6 +26,7 @@ public class GraphicsViewLocationModel extends OptionsModel {
 		boolean isInEV = false;
 		boolean isInEV2 = false;
 		boolean isInEV3D = false;
+		boolean isInEVForPlane = false;
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
@@ -36,11 +36,17 @@ public class GraphicsViewLocationModel extends OptionsModel {
 				isInEV2 = true;
 			if (geo.isVisibleInView3D())
 				isInEV3D = true;
+			if (app.hasEuclidianViewForPlane()) {
+				if (geo.isVisibleInViewForPlane()) {
+					isInEVForPlane = true;
+				}
+			}
 		}
 
 		listener.selectView(0, isInEV);
 		listener.selectView(1, isInEV2);
 		listener.selectView(2, isInEV3D);
+		listener.selectView(3, isInEVForPlane);
 		
 	}
 
@@ -87,16 +93,38 @@ public class GraphicsViewLocationModel extends OptionsModel {
 		}
 	}
 
+	public void applyToEuclidianViewForPlane(boolean value) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+
+			if (value) {
+				geo.setVisibleInViewForPlane(true);
+				app.addToViewsForPlane(geo);
+			} else {
+				geo.setVisibleInViewForPlane(false);
+				app.removeFromViewsForPlane(geo);
+			}
+
+		}
+	}
+
 	@Override
 	public boolean checkGeos() {
 		
 		listener.setCheckBox3DVisible(true);
 		
+		if (app.hasEuclidianViewForPlane()) {
+			listener.setCheckBoxForPlaneVisible(true);
+		} else {
+			listener.setCheckBoxForPlaneVisible(false);
+		}
+
 		boolean go = true;
 		for (int i = 0; go && i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			if (!geo.hasDrawable3D()) {
 				listener.setCheckBox3DVisible(false);
+				listener.setCheckBoxForPlaneVisible(false);
 				go = false;
 			}
 		}

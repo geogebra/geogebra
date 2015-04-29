@@ -1939,6 +1939,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		CheckBox cbGraphicsView;
 		CheckBox cbGraphicsView2;
 		CheckBox cbGraphicsView3D;
+		CheckBox cbGraphicsViewForPlane;
 
 		public GraphicsViewLocationPanel() {
 			model = new GraphicsViewLocationModel(app, this);
@@ -1948,6 +1949,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView = new CheckBox();
 			cbGraphicsView2 = new CheckBox();
 			cbGraphicsView3D = new CheckBox();
+			cbGraphicsViewForPlane = new CheckBox();
 
 			cbGraphicsView.addClickHandler(new ClickHandler(){
 
@@ -1974,12 +1976,23 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				}
 			});
 
+			cbGraphicsViewForPlane.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					model.applyToEuclidianViewForPlane(cbGraphicsViewForPlane
+							.getValue());
+
+				}
+			});
+
 			FlowPanel mainPanel = new FlowPanel();
 			FlowPanel checkBoxPanel = new FlowPanel();
 			checkBoxPanel.setStyleName("optionsPanelIndent");
 			checkBoxPanel.add(cbGraphicsView);
 			checkBoxPanel.add(cbGraphicsView2);
 			checkBoxPanel.add(cbGraphicsView3D);
+			checkBoxPanel.add(cbGraphicsViewForPlane);
 			
 			mainPanel.add(title);
 			title.setStyleName("panelTitle");
@@ -1999,6 +2012,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			case 2:
 				cbGraphicsView3D.setValue(isSelected);
 				break;
+			case 3:
+				cbGraphicsViewForPlane.setValue(isSelected);
+				break;
 
 			}
 		}
@@ -2009,12 +2025,18 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView.setText(localize("DrawingPad"));
 			cbGraphicsView2.setText(localize("DrawingPad2"));
 			cbGraphicsView3D.setText(localize("GraphicsView3D"));
+			cbGraphicsViewForPlane.setText(localize("GraphicsViewForPlane"));
 
 		}
 
 		public void setCheckBox3DVisible(boolean flag) {
 			cbGraphicsView3D.setVisible(flag);
 		}
+
+		public void setCheckBoxForPlaneVisible(boolean flag) {
+			cbGraphicsViewForPlane.setVisible(flag);
+		}
+
 
 	}
 

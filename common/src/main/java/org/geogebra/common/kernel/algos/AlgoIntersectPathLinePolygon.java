@@ -167,6 +167,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			segment.setAllVisualProperties(seg0, false);
 			segment.setViewFlags(seg0.getViewSet());
 			segment.setVisibleInView3D(seg0);
+			segment.setVisibleInViewForPlane(seg0);
 		}
 	}
 

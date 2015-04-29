@@ -962,6 +962,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 									outputPolygons.getElement(0), false);
 						p.setViewFlags(getFirstInput().getViewSet());
 						p.setVisibleInView3D(getFirstInput());
+						p.setVisibleInViewForPlane(getFirstInput());
 						p.setNotFixedPointsLength(true);
 						p.setOrthoNormalRegionCS();
 						if (hasLabels) {
@@ -982,6 +983,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setViewFlags(getFirstInput().getViewSet());
 						newPoint.setVisibleInView3D(getFirstInput());
+						newPoint.setVisibleInViewForPlane(getFirstInput());
 
 						int size = outputPoints.size();
 						if (size > 0) { // check if at least one element is
@@ -1034,6 +1036,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 				// segment.setLabelVisible(showNewSegmentsLabels);
 				segment.setViewFlags(getFirstInput().getViewSet());
 				segment.setVisibleInView3D(getFirstInput());
+				segment.setVisibleInViewForPlane(getFirstInput());
 				return segment;
 			}
 		});

@@ -322,6 +322,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		view.updateAllDrawables(true);
 	}
 
+
 	@Override
 	public boolean isVisibleInThisView(GeoElement geo) {
 
@@ -346,12 +347,12 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		case ANGLE3D:
 		case TEXT:
 		case LOCUS:
-			return geo.isVisibleInView3D();
+			return geo.isVisibleInViewForPlane();
 		case ANGLE:
 			if (geo.isIndependent()) { // no slider in view for plane (for now)
 				return false;
 			}
-			return geo.isVisibleInView3D();
+			return geo.isVisibleInViewForPlane();
 		default:
 			return false;
 		}
