@@ -1232,6 +1232,12 @@ public enum Operation {
 			} else if (lt instanceof NumberValue) {
 				return new MyDouble(kernel,
 						((NumberValue) lt).getDouble() < 0 ? Math.PI : 0);
+			} else if (lt instanceof Vector3DValue) {
+				Geo3DVec vec = ((Vector3DValue) lt).getVector();
+
+				MyDouble ret = new MyDouble(kernel, vec.arg());
+				ret.setAngle();
+				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "arg(");
 		}

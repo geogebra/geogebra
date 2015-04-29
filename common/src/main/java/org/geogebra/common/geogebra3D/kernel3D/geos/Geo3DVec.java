@@ -562,4 +562,8 @@ final public class Geo3DVec extends ValidExpression implements Vector3DValue,
 		return new ExpressionNode(kernel, this);
 	}
 
+	public double arg() {
+		return Math.atan2(y, x);
+	}
+
 }

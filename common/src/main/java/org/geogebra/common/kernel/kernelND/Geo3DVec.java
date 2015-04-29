@@ -53,6 +53,11 @@ public interface Geo3DVec extends GeoVecInterface{
 	 * @return (Math.ceil(x), Math.ceil(y), Math.ceil(z))
 	 */
 	public Geo3DVec ceil();
+
+	/**
+	 * @return Math.atan2(y,x)
+	 */
+	public double arg();
 		
 	
 }
