@@ -80,9 +80,12 @@ public class KeyBoardButton extends SimplePanel {
 	 * @param caption
 	 *            text of the button
 	 */
-	public void setCaption(String caption) {
+	public void setCaption(String caption, boolean setFeedback) {
 		this.caption = caption;
-		this.feedback = caption;
+
+		if (setFeedback) {
+			this.feedback = caption;
+		}
 
 		if (caption.length() > 1 && caption.indexOf('^') > -1) {
 			int index = caption.indexOf('^');
@@ -101,6 +104,14 @@ public class KeyBoardButton extends SimplePanel {
 		} else {
 			this.label.setText(caption);
 		}
+	}
+
+	/**
+	 * @param caption
+	 *            text of the button
+	 */
+	public void setCaption(String caption) {
+		setCaption(caption, true);
 	}
 
 	/**

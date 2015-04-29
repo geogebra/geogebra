@@ -1119,15 +1119,16 @@ public class OnScreenKeyBoard extends PopupPanel {
 			}
 		}
 
-		// update e.g. sin/cos/tansins
+		// update e.g. button with sin/cos/tan according to the new language
 		for (KeyBoardButton b : updateButton.keySet()) {
 			String captionPlain = updateButton.get(b);
 			if (captionPlain.endsWith("^-1")) {
+				// e.g. for "sin^-1" only "sin" is translated
 				captionPlain = captionPlain.substring(0,
 						captionPlain.lastIndexOf("^-1"));
-				b.setCaption(loc.getPlain(captionPlain) + "^-1");
+				b.setCaption(loc.getPlain(captionPlain) + "^-1", false);
 			} else {
-				b.setCaption(loc.getPlain(captionPlain));
+				b.setCaption(loc.getPlain(captionPlain), false);
 			}
 		}
 
