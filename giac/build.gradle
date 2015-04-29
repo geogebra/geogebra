@@ -240,7 +240,7 @@ task emccCompile {
     dependsOn list
     }
 
-task emccGiacJs {
+task emccGiacJs (dependsOn: 'emccCompile') {
     def list = []
     def linkerArgs = []
     FileTree files = fileTree(dir: 'build/objs/giac.js')
@@ -252,6 +252,7 @@ task emccGiacJs {
 	    }
 	}
     def output = "build/binaries/giac.js/giac.js"
+    outputs.file output
     doLast {
 	file("build/binaries/giac.js").mkdirs()
 	exec {
@@ -259,7 +260,7 @@ task emccGiacJs {
 	    linkerArgs << "src/giac.js/prebuilt/libmpfr.a"
 	    linkerArgs << '-s' << 'PRECISE_I32_MUL=1' << '-DGIAC_GGB'
 	    linkerArgs << '-o' << output
-	    linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=\"['__ZN4giac7casevalEPKc']\""
+	    linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['__ZN4giac7casevalEPKc']"
 	    linkerArgs << '--closure' << '1'
 	    commandLine emccCommand
 	    args linkerArgs
