@@ -4847,7 +4847,12 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
 	}
     return false;
   };
-  _.moveTowards = function(dir, cursor) { cursor.appendDir(-dir, this); };
+  _.moveTowards = function(dir, cursor) {
+    if (this.ctrlSeq === '\\textotherwise') {
+ 	  cursor.insertAdjacent(-dir, this);
+    }
+    cursor.appendDir(-dir, this);
+  };
   _.moveOutOf = function(dir, cursor) {
     if (this.ctrlSeq === '{') {
       // if this is used from Quotation:
@@ -4866,7 +4871,9 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
   _.selectChildren = MathBlock.prototype.selectChildren;//?
 
   _.selectOutOf = function(dir, cursor) {
-    if (this.ctrlSeq === '{') {
+    if (this.ctrlSeq === '\\textotherwise') {
+      TextBlock.prototype.moveOutOf.apply(this, arguments);
+    } else if (this.ctrlSeq === '{') {
       // if this is used from Quotation:
       MathBlock.prototype.selectOutOf.apply(this, arguments);
     } else {
@@ -4875,9 +4882,18 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
       .selection = Selection(cmd);
     }
   };
-  _.deleteTowards = _.createSelection;
+  _.deleteTowards = function(dir, cursor) {
+    if (this.ctrlSeq === '\\textotherwise') {
+      cursor.insertAdjacent(-dir, this);
+    } else {
+      TextBlock.prototype.createSelection.call(this, dir, cursor);
+      //_.createSelection(dir, cursor);
+    }
+  };
   _.deleteOutOf = function(dir, cursor) {
-    if (this.ctrlSeq === '{') {
+	if (this.ctrlSeq === '\\textotherwise') {
+	  cursor.insertAdjacent(dir, this);
+	} else if (this.ctrlSeq === '{') {
       // also delete content!
       if ((this.ch[L] !== 0) && (this.ch[R] !== 0)) {
         cursor.selection = Selection(this.ch[L], this.ch[R]);
@@ -4891,6 +4907,10 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
     }
   };
   _.write = function(cursor, ch, replacedFragment) {
+    if (this.ctrlSeq === '\\textotherwise') {
+      return false;
+    }
+
     if (replacedFragment) replacedFragment.remove();
 
     // in GeoGebraWeb, $ should be accepted just like
