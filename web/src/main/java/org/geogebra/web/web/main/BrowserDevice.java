@@ -1,7 +1,6 @@
 package org.geogebra.web.web.main;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
@@ -68,12 +67,6 @@ public class BrowserDevice implements GDevice {
 	@Override
 	public FileManager createFileManager(AppW app) {
 		return new FileManagerW(app);
-	}
-
-	@Override
-	public void copyEVtoClipboard(EuclidianViewWInterface ev) {
-		Window.open(ev.getExportImageDataUrl(3, true), "_blank", null);
-
 	}
 
 	@Override

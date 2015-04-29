@@ -43,7 +43,14 @@ public class TabletDeviceWin extends TouchDevice {
 		});
 		return bg;
 	}
-	
+
+	@Override
+	protected native void nativeShare(String base64, String title)/*-{
+		if ($wnd.android) {
+			$wnd.android.share(base64, title, 'png');
+		}
+	}-*/;
+
 	native void showOpenPicker(BrowseGUI bg) /*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
 			bg.@org.geogebra.web.web.gui.browser.BrowseGUI::showLoading()();

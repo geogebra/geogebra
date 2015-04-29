@@ -1,7 +1,6 @@
 package org.geogebra.web.touch.main;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.PhoneGapManager;
 import org.geogebra.web.touch.gui.dialog.image.ImageInputDialogT;
@@ -15,19 +14,8 @@ import com.googlecode.gwtphonegap.client.connection.Connection;
 
 public abstract class TouchDevice implements GDevice {
 
-	@Override
-	public void copyEVtoClipboard(EuclidianViewWInterface ev) {
-		String image = ev.getExportImageDataUrl(3, true);
-		String title = ev.getApplication().getKernel().getConstruction()
-		        .getTitle();
-		title = "".equals(title) ? "GeoGebraImage" : title;
-		nativeShare(image, title);
-	}
-
-	native void nativeShare(String base64, String title)/*-{
-		if ($wnd.android) {
-			$wnd.android.share(base64, title, 'png');
-		}
+	protected native void nativeShare(String base64, String title)/*-{
+		
 	}-*/;
 
 	@Override

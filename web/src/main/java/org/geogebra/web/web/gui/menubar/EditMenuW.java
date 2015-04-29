@@ -87,20 +87,6 @@ public class EditMenuW extends GMenuBar {
 			}
 		});
 
-		if (!(app.isExam()) && app.getLAF().copyToClipboardSupported()) {
-			// copy graphics view menu
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_copy().getSafeUri().asString(),
-			        app.getMenu("CopyImage"), true), true,
-			        new MenuCommand(app) {
-
-				        @Override
-				        public void doExecute() {
-					        app.copyEVtoClipboard();
-				        }
-			        });
-		}
-
 		addSeparator();
 
 		// object properties menu

@@ -2293,12 +2293,14 @@ public abstract class AppW extends App implements SetLabels {
 	// ========================================
 	// EXPORT & GEOTUBE
 	// ========================================
-	public void copyEVtoClipboard() {
-		// only in AppWapplication
-	}
 
-	public void copyEVtoClipboard(EuclidianViewW ev) {
-		// only in AppWapplication
+
+	public final void copyEVtoClipboard(EuclidianViewW ev) {
+		String image = ev.getExportImageDataUrl(3, true);
+		String title = ev.getApplication().getKernel().getConstruction()
+				.getTitle();
+		title = "".equals(title) ? "GeoGebraImage" : title;
+		getFileManager().exportImage(image, title);
 	}
 
 	@Override

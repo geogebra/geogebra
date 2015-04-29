@@ -12,8 +12,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
@@ -547,16 +545,6 @@ public class AppWapplication extends AppWFull {
 			        }
 		        });
 
-	}
-
-	@Override
-	public void copyEVtoClipboard() {
-		device.copyEVtoClipboard((EuclidianViewWInterface) getActiveEuclidianView());
-	}
-
-	@Override
-	public void copyEVtoClipboard(EuclidianViewW ev) {
-		device.copyEVtoClipboard(ev);
 	}
 
 	@Override

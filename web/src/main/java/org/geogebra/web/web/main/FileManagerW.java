@@ -275,13 +275,35 @@ public class FileManagerW extends FileManager {
 	
 	public native void exportImage(String url,
 	        String title) /*-{
+		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
 
 		if ($wnd.navigator.msSaveBlob) {
-			//works for chrome and internet explorer
-			var image = document.createElement('img');
-			image.src = image;
+			var sliceSize = 512;
 
-			$wnd.navigator.msSaveBlob(image, title);
+			var byteCharacters = atob(url
+					.substring("data:image/png;base64,".length));
+			var byteArrays = [];
+
+			for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+				var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+				var byteNumbers = new Array(slice.length);
+				for (var i = 0; i < slice.length; i++) {
+					byteNumbers[i] = slice.charCodeAt(i);
+				}
+
+				var byteArray = new Uint8Array(byteNumbers);
+
+				byteArrays.push(byteArray);
+			}
+
+			var blob = new Blob(byteArrays, {
+				type : "image/png"
+			});
+
+			//works for internet explorer
+
+			$wnd.navigator.msSaveBlob(blob, title);
 		} else {
 			//works for firefox
 			var a = $doc.createElement("a");
