@@ -1126,11 +1126,15 @@ public class OnScreenKeyBoard extends PopupPanel {
 				// e.g. for "sin^-1" only "sin" is translated
 				captionPlain = captionPlain.substring(0,
 						captionPlain.lastIndexOf("^-1"));
+				// always use the English output (e.g. "arcsin")
 				b.setCaption(loc.getPlain(captionPlain) + "^-1", false);
 			} else {
-				b.setCaption(loc.getPlain(captionPlain), false);
+				// use language specific output
+				b.setCaption(loc.getPlain(captionPlain), true);
 			}
 		}
+
+		processing.updateForNewLanguage(loc);
 
 		checkStyle();
 	}

@@ -79,6 +79,9 @@ public class KeyBoardButton extends SimplePanel {
 	/**
 	 * @param caption
 	 *            text of the button
+	 * @param setFeedback
+	 *            whether or not the feedback of the button should be changed to
+	 *            the new caption
 	 */
 	public void setCaption(String caption, boolean setFeedback) {
 		this.caption = caption;
@@ -108,7 +111,7 @@ public class KeyBoardButton extends SimplePanel {
 
 	/**
 	 * @param caption
-	 *            text of the button
+	 *            text of the button (also used as new feedback)
 	 */
 	public void setCaption(String caption) {
 		setCaption(caption, true);

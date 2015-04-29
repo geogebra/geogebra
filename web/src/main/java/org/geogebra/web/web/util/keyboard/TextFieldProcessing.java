@@ -1,7 +1,8 @@
 package org.geogebra.web.web.util.keyboard;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -18,8 +19,19 @@ import com.google.gwt.user.client.Event;
  */
 public class TextFieldProcessing {
 
+	/**
+	 * arrow keys of the keyboard
+	 */
 	public enum ArrowType {
-		left, right
+		/**
+		 * arrow left key
+		 */
+		left,
+
+		/**
+		 * arrow right key
+		 */
+		right
 	}
 
 	private enum State {
@@ -40,12 +52,15 @@ public class TextFieldProcessing {
 
 	private MathKeyboardListener field;
 	private State state = State.empty;
-	private ArrayList<String> needsLbrace = new ArrayList<String>();
+	private HashSet<String> needsLbrace = new HashSet<String>();
 
 	public TextFieldProcessing() {
 		initNeedsLbrace();
 	}
 
+	/**
+	 * add the default Strings
+	 */
 	private void initNeedsLbrace() {
 		needsLbrace.add("sin");
 		needsLbrace.add("cos");
@@ -59,6 +74,27 @@ public class TextFieldProcessing {
 		needsLbrace.add("arctan");
 	}
 
+	/**
+	 * change language specific notations
+	 * 
+	 * @param loc
+	 */
+	public void updateForNewLanguage(Localization loc) {
+		needsLbrace.clear();
+		initNeedsLbrace();
+
+		needsLbrace.add(loc.getPlain("Function.sin"));
+		needsLbrace.add(loc.getPlain("Function.cos"));
+		needsLbrace.add(loc.getPlain("Function.tan"));
+		needsLbrace.add(loc.getPlain("Function.sinh"));
+		needsLbrace.add(loc.getPlain("Function.cosh"));
+		needsLbrace.add(loc.getPlain("Function.tanh"));
+	}
+
+	/**
+	 * @param field
+	 *            the field that should receive all actions
+	 */
 	public void setField(MathKeyboardListener field) {
 		this.field = field;
 		if (field == null) {
@@ -255,7 +291,6 @@ public class TextFieldProcessing {
 				((AutoCompleteTextFieldW) field).insertString("()");
 				onArrow(ArrowType.left);
 			}
-
 			break;
 		case gTextBox:
 			insertAtEnd(text);
