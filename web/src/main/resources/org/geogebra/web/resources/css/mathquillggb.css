@@ -92,6 +92,7 @@
   background: transparent;
 }
 .mathquillggb-editable .latex-command-input.hasCursor {
+  /* System colors from CSS2, Firefox & IE */
   border-color: ActiveBorder;
 }
 .mathquillggb-editable.empty:after,
@@ -446,9 +447,12 @@
 .mathquillggb-rendered-math .selection .scaled,
 .mathquillggb-editable .selection .scaled {
   background: #B4D5FE /*!important*/;
-  background: Highlight /*!important*/;
-  color: HighlightText;
-  border-color: HighlightText;
+
+  /* System colors from CSS2, Firefox & IE */
+  /* considered harmful in modern browsers */
+  /*background: Highlight !important;*/
+  /*color: HighlightText;*/
+  /*border-color: HighlightText;*/
 }
 .mathquillggb-rendered-math .selection.blur,
 .mathquillggb-editable .selection.blur,
