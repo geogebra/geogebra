@@ -4781,9 +4781,61 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
       // so let's also set an internal "force" property!
       root.common.forceGeoGebraSuggestionPopupCanShow = true;
 	}
+    if (this.ctrlSeq === '\\textotherwise') {
+      switch (key) {
+        case 'Ctrl-Shift-Backspace':
+        case 'Ctrl-Backspace':
+        case 'Shift-Backspace':
+        case 'Backspace':
+        case 'Left':
+        case 'Shift-Left':
+        case 'Ctrl-Left':
+        case 'Ctrl-Shift-Left':
+        case 'Home':
+        case 'Ctrl-Home':
+        case 'Shift-Home':
+        case 'Ctrl-Shift-Home':
+        case 'Up':
+        case 'Shift-Up':
+        case 'Ctrl-Up':
+        case 'Ctrl-Shift-Up':
+        //case 'Ctrl-Shift-Del':
+        //case 'Ctrl-Del':
+        //case 'Shift-Del':
+        //case 'Del':
+          curs.insertBefore(this);
+          break;
+
+        //case 'Right':
+        //case 'Shift-Right':
+        //case 'Ctrl-Right':
+        //case 'Tab':
+        //case 'Esc':
+        //case 'Shift-Tab':
+        //case 'Shift-Esc':
+        //case 'Shift-Spacebar':
+        //case 'End':
+        //case 'Ctrl-End':
+        //case 'Shift-End':
+        //case 'Ctrl-Shift-End':
+        //case 'Down':
+        //case 'Shift-Down':
+        //case 'Ctrl-Down':
+          //this.cursor.prepareMove().appendTo(this.cursor.parent);
+          //this.cursor.prepareMove().appendTo(this);
+        //  this.cursor.insertAfter(this);
+        //  break;
+        default:
+          curs.insertAfter(this);
+      }
+      return false;
+    }
     if (key === 'Spacebar' || key === 'Shift-Spacebar') return false;
   };
   _.onText = function(curs, ch) {
+    if (this.ctrlSeq === '\\textotherwise') {
+	  return false;
+	}
     if (ch !== '"') {
       //curs.write(ch);
       // what would cursor.write do?
