@@ -302,6 +302,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerPopup = new PopupMenuButton(app, ImageOrText.convert(
 		        providerImages, 24), 1, providerCount,
 		        SelectionTable.MODE_IMAGE);
+		this.providerPopup.getMyPopup().addStyleName("providersPopup");
 
 		listBox = new ListBox();
 		listBox.addStyleName("visibility");

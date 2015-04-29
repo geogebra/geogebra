@@ -5716,6 +5716,6 @@ div.openKeyboardButton{
 }
  
  
-div.SymbolTablePopup{
+div.SymbolTablePopup, div.providersPopup{
 	z-index:501;
 }
