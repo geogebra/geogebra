@@ -2025,7 +2025,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView.setText(localize("DrawingPad"));
 			cbGraphicsView2.setText(localize("DrawingPad2"));
 			cbGraphicsView3D.setText(localize("GraphicsView3D"));
-			cbGraphicsViewForPlane.setText(localize("GraphicsViewForPlane"));
+			cbGraphicsViewForPlane.setText(localize("ExtraViews"));
 
 		}
 

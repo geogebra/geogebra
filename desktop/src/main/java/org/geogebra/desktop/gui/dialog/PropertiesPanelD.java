@@ -5465,7 +5465,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		cbGraphicsView.setText(app.getPlain("DrawingPad"));
 		cbGraphicsView2.setText(app.getPlain("DrawingPad2"));
 		cbGraphicsView3D.setText(app.getPlain("GraphicsView3D"));
-		cbGraphicsViewForPlane.setText(app.getPlain("GraphicsViewForPlane"));
+		cbGraphicsViewForPlane.setText(app.getPlain("ExtraViews"));
 
 	}
 
