@@ -624,13 +624,13 @@ public class OnScreenKeyBoard extends PopupPanel {
 		index++;
 		updateButton
 				.put(addButton(loc.getPlain("Function.sin") + "^-1", "arcsin",
-						index, functions), loc.getPlain("Function.sin") + "^-1");
+						index, functions), "Function.sin" + "^-1");
 		updateButton
 				.put(addButton(loc.getPlain("Function.cos") + "^-1", "arccos",
-						index, functions), loc.getPlain("Function.cos") + "^-1");
+						index, functions), "Function.cos" + "^-1");
 		updateButton
 				.put(addButton(loc.getPlain("Function.tan") + "^-1", "arctan",
-						index, functions), loc.getPlain("Function.tan") + "^-1");
+						index, functions), "Function.tan" + "^-1");
 
 		// fill forth row
 		index++;
