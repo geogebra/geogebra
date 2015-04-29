@@ -353,10 +353,13 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
 
 		// dialogs
+
+		sb.append(" | ");
+		// sb.append(EuclidianConstants.MODE_SLIDER);
+		// sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_TEXT);
 		/*
-		 * sb.append(" | "); sb.append(EuclidianView.MODE_SLIDER);
-		 * sb.append(" , "); sb.append(EuclidianView.MODE_TEXT); sb.append(" ");
-		 * sb.append(EuclidianView.MODE_IMAGE); sb.append(" ");
+		 * sb.append(" "); sb.append(EuclidianView.MODE_IMAGE); sb.append(" ");
 		 * sb.append(EuclidianView.MODE_PEN); sb.append(" , ");
 		 * sb.append(EuclidianView.MODE_RELATION); sb.append(" ");
 		 * sb.append(EuclidianView.MODE_PROBABILITY_CALCULATOR); sb.append(" ");

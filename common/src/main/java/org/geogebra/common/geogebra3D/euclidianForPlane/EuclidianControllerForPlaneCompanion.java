@@ -143,4 +143,10 @@ public class EuclidianControllerForPlaneCompanion extends
 
 	}
 
+	@Override
+	public boolean setCoordsToMouseLoc(GeoPointND loc) {
+		loc.setCoords(ec.mouseLoc.x, ec.mouseLoc.y, 1.0);
+		return false;
+	}
+
 }

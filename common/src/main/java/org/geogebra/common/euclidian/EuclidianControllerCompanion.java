@@ -641,4 +641,16 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().Locus(null, a, b);
 	}
 
+	/**
+	 * set coords of the point to mouse loc
+	 * 
+	 * @param loc
+	 *            point
+	 * @return true if set to real world coords
+	 */
+	public boolean setCoordsToMouseLoc(GeoPointND loc) {
+		loc.setCoords(ec.xRW, ec.yRW, 1.0);
+		return true;
+	}
+
 }

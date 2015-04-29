@@ -3199,7 +3199,7 @@ public abstract class EuclidianController {
 			checkZooming();
 
 			loc = new GeoPoint(kernel.getConstruction());
-			rw = setCoordsToMouseLoc(loc);
+			rw = companion.setCoordsToMouseLoc(loc);
 		} else {
 
 			// points needed
@@ -3212,7 +3212,7 @@ public abstract class EuclidianController {
 				checkZooming();
 
 				loc = new GeoPoint(kernel.getConstruction());
-				rw = setCoordsToMouseLoc(loc);
+				rw = companion.setCoordsToMouseLoc(loc);
 			}
 		}
 
@@ -3223,18 +3223,6 @@ public abstract class EuclidianController {
 		}
 
 		return false;
-	}
-
-	/**
-	 * set coords of the point to mouse loc
-	 * 
-	 * @param loc
-	 *            point
-	 * @return true if set to real world coords
-	 */
-	protected boolean setCoordsToMouseLoc(GeoPointND loc) {
-		loc.setCoords(xRW, yRW, 1.0);
-		return true;
 	}
 
 	public boolean isAltDown() {

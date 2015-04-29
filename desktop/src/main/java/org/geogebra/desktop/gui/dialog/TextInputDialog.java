@@ -1113,7 +1113,19 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 						// view
 						if (activeView.isEuclidianView3D()) {
 							app.removeFromEuclidianView(t);
+							t.setVisibleInViewForPlane(false);
+							kernel.getApplication().removeFromViewsForPlane(t);
 						} else if (activeView.isDefault2D()) {
+							t.removeView(App.VIEW_EUCLIDIAN3D);
+							if (kernel.getApplication()
+									.isEuclidianView3Dinited()) {
+								kernel.getApplication().getEuclidianView3D()
+										.remove(t);
+							}
+							t.setVisibleInViewForPlane(false);
+							kernel.getApplication().removeFromViewsForPlane(t);
+						} else { // view for plane
+							app.removeFromEuclidianView(t);
 							t.removeView(App.VIEW_EUCLIDIAN3D);
 							if (kernel.getApplication()
 									.isEuclidianView3Dinited()) {

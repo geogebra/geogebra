@@ -4002,10 +4002,5 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return EuclidianConstants.MODE_ROTATEVIEW;
 	}
 
-	@Override
-	protected boolean setCoordsToMouseLoc(GeoPointND loc) {
-		loc.setCoords(mouseLoc.x, mouseLoc.y, 1.0);
-		return false;
-	}
 
 }
