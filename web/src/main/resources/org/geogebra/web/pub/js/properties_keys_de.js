@@ -2371,6 +2371,7 @@ __GGB__keysVar.de.plain = {
     "ExtendedForm": "Erweiterte Form",
     "ExtraLarge": "Extra gro\xdf",
     "ExtraSmall": "Extra klein",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extremum von %0",
     "EyeDistance": "Abstand vom Bildschirm",
     "EyeSeparation": "Augenabstand",

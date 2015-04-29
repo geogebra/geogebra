@@ -2371,6 +2371,7 @@ __GGB__keysVar.zh_CN.plain = {
     "ExtendedForm": "\u5c55\u5f00\u5f0f",
     "ExtraLarge": "\u8d85\u5927",
     "ExtraSmall": "\u8d85\u5c0f",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0 \u7684\u76f8\u5bf9\u6781\u503c\u70b9",
     "EyeDistance": "\u89c2\u6d4b\u8ddd\u79bb",
     "EyeSeparation": "\u53cc\u773c\u95f4\u9694",

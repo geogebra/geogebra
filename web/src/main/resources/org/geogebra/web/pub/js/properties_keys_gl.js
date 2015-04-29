@@ -2371,6 +2371,7 @@ __GGB__keysVar.gl.plain = {
     "ExtendedForm": "Formulario estendido",
     "ExtraLarge": "Extra grande",
     "ExtraSmall": "Extra reducido",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extremo de %0",
     "EyeDistance": "Distancia dende a pantalla",
     "EyeSeparation": "Separaci\xf3n Ocular",

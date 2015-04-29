@@ -2371,6 +2371,7 @@ __GGB__keysVar.xh.plain = {
     "ExtendedForm": "Itsalwe ku",
     "ExtraLarge": "Extra Large",
     "ExtraSmall": "Extra Small",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "iExtremum ka %0",
     "EyeDistance": "uMgama ukusuka eSkrinini.",
     "EyeSeparation": "Eye Separation",

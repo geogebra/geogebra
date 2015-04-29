@@ -2371,6 +2371,7 @@ __GGB__keysVar.ms.plain = {
     "ExtendedForm": "Bentuk Terpeluas",
     "ExtraLarge": "Lebih Besar",
     "ExtraSmall": "Lebih Kecil",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Ekstremum %0",
     "EyeDistance": "Jarak dari skrin",
     "EyeSeparation": "Eye Separation",

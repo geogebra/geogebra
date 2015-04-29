@@ -2371,6 +2371,7 @@ __GGB__keysVar.vi.plain = {
     "ExtendedForm": "D\u1ea1ng m\u1edf r\u1ed9ng",
     "ExtraLarge": "L\u1edbn h\u01a1n",
     "ExtraSmall": "Nh\u1ecf h\u01a1n",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "C\u1ef1c tr\u1ecb c\u1ee7a %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

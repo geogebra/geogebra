@@ -2371,6 +2371,7 @@ __GGB__keysVar.hr.plain = {
     "ExtendedForm": "Pro\u0161ireni oblik",
     "ExtraLarge": "Najve\u0107e",
     "ExtraSmall": "Najmanje",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Ekstrem od %0",
     "EyeDistance": "Udaljenost od ekrana",
     "EyeSeparation": "Razdvojenost o\u010diju",

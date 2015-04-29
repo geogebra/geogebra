@@ -2371,6 +2371,7 @@ __GGB__keysVar.ne.plain = {
     "ExtendedForm": "\u0935\u093f\u0938\u094d\u0924\u093e\u0930\u093f\u0924 \u0930\u0941\u092a",
     "ExtraLarge": "\u0925\u092a \u0920\u0941\u0932\u094b",
     "ExtraSmall": "\u0925\u092a \u0938\u093e\u0928\u094b",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0 \u0915\u094b \u0905\u0928\u094d\u0924\u093f\u092e",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

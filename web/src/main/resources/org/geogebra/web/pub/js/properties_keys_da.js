@@ -2371,6 +2371,7 @@ __GGB__keysVar.da.plain = {
     "ExtendedForm": "Udvidet form",
     "ExtraLarge": "Ekstra stor",
     "ExtraSmall": "Ekstra lille",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extremum of %0",
     "EyeDistance": "Afstand fra sk\xe6rm",
     "EyeSeparation": "\xd8jeafstand",

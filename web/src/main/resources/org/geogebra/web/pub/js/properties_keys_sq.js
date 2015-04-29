@@ -2371,6 +2371,7 @@ __GGB__keysVar.sq.plain = {
     "ExtendedForm": "Forme e zgjatuar",
     "ExtraLarge": "Teper e Madhe",
     "ExtraSmall": "Teper e Vogel",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Ekstremum i %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

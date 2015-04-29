@@ -2371,6 +2371,7 @@ __GGB__keysVar.sk.plain = {
     "ExtendedForm": "Roz\u0161\xedren\xe9 z",
     "ExtraLarge": "extra ve\u013ek\xe9",
     "ExtraSmall": "extra mal\xe9",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Exr\xe9m toho: %0",
     "EyeDistance": "Vzdialenos\u0165 od obrazovky",
     "EyeSeparation": "Oddelenie o\u010d\xed",

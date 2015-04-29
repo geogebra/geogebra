@@ -2371,6 +2371,7 @@ __GGB__keysVar.eu.plain = {
     "ExtendedForm": "Inprimaki hedatua",
     "ExtraLarge": "Estra Handia",
     "ExtraSmall": "Estra Txikia",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0-(r)en muturra",
     "EyeDistance": "Pantailarekiko distantzia",
     "EyeSeparation": "Begien arteko banantzea",

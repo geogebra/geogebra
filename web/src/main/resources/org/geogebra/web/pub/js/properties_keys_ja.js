@@ -2371,6 +2371,7 @@ __GGB__keysVar.ja.plain = {
     "ExtendedForm": "Extended form",
     "ExtraLarge": "\u5de8\u5927",
     "ExtraSmall": "\u5fae\u5c0f",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0 \u306e\u6975\u5024",
     "EyeDistance": "\u30b9\u30af\u30ea\u30fc\u30f3\u304b\u3089\u306e\u8ddd\u96e2",
     "EyeSeparation": "\u4e21\u773c\u9593\u9694",

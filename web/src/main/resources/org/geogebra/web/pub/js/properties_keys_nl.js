@@ -2371,6 +2371,7 @@ __GGB__keysVar.nl.plain = {
     "ExtendedForm": "Uitgebreid formulier",
     "ExtraLarge": "Extra groot",
     "ExtraSmall": "Extra klein",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extremum van %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

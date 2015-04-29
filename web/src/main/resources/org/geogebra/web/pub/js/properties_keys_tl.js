@@ -2371,6 +2371,7 @@ __GGB__keysVar.tl.plain = {
     "ExtendedForm": "Pinahabang porma",
     "ExtraLarge": "",
     "ExtraSmall": "Sobrang Liit",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Ekstremum ng %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

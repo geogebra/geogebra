@@ -2371,6 +2371,7 @@ __GGB__keysVar.ro.plain = {
     "ExtendedForm": "Extins din",
     "ExtraLarge": "Deosebit de mare",
     "ExtraSmall": "Deosebit de mic",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extremum de %0",
     "EyeDistance": "Distan\u0163a de la ecran",
     "EyeSeparation": "Separarea ochi",

@@ -2371,6 +2371,7 @@ __GGB__keysVar.hu.plain = {
     "ExtendedForm": "Kiterjesztett alak",
     "ExtraLarge": "Extra nagy",
     "ExtraSmall": "Extra kicsi",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0 sz\xe9ls\u0151\xe9rt\xe9ke",
     "EyeDistance": "K\xe9perny\u0151t\u0151l vett t\xe1vols\xe1g",
     "EyeSeparation": "Szem-elk\xfcl\xf6n\xedt\xe9s",

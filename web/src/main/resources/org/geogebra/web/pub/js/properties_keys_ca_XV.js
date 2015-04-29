@@ -2371,6 +2371,7 @@ __GGB__keysVar.ca_XV.plain = {
     "ExtendedForm": "Formulari desplegat",
     "ExtraLarge": "Supergran",
     "ExtraSmall": "Supermenuda",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extrem de %0",
     "EyeDistance": "Dist\xe0ncia de la pantalla",
     "EyeSeparation": "Separaci\xf3 dels ulls",

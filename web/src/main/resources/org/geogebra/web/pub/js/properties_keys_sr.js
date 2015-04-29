@@ -2371,6 +2371,7 @@ __GGB__keysVar.sr.plain = {
     "ExtendedForm": "Pro\u0161ireni oblik",
     "ExtraLarge": "Veoma veliko",
     "ExtraSmall": "Veoma malo",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Ekstrem od %0",
     "EyeDistance": "Udaljenost od ekrana",
     "EyeSeparation": "O\u010dna separacija",

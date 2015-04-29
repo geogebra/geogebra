@@ -2371,6 +2371,7 @@ __GGB__keysVar.lt.plain = {
     "ExtendedForm": "Prapl\u0117sti form\u0105",
     "ExtraLarge": "Itin didelis",
     "ExtraSmall": "Itin ma\u017eas",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0 ekstremumas",
     "EyeDistance": "Atstumas iki ekrano",
     "EyeSeparation": "Atstumas tarp vaizd\u0173",

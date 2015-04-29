@@ -2371,6 +2371,7 @@ __GGB__keysVar.cy.plain = {
     "ExtendedForm": "Ffurf Estunedig",
     "ExtraLarge": "Mawr Iawn",
     "ExtraSmall": "Bach Iawn",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extremum o %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

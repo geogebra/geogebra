@@ -2371,6 +2371,7 @@ __GGB__keysVar.in.plain = {
     "ExtendedForm": "Bentuk Tambahan",
     "ExtraLarge": "XL (Sangat Besar)",
     "ExtraSmall": "XS (Sangat Kecil)",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Nilai Ekstrim dari %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

@@ -2371,6 +2371,7 @@ __GGB__keysVar.ar_TN.plain = {
     "ExtendedForm": "\u0634\u0643\u0644 \u0645\u0645\u062f\u0651\u062f",
     "ExtraLarge": "\u0643\u0628\u064a\u0631 \u062c\u062f\u0627",
     "ExtraSmall": "\u0635\u063a\u064a\u0631 \u062c\u062f\u0627",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "\u0646\u0647\u0627\u064a\u0629 \u0642\u0635\u0648\u0649 \u0644\u0640 %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "\u0641\u0635\u0644 \u0628\u064a\u0646 \u0627\u0644\u0639\u064a\u0646\u064a\u0646",

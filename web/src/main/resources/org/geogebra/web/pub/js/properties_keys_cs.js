@@ -2371,6 +2371,7 @@ __GGB__keysVar.cs.plain = {
     "ExtendedForm": "Roz\u0161\xed\u0159en\xe1 podoba",
     "ExtraLarge": "Extra velk\xfd",
     "ExtraSmall": "Extra mal\xfd",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extr\xe9m %0",
     "EyeDistance": "Vzd\xe1lenost od obrazovky",
     "EyeSeparation": "Vzd\xe1lenost o\u010d\xed",

@@ -2371,6 +2371,7 @@ __GGB__keysVar.fi.plain = {
     "ExtendedForm": "Laajennettu muoto",
     "ExtraLarge": "Eritt\xe4in suuri",
     "ExtraSmall": "Eritt\xe4in pieni",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0:n \xe4\xe4riarvo",
     "EyeDistance": "Et\xe4isyys n\xe4yt\xf6st\xe4",
     "EyeSeparation": "Silmien v\xe4li",

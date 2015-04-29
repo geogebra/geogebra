@@ -2371,6 +2371,7 @@ __GGB__keysVar.tr.plain = {
     "ExtendedForm": "Geni\u015fletilmi\u015f bi\xe7im",
     "ExtraLarge": "Ekstra B\xfcy\xfck",
     "ExtraSmall": "Ekstra K\xfc\xe7\xfck",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0 U\xe7 Noktalar\u0131(Extremum)",
     "EyeDistance": "Ekrandan uzakl\u0131k",
     "EyeSeparation": "G\xf6z ayr\u0131lmas\u0131",

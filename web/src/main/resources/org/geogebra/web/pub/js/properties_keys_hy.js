@@ -2371,6 +2371,7 @@ __GGB__keysVar.hy.plain = {
     "ExtendedForm": "\u0538\u0576\u0564\u056c\u0561\u0575\u0576\u057e\u0561\u056e \u0571\u0587",
     "ExtraLarge": "\u0540\u057d\u056f\u0561",
     "ExtraSmall": "\u0533\u0565\u0580\u0583\u0578\u0584\u0580",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0-\u056b \u0567\u0584\u057d\u057f\u0580\u0565\u0574\u0578\u0582\u0574",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

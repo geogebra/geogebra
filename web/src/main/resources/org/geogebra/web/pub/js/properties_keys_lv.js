@@ -2371,6 +2371,7 @@ __GGB__keysVar.lv.plain = {
     "ExtendedForm": "Izteikts no",
     "ExtraLarge": "\u013boti liels",
     "ExtraSmall": "\u013boti mazs",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Extremum of %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

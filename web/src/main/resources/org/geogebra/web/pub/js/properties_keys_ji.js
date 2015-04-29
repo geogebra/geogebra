@@ -2371,6 +2371,7 @@ __GGB__keysVar.ji.plain = {
     "ExtendedForm": "\u05d0\u05d5\u05d9\u05e1\u05d2\u05e2\u05d1\u05e8\u05d9\u05d9\u05d8\u05e2\u05e8\u05d8\u05e2 \u05e4\u05bf\u05d0\u05b8\u05e8\u05e2\u05dd",
     "ExtraLarge": "\u05d2\u05d0\u05b8\u05e8\u05be\u05d2\u05d0\u05b8\u05e8 \u05d2\u05e8\u05d5\u05d9\u05e1",
     "ExtraSmall": "\u05d2\u05d0\u05b8\u05e8\u05be\u05d2\u05d0\u05b8\u05e8 \u05e7\u05dc\u05d9\u05d9\u05df",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "\u05e2\u05e7\u05e1\u05d8\u05e8\u05e2\u05de\u05d2\u05e8\u05d9\u05d9\u05e1 \u05e4\u05bf\u05d5\u05df %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

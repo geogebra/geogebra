@@ -2371,6 +2371,7 @@ __GGB__keysVar.no_NN.plain = {
     "ExtendedForm": "Utvida form",
     "ExtraLarge": "Ekstra stor",
     "ExtraSmall": "Ekstra liten",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Ekstremalpunkt for %0",
     "EyeDistance": "Avstand fr\xe5 skjerm",
     "EyeSeparation": "Augeavstand",

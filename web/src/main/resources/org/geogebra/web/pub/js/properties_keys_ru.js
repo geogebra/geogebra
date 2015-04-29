@@ -2371,6 +2371,7 @@ __GGB__keysVar.ru.plain = {
     "ExtendedForm": "\u0420\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u0430\u044f \u0444\u043e\u0440\u043c\u0430",
     "ExtraLarge": "\u0413\u0438\u0433\u0430\u043d\u0442\u0441\u043a\u0438\u0439",
     "ExtraSmall": "\u041a\u0440\u043e\u0448\u0435\u0447\u043d\u044b\u0439",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "\u042d\u043a\u0441\u0442\u0440\u0435\u043c\u0443\u043c %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

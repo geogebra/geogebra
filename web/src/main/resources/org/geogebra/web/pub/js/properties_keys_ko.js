@@ -2371,6 +2371,7 @@ __GGB__keysVar.ko.plain = {
     "ExtendedForm": "\ud655\uc7a5\ub41c \ud3fc",
     "ExtraLarge": "\uac00\uc7a5 \ud06c\uac8c",
     "ExtraSmall": "\uac00\uc7a5 \uc791\uac8c",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0 \uc758 \uadf9\uac12",
     "EyeDistance": "\ud654\uba74\uc73c\ub85c\ubd80\ud130 \uac70\ub9ac",
     "EyeSeparation": "\uc591\uc548 \uc2dc\ucc28",

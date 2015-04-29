@@ -2371,6 +2371,7 @@ __GGB__keysVar.ta.plain = {
     "ExtendedForm": "Extended form",
     "ExtraLarge": "Extra Large",
     "ExtraSmall": "Extra Small",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "%0 \u0b87\u0ba9\u0bc1\u0b9f\u0bc8\u0baf \u0bae\u0bc1\u0ba9\u0bc8",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",

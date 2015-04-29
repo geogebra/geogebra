@@ -2371,6 +2371,7 @@ __GGB__keysVar.eo.plain = {
     "ExtendedForm": "Extended form",
     "ExtraLarge": "Tre granda",
     "ExtraSmall": "Tre malgranda",
+    "ExtraViews": "Extra Views",
     "ExtremumOfA": "Ekstremumo de %0",
     "EyeDistance": "Distance from screen",
     "EyeSeparation": "Eye Separation",
