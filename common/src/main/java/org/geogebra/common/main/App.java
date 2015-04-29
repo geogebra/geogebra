@@ -3614,7 +3614,12 @@ public abstract class App implements UpdateSelection {
 
 	protected boolean prerelease;
 	
-	public final boolean has(Feature f){
+	public final boolean has(Feature f) {
+
+		if (f.equals(Feature.JLM_IN_WEB)) {
+			return false;
+		}
+
 		return prerelease;
 	}
 
