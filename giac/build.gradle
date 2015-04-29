@@ -6,7 +6,7 @@ def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
 
 def emccCommand = "emcc"
 // You may override it by using environmental variable:
-if (System.env['EMCC'] != "") {
+if (System.env['EMCC'] != null) {
     emccCommand = System.env['EMCC']
     }
 // Emscripten should be configured before running this script.
