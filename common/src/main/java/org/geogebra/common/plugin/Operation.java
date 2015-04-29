@@ -1242,6 +1242,26 @@ public enum Operation {
 			return ev.polynomialOrDie(lt, this, "arg(");
 		}
 	},
+	ALT {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			Kernel kernel = ev.getKernel();
+			if (lt instanceof VectorValue || lt instanceof NumberValue) {
+				MyDouble ret = new MyDouble(kernel, 0);
+				ret.setAngle();
+				return ret;
+			} else if (lt instanceof Vector3DValue) {
+				Geo3DVec vec = ((Vector3DValue) lt).getVector();
+				//TODO 
+				MyDouble ret = new MyDouble(kernel, 42);
+				ret.setAngle();
+				return ret;
+			}
+			return ev.polynomialOrDie(lt, this, "arg(");
+		}
+	},
 	FUNCTION {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
