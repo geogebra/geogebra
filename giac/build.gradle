@@ -4,7 +4,13 @@ apply plugin: 'cpp'
 
 def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
 
-// println java_home
+def emccCommand = "emcc"
+// You may override it by using environmental variable:
+if (System.env['EMCC'] != "") {
+    emccCommand = System.env['EMCC']
+    }
+// Emscripten should be configured before running this script.
+// FIXME: Not all version of Emscripten will work, or at least not automagically.
 
 model {
     repositories {
@@ -198,6 +204,7 @@ task run (dependsOn: 'icasExecutable', type: Exec) {
     standardInput = System.in
     }
 
+
 tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
     if ((taskName.startsWith('emccCompile_')) && (taskName.endsWith('Cc'))) {
 	def basename = (taskName - 'Cc').substring('emccCompile_'.length())
@@ -210,8 +217,8 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
 		file("build/objs/giac.js").mkdirs()
 		exec {
 		    // Be very careful when changing this: config.h also contains some entries! 
-		    commandLine 'emcc', '-DIN_GIAC', '-DGIAC_GENERIC_CONSTANTS', '-DNO_STDEXCEPT', 
-			'-Dgammaf=', '-Dhusleep=', '-DHAVE_CONFIG_H', '-DHAVE_UNISTD_H',
+		    commandLine emccCommand, '-v', '-DIN_GIAC', '-DGIAC_GENERIC_CONSTANTS', '-DNO_STDEXCEPT', 
+			'-DHAVE_CONFIG_H', '-DHAVE_UNISTD_H',
 			'-DTIMEOUT',
 			'-s', 'PRECISE_I32_MUL=1', '-DGIAC_GGB', '-DEMCC',
 			'-Isrc/giac/headers', '-c', input, '-o', output
@@ -238,7 +245,7 @@ task emccGiacJs {
     def linkerArgs = []
     FileTree files = fileTree(dir: 'build/objs/giac.js')
     files.visit { f ->
-	if (!f.name.startsWith("first")) { // consider completely removing first*.cc
+	if (!f.name.startsWith("first") && !f.name.startsWith("hello")) { // consider completely removing first*.cc and hello.cc
     	    def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
 	    list << emccCompileTask
 	    linkerArgs << "build/objs/giac.js/${f.name}"
@@ -252,7 +259,9 @@ task emccGiacJs {
 	    linkerArgs << "src/giac.js/prebuilt/libmpfr.a"
 	    linkerArgs << '-s' << 'PRECISE_I32_MUL=1' << '-DGIAC_GGB'
 	    linkerArgs << '-o' << output
-	    commandLine 'emcc'
+	    linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=\"['__ZN4giac7casevalEPKc']\""
+	    linkerArgs << '--closure' << '1'
+	    commandLine emccCommand
 	    args linkerArgs
 	    }
 	}
