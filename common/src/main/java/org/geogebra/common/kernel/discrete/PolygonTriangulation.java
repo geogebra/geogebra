@@ -806,7 +806,7 @@ public class PolygonTriangulation {
 					+ (prevPoint.orientationToNext * 180 / Math.PI));
 			debug(prevPoint.name + "/" + point.name + "/" + nextPoint.name
 					+ " : " + (delta * 180 / Math.PI));
-			if (Kernel.isZero(delta)) { // point aligned
+			if (Kernel.isZero(delta, ORIENTATION_DELTA)) { // point aligned
 				// remove point
 				prevPoint.next = nextPoint;
 				nextPoint.prev = prevPoint;
@@ -834,7 +834,7 @@ public class PolygonTriangulation {
 					removedPoints += 2;
 				} else if (Kernel.isGreater(0, (nextPoint.x - prevPoint.x)
 						* (point.x - prevPoint.x) + (nextPoint.y - prevPoint.y)
-						* (point.y - prevPoint.y))) {
+						* (point.y - prevPoint.y), POINT_DELTA)) {
 					// next point is back old point
 					debug(" next point is back old point - "
 							+ (prevPoint.orientationToNext * 180 / Math.PI));
@@ -1540,7 +1540,7 @@ public class PolygonTriangulation {
 
 		debug(x + "," + y + "," + z);
 
-		if (!Kernel.isZero(z)) {
+		if (!Kernel.isZero(z, POINT_DELTA)) {
 			// create intersection point
 			// Point pt = new Point(x/z, y/z);
 			double x1 = x / z;
