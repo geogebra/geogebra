@@ -289,7 +289,7 @@ public final class DrawBoolean extends Drawable {
 					if (csize == 13) {
 						
 						if (stroke13 == null) {
-							AwtFactory.prototype
+							stroke13 = AwtFactory.prototype
 							.newBasicStroke(2f, GBasicStroke.CAP_ROUND,
 									GBasicStroke.JOIN_ROUND);
 						}
