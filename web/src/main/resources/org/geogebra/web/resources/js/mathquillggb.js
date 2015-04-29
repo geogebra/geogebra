@@ -1974,7 +1974,7 @@ function createRoot(jQ, root, textbox, editable) {
   // which is later than the tab index of the mathquillggb-editable element!
   jQ.prev().attr('tabindex', 2);
   if(document.body.addEventListener){
-	  document.body.addEventListener('MSPointerDown',function(e){window.mqTouchEvents = e.pointerType == 2});
+	  document.body.addEventListener('MSPointerDown',function(e){window.mqTouchEvents = e.pointerType == 2 || e.pointerType == "touch"});
   }
   // That's why a better solution is needed here:
   jQ.attr('tabindex', 1).bind('focus.mathquillggb', function(e1) {
@@ -1995,9 +1995,9 @@ function createRoot(jQ, root, textbox, editable) {
 	// but still in this case, textarea.blur may be called too
 	// late, setTimeout is not the best solution:
 	if(window.mqTouchEvents){
-		//textarea.attr("disabled","true");
+		textarea.attr("disabled","true");
 	}else if(window.mqTouchEvents === false){
-		//textarea.attr("disabled","false");
+		textarea.removeAttr("disabled");
 	}
 	setTimeout(function() { textarea.focus(); });
 

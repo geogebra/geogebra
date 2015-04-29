@@ -280,19 +280,20 @@ public class WinFileManager extends FileManager {
 		}
 		final String title1 = title;
 		app.getGgbApi().showTooltip(app.getPlain("Saving"));
+		final StringHandler onFileDialogClosed = new StringHandler() {
+
+			@Override
+			public void handle(final String path) {
+				app.getGgbApi().showTooltip("");
+				((DialogManagerW) app.getDialogManager()).getSaveDialog()
+						.hide();
+			}
+		};
 		app.getGgbApi().getBase64(true, new StringHandler(){
 
 			@Override
 			public void handle(final String data) {
-				saveDialog(data, title1, new StringHandler() {
-
-					@Override
-					public void handle(final String path) {
-						app.getGgbApi().showTooltip("");
-						((DialogManagerW) app.getDialogManager())
-								.getSaveDialog().hide();
-					}
-				});
+				saveDialog(data, title1, onFileDialogClosed, onFileDialogClosed);
 			}
 			});
 	}
@@ -300,7 +301,8 @@ public class WinFileManager extends FileManager {
 
 
 	native void saveDialog(String data, String title,
-			StringHandler handler)/*-{
+ StringHandler onSuccess,
+			StringHandler onFailure)/*-{
 		var that = this;
 		if ($wnd.android && $wnd.android.callPlugin) {
 			$wnd.android
@@ -308,7 +310,10 @@ public class WinFileManager extends FileManager {
 							'SaveDialog',
 							[ data, title, 'ggb' ],
 							function(path) {
-								handler.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(path);
+								onSuccess.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(path);
+							},
+							function(path) {
+								onFailure.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(path);
 							});
 		}
 	}-*/;

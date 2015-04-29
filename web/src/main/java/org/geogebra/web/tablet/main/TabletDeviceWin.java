@@ -14,6 +14,14 @@ import org.geogebra.web.web.main.FileManager;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TabletDeviceWin extends TouchDevice {
+	
+	public TabletDeviceWin(){
+		assumeTouchEvents();
+	}
+
+	private native void assumeTouchEvents()/*-{
+		$wnd.mqTouch
+	}-*/;
 
 	@Override
 	public FileManager createFileManager(AppW app) {
