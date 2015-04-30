@@ -3998,7 +3998,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 	
 	@Override
-	protected int getModeForShallMoveView(){
+	protected int getModeForShallMoveView(boolean forceTranslate) {
+		if (forceTranslate) {
+			return EuclidianConstants.MODE_TRANSLATEVIEW;
+		}
 		return EuclidianConstants.MODE_ROTATEVIEW;
 	}
 
