@@ -107,6 +107,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	    frameLayout.add(bg);
 		bg.setHeight(oldHeight + "px");
 		bg.setWidth(oldWidth + "px");
+		bg.onResize();
 	    bg.setVisible(true);
 
 	    ((MyHeaderPanel)bg).setFrame(this);
