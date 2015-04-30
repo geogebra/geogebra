@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-//import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class SensorLogger {
@@ -66,11 +65,10 @@ public abstract class SensorLogger {
 
 	public abstract boolean startLogging();
 
-	public abstract void closeSocket();
+	protected abstract void closeSocket();
 
 
 	public void registerGeo(String s, GeoElement geo) {
-	
 		Types type = Types.lookup(s);
 	
 		if (type != null) {
@@ -83,6 +81,18 @@ public abstract class SensorLogger {
 				listeners.put(type, (GeoNumeric) geo);
 			}
 		}
+	}
+
+	/**
+	 * @param sensor
+	 *            {@link Types}
+	 */
+	public void removeRegisteredGeo(Types sensor) {
+		listeners.remove(sensor);
+		listenersL.remove(sensor);
+		listenersF.remove(sensor);
+		listenersAges.remove(sensor);
+		listLimits.remove(sensor);
 	}
 
 	private void prepareRegister(Types type, GeoElement geo, double limit) {
@@ -125,7 +135,6 @@ public abstract class SensorLogger {
 	}
 
 	public void stopLogging() {
-	
 		kernel.setUndoActive(oldUndoActive);
 		kernel.storeUndoInfo();
 	

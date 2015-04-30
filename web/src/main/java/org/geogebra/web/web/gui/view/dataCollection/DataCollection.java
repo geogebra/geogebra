@@ -9,14 +9,16 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.plugin.WebSocketListener;
+import org.geogebra.web.plugin.WebsocketLogger;
 import org.geogebra.web.web.gui.GuiManagerW;
 
 /**
  *
  */
-public class DataCollection {
+public class DataCollection implements WebSocketListener {
 
-	private DataCollectionLogger sensorLogger;
+	private WebsocketLogger sensorLogger;
 	private DataCollectionView dataView;
 	private AppW app;
 
@@ -27,7 +29,8 @@ public class DataCollection {
 	 */
 	public DataCollection(AppW app) {
 		this.app = app;
-		this.sensorLogger = new DataCollectionLogger(app.getKernel(), this);
+		this.sensorLogger = (WebsocketLogger) app.getSensorLogger();
+		this.sensorLogger.addListener(this);
 		this.dataView = ((GuiManagerW) app.getGuiManager())
 				.getDataCollectionView();
 	}
@@ -42,20 +45,21 @@ public class DataCollection {
 		// set app id
 		sensorLogger.registerGeo(Types.APP_ID.toString(), new GeoText(app
 				.getKernel().getConstruction(), id));
-		sensorLogger.createConnection();
+		sensorLogger.startLogging();
+		start();
 	}
 
 	/**
 	 * disconnects the application from the websocket
 	 */
 	public void onDisconnect() {
-		sensorLogger.closeSocket();
+		sensorLogger.stopLogging();
 	}
 
 	/**
 	 * starts the data collection
 	 */
-	public void start() {
+	private void start() {
 		HashMap<Types, GeoElement> activeSensors = this.dataView
 				.getActivedSensors();
 
@@ -94,14 +98,43 @@ public class DataCollection {
 	 *            {@code true} to show the settings for the sensor in the
 	 *            {@link #dataView}
 	 */
-	public void sensorActive(Types sensor, boolean flag) {
+	@Override
+	public void onSensorActive(Types sensor, boolean flag) {
 		this.dataView.setVisible(sensor, flag);
 	}
 
 	/**
 	 * called if no mobile-data app found with the entered appID
 	 */
-	public void wrongID() {
+	@Override
+	public void onWrongID() {
 		this.dataView.onWrongID();
+	}
+
+	/**
+	 * connect a {@link GeoElement} with a specific sensor data
+	 * 
+	 * @param sensor
+	 *            name of the sensor
+	 * @param geo
+	 *            {@link GeoElement}
+	 * @see Types
+	 */
+	public void registerGeo(String sensor, GeoElement geo) {
+		if (geo instanceof GeoNumeric || geo instanceof GeoText) {
+			sensorLogger.registerGeo(sensor, geo);
+		} else if (geo instanceof GeoList) {
+			sensorLogger.registerGeoList(sensor, (GeoList) geo);
+		} else if (geo instanceof GeoFunction) {
+			sensorLogger.registerGeoFunction(sensor, (GeoFunction) geo);
+		}
+
+		if (!geo.isLabelSet()) {
+			geo.setLabel(sensor);
+		}
+	}
+
+	public void removeRegisteredGeo(Types sensor) {
+		this.sensorLogger.removeRegisteredGeo(sensor);
 	}
 }

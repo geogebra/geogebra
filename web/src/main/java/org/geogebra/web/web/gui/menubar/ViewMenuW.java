@@ -1,13 +1,15 @@
 package org.geogebra.web.web.gui.menubar;
 
+import java.util.HashMap;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.view.Views;
+import org.geogebra.web.web.gui.view.Views.ViewType;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 
 import com.google.gwt.user.client.Timer;
@@ -21,10 +23,10 @@ public class ViewMenuW extends GMenuBar {
 	/**
 	 * Menuitem with checkbox for show algebra view
 	 */
-	GCheckBoxMenuItem[] items;
+	HashMap<Integer, GCheckBoxMenuItem> items = new HashMap<Integer, GCheckBoxMenuItem>();
 	AppW app;
 	GCheckBoxMenuItem inputBarItem;
-	private GCheckBoxMenuItem dataCollectionBar;
+	private GCheckBoxMenuItem dataCollection;
 	private GCheckBoxMenuItem consProtNav;
 	
 	/**
@@ -66,34 +68,20 @@ public class ViewMenuW extends GMenuBar {
 	
 	
 	protected void initActions() {
-		items = new GCheckBoxMenuItem[Views.ids.length];
-		for(int k = 0; k< Views.ids.length; k++){
-			final int i = k;
-			if(!app.supportsView(Views.ids[i])){
+		for (final ViewType e : Views.getViews()) {
+			if (!app.supportsView(e.getID())) {
 				continue;
 			}
-			items[i] = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(GGWToolBar.safeURI(Views.icons[i]
-			        ), app.getPlain(Views.keys[i]), true),
-			        new MenuCommand(app) {
-				
-				        @Override
-                        public void doExecute() {
-				        	app.getGuiManager().setShowView(
-									!app.getGuiManager().showView(Views.ids[i]), Views.ids[i]);
-				        	items[i].setSelected(app.getGuiManager().showView(Views.ids[i]));
-
-							Timer timer = new Timer() {
-								@Override
-								public void run() {
-									//false, because we have just closed the menu
-									app.getGuiManager().updateStyleBarPositions(false);
-								}
-							};
-							timer.schedule(0);
-				        }}
-				      );
-			addItem(items[i].getMenuItem());
+			addToMenu(e);
 		}
+		addSeparator();
+		for (final ViewType e : Views.getViewExtensions()) {
+			if (!app.supportsView(e.getID())) {
+				continue;
+			}
+			addToMenu(e);
+		}
+
 		inputBarItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		        .getSafeUri().asString(), app.getMenu("InputField"), true),
 		        new MenuCommand(app) {
@@ -133,18 +121,23 @@ public class ViewMenuW extends GMenuBar {
 		addItem(consProtNav.getMenuItem());
 		
 		if (app.has(Feature.DATA_COLLECTION)) {
-			dataCollectionBar = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
+			dataCollection = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(),
 					app.getMenu("Data Collection"), true),
 					new MenuCommand(app) {
 
 						@Override
 						public void execute() {
-							((GuiManagerW) app.getGuiManager())
-									.toggleDataCollectionBar();
+							app.getGuiManager().setShowView(
+									!app.getGuiManager().showView(
+											AppW.VIEW_DATA_COLLECTION),
+									AppW.VIEW_DATA_COLLECTION);
+							dataCollection.setSelected(app.getGuiManager()
+									.showView(AppW.VIEW_DATA_COLLECTION));
+							app.toggleMenu();
 						}
 					});
-			addItem(dataCollectionBar.getMenuItem());
+			addItem(dataCollection.getMenuItem());
 		}
 		
 		addSeparator();
@@ -154,18 +147,40 @@ public class ViewMenuW extends GMenuBar {
 		update();
 	}
 	
-	public void update(){
-		for(int k = 0; k < items.length; k++){
-			if(items[k] != null){
-				items[k].setSelected(app.getGuiManager().showView(Views.ids[k]));
+	private GCheckBoxMenuItem newItem;
+	private void addToMenu(final ViewType e) {
+		newItem = new GCheckBoxMenuItem(
+				MainMenu.getMenuBarHtml(
+				GGWToolBar.safeURI(e.getIcon()),
+				app.getPlain(e.getKey()), true), new MenuCommand(app) {
+
+			@Override
+			public void doExecute() {
+				app.getGuiManager().setShowView(
+						!app.getGuiManager().showView(e.getID()), e.getID());
+						newItem.setSelected(app.getGuiManager().showView(
+								e.getID()));
+
+				Timer timer = new Timer() {
+					@Override
+					public void run() {
+						// false, because we have just closed the menu
+						app.getGuiManager().updateStyleBarPositions(false);
+					}
+				};
+				timer.schedule(0);
 			}
-		}
-		inputBarItem.setSelected(app.getInputPosition() != InputPositon.algebraView);
-		if (app.has(Feature.DATA_COLLECTION)) {
-			dataCollectionBar.setSelected(((GuiManagerW) app.getGuiManager())
-					.isDataCollectionVisible());
-		}
-		consProtNav.setSelected(app.showConsProtNavigation());
+		});
+		items.put(e.getID(), newItem);
+		addItem(newItem.getMenuItem());
 	}
 
+	public void update(){
+		for (int viewID : this.items.keySet()) {
+			this.items.get(viewID).setSelected(
+					app.getGuiManager().showView(viewID));
+		}
+		inputBarItem.setSelected(app.getInputPosition() != InputPositon.algebraView);
+		consProtNav.setSelected(app.showConsProtNavigation());
+	}
 }

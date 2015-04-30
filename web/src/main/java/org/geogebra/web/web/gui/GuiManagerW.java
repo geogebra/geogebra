@@ -77,7 +77,6 @@ import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
-import org.geogebra.web.web.gui.view.dataCollection.DataCollectionNavigation;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
@@ -134,9 +133,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
 	private ToolBarW updateToolBar = null;
-	private DataCollectionNavigation dataCollectionNav;
-	private boolean dataCollectionIsShowing;
-
 	private DataCollectionView dataCollectionView;
 
 	private int activeViewID;
@@ -1181,6 +1177,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (propertiesView != null) {
 			((PropertiesViewW) propertiesView).setLabels();
 		}
+		if (this.dataCollectionView != null) {
+			this.dataCollectionView.setLabels();
+		}
 
 		((DialogManagerW) app.getDialogManager()).setLabels();
 		if (browseGUIwasLoaded()) {
@@ -1713,39 +1712,5 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return "";
 
 		return getGeneralToolbar().getDefaultToolbarString();
-	}
-
-	/**
-	 * creates a new {@link DataCollectionNavigation} if needed and adds it to the
-	 * {@link EuclidianDockPanelW}
-	 * @return {@link DataCollectionNavigation}
-	 */
-	private DataCollectionNavigation getDataCollectionBar() {
-		AppW appW = (AppW) app;
-		if (this.dataCollectionNav == null) {
-			this.dataCollectionNav = new DataCollectionNavigation(appW);
-			((EuclidianDockPanelW) appW.getEuclidianViewpanel())
-					.addDataCollectionBar(this.dataCollectionNav);
-		}
-		return this.dataCollectionNav;
-	}
-	
-	/**
-	 * shows/hides the {@link DataCollectionNavigation} and updates the checkbox of the menu
-	 */
-	public void toggleDataCollectionBar() {
-		if (app.showConsProtNavigation()) {
-			app.toggleShowConstructionProtocolNavigation();
-		}
-		dataCollectionIsShowing = !dataCollectionIsShowing;
-		getDataCollectionBar().setVisible(dataCollectionIsShowing);
-		updateMenubar();
-	}
-
-	/**
-	 * @return {@code true} if the {@link DataCollectionNavigation} is opened
-	 */
-	public boolean isDataCollectionVisible() {
-		return this.dataCollectionIsShowing;
 	}
 }

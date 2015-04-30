@@ -10,6 +10,7 @@ import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.view.Views;
+import org.geogebra.web.web.gui.view.Views.ViewType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -89,8 +90,9 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	 * either close this view or open another one.
 	 */
 	protected void addViewButton(){
-		ImageOrText[] data = new ImageOrText[Views.ids.length + 1];
-		final int[] viewIDs = new int[Views.ids.length + 1];
+		int numOfViews = Views.numOfViews();
+		ImageOrText[] data = new ImageOrText[numOfViews + 1];
+		final int[] viewIDs = new int[numOfViews + 1];
 
 		int k = 0;
 		FlowPanel separator = null;
@@ -108,13 +110,13 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			separator.addStyleName("Separator");
 		}
 
-		for (int i = 0; i < Views.ids.length; i++) {
-			if (app.supportsView(Views.ids[i])
-			        && !app.getGuiManager().showView(Views.ids[i])) {
-				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
-				data[k].setUrl(GGWToolBar.safeURI(Views.menuIcons[i]));
+		for (ViewType view : Views.getAll()) {
+			if (app.supportsView(view.getID())
+					&& !app.getGuiManager().showView(view.getID())) {
+				data[k] = new ImageOrText(app.getPlain(view.getKey()));
+				data[k].setUrl(GGWToolBar.safeURI(view.getIcon()));
 				data[k].setBgSize(GLookAndFeel.VIEW_ICON_SIZE);
-				viewIDs[k] = Views.ids[i];
+				viewIDs[k] = view.getID();
 				k++;
 			}
 		}
@@ -192,8 +194,9 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	
 	private int getNumberOfOpenViews() {
 		int numberOfOpenViews = 0;
-		for(int i = 0; i < Views.ids.length; i++){
-			if(app.supportsView(Views.ids[i]) && app.getGuiManager().showView(Views.ids[i])){
+		for (ViewType e : Views.getAll()) {
+			if (app.supportsView(e.getID())
+					&& app.getGuiManager().showView(e.getID())) {
 				numberOfOpenViews++;
 			}
 		}

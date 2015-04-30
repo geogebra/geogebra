@@ -581,9 +581,6 @@ public class AppWapplication extends AppWFull {
 	
 	@Override
 	public void toggleShowConstructionProtocolNavigation() {
-		if (((GuiManagerW) this.guiManager).isDataCollectionVisible()) {
-			((GuiManagerW) this.guiManager).toggleDataCollectionBar();
-		}
 		super.toggleShowConstructionProtocolNavigation();
 		((GuiManagerW) this.guiManager).updateMenubar();
 	}

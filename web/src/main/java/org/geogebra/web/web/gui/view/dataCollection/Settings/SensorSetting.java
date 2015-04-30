@@ -2,12 +2,14 @@ package org.geogebra.web.web.gui.view.dataCollection.Settings;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
+import org.geogebra.web.web.main.AppWapplication;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,36 +19,82 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-public abstract class SensorSetting extends FlowPanel {
+public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 	public class GeoListBox extends ListBox {
 		private final int EMPTY_SELECTION_INDEX = 0;
+		private final int FIRST_GEOELEMENT_INDEX = 2;
 		private Types type;
 		private GeoElement selection;
 		private ArrayList<GeoElement> items = new ArrayList<GeoElement>();
 
+		/**
+		 * @param type
+		 *            of sensor which is associated with this listbox
+		 */
 		public GeoListBox(Types type) {
 			this.type = type;
 		}
 
+		/**
+		 * @return the associated {@link Types sensor-type}
+		 */
 		public Types getType() {
 			return this.type;
 		}
 
+		/**
+		 * @param elem
+		 *            the selected {@link GeoElement}
+		 */
 		public void setSelection(GeoElement elem) {
 			if (elem == null) {
 				this.setSelectedIndex(EMPTY_SELECTION_INDEX);
+			} else {
+				this.setSelectedIndex(this.items.indexOf(elem)
+						+ FIRST_GEOELEMENT_INDEX);
 			}
 			this.selection = elem;
 		}
 
+		/**
+		 * @return the selected {@link GeoElement}
+		 */
 		public GeoElement getSelection() {
 			return this.selection;
 		}
 
+		/**
+		 * @param elem
+		 *            {@link GeoElement}
+		 */
 		public void addItem(GeoElement elem) {
 			this.items.add(elem);
 			super.addItem(elem.getNameDescription());
+		}
+
+		/**
+		 * looks up in the list of elements displayed for this listbox for the
+		 * geoElement with the given name
+		 * 
+		 * @param name
+		 *            text of the selected item
+		 * @return the {@link GeoElement} with the given name if it wasn't
+		 *         found.
+		 */
+		public GeoElement getGeoElement(String name) {
+			for (GeoElement geo : this.items) {
+				if (geo.getNameDescription().equals(name)) {
+					return geo;
+				}
+			}
+			return null;
+		}
+
+		@Override
+		public void clear() {
+			this.items = new ArrayList<GeoElement>();
+			super.clear();
 		}
 	}
 
@@ -68,9 +116,17 @@ public abstract class SensorSetting extends FlowPanel {
 	private ArrayList<GeoListBox> listBoxes = new ArrayList<GeoListBox>();
 
 	private AppW app;
-
 	private DataCollectionView view;
 
+	/**
+	 * 
+	 * @param app
+	 *            {@link AppW}
+	 * @param dataView
+	 *            {@link DataCollectionView}
+	 * @param captionString
+	 *            String
+	 */
 	public SensorSetting(AppW app, DataCollectionView dataView,
 			String captionString) {
 		this.captionString = captionString;
@@ -123,15 +179,20 @@ public abstract class SensorSetting extends FlowPanel {
 		sensorOnOff.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				dataValues.setVisible(sensorOnOff.isDown());
-				collapse.setVisible(sensorOnOff.isDown());
-				collapse.setDown(!sensorOnOff.isDown());
-				if (!sensorOnOff.isDown()) {
-					resetListBoxes();
+				for (GeoListBox listbox : listBoxes) {
+					if (listbox.getSelection() != null) {
+						if (sensorOnOff.isDown()) {
+							((AppWapplication) app).getDataCollection()
+									.registerGeo(listbox.getType().toString(),
+											listbox.getSelection());
+						} else {
+							((AppWapplication) app).getDataCollection()
+									.removeRegisteredGeo(listbox.getType());
+						}
+					}
 				}
 			}
 		});
-
 
 		caption.add(sensorOnOff);
 		caption.add(this.captionLabel);
@@ -175,10 +236,13 @@ public abstract class SensorSetting extends FlowPanel {
 	 * 
 	 * @param availableObjects
 	 *            {@link ArrayList}
+	 * @param usedObjects
+	 *            {@link ArrayList}
 	 */
-	public void updateAllBoxes(ArrayList<GeoElement> availableObjects) {
+	public void updateAllBoxes(ArrayList<GeoElement> availableObjects,
+			ArrayList<GeoElement> usedObjects) {
 		for (GeoListBox box : this.listBoxes) {
-			updateBox(box, availableObjects);
+			updateBox(box, availableObjects, usedObjects);
 		}
 	}
 
@@ -189,12 +253,15 @@ public abstract class SensorSetting extends FlowPanel {
 	 *            {@link GeoListBox}
 	 * @param availableObjects
 	 *            {@link ArrayList}
+	 * @param usedObjects
+	 *            {@link ArrayList}
 	 */
 	public void updateOtherBoxes(GeoListBox listBox,
-			ArrayList<GeoElement> availableObjects) {
+			ArrayList<GeoElement> availableObjects,
+			ArrayList<GeoElement> usedObjects) {
 		for (GeoListBox box : this.listBoxes) {
 			if (box != listBox) {
-				updateBox(box, availableObjects);
+				updateBox(box, availableObjects, usedObjects);
 			}
 		}
 	}
@@ -204,16 +271,19 @@ public abstract class SensorSetting extends FlowPanel {
 	 * 
 	 * @param box
 	 * @param availableObjects
+	 * @param usedObjects
+	 *            {@link ArrayList}
 	 */
 	private void updateBox(GeoListBox box,
-			ArrayList<GeoElement> availableObjects) {
+			ArrayList<GeoElement> availableObjects,
+			ArrayList<GeoElement> usedObjects) {
 		GeoElement selectedElem = box.getSelection();
-
 		box.clear();
 		box.addItem(EMPTY_SELECTION);
-		if (selectedElem != null) {
+		box.addItem("Create DataFunction");
+		if (selectedElem != null && usedObjects.contains(selectedElem)) {
 			box.addItem(selectedElem);
-			box.setSelectedIndex(1);
+			box.setSelectedIndex(box.FIRST_GEOELEMENT_INDEX);
 		}
 		for (GeoElement elem : availableObjects) {
 			box.addItem(elem);
@@ -253,6 +323,11 @@ public abstract class SensorSetting extends FlowPanel {
 
 	private void setSensorOn() {
 		sensorOnOff.setDown(true);
+	}
+
+	@Override
+	public void setLabels() {
+
 	}
 }
 

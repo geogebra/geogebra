@@ -1,5 +1,7 @@
 package org.geogebra.web.plugin;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -7,6 +9,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONString;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.web.html5.util.JSON;
+import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -15,13 +18,14 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class WebsocketLogger extends SensorLogger {
 
-	protected WebSocketConnection connection = null;
+	private WebSocketConnection connection = null;
+	private ArrayList<WebSocketListener> listeners = new ArrayList<WebSocketListener>();
 
 	public WebsocketLogger(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
-	public void createConnection() {
+	private void createConnection() {
 		if (this.connection == null
 		        || this.connection.getReadyState() != WebSocketConnection.OPEN) {
 			this.connection = WebSocketFactory
@@ -55,7 +59,7 @@ public class WebsocketLogger extends SensorLogger {
 		return true;
 	}
 
-	protected void initErrorHandler() {
+	private void initErrorHandler() {
 		connection.onError(new ErrorEventHandler() {
 
 			public void error(JavaScriptObject e) {
@@ -64,13 +68,13 @@ public class WebsocketLogger extends SensorLogger {
 		});
 	}
 
-	protected void startHandShake() {
+	private void startHandShake() {
 		JSONObject obj = new JSONObject();
 		obj.put("appID", new JSONString(appID));
 		connection.send(obj.toString());
 	}
 
-	protected void initCloseHandler() {
+	private void initCloseHandler() {
 		connection.onClose(new CloseEventHandler() {
 
 			public void close(JavaScriptObject event) {
@@ -79,7 +83,87 @@ public class WebsocketLogger extends SensorLogger {
 		});
 	}
 
-	protected void handle(JavaScriptObject json) {
+	/**
+	 * differs between received values and list of available sensors
+	 * 
+	 * @param json
+	 */
+	void handle(JavaScriptObject json) {
+		if (JSON.get(json, Types.MOBILE_FOUND.toString()) != null) {
+			wrongID();
+		} else if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
+			if (JSON.get(json, Types.ACCELEROMETER_X.toString()).equals("true")
+					|| JSON.get(json, Types.ACCELEROMETER_X.toString()).equals(
+							"false")) {
+				handleAvailableSensors(json);
+			} else {
+				handleData(json);
+			}
+		}
+	}
+
+	private void wrongID() {
+		for (WebSocketListener listener : this.listeners) {
+			listener.onWrongID();
+		}
+	}
+
+	/**
+	 * if sensor is available, the settings for this sensor should be visible in
+	 * the {@link DataCollectionView}
+	 * 
+	 * @param json
+	 */
+	private void handleAvailableSensors(JavaScriptObject json) {
+		if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
+			for (WebSocketListener listener : this.listeners) {
+				listener.onSensorActive(Types.ACCELEROMETER_X, Boolean
+						.parseBoolean(JSON.get(json,
+								Types.ACCELEROMETER_X.toString())));
+			}
+		}
+		if (JSON.get(json, Types.MAGNETIC_FIELD_X.toString()) != null) {
+			for (WebSocketListener listener : this.listeners) {
+				listener.onSensorActive(Types.MAGNETIC_FIELD_X, Boolean
+						.parseBoolean(JSON.get(json,
+								Types.MAGNETIC_FIELD_X.toString())));
+			}
+		}
+		if (JSON.get(json, Types.ORIENTATION_X.toString()) != null) {
+			for (WebSocketListener listener : this.listeners) {
+				listener.onSensorActive(
+						Types.ORIENTATION_X,
+						Boolean.parseBoolean(JSON.get(json,
+								Types.ORIENTATION_X.toString())));
+			}
+		}
+		if (JSON.get(json, Types.LOUDNESS.toString()) != null) {
+			for (WebSocketListener listener : this.listeners) {
+				listener.onSensorActive(
+						Types.LOUDNESS,
+						Boolean.parseBoolean(JSON.get(json,
+								Types.LOUDNESS.toString())));
+			}
+		}
+		if (JSON.get(json, Types.PROXIMITY.toString()) != null) {
+			for (WebSocketListener listener : this.listeners) {
+				listener.onSensorActive(
+						Types.PROXIMITY,
+						Boolean.parseBoolean(JSON.get(json,
+								Types.PROXIMITY.toString())));
+			}
+		}
+		if (JSON.get(json, Types.LIGHT.toString()) != null) {
+			for (WebSocketListener listener : this.listeners) {
+				listener.onSensorActive(
+						Types.LIGHT,
+						Boolean.parseBoolean(JSON.get(json,
+								Types.LIGHT.toString())));
+			}
+		}
+	}
+
+	private void handleData(JavaScriptObject json) {
 		// TODO : Maybe do it faster somehow - only logging that is sent?
 		if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
 			log(Types.ACCELEROMETER_X,
@@ -146,7 +230,7 @@ public class WebsocketLogger extends SensorLogger {
 		}
 	}
 
-	protected void initMsgHandler() {
+	private void initMsgHandler() {
 		connection.onMessage(new MessageEventHandler() {
 
 			public void message(JavaScriptObject msg) {
@@ -158,11 +242,19 @@ public class WebsocketLogger extends SensorLogger {
 	}
 
 	@Override
-	public void closeSocket() {
+	protected void closeSocket() {
 		if (connection != null
 		        && connection.getReadyState() != WebSocketConnection.CONNECTING) {
 			connection.close();
 			connection = null;
 		}
+	}
+
+	public void addListener(WebSocketListener listener) {
+		this.listeners.add(listener);
+	}
+
+	public void removeListener(WebSocketListener listener) {
+		this.listeners.remove(listener);
 	}
 }

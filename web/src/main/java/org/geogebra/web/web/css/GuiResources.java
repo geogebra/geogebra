@@ -326,7 +326,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/web/gui/images/keyboard_arrowRight.png")
 	ImageResource keyboard_arrowRight();
 
-	@Source("org/geogebra/web/web/gui/images/keyboard_show.png")
+	@Source("org/geogebra/web/web/gui/images/keyboard_open.png")
 	ImageResource keyboard_show();
 
 	// ALGEBRA VIEW

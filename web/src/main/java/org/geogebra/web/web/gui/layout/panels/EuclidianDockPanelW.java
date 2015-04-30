@@ -6,7 +6,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
-import org.geogebra.web.web.gui.view.dataCollection.DataCollectionNavigation;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -97,10 +96,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		consProtNav.getImpl().addStyleName("consProtNav");
 		euclidianpanel.add(consProtNav.getImpl()); // may be invisible, but made visible later		
 		updateNavigationBar();
-	}
-	
-	public void addDataCollectionBar(DataCollectionNavigation dataCollNav) {
-		euclidianpanel.add(dataCollNav);
 	}
 	
 	public void updateNavigationBar(){
