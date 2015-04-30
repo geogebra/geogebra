@@ -179,9 +179,6 @@ public class DrawLabel3D {
 		this.xOffset = xOffset;// + xOffset2;
 		this.yOffset = yOffset;// + yOffset2;
 
-		// update draw position
-		updateDrawPosition();
-
 	}
 
 	/**
@@ -337,6 +334,8 @@ public class DrawLabel3D {
 		return drawZ;
 	}
 
+	private Coords v = new Coords(3);
+
 	/**
 	 * update draw position
 	 */
@@ -346,7 +345,7 @@ public class DrawLabel3D {
 			return;
 		}
 
-		Coords v = view.getToScreenMatrix().mul(origin);
+		v.setMul(view.getToScreenMatrix(), origin);
 		drawX = (int) (v.getX() + xOffset);
 		if (anchor && xOffset < 0) {
 			drawX -= width / getFontScale();
