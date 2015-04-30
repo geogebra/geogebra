@@ -217,10 +217,10 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
 		file("build/objs/giac.js").mkdirs()
 		exec {
 		    // Be very careful when changing this: config.h also contains some entries! 
-		    commandLine emccCommand, '-v', '-DIN_GIAC', '-DGIAC_GENERIC_CONSTANTS', '-DNO_STDEXCEPT', 
-			'-DHAVE_CONFIG_H', '-DHAVE_UNISTD_H',
-			'-DTIMEOUT',
-			'-s', 'PRECISE_I32_MUL=1', '-DGIAC_GGB', '-DEMCC',
+		    commandLine emccCommand,
+			'-DIN_GIAC', '-DGIAC_GENERIC_CONSTANTS', '-DNO_STDEXCEPT', '-DHAVE_CONFIG_H', // from old Makefile
+			'-s', 'PRECISE_I32_MUL=1', '-DGIAC_GGB', // from old Makefile (PREC)
+			'-DTIMEOUT', '-DEMCC', // from old config.h
 			'-Isrc/giac/headers', '-c', input, '-o', output
 		    }
 		}
@@ -243,21 +243,24 @@ task emccCompile {
 task emccGiacJs (dependsOn: 'emccCompile') {
     def list = []
     def linkerArgs = []
+    def inputInclude = []
     FileTree files = fileTree(dir: 'build/objs/giac.js')
     files.visit { f ->
 	if (!f.name.startsWith("first") && !f.name.startsWith("hello")) { // consider completely removing first*.cc and hello.cc
     	    def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
+	    inputInclude << f.name
 	    list << emccCompileTask
 	    linkerArgs << "build/objs/giac.js/${f.name}"
 	    }
 	}
-    def output = "build/binaries/giac.js/giac.js"
+    def output = "build/binaries/giac.js/giacggb.js"
+    inputs.files inputInclude
     outputs.file output
     doLast {
 	file("build/binaries/giac.js").mkdirs()
 	exec {
+	    linkerArgs << "src/giac.js/prebuilt/libmpfr.a" // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
 	    linkerArgs << "src/giac.js/prebuilt/libgmp.a"
-	    linkerArgs << "src/giac.js/prebuilt/libmpfr.a"
 	    linkerArgs << '-s' << 'PRECISE_I32_MUL=1' << '-DGIAC_GGB'
 	    linkerArgs << '-o' << output
 	    linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['__ZN4giac7casevalEPKc']"
@@ -266,4 +269,10 @@ task emccGiacJs (dependsOn: 'emccCompile') {
 	    args linkerArgs
 	    }
 	}
+    }
+
+task createGgbGiacJs(dependsOn: 'emccGiacJs', type: Copy) {
+    from 'src/giac.js'
+    into 'build/binaries/giac.js'
+    include ('ggb.html')
     }
