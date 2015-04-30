@@ -2623,9 +2623,9 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     if (ctrlSeq === '\\ggbtable' || this.pwtable) {
       // let's make a matrix of elements we can refer to
       // from upInto, downInto, upOutOf, downOutOf
-      this.tableMatrix = [[]];
-      this.tableRow = 0;
-      this.tableCol = 0;
+      this['tableMatrix'] = [[]];
+      this['tableRow'] = 0;
+      this['tableCol'] = 0;
       // this will be a 2-dimensional matrix to be filled
       // on-the-fly at the same time as filling upInto etc
     }
@@ -2646,48 +2646,44 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     if (this.ctrlSeq.indexOf('\\ggbtr') > -1) {
       // now let's add a new row to tableMatrix too!
 	  // nothing else should be done in this step
-	  if (this.maint.tableMatrix) {
-        this.maint.tableMatrix[this.maint.tableRow][0] = 0;
-		this.maint.tableRow++;
-		this.maint.tableCol = 0;
+	  if ('tableMatrix' in thisthis) {
+        thisthis['tableMatrix'][thisthis['tableRow']][0] = 0;
+        thisthis['tableRow']++;
+        thisthis['tableCol'] = 0;
       }
     } else if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
       // now fill the tableMatrix, everything should be ready
-      if (this.maint.tableMatrix && (this.maint.tableRow > 0)) {
-        this.maint.tableMatrix[this.maint.tableRow-1][this.maint.tableCol] = this;//col
-        this.maint.tableCol++;
-        this.thisRow = this.maint.tableRow-1;
-        this.thisCol = this.maint.tableCol-1;
-      }
-    }
-  };
-  _.createBlocks = function() {
-	// at first the same as MathCommand's
-    var cmd = this,
-     numBlocks = cmd.numBlocks(),
-     blocks = cmd.blocks = Array(numBlocks);
 
-    for (var i = 0; i < numBlocks; i += 1) {
-      var newBlock = blocks[i] = MathBlock();
-      newBlock.adopt(cmd, cmd.ch[R], 0);
-    }
-    // then comes code what needs blocks
-    // but only for these kinds of elements: 
-    if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
-      // now fill the tableMatrix, everything should be ready
-      if (this.maint.tableMatrix && (this.maint.tableRow > 1)) {
-    	if ((this.thisRow > 0) && this.thisCol) {
-          // row-1,col-1 gives the last element currently in tableMatrix
-          // this "this" will be row-1, col-1 probably,
-          // and this.upOutOf will be row-2, col-1,
-          // and this.upOutOf.downOutOf will be this
-          var that = this.maint.tableMatrix[this.thisRow-1][this.thisCol];
-          // it's important that the events happen in MathBlock's
-          // but ch[0] might still not be ready! what to do?
-          // call createBlocks earlier!
-          this.ch[0].upOutOf = that.ch[0];
-          that.ch[0].downOutOf = this.ch[0];
-    	}
+      if (('tableMatrix' in thisthis) && ('tableRow' in thisthis) && (thisthis['tableRow'] > 0)) {
+    	thisthis['tableMatrix'][thisthis['tableRow']-1][thisthis['tableCol']] = this;//col
+        //this.maint.tableMatrix[this.maint.tableRow-1][this.maint.tableCol] = this;//col
+        //this.maint.tableCol++;
+        thisthis['tableCol']++;
+        this.thisRow = thisthis['tableRow']-1;
+        this.thisCol = thisthis['tableCol']-1;
+
+        // then comes code what needs blocks
+        // but only for these kinds of elements: 
+        //if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
+          // now fill the tableMatrix, everything should be ready
+          //if (this.maint.tableMatrix && (this.maint.tableRow > 1)) {
+       	  if (thisthis['tableRow'] > 1) {
+        	//if ((this.thisRow > 0) && this.thisCol) {
+              // row-1,col-1 gives the last element currently in tableMatrix
+              // this "this" will be row-1, col-1 probably,
+              // and this.upOutOf will be row-2, col-1,
+              // and this.upOutOf.downOutOf will be this
+              var that = thisthis['tableMatrix'][this.thisRow-1][this.thisCol];
+              // it's important that the events happen in MathBlock's
+              // but ch[0] might still not be ready! what to do?
+              // call createBlocks earlier!
+              this.upOutOf = that;
+              that.downOutOf = this;
+        	//}
+          }
+        //}
+
+
       }
     }
   };
