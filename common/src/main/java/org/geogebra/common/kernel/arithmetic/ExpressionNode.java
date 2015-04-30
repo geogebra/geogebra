@@ -1110,7 +1110,7 @@ kernel, left,
 		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
 				|| operation == Operation.ZCOORD || operation == Operation.ABS
-				|| operation == Operation.ARG) {
+				|| operation == Operation.ARG || operation == Operation.ALT) {
 			return false;
 		}
 		if (isLeaf()) {
@@ -1139,7 +1139,7 @@ kernel, left,
 		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
 				|| operation == Operation.ZCOORD || operation == Operation.ABS
-				|| operation == Operation.ARG) {
+				|| operation == Operation.ARG || operation == Operation.ALT) {
 			return false;
 		}
 		if (isLeaf()) {
@@ -2666,6 +2666,31 @@ kernel, left,
 				sb.append("func ");
 			default:
 				sb.append("arg(");
+				sb.append(leftStr);
+				sb.append(')');
+			}
+			break;
+
+		case ALT:
+			switch (stringType) {
+			case MATHML:
+				MathmlTemplate.mathml(sb, "<alt/>", leftStr, null);
+				break;
+			case LATEX:
+				sb.append("\\alt \\left( ");
+				sb.append(leftStr);
+				sb.append("\\right)");
+				break;
+			case GIAC:
+				sb.append("alt(");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
+
+			case LIBRE_OFFICE:
+				sb.append("func ");
+			default:
+				sb.append("alt(");
 				sb.append(leftStr);
 				sb.append(')');
 			}
@@ -4794,6 +4819,8 @@ kernel, left,
 			break;
 		case ARG:
 			break;
+		case ALT:
+			break;
 		case BETA:
 			break;
 		case BETA_INCOMPLETE:
@@ -5530,7 +5557,7 @@ kernel, left,
 		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
 				|| operation == Operation.ZCOORD || operation == Operation.ABS
-				|| operation == Operation.ARG) {
+				|| operation == Operation.ARG || operation == Operation.ALT) {
 			return true;
 		}
 		if (this.isLeaf() || Operation.isSimpleFunction(this.operation)) {

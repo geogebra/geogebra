@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -22,6 +23,8 @@ import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.Geo3DVec;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoVecInterface;
+import org.geogebra.common.util.MyMath;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -1223,21 +1226,16 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			Kernel kernel = ev.getKernel();
-			if (lt instanceof VectorValue) {
-				GeoVec2D vec = ((VectorValue) lt).getVector();
+			if (lt instanceof VectorNDValue) {
+				GeoVecInterface vec = ((VectorNDValue) lt).getVector();
 
-				MyDouble ret = new MyDouble(kernel, GeoVec2D.arg(vec));
+				MyDouble ret = new MyDouble(kernel, Math.atan2(vec.getY(),
+						vec.getX()));
 				ret.setAngle();
 				return ret;
 			} else if (lt instanceof NumberValue) {
 				return new MyDouble(kernel,
 						((NumberValue) lt).getDouble() < 0 ? Math.PI : 0);
-			} else if (lt instanceof Vector3DValue) {
-				Geo3DVec vec = ((Vector3DValue) lt).getVector();
-
-				MyDouble ret = new MyDouble(kernel, vec.arg());
-				ret.setAngle();
-				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "arg(");
 		}
@@ -1254,12 +1252,12 @@ public enum Operation {
 				return ret;
 			} else if (lt instanceof Vector3DValue) {
 				Geo3DVec vec = ((Vector3DValue) lt).getVector();
-				//TODO 
-				MyDouble ret = new MyDouble(kernel, 42);
+				double l = MyMath.length(vec.getX(), vec.getY());
+				MyDouble ret = new MyDouble(kernel, Math.atan2(vec.getZ(), l));
 				ret.setAngle();
 				return ret;
 			}
-			return ev.polynomialOrDie(lt, this, "arg(");
+			return ev.polynomialOrDie(lt, this, "alt(");
 		}
 	},
 	FUNCTION {

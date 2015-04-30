@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -33,7 +34,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.main.App;
@@ -954,16 +954,7 @@ final public class GeoVec2D extends ValidExpression implements
 		c.setMode(Kernel.COORD_COMPLEX);
 	}
 
-	/**
-	 * c = sqrt(a) Michael Borcherds 2010-02-07
-	 * 
-	 * @param a
-	 *            a
-	 * @return argument of a
-	 */
-	final public static double arg(GeoVec2D a) {
-		return Math.atan2(a.y, a.x);
-	}
+
 
 	/**
 	 * c = a ^ b Michael Borcherds 2009-03-10
