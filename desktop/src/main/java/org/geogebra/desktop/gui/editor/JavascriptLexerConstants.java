@@ -23,7 +23,7 @@ public interface JavascriptLexerConstants extends LexerConstants {
 	/**
 	 * Number of known tokens
 	 */
-	public static final int NUMBEROFTOKENS = 19;
+	public static final int NUMBEROFTOKENS = 20;
 
 	/**
 	 * OPERATOR : tokens like '+', '-', ...
@@ -88,15 +88,20 @@ public interface JavascriptLexerConstants extends LexerConstants {
 	/**
 	 * COMMENTS : comments
 	 */
-	public static final int COMMENTS = 16;
+	public static final int LINECOMMENTS = 16;
+
+	/**
+	 * COMMENTS : comments
+	 */
+	public static final int MULTILINECOMMENTS = 17;
 
 	/**
 	 * FUNCTION : such as myfun(...)
 	 */
-	public static final int FUNCTION = 17;
+	public static final int FUNCTION = 18;
 
 	/**
 	 * EOF : End Of File
 	 */
-	public static final int EOF = 18;
+	public static final int EOF = 19;
 }

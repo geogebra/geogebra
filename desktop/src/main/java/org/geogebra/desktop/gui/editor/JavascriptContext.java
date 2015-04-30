@@ -52,7 +52,9 @@ public class JavascriptContext extends ViewContext {
 		TOKENS.put("Field", JavascriptLexerConstants.FIELD);
 		TOKENS.put("GeoGebra Special", JavascriptLexerConstants.GGBSPECIAL);
 		TOKENS.put("Object Name", JavascriptLexerConstants.OBJECTNAME);
-		TOKENS.put("Comments", JavascriptLexerConstants.COMMENTS);
+		TOKENS.put("Line Comments", JavascriptLexerConstants.LINECOMMENTS);
+		TOKENS.put("Multi Line Comments",
+				JavascriptLexerConstants.MULTILINECOMMENTS);
 		TOKENS.put("Function", JavascriptLexerConstants.FUNCTION);
 		TOKENS.put("White", LexerConstants.WHITE);
 		TOKENS.put("Tabulation", LexerConstants.TAB);
@@ -76,7 +78,8 @@ public class JavascriptContext extends ViewContext {
 		colorMap.put("Field", Color.decode("#848484"));
 		colorMap.put("GeoGebra Special", Color.decode("#ffaa00"));
 		colorMap.put("Object Name", Color.decode("#68baba"));
-		colorMap.put("Comments", Color.decode("#00b700"));
+		colorMap.put("Line Comments", Color.decode("#00b700"));
+		colorMap.put("Multi Line Comments", Color.decode("#00b700"));
 		colorMap.put("Function", Color.decode("#0303ff"));
 		colorMap.put("White", Color.decode("#dcdcdc"));
 		colorMap.put("Tabulation", Color.decode("#dcdcdc"));
@@ -98,7 +101,8 @@ public class JavascriptContext extends ViewContext {
 		attribMap.put("GeoGebra Special", 0);
 		attribMap.put("Object Name", 0);
 		attribMap.put("Function", 0);
-		attribMap.put("Comments", 0);
+		attribMap.put("Line Comments", 0);
+		attribMap.put("Multi Line Comments", 0);
 		attribMap.put("White", 0);
 		attribMap.put("Tabulation", 0);
 	}

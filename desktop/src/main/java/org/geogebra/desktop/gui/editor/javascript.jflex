@@ -60,8 +60,8 @@ import javax.swing.text.Element;
                 str = doc.getText(p0, p1 - p0);
         } catch (BadLocationException e) { }
         yyreset(new StringReader(str));
-        if (doc.isCommented(line - 1)) {
-                yybegin(COMMENTS);
+        if (doc.isMultiLineCommented(line - 1)) {
+                yybegin(MULTILINECOMMENTS);
         }
     }
 
@@ -84,8 +84,9 @@ import javax.swing.text.Element;
 
         try {
            yyreset(new StringReader(doc.getText(start, end - start)));
-           if (doc.isCommented(index - 1)) {
-                         yybegin(COMMENTS);
+           if (doc.isMultiLineCommented(index - 1)) {
+                yybegin(MULTILINECOMMENTS);
+				tok = JavascriptLexerConstants.MULTILINECOMMENTS;
            }
 
            if (!strict) {
@@ -115,9 +116,9 @@ openclose = {open} | {close}
 fieldafterclose = [)\]]"."
 
 insidecomments = ([^\r\n*]* | [^\r\n*]* "*"+ [^\r\n*/])+
-comments = ("/*" {insidecomments} "*/") | ("//" [^\r\n]*)
+linecomments = "/*" [^*] ~"*/" | "/*" "*"+ "/" | ("//" [^\r\n]*)
 
-begincomments = "/*" {insidecomments}
+beginmultilinecomments = "/*" {insidecomments}
 
 id = [_a-zA-Z][_a-zA-Z0-9]*
 
@@ -145,18 +146,18 @@ function = {id} [ \t]* "("
 
 ggbspecial = "ggbApplet"
 
-%x FIELD, FUNCTION, COMMENTS
+%x FIELD, FUNCTION, LINECOMMENTS, MULTILINECOMMENTS
 
 %%
 
 <YYINITIAL> {
-  {comments}                     {
-                                   return JavascriptLexerConstants.COMMENTS;
+  {linecomments}                 {
+                                   return JavascriptLexerConstants.LINECOMMENTS;
                                  }
 
-  {begincomments}                {
-                                   yybegin(COMMENTS);
-                                   return JavascriptLexerConstants.COMMENTS;
+  {beginmultilinecomments}       {
+                                   yybegin(MULTILINECOMMENTS);
+                                   return JavascriptLexerConstants.MULTILINECOMMENTS;
                                  }
 
   {constantes}                   {
@@ -299,16 +300,23 @@ ggbspecial = "ggbApplet"
                                  }
 }
 
-<COMMENTS> {
+<LINECOMMENTS> {
+  {eol}                          |
+  .                              {
+                                   return JavascriptLexerConstants.LINECOMMENTS;
+                                 }
+}
+
+<MULTILINECOMMENTS> {
   "*/"                           {
                                    yybegin(YYINITIAL);
-                                   return JavascriptLexerConstants.COMMENTS;
+                                   return JavascriptLexerConstants.MULTILINECOMMENTS;
                                  }
 
   {insidecomments}               |
   {eol}                          |
   .                              {
-                                   return JavascriptLexerConstants.COMMENTS;
+                                   return JavascriptLexerConstants.MULTILINECOMMENTS;
                                  }
 }
 

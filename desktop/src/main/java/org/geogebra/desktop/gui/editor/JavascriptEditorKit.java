@@ -39,7 +39,8 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 	 */
 	public static final String MIMETYPE = "text/javascript";
 
-	private static final String COMMENTLINE = "comment";
+	private static final String COMMENTLINE = "commentline";
+	private static final String COMMENTMULTILINE = "commentmultiline";
 
 	private JavascriptContext preferences;
 	private AppD app;
@@ -113,15 +114,65 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 		/**
 		 * @param el
 		 *            the Element to test
-		 * @return true if the line is commented
+		 * @return true if the line is commented part of a multi line comment
 		 */
-		public boolean isCommented(Element el) {
+		public boolean isMultiLineCommented(Element el) {
+			return ((MutableAttributeSet) el.getAttributes())
+					.containsAttribute(COMMENTMULTILINE, COMMENTMULTILINE);
+		}
+
+		/**
+		 * @param el
+		 *            the Element to test
+		 * @return true if the line is a single line comment
+		 */
+		public boolean isLineCommented(Element el) {
 			return ((MutableAttributeSet) el.getAttributes())
 					.containsAttribute(COMMENTLINE, COMMENTLINE);
 		}
 
+		/**
+		 * @param el
+		 *            the index of Element to test
+		 * @return true if the line is commented part of a multi line comment
+		 */
+		public boolean isMultiLineCommented(int index) {
+			Element root = getDefaultRootElement();
+			if (index < 0 || index >= root.getElementCount()) {
+				return false;
+			}
+
+			return isMultiLineCommented(root.getElement(index));
+		}
+
+		/**
+		 * @param index
+		 *            the index of Element to test
+		 * @return true if the line is a single line comment
+		 */
+		public boolean isLineCommented(int index) {
+			Element root = getDefaultRootElement();
+			if (index < 0 || index >= root.getElementCount()) {
+				return false;
+			}
+
+			return isLineCommented(root.getElement(index));
+		}
+
 		public void setTextComponent(GeoGebraEditorPane pane) {
 			this.textcomponent = pane;
+		}
+
+		/**
+		 * Test if an element is commented
+		 * 
+		 * @param el
+		 *            element of the line to test
+		 * @return true if the line is commented
+		 */
+		public boolean isCommented(Element el) {
+
+			return isMultiLineCommented(el) || isLineCommented(el);
 		}
 
 		/**
@@ -137,7 +188,8 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 				return false;
 			}
 
-			return isCommented(root.getElement(index));
+			return isMultiLineCommented(root.getElement(index))
+					|| isLineCommented(root.getElement(index));
 		}
 
 		/**
@@ -215,16 +267,20 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 				s = "";
 			}
 
-			if (tok == JavascriptLexerConstants.COMMENTS && !s.endsWith("*/\n")) {
+			if (tok == JavascriptLexerConstants.LINECOMMENTS) {
 				comment = true;
-			}
-
-			if (comment) {
 				((MutableAttributeSet) elem.getAttributes()).addAttribute(
 						COMMENTLINE, COMMENTLINE);
+			} else if (tok == JavascriptLexerConstants.MULTILINECOMMENTS
+					&& !s.endsWith("*/\n")) {
+				comment = true;
+				((MutableAttributeSet) elem.getAttributes()).addAttribute(
+						COMMENTMULTILINE, COMMENTMULTILINE);
 			} else {
 				((MutableAttributeSet) elem.getAttributes())
 						.removeAttribute(COMMENTLINE);
+				((MutableAttributeSet) elem.getAttributes())
+						.removeAttribute(COMMENTMULTILINE);
 			}
 
 			return comment;
