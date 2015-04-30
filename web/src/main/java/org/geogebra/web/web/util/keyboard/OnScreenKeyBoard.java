@@ -873,7 +873,9 @@ public class OnScreenKeyBoard extends PopupPanel {
 				button.setCaption(getWithoutAccent(button.getCaption()));
 			}
 		}
-	    accentButton.removeStyleName("accentDown");
+		if (accentButton != null) {
+			accentButton.removeStyleName("accentDown");
+		}
 		accentDown = false;
     }
 
@@ -964,6 +966,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	}
 
 	private void processShift() {
+		App.debug("process shift");
 		shiftIsDown = !shiftIsDown;
 		String local = greekActive ? Language.Greek.localeGWT : keyboardLocale;
 		if (shiftIsDown) {
