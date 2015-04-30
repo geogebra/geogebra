@@ -5429,7 +5429,7 @@ var Cursor = P(Point, function(_) {
   _.moveUp = function() { return moveUpDown(this, 'up'); };
   _.moveDown = function() { return moveUpDown(this, 'down'); };
   function moveUpDown(self, dir) {
-    this.checkColorCursor(false);
+    self.checkColorCursor(false);
     var dirInto = dir+'Into', dirOutOf = dir+'OutOf';
     if (self[R][dirInto]) self.prependTo(self[R][dirInto]);
     else if (self[L][dirInto]) self.appendTo(self[L][dirInto]);
@@ -5449,7 +5449,7 @@ var Cursor = P(Point, function(_) {
       } while (ancestor !== self.root);
     }
     var ret = self.clearSelection().show();
-    this.checkColorCursor(true);
+    self.checkColorCursor(true);
     return ret;
   }
   /**
