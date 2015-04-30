@@ -253,11 +253,11 @@ task emccGiacJs (dependsOn: 'emccCompile') {
 	    linkerArgs << "build/objs/giac.js/${f.name}"
 	    }
 	}
-    def output = "build/binaries/giac.js/giacggb.js"
+    def output = "build/binaries/giacggb.js/giacggb.js"
     inputs.files inputInclude
     outputs.file output
     doLast {
-	file("build/binaries/giac.js").mkdirs()
+	file("build/binaries/giacggb.js").mkdirs()
 	exec {
 	    linkerArgs << "src/giac.js/prebuilt/libmpfr.a" // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
 	    linkerArgs << "src/giac.js/prebuilt/libgmp.a"
@@ -271,8 +271,16 @@ task emccGiacJs (dependsOn: 'emccCompile') {
 	}
     }
 
-task createGgbGiacJs(dependsOn: 'emccGiacJs', type: Copy) {
+task createGiacGgbJs(dependsOn: 'emccGiacJs', type: Copy) {
     from 'src/giac.js'
-    into 'build/binaries/giac.js'
+    into 'build/binaries/giacggb.js'
     include ('ggb.html')
+    }
+
+task createGiacJs(dependsOn: 'createGiacGgbJs', type: Copy) {
+    from 'build/binaries/giacggb.js'
+    into 'build/binaries/giacggb.js'
+    include ('giacggb.js')
+    rename 'giacggb.js', 'giac.js'
+    filter { line -> line.replace('Module', '__ggb__giac') }
     }
