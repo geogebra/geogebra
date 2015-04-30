@@ -8641,7 +8641,7 @@ public abstract class EuclidianController {
 			if (hits.isEmpty() || !app.has(Feature.SF_DRAG)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
-				view.setMode(getModeForShallMoveView(event.isShiftDown()));
+				view.setMode(getModeForShallMoveView(event));
 			}
 			// if over an axis, force the correct cursor to be displayed
 			if (view.getHits().hasXAxis() || view.getHits().hasYAxis()) {
@@ -8654,11 +8654,11 @@ public abstract class EuclidianController {
 	
 	/**
 	 * 
-	 * @param forceTranslate
-	 *            force translate view mode for 3D view
+	 * @param event
+	 *            event calling
 	 * @return mode when "shall move view"
 	 */
-	protected int getModeForShallMoveView(boolean forceTranslate) {
+	protected int getModeForShallMoveView(AbstractEvent event) {
 		return EuclidianConstants.MODE_TRANSLATEVIEW;
 	}
 
