@@ -966,7 +966,6 @@ public class OnScreenKeyBoard extends PopupPanel {
 	}
 
 	private void processShift() {
-		App.debug("process shift");
 		shiftIsDown = !shiftIsDown;
 		String local = greekActive ? Language.Greek.localeGWT : keyboardLocale;
 		if (shiftIsDown) {
