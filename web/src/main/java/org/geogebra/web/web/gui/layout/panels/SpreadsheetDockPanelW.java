@@ -108,9 +108,6 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
 
 		sb.append(" || ");
-		sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
-
-		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS);
