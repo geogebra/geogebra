@@ -529,7 +529,9 @@ public class InputDialogD extends org.geogebra.common.gui.dialog.InputDialog
 	}
 
 	public void handleDialogVisibilityChange(boolean isVisible) {
-		// to be overridden by subclasses
+		if (!wrappedDialog.isModal() && !isVisible) {
+			app.setSelectionListenerMode(null);
+		}
 	}
 
 }
