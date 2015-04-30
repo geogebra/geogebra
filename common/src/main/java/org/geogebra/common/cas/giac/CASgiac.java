@@ -17,11 +17,11 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DiffReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -84,6 +84,9 @@ public abstract class CASgiac implements CASGenericInterface {
 			+
 			// xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac
 			"xcoord(x):=when(type(x)==DOM_IDENT,xcoordsymb(x),when(x[0]=='pnt',when(is3dpoint(x),x[1][0],real(x[1])),when(x[0]=='=',?,x[0])));"
+			+ "alt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
+			+ "when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?));"
+
 			+ "ycoord(x):=when(type(x)==DOM_IDENT,ycoordsymb(x),when(x[0]=='pnt',when(is3dpoint(x),x[1][1],im(x[1])),when(x[1]=='=',?,x[1])));"
 			+
 			// make sure z((1,2)) = 0
