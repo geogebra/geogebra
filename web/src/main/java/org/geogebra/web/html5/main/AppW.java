@@ -3269,4 +3269,8 @@ public abstract class AppW extends App implements SetLabels {
 	public void setPrerelease(boolean dataParamPrerelease) {
 		this.prerelease = dataParamPrerelease;
 	}
+
+	public void hideMenu() {
+		// for applets with menubar
+	}
 }

@@ -442,6 +442,17 @@ public class AppWapplication extends AppWFull {
 		}
 	}
 
+	@Override
+	public void hideMenu() {
+		if (!this.menuInited) {
+			return;
+		}
+		appFrame.hideMenu();
+		if (this.getGuiManager() != null) {
+			this.getGuiManager().setDraggingViews(false, true);
+		}
+	}
+
 	public boolean isMenuShowing() {
 		return appFrame.isMenuOpen();
 	}

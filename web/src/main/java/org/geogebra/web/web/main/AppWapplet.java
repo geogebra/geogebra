@@ -321,9 +321,13 @@ public class AppWapplet extends AppWFull {
 		if (oldSplitLayoutPanel != null) {
 			if (getArticleElement().getDataParamShowMenuBar(false)) {
 				this.splitPanelWrapper = new HorizontalPanel();
+
 				splitPanelWrapper.add(oldSplitLayoutPanel);
+				if (this.menuShowing) {
 				splitPanelWrapper.add(getMenuBar());
+				}
 				frame.add(splitPanelWrapper);
+
 			} else {
 				frame.add(oldSplitLayoutPanel);
 			}
@@ -588,8 +592,9 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void toggleMenu() {
-		this.menuShowing = !this.menuShowing;
-		if (this.menuShowing) {
+
+		if (!this.menuShowing) {
+			this.menuShowing = true;
 			if (!menuInited) {
 				this.getMenuBar().init(this);
 				this.menuInited = true;
@@ -601,28 +606,35 @@ public class AppWapplet extends AppWFull {
 			        this.oldSplitLayoutPanel.getOffsetHeight());
 			this.getMenuBar().setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
 			        this.oldSplitLayoutPanel.getOffsetHeight());
-		} else {
-			this.oldSplitLayoutPanel.setPixelSize(
-			        this.oldSplitLayoutPanel.getOffsetWidth()
-			                + GLookAndFeel.MENUBAR_WIDTH,
-			        this.oldSplitLayoutPanel.getOffsetHeight());
-
-			this.splitPanelWrapper.remove(this.getMenuBar());
-			if (this.getGuiManager() != null
-			        && this.getGuiManager().getLayout() != null) {
-				this.getGuiManager().getLayout().getDockManager()
-				        .resizePanels();
-			}
-		}
-
-		if (!this.menuShowing && this.getGuiManager() != null) {
-			this.getGuiManager().setDraggingViews(false, true);
-		}
-		if (this.menuShowing) {
 			this.getGuiManager().refreshDraggingViews();
+		} else {
+			hideMenu();
 		}
 	}
 
+	@Override
+	public void hideMenu() {
+		if (!menuInited || !menuShowing) {
+			return;
+		}
+		this.menuShowing = false;
+		this.oldSplitLayoutPanel.setPixelSize(
+				this.oldSplitLayoutPanel.getOffsetWidth()
+						+ GLookAndFeel.MENUBAR_WIDTH,
+				this.oldSplitLayoutPanel.getOffsetHeight());
+
+		this.splitPanelWrapper.remove(this.getMenuBar());
+		if (this.getGuiManager() != null
+				&& this.getGuiManager().getLayout() != null) {
+			this.getGuiManager().getLayout().getDockManager().resizePanels();
+		}
+
+		if (this.getGuiManager() != null) {
+			this.getGuiManager().setDraggingViews(false, true);
+		}
+	}
+
+	@Override
 	public boolean isMenuShowing() {
 		return this.menuShowing;
 	}

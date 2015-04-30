@@ -12,5 +12,4 @@ public interface UpdateKeyBoardListener {
 	public abstract void doShowKeyBoard(boolean b,
 	        MathKeyboardListener textField);
 
-	public abstract void closePopups();
 }

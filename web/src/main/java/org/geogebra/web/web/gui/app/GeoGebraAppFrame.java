@@ -354,6 +354,10 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	    return frameLayout.toggleMenu();
     }
 	
+	public void hideMenu() {
+		frameLayout.hideMenu();
+	}
+
 	public boolean isMenuOpen() {
 		return frameLayout.isMenuOpen();
 	}

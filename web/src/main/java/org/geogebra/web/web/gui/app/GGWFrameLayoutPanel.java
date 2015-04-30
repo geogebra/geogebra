@@ -398,11 +398,19 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			updateSize();
 			guiManagerW.updateStyleBarPositions(true);
 		} else {
-			this.menuClosed = true;
-			guiManagerW.updateStyleBarPositions(false);
-			this.remove(this.menuContainer);
+			hideMenu();
 		}
 		return !menuClosed;
+	}
+
+	public void hideMenu() {
+		if (menuContainer == null || menuClosed) {
+			return;
+		}
+		this.menuClosed = true;
+		guiManagerW.updateStyleBarPositions(false);
+		this.remove(this.menuContainer);
+
 	}
 
 	private void createMenuContainer() {
@@ -450,10 +458,5 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 			this.ggwMenuBar.updateHeight(height);
 	    }
-	}
-
-	@Override
-	public void closePopups() {
-		app.closePopups();
 	}
 }

@@ -138,10 +138,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 		// this.mainPanel.clear();
 
-		app.persistWidthAndHeight();
+
 		if (show) {
+			app.hideMenu();
+			app.persistWidthAndHeight();
 			addKeyboard(textField);
 		} else {
+			app.persistWidthAndHeight();
 			showKeyboardButton(textField);
 			removeKeyboard(textField);
 		}
@@ -176,7 +179,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	private void addKeyboard(MathKeyboardListener textField) {
 		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
 		        textField, this, app);
-		App.printStacktrace("SHOW KEYBOARD");
 		this.keyboardShowing = true;
 		keyBoard.show();
 		keyBoard.setVisible(false);
@@ -325,11 +327,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 				this.showKeyboardButton.hide();
 			}
 		}
-	}
-
-	@Override
-	public void closePopups() {
-		app.closePopups();
 	}
 
 	@Override
