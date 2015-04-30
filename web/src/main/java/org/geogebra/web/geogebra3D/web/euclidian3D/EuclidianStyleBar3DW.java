@@ -30,7 +30,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	private RotateViewPopup btnRotateView;
 
-	private ClippingPopup btnClipping;
+	// private ClippingPopup btnClipping;
 
 	private MyToggleButton2 btnShowGrid3D;
 
@@ -38,7 +38,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	private PopupMenuButton btnViewDirection;
 
-	private PopupMenuButton btnViewProjection;
+	// private PopupMenuButton btnViewProjection;
 
 	/**
 	 * constructor
@@ -84,43 +84,23 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnRotateView.addPopupHandler(this);
 		// btnRotateView.addActionListener(this);
 
-		// ========================================
-		// clipping button
-		ImageOrText[] clippingIcons = new ImageOrText[4];
-		for (int i = 0; i < 4; i++) {
-			clippingIcons[i] = new ImageOrText();
-		}
-		clippingIcons[0].setUrl(StyleBarResources.INSTANCE.stylingbar_empty()
-		        .getSafeUri().asString());
-		clippingIcons[1].setUrl(StyleBar3DResources.INSTANCE.clippingSmall()
-		        .getSafeUri().asString());
-		clippingIcons[2].setUrl(StyleBar3DResources.INSTANCE.clippingMedium()
-		        .getSafeUri().asString());
-		clippingIcons[3].setUrl(StyleBar3DResources.INSTANCE.clippingBig()
-		        .getSafeUri().asString());
-		btnClipping = new ClippingPopup(app, clippingIcons, 1, 4,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
-		// btnClipping = new PopupMenuButtonForView3D(){
-		// @Override
-		// protected void fireActionPerformed() {
-		// getView().setClippingReduction(btnClipping.getSliderValue());
+		// // ========================================
+		// // clipping button
+		// ImageOrText[] clippingIcons = new ImageOrText[4];
+		// for (int i = 0; i < 4; i++) {
+		// clippingIcons[i] = new ImageOrText();
 		// }
-		//
-		// @Override
-		// protected void onClickAction(){
-		// getView().toggleShowAndUseClippingCube();
-		// }
-		// };
-		// setIcon(btnClipping, StyleBar3DResources.INSTANCE.clippingBig());
-		// btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
-		// btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
-		// btnClipping.getMySlider().setMajorTickSpacing(1);
-		// btnClipping.getMySlider().setMinorTickSpacing(1);
-		// btnClipping.getMySlider().setPaintTicks(true);
-		// //btnClipping.getMySlider().setPaintTrack(true);
-		// //btnClipping.getMySlider().setSnapToTicks(true);
-		// btnClipping.setSliderValue(getView().getClippingReduction());
-		btnClipping.addPopupHandler(this);
+		// clippingIcons[0].setUrl(StyleBarResources.INSTANCE.stylingbar_empty()
+		// .getSafeUri().asString());
+		// clippingIcons[1].setUrl(StyleBar3DResources.INSTANCE.clippingSmall()
+		// .getSafeUri().asString());
+		// clippingIcons[2].setUrl(StyleBar3DResources.INSTANCE.clippingMedium()
+		// .getSafeUri().asString());
+		// clippingIcons[3].setUrl(StyleBar3DResources.INSTANCE.clippingBig()
+		// .getSafeUri().asString());
+		// btnClipping = new ClippingPopup(app, clippingIcons, 1, 4,
+		// org.geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
+		// btnClipping.addPopupHandler(this);
 
 		// ========================================
 		/*
@@ -145,53 +125,23 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		        .standardViewRotate().getSafeUri().asString());
 		btnViewDirection = new ProjectionPopup(app, directionIcons);
 		btnViewDirection.addPopupHandler(this);
-		// btnViewDefault = new
-		// MyToggleButtonForEV(StyleBar3DResources.INSTANCE.standardViewRotate(),
-		// iconHeight);
-		//
-		// btnViewDefault.addValueChangeHandler(this);
-		//
-		//
-		// //========================================
-		// // view xy button
-		// btnViewXY = new
-		// MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewXY(),
-		// iconHeight);
-		//
-		// btnViewXY.addValueChangeHandler(this);
-		//
-		// //========================================
-		// // view xz button
-		// btnViewXZ = new
-		// MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewXZ(),
-		// iconHeight);
-		//
-		// btnViewXZ.addValueChangeHandler(this);
-		//
-		// //========================================
-		// // view yz button
-		// btnViewYZ = new
-		// MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewYZ(),
-		// iconHeight);
-		//
-		// btnViewYZ.addValueChangeHandler(this);
 
-		// ========================================
-		// projection view button
-		ImageOrText[] projectionIcons = new ImageOrText[4];
-		for (int i = 0; i < 4; i++) {
-			projectionIcons[i] = new ImageOrText();
-		}
-		projectionIcons[0].setUrl(StyleBar3DResources.INSTANCE
-		        .viewOrthographic().getSafeUri().asString());
-		projectionIcons[1].setUrl(StyleBar3DResources.INSTANCE.viewPerspective()
-		        .getSafeUri().asString());
-		projectionIcons[2].setUrl(StyleBar3DResources.INSTANCE.viewGlasses()
-		        .getSafeUri().asString());
-		projectionIcons[3].setUrl(StyleBar3DResources.INSTANCE.viewOblique()
-		        .getSafeUri().asString());
-		btnViewProjection = new ProjectionPopup(app, projectionIcons);
-		btnViewProjection.addPopupHandler(this);
+		// // ========================================
+		// // projection view button
+		// ImageOrText[] projectionIcons = new ImageOrText[4];
+		// for (int i = 0; i < 4; i++) {
+		// projectionIcons[i] = new ImageOrText();
+		// }
+		// projectionIcons[0].setUrl(StyleBar3DResources.INSTANCE
+		// .viewOrthographic().getSafeUri().asString());
+		// projectionIcons[1].setUrl(StyleBar3DResources.INSTANCE.viewPerspective()
+		// .getSafeUri().asString());
+		// projectionIcons[2].setUrl(StyleBar3DResources.INSTANCE.viewGlasses()
+		// .getSafeUri().asString());
+		// projectionIcons[3].setUrl(StyleBar3DResources.INSTANCE.viewOblique()
+		// .getSafeUri().asString());
+		// btnViewProjection = new ProjectionPopup(app, projectionIcons);
+		// btnViewProjection.addPopupHandler(this);
 
 	}
 
@@ -309,26 +259,21 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	protected boolean processSource(Object source,
 			ArrayList<GeoElement> targetGeos) {
 
-		// App.debug("source = "+source);
 
-		/*
-		 * if (source.equals(btnShowPlane)) { getView().togglePlane();
-		 * getView().repaintView();
-		 */
-
-		if (source.equals(btnClipping)) {
-			int index = btnClipping.getSelectedIndex();
-			if (index == 0) {
-				getView().setUseClippingCube(false);
-				getView().setShowClippingCube(false);
-			} else {
-				getView().setUseClippingCube(true);
-				getView().setShowClippingCube(true);
-				getView().getSettings().setClippingReduction(index - 1);
-			}
-			getView().repaintView();
-
-		} else if (source.equals(btnViewDirection)) {
+		// if (source.equals(btnClipping)) {
+		// int index = btnClipping.getSelectedIndex();
+		// if (index == 0) {
+		// getView().setUseClippingCube(false);
+		// getView().setShowClippingCube(false);
+		// } else {
+		// getView().setUseClippingCube(true);
+		// getView().setShowClippingCube(true);
+		// getView().getSettings().setClippingReduction(index - 1);
+		// }
+		// getView().repaintView();
+		//
+		// } else
+		if (source.equals(btnViewDirection)) {
 			int si = btnViewDirection.getSelectedIndex();
 			switch (si) {
 			case 0:
@@ -345,27 +290,27 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 				        EuclidianView3D.ANGLE_ROT_XOY, false);
 				break;
 			}
-		} else if (source.equals(btnViewProjection)) {
-			int si = btnViewProjection.getSelectedIndex();
-			switch (si) {
-			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-				getView().getSettings().setProjection(
-				        EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
-				break;
-			case EuclidianView3D.PROJECTION_PERSPECTIVE:
-				getView().getSettings().setProjection(
-				        EuclidianView3D.PROJECTION_PERSPECTIVE);
-				break;
-			case EuclidianView3D.PROJECTION_GLASSES:
-				getView().getSettings().setProjection(
-				        EuclidianView3D.PROJECTION_GLASSES);
-				break;
-			case EuclidianView3D.PROJECTION_OBLIQUE:
-				getView().getSettings().setProjection(
-				        EuclidianView3D.PROJECTION_OBLIQUE);
-				break;
-			}
-			getView().repaintView();
+			// } else if (source.equals(btnViewProjection)) {
+			// int si = btnViewProjection.getSelectedIndex();
+			// switch (si) {
+			// case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+			// getView().getSettings().setProjection(
+			// EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
+			// break;
+			// case EuclidianView3D.PROJECTION_PERSPECTIVE:
+			// getView().getSettings().setProjection(
+			// EuclidianView3D.PROJECTION_PERSPECTIVE);
+			// break;
+			// case EuclidianView3D.PROJECTION_GLASSES:
+			// getView().getSettings().setProjection(
+			// EuclidianView3D.PROJECTION_GLASSES);
+			// break;
+			// case EuclidianView3D.PROJECTION_OBLIQUE:
+			// getView().getSettings().setProjection(
+			// EuclidianView3D.PROJECTION_OBLIQUE);
+			// break;
+			// }
+			// getView().repaintView();
 		} else {
 			return super.processSource(source, targetGeos);
 		}
@@ -427,8 +372,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		add(btnViewDirection);
 
-		add(btnClipping);
-		add(btnViewProjection);
+		// add(btnClipping);
+		// add(btnViewProjection);
 	}
 
 	@Override
@@ -444,21 +389,21 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		Localization loc = app.getLocalization();
 		btnRotateView
 		        .setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-		btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
-		btnViewProjection.setToolTipText(loc
-		        .getPlainTooltip("stylebar.ViewProjection"));
+		// btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
+		// btnViewProjection.setToolTipText(loc
+		// .getPlainTooltip("stylebar.ViewProjection"));
 		btnViewDirection.setToolTipText(loc
 		        .getPlainTooltip("stylebar.ViewDirection"));
 	}
 
-	@Override
-	public void updateGUI() {
-
-		super.updateGUI();
-
-		btnClipping.updateGUI();
-
-	}
+	// @Override
+	// public void updateGUI() {
+	//
+	// super.updateGUI();
+	//
+	// btnClipping.updateGUI();
+	//
+	// }
 
 	@Override
 	protected PopupMenuButton[] newPopupBtnList() {
@@ -471,10 +416,10 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		ret[index] = btnRotateView;
 		index++;
 		ret[index] = btnViewDirection;
-		index++;
-		ret[index] = btnClipping;
-		index++;
-		ret[index] = btnViewProjection;
+		// index++;
+		// ret[index] = btnClipping;
+		// index++;
+		// ret[index] = btnViewProjection;
 		return ret;
 	}
 
