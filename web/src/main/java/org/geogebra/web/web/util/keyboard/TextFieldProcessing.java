@@ -285,7 +285,7 @@ public class TextFieldProcessing {
 			if (text.startsWith("(")) {
 				// moves inside the brackets
 				onArrow(ArrowType.left);
-			} else if (text.equals(KeyboardConstants.X_POWER_Y)) {
+			} else if (text.equals(KeyboardConstants.A_POWER_X)) {
 				((AutoCompleteTextFieldW) field).insertString("^");
 			} else if (text.equals("nroot")) {
 				((AutoCompleteTextFieldW) field).insertString("()");
@@ -297,7 +297,7 @@ public class TextFieldProcessing {
 			break;
 		case radioButtonTreeItem:
 		case newRadioButtonTreeItem:
-			if (text.equals(KeyboardConstants.X_POWER_Y)) {
+			if (text.equals(KeyboardConstants.A_POWER_X)) {
 				if (((RadioButtonTreeItem) field).getText().length() == 0) {
 					return;
 				}
@@ -321,7 +321,7 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).insertString("log_{10}");
 				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
 				        false);
-			} else if (text.equals(KeyboardConstants.X_SQUARE)) {
+			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((RadioButtonTreeItem) field)
 				        .insertString(KeyboardConstants.SQUARE);
 			} else if (keyPressNeeded(text)) {

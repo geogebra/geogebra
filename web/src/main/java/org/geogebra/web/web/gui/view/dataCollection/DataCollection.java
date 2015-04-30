@@ -137,4 +137,8 @@ public class DataCollection implements WebSocketListener {
 	public void removeRegisteredGeo(Types sensor) {
 		this.sensorLogger.removeRegisteredGeo(sensor);
 	}
+
+	public void removeRegisteredGeo(GeoElement geo) {
+		this.sensorLogger.removeRegisteredGeo(geo);
+	}
 }

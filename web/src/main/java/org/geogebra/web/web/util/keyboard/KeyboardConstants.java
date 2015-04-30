@@ -17,10 +17,10 @@ public class KeyboardConstants {
 	protected static final String ACCENT_CARON = "\u02c7";
 	protected static final String ACCENT_CIRCUMFLEX = "\u005e";
 	protected static final String SQUARE = Unicode.Superscript_2 + "";
-	/** x to the power of 2 */
-	protected static final String X_SQUARE = "x" + Unicode.Superscript_2;
-	/** x to the power of y */
-	protected static final String X_POWER_Y = "x^y";
+	/** a to the power of 2 */
+	protected static final String A_SQUARE = "a" + Unicode.Superscript_2;
+	/** a to the power of x */
+	protected static final String A_POWER_X = "a^x";
 	protected static final String SQUARE_ROOT = Unicode.SQUARE_ROOT + "";
 	protected static final String EULER = Unicode.EULER_STRING;
 	

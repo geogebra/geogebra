@@ -449,10 +449,10 @@ public class OnScreenKeyBoard extends PopupPanel {
 		int index = 0;
 		addButton("x", index, functions);
 		addButton("y", index, functions);
-		addButton("x^2", KeyboardConstants.SQUARE, index, functions)
+		addButton("a^2", KeyboardConstants.SQUARE, index, functions)
 		        .addStyleName("supScript");
 		addButton(KeyboardConstants.SQUARE_ROOT, index, functions);
-		addButton("x^y", KeyboardConstants.X_POWER_Y, index,
+		addButton("a^x", KeyboardConstants.A_POWER_X, index,
 		        functions).addStyleName("supScript");
 
 		// fill next row

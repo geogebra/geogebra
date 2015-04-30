@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class SensorLogger {
@@ -95,6 +96,36 @@ public abstract class SensorLogger {
 		listLimits.remove(sensor);
 	}
 
+	/**
+	 * @param geo
+	 *            {@link GeoElement}
+	 */
+	public void removeRegisteredGeo(GeoElement geo) {
+		Types typeToRemove = null;
+		if (geo instanceof GeoNumeric) {
+			for (Types type : this.listeners.keySet()) {
+				if (this.listeners.get(type) == geo) {
+					typeToRemove = type;
+				}
+			}
+		} else if (geo instanceof GeoList) {
+			for (Types type : this.listenersL.keySet()) {
+				if (this.listenersL.get(type) == geo) {
+					typeToRemove = type;
+				}
+			}
+		} else if (geo instanceof GeoFunction) {
+			for (Types type : this.listenersF.keySet()) {
+				if (this.listenersF.get(type) == geo) {
+					typeToRemove = type;
+				}
+			}
+		}
+		if (typeToRemove != null) {
+			removeRegisteredGeo(typeToRemove);
+		}
+	}
+
 	private void prepareRegister(Types type, GeoElement geo, double limit) {
 		Log.debug("logging " + type + " to " + geo.getLabelSimple());
 		listenersL.remove(type);
@@ -165,6 +196,7 @@ public abstract class SensorLogger {
 	protected void log(Types type, double val, boolean repaint, boolean update,
 			boolean atleast) {
 				GeoNumeric geo = listeners.get(type);
+		App.debug("listenersF: " + listenersF.size());
 				if (geo != null) {
 			
 					// if (repaint)
@@ -204,6 +236,7 @@ public abstract class SensorLogger {
 			
 						registerLog(type);
 					}else {
+				App.debug("HIER");
 						GeoFunction fn = listenersF.get(type);
 						if(fn == null){
 							return;
@@ -235,6 +268,7 @@ public abstract class SensorLogger {
 			}
 
 	private void registerLog(Types type) {
+		App.debug("register LOG: " + type);
 		Types thistype;
 		GeoNumeric geo;
 		GeoList list;

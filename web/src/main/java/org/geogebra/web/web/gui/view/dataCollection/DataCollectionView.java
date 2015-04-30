@@ -147,7 +147,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.sensorSettings = new FlowPanel();
 		this.sensorSettings.addStyleName("sensorSettings");
 
-		initObjectsList();
+		updateGeoList();
 		addAccelerometer();
 		addMagneticField();
 		addOrientation();
@@ -157,20 +157,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.dataCollectionTab.add(this.sensorSettings);
 
 		setSensorSettingsEnabled(false);
-	}
-
-	/**
-	 * initializes the list of {@link #availableObjects}
-	 */
-	private void initObjectsList() {
-		TreeSet<GeoElement> geoSet = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
-
-		for (GeoElement geo : geoSet) {
-			if (geo instanceof GeoNumeric || geo instanceof GeoFunction) {
-				availableObjects.add(geo);
-			}
-		}
 	}
 
 	/**
@@ -255,12 +241,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			connectedLabel.setVisible(false);
 			setSensorSettingsEnabled(false);
 			appIDTextBox.setEnabled(true);
-		}
-	}
-
-	private void resetSettings() {
-		for (SensorSetting setting : this.sensors) {
-			setting.resetUI();
 		}
 	}
 
@@ -359,23 +339,24 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		TreeSet<GeoElement> newTreeSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
 		this.availableObjects.clear();
-
 		// fill list of available objects
 		for (GeoElement element : newTreeSet) {
 			if ((element instanceof GeoNumeric || element instanceof GeoFunction)
-					&& !this.usedObjects.contains(element)
-					&& !this.availableObjects.contains(element)) {
+					&& !this.usedObjects.contains(element)) {
 				this.availableObjects.add(element);
 			}
 		}
-
 		// check if some elements were deleted
+		ArrayList<GeoElement> geosToRemove = new ArrayList<GeoElement>();
 		for (GeoElement elem : usedObjects) {
 			if (!newTreeSet.contains(elem)) {
 				// used element was deleted, so remove it
-				usedObjects.remove(elem);
+				geosToRemove.add(elem);
+				((AppWapplication) app).getDataCollection()
+						.removeRegisteredGeo(elem);
 			}
 		}
+		usedObjects.removeAll(geosToRemove);
 		updateListBoxes();
 	}
 
@@ -389,11 +370,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		GeoListBox listBox = (GeoListBox) event.getSource();
 		// if a geo was selected give it free
 		GeoElement oldSelection = listBox.getSelection();
+
 		if (oldSelection != null) {
-			this.availableObjects.add(oldSelection);
-			this.usedObjects.remove(oldSelection);
-			((AppWapplication) app).getDataCollection().removeRegisteredGeo(
-					listBox.getType());
+			setGeoUnused(oldSelection, listBox);
 		}
 
 		// get new selection
@@ -407,36 +386,52 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 													// GeoListBox
 			} else {
 				// create new data function
-				GeoElement elem = CmdDataFunction.getDataFunction(
+				newSelection = CmdDataFunction.getDataFunction(
 						app.getKernel(), null)[0];
-				usedObjects.add(elem);
-				listBox.addItem(elem);
-				listBox.setSelection(elem);
+				listBox.addItem(newSelection);
+				setGeoUsed(newSelection, listBox);
 			}
 
-		} else if (newSelection != null) {
-			listBox.setSelection(newSelection);
-			this.availableObjects.remove(newSelection);
-			this.usedObjects.add(newSelection);
-			((AppWapplication) app).getDataCollection().registerGeo(
-					listBox.getType().toString(), newSelection);
+		} else {
+			setGeoUsed(newSelection, listBox);
 		}
 		updateOtherListBoxes(listBox);
 	}
 
 	/**
+	 * removes the given {@link GeoElement} from the list of
+	 * {@link #availableObjects} and adds it to the list of {@link #usedObjects}
+	 * . It sets the correct selection of the given {@link GeoListBox} and
+	 * starts logging data if the depending sensor is set to ON.
 	 * 
+	 * @param geo
+	 *            {@link GeoElement}
+	 * @param listBox
+	 *            {@link GeoListBox}
+	 */
+	private void setGeoUsed(GeoElement geo, GeoListBox listBox) {
+		listBox.setSelection(geo);
+		this.availableObjects.remove(geo);
+		this.usedObjects.add(geo);
+		if (listBox.getSensorSetting().isOn()) {
+			((AppWapplication) app).getDataCollection().registerGeo(
+					listBox.getType().toString(), geo);
+		}
+	}
+
+	/**
+	 * removes the given {@link GeoElement} from the list of
+	 * {@link #usedObjects}, adds it to the list of {@link #availableObjects}
+	 * and stops logging data.
+	 * 
+	 * @param geo
 	 * @param listBox
 	 */
-	public void removeSelection(GeoListBox listBox) {
-		GeoElement oldSelection = listBox.getSelection();
-		if (oldSelection != null) {
-			this.availableObjects.add(oldSelection);
-			this.usedObjects.remove(oldSelection);
-		}
-		// reset selection
-		listBox.setSelection(null);
-		updateOtherListBoxes(listBox);
+	private void setGeoUnused(GeoElement geo, GeoListBox listBox) {
+		this.availableObjects.add(geo);
+		this.usedObjects.remove(geo);
+		((AppWapplication) app).getDataCollection().removeRegisteredGeo(
+				listBox.getType());
 	}
 
 	/**

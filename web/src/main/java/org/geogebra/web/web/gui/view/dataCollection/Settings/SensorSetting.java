@@ -27,12 +27,16 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		private Types type;
 		private GeoElement selection;
 		private ArrayList<GeoElement> items = new ArrayList<GeoElement>();
+		private SensorSetting sensor;
 
 		/**
 		 * @param type
 		 *            of sensor which is associated with this listbox
+		 * @param sensor
+		 *            {@link SensorSetting} to which this GeoListBox belongs
 		 */
-		public GeoListBox(Types type) {
+		public GeoListBox(Types type, SensorSetting sensor) {
+			this.sensor = sensor;
 			this.type = type;
 		}
 
@@ -44,6 +48,10 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		}
 
 		/**
+		 * sets the {@link #selection selected GeoElement}. if {@code elem} is
+		 * {@code null}, the selected index of this listbox is set to
+		 * {@link #EMPTY_SELECTION_INDEX}.
+		 * 
 		 * @param elem
 		 *            the selected {@link GeoElement}
 		 */
@@ -62,6 +70,14 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		 */
 		public GeoElement getSelection() {
 			return this.selection;
+		}
+
+		/**
+		 * 
+		 * @return the SensorSetting to which this GeoListBox belongs to
+		 */
+		public SensorSetting getSensorSetting() {
+			return this.sensor;
 		}
 
 		/**
@@ -94,6 +110,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		@Override
 		public void clear() {
 			this.items = new ArrayList<GeoElement>();
+			this.selection = null;
 			super.clear();
 		}
 	}
@@ -212,7 +229,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		container.add(new Label(rowCaption));
 		container.add(new Label(app.getPlain("LinkedObject")));
 
-		GeoListBox listBox = new GeoListBox(type);
+		GeoListBox listBox = new GeoListBox(type, this);
 		listBox.addChangeHandler(this.view);
 
 		listBox.addItem(EMPTY_SELECTION);
@@ -220,15 +237,6 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 		container.add(listBox);
 		dataValues.add(container);
-	}
-
-	/**
-	 * sets the selection of every listbox to {@link #EMPTY_SELECTION}
-	 */
-	private void resetListBoxes() {
-		for (GeoListBox listBox : this.listBoxes) {
-			view.removeSelection(listBox);
-		}
 	}
 
 	/**
@@ -283,7 +291,10 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		box.addItem("Create DataFunction");
 		if (selectedElem != null && usedObjects.contains(selectedElem)) {
 			box.addItem(selectedElem);
+			box.setSelection(selectedElem);
 			box.setSelectedIndex(box.FIRST_GEOELEMENT_INDEX);
+		} else {
+			box.setSelection(null);
 		}
 		for (GeoElement elem : availableObjects) {
 			box.addItem(elem);
@@ -303,26 +314,6 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 */
 	public ArrayList<GeoListBox> getListBoxes() {
 		return this.listBoxes;
-	}
-
-	/**
-	 * resets the settings of this sensor
-	 */
-	public void resetUI() {
-		this.setVisible(false);
-		resetListBoxes();
-		setExpanded();
-		setSensorOn();
-	}
-
-	private void setExpanded() {
-		collapse.setVisible(true);
-		collapse.setDown(false);
-		dataValues.setVisible(true);
-	}
-
-	private void setSensorOn() {
-		sensorOnOff.setDown(true);
 	}
 
 	@Override
