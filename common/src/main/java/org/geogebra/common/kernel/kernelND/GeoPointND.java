@@ -28,7 +28,8 @@ import org.geogebra.common.kernel.geos.Translateable;
  *
  */
 
-public interface GeoPointND extends PointProperties, Translateable, SpreadsheetTraceable, PointRotateable{
+public interface GeoPointND extends PointProperties, Translateable,
+		SpreadsheetTraceable, PointRotateable, HasCoordsMode {
 
 	
 	
@@ -83,7 +84,7 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public void updateCoordsFrom2D(boolean doPathOrRegion);
 	
 	/**
-	 * @return mode (complex / polar / cartesian)
+	 * @return mode (complex / polar / cartesian / etc.)
 	 */
 	public int getMode();
 	
@@ -346,4 +347,6 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public void setAnimationValue(double val);
 
 	public void setAnimating(boolean start);
+
+	public void setMode(int mode);
 }

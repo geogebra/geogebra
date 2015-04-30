@@ -11,12 +11,11 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoUserInputElement;
-import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
@@ -89,9 +88,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 	public void addOtherItems() {
 		if (app.getGuiManager() != null
 		        && app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
-			addPointItems();
+			addCoordsModeItems();
 			addLineItems();
-			addVectorItems();
 			addConicItems();
 			addNumberItems();
 			addUserInputItem();
@@ -475,34 +473,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 	}
 
-	private void addVectorItems() {
-		if (!(geo instanceof GeoVector))
-			return;
-		GeoVector vector = (GeoVector) geo;
-		int mode = vector.getMode();
-		Command action;
 
-		if (mode != Kernel.COORD_CARTESIAN) {
-			action = new Command() {
-
-				public void execute() {
-					cartesianCoordsForVectorItemsCmd();
-				}
-			};
-			addAction(action, null, app.getPlain("CartesianCoords"));
-		}
-
-		if (mode != Kernel.COORD_POLAR) {
-			action = new Command() {
-
-				public void execute() {
-					polarCoordsForVectorItemsCmd();
-				}
-			};
-			addAction(action, null, app.getPlain("PolarCoords"));
-		}
-
-	}
 
 	private void addLineItems() {
 		if (!(geo instanceof GeoLine))
@@ -556,15 +527,26 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 	}
 
-	private void addPointItems() {
-		if (!(geo instanceof GeoPoint))
+	private void addCoordsModeItems() {
+
+		if (!(geo instanceof HasCoordsMode))
 			return;
-		GeoPoint point = (GeoPoint) geo;
+
+		if (geo.isFixed()) {
+			return;
+		}
+
+		HasCoordsMode point = (HasCoordsMode) geo;
 		int mode = point.getMode();
 		Command action;
 
-		if (mode != Kernel.COORD_CARTESIAN && !geo.isFixed()
-		        && point.getMode() != Kernel.COORD_COMPLEX) {
+		switch (mode) {
+		case Kernel.COORD_COMPLEX:
+		default:
+			return;
+
+			// 2D coords styles
+		case Kernel.COORD_POLAR:
 			action = new Command() {
 
 				public void execute() {
@@ -572,10 +554,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				}
 			};
 			addAction(action, null, app.getPlain("CartesianCoords"));
-		}
+			break;
 
-		if (mode != Kernel.COORD_POLAR && !geo.isFixed()
-		        && point.getMode() != Kernel.COORD_COMPLEX) {
+		case Kernel.COORD_CARTESIAN:
 			action = new Command() {
 
 				public void execute() {
@@ -583,7 +564,30 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				}
 			};
 			addAction(action, null, app.getPlain("PolarCoords"));
+			break;
+
+		// 3D coords styles
+		case Kernel.COORD_SPHERICAL:
+			action = new Command() {
+
+				public void execute() {
+					cartesianCoords3dCmd();
+				}
+			};
+			addAction(action, null, app.getPlain("CartesianCoords"));
+			break;
+
+		case Kernel.COORD_CARTESIAN_3D:
+			action = new Command() {
+
+				public void execute() {
+					sphericalCoordsCmd();
+				}
+			};
+			addAction(action, null, app.getPlain("Spherical"));
+			break;
 		}
+
 
 	}
 

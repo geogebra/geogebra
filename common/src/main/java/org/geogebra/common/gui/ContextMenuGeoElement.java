@@ -14,12 +14,12 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTraceManager;
@@ -63,10 +63,10 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof GeoPoint) {
-				GeoPoint point1 = (GeoPoint) geo1;
+			if (geo1 instanceof HasCoordsMode) {
+				HasCoordsMode point1 = (HasCoordsMode) geo1;
 				point1.setMode(Kernel.COORD_CARTESIAN);
-				point1.updateRepaint();
+				geo1.updateRepaint();
 			}
 		}
 		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
@@ -77,10 +77,38 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof GeoPoint) {
-				GeoPoint point1 = (GeoPoint) geo1;
+			if (geo1 instanceof HasCoordsMode) {
+				HasCoordsMode point1 = (HasCoordsMode) geo1;
 				point1.setMode(Kernel.COORD_POLAR);
-				point1.updateRepaint();
+				geo1.updateRepaint();
+			}
+		}
+		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
+	}
+
+	public void cartesianCoords3dCmd() {
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1; i >= 0; i--) {
+			GeoElement geo1 = geos2.get(i);
+			if (geo1 instanceof HasCoordsMode) {
+				HasCoordsMode point1 = (HasCoordsMode) geo1;
+				point1.setMode(Kernel.COORD_CARTESIAN_3D);
+				geo1.updateRepaint();
+			}
+		}
+		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);
+	}
+
+	public void sphericalCoordsCmd() {
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1; i >= 0; i--) {
+			GeoElement geo1 = geos2.get(i);
+			if (geo1 instanceof HasCoordsMode) {
+				HasCoordsMode point1 = (HasCoordsMode) geo1;
+				point1.setMode(Kernel.COORD_SPHERICAL);
+				geo1.updateRepaint();
 			}
 		}
 		app.getKernel().getConstruction().getUndoManager().storeUndoInfo(true);

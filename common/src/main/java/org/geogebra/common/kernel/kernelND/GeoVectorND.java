@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * @author ggb3D
  *
  */
-public interface GeoVectorND extends GeoDirectionND, Locateable {
+public interface GeoVectorND extends GeoDirectionND, Locateable, HasCoordsMode {
 
 	void setLabel(String label);
 
@@ -65,5 +65,9 @@ public interface GeoVectorND extends GeoDirectionND, Locateable {
 	 */
 	public void setCoords(double x, double y, double w);
 
+	/**
+	 * @return mode (complex / polar / cartesian / etc.)
+	 */
+	public int getMode();
 	
 }
