@@ -2675,7 +2675,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     // this.maint is the \\ggbtable or \\pwtable, ideally
     this.maint = thisthis;
 
-    if (thisthis.ctrlSeq !== '\\ggbtable' || !thisthis.pwtable) {
+    if (thisthis.ctrlSeq !== '\\ggbtable' && !thisthis.pwtable) {
       return;
     }
 
@@ -2688,6 +2688,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       // now let's add a new row to tableMatrix too!
 	  // nothing else should be done in this step
 	  if ('tableMatrix' in thisthis) {
+		thisthis['tableMatrix'][thisthis['tableRow']] = [];
         thisthis['tableMatrix'][thisthis['tableRow']][0] = 0;
         thisthis['tableRow']++;
         thisthis['tableCol'] = 0;
@@ -2710,9 +2711,9 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
           var that = thisthis['tableMatrix'][this.thisRow-1][this.thisCol];
           // it's important that the events happen in MathBlock's
           // but ch[0] might still not be ready! what to do?
-          // call createBlocks earlier!
-          this.upOutOf = that;
-          that.downOutOf = this;
+          // call createBlocks earlier! cursor.appendTo needs .ch[L]
+          this.upOutOf = that.ch[L];// MathBlock
+          that.downOutOf = this.ch[L];// MathBlock
         }
       }
     }
