@@ -1,8 +1,7 @@
 package org.geogebra.desktop.geogebra3D.input3D.zspace;
 
-import java.awt.Dimension;
-import java.awt.Point;
-
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -60,7 +59,7 @@ public class InputZSpace3D implements Input3D {
 	}
 	
 	
-	public boolean update(Point panelPosition, Dimension panelDimension){
+	public boolean update(GPoint panelPosition, GDimension panelDimension) {
 	
 		// set view port and check if changed
 		boolean viewPortChanged = socket.setViewPort(panelPosition, panelDimension);

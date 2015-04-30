@@ -1,7 +1,7 @@
 package org.geogebra.desktop.geogebra3D.input3D.zspace;
  
-import java.awt.Dimension;
-import java.awt.Point;
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GPoint;
 
 
 public class Socket {
@@ -103,7 +103,7 @@ public class Socket {
     
 
 
-	public boolean setViewPort(Point panelPosition, Dimension panelDimension) {
+	public boolean setViewPort(GPoint panelPosition, GDimension panelDimension) {
 		
 		boolean viewPortChanged = false;
 		
@@ -117,13 +117,13 @@ public class Socket {
 			viewPortChanged = true;
 		}
 		
-		int v = (int) panelDimension.getWidth();
+		int v = panelDimension.getWidth();
 		if (viewPortW != v){
 			viewPortW = v;
 			viewPortChanged = true;
 		}
 		
-		v = (int) panelDimension.getHeight();
+		v = panelDimension.getHeight();
 		if (viewPortH != v){
 			viewPortH = v;
 			viewPortChanged = true;
