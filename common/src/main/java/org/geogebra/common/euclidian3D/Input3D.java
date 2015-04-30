@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian3D;
 
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 
@@ -177,5 +179,17 @@ public interface Input3D {
 	 * @return mouse direction
 	 */
 	public double[] getMouse3DDirection();
+
+	/**
+	 * update values
+	 * 
+	 * @param panelPosition
+	 *            TODO
+	 * @param panelDimension
+	 *            TODO
+	 * 
+	 * @return true if the update worked
+	 */
+	public boolean update(GPoint panelPosition, GDimension panelDimension);
 
 }
