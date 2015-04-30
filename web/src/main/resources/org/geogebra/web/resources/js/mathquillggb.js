@@ -875,6 +875,14 @@ var Node = P(function(_) {
     return this;
   });
 
+  _.preOrder = iterator(function(yield) {
+    (function recurse(descendant) {
+       yield(descendant);
+       descendant.eachChild(recurse);
+    })(this);
+    return this;
+  });
+
   _.children = function() {
     return Fragment(this.ch[L], this.ch[R]);
   };
@@ -2629,19 +2637,52 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       // this will be a 2-dimensional matrix to be filled
       // on-the-fly at the same time as filling upInto etc
     }
+  };
+  _.finalizeTree = function() {
+    if (this.ctrlSeq === '\\ggbtable' || this.pwtable) {
+      this.preOrder('lateInit');
+    }
+  };
+  _.lateInit = function() {
+	// good question when should lateInit be called?
+	// of course, after everything is ready... maybe
+	// finalizeTree method is for that? OK, lateInit renamed
     var thisthis = this;
     if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
-      if (this.parent.parent) {
-        thisthis = this.parent.parent;
+      if (this.parent) {
+        thisthis = this.parent;
+        if (thisthis.parent) {
+          thisthis = thisthis.parent;
+        } else {
+          return;
+        }
+      } else {
+        return;
       }
     }
     if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
-      if (thisthis.parent.parent) {
-        thisthis = thisthis.parent.parent;
+      if (thisthis.parent) {
+        thisthis = thisthis.parent;
+        if (thisthis.parent) {
+          thisthis = thisthis.parent;
+        } else {
+          return;
+        }
+      } else {
+        return;
       }
     }
     // this.maint is the \\ggbtable or \\pwtable, ideally
     this.maint = thisthis;
+
+    if (thisthis.ctrlSeq !== '\\ggbtable' || !thisthis.pwtable) {
+      return;
+    }
+
+    // in theory, the ggbtd and ggbtr elements should come
+    // in preorder order, but still wondering why this does not
+    // seem to work well... maybe we're too late?
+
     // but only for these kinds of elements: 
     if (this.ctrlSeq.indexOf('\\ggbtr') > -1) {
       // now let's add a new row to tableMatrix too!
@@ -2653,37 +2694,26 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       }
     } else if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
       // now fill the tableMatrix, everything should be ready
-
       if (('tableMatrix' in thisthis) && ('tableRow' in thisthis) && (thisthis['tableRow'] > 0)) {
-    	thisthis['tableMatrix'][thisthis['tableRow']-1][thisthis['tableCol']] = this;//col
-        //this.maint.tableMatrix[this.maint.tableRow-1][this.maint.tableCol] = this;//col
-        //this.maint.tableCol++;
+    	thisthis['tableMatrix'][thisthis['tableRow']-1][thisthis['tableCol']] = this;
         thisthis['tableCol']++;
         this.thisRow = thisthis['tableRow']-1;
         this.thisCol = thisthis['tableCol']-1;
 
         // then comes code what needs blocks
         // but only for these kinds of elements: 
-        //if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
-          // now fill the tableMatrix, everything should be ready
-          //if (this.maint.tableMatrix && (this.maint.tableRow > 1)) {
-       	  if (thisthis['tableRow'] > 1) {
-        	//if ((this.thisRow > 0) && this.thisCol) {
-              // row-1,col-1 gives the last element currently in tableMatrix
-              // this "this" will be row-1, col-1 probably,
-              // and this.upOutOf will be row-2, col-1,
-              // and this.upOutOf.downOutOf will be this
-              var that = thisthis['tableMatrix'][this.thisRow-1][this.thisCol];
-              // it's important that the events happen in MathBlock's
-              // but ch[0] might still not be ready! what to do?
-              // call createBlocks earlier!
-              this.upOutOf = that;
-              that.downOutOf = this;
-        	//}
-          }
-        //}
-
-
+  	    if (thisthis['tableRow'] > 1) {
+          // row-1,col-1 gives the last element currently in tableMatrix
+          // this "this" will be row-1, col-1 probably,
+          // and this.upOutOf will be row-2, col-1,
+          // and this.upOutOf.downOutOf will be this
+          var that = thisthis['tableMatrix'][this.thisRow-1][this.thisCol];
+          // it's important that the events happen in MathBlock's
+          // but ch[0] might still not be ready! what to do?
+          // call createBlocks earlier!
+          this.upOutOf = that;
+          that.downOutOf = this;
+        }
       }
     }
   };
