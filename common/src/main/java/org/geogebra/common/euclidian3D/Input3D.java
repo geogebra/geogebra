@@ -1,8 +1,5 @@
 package org.geogebra.common.euclidian3D;
 
-import java.awt.Dimension;
-import java.awt.Point;
-
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 
@@ -24,14 +21,6 @@ public interface Input3D {
 	 */
 	public DeviceType getDeviceType();
 
-	/**
-	 * update values
-	 * @param panelPosition TODO
-	 * @param panelDimension TODO
-	 * 
-	 * @return true if the update worked
-	 */
-	public boolean update(Point panelPosition, Dimension panelDimension);
 
 	/**
 	 * Center is center of the screen, unit is pixels
