@@ -50,7 +50,7 @@ dependencies {
             "com.jogamp:gluegen-rt:$joglVersion:natives-linux-i586"
     runtime "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-i586",
-	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64",
+	    "fr.ujf-grenoble:javagiac:201503271100:natives-windows-amd64", // this is hardcoded yet
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
 	testCompile 'junit:junit:4.+'
