@@ -6963,23 +6963,33 @@ public abstract class GeoElement extends ConstructionElement implements
 		switch (visibleInView3D) {
 		case NOT_SET:
 		default:
-			if (hasDrawable3D()) {
-				if (isGeoElement3D() || isVisibleInView(App.VIEW_EUCLIDIAN)) {
-					// visible: we set it
-					visibleInView3D = VisibleInView.TRUE;
-					return true;
-				}
-
-				// not visible: we set it
-				visibleInView3D = VisibleInView.FALSE;
-				return false;
-			}
-
+			return isVisibleInView3DNotSet();
 		case TRUE:
 			return hasDrawable3D();
 		case FALSE:
 			return false;
 		}
+
+	}
+
+	/**
+	 * decide if visible in 3D view when flag is not already set
+	 * 
+	 * @return true if should be visible in 3D view
+	 */
+	protected boolean isVisibleInView3DNotSet() {
+		if (hasDrawable3D()) {
+			if (isGeoElement3D() || isVisibleInView(App.VIEW_EUCLIDIAN)) {
+				// visible: we set it
+				visibleInView3D = VisibleInView.TRUE;
+				return true;
+			}
+
+			// not visible: we set it
+			visibleInView3D = VisibleInView.FALSE;
+			return false;
+		}
+		return false;
 
 	}
 
@@ -7005,12 +7015,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 	}
 
-	private enum VisibleInView {
+	protected enum VisibleInView {
 		NOT_SET, TRUE, FALSE
 	}
 
-	private VisibleInView visibleInView3D = VisibleInView.NOT_SET,
-			visibleInViewForPlane = VisibleInView.NOT_SET;
+	protected VisibleInView visibleInView3D = VisibleInView.NOT_SET;
+
+	private VisibleInView visibleInViewForPlane = VisibleInView.NOT_SET;
 
 	/**
 	 * set if this is visible in 3D view or not
