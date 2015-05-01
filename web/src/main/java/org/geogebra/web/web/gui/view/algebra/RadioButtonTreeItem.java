@@ -1301,15 +1301,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (av.isEditing() || isThisEdited() || newCreationMode)
 			return;
 
-		onDoubleClickAction(evt.isControlKeyDown(), evt.isShiftKeyDown());
+		onDoubleClickAction(evt.isControlKeyDown());
 	}
 
-	private void onDoubleClickAction(boolean ctrl, boolean shif) {
+	private void onDoubleClickAction(boolean ctrl) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		selection.clearSelectedGeos();
 		ev.resetMode();
 		if (geo != null && !ctrl) {
-			av.startEditing(geo, !shif);
+			av.startEditing(geo);
 			if (shouldEditLaTeX()) {
 				app.showKeyboard(this);
 				this.setFocus(true);
@@ -1421,8 +1421,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			// ctrl key, shift key for TouchEndEvent? interesting...
 			latestTouchEndTime = time;
 			if (!newCreationMode) {
-				onDoubleClickAction(false, // event.isControlKeyDown(),
-				        false // event.isShiftKeyDown()
+				onDoubleClickAction(false // event.isControlKeyDown(),
+				// event.isShiftKeyDown()
 				);
 			}
 		} else {

@@ -229,7 +229,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	/**
 	 * Open Editor textfield for geo.
 	 */
-	public void startEditing(GeoElement geo, boolean shiftDown) {
+	public void startEditing(GeoElement geo) {
 		if (geo == null)
 			return;
 
@@ -241,7 +241,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 			return;
 		}
 
-		if (!shiftDown || !geo.isPointOnPath() && !geo.isPointInRegion()) {
+		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
 			if (!geo.isIndependent() || !attached) // needed for F2 when Algebra
 				// View closed
 			{

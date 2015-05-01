@@ -430,7 +430,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void startEditing(GeoElement geo) {
-		getAlgebraView().startEditing(geo, false);
+		getAlgebraView().startEditing(geo);
 	}
 
 	public void setScrollToShow(boolean scrollToShow) {

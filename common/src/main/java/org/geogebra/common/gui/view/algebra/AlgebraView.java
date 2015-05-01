@@ -29,7 +29,7 @@ public interface AlgebraView extends View, SetLabels{
 	public GeoElement getGeoElementForPath(Object tp);//Object=TreePath
 	public GeoElement getGeoElementForLocation(Object tree, int x, int y);//Object=JTree
 
-	public void startEditing(GeoElement geo, boolean shiftDown);
+	public void startEditing(GeoElement geo);
 	public void cancelEditing();
 	public boolean isEditing();
 

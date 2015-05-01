@@ -95,7 +95,7 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 			selection.clearSelectedGeos();
 			ev.resetMode();
 			if (geo != null && !e.isControlDown()) {
-				view.startEditing(geo, !e.isShiftDown());
+				view.startEditing(geo);
 			}
 			return;
 		} 	

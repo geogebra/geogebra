@@ -45,7 +45,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -188,7 +187,6 @@ public abstract class App implements UpdateSelection {
 		 */
 		bottom
 	}
-	private AlgoDispatcher algoDispatcher;
 	public Vector<GeoImage> images = new Vector<GeoImage>();
 	/**
 	 * where to show the inputBar (respective inputBox)
@@ -2715,7 +2713,6 @@ public abstract class App implements UpdateSelection {
 		setSaved();
 	}
 
-	private final StringBuilder sbPlain = new StringBuilder();
 	protected static boolean useFullAppGui = false;
 
 	public static boolean isFullAppGui() {
@@ -3629,7 +3626,7 @@ public abstract class App implements UpdateSelection {
 		case EXERCISES:
 			break;
 		case JLM_IN_WEB:
-			return false;
+			return prerelease;
 		case KOREAN_KEYBOARD:
 			break;
 		case LOCALSTORAGE_FILES:
