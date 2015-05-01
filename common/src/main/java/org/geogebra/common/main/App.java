@@ -3615,9 +3615,36 @@ public abstract class App implements UpdateSelection {
 	protected boolean prerelease;
 	
 	public final boolean has(Feature f) {
-
-		if (f.equals(Feature.JLM_IN_WEB)) {
+		switch (f) {
+		case ALL_LANGUAGES:
+			break;
+		case AV_EXTENSIONS:
+			break;
+		case CAS_EDITOR:
+			break;
+		case DATA_COLLECTION:
 			return false;
+		case DELETE_IN_ALGEBRA:
+			break;
+		case EXERCISES:
+			break;
+		case JLM_IN_WEB:
+			return false;
+		case KOREAN_KEYBOARD:
+			break;
+		case LOCALSTORAGE_FILES:
+			break;
+		case POLYGON_TRIANGULATION:
+			break;
+		case SF_DRAG:
+			break;
+		case TOOL_EDITOR:
+			break;
+		case TUBE_BETA:
+			break;
+		default:
+			break;
+
 		}
 
 		return prerelease;
