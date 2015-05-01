@@ -43,19 +43,17 @@ dependencies {
             "com.jogamp:jogl-all:$joglVersion:natives-windows-amd64",
             "com.jogamp:jogl-all:$joglVersion:natives-macosx-universal",
             "com.jogamp:jogl-all:$joglVersion:natives-linux-i586"
-    runtime "com.jogamp:gluegen-rt:$joglVersion:natives-linux-amd64",
+        runtime "com.jogamp:gluegen-rt:$joglVersion:natives-linux-amd64",
             "com.jogamp:gluegen-rt:$joglVersion:natives-windows-i586",
             "com.jogamp:gluegen-rt:$joglVersion:natives-windows-amd64", 
             "com.jogamp:gluegen-rt:$joglVersion:natives-macosx-universal",
             "com.jogamp:gluegen-rt:$joglVersion:natives-linux-i586"
-    runtime "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
+        runtime "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-i586",
-	    "fr.ujf-grenoble:javagiac:201503271100:natives-windows-amd64", // this is hardcoded yet
+	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64", // 201503271100 should have been used (for some strange reason versions cannot be mixed)
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
 	testCompile 'junit:junit:4.+'
-			
-	
 }
 
 mainClassName = "org.geogebra.desktop.GeoGebra3D"
