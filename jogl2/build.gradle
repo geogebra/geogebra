@@ -1,7 +1,5 @@
 project.setDescription('Parts of GeoGebra related to Java OpenGL')
 
-ext.joglVersion = '2.2.0'
-
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
