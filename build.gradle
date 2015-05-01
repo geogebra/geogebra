@@ -65,3 +65,5 @@ project(':web') {
 	}
 }
 
+ext.joglVersion = '2.2.0'
+ext.javaGiacVersion = '201503271100'
