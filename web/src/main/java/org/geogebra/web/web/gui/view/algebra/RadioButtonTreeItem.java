@@ -857,7 +857,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 
 		} else if (geo == null) {
-			newLaTeX = true;
+			return;
 		}
 		// check for new text
 		if (!newLaTeX) {
@@ -895,13 +895,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
-		if (geo != null && radio != null) {
+		if (radio != null) {
 			radio.setChecked(geo.isEuclidianVisible());
 		}
 
 		updatePlayButton();
 
-		if (geo != null && geo instanceof GeoNumeric && slider != null
+		if (geo instanceof GeoNumeric && slider != null
 		        && sliderPanel != null) {
 			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
