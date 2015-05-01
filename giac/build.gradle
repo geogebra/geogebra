@@ -64,6 +64,7 @@ model {
             target('win64') {
                 cppCompiler.executable 'x86_64-w64-mingw32-g++'
                 linker.executable 'x86_64-w64-mingw32-g++'
+		linker.withArguments { args -> args << "-m64" }
         	}
     	    }
         clang(Clang) {
@@ -192,6 +193,7 @@ model {
 		    linker.args '-lgmp', '-lmpfr', '-lpthread', '-dynamiclib'
 		    linker.args '-framework', 'Accelerate'
 		    linker.args '-framework', 'CoreFoundation'
+		    linker.args '-o', 'libjavagiac.jnilib'
 		    }
         	}
     	    }
