@@ -23,9 +23,6 @@ for (location in ['lib/jfxrt.jar', 'jre/lib/jfxrt.jar', 'jre/lib/ext/jfxrt.jar']
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
-def javaGiacVersion = '201503271100'
-def joglVersion = '2.2.0'// project(':jogl2').joglVersion
-
 List jlatexmath = [
 	'org.scilab.forge:jlatexmath-minimal:1.0.3b',
 	'org.scilab.forge:jlm_cyrillic:1.0.3',
