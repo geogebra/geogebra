@@ -1153,7 +1153,7 @@ __GGB__keysVar.ca_XV.menu = {
     "AccentsExt": "Accents estesos",
     "ActionObjectTools": "Ferramentes d\u2019objectes d'acci\xf3",
     "AddCustomColor": "Afig un color personalitzat",
-    "AddFavorite": "Afegir a favorits",
+    "AddFavorite": "Afegeix a favorits",
     "AddSelection": "Amplia la selecci\xf3",
     "AddTrace": "Afig a la llista de traces",
     "Adjustment": "Ajust",
