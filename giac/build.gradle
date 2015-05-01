@@ -280,6 +280,7 @@ task createGiacGgbJs(dependsOn: 'emccGiacJs', type: Copy) {
     }
 
 task createGiacJs(dependsOn: 'createGiacGgbJs', type: Copy) {
+    description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
     from 'build/binaries/giacggb.js'
     into 'build/binaries/giacggb.js'
     include ('giacggb.js')
