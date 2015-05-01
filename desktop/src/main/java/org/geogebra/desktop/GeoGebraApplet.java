@@ -243,8 +243,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	 * To add a new JavaScript method, do the following: 1) add the method stub
 	 * to the interface geogebra.JavaScriptAPI 2) implement the method in
 	 * geogebra.main.AppletImplementation 3) implement the method here in
-	 * geogebra.GeoGebraApplet by delegating it to
-	 * geogebra.main.AppletImplementation
+	 * org.geogebra.desktop.GeoGebraApplet by delegating it to
+	 * geogebra.main.AppletImplementation 4) implement the method in the
+	 * geogebra.GeoGebraApplet wrapper
 	 */
 
 	public synchronized void deleteObject(String objName) {

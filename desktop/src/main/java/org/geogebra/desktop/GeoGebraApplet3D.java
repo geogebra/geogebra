@@ -27,7 +27,7 @@ public class GeoGebraApplet3D extends GeoGebraApplet {
 	 * Initializes the appletImplementation object. Loads geogebra_main.jar file
 	 * and initializes applet if necessary.
 	 */
-	protected synchronized void initAppletImplementation() {
+	public synchronized void initAppletImplementation() {
 		if (isAppletFullyLoaded())
 			return;
 
