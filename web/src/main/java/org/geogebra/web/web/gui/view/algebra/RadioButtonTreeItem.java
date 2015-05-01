@@ -358,15 +358,17 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		EquationEditor.updateNewStatic(se);
 		updateColor(se);
 		ihtml = new InlineHTML();
-		ihtml.addDoubleClickHandler(this);
-		ihtml.addClickHandler(this);
-		ihtml.addMouseMoveHandler(this);
-		ihtml.addMouseDownHandler(this);
-		ihtml.addMouseOverHandler(this);
-		ihtml.addMouseOutHandler(this);
-		ihtml.addTouchStartHandler(this);
-		ihtml.addTouchMoveHandler(this);
-		ihtml.addTouchEndHandler(this);
+
+		this.addDomHandler(this, DoubleClickEvent.getType());
+		this.addDomHandler(this, ClickEvent.getType());
+		this.addDomHandler(this, MouseMoveEvent.getType());
+		this.addDomHandler(this, MouseDownEvent.getType());
+		this.addDomHandler(this, MouseOverEvent.getType());
+		this.addDomHandler(this, MouseOutEvent.getType());
+		this.addDomHandler(this, TouchStartEvent.getType());
+		this.addDomHandler(this, TouchMoveEvent.getType());
+		this.addDomHandler(this, TouchEndEvent.getType());
+
 		addSpecial(ihtml);
 		ihtml.getElement().appendChild(se);
 
@@ -1358,27 +1360,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
 		        ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
-		if(((AlgebraViewW) this.av).getStyleBar(false) != null){
-			((AlgebraViewW) this.av).getStyleBar(false).update(this.getGeo());
-		}
 
-		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
-			if (deleteButton == null) {
-				deleteButton = new Image(
-				        GuiResources.INSTANCE.algebraViewDeleteEntry());
-				ClickStartHandler.init(deleteButton, new ClickStartHandler(
-				        true, true) {
-
-					@Override
-					public void onClickStart(int x, int y, PointerEventType type) {
-						geo.remove();
-
-					}
-				});
-			}
-			add(deleteButton);
-			((AlgebraViewWeb) this.av).setActiveTreeItem(this);
-		}
 	}
 
 	@Override
@@ -1476,6 +1458,67 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
+	private void selectGeo(AbstractEvent event) {
+		// handle selecting geo
+		if (event.isControlDown()) {
+			selection.toggleSelectedGeo(geo);
+			if (selection.getSelectedGeos().contains(geo)) {
+				av.setLastSelectedGeo(geo);
+			}
+		} else if (event.isShiftDown() && av.getLastSelectedGeo() != null) {
+			boolean nowSelecting = true;
+			boolean selecting = false;
+			boolean aux = geo.isAuxiliaryObject();
+			boolean ind = geo.isIndependent();
+			boolean aux2 = av.getLastSelectedGeo().isAuxiliaryObject();
+			boolean ind2 = av.getLastSelectedGeo().isIndependent();
+
+			if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
+				Iterator<GeoElement> it = kernel.getConstruction()
+						.getGeoSetLabelOrder().iterator();
+				boolean direction = geo
+						.getLabel(StringTemplate.defaultTemplate).compareTo(
+								av.getLastSelectedGeo().getLabel(
+										StringTemplate.defaultTemplate)) < 0;
+
+				while (it.hasNext()) {
+					GeoElement geo2 = it.next();
+					if ((geo2.isAuxiliaryObject() == aux && aux)
+							|| (geo2.isAuxiliaryObject() == aux && geo2
+									.isIndependent() == ind)) {
+
+						if (direction && geo2.equals(av.getLastSelectedGeo()))
+							selecting = !selecting;
+						if (!direction && geo2.equals(geo))
+							selecting = !selecting;
+
+						if (selecting) {
+							selection.toggleSelectedGeo(geo2);
+							nowSelecting = selection.getSelectedGeos()
+									.contains(geo2);
+						}
+						if (!direction && geo2.equals(av.getLastSelectedGeo()))
+							selecting = !selecting;
+						if (direction && geo2.equals(geo))
+							selecting = !selecting;
+					}
+				}
+			}
+
+			if (nowSelecting) {
+				selection.addSelectedGeo(geo);
+				av.setLastSelectedGeo(geo);
+			} else {
+				selection.removeSelectedGeo(av.getLastSelectedGeo());
+				av.setLastSelectedGeo(null);
+			}
+		} else {
+			selection.clearSelectedGeos(false); // repaint will be done
+												// next step
+			selection.addSelectedGeo(geo);
+			av.setLastSelectedGeo(geo);
+		}
+	}
 	private void onPointerUp(AbstractEvent event) {
 		if (av.isEditing() || isThisEdited() || newCreationMode) {
 			return;
@@ -1487,68 +1530,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (geo == null) {
 				selection.clearSelectedGeos();
 			} else {
-				// handle selecting geo
-				if (event.isControlDown()) {
-					selection.toggleSelectedGeo(geo);
-					if (selection.getSelectedGeos().contains(geo)) {
-						av.setLastSelectedGeo(geo);
-					}
-				} else if (event.isShiftDown()
-				        && av.getLastSelectedGeo() != null) {
-					boolean nowSelecting = true;
-					boolean selecting = false;
-					boolean aux = geo.isAuxiliaryObject();
-					boolean ind = geo.isIndependent();
-					boolean aux2 = av.getLastSelectedGeo().isAuxiliaryObject();
-					boolean ind2 = av.getLastSelectedGeo().isIndependent();
+				selectGeo(event);
 
-					if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
-						Iterator<GeoElement> it = kernel.getConstruction()
-						        .getGeoSetLabelOrder().iterator();
-						boolean direction = geo.getLabel(
-						        StringTemplate.defaultTemplate).compareTo(
-						        av.getLastSelectedGeo().getLabel(
-						                StringTemplate.defaultTemplate)) < 0;
-
-						while (it.hasNext()) {
-							GeoElement geo2 = it.next();
-							if ((geo2.isAuxiliaryObject() == aux && aux)
-							        || (geo2.isAuxiliaryObject() == aux && geo2
-							                .isIndependent() == ind)) {
-
-								if (direction
-								        && geo2.equals(av.getLastSelectedGeo()))
-									selecting = !selecting;
-								if (!direction && geo2.equals(geo))
-									selecting = !selecting;
-
-								if (selecting) {
-									selection.toggleSelectedGeo(geo2);
-									nowSelecting = selection.getSelectedGeos()
-									        .contains(geo2);
-								}
-								if (!direction
-								        && geo2.equals(av.getLastSelectedGeo()))
-									selecting = !selecting;
-								if (direction && geo2.equals(geo))
-									selecting = !selecting;
-							}
-						}
-					}
-
-					if (nowSelecting) {
-						selection.addSelectedGeo(geo);
-						av.setLastSelectedGeo(geo);
-					} else {
-						selection.removeSelectedGeo(av.getLastSelectedGeo());
-						av.setLastSelectedGeo(null);
-					}
-				} else {
-					selection.clearSelectedGeos(false); // repaint will be done
-					                                    // next step
-					selection.addSelectedGeo(geo);
-					av.setLastSelectedGeo(geo);
-				}
 			}
 		} else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
@@ -1576,6 +1559,35 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// except if we are not in editing mode! That's why better condition was
 		// needed at the beginning of this method!
 		av.setFocus(true);
+
+		if (((AlgebraViewW) this.av).getStyleBar(false) != null) {
+			((AlgebraViewW) this.av).getStyleBar(false).update(this.getGeo());
+		}
+
+		addDeleteButton();
+	}
+
+	private void addDeleteButton() {
+
+		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
+			if (deleteButton == null) {
+				deleteButton = new Image(
+						GuiResources.INSTANCE.algebraViewDeleteEntry());
+				ClickStartHandler.init(deleteButton, new ClickStartHandler(
+						true, true) {
+
+					@Override
+					public void onClickStart(int x, int y, PointerEventType type) {
+						geo.remove();
+
+					}
+				});
+				deleteButton.addStyleName("deleteAlgebra");
+			}
+			add(deleteButton);
+			((AlgebraViewWeb) this.av).setActiveTreeItem(this);
+		}
+
 	}
 
 	private void onPointerMove(AbstractEvent event) {

@@ -47,7 +47,6 @@ public class Marble extends SimplePanel
 		{
 			public void onClick(ClickEvent event)
 			{	
-				// event.preventDefault();
 				// event.stopPropagation();
 				App.debug("click");
 				if(touchUsed){
@@ -55,6 +54,7 @@ public class Marble extends SimplePanel
 				}else{
 					toggleVisibility();
 				}
+				event.stopPropagation();
 			}
 		}, ClickEvent.getType());
 		//MouseDown triggers scrolling if the element is too long for AV

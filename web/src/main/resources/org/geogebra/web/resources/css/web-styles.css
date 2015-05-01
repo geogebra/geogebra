@@ -5728,3 +5728,8 @@ div.openKeyboardButton{
 div.SymbolTablePopup, div.providersPopup{
 	z-index:501;
 }
+
+.deleteAlgebra {
+	margin:3px 8px 0 0;
+	float:right;
+}
