@@ -929,6 +929,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void paintOnCanvas(String text0) {
+		if (geo == null) {
+			return;
+		}
 		final GColor fgColor = geo.getAlgebraColor();
 		if (c == null) {
 			c = Canvas.createIfSupported();
