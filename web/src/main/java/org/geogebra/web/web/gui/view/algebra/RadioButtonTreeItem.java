@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -59,7 +60,15 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.SliderW;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
+import org.scilab.forge.jlatexmath.CreateLibrary;
+import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
@@ -824,35 +833,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
-				if ("".equals(text)) {
-					DrawEquationWeb.updateEquationMathQuillGGB("", seMayLatex,
-					        true);
-				} else {
-					text = DrawEquationWeb.inputLatexCosmetics(text);
-					int tl = text.length();
-					text = DrawEquationWeb.stripEqnArray(text);
-					updateColor(seMayLatex);
-					DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{"
-					        + text
-				        + "}", seMayLatex, tl == text.length());
-					updateColor(seMayLatex);
-				}
+				updateLaTeX(text);
+
 			} else if (newLaTeX) {
-				SpanElement se = DOM.createSpan().cast();
-				EquationEditor.updateNewStatic(se);
-				updateColor(se);
-				ihtml.getElement().replaceChild(se, seNoLatex);
-				text = DrawEquationWeb.inputLatexCosmetics(text);
-				seMayLatex = se;
-				if (newCreationMode) {
-					// in editing mode, we shall avoid letting an invisible, but
-					// harmful element!
-					DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "",
-					        newCreationMode);
-				} else {
-					DrawEquationWeb.drawEquationAlgebraView(seMayLatex,
-					        "\\mathrm {" + text + "}", newCreationMode);
-				}
+				renderLatex(text, seNoLatex, false);
 				LaTeX = true;
 			}
 
@@ -918,6 +902,77 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
+	private Canvas c;
+
+	private void renderLatex(String text0, Element old, boolean forceMQ) {
+		if (app.has(Feature.JLM_IN_WEB) && !forceMQ) {
+			paintOnCanvas(text0);
+			ihtml.getElement().replaceChild(c.getCanvasElement(), old);
+		} else {
+			SpanElement se = DOM.createSpan().cast();
+			EquationEditor.updateNewStatic(se);
+			updateColor(se);
+			ihtml.getElement().replaceChild(se, old);
+			String text = DrawEquationWeb.inputLatexCosmetics(text0);
+			seMayLatex = se;
+			if (newCreationMode) {
+				// in editing mode, we shall avoid letting an invisible, but
+				// harmful element!
+				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "",
+						newCreationMode);
+			} else {
+				DrawEquationWeb.drawEquationAlgebraView(seMayLatex,
+						"\\mathrm {" + text + "}", newCreationMode);
+			}
+		}
+
+	}
+
+	private void paintOnCanvas(String text0) {
+		final GColor fgColor = geo.getAlgebraColor();
+		if (c == null) {
+			c = Canvas.createIfSupported();
+		} else {
+			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
+					c.getCoordinateSpaceHeight());
+		}
+		TeXIcon icon = CreateLibrary.createIcon("\\mathrm {" + text0 + "}",
+				app.getFontSize(), GFont.PLAIN);
+		Graphics2DInterface g3 = new Graphics2DW(c.getContext2d());
+
+		c.setCoordinateSpaceWidth(icon.getIconWidth());
+		c.setCoordinateSpaceHeight(icon.getIconHeight());
+		icon.paintIcon(new HasForegroundColor() {
+			@Override
+			public Color getForegroundColor() {
+				return FactoryProvider.INSTANCE.getGraphicsFactory()
+						.createColor(fgColor.getRed(), fgColor.getGreen(),
+								fgColor.getBlue());
+			}
+		}, g3, 0, 0);
+	}
+
+	private void updateLaTeX(String text0) {
+		if (app.has(Feature.JLM_IN_WEB)) {
+			paintOnCanvas(text0);
+		} else {
+			if ("".equals(text0)) {
+				DrawEquationWeb
+						.updateEquationMathQuillGGB("", seMayLatex, true);
+			} else {
+				String text = DrawEquationWeb.inputLatexCosmetics(text0);
+				int tl = text.length();
+				text = DrawEquationWeb.stripEqnArray(text);
+				updateColor(seMayLatex);
+				DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{" + text
+						+ "}", seMayLatex, tl == text.length());
+				updateColor(seMayLatex);
+			}
+
+		}
+
+	}
+
 	void updatePlayButton() {
 		 if (playButton != null) {
 			 // update the icon of the playButton (if animation is started/paused
@@ -970,6 +1025,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, true);
 		} else if (shouldEditLaTeX()) {
+			if (app.has(Feature.JLM_IN_WEB)) {
+				renderLatex(geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplateMQ), c.getCanvasElement(),
+						true);
+			}
 			DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, false);
 		} else {
