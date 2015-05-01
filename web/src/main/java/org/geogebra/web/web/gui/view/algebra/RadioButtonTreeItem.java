@@ -1009,6 +1009,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (LaTeX) {
 				DrawEquationWeb
 				        .endEditingEquationMathQuillGGB(this, seMayLatex);
+				if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB)) {
+					this.ihtml.getElement().replaceChild(c.getCanvasElement(),
+							seMayLatex);
+				}
 			} else {
 				removeSpecial(tb);
 				addSpecial(ihtml);
@@ -1200,7 +1204,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			}
 		}
-
+		if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB)) {
+			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
+					seMayLatex);
+		}
 		// maybe it's possible to enter something which is non-LaTeX
 		doUpdate();
 
