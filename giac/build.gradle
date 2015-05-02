@@ -157,7 +157,10 @@ model {
 		    // Add libgcc and libstdc++ statically
 		    linker.args '-static-libgcc'
 		    linker.args '-static-libstdc++'
-            	    
+		    // Statically link libpthread
+		    // linker.args '-Wl,-Bstatic', '-lstdc++', '-lpthread'
+		    // Or even better, everything
+		    linker.args '-static'
 		    }
 
                 if (targetPlatform.operatingSystem.name == 'linux') {
