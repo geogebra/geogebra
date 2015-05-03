@@ -3,6 +3,10 @@ package org.geogebra.desktop.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
+
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.Evaluate;
@@ -12,16 +16,11 @@ import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.ConstructionElement;
-import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
-
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
 
 /**
  * @author michael
@@ -163,7 +162,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				App.debug("giac: after interrupt/stop");
 
 				// if we haven't got a result, CAS took too long to return
-				// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
+				// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) *
+				// cos(x)-sqrt(2)]
 				if (threadResult == null) {
 					throw new org.geogebra.common.cas.error.TimeoutException(
 							"Thread timeout from Giac");
@@ -271,12 +271,12 @@ public class CASgiacD extends CASgiac implements Evaluate {
 							result = evaluateGeoGebraCAS(inVE,
 									new MyArbitraryConstant(
 											(ConstructionElement) command),
-									StringTemplate.defaultTemplate,
-									cell,
+									StringTemplate.defaultTemplate, cell,
 									// take kernel from cmd, in case macro
 									// kernel matters (?)
 									cmd.getKernel());
-							CASAsyncFinished(inVE, result, null, command, input, cell);
+							CASAsyncFinished(inVE, result, null, command,
+									input, cell);
 						} catch (Throwable exception) {
 							App.debug("exception handling ...");
 							exception.printStackTrace();
