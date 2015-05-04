@@ -218,12 +218,12 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		// process defaults (after construction for labeling styles)
 		if (defaults2dXmlFileBuffer != null) {
 			kernel.getConstruction().setFileLoading(true);
-			processXMLBuffer(defaults2dXmlFileBuffer, false, isGGTfile);
+			processXMLBuffer(defaults2dXmlFileBuffer, false, true);
 			kernel.getConstruction().setFileLoading(false);
 		}
 		if (defaults3dXmlFileBuffer != null) {
 			kernel.getConstruction().setFileLoading(true);
-			processXMLBuffer(defaults3dXmlFileBuffer, false, isGGTfile);
+			processXMLBuffer(defaults3dXmlFileBuffer, false, true);
 			kernel.getConstruction().setFileLoading(false);
 		}
 
@@ -280,26 +280,26 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 	 * @param buffer
 	 */
 	private void processXMLBuffer(byte[] buffer, boolean clearConstruction,
-			boolean isGGTFile) throws Exception {
+			boolean isGGTOrDefaults) throws Exception {
 		// handle the data in the memory buffer
 		ByteArrayInputStream bs = new ByteArrayInputStream(buffer);
 		InputStreamReader ir = new InputStreamReader(bs, "UTF8");
 
 		// process xml file
-		doParseXML(ir, clearConstruction, isGGTFile, true, true);
+		doParseXML(ir, clearConstruction, isGGTOrDefaults, true, true);
 
 		ir.close();
 		bs.close();
 	}
 
 	private void doParseXML(Reader ir, boolean clearConstruction,
-			boolean isGGTFile, boolean mayZoom, boolean settingsBatch)
+			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
 			throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		boolean oldVal2 = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
 
-		if (!isGGTFile && mayZoom) {
+		if (!isGGTOrDefaults && mayZoom) {
 			kernel.setNotifyViewsActive(false);
 		}
 
@@ -311,7 +311,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 		try {
 			App.debug("MACRO" + kernel.isMacroKernel());
 			kernel.setLoadingMode(true);
-			if (settingsBatch && !isGGTFile) {
+			if (settingsBatch && !isGGTOrDefaults) {
 				app.getSettings().beginBatch();
 				xmlParser.parse(handler, ir);
 				app.getSettings().endBatch();
@@ -326,13 +326,13 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 			throw e;
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
-			if (!isGGTFile && mayZoom) {
+			if (!isGGTOrDefaults && mayZoom) {
 				kernel.updateConstruction();
 				kernel.setNotifyViewsActive(oldVal);
 			}
 
 			// #2153
-			if (!isGGTFile && cons.hasSpreadsheetTracingGeos()) {
+			if (!isGGTOrDefaults && cons.hasSpreadsheetTracingGeos()) {
 				// needs to be done after call to updateConstruction() to avoid
 				// spurious traces
 				app.getTraceManager().loadTraceGeoCollection();
@@ -341,7 +341,7 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 
 		// handle construction step stored in XMLhandler
 		// do this only if the construction protocol navigation is showing
-		if (!isGGTFile && oldVal && ((AppD) app).showConsProtNavigation()) {
+		if (!isGGTOrDefaults && oldVal && ((AppD) app).showConsProtNavigation()) {
 			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
 
 			if (((GuiManagerInterfaceD) app.getGuiManager()) != null)
@@ -384,9 +384,9 @@ public class MyXMLioD extends org.geogebra.common.io.MyXMLio {
 
 	@Override
 	public void processXMLString(String str, boolean clearAll,
-			boolean isGGTfile, boolean settingsBatch) throws Exception {
+			boolean isGGTOrDefaults, boolean settingsBatch) throws Exception {
 		StringReader rs = new StringReader(str);
-		doParseXML(rs, clearAll, isGGTfile, clearAll, settingsBatch);
+		doParseXML(rs, clearAll, isGGTOrDefaults, clearAll, settingsBatch);
 		rs.close();
 	}
 
