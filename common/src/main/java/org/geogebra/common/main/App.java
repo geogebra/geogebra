@@ -3630,11 +3630,9 @@ public abstract class App implements UpdateSelection {
 		case TUBE_BETA:
 			return prerelease;
 		default:
-			break;
+			return false;
 
 		}
-
-		return prerelease;
 	}
 
 	private int tubeID = 0;
