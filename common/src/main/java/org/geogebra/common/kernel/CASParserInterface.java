@@ -38,8 +38,10 @@ public interface CASParserInterface {
 	 * 
 	 * @param outputVe
 	 *            value to process
+	 * @return
 	 */
-	void resolveVariablesForCAS(ExpressionValue outputVe, Kernel kernel);
+	ExpressionValue resolveVariablesForCAS(ExpressionValue outputVe,
+			Kernel kernel);
 
 	/**
 	 * @param string

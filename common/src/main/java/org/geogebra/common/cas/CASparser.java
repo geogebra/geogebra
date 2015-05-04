@@ -29,9 +29,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionReplacer;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -90,7 +90,8 @@ public class CASparser implements CASParserInterface {
 			ValidExpression ve = parseGeoGebraCASInput(inValue, cell);
 
 			// resolve Variable objects in ValidExpression as GeoDummy objects
-			resolveVariablesForCAS(ve, kernel);
+			ExpressionValue ev = resolveVariablesForCAS(ve, kernel);
+			ve = ev instanceof ValidExpression ? (ValidExpression) ev : ve;
 
 			// resolve Equations as Functions if lhs is y
 			if (ve instanceof Function) {
@@ -112,7 +113,8 @@ public class CASparser implements CASParserInterface {
 	 * Resolves all variables in ValidExpression. Unknown variables are kept as
 	 * symbolic variables. TODO check that we need default template here
 	 */
-	public synchronized void resolveVariablesForCAS(ExpressionValue ev,
+	public synchronized ExpressionValue resolveVariablesForCAS(
+			ExpressionValue ev,
 			Kernel kernel) {
 
 		// add local variables to kernel,
@@ -140,7 +142,7 @@ public class CASparser implements CASParserInterface {
 				.getCollector(nonFunctions);
 		NonFunctionReplacer r = NonFunctionReplacer.getCollector(nonFunctions);
 		ev.traverse(c);
-		ev.traverse(r);
+		ev = ev.traverse(r);
 		// remove local variables
 		if (isFunction) {
 			Construction cmdCons = kernel.getConstruction();
@@ -149,6 +151,7 @@ public class CASparser implements CASParserInterface {
 						.toString(StringTemplate.defaultTemplate));
 			}
 		}
+		return ev;
 	}
 
 	/**
