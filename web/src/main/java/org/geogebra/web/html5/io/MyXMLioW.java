@@ -27,18 +27,18 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 
 	@Override
 	public void processXMLString(String str, boolean clearAll,
-	        boolean isGGTfile, boolean settingsBatch) throws Exception {
-		doParseXML(str, clearAll, isGGTfile, clearAll, settingsBatch);
+			boolean isGGTOrDefaults, boolean settingsBatch) throws Exception {
+		doParseXML(str, clearAll, isGGTOrDefaults, clearAll, settingsBatch);
 	}
 
 	private void doParseXML(String xml, boolean clearConstruction,
-	        boolean isGGTFile, boolean mayZoom, boolean settingsBatch)
+	        boolean isGGTorDefaults, boolean mayZoom, boolean settingsBatch)
 	        throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		boolean oldVal2 = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
 
-		if (!isGGTFile && mayZoom) {
+		if (!isGGTorDefaults && mayZoom) {
 			kernel.setNotifyViewsActive(false);
 		}
 
@@ -49,7 +49,7 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 
 		try {
 			kernel.setLoadingMode(true);
-			if (settingsBatch && !isGGTFile) {
+			if (settingsBatch && !isGGTorDefaults) {
 				app.getSettings().beginBatch();
 				App.debug("parsing start" + System.currentTimeMillis());
 				xmlParser.parse(handler, xml);
@@ -66,13 +66,13 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 			throw e;
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
-			if (!isGGTFile && mayZoom) {
+			if (!isGGTorDefaults && mayZoom) {
 				App.debug("cons up" + System.currentTimeMillis());
 				kernel.updateConstruction();
 				App.debug("cons upped" + System.currentTimeMillis());
 				kernel.setNotifyViewsActive(oldVal);
 			}
-			if (cons.hasSpreadsheetTracingGeos() && !isGGTFile) {
+			if (cons.hasSpreadsheetTracingGeos() && !isGGTorDefaults) {
 				// needs to be done after call to updateConstruction() to avoid
 				// spurious traces
 				app.getTraceManager().loadTraceGeoCollection();
@@ -84,7 +84,7 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 		// handle construction step stored in XMLhandler
 		// do this only if the construction protocol navigation is showing
 
-		if (!isGGTFile && oldVal && app.showConsProtNavigation()) {
+		if (!isGGTorDefaults && oldVal && app.showConsProtNavigation()) {
 			App.debug("navigation" + System.currentTimeMillis());
 			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
 

@@ -700,10 +700,10 @@ public abstract class AppW extends App implements SetLabels {
 			App.debug("end processing" + System.currentTimeMillis());
 			// defaults (optional)
 			if (defaults2d != null) {
-				getXMLio().processXMLString(defaults2d, false, false);
+				getXMLio().processXMLString(defaults2d, false, true);
 			}
 			if (defaults3d != null) {
-				getXMLio().processXMLString(defaults3d, false, false);
+				getXMLio().processXMLString(defaults3d, false, true);
 			}
 			setCurrentFile(archiveContent);
 			afterLoadFileAppOrNot();

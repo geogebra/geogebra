@@ -75,10 +75,10 @@ public class ImageManagerW extends ImageManager {
 				myXMLio.processXMLString(construction, true, false);
 				// defaults (optional)
 				if (defaults2d != null) {
-					myXMLio.processXMLString(defaults2d, false, false);
+					myXMLio.processXMLString(defaults2d, false, true);
 				}
 				if (defaults3d != null) {
-					myXMLio.processXMLString(defaults3d, false, false);
+					myXMLio.processXMLString(defaults3d, false, true);
 				}
 				app.afterLoadFileAppOrNot();
 				imagesLoaded = 0;
