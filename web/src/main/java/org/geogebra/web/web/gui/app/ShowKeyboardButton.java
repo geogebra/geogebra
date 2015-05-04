@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.css.GuiResources;
@@ -83,7 +82,6 @@ public class ShowKeyboardButton extends SimplePanel {
 		if (show && parent.isVisible()) {
 			setVisible(true);
 		} else {
-			App.printStacktrace("");
 			setVisible(false);
 		}
 

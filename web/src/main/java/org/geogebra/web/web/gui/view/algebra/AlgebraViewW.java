@@ -267,7 +267,6 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 			cancelEditing();
 			//FIXMEWEB select and show node
 			Widget wi = node.getWidget();
-			App.printStacktrace("");
 			editing = true;
 			setAnimationEnabled(false);
 			if (wi instanceof RadioButtonTreeItem)
