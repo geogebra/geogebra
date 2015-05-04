@@ -99,6 +99,8 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRA_REPORT_BUG_WEB = "http://www.geogebra.org/bugs/?v=web";
 	/** GeoGebraTube URL */
 	public final static String GEOGEBRATUBE_WEBSITE = "http://tube.geogebra.org/";
+	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
+	public final static String GEOGEBRATUBE_WEBSITE_BETA = "http://tube-beta.geogebra.org/";
 	/** max possible heap space for applets in MB */
 	public final static int MAX_HEAP_SPACE = 1024;
 

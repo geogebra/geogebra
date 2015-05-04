@@ -1,7 +1,9 @@
 package org.geogebra.web.html5.sound;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -43,8 +45,28 @@ public class SoundManagerW implements SoundManager {
 
 	public void playFile(String url) {
 
+		// eg PlaySound["#12345"] to play material 12345 from GeoGebraTube
+		if (url.startsWith("#")) {
+			String id = url.substring(1);
+
+			if (app.has(Feature.TUBE_BETA)) {
+				url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE_BETA;
+			} else {
+				url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE;
+			}
+
+			// something like
+			// http://tube-beta.geogebra.org/material/download/format/file/id/1123077
+
+			// TODO: check format of URL is correct
+			url = url + "material/download/format/file/id/" + id;
+
+			// dummy file for testing
+			// TODO: remove
+			url = "http://tube-beta.geogebra.org/files/material-1125945.mp3";
+		}
+
 		// TODO check extension, play MIDI .mid files
-		// TODO use MADJSto play MP3 in Firefox
 
 		if (!url.endsWith(".mp3")) {
 			Log.warn("assuming MP3 file: " + url);
