@@ -156,19 +156,19 @@ public class TextFieldProcessing {
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 					Event.as(event));
 
-			event = Document.get().createKeyPressEvent(false,
-					false, false, false, ENTER);
+			event = Document.get().createKeyPressEvent(false, false, false,
+					false, ENTER);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 					Event.as(event));
 
-			event = Document.get().createKeyUpEvent(false, false,
-					false, false, ENTER);
+			event = Document.get().createKeyUpEvent(false, false, false, false,
+					ENTER);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 					Event.as(event));
 			break;
 		case gTextBox:
 			NativeEvent event2 = Document.get().createKeyDownEvent(false,
-			        false, false, false, ENTER);
+					false, false, false, ENTER);
 			((GTextBox) field).onBrowserEvent(Event.as(event2));
 			break;
 		case equationEditorListener:
@@ -212,7 +212,7 @@ public class TextFieldProcessing {
 		case equationEditorListener:
 		case newRadioButtonTreeItem:
 			((EquationEditorListener) field).keydown(BACKSPACE, false, false,
-			        false);
+					false);
 			break;
 		}
 	}
@@ -261,12 +261,11 @@ public class TextFieldProcessing {
 			switch (type) {
 			case left:
 				((EquationEditorListener) field).keydown(LEFT_ARROW, false,
-						false,
-				        false);
+						false, false);
 				break;
 			case right:
 				((EquationEditorListener) field).keydown(RIGHT_ARROW, false,
-				        false, false);
+						false, false);
 				break;
 			}
 			break;
@@ -303,7 +302,7 @@ public class TextFieldProcessing {
 					return;
 				}
 				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
-				        false, false);
+						false, false);
 			} else if (text.startsWith(KeyboardConstants.EULER)) {
 				((EquationEditorListener) field).insertString("e");
 				// inserts: ^{}
@@ -317,14 +316,14 @@ public class TextFieldProcessing {
 			} else if (text.equals("nroot")) {
 				((EquationEditorListener) field).insertString("nroo");
 				((EquationEditorListener) field).keypress(T_LOWER_CASE, false,
-				        false, true);
+						false, true);
 			} else if (text.equals("log")) {
 				((EquationEditorListener) field).insertString("log_{10}");
 				((EquationEditorListener) field).keypress(LBRACE, false, false,
-				        false);
+						false);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((EquationEditorListener) field)
-				        .insertString(KeyboardConstants.SQUARE);
+						.insertString(KeyboardConstants.SQUARE);
 			} else if (keyPressNeeded(text)) {
 				((EquationEditorListener) field).keypress(
 				// text.codePointAt is the same as text.charAt for low ranges
@@ -347,11 +346,11 @@ public class TextFieldProcessing {
 	 * @return {@code true} if the RadioButtonTreeItem needs a keyPress event.
 	 */
 	private static boolean keyPressNeeded(String text) {
-	    return text.equals("/") || text.equals("_") || text.equals("$")
-	            || text.equals(" ") || text.equals("|") || text.equals(",")
-		        || text.equals("*") || text.startsWith("(")
-		        || text.equals(KeyboardConstants.SQUARE_ROOT);
-    }
+		return text.equals("/") || text.equals("_") || text.equals("$")
+				|| text.equals(" ") || text.equals("|") || text.equals(",")
+				|| text.equals("*") || text.startsWith("(")
+				|| text.equals(KeyboardConstants.SQUARE_ROOT);
+	}
 
 	/**
 	 * only for {@link GTextBox}
@@ -363,7 +362,7 @@ public class TextFieldProcessing {
 		int caretPos = ((GTextBox) field).getCursorPos();
 
 		String newText = oldText.substring(0, caretPos) + text
-		        + oldText.substring(caretPos);
+				+ oldText.substring(caretPos);
 		((GTextBox) field).setText(newText);
 		((GTextBox) field).setCursorPos(caretPos + text.length());
 	}

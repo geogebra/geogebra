@@ -36,7 +36,7 @@ public class NewCASTableCellEditorW extends Label implements
 	private AppW app;
 	private EquationEditor editor;
 	private String input;
-	private final SpanElement seMayLaTex;
+	private final SpanElement seMayLaTeX;
 	private CASTableControllerW ml;
 
 	public NewCASTableCellEditorW(CASTableW table, final AppW app,
@@ -45,11 +45,11 @@ public class NewCASTableCellEditorW extends Label implements
 		this.table = table;
 		this.ml = ml;
 		this.editor = new EquationEditor(app, this);
-		this.seMayLaTex = DOM.createSpan().cast();
-		DrawEquationWeb.drawEquationAlgebraView(seMayLaTex, "", true);
-		EquationEditor.updateNewStatic(seMayLaTex);
-		DrawEquationWeb.editEquationMathQuillGGB(this, seMayLaTex, true);
-		this.getElement().appendChild(seMayLaTex);
+		this.seMayLaTeX = DOM.createSpan().cast();
+		DrawEquationWeb.drawEquationAlgebraView(seMayLaTeX, "", true);
+		EquationEditor.updateNewStatic(seMayLaTeX);
+		DrawEquationWeb.editEquationMathQuillGGB(this, seMayLaTeX, true);
+		this.getElement().appendChild(seMayLaTeX);
 		this.getElement().addClassName("hasCursorPermanent");
 		this.addDomHandler(new MouseUpHandler() {
 
@@ -115,7 +115,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public String getInput() {
 		if (this.input == null) {
-			return input = DrawEquationWeb.getMathQuillContent(seMayLaTex);
+			return input = DrawEquationWeb.getMathQuillContent(seMayLaTeX);
 		}
 		return this.input;
 	}
@@ -169,19 +169,18 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public void insertString(String text) {
-		// TODO Auto-generated method stub
-
+		DrawEquationWeb.writeLatexInPlaceOfCurrentWord(seMayLaTeX, text, "",
+				false);
 	}
 
 	@Override
 	public void toggleSymbolButton(boolean toggled) {
-		// TODO Auto-generated method stub
+		// only for compatibility
 
 	}
 
 	@Override
 	public ArrayList<String> getHistory() {
-		// TODO Auto-generated method stub
 		return editor.getHistory();
 	}
 
@@ -213,7 +212,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public SpanElement getLaTeXSpan() {
-		return this.seMayLaTex;
+		return this.seMayLaTeX;
 	}
 
 	@Override
@@ -283,18 +282,18 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void keypress(int character, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationWeb.triggerKeypress(this.seMayLaTex, character, alt, ctrl,
+		DrawEquationWeb.triggerKeypress(this.seMayLaTeX, character, alt, ctrl,
 				shift);
 
 	}
 
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationWeb.triggerKeyUp(seMayLaTex, key, alt, ctrl, shift);
+		DrawEquationWeb.triggerKeyUp(seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 
 	public void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationWeb.triggerKeyUp(seMayLaTex, key, alt, ctrl, shift);
+		DrawEquationWeb.triggerKeyUp(seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 

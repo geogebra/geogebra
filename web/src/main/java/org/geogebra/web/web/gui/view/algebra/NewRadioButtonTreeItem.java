@@ -158,7 +158,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			} else {
 				String text = editor.getNextInput();
 				if (text != null) {
-					setText(text);
+					editor.setText(text);
 				}
 			}
 		} else {
@@ -167,7 +167,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			} else {
 				String text = editor.getPreviousInput();
 				if (text != null)
-					setText(text);
+					editor.setText(text);
 			}
 		}
 		return true;
