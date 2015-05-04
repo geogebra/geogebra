@@ -1339,6 +1339,19 @@ GeoContainer rbti,
 		//}
 	}-*/;
 
+	public static native String getMathQuillContent(Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var latexq = thisjq.mathquillggb('text');
+		elsecond.previousSibling.style.display = "block";
+
+		thisjq.mathquillggb('revert').mathquillggb();
+		return latexq;
+
+	}-*/;
+
 	public static boolean endEditingEquationMathQuillGGB(
 GeoContainer rbti,
 	        String latex) {
