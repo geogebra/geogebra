@@ -23,22 +23,22 @@ public class SoundManagerW implements SoundManager {
 	}
 
 	public void pauseResumeSound(boolean b) {
-		App.debug("unimplemented");
+		App.debug("unimplemented 1");
 
 	}
 
 	public void playSequenceNote(int double1, double double2, int i, int j) {
-		App.debug("unimplemented");
-
+		MidiW.INSTANCE.playNote();
 	}
 
 	public void playSequenceFromString(String string, int double1) {
-		App.debug("unimplemented");
+		App.debug("playSequenceFromString");
+		MidiW.INSTANCE.playNote();
 	}
 
 	public void playFunction(GeoFunction geoFunction, double double1,
 	        double double2) {
-		App.debug("unimplemented");
+		App.debug("unimplemented 2");
 	}
 
 	public void playFile(String url) {
