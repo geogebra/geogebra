@@ -380,4 +380,8 @@ public class TextFieldProcessing {
 			break;
 		}
 	}
+
+	public Object getTextField() {
+		return field;
+	}
 }

@@ -145,7 +145,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	// private FlowPanel contentGreek = new FlowPanel();
 	// TODO remove for mobile devices
 	private FlowPanel contentLetters = new FlowPanel();
-	private MathKeyboardListener textField;
+	// private MathKeyboardListener textField;
 	TextFieldProcessing processing = new TextFieldProcessing();
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 	private KeyPanel letters;
@@ -313,7 +313,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	 *            whether the keyboard is used or not
 	 */
 	public void setUsed(boolean used) {
-		if (this.textField != null) {
+		if (this.processing.getTextField() != null) {
 			this.processing.setKeyBoardUsed(used
 			        && this.contentNumber.isVisible());
 		}
@@ -837,7 +837,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 				processShift();
 			}
 
-			if (textField != null) {
+			if (processing.getTextField() != null) {
 				// textField could be null after onEnter()
 
 				// TODO set to false for mobile devices
@@ -984,7 +984,6 @@ public class OnScreenKeyBoard extends PopupPanel {
 	 *            the text field connected to the keyboard
 	 */
 	public void setTextField(MathKeyboardListener textField) {
-		this.textField = textField;
 		this.processing.setField(textField);
 	}
 
