@@ -18,7 +18,6 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,7 +27,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -36,7 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
  * File created by Arpad Fekete
  */
 public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
-        EquationEditorListener, HasSymbolPopup, FocusHandler, BlurHandler {
+		HasSymbolPopup, FocusHandler, BlurHandler {
 
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
@@ -239,10 +237,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 	}
 
-	public void toggleSymbolButton(boolean toggled) {
-		// just for compatibility with AutoCompleteW
-		return;
-	}
+
 
 	public void showPopup(boolean show) {
 		if (this.xButton == null) {
@@ -376,19 +371,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	}
 
-	@Override
-	public SpanElement getLaTeXSpan() {
-		return seMayLatex;
-	}
 
 	@Override
 	public void updatePosition(ScrollableSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(ihtml);
 	}
 
-	@Override
-	public Widget toWidget() {
-		return this;
-	}
 
 }

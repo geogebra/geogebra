@@ -14,6 +14,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -128,7 +129,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
         DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
         MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
  TouchStartHandler,
-        TouchMoveHandler, TouchEndHandler, LongTouchHandler {
+ TouchMoveHandler, TouchEndHandler, LongTouchHandler,
+		EquationEditorListener {
 
 	GeoElement geo;
 	Kernel kernel;
@@ -1807,5 +1809,57 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (!isThisEdited()) {
 			startEditing();
 		}
+	}
+
+	public boolean getAutoComplete() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public List<String> resetCompletions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<String> getCompletions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public final void toggleSymbolButton(boolean toggled) {
+		// Just for compatibility with AutoCompleteTextFieldW
+	}
+
+	public ArrayList<String> getHistory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setText(String s) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean isSuggesting() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void requestFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public final Widget toWidget() {
+		return this;
+	}
+
+	public final SpanElement getLaTeXSpan() {
+		return seMayLatex;
+	}
+
+	public void updatePosition(ScrollableSuggestionDisplay sug) {
+		// TODO Auto-generated method stub
+
 	}
 }

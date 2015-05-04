@@ -11,6 +11,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
+import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.web.gui.view.algebra.EquationEditor;
@@ -27,7 +28,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class NewCASTableCellEditorW extends Label implements
         CASTableCellEditor, CASEditorW,
- EquationEditorListener, GeoContainer {
+ EquationEditorListener, GeoContainer,
+		MathKeyboardListener {
 
 	// private AutoCompleteTextFieldW textField;
 	private CASTableW table;
@@ -37,7 +39,7 @@ public class NewCASTableCellEditorW extends Label implements
 	private final SpanElement seMayLaTex;
 	private CASTableControllerW ml;
 
-	public NewCASTableCellEditorW(CASTableW table, AppW app,
+	public NewCASTableCellEditorW(CASTableW table, final AppW app,
 	        final CASTableControllerW ml) {
 		this.app = app;
 		this.table = table;
@@ -62,6 +64,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				app.showKeyboard(NewCASTableCellEditorW.this);
 				editor.setFocus(true);
 			}
 		});
@@ -277,5 +280,31 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public void resetInput() {
 		input = null;
+	}
+
+	public void keypress(int character, boolean alt, boolean ctrl, boolean shift) {
+		DrawEquationWeb.triggerKeypress(this.seMayLaTex, character, alt, ctrl,
+				shift);
+
+	}
+
+	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
+		DrawEquationWeb.triggerKeyUp(seMayLaTex, key, alt, ctrl, shift);
+
+	}
+
+	public void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
+		DrawEquationWeb.triggerKeyUp(seMayLaTex, key, alt, ctrl, shift);
+
+	}
+
+	public void scrollCursorIntoView() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void ensureEditing() {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -6,8 +6,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.NewRadioButtonTreeItem;
-import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -35,7 +35,7 @@ public class TextFieldProcessing {
 	}
 
 	private enum State {
-		empty, autoCompleteTextField, gTextBox, radioButtonTreeItem, newRadioButtonTreeItem, other;
+		empty, autoCompleteTextField, gTextBox, equationEditorListener, newRadioButtonTreeItem, other;
 	}
 
 	/** ASCII */
@@ -105,8 +105,8 @@ public class TextFieldProcessing {
 			state = State.gTextBox;
 		} else if (field instanceof NewRadioButtonTreeItem) {
 			state = State.newRadioButtonTreeItem;
-		} else if (field instanceof RadioButtonTreeItem) {
-			state = State.radioButtonTreeItem;
+		} else if (field instanceof EquationEditorListener) {
+			state = State.equationEditorListener;
 		} else {
 			state = State.other;
 		}
@@ -126,9 +126,9 @@ public class TextFieldProcessing {
 		case gTextBox:
 			((GTextBox) field).setFocus(focus);
 			break;
-		case radioButtonTreeItem:
+		case equationEditorListener:
 		case newRadioButtonTreeItem:
-			((RadioButtonTreeItem) field).setFocus(true);
+			((EquationEditorListener) field).setFocus(true);
 			break;
 		}
 	}
@@ -171,15 +171,15 @@ public class TextFieldProcessing {
 			        false, false, false, ENTER);
 			((GTextBox) field).onBrowserEvent(Event.as(event2));
 			break;
-		case radioButtonTreeItem:
+		case equationEditorListener:
 		case newRadioButtonTreeItem:
-			((RadioButtonTreeItem) field).keyup(ENTER, false, false, false);
+			((EquationEditorListener) field).keyup(ENTER, false, false, false);
 			break;
 		}
 	}
 
 	public boolean resetAfterEnter() {
-		return state == State.radioButtonTreeItem;
+		return state == State.equationEditorListener;
 	}
 
 	/**
@@ -209,9 +209,9 @@ public class TextFieldProcessing {
 				((GTextBox) field).setCursorPos(start);
 			}
 			break;
-		case radioButtonTreeItem:
+		case equationEditorListener:
 		case newRadioButtonTreeItem:
-			((RadioButtonTreeItem) field).keydown(BACKSPACE, false, false,
+			((EquationEditorListener) field).keydown(BACKSPACE, false, false,
 			        false);
 			break;
 		}
@@ -256,15 +256,16 @@ public class TextFieldProcessing {
 				break;
 			}
 			break;
-		case radioButtonTreeItem:
+		case equationEditorListener:
 		case newRadioButtonTreeItem:
 			switch (type) {
 			case left:
-				((RadioButtonTreeItem) field).keydown(LEFT_ARROW, false, false,
+				((EquationEditorListener) field).keydown(LEFT_ARROW, false,
+						false,
 				        false);
 				break;
 			case right:
-				((RadioButtonTreeItem) field).keydown(RIGHT_ARROW, false,
+				((EquationEditorListener) field).keydown(RIGHT_ARROW, false,
 				        false, false);
 				break;
 			}
@@ -295,46 +296,46 @@ public class TextFieldProcessing {
 		case gTextBox:
 			insertAtEnd(text);
 			break;
-		case radioButtonTreeItem:
+		case equationEditorListener:
 		case newRadioButtonTreeItem:
 			if (text.equals(KeyboardConstants.A_POWER_X)) {
-				if (((RadioButtonTreeItem) field).getText().length() == 0) {
+				if (((EquationEditorListener) field).getText().length() == 0) {
 					return;
 				}
-				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
+				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
 				        false, false);
 			} else if (text.startsWith(KeyboardConstants.EULER)) {
-				((RadioButtonTreeItem) field).insertString("e");
+				((EquationEditorListener) field).insertString("e");
 				// inserts: ^{}
-				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
+				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
 						false, false);
 			} else if (needsLbrace.contains(text)) {
-				((RadioButtonTreeItem) field).insertString(text);
+				((EquationEditorListener) field).insertString(text);
 				// inserts: ()
-				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
+				((EquationEditorListener) field).keypress(LBRACE, false, false,
 						false);
 			} else if (text.equals("nroot")) {
-				((RadioButtonTreeItem) field).insertString("nroo");
-				((RadioButtonTreeItem) field).keypress(T_LOWER_CASE, false,
+				((EquationEditorListener) field).insertString("nroo");
+				((EquationEditorListener) field).keypress(T_LOWER_CASE, false,
 				        false, true);
 			} else if (text.equals("log")) {
-				((RadioButtonTreeItem) field).insertString("log_{10}");
-				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
+				((EquationEditorListener) field).insertString("log_{10}");
+				((EquationEditorListener) field).keypress(LBRACE, false, false,
 				        false);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
-				((RadioButtonTreeItem) field)
+				((EquationEditorListener) field)
 				        .insertString(KeyboardConstants.SQUARE);
 			} else if (keyPressNeeded(text)) {
-				((RadioButtonTreeItem) field).keypress(
+				((EquationEditorListener) field).keypress(
 				// text.codePointAt is the same as text.charAt for low ranges
 				// but I think String.fromCharCode will wait for Unicode int
 						text.codePointAt(0), false, false, false);
 			} else if (text.equals("abs")) {
-				((RadioButtonTreeItem) field).keypress(PIPE, false, false,
+				((EquationEditorListener) field).keypress(PIPE, false, false,
 						false);
 			} else {
-				((RadioButtonTreeItem) field).insertString(text);
-				((RadioButtonTreeItem) field).popupSuggestions();
+				((EquationEditorListener) field).insertString(text);
+				((EquationEditorListener) field).popupSuggestions();
 			}
 			break;
 		}
@@ -373,8 +374,8 @@ public class TextFieldProcessing {
 	public void scrollCursorIntoView() {
 		switch (state) {
 		case newRadioButtonTreeItem:
-		case radioButtonTreeItem:
-			((RadioButtonTreeItem) field).scrollCursorIntoView();
+		case equationEditorListener:
+			((EquationEditorListener) field).scrollCursorIntoView();
 			break;
 		default:
 			break;
