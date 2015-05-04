@@ -907,7 +907,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (app.has(Feature.JLM_IN_WEB) && !forceMQ) {
 			paintOnCanvas(text0);
-			ihtml.getElement().replaceChild(c.getCanvasElement(), old);
+			if (c != null) {
+				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
+			}
 		} else {
 			SpanElement se = DOM.createSpan().cast();
 			EquationEditor.updateNewStatic(se);
@@ -1009,7 +1011,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (LaTeX) {
 				DrawEquationWeb
 				        .endEditingEquationMathQuillGGB(this, seMayLatex);
-				if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB)) {
+				if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB)
+						&& c != null) {
 					this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 							seMayLatex);
 				}
@@ -1032,7 +1035,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, true);
 		} else if (shouldEditLaTeX()) {
-			if (app.has(Feature.JLM_IN_WEB)) {
+			if (app.has(Feature.JLM_IN_WEB) && c != null) {
 				renderLatex(geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ), c.getCanvasElement(),
 						true);
@@ -1204,7 +1207,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			}
 		}
-		if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB)) {
+		if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB) && c != null) {
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 					seMayLatex);
 		}
