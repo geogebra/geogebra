@@ -433,7 +433,10 @@ public class AppD extends App implements KeyEventDispatcher {
 				Log.logger.setLogFile(args.getStringValue("logFile"));
 			}
 		}
-		this.prerelease = args != null && args.containsArg("prerelease");
+		this.prerelease = args != null
+				&& (args.containsArg("prerelease") || args
+						.containsArg("canary"));
+		this.prerelease = args != null && args.containsArg("canary");
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 

@@ -3266,8 +3266,18 @@ public abstract class AppW extends App implements SetLabels {
 		return this.articleElement.getDataParamEnableFileFeatures();
 	}
 
-	public void setPrerelease(boolean dataParamPrerelease) {
-		this.prerelease = dataParamPrerelease;
+	public void setPrerelease(String prereleaseStr) {
+		this.canary = false;
+		this.prerelease = false;
+
+		if ("canary".equals(prereleaseStr)) {
+			canary = true;
+			prerelease = true;
+		} else if ("true".equals(prereleaseStr)) {
+			this.prerelease = true;
+
+		}
+
 	}
 
 	public void hideMenu() {

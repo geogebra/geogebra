@@ -517,7 +517,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 						if (!resp.error) {
 							_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description)
 						} else {
-							@org.geogebra.web.html5.main.AppW::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
+							@org.geogebra.common.main.App::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
 							_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::showUploadError()();
 						}
 					});

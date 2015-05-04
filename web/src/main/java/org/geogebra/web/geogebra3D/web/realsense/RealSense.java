@@ -64,7 +64,7 @@ public class RealSense {
 						})
 				.then(
 						function(result) {
-							@org.geogebra.web.html5.main.AppW::debug(Ljava/lang/String;)('Init started');
+							@org.geogebra.common.main.App::debug(Ljava/lang/String;)('Init started');
 							return @org.geogebra.web.geogebra3D.web.realsense.RealSense::sense
 									.Init(onConnect);
 						})

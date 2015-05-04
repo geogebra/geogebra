@@ -3610,35 +3610,25 @@ public abstract class App implements UpdateSelection {
 	public abstract String getEnglishCommand(String command);
 
 	protected boolean prerelease;
+	protected boolean canary;
 	
 	public final boolean has(Feature f) {
 		switch (f) {
-		case ALL_LANGUAGES:
-			break;
-		case AV_EXTENSIONS:
-			break;
-		case CAS_EDITOR:
-			break;
 		case DATA_COLLECTION:
-			return false;
+			return canary;
+		case ALL_LANGUAGES:
+		case AV_EXTENSIONS:
+		case CAS_EDITOR:
 		case DELETE_IN_ALGEBRA:
-			break;
 		case EXERCISES:
-			break;
 		case JLM_IN_WEB:
-			return prerelease;
 		case KOREAN_KEYBOARD:
-			break;
 		case LOCALSTORAGE_FILES:
-			break;
 		case POLYGON_TRIANGULATION:
-			break;
 		case SF_DRAG:
-			break;
 		case TOOL_EDITOR:
-			break;
 		case TUBE_BETA:
-			break;
+			return prerelease;
 		default:
 			break;
 

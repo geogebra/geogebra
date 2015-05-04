@@ -506,8 +506,8 @@ public final class ArticleElement extends Element {
 		Browser.scale(parent, externalScale, 0, 0);
 	}
 
-	public boolean getDataParamPrerelease() {
-		return "true".equals(getAttribute("data-param-prerelease"));
+	public String getDataParamPrerelease() {
+		return getAttribute("data-param-prerelease").trim().toLowerCase();
 	}
 
 	public String getDataParamTubeID() {
