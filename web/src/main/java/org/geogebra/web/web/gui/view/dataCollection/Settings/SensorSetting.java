@@ -16,106 +16,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 public abstract class SensorSetting extends FlowPanel implements SetLabels {
-
-	public class GeoListBox extends ListBox {
-		private final int EMPTY_SELECTION_INDEX = 0;
-		private final int FIRST_GEOELEMENT_INDEX = 2;
-		private Types type;
-		private GeoElement selection;
-		private ArrayList<GeoElement> items = new ArrayList<GeoElement>();
-		private SensorSetting sensor;
-
-		/**
-		 * @param type
-		 *            of sensor which is associated with this listbox
-		 * @param sensor
-		 *            {@link SensorSetting} to which this GeoListBox belongs
-		 */
-		public GeoListBox(Types type, SensorSetting sensor) {
-			this.sensor = sensor;
-			this.type = type;
-		}
-
-		/**
-		 * @return the associated {@link Types sensor-type}
-		 */
-		public Types getType() {
-			return this.type;
-		}
-
-		/**
-		 * sets the {@link #selection selected GeoElement}. if {@code elem} is
-		 * {@code null}, the selected index of this listbox is set to
-		 * {@link #EMPTY_SELECTION_INDEX}.
-		 * 
-		 * @param elem
-		 *            the selected {@link GeoElement}
-		 */
-		public void setSelection(GeoElement elem) {
-			if (elem == null) {
-				this.setSelectedIndex(EMPTY_SELECTION_INDEX);
-			} else {
-				this.setSelectedIndex(this.items.indexOf(elem)
-						+ FIRST_GEOELEMENT_INDEX);
-			}
-			this.selection = elem;
-		}
-
-		/**
-		 * @return the selected {@link GeoElement}
-		 */
-		public GeoElement getSelection() {
-			return this.selection;
-		}
-
-		/**
-		 * 
-		 * @return the SensorSetting to which this GeoListBox belongs to
-		 */
-		public SensorSetting getSensorSetting() {
-			return this.sensor;
-		}
-
-		/**
-		 * @param elem
-		 *            {@link GeoElement}
-		 */
-		public void addItem(GeoElement elem) {
-			this.items.add(elem);
-			super.addItem(elem.getNameDescription());
-		}
-
-		/**
-		 * looks up in the list of elements displayed for this listbox for the
-		 * geoElement with the given name
-		 * 
-		 * @param name
-		 *            text of the selected item
-		 * @return the {@link GeoElement} with the given name if it wasn't
-		 *         found.
-		 */
-		public GeoElement getGeoElement(String name) {
-			for (GeoElement geo : this.items) {
-				if (geo.getNameDescription().equals(name)) {
-					return geo;
-				}
-			}
-			return null;
-		}
-
-		@Override
-		public void clear() {
-			this.items = new ArrayList<GeoElement>();
-			this.selection = null;
-			super.clear();
-		}
-	}
-
-	private final String EMPTY_SELECTION = "- - -";
 
 	private String captionString;
 	/** button to set sensor on and off */
@@ -232,7 +135,6 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		GeoListBox listBox = new GeoListBox(type, this);
 		listBox.addChangeHandler(this.view);
 
-		listBox.addItem(EMPTY_SELECTION);
 		this.listBoxes.add(listBox);
 
 		container.add(listBox);
@@ -287,12 +189,10 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 			ArrayList<GeoElement> usedObjects) {
 		GeoElement selectedElem = box.getSelection();
 		box.clear();
-		box.addItem(EMPTY_SELECTION);
-		box.addItem("Create DataFunction");
 		if (selectedElem != null && usedObjects.contains(selectedElem)) {
 			box.addItem(selectedElem);
 			box.setSelection(selectedElem);
-			box.setSelectedIndex(box.FIRST_GEOELEMENT_INDEX);
+			box.setSelectedIndex(box.getFirstFreeGeoListBoxIndex());
 		} else {
 			box.setSelection(null);
 		}

@@ -18,13 +18,14 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.AccSetting;
+import org.geogebra.web.web.gui.view.dataCollection.Settings.GeoListBox;
+import org.geogebra.web.web.gui.view.dataCollection.Settings.GeoListBox.DefaultEntries;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.LightSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.LoudnessSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.MagFieldSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.OrientationSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.ProxiSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.SensorSetting;
-import org.geogebra.web.web.gui.view.dataCollection.Settings.SensorSetting.GeoListBox;
 import org.geogebra.web.web.main.AppWapplication;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -380,10 +381,17 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 				.getSelectedItemText());
 
 		if (newSelection == null) {
-			if (listBox.getSelectedIndex() == 0) {
-				// EMPTY SELECTION
+
+			if (listBox.getSelectedIndex() == DefaultEntries.EMPTY_SELECTION
+					.getIndex()) {
 				listBox.setSelection(newSelection); // set null, handled in
 													// GeoListBox
+			} else if (listBox.getSelectedIndex() == DefaultEntries.CREATE_NUMBER
+					.getIndex()) {
+				newSelection = new GeoNumeric(
+						app.getKernel().getConstruction(), null, 0);
+				listBox.addItem(newSelection);
+				setGeoUsed(newSelection, listBox);
 			} else {
 				// create new data function
 				newSelection = CmdDataFunction.getDataFunction(
