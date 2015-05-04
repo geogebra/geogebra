@@ -140,7 +140,8 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void clearInputText() {
-		// TODO Auto-generated method stub
+		editor.setText("");
+		this.input = null;
 	}
 
 	@Override
@@ -272,5 +273,9 @@ public class NewCASTableCellEditorW extends Label implements
 	@Override
 	public Widget toWidget() {
 		return this;
+	}
+
+	public void resetInput() {
+		input = null;
 	}
 }

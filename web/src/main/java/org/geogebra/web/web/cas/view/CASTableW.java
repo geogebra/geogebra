@@ -137,6 +137,7 @@ public class CASTableW extends Grid implements CASTable {
 		stopEditing();
 		if (w instanceof CASTableCellW) {
 			editing = (CASTableCellW) w;
+			((CASEditorW) getEditor()).resetInput();
 			editing.startEditing(((CASEditorW) getEditor()).getWidget());
 		}
 

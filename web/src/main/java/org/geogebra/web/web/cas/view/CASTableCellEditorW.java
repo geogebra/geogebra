@@ -87,4 +87,9 @@ public class CASTableCellEditorW implements CASTableCellEditor, CASEditorW {
 	public void clearInputText() {
 		// TODO Auto-generated method stub
 	}
+
+	public void resetInput() {
+		// TODO Auto-generated method stub
+
+	}
 }

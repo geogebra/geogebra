@@ -4,4 +4,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 
 public interface CASEditorW {
 	public AutoCompleteW getWidget();
+
+	public void resetInput();
 }
