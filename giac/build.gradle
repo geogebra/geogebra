@@ -64,7 +64,7 @@ model {
             target('win64') {
                 cppCompiler.executable 'x86_64-w64-mingw32-g++'
                 linker.executable 'x86_64-w64-mingw32-g++'
-		linker.withArguments { args -> args << "-m64" }
+		// linker.withArguments { args -> args << "-m64" }
         	}
     	    }
         clang(Clang) {
@@ -148,6 +148,11 @@ model {
                     cppCompiler.define 'HAVE_NO_CWD'
                     cppCompiler.define 'usleep',''
                     cppCompiler.define 'YY_NO_UNISTD_H'
+
+		    // This can be done to reduce size, but not necessary
+		    // if (targetPlatform.architecture.name == 'i386') {
+		    //	cppCompiler.args '-UHAVE_PTHREAD_H'
+		    //	}
 
 		    cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
 		    // Insert prebuilt libraries
