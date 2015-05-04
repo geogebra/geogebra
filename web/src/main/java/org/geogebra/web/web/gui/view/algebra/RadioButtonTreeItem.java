@@ -836,7 +836,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				updateLaTeX(text);
 
 			} else if (newLaTeX) {
-				renderLatex(text, seNoLatex, false);
+				renderLatex(text, seNoLatex, newCreationMode);
 				LaTeX = true;
 			}
 
@@ -907,7 +907,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (app.has(Feature.JLM_IN_WEB) && !forceMQ) {
 			paintOnCanvas(text0);
-			if (c != null) {
+			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
 			}
 		} else {
@@ -1207,7 +1207,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			}
 		}
-		if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB) && c != null) {
+		if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB) && c != null
+				&& ihtml.getElement().isOrHasChild(seMayLatex)) {
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 					seMayLatex);
 		}
