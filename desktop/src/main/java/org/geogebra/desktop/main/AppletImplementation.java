@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.main;
 
+import geogebra.GeoGebraAppletPreloader;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -42,7 +44,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.AppletImplementationInterface;
 import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.GeoGebraAppletPreloader;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
