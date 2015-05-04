@@ -114,7 +114,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -146,7 +145,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	private Marble radio;
 	InlineHTML ihtml;
-	TextBox tb;
+	GTextBox tb;
 	private boolean needsUpdate;
 
 	private LongTouchManager longTouchManager;
@@ -1100,21 +1099,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				public void onClickStart(int x, int y,
 				        final PointerEventType type) {
 
-					OnScreenKeyBoard.setInstanceTextField(app,
-					        new MathKeyboardListener() {
-
-						        @Override
-						        public void setFocus(boolean focus) {
-							        tb.setFocus(focus);
-
-						        }
-
-						        @Override
-						        public void ensureEditing() {
-							        // TODO Auto-generated method stub
-
-						        }
-					        });
+					OnScreenKeyBoard.setInstanceTextField(app, tb);
 					// prevent that keyboard is closed on clicks (changing
 					// cursor position)
 					CancelEventTimer.keyboardSetVisible();
