@@ -820,12 +820,12 @@ public class OnScreenKeyBoard extends PopupPanel {
 					setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
 				}
 			}
-		} else if (btn instanceof KeyBoardButton) {
+		} else {
 
-			String text = ((KeyBoardButton) btn).getFeedback();
+			String text = btn.getFeedback();
 
 			if (isAccent(text)) {
-				processAccent(text, (KeyBoardButton) btn);
+				processAccent(text, btn);
 			} else {
 				processing.insertString(text);
 				if (accentDown) {
