@@ -11,6 +11,11 @@ the Free Software Foundation.
  */
 package org.geogebra.common.kernel.commands;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -98,11 +103,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -2158,7 +2158,7 @@ public class AlgebraProcessor {
 			}
 			if (equ.mayBePolynomial()) {
 				return processImplicitPoly(equ);
-			} else if (app.has(Feature.TUBE_BETA)) {
+			} else if (app.has(Feature.IMPLICIT_CURVES)) {
 
 				return processImplicitCurve(equ);
 			}

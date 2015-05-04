@@ -3621,6 +3621,7 @@ public abstract class App implements UpdateSelection {
 		case CAS_EDITOR:
 		case DELETE_IN_ALGEBRA:
 		case EXERCISES:
+		case IMPLICIT_CURVES:
 		case JLM_IN_WEB:
 		case KOREAN_KEYBOARD:
 		case LOCALSTORAGE_FILES:

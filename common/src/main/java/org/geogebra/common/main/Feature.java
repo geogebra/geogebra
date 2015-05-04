@@ -26,4 +26,6 @@ public enum Feature {
 	POLYGON_TRIANGULATION,
 	
 	DATA_COLLECTION,
+
+	IMPLICIT_CURVES,
 }
