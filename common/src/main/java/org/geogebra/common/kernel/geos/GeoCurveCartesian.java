@@ -25,11 +25,11 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -54,17 +54,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	//private Function funX, funY;
 	private boolean isClosedPath;
-	private boolean trace = false;// , spreadsheetTrace = false; -- not used,
-									// commented out (Zbynek Konecny,
-									// 2010-06-16)
-	// Victor Franco Espino 25-04-2007
-	/**
-	 * Parameter in dialog box for adjust color of curvature
-	 */
-	double CURVATURE_COLOR = 15;// optimal value
-	// Victor Franco Espino 25-04-2007
-
-
+	private boolean trace = false;
 
 	/**
 	 * Creates new curve
