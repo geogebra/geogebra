@@ -67,4 +67,4 @@ project(':web') {
 
 ext.joglVersion = '2.2.0'
 // ext.javaGiacVersion = '201503271100'
-ext.javaGiacVersion = '40324'
+ext.javaGiacVersion = '40344'
