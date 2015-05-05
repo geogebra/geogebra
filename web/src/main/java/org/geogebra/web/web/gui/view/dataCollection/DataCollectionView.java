@@ -17,9 +17,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.StandardButton;
+import org.geogebra.web.web.gui.view.dataCollection.GeoListBox.DefaultEntries;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.AccSetting;
-import org.geogebra.web.web.gui.view.dataCollection.Settings.GeoListBox;
-import org.geogebra.web.web.gui.view.dataCollection.Settings.GeoListBox.DefaultEntries;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.LightSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.LoudnessSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.MagFieldSetting;
@@ -76,7 +75,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	/** widgets which need translation */
 	private Label connectionLabel;
 	private Label appID;
-	private Label connectedLabel;
 
 	/**
 	 * @param app
@@ -181,14 +179,14 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 		FlowPanel connectionCaption = new FlowPanel();
 		connectionCaption.addStyleName("panelTitle");
-		this.connectionLabel = new Label("Connection");
+		this.connectionLabel = new Label("Connection with GeoGebra Data App");
 		connectionCaption.add(connectionLabel);
 		connection.add(connectionCaption);
 
 		FlowPanel setting = new FlowPanel();
 		setting.addStyleName("panelIndent");
 
-		this.appID = new Label("App ID:");
+		this.appID = new Label("GeoGebra Data Sharing Code:");
 		this.appIDTextBox = new TextBox();
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
 		
@@ -201,13 +199,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			}
 		});
 
-		this.connectedLabel = new Label("Connected...");
-		this.connectedLabel.addStyleName("connectedLabel");
-		this.connectedLabel.setVisible(false);
-
 		Image imgON = new Image(GuiResources.INSTANCE.datacollection_on());
 		Image imgOFF = new Image(GuiResources.INSTANCE.datacollection_off());
-		this.connectButton = new MyToggleButton2(imgON, imgOFF);
+		this.connectButton = new MyToggleButton2(imgOFF, imgON);
 		this.connectButton.addStyleName("connectButton");
 		this.connectButton.addClickHandler(new ClickHandler() {
 
@@ -220,7 +214,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		setting.add(appID);
 		setting.add(appIDTextBox);
 		setting.add(connectButton);
-		setting.add(connectedLabel);
 		connection.add(setting);
 
 		dataCollectionTab.add(connection);
@@ -233,13 +226,10 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		if (connectButton.isDown()) {
 			((AppWapplication) app).getDataCollection().onConnect(
 					appIDTextBox.getText());
-			connectedLabel.setText("Connected...");
-			connectedLabel.setVisible(true);
 			setSensorSettingsEnabled(true);
 			appIDTextBox.setEnabled(false);
 		} else {
 			((AppWapplication) app).getDataCollection().onDisconnect();
-			connectedLabel.setVisible(false);
 			setSensorSettingsEnabled(false);
 			appIDTextBox.setEnabled(true);
 		}
@@ -321,14 +311,10 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	public void setLabels() {
 
 		// this.connectionLabel
-		// this.connectedLabel
 		// this.appID
 		for (SensorSetting setting : this.sensors) {
 			setting.setLabels();
 		}
-
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -488,7 +474,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	public void onWrongID() {
 		setSensorSettingsEnabled(false);
 		((AppWapplication) app).getDataCollection().onDisconnect();
-		this.connectedLabel.setText("Connection failed");
 		this.connectButton.setDown(false);
 		this.appIDTextBox.setEnabled(true);
 		this.appIDTextBox.setSelectionRange(0, this.appIDTextBox.getText()

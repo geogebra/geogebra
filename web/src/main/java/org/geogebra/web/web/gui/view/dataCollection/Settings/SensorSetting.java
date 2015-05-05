@@ -9,6 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
+import org.geogebra.web.web.gui.view.dataCollection.GeoListBox;
 import org.geogebra.web.web.main.AppWapplication;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,8 +29,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	private ToggleButton collapse;
 
 	/**
-	 * panel with the name of the sensor data and the the listbox with the
-	 * depending geoElement
+	 * panel with the name of the sensor data and the listbox with the depending
+	 * geoElement
 	 */
 	FlowPanel dataValues;
 	/** the listBoxes */
@@ -39,13 +40,18 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	private DataCollectionView view;
 
 	/**
+	 * labels which need translations
+	 */
+	private Label linkedObjectLabel;
+
+	/**
 	 * 
 	 * @param app
 	 *            {@link AppW}
 	 * @param dataView
 	 *            {@link DataCollectionView}
 	 * @param captionString
-	 *            String
+	 *            the String to look up for translations
 	 */
 	public SensorSetting(AppW app, DataCollectionView dataView,
 			String captionString) {
@@ -69,16 +75,18 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	protected abstract void addContent();
 
 	/**
-	 * panel with a "sensor-on-off" button and a label with the name of the
-	 * sensor. if sensor is turned off, the settings for this sensor disappear
-	 * and the connections between sensor values and geoElements are
-	 * restored/set back.
+	 * panel with a {@link #sensorOnOff "sensor-on-off" button}, a
+	 * {@link #captionLabel label} with the name of the sensor and a
+	 * {@link #collapse button} to expand/collapse the settings for this sensor.
+	 * if sensor is turned off, it stops logging the data values of this sensor.
 	 */
 	private void addCaption() {
 		FlowPanel caption = new FlowPanel();
 		caption.addStyleName("panelTitle");
 
 		this.captionLabel = new Label(captionString);
+		// this.captionLabel = new Label(app.getPlain(captionString)); TODO
+		// translation needed
 
 		collapse = new ToggleButton(
 				new Image(GuiResources.INSTANCE.collapse()), new Image(
@@ -99,18 +107,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		sensorOnOff.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				for (GeoListBox listbox : listBoxes) {
-					if (listbox.getSelection() != null) {
-						if (sensorOnOff.isDown()) {
-							((AppWapplication) app).getDataCollection()
-									.registerGeo(listbox.getType().toString(),
-											listbox.getSelection());
-						} else {
-							((AppWapplication) app).getDataCollection()
-									.removeRegisteredGeo(listbox.getType());
-						}
-					}
-				}
+				handleSensorOnOff();
 			}
 		});
 
@@ -121,6 +118,28 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	}
 
 	/**
+	 * handles click on the button to turn sensor on and off
+	 */
+	void handleSensorOnOff() {
+		for (GeoListBox listbox : listBoxes) {
+			if (listbox.getSelection() != null) {
+				if (sensorOnOff.isDown()) {
+					((AppWapplication) app).getDataCollection().registerGeo(
+							listbox.getType().toString(),
+							listbox.getSelection());
+				} else {
+					((AppWapplication) app).getDataCollection()
+							.removeRegisteredGeo(listbox.getType());
+				}
+			}
+		}
+	}
+
+	/**
+	 * A row is used for one "sensor value" (e.g. Ax, Ay or Az). It contains the
+	 * name of the sensor value and a {@link GeoListBox} to choose an element to
+	 * which the received values should be logged.
+	 * 
 	 * @param rowCaption
 	 *            caption
 	 * @param type
@@ -130,7 +149,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		FlowPanel container = new FlowPanel();
 		container.addStyleName("rowContainer");
 		container.add(new Label(rowCaption));
-		container.add(new Label(app.getPlain("LinkedObject")));
+		this.linkedObjectLabel = new Label(app.getPlain("LinkedObject"));
+		container.add(this.linkedObjectLabel);
 
 		GeoListBox listBox = new GeoListBox(type, this);
 		listBox.addChangeHandler(this.view);
@@ -218,7 +238,9 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 	@Override
 	public void setLabels() {
-
+		this.linkedObjectLabel.setText(app.getPlain("LinkedObject"));
+		// this.captionLabel.setText(app.getPlain(captionString)); TODO
+		// translation needed
 	}
 }
 

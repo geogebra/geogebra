@@ -1,9 +1,10 @@
-package org.geogebra.web.web.gui.view.dataCollection.Settings;
+package org.geogebra.web.web.gui.view.dataCollection;
 
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.SensorLogger.Types;
+import org.geogebra.web.web.gui.view.dataCollection.Settings.SensorSetting;
 
 import com.google.gwt.user.client.ui.ListBox;
 

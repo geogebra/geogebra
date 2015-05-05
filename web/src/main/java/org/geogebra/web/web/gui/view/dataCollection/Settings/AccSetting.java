@@ -6,15 +6,18 @@ import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 
 
 /**
- * @author geogebra
- *
+ * Settings for sensor Accelerometer
  */
 public class AccSetting extends SensorSetting {
 
 	/**
+	 * 
 	 * @param app
+	 *            {@link AppW}
 	 * @param view
+	 *            {@link DataCollectionView}
 	 * @param captionString
+	 *            the String to look up for translations
 	 */
 	public AccSetting(AppW app, DataCollectionView view, String captionString) {
 		super(app, view, captionString);

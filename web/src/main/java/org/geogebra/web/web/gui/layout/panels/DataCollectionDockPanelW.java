@@ -17,6 +17,7 @@ public class DataCollectionDockPanelW extends DockPanelW {
 				false, // style bar?
 				-1 // menu order
 		);
+		this.setEmbeddedSize(450);
 	}
 
 	@Override

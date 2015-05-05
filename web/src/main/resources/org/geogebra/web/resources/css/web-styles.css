@@ -3544,14 +3544,6 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
   	cursor: hand;
 }
 
-.gwt-Label.connectedLabel {
-  padding-left: 15px;
-  font-size: 90%;
-  font-style: italic;
-  padding-top: 7px !important;
-  opacity: 0.5;
-}
-
 .dataCollectionView .disabled {
 	opacity: 0.5;
 	pointer-events: none;
