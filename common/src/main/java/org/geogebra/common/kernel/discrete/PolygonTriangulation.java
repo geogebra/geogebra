@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
 
 /**
  * Class to convert a GeoPolygon to a set of triangles
@@ -209,7 +210,8 @@ public class PolygonTriangulation {
 			if (toLeft != null) {
 				s += "/ to left : ";
 				for (Segment segment : toLeft) {
-					s += ((int) (segment.orientation * 180 / Math.PI)) + "°:"
+					s += ((int) (segment.orientation * 180 / Math.PI))
+							+ Unicode.degreeChar + ":"
 							+ segment.leftPoint.name + "(" + segment.usable
 							+ "), ";
 				}
@@ -218,7 +220,8 @@ public class PolygonTriangulation {
 
 				s += "/ to right : ";
 				for (Segment segment : toRight) {
-					s += ((int) (segment.orientation * 180 / Math.PI)) + "°:"
+					s += ((int) (segment.orientation * 180 / Math.PI))
+							+ Unicode.degreeChar + ":"
 							+ segment.rightPoint.name + "(" + segment.usable
 							+ "), ";
 				}
@@ -869,10 +872,11 @@ public class PolygonTriangulation {
 			String s = "";
 			for (point = firstPoint; point.next != firstPoint; point = point.next) {
 				s += point.name + "("
-						+ (point.orientationToNext * 180 / Math.PI) + "°), ";
+						+ (point.orientationToNext * 180 / Math.PI)
+						+ Unicode.degreeChar + "), ";
 			}
 			s += point.name + "(" + (point.orientationToNext * 180 / Math.PI)
-					+ "°)";
+					+ Unicode.degreeChar + ")";
 			debug(s);
 		}
 
@@ -905,10 +909,10 @@ public class PolygonTriangulation {
 		}
 		boolean positive = (delta > 0);
 		debug(point1.name + "(" + (point1.orientationToNext * 180 / Math.PI)
-				+ "°)");
+				+ Unicode.degreeChar + ")");
 		debug(point2.name + "(" + (point2.orientationToNext * 180 / Math.PI)
-				+ "°)");
-		debug("delta : " + (delta * 180 / Math.PI) + "°)");
+				+ Unicode.degreeChar + ")");
+		debug("delta : " + (delta * 180 / Math.PI) + Unicode.degreeChar + ")");
 		debug("positive : " + positive);
 		boolean convex = true;
 		point1 = point2;
@@ -926,8 +930,10 @@ public class PolygonTriangulation {
 			}
 			convex = positive ^ (delta < 0);
 			debug(point2.name + "("
-					+ (point2.orientationToNext * 180 / Math.PI) + "°) -- "
-					+ "(" + (delta * 180 / Math.PI) + "°) -- " + convex);
+					+ (point2.orientationToNext * 180 / Math.PI)
+					+ Unicode.degreeChar + ") -- " + "("
+					+ (delta * 180 / Math.PI) + Unicode.degreeChar + ") -- "
+					+ convex);
 			point1 = point2;
 			point2 = point1.next;
 			pointLengthMinus2++;
@@ -1635,7 +1641,8 @@ public class PolygonTriangulation {
 	final private void createSegment(Point point) {
 
 		// debug(point.name+", "+((int)
-		// (point.orientationToNext*180/Math.PI))+"°, "+point.next.name);
+		// (point.orientationToNext*180/Math.PI))+ Unicode.degreeChar +
+		// ", "+point.next.name);
 		Segment segment;
 		if (Kernel.isGreater(point.orientationToNext, -Math.PI / 2)
 				&& Kernel.isGreaterEqual(Math.PI / 2, point.orientationToNext)) { // point
@@ -1958,8 +1965,9 @@ public class PolygonTriangulation {
 
 	static final private boolean needsDiagonal(Segment seg1, Segment seg2) {
 		// debug(seg1+"("+((int)
-		// (seg1.orientation*180/Math.PI))+"°)"+","+seg2+"("+((int)
-		// (seg2.orientation*180/Math.PI))+"°)");
+		// (seg1.orientation*180/Math.PI)) + Unicode.degreeChar +
+		// ")"+","+seg2+"("+((int)
+		// (seg2.orientation*180/Math.PI)) + Unicode.degreeChar + ")");
 		if (seg1.orientation < seg2.orientation) {
 			return true;
 		}
