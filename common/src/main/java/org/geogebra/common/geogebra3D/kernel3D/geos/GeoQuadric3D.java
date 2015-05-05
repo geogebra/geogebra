@@ -542,9 +542,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_CYLINDER:
 		default:
 			double[] coeffs = new double[10];
-			coeffs[0] = matrix[0]; // x²
-			coeffs[1] = matrix[1]; // y²
-			coeffs[2] = matrix[2]; // z²
+			coeffs[0] = matrix[0]; // x^2
+			coeffs[1] = matrix[1]; // y^2
+			coeffs[2] = matrix[2]; // z^2
 			coeffs[9] = matrix[3]; // constant
 
 			coeffs[3] = 2 * matrix[4]; // xy

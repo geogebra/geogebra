@@ -1603,7 +1603,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	/**
 	 * normalize coeffients so that
-	 * Intersect[ (x - 1.62010081566832)² + (y + 31.674457260881873)² = 0.028900000000021 ,  0.000158120368003x + 0.000144840828995y = -0.004331583710062 ]
+	 * Intersect[ (x - 1.62010081566832)^2 + (y + 31.674457260881873)^2 = 0.028900000000021 ,  0.000158120368003x + 0.000144840828995y = -0.004331583710062 ]
 	 * works
 	 * 
 	 * @return normalized coefficients x,y,z

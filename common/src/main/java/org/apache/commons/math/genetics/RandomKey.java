@@ -49,7 +49,7 @@ import java.util.List;
  * For details, see:
  * <ul>
  * <li>Bean, J.C.: Genetic algorithms and random keys for sequencing and
- * optimization. ORSA Journal on Computing 6 (1994) 154–160</li>
+ * optimization. ORSA Journal on Computing 6 (1994) 154-160</li>
  * <li>Rothlauf, F.: Representations for Genetic and Evolutionary Algorithms.
  * Volume 104 of Studies in Fuzziness and Soft Computing. Physica-Verlag,
  * Heidelberg (2002)</li>
@@ -59,7 +59,8 @@ import java.util.List;
  * @param <T>
  *            type of the permuted objects
  * @since 2.0
- * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept. 2009) $
+ * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept.
+ *          2009) $
  */
 public abstract class RandomKey<T> extends AbstractListChromosome<Double> implements PermutationChromosome<T> {
 

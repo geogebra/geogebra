@@ -19,8 +19,8 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
- * Finds all local extrema of a polynomial wrapped in If[] eg If[0 < x < 10,3x³
- * - 48x² + 162x + 300]
+ * Finds all local extrema of a polynomial wrapped in If[] eg If[0 < x < 10,3x^3
+ * - 48x^2 + 162x + 300]
  * 
  * @author Michael
  */

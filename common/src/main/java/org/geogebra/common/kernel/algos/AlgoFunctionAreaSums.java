@@ -913,7 +913,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 		boolean isDefined = true;
 
-		// problem with Sequence[LowerSum[x², i, i + 1, 1], i, 1, 5] on file
+		// problem with Sequence[LowerSum[x^2, i, i + 1, 1], i, 1, 5] on file
 		// load
 		if (sum == null) {
 			sum = new GeoNumeric(cons);

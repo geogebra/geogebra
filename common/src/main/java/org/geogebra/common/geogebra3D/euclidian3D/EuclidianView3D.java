@@ -1765,7 +1765,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		aNew = aN;
 		bNew = bN;
 
-		// if (aNew,bNew)=(0°,90°), then change it to (90°,90°) to have correct
+		// if (aNew,bNew)=(0degrees,90degrees), then change it to (90degrees,90degrees) to have correct
 		// xOy orientation
 		if (Kernel.isEqual(aNew, 0, Kernel.STANDARD_PRECISION)
 				&& Kernel

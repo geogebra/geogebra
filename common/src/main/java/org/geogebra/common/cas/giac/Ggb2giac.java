@@ -44,7 +44,7 @@ public class Ggb2giac {
 
 		// factor over complex rationals
 		// [ggbans:=%0] first in case something goes wrong, eg CFactor[sqrt(21)
-		// - 2sqrt(7) x ί + 3sqrt(3) x² ί + 6x³]
+		// - 2sqrt(7) x ί + 3sqrt(3) x^2 ί + 6x^3]
 		p("CFactor.1",
 				"[with_sqrt(0),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],with_sqrt(1),ggbcfactans][4]");
 		p("CFactor.2",
@@ -67,7 +67,7 @@ public class Ggb2giac {
 		p("Covariance.2", "covariance(%0,%1)");
 		p("Covariance.1", "normal(covariance(%0))");
 
-		// also in ExpressionNode for d⊗e
+		// also in ExpressionNode for crossed-circle
 		p("Cross.2",
 				"[[[ggbcrossarg0:=%0], [ggbcrossarg1:=%1]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]");
 
@@ -78,7 +78,7 @@ public class Ggb2giac {
 		p("CSolutions.2", "ggbsort(normal(cZeros(%0,%1)))");
 
 		// DO NOT wrap in normal() otherwise these don't work
-		// CSolve[z²=k a^2,z]
+		// CSolve[z^2=k a^2,z]
 		// CSolve[3z^2-2a*(k+1)*z+a^2*k=0,z]
 		// (alternative is assume(ggbtmpvara, complex))
 		p("CSolve.1",
@@ -168,7 +168,7 @@ public class Ggb2giac {
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		// factor over rationals
-		// add x so that Factor[(-k x² + 4k x + x³)] gives a nicer answer
+		// add x so that Factor[(-k x^2 + 4k x + x^3)] gives a nicer answer
 		p("Factor.1",
 				"[with_sqrt(0),[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]");
 		p("Factor.2",
@@ -305,8 +305,8 @@ public class Ggb2giac {
 						+
 
 						// eg Conic[(5,0),(-5,0),(0,5),(0,-5),(4,1)]
-						// simplify to x² +2 x y + y² - 25 from 10000x² + 20000x
-						// y + 10000y² - 250000
+						// simplify to x^2 +2 x y + y^2 - 25 from 10000x^2 + 20000x
+						// y + 10000y^2 - 250000
 						"[hcf:=factors(M)[0]],"
 						+ "when(type(hcf)==DOM_INT,normal(M/hcf)=0,M=0)"
 						+ "][5]");
@@ -346,7 +346,7 @@ public class Ggb2giac {
 
 		// simplify (...)/1000 = 0
 		// "[ggbans:=numer(ggbans)],"+
-		// simplify eg 28x² - 24x y - 160x + 60y² - 96y + 256 = 0
+		// simplify eg 28x^2 - 24x y - 160x + 60y^2 - 96y + 256 = 0
 		// "[hcf:=factors(ggbans)[0]]],"+
 		// "when(type(hcf)==DOM_INT,normal(ggbans/hcf)=0,ggbans=0)][1]";
 
@@ -439,7 +439,7 @@ public class Ggb2giac {
 						+
 						// eg NSolve[a^4 + 34a^3 = 34]
 						// regroup() added for
-						// NSolve[BC^2=4^2+3^2-2*4*3*cos(50°)]
+						// NSolve[BC^2=4^2+3^2-2*4*3*cos(50degrees)]
 						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(regroup(ggbnsans),ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],"
 						+ "ggbnsans][2])");
 
@@ -734,10 +734,10 @@ public class Ggb2giac {
 		// SolveCubic[x^3+3x^2+x-3]
 
 		// SolveCubic[x^3 + 6x^2 - 7*x - 2]
-		// x³ - 6x² - 7x + 9
+		// x^3 - 6x^2 - 7x + 9
 
 		// check with CSolve first, eg
-		// f(x) = x³ - 9x² - 2x + 8
+		// f(x) = x^3 - 9x^2 - 2x + 8
 
 		// adapted from xcas example by Bernard Parisse
 		p("SolveCubic.1", "["

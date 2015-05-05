@@ -2544,7 +2544,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				String[] units = euclidianView.getAxesUnitLabels();
 				if (hasMeasureUnit(units, spaceTick,0)) {
 					String unit = getUnit(units, spaceTick,0);
-					// case ° mm etc.
+					// case degrees mm etc.
 					if (!unit.contains("p")) {
 						codeBeginDoc.append(buffer);
 						codeBeginDoc.append(ticks);
@@ -2709,7 +2709,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				String[] units = euclidianView.getAxesUnitLabels();
 				if (hasMeasureUnit(units, spaceTick, 1)){
 					String unit = getUnit(units, spaceTick,1);
-					// case ° mm etc.
+					// case degrees mm etc.
 					if (!unit.contains("p")) {
 						codeBeginDoc.append(buffer);
 						codeBeginDoc.append(ticks);

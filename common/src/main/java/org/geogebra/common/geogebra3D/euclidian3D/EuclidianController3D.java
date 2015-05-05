@@ -115,7 +115,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/**
 	 * scale factor for changing angle of view : 2Pi <-> 360 pixels (so 1 pixel
-	 * = 1° )
+	 * = 1degrees )
 	 */
 	static final public double ANGLE_TO_DEGREES = 2 * Math.PI / 360;
 	/** maximum vertical angle */

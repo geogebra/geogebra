@@ -4528,7 +4528,7 @@ kernel, left,
 	public ExpressionNode derivative(FunctionVariable fv, Kernel kernel) {
 		switch (operation) {
 
-		// for eg (x < x1) * (a1 x² + b1 x + c1)
+		// for eg (x < x1) * (a1 x^2 + b1 x + c1)
 		// we need to return 0 for derivative of (x < x1)
 		// so that the product rule gives the correct answer
 		case LESS:

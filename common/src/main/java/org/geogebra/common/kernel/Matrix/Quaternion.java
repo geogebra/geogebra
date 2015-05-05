@@ -201,8 +201,8 @@ public class Quaternion {
 	
 	/**
 	 * assuming angle t between this and q verifies
-	 * cos(t) = 2 dotproduct(this, q)² - 1 
-	 * we return 1 - dotproduct(this, q)² = (1-cos(t))/2
+	 * cos(t) = 2 dotproduct(this, q)^2 - 1 
+	 * we return 1 - dotproduct(this, q)^2 = (1-cos(t))/2
 	 * @param q quaternion
 	 * @return distance between this and q
 	 */

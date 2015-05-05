@@ -125,7 +125,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			if (horizontalDistance > frustumRadius) {
 				alpha = Math.asin(frustumRadius / horizontalDistance);
 				beta = Math.atan2(v.getY(), v.getX());
-				// App.debug("alpha = "+(alpha*180/Math.PI)+"°, beta = "+(beta*180/Math.PI)+"°");
+				// App.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta = "+(beta*180/Math.PI)+"degrees");
 				visible = Visible.CENTER_OUTSIDE; // center outside
 			} else {
 				visible = Visible.CENTER_INSIDE; // do as if center inside

@@ -132,7 +132,7 @@ public class TitlePanel extends JPanel {
 
 			App app = cons.getApplication();
 
-			// in form 23 September 2012 (some languages don't want eg 25e, 25ª
+			// in form 23 September 2012 (some languages don't want eg 25e, 25a
 			// so omit "th" for all)
 			String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
 					+ Unicode.LeftToRightMark

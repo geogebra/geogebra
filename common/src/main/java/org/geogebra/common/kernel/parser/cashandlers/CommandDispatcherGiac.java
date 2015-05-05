@@ -530,7 +530,7 @@ public class CommandDispatcherGiac {
 			case solve:
 			case poly1: // eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))
 			case integrate: // eg Integral[exp(x^3)]
-			case bounded_function: // eg Limit[cos(x),∞]
+			case bounded_function: // eg Limit[cos(x),infinity]
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 

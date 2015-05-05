@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.util.Unicode;
 
 /**
  * @author gabor
@@ -35,7 +36,9 @@ public abstract class ProbabilityTable {
 		columnNames = new String[2];
 		columnNames[0] = "k";
 		if(isCumulative())
-			columnNames[1] = app.getMenu("ProbabilityOf") + "X ≤ k" + app.getMenu("EndProbabilityOf");
+			columnNames[1] = app.getMenu("ProbabilityOf") + "X "
+					+ Unicode.LESS_EQUAL + " k"
+					+ app.getMenu("EndProbabilityOf");
 		else
 			columnNames[1] = app.getMenu("ProbabilityOf") + "X = k" + app.getMenu("EndProbabilityOf");
 		
