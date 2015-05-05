@@ -116,7 +116,7 @@ public class EuclidianControllerInput3DCompanion extends
 				double distance = startCoords.distance(q);
 				// App.debug("\n -- "+(distance * ((EuclidianView3D)
 				// ec.view).getScale()));
-				if (distance > 0.05) { // angle < 25.8°
+				if (distance > 0.05) { // angle < 25.8degrees
 					startCoords.set(q);
 					startTime = time;
 					// App.debug("\n -- startCoords =\n"+startCoords);

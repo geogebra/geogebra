@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -38,7 +39,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
@@ -428,7 +428,7 @@ public class AlgoDispatcher {
 		} else {
 			angle = Angle(angleLabel, C, A, B);
 		}
-		// ensure we won't get angle e.g. in 0-180° due to default
+		// ensure we won't get angle e.g. in 0-180degrees due to default
 		angle.setAngleStyle(AngleStyle.ANTICLOCKWISE);
 
 		// return angle and new point

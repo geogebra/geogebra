@@ -14,9 +14,9 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -174,7 +174,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 
 	private void updateLabelField(GeoElement geo, boolean isInteger) {
 		String def = geo.isAngle() ? " = 45\u00B0" : " = 1";
-		tfLabel.setText(geo.getDefaultLabel(isInteger) + def); // =45°
+		tfLabel.setText(geo.getDefaultLabel(isInteger) + def); // =45degrees
     }
 
 	/**

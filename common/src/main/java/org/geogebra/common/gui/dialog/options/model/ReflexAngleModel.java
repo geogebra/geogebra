@@ -81,7 +81,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 						GeoAngle.INTERVAL_MIN[i],
 						GeoAngle.INTERVAL_MAX[i]));
 			}
-		} else {// only 180° wide interval are possible
+		} else {// only 180degree wide interval are possible
 			result.add(loc.getPlain("AandB",
 					GeoAngle.INTERVAL_MIN[1], GeoAngle.INTERVAL_MAX[1]));
 			result.add(loc.getPlain("AandB",

@@ -421,7 +421,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			// rotation around x (screen)
 			double rotX = Math.asin(vxp.norm()) * 180 / Math.PI;
 			// App.debug("rotX="+rotX+", vx1.dotproduct(vx) = "+vx1.dotproduct(vx)+", vxp.dotproduct(vZ1) = "+vxp.dotproduct(vZ1));
-			if (vx1.dotproduct(vx) < 0) { // check if rotX should be > 90°
+			if (vx1.dotproduct(vx) < 0) { // check if rotX should be > 90degrees
 				rotX = 180 - rotX;
 			}
 			if (vxp.dotproduct(vZ1) > 0) { // check if rotX should be negative
@@ -431,7 +431,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			// rotation around z (scene)
 			double rotZ = Math.asin(vZp.norm()) * 180 / Math.PI;
 			// App.debug("rotZ="+rotZ+", vZp.dotproduct(vx) = "+vZp.dotproduct(vx)+", Coords.VZ.dotproduct(vZ1) = "+vZ1.getZ());
-			if (vZ1.getZ() < 0) { // check if rotZ should be > 90°
+			if (vZ1.getZ() < 0) { // check if rotZ should be > 90degrees
 				rotZ = 180 - rotZ;
 			}
 			if (vZp.dotproduct(vx) < 0) { // check if rotZ should be negative
@@ -465,7 +465,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			 * v.updateCascade();
 			 * 
 			 * GeoText text = (GeoText) getKernel().lookupLabel("text");
-			 * text.setTextString("az = "+rotZ+"°\n"+"ax = "+rotX+"°\n"+
+			 * text.setTextString
+			 * ("az = "+rotZ+"degrees\n"+"ax = "+rotX+"degrees\n"+
 			 * "vxp.dotproduct(vZ1)="
 			 * +vxp.dotproduct(vZ1)+"\nvx1.dotproduct(vx)="+vx1.dotproduct(vx)
 			 * +"\nvZp.dotproduct(vx) = "+vZp.dotproduct(vx) ); text.update();

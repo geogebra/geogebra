@@ -55,11 +55,6 @@ public class IntegerSet {
 		return false;
 	}
 
-	/**
-	 * è¦�ç´ ã‚’äº¤æ�›ã�™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
-	 * @param n1 äº¤æ�›ã�™ã‚‹è¦�ç´ ã�®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 * @param n2 äº¤æ�›ã�™ã‚‹è¦�ç´ ã�®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	 */
 	private void swap(int n1, int n2) {
 		int tmp = this.list[n1];
 		this.list[n1] = this.list[n2];

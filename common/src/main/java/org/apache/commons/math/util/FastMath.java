@@ -977,12 +977,15 @@ public class FastMath {
     }
 
     /**
-     *  For x between 0 and 1, returns exp(x), uses extended precision
-     *  @param x argument of exponential
-     *  @param result placeholder where to place exp(x) split in two terms
-     *  for extra precision (i.e. exp(x) = result[0] ° result[1]
-     *  @return exp(x)
-     */
+	 * For x between 0 and 1, returns exp(x), uses extended precision
+	 * 
+	 * @param x
+	 *            argument of exponential
+	 * @param result
+	 *            placeholder where to place exp(x) split in two terms for extra
+	 *            precision (i.e. exp(x) = result[0] + result[1]
+	 * @return exp(x)
+	 */
     private static double slowexp(final double x, final double result[]) {
         final double xs[] = new double[2];
         final double ys[] = new double[2];

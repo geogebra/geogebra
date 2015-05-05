@@ -35,8 +35,8 @@ final public class GeoAngle3D extends GeoAngle {
 	}
 
 	/**
-	 * create a new GeoAngle3D and set its interval (e.g. between 0° and 180°)
-	 * as default angle
+	 * create a new GeoAngle3D and set its interval (e.g. between 0 and 180
+	 * degrees) as default angle
 	 * 
 	 * @param cons
 	 *            construction
