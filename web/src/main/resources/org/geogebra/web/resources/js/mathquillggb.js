@@ -2739,17 +2739,39 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     cursor.appendDir(-dir, this.ch[-dir]);
     // Okay, we've moved into this, but maybe
     // we need more in case of ggbtable & ggbtd
+    // e.g. cursor is in ggbtable's MathBlock
     var thisthis = cursor[dir];
     if (this.ctrlSeq === '\\ggbtable' || this.pwtable || this.prtable) {
       cursor.appendDir(-dir, thisthis.ch[-dir]);
       // we're in the ggbtd, but that is also not enough!
+      // e.g. cursor is in ggbtr's MathBlock
       if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
         cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+        // e.g. cursor is in ggbtd's MathBlock
       }
     } else if (this.ctrlSeq.indexOf('\\ggbtr') > -1) {
       // in case of ggbtr we only need this once
       cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+    } else if (this.ctrlSeq === '\\prcurve') {
+      cursor.appendDir(-dir, thisthis.ch[-dir]);
+      // now we're either in \\parametric or in \\prcondition
+      // or more exactly, their corresponding MathBlock
+      if (thisthis.ctrlSeq === '\\parametric') {
+    	thisthis = cursor[dir];
+    	cursor.appendDir(-dir, thisthis.ch[-dir]);
+    	// now we shall be in \\prtable's MathBlock
+    	if (thisthis.prtable) {
+    	  thisthis = cursor[dir];
+          cursor.appendDir(-dir, thisthis.ch[-dir]);
+          // now we shall be in \\ggbtr MathBlock of \\prtable
+          if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
+            cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+            // now we shall be in \\ggbtd MathBlock of \\prtable
+          }
+    	}
+      }
     }
+    // TODO: deal with \\piecewise and \\parametric elsewhere
   };
   _.createSelection = function(dir, cursor) {
     // we can do things like this because _super class
