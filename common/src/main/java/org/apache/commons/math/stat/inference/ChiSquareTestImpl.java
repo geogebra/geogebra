@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
  * Implements Chi-Square test statistics defined in the
  * {@link UnknownDistributionChiSquareTest} interface.
  *
- * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 aout 2010) $
  */
 public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
 

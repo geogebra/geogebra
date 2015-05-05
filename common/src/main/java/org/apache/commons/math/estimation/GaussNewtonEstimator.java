@@ -35,7 +35,7 @@ import org.apache.commons.math.util.FastMath;
  * squares criterion on the measurement residuals. It uses a
  * Gauss-Newton algorithm.</p>
  *
- * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 aout 2010) $
  * @since 1.2
  * @deprecated as of 2.0, everything in package org.apache.commons.math.estimation has
  * been deprecated and replaced by package org.apache.commons.math.optimization.general

@@ -33,7 +33,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * </ul>
  * </p>
  *
- * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 aout 2010) $
  */
 public abstract class ContinuedFraction {
 

@@ -30,7 +30,7 @@ package org.apache.commons.math.optimization;
  * considers convergence is reached when the input point set does not change
  * much anymore, it does not use objective function value at all.</p>
  *
- * @version $Revision: 799857 $ $Date: 2009-08-01 15:07:12 +0200 (sam. 01 août 2009) $
+ * @version $Revision: 799857 $ $Date: 2009-08-01 15:07:12 +0200 (sam. 01 aout 2009) $
  * @since 2.0
  */
 

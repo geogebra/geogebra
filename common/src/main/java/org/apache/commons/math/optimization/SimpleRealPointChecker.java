@@ -29,7 +29,7 @@ import org.apache.commons.math.util.MathUtils;
  * or if either the absolute difference between the point coordinates are
  * smaller than another threshold.
  * </p>
- * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 aout 2010) $
  * @since 2.0
  */
 public class SimpleRealPointChecker implements RealConvergenceChecker {

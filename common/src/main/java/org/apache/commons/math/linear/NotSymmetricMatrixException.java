@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * be symmetric is not
  *
  * @since 2.0
- * @version $Revision: 983921 $ $Date: 2010-08-10 12:46:06 +0200 (mar. 10 août 2010) $
+ * @version $Revision: 983921 $ $Date: 2010-08-10 12:46:06 +0200 (mar. 10 aout 2010) $
  */
 
 public class NotSymmetricMatrixException extends MathException {

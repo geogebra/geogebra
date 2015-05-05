@@ -38,7 +38,7 @@ import org.apache.commons.math.util.FastMath;
  * This class implements both the loess method and serves as an interpolation
  * adapter to it, allowing to build a spline on the obtained loess fit.
  *
- * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 aout 2010) $
  * @since 2.0
  */
 public class LoessInterpolator

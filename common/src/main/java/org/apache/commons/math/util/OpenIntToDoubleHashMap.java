@@ -34,7 +34,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * {@link #iterator()} are fail-fast: they throw a
  * <code>ConcurrentModificationException</code> when they detect the map has been
  * modified during iteration.</p>
- * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 août 2010) $
+ * @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dim. 29 aout 2010) $
  * @since 2.0
  */
 public class OpenIntToDoubleHashMap implements Serializable {

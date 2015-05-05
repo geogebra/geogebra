@@ -34,7 +34,7 @@ package org.apache.commons.math.stat.ranking;
  * </ul>
  *
  * @since 2.0
- * @version $Revision: 981332 $ $Date: 2010-08-02 00:24:31 +0200 (lun. 02 août 2010) $
+ * @version $Revision: 981332 $ $Date: 2010-08-02 00:24:31 +0200 (lun. 02 aout 2010) $
  */
 public enum TiesStrategy {
 
