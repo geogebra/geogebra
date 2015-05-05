@@ -670,8 +670,8 @@ public class Riemann {
 	 * </p>
 	 * <p>
 	 * We have the equality <i>Z</i>(<i>t</i>) = e<sup>i &#952;(<i>t</i>)</sup>
-	 * &#950;(&#189; + i<i>t</i>). Cf. §6.5 in H.M. Edwards: <i>Riemann's Zeta
-	 * Function.</i> Academic Press, New York 1974.
+	 * &#950;(&#189; + i<i>t</i>). Cf. Section6.5 in H.M. Edwards: <i>Riemann's
+	 * Zeta Function.</i> Academic Press, New York 1974.
 	 * </p>
 	 * 
 	 * @param t

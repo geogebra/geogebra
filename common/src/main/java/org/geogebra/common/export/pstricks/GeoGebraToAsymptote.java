@@ -3758,9 +3758,12 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		StringBuilder sb = new StringBuilder();
 		ColorCode(g.getObjectColor(), sb);
 		String template = "draw( (%0,%1) -- (%2,%3)," + sb
-				+ "+linewidth(1)§,arrows§);\n";
+ + "+linewidth(1)"
+				+ Unicode.SECTION_SIGN + ",arrows" + Unicode.SECTION_SIGN
+				+ ");\n";
 		StringBuilder lineBuilder = drawNyquistDiagram(g, template,
-				"§,arrows§", ",BeginArrow", ",EndArrow");
+				Unicode.SECTION_SIGN + ",arrows" + Unicode.SECTION_SIGN,
+				",BeginArrow", ",EndArrow");
 		code.append(lineBuilder.toString() + ";\n");
 	}
 

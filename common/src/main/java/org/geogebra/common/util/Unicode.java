@@ -141,6 +141,7 @@ public class Unicode {
 	public static final char nDash = '\u2013';
 	public static final char ArabicComma = '\u066b';
 	public static final char ellipsis = '\u2026';
+	public static final char SECTION_SIGN = '\u00a7';
 	public static final char VECTOR_PRODUCT = '\u2297';
 	public static final char OPEN_DOUBLE_QUOTE = '\u201C';
 	public static final char CLOSE_DOUBLE_QUOTE = '\u201D';

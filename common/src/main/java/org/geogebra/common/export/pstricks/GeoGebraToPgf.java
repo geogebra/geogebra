@@ -3250,8 +3250,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			la = ",<-";
 			ra = ",->";
 		}
-		String template = "\\draw[" + s + "§arrows§] (%0,%1) -- (%2,%3);\n";
-		StringBuilder lineBuilder = drawNyquistDiagram(g, template, "§arrows§",
+		String template = "\\draw[" + s + Unicode.SECTION_SIGN + "arrows"
+				+ Unicode.SECTION_SIGN + "] (%0,%1) -- (%2,%3);\n";
+		StringBuilder lineBuilder = drawNyquistDiagram(g, template,
+				Unicode.SECTION_SIGN + "arrows" + Unicode.SECTION_SIGN,
 				la, ra);
 		code.append(lineBuilder.toString() + ";\n");
 	}

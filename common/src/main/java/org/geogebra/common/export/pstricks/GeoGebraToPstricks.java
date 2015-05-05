@@ -2473,8 +2473,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawNyquist(GeoTransferFunction g) {
 		startBeamer(code);
 		String liopco = LineOptionCode(g, true);
-		String template = "\\psline" + liopco + "§arrows§(%0,%1)(%2,%3)\n";
-		StringBuilder lineBuilder = drawNyquistDiagram(g, template, "§arrows§",
+		String template = "\\psline" + liopco + "" + Unicode.SECTION_SIGN
+				+ "arrows" + Unicode.SECTION_SIGN + "(%0,%1)(%2,%3)\n";
+		StringBuilder lineBuilder = drawNyquistDiagram(g, template, ""
+				+ Unicode.SECTION_SIGN + "arrows" + Unicode.SECTION_SIGN + "",
 				"{<-}", "{->}");
 		code.append(lineBuilder.toString());
 		endBeamer(code);

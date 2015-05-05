@@ -59,7 +59,6 @@ public class BranchBound {
 			this.getOneTree(edges, table, multipliers, connect, disconnect);
 			double cost = this.getLowerCost(table, multipliers, edges);
 			if (circuitLowerBound < cost) {
-				// å®Ÿè¡Œå�¯èƒ½è§£ã‚ˆã‚Šã‚‚éƒ¨åˆ†å•�é¡Œã�®ä¸‹ç•Œã�Œå¤§ã��ã�„ã�®ã�§æž�åˆˆã‚Šã�—ã�¾ã�™ã€‚
 				// System.out.println((int) (percent * 100)+ "% / bound: "+
 				// count + ", depth: "+ depth);
 				return null;

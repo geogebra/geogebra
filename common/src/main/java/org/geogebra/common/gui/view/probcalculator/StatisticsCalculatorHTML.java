@@ -75,7 +75,7 @@ public class StatisticsCalculatorHTML {
 		strInterval = app.getMenu("Interval");
 		strPooled = app.getMenu("Pooled");
 		
-		strChiSq = "\u03a7²";
+		strChiSq = Unicode.Chi + "" + Unicode.Superscript_2;
 		
 	}
 
