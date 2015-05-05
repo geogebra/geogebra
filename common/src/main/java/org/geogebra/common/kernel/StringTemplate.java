@@ -698,7 +698,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		default:
 			// don't want to use exact value otherwise Giac will do an exact
 			// calculation when we want approx
-			// eg Integral[sin(x) / (1 + a² - 2a cos(x)), 0, pi] in the Algebra
+			// eg Integral[sin(x) / (1 + a^2 - 2a cos(x)), 0, pi] in the Algebra
 			// View
 			// #5129
 			// #5130 reduce to 13sf
