@@ -896,4 +896,8 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		return Float.toString(ex.getFraction());
 	}
 
+	public void setExternalPath(String s) {
+		((AppW) app).setExternalPath(s);
+	}
+
 }

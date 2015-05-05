@@ -55,6 +55,7 @@ import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.events.NativeEventAttacher;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
@@ -3214,6 +3215,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	WebsocketLogger webSocketLogger = null;
 	private boolean keyboardNeeded;
+	private String externalPath;
 
 	public SensorLogger getSensorLogger() {
 		if (webSocketLogger == null) {
@@ -3282,5 +3284,10 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void hideMenu() {
 		// for applets with menubar
+	}
+
+	public void setExternalPath(String path) {
+		this.externalPath = path;
+		getFileManager().setFileProvider(Provider.LOCAL);
 	}
 }

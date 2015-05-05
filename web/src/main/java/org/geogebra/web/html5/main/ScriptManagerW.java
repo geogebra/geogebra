@@ -657,6 +657,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getExerciseFraction()();
 		};
 
+		api.setExternalPath = function(path) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setExternalPath(Ljava/lang/String;)(path);
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 		// other methods from the Wiki (consider to implement here)
