@@ -56,6 +56,10 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public void setBase64(String base64) {
+		if (((AppW) app).getArticleElement() != null) {
+			((AppW) app).getArticleElement().setAttribute(
+					"data-param-perspective", "");
+		}
 		View view = new View(RootPanel.getBodyElement(), (AppW) app);
 		view.processBase64String(base64);
 	}

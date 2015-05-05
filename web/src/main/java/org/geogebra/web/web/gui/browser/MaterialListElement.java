@@ -532,7 +532,6 @@ public class MaterialListElement extends FlowPanel implements
 	 * 
 	 */
 	protected void onEdit() {
-		app.getArticleElement().setAttribute("data-param-perspective", "");
 		if (!isLocal) {
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation()
