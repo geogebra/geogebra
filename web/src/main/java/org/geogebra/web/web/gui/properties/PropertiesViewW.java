@@ -210,12 +210,10 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 
 	public void add(GeoElement geo) {
 		// TODO Auto-generated method stub
-		App.debug("add(geo)");
 	}
 
 	public void remove(GeoElement geo) {
 		// TODO Auto-generated method stub
-		App.debug("remove(geo)");
 	}	
 
 
