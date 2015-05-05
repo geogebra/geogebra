@@ -1,5 +1,12 @@
 package org.geogebra.web.web.gui.layout;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.TreeSet;
+
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -18,13 +25,6 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.TreeSet;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -395,14 +395,14 @@ public class DockManagerW extends DockManager {
 			
 			setActiveToolBarDefault(dpData);
 
-			// is focused dock panel not visible anymore => choose another one
-		//	if(focusedDockPanel == null || !focusedDockPanel.isVisible()) {
-		//		for(DockPanelW panel : dockPanels) {
-				//	if(panel.isVisible() && !panel.isInFrame()) {
-				//		setFocusedPanel(panel);
-				//	}
-		//		}
-		//	}
+			// is focused dock panel not visible anymore => reset
+			if (focusedDockPanel != null && !focusedDockPanel.isVisible()) {
+				focusedDockPanel = null;
+				if (focusedEuclidianDockPanel != null) {
+					focusedEuclidianDockPanel.setEuclidianFocus(false);
+				}
+				focusedEuclidianDockPanel = null;
+			}
 			
 			
 		}

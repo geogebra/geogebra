@@ -998,6 +998,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (focusedEuclidianPanel != null) {
 			return focusedEuclidianPanel.getEuclidianView();
 		}
+		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN).isVisible()) {
+			return app.getEuclidianView1();
+		}
+		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN2).isVisible()) {
+			return app.getEuclidianView2(1);
+		}
+		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN3D).isVisible()) {
+			return (EuclidianView) app.getEuclidianView3D();
+		}
 		return (app).getEuclidianView1();
 		// return app.getEuclidianView1();
 	}
