@@ -654,9 +654,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			double yscale = view.getYscale();
 			if (xscale >= yscale) {
 				tfAxesRatioX.setText("1");
-				tfAxesRatioY.setText("" + xscale / yscale);
+				tfAxesRatioY.setText(app.getKernel().format(xscale / yscale,
+						StringTemplate.editTemplate));
 			} else {
-				tfAxesRatioX.setText("" + yscale / xscale);
+				tfAxesRatioX.setText(app.getKernel().format(yscale / xscale,
+						StringTemplate.editTemplate));
 				tfAxesRatioY.setText("1");
 			}
 
