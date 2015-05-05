@@ -17,14 +17,17 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponent {
 
-	private static final long serialVersionUID = 1L;
 
-	// these constants match JSplitPane.VERTICAL_SPLIT and
-	// JSplitPane.HORIZONTAL_SPLIT
+	/**
+	 * this must be the same as JSplitPane.HORIZONTAL_SPLIT
+	 */
+
 	public static final int VERTICAL_SPLIT = 0;
+	/**
+	 * this must be the same as JSplitPane.HORIZONTAL_SPLIT
+	 */
 	public static final int HORIZONTAL_SPLIT = 1;
 
-	private boolean dividerVisible;
 	private Widget leftComponent;
 	private Widget rightComponent;
 	private int orientation;
@@ -85,7 +88,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		this.app = app;
 		setOrientation(newOrientation);
 		setResizeWeight(0.5);
-		dividerVisible = false;
 		// this.addPropertyChangeListener(paneResizeListener);
 
 		dividerLocation = 100;
@@ -328,7 +330,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		}
 
 		// forceLayout();
-		updateDivider();
 	}
 
 	private void setComponents() {
@@ -367,15 +368,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 			throw new IllegalArgumentException();
 	}
 
-	/**
-	 * Update the visibility of the divider.
-	 */
-	private void updateDivider() {
-		if (leftComponent == null || rightComponent == null)
-			dividerVisible = false;
-		else
-			dividerVisible = true;
-	}
 
 	/**
 	 * Update the UI by drawing the divider just if the dividerVisible attribute
@@ -591,7 +583,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 
 	@Override
 	public void onResize() {
-
+		if (this.getWidgetCount() > 0) {
 		// If the split pane gets really narrow and right view is hidden,
 		if (orientation == HORIZONTAL_SPLIT && getOffsetWidth() > 0
 		        && getOffsetWidth() < this.getWidget(0).getOffsetWidth()) {
@@ -600,6 +592,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
  else if (orientation == VERTICAL_SPLIT && getOffsetHeight() > 0
 		        && getOffsetHeight() < this.getWidget(0).getOffsetHeight()) {
 			this.setWidgetSize(this.getWidget(0), this.getOffsetHeight());
+		}
 		}
 		// it's only important to resize components so that
 		// the divider should be inside
