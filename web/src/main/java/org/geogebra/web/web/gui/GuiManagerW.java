@@ -988,7 +988,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 	
 	public EuclidianView getActiveEuclidianView() {
-
 		if (layout == null)
 			return app.getEuclidianView1();
 
@@ -1001,10 +1000,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN).isVisible()) {
 			return app.getEuclidianView1();
 		}
-		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN2).isVisible()) {
+		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN2).isVisible()
+				&& app.hasEuclidianView2EitherShowingOrNot(1)) {
 			return app.getEuclidianView2(1);
 		}
-		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN3D).isVisible()) {
+		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN3D).isVisible()
+				&& app.isEuclidianView3Dinited()) {
 			return (EuclidianView) app.getEuclidianView3D();
 		}
 		return (app).getEuclidianView1();
