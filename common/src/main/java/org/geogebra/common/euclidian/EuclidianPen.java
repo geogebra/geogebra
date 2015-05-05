@@ -1171,7 +1171,7 @@ public class EuclidianPen {
 		// circle.setLineType(penLineStyle);
 		// circle.setObjColor(penColor);
 		circle.updateRepaint();
-		String var = "Éá";
+
 		return circle;
 
 	}
