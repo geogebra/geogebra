@@ -44,7 +44,7 @@ public class Ggb2giac {
 
 		// factor over complex rationals
 		// [ggbans:=%0] first in case something goes wrong, eg CFactor[sqrt(21)
-		// - 2sqrt(7) x ί + 3sqrt(3) x^2 ί + 6x^3]
+		// - 2sqrt(7) x <complexi> + 3sqrt(3) x^2 <complexi> + 6x^3]
 		p("CFactor.1",
 				"[with_sqrt(0),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],with_sqrt(1),ggbcfactans][4]");
 		p("CFactor.2",
@@ -778,7 +778,8 @@ public class Ggb2giac {
 
 		// SolveQuartic[2x^4+3x^3+x^2+1]
 		// SolveQuartic[x^4+6x^2-60x+36] approx = {(-1.872136644123) -
-		// (3.810135336798 * ί), (-1.872136644123) + (3.810135336798 * ί),
+		// (3.810135336798 * <complexi>), (-1.872136644123) + (3.810135336798 *
+		// <complexi>),
 		// 0.6443988642267, 3.099874424019}
 		// SolveQuartic[3x^4 + 6x^3 - 123x^2 - 126x + 1080] = {(-6), (-4), 3, 5}
 		// SolveQuartic[x^(4) - (10 * x^(3)) + (35 * x^(2)) - (50 * x) + 24] =
@@ -786,9 +787,11 @@ public class Ggb2giac {
 		// SolveQuartic[x^4 + 2x^3 - 41x^2 - 42x + 360] = {(-6), (-4), 3, 5}
 		// SolveQuartic[ x^4 + 2x^2 + 6sqrt(10) x + 1] approx
 		// {(-2.396488591753), (-0.05300115102973), 1.224744871392 -
-		// (2.524476846043 * ί), 1.224744871392 + (2.524476846043 * ί)}
-		// SolveQuartic[x^4 + x^3 + x + 1] = {(-1), (-1), (((-ί) * sqrt(3)) + 1)
-		// / 2, ((ί * sqrt(3)) + 1) / 2}
+		// (2.524476846043 * <complexi>), 1.224744871392 + (2.524476846043 *
+		// <complexi>)}
+		// SolveQuartic[x^4 + x^3 + x + 1] = {(-1), (-1), (((-<complexi>) *
+		// sqrt(3)) + 1)
+		// / 2, ((<complexi> * sqrt(3)) + 1) / 2}
 		// SolveQuartic[x^(4) - (4 * x^(3)) + (6 * x^(2)) - (4 * x) + 1] = {1}
 		// 3 repeated roots, S=0, SolveQuartic[ x^4 - 5x^3 + 9x^2 - 7x + 2 ] =
 		// {2,1}

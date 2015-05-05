@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
-import org.geogebra.common.kernel.algos.PolygonAlgo;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -963,7 +962,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			int gLength = g.getPointsLength();
 			if (gLength == this.getPointsLength()) {
 
-				// App.debug("Polygones de même longueur");
+				// App.debug("Polygones de meme longueur");
 				// search for a first common point
 				Coords firstPoint = this.getPoint3D(0);
 				boolean fPointFound = false;
@@ -1009,7 +1008,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 									.getPoint3D(j)));
 							/*
 							 * if (pointOK){ App.debug("Point suivant : "+j);
-							 * }else { App.debug("Arrêt : "+j); }
+							 * }else { App.debug("Arret : "+j); }
 							 */
 							j = j + step;
 							if (j < 0)

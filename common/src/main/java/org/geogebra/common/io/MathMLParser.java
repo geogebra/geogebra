@@ -346,20 +346,6 @@ public class MathMLParser {
 
 	private static HashMap<String, String> latexMap = new HashMap<String, String>();
 
-	/*
-	 * ** Links stehen zu findende Ausdrücke, rechts (getrennt durch einen oder
-	 * mehrere* Tabs) die entsprechende Ersetzung.** Zeilen, die mit '**'
-	 * beginnen (wie diese Erklärung) werden ignoriert, Zeilen* ohne Tabulator
-	 * oder mit Tabulatoren an verschiedenen Stellen im String ebenfalls.** Da
-	 * sich die Reihenfolge der Blo(umlaut)cke im MathML-Code von dem im
-	 * LaTeX-Code* unterscheidet, muss MathParser die korrekte Reihenfolge für
-	 * die Blo(umlaut)cke mitgeteilt* werden. Hierfür wird das Schlüsselwort
-	 * %BLOCK[Blocknummer]% verwendet.* Sollen sämtliche Blo(umlaut)cke
-	 * (unabhängig von Reihenfolge und Anzahl) übernommen* werden, wird das
-	 * Schlüsselwort %BLOCKS% verwendet** Wird %BLOCK in einem Ersetzungsbefehl
-	 * gefunden, wird der Parser rekursiv auf dem* folgenden Block aufgerufen
-	 * und das Ergebnis an Stelle des Platzhalters in die* Ausgabe geschrieben.*
-	 */
 	static {
 
 		// Tags:
@@ -726,7 +712,7 @@ public class MathMLParser {
 	 */
 
 	/**
-	 * TODO überarbeiten (complete MathML blocks only?): Parses MathML code into
+	 * TODO berarbeiten (complete MathML blocks only?): Parses MathML code into
 	 * LaTeX code using the substitution table genereated by the constructor.<br>
 	 * Only presentation markup can be parsed properly, no use for parsing
 	 * content markup.
@@ -824,13 +810,13 @@ public class MathMLParser {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return null; // TODO statt exception, später lo(umlaut)schen
+			return null; // TODO statt exception, speter lo(umlaut)schen
 		}
 		return null;
 	}
 
 	/**
-	 * TODO Pseudocode überarbeiten, Algorithmus noch einmal nachvollziehen
+	 * TODO Pseudocode berarbeiten, Algorithmus noch einmal nachvollziehen
 	 * Parses a MathML block in strBuf recursively into LaTeX code.
 	 * <p>
 	 * Pseudocode:

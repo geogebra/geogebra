@@ -441,14 +441,14 @@ public class Riemann {
 					 * System.out.println("### n=" + n + ", k="+k+", tmp = " +
 					 * tmp[0] + " + " + tmp[1] + " i" );
 					 * System.out.println("    h=" + h[0] + " + " + h[1] + " i"
-					 * ); System.out.println("    n über k = " +
+					 * ); System.out.println("    n ber k = " +
 					 * Combinatorics.binomial(n,k) ); double[] exp = { -s[0],
 					 * -s[1]}; double[] y = Complex.power( k+1, exp );
 					 * System.out.println("    (k+1) hoch (-s) = " + y[0] +
 					 * " + " + y[1] + " i" ); y = Complex.multiply(
 					 * Combinatorics.binomial(n, k), y ); System.out.println(
-					 * "    h * (k+1) hoch (-s) * ( n über k ) = " + (h[0]*y[0]
-					 * - h[1]*y[1]) + " + " + (h[0]*y[1] + h[1]*y[0]) + " i" );
+					 * "    h * (k+1) hoch (-s) * ( n ber k ) = " + (h[0]*y[0] -
+					 * h[1]*y[1]) + " + " + (h[0]*y[1] + h[1]*y[0]) + " i" );
 					 * System.out.println("  sum=" + sum[0] + " + " + sum[1] +
 					 * " i" ); }
 					 */
