@@ -18,7 +18,6 @@ import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -116,7 +115,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 
 	public String getPNGBase64(double exportScale, boolean transparent,
 	        double DPI) {
-		return ((EuclidianViewW) app.getEuclidianView1())
+		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
 		        .getExportImageDataUrl(exportScale, transparent).substring(
 		                "data:image/png;base64,".length());
 	}
