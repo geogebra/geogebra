@@ -403,10 +403,11 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 
 			if (this.kernel.getApplication().isHTML5Applet()
 					&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
+				sbTemp.append("\\prcurve{ ");
 				if (!hideRangeInFormula) {
-					sbTemp.append("\\closebraceonly{ ");
+					sbTemp.append("\\parametric{ ");
 				}
-				sbTemp.append("\\ggbtable{");
+				sbTemp.append("\\prtable{");
 
 				for (int i = 0 ; i < getDimension() ; i++) {
 					sbTemp.append("\\ggbtr{ \\ggbtdL{  ");
@@ -420,12 +421,15 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 				sbTemp.append("}");
 				if (!hideRangeInFormula) {
 					sbTemp.append("}");
+					sbTemp.append("\\prcondition{");
 					sbTemp.append(this.kernel.format(this.startParam, tpl));
 					sbTemp.append(" \\le ");
 					sbTemp.append(param);
 					sbTemp.append(" \\le ");
 					sbTemp.append(this.kernel.format(this.endParam, tpl));
+					sbTemp.append("}");
 				}
+				sbTemp.append("}");
 			} else {
 
 				if (!hideRangeInFormula) {

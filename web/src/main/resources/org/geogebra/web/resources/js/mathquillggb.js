@@ -1447,7 +1447,7 @@ var MathBlock = P(MathElement, function(_) {
       // will be syntactically incorrect in theory, anyway
       return '';
     } else if (this.parent.ctrlSeq.substring(0,9) === '\\ggbtable' ||
-    		   this.parent.pwtable ||
+    		   this.parent.pwtable || this.parent.prtable ||
     		   this.parent.ctrlSeq.substring(0,6) === '\\ggbtr' ||
     	       this.parent.ctrlSeq.substring(0,6) === '\\ggbtd') {
       var ret = this.ch[L].text();
@@ -1573,7 +1573,7 @@ var MathBlock = P(MathElement, function(_) {
       // do nothing!
       return;
     }
-    if (cmd.pwtable) {
+    if (cmd.pwtable || cmd.prtable) {
     	// do nothing!
     	return;
     }
@@ -2628,7 +2628,14 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     } else {
 	  this.pwtable = false;
     }
-    if (ctrlSeq === '\\ggbtable' || this.pwtable) {
+    if (ctrlSeq === '\\prtable') {
+  	  // boolean is quicker than string comparison every time
+  	  // TODO: maybe do this for other ctrlSeq as well!
+  	  this.prtable = true;
+    } else {
+  	  this.prtable = false;
+    }
+    if (ctrlSeq === '\\ggbtable' || this.pwtable || this.prtable) {
       // let's make a matrix of elements we can refer to
       // from upInto, downInto, upOutOf, downOutOf
       this['tableMatrix'] = [[]];
@@ -2639,7 +2646,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     }
   };
   _.finalizeTree = function() {
-    if (this.ctrlSeq === '\\ggbtable' || this.pwtable) {
+    if (this.ctrlSeq === '\\ggbtable' || this.pwtable || this.prtable) {
       this.preOrder('lateInit');
     }
   };
@@ -2675,7 +2682,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     // this.maint is the \\ggbtable or \\pwtable, ideally
     this.maint = thisthis;
 
-    if (thisthis.ctrlSeq !== '\\ggbtable' && !thisthis.pwtable) {
+    if (thisthis.ctrlSeq !== '\\ggbtable' && !thisthis.pwtable && !thisthis.prtable) {
       return;
     }
 
@@ -2723,7 +2730,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     // Okay, we've moved into this, but maybe
     // we need more in case of ggbtable & ggbtd
     var thisthis = cursor[dir];
-    if (this.ctrlSeq === '\\ggbtable' || this.pwtable) {
+    if (this.ctrlSeq === '\\ggbtable' || this.pwtable || this.prtable) {
       cursor.appendDir(-dir, thisthis.ch[-dir]);
       // we're in the ggbtd, but that is also not enough!
       if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
@@ -2769,45 +2776,97 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       ret += brackets;
       // and also, some closing brackets should be appended
       return ret;
+    } else if (this.prtable) {
+      var ret = this.ch[L].foldChildren('', function(text, child) {
+        return text + child.text();
+      });
+      // and also, some closing brackets should be appended
+      return ret;
     } else if (this.ctrlSeq.indexOf('\\ggbtr') > -1) {
       // if this is a descendant of pwtable, do custom algorithm
       // otherwise do the conventional case (end of method)
-      if (this.parent && this.parent.parent && this.parent.parent.pwtable) {
-        // lucky that there are only 2 columns
-        // as "this" is a MathCommand, "this.ch[L]" is its child MathBlock
-        // and we're interested in the MathBlock's children, which are ggbtd's
-        // but for special cases we might still want to check
-        if (this.ch[L] && this.ch[L].ch[L] && this.ch[L].ch[R]) {
-          if (this[R]) {
-            var ret = "If[";
-            ret += this.ch[L].ch[R].text();
-            ret += ",";
-            ret += this.ch[L].ch[L].text();
-            ret += ",";
-            // here will come the next If[, or end
-            return ret;
-          } else {
-            // if this is the last row, things should be more simple:
-        	return this.ch[L].ch[L].text();
+      if (this.parent && this.parent.parent) {
+    	if (this.parent.parent.pwtable) {
+          // lucky that there are only 2 columns
+          // as "this" is a MathCommand, "this.ch[L]" is its child MathBlock
+          // and we're interested in the MathBlock's children, which are ggbtd's
+          // but for special cases we might still want to check
+          if (this.ch[L] && this.ch[L].ch[L] && this.ch[L].ch[R]) {
+            if (this[R]) {
+              var ret = "If[";
+              ret += this.ch[L].ch[R].text();
+              ret += ",";
+              ret += this.ch[L].ch[L].text();
+              ret += ",";
+              // here will come the next If[, or end
+              return ret;
+            } else {
+              // if this is the last row, things should be more simple:
+        	  return this.ch[L].ch[L].text();
+            }
           }
-        }
+    	} else if (this.parent.parent.prtable) {
+          if (this.ch[L] && this.ch[L].ch[L]) {
+        	// in order to prevent possible changes by MathBlock,
+        	// call the text() of the child ggbtd directly...
+            return this.ch[L].ch[L].text() + ",";
+          }
+    	}
       }
     } else if (this.ctrlSeq.indexOf('\\ggbtd') > -1) {
       // if this is a descendant of pwtable, do custom algorithm
       // otherwise do the conventional case (end of method)
       if (this.parent && this.parent.parent) {
     	var self = this.parent.parent;
-    	if (self.parent && self.parent.parent && self.parent.parent.pwtable) {
-    	  // remove : and space!
-    	  var ret = this.foldChildren('', function(text, child) {
-    	    return text + child.text();
-          });
-    	  ret = ret.replace(':', '');
-    	  ret = ret.replace('space ', ' ');
-    	  ret = ret.replace(' space', ' ');
-    	  ret = ret.replace('space', ' ');
-    	  return ret;
+    	if (self.parent && self.parent.parent) {
+          if (self.parent.parent.pwtable) {
+    	    // remove : and space!
+    	    var ret = this.foldChildren('', function(text, child) {
+    	      return text + child.text();
+            });
+    	    ret = ret.replace(':', '');
+    	    ret = ret.replace('space ', ' ');
+    	    ret = ret.replace(' space', ' ');
+    	    ret = ret.replace('space', ' ');
+    	    return ret;
+          } else if (self.parent.parent.prtable) {
+            // chop x=, y=, z=; !!
+      	    var ret = this.foldChildren('', function(text, child) {
+      	      return text + child.text();
+            });
+      	    var idd = ret.indexOf('=');
+      	    if (idd > -1) {
+      	      ret = ret.substring(idd + 1);
+      	    }
+      	    return ret;
+          }
     	}
+      }
+    } else if (this.ctrlSeq === '\\prcondition') {
+      var ret = this.foldChildren('', function(text, child) {
+        return text + child.text();
+      });
+      // MathBlock might put ()s around this, so let's remove it!
+      if (ret.charAt(0) === '(') {
+    	ret = ret.substring(1);
+      }
+      if (ret.charAt(ret.length-1) === ')') {
+        ret = ret.substring(0, ret.length-1);
+      }
+      // LaTeX: \\le, text: \u2264
+      var retarr = ret.split('\u2264');
+      if (retarr.length > 2) {
+        // OK
+        var startNum = retarr[0];
+        var endNum = retarr[2];
+        var variab = retarr[1];
+        ret = '';
+        ret += variab;
+        ret += ',';
+        ret += startNum;
+        ret += ',';
+        ret += endNum;
+        return ret;
       }
     }
     // conventional case (e.g. \\vec, \\hat)
@@ -2883,6 +2942,10 @@ var ggbtdlrLHTML = '<td style="border-right: black solid 2px; min-width: 1em; te
 // why bother with differentiating ggbtable from pwtable,
 // when we can create them separately?
 LatexCmds.pwtable = bind(SomethingHTML, '\\pwtable', ggbtableHTML, ['','']);
+LatexCmds.prtable = bind(SomethingHTML, '\\prtable', ggbtableHTML, ['','']);
+LatexCmds.prcondition = bind(SomethingHTML, '\\prcondition', '<span>&0</span>', ['','']);
+// the parent of prtable and prcondition, for nicer (but more complex) syntax
+LatexCmds.prcurve = bind(SomethingHTML, '\\prcurve', '<span>&0</span>', ['Curve[',']']);
 
 LatexCmds.ggbtable = bind(SomethingHTML, '\\ggbtable', ggbtableHTML, ['{','}']);
 LatexCmds.ggbtr = bind(SomethingHTML, '\\ggbtr', ggbtrHTML, ['{','},']);
@@ -3304,6 +3367,8 @@ var HalfBracket = P(MathCommand, function(_, _super) {
 // differentiating piecewise functions from openbraceonly of ggbtable
 // so that piecewise functions can be identified by this condition
 LatexCmds.piecewise = bind(HalfBracket, '{', '', '\\piecewise', ['', '']);
+// similarly, differentiating parametric curves from closebraceonly
+LatexCmds.parametric = bind(HalfBracket, '', '}', '\\parametric', ['', '']);
 
 LatexCmds.openbraceonly = bind(HalfBracket, '{', '', '\\openbraceonly');
 LatexCmds.closebraceonly = bind(HalfBracket, '', '}', '\\closebraceonly');
