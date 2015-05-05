@@ -428,7 +428,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				}
 			}
 		};
-		// Added By Loïc Le Coq
+		// Added By Loic Le Coq
 		exportPgfAction = new AbstractAction(app.getPlain("DrawingPagAsPGF")
 				+ " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;

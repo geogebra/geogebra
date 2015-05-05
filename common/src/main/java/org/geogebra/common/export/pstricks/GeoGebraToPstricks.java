@@ -65,7 +65,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 
 /**
- * @author Le Coq loïc
+ * @author Le Coq loic
  */
 
 public abstract class GeoGebraToPstricks extends GeoGebraExport {

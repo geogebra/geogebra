@@ -294,11 +294,11 @@ public class StringUtil {
 
 			/*
 			 * not needed for MathQuillGGB / JLaTeXMath and in fact it doesn't
-			 * work inside \text{} // Exponents // added by Loïc Le Coq
+			 * work inside \text{} // Exponents // added by Loic Le Coq
 			 * 2009/11/04 case '\u2070': // ^0 sbReplaceExp.append("^0"); break;
 			 * 
 			 * case '\u00b9': // ^1 sbReplaceExp.append("^1"); break; // end
-			 * Loïc case '\u00b2': // ^2 sbReplaceExp.append("^2"); break;
+			 * Loic case '\u00b2': // ^2 sbReplaceExp.append("^2"); break;
 			 * 
 			 * case '\u00b3': // ^3 sbReplaceExp.append("^3"); break;
 			 * 
@@ -307,13 +307,13 @@ public class StringUtil {
 			 * case '\u2075': // ^5 sbReplaceExp.append("^5"); break;
 			 * 
 			 * case '\u2076': // ^6 sbReplaceExp.append("^6"); break; // added
-			 * by Loïc Le Coq 2009/11/04 case '\u2077': // ^7
+			 * by Loic Le Coq 2009/11/04 case '\u2077': // ^7
 			 * sbReplaceExp.append("^7"); break;
 			 * 
 			 * case '\u2078': // ^8 sbReplaceExp.append("^8"); break;
 			 * 
 			 * case '\u2079': // ^9 sbReplaceExp.append("^9"); break; // end
-			 * Loïc Le Coq
+			 * Loic Le Coq
 			 */
 
 			default:

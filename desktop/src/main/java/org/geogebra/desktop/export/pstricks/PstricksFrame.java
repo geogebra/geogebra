@@ -12,7 +12,7 @@ import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.desktop.main.AppD;
 
 /**
- * @author Le Coq Loïc
+ * @author Le Coq Loic
  */
 public class PstricksFrame extends ExportFrame {
 	private static final long serialVersionUID = 1L;
