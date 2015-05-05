@@ -72,7 +72,7 @@ public class CmdBinomialDist extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[2] = arg[3].isGeoBoolean())) {
+					&& (ok[3] = arg[3].isGeoBoolean())) {
 
 				AlgoBinomialDist algo = new AlgoBinomialDist(cons,
 						c.getLabel(), (GeoNumberValue) arg[0],
