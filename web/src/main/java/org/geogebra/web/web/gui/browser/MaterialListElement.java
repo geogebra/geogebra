@@ -523,7 +523,7 @@ public class MaterialListElement extends FlowPanel implements
 
 			@Override
 			public void onClick(Widget source) {
-				((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(editMaterial);
+				app.checkSaved(editMaterial);
 			}
 		});
 	}

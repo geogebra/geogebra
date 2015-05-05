@@ -658,7 +658,11 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setExternalPath = function(path) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setExternalPath(Ljava/lang/String;)(path);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setExternalPath(Ljava/lang/String;)(path);
+		};
+
+		api.checkSaved = function(path) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::checkSaved(Lcom/google/gwt/core/client/JavaScriptObject;)(path);
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;

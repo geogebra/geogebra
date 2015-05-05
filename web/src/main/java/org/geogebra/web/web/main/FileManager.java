@@ -8,10 +8,10 @@ import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.MaterialFilter;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
+import org.geogebra.common.move.ggtapi.models.MaterialFilter;
+import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -453,8 +453,11 @@ null,
 	}
 
 	public final boolean save(AppW app) {
+		if (this.provider == Provider.LOCAL) {
+			((DialogManagerW) app.getDialogManager()).showSaveDialog();
+		}
 		// not logged in and can't log in
-		if (!app.getLoginOperation().isLoggedIn()
+		else if (!app.getLoginOperation().isLoggedIn()
 		        && (!app.getNetworkOperation().isOnline() || !app
 		                .getLoginOperation().mayLogIn())) {
 			saveLoggedOut(app);

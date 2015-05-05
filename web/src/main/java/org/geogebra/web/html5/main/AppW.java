@@ -3290,4 +3290,9 @@ public abstract class AppW extends App implements SetLabels {
 		this.externalPath = path;
 		getFileManager().setFileProvider(Provider.LOCAL);
 	}
+
+	public void checkSaved(Runnable runnable) {
+		// TODO Auto-generated method stub
+
+	}
 }

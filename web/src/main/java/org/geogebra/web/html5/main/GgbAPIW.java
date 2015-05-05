@@ -900,4 +900,12 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		((AppW) app).setExternalPath(s);
 	}
 
+	public void checkSaved(final JavaScriptObject callback) {
+		((AppW) app).checkSaved(new Runnable() {
+			public void run() {
+				ScriptManagerW.runCallback(callback);
+			}
+		});
+	}
+
 }

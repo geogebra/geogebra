@@ -8,6 +8,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 public abstract class AppWFull extends AppW {
@@ -48,6 +49,7 @@ public abstract class AppWFull extends AppW {
 		getAppletFrame().showKeyBoard(false, null, false);
 	}
 
+	@Override
 	public void showStartTooltip() {
 		if (articleElement.getDataParamShowStartTooltip()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
@@ -58,5 +60,11 @@ public abstract class AppWFull extends AppW {
 			        this);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
+	}
+
+	@Override
+	public void checkSaved(Runnable runnable) {
+		((DialogManagerW) getDialogManager()).getSaveDialog().showIfNeeded(
+				runnable);
 	}
 }
