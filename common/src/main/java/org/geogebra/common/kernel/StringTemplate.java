@@ -682,7 +682,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		default:
-			casPrintFormPI = Unicode.PI_STRING;
+			// don't want to use exact value otherwise Giac will do an exact
+			// calculation when we want approx
+			// eg Integral[sin(x) / (1 + a² - 2a cos(x)), 0, pi] in the Algebra
+			// View
+			// #5129
+			casPrintFormPI = "3.141592653589793";
 		}
 
 	}
