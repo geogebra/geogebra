@@ -53,7 +53,7 @@ import org.geogebra.common.plugin.Operation;
  *          The problem is to find the best initial values for the parameters,
  *          little information available on this problem...
  * 
- *          Bj�rn Ove Thue, the norwegian translator and programmer of the
+ *          Bjorn Ove Thue, the norwegian translator and programmer of the
  *          norwegian version of WxMaxima, was kind enough to give me his idea:
  *          Make the assumption that the first and last point are close to the
  *          solution curve. Calculate c and a from those points, with b as
@@ -478,7 +478,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		return sum;
 	}// beta2(k)
 
-	// / --- Bj�rn Ove Thue's trick --- ///
+	// / --- Bjorn Ove Thue's trick --- ///
 	// c as function of first and last point
 	private final static double c(double cx1, double cy1, double cx2,
 			double cy2, double cb) {

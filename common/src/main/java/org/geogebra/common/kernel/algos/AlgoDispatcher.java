@@ -332,7 +332,7 @@ public class AlgoDispatcher {
 
 	/**
 	 * Function dependent on coefficients of arithmetic expressions with
-	 * variables, represented by trees. e.g. f(x) = a x��� + b x���
+	 * variables, represented by trees.
 	 */
 	final public GeoFunction DependentFunction(String label, Function fun) {
 		AlgoDependentFunction algo = new AlgoDependentFunction(cons, label, fun);

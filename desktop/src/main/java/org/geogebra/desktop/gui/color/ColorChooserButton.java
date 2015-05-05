@@ -187,7 +187,7 @@ public class ColorChooserButton extends JButton {
 			/*
 			 * metaPanel = new JPanel(new BorderLayout());
 			 * 
-			 * pickButton = new JButton("�"); pickButton.addActionListener(new
+			 * pickButton = new JButton("?"); pickButton.addActionListener(new
 			 * ActionListener() { public void actionPerformed(ActionEvent e) {
 			 * pickButton.setVisible(false); pickerPanel.setVisible(true);
 			 * pack(); } }); metaPanel.add(pickButton, app.borderWest());

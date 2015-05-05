@@ -194,7 +194,6 @@ public class AlgoConicFivePoints extends AlgoElement {
 	}
 
 	// compute conic through five points P[0] ... P[4]
-	// with Pl���cker ��� method
 	@Override
 	public void compute() {
 		// compute lines P0 P1, P2 P3,

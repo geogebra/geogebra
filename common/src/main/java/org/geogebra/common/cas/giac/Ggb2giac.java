@@ -434,7 +434,7 @@ public class Ggb2giac {
 		p("NSolve.1",
 				"ggbsort([[ggbnsans:=%0],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,"
 						+
-						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
+						// eg NSolve[{pi / x = cos(x - 2y), 2 y - pi = sin(x)}]
 						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],"
 						+
 						// eg NSolve[a^4 + 34a^3 = 34]
@@ -446,9 +446,9 @@ public class Ggb2giac {
 		p("NSolve.2",
 				"ggbsort([[ggbnsans:=%0],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,"
 						+
-						// eg NSolve[{π / x = cos(x - 2y), 2 y - π =
+						// eg NSolve[{pi / x = cos(x - 2y), 2 y - pi =
 						// sin(x)},{x=1,y=1}]
-						// eg NSolve[{π / x = cos(x - 2y), 2 y - π =
+						// eg NSolve[{pi / x = cos(x - 2y), 2 y - pi =
 						// sin(x)},{x,y}]
 						// eg NSolve[{3=c*a^5, 3=c*a^4},{a,c}]
 						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1)-1)],[ggbnsans:=fsolve(ggbnsans,%1)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],"
@@ -465,7 +465,7 @@ public class Ggb2giac {
 		p("NSolutions.1",
 				"ggbsort([[ggbnsans:=%0],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,"
 						+
-						// eg NSolutions[{π / x = cos(x - 2y), 2 y - π =
+						// eg NSolutions[{pi / x = cos(x - 2y), 2 y - pi =
 						// sin(x)}]
 						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],ggbnsans][3],"
 						+

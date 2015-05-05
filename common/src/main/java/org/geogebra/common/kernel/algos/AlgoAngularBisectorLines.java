@@ -191,7 +191,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
 				if (wv[index].x * wx + wv[index].y * wy >= 0) {
 					wv[index].x = wx;
 					wv[index].y = wy;
-				} else { // angle > 180�, change orientation
+				} else { // angle > 180degrees, change orientation
 					wv[index].x = -wx;
 					wv[index].y = -wy;
 					bisector[index].z = -bisector[index].z;
@@ -211,13 +211,13 @@ public class AlgoAngularBisectorLines extends AlgoElement {
 		// standard case: B is not at infinity
 		else {
 			// calc direction vector (wx, wy) of angular bisector
-			// check if angle between vectors is > 90�
+			// check if angle between vectors is > 90degrees
 			ip = gx * hx + gy * hy;
-			if (ip >= 0.0) { // angle < 90�
+			if (ip >= 0.0) { // angle < 90degrees
 				// standard case
 				wx = gx + hx;
 				wy = gy + hy;
-			} else { // ip <= 0.0, angle > 90�
+			} else { // ip <= 0.0, angle > 90degrees
 				// BC - BA is a normalvector of the bisector
 				wx = hy - gy;
 				wy = gx - hx;

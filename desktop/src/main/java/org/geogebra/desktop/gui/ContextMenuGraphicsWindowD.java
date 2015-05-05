@@ -10,11 +10,6 @@ the Free Software Foundation.
 
  */
 
-/*
- * ZoomMenu.java
- *
- * Created on 24. J�nner 2002, 14:11
- */
 
 package org.geogebra.desktop.gui;
 

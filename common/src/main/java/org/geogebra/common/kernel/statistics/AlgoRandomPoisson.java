@@ -95,7 +95,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
 	/*
 	 * 
-	 * H�rmann, Wolfgang: The transformed rejection method for generating
+	 * Hermann, Wolfgang: The transformed rejection method for generating
 	 * Poisson random variables Algorithm PTRS
 	 * http://statmath.wu-wien.ac.at/papers/92-04-13.wh.ps.gz
 	 * http://epub.wu-wien

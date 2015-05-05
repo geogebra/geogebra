@@ -160,7 +160,7 @@ public class AlgoAngularBisectorPoints extends AlgoElement {
 				if (wv.x * wx + wv.y * wy >= 0) {
 					wv.x = wx;
 					wv.y = wy;
-				} else { // angle > 180�, change orientation
+				} else { // angle > 180degrees, change orientation
 					wv.x = -wx;
 					wv.y = -wy;
 					bisector.z = -bisector.z;

@@ -133,23 +133,18 @@ public class Point_dt {
 	// pointLineTest
 	// ===============
 	// simple geometry to make things easy!
-	/** �����a----+----b������ */
 	public final static int ONSEGMENT = 0;
 
 	/**
 	 * + <br>
-	 * �����a---------b������
 	 * */
 	public final static int LEFT = 1;
 
 	/**
-	 * �����a---------b������ <br>
 	 * +
 	 * */
 	public final static int RIGHT = 2;
-	/** ��+��a---------b������ */
 	public final static int INFRONTOFA = 3;
-	/** ������a---------b���+��� */
 	public final static int BEHINDB = 4;
 	public final static int ERROR = 5;
 

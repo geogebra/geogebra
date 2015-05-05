@@ -613,7 +613,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 		angExt += angSt;
 		double r = arcSize / euclidianView.getXscale();
-		// if angle=90� and decoration=little square
+		// if angle=90degrees and decoration=little square
 		if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
 				&& geo.isEmphasizeRightAngle()
 				&& euclidianView.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE) {
@@ -1370,9 +1370,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			double x0 = Math.max(Math.abs(x1 - xmin), Math.abs(x1 - xmax));
 			x0 = Math.max(x0, Math.abs(y1 - ymin));
 			x0 = Math.max(x0, Math.abs(y1 - ymax));
-			/*
-			 * x0 *= 2.0d; // y� = 2px y0 = Math.sqrt(2*c.p*x0);
-			 */
 
 			// avoid sqrt by choosing x = k*p with
 			// i = 2*k is quadratic number

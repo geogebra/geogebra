@@ -1804,9 +1804,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			double x0 = Math.max(Math.abs(x1 - xmin), Math.abs(x1 - xmax));
 			x0 = Math.max(x0, Math.abs(y1 - ymin));
 			x0 = Math.max(x0, Math.abs(y1 - ymax));
-			/*
-			 * x0 *= 2.0d; // y� = 2px y0 = Math.sqrt(2*c.p*x0);
-			 */
 
 			// avoid sqrt by choosing x = k*p with
 			// i = 2*k is quadratic number

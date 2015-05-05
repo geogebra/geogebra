@@ -607,7 +607,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble floor() {
 		// angle in degrees
-		// kernel.checkInteger() needed otherwise floor(60�) gives 59�
+		// kernel.checkInteger() needed otherwise floor(60degrees) gives
+		// 59degrees
 		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
 					* Math.floor(Kernel.checkInteger(val * Kernel.CONST_180_PI)));

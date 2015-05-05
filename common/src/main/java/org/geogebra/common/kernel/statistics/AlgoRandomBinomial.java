@@ -100,14 +100,14 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements
 	// if (Decimal < 0.0) DecimalSign = -1.0; else DecimalSign = 1.0;
 	// Decimal = Math.abs(Decimal);
 	// if (Decimal == Math.floor(Decimal)) { // handles exact integers including
-	// 0 �
+	// 0
 	// FractionNumerator = Decimal * DecimalSign;
 	// FractionDenominator = 1.0;
 	// ret[0] = (int)FractionNumerator;
 	// ret[1] = (int)FractionDenominator;
 	// return ret;
 	// }
-	// if (Decimal < 1.0E-19) { // X = 0 already taken care of �
+	// if (Decimal < 1.0E-19) { // X = 0 already taken care of
 	// FractionNumerator = DecimalSign;
 	// FractionDenominator = 9999999999999999999.0;
 	// ret[0] = (int)FractionNumerator;

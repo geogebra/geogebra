@@ -23,7 +23,7 @@ public class RealSenseInfo {
 						[ 'hand' ],
 						function(info) {
 							if (info.IsReady == true) {
-								result.msg = 'Platform supports Intel� RealSense� SDK feature';
+								result.msg = 'Platform supports Intel RealSense SDK feature';
 								result.statusText = 'OK';
 								result.isReady = true;
 								clb.@org.geogebra.web.html5.util.AsyncCallback::onSuccess(Lcom/google/gwt/core/client/JavaScriptObject;)(result);
@@ -34,7 +34,7 @@ public class RealSenseInfo {
 										+ info.responseText
 								result.msg = 'Platform not supported: ';
 								if (info.IsPlatformSupported != true) {
-									result.msg = 'Intel� RealSense� 3D camera not found';
+									result.msg = 'Intel RealSense 3D camera not found';
 								} else if (info.IsBrowserSupported != true) {
 									result.msg = 'Please update your browser to latest version';
 								} else {

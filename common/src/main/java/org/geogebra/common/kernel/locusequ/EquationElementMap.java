@@ -42,11 +42,14 @@ public class EquationElementMap {
     }
     
     /**
-     * Adds a {@link GeoElement}�and its symbolic representation.
-     * @param key the {@link GeoElement}
-     * @param value its symbolic representation.
-     * @return value if it was added.
-     */
+	 * Adds a {@link GeoElement} and its symbolic representation.
+	 * 
+	 * @param key
+	 *            the {@link GeoElement}
+	 * @param value
+	 *            its symbolic representation.
+	 * @return value if it was added.
+	 */
     public EquationElement put(final GeoElement key, final EquationElement value){
         return this.container.put(key, value);
     }

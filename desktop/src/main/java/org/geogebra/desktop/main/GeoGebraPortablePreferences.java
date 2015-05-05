@@ -72,7 +72,6 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	// / --- --- ///
 	private final static boolean DEBUG = true;
 	private final static String ERROR = "Error?"; // For debugging
-	// private final static String EQUAL = "�EQUALS�"; //Substituting for "="
 	private final static String COMMENT = "GeoGebra Portable preferences (GeoGebra settings file)";
 
 	// / --- Properties --- ///

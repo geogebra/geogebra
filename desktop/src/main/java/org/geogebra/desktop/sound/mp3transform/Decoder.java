@@ -84,20 +84,6 @@ public class Decoder {
 //        mainTest();
 //    }
 
-// private void mainTest() throws Exception {
-//        long time = System.currentTimeMillis();
-//        play(new File("C:/temp/01-Where I Stood.mp3"));
-//        play(new File("C:/music/Missy Higgins/On A Clear Night/05-Secret.mp3"));
-//        playAll(new File("C:/music/Missy Higgins/On A Clear Night"));
-//        playAll(new File("C:/music/Vanessa-Mae"));
-//        playAll(new File("C:/music/s"));
-//        playAll(new File("C:/music/s/Shakira/Shakira - Grandes Exitos - Ojos As�.mp3"));
-//        playAll(new File("C:/music/o/Orishas - El Kilo - El Kilo.mp3"));
-//        playAll(new File("C:/music/s/Shakira"));
-//        playAll(new File("C:/music"));
-//        System.out.println("done in " + (System.currentTimeMillis() - time));
-//    }
-
 //    private void playAll(File file) throws Exception {
 //        if (file.isDirectory()) {
 //            File[] list = file.listFiles();

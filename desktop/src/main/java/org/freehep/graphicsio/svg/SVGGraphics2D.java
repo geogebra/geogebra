@@ -269,7 +269,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 		// Michael Borcherds 2008-06-06
 		// bugfix: added encoding="ISO-8859-1"
-		// as the date can contain accented characters eg j�nius 6
+		// as the date can contain accented characters in some languages
 		os.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
 		if (getProperty(VERSION).equals(VERSION_1_1)) {
 			// no DTD anymore

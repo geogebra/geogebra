@@ -130,7 +130,7 @@ public class RandomUtil {
 
 	/*
 	 * 
-	 * H�rmann, Wolfgang: The transformed rejection method for generating
+	 * Hoermann, Wolfgang: The transformed rejection method for generating
 	 * Poisson random variables Algorithm PTRS
 	 * http://statmath.wu-wien.ac.at/papers/92-04-13.wh.ps.gz
 	 * http://epub.wu-wien

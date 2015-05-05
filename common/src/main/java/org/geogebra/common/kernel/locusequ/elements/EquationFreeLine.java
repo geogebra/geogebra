@@ -13,8 +13,7 @@ import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.kernel.locusequ.SymbolicVector;
 
 /**
- * @author sergio
- * {@link EquationElement}�for {@link AlgoJoinPoints}
+ * @author sergio {@link EquationElement} for {@link AlgoJoinPoints}
  */
 public class EquationFreeLine extends EquationGenericLine {
 

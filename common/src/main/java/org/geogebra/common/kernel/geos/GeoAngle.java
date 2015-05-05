@@ -119,7 +119,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
 
 	/**
-	 * @author Lo�c
+	 * @author Loic
 	 * @return List of decoration types.
 	 */
 	public static final Integer[] getDecoTypes() {

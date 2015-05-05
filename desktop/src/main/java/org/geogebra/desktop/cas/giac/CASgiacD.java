@@ -162,7 +162,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				App.debug("giac: after interrupt/stop");
 
 				// if we haven't got a result, CAS took too long to return
-				// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) *
+				// eg Solve[sin(5/4 pi+x)-cos(x-3/4 pi)=sqrt(6) *
 				// cos(x)-sqrt(2)]
 				if (threadResult == null) {
 					throw new org.geogebra.common.cas.error.TimeoutException(

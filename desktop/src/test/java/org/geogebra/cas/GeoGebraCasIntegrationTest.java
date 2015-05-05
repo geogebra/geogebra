@@ -2,16 +2,15 @@ package org.geogebra.cas;
 
 import static org.geogebra.test.util.IsEqualPolynomialEquation.equalToPolynomialEquation;
 import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
-import static org.junit.Assert.*;
-
-import org.geogebra.cas.logging.CASTestLogger;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
 
 import javax.swing.JFrame;
 
-import org.junit.Assert;
+import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -20,8 +19,8 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
@@ -29,6 +28,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -1572,7 +1572,8 @@ static public boolean silent = false;
 
   @Test
   public void FitLog_0 () {
-    t("FitLog[{("+ Unicode.EULER_STRING +"�,1), ("+ Unicode.EULER_STRING +"^2, 4)}]", "3 * log(x) - 2");
+		t("FitLog[{(" + Unicode.EULER_STRING + ",1), (" + Unicode.EULER_STRING
+				+ "^2, 4)}]", "3 * log(x) - 2");
   }
 
 

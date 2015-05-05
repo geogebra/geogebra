@@ -64,7 +64,6 @@ public class DrawAngle extends Drawable implements Previewable {
 	private GeoPoint[] previewTempPoints;
 
 	// For decoration
-	// added by Lo�c BEGIN
 	private GShape shapeArc1, shapeArc2;
 	private GArc2D decoArc = AwtFactory.prototype.newArc2D();
 	private GLine2D[] tick;
@@ -364,7 +363,6 @@ public class DrawAngle extends Drawable implements Previewable {
 			double rdiff;
 
 			// For Decoration
-			// Added By Lo�c BEGIN
 			switch (geo.decorationType) {
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 				rdiff = 4 + geo.lineThickness / 2d;

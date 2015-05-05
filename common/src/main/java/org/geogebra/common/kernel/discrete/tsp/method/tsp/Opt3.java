@@ -73,7 +73,6 @@ public class Opt3 implements TspImprovement {
 					double before = d1 + d2 + table[s3][t3];
 					double after = table[s1][t2] + table[s3][t1] + table[s2][t3];
 					if (before > after) {
-						// ãƒªã‚¹ãƒˆã�®å›žè»¢ã‚’è¡Œã�„ã�¾ã�™ã€‚
 						this.reverse(route, i, j - 1);
 						this.reverse(route, j, k - 1);
 						this.reverse(route, i, k - 1);

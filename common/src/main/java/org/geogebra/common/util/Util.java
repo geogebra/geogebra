@@ -29,7 +29,7 @@ public class Util extends Object {
 																				// to
 																				// turn
 																				// into
-																				// '�'
+																				// ?
 																				// inside
 																				// zips
 					c == '|') {

@@ -194,7 +194,6 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 
 		// update decoration
-		// added by Lo�c and Markus BEGIN,
 		if (geo.decorationType != GeoElement.DECORATION_NONE && nLength > 0) {
 			if (decoTicks == null) {
 				// only create these object when they are really needed
@@ -363,7 +362,6 @@ public class DrawSegment extends Drawable implements Previewable {
 			g2.setStroke(objStroke);
 			g2.draw(line);
 
-			// added by Lo�c BEGIN
 			// decoTicks is null for zero length segments
 			if (geo.decorationType != GeoElement.DECORATION_NONE
 					&& decoTicks != null) {

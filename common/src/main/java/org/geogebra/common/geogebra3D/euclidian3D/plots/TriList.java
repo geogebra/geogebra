@@ -7,7 +7,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.plots.java.nio.FloatBuffer;
 /**
  * A list of triangles representing a triangle mesh.
  * 
- * @author Andr� Eriksson
+ * @author Andre Eriksson
  */
 public class TriList implements Iterable<TriListElem> {
 	/** the total amount of chunks available for allocation */

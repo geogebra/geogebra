@@ -640,7 +640,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			py = -z / y;
 		}
 
-		// we have to solve u t� + 2d t + w = 0
+		// we have to solve u t? + 2d t + w = 0
 		// to intersect line g: X = p + t v with conic
 		// calc u, d, w:
 		// u = v.S.v (S is upper left submatrix of A)

@@ -134,7 +134,7 @@ public class AlgoFractionText extends AlgoElement {
 																		// exact
 																		// integers
 																		// including
-																		// 0 �
+																		// 0
 			FractionNumerator = decimal * DecimalSign;
 			FractionDenominator = 1.0;
 
@@ -142,7 +142,7 @@ public class AlgoFractionText extends AlgoElement {
 			ret[1] = FractionDenominator;
 			return ret;
 		}
-		if (decimal < 1.0E-19) { // X = 0 already taken care of �
+		if (decimal < 1.0E-19) { // X = 0 already taken care of
 			FractionNumerator = DecimalSign;
 			FractionDenominator = 9999999999999999999.0;
 

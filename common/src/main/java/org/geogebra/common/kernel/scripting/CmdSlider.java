@@ -51,7 +51,7 @@ public class CmdSlider extends CommandProcessor {
 			slider = (GeoNumeric) geo;
 		}
 
-		// Slider[0,360�] should be angle
+		// Slider[0,360deg] should be angle
 		if ((n > 5 && ((BooleanValue) arg[5]).getBoolean())
 				|| arg[0] instanceof GeoAngle || arg[1] instanceof GeoAngle) {
 

@@ -2261,7 +2261,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Conic dependent on coefficients of arithmetic expressions with variables,
-	 * represented by trees. e.g. y��� = 2 p x
+	 * represented by trees.
 	 */
 	final private GeoConic DependentConic(String label, Equation equ) {
 		AlgoDependentConic algo = new AlgoDependentConic(cons, label, equ);

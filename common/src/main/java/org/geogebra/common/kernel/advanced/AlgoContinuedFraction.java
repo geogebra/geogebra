@@ -237,14 +237,14 @@ public class AlgoContinuedFraction extends AlgoElement {
 																		// exact
 																		// integers
 																		// including
-																		// 0 �
+																		// 0
 			FractionNumerator = decimal * DecimalSign;
 			FractionDenominator = 1.0;
 
 			denominators[0] = (int) Math.floor(decimal);
 			return 1;
 		}
-		if (decimal < 1.0E-19) { // X = 0 already taken care of �
+		if (decimal < 1.0E-19) { // X = 0 already taken care of
 
 			denominators[0] = 0;
 			return 2;

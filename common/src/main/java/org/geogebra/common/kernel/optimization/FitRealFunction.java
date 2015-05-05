@@ -167,7 +167,6 @@ public class FitRealFunction implements
 																		// new
 																		// function
 		// ExpressionNode enf=new ExpressionNode(kernel,evf);
-		// //System.out.println("enf(f�r replace): "+enf.toString());
 
 		for (int i = 0; i < numberOfParameters; i++) {
 			enf = enf.replace((ExpressionValue) gliders[i],
