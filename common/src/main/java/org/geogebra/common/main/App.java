@@ -3503,6 +3503,7 @@ public abstract class App implements UpdateSelection {
 	protected void onOpenFile() {
 		if (this.openFileListener != null) {
 			this.openFileListener.onOpenFile();
+			this.openFileListener = null;
 		}
 	}
 
