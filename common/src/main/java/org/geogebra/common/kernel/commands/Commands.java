@@ -308,16 +308,16 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_GEOGEBRA), TurtleUp(TABLE_GEOGEBRA), TurtleDown(
 			TABLE_GEOGEBRA),
 
-	// disabled in GeoGebra 5.0, include in GeoGebra 5.2
-	MatrixPlot(TABLE_VECTOR), DensityPlot(TABLE_FUNCTION), ContourPlot(
-			TABLE_FUNCTION), Nyquist(TABLE_FUNCTION), Polyhedron(TABLE_ENGLISH),
+	// these are currently disabled (unfinished)
+	// change TABLE_ENGLISH when adding
+	MatrixPlot(TABLE_ENGLISH), DensityPlot(TABLE_ENGLISH), ContourPlot(
+			TABLE_ENGLISH), Nyquist(TABLE_ENGLISH), Polyhedron(TABLE_ENGLISH),
 
 	// ==
 
 	Reflect(TABLE_ENGLISH), CFactor(TABLE_CAS), CIFactor(TABLE_CAS), IFactor(
 			TABLE_ALGEBRA), CommonDenominator(TABLE_ALGEBRA), Cross(
-			TABLE_ALGEBRA), CSolutions(
-TABLE_CAS), CSolve(TABLE_CAS), Dot(
+			TABLE_ALGEBRA), CSolutions(TABLE_CAS), CSolve(TABLE_CAS), Dot(
 			TABLE_ALGEBRA), Eliminate(TABLE_CAS), GroebnerLex(
 			TABLE_CAS), GroebnerDegRevLex(TABLE_CAS), GroebnerLexDeg(TABLE_CAS), NIntegral(
 			TABLE_CAS), NSolve(TABLE_CAS), NSolutions(TABLE_CAS), Numeric(
