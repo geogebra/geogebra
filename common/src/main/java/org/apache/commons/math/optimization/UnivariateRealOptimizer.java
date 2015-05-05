@@ -25,7 +25,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Interface for (univariate real) optimization algorithms.
  *
- * @version $Revision: 1073658 $ $Date: 2011-02-23 10:45:42 +0100 (mer. 23 févr. 2011) $
+ * @version $Revision: 1073658 $ $Date: 2011-02-23 10:45:42 +0100 (mer. 23 fevr. 2011) $
  * @since 2.0
  */
 public interface UnivariateRealOptimizer extends ConvergingAlgorithm {

@@ -26,7 +26,7 @@ import org.apache.commons.math.optimization.OptimizationException;
  * <p>Polynomial fitting is a very simple case of curve fitting. The
  * estimated coefficients are the polynomial coefficients. They are
  * searched by a least square estimator.</p>
- * @version $Revision: 1073270 $ $Date: 2011-02-22 10:19:27 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073270 $ $Date: 2011-02-22 10:19:27 +0100 (mar. 22 fevr. 2011) $
  * @since 2.0
  */
 

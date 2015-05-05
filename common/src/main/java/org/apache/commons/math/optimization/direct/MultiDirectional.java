@@ -27,7 +27,7 @@ import org.apache.commons.math.optimization.RealPointValuePair;
 /**
  * This class implements the multi-directional direct search method.
  *
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @see NelderMead
  * @since 1.2
  */

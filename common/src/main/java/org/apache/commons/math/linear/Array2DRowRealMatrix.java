@@ -48,7 +48,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * returns the element in the first row, first column of the matrix.</li></ul>
  * </p>
  *
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 févr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
  */
 public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializable {
 

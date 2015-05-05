@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
- * @version $Revision: 1073459 $ $Date: 2011-02-22 20:18:12 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073459 $ $Date: 2011-02-22 20:18:12 +0100 (mar. 22 fevr. 2011) $
  * @since 2.0
  */
 public abstract class AbstractMultipleLinearRegression implements

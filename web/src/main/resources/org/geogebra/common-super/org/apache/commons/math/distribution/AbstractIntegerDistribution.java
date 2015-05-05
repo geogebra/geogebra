@@ -29,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * implementations are provided for some of the methods that do not vary
  * from distribution to distribution.
  *
- * @version $Revision: 1067494 $ $Date: 2011-02-05 20:49:07 +0100 (sam. 05 févr. 2011) $
+ * @version $Revision: 1067494 $ $Date: 2011-02-05 20:49:07 +0100 (sam. 05 fevr. 2011) $
  */
 public abstract class AbstractIntegerDistribution extends AbstractDistribution
     implements IntegerDistribution, Serializable {

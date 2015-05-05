@@ -29,7 +29,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @deprecated in 2.2 (to be removed in 3.0).
  */
 @Deprecated

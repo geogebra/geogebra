@@ -25,7 +25,7 @@ import org.apache.commons.math.util.FastMath;
  * Base class for {@link UnivariateRealFunction} that can be composed with other functions.
  *
  * @since 2.1
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  */
 public abstract class ComposableFunction implements UnivariateRealFunction {
 

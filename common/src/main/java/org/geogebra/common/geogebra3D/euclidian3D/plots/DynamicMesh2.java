@@ -7,7 +7,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.plots.java.nio.FloatBuffer;
 /**
  * An enumeration for describing the culling status of a diamond
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 enum CullInfo2 {
 	/** the entire diamond is in the viewing sphere */
@@ -21,7 +21,7 @@ enum CullInfo2 {
 /**
  * Abstract class representing an element to be used in a dynamic mesh.
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 abstract class DynamicMeshElement2 {
 	private boolean isSplit;
@@ -286,7 +286,7 @@ abstract class DynamicMeshElement2 {
  * measure. One priority queue handles merge operations and another handles
  * split operations.
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 public abstract class DynamicMesh2 {
 

@@ -25,7 +25,7 @@ import org.apache.commons.math.util.FastMath;
  * This is a utility class that provides computation methods related to the
  * Gamma family of functions.
  *
- * @version $Revision: 1042510 $ $Date: 2010-12-06 02:54:18 +0100 (lun. 06 déc. 2010) $
+ * @version $Revision: 1042510 $ $Date: 2010-12-06 02:54:18 +0100 (lun. 06 dec. 2010) $
  */
 public class Gamma {
 

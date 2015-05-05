@@ -24,7 +24,7 @@ import org.apache.commons.math.exception.util.Localizable;
 /**
  * Thrown when an operation addresses a matrix coordinate (row, col)
  * which is outside of the dimensions of a matrix.
- * @version $Revision: 1073255 $ $Date: 2011-02-22 09:42:06 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073255 $ $Date: 2011-02-22 09:42:06 +0100 (mar. 22 fevr. 2011) $
  */
 public class MatrixIndexException extends MathRuntimeException {
 

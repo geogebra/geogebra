@@ -49,7 +49,7 @@ import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
  *
  * <p>Given <code>Q</code> and <code>R</code>, the last equation is solved by back-substitution.</p>
  *
- * @version $Revision: 1073464 $ $Date: 2011-02-22 20:35:02 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073464 $ $Date: 2011-02-22 20:35:02 +0100 (mar. 22 fevr. 2011) $
  * @since 2.0
  */
 public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegression {

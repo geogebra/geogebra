@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * into a primitive double or to turn a String representation of a Number into
  * a double.
  *
- * @version $Revision: 1073658 $ $Date: 2011-02-23 10:45:42 +0100 (mer. 23 févr. 2011) $
+ * @version $Revision: 1073658 $ $Date: 2011-02-23 10:45:42 +0100 (mer. 23 fevr. 2011) $
  */
 public class DefaultTransformer implements NumberTransformer, Serializable {
 

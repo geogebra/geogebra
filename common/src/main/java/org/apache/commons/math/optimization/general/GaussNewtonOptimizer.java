@@ -37,7 +37,7 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  * is faster but QR decomposition is more robust for difficult problems.
  * </p>
  *
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 févr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
  * @since 2.0
  *
  */

@@ -29,7 +29,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * cannot be inverted directly. Due to a scaling factor it may lead to rational results.
  * As an example, the inverse transform of integer vector (0, 1, 0, 1) is rational
  * vector (1/2, -1/2, 0, 0).</p>
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 2.0
  */
 public class FastHadamardTransformer implements RealTransformer {

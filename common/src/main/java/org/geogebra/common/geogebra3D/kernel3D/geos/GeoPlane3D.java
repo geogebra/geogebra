@@ -344,7 +344,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	@Override
 	public boolean isEqual(GeoElement Geo) {
-		// TODO Raccord de méthode auto-généré
+		// TODO Raccord de methode auto-genere
 		return false;
 	}
 

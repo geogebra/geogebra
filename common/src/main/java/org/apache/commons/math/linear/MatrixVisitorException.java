@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * Thrown when a visitor encounters an error while processing a matrix entry.
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  */
 public class MatrixVisitorException extends MathRuntimeException {
 

@@ -33,7 +33,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * Base class for implementing optimizers for multivariate scalar functions.
  * <p>This base class handles the boilerplate methods associated to thresholds
  * settings, iterations and evaluations counting.</p>
- * @version $Revision: 1069567 $ $Date: 2011-02-10 22:07:26 +0100 (jeu. 10 févr. 2011) $
+ * @version $Revision: 1069567 $ $Date: 2011-02-10 22:07:26 +0100 (jeu. 10 fevr. 2011) $
  * @since 2.0
  */
 public abstract class AbstractScalarDifferentiableOptimizer

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * A 3D octree for collision, picking etc.
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 public abstract class Octree {
 	/** The maximum level in the octree */

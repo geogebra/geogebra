@@ -32,7 +32,7 @@ import org.apache.commons.math.optimization.UnivariateRealOptimizer;
  * Provide a default implementation for several functions useful to generic
  * optimizers.
  *
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 2.0
  */
 public abstract class AbstractUnivariateRealOptimizer

@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
  * univariate functions. This implementation is an adaptation partly
  * based on the Python code from SciPy (module "optimize.py" v0.5).
  *
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 2.0
  */
 public class BrentOptimizer extends AbstractUnivariateRealOptimizer {

@@ -23,7 +23,7 @@ import org.apache.commons.math.ConvergenceException;
 /**
  * This class represents exceptions thrown by optimizers.
  *
- * @version $Revision: 1044015 $ $Date: 2010-12-09 17:06:26 +0100 (jeu. 09 déc. 2010) $
+ * @version $Revision: 1044015 $ $Date: 2010-12-09 17:06:26 +0100 (jeu. 09 dec. 2010) $
  * @since 1.2
  * @deprecated in 2.2 (to be removed in 3.0).
  */

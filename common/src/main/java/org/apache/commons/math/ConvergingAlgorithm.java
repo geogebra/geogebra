@@ -24,7 +24,7 @@ package org.apache.commons.math;
  * execution of the algorithms per se.
  * </p>
  * @see ConvergenceException
- * @version $Revision: 1042336 $ $Date: 2010-12-05 13:40:48 +0100 (dim. 05 déc. 2010) $
+ * @version $Revision: 1042336 $ $Date: 2010-12-05 13:40:48 +0100 (dim. 05 dec. 2010) $
  * @since 2.0
  * @deprecated in 2.2 (to be removed in 3.0). The concept of "iteration" will
  * be moved to a new {@code IterativeAlgorithm}. The concept of "accuracy" is

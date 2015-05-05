@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * An octree that is optimized to only contain triangles
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 public class TriangleOctree extends Octree {
 
@@ -73,7 +73,7 @@ public class TriangleOctree extends Octree {
  * A node in a triangle octree - contains a set of triangles and methods for
  * computing triangle intersections
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  * 
  */
 class TriangleOctreeNode extends OctreeNode {

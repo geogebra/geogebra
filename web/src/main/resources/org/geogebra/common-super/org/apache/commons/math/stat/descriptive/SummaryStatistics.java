@@ -54,7 +54,7 @@ import org.apache.commons.math.util.MathUtils;
  * {@link SynchronizedSummaryStatistics} if concurrent access from multiple
  * threads is required.
  * </p>
- * @version $Revision: 1042376 $ $Date: 2010-12-05 16:54:55 +0100 (dim. 05 déc. 2010) $
+ * @version $Revision: 1042376 $ $Date: 2010-12-05 16:54:55 +0100 (dim. 05 dec. 2010) $
  */
 public class SummaryStatistics implements StatisticalSummary, Serializable {
 

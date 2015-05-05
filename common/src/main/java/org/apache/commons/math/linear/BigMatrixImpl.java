@@ -50,7 +50,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @deprecated as of 2.0, replaced by {@link Array2DRowFieldMatrix} with a {@link
  * org.apache.commons.math.util.BigReal} parameter
- * @version $Revision: 1042376 $ $Date: 2010-12-05 16:54:55 +0100 (dim. 05 déc. 2010) $
+ * @version $Revision: 1042376 $ $Date: 2010-12-05 16:54:55 +0100 (dim. 05 dec. 2010) $
  */
 @Deprecated
 public class BigMatrixImpl implements BigMatrix, Serializable {

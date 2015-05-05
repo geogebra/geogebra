@@ -35,7 +35,7 @@ import org.apache.commons.math.util.FastMath;
  * Laguerre's method is global in the sense that it can start with any initial
  * approximation and be able to solve all roots from that point.</p>
  *
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 1.2
  */
 public class LaguerreSolver extends UnivariateRealSolverImpl {

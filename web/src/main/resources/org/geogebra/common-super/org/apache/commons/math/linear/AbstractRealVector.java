@@ -34,7 +34,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * This class provides default basic implementations for many methods in the
  * {@link RealVector} interface.
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 2.1
  */
 public abstract class AbstractRealVector implements RealVector {

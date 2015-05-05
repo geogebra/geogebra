@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
  * Base class for {@link BivariateRealFunction} that can be composed with other functions.
  *
  * @since 2.1
- * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 fevr. 2011) $
  * @deprecated in 2.2
  */
 @Deprecated

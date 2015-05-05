@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * The setters and getters will be removed in version 3.0.
  *
  * @since 1.1
- * @version $Revision: 1067582 $ $Date: 2011-02-06 04:55:32 +0100 (dim. 06 févr. 2011) $
+ * @version $Revision: 1067582 $ $Date: 2011-02-06 04:55:32 +0100 (dim. 06 fevr. 2011) $
  */
 public class TestUtils  {
 

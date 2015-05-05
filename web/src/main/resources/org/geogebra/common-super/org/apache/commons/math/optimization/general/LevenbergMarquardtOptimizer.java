@@ -101,7 +101,7 @@ import org.apache.commons.math.util.MathUtils;
  *     POSSIBILITY OF SUCH LOSS OR DAMAGES.</strong></li>
  * <ol></td></tr>
  * </table>
- * @version $Revision: 1073272 $ $Date: 2011-02-22 10:22:25 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073272 $ $Date: 2011-02-22 10:22:25 +0100 (mar. 22 fevr. 2011) $
  * @since 2.0
  *
  */

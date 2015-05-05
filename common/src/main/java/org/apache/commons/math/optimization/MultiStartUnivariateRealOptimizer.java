@@ -33,7 +33,7 @@ import org.apache.commons.math.util.FastMath;
  * turn with different starting points in order to avoid being trapped
  * into a local extremum when looking for a global one.
  * </p>
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 2.0
  */
 public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimizer {

@@ -26,7 +26,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
 
 /**
  * This class implements the {@link RealVector} interface with a {@link OpenIntToDoubleHashMap} backing store.
- * @version $Revision: 1073262 $ $Date: 2011-02-22 10:02:25 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073262 $ $Date: 2011-02-22 10:02:25 +0100 (mar. 22 fevr. 2011) $
  * @since 2.0
 */
 public class OpenMapRealVector extends AbstractRealVector implements SparseRealVector, Serializable {

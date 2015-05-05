@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.plots;
 /**
  * Interface for 3D objects that are sorted as octrees.
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 public interface OctreeCollection {
 

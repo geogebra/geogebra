@@ -27,7 +27,7 @@ import org.apache.commons.math.util.MathUtils;
  * <p>All the methods implemented here use {@link #getEntry(int, int)} to access
  * matrix elements. Derived class can provide faster implementations. </p>
  *
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 févr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
  * @since 2.0
  */
 public abstract class AbstractRealMatrix implements RealMatrix {

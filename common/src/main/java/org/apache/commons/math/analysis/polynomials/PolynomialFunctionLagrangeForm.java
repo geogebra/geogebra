@@ -32,7 +32,7 @@ import org.apache.commons.math.util.FastMath;
  * The approximated function should be smooth enough for Lagrange polynomial
  * to work well. Otherwise, consider using splines instead.</p>
  *
- * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 fevr. 2011) $
  * @since 1.2
  */
 public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {

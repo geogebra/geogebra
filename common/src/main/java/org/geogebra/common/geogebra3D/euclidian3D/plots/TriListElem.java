@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.plots;
 /**
  * A class representing a triangle in TriList
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 public class TriListElem {
 	protected int index;

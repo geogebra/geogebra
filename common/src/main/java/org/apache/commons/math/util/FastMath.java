@@ -38,7 +38,7 @@ package org.apache.commons.math.util;
  * <li>{@link #nextUp(float)}</li>
  * <li>{@link #scalb(float, int)}</li>
  * </ul>
- * @version $Revision: 1074294 $ $Date: 2011-02-24 22:18:59 +0100 (jeu. 24 févr. 2011) $
+ * @version $Revision: 1074294 $ $Date: 2011-02-24 22:18:59 +0100 (jeu. 24 fevr. 2011) $
  * @since 2.2
  */
 public class FastMath {

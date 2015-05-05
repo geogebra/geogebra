@@ -33,7 +33,7 @@ import org.apache.commons.math.util.MathUtils;
  * restrict ourselves to real functions. Methods solve() and solve2() find
  * real zeros, using different ways to bypass complex arithmetics.</p>
  *
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 1.2
  */
 public class MullerSolver extends UnivariateRealSolverImpl {

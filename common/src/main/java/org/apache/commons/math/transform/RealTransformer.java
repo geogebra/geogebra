@@ -28,7 +28,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * interface since it produces {@link org.apache.commons.math.complex.Complex complex}
  * results instead of real ones.
  * </p>
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 2.0
  */
 public interface RealTransformer  {

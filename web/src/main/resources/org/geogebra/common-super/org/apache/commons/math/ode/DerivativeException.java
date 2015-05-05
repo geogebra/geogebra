@@ -24,7 +24,7 @@ import org.apache.commons.math.MathException;
  * This exception is made available to users to report
  * the error conditions that are triggered while computing
  * the differential equations.
- * @version $Revision: 1072413 $ $Date: 2011-02-19 19:59:39 +0100 (sam. 19 févr. 2011) $
+ * @version $Revision: 1072413 $ $Date: 2011-02-19 19:59:39 +0100 (sam. 19 fevr. 2011) $
  * @since 1.2
  */
 public class DerivativeException extends MathException {

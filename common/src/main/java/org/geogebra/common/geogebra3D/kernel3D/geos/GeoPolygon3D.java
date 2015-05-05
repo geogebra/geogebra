@@ -954,7 +954,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 */
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		// App.debug("Entrée 3D");
+		// App.debug("Entree 3D");
 		// return false if it's a different type
 		if (geo.isGeoPolygon()) {
 

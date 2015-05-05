@@ -59,7 +59,7 @@ import org.apache.commons.math.util.FastMath;
  * otherwise the step is rejected and a new attempt is made with a new
  * stepsize.</p>
  *
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 févr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
  * @since 1.2
  *
  */

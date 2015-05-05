@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 /**
  * An element in a CurveMesh.
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 class SurfaceDiamond2 extends DynamicMeshElement2 {
 	// MISC
@@ -608,7 +608,7 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
  * A bucket assigner used for merge operations. Sorts based on
  * SurfaceMeshDiamond.error.
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 class SurfaceMergeBucketAssigner2 implements
 		BucketAssigner<DynamicMeshElement2> {
@@ -627,7 +627,7 @@ class SurfaceMergeBucketAssigner2 implements
 /**
  * Mesh representing a function R^2->R^3
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 
@@ -887,7 +887,7 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
  * A bucket assigner used for split operations. Sorts based on
  * SurfaceMeshDiamond.error.
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 class SurfaceSplitBucketAssigner2 implements
 		BucketAssigner<DynamicMeshElement2> {
@@ -909,7 +909,7 @@ class SurfaceSplitBucketAssigner2 implements
 /**
  * Triangle list used for curves
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 

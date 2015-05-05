@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 /**
  * A set of collision routines
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 public class Collision {
 

@@ -1684,9 +1684,9 @@ __giac = { 1: { cmd: "Derivative[x^2]", result: "2x", notes:"" },
 1684: { cat:"PerpendicularVector", cmd:"PerpendicularVector[{1,2,3}]", result:"?" },
 1685: { cat:"UnitVector", cmd:"UnitVector[{1,2}]", result:"{1 / sqrt(5), 2 / sqrt(5)}" },
 1686: { cat:"UnitVector", cmd:"UnitVector[{1,2,3}]", result:"{1 / sqrt(14), 2 / sqrt(14), 3 / sqrt(14)}" },
-1687: { cat:"Evaluate", cmd:"Evaluate[alt((1,2))]", result:"0" },
-1688: { cat:"Evaluate", cmd:"Evaluate[alt((1,2,3))]", result:"atan(3 / sqrt(5))" },
-1689: { cat:"Evaluate", cmd:"Evaluate[alt((a,b,c))]", result:"atan(c / sqrt(a^(2) + b^(2)))" },
+1687: { cat:"Evaluate", cmd:"Evaluate[alt((1,2))]", result:"0", notes:"#5110" },
+1688: { cat:"Evaluate", cmd:"Evaluate[alt((1,2,3))]", result:"atan(3 / sqrt(5))", notes:"#5110" },
+1689: { cat:"Evaluate", cmd:"Evaluate[alt((a,b,c))]", result:"atan(c / sqrt(a^(2) + b^(2)))", notes:"#5110" },
 
 		
 // Java Killer

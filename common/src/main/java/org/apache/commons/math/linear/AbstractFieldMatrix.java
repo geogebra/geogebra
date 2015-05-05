@@ -31,7 +31,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * matrix elements. Derived class can provide faster implementations. </p>
  *
  * @param <T> the type of the field elements
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 févr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
  * @since 2.0
  */
 public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements FieldMatrix<T> {

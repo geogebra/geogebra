@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  * An approximate priority queue using buckets and linked lists. Insertion and
  * deletion are fast.
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  * @param <E>
  */
 public class BucketPQ<E> extends AbstractQueue<E> {
@@ -41,7 +41,7 @@ public class BucketPQ<E> extends AbstractQueue<E> {
 	/**
 	 * Class that holds data for elements inserted into the queue
 	 * 
-	 * @author André Eriksson
+	 * @author Andre Eriksson
 	 * @param <ET>
 	 */
 	protected static final class Link<ET> {

@@ -56,7 +56,7 @@ import org.apache.commons.math.util.FastMath;
  * of the correlated vector. This class handles this situation
  * automatically.</p>
  *
- * @version $Revision: 1043908 $ $Date: 2010-12-09 12:53:14 +0100 (jeu. 09 déc. 2010) $
+ * @version $Revision: 1043908 $ $Date: 2010-12-09 12:53:14 +0100 (jeu. 09 dec. 2010) $
  * @since 1.2
  */
 

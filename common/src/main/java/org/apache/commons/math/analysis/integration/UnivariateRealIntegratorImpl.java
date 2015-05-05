@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 /**
  * Provide a default implementation for several generic functions.
  *
- * @version $Revision: 1072409 $ $Date: 2011-02-19 19:50:36 +0100 (sam. 19 févr. 2011) $
+ * @version $Revision: 1072409 $ $Date: 2011-02-19 19:50:36 +0100 (sam. 19 fevr. 2011) $
  * @since 1.2
  */
 public abstract class UnivariateRealIntegratorImpl

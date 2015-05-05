@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * Thrown when a system attempts an operation on a matrix, and
  * that matrix does not satisfy the preconditions for the
  * aforementioned operation.
- * @version $Revision: 1073253 $ $Date: 2011-02-22 09:40:05 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073253 $ $Date: 2011-02-22 09:40:05 +0100 (mar. 22 fevr. 2011) $
  */
 public class InvalidMatrixException extends MathRuntimeException {
 

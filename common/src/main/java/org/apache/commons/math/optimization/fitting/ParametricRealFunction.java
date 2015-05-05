@@ -23,7 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  * An interface representing a real function that depends on one independent
  * variable plus some extra parameters.
  *
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 févr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
  */
 public interface ParametricRealFunction {
 

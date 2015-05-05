@@ -60,7 +60,7 @@ import org.apache.commons.math.util.FastMath;
  * arrays is negligible for small matrices (about 1%). The gain from cache efficiency leads
  * to up to 3-fold improvements for matrices of moderate to large size.
  * </p>
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 févr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
  * @since 2.0
  */
 public class BlockRealMatrix extends AbstractRealMatrix implements Serializable {

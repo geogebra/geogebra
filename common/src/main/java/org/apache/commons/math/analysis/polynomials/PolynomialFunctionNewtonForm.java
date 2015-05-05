@@ -31,7 +31,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *            a[n](x-c[0])(x-c[1])...(x-c[n-1])
  * Note that the length of a[] is one more than the length of c[]</p>
  *
- * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 fevr. 2011) $
  * @since 1.2
  */
 public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {

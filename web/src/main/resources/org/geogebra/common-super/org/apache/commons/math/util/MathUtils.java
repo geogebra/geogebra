@@ -27,7 +27,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
- * @version $Revision: 1073472 $ $Date: 2011-02-22 20:49:07 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073472 $ $Date: 2011-02-22 20:49:07 +0100 (mar. 22 fevr. 2011) $
  */
 public final class MathUtils {
 

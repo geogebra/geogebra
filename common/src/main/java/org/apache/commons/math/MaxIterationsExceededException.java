@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * Error thrown when a numerical computation exceeds its allowed
  * number of iterations.
  *
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 févr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
  * @since 1.2
  */
 public class MaxIterationsExceededException extends ConvergenceException {

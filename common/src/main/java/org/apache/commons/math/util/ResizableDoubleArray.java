@@ -70,7 +70,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * properties enforce this requirement, throwing IllegalArgumentException if it
  * is violated.
  * </p>
- * @version $Revision: 1073474 $ $Date: 2011-02-22 20:52:17 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073474 $ $Date: 2011-02-22 20:52:17 +0100 (mar. 22 fevr. 2011) $
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
 

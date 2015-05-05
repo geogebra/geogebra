@@ -5,7 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.plots.java.nio.FloatBuffer;
 /**
  * A triangle list for dynamic meshes
  * 
- * @author André Eriksson
+ * @author Andre Eriksson
  */
 public interface DynamicMeshTriList2 {
 

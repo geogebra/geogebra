@@ -40,7 +40,7 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * Base class managing common boilerplate for all integrators.
- * @version $Revision: 1073267 $ $Date: 2011-02-22 10:06:20 +0100 (mar. 22 févr. 2011) $
+ * @version $Revision: 1073267 $ $Date: 2011-02-22 10:06:20 +0100 (mar. 22 fevr. 2011) $
  * @since 2.0
  */
 public abstract class AbstractIntegrator implements FirstOrderIntegrator {
