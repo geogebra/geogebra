@@ -19,7 +19,13 @@ public class MathMLTest {
 					+ Unicode.PI_STRING
 					+ "<!-- "
 					+ Unicode.PI_STRING
-					+ " --></mi> <mi>i</mi> </mrow> </mfrac> <msub> <mo>∮</mo> <mrow> <mi>γ</mi> </mrow> </msub> <mfrac> <mrow> <mi>f</mi> <mo>(</mo> <mi>z</mi> <mo>)</mo> </mrow> <mrow> <mi>z</mi> <mo>−</mo> <mi>a</mi> </mrow> </mfrac> <mi>d</mi> <mi>z</mi> </mstyle></math>",
+					+ " --></mi> <mi>i</mi> </mrow> </mfrac> <msub>"
+					+ " <mo>"
+					+ Unicode.phi
+					+ "</mo> <mrow> <mi>"
+					+ Unicode.gamma
+					+ "</mi> </mrow> </msub> <mfrac> <mrow> <mi>f</mi> <mo>(</mo> <mi>z</mi> <mo>)</mo>"
+					+ " </mrow> <mrow> <mi>z</mi> <mo>−</mo> <mi>a</mi> </mrow> </mfrac> <mi>d</mi> <mi>z</mi> </mstyle></math>",
 		// Double angle formula for Cosines
 		"<math display='block'><mrow><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>+</mo><mi>&#x03c6;</mi><mo>)</mo></mrow><mo>=</mo><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>)</mo></mrow><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03c6;</mi><mo>)</mo></mrow><mo>&#x2212;</mo><mi>sin</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>)</mo></mrow><mi>sin</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03c6;</mi><mo>)</mo></mrow></mrow></math>",
 		// Gauss' Divergence Theorem
@@ -33,7 +39,15 @@ public class MathMLTest {
 
 		// a few tests from https://eyeasme.com/Joe/MathML/MathML_browser_test
 		// Axiom of power set
-		"<math display=\"block\"> <mrow> <mo rspace=\"0\">&forall;</mo> <mi>A</mi> <mo lspace=\"mediummathspace\" rspace=\"0\">&exist;</mo> <mi>P</mi> <mo lspace=\"mediummathspace\" rspace=\"0\">&forall;</mo> <mi>B</mi> <mspace width=\"thinmathspace\" /> <mfenced open=\"[\" close=\"]\"> <mrow> <mi>B</mi> <mo>&isin;</mo> <mi>P</mi> <mo lspace=\"veryverythickmathspace\" rspace=\"veryverythickmathspace\">&Longleftrightarrow;</mo> <mo rspace=\"0\">&forall;</mo> <mi>C</mi> <mspace width=\"thinmathspace\" /> <mfenced> <mrow> <mi>C</mi> <mo>&isin;</mo> <mi>B</mi> <mo>&Implies;</mo> <mi>C</mi> <mo>&isin;</mo> <mi>A</mi> </mrow> </mfenced> </mrow> </mfenced> </mrow> </math>",
+			"<math display=\"block\"> <mrow> <mo rspace=\"0\">&forall;</mo> <mi>A</mi> "
+					+ "<mo lspace=\"mediummathspace\" rspace=\"0\">&exist;</mo> <mi>P</mi>"
+					+ " <mo lspace=\"mediummathspace\" rspace=\"0\">&forall;</mo> <mi>B</mi>"
+					+ " <mspace width=\"thinmathspace\" /> <mfenced open=\"[\" close=\"]\"> "
+					+ "<mrow> <mi>B</mi> <mo>&isin;</mo> <mi>P</mi> "
+					+ "<mo lspace=\"veryverythickmathspace\" rspace=\"veryverythickmathspace\">&Longleftrightarrow;</mo> "
+					+ "<mo rspace=\"0\">&forall;</mo> <mi>C</mi> <mspace width=\"thinmathspace\" /> <mfenced> <mrow> <mi>C</mi>"
+					+ " <mo>&isin;</mo> <mi>B</mi> <mo>&Implies;</mo> <mi>C</mi> <mo>&isin;</mo> <mi>A</mi> </mrow> "
+					+ "</mfenced> </mrow> </mfenced> </mrow> </math>",
 		// quadratic formula
 		"<math display=\"block\"> <mrow> <mi>x</mi> <mo>=</mo> <mfrac> <mrow> <mo form=\"prefix\">&minus;</mo> <mi>b</mi> <mo>&PlusMinus;</mo> <msqrt> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo>&minus;</mo> <mn>4</mn> <mo>&InvisibleTimes;</mo> <mi>a</mi> <mo>&InvisibleTimes;</mo> <mi>c</mi> </msqrt> </mrow> <mrow> <mn>2</mn> <mo>&InvisibleTimes;</mo> <mi>a</mi> </mrow> </mfrac> </mrow> </math>",
 		// Binomial coefficient
