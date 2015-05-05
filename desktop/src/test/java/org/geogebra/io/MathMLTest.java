@@ -1,6 +1,7 @@
 package org.geogebra.io;
 
 import org.geogebra.common.io.MathMLParser;
+import org.geogebra.common.util.Unicode;
 import org.junit.Test;
 
 public class MathMLTest {
@@ -14,7 +15,11 @@ public class MathMLTest {
 		// quadratic formula
 		"<math display='block'><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo>&#x2212;</mo><mi>b</mi><mo>&#x00B1;</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>&#x2212;</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></mrow></math>",
 		//Cauchy's Integral Formula
-		"<math display='block'> <mstyle> <mi>f</mi> <mrow> <mo>(</mo> <mi>a</mi> <mo>)</mo> </mrow> <mo>=</mo> <mfrac> <mn>1</mn> <mrow> <mn>2</mn> <mi>π<!-- π --></mi> <mi>i</mi> </mrow> </mfrac> <msub> <mo>∮</mo> <mrow> <mi>γ</mi> </mrow> </msub> <mfrac> <mrow> <mi>f</mi> <mo>(</mo> <mi>z</mi> <mo>)</mo> </mrow> <mrow> <mi>z</mi> <mo>−</mo> <mi>a</mi> </mrow> </mfrac> <mi>d</mi> <mi>z</mi> </mstyle></math>",
+			"<math display='block'> <mstyle> <mi>f</mi> <mrow> <mo>(</mo> <mi>a</mi> <mo>)</mo> </mrow> <mo>=</mo> <mfrac> <mn>1</mn> <mrow> <mn>2</mn> <mi>"
+					+ Unicode.PI_STRING
+					+ "<!-- "
+					+ Unicode.PI_STRING
+					+ " --></mi> <mi>i</mi> </mrow> </mfrac> <msub> <mo>∮</mo> <mrow> <mi>γ</mi> </mrow> </msub> <mfrac> <mrow> <mi>f</mi> <mo>(</mo> <mi>z</mi> <mo>)</mo> </mrow> <mrow> <mi>z</mi> <mo>−</mo> <mi>a</mi> </mrow> </mfrac> <mi>d</mi> <mi>z</mi> </mstyle></math>",
 		// Double angle formula for Cosines
 		"<math display='block'><mrow><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>+</mo><mi>&#x03c6;</mi><mo>)</mo></mrow><mo>=</mo><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>)</mo></mrow><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03c6;</mi><mo>)</mo></mrow><mo>&#x2212;</mo><mi>sin</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>)</mo></mrow><mi>sin</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03c6;</mi><mo>)</mo></mrow></mrow></math>",
 		// Gauss' Divergence Theorem
