@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.web.html5.Browser;
@@ -57,6 +58,18 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	public void setBase64(String base64) {
 		View view = new View(RootPanel.getBodyElement(), (AppW) app);
 		view.processBase64String(base64);
+	}
+	public void setBase64(String base64, final JavaScriptObject callback) {
+		if (callback != null) {
+			app.registerOpenFileListener(new OpenFileListener() {
+
+				public void onOpenFile() {
+					ScriptManagerW.runCallback(callback);
+
+				}
+			});
+		}
+		setBase64(base64);
 	}
 
 	public void setErrorDialogsActive(boolean flag) {

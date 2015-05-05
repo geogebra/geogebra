@@ -124,8 +124,8 @@ public class ScriptManagerW extends ScriptManager {
 
 		}
 
-		api.setBase64 = function(base64string) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setBase64(Ljava/lang/String;)(base64string);
+		api.setBase64 = function(base64string, callback) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setBase64(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(base64string);
 		}
 
 		api.getContext2D = function() {

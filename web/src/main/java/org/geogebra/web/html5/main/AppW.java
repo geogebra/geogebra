@@ -3288,6 +3288,15 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void setExternalPath(String path) {
 		this.externalPath = path;
+		String title = "";
+		if (getKernel() != null && getKernel().getConstruction() != null
+				&& getKernel().getConstruction().getTitle() == null
+				|| "".equals(getKernel().getConstruction().getTitle())) {
+			int lastSlash = Math.max(path.lastIndexOf('/'),
+					path.lastIndexOf('\\'));
+			title = path.substring(lastSlash + 1).replace(".ggb", "");
+			getKernel().getConstruction().setTitle(title);
+		}
 		getFileManager().setFileProvider(Provider.LOCAL);
 	}
 
