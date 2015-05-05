@@ -21,6 +21,7 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.main.BrowserDevice;
 import org.geogebra.web.web.main.GDevice;
 
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
@@ -100,6 +101,24 @@ public class Web3D extends Web {
 		
 		//just debug for now
 		PNaCl.exportPNaCltoConsole();
+
+		// registerSuperdevExceptionHandler();
+
+	}
+
+	/**
+	 * Registers handler for UnhandledExceptions that are wrapped by GWT by
+	 * default
+	 */
+	public void registerSuperdevExceptionHandler() {
+		com.google.gwt.core.client.GWT
+				.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+
+					public native void onUncaughtException(Throwable t) /*-{
+		console && console.log && console.log(t);
+	}-*/;
+
+				});
 	}
 
 	private void loadExtensionAsync() {
