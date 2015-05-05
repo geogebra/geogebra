@@ -203,26 +203,27 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	private native void createPicker(String token2) /*-{
-	                                                var _this = this;
-	                                                var picker = new $wnd.google.picker.PickerBuilder().
-	                                                addView($wnd.google.picker.​ViewId.DOCS).
-	                                                addView($wnd.google.picker.ViewId.FOLDERS).
-	                                                setOAuthToken(token2).
-	                                                setDeveloperKey("AIzaSyBZlOTdZmzNrXZy2QIrDEz8uXJ9lOUFGE0").
-	                                                setCallback(function(data){
-	                                                if(data.action != "picked" || data.docs.length <1){
-	                                                return;
-	                                                }
-	                                                var request = $wnd.gapi.client.drive.files.get({
-	                                                fileId : data.docs[0].id
-	                                                });
-	                                                request.execute(function(resp) {
-	                                                _this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::loadFromGoogleFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.downloadUrl, resp.description, resp.title, resp.id);
-	                                                });
-	                                                }).
-	                                                build();
-	                                                picker.setVisible(true);
-	                                                }-*/;
+		var _this = this;
+		var picker = new $wnd.google.picker.PickerBuilder()
+				.addView($wnd.google.picker.ViewId.DOCS)
+				.addView($wnd.google.picker.ViewId.FOLDERS)
+				.setOAuthToken(token2)
+				.setDeveloperKey("AIzaSyBZlOTdZmzNrXZy2QIrDEz8uXJ9lOUFGE0")
+				.setCallback(
+						function(data) {
+							if (data.action != "picked" || data.docs.length < 1) {
+								return;
+							}
+							var request = $wnd.gapi.client.drive.files.get({
+								fileId : data.docs[0].id
+							});
+							request
+									.execute(function(resp) {
+										_this.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW::loadFromGoogleFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.downloadUrl, resp.description, resp.title, resp.id);
+									});
+						}).build();
+		picker.setVisible(true);
+	}-*/;
 
 	public void renderEvent(BaseEvent event) {
 		App.debug("event: " + event.toString());
