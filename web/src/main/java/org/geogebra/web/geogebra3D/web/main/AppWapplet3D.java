@@ -52,7 +52,6 @@ public class AppWapplet3D extends AppWapplet {
 		if (this.euclidianView3D == null) {
 			euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D,
 			        getSettings().getEuclidian(3));
-			App.printStacktrace("");
 		}
 		return euclidianView3D;
 	}
