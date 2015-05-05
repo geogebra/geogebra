@@ -1569,8 +1569,18 @@ var MathBlock = P(MathElement, function(_) {
       // do nothing!
       return;
     }
-    if (cmd.ctrlSeq === '\\ggbtable') {
-      // do nothing!
+    if (cmd.ctrlSeq === '\\ggbtable' ||
+   		cmd.ctrlSeq === '\\parametric' ||
+   		cmd.ctrlSeq === '\\prcondition' ||
+    	cmd.ctrlSeq === '\\piecewise' ||
+    	cmd.ctrlSeq === '\\prcurve') {
+      // do nothing! ?? question: should we do
+      // the same with \\piecewise and \\prcurve,
+      // as top-level blocks? maybe it's better
+      // to let them to be deleted? I think no,
+      // because all of these will be associated
+      // with SpecialRadioButtonTreeItem, and
+      // it will be good to keep the structure.
       return;
     }
     if (cmd.pwtable || cmd.prtable) {
