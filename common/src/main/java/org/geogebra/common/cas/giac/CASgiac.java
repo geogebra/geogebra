@@ -566,7 +566,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			HashMap<Variable, Integer> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext) {
 		/*
-		 * Example syntax (from Gröbner basis tester; but in GeoGebra v1, v2,
+		 * Example syntax (from Groebner basis tester; but in GeoGebra v1, v2,
 		 * ... are used for variables):
 		 * 
 		 * [[ii:=gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1,

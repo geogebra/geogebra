@@ -351,14 +351,14 @@ public class MathMLParser {
 	 * mehrere* Tabs) die entsprechende Ersetzung.** Zeilen, die mit '**'
 	 * beginnen (wie diese Erklärung) werden ignoriert, Zeilen* ohne Tabulator
 	 * oder mit Tabulatoren an verschiedenen Stellen im String ebenfalls.** Da
-	 * sich die Reihenfolge der Blöcke im MathML-Code von dem im LaTeX-Code*
-	 * unterscheidet, muss MathParser die korrekte Reihenfolge für die Blöcke
-	 * mitgeteilt* werden. Hierfür wird das Schlüsselwort %BLOCK[Blocknummer]%
-	 * verwendet.* Sollen sämtliche Blöcke (unabhängig von Reihenfolge und
-	 * Anzahl) übernommen* werden, wird das Schlüsselwort %BLOCKS% verwendet**
-	 * Wird %BLOCK in einem Ersetzungsbefehl gefunden, wird der Parser rekursiv
-	 * auf dem* folgenden Block aufgerufen und das Ergebnis an Stelle des
-	 * Platzhalters in die* Ausgabe geschrieben.*
+	 * sich die Reihenfolge der Blo(umlaut)cke im MathML-Code von dem im
+	 * LaTeX-Code* unterscheidet, muss MathParser die korrekte Reihenfolge für
+	 * die Blo(umlaut)cke mitgeteilt* werden. Hierfür wird das Schlüsselwort
+	 * %BLOCK[Blocknummer]% verwendet.* Sollen sämtliche Blo(umlaut)cke
+	 * (unabhängig von Reihenfolge und Anzahl) übernommen* werden, wird das
+	 * Schlüsselwort %BLOCKS% verwendet** Wird %BLOCK in einem Ersetzungsbefehl
+	 * gefunden, wird der Parser rekursiv auf dem* folgenden Block aufgerufen
+	 * und das Ergebnis an Stelle des Platzhalters in die* Ausgabe geschrieben.*
 	 */
 	static {
 
@@ -824,7 +824,7 @@ public class MathMLParser {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return null; // TODO statt exception, später löschen
+			return null; // TODO statt exception, später lo(umlaut)schen
 		}
 		return null;
 	}
@@ -1351,38 +1351,6 @@ public class MathMLParser {
 			sbIndex = sbIndex + 2;
 		}
 
-		/*
-		 * removed by GeoGebra
-		 * 
-		 * the LateX renderers we use can handle Unicode // replace german
-		 * "umlauts" sbIndex = 0; while ((sbIndex = sb.indexOf("ä", sbIndex)) >
-		 * -1) { sb.replace(sbIndex, (sbIndex+1), "\\protect\"a"); sbIndex =
-		 * sbIndex + 10; }
-		 * 
-		 * sbIndex = 0; while ((sbIndex = sb.indexOf("Ä", sbIndex)) > -1) {
-		 * sb.replace(sbIndex, (sbIndex+1), "\\protect\"A"); sbIndex = sbIndex +
-		 * 10; }
-		 * 
-		 * sbIndex = 0; while ((sbIndex = sb.indexOf("ö", sbIndex)) > -1) {
-		 * sb.replace(sbIndex, (sbIndex+1), "\\protect\"o"); sbIndex = sbIndex +
-		 * 10; }
-		 * 
-		 * sbIndex = 0; while ((sbIndex = sb.indexOf("Ö", sbIndex)) > -1) {
-		 * sb.replace(sbIndex, (sbIndex+1), "\\protect\"O"); sbIndex = sbIndex +
-		 * 10; }
-		 * 
-		 * sbIndex = 0; while ((sbIndex = sb.indexOf("ü", sbIndex)) > -1) {
-		 * sb.replace(sbIndex, (sbIndex+1), "\\protect\"u"); sbIndex = sbIndex +
-		 * 10; }
-		 * 
-		 * sbIndex = 0; while ((sbIndex = sb.indexOf("Ü", sbIndex)) > -1) {
-		 * sb.replace(sbIndex, (sbIndex+1), "\\protect\"U"); sbIndex = sbIndex +
-		 * 10; }
-		 * 
-		 * sbIndex = 0; while ((sbIndex = sb.indexOf("ß", sbIndex)) > -1) {
-		 * sb.replace(sbIndex, (sbIndex+1), "\\protect\"s"); sbIndex = sbIndex +
-		 * 10; }
-		 */
 		return sb.toString().trim();
 	}
 

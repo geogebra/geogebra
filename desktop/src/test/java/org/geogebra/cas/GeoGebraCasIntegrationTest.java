@@ -3106,7 +3106,8 @@ static public boolean silent = false;
 
   @Test
   public void Solve_ParametricEOP_6 () {
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]", GermanSolve + "[(5.5, 2.5) = (3, 2) + t * (5, 1)]");
   }
 
@@ -3139,7 +3140,8 @@ static public boolean silent = false;
   @Test
   public void Solve_ParametricFOP_4 () {
     t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[f(t) = (5.5, 2.5)]", GermanSolve + "[f(t) = (5.5, 2.5)]");
   }
 
@@ -3256,7 +3258,8 @@ static public boolean silent = false;
   @Test
   public void Solve_ParametricFMP_11 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[f(t, s) = (7, -8), {t, s}]", GermanSolve + "[f(t, s) = (7, -8), {t, s}]");
   }
 
@@ -3289,7 +3292,8 @@ static public boolean silent = false;
 
   @Test
   public void Solve_ParametricET_5 () {
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]", GermanSolve + "[(3, 2) + t * (5, 1) = (4, 1) + s * (2, -2), {t, s}]");
   }
 
@@ -3322,7 +3326,8 @@ static public boolean silent = false;
 
   @Test
   public void Solve_ParametricMEE_5 () {
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]",
         GermanSolve + "[{(x, y) = (3, 2) + t * (5, 1), (x, y) = (4, 1) + s * (2, -2)}, {x, y, t, s}]");
   }
@@ -3356,7 +3361,8 @@ static public boolean silent = false;
 
   @Test
   public void Solve_ParametricMEA_5 () {
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]", GermanSolve + "[{X = (3, 2) + t * (5, 1), X = (4, 1) + s * (2, -2)}, {t, s}]");
   }
 
@@ -3394,7 +3400,8 @@ static public boolean silent = false;
   public void Solve_ParametricMEL_4 () {
     t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
     t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[{f, g}, {t, s, x, y}]", GermanSolve + "[{f, g}, {t, s, x, y}]");
   }
 
@@ -3402,7 +3409,8 @@ static public boolean silent = false;
   public void Solve_ParametricMEL_5 () {
     t("f: X = (3, 2) + t (5, 1)", "X = (5 * t + 3, t + 2)");
     t("g: X = (4, 1) + s (2, -2)", "X = (2 * s + 4, -2 * s + 1)");
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[{f, g}, {t, s}]", GermanSolve + "[{f, g}, {t, s}]");
   }
 
@@ -3447,7 +3455,8 @@ static public boolean silent = false;
   public void Solve_ParametricMF_5 () {
     t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
     t("g(s) := (4, 1) + s (2, -2)", "(2 * s + 4, -2 * s + 1)");
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[f(u) = g(v), {u, v}]", GermanSolve + "[f(u) = g(v), {u, v}]");
   }
 
@@ -3472,7 +3481,8 @@ static public boolean silent = false;
 
   @Test
   public void Solve_ParametricTD_2 () {
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[(2, 3, -1) = (3, 1, 2) + t (-2, 4, -6), t]", GermanSolve + "[(2, 3, -1) = (3, 1, 2) + t * (-2, 4, -6), t]");
   }
 
@@ -3491,7 +3501,8 @@ static public boolean silent = false;
   @Test
   public void Solve_ParametricTD_5 () {
     t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[f(t) = (2, 3, -1), t]", GermanSolve + "[f(t) = (2, 3, -1), t]");
   }
 
@@ -3509,7 +3520,8 @@ static public boolean silent = false;
 
   @Test
   public void Solve_ParametricTD_8 () {
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), (x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]",
         GermanSolve + "[{(x, y, z) = (3, 1, 2) + t * (-2, 4, -6), (x, y, z) = (3, 7, -4) + s * (1, 4, -3)}, {x, y, z, t, s}]");
   }
@@ -3526,7 +3538,8 @@ static public boolean silent = false;
 
   @Test
   public void Solve_ParametricTD_11 () {
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]",
         GermanSolve + "[{X = (3, 1, 2) + t * (-2, 4, -6), X = (3, 7, -4) + s * (1, 4, -3)}, {t, s}]");
   }
@@ -3549,7 +3562,8 @@ static public boolean silent = false;
   public void Solve_ParametricTD_14 () {
     t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[f(u) = g(v), {u, v}]", GermanSolve + "[f(u) = g(v), {u, v}]");
   }
 
@@ -3571,7 +3585,8 @@ static public boolean silent = false;
   public void Solve_ParametricTD_17 () {
     t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)", "(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (4, 7, -4) + t (1, 4, -3)", "(t + 4, 4 * t + 7, -3 * t - 4)");
-    // Please note that the language is German. "Löse" is "Solve" in German.
+		// Please note that the language is German. "L\u00f6se" is "Solve" in
+		// German.
     tk("Solve[f(u, v) = g(w), {u, v, w}]", GermanSolve + "[f(u, v) = g(w), {u, v, w}]");
   }
 
@@ -4504,7 +4519,10 @@ static public boolean silent = false;
     t("Solve[225 = 100 * a^2, a]", "{a = (-3) / 2 , a = 3 / 2}");
   }
 
-  /* Figure 4: "Lösung mit unbelegten Variablen" (Solution with undefined variables) */
+	/*
+	 * Figure 4: "L\u00f6sung mit unbelegten Variablen" (Solution with undefined
+	 * variables)
+	 */
 
   @Test
   public void CASRundbrief_Figure4_0 () {
@@ -4703,7 +4721,10 @@ static public boolean silent = false;
     t("A * X = B", "{{2 * x + 3 * y + 2 * z}, {x + y + z}, {-y + 3 * z}} = {{3}, {2}, {7}}");
   }
 
-  /* Figure 9: "Lösung des Gleichungssystemes" (Solution of the System of Equations) */
+	/*
+	 * Figure 9: "L\u00f6sung des Gleichungssystemes" (Solution of the System of
+	 * Equations)
+	 */
 
   @Test
   public void CASRundbrief_Figure9_0 () {

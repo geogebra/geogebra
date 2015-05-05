@@ -115,9 +115,9 @@ public class Unicode {
 	final public static String translationFixHu_endE1 = "bcde\u00E9fgi\u00EDjlmnprstvwxz1479'";
 	// These endings will get -ra, -nak, -ban, -ba, -hoz:
 	final public static String translationFixHu_endO1 = "ahko\u00F3qu\u00FAy368";
-	// These endings will get -re, -nek, -ben, -be, -höz:
+	// These endings will get -re, -nek, -ben, -be, -ho(umlaut)z:
 	final public static String translationFixHu_endOE1 = "\u00F6\u0151\u00FC\u017125";
-	// "-höz":
+	// "-ho(umlaut)z":
 	final public static String translationFixHu_oe = "\u00F6";
 	final public static String translationFixHu_hoez = "h\u00F6z";
 
