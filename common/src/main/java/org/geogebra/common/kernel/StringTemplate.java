@@ -533,6 +533,20 @@ public class StringTemplate implements ExpressionNodeConstants {
 		maxPrecision.localizeCmds = false;
 	}
 	/**
+	 * Default template, just increases precision to max 13 not 15 so that when
+	 * sent to Giac is treated as a double, not a multi-precision float (MPFR).
+	 * #5130
+	 */
+	public static final StringTemplate maxPrecision13 = new StringTemplate(
+			"maxPrecision13");
+	static {
+		maxPrecision13.sf = org.geogebra.common.factories.FormatFactory.prototype
+				.getScientificFormat(13, 20, false);
+		maxPrecision13.allowMoreDigits = true;
+		maxPrecision13.forceSF = true;
+		maxPrecision13.localizeCmds = false;
+	}
+	/**
 	 * Default template, just allow bigger precision for Numeric command
 	 */
 
@@ -687,7 +701,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// eg Integral[sin(x) / (1 + a² - 2a cos(x)), 0, pi] in the Algebra
 			// View
 			// #5129
-			casPrintFormPI = "3.141592653589793";
+			// #5130 reduce to 13sf
+			casPrintFormPI = "3.141592653590";
 		}
 
 	}

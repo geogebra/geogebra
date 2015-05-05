@@ -353,9 +353,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		sb.append(",");
 		sb.append(f.getVarString(StringTemplate.defaultTemplate));
 		sb.append(",");
-		sb.append(a.toValueString(StringTemplate.maxPrecision));
+		// #5130
+		sb.append(a.toValueString(StringTemplate.maxPrecision13));
 		sb.append(",");
-		sb.append(b.toValueString(StringTemplate.maxPrecision));
+		// #5130
+		sb.append(b.toValueString(StringTemplate.maxPrecision13));
 		sb.append("))");
 
 		String result;
