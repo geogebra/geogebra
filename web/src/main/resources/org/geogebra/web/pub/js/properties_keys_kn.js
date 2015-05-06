@@ -1331,6 +1331,7 @@ __GGB__keysVar.kn.menu = {
     "DataColumnName": "Data Column Name",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "\u0ca6\u0ca4\u0ccd\u0ca4\u0ca7 \u0cae\u0cc2\u0cb2",
     "DataTitle": "Data Title",
     "DataType": "\u0ca6\u0ca4\u0ccd\u0ca4 \u0ca8\u0cae\u0cc2\u0ca8\u0cc6",

@@ -1331,6 +1331,7 @@ __GGB__keysVar.ji.menu = {
     "DataColumnName": "\u05e0\u05d0\u05b8\u05de\u05e2\u05df \u05e4\u05bf\u05d5\u05e0\u05e2\u05dd \u05e1\u05dc\u05d5\u05e4\u05bc\u05d9\u05e7",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "\u05d3\u05d0\u05b7\u05d8\u05df\u05be\u05de\u05e7\u05d5\u05e8",
     "DataTitle": "\u05d8\u05d9\u05d8\u05dc \u05e4\u05bf\u05d0\u05b7\u05e8 \u05d3\u05d9 \u05d2\u05e2\u05d2\u05e2\u05d1\u05e2\u05e0\u05e2",
     "DataType": "\u05d8\u05d9\u05e4\u05bc \u05d2\u05e2\u05d2\u05e2\u05d1\u05e2\u05e0\u05e2",

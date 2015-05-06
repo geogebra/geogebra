@@ -1331,6 +1331,7 @@ __GGB__keysVar.in.menu = {
     "DataColumnName": "Nama Kolom Data",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Sumber Data",
     "DataTitle": "Judul Data",
     "DataType": "Tipe Data",

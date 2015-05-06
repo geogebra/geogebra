@@ -1331,6 +1331,7 @@ __GGB__keysVar.lt.menu = {
     "DataColumnName": "Duomen\u0173 stulpelio pavadinimas",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Duomen\u0173 \u0161altinis",
     "DataTitle": "Duomen\u0173 pavadinimas",
     "DataType": "Duomen\u0173 tipas",

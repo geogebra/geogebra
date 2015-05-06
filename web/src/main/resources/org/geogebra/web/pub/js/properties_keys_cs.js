@@ -1331,6 +1331,7 @@ __GGB__keysVar.cs.menu = {
     "DataColumnName": "N\xe1zev dat sloupce",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Zdrojov\xe1 data",
     "DataTitle": "N\xe1zvy dat",
     "DataType": "Datov\xfd typ",

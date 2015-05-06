@@ -1331,6 +1331,7 @@ __GGB__keysVar.xh.menu = {
     "DataColumnName": "Igama leColumn yeData",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Intsusa yeData",
     "DataTitle": "Itaytile yeData",
     "DataType": "Uhloba lweData",

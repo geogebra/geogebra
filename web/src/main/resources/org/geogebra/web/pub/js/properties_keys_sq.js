@@ -1331,6 +1331,7 @@ __GGB__keysVar.sq.menu = {
     "DataColumnName": "Emri i Kolones me te Dhena",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Burimi te Dhenave",
     "DataTitle": "Titulli te Dhenave",
     "DataType": "Tipi te Dhenave",

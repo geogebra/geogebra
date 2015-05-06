@@ -1331,6 +1331,7 @@ __GGB__keysVar.sv.menu = {
     "DataColumnName": "Namn p\xe5 datakolumn",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Datak\xe4lla",
     "DataTitle": "Titel p\xe5 data",
     "DataType": "Datatyp",

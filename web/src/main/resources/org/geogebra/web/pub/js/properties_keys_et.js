@@ -1331,6 +1331,7 @@ __GGB__keysVar.et.menu = {
     "DataColumnName": "Andmeveeru t\xe4his",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Andmeallikas",
     "DataTitle": "Andmete pealkiri",
     "DataType": "Andme t\xfc\xfcp",

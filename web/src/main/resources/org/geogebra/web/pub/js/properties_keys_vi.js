@@ -1331,6 +1331,7 @@ __GGB__keysVar.vi.menu = {
     "DataColumnName": "T\xean d\u1eef li\u1ec7u c\u1ed9t",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Ngu\u1ed3n d\u1eef li\u1ec7u",
     "DataTitle": "Ti\xeau \u0111\u1ec1 d\u1eef li\u1ec7u",
     "DataType": "Ki\u1ec3u d\u1eef li\u1ec7u",

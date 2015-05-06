@@ -1331,6 +1331,7 @@ __GGB__keysVar.ro.menu = {
     "DataColumnName": "Nume coloan\u0103 date",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Surs\u0103 de date",
     "DataTitle": "Titlu date",
     "DataType": "Tip de date",

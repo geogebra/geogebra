@@ -1331,6 +1331,7 @@ __GGB__keysVar.sk.menu = {
     "DataColumnName": "Pomenovanie st\u013apca \xfadajov",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Zdrojov\xe9 \xfadaje",
     "DataTitle": "V\xe1zov \xfadaju",
     "DataType": "typ \xfadaju",

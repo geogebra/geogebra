@@ -1331,6 +1331,7 @@ __GGB__keysVar.de_AT.menu = {
     "DataColumnName": "Name der Spalte mit Daten",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Datenquelle",
     "DataTitle": "Datentitel",
     "DataType": "Dateityp",

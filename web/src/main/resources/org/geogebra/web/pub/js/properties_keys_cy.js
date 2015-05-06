@@ -1331,6 +1331,7 @@ __GGB__keysVar.cy.menu = {
     "DataColumnName": "Enw'r Golofn Data",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Ffynhonnell Data",
     "DataTitle": "Testun y Data",
     "DataType": "Math o Ddata",

@@ -1331,6 +1331,7 @@ __GGB__keysVar.fi.menu = {
     "DataColumnName": "Sarakkeen nimi",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Aineiston l\xe4hde",
     "DataTitle": "Dataotsikko",
     "DataType": "Datatyyppi",

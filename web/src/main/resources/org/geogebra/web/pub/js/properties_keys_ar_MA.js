@@ -1331,6 +1331,7 @@ __GGB__keysVar.ar_MA.menu = {
     "DataColumnName": "\u0627\u0633\u0645 \u0639\u0645\u0648\u062f \u0627\u0644\u0645\u0639\u0637\u064a\u0627\u062a",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "\u0645\u0635\u062f\u0631 \u0627\u0644\u0645\u0639\u0637\u064a\u0627\u062a",
     "DataTitle": "\u0639\u0646\u0648\u0627\u0646 \u0627\u0644\u0645\u0639\u0637\u064a\u0627\u062a",
     "DataType": "\u0646\u0648\u0639 \u0627\u0644\u0645\u0639\u0637\u064a\u0627\u062a",

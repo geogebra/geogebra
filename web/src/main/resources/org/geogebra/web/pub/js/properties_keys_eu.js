@@ -1331,6 +1331,7 @@ __GGB__keysVar.eu.menu = {
     "DataColumnName": "Datu-Zutabearen Izena",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Datuen iturria",
     "DataTitle": "Datuen Izenburua",
     "DataType": "Datu-mota",

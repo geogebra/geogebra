@@ -1331,6 +1331,7 @@ __GGB__keysVar.sr.menu = {
     "DataColumnName": "Naziv kolone podataka",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Izvor podataka",
     "DataTitle": "Naslov podataka",
     "DataType": "Tip podataka",

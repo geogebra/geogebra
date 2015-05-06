@@ -1331,6 +1331,7 @@ __GGB__keysVar.lv.menu = {
     "DataColumnName": "Elementu slejas nosaukums",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Elementu avots",
     "DataTitle": "Elementu nosaukums",
     "DataType": "Elementu veids",

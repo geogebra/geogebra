@@ -1331,6 +1331,7 @@ __GGB__keysVar.no_NB.menu = {
     "DataColumnName": "Navn p\xe5 datakolonne",
     "DataConnection": "Connection with GeoGebra Data App",
     "DataConnectionFailed": "Sorry, connection failed. Please check the sharing code and try again.",
+    "DataSharingCode": "GeoGebra Data Sharing Code",
     "DataSource": "Datakilde",
     "DataTitle": "Datatittel",
     "DataType": "Datatype",
