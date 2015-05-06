@@ -35,8 +35,7 @@ public class MidiW {
 	}
 
 	public native JavaScriptObject init() /*-{
-		this@org.geogebra.web.html5.sound.MidiW::wmaw = new $wnd.WebMIDIAPIWrapper(
-				true);
+	
 	}-*/;
 
 
