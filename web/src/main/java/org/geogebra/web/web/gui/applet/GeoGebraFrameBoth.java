@@ -293,8 +293,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			if (app != null
 			        && app.isKeyboardNeeded()
 			        && app.getArticleElement().getDataParamBase64String()
-			                .length() == 0) {
-				App.printStacktrace("SHOW KEYBOARD");
+							.length() == 0 && app.showAlgebraInput()) {
 				keyboardShowing = true;
 				app.getGuiManager().invokeLater(new Runnable() {
 
