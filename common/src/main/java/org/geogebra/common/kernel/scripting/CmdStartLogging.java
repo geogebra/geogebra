@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
@@ -35,8 +36,15 @@ public class CmdStartLogging extends CmdScripting {
 
 			GeoElement argument = null;
 			GeoElement limit = null;
+			int offset = 0;
 
-			for (int i = 0; i <= n - 2; i += 2) {
+			if (arg[0] instanceof GeoNumberValue) {
+				logger.setLimit(((GeoNumberValue) arg[1]).getDouble());
+				offset++;
+			} else {
+				logger.setLimit(logger.DEFAULT_LIMIT);
+			}
+			for (int i = offset; i <= n - 2; i += 2) {
 				argument = arg[i + 1];
 				if(!(arg[i] instanceof GeoText)){
 					throw argErr(app, c.getName(),arg[i]);

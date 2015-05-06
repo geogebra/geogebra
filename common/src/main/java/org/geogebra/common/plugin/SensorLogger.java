@@ -16,6 +16,8 @@ import org.geogebra.common.util.debug.Log;
 
 public abstract class SensorLogger {
 
+	public static final int DEFAULT_LIMIT = 20000;
+
 	@SuppressWarnings("javadoc")
 	protected Kernel kernel;
 
@@ -63,6 +65,8 @@ public abstract class SensorLogger {
 	protected HashMap<Types, Integer> listenersAges = new HashMap<Types, Integer>();
 	protected long now;
 
+	private int stepsToGo = DEFAULT_LIMIT;
+
 	public abstract boolean startLogging();
 
 	protected abstract void closeSocket();
@@ -83,6 +87,13 @@ public abstract class SensorLogger {
 		}
 	}
 
+	/**
+	 * Decrease the count of remaining steps
+	 */
+	protected void beforeLog() {
+		stepsToGo--;
+
+	}
 	/**
 	 * @param sensor
 	 *            {@link Types}
@@ -194,6 +205,9 @@ public abstract class SensorLogger {
 
 	protected void log(Types type, double val, boolean repaint, boolean update,
 			boolean atleast) {
+		if (stepsToGo <= 0) {
+			return;
+		}
 				GeoNumeric geo = listeners.get(type);
 				if (geo != null) {
 			
@@ -314,6 +328,11 @@ public abstract class SensorLogger {
 				listenersAges.put(thistype, age - 100);
 			}
 		}
+	}
+
+	public void setLimit(double limit) {
+		this.stepsToGo = (int) limit;
+
 	}
 
 }

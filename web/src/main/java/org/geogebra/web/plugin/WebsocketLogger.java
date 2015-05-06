@@ -176,6 +176,7 @@ public class WebsocketLogger extends SensorLogger {
 	}
 
 	private void handleData(JavaScriptObject json) {
+		beforeLog();
 		// TODO : Maybe do it faster somehow - only logging that is sent?
 		if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
 			log(Types.ACCELEROMETER_X,
@@ -241,6 +242,8 @@ public class WebsocketLogger extends SensorLogger {
 					Float.parseFloat(JSON.get(json, Types.LIGHT.toString())));
 		}
 	}
+
+
 
 	private void initMsgHandler() {
 		connection.onMessage(new MessageEventHandler() {
