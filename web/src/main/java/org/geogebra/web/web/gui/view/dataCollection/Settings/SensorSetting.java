@@ -17,16 +17,21 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 	private String captionString;
-	/** button to set sensor on and off */
-	ToggleButton sensorOnOff;
+	/** Panel with an image to show if sensor is on or off */
+	private SimplePanel sensorOnOff;
 	private Label captionLabel;
 	/** button to collapse/expand settings for this sensor */
 	private ToggleButton collapse;
+
+	private Image sensorON;
+	private Image sensorOFF;
+	private boolean sensorIsOn = false;
 
 	/**
 	 * panel with the name of the sensor data and the listbox with the depending
@@ -84,9 +89,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		FlowPanel caption = new FlowPanel();
 		caption.addStyleName("panelTitle");
 
-		this.captionLabel = new Label(captionString);
-		// this.captionLabel = new Label(app.getPlain(captionString)); TODO
-		// translation needed
+		this.captionLabel = new Label(app.getMenu(captionString));
 
 		collapse = new ToggleButton(
 				new Image(GuiResources.INSTANCE.collapse()), new Image(
@@ -99,40 +102,16 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 			}
 		});
 
-		sensorOnOff = new ToggleButton(
-				new Image(AppResources.INSTANCE.hidden()), new Image(
-						AppResources.INSTANCE.shown()));
+		sensorOnOff = new SimplePanel();
+		sensorON = new Image(AppResources.INSTANCE.shown());
+		sensorOFF = new Image(AppResources.INSTANCE.hidden());
+		sensorOnOff.add(sensorOFF);
 		sensorOnOff.addStyleName("sensorOnOffButton");
-		sensorOnOff.setDown(true);
-		sensorOnOff.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				handleSensorOnOff();
-			}
-		});
 
 		caption.add(sensorOnOff);
 		caption.add(this.captionLabel);
 		caption.add(collapse);
 		this.add(caption);
-	}
-
-	/**
-	 * handles click on the button to turn sensor on and off
-	 */
-	void handleSensorOnOff() {
-		for (GeoListBox listbox : listBoxes) {
-			if (listbox.getSelection() != null) {
-				if (sensorOnOff.isDown()) {
-					((AppWapplication) app).getDataCollection().registerGeo(
-							listbox.getType().toString(),
-							listbox.getSelection());
-				} else {
-					((AppWapplication) app).getDataCollection()
-							.removeRegisteredGeo(listbox.getType());
-				}
-			}
-		}
 	}
 
 	/**
@@ -226,7 +205,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 * @return {@code true} if sensor is turned on
 	 */
 	public boolean isOn() {
-		return this.sensorOnOff.isDown();
+		return this.sensorIsOn;
 	}
 
 	/**
@@ -239,8 +218,35 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	@Override
 	public void setLabels() {
 		this.linkedObjectLabel.setText(app.getPlain("LinkedObject"));
-		// this.captionLabel.setText(app.getPlain(captionString)); TODO
-		// translation needed
+		this.captionLabel.setText(app.getMenu(captionString));
 	}
-}
 
+	/**
+	 * if sensor is set to ON the SensorLogger starts logging data for this
+	 * sensor.
+	 * 
+	 * @param flag
+	 *            {@code true} to turn sensor ON
+	 */
+	public void setOn(boolean flag) {
+		this.sensorIsOn = flag;
+		sensorOnOff.clear();
+		if (flag) {
+			sensorOnOff.add(sensorON);
+			for (GeoListBox listbox : listBoxes) {
+				if (listbox.getSelection() != null) {
+					((AppWapplication) app).getDataCollection().registerGeo(
+							listbox.getType().toString(),
+							listbox.getSelection());
+				}
+			}
+		} else {
+			sensorOnOff.add(sensorOFF);
+			for (GeoListBox listbox : listBoxes) {
+				((AppWapplication) app).getDataCollection()
+						.removeRegisteredGeo(listbox.getType());
+			}
+		}
+	}
+
+}

@@ -3420,42 +3420,6 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 ###       Data collection
 #####################################################################################*/
 
-/* Navigation */
-.dataCollectionNav {
-	position: absolute;
-  	background-color: #F8F8F8;
-  	width: 100%;
-  	bottom: 0px;
-  	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.3);
-  	border-top: 1px solid #EDEDED;
-  	cursor: default;
-  	padding: 5px;
-  	box-sizing: border-box;
-}
-
-.dataCollectionNav .settingsButton:hover,
-.dataCollectionNav .startStopButton:hover {
-	border-color: #6666ff;
-}
-
-.dataCollectionNav .settingsButton {
-	float: right;
-}
-
-.dataCollectionNav .startStopButton {
-	float: left;
-	background: #FFFFFF;
-	border: 1px solid #CDCDCD;
-	box-shadow: none;
-	border-radius: 5px;
-  	width: 30px;
-  	height: 23px;
-  	text-align: center;
-  	padding-top: 7px;
-  	cursor: pointer;
-  	cursor: hand;
-}
-
 /* View - Settings */
 .dataCollectionView .closeButtonPanel {
   	position: absolute;
@@ -3540,8 +3504,6 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	float: left;
   	padding-right: 5px;
   	padding-top: 1px;
-    cursor: pointer;
-  	cursor: hand;
 }
 
 .dataCollectionView .disabled {

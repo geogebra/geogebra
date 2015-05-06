@@ -295,22 +295,28 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	public void setVisible(Types sensor, boolean flag) {
 		switch (sensor) {
 		case ACCELEROMETER_X:
-			this.acc.setVisible(flag);
+			this.acc.setVisible(true);
+			this.acc.setOn(flag);
 			break;
 		case MAGNETIC_FIELD_X:
-			this.magField.setVisible(flag);
+			this.magField.setVisible(true);
+			this.magField.setOn(flag);
 			break;
 		case ORIENTATION_X:
-			this.orientation.setVisible(flag);
+			this.orientation.setVisible(true);
+			this.orientation.setOn(flag);
 			break;
 		case PROXIMITY:
-			this.proxi.setVisible(flag);
+			this.proxi.setVisible(true);
+			this.proxi.setOn(flag);
 			break;
 		case LIGHT:
-			this.light.setVisible(flag);
+			this.light.setVisible(true);
+			this.light.setOn(flag);
 			break;
 		case LOUDNESS:
-			this.loudness.setVisible(flag);
+			this.loudness.setVisible(true);
+			this.loudness.setOn(flag);
 			break;
 		default:
 			break;
@@ -500,8 +506,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.connectionStatus.setVisible(false);
 		setSensorSettingsEnabled(true);
 		this.appIDTextBox.setEnabled(false);
-		// ((AppWapplication)
-		// app).getDataCollection().triggerAvailableSensors();
+		((AppWapplication) app).getDataCollection().triggerAvailableSensors();
 	}
 
 	@Override
