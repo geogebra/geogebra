@@ -177,68 +177,82 @@ public class WebsocketLogger extends SensorLogger {
 
 	private void handleData(JavaScriptObject json) {
 		beforeLog();
+		double timestamp = Float.parseFloat(JSON.get(json,
+				Types.TIMESTAMP.toString()));
 		// TODO : Maybe do it faster somehow - only logging that is sent?
 		if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
 			log(Types.ACCELEROMETER_X,
+					timestamp,
 			        Float.parseFloat(JSON.get(json,
 			                Types.ACCELEROMETER_X.toString())));
 		}
 		if (JSON.get(json, Types.ACCELEROMETER_Y.toString()) != null) {
 			log(Types.ACCELEROMETER_Y,
+					timestamp,
 			        Float.parseFloat(JSON.get(json,
 			                Types.ACCELEROMETER_Y.toString())));
 		}
 		if (JSON.get(json, Types.ACCELEROMETER_Z.toString()) != null) {
 			log(Types.ACCELEROMETER_Z,
+					timestamp,
 			        Float.parseFloat(JSON.get(json,
 			                Types.ACCELEROMETER_Z.toString())));
 		}
 		if (JSON.get(json, Types.MAGNETIC_FIELD_X.toString()) != null) {
 			log(Types.MAGNETIC_FIELD_X,
+					timestamp,
 			        Float.parseFloat(JSON.get(json,
 			                Types.MAGNETIC_FIELD_X.toString())));
 		}
 		if (JSON.get(json, Types.MAGNETIC_FIELD_Y.toString()) != null) {
 			log(Types.MAGNETIC_FIELD_Y,
+					timestamp,
 			        Float.parseFloat(JSON.get(json,
 			                Types.MAGNETIC_FIELD_Y.toString())));
 		}
 		if (JSON.get(json, Types.MAGNETIC_FIELD_Z.toString()) != null) {
 			log(Types.MAGNETIC_FIELD_Z,
+					timestamp,
 			        Float.parseFloat(JSON.get(json,
 			                Types.MAGNETIC_FIELD_Z.toString())));
 		}
 		if (JSON.get(json, Types.ORIENTATION_X.toString()) != null) {
-			log(Types.ORIENTATION_X, Float.parseFloat(JSON.get(json,
+			log(Types.ORIENTATION_X,
+					timestamp,
+					Float.parseFloat(JSON.get(json,
 			                Types.ORIENTATION_X.toString())));
 		}
 		if (JSON.get(json, Types.ORIENTATION_Y.toString()) != null) {
-			log(Types.ORIENTATION_Y, Float.parseFloat(JSON.get(json,
+			log(Types.ORIENTATION_Y,
+					timestamp,
+					Float.parseFloat(JSON.get(json,
 			                Types.ORIENTATION_Y.toString())));
 		}
 		if (JSON.get(json, Types.ORIENTATION_Z.toString()) != null) {
-			log(Types.ORIENTATION_Z, Float.parseFloat(JSON.get(json,
+			log(Types.ORIENTATION_Z,
+					timestamp,
+					Float.parseFloat(JSON.get(json,
 			                Types.ORIENTATION_Z.toString())));
 		}
 		
 		if (JSON.get(json, Types.DATA_COUNT.toString()) != null) {
-			log(Types.DATA_COUNT, Float.parseFloat(JSON.get(json,
+			log(Types.DATA_COUNT, timestamp, Float.parseFloat(JSON.get(json,
 			        Types.DATA_COUNT.toString())));
 		}
 		if (JSON.get(json, Types.TIMESTAMP.toString()) != null) {
-			log(Types.TIMESTAMP, Float.parseFloat(JSON.get(json,
-			        Types.TIMESTAMP.toString())));
+			log(Types.TIMESTAMP, timestamp, timestamp);
 		}
 		if (JSON.get(json, Types.LOUDNESS.toString()) != null) {
-			log(Types.LOUDNESS,
+			log(Types.LOUDNESS, timestamp,
 			        Float.parseFloat(JSON.get(json, Types.LOUDNESS.toString())));
 		}
 		if (JSON.get(json, Types.PROXIMITY.toString()) != null) {
-			log(Types.PROXIMITY, Float.parseFloat(JSON.get(json,
+			log(Types.PROXIMITY, timestamp, Float.parseFloat(JSON
+					.get(json,
 			        Types.PROXIMITY.toString())));
 		}
 		if (JSON.get(json, Types.LIGHT.toString()) != null) {
-			log(Types.LIGHT,
+			log(Types.LIGHT, timestamp,
 					Float.parseFloat(JSON.get(json, Types.LIGHT.toString())));
 		}
 	}

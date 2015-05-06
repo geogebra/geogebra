@@ -67,6 +67,8 @@ public abstract class SensorLogger {
 
 	private int stepsToGo = DEFAULT_LIMIT;
 
+	private double lastStamp;
+
 	public abstract boolean startLogging();
 
 	protected abstract void closeSocket();
@@ -199,11 +201,12 @@ public abstract class SensorLogger {
 		Log.debug("undoActive is: " + kernel.isUndoActive());
 	}
 
-	protected void log(Types type, double val) {
-		log(type, val, true, true, true);
+	protected void log(Types type, double timestamp, double val) {
+		log(type, timestamp, val, true, true, true);
 	}
 
-	protected void log(Types type, double val, boolean repaint, boolean update,
+	protected void log(Types type, double timestamp, double val,
+			boolean repaint, boolean update,
 			boolean atleast) {
 		if (stepsToGo <= 0) {
 			return;
@@ -261,7 +264,9 @@ public abstract class SensorLogger {
 						Integer ll = listLimits.get(type);
 						if (ll == null || ll == 0 || ll + 2 > ml.size()) {
 							ml.addListElement(new MyDouble(kernel,val));
-							((MyDouble)ml.getListElement(1)).add(1);
+					((MyDouble) ml.getListElement(1))
+							.add(timestamp - lastStamp);
+					lastStamp = timestamp;
 						} else {
 							ml.addQue(val,2);
 						}

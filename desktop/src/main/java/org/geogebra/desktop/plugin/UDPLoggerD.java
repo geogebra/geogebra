@@ -70,17 +70,21 @@ public class UDPLoggerD extends SensorLogger {
 					.length())) {
 				jo = ja.getJSONObject(bp);
 				key = (String) jo.keys().next();
+				double timestamp = 0;
 				switch (Integer.parseInt(key)) {
 				case 0:
-					log(Types.EDAQ0, jo.getDouble(key), false, !quicker,
+					log(Types.EDAQ0, timestamp, jo.getDouble(key), false,
+							!quicker,
 							atleast);
 					break;
 				case 1:
-					log(Types.EDAQ1, jo.getDouble(key), false, !quicker,
+					log(Types.EDAQ1, timestamp, jo.getDouble(key), false,
+							!quicker,
 							atleast);
 					break;
 				case 2:
-					log(Types.EDAQ2, jo.getDouble(key), false, !quicker,
+					log(Types.EDAQ2, timestamp, jo.getDouble(key), false,
+							!quicker,
 							atleast);
 					break;
 
@@ -105,20 +109,20 @@ public class UDPLoggerD extends SensorLogger {
 		byte c3 = buffer[3];
 		byte c4 = buffer[4];
 		if (c0 == 'F' && c1 == 'S' && c2 == 0x01) {
-
+			double timestamp = 0;
 			// https://itunes.apple.com/gb/app/sensor-data-streamer/id608278214?mt=8
 			App.debug("data is from 'Sensor Streamer' (c) 2013 FNI Co LTD");
-			log(Types.ACCELEROMETER_X, getFloat(buffer, 4));
-			log(Types.ACCELEROMETER_Y, getFloat(buffer, 8));
-			log(Types.ACCELEROMETER_Z, getFloat(buffer, 12));
+			log(Types.ACCELEROMETER_X, timestamp, getFloat(buffer, 4));
+			log(Types.ACCELEROMETER_Y, timestamp, getFloat(buffer, 8));
+			log(Types.ACCELEROMETER_Z, timestamp, getFloat(buffer, 12));
 
-			log(Types.ORIENTATION_X, getFloat(buffer, 16));
-			log(Types.ORIENTATION_Y, getFloat(buffer, 20));
-			log(Types.ORIENTATION_Z, getFloat(buffer, 24));
+			log(Types.ORIENTATION_X, timestamp, getFloat(buffer, 16));
+			log(Types.ORIENTATION_Y, timestamp, getFloat(buffer, 20));
+			log(Types.ORIENTATION_Z, timestamp, getFloat(buffer, 24));
 
-			log(Types.MAGNETIC_FIELD_X, getFloat(buffer, 28));
-			log(Types.MAGNETIC_FIELD_Y, getFloat(buffer, 36));
-			log(Types.MAGNETIC_FIELD_Z, getFloat(buffer, 44));
+			log(Types.MAGNETIC_FIELD_X, timestamp, getFloat(buffer, 28));
+			log(Types.MAGNETIC_FIELD_Y, timestamp, getFloat(buffer, 36));
+			log(Types.MAGNETIC_FIELD_Z, timestamp, getFloat(buffer, 44));
 
 		} else if (c0 == 'E' && c1 == 'D' && c2 == 'A' && c3 == 'Q') {
 			// EDAQ 530
@@ -143,18 +147,21 @@ public class UDPLoggerD extends SensorLogger {
 				if (buffer[bp + 1] != ',') {
 					App.error("error in UDP transmission");
 				}
-
+				double timestamp = 0;
 				switch (buffer[bp]) {
 				case 0:
-					log(Types.EDAQ0, Double.longBitsToDouble(gotit), false,
+					log(Types.EDAQ0, timestamp, Double.longBitsToDouble(gotit),
+							false,
 							!quicker, atleast);
 					break;
 				case 1:
-					log(Types.EDAQ1, Double.longBitsToDouble(gotit), false,
+					log(Types.EDAQ1, timestamp, Double.longBitsToDouble(gotit),
+							false,
 							!quicker, atleast);
 					break;
 				case 2:
-					log(Types.EDAQ2, Double.longBitsToDouble(gotit), false,
+					log(Types.EDAQ2, timestamp, Double.longBitsToDouble(gotit),
+							false,
 							!quicker, atleast);
 					break;
 
@@ -176,36 +183,36 @@ public class UDPLoggerD extends SensorLogger {
 			App.debug(msg);
 
 			String[] split = msg.split(", ");
-
+			double timestamp = Math.abs(now - Double.parseDouble(split[2]));
 			switch (buffer[0]) {
 			case 'A':
 
 				// App.debug("received" + msg);
 
-				log(Types.ACCELEROMETER_X,
+				log(Types.ACCELEROMETER_X, timestamp,
 						Double.parseDouble(split[3].replace(",", ".")));
-				log(Types.ACCELEROMETER_Y,
+				log(Types.ACCELEROMETER_Y, timestamp,
 						Double.parseDouble(split[4].replace(",", ".")));
-				log(Types.ACCELEROMETER_Z,
+				log(Types.ACCELEROMETER_Z, timestamp,
 						Double.parseDouble(split[5].replace(",", ".")));
 
 				break;
 			case 'M':
 
-				log(Types.MAGNETIC_FIELD_X,
+				log(Types.MAGNETIC_FIELD_X, timestamp,
 						Double.parseDouble(split[3].replace(",", ".")));
-				log(Types.MAGNETIC_FIELD_Y,
+				log(Types.MAGNETIC_FIELD_Y, timestamp,
 						Double.parseDouble(split[4].replace(",", ".")));
-				log(Types.MAGNETIC_FIELD_Z,
+				log(Types.MAGNETIC_FIELD_Z, timestamp,
 						Double.parseDouble(split[5].replace(",", ".")));
 
 				break;
 			case 'O':
-				log(Types.ORIENTATION_X,
+				log(Types.ORIENTATION_X, timestamp,
 						Double.parseDouble(split[3].replace(",", ".")));
-				log(Types.ORIENTATION_Y,
+				log(Types.ORIENTATION_Y, timestamp,
 						Double.parseDouble(split[4].replace(",", ".")));
-				log(Types.ORIENTATION_Z,
+				log(Types.ORIENTATION_Z, timestamp,
 						Double.parseDouble(split[5].replace(",", ".")));
 
 				break;
@@ -216,8 +223,8 @@ public class UDPLoggerD extends SensorLogger {
 				break;
 			}
 			// timestamp and data-count logged always
-			log(Types.TIMESTAMP, Math.abs(now - Double.parseDouble(split[2])));
-			log(Types.DATA_COUNT, Double.parseDouble(split[1]));
+			log(Types.TIMESTAMP, timestamp, timestamp);
+			log(Types.DATA_COUNT, timestamp, Double.parseDouble(split[1]));
 
 			// for (int i = 1; i < split.length; i++) {
 			// App.debug(split[i]);
