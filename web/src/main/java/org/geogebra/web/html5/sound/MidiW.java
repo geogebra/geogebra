@@ -35,13 +35,14 @@ public class MidiW {
 	}
 
 	public native JavaScriptObject init() /*-{
-		this.@org.geogebra.web.html5.sound.MidiW::mwaw = new $wnd.WebMIDIAPIWrapper(
-				true);
+		var mwaw = new $wnd.WebMIDIAPIWrapper(true);
+		mwaw.initMidi();
+		this.@org.geogebra.web.html5.sound.MidiW::mwaw = mwaw;
 	}-*/;
 
 	public native JavaScriptObject play() /*-{
 		var m = this.@org.geogebra.web.html5.sound.MidiW::mwaw;
-		console.dir(m);
+		console.dir(PREFIX + m);
 	}-*/;
 
 
