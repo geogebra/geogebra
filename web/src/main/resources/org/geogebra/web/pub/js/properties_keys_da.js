@@ -1939,6 +1939,7 @@ __GGB__keysVar.da.menu = {
     "Step": "Trin",
     "StepGraph": "TrappeGraf",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Erstat",
     "Substitute.Help": "Udskifter en del af et udtryk",
     "SubstituteDialog": "Erstat dialog",

@@ -1939,6 +1939,7 @@ __GGB__keysVar.cy.menu = {
     "Step": "Cam",
     "StepGraph": "Graff Step",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Amnewid",
     "Substitute.Help": "Amnewid rhan o fynegiad",
     "SubstituteDialog": "Amnewid y dialog",

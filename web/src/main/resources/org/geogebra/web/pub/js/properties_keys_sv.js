@@ -1939,6 +1939,7 @@ __GGB__keysVar.sv.menu = {
     "Step": "Stegl\xe4ngd",
     "StepGraph": "Trappstegsdiagram",
     "StickyTools": "Verktyg forts\xe4tter vara aktiva",
+    "Stop": "Stop",
     "Substitute": "Substituera",
     "Substitute.Help": "Ers\xe4tter en del av ett uttryck",
     "SubstituteDialog": "Dialog f\xf6r substitution",

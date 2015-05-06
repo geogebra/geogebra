@@ -1939,6 +1939,7 @@ __GGB__keysVar.ar.menu = {
     "Step": "\u062e\u0637\u0648\u0629",
     "StepGraph": "\u0627\u0644\u0631\u0633\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a \u062e\u0637\u0648\u0629",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "\u062a\u0639\u0648\u064a\u0636",
     "Substitute.Help": "\u062a\u0639\u0648\u064a\u0636 \u062c\u0632\u0621 \u0645\u0646 \u0627\u0644\u0639\u0628\u0627\u0631\u0629",
     "SubstituteDialog": "\u062d\u0648\u0627\u0631 \u0627\u0644\u062a\u0639\u0648\u064a\u0636",

@@ -1939,6 +1939,7 @@ __GGB__keysVar.vi.menu = {
     "Step": "B\u01b0\u1edbc",
     "StepGraph": "\u0110\u1ed3 th\u1ecb c\xe1c b\u01b0\u1edbc",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Thay th\u1ebf",
     "Substitute.Help": "Thay th\u1ebf ph\u1ea7n c\u1ee7a m\u1ed9t m\u1edf r\u1ed9ng",
     "SubstituteDialog": "H\u1ed9p tho\u1ea1i thay th\u1ebf",

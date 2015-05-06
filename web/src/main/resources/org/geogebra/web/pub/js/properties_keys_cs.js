@@ -1939,6 +1939,7 @@ __GGB__keysVar.cs.menu = {
     "Step": "Krok",
     "StepGraph": "Schodov\xfd graf",
     "StickyTools": "Zachovat n\xe1stroj",
+    "Stop": "Stop",
     "Substitute": "Substituce",
     "Substitute.Help": "Nahradit \u010d\xe1st v\xfdrazu",
     "SubstituteDialog": "Z\xe1m\u011bna",

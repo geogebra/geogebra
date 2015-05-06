@@ -1939,6 +1939,7 @@ __GGB__keysVar.de_AT.menu = {
     "Step": "Schrittweite",
     "StepGraph": "Stufendiagramm",
     "StickyTools": "Ausgew\xe4hltes Werkzeug beibehalten",
+    "Stop": "Stop",
     "Substitute": "Ersetze",
     "Substitute.Help": "Ersetzt einen Teilausdruck",
     "SubstituteDialog": "Dialog f\xfcr Substitution",

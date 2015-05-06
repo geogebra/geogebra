@@ -1939,6 +1939,7 @@ __GGB__keysVar.sq.menu = {
     "Step": "Shkalle",
     "StepGraph": "Graf i Shkallezuar",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Zevendeso",
     "Substitute.Help": "Zevendeson pjese te nje shprehje",
     "SubstituteDialog": "Zevendesim Dialogu",

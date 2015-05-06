@@ -1939,6 +1939,7 @@ __GGB__keysVar.iw.menu = {
     "Step": "\u05e6\u05e2\u05d3",
     "StepGraph": "\u05d2\u05e8\u05e3 \u05de\u05d3\u05e8\u05d2\u05d5\u05ea",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "\u05d4\u05e6\u05d1\u05d4",
     "Substitute.Help": "\u05d4\u05d7\u05dc\u05e4\u05ea \u05d7\u05dc\u05e7 \u05de\u05d4\u05d1\u05d9\u05d8\u05d5\u05d9",
     "SubstituteDialog": "\u05d3\u05d9\u05d0\u05dc\u05d5\u05d2 \u05d4\u05d7\u05dc\u05e4\u05d4",

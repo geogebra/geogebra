@@ -1939,6 +1939,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Step": "\u6b65\u957f",
     "StepGraph": "\u53f0\u9636\u56fe",
     "StickyTools": "\u7c98\u8fde\u5de5\u5177",
+    "Stop": "Stop",
     "Substitute": "\u66ff\u6362",
     "Substitute.Help": "\u66ff\u6362\u8868\u8fbe\u5f0f\u7684\u4e00\u90e8\u5206",
     "SubstituteDialog": "\u66ff\u6362\u5bf9\u8bdd\u6846",

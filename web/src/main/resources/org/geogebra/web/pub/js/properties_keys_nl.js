@@ -1939,6 +1939,7 @@ __GGB__keysVar.nl.menu = {
     "Step": "Stap",
     "StepGraph": "Step Grafiek",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Vervangen",
     "Substitute.Help": "Vervang deel van een uitdrukking",
     "SubstituteDialog": "Substituteer Dialoog",

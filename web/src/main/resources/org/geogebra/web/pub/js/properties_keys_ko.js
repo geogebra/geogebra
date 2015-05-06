@@ -1939,6 +1939,7 @@ __GGB__keysVar.ko.menu = {
     "Step": "\ub2e8\uacc4",
     "StepGraph": "\uacc4\ub2e8 \uadf8\ub798\ud504",
     "StickyTools": "\ubd99\uae30 \ub3c4\uad6c",
+    "Stop": "Stop",
     "Substitute": "\uce58\ud658",
     "Substitute.Help": "\uc2dd\uc758 \uce58\ud658\ud560 \ubd80\ubd84\uc785\ub2c8\ub2e4.",
     "SubstituteDialog": "\uce58\ud658 \ub300\ud654\uc0c1\uc790",

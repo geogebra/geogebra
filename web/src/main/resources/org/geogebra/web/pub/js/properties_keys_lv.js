@@ -1939,6 +1939,7 @@ __GGB__keysVar.lv.menu = {
     "Step": "Solis",
     "StepGraph": "So\u013cu grafiks",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Aizst\u0101t",
     "Substitute.Help": "Aizvieto da\u013cu no izteikuma",
     "SubstituteDialog": "Aizvietot dialogpogas",

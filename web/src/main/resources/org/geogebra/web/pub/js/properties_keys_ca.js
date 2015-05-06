@@ -1939,6 +1939,7 @@ __GGB__keysVar.ca.menu = {
     "Step": "Pas",
     "StepGraph": "Gr\xe0fic Escalonat",
     "StickyTools": "Selecciona l'eina Mou autom\xe0ticament.",
+    "Stop": "Stop",
     "Substitute": "Substitueix",
     "Substitute.Help": "Substitueix part d\u2019una expressi\xf3",
     "SubstituteDialog": "Di\xe0leg de substituci\xf3",

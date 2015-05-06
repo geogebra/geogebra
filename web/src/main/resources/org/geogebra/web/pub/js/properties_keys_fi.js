@@ -1939,6 +1939,7 @@ __GGB__keysVar.fi.menu = {
     "Step": "Askel",
     "StepGraph": "Porraskaavio",
     "StickyTools": "Pid\xe4 ty\xf6kalu valittuna",
+    "Stop": "Stop",
     "Substitute": "Sijoita",
     "Substitute.Help": "Korvaa osan lausekkeessa",
     "SubstituteDialog": "Sijoita",

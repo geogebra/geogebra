@@ -1939,6 +1939,7 @@ __GGB__keysVar.eo.menu = {
     "Step": "Pa\u015do",
     "StepGraph": "Step Graph",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Anstata\u016digi",
     "Substitute.Help": "Replaces part of an expression",
     "SubstituteDialog": "Substitute Dialog",

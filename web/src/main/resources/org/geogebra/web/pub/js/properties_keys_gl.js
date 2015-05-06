@@ -1939,6 +1939,7 @@ __GGB__keysVar.gl.menu = {
     "Step": "Paso",
     "StepGraph": "Paso do gr\xe1fico",
     "StickyTools": "Saltar automaticamente a Elixe e Move",
+    "Stop": "Stop",
     "Substitute": "Substituci\xf3n",
     "Substitute.Help": "Substit\xfae parte dunha expresi\xf3n",
     "SubstituteDialog": "Caixa de di\xe1logo de substituci\xf3n",

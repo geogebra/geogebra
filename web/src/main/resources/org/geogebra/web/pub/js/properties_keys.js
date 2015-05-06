@@ -1939,6 +1939,7 @@ __GGB__keysVar.none.menu = {
     "Step": "Step",
     "StepGraph": "Step Graph",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Substitute",
     "Substitute.Help": "Replaces part of an expression",
     "SubstituteDialog": "Substitute Dialog",

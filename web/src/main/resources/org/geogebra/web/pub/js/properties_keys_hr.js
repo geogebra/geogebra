@@ -1939,6 +1939,7 @@ __GGB__keysVar.hr.menu = {
     "Step": "Korak",
     "StepGraph": "Stepenasti graf",
     "StickyTools": "Priljepljivi alati",
+    "Stop": "Stop",
     "Substitute": "Supstitucija",
     "Substitute.Help": "Zamjenjuje dio izraza",
     "SubstituteDialog": "Dijalo\u0161ki okvir supstitucije",

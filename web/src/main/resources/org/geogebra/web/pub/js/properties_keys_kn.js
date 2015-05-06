@@ -1939,6 +1939,7 @@ __GGB__keysVar.kn.menu = {
     "Step": "\u0cb9\u0c82\u0ca4",
     "StepGraph": "Step Graph",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "\u0cac\u0ca6\u0cb2\u0cbf",
     "Substitute.Help": "Replaces part of an expression",
     "SubstituteDialog": "Substitute Dialog",

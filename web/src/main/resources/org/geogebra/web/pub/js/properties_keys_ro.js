@@ -1939,6 +1939,7 @@ __GGB__keysVar.ro.menu = {
     "Step": "Pas",
     "StepGraph": "Grafic \xeen sc\u0103ri",
     "StickyTools": "Instrumente Sticky",
+    "Stop": "Stop",
     "Substitute": "Substituie",
     "Substitute.Help": "\xcenlocuie\u015fte o parte din expresie",
     "SubstituteDialog": "Dialog \xeenlocuire",

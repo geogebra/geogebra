@@ -1939,6 +1939,7 @@ __GGB__keysVar.et.menu = {
     "Step": "Samm",
     "StepGraph": "Sammdiagramm",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Asenda",
     "Substitute.Help": "Asendab osa avaldisest",
     "SubstituteDialog": "Asendusdialoog",

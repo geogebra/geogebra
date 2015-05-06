@@ -1939,6 +1939,7 @@ __GGB__keysVar.eu.menu = {
     "Step": "Pausoa",
     "StepGraph": "Pausokako grafikoa",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Ordezkatu",
     "Substitute.Help": "Ordezkatu adierazpen baten zatia",
     "SubstituteDialog": "Ordezkatzeko Elkarrizketa-Koadroa",

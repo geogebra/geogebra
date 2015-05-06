@@ -1939,6 +1939,7 @@ __GGB__keysVar.sk.menu = {
     "Step": "Krok",
     "StepGraph": "Krokov\xfd diagram",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Substit\xfacia",
     "Substitute.Help": "V\xfdmena \u010dasti v\xfdrazu za nie\u010do in\xe9",
     "SubstituteDialog": "Dial\xf3g substit\xfacie",

@@ -1939,6 +1939,7 @@ __GGB__keysVar.bs.menu = {
     "Step": "Korak",
     "StepGraph": "Stepenasti graf",
     "StickyTools": "Stik alati",
+    "Stop": "Stop",
     "Substitute": "Zamijeni",
     "Substitute.Help": "Ozna\u010dite dio izraza za zamjenu",
     "SubstituteDialog": "Dijalog zamjene",

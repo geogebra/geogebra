@@ -1939,6 +1939,7 @@ __GGB__keysVar.lt.menu = {
     "Step": "\u017dingsnis",
     "StepGraph": "\u017dingsnio grafikas",
     "StickyTools": "Svarb\u016bs \u012frankiai",
+    "Stop": "Stop",
     "Substitute": "Perstatyti",
     "Substitute.Help": "Keisti i\u0161rai\u0161kos dal\u012f",
     "SubstituteDialog": "Pakaitalo dialogas",

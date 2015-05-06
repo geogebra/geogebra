@@ -1939,6 +1939,7 @@ __GGB__keysVar.xh.menu = {
     "Step": "iStep",
     "StepGraph": "iStep Graph",
     "StickyTools": "ii Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "FakelaEndaweni",
     "Substitute.Help": "Ithabatha indawo yenxalenye yesivakalisi",
     "SubstituteDialog": "iThatha indawo yeDayalogi",

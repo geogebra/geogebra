@@ -1939,6 +1939,7 @@ __GGB__keysVar.ta.menu = {
     "Step": "\u0baa\u0b9f\u0bbf",
     "StepGraph": "Step Graph",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "\u0bae\u0bbe\u0bb1\u0bcd\u0bb1\u0bc1",
     "Substitute.Help": "Replaces part of an expression",
     "SubstituteDialog": "\u0baa\u0ba4\u0bbf\u0bb2\u0bc0\u0b9f\u0bcd\u0b9f\u0bc1 \u0b89\u0bb0\u0bc8\u0baf\u0bbe\u0b9f\u0bb2\u0bcd",

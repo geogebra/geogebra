@@ -1939,6 +1939,7 @@ __GGB__keysVar.ms.menu = {
     "Step": "Langkah",
     "StepGraph": "Graf Langkah",
     "StickyTools": "Alatan \"Sticky\"",
+    "Stop": "Stop",
     "Substitute": "Ganti",
     "Substitute.Help": "Ganti sebahagian daripada ungkapan",
     "SubstituteDialog": "Dialog Pengganti",

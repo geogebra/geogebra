@@ -1939,6 +1939,7 @@ __GGB__keysVar.is.menu = {
     "Step": "Skref",
     "StepGraph": "Tr\xf6ppurit",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Innsetning",
     "Substitute.Help": "Skiptir \xfat hluta st\xe6\xf0u",
     "SubstituteDialog": "Gluggi fyrir innsetningu",

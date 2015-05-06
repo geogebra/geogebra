@@ -1939,6 +1939,7 @@ __GGB__keysVar.pl.menu = {
     "Step": "Krok",
     "StepGraph": "Krok Wykresu",
     "StickyTools": "Sticky Tools",
+    "Stop": "Stop",
     "Substitute": "Podstaw",
     "Substitute.Help": "Zast\u0119puje cz\u0119\u015b\u0107 wyra\u017cenia",
     "SubstituteDialog": "Zamiennik Dialogu",

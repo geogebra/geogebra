@@ -1939,6 +1939,7 @@ __GGB__keysVar.es.menu = {
     "Step": "Paso",
     "StepGraph": "Gr\xe1fica escalonada",
     "StickyTools": "Con retorno a Elige y Mueve",
+    "Stop": "Stop",
     "Substitute": "Sustituye",
     "Substitute.Help": "Reemplaza parte de una expresi\xf3n",
     "SubstituteDialog": "Cuadro de sustituci\xf3n",

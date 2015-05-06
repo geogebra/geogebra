@@ -1939,6 +1939,7 @@ __GGB__keysVar.no_NB.menu = {
     "Step": "Trinn",
     "StepGraph": "Trinn Graf",
     "StickyTools": "Festeverkt\xf8y",
+    "Stop": "Stop",
     "Substitute": "Sett inn",
     "Substitute.Help": "Erstatter en del av et uttrykk",
     "SubstituteDialog": "Innsettingsmeny",

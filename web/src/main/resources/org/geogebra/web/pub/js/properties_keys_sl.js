@@ -1939,6 +1939,7 @@ __GGB__keysVar.sl.menu = {
     "Step": "Korak",
     "StepGraph": "Korak grafa",
     "StickyTools": "Pripeta orodja",
+    "Stop": "Stop",
     "Substitute": "Zamenjava",
     "Substitute.Help": "Zamenjaj del izraza",
     "SubstituteDialog": "Zamenjave",
