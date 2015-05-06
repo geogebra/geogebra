@@ -12,7 +12,6 @@ public class MidiW {
 	public static final MidiW INSTANCE = new MidiW();
 	protected static final String PREFIX = "[MIDIW] ";
 	protected boolean jsLoaded;
-	JavaScriptObject mwaw;
 	public MidiW() {
 		initialize();
 	}
@@ -35,14 +34,12 @@ public class MidiW {
 	}
 
 	public native JavaScriptObject init() /*-{
-		var mwaw = new $wnd.WebMIDIAPIWrapper(true);
-		mwaw.initMidi();
-		this.@org.geogebra.web.html5.sound.MidiW::mwaw = mwaw;
+		$wnd.mwaw = new $wnd.WebMIDIAPIWrapper(true);
+		$wnd.mwaw.initMidi();
 	}-*/;
 
 	public native JavaScriptObject play() /*-{
-		var m = this.@org.geogebra.web.html5.sound.MidiW::mwaw;
-		console.dir(PREFIX + m);
+		$wnd.mwaw.sendNoteOn(0, 1, 72, 120, 0);
 	}-*/;
 
 
