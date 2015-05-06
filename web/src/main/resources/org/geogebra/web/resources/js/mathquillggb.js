@@ -1530,10 +1530,13 @@ var MathBlock = P(MathElement, function(_) {
         }
         // there are more possible cases!!!
         // TODO: can the user click between two ggbtr, for example?
+        // probably not, as I did not manage to do it
       } else if (this.parent.ctrlSeq === '\\prcondition') {
         // in these cases, we've jumped out to the block of \\prcurve
         // so let's jump either outside of it, or in the other child
         // depending on the direction (same comment for \\parametric)
+    	// can the user click between \\prcondition and \\parametric?
+    	// probably not, as I did not manage to do it
         if (dir === L) {
           // as \\prcondition is R, move inside \\parametric,
           // also inside \\prtable, \\ggbtr, \\ggbtd
@@ -1541,27 +1544,12 @@ var MathBlock = P(MathElement, function(_) {
             var thisthis = cursor[dir];
             cursor.appendDir(-dir, thisthis.ch[-dir]);
             // it's Okay that we're in \\parametric, but...
-
-            // same code as SomethingHTML.moveTowards,
-            // prcurve (although it's a different use case)
             thisthis = cursor[dir];//different!
-
-            cursor.appendDir(-dir, thisthis.ch[-dir]);
-            // now we shall be in \\prtable's MathBlock
-            if (thisthis.prtable) {
-              thisthis = cursor[dir];
-              cursor.appendDir(-dir, thisthis.ch[-dir]);
-              // now we shall be in \\ggbtr MathBlock of \\prtable
-              if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
-                cursor.appendDir(-dir, cursor[dir].ch[-dir]);
-                // now we shall be in \\ggbtd MathBlock of \\prtable
-              }
-            }
+            thisthis.moveTowards(dir, cursor);
           }
         } else if (dir === R) {
           if (thisthis.parent) {
        	    cursor.insertAdjacent(dir, thisthis.parent);
-       	    // OK, stop
           }
         }
       } else if (this.parent.ctrlSeq === '\\parametric') {
@@ -1573,7 +1561,6 @@ var MathBlock = P(MathElement, function(_) {
         } else if (dir === L) {
           if (thisthis.parent) {
             cursor.insertAdjacent(dir, thisthis.parent);
-            // OK, stop
           }
         }
       }
@@ -2806,17 +2793,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       // or more exactly, their corresponding MathBlock
       if (thisthis.ctrlSeq === '\\parametric') {
     	thisthis = cursor[dir];
-    	cursor.appendDir(-dir, thisthis.ch[-dir]);
-    	// now we shall be in \\prtable's MathBlock
-    	if (thisthis.prtable) {
-    	  thisthis = cursor[dir];
-          cursor.appendDir(-dir, thisthis.ch[-dir]);
-          // now we shall be in \\ggbtr MathBlock of \\prtable
-          if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
-            cursor.appendDir(-dir, cursor[dir].ch[-dir]);
-            // now we shall be in \\ggbtd MathBlock of \\prtable
-          }
-    	}
+    	thisthis.moveTowards(dir, cursor);
       }
     }
     // TODO: deal with \\piecewise and \\parametric elsewhere
