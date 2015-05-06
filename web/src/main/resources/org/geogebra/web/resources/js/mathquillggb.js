@@ -2791,7 +2791,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     // in case of \\prcurve, don't allow deleteTowards!
 	if (this.ctrlSeq === '\\prcurve' ||
 		this.ctrlSeq === '\\prcondition' ||
-		this.ctrlSeq === '\\prtable') {
+		this.prtable || this.pwtable) {
       // do nothing!
 	  return undefined;
 	} else {
@@ -3402,6 +3402,16 @@ var HalfBracket = P(MathCommand, function(_, _super) {
       } else {
         delete this.tries;
       }
+    }
+  };
+  _.deleteTowards = function(dir, cursor) {
+    // in case of \\prcurve, don't allow deleteTowards!
+    if (this.ctrlSeq === '\\piecewise' ||
+        this.ctrlSeq === '\\parametric') {
+      // do nothing! these classes should not be deleted
+      return undefined;
+    } else {
+      return this.createSelection(dir, cursor);
     }
   };
 });
