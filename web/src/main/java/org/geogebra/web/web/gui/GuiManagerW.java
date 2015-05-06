@@ -1004,7 +1004,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				&& app.hasEuclidianView2EitherShowingOrNot(1)) {
 			return app.getEuclidianView2(1);
 		}
-		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN3D).isVisible()
+		if (layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN3D) != null
+				&& layout.getDockManager().getPanel(App.VIEW_EUCLIDIAN3D)
+						.isVisible()
 				&& app.isEuclidianView3Dinited()) {
 			return (EuclidianView) app.getEuclidianView3D();
 		}
