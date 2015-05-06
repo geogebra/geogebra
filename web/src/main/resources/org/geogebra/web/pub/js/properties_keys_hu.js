@@ -1331,7 +1331,7 @@ __GGB__keysVar.hu.menu = {
     "DataColumnName": "Adat oszlop neve",
     "DataConnection": "Kapcsol\xf3d\xe1s a GeoGebra Data App alkalmaz\xe1shoz",
     "DataConnectionFailed": "A kapcsol\xf3d\xe1s nem siker\xfclt. K\xe9rem ellen\u0151rzze a megoszt\xe1si k\xf3dot, majd pr\xf3b\xe1lja ism\xe9t.",
-    "DataSharingCode": "GeoGebra Data Sharing Code",
+    "DataSharingCode": "GeoGebra Data Megoszt\xe1si K\xf3d",
     "DataSource": "Adatforr\xe1s",
     "DataTitle": "Adatok c\xedme",
     "DataType": "Adatt\xedpus",
