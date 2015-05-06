@@ -57,8 +57,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/gif.worker.js")
 	TextResource gifWorkerJs();
 
-	@Source("org/geogebra/web/resources/js/WebMIDIAPIWrapper.js")
-	TextResource webMidiAPIWrapperJs();
 
 	@Source("org/geogebra/common/main/xml/default-preferences.xml")
 	TextResource preferencesXML();
