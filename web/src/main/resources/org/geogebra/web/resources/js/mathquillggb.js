@@ -1928,7 +1928,7 @@ function createRoot(jQ, root, textbox, editable) {
     	  }
       }
 
-      cursor.writeLatex(text3).show();
+      cursor.writeLatexSafe(text3);
     }
   });
 
@@ -5689,6 +5689,23 @@ var Cursor = P(Point, function(_) {
     self.jQ.addClass('cursor');
     return offset;
   }
+  _.writeLatexSafe = function(mort) {
+    // at first we should decide whether to call writeLatex,
+	// or we're in a TextBlock, and call it's onText?
+    var self = this;
+    // if we're in a Quotation, then the parent of the cursor
+    // is probably a TextBlock (or maybe a TextPiece, so
+    // cursor.parent.parent is a TextBlock, but it will not
+    // be too far away e.g. parent.parent.parent.parent...)
+    // because putting latex inside TextBlock should be illegal
+    if (this.parent instanceof TextBlock) {
+      self.parent.bubble('onText', self, mort);
+    } else if ((this.parent.parent) && (this.parent.parent instanceof TextBlock)) {
+      self.parent.bubble('onText', self, mort);
+    } else {
+      self.writeLatex(mort).show();
+    }
+  };
   _.writeLatex = function(latex) {
     this.checkColorCursor(false);
     var self = this;
