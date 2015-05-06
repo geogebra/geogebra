@@ -1017,6 +1017,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 							seMayLatex);
 				}
+				if (!this.newCreationMode && !LaTeX && shouldEditLaTeX()
+						&& seNoLatex != null
+						&& ihtml.getElement().isOrHasChild(seMayLatex)) {
+					this.ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
+				}
 			} else {
 				removeSpecial(tb);
 				addSpecial(ihtml);
@@ -1039,6 +1044,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (app.has(Feature.JLM_IN_WEB) && c != null) {
 				renderLatex(geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ), c.getCanvasElement(),
+						true);
+			} else if (!LaTeX) {
+				renderLatex(geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplateMQ), seNoLatex,
 						true);
 			}
 			DrawEquationWeb.editEquationMathQuillGGB(this,
@@ -1096,7 +1105,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				}
 			});
 
-			ClickStartHandler.init(tb, new ClickStartHandler() {
+			ClickStartHandler.init(tb, new ClickStartHandler(false, true) {
 				@Override
 				public void onClickStart(int x, int y,
 				        final PointerEventType type) {
@@ -1198,6 +1207,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				&& ihtml.getElement().isOrHasChild(seMayLatex)) {
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 					seMayLatex);
+		}
+		if (!LaTeX && !this.newCreationMode && shouldEditLaTeX()
+				&& seNoLatex != null
+				&& ihtml.getElement().isOrHasChild(seMayLatex)) {
+			this.ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
 		}
 		// maybe it's possible to enter something which is non-LaTeX
 		doUpdate();
@@ -1394,7 +1408,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private boolean shouldEditLaTeX() {
-		return LaTeX && !geo.isGeoVector() && geo.isIndependent();
+		return (LaTeX || geo.isGeoPoint() || geo.isGeoNumeric())
+				&& !geo.isGeoVector() && geo.isIndependent();
 	}
 
 	@Override
