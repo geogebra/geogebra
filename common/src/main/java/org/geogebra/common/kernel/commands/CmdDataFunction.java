@@ -4,8 +4,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
@@ -31,19 +31,25 @@ public class CmdDataFunction extends CommandProcessor {
 
 		switch (n) {
 		case 0: 
-			return getDataFunction(kernelA, c.getLabel());
+			return getDataFunction(kernelA, c.getLabel(), new MyList(kernelA),
+					new MyList(kernelA));
+		case 2:
+			return getDataFunction(kernelA, c.getLabel(), (MyList) c
+					.getArgument(0).unwrap(), (MyList) c.getArgument(1)
+					.unwrap());
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
 
-	public static GeoElement[] getDataFunction(Kernel kernelA, String label) {
+	public static GeoElement[] getDataFunction(Kernel kernelA, String label,
+			MyList ml, MyList vl) {
 		FunctionVariable fv = new FunctionVariable(kernelA);
-		MyList ml = new MyList(kernelA);
-		ml.addListElement(new MyDouble(kernelA));
-		ml.addListElement(new MyDouble(kernelA, -1));
+
+		// ml.addListElement(new MyDouble(kernelA));
+		// vl.addListElement(new MyDouble(kernelA, -1));
 		ExpressionNode en = new ExpressionNode(kernelA,fv,Operation.FREEHAND,
-				ml);
+				new MyNumberPair(kernelA, ml, vl));
 		GeoFunction geo = new GeoFunction(en,fv);
 		geo.setLabel(label);
 		return new GeoElement[]{geo};

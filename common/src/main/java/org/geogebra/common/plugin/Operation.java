@@ -360,7 +360,7 @@ public enum Operation {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {			
 			if (lt instanceof NumberValue && rt instanceof ListValue) {
 				double x = ((NumberValue) lt).getDouble();
 				double ret = Double.NaN;
@@ -401,6 +401,37 @@ public enum Operation {
 
 				return new MyDouble(ev.getKernel(), ret);
 
+			} else if (lt instanceof NumberValue && rt instanceof MyNumberPair) {
+				double x = ((NumberValue) lt).getDouble();
+				MyList keyList = (MyList) ((MyNumberPair)rt).getX();
+				MyList valueList = (MyList) ((MyNumberPair) rt).getY();
+				if (keyList.size() < 1) {
+					return new MyDouble(ev.getKernel(), Double.NaN);
+				}
+				double max = keyList.getListElement(keyList.size() - 1)
+						.evaluateDouble();
+				double min = keyList.getListElement(0).evaluateDouble();
+				if (max < x || min > x) {
+					return new MyDouble(ev.getKernel(), Double.NaN);
+				}
+				int index = (int) (keyList.size() * (x - min) / (max - min));
+				index = Math.max(Math.min(index, keyList.size() - 1), 0);
+				while (index > 0
+						&& keyList.getListElement(index).evaluateDouble() >= x) {
+					index--;
+				}
+				while (index < keyList.size() - 1
+						&& keyList.getListElement(index + 1).evaluateDouble() < x) {
+					index++;
+				}
+				double x1 = keyList.getListElement(index).evaluateDouble();
+				double x2 = keyList.getListElement(index + 1).evaluateDouble();
+				double y1 = valueList.getListElement(index).evaluateDouble();
+				double y2 = valueList.getListElement(index + 1)
+						.evaluateDouble();
+				return new MyDouble(ev.getKernel(), ((x - x1) * y2 + y1
+						* (x2 - x))
+						/ (x2 - x1));
 			}
 			return ev.illegalArgument(lt, rt, "freehand(");
 		}

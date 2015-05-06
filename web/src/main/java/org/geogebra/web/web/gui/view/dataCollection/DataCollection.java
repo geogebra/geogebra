@@ -62,7 +62,6 @@ public class DataCollection implements WebSocketListener {
 	private void start() {
 		HashMap<Types, GeoElement> activeSensors = this.dataView
 				.getActivedSensors();
-
 		for (Types type : activeSensors.keySet()) {
 			GeoElement argument = activeSensors.get(type);
 

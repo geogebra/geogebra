@@ -97,6 +97,7 @@ public class WebsocketLogger extends SensorLogger {
 	 * differs between received values and list of available sensors
 	 * 
 	 * @param json
+	 *            JSON
 	 */
 	void handle(JavaScriptObject json) {
 		if (JSON.get(json, Types.MOBILE_FOUND.toString()) != null) {
@@ -178,7 +179,8 @@ public class WebsocketLogger extends SensorLogger {
 	private void handleData(JavaScriptObject json) {
 		beforeLog();
 		double timestamp = Float.parseFloat(JSON.get(json,
-				Types.TIMESTAMP.toString()));
+				Types.TIMESTAMP.toString())) * 0.001;
+
 		// TODO : Maybe do it faster somehow - only logging that is sent?
 		if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
 			log(Types.ACCELEROMETER_X,
