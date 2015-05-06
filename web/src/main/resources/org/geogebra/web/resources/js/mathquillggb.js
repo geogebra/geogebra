@@ -1482,6 +1482,8 @@ var MathBlock = P(MathElement, function(_) {
       // this would move out of the block to
       // put the cursor beside the parent command;
       // however, we want more in case of \\ggbtd and \\ggbtr
+      // \\prtable, \\pwtable, \\prcondition, \\parametric,
+      // but NOT in case of \\piecewise and \\prcurve
       cursor.insertAdjacent(dir, this.parent);
 
       // parent block, we're inside a tr block, probably
@@ -1527,8 +1529,54 @@ var MathBlock = P(MathElement, function(_) {
           }
         }
         // there are more possible cases!!!
-      } // else unexpected end!
-      // TODO: can the user click between two ggbtr, for example?
+        // TODO: can the user click between two ggbtr, for example?
+      } else if (this.parent.ctrlSeq === '\\prcondition') {
+        // in these cases, we've jumped out to the block of \\prcurve
+        // so let's jump either outside of it, or in the other child
+        // depending on the direction (same comment for \\parametric)
+        if (dir === L) {
+          // as \\prcondition is R, move inside \\parametric,
+          // also inside \\prtable, \\ggbtr, \\ggbtd
+          if (cursor[dir]) {// cursor[dir] is \\parametric
+            var thisthis = cursor[dir];
+            cursor.appendDir(-dir, thisthis.ch[-dir]);
+            // it's Okay that we're in \\parametric, but...
+
+            // same code as SomethingHTML.moveTowards,
+            // prcurve (although it's a different use case)
+            thisthis = cursor[dir];//different!
+
+            cursor.appendDir(-dir, thisthis.ch[-dir]);
+            // now we shall be in \\prtable's MathBlock
+            if (thisthis.prtable) {
+              thisthis = cursor[dir];
+              cursor.appendDir(-dir, thisthis.ch[-dir]);
+              // now we shall be in \\ggbtr MathBlock of \\prtable
+              if (thisthis.ctrlSeq.indexOf('\\ggbtr') > -1) {
+                cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+                // now we shall be in \\ggbtd MathBlock of \\prtable
+              }
+            }
+          }
+        } else if (dir === R) {
+          if (thisthis.parent) {
+       	    cursor.insertAdjacent(dir, thisthis.parent);
+       	    // OK, stop
+          }
+        }
+      } else if (this.parent.ctrlSeq === '\\parametric') {
+        if (dir === R) {
+          // as \\parametric is L, move inside \\prcondition,
+          if (cursor[dir]) {// cursor[dir] is \\prcondition
+            cursor.appendDir(-dir, cursor[dir].ch[-dir]);
+          }
+        } else if (dir === L) {
+          if (thisthis.parent) {
+            cursor.insertAdjacent(dir, thisthis.parent);
+            // OK, stop
+          }
+        }
+      }
     }
   };
   _.selectOutOf = function(dir, cursor) {
