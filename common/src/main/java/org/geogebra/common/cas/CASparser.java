@@ -91,7 +91,12 @@ public class CASparser implements CASParserInterface {
 
 			// resolve Variable objects in ValidExpression as GeoDummy objects
 			ExpressionValue ev = resolveVariablesForCAS(ve, kernel);
-			ve = ev instanceof ValidExpression ? (ValidExpression) ev : ve;
+
+			if (ev instanceof ValidExpression) {
+				((ValidExpression) ev).setLabel(ve.getLabel());
+				ve = (ValidExpression) ev;
+
+			}
 
 			// resolve Equations as Functions if lhs is y
 			if (ve instanceof Function) {
