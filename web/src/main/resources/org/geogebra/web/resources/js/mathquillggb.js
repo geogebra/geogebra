@@ -2787,7 +2787,17 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
   _.retractSelection = function(dir, cursor) {
     _super.retractSelection.call(this.maint, dir, cursor);
   };
-  _.deleteTowards = _.createSelection;
+  _.deleteTowards = function(dir, cursor) {
+    // in case of \\prcurve, don't allow deleteTowards!
+	if (this.ctrlSeq === '\\prcurve' ||
+		this.ctrlSeq === '\\prcondition' ||
+		this.ctrlSeq === '\\prtable') {
+      // do nothing!
+	  return undefined;
+	} else {
+      return this.createSelection(dir, cursor);
+	}
+  };
   _.selectChildren = function(cursor) {
 	_super.selectChildren.call(this.maint, cursor);
   };
