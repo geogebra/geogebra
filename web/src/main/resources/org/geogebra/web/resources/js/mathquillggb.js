@@ -3023,7 +3023,7 @@ var ggbtdlrLHTML = '<td style="border-right: black solid 2px; min-width: 1em; te
 // when we can create them separately?
 LatexCmds.pwtable = bind(SomethingHTML, '\\pwtable', ggbtableHTML, ['','']);
 LatexCmds.prtable = bind(SomethingHTML, '\\prtable', ggbtableHTML, ['','']);
-LatexCmds.prcondition = bind(SomethingHTML, '\\prcondition', '<span>&0</span>', ['','']);
+LatexCmds.prcondition = bind(SomethingHTML, '\\prcondition', '<span>&0</span>&nbsp;&nbsp;', ['','']);
 // the parent of prtable and prcondition, for nicer (but more complex) syntax
 LatexCmds.prcurve = bind(SomethingHTML, '\\prcurve', '<span>&0</span>', ['Curve[',']']);
 
