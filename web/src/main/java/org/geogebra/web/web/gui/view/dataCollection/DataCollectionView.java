@@ -48,6 +48,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		ChangeHandler {
 
+	private final String CONNECTION_FAILD = "DataConnectionFailed";
+	private final String CONNECTING = "Connecting";
+
 	private AppW app;
 	private TabLayoutPanel tabPanel;
 	private FlowPanel dataCollectionTab;
@@ -236,12 +239,17 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	void handleConnectionClicked() {
 		if (connectButton.isDown()) {
 			this.connectionStatus.setVisible(true);
-			this.connectionStatus.setText("Connecting...");
+			this.connectionStatus.setText(app.getMenu(CONNECTING));
 			((AppWapplication) app).getDataCollection().onConnect(
 					appIDTextBox.getText());
 		} else {
+			appIDTextBox.setEnabled(true);
+			// setSensorSettingsEnabled()
 			this.connectionStatus.setVisible(false);
 			((AppWapplication) app).getDataCollection().onDisconnect();
+			for (SensorSetting setting : this.sensors) {
+				setting.setOn(false);
+			}
 		}
 	}
 
@@ -252,7 +260,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	}
 
 	private void addMagneticField() {
-		this.magField = new MagFieldSetting(app, this, "Magnetic Field");
+		this.magField = new MagFieldSetting(app, this, "MagneticField");
 		this.sensors.add(this.magField);
 		this.sensorSettings.add(this.magField);
 	}
@@ -325,9 +333,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	@Override
 	public void setLabels() {
-
-		// this.connectionLabel
-		// this.appID
+		this.appID.setText("GeoGebra Data Sharing Code");
 		for (SensorSetting setting : this.sensors) {
 			setting.setLabels();
 		}
@@ -488,8 +494,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 * update GUI if entered ID was wrong
 	 */
 	public void onWrongID() {
-		this.connectionStatus
-				.setText("Sorry, connection failed. Please check the sharing code and try again.");
+		this.connectionStatus.setText(app.getMenu(CONNECTION_FAILD));
 		setSensorSettingsEnabled(false);
 		((AppWapplication) app).getDataCollection().onDisconnect();
 		this.connectButton.setDown(false);

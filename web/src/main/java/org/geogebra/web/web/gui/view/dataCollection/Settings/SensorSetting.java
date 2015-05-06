@@ -131,7 +131,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		this.linkedObjectLabel = new Label(app.getPlain("LinkedObject"));
 		container.add(this.linkedObjectLabel);
 
-		GeoListBox listBox = new GeoListBox(type, this);
+		GeoListBox listBox = new GeoListBox(type, this, app);
 		listBox.addChangeHandler(this.view);
 
 		this.listBoxes.add(listBox);

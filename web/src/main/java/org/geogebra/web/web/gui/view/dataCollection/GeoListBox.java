@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.SensorLogger.Types;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.SensorSetting;
 
 import com.google.gwt.user.client.ui.ListBox;
@@ -17,8 +18,8 @@ public class GeoListBox extends ListBox {
 	 * Default entries of the GeoListBox
 	 */
 	public enum DefaultEntries {
-		EMPTY_SELECTION(0, "- - -"), CREATE_NUMBER(1, "Create Number"), CREATE_DATA_FUNCTION(
-				2, "Create DataFunction");
+		EMPTY_SELECTION(0, "- - -"), CREATE_NUMBER(1, "CreateNumber"), CREATE_DATA_FUNCTION(
+				2, "CreateDataFunction");
 
 		private int index;
 		private String text;
@@ -48,16 +49,19 @@ public class GeoListBox extends ListBox {
 	private ArrayList<GeoElement> items = new ArrayList<GeoElement>();
 	private SensorSetting sensor;
 	private int nextFreeGeoListBoxIndex;
+	private AppW app;
 
 	/**
 	 * @param type
 	 *            of sensor which is associated with this listbox
 	 * @param sensor
 	 *            {@link SensorSetting} to which this GeoListBox belongs
+	 * @param app
 	 */
-	public GeoListBox(Types type, SensorSetting sensor) {
+	public GeoListBox(Types type, SensorSetting sensor, AppW app) {
 		this.sensor = sensor;
 		this.type = type;
+		this.app = app;
 		this.nextFreeGeoListBoxIndex = DefaultEntries.values().length;
 	}
 
@@ -140,7 +144,7 @@ public class GeoListBox extends ListBox {
 
 	private void addDefaultEntries() {
 		for (DefaultEntries entry : DefaultEntries.values()) {
-			this.addItem(entry.getText());
+			this.addItem(app.getMenu(entry.getText()));
 		}
 	}
 
