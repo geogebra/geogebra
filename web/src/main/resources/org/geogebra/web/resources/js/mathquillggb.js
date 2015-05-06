@@ -1523,6 +1523,19 @@ var MathBlock = P(MathElement, function(_) {
             	if (thisthis.parent) {//ggbtable
             	  // expected end!
                   cursor.insertAdjacent(dir, thisthis.parent);
+                  // AND... this is still not the finish in case of:
+                  // \\prtable, \\pwtable...
+                  if (thisthis.parent.prtable || thisthis.parent.pwtable) {
+                    // we're inside \\parametric after the operation
+                	// let's move out of this by a recursive call...
+                	// and later decide whether it needs anything else
+                	if (thisthis.parent.parent) {
+                	  // it is a MathBlock, child of \\parametric
+                	  // in case of piecewise, this does no harm either
+                	  var thisthis = thisthis.parent.parent;
+                	  thisthis.moveOutOf(dir, cursor);
+                	}
+                  }
             	} // else unexpected end!
               } // else unexpected end!
             } // else unexpected end!
