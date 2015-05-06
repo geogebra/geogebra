@@ -3452,6 +3452,16 @@ var HalfBracket = P(MathCommand, function(_, _super) {
       return this.createSelection(dir, cursor);
     }
   };
+  _.moveTowards = function(dir, cursor) {
+    // well, this is the code for MathCommand.moveTowards
+    cursor.appendDir(-dir, this.ch[-dir]);
+
+    if (this.ctrlSeq === '\\piecewise' ||
+        this.ctrlSeq === '\\parametric') {
+        var thisthis = cursor[dir];
+        thisthis.moveTowards(dir, cursor);
+    }
+  };
 });
 
 // differentiating piecewise functions from openbraceonly of ggbtable
