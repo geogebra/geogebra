@@ -107,8 +107,12 @@ public class DataCollection implements WebSocketListener {
 	 * called if no mobile-data app found with the entered appID
 	 */
 	@Override
-	public void onWrongID() {
-		this.dataView.onWrongID();
+	public void onIDchecked(boolean isCorrect) {
+		if (isCorrect) {
+			this.dataView.onCorrectID();
+		} else {
+			this.dataView.onWrongID();
+		}
 	}
 
 	/**
@@ -140,5 +144,9 @@ public class DataCollection implements WebSocketListener {
 
 	public void removeRegisteredGeo(GeoElement geo) {
 		this.sensorLogger.removeRegisteredGeo(geo);
+	}
+
+	public void triggerAvailableSensors() {
+		sensorLogger.triggerAvailableSensors();
 	}
 }

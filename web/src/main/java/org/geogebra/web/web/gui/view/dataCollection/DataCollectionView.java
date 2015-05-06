@@ -75,6 +75,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	/** widgets which need translation */
 	private Label connectionLabel;
 	private Label appID;
+	private Label connectionStatus;
 
 	/**
 	 * @param app
@@ -186,6 +187,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		FlowPanel setting = new FlowPanel();
 		setting.addStyleName("panelIndent");
 
+		FlowPanel appIDpanel = new FlowPanel();
+		appIDpanel.addStyleName("rowContainer");
 		this.appID = new Label("GeoGebra Data Sharing Code:");
 		this.appIDTextBox = new TextBox();
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
@@ -211,9 +214,17 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			}
 		});
 
-		setting.add(appID);
-		setting.add(appIDTextBox);
-		setting.add(connectButton);
+		appIDpanel.add(appID);
+		appIDpanel.add(appIDTextBox);
+		appIDpanel.add(connectButton);
+
+		FlowPanel connectionStatusPanel = new FlowPanel();
+		connectionStatusPanel.addStyleName("rowContainer");
+		this.connectionStatus = new Label();
+		connectionStatusPanel.add(this.connectionStatus);
+
+		setting.add(appIDpanel);
+		setting.add(connectionStatusPanel);
 		connection.add(setting);
 
 		dataCollectionTab.add(connection);
@@ -224,14 +235,13 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	void handleConnectionClicked() {
 		if (connectButton.isDown()) {
+			this.connectionStatus.setVisible(true);
+			this.connectionStatus.setText("Connecting...");
 			((AppWapplication) app).getDataCollection().onConnect(
 					appIDTextBox.getText());
-			setSensorSettingsEnabled(true);
-			appIDTextBox.setEnabled(false);
 		} else {
+			this.connectionStatus.setVisible(false);
 			((AppWapplication) app).getDataCollection().onDisconnect();
-			setSensorSettingsEnabled(false);
-			appIDTextBox.setEnabled(true);
 		}
 	}
 
@@ -472,6 +482,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 * update GUI if entered ID was wrong
 	 */
 	public void onWrongID() {
+		this.connectionStatus
+				.setText("Sorry, connection failed. Please check the sharing code and try again.");
 		setSensorSettingsEnabled(false);
 		((AppWapplication) app).getDataCollection().onDisconnect();
 		this.connectButton.setDown(false);
@@ -479,6 +491,17 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.appIDTextBox.setSelectionRange(0, this.appIDTextBox.getText()
 				.length());
 		this.appIDTextBox.setFocus(true);
+	}
+
+	/**
+	 * update GUI if entered ID was correct
+	 */
+	public void onCorrectID() {
+		this.connectionStatus.setVisible(false);
+		setSensorSettingsEnabled(true);
+		this.appIDTextBox.setEnabled(false);
+		// ((AppWapplication)
+		// app).getDataCollection().triggerAvailableSensors();
 	}
 
 	@Override

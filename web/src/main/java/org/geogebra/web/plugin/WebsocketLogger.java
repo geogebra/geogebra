@@ -74,6 +74,16 @@ public class WebsocketLogger extends SensorLogger {
 		connection.send(obj.toString());
 	}
 
+	/**
+	 * asks the mobile data app for a list of available sensors
+	 */
+	public void triggerAvailableSensors() {
+		JSONObject obj = new JSONObject();
+		obj.put("appID", new JSONString(appID));
+		obj.put("availableSensors", new JSONString(""));
+		connection.send(obj.toString());
+	}
+
 	private void initCloseHandler() {
 		connection.onClose(new CloseEventHandler() {
 
@@ -90,7 +100,9 @@ public class WebsocketLogger extends SensorLogger {
 	 */
 	void handle(JavaScriptObject json) {
 		if (JSON.get(json, Types.MOBILE_FOUND.toString()) != null) {
-			wrongID();
+			handleIDchecked(String.valueOf(
+					JSON.get(json, Types.MOBILE_FOUND.toString())).equals(
+					"true"));
 		} else if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
 			if (JSON.get(json, Types.ACCELEROMETER_X.toString()).equals("true")
 					|| JSON.get(json, Types.ACCELEROMETER_X.toString()).equals(
@@ -102,9 +114,9 @@ public class WebsocketLogger extends SensorLogger {
 		}
 	}
 
-	private void wrongID() {
+	private void handleIDchecked(boolean correctID) {
 		for (WebSocketListener listener : this.listeners) {
-			listener.onWrongID();
+			listener.onIDchecked(correctID);
 		}
 	}
 
