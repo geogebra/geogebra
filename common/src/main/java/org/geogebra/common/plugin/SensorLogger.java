@@ -29,34 +29,34 @@ public abstract class SensorLogger {
 	public boolean oldUndoActive = false;
 
 	public static enum Types {
-			TIMESTAMP("time"), ACCELEROMETER_X("Ax"), ACCELEROMETER_Y("Ay"), ACCELEROMETER_Z(
-					"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
-					"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
+		TIMESTAMP("time"), ACCELEROMETER_X("Ax"), ACCELEROMETER_Y("Ay"), ACCELEROMETER_Z(
+				"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
+				"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
 				"Mz"), PROXIMITY("proximity"), LIGHT("light"), LOUDNESS(
 				"loudness"), DATA_COUNT("datacount"), EDAQ0("EDAQ0"), EDAQ1(
 				"EDAQ1"), EDAQ2("EDAQ2"), PORT("port"), APP_ID("appID"), MOBILE_FOUND(
 				"mobile_found");
-			private String string;
-	
-			Types(String s) {
-				this.string = s;
-			}
+		private String string;
+
+		Types(String s) {
+			this.string = s;
+		}
 
 		@Override
 		public String toString() {
 			return string;
 		}
-	
-			public static Types lookup(String s) {
-				for (Types type : Types.values()) {
-					if (type.string.equals(s)) {
-						return type;
-					}
+
+		public static Types lookup(String s) {
+			for (Types type : Types.values()) {
+				if (type.string.equals(s)) {
+					return type;
 				}
-	
-				return null;
 			}
+
+			return null;
 		}
+	}
 
 	protected HashMap<Types, GeoNumeric> listeners = new HashMap<Types, GeoNumeric>();
 	protected HashMap<Types, GeoList> listenersL = new HashMap<Types, GeoList>();
@@ -73,10 +73,9 @@ public abstract class SensorLogger {
 
 	protected abstract void closeSocket();
 
-
 	public void registerGeo(String s, GeoElement geo) {
 		Types type = Types.lookup(s);
-	
+
 		if (type != null) {
 			if (type == Types.PORT) {
 				port = (int) ((GeoNumeric) geo).getValue();
@@ -96,6 +95,7 @@ public abstract class SensorLogger {
 		stepsToGo--;
 
 	}
+
 	/**
 	 * @param sensor
 	 *            {@link Types}
@@ -154,33 +154,34 @@ public abstract class SensorLogger {
 	public void registerGeoList(String s, GeoList list) {
 		registerGeoList(s, list, 0);
 	}
-	
+
 	public void registerGeoFunction(String s, GeoFunction list) {
 		registerGeoFunction(s, list, 0);
 	}
+
 	public void registerGeoFunction(String s, GeoFunction function, double limit) {
 		Types type = Types.lookup(s);
-	
+
 		if (type != null) {
 			this.prepareRegister(type, function, limit);
 			listenersF.put(type, function);
 		}
 	}
+
 	public void registerGeoList(String s, GeoList list, double limit) {
 		Types type = Types.lookup(s);
-	
+
 		if (type != null) {
 			this.prepareRegister(type, list, limit);
 			listenersL.put(type, list);
-	
-			
+
 		}
 	}
 
 	public void stopLogging() {
 		kernel.setUndoActive(oldUndoActive);
 		kernel.storeUndoInfo();
-	
+
 		closeSocket();
 		listeners.clear();
 		listenersL.clear();
@@ -190,14 +191,14 @@ public abstract class SensorLogger {
 
 	protected void initStartLogging() {
 		now = System.currentTimeMillis();
-	
+
 		Log.debug("startLogging called, undoActive is: "
 				+ kernel.isUndoActive());
 		// make sure that running StartLogging twice does not switch undo off
 		oldUndoActive = oldUndoActive || kernel.isUndoActive();
-	
+
 		kernel.setUndoActive(false);
-	
+
 		Log.debug("undoActive is: " + kernel.isUndoActive());
 	}
 
@@ -206,82 +207,82 @@ public abstract class SensorLogger {
 	}
 
 	protected void log(Types type, double timestamp, double val,
-			boolean repaint, boolean update,
-			boolean atleast) {
+			boolean repaint, boolean update, boolean atleast) {
 		if (stepsToGo <= 0) {
 			return;
 		}
-				GeoNumeric geo = listeners.get(type);
-				if (geo != null) {
-			
-					// if (repaint)
-			
-					// If we do not want to repaint, probably logging
-					// should be avoided as well...
-			
-					geo.setValue(val);
-			
-					if (repaint)
-						geo.updateRepaint();
-					else if (update || !atleast)
-						geo.updateCascade();
-					else
-						geo.update(); // at least call updateScripts
-			
-					registerLog(type);
+		GeoNumeric geo = listeners.get(type);
+		if (geo != null) {
+
+			// if (repaint)
+
+			// If we do not want to repaint, probably logging
+			// should be avoided as well...
+
+			geo.setValue(val);
+
+			if (repaint)
+				geo.updateRepaint();
+			else if (update || !atleast)
+				geo.updateCascade();
+			else
+				geo.update(); // at least call updateScripts
+
+			registerLog(type);
+		} else {
+			GeoList list = listenersL.get(type);
+			if (list != null) {
+
+				geo = new GeoNumeric(list.getConstruction(), val);
+
+				Integer ll = listLimits.get(type);
+				if (ll == null || ll == 0 || ll > list.size()) {
+					list.add(geo);
 				} else {
-					GeoList list = listenersL.get(type);
-					if (list != null) {
-			
-						geo = new GeoNumeric(list.getConstruction(), val);
-			
-						Integer ll = listLimits.get(type);
-						if (ll == null || ll == 0 || ll > list.size()) {
-							list.add(geo);
-						} else {
-							list.addQueue(geo);
-						}
-			
-						if (repaint)
-							list.updateRepaint();
-						else if (update || !atleast)
-							list.updateCascade();
-						else
-							list.update(); // at least call updateScripts
-			
-						registerLog(type);
-					}else {
-						GeoFunction fn = listenersF.get(type);
-						if(fn == null){
-							return;
-						}
-						ExpressionValue ev = fn.getFunctionExpression().unwrap().wrap().getRight();
-						if(!(ev instanceof MyList) ){
-							return;
-						}
-						MyList ml = (MyList) ev;
-						
-						Integer ll = listLimits.get(type);
-						if (ll == null || ll == 0 || ll + 2 > ml.size()) {
-							ml.addListElement(new MyDouble(kernel,val));
+					list.addQueue(geo);
+				}
+
+				if (repaint)
+					list.updateRepaint();
+				else if (update || !atleast)
+					list.updateCascade();
+				else
+					list.update(); // at least call updateScripts
+
+				registerLog(type);
+			} else {
+				GeoFunction fn = listenersF.get(type);
+				if (fn == null) {
+					return;
+				}
+				ExpressionValue ev = fn.getFunctionExpression().unwrap().wrap()
+						.getRight();
+				if (!(ev instanceof MyList)) {
+					return;
+				}
+				MyList ml = (MyList) ev;
+
+				Integer ll = listLimits.get(type);
+				if (ll == null || ll == 0 || ll + 2 > ml.size()) {
+					ml.addListElement(new MyDouble(kernel, val));
 					((MyDouble) ml.getListElement(1))
 							.add(timestamp - lastStamp);
 					lastStamp = timestamp;
-						} else {
-							ml.addQue(val,2);
-						}
-			
-						if (repaint){
-							fn.updateRepaint();
-						} else if (update || !atleast)
-							fn.updateCascade();
-						else
-							fn.update(); // at least call updateScripts
-			
-						registerLog(type);
-					}
+				} else {
+					ml.addQue(val, 2);
 				}
+
+				if (repaint) {
+					fn.updateRepaint();
+				} else if (update || !atleast)
+					fn.updateCascade();
+				else
+					fn.update(); // at least call updateScripts
+
+				registerLog(type);
 			}
+		}
+	}
 
 	private void registerLog(Types type) {
 		Types thistype;
@@ -291,7 +292,7 @@ public abstract class SensorLogger {
 		int referenceAge = listenersAges.get(type);
 		listenersAges.put(type, referenceAge + 1);
 		referenceAge = listenersAges.get(type);
-	
+
 		int numOld = 0;
 		int numAll = 0;
 		// ages grow, and too little ages have to keep pace
@@ -306,7 +307,7 @@ public abstract class SensorLogger {
 			if (referenceAge > age + 1) {
 				// grow the intermediates as well
 				listenersAges.put(thistype, age + 1);
-	
+
 				geo = listeners.get(thistype);
 				if (geo != null) {
 					geo.update();
@@ -317,13 +318,13 @@ public abstract class SensorLogger {
 					} else {
 						function = listenersF.get(thistype);
 						if (function != null) {
-							function.update();	
+							function.update();
 						}
 					}
 				}
 			}
 		}
-	
+
 		if (numOld == numAll) {
 			// we can decrease the ages of all
 			it = listenersAges.keySet().iterator();
