@@ -34,4 +34,12 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
 	}
+
+	public void increaseRows() {
+
+	}
+
+	public void increaseCols() {
+
+	}
 }

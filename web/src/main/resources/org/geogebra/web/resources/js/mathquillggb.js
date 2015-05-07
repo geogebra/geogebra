@@ -6116,6 +6116,8 @@ $.fn.mathquillggb = function(cmd, latex) {
         if (cursor)
           cursor.writeLatex(latex).parent.blur();
       });
+    // do not mix different commands in any case
+    return undefined;
   case 'simpaste':
     if (arguments.length > 1)
       return this.each(function() {
@@ -6127,6 +6129,8 @@ $.fn.mathquillggb = function(cmd, latex) {
           // "latex" is actually text
           cursor.parent.bubble('onText', cursor, latex);
       });
+    // do not mix different commands in any case
+    return undefined;
   case 'replace':
     // this function should replace the current 'word',
     // or the sequence of elements like in arguments[2]
@@ -6212,6 +6216,40 @@ $.fn.mathquillggb = function(cmd, latex) {
           }
         }
       });
+    // do not mix different commands in any case
+    return undefined;
+  case 'matrixnewrow':
+	// for adding one new row to matrices
+	// ? should we make MQ be able to remove rows ?
+
+    // TODO
+
+    // do not mix different commands in any case
+    return undefined;
+  case 'matrixnewcol':
+	// for adding one new column to matrices
+	// ? should we make MQ be able to remove columns ?
+
+    // TODO
+
+    // do not mix different commands in any case
+    return undefined;
+  case 'piecewisenewrow':
+	// for adding one new row to piecewise functions
+	// ? should we make MQ be able to remove rows ?
+
+    // TODO
+
+    // do not mix different commands in any case
+    return undefined;
+  case 'setparametricmode':
+	// for setting the mode of parametric curves
+	// i.e. 2D or 3D (add/remove one row)
+
+    // TODO
+
+    // do not mix different commands in any case
+    return undefined;
   case 'cmd':
     if (arguments.length > 1)
       return this.each(function() {
@@ -6226,6 +6264,8 @@ $.fn.mathquillggb = function(cmd, latex) {
           cursor.hide().parent.blur();
         }
       });
+    // do not mix different commands in any case
+    return undefined;
   default:
     var RootClass;
     if (cmd === 'textbox') RootClass = RootTextBlock;
