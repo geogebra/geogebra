@@ -86,7 +86,7 @@ task symlinkIntoWar {
 	description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory.'
 	doLast {
 	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
-		ant.symlink(resource: file("build/gwt/out/$folder"), link: "war/$folder", overwrite: true)
+		ant.symlink(resource: "../build/gwt/out/$folder", link: "war/$folder", overwrite: true)
 		}
 	    }
 }
