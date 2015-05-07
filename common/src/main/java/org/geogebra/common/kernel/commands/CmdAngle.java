@@ -182,7 +182,7 @@ public class CmdAngle extends CommandProcessor {
 		}
 
 		// angle between vectors
-		if ((ok[0] = (arg0.isGeoVector())) && (ok[1] = (arg0.isGeoVector()))) {
+		if ((ok[0] = (arg0.isGeoVector())) && (ok[1] = (arg1.isGeoVector()))) {
 			return angle(c.getLabel(), (GeoVectorND) arg0, (GeoVectorND) arg1);
 		}
 
