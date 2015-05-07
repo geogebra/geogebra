@@ -35,19 +35,23 @@ public class MidiW {
 
 	public native JavaScriptObject init() /*-{
 		$wnd.mwaw = new $wnd.WebMIDIAPIWrapper(true);
+
 		$wnd.mwaw.initMidi();
 	}-*/;
 
-	public native JavaScriptObject play() /*-{
-		$wnd.mwaw.sendNoteOn(0, 1, 72, 120, 0);
+	public native JavaScriptObject sendNote(int port, int ch, int note,
+			double velocity, double time) /*-{
+		$wnd.mwaw.initializePerformanceNow();
+
+		$wnd.mwaw.ports.out[0] = $wnd.mwaw.devices.outputs[0];
+		$wnd.mwaw.sendNoteOn(port, ch, note, velocity, time);
 	}-*/;
 
 
-	public void playNote() {
+	public void playNote(int ch, int note, int velocity, double time) {
 		if (!jsLoaded) {
 			return;
 		}
-
-		play();
+		sendNote(0, ch, note, velocity, time);
 	}
 }

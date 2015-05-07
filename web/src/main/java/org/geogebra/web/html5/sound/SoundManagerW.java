@@ -29,13 +29,14 @@ public class SoundManagerW implements SoundManager {
 
 	}
 
-	public void playSequenceNote(int double1, double double2, int i, int j) {
-		MidiW.INSTANCE.playNote();
+	public void playSequenceNote(int note, double duration, int velocity,
+			int instrument) {
+		MidiW.INSTANCE.playNote(instrument, note, velocity, duration);
 	}
 
 	public void playSequenceFromString(String string, int double1) {
 		App.debug("playSequenceFromString");
-		MidiW.INSTANCE.playNote();
+
 	}
 
 	public void playFunction(GeoFunction geoFunction, double double1,
