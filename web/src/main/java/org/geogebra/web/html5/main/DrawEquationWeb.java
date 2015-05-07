@@ -645,7 +645,7 @@ createColor(fgColor.getRed(), fgColor.getGreen(),
 			$wnd.$ggbQuery(elsecondInside).mathquillggb();
 
 			// Make sure the length of brackets and square roots are OK
-			$wnd.setTimeout(function() {
+			elsecondInside.timeoutId = $wnd.setTimeout(function() {
 				$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', htmlt);
 			}, 500);
 
@@ -755,6 +755,15 @@ GeoContainer rbti,
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		var elsecondInside = elsecond.lastChild;
+
+		// if we go to editing mode, this timer is not relevant any more,
+		// and also harmful in case it runs after editing mode is set
+		if (elsecondInside.timeoutId) {
+			$wnd.clearTimeout(elsecondInside.timeoutId);
+		}
+		if (elsecondInside.timeoutId2) {
+			$wnd.clearTimeout(elsecondInside.timeoutId2);
+		}
 
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').mathquillggb(
 				'editable').focus();
@@ -1376,7 +1385,7 @@ GeoContainer rbti,
 					.mathquillggb();
 
 			// Make sure the length of brackets and square roots are OK
-			$wnd.setTimeout(function() {
+			elsecondInside.timeoutId2 = $wnd.setTimeout(function() {
 				$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', htmlt);
 			});
 		} else {

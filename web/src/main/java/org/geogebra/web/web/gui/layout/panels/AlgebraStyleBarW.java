@@ -26,11 +26,11 @@ import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW2;
 import org.geogebra.web.web.gui.view.algebra.MatrixRadioButtonTreeItem;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Timer;
 
 /**
  * StyleBar for AlgebraView
@@ -209,24 +209,34 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			@Override
 			public void fireActionPerformed(PopupMenuButton actionButton) {
 				// called if a object of the popup is clicked
+				newObjectButton.getMyPopup().hide();
+				// App.debug("newObjectButton clicked!");
 
 				switch( newObjectButton.getSelectedIndex() ) {
 					// TODO
 				case 1:
 					final GeoList mat = MatrixRadioButtonTreeItem.create2x2ZeroMatrix(app
 							.getKernel());
-					Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-						
-						public void execute() {
+					// scheduleDeferred alone does not work well!
+					Timer tim = new Timer() {
+						public void run() {
 							app.getAlgebraView().startEditing(mat);
-									// for some reason, focus is moving away
-									// though
 						}
-							});
+					};
+					// on a good machine, 500ms was usually not enough,
+					// but 1000ms was usually enough... however, it turned
+					// out this is due to a setTimeout in
+					// DrawEquationWeb.drawEquationMathQuillGGB...
+					// so we could spare at least 500ms by clearing that timer,
+					tim.schedule(500);
 
+					// but now I'm experimenting with even less timeout, i.e.
+					// tim.schedule(200);
+					// 200ms is not enough, and as this is a good machine
+					// let us say that 500ms is just right, or maybe too little
+					// on slow machines -> shall we use scheduleDeferred too?
 					break;
 				}
-				newObjectButton.getMyPopup().hide();
 			}
 		});
 		add(newObjectButton);
