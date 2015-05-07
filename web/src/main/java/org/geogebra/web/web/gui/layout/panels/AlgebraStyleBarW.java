@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -23,7 +24,9 @@ import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW2;
+import org.geogebra.web.web.gui.view.algebra.MatrixRadioButtonTreeItem;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -58,6 +61,10 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		} else {
 			addAuxiliaryButton();
 			addTreeModeButton();
+
+			// for activation of some things in ticket #4905
+			// addNewObjectButton();
+
 			addViewButton();
 			setLabels();
 		}
@@ -202,12 +209,24 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			@Override
 			public void fireActionPerformed(PopupMenuButton actionButton) {
 				// called if a object of the popup is clicked
-				App.debug("newObjectButton clicked");
 
 				switch( newObjectButton.getSelectedIndex() ) {
 					// TODO
-					
+				case 1:
+					final GeoList mat = MatrixRadioButtonTreeItem.create2x2ZeroMatrix(app
+							.getKernel());
+					Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+						
+						public void execute() {
+							app.getAlgebraView().startEditing(mat);
+									// for some reason, focus is moving away
+									// though
+						}
+							});
+
+					break;
 				}
+				newObjectButton.getMyPopup().hide();
 			}
 		});
 		add(newObjectButton);
