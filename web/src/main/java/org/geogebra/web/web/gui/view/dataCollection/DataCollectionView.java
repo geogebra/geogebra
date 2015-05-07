@@ -49,6 +49,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		ChangeHandler {
 
+	private final String DATA_CONNECTION = "DataConnection";
+	private final String DATA_SHARING_CODE = "DataSharingCode";
 	private final String CONNECTION_FAILD = "DataConnectionFailed";
 	private final String CONNECTING = "Connecting";
 
@@ -334,7 +336,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	@Override
 	public void setLabels() {
-		this.appID.setText("GeoGebra Data Sharing Code");
+		this.appID.setText(app.getMenu(DATA_SHARING_CODE));
+		this.connectionLabel.setText(app.getMenu(DATA_CONNECTION));
 		for (SensorSetting setting : this.sensors) {
 			setting.setLabels();
 		}
