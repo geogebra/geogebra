@@ -7,19 +7,19 @@ import org.geogebra.web.web.gui.images.AppResources;
 import com.google.gwt.safehtml.shared.SafeUri;
 
 /**
- * SpecialRadioButtonTreeItem for creating special formulas in the algebra view
- * e.g. matrix, piecewise function, parametric curve
+ * MatrixRadioButtonTreeItem for creating matrices (2-dimensional lists in the
+ * algebra view
  * 
  * File created by Arpad Fekete
  */
-public class SpecialRadioButtonTreeItem extends RadioButtonTreeItem {
+public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 
 	/**
 	 * Creating a SpecialRadioButtonTreeItem from scratch as this should be
 	 * possible when the user clicks on Algebra View GUI buttons designed for
 	 * this purpose - this should be empty and editable
 	 */
-	public SpecialRadioButtonTreeItem(Kernel kern) {
+	public MatrixRadioButtonTreeItem(Kernel kern) {
 		super(kern, null, AppResources.INSTANCE.shown().getSafeUri(),
 		        AppResources.INSTANCE.hidden().getSafeUri());
 	}
@@ -30,7 +30,7 @@ public class SpecialRadioButtonTreeItem extends RadioButtonTreeItem {
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
 	 * situation (e.g. why not after NewRadioButtonTreeItem?)
 	 */
-	public SpecialRadioButtonTreeItem(GeoElement ge, SafeUri showUrl,
+	public MatrixRadioButtonTreeItem(GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
 	}

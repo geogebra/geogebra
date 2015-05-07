@@ -279,9 +279,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public static RadioButtonTreeItem create(GeoElement ge, SafeUri showUrl, SafeUri hiddenUrl) {
-		if (ge.isMatrix() || ge.isGeoCurveCartesian()
-				|| ge.isGeoFunctionConditional()) {
-			return new SpecialRadioButtonTreeItem(ge, showUrl, hiddenUrl);
+		if (ge.isMatrix()) {
+			return new MatrixRadioButtonTreeItem(ge, showUrl, hiddenUrl);
+		} else if (ge.isGeoCurveCartesian()) {
+			return new ParCurveRadioButtonTreeItem(ge, showUrl, hiddenUrl);
+		} else if (ge.isGeoFunctionConditional()) {
+			return new CondFunRadioButtonTreeItem(ge, showUrl, hiddenUrl);
 		}
 		return new RadioButtonTreeItem(ge, showUrl, hiddenUrl);
 	}
