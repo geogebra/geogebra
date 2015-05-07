@@ -2933,7 +2933,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       if (ret.charAt(ret.length-1) === ')') {
         ret = ret.substring(0, ret.length-1);
       }
-      // LaTeX: \\le, text: \u2264
+      // LaTeX: \\prle, text: \u2264
       var retarr = ret.split('\u2264');
       if (retarr.length > 2) {
         // OK
@@ -4347,6 +4347,14 @@ var BinaryOperator = P(Symbol, function(_, _super) {
   };
 });
 
+var FixedBinaryOperator = P(BinaryOperator, function(_, _super) {
+  _.deleteTowards = Symbol.prototype.moveTowards;
+  _.createSelection = noop;
+  _.expandSelection = noop;
+  _.selectChildren = noop;
+  _.selectOutOf = noop;
+});
+
 var PlusMinus = P(BinaryOperator, function(_) {
   _.init = VanillaSymbol.prototype.init;
 
@@ -4429,6 +4437,9 @@ LatexCmds['\u2248'] = LatexCmds.asymp = LatexCmds.approx = bind(BinaryOperator,'
 LatexCmds.lt = bind(BinaryOperator, '<', '&lt;', '<');
 
 LatexCmds.gt = bind(BinaryOperator, '>', '&gt;', '>');
+
+// lesser-or-equal signs of parametric curves need to be fixed
+LatexCmds.prle = bind(FixedBinaryOperator, '\\prle ', '&le;', '\u2264');
 
 LatexCmds['\u2264'] = LatexCmds.le = LatexCmds.leq = bind(BinaryOperator, '\\le ', '&le;', '\u2264');
 

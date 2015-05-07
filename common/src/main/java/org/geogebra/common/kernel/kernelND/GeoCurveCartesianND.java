@@ -423,9 +423,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 					sbTemp.append("}");
 					sbTemp.append("\\prcondition{");
 					sbTemp.append(this.kernel.format(this.startParam, tpl));
-					sbTemp.append(" \\le ");
+					sbTemp.append(" \\prle ");
 					sbTemp.append(param);
-					sbTemp.append(" \\le ");
+					sbTemp.append(" \\prle ");
 					sbTemp.append(this.kernel.format(this.endParam, tpl));
 					sbTemp.append("}");
 				}
