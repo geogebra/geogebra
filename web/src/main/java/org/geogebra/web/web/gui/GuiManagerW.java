@@ -1627,8 +1627,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void recalculateEnvironments() {
 		for (int i = 0; i < getEuclidianViewCount(); i++) {
-			((EuclidianView) getEuclidianView2(i)).getEuclidianController()
+			if (hasEuclidianView2(i)) {
+				((EuclidianView) getEuclidianView2(i)).getEuclidianController()
 			        .calculateEnvironment();
+			}
 		}
 		if (hasProbabilityCalculator()) {
 			((ProbabilityCalculatorViewW) getProbabilityCalculator()).plotPanel
