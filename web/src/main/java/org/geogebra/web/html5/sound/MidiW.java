@@ -45,13 +45,20 @@ public class MidiW {
 
 		$wnd.mwaw.ports.out[0] = $wnd.mwaw.devices.outputs[0];
 		$wnd.mwaw.sendNoteOn(port, ch, note, velocity, time);
+		;
 	}-*/;
+
+	// $wnd.mwaw.sendNoteOn(port, ch, note, velocity, time);
 
 
 	public void playNote(int ch, int note, int velocity, double time) {
 		if (!jsLoaded) {
 			return;
 		}
+		App.debug("[MIDIW] ch: " + ch + " note: " + note + " velocity: "
+				+ velocity
+				+ " time: " + time);
+
 		sendNote(0, ch, note, velocity, time);
 	}
 }

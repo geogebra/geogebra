@@ -29,8 +29,8 @@ public class SoundManagerW implements SoundManager {
 
 	}
 
-	public void playSequenceNote(int note, double duration, int velocity,
-			int instrument) {
+	public void playSequenceNote(int note, double duration, int instrument,
+			int velocity) {
 		MidiW.INSTANCE.playNote(instrument, note, velocity, duration);
 	}
 
