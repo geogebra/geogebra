@@ -278,6 +278,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		};
 	}
 
+	public static RadioButtonTreeItem create(GeoElement ge, SafeUri showUrl, SafeUri hiddenUrl) {
+		if (ge.isMatrix() || ge.isGeoCurveCartesian()
+				|| ge.isGeoFunctionConditional()) {
+			return new SpecialRadioButtonTreeItem(ge, showUrl, hiddenUrl);
+		}
+		return new RadioButtonTreeItem(ge, showUrl, hiddenUrl);
+	}
+
 	/**
 	 * Creates a new RadioButtonTreeItem for displaying/editing an existing
 	 * GeoElement

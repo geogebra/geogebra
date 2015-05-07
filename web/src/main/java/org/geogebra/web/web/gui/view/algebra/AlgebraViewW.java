@@ -401,7 +401,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
     public final void setUserObject(TreeItem ti, final Object ob) {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
-			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
+			ti.setWidget(RadioButtonTreeItem.create((GeoElement) ob,
 			        AppResources.INSTANCE.shown().getSafeUri(),
 			        AppResources.INSTANCE.hidden().getSafeUri()));
 			ti.addStyleName("avItem");
