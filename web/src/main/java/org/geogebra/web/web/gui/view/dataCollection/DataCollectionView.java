@@ -341,6 +341,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		for (SensorSetting setting : this.sensors) {
 			setting.setLabels();
 		}
+		updateListBoxes();
 	}
 
 	/**
