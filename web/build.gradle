@@ -73,13 +73,22 @@ def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 
 task cleanWar(type: Delete){
-	delete warDirRel + '/web3d', warDirRel + '/web',warDirRel + '/webSimple',warDirRel + '/tablet'
+	delete warDirRel + '/web3d', warDirRel + '/web', warDirRel + '/webSimple', warDirRel + '/tablet', warDirRel + '/tablet3d'
 }
 
 task deployIntoWar(type: Copy, dependsOn: cleanWar) {
-	description 'Copies/updates the GWT production compilation directory (web3d) to the war directory.'
-	from compileGwt	
+	description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
+	from compileGwt
 	into warDirRel
+}
+
+task symlinkIntoWar {
+	description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory.'
+	doLast {
+	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
+		ant.symlink(resource: file("build/gwt/out/$folder"), link: "war/$folder", overwrite: true)
+		}
+	    }
 }
 
 task draftDeployIntoWar(type: Copy, dependsOn: cleanWar) {
