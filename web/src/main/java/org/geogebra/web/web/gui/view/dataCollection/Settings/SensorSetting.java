@@ -41,7 +41,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	/** the listBoxes */
 	private ArrayList<GeoListBox> listBoxes = new ArrayList<GeoListBox>();
 
-	private AppW app;
+	protected AppW app;
 	private DataCollectionView view;
 
 	/**

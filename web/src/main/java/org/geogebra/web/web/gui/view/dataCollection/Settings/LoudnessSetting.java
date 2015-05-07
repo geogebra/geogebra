@@ -25,6 +25,6 @@ public class LoudnessSetting extends SensorSetting {
 
 	@Override
 	protected void addContent() {
-		addRow("loudness:", Types.LOUDNESS);
+		addRow(app.getMenu("Loudness") + ":", Types.LOUDNESS);
 	}
 }
