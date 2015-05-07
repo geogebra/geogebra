@@ -151,6 +151,7 @@ public abstract class App implements UpdateSelection {
 	public static final int VIEW_ASSIGNMENT = 8192;
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
+	public static final int VIEW_DATA_COLLECTION = 43;
 	/** id for Python view */
 	// public static final int VIEW_PYTHON = 16384;
 	private boolean showResetIcon = false;

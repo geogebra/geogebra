@@ -132,7 +132,7 @@ public abstract class AppW extends App implements SetLabels {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
-	public static final int VIEW_DATA_COLLECTION = 43;
+
 
 	private DrawEquationWeb drawEquation;
 
