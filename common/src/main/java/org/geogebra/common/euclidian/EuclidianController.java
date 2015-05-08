@@ -8638,7 +8638,7 @@ public abstract class EuclidianController {
 				dontClearSelection = true;
 			}
 
-			if (hits.isEmpty() || !app.has(Feature.SF_DRAG)) {
+			if (hits.isEmpty() || needsAxisZoom(hits, event) ||!app.has(Feature.SF_DRAG)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
 				view.setMode(getModeForShallMoveView(event));
@@ -8652,6 +8652,11 @@ public abstract class EuclidianController {
 		switchModeForMousePressed(event);
 	}
 	
+	private boolean needsAxisZoom(Hits hits, AbstractEvent event) {
+		return (hits.hasXAxis() || hits.hasYAxis())
+				&& this.specialMoveEvent(event);
+	}
+
 	/**
 	 * 
 	 * @param event
@@ -8664,21 +8669,25 @@ public abstract class EuclidianController {
 
 	private boolean shallMoveView(AbstractEvent event) {
 		if (!app.has(Feature.SF_DRAG)) {
-			return app.isShiftDragZoomEnabled() && (
-			// MacOS: shift-cmd-drag is zoom
-					(event.isShiftDown() && !app.isControlDown(event)) // All
-																		// Platforms:
-																		// Shift
-																		// key
-							|| (event.isControlDown() && app.isWindows() // old
-																			// Windows
-																			// key:
-							// Ctrl
-							// key
-							) || app.isMiddleClick(event));
+			return specialMoveEvent(event);
 		}
 		return app.isShiftDragZoomEnabled()
 				&& (!doubleClickStarted && mode == EuclidianConstants.MODE_MOVE);
+	}
+
+	private boolean specialMoveEvent(AbstractEvent event) {
+		return app.isShiftDragZoomEnabled() && (
+		// MacOS: shift-cmd-drag is zoom
+				(event.isShiftDown() && !app.isControlDown(event)) // All
+																	// Platforms:
+																	// Shift
+																	// key
+						|| (event.isControlDown() && app.isWindows() // old
+																		// Windows
+																		// key:
+						// Ctrl
+						// key
+						) || app.isMiddleClick(event));
 	}
 
 	protected void runScriptsIfNeeded(GeoElement geo1) {

@@ -436,7 +436,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		this.prerelease = args != null
 				&& (args.containsArg("prerelease") || args
 						.containsArg("canary"));
-		this.prerelease = args != null && args.containsArg("canary");
+		this.canary = args != null && args.containsArg("canary");
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 
