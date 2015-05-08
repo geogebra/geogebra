@@ -104,14 +104,13 @@ public class WebsocketLogger extends SensorLogger {
 			handleIDchecked(String.valueOf(
 					JSON.get(json, Types.MOBILE_FOUND.toString())).equals(
 					"true"));
-		} else if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
-			if (JSON.get(json, Types.ACCELEROMETER_X.toString()).equals("true")
+		} else if (JSON.get(json, Types.ACCELEROMETER_X.toString())
+				.equals("true")
 					|| JSON.get(json, Types.ACCELEROMETER_X.toString()).equals(
 							"false")) {
-				handleAvailableSensors(json);
-			} else {
-				handleData(json);
-			}
+			handleAvailableSensors(json);
+		} else {
+			handleData(json);
 		}
 	}
 
@@ -219,6 +218,11 @@ public class WebsocketLogger extends SensorLogger {
 			                Types.MAGNETIC_FIELD_Z.toString())));
 		}
 		if (JSON.get(json, Types.ORIENTATION_X.toString()) != null) {
+			App.debug("Orientation is not null: "
+					+ timestamp
+					+ ", "
+					+ Float.parseFloat(JSON.get(json,
+							Types.ORIENTATION_X.toString())));
 			log(Types.ORIENTATION_X,
 					timestamp,
 					Float.parseFloat(JSON.get(json,
