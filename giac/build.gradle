@@ -9,8 +9,9 @@ def emccCommand = "emcc"
 if (System.env['EMCC'] != null) {
     emccCommand = System.env['EMCC']
     }
-// Emscripten should be configured before running this script.
+// Emscripten should be configured before running this script, and on the first run there may be problems.
 // FIXME: Not all version of Emscripten will work, or at least not automagically.
+// TODO: Change Emscripten to be the latest one and change LLVM binaries for GMP and MPFR.
 
 model {
     repositories {
