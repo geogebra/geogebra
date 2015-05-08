@@ -1,3 +1,8 @@
+// Gradle script to build Giac embedded for GeoGebra.
+// Authors: Balazs Bencze <balazs.bencze@geogebra.org>,
+// and Zoltan Kovacs <zoltan@geogebra.org>.
+// Based on Bernard Parisse's original Makefiles and other scripts.
+
 project.setDescription('Giac CAS for GeoGebra')
 
 apply plugin: 'cpp'
