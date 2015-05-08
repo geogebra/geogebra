@@ -836,8 +836,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (geo != null) {
 				text = geo.getLaTeXAlgebraDescription(true,
 				        StringTemplate.latexTemplateMQ);
-				if ((text != null)
-						&& text.length() < 500
+				if ((text != null) && text.length() < 1500
 						&& geo.isLaTeXDrawableGeo()) {
 					newLaTeX = true;
 				}
