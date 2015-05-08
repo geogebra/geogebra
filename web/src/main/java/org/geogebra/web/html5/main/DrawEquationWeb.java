@@ -1367,11 +1367,11 @@ GeoContainer rbti,
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = thisjq.mathquillggb('text');
 		elsecond.previousSibling.style.display = "block";
-		//var rett =
-		@org.geogebra.web.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
-		//if (rett) {
-		thisjq.mathquillggb('revert').mathquillggb();
-		//}
+		var rett = @org.geogebra.web.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
+		if (!rett) {
+			// redefinition did not succeed
+			thisjq.mathquillggb('revert').mathquillggb();
+		}
 	}-*/;
 
 	public static native String getMathQuillContent(Element parentElement) /*-{

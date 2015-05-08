@@ -1225,7 +1225,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			this.ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
 		}
 		// maybe it's possible to enter something which is non-LaTeX
-		doUpdate();
+		if (ret)
+			doUpdate();
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
