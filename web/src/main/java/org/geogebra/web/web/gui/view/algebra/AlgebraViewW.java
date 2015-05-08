@@ -14,6 +14,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
+import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SettingListener;
@@ -242,7 +243,8 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		}
 
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
-			if (!geo.isIndependent() || !attached) // needed for F2 when Algebra
+			if ((!geo.isIndependent() && !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian))
+					|| !attached) // needed for F2 when Algebra
 				// View closed
 			{
 				if (geo.isRedefineable()) {
@@ -254,10 +256,14 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 			if (!geo.isChangeable()) {
 				if (geo.isFixed()) {
 					app.showMessage(loc.getError("AssignmentToFixed"));
-				} else if (geo.isRedefineable()) {
+					return;
+				} else if (geo.isRedefineable()
+						&& !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
 					app.getDialogManager().showRedefineDialog(geo, true);
+					return;
+				} else if (!(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
+					return;
 				}
-				return;
 			}
 		}
 

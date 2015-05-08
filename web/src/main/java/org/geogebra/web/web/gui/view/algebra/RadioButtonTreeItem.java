@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1421,7 +1422,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	private boolean shouldEditLaTeX() {
 		return (LaTeX || geo.isGeoPoint() || geo.isGeoNumeric())
-				&& !geo.isGeoVector() && geo.isIndependent();
+				&& !geo.isGeoVector()
+				&& (geo.isIndependent() || (geo.getParentAlgorithm() instanceof AlgoCurveCartesian));
+		// AlgoCurveCartesian3D is an instance of AlgoCurveCartesian too
 	}
 
 	@Override
