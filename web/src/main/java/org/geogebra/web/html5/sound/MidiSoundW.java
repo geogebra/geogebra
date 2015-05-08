@@ -15,7 +15,7 @@ public class MidiSoundW {
 	private int outputPort;
 	public MidiSoundW() {
 		initialize();
-		outputPort = 4;
+		outputPort = 0;
 	}
 
 	public void initialize() {
