@@ -31,7 +31,9 @@ public class SoundManagerW implements SoundManager {
 
 	public void playSequenceNote(int note, double duration, int instrument,
 			int velocity) {
-		MidiW.INSTANCE.playNote(instrument, note, velocity, duration);
+
+		stopCurrentSound();
+		getMidiSound().playSequenceNote(instrument, note, velocity, duration);
 	}
 
 	public void playSequenceFromString(String string, int double1) {
@@ -76,6 +78,13 @@ public class SoundManagerW implements SoundManager {
 
 	}
 
+	MidiSoundW getMidiSound() {
+		return MidiSoundW.INSTANCE;
+	}
+	
+	public void stopCurrentSound() {
+		getMidiSound().stop();
+	}
 	public void playFunction(GeoFunction geoFunction, double double1,
 	        double double2, int double3, int double4) {
 		App.debug("unimplemented");
@@ -95,5 +104,6 @@ public class SoundManagerW implements SoundManager {
 		});
 
 	}-*/;
+	
 
 }
