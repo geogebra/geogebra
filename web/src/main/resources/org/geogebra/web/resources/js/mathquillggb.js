@@ -2783,6 +2783,52 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       }
     }
   };
+  _.addNewRow = function(cursor) {
+    if (this.ctrlSeq === '\\ggbtable') {
+      // remember the place of the cursor, because it
+      // should go back there after this operation!
+      var cursorl = cursor[L];//command
+      var cursorr = cursor[R];//command
+      var cursorp = cursor.parent;//block
+
+      // adding one simple ggbtr, and so much simple ggbtd
+      // that are contained in one ggbtr (i.e. number of cols)
+      // luckily, the number of colums is (this.thisCol+1)
+
+      // try to generate latex and then renderLatex or writeLatex!
+      var numCols = this['tableCol'];
+      var strLatex = '\\ggbtr{ ';
+      for (var lv = 0; lv < numCols; lv++) {
+    	strLatex += '\\ggbtd{0} ';
+      }
+      strLatex += '}';
+      cursor.appendTo(this.ch[L]);
+      //==cursor.appendDir(R, this.ch[L]);
+      cursor.writeLatex(strLatex);
+
+      // now we should do something like lateInit does!
+      if (this.ch[L] && this.ch[L].ch[R]) {
+    	// in theory, this is not the cursor,
+    	// but the \\ggbtr element
+        this.ch[L].ch[R].preOrder('lateInit');
+      }
+
+      // put the cursor back to its original place
+      if (cursorl) {
+    	cursor.insertAfter(cursorl);
+      } else if (cursorr) {
+    	cursor.insertBefore(cursorr);
+      } else if (cursorp) {
+    	cursor.appendDir(L, cursorp);
+      }
+      cursor.show();
+    }
+  };
+  _.addNewCol = function(cursor) {
+    if (this.ctrlSeq === '\\ggbtable') {
+      // TODO
+    }
+  };
   _.moveTowards = function(dir, cursor) {
     cursor.appendDir(-dir, this.ch[-dir]);
     // Okay, we've moved into this, but maybe
@@ -2998,7 +3044,7 @@ LatexCmds.vec = bind(SomethingHTML, '\\vec', vecHTML);
 LatexCmds.cr = bind(Symbol, '\\cr', '<div style="display:block;height:1px;width:1px;"> </div>');
 LatexCmds.equals = bind(Symbol, '\\equals', ' <span>=</span> ');// to be different from simple "="
 
-var ggbtableHTML = '<table class="spec" style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0">&0</table>';
+var ggbtableHTML = '<table class="spec spectable" style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0">&0</table>';
 var ggbtrHTML = '<tr>&0</tr>';
 var ggbtrlHTML = '<tr style="border-top: black solid 2px; border-bottom: black solid 2px;">&0</tr>';
 var ggbtrltHTML = '<tr style="border-top: black solid 2px;">&0</tr>';
@@ -6219,19 +6265,47 @@ $.fn.mathquillggb = function(cmd, latex) {
     // do not mix different commands in any case
     return undefined;
   case 'matrixnewrow':
-	// for adding one new row to matrices
-	// ? should we make MQ be able to remove rows ?
+    // for adding one new row to matrices
+    // ? should we make MQ be able to remove rows ?
 
-    // TODO
+    return this.each(function() {
+      var blockId = $(this).attr(mqBlockId),
+          block = blockId && Node.byId[blockId],
+          cursor = block && block.cursor;
 
+      // in order to add a new row to the matrix,
+      // we shall seek the matrix, the place of
+      // which does not depend on the place of cursor
+      var tableJQ = $(this).find('.spectable');
+      //var tableID = $(tableJQ[0]).attr('mathquillggb-command-id');
+      var tableID = $(tableJQ[0]).attr(mqCmdId);
+      var tablock = tableID && Node.byId[tableID];
+
+      // best is to implement it there and call its method
+      tablock.addNewRow(cursor);
+    });
     // do not mix different commands in any case
     return undefined;
   case 'matrixnewcol':
 	// for adding one new column to matrices
 	// ? should we make MQ be able to remove columns ?
 
-    // TODO
+    return this.each(function() {
+      var blockId = $(this).attr(mqBlockId),
+          block = blockId && Node.byId[blockId],
+          cursor = block && block.cursor;
 
+      // in order to add a new row to the matrix,
+      // we shall seek the matrix, the place of
+      // which does not depend on the place of cursor
+      var tableJQ = $(this).find('.spectable');
+      //var tableID = $(tableJQ[0]).attr('mathquillggb-command-id');
+      var tableID = $(tableJQ[0]).attr(mqCmdId);
+      var tablock = tableID && Node.byId[tableID];
+
+      // best is to implement it there and call its method
+      tablock.addNewCol(cursor);
+    });
     // do not mix different commands in any case
     return undefined;
   case 'piecewisenewrow':

@@ -1089,6 +1089,19 @@ GeoContainer rbti,
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('simpaste', str);
 	}-*/;
 
+	/**
+	 * This method should add a new (zero) row to the first matrix in formula
+	 */
+	public static native void addNewRowToMatrix(Element parentElement) /*-{
+		if (parentElement) {
+			//var elfirst = parentElement.firstChild.firstChild;
+			var elsecond = parentElement.firstChild.firstChild.nextSibling;
+			var elsecondInside = elsecond.lastChild;
+
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixnewrow');
+		}
+	}-*/;
+
 	// documentation in RadioButtonTreeItem.keydown
 	public static native void triggerKeydown(Element parentElement,
 	        int keycode, boolean altk, boolean ctrlk, boolean shiftk) /*-{

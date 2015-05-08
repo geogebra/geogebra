@@ -4,7 +4,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.web.html5.main.DrawEquationWeb;
 
+import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.safehtml.shared.SafeUri;
 
 /**
@@ -60,10 +62,17 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 	}
 
 	public void increaseRows() {
-
+		DrawEquationWeb.addNewRowToMatrix(seMayLatex);
 	}
 
 	public void increaseCols() {
 
+	}
+
+	@Override
+	public void onDoubleClick(DoubleClickEvent evt) {
+		super.onDoubleClick(evt);
+		// only for testing!
+		// increaseRows();
 	}
 }
