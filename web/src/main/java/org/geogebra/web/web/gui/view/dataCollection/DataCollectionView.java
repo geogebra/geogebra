@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.CmdDataFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -105,7 +106,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 * handles a click on this view. used to recognize if this view gains focus.
 	 */
 	void handleClick() {
-		this.app.setActiveView(AppW.VIEW_DATA_COLLECTION);
+		this.app.setActiveView(App.VIEW_DATA_COLLECTION);
 	}
 
 	private void createGUI() {
@@ -128,8 +129,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 			@Override
 			public void onClick(Widget source) {
-				app.getGuiManager().setShowView(false,
-						AppW.VIEW_DATA_COLLECTION);
+				app.getGuiManager()
+						.setShowView(false, App.VIEW_DATA_COLLECTION);
 			}
 		});
 		closeButtonPanel.add(closeButton);
@@ -201,9 +202,11 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					connectButton.setDown(true);
-					appIDTextBox.setFocus(false);
-					handleConnectionClicked();
+					if (appIDTextBox.getText().length() > 0) {
+						connectButton.setDown(true);
+						appIDTextBox.setFocus(false);
+						handleConnectionClicked();
+					}
 				}
 			}
 		});
@@ -216,7 +219,11 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 			@Override
 			public void onClick(ClickEvent event) {
-				handleConnectionClicked();
+				if (appIDTextBox.getText().length() > 0) {
+					handleConnectionClicked();
+				} else {
+					connectButton.setDown(false);
+				}
 			}
 		});
 
@@ -247,7 +254,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 					appIDTextBox.getText());
 		} else {
 			appIDTextBox.setEnabled(true);
-			// setSensorSettingsEnabled()
 			this.connectionStatus.setVisible(false);
 			((AppWapplication) app).getDataCollection().onDisconnect();
 			for (SensorSetting setting : this.sensors) {
