@@ -2826,7 +2826,46 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
   };
   _.addNewCol = function(cursor) {
     if (this.ctrlSeq === '\\ggbtable') {
-      // TODO
+      // remember the place of the cursor, because it
+      // should go back there after this operation!
+      var cursorl = cursor[L];//command
+      var cursorr = cursor[R];//command
+      var cursorp = cursor.parent;//block
+
+      var numRows = this['tableRow'];
+      var numCols = this['tableCol'];
+      this['tableRow'] = 0;
+
+      var strLatex = '\\ggbtd{0}';
+      cursor.prependTo(this.ch[L]);
+      // now the cursor is in the block of \\ggbtable,
+      // and cursor[R] is a \\ggbtr, probably
+      var actual = cursor;
+      while (actual[R]) {
+        actual = actual[R];
+    	if (actual.ctrlSeq && actual.ctrlSeq.indexOf('\\ggbtr') > -1) {
+    	  cursor.appendTo(actual.ch[L]);
+    	  cursor.writeLatex(strLatex);
+    	  if (actual.ch[L] && actual.ch[L].ch[R]) {
+            this['tableCol'] = numCols;
+        	this['tableRow']++;
+    	    actual.ch[L].ch[R].preOrder('lateInit');
+    	  }
+    	}
+      }
+
+      this['tableRow'] = numRows;
+      this['tableCol'] = numCols + 1;
+
+      // put the cursor back to its original place
+      if (cursorl) {
+    	cursor.insertAfter(cursorl);
+      } else if (cursorr) {
+    	cursor.insertBefore(cursorr);
+      } else if (cursorp) {
+    	cursor.appendDir(L, cursorp);
+      }
+      cursor.show();
     }
   };
   _.moveTowards = function(dir, cursor) {

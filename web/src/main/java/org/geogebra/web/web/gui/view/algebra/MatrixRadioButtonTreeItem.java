@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.safehtml.shared.SafeUri;
 
@@ -62,11 +63,19 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 	}
 
 	public void increaseRows() {
-		DrawEquationWeb.addNewRowToMatrix(seMayLatex);
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
+			}
+		});
 	}
 
 	public void increaseCols() {
-
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				DrawEquationWeb.addNewColToMatrix(seMayLatex);
+			}
+		});
 	}
 
 	@Override
@@ -74,5 +83,6 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		super.onDoubleClick(evt);
 		// only for testing!
 		// increaseRows();
+		// increaseCols();
 	}
 }
