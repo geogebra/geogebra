@@ -66,5 +66,7 @@ project(':web') {
 }
 
 ext.joglVersion = '2.2.0'
-// ext.javaGiacVersion = '40489'
+
+// This is automatically updated when there is a new version of Giac out:
 ext.javaGiacVersion = '40489'
+// Please don't change this line since the automatism looks for exact match.
