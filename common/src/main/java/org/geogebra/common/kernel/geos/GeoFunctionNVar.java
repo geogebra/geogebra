@@ -464,6 +464,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
+		getCaptionXML(sb);
 		if (getListenersToo)
 			getListenerTagsXML(sb);
 		// sb.append(sb);
