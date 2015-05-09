@@ -6,18 +6,18 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.MyZoomer;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -845,14 +845,14 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		projectionMatrix.set(1, 3, perspXZ);
 		projectionMatrix.set(2, 3, (perspTop[eye] + perspBottom[eye])
 				/ (perspTop[eye] - perspBottom[eye]));
-		projectionMatrix.set(3, 3, 0);
+		projectionMatrix.set(3, 3, 2 * perspFocus[eye] / getVisibleDepth());
 		projectionMatrix.set(4, 3, -1);
 
 		projectionMatrix.set(1, 4, 0);// (perspRight+perspLeft)/(perspRight-perspLeft)
 										// * perspFocus);
 		projectionMatrix.set(2, 4, 0);// (perspTop+perspBottom)/(perspTop-perspBottom)
 										// * perspFocus);
-		projectionMatrix.set(3, 4, -getVisibleDepth() / 2);
+		projectionMatrix.set(3, 4, getVisibleDepth() / 2);
 		projectionMatrix.set(4, 4, -perspFocus[eye]);
 
 	}
