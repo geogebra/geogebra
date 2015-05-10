@@ -2503,7 +2503,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		 * @return new bounds
 		 */
 		public Bounds addRestriction(ExpressionNode e) {
-			if (e.getOperation().equals(Operation.AND)) {
+			if (e.getOperation().equals(Operation.AND)
+					|| e.getOperation().equals(Operation.AND_INTERVAL)) {
 				return addRestriction(e.getLeftTree()).addRestriction(
 						e.getRightTree());
 			}
