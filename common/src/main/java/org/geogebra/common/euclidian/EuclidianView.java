@@ -26,6 +26,7 @@ import org.geogebra.common.euclidian.draw.DrawButton;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawLine;
+import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -33,7 +34,6 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.draw.DrawVector;
-import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
@@ -49,13 +49,13 @@ import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -3576,8 +3576,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 							boolean zero = strNum.equals(crossAtStr);
 							// if label intersects the y-axis then draw it 6
 							// pixels to the left
-							if (zero && showAxes[1] && !positiveAxes[1]
-									&& axisCross[1] == 0) {
+							if (zero && showAxes[1] && !positiveAxes[1]) {
 								x = (int) (pix + 6);
 							} else {
 								x = (int) ((pix + xoffset) - (estimateTextWidth(
@@ -3723,8 +3722,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 							// if the label is at the axis cross point then draw
 							// it 2 pixels above
-							if (zero && showAxes[0] && !positiveAxes[0]
-									&& axisCross[0] == 0) {
+							if (zero && showAxes[0] && !positiveAxes[0]) {
 								y = (int) (yCrossPix - 2);
 							} else {
 								y = (int) (pix + yoffset);
