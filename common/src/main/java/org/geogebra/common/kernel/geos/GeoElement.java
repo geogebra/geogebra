@@ -117,7 +117,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	// private static int geoElementID = Integer.MIN_VALUE;
 
-	private static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
+	protected static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
 			'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
 			'T', 'U', 'V', 'W', 'Z' };
 

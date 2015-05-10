@@ -936,7 +936,12 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 			assignmentVar = var;
 		} else {
-			changeAssignmentVar(var, getDefaultLabel());
+			
+			changeAssignmentVar(var,
+					getDefaultLabel(
+							!Character.isLowerCase(var.charAt(0)) ? GeoElement.pointLabels
+									: null,
+							false));
 		}
 
 		// store label of this CAS cell in Construction
