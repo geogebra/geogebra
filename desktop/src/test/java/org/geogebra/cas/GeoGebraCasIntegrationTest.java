@@ -2936,8 +2936,12 @@ static public boolean silent = false;
   @Test
   public void Solve_Trig_0 () {
     // "{x = (4 * k_INDEX * pi - pi) / 4}"
-    s("Solve[3 * tan(x) + 3 = 0]", "{x = k_INDEX * " + Unicode.PI_STRING + " - 1 / 4 * " + Unicode.PI_STRING + "}");
+		s("Solve[3 * tan(x) + 3 = 0]", "{x = k_INDEX * " + Unicode.PI_STRING
+				+ " - 1 / 4 * " + Unicode.PI_STRING + "}");
+		s("Solve[e^(-x/4)*(sin(x)+4*cos(x))]", "{x = k_INDEX * "
+				+ Unicode.PI_STRING + " - atan(4)}");
   }
+
 
   @Test
   public void Solve_Trig_1 () {
