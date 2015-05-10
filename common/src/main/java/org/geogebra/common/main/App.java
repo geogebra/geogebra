@@ -3476,7 +3476,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	protected AppCompanion companion;
-	private OpenFileListener openFileListener;
+	private ArrayList<OpenFileListener> openFileListener;
 
 	protected AppCompanion newAppCompanion() {
 		return new AppCompanion(this);
@@ -3498,13 +3498,25 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void registerOpenFileListener(OpenFileListener o) {
-		this.openFileListener = o;
+		if (openFileListener == null) {
+			this.openFileListener = new ArrayList<OpenFileListener>();
+		}
+		this.openFileListener.add(o);
+	}
+
+	public void unregisterOpenFileListener(OpenFileListener o) {
+		if (openFileListener != null) {
+			return;
+		}
+		this.openFileListener.remove(o);
 	}
 
 	protected void onOpenFile() {
 		if (this.openFileListener != null) {
-			this.openFileListener.onOpenFile();
-			this.openFileListener = null;
+			for (OpenFileListener listener : openFileListener) {
+				listener.onOpenFile();
+			}
+
 		}
 	}
 

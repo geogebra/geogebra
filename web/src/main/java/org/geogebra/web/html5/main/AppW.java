@@ -1768,6 +1768,9 @@ public abstract class AppW extends App implements SetLabels {
 		}, false);
 	}-*/;
 
+	/**
+	 * @return preferred size
+	 */
 	public GDimension getPreferredSize() {
 		if (preferredSize == null) {
 			return new GDimensionW(800, 600);

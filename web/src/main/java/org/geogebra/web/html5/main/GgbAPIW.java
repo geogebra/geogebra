@@ -64,13 +64,14 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 	public void setBase64(String base64, final JavaScriptObject callback) {
 		if (callback != null) {
-			app.registerOpenFileListener(new OpenFileListener() {
+			OpenFileListener listener = new OpenFileListener() {
 
 				public void onOpenFile() {
 					ScriptManagerW.runCallback(callback);
-
+					app.unregisterOpenFileListener(this);
 				}
-			});
+			};
+			app.registerOpenFileListener(listener);
 		}
 		setBase64(base64);
 	}

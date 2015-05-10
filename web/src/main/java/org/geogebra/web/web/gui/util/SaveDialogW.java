@@ -570,7 +570,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				this.listBox.setSelectedIndex(Visibility.Private.getIndex());
 			}
 		}
-
+		listBox.setVisible(app.getFileManager().getFileProvider() == Provider.TUBE);
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.saveButton.setEnabled(false);
 		}
