@@ -173,9 +173,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 					newMat.setSyncStamp(newMat.getModified());
 					app.setTubeId(newMat.getId());
-
-					app.setSyncStamp(parseResponse.get(0).getModified());
-					saveLocalIfNeeded(parseResponse.get(0).getModified(),
+					app.setActiveMaterial(newMat);
+					app.setSyncStamp(newMat.getModified());
+					saveLocalIfNeeded(newMat.getModified(),
 					        forked ? SaveState.FORKED : SaveState.OK);
 					// if we got there via file => new, do the file =>new now
 					runAfterSaveCallback();
