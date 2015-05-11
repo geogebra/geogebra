@@ -126,6 +126,10 @@ public abstract class FileManager implements FileManagerI {
 		        .getActiveEuclidianView())
 		        .getCanvasBase64WithTypeString());
 		mat.setAuthor(app.getLoginOperation().getUserName());
+		if (app.getActiveMaterial() != null) {
+			mat.setVisibility(app.getActiveMaterial().getVisibility());
+			mat.setURL(app.getActiveMaterial().getURL());
+		}
 		return mat;
 	}
 

@@ -66,7 +66,7 @@ public class FileManagerW extends FileManager {
 		String key = createKeyString(id, getApp().getKernel().getConstruction()
 		        .getTitle());
 		mat.setLocalID(id);
-		mat.setTitle(getApp().getKernel().getConstruction().getTitle());
+
 		stockStore.setItem(key, mat.toJson().toString());
 		cb.onSaved(mat, true);
 
