@@ -106,6 +106,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 		if (((App3D) app).useShaders()) {
 			return new RendererShaders(this, !app.isApplet());
+			// return new RendererShadersElements(this, !app.isApplet());
 		}
 		return new RendererGLPickingGL2(this, !app.isApplet());
 

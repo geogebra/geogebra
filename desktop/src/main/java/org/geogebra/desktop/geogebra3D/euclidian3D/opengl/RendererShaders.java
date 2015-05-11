@@ -37,10 +37,10 @@ import org.geogebra.desktop.main.AppD;
 public class RendererShaders extends RendererD implements
 		RendererShadersInterface {
 
-	final static private int GLSL_ATTRIB_POSITION = 0;
-	final static private int GLSL_ATTRIB_COLOR = 1;
-	final static private int GLSL_ATTRIB_NORMAL = 2;
-	final static private int GLSL_ATTRIB_TEXTURE = 3;
+	final static protected int GLSL_ATTRIB_POSITION = 0;
+	final static protected int GLSL_ATTRIB_COLOR = 1;
+	final static protected int GLSL_ATTRIB_NORMAL = 2;
+	final static protected int GLSL_ATTRIB_TEXTURE = 3;
 
 	/**
 	 * constructor
@@ -76,7 +76,7 @@ public class RendererShaders extends RendererD implements
 	private int dashValuesLocation; // values for dash
 	private int textureTypeLocation; // textures
 	private int colorLocation; // color
-	private int normalLocation; // one normal for all vertices
+	protected int normalLocation; // one normal for all vertices
 	private int centerLocation; // center
 	private int enableClipPlanesLocation, clipPlanesMinLocation,
 			clipPlanesMaxLocation; // enable / disable clip planes
@@ -89,7 +89,10 @@ public class RendererShaders extends RendererD implements
 	final static private int TEXTURE_TYPE_DASH = 4;
 
 	private int[] vboHandles;
-	private int vboVertices, vboColors, vboNormals, vboTextureCoords;
+	protected int vboVertices;
+	protected int vboColors;
+	protected int vboNormals;
+	protected int vboTextureCoords;
 
 	private String loadTextFile(String file) {
 
@@ -334,6 +337,7 @@ public class RendererShaders extends RendererD implements
 	 * }
 	 */
 
+	@Override
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 
 		// ///////////////////////////////////
@@ -360,9 +364,9 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
 	}
 
-	private boolean oneNormalForAllVertices;
+	protected boolean oneNormalForAllVertices;
 
-	private void resetOneNormalForAllVertices() {
+	protected void resetOneNormalForAllVertices() {
 		oneNormalForAllVertices = false;
 		jogl.getGL2ES2().glUniform3f(normalLocation, 2, 2, 2);
 	}
@@ -372,7 +376,7 @@ public class RendererShaders extends RendererD implements
 	 * 
 	 * @param numBytes
 	 *            data size
-	 * @param array
+	 * @param fb
 	 *            buffer array
 	 */
 	protected void glBufferData(int numBytes, GLBuffer fb) {
@@ -381,8 +385,9 @@ public class RendererShaders extends RendererD implements
 
 	}
 
-	private float[] tmpNormal3 = new float[3];
+	protected float[] tmpNormal3 = new float[3];
 
+	@Override
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
 
 		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
@@ -426,6 +431,7 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 	}
 
+	@Override
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
 
 		if (fbTextures == null || fbTextures.isEmpty()) {
@@ -455,7 +461,9 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
+	@Override
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
+
 
 		if (fbColors == null || fbColors.isEmpty()) {
 			return;
@@ -485,6 +493,7 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
 	}
 
+	@Override
 	public void draw(Manager.Type type, int length) {
 
 		// ///////////////////////
@@ -493,7 +502,7 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glDrawArrays(ManagerD.getGLType(type), 0, length);
 	}
 
-	private final void setModelViewIdentity() {
+	protected final void setModelViewIdentity() {
 		projectionMatrix.getForGL(tmpFloat16);
 		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,
 				tmpFloat16, 0);
@@ -1068,6 +1077,7 @@ public class RendererShaders extends RendererD implements
 	/**
 	 * enable text textures
 	 */
+	@Override
 	final public void enableTexturesForText() {
 		super.enableTexturesForText();
 		setCurrentTextureType(TEXTURE_TYPE_TEXT);
@@ -1081,6 +1091,7 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glUniform1i(textureTypeLocation, type);
 	}
 
+	@Override
 	public boolean areTexturesEnabled() {
 		return texturesEnabled;
 	}
@@ -1232,6 +1243,7 @@ public class RendererShaders extends RendererD implements
 		return true;
 	}
 
+	@Override
 	public void setCenter(Coords center) {
 		float[] c = center.get4ForGL();
 		// set radius info
@@ -1241,6 +1253,7 @@ public class RendererShaders extends RendererD implements
 
 	private float[] resetCenter = { 0f, 0f, 0f, 0f };
 
+	@Override
 	public void resetCenter() {
 		jogl.getGL2ES2().glUniform4fv(centerLocation, 1, resetCenter, 0);
 	}
@@ -1273,5 +1286,15 @@ public class RendererShaders extends RendererD implements
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);
 
+	}
+
+	@Override
+	protected void enableLightingOnInit() {
+		// no need for shaders
+	}
+
+	@Override
+	protected void initCulling() {
+		// no need for shaders
 	}
 }

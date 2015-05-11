@@ -1868,14 +1868,13 @@ public abstract class Renderer {
 
 		// setLight(GLlocal.GL_LIGHT0);
 		setLightModel();
-		enableLighting();
+		enableLightingOnInit();
 
 		// common enabling
 		enableDepthTest();
 		setDepthFunc();
 		enablePolygonOffsetFill();
-		enableCulling();
-		setCullFaceBack();
+		initCulling();
 
 		// blending
 		setBlendFunc();
@@ -1899,6 +1898,15 @@ public abstract class Renderer {
 		// ensure that animation is on (needed when undocking/docking 3D view)
 		resumeAnimator();
 
+	}
+
+	protected void enableLightingOnInit() {
+		enableLighting();
+	}
+
+	protected void initCulling() {
+		enableCulling();
+		setCullFaceBack();
 	}
 
 	/**

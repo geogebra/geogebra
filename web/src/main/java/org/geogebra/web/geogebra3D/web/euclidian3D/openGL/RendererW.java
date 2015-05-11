@@ -1429,6 +1429,16 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
+	protected void enableLightingOnInit() {
+		// no need for shaders
+	}
+
+	@Override
+	protected void initCulling() {
+		// no need for shaders
+	}
+
+	@Override
 	public void initLighting() {
 		if (view3D.getUseLight()) {
 			glContext.uniform1i(enableLightLocation, 1);
