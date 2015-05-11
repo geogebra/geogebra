@@ -26,7 +26,7 @@ import org.geogebra.web.web.util.SaveCallback;
 
 public abstract class FileManager implements FileManagerI {
 	private AppW app;
-	private Provider provider;
+	private Provider provider = Provider.TUBE;
 
 	public static final String AUTO_SAVE_KEY = "autosave";
 	public static final String FILE_PREFIX = "file_";
