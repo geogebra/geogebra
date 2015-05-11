@@ -1766,6 +1766,19 @@ function createRoot(jQ, root, textbox, editable) {
       .append(contents);
   };
 
+  // this might be an imperfect solution of updating the revert function
+  // without evaluating the formula by GeoGebraWeb, and recreating it...
+  // but maybe root.latex() is invalid, which might make things wrong,
+  // so the other way is chosen instead, i.e. evaluating and recreating
+  //root.updateRevert = function() {
+  //  var newContents = root.latex();
+  //  root.revert = function() {
+  //    jQ.empty().unbind('.mathquillggb')
+  //      .removeClass('mathquillggb-rendered-math mathquillggb-editable mathquillggb-textbox')
+  //      .append(newContents);
+  //  }
+  //};
+
   var cursor = root.cursor = Cursor(root);
 
   root.renderLatex(contents.text());
@@ -6322,6 +6335,7 @@ $.fn.mathquillggb = function(cmd, latex) {
 
       // best is to implement it there and call its method
       tablock.addNewRow(cursor);
+      //block.updateRevert();
     });
     // do not mix different commands in any case
     return undefined;
@@ -6344,6 +6358,7 @@ $.fn.mathquillggb = function(cmd, latex) {
 
       // best is to implement it there and call its method
       tablock.addNewCol(cursor);
+      //block.updateRevert();
     });
     // do not mix different commands in any case
     return undefined;

@@ -92,6 +92,12 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
 				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
+
+				// although we could update the reverting command in MQ,
+				// it's better to also update it in GeoGebraWeb,
+				// because this way it's sure the MQ formula is valid
+				DrawEquationWeb.endEditingEquationMathQuillGGB(
+						MatrixRadioButtonTreeItem.this, seMayLatex);
 			}
 		});
 	}
@@ -100,6 +106,12 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
 				DrawEquationWeb.addNewColToMatrix(seMayLatex);
+
+				// although we could update the reverting command in MQ,
+				// it's better to also update it in GeoGebraWeb,
+				// because this way it's sure the MQ formula is valid
+				DrawEquationWeb.endEditingEquationMathQuillGGB(
+						MatrixRadioButtonTreeItem.this, seMayLatex);
 			}
 		});
 	}
