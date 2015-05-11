@@ -48,17 +48,17 @@ WebMIDIAPIWrapper.prototype = {
 
         this.setMidiInputSelect.bind(this)();
         this.setMidiOutputSelect.bind(this)();
-        console.log("[OutputDevices] ", this.devices.outputs, "[InputDevices]", this.devices.inputs);
+        // console.log("[OutputDevices] ", this.devices.outputs, "[InputDevices]", this.devices.inputs);
     },
     ecb: function(msg){
-        console.log("[ERROR] " + msg);
+        // console.log("[ERROR] " + msg);
     },
     
     setMidiInputSelect: function() {
-        console.log("[ERROR] Set EventHandler : setMidiInputSelect");  
+        // console.log("[ERROR] Set EventHandler : setMidiInputSelect");  
     },
     setMidiOutputSelect: function() {
-        console.log("[ERROR] Set EventHandler : setMidiOutputSelect");  
+        // console.log("[ERROR] Set EventHandler : setMidiOutputSelect");  
     },
 
     setMidiInputToPort: function(selIdx, portNo, onmidimessage) {
@@ -81,7 +81,7 @@ WebMIDIAPIWrapper.prototype = {
     },
     _checkPortNo: function(portNo) {
         if(isNaN(portNo)===true) {
-            console.log("[ERROR] PortNo is NOT the type of number. ["+ portNo +"]");
+            // console.log("[ERROR] PortNo is NOT the type of number. ["+ portNo +"]");
             return false;
         }
         return parseInt(portNo ,10);
@@ -89,7 +89,7 @@ WebMIDIAPIWrapper.prototype = {
     sendNoteOn: function(portNo, ch, note, velocity, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -103,7 +103,7 @@ WebMIDIAPIWrapper.prototype = {
     sendNoteOff: function(portNo, ch, note, velocity, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -117,7 +117,7 @@ WebMIDIAPIWrapper.prototype = {
     sendProgramChange: function(portNo, ch, programNo, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -135,7 +135,7 @@ WebMIDIAPIWrapper.prototype = {
     sendPitchBend: function(portNo, ch, value, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -150,7 +150,7 @@ WebMIDIAPIWrapper.prototype = {
     sendSustainStatus: function(portNo, ch, status, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -166,7 +166,7 @@ WebMIDIAPIWrapper.prototype = {
     sendModulationValue: function(portNo, ch, value, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -178,7 +178,7 @@ WebMIDIAPIWrapper.prototype = {
     sendAllSoundOff: function(portNo, ch, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -189,7 +189,7 @@ WebMIDIAPIWrapper.prototype = {
     sendResetAllController: function(portNo, ch, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -200,7 +200,7 @@ WebMIDIAPIWrapper.prototype = {
     sendAllNoteOff: function(portNo, ch, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
@@ -211,12 +211,12 @@ WebMIDIAPIWrapper.prototype = {
     sendRaw: function(portNo, msg, time) {
         var portNo=this._checkPortNo(portNo);
         if(portNo===false) {
-            console.log("[ERROR] @sendNoteOn");
+            // console.log("[ERROR] @sendNoteOn");
             return;
         }
         var now=this.performanceNow;
         if(this._checkTyeof("array", msg)===true) {
-            console.log("[Error] SendRaw : msg must array." + msg);
+            // console.log("[Error] SendRaw : msg must array." + msg);
             return;
         }
         this.ports.out[portNo].send(msg, now+time);
@@ -239,7 +239,7 @@ WebMIDIAPIWrapper.prototype = {
                 event.type="SysEx";
                 event.raw=msg;
             } else {
-                console.log("Not Supportted Message. ", msg);
+                // console.log("Not Supportted Message. ", msg);
             }
             out={
                 "type": event.type,
@@ -490,7 +490,7 @@ WebMIDIAPIWrapper.prototype = {
                 }
                 break;
             default:
-                console.log("Not Supportted Message. ", msg);
+                // console.log("Not Supportted Message. ", msg);
                 return;
                 break;
             }
