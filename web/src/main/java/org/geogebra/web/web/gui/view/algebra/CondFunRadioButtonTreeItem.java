@@ -45,7 +45,6 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 				AppResources.INSTANCE.point_cross()), new ClickHandler() {
 			public void onClick(ClickEvent ce) {
 				addNewRow();
-				// prevent going into editing mode by double-click!
 				ce.preventDefault();
 				ce.stopPropagation();
 			}
@@ -63,8 +62,9 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 			public void execute() {
 				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
 
-				// DrawEquationWeb.endEditingEquationMathQuillGGB(
-				// CondFunRadioButtonTreeItem.this, seMayLatex);
+				// it seems clicking elsewhere closes editing mode,
+				// but we need to be there in case of piecewise functions!
+				ensureEditing();
 			}
 		});
 	}
