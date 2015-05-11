@@ -170,7 +170,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 	}
 	
-	public boolean selectMode(int mode) {
+	public boolean selectMode(int mode, ModeSetter m) {
 		String modeText = mode + "";
 
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
@@ -178,7 +178,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (menu.get(0) == mode) {
 				
 
-				showToolTipBottom(getTooltipURL(mode));
+				showToolTipBottom(getTooltipURL(mode), m);
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
@@ -209,7 +209,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);
 				
-				showToolTipBottom(getTooltipURL(mode));
+				showToolTipBottom(getTooltipURL(mode), m);
 				return true;
 			}
 		}
@@ -371,8 +371,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		toolTipText = string;
     }
 
-	public void showToolTipBottom(String helpURL){
+	public void showToolTipBottom(String helpURL, ModeSetter m) {
+		if (m != ModeSetter.CAS_VIEW) {
 		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, helpURL, ToolTipLinkType.Help, app);
+		}
 	}
 
 	/*

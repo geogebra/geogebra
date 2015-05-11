@@ -65,6 +65,7 @@ import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -2571,7 +2572,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public int setToolbarMode(int mode) {
+	public int setToolbarMode(int mode, ModeSetter m) {
 		if (toolbarPanel == null) {
 			return 0;
 		}

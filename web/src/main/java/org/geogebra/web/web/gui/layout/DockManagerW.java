@@ -1284,7 +1284,7 @@ public class DockManagerW extends DockManager {
 	/**
 	 * @return The dock panel which has focus at the moment.
 	 */
-	public DockPanel getFocusedPanel() {
+	public DockPanelW getFocusedPanel() {
 		return focusedDockPanel;
 	}
 	

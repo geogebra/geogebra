@@ -730,7 +730,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void toolCompleted() {
 		if (!USE_STICKY_TOOLS && !actualSticky) {
 			// changes the selected button in the toolbar
-			((AppW) app).getToolbar().setMode(0);
+			((AppW) app).getToolbar().setMode(0, ModeSetter.TOOLBAR);
 
 			// change mode of the EV
 			app.getActiveEuclidianView().setMode(0, ModeSetter.TOOLBAR);

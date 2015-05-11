@@ -20,6 +20,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.GTextComponent;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1465,12 +1466,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public int setToolbarMode(final int mode) {
+	public int setToolbarMode(final int mode, ModeSetter m) {
 		if (toolbarPanel == null) {
 			return 0;
 		}
 
-		final int ret = toolbarPanel.setMode(mode);
+		final int ret = toolbarPanel.setMode(mode, m);
 		if (this.updateToolBar != null) {
 			this.updateToolBar.buildGui();
 		}

@@ -9,6 +9,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.util.UnorderedList;
@@ -104,7 +105,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.clear();
 		this.add(menuList);
 
-		setMode(app.getMode());
+		setMode(app.getMode(), ModeSetter.TOOLBAR);
 		// update();
 	}
 
@@ -134,7 +135,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	 *         available)
 	 */
 	@Override
-	public int setMode(int newMode) {
+	public int setMode(int newMode, ModeSetter m) {
 		boolean success = false;
 		int tmpMode = newMode;
 		// there is no special icon/button for the selection listener mode, use
@@ -147,14 +148,14 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		if (modeToggleMenus != null) {
 			for (int i = 0; i < modeToggleMenus.size(); i++) {
 				ModeToggleMenu mtm = modeToggleMenus.get(i);
-				if (mtm.selectMode(tmpMode)) {
+				if (mtm.selectMode(tmpMode, m)) {
 					success = true;
 					break;
 				}
 			}
 			
 			if (!success && tmpMode !=getFirstMode()) {
-				mode = setMode(getFirstMode());
+				mode = setMode(getFirstMode(), m);
 
 			}
 

@@ -520,7 +520,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// select toolbar button, returns *actual* mode selected - only for
 		// desktop
 		// if (caller_APP == DESKTOP) {
-		int newMode = setToolbarMode(mode);
+		int newMode = setToolbarMode(mode, m);
 
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER
 				&& newMode != mode) {
@@ -573,7 +573,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param mode
 	 * @return sets the toolbar's mode
 	 */
-	protected int setToolbarMode(int mode) {
+	protected int setToolbarMode(int mode, ModeSetter m) {
 		return 0;
 		// should be implemented in subclasses if needed
 	}

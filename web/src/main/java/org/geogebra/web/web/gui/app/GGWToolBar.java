@@ -787,8 +787,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	 * @return -1 //mode that was actually selected
 	 */
 	@Override
-	public int setMode(int mode) {
-		return toolbars.get(0).setMode(mode);
+	public int setMode(int mode, ModeSetter ms) {
+		return toolbars.get(0).setMode(mode, ms);
     }
 	
 	/**
