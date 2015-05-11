@@ -84,7 +84,8 @@ public class GeoGebraKeys implements KeyListener {
 
 		// when decimal comma typed on numeric keypad on eg German keyboard,
 		// replace with .
-		if (e.getKeyCode() == KeyEvent.VK_SEPARATOR
+
+		if ((e.getKeyCode() == KeyEvent.VK_SEPARATOR || e.getKeyChar() == ',')
 				&& e.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD) {
 			Log.warn("replacing decimal , with decimal .");
 			JTextComponent comp = (JTextComponent) e.getComponent();
