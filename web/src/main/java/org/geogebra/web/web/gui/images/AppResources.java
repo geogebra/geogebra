@@ -518,10 +518,12 @@ public interface AppResources extends ClientBundleWithLookup {
 	 * 
 	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-empty.png")
 	 * ImageResource point_empty();
-	 * 
-	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-cross.png")
-	 * ImageResource point_cross();
-	 * 
+	 */
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_point-cross.png")
+	ImageResource point_cross();
+
+	/*
 	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-cross-diag.png"
 	 * ) ImageResource point_cross_diag();
 	 * 

@@ -2835,6 +2835,49 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
     	cursor.appendDir(L, cursorp);
       }
       cursor.show();
+    } else if (this.pwtable) {
+      // this case is almost the same as \\ggbtable,
+      // but we shall add the new row before the last row
+      // in order to keep the \\textotherwise at its place,
+      // although this will make it difficult to update up/down
+
+      // remember the place of the cursor, because it
+      // should go back there after this operation!
+      var cursorl = cursor[L];//command
+      var cursorr = cursor[R];//command
+      var cursorp = cursor.parent;//block
+
+      // adding one simple ggbtr, and so much simple ggbtd
+      // that are contained in one ggbtr (i.e. number of cols)
+      // luckily, the number of colums is (this.thisCol+1)
+
+      // try to generate latex and then renderLatex or writeLatex!
+      var strLatex = '\\ggbtr{ ';
+      strLatex += '\\ggbtdL{0} ';
+      strLatex += '\\ggbtdL{ : \\space 0 \\lt 0 \\lt 0 } ';
+      strLatex += '}';
+      cursor.appendTo(this.ch[L]);
+      cursor.insertBefore(cursor[L]);
+      //==cursor.appendDir(R, this.ch[L]);
+      cursor.writeLatex(strLatex);
+
+      // now we should do something like lateInit does!
+      // TODO: later!
+      /*if (this.ch[L] && this.ch[L].ch[R]) {
+        // in theory, this is not the cursor,
+        // but the \\ggbtr element
+        this.ch[L].ch[R].preOrder('lateInit');
+      }*/
+
+      // put the cursor back to its original place
+      if (cursorl) {
+        cursor.insertAfter(cursorl);
+      } else if (cursorr) {
+        cursor.insertBefore(cursorr);
+      } else if (cursorp) {
+        cursor.appendDir(L, cursorp);
+      }
+      cursor.show();
     }
   };
   _.addNewCol = function(cursor) {
@@ -6318,6 +6361,7 @@ $.fn.mathquillggb = function(cmd, latex) {
     return undefined;
   case 'matrixnewrow':
     // for adding one new row to matrices
+	// /OR/ piecewise functions!
     // ? should we make MQ be able to remove rows ?
 
     return this.each(function() {

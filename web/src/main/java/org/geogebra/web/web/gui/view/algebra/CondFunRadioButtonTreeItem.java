@@ -1,10 +1,16 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.web.gui.images.AppResources;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
 
 /**
  * CondFunRadioButtonTreeItem for creating piecewise functions (conditional
@@ -19,10 +25,11 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 	 * possible when the user clicks on Algebra View GUI buttons designed for
 	 * this purpose - this should be empty and editable
 	 */
-	public CondFunRadioButtonTreeItem(Kernel kern) {
-		super(kern, null, AppResources.INSTANCE.shown().getSafeUri(),
-				AppResources.INSTANCE.hidden().getSafeUri());
-	}
+	/*
+	 * public CondFunRadioButtonTreeItem(Kernel kern) { super(kern, null,
+	 * AppResources.INSTANCE.shown().getSafeUri(),
+	 * AppResources.INSTANCE.hidden().getSafeUri()); }
+	 */
 
 	/**
 	 * Creating a SpecialRadioButtonTreeItem from existing construction as we
@@ -33,5 +40,32 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 	public CondFunRadioButtonTreeItem(GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
+
+		PushButton btnRow = new PushButton(new Image(
+				AppResources.INSTANCE.point_cross()), new ClickHandler() {
+			public void onClick(ClickEvent ce) {
+				addNewRow();
+				// prevent going into editing mode by double-click!
+				ce.preventDefault();
+				ce.stopPropagation();
+			}
+		});
+		btnRow.addStyleName("RadioButtonTreeItemSpecButton");
+		FlowPanel auxPanel = new FlowPanel();
+		auxPanel.add(btnRow);
+		auxPanel.addStyleName("RadioButtonTreeItemSpecButtonPanel");
+		add(auxPanel);
+		ihtml.getElement().appendChild(auxPanel.getElement());
+	}
+
+	public void addNewRow() {
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
+
+				// DrawEquationWeb.endEditingEquationMathQuillGGB(
+				// CondFunRadioButtonTreeItem.this, seMayLatex);
+			}
+		});
 	}
 }
