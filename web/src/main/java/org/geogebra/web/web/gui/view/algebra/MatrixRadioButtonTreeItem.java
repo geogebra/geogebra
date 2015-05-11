@@ -54,6 +54,9 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				AppResources.INSTANCE.point_down()), new ClickHandler() {
 			public void onClick(ClickEvent ce) {
 				increaseRows();
+				// prevent going into editing mode by double-click!
+				ce.preventDefault();
+				ce.stopPropagation();
 			}
 		});
 		btnRow.addStyleName("RadioButtonTreeItemSpecButton");
@@ -61,6 +64,9 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				AppResources.INSTANCE.point_right()), new ClickHandler() {
 			public void onClick(ClickEvent ce) {
 				increaseCols();
+				// prevent going into editing mode by double-click!
+				ce.preventDefault();
+				ce.stopPropagation();
 			}
 		});
 		btnCol.addStyleName("RadioButtonTreeItemSpecButton");
@@ -96,8 +102,23 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				// although we could update the reverting command in MQ,
 				// it's better to also update it in GeoGebraWeb,
 				// because this way it's sure the MQ formula is valid
+				// if (!commonEditingCheck())
+					// interestingly, this is important
+					// when we are NOT in editing mode! (and works)
+				// but the user might ACCIDENTALLY go into editing
+				// mode, so commonEditingCheck() removed, even if
+				// this way adding a new row will close editing mode!
+				// but we can go back to editing mode afterwards!
+				// boolean wasEditing = commonEditingCheck();
+
 				DrawEquationWeb.endEditingEquationMathQuillGGB(
 						MatrixRadioButtonTreeItem.this, seMayLatex);
+
+				// however, it's not easy, I'm only going to do it
+				// if it's considered important
+				// if (wasEditing) {
+				// av.startEditing(geo);
+				// }
 			}
 		});
 	}
@@ -110,8 +131,23 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				// although we could update the reverting command in MQ,
 				// it's better to also update it in GeoGebraWeb,
 				// because this way it's sure the MQ formula is valid
+				// if (!commonEditingCheck())
+					// interestingly, this is important
+					// when we are NOT in editing mode! (and works)
+				// but the user might ACCIDENTALLY go into editing
+				// mode, so commonEditingCheck() removed, even if
+				// this way adding a new row will close editing mode!
+				// but we can go back to editing mode afterwards!
+				// boolean wasEditing = commonEditingCheck();
+
 				DrawEquationWeb.endEditingEquationMathQuillGGB(
 						MatrixRadioButtonTreeItem.this, seMayLatex);
+
+				// however, it's not easy, I'm only going to do it
+				// if it's considered important
+				// if (wasEditing) {
+				// av.startEditing(geo);
+				// }
 			}
 		});
 	}

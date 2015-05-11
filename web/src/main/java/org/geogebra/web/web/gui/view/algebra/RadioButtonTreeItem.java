@@ -744,7 +744,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 *            boolean
 	 */
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (av.isEditing() || isThisEdited() || newCreationMode) {
+		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeydown(seMayLatex, key,
 			        alt, ctrl, shift);
 		}
@@ -768,7 +768,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 *            boolean maybe not useful
 	 */
 	public void keypress(int character, boolean alt, boolean ctrl, boolean shift) {
-		if (av.isEditing() || isThisEdited() || newCreationMode) {
+		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeypress(seMayLatex,
 			        character, alt, ctrl, shift);
 		}
@@ -789,7 +789,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 *            boolean
 	 */
 	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (av.isEditing() || isThisEdited() || newCreationMode) {
+		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeyUp(seMayLatex, key,
 			        alt, ctrl, shift);
 		}
@@ -810,6 +810,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 						.getAnimatonManager().isRunning())) {
 			doUpdate();
 		}
+	}
+
+	public boolean commonEditingCheck() {
+		return av.isEditing() || isThisEdited() || newCreationMode;
 	}
 
 	private void doUpdate() {
@@ -1387,7 +1391,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		if (av.isEditing() || isThisEdited() || newCreationMode)
+		if (commonEditingCheck())
 			return;
 
 		onDoubleClickAction(evt.isControlKeyDown());
@@ -1534,7 +1538,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		if (event.isRightClick()) {
 			onRightClick(event.getX(), event.getY());
-		} else if (av.isEditing() || isThisEdited() || newCreationMode) {
+		} else if (commonEditingCheck()) {
 			if (!av.isEditing() && !isThisEdited()) {
 				startEditing();
 			}
@@ -1610,7 +1614,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 	private void onPointerUp(AbstractEvent event) {
-		if (av.isEditing() || isThisEdited() || newCreationMode) {
+		if (commonEditingCheck()) {
 			return;
 		}
 		int mode = app.getActiveEuclidianView().getMode();
@@ -1681,7 +1685,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void onPointerMove(AbstractEvent event) {
-		if (av.isEditing() || isThisEdited() || newCreationMode)
+		if (commonEditingCheck())
 			return;
 
 		// tell EuclidianView to handle mouse over
@@ -1706,7 +1710,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void onRightClick(int x, int y) {
-		if (av.isEditing() || isThisEdited() || newCreationMode)
+		if (commonEditingCheck())
 			return;
 
 		SelectionManager selection = app.getSelectionManager();
