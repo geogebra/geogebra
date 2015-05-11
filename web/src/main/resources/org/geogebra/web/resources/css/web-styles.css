@@ -95,6 +95,15 @@
 	direction: ltr;
 }
 
+.RadioButtonTreeItemSpecButton {
+	display: inline-block;
+}
+
+.RadioButtonTreeItemSpecButtonPanel {
+	width: 100%;
+	text-align: center;
+}
+
 .AdvancedFocusPanelsTextarea {
 	position: absolute;
 	top: 0px;

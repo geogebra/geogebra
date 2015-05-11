@@ -512,35 +512,41 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("org/geogebra/web/web/gui/images/menuBarSubMenuIconRTL.gif")
 	ImageResource menuBarSubMenuIconRTL();*/
 
-	/*@Source("org/geogebra/common/icons/png30x30/stylingbar_point-full.png")
-	ImageResource point_full();
+	/*
+	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-full.png")
+	 * ImageResource point_full();
+	 * 
+	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-empty.png")
+	 * ImageResource point_empty();
+	 * 
+	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-cross.png")
+	 * ImageResource point_cross();
+	 * 
+	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-cross-diag.png"
+	 * ) ImageResource point_cross_diag();
+	 * 
+	 * @Source(
+	 * "org/geogebra/common/icons/png30x30/stylingbar_point-diamond-full.png")
+	 * ImageResource point_diamond();
+	 * 
+	 * @Source(
+	 * "org/geogebra/common/icons/png30x30/stylingbar_point-diamond-empty.png")
+	 * ImageResource point_diamond_empty();
+	 * 
+	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-up.png")
+	 * ImageResource point_up();
+	 */
 	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-empty.png")
-	ImageResource point_empty();
-	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-cross.png")
-	ImageResource point_cross();
-	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-cross-diag.png")
-	ImageResource point_cross_diag();
-	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-diamond-full.png")
-	ImageResource point_diamond();
-	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-diamond-empty.png")
-	ImageResource point_diamond_empty();
-	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-up.png")
-	ImageResource point_up();
-	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-down.png")
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_point-down.png")
 	ImageResource point_down();
 	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-left.png")
-	ImageResource point_left();
+	/*
+	 * @Source("org/geogebra/common/icons/png30x30/stylingbar_point-left.png")
+	 * ImageResource point_left();
+	 */
 	
-	@Source("org/geogebra/common/icons/png30x30/stylingbar_point-right.png")
-	ImageResource point_right();*/
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_point-right.png")
+	ImageResource point_right();
 
 	/*@Source("org/geogebra/common/icons/png16x16/interval-left.png")
 	ImageResource interval_left();

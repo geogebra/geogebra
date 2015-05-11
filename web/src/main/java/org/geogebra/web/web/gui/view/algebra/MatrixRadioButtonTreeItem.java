@@ -5,10 +5,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
 
 /**
  * MatrixRadioButtonTreeItem for creating matrices (2-dimensional lists in the
@@ -45,6 +50,27 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 	public MatrixRadioButtonTreeItem(GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
+		PushButton btnRow = new PushButton(new Image(
+				AppResources.INSTANCE.point_down()), new ClickHandler() {
+			public void onClick(ClickEvent ce) {
+				increaseRows();
+			}
+		});
+		btnRow.addStyleName("RadioButtonTreeItemSpecButton");
+		PushButton btnCol = new PushButton(new Image(
+				AppResources.INSTANCE.point_right()), new ClickHandler() {
+			public void onClick(ClickEvent ce) {
+				increaseCols();
+			}
+		});
+		btnCol.addStyleName("RadioButtonTreeItemSpecButton");
+		FlowPanel auxPanel = new FlowPanel();
+		auxPanel.add(btnRow);
+		auxPanel.add(btnCol);
+		auxPanel.addStyleName("RadioButtonTreeItemSpecButtonPanel");
+		add(auxPanel);
+		// not working
+		ihtml.getElement().appendChild(auxPanel.getElement());
 	}
 
 	public static GeoList create2x2ZeroMatrix(Kernel kern) {
@@ -76,13 +102,5 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				DrawEquationWeb.addNewColToMatrix(seMayLatex);
 			}
 		});
-	}
-
-	@Override
-	public void onDoubleClick(DoubleClickEvent evt) {
-		super.onDoubleClick(evt);
-		// only for testing!
-		// increaseRows();
-		// increaseCols();
 	}
 }
