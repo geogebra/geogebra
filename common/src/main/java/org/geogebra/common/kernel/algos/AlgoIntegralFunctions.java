@@ -153,7 +153,7 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 
 		// return if it should not be evaluated (i.e. is shade-only)
 		if (evaluate != null && !evaluate.getBoolean()) {
-			n.setValue(0);
+			n.setValue(Double.NaN);
 			return;
 		}
 
