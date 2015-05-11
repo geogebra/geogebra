@@ -2238,6 +2238,15 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	}
 
 	@Override
+	public boolean isGeoFunctionConditional() {
+		ExpressionNode en = getFunctionExpression();
+		if (en == null)
+			return false;
+
+		return en.isConditionalOldFashion();
+	}
+
+	@Override
 	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
 
 		String ret = "";

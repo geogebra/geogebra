@@ -5438,6 +5438,10 @@ kernel, left,
 				|| operation == Operation.IF_LIST;
 	}
 
+	public boolean isConditionalOldFashion() {
+		return operation == Operation.IF || operation == Operation.IF_ELSE;
+	}
+
 	public boolean isConditionalDeep() {
 		return isConditional()
 				|| (left instanceof ExpressionNode && ((ExpressionNode) left)
