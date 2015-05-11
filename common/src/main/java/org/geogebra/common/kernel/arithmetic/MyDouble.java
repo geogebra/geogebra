@@ -1136,4 +1136,12 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
+
+	/*
+	 * #5149 Double.toString(x) gives e not E in GWT (2.7 at least) (important
+	 * as GeoGebra parses 1e2 as 1 * e * 2)
+	 */
+	public static String toString(double x) {
+		return Double.toString(x).replace('e', 'E');
+	}
 }

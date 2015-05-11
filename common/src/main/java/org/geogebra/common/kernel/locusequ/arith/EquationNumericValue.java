@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.locusequ.arith;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.locusequ.EquationTranslator;
 
 /**
@@ -62,7 +63,7 @@ public class EquationNumericValue extends EquationValue {
 
     @Override
     public String toString() {
-    	return Double.toString(this.getValue());
+		return MyDouble.toString(this.getValue());
     }
 
     @Override

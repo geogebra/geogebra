@@ -1128,14 +1128,15 @@ public class Kernel {
 		// to avoid 1/3 = 0
 		case PSTRICKS:
 		case PGF:
-			return Double.toString(x);
+			return MyDouble.toString(x);
 
 			// number formatting for XML string output
 		case GEOGEBRA_XML:
 			if (isLongInteger) {
 				return Long.toString(rounded);
 			}
-			return Double.toString(x);
+			// #5149
+			return MyDouble.toString(x);
 
 			// number formatting for CAS
 		case GIAC:
@@ -1168,7 +1169,7 @@ public class Kernel {
 					return ret;
 				}
 				// convert scientific notation 1.0E-20 to 1*10^(-20)
-				String scientificStr = Double.toString(x);
+				String scientificStr = MyDouble.toString(x);
 
 				return tpl.convertScientificNotation(scientificStr);
 			}
