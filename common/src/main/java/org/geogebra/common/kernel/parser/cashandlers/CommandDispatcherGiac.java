@@ -127,6 +127,8 @@ public class CommandDispatcherGiac {
 		ycoordsymb(Operation.YCOORD),
 		/** symbolic z coord*/
 		zcoordsymb(Operation.ZCOORD),
+		/** alt(x) */
+ altsymb(Operation.ALT),
 
 		/** GeoGebra vector */
 		ggbvect(Operation.NO_OPERATION),
@@ -402,6 +404,7 @@ public class CommandDispatcherGiac {
 			case xcoordsymb:
 			case ycoordsymb:
 			case zcoordsymb:
+			case altsymb:
 			case sqrt:
 			case sign:
 			case floor:
