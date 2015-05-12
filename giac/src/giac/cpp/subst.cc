@@ -2139,8 +2139,12 @@ namespace giac {
       return _evalc(e_orig,contextptr);
     // ratnormal added for E:=2*exp(t/25)/(19+exp(t/25)); F:=simplifier(int(E,t)); 
     // M:=(1/50)*int(E,t,50,100); simplify(M)
-    if (!lop(e,at_ln).empty())
-      e=lncollect(ratnormal(e_orig),contextptr);
+    vecteur lnv=lop(e,at_ln);
+    if (!lnv.empty()){
+      gen trye=lncollect(ratnormal(e_orig),contextptr);
+      if (lop(trye,at_ln).size()<lnv.size())
+	e=trye;
+    }
     if (!lop(e,at_exp).empty())
       e=_exp2pow(e,contextptr);
     if (!lop(e,at_pow).empty())
