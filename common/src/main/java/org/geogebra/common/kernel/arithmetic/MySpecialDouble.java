@@ -76,7 +76,7 @@ public class MySpecialDouble extends MyDouble {
 				strToString = bd.toPlainString();
 			} else {
 				// use E notation if necessary
-				strToString = bd.toString();
+				strToString = MyDouble.toString(bd);
 				scientificNotation = strToString.indexOf("E") > 0;
 			}
 		}

@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.Kernel;
@@ -1148,6 +1149,23 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public static String toString(double x) {
 
 		String ret = Double.toString(x);
+
+		if (ret.indexOf('e') > -1) {
+			return ret.replace('e', 'E');
+		}
+
+		return ret;
+	}
+
+	/**
+	 * #5149 may not be needed, but best to be safe
+	 * 
+	 * @param bd
+	 *            number
+	 * @return bd as String with e replaced by E
+	 */
+	public static String toString(BigDecimal bd) {
+		String ret = bd.toString();
 
 		if (ret.indexOf('e') > -1) {
 			return ret.replace('e', 'E');
