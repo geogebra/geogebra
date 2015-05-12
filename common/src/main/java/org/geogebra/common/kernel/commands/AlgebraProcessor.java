@@ -571,9 +571,17 @@ public class AlgebraProcessor {
 			final boolean allowErrorDialog, final boolean throwMyError,
 			boolean autoCreateSliders, final AsyncOperation callback0)
 			throws Exception {
+
+		// both return this and call callback0 in case of success!
+		GeoElement[] rett;
+
 		if (cmd.length() > 0 && cmd.charAt(0) == '<' && cmd.startsWith("<math")) {
-			return parseMathml(cmd, storeUndo, allowErrorDialog, throwMyError,
+			rett = parseMathml(cmd, storeUndo, allowErrorDialog, throwMyError,
 					autoCreateSliders, callback0);
+			if (rett != null && callback0 != null) {
+				callback0.callback(rett);
+			}
+			return rett;
 		}
 		ValidExpression ve;
 		try {
@@ -603,6 +611,9 @@ public class AlgebraProcessor {
 			}
 			GeoElement[] ret = checkParametricEquation(ve, undefinedVariables);
 			if (ret != null) {
+				if (callback0 != null) {
+					callback0.callback(ret);
+				}
 				return ret;
 			}
 			if (undefinedVariables.size() > 0) {
@@ -627,8 +638,9 @@ public class AlgebraProcessor {
 
 					// this was forgotten to do here, added by Arpad
 					// TODO: maybe need to add this to more places here?
-					if (callback0 != null)
+					if (callback0 != null) {
 						callback0.callback(geoElements);
+					}
 
 					return geoElements;
 				}
@@ -671,7 +683,11 @@ public class AlgebraProcessor {
 				if (sb.length() > 0) {
 					// eg from Spreadsheet we don't want a popup
 					if (!autoCreateSliders) {
-						return tryReplacingProducts(ve);
+						rett = tryReplacingProducts(ve);
+						if (callback0 != null && rett != null) {
+							callback0.callback(rett);
+						}
+						return rett;
 					}
 
 					// boolean autoCreateSlidersAnswer = false;
