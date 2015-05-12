@@ -51,8 +51,14 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 
 	static class CancelEvents extends Object implements MouseDownHandler,
 			MouseUpHandler, MouseOverHandler, MouseOutHandler,
-			MouseMoveHandler, DoubleClickHandler, TouchStartHandler,
+			MouseMoveHandler, ClickHandler, DoubleClickHandler,
+			TouchStartHandler,
 			TouchEndHandler, TouchMoveHandler {
+		public void onClick(ClickEvent ce) {
+			ce.preventDefault();
+			ce.stopPropagation();
+		}
+
 		public void onDoubleClick(DoubleClickEvent me) {
 			me.preventDefault();
 			me.stopPropagation();
@@ -112,18 +118,20 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		super(ge, showUrl, hiddenUrl);
 
 		PushButton btnRow = new PushButton(new Image(
-				AppResources.INSTANCE.point_cross()), new ClickHandler() {
-			public void onClick(ClickEvent ce) {
-				ce.preventDefault();
-				ce.stopPropagation();
+				AppResources.INSTANCE.point_cross()));
+		btnRow.addMouseDownHandler(new MouseDownHandler() {
+			public void onMouseDown(MouseDownEvent mde) {
+				mde.preventDefault();
+				mde.stopPropagation();
 				addNewRow();
 			}
 		});
 
 		// basically, everything except onClick,
 		// static to prevent more instances
+		btnRow.addClickHandler(cancelEvents);
 		btnRow.addDoubleClickHandler(cancelEvents);
-		btnRow.addMouseDownHandler(cancelEvents);
+		// btnRow.addMouseDownHandler(cancelEvents);
 		btnRow.addMouseUpHandler(cancelEvents);
 		btnRow.addMouseMoveHandler(cancelEvents);
 		btnRow.addMouseOverHandler(cancelEvents);
