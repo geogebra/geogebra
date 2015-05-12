@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -24,6 +25,7 @@ import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW2;
+import org.geogebra.web.web.gui.view.algebra.CondFunRadioButtonTreeItem;
 import org.geogebra.web.web.gui.view.algebra.MatrixRadioButtonTreeItem;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -213,12 +215,22 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 				// App.debug("newObjectButton clicked!");
 
 				switch( newObjectButton.getSelectedIndex() ) {
-					// TODO
+				case 0:
+					final GeoFunction fun = CondFunRadioButtonTreeItem
+							.createBasic(app.getKernel());
+					// same code as for matrices, see comments there
+					Timer tim = new Timer() {
+						public void run() {
+							app.getAlgebraView().startEditing(fun);
+						}
+					};
+					tim.schedule(500);
+					break;
 				case 1:
 					final GeoList mat = MatrixRadioButtonTreeItem.create2x2ZeroMatrix(app
 							.getKernel());
 					// scheduleDeferred alone does not work well!
-					Timer tim = new Timer() {
+					Timer tim2 = new Timer() {
 						public void run() {
 							app.getAlgebraView().startEditing(mat);
 						}
@@ -228,13 +240,15 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 					// out this is due to a setTimeout in
 					// DrawEquationWeb.drawEquationMathQuillGGB...
 					// so we could spare at least 500ms by clearing that timer,
-					tim.schedule(500);
+					tim2.schedule(500);
 
 					// but now I'm experimenting with even less timeout, i.e.
 					// tim.schedule(200);
 					// 200ms is not enough, and as this is a good machine
 					// let us say that 500ms is just right, or maybe too little
 					// on slow machines -> shall we use scheduleDeferred too?
+					break;
+				case 2:
 					break;
 				}
 			}

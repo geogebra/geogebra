@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -79,6 +81,19 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		auxPanel.setVisible(false);
 		add(auxPanel);
 		ihtml.getElement().appendChild(auxPanel.getElement());
+	}
+
+	public static GeoFunction createBasic(Kernel kern) {
+		boolean oldVal = kern.isUsingInternalCommandNames();
+		kern.setUseInternalCommandNames(true);
+		GeoElement[] ret = kern.getAlgebraProcessor().processAlgebraCommand(
+				"If[x>0,x,0]", false);
+		kern.setUseInternalCommandNames(oldVal);
+		if ((ret != null) && (ret.length > 0) && (ret[0] != null)
+				&& (ret[0] instanceof GeoFunction)) {
+			return (GeoFunction) ret[0];
+		}
+		return null;
 	}
 
 	public void addNewRow() {
