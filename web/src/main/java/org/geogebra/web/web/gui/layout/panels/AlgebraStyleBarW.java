@@ -218,13 +218,16 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 				case 0:
 					final GeoFunction fun = CondFunRadioButtonTreeItem
 							.createBasic(app.getKernel());
-					// same code as for matrices, see comments there
-					Timer tim = new Timer() {
-						public void run() {
-							app.getAlgebraView().startEditing(fun);
-						}
-					};
-					tim.schedule(500);
+					if (fun != null) {
+						// in theory, fun is never null, but what if?
+						// same code as for matrices, see comments there
+						Timer tim = new Timer() {
+							public void run() {
+								app.getAlgebraView().startEditing(fun);
+							}
+						};
+						tim.schedule(500);
+					}
 					break;
 				case 1:
 					final GeoList mat = MatrixRadioButtonTreeItem.create2x2ZeroMatrix(app
