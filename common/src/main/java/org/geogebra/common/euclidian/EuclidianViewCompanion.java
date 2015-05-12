@@ -297,7 +297,7 @@ public class EuclidianViewCompanion {
 			evs.setYmaxObject(view.ymaxObject, false);
 		} else {
 			// xmin, ... are OK; just update bounds
-			view.updateBounds(true);
+			view.updateBounds(true, true);
 		}
 
 		// let's do this after other updates because this might override e.g.

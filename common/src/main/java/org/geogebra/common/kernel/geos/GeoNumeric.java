@@ -33,12 +33,12 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -1059,7 +1059,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		if (evListeners != null) {
 			for (EuclidianViewInterfaceSlim ev : evListeners)
-				ev.updateBounds(true);
+				ev.updateBounds(true, true);
 		}
 	}
 

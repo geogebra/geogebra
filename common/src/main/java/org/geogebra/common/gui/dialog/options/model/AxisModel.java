@@ -187,7 +187,7 @@ public class AxisModel {
 			view.setAxisLabel(axis, text);
 		}
 	
-		view.updateBounds(true);
+		view.updateBounds(true, true);
 		view.updateBackground();
 		view.repaintView();
 	

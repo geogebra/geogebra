@@ -508,13 +508,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void setLockedAxesRatio(Double flag) {
 		lockedAxesRatio = flag;
 		if (flag != null) {
-			updateBounds(true);
+			updateBounds(true, true);
 		}
 	}
 
 	private boolean updatingBounds = false;
 
-	public void updateBounds(boolean updateDrawables) {
+	public void updateBounds(boolean updateDrawables, boolean updateSettings) {
 
 		if (updatingBounds)
 			return;
@@ -549,10 +549,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			xmin = xmin2;
 			ymin = ymin2;
 			ymax = ymax2;
+
 			setXscale(getWidth() / (xmax2 - xmin2));
 			setYscale(getHeight() / (ymax2 - ymin2));
 			xZero = -xscale * xmin2;
 			yZero = yscale * ymax2;
+			if (updateSettings && settings != null) {
+				settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
+			}
 			setAxesIntervals(getXscale(), 0);
 			setAxesIntervals(getYscale(), 1);
 			calcPrintingScale();			
@@ -1269,7 +1273,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void setGridType(int type) {
 		gridType = type;
 		if (type == GRID_POLAR) {
-			updateBounds(true);
+			updateBounds(true, true);
 		}
 	}
 
@@ -1292,7 +1296,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected void setRealWorldBounds() {
 		updateBoundObjects();
-		updateBounds(false);
+		updateBounds(false, false);
 	}
 
 	/**
@@ -2146,7 +2150,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (yminObject == num) {
 			yminObject = num2;
 		}
-		updateBounds(true);
+		updateBounds(true, true);
 	}
 
 	/**

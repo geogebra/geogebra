@@ -395,7 +395,7 @@ public class EuclidianOptionsModel {
 			listener.enableAxesRatio((view.isZoomable()
 					&& !view.isLockedAxesRatio()));
 
-			view.updateBounds(true);
+			view.updateBounds(true, true);
 		}
 	}
 
