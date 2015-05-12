@@ -257,7 +257,7 @@ task emccCompile {
     dependsOn list
     }
 
-task emccGiacJs (dependsOn: 'emccCompile') {
+task emccGiacJs (/* dependsOn: 'emccCompile' */) {
     def list = []
     def linkerArgs = []
     def inputInclude = []
