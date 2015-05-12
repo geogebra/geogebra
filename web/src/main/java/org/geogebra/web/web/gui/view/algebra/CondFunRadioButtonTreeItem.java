@@ -126,6 +126,20 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 				addNewRow();
 			}
 		});
+		btnRow.addMouseOverHandler(new MouseOverHandler() {
+			public void onMouseOver(MouseOverEvent moe) {
+				moe.preventDefault();
+				moe.stopPropagation();
+				((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
+			}
+		});
+		// btnRow.addMouseMoveHandler(new MouseMoveHandler() {
+		// public void onMouseMove(MouseMoveEvent moe) {
+		// moe.preventDefault();
+		// moe.stopPropagation();
+		// ((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
+		// }
+		// });
 
 		// basically, everything except onClick,
 		// static to prevent more instances
@@ -134,7 +148,7 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		// btnRow.addMouseDownHandler(cancelEvents);
 		btnRow.addMouseUpHandler(cancelEvents);
 		btnRow.addMouseMoveHandler(cancelEvents);
-		btnRow.addMouseOverHandler(cancelEvents);
+		// btnRow.addMouseOverHandler(cancelEvents);
 		btnRow.addMouseOutHandler(cancelEvents);
 		btnRow.addTouchStartHandler(cancelEvents);
 		btnRow.addTouchEndHandler(cancelEvents);
@@ -151,13 +165,11 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 	public void addNewRow() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
 
-				// it seems clicking elsewhere closes editing mode,
-				// but we need to be there in case of piecewise functions!
-				if (!commonEditingCheck()) {
+				if (!commonEditingCheck())
 					ensureEditing();
-				}
+
+				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
 			}
 		});
 	}
