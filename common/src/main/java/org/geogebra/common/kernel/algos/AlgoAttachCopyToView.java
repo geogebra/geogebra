@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.MyMath;
 
@@ -195,7 +194,6 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		double c1y = ev.toRealWorldCoordY(c5.getY() / c5.getZ());
 		double c3x = ev.toRealWorldCoordX(c7.getX() / c7.getZ());
 		double c3y = ev.toRealWorldCoordY(c7.getY() / c7.getZ());
-		App.debug("ALGO COMPUTE" + c1y);
 		double[][] m1 = MyMath.adjoint(c1.getX() / c1.getZ(),
 				c1.getY() / c1.getZ(), 1, c3.getX() / c3.getZ(),
 				c3.getY() / c3.getZ(), 1, c1.getX() / c1.getZ(),
