@@ -1150,7 +1150,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		String ret = Double.toString(x);
 
 		if (ret.indexOf('e') > -1) {
-			return Double.toString(x).replace('e', 'E');
+			return ret.replace('e', 'E');
 		}
 
 		return ret;

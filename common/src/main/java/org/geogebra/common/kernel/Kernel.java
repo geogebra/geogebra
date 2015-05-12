@@ -1157,7 +1157,7 @@ public class Kernel {
 				// number small enough that Double.toString() won't create E
 				// notation
 				if ((abs >= 10E-3) && (abs < 10E7)) {
-					String ret = Double.toString(x);
+					String ret = MyDouble.toString(x);
 
 					// convert 0.125 to 1/8 so Giac treats it as an exact number
 					// Note: exact(0.3333333333333) gives 1/3

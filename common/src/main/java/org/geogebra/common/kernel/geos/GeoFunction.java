@@ -1630,7 +1630,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		sb.append(',');
 		sb.append(funVarStr[1]); // function variable
 		sb.append(',');
-		sb.append(Double.toString(x));
+		sb.append(MyDouble.toString(x));
 		sb.append("),");
 		// increase precision to improve problems like
 		// http://www.geogebra.org/trac/ticket/1106

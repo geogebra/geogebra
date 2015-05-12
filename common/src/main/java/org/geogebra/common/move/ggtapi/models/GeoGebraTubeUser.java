@@ -148,7 +148,7 @@ public class GeoGebraTubeUser extends BaseModel {
 	}
 	
 	public void setLanguage(String language){
-		
+		this.language = language;
 	}
 
 }

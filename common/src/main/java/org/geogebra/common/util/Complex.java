@@ -1479,8 +1479,7 @@ public class Complex {
 		boolean formatCondition = true;
 		String output = "";
 
-		if (Double.toString(z[0]).equals("NaN")
-				|| Double.toString(z[1]).equals("NaN")) {
+		if (Double.isNaN(z[0]) || Double.isNaN(z[1])) {
 			output += "NaN";
 		} else if (Math.abs(z[0]) < ACCURACY && Math.abs(z[1]) < ACCURACY) { // z[0]
 																				// ==
