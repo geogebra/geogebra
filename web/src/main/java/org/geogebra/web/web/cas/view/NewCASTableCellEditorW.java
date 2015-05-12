@@ -52,7 +52,7 @@ public class NewCASTableCellEditorW extends Label implements
 		this.getElement().appendChild(seMayLaTeX);
 		this.getElement().addClassName("hasCursorPermanent");
 		this.addDomHandler(new MouseUpHandler() {
-
+			// TODO: maybe use CancelEvents.instance?
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				event.stopPropagation();

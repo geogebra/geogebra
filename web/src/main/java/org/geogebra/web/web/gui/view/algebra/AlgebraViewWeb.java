@@ -1091,7 +1091,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		if(inputPanel != null){
 			//make sure we do not trigger long touch here
 			inputPanel.getTextField().addDomHandler(new TouchStartHandler(){
-
+				// TODO: maybe use CancelEvents.instance?
 				@Override
                 public void onTouchStart(TouchStartEvent event) {
 	               event.stopPropagation();

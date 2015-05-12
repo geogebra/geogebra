@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.laf;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
+import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.SmartTouchHandler;
 import org.geogebra.web.web.gui.browser.EmbeddedMaterialElement;
@@ -79,7 +80,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 		evPanel.addDomHandler(sh, TouchStartEvent.getType());
 		evPanel.addDomHandler(sh, TouchEndEvent.getType());
 		evPanel.addDomHandler(sh, TouchMoveEvent.getType());
-		evPanel.addDomHandler(sh, TouchCancelEvent.getType());
+		evPanel.addDomHandler(CancelEvents.instance, TouchCancelEvent.getType());
 		return true;
 	}
 	

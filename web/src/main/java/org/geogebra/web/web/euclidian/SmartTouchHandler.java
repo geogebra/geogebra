@@ -5,8 +5,6 @@ import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.TouchCancelEvent;
-import com.google.gwt.event.dom.client.TouchCancelHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -15,7 +13,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
 public class SmartTouchHandler implements TouchStartHandler, TouchEndHandler,
-        TouchMoveHandler, TouchCancelHandler {
+		TouchMoveHandler {
 	private final EuclidianControllerW ec;
 	private Touch t1, t2;
 
@@ -91,11 +89,5 @@ public class SmartTouchHandler implements TouchStartHandler, TouchEndHandler,
 			ec.onTouchStart(event);
 		}
 
-	}
-
-	@Override
-	public void onTouchCancel(TouchCancelEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
 	}
 }

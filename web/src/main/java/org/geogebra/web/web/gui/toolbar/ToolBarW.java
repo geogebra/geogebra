@@ -338,6 +338,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	}
 
 	public void onClick(ClickEvent event) {
+		// TODO: maybe use CancelEvents.instance?
 		event.stopPropagation();
 	}
 
