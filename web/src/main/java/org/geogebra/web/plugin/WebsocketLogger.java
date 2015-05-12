@@ -218,11 +218,6 @@ public class WebsocketLogger extends SensorLogger {
 			                Types.MAGNETIC_FIELD_Z.toString())));
 		}
 		if (JSON.get(json, Types.ORIENTATION_X.toString()) != null) {
-			App.debug("Orientation is not null: "
-					+ timestamp
-					+ ", "
-					+ Float.parseFloat(JSON.get(json,
-							Types.ORIENTATION_X.toString())));
 			log(Types.ORIENTATION_X,
 					timestamp,
 					Float.parseFloat(JSON.get(json,
