@@ -4,12 +4,15 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -24,24 +27,6 @@ import com.google.gwt.user.client.ui.PushButton;
 public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 
 	/**
-	 * Creating a SpecialRadioButtonTreeItem from scratch as this should be
-	 * possible when the user clicks on Algebra View GUI buttons designed for
-	 * this purpose - this should be empty and editable
-	 */
-	/*
-	 * public MatrixRadioButtonTreeItem(Kernel kern) { // note that this should
-	 * create a 2x2 Zero matrix by default! // so what about creating the same
-	 * matrix first, and reuse // existing code for constructor / editing?
-	 * 
-	 * // super(kern, create2x2ZeroMatrix(kern), AppResources.INSTANCE.shown()
-	 * // .getSafeUri(), // AppResources.INSTANCE.hidden().getSafeUri());
-	 * 
-	 * // or... call even more general code! this(create2x2ZeroMatrix(kern),
-	 * AppResources.INSTANCE.shown() .getSafeUri(),
-	 * AppResources.INSTANCE.hidden().getSafeUri()); }
-	 */
-
-	/**
 	 * Creating a SpecialRadioButtonTreeItem from existing construction as we
 	 * should allow special buttons for them, too... see
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
@@ -50,32 +35,64 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 	public MatrixRadioButtonTreeItem(GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
+
+		MouseOverHandler noout = new MouseOverHandler() {
+			public void onMouseOver(MouseOverEvent moe) {
+				moe.preventDefault();
+				moe.stopPropagation();
+				((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
+			}
+		};
+
 		PushButton btnRow = new PushButton(new Image(
-				AppResources.INSTANCE.point_down()), new ClickHandler() {
-			public void onClick(ClickEvent ce) {
-				increaseRows();
-				// prevent going into editing mode by double-click!
-				ce.preventDefault();
-				ce.stopPropagation();
-			}
-		});
+				AppResources.INSTANCE.point_down()));
 		btnRow.addStyleName("RadioButtonTreeItemSpecButton");
-		PushButton btnCol = new PushButton(new Image(
-				AppResources.INSTANCE.point_right()), new ClickHandler() {
-			public void onClick(ClickEvent ce) {
-				increaseCols();
-				// prevent going into editing mode by double-click!
-				ce.preventDefault();
-				ce.stopPropagation();
+		btnRow.addMouseDownHandler(new MouseDownHandler() {
+			public void onMouseDown(MouseDownEvent e) {
+				e.preventDefault();
+				e.stopPropagation();
+				increaseRows();
 			}
 		});
+		btnRow.addMouseOverHandler(noout);
+		btnRow.addClickHandler(CancelEvents.instance);
+		btnRow.addDoubleClickHandler(CancelEvents.instance);
+		// btnRow.addMouseDownHandler(cancelEvents);
+		btnRow.addMouseUpHandler(CancelEvents.instance);
+		btnRow.addMouseMoveHandler(CancelEvents.instance);
+		// btnRow.addMouseOverHandler(cancelEvents);
+		btnRow.addMouseOutHandler(CancelEvents.instance);
+		btnRow.addTouchStartHandler(CancelEvents.instance);
+		btnRow.addTouchEndHandler(CancelEvents.instance);
+		btnRow.addTouchMoveHandler(CancelEvents.instance);
+
+		PushButton btnCol = new PushButton(new Image(
+				AppResources.INSTANCE.point_right()));
 		btnCol.addStyleName("RadioButtonTreeItemSpecButton");
+		btnCol.addMouseDownHandler(new MouseDownHandler() {
+			public void onMouseDown(MouseDownEvent e) {
+				e.preventDefault();
+				e.stopPropagation();
+				increaseCols();
+			}
+		});
+		btnCol.addMouseOverHandler(noout);
+		btnCol.addClickHandler(CancelEvents.instance);
+		btnCol.addDoubleClickHandler(CancelEvents.instance);
+		// btnCol.addMouseDownHandler(cancelEvents);
+		btnCol.addMouseUpHandler(CancelEvents.instance);
+		btnCol.addMouseMoveHandler(CancelEvents.instance);
+		// btnCol.addMouseOverHandler(cancelEvents);
+		btnCol.addMouseOutHandler(CancelEvents.instance);
+		btnCol.addTouchStartHandler(CancelEvents.instance);
+		btnCol.addTouchEndHandler(CancelEvents.instance);
+		btnCol.addTouchMoveHandler(CancelEvents.instance);
+
 		FlowPanel auxPanel = new FlowPanel();
 		auxPanel.add(btnRow);
 		auxPanel.add(btnCol);
 		auxPanel.addStyleName("RadioButtonTreeItemSpecButtonPanel");
 		add(auxPanel);
-		// not working
 		ihtml.getElement().appendChild(auxPanel.getElement());
 	}
 
@@ -97,28 +114,22 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 	public void increaseRows() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
+				boolean wasEditing = commonEditingCheck();
+
+				if (!wasEditing)
+					ensureEditing();
+
 				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
 
-				// although we could update the reverting command in MQ,
-				// it's better to also update it in GeoGebraWeb,
-				// because this way it's sure the MQ formula is valid
-				// if (!commonEditingCheck())
-					// interestingly, this is important
-					// when we are NOT in editing mode! (and works)
-				// but the user might ACCIDENTALLY go into editing
-				// mode, so commonEditingCheck() removed, even if
-				// this way adding a new row will close editing mode!
-				// but we can go back to editing mode afterwards!
-				// boolean wasEditing = commonEditingCheck();
-
+				// it is a good question whether shall we save the result
+				// in a permanent way, and in which case (wasEditing?)
+				// why not?
 				DrawEquationWeb.endEditingEquationMathQuillGGB(
 						MatrixRadioButtonTreeItem.this, seMayLatex);
 
-				// however, it's not easy, I'm only going to do it
-				// if it's considered important
-				// if (wasEditing) {
-				// av.startEditing(geo);
-				// }
+				if (wasEditing) {
+					av.startEditing(geo);
+				}
 			}
 		});
 	}
@@ -126,28 +137,22 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 	public void increaseCols() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
+				boolean wasEditing = commonEditingCheck();
+
+				if (!wasEditing)
+					ensureEditing();
+
 				DrawEquationWeb.addNewColToMatrix(seMayLatex);
 
-				// although we could update the reverting command in MQ,
-				// it's better to also update it in GeoGebraWeb,
-				// because this way it's sure the MQ formula is valid
-				// if (!commonEditingCheck())
-					// interestingly, this is important
-					// when we are NOT in editing mode! (and works)
-				// but the user might ACCIDENTALLY go into editing
-				// mode, so commonEditingCheck() removed, even if
-				// this way adding a new row will close editing mode!
-				// but we can go back to editing mode afterwards!
-				// boolean wasEditing = commonEditingCheck();
-
+				// it is a good question whether shall we save the result
+				// in a permanent way, and in which case (wasEditing?)
+				// why not?
 				DrawEquationWeb.endEditingEquationMathQuillGGB(
 						MatrixRadioButtonTreeItem.this, seMayLatex);
 
-				// however, it's not easy, I'm only going to do it
-				// if it's considered important
-				// if (wasEditing) {
-				// av.startEditing(geo);
-				// }
+				if (wasEditing) {
+					av.startEditing(geo);
+				}
 			}
 		});
 	}
