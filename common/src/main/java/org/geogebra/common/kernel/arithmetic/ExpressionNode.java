@@ -2682,7 +2682,7 @@ kernel, left,
 				sb.append("\\right)");
 				break;
 			case GIAC:
-				sb.append("alt(");
+				sb.append("ggbalt(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;

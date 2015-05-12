@@ -84,7 +84,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			+
 			// xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac
 			"xcoord(x):=when(type(x)==DOM_IDENT,xcoordsymb(x),when(x[0]=='pnt',when(is3dpoint(x),x[1][0],real(x[1])),when(x[0]=='=',?,x[0])));"
-			+ "alt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
+			// altsymb(P) converted back to alt(P) in CommandDispatcherGiac
+			+ "ggbalt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
 			+ "when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?));"
 
 			+ "ycoord(x):=when(type(x)==DOM_IDENT,ycoordsymb(x),when(x[0]=='pnt',when(is3dpoint(x),x[1][1],im(x[1])),when(x[1]=='=',?,x[1])));"
