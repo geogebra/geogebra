@@ -1,12 +1,12 @@
 package org.geogebra.commands;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 
 import javax.swing.JFrame;
-
-import junit.framework.Assert;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -33,7 +33,8 @@ public class ParserTest {
 			
 			long l = System.currentTimeMillis();
 			app.getKernel().getParser().
-			parseGeoGebraExpression("{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}");
+parseGeoGebraExpression(
+							"{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}");
 			app.getKernel().getParser().
 			parseGeoGebraExpression("(((((((((((((((((((((((1)))))))))))))))))))))))");
 			app.getKernel().getParser().

@@ -3,26 +3,22 @@ package org.geogebra.cas;
 import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.assertThat;
 
-import org.geogebra.cas.logging.CASTestLogger;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 
 import javax.swing.JFrame;
 
+import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
@@ -47,7 +43,7 @@ public class CAStestJSON {
 	        char[] buf = new char[1024];
 	        int numRead=0;
 	        while((numRead=reader.read(buf)) != -1){
-	            String readData = String.valueOf(buf, 0, numRead);
+			String readData = String.valueOf(buf, 0, numRead);
 	            fileData.append(readData);
 	        }
 	        reader.close();

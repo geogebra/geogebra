@@ -1,7 +1,6 @@
 package org.geogebra.test.util;
 
 import org.geogebra.cas.logging.CASTestLogger;
-
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;

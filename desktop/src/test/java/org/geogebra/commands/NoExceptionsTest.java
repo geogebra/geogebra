@@ -1,15 +1,11 @@
 package org.geogebra.commands;
 
-import org.geogebra.io.XmlTest;
-
 import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.JFrame;
-
-import org.junit.Assert;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -18,8 +14,10 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.io.XmlTest;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

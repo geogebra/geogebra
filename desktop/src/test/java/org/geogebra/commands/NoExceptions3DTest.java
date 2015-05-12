@@ -34,7 +34,8 @@ public class NoExceptions3DTest {
 	//@BeforeClass
 	public static void setupApp() {
 		app = new App3D(new CommandLineArguments(
-				new String[]{"--silent"}), new JFrame(), false);
+new String[] { "--silent" }),
+				new JFrame(), false);
 		app.setLanguage(Locale.US);
 		// app.getKernel()
 		ap = app.getKernel().getAlgebraProcessor();

@@ -1,9 +1,9 @@
 package org.geogebra.cas.logging;
 
-import org.geogebra.cas.GeoGebraCasIntegrationTest;
-
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.geogebra.cas.GeoGebraCasIntegrationTest;
 
 /**
  * Used for logging all test results of the {@link GeoGebraCasIntegrationTest}
