@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.PushButton;
  */
 public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 
+	FlowPanel auxPanel;
+
 	/**
 	 * Creating a SpecialRadioButtonTreeItem from existing construction as we
 	 * should allow special buttons for them, too... see
@@ -88,10 +90,11 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		btnCol.addTouchEndHandler(CancelEvents.instance);
 		btnCol.addTouchMoveHandler(CancelEvents.instance);
 
-		FlowPanel auxPanel = new FlowPanel();
+		auxPanel = new FlowPanel();
 		auxPanel.add(btnRow);
 		auxPanel.add(btnCol);
 		auxPanel.addStyleName("RadioButtonTreeItemSpecButtonPanel");
+		auxPanel.setVisible(false);
 		add(auxPanel);
 		ihtml.getElement().appendChild(auxPanel.getElement());
 	}
@@ -155,5 +158,23 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void startEditing() {
+		super.startEditing();
+		auxPanel.setVisible(true);
+	}
+
+	@Override
+	public boolean stopEditing(String s) {
+		auxPanel.setVisible(false);
+		return super.stopEditing(s);
+	}
+
+	@Override
+	public void stopEditingSimple(String s) {
+		auxPanel.setVisible(false);
+		super.stopEditingSimple(s);
 	}
 }

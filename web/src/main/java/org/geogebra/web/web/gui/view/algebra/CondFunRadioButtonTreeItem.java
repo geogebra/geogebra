@@ -23,6 +23,8 @@ import com.google.gwt.user.client.ui.PushButton;
  */
 public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 
+	FlowPanel auxPanel;
+
 	/**
 	 * Creating a SpecialRadioButtonTreeItem from existing construction as we
 	 * should allow special buttons for them, too... see
@@ -71,9 +73,10 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		btnRow.addTouchMoveHandler(CancelEvents.instance);
 
 		btnRow.addStyleName("RadioButtonTreeItemSpecButton");
-		FlowPanel auxPanel = new FlowPanel();
+		auxPanel = new FlowPanel();
 		auxPanel.add(btnRow);
 		auxPanel.addStyleName("RadioButtonTreeItemSpecButtonPanel");
+		auxPanel.setVisible(false);
 		add(auxPanel);
 		ihtml.getElement().appendChild(auxPanel.getElement());
 	}
@@ -82,11 +85,32 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
 
+				// could probably implement this for non-editing case
+				// better (like in MatrixRadioButtonTreeItem),
+				// but now it's only used in editing mode anyway
 				if (!commonEditingCheck())
 					ensureEditing();
 
 				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
 			}
 		});
+	}
+
+	@Override
+	public void startEditing() {
+		super.startEditing();
+		auxPanel.setVisible(true);
+	}
+
+	@Override
+	public boolean stopEditing(String s) {
+		auxPanel.setVisible(false);
+		return super.stopEditing(s);
+	}
+
+	@Override
+	public void stopEditingSimple(String s) {
+		auxPanel.setVisible(false);
+		super.stopEditingSimple(s);
 	}
 }
