@@ -624,6 +624,12 @@ public class AlgebraProcessor {
 
 				if (geoElements != null) {
 					kernel.getConstruction().registerFunctionVariable(null);
+
+					// this was forgotten to do here, added by Arpad
+					// TODO: maybe need to add this to more places here?
+					if (callback0 != null)
+						callback0.callback(geoElements);
+
 					return geoElements;
 				}
 
