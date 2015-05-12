@@ -2215,4 +2215,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	public GeoPointND newGeoPoint(Construction cons){
 		return new GeoPoint(cons);
 	}
+
+	@Override
+	public int getNumPoints() {
+		return points == null ? 0 : points.length;
+	}
 }
