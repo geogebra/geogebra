@@ -2854,7 +2854,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       // try to generate latex and then renderLatex or writeLatex!
       var strLatex = '\\ggbtr{ ';
       strLatex += '\\ggbtdL{0} ';
-      strLatex += '\\ggbtdL{ : \\space 0 \\lt 0 \\lt 0 } ';
+      strLatex += '\\ggbtdL{ : \\space 0 \\lt x \\lt 0 } ';
       strLatex += '}';
       cursor.appendTo(this.ch[L]);
       cursor.insertBefore(cursor[L]);
@@ -2863,11 +2863,17 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
 
       // now we should do something like lateInit does!
       // TODO: later!
-      /*if (this.ch[L] && this.ch[L].ch[R]) {
+      if (this.ch[L] && this.ch[L].ch[R]) {
         // in theory, this is not the cursor,
         // but the \\ggbtr element
+    	if (this.ch[L].ch[R][L]) {
+    	  // in theory, redefining up/down links
+    	  // can be done by calling it for both rows
+          this['tableRow']--;
+    	  this.ch[L].ch[R][L].preOrder('lateInit');
+    	}
         this.ch[L].ch[R].preOrder('lateInit');
-      }*/
+      }
 
       // put the cursor back to its original place
       if (cursorl) {
