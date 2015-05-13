@@ -289,7 +289,10 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				public void onClick(ClickEvent ce) {
 					if (view.allowSpecialEditor()) {
 						geoBoolean.setValue(!geoBoolean.getBoolean());
-						kernel.updateConstruction();
+
+						// Don't update all cell, see #5153
+						// kernel.updateConstruction();
+						geoBoolean.updateCascade();
 					}
 				}
 			});
