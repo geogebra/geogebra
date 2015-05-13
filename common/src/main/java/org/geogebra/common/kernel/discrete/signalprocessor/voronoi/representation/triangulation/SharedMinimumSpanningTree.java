@@ -11,8 +11,8 @@ public class SharedMinimumSpanningTree {
     /* ***************************************************** */
     // Comparator for removeEdgesInOrderFromOuterBoundary() method
     
-    private static final Comparator<VVertex> VERTEX_COMPARATOR = new Comparator<VVertex>() {
-        public int compare(VVertex v1, VVertex v2) {
+    private static final Comparator<VVertex2> VERTEX_COMPARATOR = new Comparator<VVertex2>() {
+        public int compare(VVertex2 v1, VVertex2 v2) {
             if (v1.y < v2.y)      return -1;
             else if (v1.y > v2.y) return 1;
             else if (v1.x < v2.x) return -1;
@@ -24,8 +24,8 @@ public class SharedMinimumSpanningTree {
         }
     };
     
-    private static final Comparator<VHalfEdge> PATH_COMPARATOR = new Comparator<VHalfEdge>() {
-        public int compare(VHalfEdge e1, VHalfEdge e2) {
+    private static final Comparator<VHalfEdge2> PATH_COMPARATOR = new Comparator<VHalfEdge2>() {
+        public int compare(VHalfEdge2 e1, VHalfEdge2 e2) {
             if      (e1.getLength() < e2.getLength()) return -1;
             else if (e1.getLength() > e2.getLength()) return  1;
             else {
@@ -63,27 +63,27 @@ public class SharedMinimumSpanningTree {
     // Reduce a system from it's outer boundary inward starting from
     //  it's longest length outer boundaries and moving inward
     
-    public static int determineMSTUsingPrimsAlgorithm(VVertex startingvertex) {
+    public static int determineMSTUsingPrimsAlgorithm(VVertex2 startingvertex) {
         VertexList vertexes = new VertexList();
         FuturePathList futurepaths = new FuturePathList();
         int maxpathofminimumspanningtree = -1;
         
-        VVertex minimum = startingvertex;
+        VVertex2 minimum = startingvertex;
         do {
             // Add minimum to list of vertexes already considered
             vertexes.addVertex(minimum);
             
             // Check no edges point to the newly considered vertex
-            Iterator<VHalfEdge> iter = futurepaths.values().iterator();
+            Iterator<VHalfEdge2> iter = futurepaths.values().iterator();
             while ( iter.hasNext() ) {
-                VHalfEdge path = iter.next();
+                VHalfEdge2 path = iter.next();
                 if ( path.getConnectedVertex()==minimum ) {
                     iter.remove();
                 }
             }
             
             // Add the paths from the minimum
-            for ( VHalfEdge path : minimum.getEdges() ) {
+            for ( VHalfEdge2 path : minimum.getEdges() ) {
                 if ( vertexes.hasVertexBeenConsidered(path.getConnectedVertex()) ) {
                     continue;
                 }
@@ -97,7 +97,7 @@ public class SharedMinimumSpanningTree {
             }
             
             // Remove the best path
-            VHalfEdge nextbestpath = futurepaths.popBestNextPath();
+            VHalfEdge2 nextbestpath = futurepaths.popBestNextPath();
             nextbestpath.shownonminimumspanningtree = true;
             if ( nextbestpath.getLength()>maxpathofminimumspanningtree ) {
                 maxpathofminimumspanningtree = nextbestpath.getLength();
@@ -115,28 +115,28 @@ public class SharedMinimumSpanningTree {
     //  result (the first parse is down to determine is suitable cutt-off
     //  point for the final/second parse)
     
-    public static int determineMSTUsingPrimsAlgorithm(VVertex startingvertex, double gradient_diff_before_cluster_cutoff, ArrayList<VCluster> clusters) {
+    public static int determineMSTUsingPrimsAlgorithm(VVertex2 startingvertex, double gradient_diff_before_cluster_cutoff, ArrayList<VCluster> clusters) {
         VertexList vertexes = new VertexList();
         FuturePathList futurepaths = new FuturePathList();
         TreeMap<Integer,Integer> lengths = new TreeMap<Integer,Integer>();
         int maxpathofminimumspanningtree = -1;
         
-        VVertex minimum = startingvertex;
+        VVertex2 minimum = startingvertex;
         do {
             // Add minimum to list of vertexes already considered
             vertexes.addVertex(minimum);
             
             // Check no edges point to the newly considered vertex
-            Iterator<VHalfEdge> iter = futurepaths.values().iterator();
+            Iterator<VHalfEdge2> iter = futurepaths.values().iterator();
             while ( iter.hasNext() ) {
-                VHalfEdge path = iter.next();
+                VHalfEdge2 path = iter.next();
                 if ( path.getConnectedVertex()==minimum ) {
                     iter.remove();
                 }
             }
             
             // Add the paths from the minimum
-            for ( VHalfEdge path : minimum.getEdges() ) {
+            for ( VHalfEdge2 path : minimum.getEdges() ) {
                 if ( vertexes.hasVertexBeenConsidered(path.getConnectedVertex()) ) {
                     continue;
                 }
@@ -148,7 +148,7 @@ public class SharedMinimumSpanningTree {
             if ( futurepaths.size()<=0 ) break;
             
             // Remove the best path
-            VHalfEdge nextbestpath = futurepaths.popBestNextPath();
+            VHalfEdge2 nextbestpath = futurepaths.popBestNextPath();
             if ( nextbestpath.getLength()>maxpathofminimumspanningtree ) {
                 maxpathofminimumspanningtree = nextbestpath.getLength();
             }
@@ -179,16 +179,16 @@ public class SharedMinimumSpanningTree {
             vertexes.addVertex(minimum);
             
             // Check no edges point to the newly considered vertex
-            Iterator<VHalfEdge> iter = futurepaths.values().iterator();
+            Iterator<VHalfEdge2> iter = futurepaths.values().iterator();
             while ( iter.hasNext() ) {
-                VHalfEdge path = iter.next();
+                VHalfEdge2 path = iter.next();
                 if ( path.getConnectedVertex()==minimum ) {
                     iter.remove();
                 }
             }
             
             // Add the paths from the minimum
-            for ( VHalfEdge path : minimum.getEdges() ) {
+            for ( VHalfEdge2 path : minimum.getEdges() ) {
                 if ( vertexes.hasVertexBeenConsidered(path.getConnectedVertex()) ) {
                     continue;
                 }
@@ -200,7 +200,7 @@ public class SharedMinimumSpanningTree {
             if ( futurepaths.size()<=0 ) break;
             
             // Remove the best path
-            VHalfEdge nextbestpath = futurepaths.popBestNextPath();
+            VHalfEdge2 nextbestpath = futurepaths.popBestNextPath();
             
             // Consider if path is part of current cluster, or if we
             //  need to create a new cluster
@@ -296,7 +296,7 @@ public class SharedMinimumSpanningTree {
     
     /* ***************************************************** */
     
-    private static class VertexList extends TreeMap<VVertex,VVertex> {
+    private static class VertexList extends TreeMap<VVertex2,VVertex2> {
         
         /* ************************************************* */
         // Constructor
@@ -309,17 +309,17 @@ public class SharedMinimumSpanningTree {
         /* ************************************************* */
         // Methods
         
-        public boolean hasVertexBeenConsidered(VVertex vertex) {
+        public boolean hasVertexBeenConsidered(VVertex2 vertex) {
             return ( super.get(vertex)!=null );
         }
-        public void addVertex(VVertex vertex) {
+        public void addVertex(VVertex2 vertex) {
             super.put(vertex, vertex);
         }
         
         /* ************************************************* */
     }
     
-    private static class FuturePathList extends TreeMap<VHalfEdge,VHalfEdge> {
+    private static class FuturePathList extends TreeMap<VHalfEdge2,VHalfEdge2> {
         
         /* ************************************************* */
         // Constructor
@@ -333,13 +333,13 @@ public class SharedMinimumSpanningTree {
         /* ************************************************* */
         // Methods
         
-        public VHalfEdge popBestNextPath() {
-            VHalfEdge next = super.firstKey();
+        public VHalfEdge2 popBestNextPath() {
+            VHalfEdge2 next = super.firstKey();
             super.remove(next);
             return next;
         }
         
-        public void addPath(VHalfEdge path) {
+        public void addPath(VHalfEdge2 path) {
             super.put(path, path);
         }
         

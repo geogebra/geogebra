@@ -3,17 +3,17 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
-public class VVertex extends VPoint {
+public class VVertex1 extends VPoint {
     
     public static int uniqueid = 1;
     
     public int id = uniqueid++;
     
-    private ArrayList<VHalfEdge> connectedvertexs;
+    private ArrayList<VHalfEdge1> connectedvertexs;
     
-    public VVertex() { super(); }
-    public VVertex(double x, double y) { super(x, y); }
-    public VVertex(VPoint point) { super(point); }
+    public VVertex1() { super(); }
+    public VVertex1(double x, double y) { super(x, y); }
+    public VVertex1(VPoint point) { super(point); }
     
     public void clearConnectedVertexs() {
         if ( connectedvertexs!=null ) {
@@ -21,29 +21,29 @@ public class VVertex extends VPoint {
         }
     }
     
-    public void addConnectedVertex(VHalfEdge edge) {
+    public void addConnectedVertex(VHalfEdge1 edge) {
         if ( connectedvertexs==null ) {
-            connectedvertexs = new ArrayList<VHalfEdge>();
+            connectedvertexs = new ArrayList<VHalfEdge1>();
         }
         connectedvertexs.add( edge );
     }
     
-    public ArrayList<VHalfEdge> getConnectedVertexs() {
+    public ArrayList<VHalfEdge1> getConnectedVertexs() {
         if ( connectedvertexs==null || connectedvertexs.size()<=0 ) {
             return null;
         }
         return connectedvertexs;
     }
     
-    public double distanceTo(VVertex distance) {
+    public double distanceTo(VVertex1 distance) {
         return Math.sqrt( (x-distance.x)*(x-distance.x) + (y-distance.y)*(y-distance.y) );
     }
     
-	public VHalfEdge getNextConnectedEdge(int vertexnumber) {
+	public VHalfEdge1 getNextConnectedEdge(int vertexnumber) {
 		if (connectedvertexs == null || connectedvertexs.size() <= 0) {
 			return null;
 		}
-		for (VHalfEdge edge : connectedvertexs) {
+		for (VHalfEdge1 edge : connectedvertexs) {
 			if (edge.vertexnumber == vertexnumber) {
 				return edge;
 			}
@@ -51,11 +51,11 @@ public class VVertex extends VPoint {
 		return null;
 	}
 	
-	public VHalfEdge getNextConnectedEdge(VVertex nextvertex) {
+	public VHalfEdge1 getNextConnectedEdge(VVertex1 nextvertex) {
 		if (connectedvertexs == null || connectedvertexs.size() <= 0) {
 			return null;
 		}
-		for (VHalfEdge edge : connectedvertexs) {
+		for (VHalfEdge1 edge : connectedvertexs) {
 			if (edge.vertex == nextvertex) {
 				return edge;
 			}
@@ -63,14 +63,14 @@ public class VVertex extends VPoint {
 		return null;
 	}
     
-    public VVertex getNextConnectedVertex(int vertexnumber) {
-        VHalfEdge edge = getNextConnectedEdge(vertexnumber);
+    public VVertex1 getNextConnectedVertex(int vertexnumber) {
+        VHalfEdge1 edge = getNextConnectedEdge(vertexnumber);
         return ( edge==null ? null : edge.vertex );
     }
     
     public String getConnectedVertexString() {
         String str = null;
-        for ( VHalfEdge edge : connectedvertexs ) {
+        for ( VHalfEdge1 edge : connectedvertexs ) {
             if ( str==null ) {
                 str  = "" + edge.vertexnumber;
             } else {

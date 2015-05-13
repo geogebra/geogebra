@@ -50,7 +50,7 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
         
         // Reset each VVertex
         for ( VPoint point : points ) {
-            VVertex vertex = (VVertex) point;
+            VVertex1 vertex = (VVertex1) point;
             vertex.clearConnectedVertexs();
         }
         
@@ -71,9 +71,9 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
         if ( VORONOICELLAREA_CUTOFF>0 ) voronoirepresentation.circleEvent(n1, n2, n3, circle_x, circle_y);
         
         // Do calculations for this representation
-        VVertex g1 = (VVertex) n1.siteevent.getPoint();
-        VVertex g2 = (VVertex) n2.siteevent.getPoint();
-        VVertex g3 = (VVertex) n3.siteevent.getPoint();
+        VVertex1 g1 = (VVertex1) n1.siteevent.getPoint();
+        VVertex1 g2 = (VVertex1) n2.siteevent.getPoint();
+        VVertex1 g3 = (VVertex1) n3.siteevent.getPoint();
         
         // If we're not using the voronoi representation, then do remove
         //  triangles if their angle is below MIN_ANGLE_TO_ALLOW
@@ -98,9 +98,9 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
         }
         
         // Create Vertex between triangular vertex between points (clockwise direction)
-        g1.addConnectedVertex( new VHalfEdge( vertexnumber , g2 ) );
-        g2.addConnectedVertex( new VHalfEdge( vertexnumber , g3 ) );
-        g3.addConnectedVertex( new VHalfEdge( vertexnumber , g1 ) );
+        g1.addConnectedVertex( new VHalfEdge1( vertexnumber , g2 ) );
+        g2.addConnectedVertex( new VHalfEdge1( vertexnumber , g3 ) );
+        g3.addConnectedVertex( new VHalfEdge1( vertexnumber , g1 ) );
         
         // Increment the vertex number
         vertexnumber++;
@@ -130,11 +130,11 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
         
         // Reduce the vertex to form boundaries
         for ( VPoint point : vertexpoints ) {
-            VVertex vertex = (VVertex) point;
+            VVertex1 vertex = (VVertex1) point;
             if ( vertex==null || vertex.getConnectedVertexs()==null ) continue;
-            for ( VHalfEdge connectededge : vertex.getConnectedVertexs() ) {
+            for ( VHalfEdge1 connectededge : vertex.getConnectedVertexs() ) {
                 // Get the previous edge
-                VVertex prevvertex = getPreviousVertex( connectededge.vertexnumber , connectededge.vertex , vertex );
+                VVertex1 prevvertex = getPreviousVertex( connectededge.vertexnumber , connectededge.vertex , vertex );
                 if ( prevvertex==null ) {
                     continue;
                 }
@@ -142,7 +142,7 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
                 // Determine if the previous edge is the very next edge for
                 // any other vertex - if so remove that edge (i.e. (prevvertex, vertex)
                 // and (vertex, prevvertex)) for both vertexs.
-                for ( VHalfEdge connectededge2 : vertex.getConnectedVertexs() ) {
+                for ( VHalfEdge1 connectededge2 : vertex.getConnectedVertexs() ) {
                     // Determine if the edge matches the edge of the other triangle
                     if ( connectededge2.vertex==prevvertex ) {
                         if ( VORONOICELLAREA_CUTOFF>0 ) {
@@ -168,7 +168,7 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
                         connectededge2.isdeleted = true;
                         
                         // Remove edge doing in the _other_ direction
-                        VHalfEdge tmpotheredge = prevvertex.getNextConnectedEdge(connectededge.vertexnumber);
+                        VHalfEdge1 tmpotheredge = prevvertex.getNextConnectedEdge(connectededge.vertexnumber);
                         tmpotheredge.isdeleted = true;
                         
                         // Break out of the loop - no other edges will match
@@ -184,9 +184,9 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
             do {
                 haschanged = false;
                 for ( VPoint point : vertexpoints ) {
-                    VVertex vertex = (VVertex) point;
+                    VVertex1 vertex = (VVertex1) point;
                     if ( vertex==null || vertex.getConnectedVertexs()==null ) continue;
-                    for ( VHalfEdge connectededge : vertex.getConnectedVertexs() ) {
+                    for ( VHalfEdge1 connectededge : vertex.getConnectedVertexs() ) {
                         // If already deleted, continue
                         if ( connectededge.isdeleted ) {
                             continue;
@@ -201,7 +201,7 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
                             connectededge.isdeleted = true;
                             
                             // Remove edge doing in the _other_ direction
-                            VHalfEdge tmpotheredge = connectededge.vertex.getNextConnectedEdge(vertex);
+                            VHalfEdge1 tmpotheredge = connectededge.vertex.getNextConnectedEdge(vertex);
                             tmpotheredge.isdeleted = true;
                         }
                     }
@@ -210,8 +210,8 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
         }
     }
     
-    private static boolean checkHasConnections( VVertex vertex , VVertex ignore ) {
-        for ( VHalfEdge halfedge : vertex.getConnectedVertexs() ) {
+    private static boolean checkHasConnections( VVertex1 vertex , VVertex1 ignore ) {
+        for ( VHalfEdge1 halfedge : vertex.getConnectedVertexs() ) {
             if ( halfedge.isdeleted==false && halfedge.vertex!=ignore ) {
                 return true;
             }
@@ -219,8 +219,8 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
         return false;
     }
     
-    private static VVertex getPreviousVertex( int vertexnumber , VVertex currpoint , VVertex point ) {
-        VVertex prevpoint = null;
+    private static VVertex1 getPreviousVertex( int vertexnumber , VVertex1 currpoint , VVertex1 point ) {
+        VVertex1 prevpoint = null;
         while ( currpoint!=point ) {
             prevpoint = currpoint;
             currpoint = currpoint.getNextConnectedVertex(vertexnumber);

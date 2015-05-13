@@ -10,7 +10,7 @@ public class VVoronoiCell extends VPoint {
     public static final double INVALID_AREA       = -2.0;
     
     public double area = NO_AREA_CALCULATED;
-    public VHalfEdge halfedge;
+    public VHalfEdge3 halfedge;
     
     public VVoronoiCell() { super(); }
     public VVoronoiCell(double x, double y) { super(x, y); }
@@ -35,9 +35,9 @@ public class VVoronoiCell extends VPoint {
         }
         
         // Initialise points
-        VHalfEdge point0 = halfedge;
-        VHalfEdge point1 = halfedge.getPrev();
-        VHalfEdge point2 = halfedge.getNext();
+        VHalfEdge3 point0 = halfedge;
+        VHalfEdge3 point1 = halfedge.getPrev();
+        VHalfEdge3 point2 = halfedge.getNext();
         
         // Begin to calculate area
         double totalarea = 0;
@@ -60,7 +60,7 @@ public class VVoronoiCell extends VPoint {
                 }
                 
                 // Swap to leftsided triangle
-                VHalfEdge tmp = point0;
+                VHalfEdge3 tmp = point0;
                 point0 = point2;
                 point2 = point2.getNext();
                 rightside = false;

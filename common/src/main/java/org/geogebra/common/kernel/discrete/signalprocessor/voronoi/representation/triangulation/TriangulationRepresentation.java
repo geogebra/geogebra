@@ -157,7 +157,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
     
     @Override
 	public VPoint createPoint(double x, double y) {
-        return new VVertex(x, y);
+        return new VVertex2(x, y);
     }
     
     /* ***************************************************** */
@@ -171,7 +171,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
         
         // Reset each VVertex
         for ( VPoint point : points ) {
-            VVertex vertex = (VVertex) point;
+            VVertex2 vertex = (VVertex2) point;
             vertex.clearEdges();
         }
         
@@ -194,15 +194,15 @@ public class TriangulationRepresentation extends AbstractRepresentation {
     public void siteEvent( VLinkedNode n1 , VLinkedNode n2 , VLinkedNode n3 ) { }
     public void circleEvent( VLinkedNode n1 , VLinkedNode n2 , VLinkedNode n3 , int circle_x , int circle_y ) {
         // Do calculations for this representation
-        VVertex v1 = (VVertex) n1.siteevent.getPoint();
-        VVertex v2 = (VVertex) n2.siteevent.getPoint();
-        VVertex v3 = (VVertex) n3.siteevent.getPoint();
+        VVertex2 v1 = (VVertex2) n1.siteevent.getPoint();
+        VVertex2 v2 = (VVertex2) n2.siteevent.getPoint();
+        VVertex2 v3 = (VVertex2) n3.siteevent.getPoint();
         
         // Create Vertex between triangular vertex between points (clockwise direction)
-        VHalfEdge e1, e2, e3;
-        v1.addEdge( e1 = new VHalfEdge( vertexnumber , v1 ) );
-        v2.addEdge( e2 = new VHalfEdge( vertexnumber , v2 ) );
-        v3.addEdge( e3 = new VHalfEdge( vertexnumber , v3 ) );
+        VHalfEdge2 e1, e2, e3;
+        v1.addEdge( e1 = new VHalfEdge2( vertexnumber , v1 ) );
+        v2.addEdge( e2 = new VHalfEdge2( vertexnumber , v2 ) );
+        v3.addEdge( e3 = new VHalfEdge2( vertexnumber , v3 ) );
         
         // Connect half edges
         e1.next = e2;
@@ -227,7 +227,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
     
     // Called when the algorithm has finished processing
     public void endAlgorithm(Collection<VPoint> points, double lastsweeplineposition, VLinkedNode headnode) {
-        VHalfEdge outeredge = createOuterEdge();
+        VHalfEdge2 outeredge = createOuterEdge();
         if ( outeredge!=null ) {
             // Calculate MST before removing edges, as this would affect the result returned
             if ( mode==MODE_GETSTATS_EXCLUDINGMSTSTATS ) {
@@ -248,23 +248,23 @@ public class TriangulationRepresentation extends AbstractRepresentation {
         }
     }
     
-    private VHalfEdge createOuterEdge() {
-        VVertex currvertex  = null;
-        VVertex firstvertex = null;
-        VHalfEdge firstedge  = null;
+    private VHalfEdge2 createOuterEdge() {
+        VVertex2 currvertex  = null;
+        VVertex2 firstvertex = null;
+        VHalfEdge2 firstedge  = null;
         
         // Find an outer edge
         //System.out.println("Finding outer edge");
         outerloop: {
             for ( VPoint point : vertexpoints ) {
-                VVertex vertex = (VVertex) point;
+                VVertex2 vertex = (VVertex2) point;
                 //System.out.println("  - Vertex " + vertex.id);
                 
                 // Check the vertex has edges
                 if ( vertex.hasEdges()==false ) continue;
                 
                 // Check if the edge is an outer edge
-                for ( VHalfEdge edge : vertex.getEdges() ) {
+                for ( VHalfEdge2 edge : vertex.getEdges() ) {
                     // Continue until we find a non-double edge (i.e. an outer edge)
                     if ( edge.getConnectedVertex().isConnectedTo(vertex) ) {
                         //System.out.println("    + Vertex " + edge.getConnectedVertex().id + " connected");
@@ -274,7 +274,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
                     // Otherwise, we're found an outer edge
                     firstvertex = vertex;
                     currvertex  = edge.getConnectedVertex();
-                    currvertex.addEdge( firstedge = new VHalfEdge(OUTER_VERTEXNUMBER,currvertex) );
+                    currvertex.addEdge( firstedge = new VHalfEdge2(OUTER_VERTEXNUMBER,currvertex) );
                     //System.out.println("    - Vertex " + edge.getConnectedVertex().id + " NOT connected, adding edge to Vertex " + currvertex.id);
                     break outerloop;
                 }
@@ -290,12 +290,12 @@ public class TriangulationRepresentation extends AbstractRepresentation {
         
         // Form an outer edge around the shape
         //System.out.println("Forming outer edge");
-        VVertex nextvertex;
-        VHalfEdge prevedge = firstedge;
+        VVertex2 nextvertex;
+        VHalfEdge2 prevedge = firstedge;
         do {
             // Find next vertex
             nextvertex = null;
-            for ( VHalfEdge edge : currvertex.getEdges() ) {
+            for ( VHalfEdge2 edge : currvertex.getEdges() ) {
                 // Continue until we find a non-double edge (i.e. an outer edge)
                 if ( edge.getConnectedVertex().isConnectedTo(currvertex) ) continue;
                 
@@ -312,7 +312,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
             
             // Connect to next vertex
             //System.out.println("  - Added edge to " + nextvertex.id + ", connected Edge from " + prevedge.vertex.id + " to Edge from " + nextvertex.id);
-            nextvertex.addEdge( prevedge = new VHalfEdge(OUTER_VERTEXNUMBER,nextvertex, prevedge) );
+            nextvertex.addEdge( prevedge = new VHalfEdge2(OUTER_VERTEXNUMBER,nextvertex, prevedge) );
         } while ( (currvertex=nextvertex)!=firstvertex );
         
         // Connect to edge to final edge
@@ -332,7 +332,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
      */
     public ArrayList<VPoint> getPointsFormingOutterBoundary() {
         // Find an outer edge
-        VHalfEdge outeredge = findOuterEdge();
+        VHalfEdge2 outeredge = findOuterEdge();
         
         // Check is not null and next is not null
         if ( outeredge==null || outeredge.next==null ) {
@@ -340,7 +340,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
         }
         
         // Initialise variables
-        VHalfEdge curredge = outeredge;
+        VHalfEdge2 curredge = outeredge;
         ArrayList<VPoint> pointlist = new ArrayList<VPoint>();
         do {
             pointlist.add( curredge.vertex );
@@ -420,9 +420,9 @@ public class TriangulationRepresentation extends AbstractRepresentation {
         }
     }
     */
-    public VHalfEdge findOuterEdge() {
+    public VHalfEdge2 findOuterEdge() {
         for ( VPoint point : vertexpoints ) {
-            VVertex vertex = (VVertex) point;
+            VVertex2 vertex = (VVertex2) point;
             
             // Check the vertex has edges
             if ( vertex.hasEdges()==false ) {
@@ -430,7 +430,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
             }
             
             // Paint each of those edges
-            for ( VHalfEdge edge : vertex.getEdges() ) {
+            for ( VHalfEdge2 edge : vertex.getEdges() ) {
                 if ( edge.isOuterEdge() ) {
                     return edge;
                 }

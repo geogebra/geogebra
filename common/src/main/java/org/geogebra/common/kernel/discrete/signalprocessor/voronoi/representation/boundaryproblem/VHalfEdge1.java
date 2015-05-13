@@ -1,18 +1,18 @@
 package org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem;
 
-public class VHalfEdge {
+public class VHalfEdge1 {
 
     /* ***************************************************** */
     // Variables
     
     public int vertexnumber;
     public boolean isdeleted = false;
-    public VVertex vertex;
+    public VVertex1 vertex;
     
     /* ***************************************************** */
     // Constructors
     
-    public VHalfEdge(int _vertexnumber, VVertex _vertex) {
+    public VHalfEdge1(int _vertexnumber, VVertex1 _vertex) {
         this.vertexnumber = _vertexnumber;
         this.vertex = _vertex;
     }

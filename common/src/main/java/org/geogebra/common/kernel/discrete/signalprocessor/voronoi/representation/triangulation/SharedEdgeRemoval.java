@@ -9,8 +9,8 @@ public class SharedEdgeRemoval {
     /* ***************************************************** */
     // Comparator for removeEdgesInOrderFromOuterBoundary() method
     
-    private static final Comparator<VHalfEdge> EDGELENGTH_COMPARATOR = new Comparator<VHalfEdge>() {
-        public int compare(VHalfEdge e1, VHalfEdge e2) {
+    private static final Comparator<VHalfEdge2> EDGELENGTH_COMPARATOR = new Comparator<VHalfEdge2>() {
+        public int compare(VHalfEdge2 e1, VHalfEdge2 e2) {
             if      (e1.getLength() > e2.getLength()) return -1;
             else if (e1.getLength() < e2.getLength()) return  1;
             else {
@@ -30,7 +30,7 @@ public class SharedEdgeRemoval {
     // Reduce a system from it's outer boundary inward starting from
     //  it's longest length outer boundaries and moving inward
     
-    public static void removeEdgesInOrderFromOuterBoundary(VHalfEdge _outeredge, int length_cutoff) {
+    public static void removeEdgesInOrderFromOuterBoundary(VHalfEdge2 _outeredge, int length_cutoff) {
         // Collect a list of outer edges
         OrderedEdgeList outeredges = new OrderedEdgeList(_outeredge);
         
@@ -43,9 +43,9 @@ public class SharedEdgeRemoval {
         int edgesremoved = 0;
         do {
             haschanged = false;
-            Iterator<VHalfEdge> iter = outeredges.values().iterator();
+            Iterator<VHalfEdge2> iter = outeredges.values().iterator();
             while ( iter.hasNext() ) {
-                VHalfEdge edge = iter.next();
+                VHalfEdge2 edge = iter.next();
                 //System.out.println("Considering removal of edge (" + edge.vertex.id + "," + edge.getConnectedVertex().id + ") - length=" + edge.getLength());
                 
                 // Return if the length of the given edge is less than or equal to
@@ -63,8 +63,8 @@ public class SharedEdgeRemoval {
                 
                 // Cannot remove if removal would leave a _point_ where
                 //  _two shapes_ are connected
-                VHalfEdge inneredge = edge.getConnectedVertex().getEdge(edge.vertex);
-                VVertex innertriangletopvertex = inneredge.next.getConnectedVertex();
+                VHalfEdge2 inneredge = edge.getConnectedVertex().getEdge(edge.vertex);
+                VVertex2 innertriangletopvertex = inneredge.next.getConnectedVertex();
                 if ( innertriangletopvertex.getEdge(TriangulationRepresentation.OUTER_VERTEXNUMBER)!=null ) {
                 	//System.out.println("Irregular");
                     continue;
@@ -83,11 +83,11 @@ public class SharedEdgeRemoval {
                 || edgesremoved<TriangulationRepresentation.MAX_EDGES_TO_REMOVE ));
     }
     
-    private static void removeSingleOuterEdge(VHalfEdge outeredge, OrderedEdgeList outeredges) {
+    private static void removeSingleOuterEdge(VHalfEdge2 outeredge, OrderedEdgeList outeredges) {
         //System.out.println("Removing edge (" + outeredge.vertex.id + "," + outeredge.getConnectedVertex().id + ")");
         
         // Get inner halfedge
-        VHalfEdge inneredge = outeredge.getConnectedVertex().getEdge(outeredge.vertex);
+        VHalfEdge2 inneredge = outeredge.getConnectedVertex().getEdge(outeredge.vertex);
         //System.out.println("  - Got inner edge (" + inneredge.vertex.id + "," + inneredge.getConnectedVertex().id + ")");
         
         // Remove halfedges (both inner and outer)
@@ -100,11 +100,11 @@ public class SharedEdgeRemoval {
         }
         
         // Get previous edge
-        VHalfEdge previousedge = null;
+        VHalfEdge2 previousedge = null;
         //System.out.println("  - Determining previous edge");
-        for ( VHalfEdge tmpedge : outeredge.vertex.getEdges() ) {
+        for ( VHalfEdge2 tmpedge : outeredge.vertex.getEdges() ) {
             //System.out.println("    + Considering (" + tmpedge.vertex.id + "," + tmpedge.next.vertex.id + ")");
-            VHalfEdge tmppreviousedge = tmpedge.getConnectedVertex().getEdge(TriangulationRepresentation.OUTER_VERTEXNUMBER);
+            VHalfEdge2 tmppreviousedge = tmpedge.getConnectedVertex().getEdge(TriangulationRepresentation.OUTER_VERTEXNUMBER);
             if ( tmppreviousedge!=null && tmppreviousedge.next==outeredge ) {
                 previousedge = tmppreviousedge;
                 break;
@@ -116,7 +116,7 @@ public class SharedEdgeRemoval {
         //System.out.println("    - Found Previous Edge (" + previousedge.vertex.id + "," + previousedge.next.vertex.id + ")");
         
         // Relink and relabel nodes appropriately
-        VHalfEdge newouteredge = inneredge.next;
+        VHalfEdge2 newouteredge = inneredge.next;
         //System.out.println("  - Set Previous Edge Next to Vertex " + newouteredge.vertex.id);
         previousedge.next = newouteredge;
         do {
@@ -139,26 +139,26 @@ public class SharedEdgeRemoval {
     
     /* ***************************************************** */
     
-    private static class OrderedEdgeList extends TreeMap<VHalfEdge,VHalfEdge> {
+    private static class OrderedEdgeList extends TreeMap<VHalfEdge2,VHalfEdge2> {
         
         /* ************************************************* */
         // Constructor
         
 		private static final long serialVersionUID = 1L;
 
-		private OrderedEdgeList(VHalfEdge outeredge) {
+		private OrderedEdgeList(VHalfEdge2 outeredge) {
             super(EDGELENGTH_COMPARATOR);
             addOuterEdges(outeredge);
         }
         
-        public void addOuterEdges(VHalfEdge outeredge) {
+        public void addOuterEdges(VHalfEdge2 outeredge) {
             // Check is not null and next is not null
             if ( outeredge==null || outeredge.next==null ) {
                 return;
             }
             
             // Go round outside of shape
-            VHalfEdge curredge = outeredge;
+            VHalfEdge2 curredge = outeredge;
             do {
                 super.put(curredge, curredge);
             } while ( (curredge=curredge.next).next!=null && curredge!=outeredge );
@@ -167,7 +167,7 @@ public class SharedEdgeRemoval {
         /* ************************************************* */
         // Methods
         
-        public void addEdge(VHalfEdge edge) {
+        public void addEdge(VHalfEdge2 edge) {
             super.put(edge, edge);
         }
         

@@ -4,13 +4,13 @@ package org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representati
 import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
 //public class VVoronoiCell extends VPoint {
-public class VVoronoiCell extends  org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem.VVertex {
+public class VVoronoiCell extends  org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem.VVertex1 {
     
     public static final int NO_AREA_CALCULATED = -1;
     public static final int INVALID_AREA       = -2;
     
     public int area = NO_AREA_CALCULATED;
-    public VHalfEdge halfedge;
+    public VHalfEdge4 halfedge;
     
     public VVoronoiCell() { super(); }
     public VVoronoiCell(double x, double y) { super(x, y); }
@@ -35,9 +35,9 @@ public class VVoronoiCell extends  org.geogebra.common.kernel.discrete.signalpro
         }
         
         // Initialise points
-        VHalfEdge point0 = halfedge;
-        VHalfEdge point1 = halfedge.getPrev();
-        VHalfEdge point2 = halfedge.getNext();
+        VHalfEdge4 point0 = halfedge;
+        VHalfEdge4 point1 = halfedge.getPrev();
+        VHalfEdge4 point2 = halfedge.getNext();
         
         // Begin to calculate area
         double totalarea = 0;
@@ -60,7 +60,7 @@ public class VVoronoiCell extends  org.geogebra.common.kernel.discrete.signalpro
                 }
                 
                 // Swap to leftsided triangle
-                VHalfEdge tmp = point0;
+                VHalfEdge4 tmp = point0;
                 point0 = point2;
                 point2 = point2.getNext();
                 rightside = false;

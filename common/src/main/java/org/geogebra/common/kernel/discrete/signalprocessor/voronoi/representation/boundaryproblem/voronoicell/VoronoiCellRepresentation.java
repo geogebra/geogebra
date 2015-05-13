@@ -60,8 +60,8 @@ public class VoronoiCellRepresentation extends AbstractRepresentation {
         VInternalNode parent1 = leaf1.getFirstCommonParent(leaf2);
         VInternalNode parent2 = leaf2.getFirstCommonParent(leaf3);
         
-        parent1.halfedge_in  = new VHalfEdge();
-        parent1.halfedge_out = new VHalfEdge();
+        parent1.halfedge_in  = new VHalfEdge4();
+        parent1.halfedge_out = new VHalfEdge4();
         parent2.halfedge_in  = parent1.halfedge_out;
         parent2.halfedge_out = parent1.halfedge_in;
         
@@ -77,12 +77,12 @@ public class VoronoiCellRepresentation extends AbstractRepresentation {
         VInternalNode right = leaf2.getFirstCommonParent(leaf3);
         VInternalNode down  = leaf1.getFirstCommonParent(leaf3);
         
-        VHalfEdge left_in   = (VHalfEdge) left.halfedge_in;
-        VHalfEdge left_out  = (VHalfEdge) left.halfedge_out;
-        VHalfEdge right_in  = (VHalfEdge) right.halfedge_in;
-        VHalfEdge right_out = (VHalfEdge) right.halfedge_out;
-        VHalfEdge down_in = new VHalfEdge(circle_x, circle_y);
-        VHalfEdge down_out = new VHalfEdge();
+        VHalfEdge4 left_in   = (VHalfEdge4) left.halfedge_in;
+        VHalfEdge4 left_out  = (VHalfEdge4) left.halfedge_out;
+        VHalfEdge4 right_in  = (VHalfEdge4) right.halfedge_in;
+        VHalfEdge4 right_out = (VHalfEdge4) right.halfedge_out;
+        VHalfEdge4 down_in = new VHalfEdge4(circle_x, circle_y);
+        VHalfEdge4 down_out = new VHalfEdge4();
         
         down.halfedge_in  = down_in;
         down.halfedge_out = down_out;

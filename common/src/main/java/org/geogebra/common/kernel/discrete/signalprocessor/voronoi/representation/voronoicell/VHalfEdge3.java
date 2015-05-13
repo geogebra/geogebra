@@ -1,17 +1,17 @@
 package org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.voronoicell;
 
-public class VHalfEdge {
+public class VHalfEdge3 {
     
     public int x;
     public int y;
     
-    private VHalfEdge next;
-    private VHalfEdge prev;
+    private VHalfEdge3 next;
+    private VHalfEdge3 prev;
 
-    public VHalfEdge() {
+    public VHalfEdge3() {
         this( -1 , -1 );
     }
-    public VHalfEdge(int _x, int _y) {
+    public VHalfEdge3(int _x, int _y) {
         this.x = _x;
         this.y = _y;
     }
@@ -21,9 +21,9 @@ public class VHalfEdge {
         this.y = _y;
     }
     
-    public VHalfEdge getNext() { return next; }
-    public VHalfEdge getPrev() { return prev; }
-    public void setNext(VHalfEdge _next) {
+    public VHalfEdge3 getNext() { return next; }
+    public VHalfEdge3 getPrev() { return prev; }
+    public void setNext(VHalfEdge3 _next) {
         this.next = _next;
         _next.prev = this;
     }

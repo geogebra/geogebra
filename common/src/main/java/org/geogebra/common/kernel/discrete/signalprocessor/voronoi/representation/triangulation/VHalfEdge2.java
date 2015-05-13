@@ -1,14 +1,14 @@
 package org.geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation;
 
-public class VHalfEdge {
+public class VHalfEdge2 {
 
     /* ***************************************************** */
     // Variables
     
     public int vertexnumber;
-    public VHalfEdge next;
+    public VHalfEdge2 next;
     
-    public VVertex vertex;
+    public VVertex2 vertex;
     
     private int length = -1;
     
@@ -18,12 +18,12 @@ public class VHalfEdge {
     /* ***************************************************** */
     // Constructors
     
-    public VHalfEdge(int _vertexnumber, VVertex _vertex) {
+    public VHalfEdge2(int _vertexnumber, VVertex2 _vertex) {
         this.vertexnumber = _vertexnumber;
         this.vertex = _vertex;
     }
     
-    public VHalfEdge(int _vertexnumber, VVertex _vertex, VHalfEdge _next) {
+    public VHalfEdge2(int _vertexnumber, VVertex2 _vertex, VHalfEdge2 _next) {
         this.vertexnumber = _vertexnumber;
         this.vertex = _vertex;
         this.next = _next;
@@ -36,7 +36,7 @@ public class VHalfEdge {
         return ( vertexnumber==TriangulationRepresentation.OUTER_VERTEXNUMBER );
     }
     
-    public VVertex getConnectedVertex() {
+    public VVertex2 getConnectedVertex() {
         return next.vertex;
     }
     

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
-public class VVertex extends VPoint {
+public class VVertex2 extends VPoint {
     
     /* ***************************************************** */
     // Static Variables
@@ -16,14 +16,14 @@ public class VVertex extends VPoint {
     
     public int id = uniqueid++;
     
-    private ArrayList<VHalfEdge> edges;
+    private ArrayList<VHalfEdge2> edges;
     
     /* ***************************************************** */
     // Constructors
     
-    public VVertex() { super(); }
-    public VVertex(double x, double y) { super(x, y); }
-    public VVertex(VPoint point) { super(point); }
+    public VVertex2() { super(); }
+    public VVertex2(double x, double y) { super(x, y); }
+    public VVertex2(VPoint point) { super(point); }
     
     /* ***************************************************** */
     // Edge Methods
@@ -36,19 +36,19 @@ public class VVertex extends VPoint {
             edges.clear();
         }
     }
-    public void addEdge(VHalfEdge edge) {
+    public void addEdge(VHalfEdge2 edge) {
         if ( edges==null ) {
-            edges = new ArrayList<VHalfEdge>();
+            edges = new ArrayList<VHalfEdge2>();
         }
         edges.add( edge );
     }
-    public ArrayList<VHalfEdge> getEdges() {
+    public ArrayList<VHalfEdge2> getEdges() {
         if ( edges==null || edges.size()<=0 ) {
             return null;
         }
         return edges;
     }
-    public boolean removeEdge(VHalfEdge edge) {
+    public boolean removeEdge(VHalfEdge2 edge) {
         if ( edges==null ) {
             return false;
         }
@@ -58,18 +58,18 @@ public class VVertex extends VPoint {
     /* ***************************************************** */
     // Calculate Distance to Vertex method
     
-    public double distanceTo(VVertex distance) {
+    public double distanceTo(VVertex2 distance) {
         return Math.sqrt( (x-distance.x)*(x-distance.x) + (y-distance.y)*(y-distance.y) );
     }
     
     /* ***************************************************** */
     // Helper methods
 
-	public VHalfEdge getEdge(VVertex connectedtovertex) {
+	public VHalfEdge2 getEdge(VVertex2 connectedtovertex) {
 		if (edges == null || edges.size() <= 0) {
 			return null;
 		}
-		for (VHalfEdge edge : edges) {
+		for (VHalfEdge2 edge : edges) {
 			if (edge.next != null && edge.next.vertex == connectedtovertex) {
 				return edge;
 			}
@@ -77,11 +77,11 @@ public class VVertex extends VPoint {
 		return null;
 	}
     
-	public VHalfEdge getEdge(int vertexnumber) {
+	public VHalfEdge2 getEdge(int vertexnumber) {
 		if (edges == null || edges.size() <= 0) {
 			return null;
 		}
-		for (VHalfEdge edge : edges) {
+		for (VHalfEdge2 edge : edges) {
 			// Don't actually need .next in edge.next.vertexnumber, as
 			// edge.next.vertexnumber==edge.vertexnumber as long as the
 			// system is in a valid state.
@@ -92,8 +92,8 @@ public class VVertex extends VPoint {
 		return null;
 	}
     
-    public boolean isConnectedTo(VVertex connectedtovertex) {
-        VHalfEdge edge = getEdge(connectedtovertex);
+    public boolean isConnectedTo(VVertex2 connectedtovertex) {
+        VHalfEdge2 edge = getEdge(connectedtovertex);
         return ( edge!=null );
     }
     
@@ -110,7 +110,7 @@ public class VVertex extends VPoint {
 			return null;
 		}
 		String str = null;
-		for (VHalfEdge edge : edges) {
+		for (VHalfEdge2 edge : edges) {
 			if (str == null) {
 				str = "" + edge.vertexnumber;
 			} else {
@@ -125,7 +125,7 @@ public class VVertex extends VPoint {
 			return null;
 		}
 		String str = null;
-		for (VHalfEdge edge : edges) {
+		for (VHalfEdge2 edge : edges) {
 			if (str == null) {
 				str = "" + edge.getConnectedVertex().id;
 			} else {
