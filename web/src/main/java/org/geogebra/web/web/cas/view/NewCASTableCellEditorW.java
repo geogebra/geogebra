@@ -3,7 +3,6 @@ package org.geogebra.web.web.cas.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -27,8 +26,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class NewCASTableCellEditorW extends Label implements
-        CASTableCellEditor, CASEditorW,
- EquationEditorListener, GeoContainer,
+ CASEditorW,
+		EquationEditorListener, GeoContainer,
 		MathKeyboardListener {
 
 	// private AutoCompleteTextFieldW textField;

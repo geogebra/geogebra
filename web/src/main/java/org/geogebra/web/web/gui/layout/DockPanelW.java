@@ -11,6 +11,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASStylebarW;
 import org.geogebra.web.web.css.GuiResources;
@@ -975,10 +976,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return visible;
 	}
 
-	@Override
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
 
 	// @Override
 	public boolean hasFocus() {
@@ -1298,6 +1295,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private int embeddedDimWidth, embeddedDimHeight;
 
+	private ShowKeyboardButton keyboardButton;
+
 	/**
 	 * embedded dimensions (calculated when perspective is set)
 	 * 
@@ -1396,5 +1395,29 @@ public abstract class DockPanelW extends ResizeComposite implements
 			return;
 		}
 		this.kbButtonSpace.setWidget(showKeyboardButton);
+	}
+
+	/**
+	 * set a ShowKeyBoardButton that will be updated, if this panel is resized
+	 * 
+	 * @param button
+	 *            the button to be updated
+	 */
+	public void setKeyBoardButton(ShowKeyboardButton button) {
+		this.keyboardButton = button;
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+
+		// hide the keyboard-button, when the view is closed
+		if (keyboardButton != null && !visible) {
+			keyboardButton.hide();
+		}
+	}
+
+	public MathKeyboardListener getKeyboardListener() {
+		return null;
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASViewW;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -117,5 +118,10 @@ public class CASDockPanelW extends DockPanelW {
 	@Override
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_cas();
+	}
+
+	public MathKeyboardListener getKeyboardListener() {
+		return ((CASViewW) ((GuiManagerW) app.getGuiManager()).getCasView())
+				.getEditor();
 	}
 }

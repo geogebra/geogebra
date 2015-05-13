@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -95,23 +96,10 @@ public class AlgebraDockPanelW extends DockPanelW {
 		this.algebrap.scrollToBottom();
 	}
 
-	/**
-	 * set a ShowKeyBoardButton that will be updated, if this panel is resized
-	 * 
-	 * @param button
-	 *            the button to be updated
-	 */
-	public void setKeyBoardButton(ShowKeyboardButton button) {
-		this.keyboardButton = button;
-	}
-
 	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-
-		// hide the keyboard-button, when the view is closed
-		if (keyboardButton != null && !visible) {
-			keyboardButton.hide();
-		}
+	public MathKeyboardListener getKeyboardListener() {
+		return ((AlgebraViewW) app.getAlgebraView()).getInputTreeItem();
 	}
+
+
 }

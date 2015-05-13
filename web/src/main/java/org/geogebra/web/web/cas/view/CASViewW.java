@@ -3,6 +3,8 @@ package org.geogebra.web.web.cas.view;
 import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -118,5 +120,12 @@ public class CASViewW extends CASView {
 		if (this.styleBar != null) {
 			this.styleBar.setLabels();
 		}
+	}
+
+	public MathKeyboardListener getEditor() {
+		if (app.has(Feature.CAS_EDITOR)) {
+			return (MathKeyboardListener) consoleTable.getEditor();
+		}
+		return null;
 	}
 }

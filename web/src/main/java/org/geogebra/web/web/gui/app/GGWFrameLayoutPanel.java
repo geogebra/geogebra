@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -12,6 +13,8 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
+import org.geogebra.web.web.gui.layout.DockManagerW;
+import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
@@ -205,23 +208,39 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			return;
 		}
 		if (showKeyboardButton == null) {
-			DockPanel algebraDockPanel = guiManagerW.getLayout()
-					.getDockManager()
-					.getPanel(App.VIEW_ALGEBRA);
+			if (app.has(Feature.CAS_EDITOR)) {
+				DockManagerW dm = (DockManagerW) guiManagerW.getLayout()
+						.getDockManager();
+				DockPanelW dockPanelKB = dm.getPanel(App.VIEW_ALGEBRA);
 
-			if (algebraDockPanel != null) {
-				showKeyboardButton = new ShowKeyboardButton(this,
-				        textField == null ? (((AlgebraViewW) app
-				                .getAlgebraView()).getInputTreeItem())
-				                : textField,
-						((Widget) algebraDockPanel));
-				if (algebraDockPanel instanceof AlgebraDockPanelW) {
-					((AlgebraDockPanelW) algebraDockPanel)
-							.setKeyBoardButton(showKeyboardButton);
-				}
+				if (dockPanelKB != null) {
+					showKeyboardButton = new ShowKeyboardButton(this,
+ dm,
+							(dockPanelKB));
+						dockPanelKB.setKeyBoardButton(showKeyboardButton);
+					}
+
+			} else {
+				showInAlgebra(textField);
 			}
+
 		}
 		showKeyboardButton.show(show || app.isKeyboardNeeded(), textField);
+	}
+
+	private void showInAlgebra(final MathKeyboardListener textField) {
+		DockPanel algebraDockPanel = guiManagerW.getLayout().getDockManager()
+				.getPanel(App.VIEW_ALGEBRA);
+
+		if (algebraDockPanel != null) {
+			showKeyboardButton = new ShowKeyboardButton(this,
+					(DockManagerW) guiManagerW.getLayout().getDockManager(),
+					((Widget) algebraDockPanel));
+			if (algebraDockPanel instanceof AlgebraDockPanelW) {
+				((AlgebraDockPanelW) algebraDockPanel)
+						.setKeyBoardButton(showKeyboardButton);
+			}
+		}
 	}
 
 	/**

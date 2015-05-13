@@ -4,12 +4,12 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 
 public interface UpdateKeyBoardListener {
 
-	public abstract void showInputField();
+	public void showInputField();
 
-	public abstract void keyBoardNeeded(boolean show,
+	public void keyBoardNeeded(boolean show,
 	        MathKeyboardListener textField);
 
-	public abstract void doShowKeyBoard(boolean b,
+	public void doShowKeyBoard(boolean b,
 	        MathKeyboardListener textField);
 
 }

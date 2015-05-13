@@ -102,7 +102,7 @@ public class Web3D extends Web {
 		//just debug for now
 		PNaCl.exportPNaCltoConsole();
 
-		// registerSuperdevExceptionHandler();
+		registerSuperdevExceptionHandler();
 
 	}
 
