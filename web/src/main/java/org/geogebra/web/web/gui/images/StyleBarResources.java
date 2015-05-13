@@ -26,6 +26,9 @@ public interface StyleBarResources extends ClientBundle {
 	
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_standardview.png")
 	ImageResource standard_view();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_view_all_objects.png")
+	ImageResource view_all_objects();
 	
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_point_capturing.png")
 	ImageResource magnet();

@@ -36,7 +36,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	private AxesAndPlanePopup btnShowAxesAndPlane;
 
-	private PopupMenuButton btnViewDirection;
+	private PopupMenuButton btnChangeView;
 
 	// private PopupMenuButton btnViewProjection;
 
@@ -111,20 +111,24 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// ========================================
 		// view direction button
 
-		ImageOrText[] directionIcons = new ImageOrText[4];
-		for (int i = 0; i < 4; i++) {
+		ImageOrText[] directionIcons = new ImageOrText[6];
+		for (int i = 0; i < 6; i++) {
 			directionIcons[i] = new ImageOrText();
 		}
-		directionIcons[0].setUrl(StyleBar3DResources.INSTANCE.viewXY()
+		directionIcons[0].setUrl(StyleBarResources.INSTANCE.standard_view()
+				.getSafeUri().asString());
+		directionIcons[1].setUrl(StyleBarResources.INSTANCE.view_all_objects()
+				.getSafeUri().asString());
+		directionIcons[2].setUrl(StyleBar3DResources.INSTANCE
+				.standardViewRotate().getSafeUri().asString());
+		directionIcons[3].setUrl(StyleBar3DResources.INSTANCE.viewXY()
 		        .getSafeUri().asString());
-		directionIcons[1].setUrl(StyleBar3DResources.INSTANCE.viewXZ()
+		directionIcons[4].setUrl(StyleBar3DResources.INSTANCE.viewXZ()
 		        .getSafeUri().asString());
-		directionIcons[2].setUrl(StyleBar3DResources.INSTANCE.viewYZ()
+		directionIcons[5].setUrl(StyleBar3DResources.INSTANCE.viewYZ()
 		        .getSafeUri().asString());
-		directionIcons[3].setUrl(StyleBar3DResources.INSTANCE
-		        .standardViewRotate().getSafeUri().asString());
-		btnViewDirection = new ProjectionPopup(app, directionIcons);
-		btnViewDirection.addPopupHandler(this);
+		btnChangeView = new ProjectionPopup(app, directionIcons);
+		btnChangeView.addPopupHandler(this);
 
 		// // ========================================
 		// // projection view button
@@ -273,21 +277,29 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// getView().repaintView();
 		//
 		// } else
-		if (source.equals(btnViewDirection)) {
-			int si = btnViewDirection.getSelectedIndex();
+		if (source.equals(btnChangeView)) {
+			int si = btnChangeView.getSelectedIndex();
 			switch (si) {
-			case 0:
+			case 0: // standard view
+				getView().setStandardView(true);
+				break;
+			case 1: // show all objects
+				getView().setViewShowAllObjects(true);
+				break;
+			case 2: // standard view orientation
+				getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
+						EuclidianView3D.ANGLE_ROT_XOY, false);
+				break;
+
+			// views parallel to axes
+			case 3:
 				getView().setRotAnimation(-90, 90, true);
 				break;
-			case 1:
+			case 4:
 				getView().setRotAnimation(-90, 0, true);
 				break;
-			case 2:
+			case 5:
 				getView().setRotAnimation(0, 0, true);
-				break;
-			case 3:
-				getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
-				        EuclidianView3D.ANGLE_ROT_XOY, false);
 				break;
 			}
 			// } else if (source.equals(btnViewProjection)) {
@@ -366,14 +378,17 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	}
 
 	@Override
+	protected void addChangeViewButtons() {
+
+		add(btnChangeView);
+
+	}
+
+	@Override
 	protected void addBtnRotateView() {
 
 		add(btnRotateView);
 
-		add(btnViewDirection);
-
-		// add(btnClipping);
-		// add(btnViewProjection);
 	}
 
 	@Override
@@ -392,8 +407,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
 		// btnViewProjection.setToolTipText(loc
 		// .getPlainTooltip("stylebar.ViewProjection"));
-		btnViewDirection.setToolTipText(loc
-		        .getPlainTooltip("stylebar.ViewDirection"));
+		// btnChangeView.setToolTipText(loc
+		// .getPlainTooltip("stylebar.ViewDirection"));
 	}
 
 	// @Override
@@ -415,7 +430,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		int index = superList.length;
 		ret[index] = btnRotateView;
 		index++;
-		ret[index] = btnViewDirection;
+		ret[index] = btnChangeView;
 		// index++;
 		// ret[index] = btnClipping;
 		// index++;

@@ -464,8 +464,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		add(btnLabelStyle);
 
-		addBtnRotateView();
-
 		if (btnFixPosition.isVisible() || btnFixObject.isVisible())
 			addSeparator();
 
@@ -484,16 +482,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 	}
 
-	protected void addBtnRotateView() {
-		//
-	}
 
 	/**
 	 * add axes, grid, ... buttons
 	 */
 	protected void addGraphicsDecorationsButtons() {
 		addAxesAndGridButtons();
-		add(btnStandardView);
+		addChangeViewButtons();
+		addBtnRotateView();
 	}
 
 	/**
@@ -502,6 +498,20 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected void addAxesAndGridButtons() {
 		add(btnShowAxes);
 		add(btnShowGrid);
+	}
+
+	/**
+	 * add standard view, show all objects, etc. buttons
+	 */
+	protected void addChangeViewButtons() {
+		add(btnStandardView);
+	}
+
+	/**
+	 * add automatic rotate 3D view button
+	 */
+	protected void addBtnRotateView() {
+		// used in 3D
 	}
 
 	protected MyToggleButton2 getAxesOrGridToggleButton() {
