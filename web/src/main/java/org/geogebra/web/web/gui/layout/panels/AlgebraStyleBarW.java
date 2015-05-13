@@ -191,9 +191,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	private void addNewObjectButton() {
 
 		String[] modes = new String[3];
-		modes[0] = app.getPlain("Piecewise function");
-		modes[1] = app.getPlain("Matrix");
-		modes[2] = app.getPlain("Parametric curve");
+		modes[0] = app.getPlain("PiecewiseFunction");
+		modes[1] = app.getMenu("Matrix");
+		modes[2] = app.getPlain("CurveCartesian");
 		ImageOrText[] strNewObjectClickable = ImageOrText.convert(modes);
 
 		newObjectButton = new PopupMenuButton(app, strNewObjectClickable,
