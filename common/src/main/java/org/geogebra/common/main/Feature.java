@@ -28,4 +28,6 @@ public enum Feature {
 	DATA_COLLECTION,
 
 	IMPLICIT_CURVES,
+
+	ADD_NEW_OBJECT_BUTTON,
 }

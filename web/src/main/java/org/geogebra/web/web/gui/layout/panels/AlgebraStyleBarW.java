@@ -65,7 +65,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		} else {
 			addAuxiliaryButton();
 			addTreeModeButton();
-			addNewObjectButton();
+			if (app.has(Feature.ADD_NEW_OBJECT_BUTTON)) {
+				addNewObjectButton();
+			}
 			addViewButton();
 			setLabels();
 		}

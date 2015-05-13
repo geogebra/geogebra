@@ -3644,6 +3644,7 @@ public abstract class App implements UpdateSelection {
 		case SF_DRAG:
 		case TOOL_EDITOR:
 		case TUBE_BETA:
+		case ADD_NEW_OBJECT_BUTTON:
 			return prerelease;
 		default:
 			return false;
