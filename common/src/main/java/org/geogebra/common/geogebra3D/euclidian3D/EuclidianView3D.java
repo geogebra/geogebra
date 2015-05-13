@@ -3143,6 +3143,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		calcPrintingScale();
 	}
 
+	@Override
+	public void updateBounds(boolean updateDrawables, boolean updateSettings) {
+		updateBounds();
+	}
+
 	private void viewChangedOwnDrawables() {
 
 		// update, but not in case where view changed by rotation
