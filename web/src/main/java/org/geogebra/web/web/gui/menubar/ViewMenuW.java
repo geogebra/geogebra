@@ -130,10 +130,10 @@ public class ViewMenuW extends GMenuBar {
 						public void execute() {
 							app.getGuiManager().setShowView(
 									!app.getGuiManager().showView(
-											AppW.VIEW_DATA_COLLECTION),
-									AppW.VIEW_DATA_COLLECTION);
+											App.VIEW_DATA_COLLECTION),
+									App.VIEW_DATA_COLLECTION);
 							dataCollection.setSelected(app.getGuiManager()
-									.showView(AppW.VIEW_DATA_COLLECTION));
+									.showView(App.VIEW_DATA_COLLECTION));
 							app.toggleMenu();
 						}
 					});
@@ -182,5 +182,9 @@ public class ViewMenuW extends GMenuBar {
 		}
 		inputBarItem.setSelected(app.getInputPosition() != InputPositon.algebraView);
 		consProtNav.setSelected(app.showConsProtNavigation());
+		if (app.has(Feature.DATA_COLLECTION)) {
+			dataCollection.setSelected(app.getGuiManager().showView(
+					App.VIEW_DATA_COLLECTION));
+		}
 	}
 }
