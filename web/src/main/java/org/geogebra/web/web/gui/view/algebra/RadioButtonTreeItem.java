@@ -677,9 +677,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String text = "";
+			String text2 = "";
 			if (geo != null) {
 				text = geo.getLaTeXAlgebraDescription(true,
 				        StringTemplate.latexTemplateMQ);
+				text2 = geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplate);
 				if ((text != null) && text.length() < 1500
 						&& geo.isLaTeXDrawableGeo()) {
 					newLaTeX = true;
@@ -689,10 +692,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
-				updateLaTeX(text);
+				updateLaTeX(text, text2);
 
 			} else if (newLaTeX) {
-				renderLatex(text, seNoLatex, newCreationMode);
+				renderLatex(text, text2, seNoLatex, newCreationMode);
 				LaTeX = true;
 			}
 
@@ -760,9 +763,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	private Canvas c;
 
-	private void renderLatex(String text0, Element old, boolean forceMQ) {
+	private void renderLatex(String text0, String text01, Element old,
+			boolean forceMQ) {
 		if (app.has(Feature.JLM_IN_WEB) && !forceMQ) {
-			paintOnCanvas(text0);
+			paintOnCanvas(text01);
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
 			}
@@ -813,9 +817,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}, g3, 0, 0);
 	}
 
-	private void updateLaTeX(String text0) {
+	private void updateLaTeX(String text0, String text01) {
 		if (app.has(Feature.JLM_IN_WEB)) {
-			paintOnCanvas(text0);
+			paintOnCanvas(text01);
 		} else {
 			if ("".equals(text0)) {
 				DrawEquationWeb
@@ -898,11 +902,16 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		} else if (shouldEditLaTeX()) {
 			if (app.has(Feature.JLM_IN_WEB) && c != null) {
 				renderLatex(geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplateMQ), c.getCanvasElement(),
+						StringTemplate.latexTemplateMQ),
+						geo.getLaTeXAlgebraDescription(true,
+								StringTemplate.latexTemplate),
+						c.getCanvasElement(),
 						true);
 			} else if (!LaTeX) {
 				renderLatex(geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplateMQ), seNoLatex,
+						StringTemplate.latexTemplateMQ),
+						geo.getLaTeXAlgebraDescription(true,
+								StringTemplate.latexTemplate), seNoLatex,
 						true);
 			}
 			DrawEquationWeb.editEquationMathQuillGGB(this,
