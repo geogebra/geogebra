@@ -921,11 +921,11 @@ public class Ggb2giac {
 						+
 						// Tangent[point, function]
 						// just use x-coordinate real(%0[1])
-						"y=subst(diff(ggbtanarg1,x),x=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,x=real(%0[1])))"
+						"y=normal(subst(diff(ggbtanarg1,x),x=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,x=real(%0[1]))))"
 						+ ","
 						+
 						// Tangent[x-value, function]
-						"y=subst(diff(ggbtanarg1,x),x=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,x=ggbtanarg0)"
+						"y=normal(subst(diff(ggbtanarg1,x),x=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,x=ggbtanarg0))"
 						+ ")][1]");
 
 		// p("TangentThroughPoint.2",
@@ -976,7 +976,7 @@ public class Ggb2giac {
 				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',"
 						+ "convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25),"
 						+ "when(ggin[0]='pnt' && size(ggin[1])==3,normal(unitV(ggin)),convert(unitV([real(ggin[1]),im(ggin[1])]),25))))],ggbuvans][2]");
-
+		// Tecna[(10,1),log10(x)]
 		return commandMap;
 	}
 
