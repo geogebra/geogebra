@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -27,6 +28,7 @@ import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW2;
 import org.geogebra.web.web.gui.view.algebra.CondFunRadioButtonTreeItem;
 import org.geogebra.web.web.gui.view.algebra.MatrixRadioButtonTreeItem;
+import org.geogebra.web.web.gui.view.algebra.ParCurveRadioButtonTreeItem;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -63,10 +65,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		} else {
 			addAuxiliaryButton();
 			addTreeModeButton();
-
-			// for activation of some things in ticket #4905
-			// addNewObjectButton();
-
+			addNewObjectButton();
 			addViewButton();
 			setLabels();
 		}
@@ -160,9 +159,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		if (selectedItem == null) {
 			addAuxiliaryButton();
 			addTreeModeButton();
-
-			// to test ticket #4905, this shall be uncommented
-			// addNewObjectButton();
+			addNewObjectButton();
 		} else {
 			add(btnColor);
 			btnColor.update(new Object[] { selectedItem });
@@ -252,6 +249,17 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 					// on slow machines -> shall we use scheduleDeferred too?
 					break;
 				case 2:
+					final GeoCurveCartesianND curve = ParCurveRadioButtonTreeItem.createBasic(app.getKernel());
+					if (curve != null) {
+						// in theory, fun is never null, but what if?
+						// same code as for matrices, see comments there
+						Timer tim = new Timer() {
+							public void run() {
+								app.getAlgebraView().startEditing(curve);
+							}
+						};
+						tim.schedule(500);
+					}
 					break;
 				}
 			}
