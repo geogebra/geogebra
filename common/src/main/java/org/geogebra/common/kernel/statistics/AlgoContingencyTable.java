@@ -568,8 +568,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		// always use JLaTeXMath instead of MathQuillGGB in case
 		// it is technically available, because this is never edited
 		// ... so NOT latexTemplateMQ is used here (but anything else)
-		return !kernel.getApplication().isLatexMathQuillStyle(
-				StringTemplate.latexTemplate);
+		return !kernel.getApplication().isLatexMathQuillStyle(null);
 	}
 
 	private void endRow(StringBuilder sb, boolean lineBelow) {

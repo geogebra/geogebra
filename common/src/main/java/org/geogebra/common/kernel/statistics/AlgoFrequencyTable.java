@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.TableAlgo;
@@ -369,8 +368,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		// always use JLaTeXMath instead of MathQuillGGB in case
 		// it is technically available, because this is never edited (by MQ)
 		// ... so NOT latexTemplateMQ is used here (but anything else)
-		if (kernel.getApplication().isLatexMathQuillStyle(
-				StringTemplate.latexTemplate)) {
+		if (kernel.getApplication().isLatexMathQuillStyle(null)) {
 			createLaTeXTableMQ(useClassList);
 		} else {
 			createLaTeXTableD(useClassList);
