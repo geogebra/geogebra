@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
@@ -2911,6 +2912,9 @@ public abstract class GeoElement extends ConstructionElement implements
 					if (isGeoPoint()) {
 						captionSB.append(kernel.format(((GeoPointND) this)
 								.getInhomCoords().getX(),tpl));
+					} else if (isGeoVector()) {
+						captionSB.append(kernel.format(
+								((GeoVectorND) this).getInhomCoords()[0], tpl));
 					} else if (isGeoLine()) {
 						captionSB
 								.append(kernel.format(((GeoLine) this).getX(),tpl));
@@ -2923,6 +2927,9 @@ public abstract class GeoElement extends ConstructionElement implements
 					if (isGeoPoint()) {
 						captionSB.append(kernel.format(((GeoPointND) this)
 								.getInhomCoords().getY(),tpl));
+					} else if (isGeoVector()) {
+						captionSB.append(kernel.format(
+								((GeoVectorND) this).getInhomCoords()[1], tpl));
 					} else if (isGeoLine()) {
 						captionSB
 								.append(kernel.format(((GeoLine) this).getY(),tpl));
@@ -2934,6 +2941,11 @@ public abstract class GeoElement extends ConstructionElement implements
 					if (isGeoPoint()) {
 						captionSB.append(kernel.format(((GeoPointND) this)
 								.getInhomCoords().getZ(),tpl));
+					} else if (isGeoVector()) {
+						captionSB
+								.append(((GeoVectorND) this).getInhomCoords().length < 3 ? "0"
+										: kernel.format(((GeoVectorND) this)
+												.getInhomCoords()[2], tpl));
 					} else if (isGeoLine()) {
 						captionSB
 								.append(kernel.format(((GeoLine) this).getZ(),tpl));
