@@ -535,17 +535,17 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * @return success
 	 */
 	public boolean setInput(String inValue, boolean internalInput) {
-
+		String inNotNull = inValue != null ? inValue : "";
 		// if the cell is used as comment, treat it as empty
 		if (useAsText) {
 			suppressOutput = true;
 			setInputVE(null);
-			this.commentText.setTextString(inValue != null ? inValue : "");
+			this.commentText.setTextString(inNotNull);
 		} else { // parse input into valid expression
-			suppressOutput = inValue.endsWith(";");
-			setInputVE(parseGeoGebraCASInputAndResolveDummyVars(inValue));
+			suppressOutput = inNotNull.endsWith(";");
+			setInputVE(parseGeoGebraCASInputAndResolveDummyVars(inNotNull));
 		}
-		input = inValue != null ? inValue : ""; // remember exact user input
+		input = inNotNull; // remember exact user input
 		prefix = "";
 		evalVE = getInputVE();
 		postfix = "";
