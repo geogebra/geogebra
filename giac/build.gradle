@@ -208,7 +208,7 @@ model {
 		    linker.args '-lgmp', '-lmpfr', '-lpthread', '-dynamiclib'
 		    linker.args '-framework', 'Accelerate'
 		    linker.args '-framework', 'CoreFoundation'
-		    linker.args '-o', 'libjavagiac.jnilib'
+		    linker.args '-o', 'build/binaries/javagiacSharedLibrary/osx_amd64/libjavagiac.jnilib' // TODO: find a more elegant way
 		    }
         	}
     	    }
