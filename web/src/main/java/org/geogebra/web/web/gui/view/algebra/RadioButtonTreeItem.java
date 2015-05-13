@@ -677,12 +677,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String text = "";
-			String text2 = "";
 			if (geo != null) {
-				text = geo.getLaTeXAlgebraDescription(true,
-				        StringTemplate.latexTemplateMQ);
-				text2 = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplate);
+				if (app.has(Feature.JLM_IN_WEB) && !newCreationMode) {
+					text = geo.getLaTeXAlgebraDescription(true,
+							StringTemplate.latexTemplate);
+				} else {
+					text = geo.getLaTeXAlgebraDescription(true,
+							StringTemplate.latexTemplateMQ);
+				}
 				if ((text != null) && text.length() < 1500
 						&& geo.isLaTeXDrawableGeo()) {
 					newLaTeX = true;
@@ -692,10 +694,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
-				updateLaTeX(text, text2);
+				if (newCreationMode) {
+					text = geo.getLaTeXAlgebraDescription(true,
+							StringTemplate.latexTemplateMQ);
+				}
+				updateLaTeX(text);
 
 			} else if (newLaTeX) {
-				renderLatex(text, text2, seNoLatex, newCreationMode);
+				renderLatex(text, seNoLatex, newCreationMode);
 				LaTeX = true;
 			}
 
@@ -763,10 +769,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	private Canvas c;
 
-	private void renderLatex(String text0, String text01, Element old,
+	private void renderLatex(String text0, Element old,
 			boolean forceMQ) {
 		if (app.has(Feature.JLM_IN_WEB) && !forceMQ) {
-			paintOnCanvas(text01);
+			paintOnCanvas(text0);
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
 			}
@@ -817,9 +823,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}, g3, 0, 0);
 	}
 
-	private void updateLaTeX(String text0, String text01) {
+	private void updateLaTeX(String text0) {
 		if (app.has(Feature.JLM_IN_WEB)) {
-			paintOnCanvas(text01);
+			paintOnCanvas(text0);
 		} else {
 			if ("".equals(text0)) {
 				DrawEquationWeb
@@ -903,15 +909,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (app.has(Feature.JLM_IN_WEB) && c != null) {
 				renderLatex(geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ),
-						geo.getLaTeXAlgebraDescription(true,
-								StringTemplate.latexTemplate),
 						c.getCanvasElement(),
 						true);
 			} else if (!LaTeX) {
 				renderLatex(geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplateMQ),
-						geo.getLaTeXAlgebraDescription(true,
-								StringTemplate.latexTemplate), seNoLatex,
+						StringTemplate.latexTemplateMQ), seNoLatex,
 						true);
 			}
 			DrawEquationWeb.editEquationMathQuillGGB(this,
