@@ -17,13 +17,13 @@ import java.util.Arrays;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -308,9 +308,11 @@ public class AlgoStemPlot extends AlgoElement {
 		}
 		high.append("} \\\\ "); // newline in LaTeX ie \\
 
-		if (kernel.getApplication().isHTML5Applet()
-				&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
-			// TODO: App.isLatexMathQuillStyle(StringTemplate tpl)
+		// as this is never edited by MathQuillGGB, we can always use
+		// JLatexMath when it is technically available, so
+		// StringTemplate.latexTemplate is used here instead of latexTemplateMQ
+		if (kernel.getApplication().isLatexMathQuillStyle(
+				StringTemplate.latexTemplate)) {
 			stemPlotMQ(data, outlierIndex, multUnit, stemLines);
 		} else {
 			stemPlot(data, outlierIndex, multUnit, stemLines);

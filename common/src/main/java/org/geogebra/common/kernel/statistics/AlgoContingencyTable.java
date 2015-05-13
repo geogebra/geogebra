@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Unicode;
 
 /**
@@ -566,10 +565,11 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private boolean useJLaTeXMath() {
-		// TODO: kernel.getApplication().isLatexMathQuillStyle(StringTemplate
-		// tpl)
-		return !kernel.getApplication().isHTML5Applet()
-				|| kernel.getApplication().has(Feature.JLM_IN_WEB);
+		// always use JLaTeXMath instead of MathQuillGGB in case
+		// it is technically available, because this is never edited
+		// ... so NOT latexTemplateMQ is used here (but anything else)
+		return !kernel.getApplication().isLatexMathQuillStyle(
+				StringTemplate.latexTemplate);
 	}
 
 	private void endRow(StringBuilder sb, boolean lineBelow) {
