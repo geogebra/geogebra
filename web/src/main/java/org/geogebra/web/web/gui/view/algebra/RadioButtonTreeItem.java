@@ -1423,7 +1423,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
-	private boolean shouldEditLaTeX() {
+	protected boolean shouldEditLaTeX() {
 		return (LaTeX || geo.isGeoPoint() || geo.isGeoNumeric())
 				&& !geo.isGeoVector()
 				&& (geo.isIndependent() || (geo.getParentAlgorithm() instanceof AlgoCurveCartesian));

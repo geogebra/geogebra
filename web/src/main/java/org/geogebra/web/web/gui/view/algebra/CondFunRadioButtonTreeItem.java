@@ -128,4 +128,23 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		auxPanel.setVisible(false);
 		super.stopEditingSimple(s);
 	}
+
+	@Override
+	protected boolean shouldEditLaTeX() {
+		// only allow editing for piecewise functions of variable "x"
+		return super.shouldEditLaTeX() && hasXVar();
+	}
+
+	protected boolean hasXVar() {
+		GeoFunction fun = (GeoFunction) geo;
+		if (fun.getFunctionVariables().length == 0) {
+			return false;
+		} else if (fun.getFunctionVariables()[0] == null) {
+			return false;
+		}
+		if ("x".equals((fun.getFunctionVariables()[0]).getSetVarString())) {
+			return true;
+		}
+		return false;
+	}
 }
