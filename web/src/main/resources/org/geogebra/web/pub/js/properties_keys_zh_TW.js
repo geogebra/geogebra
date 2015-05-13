@@ -2627,6 +2627,7 @@ __GGB__keysVar.zh_TW.plain = {
     "Picture": "\u5716\u7247",
     "PictureHeight": "\u5716\u7247\u9ad8\u5ea6",
     "PictureWidth": "\u5716\u7247\u5bec\u5ea6",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "\u5e73\u9762",
     "PlaneA": "\u5e73\u9762 %0",
     "PlaneContainingA": "\u5e73\u9762 (\u5305\u542b %0)",

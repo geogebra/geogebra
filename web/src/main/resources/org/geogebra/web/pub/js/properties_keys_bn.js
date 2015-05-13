@@ -2627,6 +2627,7 @@ __GGB__keysVar.bn.plain = {
     "Picture": "Picture",
     "PictureHeight": "Picture height",
     "PictureWidth": "Picture width",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "plane %0",
     "PlaneContainingA": "Plane containing %0",

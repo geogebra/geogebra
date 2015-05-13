@@ -2627,6 +2627,7 @@ __GGB__keysVar.nl.plain = {
     "Picture": "Afbeelding",
     "PictureHeight": "Hoogte afbeelding",
     "PictureWidth": "Breedte afbeelding",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "vlak %0",
     "PlaneContainingA": "Vlak met %0",

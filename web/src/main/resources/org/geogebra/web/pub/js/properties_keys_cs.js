@@ -2627,6 +2627,7 @@ __GGB__keysVar.cs.plain = {
     "Picture": "Obraz",
     "PictureHeight": "V\xfd\u0161ka obr\xe1zku",
     "PictureWidth": "\u0160\xed\u0159ka obr\xe1zku",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Rovina",
     "PlaneA": "rovina %0",
     "PlaneContainingA": "rovina obsahuj\xedc\xed %0",

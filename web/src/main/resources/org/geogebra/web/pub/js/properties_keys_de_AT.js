@@ -2627,6 +2627,7 @@ __GGB__keysVar.de_AT.plain = {
     "Picture": "Bild",
     "PictureHeight": "Bildh\xf6he",
     "PictureWidth": "Bildbreite",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Ebene",
     "PlaneA": "Ebene %0",
     "PlaneContainingA": "Ebene enth\xe4lt %0",

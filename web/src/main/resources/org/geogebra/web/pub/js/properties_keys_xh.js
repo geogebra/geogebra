@@ -2627,6 +2627,7 @@ __GGB__keysVar.xh.plain = {
     "Picture": "Umfanekiso",
     "PictureHeight": "Ukuphakama koMfanekiso",
     "PictureWidth": "Ububanzi boMfanekiso",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "iPleyni",
     "PlaneA": "iplane u %0",
     "PlaneContainingA": "iPlane equlathe %0",

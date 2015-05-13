@@ -2627,6 +2627,7 @@ __GGB__keysVar.hu.plain = {
     "Picture": "K\xe9p",
     "PictureHeight": "K\xe9pmagass\xe1g",
     "PictureWidth": "K\xe9psz\xe9less\xe9g",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "S\xedk",
     "PlaneA": "%0 s\xedk",
     "PlaneContainingA": "%0-t tartalmaz\xf3 s\xedk",

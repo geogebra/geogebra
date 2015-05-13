@@ -2627,6 +2627,7 @@ __GGB__keysVar.hr.plain = {
     "Picture": "Crte\u017e",
     "PictureHeight": "Visina crte\u017ea",
     "PictureWidth": "\u0160irina crte\u017ea",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Ravnina",
     "PlaneA": "ravnina %0",
     "PlaneContainingA": "Ravnina sadr\u017ei %0",

@@ -2627,6 +2627,7 @@ __GGB__keysVar.eo.plain = {
     "Picture": "Bildo",
     "PictureHeight": "Alto de la bildo",
     "PictureWidth": "Lar\u011do de la bildo",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "ebeno %0",
     "PlaneContainingA": "Plane containing %0",

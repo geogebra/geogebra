@@ -2627,6 +2627,7 @@ __GGB__keysVar.ar_MA.plain = {
     "Picture": "\u0635\u0648\u0631\u0629",
     "PictureHeight": "\u0637\u0648\u0644 \u0627\u0644\u0635\u0648\u0631\u0629",
     "PictureWidth": "\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631\u0629",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "%0 \u0627\u0644\u0645\u0633\u062a\u0648\u064a",
     "PlaneContainingA": "\u0645\u0633\u062a\u0648\u064a \u064a\u062d\u062a\u0648\u064a \u0639\u0644\u064a %0",

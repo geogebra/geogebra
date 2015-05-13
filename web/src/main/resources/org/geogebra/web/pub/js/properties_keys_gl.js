@@ -2627,6 +2627,7 @@ __GGB__keysVar.gl.plain = {
     "Picture": "Imaxe",
     "PictureHeight": "Altura da imaxe",
     "PictureWidth": "Anchura da imaxe",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plano",
     "PlaneA": "plano %0",
     "PlaneContainingA": "Plano que cont\xe9n a %0",

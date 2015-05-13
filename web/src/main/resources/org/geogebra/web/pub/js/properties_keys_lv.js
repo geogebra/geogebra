@@ -2627,6 +2627,7 @@ __GGB__keysVar.lv.plain = {
     "Picture": "Bilde",
     "PictureHeight": "Bildes augstums",
     "PictureWidth": "Bildes platums",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "plakne %0",
     "PlaneContainingA": "Plakne, kas satur %0",

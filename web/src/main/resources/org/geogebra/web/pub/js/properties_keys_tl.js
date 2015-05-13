@@ -2627,6 +2627,7 @@ __GGB__keysVar.tl.plain = {
     "Picture": "Larawan",
     "PictureHeight": "Taas ng larawan",
     "PictureWidth": "Lapad ng larawan",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "Patag %0",
     "PlaneContainingA": "Patag na may %0",

@@ -2627,6 +2627,7 @@ __GGB__keysVar.es.plain = {
     "Picture": "Imagen",
     "PictureHeight": "Altura de la imagen",
     "PictureWidth": "Ancho de la imagen",
+    "PiecewiseFunction": "Funci\xf3n por tramos",
     "Plane": "Plano",
     "PlaneA": "plano %0",
     "PlaneContainingA": "Plano que contiene a %0",

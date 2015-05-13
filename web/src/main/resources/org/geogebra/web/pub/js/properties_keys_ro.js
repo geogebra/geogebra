@@ -2627,6 +2627,7 @@ __GGB__keysVar.ro.plain = {
     "Picture": "Imagine",
     "PictureHeight": "\xcen\u0103l\u0163ime imagine",
     "PictureWidth": "L\u0103\u0163ime imagine",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plan",
     "PlaneA": "planul %0",
     "PlaneContainingA": "planul care con\u021bine: %0",

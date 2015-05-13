@@ -2627,6 +2627,7 @@ __GGB__keysVar.bs.plain = {
     "Picture": "Slika",
     "PictureHeight": "Visina slike",
     "PictureWidth": "\u0160irina slike",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Ravan",
     "PlaneA": "Ravan %0",
     "PlaneContainingA": "Ravan koja sadr\u017ei %0",

@@ -2627,6 +2627,7 @@ __GGB__keysVar.et.plain = {
     "Picture": "Pilt",
     "PictureHeight": "Pildi k\xf5rgus",
     "PictureWidth": "Pildi laius",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Tasand",
     "PlaneA": "tasand %0",
     "PlaneContainingA": "Tasand sisaldab %0",

@@ -2627,6 +2627,7 @@ __GGB__keysVar.sl.plain = {
     "Picture": "Slika",
     "PictureHeight": "Vi\u0161ina slike",
     "PictureWidth": "\u0160irina slike",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Ravnina",
     "PlaneA": "ravnina %0",
     "PlaneContainingA": "Ravnina, ki vsebuje %0",

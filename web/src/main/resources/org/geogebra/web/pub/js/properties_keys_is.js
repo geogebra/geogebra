@@ -2627,6 +2627,7 @@ __GGB__keysVar.is.plain = {
     "Picture": "Mynd",
     "PictureHeight": "H\xe6\xf0 myndar",
     "PictureWidth": "Breidd myndar",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "plan %0",
     "PlaneContainingA": "Plan sem inniheldur %0",

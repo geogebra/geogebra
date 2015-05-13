@@ -2627,6 +2627,7 @@ __GGB__keysVar.ji.plain = {
     "Picture": "\u05d1\u05d9\u05dc\u05d3",
     "PictureHeight": "\u05d4\u05d9\u05d9\u05da \u05e4\u05bf\u05d5\u05df \u05d1\u05d9\u05dc\u05d3",
     "PictureWidth": "\u05d1\u05e8\u05d9\u05d9\u05d8 \u05e4\u05bf\u05d5\u05df \u05d1\u05d9\u05dc\u05d3",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "\u05e4\u05bf\u05dc\u05d0\u05b7\u05da %0",
     "PlaneContainingA": "\u05e4\u05bf\u05dc\u05d0\u05b7\u05da \u05d5\u05d5\u05d0\u05b8\u05e1 \u05e0\u05e2\u05de\u05d8 \u05d0\u05b7\u05e8\u05f2\u05b7\u05df %0",

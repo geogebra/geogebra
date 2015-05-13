@@ -2627,6 +2627,7 @@ __GGB__keysVar.sq.plain = {
     "Picture": "Pikture",
     "PictureHeight": "Lartesi e Piktures",
     "PictureWidth": "Gjeresi e Piktures",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "plani %0",
     "PlaneContainingA": "Plani qe permban %0",

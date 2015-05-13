@@ -2627,6 +2627,7 @@ __GGB__keysVar.pl.plain = {
     "Picture": "Obraz",
     "PictureHeight": "Wysoko\u015b\u0107 obrazu",
     "PictureWidth": "Szeroko\u015b\u0107 obrazu",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "P\u0142aszczyzna",
     "PlaneA": "P\u0142aszczyzna %0",
     "PlaneContainingA": "P\u0142aszczyzna zawieraj\u0105ca %0",

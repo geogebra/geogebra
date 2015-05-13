@@ -2627,6 +2627,7 @@ __GGB__keysVar.fi.plain = {
     "Picture": "Kuva",
     "PictureHeight": "Kuvan korkeus",
     "PictureWidth": "Kuvan leveys",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Taso",
     "PlaneA": "taso %0",
     "PlaneContainingA": "Taso, joka sis\xe4lt\xe4\xe4 objektin %0",

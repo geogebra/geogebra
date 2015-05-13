@@ -2627,6 +2627,7 @@ __GGB__keysVar.ta.plain = {
     "Picture": "\u0baa\u0b9f\u0bae\u0bcd",
     "PictureHeight": "\u0baa\u0b9f \u0b89\u0baf\u0bb0\u0bae\u0bcd",
     "PictureWidth": "\u0baa\u0b9f \u0b85\u0b95\u0bb2\u0bae\u0bcd",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "plane %0",
     "PlaneContainingA": "Plane containing %0",

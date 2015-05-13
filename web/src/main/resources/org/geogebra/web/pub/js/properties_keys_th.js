@@ -2627,6 +2627,7 @@ __GGB__keysVar.th.plain = {
     "Picture": "\u0e23\u0e39\u0e1b\u0e20\u0e32\u0e1e",
     "PictureHeight": "\u0e04\u0e27\u0e32\u0e21\u0e2a\u0e38\u0e07\u0e02\u0e2d\u0e07\u0e20\u0e32\u0e1e",
     "PictureWidth": "\u0e04\u0e27\u0e32\u0e21\u0e01\u0e27\u0e49\u0e32\u0e07\u0e02\u0e2d\u0e07\u0e20\u0e32\u0e1e",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "\u0e23\u0e30\u0e19\u0e32\u0e1a %0",
     "PlaneContainingA": "\u0e23\u0e30\u0e19\u0e32\u0e1a\u0e17\u0e35\u0e48\u0e21\u0e35 %0",

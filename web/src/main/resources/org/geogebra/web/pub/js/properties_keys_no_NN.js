@@ -2627,6 +2627,7 @@ __GGB__keysVar.no_NN.plain = {
     "Picture": "Bilde",
     "PictureHeight": "BIldeh\xf8gde",
     "PictureWidth": "BIldebreidde",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plan",
     "PlaneA": "plan %0",
     "PlaneContainingA": "Plan som inneheld %0",

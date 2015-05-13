@@ -2627,6 +2627,7 @@ __GGB__keysVar.eu.plain = {
     "Picture": "Irudia",
     "PictureHeight": "Irudiaren altuera",
     "PictureWidth": "Irudiaren zabalera",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Planoa",
     "PlaneA": "%0 planoa",
     "PlaneContainingA": "%0 daukan planoa",

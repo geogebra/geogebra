@@ -2627,6 +2627,7 @@ __GGB__keysVar.si.plain = {
     "Picture": "\u0dbb\u0dd6\u0db4\u0dba\u0db1\u0dca",
     "PictureHeight": "\u0dbb\u0dd6\u0db4\u0dba\u0dda \u0d8b\u0dc3",
     "PictureWidth": "\u0dbb\u0dd6\u0db4\u0dba\u0dda \u0db4\u0dc5\u0dbd",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "\u0dad\u0dbd\u0dba %0",
     "PlaneContainingA": "\u0dad\u0dbd\u0dba \u0d85\u0da9\u0d82\u0d9c\u0dd4 %0",

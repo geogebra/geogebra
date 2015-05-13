@@ -2627,6 +2627,7 @@ __GGB__keysVar.ms.plain = {
     "Picture": "Gambar",
     "PictureHeight": "Tinggi gambar",
     "PictureWidth": "Lebar gambar",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Satah",
     "PlaneA": "satah %0",
     "PlaneContainingA": "Satah mengandungi %0",

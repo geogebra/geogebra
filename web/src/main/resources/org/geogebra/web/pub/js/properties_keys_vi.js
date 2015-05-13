@@ -2627,6 +2627,7 @@ __GGB__keysVar.vi.plain = {
     "Picture": "\u1ea2nh",
     "PictureHeight": "Chi\u1ec1u cao \u1ea3nh",
     "PictureWidth": "Chi\u1ec1u r\u1ed9ng \u1ea3nh",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "m\u1eb7t ph\u1eb3ng %0",
     "PlaneContainingA": "M\u1eb7t ph\u1eb3ng ch\u1ee9a %0",

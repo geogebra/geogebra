@@ -2627,6 +2627,7 @@ __GGB__keysVar.ca_XV.plain = {
     "Picture": "Imatge",
     "PictureHeight": "Al\xe7\xe0ria de la imatge",
     "PictureWidth": "Ampl\xe0ria de la imatge",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Pla",
     "PlaneA": "pla %0",
     "PlaneContainingA": "Pla que cont\xe9 %0",

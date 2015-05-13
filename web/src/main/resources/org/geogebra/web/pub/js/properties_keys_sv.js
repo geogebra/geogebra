@@ -2627,6 +2627,7 @@ __GGB__keysVar.sv.plain = {
     "Picture": "Bild",
     "PictureHeight": "Bildens h\xf6jd",
     "PictureWidth": "Bildens bredd",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plan",
     "PlaneA": "Plan %0",
     "PlaneContainingA": "Plan inneh\xe5llande %0",

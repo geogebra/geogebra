@@ -2627,6 +2627,7 @@ __GGB__keysVar.sk.plain = {
     "Picture": "Obraz",
     "PictureHeight": "V\xfd\u0161ka obrazu",
     "PictureWidth": "\u0160\xedrka obrazu",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Rovina",
     "PlaneA": "rovina %0",
     "PlaneContainingA": "Rovina obsahuj\xfaca %0",

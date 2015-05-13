@@ -2627,6 +2627,7 @@ __GGB__keysVar.cy.plain = {
     "Picture": "Llun",
     "PictureHeight": "Uchder y llun",
     "PictureWidth": "Lled y llun",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plane",
     "PlaneA": "plane %0",
     "PlaneContainingA": "Plane containing %0",

@@ -2627,6 +2627,7 @@ __GGB__keysVar.lt.plain = {
     "Picture": "Paveiksl\u0117lis",
     "PictureHeight": "Paveiksl\u0117lio auk\u0161tis",
     "PictureWidth": "Paveiksl\u0117lio plotis",
+    "PiecewiseFunction": "Piecewise function",
     "Plane": "Plok\u0161tuma",
     "PlaneA": "plok\u0161tuma %0",
     "PlaneContainingA": "Plok\u0161tuma apimanti %0",
