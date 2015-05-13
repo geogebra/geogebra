@@ -60,6 +60,7 @@ import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.SliderW;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 import org.scilab.forge.jlatexmath.CreateLibrary;
@@ -1466,6 +1467,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 	private void onPointerUp(AbstractEvent event) {
 		if (commonEditingCheck()) {
+			if (newCreationMode) {
+				AlgebraStyleBarW styleBar = ((AlgebraViewW) av)
+						.getStyleBar(false);
+				if (styleBar != null) {
+					styleBar.update(null);
+				}
+			}
 			return;
 		}
 		int mode = app.getActiveEuclidianView().getMode();
