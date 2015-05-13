@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
 
@@ -604,8 +603,7 @@ public class MyList extends ValidExpression implements ListValue,
 			// correctly
 			return "\\left\\{ \\right\\}";
 		} else if (isMatrix()) {
-			if (kernel.getApplication().isHTML5Applet()
-					&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
+			if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
 				toLaTeXString.append("\\left(\\ggbtable{");
 				for (int i = 0; i < size(); i++) {
 					ListValue singleValue = (ListValue) getListElement(i)

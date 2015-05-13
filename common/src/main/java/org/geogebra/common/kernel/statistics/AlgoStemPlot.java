@@ -310,6 +310,7 @@ public class AlgoStemPlot extends AlgoElement {
 
 		if (kernel.getApplication().isHTML5Applet()
 				&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
+			// TODO: App.isLatexMathQuillStyle(StringTemplate tpl)
 			stemPlotMQ(data, outlierIndex, multUnit, stemLines);
 		} else {
 			stemPlot(data, outlierIndex, multUnit, stemLines);

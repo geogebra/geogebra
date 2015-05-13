@@ -52,7 +52,6 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -2355,8 +2354,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			ArrayList<Bounds> conditions = new ArrayList<Bounds>();
 			boolean complete = collectCases(expr,cases, conditions, new Bounds());
 
-			if (kernel.getApplication().isHTML5Applet()
-					&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
+			if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
 				sbLaTeX.append("\\piecewise{ \\pwtable{ ");
 				for (int i = 0; i < cases.size(); i++) {
 					sbLaTeX.append("\\ggbtr{ \\ggbtdL{ ");

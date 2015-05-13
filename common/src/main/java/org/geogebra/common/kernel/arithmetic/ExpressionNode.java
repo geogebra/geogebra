@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -2702,15 +2701,13 @@ kernel, left,
 				MathmlTemplate.mathml(sb, "<floor/>", leftStr, null);
 				break;
 			case LATEX:
-				if (!kernel.getApplication().isHTML5Applet()
-						|| kernel.getApplication().has(Feature.JLM_IN_WEB)) {
+				if (!kernel.getApplication().isLatexMathQuillStyle(tpl)) {
 					// MathQuillGGB doesn't support this
 					sb.append("\\left");
 				}
 				sb.append("\\lfloor ");
 				sb.append(leftStr);
-				if (!kernel.getApplication().isHTML5Applet()
-						|| kernel.getApplication().has(Feature.JLM_IN_WEB)) {
+				if (!kernel.getApplication().isLatexMathQuillStyle(tpl)) {
 					// MathQuillGGB doesn't support this
 					sb.append("\\right");
 				}
@@ -3519,8 +3516,7 @@ kernel, left,
 		} else {
 			switch (tpl.getStringType()) {
 			case LATEX:
-				if (kernel.getApplication().isHTML5Applet()
-						&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
+				if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
 					String translatedKey = loc.getFunction(key);
 
 					// supported operators in MathQuillGGB - TODO: are there

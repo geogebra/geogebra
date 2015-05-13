@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -1489,8 +1488,7 @@ AngleProperties {
 
 			final StringBuilder sb = new StringBuilder();
 
-			if (kernel.getApplication().isHTML5Applet()
-					&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
+			if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
 				sb.append("\\left(\\ggbtable{");
 				for (int i = 0; i < size(); i++) {
 					final GeoList geo = (GeoList) get(i);

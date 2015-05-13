@@ -366,6 +366,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void createLaTeXTable(boolean useClassList) {
+		// TODO: App.isLatexMathQuillStyle(StringTemplate tpl)
 		if (kernel.getApplication().isHTML5Applet()
 				&& !kernel.getApplication().has(Feature.JLM_IN_WEB)) {
 			createLaTeXTableMQ(useClassList);

@@ -566,6 +566,8 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private boolean useJLaTeXMath() {
+		// TODO: kernel.getApplication().isLatexMathQuillStyle(StringTemplate
+		// tpl)
 		return !kernel.getApplication().isHTML5Applet()
 				|| kernel.getApplication().has(Feature.JLM_IN_WEB);
 	}

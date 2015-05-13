@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -3648,6 +3649,15 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		}
+	}
+
+	public final boolean isLatexMathQuillStyle(StringTemplate tpl) {
+		if (!isHTML5Applet()) {
+			return false;
+		} else if (!has(Feature.JLM_IN_WEB)) {
+			return true;
+		}
+		return tpl == StringTemplate.latexTemplateMQ;
 	}
 
 	private int tubeID = 0;
