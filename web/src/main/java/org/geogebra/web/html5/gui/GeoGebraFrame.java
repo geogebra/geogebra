@@ -86,6 +86,31 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 									ne.getCtrlKey(), ne.getShiftKey());
 						}
 						break;
+					// these are not yet good because they seem to consume
+					// these events, which they should not do!
+					/*case ESCAPE:
+						// we don't know which element to blur...
+						// so let's focus some element outside of this!
+						// and then maybe blur it!
+						RootPanel.getBodyElement().focus();
+						RootPanel.getBodyElement().blur();
+						break;
+					case ENTER:
+						// maybe there are more applets on the page,
+						// so this will be called for each, causing a
+						// bit of indeterministic confusion ... why not?
+
+						// just it is a question what to focus on exactly,
+						// I suggest the input bar or the Graphics View 1
+						// just how to access them from here?
+						if (app != null) {
+							// this is easier for the Graphics View,
+							// and maybe also better, as it has a lot of other
+							// key events the user might want to access
+							app.getEuclidianView1().getCanvas()
+									.getCanvasElement().focus();
+						}
+						break;*/
 					}
 					break;
 				}
