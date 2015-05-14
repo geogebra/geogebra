@@ -64,19 +64,22 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnPrint.setFocusable(false);
 
 		btnShowStatistics = new MyToggleButton(
-				app.getScaledIcon("dataview-showstatistics.png"), iconHeight);
+				app.getScaledIcon("stylingbar_variable_analysis_statistics.png"),
+				iconHeight);
 		btnShowStatistics.addActionListener(this);
 		btnShowStatistics.setFocusPainted(false);
 		btnShowStatistics.setFocusable(false);
 
 		btnShowData = new MyToggleButton(
-				app.getScaledIcon("dataview-showdata.png"), iconHeight);
+				app.getScaledIcon("stylingbar_variable_analysis_data.png"),
+				iconHeight);
 		btnShowData.addActionListener(this);
 		btnShowData.setFocusPainted(false);
 		btnShowData.setFocusable(false);
 
 		btnShowPlot2 = new MyToggleButton(
-				app.getScaledIcon("dataview-showplot2.png"), iconHeight);
+				app.getScaledIcon("stylingbar_variable_analysis_2plot.png"),
+				iconHeight);
 		btnShowPlot2.addActionListener(this);
 		btnShowPlot2.setFocusPainted(false);
 		btnShowPlot2.setFocusable(false);
