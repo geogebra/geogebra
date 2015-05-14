@@ -161,7 +161,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		if (selectedItem == null) {
 			addAuxiliaryButton();
 			addTreeModeButton();
-			addNewObjectButton();
+			if (app.has(Feature.ADD_NEW_OBJECT_BUTTON)) {
+				addNewObjectButton();
+			}
 		} else {
 			add(btnColor);
 			btnColor.update(new Object[] { selectedItem });
