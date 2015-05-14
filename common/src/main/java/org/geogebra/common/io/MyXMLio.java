@@ -101,6 +101,11 @@ public abstract class MyXMLio {
 			consApp.getGuiManager().getProbabilityCalculatorXML(sb);
 		}
 
+		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null
+				&& consApp.getGuiManager().hasSpreadsheetView()) {
+			consApp.getGuiManager().getSpreadsheetViewXML(sb, false);
+		}
+
 		sb.append("</geogebra>");
 
 		constructionKernel.setIsGettingUndo(kernelIsGettingUndo);
