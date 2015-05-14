@@ -3755,17 +3755,23 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Mike_1254 () {
-    t("Tangent[(0.2, 10), sqrt(1 - x^2)]", "y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)");
+		t("Tangent[(0.2, 10), sqrt(1 - x^2)]",
+				"y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)",
+				"y = (((-sqrt(6))) / 12 * x) + (5 * sqrt(6) / 12)");
   }
 
   @Test
   public void Mike_1255 () {
-    t("Tangent[0.2, sqrt(1 - x^2)]", "y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)");
+		t("Tangent[0.2, sqrt(1 - x^2)]",
+				"y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)",
+				"y = (((-sqrt(6))) / 12 * x) + (5 * sqrt(6) / 12)");
   }
 
   @Test
   public void Mike_1256 () {
-    t("Tangent[a, sqrt(1 - x^2)]", "y = -a * sqrt(1 - a^(2))^(-1) * (x - a) + sqrt(1 - a^(2))");
+		t("Tangent[a, sqrt(1 - x^2)]",
+				"y = -a * sqrt(1 - a^(2))^(-1) * (x - a) + sqrt(1 - a^(2))",
+				"y = (((a * sqrt((-a^(2)) + 1)) * x) - sqrt((-a^(2)) + 1)) / (a^(2) - 1)");
   }
 
   @Test
