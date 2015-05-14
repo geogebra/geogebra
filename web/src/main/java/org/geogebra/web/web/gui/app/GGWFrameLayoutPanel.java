@@ -203,7 +203,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 *            text field receiving the text from keyboard
 	 */
 	public void showKeyboardButton(boolean show,
-	        final MathKeyboardListener textField) {
+			final MathKeyboardListener textField) {
 		if(app.getLAF().isSmart() || !(app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView)){
 			return;
 		}
@@ -211,14 +211,13 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			if (app.has(Feature.CAS_EDITOR)) {
 				DockManagerW dm = (DockManagerW) guiManagerW.getLayout()
 						.getDockManager();
-				DockPanelW dockPanelKB = dm.getPanel(App.VIEW_ALGEBRA);
+				DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
 				if (dockPanelKB != null) {
-					showKeyboardButton = new ShowKeyboardButton(this,
- dm,
-							(dockPanelKB));
-						dockPanelKB.setKeyBoardButton(showKeyboardButton);
-					}
+					showKeyboardButton = new ShowKeyboardButton(this, dm,
+							dockPanelKB);
+					dockPanelKB.setKeyBoardButton(showKeyboardButton);
+				}
 
 			} else {
 				showInAlgebra(textField);
@@ -256,7 +255,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		}
 		this.keyboardShowing = show;
 
-		final int pos = ((AlgebraViewWeb)app.getAlgebraView()).getInputTreeItem().getElement().getScrollLeft();
+		final int pos = textField == null ? 0 : textField.asWidget()
+				.getElement().getScrollLeft();
 
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
 		        this, app);
@@ -271,15 +271,15 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				showKeyboardButton.hide();
 			}
 		} else {
-			if (app.getAlgebraView() != null) {
+			if (app.has(Feature.CAS_EDITOR)) {
+				if (app.getGuiManager().getLayout().getDockManager() != null) {
 
-				this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
-				spaceForKeyboard.remove(keyBoard);
-
-				showKeyboardButton(
-						true,
-						textField != null ? textField : ((AlgebraViewWeb) app
-								.getAlgebraView()).getInputTreeItem());
+					this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
+					spaceForKeyboard.remove(keyBoard);
+					showKeyboardButton(true, textField);
+				}
+			} else {
+				showKBButtonInAlgebra(textField, keyBoard);
 			}
 			keyBoard.resetKeyboardState();
 		}
@@ -292,7 +292,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		//if (Browser.isIE())// also might not cover every exception
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				((AlgebraViewWeb)app.getAlgebraView()).getInputTreeItem().getElement().setScrollLeft(pos);
+				if (textField != null) {
+					textField.asWidget().getElement().setScrollLeft(pos);
+				}
 			}
 		});
 
@@ -313,6 +315,20 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			}
 		};
 		timer.schedule(500);
+	}
+
+	private void showKBButtonInAlgebra(MathKeyboardListener textField,
+			OnScreenKeyBoard keyBoard) {
+		if (app.getAlgebraView() != null) {
+
+			this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
+			spaceForKeyboard.remove(keyBoard);
+			MathKeyboardListener tf = textField != null ? textField
+					: ((AlgebraViewWeb) app.getAlgebraView())
+							.getInputTreeItem();
+			showKeyboardButton(true, tf);
+		}
+
 	}
 
 	@Override

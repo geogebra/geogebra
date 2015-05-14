@@ -93,7 +93,9 @@ public class AlgebraDockPanelW extends DockPanelW {
 	 * scrolls to the bottom of the panel
 	 */
 	public void scrollToBottom(){
-		this.algebrap.scrollToBottom();
+		if (this.algebrap != null) {
+			this.algebrap.scrollToBottom();
+		}
 	}
 
 	@Override

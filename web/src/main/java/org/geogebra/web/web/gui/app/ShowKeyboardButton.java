@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.css.GuiResources;
@@ -50,18 +49,7 @@ public class ShowKeyboardButton extends SimplePanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				DockPanelW panel = dm.getFocusedPanel();
-				if (panel == null
-						|| (panel.getViewId() != App.VIEW_ALGEBRA && panel
-								.getViewId() != App.VIEW_CAS)) {
-					panel = dm.getPanel(App.VIEW_ALGEBRA);
-					if (!panel.isVisible()) {
-						panel = dm.getPanel(App.VIEW_CAS);
-						if (!panel.isVisible()) {
-							panel = dm.getPanel(App.VIEW_ALGEBRA);
-						}
-					}
-				}
+				DockPanelW panel = dm.getPanelForKeyboard();
 				final MathKeyboardListener mathKeyboardListener = panel
 						.getKeyboardListener();
 				listener.doShowKeyBoard(true, mathKeyboardListener);

@@ -1772,6 +1772,21 @@ public class DockManagerW extends DockManager {
 			getPanels()[i].onResize();
 		}
     }
+
+	public DockPanelW getPanelForKeyboard() {
+		DockPanelW panel = getFocusedPanel();
+		if (panel == null
+				|| (panel.getViewId() != App.VIEW_ALGEBRA && panel.getViewId() != App.VIEW_CAS)) {
+			panel = getPanel(App.VIEW_ALGEBRA);
+			if (!panel.isVisible()) {
+				panel = getPanel(App.VIEW_CAS);
+				if (!panel.isVisible()) {
+					panel = getPanel(App.VIEW_ALGEBRA);
+				}
+			}
+		}
+		return panel;
+	}
 	
 	
 }
