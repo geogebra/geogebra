@@ -49,7 +49,9 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 
 		// create output object
 		outGeo = getResultTemplate(inGeo);
-		out = (RotateableND) outGeo;
+		if (!(outGeo instanceof GeoList)) {
+			out = (RotateableND) outGeo;
+		}
 
 	}
 

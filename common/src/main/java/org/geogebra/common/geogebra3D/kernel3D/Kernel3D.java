@@ -480,6 +480,19 @@ public class Kernel3D extends Kernel {
 		case CONICPART:
 			return new GeoConicPart3D((GeoConicPartND) geo);
 
+		case RAY:
+			GeoElement ret = new GeoRay3D(geo.getConstruction(),
+					new GeoPoint3D(((GeoRayND) geo).getStartPoint()));
+			ret.set(geo);
+			return ret;
+
+		case SEGMENT:
+			ret = new GeoSegment3D(geo.getConstruction(), new GeoPoint3D(
+					((GeoSegmentND) geo).getStartPoint()), new GeoPoint3D(
+					((GeoSegmentND) geo).getEndPoint()));
+			ret.set(geo);
+			return ret;
+
 		default:
 			return super.copyInternal3D(cons, geo);
 		}
