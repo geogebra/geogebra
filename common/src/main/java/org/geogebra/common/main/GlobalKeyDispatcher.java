@@ -733,7 +733,7 @@ public abstract class GlobalKeyDispatcher {
 	 *            whether shift is down
 	 * @return whether key was consumed
 	 */
-	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
+	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
 		} else {
