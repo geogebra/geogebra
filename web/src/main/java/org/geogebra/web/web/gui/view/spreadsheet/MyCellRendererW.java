@@ -292,7 +292,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 						// Don't update all cell, see #5153
 						// kernel.updateConstruction();
-						geoBoolean.updateCascade();
+						geoBoolean.updateRepaint();
 					}
 				}
 			});
