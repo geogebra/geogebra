@@ -72,7 +72,7 @@ public class ManagerShaders extends Manager {
 	 * @author mathieu
 	 *
 	 */
-	protected class Geometry {
+	public class Geometry {
 		/**
 		 * type of primitives
 		 */
@@ -269,6 +269,26 @@ public class ManagerShaders extends Manager {
 			return length;
 		}
 
+		/**
+		 * draw to renderer
+		 * 
+		 * @param r
+		 *            renderer to draw into
+		 */
+		public void draw(RendererShadersInterface r) {
+			r.loadVertexBuffer(
+					getVertices(), getLength());
+			r.loadNormalBuffer(
+					getNormals(), getLength());
+			r.loadColorBuffer(getColors(),
+					getLength());
+			if (r.areTexturesEnabled()) {
+				r.loadTextureBuffer(
+						getTextures(), getLength());
+			}
+			r.draw(getType(), getLength());
+		}
+
 	}
 
 	/**
@@ -279,7 +299,7 @@ public class ManagerShaders extends Manager {
 	 */
 	protected class GeometriesSet extends ArrayList<Geometry> {
 
-		private Geometry currentGeometry;
+		protected Geometry currentGeometry;
 
 		private int currentGeometryIndex;
 
@@ -315,7 +335,7 @@ public class ManagerShaders extends Manager {
 			if (currentGeometryIndex < size()) {
 				currentGeometry = get(currentGeometryIndex);
 			} else {
-				currentGeometry = new Geometry(type);
+				currentGeometry = newGeometry(type);
 				add(currentGeometry);
 			}
 
@@ -323,6 +343,16 @@ public class ManagerShaders extends Manager {
 			geometriesLength++;
 		}
 		
+		/**
+		 * 
+		 * @param type
+		 *            geometry type
+		 * @return new geometry for the given type
+		 */
+		protected Geometry newGeometry(Type type) {
+			return new Geometry(type);
+		}
+
 		/**
 		 * allocate buffers of current geometry
 		 * @param size memory size
@@ -356,6 +386,13 @@ public class ManagerShaders extends Manager {
 		 */
 		public void endGeometry(){
 			currentGeometry.end();
+		}
+
+		/**
+		 * bind current geometry to its buffer
+		 */
+		public void bindGeometry() {
+			// not used here
 		}
 
 		/**
@@ -427,13 +464,21 @@ public class ManagerShaders extends Manager {
 				index = indicesRemoved.pop();
 			}
 
-			currentGeometriesSet = new GeometriesSet();
+			currentGeometriesSet = newGeometriesSet();
 			geometriesSetList.put(index, currentGeometriesSet);
 		} else {
 			currentGeometriesSet.reset();
 		}
 
 		return index;
+	}
+
+	/**
+	 * 
+	 * @return new geometries set
+	 */
+	protected GeometriesSet newGeometriesSet() {
+		return new GeometriesSet();
 	}
 
 	@Override
@@ -460,6 +505,7 @@ public class ManagerShaders extends Manager {
 		currentGeometriesSet.setNormals(normals, normalsLength);
 		currentGeometriesSet.setTextures(textures, texturesLength);
 		currentGeometriesSet.setColors(colors, colorsLength);
+		currentGeometriesSet.bindGeometry();
 	}
 
 	// ///////////////////////////////////////////
@@ -518,21 +564,28 @@ public class ManagerShaders extends Manager {
 		currentGeometriesSet = geometriesSetList.get(index);
 		if (currentGeometriesSet != null) {
 			for (int i = 0; i < currentGeometriesSet.getGeometriesLength(); i++) {
-				Geometry geometry = currentGeometriesSet.get(i);
-				((RendererShadersInterface) renderer).loadVertexBuffer(
-						geometry.getVertices(), geometry.getLength());
-				((RendererShadersInterface) renderer).loadNormalBuffer(
-						geometry.getNormals(), geometry.getLength());
-				((RendererShadersInterface) renderer).loadColorBuffer(
-						geometry.getColors(), geometry.getLength());
-				if (((RendererShadersInterface) renderer).areTexturesEnabled()) {
-					((RendererShadersInterface) renderer).loadTextureBuffer(
-							geometry.getTextures(), geometry.getLength());
-				}
-				((RendererShadersInterface) renderer).draw(geometry.getType(),
-						geometry.getLength());
+				currentGeometriesSet.get(i).draw(
+						(RendererShadersInterface) renderer);
+				// ((RendererShadersInterface) renderer).loadVertexBuffer(
+				// geometry.getVertices(), geometry.getLength());
+				// ((RendererShadersInterface) renderer).loadNormalBuffer(
+				// geometry.getNormals(), geometry.getLength());
+				// ((RendererShadersInterface) renderer).loadColorBuffer(
+				// geometry.getColors(), geometry.getLength());
+				// if (((RendererShadersInterface)
+				// renderer).areTexturesEnabled()) {
+				// ((RendererShadersInterface) renderer).loadTextureBuffer(
+				// geometry.getTextures(), geometry.getLength());
+				// }
+				// ((RendererShadersInterface)
+				// renderer).draw(geometry.getType(),
+				// geometry.getLength());
 			}
 		}
+	}
+
+	public Geometry getGeometry(int index) {
+		return geometriesSetList.get(index).get(0);
 	}
 
 	@Override

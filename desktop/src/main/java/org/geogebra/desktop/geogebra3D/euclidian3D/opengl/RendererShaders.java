@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffers;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
@@ -37,10 +38,11 @@ import org.geogebra.desktop.main.AppD;
 public class RendererShaders extends RendererD implements
 		RendererShadersInterface {
 
-	final static protected int GLSL_ATTRIB_POSITION = 0;
-	final static protected int GLSL_ATTRIB_COLOR = 1;
-	final static protected int GLSL_ATTRIB_NORMAL = 2;
-	final static protected int GLSL_ATTRIB_TEXTURE = 3;
+	final static public int GLSL_ATTRIB_POSITION = 0;
+	final static public int GLSL_ATTRIB_COLOR = 1;
+	final static public int GLSL_ATTRIB_NORMAL = 2;
+	final static public int GLSL_ATTRIB_TEXTURE = 3;
+	final static public int GLSL_ATTRIB_INDEX = 4;
 
 	/**
 	 * constructor
@@ -93,6 +95,7 @@ public class RendererShaders extends RendererD implements
 	protected int vboColors;
 	protected int vboNormals;
 	protected int vboTextureCoords;
+	protected int vboIndices;
 
 	private String loadTextFile(String file) {
 
@@ -283,12 +286,13 @@ public class RendererShaders extends RendererD implements
 		 * Generate two VBO pointers / handles VBO is data buffers stored inside
 		 * the graphics card memory.
 		 */
-		vboHandles = new int[4];
-		jogl.getGL2ES2().glGenBuffers(4, vboHandles, 0);
+		vboHandles = new int[5];
+		jogl.getGL2ES2().glGenBuffers(5, vboHandles, 0);
 		vboColors = vboHandles[GLSL_ATTRIB_COLOR];
 		vboVertices = vboHandles[GLSL_ATTRIB_POSITION];
 		vboNormals = vboHandles[GLSL_ATTRIB_NORMAL];
 		vboTextureCoords = vboHandles[GLSL_ATTRIB_TEXTURE];
+		vboIndices = vboHandles[GLSL_ATTRIB_INDEX];
 		// super.init(drawable);
 
 	}
@@ -336,6 +340,148 @@ public class RendererShaders extends RendererD implements
 	 * 
 	 * }
 	 */
+
+	@Override
+	public void createBuffers(GPUBuffers buffers) {
+		final int length = 4;
+		int[] b = ((GPUBuffersD) buffers).get();
+		jogl.getGL2ES2().glGenBuffers(length, b, 0);
+	}
+
+	@Override
+	public void storeBuffer(GLBuffer fb, int length, int size,
+			GPUBuffers buffers, int attrib) {
+		// Select the VBO, GPU memory data
+		bindBuffer(buffers, attrib);
+
+		// transfer data to VBO, this perform the copy of data from CPU -> GPU
+		// memory
+		int numBytes = length * size * 4; // 4 bytes per float
+		glBufferData(numBytes, fb);
+
+	}
+
+	final private void bindBuffer(GPUBuffers buffers, int attrib) {
+		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER,
+				((GPUBuffersD) buffers).get(attrib));
+	}
+
+	@Override
+	public void bindBufferForVertices(GPUBuffers buffers, int attrib, int size) {
+		// Select the VBO, GPU memory data
+		bindBuffer(buffers, attrib);
+		// Associate Vertex attribute 0 with the last bound VBO
+		jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION, size,
+				GL2ES2.GL_FLOAT,
+				false, 0, 0);
+
+		// enable VBO
+		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
+	}
+
+	@Override
+	public void bindBufferForColors(GPUBuffers buffers, int attrib, int size,
+			GLBuffer fbColors) {
+		if (fbColors == null || fbColors.isEmpty()) {
+			jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
+			return;
+		}
+
+		// prevent use of global color
+		setColor(-1, -1, -1, -1);
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(buffers, attrib);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		jogl.getGL2ES2()
+				.glVertexAttribPointer(
+						GLSL_ATTRIB_COLOR/* the color attribute */, 4 /*
+																	 * 4 color
+																	 * values
+																	 * used for
+																	 * each
+																	 * vertex
+																	 */,
+						GL2ES2.GL_FLOAT, false /* normalized? */,
+						0 /* stride */, 0 /* The bound VBO data offset */);
+
+		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
+	}
+
+	@Override
+	public void bindBufferForNormals(GPUBuffers buffers, int attrib, int size,
+			GLBuffer fbNormals) {
+		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
+			jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+			return;
+		}
+
+		if (fbNormals.capacity() == 3) { // one normal for all vertices
+			fbNormals.array(tmpNormal3);
+			jogl.getGL2ES2().glUniform3fv(normalLocation, 1, tmpNormal3, 0);
+			oneNormalForAllVertices = true;
+			jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+			return;
+		}
+
+		// ///////////////////////////////////
+		// VBO - normals
+
+		if (oneNormalForAllVertices) {
+			resetOneNormalForAllVertices();
+		}
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(buffers, attrib);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		jogl.getGL2ES2()
+				.glVertexAttribPointer(
+						GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /*
+																		 * 3
+																		 * normal
+																		 * values
+																		 * used
+																		 * for
+																		 * each
+																		 * vertex
+																		 */,
+						GL2ES2.GL_FLOAT, false /* normalized? */,
+						0 /* stride */, 0 /* The bound VBO data offset */);
+
+		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+	}
+
+	@Override
+	public void bindBufferForTextures(GPUBuffers buffers, int attrib, int size,
+			GLBuffer fbTextures) {
+		if (fbTextures == null || fbTextures.isEmpty()) {
+			setCurrentGeometryHasNoTexture();
+			jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+			return;
+		}
+
+		setCurrentGeometryHasTexture();
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(buffers, attrib);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /*
+																	 * the
+																	 * texture
+																	 * attribute
+																	 */,
+				2 /* 2 texture values used for each vertex */, GL2ES2.GL_FLOAT,
+				false /* normalized? */, 0 /* stride */, 0 /*
+														 * The bound VBO data
+														 * offset
+														 */);
+
+		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+	}
+
 
 	@Override
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
@@ -1023,6 +1169,7 @@ public class RendererShaders extends RendererD implements
 	@Override
 	protected Manager createManager() {
 		return new ManagerShadersWithTemplates(this, view3D);
+		// return new ManagerShadersBindBuffers(this, view3D);
 	}
 
 	private boolean texturesEnabled;

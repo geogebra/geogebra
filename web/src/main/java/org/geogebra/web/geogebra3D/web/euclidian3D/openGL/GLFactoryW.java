@@ -2,6 +2,7 @@ package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffers;
 
 /**
  * GL factory for web
@@ -21,5 +22,10 @@ public class GLFactoryW extends GLFactory {
 	@Override
 	final public GLBuffer newBuffer() {
 		return new GLBufferW();
+	}
+
+	@Override
+	final public GPUBuffers newGPUBuffers() {
+		return new GPUBuffersW();
 	}
 }

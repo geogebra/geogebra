@@ -62,6 +62,16 @@ public class GLBufferW implements GLBuffer {
 		index++;
 	}
 
+	public double get() {
+		double ret = impl.get(index);
+		index++;
+		return ret;
+	}
+
+	public void rewind() {
+		index = 0;
+	}
+
 
 	public void set(ArrayList<Double> array, int length) {
 

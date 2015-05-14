@@ -1,12 +1,6 @@
-package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
-
-import java.nio.IntBuffer;
-
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
@@ -14,7 +8,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometry;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
+import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
+
+import com.googlecode.gwtgl.binding.WebGLBuffer;
+import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 
 /**
  * renderer using shaders and drawElements()
@@ -22,21 +19,20 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
  * @author mathieu
  *
  */
-public class RendererShadersElements extends RendererShaders {
+public class RendererShadersElementsW extends RendererW {
 
 	/**
 	 * constructor
 	 * 
 	 * @param view
 	 *            3D view
-	 * @param useCanvas
-	 *            say if we use GLCanvas or GLJPanel
 	 */
-	public RendererShadersElements(EuclidianView3D view, boolean useCanvas) {
-		super(view, useCanvas);
+	public RendererShadersElementsW(EuclidianView3DW view) {
+		super(view);
 	}
 
 
+	@Override
 	protected void draw() {
 
 		resetOneNormalForAllVertices();
@@ -66,25 +62,26 @@ public class RendererShadersElements extends RendererShaders {
 
 		updateBuffers();
 
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
-
+		glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
+		glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
+		glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 
 
 
 		// elements
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ELEMENT_ARRAY_BUFFER,
+		glContext.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
 				vboIndices);
-		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, bufferL * 4,
-				bufferI, RendererJogl.GL_STREAM_DRAW);
-		jogl.getGL2().glDrawElements(GL2.GL_TRIANGLES, bufferL,
-				GL.GL_UNSIGNED_INT, 0);
-		jogl.getGL2().glFlush();
+		glContext.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
+						MyInt16Array.create(bufferI),
+				WebGLRenderingContext.STREAM_DRAW);
+		glContext.drawElements(WebGLRenderingContext.TRIANGLES, bufferL,
+				WebGLRenderingContext.UNSIGNED_SHORT, 0);
+		glContext.flush();
 
-		jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_POSITION);
-		jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
-		jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+
+		glDisableVertexAttribArray(GLSL_ATTRIB_POSITION);
+		glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
+		glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 
 
 		// // simple test
@@ -181,63 +178,60 @@ public class RendererShadersElements extends RendererShaders {
 		//
 		// // DRAW ELEMENTS
 		//
-		// jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
-		// jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
-		// jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
-		// jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+		// glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
+		// glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
+		// glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+		// glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 		//
 		// int numBytes;
 		//
-		// jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
+		// glBindBuffer(vboVertices);
 		// numBytes = length * 12; // 4 bytes per float * 3 coords per vertex
 		// glBufferData(numBytes, fbVertices);
-		// jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION, 3,
-		// GL2ES2.GL_FLOAT, false, 0, 0);
+		// glVertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
 		//
-		// jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboColors);
+		// glBindBuffer(vboColors);
 		// numBytes = length * 16;
 		// glBufferData(numBytes, fbColors);
-		// jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_COLOR, 4,
-		// GL2ES2.GL_FLOAT, false, 0, 0);
+		// glVertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
 		//
-		// jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
+		// glBindBuffer(vboNormals);
 		// numBytes = length * 12; // 4 bytes per float * 3 coords per vertex
 		// glBufferData(numBytes, fbNormals);
-		// jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_NORMAL, 3,
-		// GL2ES2.GL_FLOAT, false, 0, 0);
+		// glVertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
 		//
-		// jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER,
-		// vboTextureCoords);
+		// glBindBuffer(vboTextureCoords);
 		// numBytes = length * 8;
 		// glBufferData(numBytes, fbTextures);
-		// jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2,
-		// GL2ES2.GL_FLOAT, false, 0, 0);
+		// glVertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 		//
-		// // elements
-		// IntBuffer indicesBuf;
-		// indicesBuf = IntBuffer.allocate(6);
-		// indicesBuf.put(0);
-		// indicesBuf.put(1);
-		// indicesBuf.put(2);
-		// indicesBuf.rewind();
-		// jogl.getGL2().glDrawElements(GL2.GL_TRIANGLES, 3, GL.GL_UNSIGNED_INT,
-		// indicesBuf);
-		// indicesBuf.put(0);
-		// indicesBuf.put(2);
-		// indicesBuf.put(3);
-		// indicesBuf.rewind();
-		// jogl.getGL2().glDrawElements(GL2.GL_TRIANGLES, 3, GL.GL_UNSIGNED_INT,
-		// indicesBuf);
-		// jogl.getGL2().glFlush();
+		// // // elements
+		// // IntBuffer indicesBuf;
+		// // indicesBuf = IntBuffer.allocate(6);
+		// // indicesBuf.put(0);
+		// // indicesBuf.put(1);
+		// // indicesBuf.put(2);
+		// // indicesBuf.rewind();
+		// // jogl.getGL2().glDrawElements(GL2.GL_TRIANGLES, 3,
+		// GL.GL_UNSIGNED_INT,
+		// // indicesBuf);
+		// // indicesBuf.put(0);
+		// // indicesBuf.put(2);
+		// // indicesBuf.put(3);
+		// // indicesBuf.rewind();
+		// // jogl.getGL2().glDrawElements(GL2.GL_TRIANGLES, 3,
+		// GL.GL_UNSIGNED_INT,
+		// // indicesBuf);
+		// // jogl.getGL2().glFlush();
 		//
-		// jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_POSITION);
-		// jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
-		// jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
-		// jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+		// glDisableVertexAttribArray(GLSL_ATTRIB_POSITION);
+		// glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
+		// glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+		// glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
 	private GLBuffer bufferV, bufferC, bufferN;
-	private IntBuffer bufferI;
+	private short[] bufferI;
 	private int bufferL;
 
 	private boolean bufferUpdated = false;
@@ -265,9 +259,9 @@ public class RendererShadersElements extends RendererShaders {
 		bufferC.allocate(bufferL * 4);
 		bufferN = GLFactory.prototype.newBuffer();
 		bufferN.allocate(bufferL * 3);
-		bufferI = IntBuffer.allocate(bufferL * 3);
+		bufferI = new short[bufferL * 3];
 
-		int index = 0;
+		short index = 0;
 		for (Drawable3D d : drawable3DLists
 				.getList(Drawable3D.DRAW_TYPE_POINTS)) {
 			// App.debug("(" + d.getGeometryIndex() + ") " + d.getGeoElement());
@@ -294,7 +288,7 @@ public class RendererShadersElements extends RendererShaders {
 				bufferN.put(normals.get());
 				bufferN.put(normals.get());
 
-				bufferI.put(index);
+				bufferI[index] = index;
 				index++;
 			}
 			vertices.rewind();
@@ -304,24 +298,44 @@ public class RendererShadersElements extends RendererShaders {
 		bufferV.setLimit(bufferL * 3);
 		bufferC.setLimit(bufferL * 4);
 		bufferN.setLimit(bufferL * 3);
-		bufferI.rewind();
 
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
+		glBindBuffer(vboVertices);
 		glBufferData(bufferL * 12, bufferV);
-		jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION, 3,
-				GL2ES2.GL_FLOAT, false, 0, 0);
+		glVertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
 
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboColors);
+		glBindBuffer(vboColors);
 		glBufferData(bufferL * 16, bufferC);
-		jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_COLOR, 4,
-				GL2ES2.GL_FLOAT, false, 0, 0);
+		glVertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
 
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
+		glBindBuffer(vboNormals);
 		glBufferData(bufferL * 12, bufferN);
-		jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_NORMAL, 3,
-				GL2ES2.GL_FLOAT, false, 0, 0);
+		glVertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
 
 		bufferUpdated = true;
 	}
 
+	protected void glEnableVertexAttribArray(int attrib) {
+		glContext.enableVertexAttribArray(attrib);
+	}
+	
+	protected void glDisableVertexAttribArray(int attrib) {
+		glContext.disableVertexAttribArray(attrib);
+	}
+
+	protected void glBindBuffer(WebGLBuffer vbo) {
+		glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vbo);
+	}
+
+	protected void glBufferData(int length, GLBuffer buffer) {
+		glBufferData(buffer);
+	}
+
+	protected void glVertexAttribPointer(int attrib, int size) {
+		glContext.vertexAttribPointer(attrib, size,
+	        WebGLRenderingContext.FLOAT, false, 0, 0);
+	}
+
+	@Override
+	public void bindTexture(int index) {
+	}
 }

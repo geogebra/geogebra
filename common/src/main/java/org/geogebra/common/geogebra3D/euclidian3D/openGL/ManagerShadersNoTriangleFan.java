@@ -1,8 +1,6 @@
-package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
+package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
 
 /**

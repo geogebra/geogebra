@@ -28,6 +28,16 @@ public interface GLBuffer {
 	 */
 	public void put(double value);
 	
+	/**
+	 * 
+	 * @return value at current buffer position
+	 */
+	public double get();
+
+	/**
+	 * rewind the buffer
+	 */
+	public void rewind();
 
 	/**
 	 * set this buffer with first values of array

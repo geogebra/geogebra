@@ -440,7 +440,7 @@ public abstract class Drawable3D extends DrawableND {
 		geomIndex = index;
 	}
 
-	final protected int getGeometryIndex() {
+	final public int getGeometryIndex() {
 		return geomIndex;
 	}
 

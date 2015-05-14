@@ -357,4 +357,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return minmax;
 	}
 
+	@Override
+	protected boolean isVisible() {
+		return getView3D().showClippingCube();
+	}
+
 }

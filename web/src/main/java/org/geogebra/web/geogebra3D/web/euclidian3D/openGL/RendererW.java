@@ -13,8 +13,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffers;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersNoTriangleFan;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
@@ -49,12 +51,13 @@ import com.googlecode.gwtgl.binding.WebGLUniformLocation;
  */
 public class RendererW extends Renderer implements RendererShadersInterface {
 
-	private WebGLRenderingContext glContext;
+	protected WebGLRenderingContext glContext;
 
 	private Canvas webGLCanvas;
 	private WebGLProgram shaderProgram;
-	private int vertexPositionAttribute, colorAttribute, normalAttribute,
-	        textureAttribute;
+	static protected int GLSL_ATTRIB_POSITION, GLSL_ATTRIB_COLOR,
+			GLSL_ATTRIB_NORMAL,
+	        GLSL_ATTRIB_TEXTURE;
 
 	private Timer loopTimer;
 
@@ -74,7 +77,8 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	                                                      // clip planes
 	private WebGLUniformLocation labelRenderingLocation, labelOriginLocation;
 
-	private WebGLBuffer vboVertices, vboColors, vboNormals, vboTextureCoords;
+	protected WebGLBuffer vboVertices, vboColors, vboNormals, vboTextureCoords,
+			vboIndices;
 
 	final static private int TEXTURE_TYPE_NONE = 0;
 	final static private int TEXTURE_TYPE_FADING = 1;
@@ -209,19 +213,19 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 		// attributes : note that vertex shader must use it, otherwise
 		// getAttribLocation will return -1 (undefined)
-		vertexPositionAttribute = glContext.getAttribLocation(shaderProgram,
+		GLSL_ATTRIB_POSITION = glContext.getAttribLocation(shaderProgram,
 		        "attribute_Position");
-		normalAttribute = glContext.getAttribLocation(shaderProgram,
+		GLSL_ATTRIB_NORMAL = glContext.getAttribLocation(shaderProgram,
 		        "attribute_Normal");
-		colorAttribute = glContext.getAttribLocation(shaderProgram,
+		GLSL_ATTRIB_COLOR = glContext.getAttribLocation(shaderProgram,
 		        "attribute_Color");
-		textureAttribute = glContext.getAttribLocation(shaderProgram,
+		GLSL_ATTRIB_TEXTURE = glContext.getAttribLocation(shaderProgram,
 		        "attribute_Texture");
 
-		App.debug("vertexPositionAttribute=" + vertexPositionAttribute + ","
-		        + "normalAttribute=" + normalAttribute + ","
-		        + "colorAttribute=" + colorAttribute + ","
-		        + "textureAttribute=" + textureAttribute);
+		App.debug("vertexPositionAttribute=" + GLSL_ATTRIB_POSITION + ","
+		        + "normalAttribute=" + GLSL_ATTRIB_NORMAL + ","
+				+ "colorAttribute=" + GLSL_ATTRIB_COLOR + ","
+		        + "textureAttribute=" + GLSL_ATTRIB_TEXTURE);
 
 		// uniform location
 		matrixLocation = glContext.getUniformLocation(shaderProgram, "matrix");
@@ -273,6 +277,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		vboVertices = glContext.createBuffer();
 		vboNormals = glContext.createBuffer();
 		vboTextureCoords = glContext.createBuffer();
+		vboIndices = glContext.createBuffer();
 
 	}
 
@@ -292,7 +297,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		return shader;
 	}
 
-	private final void setModelViewIdentity() {
+	protected final void setModelViewIdentity() {
 		projectionMatrix.getForGL(tmpFloat16);
 		glContext.uniformMatrix4fv(matrixLocation, false, tmpFloat16);
 	}
@@ -488,7 +493,9 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		// return new ManagerShadersNoTriangleFan(this, view3D);
 
 		// wait for fix : detect webGL support correctly
+
 		return new ManagerShadersNoTriangleFan(this, view3D);
+		// return new ManagerShadersBindBuffers(this, view3D);
 	}
 
 	@Override
@@ -1062,7 +1069,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	@Override
 	public void bindTexture(int index) {
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D,
-		        texturesArray.get(index));
+				texturesArray.get(index));
 	}
 
 	@Override
@@ -1114,10 +1121,149 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	}
 
+	@Override
+	public void createBuffers(GPUBuffers buffers) {
+		final int length = 4;
+		WebGLBuffer[] b = ((GPUBuffersW) buffers).get();
+		for (int i = 0 ; i < length ; i++){
+			b[i] = glContext.createBuffer();
+		}
+	}
+
+	@Override
+	public void storeBuffer(GLBuffer fb, int length, int size,
+			GPUBuffers buffers, int attrib) {
+		// Select the VBO, GPU memory data
+		bindBuffer(buffers, attrib);
+
+		// transfer data to VBO, this perform the copy of data from CPU -> GPU
+		// memory
+		glBufferData(fb);
+
+	}
+
+	final private void bindBuffer(GPUBuffers buffers, int attrib) {
+		glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER,
+				((GPUBuffersW) buffers).get(attrib));
+	}
+
+	@Override
+	public void bindBufferForVertices(GPUBuffers buffers, int attrib, int size) {
+		// Select the VBO, GPU memory data
+		bindBuffer(buffers, attrib);
+		// Associate Vertex attribute 0 with the last bound VBO
+		glContext.vertexAttribPointer(GLSL_ATTRIB_POSITION, size,
+				WebGLRenderingContext.FLOAT, false, 0, 0);
+
+		// enable VBO
+		glContext.enableVertexAttribArray(GLSL_ATTRIB_POSITION);
+	}
+
+	@Override
+	public void bindBufferForColors(GPUBuffers buffers, int attrib, int size,
+			GLBuffer fbColors) {
+		if (fbColors == null || fbColors.isEmpty()) {
+			glContext.disableVertexAttribArray(GLSL_ATTRIB_COLOR);
+			return;
+		}
+
+		// prevent use of global color
+		setColor(-1, -1, -1, -1);
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(buffers, attrib);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		glContext.vertexAttribPointer(
+						GLSL_ATTRIB_COLOR/* the color attribute */, 4 /*
+																	 * 4 color
+																	 * values
+																	 * used for
+																	 * each
+																	 * vertex
+																	 */,
+				WebGLRenderingContext.FLOAT, false /* normalized? */,
+						0 /* stride */, 0 /* The bound VBO data offset */);
+
+		glContext.enableVertexAttribArray(GLSL_ATTRIB_COLOR);
+	}
+
+	@Override
+	public void bindBufferForNormals(GPUBuffers buffers, int attrib, int size,
+			GLBuffer fbNormals) {
+		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
+			glContext.disableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+			return;
+		}
+
+		if (fbNormals.capacity() == 3) { // one normal for all vertices
+			glContext.disableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+			fbNormals.array(tmpNormal3);
+			glContext.uniform3fv(normalLocation, tmpNormal3);
+			oneNormalForAllVertices = true;
+			return;
+		}
+
+		// ///////////////////////////////////
+		// VBO - normals
+
+		if (oneNormalForAllVertices) {
+			resetOneNormalForAllVertices();
+		}
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(buffers, attrib);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		glContext.vertexAttribPointer(
+						GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /*
+																		 * 3
+																		 * normal
+																		 * values
+																		 * used
+																		 * for
+																		 * each
+																		 * vertex
+																		 */,
+				WebGLRenderingContext.FLOAT, false /* normalized? */,
+						0 /* stride */, 0 /* The bound VBO data offset */);
+
+		glContext.enableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+	}
+
+	@Override
+	public void bindBufferForTextures(GPUBuffers buffers, int attrib, int size,
+			GLBuffer fbTextures) {
+		if (fbTextures == null || fbTextures.isEmpty()) {
+			setCurrentGeometryHasNoTexture();
+			glContext.disableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+			return;
+		}
+
+		setCurrentGeometryHasTexture();
+
+		// Select the VBO, GPU memory data, to use for normals
+		bindBuffer(buffers, attrib);
+
+		// Associate Vertex attribute 1 with the last bound VBO
+		glContext.vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2 /*
+															 * 2 texture values
+															 * used for each
+															 * vertex
+															 */,
+				WebGLRenderingContext.FLOAT,
+				false /* normalized? */, 0 /* stride */, 0 /*
+														 * The bound VBO data
+														 * offset
+														 */);
+
+		glContext.enableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+	}
+
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
 
 		if (fbColors == null || fbColors.isEmpty()) {
-			glContext.disableVertexAttribArray(colorAttribute);
+			glContext.disableVertexAttribArray(GLSL_ATTRIB_COLOR);
 			return;
 		}
 
@@ -1135,17 +1281,17 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glBufferData(fbColors);
 
 		// Associate attribute
-		glContext.vertexAttribPointer(colorAttribute, 4,
+		glContext.vertexAttribPointer(GLSL_ATTRIB_COLOR, 4,
 		        WebGLRenderingContext.FLOAT, false, 0, 0);
 
 		// VBO
-		glContext.enableVertexAttribArray(colorAttribute);
+		glContext.enableVertexAttribArray(GLSL_ATTRIB_COLOR);
 
 	}
 
 	private boolean oneNormalForAllVertices;
 
-	private void resetOneNormalForAllVertices() {
+	protected void resetOneNormalForAllVertices() {
 		oneNormalForAllVertices = false;
 		glContext.uniform3f(normalLocation, 2, 2, 2);
 	}
@@ -1155,12 +1301,12 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	public void loadNormalBuffer(GLBuffer fbNormals, int length) {
 
 		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
-			glContext.disableVertexAttribArray(normalAttribute);
+			glContext.disableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 			return;
 		}
 
 		if (fbNormals.capacity() == 3) { // one normal for all vertices
-			glContext.disableVertexAttribArray(normalAttribute);
+			glContext.disableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 			fbNormals.array(tmpNormal3);
 			glContext.uniform3fv(normalLocation, tmpNormal3);
 			oneNormalForAllVertices = true;
@@ -1185,11 +1331,11 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glBufferData(fbNormals);
 
 		// Associate attribute
-		glContext.vertexAttribPointer(normalAttribute, 3,
+		glContext.vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3,
 		        WebGLRenderingContext.FLOAT, false, 0, 0);
 
 		// VBO
-		glContext.enableVertexAttribArray(normalAttribute);
+		glContext.enableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 
 	}
 
@@ -1197,7 +1343,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 		if (fbTextures == null || fbTextures.isEmpty()) {
 			setCurrentGeometryHasNoTexture();
-			glContext.disableVertexAttribArray(textureAttribute);
+			glContext.disableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 			return;
 		}
 
@@ -1215,15 +1361,15 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glBufferData(fbTextures);
 
 		// Associate attribute
-		glContext.vertexAttribPointer(textureAttribute, 2,
+		glContext.vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2,
 		        WebGLRenderingContext.FLOAT, false, 0, 0);
 
 		// VBO
-		glContext.enableVertexAttribArray(textureAttribute);
+		glContext.enableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 
 	}
 
-	private void glBufferData(GLBuffer fb) {
+	protected void glBufferData(GLBuffer fb) {
 		glContext
 		        .bufferData(WebGLRenderingContext.ARRAY_BUFFER,
 		                ((GLBufferW) fb).getBuffer(),
@@ -1243,11 +1389,11 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glBufferData(fbVertices);
 
 		// Associate Vertex attribute 0 with the last bound VBO
-		glContext.vertexAttribPointer(vertexPositionAttribute, 3,
+		glContext.vertexAttribPointer(GLSL_ATTRIB_POSITION, 3,
 		        WebGLRenderingContext.FLOAT, false, 0, 0);
 
 		// VBO
-		glContext.enableVertexAttribArray(vertexPositionAttribute);
+		glContext.enableVertexAttribArray(GLSL_ATTRIB_POSITION);
 
 	}
 
@@ -1329,7 +1475,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	public void disableTextures() {
 		texturesEnabled = false;
 		setCurrentTextureType(TEXTURE_TYPE_NONE);
-		glContext.disableVertexAttribArray(textureAttribute);
+		glContext.disableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
 	/**
@@ -1580,4 +1726,5 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	public void setBuffering(boolean b) {
 		this.createGLContext(b);
 	}
+
 }

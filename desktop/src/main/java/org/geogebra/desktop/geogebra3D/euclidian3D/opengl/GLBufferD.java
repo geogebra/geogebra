@@ -58,6 +58,13 @@ public class GLBufferD implements GLBuffer {
 		impl.put((float) value);
 	}
 
+	public double get() {
+		return impl.get();
+	}
+
+	public void rewind() {
+		impl.rewind();
+	}
 
 	public void set(ArrayList<Double> array, int length) {
 

@@ -18,4 +18,10 @@ public abstract class GLFactory {
 	 * @return new float buffer
 	 */
 	abstract public GLBuffer newBuffer();
+
+	/**
+	 * 
+	 * @return new buffers stored in GPU
+	 */
+	abstract public GPUBuffers newGPUBuffers();
 }

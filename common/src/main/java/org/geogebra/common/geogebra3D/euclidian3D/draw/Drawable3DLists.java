@@ -107,7 +107,13 @@ public class Drawable3DLists {
 
 	}
 
-	Drawable3DList getList(int type) {
+	/**
+	 * 
+	 * @param type
+	 *            list type
+	 * @return list
+	 */
+	public Drawable3DList getList(int type) {
 		return lists[type];
 	}
 

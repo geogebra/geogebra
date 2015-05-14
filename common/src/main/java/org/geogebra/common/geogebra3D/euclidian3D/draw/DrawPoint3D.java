@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 
 //TODO does not extend Drawable3DCurves
 
@@ -65,6 +64,14 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 	}
 
 	private Coords center = new Coords(4);
+
+	/**
+	 * 
+	 * @return point center
+	 */
+	public Coords getCenter() {
+		return center;
+	}
 
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
