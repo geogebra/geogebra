@@ -340,6 +340,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	protected Renderer createRenderer() {
 		return new RendererW(this);
+		// return new RendererShadersElementsW(this);
 	}
 
 	@Override
