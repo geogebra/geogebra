@@ -638,7 +638,7 @@ __GGB__keysVar.xh.command = {
     "PlaneBisector": "PlaneBisector",
     "PlaneBisector.Syntax": "[ <Segment> ]\n[ <Point>, <Point> ]",
     "PlaySound": "iPlaySound",
-    "PlaySound.Syntax": "[ <File> ]\n[ <Boolean Play> ]\n[ <Note Sequence>, <Instrument> ]\n[ <Note>, <Duration>, <Instrument> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
+    "PlaySound.Syntax": "[ <URL> ]\n[ <Boolean Play> ]\n[ <Note Sequence>, <Instrument> ]\n[ <Note>, <Duration>, <Instrument> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
     "Point": "IPoynti",
     "Point.Syntax": "[ <Into> ]\n[ <Uluhlu> ]\n[ <Into>, <iParameter> ]\n[ <iChaphaza>, <iVector> ]",
     "PointIn": "iPointIn",

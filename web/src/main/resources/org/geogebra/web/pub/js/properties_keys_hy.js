@@ -638,7 +638,7 @@ __GGB__keysVar.hy.command = {
     "PlaneBisector": "PlaneBisector",
     "PlaneBisector.Syntax": "[ <Segment> ]\n[ <Point>, <Point> ]",
     "PlaySound": "\u0546\u057e\u0561\u0563\u0565\u0574",
-    "PlaySound.Syntax": "[ <File> ]\n[ <Boolean Play> ]\n[ <Note Sequence>, <Instrument> ]\n[ <Note>, <Duration>, <Instrument> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
+    "PlaySound.Syntax": "[ <URL> ]\n[ <Boolean Play> ]\n[ <Note Sequence>, <Instrument> ]\n[ <Note>, <Duration>, <Instrument> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
     "Point": "\u053f\u0565\u057f",
     "Point.Syntax": "[ <\u053f\u0578\u0580> ]\n[ <\u0551\u0578\u0582\u0581\u0561\u056f> ]\n[ <\u053f\u0578\u0580>, <\u054a\u0561\u0580\u0561\u0574\u0565\u057f\u0580> ]\n[ <\u053f\u0565\u057f>, <\u054e\u0565\u056f\u057f\u0578\u0580> ]",
     "PointIn": "\u0546\u0565\u0580\u0584\u056b\u0576\u053f\u0565\u057f",

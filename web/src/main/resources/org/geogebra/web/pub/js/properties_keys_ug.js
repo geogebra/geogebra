@@ -638,7 +638,7 @@ __GGB__keysVar.ug.command = {
     "PlaneBisector": "\u064a\u06d0\u0631\u0649\u0645\u060c\u062a\u06d5\u0643\u0634\u0649\u0644\u0649\u0643",
     "PlaneBisector.Syntax": "[ <\u0643\u06d0\u0633\u0649\u0643> ]\n[ <\u0646\u06c7\u0642\u062a\u0627>, <\u0646\u06c7\u0642\u062a\u0627> ]",
     "PlaySound": "PlaySound",
-    "PlaySound.Syntax": "[ <File> ]\n[ <Boolean Play> ]\n[ <Note Sequence>, <Instrument> ]\n[ <Note>, <Duration>, <Instrument> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
+    "PlaySound.Syntax": "[ <URL> ]\n[ <Boolean Play> ]\n[ <Note Sequence>, <Instrument> ]\n[ <Note>, <Duration>, <Instrument> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
     "Point": "Point",
     "Point.Syntax": "[ <Object> ]\n[ <Object>, <Parameter> ]\n[ <Point>, <Vector> ]\n[ <List> ]",
     "PointIn": "PointIn",

@@ -638,7 +638,7 @@ __GGB__keysVar.eo.command = {
     "PlaneBisector": "MezortantaEbeno",
     "PlaneBisector.Syntax": "[ <Streko> ]\n[ <Punkto>, <Punkto> ]",
     "PlaySound": "LegiSonon",
-    "PlaySound.Syntax": "[ <File> ]\n[ <Boolean Play> ]\n[ <Note Sequence>, <Instrument> ]\n[ <Note>, <Duration>, <Instrument> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
+    "PlaySound.Syntax": "[ <URL> ]\n[ <Boolean Play> ]\n[ <Note Sequence>, <Instrument> ]\n[ <Note>, <Duration>, <Instrument> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
     "Point": "Punkto",
     "Point.Syntax": "[ <Objekto> ]\n[ <Listo> ]\n[ <Objekto>, <Parametro> ]\n[ <Punkto>, <Vektoro> ]",
     "PointIn": "PunktoEn",
