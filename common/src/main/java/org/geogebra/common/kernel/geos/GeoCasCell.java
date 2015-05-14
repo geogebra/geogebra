@@ -1673,6 +1673,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 	private ValidExpression expandedEvalVE;
 
+	public boolean isSubstitute(){
+		Command cmd = evalVE.getTopLevelCommand();
+		return (cmd == null) ? false : "Substitute".equals(cmd.getName());
+	}
 	/**
 	 * Computes the output of this CAS cell based on its current input settings.
 	 * 
@@ -1703,9 +1707,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				
-				Command cmd = evalVE.getTopLevelCommand();
-				boolean isSubstitute = (cmd == null) ? false : "Substitute".equals(cmd.getName());
+
+				boolean isSubstitute = isSubstitute();
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
 				evalVE = wrapEvaluate(evalVE,

@@ -218,7 +218,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String result = plainResult;
 
-		if (keepInput) {
+		if (keepInput && (cell == null || !cell.isSubstitute())) {
 			// assume keepinput was not treated in CAS
 			return casParser.toGeoGebraString(casInput, tpl);
 		}
