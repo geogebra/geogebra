@@ -29,6 +29,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAxis3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCoords4D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
@@ -62,6 +63,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -425,7 +427,7 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public GeoElement copy3D(GeoElement geo) {
-
+		
 		switch (geo.getGeoClassType()) {
 
 		case POINT:
@@ -457,6 +459,9 @@ public class Kernel3D extends Kernel {
 		case CONIC:
 			return new GeoConic3D((GeoConicND) geo);
 
+		case CONICPART:
+			return new GeoConicPart3D((GeoConicPartND) geo);
+
 		default:
 			return super.copy3D(geo);
 		}
@@ -465,12 +470,18 @@ public class Kernel3D extends Kernel {
 	@Override
 	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
 
+		App.debug(geo.getGeoClassType() + " -- copyInternal3D");
+
 		switch (geo.getGeoClassType()) {
 
 		case POLYGON:
 			GeoPolygon3D poly = new GeoPolygon3D(cons, null);
 			((GeoPolygon) geo).copyInternal(cons, poly);
 			return poly;
+
+		case CONICPART:
+			return new GeoConicPart3D((GeoConicPartND) geo);
+
 		default:
 			return super.copyInternal3D(cons, geo);
 		}

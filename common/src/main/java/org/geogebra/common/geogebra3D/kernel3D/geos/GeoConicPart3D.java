@@ -70,9 +70,9 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 	 * @param conic
 	 *            conic to copy
 	 */
-	public GeoConicPart3D(GeoConicPart3D conic) {
-		this(conic.cons, conic.getConicPartType());
-		set(conic);
+	public GeoConicPart3D(GeoConicPartND conic) {
+		this(((GeoElement) conic).cons, conic.getConicPartType());
+		set((GeoElement) conic);
 	}
 
 	@Override
@@ -108,10 +108,10 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 		if (!geo.isGeoConicPart())
 			return;
 
-		GeoConicPart3D cp = (GeoConicPart3D) geo;
+		GeoConicPartND cp = (GeoConicPartND) geo;
 
 		// class specific attributes
-		parameters.set(cp.parameters);
+		parameters.set(cp.getParameters());
 	}
 
 	@Override
