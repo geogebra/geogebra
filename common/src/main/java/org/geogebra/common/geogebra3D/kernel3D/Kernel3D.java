@@ -470,8 +470,6 @@ public class Kernel3D extends Kernel {
 	@Override
 	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
 
-		App.debug(geo.getGeoClassType() + " -- copyInternal3D");
-
 		switch (geo.getGeoClassType()) {
 
 		case POLYGON:
