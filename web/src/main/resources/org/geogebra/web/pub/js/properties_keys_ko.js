@@ -2627,7 +2627,7 @@ __GGB__keysVar.ko.plain = {
     "Picture": "\uadf8\ub9bc",
     "PictureHeight": "\ub192\uc774",
     "PictureWidth": "\ud3ed",
-    "PiecewiseFunction": "Piecewise function",
+    "PiecewiseFunction": "\uc870\uac01\uc801 \uc5f0\uc18d \ud568\uc218",
     "Plane": "\ud3c9\uba74",
     "PlaneA": "\ud3c9\uba74 %0",
     "PlaneContainingA": "%0 \uc744 \ud3ec\ud568\ud558\ub294 \ud3c9\uba74",
