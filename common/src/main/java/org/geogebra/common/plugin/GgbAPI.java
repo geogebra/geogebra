@@ -1294,6 +1294,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			app.updateViewSizes();
 			app.getGuiManager().updateMenubar();
 			app.getGuiManager().updateToolbar();
+			app.updateKeyboard();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -9,6 +9,8 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.layout.DockManagerW;
+import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 public abstract class AppWFull extends AppW {
@@ -47,6 +49,28 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public void hideKeyboard() {
 		getAppletFrame().showKeyBoard(false, null, false);
+	}
+
+	@Override
+	public void updateKeyboard() {
+
+		getGuiManager().invokeLater(new Runnable() {
+
+			public void run() {
+				DockPanelW dp = ((DockManagerW) getGuiManager().getLayout().getDockManager()).getPanelForKeyboard();
+				if (dp != null && dp.getKeyboardListener() != null) {
+					// dp.getKeyboardListener().setFocus(true);
+					dp.getKeyboardListener().ensureEditing();
+					dp.getKeyboardListener().setFocus(true);
+					if (AppWFull.this.isKeyboardNeeded()) {
+						getAppletFrame().showKeyBoard(true,
+							dp == null ? null : dp.getKeyboardListener(), true);
+					}
+				}
+
+			}
+		});
+
 	}
 
 	@Override

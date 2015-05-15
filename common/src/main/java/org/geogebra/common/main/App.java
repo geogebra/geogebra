@@ -3724,4 +3724,9 @@ public abstract class App implements UpdateSelection {
 	public boolean isModeValid(int mode) {
 		return !"".equals(getToolName(mode));
 	}
+
+	public void updateKeyboard() {
+		// TODO Auto-generated method stub
+
+	}
 }
