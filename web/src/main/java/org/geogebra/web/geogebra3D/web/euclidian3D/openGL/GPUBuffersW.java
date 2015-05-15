@@ -9,7 +9,7 @@ public class GPUBuffersW implements GPUBuffers {
 	private WebGLBuffer[] impl;
 
 	public GPUBuffersW() {
-		impl = new WebGLBuffer[4];
+		impl = new WebGLBuffer[5];
 	}
 
 	public WebGLBuffer[] get() {

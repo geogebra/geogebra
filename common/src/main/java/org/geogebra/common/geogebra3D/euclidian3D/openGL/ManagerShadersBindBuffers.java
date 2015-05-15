@@ -14,6 +14,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	final static public int GLSL_ATTRIB_COLOR = 1;
 	final static public int GLSL_ATTRIB_NORMAL = 2;
 	final static public int GLSL_ATTRIB_TEXTURE = 3;
+	final static public int GLSL_ATTRIB_INDEX = 4;
 
 	protected class GeometriesSetBindBuffers extends GeometriesSet {
 		@Override
@@ -41,8 +42,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		public void bind() {
 
 			if (buffers == null) {
-				buffers = GLFactory.prototype.newGPUBuffers(); // TODO check if
-																// // we need 4
+				buffers = GLFactory.prototype.newGPUBuffers();
 				((RendererShadersInterface) renderer).createBuffers(buffers);
 			}
 
@@ -65,6 +65,15 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 						getTextures(), getLength(), 2, buffers,
 						GLSL_ATTRIB_TEXTURE);
 			}
+
+			short[] bufferI = new short[getLength()];
+			for (short i = 0; i < getLength(); i++) {
+				bufferI[i] = i;
+			}
+			((RendererShadersInterface) renderer).storeElementBuffer(bufferI,
+					getLength(), buffers);
+
+
 		}
 
 		@Override
@@ -75,6 +84,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 			r.bindBufferForColors(buffers, GLSL_ATTRIB_COLOR, 4, getColors());
 			r.bindBufferForTextures(buffers, GLSL_ATTRIB_TEXTURE, 2,
 					getTextures());
+			r.bindBufferForIndices(buffers);
 			r.draw(getType(), getLength());
 		}
 

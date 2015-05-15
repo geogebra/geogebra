@@ -3,6 +3,7 @@ package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
 import javax.media.opengl.GL;
@@ -18,7 +19,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffers;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersBindBuffers;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -343,9 +344,8 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	public void createBuffers(GPUBuffers buffers) {
-		final int length = 4;
 		int[] b = ((GPUBuffersD) buffers).get();
-		jogl.getGL2ES2().glGenBuffers(length, b, 0);
+		jogl.getGL2ES2().glGenBuffers(b.length, b, 0);
 	}
 
 	@Override
@@ -361,9 +361,64 @@ public class RendererShaders extends RendererD implements
 
 	}
 
+	@Override
+	public void storeElementBuffer(short[] fb, int length,
+			GPUBuffers buffers) {
+		// Select the VBO, GPU memory data
+		bindBufferForIndices(buffers);
+
+		// transfer data to VBO, this perform the copy of data from CPU -> GPU
+		// memory
+		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
+				ShortBuffer.wrap(fb), RendererJogl.GL_STREAM_DRAW);
+
+	}
+
+	@Override
+	public void bindBufferForIndices(GPUBuffers buffers) {
+		// Select the VBO, GPU memory data
+		jogl.getGL2ES2().glBindBuffer(
+				GL2ES2.GL_ELEMENT_ARRAY_BUFFER,
+				((GPUBuffersD) buffers)
+						.get(ManagerShadersBindBuffers.GLSL_ATTRIB_INDEX));
+	}
+
 	final private void bindBuffer(GPUBuffers buffers, int attrib) {
 		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER,
 				((GPUBuffersD) buffers).get(attrib));
+	}
+
+	/**
+	 * enable vertex attribute
+	 * 
+	 * @param attrib
+	 *            attribute
+	 */
+	protected void enableAttrib(int attrib) {
+		jogl.getGL2ES2().glEnableVertexAttribArray(attrib);
+	}
+
+	/**
+	 * disable vertex attribute
+	 * 
+	 * @param attrib
+	 *            attribute
+	 */
+	protected void disableAttrib(int attrib) {
+		jogl.getGL2ES2().glDisableVertexAttribArray(attrib);
+	}
+
+	/**
+	 * set vertex attribute pointer
+	 * 
+	 * @param attrib
+	 *            attribute
+	 * @param size
+	 *            size
+	 */
+	protected void vertexAttribPointer(int attrib, int size) {
+		jogl.getGL2ES2().glVertexAttribPointer(attrib, size, GL2ES2.GL_FLOAT,
+				false, 0, 0);
 	}
 
 	@Override
@@ -371,19 +426,17 @@ public class RendererShaders extends RendererD implements
 		// Select the VBO, GPU memory data
 		bindBuffer(buffers, attrib);
 		// Associate Vertex attribute 0 with the last bound VBO
-		jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_POSITION, size,
-				GL2ES2.GL_FLOAT,
-				false, 0, 0);
+		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
 
 		// enable VBO
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_POSITION);
+		enableAttrib(GLSL_ATTRIB_POSITION);
 	}
 
 	@Override
 	public void bindBufferForColors(GPUBuffers buffers, int attrib, int size,
 			GLBuffer fbColors) {
 		if (fbColors == null || fbColors.isEmpty()) {
-			jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_COLOR);
+			disableAttrib(GLSL_ATTRIB_COLOR);
 			return;
 		}
 
@@ -394,26 +447,16 @@ public class RendererShaders extends RendererD implements
 		bindBuffer(buffers, attrib);
 
 		// Associate Vertex attribute 1 with the last bound VBO
-		jogl.getGL2ES2()
-				.glVertexAttribPointer(
-						GLSL_ATTRIB_COLOR/* the color attribute */, 4 /*
-																	 * 4 color
-																	 * values
-																	 * used for
-																	 * each
-																	 * vertex
-																	 */,
-						GL2ES2.GL_FLOAT, false /* normalized? */,
-						0 /* stride */, 0 /* The bound VBO data offset */);
+		vertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
 
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
+		enableAttrib(GLSL_ATTRIB_COLOR);
 	}
 
 	@Override
 	public void bindBufferForNormals(GPUBuffers buffers, int attrib, int size,
 			GLBuffer fbNormals) {
 		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
-			jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+			disableAttrib(GLSL_ATTRIB_NORMAL);
 			return;
 		}
 
@@ -421,7 +464,7 @@ public class RendererShaders extends RendererD implements
 			fbNormals.array(tmpNormal3);
 			jogl.getGL2ES2().glUniform3fv(normalLocation, 1, tmpNormal3, 0);
 			oneNormalForAllVertices = true;
-			jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+			disableAttrib(GLSL_ATTRIB_NORMAL);
 			return;
 		}
 
@@ -436,21 +479,9 @@ public class RendererShaders extends RendererD implements
 		bindBuffer(buffers, attrib);
 
 		// Associate Vertex attribute 1 with the last bound VBO
-		jogl.getGL2ES2()
-				.glVertexAttribPointer(
-						GLSL_ATTRIB_NORMAL /* the vertex attribute */, 3 /*
-																		 * 3
-																		 * normal
-																		 * values
-																		 * used
-																		 * for
-																		 * each
-																		 * vertex
-																		 */,
-						GL2ES2.GL_FLOAT, false /* normalized? */,
-						0 /* stride */, 0 /* The bound VBO data offset */);
+		vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
 
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_NORMAL);
+		enableAttrib(GLSL_ATTRIB_NORMAL);
 	}
 
 	@Override
@@ -458,7 +489,7 @@ public class RendererShaders extends RendererD implements
 			GLBuffer fbTextures) {
 		if (fbTextures == null || fbTextures.isEmpty()) {
 			setCurrentGeometryHasNoTexture();
-			jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+			disableAttrib(GLSL_ATTRIB_TEXTURE);
 			return;
 		}
 
@@ -468,19 +499,12 @@ public class RendererShaders extends RendererD implements
 		bindBuffer(buffers, attrib);
 
 		// Associate Vertex attribute 1 with the last bound VBO
-		jogl.getGL2ES2().glVertexAttribPointer(GLSL_ATTRIB_TEXTURE /*
-																	 * the
-																	 * texture
-																	 * attribute
-																	 */,
-				2 /* 2 texture values used for each vertex */, GL2ES2.GL_FLOAT,
-				false /* normalized? */, 0 /* stride */, 0 /*
-														 * The bound VBO data
-														 * offset
-														 */);
+		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 
-		jogl.getGL2ES2().glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+		enableAttrib(GLSL_ATTRIB_TEXTURE);
 	}
+
+
 
 
 	@Override
@@ -1168,8 +1192,9 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	protected Manager createManager() {
-		return new ManagerShadersWithTemplates(this, view3D);
-		// return new ManagerShadersBindBuffers(this, view3D);
+		App.error("========== createManager");
+		// return new ManagerShadersWithTemplates(this, view3D);
+		return new ManagerShadersBindBuffers(this, view3D);
 	}
 
 	private boolean texturesEnabled;

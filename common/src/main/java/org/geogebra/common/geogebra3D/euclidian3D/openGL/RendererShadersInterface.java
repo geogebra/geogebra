@@ -47,6 +47,25 @@ public interface RendererShadersInterface {
 			GPUBuffers buffers, int attrib);
 
 	/**
+	 * 
+	 * @param fb
+	 *            cpu buffer
+	 * @param length
+	 *            buffer length
+	 * @param buffers
+	 *            gpu buffers
+	 */
+	public void storeElementBuffer(short fb[], int length,
+			GPUBuffers buffers);
+
+	/**
+	 * 
+	 * @param buffers
+	 *            gpu buffers
+	 */
+	public void bindBufferForIndices(GPUBuffers buffers);
+
+	/**
 	 * create gpu buffers and store ids
 	 * 
 	 * @param buffers

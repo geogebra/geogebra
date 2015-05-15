@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffers;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersBindBuffers;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersNoTriangleFan;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
@@ -495,7 +496,6 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		// wait for fix : detect webGL support correctly
 
 		return new ManagerShadersNoTriangleFan(this, view3D);
-		// return new ManagerShadersBindBuffers(this, view3D);
 	}
 
 	@Override
@@ -1123,7 +1123,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	@Override
 	public void createBuffers(GPUBuffers buffers) {
-		final int length = 4;
+		final int length = 5;
 		WebGLBuffer[] b = ((GPUBuffersW) buffers).get();
 		for (int i = 0 ; i < length ; i++){
 			b[i] = glContext.createBuffer();
@@ -1140,6 +1140,26 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		// memory
 		glBufferData(fb);
 
+	}
+
+	@Override
+	public void storeElementBuffer(short[] fb, int length, GPUBuffers buffers) {
+		// Select the VBO, GPU memory data
+		bindBufferForIndices(buffers);
+
+		// transfer data to VBO, this perform the copy of data from CPU -> GPU
+		// memory
+		glContext.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
+				MyInt16Array.create(fb), WebGLRenderingContext.STREAM_DRAW);
+
+	}
+
+	@Override
+	public void bindBufferForIndices(GPUBuffers buffers) {
+		// Select the VBO, GPU memory data
+		glContext.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
+				((GPUBuffersW) buffers)
+						.get(ManagerShadersBindBuffers.GLSL_ATTRIB_INDEX));
 	}
 
 	final private void bindBuffer(GPUBuffers buffers, int attrib) {

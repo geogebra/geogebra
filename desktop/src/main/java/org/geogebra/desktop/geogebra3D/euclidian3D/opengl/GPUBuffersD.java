@@ -7,7 +7,7 @@ public class GPUBuffersD implements GPUBuffers {
 	private int[] impl;
 
 	public GPUBuffersD() {
-		impl = new int[4];
+		impl = new int[5];
 	}
 
 	public int[] get() {
