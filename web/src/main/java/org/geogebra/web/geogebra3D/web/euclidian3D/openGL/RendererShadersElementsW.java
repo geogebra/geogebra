@@ -1,5 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
@@ -243,8 +245,9 @@ public class RendererShadersElementsW extends RendererW {
 		}
 
 		bufferL = 0;
-		for (Drawable3D d : drawable3DLists
-				.getList(Drawable3D.DRAW_TYPE_POINTS)) {
+		ArrayList<Drawable3D> list = drawable3DLists
+				.getList(Drawable3D.DRAW_TYPE_POINTS);
+		for (Drawable3D d : list) {
 			// App.debug("(" + d.getGeometryIndex() + ") " + d.getGeoElement());
 			Geometry geometry = ((ManagerShaders) getGeometryManager())
 					.getGeometry(d.getGeometryIndex());
@@ -262,8 +265,7 @@ public class RendererShadersElementsW extends RendererW {
 		bufferI = new short[bufferL * 3];
 
 		short index = 0;
-		for (Drawable3D d : drawable3DLists
-				.getList(Drawable3D.DRAW_TYPE_POINTS)) {
+		for (Drawable3D d : list) {
 			// App.debug("(" + d.getGeometryIndex() + ") " + d.getGeoElement());
 			Coords center = ((DrawPoint3D) d).getCenter();
 			double radius = center.getW() * DrawPoint3D.DRAW_POINT_FACTOR
