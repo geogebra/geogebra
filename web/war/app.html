@@ -330,12 +330,12 @@ var app = document.createElement("script");
 			insertScript();
 			return;
 		}
-		else if(!getCookie("SSID") && !getCookie("loginAttempt") && navigator.onLine){
+		/*else if(!getCookie("SSID") && !getCookie("loginAttempt") && navigator.onLine){
 			var d = new Date();
 			d.setTime(d.getTime() + (365*24*60*60*1000));
 			document.cookie="loginAttempt=true; expires="+d.toUTCString();
 			location.replace("https://login.geogebra.org/user/login/caller/web/?clientinfo=startup&url="+encodeURIComponent(location.href));
-		}
+		}*/
 		var lang = getURLparam("ggbLang") || getCookie("GeoGebraLangUI") || navigator.language || "en";
 		window.setTimeout(showInEnglish, 1000);
 		switchLang(validLang(lang));
