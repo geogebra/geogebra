@@ -16,4 +16,9 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel implements TabletLoo
 		return true;
 	}
 
+	@Override
+	public String getFrameStyleName() {
+		return "TabletWin";
+	}
+
 }

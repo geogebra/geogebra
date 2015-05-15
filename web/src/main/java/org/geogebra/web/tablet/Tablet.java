@@ -187,7 +187,8 @@ public class Tablet implements EntryPoint {
 		appFrame = new GeoGebraAppFrame((GLookAndFeel) GWT.create(TabletLookAndFeel.class),
 		        (GDevice) GWT.create(TabletDevice.class),
 		        (AppletFactory) GWT.create(AppletFactory.class));
-		appFrame.addStyleName("Tablet");
+		appFrame.addStyleName(((TabletLookAndFeel) GWT
+				.create(TabletLookAndFeel.class)).getFrameStyleName());
 	}
 
 	native void exportArticleTagRenderer() /*-{

@@ -62,8 +62,8 @@
 	height: 17px;
 	width: 100%;
 
-	/* on mobile browsers z-index is needed for whatever reason */
-	z-index: 10;
+	/* on mobile browsers z-index is needed for whatever reason. 10 is not enough for Win8 */
+	z-index: 1000;
 
 	/* or whatever is the background-color of Algebra View */
 	/* TODO: may be put elsewhere in CSS too */
@@ -87,6 +87,12 @@
 	 probably the problem cannot be solved changing only
 	 "bottom" and "height" */
 	height: 9px;
+}
+
+.TabletWin .NewRadioButtonTreeItemParent::after {
+	/* as other hacks are more difficult, why not use .Tablet? */
+	bottom: 3px;
+	height: 14px;
 }
 
 .NewRadioButtonTreeItem {
