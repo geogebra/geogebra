@@ -82,12 +82,17 @@ public class SoundManagerW implements SoundManager {
 		return MidiSoundW.INSTANCE;
 	}
 	
+	FunctionSoundW getFunctionSound() {
+		return FunctionSoundW.INSTANCE;
+	}
+
 	public void stopCurrentSound() {
 		getMidiSound().stop();
 	}
-	public void playFunction(GeoFunction geoFunction, double double1,
-	        double double2, int double3, int double4) {
-		App.debug("unimplemented");
+
+	public void playFunction(GeoFunction geoFunction, double min, double max,
+			int sampleRate, int bitDepth) {
+		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max);
 	}
 
 	/**
