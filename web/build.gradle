@@ -11,6 +11,7 @@ buildscript {
 
 apply plugin: 'gwt-compiler'
 apply plugin: 'java'
+apply plugin: 'jetty'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -130,6 +131,36 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 		'-war', file(warDirRel),
 		devModule
 }
+
+import org.gradle.api.plugins.jetty.internal.Monitor
+
+task jettyDraftRun(type: JettyRun) {
+	description 'Starts a simple file server with the with base directory of web/war. To stop it please use the stopJetty task.'
+	dependsOn draftDeployIntoWar
+	dependsOn.remove('war')
+	daemon true
+	httpPort 8080
+	webAppSourceDirectory = file('war')
+   	/**
+   	* THIS IS A WORKAROUND! THE CURRENT VERSION OF THIS TASK DOESN'T START A WATCHER IN DAEMON MODE
+   	*
+   	* If starting the monitor fails, it may be because the jetty task was updated to fix this issue
+   	* When that happens, we shouldn't need the custom task any more
+   	*
+   	* For more information, see: https://issues.gradle.org/browse/GRADLE-2263
+   	*
+   	* Copied From: AbstractJettyRunTask
+   	*/
+   	doLast {
+   		if (getStopPort() != null && getStopPort() > 0 && getStopKey() != null) {
+    		Monitor monitor = new Monitor(getStopPort(), getStopKey(), server.getProxiedObject());
+    		monitor.start();
+   		}
+   	}
+}
+
+[jettyDraftRun, jettyStop]*.stopPort = 8090
+[jettyDraftRun, jettyStop]*.stopKey = 'stop'
 
 // https://issues.gradle.org/browse/GRADLE-2778
 // http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
