@@ -311,8 +311,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void requestFocus() {
-		// TODO Auto-generated method stub
+		// this may be really necessary preventing a tabbing away issue
+		// but the reasons of it are not well understood #5158
+		requestFocusInWindow();
 
+		// App.debug("unimplemented");
 	}
 
 	@Override

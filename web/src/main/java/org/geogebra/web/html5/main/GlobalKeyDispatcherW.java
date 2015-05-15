@@ -127,8 +127,14 @@ public class GlobalKeyDispatcherW extends
 	 */
 	public boolean handleGeneralKeys(KeyUpEvent event) {
 
-		return handleGeneralKeys(
-		        KeyCodes.translateGWTcode(event.getNativeKeyCode()),
+		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
+
+		// I thought this to be a problem but it seems not
+		//if (kc == KeyCodes.TAB) {
+		//	event.preventDefault();
+		//}
+
+		return handleGeneralKeys(kc,
 		        event.isShiftKeyDown(), event.isControlKeyDown(),
 		        event.isAltKeyDown(), false, true);
 
