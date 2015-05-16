@@ -1112,6 +1112,10 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 						// when not a point clicked, show text only in active
 						// view
 						if (activeView.isEuclidianView3D()) {
+							// we need to add it to 3D view since by default
+							// it may not
+							t.addView(App.VIEW_EUCLIDIAN3D);
+							kernel.getApplication().getEuclidianView3D().add(t);
 							app.removeFromEuclidianView(t);
 							t.setVisibleInViewForPlane(false);
 							kernel.getApplication().removeFromViewsForPlane(t);
