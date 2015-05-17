@@ -727,4 +727,16 @@ public class DrawLine extends Drawable implements Previewable {
 		complement.subtract(gpcArea);
 		return complement;
 	}
+
+	/**
+	 * Returns the bounding box of this Drawable in screen coordinates.
+	 */
+	@Override
+	final public org.geogebra.common.awt.GRectangle getBounds() {
+		if (line == null || !geo.isDefined() || !geo.isEuclidianVisible()) {
+			return null;
+		}
+		return AwtFactory.prototype.newRectangle(line.getBounds());
+	}
+
 }
