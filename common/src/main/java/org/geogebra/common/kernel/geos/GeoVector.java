@@ -878,21 +878,23 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText( 
 						new ExpressionNode(kernel,
-								getXBracket(), // "x("
+ kernel.getAlgebraProcessor().getXBracket(), // "x("
 								Operation.PLUS, 
 								new ExpressionNode(kernel,
 										getNameGeo(), // Name[this]
 										Operation.PLUS, 
-										getCloseBracket())))); // ")"
+ kernel.getAlgebraProcessor()
+								.getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText(  
 						new ExpressionNode(kernel,
-								getYBracket(), // "y("
+ kernel.getAlgebraProcessor().getYBracket(), // "y("
 								Operation.PLUS, 
 								new ExpressionNode(kernel,
 										getNameGeo(), // Name[this]
 										Operation.PLUS, 
-										getCloseBracket())))); // ")"
+ kernel.getAlgebraProcessor()
+								.getCloseBracket())))); // ")"
 		
 		
 	}

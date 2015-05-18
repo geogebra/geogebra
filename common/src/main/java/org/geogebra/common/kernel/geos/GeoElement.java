@@ -68,7 +68,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -7418,18 +7417,20 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return list of column headings
 	 */
 	final public ArrayList<GeoText> getColumnHeadings() {
-		
-		//if no values / only copy
-		if (getTraceSettings().doTraceGeoCopy) //update column headings for trace copy
+
+		// if no values / only copy
+		if (getTraceSettings().doTraceGeoCopy) // update column headings for
+												// trace copy
 			updateColumnHeadingsForTraceGeoCopy();
-		else //update column headings for trace values
+		else
+			// update column headings for trace values
 			updateColumnHeadingsForTraceValues();
 
 		return spreadsheetColumnHeadings;
 	}
 	
 	/** update column headings for trace values */
-	public void updateColumnHeadingsForTraceValues(){
+	public void updateColumnHeadingsForTraceValues() {
 		//for NumberValue
 		updateColumnHeadingsForTraceGeoCopy();
 	}
@@ -7515,35 +7516,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return ret;
 	}
 	
-	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null, closeBracket = null;
-	
-	/**  @return "x(" */
-	protected MyStringBuffer getXBracket(){
-		if (xBracket == null)
-			xBracket = new MyStringBuffer(kernel, "x(");
-		return xBracket;
-	}
-	
-	/**  @return "y(" */
-	protected MyStringBuffer getYBracket(){
-		if (yBracket == null)
-			yBracket = new MyStringBuffer(kernel, "y(");
-		return yBracket;
-	}
-	
-	/**  @return "z(" */
-	protected MyStringBuffer getZBracket(){
-		if (zBracket == null)
-			zBracket = new MyStringBuffer(kernel, "z(");
-		return zBracket;
-	}
-	
-	/**  @return ")" */
-	protected MyStringBuffer getCloseBracket(){
-		if (closeBracket == null)
-			closeBracket = new MyStringBuffer(kernel, ")");
-		return closeBracket;
-	}
+
 
 	/**
 	 * default for elements implementing NumberValue interface eg GeoSegment,

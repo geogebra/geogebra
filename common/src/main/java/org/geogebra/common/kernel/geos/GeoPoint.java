@@ -57,12 +57,12 @@ import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -2301,21 +2301,23 @@ SymbolicParametersBotanaAlgo {
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText( 
 						new ExpressionNode(kernel,
-								getXBracket(), // "x("
+ kernel.getAlgebraProcessor().getXBracket(), // "x("
 								Operation.PLUS, 
 								new ExpressionNode(kernel,
 										getNameGeo(), // Name[this]
 										Operation.PLUS, 
-										getCloseBracket())))); // ")"
+ kernel.getAlgebraProcessor()
+								.getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText(
 						new ExpressionNode(kernel,
-								getYBracket(), // "y("
+ kernel.getAlgebraProcessor().getYBracket(), // "y("
 								Operation.PLUS, 
 								new ExpressionNode(kernel,
 										getNameGeo(), // Name[this]
 										Operation.PLUS, 
-										getCloseBracket())))); // ")"
+ kernel.getAlgebraProcessor()
+								.getCloseBracket())))); // ")"
 
 
 	}

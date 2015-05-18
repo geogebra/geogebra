@@ -1250,17 +1250,20 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		resetSpreadsheetColumnHeadings();
 
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, getXBracket(), // "x("
+				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
 				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, getCloseBracket())))); // ")"
+						Operation.PLUS, kernel.getAlgebraProcessor()
+								.getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, getYBracket(), // "y("
+				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
 				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, getCloseBracket())))); // ")"
+						Operation.PLUS, kernel.getAlgebraProcessor()
+								.getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, getZBracket(), // "z("
+				kernel, kernel.getAlgebraProcessor().getZBracket(), // "z("
 				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, getCloseBracket())))); // ")"
+						Operation.PLUS, kernel.getAlgebraProcessor()
+								.getCloseBracket())))); // ")"
 
 	}
 

@@ -2796,4 +2796,35 @@ public class AlgebraProcessor {
 	// return ret;
 	// }
 
+	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null,
+			closeBracket = null;
+
+	/** @return "x(" */
+	public MyStringBuffer getXBracket() {
+		if (xBracket == null)
+			xBracket = new MyStringBuffer(kernel, "x(");
+		return xBracket;
+	}
+
+	/** @return "y(" */
+	public MyStringBuffer getYBracket() {
+		if (yBracket == null)
+			yBracket = new MyStringBuffer(kernel, "y(");
+		return yBracket;
+	}
+
+	/** @return "z(" */
+	public MyStringBuffer getZBracket() {
+		if (zBracket == null)
+			zBracket = new MyStringBuffer(kernel, "z(");
+		return zBracket;
+	}
+
+	/** @return ")" */
+	public MyStringBuffer getCloseBracket() {
+		if (closeBracket == null)
+			closeBracket = new MyStringBuffer(kernel, ")");
+		return closeBracket;
+	}
+
 }
