@@ -858,6 +858,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private EuclidianViewInterfaceSlim viewForValueString;
 
+	private boolean sequentialColor;
+
 	/**
 	 * sets a view for building the value string
 	 * 
@@ -1630,6 +1632,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo source geo
 	 */
 	protected void setColorVisualStyle(final GeoElement geo){
+		if (geo.isSequentialColor()) {
+			GColor next = cons.getConstructionDefaults().getNextColor();
+			objColor = next;
+			selColor = next;
+			labelColor = next;
+			return;
+		}
 		
 		objColor = geo.objColor;
 		selColor = geo.selColor;
@@ -1649,6 +1658,15 @@ public abstract class GeoElement extends ConstructionElement implements
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
 	}
+
+	private boolean isSequentialColor() {
+		return this.sequentialColor;
+	}
+
+	public void setSequentialColor(boolean sequential) {
+		this.sequentialColor = sequential;
+	}
+
 
 	/**
 	 * Also copy advanced settings of this object.

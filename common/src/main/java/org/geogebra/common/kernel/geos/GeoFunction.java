@@ -138,8 +138,10 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	 * @param f function
 	 */
 	public GeoFunction(Construction c, Function f) {
-		this(c);
+		super(c);
+		surfaceEvaluables = new TreeSet<SurfaceEvaluable>();
 		fun = f;
+		// setConstructionDefaults is called from initFunction
 		initFunction();
 	}
 	/** implicit poly for composite function */

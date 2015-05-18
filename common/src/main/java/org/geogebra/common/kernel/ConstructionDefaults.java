@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -43,6 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -247,20 +249,10 @@ public class ConstructionDefaults {
 	protected String strDependent = " (dependent)";
 
 	/**
-	 * Resets and reiniates default elements TODO question: do we need not from
-	 * scratch?
-	 */
-	public void createDefaultGeoElementsFromScratch() {
-		defaultGeoElements = null;
-		createDefaultGeoElements();
-	}
-
-	/**
 	 * Fills the list of default geos
 	 */
 	public void createDefaultGeoElements() {
-		if (defaultGeoElements == null)
-			defaultGeoElements = new HashMap<Integer, GeoElement>();
+		defaultGeoElements = new HashMap<Integer, GeoElement>();
 
 		// free point
 		GeoPoint freePoint = new GeoPoint(cons);
@@ -452,6 +444,9 @@ public class ConstructionDefaults {
 		function.setObjColor(colFunction);
 		function.setDefaultGeoType(DEFAULT_FUNCTION);
 		function.remove();
+		if (cons.getKernel().getApplication().has(Feature.SEQUENTIAL_COLORS)) {
+			function.setSequentialColor(true);
+		}
 		defaultGeoElements.put(DEFAULT_FUNCTION, function);
 
 		// locus
@@ -993,6 +988,19 @@ public class ConstructionDefaults {
 				geo.setVisualStyle(otherGeo);
 			}
 		}
+	}
+
+	private int colorIndex = 0;
+	private int[] colorSequence = new int[] { 0x3333CC, 0x006600, 0xFF3300,
+			0x990066, 0x9966FF, 0x339900, 0xCC0099, 0x0066FF, 0x009999,
+			0x660000, 0x333333 };
+	public GColor getNextColor() {
+		GColor color = colorIndex < colorSequence.length ? AwtFactory.prototype
+				.newColor(colorSequence[colorIndex]) : AwtFactory.prototype
+				.newColor(colorIndex * 87 % 255, colorIndex * 103 % 255,
+						colorIndex * 67 % 255);
+		colorIndex++;
+		return color;
 	}
 
 }

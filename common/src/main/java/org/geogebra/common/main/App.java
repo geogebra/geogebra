@@ -3645,6 +3645,7 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case ADD_NEW_OBJECT_BUTTON:
+		case SEQUENTIAL_COLORS:
 			return prerelease;
 		default:
 			return false;

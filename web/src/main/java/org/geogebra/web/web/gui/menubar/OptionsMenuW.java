@@ -127,7 +127,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 						// new objects
 						// so the options defaults dialog should be reset later
 						app.getKernel().getConstruction().getConstructionDefaults()
-						.createDefaultGeoElementsFromScratch();
+						.createDefaultGeoElements();
 
 						// reset the stylebar defaultGeo
 						if (app.getEuclidianView1().hasStyleBar())
