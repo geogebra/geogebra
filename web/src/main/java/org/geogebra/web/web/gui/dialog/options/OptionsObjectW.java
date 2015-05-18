@@ -534,6 +534,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW; 
 		private GColor selectedColor;
+		private CheckBox sequential;
 
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
@@ -581,8 +582,18 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				}});
 			colorChooserW.setColorPreviewClickable();
 
+			sequential = new CheckBox("Sequential");
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
+			mainPanel.add(sequential);
+			sequential.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					// TODO we may need to update the GUI here
+					model.setSequential(sequential.getValue());
+
+				}
+			});
 			setWidget(mainPanel);
 
 		}

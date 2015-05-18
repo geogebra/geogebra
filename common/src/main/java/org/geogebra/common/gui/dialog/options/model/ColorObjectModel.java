@@ -32,7 +32,7 @@ public class ColorObjectModel extends OptionsModel {
 	private boolean hasImageGeo;
 	private IColorObjectListener listener;
 	private Kernel kernel;
-	private static App app;
+	private App app;
 	public ColorObjectModel(App app, IColorObjectListener listener) {
 		this.listener = listener;
 		this.app = app;
@@ -179,7 +179,7 @@ public class ColorObjectModel extends OptionsModel {
 		return false;
 	}
 	
-	public static String getColorAsString(GColor color) {
+	public static String getColorAsString(App app, GColor color) {
 		String result = "";
 		int blue = color.getBlue();
 		String rgbDec = color.getRed() + ", " + color.getGreen() + ", " + blue;
@@ -194,10 +194,10 @@ public class ColorObjectModel extends OptionsModel {
 		return result;
 	}
 	
-	public static String getColorAsString(App app, GColor color) {
-		ColorObjectModel.app = app;
-		return getColorAsString(color);
-	}
+	/*
+	 * public static String getColorAsString(App app, GColor color) {
+	 * ColorObjectModel.app = app; return getColorAsString(color); }
+	 */
 
 	public void setSequential(boolean b) {
 		GeoElement geo;

@@ -39,6 +39,7 @@ import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjec
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
@@ -304,7 +305,8 @@ class ColorPanel extends JPanel implements ActionListener,
 		if (selectedColor == null)
 			previewPanel.setToolTipText("");
 		else
-			previewPanel.setToolTipText(getToolTipText(selectedColor));
+			previewPanel.setToolTipText(getToolTipText(propertiesPanelD.app,
+					selectedColor));
 		currentColorLabel.setText(previewPanel.getToolTipText());
 	}
 
@@ -314,8 +316,9 @@ class ColorPanel extends JPanel implements ActionListener,
 	 * @param color
 	 * @return
 	 */
-	public String getToolTipText(Color color) {
-		return ColorObjectModel.getColorAsString(new org.geogebra.desktop.awt.GColorD(
+	public String getToolTipText(App app, Color color) {
+		return ColorObjectModel.getColorAsString(app,
+				new org.geogebra.desktop.awt.GColorD(
 				color));
 	}
 
@@ -531,7 +534,8 @@ class ColorPanel extends JPanel implements ActionListener,
 		// update preview panel
 		Color color = GColorD.getAwtColor(col);
 		previewPanel.setPreview(color, alpha);
-		previewPanel.setToolTipText(getToolTipText(color));
+		previewPanel
+				.setToolTipText(getToolTipText(propertiesPanelD.app, color));
 		currentColorLabel.setText(previewPanel.getToolTipText());
 
 	}

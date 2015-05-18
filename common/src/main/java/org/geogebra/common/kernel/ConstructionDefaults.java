@@ -997,7 +997,7 @@ public class ConstructionDefaults {
 	public GColor getNextColor() {
 		GColor color = colorIndex < colorSequence.length ? AwtFactory.prototype
 				.newColor(colorSequence[colorIndex]) : AwtFactory.prototype
-				.newColor(colorIndex * 87 % 255, colorIndex * 103 % 255,
+				.newColor(colorIndex * 163 % 255, colorIndex * 103 % 255,
 						colorIndex * 67 % 255);
 		colorIndex++;
 		return color;
