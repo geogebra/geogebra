@@ -33,8 +33,8 @@ dependencies {
 		'com.googlecode.gwtquery:gwtquery:1.4.3',
 		'com.googlecode:gwtgl:0.9.1',
 		'com.googlecode:gwtgl:0.9.1:sources',
-	    'org.scilab.forge:jlatexmath-gwt:20150429:all'
-
+	    'org.scilab.forge:jlatexmath-gwt:20150429:all',
+	    'com.google.gwt:gwt-dev:2.7.0'
 }
 
 def devModule = 'org.geogebra.web.Web3D'
@@ -119,7 +119,9 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 	description 'Starts a codeserver, and a simple webserver for development'
 	main 'com.google.gwt.dev.DevMode'
 	maxHeapSize '2048m'
-	classpath ((configurations.compile as Set<String>) + (sourceSets.main.allSource.srcDirs as Set<String>) + (jar.archivePath as String))
+	classpath ((configurations.compile as Set<String>) 
+		+ (sourceSets.main.allSource.srcDirs as Set<String>) 
+		+ (jar.archivePath as String))
 	workingDir file(warDirRel)
 	args '-logLevel', 'INFO',
 		'-codeServerPort', '9997',
