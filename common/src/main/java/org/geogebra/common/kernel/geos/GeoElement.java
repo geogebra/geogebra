@@ -1659,7 +1659,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		isColorSet = geo.isColorSet();
 	}
 
-	private boolean isSequentialColor() {
+	public boolean isSequentialColor() {
 		return this.sequentialColor;
 	}
 

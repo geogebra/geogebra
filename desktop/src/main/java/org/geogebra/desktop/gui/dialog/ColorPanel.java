@@ -20,6 +20,7 @@ import java.util.Enumeration;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -38,6 +39,7 @@ import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjec
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
@@ -66,6 +68,7 @@ class ColorPanel extends JPanel implements ActionListener,
 
 	private Color selectedColor;
 	private JPanel southPanel;
+	private JCheckBox sequential;
 
 	// For handle single bar
 	private JToggleButton[] selectionBarButtons;
@@ -79,7 +82,8 @@ class ColorPanel extends JPanel implements ActionListener,
 		previewPanel = new PreviewPanel();
 		previewLabel = new JLabel();
 		currentColorLabel = new JLabel();
-
+		sequential = new JCheckBox("SEQUENTIAL");
+		sequential.addActionListener(this);
 		// prepare color chooser
 		colChooser.setLocale(this.propertiesPanelD.app.getLocale());
 		colChooser.getSelectionModel().addChangeListener(this);
@@ -144,6 +148,9 @@ class ColorPanel extends JPanel implements ActionListener,
 
 		// put the sub-panels together
 		setLayout(new BorderLayout());
+		if (propertiesPanelD.app.has(Feature.SEQUENTIAL_COLORS)) {
+			southPanel.add(sequential);
+		}
 		add(colorChooserContainer, BorderLayout.NORTH);
 		add(southPanel, this.propertiesPanelD.loc.borderWest());
 	}
@@ -249,9 +256,11 @@ class ColorPanel extends JPanel implements ActionListener,
 		btnClearBackground.setVisible(rbtnBackgroundColor.isSelected());
 		btnClearBackground.setEnabled(rbtnBackgroundColor.isSelected());
 		// hide the color chooser and preview if we have an image
-		colorChooserContainer.setVisible(!model.hasImageGeo());
+		colorChooserContainer.setVisible(!model.hasImageGeo()
+				&& !model.isSequentialColor());
 		previewMetaPanel.setVisible(!model.hasImageGeo());
-
+		sequential.setVisible(model.hasDefaultGeos());
+		sequential.setSelected(model.isSequentialColor());
 		return this;
 	}
 
@@ -409,6 +418,10 @@ class ColorPanel extends JPanel implements ActionListener,
 			addSelectionBar();
 			update();
 		}
+		if (source == sequential) {
+			model.setSequential(sequential.isSelected());
+			update();
+		}
 	}
 
 	public void updateFonts() {
@@ -545,6 +558,7 @@ class ColorPanel extends JPanel implements ActionListener,
 				geo.setAlphaValue(alpha);
 			}
 		}
+		sequential.setSelected(geo.isSequentialColor());
 
 	}
 

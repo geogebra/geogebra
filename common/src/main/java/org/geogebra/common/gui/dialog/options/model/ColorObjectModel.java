@@ -198,4 +198,33 @@ public class ColorObjectModel extends OptionsModel {
 		ColorObjectModel.app = app;
 		return getColorAsString(color);
 	}
+
+	public void setSequential(boolean b) {
+		GeoElement geo;
+		for (int i = 0; i < getGeosLength(); i++) {
+			geo = getGeoAt(i);
+			geo.setSequentialColor(b);
+			geo.updateVisualStyle();
+		}
+		kernel.notifyRepaint();
+
+	}
+
+	public boolean isSequentialColor() {
+		for (int i = 0; i < getGeosLength(); i++) {
+			if (!getGeoAt(i).isSequentialColor()) {
+				return false;
+			}
+		}
+		return getGeosLength() > 0;
+	}
+
+	public boolean hasDefaultGeos() {
+		for (int i = 0; i < getGeosLength(); i++) {
+			if (getGeoAt(i).isDefaultGeo()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
