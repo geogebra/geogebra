@@ -62,7 +62,6 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.SliderW;
-import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 import org.scilab.forge.jlatexmath.CreateLibrary;
 import org.scilab.forge.jlatexmath.TeXIcon;
 import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
@@ -976,8 +975,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				@Override
 				public void onClickStart(int x, int y,
 				        final PointerEventType type) {
-
-					OnScreenKeyBoard.setInstanceTextField(app, tb);
+					app.setOnScreenKeyboardTextField(tb);
 					// prevent that keyboard is closed on clicks (changing
 					// cursor position)
 					CancelEventTimer.keyboardSetVisible();

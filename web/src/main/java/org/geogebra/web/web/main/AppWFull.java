@@ -11,7 +11,6 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 public abstract class AppWFull extends AppW {
 
@@ -43,7 +42,7 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void updateKeyBoardField(MathKeyboardListener field) {
-		OnScreenKeyBoard.setInstanceTextField(this, field);
+		setOnScreenKeyboardTextField(field);
 	}
 
 	@Override

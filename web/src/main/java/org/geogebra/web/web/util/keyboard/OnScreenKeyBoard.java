@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Language;
@@ -115,7 +114,6 @@ public class OnScreenKeyBoard extends PopupPanel {
 		// supportedLocales.put(Language.Yiddish.localeGWT, "ji");
 	}
 
-	private static HashMap<App, OnScreenKeyBoard> instances;
 	private static final int MIN_WIDTH_FONT = 485;
 	private static final int KEY_PER_ROW = 12;
 	private static final int NUM_LETTER_BUTTONS = 38;
@@ -255,20 +253,6 @@ public class OnScreenKeyBoard extends PopupPanel {
 		accentCircumflex.put("O", "\u00d4");
 		accentCircumflex.put("u", "\u00fb");
 		accentCircumflex.put("U", "\u00db");
-	}
-
-	/**
-	 * updates the textField of the current instance, if the instance is not
-	 * null
-	 * 
-	 * @param textField
-	 *            the new textField
-	 */
-	public static void setInstanceTextField(App app,
-	        MathKeyboardListener textField) {
-		if (instances != null && instances.get(app) != null) {
-			instances.get(app).setTextField(textField);
-		}
 	}
 
 	/**

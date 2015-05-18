@@ -315,6 +315,12 @@ public abstract class AppW extends App implements SetLabels {
 		return onScreenKeyboard;
 	}
 
+	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
+		if (onScreenKeyboard != null) {
+			onScreenKeyboard.setTextField(textField);
+		}
+	}
+
 	protected void afterCoreObjectsInited() {
 	} // TODO: abstract?
 

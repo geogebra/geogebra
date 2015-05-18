@@ -249,7 +249,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	        final MathKeyboardListener textField) {
 		// make sure the main part of this method is called ONLY WHEN NECESSARY
 		if (this.keyboardShowing == show) {
-			OnScreenKeyBoard.setInstanceTextField(app, textField);
+			app.setOnScreenKeyboardTextField(textField);
 			return;
 		}
 		this.keyboardShowing = show;
