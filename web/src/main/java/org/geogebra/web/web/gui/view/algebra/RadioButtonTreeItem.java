@@ -131,7 +131,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
         MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
  TouchStartHandler,
  TouchMoveHandler, TouchEndHandler, LongTouchHandler,
-		EquationEditorListener {
+		EquationEditorListener, CanBlockBlurEvent {
 
 	GeoElement geo;
 	Kernel kernel;

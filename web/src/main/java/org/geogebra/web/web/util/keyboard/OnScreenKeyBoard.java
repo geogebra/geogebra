@@ -14,7 +14,7 @@ import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.NoDragImage;
-import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
+import org.geogebra.web.web.gui.view.algebra.CanBlockBlurEvent;
 import org.geogebra.web.web.util.keyboard.KeyBoardButtonFunctional.Action;
 import org.geogebra.web.web.util.keyboard.TextFieldProcessing.ArrowType;
 
@@ -171,7 +171,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	 */
 	UpdateKeyBoardListener updateKeyBoardListener;
 
-	private RadioButtonTreeItem resetComponent;
+	private CanBlockBlurEvent resetComponent;
 
 	private boolean shiftIsDown = false;
 	private boolean greekActive = false;
@@ -1010,7 +1010,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 		}
 	}
 
-	public void setResetComponent(RadioButtonTreeItem rbti) {
+	public void setResetComponent(CanBlockBlurEvent rbti) {
 
 		this.resetComponent = rbti;
 
