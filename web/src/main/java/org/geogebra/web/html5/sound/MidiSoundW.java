@@ -14,7 +14,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 public class MidiSoundW {
 	public static final MidiSoundW INSTANCE = new MidiSoundW();
 	protected static final String PREFIX = "[MIDISOUNDW] ";
-	private static final String MS_WAVE_SYNTH = "Microsoft GS Wave Synth";
+	private static final String MS_WAVE_SYNTH = "Microsoft GS Wavetable Synth";
 	private static final String TIMIDITY = "TiMidity port 0";
 	private static final String IAC = "Bus 1";
 	private static final int NO_PORT = -1;
