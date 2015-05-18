@@ -1712,6 +1712,7 @@ __GGB__keysVar.fr.menu = {
     "Perspective.Whiteboard": "Tableau Blanc",
     "PerspectivePanel": "Panneau des dispositions",
     "Perspectives": "Dispositions",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "S\xe9lectionner trois points, un point et une ligne, ou deux lignes, ou un polygone",

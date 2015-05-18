@@ -1712,6 +1712,7 @@ __GGB__keysVar.eu.menu = {
     "Perspective.Whiteboard": "Arbel Birtuala",
     "PerspectivePanel": "Perspektiba panela",
     "Perspectives": "Antolaketak",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Planoa",
     "Plane.Help": "Aukeratu hiru puntu, puntua eta zuzena, bi zuzen edo poligonoa",

@@ -1712,6 +1712,7 @@ __GGB__keysVar.ko.menu = {
     "Perspective.Whiteboard": "\uc804\uc790\uce60\ud310",
     "PerspectivePanel": "\ud654\uba74\ubc30\uce58 \ud328\ub110",
     "Perspectives": "\ud654\uba74\ubc30\uce58",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "\ud53d\uc140",
     "Plane": "\ud3c9\uba74",
     "Plane.Help": "\uc138 \uc810 \ub610\ub294 \uc810\uacfc \uc9c1\uc120, \ub450 \uc9c1\uc120, \ub2e4\uac01\ud615\uc744 \uc120\ud0dd\ud558\uc138\uc694.Select three points, or point and line, or two lines, or a polygon",

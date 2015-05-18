@@ -1712,6 +1712,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Perspective.Whiteboard": "Quadro Branco",
     "PerspectivePanel": "Painel de Disposi\xe7\xf5es",
     "Perspectives": "Disposi\xe7\xf5es",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plano",
     "Plane.Help": "Selecione um ponto e uma reta, ou duas retas, ou um pol\xedgono",

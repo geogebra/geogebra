@@ -1712,6 +1712,7 @@ __GGB__keysVar.sq.menu = {
     "Perspective.Whiteboard": "Derrase e bardhe",
     "PerspectivePanel": "Panele Perspektive",
     "Perspectives": "Perspektive",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

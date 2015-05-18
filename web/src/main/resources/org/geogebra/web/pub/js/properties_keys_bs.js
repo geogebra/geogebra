@@ -1712,6 +1712,7 @@ __GGB__keysVar.bs.menu = {
     "Perspective.Whiteboard": "Radna povr\u0161",
     "PerspectivePanel": "Panel s prikazima",
     "Perspectives": "Prikazi",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Ravan",
     "Plane.Help": "Ozna\u010dite/Kreirajte tri ta\u010dke, ili ta\u010dku i pravu, ili dvije prave, ili mnogougao",

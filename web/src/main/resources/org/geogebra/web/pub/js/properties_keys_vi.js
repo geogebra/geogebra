@@ -1712,6 +1712,7 @@ __GGB__keysVar.vi.menu = {
     "Perspective.Whiteboard": "B\u1ea3ng tr\u1eafng",
     "PerspectivePanel": "B\u1ea3ng v\u1ebd",
     "Perspectives": "Ph\u1ed1i c\u1ea3nh",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "M\u1eb7t ph\u1eb3ng",
     "Plane.Help": "Ch\u1ecdn 3 \u0111i\u1ec3m, ho\u1eb7c 1 \u0111i\u1ec3m v\xe0 1 \u0111\u01b0\u1eddng th\u1eb3ng, ho\u1eb7c 2 \u0111\u01b0\u1eddng th\u1eb3ng, ho\u1eb7c 1 \u0111a gi\xe1c",

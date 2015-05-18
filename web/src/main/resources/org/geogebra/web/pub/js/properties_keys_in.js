@@ -1712,6 +1712,7 @@ __GGB__keysVar.in.menu = {
     "Perspective.Whiteboard": "Papan Tulis",
     "PerspectivePanel": "Panel Persfektif",
     "Perspectives": "Perfektif",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

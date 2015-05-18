@@ -1712,6 +1712,7 @@ __GGB__keysVar.de_AT.menu = {
     "Perspective.Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspektiven",
     "Perspectives": "Perspektiven",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Ebene",
     "Plane.Help": "Drei Punkte oder Punkt und Gerade oder zwei Geraden oder ein Polygon w\xe4hlen",

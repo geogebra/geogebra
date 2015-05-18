@@ -1712,6 +1712,7 @@ __GGB__keysVar.ro.menu = {
     "Perspective.Whiteboard": "Tabl\u0103 alb\u0103",
     "PerspectivePanel": "Panel perspectiv\u0103",
     "Perspectives": "Perspective",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "Selecteaz\u0103 trei puncte, sau un punct \u015fi o dreapt\u0103, sau dou\u0103 drepte, sau un poligon",

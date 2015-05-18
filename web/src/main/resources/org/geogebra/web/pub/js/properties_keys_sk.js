@@ -1712,6 +1712,7 @@ __GGB__keysVar.sk.menu = {
     "Perspective.Whiteboard": "Tabu\u013ea",
     "PerspectivePanel": "Panel Perspekt\xedvy",
     "Perspectives": "Perspekt\xedvy",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Rovina",
     "Plane.Help": "Vyzna\u010d tri body, alebo bod a priamku, alebo dve priamky, alebo mnohouholn\xedk",

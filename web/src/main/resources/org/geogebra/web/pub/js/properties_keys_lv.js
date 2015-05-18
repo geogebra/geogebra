@@ -1712,6 +1712,7 @@ __GGB__keysVar.lv.menu = {
     "Perspective.Whiteboard": "Balt\u0101 t\u0101fele",
     "PerspectivePanel": "Perspekt\u012bvais Panelis",
     "Perspectives": "Perspekt\u012bve",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plakne",
     "Plane.Help": "Izv\u0113lies tr\u012bs punktus, punktu vai taisni vai divas taisnes vai daudzst\u016bri",

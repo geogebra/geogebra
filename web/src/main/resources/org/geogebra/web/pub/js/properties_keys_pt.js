@@ -1712,6 +1712,7 @@ __GGB__keysVar.pt.menu = {
     "Perspective.Whiteboard": "Quadro Interativo",
     "PerspectivePanel": "Painel das Disposi\xe7\xf5es",
     "Perspectives": "Disposi\xe7\xf5es",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plano",
     "Plane.Help": "Selecione tr\xeas pontos, ou um ponto e uma reta, ou duas retas, ou um pol\xedgono",

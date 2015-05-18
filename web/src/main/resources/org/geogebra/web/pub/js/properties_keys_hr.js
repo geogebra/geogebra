@@ -1712,6 +1712,7 @@ __GGB__keysVar.hr.menu = {
     "Perspective.Whiteboard": "Interaktivna plo\u010da",
     "PerspectivePanel": "Plo\u010da s prikazima",
     "Perspectives": "Prikazi",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Ravnina",
     "Plane.Help": "Odaberite tri to\u010dke, ili to\u010dku i pravac, ili dva pravca, ili mnogokut",

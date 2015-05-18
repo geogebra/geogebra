@@ -1712,6 +1712,7 @@ __GGB__keysVar.it.menu = {
     "Perspective.Whiteboard": "Lavagna multimediale (LIM)",
     "PerspectivePanel": "Elenco Raccolta Viste",
     "Perspectives": "Raccolta Viste",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Piano",
     "Plane.Help": "Selezionare tre punti, o un punto e una retta, o due rette, o un poligono",

@@ -1712,6 +1712,7 @@ __GGB__keysVar.gl.menu = {
     "Perspective.Whiteboard": "Lousa virtual",
     "PerspectivePanel": "Disposici\xf3ns",
     "Perspectives": "Aparencias",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plano",
     "Plane.Help": "Selecci\xf3n de tres puntos, dun punto e unha recta, de d\xfaas rectas ou dun pol\xedgono",

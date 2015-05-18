@@ -1712,6 +1712,7 @@ __GGB__keysVar.tr.menu = {
     "Perspective.Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspektif Paneli",
     "Perspectives": "Perspektifler",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "D\xfczlem",
     "Plane.Help": "\xdc\xe7 nokta; veya nokta ve do\u011fru; veya iki do\u011fru; veya bir \xe7okgen se\xe7iniz",

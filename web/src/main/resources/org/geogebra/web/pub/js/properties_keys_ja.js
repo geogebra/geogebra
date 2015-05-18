@@ -1712,6 +1712,7 @@ __GGB__keysVar.ja.menu = {
     "Perspective.Whiteboard": "\u30db\u30ef\u30a4\u30c8\u30dc\u30fc\u30c9",
     "PerspectivePanel": "\u30d1\u30fc\u30b9\u30da\u30af\u30c6\u30a3\u30d6\u30d1\u30cd\u30eb",
     "Perspectives": "\u30d1\u30fc\u30b9\u30da\u30af\u30c6\u30a3\u30d6",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "\u5e73\u9762",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon\n\uff13\u70b9\u3001\u70b9\u3068\u76f4\u7dda\u3001\uff12\u76f4\u7dda\u3001\u307e\u305f\u306f\u3001\u591a\u89d2\u5f62\u3092\u9078\u629e",

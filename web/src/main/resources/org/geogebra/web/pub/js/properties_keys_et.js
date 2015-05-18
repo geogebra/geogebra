@@ -1712,6 +1712,7 @@ __GGB__keysVar.et.menu = {
     "Perspective.Whiteboard": "Tahvel",
     "PerspectivePanel": "Perspektiivide paneel",
     "Perspectives": "Perspektiivid",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Tasand",
     "Plane.Help": "Valige kolm punkti, punkt ja sirge, kaks sirget v\xf5i hulknurk",

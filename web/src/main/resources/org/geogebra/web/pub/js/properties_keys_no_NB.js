@@ -1712,6 +1712,7 @@ __GGB__keysVar.no_NB.menu = {
     "Perspective.Whiteboard": "Tavle",
     "PerspectivePanel": "Oppsett for sidefelt",
     "Perspectives": "Oppsett",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "Velg tre punkt, et punkt og ei linje, to linjer eller en mangekant",

@@ -1712,6 +1712,7 @@ __GGB__keysVar.sv.menu = {
     "Perspective.Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspektivpanel",
     "Perspectives": "Perspektiv",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "V\xe4lj tre punkter, eller punkt och linje, eller tv\xe5 linjer, eller en polygon",

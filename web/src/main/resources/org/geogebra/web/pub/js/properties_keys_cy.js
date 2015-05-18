@@ -1712,6 +1712,7 @@ __GGB__keysVar.cy.menu = {
     "Perspective.Whiteboard": "Bwrdd gwyn",
     "PerspectivePanel": "Panel Perspectif",
     "Perspectives": "Persbectif",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

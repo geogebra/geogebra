@@ -1712,6 +1712,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Perspective.Whiteboard": "Pissarra",
     "PerspectivePanel": "Tauler d'escenaris",
     "Perspectives": "Escenaris",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Pla",
     "Plane.Help": "Seleccioneu tres punts, un punt i una recta, dos rectes o un pol\xedgon",

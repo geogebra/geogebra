@@ -1712,6 +1712,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Perspective.Whiteboard": "Interactief bord",
     "PerspectivePanel": "Perspectief Paneel",
     "Perspectives": "Schermindelingen",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Vlak algemeen",
     "Plane.Help": "Selecteer drie punten, een punt en een rechte, twee rechten of een veelhoek",

@@ -1712,6 +1712,7 @@ __GGB__keysVar.cs.menu = {
     "Perspective.Whiteboard": "Tabule",
     "PerspectivePanel": "Panel perspektiv",
     "Perspectives": "Zobrazen\xe1 okna (pohledy)",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Rovina",
     "Plane.Help": "Vyberte t\u0159i body, nebo bod a p\u0159\xedmku, nebo dv\u011b p\u0159\xedmky, nebo mnoho\xfaheln\xedk",

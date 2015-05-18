@@ -1712,6 +1712,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Perspective.Whiteboard": "Feh\xe9r t\xe1bla",
     "PerspectivePanel": "Perspekt\xedv panel",
     "Perspectives": "Munkaasztalok",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "S\xedk",
     "Plane.Help": "H\xe1rom pont, vagy pont \xe9s egyenes, vagy k\xe9t egyenes, vagy soksz\xf6g megad\xe1sa",

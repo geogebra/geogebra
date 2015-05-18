@@ -1712,6 +1712,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Perspective.Whiteboard": "\u767d\u677f",
     "PerspectivePanel": "\u7248\u9762\u683c\u5c40",
     "Perspectives": "\u683c\u5c40",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "\u5e73\u9762",
     "Plane.Help": "\u9078\u64c7\u4e0b\u5217\u4e4b\u4e00\uff1a(1) \u4e09\u9ede (2) \u4e00\u9ede\u3001\u4e00\u7dda (3) \u591a\u908a\u5f62",

@@ -1712,6 +1712,7 @@ __GGB__keysVar.lt.menu = {
     "Perspective.Whiteboard": "Balta lenta",
     "PerspectivePanel": "Perpektyvos pultas",
     "Perspectives": "Perspektyvos",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Plok\u0161tuma",
     "Plane.Help": "Pasirinkite tris ta\u0161kus, ta\u0161k\u0105 ir ties\u0119 arba daugiakamp\u012f",

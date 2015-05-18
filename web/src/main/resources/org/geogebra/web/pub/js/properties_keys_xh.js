@@ -1712,6 +1712,7 @@ __GGB__keysVar.xh.menu = {
     "Perspective.Whiteboard": "iWhiteboard",
     "PerspectivePanel": "iPerspective Panel",
     "Perspectives": "Imibono",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "iPleyini",
     "Plane.Help": "Khetha amachaphaza amathathu, okanye ichaphaza nomgca, okanye amachaphaza amabini, okanye umacalamaninzi",

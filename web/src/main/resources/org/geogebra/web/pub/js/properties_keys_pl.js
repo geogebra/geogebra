@@ -1712,6 +1712,7 @@ __GGB__keysVar.pl.menu = {
     "Perspective.Whiteboard": "Tablica",
     "PerspectivePanel": "Panel Widok\xf3w",
     "Perspectives": "Widoki",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "P\u0142aszczyzna",
     "Plane.Help": "Wybierz trzy punkty lub punkt i prost\u0105 lub dwie proste lub wielok\u0105t",

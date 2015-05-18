@@ -1712,6 +1712,7 @@ __GGB__keysVar.sl.menu = {
     "Perspective.Whiteboard": "Tabla",
     "PerspectivePanel": "Okvir s perspektivo",
     "Perspectives": "Prikazi",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Ravnina",
     "Plane.Help": "Izberi tri to\u010dke, to\u010dko in ravnino, dve premici ali mnogokotnik",

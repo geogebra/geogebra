@@ -1712,6 +1712,7 @@ __GGB__keysVar.es_ES.menu = {
     "Perspective.Whiteboard": "Pizarra Digital",
     "PerspectivePanel": "Panel de Apariencias",
     "Perspectives": "Apariencias",
+    "Piecewise.AddCondition": "A\xf1adir Condici\xf3n",
     "Pixels.short": "px",
     "Plane": "Plano",
     "Plane.Help": "Elige tres puntos (o un punto y una recta, dos rectas, o un pol\xedgono)",

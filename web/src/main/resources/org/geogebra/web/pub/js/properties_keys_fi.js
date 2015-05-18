@@ -1712,6 +1712,7 @@ __GGB__keysVar.fi.menu = {
     "Perspective.Whiteboard": "Valkotaulu",
     "PerspectivePanel": "Perspektiivipaneeli",
     "Perspectives": "N\xe4kym\xe4t",
+    "Piecewise.AddCondition": "Add Condition",
     "Pixels.short": "px",
     "Plane": "Taso",
     "Plane.Help": "Valitse kolme pistett\xe4, piste ja suora, kaksi suoraa tai monikulmio.",
