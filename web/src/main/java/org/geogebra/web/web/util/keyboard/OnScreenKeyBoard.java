@@ -15,7 +15,6 @@ import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.NoDragImage;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
 import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 import org.geogebra.web.web.util.keyboard.KeyBoardButtonFunctional.Action;
 import org.geogebra.web.web.util.keyboard.TextFieldProcessing.ArrowType;
@@ -192,40 +191,6 @@ public class OnScreenKeyBoard extends PopupPanel {
 	 */
 	private HashMap<KeyBoardButton, String> updateButton = new HashMap<KeyBoardButton, String>();
 
-	/**
-	 * creates a keyboard instance
-	 * 
-	 * @param textField
-	 *            the textField to receive the key-events
-	 * @param listener
-	 *            {@link UpdateKeyBoardListener}
-	 * @param appW
-	 *            {@link AppW}
-	 * @return instance of onScreenKeyBoard
-	 */
-	public static OnScreenKeyBoard getInstance(MathKeyboardListener textField,
-	        UpdateKeyBoardListener listener, AppW appW) {
-
-		if (instances == null) {
-			instances = new HashMap<App,OnScreenKeyBoard>();
-		}
-		OnScreenKeyBoard instance = instances.get(appW);
-		if (instance == null) {
-			instance = new OnScreenKeyBoard(appW);
-			instances.put(appW,instance);
-		}
-
-		// set keyboard used to false for the old text field
-		instance.setUsed(false);
-		instance.setTextField(textField == null ? ((AlgebraViewWeb) appW
-		        .getAlgebraView()).getInputTreeItem() : textField);
-		// set keyboard used to true for the new text field
-		instance.setUsed(true);
-
-		instance.setListener(listener);
-		return instance;
-	}
-
 	private void initAccentAcuteLetters() {
 		accentAcute.put("a", "\u00e1");
 		accentAcute.put("A", "\u00c1");
@@ -324,7 +289,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 	 * 
 	 * @param appW
 	 */
-	private OnScreenKeyBoard(AppW appW) {
+	public OnScreenKeyBoard(AppW appW) {
 		super(true);
 		this.app = appW;
 		this.loc = app.getLocalization();
@@ -987,7 +952,7 @@ public class OnScreenKeyBoard extends PopupPanel {
 		this.processing.setField(textField);
 	}
 
-	private void setListener(UpdateKeyBoardListener listener) {
+	public void setListener(UpdateKeyBoardListener listener) {
 		this.updateKeyBoardListener = listener;
 	}
 

@@ -102,6 +102,9 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
+import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
+import org.geogebra.web.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -173,6 +176,7 @@ public abstract class AppW extends App implements SetLabels {
 	// protected GeoGebraFrame frame = null;
 	private ErrorHandler errorHandler;
 	private GlobalKeyDispatcherW globalKeyDispatcher;
+	private OnScreenKeyBoard onScreenKeyboard;
 
 	/**
 	 * @param ae
@@ -293,6 +297,22 @@ public abstract class AppW extends App implements SetLabels {
 		if (!is3D()) {
 			org.geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste();
 		}
+	}
+
+	public OnScreenKeyBoard getOnScreenKeyboard(MathKeyboardListener textField,
+			UpdateKeyBoardListener listener) {
+		if (onScreenKeyboard == null) {
+			onScreenKeyboard = new OnScreenKeyBoard(this);
+		}
+		onScreenKeyboard.setUsed(false);
+		onScreenKeyboard
+				.setTextField(textField == null ? ((AlgebraViewWeb) getAlgebraView())
+						.getInputTreeItem() : textField);
+		// set keyboard used to true for the new text field
+		onScreenKeyboard.setUsed(true);
+
+		onScreenKeyboard.setListener(listener);
+		return onScreenKeyboard;
 	}
 
 	protected void afterCoreObjectsInited() {

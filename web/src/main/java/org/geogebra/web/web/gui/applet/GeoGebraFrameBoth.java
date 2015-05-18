@@ -166,8 +166,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void removeKeyboard(MathKeyboardListener textField) {
-		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
-		        textField, this, app);
+		final OnScreenKeyBoard keyBoard = app.getOnScreenKeyboard(textField,
+				this);
 		App.printStacktrace("HIDE KEYBOARD");
 		this.keyboardShowing = false;
 		app.addToHeight(keyboardHeight);
@@ -179,8 +179,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void addKeyboard(MathKeyboardListener textField) {
-		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
-		        textField, this, app);
+		final OnScreenKeyBoard keyBoard = app.getOnScreenKeyboard(textField,
+				this);
 		this.keyboardShowing = true;
 		keyBoard.show();
 		keyBoard.setVisible(false);
@@ -242,8 +242,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		        || keyboardShowing // if keyboard is already
 		                           // showing, we don't have
 		                           // to handle the showKeyboardButton
-		        || OnScreenKeyBoard.getInstance(textField, this, app)
-		                .shouldBeShown()) {
+				|| app.getOnScreenKeyboard(textField, this).shouldBeShown()) {
 			doShowKeyBoard(show, textField);
 		} else {
 			showKeyboardButton(textField);
@@ -279,8 +278,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	public void refreshKeyboard() {
 		if (keyboardShowing) {
-			final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
-			        null, this, app);
+			final OnScreenKeyBoard keyBoard = app.getOnScreenKeyboard(null,
+					this);
 			if (app.isKeyboardNeeded()) {
 				add(keyBoard);
 			} else {

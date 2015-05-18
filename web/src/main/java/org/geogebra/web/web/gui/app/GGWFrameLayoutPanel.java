@@ -185,8 +185,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		        || keyboardShowing // if keyboard is already
 		                           // showing, we don't have
 		                           // to handle the showKeyboardButton
-		        || OnScreenKeyBoard.getInstance(textField, this, app)
-		                .shouldBeShown()) {
+				|| app.getOnScreenKeyboard(textField, this).shouldBeShown()) {
 			doShowKeyBoard(show, textField);
 		} else {
 			showKeyboardButton(show, textField);
@@ -258,8 +257,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		final int pos = textField == null ? 0 : textField.asWidget()
 				.getElement().getScrollLeft();
 
-		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
-		        this, app);
+		OnScreenKeyBoard keyBoard = app.getOnScreenKeyboard(textField, this);
 		if (show && textField != null) {
 			keyBoard.show();
 			CancelEventTimer.keyboardSetVisible();
