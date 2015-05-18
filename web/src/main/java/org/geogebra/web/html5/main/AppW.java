@@ -45,6 +45,7 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
@@ -303,6 +304,9 @@ public abstract class AppW extends App implements SetLabels {
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
 			onScreenKeyboard = new OnScreenKeyBoard(this);
+			if (has(Feature.KOREAN_KEYBOARD)) {
+				onScreenKeyboard.addSupportedLocale(Language.Korean, "ko");
+			}
 		}
 		onScreenKeyboard.setUsed(false);
 		onScreenKeyboard
