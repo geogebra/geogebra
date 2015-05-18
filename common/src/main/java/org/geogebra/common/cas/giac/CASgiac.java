@@ -83,15 +83,15 @@ public abstract class CASgiac implements CASGenericInterface {
 			"is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false);"
 			+
 			// xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac
-			"xcoord(x):=when(type(x)==DOM_IDENT,xcoordsymb(x),when(x[0]=='pnt',when(is3dpoint(x),x[1][0],real(x[1])),when(x[0]=='=',?,x[0])));"
+			"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])));"
 			// altsymb(P) converted back to alt(P) in CommandDispatcherGiac
 			+ "ggbalt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
 			+ "when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?));"
 
-			+ "ycoord(x):=when(type(x)==DOM_IDENT,ycoordsymb(x),when(x[0]=='pnt',when(is3dpoint(x),x[1][1],im(x[1])),when(x[1]=='=',?,x[1])));"
+			+ "ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])));"
 			+
 			// make sure z((1,2)) = 0
-			"zcoord(x):=when(type(x)==DOM_IDENT,zcoordsymb(x),when(x[0]=='pnt',when(is3dpoint(x),x[1][2],0),when(length(x)<3,0,when(x[2]=='=',?,x[2]))));"
+			"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3,0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))));"
 			+
 			// unicode0176u passes unaltered through Giac
 			// then gets decoded to degree sign in GeoGebra
