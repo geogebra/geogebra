@@ -3629,6 +3629,7 @@ public abstract class App implements UpdateSelection {
 	
 	public final boolean has(Feature f) {
 		switch (f) {
+		case SEQUENTIAL_COLORS:
 		case DATA_COLLECTION:
 			return canary;
 		case ALL_LANGUAGES:
@@ -3645,7 +3646,6 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case ADD_NEW_OBJECT_BUTTON:
-		case SEQUENTIAL_COLORS:
 			return prerelease;
 		default:
 			return false;
