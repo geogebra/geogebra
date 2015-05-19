@@ -86,6 +86,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label axesRatioLabel;
 		private FlowPanel dimPanel;
 		ToggleButton tbLockRatio;
+		private Image imgLock;
+		private Image imgUnlock;
 		
 		
 		protected CheckBox cbShowAxes;
@@ -191,7 +193,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
 			
-			tbLockRatio = new ToggleButton(new Image(AppResources.INSTANCE.lock()));
+			imgLock = new Image(AppResources.INSTANCE.lock());
+			imgUnlock = new Image(AppResources.INSTANCE.unlock());
+
+			tbLockRatio = new ToggleButton(imgLock);
 			tbLockRatio.setValue(view.isLockedAxesRatio());
 			tbLockRatio.setEnabled(view.isZoomable());
 		
@@ -576,7 +581,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void enableAxesRatio(boolean value) {
 			tfAxesRatioX.getTextBox().setEnabled(value);
 			tfAxesRatioY.getTextBox().setEnabled(value);
-	}
+			// tbLockRatio.getDownFace().setImage(value ? imgUnlock : imgLock);
+			if (tbLockRatio != null) {
+				tbLockRatio.getUpFace().setImage(value ? imgUnlock : imgLock);
+			}
+		}
 
 		public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
 			tfMinX.setText(minX);
