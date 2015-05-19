@@ -8,10 +8,7 @@
   <inherits name='org.geogebra.GgbJdk'/>
   <inherits name="org.scilab.forge.JLaTeXMath" />
   <inherits name='org.scilab.forge.JLaTeXMathGWT'/>
-  
-  <define-linker name="appcachelinker" class="org.geogebra.web.linker.AppCacheLinker" />
-  <!-- Use it -->
-  <add-linker name="appcachelinker" />
+  <inherits name='org.geogebra.web.AppCacheLinker' />
   
   <!-- Specify the paths for translatable code                    -->
   <source path='html5'/>

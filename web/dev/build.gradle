@@ -1,17 +1,7 @@
 project.setDescription('Developer tools required to compile web platforms')
 
-buildscript {
-	repositories {
-		jcenter()
-        dependencies {
-        	classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-    	}
-	}
-}
+apply plugin: 'java'
 
-apply plugin: 'gwt-base'
-
-gwt {
-	gwtVersion = '2.7.0'
-	modules 'org.geogebra.web.AppCacheLinker'
+dependencies {
+	compile 'com.google.gwt:gwt-dev:2.7.0'
 }
