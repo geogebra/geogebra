@@ -45,7 +45,6 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
@@ -102,10 +101,7 @@ import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
-import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
-import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -177,7 +173,6 @@ public abstract class AppW extends App implements SetLabels {
 	// protected GeoGebraFrame frame = null;
 	private ErrorHandler errorHandler;
 	private GlobalKeyDispatcherW globalKeyDispatcher;
-	private OnScreenKeyBoard onScreenKeyboard;
 
 	/**
 	 * @param ae
@@ -297,31 +292,6 @@ public abstract class AppW extends App implements SetLabels {
 		        .setPrototype(new org.geogebra.web.html5.factories.CASFactoryW());
 		if (!is3D()) {
 			org.geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste();
-		}
-	}
-
-	public OnScreenKeyBoard getOnScreenKeyboard(MathKeyboardListener textField,
-			UpdateKeyBoardListener listener) {
-		if (onScreenKeyboard == null) {
-			onScreenKeyboard = new OnScreenKeyBoard(this);
-			if (has(Feature.KOREAN_KEYBOARD)) {
-				onScreenKeyboard.addSupportedLocale(Language.Korean, "ko");
-			}
-		}
-		onScreenKeyboard.setUsed(false);
-		onScreenKeyboard
-				.setTextField(textField == null ? ((AlgebraViewWeb) getAlgebraView())
-						.getInputTreeItem() : textField);
-		// set keyboard used to true for the new text field
-		onScreenKeyboard.setUsed(true);
-
-		onScreenKeyboard.setListener(listener);
-		return onScreenKeyboard;
-	}
-
-	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.setTextField(textField);
 		}
 	}
 
