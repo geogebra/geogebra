@@ -997,9 +997,9 @@ public class EuclidianViewW extends EuclidianView implements
 	public void requestFocus() {
 		// this may be really necessary preventing a tabbing away issue
 		// but the reasons of it are not well understood #5158
+		// after better understanding, this can probably be merged
+		// with the following method (requestFocusInWindow()):
 		requestFocusInWindow();
-
-		// App.debug("unimplemented");
 	}
 
 	public void resetMsZoomer() {

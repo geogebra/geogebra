@@ -313,9 +313,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	public void requestFocus() {
 		// this may be really necessary preventing a tabbing away issue
 		// but the reasons of it are not well understood #5158
+		// after better understanding, this can probably be merged
+		// with the following method (requestFocusInWindow()):
 		requestFocusInWindow();
-
-		// App.debug("unimplemented");
 	}
 
 	@Override

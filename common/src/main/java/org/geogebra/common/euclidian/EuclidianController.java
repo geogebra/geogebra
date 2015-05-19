@@ -8577,6 +8577,8 @@ public abstract class EuclidianController {
 			if (view instanceof PlotPanelEuclidianViewInterface) {
 				setMode(EuclidianConstants.MODE_MOVE);
 			}
+		} else if (app.isHTML5Applet()) {
+			view.requestFocus();
 		}
 
 		setMouseLocation(event);
