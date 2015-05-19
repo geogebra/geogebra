@@ -102,10 +102,10 @@ import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
+import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.plugin.WebsocketLogger;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
-import org.geogebra.web.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
