@@ -3321,6 +3321,20 @@ kernel, left,
 			sb.append(leftStr);
 			sb.append(')');
 			break;
+		case DATA:
+			// need to output eg freehand(ggbtmpvarx) so that Derivative fails
+			// rather than giving zero
+			if (tpl.isPrintLocalizedCommandNames()) {
+				sb.append(loc.getCommand("DataFunction"));
+			} else {
+				sb.append("DataFunction");
+			}
+			sb.append('[');
+			if (tpl.hasType(StringType.GEOGEBRA_XML)) {
+				sb.append(rightStr);
+			}
+			sb.append(']');
+			break;
 		case INTEGRAL:
 			if (stringType == StringType.LATEX) {
 				sb.append("\\int ");
@@ -3674,6 +3688,7 @@ kernel, left,
 				|| operation == Operation.EQUAL_BOOLEAN
 				|| operation == Operation.NOT_EQUAL
 				|| operation == Operation.FREEHAND
+				|| operation == Operation.DATA
 				|| operation == Operation.ELEMENT_OF
 				|| operation == Operation.FUNCTION_NVAR) {
 			return false;

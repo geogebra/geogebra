@@ -401,7 +401,16 @@ public enum Operation {
 
 				return new MyDouble(ev.getKernel(), ret);
 
-			} else if (lt instanceof NumberValue && rt instanceof MyNumberPair) {
+			}
+			return ev.illegalArgument(lt, rt, "freehand(");
+		}
+	},
+	DATA {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue && rt instanceof MyNumberPair) {
 				double x = ((NumberValue) lt).getDouble();
 				MyList keyList = (MyList) ((MyNumberPair)rt).getX();
 				MyList valueList = (MyList) ((MyNumberPair) rt).getY();

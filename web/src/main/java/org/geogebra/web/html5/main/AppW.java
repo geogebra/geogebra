@@ -1682,7 +1682,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param this_app
 	 */
 	protected void initCoreObjects(final boolean undoActive, final App this_app) {
-
+		setPrerelease(getArticleElement().getDataParamPrerelease());
 		kernel = newKernel(this_app);
 
 		// init settings

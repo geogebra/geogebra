@@ -213,6 +213,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& !operation.equals(Operation.NOT_EQUAL) // ditto
 				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
 				&& !operation.equals(Operation.FREEHAND) // ditto
+				&& !operation.equals(Operation.DATA) // ditto
 				&& !(lt instanceof VectorValue && operation.isPlusorMinus()) // eg
 																				// {1,2}
 																				// +

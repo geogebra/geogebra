@@ -48,7 +48,7 @@ public class CmdDataFunction extends CommandProcessor {
 
 		// ml.addListElement(new MyDouble(kernelA));
 		// vl.addListElement(new MyDouble(kernelA, -1));
-		ExpressionNode en = new ExpressionNode(kernelA,fv,Operation.FREEHAND,
+		ExpressionNode en = new ExpressionNode(kernelA, fv, Operation.DATA,
 				new MyNumberPair(kernelA, ml, vl));
 		GeoFunction geo = new GeoFunction(en,fv);
 		geo.setLabel(label);

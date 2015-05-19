@@ -37,7 +37,6 @@ public class LoadFilePresenter {
 		String filename;
 		view.adjustScale();
 		final AppW app = view.getApplication();
-		app.setPrerelease(view.getArticleElement().getDataParamPrerelease());
 		boolean fileOpened = true;
 		boolean specialPerspective = false;
 		if (isReloadDataInStorage()) {
