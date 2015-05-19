@@ -2505,7 +2505,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					int index = (int) Math.round(indexD);
 
 					if (!(Double.isInfinite(indexD) || Double.isNaN(indexD))
-							&& (index > 0 || index == -1)) {
+							&& (index > 0 || index < -1)) {
 
 						String leftStrTrimmed = leftStr.trim();
 						

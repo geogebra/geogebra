@@ -5705,8 +5705,16 @@ kernel, left,
 			if (op != null && kernel.lookupLabel(leftImg) == null
 					&& !"x".equals(leftImg) && !"y".equals(leftImg)
 					&& !"z".equals(leftImg)) {
+				ExpressionValue exponent = ((ExpressionNode) ret).getRight()
+						.unwrap();
+				Log.debug(exponent);
+				if (exponent.isConstant()
+						&& Kernel.isEqual(-1,
+ exponent.evaluateDouble())) {
+					return kernel.inverseTrig(op, f);
+				}
 				return new ExpressionNode(kernel, f, op, null)
-						.power(((ExpressionNode) ret).getRight());
+.power(exponent);
 
 			}
 			// a * b * f -- check if b*f needs special handling

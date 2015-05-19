@@ -4111,17 +4111,7 @@ public class Kernel {
 			// Unicode.Superscript_1 + '(';
 			if (image.substring(3, 6)
 					.equals(Unicode.superscriptMinusOneBracket)) {
-				switch (type) {
-				case SIN:
-					return new ExpressionNode(this, en, Operation.ARCSIN, null);
-				case COS:
-					return new ExpressionNode(this, en, Operation.ARCCOS, null);
-				case TAN:
-					return new ExpressionNode(this, en, Operation.ARCTAN, null);
-				default:
-					throw new Error("Inverse not supported for trig function"); // eg
-																				// csc^-1(x)
-				}
+				return inverseTrig(type, en);
 			}
 			throw new Error("Bad index for trig function"); // eg sin^-2(x)
 		}
@@ -4130,6 +4120,20 @@ public class Kernel {
 				new ExpressionNode(this, en, type, null), Operation.POWER,
 				convertIndexToNumber(image));
 
+	}
+
+	public ExpressionNode inverseTrig(Operation type, ExpressionValue en) {
+		switch (type) {
+		case SIN:
+			return new ExpressionNode(this, en, Operation.ARCSIN, null);
+		case COS:
+			return new ExpressionNode(this, en, Operation.ARCCOS, null);
+		case TAN:
+			return new ExpressionNode(this, en, Operation.ARCTAN, null);
+		default:
+			throw new Error("Inverse not supported for trig function"); // eg
+																		// csc^-1(x)
+		}
 	}
 
 	final public MyDouble convertIndexToNumber(String str) {
