@@ -290,8 +290,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * @return LaTeX representation of output
 	 */
 	public String getLaTeXOutput() {
-		if (isError())
-			return null;
+
+		if (useAsText) {
+			return "\\text{" + this.commentText.getTextString() + "}";
+		}
+
+		if (isError()) {
+			return "";
+		}
 		else if (latex == null) {
 			if (outputVE != null) {
 				// TODO Uncomment once support for latex line breaking is
@@ -1446,8 +1452,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * Creates a twinGeo using the current output
 	 */
 	private void createTwinGeo(boolean allowFunction) {
-		if (isError())
+		if (isError()) {
 			return;
+		}
 		if (!isAssignmentVariableDefined())
 			return;
 		if (isNative() && (getInputVE() instanceof Function)
