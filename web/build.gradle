@@ -143,6 +143,7 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 		'-superDevMode',
 		'-war', file(warDirRel),
 		devModule
+	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }
 
 import org.gradle.api.plugins.jetty.internal.Monitor
