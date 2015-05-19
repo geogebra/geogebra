@@ -568,8 +568,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			// set the root
 			clear();
 			if (isAlgebraInputVisible()) {
+				// why is this here and not in case of DEPENDENCY, LAYER
 				super.addItem(inputPanelTreeItem);
-			} 
+			}
 			break;
 
 		case TYPE:
@@ -589,6 +590,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			// set the root
 			clear();
 			if (isAlgebraInputVisible()) {
+				// why is this here and not in case of DEPENDENCY, LAYER
 				super.addItem(inputPanelTreeItem);
 			} 
 			break;
@@ -1077,12 +1079,23 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	}
 
 	public void setInputPanel(final AlgebraInputW inputPanel){
+		if (this.inputPanel != null) {
+			this.inputPanel.removeFromParent();
+		}
+
+		// usually, inputPanel is here, but not in use (not attached)
 		this.inputPanel = inputPanel;
+
 		if ((!app.getLocalization().getLanguage().equals("ko")
  || app
 				.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
-			this.inputPanelTreeItem = new TreeItem(new NewRadioButtonTreeItem(
-			        kernel));
+			if (inputPanelLatex == null) {
+				inputPanelLatex = new NewRadioButtonTreeItem(kernel);
+			} else {
+				inputPanelLatex.removeFromParent();
+			}
+			hideAlgebraInput();
+			this.inputPanelTreeItem = new TreeItem(inputPanelLatex);
 			inputPanelTreeItem.getWidget().getElement().getParentElement()
 			        .addClassName("NewRadioButtonTreeItemParent");
 			((NewRadioButtonTreeItem) inputPanelTreeItem.getWidget())
@@ -1130,7 +1143,13 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			return;
 		}
 		if (isAlgebraInputVisible()) {
+			// note that hideAlgebraInput just does this
+			// hideAlgebraInput();
+			// except it also makes this null, no problem
+			// ... or? still preferring to be safe
 			super.removeItem(inputPanelTreeItem);
+
+			// inputPanel.removeFromParent();//?
 		}
 		if(this.app.getInputPosition() == InputPositon.algebraView){
 			if ((!app.getLocalization().getLanguage().equals("ko")
@@ -1149,6 +1168,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 							        // }
 								}
 							});
+				} else {
+					inputPanelLatex.removeFromParent();
 				}
 				inputPanelTreeItem = super.addItem(inputPanelLatex);
 				// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
