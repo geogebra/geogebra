@@ -570,7 +570,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		// for efficiency: input with localized command names
 		updateLocalizedInput(StringTemplate.defaultTemplate, input);
 
-		// make sure cmputeOutput() knows that input has changed
+		// make sure computeOutput() knows that input has changed
 		firstComputeOutput = true;
 
 		if (!isEmpty()) {
