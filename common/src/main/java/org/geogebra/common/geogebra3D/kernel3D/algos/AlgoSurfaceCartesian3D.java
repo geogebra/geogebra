@@ -129,6 +129,58 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 	@Override
 	public final void compute() {
+
+		// take care to set the curve undefined
+		// if its predecessors are undefined
+		for (int i = 0; i < 3; i++) {
+			AlgoElement algo = null;
+			if (coords[i].toGeoElement() != null)
+				algo = (coords[i].toGeoElement()).getParentAlgorithm();
+			if (algo != null) {
+				for (GeoElement geo : algo.getInput()) {
+					if (!geo.isDefined()) {
+						surface.setUndefined();
+						return;
+					}
+				}
+			}
+			// if (containsFunctions[i]) {
+			// ExpressionValue ev = null;
+			// try { // needed for eg f(x)=floor(x) f'(x)
+			//
+			// // boolean internationalizeDigits =
+			// // Kernel.internationalizeDigits;
+			// // Kernel.internationalizeDigits = false;
+			// // TODO: seems that we never read internationalize digits
+			// // flag
+			// // here ...
+			// ev = AlgoDependentFunction
+			// .expandFunctionDerivativeNodes(exp[i]
+			// .deepCopy(kernel));
+			//
+			// // Kernel.internationalizeDigits = internationalizeDigits;
+			//
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// App.debug("derivative failed");
+			// }
+			// if (ev == null) {
+			// curve.setUndefined();
+			// return;
+			// }
+			// ExpressionNode node;
+			// if (ev.isExpressionNode())
+			// node = (ExpressionNode) ev;
+			// else
+			// node = new ExpressionNode(kernel, ev);
+			//
+			// // expandedFun.setExpression(node);
+			//
+			// curve.getFun(i).setExpression(node);
+			// }
+		}
+		surface.setDefined(true);
+
 		// the coord-functions don't have to be updated,
 		// so we only set the interval
 		double[] min = new double[from.length];
