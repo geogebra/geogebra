@@ -63,7 +63,7 @@
 	width: 100%;
 
 	/* on mobile browsers z-index is needed for whatever reason. 10 is not enough for Win8 */
-	z-index: 950;
+	z-index: 99;
 
 	/* or whatever is the background-color of Algebra View */
 	/* TODO: may be put elsewhere in CSS too */
@@ -89,10 +89,13 @@
 	height: 9px;
 }
 
+.TabletWin .gwt-TreeItem.NewRadioButtonTreeItemParent{
+	padding-bottom:5px;
+}
 .TabletWin .NewRadioButtonTreeItemParent::after {
 	/* as other hacks are more difficult, why not use .Tablet? */
 	bottom: 3px;
-	height: 14px;
+	height: 15px;
 }
 
 .NewRadioButtonTreeItem {
@@ -2637,7 +2640,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	padding: 5px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	z-index: 999;
+	z-index: 100;
 }
 
 .toolbarPanelExam {
@@ -2712,7 +2715,7 @@ body.application[dir=rtl] .toolbar_item {
 
 .toolbar_submenu {
 	position: absolute;
-	z-index: 1001;
+	z-index: 501;
 	display: none;
 }
 
@@ -2733,7 +2736,7 @@ body.application[dir=rtl] .toolbar_submenu .submenuArrow {
 .toolbar_submenu .submenuContent {
 	position: absolute;
 	top: 15px;	
-	z-index: 1010;
+	z-index: 250;
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
