@@ -63,6 +63,7 @@ public class GlobalKeyDispatcherW extends
 		setDownKeys(event);
 		event.stopPropagation();
 		if (InFocus) {
+			// in theory, default action of TAB is not triggered here
 			event.preventDefault();
 		}
 
@@ -134,6 +135,14 @@ public class GlobalKeyDispatcherW extends
 			// in KeyUpEvent, so instead, we're going to handle TAB
 			// as early as KeyDownEvent, and do nothing here to make
 			// sure things are not executed twice (assuming return true)
+
+			// maybe in Chrome this is needed here as well...
+			event.preventDefault();
+
+			// in theory, this is already called, but maybe not in case of
+			// AlgebraInputW.onKeyUp, AutoCompleteTextFieldW.onKeyUp
+			event.stopPropagation();
+
 			return true;
 		}
 
@@ -185,6 +194,7 @@ public class GlobalKeyDispatcherW extends
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB) {
 			event.preventDefault();
+			// event.stopPropagation() is already called!
 			handleTab(event.isControlKeyDown(), event.isShiftKeyDown());
 		}
 	}
