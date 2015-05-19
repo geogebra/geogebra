@@ -44,7 +44,7 @@ gwt {
 	modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
  	                'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D']
 	if (System.env['DEVMODULES'] != null && System.env['DEVMODULES'] == "all") {
-	     devModules modules
+	     devModules = modules
 	    } else {
 	    devModules devModule
 	    }
