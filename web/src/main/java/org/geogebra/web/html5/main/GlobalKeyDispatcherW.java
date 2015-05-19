@@ -128,11 +128,14 @@ public class GlobalKeyDispatcherW extends
 	public boolean handleGeneralKeys(KeyUpEvent event) {
 
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
-
-		// I thought this to be a problem but it seems not
-		//if (kc == KeyCodes.TAB) {
-		//	event.preventDefault();
-		//}
+		if (kc == KeyCodes.TAB) {
+			// the problem is that we want to prevent the default action
+			// of the TAB key event... but this is too late to do
+			// in KeyUpEvent, so instead, we're going to handle TAB
+			// as early as KeyDownEvent, and do nothing here to make
+			// sure things are not executed twice (assuming return true)
+			return true;
+		}
 
 		return handleGeneralKeys(kc,
 		        event.isShiftKeyDown(), event.isControlKeyDown(),
@@ -173,6 +176,16 @@ public class GlobalKeyDispatcherW extends
 		// if not handled, do not consume so that keyPressed works
 		if (InFocus && handled) {
 			event.preventDefault();
+		}
+
+		// Now comes what were in KeyUpEvent for the TAB key,
+		// necessary to move it to here because preventDefault only
+		// works here for the TAB key, otherwise both the default
+		// browser action (for tabindex) and custom code would run
+		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
+		if (kc == KeyCodes.TAB) {
+			event.preventDefault();
+			handleTab(event.isControlKeyDown(), event.isShiftKeyDown());
 		}
 	}
 
