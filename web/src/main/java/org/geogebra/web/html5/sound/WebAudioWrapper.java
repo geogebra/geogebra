@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.sound;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayUtils;
 
@@ -35,6 +36,7 @@ public class WebAudioWrapper {
 				.@org.geogebra.web.html5.sound.WebAudioWrapper::audioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
 		source.connect(processor);
 		processor.connect($wnd.context.destination);
+	}-*/;
 
 
 	private native void audioProcess(JavaScriptObject e) /*-{
