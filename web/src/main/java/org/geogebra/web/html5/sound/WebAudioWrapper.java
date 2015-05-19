@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.sound;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayUtils;
 
@@ -37,7 +36,6 @@ public class WebAudioWrapper {
 		source.connect(processor);
 		processor.connect($wnd.context.destination);
 
-	}-*/;
 
 	private native void audioProcess(JavaScriptObject e) /*-{
 		var leftOut = e.outputBuffer.getChannelData(0);
@@ -48,7 +46,6 @@ public class WebAudioWrapper {
 		//
 		//		}
 
-		$wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::fill()();
 		if ($wnd.buf) {
 			for (var i = 0; i < $wnd.buf.length; i++) {
 				leftOut[i] = $wnd.buf[i];
@@ -56,6 +53,8 @@ public class WebAudioWrapper {
 
 			}
 		}
+		$wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::fill()();
+
 	}-*/;
 
 	public void fill() {
@@ -70,7 +69,11 @@ public class WebAudioWrapper {
 	}
 
 	private native void toBuffer(JsArrayInteger buf) /*-{
-		$wnd.buf = buf;
+		if ($wnd.buf && $wnd.buf.length + buf.length <= 2048) {
+			$wnd.buf += buf;
+		} else {
+			$wnd.buf = buf;
+		}
 	}-*/;
 
 	public void stop() {
