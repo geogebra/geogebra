@@ -5683,7 +5683,7 @@ kernel, left,
 			ExpressionValue f, Kernel kernel, boolean giacParsing) {
 		String leftImg;
 		App app = kernel.getApplication();
-		boolean leftIsExpxTimesVar = false;
+
 		// sin x in GGB is function application if "sin" is not a variable
 		if (ret instanceof Variable) {
 			leftImg = ret.toString(StringTemplate.defaultTemplate);
@@ -5707,7 +5707,6 @@ kernel, left,
 					&& !"z".equals(leftImg)) {
 				ExpressionValue exponent = ((ExpressionNode) ret).getRight()
 						.unwrap();
-				Log.debug(exponent);
 				if (exponent.isConstant()
 						&& Kernel.isEqual(-1,
  exponent.evaluateDouble())) {
