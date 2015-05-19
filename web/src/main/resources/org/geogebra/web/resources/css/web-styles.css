@@ -89,13 +89,12 @@
 	height: 9px;
 }
 
-.TabletWin .gwt-TreeItem.NewRadioButtonTreeItemParent{
-	padding-bottom:5px;
+.TabletWin .NewRadioButtonTreeItem{
+	padding-bottom:17px;
 }
 .TabletWin .NewRadioButtonTreeItemParent::after {
 	/* as other hacks are more difficult, why not use .Tablet? */
-	bottom: 3px;
-	height: 15px;
+	height: 16px;
 }
 
 .NewRadioButtonTreeItem {
