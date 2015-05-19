@@ -270,7 +270,7 @@ public class OptionsEuclidianD extends
 		tfAxesRatioY.addFocusListener(this);
 		cbLockRatio = new JToggleButton();
 		cbLockRatio.setSelected(view.isLockedAxesRatio());
-		cbLockRatio.setIcon(app.getScaledIcon("lock.png"));
+		cbLockRatio.setIcon(app.getScaledIcon("object_unfixed.png"));
 		cbLockRatio.setEnabled(view.isZoomable());
 		cbLockRatio.addActionListener(this);
 		axesRatioLabel = new JLabel("");
@@ -1045,6 +1045,9 @@ public class OptionsEuclidianD extends
 	public void enableAxesRatio(boolean value) {
 		tfAxesRatioX.setEnabled(value);
 		tfAxesRatioY.setEnabled(value);
+		cbLockRatio.setIcon(app.getScaledIcon(value ? "object_unfixed.png"
+				: "object_fixed.png"));
+
 	}
 
 	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
