@@ -2504,26 +2504,26 @@ public class StringTemplate implements ExpressionNodeConstants {
 					double indexD = right.evaluateDouble();
 					int index = (int) Math.round(indexD);
 
+					// only positive integers
+					// sin^-1(x) is arcsin
+					// sin^-2(x) not standard notation
 					if (!(Double.isInfinite(indexD) || Double.isNaN(indexD))
-							&& (index > 0 || index < -1)) {
+							&& (index > 0)) {
 
 						String leftStrTrimmed = leftStr.trim();
 						
 						int spaceIndex = leftStrTrimmed.trim().indexOf(' ');
 						sb.append(leftStrTrimmed.substring(0, spaceIndex));
 
-						// can't parse these in new AV Input
-						// sb.append(" ^{");
-						// sb.append(rightStr);
-						// sb.append("}");
+						sb.append(" ^{");
+						sb.append(rightStr);
+						sb.append("}");
 
-						sb.append(Unicode.numberToIndex(index));
+						// alternative using Unicode
+						// sb.append(Unicode.numberToIndex(index));
 
-						sb.append(leftStrTrimmed.substring(spaceIndex + 1)); // everything
-						
-						// except
-						// the
-						// "\\sin "
+						// everything except the "\\sin "
+						sb.append(leftStrTrimmed.substring(spaceIndex + 1));
 
 						finished = true;
 

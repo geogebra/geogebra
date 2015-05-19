@@ -4130,9 +4130,16 @@ public class Kernel {
 			return new ExpressionNode(this, en, Operation.ARCCOS, null);
 		case TAN:
 			return new ExpressionNode(this, en, Operation.ARCTAN, null);
+		case SINH:
+			return new ExpressionNode(this, en, Operation.ASINH, null);
+		case COSH:
+			return new ExpressionNode(this, en, Operation.ACOSH, null);
+		case TANH:
+			return new ExpressionNode(this, en, Operation.ATANH, null);
 		default:
-			throw new Error("Inverse not supported for trig function"); // eg
-																		// csc^-1(x)
+			// eg csc^-1(x)
+			throw new Error("Inverse not supported for trig function");
+
 		}
 	}
 
