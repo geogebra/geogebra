@@ -11,6 +11,8 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
+import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
+import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.view.algebra.CanBlockBlurEvent;
@@ -34,7 +36,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 /**
  * on screen keyboard containing mathematical symbols and formulas
  */
-public class OnScreenKeyBoard extends PopupPanel {
+public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 
 	/**
 	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,

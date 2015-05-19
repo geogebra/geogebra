@@ -5,15 +5,18 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
+import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
+import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Widget;
@@ -102,4 +105,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void openFilePicker();
 
 	public void listenToLogin();
+
+	public VirtualKeyboard getOnScreenKeyboard(MathKeyboardListener textField,
+			UpdateKeyBoardListener listener);
+
+	public void setOnScreenKeyboardTextField(MathKeyboardListener textField);
 }

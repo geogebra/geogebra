@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.keyboard;
+package org.geogebra.web.html5.util.keyboard;
 
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 

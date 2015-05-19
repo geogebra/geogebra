@@ -11,6 +11,8 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
+import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -21,7 +23,6 @@ import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
-import org.geogebra.web.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
@@ -185,7 +186,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		        || keyboardShowing // if keyboard is already
 		                           // showing, we don't have
 		                           // to handle the showKeyboardButton
-				|| app.getOnScreenKeyboard(textField, this).shouldBeShown()) {
+				|| app.getGuiManager().getOnScreenKeyboard(textField, this)
+						.shouldBeShown()) {
 			doShowKeyBoard(show, textField);
 		} else {
 			showKeyboardButton(show, textField);
@@ -249,7 +251,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	        final MathKeyboardListener textField) {
 		// make sure the main part of this method is called ONLY WHEN NECESSARY
 		if (this.keyboardShowing == show) {
-			app.setOnScreenKeyboardTextField(textField);
+			app.getGuiManager().setOnScreenKeyboardTextField(textField);
 			return;
 		}
 		this.keyboardShowing = show;
@@ -257,7 +259,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		final int pos = textField == null ? 0 : textField.asWidget()
 				.getElement().getScrollLeft();
 
-		OnScreenKeyBoard keyBoard = app.getOnScreenKeyboard(textField, this);
+		VirtualKeyboard keyBoard = app.getGuiManager().getOnScreenKeyboard(
+				textField, this);
 		if (show && textField != null) {
 			keyBoard.show();
 			CancelEventTimer.keyboardSetVisible();
@@ -316,7 +319,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	}
 
 	private void showKBButtonInAlgebra(MathKeyboardListener textField,
-			OnScreenKeyBoard keyBoard) {
+			VirtualKeyboard keyBoard) {
 		if (app.getAlgebraView() != null) {
 
 			this.mainPanel.setWidgetSize(spaceForKeyboard, 0);

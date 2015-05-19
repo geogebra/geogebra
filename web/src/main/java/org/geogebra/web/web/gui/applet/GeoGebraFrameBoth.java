@@ -12,6 +12,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.debug.GeoGebraLogger;
+import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
+import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
@@ -21,8 +23,6 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
-import org.geogebra.web.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -166,7 +166,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void removeKeyboard(MathKeyboardListener textField) {
-		final OnScreenKeyBoard keyBoard = app.getOnScreenKeyboard(textField,
+		final VirtualKeyboard keyBoard = app.getGuiManager()
+				.getOnScreenKeyboard(textField,
 				this);
 		App.printStacktrace("HIDE KEYBOARD");
 		this.keyboardShowing = false;
@@ -179,7 +180,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void addKeyboard(MathKeyboardListener textField) {
-		final OnScreenKeyBoard keyBoard = app.getOnScreenKeyboard(textField,
+		final VirtualKeyboard keyBoard = app.getGuiManager()
+				.getOnScreenKeyboard(textField,
 				this);
 		this.keyboardShowing = true;
 		keyBoard.show();
@@ -242,7 +244,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		        || keyboardShowing // if keyboard is already
 		                           // showing, we don't have
 		                           // to handle the showKeyboardButton
-				|| app.getOnScreenKeyboard(textField, this).shouldBeShown()) {
+				|| app.getGuiManager().getOnScreenKeyboard(textField, this)
+						.shouldBeShown()) {
 			doShowKeyBoard(show, textField);
 		} else {
 			showKeyboardButton(textField);
@@ -278,7 +281,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	public void refreshKeyboard() {
 		if (keyboardShowing) {
-			final OnScreenKeyBoard keyBoard = app.getOnScreenKeyboard(null,
+			final VirtualKeyboard keyBoard = app.getGuiManager()
+					.getOnScreenKeyboard(null,
 					this);
 			if (app.isKeyboardNeeded()) {
 				add(keyBoard);

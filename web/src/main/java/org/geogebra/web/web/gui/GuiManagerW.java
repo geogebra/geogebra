@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.move.events.BaseEvent;
@@ -33,15 +34,18 @@ import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Language;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.cas.view.CASViewW;
 import org.geogebra.web.web.cas.view.RowHeaderPopupMenuW;
@@ -76,6 +80,7 @@ import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraContextMenuW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
@@ -87,6 +92,7 @@ import org.geogebra.web.web.helper.ObjectPool;
 import org.geogebra.web.web.html5.AttachedToDOM;
 import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
+import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -135,6 +141,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private boolean listeningToLogin = false;
 	private ToolBarW updateToolBar = null;
 	private DataCollectionView dataCollectionView;
+	private OnScreenKeyBoard onScreenKeyboard;
 
 	private int activeViewID;
 
@@ -1727,5 +1734,33 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return "";
 
 		return getGeneralToolbar().getDefaultToolbarString();
+	}
+
+	@Override
+	public OnScreenKeyBoard getOnScreenKeyboard(MathKeyboardListener textField,
+			UpdateKeyBoardListener listener) {
+		if (onScreenKeyboard == null) {
+			AppW appW = (AppW) app;
+			onScreenKeyboard = new OnScreenKeyBoard(appW);
+
+			if (appW.has(Feature.KOREAN_KEYBOARD)) {
+				onScreenKeyboard.addSupportedLocale(Language.Korean, "ko");
+			}
+		}
+		onScreenKeyboard.setUsed(false);
+		onScreenKeyboard
+				.setTextField(textField == null ? ((AlgebraViewWeb) getAlgebraView())
+						.getInputTreeItem() : textField);
+		// set keyboard used to true for the new text field
+		onScreenKeyboard.setUsed(true);
+
+		onScreenKeyboard.setListener(listener);
+		return onScreenKeyboard;
+	}
+
+	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
+		if (onScreenKeyboard != null) {
+			onScreenKeyboard.setTextField(textField);
+		}
 	}
 }

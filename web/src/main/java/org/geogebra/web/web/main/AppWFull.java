@@ -42,7 +42,7 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void updateKeyBoardField(MathKeyboardListener field) {
-		setOnScreenKeyboardTextField(field);
+		getGuiManager().setOnScreenKeyboardTextField(field);
 	}
 
 	@Override
