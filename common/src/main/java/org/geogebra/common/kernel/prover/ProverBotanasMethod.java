@@ -488,8 +488,16 @@ public class ProverBotanasMethod {
 							Iterator<Polynomial> ndg = thisNdgSet.iterator();
 							while (ndg.hasNext() && readable) {
 								Polynomial poly = ndg.next();
-								if (poly.isZero())
-									return ProofResult.FALSE;
+								if (poly.isZero()) {
+									// Here we know that the statement is not generally true.
+									// But it is possible that the statement is not generally false, either.
+									// So we should check the negative statement also.
+									App.debug("Botana's ProveDetails knows only that the statement is not generally true.");
+									App.debug("Decision if the statement is generally false or not will be handled in a future GeoGebra version.");
+									return ProofResult.UNKNOWN;
+									// At the moment we don't compute anything. TODO: compute that.
+								}
+									
 								if (!poly.isConstant()) {
 									NDGCondition ndgc = ndgd.detect(poly);
 									if (ndgc == null)
@@ -590,6 +598,19 @@ public class ProverBotanasMethod {
 							// really false:
 							return ProofResult.UNKNOWN;
 						}
+						// Here we know that the statement is not generally true.
+						// But it is possible that the statement is not generally false, either.
+						// So we check the negative statement also.
+						spoly = statements[i][nPolysStatement - 1];
+						App.debug("Checking the negative statement to decide if the statement is generally false or not:");
+						eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
+						App.debug((nHypotheses + nNdgConditions + nPolysStatement)
+								+ ". " + spoly);
+						Boolean negsolvable = Polynomial.solvable(eqSystem,
+								substitutions, statement.getKernel(),
+								ProverSettings.transcext);
+						if (negsolvable)
+							return ProofResult.UNKNOWN;
 						ans = false;
 					}
 				}
