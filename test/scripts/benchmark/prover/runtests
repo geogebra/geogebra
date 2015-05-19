@@ -42,6 +42,7 @@ usage() {
  echo " xvfb-run $0 -S giac-test -d    # compares Prove output for Botana and BotanaGiac"
  echo " xvfb-run $0 -S giac-test -D -d # compares ProveDetails output for Botana and BotanaGiac"
  echo " xvfb-run $0 -S ndg -d          # compares ProveDetails output for Botana, BotanaGiac and OpenGeoProver_Wu"
+ echo "Note: You may want to use 'xvfb-run -a -s \"-screen 0 1024x768x24\" $0 ...' for 3D compatibility. Tested under Ubuntu 14.10."
  exit 0
  }
 
@@ -104,8 +105,8 @@ while getopts "t:dH:o:T:p:S:eDhvr" OPT; do
    version
    ;;
   r)
-   RUNDIR=../../../../../tools/build/targets
-   BINBASE=./run
+   RUNDIR=../../../../desktop/build/install/desktop/bin # run the "installDist" task in Gradle first
+   BINBASE=./desktop
    ;;
 
  esac
