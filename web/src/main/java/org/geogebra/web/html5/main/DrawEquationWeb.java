@@ -1034,6 +1034,8 @@ GeoContainer rbti,
 				}
 			} else if (keyCode == GWTKeycodes.KEY_R) {// OK in Hungarian
 				s += Unicode.SQUARE_ROOT;
+			} else if (keyCode == GWTKeycodes.KEY_1) {
+				s += Unicode.Superscript_1;
 			} else if (keyCode == GWTKeycodes.KEY_2) {
 				s += Unicode.Superscript_2;
 			} else if (keyCode == GWTKeycodes.KEY_3 && !Hungarian) {
