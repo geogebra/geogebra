@@ -41,9 +41,8 @@ public class SoundManagerW implements SoundManager {
 
 	}
 
-	public void playFunction(GeoFunction geoFunction, double double1,
-	        double double2) {
-		App.debug("unimplemented 2");
+	public void playFunction(GeoFunction geoFunction, double min, double max) {
+		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max);
 	}
 
 	public void playFile(String url) {
@@ -92,7 +91,8 @@ public class SoundManagerW implements SoundManager {
 
 	public void playFunction(GeoFunction geoFunction, double min, double max,
 			int sampleRate, int bitDepth) {
-		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max);
+		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max, sampleRate,
+				bitDepth);
 	}
 
 	/**

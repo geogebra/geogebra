@@ -1,9 +1,17 @@
 package org.geogebra.web.html5.sound;
 
-public class WebAudioWrapper {
-	public static final WebAudioWrapper INSTANCE = new WebAudioWrapper();
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.core.client.JsArrayUtils;
 
+public class WebAudioWrapper {
+	public interface FunctionAudioBuffer {
+		void fillBuffer();
+	}
+	public static final WebAudioWrapper INSTANCE = new WebAudioWrapper();
+	private FunctionAudioBuffer buffer = null;
 	private WebAudioWrapper() {
+		init();
 	}
 
 	public native boolean init() /*-{
@@ -19,23 +27,62 @@ public class WebAudioWrapper {
 		}
 	}-*/;
 
-	public native void play() /*-{
+
+	public native void start() /*-{
 		var source = $wnd.context.createBufferSource();
 		var processor = $wnd.context.createScriptProcessor(2048);
-		processor.onaudioprocess = function(e) {
-			var leftOut = e.outputBuffer.getChannelData(0);
-			var rightOut = e.outputBuffer.getChannelData(1);
-			for (var i = 0; i < leftOut.length; i++) {
-				// Add some noise
-				if (true) {
-					leftOut[i] += (Math.random() - 0.5) * 2;
-					rightOut[i] += (Math.random() - 0.5) * 2;
-				}
-
-			}
-		};
-
+		$wnd.ins = this;
+		processor.onaudioprocess = this
+				.@org.geogebra.web.html5.sound.WebAudioWrapper::audioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
 		source.connect(processor);
 		processor.connect($wnd.context.destination);
+
 	}-*/;
+
+	private native void audioProcess(JavaScriptObject e) /*-{
+		var leftOut = e.outputBuffer.getChannelData(0);
+		var rightOut = e.outputBuffer.getChannelData(1);
+		//		for (var i = 0; i < leftOut.length; i++) {
+		//			leftOut[i] += (Math.random() - 0.5) * 2;
+		//			rightOut[i] += (Math.random() - 0.5) * 2;
+		//
+		//		}
+
+		$wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::fill()();
+		if ($wnd.buf) {
+			for (var i = 0; i < $wnd.buf.length; i++) {
+				leftOut[i] = $wnd.buf[i];
+				rightOut[i] = $wnd.buf[i];
+
+			}
+		}
+	}-*/;
+
+	public void fill() {
+		if (buffer == null) {
+			return;
+		}
+		buffer.fillBuffer();
+	}
+	public void write(byte[] buf, int length) {
+		JsArrayInteger arr = JsArrayUtils.readOnlyJsArray(buf);
+		toBuffer(arr);
+	}
+
+	private native void toBuffer(JsArrayInteger buf) /*-{
+		$wnd.buf = buf;
+	}-*/;
+
+	public void stop() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public FunctionAudioBuffer getBuffer() {
+		return buffer;
+	}
+
+	public void setBuffer(FunctionAudioBuffer buffer) {
+		this.buffer = buffer;
+	}
 }

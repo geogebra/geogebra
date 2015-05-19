@@ -4,6 +4,7 @@ package org.geogebra.web.html5.sound;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.sound.FunctionSound;
+import org.geogebra.web.html5.sound.WebAudioWrapper.FunctionAudioBuffer;
 
 /**
  * Class for playing function-generated sounds.
@@ -11,9 +12,11 @@ import org.geogebra.common.sound.FunctionSound;
  * @author Laszlo Gal
  *
  */
-public final class FunctionSoundW extends FunctionSound {
-	public static final FunctionSoundW INSTANCE = new FunctionSoundW();
+public final class FunctionSoundW extends FunctionSound implements
+		FunctionAudioBuffer {
 
+	public static final FunctionSoundW INSTANCE = new FunctionSoundW();
+	private WebAudioWrapper waw = WebAudioWrapper.INSTANCE;
 
 	/**
 	 * Constructs instance of FunctionSound
@@ -45,8 +48,10 @@ public final class FunctionSoundW extends FunctionSound {
 		if (super.initStreamingAudio(sampleRate, bitDepth) == false) {
 			return false;
 		}
-		
+
 		boolean success = false;
+		waw.setBuffer(this);
+		waw.start();
 
 		return success;
 	}
@@ -70,11 +75,8 @@ public final class FunctionSoundW extends FunctionSound {
 			return;
 		}
 		App.debug("FunctionSound");
-		WebAudioWrapper.INSTANCE.play();
-		// close current sound thread and prepare sdl
-		
-		// spawn a new SoundThread to play the function sound
-		
+		waw.setBuffer(this);
+		generateFunctionSound();
 	}
 
 	/**
@@ -99,78 +101,70 @@ public final class FunctionSoundW extends FunctionSound {
 
 	private void generateFunctionSound() {
 
-			stopped = false;
+		stopped = false;
 
-			// time between samples
-			setSamplePeriod(1.0 / getSampleRate());
+		// time between samples
+		setSamplePeriod(1.0 / getSampleRate());
 
-			// create internal buffer for mathematically generated sound data
-			// a small buffer minimizes latency when the function changes
-			// dynamically
-			// TODO: find optimal buffer size
-			int frameSetSize = getSampleRate() / 50; // 20ms ok?
-			if (getBitDepth() == 8)
-				setBuf(new byte[frameSetSize]);
-			else
-				setBuf(new byte[2 * frameSetSize]);
+		// create internal buffer for mathematically generated sound data
+		// a small buffer minimizes latency when the function changes
+		// dynamically
+		// TODO: find optimal buffer size
+		int frameSetSize = getSampleRate() / 50; // 20ms ok?
+		if (getBitDepth() == 8) {
+			setBuf(new byte[frameSetSize]);
+		} else {
+			setBuf(new byte[2 * frameSetSize]);
+		}
 
-			// generate the function sound
-				// open the sourceDataLine
-				// TODO: the sdl buffer size is relative to our internal buffer
-				// need to experiment for best sizing factor
-		// sdl.open(af, 10 * getBufLength());
-		// sdl.start();
 
-				if (getBitDepth() == 16) {
-					setT(getMin());
-					loadBuffer16(getT());
-					doFade(getBuf()[0], false);
-			// sdl.write(getBuf(), 0, getBufLength());
-					do {
-						setT(getT() + getSamplePeriod() * frameSetSize);
-						loadBuffer16(getT());
-				// sdl.write(getBuf(), 0, getBufLength());
-					} while (getT() < getMax() && !stopped);
+		setT(getMin());
+		loadBuffer();
+		doFade(getBuf()[0], false);
+		waw.write(getBuf(), getBufLength());
+		waw.start();
+	}
 
-					doFade(getBuf()[getBufLength() - 1], true);
-
-				} else {
-					// use 8-bit samples
-					setT(getMin());
-					loadBuffer8(getT());
-					doFade(getBuf()[0], false);
-			// sdl.write(getBuf(), 0, getBufLength());
-					do {
-						setT(getT() + getSamplePeriod() * frameSetSize);
-						loadBuffer8(getT());
-				// sdl.write(getBuf(), 0, getBufLength());
-					} while (getT() < getMax() && !stopped);
-
-					if (!stopped)
-						doFade(getBuf()[getBufLength() - 1], true);
-
-				}
-
-				// finish transfer of bytes from internal buffer to the sdl
-		// // buffer
-		// sdl.drain();
-		//
-		// // stop and close the sourceDataLine
-		// sdl.stop();
-		// sdl.close();
+	private void loadBuffer() {
+		if (getBitDepth() == 16) {
+			loadBuffer16(getT());
+		} else {
+			loadBuffer8(getT());
+		}
 
 	}
-		/**
-		 * Shapes ends of waveform to fade sound data TODO: is this actually
-		 * working?
-		 * 
-		 * @param peakValue
-		 * @param isFadeOut
-		 */
-		private void doFade(short peakValue, boolean isFadeOut) {
 
-			byte[] fadeBuf = getFadeBuffer(peakValue, isFadeOut);
-		// sdl.write(fadeBuf, 0, fadeBuf.length);
+	public void fillBuffer() {
+		int frameSetSize = getSampleRate() / 50;
+
+		if (getT() < getMax() && !stopped) {
+			setT(getT() + getSamplePeriod() * frameSetSize);
+			loadBuffer();
+			waw.write(getBuf(), getBufLength());
+		} else {
+			doFade(getBuf()[getBufLength() - 1], true);
+		}
+	}
+		// // finish transfer of bytes from internal buffer to the sdl
+		// // // buffer
+		// // sdl.drain();
+		// //
+		// // // stop and close the sourceDataLine
+		// // waw.stop();
+		// // sdl.close();
+		//
+		// }
+		// /**
+		// * Shapes ends of waveform to fade sound data TODO: is this actually
+		// * working?
+		// *
+		// * @param peakValue
+		// * @param isFadeOut
+		// */
+
+	private void doFade(short peakValue, boolean isFadeOut) {
+		byte[] fadeBuf = getFadeBuffer(peakValue, isFadeOut);
+		waw.write(fadeBuf, fadeBuf.length);
 		}
 
 		/**
