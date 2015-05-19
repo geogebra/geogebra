@@ -42,12 +42,14 @@ def devModule = 'org.geogebra.web.Web3D'
 gwt {
 	gwtVersion = '2.7.0'
 	modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
- 	                'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D']
+ 	    'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D']
+	
 	if (System.env['DEVMODULES'] != null && System.env['DEVMODULES'] == "all") {
-	     devModules = modules
-	    } else {
+	    devModules = modules
+	} else {
 	    devModules devModule
-	    }
+	}
+	
 	maxHeapSize = '1500M'
 
 	compiler {
@@ -58,8 +60,7 @@ gwt {
         disableCastChecking = true;
         //logLevel = 'ALL';
         // style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
-        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;
-        
+        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
 	}
 }
 
@@ -88,18 +89,18 @@ task symlinkIntoWar {
 	description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
 	doLast {
 	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
-		ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
+			ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
 		}
-	    }
+	}
 }
 
 task draftSymlinkIntoWar {
 	description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
 	doLast {
 	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
-		ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
+			ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
 		}
-	    }
+	}
 }
 
 task draftDeployIntoWar(type: Copy, dependsOn: cleanWar) {
@@ -178,4 +179,4 @@ task jettyDraftRun(type: JettyRun) {
 // http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
 javadoc {
     options.addStringOption("sourcepath", "")
-    }
+}
