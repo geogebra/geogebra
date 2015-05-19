@@ -915,8 +915,16 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: hand;
 	font-size: 100%;
 	padding: 7px 5px;
-	border-bottom: 1px solid #E0E0E0;
+	border-top: 1px solid #DCDCDC;
+	border-bottom: 1px solid #DCDCDC;
 	background: #F8F8F8;
+}
+.gwt-StackPanel .gwt-StackPanelItem:hover {
+	background: #EFEFEF;
+}
+
+.gwt-StackPanel .gwt-StackPanelItem-selected {
+	background: #EFEFEF;
 }
 
 .gwt-StackPanel .gwt-StackPanelItem img {
@@ -1631,6 +1639,7 @@ body[dir=rtl] .signIn {
 
 .menubarSMART .menuPanel {
 	width: 100%;
+	border-collapse: collapse;
 }
 
 .menubarSMART .gwt-MenuBar .gwt-MenuItem-selected {
@@ -1649,7 +1658,7 @@ body[dir=rtl] .signIn {
 }
 
 .GeoGebraMenuBar .gwt-MenuItem {
-	padding: 3px 5px 3px 35px;
+	padding: 4px 5px 4px 35px;
 	position: relative;
 	display: block;
 	cursor: pointer;
@@ -1663,7 +1672,7 @@ body[dir=rtl] .signIn {
 	width: 20px;
 	height: 20px;
 	position: absolute;
-	top: 3px;
+	top: 4px;
 	left: 5px;
 }
 
