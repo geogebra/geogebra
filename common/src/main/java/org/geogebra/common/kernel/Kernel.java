@@ -4137,12 +4137,6 @@ public class Kernel {
 	}
 
 	final public MyDouble convertIndexToNumber(String str) {
-		if (str.length() > 0
-				&& !Unicode.isSuperscriptDigit(str.charAt(str.length() - 1))) {
-			App.debug(str);
-			return new MyDouble(this, MyDouble.parseDouble(
-					app.getLocalization(), str));
-		}
 		int i = 0;
 		while ((i < str.length()) && !Unicode.isSuperscriptDigit(str.charAt(i))) {
 			i++;
