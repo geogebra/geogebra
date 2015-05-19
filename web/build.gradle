@@ -81,10 +81,19 @@ task deployIntoWar(type: Copy, dependsOn: cleanWar) {
 }
 
 task symlinkIntoWar {
-	description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory.'
+	description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
 	doLast {
 	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
 		ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
+		}
+	    }
+}
+
+task draftSymlinkIntoWar {
+	description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
+	doLast {
+	    ['web3d'].each { folder ->
+		ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
 		}
 	    }
 }
