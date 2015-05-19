@@ -63,7 +63,7 @@
 	width: 100%;
 
 	/* on mobile browsers z-index is needed for whatever reason. 10 is not enough for Win8 */
-	z-index: 1000;
+	z-index: 950;
 
 	/* or whatever is the background-color of Algebra View */
 	/* TODO: may be put elsewhere in CSS too */
@@ -2637,7 +2637,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	padding: 5px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	z-index: 100;
+	z-index: 999;
 }
 
 .toolbarPanelExam {
@@ -2712,7 +2712,7 @@ body.application[dir=rtl] .toolbar_item {
 
 .toolbar_submenu {
 	position: absolute;
-	z-index: 501;
+	z-index: 1001;
 	display: none;
 }
 
@@ -2733,7 +2733,7 @@ body.application[dir=rtl] .toolbar_submenu .submenuArrow {
 .toolbar_submenu .submenuContent {
 	position: absolute;
 	top: 15px;	
-	z-index: 250;
+	z-index: 1010;
 	-webkit-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
