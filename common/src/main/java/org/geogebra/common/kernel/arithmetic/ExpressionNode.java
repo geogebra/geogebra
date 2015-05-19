@@ -5662,4 +5662,59 @@ kernel, left,
 			ExpressionValue denL) {
 		return denL == null ? denR : (denR== null ? denL : denL.wrap().multiply(denR));
 	}
+
+
+	public static ExpressionValue multiplySpecial(ExpressionValue ret,
+			ExpressionValue f, Kernel kernel, boolean giacParsing) {
+		String leftImg;
+		App app = kernel.getApplication();
+		boolean leftIsExpxTimesVar = false;
+		// sin x in GGB is function application if "sin" is not a variable
+		if (ret instanceof Variable) {
+			leftImg = ret.toString(StringTemplate.defaultTemplate);
+			Operation op = app.getParserFunctions().get(leftImg, 1);
+			if (op != null && kernel.lookupLabel(leftImg) == null
+					&& !"x".equals(leftImg) && !"y".equals(leftImg)
+					&& !"z".equals(leftImg)) {
+				return new ExpressionNode(kernel, f, op, null);
+
+			}
+			// x * sin x in GGB is function applied on the right if "sin" is not
+			// a variable
+		} else if (ret instanceof ExpressionNode
+				&& ((ExpressionNode) ret).getOperation() == Operation.POWER
+				&& ((ExpressionNode) ret).getLeft() instanceof Variable) {
+			leftImg = ((ExpressionNode) ret).getLeft().toString(
+					StringTemplate.defaultTemplate);
+			Operation op = app.getParserFunctions().get(leftImg, 1);
+			if (op != null && kernel.lookupLabel(leftImg) == null
+					&& !"x".equals(leftImg) && !"y".equals(leftImg)
+					&& !"z".equals(leftImg)) {
+				return new ExpressionNode(kernel, f, op, null)
+						.power(((ExpressionNode) ret).getRight());
+
+			}
+			// a * b * f -- check if b*f needs special handling
+		} else if (ret instanceof ExpressionNode
+				&& ((ExpressionNode) ret).getOperation() == Operation.MULTIPLY
+) {
+			ExpressionValue bf = multiplySpecial(
+					((ExpressionNode) ret).getRight(), f, kernel, giacParsing);
+			return bf == null ? null : new ExpressionNode(kernel,
+					((ExpressionNode) ret).getLeft(), Operation.MULTIPLY, bf);
+		}
+
+		if (giacParsing) {
+			// (a)(b) in Giac is function application
+			if (ret instanceof Variable) {
+				ret = new Command(kernel,
+						ret.toString(StringTemplate.defaultTemplate), true,
+						true);
+				((Command) ret).addArgument(f.wrap());
+				return ret;
+				// c*(a)(b) in Giac: function applied on right subtree
+			}
+		}
+		return null;
+	}
 }

@@ -1304,51 +1304,13 @@ ExpressionValue multterm():
      LOOKAHEAD( { getToken(1).kind != VERTICAL_BAR} )
      f = powerdivterm()
         {
-              String leftImg = "";
-              boolean normal = true;
-              boolean leftIsExpxTimesVar = false;
-
-              //sin x in GGB is function application if "sin" is not a variable
-              if(ret instanceof Variable) {
-                  leftImg = ret.toString(StringTemplate.defaultTemplate);
-                  Operation op = app.getParserFunctions().get(leftImg,1);
-                  if(op != null && kernel.lookupLabel(leftImg)==null
-                        && !"x".equals(leftImg) && !"y".equals(leftImg) && !"z".equals(leftImg)){
-                      ret =  new ExpressionNode(kernel, f, op, null);
-                      normal = false; 
-                  }
-               //x * sin x in GGB is function applied on the right if "sin" is not a variable
-               } else if(ret instanceof ExpressionNode && ((ExpressionNode)ret).getOperation()==
-                       Operation.MULTIPLY && ((ExpressionNode)ret).getRight() instanceof Variable){
-                   leftIsExpxTimesVar = true;
-                   leftImg = ((ExpressionNode)ret).getRight().toString(StringTemplate.defaultTemplate);
-                   Operation op = app.getParserFunctions().get(leftImg,1);
-                   if(op != null && kernel.lookupLabel(leftImg)==null
-                          && !"x".equals(leftImg) && !"y".equals(leftImg) && !"z".equals(leftImg) ){
-                      ((ExpressionNode)ret).setRight(new ExpressionNode(kernel, f, op, null));
-                      normal = false; 
-                   }
-              }  
-              
-              if(normal && GiacParsing){
-                  //(a)(b) in Giac is function application
-                  if(ret instanceof Variable){
-                      ret = new Command(kernel, ret.toString(StringTemplate.defaultTemplate), true, true);
-                     ((Command)ret).addArgument(f.wrap());
-                     normal = false;
-                  //c*(a)(b) in Giac: function applied on right subtree
-                  } else if(leftIsExpxTimesVar){
-                      Command cmd = new Command(kernel, ((ExpressionNode)ret).getRight().toString(StringTemplate.defaultTemplate), true, true);
-                      ((ExpressionNode)ret).setRight(cmd);
-                       cmd.addArgument(f.wrap());
-                       normal = false;
-                  }
-              }
- 
+              ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
   
-                  if(normal)
+                  if(special == null)
                   {
                       ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
+                  }else {
+                  	  ret = special;
                   }
             }
            

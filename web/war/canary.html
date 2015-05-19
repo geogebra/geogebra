@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html manifest="web3d/appcache.nocache.manifest">
+<head>
+    <meta charset="utf-8" />
+    <title>GeoGebra</title>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+<script type="text/javascript">
+// for IE9
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function () { };
+
+        WebFontConfig = {
+            loading: function() {},
+            active: function() {},
+            inactive: function() {},
+fontloading: function(familyName, fvd) {},
+fontactive: function(familyName, fvd) {},
+            fontinactive: function(familyName, fvd) {},
+            custom: {
+                families: ["geogebra-serif", "geogebra-sans-serif" ],
+                urls: [ "web3d/css/fonts.css?v=1.15" ]
+            }
+        };
+			
+	function e(id){
+		return document.getElementById(id);
+	}
+	var loginAPI = "https://login.geogebra.org/api/";
+	var finalLang = null;
+	function perspective(id){		
+		if(e("ggw")){
+			e("ggw").className="geogebraweb";
+			if(id){
+				e("ggw").setAttribute("data-param-perspective",id);
+			}
+			var page = e("ggbPage");
+			page.style.display = "none";
+			if(window.web3d){
+				web3d();
+			}
+		}else{
+			var page = e("ggbPage");
+			page.style.display = "none";
+			var container = e("appletContainer");
+			container.style.visibility = "visible";
+			if(id){
+				ggbApplet.setPerspective(id+"");
+			}
+		}
+		return false;
+	}
+	
+	function div(styleName){
+		var ret = document.createElement("div");
+		ret.className = styleName;
+		return ret;
+	}
+
+	function sendLogout(token){		
+		var logout = {
+				"request" : {
+					"logout" : {
+						"token" : token
+					},
+					"api" : "1.0.0"
+				}
+			};
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", loginAPI);
+		xhr.send(JSON.stringify(logout));
+	}
+	function showStartScreen(lang, userJSON){
+		displayUser(userJSON, null, lang);
+		showInLang(lang);
+		if(e("ggbsplash")){
+			e("ggbsplash").remove();
+		}
+		return true;
+	}
+	function displayUser(data, logoutToken, lang){
+	
+		var re = {};
+		try {
+			re = JSON.parse(data);
+		}catch(e){
+		
+		}
+		
+		c = e("ggbLoginContainer");
+		while (c.firstChild) {
+			c.removeChild(c.firstChild);
+		}
+		
+		if(re && re.responses){
+			var optionsPanel = div("profileOptionsPanel");
+			var arrow = div("arrow");
+			var optionsContent = div("profileOptionsContent");
+			var logoutButton = div("logoutButton");
+			optionsContent.appendChild(logoutButton);
+			optionsPanel.appendChild(arrow);
+			optionsPanel.appendChild(optionsContent);
+			optionsPanel.style.visibility = "hidden";
+			logoutButton.id = "signOut";
+			var arrowImage = document.createElement("img");
+			arrowImage.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAARCAYAAAAlpHdJAAACGElEQVR42r1Uy2paURQ1bdM2zYM2tJl0GAiE5A86zLBkKBm0EqvUeiWG+AVCcOQoA/2AOBH6A8E3glBQ8YEPiEbJVTlxEBDEJ76yl/SGm9sm4Sa5ObBE9LDXWnuftVUqmcdqtb4gvDKbzW8MBsM7jUYzr9Vq39L3WfynUuqguFqtfk3ESw6HY83j8ewGAoEDl8u1qdPpFhUTgKJwy3HcByL8mc/nkzzPs1qtxpLJJE9CtiEKAuj6jCLEwWBwP5fLldrtNptMJlM0m01GYnJut3vrSQWIiX0+nyGTyZz3er1rYgGNRoNls9kUjWNDGMGjBAjEFotlmVrNFYvFU7FjKer1OkskEn+cTue6yWRawMN8kADJjDkqWul2u7cSA+PxmOGkUqkTu92+ijTQA30pS4C01XB8H7EY1WqVxePx30ajcUUkQLbjPcz4rlb/D8PhkJHgSiwWO7bZbJ9pbHP3CpA4/oFX3el0ZBGLUSgUKtFo9Ijcf8QiunUHCAuELr2nOOkoOmetVuvBxEC/32elUomPRCKHZOoTjP0jQHAMYr/fv5tOp3m5rb5LAOphE+r1+uUbAsSOvV7vdzyuxzqWYjAYMIyQjP0CD/imCUAWkclQKPSN4lR7KsdSoC4toXI4HN5BAqbusYloxl9pR1eoRZd0UTGgfrlcvriO31/yL6PR6JJQVxq0iC7Q9qlzfEAAfnwOYATC1rsCV76HY/jNK3sAAAAASUVORK5CYII=";
+			arrow.appendChild(arrowImage);
+			/*<div class="profileOptionsPanel">
+			<div class="arrow">
+			<img src="" width="31" height="17" class="gwt-Image">
+			</div>
+			<div class="profileOptionsContent">
+			<div tabindex="0" class="button logoutButton gwt-Button button-up" role="button" aria-pressed="false">
+			<div class="gwt-Label">SignOut</div>
+			<div></div></div></div></div>
+				*/
+			userInfo = re.responses.response[0].userinfo;
+			
+			img = document.createElement("img");
+			img.style.cursor = "pointer";
+			img.setAttribute("src",userInfo.image);
+			img.addEventListener("click",function(){optionsPanel.style.visibility = optionsPanel.style.visibility == 'hidden' ? 'visible' : 'hidden';});
+			
+			
+			c = e("ggbLoginContainer");
+			while (c.firstChild) {
+				c.removeChild(c.firstChild);
+			}
+			c.appendChild(img);
+			c.appendChild(optionsPanel);
+			finalLang = validLang(userInfo.lang_ui);
+			switchLang(finalLang);
+			
+			logoutButton.addEventListener("click",function(){
+				displayUser("", null, lang);
+				sendLogout(logoutToken || userInfo.token);
+			});
+		}else{
+			var signInText = window.__GGB__keysVar && __GGB__keysVar[lang] ? __GGB__keysVar[lang]["menu"]["SignIn"] : "Sign in";
+			c.innerHTML = '<a href="https://login.geogebra.org/user/login/?url='+(location.href.substring(0,location.href.indexOf('?')))+'" class="button" id="loginButton"><span id="signIn">'+signInText+'</span></a>';
+		}
+	}
+	
+	function checkCookie(value, lang){
+	
+		login = {
+				"request" : {
+					"login" : {
+						"cookie" : value,
+						"getuserinfo" : "false",
+						"image" : "true",
+					},
+					"api" : "1.0.0"
+				}
+			};
+		xhr = new XMLHttpRequest();
+		xhr.open("POST", loginAPI);
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.response) {
+					displayUser(xhr.response, null, lang);
+				}
+			
+		};
+		xhr.send(JSON.stringify(login));
+	}
+
+	function getCookie(cookieName){
+		var docCookie = document.cookie;
+		if (docCookie && docCookie != '') {
+			var crumbs = docCookie.split('; ');
+			for ( var i = 0; i < crumbs.length; ++i) {
+				var name, value;
+				var eqIdx = crumbs[i].indexOf('=');
+				if (eqIdx == -1) {
+					//empty
+				} else {
+					name = crumbs[i].substring(0, eqIdx);
+					value = crumbs[i].substring(eqIdx + 1);
+					if (name == cookieName) {
+						try {
+							value = decodeURIComponent(value);
+						} catch (e) {
+							// ignore error, keep undecoded value
+						}
+						return value;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	function showInLang(lang){
+		document.body.parentNode.style.overflow = "auto";
+		e("ggbPage").style.display="";
+		if(finalLang && finalLang != lang){
+			console.log("wrong lang");
+			return;
+		}
+		var props = __GGB__keysVar[lang];
+			e("algebraAndGraphics").innerHTML=props.menu["Perspective.AlgebraAndGraphics"];			
+			e("geometry").innerHTML=props.menu["Perspective.Geometry"];
+			e("cas").innerHTML=props.menu["Perspective.CAS"];
+			e("spreadsheet").innerHTML=props.menu["Perspective.Spreadsheet"];
+			e("perspective3d").innerHTML=props.menu["Perspective.3DGraphics"];
+			e("probCalc").innerHTML=props.menu["Perspective.Probability"];
+			e("search").innerHTML=props.menu["search_geogebra_materials"];
+			e("create").innerHTML=props.menu["CreateYourOwn"];
+			if(e("signIn")){
+				e("signIn").innerHTML=props.menu["SignIn"];
+			}
+			//console.trace();
+			if(e("signOut")){
+				e("signOut").innerHTML=props.menu["SignOut"];
+			}
+	}
+	
+	function showInEnglish(){
+			if(!window.__GGB__keysVar){
+
+				e("algebraAndGraphics").innerHTML="Algebra and Graphics";
+				e("geometry").innerHTML="Geometry";
+				e("cas").innerHTML="CAS";
+				e("spreadsheet").innerHTML="Spreadsheet";
+				e("perspective3d").innerHTML="3D Graphics";
+				e("probCalc").innerHTML="Probability";
+				e("search").innerHTML="Search GeoGebra materials";
+				e("create").innerHTML="Create your own";
+				if(e("signIn")){
+					e("signIn").innerHTML="Sign in";
+				}
+				e("ggbPage").style.display="";
+			}
+			
+		}
+	var langs = ["af",  "ar",  "ar_MA",  "ar_TN",  "bg",  "bs",  "ca",  "ca_XV",  "cs",  "cy",  "da", 
+	"de_AT",  "de",  "el",  "en_AU",  "en_GB",  "en",  "eo",  "es_ES",  "es",  "es_UY",  "et",  "eu", 
+	"fa",  "fi",  "fr",  "gl",  "hi",  "hr",  "hu",  "hy",  "in",  "is",  "it",  "iw",
+	"ja",  "ji",  "ka",  "kk",  "km",  "kn",  "ko",  "lt",  "lv",  "mk",  "ml",  "mn",  "mr",  "ms", 
+	"ne",  "nl_BE",  "nl",  "no",  "no_NB",  "no_NN",  "pl",  "pt",  "pt_PT",  "ro",  "ru",  "si", 
+	"sk",  "sl",  "sq",  "sr",  "sv",  "ta",  "tg",  "th",  "tl",  "tr",  "ty",  "ug",  "uk", 
+	"ur",  "vi",  "xh",  "zh_CN",  "zh",  "zh_TW"];
+	
+	function validLang(lang){
+		lang=lang.replace("-","_");
+		if(langs.indexOf(lang) >= 0){
+			return lang;
+		}
+		lang = lang.substring(0,2);
+		if(langs.indexOf(lang) >= 0){
+			return lang;
+		}
+		return "en";
+	}
+	function getURLparam(param){
+		var parts = location.href.split("?");
+		if(parts.length<2){
+			return null;
+		}
+		params=parts[1].split("&");
+		for(var i=0;i<params.length;i++){
+			if(params[i].indexOf(param + "=")==0){
+				return params[i].substring(param.length + 1);
+			}
+		}
+		return null;
+	}
+	function switchLang(lang){
+		var storedTranslation = {};
+		if(localStorage && localStorage.translation){
+			try { 
+				storedTranslation = JSON.parse(localStorage.translation);
+			}
+			catch(e){
+				console.log(e.message);
+			}
+		}
+		if(storedTranslation[lang]){
+			window.__GGB__keysVar = {};
+			window.__GGB__keysVar[lang] = storedTranslation[lang];
+			showInLang(lang);
+		}
+		else{
+			var l10n = document.createElement("script");
+			document.head.appendChild(l10n);
+			l10n.onload = function(){
+			
+			
+				showInLang(lang);
+				if(window.localStorage && window.__GGB__keysVar[lang]){
+					var obj = {};
+					obj[lang]=window.__GGB__keysVar[lang];
+					localStorage.translation = JSON.stringify(obj);
+				}
+				
+			}
+			l10n.setAttribute("src","web3d/js/properties_keys_"+lang+".js");
+		}
+		
+		
+	}
+function insertScript(){
+var app = document.createElement("script");
+		app.setAttribute("src","web3d/web3d.nocache.js");
+		document.head.appendChild(app);
+}
+	function checkLogin(){
+		if(getURLparam("id")){
+			if(e("ggw")){
+				e("ggw").setAttribute("data-param-tubeid",getURLparam("id"));
+				var previewDiv = document.createElement("div");
+				previewDiv.id= "ggbsplash";
+				var preview = document.createElement("img");
+				preview.style.margin="auto";
+				preview.src = "https://tube.geogebra.org/files/material-"+getURLparam("id")+".png";
+				previewDiv.appendChild(preview);
+				document.body.appendChild(previewDiv);
+				perspective(false);
+				insertScript();
+				return;
+			}
+		}
+		else if(getURLparam("perspective")){
+			perspective(getURLparam("perspective"));
+			insertScript();
+			return;
+		}
+		else if(getURLparam("command") || getURLparam("state")){
+			perspective(false);
+			insertScript();
+			return;
+		}
+		/*else if(!getCookie("SSID") && !getCookie("loginAttempt") && navigator.onLine){
+			var d = new Date();
+			d.setTime(d.getTime() + (365*24*60*60*1000));
+			document.cookie="loginAttempt=true; expires="+d.toUTCString();
+			location.replace("https://login.geogebra.org/user/login/caller/web/?clientinfo=startup&url="+encodeURIComponent(location.href));
+		}*/
+		var lang = getURLparam("ggbLang") || getCookie("GeoGebraLangUI") || navigator.language || "en";
+		window.setTimeout(showInEnglish, 1000);
+		switchLang(validLang(lang));
+		
+		
+		var app = document.createElement("script");
+		app.setAttribute("src","web3d/web3d.nocache.js");
+		document.head.appendChild(app);
+		
+		if(getCookie("SSID")){
+			checkCookie(getCookie("SSID"), lang);
+		}else{
+			displayUser("", null, lang);
+		}
+		
+
+		
+	}
+</script>
+<script type="text/javascript">
+// test to see if the app is running as a chrome webapp
+document.isChromeWebapp = function isChromeWebapp() {
+	if (typeof chrome === 'object' && 
+			typeof chrome.app === 'object' && 
+			typeof chrome.app.isInstalled === 'boolean' && 
+			chrome.app.isInstalled) {
+			return true;
+		}
+		return false;
+	};
+</script>
+<script src="web3d/js/webfont.js?v=1.15"></script>
+
+
+    <!-- Google Analytics (Start) -->
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-1780044-1']);
+		_gaq.push(['_setDomainName', 'geogebra.org']);
+		_gaq.push(['_setAllowLinker', true]);
+		_gaq.push(['_trackPageview']);
+		_gaq.push(['_trackEvent', 'Startup', 'Application', 'GeoGebraWeb']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script> 
+ 	<!-- Google Analytics (End) -->
+    <script>
+	    var GGW_appengine = GGW_appengine || {};
+	    GGW_appengine.FILE_IDS = [""];
+	    GGW_appengine.CLIENT_ID = "";
+	    GGW_appengine.USER_EMAIL = "";
+  	</script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    body {
+     -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+	 -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+    }
+    @charset "utf-8";
+/* CSS Document */
+
+body {
+	color: #666666;
+	font-size: 15px;
+	font-family: 'Arial', 'Helvetica', sans-serif;
+	margin: 0px;
+	padding: 0px;
+}
+
+h1 {
+	font-size: 2.2em;
+	font-weight: normal;
+	color: #6161FF;
+}
+
+a.button {
+  border: #6161ff 1px solid;
+  color: #6161FF;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px rgba(204, 204, 204, 0.5);
+  
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  padding: 5px 20px 3px 20px;
+  cursor: pointer;
+  cursor: hand;
+  font-size: 1.1em;
+  display: inline-block;
+  text-decoration: none;
+  min-height: 30px;
+  background: none;
+  margin: 0px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  position: relative;
+}
+a.button img {
+	vertical-align: middle;
+	margin-right: 15px;
+	margin-top: -3px;
+	margin-left: -5px;
+	border:0px;
+}
+a.button.big {
+	font-size: 1.5em;
+	padding: 15px 30px 12px 30px;
+}
+a.button.perspective {
+	font-size: 1.3em;
+	margin-right: 15px;
+	margin-bottom: 15px;
+	padding: 0px;
+}
+a.button .buttonContent {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 15px;
+	text-align: center;
+	height: 130px;
+	width: 150px;
+	max-width: 150px;
+}
+a.button.perspective img {
+	margin: 0px auto;
+	margin-bottom: 10px;
+	display: block;
+}
+a.button:hover {
+  background: rgba(102, 102, 255, 0.15);
+  background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(102, 102, 255, 0.15));
+}
+a.button:active {
+  background: rgba(102, 102, 255, 0.15);
+}
+a.button:focus {
+  box-shadow: 0px 0px 0px 2px rgba(217, 217, 255, 0.5);
+}
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+#ggbHeader {
+  min-height: 60px;
+  background: #f8f8f8;
+  box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+  border-bottom: 1px solid #dcdcdc;
+  padding: 0px 30px;
+}
+#ggbHeader #ggbLogo {
+	float: left;
+  	padding: 10px 0px;
+}
+#ggbHeader #ggbLoginContainer {
+	float: right;
+  	margin: 15px 0px;
+}
+#ggbHeader #ggbLoginContainer img {
+	max-width: 50px;
+	max-height: 50px;
+	margin: -10px 5px -10px 0px;
+	vertical-align: middle;
+}
+#ggbPage {
+  background-color: #ffffff;
+}
+.ggbPageContent {
+  padding: 50px 30px;
+  text-align: center;
+}
+.ggbPageContent a.button {
+	color: #666666;
+}
+
+.createOwnPanel {
+	margin: 0px auto;
+	margin-top: 70px;
+	max-width: 700px;
+	width: 100%;
+	text-align: center;
+}
+
+#ggbLoginContainer .profileOptionsPanel {
+	position: absolute;
+	z-index: 200;
+}
+
+.profileOptionsPanel .arrow {
+	position: absolute;
+	z-index: 300;
+	left: 4px;
+	top:-3px;
+}
+
+.profileOptionsPanel .profileOptionsContent {
+	position: absolute;
+	top: 15px;
+	left: -75px;
+	z-index: 200;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+}
+
+.profileOptionsContent .logoutButton {
+	margin: 20px 10px 10px;
+	min-width: 75px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	border: 1px solid #6161FF;
+	color: #6161FF;
+	background: none;
+	font-size: 110%;
+	padding: 4px 15px;
+	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px
+		rgba(204, 204, 204, 0.5);
+	cursor: pointer;
+	cursor: hand;
+	margin-left: 5px;
+}
+
+#ggbsplash {
+text-align:center;
+position:absolute;
+left:0px;
+top:0px;
+width:100%;
+}
+    
+	div.SymbolTablePopup{
+z-index:501;
+}
+    </style>
+</head>
+<body dir="ltr" tabindex="-1" onload="checkLogin()">
+	<div id="ggbPage" style="display:none">
+
+    <div id="ggbHeader">
+        <div id="ggbHeaderContent" class="clearfix">
+            <div id="ggbLogo">
+                 <a href="//www.geogebra.org"><img src="data:image/png;base64,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" alt="GeoGebra" /></a>
+            </div>
+
+            <div id="ggbLoginContainer">
+                
+            </div>            
+        </div>
+    </div>
+    
+    <div class="ggbPageContent">
+    	<div class="searchBtnPanel">
+        	<a class="button big" href="#" onclick="perspective('search:');"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAWFJREFUeNqklN1xgzAMx20uAzAC3YBOkDBCJ2jyxCPpBLlMkPDIU+gEuBPABs0IbFBGiNT7k9P5sHFAdzpjkH8S+rBWllRVtaelIE2tT4a0zPO8UwGiBZBBDWmCVwPpnTS2nLCDAzkYZsGAtoAw7EwHjXDK7/lPTsIm88E3WBscqMn4YBsBcCUHBrYpnHw5IybjI60XjoIA73O5w9/9YvtGZ/opu4j0E8/nkKIQiNNQY7t32UVjYWROA+Qb69YHZunUa3KfMxjB8YvgOBScoqVCJRW97gSbuUJMSIH1xwcu8XyiqJOAduMAdojWWfAIs2+QtwZ96oPesC19k6fFyLYidzVaSt4VBSJVIr8Z+tp7CcUY06MnEwNSV8DhGHFv3x164ncTFHJrAblQhg9bl5bs7Sdcq4VC8L+Jfn7CI7Vcekd/t5zWNeDMMdr/8MVg5NIJXxOxD96tAjvgPHAfDwEGAKUOhDJG2pluAAAAAElFTkSuQmCC" alt="Search Materials" /><span id="search"/></a>
+        </div>
+        
+        <div class="createOwnPanel">
+        	<h1><span id="create"/></h1>
+            
+            <a class="button perspective" href="#" onclick="perspective(1);">
+            	<div class="buttonContent">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAbpJREFUeNrsWdFtg0AMhar/vW4QNkg3KBtkhPATPlsmIf0kP9AN2CDZIGwQNigbtL7qnUoQUIQNFylYsoi4p+Tp+ew7O67DtN3uW9HjnfyNXOF1Rf5Bvj8c3Irz/a4AuSP5ugNSkPsckg9MAeMecg7WYisKQr2vgfDnsSpyFFxPhBUN8eTGIVhOhJUhSHtK/+hpAPQErJUQR6h5XVYBYyXEWsXfOtcRwhI1sLBWqBtlR2fqK06TnEtssbsxsT2YJMmKHiuTIGEYljdBEMRSJMhV/SMPuERdAXJnZK4m8kn+RL6BmroOvnBIPjIFTEEuIxJBvYATeb22BcafXUGod8F+8zowFyjpjVWRc5KYhMh7MHkDu1y3mv2Gtg2FUrWEVyFZ6tj5CNKe0hmaIXxxnSQ+x1jLgLVSZhQSxZQZs+fqZcazRrCh1raxpNWNOOSkjzpVa44KLrHFlusW48pvOrniJgiCWNoyPdAEA6tNE8gdnb+xW1vbyersJKZbqmfd1Mj5FST1zHVriHljpwsS1y1p7P1dt6SxMgQxMc0GQDObM+roH3UKx/J0q0LHtneux3AV3vncvyF+BBgABK2buM1QjKUAAAAASUVORK5CYII=" alt="Algebra" />
+                    <span id="algebraAndGraphics"/>
+                </div>
+            </a>
+                       
+            <a class="button perspective" href="#" onclick="perspective(2);">
+            	<div class="buttonContent">
+            		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABlxJREFUeNrMmHtMU1ccx79FIaNO6exE3TTWSKoyJ8UZHct0xTozH/WRxQaTJYDLJLipaI0SwQBZMbjIRM00nctoM7MZkkUm4pJFhu4P3SZqRZymMRPBKI804hzImFv3+9172tXallLq4yQ/7kl7Of2c7/m97gUe02jFuN1seDaHW1WGrXcsKOimuXYwK8U8JsK8XsSrHiBWSXPrMwboTqQ/G3imRLeLLnr6bE3EgG4gK8qEW8hUiWh3TkPTGZo7yXYK8IgULCLIC25pp1FRL5fsjAbNTvFhFQOT2SICVAAT6fod2RGCrB8kaLF0skDNQwENHCNbSBt4L+ytAhrmkXxQIS/MoKd8QDUDVE/jUY/M5fdljQDdxxEeBhzzXCdzeIOEILt8QB18A91YOQDQIh+YQMMujroyBJie3Y2my8jSiWfjI1EsQDcKUIQH6n4VcrAFUs//qJfT/Qv8wFRknNTr2d3o91PJToZMM3RDM1m2AOWdcyAVu+X5QNXzjDqxAZvnqIXPs2o6/i1xit4x1DuzSgqxCilkzWQ3eCFFjjRfIRZikA0030PXClZbqPeuUMfVD2CPiGbzWNzefwuIl/MkSmitiuCJ2iqBXRAAyeIHWfI79N1uMhVLTpbOsGRviaPn/9srfrguTF91rsaXjt+QvKoTo1jF1GBwMqCsHMPcI9tGVk5mgeyHrMoaKaKscvrxAeXvi65jon4LPnEKyJDDgDr1DUww78dabQ6srkR0aBRwd/WXqLksxZF96ndEPcKnLAK+Xijt8VEbLd5sQWFPAUrH30XCjs3YFbQxOIwMQy0WFxJgK1WYgiqY+Kg1Pv4bJBasUr65HUamZ7g0cODkSE5upPlRoXINAyxH9ZJ2jL65D+tq5uHHyfxP32CVYxc2Zz6HXuXH2G6judNnzVwRHHQiipPBAN0C7kwY/uMD6f6IrlPJCjzHm4Rryr1Yb0gZfnZe2fJluDdk2P1d31aqf7335rH12Ft3DUn+bsBVp1QEJIEq+oJ1M64wHdwmJfFGIyfb14R63h9lgEU4XrN1XEHVX/FDlHFxveqfX0hxlsN8OgCcx43sYqPbotVu2XGYAvd52tPwjodUZwV/wlzTF1fyTa83tLROuNjreKml23UC83ecx4wsDpIA6zmEkS+6dYMHPGRNgYt8ezrFT/pnmZ6Py5Cva8K00gm4MX4xai1jzisupv7SeXMGztvm44SkDgfJcSwy8kYClMGeQGXQAzg5LLj7CUNxNsOI2N5uvPh7I0a06V6efEh3FVNy81CRaUdmFQGW18Hgerh8GFwMWgjLgVdwWcsb8QPtEe5CCrqL/QFZXnVYgF8fmIPeEWqMudKIzkmNmy5f7mu6/j5HIjh1UG4LGWgcwbwBX1ArctJ8yqBTHLXWH1AblnqOpQtZvZSRte2NFwvfzm9q/Ds7TY8pswsdQYIgJGgF8uwZOGzkHCpAbUJNqy/gKaFgaBXtlQb0DUvYGWPuO33Jsuhq/Ng701MstdWjk9uhOWuMpLvNR5kjAXe3UQ6tEaDmpTjqFM8xeR7AanG/LuhKHUnKGZfGvnMBqcj+96u41ZNWnzJpP2xoi03owx9jrpKqasw+lBZpG86uwaDfY2EdVRhtPeVtCiw+aiqFcrNwhP7OCZSLkjqg/OzgKNOCls60EuqEikNXJp/ev0RciwYEq6IGKY+apQ3UPzzAUIfCp5upFI2CtxRt/gHa7bXI6lLClTdrVt2RYXMD+9nIFh1GdBhwcm02zq3k9gwNmCmloJlosEeiqp76VVJSr/DpB7kmc6kpZ9WqDsKUfAsp1Tocy/ig31aK/XeH1OHkyK2TeK6AfwM6mAd33ql20wkYm0pQqv4T6sXrYAkDzlMqW0WfGNXh7airPkd17D8o0juxpGI+DuSvkNLPQIaIvuiOGHEceSvPoX5qGxwTqbcguPgI1nJKPm6FKqqAbvlJipvWFVPakEoBwX2ZSbRCAxk9/aarCBV0wOcxT0pLcrDkRqBg1Ae/+tgoP5158ZzieYPLnxFPecQESe02UReXiA46nKF8coAyZLaAzAoTcpy4dj0ZwEch+zvuNyS4nAGnp0G+Yf0fko/bHKTrGS9U3vPkjvhRSH6jkChKmufYtSIlbRLZoOLpAMqQ1eJFEkd4vIA0Sy8M5Leo6XRPV7QB/xNgAOX1L37hLhebAAAAAElFTkSuQmCC" alt="Geometry" />
+                	<span id="geometry"/>
+                </div>
+            </a>
+            
+            <a class="button perspective" href="#" onclick="perspective(3);">
+            	<div class="buttonContent">
+            		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAqJJREFUeNrsWC9v20AUP0dewVRroKQJKnJRkFGZR1qSjBQlqMj+APsAS3n7AVxW0qAOLOPzVKkls1QpzCjIJqkUySEJ6fJ73lWJc13uErc2yJNOl5zPdz+//+9pnvf8zCTJstJxdcWUyHEYC4J0qJLOcqIw/MmSJJp9gCO1PwgWv3Jnx2AHBzYzjGr+AJMkZr7fod+GUWOm2ZACiL0c0HAY0lq7/YPA5gowDHs07+2ZrN+/kQIIwj7O8aenkN3etmmuVq2XPZW8xGuaTVavpxdgqNJg4NO8u1vLV8Rc92z7G3EQ4un3u/RfRszzulivt5Z0sJKHeKFLXEy1mkVr02kiIeImazY9GjAQfFgcB/lxEICiKD2w13MXnuGyVRYNbnF9w9ztfqHz5nVwI4AAAZGenf1aWPf9cxK9rMvhZ0FV5i14I4AQIRT78HDZYrEGMafG05DWQehw9ryNOHhyckGHZgkigl5lLXKe8Fz03lIksSx5QPv7bDSbHrnnFx0ouiyOY3sy+Thg7NPgf2CEoU4FIMBpmvZZndce4v2167od5VisGvjfmyqvuY+sPyqKdFFk4IHfcf6Ui4PgGsDxyFA6EcMttFo96Wzk3UWcDdSlNZItwC3AIv0gCEnnzAuWFyACuWwwf2vSoki+cB+NhqO7u++Pa9xjoy76N9Q4GEXymyeTD0i3fm8AUPldTaX1gWzeddXTLc+jdOt8rXTrtTKSV11FRxddVCMgjZ9Ox1TIZFsRhfpBcA/16enpDWs0PCqM1ukSvBkH0Q3ghc54HJXCzeiiQgecu7+/pLxQVLUVHupQeEO0x8cXheqfECDAoSC37U7h3FsC+PBwSR0BgCtLVq2Lei1p2yJtSh4dfS2UkwsARc2eonVwJcBtwrqC/gowAJb4F4l9eT7ZAAAAAElFTkSuQmCC" alt="Spreadsheet" />
+                	<span id="spreadsheet"/>
+                </div>
+            </a>
+            
+            <a class="button perspective" href="#" onclick="perspective(4);">
+            	<div class="buttonContent">
+            		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAWJJREFUeNrsmNFtwjAURZ2KATJCRkg3KBPUnYD2J/wmEyRMQH7JD3SDbEA2KN2gI3QDei1dqifXAoqIqapnyXLy7OCD77sviGS12u/N+W2Yz5OpidjuzB9vCqiACqiACqiA/xxwcumDRVGUGB5FaNd1XXVizSvWbGKdoNsoR39gLwFkBVyGoRbz7r6PJjFO4hPDkxdeAyzltYNLxdwLn4mXg9hwwNCKUEpId2LPIt5ybbwcFG2Bbimh4XV+Ije3lH18QCcbNnRSv4lwJqUNPLY79/OTa/3kB+TSGcULt/7p3aQO0hg2MGWFacytcvDg2CwQz3iqjfeFcs/h4wHSsaVXH60AqLGmh9Qy75ZRTEL51iL0ge5y7p0Q3/UR/f4Sk0yuLG3FYtwCfibKTY77BnMNnV+NbpKAtAM27o+Ul5q5N76LA9L+AGLOLfxX4W/3SvSvDwVUQAVUQAVUQAU81r4EGAAXyXJDB+0CPwAAAABJRU5ErkJggg==" alt="CAS" />
+                	<span id="cas"/>
+                </div>
+            </a>
+            
+            <a class="button perspective" href="#" onclick="perspective(5);">
+            	<div class="buttonContent">
+            		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABKJJREFUeNrcmO9PU1cYx7/ntrSlRLizkEGk21yiZM7JNXFzzUiG8RVkZvhCndmM3MTtBYuJe6sv9P2W+CfQbH8Accbsh9EmvtAse1HRVUTAbsEKxiEM0f6A3rPnnMuFS9fKvW3FZg85tJfce/n0c87z3KcH+P8G76YRB/JqrQLGaHCwfJKxRa0W7fFlQM6U3CxTslrt2aMRCuV5+I0cQWa44kn314y9UIjz/ftNg99+l+PtYQlI49m5av43pYxrzopfBw4A4bD5hwcPgJMngfc/oAOGs4r36eArAhT20L19OxCJAOJVEI2NAfX1wNGjBLlHntjvqfsn5qmbUzfa4Io9EaEQjc3A+NjqCUc+Aw4flm/FUoh5fDNvbRDgqj3TnBnhMBkcX3vmHrJ47BgQCEBkdtzje6xthME19qywpnm8AHLHDuDECZr6AFTGEPP6H/W9RMDi9lYAuSLXYWG0tQEDA0BrK1QwPuQNTPW/LINF7ZlTTHxkMJUqfqH6GmXMcYJ8XR4O1tWnzlcZsLS9FYvb/jvF9qC1iC+/Ajp3ycNTdfWTg77gX2q1DJa0Z0VHB5BOl7ZoxSd0j64uswzRiPmCSbVCwPXt2dfhxPj6n1YA9vbKtxqtjJivYUKrxOC69kS0t4t1qLxwmu2xcyfVyiOA3y/LUMzfMKaVAejMnohgkJKlnQxOOF/8IrkOHZKQlOGI+zeN9rs16MiefZrTzxkeppxDtrQAug40N5sZ7t80csohoHN7a8uNO4siyCAOHgS2bpWH5wONfww6MejKnj1RUg/dPy0EZE+PWQ1Ehgcabw0FmobVEoDu7VmNw+aQe4P22LcP+DAin5x9otEINMVVpRr2Vqa5nWH2iRjlQ4oM37tXMEJjjCeVYvY0zZ09+zRzUQ/vlw+Yy9rbN/aNUszecj9XFiDgwf0ypzlLcJcuATNP5PNdT8/tjnoL7YlOWaynckJmcgUGr18nuBlpTs/M74oWJknZa29t46BgdhZyuImrV4HRUQvuvWhBmancnr1x4Jym2YXFK1eAu3fl22hm/t1osTpYFXur9dCDqSln51++DIyMmHDZp+/oRZ4kvK9a9lYaB+51ZPDXX4A7dyy4Dr3Us1h2uPfumaonJysDtBoHYTCTKX3ezz8BCQtuYZte6jwPcE58LQyk02hNJIBr14AbN8xsamwEmprcQ05PA8k/lyirDTS3cDJKQ/zIzRJOpYQjkaADxqO5Z2/rL7oXs5UZASqm+7hsJm2PMFG4xRKwdhLWC/EBv/8hi4+60ujpNWDkDeR5HobBcfGigdu3DTBmRHPP39TXuxcr0c1YsB8vv7qCFfbPnFnClvACBr5eBfzxAsctggOM6GI6rDv5sMzBlyZ1GfLTYrAia7Ui/fDp08Dc/ByBGvD5DAxdyGN4mEtzi+ktutPlwtytLgnbbYNVrcTo7DRBLdgoVbPffl/A51/kqIwYuDmcF9ffXMq07d7IrTjRFlGDyWet/cJgkPNIhHNN43I7rqFxhnv9j2lMx+mL+6vcLpb7hlSyeNKCZWyRe3wSMO71P6qlvWyumbBGkgDjHt/ftbrRXnn8K8AAk4vInwPmmC4AAAAASUVORK5CYII=" alt="3D Graphics" />
+                	<span id="perspective3d"/>
+                </div>
+            </a>
+			
+			 <a class="button perspective" href="#" onclick="perspective(6);">
+                <div class="buttonContent">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAYRJREFUeNrslq9ywkAQxi+Zqip0FY+QyLriK1qDLbxBXwFbQ2trktqaVOAjkckbUFVVgcIeu3dfZpJMG/IXGGa/mQ2Bye3+2N3bi1IikUgkEl20nP5c6Qe6ePiSkuuvM/mPDKY3ZLpkG0CfDGxEFgDmF/fPsAC/adyPjlxiEzBGSddkn2S70kPXZFOyW1tyNaFw2yMAFuBCAFaJAWdtId0W6YsawCk8E2JN1DRYQ0DuJ3VH9lITLg/5btcaH0MAcvObUnE23lpkfoG1M/jqE9CMiyXm27zD2J2jF5d1R1ANQD2mC5fl2zZ5Z03gK4DvLoBmx3Jj8+djmzHxRxa31peC7+oZ6R7IXDZOqDRO2uMJm1qfxndclUm3oueSHFw4wGtAmINM/uvJEqDmMRCjrFwKfxi4AqSPWJGNzQwFQO3h/ExyJV0ALlWDy8TwETMreQImz7EHuhHvrA+y18ObQd/Q5b4hyYr8/tTYlDwjn8jG2Vmsz/mF9QqpFYlEIpFIdBrtBRgAu5eF1CVUIv4AAAAASUVORK5CYII=" alt="Probability Calculator" />
+                    <span id="probCalc"/>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+    <article id="ggw" data-param-showLogging="true" 
+    data-param-useBrowserForJS="false"
+    data-param-app="true" data-param-prerelease="canary"></article>
+</body>
+</html>
