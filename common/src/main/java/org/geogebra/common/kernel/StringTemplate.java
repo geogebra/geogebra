@@ -2500,23 +2500,26 @@ public class StringTemplate implements ExpressionNodeConstants {
 				case SECH:
 				case CSCH:
 				case COTH:
-					int index;
-					try {
-						index = Integer.parseInt(rightStr);
-					} catch (NumberFormatException nfe) {
-						index = Integer.MAX_VALUE;
-					}
+					
+					double indexD = right.evaluateDouble();
+					int index = (int) Math.round(indexD);
 
-					if ((index > 0) && (index != Integer.MAX_VALUE)) {
+					if (Double.isFinite(indexD) && (index > 0 || index == -1)) {
 
 						String leftStrTrimmed = leftStr.trim();
-
+						
 						int spaceIndex = leftStrTrimmed.trim().indexOf(' ');
 						sb.append(leftStrTrimmed.substring(0, spaceIndex));
-						sb.append(" ^{");
-						sb.append(rightStr);
-						sb.append("}");
+
+						// can't parse these in new AV Input
+						// sb.append(" ^{");
+						// sb.append(rightStr);
+						// sb.append("}");
+
+						sb.append(Unicode.numberToIndex(index));
+
 						sb.append(leftStrTrimmed.substring(spaceIndex + 1)); // everything
+						
 						// except
 						// the
 						// "\\sin "

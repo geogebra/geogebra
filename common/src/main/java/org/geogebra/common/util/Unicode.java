@@ -173,8 +173,9 @@ public class Unicode {
 	final public static String numberToIndex(int i) {
 
 		final StringBuilder sb = new StringBuilder();
+		boolean negative = false;
 		if (i < 0) {
-			sb.append(Superscript_Minus); // superscript minus sign
+			negative = true;
 			i = -i;
 		}
 
@@ -217,6 +218,10 @@ public class Unicode {
 				}
 				i = i / 10;
 			}
+		}
+
+		if (negative) {
+			sb.insert(0, Superscript_Minus);
 		}
 
 		return sb.toString();
