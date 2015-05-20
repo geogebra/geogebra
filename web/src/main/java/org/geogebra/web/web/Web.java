@@ -45,7 +45,7 @@ public class Web implements EntryPoint {
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true, false);
 	}
-	
+
 	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
 		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
@@ -67,11 +67,28 @@ public class Web implements EntryPoint {
 		return false;
 	}
 
+	protected static native void setCalled(Element el) /*-{
+		el.onModuleLoadCalled = true;
+	}-*/;
+
+	protected static native boolean getCalled(Element el) /*-{
+		if (el.onModuleLoadCalled) {
+			return true;
+		}
+		return false;
+	}-*/;
+
 	/**
 	 * set true if Google Api Js loaded
 	 */
-
 	public void onModuleLoad() {
+
+		if (getCalled(RootPanel.getBodyElement())) {
+			return;
+		} else {
+			setCalled(RootPanel.getBodyElement());
+		}
+
 		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null
 				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
 			//loading touch, ignore.

@@ -67,8 +67,14 @@ public class Web3D extends Web {
 	/**
 	 * set true if Google Api Js loaded
 	 */
-
 	public void onModuleLoad() {
+
+		if (getCalled(RootPanel.getBodyElement())) {
+			return;
+		} else {
+			setCalled(RootPanel.getBodyElement());
+		}
+
 		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null
 				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
 			//loading touch, ignore.
