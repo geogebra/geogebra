@@ -1536,7 +1536,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				deleteButton.addStyleName("deleteAlgebra");
 			}
 			add(deleteButton);
-			((AlgebraViewWeb) this.av).setActiveTreeItem(this);
+			((AlgebraViewW) this.av).setActiveTreeItem(this);
 		}
 
 	}

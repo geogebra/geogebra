@@ -80,7 +80,6 @@ import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraContextMenuW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
@@ -1749,7 +1748,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 		onScreenKeyboard.setUsed(false);
 		onScreenKeyboard
-				.setTextField(textField == null ? ((AlgebraViewWeb) getAlgebraView())
+				.setTextField(textField == null ? ((AlgebraViewW) getAlgebraView())
 						.getInputTreeItem() : textField);
 		// set keyboard used to true for the new text field
 		onScreenKeyboard.setUsed(true);

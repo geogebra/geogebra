@@ -17,7 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -224,7 +224,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	}
 
 	public void onFocus(FocusEvent event) {
-		if(((AlgebraViewWeb) app.getGuiManager().getAlgebraView()).isNodeTableEmpty()) {
+		if(((AlgebraViewW) app.getGuiManager().getAlgebraView()).isNodeTableEmpty()) {
 			((AlgebraDockPanelW)app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(false);	
 		}
 		Object source = event.getSource();

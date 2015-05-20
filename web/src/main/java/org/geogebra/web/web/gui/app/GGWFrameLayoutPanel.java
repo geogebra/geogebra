@@ -21,7 +21,6 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewWeb;
 import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.core.client.Scheduler;
@@ -128,7 +127,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				break;
 			}
 		}
-		((AlgebraViewWeb) app.getAlgebraView()).setShowAlgebraInput(app
+		((AlgebraViewW) app.getAlgebraView()).setShowAlgebraInput(app
 				.showAlgebraInput()
 				&& app.getInputPosition() == InputPositon.algebraView);
 
@@ -157,7 +156,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 						&& !keyboardShowing
 						&& app.getInputPosition() == InputPositon.algebraView) {
 					showKeyboardButton(true,
-							((AlgebraViewWeb) app.getAlgebraView())
+							((AlgebraViewW) app.getAlgebraView())
 									.getInputTreeItem());
 				} else {
 					if (showKeyboardButton != null) {
@@ -312,7 +311,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				// necessary in Internet Explorer, should not do harm in other browsers
 				// although we can add browser check here if necessary, but it may be slower?
 				//if (Browser.isIE())// also might not cover every exception
-				((AlgebraViewWeb)app.getAlgebraView()).getInputTreeItem().getElement().setScrollLeft(pos);
+				((AlgebraViewW)app.getAlgebraView()).getInputTreeItem().getElement().setScrollLeft(pos);
 			}
 		};
 		timer.schedule(500);
@@ -325,7 +324,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
 			spaceForKeyboard.remove(keyBoard);
 			MathKeyboardListener tf = textField != null ? textField
-					: ((AlgebraViewWeb) app.getAlgebraView())
+					: ((AlgebraViewW) app.getAlgebraView())
 							.getInputTreeItem();
 			showKeyboardButton(true, tf);
 		}

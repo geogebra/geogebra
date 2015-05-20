@@ -42,7 +42,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 		if (app != null) {
 			// force loading the algebra view,
 			// as loadComponent should only load when needed
-			setAlgebraView((AlgebraViewW)app.getAlgebraView());
+			setAlgebraView((AlgebraViewW) app.getAlgebraView());
 			inputPanel.init(app);
 			aview.setInputPanel(inputPanel);
 		}

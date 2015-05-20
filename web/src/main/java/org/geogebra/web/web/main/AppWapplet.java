@@ -336,7 +336,7 @@ public class AppWapplet extends AppWFull {
 			ClickStartHandler.init(oldSplitLayoutPanel, new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y, final PointerEventType type) {
-					AlgebraStyleBarW styleBar = ((AlgebraViewW) 
+							AlgebraStyleBarW styleBar = ((AlgebraViewW)
 							getView(App.VIEW_ALGEBRA)).getStyleBar(false);
 					if (styleBar != null) {
 						styleBar.update(null);
