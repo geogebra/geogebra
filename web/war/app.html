@@ -29,7 +29,7 @@ fontactive: function(familyName, fvd) {},
 	}
 	var loginAPI = "https://login.geogebra.org/api/";
 	var finalLang = null;
-	function perspective(id){		
+	function perspective(id){
 		if(e("ggw")){
 			e("ggw").className="geogebraweb";
 			if(id){
@@ -38,7 +38,7 @@ fontactive: function(familyName, fvd) {},
 			var page = e("ggbPage");
 			page.style.display = "none";
 			if(window.web3d){
-				web3d();
+				//web3d();
 			}
 		}else{
 			var page = e("ggbPage");
@@ -300,7 +300,7 @@ fontactive: function(familyName, fvd) {},
 		
 	}
 function insertScript(){
-var app = document.createElement("script");
+        var app = document.createElement("script");
 		app.setAttribute("src","web3d/web3d.nocache.js");
 		document.head.appendChild(app);
 }
@@ -340,10 +340,7 @@ var app = document.createElement("script");
 		window.setTimeout(showInEnglish, 1000);
 		switchLang(validLang(lang));
 		
-		
-		var app = document.createElement("script");
-		app.setAttribute("src","web3d/web3d.nocache.js");
-		document.head.appendChild(app);
+		insertScript();
 		
 		if(getCookie("SSID")){
 			checkCookie(getCookie("SSID"), lang);
