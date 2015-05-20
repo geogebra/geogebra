@@ -15,7 +15,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -950,7 +949,7 @@ GeoContainer rbti,
 					event.preventDefault();
 					return false;
 				}
-				var captureSuccess = @org.geogebra.web.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(code, event.altKey, event.shiftKey, parentElement, rbti);
+				var captureSuccess = @org.geogebra.web.html5.main.DrawEquationWeb::specKeyDown(IZZZLcom/google/gwt/dom/client/Element;)(code, event.altKey, event.ctrlKey, event.shiftKey, parentElement);
 				if (captureSuccess) {
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
 					// so let's change it: (it should not be true for pi, o and i!)
@@ -980,16 +979,11 @@ GeoContainer rbti,
 	}-*/;
 
 	public static boolean specKeyDown(int keyCode, boolean altDown,
-	        boolean shiftDown, Element parentElement, GeoContainer rbti) {
+			boolean ctrlDown,
+ boolean shiftDown, Element parentElement) {
 
-		boolean Hungarian = false;
-		String locale = rbti.getApplication().getLocalization().getLocaleStr();
-		String hunloc = Language.Hungarian.localeGWT;
-		if (locale != null && locale.equals(hunloc)) {
-			Hungarian = true;
-		}
 
-		if (altDown) {
+		if (altDown && !ctrlDown) {
 
 			// char c = (char) keyCode;
 
@@ -1012,14 +1006,14 @@ GeoContainer rbti,
 				} else {
 					s += Unicode.alpha;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_B && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_B) {
 				// B, not OK in Hungarian
 				if (shiftDown) {
 					s += Unicode.Beta;
 				} else {
 					s += Unicode.beta;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_G && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_G) {
 				// G, not OK in Hungarian
 				if (shiftDown) {
 					s += Unicode.Gamma;
@@ -1032,17 +1026,17 @@ GeoContainer rbti,
 				} else {
 					s += Unicode.theta;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_U && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_U) {
 				// U, euro sign is shown on HU
 				s += Unicode.Infinity;
-			} else if (keyCode == GWTKeycodes.KEY_L && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_L) {
 				// L, \u0141 sign is shown on HU
 				if (shiftDown) {
 					s += Unicode.Lambda;
 				} else {
 					s += Unicode.lambda;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_M && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_M) {
 				// M: Although Alt-\u00CD the same as Alt-M,
 				// not sure \u00CD is present on all kinds of Hungarian keyboard
 				if (shiftDown) {
@@ -1050,7 +1044,7 @@ GeoContainer rbti,
 				} else {
 					s += Unicode.mu;
 				}
-			} else if (keyCode == GWTKeycodes.KEY_W && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_W) {
 				// Alt-W is | needed for abs()
 				if (shiftDown) {
 					s += Unicode.Omega;
@@ -1063,7 +1057,7 @@ GeoContainer rbti,
 				s += Unicode.Superscript_1;
 			} else if (keyCode == GWTKeycodes.KEY_2) {
 				s += Unicode.Superscript_2;
-			} else if (keyCode == GWTKeycodes.KEY_3 && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_3) {
 				// in the Hungarian case Alt-3 triggers one "^"
 				s += Unicode.Superscript_3;
 			} else if (keyCode == GWTKeycodes.KEY_4) {
