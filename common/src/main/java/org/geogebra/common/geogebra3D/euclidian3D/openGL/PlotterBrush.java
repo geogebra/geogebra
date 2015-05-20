@@ -2,13 +2,14 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawVector;
-import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 /**
  * 3D brush, drawing circular-section curves.
@@ -526,8 +527,7 @@ public class PlotterBrush implements PathPlotter {
 
 		length = (float) (extent * radius);
 
-		Coords vn1;
-		Coords vn2 = v2.crossProduct(v1);
+		vn2.setCrossProduct(v2, v1);
 
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
@@ -536,16 +536,18 @@ public class PlotterBrush implements PathPlotter {
 		v = (float) Math.sin(start);
 
 		setTextureX(0, 0);
-		vn1 = v1.mul(u).add(v2.mul(v));
-		down(center.add(vn1.mul(radius)), vn1, vn2);
+		vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
+		tmpCoords.setAdd(center, tmpCoords.setMul(vn1, radius));
+		down(tmpCoords, vn1, vn2);
 
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cos(start + i * da);
 			v = (float) Math.sin(start + i * da);
 
 			setTextureX(i * dt);
-			vn1 = v1.mul(u).add(v2.mul(v));
-			moveTo(center.add(vn1.mul(radius)), vn1, vn2);
+			vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
+			tmpCoords.setAdd(center, tmpCoords.setMul(vn1, radius));
+			moveTo(tmpCoords, vn1, vn2);
 		}
 
 	}
