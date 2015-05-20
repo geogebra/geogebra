@@ -301,6 +301,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				&& !input3D.getLeftButton()) {
 			long time = System.currentTimeMillis();
 			hittedGeo.setHitted(getHits3D(), time, mouse3DScreenPosition);
+			// reset hits
+			getHits3D().init(hittedGeo.getGeo());
 			if (hittedGeo.hasLongDelay(time)) {
 				input3D.setLeftButtonPressed(true);
 			}
@@ -369,6 +371,14 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				}
 				// App.debug("\n "+(time-startTime)+"-- geo = "+geo);
 			}
+		}
+
+		/**
+		 * 
+		 * @return current geo
+		 */
+		public GeoElement getGeo() {
+			return geo;
 		}
 
 		/**

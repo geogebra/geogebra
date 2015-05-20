@@ -135,6 +135,20 @@ public class Hits3D extends Hits {
 	}
 
 	/**
+	 * init and set geo as only element
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void init(GeoElement geo) {
+		init();
+		if (geo != null) {
+			add(geo);
+			topHits.add(geo);
+		}
+	}
+
+	/**
 	 * insert a drawable in the hitSet, called by EuclidianRenderer3D
 	 * 
 	 * @param d
