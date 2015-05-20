@@ -1,14 +1,10 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import java.util.Iterator;
-
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -70,22 +66,8 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		}
 
 		// get GeoElement at mouse location		
-		Object tp = view.getPathForLocation(e.getX() + Window.getScrollLeft(), e.getY() + Window.getScrollTop());
-		GeoElement geo = view.getGeoElementForPath(tp);
+		GeoElement geo = null;
 
-		// check if we clicked on the 16x16 show/hide icon
-		if (geo != null) {
-			GRectangle rect = (GRectangle)view.getPathBounds(tp);
-			boolean iconClicked = rect != null && e.getX() + Window.getScrollLeft() - rect.getX() < 16; // distance from left border				
-			if (iconClicked) {
-				// icon clicked: toggle show/hide
-				geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-				geo.updateVisualStyle();
-				app.storeUndoInfo();
-				kernel.notifyRepaint();
-				return;
-			}		
-		}
 
 		// check double click
 		int clicks = e.getClickCount();
@@ -94,71 +76,16 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		if (clicks == 2) {										
 			selection.clearSelectedGeos();
 			ev.resetMode();
-			if (geo != null && !e.isControlDown()) {
-				view.startEditing(geo);
-			}
+
 			return;
 		} 	
 
 		int mode = ev.getMode();
 		if (!skipSelection && mode == EuclidianConstants.MODE_MOVE) {
 			// update selection	
-			if (geo == null){
+
 				selection.clearSelectedGeos();
-			}
-			else {					
-				// handle selecting geo
-				if (e.isControlDown()) {
-					selection.toggleSelectedGeo(geo); 													
-					if (selection.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
-				} else if (e.isShiftDown() && lastSelectedGeo != null) {
-					boolean nowSelecting = true;
-					boolean selecting = false;
-					boolean aux = geo.isAuxiliaryObject();
-					boolean ind = geo.isIndependent();
-					boolean aux2 = lastSelectedGeo.isAuxiliaryObject();
-					boolean ind2 = lastSelectedGeo.isIndependent();
 
-					if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
-
-						Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
-
-						boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
-								compareTo(lastSelectedGeo.getLabel(StringTemplate.defaultTemplate)) < 0;
-
-						while (it.hasNext()) {
-							GeoElement geo2 = it.next();
-							if ((geo2.isAuxiliaryObject() == aux && aux)
-									|| (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
-
-								if (direction && geo2.equals(lastSelectedGeo)) selecting = !selecting;
-								if (!direction && geo2.equals(geo)) selecting = !selecting;
-
-								if (selecting) {
-									selection.toggleSelectedGeo(geo2);
-									nowSelecting = selection.getSelectedGeos().contains(geo2);
-								}
-
-								if (!direction && geo2.equals(lastSelectedGeo)) selecting = !selecting;
-								if (direction && geo2.equals(geo)) selecting = !selecting;
-							}
-						}
-					}
-
-					if (nowSelecting) {
-						selection.addSelectedGeo(geo); 
-						lastSelectedGeo = geo;
-					} else {
-						selection.removeSelectedGeo(lastSelectedGeo);
-						lastSelectedGeo = null;
-					}
-
-				} else {							
-					selection.clearSelectedGeos(false); //repaint will be done next step
-					selection.addSelectedGeo(geo);
-					lastSelectedGeo = geo;
-				}
-			}
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
@@ -167,12 +94,6 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 			// tell selection listener about click
 			app.geoElementSelected(geo, false);
 
-
-		// Alt click: copy definition to input field
-		if (geo != null && e.isAltDown() && app.showAlgebraInput()) {			
-			// F3 key: copy definition to input bar
-			app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3, geo);			
-		}
 
 		ev.mouseMovedOver(null);		
 	}
@@ -208,21 +129,8 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 			skipSelection = false; // flag to prevent duplicate selection in MouseClicked
 
 			// view.getPathForLocation is not yet implemented, but if it will be, note Window.getScrollLeft() (ticket #4049)
-			Object tp = view.getPathForLocation(e.getX() + Window.getScrollLeft(), e.getY() + Window.getScrollTop());
 
-			GeoElement geo = view.getGeoElementForPath(tp);	
-			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			int mode = ev.getMode();
 
-			if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
-					!e.isControlDown() && !e.isShiftDown() 
-					&& geo != null  && !selection.containsSelectedGeo(geo)) 
-			{					
-				selection.clearSelectedGeos(false); //repaint will be done next step
-				selection.addSelectedGeo(geo);
-				lastSelectedGeo = geo;
-				skipSelection = true;
-			} 
 
 		}
 	}
@@ -244,22 +152,14 @@ public class AlgebraControllerW extends org.geogebra.common.gui.view.algebra.Alg
 		if (view.isEditing())
 			return;
 
-		int x = e.getX() + Window.getScrollLeft(); // #4049
-		int y = e.getY() + Window.getScrollTop();
 
-		GeoElement geo = view.getGeoElementForLocation(view, x, y);
+		GeoElement geo = null;
 
 		// tell EuclidianView to handle mouse over
 		//EuclidianView ev = app.getEuclidianView();
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		ev.mouseMovedOver(geo);								
 
-		if (geo != null) {
-			app.getLocalization().setTooltipFlag();
-			//FIXMEview.setToolTipText(geo.getLongDescriptionHTML(true, true));
-			app.getLocalization().clearTooltipFlag();
-		} //FIXMEelse
-			//FIXMEview.setToolTipText(null);						
 	}
 
 

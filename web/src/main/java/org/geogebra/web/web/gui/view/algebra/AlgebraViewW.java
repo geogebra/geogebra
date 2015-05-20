@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
-import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * AlgebraView with tree for free and dependent objects.
@@ -31,27 +30,11 @@ public class AlgebraViewW extends AlgebraViewWeb {
 		
 	}
 
-	public Object getPathForLocation(int x, int y) {
-		// TODO: auto-generated method stub
-		return null;
-	}
 
 
-	// temporary proxies for the temporary implementation of AlgebraController in common
-	public GeoElement getGeoElementForPath(Object tp) {
-		//return getGeoElementForPath((TreePath)tp);
-		return null;
-	}
 
-	public GeoElement getGeoElementForLocation(Object tree, int x, int y) {
-		//return getGeoElementForLocation((JTree)tree, x, y);
-		return null;
-	}
 
-	public Object getPathBounds(Object tp) {
-		//return getPathBounds((TreePath)tp);
-		return null;
-	}
+	
 	// temporary proxies end
 
 

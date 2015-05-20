@@ -26,17 +26,12 @@ public interface AlgebraView extends View, SetLabels{
 	 */
 	public boolean isVisible();
 
-	public GeoElement getGeoElementForPath(Object tp);//Object=TreePath
-	public GeoElement getGeoElementForLocation(Object tree, int x, int y);//Object=JTree
-
 	public void startEditing(GeoElement geo);
 	public void cancelEditing();
 	public boolean isEditing();
 
 	// For WebSimple
 	public GeoElement getDraggedGeo();
-	public Object getPathForLocation(int x, int y);//Object=TreePath
-	public Object getPathBounds(Object tp);//Object=Rectangle;Object=TreePath
 	
 	/**DEPENDENCY:
 	 * Tree mode where the objects are categorized by their dependency (free,
