@@ -768,6 +768,15 @@ GeoContainer rbti,
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').mathquillggb(
 				'editable').focus();
 
+		@org.geogebra.web.html5.main.DrawEquationWeb::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+
+		if (newCreationMode) {
+			if (elsecondInside.keyDownEventListenerAdded) {
+				// event listeners are already added
+				return;
+			}
+		}
+
 		$wnd
 				.$ggbQuery(elsecondInside)
 				.keyup(
@@ -855,10 +864,8 @@ GeoContainer rbti,
 						});
 		// could be: mouseover, mouseout, mousemove, mouseup, but this seemed to be enough
 
-		// hacking to deselect the editing when the user does something else like in Desktop
-		@org.geogebra.web.html5.main.DrawEquationWeb::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-
 		if (!newCreationMode) {
+			// hacking to deselect the editing when the user does something else like in Desktop
 			// need to call this one more time because the property is static!
 			DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
 
@@ -943,6 +950,7 @@ GeoContainer rbti,
 			if (elsecondInside.addEventListener) {//IE9 OK
 				// event capturing before the event handlers of MathQuillGGB
 				elsecondInside.addEventListener("keydown", keydownfun, true);
+				elsecondInside.keyDownEventListenerAdded = true;
 			}
 
 			// Also switching off the AV horizontal scrollbar when this has focus
