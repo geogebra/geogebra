@@ -65,7 +65,7 @@ abstract public class Manager {
 
 		// creating geometries
 
-		brush = new PlotterBrush(this);
+		brush = newPlotterBrush();
 		surface = new PlotterSurface(this);
 
 		text = new PlotterText(this);
@@ -80,6 +80,14 @@ abstract public class Manager {
 		// geogebra
 		this.view3D = view3D;
 
+	}
+
+	/**
+	 * 
+	 * @return new plotter brush
+	 */
+	protected PlotterBrush newPlotterBrush() {
+		return new PlotterBrush(this);
 	}
 
 	/**

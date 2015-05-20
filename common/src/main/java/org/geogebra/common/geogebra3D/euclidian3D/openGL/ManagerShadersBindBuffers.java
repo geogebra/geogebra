@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.main.App;
 
 /**
  * manager using shaders and binding to gpu buffers
@@ -31,6 +32,8 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	protected class GeometryBindBuffers extends Geometry {
 
 		private GPUBuffers buffers = null;
+
+		private short[] bufferI = null;
 
 		public GeometryBindBuffers(Type type) {
 			super(type);
@@ -66,12 +69,19 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 						GLSL_ATTRIB_TEXTURE);
 			}
 
-			short[] bufferI = new short[getLength()];
-			for (short i = 0; i < getLength(); i++) {
-				bufferI[i] = i;
+			if (bufferI == null
+					|| (!indicesDone && bufferI.length != getLength())) {
+				App.debug("NEW index buffer");
+				bufferI = new short[getLength()];
+				for (short i = 0; i < getLength(); i++) {
+					bufferI[i] = i;
+				}
+			} else {
+				App.debug("keep same index buffer");
 			}
+
 			((RendererShadersInterface) renderer).storeElementBuffer(bufferI,
-					getLength(), buffers);
+					bufferI.length, buffers);
 
 
 		}
@@ -85,7 +95,23 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 			r.bindBufferForTextures(buffers, GLSL_ATTRIB_TEXTURE, 2,
 					getTextures());
 			r.bindBufferForIndices(buffers);
-			r.draw(getType(), getLength());
+			r.draw(getType(), bufferI.length);
+		}
+
+		private boolean indicesDone = false;
+
+		/**
+		 * 
+		 * @param size
+		 *            size
+		 * @return indices buffer with correct size
+		 */
+		public short[] getBufferI(int size) {
+			indicesDone = true;
+			if (bufferI == null || bufferI.length != size) {
+				bufferI = new short[size];
+			}
+			return bufferI;
 		}
 
 	}
@@ -107,6 +133,20 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	@Override
 	protected GeometriesSet newGeometriesSet() {
 		return new GeometriesSetBindBuffers();
+	}
+
+	@Override
+	protected PlotterBrush newPlotterBrush() {
+		return new PlotterBrushElements(this);
+	}
+
+	/**
+	 * @param size
+	 *            size
+	 * @return current geometry indices buffer with correct size
+	 */
+	public short[] getCurrentGeometryIndices(int size) {
+		return ((GeometryBindBuffers) currentGeometriesSet.currentGeometry).getBufferI(size);
 	}
 
 

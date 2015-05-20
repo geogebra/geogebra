@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 
 /**
  * 3D brush, drawing circular-section curves.
@@ -23,13 +22,13 @@ public class PlotterBrush implements PathPlotter {
 	public static final float LINE3D_THICKNESS = 0.5f;
 
 	/** manager */
-	private Manager manager;
+	protected Manager manager;
 
 	/** index */
 	private int index;
 
 	/** start and end sections */
-	private PlotterBrushSection start = new PlotterBrushSection(),
+	protected PlotterBrushSection start = new PlotterBrushSection(),
 			end = new PlotterBrushSection();
 
 	private boolean justStarted = false;
@@ -107,12 +106,12 @@ public class PlotterBrush implements PathPlotter {
 
 	// level of detail
 	/** number of rules */
-	final private static int LATITUDES = 8;
+	protected final static int LATITUDES = 8;
 
 	/**
 	 * pre-calculated cosinus and sinus
 	 */
-	final private static double[] COSINUS, SINUS;
+	final protected static double[] COSINUS, SINUS;
 
 	static {
 		COSINUS = new double[LATITUDES + 1];
@@ -285,7 +284,7 @@ public class PlotterBrush implements PathPlotter {
 	 * draws a section point
 	 * 
 	 */
-	private void draw(PlotterBrushSection s, double u, double v, int texture) {
+	protected void draw(PlotterBrushSection s, double u, double v, int texture) {
 
 		s.getNormalAndPosition(u, v, drawNormal, drawPos);
 
@@ -551,6 +550,8 @@ public class PlotterBrush implements PathPlotter {
 		}
 
 	}
+
+
 
 	private Coords m = new Coords(3), vn1 = new Coords(3);
 	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
