@@ -17,7 +17,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	private int numRows, numColumns;
 	private boolean isIniting = true;
 	private ImageOrText[] values;
-	private boolean multiselectionEnabled;
+	private boolean isMultiselectionEnabled;
 	private boolean[] selecteditems;
 
 	/**
@@ -29,7 +29,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	public SelectionTable(ImageOrText[] data, Integer rows, Integer columns,
 	        org.geogebra.common.gui.util.SelectionTable mode, boolean ms) {
 		this(data, rows, columns, mode);
-		multiselectionEnabled = ms;
+		isMultiselectionEnabled = ms;
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 			if (selecteditems[i]) {
 				row = (int) Math.floor(i / getColumnCount());
 				column = i - (row * getColumnCount());
-				Widget w = getWidget(selectedRow, selectedColumn);
+				Widget w = getWidget(row, column);
 				if (w != null) {
 					w.addStyleName("selected");
 				}
@@ -243,12 +243,12 @@ public class SelectionTable extends Grid implements ClickHandler {
 	   
 		selectedColumn = clicked.getCellIndex();
 		selectedRow = clicked.getRowIndex();
-		if (!multiselectionEnabled) {
+		if (!isMultiselectionEnabled) {
 			clearSelectedCells();
 		}
 	   Widget w = getWidget(clicked.getRowIndex(),clicked.getCellIndex());
 	   if (w != null) {
-			if (multiselectionEnabled) {
+			if (isMultiselectionEnabled) {
 				// TODO check for -1 col.count.
 				int index = (getColumnCount() == -1) ? selectedColumn
 				        : selectedRow * getColumnCount() + selectedColumn;
@@ -264,6 +264,18 @@ public class SelectionTable extends Grid implements ClickHandler {
 
 	   }
     }
+
+	/**
+	 * @param index
+	 * @return
+	 * 
+	 */
+	public boolean isSelected(int index) {
+		if (isMultiselectionEnabled) {
+			return selecteditems[index];
+		}
+		return (index == getSelectedIndex());
+	}
 
 	/**
 	 * @return {@link ImageOrText}

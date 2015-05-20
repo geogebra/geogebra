@@ -122,7 +122,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 			createSelectionTable(data, rows, columns, mode, selected);
 		}
 		if (selected != null) {
-			myTable.initSelectedItems(selected); // TODO remove?
+			// myTable.initSelectedItems(selected); // TODO remove?
 		}
 
 		// create slider
@@ -196,8 +196,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if (!multiselectionEnabled) {
 			setSelectedIndex(0);
 		} else {
-			// TODO - needed this?
-			// myTable.initSelectedItems(selected);
+			myTable.initSelectedItems(selected);
 		}
 
 		myTable.addClickHandler(new ClickHandler() {
@@ -389,6 +388,10 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 */
 	public int getSelectedIndex() {
 		return myTable.getSelectedIndex();
+	}
+
+	public boolean isSelected(int index) {
+		return myTable.isSelected(index);
 	}
 
 	public void update(Object[] array) {

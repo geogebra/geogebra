@@ -26,7 +26,7 @@ public class ConstructionProtocolView {
 	
 	protected boolean useColors, addIcons;
 	
-	protected class RowData {
+	public class RowData {
 		int rowNumber = -1;
 		int index; // construction index of line: may be different
 					// to geo.getConstructionIndex() as not every

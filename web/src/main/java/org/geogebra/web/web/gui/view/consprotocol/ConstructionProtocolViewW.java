@@ -167,6 +167,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
     	initGUI();
     }
     
+	public CellTable<RowData> getTable() {
+		return table;
+	}
+
 	private void initGUI(){
 		//remove all columns if there are
 		int colCount = table.getColumnCount();
@@ -174,7 +178,47 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			table.removeColumn(0);
 		}		
 		
-	    // Add a number column to show the id.
+		for (int i = 0; i < data.getColumnCount(); i++) {
+			if (data.columns[i].isVisible()) {
+				String title = data.columns[i].getTitle();
+				Column<RowData, ?> col = getColumn(title);
+				if (col != null) {
+					table.addColumn(col, app.getPlain(title));
+				}
+			}
+		}
+		tableInit();
+		rowCountChanged();
+	}
+
+	public Column<RowData, ?> getColumn(String title) {
+		Column<RowData, ?> col = null;
+		if ("No.".equals(title)) {
+			col = getColumnId();
+		} else if ("Name".equals(title)) {
+			col = getColumnName();
+		} else if ("ToolbarIcon".equals(title)) {
+			// TODO
+		} else if ("Definition".equals(title)) {
+			col = getColumnDefinition();
+		} else if ("Command".equals(title)) {
+			// TODO
+		} else if ("Value".equals(title)) {
+			col = getColumnValue();
+		} else if ("Caption".equals(title)) {
+			// TODO
+		} else { // if ("Breakpoint".equals(title)) {
+			// TODO
+		}
+		
+		return col;
+
+	}
+
+	/*
+	 * Add a number column to show the id.
+	 */
+	public Column<RowData, Number> getColumnId() {
 	    Cell<Number> idCell = new NumberCell();
 	    Column<RowData, Number> idColumn = new Column<RowData, Number>(idCell) {
 	      @Override
@@ -182,10 +226,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	        return object.getIndex();
 	      }
 	    };
-	    table.addColumn(idColumn, app.getPlain("No."));
+
+		return idColumn;
 		
-		
-	    // Add a text column to show the name.
+	}
+
+	/*
+	 * Add a text column to show the name.
+	 */
+	private Column<RowData, SafeHtml> getColumnName() {
 		Column<RowData, SafeHtml> nameColumn = new Column<RowData, SafeHtml>(
 		        new SafeHtmlCell()) {
 			
@@ -195,10 +244,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 
 		};    
-	    table.addColumn(nameColumn, app.getPlain("Name"));
+		return nameColumn;
+	}
 	
-	    
-	 // Add a text column to show the definition.
+	/*
+	 * Add a text column to show the definition.
+	 */
+	private Column<RowData, SafeHtml> getColumnDefinition() {
 		Column<RowData, SafeHtml> defColumn = new Column<RowData, SafeHtml>(
 		        new SafeHtmlCell()) {
 			
@@ -208,10 +260,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 
 		};
-		table.addColumn(defColumn, app.getPlain("Definition"));
+		return defColumn;
+	}
 
-
-	    // Add a text column to show the value.
+	/*
+	 * Add a text column to show the value.
+	 */
+	private Column<RowData, SafeHtml> getColumnValue() {
 		Column<RowData, SafeHtml> valColumn = new Column<RowData, SafeHtml>(
 		        new SafeHtmlCell()) {
 
@@ -221,14 +276,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 
 		};
-		table.addColumn(valColumn, app.getPlain("Value"));
-	    
-		tableInit();
-		rowCountChanged();
+		return valColumn;
 	}
 	
+
 	public void settingsChanged(AbstractSettings settings) {
-		App.debug("ConstructinProtocolView.settingsChanged");
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings)settings;
 
 		boolean gcv[] = cps.getColsVisibility();
