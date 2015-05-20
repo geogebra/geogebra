@@ -21,7 +21,7 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
-import org.scilab.forge.jlatexmath.CreateLibrary;
+import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
 import org.scilab.forge.jlatexmath.platform.FactoryProvider;
@@ -252,6 +252,23 @@ public class DrawEquationWeb extends DrawEquation {
 		drawEquationMathQuillGGB(ih, eqstring, 0, 0, parentElement, true,
 		        el == eqstring.length(), true, 0, nonGeneral);
 	}
+	
+	public static TeXIcon createIcon(String latex, int size, int style) {
+		
+			TeXFormula formula = null;
+			try{
+				formula = new TeXFormula(latex);
+			}catch(Throwable t){
+			String[] msg = t.getMessage().split("\\n");
+			formula = new TeXFormula("\\text{" + msg[msg.length - 1] + "}");
+			}
+			TeXIcon icon = formula.new TeXIconBuilder().setStyle(style)
+					.setSize(size).build();
+
+			// icon.setInsets(new Insets(5, 5, 5, 5));
+			return icon;
+
+	}
 
 	@Override
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
@@ -259,7 +276,7 @@ public class DrawEquationWeb extends DrawEquation {
 	        final GColor fgColor, GColor bgColor, boolean useCache,
 	        boolean updateAgain) {
 		if (app1.has(Feature.JLM_IN_WEB)) {
-			TeXIcon icon = CreateLibrary.createIcon(latexString0,
+			TeXIcon icon = createIcon(latexString0,
 					font.getSize(), font.getStyle());
 			Graphics2DInterface g3 = new Graphics2DW(
 					((GGraphics2DW) g2).getContext());
