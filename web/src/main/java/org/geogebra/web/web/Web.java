@@ -67,27 +67,10 @@ public class Web implements EntryPoint {
 		return false;
 	}
 
-	protected static native void setCalled(Element el) /*-{
-		el.onModuleLoadCalled = true;
-	}-*/;
-
-	protected static native boolean getCalled(Element el) /*-{
-		if (el.onModuleLoadCalled) {
-			return true;
-		}
-		return false;
-	}-*/;
-
 	/**
 	 * set true if Google Api Js loaded
 	 */
 	public void onModuleLoad() {
-
-		if (getCalled(RootPanel.getBodyElement())) {
-			return;
-		} else {
-			setCalled(RootPanel.getBodyElement());
-		}
 
 		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null
 				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
