@@ -1292,7 +1292,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void getAlgebraViewXML(final StringBuilder sb,
 	        final boolean asPreference) {
 		if (algebraView != null)
-			algebraView.getXML(sb, asPreference);
+			algebraView.getXML(sb);
 	}
 
 	public int getActiveToolbarId() {

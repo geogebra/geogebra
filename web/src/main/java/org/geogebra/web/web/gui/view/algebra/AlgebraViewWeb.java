@@ -45,7 +45,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	protected AlgebraInputW inputPanel;
-	RadioButtonTreeItem inputPanelLatex;
+	NewRadioButtonTreeItem inputPanelLatex;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -250,7 +250,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		}
 	}
 
-	private void repaintChildren(TreeItem item) {
+	private static void repaintChildren(TreeItem item) {
 		for (int j = 0; j < item.getChildCount(); j++) {
 			if (item.getChild(j).getWidget() instanceof RadioButtonTreeItem) {
 				((RadioButtonTreeItem) item.getChild(j).getWidget()).repaint();
@@ -348,7 +348,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	/**
 	 * returns settings in XML format
 	 */
-	public void getXML(StringBuilder sb, boolean asPreference) {
+	public final void getXML(StringBuilder sb) {
 
 		if (sbXML == null)
 			sbXML = new StringBuilder();
@@ -888,7 +888,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	public void clearView() {
 		nodeTable.clear();
 		clearTree();
-		showAlgebraInput();
+		showAlgebraInput(false);
 	}
 
 	/**
@@ -1085,21 +1085,21 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 		// usually, inputPanel is here, but not in use (not attached)
 		this.inputPanel = inputPanel;
-
+		boolean forceKeyboard = false;
 		if ((!app.getLocalization().getLanguage().equals("ko")
  || app
 				.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
 			if (inputPanelLatex == null) {
 				inputPanelLatex = new NewRadioButtonTreeItem(kernel);
+				forceKeyboard = true;
 			} else {
 				inputPanelLatex.removeFromParent();
 			}
 			hideAlgebraInput();
 			this.inputPanelTreeItem = new TreeItem(inputPanelLatex);
-			inputPanelTreeItem.getWidget().getElement().getParentElement()
+			inputPanelLatex.getElement().getParentElement()
 			        .addClassName("NewRadioButtonTreeItemParent");
-			((NewRadioButtonTreeItem) inputPanelTreeItem.getWidget())
-			        .replaceXButtonDOM();
+			inputPanelLatex.replaceXButtonDOM();
 		}
 		if(inputPanel != null){
 			//make sure we do not trigger long touch here
@@ -1118,12 +1118,12 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				}
 			}, MouseDownEvent.getType());
 		}
-		showAlgebraInput();
+		showAlgebraInput(forceKeyboard);
 	}
 
 	public void setShowAlgebraInput(boolean show) {
 		if (show) {
-			showAlgebraInput();
+			showAlgebraInput(false);
 		} else {
 			hideAlgebraInput();
 		}
@@ -1137,7 +1137,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		inputPanelTreeItem = null;
 	}
 
-	private void showAlgebraInput() {
+	private void showAlgebraInput(boolean forceKeyboard) {
 		if (inputPanel == null || !app.showAlgebraInput()) {
 			hideAlgebraInput();
 			return;
@@ -1160,23 +1160,23 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 					// open the keyboard (or show the keyboard-open-button) at
 					// when the application is started
-					Scheduler.get().scheduleDeferred(
-							new Scheduler.ScheduledCommand() {
-								public void execute() {
-							        // if (app != null) {
-									app.showKeyboard(inputPanelLatex, true);
-							        // }
-								}
-							});
+
 				} else {
 					inputPanelLatex.removeFromParent();
 				}
+				if (forceKeyboard) {
+					Scheduler.get().scheduleDeferred(
+							new Scheduler.ScheduledCommand() {
+								public void execute() {
+									app.showKeyboard(inputPanelLatex, true);
+								}
+							});
+				}
 				inputPanelTreeItem = super.addItem(inputPanelLatex);
 				// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
-				inputPanelTreeItem.getWidget().getElement().getParentElement()
+				inputPanelLatex.getElement().getParentElement()
 				        .addClassName("NewRadioButtonTreeItemParent");
-				((NewRadioButtonTreeItem) inputPanelTreeItem.getWidget())
-				        .replaceXButtonDOM();
+				inputPanelLatex.replaceXButtonDOM();
 			} else {
 				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 			}
