@@ -3,12 +3,15 @@ package org.geogebra.web.web.gui.view.algebra;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
@@ -17,35 +20,52 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DragStartEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AlgebraViewWeb extends Tree implements LayerView,
-		AlgebraView, OpenHandler<TreeItem> {
-
+		AlgebraView, OpenHandler<TreeItem>, SettingListener {
+	/**
+	 * Flag for LaTeX rendering
+	 */
+	final private static boolean renderLaTeX = true;
 	protected final AppW app; // parent appame
 	protected final Localization loc;
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	protected AlgebraInputW inputPanel;
 	NewRadioButtonTreeItem inputPanelLatex;
+	private AlgebraStyleBarW styleBar;
+	public boolean editing = false;
+	private GeoElement draggedGeo;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -96,24 +116,100 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	private StringBuilder sbXML;
 
 	private RadioButtonTreeItem activeItem;
+
+	private GeoElement selectedGeoElement;
+	private TreeItem selectedNode;
+
+	// private AlgebraHelperBar helperBar;
+
+	private AlgebraController algebraController;
+
+	public AlgebraController getAlgebraController() {
+		return algebraController;
+	}
 	 
-	public AlgebraViewWeb(AppW app) {
+	public AlgebraViewWeb(AlgebraController algCtrl) {
 		super(new TreeImages());
-		this.app = app;
+		App.debug("creating Algebra View");
+		this.algebraController = algCtrl;
+		this.app = (AppW) algCtrl.getApplication();
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.addOpenHandler(this);
+		algCtrl.setView(this);
+		initGUI((AlgebraControllerW) algCtrl);
+	}
+
+	private void initGUI(AlgebraControllerW algCtrl) {
+		// add listener
+		this.addDomHandler(algCtrl, MouseDownEvent.getType());
+		this.addDomHandler(algCtrl,
+				TouchStartEvent.getType());
+		this.addDomHandler(algCtrl, TouchEndEvent.getType());
+		this.addDomHandler(algCtrl, TouchMoveEvent.getType());
+
+		// initializes the tree model, important to set tree mode first to avoid
+		// inf. loop #3651
+		this.treeMode = intToMode(app.getSettings().getAlgebra().getTreeMode());
+		initModel();
+
+		setLabels();
+
+		getElement().setId("View_" + App.VIEW_ALGEBRA);
+
+		this.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
+		this.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
+		this.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
+
+		this.setFocus(true);
+
+		// Initialize settings and register listener
+		app.getSettings().getAlgebra().addListener(this);
+
+		settingsChanged(app.getSettings().getAlgebra());
+
 	}
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (event.getTypeInt() == Event.ONCLICK) {
-			// background click
-			if (!CancelEventTimer.cancelKeyboardHide()) {
-				app.hideKeyboard();
-			}
+		if (event.getTypeInt() == Event.ONBLUR) {
+			setActiveTreeItem(null);
 		}
-		super.onBrowserEvent(event);
+
+		// as arrow keys are prevented in super.onBrowserEvent,
+		// we need to handle arrow key events before that
+		switch (DOM.eventGetType(event)) {
+		case Event.ONKEYUP:
+			switch (DOM.eventGetKeyCode(event)) {
+			case KeyCodes.KEY_UP:
+			case KeyCodes.KEY_DOWN:
+			case KeyCodes.KEY_LEFT:
+			case KeyCodes.KEY_RIGHT:
+				// this may be enough for Safari too, because it is not
+				// onkeypress
+				if (!editing) {
+					app.getGlobalKeyDispatcher().handleSelectedGeosKeysNative(
+							event);
+					event.stopPropagation();
+					event.preventDefault();
+					return;
+				}
+			}
+		case Event.ONMOUSEDOWN:
+		case Event.ONTOUCHSTART:
+			app.closePopups();
+			app.focusGained(AlgebraViewWeb.this);
+		}
+		if (!editing
+				&& (this.inputPanel == null || !this.inputPanel.hasFocus())) {
+			if (event.getTypeInt() == Event.ONCLICK) {
+				// background click
+				if (!CancelEventTimer.cancelKeyboardHide()) {
+					app.hideKeyboard();
+				}
+			}
+			super.onBrowserEvent(event);
+		}
 	}
 
     /**
@@ -753,12 +849,38 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 		return parent;
 	}
+	
 	/**
 	 * Assign element or element group to a given tree node
+	 * 
 	 * @param ti
+	 *            tree item
 	 * @param ob
+	 *            object
 	 */
-	public abstract void setUserObject(TreeItem ti, Object ob);
+	public final void setUserObject(TreeItem ti, final Object ob) {
+		ti.setUserObject(ob);
+		if (ob instanceof GeoElement) {
+			ti.setWidget(RadioButtonTreeItem.create((GeoElement) ob,
+					AppResources.INSTANCE.shown().getSafeUri(),
+					AppResources.INSTANCE.hidden().getSafeUri()));
+			ti.addStyleName("avItem");
+			// ti.getElement().getStyle().setPadding(0, Unit.PX);
+
+			// Workaround to make treeitem visual selection available
+			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
+					.getElement().getFirstChildElement(), "display",
+					"-moz-inline-box");
+			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
+					.getElement().getFirstChildElement(), "display",
+					"inline-block");
+		} else {
+			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob
+					.toString(), GuiResources.INSTANCE.algebra_tree_open()
+					.getSafeUri(), GuiResources.INSTANCE.algebra_tree_closed()
+					.getSafeUri()));
+		}
+	}
 	
 	/**
 	 * Remove this node from the model.
@@ -1021,10 +1143,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	}
 
-	public void updateVisualStyle(GeoElement geo) {
-		update(geo);
-	}
-
 	final public void updateAuxiliaryObject(GeoElement geo) {
 		remove(geo);
 		add(geo);
@@ -1046,9 +1164,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		}
 		setTreeLabels();
 
-		/*
-		 * if (helperBar != null) { helperBar.updateLabels(); }
-		 */
+		if (this.styleBar != null) {
+			this.styleBar.setLabels();
+		}
 	}
 	
 	public final GeoElement getLastSelectedGeo() {
@@ -1199,6 +1317,14 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		}
 	}
 	
+	@Override
+	protected boolean isKeyboardNavigationEnabled(TreeItem ti) {
+		// keys should move the geos in the EV
+		// if (isEditing())
+		return false;
+		// return super.isKeyboardNavigationEnabled(ti);
+	}
+
 	/**
 	 * @return true if {@link #nodeTable} is empty
 	 */
@@ -1215,5 +1341,153 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			this.activeItem.removeCloseButton();
 		}
 		this.activeItem = radioButtonTreeItem;
+	}
+
+	/**
+	 * @return {@link AlgebraStyleBarW}
+	 */
+	public AlgebraStyleBarW getStyleBar(boolean mayCreate) {
+		if (mayCreate && this.styleBar == null) {
+			this.styleBar = new AlgebraStyleBarW(app);
+		}
+		return this.styleBar;
+	}
+
+	@Override
+	public void updateVisualStyle(GeoElement geo) {
+		update(geo);
+		if (styleBar != null) {
+			styleBar.update(geo);
+		}
+	}
+
+	public boolean isShowing() {
+		return isVisible() && isAttached();
+	}
+
+	public void cancelEditing() {
+		editing = false;
+		setAnimationEnabled(true);
+	}
+
+	public boolean isEditing() {
+		return editing;
+	}
+
+	/**
+	 * Open Editor textfield for geo.
+	 */
+	public void startEditing(GeoElement geo) {
+		if (geo == null)
+			return;
+
+		// open Object Properties for eg GeoImages
+		if (!geo.isAlgebraViewEditable()) {
+			// FIXMEWEB ArrayList<GeoElement> geos = new
+			// ArrayList<GeoElement>();
+			// FIXMEWEB geos.add(geo);
+			// FIXMEWEB app.getDialogManager().showPropertiesDialog(geos);
+			return;
+		}
+
+		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
+			if ((!geo.isIndependent() && !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian))
+					|| !attached) // needed for F2 when Algebra
+			// View closed
+			{
+				if (geo.isRedefineable()) {
+					app.getDialogManager().showRedefineDialog(geo, true);
+				}
+				return;
+			}
+
+			if (!geo.isChangeable()) {
+				if (geo.isFixed()) {
+					app.showMessage(loc.getError("AssignmentToFixed"));
+					return;
+				} else if (geo.isRedefineable()
+						&& !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
+					app.getDialogManager().showRedefineDialog(geo, true);
+					return;
+				} else if (!(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
+					return;
+				}
+			}
+		}
+
+		TreeItem node = nodeTable.get(geo);
+
+		if (node != null) {
+			cancelEditing();
+			// FIXMEWEB select and show node
+			Widget wi = node.getWidget();
+			editing = true;
+			setAnimationEnabled(false);
+			if (wi instanceof RadioButtonTreeItem)
+				((RadioButtonTreeItem) wi).startEditing();
+		}
+	}
+
+	public void clearSelection() {
+
+		// deselecting this causes a bug; it maybe fixed
+		// by changing the repaintView method too,
+		// adding setSelectedItem( some TreeItem ),
+		// but which TreeItem should be that if more are selected?
+		// that's why Arpad choosed to comment this out instead
+		// super.setSelectedItem(null);
+
+		for (int i = 0; i < getItemCount(); i++) {
+			if (!(getItem(i).getUserObject() instanceof GeoElement))
+				for (int j = 0; j < getItem(i).getChildCount(); j++) {
+					getItem(i).getChild(j).setSelected(false);
+				}
+		}
+		selectedGeoElement = null;
+	}
+
+	public GeoElement getSelectedGeoElement() {
+		return selectedGeoElement;
+	}
+
+	/**
+	 * Returns true if rendering is done with LaTeX
+	 * 
+	 * @return
+	 */
+	public boolean isRenderLaTeX() {
+		return renderLaTeX;
+	}
+
+	public void dragStart(DragStartEvent event, GeoElement geo) {
+		setDraggedGeo(geo);
+	}
+
+	public GeoElement getDraggedGeo() {
+		return draggedGeo;
+	}
+
+	public void setDraggedGeo(GeoElement draggedGeo) {
+		this.draggedGeo = draggedGeo;
+	}
+
+	public boolean hasFocus() {
+		App.debug("unimplemented");
+		return false;
+	}
+
+	@Override
+	protected void onLoad() {
+		// this may be important if the view is added/removed from the DOM
+		super.onLoad();
+		repaintView();
+	}
+
+	/**
+	 * Not used in Web so far. Will not work with JLM.
+	 */
+	public void updateFonts() {
+		GFont font = app.getPlainFontCommon();
+		getStyleElement().getStyle().setFontSize(font.getSize(), Style.Unit.PX);
 	}
 }
