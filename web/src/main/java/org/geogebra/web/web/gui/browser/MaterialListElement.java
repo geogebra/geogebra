@@ -584,7 +584,13 @@ public class MaterialListElement extends FlowPanel implements
 					if (parseResponse.size() == 1) {
 						material = parseResponse.get(0);
 						        material.setSyncStamp(synced);
-						app.getGgbApi().setBase64(material.getBase64());
+								if (material.getType() == MaterialType.csv) {
+									app.openCSVbase64(
+											material.getBase64());
+								} else {
+									app.getGgbApi().setBase64(
+											material.getBase64());
+								}
 						app.setActiveMaterial(material);
 					} else {
 						app.showError(app.getLocalization().getError("LoadFileFailed"));

@@ -1,6 +1,10 @@
 package org.geogebra.web.web.main;
 
+import java.io.IOException;
+
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.view.spreadsheet.DataImport;
+import org.geogebra.common.util.Base64;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -11,6 +15,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
 public abstract class AppWFull extends AppW {
 
@@ -89,5 +94,20 @@ public abstract class AppWFull extends AppW {
 	public void checkSaved(Runnable runnable) {
 		((DialogManagerW) getDialogManager()).getSaveDialog().showIfNeeded(
 				runnable);
+	}
+
+	public void openCSVbase64(String base64){
+		try {
+			String csv = new String(Base64.decode(base64));
+			String[][] data = DataImport.parseExternalData(this, csv, true);
+			((MyTableW) getGuiManager().getSpreadsheetView().getSpreadsheetTable()).getCopyPasteCut()
+.pasteExternal(
+					data, 0, 0, data.length > 0 ? data[0].length - 1 : 0,
+					data.length);
+			onOpenFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
