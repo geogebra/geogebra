@@ -19,7 +19,6 @@ import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -418,65 +417,57 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		super(cons);
 	}// Test Constructor
 
-	private static final boolean DEBUG = true;
+	// public final static void listArray(double[] a) {
+	// if (a != null) {
+	// int l = a.length;
+	// System.out.println("Length: " + l);
+	// for (int i = 0; i < l; i++) {
+	// System.out.println("a[" + i + "]: " + a[i]);
+	// }// for
+	// } else {
+	// debug("array was null!");
+	// }// if not null
+	// }// listArray(a)
+	//
+	// public final static void listLabels(String[] a) {
+	// if (a != null) {
+	// int l = a.length;
+	// System.out.println("Length: " + l);
+	// for (int i = 0; i < l; i++) {
+	// System.out.println("Label[" + i + "]: " + a[i]);
+	// }// for
+	// } else {
+	// debug("labels was null!");
+	// }// if not null
+	// }// listLabels(a)
 
-	private final static void debug(String s) {
-		if (DEBUG) {
-			App.debug(s);
-		}// if()
-	}// debug()
+	// public final static void listPoints(GeoPoint[] gpts) {
+	// if (gpts != null) {
+	// int n = gpts.length;
+	// System.out.println("Length: " + n);
+	// for (int i = 0; i < n; i++) {
+	// System.out.println("Label: "
+	// + gpts[i].getLabel(StringTemplate.defaultTemplate)
+	// + "     pt[" + i + "]: (" + gpts[i].x + "," + gpts[i]
+	// + ")");
+	// }// for
+	// } else {
+	// debug("gpts was null!");
+	// }// if not null
+	// }// listPoints(GeoPoint[])
 
-	public final static void listArray(double[] a) {
-		if (a != null) {
-			int l = a.length;
-			System.out.println("Length: " + l);
-			for (int i = 0; i < l; i++) {
-				System.out.println("a[" + i + "]: " + a[i]);
-			}// for
-		} else {
-			debug("array was null!");
-		}// if not null
-	}// listArray(a)
-
-	public final static void listLabels(String[] a) {
-		if (a != null) {
-			int l = a.length;
-			System.out.println("Length: " + l);
-			for (int i = 0; i < l; i++) {
-				System.out.println("Label[" + i + "]: " + a[i]);
-			}// for
-		} else {
-			debug("labels was null!");
-		}// if not null
-	}// listLabels(a)
-
-	public final static void listPoints(GeoPoint[] gpts) {
-		if (gpts != null) {
-			int n = gpts.length;
-			System.out.println("Length: " + n);
-			for (int i = 0; i < n; i++) {
-				System.out.println("Label: "
-						+ gpts[i].getLabel(StringTemplate.defaultTemplate)
-						+ "     pt[" + i + "]: (" + gpts[i].x + "," + gpts[i]
-						+ ")");
-			}// for
-		} else {
-			debug("gpts was null!");
-		}// if not null
-	}// listPoints(GeoPoint[])
-
-	public final static String testGeoPointX(GeoPoint geo, double answer) {
-		double value;
-		value = geo.getX();
-		if (Math.abs(value - answer) < Kernel.MIN_PRECISION) {
-			return " === GOOD ===";
-		}
-		// if near enough...
-		return " ****************** WRONG *******************\n" + " ERROR: "
-				+ Math.abs(value - answer) + "  for: "
-				+ geo.getNameDescription() + "\n"
-				+ " ********************************************\n";
-	}// test(label,answer)
+	// public final static String testGeoPointX(GeoPoint geo, double answer) {
+	// double value;
+	// value = geo.getX();
+	// if (Math.abs(value - answer) < Kernel.MIN_PRECISION) {
+	// return " === GOOD ===";
+	// }
+	// // if near enough...
+	// return " ****************** WRONG *******************\n" + " ERROR: "
+	// + Math.abs(value - answer) + "  for: "
+	// + geo.getNameDescription() + "\n"
+	// + " ********************************************\n";
+	// }// test(label,answer)
 
 	// */ //--- SNIP end ---------------------------------------
 

@@ -28,7 +28,7 @@ public class VInternalNode implements VNode {
         // do nothing
     }
     public VInternalNode(VNode _left, VNode _right) {
-        System.out.println("CREATED :: " + this);
+		// System.out.println("CREATED :: " + this);
         setLeft( _left );
         setRight( _right );
     }

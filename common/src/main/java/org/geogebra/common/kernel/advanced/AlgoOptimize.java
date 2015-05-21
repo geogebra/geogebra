@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.optimization.RealRootFunctionVariable;
-import org.geogebra.common.main.App;
 
 /**
  * AlgoOptimize: Abstract class for AlgoMaximize and AlgoMinimize Command
@@ -146,15 +145,5 @@ public abstract class AlgoOptimize extends AlgoElement {
 
 	}// getMinimized()
 
-	private final static boolean DEBUG = true; // debug or errormsg
-
-	@SuppressWarnings("unused")
-	private final static void debug(String s) {
-		if (DEBUG) {
-			System.out.println(s);
-		} else {
-			App.debug(s);
-		}// if debug or errormsg
-	}// debug()
 
 }// abstract class AlgoOptimize

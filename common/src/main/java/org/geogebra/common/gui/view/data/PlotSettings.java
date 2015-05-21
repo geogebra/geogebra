@@ -60,15 +60,15 @@ public class PlotSettings {
 	}
 	
 	
-	public void debug(){
-		
-		System.out.println("=======================");
-		System.out.println("xMin: " + xMin);
-		System.out.println("xMax: " + xMax);
-		System.out.println("yMin: " + yMin);
-		System.out.println("yMax: " + yMax);
-		System.out.println("=======================");
-	}
+	// public void debug(){
+	//
+	// System.out.println("=======================");
+	// System.out.println("xMin: " + xMin);
+	// System.out.println("xMax: " + xMax);
+	// System.out.println("yMin: " + yMin);
+	// System.out.println("yMax: " + yMax);
+	// System.out.println("=======================");
+	// }
 	
 	
 	

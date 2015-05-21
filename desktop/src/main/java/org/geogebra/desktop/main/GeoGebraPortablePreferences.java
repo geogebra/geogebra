@@ -70,7 +70,6 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	 * "app_current_image_path"; private final String APP_FILE_ = "app_file_";
 	 */
 	// / --- --- ///
-	private final static boolean DEBUG = true;
 	private final static String ERROR = "Error?"; // For debugging
 	private final static String COMMENT = "GeoGebra Portable preferences (GeoGebra settings file)";
 
@@ -108,7 +107,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 				clearPreferences(); // clean and store a blank one.
 			}// if
 		} catch (Exception e) {
-			debug("Problem loading settings file...");
+			App.debug("Problem loading settings file...");
 			e.printStackTrace();
 		}// try-catch
 	}// loadPreferences
@@ -274,7 +273,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			// Must convert String--b64-->byte
 			String ggtString = get(TOOLS_FILE_GGT, ERROR);
 			if (ggtString.equals(ERROR)) {
-				debug("problem with getting GGT...");
+				App.debug("problem with getting GGT...");
 			} else {
 				byte[] ggtFile = org.geogebra.common.util.Base64.decode(ggtString);
 				app.loadMacroFileFromByteArray(ggtFile, true);
@@ -365,12 +364,6 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	public static Properties getProperties() {
 		return properties;
 	}
-
-	private final static void debug(String s) {
-		if (DEBUG) {
-			App.debug(s);
-		}// if()
-	}// debug()
 
 	public final static void main(String[] args) {
 		GeoGebraPreferencesD gp = GeoGebraPortablePreferences.getPref();

@@ -61,7 +61,6 @@ import org.geogebra.common.main.App;
 
 public final class RegressionMath {
 
-	// private final boolean DEBUG = false; //24.04.08: false for release
 	public final static int LINEAR = 1, QUAD = 2, CUBIC = 3, QUART = 4,
 			EXP = 5, LOG = 6, POW = 7;
 

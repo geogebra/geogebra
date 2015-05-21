@@ -177,10 +177,10 @@ public abstract class DataAnalysisController {
 
 		// check for empty lists
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println("data list " + i + "  size: "
-					+ list.get(i).size());
+			// System.out.println("data list " + i + "  size: "
+			// + list.get(i).size());
 			if (list.get(i).size() < 1) {
-				System.out.println("invalid data list");
+				// System.out.println("invalid data list");
 				return false;
 			}
 		}
@@ -255,13 +255,13 @@ public abstract class DataAnalysisController {
 		if (dataSelected == null) {
 			return;
 		}
-		System.out.println("==========================");
-		System.out.println("dataSelected: ");
+		App.debug("==========================");
+		App.debug("dataSelected: ");
 		for (int i = 0; i < dataSelected.size(); i++) {
-			System.out.println(dataSelected.get(i).toString(
+			App.debug(dataSelected.get(i).toString(
 					StringTemplate.defaultTemplate));
 		}
-		System.out.println("==========================");
+		App.debug("==========================");
 
 	}
 

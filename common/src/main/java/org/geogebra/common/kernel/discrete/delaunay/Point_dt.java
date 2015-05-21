@@ -223,7 +223,7 @@ public class Point_dt {
 		double v = ((b.x - x) * (b.x + x) + (b.y - y) * (b.y + y)) / 2.0f;
 		double den = (a.x - b.x) * (b.y - y) - (b.x - x) * (a.y - b.y);
 		if (den == 0) // oops
-			System.out.println("circumcenter, degenerate case");
+			App.debug("circumcenter, degenerate case");
 		return new Point_dt((u * (b.y - y) - v * (a.y - b.y)) / den, (v
 				* (a.x - b.x) - u * (b.x - x))
 				/ den);

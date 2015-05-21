@@ -87,7 +87,6 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	private final static double EPSILONFIND = 1E-6d;
 	private final static double EPSILONREG = 1E-14d;
 	private final static double EPSSING = 1E-20d;
-	// private final static boolean DEBUG = false; //set false when finished
 
 	// Properties
 	private static double a, b, c; // c/(1+a*exp(-bx))

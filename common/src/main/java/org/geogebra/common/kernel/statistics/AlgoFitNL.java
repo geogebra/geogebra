@@ -56,8 +56,6 @@ import org.geogebra.common.main.App;
  */
 public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
-	private static final boolean DEBUG = false; // false in distribution
-
 	private GeoList pointlist; // input
 	private GeoFunction inputfunction; // input
 	private GeoFunction outputfunction; // output
@@ -162,9 +160,6 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		} catch (Throwable t) {
 			outputfunction.setUndefined();
 			App.debug(t.getMessage());
-			if (DEBUG) {
-				t.printStackTrace();
-			}
 		}
 
 	}

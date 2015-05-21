@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.discrete.delaunay;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 
@@ -110,14 +111,15 @@ public class Triangle_dt {
 		if ( abnext==Old ) abnext=New;
 		else if ( bcnext==Old ) bcnext=New;
 		else if ( canext==Old ) canext=New;
-		else System.out.println( "Error, switchneighbors can't find Old." );
+		else
+			App.debug("Error, switchneighbors can't find Old.");
 	}
 
 	Triangle_dt neighbor( Point_dt p ) {
 		if ( a==p ) return canext;
 		if ( b==p ) return abnext;
 		if ( c==p ) return bcnext;
-		System.out.println( "Error, neighbors can't find p: "+p );
+		App.debug("Error, neighbors can't find p: " + p);
 		return null;
 	}
 
