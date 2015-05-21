@@ -110,6 +110,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		// Canvas should have a tab index to capture key events in Internet
 		// Explorer
+		// evNo is EVNO_3D anyway, so we can do this in all cases:
 		canvas.setTabIndex(EuclidianViewW.nextTabIndex++);
 
 		canvas.addBlurHandler(new BlurHandler() {

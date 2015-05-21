@@ -98,7 +98,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private MsZoomer msZoomer;
 
 	public static final int firstTabIndex = 10000;
-	public static int nextTabIndex = 10000;
+	public static int nextTabIndex = firstTabIndex;
 
 	/**
 	 * @param euclidianViewPanel
@@ -615,7 +615,14 @@ public class EuclidianViewW extends EuclidianView implements
 
 		// the canvas should have a tab index to capture key events in Internet
 		// Explorer
-		canvas.setTabIndex(nextTabIndex++);
+		if ((evNo == 1) || (evNo == 2)) {
+			// or, we want to exclude EVNO_GENERAL,
+			// and EVNO_3D is in a different class
+			canvas.setTabIndex(nextTabIndex++);
+		} else {
+			// backwards-compatibility
+			canvas.setTabIndex(firstTabIndex - 1);
+		}
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
