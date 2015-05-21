@@ -41,6 +41,7 @@ import org.freehep.graphicsio.emf.gdi.LogPen;
 import org.freehep.graphicsio.emf.gdi.MoveToEx;
 import org.freehep.graphicsio.emf.gdi.Pie;
 import org.freehep.util.io.Tag;
+import org.geogebra.common.main.App;
 
 /**
  * A simple interpreter displaying an EMF file read in by the EMFInputStream in
@@ -93,7 +94,7 @@ public class EMFDisplay extends JPanel {
             toCenterAt.concatenate(at);
 
             Rectangle bounds = header.getBounds();
-            System.out.println("bounds " + bounds);
+			// System.out.println("bounds " + bounds);
             toCenterAt.translate(50, 50);
             // header.getBounds( ).width / 2, header.getBounds( ).height / 2 );
             g2.transform(at);
@@ -102,11 +103,11 @@ public class EMFDisplay extends JPanel {
             g2.drawLine(0, -100, 0, 100);
             at = toCenterAt;
             g2.draw(bounds);
-            System.out.println("device " + header.getDevice());
+			// System.out.println("device " + header.getDevice());
 
             Tag tag = is.readTag();
             while (tag != null) {
-                System.out.println(tag);
+				// System.out.println(tag);
                 map(tag, g2);
                 tag = is.readTag();
             }
@@ -281,7 +282,7 @@ public class EMFDisplay extends JPanel {
             } else if (lpen.getPenStyle() == EMFConstants.PS_SOLID) {
                 dash = new float[] { 1 };
             } else {
-                System.out.println("got unsupported pen style "
+				App.debug("got unsupported pen style "
                         + lpen.getPenStyle());
             }
 
@@ -336,7 +337,7 @@ public class EMFDisplay extends JPanel {
 //            currentShape = arc2d;
             g2.draw(arc2d);
         } else {
-            System.out.println("tag " + tag + " not supported");
+			App.debug("tag " + tag + " not supported");
         }
     }
 

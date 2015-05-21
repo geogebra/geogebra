@@ -684,12 +684,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	private void printSelectionParameters() {
-		System.out.println("----------------------------------");
-		System.out.println("minSelectionColumn = " + minSelectionColumn);
-		System.out.println("maxSelectionColumn = " + maxSelectionColumn);
-		System.out.println("minSelectionRow = " + minSelectionRow);
-		System.out.println("maxSelectionRow = " + maxSelectionRow);
-		System.out.println("----------------------------------");
+		App.debug("----------------------------------");
+		App.debug("minSelectionColumn = " + minSelectionColumn);
+		App.debug("maxSelectionColumn = " + maxSelectionColumn);
+		App.debug("minSelectionRow = " + minSelectionRow);
+		App.debug("maxSelectionRow = " + maxSelectionRow);
+		App.debug("----------------------------------");
 	}
 
 	/**

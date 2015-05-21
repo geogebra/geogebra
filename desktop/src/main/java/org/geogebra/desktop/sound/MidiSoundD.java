@@ -298,13 +298,13 @@ public class MidiSoundD implements MetaEventListener {
 			synthesizer = MidiSystem.getSynthesizer();
 			synthesizer.open();
 
-			System.out.println("soundbank added: " + sb);
+			App.debug("soundbank added: " + sb);
 
 			if (sb != null) {
-				System.out.println("soundbank supported: "
+				App.debug("soundbank supported: "
 						+ synthesizer.isSoundbankSupported(sb));
 				boolean bInstrumentsLoaded = synthesizer.loadAllInstruments(sb);
-				System.out.println("Instruments loaded: " + bInstrumentsLoaded);
+				App.debug("Instruments loaded: " + bInstrumentsLoaded);
 			}
 
 		} catch (MidiUnavailableException e) {

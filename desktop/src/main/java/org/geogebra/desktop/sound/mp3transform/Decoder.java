@@ -24,6 +24,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
 
+import org.geogebra.common.main.App;
+
 public class Decoder {
     public static final int BUFFER_SIZE = 2 * 1152;
     public static final int MAX_CHANNELS = 2;
@@ -210,7 +212,8 @@ public class Decoder {
                     break;
                 }
                 // TODO should not write directly
-                System.out.println("Error at: " + name + " Frame: " + frame + " Error: " + e.toString());
+				App.debug("Error at: " + name + " Frame: " + frame + " Error: "
+						+ e.toString());
                 // e.printStackTrace();
             } finally {
                 stream.closeFrame();

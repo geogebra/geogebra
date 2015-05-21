@@ -54,7 +54,7 @@ public class BitmapInfoHeader implements EMFConstants {
 
     public BitmapInfoHeader(EMFInputStream emf) throws IOException {
         int len = emf.readDWORD(); // seems fixed
-        System.out.println(len);
+		// System.out.println(len);
         width = emf.readLONG();
         height = emf.readLONG();
         planes = emf.readWORD();

@@ -149,7 +149,7 @@ public class TagHandler {
 
         TagString s = new TagString(text);
         TagHandler handler = new TagHandler();
-        System.out.println("\"" + s + "\"");
-        System.out.println(handler.parse(s));
+		// System.out.println("\"" + s + "\"");
+		// System.out.println(handler.parse(s));
     }
 }

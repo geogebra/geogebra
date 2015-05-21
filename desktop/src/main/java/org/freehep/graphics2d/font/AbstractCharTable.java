@@ -1,6 +1,8 @@
 //Copyright 2001-2005 FreeHep
 package org.freehep.graphics2d.font;
 
+import org.geogebra.common.main.App;
+
 /**
  * Abstract Character Table, inherited by all the Generated Encoding Tables
  * 
@@ -16,7 +18,7 @@ public abstract class AbstractCharTable implements CharTable {
                 return 0;
             int enc = toEncoding(name);
             if (enc > 255) {
-                System.out.println("toEncoding() returned illegal value for '"
+				App.debug("toEncoding() returned illegal value for '"
                         + name + "': " + enc);
                 return 0;
             }

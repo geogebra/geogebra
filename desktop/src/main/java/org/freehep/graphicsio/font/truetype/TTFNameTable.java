@@ -3,6 +3,8 @@ package org.freehep.graphicsio.font.truetype;
 
 import java.io.IOException;
 
+import org.geogebra.common.main.App;
+
 /**
  * NAME Table.
  * 
@@ -64,9 +66,9 @@ public class TTFNameTable extends TTFTable {
                 }
                 // ignore other languages
             } else {
-                System.out.println("Unimplemented PID, EID, LID scheme: " + pid
+				App.debug("Unimplemented PID, EID, LID scheme: " + pid
                         + ", " + eid + ", " + lid);
-                System.out.println("NID = " + nid);
+				App.debug("NID = " + nid);
                 name[pid][nid] = new String(b, "Default");
             }
             ttf.popPos();
