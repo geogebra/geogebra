@@ -61,6 +61,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianView3DW extends EuclidianView3D implements
         EuclidianViewWInterface {
 
+	public int thisTabIndex = EuclidianViewW.firstTabIndex;
+
 	protected EuclidianPanelWAbstract EVPanel;
 
 	private AppW app = (AppW) super.app;
@@ -83,6 +85,19 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		getRenderer().init();
 
+	}
+
+	public boolean isThisTheNext() {
+		boolean ret;
+		//if (EuclidianViewW.actualTabIndex + 1 >= EuclidianViewW.nextTabIndex) {
+		//	ret = (thisTabIndex == EuclidianViewW.firstTabIndex);
+		//} else {
+			ret = (thisTabIndex == EuclidianViewW.actualTabIndex + 1);
+		//}
+		if (ret) {
+			EuclidianViewW.booleanTabIndex = true;
+		}
+		return ret;
 	}
 
 	public org.geogebra.web.html5.awt.GGraphics2DW g2p = null;
@@ -111,7 +126,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		// Canvas should have a tab index to capture key events in Internet
 		// Explorer
 		// evNo is EVNO_3D anyway, so we can do this in all cases:
-		canvas.setTabIndex(EuclidianViewW.nextTabIndex++);
+		canvas.setTabIndex(thisTabIndex = EuclidianViewW.nextTabIndex++);
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
@@ -181,6 +196,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	public void focusLost() {
+		EuclidianViewW.actualTabIndex = thisTabIndex;
 		if (isInFocus) {
 			this.isInFocus = false;
 			this.app.focusLost(this);
@@ -188,6 +204,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	public void focusGained() {
+		EuclidianViewW.actualTabIndex = thisTabIndex;
 		if (!isInFocus && !App.isFullAppGui()) {
 			this.isInFocus = true;
 			this.app.focusGained(this);
@@ -398,6 +415,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public boolean requestFocusInWindow() {
+		EuclidianViewW.actualTabIndex = thisTabIndex;
 		g2p.getCanvas().getCanvasElement().focus();
 		focusGained();
 		return true;

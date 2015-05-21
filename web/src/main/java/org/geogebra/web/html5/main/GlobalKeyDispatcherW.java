@@ -129,7 +129,7 @@ public class GlobalKeyDispatcherW extends
 	public boolean handleGeneralKeys(KeyUpEvent event) {
 
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
-		if (kc == KeyCodes.TAB) {
+		if (kc == KeyCodes.TAB || kc == KeyCodes.ESCAPE) {
 			// the problem is that we want to prevent the default action
 			// of the TAB key event... but this is too late to do
 			// in KeyUpEvent, so instead, we're going to handle TAB
@@ -196,6 +196,9 @@ public class GlobalKeyDispatcherW extends
 			event.preventDefault();
 			// event.stopPropagation() is already called!
 			handleTab(event.isControlKeyDown(), event.isShiftKeyDown());
+		} else if (kc == KeyCodes.ESCAPE) {
+			event.preventDefault();
+			app.loseFocus();
 		}
 	}
 

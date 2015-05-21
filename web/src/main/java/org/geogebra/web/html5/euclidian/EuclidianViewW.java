@@ -99,6 +99,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public static final int firstTabIndex = 10000;
 	public static int nextTabIndex = firstTabIndex;
+	public static int actualTabIndex = firstTabIndex;
+	public static boolean booleanTabIndex = true;
+	public int thisTabIndex = firstTabIndex;
 
 	/**
 	 * @param euclidianViewPanel
@@ -167,6 +170,19 @@ public class EuclidianViewW extends EuclidianView implements
 				app.closePopups();
 			}
 		});
+	}
+
+	public boolean isThisTheNext() {
+		boolean ret;
+		//if (actualTabIndex + 1 >= nextTabIndex) {
+		//	ret = (thisTabIndex == firstTabIndex);
+		//} else {
+			ret = (thisTabIndex == actualTabIndex + 1);
+		//}
+		if (ret) {
+			booleanTabIndex = true;
+		}
+		return ret;
 	}
 
 	/**
@@ -618,10 +634,10 @@ public class EuclidianViewW extends EuclidianView implements
 		if ((evNo == 1) || (evNo == 2)) {
 			// or, we want to exclude EVNO_GENERAL,
 			// and EVNO_3D is in a different class
-			canvas.setTabIndex(nextTabIndex++);
+			canvas.setTabIndex(thisTabIndex = nextTabIndex++);
 		} else {
 			// backwards-compatibility
-			canvas.setTabIndex(firstTabIndex - 1);
+			canvas.setTabIndex(thisTabIndex = firstTabIndex - 1);
 		}
 
 		canvas.addBlurHandler(new BlurHandler() {
@@ -802,6 +818,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
+		actualTabIndex = thisTabIndex;
 		g2p.getCanvas().getCanvasElement().focus();
 		focusGained();
 		return true;
@@ -815,6 +832,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void focusGained() {
+		actualTabIndex = thisTabIndex;
 		if (!isInFocus && !App.isFullAppGui()) {
 			this.isInFocus = true;
 			this.app.focusGained(this);

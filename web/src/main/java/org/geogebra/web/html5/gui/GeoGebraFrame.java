@@ -5,7 +5,10 @@ import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.KeyCodes;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -18,12 +21,15 @@ import org.geogebra.web.html5.util.debug.GeoGebraLogger;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -66,6 +72,66 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		addStyleName("GeoGebraFrame");
 		DOM.sinkEvents(this.getElement(), Event.ONMOUSEDOWN | Event.ONMOUSEMOVE
 		        | Event.ONMOUSEUP | Event.ONMOUSEOVER);
+
+		// is this the best place to put this handler?
+		Event.addNativePreviewHandler(new NativePreviewHandler() {
+			public void onPreviewNativeEvent(NativePreviewEvent event) {
+				switch (event.getTypeInt()) {
+				case Event.ONKEYDOWN:
+					NativeEvent ne = event.getNativeEvent();
+					KeyCodes kc = org.geogebra.common.main.KeyCodes
+							.translateGWTcode(ne.getKeyCode());
+					switch (kc) {
+					case TAB:
+						if (app != null) {
+							EuclidianViewWInterface checkview = app
+									.getEuclidianView1();
+							if (!EuclidianViewW.booleanTabIndex) {
+								if (checkview.isThisTheNext()) {
+									((EuclidianViewW) checkview).requestFocus();
+									event.getNativeEvent().preventDefault();
+									event.cancel();
+									return;
+								}
+							}
+							if (!EuclidianViewW.booleanTabIndex) {
+								if (app.hasEuclidianView2(1)) {
+									checkview = app.getEuclidianView2(1);
+									if (checkview.isThisTheNext()) {
+										((EuclidianViewW) checkview)
+												.requestFocus();
+										event.getNativeEvent().preventDefault();
+										event.cancel();
+										return;
+									}
+								}
+							}
+							if (!EuclidianViewW.booleanTabIndex) {
+								if (app.hasEuclidianView3D()) {
+									checkview = (EuclidianViewWInterface) app
+											.getEuclidianView3D();
+									if (checkview.isThisTheNext()) {
+										((EuclidianViewW) checkview)
+												.requestFocus();
+										event.getNativeEvent().preventDefault();
+										event.cancel();
+										return;
+									}
+								}
+							}
+						}
+
+						// if calling this here, then TAB won't be able to
+						// leave the applets (i.e. to other browser elements)
+						// but it is still buggy, since does not even go back
+						// to the first applet from the last one
+						// event.getNativeEvent().preventDefault();
+						break;
+					}
+					break;
+				}
+			}
+		});
 	}
 
 	/**

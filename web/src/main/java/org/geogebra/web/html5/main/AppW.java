@@ -2687,7 +2687,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * @return whether the focus was lost
 	 */
 	private static native boolean nativeLoseFocus(Element element) /*-{
-		var active = $doc.activeElement
+		var active = $doc.activeElement;
 		if (active
 				&& ((active === element) || (active
 						.compareDocumentPosition(element) & $wnd.Node.DOCUMENT_POSITION_CONTAINS))) {
@@ -2699,6 +2699,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void loseFocus() {
+		EuclidianViewW.booleanTabIndex = false;
 		if (nativeLoseFocus(articleElement)) {
 			getGlobalKeyDispatcher().InFocus = false;
 		}
