@@ -47,6 +47,8 @@ public class DrawEquationWeb extends DrawEquation {
 
 	private static Element currentElement;
 
+	private static Object initJLaTeXMath = null;
+
 	// private HashMap<String, SpanElement> equations = new HashMap<String,
 	// SpanElement>();
 	// private HashMap<String, Integer> equationAges = new HashMap<String,
@@ -253,7 +255,11 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 	
 	public static TeXIcon createIcon(String latex, int size, int style) {
-		
+		if (initJLaTeXMath == null) {
+
+			StringBuilder initJLM = DrawEquation.getJLMCommands();
+			initJLaTeXMath = new TeXFormula(initJLM.toString());
+		}
 			TeXFormula formula = null;
 			try{
 				formula = new TeXFormula(latex);

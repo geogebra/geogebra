@@ -8,8 +8,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -17,7 +15,6 @@ import javax.swing.JLabel;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.Language;
 import org.geogebra.desktop.main.AppD;
@@ -69,63 +66,7 @@ public class DrawEquationD extends DrawEquation {
 			// initialise definitions
 			if (initJLaTeXMath == null) {
 
-				StringBuilder initJLM = new StringBuilder();
-
-				// used in ExpressionNode
-				// (for serializing GeoGebra expressions to LaTeX)
-				initJLM.append("\\DeclareMathOperator{\\sech}{sech} ");
-				initJLM.append("\\DeclareMathOperator{\\csch}{csch} ");
-				initJLM.append("\\DeclareMathOperator{\\erf}{erf} ");
-				initJLM.append("\\DeclareMathOperator{\\sgn}{sgn} ");
-				initJLM.append("\\DeclareMathOperator{\\round}{round} ");
-				initJLM.append("\\DeclareMathOperator{\\Ci}{Ci} ");
-				initJLM.append("\\DeclareMathOperator{\\Si}{Si} ");
-				initJLM.append("\\DeclareMathOperator{\\Ei}{Ei} ");
-				initJLM.append("\\DeclareMathOperator{\\acosh}{acosh} ");
-				initJLM.append("\\DeclareMathOperator{\\asinh}{asinh} ");
-				initJLM.append("\\DeclareMathOperator{\\atanh}{atanh} ");
-				initJLM.append("\\DeclareMathOperator{\\real}{real} ");
-				initJLM.append("\\DeclareMathOperator{\\imaginary}{imaginary} ");
-				initJLM.append("\\DeclareMathOperator{\\fractionalPart}{fractionalPart} ");
-				initJLM.append("\\DeclareMathOperator{\\round}{round} ");
-				initJLM.append("\\newcommand{\\space}[0]{\\ } ");
-
-				// #4068 so that we can use \questeq in Java and HTML5
-				initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=} } ");
-
-				HashMap<String, org.geogebra.common.awt.GColor> ggbCols = GeoGebraColorConstants
-						.getGeoGebraColors();
-
-				Iterator<String> it = ggbCols.keySet().iterator();
-
-				// add commands eg \red{text}
-				// same commands added to MathQuillGGB
-				while (it.hasNext()) {
-					String colStr = it.next();
-
-					// can't have command eg \grey2
-					if (!Character.isDigit(colStr.charAt(colStr.length() - 1))) {
-						org.geogebra.common.awt.GColor col = ggbCols.get(colStr);
-
-						// eg
-						// initJLM.append("\\newcommand{\\red}[1]{\\textcolor{255,0,0}{#1}} ");
-						initJLM.append("\\newcommand{\\");
-						initJLM.append(colStr);
-						initJLM.append("}[1]{\\textcolor{");
-						initJLM.append(col.getRed());
-						initJLM.append(',');
-						initJLM.append(col.getGreen());
-						initJLM.append(',');
-						initJLM.append(col.getBlue());
-						initJLM.append("}{#1}} ");
-
-						// generate JavaScript code for MathQuillGGB
-						// System.out.println("LatexCmds."+colStr+" = bind(Style, '\\\\"+colStr+"', '<span style=\"color:#"+StringUtil.toHexString(col)+"\"></span>');");
-
-					}
-				}
-				// AbstractApplication.debug(initJLM.toString());
-
+				StringBuilder initJLM = getJLMCommands();
 				initJLaTeXMath = new TeXFormula(initJLM.toString());
 			}
 
@@ -314,6 +255,8 @@ public class DrawEquationD extends DrawEquation {
 
 		return new Dimension(width, height);
 	}
+
+
 
 	public void setUseJavaFontsForLaTeX(final App app, final boolean b) {
 		if (b != app.useJavaFontsForLaTeX) {
