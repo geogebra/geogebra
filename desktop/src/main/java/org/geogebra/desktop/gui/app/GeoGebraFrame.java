@@ -246,8 +246,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// proper logging), but *before* any GUI operations.
 		if (AppD.WINDOWS_VISTA_OR_LATER) {
 			try {
-				AppId.setCurrentProcessExplicitAppUserModelID(AppId.class
-						.getName());
+				AppId.setCurrentProcessExplicitAppUserModelID("geogebra.AppId");
 				System.out.println("AppID = "
 						+ AppId.getCurrentProcessExplicitAppUserModelID());
 			} catch (Throwable t) {
