@@ -400,7 +400,7 @@ public abstract class Renderer {
 
 		setCullFaceFront();
 		drawable3DLists.drawTranspClosedCurved(this);// draws inside parts
-		if (drawable3DLists.containsClippedSurfaces()) {
+		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this); // clipped surfaces
 														// back-faces
@@ -408,7 +408,7 @@ public abstract class Renderer {
 		}
 		setCullFaceBack();
 		drawable3DLists.drawTranspClosedCurved(this);// draws outside parts
-		if (drawable3DLists.containsClippedSurfaces()) {
+		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this); // clipped surfaces
 														// back-faces
@@ -439,7 +439,7 @@ public abstract class Renderer {
 		drawable3DLists.drawNotTransparentSurfaces(this);
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);// draws inside
 																// parts
-		if (drawable3DLists.containsClippedSurfaces()) {
+		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawNotTransparentSurfacesClipped(this); // clipped
 																		// surfaces
@@ -450,7 +450,7 @@ public abstract class Renderer {
 		drawable3DLists.drawNotTransparentSurfaces(this);
 		drawable3DLists.drawNotTransparentSurfacesClosed(this);// draws outside
 																// parts
-		if (drawable3DLists.containsClippedSurfaces()) {
+		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawNotTransparentSurfacesClipped(this); // clipped
 																		// surfaces
@@ -709,7 +709,7 @@ public abstract class Renderer {
 		setCullFaceFront(); // draws inside parts
 		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
 															// back-faces
-		if (drawable3DLists.containsClippedSurfaces()) {
+		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawClippedSurfacesForHiding(this); // clipped
 																// surfaces
@@ -737,7 +737,7 @@ public abstract class Renderer {
 		setCullFaceBack(); // draws inside parts
 		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
 															// front-faces
-		if (drawable3DLists.containsClippedSurfaces()) {
+		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawClippedSurfacesForHiding(this); // clipped
 																// surfaces
