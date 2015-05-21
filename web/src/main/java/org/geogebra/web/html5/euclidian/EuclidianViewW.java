@@ -792,10 +792,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		// without tabindex canvas cannot receive mouse events in IE
-		if (Browser.isIE()) {
-			g2p.getCanvas().setTabIndex(10000);
-		}
 		g2p.getCanvas().getCanvasElement().focus();
 		focusGained();
 		return true;

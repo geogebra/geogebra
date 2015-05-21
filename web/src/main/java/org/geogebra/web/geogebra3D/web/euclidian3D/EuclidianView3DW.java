@@ -397,9 +397,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		if (Browser.isIE()) {
-			g2p.getCanvas().setTabIndex(10000);
-		}
 		g2p.getCanvas().getCanvasElement().focus();
 		focusGained();
 		return true;
