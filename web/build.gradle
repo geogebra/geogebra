@@ -33,7 +33,7 @@ dependencies {
 		'com.googlecode.gwtquery:gwtquery:1.4.3',
 		'com.googlecode:gwtgl:0.9.1',
 		'com.googlecode:gwtgl:0.9.1:sources',
-	    'org.scilab.forge:jlatexmath-gwt:20150429:all',
+	    'org.scilab.forge:jlatexmath-gwt:20150521:all',
 	    'com.google.gwt:gwt-dev:2.7.0'
 }
 
