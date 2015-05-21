@@ -134,7 +134,8 @@ public class Drawable3DLists {
 	 * @return true if contains clipped surfaces
 	 */
 	public boolean containsClippedSurfaces() {
-		return !lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].isEmpty();
+		return !lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].isEmpty()
+				|| !lists[Drawable3D.DRAW_TYPE_LISTS].isEmpty();
 	}
 
 	/**
@@ -142,7 +143,8 @@ public class Drawable3DLists {
 	 * @return true if contains clipped curves
 	 */
 	private boolean containsClippedCurves() {
-		return !lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES].isEmpty();
+		return !lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES].isEmpty()
+				|| !lists[Drawable3D.DRAW_TYPE_LISTS].isEmpty();
 	}
 
 	public String toString() {
@@ -414,11 +416,10 @@ public class Drawable3DLists {
 	 * @param renderer
 	 */
 	public void drawTranspClipped(Renderer renderer) {
-
+		
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
 				.iterator(); d.hasNext();)
 			d.next().drawTransp(renderer);
-
 		// lists
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]
 				.iterator(); d.hasNext();) {
