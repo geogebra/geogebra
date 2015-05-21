@@ -11,7 +11,7 @@ import com.sun.jna.ptr.PointerByReference;
 public class AppId {
 
 	public static void main(String[] args) throws Exception {
-		setCurrentProcessExplicitAppUserModelID(AppId.class.getName());
+		setCurrentProcessExplicitAppUserModelID("geogebra.AppId");
 
 		System.out.println(getCurrentProcessExplicitAppUserModelID());
 	}
