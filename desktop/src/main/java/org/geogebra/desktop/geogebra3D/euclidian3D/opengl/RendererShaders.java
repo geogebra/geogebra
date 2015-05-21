@@ -20,6 +20,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffers;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersBindBuffers;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -1193,8 +1194,8 @@ public class RendererShaders extends RendererD implements
 	@Override
 	protected Manager createManager() {
 		App.error("========== createManager");
-		// return new ManagerShadersWithTemplates(this, view3D);
-		return new ManagerShadersBindBuffers(this, view3D);
+		return new ManagerShadersWithTemplates(this, view3D);
+		// return new ManagerShadersBindBuffers(this, view3D);
 	}
 
 	private boolean texturesEnabled;
