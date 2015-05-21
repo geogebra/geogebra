@@ -97,6 +97,9 @@ public class EuclidianViewW extends EuclidianView implements
 	protected EuclidianPanelWAbstract EVPanel;
 	private MsZoomer msZoomer;
 
+	public static final int firstTabIndex = 10000;
+	public static int nextTabIndex = 10000;
+
 	/**
 	 * @param euclidianViewPanel
 	 * @param euclidiancontroller
@@ -612,7 +615,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		// the canvas should have a tab index to capture key events in Internet
 		// Explorer
-		canvas.setTabIndex(10000);
+		canvas.setTabIndex(nextTabIndex++);
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
