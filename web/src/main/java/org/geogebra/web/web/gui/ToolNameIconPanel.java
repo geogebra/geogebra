@@ -279,13 +279,37 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 	}
 
 	public void onBlur(BlurEvent event) {
-		macroChanged();
+		updateCmdName(event.getSource());
 
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
-		macroChanged();
+		updateCmdName(event.getSource());
 
+	}
+
+	private void updateCmdName(Object source) {
+		String cmdName = source == tfToolName ? tfToolName.getText()
+				: tfCmdName.getText();
+
+		// remove spaces
+		cmdName = cmdName.replaceAll(" ", "");
+		try {
+			String parsed = app.getKernel().getAlgebraProcessor()
+					.parseLabel(cmdName);
+			if (!parsed.equals(tfCmdName.getText()))
+				tfCmdName.setText(parsed);
+		} catch (Error err) {
+			tfCmdName.setText(defaultToolName());
+		} catch (Exception ex) {
+			tfCmdName.setText(defaultToolName());
+		}
+		updateMacro();
+	}
+
+	private String defaultToolName() {
+		int n = app.getKernel().getMacroNumber() + 1;
+		return app.getMenu("Tool") + n;
 	}
 
 	private void macroChanged() {
