@@ -1676,11 +1676,6 @@ public abstract class App implements UpdateSelection {
 				getGuiManager().getSpreadsheetViewXML(sb, asPreference);
 			}
 
-			// save AlgebraView settings
-			// if (getGuiManager().hasAlgebraView()){
-			// getGuiManager().getAlgebraViewXML(sb);
-			// }
-
 			// save ProbabilityCalculator settings
 			if (getGuiManager().hasProbabilityCalculator()) {
 				getGuiManager().getProbabilityCalculatorXML(sb);
@@ -1689,6 +1684,11 @@ public abstract class App implements UpdateSelection {
 			// save AlgebraView settings
 			if (getGuiManager().hasAlgebraView()) {
 				getGuiManager().getAlgebraViewXML(sb, asPreference);
+			}
+
+			// save Data Collection View settings
+			if (getGuiManager().hasDataCollectionView()) {
+				getGuiManager().getDataCollectionViewXML(sb, asPreference);
 			}
 
 		}

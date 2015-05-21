@@ -13,7 +13,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.plugin.SensorLogger.Types;
+//import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -83,6 +85,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private Label connectionLabel;
 	private Label appID;
 	private Label connectionStatus;
+	private DataCollectionSettings settings;
 
 	/**
 	 * @param app
@@ -91,6 +94,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	public DataCollectionView(AppW app) {
 		this.app = app;
 		this.addStyleName("dataCollectionView");
+		this.settings = new DataCollectionSettings();
 
 		createGUI();
 		this.addDomHandler(new ClickHandler() {
@@ -608,6 +612,18 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	@Override
 	public void endBatchUpdate() {
 		// not used
+	}
+
+	/**
+	 * returns settings in XML format
+	 * 
+	 * @param sb
+	 *            to store XML
+	 * @param asPreference
+	 *            asPreference
+	 */
+	public void getXML(StringBuilder sb, boolean asPreference) {
+		settings.getXML(sb, asPreference, app.getKernel().getConstruction());
 	}
 }
 

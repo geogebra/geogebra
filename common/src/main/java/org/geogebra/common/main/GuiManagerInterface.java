@@ -85,6 +85,8 @@ public interface GuiManagerInterface {
 
 	public boolean hasSpreadsheetView();
 
+	public boolean hasDataCollectionView();
+
 	public void attachSpreadsheetView();
 
 	public void setShowView(boolean b, int viewID);
@@ -112,6 +114,8 @@ public interface GuiManagerInterface {
 	public void getProbabilityCalculatorXML(StringBuilder sb);
 
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference);
+
+	public void getDataCollectionViewXML(StringBuilder sb, boolean asPreference);
 
 	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
 

@@ -1269,15 +1269,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void getSpreadsheetViewXML(final StringBuilder sb,
 	        final boolean asPreference) {
-		if (spreadsheetView != null)
+		if (spreadsheetView != null) {
 			spreadsheetView.getXML(sb, asPreference);
+		}
 	}
 
 	public boolean hasAlgebraViewShowing() {
-		if (algebraView == null)
+		if (algebraView == null) {
 			return false;
-		if (!algebraView.isShowing())
+		}
+		if (!algebraView.isShowing()) {
 			return false;
+		}
 		return true;
 	}
 
@@ -1761,5 +1764,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (onScreenKeyboard != null) {
 			onScreenKeyboard.setTextField(textField);
 		}
+	}
+
+	public boolean hasDataCollectionView() {
+		return dataCollectionView != null;
+	}
+
+	public void getDataCollectionViewXML(StringBuilder sb, boolean asPreference) {
+		if (hasDataCollectionView()) {
+			dataCollectionView.getXML(sb, asPreference);
+		}
+
 	}
 }

@@ -106,6 +106,11 @@ public abstract class MyXMLio {
 			consApp.getGuiManager().getSpreadsheetViewXML(sb, false);
 		}
 
+		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null
+				&& consApp.getGuiManager().hasDataCollectionView()) {
+			consApp.getGuiManager().getDataCollectionViewXML(sb, false);
+		}
+
 		sb.append("</geogebra>");
 
 		constructionKernel.setIsGettingUndo(kernelIsGettingUndo);

@@ -31,21 +31,65 @@ public abstract class SensorLogger {
 	public boolean oldUndoActive = false;
 
 	public static enum Types {
-		TIMESTAMP("time"), ACCELEROMETER_X("Ax"), ACCELEROMETER_Y("Ay"), ACCELEROMETER_Z(
-				"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
-				"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
-				"Mz"), PROXIMITY("proximity"), LIGHT("light"), LOUDNESS(
-				"loudness"), DATA_COUNT("datacount"), EDAQ0("EDAQ0"), EDAQ1(
-				"EDAQ1"), EDAQ2("EDAQ2"), PORT("port"), APP_ID("appID"), MOBILE_FOUND(
-				"mobile_found");
+		// DON'T CHANGE STRINGS - USED IN XML FOR DATA COLLECTION VIEW
+		TIMESTAMP("time"),
+
+		ACCELEROMETER_X("Ax", true),
+
+		ACCELEROMETER_Y("Ay", true),
+
+		ACCELEROMETER_Z("Az", true),
+
+		ORIENTATION_X("Ox", true),
+
+		ORIENTATION_Y("Oy", true),
+
+		ORIENTATION_Z("Oz", true),
+
+		MAGNETIC_FIELD_X("Mx", true),
+
+		MAGNETIC_FIELD_Y("My", true),
+
+		MAGNETIC_FIELD_Z("Mz", true),
+
+		PROXIMITY("proximity", true),
+
+		LIGHT("light", true),
+
+		LOUDNESS("loudness", true),
+
+		DATA_COUNT("datacount"),
+
+		EDAQ0("EDAQ0", true),
+
+		EDAQ1("EDAQ1", true),
+
+		EDAQ2("EDAQ2", true),
+
+		PORT("port", true),
+
+		APP_ID("appID"),
+
+		MOBILE_FOUND("mobile_found");
+
 		private String string;
+		private boolean storeInXML = false;
 
 		Types(String s) {
 			this.string = s;
 		}
 
+		Types(String s, boolean storeInXML) {
+			this.string = s;
+			this.storeInXML = storeInXML;
+		}
+
 		@Override
 		public String toString() {
+			return string;
+		}
+
+		public String toXMLString() {
 			return string;
 		}
 
@@ -57,6 +101,10 @@ public abstract class SensorLogger {
 			}
 
 			return null;
+		}
+
+		public boolean storeInXML() {
+			return storeInXML;
 		}
 	}
 

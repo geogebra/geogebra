@@ -3178,4 +3178,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return null;
 	}
 
+	public boolean hasDataCollectionView() {
+		// not available in desktop
+		return false;
+	}
+
+	public void getDataCollectionViewXML(StringBuilder sb, boolean asPreference) {
+		// not available in desktop
+	}
+
 }

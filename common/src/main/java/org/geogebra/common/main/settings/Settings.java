@@ -30,6 +30,8 @@ public class Settings {
 
 	private KeyboardSettings keyboardSettings;
 
+	private DataCollectionSettings dataCollectionSettings;
+
 	private CASSettings casSettings;
 
 	private ProbabilityCalculatorSettings probCalcSettings;
@@ -140,6 +142,13 @@ public class Settings {
 		} else {
 			probCalcSettings = new ProbabilityCalculatorSettings(
 					probCalcSettings.getListeners());
+		}
+
+		if (dataCollectionSettings == null) {
+			dataCollectionSettings = new DataCollectionSettings();
+		} else {
+			dataCollectionSettings = new DataCollectionSettings(
+					dataCollectionSettings.getListeners());
 		}
 
 	}
@@ -301,5 +310,9 @@ public class Settings {
 
 	public final CASSettings getCasSettings() {
 		return casSettings;
+	}
+
+	public final DataCollectionSettings getDataCollection() {
+		return dataCollectionSettings;
 	}
 }

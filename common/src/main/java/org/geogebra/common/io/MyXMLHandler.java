@@ -78,6 +78,7 @@ import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
+import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
@@ -85,6 +86,7 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
@@ -109,6 +111,7 @@ public class MyXMLHandler implements DocHandler {
 	protected static final int MODE_EUCLIDIAN_VIEW3D = 101; // only for 3D
 	private static final int MODE_SPREADSHEET_VIEW = 150;
 	private static final int MODE_ALGEBRA_VIEW = 151;
+	private static final int MODE_DATA_COLLECTION_VIEW = 152;
 	// private static final int MODE_CAS_VIEW = 160;
 	private static final int MODE_CONST_CAS_CELL = 161;
 	private static final int MODE_CAS_CELL_PAIR = 162;
@@ -420,6 +423,10 @@ public class MyXMLHandler implements DocHandler {
 			startSpreadsheetViewElement(eName, attrs);
 			break;
 
+		case MODE_DATA_COLLECTION_VIEW:
+			startDataCollectionViewElement(eName, attrs);
+			break;
+
 		case MODE_ALGEBRA_VIEW:
 			startAlgebraViewElement(eName, attrs);
 			break;
@@ -588,6 +595,11 @@ public class MyXMLHandler implements DocHandler {
 				mode = MODE_GEOGEBRA;
 			break;
 
+		case MODE_DATA_COLLECTION_VIEW:
+			if ("dataCollectionView".equals(eName))
+				mode = MODE_GEOGEBRA;
+			break;
+
 		case MODE_PROBABILITY_CALCULATOR:
 			if ("probabilityCalculator".equals(eName))
 				mode = MODE_GEOGEBRA;
@@ -690,8 +702,8 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_KERNEL;
 		} else if ("spreadsheetView".equals(eName)) {
 			mode = MODE_SPREADSHEET_VIEW;
-			// } else if ("casView".equals(eName)) {
-			// mode = MODE_CAS_VIEW;
+		} else if ("dataCollectionView".equals(eName)) {
+			mode = MODE_DATA_COLLECTION_VIEW;
 		} else if ("scripting".equals(eName)) {
 			startScriptingElement(attrs);
 		} else if ("probabilityCalculator".equals(eName)) {
@@ -1006,6 +1018,27 @@ public class MyXMLHandler implements DocHandler {
 
 		if (!ok)
 			App.error("error in <spreadsheetView>: " + eName);
+	}
+
+	// ====================================
+	// <DataCollectionView>
+	// ====================================
+	private void startDataCollectionViewElement(String eName,
+			LinkedHashMap<String, String> attrs) {
+		Types type = Types.lookup(eName);
+		String mappedGeoLabel = attrs.get("geo");
+
+
+		if (type != null) {
+			App.debug("found sensor mapping " + type + " = "
+					+ mappedGeoLabel);
+			DataCollectionSettings settings = app.getSettings()
+					.getDataCollection();
+			settings.mapSensorToGeo(type, mappedGeoLabel);
+		} else {
+			App.error("unknown tag in <dataCollectionView>: " + eName + " = "
+					+ geo);
+		}
 	}
 
 	// ====================================
