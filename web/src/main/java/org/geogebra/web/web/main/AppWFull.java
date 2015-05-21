@@ -1,10 +1,8 @@
 package org.geogebra.web.web.main;
 
-import java.io.IOException;
-
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
-import org.geogebra.common.util.Base64;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -96,18 +94,19 @@ public abstract class AppWFull extends AppW {
 				runnable);
 	}
 
+	private native String decode(String base64)/*-{
+		return atob(base64);
+	}-*/;
+
+	@Override
 	public void openCSVbase64(String base64){
-		try {
-			String csv = new String(Base64.decode(base64));
+			String csv = decode(base64);
 			String[][] data = DataImport.parseExternalData(this, csv, true);
-			((MyTableW) getGuiManager().getSpreadsheetView().getSpreadsheetTable()).getCopyPasteCut()
-.pasteExternal(
+		CopyPasteCut cpc = ((MyTableW) getGuiManager().getSpreadsheetView()
+				.getSpreadsheetTable()).getCopyPasteCut();
+		cpc.pasteExternal(
 					data, 0, 0, data.length > 0 ? data[0].length - 1 : 0,
 					data.length);
 			onOpenFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }
