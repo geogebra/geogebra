@@ -459,7 +459,7 @@ public abstract class RendererGL2 extends RendererD {
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);
 		drawable3DLists.drawTranspClosedCurved(this);
-		if (drawable3DLists.containsClippedSurfaces()) {
+		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this);
 			disableClipPlanesIfNeeded();
