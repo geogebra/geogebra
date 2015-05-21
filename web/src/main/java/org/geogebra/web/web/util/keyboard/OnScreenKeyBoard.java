@@ -1178,6 +1178,10 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		super.show();
 	}
 
+	public void showOnFocus() {
+		this.keyboardWanted = true;
+	}
+
 	public AppW getApp() {
 		return app;
 	}

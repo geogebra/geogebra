@@ -13,4 +13,6 @@ public interface VirtualKeyboard extends IsWidget {
 	boolean shouldBeShown();
 
 	int getOffsetHeight();
+
+	void showOnFocus();
 }

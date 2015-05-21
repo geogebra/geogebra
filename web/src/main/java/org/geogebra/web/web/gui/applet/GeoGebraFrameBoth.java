@@ -295,8 +295,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		} else {
 			if (app != null
 			        && app.isKeyboardNeeded()
-			        && app.getArticleElement().getDataParamBase64String()
-							.length() == 0 && app.showAlgebraInput()) {
+ && app.showAlgebraInput()) {
+				if (app.getArticleElement().getDataParamBase64String().length() == 0) {
 				keyboardShowing = true;
 				app.getGuiManager().invokeLater(new Runnable() {
 
@@ -318,7 +318,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 						}.schedule(500);
 
 					}
-				});
+					});
+				} else {
+					app.getGuiManager().getOnScreenKeyboard(null, this)
+							.showOnFocus();
+				}
 
 			}
  else if (app != null && app.isKeyboardNeeded()) {

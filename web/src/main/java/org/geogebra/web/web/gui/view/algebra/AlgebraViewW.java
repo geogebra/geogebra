@@ -1209,7 +1209,8 @@ public class AlgebraViewW extends Tree implements LayerView,
 				.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
 			if (inputPanelLatex == null) {
 				inputPanelLatex = new NewRadioButtonTreeItem(kernel);
-				forceKeyboard = true;
+				forceKeyboard = app.getArticleElement()
+						.getDataParamBase64String().length() == 0;
 			} else {
 				inputPanelLatex.removeFromParent();
 			}
@@ -1269,6 +1270,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 			// inputPanel.removeFromParent();//?
 		}
+
 		if(this.app.getInputPosition() == InputPositon.algebraView){
 			if ((!app.getLocalization().getLanguage().equals("ko")
  || app
