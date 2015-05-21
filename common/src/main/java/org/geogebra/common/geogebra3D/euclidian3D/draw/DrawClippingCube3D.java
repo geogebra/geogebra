@@ -276,8 +276,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		setGeometryIndex(brush.end());
 
-		updateRendererClipPlanes();
-
 		return true;
 	}
 

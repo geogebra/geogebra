@@ -3154,6 +3154,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		if (!viewChanged() || viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
 			double[][] minMax = clippingCubeDrawable.updateMinMax();
+			// we need to update renderer clip planes, since they are in screen
+			// coordinates
+			clippingCubeDrawable.updateRendererClipPlanes();
 			clippingCubeDrawable.setWaitForUpdate();
 
 			// update e.g. Corner[]
