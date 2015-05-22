@@ -141,10 +141,11 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 				listener.dimensionChange();
 			}
 		}
-		// don't push the value to tablei f it was null and still is null
+		// don't push the value to table f it was null and still is null
 		if (table != null
 				&& (value != null || defaultTableModel.get(row * colNum
 						+ column) != null)) {
+			defaultTableModel.set(row * colNum + column, value);
 			table.updateTableCellValue(value, row, column);
 		}
 
