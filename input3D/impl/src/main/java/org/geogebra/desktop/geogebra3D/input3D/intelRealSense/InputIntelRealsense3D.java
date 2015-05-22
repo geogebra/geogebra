@@ -70,10 +70,14 @@ public class InputIntelRealsense3D implements Input3D {
 		if (socket.gotMessage){
 			
 			// mouse position
-			mousePosition[0] = socket.birdX * screenHalfWidth;
-			mousePosition[1] = socket.birdY * screenHalfWidth;
-			mousePosition[2] = socket.birdZ * screenHalfWidth;
+			// double factor = screenHalfWidth;
+			double factor = panelDimension.getWidth() / 2;
+			mousePosition[0] = socket.birdX * factor;
+			mousePosition[1] = socket.birdY * factor;
+			mousePosition[2] = socket.birdZ * factor;
 			
+			// App.debug(socket.birdX + "," + socket.birdY);
+
 			/*
 			App.debug("\norientation"
 			+"\nx="+leoSocket.birdOrientationX

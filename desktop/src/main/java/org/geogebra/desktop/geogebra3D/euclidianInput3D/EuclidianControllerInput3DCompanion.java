@@ -27,7 +27,7 @@ public class EuclidianControllerInput3DCompanion extends
 		EuclidianController3DCompanion {
 
 	static final private int DISTANCE_THRESHOLD = 6;
-	static final private double COS_THRESHOLD = Math.sin(Math.PI * 5 / 180);
+	static final private double COS_THRESHOLD = Math.sin(Math.PI * 7.5 / 180);
 
 	/**
 	 * constructor
@@ -311,28 +311,33 @@ public class EuclidianControllerInput3DCompanion extends
 						}
 
 						for (StickyPoint sp2 : stickyPoints) {
-							double distanceOrigin = sp2.point
-									.distance(sp.point);
-							// prevent same points
-							if (!Kernel.isZero(distanceOrigin)) {
-								stickyPointsForDirection
-										.add(new StickyPointForDirection(sp,
-												sp2, distanceOrigin));
-							}
+							// if (checkDistanceToStickyPoint(
+							// sp2.getDistanceAbs(), sp2.point, scale,
+							// DISTANCE_THRESHOLD)) {
+								double distanceOrigin = sp2.point
+										.distance(sp.point);
+								// prevent same points
+								if (!Kernel.isZero(distanceOrigin)) {
+									stickyPointsForDirection
+											.add(new StickyPointForDirection(
+													sp, sp2, distanceOrigin));
+								}
+							// }
 						}
+
 
 						// for (StickyPointForDirection spd :
 						// stickyPointsForDirection) {
 						// App.debug("" + spd.sp.point);
 						// }
 
-						App.debug("" + COS_THRESHOLD);
+						// App.debug("" + COS_THRESHOLD);
 
 						if (!stickyPointsForDirection.isEmpty()) {
 							StickyPointForDirection spd2 = stickyPointsForDirection
 									.pollFirst();
+							// App.debug("spd2 : " + spd2.getCosAbs());
 							if (spd2.getCosAbs() < COS_THRESHOLD) {
-								App.debug("spd2 : " + spd2.getCosAbs());
 								secondPoint = spd2.sp.point
 										.getInhomCoordsInD3();
 								step++;
@@ -340,22 +345,43 @@ public class EuclidianControllerInput3DCompanion extends
 								if (!stickyPointsForDirection.isEmpty()) {
 									StickyPointForDirection spd3 = stickyPointsForDirection
 											.pollFirst();
+									// App.debug("spd3 : " + spd3.getCosAbs());
 									if (spd3.getCosAbs() < COS_THRESHOLD) {
-										App.debug("spd3 : " + spd3.getCosAbs());
 										thirdPoint = spd3.sp.point
 												.getInhomCoordsInD3();
 										step++;
+
 									}
 								}
 							}
 
 						}
 
+						// if (!stickyPointsForDirection.isEmpty()) {
+						// StickyPointForDirection spd4 =
+						// stickyPointsForDirection
+						// .first();
+						// if
+						// (checkDistanceToStickyPoint(spd4.sp.getDistanceAbs(),
+						// spd4.sp.point,
+						// scale, DISTANCE_THRESHOLD)) {
+						// double d4 = spd4.sp.distance;
+						// double d = sp.distance;
+						// if (d * d4 < 0
+						// && 3 * Math.abs(d) > Math.abs(d4)) {
+						// App.error("\nfirst point : " + sp.distance
+						// + "\n4th point : "
+						// + spd4.sp.distance);
+						// // step = -1;
+						// }
+						// }
+						// }
+
 					}
 
 				} else {
 					step = -1;
-					App.error("TOO FAR (first point)");
+					// App.error("TOO FAR (first point)");
 				}
 
 				switch (step) {

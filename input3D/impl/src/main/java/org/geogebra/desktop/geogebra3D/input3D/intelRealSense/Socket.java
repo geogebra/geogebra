@@ -1,17 +1,13 @@
 package org.geogebra.desktop.geogebra3D.input3D.intelRealSense;
 
-import java.util.Arrays;
-
-import org.geogebra.common.main.App;
-
 import intel.rssdk.PXCMCapture;
 import intel.rssdk.PXCMCaptureManager;
 import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandConfiguration.AlertHandler;
 import intel.rssdk.PXCMHandConfiguration.GestureHandler;
+import intel.rssdk.PXCMHandData;
 import intel.rssdk.PXCMHandData.AlertType;
 import intel.rssdk.PXCMHandData.GestureData;
-import intel.rssdk.PXCMHandData;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPoint4DF32;
@@ -19,12 +15,16 @@ import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
 
+import java.util.Arrays;
+
+import org.geogebra.common.main.App;
+
 
 
 public class Socket {
 
 
-	private static double SCREEN_REAL_DIM_FACTOR = 1/0.2;
+	private static double SCREEN_REAL_DIM_FACTOR = 1 / 0.12;
 	private static int SAMPLES = 7;
 
 	public enum Gestures {PINCH, SPREAD, FIST};

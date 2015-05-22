@@ -2252,6 +2252,14 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/**
 	 * 
+	 * @return true if we can move it with 6 degrees of freedom input device
+	 */
+	public boolean is6dofMoveable() {
+		return false;
+	}
+
+	/**
+	 * 
 	 * @param view view
 	 * @return true if moveable in the view
 	 */

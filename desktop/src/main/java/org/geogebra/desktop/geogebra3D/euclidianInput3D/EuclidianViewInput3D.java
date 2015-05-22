@@ -2,6 +2,7 @@ package org.geogebra.desktop.geogebra3D.euclidianInput3D;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -303,6 +304,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			hittedGeo.setHitted(getHits3D(), time, mouse3DScreenPosition);
 			// reset hits
 			getHits3D().init(hittedGeo.getGeo());
+			app.setMode(EuclidianConstants.MODE_MOVE);
 			if (hittedGeo.hasLongDelay(time)) {
 				input3D.setLeftButtonPressed(true);
 			}
@@ -344,7 +346,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				}
 			} else {
 				GeoElement newGeo = hits.get(0);
-				if (newGeo.isGeoPoint() || newGeo.isGeoPlane()) {
+				if (newGeo.is6dofMoveable()) {
 					if (newGeo == geo) { // remember last time
 						// check if mouse has changed too much: reset the timer
 						int threshold = 30;// getCapturingThreshold(PointerEventType.TOUCH);

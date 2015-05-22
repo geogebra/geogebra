@@ -101,6 +101,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		setEquation(a, b, c, d, true);
 	}
 
+	@Override
 	public void setCoords(double x, double y, double z, double w) {
 		setEquation(x, y, z, w, false);
 	}
@@ -121,10 +122,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return true;
 	}
 
+	@Override
 	public Coords[] getNormalProjection(Coords coords) {
 		return getCoordSys().getNormalProjection(coords);
 	}
 
+	@Override
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
 		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
@@ -135,16 +138,19 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return result;
 	}
 
+	@Override
 	public boolean isInRegion(GeoPointND P) {
 		Coords planeCoords = getNormalProjection(P.getInhomCoordsInD3())[1];
 		// Application.debug(P.getLabel()+":\n"+planeCoords);
 		return Kernel.isEqual(planeCoords.get(3), 0, Kernel.STANDARD_PRECISION);
 	}
 
+	@Override
 	public boolean isInRegion(double x0, double y0) {
 		return true;
 	}
 
+	@Override
 	public void pointChangedForRegion(GeoPointND P) {
 
 		P.updateCoords2D();
@@ -152,6 +158,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	@Override
 	public void regionChanged(GeoPointND P) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -167,6 +174,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	@Override
 	public Coords getPoint(double x2d, double y2d) {
 		return getCoordSys().getPoint(x2d, y2d);
 	}
@@ -440,11 +448,13 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	// 2 VAR FUNCTION INTERFACE
 	// //////////////////////////////////////////
 
+	@Override
 	public Coords evaluateNormal(double u, double v) {
 
 		return coordsys.getNormal();
 	}
 
+	@Override
 	public Coords evaluatePoint(double u, double v) {
 
 		return coordsys.getPointForDrawing(u, v);
@@ -452,18 +462,21 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	@Override
 	public double getMinParameter(int index) {
 
 		return 0; // TODO
 
 	}
 
+	@Override
 	public double getMaxParameter(int index) {
 
 		return 0; // TODO
 
 	}
 
+	@Override
 	public CoordSys getCoordSys() {
 		return coordsys;
 	}
@@ -522,10 +535,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	private float fading = 0.10f;
 
+	@Override
 	public void setFading(float fading) {
 		this.fading = fading;
 	}
 
+	@Override
 	public float getFading() {
 		return fading;
 	}
@@ -535,6 +550,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
 
+	@Override
 	public void createView2D() {
 		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel
 				.getApplication().getCompanion()
@@ -542,6 +558,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		euclidianViewForPlane.setTransformRegardingView();
 	}
 
+	@Override
 	public void removeView2D() {
 		euclidianViewForPlane.doRemove();
 	}
@@ -554,12 +571,14 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		super.doRemove();
 	}
 
+	@Override
 	public boolean hasView2DVisible() {
 		return euclidianViewForPlane != null
 				&& kernel.getApplication().getGuiManager()
 						.showView(euclidianViewForPlane.getId());
 	}
 
+	@Override
 	public void setView2DVisible(boolean flag) {
 
 		if (euclidianViewForPlane == null) {
@@ -581,10 +600,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		}
 	}
 
+	@Override
 	public void setEuclidianViewForPlane(EuclidianViewCompanion view) {
 		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) view;
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		return getCoordSys().getNormal();
 	}
@@ -630,6 +651,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	// TRANSLATE
 	// ///////////////////////////////////
 
+	@Override
 	public void translate(Coords v) {
 		getCoordSys().translate(v);
 		getCoordSys().translateEquationVector(v);
@@ -651,10 +673,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
@@ -676,11 +700,13 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		coordsys.makeEquationVector();
 	}
 
+	@Override
 	final public void rotate(NumberValue phiVal) {
 		coordsys.rotate(phiVal.getDouble(), Coords.O);
 		coordsys.makeEquationVector();
 	}
 
+	@Override
 	final public void rotate(NumberValue phiVal, GeoPointND Q) {
 		coordsys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD3());
 		coordsys.makeEquationVector();
@@ -692,6 +718,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		coordsys.makeEquationVector();
 	}
 
+	@Override
 	public void rotate(NumberValue phiVal, GeoPointND Q,
 			GeoDirectionND orientation) {
 
@@ -699,18 +726,21 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	@Override
 	public void rotate(NumberValue phiVal, GeoLineND line) {
 
 		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
 
 	}
 
+	@Override
 	public void mirror(Coords Q) {
 		coordsys.mirror(Q);
 		coordsys.mirrorEquationVector(Q);
 
 	}
 
+	@Override
 	public void mirror(GeoLineND line) {
 
 		Coords point = line.getStartInhomCoords();
@@ -721,6 +751,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 
 		coordsys.mirror(plane.getCoordSys());
@@ -732,6 +763,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	// DILATE
 	// //////////////////////
 
+	@Override
 	public void dilate(NumberValue rval, Coords S) {
 
 		double r = rval.getDouble();
@@ -744,6 +776,11 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	@Override
 	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
+	}
+
+	@Override
+	public boolean is6dofMoveable() {
+		return true;
 	}
 
 }
