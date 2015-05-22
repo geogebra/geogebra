@@ -26,6 +26,9 @@ import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianViewInput3D.Sta
 public class EuclidianControllerInput3DCompanion extends
 		EuclidianController3DCompanion {
 
+	static final private int DISTANCE_THRESHOLD = 6;
+	static final private double COS_THRESHOLD = Math.sin(Math.PI * 5 / 180);
+
 	/**
 	 * constructor
 	 * 
@@ -200,7 +203,55 @@ public class EuclidianControllerInput3DCompanion extends
 
 	}
 
+	private class StickyPointForDirection implements
+			Comparable<StickyPointForDirection> {
+		public StickyPoint sp;
+		public double distanceOrtho;
+		public double distanceOrigin;
+
+		public StickyPointForDirection(StickyPoint origin, StickyPoint sp,
+				double distanceOrigin) {
+			this.sp = sp;
+			this.distanceOrtho = sp.distance - origin.distance;
+			this.distanceOrigin = distanceOrigin;
+		}
+
+		public double getCosAbs() {
+			return Math.abs(distanceOrtho / distanceOrigin);
+		}
+
+		public int compareTo(StickyPointForDirection spd) {
+
+			// compare cosinus
+			if (Math.abs(distanceOrtho * spd.distanceOrigin) < Math
+					.abs(spd.distanceOrtho * distanceOrigin)) {
+				return -1;
+			}
+
+			if (Math.abs(distanceOrtho * spd.distanceOrigin) > Math
+					.abs(spd.distanceOrtho * distanceOrigin)) {
+				return 1;
+			}
+
+			// check construction index
+			if (this.sp.point.getConstructionIndex() < spd.sp.point
+					.getConstructionIndex()) {
+				return -1;
+			}
+
+			if (this.sp.point.getConstructionIndex() > spd.sp.point
+					.getConstructionIndex()) {
+				return 1;
+			}
+
+			return 0;
+
+		}
+
+	}
+
 	private TreeSet<StickyPoint> stickyPoints;
+	private TreeSet<StickyPointForDirection> stickyPointsForDirection;
 
 	@Override
 	protected void movePlane(boolean repaint, AbstractEvent event) {
@@ -238,74 +289,104 @@ public class EuclidianControllerInput3DCompanion extends
 			}
 
 			double scale = ((EuclidianView3D) ec.view).getScale();
-			int threshold = 6;// ((EuclidianView3D)
-								// ec.view).getCapturingThreshold(PointerEventType.MOUSE);
-			// App.debug(""+threshold);
-			CoordSys coordsys = new CoordSys(2);
-			boolean isMadeCoordSys = false;
-			double lastDistance = 0;
-			for (StickyPoint sp : stickyPoints) {
-				// App.debug("\n"+sp.point);
-				if (!isMadeCoordSys
-						&& !checkDistanceToStickyPoint(sp.getDistanceAbs(),
-								sp.point, scale, threshold)) {
-					// App.error("TOO FAR");
-					break;
-				}
+			Coords origin = null, secondPoint = null, thirdPoint = null;
+			int step = 0;
 
-				if (isMadeCoordSys) {
-					// coordsys is made, check if we are far enough to next
-					// point (to avoid plane jumping)
-					Coords coords = sp.point.getInhomCoordsInD3();
-					if (tmpCoordsInput3D1 == null) {
-						tmpCoordsInput3D1 = new Coords(4);
-					}
-					coords.projectPlaneInPlaneCoords(
-							coordsys.getMatrixOrthonormal(), tmpCoordsInput3D1);
-					if (!Kernel.isZero(tmpCoordsInput3D1.getZ())) { // don't
-																	// check
-																	// this
-																	// point if
-																	// on
-																	// current
-																	// coord sys
-						if (sp.distance * lastDistance < 0) { // don't check
-																// this point if
-																// is on same
-																// side
-							if (-sp.distance / lastDistance < 3) { // the point
-																	// is too
-																	// close:
-																	// plane may
-																	// jump
-								// App.error("\n-- TOO CLOSE: "+sp.point+"\n"+sp.distance+"\n"+lastDistance);
-								isMadeCoordSys = false;
-							} else {
-								// App.error("== FAR ENOUGH");
+			if (!stickyPoints.isEmpty()) {
+				StickyPoint sp = stickyPoints.pollFirst();
+				if (checkDistanceToStickyPoint(sp.getDistanceAbs(), sp.point,
+						scale, DISTANCE_THRESHOLD)) {
+					origin = sp.point.getInhomCoordsInD3();
+					step++;
+
+					// App.debug("============== " + sp.point);
+
+					// check directions
+					if (!stickyPoints.isEmpty()) {
+
+						if (stickyPointsForDirection == null) {
+							stickyPointsForDirection = new TreeSet<StickyPointForDirection>();
+						} else {
+							stickyPointsForDirection.clear();
+						}
+
+						for (StickyPoint sp2 : stickyPoints) {
+							double distanceOrigin = sp2.point
+									.distance(sp.point);
+							// prevent same points
+							if (!Kernel.isZero(distanceOrigin)) {
+								stickyPointsForDirection
+										.add(new StickyPointForDirection(sp,
+												sp2, distanceOrigin));
 							}
-							break;
+						}
+
+						// for (StickyPointForDirection spd :
+						// stickyPointsForDirection) {
+						// App.debug("" + spd.sp.point);
+						// }
+
+						App.debug("" + COS_THRESHOLD);
+
+						if (!stickyPointsForDirection.isEmpty()) {
+							StickyPointForDirection spd2 = stickyPointsForDirection
+									.pollFirst();
+							if (spd2.getCosAbs() < COS_THRESHOLD) {
+								App.debug("spd2 : " + spd2.getCosAbs());
+								secondPoint = spd2.sp.point
+										.getInhomCoordsInD3();
+								step++;
+
+								if (!stickyPointsForDirection.isEmpty()) {
+									StickyPointForDirection spd3 = stickyPointsForDirection
+											.pollFirst();
+									if (spd3.getCosAbs() < COS_THRESHOLD) {
+										App.debug("spd3 : " + spd3.getCosAbs());
+										thirdPoint = spd3.sp.point
+												.getInhomCoordsInD3();
+										step++;
+									}
+								}
+							}
+
 						}
 
 					}
+
 				} else {
-					coordsys.addPoint(sp.point.getInhomCoordsInD3());
-					if (coordsys.isMadeCoordSys()) {
-						// App.error("END");
-						coordsys.makeOrthoMatrix(false, false);
-						coordsys.makeEquationVector();
-						isMadeCoordSys = true;
-						lastDistance = sp.distance;
-						// break;
-					}
+					step = -1;
+					App.error("TOO FAR (first point)");
 				}
-			}
 
-			if (isMadeCoordSys) {
-				plane.getCoordSys().updateContinuous(coordsys);
-			}
+				switch (step) {
+				case 1: // only origin
+					plane.getCoordSys().updateToContainPoint(origin);
+					break;
+				case 2: // origin and second point
+					plane.getCoordSys().updateContinuousPointVx(origin,
+							secondPoint.sub(origin));
+					break;
+				case 3: // origin and two points
+					CoordSys cs = new CoordSys(2);
+					cs.addPoint(origin);
+					cs.addPoint(secondPoint);
+					cs.addPoint(thirdPoint);
+					if (cs.isMadeCoordSys()) {
+						cs.makeOrthoMatrix(false, false);
+						cs.makeEquationVector();
+						plane.getCoordSys().updateContinuous(cs);
+					} else {
+						plane.getCoordSys().updateContinuousPointVx(origin,
+								secondPoint.sub(origin));
+					}
+					break;
+				}
 
-			// update
-			plane.updateCascade();
+
+				// update
+				plane.updateCascade();
+
+			}
 
 			if (((EuclidianControllerInput3D) ec).input3D.getLeftButton()) {
 

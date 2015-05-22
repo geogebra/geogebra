@@ -25,7 +25,8 @@ public class CoordSys {
 	/** dimension of the space (2 for 2D, 3 for 3D, ...) */
 	private int spaceDimension = 3;
 	
-	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4), tmpCoords3 = new Coords(4);
+	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4),
+			tmpCoords3 = new Coords(4), tmpCoords4 = new Coords(4);
 
 	/**
 	 * create a coord sys
@@ -1004,17 +1005,68 @@ public class CoordSys {
 		CoordMatrix4x4.createOrthoToDirection(tmpCoords1, vz, CoordMatrix4x4.VZ, 
 				matrixOrthonormal.getVx(), tmpCoords2, tmpCoords3, matrixOrthonormal);
 
+		setFromMatrixOrthonormal();
+
+	}
+
+	/**
+	 * update to contain point
+	 * 
+	 * @param point
+	 *            point
+	 */
+	public void updateToContainPoint(Coords point) {
+		point.projectPlane(matrixOrthonormal, tmpCoords1);
+		tmpCoords1.setSub(point, tmpCoords1);
+		matrixOrthonormal.addToOrigin(tmpCoords1);
+
+		setFromMatrixOrthonormal();
+	}
+
+	/**
+	 * update this to contain point and vector with continuity
+	 * 
+	 * @param point
+	 *            point to be contained
+	 * @param vector
+	 *            vector to be contained
+	 * 
+	 */
+	public void updateContinuousPointVx(Coords point, Coords vector) {
+
+		point.projectPlane(matrixOrthonormal, tmpCoords1);
+		tmpCoords1.setSub(point, tmpCoords1);
+		tmpCoords1.setAdd(tmpCoords1, matrixOrthonormal.getOrigin());
+
+		tmpCoords2.setCrossProduct(matrixOrthonormal.getVz(), vector);
+		tmpCoords3.setCrossProduct(vector, tmpCoords2);
+		tmpCoords3.setW(0);
+		tmpCoords3.normalize();
+
+		CoordMatrix4x4.createOrthoToDirection(tmpCoords1, tmpCoords3,
+				CoordMatrix4x4.VZ, matrixOrthonormal.getVx(), tmpCoords2,
+				tmpCoords4, matrixOrthonormal);
+
+
+
+		setFromMatrixOrthonormal();
+
+	}
+
+	/**
+	 * set origin, vectors and drawing matrix from orthonormal matrix
+	 */
+	private void setFromMatrixOrthonormal() {
 		// set original origin and vectors
 		setOrigin(matrixOrthonormal.getOrigin());
-		
+
 		// set vectors
-		setVx(matrixOrthonormal.getVx());	
-		if (dimension==2){	
+		setVx(matrixOrthonormal.getVx());
+		if (dimension == 2) {
 			setVy(matrixOrthonormal.getVy());
 			setVz(matrixOrthonormal.getVz());
 			setDrawingMatrixFromMatrixOrthonormal(drawingMatrix.getVx());
 		}
-		
 	}
 
 }
