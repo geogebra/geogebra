@@ -126,6 +126,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
 	@Override
 	public void setValueAt(Object value, int row, int column) {
+		// App.debug(row + "," + column);
 		// update column count if needed
 		if (column >= getColumnCount()) {
 			setColumnCount(column + 1);
@@ -140,10 +141,10 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 				listener.dimensionChange();
 			}
 		}
-
-		defaultTableModel.set(row * colNum + column, value);
-
-		if (table != null) {
+		// don't push the value to tablei f it was null and still is null
+		if (table != null
+				&& (value != null || defaultTableModel.get(row * colNum
+						+ column) != null)) {
 			table.updateTableCellValue(value, row, column);
 		}
 
