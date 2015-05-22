@@ -2418,6 +2418,7 @@ __GGB__keysVar.gl.plain = {
     "Function.asinh": "arcsenh",
     "Function.atan": "arctan",
     "Function.atanh": "arctanh",
+    "Function.conjugate": "conjugate",
     "Function.cos": "cos",
     "Function.cosh": "cosh",
     "Function.cot": "cotan",

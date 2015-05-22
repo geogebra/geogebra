@@ -2418,6 +2418,7 @@ __GGB__keysVar.ar_TN.plain = {
     "Function.asinh": "\u062c\u0627\u0632",
     "Function.atan": "\u062f\u0627\u0644\u0629\u0638\u0627\u0627\u0644\u0639\u0643\u0633\u064a\u0629",
     "Function.atanh": "\u0638\u062a\u0627\u0632",
+    "Function.conjugate": "conjugate",
     "Function.cos": "\u062c\u062a\u0627",
     "Function.cosh": "\u062c\u064a\u0628_\u0627\u0644\u062a\u0645\u0627\u0645_\u0627\u0644\u0632\u0627\u0626\u062f\u0649",
     "Function.cot": "\u0638\u062a\u0627",

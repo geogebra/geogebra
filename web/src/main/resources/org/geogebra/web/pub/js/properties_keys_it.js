@@ -2418,6 +2418,7 @@ __GGB__keysVar.it.plain = {
     "Function.asinh": "asinh",
     "Function.atan": "atan",
     "Function.atanh": "atanh",
+    "Function.conjugate": "coniugato",
     "Function.cos": "cos",
     "Function.cosh": "cosh",
     "Function.cot": "cot",
