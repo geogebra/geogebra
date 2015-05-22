@@ -3,8 +3,8 @@ package org.geogebra.web.web.gui.view.probcalculator;
 import org.geogebra.common.gui.view.probcalculator.ChiSquareCell;
 import org.geogebra.common.gui.view.probcalculator.ChiSquarePanel;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -16,6 +16,8 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -343,7 +345,8 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    updateGUI();
     }
     
-    public class ChiSquareCellW extends ChiSquareCell implements FocusHandler, KeyPressHandler {
+	public class ChiSquareCellW extends ChiSquareCell implements FocusHandler,
+			KeyUpHandler {
     	
     	private FlowPanel wrappedPanel;
     	
@@ -370,7 +373,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     		this.wrappedPanel = new FlowPanel();
     		this.wrappedPanel.addStyleName("ChiSquarePanelW");
     		fldInput = new AutoCompleteTextFieldW(app);
-    		fldInput.addKeyPressHandler(this);
+			fldInput.addKeyUpHandler(this);
     		fldInput.addFocusHandler(this);
     		wrappedPanel.add(fldInput);
 
@@ -506,9 +509,11 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     		return wrappedPanel;
     	}
 
-        public void onKeyPress(KeyPressEvent e) {
-    		updateCellData();
-    		statCalc.updateResult();
+		public void onKeyUp(KeyUpEvent e) {
+
+			updateCellData();
+			statCalc.updateResult();
+			updateCellContent();
     	    
         }
 
