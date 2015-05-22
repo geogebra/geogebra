@@ -204,7 +204,8 @@ public class AlgebraViewW extends Tree implements LayerView,
 				&& (this.inputPanel == null || !this.inputPanel.hasFocus())) {
 			if (event.getTypeInt() == Event.ONCLICK) {
 				// background click
-				if (!CancelEventTimer.cancelKeyboardHide()) {
+				if (!CancelEventTimer.cancelKeyboardHide()
+						&& !CancelEventTimer.cancelMouseEvent()) {
 					app.hideKeyboard();
 				}
 			}
