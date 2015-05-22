@@ -207,7 +207,8 @@ public class GlobalKeyDispatcherD extends
 	}
 
 	@Override
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
+	public boolean handleTab(boolean isControlDown, boolean isShiftDown,
+			boolean cycle) {
 		if (isControlDown && app.isUsingFullGui()) {
 
 			GuiManagerInterface gui = app.getGuiManager();
@@ -228,7 +229,7 @@ public class GlobalKeyDispatcherD extends
 			useTab = true;
 
 		if (useTab) {
-			super.handleTab(isControlDown, isShiftDown);
+			super.handleTab(isControlDown, isShiftDown, cycle);
 			return true;
 		}
 

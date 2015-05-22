@@ -239,7 +239,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case TAB:
 
-			consumed = handleTab(isControlDown, isShiftDown);
+			consumed = handleTab(isControlDown, isShiftDown, true);
 
 			break;
 
@@ -733,11 +733,11 @@ public abstract class GlobalKeyDispatcher {
 	 *            whether shift is down
 	 * @return whether key was consumed
 	 */
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
+	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
 		} else {
-			selection.selectNextGeo(app.getActiveEuclidianView());
+			selection.selectNextGeo(app.getActiveEuclidianView(), cycle);
 		}
 
 		return true;

@@ -195,7 +195,12 @@ public class GlobalKeyDispatcherW extends
 		if (kc == KeyCodes.TAB) {
 			event.preventDefault();
 			// event.stopPropagation() is already called!
-			handleTab(event.isControlKeyDown(), event.isShiftKeyDown());
+			boolean success = handleTab(event.isControlKeyDown(),
+					event.isShiftKeyDown(), true);// TODO: false
+			if (!success) {
+				// should select first GeoElement in next applet
+				// TODO
+			}
 		} else if (kc == KeyCodes.ESCAPE) {
 			event.preventDefault();
 			app.loseFocus();

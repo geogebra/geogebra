@@ -495,8 +495,11 @@ public class SelectionManager {
 	 * @param ev
 	 *            view that should get focus after (if we did not selct
 	 *            textfield)
+	 * 
+	 * @return whether the operation is successful (e.g. in case of no cycle)
 	 */
-	final public void selectNextGeo(EuclidianViewInterfaceCommon ev) {
+	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev,
+			boolean cycle) {
 
 		TreeSet<GeoElement> tree = kernel.getConstruction()
 				.getGeoSetLabelOrder();
@@ -524,11 +527,11 @@ public class SelectionManager {
 			if (it.hasNext()) {
 				addSelectedGeo(it.next());
 			}
-			return;
+			return false;
 		}
 
 		if (selectedGeos.size() != 1) {
-			return;
+			return false;
 		}
 
 		// one selected, select next one
@@ -538,7 +541,11 @@ public class SelectionManager {
 			if (selGeo == geo) {
 				removeSelectedGeo(selGeo);
 				if (!it.hasNext()) {
-					it = tree.iterator();
+					if (cycle) {
+						it = tree.iterator();
+					} else {
+						return false;
+					}
 				}
 				GeoElement next = it.next();
 				addSelectedGeo(next);
@@ -550,6 +557,7 @@ public class SelectionManager {
 				break;
 			}
 		}
+		return true;
 	}
 
 	/**
