@@ -187,29 +187,31 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 
 		if (geo.isGeoImage() && false) {
-			//InlineHTML widg = new InlineHTML();
-			//SpanElement wele = DOM.createSpan().cast();
-			//wele.getStyle().setProperty("display", "-moz-inline-box");
-			//wele.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			//widg.getElement().appendChild(wele);
-
 			MyImageW mw = (MyImageW) geo.getFillImage();
-			Canvas canv = Canvas.createIfSupported();
-			canv.setCoordinateSpaceWidth(mw.getWidth());
-			canv.setCoordinateSpaceHeight(mw.getHeight());
-			canv.setWidth(mw + "px");
-			canv.setHeight(mw + "px");
-			Context2d c2d = canv.getContext2d();
-			c2d.drawImage(mw.getImage(), 0, 0);
+			if (mw != null) {
+				InlineHTML widg = new InlineHTML();
+				SpanElement wele = DOM.createSpan().cast();
+				wele.getStyle().setProperty("display", "-moz-inline-box");
+				wele.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+				widg.getElement().appendChild(wele);
 
-			//table.setWidget(row, column, widg);
-			table.setWidget(row, column, canv);
+				Canvas canv = Canvas.createIfSupported();
+				canv.setCoordinateSpaceWidth(mw.getWidth());
+				canv.setCoordinateSpaceHeight(mw.getHeight());
+				canv.setWidth(mw.getWidth() + "px");
+				canv.setHeight(mw.getHeight() + "px");
+				Context2d c2d = canv.getContext2d();
+				c2d.drawImage(mw.getImage(), 0, 0);
 
-			// maybe it's better to add this as a child element,
-			// instead of adding it directly, for cell resizing
-			//wele.appendChild(canv.getCanvasElement());
+				table.setWidget(row, column, widg);
+				// table.setWidget(row, column, canv);
 
-			return;
+				// maybe it's better to add this as a child element,
+				// instead of adding it directly, for cell resizing
+				wele.appendChild(canv.getCanvasElement());
+
+				return;
+			}
 		}
 
 		// Set text according to algebra style
