@@ -70,7 +70,9 @@ public abstract class SensorLogger {
 
 		APP_ID("appID"),
 
-		MOBILE_FOUND("mobile_found");
+		MOBILE_FOUND("mobile_found"),
+
+		FREQUENCY("frequency");
 
 		private String string;
 		private boolean storeInXML = false;

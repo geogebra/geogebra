@@ -41,6 +41,8 @@ public class DataCollectionSettings extends AbstractSettings {
 	private HashMap<Types, Object> mapper = new HashMap<Types, Object>();
 
 	/**
+	 * called from loading a saved material
+	 * 
 	 * @param type
 	 *            eg Types.ACCELEROMETER_X
 	 * @param label
@@ -48,6 +50,7 @@ public class DataCollectionSettings extends AbstractSettings {
 	 */
 	public void mapSensorToGeo(Types type, String label) {
 		mapper.put(type, label);
+		settingChanged();
 	}
 
 	public void mapSensorToGeo(Types type, GeoElement geo) {
@@ -68,7 +71,6 @@ public class DataCollectionSettings extends AbstractSettings {
 		
 		if (geoObj instanceof String) {
 			geo = cons.lookupLabel((String)geoObj);
-
 			// faster lookup next time
 			if (geo != null) {
 				mapper.put(type, geo);
@@ -165,4 +167,7 @@ public class DataCollectionSettings extends AbstractSettings {
 
 	}
 
+	public void removeMappedGeo(Types type) {
+		this.mapper.remove(type);
+	}
 }

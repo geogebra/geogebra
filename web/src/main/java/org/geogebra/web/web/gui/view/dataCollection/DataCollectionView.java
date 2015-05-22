@@ -13,9 +13,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.DataCollectionSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.SensorLogger.Types;
-//import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -50,7 +51,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class DataCollectionView extends FlowPanel implements View, SetLabels,
-		ChangeHandler {
+		ChangeHandler, SettingListener {
 
 	private final String DATA_CONNECTION = "DataConnection";
 	private final String DATA_SHARING_CODE = "DataSharingCode";
@@ -94,7 +95,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	public DataCollectionView(AppW app) {
 		this.app = app;
 		this.addStyleName("dataCollectionView");
-		this.settings = new DataCollectionSettings();
+		this.settings = app.getSettings().getDataCollection();
+		this.settings.addListener(this);
+
 
 		createGUI();
 		this.addDomHandler(new ClickHandler() {
@@ -104,6 +107,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 				handleClick();
 			}
 		}, ClickEvent.getType());
+
+		settingsChanged(this.settings);
 	}
 
 	/**
@@ -160,29 +165,12 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 		updateGeoList();
 		addAccelerometer();
-		addMagneticField();
 		addOrientation();
+		addMagneticField();
 		addProximity();
 		addLight();
-		addLoudness();
+		// addLoudness(); not in use now
 		this.dataCollectionTab.add(this.sensorSettings);
-
-		setSensorSettingsEnabled(false);
-	}
-
-	/**
-	 * sets the {@link #sensorSettings} to enabled/disabled depending on the
-	 * webSocket connection
-	 * 
-	 * @param flag
-	 *            {@code true} to set the {@link #sensorSettings} enabled
-	 */
-	void setSensorSettingsEnabled(boolean flag) {
-		if (flag) {
-			this.sensorSettings.removeStyleName("disabled");
-		} else {
-			this.sensorSettings.addStyleName("disabled");
-		}
 	}
 
 	private void addConnection() {
@@ -304,41 +292,32 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 
 	/**
-	 * show/hide specific sensor settings depending on the availability of the
-	 * sensors
-	 * 
 	 * @param sensor
 	 *            which sensor
 	 * @param flag
-	 *            {@code true} if sensor is available and the settings should be
-	 *            shown
+	 *            {@code true} if sensor is turned on
 	 */
-	public void setVisible(Types sensor, boolean flag) {
+	public void setSensorOn(Types sensor, boolean flag) {
 		switch (sensor) {
 		case ACCELEROMETER_X:
-			this.acc.setVisible(true);
 			this.acc.setOn(flag);
 			break;
 		case MAGNETIC_FIELD_X:
-			this.magField.setVisible(true);
 			this.magField.setOn(flag);
 			break;
 		case ORIENTATION_X:
-			this.orientation.setVisible(true);
 			this.orientation.setOn(flag);
 			break;
 		case PROXIMITY:
-			this.proxi.setVisible(true);
 			this.proxi.setOn(flag);
 			break;
 		case LIGHT:
 			this.light.setVisible(true);
 			this.light.setOn(flag);
 			break;
-		case LOUDNESS:
-			this.loudness.setVisible(true);
-			this.loudness.setOn(flag);
-			break;
+		// case LOUDNESS:
+		// this.loudness.setOn(flag);
+		// break;
 		default:
 			break;
 		}
@@ -370,17 +349,23 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 				this.availableObjects.add(element);
 			}
 		}
-		// check if some elements were deleted
-		ArrayList<GeoElement> geosToRemove = new ArrayList<GeoElement>();
-		for (GeoElement elem : usedObjects) {
-			if (!newTreeSet.contains(elem)) {
-				// used element was deleted, so remove it
-				geosToRemove.add(elem);
-				((AppWapplication) app).getDataCollection()
-						.removeRegisteredGeo(elem);
+
+		this.usedObjects.clear();
+		for (SensorSetting setting : this.sensors) {
+			for (GeoListBox listBox : setting.getListBoxes()) {
+				GeoElement selection = settings.getGeoMappedToSensor(
+						listBox.getType(), app.getKernel().getConstruction());
+				if (selection != null && newTreeSet.contains(selection)) {
+					this.usedObjects.add(selection);
+					this.availableObjects.remove(selection);
+				} else {
+					//
+					settings.removeMappedGeo(listBox.getType());
+					((AppWapplication) app).getDataCollection()
+							.removeRegisteredGeo(listBox.getType());
+				}
 			}
 		}
-		usedObjects.removeAll(geosToRemove);
 		updateListBoxes();
 	}
 
@@ -511,7 +496,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	public void onWrongID() {
 		this.connectionStatus.setText(app.getMenu(CONNECTION_FAILD));
-		setSensorSettingsEnabled(false);
 		((AppWapplication) app).getDataCollection().onDisconnect();
 		this.connectButton.setDown(false);
 		this.appIDTextBox.setEnabled(true);
@@ -525,9 +509,12 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	public void onCorrectID() {
 		this.connectionStatus.setVisible(false);
-		setSensorSettingsEnabled(true);
 		this.appIDTextBox.setEnabled(false);
 		((AppWapplication) app).getDataCollection().triggerAvailableSensors();
+	}
+
+	public void setFrequency(int freq) {
+		// FIXME
 	}
 
 	@Override
@@ -624,6 +611,38 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference) {
 		settings.getXML(sb, asPreference, app.getKernel().getConstruction());
+	}
+
+	public DataCollectionSettings getDataSettings() {
+		return this.settings;
+	}
+
+	/**
+	 * only after opening a file
+	 */
+	public void settingsChanged(AbstractSettings settings) {
+		TreeSet<GeoElement> newTreeSet = app.getKernel().getConstruction()
+				.getGeoSetNameDescriptionOrder();
+		this.availableObjects.clear();
+		// fill list of available objects
+		for (GeoElement element : newTreeSet) {
+			if ((element instanceof GeoNumeric || element instanceof GeoFunction)) {
+				this.availableObjects.add(element);
+			}
+		}
+		this.usedObjects.clear();
+		for (SensorSetting setting : this.sensors) {
+			for (GeoListBox listBox : setting.getListBoxes()) {
+				GeoElement selection = ((DataCollectionSettings) settings)
+						.getGeoMappedToSensor(listBox.getType(), app
+								.getKernel().getConstruction());
+				if (selection != null) {
+					this.usedObjects.add(selection);
+					this.availableObjects.remove(selection);
+				}
+			}
+		}
+		updateListBoxes();
 	}
 }
 

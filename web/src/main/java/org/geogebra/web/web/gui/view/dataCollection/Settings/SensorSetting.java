@@ -45,11 +45,6 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	private DataCollectionView view;
 
 	/**
-	 * labels which need translations
-	 */
-	private ArrayList<Label> linkedObjectLabel = new ArrayList<Label>();
-
-	/**
 	 * 
 	 * @param app
 	 *            {@link AppW}
@@ -74,7 +69,6 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		addContent();
 
 		this.add(dataValues);
-		this.setVisible(false);
 	}
 
 	protected abstract void addContent();
@@ -128,11 +122,9 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		FlowPanel container = new FlowPanel();
 		container.addStyleName("rowContainer");
 		container.add(new Label(rowCaption));
-		Label linkedObj = new Label(app.getPlain("LinkedObject"));
-		this.linkedObjectLabel.add(linkedObj);
-		container.add(linkedObj);
 
-		GeoListBox listBox = new GeoListBox(type, this, app);
+		GeoListBox listBox = new GeoListBox(type, this, app,
+				this.view.getDataSettings());
 		listBox.addChangeHandler(this.view);
 
 		this.listBoxes.add(listBox);
@@ -218,9 +210,6 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		for (Label label : this.linkedObjectLabel) {
-			label.setText(app.getPlain("LinkedObject"));
-		}
 		this.captionLabel.setText(app.getMenu(captionString));
 	}
 
@@ -251,5 +240,4 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 			}
 		}
 	}
-
 }

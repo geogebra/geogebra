@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.dataCollection;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.SensorSetting;
@@ -45,11 +46,11 @@ public class GeoListBox extends ListBox {
 	}
 
 	private Types type;
-	private GeoElement selection;
 	private ArrayList<GeoElement> items = new ArrayList<GeoElement>();
 	private SensorSetting sensor;
 	private int nextFreeGeoListBoxIndex;
 	private AppW app;
+	private DataCollectionSettings dataCollectionSettings;
 
 	/**
 	 * @param type
@@ -57,12 +58,15 @@ public class GeoListBox extends ListBox {
 	 * @param sensor
 	 *            {@link SensorSetting} to which this GeoListBox belongs
 	 * @param app
+	 * @param dataCollectionSettings
 	 */
-	public GeoListBox(Types type, SensorSetting sensor, AppW app) {
+	public GeoListBox(Types type, SensorSetting sensor, AppW app,
+			DataCollectionSettings dataCollectionSettings) {
 		this.sensor = sensor;
 		this.type = type;
 		this.app = app;
 		this.nextFreeGeoListBoxIndex = DefaultEntries.values().length;
+		this.dataCollectionSettings = dataCollectionSettings;
 	}
 
 	/**
@@ -83,18 +87,21 @@ public class GeoListBox extends ListBox {
 	public void setSelection(GeoElement elem) {
 		if (elem == null) {
 			this.setSelectedIndex(DefaultEntries.EMPTY_SELECTION.getIndex());
+			this.dataCollectionSettings.removeMappedGeo(this.type);
 		} else {
+
 			this.setSelectedIndex(this.items.indexOf(elem)
 					+ nextFreeGeoListBoxIndex);
+			this.dataCollectionSettings.mapSensorToGeo(this.type, elem);
 		}
-		this.selection = elem;
 	}
 
 	/**
 	 * @return the selected {@link GeoElement}
 	 */
 	public GeoElement getSelection() {
-		return this.selection;
+		return this.dataCollectionSettings.getGeoMappedToSensor(this.type, app
+				.getKernel().getConstruction());
 	}
 
 	/**
@@ -137,7 +144,7 @@ public class GeoListBox extends ListBox {
 	@Override
 	public void clear() {
 		this.items = new ArrayList<GeoElement>();
-		this.selection = null;
+		this.dataCollectionSettings.removeMappedGeo(this.type);
 		super.clear();
 		addDefaultEntries();
 	}

@@ -84,6 +84,13 @@ public class WebsocketLogger extends SensorLogger {
 		connection.send(obj.toString());
 	}
 
+	public void triggerFrequency() {
+		JSONObject obj = new JSONObject();
+		obj.put("appID", new JSONString(appID));
+		obj.put("frequency", new JSONString(""));
+		connection.send(obj.toString());
+	}
+
 	private void initCloseHandler() {
 		connection.onClose(new CloseEventHandler() {
 
@@ -104,6 +111,8 @@ public class WebsocketLogger extends SensorLogger {
 			handleIDchecked(String.valueOf(
 					JSON.get(json, Types.MOBILE_FOUND.toString())).equals(
 					"true"));
+		} else if (JSON.get(json, Types.FREQUENCY.toString()) != null) {
+			handleFrequency(JSON.get(json, Types.FREQUENCY.toString()));
 		} else if (JSON.get(json, Types.ACCELEROMETER_X.toString())
 				.equals("true")
 					|| JSON.get(json, Types.ACCELEROMETER_X.toString()).equals(
@@ -114,9 +123,16 @@ public class WebsocketLogger extends SensorLogger {
 		}
 	}
 
+
 	private void handleIDchecked(boolean correctID) {
 		for (WebSocketListener listener : this.listeners) {
 			listener.onIDchecked(correctID);
+		}
+	}
+
+	private void handleFrequency(String frequency) {
+		for (WebSocketListener listener : this.listeners) {
+			listener.onFrequency(Integer.parseInt(frequency));
 		}
 	}
 

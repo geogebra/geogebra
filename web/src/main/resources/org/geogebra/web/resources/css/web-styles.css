@@ -3532,15 +3532,6 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
   	padding-top: 1px;
 }
 
-.dataCollectionView .disabled {
-	opacity: 0.5;
-	pointer-events: none;
-}
-
-.dataCollectionView .disabled .gwt-ToggleButton {
-	cursor: default;
-}
-
 /*#####################################################################################
 ###       CONSTRUCTION PROTOCOL
 #####################################################################################*/

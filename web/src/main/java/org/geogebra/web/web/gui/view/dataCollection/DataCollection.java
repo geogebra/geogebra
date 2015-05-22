@@ -99,7 +99,7 @@ public class DataCollection implements WebSocketListener {
 	 */
 	@Override
 	public void onSensorActive(Types sensor, boolean flag) {
-		this.dataView.setVisible(sensor, flag);
+		this.dataView.setSensorOn(sensor, flag);
 	}
 
 	/**
@@ -147,5 +147,9 @@ public class DataCollection implements WebSocketListener {
 
 	public void triggerAvailableSensors() {
 		sensorLogger.triggerAvailableSensors();
+	}
+
+	public void onFrequency(int freq) {
+		this.dataView.setFrequency(freq);
 	}
 }
