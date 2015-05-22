@@ -11,7 +11,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.main.MyImageW;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -183,6 +186,32 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 
+		if (geo.isGeoImage() && false) {
+			//InlineHTML widg = new InlineHTML();
+			//SpanElement wele = DOM.createSpan().cast();
+			//wele.getStyle().setProperty("display", "-moz-inline-box");
+			//wele.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+			//widg.getElement().appendChild(wele);
+
+			MyImageW mw = (MyImageW) geo.getFillImage();
+			Canvas canv = Canvas.createIfSupported();
+			canv.setCoordinateSpaceWidth(mw.getWidth());
+			canv.setCoordinateSpaceHeight(mw.getHeight());
+			canv.setWidth(mw + "px");
+			canv.setHeight(mw + "px");
+			Context2d c2d = canv.getContext2d();
+			c2d.drawImage(mw.getImage(), 0, 0);
+
+			//table.setWidget(row, column, widg);
+			table.setWidget(row, column, canv);
+
+			// maybe it's better to add this as a child element,
+			// instead of adding it directly, for cell resizing
+			//wele.appendChild(canv.getCanvasElement());
+
+			return;
+		}
+
 		// Set text according to algebra style
 		String text = "";
 		String latex = null;
@@ -240,7 +269,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			DrawEquationWeb.drawEquationAlgebraView(wele, "\\mathrm {" + latex
 			        + "}", true);
 		}
-
 	}
 
 	public void onMouseDown(MouseDownEvent e) {
