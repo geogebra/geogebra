@@ -275,6 +275,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 				getVertexWithBorder(0, 1, 0));
 
 		setGeometryIndex(brush.end());
+		
+		updateRendererClipPlanes();
 
 		return true;
 	}
@@ -357,7 +359,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	@Override
 	protected boolean isVisible() {
-		return getView3D().showClippingCube();
+		return true;
+		// TODO -- take care of updateRendererClipPlanes();
+		// return getView3D().showClippingCube();
 	}
 
 }
