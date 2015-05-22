@@ -38,7 +38,8 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 			 // On web there is no all columns yet, so temporary must hide
 			// some
 			// column on stylebar too
-			if (!"ToolbarIcon".equals(colData.getTitle())
+			if (!"No.".equals(colData.getTitle())
+					&& !"ToolbarIcon".equals(colData.getTitle())
 					&& !"Command".equals(colData.getTitle())
 					&& !"Caption".equals(colData.getTitle())
 					&& !"Breakpoint".equals(colData.getTitle())) {
@@ -73,7 +74,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 
 			// which column should be add or remove
 			int colIndex = 0;
-			for (int i=0; i<selIndex; i++){
+			for (int i = 0; i < selIndex + 1; i++) {
 				if (btnColumns.isSelected(i)) {
 					colIndex++;
 				}
@@ -84,12 +85,12 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 						.getColumn(tableColumns[selIndex]);
 				cpView.getTable().insertColumn(colIndex, col,
 						app.getPlain(tableColumns[selIndex]));
-				cpView.getData().columns[selIndex].setVisible(true);
+				cpView.getData().columns[selIndex + 1].setVisible(true);
 				
 			} else { // removing a column from the table
 				App.debug("remove!");
-				cpView.getTable().removeColumn(colIndex);
-				cpView.getData().columns[selIndex].setVisible(false);
+				cpView.getTable().removeColumn(colIndex + 1);
+				cpView.getData().columns[selIndex + 1].setVisible(false);
 			}
 		}
 	}
