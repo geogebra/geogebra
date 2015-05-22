@@ -167,8 +167,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected boolean showRowHeader = true;
 	protected boolean showColumnHeader = true;
 
-	protected boolean renderCellsFirstTime = true;
-
 	protected boolean isOverDnDRegion = false;
 
 	public boolean isOverDnDRegion() {
@@ -392,6 +390,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		}, ClickEvent.getType());
 
+	}
+
+	public void updateCellValuesAgain() {
+		((SpreadsheetTableModelW) tableModel).attachMyTable(this);
 	}
 
 	/**
@@ -794,8 +796,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		public void dimensionChange() {
 			// TODO: comment them out to imitate the Desktop behaviour
 			// TODO//getView().updateRowHeader();
-
-			renderCellsFirstTime = true;
 
 			updateColumnCount();
 			updateRowCount();
@@ -2430,16 +2430,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	/**
-	 * Set to call extra things in renderCells() This hack is needed because
-	 * something is not yet initialized when it is first used, so call it again
-	 * after initialization happened.
-	 */
-	public void setRenderFirstTime() {
-		renderCellsFirstTime = true;
-	}
-
-	
-	/**
 	 * Updates all cell formats and the current selection.
 	 */
 	public void repaintAll() {
@@ -2482,29 +2472,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				        .getMaxColumn(); column++) {
 					updateCellFormat(row, column);
 				}
-			}
-		}
-	}
-
-	public void renderCells() {
-		Object gva;
-
-		int colCount = getColumnCount();
-		int rowCount = getRowCount();
-		for (int i = colCount - 1; i >= 0; i--) {
-			for (int j = rowCount - 1; j >= 0; j--) {
-
-				if (renderCellsFirstTime) {
-					// GeoElement or nothing
-					gva = tableModel.getValueAt(j, i);
-
-					// format table cells
-					defaultTableCellRenderer.updateTableCellValue(ssGrid, gva,
-					        j, i);
-				}
-				// otherwise updateTableCell will be called
-				// at the time of value change anyway,
-				// so it is not needed to call it here
 			}
 		}
 	}

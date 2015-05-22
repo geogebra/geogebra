@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.main.MyImageW;
@@ -175,7 +176,29 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 	}
 
-	public void updateTableCellValue(Grid table, Object value, int row, int column) {
+	public void putImageAtCell(Grid table, int row, int column, MyImageW mw) {
+		//InlineHTML widg = new InlineHTML();
+		//SpanElement wele = DOM.createSpan().cast();
+		//wele.getStyle().setProperty("display", "-moz-inline-box");
+		//wele.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+		//widg.getElement().appendChild(wele);
+
+		Canvas canv = Canvas.createIfSupported();
+		canv.setCoordinateSpaceWidth(mw.getWidth());
+		canv.setCoordinateSpaceHeight(mw.getHeight());
+		canv.setWidth(mw.getWidth() + "px");
+		canv.setHeight(mw.getHeight() + "px");
+		Context2d c2d = canv.getContext2d();
+		c2d.drawImage(mw.getImage(), 0, 0);
+
+		//table.setWidget(row, column, widg);
+		table.setWidget(row, column, canv);
+		//canv.setVisible(true);
+
+		//wele.appendChild(canv.getCanvasElement());
+	}
+
+	public void updateTableCellValue(Grid table, Object value, final int row, final int column) {
 
 		// Get the cell geo, exit if null
 
@@ -187,29 +210,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 
 		if (geo.isGeoImage() && false) {
-			MyImageW mw = (MyImageW) geo.getFillImage();
+			final MyImageW mw = (MyImageW) geo.getFillImage();
 			if (mw != null) {
-				InlineHTML widg = new InlineHTML();
-				SpanElement wele = DOM.createSpan().cast();
-				wele.getStyle().setProperty("display", "-moz-inline-box");
-				wele.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-				widg.getElement().appendChild(wele);
-
-				Canvas canv = Canvas.createIfSupported();
-				canv.setCoordinateSpaceWidth(mw.getWidth());
-				canv.setCoordinateSpaceHeight(mw.getHeight());
-				canv.setWidth(mw.getWidth() + "px");
-				canv.setHeight(mw.getHeight() + "px");
-				Context2d c2d = canv.getContext2d();
-				c2d.drawImage(mw.getImage(), 0, 0);
-
-				table.setWidget(row, column, widg);
-				// table.setWidget(row, column, canv);
-
-				// maybe it's better to add this as a child element,
-				// instead of adding it directly, for cell resizing
-				wele.appendChild(canv.getCanvasElement());
-
+				putImageAtCell(table, row, column, mw);
 				return;
 			}
 		}

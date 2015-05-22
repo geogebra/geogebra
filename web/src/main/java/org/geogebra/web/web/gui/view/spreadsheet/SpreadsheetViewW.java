@@ -31,7 +31,6 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 //import geogebra.web.gui.inputfield.MyTextField;
@@ -1199,7 +1198,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		if (table != null) {
 			table.setSize(width, height);
-			table.setRenderFirstTime();
 			table.repaintAll();
 		}
 	}
@@ -1217,5 +1215,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		if (this.styleBar != null) {
 			styleBar.setLabels();
 		}
+	}
+
+	public void updateCellValuesAgain() {
+		table.updateCellValuesAgain();
 	}
 }
