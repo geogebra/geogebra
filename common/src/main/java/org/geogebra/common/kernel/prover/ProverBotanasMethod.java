@@ -493,6 +493,7 @@ public class ProverBotanasMethod {
 									// Here we know that the statement is not generally true.
 									// But it is possible that the statement is not generally false, either.
 									// So we should check the negative statement also.
+									App.debug("Statement is NOT GENERALLY TRUE");
 									App.debug("Checking the negative statement to decide if the statement is generally false or not:");
 									spoly = lastpoly;
 									eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
@@ -500,6 +501,7 @@ public class ProverBotanasMethod {
 										substitutions, statement.getKernel(),
 										permutation++);
 										if (eliminationIdeal == null) {
+											App.debug("Statement is NOT GENERALLY FALSE => UNKNOWN (1)");
 											return ProofResult.UNKNOWN;
 										}
 									ndgSet = eliminationIdeal.iterator();
@@ -509,10 +511,12 @@ public class ProverBotanasMethod {
 										while (ndg.hasNext()) {
 											poly = ndg.next();
 											if (poly.isZero()) {
+												App.debug("Statement is NOT GENERALLY FALSE either => UNKNOWN (2)");
 												return ProofResult.UNKNOWN;
 											}
 										}
 									}
+									App.debug("Statement is GENERALLY FALSE");
 									return ProofResult.FALSE;
 								}
 									
@@ -599,8 +603,10 @@ public class ProverBotanasMethod {
 					}
 					// No readable proof was found, search for another
 					// prover to make a better job:
-					if (!found)
+					if (!found) {
+						App.debug("Statement is TRUE but NDGs are UNREADABLE");
 						return ProofResult.TRUE_NDG_UNREADABLE;
+					}
 				} else {
 					Boolean solvable = Polynomial.solvable(eqSystem,
 							substitutions, statement.getKernel(),
@@ -608,18 +614,21 @@ public class ProverBotanasMethod {
 					if (solvable == null) {
 						// Prover returned with no success, search for another
 						// prover:
+						App.debug("Unsuccessful run, statement is UNKNOWN at the moment");
 						return ProofResult.UNKNOWN;
 					}
 					if (solvable) {
 						if (!ProverSettings.transcext) {
 							// We cannot reliably tell if the statement is
 							// really false:
+							App.debug("No transcext support, system is solvable, statement is UNKNOWN");
 							return ProofResult.UNKNOWN;
 						}
 						// Here we know that the statement is not generally true.
 						// But it is possible that the statement is not generally false, either.
 						// So we check the negative statement also.
 						spoly = lastpoly;
+						App.debug("Statement is NOT GENERALLY TRUE");
 						App.debug("Checking the negative statement to decide if the statement is generally false or not:");
 						eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
 						App.debug((nHypotheses + nNdgConditions + nPolysStatement)
@@ -627,18 +636,25 @@ public class ProverBotanasMethod {
 						Boolean negsolvable = Polynomial.solvable(eqSystem,
 								substitutions, statement.getKernel(),
 								ProverSettings.transcext);
-						if (negsolvable)
+						if (negsolvable) {
+							App.debug("Statement is NOT GENERALLY FALSE either => UNKNOWN");
 							return ProofResult.UNKNOWN;
+						}
+						App.debug("Statement is GENERALLY FALSE");
 						ans = false;
 					}
 				}
 			}
 
-			if (ans)
+			if (ans) {
+				App.debug("Statement is GENERALLY TRUE");
 				return ProofResult.TRUE;
+			}
 
+			App.debug("Statement is GENERALLY FALSE");
 			return ProofResult.FALSE;
 		} catch (NoSymbolicParametersException e) {
+			App.debug("Unsuccessful run, statement is UNKNOWN at the moment");
 			return ProofResult.UNKNOWN;
 		}
 	}

@@ -129,11 +129,11 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		App.debug("Benchmarking: " + elapsedTime + " ms");
 
 		result = p.getProofResult();
-		if (p.getProofResult() == ProofResult.PROCESSING) {
+		if (result == ProofResult.PROCESSING) {
 			processing = 1;
 		}
 
-		App.debug("Statement is " + result);
+		App.debug("STATEMENT IS " + result);
 	}
 
 	@Override

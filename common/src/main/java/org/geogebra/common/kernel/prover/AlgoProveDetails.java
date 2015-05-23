@@ -161,17 +161,19 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
 		result = p.getYesNoAnswer();
 		ndgresult = p.getNDGConditions();
-		if (p.getProofResult() == ProofResult.TRUE_NDG_UNREADABLE) {
+		ProofResult proofresult = p.getProofResult(); 
+		
+		if (proofresult == ProofResult.TRUE_NDG_UNREADABLE) {
 			unreadable = true;
 		}
-		if (p.getProofResult() == ProofResult.TRUE) {
+		if (proofresult == ProofResult.TRUE) {
 			unreadable = false;
 		}
-		if (p.getProofResult() == ProofResult.PROCESSING) {
+		if (proofresult == ProofResult.PROCESSING) {
 			processing = 1;
 		}
 
-		App.debug("Statement is " + result);
+		App.debug("STATEMENT IS " + proofresult + " (yes/no: " + result + ")");
 
 	}
 
