@@ -843,8 +843,12 @@ public class Polynomial implements Comparable<Polynomial> {
 			vars = vars.substring(0, vars.length() - 1);
 		}
 		
-		if (vars != "")
+		if (vars != "") {
 			ret.append(vars);
+			if (dependentVariables.isEmpty()) {
+				ret.append(",").append(dummyVar);
+			}
+		}
 		else
 			ret.append(dummyVar);
 		

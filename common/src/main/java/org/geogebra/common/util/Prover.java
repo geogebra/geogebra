@@ -80,7 +80,7 @@ public abstract class Prover {
 		 */
 		FALSE,
 		/**
-		 * The statement cannot be proved by using the current backed within the
+		 * The statement cannot be proved by using the current backend within the
 		 * given timeout
 		 */
 		UNKNOWN,

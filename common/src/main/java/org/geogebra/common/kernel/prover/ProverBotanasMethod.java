@@ -425,7 +425,8 @@ public class ProverBotanasMethod {
 
 				// Rabinowitsch trick for the last polynomial of the current
 				// statement:
-				Polynomial spoly = statements[i][nPolysStatement - 1].multiply(
+				Polynomial lastpoly = statements[i][nPolysStatement - 1]; // saving for negative check
+				Polynomial spoly = lastpoly.multiply(
 						new Polynomial(new Variable())).subtract(
 						new Polynomial(1));
 				// FIXME: this always introduces an extra variable, shouldn't do
@@ -435,7 +436,7 @@ public class ProverBotanasMethod {
 						+ ". " + spoly);
 
 				if (prover.isReturnExtraNDGs()) {
-					eqSystem[nHypotheses + nPolysStatement - 1] = spoly;
+					eqSystem[nHypotheses + nPolysStatement - 1] = spoly; // is this needed?
 
 					Set<Set<Polynomial>> eliminationIdeal;
 					NDGDetector ndgd = new NDGDetector(prover, substitutions);
@@ -492,10 +493,27 @@ public class ProverBotanasMethod {
 									// Here we know that the statement is not generally true.
 									// But it is possible that the statement is not generally false, either.
 									// So we should check the negative statement also.
-									App.debug("Botana's ProveDetails knows only that the statement is not generally true.");
-									App.debug("Decision if the statement is generally false or not will be handled in a future GeoGebra version.");
-									return ProofResult.UNKNOWN;
-									// At the moment we don't compute anything. TODO: compute that.
+									App.debug("Checking the negative statement to decide if the statement is generally false or not:");
+									spoly = lastpoly;
+									eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
+									eliminationIdeal = Polynomial.eliminate(eqSystem,
+										substitutions, statement.getKernel(),
+										permutation++);
+										if (eliminationIdeal == null) {
+											return ProofResult.UNKNOWN;
+										}
+									ndgSet = eliminationIdeal.iterator();
+									while (ndgSet.hasNext()) {
+										thisNdgSet = ndgSet.next();
+										ndg = thisNdgSet.iterator();
+										while (ndg.hasNext()) {
+											poly = ndg.next();
+											if (poly.isZero()) {
+												return ProofResult.UNKNOWN;
+											}
+										}
+									}
+									return ProofResult.FALSE;
 								}
 									
 								if (!poly.isConstant()) {
@@ -601,7 +619,7 @@ public class ProverBotanasMethod {
 						// Here we know that the statement is not generally true.
 						// But it is possible that the statement is not generally false, either.
 						// So we check the negative statement also.
-						spoly = statements[i][nPolysStatement - 1];
+						spoly = lastpoly;
 						App.debug("Checking the negative statement to decide if the statement is generally false or not:");
 						eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
 						App.debug((nHypotheses + nNdgConditions + nPolysStatement)
