@@ -15,6 +15,7 @@ import org.geogebra.web.html5.main.MyImageW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -189,8 +190,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (geo.isGeoImage()) {
 			final MyImageW mw = (MyImageW) geo.getFillImage();
 			if (mw != null) {
-				SimplePanel simpan = new SimplePanel();
-				simpan.addStyleName("SVCenterParent");
+				SimplePanel sp = new SimplePanel();
+				sp.addStyleName("SVCenterParent");
 				Canvas canv = Canvas.createIfSupported();
 				canv.addStyleName("SVCenterContent");
 				canv.setCoordinateSpaceWidth(mw.getWidth());
@@ -199,10 +200,19 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				canv.setHeight(mw.getHeight() + "px");
 				Context2d c2d = canv.getContext2d();
 				c2d.drawImage(mw.getImage(), 0, 0);
-				simpan.add(canv);
-				table.setWidget(row, column, simpan);
+				sp.add(canv);
+				table.setWidget(row, column, sp);
+
 				table.getCellFormatter().getElement(row, column)
 						.addClassName("SVCenterTD");
+
+				// Internet Explorer style hack (empty-cells not OK):
+				// TODO: maybe not needed, remove?
+				Element se = DOM.createSpan();
+				se.setInnerHTML("&nbsp;");
+				sp.getElement().appendChild(se);
+
+
 				return;
 			}
 		}

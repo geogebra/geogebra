@@ -2145,6 +2145,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	width: 0px;
 	cursor: default;
 	-ms-touch-action: none;
+	empty-cells: show;
 }
 
 .geogebraweb-table-spreadsheet td {
@@ -2167,13 +2168,16 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 }
 
 .geogebraweb-table-spreadsheet td.SVCenterTD {
-	position: relative; /* needed HERE as frame of absolute positioning of content */
-	overflow: hidden; /* need HERE to clip the overflowing elements */
+	overflow: hidden; /* for some reason, overflow:hidden only works well here */
 }
 
 .geogebraweb-table-spreadsheet td .SVCenterParent {
-	width: 100%; /* size is based on TD size, not vica versa */
-	height: 100%; /* size is based on TD size, not vica versa */
+	position: relative; /* needed as frame of absolute positioning of content */
+	overflow: visible; /* need overflow:hidden one level up */
+	height: 100%; /* required to follow the size of TD */
+	width: 100%; /* required to follow the size of TD */
+	top: 0px; /* might be required to follow the size of TD - works! */
+	left: 0px; /* might be required to follow the size of TD - works! */
 }
 
 .geogebraweb-table-spreadsheet td .SVCenterParent .SVCenterContent {
