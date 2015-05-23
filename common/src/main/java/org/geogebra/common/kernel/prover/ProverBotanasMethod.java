@@ -301,6 +301,9 @@ public class ProverBotanasMethod {
 								geo.setCaptionBotanaVars("(" + v[0].toTeX()
 										+ "," + v[1].toTeX() + ")");
 							}
+							App.debug("// Free point "
+									+ geo.getLabelSimple() + "(" + v[0] + ","
+									+ v[1] + ")");
 						}
 					}
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo)
@@ -311,7 +314,7 @@ public class ProverBotanasMethod {
 							Variable[] v = new Variable[2];
 							v = ((SymbolicParametersBotanaAlgo) geo)
 									.getBotanaVars(geo);
-							App.debug("Constrained point "
+							App.debug("// Constrained point "
 									+ geo.getLabelSimple() + "(" + v[0] + ","
 									+ v[1] + ")");
 							if (ProverSettings.captionAlgebra) {
