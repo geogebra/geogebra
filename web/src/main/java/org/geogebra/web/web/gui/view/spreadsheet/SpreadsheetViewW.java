@@ -1216,8 +1216,4 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			styleBar.setLabels();
 		}
 	}
-
-	public void updateCellValuesAgain() {
-		table.updateCellValuesAgain();
-	}
 }

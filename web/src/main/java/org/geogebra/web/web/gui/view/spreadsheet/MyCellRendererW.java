@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.main.MyImageW;
@@ -201,7 +200,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	public void updateTableCellValue(Grid table, Object value, final int row, final int column) {
 
 		// Get the cell geo, exit if null
-
 		if (value != null) {
 			geo = (GeoElement) value;
 		} else {
@@ -209,7 +207,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 
-		if (geo.isGeoImage() && false) {
+		if (geo.isGeoImage()) {
 			final MyImageW mw = (MyImageW) geo.getFillImage();
 			if (mw != null) {
 				putImageAtCell(table, row, column, mw);

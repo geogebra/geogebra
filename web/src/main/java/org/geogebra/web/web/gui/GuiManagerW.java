@@ -462,7 +462,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				layout.getDockManager().show(viewId);
 
 			if (viewId == App.VIEW_SPREADSHEET) {
-				// getSpreadsheetView().updateCellValuesAgain();
 				getSpreadsheetView().requestFocus();
 			}
 			if (viewId == App.VIEW_DATA_ANALYSIS) {

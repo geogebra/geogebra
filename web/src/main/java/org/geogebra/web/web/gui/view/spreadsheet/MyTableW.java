@@ -392,10 +392,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
-	public void updateCellValuesAgain() {
-		((SpreadsheetTableModelW) tableModel).attachMyTable(this);
-	}
-
 	/**
 	 * End table constructor
 	 ******************************************************************/
