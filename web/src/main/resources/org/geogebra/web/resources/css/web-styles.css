@@ -2166,6 +2166,20 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	color: #F8F8F8 !important;
 }
 
+.geogebraweb-table-spreadsheet td.SVCenterTD {
+	position: relative;
+	overflow: hidden;
+}
+
+.geogebraweb-table-spreadsheet td.SVCenterTD canvas {
+	position: absolute;
+	margin: auto;
+	top: -8192px;
+	left: -8192px;
+	bottom: -8192px;
+	right: -8192px;
+}
+
 .geogebraweb-table-spreadsheet td.SVheader {
 	padding-left: 0px;
 	padding-right: 0px;

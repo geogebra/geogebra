@@ -176,11 +176,11 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	}
 
 	public void putImageAtCell(Grid table, int row, int column, MyImageW mw) {
-		//InlineHTML widg = new InlineHTML();
-		//SpanElement wele = DOM.createSpan().cast();
-		//wele.getStyle().setProperty("display", "-moz-inline-box");
-		//wele.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-		//widg.getElement().appendChild(wele);
+		// When we put something in TD, we shall make its
+		// width/height 100%, so that its dimensions shall
+		// not depend on the content in the cell (TD)
+		// that's why we need a DIV element here, although
+		// it would have been better with TD align,valign
 
 		Canvas canv = Canvas.createIfSupported();
 		canv.setCoordinateSpaceWidth(mw.getWidth());
@@ -189,12 +189,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		canv.setHeight(mw.getHeight() + "px");
 		Context2d c2d = canv.getContext2d();
 		c2d.drawImage(mw.getImage(), 0, 0);
-
-		//table.setWidget(row, column, widg);
 		table.setWidget(row, column, canv);
-		//canv.setVisible(true);
-
-		//wele.appendChild(canv.getCanvasElement());
+		table.getCellFormatter().getElement(row, column)
+				.addClassName("SVCenterTD");
 	}
 
 	public void updateTableCellValue(Grid table, Object value, final int row, final int column) {
