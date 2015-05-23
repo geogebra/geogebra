@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	private static final long serialVersionUID = 1L;
@@ -188,14 +189,18 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (geo.isGeoImage()) {
 			final MyImageW mw = (MyImageW) geo.getFillImage();
 			if (mw != null) {
+				SimplePanel simpan = new SimplePanel();
+				simpan.addStyleName("SVCenterParent");
 				Canvas canv = Canvas.createIfSupported();
+				canv.addStyleName("SVCenterContent");
 				canv.setCoordinateSpaceWidth(mw.getWidth());
 				canv.setCoordinateSpaceHeight(mw.getHeight());
 				canv.setWidth(mw.getWidth() + "px");
 				canv.setHeight(mw.getHeight() + "px");
 				Context2d c2d = canv.getContext2d();
 				c2d.drawImage(mw.getImage(), 0, 0);
-				table.setWidget(row, column, canv);
+				simpan.add(canv);
+				table.setWidget(row, column, simpan);
 				table.getCellFormatter().getElement(row, column)
 						.addClassName("SVCenterTD");
 				return;

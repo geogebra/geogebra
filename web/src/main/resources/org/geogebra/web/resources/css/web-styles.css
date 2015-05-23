@@ -2167,17 +2167,23 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 }
 
 .geogebraweb-table-spreadsheet td.SVCenterTD {
-	position: relative;
-	overflow: hidden;
+	position: relative; /* needed HERE as frame of absolute positioning of content */
+	overflow: hidden; /* need HERE to clip the overflowing elements */
 }
 
-.geogebraweb-table-spreadsheet td.SVCenterTD canvas {
-	position: absolute;
-	margin: auto;
-	top: -8192px;
-	left: -8192px;
-	bottom: -8192px;
-	right: -8192px;
+.geogebraweb-table-spreadsheet td .SVCenterParent {
+	width: 100%; /* size is based on TD size, not vica versa */
+	height: 100%; /* size is based on TD size, not vica versa */
+}
+
+.geogebraweb-table-spreadsheet td .SVCenterParent .SVCenterContent {
+	/* this hack is pretty fixed, although its parents can change */
+	position: absolute; /* needed for overflow to the left/top etc */
+	margin: auto; /* center to the center of .SVCenterParent (hack) */
+	top: -8192px; /* needed in case the image is bigger than the cell */
+	left: -8192px; /* needed in case the image is bigger than the cell */
+	bottom: -8192px; /* needed in case the image is bigger than the cell */
+	right: -8192px; /* needed in case the image is bigger than the cell */
 }
 
 .geogebraweb-table-spreadsheet td.SVheader {
