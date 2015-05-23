@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Runs all test scenarios based on the current build.
+# See "./runtests -h" for more details.
+
+MYDIR=`pwd $0`
+cd $MYDIR
+for i in jar-paper giac-test ndg; do
+ ./runtests -S $i -d -o html/$i.html -r
+ done

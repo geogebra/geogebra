@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Checks the output of runtests-all and reports if a regression occurred.
+
+exitcode=0
+
+r() {
+ echo "Regression in $1"
+ exitcode=1
+ }
+
+MYDIR=`pwd $0`
+cd $MYDIR
+for i in jar-paper giac-test ndg; do
+ cat html/$i.html | grep \"summary | grep -v Summary | cut -f2 -db | tr '></' '   ' | awk {'printf "%s ", $1'} > tmp/$i.summary.out
+ done
+
+read e1 e2 e2g e3a e3b a < tmp/jar-paper.summary.out
+if ((e1 < 30)); then r "jar-paper: Engine 1"; fi
+if ((e2 < 48)); then r "jar-paper: Engine 2"; fi
+if ((e2g < 42)); then r "jar-paper: Engine 2, Giac"; fi
+if ((e3a < 48)); then r "jar-paper: Engine 3a"; fi
+if ((e3b < 42)); then r "jar-paper: Engine 3b"; fi
+if ((a < 55)); then r "jar-paper: Auto"; fi
+
+read b bg ow a < tmp/ndg.summary.out
+if ((b < 44)); then r "ndg: Botana"; fi
+if ((bg < 42)); then r "ndg: BotanaGiac"; fi
+if ((ow < 48)); then r "ndg: OpenGeoProver Wu"; fi
+if ((a < 46)); then r "ndg: Auto"; fi
+
+read b bg < tmp/giac-test.summary.out
+if ((b < 48)); then r "giac-test: Botana"; fi
+if ((bg < 42)); then r "giac-test: BotanaGiac"; fi
+
+exit $exitcode
