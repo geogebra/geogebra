@@ -175,25 +175,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 	}
 
-	public void putImageAtCell(Grid table, int row, int column, MyImageW mw) {
-		// When we put something in TD, we shall make its
-		// width/height 100%, so that its dimensions shall
-		// not depend on the content in the cell (TD)
-		// that's why we need a DIV element here, although
-		// it would have been better with TD align,valign
-
-		Canvas canv = Canvas.createIfSupported();
-		canv.setCoordinateSpaceWidth(mw.getWidth());
-		canv.setCoordinateSpaceHeight(mw.getHeight());
-		canv.setWidth(mw.getWidth() + "px");
-		canv.setHeight(mw.getHeight() + "px");
-		Context2d c2d = canv.getContext2d();
-		c2d.drawImage(mw.getImage(), 0, 0);
-		table.setWidget(row, column, canv);
-		table.getCellFormatter().getElement(row, column)
-				.addClassName("SVCenterTD");
-	}
-
 	public void updateTableCellValue(Grid table, Object value, final int row, final int column) {
 
 		// Get the cell geo, exit if null
@@ -207,10 +188,22 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (geo.isGeoImage()) {
 			final MyImageW mw = (MyImageW) geo.getFillImage();
 			if (mw != null) {
-				putImageAtCell(table, row, column, mw);
+				Canvas canv = Canvas.createIfSupported();
+				canv.setCoordinateSpaceWidth(mw.getWidth());
+				canv.setCoordinateSpaceHeight(mw.getHeight());
+				canv.setWidth(mw.getWidth() + "px");
+				canv.setHeight(mw.getHeight() + "px");
+				Context2d c2d = canv.getContext2d();
+				c2d.drawImage(mw.getImage(), 0, 0);
+				table.setWidget(row, column, canv);
+				table.getCellFormatter().getElement(row, column)
+						.addClassName("SVCenterTD");
 				return;
 			}
 		}
+
+		table.getCellFormatter().getElement(row, column)
+				.removeClassName("SVCenterTD");
 
 		// Set text according to algebra style
 		String text = "";
