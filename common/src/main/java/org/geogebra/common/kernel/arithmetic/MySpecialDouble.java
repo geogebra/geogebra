@@ -174,7 +174,7 @@ public class MySpecialDouble extends MyDouble {
 		case GIAC:
 			ch = strToString.charAt(0);
 			switch (ch) {
-			case Unicode.piChar:
+			case Unicode.pi:
 				return "pi";
 			case Unicode.degreeChar:
 				return "pi/180";
@@ -189,7 +189,7 @@ public class MySpecialDouble extends MyDouble {
 		case LATEX:
 			ch = strToString.charAt(0);
 			switch (ch) {
-			case Unicode.piChar:
+			case Unicode.pi:
 				return "\\pi";
 			case Unicode.degreeChar:
 				return "^{\\circ}";

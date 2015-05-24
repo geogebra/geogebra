@@ -309,7 +309,8 @@ public class TableSymbols {
 	public final static String[] greekLowerCase = { "\u03b1", "\u03b2",
 			"\u03b3", "\u03b4", "\u03b5", "\u03b6", "\u03b7", "\u03b8",
 			"\u03b9", "\u03ba", "\u03bb", "\u03bc", "\u03bd", "\u03be",
-			"\u03bf", "\u03c0", "\u03c1", "\u03c3", "\u03c4", "\u03c5",
+			"\u03bf", Unicode.PI_STRING, "\u03c1", "\u03c3", "\u03c4",
+			"\u03c5",
 			"\u03d5", "\u03c7", "\u03c8", "\u03c9" };
 
 	public final static String[] greekUpperCaseFull = {
@@ -502,7 +503,7 @@ public class TableSymbols {
 			"\u207D", // SUPERSCRIPT LEFT PARENTHESIS
 			"\u207E", // SUPERSCRIPT RIGHT PARENTHESIS
 			"\u207F", // SUPERSCRIPT LATIN SMALL LETTER N
-			"\u00b0", // degree
+			Unicode.degree, // degree
 			"", // blank filler
 			"", // blank filler
 			"", // blank filler
@@ -1483,7 +1484,7 @@ public class TableSymbols {
 	public final static String[] specialChars = {
 			"\u00b2", // exponents ^2
 			"\u00b3", // exponents ^3
-			"\u00b0", // degree
+			Unicode.degree, // degree
 			"\u03c0", // pi
 			Unicode.EULER_STRING, // e
 			"\u221e", // infinity
@@ -1507,11 +1508,11 @@ public class TableSymbols {
 
 	public final static String[] symbols = {
 
-			"\u03c0", // pi
+			Unicode.PI_STRING, // pi
 			Unicode.EULER_STRING, // e
 			"\u00b2", // exponents ^2
 			"\u00b3", // exponents ^3
-			"\u00b0", // degree
+			Unicode.degree, // degree
 			"\u221e", // infinity
 			ExpressionNodeConstants.strVECTORPRODUCT, // "\u2297", // vector
 														// product (circled

@@ -2,6 +2,8 @@ package org.geogebra.common.export.pstricks;
 
 import java.util.HashMap;
 
+import org.geogebra.common.util.Unicode;
+
 public class UnicodeTeX {
 
 	private static HashMap<String, String> unicode2tex = null;
@@ -76,7 +78,7 @@ public class UnicodeTeX {
 		p('\u03bc', "mu");
 		p('\u03bd', "nu");
 		p('\u03be', "xi");
-		p('\u03c0', "pi");
+		p(Unicode.pi, "pi");
 		p('\u03c1', "rho");
 		p('\u03c2', "varsigma");
 		p('\u03c3', "sigma");

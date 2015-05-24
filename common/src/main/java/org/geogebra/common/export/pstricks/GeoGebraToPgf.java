@@ -2414,16 +2414,16 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 							+ StringUtil.toLaTeXString(
 									geo.getLabelDescription(), true) + "$";
 				}
-				if (name.indexOf("\u00b0") != -1) {
+				if (name.indexOf(Unicode.degree) != -1) {
 					if (format == GeoGebraToPgf.FORMAT_LATEX) {
-						name = name.replaceAll("\u00b0",
+						name = name.replaceAll(Unicode.degree,
 								"\\\\textrm{\\\\degre}");
 						if (codePreamble.indexOf("\\degre") == -1)
 							codePreamble
 									.append("\\newcommand{\\degre}{\\ensuremath{^\\circ}}\n");
 					} else if (format == GeoGebraToPgf.FORMAT_CONTEXT
 							|| format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
-						name = name.replaceAll("\u00b0", "{}^{\\\\circ}");
+						name = name.replaceAll(Unicode.degree, "{}^{\\\\circ}");
 					}
 				}
 				if (null == drawGeo)

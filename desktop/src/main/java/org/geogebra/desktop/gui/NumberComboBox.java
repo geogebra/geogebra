@@ -20,6 +20,7 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.NumberFormatAdapter;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.main.AppD;
 
 public class NumberComboBox extends JComboBox {
@@ -27,8 +28,6 @@ public class NumberComboBox extends JComboBox {
 	private static final long serialVersionUID = 1L;
 
 	private static final int MAX_FRAC_DIGITS = 5;
-	private static final String PI_STRING = "\u03c0";
-
 	private NumberFormatAdapter nf;
 	private Kernel kernel;
 
@@ -36,8 +35,8 @@ public class NumberComboBox extends JComboBox {
 		kernel = app.getKernel();
 
 		addItem("1"); // pi
-		addItem(PI_STRING); // pi
-		addItem(PI_STRING + "/2"); // pi/2
+		addItem(Unicode.PI_STRING); // pi
+		addItem(Unicode.PI_STRING + "/2"); // pi/2
 		setEditable(true);
 		setSelectedItem(null);
 

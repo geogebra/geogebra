@@ -434,7 +434,7 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		addFunctionalButton(index, functions, SPECIAL_CHARS, Action.SWITCH_KEYBOARD).addStyleName("switchToSpecialChar");
 		addFunctionalButton(index, functions, GREEK, Action.SWITCH_KEYBOARD);
 		
-		addButton(KeyboardConstants.PI, index, functions);
+		addButton(Unicode.PI_STRING, index, functions);
 		addButton(",", index, functions);
 
 		contentNumber.add(functions);

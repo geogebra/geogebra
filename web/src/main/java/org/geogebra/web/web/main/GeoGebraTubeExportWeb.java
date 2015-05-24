@@ -96,8 +96,8 @@ public class GeoGebraTubeExportWeb extends
 						} else {
 							App.debug("Opening URL: " + uploadURL + "/"
 							        + results.getUID());
-							app.showURLinBrowser(uploadURL + "/"
-							        + results.getUID());
+							// app.showURLinBrowser(uploadURL + "/"
+							// + results.getUID());
 							hideDialog();
 						}
 					} else { // not Response.SC_OK

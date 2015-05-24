@@ -1749,8 +1749,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 									geo.getLabelDescription(), true) + "$";
 				}
 
-				if (name.indexOf("\u00b0") != -1) {
-					name = name.replaceAll("\u00b0", "\\\\textrm{\\\\degre}");
+				if (name.indexOf(Unicode.degree) != -1) {
+					name = name.replaceAll(Unicode.degree,
+							"\\\\textrm{\\\\degre}");
 					if (codePreamble.indexOf("\\degre") == -1)
 						codePreamble
 								.append("\\newcommand{\\degre}{\\ensuremath{^\\circ}}\n");

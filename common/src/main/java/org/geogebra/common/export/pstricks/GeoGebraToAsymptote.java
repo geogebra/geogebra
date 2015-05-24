@@ -2241,8 +2241,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 									geo.getLabelDescription(), true) + "$";
 					name = convertUnicodeToLatex(name);
 				}
-				if (name.indexOf("\u00b0") != -1) {
-					name = name.replace("\u00b0", "^\\\\circ");
+				if (name.indexOf(Unicode.degree) != -1) {
+					name = name.replace(Unicode.degree, "^\\\\circ");
 				}
 
 				if (drawGeo == null)
@@ -2528,7 +2528,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					// return "$"+s+"\pi$"; return "$"+s+"\pi/2$";}
 
 					// unit label is pi: format -1pi, -1pi/2, 0pi, 1pi/2, 1pi
-					if (units[0].equals("\u03c0")) {
+					if (units[0].equals(Unicode.PI_STRING)) {
 						// create labeling function for special labels if n =
 						// -1,0,1
 						packSpaceBetween(codeBeginPic, "string s; ", "int n",
@@ -2553,10 +2553,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					codeBeginPic.append("return \"$\"");
 					packSpace(codeBeginPic, "+");
 					// unit label is pi
-					if (units[0].equals("\u03c0"))
+					if (units[0].equals(Unicode.PI_STRING))
 						packSpaceBetween(codeBeginPic, "s", "+", "\"\\pi/2");
 					// unit label is degrees symbol
-					else if (units[0].equals("\u00b0"))
+					else if (units[0].equals(Unicode.degree))
 						packSpaceBetween(codeBeginPic, "string(x)", "+",
 								"\"^\\circ");
 					else {
@@ -2582,7 +2582,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					// return "$"+s+"\pi$"; return "$"+s+"\pi/2$";}
 
 					// unit label is pi: format -1pi, -1pi/2, 0pi, 1pi/2, 1pi
-					if (units[1].equals("\u03c0")) {
+					if (units[1].equals(Unicode.PI_STRING)) {
 						// create labeling function for special labels if n =
 						// -1,0,1
 						packSpaceBetween(codeBeginPic, "string s; ", "int n",
@@ -2607,10 +2607,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					codeBeginPic.append("return \"$\"");
 					packSpace(codeBeginPic, "+");
 					// unit label is pi
-					if (units[1].equals("\u03c0"))
+					if (units[1].equals(Unicode.PI_STRING))
 						packSpaceBetween(codeBeginPic, "s", "+", "\"\\pi/2");
 					// unit label is degrees symbol
-					else if (units[1].equals("\u00b0"))
+					else if (units[1].equals(Unicode.degree))
 						packSpaceBetween(codeBeginPic, "string(x)", "+",
 								"\"^\\circ");
 					else {
@@ -3532,7 +3532,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			String skey = it.next();
 			s1 = s1.replace(skey, UnicodeTeX.getMap().get(skey) + " ");
 		}
-		return s1.replace("\u00b0", "o ")
+		return s1.replace(Unicode.degree, "o ")
 				// degree symbol
 				.replace("\u212f", "e ").replace("\u00b2", "2 ")
 				.replace("\u00b3", "3 ").replace("pi \\)", "pi\\)"); // eliminate
@@ -3583,7 +3583,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			sb.append(s1.charAt(s1.length() - 1));
 		s1 = sb.toString();
 
-		return s1.replace("\u00b0", "^\\\\circ").replace("\u212f", " e")
+		return s1.replace(Unicode.degree, "^\\\\circ").replace("\u212f", " e")
 				.replace("\u00b2", "^2").replace("\u00b3", "^3")
 				.replace("\\\\questeq", "\\\\stackrel{?}{=}");
 	}
@@ -3684,7 +3684,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		renameFunc(sb, "\u03bb", "lambda");
 		renameFunc(sb, "\u03bc", "mu");
 		renameFunc(sb, "\u03be", "xi");
-		renameFunc(sb, "\u03c0", "pi");
+		renameFunc(sb, Unicode.PI_STRING, "pi");
 		renameFunc(sb, "\u03c1", "rho");
 		renameFunc(sb, "\u03c2", "varsigma");
 		renameFunc(sb, "\u03c3", "sigma");

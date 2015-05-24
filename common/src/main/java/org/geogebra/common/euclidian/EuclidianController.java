@@ -107,6 +107,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.Unicode;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -5047,7 +5048,7 @@ public abstract class EuclidianController {
 			else if (macroInput[index].equals(Test.GEOANGLE)) {
 				app.getDialogManager().showAngleInputDialog(
 						macro.getToolOrCommandName(), l10n.getPlain("Angle"),
-						"45\u00b0", callback3);
+						Unicode.FORTY_FIVE_DEGREES, callback3);
 
 			}
 		}

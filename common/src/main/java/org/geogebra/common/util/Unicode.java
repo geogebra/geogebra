@@ -39,9 +39,6 @@ public class Unicode {
 	final public static String EULER_STRING = eulerChar + "";
 	final public static String EULER_GAMMA_STRING = "\u212F_\u03B3";
 
-	/** Unicode symbol for pi */
-	final public static char piChar = '\u03c0'; // "\u0435";
-	final public static String PI_STRING = Character.toString(piChar);
 	public static final String alphaBetaGamma = "\u03b1\u03b2\u03b3";
 	// lower case Greek
 	public static final char alpha = '\u03B1';
@@ -70,6 +67,7 @@ public class Unicode {
 	public static final char chi = '\u03C7';
 	public static final char psi = '\u03C8';
 	public static final char omega = '\u03C9';
+	final public static String PI_STRING = Character.toString(pi);
 
 	// UPPER CASE Greek
 	public static final char Alpha = '\u0391';
@@ -158,6 +156,7 @@ public class Unicode {
 	public static final String CURRENCY_TUGHRIK = "\u20ae";
 	public static final String CURRENCY_RUPEE = "\u20a8";
 	public static final String CURRENCY_INDIAN_RUPEE = "\u20b9";
+	public static final String FORTY_FIVE_DEGREES = "45" + degreeChar;
 
 	public static String CAS_OUTPUT_PREFIX_RTL = "\u2190";
 	public static String CAS_OUTPUT_PREFIX = "\u2192";

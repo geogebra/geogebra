@@ -78,6 +78,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 
 /**
  * Controller for the 3D view
@@ -3898,7 +3899,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public static String rotateObject(App app, String inputText,
 			boolean clockwise, GeoPolygon[] polys, GeoLineND[] lines,
 			GeoElement[] selGeos, EuclidianController3D ec) {
-		String defaultRotateAngle = "45" + "\u00b0";
+		String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 		String angleText = inputText;
 		Kernel kernel = app.getKernel();
 
@@ -3927,7 +3928,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// (geogebra.gui.AngleInputDialog) ob[1];
 
 			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith("\u00b0"))
+			if (angleText.endsWith(Unicode.degree))
 				defaultRotateAngle = angleText;
 
 			if (polys.length == 1) {

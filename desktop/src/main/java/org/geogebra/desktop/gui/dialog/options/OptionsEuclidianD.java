@@ -74,9 +74,6 @@ public class OptionsEuclidianD extends
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String PI_STR = "\u03c0";
-	public static final String DEGREE_STR = "\u00b0";
-
 	protected AppD app;
 	private Kernel kernel;
 	private EuclidianOptionsModel model;

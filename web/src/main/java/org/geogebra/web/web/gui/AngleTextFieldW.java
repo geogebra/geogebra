@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui;
 
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
 
@@ -29,8 +30,9 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
-		if (e.isAltKeyDown() && e.isControlKeyDown())
+		if (e.isAltKeyDown() && e.isControlKeyDown()) {
 			modifierKeyPressed = false;
+		}
 
 		// Application.debug(e+"");
 
@@ -41,10 +43,10 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 		// {
 		switch (Character.toChars(e.getNativeEvent().getCharCode())[0]) {
 		case 'o':
-			insertString = "\u00b0"; // degree symbol
+			insertString = Unicode.degree;
 			break;
 		case 'p':
-			insertString = "\u03c0"; // pi
+			insertString = Unicode.PI_STRING;
 			break;
 		}
 
@@ -66,8 +68,8 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 			String oldText = getText();
 
 			// don't insert more than one degree sign or pi *in total*
-			if (oldText.indexOf('\u00b0') == -1
-			        && oldText.indexOf('\u03c0') == -1) {
+			if (oldText.indexOf(Unicode.degreeChar) == -1
+					&& oldText.indexOf(Unicode.pi) == -1) {
 				int pos = oldText.length(); // getCaretPosition();
 				StringBuilder sb = new StringBuilder();
 				sb.append(oldText.substring(0, pos));

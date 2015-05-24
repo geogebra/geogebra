@@ -480,6 +480,7 @@ public class AppWapplication extends AppWFull {
 
 	@Override
 	public void uploadToGeoGebraTube() {
+
 		showURLinBrowserWaiterFixedDelay();
 		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
 		getGgbApi().getBase64(true, new StringHandler() {

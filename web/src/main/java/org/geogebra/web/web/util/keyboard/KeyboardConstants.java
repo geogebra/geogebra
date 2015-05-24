@@ -7,9 +7,8 @@ import org.geogebra.common.util.Unicode;
  * {@link OnScreenKeyBoard}
  */
 public class KeyboardConstants {
-	protected static final String PI = "\u03C0";
 	protected static final String COLON_EQUALS = "\u2254";
-	protected static final String SPACE = "\u0020";
+	protected static final String SPACE = " ";
 	protected static final String ANGLE = "\u2220";
 	protected static final String MEASURED_ANGLE = "\u2221";
 	protected static final String ACCENT_ACUTE = "\u00b4";

@@ -20,7 +20,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 
 public class InputDialogAngleFixed extends AngleInputDialog{
 	private static final long serialVersionUID = 1L;
-	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
+	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 	private GeoPointND geoPoint1;
 	GeoSegmentND[] segments;
@@ -106,8 +106,8 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 		if (success1) {
 			String angleText = inputPanel.getText();
 			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith("\u00b0") ) defaultRotateAngle = angleText;
-			else defaultRotateAngle = "45"+"\u00b0";
+			if (angleText.endsWith(Unicode.degree) ) defaultRotateAngle = angleText;
+			else defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 
 			DialogManager.doAngleFixed(kernel, segments, points, selGeos, ((NumberInputHandler)inputHandler).getNum(), rbClockWise.getValue(), ec);

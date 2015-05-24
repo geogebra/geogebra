@@ -1,11 +1,11 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.advanced.client.datamodel.ListDataModel;
 
 public abstract class NumberListBox extends ComboBoxW {
-	private static final String PI_STRING = "\u03c0";
 	private App app;
 	private ListDataModel model;
 
@@ -14,8 +14,8 @@ public abstract class NumberListBox extends ComboBoxW {
 		this.app = app;
 		model = getModel();
 		model.add("1", "1"); //pi
-		model.add(PI_STRING, PI_STRING); //pi
-		model.add(PI_STRING + "/2", PI_STRING + "/2"); //pi/2
+		model.add(Unicode.PI_STRING, Unicode.PI_STRING); // pi
+		model.add(Unicode.PI_STRING + "/2", Unicode.PI_STRING + "/2"); // pi/2
 	}
 
 	public double getDoubleValue() {

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -17,7 +18,7 @@ public class InputDialogRotatePointW extends InputDialogRotate implements KeyUpH
 	private GeoPointND[] points;
 	
 	private Kernel kernel;
-	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
+	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 	public InputDialogRotatePointW(AppW app, String title,
 			InputHandler handler, GeoPolygon[] polys, GeoPointND[] points,

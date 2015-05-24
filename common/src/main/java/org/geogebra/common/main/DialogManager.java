@@ -45,7 +45,7 @@ import org.geogebra.common.util.Unicode;
 
 public abstract class DialogManager {
 
-	protected String defaultAngle = "45" + Unicode.degree;
+	protected String defaultAngle = Unicode.FORTY_FIVE_DEGREES;
 
 	protected App app;
 
@@ -226,7 +226,7 @@ public abstract class DialogManager {
 	public static String rotateObject(App app, String inputText,
 			boolean clockwise, GeoPolygon[] polys, GeoPointND[] points,
 			GeoElement[] selGeos, EuclidianController ec) {
-		String defaultRotateAngle = "45" + "\u00b0";
+		String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 		String angleText = inputText;
 		Kernel kernel = app.getKernel();
 
@@ -255,7 +255,7 @@ public abstract class DialogManager {
 			// (geogebra.gui.AngleInputDialog) ob[1];
 
 			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith("\u00b0"))
+			if (angleText.endsWith(Unicode.degree))
 				defaultRotateAngle = angleText;
 
 			if (polys.length == 1) {

@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
 
 public class AxisModel {
 	public interface IAxisModelListener {
@@ -14,9 +15,6 @@ public class AxisModel {
 	
 	private IAxisModelListener listener;
 	
-	public static final String PI_STR = "\u03c0";
-	public static final String DEGREE_STR = "\u00b0";
-
 	protected int axis;
 	private App app;
 	protected EuclidianView view;
@@ -91,8 +89,8 @@ public class AxisModel {
 	
 	public void fillUnitLabel() {
 		listener.addUnitLabelItem(null);
-		listener.addUnitLabelItem(DEGREE_STR); // degrees
-		listener.addUnitLabelItem(PI_STR); // pi
+		listener.addUnitLabelItem(Unicode.degree); // degrees
+		listener.addUnitLabelItem(Unicode.PI_STRING); // pi
 		listener.addUnitLabelItem("mm");
 		listener.addUnitLabelItem("cm");
 		listener.addUnitLabelItem("m");

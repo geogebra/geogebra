@@ -26,7 +26,8 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 	protected EuclidianController ec;
 
 	private Kernel kernel;
-	protected static String defaultRotateAngle = "45\u00b0"; // 45 degrees
+	protected static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES; // 45
+																				// degrees
 
 	public InputDialogRotate(AppW app, String title,
 			InputHandler handler, GeoPolygon[] polys, 

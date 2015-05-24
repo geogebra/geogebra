@@ -23,7 +23,7 @@ import org.geogebra.desktop.main.AppD;
 public class InputDialogAngleFixed extends AngleInputDialog implements
 		KeyListener {
 
-	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
+	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 	GeoSegmentND[] segments;
 	GeoPointND[] points;
@@ -92,10 +92,10 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 		if (success) {
 			String angleText = getText();
 			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith("\u00b0")) {
+			if (angleText.endsWith(Unicode.degree)) {
 				defaultRotateAngle = angleText;
 			} else {
-				defaultRotateAngle = "45" + "\u00b0";
+				defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 			}
 			DialogManager.doAngleFixed(kernel, segments, points, selGeos,
 					((NumberInputHandler) inputHandler).getNum(),

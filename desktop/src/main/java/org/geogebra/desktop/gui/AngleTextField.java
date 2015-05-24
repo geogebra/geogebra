@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Locale;
 
+import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.main.AppD;
 
@@ -41,8 +42,9 @@ public class AngleTextField extends MyTextField implements KeyListener {
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
-		if (e.isAltDown() && e.isControlDown())
+		if (e.isAltDown() && e.isControlDown()) {
 			modifierKeyPressed = false;
+		}
 
 		// Application.debug(e+"");
 
@@ -51,10 +53,10 @@ public class AngleTextField extends MyTextField implements KeyListener {
 		switch (KeyEvent.getKeyText(e.getKeyCode()).toLowerCase(Locale.US)
 				.charAt(0)) {
 		case 'o':
-			insertString = "\u00b0"; // degree symbol
+			insertString = Unicode.degree;
 			break;
 		case 'p':
-			insertString = "\u03c0"; // pi
+			insertString = Unicode.PI_STRING;
 			break;
 		}
 
@@ -76,8 +78,8 @@ public class AngleTextField extends MyTextField implements KeyListener {
 			String oldText = getText();
 
 			// don't insert more than one degree sign or pi *in total*
-			if (oldText.indexOf('\u00b0') == -1
-					&& oldText.indexOf('\u03c0') == -1) {
+			if (oldText.indexOf(Unicode.degreeChar) == -1
+					&& oldText.indexOf(Unicode.pi) == -1) {
 				int pos = oldText.length(); // getCaretPosition();
 				StringBuilder sb = new StringBuilder();
 				sb.append(oldText.substring(0, pos));
