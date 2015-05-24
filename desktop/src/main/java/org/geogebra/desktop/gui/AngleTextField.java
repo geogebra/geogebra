@@ -53,7 +53,7 @@ public class AngleTextField extends MyTextField implements KeyListener {
 		switch (KeyEvent.getKeyText(e.getKeyCode()).toLowerCase(Locale.US)
 				.charAt(0)) {
 		case 'o':
-			insertString = Unicode.degree;
+			insertString = Unicode.DEGREE;
 			break;
 		case 'p':
 			insertString = Unicode.PI_STRING;
@@ -78,7 +78,7 @@ public class AngleTextField extends MyTextField implements KeyListener {
 			String oldText = getText();
 
 			// don't insert more than one degree sign or pi *in total*
-			if (oldText.indexOf(Unicode.degreeChar) == -1
+			if (oldText.indexOf(Unicode.DEGREE_CHAR) == -1
 					&& oldText.indexOf(Unicode.pi) == -1) {
 				int pos = oldText.length(); // getCaretPosition();
 				StringBuilder sb = new StringBuilder();

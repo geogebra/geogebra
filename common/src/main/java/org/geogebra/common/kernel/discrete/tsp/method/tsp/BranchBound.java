@@ -424,9 +424,9 @@ public class BranchBound {
 	@Override
 	public String toString() {
 		if (this.opt != null) {
-			return "Branch and Bound - " + this.opt + " " + Unicode.multiply + " " + this.limit;
+			return "Branch and Bound - " + this.opt + " " + Unicode.MULTIPLY + " " + this.limit;
 		} else {
-			return "Branch and Bound " + Unicode.multiply + " " + this.limit;
+			return "Branch and Bound " + Unicode.MULTIPLY + " " + this.limit;
 		}
 	}
 

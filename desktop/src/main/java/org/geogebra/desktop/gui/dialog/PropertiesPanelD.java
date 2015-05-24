@@ -2899,12 +2899,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// Create the label table
 			Hashtable<Integer, JLabel> labelHash = new Hashtable<Integer, JLabel>();
-			labelHash.put(new Integer(0), new JLabel("0" + Unicode.degree));
+			labelHash.put(new Integer(0), new JLabel("0" + Unicode.DEGREE));
 			labelHash.put(new Integer(45), new JLabel(
 					Unicode.FORTY_FIVE_DEGREES));
-			labelHash.put(new Integer(90), new JLabel("90" + Unicode.degree));
-			labelHash.put(new Integer(135), new JLabel("135" + Unicode.degree));
-			labelHash.put(new Integer(180), new JLabel("180" + Unicode.degree));
+			labelHash.put(new Integer(90), new JLabel("90" + Unicode.DEGREE));
+			labelHash.put(new Integer(135), new JLabel("135" + Unicode.DEGREE));
+			labelHash.put(new Integer(180), new JLabel("180" + Unicode.DEGREE));
 			angleSlider.setLabelTable(labelHash);
 
 			distanceSlider = new JSlider(5, 50);

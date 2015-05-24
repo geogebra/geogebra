@@ -6654,9 +6654,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) {
 				ret = " \\text{" + getLoc().getPlain("Undefined") + "} ";
-			} else if ((Unicode.Infinity + "").equals(ret)) {
+			} else if ((Unicode.INFINITY + "").equals(ret)) {
 				ret = "\\infty";
-			} else if ((Unicode.MinusInfinity + "").equals(ret)) {
+			} else if ((Unicode.MINUS_INFINITY + "").equals(ret)) {
 				ret = "-\\infty";
 			}
 		}

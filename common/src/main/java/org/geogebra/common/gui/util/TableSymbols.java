@@ -101,7 +101,7 @@ public class TableSymbols {
 				// //uppercaseGreekPSI
 				{ Unicode.Omega + "",
 						app.getPlain("GreekCharacterA", Unicode.Omega + "") }, // uppercaseGreekOMEGA
-				{ Unicode.Infinity + "", app.getMenu("Symbol.Infinity") },
+				{ Unicode.INFINITY + "", app.getMenu("Symbol.Infinity") },
 				{ ExpressionNodeConstants.strVECTORPRODUCT,
 						app.getMenu("Symbol.VectorProduct") },
 				{ ExpressionNodeConstants.strEQUAL_BOOLEAN,
@@ -132,7 +132,7 @@ public class TableSymbols {
 				{ "\u2221", app.getMenu("Symbol.AngleMeasure") },
 				{ Unicode.Superscript_2 + "", app.getMenu("Symbol.Square") }, // exponents^2
 				{ Unicode.Superscript_3 + "", app.getMenu("Symbol.Cube") }, // exponents^3
-				{ Unicode.degree, app.getMenu("Symbol.Degree") }, // degree
+				{ Unicode.DEGREE, app.getMenu("Symbol.Degree") }, // degree
 				{ " " + Unicode.IMAGINARY + " ", Unicode.IMAGINARY }, // sqrt(-1)
 				{ " " + Unicode.PI_STRING + " ", Unicode.PI_STRING }, // pi
 				{ " " + Unicode.EULER_STRING + " ", Unicode.EULER_STRING }, // e
@@ -503,7 +503,7 @@ public class TableSymbols {
 			"\u207D", // SUPERSCRIPT LEFT PARENTHESIS
 			"\u207E", // SUPERSCRIPT RIGHT PARENTHESIS
 			"\u207F", // SUPERSCRIPT LATIN SMALL LETTER N
-			Unicode.degree, // degree
+			Unicode.DEGREE, // degree
 			"", // blank filler
 			"", // blank filler
 			"", // blank filler
@@ -1484,7 +1484,7 @@ public class TableSymbols {
 	public final static String[] specialChars = {
 			"\u00b2", // exponents ^2
 			"\u00b3", // exponents ^3
-			Unicode.degree, // degree
+			Unicode.DEGREE, // degree
 			"\u03c0", // pi
 			Unicode.EULER_STRING, // e
 			"\u221e", // infinity
@@ -1512,7 +1512,7 @@ public class TableSymbols {
 			Unicode.EULER_STRING, // e
 			"\u00b2", // exponents ^2
 			"\u00b3", // exponents ^3
-			Unicode.degree, // degree
+			Unicode.DEGREE, // degree
 			"\u221e", // infinity
 			ExpressionNodeConstants.strVECTORPRODUCT, // "\u2297", // vector
 														// product (circled

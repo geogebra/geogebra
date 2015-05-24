@@ -151,7 +151,7 @@ public class PrintScalePanel extends JPanel {
 		pxModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		pxModePanel.add(tfSize1);
 		pxModePanel.add(new JLabel(loc.getMenu("Pixels.short") + " "
-				+ Unicode.multiply + " "));
+				+ Unicode.MULTIPLY + " "));
 		pxModePanel.add(tfSize2);
 		pxModePanel.add(new JLabel(loc.getMenu("Pixels.short")));
 

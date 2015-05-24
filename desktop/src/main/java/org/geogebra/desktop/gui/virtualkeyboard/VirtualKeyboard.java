@@ -1043,11 +1043,11 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (text.equals("<E>"))
 			return "\u00D710\u207F"; // *10^n
 		if (text.equals("<multiply>"))
-			return Unicode.multiply + "";
+			return Unicode.MULTIPLY + "";
 		if (text.equals("<divide>"))
-			return Unicode.divide;
+			return Unicode.DIVIDE;
 		if (text.equals("<minus>"))
-			return Unicode.minus + "";
+			return Unicode.MINUS + "";
 		return text;
 	}
 

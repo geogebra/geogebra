@@ -213,7 +213,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 					// add degree symbol to end if it's (a) a GeoText and (b)
 					// just digits
-					textField.setText(text + Unicode.degree);
+					textField.setText(text + Unicode.DEGREE);
 
 					textField.setCaretPosition(caretPos);
 				}

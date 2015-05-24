@@ -996,7 +996,7 @@ GeoContainer rbti,
 			String s = "";
 
 			if (keyCode == GWTKeycodes.KEY_O) {
-				s += Unicode.degree;
+				s += Unicode.DEGREE;
 			} else if (keyCode == GWTKeycodes.KEY_P) {
 				if (shiftDown) {
 					s += Unicode.Pi;
@@ -1034,7 +1034,7 @@ GeoContainer rbti,
 				}
 			} else if (keyCode == GWTKeycodes.KEY_U) {
 				// U, euro sign is shown on HU
-				s += Unicode.Infinity;
+				s += Unicode.INFINITY;
 			} else if (keyCode == GWTKeycodes.KEY_L) {
 				// L, \u0141 sign is shown on HU
 				if (shiftDown) {

@@ -141,17 +141,17 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	//////////////////////////////////////////
 	/** interval minima for different angle styles */
 	public static final String[] INTERVAL_MIN = {
-		"0" + Unicode.degreeChar,
-		"0" + Unicode.degreeChar,
-		"180" + Unicode.degreeChar,
-		"-"+Unicode.Infinity
+		"0" + Unicode.DEGREE_CHAR,
+		"0" + Unicode.DEGREE_CHAR,
+		"180" + Unicode.DEGREE_CHAR,
+		"-"+Unicode.INFINITY
 	};
 	/** interval maxima for different angle styles */
 	public static final String[] INTERVAL_MAX = {
-		"360" + Unicode.degreeChar,
-		"180" + Unicode.degreeChar,
-		"360" + Unicode.degreeChar,
-		"" + Unicode.Infinity
+		"360" + Unicode.DEGREE_CHAR,
+		"180" + Unicode.DEGREE_CHAR,
+		"360" + Unicode.DEGREE_CHAR,
+		"" + Unicode.INFINITY
 	};
 	
 	/** Creates new GeoAngle 

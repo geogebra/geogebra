@@ -121,7 +121,7 @@ public class AlgoSimplifyText extends AlgoElement {
 			ret = ret.substring(1);
 
 		// replace "-" with unicode minus
-		ret = ret.replaceAll(" -", " " + Unicode.minus);
+		ret = ret.replaceAll(" -", " " + Unicode.MINUS);
 
 		text.setTextString(ret);
 	}

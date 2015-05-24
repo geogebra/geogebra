@@ -89,7 +89,7 @@ public class AxisModel {
 	
 	public void fillUnitLabel() {
 		listener.addUnitLabelItem(null);
-		listener.addUnitLabelItem(Unicode.degree); // degrees
+		listener.addUnitLabelItem(Unicode.DEGREE); // degrees
 		listener.addUnitLabelItem(Unicode.PI_STRING); // pi
 		listener.addUnitLabelItem("mm");
 		listener.addUnitLabelItem("cm");

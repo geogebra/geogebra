@@ -148,13 +148,13 @@ public abstract class DialogManager {
 		// convert to degrees (angle only)
 		String minStr = isAngle ? kernel.format(
 				Math.toDegrees(slider.getIntervalMin()), tmpl)
-				+ Unicode.degree : kernel.format(slider.getIntervalMin(), tmpl);
+				+ Unicode.DEGREE : kernel.format(slider.getIntervalMin(), tmpl);
 		String maxStr = isAngle ? kernel.format(
 				Math.toDegrees(slider.getIntervalMax()), tmpl)
-				+ Unicode.degree : kernel.format(slider.getIntervalMax(), tmpl);
+				+ Unicode.DEGREE : kernel.format(slider.getIntervalMax(), tmpl);
 		String incStr = isAngle ? kernel.format(
 				Math.toDegrees(slider.getAnimationStep()), tmpl)
-				+ Unicode.degree : kernel.format(slider.getAnimationStep(),
+				+ Unicode.DEGREE : kernel.format(slider.getAnimationStep(),
 				tmpl);
 
 		// get input from user
@@ -255,7 +255,7 @@ public abstract class DialogManager {
 			// (geogebra.gui.AngleInputDialog) ob[1];
 
 			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith(Unicode.degree))
+			if (angleText.endsWith(Unicode.DEGREE))
 				defaultRotateAngle = angleText;
 
 			if (polys.length == 1) {

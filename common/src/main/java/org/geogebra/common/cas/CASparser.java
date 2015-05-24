@@ -259,7 +259,7 @@ public class CASparser implements CASParserInterface {
 						state = FA.UNDERSCORE;
 						appendcode(replaceIndices, '_');
 					}
-				} else if (replaceUnicode && c > 127 && c != Unicode.angle) {
+				} else if (replaceUnicode && c > 127 && c != Unicode.MEASURED_ANGLE) {
 					appendcode(replaceIndices, c);
 
 					// ' replaced in StringTemplate.addTempVariablePrefix() so

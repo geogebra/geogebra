@@ -191,7 +191,7 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 	private HashMap<KeyBoardButton, String> updateButton = new HashMap<KeyBoardButton, String>();
 
 	private void initAccentAcuteLetters() {
-		accentAcute.put("a", "\u00e1");
+		accentAcute.put("a", "\00e1");
 		accentAcute.put("A", "\u00c1");
 		accentAcute.put("e", "\u00e9");
 		accentAcute.put("E", "\u00C9");
@@ -399,19 +399,19 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		int index = 0;
 		addButton("x", index, functions);
 		addButton("y", index, functions);
-		addButton("a^2", KeyboardConstants.SQUARE, index, functions)
+		addButton("a^2", Unicode.Superscript_2 + "", index, functions)
 		        .addStyleName("supScript");
-		addButton(KeyboardConstants.SQUARE_ROOT, index, functions);
+		addButton(Unicode.SQUARE_ROOT + "", index, functions);
 		addButton("a^x", KeyboardConstants.A_POWER_X, index,
 		        functions).addStyleName("supScript");
 
 		// fill next row
 		index++;
 		addButton("( )", "()", index, functions);
-		addButton(KeyboardConstants.DEGREE, index, functions);
+		addButton(Unicode.DEGREE, index, functions);
 		addButton("<", index, functions);
 		addButton(">", index, functions);
-		addButton(KeyboardConstants.COLON_EQUALS, index, functions);
+		addButton(Unicode.COLON_EQUALS, index, functions);
 
 		// fill next row
 		index++;
@@ -424,7 +424,7 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		updateButton.put(
 				addButton(loc.getPlain("Function.tan"), index, functions),
 				"Function.tan");
-		addButton("e^x", KeyboardConstants.EULER + "^", index, functions)
+		addButton("e^x", Unicode.EULER_STRING + "^", index, functions)
 		        .addStyleName("supScript");
 		addButton("|x|", "abs", index, functions);
 
@@ -449,21 +449,21 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		addButton("7", index, numbers);
 		addButton("8", index, numbers);
 		addButton("9", index, numbers);
-		addButton(KeyboardConstants.DIVIDE, "/", index, numbers);
+		addButton(Unicode.DIVIDE, "/", index, numbers);
 
 		// fill next row
 		index++;
 		addButton("4", index, numbers);
 		addButton("5", index, numbers);
 		addButton("6", index, numbers);
-		addButton(KeyboardConstants.MULTIPLY, "*", index, numbers);
+		addButton(Unicode.MULTIPLY + "", "*", index, numbers);
 
 		// fill next row
 		index++;
 		addButton("1", index, numbers);
 		addButton("2", index, numbers);
 		addButton("3", index, numbers);
-		addButton(KeyboardConstants.MINUS, index, numbers);
+		addButton(Unicode.MINUS + "", index, numbers);
 
 		// fill next row
 		index++;
@@ -538,7 +538,7 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		addFunctionalButton(index, letters, SPECIAL_CHARS, Action.SWITCH_KEYBOARD).addStyleName("switchToSpecialChar");
 		switchABCGreek = addFunctionalButton(index, letters, GREEK,
 		        Action.SWITCH_KEYBOARD);
-		addButton(KeyboardConstants.SPACE, index, letters)
+		addButton(" ", index, letters)
 		        .addStyleName("space");
 		addFunctionalButton(ARROW_LEFT, Action.ARROW_LEFT, index, letters);
 		addFunctionalButton(ARROW_RIGHT, Action.ARROW_RIGHT, index, letters);
@@ -594,30 +594,30 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 
 		// fill first row
 		index = 0;
-		addButton(KeyboardConstants.IMAGINARY, index, chars);
-		addButton(KeyboardConstants.INFINITY + "", index, chars);
-		addButton(KeyboardConstants.VECTOR_PRODUCT, index, chars);
-		addButton(KeyboardConstants.EQUAL_BOOLEAN, index, chars);
-		addButton(KeyboardConstants.NOT_EQUAL, index, chars);
-		addButton(KeyboardConstants.NOT, index, chars);
+		addButton(Unicode.IMAGINARY, index, chars);
+		addButton(Unicode.INFINITY + "", index, chars);
+		addButton(Unicode.VECTOR_PRODUCT + "", index, chars);
+		addButton(Unicode.QUESTEQ, index, chars);
+		addButton(Unicode.NOTEQUAL, index, chars);
+		addButton(Unicode.NOT, index, chars);
 
 		// fill second row
 		index++;
-		addButton(KeyboardConstants.LESS_EQUAL, index, chars);
-		addButton(KeyboardConstants.GREATER_EQUAL, index, chars);
-		addButton(KeyboardConstants.AND, index, chars);
-		addButton(KeyboardConstants.OR, index, chars);
-		addButton(KeyboardConstants.PARALLEL, index, chars);
-		addButton(KeyboardConstants.PERPENDICULAR, index, chars);
+		addButton(Unicode.LESS_EQUAL + "", index, chars);
+		addButton(Unicode.GREATER_EQUAL + "", index, chars);
+		addButton(Unicode.AND, index, chars);
+		addButton(Unicode.OR, index, chars);
+		addButton(Unicode.PARALLEL, index, chars);
+		addButton(Unicode.PERPENDICULAR, index, chars);
 		
 		// fill third row
 		index++;
-		addButton(KeyboardConstants.IMPLIES, index, chars);
-		addButton(KeyboardConstants.IS_ELEMENT_OF, index, chars);
-		addButton(KeyboardConstants.IS_SUBSET_OF, index, chars);
-		addButton(KeyboardConstants.IS_SUBSET_OF_STRICT, index, chars);
-		addButton(KeyboardConstants.ANGLE, index, chars);
-		addButton(KeyboardConstants.MEASURED_ANGLE, index, chars);
+		addButton(Unicode.IMPLIES, index, chars);
+		addButton(Unicode.IS_ELEMENT_OF, index, chars);
+		addButton(Unicode.IS_SUBSET_OF, index, chars);
+		addButton(Unicode.IS_SUBSET_OF_STRICT, index, chars);
+		addButton(Unicode.ANGLE, index, chars);
+		addButton(Unicode.ANGLE, index, chars);
 
 		// fill forth row
 		index++;
@@ -852,11 +852,11 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 	 */
 	private HashMap<String, String> getAccentList(String accent) {
 		HashMap<String, String> accents;
-		if (accent.equals(KeyboardConstants.ACCENT_ACUTE)) {
+		if (accent.equals(Unicode.ACCENT_ACUTE)) {
 			accents = accentAcute;
-		} else if (accent.equals(KeyboardConstants.ACCENT_CARON)) {
+		} else if (accent.equals(Unicode.ACCENT_CARON)) {
 			accents = accentCaron;
-		} else if (accent.equals(KeyboardConstants.ACCENT_CIRCUMFLEX)) {
+		} else if (accent.equals(Unicode.ACCENT_CIRCUMFLEX)) {
 			accents = accentCircumflex;
 		} else {
 			accents = accentGrave;
@@ -909,10 +909,10 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 	 * @return {@code true} if the given text is an accent
 	 */
 	private static boolean isAccent(String text) {
-		return text.equals(KeyboardConstants.ACCENT_ACUTE)
-		        || text.equals(KeyboardConstants.ACCENT_CARON)
-		        || text.equals(KeyboardConstants.ACCENT_GRAVE)
-		        || text.equals(KeyboardConstants.ACCENT_CIRCUMFLEX);
+		return text.equals(Unicode.ACCENT_ACUTE)
+				|| text.equals(Unicode.ACCENT_CARON)
+				|| text.equals(Unicode.ACCENT_GRAVE)
+				|| text.equals(Unicode.ACCENT_CIRCUMFLEX);
 	}
 
 	private void processShift() {

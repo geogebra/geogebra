@@ -1754,7 +1754,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			sb.append(',');
 			if (!positiveInfinity)
 				sb.append('-'); // -Infinity
-			sb.append(Unicode.Infinity);
+			sb.append(Unicode.INFINITY);
 			sb.append(')');
 
 			gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(sb.toString(),null);
@@ -1782,7 +1782,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 				sb.append(',');
 				if (!positiveInfinity)
 					sb.append('-'); // -Infinity
-				sb.append(Unicode.Infinity);
+				sb.append(Unicode.INFINITY);
 				sb.append(')');
 
 				interceptStrMinus = kernel.evaluateCachedGeoGebraCAS(sb
@@ -1843,7 +1843,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		sb.append(',');
 		if (!positiveInfinity)
 			sb.append('-'); // -Infinity
-		sb.append(Unicode.Infinity);
+		sb.append(Unicode.INFINITY);
 		sb.append(")");
 
 		try {
@@ -2024,7 +2024,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		str1 = StringUtil.toLowerCase(str1);
 		if (str1.charAt(0)== '\'')
 			return true; // maxima error eg 'diff(
-		if (!allowInfinity && str1.indexOf(Unicode.Infinity) > -1)
+		if (!allowInfinity && str1.indexOf(Unicode.INFINITY) > -1)
 			return true;
 		if (str1.length() > 6) {
 			if (str1.startsWith("limit"))
@@ -2286,9 +2286,9 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret))
 				ret = " \\text{"+getLoc().getPlain("Undefined") + "} ";
-			else if ((Unicode.Infinity + "").equals(ret))
+			else if ((Unicode.INFINITY + "").equals(ret))
 				ret = "\\infty";
-			else if ((Unicode.MinusInfinity + "").equals(ret))
+			else if ((Unicode.MINUS_INFINITY + "").equals(ret))
 				ret = "-\\infty";
 		}
 

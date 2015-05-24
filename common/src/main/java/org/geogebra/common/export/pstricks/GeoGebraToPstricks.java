@@ -384,10 +384,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		String b = format(algo.getB().getDouble());
 		String value = f.toValueString(getStringTemplate());
 		value = killSpace(StringUtil.toLaTeXString(value, true));
-		if (a.substring(a.length() - 1).equals("" + Unicode.Infinity)) {
+		if (a.substring(a.length() - 1).equals("" + Unicode.INFINITY)) {
 			a = format(xmin);
 		}
-		if (b.substring(b.length() - 1).equals("" + Unicode.Infinity)) {
+		if (b.substring(b.length() - 1).equals("" + Unicode.INFINITY)) {
 			b = format(xmax);
 		}
 		startBeamer(codeFilledObject);
@@ -1749,8 +1749,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 									geo.getLabelDescription(), true) + "$";
 				}
 
-				if (name.indexOf(Unicode.degree) != -1) {
-					name = name.replaceAll(Unicode.degree,
+				if (name.indexOf(Unicode.DEGREE) != -1) {
+					name = name.replaceAll(Unicode.DEGREE,
 							"\\\\textrm{\\\\degre}");
 					if (codePreamble.indexOf("\\degre") == -1)
 						codePreamble

@@ -108,7 +108,7 @@ public abstract class DrawEquation {
 			break;
 
 		default:
-			sb.append(Unicode.Infinity);
+			sb.append(Unicode.INFINITY);
 		}
 	}
 
@@ -126,7 +126,7 @@ public abstract class DrawEquation {
 
 		default:
 			sb.append('-');
-			sb.append(Unicode.Infinity);
+			sb.append(Unicode.INFINITY);
 		}
 	}
 

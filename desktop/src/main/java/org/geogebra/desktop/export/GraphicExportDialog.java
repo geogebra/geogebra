@@ -556,7 +556,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		sb.append(sizeLabelFormat.format(cmWidth));
 		sb.append(" cm ");
-		sb.append(Unicode.multiply);
+		sb.append(Unicode.MULTIPLY);
 		sb.append(' ');
 		sb.append(sizeLabelFormat.format(cmHeight));
 		sb.append(" cm");
@@ -567,7 +567,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			sb.append(", ");
 			sb.append(pixelWidth);
 			sb.append(' ');
-			sb.append(Unicode.multiply);
+			sb.append(Unicode.MULTIPLY);
 			sb.append(' ');
 			sb.append(pixelHeight);
 			sb.append(" pixels");

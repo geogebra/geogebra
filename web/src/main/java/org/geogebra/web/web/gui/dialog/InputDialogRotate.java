@@ -123,7 +123,7 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 
 		int caretPos = tc.getCaretPosition();
 
-		tc.setText(tc.getText() + Unicode.degree);
+		tc.setText(tc.getText() + Unicode.DEGREE);
 
 		tc.setCaretPosition(caretPos);
 	}

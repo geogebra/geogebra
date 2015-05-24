@@ -148,16 +148,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// }
 
 				// check for degree sign or 1degree or degree1 (eg for Arabic)
-				else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.degreeChar) && (rightStr
+				else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.DEGREE_CHAR) && (rightStr
 						.charAt(1) == (loc.unicodeZero + 1))) || ((rightStr
-						.charAt(0) == Unicode.degreeChar) && (rightStr
+						.charAt(0) == Unicode.DEGREE_CHAR) && (rightStr
 						.charAt(1) == (loc.unicodeZero + 1)))))
-						|| rightStr.equals(Unicode.degree)) {
+						|| rightStr.equals(Unicode.DEGREE)) {
 
 					boolean rtl = loc.isRightToLeftDigits(this);
 
 					if (rtl) {
-						sb.append(Unicode.degree);
+						sb.append(Unicode.DEGREE);
 					}
 
 					if (!left.isLeaf()) {
@@ -169,7 +169,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					}
 
 					if (!rtl) {
-						sb.append(Unicode.degree);
+						sb.append(Unicode.DEGREE);
 					}
 
 					break;
@@ -242,7 +242,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							char lastLeft = leftStr
 									.charAt(leftStr.length() - 1);
 							char firstRight = rightStr.charAt(0);
-							showMultiplicationSign = !(right instanceof MySpecialDouble && Unicode.degree
+							showMultiplicationSign = !(right instanceof MySpecialDouble && Unicode.DEGREE
 									.equals(right.toString(defaultTemplate)));
 							// left is digit or ends with }, e.g. exponent,
 							// fraction
@@ -252,7 +252,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							 * (StringUtil.isDigit(firstRight) || rightStr
 							 * .startsWith("\\frac"));
 							 */
-							multiplicationSpaceNeeded = !(right instanceof MySpecialDouble && Unicode.degree
+							multiplicationSpaceNeeded = !(right instanceof MySpecialDouble && Unicode.DEGREE
 									.equals(right.toString(defaultTemplate)));
 							break;
 
@@ -1755,15 +1755,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// }
 
 			// check for degree sign or 1degree or degree1 (eg for Arabic)
-			else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.degreeChar) && (rightStr
+			else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.DEGREE_CHAR) && (rightStr
 					.charAt(1) == (loc.unicodeZero + 1))) || ((rightStr
-					.charAt(0) == Unicode.degreeChar) && (rightStr.charAt(1) == (loc.unicodeZero + 1)))))
-					|| rightStr.equals(Unicode.degree)) {
+					.charAt(0) == Unicode.DEGREE_CHAR) && (rightStr.charAt(1) == (loc.unicodeZero + 1)))))
+					|| rightStr.equals(Unicode.DEGREE)) {
 
 				boolean rtl = loc.isRightToLeftDigits(this);
 
 				if (rtl) {
-					sb.append(Unicode.degree);
+					sb.append(Unicode.DEGREE);
 				}
 
 				if (!left.isLeaf()) {
@@ -1775,7 +1775,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 
 				if (!rtl) {
-					sb.append(Unicode.degree);
+					sb.append(Unicode.DEGREE);
 				}
 
 				break;
@@ -1851,7 +1851,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 						// right is digit or fraction
 								(StringUtil.isDigit(firstRight) || rightStr
 										.startsWith("\\frac"));
-						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble && Unicode.degree
+						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble && Unicode.DEGREE
 								.equals(right.toString(defaultTemplate)));
 						break;
 

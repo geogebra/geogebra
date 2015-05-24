@@ -211,7 +211,7 @@ public class PolygonTriangulation {
 				s += "/ to left : ";
 				for (Segment segment : toLeft) {
 					s += ((int) (segment.orientation * 180 / Math.PI))
-							+ Unicode.degreeChar + ":"
+							+ Unicode.DEGREE_CHAR + ":"
 							+ segment.leftPoint.name + "(" + segment.usable
 							+ "), ";
 				}
@@ -221,7 +221,7 @@ public class PolygonTriangulation {
 				s += "/ to right : ";
 				for (Segment segment : toRight) {
 					s += ((int) (segment.orientation * 180 / Math.PI))
-							+ Unicode.degreeChar + ":"
+							+ Unicode.DEGREE_CHAR + ":"
 							+ segment.rightPoint.name + "(" + segment.usable
 							+ "), ";
 				}
@@ -873,10 +873,10 @@ public class PolygonTriangulation {
 			for (point = firstPoint; point.next != firstPoint; point = point.next) {
 				s += point.name + "("
 						+ (point.orientationToNext * 180 / Math.PI)
-						+ Unicode.degreeChar + "), ";
+						+ Unicode.DEGREE_CHAR + "), ";
 			}
 			s += point.name + "(" + (point.orientationToNext * 180 / Math.PI)
-					+ Unicode.degreeChar + ")";
+					+ Unicode.DEGREE_CHAR + ")";
 			debug(s);
 		}
 
@@ -909,10 +909,10 @@ public class PolygonTriangulation {
 		}
 		boolean positive = (delta > 0);
 		debug(point1.name + "(" + (point1.orientationToNext * 180 / Math.PI)
-				+ Unicode.degreeChar + ")");
+				+ Unicode.DEGREE_CHAR + ")");
 		debug(point2.name + "(" + (point2.orientationToNext * 180 / Math.PI)
-				+ Unicode.degreeChar + ")");
-		debug("delta : " + (delta * 180 / Math.PI) + Unicode.degreeChar + ")");
+				+ Unicode.DEGREE_CHAR + ")");
+		debug("delta : " + (delta * 180 / Math.PI) + Unicode.DEGREE_CHAR + ")");
 		debug("positive : " + positive);
 		boolean convex = true;
 		point1 = point2;
@@ -931,8 +931,8 @@ public class PolygonTriangulation {
 			convex = positive ^ (delta < 0);
 			debug(point2.name + "("
 					+ (point2.orientationToNext * 180 / Math.PI)
-					+ Unicode.degreeChar + ") -- " + "("
-					+ (delta * 180 / Math.PI) + Unicode.degreeChar + ") -- "
+					+ Unicode.DEGREE_CHAR + ") -- " + "("
+					+ (delta * 180 / Math.PI) + Unicode.DEGREE_CHAR + ") -- "
 					+ convex);
 			point1 = point2;
 			point2 = point1.next;

@@ -175,7 +175,7 @@ public class MathMLParser {
 		geogebraMap.put("&prime;", "# ");
 		geogebraMap.put("&le;", Unicode.LESS_EQUAL + "");
 		geogebraMap.put("&ge;", Unicode.GREATER_EQUAL + "");
-		geogebraMap.put("&infin;", Unicode.Infinity + "");
+		geogebraMap.put("&infin;", Unicode.INFINITY + "");
 		geogebraMap.put("&clubs;", "# ");
 		geogebraMap.put("&diams;", "# ");
 		geogebraMap.put("&hearts;", "# ");

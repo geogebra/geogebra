@@ -33,8 +33,8 @@ public class AltKeys {
 		LookupUpper.put('L', Unicode.Lambda + "");
 		LookupLower.put('M', Unicode.mu + "");
 		LookupUpper.put('M', Unicode.Mu + "");
-		LookupLower.put('O', Unicode.degree);
-		LookupUpper.put('O', Unicode.degree);
+		LookupLower.put('O', Unicode.DEGREE);
+		LookupUpper.put('O', Unicode.DEGREE);
 		LookupLower.put('P', " " + Unicode.pi + " ");
 		LookupUpper.put('P', Unicode.Pi + "");
 		LookupLower.put('R', Unicode.SQUARE_ROOT + "");
@@ -43,8 +43,8 @@ public class AltKeys {
 		LookupUpper.put('S', Unicode.Sigma + "");
 		LookupLower.put('T', Unicode.theta + "");
 		LookupUpper.put('T', Unicode.Theta + "");
-		LookupLower.put('U', Unicode.Infinity + "");
-		LookupUpper.put('U', Unicode.Infinity + "");
+		LookupLower.put('U', Unicode.INFINITY + "");
+		LookupUpper.put('U', Unicode.INFINITY + "");
 		LookupLower.put('W', Unicode.omega + "");
 		LookupUpper.put('W', Unicode.Omega + "");
 

@@ -3928,7 +3928,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// (geogebra.gui.AngleInputDialog) ob[1];
 
 			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith(Unicode.degree))
+			if (angleText.endsWith(Unicode.DEGREE))
 				defaultRotateAngle = angleText;
 
 			if (polys.length == 1) {

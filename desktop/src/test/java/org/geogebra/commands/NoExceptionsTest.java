@@ -74,7 +74,7 @@ public class NoExceptionsTest {
 		t("b2=n2==4");
 		t("impl1:x^4+y^4=1");
 		t("comp=2+3*i");
-		t("a1=30"+Unicode.degree);
+		t("a1=30"+Unicode.DEGREE);
 		t("list1 = {1,2,3,4,5}");
 		t("list2 = {2,3,4}");
 		t("list3 = list2");

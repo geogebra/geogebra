@@ -3,6 +3,7 @@ package org.geogebra.web.web.util.keyboard;
 import java.util.HashSet;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -303,7 +304,7 @@ public class TextFieldProcessing {
 				}
 				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
 						false, false);
-			} else if (text.startsWith(KeyboardConstants.EULER)) {
+			} else if (text.startsWith(Unicode.EULER_GAMMA_STRING)) {
 				((EquationEditorListener) field).insertString("e");
 				// inserts: ^{}
 				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
@@ -323,7 +324,7 @@ public class TextFieldProcessing {
 						false);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((EquationEditorListener) field)
-						.insertString(KeyboardConstants.SQUARE);
+						.insertString(Unicode.Superscript_2 + "");
 			} else if (keyPressNeeded(text)) {
 				((EquationEditorListener) field).keypress(
 				// text.codePointAt is the same as text.charAt for low ranges
@@ -349,7 +350,7 @@ public class TextFieldProcessing {
 		return text.equals("/") || text.equals("_") || text.equals("$")
 				|| text.equals(" ") || text.equals("|") || text.equals(",")
 				|| text.equals("*") || text.startsWith("(")
-				|| text.equals(KeyboardConstants.SQUARE_ROOT);
+				|| text.equals(Unicode.SQUARE_ROOT);
 	}
 
 	/**

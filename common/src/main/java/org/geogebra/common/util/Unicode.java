@@ -6,13 +6,15 @@ public class Unicode {
 	// eg (2;3)
 	// space needed to avoid encoding problem (probably with $wnd.Module.cwrap,
 	// see CASGiacW)
-	final public static char angle = '\u2221';
-	final public static String angleSpace = angle + " ";
-	final public static char minus = '\u2212';
+	final public static char MEASURED_ANGLE = '\u2221';
+	final public static String MEASURED_ANGLE_SPACE = MEASURED_ANGLE + " ";
+	public static final char MULTIPLY = '\u00d7';
+	public static final String DIVIDE = "\u00f7";
+	final public static char MINUS = '\u2212';
 	final public static char LESS_EQUAL = '\u2264';
 	final public static char GREATER_EQUAL = '\u2265';
-	final public static char Infinity = '\u221e';
-	final public static String MinusInfinity = "-\u221e";
+	final public static char INFINITY = '\u221e';
+	final public static String MINUS_INFINITY = "-\u221e";
 	final public static char Superscript_Minus = '\u207b';
 	final public static char Superscript_0 = '\u2070';
 	final public static char Superscript_1 = '\u00b9';
@@ -28,8 +30,8 @@ public class Unicode {
 	final public static String RightToLeftUnaryMinusSign = "\u200f-\u200f";
 	final public static char LeftToRightMark = '\u200e';
 	final public static String superscriptMinusOneBracket = "\u207b\u00b9(";
-	final public static char degreeChar = '\u00b0';
-	final public static String degree = Character.toString(degreeChar);
+	final public static char DEGREE_CHAR = '\u00b0';
+	final public static String DEGREE = Character.toString(DEGREE_CHAR);
 
 	final public static char eGrave = '\u00E8';
 	final public static char eAcute = '\u00E9';
@@ -87,7 +89,7 @@ public class Unicode {
 	public static final char Omicron = '\u039F';
 	public static final char Pi = '\u03A0';
 	public static final char Rho = '\u03A1';
-	// <!-- there is no Sigmaf, and no \U03A2 character either -->
+	// there is no Sigmaf, and no \U03A2 character either
 	public static final char Sigma = '\u03A3';
 	public static final char Tau = '\u03A4';
 	public static final char Upsilon = '\u03A5';
@@ -99,14 +101,30 @@ public class Unicode {
 	public static final char SQUARE_ROOT = '\u221a';
 	public static final String PLUSMINUS = "\u00b1";
 	public static final String NOTEQUAL = "\u2260";
-
+	public static final String NOT = "\u00ac";
+	public static final String AND = "\u2227";
+	public static final String OR = "\u2228";
+	public static final String PARALLEL = "\u2225";
+	public static final String PERPENDICULAR = "\u22a5";
+	public static final String IS_ELEMENT_OF = "\u2208";
+	public static final String IS_SUBSET_OF = "\u2286";
+	public static final String IS_SUBSET_OF_STRICT = "\u2282";
+	public static final String COLON_EQUALS = "\u2254";
+	public static final String SPACE = " ";
+	public static final String ANGLE = "\u2220";
+	public static final String ACCENT_ACUTE = "\u00b4";
+	public static final String ACCENT_GRAVE = "\u0060";
+	public static final String ACCENT_CARON = "\u02c7";
+	public static final String ACCENT_CIRCUMFLEX = "\u005e";
 	public static final String QUESTEQ = "\u225f";
 
 	final public static char FEMININE_ORDINAL_INDICATOR = '\u00aa';
 
-	final public static String IMAGINARY = "\u03af"; // GREEK SMALL LETTER IOTA
-														// WITH TONOS
-	public static final String NBSP = "\u00a0"; // non-breaking (hard) space
+	// GREEK SMALL LETTER IOTA WITH TONOS
+	final public static String IMAGINARY = "\u03af";
+
+	// non-breaking (hard) space
+	public static final String NBSP = "\u00a0";
 
 	/* helper Unicode strings for fixing Hungarian translations */
 	// These endings will get -re, -nek, -hez:
@@ -128,8 +146,6 @@ public class Unicode {
 	final public static String fraction5_8 = "\u215d";
 	final public static String fraction3_4 = "\u00be";
 	final public static String fraction7_8 = "\u215e";
-	public static final char multiply = '\u00d7'; // multiply cross
-	public static final String divide = "\u00f7";
 
 	// various characters which hang down below the line
 	// gjy with/without accents
@@ -156,12 +172,13 @@ public class Unicode {
 	public static final String CURRENCY_TUGHRIK = "\u20ae";
 	public static final String CURRENCY_RUPEE = "\u20a8";
 	public static final String CURRENCY_INDIAN_RUPEE = "\u20b9";
-	public static final String FORTY_FIVE_DEGREES = "45" + degreeChar;
+	public static final String FORTY_FIVE_DEGREES = "45" + DEGREE_CHAR;
 
-	public static String CAS_OUTPUT_PREFIX_RTL = "\u2190";
-	public static String CAS_OUTPUT_PREFIX = "\u2192";
-	public static String CAS_OUTPUT_KEEPINPUT = "\u2713";
-	public static String CAS_OUTPUT_NUMERIC = "\u2248";
+	public static final String IMPLIES = "\u2192";
+	public static final String CAS_OUTPUT_PREFIX = "\u2192";
+	public static final String CAS_OUTPUT_PREFIX_RTL = "\u2190";
+	public static final String CAS_OUTPUT_KEEPINPUT = "\u2713";
+	public static final String CAS_OUTPUT_NUMERIC = "\u2248";
 
 	/*
 	 * converts an integer to a unicode superscript string (including minus

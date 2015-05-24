@@ -58,7 +58,7 @@ public class MySpecialDouble extends MyDouble {
 		// check if this is a letter constant, e.g. Pi or Euler number
 		char firstChar = strToString.charAt(0);
 		isLetterConstant = StringUtil.isLetter(firstChar)
-				|| firstChar == Unicode.degreeChar;
+				|| firstChar == Unicode.DEGREE_CHAR;
 		scientificNotation = strToString.indexOf("E") > 0;
 		keepOriginalString = !isLetterConstant
 				&& (scientificNotation || Double.isInfinite(val));
@@ -176,7 +176,7 @@ public class MySpecialDouble extends MyDouble {
 			switch (ch) {
 			case Unicode.pi:
 				return "pi";
-			case Unicode.degreeChar:
+			case Unicode.DEGREE_CHAR:
 				return "pi/180";
 			case Unicode.eulerChar:
 				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
@@ -191,7 +191,7 @@ public class MySpecialDouble extends MyDouble {
 			switch (ch) {
 			case Unicode.pi:
 				return "\\pi";
-			case Unicode.degreeChar:
+			case Unicode.DEGREE_CHAR:
 				return "^{\\circ}";
 			case Unicode.eulerChar:
 				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {

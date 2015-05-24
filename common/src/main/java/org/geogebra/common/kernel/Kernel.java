@@ -2126,7 +2126,7 @@ public class Kernel {
 					if (tpl.hasCASType()) {
 						sbFormatAngle.append("pi/180*");
 					} else {
-						sbFormatAngle.append(Unicode.degreeChar);
+						sbFormatAngle.append(Unicode.DEGREE_CHAR);
 					}
 				}
 
@@ -2155,7 +2155,7 @@ public class Kernel {
 					if (tpl.hasCASType()) {
 						sbFormatAngle.append("*pi/180");
 					} else {
-						sbFormatAngle.append(Unicode.degreeChar);
+						sbFormatAngle.append(Unicode.DEGREE_CHAR);
 					}
 				}
 

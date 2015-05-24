@@ -92,7 +92,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 		if (success) {
 			String angleText = getText();
 			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith(Unicode.degree)) {
+			if (angleText.endsWith(Unicode.DEGREE)) {
 				defaultRotateAngle = angleText;
 			} else {
 				defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
@@ -142,7 +142,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 
 		int caretPos = tc.getCaretPosition();
 
-		tc.setText(tc.getText() + Unicode.degree);
+		tc.setText(tc.getText() + Unicode.DEGREE);
 
 		tc.setCaretPosition(caretPos);
 	}
