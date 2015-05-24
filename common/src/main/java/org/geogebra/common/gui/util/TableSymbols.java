@@ -401,7 +401,7 @@ public class TableSymbols {
 			"\u2A61", // \\veebar (xor)
 
 			"\u22A4", // \\top (tautology)
-			"\u22A5", // \\bot (contradiction)
+			Unicode.PERPENDICULAR + "", // \\bot (contradiction)
 			"\u2201", // COMPLEMENT
 			"\u2234", // THEREFORE
 			"\u2235", // BECAUSE
@@ -414,12 +414,12 @@ public class TableSymbols {
 			"\u2229", // INTERSECTION
 			"\u222A", // UNION
 
-			"\u2208", // ELEMENT OF
+			Unicode.IS_ELEMENT_OF + "", // ELEMENT OF
 			"\u2209", // NOT AN ELEMENT OF
 
-			"\u2282", // SUBSET OF
+			Unicode.IS_SUBSET_OF_STRICT + "", // SUBSET OF
 			"\u2284", // NOT A SUBSET OF
-			"\u2286", // SUBSET OF OR EQUAL TO
+			Unicode.IS_SUBSET_OF + "", // SUBSET OF OR EQUAL TO
 			"\u2288", // NEITHER A SUBSET OF NOR EQUAL TO
 
 			"\u2283", // SUPERSET OF
@@ -470,7 +470,7 @@ public class TableSymbols {
 			// "\u2223", //DIVIDES
 			// "\u2224", //DOES NOT DIVIDE
 
-			"\u22a5", // \\perp
+			Unicode.PERPENDICULAR + "", // \\perp
 			"\u2225", // PARALLEL TO
 			"\u2226", // NOT PARALLEL TO
 			// "\u223A", //GEOMETRIC PROPORTION
@@ -1347,8 +1347,8 @@ public class TableSymbols {
 			"\u22A2", // \\vdash
 			"\u22A3", // \\dashv
 			"\u22A4", // \\top
-			"\u22A5", // \\bot
-			"\u22A5", // \\perp
+			Unicode.PERPENDICULAR + "", // \\bot
+			Unicode.PERPENDICULAR + "", // \\perp
 			"\u22A7", // \\models
 			"\u22A8", // \\vDash
 			"\u22A9", // \\Vdash

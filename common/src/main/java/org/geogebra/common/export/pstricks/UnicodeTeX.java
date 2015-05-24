@@ -195,7 +195,7 @@ public class UnicodeTeX {
 		p('\u2205', "varnothing");
 		p('\u2206', "triangle");
 		p('\u2207', "nabla");
-		p('\u2208', "in");
+		p(Unicode.IS_ELEMENT_OF, "in");
 		p('\u2209', "notin");
 		p('\u220a', "in");
 		p('\u220b', "ni");
@@ -287,11 +287,11 @@ public class UnicodeTeX {
 		p('\u227f', "succsim");
 		p('\u2280', "nprec");
 		p('\u2281', "nsucc");
-		p('\u2282', "subset");
+		p(Unicode.IS_SUBSET_OF_STRICT, "subset");
 		p('\u2283', "supset");
 		p('\u2284', "nsubset");
 		p('\u2285', "nsupset");
-		p('\u2286', "subseteq");
+		p(Unicode.IS_SUBSET_OF, "subseteq");
 		p('\u2287', "supseteq");
 		p('\u2288', "nsubseteq");
 		p('\u2289', "nsupseteq");
@@ -320,7 +320,7 @@ public class UnicodeTeX {
 		p('\u22a2', "vdash");
 		p('\u22a3', "dashv");
 		p('\u22a4', "top");
-		p('\u22a5', "perp");
+		p(Unicode.PERPENDICULAR, "perp");
 		p('\u22a7', "models");
 		p('\u22a8', "vDash");
 		p('\u22a9', "Vdash");

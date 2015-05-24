@@ -105,10 +105,10 @@ public class Unicode {
 	public static final String AND = "\u2227";
 	public static final String OR = "\u2228";
 	public static final String PARALLEL = "\u2225";
-	public static final String PERPENDICULAR = "\u22a5";
-	public static final String IS_ELEMENT_OF = "\u2208";
-	public static final String IS_SUBSET_OF = "\u2286";
-	public static final String IS_SUBSET_OF_STRICT = "\u2282";
+	public static final char PERPENDICULAR = '\u22a5';
+	public static final char IS_ELEMENT_OF = '\u2208';
+	public static final char IS_SUBSET_OF = '\u2286';
+	public static final char IS_SUBSET_OF_STRICT = '\u2282';
 	public static final String COLON_EQUALS = "\u2254";
 	public static final String SPACE = " ";
 	public static final String ANGLE = "\u2220";

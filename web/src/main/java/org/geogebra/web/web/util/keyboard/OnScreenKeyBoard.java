@@ -608,14 +608,14 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		addButton(Unicode.AND, index, chars);
 		addButton(Unicode.OR, index, chars);
 		addButton(Unicode.PARALLEL, index, chars);
-		addButton(Unicode.PERPENDICULAR, index, chars);
+		addButton(Unicode.PERPENDICULAR + "", index, chars);
 		
 		// fill third row
 		index++;
 		addButton(Unicode.IMPLIES, index, chars);
-		addButton(Unicode.IS_ELEMENT_OF, index, chars);
-		addButton(Unicode.IS_SUBSET_OF, index, chars);
-		addButton(Unicode.IS_SUBSET_OF_STRICT, index, chars);
+		addButton(Unicode.IS_ELEMENT_OF + "", index, chars);
+		addButton(Unicode.IS_SUBSET_OF + "", index, chars);
+		addButton(Unicode.IS_SUBSET_OF_STRICT + "", index, chars);
 		addButton(Unicode.ANGLE, index, chars);
 		addButton(Unicode.ANGLE, index, chars);
 

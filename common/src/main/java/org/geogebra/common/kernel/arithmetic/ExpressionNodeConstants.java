@@ -56,15 +56,16 @@ public interface ExpressionNodeConstants {
 	/** parallel */
 	public static final String strPARALLEL = "\u2225";
 	/** perpendicular */
-	public static final String strPERPENDICULAR = "\u22a5";
+	public static final String strPERPENDICULAR = Unicode.PERPENDICULAR + "";
 	/** vector product */
 	public static final String strVECTORPRODUCT = Unicode.VECTOR_PRODUCT + "";
 	/** is element of */
-	public static final String strIS_ELEMENT_OF = "\u2208";
+	public static final String strIS_ELEMENT_OF = Unicode.IS_ELEMENT_OF + "";
 	/** is subset of */
-	public static final String strIS_SUBSET_OF = "\u2286";
+	public static final String strIS_SUBSET_OF = Unicode.IS_SUBSET_OF + "";
 	/** strict subset of */
-	public static final String strIS_SUBSET_OF_STRICT = "\u2282";
+	public static final String strIS_SUBSET_OF_STRICT = Unicode.IS_SUBSET_OF_STRICT
+			+ "";
 	/** set difference */
 	public static final String strSET_DIFFERENCE = "\\";
 
