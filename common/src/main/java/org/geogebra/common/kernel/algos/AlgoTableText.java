@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.regexp.shared.MatchResult;
@@ -201,8 +200,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					}
 				}
 
-				App.debug("verticalLinesArray = "
-						+ verticalLinesArray.toString());
+				// App.debug("verticalLinesArray = "
+				// + verticalLinesArray.toString());
 			}
 
 			if ((pos = optionsStr.indexOf("_")) > -1) {
@@ -221,8 +220,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					}
 				}
 
-				App.debug("horizontalLinesArray = "
-						+ horizontalLinesArray.toString());
+				// App.debug("horizontalLinesArray = "
+				// + horizontalLinesArray.toString());
 			}
 
 			verticalLinesJustEdges = optionsStr.indexOf("/") > -1;
