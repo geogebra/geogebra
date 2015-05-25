@@ -247,7 +247,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/** speed for animated rotation */
 	private double animatedRotSpeed;
 	/** starting time for animated rotation */
-	private long animatedRotTimeStart;
+	private double animatedRotTimeStart;
 
 	/** tells if the view is under animation for rotation */
 	private boolean animatedRot = false;
@@ -1685,7 +1685,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param rotSpeed
 	 *            speed of rotation
 	 */
-	public void setRotContinueAnimation(long delay, double rotSpeed) {
+	public void setRotContinueAnimation(double delay, double rotSpeed) {
 		// Application.debug("delay="+delay+", rotSpeed="+rotSpeed);
 
 		if (Double.isNaN(rotSpeed)) {
@@ -1714,7 +1714,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		animatedContinueRot = true;
 		animatedRot = false;
 		animatedRotSpeed = -rotSpeed2;
-		animatedRotTimeStart = System.currentTimeMillis() - delay;
+		animatedRotTimeStart = app.getMillisecondTime() - delay;
 		bOld = b;
 		aOld = a;
 	}

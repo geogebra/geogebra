@@ -125,7 +125,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/** for animated rotation */
 	private double animatedRotSpeed;
 	/** used when time is needed */
-	private long timeOld;
+	private double timeOld;
 	/** used to record x information */
 	private int xOld;
 
@@ -1749,7 +1749,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view.rememberOrigins();
 		view.setDefaultCursor();
 
-		timeOld = System.currentTimeMillis();
+		timeOld = app.getMillisecondTime();
 		xOld = startLoc.x;
 		animatedRotSpeed = 0;
 		return true;
@@ -1794,7 +1794,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			app.storeUndoInfo();
 
 			((EuclidianView3D) view).setRotContinueAnimation(
-					System.currentTimeMillis() - timeOld, animatedRotSpeed);
+					app.getMillisecondTime() - timeOld, animatedRotSpeed);
 
 			// Application.debug("animatedRotSpeed="+animatedRotSpeed);
 
