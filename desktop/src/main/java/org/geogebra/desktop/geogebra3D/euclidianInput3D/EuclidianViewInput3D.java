@@ -675,7 +675,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	public void draw(Renderer renderer1) {
 		super.draw(renderer1);
 
-		if (input3D.hasMouseDirection()) {
+		if (drawStylusBeam()) {
 			stylusBeamDrawable.drawOutline(renderer1);
 		}
 
@@ -685,8 +685,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	public void drawHidden(Renderer renderer1) {
 		super.drawHidden(renderer1);
 
-		if (input3D.hasMouseDirection()) {
+		if (drawStylusBeam()) {
 			stylusBeamDrawable.drawHidden(renderer1);
 		}
+	}
+
+	private boolean drawStylusBeam() {
+		return input3D.hasMouseDirection() && hasMouse();
 	}
 }
