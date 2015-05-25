@@ -10,12 +10,13 @@ the Free Software Foundation.
 
  */
 
-package org.geogebra.common.kernel.algos;
+package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -30,7 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * @author Markus Hohenwarter
  */
 public class AlgoIntegralFunctions extends AlgoElement implements
-		DrawInformationAlgo {
+		DrawInformationAlgo, AlgoIntegralDefiniteInterface {
 
 	private GeoFunction f, g; // input
 	private NumberValue a, b; // input
@@ -152,7 +153,7 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 		}
 
 		// return if it should not be evaluated (i.e. is shade-only)
-		if (evaluate != null && !evaluate.getBoolean()) {
+		if (evaluateOnly()) {
 			n.setValue(Double.NaN);
 			return;
 		}
@@ -160,6 +161,10 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 		// Integral[f(x) - g(x), a, b] = Integral[f(x), a, b] - Integral[g(x),
 		// a, b]
 		n.setValue(intF.getValue() - intG.getValue());
+	}
+
+	public boolean evaluateOnly() {
+		return evaluate != null && !evaluate.getBoolean();
 	}
 
 	// TODO Consider locusequability

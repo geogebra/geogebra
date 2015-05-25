@@ -17,15 +17,15 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
-import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -101,13 +101,15 @@ public class DrawIntegralFunctions extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(n);
 
-		if (n.isAlgoMacroOutput() || isCasObject)
+		if (n.isAlgoMacroOutput() || isCasObject) {
 			init();
+		}
 
 		// init gp
 		double aRW = Math.min(a.getDouble(), b.getDouble());
@@ -129,8 +131,9 @@ public class DrawIntegralFunctions extends Drawable {
 		double ay = view.toClippedScreenCoordY(f.evaluate(aRW));
 
 		// plot area between f and g
-		if (gp == null)
+		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
+		}
 		gp.reset();
 		gp.moveTo(ax, ay);
 		CurvePlotter.plotCurve(f, aRW, bRW, view, gp, false, Gap.LINE_TO);

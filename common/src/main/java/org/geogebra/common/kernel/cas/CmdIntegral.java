@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
