@@ -638,7 +638,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	 * @param l
 	 *            length
 	 */
-	public void getStylusEnd(Coords coords, double l){
+	public void getStylusBeamEnd(Coords coords, double l){
 		coords.setAdd(((EuclidianControllerInput3D) euclidianController)
 				.getMouse3DScenePosition(), coords.setMul(
 				((EuclidianControllerInput3D) euclidianController)

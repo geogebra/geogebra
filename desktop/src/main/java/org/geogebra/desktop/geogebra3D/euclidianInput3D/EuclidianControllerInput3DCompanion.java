@@ -265,7 +265,7 @@ public class EuclidianControllerInput3DCompanion extends
 				// + ((EuclidianControllerInput3D) ec).movedGeoPointStartCoords
 				// + "\nstartZNearest = "
 				// + ((EuclidianControllerInput3D) ec).startZNearest);
-				((EuclidianViewInput3D) ec.view).getStylusEnd(v,
+				((EuclidianViewInput3D) ec.view).getStylusBeamEnd(v,
 						((EuclidianControllerInput3D) ec).startZNearest);
 				v.setSub(
 						v,
