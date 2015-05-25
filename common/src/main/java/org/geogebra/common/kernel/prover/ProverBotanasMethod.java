@@ -402,44 +402,53 @@ public class ProverBotanasMethod {
 			if (statements != null)
 				nStatements = statements.length;
 
-			boolean ans = true;
-			// Solving the equation system for each sets of polynomials of the
-			// statement:
-			for (int i = 0; i < nStatements && ans; ++i) {
-				int nPolysStatement = statements[i].length;
-				Polynomial[] eqSystem = new Polynomial[nHypotheses
-						+ nNdgConditions + nPolysStatement];
-				// These polynomials will be in the equation system always:
-				for (int j = 0; j < nHypotheses; ++j)
-					eqSystem[j] = hypotheses[j];
-				if (nNdgConditions > 0)
-					App.debug("Extra NDGs:");
-				for (int j = 0; j < nNdgConditions; ++j) {
-					App.debug((j + nHypotheses + 1) + ". " + ndgConditions[j]);
-					eqSystem[j + nHypotheses] = ndgConditions[j];
+			
+			// Solving/manipulating the equation system:
+			
+			int nExtraPolysNonDenied = 0;
+			for (int i = 0; i < nStatements; ++i) {
+				nExtraPolysNonDenied += (statements[i].length - 1);
+			}
+			
+			Polynomial[] eqSystem = new Polynomial[nHypotheses + nNdgConditions + nExtraPolysNonDenied + 1];
+			// These polynomials will be in the equation system always:
+			for (int j = 0; j < nHypotheses; ++j)
+				eqSystem[j] = hypotheses[j];
+			if (nNdgConditions > 0)
+				App.debug("Extra NDGs:");
+			for (int j = 0; j < nNdgConditions; ++j) {
+				App.debug((j + nHypotheses + 1) + ". " + ndgConditions[j]);
+				eqSystem[j + nHypotheses] = ndgConditions[j];
+			}
+			int k = nHypotheses + nNdgConditions;
+			if (nExtraPolysNonDenied > 0)
+				App.debug("Statement equations (non-denied parts):");
+			for (int i = 0; i < nStatements; ++i) {
+				for (int j = 0; j < statements[i].length - 1; ++j) {
+					App.debug((k + 1) + ". " + statements[i][j]);
+					eqSystem[k] = statements[i][j];
+					++k;
 				}
-				if (nPolysStatement > 1)
-					App.debug("Statement equations (non-denied parts):");
-				for (int j = 0; j < nPolysStatement - 1; ++j) {
-					App.debug((j + nHypotheses + nNdgConditions + 1) + ". "
-							+ statements[i][j]);
-					eqSystem[j + nHypotheses + nNdgConditions] = statements[i][j];
+			}
+
+			// Rabinowitsch trick for the last polynomials of the theses of the statement.
+			// Here we use that NOT (A and B and C) == (NOT A) or (NOT b) or (NOT c),
+			// and products can be algebraized by using products.
+			App.debug("Thesis reductio ad absurdum (denied statement), product of factors:");
+			Polynomial spoly = new Polynomial(1);
+				for (int i = 0; i < nStatements; ++i) {
+					Polynomial factor = (statements[i][statements[i].length - 1]);
+					Variable z = new Variable();
+					// FIXME: this always introduces an extra variable, shouldn't do
+					App.debug("(" + factor + ")*" + z + "-1");
+					factor = factor.multiply(new Polynomial(z)).subtract(new Polynomial(1));
+					spoly = spoly.multiply(factor);
 				}
+			eqSystem[k] = spoly;
+			App.debug("that is,");
+			App.debug((k + 1) + ". " + spoly);
 
-				// Rabinowitsch trick for the last polynomial of the current
-				// statement:
-				Polynomial lastpoly = statements[i][nPolysStatement - 1]; // saving for negative check
-				Polynomial spoly = lastpoly.multiply(
-						new Polynomial(new Variable())).subtract(
-						new Polynomial(1));
-				// FIXME: this always introduces an extra variable, shouldn't do
-				App.debug("Thesis reductio ad absurdum (denied statement):");
-				eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
-				App.debug((nHypotheses + nNdgConditions + nPolysStatement)
-						+ ". " + spoly);
-
-				if (prover.isReturnExtraNDGs()) {
-					eqSystem[nHypotheses + nPolysStatement - 1] = spoly; // is this needed?
+			if (prover.isReturnExtraNDGs()) {
 
 					Set<Set<Polynomial>> eliminationIdeal;
 					NDGDetector ndgd = new NDGDetector(prover, substitutions);
@@ -498,12 +507,27 @@ public class ProverBotanasMethod {
 									// So we should check the negative statement also.
 									App.debug("Statement is NOT GENERALLY TRUE");
 									App.debug("Checking the negative statement to decide if the statement is generally false or not:");
-									spoly = lastpoly;
-									eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
+									
+									// If there were more than one theses, we need to add 1 extra polynomial for each,
+									// because we used the product of the last statement of each, but now we need to add all of
+									// them to the system.
+									if (nStatements != 1) {
+										Polynomial[] eqSystem2 = new Polynomial[nHypotheses + nNdgConditions + nExtraPolysNonDenied + nStatements];
+										for (int i = 0; i < nHypotheses + nNdgConditions + nExtraPolysNonDenied; ++i) {
+											eqSystem2[i] = eqSystem[i];
+											}
+										eqSystem = eqSystem2;
+										}
+									int j = nHypotheses + nNdgConditions + nExtraPolysNonDenied;
+									// Add the last (earlier: denied) theses to the system as simple equations (in non-denied form). 
+									for (int i = 0; i < nStatements; ++i) {
+										eqSystem[j + i] = statements[i][statements[i].length - 1];
+									}
+									// Computing elimination ideal. If this elimination is not zero, then the statement is generally false.
 									eliminationIdeal = Polynomial.eliminate(eqSystem,
 										substitutions, statement.getKernel(),
 										permutation++);
-										if (eliminationIdeal == null) {
+									if (eliminationIdeal == null) {
 											App.debug("Statement is NOT GENERALLY FALSE => UNKNOWN (1)");
 											return ProofResult.UNKNOWN;
 										}
@@ -519,19 +543,18 @@ public class ProverBotanasMethod {
 											}
 										}
 									}
-									App.debug("Statement is GENERALLY FALSE");
-									return ProofResult.FALSE;
+								App.debug("Statement is GENERALLY FALSE");
+								return ProofResult.FALSE;
 								}
 									
-								if (!poly.isConstant()) {
-									NDGCondition ndgc = ndgd.detect(poly);
-									if (ndgc == null)
-										readable = false;
-									else {
-										// Check if this elimination ideal
-										// equals to {xM-xN,yM-yN}:
-										xyRewrite = (xyRewrite && thisNdgSet
-												.size() == 1);
+							if (!poly.isConstant()) {
+								NDGCondition ndgc = ndgd.detect(poly);
+								if (ndgc == null)
+									readable = false;
+								else {
+									// Check if this elimination ideal
+									// equals to {xM-xN,yM-yN}:
+									xyRewrite = (xyRewrite && thisNdgSet.size() == 1);
 										// Note that in some cases the CAS may
 										// return (xM-xN)*(-1) which
 										// consists of two factors, so
@@ -540,75 +563,66 @@ public class ProverBotanasMethod {
 										// such behavior for such
 										// simple ideals, so maybe this check is
 										// OK.
-										if (xyRewrite) {
-											if (ndgc.getCondition().equals(
-													"xAreEqual")) {
-												Set<GeoPoint> points = new HashSet<GeoPoint>();
-												points.add((GeoPoint) ndgc
-														.getGeos()[0]);
-												points.add((GeoPoint) ndgc
-														.getGeos()[1]);
-												xEqualSet.add(points);
+									if (xyRewrite) {
+										if (ndgc.getCondition().equals("xAreEqual")) {
+											Set<GeoPoint> points = new HashSet<GeoPoint>();
+											points.add((GeoPoint) ndgc.getGeos()[0]);
+											points.add((GeoPoint) ndgc.getGeos()[1]);
+											xEqualSet.add(points);
 											}
-											if (ndgc.getCondition().equals(
-													"yAreEqual")) {
-												Set<GeoPoint> points = new HashSet<GeoPoint>();
-												points.add((GeoPoint) ndgc
-														.getGeos()[0]);
-												points.add((GeoPoint) ndgc
-														.getGeos()[1]);
-												yEqualSet.add(points);
+										if (ndgc.getCondition().equals("yAreEqual")) {
+											Set<GeoPoint> points = new HashSet<GeoPoint>();
+											points.add((GeoPoint) ndgc.getGeos()[0]);
+											points.add((GeoPoint) ndgc.getGeos()[1]);
+											yEqualSet.add(points);
 											}
-											if (xEqualSet.size() == 1
-													&& xEqualSet
-															.equals(yEqualSet)) {
-												// If yes, set the condition to
-												// AreEqual(M,N) and readable
-												// enough:
-												ndgc.setCondition("AreEqual");
-												ndgc.setReadability(0.5);
+										if (xEqualSet.size() == 1 && xEqualSet.equals(yEqualSet)) {
+											// If yes, set the condition to
+											// AreEqual(M,N) and readable
+											// enough:
+											ndgc.setCondition("AreEqual");
+											ndgc.setReadability(0.5);
 											}
 										}
 
-										ndgcl.add(ndgc);
-										score += ndgc.getReadability();
-
-									}
-								}
-							}
-							// Now we take the set if the conditions are
-							// readable and the set is the current best.
-							// TODO: Here we should simplify the NDGs, i.e. if
-							// one of them is a logical
-							// consequence of others, then it should be
-							// eliminated.
-							if (readable && score < bestScore) {
-								App.debug("Found a better NDG score (" + score
-										+ ") than " + bestScore);
-								bestScore = score;
-								bestNdgSet = ndgcl;
-								found = true;
-							} else {
-								if (readable) {
-									App.debug("Not better than previous NDG score ("
-											+ bestScore + "), this is " + score);
-								} else {
-									App.debug("...unreadable");
+									ndgcl.add(ndgc);
+									score += ndgc.getReadability();
 								}
 							}
 						}
-						if (found) {
-							Iterator<NDGCondition> ndgc = bestNdgSet.iterator();
-							while (ndgc.hasNext()) {
-								prover.addNDGcondition(ndgc.next());
+						// Now we take the set if the conditions are
+						// readable and the set is the current best.
+						// TODO: Here we should simplify the NDGs, i.e. if
+						// one of them is a logical
+						// consequence of others, then it should be
+						// eliminated.
+						if (readable && score < bestScore) {
+							App.debug("Found a better NDG score (" + score
+								+ ") than " + bestScore);
+							bestScore = score;
+							bestNdgSet = ndgcl;
+							found = true;
+						} else {
+							if (readable) {
+								App.debug("Not better than previous NDG score ("
+									+ bestScore + "), this is " + score);
+								} else {
+								App.debug("...unreadable");
+								}
+							}
+						}
+					if (found) {
+						Iterator<NDGCondition> ndgc = bestNdgSet.iterator();
+						while (ndgc.hasNext()) {
+							prover.addNDGcondition(ndgc.next());
 							}
 						}
 					}
-					// No readable proof was found, search for another
-					// prover to make a better job:
-					if (!found) {
-						App.debug("Statement is TRUE but NDGs are UNREADABLE");
-						return ProofResult.TRUE_NDG_UNREADABLE;
+				// No readable proof was found, search for another
+				// prover to make a better job:
+				if (!found) {
+					App.debug("Statement is TRUE but NDGs are UNREADABLE");
+					return ProofResult.TRUE_NDG_UNREADABLE;
 					}
 				} else {
 					Boolean solvable = Polynomial.solvable(eqSystem,
@@ -630,12 +644,26 @@ public class ProverBotanasMethod {
 						// Here we know that the statement is not generally true.
 						// But it is possible that the statement is not generally false, either.
 						// So we check the negative statement also.
-						spoly = lastpoly;
+						//spoly = lastpoly;
 						App.debug("Statement is NOT GENERALLY TRUE");
 						App.debug("Checking the negative statement to decide if the statement is generally false or not:");
-						eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
-						App.debug((nHypotheses + nNdgConditions + nPolysStatement)
-								+ ". " + spoly);
+						
+						// If there were more than one theses, we need to add 1 extra polynomial for each,
+						// because we used the product of the last statement of each, but now we need to add all of
+						// them to the system.
+						if (nStatements != 1) {
+							Polynomial[] eqSystem2 = new Polynomial[nHypotheses + nNdgConditions + nExtraPolysNonDenied + nStatements];
+							for (int i = 0; i < nHypotheses + nNdgConditions + nExtraPolysNonDenied; ++i) {
+								eqSystem2[i] = eqSystem[i];
+								}
+							eqSystem = eqSystem2;
+							}
+						int j = nHypotheses + nNdgConditions + nExtraPolysNonDenied;
+						// Add the last (earlier: denied) theses to the system as simple equations (in non-denied form). 
+						for (int i = 0; i < nStatements; ++i) {
+							eqSystem[j + i] = statements[i][statements[i].length - 1];
+						}
+
 						Boolean negsolvable = Polynomial.solvable(eqSystem,
 								substitutions, statement.getKernel(),
 								ProverSettings.transcext);
@@ -644,18 +672,13 @@ public class ProverBotanasMethod {
 							return ProofResult.UNKNOWN;
 						}
 						App.debug("Statement is GENERALLY FALSE");
-						ans = false;
+						return ProofResult.FALSE;
 					}
 				}
-			}
 
-			if (ans) {
-				App.debug("Statement is GENERALLY TRUE");
-				return ProofResult.TRUE;
-			}
+			App.debug("Statement is GENERALLY TRUE");
+			return ProofResult.TRUE;
 
-			App.debug("Statement is GENERALLY FALSE");
-			return ProofResult.FALSE;
 		} catch (NoSymbolicParametersException e) {
 			App.debug("Unsuccessful run, statement is UNKNOWN at the moment");
 			return ProofResult.UNKNOWN;
