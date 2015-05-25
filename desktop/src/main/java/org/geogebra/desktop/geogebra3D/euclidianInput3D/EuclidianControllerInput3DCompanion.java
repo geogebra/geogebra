@@ -260,9 +260,21 @@ public class EuclidianControllerInput3DCompanion extends
 			super.movePlane(repaint, event);
 		} else {
 			Coords v = new Coords(4);
-			v.set(((EuclidianControllerInput3D) ec).mouse3DPosition
-					.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
-			((EuclidianView3D) ec.view).toSceneCoords3D(v);
+			if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()) {
+				// App.debug("\nmovedGeoPointStartCoords:\n"
+				// + ((EuclidianControllerInput3D) ec).movedGeoPointStartCoords
+				// + "\nstartZNearest = "
+				// + ((EuclidianControllerInput3D) ec).startZNearest);
+				((EuclidianViewInput3D) ec.view).getStylusEnd(v,
+						((EuclidianControllerInput3D) ec).startZNearest);
+				v.setSub(
+						v,
+						((EuclidianControllerInput3D) ec).movedGeoPointStartCoords);
+			} else {
+				v.set(((EuclidianControllerInput3D) ec).mouse3DPosition
+						.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
+				((EuclidianView3D) ec.view).toSceneCoords3D(v);
+			}
 
 			final GeoPlane3D plane = ((EuclidianControllerInput3D) ec).movedGeoPlane;
 

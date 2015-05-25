@@ -592,15 +592,26 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	/**
+	 * 
+	 * @return current z nearest hit
+	 */
+	public double getZNearest() {
+		return zNearest;
+	}
+
+	/**
 	 * update stylus beam for moved geo
 	 */
 	public void updateStylusBeamForMovedGeo() {
-		getCursor3D().setCoords(
-				((EuclidianControllerInput3D) euclidianController)
-								.getMouse3DScenePosition(),
-						false);
-		zNearest = euclidianController.getMovedGeoElement()
-				.distance(getCursor3D());
+		if (euclidianController.getMoveMode() != EuclidianController.MOVE_PLANE) {
+			getCursor3D()
+					.setCoords(
+							((EuclidianControllerInput3D) euclidianController)
+									.getMouse3DScenePosition(),
+							false);
+			zNearest = euclidianController.getMovedGeoElement().distance(
+					getCursor3D());
+		}
 
 		updateStylusBeam();
 	}
@@ -617,6 +628,21 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			stylusBeamDrawable.update();
 		}
 
+	}
+
+	/**
+	 * set coords to stylus end for given length
+	 * 
+	 * @param coords
+	 *            returned coords
+	 * @param l
+	 *            length
+	 */
+	public void getStylusEnd(Coords coords, double l){
+		coords.setAdd(((EuclidianControllerInput3D) euclidianController)
+				.getMouse3DScenePosition(), coords.setMul(
+				((EuclidianControllerInput3D) euclidianController)
+						.getMouse3DDirection(), l));
 	}
 
 	@Override

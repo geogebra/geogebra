@@ -609,6 +609,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		updateMovedGeoPointStartValues(view3D.getCursor3D()
 				.getInhomCoordsInD(3));
 
+		if (input3D.hasMouseDirection()) {
+			startZNearest = ((EuclidianViewInput3D) view3D).getZNearest();
+		}
+
 		view3D.setDragCursor();
 
 		// set sticky points
@@ -627,6 +631,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 
 	}
+
+	protected double startZNearest;
 
 	@Override
 	public float getPointCapturingPercentage() {
