@@ -1034,22 +1034,17 @@ public class CoordSys {
 	 */
 	public void updateContinuousPointVx(Coords point, Coords vector) {
 
-		point.projectPlane(matrixOrthonormal, tmpCoords1);
-		tmpCoords1.setSub(point, tmpCoords1);
-		tmpCoords1.setAdd(tmpCoords1, matrixOrthonormal.getOrigin());
-
 		tmpCoords2.setCrossProduct(matrixOrthonormal.getVz(), vector);
 		tmpCoords3.setCrossProduct(vector, tmpCoords2);
 		tmpCoords3.setW(0);
 		tmpCoords3.normalize();
 
-		CoordMatrix4x4.createOrthoToDirection(tmpCoords1, tmpCoords3,
+		CoordMatrix4x4.createOrthoToDirection(matrixOrthonormal.getOrigin(),
+				tmpCoords3,
 				CoordMatrix4x4.VZ, matrixOrthonormal.getVx(), tmpCoords2,
 				tmpCoords4, matrixOrthonormal);
 
-
-
-		setFromMatrixOrthonormal();
+		updateToContainPoint(point);
 
 	}
 
