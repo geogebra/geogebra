@@ -1718,7 +1718,7 @@ __GGB__keysVar.tr.menu = {
     "Perspective.Geometry": "Geometri",
     "Perspective.Primary": "Birincil",
     "Perspective.Probability": "Olas\u0131l\u0131k",
-    "Perspective.Spreadsheet": "HesapTablosu",
+    "Perspective.Spreadsheet": "Hesap \xc7izelgesi",
     "Perspective.TableAndGraphics": "Tablo & Grafik",
     "Perspective.Whiteboard": "Whiteboard",
     "PerspectivePanel": "Perspektif Paneli",
