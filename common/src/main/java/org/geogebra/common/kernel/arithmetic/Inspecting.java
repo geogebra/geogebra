@@ -210,7 +210,8 @@ public interface Inspecting {
 			}
 			GeoElement geo = (GeoElement) v;
 			return (!geo.isIndependent() || geo.isLabelSet()
-					|| geo.isLocalVariable() || v instanceof GeoDummyVariable || geo
+					|| geo.isLocalVariable() || v instanceof GeoDummyVariable
+					|| geo.isGeoCasCell() || geo
 					.isRandomGeo());
 		}
 	};
