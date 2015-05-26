@@ -1,10 +1,8 @@
-package org.geogebra.web.web.util.keyboard;
+package org.geogebra.web.web.util.KeyboardBase;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -13,9 +11,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
- * A button of the {@link OnScreenKeyBoard}.
+ * A button of the {@link OnScreenKeyBoardBase}.
  */
-public class KeyBoardButton extends SimplePanel {
+public class KeyBoardButtonBase extends SimplePanel {
 
 	private String caption;
 	private String feedback;
@@ -29,7 +27,7 @@ public class KeyBoardButton extends SimplePanel {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public KeyBoardButton(String caption, String feedback, OnScreenKeyBoard handler) {
+	public KeyBoardButtonBase(String caption, String feedback, OnScreenKeyBoardBase handler) {
 		this(handler);
 		this.label = new Label();
 		setCaption(caption);
@@ -39,23 +37,24 @@ public class KeyBoardButton extends SimplePanel {
 	}
 
 	/**
-	 * Constructor for subclass {@link KeyBoardButtonFunctional}
+	 * Constructor for subclass {@link KeyBoardButtonFunctionalBase}
 	 * 
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	protected KeyBoardButton(final OnScreenKeyBoard handler) {
-		//addDomHandler(handler, ClickEvent.getType());
+	protected KeyBoardButtonBase(final OnScreenKeyBoardBase handler) {
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				((DrawEquationWeb) handler.getApp().getDrawEquation()).setMouseOut(false);
-				ToolTipManagerW.hideAllToolTips();
-				if(handler.getApp().getLAF().isSmart() && type == PointerEventType.TOUCH){
-					return;
-				}
-				handler.onClick(KeyBoardButton.this);
+				// ((DrawEquationWeb)
+				// handler.getApp().getDrawEquation()).setMouseOut(false);
+				// ToolTipManagerW.hideAllToolTips();
+				// if(handler.getApp().getLAF().isSmart() && type ==
+				// PointerEventType.TOUCH){
+				// return;
+				// }
+				handler.onClick(KeyBoardButtonBase.this);
 			}
 
 		});
