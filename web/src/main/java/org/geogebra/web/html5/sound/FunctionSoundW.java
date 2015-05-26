@@ -49,11 +49,10 @@ public final class FunctionSoundW extends FunctionSound implements
 			return false;
 		}
 
-		boolean success = false;
 		waw.setBuffer(this);
-		waw.start(getSampleRate());
 
-		return success;
+
+		return true;
 	}
 
 	/**
@@ -123,6 +122,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		setT(getMin());
 		loadBuffer();
 		doFade(getBuf()[0], false);
+		// waw.write(getBuf(), frameSetSize);
 		waw.write(getBuf(), getBufLength());
 
 	}
@@ -142,27 +142,14 @@ public final class FunctionSoundW extends FunctionSound implements
 		if (getT() < getMax() && !stopped) {
 			setT(getT() + getSamplePeriod() * frameSetSize);
 			loadBuffer();
+			// waw.write(getBuf(), frameSetSize);
 			waw.write(getBuf(), getBufLength());
-		} else {
+		} else if (getBitDepth() == 16 || (getBitDepth() == 8 && !stopped)) {
+
 			doFade(getBuf()[getBufLength() - 1], true);
 		}
+
 	}
-		// // finish transfer of bytes from internal buffer to the sdl
-		// // // buffer
-		// // sdl.drain();
-		// //
-		// // // stop and close the sourceDataLine
-		// // waw.stop();
-		// // sdl.close();
-		//
-		// }
-		// /**
-		// * Shapes ends of waveform to fade sound data TODO: is this actually
-		// * working?
-		// *
-		// * @param peakValue
-		// * @param isFadeOut
-		// */
 
 	private void doFade(short peakValue, boolean isFadeOut) {
 		byte[] fadeBuf = getFadeBuffer(peakValue, isFadeOut);
