@@ -2,6 +2,7 @@ package org.geogebra.web.web.util.keyboard;
 
 import java.util.HashSet;
 
+import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -41,38 +42,34 @@ public class TextFieldProcessing {
 
 	/** ASCII */
 	private static final int BACKSPACE = 8;
-	private static final int ENTER = 13;
-	private static final int LBRACE = 40;
-	private static final int CIRCUMFLEX = 94;
-	private static final int T_LOWER_CASE = 116;
-	private static final int PIPE = 124;
-
-	/** Javascript char codes */
-	private static final int LEFT_ARROW = 37;
-	private static final int RIGHT_ARROW = 39;
+	private static final int ENTER = '\r'; // 13;
+	private static final int LPARENTHESIS = '('; // 40;
+	private static final int CIRCUMFLEX = '^';// 94;
+	private static final int T_LOWER_CASE = 't'; // 116;
+	private static final int PIPE = '|'; // 124;
 
 	private MathKeyboardListener field;
 	private State state = State.empty;
-	private HashSet<String> needsLbrace = new HashSet<String>();
+	private HashSet<String> needsLeftParenthesis = new HashSet<String>();
 
 	public TextFieldProcessing() {
-		initNeedsLbrace();
+		initNeedsLeftParenthesis();
 	}
 
 	/**
 	 * add the default Strings
 	 */
-	private void initNeedsLbrace() {
-		needsLbrace.add("sin");
-		needsLbrace.add("cos");
-		needsLbrace.add("tan");
-		needsLbrace.add("ln");
-		needsLbrace.add("sinh");
-		needsLbrace.add("cosh");
-		needsLbrace.add("tanh");
-		needsLbrace.add("arcsin");
-		needsLbrace.add("arccos");
-		needsLbrace.add("arctan");
+	private void initNeedsLeftParenthesis() {
+		needsLeftParenthesis.add("sin");
+		needsLeftParenthesis.add("cos");
+		needsLeftParenthesis.add("tan");
+		needsLeftParenthesis.add("ln");
+		needsLeftParenthesis.add("sinh");
+		needsLeftParenthesis.add("cosh");
+		needsLeftParenthesis.add("tanh");
+		needsLeftParenthesis.add("arcsin");
+		needsLeftParenthesis.add("arccos");
+		needsLeftParenthesis.add("arctan");
 	}
 
 	/**
@@ -81,15 +78,15 @@ public class TextFieldProcessing {
 	 * @param loc
 	 */
 	public void updateForNewLanguage(Localization loc) {
-		needsLbrace.clear();
-		initNeedsLbrace();
+		needsLeftParenthesis.clear();
+		initNeedsLeftParenthesis();
 
-		needsLbrace.add(loc.getPlain("Function.sin"));
-		needsLbrace.add(loc.getPlain("Function.cos"));
-		needsLbrace.add(loc.getPlain("Function.tan"));
-		needsLbrace.add(loc.getPlain("Function.sinh"));
-		needsLbrace.add(loc.getPlain("Function.cosh"));
-		needsLbrace.add(loc.getPlain("Function.tanh"));
+		needsLeftParenthesis.add(loc.getPlain("Function.sin"));
+		needsLeftParenthesis.add(loc.getPlain("Function.cos"));
+		needsLeftParenthesis.add(loc.getPlain("Function.tan"));
+		needsLeftParenthesis.add(loc.getPlain("Function.sinh"));
+		needsLeftParenthesis.add(loc.getPlain("Function.cosh"));
+		needsLeftParenthesis.add(loc.getPlain("Function.tanh"));
 	}
 
 	/**
@@ -261,12 +258,12 @@ public class TextFieldProcessing {
 		case newRadioButtonTreeItem:
 			switch (type) {
 			case left:
-				((EquationEditorListener) field).keydown(LEFT_ARROW, false,
-						false, false);
+				((EquationEditorListener) field).keydown(GWTKeycodes.KEY_LEFT,
+						false, false, false);
 				break;
 			case right:
-				((EquationEditorListener) field).keydown(RIGHT_ARROW, false,
-						false, false);
+				((EquationEditorListener) field).keydown(GWTKeycodes.KEY_RIGHT,
+						false, false, false);
 				break;
 			}
 			break;
@@ -309,10 +306,10 @@ public class TextFieldProcessing {
 				// inserts: ^{}
 				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
 						false, false);
-			} else if (needsLbrace.contains(text)) {
+			} else if (needsLeftParenthesis.contains(text)) {
 				((EquationEditorListener) field).insertString(text);
 				// inserts: ()
-				((EquationEditorListener) field).keypress(LBRACE, false, false,
+				((EquationEditorListener) field).keypress(LPARENTHESIS, false, false,
 						false);
 			} else if (text.equals("nroot")) {
 				((EquationEditorListener) field).insertString("nroo");
@@ -320,7 +317,7 @@ public class TextFieldProcessing {
 						false, true);
 			} else if (text.equals("log")) {
 				((EquationEditorListener) field).insertString("log_{10}");
-				((EquationEditorListener) field).keypress(LBRACE, false, false,
+				((EquationEditorListener) field).keypress(LPARENTHESIS, false, false,
 						false);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((EquationEditorListener) field)

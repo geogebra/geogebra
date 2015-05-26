@@ -50,7 +50,7 @@ public class TextFieldProcessingBase {
 
 	private MathKeyboardListener field;
 	private State state = State.empty;
-	private HashSet<String> needsLbrace = new HashSet<String>();
+	private HashSet<String> needsLeftParenthesis = new HashSet<String>();
 
 	public TextFieldProcessingBase() {
 		initNeedsLeftParenthesis();
@@ -60,16 +60,16 @@ public class TextFieldProcessingBase {
 	 * add the default Strings
 	 */
 	private void initNeedsLeftParenthesis() {
-		needsLbrace.add("sin");
-		needsLbrace.add("cos");
-		needsLbrace.add("tan");
-		needsLbrace.add("ln");
-		needsLbrace.add("sinh");
-		needsLbrace.add("cosh");
-		needsLbrace.add("tanh");
-		needsLbrace.add("arcsin");
-		needsLbrace.add("arccos");
-		needsLbrace.add("arctan");
+		needsLeftParenthesis.add("sin");
+		needsLeftParenthesis.add("cos");
+		needsLeftParenthesis.add("tan");
+		needsLeftParenthesis.add("ln");
+		needsLeftParenthesis.add("sinh");
+		needsLeftParenthesis.add("cosh");
+		needsLeftParenthesis.add("tanh");
+		needsLeftParenthesis.add("arcsin");
+		needsLeftParenthesis.add("arccos");
+		needsLeftParenthesis.add("arctan");
 	}
 
 	/**
@@ -78,15 +78,15 @@ public class TextFieldProcessingBase {
 	 * @param loc
 	 */
 	public void updateForNewLanguage(Localization loc) {
-		needsLbrace.clear();
+		needsLeftParenthesis.clear();
 		initNeedsLeftParenthesis();
 
-		needsLbrace.add(loc.getPlain("Function.sin"));
-		needsLbrace.add(loc.getPlain("Function.cos"));
-		needsLbrace.add(loc.getPlain("Function.tan"));
-		needsLbrace.add(loc.getPlain("Function.sinh"));
-		needsLbrace.add(loc.getPlain("Function.cosh"));
-		needsLbrace.add(loc.getPlain("Function.tanh"));
+		needsLeftParenthesis.add(loc.getPlain("Function.sin"));
+		needsLeftParenthesis.add(loc.getPlain("Function.cos"));
+		needsLeftParenthesis.add(loc.getPlain("Function.tan"));
+		needsLeftParenthesis.add(loc.getPlain("Function.sinh"));
+		needsLeftParenthesis.add(loc.getPlain("Function.cosh"));
+		needsLeftParenthesis.add(loc.getPlain("Function.tanh"));
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class TextFieldProcessingBase {
 				// inserts: ^{}
 				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
 						false, false);
-			} else if (needsLbrace.contains(text)) {
+			} else if (needsLeftParenthesis.contains(text)) {
 				((EquationEditorListener) field).insertString(text);
 				// inserts: ()
 				((EquationEditorListener) field).keypress(LPARENTHESIS, false,
