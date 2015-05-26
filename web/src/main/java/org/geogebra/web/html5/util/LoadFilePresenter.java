@@ -39,6 +39,7 @@ public class LoadFilePresenter {
 		final AppW app = view.getApplication();
 		boolean fileOpened = true;
 		boolean specialPerspective = false;
+		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		if (isReloadDataInStorage()) {
 			// do nothing here - everything done in isReloadDataInStorage()
 			// function
@@ -110,7 +111,6 @@ public class LoadFilePresenter {
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
 		        || view.getDataParamApp());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
-		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
 		if (!specialPerspective) {
 			app.updateToolBar();

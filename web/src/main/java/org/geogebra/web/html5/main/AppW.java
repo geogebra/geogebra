@@ -1213,7 +1213,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * True if showing the "alpha" in Input Boxes is allowed. (we can hide the
 	 * symbol buttons with data-param-allowSymbolTable parameter)
 	 */
-	private boolean allowSymbolTables;
+	private boolean allowSymbolTables = true;
 
 	/**
 	 * @return OfflineOperation event flow
