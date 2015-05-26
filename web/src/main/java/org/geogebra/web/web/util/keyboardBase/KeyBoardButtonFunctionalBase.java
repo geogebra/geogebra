@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.KeyboardBase;
+package org.geogebra.web.web.util.keyboardBase;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;

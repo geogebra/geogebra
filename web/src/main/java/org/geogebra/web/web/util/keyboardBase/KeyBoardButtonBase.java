@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.KeyboardBase;
+package org.geogebra.web.web.util.keyboardBase;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;

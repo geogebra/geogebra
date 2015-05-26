@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.KeyboardBase;
+package org.geogebra.web.web.util.keyboardBase;
 
 import org.geogebra.web.web.util.keyboard.KeyboardMode;
 
