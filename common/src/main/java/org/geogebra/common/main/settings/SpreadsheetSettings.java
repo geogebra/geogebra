@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.main.App;
 
 /**
  * Settings for the spreadsheet view.
@@ -548,7 +547,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 				sb.append(" width=\"");
 				sb.append(prefWidth);
 				sb.append("\"");
-				sb.append("/>\n");
 			}
 
 			if (prefHeight != TABLE_CELL_HEIGHT) {
@@ -556,8 +554,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 				sb.append(" height=\"");
 				sb.append(prefHeight);
 				sb.append("\"");
-				sb.append("/>\n");
 			}
+			sb.append("/>\n");
 		}
 
 		if (!asPreference) {
@@ -613,8 +611,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 					// sb.append(table.getSelectionModel().getAnchorSelectionIndex());
 					sb.append("\"");
 
-					sb.append("/>\n");
+
 				}
+				sb.append("/>\n");
 			}
 		}
 
