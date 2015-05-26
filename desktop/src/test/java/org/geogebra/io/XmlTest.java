@@ -12,10 +12,9 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import junit.framework.Assert;
-
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class XmlTest {
@@ -29,21 +28,24 @@ public class XmlTest {
 	}
 
 	public static void testCurrentXML(AppD app) {
+		String xml = "";
 		try{
 
 			URL schemaFile = new URL("http://www.geogebra.org/ggb.xsd");
-			Source xmlFile = new StreamSource(new StringReader(app.getXML()));
+			xml = app.getXML();
+			Source xmlFile = new StreamSource(new StringReader(xml));
 			
 			SchemaFactory schemaFactory = SchemaFactory
 			    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(schemaFile);
 			Validator validator = schema.newValidator();
 			
-			  validator.validate(xmlFile);
+			validator.validate(xmlFile);
 			
-			}catch(Exception e){
-				Assert.assertNull(e.getLocalizedMessage(),e);
-			}
+		} catch (Exception e) {
+			System.out.println(xml);
+			Assert.assertNull(e.getLocalizedMessage(), e);
+		}
 		
 	}
 
