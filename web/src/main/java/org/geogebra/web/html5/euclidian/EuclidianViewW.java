@@ -894,12 +894,12 @@ public class EuclidianViewW extends EuclidianView implements
 		final ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
 		        : getPlayImage();
 		if (img.getPropertyBoolean("complete")) {
-			g2.drawImage(new GBufferedImageW(img), null, x, y);
+			((GGraphics2DW) g2).drawImage(img, x, y);
 		} else {
 			ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
 				@Override
 				public void onLoad() {
-					g2.drawImage(new GBufferedImageW(img), null, x, y);
+					((GGraphics2DW) g2).drawImage(img, x, y);
 				}
 			});
 		}

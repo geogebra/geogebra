@@ -36,6 +36,7 @@ import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ImageElement;
 
 public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
@@ -972,6 +973,14 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 			} else {
 				context.drawImage(bi.getImageElement(), x, y);
 			}
+		} catch (Exception e) {
+			App.error("error in context.drawImage method");
+		}
+	}
+
+	public void drawImage(ImageElement img, int x, int y) {
+		try {
+			context.drawImage(img, x, y);
 		} catch (Exception e) {
 			App.error("error in context.drawImage method");
 		}
