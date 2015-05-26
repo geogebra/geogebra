@@ -51,7 +51,7 @@ public final class FunctionSoundW extends FunctionSound implements
 
 		boolean success = false;
 		waw.setBuffer(this);
-		waw.start();
+		waw.start(getSampleRate());
 
 		return success;
 	}
@@ -110,6 +110,8 @@ public final class FunctionSoundW extends FunctionSound implements
 		// a small buffer minimizes latency when the function changes
 		// dynamically
 		// TODO: find optimal buffer size
+		waw.start(getSampleRate());
+
 		int frameSetSize = getSampleRate() / 50; // 20ms ok?
 		if (getBitDepth() == 8) {
 			setBuf(new byte[frameSetSize]);
@@ -122,7 +124,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		loadBuffer();
 		doFade(getBuf()[0], false);
 		waw.write(getBuf(), getBufLength());
-		waw.start();
+
 	}
 
 	private void loadBuffer() {

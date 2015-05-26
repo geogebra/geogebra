@@ -10,6 +10,7 @@ public class WebAudioWrapper {
 	}
 	public static final WebAudioWrapper INSTANCE = new WebAudioWrapper();
 	private FunctionAudioBuffer buffer = null;
+	private int sampleRate = 44500;
 	private WebAudioWrapper() {
 		init();
 	}
@@ -28,34 +29,14 @@ public class WebAudioWrapper {
 	}-*/;
 
 
-	public native void start() /*-{
+	public native void start(int sampleRate) /*-{
 		$wnd.ins = this;
+		this.@org.geogebra.web.html5.sound.WebAudioWrapper::sampleRate = sampleRate;
 		$wnd.gainNode = $wnd.context.createGain();
 		$wnd.gainNode.connect($wnd.context.destination);
 		$wnd.gainNode.gain.value = 0.1;
 	}-*/;
 
-
-	// private native void audioProcess(JavaScriptObject e) /*-{
-	// var leftOut = e.outputBuffer.getChannelData(0);
-	// var rightOut = e.outputBuffer.getChannelData(1);
-	// // for (var i = 0; i < leftOut.length; i++) {
-	// // leftOut[i] += (Math.random() - 0.5) * 0.05;
-	// // rightOut[i] += (Math.random() - 0.5) * 0.05;
-	// //
-	// // }
-	//
-	// var d = 0.5;
-	// if ($wnd.buf) {
-	// for (var i = 0; i < $wnd.buf.length; i++) {
-	// leftOut[i] = $wnd.buf[i] * d;
-	// rightOut[i] = $wnd.buf[i] * d;
-	//
-	// }
-	// }
-	// $wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::fill()();
-	//
-	// }-*/;
 
 	private native void bufferEnded(JavaScriptObject e) /*-{
 		$wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::fill()();
@@ -72,17 +53,19 @@ public class WebAudioWrapper {
 		createBufferSource(arr);
 	}
 
-	private native void toBuffer(JsArrayInteger buf) /*-{
-		if ($wnd.buf && $wnd.buf.length + buf.length <= 2048) {
-			$wnd.buf += buf;
-		} else {
-			$wnd.buf = buf;
-		}
-	}-*/;
-
 	private native void createBufferSource(JsArrayInteger buf) /*-{
+		var audioBuffer = $wnd.context.createBuffer(2, buf.length,
+					this
+				.@org.geogebra.web.html5.sound.WebAudioWrapper::sampleRate); 
+		var leftOut = audioBuffer.getChannelData(0);
+		var rightOut = audioBuffer.getChannelData(1);
+		for (var i = 0; i < leftOut.length; i++) {
+			leftOut[i] = buf[i];
+			rightOut[i] = buf[i];
+		}
+		
 		var source = $wnd.context.createBufferSource();
-		source.buffer = buf;
+		source.buffer = audioBuffer;
 		source.connect($wnd.gainNode);
 		source.onended = this
 				.@org.geogebra.web.html5.sound.WebAudioWrapper::bufferEnded(Lcom/google/gwt/core/client/JavaScriptObject;);
