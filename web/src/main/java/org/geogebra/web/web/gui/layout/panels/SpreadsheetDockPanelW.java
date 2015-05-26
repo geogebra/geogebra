@@ -135,7 +135,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	@Override 
 	public boolean isStyleBarVisible() {
-		if (app.isApplet()) {
+		if (app.isApplet() && !app.showMenuBar() && !app.isStyleBarAllowed()) {
 			return false;
 		}
 		return super.isStyleBarVisible();
