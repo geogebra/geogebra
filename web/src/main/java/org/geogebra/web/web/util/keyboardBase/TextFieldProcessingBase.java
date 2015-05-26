@@ -2,6 +2,7 @@ package org.geogebra.web.web.util.keyboardBase;
 
 import java.util.HashSet;
 
+import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -41,28 +42,24 @@ public class TextFieldProcessingBase {
 
 	/** ASCII */
 	private static final int BACKSPACE = 8;
-	private static final int ENTER = 13;
-	private static final int LBRACE = 40;
-	private static final int CIRCUMFLEX = 94;
-	private static final int T_LOWER_CASE = 116;
-	private static final int PIPE = 124;
-
-	/** Javascript char codes */
-	private static final int LEFT_ARROW = 37;
-	private static final int RIGHT_ARROW = 39;
+	private static final int ENTER = '\r'; // 13;
+	private static final int LPARENTHESIS = '('; // 40;
+	private static final int CIRCUMFLEX = '^';// 94;
+	private static final int T_LOWER_CASE = 't'; // 116;
+	private static final int PIPE = '|'; // 124;
 
 	private MathKeyboardListener field;
 	private State state = State.empty;
 	private HashSet<String> needsLbrace = new HashSet<String>();
 
 	public TextFieldProcessingBase() {
-		initNeedsLbrace();
+		initNeedsLeftParenthesis();
 	}
 
 	/**
 	 * add the default Strings
 	 */
-	private void initNeedsLbrace() {
+	private void initNeedsLeftParenthesis() {
 		needsLbrace.add("sin");
 		needsLbrace.add("cos");
 		needsLbrace.add("tan");
@@ -82,7 +79,7 @@ public class TextFieldProcessingBase {
 	 */
 	public void updateForNewLanguage(Localization loc) {
 		needsLbrace.clear();
-		initNeedsLbrace();
+		initNeedsLeftParenthesis();
 
 		needsLbrace.add(loc.getPlain("Function.sin"));
 		needsLbrace.add(loc.getPlain("Function.cos"));
@@ -212,11 +209,13 @@ public class TextFieldProcessingBase {
 		case newRadioButtonTreeItem:
 			switch (type) {
 			case left:
-				((EquationEditorListener) field).keydown(LEFT_ARROW, false,
+				((EquationEditorListener) field).keydown(GWTKeycodes.KEY_LEFT,
+						false,
 						false, false);
 				break;
 			case right:
-				((EquationEditorListener) field).keydown(RIGHT_ARROW, false,
+				((EquationEditorListener) field).keydown(GWTKeycodes.KEY_RIGHT,
+						false,
 						false, false);
 				break;
 			}
@@ -251,7 +250,8 @@ public class TextFieldProcessingBase {
 			} else if (needsLbrace.contains(text)) {
 				((EquationEditorListener) field).insertString(text);
 				// inserts: ()
-				((EquationEditorListener) field).keypress(LBRACE, false, false,
+				((EquationEditorListener) field).keypress(LPARENTHESIS, false,
+						false,
 						false);
 			} else if (text.equals("nroot")) {
 				((EquationEditorListener) field).insertString("nroo");
@@ -259,7 +259,8 @@ public class TextFieldProcessingBase {
 						false, true);
 			} else if (text.equals("log")) {
 				((EquationEditorListener) field).insertString("log_{10}");
-				((EquationEditorListener) field).keypress(LBRACE, false, false,
+				((EquationEditorListener) field).keypress(LPARENTHESIS, false,
+						false,
 						false);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((EquationEditorListener) field)
