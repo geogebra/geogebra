@@ -186,7 +186,7 @@ public class NewCASTableCellEditorW extends Label implements
 	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
-		return input;
+		return input == null ? "" : input;
 	}
 
 	@Override
