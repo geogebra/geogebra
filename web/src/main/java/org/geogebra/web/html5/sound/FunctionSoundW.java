@@ -174,6 +174,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		 */
 		public void stopSound() {
 			stopped = true;
+		waw.stop();
 		}
 
 	}

@@ -70,12 +70,16 @@ public class WebAudioWrapper {
 		source.onended = this
 				.@org.geogebra.web.html5.sound.WebAudioWrapper::bufferEnded(Lcom/google/gwt/core/client/JavaScriptObject;);
 		
+		$wnd.actualSource = source;
 		source.start();
-	}-*/;
-	public void stop() {
-		// TODO Auto-generated method stub
+		
+			}-*/;
 
-	}
+	public native void stop() /*-{
+		if ($wnd.actualSource) {
+			$wnd.actualSource.stop();
+		}
+	}-*/;
 
 	public FunctionAudioBuffer getBuffer() {
 		return buffer;
