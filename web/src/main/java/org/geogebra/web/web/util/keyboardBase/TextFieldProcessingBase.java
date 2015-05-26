@@ -243,7 +243,7 @@ public class TextFieldProcessingBase {
 				}
 				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
 						false, false);
-			} else if (text.startsWith(Unicode.EULER_GAMMA_STRING)) {
+			} else if (text.startsWith(Unicode.EULER_STRING)) {
 				((EquationEditorListener) field).insertString("e");
 				// inserts: ^{}
 				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
