@@ -58,7 +58,8 @@ public class MySpecialDouble extends MyDouble {
 		// check if this is a letter constant, e.g. Pi or Euler number
 		char firstChar = strToString.charAt(0);
 		isLetterConstant = StringUtil.isLetter(firstChar)
-				|| firstChar == Unicode.DEGREE_CHAR;
+				|| firstChar == Unicode.DEGREE_CHAR
+				|| strToString.equals(Unicode.EULER_GAMMA_STRING);
 		scientificNotation = strToString.indexOf("E") > 0;
 		keepOriginalString = !isLetterConstant
 				&& (scientificNotation || Double.isInfinite(val));
