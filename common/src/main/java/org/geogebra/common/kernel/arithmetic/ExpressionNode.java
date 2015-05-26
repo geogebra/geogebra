@@ -2639,7 +2639,13 @@ kernel, left,
 				sb.append(')');
 				break;
 			default:
-				sb.append("conjugate(");
+				if (tpl.isPrintLocalizedCommandNames()) {
+					sb.append(loc.getFunction("conjugate"));
+				} else {
+					sb.append("conjugate");
+				}
+
+				sb.append("(");
 				sb.append(leftStr);
 				sb.append(')');
 			}

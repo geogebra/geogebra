@@ -319,6 +319,7 @@ public class ParserFunctions {
 		put(1, app.getFunction("atanh"), Operation.ATANH);
 		put(1, app.getFunction("real"), Operation.REAL);
 		put(1, app.getFunction("imaginary"), Operation.IMAGINARY);
+		put(1, app.getFunction("conjugate"), Operation.CONJUGATE);
 		put(1, app.getFunction("fractionalPart"), Operation.FRACTIONAL_PART);
 
 		put(2, app.getFunction("nroot"), Operation.NROOT, "( <x>, <n> )");
