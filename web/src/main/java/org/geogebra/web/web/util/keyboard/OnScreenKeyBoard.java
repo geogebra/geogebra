@@ -191,7 +191,7 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 	private HashMap<KeyBoardButton, String> updateButton = new HashMap<KeyBoardButton, String>();
 
 	private void initAccentAcuteLetters() {
-		accentAcute.put("a", "\00e1");
+		accentAcute.put("a", "\u00e1");
 		accentAcute.put("A", "\u00c1");
 		accentAcute.put("e", "\u00e9");
 		accentAcute.put("E", "\u00C9");
