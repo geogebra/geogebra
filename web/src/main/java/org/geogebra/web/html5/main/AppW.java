@@ -657,11 +657,13 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		// Macros (optional)
-		if (macros != null) {
-			// macros = DataUtil.utf8Decode(macros);
-			// //DataUtil.utf8Decode(macros);
-			getXMLio().processXMLString(macros, true, true);
-		}
+		// moved after the images are loaded, because otherwise
+		// exception might come for macros which use images
+		//if (macros != null) {
+		//	// macros = DataUtil.utf8Decode(macros);
+		//	// //DataUtil.utf8Decode(macros);
+		//	getXMLio().processXMLString(macros, true, true);
+		//}
 
 		// Library JavaScript (optional)
 		if (libraryJS == null) { // TODO: && !isGGTfile)
@@ -677,6 +679,9 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		if (construction == null) {
+			if (macros != null) {
+				getXMLio().processXMLString(macros, true, true);
+			}
 			setCurrentFile(archiveContent);
 			afterLoadFileAppOrNot();
 			if (!hasMacroToRestore()) {
@@ -695,6 +700,12 @@ public abstract class AppW extends App implements SetLabels {
 			// hide navigation bar for construction steps if visible.
 			// (Don't do this for ggt files.)
 			setShowConstructionProtocolNavigation(false);
+
+			if (macros != null) {
+				App.debug("start processing macros: "+System.currentTimeMillis());
+				getXMLio().processXMLString(macros, true, true);
+				App.debug("end processing macros: "+System.currentTimeMillis());
+			}
 
 			App.debug("start processing" + System.currentTimeMillis());
 			getXMLio().processXMLString(construction, true, false);
@@ -715,6 +726,7 @@ public abstract class AppW extends App implements SetLabels {
 												 * )/*DataUtil.utf8Decode
 												 * (construction)
 												 */, defaults2d, defaults3d,
+					macros,
 					getXMLio(), this);
 			setCurrentFile(archiveContent);
 

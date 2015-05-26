@@ -27,6 +27,7 @@ public class ImageManagerW extends ImageManager {
 		externalImageSrcs = new HashMap<String, String>();
 		imagesLoaded = 0;
 		construction = null;
+		macros = null;
 		defaults2d = null;
 		defaults3d = null;
 		myXMLio = null;
@@ -49,7 +50,7 @@ public class ImageManagerW extends ImageManager {
 		}
 	};
 
-	private String construction, defaults2d, defaults3d;
+	private String construction, defaults2d, defaults3d, macros;
 	private MyXMLioW myXMLio;
 	private AppW app = null;
 
@@ -72,6 +73,13 @@ public class ImageManagerW extends ImageManager {
 		if (imagesLoaded == externalImageSrcs.size()) {
 			try {
 				App.debug("images loaded");
+				// Macros (optional)
+				if (macros != null) {
+					// macros = DataUtil.utf8Decode(macros);
+					// //DataUtil.utf8Decode(macros);
+					myXMLio.processXMLString(macros, true, true);
+				}
+
 				myXMLio.processXMLString(construction, true, false);
 				// defaults (optional)
 				if (defaults2d != null) {
@@ -148,11 +156,12 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	public void triggerImageLoading(String construction, String defaults2d,
-			String defaults3d, MyXMLioW myXMLio,
+			String defaults3d, String macros, MyXMLioW myXMLio,
 	        AppW app) {
 		this.construction = construction;
 		this.defaults2d = defaults2d;
 		this.defaults3d = defaults3d;
+		this.macros = macros;
 		this.myXMLio = myXMLio;
 		this.app = app;
 		if (externalImageSrcs.entrySet() != null) {
