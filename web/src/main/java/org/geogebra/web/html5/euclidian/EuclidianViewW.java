@@ -42,6 +42,7 @@ import org.geogebra.web.html5.util.ImageWrapper;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -97,6 +98,7 @@ public class EuclidianViewW extends EuclidianView implements
 	protected EuclidianPanelWAbstract EVPanel;
 	private MsZoomer msZoomer;
 
+	public static EuclidianViewW firstInstance = null;
 	public static final int firstTabIndex = 10000;
 	public static int nextTabIndex = firstTabIndex;
 	public static int actualTabIndex = firstTabIndex;
@@ -640,10 +642,31 @@ public class EuclidianViewW extends EuclidianView implements
 			canvas.setTabIndex(thisTabIndex = firstTabIndex - 1);
 		}
 
+		if (firstInstance == null) {
+			firstInstance = this;
+		}
+
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent be) {
 				focusLost();
+				if ((thisTabIndex + 1 == nextTabIndex) && booleanTabIndex
+						&& false) {// TODO: true
+					// if this is the last to blur,
+					// and we did not meant to unfocus from all,
+					// let's go back to the first one!
+					// but how?? maybe better than jQuery:
+					Scheduler.get().scheduleDeferred(
+							new Scheduler.ScheduledCommand() {
+								public void execute() {
+									// probably we have to wait for the
+									// focus event that accompanies this
+									// blur first, and only request for
+									// new focus afterwards...
+									firstInstance.requestFocus();
+								}
+							});
+				}
 			}
 		});
 

@@ -175,6 +175,9 @@ public class GlobalKeyDispatcherW extends
 
 		event.stopPropagation();
 
+		// this is quite complex, call at the end of the method
+		boolean preventDefault = false;
+
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
 		boolean handled = handleSelectedGeosKeys(
@@ -184,7 +187,7 @@ public class GlobalKeyDispatcherW extends
 		        event.isAltKeyDown(), false);
 		// if not handled, do not consume so that keyPressed works
 		if (InFocus && handled) {
-			event.preventDefault();
+			preventDefault = true;
 		}
 
 		// Now comes what were in KeyUpEvent for the TAB key,
@@ -193,17 +196,26 @@ public class GlobalKeyDispatcherW extends
 		// browser action (for tabindex) and custom code would run
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB) {
-			event.preventDefault();
+
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
 					event.isShiftKeyDown(), true);// TODO: false
+
 			if (!success) {
 				// should select first GeoElement in next applet
-				// TODO
+				// this should work well except from last to first
+				// so there will be a blur handler there
+				preventDefault = true;// TODO: false
+			} else {
+				preventDefault = true;
 			}
 		} else if (kc == KeyCodes.ESCAPE) {
-			event.preventDefault();
+			preventDefault = true;
 			app.loseFocus();
+		}
+
+		if (preventDefault) {
+			event.preventDefault();
 		}
 	}
 
