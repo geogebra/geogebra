@@ -42,7 +42,7 @@ parseGeoGebraExpression(
 					"]]]]]]]]]]]]]]]]]]]]]]]]");
 			l = System.currentTimeMillis() -l;
 			App.debug("TIME"+l);
-			assertTrue("Too long:"+l, l<100);
+			assertTrue("Too long:" + l, l < 400);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
