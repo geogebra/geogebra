@@ -10,11 +10,11 @@ public interface EquationEditorListener extends AutoCompleteW {
 
 	void updatePosition(ScrollableSuggestionDisplay sug);
 
-	void keypress(int circumflex, boolean b, boolean c, boolean d);
+	void keypress(char c, boolean alt, boolean ctrl, boolean shift);
 
-	void keydown(int leftArrow, boolean b, boolean c, boolean d);
+	void keydown(int keycode, boolean alt, boolean ctrl, boolean shift);
 
-	void keyup(int enter, boolean b, boolean c, boolean d);
+	void keyup(int keycode, boolean alt, boolean ctrl, boolean shift);
 
 	boolean popupSuggestions();
 

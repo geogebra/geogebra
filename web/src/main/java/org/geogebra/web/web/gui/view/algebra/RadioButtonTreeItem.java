@@ -128,8 +128,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class RadioButtonTreeItem extends FlowPanel implements
         DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
         MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
- TouchStartHandler,
- TouchMoveHandler, TouchEndHandler, LongTouchHandler,
+		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
 		EquationEditorListener, CanBlockBlurEvent {
 
 	GeoElement geo;
@@ -606,7 +605,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param shift
 	 *            boolean maybe not useful
 	 */
-	public void keypress(int character, boolean alt, boolean ctrl, boolean shift) {
+	public void keypress(char character, boolean alt, boolean ctrl,
+			boolean shift) {
 		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeypress(seMayLatex,
 			        character, alt, ctrl, shift);

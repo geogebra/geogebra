@@ -299,36 +299,34 @@ public class TextFieldProcessing {
 				if (((EquationEditorListener) field).getText().length() == 0) {
 					return;
 				}
-				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
+				((EquationEditorListener) field).keypress('^', false,
 						false, false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
 				((EquationEditorListener) field).insertString("e");
 				// inserts: ^{}
-				((EquationEditorListener) field).keypress(CIRCUMFLEX, false,
+				((EquationEditorListener) field).keypress('^', false,
 						false, false);
 			} else if (needsLeftParenthesis.contains(text)) {
 				((EquationEditorListener) field).insertString(text);
 				// inserts: ()
-				((EquationEditorListener) field).keypress(LPARENTHESIS, false, false,
+				((EquationEditorListener) field).keypress('(', false, false,
 						false);
 			} else if (text.equals("nroot")) {
 				((EquationEditorListener) field).insertString("nroo");
-				((EquationEditorListener) field).keypress(T_LOWER_CASE, false,
+				((EquationEditorListener) field).keypress('t', false,
 						false, true);
 			} else if (text.equals("log")) {
 				((EquationEditorListener) field).insertString("log_{10}");
-				((EquationEditorListener) field).keypress(LPARENTHESIS, false, false,
+				((EquationEditorListener) field).keypress('(', false, false,
 						false);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((EquationEditorListener) field)
 						.insertString(Unicode.Superscript_2 + "");
 			} else if (keyPressNeeded(text)) {
-				((EquationEditorListener) field).keypress(
-				// text.codePointAt is the same as text.charAt for low ranges
-				// but I think String.fromCharCode will wait for Unicode int
-						text.codePointAt(0), false, false, false);
+				((EquationEditorListener) field).keypress(text.charAt(0),
+						false, false, false);
 			} else if (text.equals("abs")) {
-				((EquationEditorListener) field).keypress(PIPE, false, false,
+				((EquationEditorListener) field).keypress('|', false, false,
 						false);
 			} else {
 				((EquationEditorListener) field).insertString(text);
@@ -347,7 +345,7 @@ public class TextFieldProcessing {
 		return text.equals("/") || text.equals("_") || text.equals("$")
 				|| text.equals(" ") || text.equals("|") || text.equals(",")
 				|| text.equals("*") || text.startsWith("(")
-				|| text.equals(Unicode.SQUARE_ROOT);
+				|| text.equals(Unicode.SQUARE_ROOT + "");
 	}
 
 	/**

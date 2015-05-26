@@ -280,7 +280,8 @@ public class NewCASTableCellEditorW extends Label implements
 		input = null;
 	}
 
-	public void keypress(int character, boolean alt, boolean ctrl, boolean shift) {
+	public void keypress(char character, boolean alt, boolean ctrl,
+			boolean shift) {
 		DrawEquationWeb.triggerKeypress(this.seMayLaTeX, character, alt, ctrl,
 				shift);
 
