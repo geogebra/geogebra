@@ -1204,7 +1204,17 @@ namespace giac {
     gen cl=v.back();
     int n=wrt.size();
     vecteur res(n),mat;
-    if (cl.type!=_POLY){ // search for a non poly in wrt
+    polynome p;
+    if (cl.type<_POLY){
+      // code added 26 may 2015 for simplify(exp(1/2+t/2)-exp(t/2)*exp(1/2));
+      for (unsigned i=0;i<v.size();++i){
+	if (v[i].type==_POLY){
+	  p=polynome(monomial<gen>(cl,v[i]._POLYptr->dim));
+	  break;
+	}
+      }
+    }
+    if (p.coord.empty() && cl.type!=_POLY){ // search for a non poly in wrt
       gen gg;
       int i;
       for (i=0;i<n;++i){
@@ -1227,7 +1237,8 @@ namespace giac {
     // we are now back to express cl as linear comb with integer coeff
     // but here in multivariate polynomials
     // we build now a linear system and solve it
-    polynome & p =*cl._POLYptr;
+    if (p.coord.empty())
+      p=*cl._POLYptr;
     vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
     for (;it!=itend;++it){
       const index_m & i=it->index;
