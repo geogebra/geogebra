@@ -706,9 +706,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	protected void initFactories() {
 
-		int test = '\r';
-		App.error("int = " + test);
-
 		org.geogebra.common.factories.AwtFactory.prototype = new AwtFactoryD();
 		org.geogebra.common.factories.FormatFactory.prototype = new FormatFactoryD();
 		org.geogebra.common.factories.LaTeXFactory.prototype = new LaTeXFactoryD();
