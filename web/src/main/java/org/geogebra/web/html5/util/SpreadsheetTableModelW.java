@@ -7,26 +7,38 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.web.html5.main.AppW;
 
-//import geogebra.web.gui.view.spreadsheet.MyTableW;
 
+/**
+ * Web implementation of the table model
+ *
+ */
 public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
+	/**
+	 * Listens to changes in table size and values
+	 */
 	public interface ChangeListener {
+		/**
+		 * Fired when a row/column is added/removed
+		 */
 		public void dimensionChange();
 
+		/**
+		 * Fired when a value is changed
+		 */
 		public void valueChange();
 	}
 
 	private MyTable table;
 
-	ChangeListener listener = null;
+	private ChangeListener listener = null;
 
 	// try with one-dimension ArrayList to represent two dimensions
 	private ArrayList<Object> defaultTableModel;
 
 	// it is easier to store the rowNum and colNum than computing them
-	int rowNum = 0;
-	int colNum = 0;
+	private int rowNum = 0;
+	private int colNum = 0;
 
 	/**
 	 * Constructor
@@ -42,7 +54,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		super(app, rows, columns);
 		rowNum = rows;
 		colNum = columns;
-		defaultTableModel = new ArrayList(rows * columns);
+		defaultTableModel = new ArrayList<Object>(rows * columns);
 		for (int i = 0; i < rows * columns; i++)
 			defaultTableModel.add(null);
 		if (listener != null)
@@ -60,14 +72,21 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		return defaultTableModel;
 	}
 
-	public void attachMyTable(MyTable table) {
-		this.table = table;
+	/**
+	 * Estabilishes connection to the table and synces all values from model to
+	 * table
+	 * 
+	 * @param newTable
+	 *            table implementation
+	 */
+	public void attachMyTable(MyTable newTable) {
+		this.table = newTable;
 		Object value;
-		if (table != null)
+		if (newTable != null)
 			for (int i = 0; i < rowNum; i++)
 				for (int j = 0; j < colNum; j++)
 					if ((value = getValueAt(i, j)) != null)
-						table.updateTableCellValue(value, i, j);
+						newTable.updateTableCellValue(value, i, j);
 	}
 
 	@Override
@@ -142,12 +161,14 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 			}
 		}
 
-		defaultTableModel.set(row * colNum + column, value);
 
-		if (table != null) {
-			table.updateTableCellValue(value, row, column);
+		if ((value != null || defaultTableModel.get(row * colNum + column) != null)) {
+			defaultTableModel.set(row * colNum + column, value);
+			if (table != null) {
+
+				table.updateTableCellValue(value, row, column);
+			}
 		}
-
 		// do this after updateTableCellValue, as it does no harm
 		// and the valueChange might need the table cell value!
 		if (listener != null)
@@ -159,15 +180,14 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		return false;
 	}
 
-	public void repaint() {
-		App.debug("unimplemented");
-	}
-
 	public boolean isShowing() {
-		App.debug("unimplemented");
 		return false;
 	}
 
+	/**
+	 * @param cl
+	 *            change listener
+	 */
 	public void setChangeListener(ChangeListener cl) {
 		listener = cl;
 	}
