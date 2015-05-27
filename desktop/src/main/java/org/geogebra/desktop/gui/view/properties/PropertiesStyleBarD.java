@@ -300,8 +300,13 @@ public class PropertiesStyleBarD extends
 		@Override
 		public Point getToolTipLocation(MouseEvent event) {
 			Point p = new Point();
-			p.y = this.getY() - this.getHeight() - 5;
-			p.x = 0; // this.getX();
+			p.y = this.getY();
+			p.x = 0;// this.getX();
+			if (tip != null) {
+				p.y -= tip.getHeight();
+			} else {
+				p.y -= this.getHeight() + 5;
+			}
 			return p;
 		}
 
