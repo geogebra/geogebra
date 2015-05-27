@@ -700,8 +700,13 @@ public class EuclidianViewW extends EuclidianView implements
 					// if focus is moved here from another applet,
 					// select the first GeoElement of this Graphics view
 					tabPressed = false;
-					app.getSelectionManager()
-							.setFirstGeoSelectedForPropertiesView();
+					app.getSelectionManager().selectNextGeo(
+							EuclidianViewW.this, true);
+
+					// .setFirstGeoSelectedForPropertiesView(); might not be
+					// perfect,
+					// for that GeoElement might not be visible in all Graphics
+					// views
 				}
 			}
 		});
