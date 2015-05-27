@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.KeyCodes;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -64,7 +65,22 @@ public class GlobalKeyDispatcherW extends
 		event.stopPropagation();
 		if (InFocus) {
 			// in theory, default action of TAB is not triggered here
-			event.preventDefault();
+			// but it seems Firefox triggers the default action of TAB
+			// here (or some place other than onKeyDown), so we only
+			// have to call preventdefault if it is not a TAB key!
+			// TAB only fires in Firefox here, and it only has a keyCode!
+			KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeEvent()
+					.getKeyCode());
+			if (kc != KeyCodes.TAB) {
+				event.preventDefault();
+			} else if (EuclidianViewW.tabPressed == false) {
+				// we only have to allow default action for TAB
+				// if the onKeyDown handler allowed it, so we
+				// have to check this boolean here, which is double
+				// useful for some other reason as well,
+				// in EuclidianViewW, for checking action on focus
+				event.preventDefault();
+			}
 		}
 
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive
@@ -77,7 +93,13 @@ public class GlobalKeyDispatcherW extends
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
 		if (InFocus) {
-			event.preventDefault();
+			// KeyCodes kc =
+			// KeyCodes.translateGWTcode(event.getNativeKeyCode());
+			// if (kc != KeyCodes.TAB) {
+				// maybe need to check TAB in Firefox, or in onKeyPress
+			// but probably not, so this check is commented out
+				event.preventDefault();
+			// }
 		}
 		event.stopPropagation();
 		// now it is private, but can be public, also it is void, but can return
@@ -199,13 +221,19 @@ public class GlobalKeyDispatcherW extends
 
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
-					event.isShiftKeyDown(), true);// TODO: false
+					event.isShiftKeyDown(), false);
 
 			if (!success) {
 				// should select first GeoElement in next applet
 				// this should work well except from last to first
 				// so there will be a blur handler there
-				preventDefault = true;// TODO: false
+				preventDefault = false;
+				// it would be too hard to select the first GeoElement
+				// from here, so this will be done in the focus handler
+				// of the other applet, depending on whether really
+				// this code called it, and it can be done by a static
+				// variable for the short term
+				EuclidianViewW.tabPressed = true;
 			} else {
 				preventDefault = true;
 			}
@@ -217,6 +245,24 @@ public class GlobalKeyDispatcherW extends
 		if (preventDefault) {
 			event.preventDefault();
 		}
+	}
+
+	/**
+	 * This method is almost the same as GlobalKeyDispatcher.handleTab, just is
+	 * also return a value whether the operation was successful in case of no
+	 * cycle
+	 */
+	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
+		if (isShiftDown) {
+			selection.selectLastGeo(app.getActiveEuclidianView());
+			return true;
+		}
+		boolean forceRet = false;
+		if (selection.getSelectedGeos().size() == 0) {
+			forceRet = true;
+		}
+		return selection.selectNextGeo(app.getActiveEuclidianView(), cycle)
+				|| forceRet;
 	}
 
 	@Override
