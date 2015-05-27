@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
@@ -39,11 +38,6 @@ import com.google.gwt.user.client.ui.RootPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Web implements EntryPoint {
-
-	public void t(String s, AlgebraProcessor ap) throws Exception {
-		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true,
-				false);
-	}
 
 	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
 		NodeList<Element> nodes = Dom
@@ -94,6 +88,13 @@ public class Web implements EntryPoint {
 
 		// setLocaleToQueryParam();
 
+		run();
+		allowRerun();
+		// just debug for now
+		PNaCl.exportPNaCltoConsole();
+	}
+
+	private void run() {
 		if (!Web.checkAppNeeded()) {
 			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
@@ -105,10 +106,15 @@ public class Web implements EntryPoint {
 			loadAppAsync();
 		}
 
-		// just debug for now
-		PNaCl.exportPNaCltoConsole();
 	}
-	
+
+	private native void allowRerun() /*-{
+		var that = this;
+		$wnd.ggbRerun = function() {
+			that.@org.geogebra.web.web.Web::run()();
+		}
+	}-*/;
+
 	/**
 	 * Registers handler for UnhandledExceptions that are wrapped by GWT by
 	 * default
