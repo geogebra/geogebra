@@ -502,10 +502,13 @@ public class ProverBotanasMethod {
 							while (ndg.hasNext() && readable) {
 								Polynomial poly = ndg.next();
 								if (poly.isZero()) {
+
 									// Here we know that the statement is not generally true.
+									App.debug("Statement is NOT GENERALLY TRUE");
+
+									/*								
 									// But it is possible that the statement is not generally false, either.
 									// So we should check the negative statement also.
-									App.debug("Statement is NOT GENERALLY TRUE");
 									App.debug("Checking the negative statement to decide if the statement is generally false or not:");
 									
 									// If there were more than one theses, we need to add 1 extra polynomial for each,
@@ -544,6 +547,7 @@ public class ProverBotanasMethod {
 										}
 									}
 								App.debug("Statement is GENERALLY FALSE");
+								*/
 								return ProofResult.FALSE;
 								}
 									
@@ -646,6 +650,8 @@ public class ProverBotanasMethod {
 						// So we check the negative statement also.
 						//spoly = lastpoly;
 						App.debug("Statement is NOT GENERALLY TRUE");
+						
+						/*
 						App.debug("Checking the negative statement to decide if the statement is generally false or not:");
 						
 						// If there were more than one theses, we need to add 1 extra polynomial for each,
@@ -672,6 +678,7 @@ public class ProverBotanasMethod {
 							return ProofResult.UNKNOWN;
 						}
 						App.debug("Statement is GENERALLY FALSE");
+						*/
 						return ProofResult.FALSE;
 					}
 				}
