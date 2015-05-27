@@ -98,7 +98,7 @@ public class EuclidianViewW extends EuclidianView implements
 	protected EuclidianPanelWAbstract EVPanel;
 	private MsZoomer msZoomer;
 
-	public static EuclidianViewW firstInstance = null;
+	public static EuclidianViewWInterface firstInstance = null;
 	public static final int firstTabIndex = 10000;
 	public static int nextTabIndex = firstTabIndex;
 	public static int actualTabIndex = firstTabIndex;
