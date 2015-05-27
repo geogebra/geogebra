@@ -302,7 +302,9 @@ public class TextFieldProcessing {
 				((EquationEditorListener) field).keypress('^', false,
 						false, false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
-				((EquationEditorListener) field).insertString("e");
+				// this should be like this, in order to avoid confusion
+				// with a possible variable name called "e"
+				((EquationEditorListener) field).insertString(Unicode.EULER_STRING);
 				// inserts: ^{}
 				((EquationEditorListener) field).keypress('^', false,
 						false, false);
