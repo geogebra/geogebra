@@ -6,7 +6,7 @@
   <inherits name='com.googlecode.gwtgl.binding'/>
     
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='org.geogebra.web.geogebra3D.web.Web3D'/>
+  <entry-point class='org.geogebra.web.web.Web'/>
   
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
   <set-property name="user.agent" value="safari, gecko1_8, ie9, ie10" />

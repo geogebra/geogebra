@@ -1,6 +1,5 @@
 package org.geogebra.web.web;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,13 +24,12 @@ import org.geogebra.web.web.main.BrowserDevice;
 import org.geogebra.web.web.main.GDevice;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
-
-
 
 /**
  * @author apa
@@ -42,25 +40,30 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Web implements EntryPoint {
 
-	public void t(String s,AlgebraProcessor ap) throws Exception{
-		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true, false);
+	public void t(String s, AlgebraProcessor ap) throws Exception {
+		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true,
+				false);
 	}
 
 	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
-		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		NodeList<Element> nodes = Dom
+				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Date creationDate = new Date();
-			nodes.getItem(i).setId(GeoGebraConstants.GGM_CLASS_NAME+i+creationDate.getTime());
+			nodes.getItem(i).setId(
+					GeoGebraConstants.GGM_CLASS_NAME + i
+							+ creationDate.getTime());
 			articleNodes.add(ArticleElement.as(nodes.getItem(i)));
 		}
 		return articleNodes;
 	}
-	
+
 	private static boolean checkAppNeeded() {
-		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		NodeList<Element> nodes = Dom
+				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			if("true".equals(nodes.getItem(i).getAttribute("data-param-app"))){
+			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))) {
 				return true;
 			}
 		}
@@ -72,27 +75,27 @@ public class Web implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
-		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null
-				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
-			//loading touch, ignore.
+		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null
+				&& !"".equals(RootPanel.getBodyElement().getAttribute(
+						"data-param-laf"))) {
+			// loading touch, ignore.
 			return;
 		}
 		Browser.checkFloat64();
-		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
-		//GeoGebraProfiler.init(new GeoGebraProfilerW());
+		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
+		// production
+		// GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());
-		
+
 		GeoGebraProfiler.getInstance().profile();
 
 		CustomElements.registerGeoGebraWebElement();
 		exportGGBElementRenderer();
-		
-		
-		
-//		setLocaleToQueryParam();
-				
+
+		// setLocaleToQueryParam();
+
 		if (!Web.checkAppNeeded()) {
-			//we dont want to parse out of the box sometimes...
+			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
 				loadAppletAsync();
 			} else {
@@ -101,92 +104,107 @@ public class Web implements EntryPoint {
 		} else {
 			loadAppAsync();
 		}
-		
-		//just debug for now
+
+		// just debug for now
 		PNaCl.exportPNaCltoConsole();
+	}
+	
+	/**
+	 * Registers handler for UnhandledExceptions that are wrapped by GWT by
+	 * default
+	 */
+	public void registerSuperdevExceptionHandler() {
+		com.google.gwt.core.client.GWT
+				.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+
+					public native void onUncaughtException(Throwable t) /*-{
+		console && console.log && console.log(t);
+	}-*/;
+
+				});
 	}
 
 	private void loadExtensionAsync() {
-		//GWT.runAsync(new RunAsyncCallback() {
-			
-		//	public void onSuccess() {
-				ResourcesInjector.injectResources();
-				 exportArticleTagRenderer();
-				    //export other methods if needed
-				    //call the registered methods if any
-				    GGW_ext_webReady();
-		//	}
-			
-		//	public void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-				
-		//	}
-		//});
-	   
-    }
+		// GWT.runAsync(new RunAsyncCallback() {
+
+		// public void onSuccess() {
+		ResourcesInjector.injectResources();
+		exportArticleTagRenderer();
+		// export other methods if needed
+		// call the registered methods if any
+		GGW_ext_webReady();
+		// }
+
+		// public void onFailure(Throwable reason) {
+		// TODO Auto-generated method stub
+
+		// }
+		// });
+
+	}
 
 	public static void loadAppletAsync() {
-	    //GWT.runAsync(new RunAsyncCallback() {
-			
-			//public void onSuccess() {
-				startGeoGebra(getGeoGebraMobileTags());
-			//}
-			
-			//ublic void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-				
-			//}
-		//});
-    }
+		// GWT.runAsync(new RunAsyncCallback() {
+
+		// public void onSuccess() {
+		startGeoGebra(getGeoGebraMobileTags());
+		// }
+
+		// ublic void onFailure(Throwable reason) {
+		// TODO Auto-generated method stub
+
+		// }
+		// });
+	}
 
 	private void loadAppAsync() {
-	    //GWT.runAsync(new RunAsyncCallback() {
-			
-		//	public void onSuccess() {
-				ResourcesInjector.injectResources();
-				createGeoGebraAppFrame(new BrowserDevice());
-		//	}
+		// GWT.runAsync(new RunAsyncCallback() {
 
-		//	public void onFailure(Throwable reason) {
-		//		Log.debug(reason);
-		//	}
-		//});
-	    
-    }
-	
-	
+		// public void onSuccess() {
+		ResourcesInjector.injectResources();
+		createGeoGebraAppFrame(new BrowserDevice());
+		// }
+
+		// public void onFailure(Throwable reason) {
+		// Log.debug(reason);
+		// }
+		// });
+
+	}
+
 	/**
 	 * create app frame
 	 */
-	protected void createGeoGebraAppFrame(GDevice device){
-		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()), device, (AppletFactory) GWT.create(AppletFactory.class) );
+	protected void createGeoGebraAppFrame(GDevice device) {
+		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()), device,
+				(AppletFactory) GWT.create(AppletFactory.class));
 	}
-	
 
-	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@org.geogebra.web.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
-    }-*/;
-	
+		$wnd.GGW_ext.render = $entry(@org.geogebra.web.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
+	}-*/;
+
 	private native void exportGGBElementRenderer() /*-{
-	 	$wnd.renderGGBElement = $entry(@org.geogebra.web.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
+		$wnd.renderGGBElement = $entry(@org.geogebra.web.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
 		@org.geogebra.web.html5.gui.GeoGebraFrame::renderGGBElementReady()();
 		//CRITICAL: "window" below is intentional, the point is to redirect messages from window to $wnd
 		window.addEventListener("message",function(event){$wnd.postMessage(event.data,"*");});
 	}-*/;
-    
+
 	private native boolean calledFromExtension() /*-{
 		return (typeof $wnd.GGW_ext !== "undefined");
 	}-*/;
-	
-	public static void renderArticleElement(Element el, JavaScriptObject clb){
-		GeoGebraFrameBoth.renderArticleElement(el, (AppletFactory) GWT.create(AppletFactory.class) , getLAF(getGeoGebraMobileTags()), clb);
+
+	public static void renderArticleElement(Element el, JavaScriptObject clb) {
+		GeoGebraFrameBoth.renderArticleElement(el,
+				(AppletFactory) GWT.create(AppletFactory.class),
+				getLAF(getGeoGebraMobileTags()), clb);
 	}
 
 	/*
-	 * This method should never be called. Only copyed to external javascript files,
-	 * if we like to use GeoGebraWeb as an library, and call its methods depending on
-	 * it is loaded or not.
+	 * This method should never be called. Only copyed to external javascript
+	 * files, if we like to use GeoGebraWeb as an library, and call its methods
+	 * depending on it is loaded or not.
 	 */
 	private native void copyThisJsIfYouLikeToUseGeoGebraWebAsExtension() /*-{
 		//GGW_ext namespace must be a property of the global scope
@@ -206,7 +224,7 @@ public class Web implements EntryPoint {
 			}
 		}
 	}-*/;
-	
+
 	private native void GGW_ext_webReady() /*-{
 		var functions = null, i, l;
 		if (typeof $wnd.GGW_ext === "object") {
@@ -221,34 +239,36 @@ public class Web implements EntryPoint {
 			}
 		}
 	}-*/;
-	
-	
+
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
-	 	
-		org.geogebra.web.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, (AppletFactory) GWT.create(AppletFactory.class) , getLAF(geoGebraMobileTags));
-	   
-    }
+
+		org.geogebra.web.web.gui.applet.GeoGebraFrameBoth.main(
+				geoGebraMobileTags,
+				(AppletFactory) GWT.create(AppletFactory.class),
+				getLAF(geoGebraMobileTags));
+
+	}
 
 	public static GLookAndFeel getLAF(
-            ArrayList<ArticleElement> geoGebraMobileTags) {
-		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+			ArrayList<ArticleElement> geoGebraMobileTags) {
+		NodeList<Element> nodes = Dom
+				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			if("smart".equals(nodes.getItem(i).getAttribute("data-param-laf"))){
+			if ("smart".equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
 				return new SmartLookAndFeel();
 			}
-			
-			if("office".equals(nodes.getItem(i).getAttribute("data-param-laf"))){
+
+			if ("office"
+					.equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
 				return new OfficeLookAndFeel();
 			}
 
-			if("exam".equals(nodes.getItem(i).getAttribute("data-param-laf"))){
+			if ("exam".equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
 				return new ExamLookAndFeel();
 			}
 		}
-		return  new GLookAndFeel();
-		
-    }
+		return new GLookAndFeel();
 
-	
+	}
 
 }
