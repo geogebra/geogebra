@@ -13,6 +13,7 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Window.Location;
 
 public class LoadFilePresenter {
 
@@ -127,6 +128,9 @@ public class LoadFilePresenter {
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
 		String perspective = view.getDataParamPerspective();
+		if (perspective.length() == 0) {
+			perspective = Location.getParameter("GeoGebraPerspective");
+		}
 		if (app.getGuiManager() != null) {
 			if (perspective.startsWith("search:")) {
 				app.setCloseBrowserCallback(new Runnable() {
