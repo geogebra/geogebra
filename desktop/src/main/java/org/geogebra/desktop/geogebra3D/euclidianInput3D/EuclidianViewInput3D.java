@@ -12,6 +12,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -692,5 +693,22 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	private boolean drawStylusBeam() {
 		return input3D.hasMouseDirection() && hasMouse();
+	}
+
+	@Override
+	protected boolean decorationVisible() {
+		return !input3D.hasMouseDirection() && super.decorationVisible();
+	}
+
+	@Override
+	protected boolean drawCrossForFreePoint() {
+		return !input3D.hasMouseDirection();
+	}
+
+	@Override
+	protected void drawPointAlready(GeoPoint3D point) {
+		if (point.hasRegion()) {
+			super.drawPointAlready(point);
+		}
 	}
 }

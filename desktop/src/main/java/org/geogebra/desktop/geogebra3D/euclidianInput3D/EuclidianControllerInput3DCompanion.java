@@ -2,6 +2,7 @@ package org.geogebra.desktop.geogebra3D.euclidianInput3D;
 
 import java.util.TreeSet;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -50,9 +51,24 @@ public class EuclidianControllerInput3DCompanion extends
 		point3D.setPath(null);
 		point3D.setRegion(null);
 
-		Coords coords = ((EuclidianView3D) ec.view).getPickPoint(
-				ec.getMouseLoc()).copyVector();
-		((EuclidianView3D) ec.view).toSceneCoords3D(coords);
+		Coords coords;
+		if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()) {
+			coords = Coords.createInhomCoorsInD3();
+			double beamLength;
+			if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
+				beamLength = 1000;
+			} else {
+				beamLength = 400;
+			}
+			beamLength /= ((EuclidianView3D) ec.view).getScale();
+			((EuclidianViewInput3D) ec.view).getStylusBeamEnd(coords,
+					beamLength);
+			((EuclidianViewInput3D) ec.view).setZNearest(-beamLength);
+		} else {
+			coords = ((EuclidianView3D) ec.view).getPickPoint(ec.getMouseLoc())
+					.copyVector();
+			((EuclidianView3D) ec.view).toSceneCoords3D(coords);
+		}
 		checkPointCapturingXYThenZ(coords);
 		point3D.setCoords(coords);
 
@@ -62,15 +78,24 @@ public class EuclidianControllerInput3DCompanion extends
 	@Override
 	public void movePoint(boolean repaint, AbstractEvent event) {
 
-		if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()
-				|| ((EuclidianControllerInput3D) ec).input3D
-						.currentlyUseMouse2D()) {
+		if (((EuclidianControllerInput3D) ec).input3D.currentlyUseMouse2D()
+				|| (((EuclidianControllerInput3D) ec).input3D
+						.hasMouseDirection() && !ec.movedGeoPoint
+						.isIndependent())) {
 			super.movePoint(repaint, event);
 		} else {
 			Coords v = new Coords(4);
-			v.set(((EuclidianControllerInput3D) ec).mouse3DPosition
-					.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
-			((EuclidianView3D) ec.view).toSceneCoords3D(v);
+			if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()) {
+				((EuclidianViewInput3D) ec.view).getStylusBeamEnd(v,
+						((EuclidianControllerInput3D) ec).startZNearest);
+				v.setSub(
+						v,
+						((EuclidianControllerInput3D) ec).movedGeoPointStartCoords);
+			} else {
+				v.set(((EuclidianControllerInput3D) ec).mouse3DPosition
+						.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
+				((EuclidianView3D) ec.view).toSceneCoords3D(v);
+			}
 
 			Coords coords = ((EuclidianControllerInput3D) ec).movedGeoPointStartCoords
 					.add(v);
@@ -261,10 +286,6 @@ public class EuclidianControllerInput3DCompanion extends
 		} else {
 			Coords v = new Coords(4);
 			if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()) {
-				// App.debug("\nmovedGeoPointStartCoords:\n"
-				// + ((EuclidianControllerInput3D) ec).movedGeoPointStartCoords
-				// + "\nstartZNearest = "
-				// + ((EuclidianControllerInput3D) ec).startZNearest);
 				((EuclidianViewInput3D) ec.view).getStylusBeamEnd(v,
 						((EuclidianControllerInput3D) ec).startZNearest);
 				v.setSub(

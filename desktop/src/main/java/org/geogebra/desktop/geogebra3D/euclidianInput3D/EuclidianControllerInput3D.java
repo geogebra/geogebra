@@ -526,6 +526,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			super.updateMovedGeoPointStartValues(coords);
 		} else {
 			movedGeoPointStartCoords.set(coords);
+			if (input3D.hasMouseDirection()) {
+				startZNearest = ((EuclidianViewInput3D) view3D).getZNearest();
+			}
 		}
 	}
 
@@ -609,10 +612,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		updateMovedGeoPointStartValues(view3D.getCursor3D()
 				.getInhomCoordsInD(3));
 
-		if (input3D.hasMouseDirection()) {
-			startZNearest = ((EuclidianViewInput3D) view3D).getZNearest();
-		}
-
 		view3D.setDragCursor();
 
 		// set sticky points
@@ -641,7 +640,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	@Override
 	public boolean cursor3DVisibleForCurrentMode(int cursorType) {
-		if (mode == EuclidianConstants.MODE_MOVE) {
+		if (mode == EuclidianConstants.MODE_MOVE
+				&& !input3D.hasMouseDirection()) {
 			return false;
 		}
 

@@ -2464,11 +2464,16 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	public void drawCursor(Renderer renderer1) {
 
-		// App.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel()
-		// +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())"
+		// App.debug("\nhasMouse="
+		// + hasMouse
+		// + "\n!getEuclidianController().mouseIsOverLabel() "
+		// + !getEuclidianController().mouseIsOverLabel()
 		// +
-		// ((EuclidianController3D)
-		// getEuclidianController()).cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());
+		// "\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())"
+		// + ((EuclidianController3D) getEuclidianController())
+		// .cursor3DVisibleForCurrentMode(getCursor3DType())
+		// + "\ncursor=" + cursor + "\ngetCursor3DType()="
+		// + getCursor3DType());
 
 		if (hasMouse()) {
 
@@ -2489,7 +2494,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 						drawFreeCursor(renderer1);
 						break;
 					case PREVIEW_POINT_ALREADY: // showing arrows directions
-						drawPointAlready(getCursor3D().getMoveMode());
+						drawPointAlready(getCursor3D());
 						break;
 					case PREVIEW_POINT_NONE:
 						// App.debug("ici");
@@ -2499,7 +2504,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				case CURSOR_HIT:
 					switch (getCursor3DType()) {
 					case PREVIEW_POINT_FREE:
-						renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
+						if (drawCrossForFreePoint()) {
+							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
+						}
 						break;
 					case PREVIEW_POINT_REGION:
 						if (getEuclidianController().getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
@@ -2518,13 +2525,33 @@ public abstract class EuclidianView3D extends EuclidianView implements
 						break;
 
 					case PREVIEW_POINT_ALREADY:
-						drawPointAlready(getCursor3D().getMoveMode());
+						drawPointAlready(getCursor3D());
 						break;
 					}
 					break;
 				}
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @return true if it has to draw 2D/1D arrows to move free point
+	 */
+	protected boolean drawCrossForFreePoint() {
+		return true;
+	}
+
+	/**
+	 * @param point moved point
+	 * @return true if it has to draw 2D/1D arrows to move this point
+	 */
+	protected boolean drawCrossForPoint(GeoPoint3D point) {
+		return true;
+	}
+
+	protected void drawPointAlready(GeoPoint3D point) {
+		drawPointAlready(point.getMoveMode());
 	}
 
 	private void drawPointAlready(int mode) {
@@ -2940,9 +2967,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		if (showClippingCube())
 			clippingCubeDrawable.drawHidden(renderer1);
 
-		if (decorationVisible)
+		if (decorationVisible())
 			pointDecorations.drawHidden(renderer1);
 
+	}
+
+	protected boolean decorationVisible() {
+		return decorationVisible;
 	}
 
 	/**
