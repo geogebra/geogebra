@@ -1739,7 +1739,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if ((hits.size() - (hits.getListCount() + hits.getImageCount())) > 0) {
 			for (int i = hits.size() - 1; i >= 0; i--) {
 				GeoElement geo = hits.get(i);
-				if (geo.isGeoList() || geo.isGeoImage()) {
+				if ((geo.isGeoList() && !((GeoList) geo).drawAsComboBox())
+						|| geo.isGeoImage()) {
 					hits.remove(i);
 				}
 			}
