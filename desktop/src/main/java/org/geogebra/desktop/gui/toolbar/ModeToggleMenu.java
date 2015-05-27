@@ -42,6 +42,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
+import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -69,7 +70,7 @@ public class ModeToggleMenu extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.toolbar = toolbar;
 
-		tbutton = new MyJToggleButton(this, toolbar);
+		tbutton = new MyJToggleButton(this, toolbar, app);
 		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
 		add(tbutton);
 
@@ -274,11 +275,13 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 
 	private Timer showMenuTimer;
 	private ToolbarD toolbar;
+	private App app;
 
-	MyJToggleButton(ModeToggleMenu menu, ToolbarD toolbar) {
+	MyJToggleButton(ModeToggleMenu menu, ToolbarD toolbar, App app) {
 		super();
 		this.menu = menu;
 		this.toolbar = toolbar;
+		this.app = app;
 		// add own listeners
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -502,9 +505,38 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 
 	@Override
 	public Point getToolTipLocation(MouseEvent event) {
+
 		Point p = new Point();
-		p.y = this.getY() + this.getHeight();
-		p.x = this.getX();
+		switch (app.getToolbarPosition()) {
+		case SwingConstants.NORTH:
+			p.y = this.getY() + this.getHeight();
+			p.x = this.getX();
+			break;
+		case SwingConstants.SOUTH:
+			p.y = this.getY();
+			p.x = this.getX();
+			if (tip != null) {
+				p.y -= tip.getHeight();
+			} else {
+				p.y += this.getHeight();
+			}
+
+			break;
+		case SwingConstants.WEST:
+			p.y = this.getY();
+			p.x = this.getX() + this.getWidth();
+			break;
+		case SwingConstants.EAST:
+			p.y = this.getY();
+			p.x = this.getX();
+			if (tip != null) {
+				p.x -= tip.getWidth();
+			} else {
+				p.x += this.getWidth();
+			}
+			break;
+		}
+
 		return p;
 	}
 
