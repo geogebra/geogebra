@@ -34,7 +34,7 @@ public class WebAudioWrapper {
 		this.@org.geogebra.web.html5.sound.WebAudioWrapper::sampleRate = sampleRate;
 		$wnd.gainNode = $wnd.context.createGain();
 		$wnd.gainNode.connect($wnd.context.destination);
-		$wnd.gainNode.gain.value = 50;
+		//$wnd.gainNode.gain.value = 50;
 	}-*/;
 
 
@@ -49,33 +49,29 @@ public class WebAudioWrapper {
 		buffer.fillBuffer();
 	}
 	public void write(byte[] buf, int length) {
+		stop();
 		JsArrayInteger arr = JsArrayUtils.readOnlyJsArray(buf);
 		createBufferSource(arr, length);
 	}
 
 	private native void createBufferSource(JsArrayInteger buf, int length) /*-{
-		var audioBuffer = $wnd.context.createBuffer(2, length,
+		var audioBuffer = $wnd.context.createBuffer(1, length,
 					this
 				.@org.geogebra.web.html5.sound.WebAudioWrapper::sampleRate); 
-		for(var i=0; i < buf.length;i++) {
-   			var b = buf[i];
-   			b = (b> 0) ? b / 32767 : b / -32768;
-   			buf[i] =  b;
-		}
+		var div = 32768 ;
 		
-		var leftOut = audioBuffer.getChannelData(0).set(buf);
-		var rightOut = audioBuffer.getChannelData(1).set(buf);
-//		var value = 0;
-//		var idx = 0;
-//		for (var i = 0; i < leftOut.length; i++) 
-//		{	
-//			idx = i * 4;
-//			
-//			value = buf[i];
-//			leftOut[i] = value;
-//			rightOut[i] = value;
-//		}
-//		
+		var norm = new Float32Array(buf.length);
+		
+		for(var i=0; i < length;i++) {
+   			var b = i < buf.length ? buf[i] : 0;
+   			
+   			b = (b> 0) ? b / (div - 1) : b / -div;
+			
+			norm[i] = b * 50;
+		}
+		audioBuffer.getChannelData(0).set(norm);
+//		audioBuffer.getChannelData(1).set(norm);
+		
 		var source = $wnd.context.createBufferSource();
 		source.buffer = audioBuffer;
 		source.connect($wnd.gainNode);
@@ -83,13 +79,14 @@ public class WebAudioWrapper {
 				.@org.geogebra.web.html5.sound.WebAudioWrapper::bufferEnded(Lcom/google/gwt/core/client/JavaScriptObject;);
 		
 		$wnd.actualSource = source;
-		source.start();
+		source.start(0);
 		
 			}-*/;
 
 	public native void stop() /*-{
 		if ($wnd.actualSource) {
 			$wnd.actualSource.stop();
+			$wnd.actualSource = null;
 		}
 	}-*/;
 
