@@ -236,6 +236,7 @@ public class GlobalKeyDispatcherW extends
 				EuclidianViewW.tabPressed = true;
 			} else {
 				preventDefault = true;
+				EuclidianViewW.tabPressed = false;
 			}
 		} else if (kc == KeyCodes.ESCAPE) {
 			preventDefault = true;

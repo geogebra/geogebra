@@ -3,6 +3,7 @@ package org.geogebra.web.web.main;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
+import org.geogebra.common.kernel.View;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -108,5 +109,29 @@ public abstract class AppWFull extends AppW {
 					data, 0, 0, data.length > 0 ? data[0].length - 1 : 0,
 					data.length);
 			onOpenFile();
+	}
+
+	@Override
+	public void focusLost(View v) {
+		// not important to override AppW as long as it is not changed
+	}
+
+	// maybe this is unnecessary, just I did not want to make error here
+	boolean infiniteLoopPreventer = false;
+
+	@Override
+	public void focusGained(View v) {
+		if (getGuiManager() != null) {
+			// somehow the panel was not activated in case focus gain
+			// so it is good to do here, unless it makes an
+			// infinite loop... my code inspection did not find
+			// infinite loop, but it is good to try to exclude that
+			// anyway, e.g. for future changes in the code
+			if (!infiniteLoopPreventer) {
+				infiniteLoopPreventer = true;
+				getGuiManager().setActiveView(v.getViewID());
+				infiniteLoopPreventer = false;
+			}
+		}
 	}
 }

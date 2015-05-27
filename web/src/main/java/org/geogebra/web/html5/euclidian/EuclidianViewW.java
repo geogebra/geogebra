@@ -890,7 +890,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public void focusGained() {
 		actualTabIndex = thisTabIndex;
-		if (!isInFocus && !App.isFullAppGui()) {
+		if (!isInFocus) {
 			this.isInFocus = true;
 			this.app.focusGained(this);
 		}
@@ -1081,6 +1081,7 @@ public class EuclidianViewW extends EuclidianView implements
 		// after better understanding, this can probably be merged
 		// with the following method (requestFocusInWindow()):
 		requestFocusInWindow();
+
 	}
 
 	public void resetMsZoomer() {
