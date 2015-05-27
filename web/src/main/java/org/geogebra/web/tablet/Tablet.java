@@ -15,6 +15,7 @@ import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
+import org.geogebra.web.web.Web;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
@@ -120,7 +121,7 @@ public class Tablet implements EntryPoint {
 		PNaCl.exportPNaCltoConsole();
 
 		// phoneGap.initializePhoneGap();
-
+		Web.registerSuperdevExceptionHandler();
 	}
 
 	public static void goBack() {

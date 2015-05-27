@@ -119,7 +119,7 @@ public class Web implements EntryPoint {
 	 * Registers handler for UnhandledExceptions that are wrapped by GWT by
 	 * default
 	 */
-	public void registerSuperdevExceptionHandler() {
+	public static void registerSuperdevExceptionHandler() {
 		com.google.gwt.core.client.GWT
 				.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 

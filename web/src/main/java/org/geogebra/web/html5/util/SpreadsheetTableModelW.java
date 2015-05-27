@@ -167,12 +167,13 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 			if (table != null) {
 
 				table.updateTableCellValue(value, row, column);
+				// do this after updateTableCellValue, as it does no harm
+				// and the valueChange might need the table cell value!
+				if (listener != null)
+					listener.valueChange();
 			}
 		}
-		// do this after updateTableCellValue, as it does no harm
-		// and the valueChange might need the table cell value!
-		if (listener != null)
-			listener.valueChange();
+
 	}
 
 	public boolean hasFocus() {
