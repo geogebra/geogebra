@@ -58,14 +58,15 @@ public class WebAudioWrapper {
 		var audioBuffer = $wnd.context.createBuffer(1, length,
 					this
 				.@org.geogebra.web.html5.sound.WebAudioWrapper::sampleRate); 
-		var div = 32768 ;
+		var div = 32767.0 ;
 		
 		var norm = new Float32Array(buf.length);
 		
 		for(var i=0; i < length;i++) {
    			var b = i < buf.length ? buf[i] : 0;
    			
-   			b = (b> 0) ? b / (div - 1) : b / -div;
+   			b = b / 32767.0
+   			//(b> 0) ? b / (div - 1) : b / -div;
 			
 			norm[i] = b * 50;
 		}
