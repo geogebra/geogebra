@@ -18,6 +18,7 @@ import org.geogebra.web.html5.util.debug.GeoGebraLogger;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
@@ -55,6 +56,10 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	 */
 	public SplashDialog splash;
 	private int frameID;
+
+	public static SpanElement firstDummy = null;
+	public static SpanElement lastDummy = null;
+	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
 	/** Creates new GeoGebraFrame */
 	public GeoGebraFrame(GLookAndFeelI laf) {
@@ -130,6 +135,13 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 			}
 		});*/
 	}
+
+	protected static native void programFocusEvent(Element firstd, Element lastd) /*-{
+		// this might be needed in case of tabbing by TAB key (more applets)
+		firstd.onfocus = function(evnt) {
+			lastd.focus();
+		};
+	}-*/;
 
 	/**
 	 * @param ae

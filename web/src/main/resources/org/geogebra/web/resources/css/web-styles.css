@@ -2136,6 +2136,18 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	background-color: #FFFFFF;
 }
 
+.geogebraweb-dummy-invisible {
+	position: absolute;
+	display: block;
+	width: 0px;
+	height: 0px;
+	line-height: 0px;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	outline: 0px;
+}
+
 /**
  * According to the CSS2 specification, width will be the greater of
  * this width property and the computed width...

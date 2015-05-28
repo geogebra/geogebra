@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui;
 
+import static org.geogebra.web.html5.gui.GeoGebraFrame.programFocusEvent;
+
 import java.util.ArrayList;
 
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -11,6 +13,7 @@ import org.geogebra.web.html5.util.debug.GeoGebraLogger;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -41,6 +44,23 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 			inst.createSplash(articleElement);
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
+
+		// now we can create dummy elements before & after each applet
+		// with tabindex 10000, for ticket #5158
+		// however, it is unlikely that this will be used for more
+		// simple applets on one page, just making sure
+		firstDummy = DOM.createSpan().cast();
+		firstDummy.addClassName("geogebraweb-dummy-invisible");
+		firstDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
+		geoGebraMobileTags.get(0).insertFirst(firstDummy);
+
+		lastDummy = DOM.createSpan().cast();
+		lastDummy.addClassName("geogebraweb-dummy-invisible");
+		lastDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
+		geoGebraMobileTags.get(geoGebraMobileTags.size() - 1).appendChild(
+				lastDummy);
+
+		programFocusEvent(firstDummy, lastDummy);
 	}
 
 	/**

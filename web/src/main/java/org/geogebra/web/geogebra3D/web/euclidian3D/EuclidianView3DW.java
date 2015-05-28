@@ -26,6 +26,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MsZoomer;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
+import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -62,7 +63,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianView3DW extends EuclidianView3D implements
         EuclidianViewWInterface {
 
-	public int thisTabIndex = EuclidianViewW.firstTabIndex;
+	public int thisTabIndex = GeoGebraFrame.GRAPHICS_VIEW_TABINDEX;
 
 	protected EuclidianPanelWAbstract EVPanel;
 
@@ -111,7 +112,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
 		        (EuclidianController3DW) euclidiancontroller);
 
-		canvas.setTabIndex(EuclidianViewW.firstTabIndex);
+		canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
 
 		if (EuclidianViewW.firstInstance == null) {
 			EuclidianViewW.firstInstance = this;

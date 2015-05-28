@@ -30,6 +30,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
+import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
@@ -104,14 +105,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	// lastInstance is necessary for knowing when to cycle
 	public static EuclidianViewWInterface lastInstance = null;
-
-	// all Graphics views (and 3D Graphics views) should have
-	// this tabindex... there should be a dummy element that
-	// has a greater tabindex by one (or maybe zero),
-	// and a dummy element that has less by one (or maybe zero)
-	// so with the help of dummy elements, we can avoid
-	// the natural browser tabbing go into graphics view
-	public static final int firstTabIndex = 10000;
 
 	// tells whether recently TAB is pressed in some Graphics View
 	// in some applet, which SHOULD move focus to another Graphics View
@@ -636,7 +629,12 @@ public class EuclidianViewW extends EuclidianView implements
 
 		registerDragDropHandlers(euclidianViewPanel,(EuclidianControllerW) euclidiancontroller);
 
-		canvas.setTabIndex(firstTabIndex);
+		if ((evNo == 1) || (evNo == 2)) {
+			canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+		} else {
+			// is this the best?
+			canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX - 1);
+		}
 
 		if (firstInstance == null) {
 			firstInstance = this;
