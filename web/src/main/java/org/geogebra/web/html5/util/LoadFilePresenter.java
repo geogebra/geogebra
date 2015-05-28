@@ -131,6 +131,9 @@ public class LoadFilePresenter {
 		if (perspective.length() == 0) {
 			perspective = Location.getParameter("GeoGebraPerspective");
 		}
+		if (perspective == null) {
+			perspective = "";
+		}
 		if (app.getGuiManager() != null) {
 			if (perspective.startsWith("search:")) {
 				app.setCloseBrowserCallback(new Runnable() {
