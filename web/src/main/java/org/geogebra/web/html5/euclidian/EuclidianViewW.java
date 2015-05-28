@@ -43,6 +43,7 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -98,11 +99,19 @@ public class EuclidianViewW extends EuclidianView implements
 	protected EuclidianPanelWAbstract EVPanel;
 	private MsZoomer msZoomer;
 
+	// firstInstance is necessary for proper cycling
 	public static EuclidianViewWInterface firstInstance = null;
+
+	// lastInstance is necessary for knowing when to cycle
+	public static EuclidianViewWInterface lastInstance = null;
+
+	// all Graphics views (and 3D Graphics views) should have
+	// this tabindex... there should be a dummy element that
+	// has a greater tabindex by one (or maybe zero),
+	// and a dummy element that has less by one (or maybe zero)
+	// so with the help of dummy elements, we can avoid
+	// the natural browser tabbing go into graphics view
 	public static final int firstTabIndex = 10000;
-	public static int nextTabIndex = firstTabIndex;
-	public static int actualTabIndex = firstTabIndex;
-	public int thisTabIndex = firstTabIndex;
 
 	// tells whether recently TAB is pressed in some Graphics View
 	// in some applet, which SHOULD move focus to another Graphics View
@@ -627,26 +636,33 @@ public class EuclidianViewW extends EuclidianView implements
 
 		registerDragDropHandlers(euclidianViewPanel,(EuclidianControllerW) euclidiancontroller);
 
-		// the canvas should have a tab index to capture key events in Internet
-		// Explorer
-		if ((evNo == 1) || (evNo == 2)) {
-			// or, we want to exclude EVNO_GENERAL,
-			// and EVNO_3D is in a different class
-			canvas.setTabIndex(thisTabIndex = nextTabIndex++);
-		} else {
-			// backwards-compatibility
-			canvas.setTabIndex(thisTabIndex = firstTabIndex - 1);
-		}
+		canvas.setTabIndex(firstTabIndex);
 
 		if (firstInstance == null) {
 			firstInstance = this;
+		} else if (compareDocumentPosition(this.getCanvas().getCanvasElement(),
+				firstInstance.getCanvas().getCanvasElement())) {
+			firstInstance = this;
+		}
+
+		if (lastInstance == null) {
+			lastInstance = this;
+		} else if (compareDocumentPosition(lastInstance.getCanvas()
+				.getCanvasElement(), this.getCanvas().getCanvasElement())) {
+			lastInstance = this;
 		}
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent be) {
 				focusLost();
-				if ((thisTabIndex + 1 == nextTabIndex) && tabPressed) {
+				// if all Graphics views have a tabindex of 10000,
+				// how do we know that this one is the last of them
+				// in DOM? Probably we shall have a lastInstance,
+				// just like we have firstInstance! These shall be
+				// actualized when new Graphics views are created,
+				// by comparing document position...
+				if ((EuclidianViewW.this == lastInstance) && tabPressed) {
 					// if this is the last to blur, and tabPressed
 					// is true, i.e. want to select another applet,
 					// let's go back to the first one!
@@ -706,6 +722,37 @@ public class EuclidianViewW extends EuclidianView implements
 			es.addListener(this);
 		}
 	}
+
+	/**
+	 * Used for comparing position in DOM (Document Object Model)
+	 * 
+	 * @param firstElement
+	 *            it is right if this comes first
+	 * @param secondElement
+	 *            it is right if this comes second
+	 * @return whether firstElement is really before secondElement
+	 */
+	public static native boolean compareDocumentPosition(
+			Element firstElement,
+			Element secondElement) /*-{
+		if (firstElement) {
+			if (secondElement) {
+				if (firstElement === secondElement) {
+					// let's interpret it as false result
+					return false;
+				}
+				if (firstElement.compareDocumentPosition(secondElement)
+						& $wnd.Node.DOCUMENT_POSITION_FOLLOWING) {
+					return true;
+				}
+				// if any of them contain the other, let us interpret
+				// as false result, and anyway, this shall not happen!
+				// but probably this is DOCUMENT_POSITION_PRECEDING:
+				return false;
+			}
+		}
+		return false;
+	}-*/;
 
 	private void registerKeyHandlers(Canvas canvas) {
 
@@ -858,7 +905,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		actualTabIndex = thisTabIndex;
 		g2p.getCanvas().getCanvasElement().focus();
 		focusGained();
 		return true;
@@ -872,7 +918,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void focusGained() {
-		actualTabIndex = thisTabIndex;
 		if (!isInFocus) {
 			this.isInFocus = true;
 			this.app.focusGained(this);

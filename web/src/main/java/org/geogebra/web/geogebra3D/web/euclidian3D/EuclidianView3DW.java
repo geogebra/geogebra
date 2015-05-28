@@ -111,20 +111,29 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
 		        (EuclidianController3DW) euclidiancontroller);
 
-		// Canvas should have a tab index to capture key events in Internet
-		// Explorer
-		// evNo is EVNO_3D anyway, so we can do this in all cases:
-		canvas.setTabIndex(thisTabIndex = EuclidianViewW.nextTabIndex++);
+		canvas.setTabIndex(EuclidianViewW.firstTabIndex);
 
 		if (EuclidianViewW.firstInstance == null) {
 			EuclidianViewW.firstInstance = this;
+		} else if (EuclidianViewW.compareDocumentPosition(this.getCanvas()
+				.getCanvasElement(), EuclidianViewW.firstInstance.getCanvas()
+				.getCanvasElement())) {
+			EuclidianViewW.firstInstance = this;
+		}
+
+		if (EuclidianViewW.lastInstance == null) {
+			EuclidianViewW.lastInstance = this;
+		} else if (EuclidianViewW.compareDocumentPosition(
+				EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
+				this.getCanvas().getCanvasElement())) {
+			EuclidianViewW.lastInstance = this;
 		}
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent be) {
 				focusLost();
-				if ((thisTabIndex + 1 == EuclidianViewW.nextTabIndex)
+				if ((EuclidianView3DW.this == EuclidianViewW.lastInstance)
 						&& EuclidianViewW.tabPressed) {
 					// if this is the last to blur, and tabPressed
 					// is true, i.e. want to select another applet,
@@ -227,7 +236,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	public void focusLost() {
-		EuclidianViewW.actualTabIndex = thisTabIndex;
 		if (isInFocus) {
 			this.isInFocus = false;
 			this.app.focusLost(this);
@@ -235,7 +243,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	public void focusGained() {
-		EuclidianViewW.actualTabIndex = thisTabIndex;
 		if (!isInFocus && !App.isFullAppGui()) {
 			this.isInFocus = true;
 			this.app.focusGained(this);
@@ -446,7 +453,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		EuclidianViewW.actualTabIndex = thisTabIndex;
 		g2p.getCanvas().getCanvasElement().focus();
 		focusGained();
 		return true;
