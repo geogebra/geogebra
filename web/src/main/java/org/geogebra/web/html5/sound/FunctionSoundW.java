@@ -111,7 +111,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		// TODO: find optimal buffer size
 		waw.start(getSampleRate());
 
-		int frameSetSize = getSampleRate() / 50; // 20ms ok?
+		int frameSetSize = getSampleRate() / 5; // 20ms ok?
 		if (getBitDepth() == 8) {
 			setBuf(new byte[frameSetSize]);
 		} else {
@@ -137,7 +137,7 @@ public final class FunctionSoundW extends FunctionSound implements
 	}
 
 	public void fillBuffer() {
-		int frameSetSize = getSampleRate() / 50;
+		int frameSetSize = getSampleRate() / 5;
 
 		if (getT() < getMax() && !stopped) {
 			setT(getT() + getSamplePeriod() * frameSetSize);
