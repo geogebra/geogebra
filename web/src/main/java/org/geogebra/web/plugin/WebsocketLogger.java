@@ -143,52 +143,27 @@ public class WebsocketLogger extends SensorLogger {
 	 * @param json
 	 */
 	private void handleAvailableSensors(JavaScriptObject json) {
-		if (JSON.get(json, Types.ACCELEROMETER_X.toString()) != null) {
+		handleAvailable(json, Types.ACCELEROMETER_X);
+		handleAvailable(json, Types.MAGNETIC_FIELD_X);
+		handleAvailable(json, Types.ORIENTATION_X);
+		handleAvailable(json, Types.LOUDNESS);
+		handleAvailable(json, Types.PROXIMITY);
+		handleAvailable(json, Types.LIGHT);
+		for (WebSocketListener listener : this.listeners) {
+			listener.onSensorActive(Types.TIMESTAMP, true);
+		}
+	}
+
+	private void handleAvailable(JavaScriptObject json, Types type) {
+		if (JSON.get(json, type.toString()) != null) {
 			for (WebSocketListener listener : this.listeners) {
-				listener.onSensorActive(Types.ACCELEROMETER_X, Boolean
+				listener.onSensorActive(type,
+						Boolean
 						.parseBoolean(JSON.get(json,
-								Types.ACCELEROMETER_X.toString())));
+ type.toString())));
 			}
 		}
-		if (JSON.get(json, Types.MAGNETIC_FIELD_X.toString()) != null) {
-			for (WebSocketListener listener : this.listeners) {
-				listener.onSensorActive(Types.MAGNETIC_FIELD_X, Boolean
-						.parseBoolean(JSON.get(json,
-								Types.MAGNETIC_FIELD_X.toString())));
-			}
-		}
-		if (JSON.get(json, Types.ORIENTATION_X.toString()) != null) {
-			for (WebSocketListener listener : this.listeners) {
-				listener.onSensorActive(
-						Types.ORIENTATION_X,
-						Boolean.parseBoolean(JSON.get(json,
-								Types.ORIENTATION_X.toString())));
-			}
-		}
-		if (JSON.get(json, Types.LOUDNESS.toString()) != null) {
-			for (WebSocketListener listener : this.listeners) {
-				listener.onSensorActive(
-						Types.LOUDNESS,
-						Boolean.parseBoolean(JSON.get(json,
-								Types.LOUDNESS.toString())));
-			}
-		}
-		if (JSON.get(json, Types.PROXIMITY.toString()) != null) {
-			for (WebSocketListener listener : this.listeners) {
-				listener.onSensorActive(
-						Types.PROXIMITY,
-						Boolean.parseBoolean(JSON.get(json,
-								Types.PROXIMITY.toString())));
-			}
-		}
-		if (JSON.get(json, Types.LIGHT.toString()) != null) {
-			for (WebSocketListener listener : this.listeners) {
-				listener.onSensorActive(
-						Types.LIGHT,
-						Boolean.parseBoolean(JSON.get(json,
-								Types.LIGHT.toString())));
-			}
-		}
+
 	}
 
 	private void handleData(JavaScriptObject json) {

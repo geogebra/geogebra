@@ -48,7 +48,7 @@ public class GeoListBox extends ListBox {
 	private Types type;
 	private ArrayList<GeoElement> items = new ArrayList<GeoElement>();
 	private SensorSetting sensor;
-	private int nextFreeGeoListBoxIndex;
+	private final int nextFreeGeoListBoxIndex;
 	private AppW app;
 	private DataCollectionSettings dataCollectionSettings;
 
@@ -65,7 +65,8 @@ public class GeoListBox extends ListBox {
 		this.sensor = sensor;
 		this.type = type;
 		this.app = app;
-		this.nextFreeGeoListBoxIndex = DefaultEntries.values().length;
+		this.nextFreeGeoListBoxIndex = type == Types.TIMESTAMP ? DefaultEntries
+				.values().length - 1 : DefaultEntries.values().length;
 		this.dataCollectionSettings = dataCollectionSettings;
 	}
 
@@ -151,7 +152,10 @@ public class GeoListBox extends ListBox {
 
 	private void addDefaultEntries() {
 		for (DefaultEntries entry : DefaultEntries.values()) {
-			this.addItem(app.getMenu(entry.getText()));
+			if (this.type != Types.TIMESTAMP
+					|| entry != DefaultEntries.CREATE_DATA_FUNCTION) {
+				this.addItem(app.getMenu(entry.getText()));
+			}
 		}
 	}
 

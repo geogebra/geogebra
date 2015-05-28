@@ -30,6 +30,7 @@ import org.geogebra.web.web.gui.view.dataCollection.Settings.MagFieldSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.OrientationSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.ProxiSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.SensorSetting;
+import org.geogebra.web.web.gui.view.dataCollection.Settings.TimeSetting;
 import org.geogebra.web.web.main.AppWapplication;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -77,6 +78,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	/** different settings for the available sensors */
 	private AccSetting acc;
 	private MagFieldSetting magField;
+	private TimeSetting time;
 	private OrientationSetting orientation;
 	private ProxiSetting proxi;
 	private LightSetting light;
@@ -169,9 +171,11 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		addMagneticField();
 		addProximity();
 		addLight();
+		addTime();
 		// addLoudness(); not in use now
 		this.dataCollectionTab.add(this.sensorSettings);
 	}
+
 
 	private void addConnection() {
 		FlowPanel connection = new FlowPanel();
@@ -266,6 +270,12 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.sensorSettings.add(this.magField);
 	}
 
+	private void addTime() {
+		this.time = new TimeSetting(app, this, "Time");
+		this.sensors.add(this.time);
+		this.sensorSettings.add(this.time);
+	}
+
 	private void addOrientation() {
 		this.orientation = new OrientationSetting(app, this, "Orientation");
 		this.sensors.add(this.orientation);
@@ -314,6 +324,10 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		case LIGHT:
 			this.light.setVisible(true);
 			this.light.setOn(flag);
+			break;
+		case TIMESTAMP:
+			this.time.setVisible(true);
+			this.time.setOn(flag);
 			break;
 		// case LOUDNESS:
 		// this.loudness.setOn(flag);
@@ -575,8 +589,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	@Override
 	public int getViewID() {
-		// not used
-		return 0;
+		return App.VIEW_DATA_COLLECTION;
 	}
 
 	@Override
