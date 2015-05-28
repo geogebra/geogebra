@@ -62,22 +62,25 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	public void onResize() {
 		super.onResize();
 
-		if (app != null) {
+		if (app != null && sview != null) {
 
-			if (sview != null) {
+			app.getGuiManager().invokeLater(new Runnable() {
 
-				int width = getComponentInteriorWidth();
-				int height = getComponentInteriorHeight();
+				public void run() {
+					int width = getComponentInteriorWidth();
+					int height = getComponentInteriorHeight();
 
-				if (width < 0 || height < 0) {
-					return;
+					if (width < 0 || height < 0) {
+						return;
+					}
+
+					wrapview.setPixelSize(width, height);
+
+					sview.onResize();
 				}
+			});
 
-				wrapview.setPixelSize(width, height);
-
-				sview.onResize();
-
-			}
+			
 
 
 		}
