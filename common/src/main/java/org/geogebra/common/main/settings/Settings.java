@@ -176,6 +176,7 @@ public class Settings {
 		keyboardSettings.beginBatch();
 		casSettings.beginBatch();
 		probCalcSettings.beginBatch();
+		dataCollectionSettings.beginBatch();
 	}
 
 	/**
@@ -201,6 +202,7 @@ public class Settings {
 		keyboardSettings.endBatch();
 		casSettings.endBatch();
 		probCalcSettings.endBatch();
+		dataCollectionSettings.endBatch();
 	}
 
 	/**
