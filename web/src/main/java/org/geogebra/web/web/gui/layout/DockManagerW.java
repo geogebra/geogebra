@@ -170,7 +170,7 @@ public class DockManagerW extends DockManager {
 			}
 		}
 
-		int panelDim;
+		// int panelDim;
 		
 		if(spData.length > 0) {
 			DockSplitPaneW[] splitPanes = new DockSplitPaneW[spData.length];
@@ -297,11 +297,11 @@ public class DockManagerW extends DockManager {
 				}
 
 				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-					panelDim = panel.getEstimatedSize().getWidth();
+					int panelDim = panel.getEstimatedSize().getWidth();
 					sph.put(currentParent, sph.get(currentParent) + dpData[i].getEmbeddedSize());
 					spw.put(currentParent, Math.max(spw.get(currentParent), panelDim));
 				} else {
-					panelDim = panel.getEstimatedSize().getHeight();
+					int panelDim = panel.getEstimatedSize().getHeight();
 					spw.put(currentParent, spw.get(currentParent) + dpData[i].getEmbeddedSize());
 					sph.put(currentParent, Math.max(sph.get(currentParent), panelDim));
 				}
@@ -313,11 +313,9 @@ public class DockManagerW extends DockManager {
 						oldParent = (DockSplitPaneW)oldParent.getParent();
 						
 						if (oldParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-							panelDim = panel.getEstimatedSize().getWidth();
 							sph.put(oldParent, sph.get(oldParent) + dpData[i].getEmbeddedSize());
 							spw.put(oldParent, Math.max(spw.get(oldParent), spw.get(otherParent)));
 						} else {
-							panelDim = panel.getEstimatedSize().getHeight();
 							spw.put(oldParent, spw.get(oldParent) + dpData[i].getEmbeddedSize());
 							sph.put(oldParent, Math.max(sph.get(oldParent), spw.get(otherParent)));
 						}
