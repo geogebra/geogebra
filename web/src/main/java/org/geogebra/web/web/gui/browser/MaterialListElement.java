@@ -575,37 +575,48 @@ public class MaterialListElement extends FlowPanel implements
 			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
 
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId()+"", new MaterialCallback(){
-
-				@Override
-				        public void onLoaded(
-				                final List<Material> parseResponse,
-				                ArrayList<Chapter> meta) {
-					if (parseResponse.size() == 1) {
-						material = parseResponse.get(0);
-						        material.setSyncStamp(synced);
-								if (material.getType() == MaterialType.csv) {
-									app.openCSVbase64(
-											material.getBase64());
-								} else {
-									app.getGgbApi().setBase64(
-											material.getBase64());
-								}
-						app.setActiveMaterial(material);
-					} else {
-						app.showError(app.getLocalization().getError("LoadFileFailed"));
-					}
-				}
-				
-				@Override
-				public void onError(Throwable error) {
-					app.showError(app.getLocalization().getError("LoadFileFailed"));
-				}
-			});
+			loadMaterialAsGGB();
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
-			this.app.getFileManager().openMaterial(this.material);
+			if (this.material.getBase64() == null
+					|| this.material.getBase64().length() == 0) {
+				loadMaterialAsGGB();
+			} else {
+				this.app.getFileManager().openMaterial(this.material);
+			}
 		}
+	}
+
+	private void loadMaterialAsGGB() {
+		final long synced = material.getSyncStamp();
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+				.getItem(material.getId() + "", new MaterialCallback() {
+
+					@Override
+					public void onLoaded(final List<Material> parseResponse,
+							ArrayList<Chapter> meta) {
+						if (parseResponse.size() == 1) {
+							material = parseResponse.get(0);
+							material.setSyncStamp(synced);
+							if (material.getType() == MaterialType.csv) {
+								app.openCSVbase64(material.getBase64());
+							} else {
+								app.getGgbApi().setBase64(material.getBase64());
+							}
+							app.setActiveMaterial(material);
+						} else {
+							app.showError(app.getLocalization().getError(
+									"LoadFileFailed"));
+						}
+					}
+
+					@Override
+					public void onError(Throwable error) {
+						app.showError(app.getLocalization().getError(
+								"LoadFileFailed"));
+					}
+				});
+
 	}
 
 	protected void closeBrowseView() {
