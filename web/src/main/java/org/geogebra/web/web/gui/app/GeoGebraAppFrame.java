@@ -19,7 +19,6 @@ import org.geogebra.web.html5.util.debug.GeoGebraLogger;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
-import org.geogebra.web.web.gui.app.docklayout.MyDockLayoutPanel;
 import org.geogebra.web.web.gui.applet.AppletFactory;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
@@ -56,7 +55,6 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	public GGWToolBar ggwToolBar;
 	private final GGWCommandLine ggwCommandLine;
 	private final GGWMenuBar ggwMenuBar;
-	MyDockLayoutPanel outer = null;
 	GGWFrameLayoutPanel frameLayout;
 	public AppW app;
 	private int cw;
