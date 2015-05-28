@@ -72,10 +72,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		DOM.sinkEvents(this.getElement(), Event.ONMOUSEDOWN | Event.ONMOUSEMOVE
 		        | Event.ONMOUSEUP | Event.ONMOUSEOVER);
 
-		// temporarily commented out until action for ESC is specified better
-		// as these many preview handlers might decrease speed by much
-		// if every applet sets such a preview handler
-		// is this the best place to put this handler?
+
 		/*Event.addNativePreviewHandler(new NativePreviewHandler() {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 				switch (event.getTypeInt()) {
@@ -85,49 +82,6 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 							.translateGWTcode(ne.getKeyCode());
 					switch (kc) {
 					case TAB:
-						if (app != null) {
-							EuclidianViewWInterface checkview = app
-									.getEuclidianView1();
-							if (!EuclidianViewW.booleanTabIndex) {
-								if (checkview.isThisTheNext()) {
-									((EuclidianViewW) checkview).requestFocus();
-									event.getNativeEvent().preventDefault();
-									event.cancel();
-									return;
-								}
-							}
-							if (!EuclidianViewW.booleanTabIndex) {
-								if (app.hasEuclidianView2(1)) {
-									checkview = app.getEuclidianView2(1);
-									if (checkview.isThisTheNext()) {
-										((EuclidianViewW) checkview)
-												.requestFocus();
-										event.getNativeEvent().preventDefault();
-										event.cancel();
-										return;
-									}
-								}
-							}
-							if (!EuclidianViewW.booleanTabIndex) {
-								if (app.hasEuclidianView3D()) {
-									checkview = (EuclidianViewWInterface) app
-											.getEuclidianView3D();
-									if (checkview.isThisTheNext()) {
-										((EuclidianViewW) checkview)
-												.requestFocus();
-										event.getNativeEvent().preventDefault();
-										event.cancel();
-										return;
-									}
-								}
-							}
-						}
-
-						// if calling this here, then TAB won't be able to
-						// leave the applets (i.e. to other browser elements)
-						// but it is still buggy, since does not even go back
-						// to the first applet from the last one
-						// event.getNativeEvent().preventDefault();
 						break;
 					}
 					break;

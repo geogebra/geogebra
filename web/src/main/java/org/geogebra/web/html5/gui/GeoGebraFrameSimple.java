@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.gui;
 
-import static org.geogebra.web.html5.gui.GeoGebraFrame.programFocusEvent;
-
 import java.util.ArrayList;
 
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
