@@ -530,12 +530,53 @@ public class SelectionManager {
 			return false;
 		}
 
+		GeoElement selGeo = null;
+
 		if (selectedGeos.size() != 1) {
-			return false;
+			if (cycle) {
+				return false;
+			}
+
+			GeoElement actual = null;
+			// in case of no cycle, it also means that this
+			// was called from Web, in Graphics views, so
+			// in this case, it's better to change selection
+			// to remove all geos except the first one that
+			// is also part of this view, and continue
+			// as if it were always the case...
+			Iterator<GeoElement> itt = tree.iterator();
+			while (itt.hasNext()) {
+				actual = itt.next();
+				if (selectedGeos.contains(actual)) {// && (selGeo == null) // redundant
+					selGeo = actual;
+					break;
+				}
+			}
+
+			if (selGeo == null) {
+				selGeo = selectedGeos.get(0);
+			}
+
+			// remove every GeoElement from the selection
+			// that is not "selGeo"
+			itt = selectedGeos.iterator();
+			while (itt.hasNext()) {
+				// does something more than simple clear
+				removeSelectedGeo(itt.next(), false, true);
+			}
+			// and put selGeo back
+			addSelectedGeo(selGeo);
+
+			// make sure it is fresh, for a bug when points
+			// A and C are selected, it gone to B and C
+			it = tree.iterator();
 		}
 
-		// one selected, select next one
-		GeoElement selGeo = selectedGeos.get(0);
+		if (selGeo == null) {
+			// at least one selected, select next one
+			selGeo = selectedGeos.get(0);
+		}
+
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (selGeo == geo) {
