@@ -136,7 +136,8 @@ namespace giac {
   gen Beta(const gen & a,const gen& b,GIAC_CONTEXT){
     if (a.type==_DOUBLE_ || b.type==_DOUBLE_ ||
 	a.type==_FLOAT_ || b.type==_FLOAT_ ||
-	a.type==_CPLX || b.type==_CPLX ){
+	a.type==_CPLX || b.type==_CPLX ||
+	a.type==_REAL || b.type==_REAL){
       gen A=evalf_double(a,1,contextptr);
       gen B=evalf_double(b,1,contextptr);
       return exp(lngamma(A,contextptr)+lngamma(B,contextptr)-lngamma(A+B,contextptr),contextptr);

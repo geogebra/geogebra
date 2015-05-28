@@ -10288,7 +10288,13 @@ namespace giac {
       int digits=decimal_digits(contextptr);
       // count numeric char
       int delta=0;
+      if (l && s[0]=='0')
+	++delta;
       for (int k=0;k<l;++k){
+	if (s[k]=='e' || s[k]=='E'){
+	  delta += l-k;
+	  break;
+	}
 	if (s[k]<'0' || s[k]>'9')
 	  ++delta;
       }
