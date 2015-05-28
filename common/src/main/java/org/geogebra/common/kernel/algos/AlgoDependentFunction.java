@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -28,7 +29,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -224,9 +224,6 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 				// we do NOT expand GeoFunctionConditional objects in expression
 				// tree
-				if (leftValue.isGeoElement()
-						&& ((GeoElement) leftValue).isGeoFunctionConditional())
-					return node;
 
 				Function fun = ((Functional) leftValue).getFunction();
 				FunctionVariable x = fun.getFunctionVariable();
