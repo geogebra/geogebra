@@ -2711,7 +2711,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void loseFocus() {
-		EuclidianViewW.booleanTabIndex = false;
 		if (nativeLoseFocus(articleElement)) {
 			getGlobalKeyDispatcher().InFocus = false;
 		}

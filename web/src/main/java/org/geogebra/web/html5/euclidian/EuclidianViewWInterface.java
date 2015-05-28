@@ -76,7 +76,5 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public String getCanvasBase64WithTypeString();
 
-	public boolean isThisTheNext();
-
 	public void requestFocus();
 }

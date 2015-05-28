@@ -104,10 +104,6 @@ public class EuclidianViewW extends EuclidianView implements
 	public static int actualTabIndex = firstTabIndex;
 	public int thisTabIndex = firstTabIndex;
 
-	// booleanTabIndex means whether something is in focus (true)
-	// or every Graphics view is blurred on the page (false)
-	public static boolean booleanTabIndex = true;
-
 	// tells whether recently TAB is pressed in some Graphics View
 	// in some applet, which SHOULD move focus to another Graphics View
 	// of another (or the same) applet... when this happens, the
@@ -185,19 +181,6 @@ public class EuclidianViewW extends EuclidianView implements
 				app.closePopups();
 			}
 		});
-	}
-
-	public boolean isThisTheNext() {
-		boolean ret;
-		//if (actualTabIndex + 1 >= nextTabIndex) {
-		//	ret = (thisTabIndex == firstTabIndex);
-		//} else {
-			ret = (thisTabIndex == actualTabIndex + 1);
-		//}
-		if (ret) {
-			booleanTabIndex = true;
-		}
-		return ret;
 	}
 
 	/**

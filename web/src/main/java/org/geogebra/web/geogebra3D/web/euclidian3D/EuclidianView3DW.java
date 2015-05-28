@@ -88,19 +88,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
-	public boolean isThisTheNext() {
-		boolean ret;
-		//if (EuclidianViewW.actualTabIndex + 1 >= EuclidianViewW.nextTabIndex) {
-		//	ret = (thisTabIndex == EuclidianViewW.firstTabIndex);
-		//} else {
-			ret = (thisTabIndex == EuclidianViewW.actualTabIndex + 1);
-		//}
-		if (ret) {
-			EuclidianViewW.booleanTabIndex = true;
-		}
-		return ret;
-	}
-
 	public org.geogebra.web.html5.awt.GGraphics2DW g2p = null;
 
 	private MsZoomer msZoomer;
