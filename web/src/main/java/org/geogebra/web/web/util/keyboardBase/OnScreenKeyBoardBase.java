@@ -18,7 +18,7 @@ import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.util.keyboard.KeyboardConstants;
 import org.geogebra.web.web.util.keyboard.KeyboardMode;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardButtonFunctionalBase.Action;
-import org.geogebra.web.web.util.keyboardBase.TextFieldProcessingBase.ArrowType;
+import org.geogebra.web.web.util.keyboardBase.TextFieldProcessing.ArrowType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -146,7 +146,7 @@ public class OnScreenKeyBoardBase extends PopupPanel {
 	// TODO remove for mobile devices
 	private FlowPanel contentLetters = new FlowPanel();
 	// private MathKeyboardListener textField;
-	TextFieldProcessingBase processing = new TextFieldProcessingBase();
+	private TextFieldProcessing processing;
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 	private KeyPanelBase letters;
 	private KeyBoardButtonBase switchABCGreek;
@@ -813,12 +813,7 @@ public class OnScreenKeyBoardBase extends PopupPanel {
 				processShift();
 			}
 
-			if (processing.getTextField() != null) {
-				// textField could be null after onEnter()
-
-				// TODO set to false for mobile devices
-				processing.setFocus(true);
-			}
+			processing.setFocus(true);
 		}
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -960,7 +955,7 @@ public class OnScreenKeyBoardBase extends PopupPanel {
 	 *            the text field connected to the keyboard
 	 */
 	public void setTextField(MathKeyboardListener textField) {
-		this.processing.setField(textField);
+		// TODO remove
 	}
 
 	private void setListener(UpdateKeyBoardListener listener) {

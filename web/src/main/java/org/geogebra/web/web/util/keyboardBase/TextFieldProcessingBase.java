@@ -19,22 +19,7 @@ import com.google.gwt.user.client.Event;
  * manages the processing of the different types of widgets that
  * {@link OnScreenKeyBoardBase} can work with
  */
-public class TextFieldProcessingBase {
-
-	/**
-	 * arrow keys of the keyboard
-	 */
-	public enum ArrowType {
-		/**
-		 * arrow left key
-		 */
-		left,
-
-		/**
-		 * arrow right key
-		 */
-		right
-	}
+public class TextFieldProcessingBase implements TextFieldProcessing {
 
 	private enum State {
 		empty, gTextBox, equationEditorListener, newRadioButtonTreeItem, other;
@@ -121,10 +106,6 @@ public class TextFieldProcessingBase {
 			break;
 		}
 	}
-
-
-
-	
 
 	/**
 	 * simulates an enter key event
