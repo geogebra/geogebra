@@ -59,7 +59,8 @@ public class MySpecialDouble extends MyDouble {
 		char firstChar = strToString.charAt(0);
 		isLetterConstant = StringUtil.isLetter(firstChar)
 				|| firstChar == Unicode.DEGREE_CHAR
-				|| strToString.equals(Unicode.EULER_GAMMA_STRING);
+				|| strToString.equals(Unicode.EULER_GAMMA_STRING)
+				|| strToString.equals("euler_gamma");
 		scientificNotation = strToString.indexOf("E") > 0;
 		keepOriginalString = !isLetterConstant
 				&& (scientificNotation || Double.isInfinite(val));
