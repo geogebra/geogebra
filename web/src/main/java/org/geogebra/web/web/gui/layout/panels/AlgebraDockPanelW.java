@@ -80,11 +80,6 @@ public class AlgebraDockPanelW extends DockPanelW {
     }
 
 	@Override
-    public void showView(boolean b) {
-		// TODO Auto-generated method stub
-    }
-
-	@Override
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_algebra();
 	}

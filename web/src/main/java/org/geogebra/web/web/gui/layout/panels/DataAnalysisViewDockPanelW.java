@@ -50,10 +50,6 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	public void showView(boolean b) {
-	}
-
-	@Override
 	protected Widget loadStyleBar() {
 		DataAnalysisViewW da = ((DataAnalysisViewW)((GuiManagerW)app.getGuiManager()).getDataAnalysisView());
 		this.toggleStyleBarButton.addStyleName("dataAnalysisToggleButton");

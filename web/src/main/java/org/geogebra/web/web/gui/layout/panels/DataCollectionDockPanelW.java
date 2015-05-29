@@ -26,12 +26,6 @@ public class DataCollectionDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	public void showView(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	protected void focusGained() {
 		((GuiManagerW) app.getGuiManager()).updateDataCollectionView();
 	}

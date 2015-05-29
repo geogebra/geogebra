@@ -1221,7 +1221,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		setVisible(visible);
 	}
 
-	public abstract void showView(boolean b);
 
 	public void enableDragging(boolean drag) {
 		if (dragPanel == null) {

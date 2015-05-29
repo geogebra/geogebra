@@ -47,11 +47,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	}
 
 	@Override
-	public void showView(boolean b) {
-
-	}
-
-	@Override
 	protected Widget loadStyleBar() {
 		return (Widget) getEuclidianView().getStyleBar();
 	}

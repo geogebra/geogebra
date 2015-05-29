@@ -140,11 +140,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		}
 	}
 
-	@Override
-	public void showView(boolean b) {
-		// TODO Auto-generated method stub
-	}
-
 	public void updateNavigationBar() {
 		// TODO Auto-generated method stub
 	}

@@ -51,11 +51,6 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	public void showView(boolean b) {
-		
-	}
-	
-	@Override
 	public void setAlone(boolean isAlone) {
 		setCloseButtonVisible(!isAlone);
 		super.setAlone(isAlone);

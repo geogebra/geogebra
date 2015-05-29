@@ -45,10 +45,6 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 		return ((DialogManagerW) app.getDialogManager()).getFunctionInspector().getWrappedPanel();
 	}
 
-	@Override
-	public void showView(boolean b) {
-	}
-//	
 //	@Override
 //	public void closePanel() {
 //		App.debug("AAAAAAAAAAAAAAAAA FunctionInspector closePanel");

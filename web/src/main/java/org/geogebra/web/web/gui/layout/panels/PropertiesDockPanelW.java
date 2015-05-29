@@ -54,11 +54,6 @@ public class PropertiesDockPanelW extends DockPanelW {
 //		return ((PropertiesStyleBarW) view.getStyleBar()).getWrappedPanel();
 //	}
 //	
-	@Override
-    public void showView(boolean b) {
-		// TODO Auto-generated method stub
-	    
-    }
 
 	@Override
 	public void onResize() {

@@ -158,10 +158,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 		return null;
 	}
 
-	@Override
-    public void showView(boolean b) {
-	    // TODO Auto-generated method stub	    
-    }
 
 	public void updateNavigationBar() {}
 	

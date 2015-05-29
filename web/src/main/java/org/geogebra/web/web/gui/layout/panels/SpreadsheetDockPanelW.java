@@ -90,11 +90,6 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		return sview;
 	}
 
-	@Override
-	public void showView(boolean show) {
-		App.debug("unimplemented method");
-	}
-
 	public App getApp() {
 		return app;
 	}

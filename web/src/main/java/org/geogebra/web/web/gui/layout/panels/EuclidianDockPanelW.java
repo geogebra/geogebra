@@ -232,11 +232,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	}
 
 	@Override
-    public void showView(boolean b) {
-	    // TODO Auto-generated method stub	    
-    }
-	
-	@Override
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_graphics();
 	}
