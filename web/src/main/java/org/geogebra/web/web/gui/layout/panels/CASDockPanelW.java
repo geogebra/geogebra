@@ -83,25 +83,6 @@ public class CASDockPanelW extends DockPanelW {
 		return sview;
 	}
 
-	public void showView(boolean show) {
-
-		if (app == null) return;
-
-		// imperfect yet
-		if (show && sview == null) {
-			sview = (CASViewW) app.getGuiManager().getCasView();			
-			//((MyTableW)sview.getConsoleTable()).setRepaintAll();
-			ancestor.add(sview.getComponent());
-			app.getGuiManager().attachCasView();
-			//((MyTableW)sview.getConsoleTable()).repaint();
-			onResize();
-		} else if (!show && sview != null) {
-			ancestor.remove(sview.getComponent());
-			sview = null;
-			onResize();
-		}
-	}
-	
 	public App getApp() {
 	    return app;
     }
