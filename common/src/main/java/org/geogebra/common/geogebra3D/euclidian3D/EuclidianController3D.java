@@ -1763,12 +1763,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected boolean processRotate3DView() {
 
-		long time = System.currentTimeMillis();
+		double time = app.getMillisecondTime();
 		int x = mouseLoc.x;
-		animatedRotSpeed = (double) (x - xOld) / (time - timeOld);
+		animatedRotSpeed = (x - xOld) / (time - timeOld);
 		timeOld = time;
+		// App.debug("animatedRotSpeed=" + animatedRotSpeed + "\nxOld = " + xOld
+		// + "\nx=" + x);
 		xOld = x;
-		// Application.debug("vRot="+vRot);
 		view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x, mouseLoc.y
 				- startLoc.y, MOVE_ROTATE_VIEW);
 		viewRotationOccured = true;
