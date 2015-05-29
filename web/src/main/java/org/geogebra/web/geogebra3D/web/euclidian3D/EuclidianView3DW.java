@@ -31,6 +31,7 @@ import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.TimerSystemW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -69,7 +70,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	protected EuclidianPanelWAbstract EVPanel;
 
-	private AppW app = (AppW) super.app;
 	public boolean isInFocus = false;
 
 	/**
@@ -203,10 +203,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	private void registerKeyHandlers(Canvas canvas) {
-
-		canvas.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
-		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
-		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
+		GlobalKeyDispatcherW gkd = ((AppW) this.app).getGlobalKeyDispatcher();
+		canvas.addKeyDownHandler(gkd);
+		canvas.addKeyUpHandler(gkd);
+		canvas.addKeyPressHandler(gkd);
 
 	}
 
@@ -241,14 +241,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	public void focusLost() {
 		if (isInFocus) {
 			this.isInFocus = false;
-			this.app.focusLost(this);
+			((AppW) this.app).focusLost(this);
 		}
 	}
 
 	public void focusGained() {
 		if (!isInFocus && !App.isFullAppGui()) {
 			this.isInFocus = true;
-			this.app.focusGained(this);
+			((AppW) this.app).focusGained(this);
 		}
 	}
 
