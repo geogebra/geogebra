@@ -702,14 +702,14 @@ public abstract class AppW extends App implements SetLabels {
 			setShowConstructionProtocolNavigation(false);
 
 			if (macros != null) {
-				App.debug("start processing macros: "+System.currentTimeMillis());
+				// App.debug("start processing macros: "+System.currentTimeMillis());
 				getXMLio().processXMLString(macros, true, true);
-				App.debug("end processing macros: "+System.currentTimeMillis());
+				// App.debug("end processing macros: "+System.currentTimeMillis());
 			}
 
-			App.debug("start processing" + System.currentTimeMillis());
+			// App.debug("start processing" + System.currentTimeMillis());
 			getXMLio().processXMLString(construction, true, false);
-			App.debug("end processing" + System.currentTimeMillis());
+			// App.debug("end processing" + System.currentTimeMillis());
 			// defaults (optional)
 			if (defaults2d != null) {
 				getXMLio().processXMLString(defaults2d, false, true);
@@ -827,8 +827,8 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
-		App.debug("filename2 = " + filename);
-		App.debug("ext2 = " + ext);
+		// App.debug("filename2 = " + filename);
+		// App.debug("ext2 = " + ext);
 
 		if ("svg".equals(ext)) {
 			// IE11/12 seems to require SVG to be base64 encoded
@@ -1059,7 +1059,7 @@ public abstract class AppW extends App implements SetLabels {
 			if (map.containsKey(STORAGE_MACRO_KEY)) {
 				String macroName = storage.getItem(STORAGE_MACRO_KEY);
 				try {
-					App.debug("[STORAGE] restoring macro " + macroName);
+					// App.debug("[STORAGE] restoring macro " + macroName);
 					openMacro(macroName);
 					Window.setTitle(macroName);
 					setToolLoadedFromStorage(true);
@@ -3081,7 +3081,7 @@ public abstract class AppW extends App implements SetLabels {
 	 *            wrapper (splitlayoutpanel center)
 	 */
 	public void ggwGraphicsViewDimChanged(int width, int height) {
-		App.debug("dim changed" + getSettings().getEuclidian(1));
+		// App.debug("dim changed" + getSettings().getEuclidian(1));
 		getSettings().getEuclidian(1).setPreferredSize(
 		        org.geogebra.common.factories.AwtFactory.prototype.newDimension(
 		                width, height));

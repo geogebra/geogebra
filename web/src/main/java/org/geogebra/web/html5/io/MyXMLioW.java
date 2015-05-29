@@ -3,7 +3,6 @@ package org.geogebra.web.html5.io;
 import org.geogebra.common.io.DocHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 
 public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 
@@ -51,9 +50,9 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 			kernel.setLoadingMode(true);
 			if (settingsBatch && !isGGTorDefaults) {
 				app.getSettings().beginBatch();
-				App.debug("parsing start" + System.currentTimeMillis());
+				// App.debug("parsing start" + System.currentTimeMillis());
 				xmlParser.parse(handler, xml);
-				App.debug("parsing end" + System.currentTimeMillis());
+				// App.debug("parsing end" + System.currentTimeMillis());
 				app.getSettings().endBatch();
 			} else
 				xmlParser.parse(handler, xml);
@@ -67,9 +66,9 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTorDefaults && mayZoom) {
-				App.debug("cons up" + System.currentTimeMillis());
+				// App.debug("cons up" + System.currentTimeMillis());
 				kernel.updateConstruction();
-				App.debug("cons upped" + System.currentTimeMillis());
+				// App.debug("cons upped" + System.currentTimeMillis());
 				kernel.setNotifyViewsActive(oldVal);
 			}
 			if (cons.hasSpreadsheetTracingGeos() && !isGGTorDefaults) {
@@ -77,7 +76,7 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 				// spurious traces
 				app.getTraceManager().loadTraceGeoCollection();
 			}
-			App.debug("traces" + System.currentTimeMillis());
+			// App.debug("traces" + System.currentTimeMillis());
 
 		}
 
@@ -85,7 +84,7 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 		// do this only if the construction protocol navigation is showing
 
 		if (!isGGTorDefaults && oldVal && app.showConsProtNavigation()) {
-			App.debug("navigation" + System.currentTimeMillis());
+			// App.debug("navigation" + System.currentTimeMillis());
 			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
 
 			if (app.getGuiManager() != null) {
@@ -100,7 +99,7 @@ public class MyXMLioW extends org.geogebra.common.io.MyXMLio {
 			}
 
 		}
-		App.debug("navigation done" + System.currentTimeMillis());
+		// App.debug("navigation done" + System.currentTimeMillis());
 	}
 
 }

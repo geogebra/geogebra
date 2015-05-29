@@ -721,7 +721,7 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_MACRO;
 			initMacro(attrs);
 		} else if ("construction".equals(eName)) {
-			App.debug("parsing start" + System.currentTimeMillis());
+			// App.debug("parsing start" + System.currentTimeMillis());
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
 		} else if ("casSession".equals(eName)) {

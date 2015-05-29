@@ -47,7 +47,7 @@ public class ScriptManagerW extends ScriptManager {
 	@Override
 	public void ggbOnInit() {
 		try {
-			App.debug("almost there" + app.useBrowserForJavaScript());
+			// App.debug("almost there" + app.useBrowserForJavaScript());
 			// assignGgbApplet();
 			boolean standardJS = app.getKernel().getLibraryJavaScript()
 			        .equals(Kernel.defaultLibraryJavaScript);
