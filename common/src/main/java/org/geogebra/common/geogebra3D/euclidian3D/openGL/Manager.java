@@ -66,7 +66,7 @@ abstract public class Manager {
 		// creating geometries
 
 		brush = newPlotterBrush();
-		surface = new PlotterSurface(this);
+		surface = newPlotterSurface();
 
 		text = new PlotterText(this);
 
@@ -88,6 +88,14 @@ abstract public class Manager {
 	 */
 	protected PlotterBrush newPlotterBrush() {
 		return new PlotterBrush(this);
+	}
+
+	/**
+	 * 
+	 * @return new plotter surface
+	 */
+	protected PlotterSurface newPlotterSurface() {
+		return new PlotterSurface(this);
 	}
 
 	/**

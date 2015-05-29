@@ -1,7 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.App;
 
 /**
  * Plotter brush with shaders drawElements()
@@ -29,10 +29,36 @@ public class PlotterBrushElements extends PlotterBrush {
 
 		super.arc(center, v1, v2, radius, start, extent, longitude);
 
-		endCurve(longitude);
+		endCurve();
 	}
 
-	private boolean useStartCurve = false;
+	@Override
+	public void arcEllipse(Coords center, Coords v1, Coords v2, double a,
+			double b, double start, double extent) {
+
+		startCurve();
+		super.arcEllipse(center, v1, v2, a, b, start, extent);
+		endCurve();
+	}
+
+	@Override
+	public void hyperbolaBranch(Coords center, Coords v1, Coords v2, double a,
+			double b, double tMin, double tMax) {
+
+		startCurve();
+		super.hyperbolaBranch(center, v1, v2, a, b, tMin, tMax);
+		endCurve();
+	}
+
+	@Override
+	public void parabola(Coords center, Coords v1, Coords v2, double p,
+			double tMin, double tMax, Coords p1, Coords p2) {
+
+		startCurve();
+		super.parabola(center, v1, v2, p, tMin, tMax, p1, p2);
+		endCurve();
+	}
+
 
 	/**
 	 * say we'll start a curve
@@ -41,22 +67,16 @@ public class PlotterBrushElements extends PlotterBrush {
 	 *            vertices size of the curves
 	 */
 	private void startCurve() {
-		useStartCurve = true;
 		manager.startGeometry(Manager.Type.TRIANGLES);
-
-		
+		sectionSize = 0;
 
 	}
 
 	/**
 	 * end the curve
 	 * 
-	 * @param size
-	 *            vertices size of the curves
 	 */
-	private void endCurve(int size) {
-
-		App.debug("endCurve");
+	private void endCurve() {
 
 		// last tube rule
 		for (int i = 0; i < LATITUDES; i++) {
@@ -64,8 +84,7 @@ public class PlotterBrushElements extends PlotterBrush {
 		}
 
 
-		((ManagerShaders) manager).endGeometry(size);
-		useStartCurve = false;
+		((ManagerShaders) manager).endGeometry(sectionSize);
 
 	}
 
@@ -75,49 +94,48 @@ public class PlotterBrushElements extends PlotterBrush {
 	@Override
 	public void join() {
 
-		if (useStartCurve) {
-			// draw curve part
-			for (int i = 0; i < LATITUDES; i++) {
-				draw(start, SINUS[i], COSINUS[i], 0); // bottom of the tube rule
-			}
-			sectionSize++;
-		} else {
-			super.join();
+		// draw curve part
+		for (int i = 0; i < LATITUDES; i++) {
+			draw(start, SINUS[i], COSINUS[i], 0); // bottom of the tube rule
 		}
-
+		sectionSize++;
 
 	}
 
 	@Override
 	public void segment(Coords p1, Coords p2) {
 		startCurve();
-		sectionSize = 0;
-
 		super.segment(p1, p2);
-
-		endCurve(sectionSize);
+		endCurve();
 	}
 
 
+	@Override
+	public void firstPoint(double[] pos, Gap moveToAllowed) {
+
+		// needs to specify sectionSize = 0 before moveTo() to avoid endCurve()
+		sectionSize = 0;
+		moveTo(pos);
+
+	}
 
 	@Override
 	public void moveTo(double[] pos) {
 
 		// close last part
-		if (useStartCurve) {
-			endCurve(sectionSize);
+		if (sectionSize > 0) {
+			endCurve();
 		}
 
 		// start new part
 		startCurve();
-		sectionSize = 0;
 
 		drawTo(pos, false);
 	}
 
 	@Override
 	public void endPlot() {
-		endCurve(sectionSize);
+		endCurve();
 	}
 
 }

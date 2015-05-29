@@ -20,6 +20,8 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	private GPUBuffer curvesIndices;
 	private int curvesIndicesSize = -1;
 
+	final static boolean DEBUG = false;
+
 	/**
 	 * 
 	 * @param r
@@ -168,14 +170,18 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 						arrayI[i] = i;
 					}
 				} else {
-					App.debug("keep same index buffer");
+					if (DEBUG) {
+						App.debug("keep same index buffer");
+					}
 				}
 				indicesLength = arrayI.length;
 
 				r.storeElementBuffer(arrayI, indicesLength, bufferI);
 
 			} else {
-				App.debug("shared index buffer");
+				if (DEBUG) {
+					App.debug("shared index buffer");
+				}
 				bufferI = getBufferIndicesForCurve(r, size);
 				indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
 			}
@@ -197,6 +203,19 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 
 		private boolean indicesDone = false;
 
+		/**
+		 * 
+		 * @param size
+		 *            size
+		 * @return indices buffer with correct size
+		 */
+		public short[] getBufferI(int size) {
+			indicesDone = true;
+			if (arrayI == null || arrayI.length != size) {
+				arrayI = new short[size];
+			}
+			return arrayI;
+		}
 
 	}
 
@@ -224,6 +243,19 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		return new PlotterBrushElements(this);
 	}
 
+	// @Override
+	// protected PlotterSurface newPlotterSurface() {
+	// return new PlotterSurfaceElements(this);
+	// }
 
+	/**
+	 * @param size
+	 *            size
+	 * @return current geometry indices buffer with correct size
+	 */
+	public short[] getCurrentGeometryIndices(int size) {
+		return ((GeometryBindBuffers) currentGeometriesSet.currentGeometry)
+				.getBufferI(size);
+	}
 
 }

@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.plots.java.nio.FloatBuffer;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
-import org.geogebra.common.kernel.Matrix.CoordsFloat3;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 
@@ -18,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 public class PlotterSurface {
 
 	/** manager */
-	private Manager manager;
+	protected Manager manager;
 
 	/** index */
 	private int index;
@@ -690,13 +689,13 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 
-	private static void cosSin(int vi, int latitude, double[] ret) {
+	protected static void cosSin(int vi, int latitude, double[] ret) {
 		double v = ((double) vi / latitude) * Math.PI / 2;
 		ret[0] = Math.cos(v);
 		ret[1] = Math.sin(v);
 	}
 
-	private static final void sphericalCoords(int ui, int longitude,
+	protected static final void sphericalCoords(int ui, int longitude,
 			double longitudeStart, double[] cosSinV, Coords n) {
 
 		double u = ((double) ui / longitude) * 2 * Math.PI + longitudeStart;
@@ -1291,7 +1290,7 @@ public class PlotterSurface {
 	 * @param center
 	 * @param radius
 	 */
-	private void drawNCr(Coords normal, Coords center, double radius) {
+	protected void drawNCr(Coords normal, Coords center, double radius) {
 		normal.mul(radius, coords1);
 		center.add(coords1, coords1);
 		// drawNV(normal, center.add(normal.mul(radius)));
@@ -1307,7 +1306,7 @@ public class PlotterSurface {
 	 * @param center
 	 * @param radius
 	 */
-	private void drawNCrm(Coords normal, Coords center, double radius) {
+	protected void drawNCrm(Coords normal, Coords center, double radius) {
 		normal2.setX(normal.getX());
 		normal2.setY(normal.getY());
 		normal2.setZ(-normal.getZ());
