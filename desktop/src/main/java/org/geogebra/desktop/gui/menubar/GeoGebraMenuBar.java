@@ -141,13 +141,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		if (!app.isApplet()) // just add the menu if this is not an applet we're
 		{
 			add(windowMenu);
-
-			if (app.getPluginManager() != null) {
-				javax.swing.JMenu pim = app.getPluginManager().getPluginMenu();
-				if (pim != null) {
-					add(pim);
-				} // H-P Ulven 2008-04-17
-			}
 		}
 
 		// "Help"

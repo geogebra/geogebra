@@ -181,7 +181,6 @@ import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
-import org.geogebra.desktop.plugin.PluginManager;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
@@ -351,8 +350,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	protected ImageManagerD imageManager;
 
 	private GgbAPID ggbapi = null;
-	private PluginManager pluginmanager = null;
-
 	private SpreadsheetTableModelD tableModel;
 
 	private AuthenticationModelD authenticationModel;
@@ -597,11 +594,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		// for key listening
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventDispatcher(this);
-
-		// init plugin manager for applications
-		if (!isApplet) {
-			pluginmanager = getPluginManager();
-		}
 
 		if (!isApplet()) {
 			getScriptManager().ggbOnInit();
@@ -4291,16 +4283,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		return (ScriptManagerD) scriptManager;
 	}
-
-	/*
-	 * GgbAPI needs this H-P Ulven 2008-05-25
-	 */
-	public PluginManager getPluginManager() {
-		if (pluginmanager == null) {
-			pluginmanager = new PluginManager(this);
-		}
-		return pluginmanager;
-	}// getPluginManager()
 
 	/*
 	 * current possible values http://mindprod.com/jgloss/properties.html AIX
