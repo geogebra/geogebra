@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class SensorLogger {
@@ -313,17 +312,21 @@ public abstract class SensorLogger {
 				if (ev instanceof MyNumberPair
 						&& ((MyNumberPair) ev).getX() instanceof MyList
 						&& ((MyNumberPair) ev).getY() instanceof MyList) {
-					App.debug("add");
+					MyList mx = (MyList) ((MyNumberPair) ev).getX();
+					MyList my = (MyList) ((MyNumberPair) ev).getY();
 					Integer ll = listLimits.get(type);
-					if (ll == null || ll == 0 || ll + 2 > ((MyList) ((MyNumberPair) ev).getX()).size()) {
-					((MyList) ((MyNumberPair) ev).getX())
-							.addListElement(new MyDouble(kernel, timestamp));
-					((MyList) ((MyNumberPair) ev).getY())
-							.addListElement(new MyDouble(kernel, val));
+					if (mx.size() > 0
+							&& timestamp < mx.getListElement(mx.size() - 1)
+							.evaluateDouble()) {
+						mx.clear();
+						my.clear();
+					}
+					if (ll == null || ll == 0 || ll + 2 > mx.size()) {
+						mx.addListElement(new MyDouble(kernel, timestamp));
+						my.addListElement(new MyDouble(kernel, val));
 					}else{
-						((MyList) ((MyNumberPair) ev).getX())
-						.addQue(timestamp,0);
-						((MyList) ((MyNumberPair) ev).getY()).addQue(val, 0);
+						mx.addQue(timestamp, 0);
+						my.addQue(val, 0);
 					}
 					
 				}
