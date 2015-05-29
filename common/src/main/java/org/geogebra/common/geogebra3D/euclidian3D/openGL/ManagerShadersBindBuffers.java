@@ -16,6 +16,81 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	final static public int GLSL_ATTRIB_NORMAL = 2;
 	final static public int GLSL_ATTRIB_TEXTURE = 3;
 	final static public int GLSL_ATTRIB_INDEX = 4;
+	
+	private GPUBuffer curvesIndices;
+	private int curvesIndicesSize = -1;
+
+	/**
+	 * 
+	 * @param r
+	 *            renderer
+	 * @param buffer
+	 *            GPU buffer may be null
+	 * @return new GPU buffer if curret is null
+	 */
+	public final static GPUBuffer createBufferIfNeeded(
+			RendererShadersInterface r,
+			GPUBuffer buffer) {
+		if (buffer == null){
+			GPUBuffer ret = GLFactory.prototype.newGPUBuffer();
+			r.createBuffer(ret);
+			return ret;
+		}
+
+		return buffer;
+	}
+
+	/**
+	 * 
+	 * @param r
+	 *            renderer
+	 * @param size
+	 *            sections size
+	 * @return GPU buffer for curve indices, update it if current is not big
+	 *         enough
+	 */
+	public final GPUBuffer getBufferIndicesForCurve(RendererShadersInterface r,
+			int size) {
+
+		curvesIndices = createBufferIfNeeded(r, curvesIndices);
+
+		if (size > curvesIndicesSize) {
+
+			App.debug("SIZE : " + size);
+
+			// creates indices buffer
+			short[] arrayI = new short[3 * 2 * size * PlotterBrush.LATITUDES];
+
+			int index = 0;
+			for (int k = 0; k < size; k++) {
+				for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
+					int iNext = (i + 1) % PlotterBrush.LATITUDES;
+					// first triangle
+					arrayI[index] = (short) (i + k * PlotterBrush.LATITUDES);
+					index++;
+					arrayI[index] = (short) (i + (k + 1)
+							* PlotterBrush.LATITUDES);
+					index++;
+					arrayI[index] = (short) (iNext + (k + 1)
+							* PlotterBrush.LATITUDES);
+					index++;
+					// second triangle
+					arrayI[index] = (short) (i + k * PlotterBrush.LATITUDES);
+					index++;
+					arrayI[index] = (short) (iNext + (k + 1)
+							* PlotterBrush.LATITUDES);
+					index++;
+					arrayI[index] = (short) (iNext + k * PlotterBrush.LATITUDES);
+					index++;
+				}
+			}
+
+			curvesIndicesSize = size;
+			r.storeElementBuffer(arrayI, arrayI.length, curvesIndices);
+		}
+
+		return curvesIndices;
+	}
 
 	protected class GeometriesSetBindBuffers extends GeometriesSet {
 		@Override
@@ -24,64 +99,86 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		}
 
 		@Override
-		public void bindGeometry() {
-			((GeometryBindBuffers) currentGeometry).bind();
+		public void bindGeometry(int size) {
+			((GeometryBindBuffers) currentGeometry).bind(
+					(RendererShadersInterface) renderer, size);
 		}
 	}
 
 	protected class GeometryBindBuffers extends Geometry {
 
-		private GPUBuffers buffers = null;
+		private GPUBuffer bufferV = null, bufferN = null, bufferC = null,
+				bufferT = null, bufferI = null;
 
-		private short[] bufferI = null;
+		private short[] arrayI = null;
+
+		private int indicesLength;
 
 		public GeometryBindBuffers(Type type) {
 			super(type);
 		}
+		
+
 
 		/**
 		 * bind the geometry to its GL buffer
+		 * 
+		 * @param r
+		 *            renderer
+		 * @param size
+		 *            indices size
 		 */
-		public void bind() {
+		public void bind(RendererShadersInterface r, int size) {
 
-			if (buffers == null) {
-				buffers = GLFactory.prototype.newGPUBuffers();
-				((RendererShadersInterface) renderer).createBuffers(buffers);
-			}
-
-			((RendererShadersInterface) renderer).storeBuffer(getVertices(),
-					getLength(), 3, buffers, GLSL_ATTRIB_POSITION);
+			bufferV = ManagerShadersBindBuffers
+					.createBufferIfNeeded(r, bufferV);
+			r.storeBuffer(getVertices(),
+					getLength(), 3, bufferV, GLSL_ATTRIB_POSITION);
 
 			if (getNormals() != null && !getNormals().isEmpty()
 					&& getNormals().capacity() != 3) {
-				((RendererShadersInterface) renderer).storeBuffer(getNormals(),
-						getLength(), 3, buffers, GLSL_ATTRIB_NORMAL);
+				bufferN = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+						bufferN);
+				r.storeBuffer(getNormals(), getLength(), 3, bufferN,
+						GLSL_ATTRIB_NORMAL);
 			}
 
 			if (getColors() != null && !getColors().isEmpty()) {
-				((RendererShadersInterface) renderer).storeBuffer(getColors(),
-						getLength(), 4, buffers, GLSL_ATTRIB_COLOR);
+				bufferC = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+						bufferC);
+				r.storeBuffer(getColors(), getLength(), 4, bufferC,
+						GLSL_ATTRIB_COLOR);
 			}
 
 			if (getTextures() != null && !getTextures().isEmpty()) {
-				((RendererShadersInterface) renderer).storeBuffer(
-						getTextures(), getLength(), 2, buffers,
+				bufferT = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+						bufferT);
+				r.storeBuffer(getTextures(), getLength(), 2, bufferT,
 						GLSL_ATTRIB_TEXTURE);
 			}
 
-			if (bufferI == null
-					|| (!indicesDone && bufferI.length != getLength())) {
-				App.debug("NEW index buffer");
-				bufferI = new short[getLength()];
-				for (short i = 0; i < getLength(); i++) {
-					bufferI[i] = i;
+			if (size == -1) {
+				bufferI = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+						bufferI);
+				if (arrayI == null
+						|| (!indicesDone && arrayI.length != getLength())) {
+					App.debug("NEW index buffer");
+					arrayI = new short[getLength()];
+					for (short i = 0; i < getLength(); i++) {
+						arrayI[i] = i;
+					}
+				} else {
+					App.debug("keep same index buffer");
 				}
-			} else {
-				App.debug("keep same index buffer");
-			}
+				indicesLength = arrayI.length;
 
-			((RendererShadersInterface) renderer).storeElementBuffer(bufferI,
-					bufferI.length, buffers);
+				r.storeElementBuffer(arrayI, indicesLength, bufferI);
+
+			} else {
+				App.debug("shared index buffer");
+				bufferI = getBufferIndicesForCurve(r, size);
+				indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
+			}
 
 
 		}
@@ -89,30 +186,17 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		@Override
 		public void draw(RendererShadersInterface r) {
 
-			r.bindBufferForVertices(buffers, GLSL_ATTRIB_POSITION, 3);
-			r.bindBufferForNormals(buffers, GLSL_ATTRIB_NORMAL, 3, getNormals());
-			r.bindBufferForColors(buffers, GLSL_ATTRIB_COLOR, 4, getColors());
-			r.bindBufferForTextures(buffers, GLSL_ATTRIB_TEXTURE, 2,
+			r.bindBufferForVertices(bufferV, 3);
+			r.bindBufferForNormals(bufferN, 3, getNormals());
+			r.bindBufferForColors(bufferC, 4, getColors());
+			r.bindBufferForTextures(bufferT, 2,
 					getTextures());
-			r.bindBufferForIndices(buffers);
-			r.draw(getType(), bufferI.length);
+			r.bindBufferForIndices(bufferI);
+			r.draw(getType(), indicesLength);
 		}
 
 		private boolean indicesDone = false;
 
-		/**
-		 * 
-		 * @param size
-		 *            size
-		 * @return indices buffer with correct size
-		 */
-		public short[] getBufferI(int size) {
-			indicesDone = true;
-			if (bufferI == null || bufferI.length != size) {
-				bufferI = new short[size];
-			}
-			return bufferI;
-		}
 
 	}
 
@@ -140,14 +224,6 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		return new PlotterBrushElements(this);
 	}
 
-	/**
-	 * @param size
-	 *            size
-	 * @return current geometry indices buffer with correct size
-	 */
-	public short[] getCurrentGeometryIndices(int size) {
-		return ((GeometryBindBuffers) currentGeometriesSet.currentGeometry).getBufferI(size);
-	}
 
 
 }

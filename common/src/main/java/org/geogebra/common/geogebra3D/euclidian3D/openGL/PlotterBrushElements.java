@@ -25,7 +25,7 @@ public class PlotterBrushElements extends PlotterBrush {
 	public void arc(Coords center, Coords v1, Coords v2, double radius,
 			double start, double extent, int longitude) {
 
-		startCurve(longitude);
+		startCurve();
 
 		super.arc(center, v1, v2, radius, start, extent, longitude);
 
@@ -40,7 +40,7 @@ public class PlotterBrushElements extends PlotterBrush {
 	 * @param size
 	 *            vertices size of the curves
 	 */
-	private void startCurve(int size) {
+	private void startCurve() {
 		useStartCurve = true;
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
@@ -56,48 +56,21 @@ public class PlotterBrushElements extends PlotterBrush {
 	 */
 	private void endCurve(int size) {
 
+		App.debug("endCurve");
+
 		// last tube rule
 		for (int i = 0; i < LATITUDES; i++) {
 			draw(end, SINUS[i], COSINUS[i], 1);
 		}
 
-		// creates indices buffer
-		short[] bufferI = ((ManagerShadersBindBuffers) manager)
-				.getCurrentGeometryIndices(3 * 2 * size * LATITUDES);
 
-		int index = 0;
-		for (int k = 0; k < size; k++) {
-			for (int i = 0; i < LATITUDES; i++) {
-				int iNext = (i + 1) % LATITUDES;
-				// first triangle
-				bufferI[index] = (short) (i + k * LATITUDES);
-				index++;
-				bufferI[index] = (short) (i + (k + 1) * LATITUDES);
-				index++;
-				bufferI[index] = (short) (iNext + (k + 1) * LATITUDES);
-				index++;
-				// second triangle
-				bufferI[index] = (short) (i + k * LATITUDES);
-				index++;
-				bufferI[index] = (short) (iNext + (k + 1) * LATITUDES);
-				index++;
-				bufferI[index] = (short) (iNext + k * LATITUDES);
-				index++;
-
-				// App.debug((iNext + (k + 1) * LATITUDES) + " / "
-				// + ((short) (iNext + (k + 1) * LATITUDES)));
-			}
-		}
-
-		// for (int i = 0; i < bufferI.length; i++) {
-		// bufferI[i] = 0;
-		// }
-
-		manager.endGeometry();
+		((ManagerShaders) manager).endGeometry(size);
 		useStartCurve = false;
 
-		App.debug("" + size);
 	}
+
+
+	private int sectionSize;
 
 	@Override
 	public void join() {
@@ -107,12 +80,44 @@ public class PlotterBrushElements extends PlotterBrush {
 			for (int i = 0; i < LATITUDES; i++) {
 				draw(start, SINUS[i], COSINUS[i], 0); // bottom of the tube rule
 			}
-
+			sectionSize++;
 		} else {
 			super.join();
 		}
 
 
+	}
+
+	@Override
+	public void segment(Coords p1, Coords p2) {
+		startCurve();
+		sectionSize = 0;
+
+		super.segment(p1, p2);
+
+		endCurve(sectionSize);
+	}
+
+
+
+	@Override
+	public void moveTo(double[] pos) {
+
+		// close last part
+		if (useStartCurve) {
+			endCurve(sectionSize);
+		}
+
+		// start new part
+		startCurve();
+		sectionSize = 0;
+
+		drawTo(pos, false);
+	}
+
+	@Override
+	public void endPlot() {
+		endCurve(sectionSize);
 	}
 
 }

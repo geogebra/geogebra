@@ -23,5 +23,5 @@ public abstract class GLFactory {
 	 * 
 	 * @return new buffers stored in GPU
 	 */
-	abstract public GPUBuffers newGPUBuffers();
+	abstract public GPUBuffer newGPUBuffer();
 }

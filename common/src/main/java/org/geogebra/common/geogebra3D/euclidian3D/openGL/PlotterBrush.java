@@ -1004,4 +1004,8 @@ public class PlotterBrush implements PathPlotter {
 		this.length = length;
 	}
 
+	public void endPlot() {
+		// TODO Auto-generated method stub
+	}
+
 }

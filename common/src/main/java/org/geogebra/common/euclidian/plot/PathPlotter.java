@@ -71,4 +71,9 @@ public interface PathPlotter {
 	 */
 	public boolean copyCoords(MyPoint point, double[] ret);
 
+	/**
+	 * end the plotting
+	 */
+	public void endPlot();
+
 }

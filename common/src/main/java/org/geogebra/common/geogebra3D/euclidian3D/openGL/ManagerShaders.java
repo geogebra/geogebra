@@ -390,8 +390,11 @@ public class ManagerShaders extends Manager {
 
 		/**
 		 * bind current geometry to its buffer
+		 * 
+		 * @param size
+		 *            indices size
 		 */
-		public void bindGeometry() {
+		public void bindGeometry(int size) {
 			// not used here
 		}
 
@@ -505,7 +508,15 @@ public class ManagerShaders extends Manager {
 		currentGeometriesSet.setNormals(normals, normalsLength);
 		currentGeometriesSet.setTextures(textures, texturesLength);
 		currentGeometriesSet.setColors(colors, colorsLength);
-		currentGeometriesSet.bindGeometry();
+		currentGeometriesSet.bindGeometry(-1); // TODO remove that
+	}
+
+	public void endGeometry(int size) {
+		currentGeometriesSet.setVertices(vertices, verticesLength);
+		currentGeometriesSet.setNormals(normals, normalsLength);
+		currentGeometriesSet.setTextures(textures, texturesLength);
+		currentGeometriesSet.setColors(colors, colorsLength);
+		currentGeometriesSet.bindGeometry(size);
 	}
 
 	// ///////////////////////////////////////////

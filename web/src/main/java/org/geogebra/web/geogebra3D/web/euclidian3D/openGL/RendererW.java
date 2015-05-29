@@ -13,10 +13,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffers;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersBindBuffers;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersNoTriangleFan;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
@@ -1122,19 +1121,15 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
-	public void createBuffers(GPUBuffers buffers) {
-		final int length = 5;
-		WebGLBuffer[] b = ((GPUBuffersW) buffers).get();
-		for (int i = 0 ; i < length ; i++){
-			b[i] = glContext.createBuffer();
-		}
+	public void createBuffer(GPUBuffer buffer) {
+		((GPUBufferW) buffer).set(glContext.createBuffer());
 	}
 
 	@Override
 	public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffers buffers, int attrib) {
+			GPUBuffer buffer, int attrib) {
 		// Select the VBO, GPU memory data
-		bindBuffer(buffers, attrib);
+		bindBuffer(buffer);
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
@@ -1143,7 +1138,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
-	public void storeElementBuffer(short[] fb, int length, GPUBuffers buffers) {
+	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers) {
 		// Select the VBO, GPU memory data
 		bindBufferForIndices(buffers);
 
@@ -1155,22 +1150,21 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
-	public void bindBufferForIndices(GPUBuffers buffers) {
+	public void bindBufferForIndices(GPUBuffer buffer) {
 		// Select the VBO, GPU memory data
 		glContext.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
-				((GPUBuffersW) buffers)
-						.get(ManagerShadersBindBuffers.GLSL_ATTRIB_INDEX));
+				((GPUBufferW) buffer).get());
 	}
 
-	final private void bindBuffer(GPUBuffers buffers, int attrib) {
+	final private void bindBuffer(GPUBuffer buffer) {
 		glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER,
-				((GPUBuffersW) buffers).get(attrib));
+				((GPUBufferW) buffer).get());
 	}
 
 	@Override
-	public void bindBufferForVertices(GPUBuffers buffers, int attrib, int size) {
+	public void bindBufferForVertices(GPUBuffer buffer, int size) {
 		// Select the VBO, GPU memory data
-		bindBuffer(buffers, attrib);
+		bindBuffer(buffer);
 		// Associate Vertex attribute 0 with the last bound VBO
 		glContext.vertexAttribPointer(GLSL_ATTRIB_POSITION, size,
 				WebGLRenderingContext.FLOAT, false, 0, 0);
@@ -1180,7 +1174,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
-	public void bindBufferForColors(GPUBuffers buffers, int attrib, int size,
+	public void bindBufferForColors(GPUBuffer buffer, int size,
 			GLBuffer fbColors) {
 		if (fbColors == null || fbColors.isEmpty()) {
 			glContext.disableVertexAttribArray(GLSL_ATTRIB_COLOR);
@@ -1191,7 +1185,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		setColor(-1, -1, -1, -1);
 
 		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffers, attrib);
+		bindBuffer(buffer);
 
 		// Associate Vertex attribute 1 with the last bound VBO
 		glContext.vertexAttribPointer(
@@ -1209,7 +1203,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
-	public void bindBufferForNormals(GPUBuffers buffers, int attrib, int size,
+	public void bindBufferForNormals(GPUBuffer buffer, int size,
 			GLBuffer fbNormals) {
 		if (fbNormals == null || fbNormals.isEmpty()) { // no normals
 			glContext.disableVertexAttribArray(GLSL_ATTRIB_NORMAL);
@@ -1232,7 +1226,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		}
 
 		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffers, attrib);
+		bindBuffer(buffer);
 
 		// Associate Vertex attribute 1 with the last bound VBO
 		glContext.vertexAttribPointer(
@@ -1252,7 +1246,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
-	public void bindBufferForTextures(GPUBuffers buffers, int attrib, int size,
+	public void bindBufferForTextures(GPUBuffer buffer, int size,
 			GLBuffer fbTextures) {
 		if (fbTextures == null || fbTextures.isEmpty()) {
 			setCurrentGeometryHasNoTexture();
@@ -1263,7 +1257,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		setCurrentGeometryHasTexture();
 
 		// Select the VBO, GPU memory data, to use for normals
-		bindBuffer(buffers, attrib);
+		bindBuffer(buffer);
 
 		// Associate Vertex attribute 1 with the last bound VBO
 		glContext.vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2 /*

@@ -180,4 +180,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		return true;
 	}
 
+	public void endPlot() {
+		// TODO Auto-generated method stub
+	}
+
 }

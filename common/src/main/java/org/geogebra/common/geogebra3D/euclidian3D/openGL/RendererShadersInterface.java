@@ -44,7 +44,7 @@ public interface RendererShadersInterface {
 	 *            attrib in gpu buffers
 	 */
 	public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffers buffers, int attrib);
+			GPUBuffer buffers, int attrib);
 
 	/**
 	 * 
@@ -56,32 +56,32 @@ public interface RendererShadersInterface {
 	 *            gpu buffers
 	 */
 	public void storeElementBuffer(short fb[], int length,
-			GPUBuffers buffers);
+			GPUBuffer buffers);
 
 	/**
 	 * 
 	 * @param buffers
 	 *            gpu buffers
 	 */
-	public void bindBufferForIndices(GPUBuffers buffers);
+	public void bindBufferForIndices(GPUBuffer buffer);
 
 	/**
-	 * create gpu buffers and store ids
+	 * create gpu buffer and store id
 	 * 
-	 * @param buffers
-	 *            where to store ids
+	 * @param buffer
+	 *            where to store id
 	 */
-	public void createBuffers(GPUBuffers buffers);
+	public void createBuffer(GPUBuffer buffer);
 
-	public void bindBufferForVertices(GPUBuffers buffers, int attrib, int size);
+	public void bindBufferForVertices(GPUBuffer buffer, int size);
 
-	public void bindBufferForColors(GPUBuffers buffers, int attrib, int size,
+	public void bindBufferForColors(GPUBuffer buffer, int size,
 			GLBuffer fbColors);
 
-	public void bindBufferForNormals(GPUBuffers buffers, int attrib, int size,
+	public void bindBufferForNormals(GPUBuffer buffer, int size,
 			GLBuffer fbNormals);
 
-	public void bindBufferForTextures(GPUBuffers buffers, int attrib, int size,
+	public void bindBufferForTextures(GPUBuffer buffer, int size,
 			GLBuffer fbTextures);
 
 }

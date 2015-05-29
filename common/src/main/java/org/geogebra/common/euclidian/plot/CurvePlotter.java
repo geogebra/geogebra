@@ -357,6 +357,8 @@ public class CurvePlotter {
 			t = t1 + i * divisors[depth];
 		} while (top != 0); // end of do-while loop for bisection stack
 
+		gp.endPlot();
+
 		return labelPoint;
 	}
 

@@ -3631,6 +3631,7 @@ public abstract class App implements UpdateSelection {
 		switch (f) {
 		case SEQUENTIAL_COLORS:
 		case DATA_COLLECTION:
+		case GL_ELEMENTS:
 			return canary;
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
