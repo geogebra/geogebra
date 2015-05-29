@@ -159,7 +159,7 @@ namespace giac {
       return symbolic(at_Beta,args);
     vecteur v=*args._VECTptr;
     int s=v.size();
-    if (s>2 && (v[0].type==_DOUBLE_ || v[1].type==_DOUBLE_ || v[2].type==_DOUBLE_)){
+    if (s>2 && (v[0].type==_DOUBLE_ || v[1].type==_DOUBLE_ || v[2].type==_DOUBLE_ || v[0].type==_REAL || v[1].type==_REAL || v[2].type==_REAL)){
       gen tmp=evalf_double(v,1,contextptr);
       if (tmp.type==_VECT)
 	v=*tmp._VECTptr;
