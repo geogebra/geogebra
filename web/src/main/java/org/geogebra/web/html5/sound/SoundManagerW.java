@@ -58,14 +58,10 @@ public class SoundManagerW implements SoundManager {
 			}
 
 			// something like
-			// http://tube-beta.geogebra.org/material/download/format/file/id/1123077
+			// http://tube-beta.geogebra.org/files/material-1264825.mp3
 
-			// TODO: check format of URL is correct
-			url = url + "material/download/format/file/id/" + id;
+			url = url + "files/material-" + id + ".mp3";
 
-			// dummy file for testing
-			// TODO: remove
-			url = "http://tube-beta.geogebra.org/files/material-1125945.mp3";
 		}
 
 		// TODO check extension, play MIDI .mid files
