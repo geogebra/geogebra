@@ -70,7 +70,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			inst.createSplash(articleElement);
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
-
+		if (geoGebraMobileTags.isEmpty()) {
+			return;
+		}
 		// now we can create dummy elements before & after each applet
 		// with tabindex 10000, for ticket #5158
 		firstDummy = DOM.createSpan().cast();
