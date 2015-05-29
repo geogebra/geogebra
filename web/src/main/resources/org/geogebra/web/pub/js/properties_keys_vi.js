@@ -1437,7 +1437,7 @@ __GGB__keysVar.vi.menu = {
     "Files": "T\u1eadp h\u1ed3 s\u01a1",
     "FillType": "Ki\u1ec3u l\u1ea5p \u0111\u1ea7y",
     "Filling": "S\u1ef1 l\u1ea5p \u0111\u1ea7y",
-    "Filling.Brick": "Brick",
+    "Filling.Brick": "Bricks",
     "Filling.Chessboard": "H\xecnh b\xe0n c\u1edd",
     "Filling.Crosshatch": "H\xecnh ca-r\xf4",
     "Filling.CurrentSymbol": "Bi\u1ec3u t\u01b0\u1ee3ng hi\u1ec7n t\u1ea1i",
