@@ -104,6 +104,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return this.algebraprocessor;
 	}
 
+	public void reset() {
+		app.reset();
+	}
+
 	/**
 	 * Evaluates the given XML string and changes the current construction.
 	 * Note: the construction is NOT cleared before evaluating the XML string.

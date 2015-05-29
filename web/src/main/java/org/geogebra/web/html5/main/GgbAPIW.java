@@ -80,10 +80,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		app.setErrorDialogsActive(flag);
 	}
 
-	public void reset() {
-		app.reset();
-	}
-
 	public void refreshViews() {
 		app.refreshViews();
 	}

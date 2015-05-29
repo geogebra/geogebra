@@ -261,15 +261,6 @@ public class GgbAPID extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	/**
-	 * Resets the initial construction (given in filename parameter) of this
-	 * applet. ...but the actual code is in a thread to avoid JavaScript
-	 * security issues
-	 */
-	public synchronized void reset() {
-		app.reset();
-	}
-
-	/**
 	 * Clears the construction and resets all views.
 	 */
 	public synchronized void fileNew() {
