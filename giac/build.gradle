@@ -7,6 +7,12 @@ project.setDescription('Giac CAS for GeoGebra')
 
 apply plugin: 'cpp'
 
+def externalSourceDir = "/home/autotest/gmp+mpfr-llvm"
+
+def gmpSourceDir = "$externalSourceDir/gmp-6.0.0"
+def mpfrSourceDir = "$externalSourceDir/mpfr-3.1.2"
+def emgiacSourceDir = "$externalSourceDir/emgiac"
+
 def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
 
 def emccCommand = "emcc"
@@ -14,10 +20,30 @@ def emccCommand = "emcc"
 if (System.env['EMCC'] != null) {
     emccCommand = System.env['EMCC']
     }
-// Also consider setting LLVM.
+// Also consider setting LLVM for the older emscripten version.
 // Emscripten should be configured before running this script, and on the first run there may be problems.
-// FIXME: Not all version of Emscripten will work, or at least not automagically.
-// TODO: Change Emscripten to be the latest one and change LLVM binaries for GMP and MPFR.
+
+def jsPrebuiltDir = "src/giac.js/prebuilt"
+def LlvmMpfrA = "$jsPrebuiltDir/libmpfr.a"
+def LlvmGmpA = "$jsPrebuiltDir/libgmp.a"
+if (System.env['EXT_GMPMPFR'] != null && System.env['EXT_GMPMPFR'] == "local") {
+    LlvmMpfrA = "$mpfrSourceDir/src/.libs/libmpfr.a"
+    LlvmGmpA = "$gmpSourceDir/.libs/libgmp.a"
+    }
+if (System.env['EXT_GMPMPFR'] != null && System.env['EXT_GMPMPFR'] == "emgiac") {
+    LlvmMpfrA = "$emgiacSourceDir/giac/libmpfr.a"
+    LlvmGmpA = "$emgiacSourceDir/giac/libgmp.a"
+    }
+def emscriptenVer = '201304'
+if (System.env['EMSCRIPTEN_VER'] != null && System.env['EMSCRIPTEN_VER'] == "201505") {
+    emscriptenVer = '201505'
+    }
+
+def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases'
+def emsdkTgzFile = 'emsdk-portable.tar.gz'
+def emsdkDir = file('build/emsdk')
+def emsdkRunDir = file("$emsdkDir/emsdk_portable")
+def emscriptenDir = file("$emsdkRunDir/emscripten/1.30.0")
 
 model {
     repositories {
@@ -221,7 +247,6 @@ task run (dependsOn: 'icasExecutable', type: Exec) {
     standardInput = System.in
     }
 
-
 tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
     if ((taskName.startsWith('emccCompile_')) && (taskName.endsWith('Cc'))) {
 	def basename = (taskName - 'Cc').substring('emccCompile_'.length())
@@ -234,18 +259,34 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
 		file("build/objs/giac.js").mkdirs()
 		exec {
 		    // Be very careful when changing this: config.h also contains some entries! 
-		    commandLine emccCommand,
-			'-DIN_GIAC', '-DGIAC_GENERIC_CONSTANTS', '-DNO_STDEXCEPT', '-DHAVE_CONFIG_H', // from old Makefile
-			'-s', 'PRECISE_I32_MUL=1', '-DGIAC_GGB', // from old Makefile (PREC)
-			'-DTIMEOUT', '-DEMCC', // from old config.h
-			'-Isrc/giac/headers', '-c', input, '-o', output
+		    def specialOptions = ''
+		    def commandline = emccCommand
+		    commandline += ' -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -DNO_STDEXCEPT -DHAVE_CONFIG_H' // from old Makefile
+		    if (emscriptenVer == '201304') {
+			commandline += " -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
+			}
+		    if (emscriptenVer == '201505') {
+			commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1 -fno-exceptions"
+			}
+
+		    commandline += ' -DGIAC_GGB' // from old Makefile
+		    commandline += ' -DTIMEOUT -DEMCC' // from old config.h
+		    commandline += " -Isrc/giac/headers -c $input -o $output"
+
+		    commandLine commandline.split()
 		    }
 		}
 	    }
 	}
     }
 
+task emccClean(type: Delete) {
+    description 'Deletes .o files and linked giac*.js for cleaning up.'
+    delete 'build/objs/giac.js', 'build/binaries/giacggb.js'
+    }
+
 task emccCompile {
+    description 'Creates .o files for giac.js.'
     def list = []
     FileTree files = fileTree(dir: 'src/giac/cpp')
     files.visit { f ->
@@ -257,7 +298,8 @@ task emccCompile {
     dependsOn list
     }
 
-task emccGiacJs (/* dependsOn: 'emccCompile' */) {
+task emccGiacJs (dependsOn: 'emccCompile') {
+    description 'Links giac.js.'
     def list = []
     def linkerArgs = []
     def inputInclude = []
@@ -276,9 +318,17 @@ task emccGiacJs (/* dependsOn: 'emccCompile' */) {
     doLast {
 	file("build/binaries/giacggb.js").mkdirs()
 	exec {
-	    linkerArgs << "src/giac.js/prebuilt/libmpfr.a" // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
-	    linkerArgs << "src/giac.js/prebuilt/libgmp.a"
-	    linkerArgs << '-s' << 'PRECISE_I32_MUL=1' << '-DGIAC_GGB'
+	    linkerArgs << LlvmMpfrA // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
+	    linkerArgs << LlvmGmpA
+	    linkerArgs << '--js-library' << 'src/giac.js/js/time.js'
+	    if (emscriptenVer == '201304') {
+    	        linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
+		}
+	    if (emscriptenVer == '201505') {
+		linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
+    	        // linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
+		}
+	    linkerArgs << '-DGIAC_GGB'
 	    linkerArgs << '-o' << output
 	    linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['__ZN4giac7casevalEPKc']"
 	    linkerArgs << '--closure' << '1'
@@ -289,6 +339,7 @@ task emccGiacJs (/* dependsOn: 'emccCompile' */) {
     }
 
 task createGiacGgbJs(dependsOn: 'emccGiacJs', type: Copy) {
+    description 'Creates the giacggb.js folder to store embeddable giac.js.'
     from 'src/giac.js'
     into 'build/binaries/giacggb.js'
     include ('ggb.html')
@@ -302,3 +353,85 @@ task createGiacJs(dependsOn: 'createGiacGgbJs', type: Copy) {
     rename 'giacggb.js', 'giac.js'
     filter { line -> line.replace('Module', '__ggb__giac') }
     }
+
+// Using emsdk
+
+task downloadEmsdk {
+    description 'Downloads emscripten SDK and downloads it.'
+    outputs.dir emsdkDir
+    doLast {
+        emsdkDir.mkdirs()
+	ant.get(src: "$emsdkUrlFolder/$emsdkTgzFile", dest: emsdkDir,
+	    skipexisting: true, usetimestamp: true)
+	copy {
+	    from tarTree("$emsdkDir/$emsdkTgzFile")
+	    into "$emsdkDir"
+	    }
+	}
+    }
+
+task installEmsdk (dependsOn: 'downloadEmsdk') {
+    description 'Installs/updates the emscripten SDK.'
+    doLast {
+	exec {
+	    commandLine './emsdk update'.split()
+	    workingDir emsdkRunDir
+	    }
+	exec {
+	    commandLine './emsdk install latest'.split()
+	    workingDir emsdkRunDir
+	    }
+	exec {
+	    commandLine './emsdk activate latest'.split()
+	    workingDir emsdkRunDir
+	    }
+	// "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
+	}
+    }
+
+task emConfigureGmp {
+    description 'Configures GMP for the emscripten SDK.'
+    doLast {
+	exec {
+	    commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emconfigure $gmpSourceDir/configure --build=none --host=none --disable-assembly"
+	    workingDir gmpSourceDir
+	    }
+	}
+    }
+
+task emMakeGmp {
+    description 'Makes GMP with the emscripten SDK.'
+    doLast {
+	exec {
+	    commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
+	    workingDir gmpSourceDir
+	    }
+	}
+    }
+
+task emConfigureMpfr {
+    description 'Configures MPFR for the emscripten SDK.'
+    doLast {
+	exec {
+	    commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; " +
+		"$emscriptenDir/emconfigure $mpfrSourceDir/configure --build=none --host=none --disable-assembly " +
+		"--with-gmp-lib=$gmpSourceDir/.libs --with-gmp-include=$gmpSourceDir"
+	    workingDir mpfrSourceDir
+	    }
+	}
+    }
+
+task emMakeMpfr {
+    description 'Makes MPFR with the emscripten SDK.'
+    doLast {
+	exec {
+	    commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
+	    workingDir mpfrSourceDir
+	    }
+	}
+    }
+
+/* How to use the new system:
+ * Run tasks downloadEmsdk, installEmsdk, emConfigureGmp, emMakeGmp, emConfigureMpfr, emMakeMpfr, then run
+ * $ EMSCRIPTEN_VER=201505 EXT_GMPMPFR=emgiac EMCC=$HOME/geogebra/giac/build/emsdk/emsdk_portable/emscripten/master/emcc ../gradlew createGiacJs
+ */
