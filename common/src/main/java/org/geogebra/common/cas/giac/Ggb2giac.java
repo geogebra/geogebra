@@ -860,6 +860,8 @@ public class Ggb2giac {
 						+ "when(uva==uvb,[eqa],[equation(line(B[0],B[0]+uva+uvb)),equation(line(B[0],B[0]+uva-uvb))])][5]");
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
 
+		p("Angle.1", "regroup(%0 *180 / pi) * unicode0176u");
+
 		// point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0))
 		// so we can mix 2d and 3d points
 		p("Angle.2",
