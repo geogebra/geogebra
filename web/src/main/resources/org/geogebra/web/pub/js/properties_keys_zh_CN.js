@@ -1367,7 +1367,7 @@ __GGB__keysVar.zh_CN.menu = {
     "DifferenceOfProportions.short": "p\u2081 - p\u2082",
     "DifferenceofMeansT": "\u5747\u5dee\u5206\u6790 T",
     "Differences": "\u5dee\u503c",
-    "Dilate.Factor": "\u7f29\u653e\u6bd4\u4f8b",
+    "Dilate.Factor": "\u4f4d\u4f3c\u6bd4",
     "DilateFromPoint": "\u4f4d\u4f3c",
     "DilateFromPoint.Help": "\u9009\u62e9\u8981\u505a\u4f4d\u4f3c\u53d8\u6362\u7684\u5bf9\u8c61\u3001\u4f4d\u4f3c\u4e2d\u5fc3, \u518d\u8f93\u5165\u4f4d\u4f3c\u6bd4",
     "Discrete": "\u79bb\u6563",

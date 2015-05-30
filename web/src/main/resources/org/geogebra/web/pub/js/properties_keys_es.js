@@ -1437,7 +1437,7 @@ __GGB__keysVar.es.menu = {
     "Files": "Archivos",
     "FillType": "Tipo de sombreado",
     "Filling": "Coloreado",
-    "Filling.Brick": "Ladrillo",
+    "Filling.Brick": "Ladrillos",
     "Filling.Chessboard": "Damero",
     "Filling.Crosshatch": "Almohadilla",
     "Filling.CurrentSymbol": "S\xedmbolo actual",
