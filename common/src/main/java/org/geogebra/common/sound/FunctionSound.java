@@ -146,7 +146,7 @@ public abstract class FunctionSound {
 				if (value < -1.0)
 					value = -1.0;
 
-				value = value * maxVolume;
+				value = value * getMaxVolume();
 
 				// make sure rounding works when truncated to short/byte
 				if (value > 0) {
@@ -182,7 +182,7 @@ public abstract class FunctionSound {
 				if (value < -1.0)
 					value = -1.0;
 
-				value = value * maxVolume;
+				value = value * getMaxVolume();
 
 				// make sure rounding works when truncated to short/byte
 				if (value > 0) {
@@ -284,5 +284,13 @@ public abstract class FunctionSound {
 
 	public int getBufLength() {
 		return buf.length;
+	}
+
+	public int getMaxVolume() {
+		return maxVolume;
+	}
+
+	public void setMaxVolume(int maxVolume) {
+		this.maxVolume = maxVolume;
 	}
 }
