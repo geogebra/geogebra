@@ -101,9 +101,9 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		}
 
 		@Override
-		public void bindGeometry(int size) {
+		public void bindGeometry(int size, TypeElement type) {
 			((GeometryBindBuffers) currentGeometry).bind(
-					(RendererShadersInterface) renderer, size);
+					(RendererShadersInterface) renderer, size, type);
 		}
 	}
 
@@ -129,8 +129,10 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		 *            renderer
 		 * @param size
 		 *            indices size
+		 * @param type
+		 *            type for elements indices
 		 */
-		public void bind(RendererShadersInterface r, int size) {
+		public void bind(RendererShadersInterface r, int size, TypeElement type) {
 
 			bufferV = ManagerShadersBindBuffers
 					.createBufferIfNeeded(r, bufferV);
@@ -159,7 +161,8 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 						GLSL_ATTRIB_TEXTURE);
 			}
 
-			if (size == -1) {
+			switch (type) {
+			case NONE:
 				bufferI = ManagerShadersBindBuffers.createBufferIfNeeded(r,
 						bufferI);
 				if (arrayI == null
@@ -177,13 +180,27 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 				indicesLength = arrayI.length;
 
 				r.storeElementBuffer(arrayI, indicesLength, bufferI);
+				break;
 
-			} else {
+			case CURVE:
 				if (DEBUG) {
-					App.debug("shared index buffer");
+					App.debug("curve: shared index buffer");
 				}
 				bufferI = getBufferIndicesForCurve(r, size);
 				indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
+				break;
+
+			case SURFACE:
+				if (DEBUG) {
+					App.debug("surface -- keep same index buffer");
+				}
+
+				bufferI = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+						bufferI);
+				indicesLength = size;
+
+				r.storeElementBuffer(arrayI, indicesLength, bufferI);
+				break;
 			}
 
 
@@ -243,10 +260,10 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		return new PlotterBrushElements(this);
 	}
 
-	// @Override
-	// protected PlotterSurface newPlotterSurface() {
-	// return new PlotterSurfaceElements(this);
-	// }
+	@Override
+	protected PlotterSurface newPlotterSurface() {
+		return new PlotterSurfaceElements(this);
+	}
 
 	/**
 	 * @param size

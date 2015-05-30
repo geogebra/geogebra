@@ -30,6 +30,10 @@ public class ManagerShaders extends Manager {
 
 	}
 
+	public enum TypeElement {
+		NONE, CURVE, SURFACE
+	};
+
 	private ArrayList<Double> vertices, normals, textures, colors;
 
 	private int verticesLength, verticesSize, normalsLength, normalsSize,
@@ -393,8 +397,10 @@ public class ManagerShaders extends Manager {
 		 * 
 		 * @param size
 		 *            indices size
+		 * @param type
+		 *            type for element indices
 		 */
-		public void bindGeometry(int size) {
+		public void bindGeometry(int size, TypeElement type) {
 			// not used here
 		}
 
@@ -508,15 +514,16 @@ public class ManagerShaders extends Manager {
 		currentGeometriesSet.setNormals(normals, normalsLength);
 		currentGeometriesSet.setTextures(textures, texturesLength);
 		currentGeometriesSet.setColors(colors, colorsLength);
-		currentGeometriesSet.bindGeometry(-1); // TODO remove that
+		currentGeometriesSet.bindGeometry(-1, TypeElement.NONE); // TODO remove
+																	// that
 	}
 
-	public void endGeometry(int size) {
+	public void endGeometry(int size, TypeElement type) {
 		currentGeometriesSet.setVertices(vertices, verticesLength);
 		currentGeometriesSet.setNormals(normals, normalsLength);
 		currentGeometriesSet.setTextures(textures, texturesLength);
 		currentGeometriesSet.setColors(colors, colorsLength);
-		currentGeometriesSet.bindGeometry(size);
+		currentGeometriesSet.bindGeometry(size, type);
 	}
 
 	// ///////////////////////////////////////////
