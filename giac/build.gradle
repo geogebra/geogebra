@@ -7,8 +7,10 @@ project.setDescription('Giac CAS for GeoGebra')
 
 apply plugin: 'cpp'
 
+// FIXME: These seetings are hardcoded at the moment, they need to be more general.
+// Set this as needed:
 def externalSourceDir = "/home/autotest/gmp+mpfr-llvm"
-
+// You may need to download and unzip following packages:
 def gmpSourceDir = "$externalSourceDir/gmp-6.0.0"
 def mpfrSourceDir = "$externalSourceDir/mpfr-3.1.2"
 def emgiacSourceDir = "$externalSourceDir/emgiac"
@@ -308,6 +310,7 @@ task emccGiacJs (dependsOn: 'emccCompile') {
 	if (!f.name.startsWith("first") && !f.name.startsWith("hello")) { // consider completely removing first*.cc and hello.cc
     	    def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
 	    inputInclude << f.name
+	    inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
 	    list << emccCompileTask
 	    linkerArgs << "build/objs/giac.js/${f.name}"
 	    }
@@ -315,6 +318,7 @@ task emccGiacJs (dependsOn: 'emccCompile') {
     def output = "build/binaries/giacggb.js/giacggb.js"
     inputs.files inputInclude
     outputs.file output
+    mustRunAfter emccCompile
     doLast {
 	file("build/binaries/giacggb.js").mkdirs()
 	exec {
