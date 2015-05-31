@@ -17,8 +17,8 @@ import com.google.gwt.user.client.Timer;
 public final class FunctionSoundW extends FunctionSound implements
 		FunctionAudioBuffer {
 
-	private static final int PREBUFFER = 5;
-	private static final int SAMPLERATE_DIVIDER = 10;
+	private static final int PREBUFFER = 2;
+	private static final int SAMPLERATE_DIVIDER = 20;
 	public static final FunctionSoundW INSTANCE = new FunctionSoundW();
 	private WebAudioWrapper waw = WebAudioWrapper.INSTANCE;
 	private byte[] wawBuffer;
@@ -130,18 +130,24 @@ public final class FunctionSoundW extends FunctionSound implements
 			setBuf(new byte[2 * frameSetSize]);
 		}
 
+		wawBuffer = new byte[getBufLength() * PREBUFFER];
 		setT(getMin());
 		loadBuffer();
 		doFade(getBuf()[0], false);
-
-		waw.write(getBuf(), getBufLength());
+		writeIdx = 0;
+		toWawBuffer(getBuf());
 
 		int period = 100;
-		App.debug("PERIOD: " + period);
 		timer.scheduleRepeating(period);
 		timer.run();
 	}
 
+	private void toWawBuffer(byte[] buf) {
+		for (byte b : buf) {
+			wawBuffer[writeIdx] = b;
+			writeIdx++;
+		}
+	}
 	private int getFrameSetSize() {
 		return getSampleRate() / SAMPLERATE_DIVIDER;
 	}
@@ -156,7 +162,13 @@ public final class FunctionSoundW extends FunctionSound implements
 	}
 
 	private void writeBuffer(byte[] buffer) {
-		waw.write(buffer, buffer.length);
+		if (writeIdx + buffer.length < wawBuffer.length) {
+			toWawBuffer(buffer);
+		} else {
+			waw.write(wawBuffer, wawBuffer.length);
+			writeIdx = 0;
+			toWawBuffer(buffer);
+		}
 	}
 
 	public void fillBuffer() {
