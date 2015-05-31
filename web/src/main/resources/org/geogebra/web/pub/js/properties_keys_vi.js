@@ -526,7 +526,7 @@ __GGB__keysVar.vi.command = {
     "Locus.Syntax": "[ <\u0110i\u1ec3m t\u1ea1o qu\u1ef9 t\xedch \u0111\u01b0\u1eddng th\u1eb3ng>, <\u0110i\u1ec3m> ]\n[ <\u0110i\u1ec3m t\u1ea1o qu\u1ef9 t\xedch \u0111\u01b0\u1eddng th\u1eb3ng>, <Thanh tr\u01b0\u1ee3t> ]\n[ <H\u1ec7 s\u1ed1 g\xf3c>, <\u0110i\u1ec3m> ]\n[ <f(x, y)>, <\u0110i\u1ec3m> ]",
     "LocusEquation": "Ph\u01b0\u01a1ngTr\xecnhQu\u1ef9T\xedch",
     "LocusEquation.Syntax": "[ <Qu\u1ef9 t\xedch> ]\n[ <\u0110i\u1ec3m qu\u1ef9 t\xedch>, <\u0110i\u1ec3m di chuy\u1ec3n> ]",
-    "LogNormal": "PhanPhoiLog",
+    "LogNormal": "Ph\xe2nPh\u1ed1iLog",
     "LogNormal.Syntax": "[ <Trung b\xecnh>, <\u0110\u1ed9 l\u1ec7ch chu\u1ea9n>, x ]\n[ <Trung b\xecnh>, <\u0110\u1ed9 l\u1ec7ch chu\u1ea9n>, <Gi\xe1 tr\u1ecb bi\u1ebfn> ]\n[ <Trung b\xecnh>, <\u0110\u1ed9 l\u1ec7ch chu\u1ea9n>, x, <T\xedch l\u0169y Boolean> ]",
     "Logistic": "PhanPhoiLogistic",
     "Logistic.Syntax": "[ <Trung b\xecnh>, <T\u1ec9 l\u1ec7>, x ]\n[ <Trung b\xecnh>, <T\u1ec9 l\u1ec7>, <Gi\xe1 tr\u1ecb bi\u1ebfn> ]\n[ <Trung b\xecnh>, <T\u1ec9 l\u1ec7>, x, <T\xedch l\u0169y Boolean> ]",
