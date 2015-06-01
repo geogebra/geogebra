@@ -3,9 +3,17 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class PlotterSurfaceElements extends PlotterSurface {
+
+	final private static boolean DEBUG = false;
+
+	final private static void debug(String s) {
+		if (DEBUG) {
+			Log.debug(s);
+		}
+	}
 
 	public PlotterSurfaceElements(Manager manager) {
 		super(manager);
@@ -44,7 +52,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			latitudeMaxBottom = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}
 
-		// App.debug(latitudeMaxBottom+","+latitudeMaxTop);
+		// debug(latitudeMaxBottom+","+latitudeMaxTop);
 
 		int latitudeMax = Math.max(latitudeMaxTop, latitudeMaxBottom);
 		if (latitudeMax > latitude) {
@@ -61,16 +69,21 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		// check which parts are visible (longitudes)
 
 		// start drawing
-		short[] arrayI = ((ManagerShadersBindBuffers) manager)
-				.getCurrentGeometryIndices((latitudeMax - latitudeMin)
-						* longitudeLength * 60);
 
 		Coords n = new Coords(4);
 
 		double[] cosSinV = new double[2];
 
-		App.debug("longitude = " + longitude + " , longitudeLength = "
+		debug("longitude = " + longitude + " , longitudeLength = "
 				+ longitudeLength);
+
+		short lastStartIndex, lastLength, currentStartIndex, currentLength, lastBoth, both;
+		boolean drawTop, drawBottom;
+		int vi, nextJump, next;
+		short shift;
+
+		// ///////////////
+		// draw vertices
 
 		// first latitude
 		cosSin(latitudeMin, latitude, cosSinV);
@@ -81,29 +94,30 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		
 		int arrayIndex = 0;
 
-		
-		short lastStartIndex = 0;
-		short lastLength = (short) longitudeLength;
-		short currentStartIndex = lastStartIndex;
-		short currentLength = (short) longitudeLength;
+		lastStartIndex = 0;
+		lastLength = (short) longitudeLength;
+		currentStartIndex = lastStartIndex;
+		currentLength = (short) longitudeLength;
 		
 		// both = 1 if only drawing up or down, both = 2 if drawing both
-		boolean drawTop = true, drawBottom = true;
-		short lastBoth = 1, both = 1;
+		drawTop = true;
+		drawBottom = true;
+		lastBoth = 1;
+		both = 1;
 
-		int vi = latitudeMin + 1;
-		int nextJump = (int) (latitude / Math.PI);
-		App.debug("latitude : " + latitude + " , latitude-nextJump : "
+		vi = latitudeMin + 1;
+		nextJump = (int) (latitude / Math.PI);
+		debug("latitude : " + latitude + " , latitude-nextJump : "
 				+ (latitude - nextJump));
-		int next = 0;
-		short shift = 1;
+		next = 0;
+		shift = 1;
 
 		while (next < latitudeMax) {
 			
 			next = Math.min(latitudeMax, latitude - nextJump);
-			App.debug("latitude : " + latitude + " , latitudeMin : "
-					+ latitudeMin + " , next : " + next
-					+ " , latitudeMax : " + latitudeMax);
+			debug("latitude : " + latitude + " , latitudeMin : "
+					+ latitudeMin + " , next : " + next + " , latitudeMax : "
+					+ latitudeMax);
 
 			// until next jump
 			while (vi < next) {
@@ -132,12 +146,173 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					both++;
 				}
 
-				App.debug("vi : " + vi + " -- both : " + both);
+				debug("vi : " + vi + " -- both : " + both);
 
 				lastStartIndex = currentStartIndex;
 				lastLength = currentLength;
 				currentStartIndex += lastLength * lastBoth;
 
+
+				if (drawTop) {// top triangles
+					if (longitudeLength == longitude) {
+						arrayIndex += 6 * lastLength;
+					} else {
+						arrayIndex += 6 * (lastLength - 1);
+					}
+
+				}
+
+				if (drawBottom) {// bottom triangles
+					if (longitudeLength == longitude) {
+						arrayIndex += 6 * lastLength;
+					} else {
+						arrayIndex += 6 * (lastLength - 1);
+					}
+				}
+
+				vi++;
+			}
+
+			// jump
+			if (next > latitudeMin && next < latitudeMax) {
+
+				shift *= 2;
+				cosSin(vi, latitude, cosSinV);
+				for (int ui = 0; ui < longitudeLength; ui += shift) {
+					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n);
+					if (drawTop) {// top vertices
+						drawNCr(n, center, radius);
+					}
+					if (drawBottom) {// bottom vertices
+						drawNCrm(n, center, radius);
+					}
+
+				}
+
+				lastBoth = both;
+
+				lastStartIndex = currentStartIndex;
+				lastLength = currentLength;
+				currentStartIndex += lastLength * lastBoth;
+				currentLength /= 2;
+
+				if (drawTop) {// top triangles
+					if (longitudeLength == longitude) {
+						arrayIndex += 9 * currentLength;
+					} else {
+						arrayIndex += 9 * (currentLength - 1);
+					}
+				}
+
+				if (drawBottom) {// bottom triangles
+					if (longitudeLength == longitude) {
+						arrayIndex += 9 * currentLength;
+					} else {
+						arrayIndex += 9 * (currentLength - 1);
+					}
+				}
+
+				vi++;
+
+				nextJump /= 2;
+			}
+
+
+		}
+
+		lastBoth = both;
+
+		lastStartIndex = currentStartIndex;
+		lastLength = currentLength;
+		currentStartIndex += lastLength * lastBoth;
+
+
+		// north pole
+		if (latitudeMax == latitude) {
+
+			if (drawTop) {
+
+				drawNCr(Coords.VZ, center, radius);
+				
+				if (longitudeLength == longitude) {
+					arrayIndex += 3 * lastLength;
+				} else {
+					arrayIndex += 3 * (lastLength - 1);
+				}
+
+			}
+
+			// south pole
+			if (drawBottom) {
+
+				drawNCrm(Coords.VZ, center, radius);
+
+				if (longitudeLength == longitude) {
+					arrayIndex += 3 * lastLength;
+				} else {
+					arrayIndex += 3 * (lastLength - 1);
+				}
+
+			}
+		}
+
+		debug("==== arrayIndex (1) = " + arrayIndex);
+
+
+		// ///////////////
+		// set indices
+		short[] arrayI = ((ManagerShadersBindBuffers) manager)
+				.getCurrentGeometryIndices(arrayIndex);
+
+
+		arrayIndex = 0;
+
+		lastStartIndex = 0;
+		lastLength = (short) longitudeLength;
+		currentStartIndex = lastStartIndex;
+		currentLength = (short) longitudeLength;
+
+		// both = 1 if only drawing up or down, both = 2 if drawing both
+		drawTop = true;
+		drawBottom = true;
+		lastBoth = 1;
+		both = 1;
+
+		vi = latitudeMin + 1;
+		nextJump = (int) (latitude / Math.PI);
+		debug("latitude : " + latitude + " , latitude-nextJump : "
+				+ (latitude - nextJump));
+		next = 0;
+		shift = 1;
+
+		while (next < latitudeMax) {
+
+			next = Math.min(latitudeMax, latitude - nextJump);
+			debug("latitude : " + latitude + " , latitudeMin : "
+					+ latitudeMin + " , next : " + next + " , latitudeMax : "
+					+ latitudeMax);
+
+			// until next jump
+			while (vi < next) {
+
+				drawTop = vi < latitudeMaxTop;
+				drawBottom = vi < latitudeMaxBottom;
+
+
+				lastBoth = both;
+				both = 0;
+				if (drawTop) {// top vertices
+					both++;
+				}
+				if (drawBottom) {// bottom vertices
+					both++;
+				}
+
+				debug("vi : " + vi + " -- both : " + both);
+
+				lastStartIndex = currentStartIndex;
+				lastLength = currentLength;
+				currentStartIndex += lastLength * lastBoth;
 
 				if (drawTop) {// top triangles
 					short currentIndex = currentStartIndex;
@@ -241,17 +416,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			if (next > latitudeMin && next < latitudeMax) {
 
 				shift *= 2;
-				cosSin(vi, latitude, cosSinV);
-				for (int ui = 0; ui < longitudeLength; ui += shift) {
-					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n);
-					if (drawTop) {// top vertices
-						drawNCr(n, center, radius);
-					}
-					if (drawBottom) {// bottom vertices
-						drawNCrm(n, center, radius);
-					}
-
-				}
 
 				lastBoth = both;
 
@@ -388,7 +552,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				nextJump /= 2;
 			}
 
-
 		}
 
 		lastBoth = both;
@@ -397,13 +560,11 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		lastLength = currentLength;
 		currentStartIndex += lastLength * lastBoth;
 
-
 		// north pole
 		if (latitudeMax == latitude) {
 
 			if (drawTop) {
 
-				drawNCr(Coords.VZ, center, radius);
 
 				short lastIndex;
 				for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
@@ -434,7 +595,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			// south pole
 			if (drawBottom) {
 
-				drawNCrm(Coords.VZ, center, radius);
 
 				short lastIndex;
 				for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
@@ -460,7 +620,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			}
 		}
 
-
+		debug("==== arrayIndex (2) = " + arrayIndex);
 
 		((ManagerShadersBindBuffers) manager).endGeometry(arrayIndex,
 				TypeElement.SURFACE);
