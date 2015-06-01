@@ -376,12 +376,22 @@ public class AppWapplication extends AppWFull {
 
 	@Override
 	public int getOWidth() {
-		return getAppFrame().getOffsetWidth();
+		int width = getAppFrame().getOffsetWidth();
+		if (width <= 1) {
+			width = Integer.parseInt(Location
+					.getParameter("GeoGebraTargetWidth"));
+		}
+		return width;
 	}
 
 	@Override
 	public int getOHeight() {
-		return getAppFrame().getOffsetHeight();
+		int height = getAppFrame().getOffsetHeight();
+		if (height <= 1) {
+			height = Integer.parseInt(Location
+					.getParameter("GeoGebraTargetHeight"));
+		}
+		return height;
 	}
 
 	@Override
