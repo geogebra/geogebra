@@ -157,6 +157,8 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		p.compute(); // the computation of the proof
 		date = new Date();
 		long elapsedTime = date.getTime() - startTime;
+
+		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
 		App.debug("Benchmarking: " + elapsedTime + " ms");
 
 		result = p.getYesNoAnswer();
