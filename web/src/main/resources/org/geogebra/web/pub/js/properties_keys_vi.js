@@ -440,7 +440,7 @@ __GGB__keysVar.vi.command = {
     "IntersectPath.Syntax3D": "[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110a gi\xe1c> ]\n[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <C\xf4n\xedc> ]\n[ <M\u1eb7t ph\u1eb3ng>, <\u0110a gi\xe1c> ]\n[ <M\u1eb7t ph\u1eb3ng>, <B\u1eadc hai> ]",
     "Intersection": "Giao",
     "Intersection.Syntax": "[ <Danh s\xe1ch>, <Danh s\xe1ch> ]",
-    "InverseBinomial": "NhiThucDao",
+    "InverseBinomial": "Nh\u1ecbTh\u1ee9c\u0110\u1ea3o",
     "InverseBinomial.Syntax": "[ <S\u1ed1 ph\xe9p th\u1eed>, <X\xe1c su\u1ea5t th\xe0nh c\xf4ng>, <X\xe1c su\u1ea5t> ]",
     "InverseCauchy": "CoSiDao",
     "InverseCauchy.Syntax": "[ <Trung v\u1ecb>, <T\u1ec9 l\u1ec7>, <X\xe1c su\u1ea5t> ]",

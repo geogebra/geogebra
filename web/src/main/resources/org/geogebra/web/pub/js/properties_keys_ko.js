@@ -2429,7 +2429,7 @@ __GGB__keysVar.ko.plain = {
     "Function.asinh": "arcsinh",
     "Function.atan": "arctan",
     "Function.atanh": "arctanh",
-    "Function.conjugate": "conjugate",
+    "Function.conjugate": "\ubcf5\uc18c\ucf24\ub808",
     "Function.cos": "cos",
     "Function.cosh": "cosh",
     "Function.cot": "cot",

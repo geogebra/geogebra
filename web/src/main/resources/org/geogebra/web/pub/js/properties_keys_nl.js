@@ -216,7 +216,7 @@ __GGB__keysVar.nl.command = {
     "Cross.SyntaxCAS": "[ <Vector>, <Vector> ]",
     "CrossRatio": "Dubbelverhouding",
     "CrossRatio.Syntax": "[ <Punt>, <Punt>, <Punt>, <Punt> ]",
-    "Cube": "Kubus",
+    "Cube": "Cube",
     "Cube.Syntax": "[ <Punt>, <Punt>, <Richting> ]",
     "Cubic": "Cubic",
     "Cubic.Syntax": "[ <Punt>, <Punt>, <Punt>, <Index> ]",
