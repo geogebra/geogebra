@@ -459,7 +459,8 @@ public class FillingModel extends MultipleOptionsModel {
 
 				getFillingListener().setFillInverseVisible(false);
 			}
-			if (!geo.isFillable() || geo instanceof GeoImage || geo instanceof GeoTextField) {
+			if (!geo.isFillable() || geo instanceof GeoImage
+					|| geo instanceof GeoTextField || geo.isGeoQuadric()) {
 				geosOK = false;
 				break;
 			}
@@ -471,7 +472,6 @@ public class FillingModel extends MultipleOptionsModel {
 			}
 		}
 		
-		App.debug("geos is " + (geosOK ? "OK" : "Not OK"));
 		return geosOK;
 	}
 
