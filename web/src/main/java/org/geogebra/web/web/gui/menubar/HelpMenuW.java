@@ -54,7 +54,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 			
 	    	@Override
 	    	public void doExecute() {
-		        app.getGuiManager().openHelp(GeoGebraConstants.FORUM_URL);
+						Window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
 				
             }
 	    });
