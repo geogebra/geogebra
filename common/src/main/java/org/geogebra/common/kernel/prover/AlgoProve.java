@@ -169,6 +169,10 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 				bool.setValue(false);
 			}
 		}
+		
+		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
+		App.debug("OUTPUT for Prove: " + bool);
+		
 	}
 
 	// TODO Consider locusequability

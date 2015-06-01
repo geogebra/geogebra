@@ -305,8 +305,13 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 					list.add(ndgConditionsList);
 			}
 		}
+		
+		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
+		App.debug("OUTPUT for ProveDetails: " + list);
+
 	}
 
+	
 	// TODO Consider locusequability
 
 }
