@@ -138,11 +138,17 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		// calculate the coefficients
 		double cof[] = new double[n];
 		try {
-			if (n < 15)
-				polcoe(x, y, n, cof);
-			// Michael Borcherds 2008-03-09 added polcoeBig
-			else
-				polcoeBig(x, y, n, cof);
+			// if (n < 15)
+			// polcoe(x, y, n, cof);
+			// // Michael Borcherds 2008-03-09 added polcoeBig
+			// else
+
+			// now always use polcoeBig as it's much more accurate even for eg
+			// eg Polynomial[ (4.18, 5.2365368), (4.178999999999999,
+			// 5.238777266100002), (4.181, 5.234293825899999) ]
+			// note: PolynomialFunctionLagrangeForm is only slightly better than
+			// polcoe
+			polcoeBig(x, y, n, cof);
 		} catch (Exception e) {
 			g.setUndefined();
 			return;
