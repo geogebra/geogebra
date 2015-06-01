@@ -47,6 +47,8 @@ public class AxesAndPlanePopup extends PopupMenuButton {
 		ev.getSettings().setShowAxes(index % 2 == 1);
 		ev.getSettings().setShowPlate(index >= 2);
 		ev.getSettings().endBatch();
+		((EuclidianView3DW) ev).doRepaint();
+
 	}
 
 	@Override
