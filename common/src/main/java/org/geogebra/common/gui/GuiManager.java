@@ -437,12 +437,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
 		getConstructionProtocolNavigation().setPlayDelay(playDelay);
-		if (getApp().isFullAppGui()) {
-			getConstructionProtocolNavigation().setConsProtButtonVisible(
+		getConstructionProtocolNavigation().setConsProtButtonVisible(
 					showProtButton);
-		} else {
-			getConstructionProtocolNavigation().setConsProtButtonVisible(false);
-		}
 	}
 
 	protected ConstructionProtocolNavigation constProtocolNavigation;

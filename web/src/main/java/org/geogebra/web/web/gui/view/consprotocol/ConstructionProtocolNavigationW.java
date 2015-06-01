@@ -95,28 +95,28 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		implPanel.add(leftPanel);
 		implPanel.add(((GPanelW)playPanel).getImpl());
 		
-		if (!app.isApplet()) {
-			btOpenWindow = new Button(getImageForIcon(AppResources.INSTANCE.table().getSafeUri()).toString());		
-			btOpenWindow.addClickHandler(new ClickHandler(){
-	
-				public void onClick(ClickEvent event) {
-					if (!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-						app.getGuiManager().setShowView(true,
-						        App.VIEW_CONSTRUCTION_PROTOCOL);
-						btOpenWindow.addStyleName("consProtIsOpen");
-					} else {
-						app.getGuiManager().setShowView(false,
-						        App.VIEW_CONSTRUCTION_PROTOCOL);
-						btOpenWindow.removeStyleName("consProtIsOpen");
-					}
-					
-	            }
-			});
-			btOpenWindow.setVisible(showConsProtButton);
-			addPaddingPlayPanel(showConsProtButton);
-			btOpenWindow.addStyleName("navbar_btOpenWindow");
-			implPanel.add(btOpenWindow);
-		}
+		btOpenWindow = new Button(getImageForIcon(
+				AppResources.INSTANCE.table().getSafeUri()).toString());
+		btOpenWindow.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				if (!app.getGuiManager().showView(
+						App.VIEW_CONSTRUCTION_PROTOCOL)) {
+					app.getGuiManager().setShowView(true,
+							App.VIEW_CONSTRUCTION_PROTOCOL);
+					btOpenWindow.addStyleName("consProtIsOpen");
+				} else {
+					app.getGuiManager().setShowView(false,
+							App.VIEW_CONSTRUCTION_PROTOCOL);
+					btOpenWindow.removeStyleName("consProtIsOpen");
+				}
+
+			}
+		});
+		btOpenWindow.setVisible(showConsProtButton);
+		addPaddingPlayPanel(showConsProtButton);
+		btOpenWindow.addStyleName("navbar_btOpenWindow");
+		implPanel.add(btOpenWindow);
 
 		setLabels();
 		update();
