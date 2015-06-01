@@ -209,10 +209,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			return;
 		}
 		if (online && app.getLoginOperation().isLoggedIn()) {
+			loggedIn = true;
 			addUserMenu();
 		} else if(online){
 			addSignInMenu();
 		} else {
+			loggedIn = false;
 			if(this.signInMenu != null){
 				this.menuPanel.remove(this.signInMenu);
 			}
@@ -336,17 +338,23 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		this.setHeight(height + "px");
     }
 
+	private boolean loggedIn = false;
 	@Override
 	public void renderEvent(final BaseEvent event) {
 		if(!app.enableFileFeatures()){
 			return;
 		}
 		if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
+			if (loggedIn) {
+				this.menuPanel.remove(this.userMenu);
+			}
+			loggedIn = true;
 			this.menuPanel.remove(this.signInMenu);
 			addUserMenu();
 			this.userMenu.setVisible(false);
 		} else if (event instanceof LogOutEvent) {
 			this.menuPanel.remove(this.userMenu);
+			loggedIn = false;
 			addSignInMenu();
 			this.signInMenu.setVisible(false);
 		}
