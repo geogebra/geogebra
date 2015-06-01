@@ -18,9 +18,19 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 
+/**
+ * Table popup for selecting properties of objects
+ *
+ */
 public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
+	/**
+	 * App
+	 */
 	protected AppW app;
+	/**
+	 * Icons / texts in the table
+	 */
 	protected ImageOrText[] data;
 	private ButtonPopupMenu myPopup;
 	private PopupMenuHandler popupHandler;
@@ -93,6 +103,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param hasSlider
 	 *            {@code boolean}
 	 * @param selected
+	 *            which items are selected
 	 */
 	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
 	        Integer columns, org.geogebra.common.gui.util.SelectionTable mode,
@@ -180,18 +191,22 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	}
 	
 	/**
-	 * @param data
+	 * @param newData
+	 *            icons
 	 * @param rows
+	 *            number of rows
 	 * @param columns
+	 *            number of columns
 	 * @param mode
+	 *            selection mode
 	 */
-	private void createSelectionTable(ImageOrText[] data,
+	private void createSelectionTable(ImageOrText[] newData,
  Integer rows,
 	        Integer columns, org.geogebra.common.gui.util.SelectionTable mode,
 	        boolean[] selected) {
-		this.data = data;
+		this.data = newData;
 
-		myTable = new SelectionTable(data, rows, columns, mode,
+		myTable = new SelectionTable(newData, rows, columns, mode,
 		        multiselectionEnabled);
 		if (!multiselectionEnabled) {
 			setSelectedIndex(0);
@@ -311,13 +326,16 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 *            {@code Integer}
 	 */
 	public void setSelectedIndex(Integer selectedIndex) {
-		if (selectedIndex == null) {
-			selectedIndex = -1;
-		}
-		myTable.setSelectedIndex(selectedIndex.intValue());
+		myTable.setSelectedIndex(selectedIndex == null ? -1 :selectedIndex.intValue());
 		updateGUI();
 	}
 	
+	/**
+	 * @param index
+	 *            index to be changed
+	 * @param selected
+	 *            target value for that index
+	 */
 	public void changeMultiSelection(int index, boolean selected) {
 		myTable.changeMultiSelection(index, selected);
 		updateGUI();
@@ -339,6 +357,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		updateGUI();
 	}
 	
+	/**
+	 * Fires on index change
+	 */
 	protected void fireActionPerformed() {
 	    //implemented in subclass
     }
@@ -384,16 +405,26 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	}
 
 	/**
-	 * @return selected index of {@link #myTable}
+	 * @return selected index of the table
 	 */
 	public int getSelectedIndex() {
 		return myTable.getSelectedIndex();
 	}
 
+	/**
+	 * @param index
+	 *            index
+	 * @return whether item with given index is selected
+	 */
 	public boolean isSelected(int index) {
 		return myTable.isSelected(index);
 	}
 
+	/**
+	 * @param array
+	 *            elements (usually GeoElements) whose state is displayed in
+	 *            this table
+	 */
 	public void update(Object[] array) {
 	    // will be overwritten from instances
     }
@@ -439,6 +470,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 	/**
 	 * explicitly sets who should receive the change events
+	 * 
+	 * @param handler
+	 *            change handler
 	 */
 	public void setChangeEventHandler(StyleBarW2 handler){
 		this.changeEventHandler = handler;
