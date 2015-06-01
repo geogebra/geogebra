@@ -141,8 +141,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				if (drawTop) {// top triangles
 					short currentIndex = currentStartIndex;
-					for (short lastIndex = lastStartIndex; lastIndex < currentStartIndex
+					short lastIndex;
+					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 							- lastBoth; lastIndex += lastBoth) {
+
 						arrayI[arrayIndex] = lastIndex;
 						arrayIndex++;
 						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
@@ -160,17 +162,21 @@ public class PlotterSurfaceElements extends PlotterSurface {
 						currentIndex += both;
 					}
 
-					// if (longitudeLength == longitude) {
-					// // close the parallel
-					// arrayI[arrayIndex] = (short) (lastStartIndex
-					// + lastLength - 1);
-					// arrayIndex++;
-					// arrayI[arrayIndex] = lastStartIndex;
-					// arrayIndex++;
-					// arrayI[arrayIndex] = (short) (currentStartIndex
-					// + currentLength - 1);
-					// arrayIndex++;
-					// }
+					if (longitudeLength == longitude) {
+						arrayI[arrayIndex] = lastIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = lastStartIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = lastStartIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentStartIndex;
+						arrayIndex++;
+					}
 
 				}
 
@@ -184,7 +190,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				if (drawBottom) {// bottom triangles
 					short currentIndex = currentStartIndex;
-					for (short lastIndex = lastStartIndex; lastIndex < currentStartIndex
+					short lastIndex;
+					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 							- both; lastIndex += lastBoth) {
 						arrayI[arrayIndex] = lastIndex;
 						arrayIndex++;
@@ -203,17 +210,21 @@ public class PlotterSurfaceElements extends PlotterSurface {
 						currentIndex += both;
 					}
 
-					// if (longitudeLength == longitude) {
-					// // close the parallel
-					// arrayI[arrayIndex] = (short) (lastStartIndex
-					// + lastLength - 1);
-					// arrayIndex++;
-					// arrayI[arrayIndex] = lastStartIndex;
-					// arrayIndex++;
-					// arrayI[arrayIndex] = (short) (currentStartIndex
-					// + currentLength - 1);
-					// arrayIndex++;
-					// }
+					if (longitudeLength == longitude) {
+						arrayI[arrayIndex] = lastIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = lastStartIndex;
+						arrayIndex++;
+
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentStartIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = lastStartIndex;
+						arrayIndex++;
+					}
 				}
 
 				// shift back
@@ -251,8 +262,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				if (drawTop) {// top triangles
 					short currentIndex = currentStartIndex;
-					for (short lastIndex = lastStartIndex; lastIndex < currentStartIndex
+					short lastIndex;
+					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 							- 2 * lastBoth; lastIndex += 2 * lastBoth) {
+
 						arrayI[arrayIndex] = lastIndex;
 						arrayIndex++;
 						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
@@ -278,27 +291,29 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 					}
 
-					// if (longitudeLength == longitude) {
-					// // close the parallel
-					// arrayI[arrayIndex] = (short) (lastStartIndex + 2 *
-					// (currentLength - 1));
-					// arrayIndex++;
-					// arrayI[arrayIndex] = (short) (lastStartIndex + 2
-					// * (currentLength - 1) + 1);
-					// arrayIndex++;
-					// arrayI[arrayIndex] = (short) (currentStartIndex +
-					// (currentLength - 1));
-					// arrayIndex++;
-					//
-					// arrayI[arrayIndex] = (short) (lastStartIndex + 2
-					// * (currentLength - 1) + 1);
-					// arrayIndex++;
-					// arrayI[arrayIndex] = lastStartIndex;
-					// arrayIndex++;
-					// arrayI[arrayIndex] = currentStartIndex;
-					// arrayIndex++;
-					//
-					// }
+					if (longitudeLength == longitude) {
+						// close the parallel
+						arrayI[arrayIndex] = lastIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = lastStartIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentStartIndex;
+						arrayIndex++;
+
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = currentStartIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+					}
 
 					// shift for maybe draw bottom
 					lastStartIndex += 1;
@@ -308,7 +323,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				if (drawBottom) {// bottom triangles
 					short currentIndex = currentStartIndex;
-					for (short lastIndex = lastStartIndex; lastIndex < currentStartIndex
+					short lastIndex;
+					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 							- 2 * lastBoth; lastIndex += 2 * lastBoth) {
 						arrayI[arrayIndex] = lastIndex;
 						arrayIndex++;
@@ -333,6 +349,30 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 						currentIndex += both;
 
+					}
+
+					if (longitudeLength == longitude) {
+						// close the parallel
+						arrayI[arrayIndex] = lastIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = currentStartIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = lastStartIndex;
+						arrayIndex++;
+
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentStartIndex;
+						arrayIndex++;
 					}
 
 				}
@@ -365,12 +405,22 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				drawNCr(Coords.VZ, center, radius);
 
-				for (short ui = 0; ui < lastLength - 1; ui++) {
-					arrayI[arrayIndex] = (short) (lastStartIndex + ui
-							* lastBoth);
+				short lastIndex;
+				for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
+						- lastBoth; lastIndex += lastBoth) {
+					arrayI[arrayIndex] = lastIndex;
 					arrayIndex++;
-					arrayI[arrayIndex] = (short) (lastStartIndex + (ui + 1)
-							* lastBoth);
+					arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+					arrayIndex++;
+					arrayI[arrayIndex] = currentStartIndex;
+					arrayIndex++;
+				}
+
+				if (longitudeLength == longitude) {
+					// close the parallel
+					arrayI[arrayIndex] = lastIndex;
+					arrayIndex++;
+					arrayI[arrayIndex] = lastStartIndex;
 					arrayIndex++;
 					arrayI[arrayIndex] = currentStartIndex;
 					arrayIndex++;
@@ -386,14 +436,24 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				drawNCrm(Coords.VZ, center, radius);
 
-				for (short ui = 0; ui < lastLength - 1; ui++) {
-					arrayI[arrayIndex] = (short) (lastStartIndex + ui
-							* lastBoth);
+				short lastIndex;
+				for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
+						- lastBoth; lastIndex += lastBoth) {
+					arrayI[arrayIndex] = lastIndex;
 					arrayIndex++;
 					arrayI[arrayIndex] = currentStartIndex;
 					arrayIndex++;
-					arrayI[arrayIndex] = (short) (lastStartIndex + (ui + 1)
-							* lastBoth);
+					arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+					arrayIndex++;
+				}
+
+				if (longitudeLength == longitude) {
+					// close the parallel
+					arrayI[arrayIndex] = lastIndex;
+					arrayIndex++;
+					arrayI[arrayIndex] = currentStartIndex;
+					arrayIndex++;
+					arrayI[arrayIndex] = lastStartIndex;
 					arrayIndex++;
 				}
 
