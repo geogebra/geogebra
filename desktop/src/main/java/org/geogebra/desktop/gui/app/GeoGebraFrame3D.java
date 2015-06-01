@@ -37,4 +37,8 @@ public class GeoGebraFrame3D extends GeoGebraFrame {
 		return createNewWindow(args, new GeoGebraFrame3D());
 	}
 
+	protected GeoGebraFrame copy() {
+		return new GeoGebraFrame3D();
+	}
+
 }

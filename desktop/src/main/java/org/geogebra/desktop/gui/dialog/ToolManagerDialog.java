@@ -273,7 +273,8 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 				public void run() {
 					App.debug("before" + app.hashCode());
 					app.setWaitCursor();
-					GeoGebraFrame newframe = GeoGebraFrame.createNewWindow(
+					GeoGebraFrame newframe = ((GeoGebraFrame) app.getFrame())
+							.createNewWindow(
 							null, macro);
 					newframe.setTitle(macro.getCommandName());
 					byte[] byteArray = app.getMacroFileAsByteArray();

@@ -357,9 +357,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		return new AppD(args, frame, true);
 	}
 
-	public static synchronized GeoGebraFrame createNewWindow(
+	public synchronized GeoGebraFrame createNewWindow(
 			CommandLineArguments args, Macro macro) {
-		return createNewWindow(args, new GeoGebraFrame());
+		return createNewWindow(args, copy());
+	}
+
+	protected GeoGebraFrame copy() {
+		return new GeoGebraFrame();
 	}
 
 	/**
