@@ -63,7 +63,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		// start drawing
 		short[] arrayI = ((ManagerShadersBindBuffers) manager)
 				.getCurrentGeometryIndices((latitudeMax - latitudeMin)
-						* longitudeLength * 6);
+						* longitudeLength * 60);
 
 		Coords n = new Coords(4);
 
@@ -87,6 +87,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		short currentStartIndex = lastStartIndex;
 		short currentLength = (short) longitudeLength;
 		
+		// both = 1 if only drawing up or down, both = 2 if drawing both
+		boolean drawTop = true, drawBottom = true;
+		short lastBoth = 1, both = 1;
+
 		int vi = latitudeMin + 1;
 		int nextJump = (int) (latitude / Math.PI);
 		App.debug("latitude : " + latitude + " , latitude-nextJump : "
@@ -103,36 +107,122 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 			// until next jump
 			while (vi < next) {
+
+				drawTop = vi < latitudeMaxTop;
+				drawBottom = vi < latitudeMaxBottom;
+
 				cosSin(vi, latitude, cosSinV);
 				for (int ui = 0; ui < longitudeLength; ui += shift) {
 					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n);
-					drawNCr(n, center, radius);
+					if (drawTop) {// top vertices
+						drawNCr(n, center, radius);
+					}
+					if (drawBottom) {// bottom vertices
+						drawNCrm(n, center, radius);
+					}
 				}
+
+
+				lastBoth = both;
+				both = 0;
+				if (drawTop) {// top vertices
+					both++;
+				}
+				if (drawBottom) {// bottom vertices
+					both++;
+				}
+
+				App.debug("vi : " + vi + " -- both : " + both);
 
 				lastStartIndex = currentStartIndex;
 				lastLength = currentLength;
-				currentStartIndex += lastLength;
+				currentStartIndex += lastLength * lastBoth;
 
-				for (short ui = 0; ui < lastLength - 1; ui++) {
-					arrayI[arrayIndex] = (short) (lastStartIndex + ui);
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (lastStartIndex + ui + 1);
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (currentStartIndex + ui);
-					arrayIndex++;
+
+				if (drawTop) {// top triangles
+					short currentIndex = currentStartIndex;
+					for (short lastIndex = lastStartIndex; lastIndex < currentStartIndex
+							- lastBoth; lastIndex += lastBoth) {
+						arrayI[arrayIndex] = lastIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayIndex++;
+
+						currentIndex += both;
+					}
+
+					// if (longitudeLength == longitude) {
+					// // close the parallel
+					// arrayI[arrayIndex] = (short) (lastStartIndex
+					// + lastLength - 1);
+					// arrayIndex++;
+					// arrayI[arrayIndex] = lastStartIndex;
+					// arrayIndex++;
+					// arrayI[arrayIndex] = (short) (currentStartIndex
+					// + currentLength - 1);
+					// arrayIndex++;
+					// }
+
 				}
 
-				if (longitudeLength == longitude) {
-					// close the parallel
-					arrayI[arrayIndex] = (short) (lastStartIndex + lastLength - 1);
-					arrayIndex++;
-					arrayI[arrayIndex] = lastStartIndex;
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (currentStartIndex
-							+ currentLength - 1);
-					arrayIndex++;
+				// shift to draw also bottom
+				if (lastBoth == 2) {
+					lastStartIndex += 1;
+				}
+				if (both == 2) {
+					currentStartIndex += 1;
 				}
 
+				if (drawBottom) {// bottom triangles
+					short currentIndex = currentStartIndex;
+					for (short lastIndex = lastStartIndex; lastIndex < currentStartIndex
+							- both; lastIndex += lastBoth) {
+						arrayI[arrayIndex] = lastIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+
+						currentIndex += both;
+					}
+
+					// if (longitudeLength == longitude) {
+					// // close the parallel
+					// arrayI[arrayIndex] = (short) (lastStartIndex
+					// + lastLength - 1);
+					// arrayIndex++;
+					// arrayI[arrayIndex] = lastStartIndex;
+					// arrayIndex++;
+					// arrayI[arrayIndex] = (short) (currentStartIndex
+					// + currentLength - 1);
+					// arrayIndex++;
+					// }
+				}
+
+				// shift back
+				if (lastBoth == 2) {
+					lastStartIndex -= 1;
+				}
+				if (both == 2) {
+					currentStartIndex -= 1;
+				}
 				vi++;
 			}
 
@@ -143,47 +233,114 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				cosSin(vi, latitude, cosSinV);
 				for (int ui = 0; ui < longitudeLength; ui += shift) {
 					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n);
-					drawNCr(n, center, radius);
+					if (drawTop) {// top vertices
+						drawNCr(n, center, radius);
+					}
+					if (drawBottom) {// bottom vertices
+						drawNCrm(n, center, radius);
+					}
+
 				}
+
+				lastBoth = both;
+
 				lastStartIndex = currentStartIndex;
 				lastLength = currentLength;
-				currentStartIndex += lastLength;
+				currentStartIndex += lastLength * lastBoth;
 				currentLength /= 2;
 
-				for (short ui = 0; ui < currentLength - 1; ui++) {
-					arrayI[arrayIndex] = (short) (lastStartIndex + 2 * ui);
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (lastStartIndex + 2 * ui + 1);
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (currentStartIndex + ui);
-					arrayIndex++;
+				if (drawTop) {// top triangles
+					short currentIndex = currentStartIndex;
+					for (short lastIndex = lastStartIndex; lastIndex < currentStartIndex
+							- 2 * lastBoth; lastIndex += 2 * lastBoth) {
+						arrayI[arrayIndex] = lastIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
 
-					arrayI[arrayIndex] = (short) (lastStartIndex + 2 * ui + 1);
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (lastStartIndex + 2 * (ui + 1));
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (currentStartIndex + ui + 1);
-					arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + 2 * lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayIndex++;
+
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+
+						currentIndex += both;
+
+					}
+
+					// if (longitudeLength == longitude) {
+					// // close the parallel
+					// arrayI[arrayIndex] = (short) (lastStartIndex + 2 *
+					// (currentLength - 1));
+					// arrayIndex++;
+					// arrayI[arrayIndex] = (short) (lastStartIndex + 2
+					// * (currentLength - 1) + 1);
+					// arrayIndex++;
+					// arrayI[arrayIndex] = (short) (currentStartIndex +
+					// (currentLength - 1));
+					// arrayIndex++;
+					//
+					// arrayI[arrayIndex] = (short) (lastStartIndex + 2
+					// * (currentLength - 1) + 1);
+					// arrayIndex++;
+					// arrayI[arrayIndex] = lastStartIndex;
+					// arrayIndex++;
+					// arrayI[arrayIndex] = currentStartIndex;
+					// arrayIndex++;
+					//
+					// }
+
+					// shift for maybe draw bottom
+					lastStartIndex += 1;
+					currentStartIndex += 1;
+
 				}
 
-				if (longitudeLength == longitude) {
-					// close the parallel
-					arrayI[arrayIndex] = (short) (lastStartIndex + 2 * (currentLength - 1));
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (lastStartIndex + 2
-							* (currentLength - 1) + 1);
-					arrayIndex++;
-					arrayI[arrayIndex] = (short) (currentStartIndex + (currentLength - 1));
-					arrayIndex++;
+				if (drawBottom) {// bottom triangles
+					short currentIndex = currentStartIndex;
+					for (short lastIndex = lastStartIndex; lastIndex < currentStartIndex
+							- 2 * lastBoth; lastIndex += 2 * lastBoth) {
+						arrayI[arrayIndex] = lastIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
 
-					arrayI[arrayIndex] = (short) (lastStartIndex + 2
-							* (currentLength - 1) + 1);
-					arrayIndex++;
-					arrayI[arrayIndex] = lastStartIndex;
-					arrayIndex++;
-					arrayI[arrayIndex] = currentStartIndex;
-					arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (lastIndex + 2 * lastBoth);
+						arrayIndex++;
 
+						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayIndex++;
+						arrayI[arrayIndex] = currentIndex;
+						arrayIndex++;
+						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayIndex++;
+
+						currentIndex += both;
+
+					}
+
+				}
+
+				if (drawTop) {
+					// shift back
+					lastStartIndex -= 1;
+					currentStartIndex -= 1;
 				}
 
 				vi++;
@@ -194,24 +351,53 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		}
 
-		// pole
+		lastBoth = both;
+
+		lastStartIndex = currentStartIndex;
+		lastLength = currentLength;
+		currentStartIndex += lastLength * lastBoth;
+
+
+		// north pole
 		if (latitudeMax == latitude) {
 
-			drawNCr(Coords.VZ, center, radius);
+			if (drawTop) {
 
-			lastStartIndex = currentStartIndex;
-			lastLength = currentLength;
-			currentStartIndex += lastLength;
+				drawNCr(Coords.VZ, center, radius);
 
-			for (short ui = 0; ui < lastLength; ui++) {
-				arrayI[arrayIndex] = (short) (lastStartIndex + ui);
-				arrayIndex++;
-				arrayI[arrayIndex] = (short) (lastStartIndex + ((ui + 1) % lastLength));
-				arrayIndex++;
-				arrayI[arrayIndex] = currentStartIndex;
-				arrayIndex++;
+				for (short ui = 0; ui < lastLength - 1; ui++) {
+					arrayI[arrayIndex] = (short) (lastStartIndex + ui
+							* lastBoth);
+					arrayIndex++;
+					arrayI[arrayIndex] = (short) (lastStartIndex + (ui + 1)
+							* lastBoth);
+					arrayIndex++;
+					arrayI[arrayIndex] = currentStartIndex;
+					arrayIndex++;
+				}
+
+				// shift for maybe south pole
+				lastStartIndex += 1;
+				currentStartIndex += 1;
 			}
 
+			// south pole
+			if (drawBottom) {
+
+				drawNCrm(Coords.VZ, center, radius);
+
+				for (short ui = 0; ui < lastLength - 1; ui++) {
+					arrayI[arrayIndex] = (short) (lastStartIndex + ui
+							* lastBoth);
+					arrayIndex++;
+					arrayI[arrayIndex] = currentStartIndex;
+					arrayIndex++;
+					arrayI[arrayIndex] = (short) (lastStartIndex + (ui + 1)
+							* lastBoth);
+					arrayIndex++;
+				}
+
+			}
 		}
 
 
