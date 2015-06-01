@@ -212,8 +212,19 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 			r.bindBufferForVertices(bufferV, 3);
 			r.bindBufferForNormals(bufferN, 3, getNormals());
 			r.bindBufferForColors(bufferC, 4, getColors());
-			r.bindBufferForTextures(bufferT, 2,
-					getTextures());
+			if (r.areTexturesEnabled()) {
+				r.bindBufferForTextures(bufferT, 2, getTextures());
+			}
+			r.bindBufferForIndices(bufferI);
+			r.draw(getType(), indicesLength);
+		}
+
+		@Override
+		public void drawLabel(RendererShadersInterface r) {
+			r.bindBufferForVertices(bufferV, 3);
+			if (r.areTexturesEnabled()) {
+				r.bindBufferForTextures(bufferT, 2, getTextures());
+			}
 			r.bindBufferForIndices(bufferI);
 			r.draw(getType(), indicesLength);
 		}

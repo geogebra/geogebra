@@ -293,6 +293,20 @@ public class ManagerShaders extends Manager {
 			r.draw(getType(), getLength());
 		}
 
+		/**
+		 * draw as label to renderer
+		 * 
+		 * @param r
+		 *            renderer to draw into
+		 */
+		public void drawLabel(RendererShadersInterface r) {
+			r.loadVertexBuffer(getVertices(), getLength());
+			if (r.areTexturesEnabled()) {
+				r.loadTextureBuffer(getTextures(), getLength());
+			}
+			r.draw(getType(), getLength());
+		}
+
 	}
 
 	/**
@@ -584,20 +598,6 @@ public class ManagerShaders extends Manager {
 			for (int i = 0; i < currentGeometriesSet.getGeometriesLength(); i++) {
 				currentGeometriesSet.get(i).draw(
 						(RendererShadersInterface) renderer);
-				// ((RendererShadersInterface) renderer).loadVertexBuffer(
-				// geometry.getVertices(), geometry.getLength());
-				// ((RendererShadersInterface) renderer).loadNormalBuffer(
-				// geometry.getNormals(), geometry.getLength());
-				// ((RendererShadersInterface) renderer).loadColorBuffer(
-				// geometry.getColors(), geometry.getLength());
-				// if (((RendererShadersInterface)
-				// renderer).areTexturesEnabled()) {
-				// ((RendererShadersInterface) renderer).loadTextureBuffer(
-				// geometry.getTextures(), geometry.getLength());
-				// }
-				// ((RendererShadersInterface)
-				// renderer).draw(geometry.getType(),
-				// geometry.getLength());
 			}
 		}
 	}
@@ -612,15 +612,8 @@ public class ManagerShaders extends Manager {
 		currentGeometriesSet = geometriesSetList.get(index);
 		if (currentGeometriesSet != null) {
 			for (int i = 0; i < currentGeometriesSet.getGeometriesLength(); i++) {
-				Geometry geometry = currentGeometriesSet.get(i);
-				((RendererShadersInterface) renderer).loadVertexBuffer(
-						geometry.getVertices(), geometry.getLength());
-				if (((RendererShadersInterface) renderer).areTexturesEnabled()) {
-					((RendererShadersInterface) renderer).loadTextureBuffer(
-							geometry.getTextures(), geometry.getLength());
-				}
-				((RendererShadersInterface) renderer).draw(geometry.getType(),
-						geometry.getLength());
+				currentGeometriesSet.get(i).drawLabel(
+						(RendererShadersInterface) renderer);
 			}
 		}
 	}
