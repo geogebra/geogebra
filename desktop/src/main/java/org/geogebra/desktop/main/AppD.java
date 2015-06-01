@@ -1381,10 +1381,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			getGuiManager().resetCasView();
 		}
 
-		getEuclidianView1().resetXYMinMaxObjects();
-		if (hasEuclidianView2EitherShowingOrNot(1)) {
-			getEuclidianView2(1).resetXYMinMaxObjects();
-		}
+		resetEVs();
 
 		resetAllToolbars();
 

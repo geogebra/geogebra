@@ -2935,6 +2935,15 @@ public abstract class App implements UpdateSelection {
 
 	public abstract void fileNew();
 
+	protected void resetEVs() {
+		getEuclidianView1().resetXYMinMaxObjects();
+		getEuclidianView1().setSelectionRectangle(null);
+		if (hasEuclidianView2EitherShowingOrNot(1)) {
+			getEuclidianView2(1).resetXYMinMaxObjects();
+			getEuclidianView2(1).setSelectionRectangle(null);
+		}
+	}
+
 	/**
 	 * @return country nme from GeoIP service
 	 * @throws Exception

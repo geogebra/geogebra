@@ -961,10 +961,8 @@ public abstract class AppW extends App implements SetLabels {
 			// getGuiManager().resetSpreadsheet();
 		}
 
-		getEuclidianView1().resetXYMinMaxObjects();
-		if (hasEuclidianView2EitherShowingOrNot(1)) {
-			getEuclidianView2(1).resetXYMinMaxObjects();
-		}
+		resetEVs();
+
 		// make sure file->new->probability does not clear the prob. calc
 		if (this.getGuiManager() != null
 		        && this.getGuiManager().hasProbabilityCalculator()) {
