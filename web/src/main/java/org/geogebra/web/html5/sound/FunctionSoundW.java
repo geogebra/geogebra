@@ -18,7 +18,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		FunctionAudioBuffer {
 
 	private static final int PREBUFFER = 2;
-	private static final int SAMPLERATE_DIVIDER = 20;
+	private static final int SAMPLERATE_DIVIDER = 2;
 	public static final FunctionSoundW INSTANCE = new FunctionSoundW();
 	private WebAudioWrapper waw = WebAudioWrapper.INSTANCE;
 	private byte[] wawBuffer;
@@ -135,9 +135,9 @@ public final class FunctionSoundW extends FunctionSound implements
 		loadBuffer();
 		doFade(getBuf()[0], false);
 		writeIdx = 0;
-		toWawBuffer(getBuf());
+		writeBuffer(getBuf());
 
-		int period = 100;
+		int period = 480;
 		timer.scheduleRepeating(period);
 		timer.run();
 	}
@@ -162,13 +162,14 @@ public final class FunctionSoundW extends FunctionSound implements
 	}
 
 	private void writeBuffer(byte[] buffer) {
-		if (writeIdx + buffer.length < wawBuffer.length) {
-			toWawBuffer(buffer);
-		} else {
-			waw.write(wawBuffer, wawBuffer.length);
-			writeIdx = 0;
-			toWawBuffer(buffer);
-		}
+		waw.write(buffer, buffer.length);
+		// if (writeIdx + buffer.length < wawBuffer.length) {
+		// toWawBuffer(buffer);
+		// } else {
+		// waw.write(wawBuffer, wawBuffer.length);
+		// writeIdx = 0;
+		// toWawBuffer(buffer);
+		// }
 	}
 
 	public void fillBuffer() {
