@@ -30,7 +30,7 @@ public class ExportMenuW extends MenuBar {
 		
 		this.app = app;
 		addStyleName("GeoGebraMenuBar");
-		MainMenu.addSubmenuArrow(app, this);
+		MainMenu.addSubmenuArrow(this);
 		
 		initActions();
 	}

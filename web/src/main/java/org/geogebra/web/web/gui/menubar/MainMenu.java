@@ -29,7 +29,6 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  * 
  */
-
 public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, BooleanRenderable {
 	
 	/**
@@ -39,17 +38,24 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private SignedInMenuW signedIn;
 	private MenuItem signedInMenu;*/
 	
-	private AppW app;
+	AppW app;
 	
-	private StackPanel menuPanel;
+	/**
+	 * Panel with menus
+	 */
+	StackPanel menuPanel;
 	private ViewMenuW viewMenu;
 	private FileMenuW fileMenu;
 	private HelpMenuW helpMenu;
 	private OptionsMenuW optionsMenu;
 	private ToolsMenuW toolsMenu;
 	private EditMenuW editMenu;
+
 	private PerspectivesMenuW perspectivesMenu;
-	private GMenuBar[] menus;
+	/**
+	 * Menus
+	 */
+	GMenuBar[] menus;
 	private GMenuBar userMenu;
 	private GMenuBar signInMenu = new GMenuBar(true);
 
@@ -123,7 +129,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			@Override
 			public void showStack(int index) {
 				super.showStack(index);
-				app.getGuiManager().setDraggingViews(menus[index] == perspectivesMenu || menus[index] == viewMenu, false);
+				app.getGuiManager().setDraggingViews(
+						isViewDraggingMenu(menus[index]), false);
 			}
 
 			@Override
@@ -147,7 +154,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				super.onBrowserEvent(event);
 			}
 			
-			  private int findDividerIndex(Element elem) {
+			private int findDividerIndex(Element elemSource) {
+				Element elem = elemSource;
 				    while (elem != null && elem != getElement()) {
 				      String expando = elem.getPropertyString("__index");
 				      if (expando != null) {
@@ -156,10 +164,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				        if (ownerHash == hashCode()) {
 				          // Yes, it's mine.
 				          return Integer.parseInt(expando);
-				        } else {
-				          // It must belong to some nested StackPanel.
+						}
+						// It must belong to some nested StackPanel.
 				          return -1;
-				        }
 				      }
 				      elem = DOM.getParent(elem);
 				    }
@@ -186,6 +193,15 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			app.getNetworkOperation().getView().add(this);
 		}
 	    this.add(menuPanel);	    
+	}
+
+	/**
+	 * @param menu
+	 *            menu
+	 * @return whether dragging views should be enabled for this menu
+	 */
+	protected boolean isViewDraggingMenu(GMenuBar menu) {
+		return menu == perspectivesMenu || menu == viewMenu;
 	}
 
 	public void render(boolean online) {
@@ -274,10 +290,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 	}
 
-    public MenuItem getSignIn() {
-		return null;
-    }
-
 	public void focus(){
 		int index= Math.max(menuPanel.getSelectedIndex(),0);
 		if(this.menus[index]!=null){
@@ -285,7 +297,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 	}
 	
-	public static void addSubmenuArrow(AppW app,MenuBar w) {
+	public static void addSubmenuArrow(MenuBar w) {
 		w.addStyleName("subMenuLeftSide");
 		FlowPanel arrowSubmenu = new FlowPanel();
 		arrowSubmenu.addStyleName("arrowSubmenu");

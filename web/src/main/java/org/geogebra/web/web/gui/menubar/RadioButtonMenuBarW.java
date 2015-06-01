@@ -40,7 +40,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		radioButtons = new ArrayList<RadioButton>();
 		app = application;
 		if(arrow){
-			MainMenu.addSubmenuArrow(app, this);
+			MainMenu.addSubmenuArrow(this);
 		}
 	}
 

@@ -51,7 +51,6 @@ import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
@@ -355,15 +354,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 				return;
 			}
 			//Steffi: In SMART the getSignIn()-Method returns NULL
-			MenuItem lg = ((GuiManagerW) app.getGuiManager()).getObjectPool().getGgwMenubar().getMenubar().getSignIn();
-			final int top = lg.getElement().getOffsetTop();
-			final int left = lg.getElement().getOffsetLeft();
 			googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {
 
 				        @Override
 				        public void setPosition(int offsetWidth,
 				                int offsetHeight) {
-					googleFileDescriptors.setPopupPosition(left - offsetWidth, top);
 					googleFileDescriptors.show();
 
 				}
