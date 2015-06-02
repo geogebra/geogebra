@@ -2776,7 +2776,8 @@ body.application[dir=rtl] .toolbar_submenu .submenuArrow {
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-	padding: 5px;
+	/*padding: 5px;*/
+	padding-top: 3px !important;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	overflow-y:auto;
@@ -2797,7 +2798,8 @@ body.application[dir=rtl] .toolbar_submenu .submenuContent li {
 
 .toolbar_submenu .submenuContent li:hover,
 .toolbar_submenu .submenuContent li:focus {
-	color: #6666FF;
+	color: #333333;
+	background-color: #CCCCFF;
 }
 
 .toolbar_button:focus {
