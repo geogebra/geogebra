@@ -196,9 +196,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	@Override
 	public OptionPanel updatePanel(Object[] geos) {
-		stepPanel.update(geos);
-		speedPanel.update(geos);
-		return super.update(geos);
+		stepPanel.updatePanel(geos);
+		speedPanel.updatePanel(geos);
+		return super.updatePanel(geos);
 	}
 	protected void applyMin() {
 		model.applyMin(getNumberFromInput(tfMin.getText().trim()));

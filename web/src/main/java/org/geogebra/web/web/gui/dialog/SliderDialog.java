@@ -265,7 +265,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
 
 	public void sliderPanelUpdate(Object[] geos) {
-		sliderPanel.update(geos);
+		sliderPanel.updatePanel(geos);
 	}
 
 

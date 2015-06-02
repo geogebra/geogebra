@@ -67,7 +67,7 @@ public abstract class OptionsModel {
 		return false;
 	}
 
-	public abstract boolean updatePanel(Object[] geos2);
+	public abstract boolean updateMPanel(Object[] geos2);
 }
 	
 

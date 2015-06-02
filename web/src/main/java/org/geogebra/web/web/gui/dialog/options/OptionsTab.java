@@ -48,7 +48,7 @@ class OptionsTab extends FlowPanel {
 	public boolean update(Object[] geos) {
 		boolean enabled = false;
 		for (OptionsModel panel : models) {
-			enabled = panel.updatePanel(geos) || enabled;
+			enabled = panel.updateMPanel(geos) || enabled;
 		}
 
 		TabBar tabBar = this.tabPanel.getTabBar();

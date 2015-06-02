@@ -29,10 +29,10 @@ public class GroupModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updatePanel(Object[] geos2) {
+	public boolean updateMPanel(Object[] geos2) {
 		boolean enabled = false;
 		for (OptionsModel model : models) {
-			enabled = model.updatePanel(geos2) || enabled;
+			enabled = model.updateMPanel(geos2) || enabled;
 		}
 		return enabled;
 	}

@@ -92,7 +92,7 @@ public class ShowLabelModel extends OptionsModel{
 	}
 
 	@Override
-	public boolean updatePanel(Object[] geos2) {
+	public boolean updateMPanel(Object[] geos2) {
 		return listener.update(geos2) != null;
 	}
 }

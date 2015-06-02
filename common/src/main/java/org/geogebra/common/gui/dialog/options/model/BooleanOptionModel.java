@@ -50,7 +50,7 @@ public abstract class BooleanOptionModel extends OptionsModel {
 	}
 	
 	@Override
-	public final boolean updatePanel(Object[] geos2) {
+	public final boolean updateMPanel(Object[] geos2) {
 		return getListener().update(geos2) != null;
 	}
 }

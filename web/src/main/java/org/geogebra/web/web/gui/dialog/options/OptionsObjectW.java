@@ -53,6 +53,7 @@ import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComb
 import org.geogebra.common.gui.dialog.options.model.LodModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
+import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
@@ -77,6 +78,7 @@ import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesMode
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
@@ -1336,10 +1338,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	        opacitySlider.setVisible(value);
         }
 
-		public OptionPanel updatePanel(Object[] geos2) {
-			// TODO Auto-generated method stub
-			return this.update(geos2);
-		}
 	}
 
 
@@ -2160,6 +2158,24 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private ImageCornerPanel corner4;
 
 		public CornerPointsPanel() {
+			setModel(new OptionsModel() {
+
+				@Override
+				protected boolean isValidAt(int index) {
+					return getGeoAt(index) instanceof Locateable;
+				}
+
+				@Override
+				public void updateProperties() {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public boolean updateMPanel(Object[] geos2) {
+					return CornerPointsPanel.this.update(geos2) != null;
+				}
+			});
 			corner1 = new ImageCornerPanel(0); 
 			corner2 = new ImageCornerPanel(1); 
 			corner4 = new ImageCornerPanel(2);
@@ -2186,9 +2202,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				return null;
 			}
 
-			boolean result = corner1.update(geos) != null;
-			result = corner2.update(geos) != null || result;
-			result = corner4.update(geos) != null || result;
+			boolean result = corner1.updatePanel(geos) != null;
+			result = corner2.updatePanel(geos) != null || result;
+			result = corner4.updatePanel(geos) != null || result;
 			return result ? this : null;
 		}
 	}
@@ -3419,7 +3435,24 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		public ScriptEditPanel() {
 			int row = 35;
 			int column = 15;
+			setModel(new OptionsModel() {
 
+				@Override
+				protected boolean isValidAt(int index) {
+					return true;
+				}
+
+				@Override
+				public void updateProperties() {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public boolean updateMPanel(Object[] geos2) {
+					return ScriptEditPanel.this.update(geos2) != null;
+				}
+			});
 			tabbedPane = new TabPanel();
 			tabbedPane.setStyleName("scriptTabPanel");
 
@@ -3549,7 +3582,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 	//			updateGUI();
-				((PropertiesViewW)app.getGuiManager().getPropertiesView()).updatePropertiesView();
+				if (event.getSource() == tabPanel) {
+					((PropertiesViewW) app.getGuiManager().getPropertiesView())
+							.updatePropertiesView();
+				}
 			}
 				});
 		tabPanel.setStyleName("propertiesTabPanel");
@@ -3820,6 +3856,7 @@ Arrays.asList(coordsPanel,
 
 	@Override
 	public void updateGUI() {
+		App.printStacktrace("");
 		App.debug("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
