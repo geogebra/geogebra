@@ -148,6 +148,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
+@SuppressWarnings("javadoc")
 public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	Localization loc;
 
@@ -392,7 +393,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private class ShowConditionPanel extends OptionPanel implements	IShowConditionListener {
 
-		private static final long serialVersionUID = 1L;
+
 
 		private ShowConditionModel model;
 		private Label title;
@@ -637,7 +638,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private class NamePanel extends OptionPanel implements IObjectNameListener {
 
-		private static final long serialVersionUID = 1L;
+
 
 		ObjectNameModel model;
 		AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
@@ -1077,7 +1078,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private class ShowTrimmedIntersectionLinesPanel extends CheckboxPanel {
 
-		private static final long serialVersionUID = 1L;
+
 		public ShowTrimmedIntersectionLinesPanel() {
 			super("ShowTrimmed");
 			setModel(new TrimmedIntersectionLinesModel(this));
@@ -1433,7 +1434,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private class IneqPanel extends CheckboxPanel implements IIneqStyleListener {
 
-		private static final long serialVersionUID = 1L;
+
 
 		public IneqPanel() {
 			super("ShowOnXAxis");
@@ -1864,7 +1865,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 	private class SelectionAllowedPanel extends CheckboxPanel {
 
-		private static final long serialVersionUID = 1L;
+
 		public SelectionAllowedPanel() {
 			super("SelectionAllowed");
 			setModel(new SelectionAllowedModel(this));
@@ -1873,7 +1874,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	private class TooltipPanel extends ListBoxPanel {
-		private static final long serialVersionUID = 1L;
+
 
 		public TooltipPanel() {
 			super(loc, "Tooltip");
@@ -1882,7 +1883,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	private class LayerPanel extends ListBoxPanel {
-		private static final long serialVersionUID = 1L;
+
 
 		public LayerPanel() {
 			super(loc, "Layer");
@@ -2007,7 +2008,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	} // CoordsPanel
 
 	private class LineEqnPanel extends ListBoxPanel {
-		private static final long serialVersionUID = 1L;
+
 
 		public LineEqnPanel() {
 			super(loc, "Equation");
@@ -2016,7 +2017,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	} // LineEqnPanel
 
 	private class ConicEqnPanel extends ListBoxPanel {
-		private static final long serialVersionUID = 1L;
+
 
 		public ConicEqnPanel() {
 			super(loc, "Equation");
@@ -2038,7 +2039,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	} // ConicEqnPanel
 
 	private class StartPointPanel extends ComboBoxPanel {
-		private static final long serialVersionUID = 1L;
+
 
 		public StartPointPanel() {
 			super(app, "StartingPoint");
@@ -2121,7 +2122,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	private class ImageCornerPanel extends ComboBoxPanel {
-		private static final long serialVersionUID = 1L;
+
 		private ImageCornerModel model;
 		public ImageCornerPanel(int cornerIdx) {
 			super(app, "CornerModel");
@@ -2899,7 +2900,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 					model.applyAngleAndDistance(angleSlider.getValue(),
 							distanceSlider.getValue());
 
-				}};;
+				}
+			};
 
 
 				angleSlider.addChangeHandler(angleAndDistanceHandler);
@@ -3437,7 +3439,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private class ScriptEditPanel extends OptionPanel {
 
-		private static final long serialVersionUID = 1L;
+
 		private ScriptInputPanelW clickDialog, updateDialog, globalDialog;
 		private TabPanel tabbedPane;
 		private FlowPanel clickScriptPanel, updateScriptPanel, globalScriptPanel;
@@ -3547,18 +3549,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			return this;
 		}
 
-		private boolean checkGeos(Object[] geos) {
-			// return geos.length == 1 && geos[0] instanceof
-			// GeoJavaScriptButton;
-			return geos.length == 1;
-		}
-
-
-
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
 	}
 
 	private class ExtendedAVPanel extends CheckboxPanel {
