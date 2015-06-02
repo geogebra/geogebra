@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
@@ -380,7 +381,7 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
-	public static boolean applyColor(ArrayList<GeoElement> geos, GColor color,
+	public static boolean applyColor(List<GeoElement> geos, GColor color,
 			float alpha, App app) {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
