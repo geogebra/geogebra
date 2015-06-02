@@ -35,7 +35,6 @@ public final class FunctionSoundW extends FunctionSound implements
 		}
 
 	}
-	
 	/**
 	 * Initializes instances of AudioFormat and SourceDataLine
 	 * 
@@ -43,7 +42,6 @@ public final class FunctionSoundW extends FunctionSound implements
 	 *            = 8000, 16000, 11025, 16000, 22050, or 44100
 	 * @param bitDepth
 	 *            = 8 or 16
-	 * 
 	 * @return
 	 */
 	protected boolean initStreamingAudio(int sampleRate, int bitDepth) {
