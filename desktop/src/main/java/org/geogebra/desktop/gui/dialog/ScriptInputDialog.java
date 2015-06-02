@@ -239,4 +239,8 @@ public class ScriptInputDialog extends InputDialogD implements
 		model.setGlobal();
 	}
 
+	public Object update(Object[] geos2) {
+		return this;
+	}
+
 }

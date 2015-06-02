@@ -195,7 +195,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	@Override
-	public boolean update(Object[] geos) {
+	public OptionPanel updatePanel(Object[] geos) {
 		stepPanel.update(geos);
 		speedPanel.update(geos);
 		return super.update(geos);

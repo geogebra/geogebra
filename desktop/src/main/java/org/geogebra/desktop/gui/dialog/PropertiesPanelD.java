@@ -905,6 +905,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			add(comboBox);
 		}
 
+		public JPanel updatePanel(Object[] geos) {
+			return update(geos);
+		}
 		public void setLabels() {
 			label.setText(localize(getTitle()) + ":");
 
@@ -1470,6 +1473,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			intervalCombo.setSelectedIndex(idx);
 		}
 
+		public JPanel updatePanel(Object[] geos) {
+			return update(geos);
+		}
 		public JPanel update(Object[] geos) {
 			model.setGeos(geos);
 			if (!model.checkGeos()) {
@@ -1631,6 +1637,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			label.setText(app.getPlain("StartingPoint") + ": ");
 		}
 
+		public JPanel updatePanel(Object[] geos) {
+			return update(geos);
+		}
 		public JPanel update(Object[] geos) {
 			model.setGeos(geos);
 			if (!model.checkGeos())
@@ -2239,6 +2248,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public JPanel update(Object[] geos) {
 			model.setGeos(geos);
 			return update();
+		}
+
+		public JPanel updatePanel(Object[] geos) {
+			return update(geos);
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
@@ -3011,6 +3024,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			}
 		}
 
+		public JPanel updatePanel(Object[] geos) {
+			return update(geos);
+		}
 		public void setLabels() {
 
 			// setBorder(BorderFactory.createTitledBorder(app.getPlain("Filling")));
@@ -3688,6 +3704,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			return update();
 		}
 
+		public JPanel updatePanel(Object[] geos) {
+
+			model.setGeos(geos);
+			return update();
+		}
+
 		public void updateVisualStyle(GeoElement geo) {
 			if (!model.hasGeos()) {
 				return;
@@ -4059,6 +4081,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			add(combo);
 		}
 
+		public JPanel updatePanel(Object[] geos) {
+			return update(geos);
+		}
 		public void setLabels() {
 			
 			label.setText(app.getPlain("LevelOfDetail"));
@@ -4247,6 +4272,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			add(decoCombo);
 		}
 
+		public JPanel updatePanel(Object[] geos) {
+			return update(geos);
+		}
 		public void setLabels() {
 			decoLabel.setText(app.getPlain("Decoration") + ":");
 		}
@@ -4324,6 +4352,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			add(decoCombo);
 		}
 
+		public JPanel updatePanel(Object[] geos) {
+			return update(geos);
+		}
 		public void setLabels() {
 			decoLabel.setText(app.getPlain("Decoration") + ":");
 		}

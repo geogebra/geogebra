@@ -3,6 +3,8 @@ package org.geogebra.web.web.gui.properties;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.gui.dialog.options.model.GroupModel;
+import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.main.Localization;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -16,7 +18,10 @@ public class GroupOptionsPanel implements IOptionPanel {
 	private FlowPanel group;
 	private Label titleLabel;
 	private Localization loc;
-	public GroupOptionsPanel(final String title, Localization loc) {
+	private GroupModel model;
+
+	public GroupOptionsPanel(final String title, Localization loc,
+			GroupModel model) {
 		super();
 		this.titleId = title;
 		this.loc = loc;
@@ -25,7 +30,7 @@ public class GroupOptionsPanel implements IOptionPanel {
 		group = new FlowPanel();
 		mainWidget.add(titleLabel);
 		mainWidget.add(group);
-		
+		this.model = model;
 		titleLabel.setStyleName("panelTitle");
 		group.setStyleName("optionsPanelIndent");
 		
@@ -50,12 +55,12 @@ public class GroupOptionsPanel implements IOptionPanel {
 	    titleLabel.setText(loc.getMenu(titleId));
     }
 
-	public boolean update(Object[] geos) {
+	public Object update(Object[] geos) {
 		boolean result = false;
 		for (IOptionPanel panel: panels) {
-			result = panel.update(geos) || result;
+			result = panel.update(geos) != null || result;
 		}
-		return result;
+		return result ? this : null;
 	}
 
 	public Widget getWidget() {
@@ -63,6 +68,10 @@ public class GroupOptionsPanel implements IOptionPanel {
 	}
 
 	public void setWidget(Widget widget) {
+	}
+
+	public OptionsModel getModel() {
+		return model;
 	}
 
 }

@@ -36,6 +36,7 @@ import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
 import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel.IGraphicsViewLocationListener;
+import org.geogebra.common.gui.dialog.options.model.GroupModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
@@ -52,6 +53,7 @@ import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComb
 import org.geogebra.common.gui.dialog.options.model.LodModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
+import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
@@ -226,20 +228,20 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private class OptionsTab extends FlowPanel {
 		private String titleId;
 		private int index;
-		private List<IOptionPanel> panels;
+		private List<OptionsModel> models;
 		private boolean hasAdded;
 		
 		public OptionsTab(final String title) {
 			super();
 			this.titleId = title;
 			hasAdded = false;
-			panels = new ArrayList<IOptionPanel>();
+			models = new ArrayList<OptionsModel>();
 			setStyleName("propertiesTab");
 		}
 
 		public void add(IOptionPanel panel) {
 			add(panel.getWidget());
-			panels.add(panel);
+			models.add(panel.getModel());
 		}
 
 		public void addPanelList(List<OptionPanel> list) {
@@ -250,8 +252,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public boolean update(Object[] geos) {
 			boolean enabled = false;
-			for (IOptionPanel panel: panels) {
-				enabled = panel.update(geos) || enabled;
+			for (OptionsModel panel : models) {
+				enabled = panel.updatePanel(geos) || enabled;
 			}
 
 			TabBar tabBar = tabPanel.getTabBar();
@@ -1391,6 +1393,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		public void setLineOpacityVisible(boolean value) {
 	        opacitySlider.setVisible(value);
         }
+
+		public OptionPanel updatePanel(Object[] geos2) {
+			// TODO Auto-generated method stub
+			return this.update(geos2);
+		}
 	}
 
 
@@ -2232,15 +2239,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 
 		@Override
-		public boolean update(Object[] geos) {
+		public OptionPanel updatePanel(Object[] geos) {
 			if (geos == null) {
-				return false;
+				return null;
 			}
 
-			boolean result = corner1.update(geos);
-			result = corner2.update(geos) || result;
-			result = corner4.update(geos) || result;
-			return result;
+			boolean result = corner1.update(geos) != null;
+			result = corner2.update(geos) != null || result;
+			result = corner4.update(geos) != null || result;
+			return result ? this : null;
 		}
 	}
 
@@ -2469,13 +2476,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 		
 		@Override
-		public boolean update(Object[] geos) {
+		public OptionPanel updatePanel(Object[] geos) {
 
 			getModel().setGeos(geos);
 
 			if (!getModel().checkGeos()) {
 				model.cancelEditGeo();
-				return false;
+				return null;
 			}
 
 			getModel().updateProperties();
@@ -2486,7 +2493,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				editor.updateFonts();
 			}
 
-			return true;
+			return this;
 
 		}
 
@@ -3531,9 +3538,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 
 		@Override
-		public boolean update(Object[] geos) {
+		public OptionPanel updatePanel(Object[] geos) {
 			if (geos.length != 1){
-				return false;
+				return null;
 			}
 
 			// remember selected tab
@@ -3552,7 +3559,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 			// select tab as before
 			tabbedPane.selectTab(Math.max(0,	idx));
-			return true;
+			return this;
 		}
 
 		private boolean checkGeos(Object[] geos) {
@@ -3804,7 +3811,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		tab.add(showConditionPanel);
 		tab.add(colorFunctionPanel);
-		GroupOptionsPanel misc = new GroupOptionsPanel("Miscellaneous", loc); 
+		GroupModel group = new GroupModel();
+		group.add(layerPanel.getModel());
+		group.add(tooltipPanel.getModel());
+		group.add(selectionAllowedPanel.getModel());
+		GroupOptionsPanel misc = new GroupOptionsPanel("Miscellaneous", loc,
+				group);
 		misc.add(layerPanel);
 		misc.add(tooltipPanel);
 		misc.add(selectionAllowedPanel);

@@ -2,11 +2,11 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 
@@ -56,7 +56,7 @@ public class AnimationStepModel extends OptionsModel {
 
 	}
 	@Override
-	protected boolean isValidAt(int index) {
+	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 		if (!geo.isChangeable() 
 				|| geo.isGeoText() 
@@ -87,6 +87,11 @@ public class AnimationStepModel extends OptionsModel {
 	}
 	public void setPartOfSlider(boolean partOfSlider) {
 		this.partOfSlider = partOfSlider;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 
 }

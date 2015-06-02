@@ -65,11 +65,16 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	
 	@Override
 	public void update(Object[] geos) {
+		updatePanel(geos);
+	}
+
+	@Override
+	public Object updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		
 		if (!model.hasGeos()) {
 			this.setVisible(false);
-			return;
+			return null;
 		}
 		
 		boolean geosOK = model.checkGeos(); 
@@ -92,6 +97,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 
 			this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 		}
+		return this;
 	}
 	
 

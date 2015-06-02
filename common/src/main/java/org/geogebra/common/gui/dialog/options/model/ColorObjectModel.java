@@ -24,6 +24,8 @@ public class ColorObjectModel extends OptionsModel {
 
 		void updateNoBackground(GeoElement geo, GColor col, float alpha,
 				boolean updateAlphaOnly, boolean allFillable);
+
+		Object update(Object[] geos2);
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -226,5 +228,10 @@ public class ColorObjectModel extends OptionsModel {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 }

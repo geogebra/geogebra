@@ -7,6 +7,8 @@ package org.geogebra.common.gui.dialog.options.model;
 public abstract class BooleanOptionModel extends OptionsModel {
 	public interface IBooleanOptionListener {
 		void updateCheckbox(boolean isEqual);
+
+		Object update(Object[] geos2);
 	}
 
 	private IBooleanOptionListener listener;
@@ -47,5 +49,9 @@ public abstract class BooleanOptionModel extends OptionsModel {
 		this.listener = listener;
 	}
 	
+	@Override
+	public final boolean updatePanel(Object[] geos2) {
+		return getListener().update(geos2) != null;
+	}
 }
 

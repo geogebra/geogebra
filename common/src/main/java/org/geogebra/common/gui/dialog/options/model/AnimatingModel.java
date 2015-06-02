@@ -37,5 +37,6 @@ public class AnimatingModel extends BooleanOptionModel {
 		geo.setAnimating(value);
 		geo.updateRepaint();		
 	}
+
 }
 

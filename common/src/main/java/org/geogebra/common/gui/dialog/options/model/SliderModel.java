@@ -3,8 +3,8 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -20,6 +20,8 @@ public class SliderModel extends OptionsModel {
 		void selectRandom(boolean value);
 		void setRandomVisible(boolean value);
 		void setSliderDirection(int i);
+
+		Object update(Object[] geos2);
 		
 	}
 	
@@ -230,5 +232,10 @@ public class SliderModel extends OptionsModel {
 
 	public void setIncludeRandom(boolean includeRandom) {
 		this.includeRandom = includeRandom;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 }

@@ -8,14 +8,18 @@ public abstract class OptionPanel implements IOptionPanel {
 	OptionsModel model;
 	private Widget widget;
 
-	public boolean update(Object[] geos) {
+	public final OptionPanel update(Object[] geos) {
+		return updatePanel(geos);
+	}
+
+	public OptionPanel updatePanel(Object[] geos) {
 		getModel().setGeos(geos);
 		if (!setupPanel()) {
-			return false;
+			return null;
 		}
 		getModel().updateProperties();
 		setLabels();
-		return true;
+		return this;
 	}
 
 	protected boolean setupPanel() {

@@ -17,6 +17,8 @@ public class LineStyleModel extends OptionsModel {
 		void setLineTypeVisible(boolean value); 
 		
 		void setLineOpacityVisible(boolean value);
+
+		Object updatePanel(Object[] geos2);
 	}
 
 	private ILineStyleListener listener;
@@ -159,5 +161,10 @@ public class LineStyleModel extends OptionsModel {
 			}
 		}
 		return geosOK;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.updatePanel(geos2) != null;
 	}
 }

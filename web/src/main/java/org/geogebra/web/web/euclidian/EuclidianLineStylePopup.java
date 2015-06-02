@@ -30,11 +30,15 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 
 	@Override
 	public void update(Object[] geos) {
+		updatePanel(geos);
+	}
+
+	public Object updatePanel(Object[] geos) {
 		model.setGeos(geos);
 
 		if (!model.hasGeos()) {
 			this.setVisible(false);
-			return;
+			return null;
 		}
 
 		boolean geosOK = model.checkGeos();
@@ -49,6 +53,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 			selectLineType(geo0.getLineType());
 
 		}
+		return this;
 	}
 
 	@Override

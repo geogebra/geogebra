@@ -57,4 +57,9 @@ public class TextFieldSizeModel extends OptionsModel {
 		return (getGeoAt(index) instanceof GeoTextField);
 	}
 
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
+	}
+
 }

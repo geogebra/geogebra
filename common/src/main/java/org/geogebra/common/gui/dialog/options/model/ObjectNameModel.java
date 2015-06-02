@@ -17,6 +17,8 @@ public class ObjectNameModel extends OptionsModel {
 		void updateDefLabel();
 		void updateCaption();
 		void updateName(final String text);
+
+		Object update(Object[] geos2);
 	}
 	
 	private IObjectNameListener listener;
@@ -235,6 +237,11 @@ public class ObjectNameModel extends OptionsModel {
 	protected boolean isValidAt(int index) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 
 }

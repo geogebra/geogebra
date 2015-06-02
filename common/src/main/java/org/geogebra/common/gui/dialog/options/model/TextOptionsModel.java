@@ -34,6 +34,8 @@ public class TextOptionsModel extends OptionsModel {
 		void setEditorText(String text);
 
 		void updatePreview();
+
+		Object update(Object[] geos2);
 	}
 
 	private ITextOptionsListener listener;
@@ -319,5 +321,10 @@ public class TextOptionsModel extends OptionsModel {
 		return getGeosLength() == 1 && getObjectAt(0) instanceof GeoText
 				&& !getGeoTextAt(0).isTextCommand()
 				&& !getGeoTextAt(0).isFixed();
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 }

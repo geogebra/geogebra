@@ -9,6 +9,7 @@ public class ShowLabelModel extends OptionsModel{
 	public interface IShowLabelListener {
 		void update(boolean isEqualVal, boolean isEqualMode);
 
+		Object update(Object[] geos2);
 
 	}
 	
@@ -88,5 +89,10 @@ public class ShowLabelModel extends OptionsModel{
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 		return geo.isLabelShowable() || isDropDownList(geo) || geo.isGeoTextField();
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 }

@@ -11,6 +11,8 @@ public class GraphicsViewLocationModel extends OptionsModel {
 		public void setCheckBox3DVisible(boolean flag);
 
 		public void setCheckBoxForPlaneVisible(boolean flag);
+
+		public Object update(Object[] geos2);
 	}
 	
 	private IGraphicsViewLocationListener listener;
@@ -135,6 +137,11 @@ public class GraphicsViewLocationModel extends OptionsModel {
 	protected boolean isValidAt(int index) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 
 }

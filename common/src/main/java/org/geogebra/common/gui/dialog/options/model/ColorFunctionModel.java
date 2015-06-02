@@ -16,6 +16,8 @@ public class ColorFunctionModel extends OptionsModel {
 		void showAlpha(boolean value);
 		void setDefaultValues(GeoElement geo0);
 		void updateSelection(Object[] geos);
+
+		Object update(Object[] geos2);
 	};
 	private IColorFunctionListener listener;
 	private App app;
@@ -186,8 +188,13 @@ public class ColorFunctionModel extends OptionsModel {
 	}
 
 	@Override
-	protected boolean isValidAt(int index) {
+	public boolean isValidAt(int index) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 }

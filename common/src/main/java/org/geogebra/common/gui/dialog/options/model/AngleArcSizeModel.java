@@ -42,7 +42,7 @@ public class AngleArcSizeModel extends OptionsModel {
 	}
 
 	@Override
-	protected boolean isValidAt(int index){
+	public boolean isValidAt(int index) {
 		boolean isValid = true;
 		if (getObjectAt(index) instanceof AngleProperties) {
 			AngleProperties angle = getAngleAt(index);
@@ -54,5 +54,10 @@ public class AngleArcSizeModel extends OptionsModel {
 		}
 
 		return isValid;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	};
 }

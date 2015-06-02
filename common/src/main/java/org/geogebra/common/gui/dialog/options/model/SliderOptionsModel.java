@@ -24,4 +24,8 @@ public abstract class SliderOptionsModel extends NumberOptionsModel {
 		this.listener = listener;
 	}
 
+	@Override
+	public final boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
+	}
 }

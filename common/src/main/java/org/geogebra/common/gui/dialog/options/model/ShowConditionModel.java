@@ -13,6 +13,8 @@ public class ShowConditionModel extends OptionsModel {
 	public interface IShowConditionListener {
 		void setText(String text);
 		void updateSelection(Object[] geos);
+
+		Object update(Object[] geos2);
 	}
 	
 	private Kernel kernel;
@@ -118,5 +120,10 @@ public class ShowConditionModel extends OptionsModel {
 		return strCond
 				.replaceAll("=", ExpressionNodeConstants.strEQUAL_BOOLEAN);
 
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 }

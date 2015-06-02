@@ -63,7 +63,7 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 	}
 
 	@Override
-	protected boolean isValidAt(int index) {
+	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 		if (geo instanceof AbsoluteScreenLocateable) {
 			AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;

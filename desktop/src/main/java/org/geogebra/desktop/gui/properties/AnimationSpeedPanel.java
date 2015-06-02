@@ -88,6 +88,9 @@ public class AnimationSpeedPanel extends JPanel implements ActionListener,
 		model.setShowSliders(true);
 	}
 
+	public JPanel updatePanel(Object[] geos) {
+		return update(geos);
+	}
 	public JPanel update(Object[] geos) {
 		model.setGeos(geos);
 		if (!model.checkGeos()) { // geos,partOfSliderPanel))

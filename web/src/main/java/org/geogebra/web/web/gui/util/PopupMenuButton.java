@@ -424,6 +424,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param array
 	 *            elements (usually GeoElements) whose state is displayed in
 	 *            this table
+	 * @return
 	 */
 	public void update(Object[] array) {
 	    // will be overwritten from instances

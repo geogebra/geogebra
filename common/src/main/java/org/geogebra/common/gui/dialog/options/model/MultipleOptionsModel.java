@@ -41,4 +41,9 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 		this.listener = listener;
 	}
 
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return getListener().updatePanel(geos2) != null;
+	}
+
 }

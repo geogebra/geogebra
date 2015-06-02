@@ -43,4 +43,9 @@ public class DecoSegmentModel extends NumberOptionsModel {
 	public static int getDecoTypeLength() {
 		return GeoSegment.getDecoTypes().length;
 	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.updatePanel(geos2) != null;
+	}
 }

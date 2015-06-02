@@ -83,4 +83,9 @@ public class PointStyleModel extends NumberOptionsModel {
 		return 0;//getPointPropertiesAt(index).getPointStyle();
 	}
 
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.updatePanel(geos2) != null;
+	}
+
 }

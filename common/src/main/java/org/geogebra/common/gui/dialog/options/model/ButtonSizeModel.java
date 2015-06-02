@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.geos.GeoButton;
 public class ButtonSizeModel extends OptionsModel {
 	public interface IButtonSizeListener {
 		void updateSizes(int width, int height, boolean isFixed);
+
+		Object update(Object[] geos2);
 	}
 	
 	private IButtonSizeListener listener;
@@ -53,5 +55,10 @@ public class ButtonSizeModel extends OptionsModel {
 			geo.setFixedSize(isFixed);
 			listener.updateSizes(geo.getWidth(), geo.getHeight(), isFixed);
 		}
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 }

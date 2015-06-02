@@ -16,6 +16,8 @@ public class ScriptInputModel extends OptionsModel {
 		String getInputText();
 
 		void setLanguageIndex(int index, String name);
+
+		Object update(Object[] geos2);
 	}
 	private GeoElement geo;
 	private boolean global = false;
@@ -191,5 +193,10 @@ public class ScriptInputModel extends OptionsModel {
 
 	public void setEditOccurred(boolean editOccurred) {
 		this.editOccurred = editOccurred;
+	}
+
+	@Override
+	public boolean updatePanel(Object[] geos2) {
+		return listener.update(geos2) != null;
 	}
 }
