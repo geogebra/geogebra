@@ -1272,9 +1272,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void setGridType(int type) {
 		gridType = type;
-		if (type == GRID_POLAR) {
-			updateBounds(true, true);
-		}
 	}
 
 	/*

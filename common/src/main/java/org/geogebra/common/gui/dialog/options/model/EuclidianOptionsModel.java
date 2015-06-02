@@ -244,6 +244,9 @@ public class EuclidianOptionsModel {
 
 		} else {
 			view.setGridType(type);
+			if (type == EuclidianView.GRID_POLAR) {
+				view.updateBounds(true, true);
+			}
 		}
 
 	}
@@ -440,7 +443,7 @@ public class EuclidianOptionsModel {
 
 		// need style with bold removed for menu
 		for (int i = 0; i < EuclidianStyleConstants.lineStyleOptions.length; i++) {
-			if (view.getBoldAxes(false, view.getAxesLineStyle()) == EuclidianStyleConstants.lineStyleOptions[i]) {
+			if (EuclidianView.getBoldAxes(false, view.getAxesLineStyle()) == EuclidianStyleConstants.lineStyleOptions[i]) {
 				listener.selectAxesStyle(i);
 				break;
 			}
