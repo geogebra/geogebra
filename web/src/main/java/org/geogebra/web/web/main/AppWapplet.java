@@ -537,11 +537,6 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public String getArticleId() {
-		return articleElement.getId();
-	}
-
-	@Override
 	public void updateCenterPanel(boolean b) {
 
 		// int left = this.oldSplitLayoutPanel.getAbsoluteLeft();

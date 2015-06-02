@@ -1555,15 +1555,14 @@ public abstract class AppW extends App implements SetLabels {
 	 * @return the id of the articleelement
 	 */
 	public String getArticleId() {
-		App.debug("must be implemented in subclasses");
-		return null;
+		return articleElement.getId();
 	}
 
 	/**
 	 * @param articleid
 	 *            the article id added by scriptManager
 	 * 
-	 *            this methdo is called by scriptmanager after ggbOnInit
+	 *            this method is called by scriptmanager after ggbOnInit
 	 */
 	public static native void appletOnLoad(String articleid) /*-{
 		if (typeof $wnd.ggbAppletOnLoad === "function") {
