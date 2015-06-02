@@ -31,13 +31,12 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
 
 public class SpreadsheetViewW implements SpreadsheetViewInterface,
-        SettingListener, RequiresResize, SetLabels {
+		SettingListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
@@ -1015,7 +1014,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		// preferredSize
 		setPreferredSize(settings().preferredSize().getWidth(), settings()
-		        .preferredSize().getHeight());
+				.preferredSize().getHeight());
 
 		// initial position
 		// TODO not working yet ...
@@ -1025,14 +1024,21 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// settings.selectedCell().y);
 
 		allowSettingUpate = true;
-		onResize();
+		if (getFocusPanel().getParent() == null) {
+			return;
+		}
+		int width = getFocusPanel().getParent().getOffsetWidth();
+		int height = getFocusPanel().getParent().getOffsetHeight();
+		onResize(width, height);
 	}
 
 	public void setPreferredSize(int width, int height) {
 		// getScrollPanel().setWidth(width + "px");
 		// getScrollPanel().setHeight(height + "px");
-		spreadsheetWrapper.setWidth(width + "px");
-		spreadsheetWrapper.setHeight(height + "px");
+		if (width > 0 && height > 0) {
+			spreadsheetWrapper.setWidth(width + "px");
+			spreadsheetWrapper.setHeight(height + "px");
+		}
 	}
 
 	// ================================================
@@ -1184,15 +1190,13 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	}
 
-	public void onResize() {
+	public void onResize(int width, int height) {
 
-		if (getFocusPanel().getParent() == null) {
+
+		// App.debug("spreadsheet wrapper size: " + width + " , " + height);
+		if (width <= 0 || height <= 0) {
 			return;
 		}
-		int width = getFocusPanel().getParent().getOffsetWidth();
-		int height = getFocusPanel().getParent().getOffsetHeight();
-		// App.debug("spreadsheet wrapper size: " + width + " , " + height);
-
 		getFocusPanel().setWidth(width + "px");
 		getFocusPanel().setHeight(height + "px");
 

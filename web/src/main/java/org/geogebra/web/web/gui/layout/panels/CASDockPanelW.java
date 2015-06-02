@@ -25,75 +25,68 @@ public class CASDockPanelW extends DockPanelW {
 	CASViewW sview;
 
 	public CASDockPanelW(App appl) {
-		super(
-				App.VIEW_CAS, 	// view id
-				"CAS", 					// view title phrase 
-				getDefaultToolbar(),	// toolbar string
-				true,					// style bar?
-				4,						// menu order
+		super(App.VIEW_CAS, // view id
+				"CAS", // view title phrase
+				getDefaultToolbar(), // toolbar string
+				true, // style bar?
+				4, // menu order
 				'K' // ctrl-shift-K
-			);
-		
-		
-		//initWidget(toplevel = new SimpleLayoutPanel());
-		//ancestor = new VerticalPanelSmart();
-		//toplevel.add(ancestor);
-		
-		app = (AppW)appl;
+		);
+
+		// initWidget(toplevel = new SimpleLayoutPanel());
+		// ancestor = new VerticalPanelSmart();
+		// toplevel.add(ancestor);
+
+		app = (AppW) appl;
 	}
 
 	protected Widget loadComponent() {
 		setViewImage(getResources().styleBar_CASView());
-		sview = (CASViewW) app.getGuiManager().getCasView();	
+		sview = (CASViewW) app.getGuiManager().getCasView();
 		return sview.getComponent();
 	}
-
-	
 
 	public void onResize() {
 		super.onResize();
 		if (sview != null) {
-			app.getGuiManager().invokeLater(new Runnable() {
 
-				public void run() {
-					int width = getComponentInteriorWidth();
-					int height = getComponentInteriorHeight();
+			int width = getComponentInteriorWidth();
+			int height = getComponentInteriorHeight();
 
-					// <= is needed because otherwise the width/height would
-					// be set to 0 (as getComponentInteriorWidth not being
-					// ready)
-					// so the style bar would be made invisible
-					if (width <= 0 || height <= 0) {
-						return;
-					}
+			// <= is needed because otherwise the width/height would
+			// be set to 0 (as getComponentInteriorWidth not being
+			// ready)
+			// so the style bar would be made invisible
+			if (width <= 0 || height <= 0) {
+				return;
+			}
 
-					sview.getComponent().setWidth(width + "px");
-					sview.getComponent().setHeight(height + "px");
-				}
-			});
-			//TODO: Focus panel
+			sview.getComponent().setWidth(width + "px");
+			sview.getComponent().setHeight(height + "px");
+
 		}
-    }
+	}
 
 	public CASViewW getCAS() {
 		return sview;
 	}
 
 	public App getApp() {
-	    return app;
-    }
+		return app;
+	}
 
 	private static String getDefaultToolbar() {
-		return CASView.TOOLBAR_DEFINITION;		
+		return CASView.TOOLBAR_DEFINITION;
 	}
-	
+
 	@Override
 	protected Widget loadStyleBar() {
-		return ((CASViewW)((GuiManagerW)app.getGuiManager()).getCasView()).getCASStyleBar();
+		return ((CASViewW) ((GuiManagerW) app.getGuiManager()).getCasView())
+				.getCASStyleBar();
 	}
-	
+
 	@Override
-    public ResourcePrototype getIcon() {
+	public ResourcePrototype getIcon() {
 		return getResources().menu_icon_cas();
 	}
 
