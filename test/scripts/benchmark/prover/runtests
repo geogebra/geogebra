@@ -4,18 +4,24 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.
-MY_VERSION=1.1
+MY_VERSION=1.2
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 TIMEOUT=10
 IMGHEIGHT=25
 HTML=html/index.html
 TEX=html/index.tex
-PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto"
+PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 USEENGINES=0
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
+
+GEOGEBRADIR=../../../../
+WEBCODEBASEDIR=$GEOGEBRADIR/web/war/web3d
+ABSWEBDIR=`readlink -f $WEBCODEBASEDIR`
+
+PHANTOMJS=`which phantomjs || echo unset`
 
 usage() {
  echo "$0 - a benchmarking tool for GeoGebra's theorem prover subsystem"
@@ -33,7 +39,8 @@ usage() {
  echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
  echo "   -e           add introduction and use engine numbers in table headers"
- echo "   -r           run GeoGebra from the current sources"
+ echo "   -r           run GeoGebra desktop version from the current sources"
+ echo "   -P <path>    use path to run PhantomJS ($PHANTOMJS)"
  echo "   -h           show this help"
  echo "   -v           print script version"
  echo
@@ -42,6 +49,7 @@ usage() {
  echo " xvfb-run $0 -S giac-test -d    # compares Prove output for Botana and BotanaGiac"
  echo " xvfb-run $0 -S giac-test -D -d # compares ProveDetails output for Botana and BotanaGiac"
  echo " xvfb-run $0 -S ndg -d          # compares ProveDetails output for Botana, BotanaGiac and OpenGeoProver_Wu"
+ echo " $0 -d -p Web -P \`pwd\`/phantomjs-2.0.0 # runs the Web test only (assuming PhantomJS is installed in '.')"
  echo "Note: You may want to use 'xvfb-run -a -s \"-screen 0 1024x768x24\" $0 ...' for 3D compatibility. Tested under Ubuntu 14.10."
  exit 0
  }
@@ -51,10 +59,17 @@ version() {
  exit 0
  }
 
-while getopts "t:dH:o:T:p:S:eDhvr" OPT; do
+while getopts "t:dH:o:T:p:P:S:eDhvr" OPT; do
  case $OPT in
   t)
    TIMEOUT="$OPTARG"
+   ;;
+  P)
+   PHANTOMJS="$OPTARG"
+   which $PHANTOMJS >/dev/null || {
+    echo "FATAL: PhantomJS is not found in $PHANTOMJS (>= 2.0.0 needed)"
+    exit 1
+    }
    ;;
   d)
    DEBUG=1
@@ -105,8 +120,10 @@ while getopts "t:dH:o:T:p:S:eDhvr" OPT; do
    version
    ;;
   r)
-   RUNDIR=../../../../desktop/build/install/desktop/bin # run the "installDist" task in Gradle first
+   RUNDIR=$GEOGEBRADIR/desktop/build/install/desktop/bin # run the "installDist" task in Gradle first
    BINBASE=./desktop
+   # VERSION=`cd $RUNDIR; $BINBASE --v 2>&1 | head -1 | cut -f5 -d" "`
+
    ;;
 
  esac
@@ -121,6 +138,7 @@ MYDIR=`cd $THISDIR; pwd`
 mkdir -p $MYDIR/tmp $MYDIR/html
 LOGFILE=$MYDIR/tmp/.test.log
 REGRESSIONFILE=$MYDIR/tmp/.regression.out
+JSFILE=$MYDIR/tmp/settings.js # this is hardcoded in jstest.html
 rm -f $HTML $TEX
 
 # Testing prerequisites:
@@ -141,11 +159,13 @@ prereq unzip
 prereq zip
 prereq timeout
 
-VERSION=`cd $RUNDIR; $BINBASE --v 2>&1 | head -1 | cut -f5 -d" "`
 REVISION=`svn info | grep ^Revision: | cut -f2 -d" "`
 if [ "$REVISION" != "" ]; then
  REVISION=" (r$REVISION)"
  fi
+# public static final String VERSION_STRING = "5.0.122.0";
+VERSION=`cat $GEOGEBRADIR/common/src/main/java/org/geogebra/common/GeoGebraConstants.java |\
+grep " VERSION_STRING =" | awk '{print $7}' | sed s/\"//g | sed s/";"//`
 
 # Title
 TITLE="Prover benchmark for GeoGebra $VERSION$REVISION"
@@ -286,22 +306,44 @@ for i in `find -name '*.ggb' | sort`; do
    fi
 
   # Testing:
-  timeout $TIMEOUT $BINBASE \
-   --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
-   --logFile=$LOGFILE \
-   --regressionFile=$REGRESSIONFILE --language=en $EXTRAOPTS $MYDIR/$i \
-   >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+  if [ "$ENGINE" = "Web" ]; then
+   test -d $ABSWEBDIR || {
+    echo; echo "FATAL: folder $ABSWEBDIR does not exist. You have to compile web platform first."
+    exit 1
+    }
+   echo -n "var ggbBase64File = \"" > $JSFILE
+   cat $MYDIR/$i | base64 -w0 >> $JSFILE
+   echo "\";" >> $JSFILE
+   echo "var html5codeBase = 'file://$ABSWEBDIR';" >> $JSFILE
+   timeout $((TIMEOUT+2)) $PHANTOMJS $MYDIR/testurl.js "file:///$MYDIR/jstest.html" $TIMEOUT > $MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+   RETVAL=$?
+   # 14:50:36.344 DEBUG: ?: Benchmarking: 1120 ms
+   # 14:50:36.345 DEBUG: ?: OUTPUT for Prove: proof = true
+   # 14:50:36.346 DEBUG: ?: all CAS up
+   cat $MYDIR/tmp/.test.stdout | grep Benchmarking > $LOGFILE
+   grep --silent "OUTPUT for Prove:" $MYDIR/tmp/.test.stdout && \
+    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/OUTPUT for Prove or ProveDetails == null = \2/' > $REGRESSIONFILE
+   grep --silent "OUTPUT for ProveDetails:" $MYDIR/tmp/.test.stdout && \
+    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for ProveDetails:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/' |\
+    sed s/{//g | sed s/}//g | sed s/", "/" "/g | awk '{printf "ProveDetails == null = %s", $0}' > $REGRESSIONFILE
+   grep --silent "STATEMENT IS UNKNOWN" $MYDIR/tmp/.test.stdout && echo "Prove or ProveDetails == null = undefined" > $REGRESSIONFILE
+   grep --silent ^SEVERE: $MYDIR/tmp/.test.stdout && echo "Prove or ProveDetails == null = undefined" > $REGRESSIONFILE
+   # List k = ProveDetails[j] == null = true "AreCollinear[D,E,A]" "AreEqual[f,k_1]" "AreEqual[f,l]" "AreParallel[d,e]" "AreParallel[f,g]" "AreParallel[h,i]"
+  else
+   timeout $TIMEOUT $BINBASE \
+    --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
+    --logFile=$LOGFILE \
+    --regressionFile=$REGRESSIONFILE --language=en $EXTRAOPTS $MYDIR/$i \
+    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+   RETVAL=$?
+   fi
 
-  RETVAL=$?
   if [ $RETVAL = 124 ]; then
    RESULT=""
    TIME=timeout
   else
-   # Regression out file used to show the wrong result (the stored value in the file is shown):
    RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/' | sed 's/\(.*\) = \(.*\)/\2/'`
-   # But now it's OK, thanks to Markus and Simon in [17470].
-   #RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
-   TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
+   TIME=`cat $LOGFILE | grep Benchmarking | awk '{s=s+$5; print s}' | tail -1` # collecting all entries
    if [ $DEBUG = 1 ]; then
     cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
     cp $LOGFILE $LOGFILE-$TEST-$j

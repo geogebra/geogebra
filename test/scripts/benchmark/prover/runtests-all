@@ -2,9 +2,14 @@
 
 # Runs all test scenarios based on the current build.
 # See "./runtests -h" for more details.
+# We assume that this script runs in an xvfb environment.
 
 MYDIR=`pwd $0`
 cd $MYDIR
 for i in jar-paper giac-test ndg; do
  ./runtests -S $i -d -o html/$i.html -r
  done
+
+# FIXME: Auto's timings are not colored.
+./runtests -D -d -p "Auto Web" -o html/ProveDetails-desktop-web.html
+./runtests -d -p "Auto Web" -o html/Prove-desktop-web.html
