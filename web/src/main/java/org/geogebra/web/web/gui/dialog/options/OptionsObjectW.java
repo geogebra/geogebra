@@ -53,7 +53,6 @@ import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComb
 import org.geogebra.common.gui.dialog.options.model.LodModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
-import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
@@ -110,7 +109,6 @@ import org.geogebra.web.web.gui.properties.AnimationSpeedPanelW;
 import org.geogebra.web.web.gui.properties.AnimationStepPanelW;
 import org.geogebra.web.web.gui.properties.ComboBoxPanel;
 import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
-import org.geogebra.web.web.gui.properties.IOptionPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
@@ -144,7 +142,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -223,61 +220,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			txt = loc.getMenu(id);
 		}
 		return txt;
-	}
-
-	private class OptionsTab extends FlowPanel {
-		private String titleId;
-		private int index;
-		private List<OptionsModel> models;
-		private boolean hasAdded;
-		
-		public OptionsTab(final String title) {
-			super();
-			this.titleId = title;
-			hasAdded = false;
-			models = new ArrayList<OptionsModel>();
-			setStyleName("propertiesTab");
-		}
-
-		public void add(IOptionPanel panel) {
-			add(panel.getWidget());
-			models.add(panel.getModel());
-		}
-
-		public void addPanelList(List<OptionPanel> list) {
-			for (OptionPanel panel: list) {
-				add(panel);
-			}
-		}
-
-		public boolean update(Object[] geos) {
-			boolean enabled = false;
-			for (OptionsModel panel : models) {
-				enabled = panel.updatePanel(geos) || enabled;
-			}
-
-			TabBar tabBar = tabPanel.getTabBar();
-			tabBar.setTabText(index, getTabText());
-			tabBar.setTabEnabled(index, enabled);	
-			if (!enabled && tabBar.getSelectedTab() == index) {
-				tabBar.selectTab(0);
-			}
-			return enabled;
-		}
-
-		private String getTabText() {
-			return localize(titleId);
-		}
-
-		public void addToTabPanel() {
-			tabPanel.add(this, getTabText());
-			index = tabPanel.getWidgetIndex(this);
-			hasAdded = true;
-		}
-
-		public void onResize(int height, int width) {
-	         this.setHeight(height + "px");
-        }
 	}
 
 	private class CheckboxPanel extends OptionPanel implements IBooleanOptionListener {
@@ -3656,7 +3598,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	private void createBasicTab() {
-		basicTab = new OptionsTab("Properties.Basic");
+		basicTab = makeOptionsTab("Properties.Basic");
 
 		namePanel = new NamePanel(); 
 		if (!isDefaults) {
@@ -3737,28 +3679,28 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	private OptionsTab addTextTab() {
-		OptionsTab tab = new OptionsTab("Text");
+		OptionsTab tab = makeOptionsTab("Text");
 		textOptionsPanel = new TextOptionsPanel();
 		tab.add(textOptionsPanel);
 		return tab;
 	}
 
 	private OptionsTab addSliderTab() {
-		OptionsTab tab = new OptionsTab("Slider");
+		OptionsTab tab = makeOptionsTab("Slider");
 		SliderPanelW sliderPanel = new SliderPanelW(getAppW(), false, true);
 		tab.add(sliderPanel);
 		return tab;
 	}
 
 	private OptionsTab addColorTab() {
-		OptionsTab tab = new OptionsTab("Color");
+		OptionsTab tab = makeOptionsTab("Color");
 		colorPanel = new ColorPanel();
 		tab.add(colorPanel);
 		return tab;
 	}
 
 	private OptionsTab addStyleTab() {
-		OptionsTab tab = new OptionsTab("Properties.Style");
+		OptionsTab tab = makeOptionsTab("Properties.Style");
 
 		pointSizePanel = new PointSizePanel();
 		pointStylePanel = new PointStylePanel();
@@ -3793,7 +3735,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	private OptionsTab addScriptTab() {
-		OptionsTab tab = new OptionsTab("Scripting");
+		OptionsTab tab = makeOptionsTab("Scripting");
 		ScriptEditPanel scriptEditPanel = new ScriptEditPanel();
 		tab.add(scriptEditPanel);
 		return tab;
@@ -3801,7 +3743,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	
 
 	private OptionsTab addAdvancedTab() {
-		OptionsTab tab = new OptionsTab("Advanced"); 
+		OptionsTab tab = makeOptionsTab("Advanced");
 		showConditionPanel = new ShowConditionPanel();
 		colorFunctionPanel = new ColorFunctionPanel();
 		layerPanel = new LayerPanel();
@@ -3832,7 +3774,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		lineEqnPanel = new LineEqnPanel();
 		conicEqnPanel = new ConicEqnPanel();
 
-		tab = new OptionsTab("Properties.Algebra");
+		tab = makeOptionsTab("Properties.Algebra");
 		tab.addPanelList(
 Arrays.asList(coordsPanel,
 						lineEqnPanel,
@@ -3848,7 +3790,7 @@ Arrays.asList(coordsPanel,
 	private OptionsTab addPositionTab() {
 		OptionsTab tab;
 		OptionPanel startPointPanel = new StartPointPanel();
-		tab = new OptionsTab("Properties.Position");
+		tab = makeOptionsTab("Properties.Position");
 		tab.addPanelList(
 				Arrays.asList(startPointPanel,
 						new CornerPointsPanel(),
@@ -3857,6 +3799,11 @@ Arrays.asList(coordsPanel,
 		return tab;
 
 	}
+
+	private OptionsTab makeOptionsTab(String id) {
+		return new OptionsTab(this.loc, this.tabPanel, id);
+	}
+
 	public Dimension getPreferredSize() {
 		// TODO Auto-generated method stub
 		return new Dimension(0, 0);
