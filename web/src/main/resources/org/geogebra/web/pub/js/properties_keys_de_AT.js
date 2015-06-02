@@ -1756,7 +1756,7 @@ __GGB__keysVar.de_AT.menu = {
     "Prism.Help": "Ein Vieleck als Grundfl\xe4che w\xe4hlen oder erzeugen, dann den ersten oberen Punkt w\xe4hlen oder erzeugen",
     "Private": "Privat",
     "Probability": "Wahrscheinlichkeit",
-    "ProbabilityCalculator": "Wahrscheinlichkeitsrechner",
+    "ProbabilityCalculator": "Statistik",
     "ProbabilityCalculator.Help": "Dialog zur Berechnung von Wahrscheinlichkeiten",
     "ProbabilityOf": "P(",
     "Properties.Algebra": "Algebra",
