@@ -1793,7 +1793,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public Element getFrameElement() {
-		App.debug("getFrameElement() returns null, should be overridden by subclasses");
+		// App.debug("getFrameElement() returns null, should be overridden by subclasses");
 		return null;
 	}
 
@@ -2298,9 +2298,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void updateUI() {
-		App.debug("updateUI: implementation needed for GUI"); // TODO
-		// Auto-generated
-
+		// App.debug("updateUI: implementation needed for GUI"); // TODO
 	}
 
 	// ========================================
@@ -3086,7 +3084,7 @@ public abstract class AppW extends App implements SetLabels {
 		// simple setting temp.
 		appCanvasHeight = height;
 		appCanvasWidth = width;
-		App.debug("syn size");
+		// App.debug("syn size");
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
