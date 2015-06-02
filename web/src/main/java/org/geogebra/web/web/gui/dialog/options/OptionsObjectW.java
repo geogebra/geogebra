@@ -2049,12 +2049,18 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			return (StartPointModel)getModel();
 		}
 
-		@Override 
-		protected boolean setupPanel() {
-			boolean result = super.setupPanel();
-			if (!result) {
-				return false;
+		public OptionPanel updatePanel(Object[] geos) {
+			getModel().setGeos(geos);
+			boolean geosOK = getModel().checkGeos();
+
+			if (getWidget() != null) {
+				getWidget().setVisible(false);
 			}
+
+			if (!geosOK || getWidget() == null) {
+				return null;
+			}
+
 			ComboBoxW combo = getComboBox();
 			TreeSet<GeoElement> points = kernel.getPointSet();
 			if (points.size() != combo.getItemCount() - 1) {
@@ -2063,8 +2069,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				getStartPointModel().fillModes(loc);
 				setFirstLabel();
 			}
-			return true;
+
+			getModel().updateProperties();
+			setLabels();
+			return this;
 		}
+
 
 		@Override
 		protected void onComboBoxChange(){

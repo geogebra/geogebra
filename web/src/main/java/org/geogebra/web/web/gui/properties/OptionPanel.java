@@ -14,7 +14,13 @@ public abstract class OptionPanel implements IOptionPanel {
 
 	public OptionPanel updatePanel(Object[] geos) {
 		getModel().setGeos(geos);
-		if (!setupPanel()) {
+		boolean geosOK = getModel().checkGeos();
+
+		if (widget != null) {
+			widget.setVisible(false);
+		}
+
+		if (!geosOK || widget == null) {
 			return null;
 		}
 		getModel().updateProperties();
@@ -22,22 +28,6 @@ public abstract class OptionPanel implements IOptionPanel {
 		return this;
 	}
 
-	protected boolean setupPanel() {
-		boolean result = false;
-		
-		if (!(getModel().checkGeos())) {
-			if (widget != null) {
-				widget.setVisible(false);
-			}
-			return false;
-		}
-		if (widget != null) {
-			widget.setVisible(true);
-			result = true;
-		}
-		
-		return result;
-	}
 	public Widget getWidget() {
 		return widget;
 	}
