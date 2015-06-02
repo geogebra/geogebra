@@ -6,8 +6,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.sound.FunctionSound;
 import org.geogebra.web.html5.sound.WebAudioWrapper.FunctionAudioBuffer;
 
-import com.google.gwt.user.client.Timer;
-
 /**
  * Class for playing function-generated sounds.
  * 
@@ -17,13 +15,9 @@ import com.google.gwt.user.client.Timer;
 public final class FunctionSoundW extends FunctionSound implements
 		FunctionAudioBuffer {
 
-	private static final int PREBUFFER = 2;
-	private static final int SAMPLERATE_DIVIDER = 2;
 	public static final FunctionSoundW INSTANCE = new FunctionSoundW();
 	private WebAudioWrapper waw = WebAudioWrapper.INSTANCE;
-	private byte[] wawBuffer;
-	private int writeIdx;
-	private Timer timer;
+
 	/**
 	 * Constructs instance of FunctionSound
 	 * 
@@ -41,6 +35,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		}
 
 	}
+	
 	/**
 	 * Initializes instances of AudioFormat and SourceDataLine
 	 * 
@@ -48,21 +43,16 @@ public final class FunctionSoundW extends FunctionSound implements
 	 *            = 8000, 16000, 11025, 16000, 22050, or 44100
 	 * @param bitDepth
 	 *            = 8 or 16
+	 * 
 	 * @return
 	 */
 	protected boolean initStreamingAudio(int sampleRate, int bitDepth) {
 		if (super.initStreamingAudio(sampleRate, bitDepth) == false) {
 			return false;
 		}
-		setMaxVolume(1);
-		waw.setBuffer(this);
-		timer = new Timer() {
 
-			@Override
-			public void run() {
-				fillBuffer();
-			}
-		};
+		waw.setBuffer(this);
+
 
 		return true;
 	}
@@ -123,33 +113,20 @@ public final class FunctionSoundW extends FunctionSound implements
 		// TODO: find optimal buffer size
 		waw.start(getSampleRate());
 
-		int frameSetSize = getFrameSetSize();
+		int frameSetSize = getSampleRate() / 50; // 20ms ok?
 		if (getBitDepth() == 8) {
 			setBuf(new byte[frameSetSize]);
 		} else {
 			setBuf(new byte[2 * frameSetSize]);
 		}
 
-		wawBuffer = new byte[getBufLength() * PREBUFFER];
+
 		setT(getMin());
 		loadBuffer();
 		doFade(getBuf()[0], false);
-		writeIdx = 0;
-		writeBuffer(getBuf());
+		// waw.write(getBuf(), frameSetSize);
+		waw.write(getBuf(), getBufLength());
 
-		int period = 480;
-		timer.scheduleRepeating(period);
-		timer.run();
-	}
-
-	private void toWawBuffer(byte[] buf) {
-		for (byte b : buf) {
-			wawBuffer[writeIdx] = b;
-			writeIdx++;
-		}
-	}
-	private int getFrameSetSize() {
-		return getSampleRate() / SAMPLERATE_DIVIDER;
 	}
 
 	private void loadBuffer() {
@@ -161,22 +138,14 @@ public final class FunctionSoundW extends FunctionSound implements
 
 	}
 
-	private void writeBuffer(byte[] buffer) {
-		waw.write(buffer, buffer.length);
-		// if (writeIdx + buffer.length < wawBuffer.length) {
-		// toWawBuffer(buffer);
-		// } else {
-		// waw.write(wawBuffer, wawBuffer.length);
-		// writeIdx = 0;
-		// toWawBuffer(buffer);
-		// }
-	}
-
 	public void fillBuffer() {
+		int frameSetSize = getSampleRate() / 50;
+
 		if (getT() < getMax() && !stopped) {
-			setT(getT() + getSamplePeriod() * getFrameSetSize());
+			setT(getT() + getSamplePeriod() * frameSetSize);
 			loadBuffer();
-			writeBuffer(getBuf());
+			// waw.write(getBuf(), frameSetSize);
+			waw.write(getBuf(), getBufLength());
 		} else if (getBitDepth() == 16 || (getBitDepth() == 8 && !stopped)) {
 
 			doFade(getBuf()[getBufLength() - 1], true);
@@ -186,7 +155,7 @@ public final class FunctionSoundW extends FunctionSound implements
 
 	private void doFade(short peakValue, boolean isFadeOut) {
 		byte[] fadeBuf = getFadeBuffer(peakValue, isFadeOut);
-		writeBuffer(fadeBuf);
+		waw.write(fadeBuf, fadeBuf.length);
 	}
 
 	/**
@@ -194,10 +163,7 @@ public final class FunctionSoundW extends FunctionSound implements
 	 */
 	public void stopSound() {
 		stopped = true;
-		timer.cancel();
 		waw.stop();
-
 	}
 
-
-}
+	}
