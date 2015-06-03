@@ -4,7 +4,7 @@ package org.geogebra.web.html5.sound;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.sound.FunctionSound;
-import org.geogebra.web.html5.sound.WebAudioWrapper.FunctionAudioBuffer;
+import org.geogebra.web.html5.sound.WebAudioWrapper.FunctionAudioListener;
 
 /**
  * Class for playing function-generated sounds.
@@ -13,7 +13,7 @@ import org.geogebra.web.html5.sound.WebAudioWrapper.FunctionAudioBuffer;
  *
  */
 public final class FunctionSoundW extends FunctionSound implements
-		FunctionAudioBuffer {
+		FunctionAudioListener {
 
 	public static final FunctionSoundW INSTANCE = new FunctionSoundW();
 	private WebAudioWrapper waw = WebAudioWrapper.INSTANCE;
@@ -49,7 +49,7 @@ public final class FunctionSoundW extends FunctionSound implements
 			return false;
 		}
 
-		waw.setBuffer(this);
+		waw.setListener(this);
 
 
 		return true;
@@ -74,7 +74,7 @@ public final class FunctionSoundW extends FunctionSound implements
 			return;
 		}
 		App.debug("FunctionSound");
-		waw.setBuffer(this);
+		waw.setListener(this);
 		generateFunctionSound();
 	}
 
