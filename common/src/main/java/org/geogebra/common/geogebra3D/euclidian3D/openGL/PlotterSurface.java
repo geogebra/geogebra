@@ -294,7 +294,6 @@ public class PlotterSurface {
 	 */
 	public void startTriangles(int size) {
 
-//		manager.startGeometry(Manager.Type.TRIANGLES);		
 		manager.startGeometryDirect(Manager.Type.TRIANGLES, size);
 
 		manager.setDummyTexture();

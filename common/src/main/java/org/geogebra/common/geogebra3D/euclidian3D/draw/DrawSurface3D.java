@@ -60,14 +60,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	private int maxSplitsInOneUpdate;
 
-	private DrawSurface3D.Corner[] currentSplit, nextSplit, cornerList;
+	private DrawSurface3D.Corner[] currentSplit, nextSplit;
+	protected DrawSurface3D.Corner[] cornerList;
 
 	/**
 	 * list of things to draw
 	 */
 	protected CornerAndCenter[] drawList;
 
-	private int currentSplitIndex, nextSplitIndex, cornerListIndex;
+	private int currentSplitIndex, nextSplitIndex;
+	protected int cornerListIndex;
 	private int currentSplitStoppedIndex;
 	protected int loopSplitIndex;
 	protected int drawListIndex;
@@ -88,11 +90,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		levelOfDetail = null;
 
 		
-		ccForStillToSplit = new CornerAndCenter();
 		cornerForStillToSplit = new Corner[6];
 		cornerToDrawStillToSplit = new Corner[12];
 		for (int i = 0 ; i < 12 ; i++){
-			cornerToDrawStillToSplit[i] = new Corner();
+			cornerToDrawStillToSplit[i] = new Corner(-1);
 		}
 		
 		splitsStartedNotFinished = false;
@@ -331,6 +332,28 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 	}
 	
+	/**
+	 * ends geometry
+	 * 
+	 * @param surface
+	 *            surface plotter
+	 * 
+	 */
+	static final private void endGeometry(PlotterSurface surface) {
+		surface.endGeometryDirect();
+	}
+
+	/**
+	 * draw all corners and centers
+	 * 
+	 * @param surface
+	 *            surface plotter
+	 * 
+	 */
+	protected void drawCornersAndCenters(PlotterSurface surface) {
+		// used with GL.drawElements()
+	}
+
 	private void draw(){
 		// draw splitted, still to split, and next to split
 		PlotterSurface surface = getView3D().getRenderer().getGeometryManager().getSurface();
@@ -349,14 +372,20 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				for (int i = 0; i < drawListIndex; i++) {
 					drawList[i].draw(surface);
 				}
-				surface.endGeometryDirect();
+
+				drawCornersAndCenters(surface);
+
 			}
+
 		}else{
 			if (drawListIndex > 0 || splitsStartedNotFinished) {
 				surface.startTriangles(cornerListIndex * 12);
 				for (int i = 0; i < drawListIndex; i++) {
 					drawList[i].draw(surface);
 				}
+
+				drawCornersAndCenters(surface);
+
 				for (int i = currentSplitStoppedIndex; i < currentSplitIndex; i++) {
 					currentSplit[i].drawAsStillToSplit(surface);
 				}
@@ -364,9 +393,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					nextSplit[i].drawAsNextToSplit(surface);
 				}
 
-				surface.endGeometryDirect();
 			}
 		}
+		
+		endGeometry(surface);
 
 		setSurfaceIndex(surface.end());
 	}
@@ -653,18 +683,20 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	private class Corner {
+	class Corner {
 		Coords3 p;
 		Coords3 normal;
 		double u, v;
 		boolean isNotEnd;
 		Corner a, l; // above, left
+		int id;
 		
-		public Corner(){
-			
+		public Corner(int id) {
+			this.id = id;
 		}
 
-		public Corner(double u, double v) {
+		public Corner(double u, double v, int id) {
+			this.id = id;
 			set(u, v);
 		}
 
@@ -687,6 +719,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			v = c.v;
 			p = c.p;
 			normal = c.normal;
+			id = c.id;
 		}
 
 		public Corner(double u, double v, Coords3 p) {
@@ -743,6 +776,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		 */
 		public void drawAsStillToSplit(PlotterSurface surface){
 			
+
+			// prevent keeping old element id
+			for (int i = 0; i < cornerToDrawStillToSplit.length; i++) {
+				cornerToDrawStillToSplit[i].id = -1;
+			}
+
 			// create ring about corners
 			int length;
 			
@@ -1705,7 +1744,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 			CornerAndCenter cc = drawList[drawListIndex];
 			if (cc == null) {
-				cc = new CornerAndCenter(this);
+				cc = new CornerAndCenter(this, drawListIndex);
 				drawList[drawListIndex] = cc;
 			} else {
 				cc.setCorner(this);
@@ -1861,8 +1900,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/**
 	 * used to draw "still to split" corners
 	 */
-	protected CornerAndCenter ccForStillToSplit;
-	
 	protected Corner[] cornerForStillToSplit, cornerToDrawStillToSplit;
 	
 
@@ -2183,19 +2220,18 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return true;
 	}
 
-	private class CornerAndCenter {
+	class CornerAndCenter {
 		private Corner corner;
-		private Coords3 center;
-		private Coords3 centerNormal;
+		Coords3 center;
+		Coords3 centerNormal;
+		int id;
 
-		public CornerAndCenter() {
+		
+		public CornerAndCenter(Corner corner, int id) {
 			center = newCoords3();
 			centerNormal = newCoords3();
-		}
-		
-		public CornerAndCenter(Corner corner) {
-			this();
 			setCorner(corner);
+			this.id = id;
 		}
 
 		/**
@@ -2264,7 +2300,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						if (sw1.p.isFinalUndefined()) {
 							sw1 = p1;
 						}
-						drawTriangle(surface, center, centerNormal, p2, p1);
+						drawTriangle(surface, this, p2, p1);
 					}
 					p1 = p2;
 					sw2 = p2;
@@ -2285,7 +2321,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				p2 = current.a;
 				if (p2.p.isNotFinalUndefined()) {
 					if (p1.p.isNotFinalUndefined()) {
-						drawTriangle(surface, center, centerNormal, p1, p2);
+						drawTriangle(surface, this, p1, p2);
 						if (ne1.p.isFinalUndefined()) {
 							ne1 = p1;
 						}
@@ -2307,7 +2343,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				p2 = current.a;
 				if (p2.p.isNotFinalUndefined()) {
 					if (p1.p.isNotFinalUndefined()) {
-						drawTriangle(surface, center, centerNormal, p2, p1);
+						drawTriangle(surface, this, p2, p1);
 						if (sw1.p.isFinalUndefined()) {
 							sw1 = p1;
 						}
@@ -2328,7 +2364,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				p2 = current.l;
 				if (p2.p.isNotFinalUndefined()) {
 					if (p1.p.isNotFinalUndefined()) {
-						drawTriangle(surface, center, centerNormal, p1, p2);
+						drawTriangle(surface, this, p1, p2);
 						if (ne1.p.isFinalUndefined()) {
 							ne1 = p1;
 						}
@@ -2341,16 +2377,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 			// closure triangles if needed
 			if (sw1 != ne1) {
-				drawTriangleCheckCorners(surface, center, centerNormal, sw1, ne1);
+				drawTriangleCheckCorners(surface, this, sw1, ne1);
 			}
 			if (sw2 != ne2) {
-				drawTriangleCheckCorners(surface, center, centerNormal, ne2, sw2);
+				drawTriangleCheckCorners(surface, this, ne2, sw2);
 			}
 			if (ne1.p.isFinalUndefined() && ne2.p.isFinalUndefined()) {
-				drawTriangleCheckCorners(surface, center, centerNormal, sw2, sw1);
+				drawTriangleCheckCorners(surface, this, sw2, sw1);
 			}
 			if (sw1.p.isFinalUndefined() && sw2.p.isFinalUndefined()) {
-				drawTriangleCheckCorners(surface, center, centerNormal, ne1, ne2);
+				drawTriangleCheckCorners(surface, this, ne1, ne2);
 			}
 		}
 
@@ -2372,7 +2408,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * @param c2
 	 *            third point
 	 */
-	static final protected void drawTriangle(PlotterSurface surface, Coords3 p0, Coords3 n0, Corner c1, Corner c2) {
+	protected void drawTriangle(PlotterSurface surface, Coords3 p0, Coords3 n0,
+			Corner c1, Corner c2) {
 
 		surface.normalDirect(n0);
 		surface.vertexDirect(p0);
@@ -2384,42 +2421,25 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 	
 	/**
-	 * draw triangle with surface plotter
+	 * draws triangle between center and two corners
 	 * 
 	 * @param surface
-	 * @param p0
-	 * @param n0
-	 * @param p1
-	 * @param n1
-	 * @param p2
-	 * @param n2
+	 *            surface plotter
+	 * @param cc
+	 *            center
+	 * @param c1
+	 *            first corner
+	 * @param c2
+	 *            second corner
 	 */
-	static final protected void drawTriangle(PlotterSurface surface, Coords3 p0, Coords3 n0, Coords3 p1, Coords3 n1, Coords3 p2, Coords3 n2) {
-
-		surface.normalDirect(n0);
-		surface.vertexDirect(p0);
-		surface.normalDirect(n2);
-		surface.vertexDirect(p2);
-		surface.normalDirect(n1);
-		surface.vertexDirect(p1);
-
+	protected void drawTriangle(PlotterSurface surface,
+			CornerAndCenter cc, Corner c1, Corner c2) {
+		drawTriangle(surface, cc.center, cc.centerNormal, c1, c2);
 	}
+
 
 	
-	/**
-	 * 
-	 * @param surface surface plotter
-	 * @param c0 first point
-	 * @param c1
-	 *            second point
-	 * @param c2
-	 *            third point
-	 */
-	static final protected void drawTriangle(PlotterSurface surface, Corner c0, Corner c1, Corner c2) {
-		
-		drawTriangle(surface, c0.p, c0.normal, c1, c2);
 
-	}
 
 	/**
 	 * draw triangle with surface plotter, check if second and third points are
@@ -2427,17 +2447,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * 
 	 * @param surface
 	 *            surface plotter
-	 * @param p0
-	 *            first point
-	 * @param n0
-	 *            first point normal
+	 * @param cc
+	 *            first point and normal
 	 * 
 	 * @param c1
 	 *            second point
 	 * @param c2
 	 *            third point
 	 */
-	static final protected void drawTriangleCheckCorners(PlotterSurface surface, Coords3 p0, Coords3 n0, Corner c1, Corner c2) {
+	final protected void drawTriangleCheckCorners(
+			PlotterSurface surface, CornerAndCenter cc, Corner c1, Corner c2) {
 		if (c1.p.isFinalUndefined()) {
 			return;
 		}
@@ -2445,7 +2464,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		drawTriangle(surface, p0, n0, c1, c2);
+		drawTriangle(surface, cc, c1, c2);
 	}
 
 
@@ -2471,7 +2490,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	protected Corner newCorner(double u, double v) {
 		Corner c = cornerList[cornerListIndex];
 		if (c == null) {
-			c = new Corner(u, v);
+			c = new Corner(u, v, cornerListIndex);
 			cornerList[cornerListIndex] = c;
 		} else {
 			c.set(u, v);
@@ -2487,7 +2506,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	protected Corner newCorner() {
 		Corner c = cornerList[cornerListIndex];
 		if (c == null) {
-			c = new Corner();
+			c = new Corner(cornerListIndex);
 			cornerList[cornerListIndex] = c;
 		} 
 		cornerListIndex++;

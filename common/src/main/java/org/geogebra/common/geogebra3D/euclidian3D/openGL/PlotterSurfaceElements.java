@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.util.debug.Log;
 
 public class PlotterSurfaceElements extends PlotterSurface {
@@ -92,7 +93,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			drawNCr(n, center, radius);
 		}
 		
-		int arrayIndex = 0;
+		arrayIndex = 0;
 
 		lastStartIndex = 0;
 		lastLength = (short) longitudeLength;
@@ -261,7 +262,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		// ///////////////
 		// set indices
-		short[] arrayI = ((ManagerShadersBindBuffers) manager)
+		arrayI = ((ManagerShadersBindBuffers) manager)
 				.getCurrentGeometryIndices(arrayIndex);
 
 
@@ -625,5 +626,47 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		((ManagerShadersBindBuffers) manager).endGeometry(arrayIndex,
 				TypeElement.SURFACE);
 
+	}
+
+	private int arrayIndex = 0;
+	private short[] arrayI;
+
+	@Override
+	public void startTriangles(int size) {
+
+		manager.startGeometry(Manager.Type.TRIANGLES);
+
+		manager.setDummyTexture();
+
+		arrayIndex = 0;
+
+		arrayI = ((ManagerShadersBindBuffers) manager)
+				.getCurrentGeometryIndices(size);
+
+	}
+
+	@Override
+	public void vertexDirect(Coords3 p) {
+		manager.vertex(p.getXf(), p.getYf(), p.getZf());
+	}
+
+	@Override
+	public void normalDirect(Coords3 n) {
+		manager.normal(n.getXf(), n.getYf(), n.getZf());
+	}
+
+	@Override
+	public void endGeometryDirect() {
+		((ManagerShadersBindBuffers) manager).endGeometry(arrayIndex,
+				TypeElement.SURFACE);
+	}
+
+	/**
+	 * @param id
+	 *            vertex normal id
+	 */
+	public void drawIndex(int id) {
+		arrayI[arrayIndex] = (short) id;
+		arrayIndex++;
 	}
 }

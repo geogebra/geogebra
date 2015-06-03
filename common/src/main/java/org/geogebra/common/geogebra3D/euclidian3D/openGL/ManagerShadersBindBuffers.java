@@ -239,7 +239,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		 */
 		public short[] getBufferI(int size) {
 			indicesDone = true;
-			if (arrayI == null || arrayI.length != size) {
+			if (arrayI == null || arrayI.length < size) {
 				arrayI = new short[size];
 			}
 			return arrayI;

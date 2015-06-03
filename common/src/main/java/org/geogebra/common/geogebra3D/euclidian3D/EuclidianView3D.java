@@ -45,6 +45,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3DPart;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawRay3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawText3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
@@ -92,7 +93,9 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -573,7 +576,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
 				switch (geoFun.getVarNumber()) {
 				case 2:
-					d = new DrawSurface3D(this, geoFun);
+					d = newDrawSurface3D(geoFun);
 					break;
 				/*
 				 * case 3: d = new DrawImplicitFunction3Var(this, geoFun);
@@ -583,8 +586,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				break;
 
 			case SURFACECARTESIAN3D:
-				// d = new DrawSurface3DOld(this, (GeoSurfaceCartesian3D) geo);
-				d = new DrawSurface3D(this, (GeoSurfaceCartesian3D) geo);
+				d = newDrawSurface3D((GeoSurfaceCartesian3D) geo);
 				break;
 
 			case TEXT:
@@ -599,6 +601,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		return d;
 
+	}
+
+	final private DrawSurface3D newDrawSurface3D(SurfaceEvaluable surface) {
+		if (app.has(Feature.GL_ELEMENTS)) {
+			return new DrawSurface3DElements(this, surface);
+		}
+		return new DrawSurface3D(this, surface);
 	}
 
 	@Override
