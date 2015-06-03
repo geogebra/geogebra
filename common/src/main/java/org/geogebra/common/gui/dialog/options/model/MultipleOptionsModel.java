@@ -28,6 +28,9 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 	}
 		
 	public void fillModes(Localization loc) {
+		if (getListener() == null) {
+			return;
+		}
 		for (String item: getChoiches(loc)) {
 			getListener().addItem(item);
 		}

@@ -127,23 +127,24 @@ class OptionsTab extends FlowPanel {
          this.setHeight(height + "px");
     }
 
-	public void initGUI(App app) {
+	public void initGUI(App app, boolean isDefaults) {
 		if (inited) {
 			return;
 		}
 		inited = true;
 		for (OptionsModel m : models) {
-			IOptionPanel panel = buildPanel(m, (AppW) app);
+			IOptionPanel panel = buildPanel(m, (AppW) app, isDefaults);
 			if (panel != null) {
 				add(panel.getWidget());
+				m.updateMPanel(m.getGeos());
 			}
 		}
 
 	}
 
-	private IOptionPanel buildPanel(OptionsModel m, AppW app) {
+	private IOptionPanel buildPanel(OptionsModel m, AppW app, boolean isDefaults) {
 		if (m instanceof ColorObjectModel) {
-			return new ColorPanel((ColorObjectModel) m, app);
+			return new ColorPanel((ColorObjectModel) m, app, isDefaults);
 		}
 
 		if (m instanceof PointSizeModel) {
@@ -207,7 +208,7 @@ class OptionsTab extends FlowPanel {
 		private GColor selectedColor;
 		CheckBox sequential;
 
-		public ColorPanel(ColorObjectModel model0, App app) {
+		public ColorPanel(ColorObjectModel model0, App app, boolean isDefaults) {
 			this.model = model0;
 			model.setListener(this);
 			setModel(model);
@@ -255,18 +256,22 @@ class OptionsTab extends FlowPanel {
 			});
 			colorChooserW.setColorPreviewClickable();
 
-			sequential = new CheckBox("Sequential");
+
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
-			mainPanel.add(sequential);
-			sequential.addClickHandler(new ClickHandler() {
+
+			if (isDefaults) {
+				sequential = new CheckBox("Sequential");
+				mainPanel.add(sequential);
+				sequential.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
 					// TODO we may need to update the GUI here
 					model.setSequential(sequential.getValue());
 
 				}
-			});
+				});
+			}
 			setWidget(mainPanel);
 
 		}

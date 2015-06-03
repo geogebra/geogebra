@@ -150,7 +150,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
-	boolean isDefaults;
+	final boolean isDefaults;
 	private ColorFunctionPanel colorFunctionPanel;
 	private LayerPanel layerPanel;
 	private TooltipPanel tooltipPanel;
@@ -1985,7 +1985,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 	//			updateGUI();
-				tabs.get(event.getSelectedItem()).initGUI(app);
+				tabs.get(event.getSelectedItem()).initGUI(app, isDefaults);
 				((PropertiesViewW) app.getGuiManager().getPropertiesView())
 							.updatePropertiesView();
 			}
