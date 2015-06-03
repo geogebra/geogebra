@@ -308,8 +308,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				StringBuilder sb = new StringBuilder("\\mathbf{");
 				// create LaTeX string
 				if (nativeOutput || !(outputVE instanceof ExpressionNode)) {
-					sb.append(outputVE
-.toAssignmentLaTeXString(
+					sb.append(outputVE.toAssignmentLaTeXString(
+					// #5119
 							StringTemplate.numericLatex, getAssignmentType()));
 				} else {
 					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
