@@ -1398,46 +1398,50 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		if (getPoints() == null){
 			return;
 		}
-
-		if (p2 == null || GeoPoint.collinear(p0, p1, p2)) {
-			p0 = getPoint(0);
-			numCS = 1;
-			// Application.debug(" p0 = "+p0.inhomX+","+p0.inhomY);
-
-			int secondPoint = -1;
-			boolean secondPointFound = false;
-			for (secondPoint = 1; secondPoint < getPoints().length
-					&& !secondPointFound; secondPoint++) {
-				p1 = getPoint(secondPoint);
-				// Application.debug(" p1 ("+secondPoint+") = "+p1.inhomX+","+p1.inhomY);
-				if (!Kernel.isEqual(p0.inhomX, p1.inhomX,
-						Kernel.STANDARD_PRECISION))
-					secondPointFound = true;
-				else if (!Kernel.isEqual(p0.inhomY, p1.inhomY,
-						Kernel.STANDARD_PRECISION))
-					secondPointFound = true;
-				// Application.debug(" secondPointFound = "+secondPointFound);
-			}
-
-			int thirdPoint = -1;
-			if (secondPointFound) {
-				numCS++;
-				secondPoint--;
-				boolean thirdPointFound = false;
-				for (thirdPoint = getPoints().length - 1; thirdPoint > secondPoint
-						&& !thirdPointFound; thirdPoint--) {
-					p2 = getPoint(thirdPoint);
-					if (!GeoPoint.collinear(p0, p1, p2)) {
-						thirdPointFound = true;
-						numCS++;
-					}
-				}
-			}
-
-			// thirdPoint++;
-			// Application.debug(" secondPoint = "+secondPoint+"\n thirdPoint = "+thirdPoint);
+		
+		if (p2 != null && !GeoPoint.collinear(p0, p1, p2)){
+			numCS = 3;
+			return;
 		}
 
+		p0 = getPoint(0);
+		numCS = 1;
+		// App.debug(" p0 = " + p0.inhomX + "," + p0.inhomY);
+
+		int secondPoint = -1;
+		boolean secondPointFound = false;
+		for (secondPoint = 1; secondPoint < getPoints().length
+				&& !secondPointFound; secondPoint++) {
+			p1 = getPoint(secondPoint);
+			// Application.debug(" p1 ("+secondPoint+") = "+p1.inhomX+","+p1.inhomY);
+			if (!Kernel
+					.isEqual(p0.inhomX, p1.inhomX, Kernel.STANDARD_PRECISION))
+				secondPointFound = true;
+			else if (!Kernel.isEqual(p0.inhomY, p1.inhomY,
+					Kernel.STANDARD_PRECISION))
+				secondPointFound = true;
+			// App.debug(" secondPointFound = " + secondPointFound);
+		}
+
+		int thirdPoint = -1;
+		if (secondPointFound) {
+			numCS++;
+			secondPoint--;
+			boolean thirdPointFound = false;
+			for (thirdPoint = getPoints().length - 1; thirdPoint > secondPoint
+					&& !thirdPointFound; thirdPoint--) {
+				p2 = getPoint(thirdPoint);
+				if (!GeoPoint.collinear(p0, p1, p2)) {
+					thirdPointFound = true;
+					numCS++;
+				}
+			}
+		}
+
+		// thirdPoint++;
+		// Application.debug(" secondPoint = "+secondPoint+"\n thirdPoint = "+thirdPoint);
+
+		// App.debug("numCS = " + numCS);
 
 	}
 
