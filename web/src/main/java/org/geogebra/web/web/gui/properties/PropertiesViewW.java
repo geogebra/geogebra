@@ -191,7 +191,6 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 		case OBJECTS:
 			if (objectPanel == null) {
 				objectPanel = new OptionsObjectW((AppW) app, false);
-				((OptionsObjectW) objectPanel).setMinimumSize(((OptionsObjectW) objectPanel).getPreferredSize());
 
 			} else {
 				OptionsObjectW op =	getObjectPanel();
