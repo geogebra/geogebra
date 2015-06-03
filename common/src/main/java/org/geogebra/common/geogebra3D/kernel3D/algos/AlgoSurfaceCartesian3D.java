@@ -130,7 +130,14 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		// take care to set the curve undefined
+		// set min, max, and localVar (to avoid false undefined)
+		for (int i = 0; i < 2; i++) {
+			min[i] = from[i].getDouble();
+			max[i] = to[i].getDouble();
+			localVar[i].setValue(min[i]);
+		}
+
+		// take care to set the surface undefined
 		// if its predecessors are undefined
 		for (int i = 0; i < 3; i++) {
 			AlgoElement algo = null;
@@ -179,18 +186,16 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 			// curve.getFun(i).setExpression(node);
 			// }
 		}
-		surface.setDefined(true);
 
 		// the coord-functions don't have to be updated,
 		// so we only set the interval
-		double[] min = new double[from.length];
-		double[] max = new double[to.length];
-		for (int i = 0; i < from.length; i++) {
-			min[i] = from[i].getDouble();
-			max[i] = to[i].getDouble();
-		}
 		surface.setIntervals(min, max);
+
+
 	}
+
+	private double[] min = new double[2];
+	private double[] max = new double[2];
 
 	// TODO Consider locusequability
 }
