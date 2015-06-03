@@ -63,10 +63,12 @@ public class CASTableCellW extends VerticalPanel {
 				if (casCell.isError()) {
 					outputLabel.getElement().getStyle().setColor("red");
 				}
+				// #5119
 				outputLabel.setText(casCell
-				        .getOutput(StringTemplate.defaultTemplate));
+						.getOutput(StringTemplate.numericDefault));
 			}
-			outputText = casCell.getOutput(StringTemplate.defaultTemplate);
+			// #5119
+			outputText = casCell.getOutput(StringTemplate.numericDefault);
 		}
 		outputPanel = new FlowPanel();
 		if (casCell != null) {

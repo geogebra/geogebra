@@ -135,7 +135,8 @@ public abstract class CASTableCell extends JPanel {
 	 */
 	public void setValue(GeoCasCell cellValue) {
 		// set input panel
-		String input = cellValue.getInput(StringTemplate.defaultTemplate);
+		// #5119
+		String input = cellValue.getInput(StringTemplate.numericDefault);
 		inputPanel.setInput(input);
 		if (cellValue.isUseAsText()) {
 			inputPanel.setCommentColor(org.geogebra.desktop.awt.GColorD
@@ -155,8 +156,9 @@ public abstract class CASTableCell extends JPanel {
 			// show eval command (e.g. "Substitute") in output cell
 			String evalCmdLocal = cellValue.getCommandAndComment();
 
+			// #5119
 			outputPanel.setOutput(cellValue
-					.getOutput(StringTemplate.defaultTemplate), cellValue
+					.getOutput(StringTemplate.numericDefault), cellValue
 					.getLaTeXOutput(), evalCmdLocal, cellValue.isError(),
 					cellValue.getAlgebraColor(), cellValue.getKernel()
 							.getApplication());
