@@ -12,6 +12,7 @@ import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author gabor WebSocket logger for external mobile app
@@ -20,16 +21,28 @@ public class WebsocketLogger extends SensorLogger {
 
 	private WebSocketConnection connection = null;
 	private ArrayList<WebSocketListener> listeners = new ArrayList<WebSocketListener>();
+	private String websocket_url;
 
 	public WebsocketLogger(Kernel kernel) {
 		this.kernel = kernel;
+		constructUrl();
+	}
+
+	private void constructUrl() {
+		if (Window.Location.getProtocol().equals("https:")) {
+			this.websocket_url = "wss:"
+					+ GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL;
+		} else {
+			this.websocket_url = "ws:"
+					+ GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL;
+		}
 	}
 
 	private void createConnection() {
 		if (this.connection == null
 		        || this.connection.getReadyState() != WebSocketConnection.OPEN) {
 			this.connection = WebSocketFactory
-			        .create(GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL);
+.create(this.websocket_url);
 			this.connection.onOpen(new OpenEventHandler() {
 
 				public void open(JavaScriptObject event) {
