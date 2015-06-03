@@ -10,7 +10,7 @@ import org.geogebra.common.util.StringUtil;
 
 
 public class ColorObjectModel extends OptionsModel {
-	public interface IColorObjectListener {
+	public interface IColorObjectListener extends PropertyListener {
 
 		void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
@@ -25,7 +25,6 @@ public class ColorObjectModel extends OptionsModel {
 		void updateNoBackground(GeoElement geo, GColor col, float alpha,
 				boolean updateAlphaOnly, boolean allFillable);
 
-		Object update(Object[] geos2);
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -235,11 +234,7 @@ public class ColorObjectModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		if (listener == null) {
-			setGeos(geos2);
-			return this.checkGeos();
-		}
-		return listener.update(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 }

@@ -7,8 +7,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 
 public class PointSizeModel extends SliderOptionsModel {
 
-	public PointSizeModel(ISliderListener listener) {
-		super(listener);
+	public PointSizeModel() {
 	}
 
 	private PointProperties getPointPropertiesAt(int index) {

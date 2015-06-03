@@ -8,8 +8,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 public class PointStyleModel extends NumberOptionsModel {
 	private IComboListener listener;
 	
-	public PointStyleModel(IComboListener listener) {
-		this.listener = listener;
+	public PointStyleModel() {
 	}
 	
 	private PointProperties getPointPropertiesAt(int index) {
@@ -84,8 +83,13 @@ public class PointStyleModel extends NumberOptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.updatePanel(geos2) != null;
+	public PropertyListener getListener() {
+		return listener;
+	}
+
+	public void setListener(IComboListener listener) {
+		this.listener = listener;
+
 	}
 
 }

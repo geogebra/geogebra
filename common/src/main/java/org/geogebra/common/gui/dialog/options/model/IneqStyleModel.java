@@ -10,8 +10,9 @@ public class IneqStyleModel extends BooleanOptionModel {
 	public interface IIneqStyleListener extends IBooleanOptionListener {
 		void enableFilling(boolean value);
 	}
-	public IneqStyleModel(IIneqStyleListener listener) {
-		super(listener);
+
+	public IneqStyleModel() {
+		super(null);
 	}
 	
 	private InequalityProperties getInequalityPropertiesAt(int index) {

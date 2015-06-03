@@ -12,8 +12,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	private Localization loc;
 	int implicitIndex, explicitIndex, specificIndex;
 
-	public ConicEqnModel(IComboListener listener, Localization loc) {
-		super(listener);
+	public ConicEqnModel(Localization loc) {
 		this.loc = loc;
 	}
 

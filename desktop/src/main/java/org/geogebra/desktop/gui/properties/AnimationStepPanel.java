@@ -68,7 +68,7 @@ public class AnimationStepPanel extends JPanel implements ActionListener,
 		model.setPartOfSlider(true);
 	}
 
-	public JPanel update(Object[] geos) {
+	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 
 		if (!model.checkGeos()) {
@@ -92,7 +92,7 @@ public class AnimationStepPanel extends JPanel implements ActionListener,
 	private void doActionPerformed() {
 		model.applyChanges(kernel.getAlgebraProcessor().evaluateToNumeric(
 				tfAnimStep.getText(), true));
-		update(model.getGeos());
+		updatePanel(model.getGeos());
 	}
 
 	public void focusGained(FocusEvent arg0) {

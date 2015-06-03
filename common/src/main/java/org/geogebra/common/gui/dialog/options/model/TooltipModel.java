@@ -6,9 +6,6 @@ import java.util.List;
 import org.geogebra.common.main.Localization;
 
 public class TooltipModel extends MultipleOptionsModel {
-	public TooltipModel(IComboListener listener) {
-		super(listener);
-	}
 
 	@Override
 	public List<String> getChoiches(Localization loc) {

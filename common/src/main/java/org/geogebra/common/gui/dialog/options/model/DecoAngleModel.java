@@ -12,8 +12,7 @@ public class DecoAngleModel extends NumberOptionsModel {
 	}
 	private IDecoAngleListener listener;
 	
-	public DecoAngleModel(IDecoAngleListener listener) {
-		this.listener = listener;
+	public DecoAngleModel() {
 	}
 	
 	private AngleProperties getAnglePropertiesAt(int index) {
@@ -28,7 +27,9 @@ public class DecoAngleModel extends NumberOptionsModel {
 		
 	}
 
-	
+	public void setListener(IDecoAngleListener listener) {
+		this.listener = listener;
+	}
 	@Override
 	public boolean isValidAt(int index) {
 		return (getObjectAt(index) instanceof AngleProperties);
@@ -60,8 +61,8 @@ public class DecoAngleModel extends NumberOptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.updatePanel(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 
 }

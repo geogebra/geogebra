@@ -45,7 +45,8 @@ public class AnimationSpeedPanel extends JPanel implements ActionListener,
 		this.app = app;
 		this.kernel = app.getKernel();
 
-		model = new AnimationSpeedModel(app, this);
+		model = new AnimationSpeedModel(app);
+		model.setListener(this);
 
 		// combo box for
 		animationModeCB = new JComboBox();

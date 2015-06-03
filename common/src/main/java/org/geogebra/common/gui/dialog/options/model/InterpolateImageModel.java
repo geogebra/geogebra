@@ -5,8 +5,8 @@ import org.geogebra.common.main.App;
 
 public class InterpolateImageModel extends BooleanOptionModel {
 
-	public InterpolateImageModel(IBooleanOptionListener listener) {
-		super(listener);
+	public InterpolateImageModel() {
+		super(null);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -6,10 +6,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 
 public class ShowLabelModel extends OptionsModel{
-	public interface IShowLabelListener {
+	public interface IShowLabelListener extends PropertyListener {
 		void update(boolean isEqualVal, boolean isEqualMode);
 
-		Object update(Object[] geos2);
 
 	}
 	
@@ -92,7 +91,7 @@ public class ShowLabelModel extends OptionsModel{
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
+	public PropertyListener getListener() {
+		return listener;
 	}
 }

@@ -19,8 +19,8 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	private boolean isDrawable;
 	private boolean isDefaults;
 	private App app;
-	public ReflexAngleModel(IReflexAngleListener listener, App app, boolean isDefaults) {
-		super(listener);
+
+	public ReflexAngleModel(App app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
 	}

@@ -10,14 +10,13 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
 
 public class ScriptInputModel extends OptionsModel {
-	public interface IScriptInputListener {
+	public interface IScriptInputListener extends PropertyListener {
 		void setInputText(String text);
 
 		String getInputText();
 
 		void setLanguageIndex(int index, String name);
 
-		Object update(Object[] geos2);
 	}
 	private GeoElement geo;
 	private boolean global = false;
@@ -196,7 +195,7 @@ public class ScriptInputModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
+	public PropertyListener getListener() {
+		return listener;
 	}
 }

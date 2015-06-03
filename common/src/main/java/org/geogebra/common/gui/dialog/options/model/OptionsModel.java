@@ -67,7 +67,15 @@ public abstract class OptionsModel {
 		return false;
 	}
 
-	public abstract boolean updateMPanel(Object[] geos2);
+	public abstract PropertyListener getListener();
+
+	public final boolean updateMPanel(Object[] geos2) {
+		if (getListener() == null) {
+			setGeos(geos2);
+			return this.checkGeos();
+		}
+		return getListener().updatePanel(geos2) != null;
+	}
 }
 	
 

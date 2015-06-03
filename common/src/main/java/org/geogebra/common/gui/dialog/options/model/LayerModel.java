@@ -9,8 +9,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LayerModel extends MultipleOptionsModel {
 
-	public LayerModel(IComboListener listener) {
-		super(listener);
+	public LayerModel() {
 	}
 
 	@Override

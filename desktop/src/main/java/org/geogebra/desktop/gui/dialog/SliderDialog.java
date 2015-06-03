@@ -33,9 +33,9 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.desktop.gui.properties.SliderPanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -146,7 +146,7 @@ public class SliderDialog extends JDialog implements ActionListener,
 		sliderPanel = new SliderPanel(app, null, true, false);
 		JPanel slPanel = new JPanel(new BorderLayout(0, 0));
 		GeoElement[] geos = { number };
-		slPanel.add(sliderPanel.update(geos), BorderLayout.CENTER);
+		slPanel.add(sliderPanel.updatePanel(geos), BorderLayout.CENTER);
 
 		// buttons
 		btApply = new JButton(app.getPlain("Apply"));
@@ -244,7 +244,7 @@ public class SliderDialog extends JDialog implements ActionListener,
 				number.setIntervalMax(num.getIntervalMax());
 			}
 			GeoElement[] geos = { selGeo };
-			sliderPanel.update(geos);
+			sliderPanel.updatePanel(geos);
 
 			// update label text field
 			tfLabel.setText(selGeo.getDefaultLabel(source == rbInteger));

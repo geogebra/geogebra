@@ -7,9 +7,14 @@ import org.geogebra.common.main.App;
 
 public class TextFieldSizeModel extends OptionsModel {
 	private ITextFieldListener listener;
-	private Kernel kernel;
-	public TextFieldSizeModel(App app, ITextFieldListener listener) {
+
+	public void setListener(ITextFieldListener listener) {
 		this.listener = listener;
+	}
+
+	private Kernel kernel;
+
+	public TextFieldSizeModel(App app) {
 		kernel = app.getKernel();
 	}
 
@@ -58,8 +63,8 @@ public class TextFieldSizeModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 
 }

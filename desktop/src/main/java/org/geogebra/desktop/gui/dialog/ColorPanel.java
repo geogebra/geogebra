@@ -240,7 +240,7 @@ class ColorPanel extends JPanel implements ActionListener,
 		updateToolTipText();
 	}
 
-	public JPanel update(Object[] geos) {
+	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		addSelectionBar();
 		return update();

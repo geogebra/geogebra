@@ -14,7 +14,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
 public class TextOptionsModel extends OptionsModel {
-	public interface ITextOptionsListener {
+	public interface ITextOptionsListener extends PropertyListener {
 
 		void setWidgetsVisible(boolean showFontDetails, boolean isButton);
 
@@ -35,7 +35,6 @@ public class TextOptionsModel extends OptionsModel {
 
 		void updatePreview();
 
-		Object update(Object[] geos2);
 	}
 
 	private ITextOptionsListener listener;
@@ -324,7 +323,7 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
+	public PropertyListener getListener() {
+		return listener;
 	}
 }

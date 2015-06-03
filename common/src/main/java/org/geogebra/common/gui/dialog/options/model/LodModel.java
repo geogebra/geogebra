@@ -3,8 +3,6 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.kernel.geos.AngleProperties;
-import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
@@ -16,8 +14,8 @@ public class LodModel extends MultipleOptionsModel {
 
 	private boolean isDefaults;
 	private App app;
-	public LodModel(IComboListener listener, App app, boolean isDefaults) {
-		super(listener);
+
+	public LodModel(App app, boolean isDefaults) {
 		this.app = app;
 		this.isDefaults = isDefaults;
 	}

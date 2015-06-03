@@ -6,10 +6,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class AngleArcSizeModel extends OptionsModel {
 	public static final Integer MIN_VALUE = 20;
 	private ISliderListener listener;
-	public AngleArcSizeModel(ISliderListener listener) {
-		this.listener = listener;
+
+	public AngleArcSizeModel() {
 	}
 
+	public void setListener(ISliderListener listener) {
+		this.listener = listener;
+	}
 	private AngleProperties getAngleAt(int index) { 
 		return (AngleProperties) getObjectAt(index);
 	}
@@ -57,7 +60,7 @@ public class AngleArcSizeModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
+	public PropertyListener getListener() {
+		return listener;
 	};
 }

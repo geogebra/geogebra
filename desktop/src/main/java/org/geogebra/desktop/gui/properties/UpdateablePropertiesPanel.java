@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 public interface UpdateablePropertiesPanel {
-	public JPanel update(Object[] geos);
+	public JPanel updatePanel(Object[] geos);
 
 	public void updateVisualStyle(GeoElement geo);
 

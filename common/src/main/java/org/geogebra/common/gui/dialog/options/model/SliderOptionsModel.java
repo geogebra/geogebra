@@ -3,8 +3,8 @@ package org.geogebra.common.gui.dialog.options.model;
 
 public abstract class SliderOptionsModel extends NumberOptionsModel {
 	private ISliderListener listener;
-	public SliderOptionsModel(ISliderListener listener) {
-		this.setListener(listener);
+
+	public SliderOptionsModel() {
 	}
 	
 
@@ -24,8 +24,4 @@ public abstract class SliderOptionsModel extends NumberOptionsModel {
 		this.listener = listener;
 	}
 
-	@Override
-	public final boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
-	}
 }

@@ -6,12 +6,15 @@ public class DecoSegmentModel extends NumberOptionsModel {
 
 	private IComboListener listener;
 	
-	public DecoSegmentModel(IComboListener listener) {
-		this.listener = listener;
+	public DecoSegmentModel() {
 	}
 	
 	private GeoSegment getGeoSegmentAt(int index) {
 		return (GeoSegment)getObjectAt(index);
+	}
+
+	public void setListener(IComboListener listener) {
+		this.listener = listener;
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class DecoSegmentModel extends NumberOptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.updatePanel(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 }

@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
 public class SliderModel extends OptionsModel {
-	public interface ISliderOptionsListener {
+	public interface ISliderOptionsListener extends PropertyListener {
 		void setMinText(final String text);
 		void setMaxText(final String text);
 		void setWidthText(final String text);
@@ -21,7 +21,7 @@ public class SliderModel extends OptionsModel {
 		void setRandomVisible(boolean value);
 		void setSliderDirection(int i);
 
-		Object update(Object[] geos2);
+		Object updatePanel(Object[] geos2);
 		
 	}
 	
@@ -235,7 +235,7 @@ public class SliderModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
+	public PropertyListener getListener() {
+		return listener;
 	}
 }

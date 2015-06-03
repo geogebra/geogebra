@@ -5,9 +5,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class SlopeTriangleSizeModel extends SliderOptionsModel {
-	public SlopeTriangleSizeModel(ISliderListener listener) {
-		super(listener);
-	}
 
 	private GeoNumeric getNumericAt(int index) {
 		return (GeoNumeric) getObjectAt(index);

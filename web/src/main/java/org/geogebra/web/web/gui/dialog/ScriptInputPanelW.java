@@ -231,7 +231,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	    return btPanel;
     }
 
-	public Object update(Object[] geos2) {
+	public Object updatePanel(Object[] geos2) {
 		return this;
 	}
 

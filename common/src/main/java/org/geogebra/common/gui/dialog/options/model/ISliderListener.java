@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-public interface ISliderListener {
+public interface ISliderListener extends PropertyListener {
 	void setValue(int value);
 
-	Object update(Object[] geos2);
 }

@@ -19,7 +19,8 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 			Integer columns, SelectionTable mode, boolean hasTable,
 			boolean hasSlider) {
 		super(app, data, rows, columns, mode, hasTable, hasSlider);
-		model = new LineStyleModel(this);
+		model = new LineStyleModel();
+		model.setListener(this);
 		this.setKeepVisible(false);
 		getMySlider().addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {

@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 
 public class ColorFunctionModel extends OptionsModel {
-	public interface IColorFunctionListener {
+	public interface IColorFunctionListener extends PropertyListener {
 		void setRedText(final String text);
 		void setGreenText(final String text);
 		void setBlueText(final String text);
@@ -16,8 +16,6 @@ public class ColorFunctionModel extends OptionsModel {
 		void showAlpha(boolean value);
 		void setDefaultValues(GeoElement geo0);
 		void updateSelection(Object[] geos);
-
-		Object update(Object[] geos2);
 	};
 	private IColorFunctionListener listener;
 	private App app;
@@ -194,7 +192,7 @@ public class ColorFunctionModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 }

@@ -11,8 +11,8 @@ public class LineEqnModel extends MultipleOptionsModel {
 
 
 	private List<Integer> eqnValues;
-	public LineEqnModel(IComboListener listener) {
-		super(listener);
+
+	public LineEqnModel() {
 		eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
 				GeoLine.EQUATION_EXPLICIT,
 				GeoLine.PARAMETRIC);

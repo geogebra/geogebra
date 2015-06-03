@@ -372,7 +372,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 */
 	public void updateTextEditor(GeoElement geo) {
 		GeoElement[] geos = { geo };
-		textEditPanel.update(geos);
+		textEditPanel.updatePanel(geos);
 	}
 
 	public void showSliderTab() {
@@ -743,7 +743,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		for (int i = 0; i < size; i++) {
 			UpdateablePropertiesPanel up = (UpdateablePropertiesPanel) tabList
 					.get(i);
-			boolean show = (up.update(geos) != null);
+			boolean show = (up.updatePanel(geos) != null);
 			up.setVisible(show);
 			if (show)
 				oneVisible = true;
@@ -824,7 +824,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			add(checkbox);
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			if (!model.checkGeos())
 				return null;
@@ -905,9 +905,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			add(comboBox);
 		}
 
-		public JPanel updatePanel(Object[] geos) {
-			return update(geos);
-		}
 		public void setLabels() {
 			label.setText(localize(getTitle()) + ":");
 
@@ -920,7 +917,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			comboBox.addActionListener(this);
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			if (!model.checkGeos()) {
 				return null;
@@ -1113,7 +1110,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public IneqPanel() {
 			super("ShowOnXAxis");
-			setModel(new IneqStyleModel(this));
+			IneqStyleModel model = new IneqStyleModel();
+			model.setListener(this);
+			setModel(model);
 			app.setFlowLayoutOrientation(this);
 		}
 
@@ -1183,7 +1182,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			app.setComponentOrientation(this);
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			return update();
 		}
@@ -1281,7 +1280,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public TooltipPanel() {
 			super("Tooltip");
-			setModel(new TooltipModel(this));
+			TooltipModel model = new TooltipModel();
+			model.setListener(this);
+			setModel(model);
 		}
 	} // TooltipPanel
 
@@ -1290,7 +1291,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public LayerPanel() {
 			super("Layer");
-			setModel(new LayerModel(this));
+			LayerModel model = new LayerModel();
+			model.setListener(this);
+			setModel(model);
 		}
 	} // TooltipPanel
 
@@ -1341,7 +1344,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public CheckBoxInterpolateImage() {
 			super("Interpolate");
-			setModel(new InterpolateImageModel(this));
+			InterpolateImageModel model = new InterpolateImageModel();
+			model.setListener(this);
+			setModel(model);
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
@@ -1447,7 +1452,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public AllowReflexAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new ReflexAngleModel(this, app, isDefaults);
+			model = new ReflexAngleModel(app, isDefaults);
+			model.setListener(this);
 
 			intervalLabel = new JLabel();
 			intervalCombo = new JComboBox();
@@ -1617,7 +1623,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public StartPointPanel() {
 			// textfield for animation step
-			model = new StartPointModel(app, this);
+			model = new StartPointModel(app);
+			model.setListener(this);
 			label = new JLabel();
 			cbLocation = new JComboBox();
 			cbLocation.setEditable(true);
@@ -1722,7 +1729,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public ImageCornerPanel(int cornerIdx) {
 			super("CornerModel");
-			model = new ImageCornerModel(app, this);
+			model = new ImageCornerModel(app);
+			model.setListener(this);
 			model.setCornerIdx(cornerIdx);
 			setModel(model);
 			comboBox.setEditable(true);
@@ -1784,14 +1792,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			corner2.setLabels();
 		}
 
-		public JPanel update(Object[] geos) {
-			if (geos == null || corner0.update(geos) == null) {
+		public JPanel updatePanel(Object[] geos) {
+			if (geos == null || corner0.updatePanel(geos) == null) {
 				return null;
 			}
 
-			;
-			corner1.update(geos);
-			corner2.update(geos);
+			corner1.updatePanel(geos);
+			corner2.updatePanel(geos);
 			return this;
 		}
 
@@ -1848,7 +1855,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			td.setLabels(app.getPlain("Text"));
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			if (geos.length != 1 || !checkGeos(geos)) {
 				td.reset();
 				return null;
@@ -1967,7 +1974,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			globalDialog.setLabels(app.getPlain("GlobalJavaScript"));
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			if (geos.length != 1 || !checkGeos(geos))
 				return null;
 
@@ -2039,7 +2046,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public CoordsPanel() {
 			super("Coordinates");
-			setModel(new CoordsModel(this));
+			CoordsModel model = new CoordsModel();
+			model.setListener(this);
+			setModel(model);
 		}
 	} // CoordsPanel
 
@@ -2048,7 +2057,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public LineEqnPanel() {
 			super("Equation");
-			setModel(new LineEqnModel(this));
+			LineEqnModel model = new LineEqnModel();
+			model.setListener(this);
+			setModel(model);
 		}
 	} // LineEqnPanel
 
@@ -2057,7 +2068,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public ConicEqnPanel() {
 			super("Equation");
-			setModel(new ConicEqnModel(this, loc));
+			ConicEqnModel model = new ConicEqnModel(loc);
+			model.setListener(this);
+			setModel(model);
 		}
 
 		@Override
@@ -2097,7 +2110,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// setBorder(BorderFactory.createTitledBorder(app.getPlain("Size")));
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
 
-			model = new PointSizeModel(this);
+			model = new PointSizeModel();
+			model.setListener(this);
 
 			slider = new JSlider(1, 9);
 			slider.setMajorTickSpacing(2);
@@ -2124,7 +2138,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					.getPlain("PointSize")));
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			return update();
 		}
@@ -2201,7 +2215,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public PointStylePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
-			model = new PointStyleModel(this);
+			model = new PointStyleModel();
+			model.setListener(this);
 			// G.STURR 2010-1-24
 			// Point styles were previously displayed with fonts,
 			// but not all point styles had font equivalents. This is
@@ -2245,13 +2260,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					.getMenu("PointStyle")));
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			return update();
-		}
-
-		public JPanel updatePanel(Object[] geos) {
-			return update(geos);
 		}
 
 		public void updateVisualStyle(GeoElement geo) {
@@ -2457,7 +2468,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			}
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			return update();
 		}
@@ -2631,7 +2642,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public SlopeTriangleSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
-			model = new SlopeTriangleSizeModel(this);
+			model = new SlopeTriangleSizeModel();
+			model.setListener(this);
 
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
 			slider = new JSlider(1, 10);
@@ -2668,7 +2680,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			setBorder(BorderFactory.createTitledBorder(app.getPlain("Size")));
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			if (!model.checkGeos()) {
 				return null;
@@ -2740,7 +2752,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public ArcSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new AngleArcSizeModel(this);
+			model = new AngleArcSizeModel();
+			model.setListener(this);
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
 			slider = new JSlider(10, 100);
 			slider.setMajorTickSpacing(10);
@@ -2782,7 +2795,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		// END
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			// check geos
 			model.setGeos(geos);
 			if (!model.checkGeos()) {
@@ -2880,7 +2893,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public FillingPanel() {
 
 			// For filling whit unicode char
-			model = new FillingModel(app, this);
+			model = new FillingModel(app);
+			model.setListener(this);
 			btInsertUnicode = new PopupMenuButton(app);
 			buildInsertUnicodeButton();
 			btInsertUnicode.addActionListener(this);
@@ -3619,7 +3633,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JPanel dashPanel;
 
 		public LineStylePanel() {
-			model = new LineStyleModel(this);
+			model = new LineStyleModel();
+			model.setListener(this);
 			// thickness slider
 			thicknessSlider = new JSlider(1, GeoElement.MAX_LINE_WIDTH);
 			thicknessSlider.setMajorTickSpacing(2);
@@ -3875,7 +3890,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					.getMenu("HiddenLineStyle")));
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 
 			this.geos = geos;
 			return update();
@@ -3980,7 +3995,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			setBorder(BorderFactory.createTitledBorder(app.getPlain("Fading")));
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			// check geos
 			if (!checkGeos(geos))
 				return null;
@@ -4072,7 +4087,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public LodPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));			
 			
-			model = new LodModel(this, app, isDefaults);
+			model = new LodModel(app, isDefaults);
+			model.setListener(this);
 
 			label = new JLabel();
 			combo = new JComboBox();
@@ -4177,7 +4193,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			cb2DView.setText(app.getPlain("ViewFrom"));
 		}
 
-		public JPanel update(Object[] geos) {
+		public JPanel updatePanel(Object[] geos) {
 			this.geos = geos;
 			if (!checkGeos(geos))
 				return null;
@@ -4258,7 +4274,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		DecoSegmentPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new DecoSegmentModel(this);
+			model = new DecoSegmentModel();
+			model.setListener(this);
 			// deco combobox
 			DecorationListRenderer renderer = new DecorationListRenderer();
 			renderer.setPreferredSize(new Dimension(130,
@@ -4339,7 +4356,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		DecoAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new DecoAngleModel(this);
+			model = new DecoAngleModel();
+			model.setListener(this);
 			// deco combobox
 			DecorationAngleListRenderer renderer = new DecorationAngleListRenderer();
 			renderer.setPreferredSize(new Dimension(80, 30));
@@ -4470,7 +4488,8 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 
 	public TextfieldSizePanel(AppD app) {
 		this.app = app;
-		model = new TextFieldSizeModel(app, this);
+		model = new TextFieldSizeModel(app);
+		model.setListener(this);
 		// text field for textfield size
 		label = new JLabel();
 		tfTextfieldSize = new MyTextField(app, 5);
@@ -4494,7 +4513,7 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 		label.setText(app.getPlain("TextfieldLength") + ": ");
 	}
 
-	public JPanel update(Object[] geos) {
+	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		if (!model.checkGeos()) {
 			return null;
@@ -4518,7 +4537,7 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 
 	private void doActionPerformed() {
 		model.applyChanges(tfTextfieldSize.getText());
-		update(model.getGeos());
+		updatePanel(model.getGeos());
 	}
 
 	public void focusGained(FocusEvent arg0) {
@@ -4584,7 +4603,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 				.getMenu("Condition.ShowObject")));
 	}
 
-	public JPanel update(Object[] geos) {
+	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		if (!model.checkGeos())
 			return null;
@@ -4792,7 +4811,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 	}
 
-	public JPanel update(Object[] geos) {
+	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		if (!model.checkGeos()) {
 			return null;
@@ -4990,7 +5009,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	}
 
-	public JPanel update(Object[] geos) {
+	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		if (!model.checkGeos()) {
 			return null;
@@ -5086,7 +5105,8 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 
 	public ButtonSizePanel(AppD app, Localization loc) {
 		this.loc = loc;
-		model = new ButtonSizeModel(this);
+		model = new ButtonSizeModel();
+		model.setListener(this);
 
 		labelWidth = new JLabel(loc.getPlain("Width"));
 		labelHeight = new JLabel(loc.getPlain("Height"));
@@ -5126,7 +5146,7 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 
 	}
 
-	public JPanel update(Object[] geos) {
+	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		if (!model.checkGeos()) {
 			return null;
@@ -5313,7 +5333,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	 */
 	private GeoElement currentGeoForFocusLost = null;
 
-	public JPanel update(Object[] geos) {
+	public JPanel updatePanel(Object[] geos) {
 
 		/*
 		 * DON'T WORK : MAKE IT A TRY FOR 5.0 ? //apply textfields modification

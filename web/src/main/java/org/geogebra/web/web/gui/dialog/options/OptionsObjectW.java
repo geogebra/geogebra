@@ -16,36 +16,26 @@ import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimatingModel;
 import org.geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import org.geogebra.common.gui.dialog.options.model.BackgroundImageModel;
-import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
-import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
-import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel;
 import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
-import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleListener;
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
-import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
 import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.dialog.options.model.GroupModel;
-import org.geogebra.common.gui.dialog.options.model.IComboListener;
-import org.geogebra.common.gui.dialog.options.model.ISliderListener;
-import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
-import org.geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import org.geogebra.common.gui.dialog.options.model.InterpolateImageModel;
 import org.geogebra.common.gui.dialog.options.model.LayerModel;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
-import org.geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import org.geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import org.geogebra.common.gui.dialog.options.model.LodModel;
@@ -55,6 +45,7 @@ import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
+import org.geogebra.common.gui.dialog.options.model.PropertyListener;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import org.geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -74,32 +65,26 @@ import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
-import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.dialog.FileInputDialog;
 import org.geogebra.web.web.gui.dialog.ScriptInputPanelW;
 import org.geogebra.web.web.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.web.gui.dialog.TextPreviewPanelW;
+import org.geogebra.web.web.gui.dialog.options.OptionsTab.LodPanel;
 import org.geogebra.web.web.gui.dialog.options.model.ExtendedAVModel;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.AnimationSpeedPanelW;
@@ -111,18 +96,10 @@ import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
-import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.LineStylePopup;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
-import org.geogebra.web.web.gui.util.PointStylePopup;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
-import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -134,10 +111,8 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -171,20 +146,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private ExtendedAVPanel avPanel;
 
 	// Style
-	private PointSizePanel pointSizePanel;
-	private PointStylePanel pointStylePanel;
-	private LineStylePanel lineStylePanel;
-	AngleArcSizePanel angleArcSizePanel;
-	private SlopeTriangleSizePanel slopeTriangleSizePanel;
-	private IneqPanel ineqStylePanel;
-	private TextFieldSizePanel textFieldSizePanel;
-	FillingPanel fillingPanel;
-	private InterpolateImagePanel interpolateImagePanel; 
+	// FillingPanel fillingPanel;
 
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
 	boolean isDefaults;
-	private ButtonSizePanel buttonSizePanel;
 	private ColorFunctionPanel colorFunctionPanel;
 	private LayerPanel layerPanel;
 	private TooltipPanel tooltipPanel;
@@ -192,8 +158,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private GraphicsViewLocationPanel graphicsViewLocationPanel;
 
 	//Decoration
-	private OptionPanel decoAnglePanel;
-	private DecoSegmentPanel decoSegmentPanel;
 
 	//Algebra
 	private CoordsPanel coordsPanel;
@@ -218,43 +182,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		return txt;
 	}
 
-	private class CheckboxPanel extends OptionPanel implements IBooleanOptionListener {
-		private final CheckBox checkbox;
-		private final String titleId;
-		public CheckboxPanel(final String title) {
-			checkbox = new CheckBox();
-			checkbox.setStyleName("checkBoxPanel");
-			setWidget(getCheckbox());
-			this.titleId = title;
 
-			getCheckbox().addClickHandler(new ClickHandler(){
-				@Override
-				public void onClick(ClickEvent event) {
-					((BooleanOptionModel)getModel()).applyChanges(getCheckbox().getValue());
-				}
-			});
-
-		}
-
-		@Override
-		public void updateCheckbox(boolean value) {
-			getCheckbox().setValue(value);
-		}
-
-		@Override
-		public void setLabels() {
-			getCheckbox().setText(localize(titleId));
-		}
-
-		public CheckBox getCheckbox() {
-			return checkbox;
-		}
-	}
 
 
 	private class ShowObjectPanel extends CheckboxPanel implements IShowObjectListener {
 		public ShowObjectPanel() {
-			super("ShowObject");
+			super("ShowObject", loc);
 			setModel(new ShowObjectModel(this));
 		}
 
@@ -267,7 +200,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private class TracePanel extends CheckboxPanel {
 		public TracePanel() {
-			super("ShowTrace");
+			super("ShowTrace", loc);
 			setModel(new TraceModel(this));
 		}
 
@@ -371,7 +304,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private class FixPanel extends CheckboxPanel {
 
 		public FixPanel() {
-			super("FixObject");
+			super("FixObject", loc);
 			setModel(new FixObjectModel(this));
 		}
 	}
@@ -379,7 +312,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private class AuxPanel extends CheckboxPanel {
 
 		public AuxPanel() {
-			super("AuxiliaryObject");
+			super("AuxiliaryObject", loc);
 			setModel(new AuxObjectModel(this));
 		}
 
@@ -718,7 +651,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private class BackgroundImagePanel extends CheckboxPanel {
 
 		public BackgroundImagePanel() {
-			super("BackgroundImage");
+			super("BackgroundImage", loc);
 			setModel(new BackgroundImageModel(this));
 		}
 
@@ -726,7 +659,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	class ListAsComboPanel extends CheckboxPanel implements IListAsComboListener {
 		public ListAsComboPanel() {
-			super("DrawAsDropDownList");
+			super("DrawAsDropDownList", loc);
 			setModel(new ListAsComboModel(app, this));
 		}
 
@@ -760,7 +693,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private ListBox intervalLB;
 
 		public ReflexAnglePanel() {
-			model = new ReflexAngleModel(this, app, isDefaults);
+			model = new ReflexAngleModel(app, isDefaults);
+			model.setListener(this);
 			setModel(model);
 
 			mainWidget = new FlowPanel();
@@ -837,69 +771,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	}
 
-	class LodPanel extends OptionPanel implements IComboListener {
-		LodModel model;
-		private FlowPanel mainWidget;
-		private Label label;
-		ListBox combo;
 
-		public LodPanel() {
-			model = new LodModel(this, app, isDefaults);
-			setModel(model);
-
-			mainWidget = new FlowPanel();
-
-			label = new Label();
-			mainWidget.add(label);
-
-			combo = new ListBox();
-
-			combo.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyChanges(combo.getSelectedIndex());
-				}
-			});
-
-			mainWidget.add(combo);
-
-			setWidget(mainWidget);
-		}
-
-		@Override
-		public void setLabels() {
-			label.setText(app.getPlain("LevelOfDetail"));
-
-			int idx = combo.getSelectedIndex();
-			combo.clear();
-			model.fillModes(loc);
-			combo.setSelectedIndex(idx);
-		}
-
-
-		@Override
-		public void addItem(String item) {
-			combo.addItem(item);
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			combo.setSelectedIndex(index);
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			// nothing to do here
-
-		}
-
-	}
 
 
 	class RightAnglePanel extends CheckboxPanel {
 		public RightAnglePanel() {
-			super("EmphasizeRightAngle");
+			super("EmphasizeRightAngle", loc);
 			setModel(new RightAngleModel(this));
 
 		}
@@ -909,7 +786,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 		public ShowTrimmedIntersectionLinesPanel() {
-			super("ShowTrimmed");
+			super("ShowTrimmed", loc);
 			setModel(new TrimmedIntersectionLinesModel(this));
 		}
 
@@ -917,7 +794,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private class AnimatingPanel extends CheckboxPanel {
 		public AnimatingPanel() {
-			super("Animating");
+			super("Animating", loc);
 			setModel(new AnimatingModel(app, this));
 		}
 
@@ -926,7 +803,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private class AllowOutlyingIntersectionsPanel extends CheckboxPanel {
 
 		public AllowOutlyingIntersectionsPanel() {
-			super("allowOutlyingIntersections");
+			super("allowOutlyingIntersections", loc);
 			setModel(new OutlyingIntersectionsModel(this));
 		}
 
@@ -935,514 +812,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private class FixCheckboxPanel extends CheckboxPanel {
 
 		public FixCheckboxPanel() {
-			super("FixCheckbox");
+			super("FixCheckbox", loc);
 			setModel(new FixCheckboxModel(this));
 		}
 
 	}
 
-	private class PointSizePanel extends OptionPanel implements ISliderListener {
-		PointSizeModel model;
-		SliderPanel slider;
-		private Label titleLabel;
-		public PointSizePanel() {
-			model = new PointSizeModel(this);
-			setModel(model);
-
-			FlowPanel mainPanel = new FlowPanel();
-			mainPanel.setStyleName("optionsPanel");
-			titleLabel = new Label();
-			mainPanel.add(titleLabel);
-
-			slider = new SliderPanel(1, 9);
-			slider.setMajorTickSpacing(2);
-			slider.setMinorTickSpacing(1);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
-			//			slider.setSnapToTicks(true);
-			mainPanel.add(slider);
-
-			setWidget(mainPanel);
-			slider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					if (true){//!slider.getValueIsAdjusting()) {
-						model.applyChanges(slider.getValue());
-					}
-				}});
-		}
-		@Override
-		public void setLabels() {
-			titleLabel.setText(localize("PointSize"));
-
-		}
-
-		@Override
-		public void setValue(int value) {
-			slider.setValue(value);
-
-		}
-
-	}
-
-	private class PointStylePanel extends OptionPanel implements IComboListener {
-		private PointStyleModel model;
-		private Label titleLabel;
-		private PointStylePopup btnPointStyle;
-		private int iconHeight = 24;
-		public PointStylePanel() {
-			model = new PointStyleModel(this);
-			setModel(model);
-
-			FlowPanel mainPanel = new FlowPanel();
-			mainPanel.setStyleName("optionsPanel");
-			titleLabel = new Label("-");
-			mainPanel.add(titleLabel);
-			btnPointStyle = PointStylePopup.create(getAppW(), iconHeight, -1, false,
-					model);
-			if (btnPointStyle != null) {
-				btnPointStyle.setKeepVisible(false);
-				mainPanel.add(btnPointStyle);
-			}
-			setWidget(mainPanel);
-		}
-		@Override
-		public void setLabels() {
-			titleLabel.setText(localize("PointStyle"));
-
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			if (btnPointStyle != null)
-				btnPointStyle.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String item) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
-		}
-
-
-	} 
-
-	private class LineStylePanel extends OptionPanel implements ILineStyleListener {
-		
-		LineStyleModel model;
-		private Label thicknessSliderLabel;
-		SliderPanel thicknessSlider;
-		private Label opacitySliderLabel;
-		SliderPanel opacitySlider;
-		private Label popupLabel;
-		LineStylePopup btnLineStyle;
-		private int iconHeight = 24;
-		private FlowPanel stylePanel;
-		
-		public LineStylePanel() {
-			model = new LineStyleModel(this);
-			setModel(model);
-
-			FlowPanel mainPanel = new FlowPanel();
-			thicknessSliderLabel = new Label();
-			
-			FlowPanel lineThicknessPanel = new FlowPanel();
-			lineThicknessPanel.setStyleName("optionsPanel");
-			lineThicknessPanel.add(thicknessSliderLabel);
-			mainPanel.add(lineThicknessPanel);
-
-			thicknessSlider = new SliderPanel(1, GeoElement.MAX_LINE_WIDTH);
-			thicknessSlider.setMajorTickSpacing(2);
-			thicknessSlider.setMinorTickSpacing(1);
-			thicknessSlider.setPaintTicks(true);
-			thicknessSlider.setPaintLabels(true);
-			//			slider.setSnapToTicks(true);
-			lineThicknessPanel.add(thicknessSlider);
-
-			thicknessSlider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					if (true){//!slider.getValueIsAdjusting()) {
-						model.applyThickness(thicknessSlider.getValue());
-					}
-				}});
-			opacitySliderLabel = new Label();
-			
-			FlowPanel lineOpacityPanel = new FlowPanel();
-			lineOpacityPanel.setStyleName("optionsPanel");
-			lineOpacityPanel.add(opacitySliderLabel);
-			mainPanel.add(lineOpacityPanel);
-
-			opacitySlider = new SliderPanel(0, 100);
-			opacitySlider.setMajorTickSpacing(25);
-			opacitySlider.setMinorTickSpacing(5);
-			opacitySlider.setPaintTicks(true);
-			opacitySlider.setPaintLabels(true);
-			//opacitySlider.setSnapToTicks(true);
-			lineOpacityPanel.add(opacitySlider);
-
-			opacitySlider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					if (true){//!slider.getValueIsAdjusting()) {
-						int value = (int) ((opacitySlider.getValue() / 100.0f) * 255);
-						model.applyOpacity(value);
-					}
-				}});
-			
-			
-
-			stylePanel = new FlowPanel();
-			stylePanel.setStyleName("optionsPanel");
-			popupLabel = new Label();
-			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create(getAppW(), iconHeight, -1, false);
-			//			slider.setSnapToTicks(true);
-			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
-
-				@Override
-				public void fireActionPerformed(PopupMenuButton actionButton) {
-					model.applyLineTypeFromIndex(btnLineStyle.getSelectedIndex());
-
-				}});
-			btnLineStyle.setKeepVisible(false);
-			mainPanel.add(btnLineStyle);
-
-			stylePanel.add(btnLineStyle);
-			mainPanel.add(stylePanel);
-
-			setWidget(mainPanel);
-		}
-		@Override
-		public void setLabels() {
-			thicknessSliderLabel.setText(localize("Thickness"));
-			opacitySliderLabel.setText(localize("LineOpacity"));
-			popupLabel.setText(localize("LineStyle") + ":");
-
-		}
-
-		@Override
-		public void setThicknessSliderValue(int value) {
-			thicknessSlider.setValue(value);
-
-		}
-
-		@Override
-		public void setThicknessSliderMinimum(int minimum) {
-			thicknessSlider.setMinimum(minimum);
-
-		}
-
-		@Override
-		public void selectCommonLineStyle(boolean equalStyle, int type) {
-			if (true) {
-				btnLineStyle.selectLineType(type);
-
-			}
-			//			else {
-			//				btnLineStyle.setSelectedIndex(-1);
-			//			}
-		}
-
-		@Override
-		public void setLineTypeVisible(boolean value) {
-	        stylePanel.setVisible(value);
-        }
-
-		@Override
-		public void setOpacitySliderValue(int value) {
-	        opacitySlider.setValue(value);
-        }
-
-		@Override
-		public void setLineOpacityVisible(boolean value) {
-	        opacitySlider.setVisible(value);
-        }
-
-	}
-
-
-
-	private class AngleArcSizePanel extends OptionPanel implements ISliderListener {
-		AngleArcSizeModel model;
-		SliderPanel slider;
-		private Label titleLabel;
-		public AngleArcSizePanel() {
-			model = new AngleArcSizeModel(this);
-			setModel(model);
-
-			FlowPanel mainPanel = new FlowPanel();
-			titleLabel = new Label();
-			mainPanel.add(titleLabel);
-
-			slider = new SliderPanel(10, 100);
-			slider.setMajorTickSpacing(10);
-			slider.setMinorTickSpacing(5);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
-			//			slider.setSnapToTicks(true);
-			mainPanel.add(slider);
-
-			setWidget(mainPanel);
-			slider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyChanges(slider.getValue());
-				}});
-		}
-		@Override
-		public void setLabels() {
-			titleLabel.setText(localize("Size"));
-
-		}
-
-		public void setMinValue() {
-			slider.setValue(AngleArcSizeModel.MIN_VALUE);
-		}
-
-		@Override
-		public void setValue(int value) {
-			slider.setValue(value);
-
-		}
-
-	}
-
-	private class SlopeTriangleSizePanel extends OptionPanel implements ISliderListener {
-		SlopeTriangleSizeModel model;
-		SliderPanel slider;
-		private Label titleLabel;
-		public SlopeTriangleSizePanel() {
-			model = new SlopeTriangleSizeModel(this);
-			setModel(model);
-
-			FlowPanel mainPanel = new FlowPanel();
-			titleLabel = new Label();
-			mainPanel.add(titleLabel);
-
-			slider = new SliderPanel(1, 10);
-			slider.setMajorTickSpacing(1);
-			slider.setMinorTickSpacing(2);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
-			//			slider.setSnapToTicks(true);
-			mainPanel.add(slider);
-
-			setWidget(mainPanel);
-			slider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyChanges(slider.getValue());
-				}});
-		}
-		@Override
-		public void setLabels() {
-			titleLabel.setText(localize("Size"));
-
-		}
-
-		@Override
-		public void setValue(int value) {
-			slider.setValue(value);
-
-		}
-
-	}
-
-
-	private class IneqPanel extends CheckboxPanel implements IIneqStyleListener {
-
-
-
-		public IneqPanel() {
-			super("ShowOnXAxis");
-			setModel(new IneqStyleModel(this));
-		}
-
-		@Override
-		public void enableFilling(boolean value) {
-			//	fillingPanel.setAllEnabled(value);
-		}
-
-		//		@Override
-		//		public void apply(boolean value) {
-		//			super.apply(value);
-		//			enableFilling(!value);
-		//		}
-
-	} // IneqPanel
-
-	private class TextFieldSizePanel extends OptionPanel implements ITextFieldListener {
-
-		TextFieldSizeModel model;
-		private InputPanelW inputPanel;
-		AutoCompleteTextFieldW tfSize;
-		public TextFieldSizePanel() {
-			model = new TextFieldSizeModel(getAppW(), this);
-			setModel(model);
-
-			FlowPanel mainPanel = new FlowPanel();
-
-			inputPanel = new InputPanelW(null, getAppW(), 1, -1, false);
-			tfSize = inputPanel.getTextComponent();
-			tfSize.setAutoComplete(false);
-			tfSize.addFocusListener(new FocusListenerW(this){
-				@Override
-				protected void wrapFocusLost(){
-					model.applyChanges(tfSize.getText());
-				}	
-			});
-			tfSize.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						model.applyChanges(tfSize.getText());
-					}
-				}});
-			mainPanel.add(inputPanel);
-			mainPanel.setStyleName("optionsPanel");
-			setWidget(mainPanel);
-
-		}
-
-		@Override
-		public void setText(String text) {
-			tfSize.setText(text);
-		}
-
-		@Override
-		public void setLabels() {
-			//title.setText(localize("TextfieldLength"));
-		}
-
-	}
-
-
-	public class ButtonSizePanel extends OptionPanel implements IButtonSizeListener {
-		private InputPanelW ipButtonWidth;
-		private InputPanelW ipButtonHeight;
-		AutoCompleteTextFieldW tfButtonWidth;
-		AutoCompleteTextFieldW tfButtonHeight;
-		CheckBox cbUseFixedSize;
-
-		private Label labelWidth;
-		private Label labelHeight;
-		private Label labelPixelW;
-		private Label labelPixelH;
-		ButtonSizeModel model;
-
-
-		public ButtonSizePanel() {
-			model = new ButtonSizeModel(this);
-			setModel(model);
-			labelWidth = new Label();
-			labelHeight = new Label();
-			labelPixelW = new Label();
-			labelPixelH = new Label();
-			cbUseFixedSize = new CheckBox();
-			setLabels();
-
-			ipButtonWidth = new InputPanelW(null, getAppW(), 1, -1, false);
-			ipButtonHeight = new InputPanelW(null, getAppW(), 1, -1, false);
-
-			tfButtonWidth = ipButtonWidth.getTextComponent();
-			tfButtonWidth.setAutoComplete(false);
-
-			tfButtonHeight = ipButtonHeight.getTextComponent();
-			tfButtonHeight.setAutoComplete(false);
-
-			FocusListenerW focusListener = new FocusListenerW(this){
-				@Override
-				protected void wrapFocusLost(){
-					model.setSizesFromString(tfButtonWidth.getText(),
-							tfButtonHeight.getText(), cbUseFixedSize.getValue());
-
-				}	
-			};
-
-			tfButtonWidth.addFocusListener(focusListener);			
-			tfButtonHeight.addFocusListener(focusListener);
-
-			KeyHandler keyHandler = new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						model.setSizesFromString(tfButtonWidth.getText(),
-								tfButtonHeight.getText(), cbUseFixedSize.getValue());
-					}
-				}
-
-			};
-
-			tfButtonWidth.addKeyHandler(keyHandler);
-			tfButtonHeight.addKeyHandler(keyHandler);
-
-			cbUseFixedSize.addClickHandler(new ClickHandler(){
-
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyChanges(cbUseFixedSize.getValue());
-
-				}});
-			//tfButtonHeight.setInputVerifier(new SizeVerify());
-			//tfButtonWidth.setInputVerifier(new SizeVerify());
-			//tfButtonHeight.setEnabled(cbUseFixedSize.getValue());
-			//tfButtonWidth..setEnabled(cbUseFixedSize.getValue());
-
-			FlowPanel mainPanel = new FlowPanel();
-			mainPanel.setStyleName("textPropertiesTab");
-			FlowPanel fixedPanel = new FlowPanel();
-			FlowPanel widthPanel = new FlowPanel();
-			FlowPanel heightPanel = new FlowPanel();
-			fixedPanel.setStyleName("optionsPanel");
-			widthPanel.setStyleName("optionsPanel");
-			heightPanel.setStyleName("optionsPanel");
-			fixedPanel.add(cbUseFixedSize);
-			widthPanel.add(labelWidth);
-			widthPanel.add(tfButtonWidth);
-			widthPanel.add(labelPixelW);
-			heightPanel.add(labelHeight);
-			heightPanel.add(tfButtonHeight);
-			heightPanel.add(labelPixelH);
-			mainPanel.add(fixedPanel);
-			mainPanel.add(widthPanel);
-			mainPanel.add(heightPanel);
-			setWidget(mainPanel);
-		}
-
-		@Override
-		public void updateSizes(int width, int height, boolean isFixed) {
-			cbUseFixedSize.setValue(isFixed);
-			tfButtonHeight.setText("" + height);
-			tfButtonWidth.setText("" + width);
-			//			tfButtonHeight.setEnabled(isFixed);
-			//			tfButtonWidth.setEnabled(isFixed);
-		}
-
-		@Override
-		public void setLabels() {
-			labelWidth.setText(loc.getPlain("Width"));
-			labelHeight.setText(loc.getPlain("Height"));
-			labelPixelW.setText(loc.getMenu("Pixels.short"));
-			labelPixelH.setText(loc.getMenu("Pixels.short"));
-			cbUseFixedSize.setText(loc.getPlain("fixed"));
-
-		}
-
-	}
 
 	private class ColorFunctionPanel extends OptionPanel implements IColorFunctionListener {
 		ColorFunctionModel model;
@@ -1694,7 +1069,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 		public SelectionAllowedPanel() {
-			super("SelectionAllowed");
+			super("SelectionAllowed", loc);
 			setModel(new SelectionAllowedModel(this));
 		}
 
@@ -1705,7 +1080,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public TooltipPanel() {
 			super(loc, "Tooltip");
-			setModel(new TooltipModel(this));
+			TooltipModel model = new TooltipModel();
+			model.setListener(this);
+			setModel(model);
 		}
 	}
 
@@ -1714,7 +1091,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public LayerPanel() {
 			super(loc, "Layer");
-			setModel(new LayerModel(this));
+			LayerModel model = new LayerModel();
+			model.setListener(this);
+			setModel(model);
 		}
 	}
 
@@ -1830,7 +1209,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public CoordsPanel() {
 			super(loc, "Coordinates");
-			setModel(new CoordsModel(this));
+			CoordsModel model = new CoordsModel();
+			model.setListener(this);
+			setModel(model);
 		}
 	} // CoordsPanel
 
@@ -1839,7 +1220,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public LineEqnPanel() {
 			super(loc, "Equation");
-			setModel(new LineEqnModel(this));
+			LineEqnModel model = new LineEqnModel();
+			model.setListener(this);
+			setModel(model);
 		}
 	} // LineEqnPanel
 
@@ -1848,7 +1231,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public ConicEqnPanel() {
 			super(loc, "Equation");
-			setModel(new ConicEqnModel(this, loc));
+			ConicEqnModel model = new ConicEqnModel(loc);
+			model.setListener(this);
+			setModel(model);
 		}
 
 		@Override
@@ -1870,7 +1255,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public StartPointPanel() {
 			super(app, "StartingPoint");
-			setModel(new StartPointModel(app, this));
+			StartPointModel model = new StartPointModel(app);
+			model.setListener(this);
+			setModel(model);
 		}
 
 		private StartPointModel getStartPointModel() {
@@ -1943,7 +1330,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private class AbsoluteScreenLocationPanel extends CheckboxPanel {
 		public AbsoluteScreenLocationPanel(){
-			super("AbsoluteScreenLocation");
+			super("AbsoluteScreenLocation", loc);
 			setModel(new AbsoluteScreenLocationModel(app, this));
 		}
 
@@ -1954,7 +1341,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private ImageCornerModel model;
 		public ImageCornerPanel(int cornerIdx) {
 			super(app, "CornerModel");
-			model = new ImageCornerModel(app, this);
+			model = new ImageCornerModel(app);
+			model.setListener(this);
 			model.setCornerIdx(cornerIdx);
 			setModel(model);
 		}
@@ -2011,9 +1399,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				}
 
 				@Override
-				public boolean updateMPanel(Object[] geos2) {
-					return CornerPointsPanel.this.update(geos2) != null;
-				}
+				public PropertyListener getListener() {
+					return CornerPointsPanel.this;
+				};
 			});
 			corner1 = new ImageCornerPanel(0); 
 			corner2 = new ImageCornerPanel(1); 
@@ -2048,14 +1436,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-	private class InterpolateImagePanel extends CheckboxPanel {
 
-		public InterpolateImagePanel() {
-			super("Interpolate");
-			setModel(new InterpolateImageModel(this));
-		}
-
-	}
 	
 	private class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 	ITextEditPanel, GeoElementSelectionListener {
@@ -2454,800 +1835,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	}
 
-	class FillingPanel extends OptionPanel implements IFillingListener {
-		FillingModel model;
-		SliderPanel opacitySlider;
-		SliderPanel angleSlider;
-		SliderPanel distanceSlider;
-		private Label fillingSliderTitle;
-		private Label angleSliderTitle;
-		private Label distanceSliderTitle;
+		
+		
 
-		private FlowPanel opacityPanel, hatchFillPanel, imagePanel,
-		anglePanel, distancePanel;
-		private Label lblFillType;
-		private Label lblSelectedSymbol;
-		private Label lblMsgSelected;
-		private Button btnOpenFile;
 
-		private PopupMenuButton btnImage;
-		// button for removing turtle's image
-		private PushButton btnClearImage;
-		private Label lblSymbols;
-		ArrayList<ImageResource> iconList;
-		private ArrayList<String> iconNameList;
-		//	private PopupMenuButton btInsertUnicode;
-
-		ListBox lbFillType;
-		CheckBox cbFillInverse;
-		private FlowPanel mainWidget;
-		private FlowPanel fillTypePanel;
-		private Label fillTypeTitle;
-		private FlowPanel btnPanel;
-		AutoCompleteTextFieldW tfInsertUnicode;
-		private InputPanelW unicodePanel;
-
-		private class MyImageFileInputDialog extends FileInputDialog{
-
-			private MyImageFileInputDialog myDialog;
-			public MyImageFileInputDialog(AppW app, GeoPoint location) {
-				super(app, location);
-				createGUI();
-			}
-
-			@Override
-			protected void createGUI() {
-				super.createGUI();
-				addGgbChangeHandler(getInputWidget().getElement(), getAppW());
-			}
-
-			public native void addGgbChangeHandler(Element el, AppW appl) /*-{
-				var dialog = this;
-				appl = this;
-				el.setAttribute("accept", "image/*");
-				el.onchange = function(event) {
-					var files = this.files;
-					if (files.length) {
-						var fileTypes = /^image.*$/;
-						for (var i = 0, j = files.length; i < j; ++i) {
-							if (!files[i].type.match(fileTypes)) {
-								continue;
-							}
-							var fileToHandle = files[i];
-							appl.@org.geogebra.web.web.gui.dialog.options.OptionsObjectW.FillingPanel.MyImageFileInputDialog::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle,
-							 dialog.@org.geogebra.web.web.gui.dialog.FileInputDialog::getNativeHideAndFocus()());				
-							break
-						}
-					}
-				};
-			}-*/;
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (event.getSource() == btCancel) {
-					hideAndFocus();
-				}
-			}
-			public native boolean openFileAsImage(JavaScriptObject fileToHandle,
-					JavaScriptObject callback) /*-{
-
-				var imageRegEx = /\.(png|jpg|jpeg|gif|bmp|svg)$/i;
-				if (!fileToHandle.name.toLowerCase().match(imageRegEx))
-					return false;
-
-				var appl = this;
-				var reader = new FileReader();
-				reader.onloadend = function(ev) {
-					if (reader.readyState === reader.DONE) {
-						var fileData = reader.result;
-						var fileName = fileToHandle.name;
-						appl.@org.geogebra.web.web.gui.dialog.options.OptionsObjectW.FillingPanel.MyImageFileInputDialog::applyImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
-						if (callback != null) {
-							callback();
-						}
-					}
-				};
-				reader.readAsDataURL(fileToHandle);
-				return true;
-			}-*/;
-
-			public void applyImage(String fileName, String fileData) {
-				MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-				String zip_directory = md5e.encrypt(fileData);
-
-				String fn = fileName;
-				int index = fn.lastIndexOf('/');
-				if (index != -1) {
-					fn = fn.substring(index + 1, fn.length()); // filename without
-				}
-				// path
-				fn = org.geogebra.common.util.Util.processFilename(fn);
-
-				// filename will be of form
-				// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-				fn = zip_directory + '/' + fn;
-
-				Construction cons = getAppW().getKernel().getConstruction();
-				getAppW().getImageManager().addExternalImage(fn,
-						fileData);
-				GeoImage geoImage = new GeoImage(cons);
-				getAppW().getImageManager().triggerSingleImageLoading(
-fn,
-						geoImage);
-				model.applyImage(fn);
-				App.debug("Applying " + fn + " from dialog");
-
-			}
-
-		}
-
-		public FillingPanel() {
-			model = new FillingModel(getAppW(), this);
-			setModel(model);
-			mainWidget = new FlowPanel();
-			fillTypePanel = new FlowPanel();
-			fillTypePanel.setStyleName("optionsPanel");
-			fillTypeTitle = new Label();
-			lbFillType = new ListBox();
-
-			fillTypePanel.add(fillTypeTitle);
-			fillTypePanel.add(lbFillType);
-
-			cbFillInverse = new CheckBox();
-			fillTypePanel.add(cbFillInverse);
-			lbFillType.addChangeHandler(new ChangeHandler(){
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyFillType(lbFillType.getSelectedIndex());
-				}});
-
-			cbFillInverse.addClickHandler(new ClickHandler(){
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyFillingInverse(cbFillInverse.getValue());
-				}});
-
-			FlowPanel panel = new FlowPanel();
-			panel.add(fillTypePanel);
-
-			unicodePanel = new InputPanelW(null, getAppW(), 1, -1, true);
-			tfInsertUnicode = unicodePanel.getTextComponent();
-			//buildInsertUnicodeButton();
-			unicodePanel.setVisible(false);
-			tfInsertUnicode.setStyleName("fillSymbol");
-			lblMsgSelected = new Label(loc.getMenu("Filling.CurrentSymbol")
-					+ ":");
-			lblMsgSelected.setVisible(false);
-			fillingPanel = this;
-			lblSymbols = new Label(app.getMenu("Filling.Symbol") + ":");
-			lblSymbols.setVisible(false);
-			lblSelectedSymbol = new Label();
-
-			opacitySlider = new SliderPanel(0, 100);
-			opacitySlider.setMajorTickSpacing(25);
-			opacitySlider.setMinorTickSpacing(5);
-			opacitySlider.setPaintTicks(true);
-			opacitySlider.setPaintLabels(true);
-
-			angleSlider = new SliderPanel(0, 180);
-			angleSlider.setMajorTickSpacing(45);
-			angleSlider.setMinorTickSpacing(5);
-			angleSlider.setPaintTicks(true);
-			angleSlider.setPaintLabels(true);
-
-			distanceSlider = new SliderPanel(5, 50);
-			// distanceSlider.setPreferredSize(new Dimension(150,50));
-			distanceSlider.setMajorTickSpacing(10);
-			distanceSlider.setMinorTickSpacing(5);
-			distanceSlider.setPaintTicks(true);
-			distanceSlider.setPaintLabels(true);
-			
-			FlowPanel symbol1Panel = new FlowPanel();
-			symbol1Panel.setStyleName("optionsPanelCell");
-			symbol1Panel.add(lblSymbols);
-			symbol1Panel.add(tfInsertUnicode);
-			FlowPanel symbol2Panel = new FlowPanel();
-			symbol2Panel.setStyleName("optionsPanelCell");
-			symbol2Panel.add(lblMsgSelected);
-			symbol2Panel.add(lblSelectedSymbol);
-			
-			FlowPanel symbolPanel = new FlowPanel();
-			symbolPanel.setStyleName("optionsPanelIndent");
-			symbolPanel.add(symbol1Panel);
-			symbolPanel.add(symbol2Panel);
-			lblSelectedSymbol.setVisible(false);
-			panel.add(symbolPanel);
-			// panels to hold sliders
-			opacityPanel = new FlowPanel();
-			opacityPanel.setStyleName("optionsPanelIndent");
-			fillingSliderTitle = new Label();
-			opacityPanel.add(fillingSliderTitle);
-			opacityPanel.add(opacitySlider);
-
-			anglePanel = new FlowPanel();
-			anglePanel.setStyleName("optionsPanelIndent");
-			angleSliderTitle = new Label();
-			anglePanel.add(angleSliderTitle);
-			anglePanel.add(angleSlider);
-
-			distanceSliderTitle = new Label();
-			distancePanel = new FlowPanel();
-			distancePanel.setStyleName("optionsPanelIndent");
-			distancePanel.add(distanceSliderTitle);
-			distancePanel.add(distanceSlider);
-
-			// hatchfill panel: only shown when hatch fill option is selected
-			hatchFillPanel = new FlowPanel();
-			hatchFillPanel.add(anglePanel);
-			hatchFillPanel.add(distancePanel);
-			hatchFillPanel.setVisible(false);
-
-			// image panel: only shown when image fill option is selected
-			createImagePanel();
-			imagePanel.setVisible(false);
-
-			// ===========================================================
-			// put all the sub panels together
-
-			mainWidget.add(panel);
-			mainWidget.add(opacityPanel);
-			mainWidget.add(hatchFillPanel);
-			mainWidget.add(imagePanel);
-
-			mainWidget.add(symbolPanel);
-			setWidget(mainWidget);
-
-			opacitySlider.addChangeHandler(new ChangeHandler(){
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyOpacity(opacitySlider.getValue());
-				}});
-
-			ChangeHandler angleAndDistanceHandler = new ChangeHandler(){
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyAngleAndDistance(angleSlider.getValue(),
-							distanceSlider.getValue());
-
-				}
-			};
-
-
-				angleSlider.addChangeHandler(angleAndDistanceHandler);
-				distanceSlider.addChangeHandler(angleAndDistanceHandler);
-
-				tfInsertUnicode.addFocusListener(new FocusListenerW(this){
-					@Override
-					protected void wrapFocusLost(){
-						String symbolText = tfInsertUnicode.getText();
-						if (symbolText.isEmpty()) {
-							return;
-						}
-						model.applyUnicode(symbolText);
-					}	
-				});
-
-				tfInsertUnicode.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-						if (e.isEnterKey()) {
-							String symbolText = tfInsertUnicode.getText();
-							model.applyUnicode(symbolText);
-						}
-					}});
-
-
-				setLabels();
-		}
-
-		protected String getImageFileName(String fileName, String fileData) {
-
-
-			MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-			String zip_directory = md5e.encrypt(fileData);
-
-			String fn = fileName;
-			int index = fileName.lastIndexOf('/');
-			if (index != -1) {
-				fn = fn.substring(index + 1, fn.length()); // filename without
-			}
-			fn = org.geogebra.common.util.Util.processFilename(fn);
-
-			// filename will be of form
-			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-			return zip_directory + '/' + fn;
-		}
-
-		public void applyImage(String fileName0, String fileData) {
-
-			String fileName = getImageFileName(fileName0, fileData);
-
-			Construction cons = getAppW().getKernel().getConstruction();
-			getAppW().getImageManager().addExternalImage(fileName,
-					fileData);
-			GeoImage geoImage = new GeoImage(cons);
-			getAppW().getImageManager().triggerSingleImageLoading(
-					fileName, geoImage);
-			model.applyImage(fileName);
-
-		}
-
-
-		private void createImagePanel() {
-			imagePanel = new FlowPanel();
-			btnPanel = new FlowPanel();
-			iconList = new ArrayList<ImageResource>();
-			iconList.add(null); // for delete
-			AppResources res = AppResources.INSTANCE;
-			iconList.add(res.go_down());
-			iconList.add(res.go_up());
-			iconList.add(res.go_previous());
-			iconList.add(res.go_next());
-			iconList.add(res.nav_fastforward());
-			iconList.add(res.nav_rewind());
-			iconList.add(res.nav_skipback());
-			iconList.add(res.nav_skipforward());
-			iconList.add(res.nav_play());
-			iconList.add(res.nav_pause());
-
-			iconList.add(res.exit());
-
-			iconNameList = new ArrayList<String>();
-			for (ImageResource ir: iconList) {
-
-				iconNameList.add(ir != null ? ir.getName() : "");
-			}
-
-			final ImageOrText[] iconArray = new ImageOrText[iconList.size()];
-			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
-			for (int i = 1; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createResourceImageIcon(iconList
-				        .get(i));
-			}
-			//			// ============================================
-			//
-			//			// panel for button to open external file
-			//
-			btnImage = new PopupMenuButton(getAppW(), iconArray, -1, 4,
-			        org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
-				@Override
-				public void handlePopupActionEvent(){
-					super.handlePopupActionEvent();
-					ImageResource resource = null;
-					int idx = getSelectedIndex();
-					resource = iconList.get(idx);
-					if (resource != null) {
-						applyImage(resource.getName(), resource.getSafeUri()
-								.asString());
-						App.debug("Applying " + resource.getName()
-								+ " at index " + idx);
-					}
-					else {
-						model.applyImage("");
-					}
-				}
-
-			};
-			btnImage.setSelectedIndex(-1);
-			btnImage.setKeepVisible(false);
-			btnClearImage = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
-			btnClearImage.addClickHandler(new ClickHandler(){
-
-				@Override
-				public void onClick(ClickEvent event) {
-					model.applyImage("");
-                }
-				
-			});
-			btnOpenFile = new Button();
-			btnOpenFile.addClickHandler(new ClickHandler(){
-				@Override
-				public void onClick(ClickEvent event) {
-					new MyImageFileInputDialog(getAppW(), null);
-				}
-			});
-
-
-			btnPanel.add(btnImage);
-			btnPanel.add(btnClearImage);
-			btnPanel.add(btnOpenFile);
-			btnPanel.setStyleName("optionsPanelIndent");
-
-			imagePanel.add(btnPanel);
-
-		}
-
-
-
-
-
-		@Override
-		public void setStandardFillType() {
-			fillTypePanel.setVisible(true);
-			opacityPanel.setVisible(false);
-			hatchFillPanel.setVisible(false);
-			imagePanel.setVisible(false);
-			lblSymbols.setVisible(false);
-			lblSelectedSymbol.setVisible(false);
-			unicodePanel.setVisible(false);
-		}
-
-		@Override
-		public void setHatchFillType() {
-			fillTypePanel.setVisible(true);
-			distanceSlider.setMinimum(5);
-			opacityPanel.setVisible(false);
-			hatchFillPanel.setVisible(true);
-			imagePanel.setVisible(false);
-			anglePanel.setVisible(true);
-			angleSlider.setMaximum(180);
-			angleSlider.setMinorTickSpacing(5);
-			lblSymbols.setVisible(false);
-			lblSelectedSymbol.setVisible(false);
-			unicodePanel.setVisible(false);
-		}
-
-		@Override
-		public void setCrossHatchedFillType() {
-			fillTypePanel.setVisible(true);
-			distanceSlider.setMinimum(5);
-			opacityPanel.setVisible(false);
-			hatchFillPanel.setVisible(true);
-			imagePanel.setVisible(false);
-			anglePanel.setVisible(true);
-			// Only at 0, 45 and 90 degrees texturepaint not have mismatches
-			angleSlider.setMaximum(45);
-			angleSlider.setMinorTickSpacing(45);
-			lblSymbols.setVisible(false);
-			lblSelectedSymbol.setVisible(false);
-			unicodePanel.setVisible(false);
-
-		}
-
-		@Override
-		public void setBrickFillType() {
-			fillTypePanel.setVisible(true);
-			distanceSlider.setMinimum(5);
-			opacityPanel.setVisible(false);
-			hatchFillPanel.setVisible(true);
-			imagePanel.setVisible(false);
-			anglePanel.setVisible(true);
-			angleSlider.setMaximum(180);
-			angleSlider.setMinorTickSpacing(45);
-			lblSymbols.setVisible(false);
-			lblSelectedSymbol.setVisible(false);
-			unicodePanel.setVisible(false);
-		}
-
-		@Override
-		public void setSymbolFillType() {
-			fillTypePanel.setVisible(true);
-			distanceSlider.setMinimum(10);
-			opacityPanel.setVisible(false);
-			hatchFillPanel.setVisible(true);
-			imagePanel.setVisible(false);
-			// for dotted angle is useless
-			anglePanel.setVisible(false);
-			lblSymbols.setVisible(true);
-			lblSelectedSymbol.setVisible(true);
-			unicodePanel.setVisible(true);
-			tfInsertUnicode.showPopupSymbolButton(true);
-		}
-
-		@Override
-		public void setDottedFillType() {
-			distanceSlider.setMinimum(5);
-			opacityPanel.setVisible(false);
-			hatchFillPanel.setVisible(true);
-			imagePanel.setVisible(false);
-			// for dotted angle is useless
-			anglePanel.setVisible(false);
-			lblSymbols.setVisible(false);
-			lblSelectedSymbol.setVisible(false);
-			unicodePanel.setVisible(false);
-		}
-
-		@Override
-		public void setImageFillType() {
-			fillTypePanel.setVisible(true);
-			opacityPanel.setVisible(true);
-			hatchFillPanel.setVisible(false);
-			imagePanel.setVisible(true);
-			lblSymbols.setVisible(false);
-			lblSelectedSymbol.setVisible(false);
-			unicodePanel.setVisible(false);
-			this.btnImage.setVisible(true);
-			this.btnClearImage.setVisible(true);
-
-			// for GeoButtons only show the image file button
-			if (model.hasGeoButton() || model.hasGeoTurtle()) {
-				fillTypePanel.setVisible(false);
-				opacityPanel.setVisible(false);
-				if (lblFillType != null) {
-					lblFillType.setVisible(false);
-					lbFillType.setVisible(false);
-				}
-				if(model.hasGeoTurtle()){
-					this.btnImage.setVisible(false);
-					this.btnClearImage.setVisible(true);
-				}
-			}
-
-			addSelectionBar();
-		}
-
-
-		private void addSelectionBar() {
-			// TODO Auto-generated method stub
-
-		}
-
-//		@Override
-//		public boolean update(Object[] geos) {
-//			getModel().setGeos(geos);
-//
-//			if (!getModel().checkGeos()) {
-//				return false;
-//			}
-//			model.updateProperties();
-//
-//			return true;
-//		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			lbFillType.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String item) {
-			lbFillType.addItem(item);
-		}
-
-		public void updateFillTypePanel(FillType fillType) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setFillInverseVisible(boolean isVisible) {
-			cbFillInverse.setVisible(isVisible);
-		}
-
-		@Override
-		public void setFillTypeVisible(boolean isVisible) {
-			lbFillType.setVisible(isVisible);  
-		}
-
-		@Override
-		public void setLabels() {
-			fillTypeTitle.setText(localize("Filling") + ":");
-			cbFillInverse.setText(localize("InverseFilling"));
-			int idx = lbFillType.getSelectedIndex();
-			lbFillType.clear();
-			model.fillModes(loc);
-			lbFillType.setSelectedIndex(idx);
-			fillingSliderTitle.setText(localize("Opacity"));
-			angleSliderTitle.setText(localize("Angle"));
-			distanceSliderTitle.setText(localize("Spacing"));
-			btnOpenFile.setText(localize("ChooseFromFile") + "...");
-
-		}
-
-
-		@Override
-		public void setSelectedItem(String item) {
-			int idx = 0;
-			lbFillType.setSelectedIndex(idx);
-		}
-
-		@Override
-		public void setSymbolsVisible(boolean isVisible) {
-
-			if (isVisible) {
-				unicodePanel.setVisible(true);
-				lblSymbols.setVisible(true);
-				lblSelectedSymbol.setVisible(true);
-				lblMsgSelected.setVisible(true);
-			} else {
-				lblSymbols.setVisible(false);
-				unicodePanel.setVisible(false);
-				lblMsgSelected.setVisible(false);
-				lblSelectedSymbol.setVisible(false);
-				lblSelectedSymbol.setText("");
-			}
-		}
-
-		@Override
-		public void setFillingImage(String imageFileName) {
-
-			int itemIndex = -1;
-			if (imageFileName != null) {
-				String fileName = imageFileName.substring(imageFileName.indexOf('/') + 1);
-				App.debug("Filling with " + fileName);
-
-				int idx = iconNameList.lastIndexOf(fileName);
-				itemIndex = idx > 0 ? idx : 0;
-			}
-
-			btnImage.setSelectedIndex(itemIndex);
-
-		}
-
-		@Override
-		public void setFillValue(int value) {
-			opacitySlider.setValue(value);
-		}
-
-		@Override
-		public void setAngleValue(int value) {
-			angleSlider.setValue(value);
-		}
-
-		@Override
-		public void setDistanceValue(int value) {
-			distanceSlider.setValue(value);
-		}
-
-		@Override
-		public int getSelectedBarIndex() {
-			return 0;
-		}
-
-		@Override
-		public void selectSymbol(String symbol) {
-			lblSelectedSymbol.setText(symbol);
-		}
-
-		@Override
-		public String getSelectedSymbolText() {
-			return lblSelectedSymbol.getText();
-		}
-
-		@Override
-		public float getFillingValue() {
-			return opacitySlider.getValue();
-		}
-
-		@Override
-		public FillType getSelectedFillType() {
-			return model.getFillTypeAt(lbFillType.getSelectedIndex());
-		}
-
-		@Override
-		public int getDistanceValue() {
-			return distanceSlider.getValue();
-		}
-
-		@Override
-		public int getAngleValue() {
-			return angleSlider.getValue();
-		}
-
-		@Override
-		public void setFillInverseSelected(boolean value) {
-			cbFillInverse.setValue(value);
-		}
-	}
-
-	private class DecoAnglePanel extends OptionPanel implements IDecoAngleListener {
-		private Label decoLabel;
-		private PopupMenuButton decoPopup;
-		DecoAngleModel model;
-		public DecoAnglePanel() {
-			model = new DecoAngleModel(this);
-			setModel(model);
-			FlowPanel mainWidget = new FlowPanel();
-			decoLabel = new Label();
-			mainWidget.add(decoLabel);
-			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel.getDecoTypeLength()];
-			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i);
-			}
-			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1,
-			        org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
-				@Override
-				public void handlePopupActionEvent(){
-					super.handlePopupActionEvent();
-					int idx = getSelectedIndex();
-					model.applyChanges(idx);
-
-				}
-			};
-			decoPopup.setKeepVisible(false);
-			mainWidget.add(decoPopup);
-			setWidget(mainWidget);
-
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			decoPopup.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String item) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setLabels() {
-			decoLabel.setText(app.getPlain("Decoration") + ":");
-
-		}
-
-		@Override
-		public void setArcSizeMinValue() {
-			angleArcSizePanel.setMinValue();
-		}
-
-	}
-
-	private class DecoSegmentPanel extends OptionPanel implements IComboListener {
-		private Label decoLabel;
-		private PopupMenuButton decoPopup;
-		DecoSegmentModel model;
-		public DecoSegmentPanel() {
-			model = new DecoSegmentModel(this);
-			setModel(model);
-			FlowPanel mainWidget = new FlowPanel();
-			decoLabel = new Label();
-			mainWidget.add(decoLabel);
-			final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel.getDecoTypeLength()];
-			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createDecorSegmentIcon(i);
-			}
-			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1,
-			        org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
-				@Override
-				public void handlePopupActionEvent(){
-					super.handlePopupActionEvent();
-					int idx = getSelectedIndex();
-					model.applyChanges(idx);
-
-				}
-			};
-			decoPopup.setKeepVisible(false);
-			mainWidget.add(decoPopup);
-			setWidget(mainWidget);
-
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			decoPopup.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String item) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void setLabels() {
-			decoLabel.setText(app.getPlain("Decoration") + ":");
-
-		}
-
-	}
 
 	private class ScriptEditPanel extends OptionPanel {
 
@@ -3273,8 +1864,8 @@ fn,
 				}
 
 				@Override
-				public boolean updateMPanel(Object[] geos2) {
-					return ScriptEditPanel.this.update(geos2) != null;
+				public PropertyListener getListener() {
+					return ScriptEditPanel.this;
 				}
 			});
 			tabbedPane = new TabPanel();
@@ -3365,7 +1956,7 @@ fn,
 
 	private class ExtendedAVPanel extends CheckboxPanel {
 		public ExtendedAVPanel() {
-			super("show extended algebra view");
+			super("show extended algebra view", loc);
 			setModel(new ExtendedAVModel(this));
 		}
 	}
@@ -3547,36 +2138,32 @@ fn,
 
 	private OptionsTab addStyleTab() {
 		OptionsTab tab = makeOptionsTab("Properties.Style");
-
-		pointSizePanel = new PointSizePanel();
-		pointStylePanel = new PointStylePanel();
-		lineStylePanel = new LineStylePanel();
-		angleArcSizePanel = new AngleArcSizePanel();
-		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
-		ineqStylePanel = new IneqPanel();
-		textFieldSizePanel = new TextFieldSizePanel();
-		buttonSizePanel = new ButtonSizePanel();
-		fillingPanel = new FillingPanel();
-		lodPanel = new LodPanel();
-		interpolateImagePanel = new InterpolateImagePanel();
-		decoAnglePanel = new DecoAnglePanel();
-		decoAnglePanel.getWidget().setStyleName("optionsPanel");
-		decoSegmentPanel = new DecoSegmentPanel();
-		decoSegmentPanel.getWidget().setStyleName("optionsPanel");
+		PointSizeModel ptSize = new PointSizeModel();
+		PointStyleModel ptStyle = new PointStyleModel();
+		LineStyleModel lineStyle = new LineStyleModel();
+		AngleArcSizeModel arcSize = new AngleArcSizeModel();
+		SlopeTriangleSizeModel slopeSize = new SlopeTriangleSizeModel();
+		IneqStyleModel ineqStyle = new IneqStyleModel();
+		TextFieldSizeModel tfSize = new TextFieldSizeModel(app);
+		ButtonSizeModel buttonSize = new ButtonSizeModel();
+		FillingModel filling = new FillingModel(app);
+		LodModel lod = new LodModel(app, isDefaults);
+		InterpolateImageModel interpol = new InterpolateImageModel();
+		DecoAngleModel decoAngle = new DecoAngleModel();
+		DecoSegmentModel decoSegment = new DecoSegmentModel();
 		
-		tab.addPanelList(Arrays.asList(pointSizePanel,
-				pointStylePanel,
-				lineStylePanel,
-				angleArcSizePanel,
-				slopeTriangleSizePanel,
-				ineqStylePanel,
-				buttonSizePanel,
-				textFieldSizePanel,
-		        fillingPanel, lodPanel,
-				interpolateImagePanel,
-				decoAnglePanel,
-				decoSegmentPanel
-				));
+
+		tab.addModel(ptSize).addModel(ptStyle).addModel(lineStyle)
+				.addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
+				.addModel(tfSize).addModel(buttonSize).addModel(filling)
+				.addModel(lod).addModel(interpol).addModel(decoAngle)
+				.addModel(decoSegment);
+		/*
+		 * tab.addPanelList(Arrays.asList(pointSizePanel, pointStylePanel,
+		 * lineStylePanel, angleArcSizePanel, slopeTriangleSizePanel,
+		 * ineqStylePanel, buttonSizePanel, textFieldSizePanel, fillingPanel,
+		 * lodPanel, interpolateImagePanel, decoAnglePanel, decoSegmentPanel ));
+		 */
 		return tab;
 	}
 
@@ -3657,7 +2244,6 @@ Arrays.asList(coordsPanel,
 
 	@Override
 	public void updateGUI() {
-		App.printStacktrace("");
 		App.debug("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();

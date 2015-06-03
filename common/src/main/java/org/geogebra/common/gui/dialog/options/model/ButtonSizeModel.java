@@ -5,18 +5,19 @@ import org.geogebra.common.kernel.geos.GeoButton;
 
 
 public class ButtonSizeModel extends OptionsModel {
-	public interface IButtonSizeListener {
+	public interface IButtonSizeListener extends PropertyListener {
 		void updateSizes(int width, int height, boolean isFixed);
 
-		Object update(Object[] geos2);
 	}
 	
 	private IButtonSizeListener listener;
 	
-	public ButtonSizeModel(IButtonSizeListener listener) {
+	public ButtonSizeModel() {
+	}
+
+	public void setListener(IButtonSizeListener listener) {
 		this.listener = listener;
 	}
-	
 	private GeoButton getButtonAt(int index) {
 		return (GeoButton)getObjectAt(index);
 	}
@@ -58,7 +59,7 @@ public class ButtonSizeModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 }

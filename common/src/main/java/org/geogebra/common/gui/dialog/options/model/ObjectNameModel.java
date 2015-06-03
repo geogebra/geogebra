@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 
 public class ObjectNameModel extends OptionsModel {
-	public interface IObjectNameListener {
+	public interface IObjectNameListener extends PropertyListener {
 		void setNameText(final String text);
 		void setDefinitionText(final String text);
 		void setCaptionText(final String text);
@@ -17,8 +17,6 @@ public class ObjectNameModel extends OptionsModel {
 		void updateDefLabel();
 		void updateCaption();
 		void updateName(final String text);
-
-		Object update(Object[] geos2);
 	}
 	
 	private IObjectNameListener listener;
@@ -240,8 +238,8 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 
 }

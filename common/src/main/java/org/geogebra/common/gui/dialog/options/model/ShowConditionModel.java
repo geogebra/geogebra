@@ -10,11 +10,10 @@ import org.geogebra.common.main.App;
 
 
 public class ShowConditionModel extends OptionsModel {
-	public interface IShowConditionListener {
+	public interface IShowConditionListener extends PropertyListener {
 		void setText(String text);
 		void updateSelection(Object[] geos);
 
-		Object update(Object[] geos2);
 	}
 	
 	private Kernel kernel;
@@ -123,7 +122,7 @@ public class ShowConditionModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
+	public PropertyListener getListener() {
+		return listener;
 	}
 }

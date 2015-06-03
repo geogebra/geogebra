@@ -5,6 +5,21 @@ import java.util.List;
 
 public class GroupModel extends OptionsModel {
 	private List<OptionsModel> models = new ArrayList<OptionsModel>();
+	private PropertyListener listener;
+
+	public GroupModel() {
+		listener = new PropertyListener() {
+
+			@Override
+			public Object updatePanel(Object[] geos2) {
+				boolean enabled = false;
+				for (OptionsModel model : models) {
+					enabled = model.updateMPanel(geos2) || enabled;
+				}
+				return enabled ? this : null;
+			}
+		};
+	}
 
 	@Override
 	protected boolean isValidAt(int index) {
@@ -29,12 +44,8 @@ public class GroupModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		boolean enabled = false;
-		for (OptionsModel model : models) {
-			enabled = model.updateMPanel(geos2) || enabled;
-		}
-		return enabled;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 
 }

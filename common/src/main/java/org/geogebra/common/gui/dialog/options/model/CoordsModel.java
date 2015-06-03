@@ -3,7 +3,6 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
@@ -13,8 +12,8 @@ public class CoordsModel extends MultipleOptionsModel {
 
 
 	private List<Integer> coordValues;
-	public CoordsModel(IComboListener listener) {
-		super(listener);
+
+	public CoordsModel() {
 		coordValues = Arrays.asList(Kernel.COORD_CARTESIAN,
 				Kernel.COORD_POLAR,
 				Kernel.COORD_COMPLEX,

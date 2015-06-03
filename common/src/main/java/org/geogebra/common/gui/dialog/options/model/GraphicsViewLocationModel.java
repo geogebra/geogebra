@@ -6,13 +6,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 public class GraphicsViewLocationModel extends OptionsModel {
-	public interface IGraphicsViewLocationListener {
+	public interface IGraphicsViewLocationListener extends PropertyListener {
 		public void selectView(int index, boolean isSelected);
 		public void setCheckBox3DVisible(boolean flag);
 
 		public void setCheckBoxForPlaneVisible(boolean flag);
 
-		public Object update(Object[] geos2);
 	}
 	
 	private IGraphicsViewLocationListener listener;
@@ -140,8 +139,8 @@ public class GraphicsViewLocationModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.update(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 
 }

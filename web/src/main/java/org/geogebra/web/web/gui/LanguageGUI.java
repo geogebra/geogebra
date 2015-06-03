@@ -10,15 +10,21 @@ import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Dialog for language switching
+ *
+ */
 public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 
+	/**
+	 * App
+	 */
 	final AppW app;
 	private LanguageHeaderPanel header;
 	private Label activeLanguage = new Label();
@@ -26,6 +32,10 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	private ArrayList<Label> labels;
 	private int cols;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public LanguageGUI(AppW app) {
 		this.app = app;
 		this.setStyleName("languageGUI");
@@ -80,24 +90,25 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	}
 
 	private void placeLabels() {
-		int rows = labels.size() / cols;
+		int rows = (int) Math.ceil(labels.size() / (double) cols);
 		for (int i = 0; i < rows * cols; i++) {
 			int col = i % cols;
 			int row = i / cols;
-			fp.add(labels.get(col * rows + row));
-		}
-		for (int i = 0; i < labels.size(); i++) {
-			if (labels.get(i).getParent() == fp) {
-				continue;
+			if (col * rows + row < labels.size()) {
+				fp.add(labels.get(col * rows + row));
+			} else {
+				// filler -- in last column we may need to skip some lines
+				fp.add(new Label("\u00A0"));
 			}
-			fp.add(labels.get(i));
 		}
+
 		FlowPanel clear = new FlowPanel();
 		clear.setStyleName("clear");
 		fp.add(clear);
 
 	}
 
+	@Override
 	public void onResize() {
 		int newCols = estimateCols();
 		if (newCols != cols) {
@@ -109,7 +120,12 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	}
 
 	private int estimateCols() {
-		return Math.max(1, (int) (app.getWidth() - 20) / 350);
+		int width = fp.getOffsetWidth(); // this one does not include scrollbar
+		if (width == 0) {
+			width = (int) app.getWidth(); // incl. scrollbar, but maybe fp not
+											// attached yet
+		}
+		return Math.max(1, (width - 40) / 350);
 	}
 
 	private ClickHandler getHandler(final Language current, final Label label) {
@@ -150,25 +166,16 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 		};
 	}
 
+	/**
+	 * @param label
+	 *            label to mark as active
+	 */
 	protected void setActiveLabel(Label label) {
 		activeLanguage.removeStyleName("activeLanguage");
 		activeLanguage = label;
 		activeLanguage.addStyleName("activeLanguage");
 
 	}
-
-	native static JavaScriptObject saveBase64ToLocalStorage() /*-{
-		return function(base64) {
-			try {
-				localStorage.setItem("reloadBase64String", base64);
-				@org.geogebra.web.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
-			} catch (e) {
-				@org.geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
-			} finally {
-				$wnd.location.reload();
-			}
-		}
-	}-*/;
 
 	private void addHeader() {
 		this.header = new LanguageHeaderPanel(app.getLocalization(), this);

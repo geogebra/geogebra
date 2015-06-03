@@ -192,9 +192,9 @@ public class SliderPanel extends JPanel implements ActionListener,
 		speedPanel.setLabels();
 	}
 
-	public JPanel update(Object[] geos) {
-		stepPanel.update(geos);
-		speedPanel.update(geos);
+	public JPanel updatePanel(Object[] geos) {
+		stepPanel.updatePanel(geos);
+		speedPanel.updatePanel(geos);
 
 		model.setGeos(geos);
 		if (!model.checkGeos()) {
@@ -239,17 +239,17 @@ public class SliderPanel extends JPanel implements ActionListener,
 
 	private void doCheckBoxActionPerformed(JCheckBox source) {
 		model.applyFixed(source.isSelected());
-		update(model.getGeos());
+		updatePanel(model.getGeos());
 	}
 
 	private void doRandomActionPerformed(JCheckBox source) {
 		model.applyRandom(source.isSelected());
-		update(model.getGeos());
+		updatePanel(model.getGeos());
 	}
 
 	private void doComboBoxActionPerformed(JComboBox source) {
 		model.applyDirection(source.getSelectedIndex());
-		update(model.getGeos());
+		updatePanel(model.getGeos());
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -274,7 +274,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 		if (propPanel != null) {
 			propPanel.updateSelection(model.getGeos());
 		} else {
-			update(model.getGeos());
+			updatePanel(model.getGeos());
 		}
 		actionPerforming = false;
 	}

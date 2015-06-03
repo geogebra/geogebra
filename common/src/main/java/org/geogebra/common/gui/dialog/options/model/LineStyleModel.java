@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LineStyleModel extends OptionsModel {
-	public interface ILineStyleListener {
+	public interface ILineStyleListener extends PropertyListener {
 		void setThicknessSliderValue(int value);
 
 		void setThicknessSliderMinimum(int minimum);
@@ -17,11 +17,14 @@ public class LineStyleModel extends OptionsModel {
 		void setLineTypeVisible(boolean value); 
 		
 		void setLineOpacityVisible(boolean value);
-
-		Object updatePanel(Object[] geos2);
 	}
 
 	private ILineStyleListener listener;
+
+	public void setListener(ILineStyleListener listener) {
+		this.listener = listener;
+	}
+
 	private boolean lineTypeEnabled;
 	private boolean lineOpacityEnabled;
 
@@ -33,10 +36,11 @@ public class LineStyleModel extends OptionsModel {
 		}
 
 	}
-	public LineStyleModel(ILineStyleListener listener) {
-		this.listener = listener;
+
+	public LineStyleModel() {
 
 	}
+
 
 	private static final Integer[] getLineTypes() {
 		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
@@ -164,7 +168,7 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return listener.updatePanel(geos2) != null;
-	}
+	public PropertyListener getListener() {
+		return listener;
+	};
 }

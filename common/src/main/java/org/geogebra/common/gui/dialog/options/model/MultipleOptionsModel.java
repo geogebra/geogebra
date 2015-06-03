@@ -8,8 +8,8 @@ import org.geogebra.common.main.Localization;
 public abstract class MultipleOptionsModel extends NumberOptionsModel {
 	public static final int MAX_CHOICES = 200;
 	private IComboListener listener;
-	public MultipleOptionsModel(IComboListener listener) {
-		this.listener = listener;
+
+	public MultipleOptionsModel() {
 	}
 	
 	public abstract List<String> getChoiches(Localization loc);
@@ -39,11 +39,6 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 
 	public void setListener(IComboListener listener) {
 		this.listener = listener;
-	}
-
-	@Override
-	public boolean updateMPanel(Object[] geos2) {
-		return getListener().updatePanel(geos2) != null;
 	}
 
 }

@@ -20,8 +20,8 @@ public class ImageCornerModel extends MultipleOptionsModel {
 	private Kernel kernel;
 	private int cornerIdx;
 	private App app;
-	public ImageCornerModel(App app, IComboListener listener) {
-		super(listener);
+
+	public ImageCornerModel(App app) {
 		this.app = app;
 		kernel = app.getKernel();
 		choices = new ArrayList<String>();	
