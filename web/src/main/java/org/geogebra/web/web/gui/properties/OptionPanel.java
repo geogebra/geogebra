@@ -17,7 +17,7 @@ public abstract class OptionPanel implements IOptionPanel {
 		boolean geosOK = getModel().checkGeos();
 
 		if (widget != null) {
-			widget.setVisible(false);
+			widget.setVisible(geosOK);
 		}
 
 		if (!geosOK || widget == null) {

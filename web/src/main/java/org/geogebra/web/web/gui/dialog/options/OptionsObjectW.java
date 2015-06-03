@@ -10,7 +10,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
-import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
@@ -24,7 +23,6 @@ import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeL
 import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel;
 import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
-import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
@@ -91,7 +89,6 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
@@ -113,7 +110,6 @@ import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
-import org.geogebra.web.web.gui.util.ColorChooserW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
 import org.geogebra.web.web.gui.util.GeoGebraIcon;
 import org.geogebra.web.web.gui.util.ImageOrText;
@@ -172,7 +168,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
 	private FixCheckboxPanel fixCheckboxPanel;
 	//Color picker
-	private ColorPanel colorPanel;
 	private ExtendedAVPanel avPanel;
 
 	// Style
@@ -473,164 +468,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	}
 
-	private class ColorPanel extends OptionPanel implements IColorObjectListener {
-		ColorObjectModel model;
-		private FlowPanel mainPanel;
-		private ColorChooserW colorChooserW; 
-		private GColor selectedColor;
-		CheckBox sequential;
 
-		public ColorPanel() {
-			model = new ColorObjectModel(app, this);
-			setModel(model);
-
-			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
-
-			colorChooserW = new ColorChooserW(app, 350, 210, colorIconSizeW, 4);
-			colorChooserW.addChangeHandler(new ColorChangeHandler(){
-
-				@Override
-				public void onColorChange(GColor color) {
-					applyChanges(false);
-				}
-
-				@Override
-				public void onAlphaChange() {
-					applyChanges(true);
-
-				}
-
-				@Override
-				public void onClearBackground() {
-					model.clearBackgroundColor();
-				}
-
-				@Override
-				public void onBackgroundSelected() {
-					updatePreview(model.getGeoAt(0).getBackgroundColor(), 1.0f);
-				}
-
-				@Override
-				public void onForegroundSelected() {
-					GeoElement geo0 = model.getGeoAt(0);
-					float alpha = 1.0f;
-					GColor color = null;
-					if (geo0.isFillable()) {
-						color = geo0.getFillColor();
-						alpha = geo0.getAlphaValue();
-					} else {
-						color = geo0.getObjectColor();
-					}
-
-					updatePreview(color, alpha);
-				}});
-			colorChooserW.setColorPreviewClickable();
-
-			sequential = new CheckBox("Sequential");
-			mainPanel = new FlowPanel();
-			mainPanel.add(colorChooserW);
-			mainPanel.add(sequential);
-			sequential.addClickHandler(new ClickHandler() {
-
-				public void onClick(ClickEvent event) {
-					// TODO we may need to update the GUI here
-					model.setSequential(sequential.getValue());
-
-				}
-			});
-			setWidget(mainPanel);
-
-		}
-
-
-		public void applyChanges(boolean alphaOnly) {
-			float alpha = colorChooserW.getAlphaValue();
-			GColor color = colorChooserW.getSelectedColor();
-			model.applyChanges(color, alpha, alphaOnly);
-		}
-
-		@Override
-		public void updateChooser(boolean equalObjColor,
-				boolean equalObjColorBackground, boolean allFillable,
-				boolean hasBackground, boolean hasOpacity) {
-			GColor selectedBGColor = null;
-			float alpha = 1;
-			GeoElement geo0 = model.getGeoAt(0);
-			selectedColor = null;
-
-			if (equalObjColorBackground) {
-				selectedBGColor = geo0.getBackgroundColor();
-			}
-
-			if (isBackgroundColorSelected()) {
-				selectedColor = selectedBGColor;
-			}				
-			else {
-				// set selectedColor if all selected geos have the same color
-				if (equalObjColor) {
-					if (allFillable) {
-						selectedColor = geo0.getFillColor();
-						alpha = geo0.getAlphaValue();
-					} else {
-						selectedColor = geo0.getObjectColor();
-					}
-				}
-			}
-			
-			if (allFillable && hasOpacity) { // show opacity slider and set to
-				// first geo's
-				// alpha value
-
-				colorChooserW.enableOpacity(true);
-				alpha = geo0.getAlphaValue();
-				colorChooserW.setAlphaValue(Math.round(alpha * 100));
-				
-			} else { // hide opacity slider and set alpha = 1
-				colorChooserW.enableOpacity(false);
-				alpha = 1;
-				colorChooserW.setAlphaValue(Math.round(alpha * 100));
-			}
-			
-			colorChooserW.enableBackgroundColorPanel(hasBackground);
-			updatePreview(selectedColor, alpha);
-		}
-
-
-		@Override
-		public void updatePreview(GColor color, float alpha) {
-			colorChooserW.setSelectedColor(color);
-			colorChooserW.setAlphaValue(alpha);
-			colorChooserW.update();
-		}
-
-		@Override
-		public boolean isBackgroundColorSelected() {
-			return colorChooserW.isBackgroundColorSelected();
-		}
-
-
-		@Override
-		public void updateNoBackground(GeoElement geo, GColor col, float alpha,
-				boolean updateAlphaOnly, boolean allFillable) {
-			if (!updateAlphaOnly){
-				geo.setObjColor(col);
-			}
-			if (allFillable){
-				geo.setAlphaValue(alpha);
-			}
-
-		}
-
-
-		@Override
-		public void setLabels() {
-			colorChooserW.setPaletteTitles(localize("RecentColor"), localize("Other"));
-			colorChooserW.setPreviewTitle(localize("Preview"));
-			colorChooserW.setBgFgTitles(localize("BackgroundColor"), localize("ForegroundColor"));
-			colorChooserW.setOpacityTitle(localize("Opacity"));
-		}
-
-	}
 
 
 	private class NamePanel extends OptionPanel implements IObjectNameListener {
@@ -3556,10 +3394,9 @@ fn,
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 	//			updateGUI();
-				if (event.getSource() == tabPanel) {
-					((PropertiesViewW) app.getGuiManager().getPropertiesView())
+				tabs.get(event.getSelectedItem()).initGUI(app);
+				((PropertiesViewW) app.getGuiManager().getPropertiesView())
 							.updatePropertiesView();
-				}
 			}
 				});
 		tabPanel.setStyleName("propertiesTabPanel");
@@ -3704,8 +3541,7 @@ fn,
 
 	private OptionsTab addColorTab() {
 		OptionsTab tab = makeOptionsTab("Color");
-		colorPanel = new ColorPanel();
-		tab.add(colorPanel);
+		tab.addModel(new ColorObjectModel(app));
 		return tab;
 	}
 

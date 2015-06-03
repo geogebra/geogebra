@@ -79,7 +79,8 @@ class ColorPanel extends JPanel implements ActionListener,
 
 	public ColorPanel(PropertiesPanelD propertiesPanelD, GeoGebraColorChooser colChooser) {
 		this.propertiesPanelD = propertiesPanelD;
-		model = new ColorObjectModel(this.propertiesPanelD.app, this);
+		model = new ColorObjectModel(this.propertiesPanelD.app);
+		model.setListener(this);
 		previewPanel = new PreviewPanel();
 		previewLabel = new JLabel();
 		currentColorLabel = new JLabel();

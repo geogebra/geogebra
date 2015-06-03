@@ -236,7 +236,7 @@ public class ObjectNameModel extends OptionsModel {
 	@Override
 	protected boolean isValidAt(int index) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

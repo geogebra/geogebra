@@ -35,10 +35,14 @@ public class ColorObjectModel extends OptionsModel {
 	private IColorObjectListener listener;
 	private Kernel kernel;
 	private App app;
-	public ColorObjectModel(App app, IColorObjectListener listener) {
-		this.listener = listener;
+
+	public ColorObjectModel(App app) {
 		this.app = app;
 		kernel = app.getKernel();
+	}
+
+	public void setListener(IColorObjectListener listener) {
+		this.listener = listener;
 	}
 
 	@Override
@@ -232,6 +236,10 @@ public class ColorObjectModel extends OptionsModel {
 
 	@Override
 	public boolean updateMPanel(Object[] geos2) {
+		if (listener == null) {
+			setGeos(geos2);
+			return this.checkGeos();
+		}
 		return listener.update(geos2) != null;
 	}
 }
