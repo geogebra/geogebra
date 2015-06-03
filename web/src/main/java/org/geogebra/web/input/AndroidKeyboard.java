@@ -6,6 +6,7 @@ import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.input.mathquill.MathQuillInput;
+import org.geogebra.web.input.mathquill.OnEnterPressedListener;
 import org.geogebra.web.web.util.keyboardBase.OnScreenKeyBoardBase;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -16,9 +17,11 @@ import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
-public class AndroidKeyboard implements EntryPoint, ScriptLoadCallback {
+public class AndroidKeyboard implements EntryPoint, ScriptLoadCallback,
+		OnEnterPressedListener {
 
 	private AppStub app;
+	private MathQuillInput input;
 
 	public void onModuleLoad() {
 		injectResources();
@@ -67,7 +70,7 @@ public class AndroidKeyboard implements EntryPoint, ScriptLoadCallback {
 				listener, app);
 		oskb.show();
 
-		MathQuillInput input = new MathQuillInput(Location.getParameter("text"));
+		input = new MathQuillInput(Location.getParameter("text"));
 		oskb.setProcessing(input.getProcessing());
 
 		int oskbOffsetHeight = oskb.getOffsetHeight();
@@ -79,4 +82,12 @@ public class AndroidKeyboard implements EntryPoint, ScriptLoadCallback {
 		RootLayoutPanel.get().add(layoutPanel);
 	}
 
+	public void enterPressed() {
+		String text = input.getText();
+		nativeEnterCallback(text);
+	}
+	
+	private native void nativeEnterCallback(String text) /*-{
+		$wnd.android.enterPressed(text)
+	}-*/;
 }

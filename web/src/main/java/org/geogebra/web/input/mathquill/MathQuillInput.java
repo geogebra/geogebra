@@ -14,6 +14,7 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 	private JavaScriptObject mathQuillElement;
 	private FlowPanel flowPanel;
 	private Element flowPanelElement;
+	private OnEnterPressedListener enterPressedListener;
 
 	public MathQuillInput() {
 		this("");
@@ -30,6 +31,11 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 
 	public TextFieldProcessing getProcessing() {
 		return new MathQuillInputProcessor(this);
+	}
+
+	public void setOnEnterPressedListener(
+			OnEnterPressedListener enterPressedListener) {
+		this.enterPressedListener = enterPressedListener;
 	}
 
 	@Override
@@ -118,6 +124,10 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 	}-*/;
 	
 	public void setFocus(boolean focus) {
+		// TODO
+	}
 
+	public void enterPressed() {
+		enterPressedListener.enterPressed();
 	}
 }

@@ -57,8 +57,7 @@ public class MathQuillInputProcessor implements TextFieldProcessing {
 	}
 
 	public void onEnter() {
-		mathQuillInput.triggerKeyEvent("keyup", ENTER, false, false, false);
-
+		mathQuillInput.enterPressed();
 	}
 
 	public void onBackSpace() {
