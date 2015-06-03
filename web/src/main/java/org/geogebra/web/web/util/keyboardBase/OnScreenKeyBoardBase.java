@@ -827,6 +827,10 @@ public class OnScreenKeyBoardBase extends PopupPanel {
 		});
 	}
 
+	public void setProcessing(TextFieldProcessing processing) {
+		this.processing = processing;
+	}
+
 	private void processAccent(String accent, KeyBoardButtonBase source) {
 		if (accentDown && source != accentButton) {
 			removeAccents();

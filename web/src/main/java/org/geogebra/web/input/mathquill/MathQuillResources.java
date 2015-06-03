@@ -1,12 +1,12 @@
-package org.geogebra.web.input;
+package org.geogebra.web.input.mathquill;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
-public interface MathquillResources extends ClientBundle {
+public interface MathQuillResources extends ClientBundle {
 
-	MathquillResources INSTANCE = GWT.create(MathquillResources.class);
+	MathQuillResources INSTANCE = GWT.create(MathQuillResources.class);
 
 	@Source("org/geogebra/web/input/mathquill/mathquill-customized.css")
 	TextResource mathquillcss();
