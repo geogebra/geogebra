@@ -77,7 +77,6 @@ import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -92,7 +91,6 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
-import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -296,7 +294,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 			updateShowLabel();
 
-			labelMode = new ListBox(false);
+			labelMode = new ListBox();
+			labelMode.setMultipleSelect(false);
 
 			// Borcherd
 
@@ -399,11 +398,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private Label title;
 		private AutoCompleteTextFieldW tfCondition;
 
-		private Kernel kernel;
 		boolean processed;
 
 		public ShowConditionPanel() {
-			kernel = app.getKernel();
 			//this.propPanel = propPanel;
 			model = new ShowConditionModel(app, this);
 			setModel(model);
@@ -481,7 +478,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW; 
 		private GColor selectedColor;
-		private CheckBox sequential;
+		CheckBox sequential;
 
 		public ColorPanel() {
 			model = new ColorObjectModel(app, this);
@@ -647,7 +644,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private InputPanelW inputPanelName, inputPanelDef, inputPanelCap;
 
 		private FlowPanel mainWidget;
-		private FlowPanel namePanel;
+		private FlowPanel nameStrPanel;
 		private FlowPanel defPanel;
 		private FlowPanel captionPanel;
 
@@ -727,13 +724,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			mainWidget = new FlowPanel();
 
 			// name panel
-			namePanel = new FlowPanel();
+			nameStrPanel = new FlowPanel();
 			nameLabel = new Label();
 			//inputPanelName.insert(nameLabel, 0);
 
-			namePanel.add(nameLabel);
-			namePanel.add(inputPanelName);
-			mainWidget.add(namePanel);
+			nameStrPanel.add(nameLabel);
+			nameStrPanel.add(inputPanelName);
+			mainWidget.add(nameStrPanel);
 
 			// definition panel
 			defPanel = new FlowPanel();
@@ -749,7 +746,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			captionPanel.add(inputPanelCap);
 			mainWidget.add(captionPanel);
 
-			namePanel.setStyleName("optionsInput");
+			nameStrPanel.setStyleName("optionsInput");
 			defPanel.setStyleName("optionsInput");
 			captionPanel.setStyleName("optionsInput");
 			setWidget(mainWidget);
@@ -765,7 +762,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		@Override
 		public void updateGUI(boolean showDefinition, boolean showCaption) {
-			int rows = 1;
 			mainWidget.clear();
 
 //			if (loc.isRightToLeftReadingOrder()) {
@@ -775,11 +771,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 //				mainWidget.add(nameLabel);
 //				mainWidget.add(inputPanelName);
 //			}
-			mainWidget.add(namePanel);
+			mainWidget.add(nameStrPanel);
 
 			if (showDefinition) {
-				rows++;
-//				if (loc.isRightToLeftReadingOrder()) {
+				// if (loc.isRightToLeftReadingOrder()) {
 //					mainWidget.add(inputPanelDef);
 //					mainWidget.add(defLabel);
 //				} else {
@@ -790,8 +785,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			}
 
 			if (showCaption) {
-				rows++;
-//				if (loc.isRightToLeftReadingOrder()) {
+				// if (loc.isRightToLeftReadingOrder()) {
 //					mainWidget.add(inputPanelCap);
 //					mainWidget.add(captionLabel);
 //				} else {
@@ -803,11 +797,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 			//app.setComponentOrientation(this);
 
-			this.rows = rows;
 
 		}
-
-		private int rows;
 
 		/**
 		 * current geo on which focus lost shouls apply
@@ -824,7 +815,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			//			return;
 
 			model.getDefInputHandler().setGeoElement(geo);
-			tfDefinition.setText(model.getDefText(geo));
+			tfDefinition.setText(ObjectNameModel.getDefText(geo));
 
 			// App.printStacktrace(""+geo);
 		}
@@ -1630,10 +1621,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private String defaultR = "0", defaultG = "0", defaultB = "0",
 				defaultA = "1";
 
-		private Kernel kernel;
 		boolean processed = false;
 		public ColorFunctionPanel() {
-			kernel = app.getKernel();
 			model = new ColorFunctionModel(app, this);
 			setModel(model);
 			// non auto complete input panel
@@ -2050,6 +2039,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			return (StartPointModel)getModel();
 		}
 
+		@Override
 		public OptionPanel updatePanel(Object[] geos) {
 			getModel().setGeos(geos);
 			boolean geosOK = getModel().checkGeos();
@@ -2231,12 +2221,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	
 	private class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 	ITextEditPanel, GeoElementSelectionListener {
-		private static final boolean NO_DECIMALS = true;
-
-		private static final int FontBOLD = 1;
-
-		private static final int FontITALIC = 2;
-
 		TextOptionsModel model;
 
 		private Label decimalLabel;
@@ -2257,11 +2241,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private boolean secondLineVisible = false;
 		GeoTextEditor editor;
 		private TextEditAdvancedPanel advancedPanel;
-		private GeoText orig;
-
-		// ugly hack preventing infinite loop of update()
-		private boolean redrawFromPreview;
-		private static final int iconHeight = 24;
 		private TextPreviewPanelW previewer; 
 		public TextOptionsPanel() {
 			createGUI();
@@ -2399,7 +2378,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				editorPanel.setStyleName("optionsInput");
 				editorPanel.add(editor);
 				advancedPanel = new TextEditAdvancedPanel(getAppW(), this);
-				redrawFromPreview = false;
 				editorPanel.add(advancedPanel);
 				mainPanel.add(editorPanel);
 
@@ -2427,7 +2405,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 				mainPanel.add(btnPanel);
 				setWidget(mainPanel);
-				orig = null;
 		}
 
 		/**
@@ -2658,7 +2635,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private PopupMenuButton btnImage;
 		// button for removing turtle's image
 		private PushButton btnClearImage;
-		private Label lblFillInverse;
 		private Label lblSymbols;
 		ArrayList<ImageResource> iconList;
 		private ArrayList<String> iconNameList;
@@ -2669,7 +2645,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private FlowPanel mainWidget;
 		private FlowPanel fillTypePanel;
 		private Label fillTypeTitle;
-		private Label fillingMin;
 		private FlowPanel btnPanel;
 		AutoCompleteTextFieldW tfInsertUnicode;
 		private InputPanelW unicodePanel;
@@ -2743,7 +2718,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				String zip_directory = md5e.encrypt(fileData);
 
 				String fn = fileName;
-				int index = fileName.lastIndexOf('/');
+				int index = fn.lastIndexOf('/');
 				if (index != -1) {
 					fn = fn.substring(index + 1, fn.length()); // filename without
 				}
@@ -2752,16 +2727,17 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 				// filename will be of form
 				// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-				fileName = zip_directory + '/' + fn;
+				fn = zip_directory + '/' + fn;
 
 				Construction cons = getAppW().getKernel().getConstruction();
-				getAppW().getImageManager().addExternalImage(fileName,
+				getAppW().getImageManager().addExternalImage(fn,
 						fileData);
 				GeoImage geoImage = new GeoImage(cons);
 				getAppW().getImageManager().triggerSingleImageLoading(
-						fileName, geoImage);
-				model.applyImage(fileName);
-				App.debug("Applying " + fileName + " from dialog");
+fn,
+						geoImage);
+				model.applyImage(fn);
+				App.debug("Applying " + fn + " from dialog");
 
 			}
 
@@ -2789,8 +2765,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				}});
 
 			cbFillInverse.addClickHandler(new ClickHandler(){
-				private DecoAnglePanel decoAnglePanel;
-
 				@Override
 				public void onClick(ClickEvent event) {
 					model.applyFillingInverse(cbFillInverse.getValue());
@@ -2950,9 +2924,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			return zip_directory + '/' + fn;
 		}
 
-		public void applyImage(String fileName, String fileData) {
+		public void applyImage(String fileName0, String fileData) {
 
-			fileName = getImageFileName(fileName, fileData);
+			String fileName = getImageFileName(fileName0, fileData);
 
 			Construction cons = getAppW().getKernel().getConstruction();
 			getAppW().getImageManager().addExternalImage(fileName,
@@ -3005,12 +2979,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				public void handlePopupActionEvent(){
 					super.handlePopupActionEvent();
-					ImageResource res = null;
+					ImageResource resource = null;
 					int idx = getSelectedIndex();
-					res = iconList.get(idx);
-					if (res != null) {
-						applyImage(res.getName(), res.getSafeUri().asString());
-						App.debug("Applying " + res.getName() + " at index " + idx);
+					resource = iconList.get(idx);
+					if (resource != null) {
+						applyImage(resource.getName(), resource.getSafeUri()
+								.asString());
+						App.debug("Applying " + resource.getName()
+								+ " at index " + idx);
 					}
 					else {
 						model.applyImage("");
@@ -3033,7 +3009,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			btnOpenFile.addClickHandler(new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {
-					MyImageFileInputDialog dialog = new MyImageFileInputDialog(getAppW(), null);
+					new MyImageFileInputDialog(getAppW(), null);
 				}
 			});
 
@@ -3331,7 +3307,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			decoLabel = new Label();
 			mainWidget.add(decoLabel);
 			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel.getDecoTypeLength()];
-			GDimensionW iconSize = new GDimensionW(80, 30);
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i);
 			}
@@ -3392,7 +3367,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			decoLabel = new Label();
 			mainWidget.add(decoLabel);
 			final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel.getDecoTypeLength()];
-			GDimensionW iconSize = new GDimensionW(130,	app.getGUIFontSize() + 6);
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createDecorSegmentIcon(i);
 			}
@@ -3838,15 +3812,6 @@ Arrays.asList(coordsPanel,
 
 	private OptionsTab makeOptionsTab(String id) {
 		return new OptionsTab(this.loc, this.tabPanel, id);
-	}
-
-	public Dimension getPreferredSize() {
-		// TODO Auto-generated method stub
-		return new Dimension(0, 0);
-	}
-
-	public void setMinimumSize(Dimension preferredSize) {
-
 	}
 
 	public void reinit() {
