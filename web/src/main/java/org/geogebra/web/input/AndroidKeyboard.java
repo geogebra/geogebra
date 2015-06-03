@@ -82,6 +82,7 @@ public class AndroidKeyboard implements EntryPoint, ScriptLoadCallback,
 		RootLayoutPanel.get().add(layoutPanel);
 
 		input.setFocus(true);
+		input.setOnEnterPressedListener(this);
 	}
 
 	public void enterPressed() {
