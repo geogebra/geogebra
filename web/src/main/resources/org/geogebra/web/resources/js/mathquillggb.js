@@ -4173,10 +4173,18 @@ var Variable = P(Symbol, function(_, _super) {
 	for (var i = 0, prev = cursor[L]; i < MAX_AUTOCMD_LEN - 1 && prev && prev instanceof Variable; i += 1, prev = prev[L])
 		ctrlSeq = prev.ctrlSeq + ctrlSeq;
 	//then test if there's an autocommand here, starting with the longest possible and slicing
+	var sliceHappened = false;
 	while (ctrlSeq.length) {
 		// UnItalicizedCmds not used, because e.g. Circle[A,B] GeoGebra command -- \Ci rcle
 		//if (AutoCmds.hasOwnProperty(ctrlSeq) || UnItalicizedCmds.hasOwnProperty(ctrlSeq)) {
 		if (AutoCmds.hasOwnProperty(ctrlSeq)) {
+			if ((ctrlSeq == 'pi') && sliceHappened) {
+				// do as if it had not own property,
+				// for international GeoGebra commands like
+				// "Spiegle" (German) // are other AutoCmds OK?
+				//continue;
+				break;
+			}
 			for (var i = 1; i < ctrlSeq.length; i += 1) cursor.backspace();
 			var command = LatexCmds[ctrlSeq](ctrlSeq);
 			command.createBefore(cursor);
@@ -4192,6 +4200,7 @@ var Variable = P(Symbol, function(_, _super) {
 			return;
 		}
 		ctrlSeq = ctrlSeq.slice(1);
+		sliceHappened = true;
 	}
 	_super.createBefore.call(this, cursor);
   };
