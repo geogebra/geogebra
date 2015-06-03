@@ -3952,8 +3952,24 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	top: 0px;
 	right: 0px;
 	z-index: 10;
-	margin-top: 1px;
-	padding-top: 1.45em;
+
+	/* new solution: borders around, like style bar */
+	/* for some reason, this is not as nice as that */
+	/*-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #DCDCDC solid 1px;
+	margin-left: 4px;*/
+	cursor: pointer;
+
+	/* new solution: it is put at the corner */
+	margin-top: 1px;/* blue border */
+	padding-top: 0px;
+
+	/* old solution: it was centered vertically */
+	/*margin-top: 1px;*/
+	/*padding-top: 1.45em;*/
 	height: 1.5em;
 }
 

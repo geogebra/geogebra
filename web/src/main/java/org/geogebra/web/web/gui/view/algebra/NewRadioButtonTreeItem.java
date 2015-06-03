@@ -39,16 +39,15 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
 
-
-
-
+	// clear formula button
 	protected PushButton xButton = null;
-	// SymbolTablePopupW tablePopup;
+
+	// create special formula button (matrix, piecewise function, parametric
+	// curve)
+	protected PushButton pButton = null;
 
 	HistoryPopupW historyPopup;
 	EquationEditor editor;
-
-
 
 
 	public NewRadioButtonTreeItem(Kernel kern) {
