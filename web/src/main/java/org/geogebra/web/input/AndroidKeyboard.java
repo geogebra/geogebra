@@ -67,7 +67,7 @@ public class AndroidKeyboard implements EntryPoint, ScriptLoadCallback {
 				listener, app);
 		oskb.show();
 
-		MathQuillInput input = new MathQuillInput("\\sqrt{2}");
+		MathQuillInput input = new MathQuillInput(Location.getParameter("text"));
 		oskb.setProcessing(input.getProcessing());
 
 		int oskbOffsetHeight = oskb.getOffsetHeight();
@@ -78,4 +78,5 @@ public class AndroidKeyboard implements EntryPoint, ScriptLoadCallback {
 
 		RootLayoutPanel.get().add(layoutPanel);
 	}
+
 }
