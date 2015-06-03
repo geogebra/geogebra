@@ -243,6 +243,14 @@ public class ProverBotanasMethod {
 	 */
 	public static ProofResult prove(org.geogebra.common.util.Prover prover) {
 		GeoElement statement = prover.getStatement();
+
+		// Decide quickly if proving this kind of statement is already implemented at all: 
+		if (!(statement.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
+			App.debug(statement.getParentAlgorithm() + " unimplemented");
+			return ProofResult.UNKNOWN;
+			// If not, let's not spend any time here, but give up immediately. 
+		}
+		
 		// If Singular is not available, let's try Giac (mainly on web)
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
 			ProverSettings.transcext = false;
@@ -358,10 +366,6 @@ public class ProverBotanasMethod {
 		try {
 			// The sets of statement polynomials.
 			// The last equation of each set will be negated.
-			if (!(statement.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
-				App.debug(statement.getParentAlgorithm() + " unimplemented");
-				return ProofResult.UNKNOWN;
-			}
 
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement
 					.getParentAlgorithm()).getBotanaPolynomials();
