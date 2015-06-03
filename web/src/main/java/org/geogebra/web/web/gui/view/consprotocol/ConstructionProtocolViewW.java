@@ -386,6 +386,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		table.setRowCount(data.getrowList().size());
 	    table.setRowData(0, data.getrowList());
 	    table.setVisibleRange(0, data.getrowList().size()+1);
+		scrollToConstructionStep();
 
 	}
 
