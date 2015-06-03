@@ -1995,7 +1995,7 @@ __GGB__keysVar.zh_TW.menu = {
     "TEstimateDifferenceOfMeans": "T Estimate, Difference of Means",
     "TEstimatePairedDifferences": "T Estimate, Paired Differences",
     "TMeanInterval": "T Estimate of a Mean",
-    "TMeanTest": "T\u6aa2\u5b9a\u7684\u5e73\u5747\u6578",
+    "TMeanTest": "T Test of a Mean",
     "TStatistic": "t",
     "TTestDifferenceOfMeans": "T Test, Difference of Means",
     "TTestPairedDifferences": "T Test, Paired Differences",
