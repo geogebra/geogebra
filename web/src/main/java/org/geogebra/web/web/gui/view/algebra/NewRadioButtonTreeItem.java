@@ -70,7 +70,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		xButton.getElement().setAttribute("data-visible", "false");
 		// XButton.getElement().setAttribute("style", "display: none");
 		// XButton.setText("X");
-		xButton.addStyleName("SymbolToggleButton");
+		xButton.addStyleName("XButton");
 		xButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -87,7 +87,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 GuiResources.INSTANCE.algebra_new()));
 		pButton.getUpHoveringFace().setImage(
 				new Image(GuiResources.INSTANCE.algebra_new_hover()));
-		pButton.addStyleName("SymbolToggleButtonNeighbour");
+		pButton.getElement().setAttribute("data-visible", "false");
+		pButton.addStyleName("XButtonNeighbour");
 		pButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -106,9 +107,19 @@ GuiResources.INSTANCE.algebra_new()));
 				// event.stopPropagation is called
 			}
 		});
+
+		ClickStartHandler.init(pButton, new ClickStartHandler(false, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// nothing to do here; just makes sure that
+				// event.stopPropagation is called
+			}
+		});
+
 		try{
 			//TRY-CATCH needed for Win8 app //TODO find better solution
 			xButton.setFocus(false);
+			pButton.setFocus(false);
 		}catch(Throwable t){
 		}
 		// add(textField);// done in super()
@@ -116,14 +127,16 @@ GuiResources.INSTANCE.algebra_new()));
 		// it seems this would be part of the Tree, not of TreeItem...
 		// why? web programming knowledge helps: we should add position:
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
-		
+
 		add(xButton);// dirty hack of adding it two times!
+		add(pButton);// same...
 		
 		// this was necessary earlier in conjuction with add(xButton)
 		// ihtml.getElement().appendChild(xButton.getElement());
 		// but later this.replaceXButtonDOM() should be used instead
 
 		xButton.getElement().setAttribute("data-visible", "true");
+		pButton.getElement().setAttribute("data-visible", "true");
 		addStyleName("SymbolCanBeShown");
 
 		// When scheduleDeferred does not work...
@@ -132,6 +145,7 @@ GuiResources.INSTANCE.algebra_new()));
 
 	public void replaceXButtonDOM() {
 		getElement().getParentElement().appendChild(xButton.getElement());
+		getElement().getParentElement().appendChild(pButton.getElement());
 	}
 
 	/**
@@ -254,8 +268,6 @@ GuiResources.INSTANCE.algebra_new()));
 		}
 	}
 
-
-
 	public void showPopup(boolean show) {
 		if (this.xButton == null) {
 			return;
@@ -270,6 +282,22 @@ GuiResources.INSTANCE.algebra_new()));
 			} else {
 				if (!"true".equals(showSymbolElement
 				        .getAttribute("data-persist"))) {
+					showSymbolElement.removeClassName("shown");
+				}
+			}
+		}
+		if (this.pButton == null) {
+			return;
+		}
+		showSymbolElement = this.pButton.getElement();
+		if (showSymbolElement != null
+				&& "true"
+						.equals(showSymbolElement.getAttribute("data-visible"))) {
+			if (show) {
+				showSymbolElement.addClassName("shown");
+			} else {
+				if (!"true".equals(showSymbolElement
+						.getAttribute("data-persist"))) {
 					showSymbolElement.removeClassName("shown");
 				}
 			}

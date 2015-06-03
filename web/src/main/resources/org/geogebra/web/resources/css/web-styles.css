@@ -3932,6 +3932,15 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	text-align: center;
 }
 
+.GeoGebraFrame .XButton,
+.GeoGebraFrame .XButtonNeighbour {
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	display: none;
+	text-align: center;
+}
+
 .AutoCompleteTextFieldW .SymbolToggleButton {
 	position: absolute;
 	right: 0.6em;
@@ -3939,15 +3948,11 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	margin-top: -0.66em;
 }
 
-.NewRadioButtonTreeItemParent .SymbolToggleButton {
+.GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
+.GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour {
 	position: absolute;
-	/*box-sizing: content-box;
-	right: 5px;
-	top: 50%;
-	margin-top: -19px;*/
-	
+
 	/* I created this, so xButton overlaps text */
-	width: 30px;
 	background-color: #FFFFFF;
 	top: 0px;
 	right: 0px;
@@ -3970,7 +3975,16 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	/* old solution: it was centered vertically */
 	/*margin-top: 1px;*/
 	/*padding-top: 1.45em;*/
+	/*height: 1.5em;*/
+}
+
+.GeoGebraFrame .NewRadioButtonTreeItemParent .XButton {
+	/* not sure why this was here */
 	height: 1.5em;
+}
+
+.GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour {
+	right: 24px;
 }
 
 .advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
@@ -3984,8 +3998,10 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown,
 .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused,
-.NewRadioButtonTreeItemParent .SymbolToggleButton.shown,
-.NewRadioButtonTreeItemParent .SymbolToggleButton.ShowSymbolButtonFocused {
+.NewRadioButtonTreeItemParent .XButton.shown,
+.NewRadioButtonTreeItemParent .XButton.ShowSymbolButtonFocused,
+.NewRadioButtonTreeItemParent .XButtonNeighbour.shown,
+.NewRadioButtonTreeItemParent .XButtonNeighbour.ShowSymbolButtonFocused {
 	display: inline-block;
 }
 
