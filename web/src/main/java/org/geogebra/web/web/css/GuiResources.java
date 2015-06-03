@@ -305,6 +305,37 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/decoration_icons/decoration_axes_arrows_filled.png")
 	ImageResource deco_axes_arrows_filled();
 
+	// ALGEBRA VIEW SPECIAL EDITING
+	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_delete.png")
+	ImageResource algebra_delete();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_delete_hover.png")
+	ImageResource algebra_delete_hover();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_matrix_size.png")
+	ImageResource algebra_matrix_size();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_matrix_size_hover.png")
+	ImageResource algebra_matrix_size_hover();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_new.png")
+	ImageResource algebra_new();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_new_hover.png")
+	ImageResource algebra_new_hover();
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-remove.png")
+	ImageResource algebra_remove();
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_matrix.png")
+	ImageResource algebra_new_matrix();
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_piecewise_function.png")
+	ImageResource algebra_new_piecewise();
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_parametric_curve.png")
+	ImageResource algebra_new_parametric();
+
 	// ONSCREENKEYBOARD
 	@Source("org/geogebra/web/web/gui/images/view_close.png")
 	ImageResource keyboard_close();

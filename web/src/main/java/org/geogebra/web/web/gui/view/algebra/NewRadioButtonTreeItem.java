@@ -61,7 +61,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
 		xButton = new PushButton(new Image(
-		        GuiResources.INSTANCE.keyboard_close()));
+				GuiResources.INSTANCE.algebra_delete()));
+		xButton.getUpHoveringFace().setImage(
+				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 		String id = DOM.createUniqueId();
 		// textField.setShowSymbolElement(this.XButton.getElement());
 		xButton.getElement().setId(id + "_SymbolButton");
@@ -80,6 +82,22 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				// event.preventDefault();
 			}
 		});
+
+		pButton = new PushButton(new Image(
+GuiResources.INSTANCE.algebra_new()));
+		pButton.getUpHoveringFace().setImage(
+				new Image(GuiResources.INSTANCE.algebra_new_hover()));
+		pButton.addStyleName("SymbolToggleButtonNeighbour");
+		pButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO: copy code from AlgebraStyleBarW here
+				event.stopPropagation();
+				// event.preventDefault();
+			}
+		});
+		// TODO: add pButton
 
 		ClickStartHandler.init(xButton, new ClickStartHandler(false, true) {
 			@Override
