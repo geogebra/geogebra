@@ -80,6 +80,8 @@ public class AndroidKeyboard implements EntryPoint, ScriptLoadCallback,
 		layoutPanel.addNorth(input, mathQuillInputheight);
 
 		RootLayoutPanel.get().add(layoutPanel);
+
+		input.setFocus(true);
 	}
 
 	public void enterPressed() {

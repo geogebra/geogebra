@@ -124,8 +124,19 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 	}-*/;
 	
 	public void setFocus(boolean focus) {
-		// TODO
+		setFocusNative(focus);
 	}
+	
+	private native void setFocusNative(boolean focus) /*-{
+		var that = this;
+		var panel = that.@org.geogebra.web.input.mathquill.MathQuillInput::flowPanelElement;
+		var edl = $wnd.$ggbQuery(panel).find(".mathquillggb-editable");
+		if (focus) {
+			edl[0].focus();
+		} else {
+			edl[0].blur();
+		}
+	}-*/;
 
 	public void enterPressed() {
 		enterPressedListener.enterPressed();
