@@ -25,8 +25,8 @@ public class PropertiesView3DW extends PropertiesViewW {
 	 * @param app
 	 *            application
 	 */
-	public PropertiesView3DW(AppW app) {
-		super(app);
+	public PropertiesView3DW(AppW app, OptionType op) {
+		super(app, op);
 	}
 
 	@Override

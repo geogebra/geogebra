@@ -29,6 +29,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -809,7 +810,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = newPropertiesViewW((AppW) app);
+			propertiesView = newPropertiesViewW((AppW) app,
+					OptionType.EUCLIDIAN);
+		}
+
+		return propertiesView;
+	}
+
+	public View getPropertiesView(OptionType ot) {
+
+		if (propertiesView == null) {
+			// initPropertiesDialog();
+			propertiesView = newPropertiesViewW((AppW) app, ot);
 		}
 
 		return propertiesView;
@@ -820,8 +832,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 * @param app
 	 * @return new properties view
 	 */
-	protected PropertiesViewW newPropertiesViewW(final AppW app) {
-		return new PropertiesViewW(app);
+	protected PropertiesViewW newPropertiesViewW(final AppW app, OptionType ot) {
+		return new PropertiesViewW(app, ot);
 	}
 
 	public void updatePropertiesView() {

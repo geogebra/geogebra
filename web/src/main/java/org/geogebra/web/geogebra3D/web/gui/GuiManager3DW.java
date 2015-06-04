@@ -1,6 +1,7 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import org.geogebra.web.geogebra3D.web.gui.view.properties.PropertiesView3DW;
@@ -118,8 +119,8 @@ public class GuiManager3DW extends GuiManagerW {
 	}
 
 	@Override
-	protected PropertiesViewW newPropertiesViewW(AppW app) {
-		return new PropertiesView3DW(app);
+	protected PropertiesViewW newPropertiesViewW(AppW app, OptionType ot) {
+		return new PropertiesView3DW(app, ot);
 	}
 
 }

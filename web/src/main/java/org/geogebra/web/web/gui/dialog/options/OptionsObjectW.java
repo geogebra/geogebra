@@ -1,13 +1,11 @@
 package org.geogebra.web.web.gui.dialog.options;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
@@ -60,30 +58,19 @@ import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
-import org.geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOptionsListener;
 import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
-import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
-import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.dialog.ScriptInputPanelW;
-import org.geogebra.web.web.gui.dialog.TextEditAdvancedPanel;
-import org.geogebra.web.web.gui.dialog.TextPreviewPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsTab.LodPanel;
 import org.geogebra.web.web.gui.dialog.options.model.ExtendedAVModel;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -96,7 +83,6 @@ import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 
@@ -108,13 +94,11 @@ import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
@@ -166,7 +150,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private List<OptionsTab> tabs;
 
-	private TextOptionsPanel textOptionsPanel;
 
 
 
@@ -1438,522 +1421,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 	
-	private class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
-	ITextEditPanel, GeoElementSelectionListener {
-		TextOptionsModel model;
-
-		private Label decimalLabel;
-		ListBox lbFont;
-		ListBox lbSize;
-		ListBox lbDecimalPlaces;
-		MyToggleButton2 btnBold;
-		MyToggleButton2 btnItalic;
-		private ToggleButton  btnLatex;
-
-		private FlowPanel secondLine;
-
-		private FlowPanel editorPanel;
-		private FlowPanel btnPanel;
-		private Button btnOk;
-		private Button btnCancel;
-
-		private boolean secondLineVisible = false;
-		GeoTextEditor editor;
-		private TextEditAdvancedPanel advancedPanel;
-		private TextPreviewPanelW previewer; 
-		public TextOptionsPanel() {
-			createGUI();
-		}
-		
-		public void createGUI() {
-			model = new TextOptionsModel(app, this);
-			setModel(model);
-			editor = null;
-			editor = new GeoTextEditor(getAppW(), this);
-			editor.setStyleName("objectPropertiesTextEditor");
-			lbFont = new ListBox();
-			for (String item: model.getFonts()) {
-				lbFont.addItem(item);
-			}
-
-			lbFont.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.setEditGeoText(editor.getText());
-					model.applyFont(lbFont.getSelectedIndex() == 1);
-				}});
-			lbSize = new ListBox();
-			for (String item : model.getFonts()) {
-				lbSize.addItem(item);
-			}
-			lbSize.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.setEditGeoText(editor.getText());
-					boolean isCustom = (lbSize.getSelectedIndex() == 7);
-					if (isCustom) {
-						String currentSize = Math
-								.round(model.getTextPropertiesAt(0)
-										.getFontSizeMultiplier() * 100)
-										+ "%";
-
-						GOptionPaneW.INSTANCE.showInputDialog(app,
-								loc.getPlain("EnterPercentage"), currentSize,
-								null, new AsyncOperation() {
-
-							@Override
-							public void callback(Object obj) {
-								String[] dialogResult = (String[])obj;
-								model.applyFontSizeFromString(dialogResult[1]);
-							}
-						});
-
-					} else {
-						model.applyFontSizeFromIndex(lbSize.getSelectedIndex());
-					}
-					updatePreview();
-				}
-			});
-
-			// font size
-			// TODO require font phrases F.S.
-			// toggle buttons for bold and italic
-			btnBold = new MyToggleButton2(app.getMenu("Bold.Short"));
-			btnBold.addStyleName("btnBold");
-			
-			btnItalic = new MyToggleButton2(app.getMenu("Italic.Short"));
-			btnItalic.addStyleName("btnItalic");
-			
-			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
-
-			btnLatex = new MyToggleButton2("LaTeX");
-	
-			// hack
-//			btnLatex.getElement().getStyle().setWidth(100, Unit.PX);
-			
-			ClickHandler styleClick = new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					model.setEditGeoText(editor.getText());
-					model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
-					updatePreview();
-				}};
-
-				btnBold.addClickHandler(styleClick);
-				btnItalic.addClickHandler(styleClick);
-
-				btnLatex.addClickHandler(new ClickHandler(){
-
-				@Override
-				public void onClick(ClickEvent event) {
-						model.setLaTeX(isLatex(), true);
-						updatePreview();
-					}});
-				btnLatex.addStyleName("btnLatex");
-
-				// decimal places
-				lbDecimalPlaces = new ListBox();
-				for (String item : loc.getRoundingMenu()) {
-					lbDecimalPlaces.addItem(item);
-				}
-
-				lbDecimalPlaces.addChangeHandler(new ChangeHandler(){
-
-				@Override
-				public void onChange(ChangeEvent event) {
-						model.setEditGeoText(editor.getText());
-						model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
-						updatePreview();
-					}});
-
-				// font, size
-				FlowPanel mainPanel = new FlowPanel();
-				mainPanel.setStyleName("textPropertiesTab");
-				FlowPanel firstLine = new FlowPanel();
-				firstLine.setStyleName("textOptionsToolBar");
-				firstLine.add(lbFont);
-				firstLine.add(lbSize);
-				firstLine.add(btnBold);
-				firstLine.add(btnItalic);
-				firstLine.add(btnLatex);
-
-				// bold, italic
-				secondLine = new FlowPanel();
-				secondLine.setStyleName("optionsPanel");
-				decimalLabel = new Label();
-				secondLine.add(decimalLabel);
-				secondLine.add(lbDecimalPlaces);
-
-				mainPanel.add(firstLine);
-				mainPanel.add(secondLine);
-				secondLineVisible = true;
-
-
-				editorPanel = new FlowPanel();
-				editorPanel.setStyleName("optionsInput");
-				editorPanel.add(editor);
-				advancedPanel = new TextEditAdvancedPanel(getAppW(), this);
-				editorPanel.add(advancedPanel);
-				mainPanel.add(editorPanel);
-
-				previewer = advancedPanel.getPreviewer();
-
-				btnPanel = new FlowPanel();
-				btnPanel.setStyleName("optionsPanel");
-				btnOk = new Button();
-				btnPanel.add(btnOk);
-				btnOk.addClickHandler(new ClickHandler(){
-
-				@Override
-				public void onClick(ClickEvent event) {
-						model.applyEditedGeo(editor.getText(), isLatex());
-					}}); 
-
-				btnCancel = new Button();
-				btnPanel.add(btnCancel);
-				btnCancel.addClickHandler(new ClickHandler(){
-
-				@Override
-				public void onClick(ClickEvent event) {
-						model.cancelEditGeo();
-					}}); 
-
-				mainPanel.add(btnPanel);
-				setWidget(mainPanel);
-		}
-
-		/**
-		 * The editor must be recreated each time the options panel is
-		 * re-attached to the DOM
-		 */
-		void reinitEditor() {
-
-			int index = editorPanel.getWidgetIndex(editor);
-			editorPanel.remove(editor);
-
-			editor = new GeoTextEditor(getAppW(), this);
-			editor.setStyleName("objectPropertiesTextEditor");
-			editorPanel.insert(editor, index);
-		}
-		
-		@Override
-		public OptionPanel updatePanel(Object[] geos) {
-
-			getModel().setGeos(geos);
-
-			if (!getModel().checkGeos()) {
-				model.cancelEditGeo();
-				return null;
-			}
-
-			getModel().updateProperties();
-			setLabels();
-			advancedPanel.updateGeoList(); 
-			if(getModel().hasPreview()){
-				updatePreview();
-				editor.updateFonts();
-			}
-
-			return this;
-
-		}
-
-		@Override
-		public void setLabels() {
-			String[] fontSizes = app.getLocalization().getFontSizeStrings();
-
-			int selectedIndex = lbSize.getSelectedIndex();
-			lbSize.clear();
-
-			for (int i = 0; i < fontSizes.length; ++i) {
-				lbSize.addItem(fontSizes[i]);
-			}
-
-			lbSize.addItem(app.getMenu("Custom") + "...");
-
-			lbSize.setSelectedIndex(selectedIndex);
-
-
-			decimalLabel.setText(app.getMenu("Rounding") + ":");
-			
-			btnBold.setText(app.getMenu("Bold.Short"));
-			btnItalic.setText(app.getMenu("Italic.Short"));
-			
-			btnLatex.setText(loc.getPlain("LaTeXFormula"));
-			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
-
-			
-			if (advancedPanel != null) {
-				advancedPanel.setLabels();
-			}
-			btnOk.setText(localize("OK"));
-			btnCancel.setText(localize("Cancel"));
-		}
-
-		@Override
-		public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {
-			// hide most options for Textfields
-			lbFont.setVisible(showFontDetails);
-			btnBold.setVisible(showFontDetails);
-			btnItalic.setVisible(showFontDetails);
-			secondLine.setVisible(showFontDetails);
-			secondLineVisible = showFontDetails;
-
-			if (isButton) {
-				secondLine.setVisible(!showFontDetails);
-				secondLineVisible = !showFontDetails;
-			}        
-		}
-
-		@Override
-		public void setFontSizeVisibleOnly() {
-			lbSize.setVisible(true);
-			lbFont.setVisible(false);
-			btnBold.setVisible(false);
-			btnItalic.setVisible(false);
-			secondLine.setVisible(false);
-		}
-
-		@Override
-		public void selectSize(int index) {
-			lbSize.setSelectedIndex(index);
-
-		}
-
-		@Override
-		public void selectFont(int index) {
-			lbFont.setSelectedIndex(index);
-
-		}
-
-		@Override
-		public void selectDecimalPlaces(int index) {
-			lbDecimalPlaces.setSelectedIndex(index);
-		}
-
-		@Override
-		public void setSecondLineVisible(boolean noDecimals) {
-			if (noDecimals) {
-
-				if (secondLineVisible) {
-					secondLineVisible = false;
-				}
-			} else {
-				if (!secondLineVisible) {
-					secondLineVisible = true;
-				}
-
-				secondLine.setVisible(secondLineVisible);
-			}
-
-			editorPanel.setVisible(model.isTextEditable());
-			lbFont.setVisible(model.isTextEditable());
-			btnLatex.setVisible(model.isTextEditable());
-			btnPanel.setVisible(model.isTextEditable());
-
-		}
-
-		@Override
-		public void updatePreview() {
-			updatePreviewPanel();
-		}
-
-		boolean isLatex() {
-			return btnLatex.getValue();
-		}
-
-
-		@Override
-		public void selectFontStyle(int style) {
-
-			btnBold.setValue(style == GFont.BOLD
-					|| style == (GFont.BOLD + GFont.ITALIC));
-			btnItalic.setValue(style == GFont.ITALIC
-					|| style == (GFont.BOLD + GFont.ITALIC));
-
-
-		}
-
-
-		@Override
-		public void updatePreviewPanel() {
-			if (previewer == null) {
-				return;
-			}
-			previewer.updateFonts();
-			previewer.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
-					editor.getDynamicTextList(), isLatex()), isLatex());
-		}
-
-
-
-		@Override
-		public void setEditorText(ArrayList<DynamicTextElement> list) {
-
-			editor.setText(list);
-
-		}
-
-		@Override
-		public void setEditorText(String text) {
-
-			editor.setText(text);
-
-		}
-
-
-		@Override
-		public void insertGeoElement(GeoElement geo) {
-			editor.insertGeoElement(geo);
-		}
-
-
-		@Override
-		public void insertTextString(String text, boolean isLatex) {
-			editor.insertTextString(text, isLatex);
-
-		}
-
-
-		@Override
-		public GeoText getEditGeo() {
-			return model.getEditGeo();
-		}
-
-
-		@Override
-		public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-			model.cancelEditGeo();
-
-		}
-
-
-	}
-
-		
-		
-
-
-
-	private class ScriptEditPanel extends OptionPanel {
-
-
-		private ScriptInputPanelW clickDialog, updateDialog, globalDialog;
-		private TabPanel tabbedPane;
-		private FlowPanel clickScriptPanel, updateScriptPanel, globalScriptPanel;
-
-		public ScriptEditPanel() {
-			int row = 35;
-			int column = 15;
-			setModel(new OptionsModel() {
-
-				@Override
-				protected boolean isValidAt(int index) {
-					return true;
-				}
-
-				@Override
-				public void updateProperties() {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public PropertyListener getListener() {
-					return ScriptEditPanel.this;
-				}
-			});
-			tabbedPane = new TabPanel();
-			tabbedPane.setStyleName("scriptTabPanel");
-
-			clickDialog = new ScriptInputPanelW(getAppW(), app.getPlain("Script"),
-					null, row, column, false, false);
-			updateDialog = new ScriptInputPanelW(getAppW(),
-					app.getPlain("JavaScript"), null, row, column, true, false);
-			globalDialog = new ScriptInputPanelW(getAppW(),
-					app.getPlain("GlobalJavaScript"), null, row, column, false,
-					true);
-			// add(td.getInputPanel(), BorderLayout.NORTH);
-			// add(td2.getInputPanel(), BorderLayout.CENTER);
-			clickScriptPanel = new FlowPanel();
-			clickScriptPanel.add(clickDialog.getInputPanel(row, column, true));
-			clickScriptPanel
-			.add(clickDialog.getButtonPanel());
-
-			updateScriptPanel = new FlowPanel();
-			updateScriptPanel.add(
-					updateDialog.getInputPanel(row, column, true));
-			updateScriptPanel.add(updateDialog.getButtonPanel());
-
-			globalScriptPanel = new FlowPanel();
-			globalScriptPanel.add(globalDialog.getInputPanel(row, column, true));
-			globalScriptPanel.add(globalDialog.getButtonPanel());
-			setWidget(tabbedPane);
-
-			tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
-					{			
-				@Override
-				public void onSelection(SelectionEvent<Integer> event) {
-					applyModifications();
-
-				}
-			});
-			
-			setLabels();
-		}
-
-		/**
-		 * apply edit modifications
-		 */
-		public void applyModifications() {
-			clickDialog.applyModifications();
-			updateDialog.applyModifications();
-			globalDialog.applyModifications();
-		}
-
-		@Override
-		public void setLabels() {
-			// setBorder(BorderFactory.createTitledBorder(app.getPlain("JavaScript")));
-			String ok = localize("OK");
-			String cancel = localize("Cancel");
-			
-			clickDialog.setLabels(ok, cancel);
-			updateDialog.setLabels(ok, cancel);
-			globalDialog.setLabels(ok, cancel);
-		}
-
-		@Override
-		public OptionPanel updatePanel(Object[] geos) {
-			if (geos.length != 1){
-				return null;
-			}
-
-			// remember selected tab
-			int idx = tabbedPane.getTabBar().getSelectedTab();
-
-			GeoElement geo = (GeoElement) geos[0];
-			clickDialog.setGeo(geo);
-			updateDialog.setGeo(geo);
-			globalDialog.setGlobal();
-			tabbedPane.clear();
-			if (geo.canHaveClickScript())
-				tabbedPane.add(clickScriptPanel, localize("OnClick"));
-			if (geo.canHaveUpdateScript())
-				tabbedPane.add(updateScriptPanel, localize("OnUpdate"));
-			tabbedPane.add(globalScriptPanel, localize("GlobalJavaScript"));
-
-			// select tab as before
-			tabbedPane.selectTab(Math.max(0,	idx));
-			return this;
-		}
-
-	}
-
 	private class ExtendedAVPanel extends CheckboxPanel {
 		public ExtendedAVPanel() {
 			super("show extended algebra view", loc);
@@ -1975,6 +1442,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		return (AppW) app;
 	}
 
+	long beforeTabs;
+
+	private TextOptionsModel textModel;
 	private void initGUI() {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
@@ -1991,11 +1461,16 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			}
 				});
 		tabPanel.setStyleName("propertiesTabPanel");
-
+		beforeTabs = System.currentTimeMillis();
 		createBasicTab();
-
+		App.printStacktrace("BASIC"
+				+ (System.currentTimeMillis() - this.beforeTabs));
 		if (!(app.isExam())) {
-			tabs = Arrays.asList(
+			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),
+					addColorTab(), addStyleTab(), addPositionTab(),
+					addAdvancedTab(), addAlgebraTab(), addScriptTab());
+		} else {
+		tabs = Arrays.asList(
 				basicTab,
 				addTextTab(),
 				addSliderTab(),
@@ -2003,18 +1478,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				addStyleTab(),
 				addPositionTab(),
 				addAdvancedTab(),
-				addAlgebraTab(),
-				addScriptTab());
-		} else {
-			tabs = Arrays.asList(
-					basicTab,
-					addTextTab(),
-					addSliderTab(),
-					addColorTab(),
-					addStyleTab(),
-					addPositionTab(),
-					addAdvancedTab(),
-					addAlgebraTab());
+ addAlgebraTab());
 		}
 
 		for (OptionsTab tab: tabs) {
@@ -2118,8 +1582,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private OptionsTab addTextTab() {
 		OptionsTab tab = makeOptionsTab("Text");
-		textOptionsPanel = new TextOptionsPanel();
-		tab.add(textOptionsPanel);
+		this.textModel = new TextOptionsModel(app);
+		tab.addModel(textModel);
+		App.debug("TEXT" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
@@ -2127,12 +1592,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		OptionsTab tab = makeOptionsTab("Slider");
 		SliderPanelW sliderPanel = new SliderPanelW(getAppW(), false, true);
 		tab.add(sliderPanel);
+		App.debug("SLIDER" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
 	private OptionsTab addColorTab() {
 		OptionsTab tab = makeOptionsTab("Color");
 		tab.addModel(new ColorObjectModel(app));
+		App.debug("COLOR" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
@@ -2164,13 +1631,22 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		 * ineqStylePanel, buttonSizePanel, textFieldSizePanel, fillingPanel,
 		 * lodPanel, interpolateImagePanel, decoAnglePanel, decoSegmentPanel ));
 		 */
+		App.debug("STYLE" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
 	private OptionsTab addScriptTab() {
 		OptionsTab tab = makeOptionsTab("Scripting");
-		ScriptEditPanel scriptEditPanel = new ScriptEditPanel();
-		tab.add(scriptEditPanel);
+		final ScriptEditorModel model = new ScriptEditorModel();
+		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
+			@Override
+			public void onSelection(SelectionEvent<Integer> event) {
+				model.applyModifications();
+
+			}
+		});
+		tab.addModel(model);
+		App.debug("SCRIPT" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 	
@@ -2197,7 +1673,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		misc.add(selectionAllowedPanel);
 		tab.add(misc);
 		tab.add(graphicsViewLocationPanel);
-
+		App.debug("ADVANCED" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
@@ -2215,7 +1691,7 @@ Arrays.asList(coordsPanel,
 						new AnimationStepPanelW(getAppW()),
 						new AnimationSpeedPanelW(getAppW())
 						));
-
+		App.debug("ALGEBRA" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 
 	}
@@ -2229,6 +1705,7 @@ Arrays.asList(coordsPanel,
 						new CornerPointsPanel(),
 						new AbsoluteScreenLocationPanel()
 						));
+		App.debug("POSITION" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 
 	}
@@ -2238,13 +1715,13 @@ Arrays.asList(coordsPanel,
 	}
 
 	public void reinit() {
-		textOptionsPanel.reinitEditor();
+		textModel.reinitEditor();
 		updateGUI();
 	}
 
 	@Override
 	public void updateGUI() {
-		App.debug("OPTION OBJECTS UPDATE_GUI");
+		App.printStacktrace("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
 
@@ -2252,7 +1729,6 @@ Arrays.asList(coordsPanel,
 			wrappedPanel.setVisible(true);
 
 			// app.setShowAuxiliaryObjects(true);
-
 			for (OptionsTab tab: tabs) {
 				tab.update(geos);
 			}

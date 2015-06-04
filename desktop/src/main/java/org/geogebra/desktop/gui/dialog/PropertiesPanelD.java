@@ -2355,7 +2355,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public TextOptionsPanel() {
 
-			model = new TextOptionsModel(app, this);
+			model = new TextOptionsModel(app);
+			model.setListener(this);
 
 			cbFont = new JComboBox(model.getFonts());
 			cbFont.addActionListener(this);
@@ -2619,6 +2620,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setEditorText(String text) {
 			// TODO Auto-generated method stub
+
+		}
+
+		public void reinitEditor() {
+			// only called in Web
 
 		}
 	}

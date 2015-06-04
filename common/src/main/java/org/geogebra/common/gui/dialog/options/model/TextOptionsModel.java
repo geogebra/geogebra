@@ -35,6 +35,8 @@ public class TextOptionsModel extends OptionsModel {
 
 		void updatePreview();
 
+		void reinitEditor();
+
 	}
 
 	private ITextOptionsListener listener;
@@ -47,8 +49,8 @@ public class TextOptionsModel extends OptionsModel {
 	private DynamicTextProcessor dTProcessor; 
 	private GeoText editGeo;
 	private GeoText lastGeo;
-	public TextOptionsModel(App app, ITextOptionsListener listener) {
-		this.listener = listener;
+
+	public TextOptionsModel(App app) {
 		this.app = app;
 		loc = app.getLocalization();
 		dTProcessor = new DynamicTextProcessor(app);
@@ -325,5 +327,15 @@ public class TextOptionsModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
+	}
+
+	public void setListener(ITextOptionsListener listener) {
+		this.listener = listener;
+	}
+
+	public void reinitEditor() {
+		if (listener != null) {
+			listener.reinitEditor();
+		}
 	}
 }

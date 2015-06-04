@@ -54,7 +54,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 	private FlowPanel contentsPanel;
 	private OptionType optionType;
 
-	public PropertiesViewW(AppW app) {
+	public PropertiesViewW(AppW app, OptionType ot) {
 		super(app);
 		this.wrappedPanel = new FlowPanel();
 		app.setPropertiesView(this);
@@ -62,7 +62,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 		app.setWaitCursor();   
 
 		notImplemented = new Label("Not implemented");
-		optionType = OptionType.EUCLIDIAN;
+		optionType = ot;
 		initGUI();
 	}
 

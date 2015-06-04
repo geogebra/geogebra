@@ -30,6 +30,7 @@ import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
+import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -189,6 +190,12 @@ class OptionsTab extends FlowPanel {
 			DecoSegmentPanel dsp = new DecoSegmentPanel((DecoSegmentModel)m,app);
 			dsp.getWidget().setStyleName("optionsPanel");
 			return dsp;
+		}
+		if (m instanceof TextOptionsModel) {
+			return new TextOptionsPanel((TextOptionsModel) m, app);
+		}
+		if (m instanceof ScriptEditorModel) {
+			return new ScriptEditPanel((ScriptEditorModel) m, app);
 		}
 		return null;
 	}
