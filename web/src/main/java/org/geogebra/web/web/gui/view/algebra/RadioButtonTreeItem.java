@@ -904,6 +904,20 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (newCreationMode) {
 			DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, true);
+
+			app.getGuiManager().setOnScreenKeyboardTextField(this);
+			CancelEventTimer.keyboardSetVisible();
+			ClickStartHandler.init(this, new ClickStartHandler(false, false) {
+				@Override
+				public void onClickStart(int x, int y,
+						final PointerEventType type) {
+					app.getGuiManager().setOnScreenKeyboardTextField(
+							RadioButtonTreeItem.this);
+					// prevent that keyboard is closed on clicks (changing
+					// cursor position)
+					CancelEventTimer.keyboardSetVisible();
+				}
+			});
 		} else if (shouldEditLaTeX()) {
 			if (app.has(Feature.JLM_IN_WEB) && c != null) {
 				renderLatex(geo.getLaTeXAlgebraDescription(true,
@@ -917,6 +931,20 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 			DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, false);
+
+			app.getGuiManager().setOnScreenKeyboardTextField(this);
+			CancelEventTimer.keyboardSetVisible();
+			ClickStartHandler.init(this, new ClickStartHandler(false, false) {
+				@Override
+				public void onClickStart(int x, int y,
+						final PointerEventType type) {
+					app.getGuiManager().setOnScreenKeyboardTextField(
+							RadioButtonTreeItem.this);
+					// prevent that keyboard is closed on clicks (changing
+					// cursor position)
+					CancelEventTimer.keyboardSetVisible();
+				}
+			});
 		} else {
 			removeSpecial(ihtml);
 			tb = new GTextBox();
