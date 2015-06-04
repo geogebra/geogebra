@@ -30,6 +30,7 @@ function waitFor() {
         interval = setInterval(function() {
 	    if ( (new Date().getTime() - start >= maxtimeOutMillis) ) {
 		console.log("phantomjs: Timeout after " + timeout);
+                page.render(output);
 		phantom.exit(2);
 		} else {
 		// console.log("...tick...");
@@ -38,6 +39,7 @@ function waitFor() {
 };
 
 var page = require('webpage').create();
+page.viewportSize = { width: 1920, height: 1080 };
 
 var lastmsg = "";
 
