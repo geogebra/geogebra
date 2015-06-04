@@ -31,6 +31,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Image;
@@ -131,7 +132,7 @@ GuiResources.INSTANCE.algebra_new()));
 
 				// if another button is pressed only the visibility is changed,
 				// by firing the event we can react as if it was closed
-				// CloseEvent.fire(this, this, false);
+				CloseEvent.fire(this, this, false);
 			}
 
 			@Override
@@ -143,16 +144,10 @@ GuiResources.INSTANCE.algebra_new()));
 			}
 		};
 		specialPopup.setAutoHideEnabled(true);
-
-		// FlowPanel fp = new FlowPanel();
-		// fp.addStyleName("AVmenuListContainer");
-
-		// specialPopup.getPanel().add(fp);
 		specialPopup.getPanel().addStyleName("AVmenuListContainer");
 
 		UnorderedList itemList = new UnorderedList();
 		itemList.setStyleName("AVmenuListContent");
-		// fp.add(itemList);
 		specialPopup.getPanel().add(itemList);
 
 		ListItem actual = new ListItem();
