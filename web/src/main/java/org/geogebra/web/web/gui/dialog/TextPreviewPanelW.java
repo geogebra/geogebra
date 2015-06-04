@@ -82,8 +82,10 @@ public class TextPreviewPanelW extends TextPreviewer {
 		if (isLatex) {
 		
 			rect = EuclidianStatic.drawMultilineLaTeX(app,
-			        ev.getTempGraphics2D(textFont), previewGeo, ev.g2p,
-			        app.getPlainFontCommon(), GColor.BLACK, GColor.WHITE,
+					ev.getTempGraphics2D(textFont), previewGeo,
+					ev.getTempGraphics2D(textFont),
+ textFont, GColor.BLACK,
+					GColor.WHITE,
 			        previewGeo.getTextString(), 0, 0, serif);
 			
 		} else {
@@ -93,7 +95,6 @@ public class TextPreviewPanelW extends TextPreviewer {
 		}
 		//App.debug("text rect: " + rect.getWidth() + " x " +
 	//	rect.getHeight());
-
 		int w = (int) rect.getWidth() + padding;
 		int h = (int) rect.getHeight() + padding;
 		ev.setPreferredSize(w, h);
