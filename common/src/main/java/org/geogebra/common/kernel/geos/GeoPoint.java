@@ -800,7 +800,8 @@ SymbolicParametersBotanaAlgo {
 
 	final public void updateCoords() {
 		// infinite point
-		if (Kernel.isZero(z)) {
+		// #5202
+		if (Kernel.isEpsilon(z, x, y)) {
 			isInfinite = true;
 			isDefined = !(Double.isNaN(x) || Double.isNaN(y));
 			inhomX = Double.NaN;
