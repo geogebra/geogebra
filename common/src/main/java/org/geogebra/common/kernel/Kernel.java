@@ -1946,6 +1946,40 @@ public class Kernel {
 	}
 
 	/**
+	 * 
+	 * check if a point is zero, see #5202
+	 * 
+	 * @param e
+	 * @param x
+	 * @param y
+	 * @param z
+	 * 
+	 * @return
+	 */
+	final public static boolean isEpsilon(double e, double x, double y, double z) {
+
+		double eAbs = Math.abs(e);
+
+		if (eAbs > STANDARD_PRECISION) {
+			return false;
+		}
+
+		if (eAbs > Math.abs(x) * STANDARD_PRECISION) {
+			return false;
+		}
+
+		if (eAbs > Math.abs(y) * STANDARD_PRECISION) {
+			return false;
+		}
+
+		if (eAbs > Math.abs(z) * STANDARD_PRECISION) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * @param a
 	 *            array of numbers
 	 * @return whether all given numbers are zero within current precision

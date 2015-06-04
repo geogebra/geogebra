@@ -268,7 +268,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// Application.printStacktrace(getLabel());
 
 		// infinite point
-		if (Kernel.isZero(v.get(4))) {
+		// #5202
+		if (Kernel.isEpsilon(v.getW(), v.getX(), v.getY(), v.getZ())) {
 			// Application.debug("infinite");
 			isInfinite = true;
 			isDefined = !(Double.isNaN(v.get(1)) || Double.isNaN(v.get(2)) || Double
