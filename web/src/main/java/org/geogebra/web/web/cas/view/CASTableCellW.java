@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.main.AppW;
@@ -85,11 +84,9 @@ public class CASTableCellW extends VerticalPanel {
 			// commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
-		App.debug("MID" +( c==null));
 		outputPanel.add(c == null ? outputLabel : c);
 		outputPanel.setStyleName("CAS_outputPanel");
 		add(outputPanel);
-		App.debug("END");
 
 	}
 
