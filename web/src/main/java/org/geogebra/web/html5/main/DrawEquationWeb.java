@@ -20,6 +20,7 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
+import org.scilab.forge.jlatexmath.FactoryProviderGWT;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
@@ -255,6 +256,7 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 	
 	public static TeXIcon createIcon(String latex, int size, int style) {
+		ensureJLMFactoryExists();
 		if (initJLaTeXMath == null) {
 
 			StringBuilder initJLM = DrawEquation.getJLMCommands();
@@ -541,6 +543,12 @@ createColor(fgColor.getRed(), fgColor.getGreen(),
 		}
 
 		return ret;
+	}
+
+	private static void ensureJLMFactoryExists() {
+		if (FactoryProvider.INSTANCE == null) {
+			FactoryProvider.INSTANCE = new FactoryProviderGWT();
+		}
 	}
 
 	public static native double getScaledWidth(Element el, boolean inside) /*-{
