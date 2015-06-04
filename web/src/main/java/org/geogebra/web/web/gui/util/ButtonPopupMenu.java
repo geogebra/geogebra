@@ -30,7 +30,7 @@ public class ButtonPopupMenu extends PopupPanel {
 		add(container);
 	}
 	
-	VerticalPanel getPanel() {
+	public VerticalPanel getPanel() {
 		return panel;
 	}
 

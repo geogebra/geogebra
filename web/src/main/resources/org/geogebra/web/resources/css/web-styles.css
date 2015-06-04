@@ -2748,6 +2748,60 @@ body.application[dir=rtl] .toolbar_item {
 	right: -2px;
 }
 
+table.AVmenuListContainer {
+	z-index: 501;
+	table-layout: auto;
+	white-space: nowrap;
+}
+
+.AVmenuListContainer .AVmenuListContent {
+	z-index: 250;
+	padding-top: 3px !important;
+	background-color: rgba(255, 255, 255, 0.9);
+	overflow-y:auto;
+	overflow-x:hidden;
+	border: 0px;
+	padding:0px;
+	margin:0px;
+}
+
+.AVmenuListContainer .AVmenuListContent li {
+	white-space: nowrap;
+	list-style-type: none;
+	/*height: 32px;*/
+	padding: 5px 0px;
+	text-align: left;
+	cursor: pointer;
+}
+body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent li {
+	text-align: right;
+}
+.AVmenuListContainer .AVmenuListContent li:hover,
+.AVmenuListContainer .AVmenuListContent li:focus {
+	color: #333333;
+	background-color: #CCCCFF;
+}
+
+
+.AVmenuListContainer .AVmenuListContent img {
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+	display: inline;
+}
+body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent img {
+	float: right;
+}
+
+.AVmenuListContainer .AVmenuListContent .gwt-Label {
+	display: inline;
+	/*padding: 7px 5px 0 10px;*/
+}
+body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent .gwt-Label {
+	/*padding: 7px 10px 0 5px;*/
+}
+
+
 .toolbar_submenu {
 	position: absolute;
 	z-index: 501;
