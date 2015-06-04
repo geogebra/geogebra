@@ -1,6 +1,9 @@
 package org.geogebra.web.web.gui.view.spreadsheet;
 
+import java.util.HashMap;
+
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -9,9 +12,16 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.main.MyImageW;
+import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -33,6 +43,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	private static final long serialVersionUID = 1L;
@@ -215,7 +226,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		String latex = null;
 		if (geo.isIndependent()) {
 			if (geo.isLaTeXDrawableGeo()
-			        && (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)
 			        && (geo.isGeoText() ? ((GeoText) geo).isLaTeX() : true)) {
 
 				latex = geo.getLaTeXdescription();
@@ -252,6 +262,29 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 
+		if (!app.has(Feature.JLM_IN_WEB)) {
+			oldRender(text, latex, row, column);
+			return;
+		}
+
+		Canvas c = null;
+		if (latex != null) {
+			Widget current = table.getWidget(row, column);
+			if (!(current instanceof Canvas)) {
+				c = Canvas.createIfSupported();
+				table.setWidget(row, column, c);
+			} else {
+				c = (Canvas) current;
+			}
+		}
+		if (c == null) {
+			table.setText(row, column, text);
+		} else {
+			paintOnCanvas(latex, c);
+		}
+	}
+
+	private void oldRender(String text, String latex, int row, int column) {
 		if (latex == null) {
 			table.setText(row, column, text);
 		} else {
@@ -263,10 +296,39 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 			table.setWidget(row, column, widg);
 
-			latex = DrawEquationWeb.inputLatexCosmetics(latex);
-			DrawEquationWeb.drawEquationAlgebraView(wele, "\\mathrm {" + latex
-			        + "}", true);
+			DrawEquationWeb.drawEquationAlgebraView(wele, "\\mathrm {"
+					+ DrawEquationWeb.inputLatexCosmetics(latex)
+					+ "}", true);
 		}
+	}
+
+	private HashMap<String, Canvas> canvas = new HashMap<String, Canvas>();
+
+	private void paintOnCanvas(String text0, Canvas c) {
+		if (geo == null) {
+			return;
+		}
+		final GColor fgColor = geo.getAlgebraColor();
+		if (c == null) {
+			c = Canvas.createIfSupported();
+		} else {
+			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
+					c.getCoordinateSpaceHeight());
+		}
+		TeXIcon icon = DrawEquationWeb.createIcon("\\mathrm {" + text0 + "}",
+				app.getFontSize(), GFont.PLAIN);
+		Graphics2DInterface g3 = new Graphics2DW(c.getContext2d());
+
+		c.setCoordinateSpaceWidth(icon.getIconWidth());
+		c.setCoordinateSpaceHeight(icon.getIconHeight());
+		icon.paintIcon(new HasForegroundColor() {
+			@Override
+			public Color getForegroundColor() {
+				return FactoryProvider.INSTANCE.getGraphicsFactory()
+						.createColor(fgColor.getRed(), fgColor.getGreen(),
+								fgColor.getBlue());
+			}
+		}, g3, 0, 0);
 	}
 
 	public void onMouseDown(MouseDownEvent e) {
