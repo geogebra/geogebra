@@ -103,11 +103,37 @@ public class AlgoFitLineX extends AlgoElement {
 		// x on y regression line
 		// (x - sigmax / n) = (Syy / Sxy)*(y - sigmay / n)
 		// rearranged to eliminate all divisions
-		g.y = size * sigmax * sigmay - size * size * sigmaxy;
-		g.x = size * size * sigmayy - size * sigmay * sigmay;
-		g.z = size * sigmay * sigmaxy - size * sigmayy * sigmax; // (g.x)x +
-																	// (g.y)y +
-																	// g.z = 0
+		// g.y = size * sigmax * sigmay - size * size * sigmaxy;
+		// g.x = size * size * sigmayy - size * sigmay * sigmay;
+		// g.z = size * sigmay * sigmaxy - size * sigmayy * sigmax;
+
+		// (g.x)x + (g.y)y + g.z = 0
+
+		// more accurate, see #5230
+		double Sxy = sigmaxy - sigmax * sigmay / size;
+		double Syy = sigmayy - sigmay * sigmay / size;
+		double mux = sigmax / size;
+		double muy = sigmay / size;
+
+		g.x = -Syy;
+		g.y = Sxy;
+		g.z = -Sxy * muy + Syy * mux;
+
+		// normalize coefficients (copied from
+		// GeoLine.getnormalizedCoefficients())
+		// #5230
+		while (Math.abs(g.x) < 0.5 && Math.abs(g.y) < 0.5
+				&& Math.abs(g.z) < 0.5) {
+			g.x *= 2;
+			g.y *= 2;
+			g.z *= 2;
+		}
+
+		while (Math.abs(g.x) > 1 && Math.abs(g.y) > 1 && Math.abs(g.z) > 1) {
+			g.x /= 2;
+			g.y /= 2;
+			g.z /= 2;
+		}
 	}
 
 	// TODO Consider locusequability

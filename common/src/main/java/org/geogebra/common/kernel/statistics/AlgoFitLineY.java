@@ -123,15 +123,39 @@ public class AlgoFitLineY extends AlgoElement {
 			}
 		}
 		// y on x regression line
-		// (y - sigmay / n) = (Sxx / Sxy)*(x - sigmax / n)
+		// (y - sigmay / n) = (Sxy / Sxx)*(x - sigmax / n)
 		// rearranged to eliminate all divisions
-		g.x = size * sigmax * sigmay - size * size * sigmaxy;
-		g.y = size * size * sigmaxx - size * sigmax * sigmax;
-		g.z = size * sigmax * sigmaxy - size * sigmaxx * sigmay; // (g.x)x +
-																	// (g.y)y +
-																	// g.z = 0
-	}
+		// g.x = (sigmax * sigmay - size * sigmaxy);
+		// g.y = (size * sigmaxx - sigmax * sigmax);
+		// g.z = (sigmax * sigmaxy - sigmaxx * sigmay);
+		// (g.x)x + (g.y)y + g.z = 0
 
-	// TODO Consider locusequability
+		// more accurate, see #5230
+		double Sxy = sigmaxy - sigmax * sigmay / size;
+		double Sxx = sigmaxx - sigmax * sigmax / size;
+		double mux = sigmax / size;
+		double muy = sigmay / size;
+
+		g.x = Sxy;
+		g.y = -Sxx;
+		g.z = -Sxy * mux + Sxx * muy;
+
+		// normalize coefficients (copied from
+		// GeoLine.getnormalizedCoefficients())
+		// #5230
+		while (Math.abs(g.x) < 0.5 && Math.abs(g.y) < 0.5
+				&& Math.abs(g.z) < 0.5) {
+			g.x *= 2;
+			g.y *= 2;
+			g.z *= 2;
+		}
+
+		while (Math.abs(g.x) > 1 && Math.abs(g.y) > 1 && Math.abs(g.z) > 1) {
+			g.x /= 2;
+			g.y /= 2;
+			g.z /= 2;
+		}
+
+	}
 
 }
