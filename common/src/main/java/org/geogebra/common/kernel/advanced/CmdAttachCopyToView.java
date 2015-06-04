@@ -41,11 +41,15 @@ public class CmdAttachCopyToView extends CommandProcessor {
 			if (arg[1] instanceof NumberValue) {
 				GeoPointND corner1, corner3, screenCorner1, screenCorner3;
 				int viewID = (int) ((NumberValue) arg[1]).getDouble();
-				EuclidianView ev;
-				if (viewID == 2)
-					ev = app.getEuclidianView2(1);
-				else
+				EuclidianView ev = null;
+				if (viewID == 2) {
+					// #5014
+					if (app.hasEuclidianView2(1)) {
+						ev = app.getEuclidianView2(1);
+					}
+				} else {
 					ev = app.getEuclidianView1();
+				}
 				if (n == 2) {
 
 					corner1 = new GeoPoint(kernelA.getConstruction());
