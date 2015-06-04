@@ -1,9 +1,6 @@
 package org.geogebra.web.web.gui.view.spreadsheet;
 
-import java.util.HashMap;
-
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -16,12 +13,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.main.MyImageW;
-import org.scilab.forge.jlatexmath.TeXIcon;
-import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
-import org.scilab.forge.jlatexmath.platform.FactoryProvider;
-import org.scilab.forge.jlatexmath.platform.graphics.Color;
-import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
-import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -280,7 +271,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (c == null) {
 			table.setText(row, column, text);
 		} else {
-			paintOnCanvas(latex, c);
+			DrawEquationWeb.paintOnCanvas(geo, latex, c, app);
 		}
 	}
 
@@ -302,34 +293,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 	}
 
-	private HashMap<String, Canvas> canvas = new HashMap<String, Canvas>();
-
-	private void paintOnCanvas(String text0, Canvas c) {
-		if (geo == null) {
-			return;
-		}
-		final GColor fgColor = geo.getAlgebraColor();
-		if (c == null) {
-			c = Canvas.createIfSupported();
-		} else {
-			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
-					c.getCoordinateSpaceHeight());
-		}
-		TeXIcon icon = DrawEquationWeb.createIcon("\\mathrm {" + text0 + "}",
-				app.getFontSize(), GFont.PLAIN);
-		Graphics2DInterface g3 = new Graphics2DW(c.getContext2d());
-
-		c.setCoordinateSpaceWidth(icon.getIconWidth());
-		c.setCoordinateSpaceHeight(icon.getIconHeight());
-		icon.paintIcon(new HasForegroundColor() {
-			@Override
-			public Color getForegroundColor() {
-				return FactoryProvider.INSTANCE.getGraphicsFactory()
-						.createColor(fgColor.getRed(), fgColor.getGreen(),
-								fgColor.getBlue());
-			}
-		}, g3, 0, 0);
-	}
 
 	public void onMouseDown(MouseDownEvent e) {
 		// TODO: maybe use CancelEvents.instance?

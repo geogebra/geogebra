@@ -4,9 +4,13 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -44,22 +48,23 @@ public class CASTableCellW extends VerticalPanel {
 		}
 		add(inputPanel);
 
-		Label outputLabel = new Label();
+		Label outputLabel = null;
 		outputText = "";
+		Canvas c = null;
 		if (casCell != null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
-				SpanElement outputSpan = DOM.createSpan().cast();
-				String eqstring = DrawEquationWeb.inputLatexCosmetics(casCell
-				        .getLaTeXOutput());
-				int el = eqstring.length();
-				eqstring = DrawEquationWeb.stripEqnArray(eqstring);
-				DrawEquationWeb.drawEquationMathQuillGGB(outputSpan, eqstring,
-				        0, 0, outputLabel.getElement(), false,
-				        el == eqstring.length(), true, 0, true);
-				outputSpan.getStyle().setColor(
-				        GColor.getColorString(casCell.getAlgebraColor()));
-				outputLabel.getElement().appendChild(outputSpan);
+				String eqstring = casCell.getLaTeXOutput();
+				if (!casCell.getKernel().getApplication()
+						.has(Feature.JLM_IN_WEB)) {
+					renderOld(outputLabel = new Label(), eqstring);
+				} else {
+
+					c = DrawEquationWeb.paintOnCanvas(casCell, eqstring,
+							null,
+							(AppW) casCell.getKernel().getApplication());
+				}
 			} else {
+				outputLabel = new Label();
 				if (casCell.isError()) {
 					outputLabel.getElement().getStyle().setColor("red");
 				}
@@ -69,6 +74,8 @@ public class CASTableCellW extends VerticalPanel {
 			}
 			// #5119
 			outputText = casCell.getOutput(StringTemplate.numericDefault);
+		} else {
+			outputLabel = new Label();
 		}
 		outputPanel = new FlowPanel();
 		if (casCell != null) {
@@ -78,10 +85,26 @@ public class CASTableCellW extends VerticalPanel {
 			// commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
-
-		outputPanel.add(outputLabel);
+		App.debug("MID" +( c==null));
+		outputPanel.add(c == null ? outputLabel : c);
 		outputPanel.setStyleName("CAS_outputPanel");
 		add(outputPanel);
+		App.debug("END");
+
+	}
+
+	private void renderOld(Label outputLabel, String eqstring) {
+		SpanElement outputSpan = DOM.createSpan().cast();
+
+		int el = eqstring.length();
+		eqstring = DrawEquationWeb.inputLatexCosmetics(DrawEquationWeb
+				.stripEqnArray(eqstring));
+		DrawEquationWeb.drawEquationMathQuillGGB(outputSpan, eqstring, 0, 0,
+				outputLabel.getElement(), false, el == eqstring.length(), true,
+				0, true);
+		outputSpan.getStyle().setColor(
+				GColor.getColorString(casCell.getAlgebraColor()));
+		outputLabel.getElement().appendChild(outputSpan);
 
 	}
 

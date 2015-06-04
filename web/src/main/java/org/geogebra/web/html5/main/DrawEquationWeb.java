@@ -29,6 +29,7 @@ import org.scilab.forge.jlatexmath.platform.graphics.Color;
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
@@ -1772,5 +1773,34 @@ GeoContainer rbti,
 
 	public static DrawEquationWeb getNonStaticCopy(GeoContainer rbti) {
 		return (DrawEquationWeb) rbti.getApplication().getDrawEquation();
+	}
+
+	public static Canvas paintOnCanvas(GeoElement geo, String text0, Canvas c,
+			AppW app) {
+		if (geo == null) {
+			return c == null ? Canvas.createIfSupported() : c;
+		}
+		final GColor fgColor = geo.getAlgebraColor();
+		if (c == null) {
+			c = Canvas.createIfSupported();
+		} else {
+			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
+					c.getCoordinateSpaceHeight());
+		}
+		TeXIcon icon = DrawEquationWeb.createIcon("\\mathrm {" + text0 + "}",
+				app.getFontSize(), GFont.PLAIN);
+		Graphics2DInterface g3 = new Graphics2DW(c.getContext2d());
+
+		c.setCoordinateSpaceWidth(icon.getIconWidth());
+		c.setCoordinateSpaceHeight(icon.getIconHeight());
+		icon.paintIcon(new HasForegroundColor() {
+			@Override
+			public Color getForegroundColor() {
+				return FactoryProvider.INSTANCE.getGraphicsFactory()
+						.createColor(fgColor.getRed(), fgColor.getGreen(),
+								fgColor.getBlue());
+			}
+		}, g3, 0, 0);
+		return c;
 	}
 }
