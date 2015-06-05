@@ -1739,6 +1739,9 @@ public abstract class Renderer {
 				setWaitForSetStencilLines();
 			}
 			break;
+		case EuclidianView3D.PROJECTION_OBLIQUE:
+			updateProjectionObliqueValues();
+			break;
 		}
 
 		setView();
