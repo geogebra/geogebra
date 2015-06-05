@@ -31,6 +31,9 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 	private boolean value;
 	private Kernel kernel;
 
+	// #5223
+	private boolean isDefined = true;
+
 	/**
 	 * Creates new boolean
 	 * 
@@ -42,6 +45,12 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 	public MyBoolean(Kernel kernel, boolean value) {
 		this.value = value;
 		this.kernel = kernel;
+	}
+
+	public MyBoolean(Kernel kernel, boolean value, boolean defined) {
+		this(kernel, value);
+		this.isDefined = defined;
+
 	}
 
 	/**
@@ -132,10 +141,14 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 	}
 
 	public boolean isDefined() {
-		return true;
+		return isDefined;
 	}
 
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
+	}
+
+	public void setDefined(boolean defined) {
+		this.isDefined = defined;
 	}
 }

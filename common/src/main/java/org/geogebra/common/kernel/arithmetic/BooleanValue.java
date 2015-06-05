@@ -26,4 +26,7 @@ public interface BooleanValue extends ExpressionValue {
 
 	/** @return double value (1 for true, 0 for false) */
 	public double getDouble();
+
+	/** @return needed for #5223 */
+	public boolean isDefined();
 }

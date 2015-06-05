@@ -57,8 +57,15 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue) {
-				MyBoolean bool = ((BooleanValue) lt).getMyBoolean();
-				bool.setValue(!bool.getBoolean());
+
+				BooleanValue a = ((BooleanValue) lt);
+				boolean defined = a.isDefined();
+
+				MyBoolean bool = a.getMyBoolean();
+
+				bool.setValue(!a.getBoolean());
+				bool.setDefined(defined);
+
 				return bool;
 			}
 			return ev.illegalBoolean(lt, ExpressionNodeConstants.strNOT);
@@ -70,9 +77,16 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
-				MyBoolean bool = ((BooleanValue) lt).getMyBoolean();
-				bool.setValue(bool.getBoolean()
-						|| ((BooleanValue) rt).getBoolean());
+
+				BooleanValue a = ((BooleanValue) lt);
+				BooleanValue b = ((BooleanValue) rt);
+				boolean defined = a.isDefined() && b.isDefined();
+
+				MyBoolean bool = a.getMyBoolean();
+
+				bool.setValue(a.getBoolean() || b.getBoolean());
+				bool.setDefined(defined);
+
 				return bool;
 			}
 			return ev.illegalBinary(lt, rt, "IllegalBoolean",
@@ -85,9 +99,16 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
-				MyBoolean bool = ((BooleanValue) lt).getMyBoolean();
-				bool.setValue(bool.getBoolean()
-						&& ((BooleanValue) rt).getBoolean());
+
+				BooleanValue a = ((BooleanValue) lt);
+				BooleanValue b = ((BooleanValue) rt);
+				boolean defined = a.isDefined() && b.isDefined();
+
+				MyBoolean bool = a.getMyBoolean();
+
+				bool.setValue(a.getBoolean() && b.getBoolean());
+				bool.setDefined(defined);
+
 				return bool;
 			}
 			return ev.illegalBinary(lt, rt, "IllegalBoolean",
@@ -108,9 +129,16 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
-				MyBoolean bool = ((BooleanValue) lt).getMyBoolean();
-				bool.setValue(!bool.getBoolean()
-						|| ((BooleanValue) rt).getBoolean());
+
+				BooleanValue a = ((BooleanValue) lt);
+				BooleanValue b = ((BooleanValue) rt);
+				boolean defined = a.isDefined() && b.isDefined();
+
+				MyBoolean bool = a.getMyBoolean();
+
+				bool.setValue(!a.getBoolean() || b.getBoolean());
+				bool.setDefined(defined);
+
 				return bool;
 			}
 			return ev.illegalBinary(lt, rt, "IllegalBoolean",
@@ -137,9 +165,13 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return new MyBoolean(ev.getKernel(), Kernel.isGreater(
-						((NumberValue) rt).getDouble(),
-						((NumberValue) lt).getDouble()));
+				
+				double a = ((NumberValue) lt).getDouble();
+				double b = ((NumberValue) rt).getDouble();
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
+				
+				return new MyBoolean(ev.getKernel(), Kernel.isGreater(b, a),
+						defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
@@ -155,9 +187,13 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return new MyBoolean(ev.getKernel(), Kernel.isGreater(
-						((NumberValue) lt).getDouble(),
-						((NumberValue) rt).getDouble()));
+
+				double a = ((NumberValue) lt).getDouble();
+				double b = ((NumberValue) rt).getDouble();
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
+
+				return new MyBoolean(ev.getKernel(), Kernel.isGreater(a, b),
+						defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
@@ -173,9 +209,13 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return new MyBoolean(ev.getKernel(), Kernel.isGreaterEqual(
-						((NumberValue) rt).getDouble(),
-						((NumberValue) lt).getDouble()));
+
+				double a = ((NumberValue) lt).getDouble();
+				double b = ((NumberValue) rt).getDouble();
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
+
+				return new MyBoolean(ev.getKernel(),
+						Kernel.isGreaterEqual(b, a), defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
@@ -192,9 +232,13 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return new MyBoolean(ev.getKernel(), Kernel.isGreaterEqual(
-						((NumberValue) lt).getDouble(),
-						((NumberValue) rt).getDouble()));
+
+				double a = ((NumberValue) lt).getDouble();
+				double b = ((NumberValue) rt).getDouble();
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
+
+				return new MyBoolean(ev.getKernel(),
+						Kernel.isGreaterEqual(a, b), defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
@@ -1401,6 +1445,11 @@ public enum Operation {
 			if (lt instanceof MyNumberPair) {
 				ExpressionValue cond = ((MyNumberPair) lt).getX().evaluate(tpl);
 				if (cond instanceof BooleanValue) {
+
+					if (!((BooleanValue) cond).isDefined()) {
+						return new MyDouble(ev.getKernel(), Double.NaN);
+					}
+
 					if (((BooleanValue) cond).getBoolean()) {
 						return ((MyNumberPair) lt).getY().evaluate(tpl);
 					}
@@ -1419,7 +1468,7 @@ public enum Operation {
 				MyList cond = (MyList) lt;
 				for (int i = 0; i < cond.size(); i++) {
 					ExpressionValue curr = cond.getListElement(i).evaluate(tpl);
-					// Log.debug(curr);
+
 					if (curr instanceof BooleanValue) {
 						if (((BooleanValue) curr).getBoolean()) {
 							return ((MyList) rt).getListElement(i)
