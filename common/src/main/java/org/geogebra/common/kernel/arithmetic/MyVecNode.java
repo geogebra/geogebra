@@ -176,11 +176,11 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 				sb.append(print(y, values, tpl));
 				sb.append("))");
 			} else {
-				sb.append(isCASVector() ? "ggbvect[" : "point(");
+				sb.append(isCASVector() ? "ggbvect[" : "point(re(");
 				sb.append(print(x, values, tpl));
-				sb.append(',');
+				sb.append("),re(");
 				sb.append(print(y, values, tpl));
-				sb.append(isCASVector() ? "]" : ")");
+				sb.append(isCASVector() ? ")]" : "))");
 			}
 			break;
 

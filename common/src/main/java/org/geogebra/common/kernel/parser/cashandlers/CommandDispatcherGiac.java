@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -380,7 +381,6 @@ public class CommandDispatcherGiac {
 			case fPart:
 			case Gamma:	
 			case conj:
-			case re:
 			case im:
 			case sin:
 			case cos:
@@ -421,7 +421,22 @@ public class CommandDispatcherGiac {
 							args.getItem(0),commands.valueOf(cmdName).getOperation(), null);
 				}
 				break;
+			case re:
 
+				if (args.getItem(0).unwrap() instanceof Command) {
+					String cmdname = ((Command) args.getItem(0).unwrap())
+							.getName();
+					if (cmdname.startsWith(Kernel.TMP_VARIABLE_PREFIX)
+							&& kernel.lookupLabel(Kernel
+									.removeCASVariablePrefix(cmdname)) == null) {
+						ret = args.getItem(0);
+						break;
+					}
+				}
+
+				ret = new ExpressionNode(kernel, args.getItem(0),
+						Operation.REAL, null);
+				break;
 			case ggb_ang:	
 				ret = new MyVecNode(kernel);                         
 				((MyVecNode)ret).setPolarCoords(args.getItem(0), args.getItem(1));     
@@ -450,7 +465,8 @@ public class CommandDispatcherGiac {
 
 					ExpressionValue Else = args.getItem(2);
 					
-					if ("?".equals(Else.toString())) {
+					if ("?".equals(Else
+							.toString(StringTemplate.defaultTemplate))) {
 						ret = new ExpressionNode(kernel, 
 								args.getItem(0),Operation.IF, 
 								args.getItem(1));						
