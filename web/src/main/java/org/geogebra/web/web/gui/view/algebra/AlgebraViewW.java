@@ -975,6 +975,12 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 			setUserObject(node, geo);
 
+			// item is already added
+			if (node.getWidget() instanceof CondFunRadioButtonTreeItem) {
+				((CondFunRadioButtonTreeItem) node.getWidget())
+						.replaceXButtonDOM(node);
+			}
+
 			if (isNodeTableEmpty()) {
 				// this is for the case "add" is called after
 				// the input panel exists; the other case

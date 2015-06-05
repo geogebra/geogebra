@@ -5,17 +5,19 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.main.DrawEquationWeb;
-import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.css.GuiResources;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.TreeItem;
 
 /**
  * CondFunRadioButtonTreeItem for creating piecewise functions (conditional
@@ -25,7 +27,8 @@ import com.google.gwt.user.client.ui.PushButton;
  */
 public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 
-	FlowPanel auxPanel;
+	PushButton xButton;
+	PushButton pButton;
 
 	/**
 	 * Creating a SpecialRadioButtonTreeItem from existing construction as we
@@ -33,20 +36,40 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
 	 * situation (e.g. why not after NewRadioButtonTreeItem?)
 	 */
-	public CondFunRadioButtonTreeItem(GeoElement ge, SafeUri showUrl,
+	public CondFunRadioButtonTreeItem(final GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
 
-		PushButton btnRow = new PushButton(new Image(
-				AppResources.INSTANCE.point_cross()));
-		btnRow.addMouseDownHandler(new MouseDownHandler() {
+		xButton = new PushButton(new Image(
+				GuiResources.INSTANCE.algebra_delete()));
+		xButton.getUpHoveringFace().setImage(
+				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
+		xButton.addStyleName("XButton");
+		xButton.addStyleName("shown");
+		xButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ge.remove();
+				event.stopPropagation();
+				// event.preventDefault();
+			}
+		});
+
+		pButton = new PushButton(new Image(
+				GuiResources.INSTANCE.algebra_new()));
+		pButton.getUpHoveringFace().setImage(
+				new Image(GuiResources.INSTANCE.algebra_new_hover()));
+		pButton.addStyleName("XButtonNeighbour");
+		pButton.addStyleName("shown");
+		pButton.addMouseDownHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent mde) {
 				mde.preventDefault();
 				mde.stopPropagation();
 				addNewRow();
 			}
 		});
-		btnRow.addMouseOverHandler(new MouseOverHandler() {
+		pButton.addMouseOverHandler(new MouseOverHandler() {
 			public void onMouseOver(MouseOverEvent moe) {
 				moe.preventDefault();
 				moe.stopPropagation();
@@ -63,24 +86,32 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 
 		// basically, everything except onClick,
 		// static to prevent more instances
-		btnRow.addClickHandler(CancelEvents.instance);
-		btnRow.addDoubleClickHandler(CancelEvents.instance);
+		pButton.addClickHandler(CancelEvents.instance);
+		pButton.addDoubleClickHandler(CancelEvents.instance);
 		// btnRow.addMouseDownHandler(cancelEvents);
-		btnRow.addMouseUpHandler(CancelEvents.instance);
-		btnRow.addMouseMoveHandler(CancelEvents.instance);
+		pButton.addMouseUpHandler(CancelEvents.instance);
+		pButton.addMouseMoveHandler(CancelEvents.instance);
 		// btnRow.addMouseOverHandler(cancelEvents);
-		btnRow.addMouseOutHandler(CancelEvents.instance);
-		btnRow.addTouchStartHandler(CancelEvents.instance);
-		btnRow.addTouchEndHandler(CancelEvents.instance);
-		btnRow.addTouchMoveHandler(CancelEvents.instance);
+		pButton.addMouseOutHandler(CancelEvents.instance);
+		pButton.addTouchStartHandler(CancelEvents.instance);
+		pButton.addTouchEndHandler(CancelEvents.instance);
+		pButton.addTouchMoveHandler(CancelEvents.instance);
 
-		btnRow.addStyleName("RadioButtonTreeItemSpecButton");
-		auxPanel = new FlowPanel();
-		auxPanel.add(btnRow);
-		auxPanel.addStyleName("RadioButtonTreeItemSpecButtonPanel");
-		auxPanel.setVisible(false);
-		add(auxPanel);
-		ihtml.getElement().appendChild(auxPanel.getElement());
+		// pButton.addStyleName("RadioButtonTreeItemSpecButton");
+		add(xButton);// dirty hack of adding it two times!
+		add(pButton);// same...
+		// getElement().getParentElement().appendChild(xButton.getElement());
+		// getElement().getParentElement().appendChild(pButton.getElement());
+
+		// ihtml.getElement().appendChild(auxPanel.getElement());
+	}
+
+	public void replaceXButtonDOM(TreeItem item) {
+		// App.debug("replaceXButtonDOM called!!!");
+		item.getElement().addClassName("CondFunParent");
+		item.getElement().appendChild(xButton.getElement());
+		item.getElement().appendChild(pButton.getElement());
+		// App.debug("replaceXButtonDOM done.");
 	}
 
 	public static GeoFunction createBasic(Kernel kern) {
@@ -114,18 +145,21 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 	@Override
 	public void startEditing() {
 		super.startEditing();
-		auxPanel.setVisible(true);
+		xButton.setVisible(true);
+		pButton.setVisible(true);
 	}
 
 	@Override
 	public boolean stopEditing(String s) {
-		auxPanel.setVisible(false);
+		xButton.setVisible(false);
+		pButton.setVisible(false);
 		return super.stopEditing(s);
 	}
 
 	@Override
 	public void stopEditingSimple(String s) {
-		auxPanel.setVisible(false);
+		xButton.setVisible(false);
+		pButton.setVisible(false);
 		super.stopEditingSimple(s);
 	}
 

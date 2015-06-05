@@ -38,6 +38,10 @@
 	position: relative;
 }
 
+.CondFunParent {
+	position: relative !important;
+}
+
 .NewRadioButtonTreeItemParent {
 	/* afaik, ::after is relative this this element this way */
 	position: relative !important;
@@ -45,6 +49,9 @@
 	box-sizing: border-box;
 	padding-right: 40px;
 	width: 100%;
+
+	/* moved here from another CSS rule with the same name */
+	padding-top: 0px !important;
 }
 
 .NewRadioButtonTreeItemParent::after {
@@ -3956,10 +3963,6 @@ body.application[dir=rtl] .imageCorner {
 	margin: 0px;
 }
 
-.NewRadioButtonTreeItemParent {
-	padding-top: 0px !important;
-}
-
 .NewRadioButtonTreeItem .hasCursorPermanent {
 	border-color: #EDEDED;
 }
@@ -3991,8 +3994,8 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	width: 24px;
 	height: 24px;
 	line-height: 24px;
-	display: none;
 	text-align: center;
+	display: none;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton {
@@ -4003,7 +4006,9 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 }
 
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
-.GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour {
+.GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
+.GeoGebraFrame .CondFunParent .XButton,
+.GeoGebraFrame .CondFunParent .XButtonNeighbour {
 	position: absolute;
 
 	/* I created this, so xButton overlaps text */
@@ -4032,12 +4037,14 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	/*height: 1.5em;*/
 }
 
-.GeoGebraFrame .NewRadioButtonTreeItemParent .XButton {
+.GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
+.GeoGebraFrame .CondFunParent .XButton {
 	/* not sure why this was here */
 	height: 1.5em;
 }
 
-.GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour {
+.GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
+.GeoGebraFrame .CondFunParent .XButtonNeighbour {
 	right: 24px;
 }
 
@@ -4055,7 +4062,11 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 .NewRadioButtonTreeItemParent .XButton.shown,
 .NewRadioButtonTreeItemParent .XButton.ShowSymbolButtonFocused,
 .NewRadioButtonTreeItemParent .XButtonNeighbour.shown,
-.NewRadioButtonTreeItemParent .XButtonNeighbour.ShowSymbolButtonFocused {
+.NewRadioButtonTreeItemParent .XButtonNeighbour.ShowSymbolButtonFocused,
+.CondFunParent .XButton.shown,
+.CondFunParent .XButton.ShowSymbolButtonFocused,
+.CondFunParent .XButtonNeighbour.shown,
+.CondFunParent .XButtonNeighbour.ShowSymbolButtonFocused {
 	display: inline-block;
 }
 
