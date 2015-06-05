@@ -613,7 +613,7 @@ public class AlgoMirror extends AlgoTransformation implements
 				Polynomial oa = (a1.subtract(o1)).multiply(a1.subtract(o1))
 						.add((a2.subtract(o2)).multiply(a2.subtract(o2)));
 
-				// |OB|*|OB'|=r^4
+				// |OB|^2*|OB'|^2=r^4
 				botanaPolynomials[0] = ob.multiply(o_b).subtract(
 						oa.multiply(oa));
 				// O,B,B' collinear
