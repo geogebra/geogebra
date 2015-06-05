@@ -229,7 +229,7 @@ public class Drawable3DLists {
 	 * 
 	 * @param renderer
 	 */
-	public void drawHiddenNotTextured(Renderer renderer) {
+	final public void drawHiddenNotTextured(Renderer renderer) {
 		// points TODO hidden aspect ?
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_POINTS]
 				.iterator(); d.hasNext();)
@@ -239,6 +239,8 @@ public class Drawable3DLists {
 				.iterator(); d.hasNext();)
 			((DrawList3D) d.next()).getDrawable3DLists().drawHiddenNotTextured(
 					renderer);
+
+		renderer.resetCenter();
 
 	}
 

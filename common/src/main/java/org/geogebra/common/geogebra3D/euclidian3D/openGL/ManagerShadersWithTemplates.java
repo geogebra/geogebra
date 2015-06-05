@@ -58,10 +58,5 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 		super.draw(index);
 	}
 
-	@Override
-	public void draw(int index) {
-		((RendererShadersInterface) renderer).resetCenter();
-		super.draw(index);
-	}
 
 }

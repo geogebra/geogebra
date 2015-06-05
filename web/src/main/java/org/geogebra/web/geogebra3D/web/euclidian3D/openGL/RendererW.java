@@ -1740,6 +1740,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	private float[] resetCenter = { 0f, 0f, 0f, 0f };
 
+	@Override
 	public void resetCenter() {
 		glContext.uniform4fv(centerLocation, resetCenter);
 	}

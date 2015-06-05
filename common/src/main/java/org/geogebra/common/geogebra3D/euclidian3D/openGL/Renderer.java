@@ -1965,4 +1965,11 @@ public abstract class Renderer {
 		return null;
 	}
 
+	/**
+	 * reset the point center
+	 */
+	public void resetCenter() {
+		// only used with shaders
+	}
+
 }
