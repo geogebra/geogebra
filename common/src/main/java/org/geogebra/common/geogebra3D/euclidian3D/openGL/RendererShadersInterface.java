@@ -71,7 +71,15 @@ public interface RendererShadersInterface {
 	 * @param buffer
 	 *            where to store id
 	 */
-	public void createBuffer(GPUBuffer buffer);
+	public void createArrayBuffer(GPUBuffer buffer);
+
+	/**
+	 * create gpu element buffer and store id
+	 * 
+	 * @param buffer
+	 *            where to store id
+	 */
+	public void createElementBuffer(GPUBuffer buffer);
 
 	/**
 	 * remove gpu buffer
@@ -79,7 +87,15 @@ public interface RendererShadersInterface {
 	 * @param buffer
 	 *            id for gpu buffer
 	 */
-	public void removeBuffer(GPUBuffer buffer);
+	public void removeArrayBuffer(GPUBuffer buffer);
+
+	/**
+	 * remove gpu element buffer
+	 * 
+	 * @param buffer
+	 *            id for gpu buffer
+	 */
+	public void removeElementBuffer(GPUBuffer buffer);
 
 	public void bindBufferForVertices(GPUBuffer buffer, int size);
 

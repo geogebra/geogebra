@@ -353,22 +353,38 @@ public class RendererShaders extends RendererD implements
 	// }
 	// }
 
-	@Override
-	public void createBuffer(GPUBuffer buffer) {
-		if (removedBuffers.isEmpty()) {
+	private void createBuffer(GPUBuffer buffer, Stack<Integer> stack) {
+		if (stack.isEmpty()) {
 			int[] b = new int[1];
 			jogl.getGL2ES2().glGenBuffers(1, b, 0);
 			((GPUBufferD) buffer).set(b[0]);
 		} else {
-			((GPUBufferD) buffer).set(removedBuffers.pop());
+			((GPUBufferD) buffer).set(stack.pop());
 		}
 
 	}
 
-	private Stack<Integer> removedBuffers = new Stack<Integer>();
+	public void createArrayBuffer(GPUBuffer buffer) {
+		createBuffer(buffer, removedBuffers);
+	}
 
-	public void removeBuffer(GPUBuffer buffer) {
-		removedBuffers.push(((GPUBufferD) buffer).get());
+	public void createElementBuffer(GPUBuffer buffer) {
+		createBuffer(buffer, removedElementBuffers);
+	}
+
+	private Stack<Integer> removedBuffers = new Stack<Integer>();
+	private Stack<Integer> removedElementBuffers = new Stack<Integer>();
+
+	private static void removeBuffer(GPUBuffer buffer, Stack<Integer> stack) {
+		stack.push(((GPUBufferD) buffer).get());
+	}
+
+	public void removeArrayBuffer(GPUBuffer buffer) {
+		removeBuffer(buffer, removedBuffers);
+	}
+
+	public void removeElementBuffer(GPUBuffer buffer) {
+		removeBuffer(buffer, removedElementBuffers);
 	}
 
 	@Override

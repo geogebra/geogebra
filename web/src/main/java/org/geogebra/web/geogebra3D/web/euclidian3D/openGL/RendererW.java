@@ -1121,20 +1121,37 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	}
 
-	@Override
-	public void createBuffer(GPUBuffer buffer) {
-		if (removedBuffers.isEmpty()) {
+	private void createBuffer(GPUBuffer buffer, Stack<WebGLBuffer> stack) {
+		if (stack.isEmpty()) {
 			((GPUBufferW) buffer).set(glContext.createBuffer());
 		} else {
-			((GPUBufferW) buffer).set(removedBuffers.pop());
+			((GPUBufferW) buffer).set(stack.pop());
 		}
 
 	}
 
+	public void createArrayBuffer(GPUBuffer buffer) {
+		createBuffer(buffer, removedBuffers);
+	}
+
+	public void createElementBuffer(GPUBuffer buffer) {
+		createBuffer(buffer, removedElementBuffers);
+	}
+
 	private Stack<WebGLBuffer> removedBuffers = new Stack<WebGLBuffer>();
 
-	public void removeBuffer(GPUBuffer buffer) {
-		removedBuffers.push(((GPUBufferW) buffer).get());
+	private Stack<WebGLBuffer> removedElementBuffers = new Stack<WebGLBuffer>();
+
+	private static void removeBuffer(GPUBuffer buffer, Stack<WebGLBuffer> stack) {
+		stack.push(((GPUBufferW) buffer).get());
+	}
+
+	public void removeArrayBuffer(GPUBuffer buffer) {
+		removeBuffer(buffer, removedBuffers);
+	}
+
+	public void removeElementBuffer(GPUBuffer buffer) {
+		removeBuffer(buffer, removedElementBuffers);
 	}
 
 	@Override

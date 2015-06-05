@@ -468,7 +468,6 @@ public class ManagerShaders extends Manager {
 	@Override
 	public int startNewList(int old) {
 
-		// App.printStacktrace("startNewList : " + old);
 		currentOld = old;
 		if (currentOld >= 0) {
 			currentGeometriesSet = geometriesSetList.get(old);
@@ -490,8 +489,10 @@ public class ManagerShaders extends Manager {
 
 			currentGeometriesSet = newGeometriesSet();
 			geometriesSetList.put(index, currentGeometriesSet);
+			// App.debug("newGeometriesSet : " + index);
 		} else {
 			currentGeometriesSet.reset();
+			// App.debug("reuse : " + index);
 		}
 
 		return index;

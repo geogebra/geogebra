@@ -35,7 +35,26 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 			GPUBuffer buffer) {
 		if (buffer == null){
 			GPUBuffer ret = GLFactory.prototype.newGPUBuffer();
-			r.createBuffer(ret);
+			r.createArrayBuffer(ret);
+			return ret;
+		}
+
+		return buffer;
+	}
+
+	/**
+	 * 
+	 * @param r
+	 *            renderer
+	 * @param buffer
+	 *            GPU buffer may be null
+	 * @return new GPU buffer if curret is null
+	 */
+	public final static GPUBuffer createElementBufferIfNeeded(
+			RendererShadersInterface r, GPUBuffer buffer) {
+		if (buffer == null) {
+			GPUBuffer ret = GLFactory.prototype.newGPUBuffer();
+			r.createElementBuffer(ret);
 			return ret;
 		}
 
@@ -54,7 +73,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	public final GPUBuffer getBufferIndicesForCurve(RendererShadersInterface r,
 			int size) {
 
-		curvesIndices = createBufferIfNeeded(r, curvesIndices);
+		curvesIndices = createElementBufferIfNeeded(r, curvesIndices);
 
 		if (size > curvesIndicesSize) {
 
@@ -141,18 +160,18 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		 *            GL renderer
 		 */
 		public void removeBuffers(RendererShadersInterface r) {
-			r.removeBuffer(bufferV);
+			r.removeArrayBuffer(bufferV);
 			if (bufferN != null) {
-				r.removeBuffer(bufferN);
+				r.removeArrayBuffer(bufferN);
 			}
 			if (bufferC != null) {
-				r.removeBuffer(bufferC);
+				r.removeArrayBuffer(bufferC);
 			}
 			if (bufferT != null) {
-				r.removeBuffer(bufferT);
+				r.removeArrayBuffer(bufferT);
 			}
 			if (!hasSharedIndexBuffer) {
-				r.removeBuffer(bufferI);
+				r.removeElementBuffer(bufferI);
 			}
 		}
 
@@ -197,7 +216,8 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 
 			switch (type) {
 			case NONE:
-				bufferI = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+				bufferI = ManagerShadersBindBuffers
+						.createElementBufferIfNeeded(r,
 						bufferI);
 				if (arrayI == null
 						|| (!indicesDone && arrayI.length != getLength())) {
@@ -231,7 +251,8 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 					App.debug("surface -- keep same index buffer");
 				}
 
-				bufferI = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+				bufferI = ManagerShadersBindBuffers
+						.createElementBufferIfNeeded(r,
 						bufferI);
 				indicesLength = size;
 
@@ -328,6 +349,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		GeometriesSetBindBuffers set = (GeometriesSetBindBuffers) geometriesSetList
 				.remove(index);
 		set.removeBuffers();
+		// App.debug("removeGeometrySet : " + index);
 	}
 
 }
