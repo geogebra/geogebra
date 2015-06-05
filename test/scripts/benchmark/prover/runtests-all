@@ -11,5 +11,5 @@ for i in jar-paper giac-test ndg; do
  done
 
 # FIXME: Auto's timings are not colored.
-./runtests -D -d -p "Auto Web" -o html/ProveDetails-desktop-web.html
-./runtests -d -p "Auto Web" -o html/Prove-desktop-web.html
+./runtests -D -d -p "Auto Web" -o html/ProveDetails-desktop-web.html -r
+./runtests -d -p "Auto Web" -o html/Prove-desktop-web.html -r
