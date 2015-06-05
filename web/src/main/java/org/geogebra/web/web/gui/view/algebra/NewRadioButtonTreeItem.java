@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
@@ -60,7 +61,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	ButtonPopupMenu specialPopup;
 	EquationEditor editor;
 
-
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
 		editor = new EquationEditor(app, this);
@@ -94,144 +94,147 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			}
 		});
 
-		pButton = new PushButton(new Image(
-GuiResources.INSTANCE.algebra_new()));
-		pButton.getUpHoveringFace().setImage(
-				new Image(GuiResources.INSTANCE.algebra_new_hover()));
-		pButton.getElement().setAttribute("data-visible", "false");
-		pButton.addStyleName("XButtonNeighbour");
-		pButton.addClickHandler(new ClickHandler() {
+		if (app.has(Feature.ADD_NEW_OBJECT_BUTTON)) {
+			pButton = new PushButton(new Image(
+					GuiResources.INSTANCE.algebra_new()));
+			pButton.getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE.algebra_new_hover()));
+			pButton.getElement().setAttribute("data-visible", "false");
+			pButton.addStyleName("XButtonNeighbour");
+			pButton.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				if (specialPopup != null) {
-					if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
-							|| !app.wasPopupJustClosed()) {
-						if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-							EuclidianStyleBarW.CURRENT_POP_UP.hide();
+				@Override
+				public void onClick(ClickEvent event) {
+					if (specialPopup != null) {
+						if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
+								|| !app.wasPopupJustClosed()) {
+							if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
+								EuclidianStyleBarW.CURRENT_POP_UP.hide();
+							}
+							EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
+
+							app.registerPopup(specialPopup);
+							specialPopup.showRelativeTo(pButton);
+							specialPopup.getFocusPanel().getElement().focus();
+						} else {
+							specialPopup.setVisible(false);
+							EuclidianStyleBarW.CURRENT_POP_UP = null;
 						}
-						EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
+					}
+					event.stopPropagation();
+					// event.preventDefault();
+				}
+			});
 
-						app.registerPopup(specialPopup);
-						specialPopup.showRelativeTo(pButton);
-						specialPopup.getFocusPanel().getElement().focus();
-					} else {
-						specialPopup.setVisible(false);
+			specialPopup = new ButtonPopupMenu() {
+				@Override
+				public void setVisible(boolean visible) {
+					super.setVisible(visible);
+
+					// if another button is pressed only the visibility is
+					// changed,
+					// by firing the event we can react as if it was closed
+					CloseEvent.fire(this, this, false);
+				}
+
+				@Override
+				public void hide() {
+					super.hide();
+					if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
 						EuclidianStyleBarW.CURRENT_POP_UP = null;
 					}
 				}
-				event.stopPropagation();
-				// event.preventDefault();
-			}
-		});
+			};
+			specialPopup.setAutoHideEnabled(true);
+			specialPopup.getPanel().addStyleName("AVmenuListContainer");
 
-		specialPopup = new ButtonPopupMenu() {
-			@Override
-			public void setVisible(boolean visible) {
-				super.setVisible(visible);
+			UnorderedList itemList = new UnorderedList();
+			itemList.setStyleName("AVmenuListContent");
+			specialPopup.getPanel().add(itemList);
 
-				// if another button is pressed only the visibility is changed,
-				// by firing the event we can react as if it was closed
-				CloseEvent.fire(this, this, false);
-			}
-
-			@Override
-			public void hide() {
-				super.hide();
-				if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
+			ListItem actual = new ListItem();
+			actual.add(new Image(GuiResources.INSTANCE.algebra_new_piecewise()));
+			actual.add(new Label(app.getPlain("PiecewiseFunction")));
+			actual.addDomHandler(new ClickHandler() {
+				public void onClick(ClickEvent ce) {
+					specialPopup.setVisible(false);
 					EuclidianStyleBarW.CURRENT_POP_UP = null;
-				}
-			}
-		};
-		specialPopup.setAutoHideEnabled(true);
-		specialPopup.getPanel().addStyleName("AVmenuListContainer");
 
-		UnorderedList itemList = new UnorderedList();
-		itemList.setStyleName("AVmenuListContent");
-		specialPopup.getPanel().add(itemList);
-
-		ListItem actual = new ListItem();
-		actual.add(new Image(GuiResources.INSTANCE.algebra_new_piecewise()));
-		actual.add(new Label(app.getPlain("PiecewiseFunction")));
-		actual.addDomHandler(new ClickHandler() {
-			public void onClick(ClickEvent ce) {
-				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
-
-				// TODO: only create it in the input bar!!!
-				final GeoFunction fun = CondFunRadioButtonTreeItem
-						.createBasic(app.getKernel());
-				if (fun != null) {
-					// in theory, fun is never null, but what if?
-					// same code as for matrices, see comments there
-					Timer tim = new Timer() {
-						public void run() {
-							app.getAlgebraView().startEditing(fun);
-						}
-					};
-					tim.schedule(500);
-				}
-			}
-		}, ClickEvent.getType());
-		itemList.add(actual);
-
-		actual = new ListItem();
-		actual.add(new Image(GuiResources.INSTANCE.algebra_new_matrix()));
-		actual.add(new Label(app.getMenu("Matrix")));
-		actual.addDomHandler(new ClickHandler() {
-			public void onClick(ClickEvent ce) {
-				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
-
-				// TODO: only create it in the input bar!!!
-				final GeoList mat = MatrixRadioButtonTreeItem
-						.create2x2ZeroMatrix(app.getKernel());
-				// scheduleDeferred alone does not work well!
-				Timer tim2 = new Timer() {
-					public void run() {
-						app.getAlgebraView().startEditing(mat);
+					// TODO: only create it in the input bar!!!
+					final GeoFunction fun = CondFunRadioButtonTreeItem
+							.createBasic(app.getKernel());
+					if (fun != null) {
+						// in theory, fun is never null, but what if?
+						// same code as for matrices, see comments there
+						Timer tim = new Timer() {
+							public void run() {
+								app.getAlgebraView().startEditing(fun);
+							}
+						};
+						tim.schedule(500);
 					}
-				};
-				// on a good machine, 500ms was usually not enough,
-				// but 1000ms was usually enough... however, it turned
-				// out this is due to a setTimeout in
-				// DrawEquationWeb.drawEquationMathQuillGGB...
-				// so we could spare at least 500ms by clearing that timer,
-				tim2.schedule(500);
+				}
+			}, ClickEvent.getType());
+			itemList.add(actual);
 
-				// but now I'm experimenting with even less timeout, i.e.
-				// tim.schedule(200);
-				// 200ms is not enough, and as this is a good machine
-				// let us say that 500ms is just right, or maybe too little
-				// on slow machines -> shall we use scheduleDeferred too?
-			}
-		}, ClickEvent.getType());
-		itemList.add(actual);
+			actual = new ListItem();
+			actual.add(new Image(GuiResources.INSTANCE.algebra_new_matrix()));
+			actual.add(new Label(app.getMenu("Matrix")));
+			actual.addDomHandler(new ClickHandler() {
+				public void onClick(ClickEvent ce) {
+					specialPopup.setVisible(false);
+					EuclidianStyleBarW.CURRENT_POP_UP = null;
 
-		actual = new ListItem();
-		actual.add(new Image(GuiResources.INSTANCE.algebra_new_parametric()));
-		actual.add(new Label(app.getPlain("CurveCartesian")));
-		actual.addDomHandler(new ClickHandler() {
-			public void onClick(ClickEvent ce) {
-				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
-
-				// TODO: only create it in the input bar!!!
-				final GeoCurveCartesianND curve = ParCurveRadioButtonTreeItem
-						.createBasic(app.getKernel());
-				if (curve != null) {
-					// in theory, fun is never null, but what if?
-					// same code as for matrices, see comments there
-					Timer tim = new Timer() {
+					// TODO: only create it in the input bar!!!
+					final GeoList mat = MatrixRadioButtonTreeItem
+							.create2x2ZeroMatrix(app.getKernel());
+					// scheduleDeferred alone does not work well!
+					Timer tim2 = new Timer() {
 						public void run() {
-							app.getAlgebraView().startEditing(curve);
+							app.getAlgebraView().startEditing(mat);
 						}
 					};
-					tim.schedule(500);
+					// on a good machine, 500ms was usually not enough,
+					// but 1000ms was usually enough... however, it turned
+					// out this is due to a setTimeout in
+					// DrawEquationWeb.drawEquationMathQuillGGB...
+					// so we could spare at least 500ms by clearing that timer,
+					tim2.schedule(500);
+
+					// but now I'm experimenting with even less timeout, i.e.
+					// tim.schedule(200);
+					// 200ms is not enough, and as this is a good machine
+					// let us say that 500ms is just right, or maybe too little
+					// on slow machines -> shall we use scheduleDeferred too?
 				}
-			}
-		}, ClickEvent.getType());
-		itemList.add(actual);
+			}, ClickEvent.getType());
+			itemList.add(actual);
+
+			actual = new ListItem();
+			actual.add(new Image(GuiResources.INSTANCE.algebra_new_parametric()));
+			actual.add(new Label(app.getPlain("CurveCartesian")));
+			actual.addDomHandler(new ClickHandler() {
+				public void onClick(ClickEvent ce) {
+					specialPopup.setVisible(false);
+					EuclidianStyleBarW.CURRENT_POP_UP = null;
+
+					// TODO: only create it in the input bar!!!
+					final GeoCurveCartesianND curve = ParCurveRadioButtonTreeItem
+							.createBasic(app.getKernel());
+					if (curve != null) {
+						// in theory, fun is never null, but what if?
+						// same code as for matrices, see comments there
+						Timer tim = new Timer() {
+							public void run() {
+								app.getAlgebraView().startEditing(curve);
+							}
+						};
+						tim.schedule(500);
+					}
+				}
+			}, ClickEvent.getType());
+			itemList.add(actual);
+		}
 
 		ClickStartHandler.init(xButton, new ClickStartHandler(false, true) {
 			@Override
@@ -241,18 +244,22 @@ GuiResources.INSTANCE.algebra_new()));
 			}
 		});
 
-		ClickStartHandler.init(pButton, new ClickStartHandler(false, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// nothing to do here; just makes sure that
-				// event.stopPropagation is called
-			}
-		});
+		if (pButton != null) {
+			ClickStartHandler.init(pButton, new ClickStartHandler(false, true) {
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					// nothing to do here; just makes sure that
+					// event.stopPropagation is called
+				}
+			});
+		}
 
 		try{
 			//TRY-CATCH needed for Win8 app //TODO find better solution
 			xButton.setFocus(false);
-			pButton.setFocus(false);
+			if (pButton != null) {
+				pButton.setFocus(false);
+			}
 		}catch(Throwable t){
 		}
 		// add(textField);// done in super()
@@ -262,14 +269,18 @@ GuiResources.INSTANCE.algebra_new()));
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
 
 		add(xButton);// dirty hack of adding it two times!
-		add(pButton);// same...
-		
+		if (pButton != null) {
+			add(pButton);// same...
+		}
+
 		// this was necessary earlier in conjuction with add(xButton)
 		// ihtml.getElement().appendChild(xButton.getElement());
 		// but later this.replaceXButtonDOM() should be used instead
 
 		xButton.getElement().setAttribute("data-visible", "true");
-		pButton.getElement().setAttribute("data-visible", "true");
+		if (pButton != null) {
+			pButton.getElement().setAttribute("data-visible", "true");
+		}
 		addStyleName("SymbolCanBeShown");
 
 		// When scheduleDeferred does not work...
@@ -278,7 +289,9 @@ GuiResources.INSTANCE.algebra_new()));
 
 	public void replaceXButtonDOM() {
 		getElement().getParentElement().appendChild(xButton.getElement());
-		getElement().getParentElement().appendChild(pButton.getElement());
+		if (pButton != null) {
+			getElement().getParentElement().appendChild(pButton.getElement());
+		}
 	}
 
 	/**
