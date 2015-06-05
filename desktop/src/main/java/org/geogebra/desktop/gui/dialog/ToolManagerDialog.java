@@ -110,13 +110,15 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 		if (returnVal == 1)
 			return;
 
+		if (model.deleteTools(sel)) {
+			updateToolBar(listModel);
+		}
+
 		for (Macro macro : model.getDeletedMacros()) {
 			listModel.removeElement(macro);
 		}
 
-		if (model.deleteTools(sel)) {
-			updateToolBar(listModel);
-		}
+
 
 	}
 
