@@ -262,7 +262,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		// ///////////////
 		// set indices
-		arrayI = ((ManagerShadersBindBuffers) manager)
+		arrayI = ((ManagerShadersElements) manager)
 				.getCurrentGeometryIndices(arrayIndex);
 
 
@@ -623,7 +623,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		debug("==== arrayIndex (2) = " + arrayIndex);
 
-		((ManagerShadersBindBuffers) manager).endGeometry(arrayIndex,
+		((ManagerShadersElements) manager).endGeometry(arrayIndex,
 				TypeElement.SURFACE);
 
 	}
@@ -640,7 +640,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		arrayIndex = 0;
 
-		arrayI = ((ManagerShadersBindBuffers) manager)
+		arrayI = ((ManagerShadersElements) manager)
 				.getCurrentGeometryIndices(size);
 
 	}
@@ -657,7 +657,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	@Override
 	public void endGeometryDirect() {
-		((ManagerShadersBindBuffers) manager).endGeometry(arrayIndex,
+		((ManagerShadersElements) manager).endGeometry(arrayIndex,
 				TypeElement.SURFACE);
 	}
 

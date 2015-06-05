@@ -9,7 +9,7 @@ import org.geogebra.common.main.App;
  * @author mathieu
  *
  */
-public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
+public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 	final static public int GLSL_ATTRIB_POSITION = 0;
 	final static public int GLSL_ATTRIB_COLOR = 1;
@@ -113,15 +113,15 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		return curvesIndices;
 	}
 
-	protected class GeometriesSetBindBuffers extends GeometriesSet {
+	protected class GeometriesSetElements extends GeometriesSet {
 		@Override
 		protected Geometry newGeometry(Type type) {
-			return new GeometryBindBuffers(type);
+			return new GeometryElements(type);
 		}
 
 		@Override
 		public void bindGeometry(int size, TypeElement type) {
-			((GeometryBindBuffers) currentGeometry).bind(
+			((GeometryElements) currentGeometry).bind(
 					(RendererShadersInterface) renderer, size, type);
 		}
 
@@ -130,14 +130,14 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		 */
 		public void removeBuffers() {
 			for (int i = 0; i < getGeometriesLength(); i++) {
-				((GeometryBindBuffers) get(i))
+				((GeometryElements) get(i))
 						.removeBuffers((RendererShadersInterface) renderer);
 			}
 
 		}
 	}
 
-	protected class GeometryBindBuffers extends Geometry {
+	protected class GeometryElements extends Geometry {
 
 		private GPUBuffer bufferV = null, bufferN = null, bufferC = null,
 				bufferT = null, bufferI = null;
@@ -148,7 +148,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 
 		private boolean hasSharedIndexBuffer = false;
 
-		public GeometryBindBuffers(Type type) {
+		public GeometryElements(Type type) {
 			super(type);
 		}
 		
@@ -187,28 +187,28 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		 */
 		public void bind(RendererShadersInterface r, int size, TypeElement type) {
 
-			bufferV = ManagerShadersBindBuffers
+			bufferV = ManagerShadersElements
 					.createBufferIfNeeded(r, bufferV);
 			r.storeBuffer(getVertices(),
 					getLength(), 3, bufferV, GLSL_ATTRIB_POSITION);
 
 			if (getNormals() != null && !getNormals().isEmpty()
 					&& getNormals().capacity() != 3) {
-				bufferN = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+				bufferN = ManagerShadersElements.createBufferIfNeeded(r,
 						bufferN);
 				r.storeBuffer(getNormals(), getLength(), 3, bufferN,
 						GLSL_ATTRIB_NORMAL);
 			}
 
 			if (getColors() != null && !getColors().isEmpty()) {
-				bufferC = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+				bufferC = ManagerShadersElements.createBufferIfNeeded(r,
 						bufferC);
 				r.storeBuffer(getColors(), getLength(), 4, bufferC,
 						GLSL_ATTRIB_COLOR);
 			}
 
 			if (getTextures() != null && !getTextures().isEmpty()) {
-				bufferT = ManagerShadersBindBuffers.createBufferIfNeeded(r,
+				bufferT = ManagerShadersElements.createBufferIfNeeded(r,
 						bufferT);
 				r.storeBuffer(getTextures(), getLength(), 2, bufferT,
 						GLSL_ATTRIB_TEXTURE);
@@ -216,7 +216,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 
 			switch (type) {
 			case NONE:
-				bufferI = ManagerShadersBindBuffers
+				bufferI = ManagerShadersElements
 						.createElementBufferIfNeeded(r,
 						bufferI);
 				if (arrayI == null
@@ -251,7 +251,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 					App.debug("surface -- keep same index buffer");
 				}
 
-				bufferI = ManagerShadersBindBuffers
+				bufferI = ManagerShadersElements
 						.createElementBufferIfNeeded(r,
 						bufferI);
 				indicesLength = size;
@@ -313,7 +313,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	 * @param view3d
 	 *            3D view
 	 */
-	public ManagerShadersBindBuffers(Renderer renderer, EuclidianView3D view3d) {
+	public ManagerShadersElements(Renderer renderer, EuclidianView3D view3d) {
 		super(renderer, view3d);
 	}
 
@@ -321,7 +321,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 
 	@Override
 	protected GeometriesSet newGeometriesSet() {
-		return new GeometriesSetBindBuffers();
+		return new GeometriesSetElements();
 	}
 
 	@Override
@@ -340,13 +340,13 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	 * @return current geometry indices buffer with correct size
 	 */
 	public short[] getCurrentGeometryIndices(int size) {
-		return ((GeometryBindBuffers) currentGeometriesSet.currentGeometry)
+		return ((GeometryElements) currentGeometriesSet.currentGeometry)
 				.getBufferI(size);
 	}
 
 	@Override
 	protected void removeGeometrySet(int index) {
-		GeometriesSetBindBuffers set = (GeometriesSetBindBuffers) geometriesSetList
+		GeometriesSetElements set = (GeometriesSetElements) geometriesSetList
 				.remove(index);
 		set.removeBuffers();
 		// App.debug("removeGeometrySet : " + index);

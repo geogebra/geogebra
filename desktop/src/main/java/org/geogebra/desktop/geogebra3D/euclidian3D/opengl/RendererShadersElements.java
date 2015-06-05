@@ -4,7 +4,7 @@ import javax.media.opengl.GL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersBindBuffers;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElements;
 import org.geogebra.common.main.App;
 
 /**
@@ -30,7 +30,7 @@ public class RendererShadersElements extends RendererShaders {
 	@Override
 	protected Manager createManager() {
 		App.debug("========== createManager");
-		return new ManagerShadersBindBuffers(this, view3D);
+		return new ManagerShadersElements(this, view3D);
 	}
 
 	@Override
