@@ -2886,6 +2886,56 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       cursor.show();
     }
   };
+  _.removeRow = function(cursor) {
+    if (this.ctrlSeq === '\\ggbtable') {
+      // remember the place of the cursor, because it
+      // should go back there after this operation!
+      var cursorl = cursor[L];//command
+      var cursorr = cursor[R];//command
+      var cursorp = cursor.parent;//block
+
+      var numRows = this['tableRow'];
+      var numCols = this['tableCol'];
+
+      if (numRows > 2) {
+        if (this.ch[L] && this.ch[L].ch[R]) {
+          // removing the last row is easy;
+          this.ch[L].ch[R].remove();
+          this['tableRow'] = numRows - 1;
+          this['tableCol'] = numCols;
+
+          // but it is more difficult to actualize
+          // the downOutOf variables, to make them null
+
+          // TODO: something is wrong here in this code:
+          cursor.appendTo(this.ch[L]);
+          //var newlastrow = this.ch[L].ch[R];
+          cursor.prependTo(cursor[L]);
+          // TODO: something is wrong end
+
+          var actual = cursor;
+          while (actual[R]) {
+            actual = actual[R];
+        	if (actual.ctrlSeq && actual.ctrlSeq.indexOf('\\ggbtd') > -1) {
+              if (actual.downOutOf !== undefined) {
+                delete actual.downOutOf;
+              }
+        	}
+          }
+        }
+
+        // put the cursor back to its original place
+        if (cursorl) {
+          cursor.insertAfter(cursorl);
+        } else if (cursorr) {
+    	  cursor.insertBefore(cursorr);
+        } else if (cursorp) {
+          cursor.appendDir(L, cursorp);
+        }
+        cursor.show();
+      }
+    }
+  };
   _.addNewCol = function(cursor) {
     if (this.ctrlSeq === '\\ggbtable') {
       // remember the place of the cursor, because it
@@ -6447,7 +6497,7 @@ $.fn.mathquillggb = function(cmd, latex) {
         	break;
         case 2:
         	// RemoveRow
-        	// TODO
+        	//tablock.removeRow(cursor);
         	break;
         case 3:
         	// AddColumn
