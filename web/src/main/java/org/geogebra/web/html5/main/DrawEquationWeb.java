@@ -1151,6 +1151,19 @@ GeoContainer rbti,
 		}
 	}-*/;
 
+	/**
+	 * This method should add a new (zero) column to the first matrix in formula
+	 */
+	public static native void removeColFromMatrix(Element parentElement) /*-{
+		if (parentElement) {
+			//var elfirst = parentElement.firstChild.firstChild;
+			var elsecond = parentElement.firstChild.firstChild.nextSibling;
+			var elsecondInside = elsecond.lastChild;
+
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixsize', 4);
+		}
+	}-*/;
+
 	// documentation in RadioButtonTreeItem.keydown
 	public static native void triggerKeydown(Element parentElement,
 	        int keycode, boolean altk, boolean ctrlk, boolean shiftk) /*-{

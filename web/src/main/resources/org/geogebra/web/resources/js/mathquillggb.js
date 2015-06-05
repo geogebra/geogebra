@@ -2930,6 +2930,50 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       cursor.show();
     }
   };
+  _.removeCol = function(cursor) {
+    if (this.ctrlSeq === '\\ggbtable') {
+      // remember the place of the cursor, because it
+      // should go back there after this operation!
+      var cursorl = cursor[L];//command
+      var cursorr = cursor[R];//command
+      var cursorp = cursor.parent;//block
+
+      var numRows = this['tableRow'];
+      var numCols = this['tableCol'];
+
+      if (numCols > 2) {
+
+        cursor.prependTo(this.ch[L]);
+        // now the cursor is in the block of \\ggbtable,
+        // and cursor[R] is a \\ggbtr, probably
+        var actual = cursor;
+        while (actual[R]) {
+          actual = actual[R];
+    	  if (actual.ctrlSeq && actual.ctrlSeq.indexOf('\\ggbtr') > -1) {
+            cursor.appendTo(actual.ch[L]);
+    	    if (actual.ch[L] && actual.ch[L].ch[R]) {
+              actual.ch[L].ch[R].remove();
+              // this['tableMatrix'] will still contain
+              // the old elements, but probably it's no problem
+    	    }
+    	  }
+        }
+
+        this['tableRow'] = numRows;
+        this['tableCol'] = numCols - 1;
+
+        // put the cursor back to its original place
+        if (cursorl) {
+          cursor.insertAfter(cursorl);
+        } else if (cursorr) {
+    	  cursor.insertBefore(cursorr);
+        } else if (cursorp) {
+          cursor.appendDir(L, cursorp);
+        }
+        cursor.show();
+      }
+    }
+  };
   _.moveTowards = function(dir, cursor) {
     cursor.appendDir(-dir, this.ch[-dir]);
     // Okay, we've moved into this, but maybe
@@ -6411,7 +6455,7 @@ $.fn.mathquillggb = function(cmd, latex) {
         	break;
         case 4:
         	// RemoveColumn
-        	// TODO
+        	tablock.removeCol(cursor);
         	break;
         default:
         	break;

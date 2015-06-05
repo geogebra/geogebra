@@ -205,7 +205,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				specialPopup.setVisible(false);
 				EuclidianStyleBarW.CURRENT_POP_UP = null;
 
-				// TODO: implementation!
+				diminishCols();
 			}
 		}, ClickEvent.getType());
 		itemList.add(actual);
@@ -267,6 +267,29 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 					ensureEditing();
 
 				DrawEquationWeb.addNewColToMatrix(seMayLatex);
+
+				// it is a good question whether shall we save the result
+				// in a permanent way, and in which case (wasEditing?)
+				// why not?
+				DrawEquationWeb.endEditingEquationMathQuillGGB(
+						MatrixRadioButtonTreeItem.this, seMayLatex);
+
+				if (wasEditing) {
+					av.startEditing(geo);
+				}
+			}
+		});
+	}
+
+	public void diminishCols() {
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				boolean wasEditing = commonEditingCheck();
+
+				if (!wasEditing)
+					ensureEditing();
+
+				DrawEquationWeb.removeColFromMatrix(seMayLatex);
 
 				// it is a good question whether shall we save the result
 				// in a permanent way, and in which case (wasEditing?)
