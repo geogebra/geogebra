@@ -298,13 +298,13 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			buttons = new JButton[4];
 
 			buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new JButton(
-					app.getScaledIcon("stylingbar_graphics3D_view_orthographic.gif"));
+					app.getScaledIcon("stylingbar_graphics3D_view_orthographic.png"));
 			buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new JButton(
-					app.getScaledIcon("stylingbar_graphics3D_view_perspective.gif"));
+					app.getScaledIcon("stylingbar_graphics3D_view_perspective.png"));
 			buttons[EuclidianView3D.PROJECTION_GLASSES] = new JButton(
-					app.getScaledIcon("stylingbar_graphics3D_view_glasses.gif"));
+					app.getScaledIcon("stylingbar_graphics3D_view_glasses.png"));
 			buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new JButton(
-					app.getScaledIcon("stylingbar_graphics3D_view_oblique.gif"));
+					app.getScaledIcon("stylingbar_graphics3D_view_oblique.png"));
 
 			for (int i = 0; i < 4; i++)
 				buttons[i].addActionListener(options);
@@ -330,14 +330,14 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			}
 			buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC]
 					.setIcon(app
-							.getScaledIcon("stylingbar_graphics3D_view_orthographic.gif"));
+							.getScaledIcon("stylingbar_graphics3D_view_orthographic.png"));
 			buttons[EuclidianView3D.PROJECTION_PERSPECTIVE]
 					.setIcon(app
-							.getScaledIcon("stylingbar_graphics3D_view_perspective.gif"));
+							.getScaledIcon("stylingbar_graphics3D_view_perspective.png"));
 			buttons[EuclidianView3D.PROJECTION_GLASSES].setIcon(app
-					.getScaledIcon("stylingbar_graphics3D_view_glasses.gif"));
+					.getScaledIcon("stylingbar_graphics3D_view_glasses.png"));
 			buttons[EuclidianView3D.PROJECTION_OBLIQUE].setIcon(app
-					.getScaledIcon("stylingbar_graphics3D_view_oblique.gif"));
+					.getScaledIcon("stylingbar_graphics3D_view_oblique.png"));
 
 		}
 	}
