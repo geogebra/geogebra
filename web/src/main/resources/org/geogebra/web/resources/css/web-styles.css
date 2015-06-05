@@ -38,7 +38,8 @@
 	position: relative;
 }
 
-.CondFunParent {
+.CondFunParent,
+.MatrixRadioParent {
 	position: relative !important;
 }
 
@@ -108,15 +109,6 @@
 	overflow-x: scroll;
 	overflow-y: hidden;
 	direction: ltr;
-}
-
-.RadioButtonTreeItemSpecButton {
-	display: inline-block;
-}
-
-.RadioButtonTreeItemSpecButtonPanel {
-	width: 100%;
-	text-align: center;
 }
 
 .AdvancedFocusPanelsTextarea {
@@ -4008,7 +4000,9 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
 .GeoGebraFrame .CondFunParent .XButton,
-.GeoGebraFrame .CondFunParent .XButtonNeighbour {
+.GeoGebraFrame .CondFunParent .XButtonNeighbour,
+.GeoGebraFrame .MatrixRadioParent .XButton,
+.GeoGebraFrame .MatrixRadioParent .XButtonNeighbour {
 	position: absolute;
 
 	/* I created this, so xButton overlaps text */
@@ -4038,13 +4032,15 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 }
 
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
-.GeoGebraFrame .CondFunParent .XButton {
+.GeoGebraFrame .CondFunParent .XButton,
+.GeoGebraFrame .MatrixRadioParent .XButton {
 	/* not sure why this was here */
 	height: 1.5em;
 }
 
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
-.GeoGebraFrame .CondFunParent .XButtonNeighbour {
+.GeoGebraFrame .CondFunParent .XButtonNeighbour,
+.GeoGebraFrame .MatrixRadioParent .XButtonNeighbour {
 	right: 24px;
 }
 
@@ -4066,7 +4062,11 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 .CondFunParent .XButton.shown,
 .CondFunParent .XButton.ShowSymbolButtonFocused,
 .CondFunParent .XButtonNeighbour.shown,
-.CondFunParent .XButtonNeighbour.ShowSymbolButtonFocused {
+.CondFunParent .XButtonNeighbour.ShowSymbolButtonFocused,
+.MatrixRadioParent .XButton.shown,
+.MatrixRadioParent .XButton.ShowSymbolButtonFocused,
+.MatrixRadioParent .XButtonNeighbour.shown,
+.MatrixRadioParent .XButtonNeighbour.ShowSymbolButtonFocused {
 	display: inline-block;
 }
 

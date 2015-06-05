@@ -50,8 +50,8 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ge.remove();
 				event.stopPropagation();
+				ge.remove();
 				// event.preventDefault();
 			}
 		});
@@ -74,15 +74,9 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 				moe.preventDefault();
 				moe.stopPropagation();
 				((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
+				// TODO: maybe remove this and the CancelEvents.instance calls?
 			}
 		});
-		// btnRow.addMouseMoveHandler(new MouseMoveHandler() {
-		// public void onMouseMove(MouseMoveEvent moe) {
-		// moe.preventDefault();
-		// moe.stopPropagation();
-		// ((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
-		// }
-		// });
 
 		// basically, everything except onClick,
 		// static to prevent more instances
@@ -97,21 +91,14 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		pButton.addTouchEndHandler(CancelEvents.instance);
 		pButton.addTouchMoveHandler(CancelEvents.instance);
 
-		// pButton.addStyleName("RadioButtonTreeItemSpecButton");
 		add(xButton);// dirty hack of adding it two times!
 		add(pButton);// same...
-		// getElement().getParentElement().appendChild(xButton.getElement());
-		// getElement().getParentElement().appendChild(pButton.getElement());
-
-		// ihtml.getElement().appendChild(auxPanel.getElement());
 	}
 
 	public void replaceXButtonDOM(TreeItem item) {
-		// App.debug("replaceXButtonDOM called!!!");
 		item.getElement().addClassName("CondFunParent");
 		item.getElement().appendChild(xButton.getElement());
 		item.getElement().appendChild(pButton.getElement());
-		// App.debug("replaceXButtonDOM done.");
 	}
 
 	public static GeoFunction createBasic(Kernel kern) {

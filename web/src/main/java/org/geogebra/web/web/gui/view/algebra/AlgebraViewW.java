@@ -979,6 +979,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 			if (node.getWidget() instanceof CondFunRadioButtonTreeItem) {
 				((CondFunRadioButtonTreeItem) node.getWidget())
 						.replaceXButtonDOM(node);
+			} else if (node.getWidget() instanceof MatrixRadioButtonTreeItem) {
+				((MatrixRadioButtonTreeItem) node.getWidget())
+						.replaceXButtonDOM(node);
 			}
 
 			if (isNodeTableEmpty()) {
