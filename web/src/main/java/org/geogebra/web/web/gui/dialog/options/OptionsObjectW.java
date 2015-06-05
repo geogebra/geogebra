@@ -80,7 +80,6 @@ import org.geogebra.web.web.gui.properties.ComboBoxPanel;
 import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
-import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -1429,13 +1428,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	//-----------------------------------------------
-	public OptionsObjectW(AppW app, boolean isDefaults) {
+	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
 		this.app = app;
 		this.isDefaults = isDefaults;
 		kernel = app.getKernel();
 		loc = app.getLocalization();
 		// build GUI
-		initGUI();
+		initGUI(onTabSelection);
 	}
 
 	AppW getAppW() {
@@ -1445,7 +1444,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	long beforeTabs;
 
 	private TextOptionsModel textModel;
-	private void initGUI() {
+
+	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
 		tabPanel = new TabPanel();
@@ -1456,14 +1456,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			public void onSelection(SelectionEvent<Integer> event) {
 	//			updateGUI();
 				tabs.get(event.getSelectedItem()).initGUI(app, isDefaults);
-				((PropertiesViewW) app.getGuiManager().getPropertiesView())
-							.updatePropertiesView();
+				onTabSelection.run();
 			}
 				});
 		tabPanel.setStyleName("propertiesTabPanel");
 		beforeTabs = System.currentTimeMillis();
 		createBasicTab();
-		App.printStacktrace("BASIC"
+		App.debug("BASIC"
 				+ (System.currentTimeMillis() - this.beforeTabs));
 		if (!(app.isExam())) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),
@@ -1721,7 +1720,7 @@ Arrays.asList(coordsPanel,
 
 	@Override
 	public void updateGUI() {
-		App.printStacktrace("OPTION OBJECTS UPDATE_GUI");
+		App.debug("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
 		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
 

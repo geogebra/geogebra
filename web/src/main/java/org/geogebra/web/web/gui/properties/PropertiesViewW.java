@@ -115,7 +115,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 	 * @return
 	 */
 	public OptionPanelW getOptionPanel(OptionType type, int subType) {
-		App.debug("[OptionPanelW] getOptionPanel");
+		App.debug("[OptionPanelW] getOptionPanel " + type);
 		//AbstractApplication.printStacktrace("type :"+type);
 		if (styleBar != null) {
 			styleBar.updateGUI();
@@ -190,7 +190,13 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 
 		case OBJECTS:
 			if (objectPanel == null) {
-				objectPanel = new OptionsObjectW((AppW) app, false);
+				objectPanel = new OptionsObjectW((AppW) app, false,
+						new Runnable() {
+
+							public void run() {
+								updatePropertiesView();
+							}
+						});
 
 			} else {
 				OptionsObjectW op =	getObjectPanel();
