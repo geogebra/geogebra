@@ -557,6 +557,75 @@ public class AlgoMirror extends AlgoTransformation implements
 			}
 			throw new NoSymbolicParametersException();
 
+			// WARNING:
+			// Because there are two mirror points in the algebraic approach, we
+			// cannot really prove interesting facts about mirroring about a
+			// circle.
+			// As a side effect, many theorems cannot be proven with GeoGebra,
+			// including:
+			// * Points on the circle remain the same after mirroring (however,
+			// it is possible to prove that they remain on the circle after
+			// mirroring).
+			// * Lines after mirroring turn into circles.
+		} else if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_CIRCLE) {
+
+			GeoPoint P = (GeoPoint) inGeo;
+			GeoConic c = (GeoConic) mirror;
+
+			if (P != null && c != null) {
+				Variable[] vP = P.getBotanaVars(P);
+				Variable[] vc = c.getBotanaVars(c);
+
+				if (botanaVars == null) {
+					botanaVars = new Variable[8];
+					// B'
+					botanaVars[0] = new Variable();
+					botanaVars[1] = new Variable();
+					// B
+					botanaVars[2] = vP[0];
+					botanaVars[3] = vP[1];
+					// O
+					botanaVars[4] = vc[0];
+					botanaVars[5] = vc[1];
+					// A
+					botanaVars[6] = vc[2];
+					botanaVars[7] = vc[3];
+				}
+
+				botanaPolynomials = new Polynomial[2];
+
+				Polynomial o1 = new Polynomial(vc[0]);
+				Polynomial o2 = new Polynomial(vc[1]);
+				Polynomial a1 = new Polynomial(vc[2]);
+				Polynomial a2 = new Polynomial(vc[3]);
+				Polynomial b1 = new Polynomial(vP[0]);
+				Polynomial b2 = new Polynomial(vP[1]);
+				Polynomial b_1 = new Polynomial(botanaVars[0]);
+				Polynomial b_2 = new Polynomial(botanaVars[1]);
+
+				// |OB|^2
+				Polynomial ob = (b1.subtract(o1)).multiply(b1.subtract(o1))
+						.add((b2.subtract(o2)).multiply(b2.subtract(o2)));
+				// |OB'|^2
+				Polynomial o_b = (b_1.subtract(o1)).multiply(b_1.subtract(o1))
+						.add((b_2.subtract(o2)).multiply(b_2.subtract(o2)));
+				// r^2
+				Polynomial oa = (a1.subtract(o1)).multiply(a1.subtract(o1))
+						.add((a2.subtract(o2)).multiply(a2.subtract(o2)));
+
+				// |OB|*|OB'|=r^4
+				botanaPolynomials[0] = ob.multiply(o_b).subtract(
+						oa.multiply(oa));
+				// O,B,B' collinear
+				botanaPolynomials[1] = Polynomial.collinear(botanaVars[0],
+						botanaVars[1], botanaVars[2], botanaVars[3],
+						botanaVars[4], botanaVars[5]);
+
+				return botanaPolynomials;
+
+			}
+			throw new NoSymbolicParametersException();
+
 		} else {
 			throw new NoSymbolicParametersException();
 		}
