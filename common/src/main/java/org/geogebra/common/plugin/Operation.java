@@ -168,7 +168,7 @@ public enum Operation {
 				
 				double a = ((NumberValue) lt).getDouble();
 				double b = ((NumberValue) rt).getDouble();
-				boolean defined = Double.isFinite(a) && Double.isFinite(b);
+				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 				
 				return new MyBoolean(ev.getKernel(), Kernel.isGreater(b, a),
 						defined);
@@ -190,7 +190,7 @@ public enum Operation {
 
 				double a = ((NumberValue) lt).getDouble();
 				double b = ((NumberValue) rt).getDouble();
-				boolean defined = Double.isFinite(a) && Double.isFinite(b);
+				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), Kernel.isGreater(a, b),
 						defined);
@@ -212,7 +212,7 @@ public enum Operation {
 
 				double a = ((NumberValue) lt).getDouble();
 				double b = ((NumberValue) rt).getDouble();
-				boolean defined = Double.isFinite(a) && Double.isFinite(b);
+				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
 						Kernel.isGreaterEqual(b, a), defined);
@@ -235,7 +235,7 @@ public enum Operation {
 
 				double a = ((NumberValue) lt).getDouble();
 				double b = ((NumberValue) rt).getDouble();
-				boolean defined = Double.isFinite(a) && Double.isFinite(b);
+				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
 						Kernel.isGreaterEqual(a, b), defined);
