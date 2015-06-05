@@ -22,6 +22,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -975,6 +976,10 @@ public class AlgebraViewW extends Tree implements LayerView,
 			setUserObject(node, geo);
 
 			if (isNodeTableEmpty()) {
+				// this is for the case "add" is called after
+				// the input panel exists; the other case
+				// is done elsewhere, when it is created...
+
 				// if adding new elements the first time,
 				// let's show the X signs in the input bar!
 				if (this.inputPanelLatex != null) {
@@ -1223,6 +1228,11 @@ public class AlgebraViewW extends Tree implements LayerView,
 				inputPanelLatex = new NewRadioButtonTreeItem(kernel);
 				forceKeyboard = app.getArticleElement()
 						.getDataParamBase64String().length() == 0;
+
+				if (!isNodeTableEmpty() && !App.isFullAppGui()) {
+					AutoCompleteTextFieldW.showSymbolButtonIfExists(
+							inputPanelLatex, true);
+				}
 			} else {
 				inputPanelLatex.removeFromParent();
 			}
@@ -1293,6 +1303,10 @@ public class AlgebraViewW extends Tree implements LayerView,
 					// open the keyboard (or show the keyboard-open-button) at
 					// when the application is started
 
+					if (!isNodeTableEmpty() && !App.isFullAppGui()) {
+						AutoCompleteTextFieldW.showSymbolButtonIfExists(
+								inputPanelLatex, true);
+					}
 				} else {
 					inputPanelLatex.removeFromParent();
 				}
