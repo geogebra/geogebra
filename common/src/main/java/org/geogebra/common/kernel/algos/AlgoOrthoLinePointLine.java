@@ -49,6 +49,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements
 	protected GeoLine l; // input
 	private GeoLine g; // output
 	private Polynomial[] polynomials;
+
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
 

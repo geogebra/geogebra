@@ -40,11 +40,15 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * 
  * @author Markus
  */
-public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo {
+public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo,
+		SymbolicParametersBotanaAlgo {
 
 	private GeoPointND P, Q; // input
 	private GeoVectorND v; // output
 	private Polynomial[] polynomials;
+
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
 
 	/**
 	 * Creates new AlgoVector
@@ -247,6 +251,55 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo {
 					coords1[1].multiply(coords2[2]));
 			polynomials[2] = coords1[2].multiply(coords2[2]);
 			return polynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		GeoPoint A = (GeoPoint) P;
+		GeoPoint B = (GeoPoint) Q;
+
+		if (P != null && Q != null) {
+
+			Variable[] vP = A.getBotanaVars(A);
+			Variable[] vQ = B.getBotanaVars(B);
+
+			if (botanaVars == null) {
+				botanaVars = new Variable[6];
+				// vector u
+				botanaVars[0] = new Variable();
+				botanaVars[1] = new Variable();
+				// P
+				botanaVars[2] = vP[0];
+				botanaVars[3] = vP[1];
+				// Q
+				botanaVars[4] = vQ[0];
+				botanaVars[5] = vQ[1];
+			}
+
+			botanaPolynomials = new Polynomial[2];
+
+			Polynomial p1 = new Polynomial(vP[0]);
+			Polynomial p2 = new Polynomial(vP[1]);
+			Polynomial q1 = new Polynomial(vQ[0]);
+			Polynomial q2 = new Polynomial(vQ[1]);
+			Polynomial u1 = new Polynomial(botanaVars[0]);
+			Polynomial u2 = new Polynomial(botanaVars[1]);
+
+			botanaPolynomials[0] = u1.subtract(q1).add(p1);
+			botanaPolynomials[1] = u2.subtract(q2).add(p2);
+
+			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
 	}

@@ -2472,7 +2472,7 @@ SymbolicParametersBotanaAlgo {
 		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}
-		return null;
+		return null; // Here maybe an exception should be thrown...?
 	}
 
 	public int getDimension() {

@@ -43,13 +43,16 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * @version
  */
 public class AlgoTranslate extends AlgoTransformation implements
-		SymbolicParametersAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private Translateable out;
 	protected GeoElement inGeo;
 	protected GeoElement outGeo;
 	protected GeoElement v; // input
 	private Polynomial[] polynomials;
+
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
 
 	/**
 	 * Creates labeled translation algo
@@ -241,6 +244,55 @@ public class AlgoTranslate extends AlgoTransformation implements
 	@Override
 	public double getAreaScaleFactor() {
 		return 1;
+	}
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+		
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		GeoPoint P = (GeoPoint) inGeo;
+		GeoVector u = (GeoVector) v;
+		
+		if (P != null && v != null) {
+
+			Variable[] vP = P.getBotanaVars(P);
+			Variable[] vv = u.getBotanaVars(u);
+
+			if (botanaVars == null) {
+			botanaVars = new Variable[6];
+			// A'
+			botanaVars[0] = new Variable();
+			botanaVars[1] = new Variable();
+			// P
+			botanaVars[2] = vP[0];
+			botanaVars[3] = vP[1];
+			// v
+			botanaVars[4] = vv[0];
+			botanaVars[5] = vv[1];
+			}
+
+			botanaPolynomials = new Polynomial[2];
+
+			Polynomial p1 = new Polynomial(vP[0]);
+			Polynomial p2 = new Polynomial(vP[1]);
+			Polynomial u1 = new Polynomial(vv[0]);
+			Polynomial u2 = new Polynomial(vv[1]);
+			Polynomial p_1 = new Polynomial(botanaVars[0]);
+			Polynomial p_2 = new Polynomial(botanaVars[1]);
+
+			botanaPolynomials[0] = p1.add(u1).subtract(p_1);
+			botanaPolynomials[1] = p2.add(u2).subtract(p_2);
+
+			return botanaPolynomials;
+		}
+		throw new NoSymbolicParametersException();
 	}
 
 	// TODO Consider locusequability
