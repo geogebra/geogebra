@@ -153,9 +153,7 @@ public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 							}
 
 							// something like
-							// http://tube-beta.geogebra.org/files/material-1264825.mp3
-
-							// TODO: check format of URL is correct
+							// http://tube.geogebra.org/files/material-1264825.mp3
 							url = url + "files/material-" + id + ".mp3";
 
 							// #5094

@@ -21,6 +21,7 @@ import javax.sound.midi.Soundbank;
 import javax.sound.midi.Synthesizer;
 import javax.swing.JFileChooser;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
 import org.jfugue.Pattern;
@@ -231,12 +232,34 @@ public class MidiSoundD implements MetaEventListener {
 
 			File f = null;
 			URL url = null;
+			String ext = null;
 
 			// allow: PlaySound["http://www.btc-bci.com/~rlewis/spider.mid"]
 			// PlaySound["allthing.mid"]
 			// PlaySound["c:\whiduck.mid"]
+			// PlaySound["http://cs.uccs.edu/~cs525/midi/vivi.mid"]
+			// PlaySound["@1296677"]
+			// PlaySound["http://tube-beta.geogebra.org/material/download/format/file/id/1296677"]
 
-			if (filePath.startsWith("http://")) {
+			if (filePath.startsWith("@")) {
+
+				String id = filePath.substring(1);
+
+				String urlStr;
+
+				// if (app.has(Feature.TUBE_BETA)) {
+				urlStr = GeoGebraConstants.GEOGEBRATUBE_WEBSITE_BETA;
+				// } else {
+				// urlStr = GeoGebraConstants.GEOGEBRATUBE_WEBSITE;
+				// }
+
+				// something like
+				// http://tube-beta.geogebra.org/material/download/format/file/id/1296677
+				urlStr = urlStr + "material/download/format/file/id/" + id;
+
+				url = new URL(urlStr);
+				ext = "mid";
+			} else if (filePath.startsWith("http://")) {
 				url = new URL(filePath);
 			} else if (app.isApplet()) {
 
@@ -262,21 +285,22 @@ public class MidiSoundD implements MetaEventListener {
 				}
 			}
 
-			String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
-			if (ext.equals("mid")) {
+			if (ext == null) {
+				ext = filePath.substring(filePath.lastIndexOf(".") + 1);
+			}
+
+			if (ext.equals("txt")) {
+				playJFugueFromFile(f, url);
+
+			} else if (ext.equals("gm")) {
+				loadSoundBank(f, url);
+			} else {
 				// Load new sequence from .mid file
 				tickPosition = 0;
 
 				sequence = f == null ? MidiSystem.getSequence(url) : MidiSystem
 						.getSequence(f);
 				playSequence(sequence, tickPosition);
-			}
-
-			else if (ext.equals("txt")) {
-				playJFugueFromFile(f, url);
-
-			} else if (ext.equals("gm")) {
-				loadSoundBank(f, url);
 			}
 
 		} catch (IOException e) {
