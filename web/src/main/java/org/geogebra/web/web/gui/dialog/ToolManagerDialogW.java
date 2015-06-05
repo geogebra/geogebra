@@ -197,9 +197,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 		String[] options = { loc.getMenu("DeleteTool"),
 				loc.getMenu("DontDeleteTool") };
-
 		GOptionPaneW.INSTANCE.showOptionDialog(app, loc.getMenu("Tool.DeleteQuestion"),
-				loc.getPlain("Question"), GOptionPane.CANCEL_OPTION,
+ loc.getPlain("Question"),
+				GOptionPane.CUSTOM_OPTION,
  GOptionPane.QUESTION_MESSAGE, null,
 		        options, new AsyncOperation() {
 
