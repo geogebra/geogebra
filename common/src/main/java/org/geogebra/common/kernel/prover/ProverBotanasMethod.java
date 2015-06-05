@@ -437,17 +437,21 @@ public class ProverBotanasMethod {
 
 			// Rabinowitsch trick for the last polynomials of the theses of the statement.
 			// Here we use that NOT (A and B and C) == (NOT A) or (NOT b) or (NOT c),
-			// and products can be algebraized by using products.
+			// and disjunctions can be algebraized by using products.
 			App.debug("Thesis reductio ad absurdum (denied statement), product of factors:");
 			Polynomial spoly = new Polynomial(1);
-				for (int i = 0; i < nStatements; ++i) {
-					Polynomial factor = (statements[i][statements[i].length - 1]);
-					Variable z = new Variable();
-					// FIXME: this always introduces an extra variable, shouldn't do
-					App.debug("(" + factor + ")*" + z + "-1");
-					factor = factor.multiply(new Polynomial(z)).subtract(new Polynomial(1));
-					spoly = spoly.multiply(factor);
-				}
+			Variable z = new Variable();
+			// It is OK to use the same variable for each factor since it is enough
+			// to find one counterexample only for one of the theses.
+			// See http://link.springer.com/article/10.1007%2Fs10817-009-9133-x
+			// Appendix, Proposition 6 and Corollary 2 to read more on this.
+			// FIXME: this always introduces an extra variable, shouldn't do.
+			for (int i = 0; i < nStatements; ++i) {
+				Polynomial factor = (statements[i][statements[i].length - 1]);
+				App.debug("(" + factor + ")*" + z + "-1");
+				factor = factor.multiply(new Polynomial(z)).subtract(new Polynomial(1));
+				spoly = spoly.multiply(factor);
+			}
 			eqSystem[k] = spoly;
 			App.debug("that is,");
 			App.debug((k + 1) + ". " + spoly);
