@@ -62,6 +62,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 		xButton.addStyleName("XButton");
 		xButton.addStyleName("shown");
+		xButton.setVisible(false);
 		xButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -78,6 +79,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				new Image(GuiResources.INSTANCE.algebra_matrix_size_hover()));
 		pButton.addStyleName("XButtonNeighbour");
 		pButton.addStyleName("shown");
+		pButton.setVisible(false);
 		pButton.addMouseDownHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent mde) {
 				mde.preventDefault();
