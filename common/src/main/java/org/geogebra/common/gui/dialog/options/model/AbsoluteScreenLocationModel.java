@@ -11,8 +11,9 @@ import org.geogebra.common.main.App;
 
 public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 	private App app;
-	public AbsoluteScreenLocationModel(App app, IBooleanOptionListener listener) {
-		super(listener);
+
+	public AbsoluteScreenLocationModel(App app) {
+		super(null);
 		this.app = app;
 		// TODO Auto-generated constructor stub
 	}

@@ -6,12 +6,8 @@ import org.geogebra.common.gui.dialog.options.model.PropertyListener;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class OptionPanel implements IOptionPanel, PropertyListener {
-	OptionsModel model;
+	private OptionsModel model;
 	private Widget widget;
-
-	public final OptionPanel update(Object[] geos) {
-		return updatePanel(geos);
-	}
 
 	public OptionPanel updatePanel(Object[] geos) {
 		getModel().setGeos(geos);

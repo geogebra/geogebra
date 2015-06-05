@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.dialog.options;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.KeyEvent;
@@ -28,7 +27,6 @@ import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
 import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.dialog.options.model.GroupModel;
-import org.geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import org.geogebra.common.gui.dialog.options.model.InterpolateImageModel;
 import org.geogebra.common.gui.dialog.options.model.LayerModel;
@@ -39,11 +37,9 @@ import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComb
 import org.geogebra.common.gui.dialog.options.model.LodModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
-import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
-import org.geogebra.common.gui.dialog.options.model.PropertyListener;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import org.geogebra.common.gui.dialog.options.model.RightAngleModel;
@@ -61,7 +57,6 @@ import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -71,17 +66,11 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.dialog.options.OptionsTab.LodPanel;
 import org.geogebra.web.web.gui.dialog.options.model.ExtendedAVModel;
-import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.properties.AnimationSpeedPanelW;
-import org.geogebra.web.web.gui.properties.AnimationStepPanelW;
-import org.geogebra.web.web.gui.properties.ComboBoxPanel;
 import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
-import org.geogebra.web.web.gui.util.ComboBoxW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 
@@ -92,7 +81,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -112,7 +100,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	//Basic
 	private NamePanel namePanel;
 	private ShowObjectPanel showObjectPanel;
-	private LodPanel lodPanel;
 	private TracePanel tracePanel;
 	private LabelPanel labelPanel;
 	private FixPanel fixPanel;
@@ -143,9 +130,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	//Decoration
 
 	//Algebra
-	private CoordsPanel coordsPanel;
-	private LineEqnPanel lineEqnPanel;
-	private ConicEqnPanel conicEqnPanel;
+	// private CoordsPanel coordsPanel;
+	// private LineEqnPanel lineEqnPanel;
+	// private ConicEqnPanel conicEqnPanel;
 
 	private List<OptionsTab> tabs;
 
@@ -1187,236 +1174,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	}
 
-	private class CoordsPanel extends ListBoxPanel {
-
-		public CoordsPanel() {
-			super(loc, "Coordinates");
-			CoordsModel model = new CoordsModel();
-			model.setListener(this);
-			setModel(model);
-		}
-	} // CoordsPanel
-
-	private class LineEqnPanel extends ListBoxPanel {
 
 
-		public LineEqnPanel() {
-			super(loc, "Equation");
-			LineEqnModel model = new LineEqnModel();
-			model.setListener(this);
-			setModel(model);
-		}
-	} // LineEqnPanel
-
-	private class ConicEqnPanel extends ListBoxPanel {
 
 
-		public ConicEqnPanel() {
-			super(loc, "Equation");
-			ConicEqnModel model = new ConicEqnModel(loc);
-			model.setListener(this);
-			setModel(model);
-		}
-
-		@Override
-		public void setLabels() {
-			setTitle(loc.getPlain(getTitle()));
-			ListBox lb = getListBox();
-			if (getModel().hasGeos() && getModel().checkGeos()) {
-				int selectedIndex = lb.getSelectedIndex();
-				lb.clear();
-				getModel().updateProperties();
-				lb.setSelectedIndex(selectedIndex);
-			}
-		}
-
-	} // ConicEqnPanel
-
-	private class StartPointPanel extends ComboBoxPanel {
 
 
-		public StartPointPanel() {
-			super(app, "StartingPoint");
-			StartPointModel model = new StartPointModel(app);
-			model.setListener(this);
-			setModel(model);
-		}
-
-		private StartPointModel getStartPointModel() {
-			return (StartPointModel)getModel();
-		}
-
-		@Override
-		public OptionPanel updatePanel(Object[] geos) {
-			getModel().setGeos(geos);
-			boolean geosOK = getModel().checkGeos();
-
-			if (getWidget() != null) {
-				getWidget().setVisible(false);
-			}
-
-			if (!geosOK || getWidget() == null) {
-				return null;
-			}
-
-			ComboBoxW combo = getComboBox();
-			TreeSet<GeoElement> points = kernel.getPointSet();
-			if (points.size() != combo.getItemCount() - 1) {
-				combo.getModel().clear();
-				combo.addItem("");
-				getStartPointModel().fillModes(loc);
-				setFirstLabel();
-			}
-
-			getModel().updateProperties();
-			setLabels();
-			return this;
-		}
 
 
-		@Override
-		protected void onComboBoxChange(){
-			final String strLoc = getComboBox().getValue();
-			getStartPointModel().applyChanges(strLoc);
-
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			ComboBoxW cb = getComboBox();
-			if (index == 0) {
-				setFirstLabel();
-			} else {
-				cb.setSelectedIndex(-1);
-			}
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			getComboBox().setValue(item);
-		}
-		
-		private void setFirstLabel() {
-			GeoElement p = (GeoElement)getStartPointModel().getLocateableAt(0).getStartPoint();
-			if (p != null) {
-				String coords = p.getLabel(StringTemplate.editTemplate); 
-				getComboBox().setValue(coords);
-			}
-		}
-
-		@Override
-		public void setLabels(){
-			getLabel().setText(getTitle());
-		}
-	} // StartPointPanel
-
-	private class AbsoluteScreenLocationPanel extends CheckboxPanel {
-		public AbsoluteScreenLocationPanel(){
-			super("AbsoluteScreenLocation", loc);
-			setModel(new AbsoluteScreenLocationModel(app, this));
-		}
-
-	}
-
-	private class ImageCornerPanel extends ComboBoxPanel {
-
-		private ImageCornerModel model;
-		public ImageCornerPanel(int cornerIdx) {
-			super(app, "CornerModel");
-			model = new ImageCornerModel(app);
-			model.setListener(this);
-			model.setCornerIdx(cornerIdx);
-			setModel(model);
-		}
-
-		public void setIcon(ImageResource res) {
-			if (res == null) {
-				return;
-			}
-			Label label = getLabel();
-			label.setStyleName("imageCorner");
-			label.getElement().getStyle().setProperty("backgroundImage", "url(" + 
-					res + ")");
-		}
-
-		@Override
-		protected void onComboBoxChange() {
-			final String item = getComboBox().getValue();
-			model.applyChanges(item);
-
-		}
-
-		@Override
-		public void setLabels() {
-			super.setLabels();
-			String strLabelStart = app.getPlain("CornerPoint");
-			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
-		}
-		
-		@Override
-		public void setSelectedItem(String item) {
-			getComboBox().setValue(item);
-		}
-	}
-
-	private class CornerPointsPanel extends OptionPanel
-	{
-
-		private ImageCornerPanel corner1;
-		private ImageCornerPanel corner2;
-		private ImageCornerPanel corner4;
-
-		public CornerPointsPanel() {
-			setModel(new OptionsModel() {
-
-				@Override
-				protected boolean isValidAt(int index) {
-					return getGeoAt(index) instanceof Locateable;
-				}
-
-				@Override
-				public void updateProperties() {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public PropertyListener getListener() {
-					return CornerPointsPanel.this;
-				};
-			});
-			corner1 = new ImageCornerPanel(0); 
-			corner2 = new ImageCornerPanel(1); 
-			corner4 = new ImageCornerPanel(2);
-			FlowPanel mainPanel = new FlowPanel();
-			mainPanel.add(corner1.getWidget());
-			mainPanel.add(corner2.getWidget());
-			mainPanel.add(corner4.getWidget());
-			setWidget(mainPanel);
-			corner1.setIcon(AppResources.INSTANCE.corner1());
-			corner2.setIcon(AppResources.INSTANCE.corner2());
-			corner4.setIcon(AppResources.INSTANCE.corner4());
-		}
-
-		@Override
-		public void setLabels() {
-			corner1.setLabels();
-			corner2.setLabels();
-			corner4.setLabels();
-		}
-
-		@Override
-		public OptionPanel updatePanel(Object[] geos) {
-			if (geos == null) {
-				return null;
-			}
-
-			boolean result = corner1.updatePanel(geos) != null;
-			result = corner2.updatePanel(geos) != null || result;
-			result = corner4.updatePanel(geos) != null || result;
-			return result ? this : null;
-		}
-	}
+	
 
 
 	
@@ -1678,18 +1444,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private OptionsTab addAlgebraTab() {
 		OptionsTab tab;
-		coordsPanel = new CoordsPanel();
-		lineEqnPanel = new LineEqnPanel();
-		conicEqnPanel = new ConicEqnPanel();
-
+	
 		tab = makeOptionsTab("Properties.Algebra");
-		tab.addPanelList(
-Arrays.asList(coordsPanel,
-						lineEqnPanel,
-						conicEqnPanel,
-						new AnimationStepPanelW(getAppW()),
-						new AnimationSpeedPanelW(getAppW())
-						));
+		tab.addModel(new CoordsModel());
+		tab.addModel(new LineEqnModel());
+		tab.addModel(new ConicEqnModel(loc));
 		App.debug("ALGEBRA" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 
@@ -1697,13 +1456,10 @@ Arrays.asList(coordsPanel,
 
 	private OptionsTab addPositionTab() {
 		OptionsTab tab;
-		OptionPanel startPointPanel = new StartPointPanel();
 		tab = makeOptionsTab("Properties.Position");
-		tab.addPanelList(
-				Arrays.asList(startPointPanel,
-						new CornerPointsPanel(),
-						new AbsoluteScreenLocationPanel()
-						));
+		tab.addModel(new StartPointModel(app)).addModel(new CornerPointsModel())
+.addModel(
+				new AbsoluteScreenLocationModel(app));
 		App.debug("POSITION" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 

@@ -1384,7 +1384,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public AbsoluteScreenLocationPanel() {
 			super("AbsoluteScreenLocation");
-			setModel(new AbsoluteScreenLocationModel(app, this));
+			AbsoluteScreenLocationModel model = new AbsoluteScreenLocationModel(
+					app);
+			model.setListener(this);
+			setModel(model);
 			app.setFlowLayoutOrientation(this);
 		}
 

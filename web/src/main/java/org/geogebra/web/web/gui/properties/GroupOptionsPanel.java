@@ -55,10 +55,10 @@ public class GroupOptionsPanel implements IOptionPanel {
 	    titleLabel.setText(loc.getMenu(titleId));
     }
 
-	public Object update(Object[] geos) {
+	public Object updatePanel(Object[] geos) {
 		boolean result = false;
 		for (IOptionPanel panel: panels) {
-			result = panel.update(geos) != null || result;
+			result = panel.updatePanel(geos) != null || result;
 		}
 		return result ? this : null;
 	}
