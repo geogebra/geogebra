@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.util.FrameCollectorW;
@@ -127,7 +127,8 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 			num.setValue(val);
 			num.updateRepaint();
 
-			String url = ((EuclidianViewW) app.getActiveEuclidianView())
+			String url = ((EuclidianViewWInterface) app
+					.getActiveEuclidianView())
 			        .getExportImageDataUrl(1, false);
 			if (url == null) {
 				Log.error("image null");

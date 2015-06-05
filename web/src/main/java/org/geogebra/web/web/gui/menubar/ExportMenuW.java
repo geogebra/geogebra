@@ -1,6 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.main.FileManagerW;
@@ -54,7 +54,8 @@ public class ExportMenuW extends MenuBar {
 		        true), true, new Command() {
 
 			public void execute() {
-				String url = ((EuclidianViewW) app.getActiveEuclidianView())
+				String url = ((EuclidianViewWInterface) app
+						.getActiveEuclidianView())
 				        .getExportImageDataUrl(1.0, false);
 				app.getFileManager().exportImage(url, "export.png");
 			}
