@@ -1134,7 +1134,7 @@ GeoContainer rbti,
 			var elsecond = parentElement.firstChild.firstChild.nextSibling;
 			var elsecondInside = elsecond.lastChild;
 
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixnewrow');
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixsize', 1);
 		}
 	}-*/;
 
@@ -1147,7 +1147,7 @@ GeoContainer rbti,
 			var elsecond = parentElement.firstChild.firstChild.nextSibling;
 			var elsecondInside = elsecond.lastChild;
 
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixnewcol');
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixsize', 3);
 		}
 	}-*/;
 

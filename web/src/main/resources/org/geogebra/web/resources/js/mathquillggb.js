@@ -6374,69 +6374,52 @@ $.fn.mathquillggb = function(cmd, latex) {
       });
     // do not mix different commands in any case
     return undefined;
-  case 'matrixnewrow':
-    // for adding one new row to matrices
-	// /OR/ piecewise functions!
-    // ? should we make MQ be able to remove rows ?
+  case 'matrixsize':
+	// arguments[1] is called latex
+    // 0 is nothing,
+	// 1 is adding a row
+	// 2 is removing a row
+	// 3 is adding a column
+	// 4 is removing a column
+	if (latex) {
+      return this.each(function() {
+        var blockId = $(this).attr(mqBlockId),
+            block = blockId && Node.byId[blockId],
+            cursor = block && block.cursor;
 
-    return this.each(function() {
-      var blockId = $(this).attr(mqBlockId),
-          block = blockId && Node.byId[blockId],
-          cursor = block && block.cursor;
+        // in order to add a new row to the matrix,
+        // we shall seek the matrix, the place of
+        // which does not depend on the place of cursor
+        var tableJQ = $(this).find('.spectable');
+        //var tableID = $(tableJQ[0]).attr('mathquillggb-command-id');
+        var tableID = $(tableJQ[0]).attr(mqCmdId);
+        var tablock = tableID && Node.byId[tableID];
 
-      // in order to add a new row to the matrix,
-      // we shall seek the matrix, the place of
-      // which does not depend on the place of cursor
-      var tableJQ = $(this).find('.spectable');
-      //var tableID = $(tableJQ[0]).attr('mathquillggb-command-id');
-      var tableID = $(tableJQ[0]).attr(mqCmdId);
-      var tablock = tableID && Node.byId[tableID];
-
-      // best is to implement it there and call its method
-      tablock.addNewRow(cursor);
-      //block.updateRevert();
-    });
+        // best is to implement it there and call its method
+        switch (latex) {
+        case 1:
+        	// AddRow
+        	tablock.addNewRow(cursor);
+        	break;
+        case 2:
+        	// RemoveRow
+        	// TODO
+        	break;
+        case 3:
+        	// AddColumn
+        	tablock.addNewCol(cursor);
+        	break;
+        case 4:
+        	// RemoveColumn
+        	// TODO
+        	break;
+        default:
+        	break;
+        }
+      });
+	}
     // do not mix different commands in any case
-    return undefined;
-  case 'matrixnewcol':
-	// for adding one new column to matrices
-	// ? should we make MQ be able to remove columns ?
-
-    return this.each(function() {
-      var blockId = $(this).attr(mqBlockId),
-          block = blockId && Node.byId[blockId],
-          cursor = block && block.cursor;
-
-      // in order to add a new row to the matrix,
-      // we shall seek the matrix, the place of
-      // which does not depend on the place of cursor
-      var tableJQ = $(this).find('.spectable');
-      //var tableID = $(tableJQ[0]).attr('mathquillggb-command-id');
-      var tableID = $(tableJQ[0]).attr(mqCmdId);
-      var tablock = tableID && Node.byId[tableID];
-
-      // best is to implement it there and call its method
-      tablock.addNewCol(cursor);
-      //block.updateRevert();
-    });
-    // do not mix different commands in any case
-    return undefined;
-  case 'piecewisenewrow':
-	// for adding one new row to piecewise functions
-	// ? should we make MQ be able to remove rows ?
-
-    // TODO
-
-    // do not mix different commands in any case
-    return undefined;
-  case 'setparametricmode':
-	// for setting the mode of parametric curves
-	// i.e. 2D or 3D (add/remove one row)
-
-    // TODO
-
-    // do not mix different commands in any case
-    return undefined;
+	return undefined;
   case 'cmd':
     if (arguments.length > 1)
       return this.each(function() {
