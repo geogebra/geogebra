@@ -2907,11 +2907,13 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
           // but it is more difficult to actualize
           // the downOutOf variables, to make them null
 
-          // TODO: something is wrong here in this code:
           cursor.appendTo(this.ch[L]);
-          //var newlastrow = this.ch[L].ch[R];
-          cursor.prependTo(cursor[L]);
-          // TODO: something is wrong end
+          if (cursor[L] && cursor[L].ch[L]) {
+        	// this.ch[L]: block of table
+        	// this.ch[L].ch[R]: table row
+        	// this.ch[L].ch[R].ch[L]: block of table row
+            cursor.prependTo(cursor[L].ch[L]);
+          }
 
           var actual = cursor;
           while (actual[R]) {
@@ -6497,7 +6499,7 @@ $.fn.mathquillggb = function(cmd, latex) {
         	break;
         case 2:
         	// RemoveRow
-        	//tablock.removeRow(cursor);
+        	tablock.removeRow(cursor);
         	break;
         case 3:
         	// AddColumn
