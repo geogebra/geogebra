@@ -73,7 +73,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	private Coords[] drawCoords = null;
 
-	private Coords tmpCoords = new Coords(4), tmpCoords2, vn = new Coords(4);
+	private Coords tmpCoords = new Coords(4), tmpCoords2, vn = new Coords(4),
+			v1 = new Coords(4), v2 = new Coords(4), center = Coords
+					.createInhomCoorsInD3();
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -113,25 +115,23 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 			vn.setValues(((AlgoAngle) algo).getVn(), 3);
 
-			Coords center;
+			center.setValues(drawCoords[0], 3);
+			center.setW(1);
 			if (algo instanceof AlgoAnglePlanes) { // draw angle at center of
 													// the screen
-				center = drawCoords[0];
 				double[] minmax = getView3D().getIntervalClipped(
 						new double[] { Double.NEGATIVE_INFINITY,
 								Double.POSITIVE_INFINITY }, center, vn);
 				center.setAdd(center,
 						tmpCoords.setMul(vn, (minmax[0] + minmax[1]) / 2));
-			} else {
-				center = drawCoords[0];
 			}
 
-			Coords v1 = drawCoords[1];
+			v1.setValues(drawCoords[1], 3);
 			v1.calcNorm();
 			double l1 = v1.getNorm();
 			v1.mulInside3(1 / l1);
 
-			Coords v2 = drawCoords[2];
+			v2.setValues(drawCoords[2], 3);
 			v2.calcNorm();
 			double l2 = v2.getNorm();
 			v2.mulInside3(1 / l2);
