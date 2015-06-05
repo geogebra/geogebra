@@ -96,7 +96,9 @@ public abstract class StyleBarW extends HorizontalPanel implements
 
 		int k = 0;
 		FlowPanel separator = null;
-		final int numberOfOpenViews = getNumberOfOpenViews();
+		final int numberOfOpenViews = app.getGuiManager().getLayout()
+					.getDockManager().getNumberOfOpenViews();
+		
 		if (numberOfOpenViews > 1) {
 			// show close button if there are more than 1 views open
 			data[0] = new ImageOrText(app.getMenu("Close"));

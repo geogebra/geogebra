@@ -1785,6 +1785,17 @@ public class DockManagerW extends DockManager {
 		}
 		return panel;
 	}
+
+	@Override
+	public int getNumberOfOpenViews() {
+		int num = 0;
+		for (DockPanelW d : this.dockPanels) {
+			if (d.isVisible()) {
+				num++;
+			}
+		}
+		return num;
+	}
 	
 	
 }

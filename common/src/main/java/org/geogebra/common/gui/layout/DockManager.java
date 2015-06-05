@@ -17,4 +17,6 @@ public abstract class DockManager implements SetLabels {
 		// TODO Auto-generated method stub
 
 	}
+
+	public abstract int getNumberOfOpenViews();
 }

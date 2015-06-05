@@ -1499,4 +1499,15 @@ public class DockManagerD extends org.geogebra.common.gui.layout.DockManager
 		showDockPanelListener.add(l);
 	}
 
+	@Override
+	public int getNumberOfOpenViews() {
+		int num = 0;
+		for (DockPanel d : this.dockPanels) {
+			if (d.isShowing()) {
+				num++;
+			}
+		}
+		return num;
+	}
+
 }
