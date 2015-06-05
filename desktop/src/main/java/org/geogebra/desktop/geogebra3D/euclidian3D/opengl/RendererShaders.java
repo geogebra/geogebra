@@ -357,7 +357,15 @@ public class RendererShaders extends RendererD implements
 		int[] b = new int[1];
 		jogl.getGL2ES2().glGenBuffers(1, b, 0);
 		((GPUBufferD) buffer).set(b[0]);
+		App.debug("create : " + b[0]);
 
+	}
+
+	public void removeBuffer(GPUBuffer buffer) {
+		int[] b = new int[1];
+		b[0] = ((GPUBufferD) buffer).get();
+		jogl.getGL2ES2().glDeleteBuffers(1, b, 0);
+		App.debug("remove : " + b[0]);
 	}
 
 	@Override
