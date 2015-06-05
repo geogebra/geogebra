@@ -100,7 +100,8 @@ public class MsZoomer {
 									$wnd.second.x = e.x;
 									$wnd.second.y = e.y;
 									zoomer
-											.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,
+											.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersMove(
+													DDDD)($wnd.first.x,
 													$wnd.first.y,
 													$wnd.second.x,
 													$wnd.second.y);
@@ -110,7 +111,7 @@ public class MsZoomer {
 								}
 
 							}
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2);
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
 						});
 
 		element
@@ -131,12 +132,13 @@ public class MsZoomer {
 							}
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								zoomer
-										.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,
+										.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersDown(
+												DDDD)($wnd.first.x,
 												$wnd.first.y, $wnd.second.x,
 												$wnd.second.y);
 							}
 
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2);
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
 						});
 
 		element
@@ -149,7 +151,7 @@ public class MsZoomer {
 								$wnd.second.id = -1;
 							}
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::pointersUp()();
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2);
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
 						});
 	}-*/;
 
