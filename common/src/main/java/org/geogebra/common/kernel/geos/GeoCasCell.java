@@ -127,7 +127,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	private HashSet<Command> commands;
 	private String assignmentVar;
 	private boolean includesRowReferences;
-	// private boolean includesNumericCommand;
+	private boolean includesNumericCommand;
 	private boolean useGeoGebraFallback;
 
 	private String evalCmd, evalComment;
@@ -300,25 +300,24 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 		else if (latex == null) {
 			if (outputVE != null) {
-				// TODO Uncomment once support for latex line breaking is
-				// implemented.
-				// Kernel kernel = app.getKernel();
-				// boolean oldLineBreaks = kernel.isInsertLineBreaks();
-				// kernel.setInsertLineBreaks(true);
 				StringBuilder sb = new StringBuilder("\\mathbf{");
 				// create LaTeX string
 				if (nativeOutput || !(outputVE instanceof ExpressionNode)) {
-					sb.append(outputVE.toAssignmentLaTeXString(
-					// #5119
-							StringTemplate.numericLatex, getAssignmentType()));
+					// #5119 use same rounding as in Algebra, but avoid 3.14 ->
+					// pi hack
+					sb.append(outputVE
+							.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex
+											: StringTemplate.latexTemplateCAS,
+									getAssignmentType()));
 				} else {
 					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
 							.getLeft());
 					if (isAssignmentVariableDefined()) {
-						sb.append(getAssignmentLHS(StringTemplate.latexTemplate));
+						sb.append(getAssignmentLHS(StringTemplate.latexTemplateCAS));
 						if (geo instanceof GeoFunction) {
 							sb.append('(');
-							sb.append(((GeoFunction)geo).getVarString(StringTemplate.latexTemplate));
+							sb.append(((GeoFunction) geo)
+									.getVarString(StringTemplate.latexTemplateCAS));
 							sb.append(')');
 						}
 
@@ -336,10 +335,12 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						}
 					}
 					if (!(geo instanceof GeoLocus)) {
-						sb.append(geo.toValueString(StringTemplate.latexTemplate));
+						sb.append(geo
+								.toValueString(StringTemplate.latexTemplateCAS));
 					} else {
 						// as GeoLocuses can not be converted to value strings
-						sb.append(geo.algoParent.getCommandDescription(StringTemplate.latexTemplate));
+						sb.append(geo.algoParent
+								.getCommandDescription(StringTemplate.latexTemplateCAS));
 					}
 				}
 				sb.append("}");
@@ -763,9 +764,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			for (Command cmd : commands) {
 				String cmdName = cmd.getName();
 				// Numeric used
-				// includesNumericCommand = includesNumericCommand
-				// || ("Numeric".equals(cmdName) && cmd
-				// .getArgumentNumber() > 1);
+				includesNumericCommand = includesNumericCommand
+						|| ("Numeric".equals(cmdName) && cmd
+								.getArgumentNumber() > 1);
 
 				// if command not known to CAS
 				if (!kernel.getGeoGebraCAS().isCommandAvailable(cmd)) {
@@ -1000,7 +1001,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		invars = null;
 		functionvars = null;
 		includesRowReferences = false;
-		// includesNumericCommand = false;
+		includesNumericCommand = false;
 		useGeoGebraFallback = false;
 	}
 
@@ -1286,9 +1287,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * 
 	 * @return whether this cell includes any Numeric[] commands.
 	 */
-	// final public boolean includesNumericCommand() {
-	// return includesNumericCommand;
-	// }
+	final public boolean includesNumericCommand() {
+		return includesNumericCommand;
+	}
 
 	/**
 	 * Returns the assignment variable of this cell. For example, "c" is the
@@ -1382,8 +1383,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				case NONE:
 					break;
 				}
-
-				// #5119
+				// #5119 make sure internally the result does not depend on
+				// rounding
 				sb.append(outputVE.toString(StringTemplate.numericDefault));
 				res = sb.toString();
 			}
@@ -2613,12 +2614,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
 		if(isError())
 			return getLoc().getError(error);
-		if (tooltip == null && outputVE != null) {
-			// #5119
-			tooltip = getOutput(StringTemplate.numericDefault);
-			tooltip = tooltip.replace("gGbSuM(", "\u03a3(");
-			tooltip = tooltip.replace("gGbInTeGrAl(", "\u222b(");
-
+		if(tooltip == null && outputVE!=null){				
+				tooltip = getOutput(StringTemplate.defaultTemplate);
+				tooltip = tooltip.replace("gGbSuM(", "\u03a3(");
+				tooltip = tooltip.replace("gGbInTeGrAl(", "\u222b(");			
+					
 				if(tooltip.length()>SCREEN_WIDTH && tooltip.indexOf('{')>-1){
 					int listStart = tooltip.indexOf('{');
 					StringBuilder sb = new StringBuilder(tooltip.length()+20);

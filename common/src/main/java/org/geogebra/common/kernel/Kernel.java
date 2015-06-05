@@ -1032,7 +1032,7 @@ public class Kernel {
 	final private String formatPiERaw(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
 		// PI
-		if (x == Math.PI) {
+		if (x == Math.PI && tpl.allowPiHack()) {
 			return tpl.getPi();
 		}
 
@@ -1180,7 +1180,7 @@ public class Kernel {
 				return "?";
 			} else if (Double.isInfinite(x)) {
 				return (x > 0) ? "\u221e" : "-\u221e"; // infinity
-			} else if (x == Math.PI) {
+			} else if (x == Math.PI && tpl.allowPiHack()) {
 				return tpl.getPi();
 			}
 
