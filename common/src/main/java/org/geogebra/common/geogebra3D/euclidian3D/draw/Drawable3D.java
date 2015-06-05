@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -458,7 +457,6 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	final protected void setSurfaceIndex(int index) {
-		App.debug(getGeoElement() + " -- setSurfaceIndex : " + index);
 		removeGeometryIndex(surfaceIndex);
 		surfaceIndex = index;
 	}

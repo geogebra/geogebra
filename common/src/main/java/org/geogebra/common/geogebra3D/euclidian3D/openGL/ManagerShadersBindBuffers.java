@@ -134,9 +134,6 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		}
 		
 
-		private boolean isRemoved = false;
-		private boolean isRemovedWarned = false;
-
 		/**
 		 * remove buffers
 		 * 
@@ -144,7 +141,6 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		 *            GL renderer
 		 */
 		public void removeBuffers(RendererShadersInterface r) {
-			isRemoved = true;
 			r.removeBuffer(bufferV);
 			if (bufferN != null) {
 				r.removeBuffer(bufferN);
@@ -171,11 +167,6 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 		 *            type for elements indices
 		 */
 		public void bind(RendererShadersInterface r, int size, TypeElement type) {
-
-			if (isRemoved) {
-				App.error("bind removed buffers");
-				return;
-			}
 
 			bufferV = ManagerShadersBindBuffers
 					.createBufferIfNeeded(r, bufferV);
@@ -254,14 +245,6 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 
 		@Override
 		public void draw(RendererShadersInterface r) {
-
-			if (isRemoved) {
-				if (!isRemovedWarned) {
-					App.printStacktrace("draw removed buffers");
-					isRemovedWarned = true;
-				}
-				return;
-			}
 
 			r.bindBufferForVertices(bufferV, 3);
 			r.bindBufferForNormals(bufferN, 3, getNormals());
@@ -342,7 +325,6 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 
 	@Override
 	protected void removeGeometrySet(int index) {
-		App.debug("removeGeometrySet: " + index);
 		GeometriesSetBindBuffers set = (GeometriesSetBindBuffers) geometriesSetList
 				.remove(index);
 		set.removeBuffers();
