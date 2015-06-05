@@ -1126,6 +1126,11 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
+	public void removeBuffer(GPUBuffer buffer) {
+		glContext.deleteBuffer(((GPUBufferW) buffer).get());
+	}
+
+	@Override
 	public void storeBuffer(GLBuffer fb, int length, int size,
 			GPUBuffer buffer, int attrib) {
 		// Select the VBO, GPU memory data

@@ -73,6 +73,14 @@ public interface RendererShadersInterface {
 	 */
 	public void createBuffer(GPUBuffer buffer);
 
+	/**
+	 * remove gpu buffer
+	 * 
+	 * @param buffer
+	 *            id for gpu buffer
+	 */
+	public void removeBuffer(GPUBuffer buffer);
+
 	public void bindBufferForVertices(GPUBuffer buffer, int size);
 
 	public void bindBufferForColors(GPUBuffer buffer, int size,

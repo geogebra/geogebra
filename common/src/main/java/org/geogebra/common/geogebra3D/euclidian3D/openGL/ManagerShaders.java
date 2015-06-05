@@ -580,10 +580,20 @@ public class ManagerShaders extends Manager {
 		if (index >= 0 && index != currentOld) { // negative index is for no
 													// geometry
 			indicesRemoved.push(index);
-			geometriesSetList.remove(index);
+			removeGeometrySet(index);
 		}
 
 		currentOld = -1;
+	}
+
+	/**
+	 * remove geometry set at index
+	 * 
+	 * @param index
+	 *            index
+	 */
+	protected void removeGeometrySet(int index) {
+		geometriesSetList.remove(index);
 	}
 
 	// ///////////////////////////////////////////

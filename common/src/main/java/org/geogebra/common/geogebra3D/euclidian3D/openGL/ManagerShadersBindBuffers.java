@@ -105,6 +105,17 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 			((GeometryBindBuffers) currentGeometry).bind(
 					(RendererShadersInterface) renderer, size, type);
 		}
+
+		/**
+		 * remove GL buffers
+		 */
+		public void removeBuffers() {
+			for (int i = 0; i < currentGeometriesSet.getGeometriesLength(); i++) {
+				((GeometryBindBuffers) currentGeometriesSet.get(i))
+						.removeBuffers((RendererShadersInterface) renderer);
+			}
+
+		}
 	}
 
 	protected class GeometryBindBuffers extends Geometry {
@@ -116,11 +127,35 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 
 		private int indicesLength;
 
+		private boolean hasSharedIndexBuffer = false;
+
 		public GeometryBindBuffers(Type type) {
 			super(type);
 		}
 		
 
+
+		/**
+		 * remove buffers
+		 * 
+		 * @param r
+		 *            GL renderer
+		 */
+		public void removeBuffers(RendererShadersInterface r) {
+			r.removeBuffer(bufferV);
+			if (bufferN != null) {
+				r.removeBuffer(bufferN);
+			}
+			if (bufferC != null) {
+				r.removeBuffer(bufferC);
+			}
+			if (bufferT != null) {
+				r.removeBuffer(bufferT);
+			}
+			if (!hasSharedIndexBuffer) {
+				r.removeBuffer(bufferI);
+			}
+		}
 
 		/**
 		 * bind the geometry to its GL buffer
@@ -188,6 +223,7 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 				}
 				bufferI = getBufferIndicesForCurve(r, size);
 				indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
+				hasSharedIndexBuffer = true;
 				break;
 
 			case SURFACE:
@@ -284,6 +320,13 @@ public class ManagerShadersBindBuffers extends ManagerShadersNoTriangleFan {
 	public short[] getCurrentGeometryIndices(int size) {
 		return ((GeometryBindBuffers) currentGeometriesSet.currentGeometry)
 				.getBufferI(size);
+	}
+
+	@Override
+	protected void removeGeometrySet(int index) {
+		GeometriesSetBindBuffers set = (GeometriesSetBindBuffers) geometriesSetList
+				.remove(index);
+		set.removeBuffers();
 	}
 
 }
