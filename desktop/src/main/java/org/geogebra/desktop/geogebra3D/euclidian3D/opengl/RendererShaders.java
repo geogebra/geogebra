@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -354,18 +355,20 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	public void createBuffer(GPUBuffer buffer) {
-		int[] b = new int[1];
-		jogl.getGL2ES2().glGenBuffers(1, b, 0);
-		((GPUBufferD) buffer).set(b[0]);
-		App.debug("create : " + b[0]);
+		if (removedBuffers.isEmpty()) {
+			int[] b = new int[1];
+			jogl.getGL2ES2().glGenBuffers(1, b, 0);
+			((GPUBufferD) buffer).set(b[0]);
+		} else {
+			((GPUBufferD) buffer).set(removedBuffers.pop());
+		}
 
 	}
 
+	private Stack<Integer> removedBuffers = new Stack<Integer>();
+
 	public void removeBuffer(GPUBuffer buffer) {
-		int[] b = new int[1];
-		b[0] = ((GPUBufferD) buffer).get();
-		jogl.getGL2ES2().glDeleteBuffers(1, b, 0);
-		App.debug("remove : " + b[0]);
+		removedBuffers.push(((GPUBufferD) buffer).get());
 	}
 
 	@Override

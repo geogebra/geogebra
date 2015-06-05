@@ -468,6 +468,7 @@ public class ManagerShaders extends Manager {
 	@Override
 	public int startNewList(int old) {
 
+		// App.printStacktrace("startNewList : " + old);
 		currentOld = old;
 		if (currentOld >= 0) {
 			currentGeometriesSet = geometriesSetList.get(old);

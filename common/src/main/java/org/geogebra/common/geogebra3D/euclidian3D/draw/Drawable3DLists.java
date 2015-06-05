@@ -92,6 +92,7 @@ public class Drawable3DLists {
 		if (drawable != null) {
 			// App.debug(drawable.getGeoElement()+"");
 			drawable.removeFromDrawable3DLists(this);
+			drawable.removeFromGL();
 		}
 
 	}

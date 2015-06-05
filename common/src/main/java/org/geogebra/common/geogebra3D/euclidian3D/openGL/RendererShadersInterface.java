@@ -91,5 +91,4 @@ public interface RendererShadersInterface {
 
 	public void bindBufferForTextures(GPUBuffer buffer, int size,
 			GLBuffer fbTextures);
-
 }

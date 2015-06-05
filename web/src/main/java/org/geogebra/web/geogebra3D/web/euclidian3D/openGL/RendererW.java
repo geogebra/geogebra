@@ -1,6 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GPoint;
@@ -1122,12 +1123,18 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	@Override
 	public void createBuffer(GPUBuffer buffer) {
-		((GPUBufferW) buffer).set(glContext.createBuffer());
+		if (removedBuffers.isEmpty()) {
+			((GPUBufferW) buffer).set(glContext.createBuffer());
+		} else {
+			((GPUBufferW) buffer).set(removedBuffers.pop());
+		}
+
 	}
 
-	@Override
+	private Stack<WebGLBuffer> removedBuffers = new Stack<WebGLBuffer>();
+
 	public void removeBuffer(GPUBuffer buffer) {
-		glContext.deleteBuffer(((GPUBufferW) buffer).get());
+		removedBuffers.push(((GPUBufferW) buffer).get());
 	}
 
 	@Override

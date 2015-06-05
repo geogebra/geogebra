@@ -10,6 +10,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRenderingHints;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -594,6 +595,16 @@ public class DrawLabel3D {
 	private static final int drawRectangle(Renderer renderer, double x,
 			double y, double z, double w, double h, int index) {
 		return renderer.getGeometryManager().rectangle(x, y, z, w, h, index);
+	}
+
+	/**
+	 * remove from GPU memory
+	 */
+	public void removeFromGL() {
+		Manager manager = view.getRenderer().getGeometryManager();
+		manager.remove(textIndex);
+		manager.remove(pickingIndex);
+		manager.remove(backgroundIndex);
 	}
 
 }

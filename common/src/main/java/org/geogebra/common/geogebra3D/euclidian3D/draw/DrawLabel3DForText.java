@@ -109,6 +109,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	/**
 	 * update draw position
 	 */
+	@Override
 	public void updateDrawPosition() {
 		
 		if (geo.isAbsoluteScreenLocActive()){
@@ -131,6 +132,12 @@ public class DrawLabel3DForText extends DrawLabel3D {
 
 		
 
+	}
+
+	@Override
+	public void removeFromGL() {
+		super.removeFromGL();
+		view.getRenderer().getGeometryManager().remove(highLightIndex);
 	}
 
 }
