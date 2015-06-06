@@ -3650,7 +3650,6 @@ public abstract class App implements UpdateSelection {
 		case DELETE_IN_ALGEBRA:
 		case EXERCISES:
 		case IMPLICIT_CURVES:
-		case JLM_IN_WEB:
 		case KOREAN_KEYBOARD:
 		case LOCALSTORAGE_FILES:
 		case POLYGON_TRIANGULATION:
@@ -3659,6 +3658,8 @@ public abstract class App implements UpdateSelection {
 		case TUBE_BETA:
 		case ADD_NEW_OBJECT_BUTTON:
 			return prerelease;
+		case JLM_IN_WEB:
+			return true;
 		default:
 			return false;
 
