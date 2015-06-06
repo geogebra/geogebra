@@ -1221,6 +1221,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 	//			updateGUI();
+				for (OptionsTab tab : tabs) {
+					tab.setFocused(false);
+				}
 				tabs.get(event.getSelectedItem()).initGUI(app, isDefaults);
 				onTabSelection.run();
 			}

@@ -86,6 +86,7 @@ class OptionsTab extends FlowPanel {
 	private TabPanel tabPanel;
 	private Localization loc;
 	private boolean inited = false;
+	private boolean focused = false, updated = true;
 	
 	public OptionsTab(Localization loc, TabPanel tabPanel,
 			final String title) {
@@ -115,10 +116,7 @@ class OptionsTab extends FlowPanel {
 	}
 
 	public boolean update(Object[] geos) {
-		boolean enabled = false;
-		for (OptionsModel panel : models) {
-			enabled = panel.updateMPanel(geos) || enabled;
-		}
+		boolean enabled = updateGUI(geos);
 
 		TabBar tabBar = this.tabPanel.getTabBar();
 		tabBar.setTabText(index, getTabText());
@@ -127,6 +125,27 @@ class OptionsTab extends FlowPanel {
 			tabBar.selectTab(0);
 		}
 		return enabled;
+	}
+
+	private boolean updateGUI(Object[] geos) {
+		boolean enabled = false;
+		if (focused) {
+			this.updated = true;
+			for (OptionsModel panel : models) {
+				enabled = panel.updateMPanel(geos) || enabled;
+			}
+		} else {
+			this.updated = false;
+			for (OptionsModel panel : models) {
+				panel.setGeos(geos);
+				if (panel.checkGeos()) {
+					return true;
+				}
+
+			}
+		}
+		return enabled;
+
 	}
 
 	private String getTabText() {
@@ -143,13 +162,16 @@ class OptionsTab extends FlowPanel {
     }
 
 	public void initGUI(App app, boolean isDefaults) {
+		this.focused = true;
 		if (inited) {
+			if (models.size() > 0 && !updated) {
+				this.updateGUI(models.get(0).getGeos());
+			}
 			return;
 		}
 		inited = true;
 		for (OptionsModel m : models) {
 			IOptionPanel panel = buildPanel(m, (AppW) app, isDefaults);
-			App.debug(panel + " FOR " + m.getClass());
 			if (panel != null) {
 				add(panel.getWidget());
 				m.updateMPanel(m.getGeos());
@@ -1344,5 +1366,10 @@ class OptionsTab extends FlowPanel {
 		}
 
 	} // ConicEqnPanel
+
+	public void setFocused(boolean b) {
+		this.focused = b;
+
+	}
 
 }

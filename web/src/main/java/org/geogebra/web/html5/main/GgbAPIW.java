@@ -385,7 +385,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 							}
 
 							function addText(name, data, callback) {
-								@org.geogebra.common.main.App::debug(Ljava/lang/String;)(name);
 								zipWriter.add(name, new ASCIIReader(data),
 										callback);
 							}
@@ -403,13 +402,13 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 										//if (item.fileName.indexOf(".png") > -1) 
-										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped" + item.fileName);
+										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped");
+										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
@@ -521,7 +520,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 							}
 
 							function addText(name, data, callback) {
-								@org.geogebra.common.main.App::debug(Ljava/lang/String;)(name);
 								zipWriter.add(name, new ASCIIReader(data),
 										callback);
 							}
@@ -532,20 +530,19 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 								if (arch.archive.length > 0) {
 									item = arch.archive.shift();
 									var ind = item.fileName.lastIndexOf('.');
-									@org.geogebra.common.main.App::debug(Ljava/lang/String;)(item.fileName);
 									if (ind > -1
 											&& imgExtensions
 													.indexOf(item.fileName
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 
-										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped" + item.fileName);
+										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
 												});
 									} else {
-										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped");
+										@org.geogebra.common.main.App::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
 										addText(item.fileName,
 												encodeUTF8(item.fileContent),
 												function() {
