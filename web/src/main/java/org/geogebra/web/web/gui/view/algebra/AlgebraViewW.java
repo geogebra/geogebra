@@ -495,6 +495,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	}
 
 	private ArrayList<Integer> collapsedNodes;
+	private boolean focusOnAdd = true;
 
 	private void setCollapsedNodes(int[] collapsedNodes) {
 		if (collapsedNodes == null)
@@ -527,8 +528,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 				addItem(auxiliaryNode);
 				break;
 			}
-
+			this.focusOnAdd = false;
 			kernel.notifyAddAll(this);
+			this.focusOnAdd = true;
 		} else {
 			// if we're listing the auxiliary objects in a single leaf we can
 			// just remove that leaf, but for type-based categorization those
@@ -984,7 +986,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 						.replaceXButtonDOM(node);
 			}
 
-			if (isNodeTableEmpty()) {
+			if (isNodeTableEmpty() && this.focusOnAdd) {
 				// this is for the case "add" is called after
 				// the input panel exists; the other case
 				// is done elsewhere, when it is created...
