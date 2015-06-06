@@ -8953,7 +8953,7 @@ public abstract class EuclidianController {
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		PointerEventType type = event.getType();
 
-		if (this.doubleClickStarted && !draggingOccured) {
+		if (this.doubleClickStarted && !draggingOccured && !right) {
 			wrapMouseclicked(control, 2, type);
 		}
 		this.doubleClickStarted = false;
@@ -9432,8 +9432,6 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		wheelZoomingOccurred = true;
-
 		setMouseLocation(alt, x, y);
 
 		// double px = view.width / 2d;
@@ -9843,7 +9841,6 @@ public abstract class EuclidianController {
 
 	}
 
-	private boolean wheelZoomingOccurred = false;
 
 	public void checkZooming() {
 		checkZooming(false);
