@@ -1741,7 +1741,9 @@ public abstract class App implements UpdateSelection {
 	 *            true to show Auxiliary objects
 	 */
 	public void setShowAuxiliaryObjects(boolean auxiliaryObjects) {
-		// TODO Auto-generated method stub
+		if (showAuxiliaryObjects == auxiliaryObjects) {
+			return;
+		}
 		showAuxiliaryObjects = auxiliaryObjects;
 
 		if (getGuiManager() != null) {
