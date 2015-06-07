@@ -130,6 +130,9 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	@Override
 	public final void compute() {
 
+		double[] min = new double[from.length];
+		double[] max = new double[to.length];
+
 		// set min, max, and localVar (to avoid false undefined)
 		for (int i = 0; i < 2; i++) {
 			min[i] = from[i].getDouble();
@@ -194,8 +197,6 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 	}
 
-	private double[] min = new double[2];
-	private double[] max = new double[2];
 
 	// TODO Consider locusequability
 }
