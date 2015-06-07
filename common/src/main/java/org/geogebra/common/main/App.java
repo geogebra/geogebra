@@ -3659,7 +3659,7 @@ public abstract class App implements UpdateSelection {
 		case ADD_NEW_OBJECT_BUTTON:
 			return prerelease;
 		case JLM_IN_WEB:
-			return true;
+			return prerelease;
 		default:
 			return false;
 
