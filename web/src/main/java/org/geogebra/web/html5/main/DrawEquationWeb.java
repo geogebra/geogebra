@@ -284,7 +284,27 @@ public class DrawEquationWeb extends DrawEquation {
 	        final GColor fgColor, GColor bgColor, boolean useCache,
 	        boolean updateAgain) {
 		if (app1.has(Feature.JLM_IN_WEB)) {
-			TeXIcon icon = createIcon(latexString0,
+			String eqstring = latexString0;
+			if (geo instanceof TextProperties) {
+				if ((((TextProperties) geo).getFontStyle() & GFont.ITALIC) == 0) {
+					// set to be not italic
+					eqstring = "\\mathrm{" + eqstring + "}";
+				} // else {
+					// italics needed? Try this! (Testing needed...)
+					// eqstring = "\\mathit{"+ eqstring +"}";
+					// }
+					// if ((((TextProperties)geo).getFontStyle() & GFont.BOLD)
+					// != 0) {
+					// bold needed? Try this! (Testing needed...)
+					// eqstring = "\\mathbf{"+ eqstring +"}";
+					// }
+				if (!((TextProperties) geo).isSerifFont()) {
+					// forcing sans-serif
+					eqstring = "\\mathsf{" + eqstring + "}";
+				}
+			}
+
+			TeXIcon icon = createIcon(eqstring,
 					font.getSize(), font.getStyle());
 			Graphics2DInterface g3 = new Graphics2DW(
 					((GGraphics2DW) g2).getContext());

@@ -90,14 +90,13 @@ public class CASTableCellW extends VerticalPanel {
 
 	}
 
-	private void renderOld(Label outputLabel, String eqstring) {
+	private void renderOld(Label outputLabel, String latex) {
 		SpanElement outputSpan = DOM.createSpan().cast();
 
-		int el = eqstring.length();
-		eqstring = DrawEquationWeb.inputLatexCosmetics(DrawEquationWeb
-				.stripEqnArray(eqstring));
+		String eqstring = DrawEquationWeb.inputLatexCosmetics(DrawEquationWeb
+				.stripEqnArray(latex));
 		DrawEquationWeb.drawEquationMathQuillGGB(outputSpan, eqstring, 0, 0,
-				outputLabel.getElement(), false, el == eqstring.length(), true,
+				outputLabel.getElement(), false, false, true,
 				0, true);
 		outputSpan.getStyle().setColor(
 				GColor.getColorString(casCell.getAlgebraColor()));
