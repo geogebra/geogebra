@@ -3653,13 +3653,13 @@ public abstract class App implements UpdateSelection {
 		case KOREAN_KEYBOARD:
 		case LOCALSTORAGE_FILES:
 		case POLYGON_TRIANGULATION:
-		case SF_DRAG:
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case ADD_NEW_OBJECT_BUTTON:
 			return prerelease;
+		case SF_DRAG:
 		case JLM_IN_WEB:
-			return prerelease;
+			return true;
 		default:
 			return false;
 
