@@ -557,16 +557,6 @@ public class AlgoMirror extends AlgoTransformation implements
 			}
 			throw new NoSymbolicParametersException();
 
-			// WARNING:
-			// Because there are two mirror points in the algebraic approach, we
-			// cannot really prove interesting facts about mirroring about a
-			// circle.
-			// As a side effect, many theorems cannot be proven with GeoGebra,
-			// including:
-			// * Points on the circle remain the same after mirroring (however,
-			// it is possible to prove that they remain on the circle after
-			// mirroring).
-			// * Lines after mirroring turn into circles.
 		} else if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_CIRCLE) {
 
 			GeoPoint P = (GeoPoint) inGeo;
