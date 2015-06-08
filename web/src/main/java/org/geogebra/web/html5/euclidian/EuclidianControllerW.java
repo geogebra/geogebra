@@ -28,7 +28,7 @@ import org.geogebra.web.html5.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
+import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Touch;
@@ -67,7 +67,7 @@ public class EuclidianControllerW extends EuclidianController implements
         MouseOverHandler, MouseWheelHandler, TouchStartHandler,
         TouchEndHandler, TouchMoveHandler, TouchCancelHandler,
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
-        HasOffsets, IsEuclidianController, LongTouchHandler, DropHandler {
+		HasOffsets, IsEuclidianController, DropHandler {
 
 
 
@@ -783,5 +783,9 @@ public class EuclidianControllerW extends EuclidianController implements
 			geo0.updateRepaint();
 
 		}
+	}
+
+	public LongTouchManager getLongTouchManager() {
+		return mtg.getLongTouchManager();
 	}
 }

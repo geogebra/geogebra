@@ -1113,4 +1113,8 @@ public class MouseTouchGestureControllerW implements
 	public PointerEventType getDefaultEventType() {
 		return ec.getDefaultEventType();
 	}
+
+	public LongTouchManager getLongTouchManager() {
+		return longTouchManager;
+	}
 }

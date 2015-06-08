@@ -7,7 +7,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -332,10 +332,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 		onEnd(event);
 		if (event.getSource() == tbutton) {
-			((EuclidianViewW) this.app.getActiveEuclidianView())
-			        .getEuclidianController()
+			if (this.app.getActiveEuclidianView() != null
+					&& this.app.getActiveEuclidianView()
+							.getEuclidianController() != null) {
+				((IsEuclidianController) this.app.getActiveEuclidianView()
+						.getEuclidianController())
 			        .setActualSticky(
 			                event.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+			}
 		}
 	}
 

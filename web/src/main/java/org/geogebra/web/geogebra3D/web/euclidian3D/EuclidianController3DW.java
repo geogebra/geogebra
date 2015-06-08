@@ -17,7 +17,7 @@ import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
+import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 
@@ -55,7 +55,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
         MouseOverHandler, MouseWheelHandler, TouchStartHandler,
         TouchEndHandler, TouchMoveHandler, TouchCancelHandler,
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
-        HasOffsets, IsEuclidianController, LongTouchHandler {
+		HasOffsets, IsEuclidianController {
 
 	private AbstractEvent waitingTouchMove = null;
 	private PointerEvent waitingMouseMove = null;
@@ -431,6 +431,15 @@ public class EuclidianController3DW extends EuclidianController3D implements
 			}
 			super.wrapMouseDragged(event, startCapture);
 		}
+
+	}
+
+	public LongTouchManager getLongTouchManager() {
+		return mtg.getLongTouchManager();
+	}
+
+	public void setActualSticky(boolean b) {
+		// TODO Auto-generated method stub
 
 	}
 
