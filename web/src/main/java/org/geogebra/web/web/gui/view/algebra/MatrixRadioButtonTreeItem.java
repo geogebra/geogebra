@@ -21,6 +21,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.safehtml.shared.SafeUri;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
@@ -33,6 +34,8 @@ import com.google.gwt.user.client.ui.TreeItem;
  * File created by Arpad Fekete
  */
 public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
+
+	private FlowPanel buttonPanel;
 
 	PushButton xButton;
 	PushButton pButton;
@@ -56,13 +59,16 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 			}
 		};
 
+		buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
+		buttonPanel.setVisible(false);
+
 		xButton = new PushButton(new Image(
 				GuiResources.INSTANCE.algebra_delete()));
 		xButton.getUpHoveringFace().setImage(
 				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 		xButton.addStyleName("XButton");
 		xButton.addStyleName("shown");
-		xButton.setVisible(false);
 		xButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -79,7 +85,6 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				new Image(GuiResources.INSTANCE.algebra_matrix_size_hover()));
 		pButton.addStyleName("XButtonNeighbour");
 		pButton.addStyleName("shown");
-		pButton.setVisible(false);
 		pButton.addMouseDownHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent mde) {
 				mde.preventDefault();
@@ -210,14 +215,14 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		}, ClickEvent.getType());
 		itemList.add(actual);
 
-		add(xButton);// dirty hack of adding it two times!
-		add(pButton);// same...
+		add(buttonPanel);// dirty hack of adding it two times!
+		this.buttonPanel.add(pButton);
+		this.buttonPanel.add(xButton);
 	}
 
 	public void replaceXButtonDOM(TreeItem item) {
 		item.getElement().addClassName("MatrixRadioParent");
-		item.getElement().appendChild(xButton.getElement());
-		item.getElement().appendChild(pButton.getElement());
+		item.getElement().appendChild(buttonPanel.getElement());
 	}
 
 	public static GeoList create2x2ZeroMatrix(Kernel kern) {
@@ -330,21 +335,18 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 	@Override
 	public void startEditing() {
 		super.startEditing();
-		xButton.setVisible(true);
-		pButton.setVisible(true);
+		buttonPanel.setVisible(true);
 	}
 
 	@Override
 	public boolean stopEditing(String s) {
-		xButton.setVisible(false);
-		pButton.setVisible(false);
+		buttonPanel.setVisible(false);
 		return super.stopEditing(s);
 	}
 
 	@Override
 	public void stopEditingSimple(String s) {
-		xButton.setVisible(false);
-		pButton.setVisible(false);
+		buttonPanel.setVisible(false);
 		super.stopEditingSimple(s);
 	}
 }

@@ -35,6 +35,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
@@ -57,6 +58,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	// curve)
 	protected PushButton pButton = null;
 
+	private FlowPanel buttonPanel;
+
 	HistoryPopupW historyPopup;
 	ButtonPopupMenu specialPopup;
 	EquationEditor editor;
@@ -68,6 +71,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		//should depend on number of previoous elements?
 		addHistoryPopup(true);
+
+		buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
@@ -268,10 +274,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// why? web programming knowledge helps: we should add position:
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
 
-		add(xButton);// dirty hack of adding it two times!
+		add(buttonPanel);// dirty hack of adding it two times!
+
 		if (pButton != null) {
-			add(pButton);// same...
+			this.buttonPanel.add(pButton);
 		}
+
+		this.buttonPanel.add(xButton);
 
 		// this was necessary earlier in conjuction with add(xButton)
 		// ihtml.getElement().appendChild(xButton.getElement());
@@ -288,10 +297,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void replaceXButtonDOM() {
-		getElement().getParentElement().appendChild(xButton.getElement());
-		if (pButton != null) {
-			getElement().getParentElement().appendChild(pButton.getElement());
-		}
+		getElement().getParentElement().appendChild(buttonPanel.getElement());
 	}
 
 	/**

@@ -3961,7 +3961,7 @@ body.application[dir=rtl] .imageCorner {
 }
 
 .NewRadioButtonTreeItem .hasCursorPermanent {
-	border-color: #EDEDED;
+	border-color: #DCDCDC;
 }
 
 .NoHorizontalScroll .NewRadioButtonTreeItem .hasCursorPermanent {
@@ -4002,51 +4002,31 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	margin-top: -0.66em;
 }
 
+.GeoGebraFrame .AlgebraViewObjectStylebar {
+	position: absolute;
+	top: 1px;
+	right: 0px;
+	z-index: 10;
+	padding: 4px 4px 2px 0px;
+	border-bottom-left-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+}
+
+.GeoGebraFrame .avItem.MatrixRadioParent .AlgebraViewObjectStylebar,
+.GeoGebraFrame .avItem.CondFunParent .AlgebraViewObjectStylebar{
+	border-top-left-radius: 5px;
+}
+
+
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
 .GeoGebraFrame .CondFunParent .XButton,
 .GeoGebraFrame .CondFunParent .XButtonNeighbour,
 .GeoGebraFrame .MatrixRadioParent .XButton,
 .GeoGebraFrame .MatrixRadioParent .XButtonNeighbour {
-	position: absolute;
-
-	/* I created this, so xButton overlaps text */
-	background-color: #FFFFFF;
-	top: 0px;
-	right: 0px;
-	z-index: 10;
-
-	/* new solution: borders around, like style bar */
-	/* for some reason, this is not as nice as that */
-	/*-webkit-border-radius: 5px;
-	-khtml-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	border: #DCDCDC solid 1px;
-	margin-left: 4px;*/
 	cursor: pointer;
-
-	/* new solution: it is put at the corner */
-	margin-top: 1px;/* blue border */
-	padding-top: 0px;
-
-	/* old solution: it was centered vertically */
-	/*margin-top: 1px;*/
-	/*padding-top: 1.45em;*/
-	/*height: 1.5em;*/
-}
-
-.GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
-.GeoGebraFrame .CondFunParent .XButton,
-.GeoGebraFrame .MatrixRadioParent .XButton {
-	/* not sure why this was here */
-	height: 1.5em;
-}
-
-.GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
-.GeoGebraFrame .CondFunParent .XButtonNeighbour,
-.GeoGebraFrame .MatrixRadioParent .XButtonNeighbour {
-	right: 24px;
+	padding-left: 4px;
 }
 
 .advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {

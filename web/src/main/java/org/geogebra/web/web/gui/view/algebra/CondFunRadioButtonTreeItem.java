@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -26,6 +27,8 @@ import com.google.gwt.user.client.ui.TreeItem;
  * File created by Arpad Fekete
  */
 public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
+
+	private FlowPanel buttonPanel;
 
 	PushButton xButton;
 	PushButton pButton;
@@ -39,6 +42,10 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 	public CondFunRadioButtonTreeItem(final GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
+		
+		buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
+		buttonPanel.setVisible(false);
 
 		xButton = new PushButton(new Image(
 				GuiResources.INSTANCE.algebra_delete()));
@@ -46,7 +53,6 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 		xButton.addStyleName("XButton");
 		xButton.addStyleName("shown");
-		xButton.setVisible(false);
 		xButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -63,7 +69,6 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 				new Image(GuiResources.INSTANCE.algebra_new_hover()));
 		pButton.addStyleName("XButtonNeighbour");
 		pButton.addStyleName("shown");
-		pButton.setVisible(false);
 		pButton.addMouseDownHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent mde) {
 				mde.preventDefault();
@@ -93,14 +98,14 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		pButton.addTouchEndHandler(CancelEvents.instance);
 		pButton.addTouchMoveHandler(CancelEvents.instance);
 
-		add(xButton);// dirty hack of adding it two times!
-		add(pButton);// same...
+		add(buttonPanel);// dirty hack of adding it two times!
+		buttonPanel.add(pButton);
+		buttonPanel.add(xButton);
 	}
 
 	public void replaceXButtonDOM(TreeItem item) {
 		item.getElement().addClassName("CondFunParent");
-		item.getElement().appendChild(xButton.getElement());
-		item.getElement().appendChild(pButton.getElement());
+		item.getElement().appendChild(buttonPanel.getElement());
 	}
 
 	public static GeoFunction createBasic(Kernel kern) {
@@ -134,21 +139,18 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 	@Override
 	public void startEditing() {
 		super.startEditing();
-		xButton.setVisible(true);
-		pButton.setVisible(true);
+		buttonPanel.setVisible(true);
 	}
 
 	@Override
 	public boolean stopEditing(String s) {
-		xButton.setVisible(false);
-		pButton.setVisible(false);
+		buttonPanel.setVisible(false);
 		return super.stopEditing(s);
 	}
 
 	@Override
 	public void stopEditingSimple(String s) {
-		xButton.setVisible(false);
-		pButton.setVisible(false);
+		buttonPanel.setVisible(false);
 		super.stopEditingSimple(s);
 	}
 
