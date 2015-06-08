@@ -994,10 +994,11 @@ public class AlgebraViewW extends Tree implements LayerView,
 				// if adding new elements the first time,
 				// let's show the X signs in the input bar!
 				if (this.inputPanelLatex != null) {
-					this.inputPanelLatex.setFocus(true);
-				} else if (this.inputPanel != null
+					this.inputPanelLatex.onFocus(null);
+				}
+				else if (this.inputPanel != null
 						&& this.inputPanel.getElement() != null) {
-					this.inputPanel.getElement().focus();
+					this.inputPanel.onFocus(null);
 				}
 			}
 			nodeTable.put(geo, node);
