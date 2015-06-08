@@ -76,6 +76,11 @@ public class AlgoCellRange extends AlgoElement {
 		if (removed)
 			return;
 
+		// don't remove if there is some child
+		if (geoList.hasChildren()) {
+			return;
+		}
+
 		// remove this from item update sets
 		for (GeoElement geo : listItems) {
 			geo.removeFromUpdateSets(this);

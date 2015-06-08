@@ -40,7 +40,6 @@ public class CmdDelete extends CmdScripting {
 			} catch (Error e) {
 				return new GeoElement[0];
 			}
-			App.printStacktrace("");
 
 			GeoElement geo = arg[0];
 
