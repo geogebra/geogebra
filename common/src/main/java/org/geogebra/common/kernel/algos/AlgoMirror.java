@@ -603,23 +603,21 @@ public class AlgoMirror extends AlgoTransformation implements
 				Polynomial b_1 = new Polynomial(botanaVars[0]);
 				Polynomial b_2 = new Polynomial(botanaVars[1]);
 
-				// |OB|^2
-				Polynomial ob = (b1.subtract(o1)).multiply(b1.subtract(o1))
-						.add((b2.subtract(o2)).multiply(b2.subtract(o2)));
-				// |OB'|^2
-				Polynomial o_b = (b_1.subtract(o1)).multiply(b_1.subtract(o1))
-						.add((b_2.subtract(o2)).multiply(b_2.subtract(o2)));
 				// r^2
 				Polynomial oa = (a1.subtract(o1)).multiply(a1.subtract(o1))
 						.add((a2.subtract(o2)).multiply(a2.subtract(o2)));
+				// (x-x_0)^2 + (y-y_0)^2
+				Polynomial denominator = (b1.subtract(o1)).multiply(
+						b1.subtract(o1)).add(
+						(b2.subtract(o2)).multiply(b2.subtract(o2)));
 
-				// |OB|^2*|OB'|^2=r^4
-				botanaPolynomials[0] = ob.multiply(o_b).subtract(
-						oa.multiply(oa));
-				// O,B,B' collinear
-				botanaPolynomials[1] = Polynomial.collinear(botanaVars[0],
-						botanaVars[1], botanaVars[2], botanaVars[3],
-						botanaVars[4], botanaVars[5]);
+				// formula for the coordinates of inverse point
+				// from: http://mathworld.wolfram.com/Inversion.html
+				botanaPolynomials[0] = oa.multiply(b1.subtract(o1)).add(
+						(o1.subtract(b_1)).multiply(denominator));
+
+				botanaPolynomials[1] = oa.multiply(b2.subtract(o2)).add(
+						(o2.subtract(b_2)).multiply(denominator));
 
 				return botanaPolynomials;
 
