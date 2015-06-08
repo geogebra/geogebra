@@ -249,7 +249,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			((AppWapplication) app).getDataCollection().onConnect(
 					appIDTextBox.getText());
 		} else {
-			appIDTextBox.setEnabled(true);
+			appIDTextBox.removeStyleName("disabled");
 			this.connectionStatus.setVisible(false);
 			((AppWapplication) app).getDataCollection().onDisconnect();
 			for (SensorSetting setting : this.sensors) {
@@ -513,6 +513,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		((AppWapplication) app).getDataCollection().onDisconnect();
 		this.connectButton.setDown(false);
 		this.appIDTextBox.setEnabled(true);
+		this.appIDTextBox.removeStyleName("disabled");
 		this.appIDTextBox.setSelectionRange(0, this.appIDTextBox.getText()
 				.length());
 		this.appIDTextBox.setFocus(true);
@@ -523,7 +524,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	public void onCorrectID() {
 		this.connectionStatus.setVisible(false);
-		this.appIDTextBox.setEnabled(false);
+		this.appIDTextBox.addStyleName("disabled");
 		((AppWapplication) app).getDataCollection().triggerAvailableSensors();
 	}
 

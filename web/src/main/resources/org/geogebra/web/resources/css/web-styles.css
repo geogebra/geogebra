@@ -3617,6 +3617,11 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	min-width: 80px;
 }
 
+.dataCollectionView .gwt-TextBox.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
 .dataCollectionView .sensorOnOffButton {
 	float: left;
   	padding-right: 5px;
