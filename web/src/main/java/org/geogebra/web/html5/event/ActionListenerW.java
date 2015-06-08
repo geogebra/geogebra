@@ -17,6 +17,14 @@ public class ActionListenerW extends ActionListener implements EventListener,
 
 	public void onBrowserEvent(Event e) {
 		ActionEventW event = ActionEventW.wrapEvent(e);
+		// this would make too much calls on e.g.
+		// mouseMove, mouseOver, mouseOut events!
+		// at least exclude those, and think what's more:
+		if (e.getTypeInt() == Event.ONMOUSEMOVE
+				|| e.getTypeInt() == Event.ONMOUSEOVER
+				|| e.getTypeInt() == Event.ONMOUSEOUT) {
+			return;
+		}
 		wrapActionPerformed(event);
 	}
 
