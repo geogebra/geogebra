@@ -638,7 +638,9 @@ public class MouseTouchGestureControllerW implements
 		DRAGMODE_MUST_BE_SELECTED = false;
 
 		// hide dialogs if they are open
-		if (app.getGuiManager() != null)
+		// but don't hide context menu if we just opened it via long tap in IE
+		if (ec.getDefaultEventType() == PointerEventType.MOUSE
+				&& app.getGuiManager() != null)
 			app.getGuiManager().removePopup();
 
 		ec.wrapMouseReleased(e);

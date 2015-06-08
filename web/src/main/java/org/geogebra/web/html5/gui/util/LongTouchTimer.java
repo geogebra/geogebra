@@ -82,7 +82,6 @@ public class LongTouchTimer extends Timer {
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
-
 		schedule(delayMillis);
 	}
 

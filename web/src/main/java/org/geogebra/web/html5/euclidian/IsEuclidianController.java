@@ -20,4 +20,6 @@ public interface IsEuclidianController extends LongTouchHandler {
 
 	void setActualSticky(boolean b);
 
+	boolean isDraggingBeyondThreshold();
+
 }

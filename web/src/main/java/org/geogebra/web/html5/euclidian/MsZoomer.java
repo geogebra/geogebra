@@ -57,6 +57,7 @@ public class MsZoomer {
 	}
 
 	private void pointersUp() {
+		this.tc.getLongTouchManager().cancelTimer();
 		this.tc.setExternalHandling(false);
 	}
 
@@ -72,6 +73,22 @@ public class MsZoomer {
 	private void setPointerTypeTouch(boolean b) {
 		this.tc.setDefaultEventType(b ? PointerEventType.TOUCH
 		        : PointerEventType.MOUSE);
+	}
+
+	private void startLongTouch(int x, int y) {
+		this.tc.getLongTouchManager().scheduleTimer(tc, x, y);
+	}
+
+	private void moveLongTouch(int x, int y) {
+		if (!tc.isDraggingBeyondThreshold()) {
+			/*
+			 * this.tc.getLongTouchManager().rescheduleTimerIfRunning(tc, x, y,
+			 * false);
+			 */
+		} else {
+			this.tc.getLongTouchManager().cancelTimer();
+		}
+
 	}
 
 	public native void reset()/*-{
@@ -111,6 +128,9 @@ public class MsZoomer {
 								}
 
 							}
+
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::moveLongTouch(II)($wnd.first.x, $wnd.first.y);
+
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
 						});
 
@@ -137,8 +157,11 @@ public class MsZoomer {
 												$wnd.first.y, $wnd.second.x,
 												$wnd.second.y);
 							}
-
+							if (e.pointerType == 2 || e.pointerType == "touch") {
+								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::startLongTouch(II)($wnd.first.x, $wnd.first.y);
+							}
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
+
 						});
 
 		element

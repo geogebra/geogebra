@@ -7462,7 +7462,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected boolean isDraggingBeyondThreshold() {
+	public boolean isDraggingBeyondThreshold() {
 		return mouseLoc != null
 				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > DRAG_THRESHOLD || Math
 						.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD);
@@ -10113,5 +10113,4 @@ public abstract class EuclidianController {
 	public GeoElement getMovedGeoElement() {
 		return movedGeoElement;
 	}
-
 }
