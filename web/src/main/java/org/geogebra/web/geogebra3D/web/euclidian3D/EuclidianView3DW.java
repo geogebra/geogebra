@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -29,6 +30,7 @@ import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MsZoomer;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
@@ -88,6 +90,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		// initView(true);
 
 		getRenderer().init();
+		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				((AppW) app).closePopups();
+			}
+		});
 
 	}
 
