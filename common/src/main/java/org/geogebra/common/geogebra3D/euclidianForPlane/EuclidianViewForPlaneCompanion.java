@@ -12,6 +12,7 @@ import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -55,11 +56,18 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		// showGrid(false);
 
 		setPlane(plane);
-		updateMatrix();
 
-		// set coord system to fit 3D view
-		updateCenterAndOrientationRegardingView();
-		updateScaleRegardingView();
+		if (settingsFromLoadFile) {
+			// view is created from file, only update matrices
+			updateOtherMatrices();
+		} else {
+			// view is created from scratch
+			updateMatrix();
+			// set coord system to fit 3D view
+			updateCenterAndOrientationRegardingView();
+			updateScaleRegardingView();
+		}
+
 	}
 
 	/**
@@ -88,8 +96,13 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		double dx = (w - view.getxZero()) * newScale / view.getXscale();
 		double dy = (h - view.getyZero()) * newScale / view.getYscale();
 
-		view.setCoordSystem(w - dx, h - dy, newScale, newScale);
+		setCoordSystem(w - dx, h - dy, newScale, newScale);
 
+	}
+
+	private void setCoordSystem(double xZero, double yZero, double xscale,
+			double yscale) {
+		view.setCoordSystem(xZero, yZero, xscale, yscale);
 	}
 
 	private Coords tmpCoords = new Coords(4);
@@ -116,7 +129,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		int x = view.toScreenCoordX(tmpCoords.getX());
 		int y = view.toScreenCoordY(tmpCoords.getY());
 
-		view.setCoordSystem(view.getWidth() / 2 - x + view.getxZero(),
+		setCoordSystem(view.getWidth() / 2 - x + view.getxZero(),
 				view.getHeight() / 2 - y + view.getyZero(), view.getXscale(),
 				view.getYscale());
 
@@ -150,6 +163,10 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		if (transform == null) // transform has not already been set
 			transform = CoordMatrix4x4.IDENTITY;
 
+		updateOtherMatrices();
+	}
+
+	private final void updateOtherMatrices() {
 		// // use continuity
 		// Coords vx1 = Coords.UNDEFINED;
 		// if (transformedMatrix!=null){
@@ -273,6 +290,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 
 	}
 
+	private boolean settingsFromLoadFile = false;
+
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 
@@ -289,10 +308,28 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 
 		setTransform();
 
+		settingsFromLoadFile = evs.isFromLoadFile();
+		evs.setFromLoadFile(false);
+
 	}
 
 	@Override
 	public void setXYMinMaxForUpdateSize() {
+
+		if (settingsFromLoadFile) {
+			// prevent update when loading file
+			if (view.getWidth() == 0 || view.getHeight() == 0) {
+				super.setXYMinMaxForUpdateSize();
+				return;
+			}
+
+			// prevent update when loading file
+			if (view.xmax - view.xmin < Kernel.MAX_PRECISION
+					|| view.ymax - view.ymin < Kernel.MAX_PRECISION) {
+				super.setXYMinMaxForUpdateSize();
+				return;
+			}
+		}
 
 		// keep center of the view at center of the frame
 

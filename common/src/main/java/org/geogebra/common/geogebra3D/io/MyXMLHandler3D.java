@@ -459,6 +459,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				evSet = new EuclidianSettingsForPlane(null);
 				app.getSettings().setEuclidianSettingsForPlane(plane, evSet);
 			}
+			((EuclidianSettingsForPlane) evSet).setFromLoadFile(true);
 		}
 	}
 

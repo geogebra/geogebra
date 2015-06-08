@@ -57,4 +57,25 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	public boolean isViewForPlane() {
 		return true;
 	}
+
+	private boolean isFromLoadFile = false;
+
+	/**
+	 * set these settings created from loading file or not
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setFromLoadFile(boolean flag) {
+		isFromLoadFile = flag;
+	}
+
+	/**
+	 * 
+	 * @return if these settings created from loading file or not
+	 */
+	public boolean isFromLoadFile() {
+		return isFromLoadFile;
+	}
+
 }
