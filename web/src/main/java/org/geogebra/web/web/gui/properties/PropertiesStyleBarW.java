@@ -77,9 +77,8 @@ public class PropertiesStyleBarW extends
 				app.getGuiManager()
 						.showView(App.VIEW_EUCLIDIAN2));
 //	These are not implemented yet		
-//		buttonMap.get(OptionType.SPREADSHEET).setVisible(
-//				app.getGuiManager()
-//						.showView(App.VIEW_SPREADSHEET));
+		buttonMap.get(OptionType.SPREADSHEET).setVisible(
+				app.getGuiManager().showView(App.VIEW_SPREADSHEET));
 //		
 //		buttonMap.get(OptionType.CAS).setVisible(
 //				app.getGuiManager()
