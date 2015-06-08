@@ -59,7 +59,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 				}
 				listForPicking.remove(drawable);
 			}
-			// drawable.removeFromGL();
+			drawable.removeFromGL();
 		}
 
 	}
