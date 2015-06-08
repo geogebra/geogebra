@@ -783,7 +783,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		 * See also AlgoIntersectLines.
 		 */
 
-		if (g != null && c != null && /* !g.isGeoSegment() && */c.isCircle()) {
+		if (c.isCircle()) {
+		
+			if (g != null && c != null /* !g.isGeoSegment() && */) {
 			Variable[] botanaVarsThis = new Variable[2];
 			if (botanaVars == null) {
 				botanaVars = new HashMap<GeoElement, Variable[]>();
@@ -819,7 +821,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				}
 			}
 			if (!found) {
-				botanaPolynomialsThis = new Polynomial[2];
+					botanaPolynomialsThis = new Polynomial[2];
 			}
 
 			Variable[] vg = g.getBotanaVars(geo); // 4 variables from the line
@@ -838,6 +840,50 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		}
 		throw new NoSymbolicParametersException();
+	}
+ else if (c.isParabola()) {
+			
+			if (g != null && c != null) {
+
+				Variable[] vg = g.getBotanaVars(g);
+				Variable[] vc = c.getBotanaVars(c);
+				
+				Variable[] botanaVarsThis = new Variable[2];
+				if (botanaVars == null) {
+					botanaVars = new HashMap<GeoElement, Variable[]>();
+				}
+				if (botanaVars.containsKey(geo)) {
+					botanaVarsThis = botanaVars.get(geo);
+				} else {
+					botanaVarsThis = new Variable[6];
+					botanaVarsThis[0] = vc[0];
+					botanaVarsThis[1] = vc[1];
+					botanaVarsThis[2] = vg[0];
+					botanaVarsThis[3] = vg[1];
+					botanaVarsThis[4] = vg[2];
+					botanaVarsThis[5] = vg[3];
+					botanaVars.put(geo, botanaVarsThis);
+				}
+
+				Polynomial[] botanaPolynomialsThis = new Polynomial[1];
+
+				botanaPolynomialsThis[0] = Polynomial.collinear(vc[0], vc[1],
+						vg[0], vg[1], vg[2], vg[3]);
+
+				if (botanaPolynomials == null) {
+					botanaPolynomials = new HashMap<GeoElement, Polynomial[]>();
+				}
+				botanaPolynomials.put(geo, botanaPolynomialsThis);
+
+				return botanaPolynomialsThis;
+			}
+			throw new NoSymbolicParametersException();
+		}
+ 		else {
+ 			throw new NoSymbolicParametersException();
+ 		}
+	
+		
 	}
 
 	@Override

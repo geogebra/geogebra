@@ -33,11 +33,11 @@ import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoEllipseFociLength;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -1226,6 +1226,10 @@ FromMeta
 	 */
 	public boolean isCircle() {
 		return (type == CONIC_CIRCLE);
+	}
+
+	public boolean isParabola() {
+		return (type == CONIC_PARABOLA);
 	}
 
 	/** Changes equation mode to Specific */
