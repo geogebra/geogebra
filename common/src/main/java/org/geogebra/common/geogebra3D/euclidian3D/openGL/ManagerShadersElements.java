@@ -22,8 +22,8 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	final static public int GLSL_ATTRIB_INDEX = 4;
 	
 	private GPUBuffer curvesIndices, fanDirectIndices, fanIndirectIndices;
-	private int curvesIndicesSize = -1, fanDirectIndicesSize = -1,
-			fanIndirectIndicesSize = -1;
+	private int curvesIndicesSize, fanDirectIndicesSize,
+			fanIndirectIndicesSize;
 
 	final static boolean DEBUG = false;
 
@@ -432,6 +432,13 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	}
 
 
+	@Override
+	protected void initGeometriesList() {
+		curvesIndicesSize = -1;
+		fanDirectIndicesSize = -1;
+		fanIndirectIndicesSize = -1;
+		super.initGeometriesList();
+	}
 
 	@Override
 	protected GeometriesSet newGeometriesSet() {
