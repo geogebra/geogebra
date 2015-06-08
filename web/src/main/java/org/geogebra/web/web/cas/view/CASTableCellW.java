@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -60,7 +59,8 @@ public class CASTableCellW extends VerticalPanel {
 
 					c = DrawEquationWeb.paintOnCanvas(casCell, eqstring,
 							null,
-							(AppW) casCell.getKernel().getApplication());
+									casCell.getKernel().getApplication()
+											.getFontSize() + 3);
 				}
 			} else {
 				outputLabel = new Label();

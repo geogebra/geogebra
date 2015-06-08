@@ -271,7 +271,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		if (c == null) {
 			table.setText(row, column, text);
 		} else {
-			DrawEquationWeb.paintOnCanvas(geo, latex, c, app);
+			DrawEquationWeb.paintOnCanvas(geo, latex, c, app.getFontSize());
 		}
 	}
 

@@ -94,7 +94,7 @@ public class Web implements EntryPoint {
 		PNaCl.exportPNaCltoConsole();
 	}
 
-	private void run() {
+	private static void run() {
 		if (!Web.checkAppNeeded()) {
 			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
@@ -109,9 +109,8 @@ public class Web implements EntryPoint {
 	}
 
 	private native void allowRerun() /*-{
-		var that = this;
 		$wnd.ggbRerun = function() {
-			that.@org.geogebra.web.web.Web::run()();
+			@org.geogebra.web.web.Web::run()();
 		}
 	}-*/;
 
@@ -130,7 +129,7 @@ public class Web implements EntryPoint {
 				});
 	}
 
-	private void loadExtensionAsync() {
+	private static void loadExtensionAsync() {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
@@ -163,7 +162,7 @@ public class Web implements EntryPoint {
 		// });
 	}
 
-	private void loadAppAsync() {
+	private static void loadAppAsync() {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
@@ -181,12 +180,12 @@ public class Web implements EntryPoint {
 	/**
 	 * create app frame
 	 */
-	protected void createGeoGebraAppFrame(GDevice device) {
+	protected static void createGeoGebraAppFrame(GDevice device) {
 		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()), device,
 				(AppletFactory) GWT.create(AppletFactory.class));
 	}
 
-	native void exportArticleTagRenderer() /*-{
+	native static void exportArticleTagRenderer() /*-{
 		$wnd.GGW_ext.render = $entry(@org.geogebra.web.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
 	}-*/;
 
@@ -197,7 +196,7 @@ public class Web implements EntryPoint {
 		window.addEventListener("message",function(event){$wnd.postMessage(event.data,"*");});
 	}-*/;
 
-	private native boolean calledFromExtension() /*-{
+	private native static boolean calledFromExtension() /*-{
 		return (typeof $wnd.GGW_ext !== "undefined");
 	}-*/;
 
@@ -231,7 +230,7 @@ public class Web implements EntryPoint {
 		}
 	}-*/;
 
-	private native void GGW_ext_webReady() /*-{
+	private static native void GGW_ext_webReady() /*-{
 		var functions = null, i, l;
 		if (typeof $wnd.GGW_ext === "object") {
 			if ($wnd.GGW_ext.startupFunctions

@@ -305,7 +305,8 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 
 			TeXIcon icon = createIcon(eqstring,
-					font.getSize(), font.getStyle());
+ font.getSize() + 3,
+					font.getStyle());
 			Graphics2DInterface g3 = new Graphics2DW(
 					((GGraphics2DW) g2).getContext());
 			icon.paintIcon(new HasForegroundColor() {
@@ -1822,7 +1823,7 @@ GeoContainer rbti,
 	}
 
 	public static Canvas paintOnCanvas(GeoElement geo, String text0, Canvas c,
-			AppW app) {
+			int fontSize) {
 		if (geo == null) {
 			return c == null ? Canvas.createIfSupported() : c;
 		}
@@ -1833,8 +1834,9 @@ GeoContainer rbti,
 			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
 					c.getCoordinateSpaceHeight());
 		}
-		TeXIcon icon = DrawEquationWeb.createIcon("\\mathrm {" + text0 + "}",
-				app.getFontSize(), GFont.PLAIN);
+		TeXIcon icon = DrawEquationWeb.createIcon("\\mathsf{\\mathrm {" + text0
+				+ "}}",
+				fontSize, GFont.PLAIN);
 		Graphics2DInterface g3 = new Graphics2DW(c.getContext2d());
 
 		c.setCoordinateSpaceWidth(icon.getIconWidth());
