@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -213,7 +215,7 @@ abstract public class Manager {
 	 * @param reverse
 	 *            vertex order has to be reversed
 	 */
-	final public void drawPolygonConvex(Coords n, Coords[] v, int length,
+	public void drawPolygonConvex(Coords n, Coords[] v, int length,
 			boolean reverse) {
 
 		startGeometry(Type.TRIANGLE_FAN);
@@ -254,7 +256,7 @@ abstract public class Manager {
 	 * @param triFan
 	 *            indices
 	 */
-	final public void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
+	final private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
 		startGeometry(Type.TRIANGLE_FAN);
 
 		// set texture
@@ -676,6 +678,26 @@ abstract public class Manager {
 	 */
 	public void draw(int index, Coords center) {
 		draw(index);
+	}
+
+
+	/**
+	 * draw all triangles fans
+	 * 
+	 * @param n
+	 *            normal
+	 * @param verticesWithIntersections
+	 *            all vertices needed for fans
+	 * @param length
+	 *            points used
+	 * @param triFanList
+	 *            fans list
+	 */
+	public void drawTriangleFans(Coords n, Coords[] verticesWithIntersections,
+			int length, ArrayList<TriangleFan> triFanList) {
+		for (TriangleFan triFan : triFanList) {
+			drawTriangleFan(n, verticesWithIntersections, triFan);
+		}
 	}
 
 

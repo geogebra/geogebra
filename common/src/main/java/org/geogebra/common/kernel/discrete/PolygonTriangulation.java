@@ -2176,6 +2176,14 @@ public class PolygonTriangulation {
 		return completeVertices;
 	}
 
+	/**
+	 * 
+	 * @return max index for points
+	 */
+	public int getMaxPointIndex() {
+		return maxPointIndex;
+	}
+
 	public void setCorners(Coords[] corners) {
 		this.corners = corners;
 

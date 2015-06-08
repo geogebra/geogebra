@@ -1,6 +1,10 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.main.App;
 
 /**
@@ -17,8 +21,9 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	final static public int GLSL_ATTRIB_TEXTURE = 3;
 	final static public int GLSL_ATTRIB_INDEX = 4;
 	
-	private GPUBuffer curvesIndices;
-	private int curvesIndicesSize = -1;
+	private GPUBuffer curvesIndices, fanDirectIndices, fanIndirectIndices;
+	private int curvesIndicesSize = -1, fanDirectIndicesSize = -1,
+			fanIndirectIndicesSize = -1;
 
 	final static boolean DEBUG = false;
 
@@ -77,7 +82,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 		if (size > curvesIndicesSize) {
 
-			App.debug("SIZE : " + size);
+			App.debug("NEW curvesIndicesSize : " + size);
 
 			// creates indices buffer
 			short[] arrayI = new short[3 * 2 * size * PlotterBrush.LATITUDES];
@@ -111,6 +116,88 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 		}
 
 		return curvesIndices;
+	}
+
+	/**
+	 * 
+	 * @param r
+	 *            renderer
+	 * @param size
+	 *            sections size
+	 * @return GPU buffer for direct fan indices, update it if current is not
+	 *         big enough
+	 */
+	public final GPUBuffer getBufferIndicesForFanDirect(
+			RendererShadersInterface r, int size) {
+
+		fanDirectIndices = createElementBufferIfNeeded(r, fanDirectIndices);
+
+		if (size > fanDirectIndicesSize) {
+
+			App.debug("NEW fanDirectIndicesSize : " + size);
+
+			// creates indices buffer
+			short[] arrayI = new short[3 * (size - 2)];
+
+			int index = 0;
+			short k = 1;
+			while (k < size - 1) {
+				arrayI[index] = 0;
+				index++;
+				arrayI[index] = k;
+				index++;
+
+				k++;
+				arrayI[index] = k;
+				index++;
+			}
+
+			fanDirectIndicesSize = size;
+			r.storeElementBuffer(arrayI, arrayI.length, fanDirectIndices);
+		}
+
+		return fanDirectIndices;
+	}
+
+	/**
+	 * 
+	 * @param r
+	 *            renderer
+	 * @param size
+	 *            sections size
+	 * @return GPU buffer for indirect fan indices, update it if current is not
+	 *         big enough
+	 */
+	public final GPUBuffer getBufferIndicesForFanIndirect(
+			RendererShadersInterface r, int size) {
+
+		fanDirectIndices = createElementBufferIfNeeded(r, fanIndirectIndices);
+
+		if (size > fanIndirectIndicesSize) {
+
+			App.debug("NEW fanIndirectIndicesSize : " + size);
+
+			// creates indices buffer
+			short[] arrayI = new short[3 * (size - 2)];
+
+			int index = 0;
+			short k = (short) (size - 1);
+			while (k > 1) {
+				arrayI[index] = 0;
+				index++;
+				arrayI[index] = k;
+				index++;
+
+				k--;
+				arrayI[index] = k;
+				index++;
+			}
+
+			fanIndirectIndicesSize = size;
+			r.storeElementBuffer(arrayI, arrayI.length, fanIndirectIndices);
+		}
+
+		return fanIndirectIndices;
 	}
 
 	protected class GeometriesSetElements extends GeometriesSet {
@@ -216,6 +303,10 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 			switch (type) {
 			case NONE:
+				if (hasSharedIndexBuffer) {
+					// need specific index if was sharing one
+					bufferI = null;
+				}
 				bufferI = ManagerShadersElements
 						.createElementBufferIfNeeded(r,
 						bufferI);
@@ -251,6 +342,11 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 					App.debug("surface -- keep same index buffer");
 				}
 
+				if (hasSharedIndexBuffer) {
+					// need specific index if was sharing one
+					bufferI = null;
+				}
+
 				bufferI = ManagerShadersElements
 						.createElementBufferIfNeeded(r,
 						bufferI);
@@ -259,6 +355,24 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 				r.storeElementBuffer(arrayI, indicesLength, bufferI);
 				hasSharedIndexBuffer = false;
 				break;
+
+			case FAN_DIRECT:
+				if (DEBUG) {
+					App.debug("fan direct: shared index buffer");
+				}
+				bufferI = getBufferIndicesForFanDirect(r, size);
+				indicesLength = 3 * (size - 2);
+				hasSharedIndexBuffer = true;
+				break;
+			case FAN_INDIRECT:
+				if (DEBUG) {
+					App.debug("fan indirect: shared index buffer");
+				}
+				bufferI = getBufferIndicesForFanIndirect(r, size);
+				indicesLength = 3 * (size - 2);
+				hasSharedIndexBuffer = true;
+				break;
+
 			}
 
 
@@ -350,6 +464,77 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 				.remove(index);
 		set.removeBuffers();
 		// App.debug("removeGeometrySet : " + index);
+	}
+
+	@Override
+	public void drawPolygonConvex(Coords n, Coords[] v, int length,
+			boolean reverse) {
+
+		startGeometry(Type.TRIANGLES);
+
+		// set texture
+		setDummyTexture();
+
+		// set normal
+		normal(n);
+
+		// set vertices
+		for (int i = 0; i < length; i++) {
+			vertex(v[i]);
+		}
+
+		if (reverse) {
+			endGeometry(length, TypeElement.FAN_INDIRECT);
+		} else {
+			endGeometry(length, TypeElement.FAN_DIRECT);
+		}
+
+	}
+
+
+
+	@Override
+	public void drawTriangleFans(Coords n, Coords[] verticesWithIntersections,
+			int length, ArrayList<TriangleFan> triFanList) {
+
+		startGeometry(Type.TRIANGLES);
+
+		// set texture
+		setDummyTexture();
+
+		// set normal
+		normal(n);
+
+		// set vertices
+		for (int i = 0; i < length; i++) {
+			vertex(verticesWithIntersections[i]);
+		}
+
+		// indices
+		int size = 0;
+		for (TriangleFan triFan : triFanList) {
+			size += triFan.size() - 1;
+		}
+
+		short[] arrayI = getCurrentGeometryIndices(size * 3);
+
+		int index = 0;
+		for (TriangleFan triFan : triFanList) {
+			short apex = (short) triFan.getApexPoint();
+			short current = (short) triFan.getVertexIndex(0);
+			for (int i = 1; i < triFan.size(); i++) {
+				arrayI[index] = apex;
+				index++;
+				arrayI[index] = current;
+				index++;
+				current = (short) triFan.getVertexIndex(i);
+				arrayI[index] = current;
+				index++;
+			}
+		}
+
+		// end
+		endGeometry(3 * size, TypeElement.SURFACE);
 	}
 
 }

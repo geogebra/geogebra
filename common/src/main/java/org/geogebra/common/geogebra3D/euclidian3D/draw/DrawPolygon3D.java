@@ -7,9 +7,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -17,6 +14,8 @@ import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -268,10 +267,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 									polygon.getCoordSys(), verticesLength);
 
 					// draw the triangle fans
-					for (TriangleFan triFan : pt.getTriangleFans()) {
-						renderer.getGeometryManager().drawTriangleFan(n,
-								verticesWithIntersections, triFan);
-					}
+					renderer.getGeometryManager().drawTriangleFans(n,
+							verticesWithIntersections, pt.getMaxPointIndex(),
+							pt.getTriangleFans());
+
 				}
 
 			}

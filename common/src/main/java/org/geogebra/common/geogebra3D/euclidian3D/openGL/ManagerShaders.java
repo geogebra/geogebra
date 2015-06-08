@@ -31,7 +31,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	public enum TypeElement {
-		NONE, CURVE, SURFACE
+		NONE, CURVE, SURFACE, FAN_DIRECT, FAN_INDIRECT
 	};
 
 	private ArrayList<Double> vertices, normals, textures, colors;
