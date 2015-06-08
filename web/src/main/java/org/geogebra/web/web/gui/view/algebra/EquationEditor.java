@@ -268,13 +268,13 @@ public class EquationEditor {
 		return true;
 	}
 
-	public void setText(String s) {
+	public void setText(String s, boolean shallfocus) {
 		String slatex = historyMap.get(s);
 		if (slatex == null) {
 			slatex = s;
 		}
 		org.geogebra.web.html5.main.DrawEquationWeb.updateEditingMathQuillGGB(
-		        component.getLaTeXSpan(), slatex);
+				component.getLaTeXSpan(), slatex, shallfocus);
 	}
 
 	/**

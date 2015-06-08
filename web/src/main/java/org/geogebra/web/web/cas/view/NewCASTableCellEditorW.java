@@ -138,11 +138,11 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void setInput(String input) {
-		editor.setText(input);
+		editor.setText(input, false);
 	}
 
 	public void clearInputText() {
-		editor.setText("");
+		editor.setText("", false);
 		this.input = null;
 	}
 
@@ -191,7 +191,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public void setText(String s) {
-		editor.setText(s);
+		editor.setText(s, false);
 	}
 
 	@Override

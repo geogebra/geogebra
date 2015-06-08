@@ -1331,7 +1331,7 @@ GeoContainer rbti,
 	}-*/;
 
 	public static native void updateEditingMathQuillGGB(Element parentElement,
-	        String newFormula) /*-{
+			String newFormula, boolean shallfocus) /*-{
 		// this method must not freeze, otherwise the historyPopup would not
 		// get focus! It is necessary, however, to get focus
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
@@ -1343,7 +1343,11 @@ GeoContainer rbti,
 		//console.log(newFormula);
 
 		// note: we use this from historyPopup, so it should not ask focus!
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable');
+		var whattofocus = $wnd.$ggbQuery(elsecondInside).mathquillggb(
+				'editable');
+		if (shallfocus) {
+			whattofocus.focus();
+		}
 	}-*/;
 
 	public static native String getActualEditedValue(Element parentElement) /*-{

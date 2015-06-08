@@ -341,7 +341,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			} else {
 				String text = editor.getNextInput();
 				if (text != null) {
-					editor.setText(text);
+					editor.setText(text, true);
 				}
 			}
 		} else {
@@ -350,7 +350,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			} else {
 				String text = editor.getPreviousInput();
 				if (text != null)
-					editor.setText(text);
+					editor.setText(text, true);
 			}
 		}
 		return true;
@@ -379,7 +379,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 * addToHistory is filled!
 	 */
 	public void setText(String s) {
-		editor.setText(s);
+		editor.setText(s, false);
 	}
 
 	public List<String> resetCompletions() {
