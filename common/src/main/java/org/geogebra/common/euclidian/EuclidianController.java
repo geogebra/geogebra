@@ -8579,7 +8579,9 @@ public abstract class EuclidianController {
 				setMode(EuclidianConstants.MODE_MOVE);
 			}
 		} else if (app.isHTML5Applet() && view != null) {
-			view.requestFocus();
+			if (!isComboboxFocused()) {
+				view.requestFocus();
+			}
 		}
 
 		setMouseLocation(event);
@@ -10112,5 +10114,14 @@ public abstract class EuclidianController {
 	 */
 	public GeoElement getMovedGeoElement() {
 		return movedGeoElement;
+	}
+
+	/**
+	 * necessary for webSimple, to exclude new focus
+	 * 
+	 * @return
+	 */
+	public boolean isComboboxFocused() {
+		return false;
 	}
 }

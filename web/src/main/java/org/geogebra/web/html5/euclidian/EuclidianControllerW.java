@@ -309,6 +309,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		return view.textfieldClicked(x, y, type);
 	}
 
+	@Override
 	public boolean isComboboxFocused() {
 		return mtg.isComboboxFocused();
 	}
