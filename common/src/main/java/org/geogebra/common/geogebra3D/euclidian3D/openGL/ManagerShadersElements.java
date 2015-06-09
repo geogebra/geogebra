@@ -171,7 +171,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	public final GPUBuffer getBufferIndicesForFanIndirect(
 			RendererShadersInterface r, int size) {
 
-		fanDirectIndices = createElementBufferIfNeeded(r, fanIndirectIndices);
+		fanIndirectIndices = createElementBufferIfNeeded(r, fanIndirectIndices);
 
 		if (size > fanIndirectIndicesSize) {
 
