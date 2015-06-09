@@ -304,8 +304,13 @@ public class DrawEquationWeb extends DrawEquation {
 		if (app1.has(Feature.JLM_IN_WEB)) {
 			String eqstring = latexString0;
 
+			boolean isSerifFont = false;
+			if (geo instanceof TextProperties) {
+				isSerifFont = ((TextProperties) geo).isSerifFont();
+			}
+
 			TeXIcon icon = createIcon(eqstring, font.getSize() + 3,
-					font.getStyle(), ((TextProperties) geo).isSerifFont());
+					font.getStyle(), isSerifFont);
 			Graphics2DInterface g3 = new Graphics2DW(
 					((GGraphics2DW) g2).getContext());
 			icon.paintIcon(new HasForegroundColor() {
