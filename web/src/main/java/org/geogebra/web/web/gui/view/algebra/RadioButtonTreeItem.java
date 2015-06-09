@@ -1523,7 +1523,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
 			if (deleteButton == null) {
 				deleteButton = new Image(
-						GuiResources.INSTANCE.algebraViewDeleteEntry());
+						GuiResources.INSTANCE.algebra_delete_dark());
 				ClickStartHandler.init(deleteButton, new ClickStartHandler(
 						true, true) {
 

@@ -3582,6 +3582,10 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	border-color: #DCDCDC !important;
 }
 
+.dataCollectionView .sharingCodePanel {
+	padding-bottom: 0px;	
+}
+
 /** SETTINGS */
 
 .dataCollectionView .panelIndent {
@@ -5832,6 +5836,13 @@ div.SymbolTablePopup, div.providersPopup{
 }
 
 .deleteAlgebra {
-	margin:3px 8px 0 0;
+	margin: 0px;
+}
+
+.deleteAlgebra {
 	float:right;
+}
+
+body.application[dir=rtl] .deleteAlgebra {
+	float:left;
 }

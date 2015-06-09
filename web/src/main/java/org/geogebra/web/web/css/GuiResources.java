@@ -309,6 +309,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_delete.png")
 	ImageResource algebra_delete();
 
+	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_delete_dark.png")
+	ImageResource algebra_delete_dark();
+
 	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_delete_hover.png")
 	ImageResource algebra_delete_hover();
 
@@ -360,10 +363,6 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/web/gui/images/keyboard_open.png")
 	ImageResource keyboard_show();
-
-	// ALGEBRA VIEW
-	@Source("org/geogebra/web/web/gui/images/view-close.png")
-	ImageResource algebraViewDeleteEntry();
 	
 	// DATA COLLECTION
 	@Source("org/geogebra/web/web/gui/images/datacollection_on.png")
@@ -377,5 +376,4 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/web/gui/images/expand24.png")
 	ImageResource expand();
-
 }
