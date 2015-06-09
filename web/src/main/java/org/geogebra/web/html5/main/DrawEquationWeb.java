@@ -21,6 +21,7 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.scilab.forge.jlatexmath.FactoryProviderGWT;
+import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 import org.scilab.forge.jlatexmath.graphics.Graphics2DW;
@@ -280,8 +281,10 @@ public class DrawEquationWeb extends DrawEquation {
 			texIconStyle = TeXFormula.BOLD | TeXFormula.ITALIC;
 		}
 
-		TeXIcon icon = formula.new TeXIconBuilder().setStyle(texIconStyle)
+		TeXIcon icon = formula.new TeXIconBuilder()
+				.setStyle(TeXConstants.STYLE_DISPLAY).setType(texIconStyle)
 				.setSize(size).build();
+
 
 		// icon.setInsets(new Insets(5, 5, 5, 5));
 		return icon;
