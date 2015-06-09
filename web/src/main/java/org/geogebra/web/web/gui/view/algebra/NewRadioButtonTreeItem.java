@@ -457,6 +457,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void onFocus(FocusEvent event) {
+		updateGUIfocus(event == null ? this : event.getSource());
+
+		app.getSelectionManager().clearSelectedGeos();
+
+		// this.focused = true; // hasFocus is not needed, AFAIK
+	}
+
+	void updateGUIfocus(Object source) {
 		((AlgebraViewW) av).setActiveTreeItem(null);
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
 			((AlgebraDockPanelW) app.getGuiManager().getLayout()
@@ -469,18 +477,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			        .showStyleBarPanel(true);
 		}
 
-		Object source = this;
-		if (event != null)
-			source = event.getSource();
+
 
 		// this is a static method, and the same which is needed here too,
 		// so why duplicate the same thing in another copy?
 		// this will call the showPopup method, by the way
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
 
-		app.getSelectionManager().clearSelectedGeos();
-
-		// this.focused = true; // hasFocus is not needed, AFAIK
 	}
 
 	@SuppressWarnings("unused")
