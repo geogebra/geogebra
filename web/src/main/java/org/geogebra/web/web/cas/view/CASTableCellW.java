@@ -60,7 +60,7 @@ public class CASTableCellW extends VerticalPanel {
 					c = DrawEquationWeb.paintOnCanvas(casCell, eqstring,
 							null,
 									casCell.getKernel().getApplication()
-											.getFontSize() + 3);
+											.getFontSize() + 1);
 				}
 			} else {
 				outputLabel = new Label();
