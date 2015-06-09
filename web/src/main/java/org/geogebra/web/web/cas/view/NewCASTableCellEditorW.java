@@ -64,6 +64,7 @@ public class NewCASTableCellEditorW extends Label implements
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				app.showKeyboard(NewCASTableCellEditorW.this);
+				ensureEditing();
 				editor.setFocus(true);
 			}
 		});
@@ -303,6 +304,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void ensureEditing() {
+		DrawEquationWeb.editEquationMathQuillGGB(this, seMayLaTeX, true);
 		// TODO Auto-generated method stub
 
 	}
