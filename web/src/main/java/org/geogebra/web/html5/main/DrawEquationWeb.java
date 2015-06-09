@@ -273,13 +273,11 @@ public class DrawEquationWeb extends DrawEquation {
 
 		int texIconStyle = 0;
 		if (style == GFont.BOLD) {
-			texIconStyle = style | TeXFormula.BOLD;
-		}
-		if (style == GFont.ITALIC) {
-			texIconStyle = style | TeXFormula.ITALIC;
-		}
-		if (style == GFont.BOLD + GFont.ITALIC) {
-			texIconStyle = style | TeXFormula.BOLD | TeXFormula.ITALIC;
+			texIconStyle = TeXFormula.BOLD;
+		} else if (style == GFont.ITALIC) {
+			texIconStyle = TeXFormula.ITALIC;
+		} else if (style == GFont.BOLD + GFont.ITALIC) {
+			texIconStyle = TeXFormula.BOLD | TeXFormula.ITALIC;
 		}
 
 		TeXIcon icon = formula.new TeXIconBuilder().setStyle(texIconStyle)
