@@ -92,7 +92,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	/** widgets which need translation */
 	private Label connectionLabel;
 	private Label appID;
-	private Label connectionStatus;
+	private Label connectionFailed;
+	private Label connecting;
 	private Label frequency;
 
 	/** holds sensor settings (e.g. Accelerometer x logs to function f) */
@@ -214,8 +215,12 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.connectionStatusPanel = new FlowPanel();
 		this.connectionStatusPanel.setVisible(false);
 		this.connectionStatusPanel.addStyleName("rowContainer");
-		this.connectionStatus = new Label();
-		this.connectionStatusPanel.add(this.connectionStatus);
+		this.connectionFailed = new Label(this.app.getMenu(CONNECTION_FAILD));
+		this.connectionFailed.setVisible(false);
+		this.connecting = new Label(this.app.getMenu(CONNECTING));
+		this.connecting.setVisible(false);
+		this.connectionStatusPanel.add(this.connectionFailed);
+		this.connectionStatusPanel.add(this.connecting);
 		setting.add(this.connectionStatusPanel);
 	}
 
@@ -287,7 +292,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	void handleConnectionClicked() {
 		if (this.connectButton.isDown()) {
 			this.connectionStatusPanel.setVisible(true);
-			this.connectionStatus.setText(this.app.getMenu(CONNECTING));
+			this.connecting.setVisible(true);
+			this.connectionFailed.setVisible(false);
 			((AppWapplication) this.app).getDataCollection().onConnect(
 					this.appIDTextBox.getText());
 		} else {
@@ -384,6 +390,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	public void setLabels() {
 		this.appID.setText(this.app.getMenu(DATA_SHARING_CODE));
 		this.connectionLabel.setText(this.app.getMenu(DATA_CONNECTION));
+		this.connecting.setText(this.app.getMenu(CONNECTING));
+		this.connectionFailed.setText(this.app.getMenu(CONNECTION_FAILD));
 		// TODO translation
 		this.frequency.setText(FREQUENCY + ": " + this.freqHz);
 		for (SensorSetting setting : this.sensors) {
@@ -557,7 +565,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 * update GUI if entered ID was wrong
 	 */
 	public void onWrongID() {
-		this.connectionStatus.setText(this.app.getMenu(CONNECTION_FAILD));
+		this.connectionFailed.setVisible(true);
+		this.connecting.setVisible(false);
 		((AppWapplication) this.app).getDataCollection().onDisconnect();
 		this.connectButton.setDown(false);
 		this.appIDTextBox.setEnabled(true);
