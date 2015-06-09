@@ -64,9 +64,9 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 	}
 
-	private SelectionTable myTable;
+	private SelectionTableD myTable;
 
-	public SelectionTable getMyTable() {
+	public SelectionTableD getMyTable() {
 		return myTable;
 	}
 
@@ -210,7 +210,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		if (hasTable) {
 			this.data = data;
 
-			myTable = new SelectionTable(app, data, rows, columns, iconSize,
+			myTable = new SelectionTableD(app, data, rows, columns, iconSize,
 					mode);
 			setSelectedIndex(0);
 

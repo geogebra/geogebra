@@ -164,7 +164,7 @@ import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
-import org.geogebra.desktop.gui.util.SelectionTable;
+import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.gui.view.spreadsheet.MyTableD;
@@ -3471,7 +3471,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			return menu;
 		}
 
-		class LatexTableFill extends SelectionTable implements MenuElement {
+		class LatexTableFill extends SelectionTableD implements MenuElement {
 
 			/**
 			 * 

@@ -22,7 +22,7 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.text.BadLocationException;
 
 import org.geogebra.common.gui.util.TableSymbols;
-import org.geogebra.desktop.gui.util.SelectionTable;
+import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -39,7 +39,7 @@ public class SymbolTablePopupD {
 	private KeyListener keyListener;
 	private KeyListener[] textFieldKeyListeners;
 
-	private SelectionTable symbolTable;
+	private SelectionTableD symbolTable;
 	private AppD app;
 	private Locale locale;
 	private boolean openUpwards = true;
@@ -69,7 +69,7 @@ public class SymbolTablePopupD {
 
 	private void createSymbolTable() {
 
-		symbolTable = new SelectionTable(app, TableSymbols.basicSymbols(app
+		symbolTable = new SelectionTableD(app, TableSymbols.basicSymbols(app
 				.getLocalization()), -1, 10, new Dimension(24, 24),
 				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 

@@ -16,7 +16,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.gui.view.spreadsheet.MyTableD;
 import org.geogebra.desktop.main.AppD;
 
-public class LatexTable extends SelectionTable implements MenuElement {
+public class LatexTable extends SelectionTableD implements MenuElement {
 
 	private static final long serialVersionUID = 1L;
 

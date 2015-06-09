@@ -36,7 +36,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	private PopupMenuHandler popupHandler;
 	private Slider mySlider;
 	private Label sliderLabel;
-	private SelectionTable myTable;
+	private SelectionTableW myTable;
 	private boolean hasTable;
 	/** flag to determine if the popup should persist after a mouse click */
 	private boolean keepVisible = true;
@@ -57,7 +57,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param columns
 	 *            {@code Integer}
 	 * @param mode
-	 *            {@link SelectionTable}
+	 *            {@link SelectionTableW}
 	 */
 	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
 	        Integer columns, org.geogebra.common.gui.util.SelectionTable mode) {
@@ -74,7 +74,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param columns
 	 *            {@code Integer}
 	 * @param mode
-	 *            {@link SelectionTable}
+	 *            {@link SelectionTableW}
 	 * @param hasTable
 	 *            {@code boolean}
 	 * @param hasSlider
@@ -97,7 +97,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param columns
 	 *            {@code Integer}
 	 * @param mode
-	 *            {@link SelectionTable}
+	 *            {@link SelectionTableW}
 	 * @param hasTable
 	 *            {@code boolean}
 	 * @param hasSlider
@@ -206,7 +206,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	        boolean[] selected) {
 		this.data = newData;
 
-		myTable = new SelectionTable(newData, rows, columns, mode,
+		myTable = new SelectionTableW(newData, rows, columns, mode,
 		        multiselectionEnabled);
 		if (!multiselectionEnabled) {
 			setSelectedIndex(0);
@@ -240,9 +240,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	}
 
 	/**
-	 * @return {@link SelectionTable}
+	 * @return {@link SelectionTableW}
 	 */
-	public SelectionTable getMyTable() {
+	public SelectionTableW getMyTable() {
 		return myTable;
 	}
 
@@ -431,7 +431,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
     }
 	
 	/**
-	 * @return selected Object of the {@link SelectionTable table}
+	 * @return selected Object of the {@link SelectionTableW table}
 	 */
 	public Object getSelectedValue() {
 		return myTable.getSelectedValue();

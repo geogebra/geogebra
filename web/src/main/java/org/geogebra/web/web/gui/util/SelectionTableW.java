@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.App;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -10,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 
-public class SelectionTable extends Grid implements ClickHandler {
+public class SelectionTableW extends Grid implements ClickHandler {
 	private int selectedColumn = -1;
 	private int selectedRow = -1;
 	private org.geogebra.common.gui.util.SelectionTable mode;
@@ -26,8 +27,8 @@ public class SelectionTable extends Grid implements ClickHandler {
 	 * @param columns
 	 * @param mode
 	 */
-	public SelectionTable(ImageOrText[] data, Integer rows, Integer columns,
-	        org.geogebra.common.gui.util.SelectionTable mode, boolean ms) {
+	public SelectionTableW(ImageOrText[] data, Integer rows, Integer columns,
+			SelectionTable mode, boolean ms) {
 		this(data, rows, columns, mode);
 		isMultiselectionEnabled = ms;
 	}
@@ -38,7 +39,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	 * @param columns
 	 * @param mode
 	 */
-	public SelectionTable(ImageOrText[] data, Integer rows, Integer columns,
+	public SelectionTableW(ImageOrText[] data, Integer rows, Integer columns,
 	        org.geogebra.common.gui.util.SelectionTable mode) {
 		super();
 		this.mode = mode;

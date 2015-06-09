@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.images;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.util.HasSetIcon;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.SelectionTable;
+import org.geogebra.web.web.gui.util.SelectionTableW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -21,7 +21,7 @@ public class AppResourcesConverter {
 	private static Canvas tmpCanvas = null;
 	static int waitingForConvert = 0;
 	static ImageData [] converted = null;
-	private static SelectionTable sT;
+	private static SelectionTableW sT;
 	
 	static Canvas getTmpCanvas() {
 		if (tmpCanvas == null) {
@@ -31,7 +31,7 @@ public class AppResourcesConverter {
 	}
 
 	public static void convertImageResourceToImageData(Object[] data,
-            SelectionTable selectionTable) {
+            SelectionTableW selectionTable) {
 		waitingForConvert = data.length;
 		converted = new ImageData[waitingForConvert];
 		sT = selectionTable;

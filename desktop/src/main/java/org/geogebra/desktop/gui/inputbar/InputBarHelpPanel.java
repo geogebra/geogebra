@@ -58,7 +58,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
-import org.geogebra.desktop.gui.util.SelectionTable;
+import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -90,7 +90,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private JPopupMenu contextMenu;
 	private JTextPane helpTextPane;
 	private JButton btnOnlineHelp, btnRefresh;
-	private SelectionTable functionTable;
+	private SelectionTableD functionTable;
 	private JPanel tablePanel;
 	private JPanel syntaxHelpPanel;
 	private JSplitPane cmdSplitPane;
@@ -241,7 +241,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	private void createFunctionPanel() {
 
-		functionTable = new SelectionTable(app,
+		functionTable = new SelectionTableD(app,
 				TableSymbols.getTranslatedFunctions(app), -1, 2, new Dimension(
 						20, 16),
 				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);

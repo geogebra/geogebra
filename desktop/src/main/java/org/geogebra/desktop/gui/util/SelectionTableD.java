@@ -32,7 +32,7 @@ import org.geogebra.desktop.main.AppD;
  * @author G.Sturr
  * 
  */
-public class SelectionTable extends JTable {
+public class SelectionTableD extends JTable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -113,7 +113,7 @@ public class SelectionTable extends JTable {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public SelectionTable(AppD app, Object[] data, int rows, int columns,
+	public SelectionTableD(AppD app, Object[] data, int rows, int columns,
 			Dimension iconSize, org.geogebra.common.gui.util.SelectionTable mode) {
 
 		this.app = app;
