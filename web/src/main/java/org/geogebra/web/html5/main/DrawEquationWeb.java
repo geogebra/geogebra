@@ -263,18 +263,30 @@ public class DrawEquationWeb extends DrawEquation {
 			StringBuilder initJLM = DrawEquation.getJLMCommands();
 			initJLaTeXMath = new TeXFormula(initJLM.toString());
 		}
-			TeXFormula formula = null;
-			try{
-				formula = new TeXFormula(latex);
-			}catch(Throwable t){
+		TeXFormula formula = null;
+		try {
+			formula = new TeXFormula(latex);
+		} catch (Throwable t) {
 			String[] msg = t.getMessage().split("\\n");
 			formula = new TeXFormula("\\text{" + msg[msg.length - 1] + "}");
-			}
-			TeXIcon icon = formula.new TeXIconBuilder().setStyle(style)
-					.setSize(size).build();
+		}
 
-			// icon.setInsets(new Insets(5, 5, 5, 5));
-			return icon;
+		int texIconStyle = 0;
+		if (style == GFont.BOLD) {
+			texIconStyle = style | TeXFormula.BOLD;
+		}
+		if (style == GFont.ITALIC) {
+			texIconStyle = style | TeXFormula.ITALIC;
+		}
+		if (style == GFont.BOLD + GFont.ITALIC) {
+			texIconStyle = style | TeXFormula.BOLD | TeXFormula.ITALIC;
+		}
+
+		TeXIcon icon = formula.new TeXIconBuilder().setStyle(texIconStyle)
+				.setSize(size).build();
+
+		// icon.setInsets(new Insets(5, 5, 5, 5));
+		return icon;
 
 	}
 
