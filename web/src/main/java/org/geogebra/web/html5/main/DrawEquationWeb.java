@@ -317,16 +317,15 @@ public class DrawEquationWeb extends DrawEquation {
 				}
 			}
 
-			TeXIcon icon = createIcon(eqstring,
- font.getSize() + 3,
+			TeXIcon icon = createIcon(eqstring, font.getSize() + 3,
 					font.getStyle());
 			Graphics2DInterface g3 = new Graphics2DW(
 					((GGraphics2DW) g2).getContext());
 			icon.paintIcon(new HasForegroundColor() {
 				@Override
 				public Color getForegroundColor() {
-					return FactoryProvider.INSTANCE.getGraphicsFactory().
-createColor(fgColor.getRed(), fgColor.getGreen(),
+					return FactoryProvider.INSTANCE.getGraphicsFactory()
+							.createColor(fgColor.getRed(), fgColor.getGreen(),
 									fgColor.getBlue());
 				}
 			}, g3, x, y);
@@ -1487,9 +1486,8 @@ GeoContainer rbti,
 
 	}-*/;
 
-	public static boolean endEditingEquationMathQuillGGB(
-GeoContainer rbti,
-	        String latex) {
+	public static boolean endEditingEquationMathQuillGGB(GeoContainer rbti,
+			String latex) {
 		return rbti.stopEditing(latex);
 	}
 
