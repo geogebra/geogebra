@@ -100,4 +100,9 @@ public class AngleInputDialog extends InputDialogD {
 		}
 		setVisible(!finished);
 	}
+
+	@Override
+	public void handleDialogVisibilityChange(boolean isVisible) {
+
+	}
 }

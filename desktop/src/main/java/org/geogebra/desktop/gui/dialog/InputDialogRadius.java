@@ -95,4 +95,8 @@ public abstract class InputDialogRadius extends InputDialogD {
 		}
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
+
+	public void handleDialogVisibilityChange(boolean isVisible) {
+
+	}
 }

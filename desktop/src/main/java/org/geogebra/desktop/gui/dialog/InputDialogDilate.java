@@ -132,4 +132,9 @@ public class InputDialogDilate extends InputDialogD {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public void handleDialogVisibilityChange(boolean isVisible) {
+
+	}
+
 }

@@ -48,4 +48,8 @@ public class NumberChangeSignInputDialog extends InputDialogD {
 		btPanel.add(checkBox);
 		super.loadBtPanel(showApply);
 	}
+
+	public void handleDialogVisibilityChange(boolean isVisible) {
+
+	}
 }
