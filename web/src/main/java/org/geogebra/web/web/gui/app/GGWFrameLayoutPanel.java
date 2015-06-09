@@ -311,7 +311,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				// necessary in Internet Explorer, should not do harm in other browsers
 				// although we can add browser check here if necessary, but it may be slower?
 				//if (Browser.isIE())// also might not cover every exception
-				((AlgebraViewW)app.getAlgebraView()).getInputTreeItem().getElement().setScrollLeft(pos);
+				if (((AlgebraViewW) app.getAlgebraView()).getInputTreeItem() != null) {
+					((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
+							.getElement().setScrollLeft(pos);
+				}
 			}
 		};
 		timer.schedule(500);
