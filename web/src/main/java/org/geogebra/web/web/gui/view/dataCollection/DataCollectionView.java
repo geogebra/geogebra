@@ -58,6 +58,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private final String DATA_SHARING_CODE = "DataSharingCode";
 	private final String CONNECTION_FAILD = "DataConnectionFailed";
 	private final String CONNECTING = "Connecting";
+	private final String FREQUENCY = "Frequency (Hz)";
 
 	private AppW app;
 	private TabLayoutPanel tabPanel;
@@ -71,6 +72,10 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	/** panel with the available sensors */
 	private FlowPanel sensorSettings;
 	private ArrayList<SensorSetting> sensors = new ArrayList<SensorSetting>();
+
+	/** panels which are shown or hidden depending on connection-status */
+	private FlowPanel connectionStatusPanel;
+	private FlowPanel freqPanel;
 
 	private MyToggleButton2 connectButton;
 	private TextBox appIDTextBox;
@@ -88,7 +93,13 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private Label connectionLabel;
 	private Label appID;
 	private Label connectionStatus;
+	private Label frequency;
+
+	/** holds sensor settings (e.g. Accelerometer x logs to function f) */
 	private DataCollectionSettings settings;
+
+	/** current used frequency */
+	private int freqHz;
 
 	/**
 	 * @param app
@@ -181,17 +192,42 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		FlowPanel connection = new FlowPanel();
 		connection.addStyleName("connection");
 
+		// Caption
 		FlowPanel connectionCaption = new FlowPanel();
 		connectionCaption.addStyleName("panelTitle");
 		this.connectionLabel = new Label("Connection with GeoGebra Data App");
-		connectionCaption.add(connectionLabel);
+		connectionCaption.add(this.connectionLabel);
 		connection.add(connectionCaption);
 
+		// Content
 		FlowPanel setting = new FlowPanel();
 		setting.addStyleName("panelIndent");
+		addSharingCode(setting);
+		addConnectionStatus(setting);
+		addFrequency(setting);
+		connection.add(setting);
 
+		this.dataCollectionTab.add(connection);
+	}
+
+	private void addConnectionStatus(FlowPanel setting) {
+		this.connectionStatusPanel = new FlowPanel();
+		this.connectionStatusPanel.setVisible(false);
+		this.connectionStatusPanel.addStyleName("rowContainer");
+		this.connectionStatus = new Label();
+		this.connectionStatusPanel.add(this.connectionStatus);
+		setting.add(this.connectionStatusPanel);
+	}
+
+	/**
+	 * adds SharingCode to the given panel
+	 * 
+	 * @param setting
+	 */
+	private void addSharingCode(FlowPanel setting) {
 		FlowPanel appIDpanel = new FlowPanel();
 		appIDpanel.addStyleName("rowContainer");
+		appIDpanel.addStyleName("sharingCodePanel");
 		this.appID = new Label("GeoGebra Data Sharing Code:");
 		this.appIDTextBox = new TextBox();
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
@@ -223,35 +259,42 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			}
 		});
 
-		appIDpanel.add(appID);
-		appIDpanel.add(appIDTextBox);
-		appIDpanel.add(connectButton);
-
-		FlowPanel connectionStatusPanel = new FlowPanel();
-		connectionStatusPanel.addStyleName("rowContainer");
-		this.connectionStatus = new Label();
-		connectionStatusPanel.add(this.connectionStatus);
-
+		appIDpanel.add(this.appID);
+		appIDpanel.add(this.appIDTextBox);
+		appIDpanel.add(this.connectButton);
 		setting.add(appIDpanel);
-		setting.add(connectionStatusPanel);
-		connection.add(setting);
+	}
 
-		dataCollectionTab.add(connection);
+	/**
+	 * adds frequency to the given panel
+	 * 
+	 * @param setting
+	 */
+	private void addFrequency(FlowPanel setting) {
+		this.freqPanel = new FlowPanel();
+		this.freqPanel.setVisible(false);
+		this.freqPanel.addStyleName("rowContainer");
+
+		this.frequency = new Label();
+		this.freqPanel.add(this.frequency);
+
+		setting.add(this.freqPanel);
 	}
 
 	/**
 	 *  
 	 */
 	void handleConnectionClicked() {
-		if (connectButton.isDown()) {
-			this.connectionStatus.setVisible(true);
-			this.connectionStatus.setText(app.getMenu(CONNECTING));
-			((AppWapplication) app).getDataCollection().onConnect(
-					appIDTextBox.getText());
+		if (this.connectButton.isDown()) {
+			this.connectionStatusPanel.setVisible(true);
+			this.connectionStatus.setText(this.app.getMenu(CONNECTING));
+			((AppWapplication) this.app).getDataCollection().onConnect(
+					this.appIDTextBox.getText());
 		} else {
-			appIDTextBox.removeStyleName("disabled");
-			this.connectionStatus.setVisible(false);
-			((AppWapplication) app).getDataCollection().onDisconnect();
+			this.appIDTextBox.removeStyleName("disabled");
+			this.connectionStatusPanel.setVisible(false);
+			this.freqPanel.setVisible(false);
+			((AppWapplication) this.app).getDataCollection().onDisconnect();
 			for (SensorSetting setting : this.sensors) {
 				setting.setOn(false);
 			}
@@ -259,43 +302,43 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	}
 
 	private void addAccelerometer() {
-		acc = new AccSetting(app, this, "Accelerometer");
-		this.sensors.add(acc);
-		this.sensorSettings.add(acc);
+		this.acc = new AccSetting(this.app, this, "Accelerometer");
+		this.sensors.add(this.acc);
+		this.sensorSettings.add(this.acc);
 	}
 
 	private void addMagneticField() {
-		this.magField = new MagFieldSetting(app, this, "MagneticField");
+		this.magField = new MagFieldSetting(this.app, this, "MagneticField");
 		this.sensors.add(this.magField);
 		this.sensorSettings.add(this.magField);
 	}
 
 	private void addTime() {
-		this.time = new TimeSetting(app, this, "Time");
+		this.time = new TimeSetting(this.app, this, "Time");
 		this.sensors.add(this.time);
 		this.sensorSettings.add(this.time);
 	}
 
 	private void addOrientation() {
-		this.orientation = new OrientationSetting(app, this, "Orientation");
+		this.orientation = new OrientationSetting(this.app, this, "Orientation");
 		this.sensors.add(this.orientation);
 		this.sensorSettings.add(this.orientation);
 	}
 
 	private void addProximity() {
-		this.proxi = new ProxiSetting(app, this, "Proximity");
+		this.proxi = new ProxiSetting(this.app, this, "Proximity");
 		this.sensors.add(this.proxi);
 		this.sensorSettings.add(this.proxi);
 	}
 
 	private void addLight() {
-		this.light = new LightSetting(app, this, "Light");
+		this.light = new LightSetting(this.app, this, "Light");
 		this.sensors.add(this.light);
 		this.sensorSettings.add(this.light);
 	}
 
 	private void addLoudness() {
-		this.loudness = new LoudnessSetting(app, this, "Loudness");
+		this.loudness = new LoudnessSetting(this.app, this, "Loudness");
 		this.sensors.add(this.loudness);
 		this.sensorSettings.add(this.loudness);
 	}
@@ -339,8 +382,10 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	@Override
 	public void setLabels() {
-		this.appID.setText(app.getMenu(DATA_SHARING_CODE));
-		this.connectionLabel.setText(app.getMenu(DATA_CONNECTION));
+		this.appID.setText(this.app.getMenu(DATA_SHARING_CODE));
+		this.connectionLabel.setText(this.app.getMenu(DATA_CONNECTION));
+		// TODO translation
+		this.frequency.setText(FREQUENCY + ": " + this.freqHz);
 		for (SensorSetting setting : this.sensors) {
 			setting.setLabels();
 		}
@@ -353,7 +398,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 * were deleted
 	 */
 	public void updateGeoList() {
-		TreeSet<GeoElement> newTreeSet = app.getKernel().getConstruction()
+		TreeSet<GeoElement> newTreeSet = this.app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
 		this.availableObjects.clear();
 		// fill list of available objects
@@ -367,15 +412,16 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.usedObjects.clear();
 		for (SensorSetting setting : this.sensors) {
 			for (GeoListBox listBox : setting.getListBoxes()) {
-				GeoElement selection = settings.getGeoMappedToSensor(
-						listBox.getType(), app.getKernel().getConstruction());
+				GeoElement selection = this.settings.getGeoMappedToSensor(
+						listBox.getType(), this.app.getKernel()
+								.getConstruction());
 				if (selection != null && newTreeSet.contains(selection)) {
 					this.usedObjects.add(selection);
 					this.availableObjects.remove(selection);
 				} else {
 					//
-					settings.removeMappedGeo(listBox.getType());
-					((AppWapplication) app).getDataCollection()
+					this.settings.removeMappedGeo(listBox.getType());
+					((AppWapplication) this.app).getDataCollection()
 							.removeRegisteredGeo(listBox.getType());
 				}
 			}
@@ -410,15 +456,16 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 													// GeoListBox
 			} else if (listBox.getSelectedIndex() == DefaultEntries.CREATE_NUMBER
 					.getIndex()) {
-				newSelection = new GeoNumeric(
-						app.getKernel().getConstruction(), null, 0);
+				newSelection = new GeoNumeric(this.app.getKernel()
+						.getConstruction(), null, 0);
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
 			} else {
 				// create new data function
-				newSelection = CmdDataFunction.getDataFunction(app.getKernel(),
-						null, new MyList(app.getKernel()),
-						new MyList(app.getKernel()))[0];
+				newSelection = CmdDataFunction.getDataFunction(
+						this.app.getKernel(), null,
+						new MyList(this.app.getKernel()),
+						new MyList(this.app.getKernel()))[0];
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
 			}
@@ -445,7 +492,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.availableObjects.remove(geo);
 		this.usedObjects.add(geo);
 		if (listBox.getSensorSetting().isOn()) {
-			((AppWapplication) app).getDataCollection().registerGeo(
+			((AppWapplication) this.app).getDataCollection().registerGeo(
 					listBox.getType().toString(), geo);
 		}
 	}
@@ -461,7 +508,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private void setGeoUnused(GeoElement geo, GeoListBox listBox) {
 		this.availableObjects.add(geo);
 		this.usedObjects.remove(geo);
-		((AppWapplication) app).getDataCollection().removeRegisteredGeo(
+		((AppWapplication) this.app).getDataCollection().removeRegisteredGeo(
 				listBox.getType());
 	}
 
@@ -472,7 +519,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	private void updateOtherListBoxes(GeoListBox listbox) {
 		for (SensorSetting setting : this.sensors) {
-			setting.updateOtherBoxes(listbox, availableObjects, usedObjects);
+			setting.updateOtherBoxes(listbox, this.availableObjects,
+					this.usedObjects);
 		}
 	}
 
@@ -481,7 +529,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	private void updateListBoxes() {
 		for (SensorSetting setting : this.sensors) {
-			setting.updateAllBoxes(availableObjects, usedObjects);
+			setting.updateAllBoxes(this.availableObjects, this.usedObjects);
 		}
 	}
 
@@ -509,27 +557,40 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 * update GUI if entered ID was wrong
 	 */
 	public void onWrongID() {
-		this.connectionStatus.setText(app.getMenu(CONNECTION_FAILD));
-		((AppWapplication) app).getDataCollection().onDisconnect();
+		this.connectionStatus.setText(this.app.getMenu(CONNECTION_FAILD));
+		((AppWapplication) this.app).getDataCollection().onDisconnect();
 		this.connectButton.setDown(false);
 		this.appIDTextBox.setEnabled(true);
 		this.appIDTextBox.removeStyleName("disabled");
 		this.appIDTextBox.setSelectionRange(0, this.appIDTextBox.getText()
 				.length());
 		this.appIDTextBox.setFocus(true);
+
+		this.freqPanel.setVisible(false);
 	}
 
 	/**
 	 * update GUI if entered ID was correct
 	 */
 	public void onCorrectID() {
-		this.connectionStatus.setVisible(false);
+		this.connectionStatusPanel.setVisible(false);
 		this.appIDTextBox.addStyleName("disabled");
-		((AppWapplication) app).getDataCollection().triggerAvailableSensors();
+		this.freqPanel.setVisible(true);
+		((AppWapplication) this.app).getDataCollection()
+				.triggerAvailableSensors();
+		((AppWapplication) this.app).getDataCollection().triggerFrequency();
 	}
 
+	/**
+	 * updates the label for the used frequency from GeoGebra Data App
+	 * 
+	 * @param freq
+	 *            frequency in Hz
+	 */
 	public void setFrequency(int freq) {
-		// FIXME
+		// TODO translation for frequency
+		this.freqHz = freq;
+		this.frequency.setText(FREQUENCY + ": " + this.freqHz);
 	}
 
 	@Override
@@ -659,4 +720,3 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		updateListBoxes();
 	}
 }
-

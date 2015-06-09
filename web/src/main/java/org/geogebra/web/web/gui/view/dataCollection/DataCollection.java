@@ -149,6 +149,10 @@ public class DataCollection implements WebSocketListener {
 		sensorLogger.triggerAvailableSensors();
 	}
 
+	public void triggerFrequency() {
+		this.sensorLogger.triggerFrequency();
+	}
+
 	public void onFrequency(int freq) {
 		this.dataView.setFrequency(freq);
 	}

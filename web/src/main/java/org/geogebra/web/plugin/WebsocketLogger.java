@@ -97,6 +97,9 @@ public class WebsocketLogger extends SensorLogger {
 		connection.send(obj.toString());
 	}
 
+	/**
+	 * asks the mobile data app for the actual frequency
+	 */
 	public void triggerFrequency() {
 		JSONObject obj = new JSONObject();
 		obj.put("appID", new JSONString(appID));
