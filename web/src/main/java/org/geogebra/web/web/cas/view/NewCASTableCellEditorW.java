@@ -306,4 +306,8 @@ public class NewCASTableCellEditorW extends Label implements
 		// TODO Auto-generated method stub
 
 	}
+
+	public boolean resetAfterEnter() {
+		return false;
+	}
 }

@@ -1762,9 +1762,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			}
 		}
 		onScreenKeyboard.setUsed(false);
-		onScreenKeyboard
-				.setTextField(textField == null ? ((AlgebraViewW) getAlgebraView())
-						.getInputTreeItem() : textField);
+		if (app.has(Feature.CAS_EDITOR)) {
+			if (textField != null) {
+				onScreenKeyboard.setTextField(textField);
+			}
+		} else {
+			onScreenKeyboard.setTextField(textField == null ? getAlgebraView()
+					.getInputTreeItem() : textField);
+		}
 		// set keyboard used to true for the new text field
 		onScreenKeyboard.setUsed(true);
 

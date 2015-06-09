@@ -1752,4 +1752,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// TODO Auto-generated method stub
 
 	}
+	
+	public boolean resetAfterEnter() {
+		return true;
+	}
+
 }

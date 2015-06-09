@@ -20,4 +20,6 @@ public interface EquationEditorListener extends AutoCompleteW {
 
 	void scrollCursorIntoView();
 
+	boolean resetAfterEnter();
+
 }

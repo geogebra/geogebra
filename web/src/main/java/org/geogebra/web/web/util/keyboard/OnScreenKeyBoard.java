@@ -15,7 +15,6 @@ import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.NoDragImage;
-import org.geogebra.web.web.gui.view.algebra.CanBlockBlurEvent;
 import org.geogebra.web.web.util.keyboard.KeyBoardButtonFunctional.Action;
 import org.geogebra.web.web.util.keyboard.TextFieldProcessing.ArrowType;
 
@@ -172,7 +171,6 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 	 */
 	UpdateKeyBoardListener updateKeyBoardListener;
 
-	private CanBlockBlurEvent resetComponent;
 
 	private boolean shiftIsDown = false;
 	private boolean greekActive = false;
@@ -732,10 +730,6 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 				break;
 			case ENTER:
 				// make sure enter is processed correctly
-				if (resetComponent != null) {
-					resetComponent.resetBlockBlur();
-					resetComponent = null;
-				}
 				processing.onEnter();
 				if (processing.resetAfterEnter()) {
 					updateKeyBoardListener.keyBoardNeeded(false, null);
@@ -1005,17 +999,8 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		if (shiftIsDown) {
 			processShift();
 		}
-		if (resetComponent != null) {
-			resetComponent.resetBlockBlur();
-			resetComponent = null;
-		}
 	}
 
-	public void setResetComponent(CanBlockBlurEvent rbti) {
-
-		this.resetComponent = rbti;
-
-	}
 
 	/**
 	 * loads the javascript file and updates the keys to the given language

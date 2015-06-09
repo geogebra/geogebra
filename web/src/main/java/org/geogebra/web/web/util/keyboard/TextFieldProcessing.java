@@ -2,6 +2,7 @@ package org.geogebra.web.web.util.keyboard;
 
 import java.util.HashSet;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
@@ -147,6 +148,7 @@ public class TextFieldProcessing {
 	 * simulates an enter key event
 	 */
 	public void onEnter() {
+		App.debug("STATE" + state);
 		switch (state) {
 		case autoCompleteTextField:
 			NativeEvent event = Document.get().createKeyDownEvent(false, false,
@@ -177,7 +179,8 @@ public class TextFieldProcessing {
 	}
 
 	public boolean resetAfterEnter() {
-		return state == State.equationEditorListener;
+		return state == State.equationEditorListener
+				&& ((EquationEditorListener) field).resetAfterEnter();
 	}
 
 	/**

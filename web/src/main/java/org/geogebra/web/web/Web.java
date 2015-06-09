@@ -92,6 +92,7 @@ public class Web implements EntryPoint {
 		allowRerun();
 		// just debug for now
 		PNaCl.exportPNaCltoConsole();
+		Web.registerSuperdevExceptionHandler();
 	}
 
 	private static void run() {
