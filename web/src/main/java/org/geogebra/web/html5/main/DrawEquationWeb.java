@@ -257,7 +257,8 @@ public class DrawEquationWeb extends DrawEquation {
 		        el == eqstring.length(), true, 0, nonGeneral);
 	}
 	
-	public static TeXIcon createIcon(String latex, int size, int style) {
+	public static TeXIcon createIcon(String latex, int size, int style,
+			boolean serif) {
 		ensureJLMFactoryExists();
 		if (initJLaTeXMath == null) {
 
@@ -281,6 +282,10 @@ public class DrawEquationWeb extends DrawEquation {
 			texIconStyle = TeXFormula.BOLD | TeXFormula.ITALIC;
 		}
 
+		if (!serif) {
+			texIconStyle = texIconStyle | TeXFormula.SANSSERIF;
+		}
+
 		TeXIcon icon = formula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setType(texIconStyle)
 				.setSize(size).build();
@@ -298,27 +303,9 @@ public class DrawEquationWeb extends DrawEquation {
 	        boolean updateAgain) {
 		if (app1.has(Feature.JLM_IN_WEB)) {
 			String eqstring = latexString0;
-			if (geo instanceof TextProperties) {
-				if ((((TextProperties) geo).getFontStyle() & GFont.ITALIC) == 0) {
-					// set to be not italic
-					eqstring = "\\mathrm{" + eqstring + "}";
-				} // else {
-					// italics needed? Try this! (Testing needed...)
-					// eqstring = "\\mathit{"+ eqstring +"}";
-					// }
-					// if ((((TextProperties)geo).getFontStyle() & GFont.BOLD)
-					// != 0) {
-					// bold needed? Try this! (Testing needed...)
-					// eqstring = "\\mathbf{"+ eqstring +"}";
-					// }
-				if (!((TextProperties) geo).isSerifFont()) {
-					// forcing sans-serif
-					eqstring = "\\mathsf{" + eqstring + "}";
-				}
-			}
 
 			TeXIcon icon = createIcon(eqstring, font.getSize() + 3,
-					font.getStyle());
+					font.getStyle(), ((TextProperties) geo).isSerifFont());
 			Graphics2DInterface g3 = new Graphics2DW(
 					((GGraphics2DW) g2).getContext());
 			icon.paintIcon(new HasForegroundColor() {
@@ -1850,8 +1837,7 @@ GeoContainer rbti,
 					c.getCoordinateSpaceHeight());
 		}
 		TeXIcon icon = DrawEquationWeb.createIcon("\\mathsf{\\mathrm {" + text0
-				+ "}}",
-				fontSize, GFont.PLAIN);
+				+ "}}", fontSize, GFont.PLAIN, false);
 		Graphics2DInterface g3 = new Graphics2DW(c.getContext2d());
 
 		c.setCoordinateSpaceWidth(icon.getIconWidth());
