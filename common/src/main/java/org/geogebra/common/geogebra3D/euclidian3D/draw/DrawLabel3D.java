@@ -14,7 +14,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
@@ -250,8 +250,9 @@ public class DrawLabel3D {
 		if (isLatex(text) && text.length() > 1) {
 			boolean serif = true; // nice "x"s
 			GeoElement geo = drawable.getGeoElement();
-			if (geo.isGeoText())
-				serif = ((GeoText) geo).isSerifFont();
+			if (geo instanceof TextProperties) {
+				serif = ((TextProperties) geo).isSerifFont();
+			}
 			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels
 													// don't go
 			// off bottom of screen
