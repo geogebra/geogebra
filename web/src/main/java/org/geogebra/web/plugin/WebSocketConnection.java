@@ -65,7 +65,7 @@ public class WebSocketConnection extends JavaScriptObject {
 
 	public native final void onError(ErrorEventHandler handler) /*-{
 		this.onerror = function(e) {
-			hanlder.@org.geogebra.web.plugin.ErrorEventHandler::error(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+			handler.@org.geogebra.web.plugin.ErrorEventHandler::error(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
 		};
 	}-*/;
 
