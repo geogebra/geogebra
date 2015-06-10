@@ -720,6 +720,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		return fun.evaluateBoolean(new double[] { x0, y0 });
 	}
 
+	private GeoPoint helper;
 	public void pointChangedForRegion(GeoPointND P) {
 		if (!((GeoPoint) P).isDefined())
 			return;
@@ -759,6 +760,16 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 							/ (a * a + b * b);
 					py -= in.isAboveBorder() ? STRICT_INEQ_OFFSET
 							: -STRICT_INEQ_OFFSET;
+				} else if (in.getType() == IneqType.INEQUALITY_CONIC) {
+					if(helper == null){
+						helper = new GeoPoint(cons);
+					}
+					helper.setCoordsFromPoint(P);
+					helper.setPath(in.getConicBorder());
+					in.getConicBorder().pointChanged(helper);
+
+					px = helper.getX() / helper.getZ();
+					py = helper.getY() / helper.getZ();
 				}
 				double myDist = (py - myY) * (py - myY) + (px - myX)
 						* (px - myX);
