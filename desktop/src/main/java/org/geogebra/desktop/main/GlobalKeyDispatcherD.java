@@ -263,7 +263,7 @@ public class GlobalKeyDispatcherD extends
 	protected void tryPasteEquation(){
 		String html = ((GuiManagerD) app.getGuiManager())
 				.getStringFromClipboard();
-		if (html.indexOf("<m:oMath") > 0) {
+		if (html != null && html.indexOf("<m:oMath") > 0) {
 			int blockBegin = html.indexOf("<m:oMathPara>");
 			int blockEnd;
 			if (blockBegin == -1) {
