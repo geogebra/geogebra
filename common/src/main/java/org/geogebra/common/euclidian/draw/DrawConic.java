@@ -48,11 +48,11 @@ import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoParabolaPointLine;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -146,7 +146,7 @@ public class DrawConic extends Drawable implements Previewable {
 	private double x, y;
 	private int index0, index1, n;
 	/** number of points used for hyperbola path */
-	protected int points;
+	protected int points = PLOT_POINTS;
 	private GeneralPathClipped hypLeft, hypRight;
 	private boolean hypLeftOnScreen, hypRightOnScreen;
 
@@ -945,8 +945,8 @@ public class DrawConic extends Drawable implements Previewable {
 		n = PLOT_POINTS
 				+ (int) (Math.abs(x0 - a) / (view.getXmax() - view.getXmin()))
 				* 10;
-
-		if (points != n) {
+		// n < 0 might result from huge real
+		if (points != n && n > 0) {
 			points = Math.min(n, MAX_PLOT_POINTS);
 		}
 
