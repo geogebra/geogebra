@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -234,6 +235,60 @@ public class ProverBotanasMethod {
 		return ret;
 	}
 
+	// formulate draw in readable format
+	private static String getTextFormat(GeoElement statement) {
+		ArrayList<String> freePoints = new ArrayList<String>();
+		ArrayList<String> constructions = new ArrayList<String>();
+		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.getParentAlgorithm() == null) {
+				freePoints.add(geo.getLabelSimple());
+			} else if (!(geo instanceof GeoNumeric)) {
+				StringBuilder construction = new StringBuilder();
+				construction.append(geo.getLabelSimple());
+				construction.append("+");
+				construction
+						.append(geo
+								.getDefinitionDescription(StringTemplate.noLocalDefault));
+				constructions.add(construction.toString());
+			}
+		}
+		StringBuilder textStrBuilder = new StringBuilder();
+		textStrBuilder.append("Let ");
+		for (String str : freePoints) {
+			textStrBuilder.append(str);
+			textStrBuilder.append(",");
+		}
+		textStrBuilder.deleteCharAt(textStrBuilder.length() - 1);
+		textStrBuilder.append(" be arbitrary points.");
+		textStrBuilder.append("\n");
+		for (String str : constructions) {
+			textStrBuilder.append("Let ");
+			String[] constructionDetails = str.split("\\+");
+			textStrBuilder.append(constructionDetails[0]);
+			textStrBuilder.append(" be ");
+			String firstLoweredChar = String.valueOf(
+					constructionDetails[1].charAt(0)).toLowerCase();
+			String strWithoutFirstChar = constructionDetails[1].substring(1);
+			constructionDetails[1] = firstLoweredChar + strWithoutFirstChar;
+			textStrBuilder.append(constructionDetails[1]);
+			textStrBuilder.append(".\n");
+		}
+		textStrBuilder.append("Prove that ");
+		String toProveStr = String.valueOf(statement.getAlgorithmList().get(0))
+				.substring(6);
+		toProveStr = toProveStr.replaceFirst("etails", "");
+		if (toProveStr.startsWith("[")) {
+			textStrBuilder.append(toProveStr.substring(1));
+		} else {
+			textStrBuilder.append(toProveStr);
+		}
+		textStrBuilder.deleteCharAt(textStrBuilder.length() - 1);
+		textStrBuilder.append(".");
+		return textStrBuilder.toString();
+	}
+
 	/**
 	 * Proves the statement by using Botana's method
 	 * 
@@ -272,6 +327,9 @@ public class ProverBotanasMethod {
 
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
+
+		// write construction in readable format
+		App.debug(getTextFormat(statement));
 
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
