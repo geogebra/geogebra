@@ -3647,7 +3647,6 @@ public abstract class App implements UpdateSelection {
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
 		case CAS_EDITOR:
-		case DELETE_IN_ALGEBRA:
 		case EXERCISES:
 		case IMPLICIT_CURVES:
 		case KOREAN_KEYBOARD:
@@ -3659,6 +3658,7 @@ public abstract class App implements UpdateSelection {
 		case ADD_NEW_OBJECT_BUTTON:
 		case SF_DRAG:
 		case JLM_IN_WEB:
+		case DELETE_IN_ALGEBRA:
 			return true;
 		default:
 			return false;
