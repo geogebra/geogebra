@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.TextProperties;
 
 /**
  * class for drawing texts
@@ -28,11 +29,13 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		if (geo.isLaTeX()) {
 			return EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					tempGraphics, geo, tempGraphics, font, GColor.BLACK,
-					GColor.WHITE, text, 0, 0, false);
+					GColor.WHITE, text, 0, 0,
+					((TextProperties) geo).isSerifFont());
 		}
 
 		return EuclidianStatic.drawMultiLineText(view.getApplication(), text,
-				0, 0, tempGraphics, false, tempGraphics.getFont());
+				0, 0, tempGraphics, ((TextProperties) geo).isSerifFont(),
+				tempGraphics.getFont());
 
 	}
 
@@ -44,10 +47,11 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					tempGraphics, geo, g2d, font, GColor.BLACK, GColor.WHITE,
-					text, 0, 0, false);
+					text, 0, 0, ((TextProperties) geo).isSerifFont());
 		} else {
-			EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0,
-					0, g2d, false, g2d.getFont());
+			EuclidianStatic
+					.drawMultiLineText(view.getApplication(), text, 0, 0, g2d,
+							((TextProperties) geo).isSerifFont(), g2d.getFont());
 		}
 
 		return bimg;

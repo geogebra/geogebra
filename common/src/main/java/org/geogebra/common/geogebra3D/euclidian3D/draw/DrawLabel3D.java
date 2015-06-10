@@ -30,6 +30,8 @@ public class DrawLabel3D {
 	protected String text;
 	/** font of the label */
 	protected GFont font, fontOriginal;
+	/** text wants serif */
+	private boolean serif;
 	/** color of the label */
 	private Coords backgroundColor, color;
 	/** origin of the label (left-bottom corner) */
@@ -154,6 +156,12 @@ public class DrawLabel3D {
 
 			tempGraphics.setFont(font);
 
+			serif = true;
+			GeoElement geo = drawable.getGeoElement();
+			if (geo instanceof TextProperties) {
+				serif = ((TextProperties) geo).isSerifFont();
+			}
+
 			GRectangle rectangle = getBounds();
 
 			int xMin = (int) rectangle.getMinX() - 1;
@@ -219,7 +227,7 @@ public class DrawLabel3D {
 
 	protected GRectangle getBounds() {
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
-				view.getApplication(), text, 0, 0, tempGraphics, false,
+				view.getApplication(), text, 0, 0, tempGraphics, serif,
 				tempGraphics.getFont());
 		if (text.contains("_")) { // text contains subscript
 			hasIndex = true;
@@ -248,11 +256,7 @@ public class DrawLabel3D {
 		GGraphics2D g2d;
 
 		if (isLatex(text) && text.length() > 1) {
-			boolean serif = true; // nice "x"s
 			GeoElement geo = drawable.getGeoElement();
-			if (geo instanceof TextProperties) {
-				serif = ((TextProperties) geo).isSerifFont();
-			}
 			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels
 													// don't go
 			// off bottom of screen
