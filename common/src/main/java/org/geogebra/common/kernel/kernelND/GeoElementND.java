@@ -218,4 +218,5 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	int getLabelMode();
 	void setLabelMode(int labelName);
 	//public Kernel getKernel();
+	public String getLabelSimple();
 }

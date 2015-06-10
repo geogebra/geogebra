@@ -100,6 +100,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -648,12 +649,19 @@ public abstract class EuclidianController {
 									((GeoPoint) geo).getInhomY())) {
 						geo.setEuclidianVisible(false);
 						String geolabel = geo.getLabelSimple();
-						kernel.getAlgebraProcessor().processAlgebraCommand(
-								geo.getLabelSimple() + "="
-										+ ((GeoElement) geo2).getLabelSimple(),
-								false);
-						kernel.lookupLabel(geolabel).setEuclidianVisible(false);
-						kernel.lookupLabel(geolabel).updateRepaint();
+						try {
+							kernel.getAlgebraProcessor()
+									.changeGeoElementNoExceptionHandling(geo,
+											geo2.wrap(), true, false);
+							kernel.lookupLabel(geolabel).setEuclidianVisible(
+									false);
+							kernel.lookupLabel(geolabel).updateRepaint();
+						} catch (Exception e) {
+							e.printStackTrace();
+						} catch (MyError err) {
+							err.printStackTrace();
+						}
+
 						break;
 					}
 				}
