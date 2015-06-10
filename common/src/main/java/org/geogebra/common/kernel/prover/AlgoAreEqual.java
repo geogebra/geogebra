@@ -4,16 +4,19 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -275,6 +278,40 @@ public class AlgoAreEqual extends AlgoElement implements
 			return botanaPolynomials;
 		}
 
+		// distance between 2 point without segment
+		if (inputElement1 instanceof GeoNumeric
+				&& inputElement2 instanceof GeoNumeric
+				&& (inputElement1.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_DISTANCE
+				&& (inputElement2.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_DISTANCE) {
+			// We check whether their length are equal.
+			botanaPolynomials = new Polynomial[1][1];
+
+			Variable[] v1 = new Variable[4];
+			Variable[] v2 = new Variable[4];
+			// get coordinates of the start and end points
+			v1 = ((SymbolicParametersBotanaAlgo) inputElement1
+					.getParentAlgorithm()).getBotanaVars(inputElement1); // AB
+			v2 = ((SymbolicParametersBotanaAlgo) inputElement2
+					.getParentAlgorithm()).getBotanaVars(inputElement2); // CD
+
+			// We want to prove: d(AB)=d(CD) =>
+			// (a1-b1)^2+(a2-b2)^2=(c1-d1)^2+(c2-d2)^2
+			// => (a1-b1)^2+(a2-b2)^2-(c1-d1)^2-(c2-d2)^2
+			Polynomial a1 = new Polynomial(v1[0]);
+			Polynomial a2 = new Polynomial(v1[1]);
+			Polynomial b1 = new Polynomial(v1[2]);
+			Polynomial b2 = new Polynomial(v1[3]);
+			Polynomial c1 = new Polynomial(v2[0]);
+			Polynomial c2 = new Polynomial(v2[1]);
+			Polynomial d1 = new Polynomial(v2[2]);
+			Polynomial d2 = new Polynomial(v2[3]);
+			botanaPolynomials[0][0] = ((Polynomial.sqr(a1.subtract(b1))
+					.add(Polynomial.sqr(a2.subtract(b2)))).subtract(Polynomial
+					.sqr(c1.subtract(d1)))).subtract(Polynomial.sqr(c2
+					.subtract(d2)));
+
+			return botanaPolynomials;
+		}
 		// TODO: Implement circles etc.
 
 		throw new NoSymbolicParametersException();

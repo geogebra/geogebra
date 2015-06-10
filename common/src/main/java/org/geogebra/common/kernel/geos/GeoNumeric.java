@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -40,6 +41,9 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -50,7 +54,11 @@ import org.geogebra.common.util.StringUtil;
  * @author Markus
  */
 public class GeoNumeric extends GeoElement implements GeoNumberValue,
-		AbsoluteScreenLocateable, GeoFunctionable, Animatable, HasExtendedAV {
+		AbsoluteScreenLocateable, GeoFunctionable, Animatable, HasExtendedAV,
+		SymbolicParametersBotanaAlgo {
+
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
 
 	/** eg boxplot */
 	public static final int DEFAULT_THICKNESS = 2;
@@ -1477,5 +1485,36 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		}
 
 	}
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		if (algoParent != null
+				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaVars(this);
+		}
+
+		if (algoParent == null) {
+			if (botanaVars == null) {
+				botanaVars = new Variable[2];
+				botanaVars[0] = new Variable(true);
+				botanaVars[1] = new Variable(true);
+				App.debug("Free point " + geo.getLabelSimple() + "("
+						+ botanaVars[0] + "," + botanaVars[1] + ")");
+			}
+		}
+
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+		if (algoParent != null
+				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaPolynomials(this);
+		}
+		return null; // Here maybe an exception should be thrown...?
+	}
+
 
 }
