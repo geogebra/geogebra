@@ -240,6 +240,7 @@ public class MidiSoundD implements MetaEventListener {
 			// PlaySound["http://cs.uccs.edu/~cs525/midi/vivi.mid"]
 			// PlaySound["@1296677"]
 			// PlaySound["http://tube-beta.geogebra.org/material/download/format/file/id/1296677"]
+			// PlaySound["http://tube-beta.geogebra.org/files/material-1296677.mid"]
 
 			if (filePath.startsWith("@")) {
 
@@ -254,8 +255,8 @@ public class MidiSoundD implements MetaEventListener {
 				// }
 
 				// something like
-				// http://tube-beta.geogebra.org/material/download/format/file/id/1296677
-				urlStr = urlStr + "material/download/format/file/id/" + id;
+				// http://tube-beta.geogebra.org/files/material-1296677.mid
+				urlStr = urlStr + "files/material-" + id + ".mid";
 
 				url = new URL(urlStr);
 				ext = "mid";
