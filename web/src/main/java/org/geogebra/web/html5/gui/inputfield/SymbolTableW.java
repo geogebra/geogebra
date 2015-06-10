@@ -1,12 +1,18 @@
 package org.geogebra.web.html5.gui.inputfield;
 
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.Widget;
 
 public class SymbolTableW extends FlexTable implements ClickHandler {
 
@@ -18,6 +24,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	private boolean isLatex;
 
 	private int rowLength = 10;
+	private GeoNumeric sample;
 
 	/**
 	 * Constructs a SymbolTable
@@ -27,14 +34,16 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	 * @param symbolToolTips
 	 */
 	public SymbolTableW(String[] symbolStrings, String[] symbolToolTips,
-	        boolean isLatex, int rowLength) {
+			boolean isLatex, int rowLength, App app) {
 		super();
 		this.symbolStrings = symbolStrings;
 		this.symbolToolTips = symbolToolTips;
 		this.isLatex = isLatex;
 		this.rowLength = rowLength;
-
-		buildSymbolTable();
+		if (app != null) {
+			this.sample = new GeoNumeric(app.getKernel().getConstruction());
+		}
+		buildSymbolTable(app);
 		addClickHandler(this);
 		addStyleName("SymbolTable");
 	}
@@ -47,17 +56,17 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	 * @param symbolToolTips
 	 */
 	public SymbolTableW(String[] symbolStrings, String[] symbolToolTips) {
-		this(symbolStrings, symbolToolTips, false, 10);
+		this(symbolStrings, symbolToolTips, false, 10, null);
 	}
 
-	private void buildSymbolTable() {
+	private void buildSymbolTable(App app) {
 
 		for (int i = 0; i < symbolStrings.length; i++) {
 			int col = (int) Math.floor(i % rowLength);
 			int row = (int) Math.floor(i / rowLength);
 
 			if (isLatex) {
-				setHTML(row, col, getLatexHTML(symbolStrings[i]));
+				this.setWidget(row, col, getLatexHTML(symbolStrings[i], app));
 			} else {
 				setText(row, col, symbolStrings[i]);
 			}
@@ -69,13 +78,17 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		}
 	}
 
-	private String getLatexHTML(String text) {
-
+	private Widget getLatexHTML(String text, App app) {
+		if (app.has(Feature.JLM_IN_WEB)) {
+		Canvas c = DrawEquationWeb.paintOnCanvas(sample, text, null,
+				app.getFontSize());
+			return c;
+		}
 		SpanElement se = DOM.createSpan().cast();
-		DrawEquationWeb.drawEquationAlgebraView(se, "\\mathrm {" + text + "}",
-		        true);
+		DrawEquationWeb.drawEquationAlgebraView(se, "\\mathrm {" + text
+					+ "}", true);
+		return new InlineHTML(se.getInnerHTML());
 
-		return se.getInnerHTML();
 	}
 
 	public void onClick(ClickEvent event) {

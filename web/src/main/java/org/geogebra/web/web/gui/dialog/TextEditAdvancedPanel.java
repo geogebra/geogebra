@@ -255,7 +255,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 		final boolean isLatex = isLatexSymbol;
 		final SymbolTableW symTable = new SymbolTableW(table, null, isLatex,
-		        rowSize);
+				rowSize, app);
 
 		symTable.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
