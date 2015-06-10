@@ -261,7 +261,9 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 			public void onClick(ClickEvent event) {
 				Cell clickCell = ((HTMLTable) event.getSource())
 				        .getCellForEvent(event);
-
+				if (clickCell == null) {
+					return;
+				}
 				String text = symTable.getSymbolText(clickCell.getRowIndex(),
 				        clickCell.getCellIndex());
 
