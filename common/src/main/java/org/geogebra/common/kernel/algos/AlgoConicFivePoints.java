@@ -207,19 +207,27 @@ public class AlgoConicFivePoints extends AlgoElement {
 		// B = line[2] u line[3]
 		degCone(line[0], line[1], A);
 		degCone(line[2], line[3], B);
+
 		e1 = evalMatrix(B, P[4]);
 		e2 = -evalMatrix(A, P[4]);
 
+
 		// try to avoid tiny/huge value for matrix
 		if (shouldInvert(e1) && shouldInvert(e2)) {
+			if (hugeForMatrix(e1, A) && hugeForMatrix(e2, A)) {
+				e2 = e2 / e1;
+				e1 = 1;
+			} else {
+				double tmp = e1;
 
-			double tmp = e1;
-
-			e1 = 1 / e2;
-			e2 = 1 / tmp;
+				e1 = 1 / e2;
+				e2 = 1 / tmp;
+			}
 		}
-
 		linComb(A, B, e1, e2, C);
+
+		// e1 = Math.signum(e1) * Math.sqrt(Math.abs(e1));
+		// e2 = e2 / Math.abs(e1);
 
 		/***
 		 * Perturbation method to estimate the error of "detS" of the conic
@@ -369,6 +377,27 @@ public class AlgoConicFivePoints extends AlgoElement {
 		conic.setMatrix(C);
 		// System.out.println(conic.getTypeString());
 
+	}
+
+	/**
+	 * Compares a value with matrix entries TODO the 1E10 constant here is a bit
+	 * arbitrary, see #5201
+	 * 
+	 * @param e12
+	 * @param M
+	 * @return
+	 */
+	private boolean hugeForMatrix(double e12, double M[][]) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; i < 3; i++) {
+				// e12 is much bigger than any matrix entry
+				if (!Kernel.isZero(M[i][j], Kernel.MIN_PRECISION)
+						&& Math.abs(e12) > 1E10 * M[i][j]) {
+					return true;
+				}
+				;
+			}
+		return false;
 	}
 
 	private boolean shouldInvert(double d) {
