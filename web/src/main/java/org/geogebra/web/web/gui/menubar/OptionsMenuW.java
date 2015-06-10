@@ -136,7 +136,9 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 						if (app.hasEuclidianView2EitherShowingOrNot(1))
 							if (app.getEuclidianView2(1).hasStyleBar())
 								app.getEuclidianView2(1).getStyleBar()
-								.restoreDefaultGeo();						
+								.restoreDefaultGeo();
+				// TODO needed to eg. update rounding, possibly too heavy
+				app.getKernel().updateConstruction();
 
 			        }
 		        });

@@ -316,7 +316,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 						if (app.getEuclidianView2(1).hasStyleBar())
 							app.getEuclidianView2(1).getStyleBar()
 									.restoreDefaultGeo();
-
+					app.getKernel().updateConstruction();
 					// set default layout options
 					app.setToolbarPosition(SwingConstants.NORTH, false);
 					app.setShowToolBarNoUpdate(true);
