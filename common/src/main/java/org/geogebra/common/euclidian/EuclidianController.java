@@ -8651,10 +8651,14 @@ public abstract class EuclidianController {
 				dontClearSelection = true;
 			}
 
-			if (hits.isEmpty() || needsAxisZoom(hits, event) ||!app.has(Feature.SF_DRAG)) {
+			if (hits.isEmpty() || needsAxisZoom(hits, event)
+					|| !app.has(Feature.SF_DRAG)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
-				view.setMode(getModeForShallMoveView(event));
+				if (mayPaste()) { // #5246 make sure we don't switch to
+									// translation if we have geos to paste
+					view.setMode(getModeForShallMoveView(event));
+				}
 			}
 			// if over an axis, force the correct cursor to be displayed
 			if (view.getHits().hasXAxis() || view.getHits().hasYAxis()) {
@@ -9729,7 +9733,9 @@ public abstract class EuclidianController {
 	}
 
 	public void setMode(int newMode) {
-
+		if (newMode == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			App.printStacktrace("TRANSLATE");
+		}
 		if (pen != null) {
 			pen.resetPenOffsets();
 		}
