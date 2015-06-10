@@ -24,8 +24,8 @@ public class OrientationSetting extends SensorSetting {
 
 	@Override
 	protected void addContent() {
-		addRow("x:", Types.ORIENTATION_X);
-		addRow("y:", Types.ORIENTATION_Y);
-		addRow("z:", Types.ORIENTATION_Z);
+		addRow("\u03B1:", Types.ORIENTATION_X);
+		addRow("\u03B2:", Types.ORIENTATION_Y);
+		addRow("\u03B3:", Types.ORIENTATION_Z);
 	}
 }
