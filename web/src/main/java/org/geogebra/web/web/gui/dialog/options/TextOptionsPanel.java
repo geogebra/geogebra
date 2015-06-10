@@ -216,7 +216,7 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 
 			@Override
 			public void onClick(ClickEvent event) {
-				model.applyEditedGeo(editor.getText(), isLatex());
+				model.applyEditedGeo(editor.getText(), isLatex(), isSerif());
 			}
 		});
 
@@ -232,6 +232,10 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 
 		mainPanel.add(btnPanel);
 		setWidget(mainPanel);
+	}
+
+	protected boolean isSerif() {
+		return lbFont.getSelectedIndex() == 1;
 	}
 
 	/**
