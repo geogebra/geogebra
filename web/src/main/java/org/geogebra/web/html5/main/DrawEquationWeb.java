@@ -292,7 +292,7 @@ public class DrawEquationWeb extends DrawEquation {
 				.setSize(size).build();
 
 
-		icon.setInsets(new Insets(9, 9, 9, 9));
+		icon.setInsets(new Insets(6, 6, 6, 6));
 		return icon;
 
 	}
