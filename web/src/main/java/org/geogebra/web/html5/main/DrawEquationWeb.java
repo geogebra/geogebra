@@ -29,6 +29,7 @@ import org.scilab.forge.jlatexmath.platform.FactoryProvider;
 import org.scilab.forge.jlatexmath.platform.graphics.Color;
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
+import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -291,7 +292,7 @@ public class DrawEquationWeb extends DrawEquation {
 				.setSize(size).build();
 
 
-		// icon.setInsets(new Insets(5, 5, 5, 5));
+		icon.setInsets(new Insets(9, 9, 9, 9));
 		return icon;
 
 	}
