@@ -631,23 +631,23 @@ public class EuclidianViewW extends EuclidianView implements
 
 		if ((evNo == 1) || (evNo == 2)) {
 			canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+			if (firstInstance == null) {
+				firstInstance = this;
+			} else if (compareDocumentPosition(this.getCanvas()
+					.getCanvasElement(), firstInstance.getCanvas()
+					.getCanvasElement())) {
+				firstInstance = this;
+			}
+
+			if (lastInstance == null) {
+				lastInstance = this;
+			} else if (compareDocumentPosition(lastInstance.getCanvas()
+					.getCanvasElement(), this.getCanvas().getCanvasElement())) {
+				lastInstance = this;
+			}
 		} else {
 			// is this the best?
 			canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX - 1);
-		}
-
-		if (firstInstance == null) {
-			firstInstance = this;
-		} else if (compareDocumentPosition(this.getCanvas().getCanvasElement(),
-				firstInstance.getCanvas().getCanvasElement())) {
-			firstInstance = this;
-		}
-
-		if (lastInstance == null) {
-			lastInstance = this;
-		} else if (compareDocumentPosition(lastInstance.getCanvas()
-				.getCanvasElement(), this.getCanvas().getCanvasElement())) {
-			lastInstance = this;
 		}
 
 		canvas.addBlurHandler(new BlurHandler() {
