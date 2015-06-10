@@ -73,27 +73,34 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		if (geoGebraMobileTags.isEmpty()) {
 			return;
 		}
-		// now we can create dummy elements before & after each applet
-		// with tabindex 10000, for ticket #5158
-		firstDummy = DOM.createSpan().cast();
-		firstDummy.addClassName("geogebraweb-dummy-invisible");
-		firstDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
-		geoGebraMobileTags.get(0).insertFirst(firstDummy);
 
-		lastDummy = DOM.createSpan().cast();
-		lastDummy.addClassName("geogebraweb-dummy-invisible");
-		lastDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
-		geoGebraMobileTags.get(geoGebraMobileTags.size() - 1).appendChild(
-				lastDummy);
+		if (geoGebraMobileTags.size() > 0) {
+			// now we can create dummy elements before & after each applet
+			// with tabindex 10000, for ticket #5158
+			firstDummy = DOM.createSpan().cast();
+			firstDummy.addClassName("geogebraweb-dummy-invisible");
+			firstDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
+			geoGebraMobileTags.get(0).insertFirst(firstDummy);
 
-		programFocusEvent(firstDummy, lastDummy);
+			lastDummy = DOM.createSpan().cast();
+			lastDummy.addClassName("geogebraweb-dummy-invisible");
+			lastDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
+			geoGebraMobileTags.get(geoGebraMobileTags.size() - 1).appendChild(
+					lastDummy);
+
+			programFocusEvent(firstDummy, lastDummy);
+		}
 	}
 
 	/**
 	 * @param el html element to render into
 	 */
 	public static void renderArticleElement(Element el, AppletFactory factory, GLookAndFeel laf, JavaScriptObject clb) {
-		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(factory, laf), clb);
+
+		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
+				factory, laf), clb);
+
+		GeoGebraFrame.reCheckForDummies(el);
 	}
 	
 	@Override

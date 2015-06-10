@@ -43,22 +43,22 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
 
-		// now we can create dummy elements before & after each applet
-		// with tabindex 10000, for ticket #5158
-		// however, it is unlikely that this will be used for more
-		// simple applets on one page, just making sure
-		firstDummy = DOM.createSpan().cast();
-		firstDummy.addClassName("geogebraweb-dummy-invisible");
-		firstDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
-		geoGebraMobileTags.get(0).insertFirst(firstDummy);
+		if (geoGebraMobileTags.size() > 0) {
+			// now we can create dummy elements before & after each applet
+			// with tabindex 10000, for ticket #5158
+			firstDummy = DOM.createSpan().cast();
+			firstDummy.addClassName("geogebraweb-dummy-invisible");
+			firstDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
+			geoGebraMobileTags.get(0).insertFirst(firstDummy);
 
-		lastDummy = DOM.createSpan().cast();
-		lastDummy.addClassName("geogebraweb-dummy-invisible");
-		lastDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
-		geoGebraMobileTags.get(geoGebraMobileTags.size() - 1).appendChild(
-				lastDummy);
+			lastDummy = DOM.createSpan().cast();
+			lastDummy.addClassName("geogebraweb-dummy-invisible");
+			lastDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
+			geoGebraMobileTags.get(geoGebraMobileTags.size() - 1).appendChild(
+					lastDummy);
 
-		programFocusEvent(firstDummy, lastDummy);
+			programFocusEvent(firstDummy, lastDummy);
+		}
 	}
 
 	/**
@@ -66,8 +66,11 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	 *            html element to render into
 	 */
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
+
 		GeoGebraFrame.renderArticleElementWithFrame(el,
-		        new GeoGebraFrameSimple(), clb);
+				new GeoGebraFrameSimple(), clb);
+
+		GeoGebraFrame.reCheckForDummies(el);
 	}
 
 	@Override

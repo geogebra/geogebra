@@ -11,6 +11,7 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.html5.util.debug.GeoGebraLogger;
@@ -18,6 +19,7 @@ import org.geogebra.web.html5.util.debug.GeoGebraLogger;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -36,6 +38,18 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class GeoGebraFrame extends FlowPanel implements
         HasAppletProperties {
+
+	public static native void debug(String dbg) /*-{
+		if ($wnd.console) {
+			if ($wnd.console.log) {
+				$wnd.console.log(dbg);
+			} else if ($wnd.alert) {
+				$wnd.alert(dbg);
+			}
+		} else if ($wnd.alert) {
+			$wnd.alert(dbg);
+		}
+	}-*/;
 
 	public static final int BORDER_WIDTH = 2;
 	public static final int BORDER_HEIGHT = 2;
@@ -90,12 +104,114 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		});*/
 	}
 
-	protected static native void programFocusEvent(Element firstd, Element lastd) /*-{
+	public static native void programFocusEvent(Element firstd, Element lastd) /*-{
 		// this might be needed in case of tabbing by TAB key (more applets)
 		firstd.onfocus = function(evnt) {
 			lastd.focus();
 		};
 	}-*/;
+
+	public static void reCheckForDummies(Element el) {
+
+		if ((firstDummy != null) && (lastDummy != null)) {
+			return;
+		}
+
+		NodeList<Element> nodes = Dom
+				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+
+		if (nodes.getLength() > 0) {
+			if (nodes.getItem(0) == el) {
+				// firstDummy!
+				// now we can create dummy elements before & after each applet
+				// with tabindex 10000, for ticket #5158
+				if (firstDummy == null) {
+					firstDummy = DOM.createSpan().cast();
+					firstDummy.addClassName("geogebraweb-dummy-invisible");
+					firstDummy
+							.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+					el.insertFirst(firstDummy);
+
+					if (lastDummy != null) {
+						programFocusEvent(firstDummy, lastDummy);
+					}
+				}
+			} else if (nodes.getItem(nodes.getLength() - 1) == el) {
+				// lastDummy!
+				if (lastDummy == null) {
+					lastDummy = DOM.createSpan().cast();
+					lastDummy.addClassName("geogebraweb-dummy-invisible");
+					lastDummy.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+					el.appendChild(lastDummy);
+
+					if (firstDummy != null) {
+						programFocusEvent(firstDummy, lastDummy);
+					}
+				}
+			}
+		} else {
+			// it would be better for the article tags to always have
+			// GeoGebraConstants.GGM_CLASS_NAME, but in case they do not,
+			// then they are probably child elements of class name
+			// "applet_container"
+			Element ell;
+			nodes = Dom.getElementsByClassName("applet_container");
+			// so "nodes" is meaning something else here actually
+			if (nodes.getLength() > 0) {
+				// get the first node that really contains an articleElement
+				for (int i = 0; i < nodes.getLength(); i++) {
+					ell = nodes.getItem(i);
+					if (ell.getFirstChildElement() != null
+							&& ell.getFirstChildElement().hasTagName("ARTICLE")) {
+						// found!!
+						if (ell.getFirstChildElement() == el) {
+							// firstDummy!
+							// now we can create dummy elements before & after
+							// each applet
+							// with tabindex 10000, for ticket #5158
+							if (firstDummy == null) {
+								firstDummy = DOM.createSpan().cast();
+								firstDummy
+										.addClassName("geogebraweb-dummy-invisible");
+								firstDummy
+										.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+								el.insertFirst(firstDummy);
+
+								if (lastDummy != null) {
+									programFocusEvent(firstDummy, lastDummy);
+								}
+							}
+						}
+						break;
+					}
+				}
+				// get the last node that really contains an articleElement
+				for (int i = nodes.getLength() - 1; i >= 0; i--) {
+					ell = nodes.getItem(i);
+					if (ell.getFirstChildElement() != null
+							&& ell.getFirstChildElement().hasTagName("ARTICLE")) {
+						// found!!
+						if (ell.getFirstChildElement() == el) {
+							// lastDummy!
+							if (lastDummy == null) {
+								lastDummy = DOM.createSpan().cast();
+								lastDummy
+										.addClassName("geogebraweb-dummy-invisible");
+								lastDummy
+										.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+								el.appendChild(lastDummy);
+
+								if (firstDummy != null) {
+									programFocusEvent(firstDummy, lastDummy);
+								}
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * @param ae
@@ -597,6 +713,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	 */
 	public static void renderArticleElementWithFrame(final Element element,
 	        GeoGebraFrame frame, JavaScriptObject onLoadCallback) {
+
 		final ArticleElement article = ArticleElement.as(element);
 		if(Log.logger == null){
 			GeoGebraLogger.startLogger(article);

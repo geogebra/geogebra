@@ -202,6 +202,7 @@ public class Web implements EntryPoint {
 	}-*/;
 
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
+
 		GeoGebraFrameBoth.renderArticleElement(el,
 				(AppletFactory) GWT.create(AppletFactory.class),
 				getLAF(getGeoGebraMobileTags()), clb);
