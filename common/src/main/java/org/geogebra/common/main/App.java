@@ -1662,12 +1662,15 @@ public abstract class App implements UpdateSelection {
 		if (hasEuclidianView2(1)) {
 			getEuclidianView2(1).getXML(sb, asPreference);
 		} else if (asPreference && (getGuiManager() != null)) {
-			// TODO: After the implementing of getEuclidianView2() on web remove
-			// the nullcheck from here
-			// getEuclidianView2().getXML(sb, true);
-			EuclidianView ev2 = getEuclidianView2(1);
-			if (ev2 != null)
-				ev2.getXML(sb, true);
+			// TODO: the EV preferences should be serialized using
+			// app.getSettings(), not the view
+			if (this.hasEuclidianView2EitherShowingOrNot(1)
+					|| !this.isHTML5Applet()) {
+				EuclidianView ev2 = getEuclidianView2(1);
+				if (ev2 != null) {
+					ev2.getXML(sb, true);
+				}
+			}
 		}
 
 		if (getGuiManager() != null) {
