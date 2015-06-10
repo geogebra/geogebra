@@ -233,4 +233,12 @@ public class Browser {
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test($wnd.navigator.userAgent);
 	}-*/;
+	
+	/**
+	 * @return true if Javascript CAS is supported.
+	 */
+	public static boolean supportsJsCas() {
+		return Browser.isFloat64supported()
+				&& !Browser.isAndroidVersionLessThan(4.0);
+	}
 }
