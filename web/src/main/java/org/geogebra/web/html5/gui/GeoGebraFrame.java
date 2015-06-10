@@ -39,18 +39,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 public abstract class GeoGebraFrame extends FlowPanel implements
         HasAppletProperties {
 
-	public static native void debug(String dbg) /*-{
-		if ($wnd.console) {
-			if ($wnd.console.log) {
-				$wnd.console.log(dbg);
-			} else if ($wnd.alert) {
-				$wnd.alert(dbg);
-			}
-		} else if ($wnd.alert) {
-			$wnd.alert(dbg);
-		}
-	}-*/;
-
 	public static final int BORDER_WIDTH = 2;
 	public static final int BORDER_HEIGHT = 2;
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
@@ -104,12 +92,26 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		});*/
 	}
 
-	public static native void programFocusEvent(Element firstd, Element lastd) /*-{
+	protected static native void programFocusEvent(Element firstd, Element lastd) /*-{
 		// this might be needed in case of tabbing by TAB key (more applets)
 		firstd.onfocus = function(evnt) {
 			lastd.focus();
 		};
 	}-*/;
+
+	protected static void tackleFirstDummy(Element parentElement) {
+		firstDummy = DOM.createSpan().cast();
+		firstDummy.addClassName("geogebraweb-dummy-invisible");
+		firstDummy.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+		parentElement.insertFirst(firstDummy);
+	}
+
+	protected static void tackleLastDummy(Element parentElement) {
+		lastDummy = DOM.createSpan().cast();
+		lastDummy.addClassName("geogebraweb-dummy-invisible");
+		lastDummy.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+		parentElement.appendChild(lastDummy);
+	}
 
 	public static void reCheckForDummies(Element el) {
 
@@ -126,11 +128,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 				// now we can create dummy elements before & after each applet
 				// with tabindex 10000, for ticket #5158
 				if (firstDummy == null) {
-					firstDummy = DOM.createSpan().cast();
-					firstDummy.addClassName("geogebraweb-dummy-invisible");
-					firstDummy
-							.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-					el.insertFirst(firstDummy);
+					tackleFirstDummy(el);
 
 					if (lastDummy != null) {
 						programFocusEvent(firstDummy, lastDummy);
@@ -139,10 +137,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 			} else if (nodes.getItem(nodes.getLength() - 1) == el) {
 				// lastDummy!
 				if (lastDummy == null) {
-					lastDummy = DOM.createSpan().cast();
-					lastDummy.addClassName("geogebraweb-dummy-invisible");
-					lastDummy.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-					el.appendChild(lastDummy);
+					tackleLastDummy(el);
 
 					if (firstDummy != null) {
 						programFocusEvent(firstDummy, lastDummy);
@@ -170,12 +165,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 							// each applet
 							// with tabindex 10000, for ticket #5158
 							if (firstDummy == null) {
-								firstDummy = DOM.createSpan().cast();
-								firstDummy
-										.addClassName("geogebraweb-dummy-invisible");
-								firstDummy
-										.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-								el.insertFirst(firstDummy);
+								tackleFirstDummy(el);
 
 								if (lastDummy != null) {
 									programFocusEvent(firstDummy, lastDummy);
@@ -194,12 +184,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 						if (ell.getFirstChildElement() == el) {
 							// lastDummy!
 							if (lastDummy == null) {
-								lastDummy = DOM.createSpan().cast();
-								lastDummy
-										.addClassName("geogebraweb-dummy-invisible");
-								lastDummy
-										.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-								el.appendChild(lastDummy);
+								tackleLastDummy(el);
 
 								if (firstDummy != null) {
 									programFocusEvent(firstDummy, lastDummy);

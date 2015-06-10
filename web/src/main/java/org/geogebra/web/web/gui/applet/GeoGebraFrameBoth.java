@@ -26,7 +26,6 @@ import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -77,17 +76,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		if (geoGebraMobileTags.size() > 0) {
 			// now we can create dummy elements before & after each applet
 			// with tabindex 10000, for ticket #5158
-			firstDummy = DOM.createSpan().cast();
-			firstDummy.addClassName("geogebraweb-dummy-invisible");
-			firstDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
-			geoGebraMobileTags.get(0).insertFirst(firstDummy);
-
-			lastDummy = DOM.createSpan().cast();
-			lastDummy.addClassName("geogebraweb-dummy-invisible");
-			lastDummy.setTabIndex(GRAPHICS_VIEW_TABINDEX);
-			geoGebraMobileTags.get(geoGebraMobileTags.size() - 1).appendChild(
-					lastDummy);
-
+			tackleFirstDummy(geoGebraMobileTags.get(0));
+			tackleLastDummy(geoGebraMobileTags
+					.get(geoGebraMobileTags.size() - 1));
 			programFocusEvent(firstDummy, lastDummy);
 		}
 	}
