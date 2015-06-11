@@ -580,4 +580,10 @@ public class AppStub extends App {
 		return null;
 	}
 
+	@Override
+	public void copyFullHTML5ExportToClipboard() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
