@@ -1677,6 +1677,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		this.getElement().scrollIntoView();
 	}
 
+	public void typing(boolean heuristic) {
+		// to be overridden in NewRadioButtonTreeItem,
+		// to know whether it's empty, whether to show Xbutton
+	}
+
 	public void removeCloseButton() {
 		this.maybeSetPButtonVisibility(true);
 		buttonPanel.setVisible(false);

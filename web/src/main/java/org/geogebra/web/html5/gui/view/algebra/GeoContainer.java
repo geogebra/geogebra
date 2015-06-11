@@ -31,5 +31,6 @@ public interface GeoContainer {
 	public boolean shuffleSuggestions(boolean down);
 
 	public App getApplication();
-	
+
+	public void typing(boolean heuristic);
 }

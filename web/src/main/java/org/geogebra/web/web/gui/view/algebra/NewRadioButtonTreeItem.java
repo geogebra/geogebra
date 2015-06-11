@@ -421,7 +421,28 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 	}
 
+	private boolean firstTimeShowPopup = true;
+
 	public void showPopup(boolean show) {
+		if (this.buttonPanel == null) {
+			return;
+		}
+
+		if (buttonPanel.isVisible() && show && !firstTimeShowPopup) {
+			if (xButton != null) {
+				xButton.setVisible(show);
+			}
+			return;
+		} else if (!buttonPanel.isVisible() && !show && !firstTimeShowPopup) {
+			if (xButton != null) {
+				xButton.setVisible(show);
+			}
+			return;
+		} else {
+			firstTimeShowPopup = false;
+			buttonPanel.setVisible(show);
+		}
+
 		if (this.xButton == null) {
 			return;
 		}
@@ -478,13 +499,16 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			        .showStyleBarPanel(true);
 		}
 
-
-
-		// this is a static method, and the same which is needed here too,
-		// so why duplicate the same thing in another copy?
-		// this will call the showPopup method, by the way
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
-
+		if ("".equals(getText().trim())) {
+			if (this.xButton != null) {
+				this.xButton.setVisible(false);
+			}
+		} else {
+			if (this.xButton != null) {
+				this.xButton.setVisible(true);
+			}
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -572,6 +596,30 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	}
 
+	@Override
+	public void typing(boolean heuristic) {
+		if (heuristic) {
+			// something typed - surely true
+			if (xButton != null) {
+				xButton.setVisible(true);
+			}
+		}
+		// nothing typed - maybe true?
+		if ("".equals(getText().trim())) {
+			// this is a static method, and the same which is needed here too,
+			// so why duplicate the same thing in another copy?
+			// this will call the showPopup method, by the way
+			// showPopup(false);
+			// no, actually only make the xButton invisible!
+			if (xButton != null) {
+				xButton.setVisible(false);
+			}
+		} else {
+			if (xButton != null) {
+				xButton.setVisible(true);
+			}
+		}
+	}
 
 	@Override
 	public void updatePosition(ScrollableSuggestionDisplay sug) {

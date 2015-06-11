@@ -312,4 +312,9 @@ public class NewCASTableCellEditorW extends Label implements
 	public boolean resetAfterEnter() {
 		return false;
 	}
+
+	public void typing(boolean heuristic) {
+		// to be overridden in NewRadioButtonTreeItem,
+		// to know whether it's empty, whether to show Xbutton
+	}
 }
