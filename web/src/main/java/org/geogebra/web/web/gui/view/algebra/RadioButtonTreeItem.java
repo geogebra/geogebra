@@ -181,12 +181,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private CheckBox checkBox;
 
 	/**
-	 * button shown at the right side of the entry, if the entry is selected.
-	 * used to delete the geo.
-	 */
-	private Image deleteButton;
-
-	/**
 	 * whether the playButton currently shows a play or a pause icon
 	 */
 	private boolean playButtonValue;
@@ -1570,24 +1564,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private void addDeleteButton() {
 
 		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
-			if (deleteButton == null) {
-				deleteButton = new Image(
-						GuiResources.INSTANCE.algebra_delete_dark());
-				ClickStartHandler.init(deleteButton, new ClickStartHandler(
-						true, true) {
-
-					@Override
-					public void onClickStart(int x, int y, PointerEventType type) {
-						geo.remove();
-
-					}
-				});
-				deleteButton.addStyleName("deleteAlgebra");
-			}
-			add(deleteButton);
+			buttonPanel.setVisible(true);
+			maybeSetPButtonVisibility(false);
 			((AlgebraViewW) this.av).setActiveTreeItem(this);
 		}
 
+	}
+
+	protected void maybeSetPButtonVisibility(boolean bool) {
+		// only show the delete button, but not the extras
 	}
 
 	private void onPointerMove(AbstractEvent event) {
@@ -1693,9 +1678,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public void removeCloseButton() {
-		if (this.deleteButton != null) {
-			remove(this.deleteButton);
-		}
+		this.maybeSetPButtonVisibility(true);
+		buttonPanel.setVisible(false);
 	}
 
 	void removeSpecial(Widget w) {

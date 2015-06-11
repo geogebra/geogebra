@@ -69,6 +69,11 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		super.replaceXButtonDOM(item);
 	}
 
+	@Override
+	protected void maybeSetPButtonVisibility(boolean bool) {
+		pButton.setVisible(bool);
+	}
+
 	public static GeoFunction createBasic(Kernel kern) {
 		boolean oldVal = kern.isUsingInternalCommandNames();
 		kern.setUseInternalCommandNames(true);

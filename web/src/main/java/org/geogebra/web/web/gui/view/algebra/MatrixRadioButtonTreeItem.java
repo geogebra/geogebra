@@ -180,6 +180,11 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		super.replaceXButtonDOM(item);
 	}
 
+	@Override
+	protected void maybeSetPButtonVisibility(boolean bool) {
+		pButton.setVisible(bool);
+	}
+
 	public static GeoList create2x2ZeroMatrix(Kernel kern) {
 		// this works in a similar was as AlgoIdentity
 		GeoList ret = new GeoList(kern.getConstruction());
