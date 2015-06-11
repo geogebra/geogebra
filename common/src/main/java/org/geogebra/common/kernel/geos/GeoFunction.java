@@ -127,7 +127,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		// TODO: Remove following code for 5.0 -- it's there to make sure no
 		// functions of y are created
 		if (isLabelSet() && !isBooleanFunction()
-				&& this.isFunctionOfY()) {
+				&& (this.isFunctionOfY() || (label == null && this
+						.isFunctionOfZ()))) {
 			this.remove();
 			throw new MyError(getLoc(), "InvalidFunction");
 		}
@@ -2153,6 +2154,10 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	 */
 	public boolean isFunctionOfY() {
 		return getVarString(StringTemplate.defaultTemplate).equals("y");
+	}
+
+	public boolean isFunctionOfZ() {
+		return getVarString(StringTemplate.defaultTemplate).equals("z");
 	}
 
 	public void pointChangedForRegion(GeoPointND PI) {
