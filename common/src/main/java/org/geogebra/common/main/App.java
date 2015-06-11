@@ -3077,7 +3077,7 @@ public abstract class App implements UpdateSelection {
 
 		sb.append("var applet = new GGBApplet(parameters, '5.0', 'ggbApplet');\n");
 
-		// web, webSimple or web3d
+		sb.append("<!-- web3d if any 3D commands are used, webSimple if you use just the Graphics View, web otherwise -->\n");
 		String codeBase = kernel.kernelHas3DObjects() ? "web3d" : "web";
 		sb.append("applet.setHTML5Codebase('http://web.geogebra.org/5.0/"
 				+ codeBase + "/');\n");
