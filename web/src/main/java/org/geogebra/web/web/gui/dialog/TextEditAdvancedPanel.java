@@ -10,21 +10,27 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.SymbolTableW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.images.AppResources;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.TableCellElement;
+import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -257,22 +263,47 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		final SymbolTableW symTable = new SymbolTableW(table, null, isLatex,
 				rowSize, app);
 
-		symTable.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				Cell clickCell = ((HTMLTable) event.getSource())
-				        .getCellForEvent(event);
-				if (clickCell == null) {
-					return;
+		if (Browser.isIE10plus()) {
+		symTable.addDomHandler(new MouseDownHandler() {
+			public void onMouseDown(MouseDownEvent event) {
+				/*
+				 * Cell clickCell = ((HTMLTable) event.getSource())
+				 * .getCellForEvent(event); if (clickCell == null) { return; }
+				 * String text = symTable.getSymbolText(clickCell.getRowIndex(),
+				 * clickCell.getCellIndex());
+				 */
+
+				Element td = ((SymbolTableW) event.getSource())
+						.getEventTargetCell(Event
+						.as(event.getNativeEvent()));
+				if (td != null) {
+					int row = TableRowElement.as(td.getParentElement())
+							.getSectionRowIndex();
+					int column = TableCellElement.as(td).getCellIndex();
+					editPanel.insertTextString(
+							symTable.getSymbolText(row, column), isLatex);
 				}
-				String text = symTable.getSymbolText(clickCell.getRowIndex(),
-				        clickCell.getCellIndex());
-
-				editPanel.insertTextString(text, isLatex);
-
+				event.preventDefault();
+				event.stopPropagation();
 				// editPanel.insertTextString(clickCell.getElement()
 				// .getInnerText(), false);
 			}
-		});
+		}, MouseDownEvent.getType());
+		} else {
+			symTable.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+
+					com.google.gwt.user.client.ui.HTMLTable.Cell clickCell = ((HTMLTable) event
+							.getSource()).getCellForEvent(event);
+					if (clickCell == null) {
+						return;
+					}
+					String text = symTable.getSymbolText(
+							clickCell.getRowIndex(), clickCell.getCellIndex());
+					editPanel.insertTextString(text, isLatex);
+				}
+			});
+		}
 		return symTable;
 	}
 
