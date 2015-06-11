@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.safehtml.shared.SafeUri;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
@@ -35,9 +34,6 @@ import com.google.gwt.user.client.ui.TreeItem;
  */
 public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 
-	private FlowPanel buttonPanel;
-
-	PushButton xButton;
 	PushButton pButton;
 	ButtonPopupMenu specialPopup;
 
@@ -58,26 +54,6 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
 			}
 		};
-
-		buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
-		buttonPanel.setVisible(false);
-
-		xButton = new PushButton(new Image(
-				GuiResources.INSTANCE.algebra_delete()));
-		xButton.getUpHoveringFace().setImage(
-				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
-		xButton.addStyleName("XButton");
-		xButton.addStyleName("shown");
-		xButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				event.stopPropagation();
-				ge.remove();
-				// event.preventDefault();
-			}
-		});
 
 		pButton = new PushButton(new Image(
 				GuiResources.INSTANCE.algebra_matrix_size()));
@@ -214,15 +190,12 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 			}
 		}, ClickEvent.getType());
 		itemList.add(actual);
-
-		add(buttonPanel);// dirty hack of adding it two times!
-		this.buttonPanel.add(pButton);
-		this.buttonPanel.add(xButton);
 	}
 
+	@Override
 	public void replaceXButtonDOM(TreeItem item) {
-		item.getElement().addClassName("MatrixRadioParent");
-		item.getElement().appendChild(buttonPanel.getElement());
+		buttonPanel.add(pButton);
+		super.replaceXButtonDOM(item);
 	}
 
 	public static GeoList create2x2ZeroMatrix(Kernel kern) {
@@ -330,23 +303,5 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				}
 			}
 		});
-	}
-
-	@Override
-	public void startEditing() {
-		super.startEditing();
-		buttonPanel.setVisible(true);
-	}
-
-	@Override
-	public boolean stopEditing(String s) {
-		buttonPanel.setVisible(false);
-		return super.stopEditing(s);
-	}
-
-	@Override
-	public void stopEditingSimple(String s) {
-		buttonPanel.setVisible(false);
-		super.stopEditingSimple(s);
 	}
 }

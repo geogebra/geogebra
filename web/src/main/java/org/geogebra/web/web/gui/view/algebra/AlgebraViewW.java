@@ -975,11 +975,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 			setUserObject(node, geo);
 
 			// item is already added
-			if (node.getWidget() instanceof CondFunRadioButtonTreeItem) {
-				((CondFunRadioButtonTreeItem) node.getWidget())
-						.replaceXButtonDOM(node);
-			} else if (node.getWidget() instanceof MatrixRadioButtonTreeItem) {
-				((MatrixRadioButtonTreeItem) node.getWidget())
+			if (node.getWidget() instanceof RadioButtonTreeItem
+					&& !(node.getWidget() instanceof NewRadioButtonTreeItem)) {
+				((RadioButtonTreeItem) node.getWidget())
 						.replaceXButtonDOM(node);
 			}
 

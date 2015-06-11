@@ -51,14 +51,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
 
-	// clear formula button
-	protected PushButton xButton = null;
-
 	// create special formula button (matrix, piecewise function, parametric
 	// curve)
 	protected PushButton pButton = null;
-
-	private FlowPanel buttonPanel;
 
 	HistoryPopupW historyPopup;
 	ButtonPopupMenu specialPopup;
@@ -296,7 +291,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// this code makes the cursor show when the page loads...
 	}
 
-	public void replaceXButtonDOM() {
+	public void replaceXButtonDOM() {// TODO
 		getElement().getParentElement().appendChild(buttonPanel.getElement());
 	}
 

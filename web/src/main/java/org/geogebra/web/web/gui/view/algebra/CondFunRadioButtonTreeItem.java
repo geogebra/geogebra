@@ -8,14 +8,11 @@ import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.web.css.GuiResources;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -28,9 +25,6 @@ import com.google.gwt.user.client.ui.TreeItem;
  */
 public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 
-	private FlowPanel buttonPanel;
-
-	PushButton xButton;
 	PushButton pButton;
 
 	/**
@@ -43,26 +37,6 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
 		
-		buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
-		buttonPanel.setVisible(false);
-
-		xButton = new PushButton(new Image(
-				GuiResources.INSTANCE.algebra_delete()));
-		xButton.getUpHoveringFace().setImage(
-				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
-		xButton.addStyleName("XButton");
-		xButton.addStyleName("shown");
-		xButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				event.stopPropagation();
-				ge.remove();
-				// event.preventDefault();
-			}
-		});
-
 		pButton = new PushButton(new Image(
 				GuiResources.INSTANCE.algebra_new()));
 		pButton.getUpHoveringFace().setImage(
@@ -97,15 +71,12 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		pButton.addTouchStartHandler(CancelEvents.instance);
 		pButton.addTouchEndHandler(CancelEvents.instance);
 		pButton.addTouchMoveHandler(CancelEvents.instance);
-
-		add(buttonPanel);// dirty hack of adding it two times!
-		buttonPanel.add(pButton);
-		buttonPanel.add(xButton);
 	}
 
+	@Override
 	public void replaceXButtonDOM(TreeItem item) {
-		item.getElement().addClassName("CondFunParent");
-		item.getElement().appendChild(buttonPanel.getElement());
+		buttonPanel.add(pButton);
+		super.replaceXButtonDOM(item);
 	}
 
 	public static GeoFunction createBasic(Kernel kern) {
@@ -134,24 +105,6 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 				DrawEquationWeb.addNewRowToMatrix(seMayLatex);
 			}
 		});
-	}
-
-	@Override
-	public void startEditing() {
-		super.startEditing();
-		buttonPanel.setVisible(true);
-	}
-
-	@Override
-	public boolean stopEditing(String s) {
-		buttonPanel.setVisible(false);
-		return super.stopEditing(s);
-	}
-
-	@Override
-	public void stopEditingSimple(String s) {
-		buttonPanel.setVisible(false);
-		super.stopEditingSimple(s);
 	}
 
 	@Override

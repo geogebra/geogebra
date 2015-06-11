@@ -38,8 +38,7 @@
 	position: relative;
 }
 
-.CondFunParent,
-.MatrixRadioParent {
+.XButtonPanelParent {
 	position: relative !important;
 }
 
@@ -4023,12 +4022,10 @@ body.application[dir=rtl] .GeoGebraFrame .AlgebraViewObjectStylebar {
 	border-bottom-left-radius: 0px;
 }
 
-.GeoGebraFrame .avItem.MatrixRadioParent .AlgebraViewObjectStylebar,
-.GeoGebraFrame .avItem.CondFunParent .AlgebraViewObjectStylebar{
+.GeoGebraFrame .avItem.XButtonPanelParent .AlgebraViewObjectStylebar {
 	border-top-left-radius: 5px;
 }
-body.application[dir=rtl] .GeoGebraFrame .avItem.MatrixRadioParent .AlgebraViewObjectStylebar,
-body.application[dir=rtl] .GeoGebraFrame .avItem.CondFunParent .AlgebraViewObjectStylebar {
+body.application[dir=rtl] .GeoGebraFrame .avItem.XButtonPanelParent .AlgebraViewObjectStylebar {
 	border-top-right-radius: 5px;
 	border-top-left-radius: 0px;
 }
@@ -4036,10 +4033,8 @@ body.application[dir=rtl] .GeoGebraFrame .avItem.CondFunParent .AlgebraViewObjec
 
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
-.GeoGebraFrame .CondFunParent .XButton,
-.GeoGebraFrame .CondFunParent .XButtonNeighbour,
-.GeoGebraFrame .MatrixRadioParent .XButton,
-.GeoGebraFrame .MatrixRadioParent .XButtonNeighbour {
+.GeoGebraFrame .XButtonPanelParent .XButton,
+.GeoGebraFrame .XButtonPanelParent .XButtonNeighbour {
 	cursor: pointer;
 	padding-left: 4px;
 }
@@ -4059,14 +4054,10 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 .NewRadioButtonTreeItemParent .XButton.ShowSymbolButtonFocused,
 .NewRadioButtonTreeItemParent .XButtonNeighbour.shown,
 .NewRadioButtonTreeItemParent .XButtonNeighbour.ShowSymbolButtonFocused,
-.CondFunParent .XButton.shown,
-.CondFunParent .XButton.ShowSymbolButtonFocused,
-.CondFunParent .XButtonNeighbour.shown,
-.CondFunParent .XButtonNeighbour.ShowSymbolButtonFocused,
-.MatrixRadioParent .XButton.shown,
-.MatrixRadioParent .XButton.ShowSymbolButtonFocused,
-.MatrixRadioParent .XButtonNeighbour.shown,
-.MatrixRadioParent .XButtonNeighbour.ShowSymbolButtonFocused {
+.XButtonPanelParent .XButton.shown,
+.XButtonPanelParent .XButton.ShowSymbolButtonFocused,
+.XButtonPanelParent .XButtonNeighbour.shown,
+.XButtonPanelParent .XButtonNeighbour.ShowSymbolButtonFocused {
 	display: inline-block;
 }
 

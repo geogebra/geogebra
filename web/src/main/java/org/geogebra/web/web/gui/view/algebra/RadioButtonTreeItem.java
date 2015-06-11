@@ -108,6 +108,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -123,6 +125,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
         MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
 		EquationEditorListener, CanBlockBlurEvent {
+
+	protected FlowPanel buttonPanel;
+	protected PushButton xButton;
 
 	GeoElement geo;
 	Kernel kernel;
@@ -292,7 +297,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param hiddenUrl
 	 *            the marble to be shown when the GeoElement is invisible
 	 */
-	public RadioButtonTreeItem(GeoElement ge, SafeUri showUrl, SafeUri hiddenUrl) {
+	public RadioButtonTreeItem(final GeoElement ge, SafeUri showUrl,
+			SafeUri hiddenUrl) {
 		super();
 		getElement().setDraggable(Element.DRAGGABLE_TRUE);
 
@@ -448,6 +454,43 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// geo.getKernel().getApplication().clearTooltipFlag();
 		longTouchManager = LongTouchManager.getInstance();
 		setDraggable();
+
+		buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
+		buttonPanel.setVisible(false);
+
+		xButton = new PushButton(new Image(
+				GuiResources.INSTANCE.algebra_delete()));
+		xButton.getUpHoveringFace().setImage(
+				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
+		xButton.addStyleName("XButton");
+		xButton.addStyleName("shown");
+		xButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				event.stopPropagation();
+				ge.remove();
+				// event.preventDefault();
+			}
+		});
+
+		add(buttonPanel);// dirty hack of adding it two times!
+
+		// pButton should be added before xButton is added!
+		// also, the place of buttonPanel should also be changed!
+		// so these things are moved to replaceXbuttonDOM!
+		// buttonPanel.add(xButton);
+	}
+
+	public void replaceXButtonDOM(TreeItem item) {
+		// in subclasses pButton will be added first!
+		// also, this method should be overridden in NewRadioButtonTreeItem
+		// buttonPanel.add(pButton);
+
+		buttonPanel.add(xButton);
+		item.getElement().addClassName("XButtonPanelParent");
+		item.getElement().appendChild(buttonPanel.getElement());
 	}
 
 	/**
@@ -984,9 +1027,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 
 		scrollIntoView();
+
+		buttonPanel.setVisible(true);
 	}
 
 	public void stopEditingSimple(String newValue) {
+
+		buttonPanel.setVisible(false);
 
 		thisIsEdited = false;
 		av.cancelEditing();
@@ -1038,6 +1085,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public boolean stopEditing(String newValue0) {
+
+		buttonPanel.setVisible(false);
 
 		boolean ret = false;
 
