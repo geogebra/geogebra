@@ -169,8 +169,8 @@ public abstract class App implements UpdateSelection {
 	 * object is hit if mouse is within this many pixels (more for points, see
 	 * geogebra.common.euclidian.DrawPoint)
 	 */
-	private int capturingThreshold = DEFAULT_THRESHOLD;
-	private int capturingThresholdTouch = 3 * DEFAULT_THRESHOLD;
+	protected int capturingThreshold = DEFAULT_THRESHOLD;
+	protected int capturingThresholdTouch = 3 * DEFAULT_THRESHOLD;
 
 	/**
 	 * possible positions for the inputBar (respective inputBox)
