@@ -99,6 +99,8 @@ public interface GuiManagerInterface {
 
 	public View getCasView();
 
+	public boolean hasCasView();
+
 	public View getSpreadsheetView();
 
 	public View getProbabilityCalculator();

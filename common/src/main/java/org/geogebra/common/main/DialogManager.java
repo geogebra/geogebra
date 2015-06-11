@@ -511,4 +511,9 @@ public abstract class DialogManager {
 			ColorChangeHandler handler) {
 	}
 
+	public boolean hasFunctionInspector() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

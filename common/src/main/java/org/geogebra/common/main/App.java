@@ -3031,6 +3031,8 @@ public abstract class App implements UpdateSelection {
 
 	public String getFullHTML5ExportString() {
 
+		GuiManagerInterface gui = getGuiManager();
+
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<!DOCTYPE html>\n");
@@ -3052,9 +3054,9 @@ public abstract class App implements UpdateSelection {
 
 		sb.append("\"showToolBar\":" + showToolBar + ",\n");
 		if (showToolBar) {
-			if (getGuiManager() != null) {
+			if (gui != null) {
 				sb.append("\"customToolbar\":\"");
-				sb.append(getGuiManager().getToolbarDefinition());
+				sb.append(gui.getToolbarDefinition());
 				sb.append("\",\n");
 			}
 			sb.append("\"showToolBarHelp\":" + showToolBarHelp + ",\n");
@@ -3075,12 +3077,35 @@ public abstract class App implements UpdateSelection {
 		sb.append(getGgbApi().getBase64(false));
 		sb.append("\"};\n");
 
-		sb.append("var applet = new GGBApplet(parameters, '5.0', 'ggbApplet');\n");
+		// eg var views =
+		// {"is3D":1,"AV":0,"SV":0,"CV":0,"EV2":0,"CP":0,"PC":0,"DA":0,"FI":0,"PV":0,"macro":0};
 
-		sb.append("<!-- web3d if any 3D commands are used, webSimple if you use just the Graphics View, web otherwise -->\n");
-		String codeBase = kernel.kernelHas3DObjects() ? "web3d" : "web";
-		sb.append("applet.setHTML5Codebase('http://web.geogebra.org/5.0/"
-				+ codeBase + "/');\n");
+		sb.append("// is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator, DA=Data Analysis, FI=Function Inspector, PV=Python, macro=Macro View\n");
+		sb.append("var views = {");
+		sb.append("'is3D': " + (kernel.kernelHas3DObjects() ? "1" : "0"));
+		sb.append(",'AV': "
+				+ (gui.hasAlgebraView() && gui.getAlgebraView().isShowing() ? "1"
+						: "0"));
+		sb.append(",'SV': "
+				+ (gui.hasSpreadsheetView()
+						&& gui.getSpreadsheetView().isShowing() ? "1" : "0"));
+		sb.append(",'CV': " + (gui.hasCasView() ? "1" : "0"));
+		sb.append(",'EV2': " + (hasEuclidianView2(1) ? "1" : "0"));
+		sb.append(",'CP': " + (gui.isUsingConstructionProtocol() ? "1" : "0"));
+		sb.append(",'PC': " + (gui.hasProbabilityCalculator() ? "1" : "0"));
+		sb.append(",'DA': " + (gui.hasDataAnalysisView() ? "1" : "0"));
+		sb.append(",'FI': "
+				+ (getDialogManager().hasFunctionInspector() ? "1" : "0"));
+		sb.append(",'PV': 0");
+		// TODO
+		sb.append(",'macro': " + (false ? "1" : "0"));
+		sb.append("};\n");
+
+		sb.append("var applet = new GGBApplet(parameters, '5.0', views);\n");
+
+		// String codeBase = kernel.kernelHas3DObjects() ? "web3d" : "web";
+		// sb.append("applet.setHTML5Codebase('http://web.geogebra.org/5.0/"
+		// + codeBase + "/');\n");
 		sb.append("window.onload = function() {applet.inject('ggbApplet')};\n");
 
 		sb.append("</script>\n");
