@@ -397,6 +397,12 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void setFocus(boolean b) {
+		if (!((DrawEquationWeb) app.getDrawEquation()).isAllowLeaveOnMouseOut()) {
+			// do not change any focus
+			((DrawEquationWeb) app.getDrawEquation())
+					.setAllowLeaveOnMouseOut(true);
+			return;
+		}
 		//App.printStacktrace("FOCUS" + b);
 		DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
 

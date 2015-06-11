@@ -918,45 +918,45 @@ GeoContainer rbti,
 
 		if (!newCreationMode) {
 			// hacking to deselect the editing when the user does something else like in Desktop
-			// need to call this one more time because the property is static!
-			DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
 
-			$wnd
-					.$ggbQuery(elsecondInside)
-					.mouseenter(
-							function(event2) {
-								DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(false);
-							})
-					.mouseleave(
-							function(event3) {
-								DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setMouseOut(Z)(true);
+			// isMouseOut means: we CAN leave editing mode... it is usually true,
+			// but sometimes it can have temporary false value
+			// in case e.g. KeyBoardButton is used, but also dealt with earlier,
+			// so in this code here it will probably always be true
+			DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setAllowLeaveOnMouseOut(Z)(true);
 
-								// focus and blur propagate the event
-								// to its textarea, so "focusin" is also called
-								// on calling .focus(), which makes the following
-								// part of code harmful: 
-								//$wnd.$ggbQuery(this).focus();
+			$wnd.$ggbQuery(elsecondInside).mouseleave(function(evt) {
+				// I don't know why this is needed...
+				$wnd.$ggbQuery(this).find('textarea').focus();
+			});
 
-								// but still, we can make use of the following:
-								$wnd.$ggbQuery(this).find('textarea').focus();
-								// which is the simplest workaround of the appearing
-								// bug, as it makes it almost equivalent to the previous
-								// state, together with the following:
-							});
-			$wnd
-					.$ggbQuery(elsecondInside)
-					.find('textarea')
-					.focusout(
-							function(event) {
-								// note that this will be called every time
-								// focus is called as well
-								if (DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::isMouseOut()()) {
-									@org.geogebra.web.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-								}
-								event.stopPropagation();
-								event.preventDefault();
-								return false;
-							});
+			// in Windows IE, focusout may be called as a result of opening editing mode too early,
+			// so to exclude that, we can add this to a timeout
+			setTimeout(
+					function() {
+						$wnd
+								.$ggbQuery(elsecondInside)
+								.find('textarea')
+								.focusout(
+										function(event) {
+											// note that this will be called every time
+											// focus is called as well
+											if (DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::isAllowLeaveOnMouseOut()()
+													&& ($wnd.$ggbQuery(
+															elsecondInside)
+															.filter(':hover').length == 0)) {
+												// only do this when the mouse is really outside AND
+												// isMouseOut is true, which means we CAN leave editing mode
+												@org.geogebra.web.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+											} else {
+												DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setAllowLeaveOnMouseOut(Z)(true);
+											}
+											event.stopPropagation();
+											event.preventDefault();
+											return false;
+										});
+					}, 1000);
+			// timeout of 500 is not enough in IE!
 		} else {
 			// if newCreationMode is active, we should catch some Alt-key events!
 			var keydownfun = function(event) {
@@ -1811,14 +1811,14 @@ GeoContainer rbti,
 		return new GDimensionW((int) dimLeftCorr, (int) dimTopCorr);
 	}
 
-	private boolean mouseOut = false;
+	private boolean allowLeaveOnMouseOut = false;
 
-	public void setMouseOut(boolean b) {
-		mouseOut = b;
+	public void setAllowLeaveOnMouseOut(boolean b) {
+		allowLeaveOnMouseOut = b;
 	}
 	
-	private boolean isMouseOut() {
-		return mouseOut;
+	public boolean isAllowLeaveOnMouseOut() {
+		return allowLeaveOnMouseOut;
 	}
 
 	public static DrawEquationWeb getNonStaticCopy(GeoContainer rbti) {

@@ -17,8 +17,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
@@ -47,14 +45,6 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
 
-		MouseOverHandler noout = new MouseOverHandler() {
-			public void onMouseOver(MouseOverEvent moe) {
-				moe.preventDefault();
-				moe.stopPropagation();
-				((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
-			}
-		};
-
 		pButton = new PushButton(new Image(
 				GuiResources.INSTANCE.algebra_matrix_size()));
 		pButton.getUpHoveringFace().setImage(
@@ -82,14 +72,6 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 						EuclidianStyleBarW.CURRENT_POP_UP = null;
 					}
 				}
-			}
-		});
-		pButton.addMouseOverHandler(new MouseOverHandler() {
-			public void onMouseOver(MouseOverEvent moe) {
-				moe.preventDefault();
-				moe.stopPropagation();
-				((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
-				// TODO: maybe remove this and the CancelEvents.instance calls?
 			}
 		});
 

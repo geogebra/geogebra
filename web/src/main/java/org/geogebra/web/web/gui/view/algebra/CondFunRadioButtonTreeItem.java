@@ -10,8 +10,6 @@ import org.geogebra.web.web.css.GuiResources;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -48,14 +46,6 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 				mde.preventDefault();
 				mde.stopPropagation();
 				addNewRow();
-			}
-		});
-		pButton.addMouseOverHandler(new MouseOverHandler() {
-			public void onMouseOver(MouseOverEvent moe) {
-				moe.preventDefault();
-				moe.stopPropagation();
-				((DrawEquationWeb) app.getDrawEquation()).setMouseOut(false);
-				// TODO: maybe remove this and the CancelEvents.instance calls?
 			}
 		});
 

@@ -50,7 +50,9 @@ public class KeyBoardButton extends SimplePanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				((DrawEquationWeb) handler.getApp().getDrawEquation()).setMouseOut(false);
+				// * #5248
+				((DrawEquationWeb) handler.getApp().getDrawEquation())
+						.setAllowLeaveOnMouseOut(false);
 				ToolTipManagerW.hideAllToolTips();
 				if(handler.getApp().getLAF().isSmart() && type == PointerEventType.TOUCH){
 					return;
