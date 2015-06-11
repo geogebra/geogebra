@@ -241,4 +241,8 @@ public class Browser {
 		return Browser.isFloat64supported()
 				&& !Browser.isAndroidVersionLessThan(4.0);
 	}
+
+	public native static boolean isIE10plus() /*-{
+		return !!$wnd.MSBlobBuilder;
+	}-*/;
 }

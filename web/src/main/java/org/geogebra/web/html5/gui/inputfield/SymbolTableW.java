@@ -10,6 +10,7 @@ import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -127,6 +128,10 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	public String getSymbolText(int row, int col) {
 		int index = row * rowLength + col;
 		return this.symbolStrings[index];
+	}
+
+	public com.google.gwt.user.client.Element getEventTargetCell(Event event) {
+		return super.getEventTargetCell(event);
 	}
 
 }
