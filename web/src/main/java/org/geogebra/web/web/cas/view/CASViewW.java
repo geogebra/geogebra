@@ -54,6 +54,12 @@ public class CASViewW extends CASView {
 
 	}
 
+	@Override
+	public void clearView() {
+		super.clearView();
+		maybeOpenKeyboard(false);
+	}
+
 	public void repaintView() {
 		// TODO Auto-generated method stub
 
@@ -127,5 +133,25 @@ public class CASViewW extends CASView {
 			return (MathKeyboardListener) consoleTable.getEditor();
 		}
 		return null;
+	}
+
+	public void maybeOpenKeyboard(final boolean force) {
+		if (!app.has(Feature.CAS_EDITOR)
+				|| app.getArticleElement()
+.getDataParamBase64String().length() > 0
+				|| app.showView(App.VIEW_ALGEBRA)) {
+			return;
+		}
+		app.getGuiManager().invokeLater(new Runnable() {
+
+			public void run() {
+				app.showKeyboard(getEditor(), force);
+				getConsoleTable().startEditingRow(0);
+			}
+		});
+		/*
+		 * getEditor().ensureEditing(); getEditor().setFocus(true);
+		 */
+		
 	}
 }
