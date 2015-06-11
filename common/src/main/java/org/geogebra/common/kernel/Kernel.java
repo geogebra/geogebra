@@ -4262,7 +4262,7 @@ public class Kernel {
 		return getApplication().getLocalization();
 	}
 
-	private boolean kernelHas3DObjects() {
+	public boolean kernelHas3DObjects() {
 		Iterator<GeoClass> it = cons.usedGeos.iterator();
 
 		boolean kernelHas3DObjects = false;

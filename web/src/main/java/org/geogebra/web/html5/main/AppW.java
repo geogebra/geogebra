@@ -1167,6 +1167,17 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	@Override
+	public void copyFullHTML5ExportToClipboard() {
+		String str = getFullHTML5ExportString();
+		if (isChromeWebApp()) {
+			copyBase64ToClipboardChromeWebAppCase(str);
+		} else {
+			// this usually opens a Window.prompt
+			copyBase64NonWebApp(str);
+		}
+	}
+
 	public native void copyBase64NonWebApp(String str) /*-{
 		var userAgent = $wnd.navigator.userAgent.toLowerCase();
 		if ((userAgent.indexOf('msie') > -1)

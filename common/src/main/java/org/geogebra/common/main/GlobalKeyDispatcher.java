@@ -458,7 +458,7 @@ public abstract class GlobalKeyDispatcher {
 				break;
 			case M:
 				if (isShiftDown) {
-					app.copyBase64ToClipboard();
+					app.copyFullHTML5ExportToClipboard();
 				} else {
 					// Ctrl-M: standard view
 					app.setStandardView();

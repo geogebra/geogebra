@@ -3025,6 +3025,72 @@ public abstract class App implements UpdateSelection {
 	public abstract void copyBase64ToClipboard();
 
 	/**
+	 * copy full HTML5 export for current .ggb file to clipboard
+	 */
+	public abstract void copyFullHTML5ExportToClipboard();
+
+	public String getFullHTML5ExportString() {
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("<!DOCTYPE html>\n");
+		sb.append("<html>\n");
+		sb.append("<head>\n");
+		sb.append("<script src=\"http://tube.geogebra.org/scripts/deployggb.js\"></script>\n\n");
+		sb.append("</head>\n");
+		sb.append("<body>\n");
+
+		sb.append("<div id=\"ggbApplet\"></div>\n\n");
+
+		sb.append("<script>\n");
+
+		sb.append("var parameters = {\n");
+		sb.append("\"width\":" + (int) getWidth() + ",\n");
+		sb.append("\"height\":" + (int) getHeight() + ",\n");
+		sb.append("\"showMenuBar\":" + showMenuBar + ",\n");
+		sb.append("\"showAlgebraInput\":" + showAlgebraInput + ",\n");
+
+		sb.append("\"showToolBar\":" + showToolBar + ",\n");
+		if (showToolBar) {
+			if (getGuiManager() != null) {
+				sb.append("\"customToolbar\":\"");
+				sb.append(getGuiManager().getToolbarDefinition());
+				sb.append("\",\n");
+			}
+			sb.append("\"showToolBarHelp\":" + showToolBarHelp + ",\n");
+
+		}
+		sb.append("\"showResetIcon\":false,\n");
+		sb.append("\"enableLabelDrags\":false,\n");
+		sb.append("\"enableShiftDragZoom\":true,\n");
+		sb.append("\"enableRightClick\":false,\n");
+		sb.append("\"errorDialogsActive\":false,\n");
+		sb.append("\"useBrowserForJS\":false,\n");
+		sb.append("\"preventFocus\":false,\n");
+
+		sb.append("\"language\":\"" + getLocalization().getLanguage() + "\",\n");
+
+		sb.append("\"ggbBase64\":\"");
+		// don't include preview bitmap
+		sb.append(getGgbApi().getBase64(false));
+		sb.append("\"};\n");
+
+		sb.append("var applet = new GGBApplet(parameters, '5.0', 'ggbApplet');\n");
+
+		// web, webSimple or web3d
+		String codeBase = kernel.kernelHas3DObjects() ? "web3d" : "web";
+		sb.append("applet.setHTML5Codebase('http://web.geogebra.org/5.0/"
+				+ codeBase + "/');\n");
+		sb.append("window.onload = function() {applet.inject('ggbApplet')};\n");
+
+		sb.append("</script>\n");
+		sb.append("</body>\n");
+		sb.append("</html>\n");
+
+		return sb.toString();
+	}
+
+	/**
 	 * Resets active EV to standard
 	 */
 	public final void setStandardView() {

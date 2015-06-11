@@ -2262,14 +2262,23 @@ public class AppD extends App implements KeyEventDispatcher {
 		copyGraphicsViewToClipboard(getGuiManager().getActiveEuclidianView());
 	}
 
+
 	@Override
 	public void copyBase64ToClipboard() {
 
 		// don't include preview bitmap
-		String str = getGgbApi().getBase64(false);
+		Toolkit.getDefaultToolkit()
+				.getSystemClipboard()
+				.setContents(new StringSelection(getGgbApi().getBase64(false)),
+						null);
+	}
+
+	@Override
+	public void copyFullHTML5ExportToClipboard() {
 
 		Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(new StringSelection(str), null);
+				.setContents(new StringSelection(getFullHTML5ExportString()),
+						null);
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianView euclidianView) {
