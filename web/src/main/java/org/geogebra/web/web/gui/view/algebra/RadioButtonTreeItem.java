@@ -1795,4 +1795,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		return true;
 	}
 
+	public void onBlur(BlurEvent be) {
+		// to be overridden in NewRadioButtonTreeItem
+	}
 }

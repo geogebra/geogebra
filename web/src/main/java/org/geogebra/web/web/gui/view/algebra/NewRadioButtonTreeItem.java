@@ -479,59 +479,65 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void onFocus(FocusEvent event) {
-		updateGUIfocus(event == null ? this : event.getSource());
+		updateGUIfocus(event == null ? this : event.getSource(), false);
 
 		app.getSelectionManager().clearSelectedGeos();
 
 		// this.focused = true; // hasFocus is not needed, AFAIK
 	}
 
-	void updateGUIfocus(Object source) {
+	void updateGUIfocus(Object source, boolean blurtrue) {
 		((AlgebraViewW) av).setActiveTreeItem(null);
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
+			// TODO: maybe remove this code?
 			((AlgebraDockPanelW) app.getGuiManager().getLayout()
-			        .getDockManager().getPanel(App.VIEW_ALGEBRA))
-			        .showStyleBarPanel(false);
+					.getDockManager().getPanel(App.VIEW_ALGEBRA))
+					.showStyleBarPanel(blurtrue);
+
+			// in case things are created, and then deleted again,
+			// this might be useful addition: but no, it is not!
+			// if (((AlgebraViewW) av).getStyleBar(true).isVisible() !=
+			// blurtrue) {
+			// ((AlgebraViewW) av).getStyleBar(true).setVisible(blurtrue);
+			// if (blurtrue) {
+			// ((AlgebraViewW) av).getStyleBar(true).update(null);
+			// }
+			// }
 		} else {
 			// the else branch is important since no onBlur on blur!
+			// note: but there is onBlur on setFocus, so is this needed?
 			((AlgebraDockPanelW) app.getGuiManager().getLayout()
-			        .getDockManager().getPanel(App.VIEW_ALGEBRA))
-			        .showStyleBarPanel(true);
+					.getDockManager().getPanel(App.VIEW_ALGEBRA))
+					.showStyleBarPanel(true);
+
+			// no need for change in this case, behaviour was good
+			// if (!((AlgebraViewW) av).getStyleBar(true).isVisible()) {
+			// ((AlgebraViewW) av).getStyleBar(true).setVisible(true);
+			// ((AlgebraViewW) av).getStyleBar(true).update(null);
+			// }
 		}
 
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
-		if ("".equals(getText().trim())) {
-			if (this.xButton != null) {
-				this.xButton.setVisible(false);
-			}
-		} else {
-			if (this.xButton != null) {
-				this.xButton.setVisible(true);
+		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, !blurtrue);
+		if (!blurtrue) {
+			if ("".equals(getText().trim())) {
+				if (this.xButton != null) {
+					this.xButton.setVisible(false);
+				}
+			} else {
+				if (this.xButton != null) {
+					this.xButton.setVisible(true);
+				}
 			}
 		}
 	}
 
-	@SuppressWarnings("unused")
+	@Override
 	public void onBlur(BlurEvent event) {
-		// This method is practically never called, but if it will be,
-		// decision shall be made whether it's Okay to make the XButton
-		// invisible or not (TODO)
-		if (true)
-			return;
-
-		((AlgebraDockPanelW) app.getGuiManager().getLayout().getDockManager()
-		        .getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(true);
-
-		Object source = this;
-		if (event != null)
-			source = event.getSource();
-
-		// this is a static method, and the same which is needed here too,
-		// so why duplicate the same thing in another copy?
-		// this will call the showPopup method, by the way
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
-
-		// this.focused = false; // hasFocus is not needed, AFAIK
+		// in theory, this method will only be called from
+		// this.setFocus(false)... and it is only called from
+		// DrawEquationWeb.editEquationMathQuillGGB, JQuery-style
+		// blur handler at the end... App.debug shows this really runs,
+		updateGUIfocus(event == null ? this : event.getSource(), true);
 	}
 
 	public ArrayList<String> getHistory() {

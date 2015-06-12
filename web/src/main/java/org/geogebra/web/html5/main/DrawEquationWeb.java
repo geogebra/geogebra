@@ -1016,6 +1016,15 @@ GeoContainer rbti,
 			// mathquillggb.js, textarea.focus and blur handlers - "NoHorizontalScroll"
 			// style in web-styles.css... but at least set newCreationMode here!
 			elsecondInside.newCreationMode = true;
+
+			$wnd
+					.$ggbQuery(elsecondInside)
+					.find('textarea')
+					.blur(
+							function(eee) {
+								// at least notify the NewRadioButtonTreeItem about this!
+								rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+							});
 		}
 	}-*/;
 

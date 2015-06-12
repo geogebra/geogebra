@@ -18,6 +18,7 @@ import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
 
 import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
@@ -316,5 +317,9 @@ public class NewCASTableCellEditorW extends Label implements
 	public void typing(boolean heuristic) {
 		// to be overridden in NewRadioButtonTreeItem,
 		// to know whether it's empty, whether to show Xbutton
+	}
+
+	public void onBlur(BlurEvent be) {
+		// to be overridden in NewRadioButtonTreeItem
 	}
 }
