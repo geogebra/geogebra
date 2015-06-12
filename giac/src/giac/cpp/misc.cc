@@ -498,7 +498,7 @@ namespace giac {
   static define_unary_function_eval (__ldegree,&_valuation,_ldegree_s);
   define_unary_function_ptr5( at_ldegree ,alias_at_ldegree,&__ldegree,0,true);
 
-  gen _degree(const gen & args,GIAC_CONTEXT){
+  gen _degree_(const gen & args,bool total,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen p,x;
     if (args.type!=_VECT){
@@ -536,6 +536,14 @@ namespace giac {
       return zero;
     fxnd(aa,aan,aad);
     if (x.type==_VECT){
+      if (total){
+	int deg=0;
+	if (aad.type==_POLY)
+	  deg -= aad._POLYptr->total_degree();
+	if (aan.type==_POLY)
+	  deg += aan._POLYptr->total_degree();
+	return deg;
+      }
       int s=x._VECTptr->size();
       vecteur res(s);
       for (int i=0;i<s;++i){
@@ -556,9 +564,19 @@ namespace giac {
       return deg;
     return deg+aan._POLYptr->lexsorted_degree();
   }    
+  gen _degree(const gen & args,GIAC_CONTEXT){
+    return _degree_(args,false,contextptr);
+  }
   static const char _degree_s []="degree";
   static define_unary_function_eval (__degree,&_degree,_degree_s);
   define_unary_function_ptr5( at_degree ,alias_at_degree,&__degree,0,true);
+
+  gen _total_degree(const gen & args,GIAC_CONTEXT){
+    return _degree_(args,true,contextptr);
+  }
+  static const char _total_degree_s []="total_degree";
+  static define_unary_function_eval (__total_degree,&_total_degree,_total_degree_s);
+  define_unary_function_ptr5( at_total_degree ,alias_at_total_degree,&__total_degree,0,true);
 
   gen _lcoeff(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
