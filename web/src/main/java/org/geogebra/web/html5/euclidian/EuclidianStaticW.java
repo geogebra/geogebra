@@ -27,7 +27,7 @@ public class EuclidianStaticW extends org.geogebra.common.euclidian.EuclidianSta
 	        int x, int y, boolean serif) {
 
 		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y,
-		        labelDesc, font, serif, fgColor, bgColor, false, true);
+				labelDesc, font, serif, fgColor, bgColor, false, true, null);
 
 		return new Rectangle(x, y, dim.getWidth(), dim.getHeight());
 	}

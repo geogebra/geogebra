@@ -197,7 +197,7 @@ public abstract class DrawEquation {
 			String text, org.geogebra.common.awt.GFont font, boolean serif,
 			org.geogebra.common.awt.GColor fgColor,
 			org.geogebra.common.awt.GColor bgColor, boolean useCache,
-			boolean updateAgain);
+			boolean updateAgain, Runnable callback);
 
 	public static StringBuilder getJLMCommands() {
 		StringBuilder initJLM = new StringBuilder();

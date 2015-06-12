@@ -270,7 +270,7 @@ public class DrawLabel3D {
 			app.getDrawEquation().drawEquation(
 					geo.getKernel().getApplication(), geo, g2d, 0, -offsetY,
 					text.substring(1, text.length() - 1), g2d.getFont(), serif,
-					g2d.getColor(), g2d.getBackground(), true, false);
+					g2d.getColor(), g2d.getBackground(), true, false, null);
 			// App.debug(height+","+dim.getHeight());
 			/*
 			 * labelRectangle.setBounds(xLabel, yLabel - offsetY,

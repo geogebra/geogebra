@@ -85,7 +85,8 @@ public class LaTeXPanel extends JPanel {
 				app, null, new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0, 0, latex,
 				app.getPlainFontCommon(), false,
 				new org.geogebra.desktop.awt.GColorD(getForeground()),
-				new org.geogebra.desktop.awt.GColorD(getBackground()), true, false);
+						new org.geogebra.desktop.awt.GColorD(getBackground()),
+						true, false, null);
 
 		return new Dimension(fd.getWidth(), fd.getHeight());
 	}
@@ -118,7 +119,8 @@ public class LaTeXPanel extends JPanel {
 					new org.geogebra.desktop.awt.GGraphics2DD((Graphics2D) g), 0, 0, latex,
 					app.getPlainFontCommon(), false,
 					new org.geogebra.desktop.awt.GColorD(getForeground()),
-					new org.geogebra.desktop.awt.GColorD(getBackground()), true, false);
+					new org.geogebra.desktop.awt.GColorD(getBackground()),
+					true, false, null);
 		} else {
 			// draw part of image that contains equation
 			if (image != null && equSize != null) {

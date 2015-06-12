@@ -20,6 +20,7 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
+import org.scilab.forge.jlatexmath.DrawingFinishedCallback;
 import org.scilab.forge.jlatexmath.FactoryProviderGWT;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
@@ -301,14 +302,23 @@ public class DrawEquationWeb extends DrawEquation {
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
 	        int x, int y, String latexString0, GFont font, boolean serif,
 	        final GColor fgColor, GColor bgColor, boolean useCache,
-	        boolean updateAgain) {
+			boolean updateAgain, final Runnable callback) {
 		if (app1.has(Feature.JLM_IN_WEB)) {
 			String eqstring = latexString0;
 
 			TeXIcon icon = createIcon(eqstring, font.getSize() + 3,
 					font.getStyle(), serif);
-			Graphics2DInterface g3 = new Graphics2DW(
+			Graphics2DW g3 = new Graphics2DW(
 					((GGraphics2DW) g2).getContext());
+			g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
+
+				public void onDrawingFinished() {
+					if (callback != null) {
+						callback.run();
+					}
+
+				}
+			});
 			icon.paintIcon(new HasForegroundColor() {
 				@Override
 				public Color getForegroundColor() {
@@ -317,6 +327,7 @@ public class DrawEquationWeb extends DrawEquation {
 									fgColor.getBlue());
 				}
 			}, g3, x, y);
+			g3.maybeNotifyDrawingFinishedCallback();
 			return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
 		}
 		String latexString = latexString0;

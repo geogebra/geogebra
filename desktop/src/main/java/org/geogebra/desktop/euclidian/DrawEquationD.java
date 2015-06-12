@@ -276,10 +276,14 @@ public class DrawEquationD extends DrawEquation {
 			final org.geogebra.common.awt.GFont font, final boolean serif,
 			final org.geogebra.common.awt.GColor fgColor,
 			final org.geogebra.common.awt.GColor bgColor, final boolean useCache,
-			boolean updateAgain) {
-		return new org.geogebra.desktop.awt.GDimensionD(drawEquation((AppD) app, geo,
+ boolean updateAgain, Runnable callback) {
+		Dimension d = drawEquation((AppD) app, geo,
 				org.geogebra.desktop.awt.GGraphics2DD.getAwtGraphics(g2), x, y, text, font,
-				serif, fgColor, bgColor, useCache, null, null));
+ serif, fgColor, bgColor, useCache, null, null);
+		if (callback != null) {
+			callback.run();
+		}
+		return new org.geogebra.desktop.awt.GDimensionD(d);
 	}
 
 	final public static Dimension drawEquation(final AppD app,
@@ -337,7 +341,8 @@ public class DrawEquationD extends DrawEquation {
 		d = drawEquation(app, null, new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0,
 				0, latex, new org.geogebra.desktop.awt.GFontD(font), serif,
 				new org.geogebra.desktop.awt.GColorD(fgColor), new org.geogebra.desktop.awt.GColorD(
-						bgColor), true, false);
+bgColor), true, false,
+				null);
 
 		// Now use this size and draw again to get the final image
 		image = new BufferedImage(d.getWidth(), d.getHeight(),
@@ -352,7 +357,8 @@ public class DrawEquationD extends DrawEquation {
 		d = drawEquation(app, null, new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0,
 				0, latex, new org.geogebra.desktop.awt.GFontD(font), serif,
 				new org.geogebra.desktop.awt.GColorD(fgColor), new org.geogebra.desktop.awt.GColorD(
-						bgColor), true, false);
+bgColor), true, false,
+				null);
 
 		latexIcon.setImage(image);
 	}
