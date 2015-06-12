@@ -146,7 +146,8 @@ public class CASViewW extends CASView {
 
 			public void run() {
 				app.showKeyboard(getEditor(), force);
-				getConsoleTable().startEditingRow(0);
+				getConsoleTable().startEditingRow(
+						getConsoleTable().getRowCount() - 1);
 			}
 		});
 		/*

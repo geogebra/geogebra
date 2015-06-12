@@ -1667,7 +1667,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public String getText() {
-		return DrawEquationWeb.getActualEditedValue(seMayLatex);
+		return DrawEquationWeb.getActualEditedValue(seMayLatex, false);
 	}
 
 	public void scrollCursorIntoView() {
@@ -1798,5 +1798,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	public void onBlur(BlurEvent be) {
 		// to be overridden in NewRadioButtonTreeItem
+	}
+
+	public String getLaTeX() {
+		// TODO atm needed for CAS only
+		return null;
 	}
 }

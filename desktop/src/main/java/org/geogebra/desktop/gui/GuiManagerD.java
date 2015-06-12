@@ -1255,7 +1255,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				selection = new String(sbuf);
 			reader.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 		return selection;

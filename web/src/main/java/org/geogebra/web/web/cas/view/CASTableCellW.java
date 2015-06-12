@@ -4,9 +4,13 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.web.cas.view.InputPanel.InputPanelCanvas;
+import org.geogebra.web.web.cas.view.InputPanel.InputPanelLabel;
+import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.SpanElement;
@@ -24,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CASTableCellW extends VerticalPanel {
 	private GeoCasCell casCell;
-	private Label inputPanel;
+	private InputPanel inputPanel;
 	private FlowPanel outputPanel;
 	private String textBeforeEdit;
 	private AutoCompleteW textField;
@@ -36,13 +40,16 @@ public class CASTableCellW extends VerticalPanel {
 	 * @param casCell
 	 *            cas cell value
 	 */
-	public CASTableCellW(GeoCasCell casCell) {
+	public CASTableCellW(GeoCasCell casCell, App app) {
 		this.casCell = casCell;
-		inputPanel = new Label();
+		inputPanel = app.has(Feature.CAS_EDITOR) ? new InputPanelCanvas(app)
+				: new InputPanelLabel();
 		inputPanel.addStyleName("CAS_inputPanel");
 		if (casCell != null) {
 			inputPanel
 			        .setText(casCell.getInput(StringTemplate.defaultTemplate));
+			inputPanel.setLaTeX(casCell.getLaTeXInput());
+
 		}
 		add(inputPanel);
 
@@ -123,8 +130,12 @@ public class CASTableCellW extends VerticalPanel {
 	 */
 	public void stopEditing() {
 		if (!textBeforeEdit.equals(textField.getText())) {
-			casCell.setInput(textField.getText());
+			setInput();
 			inputPanel.setText(textField.getText());
+			if (textField instanceof EquationEditorListener) {
+				inputPanel.setLaTeX(((EquationEditorListener) textField)
+						.getLaTeX());
+			}
 		}
 		clear();
 		add(inputPanel);
@@ -142,6 +153,10 @@ public class CASTableCellW extends VerticalPanel {
 
 	public void setInput() {
 		casCell.setInput(textField.getText());
+		if (textField instanceof EquationEditorListener) {
+			casCell.setLaTeXInput(((EquationEditorListener) textField)
+					.getLaTeX());
+		}
 	}
 
 	/**

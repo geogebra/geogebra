@@ -71,7 +71,7 @@ public class CASTableW extends Grid implements CASTable {
 			resize(n + 1, 2);
 		else
 			this.insertRow(n);
-		CASTableCellW cellWidget = new CASTableCellW(casCell);
+		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell,
 		        (AppW) getApplication());
 
@@ -171,7 +171,7 @@ public class CASTableW extends Grid implements CASTable {
 		if (casCell.isUseAsText())
 			setInput();
 
-		CASTableCellW cellWidget = new CASTableCellW(casCell);
+		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1, casCell,
 		        (AppW) getApplication());
 

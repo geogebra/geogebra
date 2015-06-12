@@ -1393,12 +1393,13 @@ GeoContainer rbti,
 		}
 	}-*/;
 
-	public static native String getActualEditedValue(Element parentElement) /*-{
+	public static native String getActualEditedValue(Element parentElement,
+			boolean asLaTeX) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
-		return thisjq.mathquillggb('text');
+		return thisjq.mathquillggb(asLaTeX ? 'latex' : 'text');
 	}-*/;
 
 	public static native int getCaretPosInEditedValue(Element parentElement) /*-{

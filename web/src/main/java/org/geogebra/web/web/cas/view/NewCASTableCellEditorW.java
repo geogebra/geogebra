@@ -322,4 +322,8 @@ public class NewCASTableCellEditorW extends Label implements
 	public void onBlur(BlurEvent be) {
 		// to be overridden in NewRadioButtonTreeItem
 	}
+
+	public String getLaTeX() {
+		return DrawEquationWeb.getActualEditedValue(seMayLaTeX, true);
+	}
 }

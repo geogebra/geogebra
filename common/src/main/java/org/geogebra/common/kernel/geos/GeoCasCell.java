@@ -106,7 +106,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	private static final String PLOT_VAR = "GgbmpvarPlot";
 
 	private ValidExpression inputVE, evalVE, outputVE;
-	private String input, prefix, postfix, error, latex;
+	private String input, prefix, postfix, error, latex, latexInput;
 	private String localizedInput;
 	private String currentLanguage;
 	private boolean suppressOutput = false;
@@ -2791,5 +2791,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_FILLING;
+	}
+
+	public String getLaTeXInput() {
+		return latexInput;
+	}
+
+	public void setLaTeXInput(String latexInput) {
+		this.latexInput = latexInput;
 	}
 }

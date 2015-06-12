@@ -22,4 +22,6 @@ public interface EquationEditorListener extends AutoCompleteW {
 
 	boolean resetAfterEnter();
 
+	String getLaTeX();
+
 }
