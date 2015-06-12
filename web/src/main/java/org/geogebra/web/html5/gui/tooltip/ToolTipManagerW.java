@@ -90,7 +90,7 @@ public class ToolTipManagerW {
 	int scrollLeft = 0;
 	int scrollTop = 0;
 
-	private Timer timer;
+	private Timer timer, bottomTimer;
 	private boolean blockToolTip = true;
 
 	/**
@@ -285,6 +285,10 @@ public class ToolTipManagerW {
 			        - (app.getAppletFrame().isKeyboardShowing() ? 250 : 70)) * app.getArticleElement().getScaleY() ,
 			        Unit.PX);
 		}
+		if (link == ToolTipLinkType.Help && helpLinkURL != null
+				&& helpLinkURL.length() > 0) {
+			scheduleHideBottom();
+		}
 	}
 
 	/**
@@ -307,14 +311,21 @@ public class ToolTipManagerW {
 
 		blockToolTip = true;
 		if (closeAutomatic) {
-			timer = new Timer() {
-				@Override
-				public void run() {
-					hideBottomInfoToolTip();
-				}
-			};
-			timer.schedule(dismissDelay);
+			scheduleHideBottom();
 		}
+	}
+
+	private void scheduleHideBottom() {
+		cancelTimer();
+		timer = new Timer() {
+			@Override
+			public void run() {
+				hideBottomInfoToolTip();
+			}
+		};
+
+		timer.schedule(dismissDelay);
+
 	}
 
 	/**

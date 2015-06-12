@@ -10,7 +10,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASStylebarW;
@@ -415,8 +414,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		titleBarPanelContent.setStyleName("TitleBarPanelContent");
 		titleBarPanel.add(titleBarPanelContent);
 
-		ToolTipManagerW.sharedInstance().registerWidget(titleBarPanel,
-		        toolTipHandler, false, true);
 		dragPanel = new FlowPanel();
 		dragPanel.setStyleName("dragPanel");
 		dragPanel.addDomHandler(this, MouseDownEvent.getType());
