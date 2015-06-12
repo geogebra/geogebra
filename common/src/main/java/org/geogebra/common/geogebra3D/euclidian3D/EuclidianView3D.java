@@ -1046,6 +1046,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return clippingCubeDrawable.getFrustumRadius();
 	}
 
+	/**
+	 * @return min value from center to one FRUSTUM face
+	 */
+	public double getFrustumInteriorRadius() {
+		return clippingCubeDrawable.getFrustumInteriorRadius();
+	}
+
 	// TODO specific scaling for each direction
 	// private double scale = 50;
 
@@ -4159,5 +4166,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	public void setZNearest(double zNear) {
 		// used for some input3D
+	}
+
+	/**
+	 * @return true if uses frustum interior radius to clip planes etc.
+	 */
+	public boolean usesInteriorRadiusToClip() {
+		return false;
 	}
 }

@@ -713,4 +713,9 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			super.drawPointAlready(point);
 		}
 	}
+
+	@Override
+	public boolean usesInteriorRadiusToClip() {
+		return true;
+	}
 }

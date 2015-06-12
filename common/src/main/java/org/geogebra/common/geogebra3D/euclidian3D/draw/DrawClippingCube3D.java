@@ -82,6 +82,11 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	private double frustumRadius;
 
 	/**
+	 * min value from center to one FRUSTUM face
+	 */
+	private double frustumInteriorRadius;
+
+	/**
 	 * 
 	 * @return big diagonal
 	 */
@@ -94,6 +99,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 */
 	public double getFrustumRadius() {
 		return frustumRadius;
+	}
+
+	/**
+	 * @return min value from center to one FRUSTUM face
+	 */
+	public double getFrustumInteriorRadius() {
+		return frustumInteriorRadius;
 	}
 
 	/**
@@ -112,11 +124,12 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		Coords origin = getView3D().getToSceneMatrix().getOrigin();
 		double x0 = origin.getX(), y0 = origin.getY(), z0 = origin.getZ();
 
-		double xmin = (renderer.getLeft()) / scale + x0;
-		double xmax = (renderer.getRight()) / scale + x0;
 
 		double ymin, ymax, zmin, zmax;
 		double halfWidth = renderer.getWidth() / 2;
+
+		double xmin = -halfWidth / scale + x0;
+		double xmax = halfWidth / scale + x0;
 
 		if (getView3D().getYAxisVertical()) {
 			zmin = (renderer.getBottom()) / scale + y0;
@@ -153,6 +166,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		int h = renderer.getHeight();
 		int d = renderer.getVisibleDepth();
 		frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scale);
+
+		frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scale);
 
 		// double h = minMax[2][1]-minMax[2][0]; frustumRadius = h/2;
 

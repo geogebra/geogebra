@@ -289,9 +289,15 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		setMinMax(getView3D().getClippingVertex(0), getView3D()
-				.getClippingVertex(1), getView3D().getClippingVertex(2),
-				getView3D().getClippingVertex(4));
+		if (getView3D().usesInteriorRadiusToClip()) {
+			setMinMax(getView3D().getCenter(), getView3D()
+					.getFrustumInteriorRadius());
+		} else {
+			setMinMax(getView3D().getClippingVertex(0), getView3D()
+					.getClippingVertex(1), getView3D().getClippingVertex(2),
+					getView3D().getClippingVertex(4));
+		}
+
 	}
 
 	private Coords o = Coords.createInhomCoorsInD3();
@@ -343,41 +349,22 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	}
 
-	/*
-	 * sets the min/max when the plate is visible
-	 * 
-	 * protected void setMinMaxWhenPlateVisible(){
-	 * setMinMax(getView3D().getClippingVertex(0),
-	 * getView3D().getClippingVertex(1), getView3D().getClippingVertex(2),
-	 * getView3D().getClippingVertex(4)); }
-	 * 
-	 * /** sets the min/max when only the grid is visible
-	 * 
-	 * protected void setMinMaxWhenOnlyGridVisible(){
-	 * 
-	 * 
-	 * //Application.debug(getView3D().getToScreenMatrix());
-	 * 
-	 * Coords origin = getView3D().getToSceneMatrix().getOrigin(); Coords vx =
-	 * getView3D().getToSceneMatrix().getVx(); Coords vy =
-	 * getView3D().getToSceneMatrix().getVy(); Coords vz =
-	 * getView3D().getToSceneMatrix().getVz(); float x1 =
-	 * getView3D().getRenderer().getLeft(); float x2 =
-	 * getView3D().getRenderer().getRight(); float y1 =
-	 * getView3D().getRenderer().getBottom(); float y2 =
-	 * getView3D().getRenderer().getTop(); float z1 =
-	 * getView3D().getRenderer().getFront(true); float z2 =
-	 * getView3D().getRenderer().getBack(true);
-	 * 
-	 * Coords origin2 = origin.add(vx.mul(x1)).add(vy.mul(y1)).add(vz.mul(z1));
-	 * 
-	 * setMinMax(origin2,
-	 * origin2.add(vx.mul(x2-x1)),origin2.add(vy.mul(y2-y1)),origin2
-	 * .add(vz.mul(z2-z1)) );
-	 * 
-	 * 
-	 * }
-	 */
+	private static final double INV_SQRT_2 = 1 / Math.sqrt(2);
+
+	private void setMinMax(Coords origin, double radius) {
+		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
+
+		CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
+		origin.projectPlaneInPlaneCoords(m, o);
+
+		double a = radius * INV_SQRT_2;
+
+		minmaxXFinal[0] = o.getX() - a;
+		minmaxYFinal[0] = o.getY() - a;
+		minmaxXFinal[1] = o.getX() + a;
+		minmaxYFinal[1] = o.getY() + a;
+
+	}
 
 	private static final double REDUCE_BOUNDS_FACTOR = 0.975;
 
