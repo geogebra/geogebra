@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -43,8 +44,9 @@ public abstract class ClickEndHandler {
 				if (handler.stopPropagation) {
 					event.stopPropagation();
 				}
-				handler.onClickEnd(event.getTouches().get(0).getClientX(),
-				        event.getTouches().get(0).getClientY(),
+				Touch removedTouch = event.getChangedTouches().get(0);
+				handler.onClickEnd(removedTouch.getClientX(),
+						removedTouch.getClientY(),
 				        PointerEventType.TOUCH);
 				CancelEventTimer.touchEventOccured();
 			}
