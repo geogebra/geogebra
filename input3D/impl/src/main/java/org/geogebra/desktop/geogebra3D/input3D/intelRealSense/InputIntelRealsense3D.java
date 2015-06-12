@@ -242,4 +242,8 @@ public class InputIntelRealsense3D implements Input3D {
 		return null;
 	}
 
+	public boolean useQuaternionsForRotate() {
+		return false;
+	}
+
 }

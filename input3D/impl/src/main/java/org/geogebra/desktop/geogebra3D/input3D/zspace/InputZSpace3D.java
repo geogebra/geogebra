@@ -220,4 +220,8 @@ public class InputZSpace3D implements Input3D {
 		return mouseDirection;
 	}
 
+	public boolean useQuaternionsForRotate() {
+		return false;
+	}
+
 }

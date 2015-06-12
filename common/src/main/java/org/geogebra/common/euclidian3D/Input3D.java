@@ -192,4 +192,10 @@ public interface Input3D {
 	 */
 	public boolean update(GPoint panelPosition, GDimension panelDimension);
 
+	/**
+	 * 
+	 * @return true if input uses quaternions for rotate
+	 */
+	public boolean useQuaternionsForRotate();
+
 }

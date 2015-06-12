@@ -846,6 +846,17 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return eyePosition;
 	}
 
+	public void shiftRotAboutZ(double da) {
+		setRotXYinDegrees(aOld + da, bOld);
+
+		updateRotationAndScaleMatrices();
+
+		setGlobalMatrices();
+
+		setViewChangedByRotate();
+		setWaitForUpdate();
+	}
+
 	public void setRotXYinDegrees(double a, double b) {
 
 		// App.debug("setRotXY: "+a+","+b);

@@ -694,7 +694,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	private boolean drawStylusBeam() {
-		return input3D.hasMouseDirection() && hasMouse();
+		return input3D.hasMouseDirection() && !input3D.isRightPressed()
+				&& hasMouse();
 	}
 
 	@Override
