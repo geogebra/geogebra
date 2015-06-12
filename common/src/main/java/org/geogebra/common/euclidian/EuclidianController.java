@@ -9733,9 +9733,6 @@ public abstract class EuclidianController {
 	}
 
 	public void setMode(int newMode) {
-		if (newMode == EuclidianConstants.MODE_TRANSLATEVIEW) {
-			App.printStacktrace("TRANSLATE");
-		}
 		if (pen != null) {
 			pen.resetPenOffsets();
 		}
