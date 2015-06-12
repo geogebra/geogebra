@@ -86,7 +86,7 @@ public class Ggb2giac {
 						+ "regroup(csolve(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
 
 		p("CSolve.2", "ggbsort(regroup(csolve(%0,%1)))");
-		p("Degree.1", "degree(%0)");
+		p("Degree.1", "total_degree(%0,lname(%0))");
 		p("Degree.2", "degree(%0,%1)");
 
 		// denom() cancels down first
