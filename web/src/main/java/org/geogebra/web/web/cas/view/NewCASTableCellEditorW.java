@@ -115,7 +115,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public String getInput() {
-		if (this.input == null) {
+		if (this.input == null || input.length() == 0) {
 			return input = DrawEquationWeb.getMathQuillContent(seMayLaTeX);
 		}
 		return this.input;
@@ -188,7 +188,7 @@ public class NewCASTableCellEditorW extends Label implements
 	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
-		return input == null ? "" : input;
+		return getInput();
 	}
 
 	@Override
