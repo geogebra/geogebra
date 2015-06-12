@@ -733,7 +733,10 @@ namespace giac {
     gen d=_derive(makesequence(arg,var),contextptr);
     gen deq=_equal(makesequence(d,0*var),contextptr);
     *logptr(contextptr) << "Critical points for "<< arg <<": solving " << deq << " with respect to " << var << endl;
+    int c=calc_mode(contextptr);
+    calc_mode(0,contextptr);
     gen s=_solve(makesequence(deq,var),contextptr);
+    calc_mode(c,contextptr);
     vecteur ls=lidnt(s);
     for (int i=0;i<int(ls.size());++i){
       if (ls[i]==var || (var.type==_VECT && equalposcomp(*var._VECTptr,ls[i])))
@@ -778,18 +781,31 @@ namespace giac {
 	      *logptr(contextptr) << v[i] << " local maximum " << _diag(w,contextptr) << endl;
 	  }
 	  continue;
+	} // end multi-dimension
+	int d=2;
+	gen curd=d2;
+	if (is_zero(g)){
+	  for (++d;d< NEWTON_DEFAULT_ITERATION;++d){
+	    curd=ratnormal(_derive(makesequence(curd,var),contextptr));
+	    g=subst(curd,var,v[i],false,contextptr);
+	    if (!is_zero(g))
+	      break;
+	  }
 	}
-	if (is_strictly_positive(g,contextptr)){
+	if (d%2==0 && is_strictly_positive(g,contextptr)){
 	  *logptr(contextptr) << v[i] << " local minimum" << endl;
 	  res.push_back(v[i]);
 	  continue;
 	}
-	if (is_strictly_positive(-g,contextptr)){
+	if (d%2==0 && is_strictly_positive(-g,contextptr)){
 	  *logptr(contextptr) << v[i] << " local maximum" << endl;
 	  res.push_back(v[i]);
 	  continue;
 	}
-	*logptr(contextptr) << v[i] << " critical point (unknown type)" << endl;
+	if (d==NEWTON_DEFAULT_ITERATION)
+	  *logptr(contextptr) << v[i] << " critical point (unknown type)" << endl;
+	else
+	  *logptr(contextptr) << v[i] << " inflection point" << endl;
       }
       if (extrema_only)
 	return res;

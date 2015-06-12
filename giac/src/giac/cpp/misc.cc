@@ -498,6 +498,26 @@ namespace giac {
   static define_unary_function_eval (__ldegree,&_valuation,_ldegree_s);
   define_unary_function_ptr5( at_ldegree ,alias_at_ldegree,&__ldegree,0,true);
 
+  int sum_degree(const index_m & v1,int vars){
+    int i=0;
+    for (index_t::const_iterator it=v1.begin();it!=v1.end() && it!=v1.begin()+vars;++it)
+      i=i+(*it);
+    return(i);
+  }
+
+  int total_degree(const polynome & p,int vars) {
+    std::vector< monomial<gen> >::const_iterator it=p.coord.begin();
+    std::vector< monomial<gen> >::const_iterator it_end=p.coord.end();
+    int res=0;
+    for (;it!=it_end;++it){
+      int temp=sum_degree(it->index,vars);
+      if (res<temp)
+	res=temp;
+    }
+    return res;
+  }
+
+
   gen _degree_(const gen & args,bool total,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen p,x;
@@ -539,9 +559,9 @@ namespace giac {
       if (total){
 	int deg=0;
 	if (aad.type==_POLY)
-	  deg -= aad._POLYptr->total_degree();
+	  deg -= total_degree(*aad._POLYptr,x._VECTptr->size());
 	if (aan.type==_POLY)
-	  deg += aan._POLYptr->total_degree();
+	  deg += total_degree(*aan._POLYptr,x._VECTptr->size());
 	return deg;
       }
       int s=x._VECTptr->size();
