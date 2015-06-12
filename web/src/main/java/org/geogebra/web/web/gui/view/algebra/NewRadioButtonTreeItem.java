@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -58,6 +59,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	HistoryPopupW historyPopup;
 	ButtonPopupMenu specialPopup;
 	EquationEditor editor;
+	Label dummyLabel;
 
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
@@ -479,6 +481,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void onFocus(FocusEvent event) {
+		if (dummyLabel != null) {
+			ihtml.getElement().removeChild(dummyLabel.getElement());
+			// EquationEditor.updateNewStatic(seMayLatex);
+		}
+
 		updateGUIfocus(event == null ? this : event.getSource(), false);
 
 		app.getSelectionManager().clearSelectedGeos();
@@ -533,6 +540,15 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void onBlur(BlurEvent event) {
+		if (dummyLabel == null) {
+			dummyLabel = new Label(app.getPlain("InputLabel")
+					+ Unicode.ellipsis);
+			dummyLabel.getElement().getStyle().setColor("#999999");
+			EquationEditor.updateNewStatic(dummyLabel.getElement());
+		}
+
+		ihtml.getElement().insertFirst(dummyLabel.getElement());
+
 		// in theory, this method will only be called from
 		// this.setFocus(false)... and it is only called from
 		// DrawEquationWeb.editEquationMathQuillGGB, JQuery-style

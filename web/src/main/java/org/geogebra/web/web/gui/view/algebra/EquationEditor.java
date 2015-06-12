@@ -11,7 +11,7 @@ import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 
-import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -318,7 +318,7 @@ public class EquationEditor {
 		return sug;
 	}
 
-	public static void updateNewStatic(SpanElement se) {
+	public static void updateNewStatic(Element se) {
 		se.getStyle().setProperty("display", "-moz-inline-box");
 		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
 		se.setDir("ltr");

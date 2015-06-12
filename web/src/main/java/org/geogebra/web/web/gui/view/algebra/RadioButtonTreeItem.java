@@ -140,6 +140,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	boolean mout = false;
 
 	protected SpanElement seMayLatex;
+	protected SpanElement seMayLatexEmpty;
 	private SpanElement seNoLatex;
 
 	private Marble radio;
