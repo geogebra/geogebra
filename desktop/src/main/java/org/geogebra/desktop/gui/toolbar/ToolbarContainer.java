@@ -318,12 +318,14 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	private JPanel getGridButtonPanel() {
 
+		int iconSize = (int) Math.round(app.getScaledIconSize() * 0.75);
+
 		// undo button
-		int halfSize = (int) Math.round(app.getScaledIconSize() * 0.75);
+
 		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager())
 				.getUndoAction();
 		undoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon("menu-edit-undo.png", halfSize));
+				app.getScaledIcon("menu-edit-undo.png", iconSize));
 		undoAction.putValue("enabled", false);
 
 		JButton btnUndo = new JButton(undoAction);
@@ -336,7 +338,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		AbstractAction redoAction = ((GuiManagerD) app.getGuiManager())
 				.getRedoAction();
 		redoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon("menu-edit-redo.png", halfSize));
+				app.getScaledIcon("menu-edit-redo.png", iconSize));
 		JButton btnRedo = new JButton(redoAction);
 		text = loc.getMenuTooltip("Redo");
 		btnRedo.setText(null);
@@ -345,10 +347,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		// properties button
 		ImageIcon ic = GeoGebraIcon.joinIcons(
-				app.getScaledIcon("menu-options.png", halfSize),
-				app.getScaledIcon("triangle-down.png", halfSize));
+				app.getScaledIcon("menu-options.png", iconSize),
+				app.getScaledIcon("triangle-down.png", iconSize));
 		final JButton btnProperties = new JButton(
-				app.getScaledIcon("menu-options.png", halfSize));
+app.getScaledIcon(
+				"menu-options.png", iconSize));
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
@@ -374,7 +377,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		// help button
 		JButton btnHelp = new JButton(app.getScaledIcon("menu-help.png",
-				halfSize));
+				iconSize));
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
@@ -386,42 +389,59 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			}
 		});
 
-		JPanel gridPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.weightx = 1;
-		c.weighty = 0;
+		gridButtonPanel = new JPanel(new BorderLayout());
 
-		if (loc.isRightToLeftReadingOrder()) {
-			c.gridx = 0;
-			c.gridy = 0;
-			gridPanel.add(btnRedo, c);
-			c.gridx = 1;
-			c.gridy = 0;
-			gridPanel.add(btnUndo, c);
-			c.gridx = 0;
-			c.gridy = 1;
-			gridPanel.add(btnProperties, c);
-			c.gridx = 1;
-			c.gridy = 1;
-			gridPanel.add(btnHelp, c);
+		if (orientation == SwingConstants.NORTH
+				|| orientation == SwingConstants.SOUTH) {
+			JPanel gridPanel = new JPanel(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			c.weightx = 1;
+			c.weighty = 0;
+
+			if (loc.isRightToLeftReadingOrder()) {
+				c.gridx = 0;
+				c.gridy = 0;
+				gridPanel.add(btnRedo, c);
+				c.gridx = 1;
+				c.gridy = 0;
+				gridPanel.add(btnUndo, c);
+				c.gridx = 0;
+				c.gridy = 1;
+				gridPanel.add(btnProperties, c);
+				c.gridx = 1;
+				c.gridy = 1;
+				gridPanel.add(btnHelp, c);
+
+			} else {
+				c.gridx = 0;
+				c.gridy = 0;
+				gridPanel.add(btnUndo, c);
+				c.gridx = 1;
+				c.gridy = 0;
+				gridPanel.add(btnRedo, c);
+				c.gridx = 0;
+				c.gridy = 1;
+				gridPanel.add(btnHelp, c);
+				c.gridx = 1;
+				c.gridy = 1;
+				gridPanel.add(btnProperties, c);
+			}
+			gridButtonPanel.add(gridPanel, BorderLayout.NORTH);
 
 		} else {
-			c.gridx = 0;
-			c.gridy = 0;
-			gridPanel.add(btnUndo, c);
-			c.gridx = 1;
-			c.gridy = 0;
-			gridPanel.add(btnRedo, c);
-			c.gridx = 0;
-			c.gridy = 1;
-			gridPanel.add(btnHelp, c);
-			c.gridx = 1;
-			c.gridy = 1;
-			gridPanel.add(btnProperties, c);
+			JPanel gridPanel = new JPanel();
+			btnHelp.setAlignmentX(RIGHT_ALIGNMENT);
+			btnProperties.setAlignmentX(RIGHT_ALIGNMENT);
+
+			gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.Y_AXIS));
+			gridPanel.add(btnUndo);
+			gridPanel.add(btnRedo);
+			gridPanel.add(btnHelp);
+			gridPanel.add(btnProperties);
+			gridButtonPanel.add(gridPanel, BorderLayout.SOUTH);
+
 		}
 
-		gridButtonPanel = new JPanel(new BorderLayout());
-		gridButtonPanel.add(gridPanel, BorderLayout.NORTH);
 
 		// add small bottom margin when toolbar is vertical
 		if (orientation == SwingConstants.EAST
