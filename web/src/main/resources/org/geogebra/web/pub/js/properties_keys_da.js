@@ -1465,6 +1465,7 @@ __GGB__keysVar.da.menu = {
     "FreehandShape.Help": "Skitser enten en funktion eller et geometrisk objekt ved at bruge musen",
     "Frequencies": "Frekvenser",
     "Frequency": "Hyppighed",
+    "FrequencyHz": "Frequency (Hz)",
     "FrequencyPolygon": "Kurve",
     "FrequencyTable": "Tabel",
     "FrequencyTable.Count": "Frequency",

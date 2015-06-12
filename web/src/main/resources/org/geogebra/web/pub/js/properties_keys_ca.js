@@ -1465,6 +1465,7 @@ __GGB__keysVar.ca.menu = {
     "FreehandShape.Help": "Prem un dels botons del ratol\xed i arrossega'l per dibuixar a m\xe0 al\xe7ada una funci\xf3 o un objecte geom\xe8tric",
     "Frequencies": "Freq\xfc\xe8ncies",
     "Frequency": "Freq\xfc\xe8ncia",
+    "FrequencyHz": "Frequency (Hz)",
     "FrequencyPolygon": "Pol\xedgon de freq\xfc\xe8ncies",
     "FrequencyTable": "Taula de freq\xfc\xe8ncies",
     "FrequencyTable.Count": "Freq\xfc\xe8ncies",
