@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
@@ -177,21 +176,19 @@ public class Variable extends ValidExpression {
 		}
 		if (i > -1 && !(geo2 instanceof GeoElement))
 			return new Variable(kernel, name.substring(0, i + 1));
-		if (geo2 == null)
-			geo2 = new MyDouble(kernel, 1.0);
-		return new ExpressionNode(kernel, geo2, Operation.MULTIPLY,
-				new ExpressionNode(kernel, new FunctionVariable(kernel, "x"))
-						.power(new MyDouble(kernel, exponents[0]))
-						.multiply(
-								new ExpressionNode(kernel,
-										new FunctionVariable(kernel, "y"))
-										.power(new MyDouble(kernel,
-												exponents[1])))
-						.multiply(
-								new ExpressionNode(kernel,
-										new FunctionVariable(kernel, "z"))
-										.power(new MyDouble(kernel,
-												exponents[2]))));
+		ExpressionNode powers = new ExpressionNode(kernel,
+				new FunctionVariable(kernel, "x"))
+				.power(new MyDouble(kernel, exponents[0]))
+				.multiplyR(
+						new ExpressionNode(kernel, new FunctionVariable(kernel,
+								"y")).power(new MyDouble(kernel, exponents[1])))
+				.multiplyR(
+						new ExpressionNode(kernel, new FunctionVariable(kernel,
+								"z")).power(new MyDouble(kernel, exponents[2])));
+		if (geo2 == null) {
+			return powers;
+		}
+		return powers.multiply(geo2);
 	}
 
 	public HashSet<GeoElement> getVariables() {
