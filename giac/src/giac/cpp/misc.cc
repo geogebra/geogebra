@@ -510,8 +510,8 @@ namespace giac {
     }
     else {
       vecteur & v=*args._VECTptr;
-      int s=v.size();
-      if ( (args.subtype==_POLY1__VECT) || (s!=2) || (v[1].type!=_IDNT) )
+      int s=int(v.size());
+      if ( (args.subtype==_POLY1__VECT) || (s!=2) || (v[1].type!=_IDNT && v[1].type!=_VECT) )
 	return s-1;
       x=v.back();
       p=v.front();
@@ -535,6 +535,20 @@ namespace giac {
     if (is_zero(aa))
       return zero;
     fxnd(aa,aan,aad);
+    if (x.type==_VECT){
+      int s=x._VECTptr->size();
+      vecteur res(s);
+      for (int i=0;i<s;++i){
+	int deg=0;
+	if (aad.type==_POLY)
+	  deg -= aad._POLYptr->degree(i);;
+	if (aan.type!=_POLY)
+	  res[i]=deg;
+	else
+	  res[i]=deg+aan._POLYptr->degree(i);
+      }
+      return res;
+    }
     int deg=0;
     if ( (aad.type==_POLY) && (aad._POLYptr->lexsorted_degree() ) )
       deg -= aad._POLYptr->lexsorted_degree();;

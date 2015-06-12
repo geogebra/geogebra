@@ -717,6 +717,78 @@ namespace giac {
   static define_unary_function_eval_quoted (__grad,&_grad,_grad_s);
   define_unary_function_ptr5( at_grad ,alias_at_grad,&__grad,_QUOTE_ARGUMENTS,true);
 
+  gen _extrema(const gen & g,GIAC_CONTEXT){
+    gen arg,var;
+    if (g.type!=_VECT){
+      arg=g;
+      var=ggb_var(arg);
+    }
+    else {
+      if (g.subtype!=_SEQ__VECT || g._VECTptr->size()<2)
+	return gensizeerr(contextptr);
+      arg=g._VECTptr->front();
+      var=(*g._VECTptr)[1];
+    }
+    gen d=_derive(makesequence(arg,var),contextptr);
+    gen deq=_equal(makesequence(d,0*var),contextptr);
+    *logptr(contextptr) << "Critical points for "<< arg <<": solving " << deq << " with respect to " << var << endl;
+    gen s=_solve(makesequence(deq,var),contextptr);
+    // FIXME: additionnal code for info on extrema
+    if (s.type==_VECT){
+      gen d2=_derive(makesequence(d,var),contextptr);
+      *logptr(contextptr) << "Hessian " << d2 << endl;
+      vecteur v=*s._VECTptr;
+      int s=int(v.size());
+      for (int i=0;i<s;++i){
+	gen g=subst(d2,var,v[i],false,contextptr);
+	*logptr(contextptr) << "Hessian at " << v[i] << ": " << g << endl;
+	if (ckmatrix(g)){
+	  g=evalf(g,1,contextptr);
+	  if (g.type!=_VECT || !is_numericm(*g._VECTptr,true)){
+	    *logptr(contextptr) << v[i] << " critical point (unknown type)" << endl;
+	    continue;
+	  }
+	  vecteur w=megvl(*g._VECTptr,contextptr);
+	  if (!ckmatrix(w)){
+	    *logptr(contextptr) << v[i] << " critical point (unknown type)" << endl;
+	    continue;
+	  }
+	  int j=0,ws=int(w.size());
+	  for (;j<ws;++j){
+	    if (is_zero(w[0][0])){
+	      *logptr(contextptr) << v[i] << " critical point (0 as eigenvalue) " << _diag(w,contextptr) << endl;
+	      break;
+	    }
+	    if (is_positive(-w[0][0]*w[s][s],contextptr)){
+	      *logptr(contextptr) << v[i] << " saddle point (2 eigenvalues with opposite sign) " << _diag(w,contextptr) << endl;
+	      break;
+	    }
+	  }
+	  if (j==ws){
+	    if (is_positive(w[0][0],contextptr))
+	      *logptr(contextptr) << v[i] << " local minimum " << _diag(w,contextptr) << endl;
+	    else
+	      *logptr(contextptr) << v[i] << " local maximum " << _diag(w,contextptr) << endl;
+	  }
+	  continue;
+	}
+	if (is_strictly_positive(g,contextptr)){
+	  *logptr(contextptr) << v[i] << " local minimum" << endl;
+	  continue;
+	}
+	if (is_strictly_positive(-g,contextptr)){
+	  *logptr(contextptr) << v[i] << " local maximum" << endl;
+	  continue;
+	}
+	*logptr(contextptr) << v[i] << " critical point (unknown type)" << endl;
+      }
+    }
+    return s;
+  }
+  static const char _extrema_s []="extrema";
+  static define_unary_function_eval_quoted (__extrema,&_extrema,_extrema_s);
+  define_unary_function_ptr5( at_extrema ,alias_at_extrema,&__extrema,_QUOTE_ARGUMENTS,true);
+
   // FIXME: This should not use any temporary identifier
   // Should define the identity operator and write again all rules here
   // NB: It requires all D operators for functions to be functions!
