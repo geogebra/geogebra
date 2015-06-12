@@ -1017,11 +1017,12 @@ GeoContainer rbti,
 			// style in web-styles.css... but at least set newCreationMode here!
 			elsecondInside.newCreationMode = true;
 
+			// this shall be added again in storno, because the textarea is recreated...
 			$wnd
 					.$ggbQuery(elsecondInside)
 					.find('textarea')
 					.blur(
-							function(eee) {
+							function() {
 								// at least notify the NewRadioButtonTreeItem about this!
 								rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
 							});
@@ -1335,6 +1336,7 @@ GeoContainer rbti,
 	public static native void stornoFormulaMathQuillGGB(
 GeoContainer rbti,
 	        Element parentElement) /*-{
+		// in theory, this is only called from new formula creation mode!!!
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
@@ -1342,6 +1344,22 @@ GeoContainer rbti,
 		elsecondInside.innerHTML = '';
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
+
+		if (true) {
+			// return for the time being as the following code is buggy in IE
+			return;
+		}
+
+		// as the blur handler set in editEquationMathQuillGGB is harmed,
+		// re-set that blur handler here as well:
+		$wnd
+				.$ggbQuery(elsecondInside)
+				.find('textarea')
+				.blur(
+						function() {
+							// at least notify the NewRadioButtonTreeItem about this!
+							rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+						});
 	}-*/;
 
 	public static native void updateEditingMathQuillGGB(Element parentElement,

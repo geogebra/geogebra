@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.dom.client.Element;
 
@@ -228,7 +229,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		if (isChromeWebapp()) { // use chrome web app paste API
 			clipboard = getSystemClipboardChromeWebapp();
 			getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
-		} else if (isInternetExplorer()) {
+		} else if (Browser.isInternetExplorer()) {
 			clipboard = getSystemClipboardIE();
 		} else { // use internal clipboard
 			clipboard = staticClipboardString;
@@ -256,7 +257,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		if (isChromeWebapp()) { // use chrome web app copy API
 			copyToSystemClipboardChromeWebapp(value);
 			getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
-		} else if (isInternetExplorer()) {
+		} else if (Browser.isInternetExplorer()) {
 			//App.debug("is IE");
 			copyToSystemClipboardIE(value);
 		}
@@ -276,17 +277,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// check if the app is running in chrome and is installed (has an id)
 		// the function is defined in app.html
 		return $doc.isChromeWebapp();
-	}-*/;
-	
-	private static native boolean isInternetExplorer() /*-{
-		// check if app is running in IE5 or greater
-		// clipboardData object is available from IE5 and onwards
-		var userAgent = $wnd.navigator.userAgent;
-		if ((userAgent.indexOf('MSIE ') > -1)
-				|| (userAgent.indexOf('Trident/') > -1)) {
-			return true;
-		}
-		return false;
 	}-*/;
 	
 	private static native Element getHiddenTextArea() /*-{

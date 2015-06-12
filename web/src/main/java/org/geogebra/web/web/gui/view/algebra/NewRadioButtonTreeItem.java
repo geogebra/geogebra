@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -399,6 +400,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void setFocus(boolean b) {
+		// cause problems in IE #5244 #5245?? or not?
 		if (!((DrawEquationWeb) app.getDrawEquation()).isAllowLeaveOnMouseOut()) {
 			// do not change any focus
 			((DrawEquationWeb) app.getDrawEquation())
@@ -481,9 +483,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void onFocus(FocusEvent event) {
-		if (dummyLabel != null) {
-			ihtml.getElement().removeChild(dummyLabel.getElement());
-			// EquationEditor.updateNewStatic(seMayLatex);
+		if (!Browser.isInternetExplorer()) {
+			if (dummyLabel != null) {
+				ihtml.getElement().removeChild(dummyLabel.getElement());
+			}
 		}
 
 		updateGUIfocus(event == null ? this : event.getSource(), false);
@@ -540,14 +543,16 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		if (dummyLabel == null) {
-			dummyLabel = new Label(app.getPlain("InputLabel")
-					+ Unicode.ellipsis);
-			dummyLabel.getElement().getStyle().setColor("#999999");
-			EquationEditor.updateNewStatic(dummyLabel.getElement());
-		}
+		if (!Browser.isInternetExplorer()) {
+			if (dummyLabel == null) {
+				dummyLabel = new Label(app.getPlain("InputLabel")
+						+ Unicode.ellipsis);
+				dummyLabel.getElement().getStyle().setColor("#999999");
+				EquationEditor.updateNewStatic(dummyLabel.getElement());
+			}
 
-		ihtml.getElement().insertFirst(dummyLabel.getElement());
+			ihtml.getElement().insertFirst(dummyLabel.getElement());
+		}
 
 		// in theory, this method will only be called from
 		// this.setFocus(false)... and it is only called from

@@ -27,6 +27,23 @@ public class Browser {
 		return false;
 	}-*/;
 
+	/**
+	 * Better solution, copied from CopyPasteCutW originally TODO: add
+	 * toLowerCase() call to it!
+	 * 
+	 * @return
+	 */
+	public static native boolean isInternetExplorer() /*-{
+		// check if app is running in IE5 or greater
+		// clipboardData object is available from IE5 and onwards
+		var userAgent = $wnd.navigator.userAgent;
+		if ((userAgent.indexOf('MSIE ') > -1)
+				|| (userAgent.indexOf('Trident/') > -1)) {
+			return true;
+		}
+		return false;
+	}-*/;
+
 	public native static boolean externalCAS() /*-{
 		return typeof $wnd.evalGeoGebraCASExternal == 'function';
 	}-*/;
