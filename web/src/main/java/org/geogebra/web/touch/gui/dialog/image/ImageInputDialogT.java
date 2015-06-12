@@ -38,7 +38,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 	/**
 	 * @param app {@link App}
 	 */
-	public ImageInputDialogT(App app) {
+	public ImageInputDialogT(final App app) {
 		super((AppW) app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 		this.pictureCallback = new PictureCallback() {
 			
@@ -49,7 +49,8 @@ public class ImageInputDialogT extends UploadImageDialog {
 
 			@Override
 			public void onFailure(final String arg0) {
-				ToolTipManagerW.sharedInstance().showBottomMessage("Couldn't open chosen image", true);
+				ToolTipManagerW.sharedInstance().showBottomMessage(
+						"Couldn't open chosen image", true, (AppW) app);
 			}
 		};
 	}

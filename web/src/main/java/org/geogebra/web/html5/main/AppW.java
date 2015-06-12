@@ -3276,12 +3276,12 @@ public abstract class AppW extends App implements SetLabels {
 		// probably needed in full version only
 	}
 
-	public double getLeft() {
-		return this.getFrameElement().getOffsetLeft();
+	public double getAbsLeft() {
+		return this.getFrameElement().getAbsoluteLeft();
 	}
 
-	public double getTop() {
-		return this.getFrameElement().getOffsetTop();
+	public double getAbsTop() {
+		return this.getFrameElement().getAbsoluteTop();
 	}
 
 	public boolean enableFileFeatures() {

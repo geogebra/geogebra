@@ -276,12 +276,13 @@ public class ToolTipManagerW {
 
 			Style style = bottomInfoTipPanel.getElement().getStyle();
 			style.setLeft(
-			        app.getLeft()
+					app.getAbsLeft()
 			                + ((app.getWidth() - bottomInfoTipPanel
 			                        .getOffsetWidth()) * app.getArticleElement().getScaleX()) / 2, Unit.PX);
 
 			style.setTop(
-			        app.getTop() + (app.getHeight()
+app.getAbsTop()
+					+ (app.getHeight()
 			        - (app.getAppletFrame().isKeyboardShowing() ? 250 : 70)) * app.getArticleElement().getScaleY() ,
 			        Unit.PX);
 		}
@@ -300,14 +301,14 @@ public class ToolTipManagerW {
 	 *            whether the message should be closed automatically after
 	 *            dismissDelay milliseconds
 	 */
-	public void showBottomMessage(String text, boolean closeAutomatic) {
+	public void showBottomMessage(String text, boolean closeAutomatic, AppW app) {
 		if (text == null || "".equals(text)) {
 			hideBottomInfoToolTip();
 			return;
 		}
 		blockToolTip = false;
 		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text)
-		        + "</html>", "", null, null);
+				+ "</html>", "", null, app);
 
 		blockToolTip = true;
 		if (closeAutomatic) {

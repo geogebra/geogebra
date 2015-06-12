@@ -241,7 +241,7 @@ public abstract class FileManager implements FileManagerI {
 	private void fork(final Material mat) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
 		        app.getLocalization().getPlain("SeveralVersionsOfA",
-		                mat.getTitle()), true);
+						mat.getTitle()), true, app);
 		App.debug("SYNC fork: " + mat.getId());
 		final String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
 		        + Unicode.LeftToRightMark

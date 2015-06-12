@@ -573,11 +573,13 @@ public class MaterialListElement extends FlowPanel implements
 				        });
 				return;
 			}
-			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
+			ToolTipManagerW.sharedInstance().showBottomMessage(
+					app.getMenu("Loading"), false, app);
 
 			loadMaterialAsGGB();
 		} else {
-			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
+			ToolTipManagerW.sharedInstance().showBottomMessage(
+					app.getMenu("Loading"), false, app);
 			if (this.material.getBase64() == null
 					|| this.material.getBase64().length() == 0) {
 				loadMaterialAsGGB();

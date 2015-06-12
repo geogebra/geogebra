@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
 
 import com.google.gwt.http.client.Request;
@@ -233,7 +234,8 @@ public class GeoGebraTubeExportWeb extends
 
 	@Override
 	protected void statusLabelSetText(String plain) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(plain, true);
+		ToolTipManagerW.sharedInstance().showBottomMessage(plain, true,
+				(AppW) app);
 	}
 
 	@Override

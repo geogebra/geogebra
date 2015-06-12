@@ -52,7 +52,7 @@ public class SaveCallback {
 			        ToolTipLinkType.ViewSavedFile, app);
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-			        app.getMenu("SavedSuccessfully"), true);
+					app.getMenu("SavedSuccessfully"), true, app);
 		}
 	}
 

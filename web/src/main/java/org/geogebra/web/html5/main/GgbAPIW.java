@@ -874,7 +874,8 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public void showTooltip(String tooltip) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, false);
+		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, false,
+				(AppW) app);
 	}
 
 	/**

@@ -16,7 +16,7 @@ public abstract class MaterialCallback {
 		Log.error("Tube API error:" + exception.getMessage());
 		// TODO
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-		        exception.getMessage(), true);
+				exception.getMessage(), true, null);
 	}
 
 	public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {

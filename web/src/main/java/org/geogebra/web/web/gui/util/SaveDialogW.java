@@ -378,7 +378,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	private void saveLocal() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-		        app.getMenu("Saving"), false);
+				app.getMenu("Saving"), false, app);
 		if (!this.title.getText().equals(
 		        app.getKernel().getConstruction().getTitle())) {
 			app.resetUniqueId();
@@ -445,7 +445,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		};
 
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-		        app.getMenu("Saving"), false);
+				app.getMenu("Saving"), false, app);
 
 		if (saveType == MaterialType.ggt) {
 			app.getGgbApi().getMacrosBase64(true, handler);
@@ -458,7 +458,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	private void uploadToDrive() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-		        app.getMenu("Saving"), false);
+				app.getMenu("Saving"), false, app);
 		app.getGoogleDriveOperation().afterLogin(new Runnable() {
 
 			@Override

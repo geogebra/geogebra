@@ -5,7 +5,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -151,7 +150,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
     			if (dropIndex < minIndex || dropIndex > maxIndex) {
     				//drop not possible
     				//TODO change cursor style before releasing mouse
-    				ToolTipManagerW.sharedInstance().showBottomMessage("Drop not possible", true);
+					ToolTipManagerW.sharedInstance().showBottomMessage(
+							"Drop not possible", true, (AppW) app);
     				return;
     			}
     			boolean kernelChanged = ((ConstructionTableDataW)data).moveInConstructionList(dragIndex, dropIndex);
