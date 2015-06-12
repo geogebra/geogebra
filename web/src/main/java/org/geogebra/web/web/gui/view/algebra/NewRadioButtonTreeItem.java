@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
@@ -543,16 +542,18 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		if (!Browser.isInternetExplorer()) {
-			if (dummyLabel == null) {
-				dummyLabel = new Label(app.getPlain("InputLabel")
-						+ Unicode.ellipsis);
-				dummyLabel.getElement().getStyle().setColor("#999999");
-				EquationEditor.updateNewStatic(dummyLabel.getElement());
-			}
 
-			ihtml.getElement().insertFirst(dummyLabel.getElement());
-		}
+		// #5244
+		// if (!Browser.isInternetExplorer()) {
+		// if (dummyLabel == null) {
+		// dummyLabel = new Label(app.getPlain("InputLabel")
+		// + Unicode.ellipsis);
+		// dummyLabel.getElement().getStyle().setColor("#999999");
+		// EquationEditor.updateNewStatic(dummyLabel.getElement());
+		// }
+		//
+		// ihtml.getElement().insertFirst(dummyLabel.getElement());
+		// }
 
 		// in theory, this method will only be called from
 		// this.setFocus(false)... and it is only called from
