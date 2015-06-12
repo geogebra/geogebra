@@ -610,8 +610,10 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 							((EuclidianControllerInput3D) euclidianController)
 									.getMouse3DScenePosition(),
 							false);
-			zNearest = euclidianController.getMovedGeoElement().distance(
-					getCursor3D());
+			GeoElement movedGeo = euclidianController.getMovedGeoElement();
+			if (movedGeo != null) {
+				zNearest = movedGeo.distance(getCursor3D());
+			}
 		}
 
 		updateStylusBeam();
