@@ -1638,7 +1638,7 @@ __GGB__keysVar.fr.menu = {
     "Mode": "Mode",
     "Motif": "Motif",
     "Move": "D\xe9placer",
-    "Move.Help": "D\xe9placer ou s\xe9lectionner un ou des objets",
+    "Move.Help": "D\xe9placer/S\xe9lectionner Objets",
     "MoveRotate": "Tourner autour du point",
     "MoveRotate.Help": "D'abord s\xe9lectionner le centre de rotation, puis d\xe9placer l'objet[cr\xe9\xe9s]",
     "MovementTools": "D\xe9placements",
