@@ -1465,7 +1465,7 @@ __GGB__keysVar.es_UY.menu = {
     "FreehandShape.Help": "Bosqueja una funci\xf3n o una figura geom\xe9trica a mano alzada",
     "Frequencies": "Frecuencias",
     "Frequency": "Frecuencia",
-    "FrequencyHz": "Frequency (Hz)",
+    "FrequencyHz": "Frecuencia (Hz)",
     "FrequencyPolygon": "Pol\xedgono de frecuencias",
     "FrequencyTable": "Tabla de frecuencia",
     "FrequencyTable.Count": "Frecuencia",
