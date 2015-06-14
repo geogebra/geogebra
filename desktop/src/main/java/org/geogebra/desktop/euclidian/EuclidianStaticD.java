@@ -30,7 +30,7 @@ public class EuclidianStaticD extends org.geogebra.common.euclidian.EuclidianSta
 	public final GRectangle doDrawMultilineLaTeX(App app,
 			GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2,
 			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
-			int xLabel, int yLabel, boolean serif) {
+			int xLabel, int yLabel, boolean serif, Runnable callback) {
 		int fontSize = g2.getFont().getSize();
 		int lineSpread = (int) (fontSize * 1.0f);
 		int lineSpace = (int) (fontSize * 0.5f);
@@ -60,7 +60,7 @@ public class EuclidianStaticD extends org.geogebra.common.euclidian.EuclidianSta
 				dim = app.getDrawEquation().drawEquation(app, geo,
 						tempGraphics, 0, 0, elements[i], font,
 						((GeoText) geo).isSerifFont(), fgColor, bgColor, false,
-						false, null);
+						false, callback);
 
 				int height = dim.getHeight();
 
@@ -112,7 +112,7 @@ public class EuclidianStaticD extends org.geogebra.common.euclidian.EuclidianSta
 				xOffset += de.drawEquation(app, geo, g2, xLabel + xOffset,
 						(yLabel + height) + yOffset, elements[i], font,
 						((GeoText) geo).isSerifFont(), fgColor, bgColor, true,
-						false, null).getWidth();
+						false, callback).getWidth();
 
 				++currentElement;
 			} else {

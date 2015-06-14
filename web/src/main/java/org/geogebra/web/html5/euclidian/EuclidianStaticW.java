@@ -24,10 +24,11 @@ public class EuclidianStaticW extends org.geogebra.common.euclidian.EuclidianSta
 	protected GRectangle doDrawMultilineLaTeX(App app,
 	        GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2,
 	        GFont font, GColor fgColor, GColor bgColor, String labelDesc,
-	        int x, int y, boolean serif) {
+			int x, int y, boolean serif, Runnable callback) {
 
-		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y,
-				labelDesc, font, serif, fgColor, bgColor, false, true, null);
+		GDimension dim = app.getDrawEquation()
+				.drawEquation(app, geo, g2, x, y, labelDesc, font, serif,
+						fgColor, bgColor, false, true, callback);
 
 		return new Rectangle(x, y, dim.getWidth(), dim.getHeight());
 	}

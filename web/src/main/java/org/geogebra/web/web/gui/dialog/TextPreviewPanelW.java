@@ -86,7 +86,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 					ev.getTempGraphics2D(textFont),
  textFont, GColor.BLACK,
 					GColor.WHITE,
-			        previewGeo.getTextString(), 0, 0, serif);
+							previewGeo.getTextString(), 0, 0, serif, null);
 			
 		} else {
 			

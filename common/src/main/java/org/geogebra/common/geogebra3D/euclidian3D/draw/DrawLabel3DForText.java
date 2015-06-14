@@ -30,7 +30,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			return EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					tempGraphics, geo, tempGraphics, font, GColor.BLACK,
 					GColor.WHITE, text, 0, 0,
-					((TextProperties) geo).isSerifFont());
+					((TextProperties) geo).isSerifFont(), getCallBack());
 		}
 
 		return EuclidianStatic.drawMultiLineText(view.getApplication(), text,
@@ -47,7 +47,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					tempGraphics, geo, g2d, font, GColor.BLACK, GColor.WHITE,
-					text, 0, 0, ((TextProperties) geo).isSerifFont());
+					text, 0, 0, ((TextProperties) geo).isSerifFont(),
+					getCallBack());
 		} else {
 			EuclidianStatic
 					.drawMultiLineText(view.getApplication(), text, 0, 0, g2d,

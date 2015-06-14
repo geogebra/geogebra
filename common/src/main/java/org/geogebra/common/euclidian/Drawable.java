@@ -333,7 +333,8 @@ public abstract class Drawable extends DrawableND {
 			GColor fgColor, GColor bgColor) {
 		labelRectangle.setBounds(EuclidianStatic.drawMultilineLaTeX(
 				view.getApplication(), view.getTempGraphics2D(font), geo, g2,
-				font, fgColor, bgColor, labelDesc, xLabel, yLabel, isSerif()));
+				font, fgColor, bgColor, labelDesc, xLabel, yLabel, isSerif(),
+				null));
 	}
 
 	/**

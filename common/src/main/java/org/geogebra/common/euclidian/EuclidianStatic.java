@@ -219,10 +219,10 @@ public abstract class EuclidianStatic {
 			App app, org.geogebra.common.awt.GGraphics2D tempGraphics,
 			GeoElement geo, org.geogebra.common.awt.GGraphics2D g2,
 			org.geogebra.common.awt.GFont font, org.geogebra.common.awt.GColor fgColor,
-			org.geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
-			int yLabel, boolean serif) {
+			org.geogebra.common.awt.GColor bgColor, String labelDesc,
+			int xLabel, int yLabel, boolean serif, Runnable callback) {
 		return prototype.doDrawMultilineLaTeX(app, tempGraphics, geo, g2, font,
-				fgColor, bgColor, labelDesc, xLabel, yLabel, serif);
+				fgColor, bgColor, labelDesc, xLabel, yLabel, serif, callback);
 	}
 
 	/**
@@ -260,7 +260,7 @@ public abstract class EuclidianStatic {
 			GeoElement geo, org.geogebra.common.awt.GGraphics2D g2,
 			org.geogebra.common.awt.GFont font, org.geogebra.common.awt.GColor fgColor,
 			org.geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
-			int yLabel, boolean serif);
+ int yLabel, boolean serif, Runnable callback);
 
 	private static org.geogebra.common.awt.GFont getIndexFont(
 			org.geogebra.common.awt.GFont f) {

@@ -270,12 +270,8 @@ public class DrawLabel3D {
 			app.getDrawEquation().drawEquation(
 					geo.getKernel().getApplication(), geo, g2d, 0, -offsetY,
 					text.substring(1, text.length() - 1), g2d.getFont(), serif,
-					g2d.getColor(), g2d.getBackground(), true, false, null);
-			// App.debug(height+","+dim.getHeight());
-			/*
-			 * labelRectangle.setBounds(xLabel, yLabel - offsetY,
-			 * dim.getWidth(), dim.getHeight());
-			 */
+					g2d.getColor(), g2d.getBackground(), true, false,
+					getCallBack());
 			return bimg;
 		}
 
@@ -290,6 +286,35 @@ public class DrawLabel3D {
 		}
 
 		return bimg;
+	}
+
+	private Runnable callBack = null;
+
+	/**
+	 * 
+	 * @return callback (for JLM)
+	 */
+	protected Runnable getCallBack() {
+		if (callBack == null) {
+			callBack = new DrawLaTeXCallBack(this);
+		}
+
+		return callBack;
+	}
+
+	protected class DrawLaTeXCallBack implements Runnable {
+
+		private DrawLabel3D label;
+
+		public DrawLaTeXCallBack(DrawLabel3D label) {
+			this.label = label;
+		}
+
+		public void run() {
+			label.drawable.setLabelWaitForReset();
+			view.repaintView();
+		}
+
 	}
 
 	/**
