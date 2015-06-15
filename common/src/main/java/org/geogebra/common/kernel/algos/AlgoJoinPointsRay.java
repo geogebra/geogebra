@@ -27,16 +27,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  *
  * @author Markus
  * @version
  */
-public class AlgoJoinPointsRay extends AlgoElement {
+public class AlgoJoinPointsRay extends AlgoElement implements
+		SymbolicParametersBotanaAlgo {
 
 	private GeoPoint P, Q; // input
 	private GeoRay ray; // output
+
+	private Variable[] botanaVars;
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoJoinPointsRay(Construction cons, String label, GeoPoint P,
@@ -126,5 +132,17 @@ public class AlgoJoinPointsRay extends AlgoElement {
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnJoinPointsRay(geo, this, scope);
+	}
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		if (botanaVars != null)
+			return botanaVars;
+		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+		return null;
 	}
 }

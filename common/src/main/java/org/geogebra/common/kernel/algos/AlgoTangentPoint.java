@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -22,12 +23,18 @@ import org.geogebra.common.kernel.kernelND.AlgoIntersectND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoTangentPoint extends AlgoTangentPointND {
+public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicParametersBotanaAlgo{
 
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
+	
 	public AlgoTangentPoint(Construction cons, String[] labels, GeoPointND P,
 			GeoConicND c) {
 		super(cons, labels, P, c);
@@ -138,6 +145,71 @@ public class AlgoTangentPoint extends AlgoTangentPointND {
 				(GeoLine) tangents[0]);
 		GeoVec3D.lineThroughPoints((GeoPoint) P, (GeoPoint) tangentPoints[1],
 				(GeoLine) tangents[1]);
+	}
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		if (c.isCircle()) {
+			GeoPoint point = this.getPoint();
+			GeoConic circle = this.getConic();
+
+			if (point != null && circle != null) {
+				Variable[] vPoint = point.getBotanaVars(point);
+				Variable[] vcircle = circle.getBotanaVars(circle);
+
+				if (botanaVars == null) {
+					botanaVars = new Variable[6];
+					// T - tangent point of circle
+					botanaVars[0] = new Variable();
+					botanaVars[1] = new Variable();
+					// A
+					botanaVars[2] = vPoint[0];
+					botanaVars[3] = vPoint[1];
+					// M - midpoint of OE
+					botanaVars[4] = new Variable();
+					botanaVars[5] = new Variable();
+				}
+
+				botanaPolynomials = new Polynomial[4];
+
+				Polynomial m1 = new Polynomial(botanaVars[4]);
+				Polynomial m2 = new Polynomial(botanaVars[5]);
+				Polynomial e1 = new Polynomial(vPoint[0]);
+				Polynomial e2 = new Polynomial(vPoint[1]);
+				Polynomial o1 = new Polynomial(vcircle[0]);
+				Polynomial o2 = new Polynomial(vcircle[1]);
+			
+				// M midpoint of EO
+				botanaPolynomials[0] = new Polynomial(2).multiply(m1)
+						.subtract(o1).subtract(e1);
+				botanaPolynomials[1] = new Polynomial(2).multiply(m2)
+						.subtract(o2).subtract(e2);
+
+				// MT = ME
+				botanaPolynomials[2] = Polynomial.equidistant(botanaVars[0],
+						botanaVars[1], botanaVars[4], botanaVars[5], vPoint[0],
+						vPoint[1]);
+
+				// OT = OB
+				botanaPolynomials[3] = Polynomial.equidistant(botanaVars[0],
+						botanaVars[1], vcircle[0], vcircle[1], vcircle[2],
+						vcircle[3]);
+
+				return botanaPolynomials;
+
+			}
+			throw new NoSymbolicParametersException();
+		}
+		throw new NoSymbolicParametersException();
+
 	}
 
 }
