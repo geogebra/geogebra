@@ -54,7 +54,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 * @param updateScript
 	 * @param forceJavaScript
 	 */
-	public ScriptInputPanelW(AppW app, String title, GeoElement geo,
+	public ScriptInputPanelW(AppW app, GeoElement geo,
 			int cols, int rows, boolean updateScript, boolean forceJavaScript) {
 
 		this.app = app;

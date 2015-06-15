@@ -29,12 +29,12 @@ class ScriptEditPanel extends OptionPanel {
 		tabbedPane = new TabPanel();
 		tabbedPane.setStyleName("scriptTabPanel");
 
-		clickDialog = new ScriptInputPanelW(app, app.getPlain("Script"),
+		clickDialog = new ScriptInputPanelW(app,
 				null, row, column, false, false);
-		updateDialog = new ScriptInputPanelW(app, app.getPlain("JavaScript"),
+		updateDialog = new ScriptInputPanelW(app,
 				null, row, column, true, false);
 		globalDialog = new ScriptInputPanelW(app,
-				app.getPlain("GlobalJavaScript"), null, row, column, false,
+ null, row, column, false,
 				true);
 		// add(td.getInputPanel(), BorderLayout.NORTH);
 		// add(td2.getInputPanel(), BorderLayout.CENTER);
@@ -70,7 +70,7 @@ class ScriptEditPanel extends OptionPanel {
 	@Override
 	public void setLabels() {
 		// setBorder(BorderFactory.createTitledBorder(app.getPlain("JavaScript")));
-		String ok = loc.getMenu("OK");
+		String ok = loc.getPlain("OK");
 		String cancel = loc.getMenu("Cancel");
 		
 		clickDialog.setLabels(ok, cancel);
@@ -93,10 +93,10 @@ class ScriptEditPanel extends OptionPanel {
 		globalDialog.setGlobal();
 		tabbedPane.clear();
 		if (geo.canHaveClickScript())
-			tabbedPane.add(clickScriptPanel, loc.getMenu("OnClick"));
+			tabbedPane.add(clickScriptPanel, loc.getPlain("OnClick"));
 		if (geo.canHaveUpdateScript())
-			tabbedPane.add(updateScriptPanel, loc.getMenu("OnUpdate"));
-		tabbedPane.add(globalScriptPanel, loc.getMenu("GlobalJavaScript"));
+			tabbedPane.add(updateScriptPanel, loc.getPlain("OnUpdate"));
+		tabbedPane.add(globalScriptPanel, loc.getPlain("GlobalJavaScript"));
 
 		// select tab as before
 		tabbedPane.selectTab(Math.max(0,	idx));
