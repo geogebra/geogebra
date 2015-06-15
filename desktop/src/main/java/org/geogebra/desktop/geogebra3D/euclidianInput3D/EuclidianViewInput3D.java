@@ -247,6 +247,26 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	}
 
+	/**
+	 * set the coord system regarding 3D mouse move
+	 * 
+	 * @param translation
+	 *            translation vector
+	 */
+	public void setCoordSystemFromMouse3DMove(Coords translation) {
+		setXZero(XZeroOld + translation.getX());
+		setYZero(YZeroOld + translation.getY());
+		setZZero(ZZeroOld + translation.getZ());
+
+		// update the view
+		updateTranslationMatrix();
+		updateUndoTranslationMatrix();
+		setGlobalMatrices();
+
+		setViewChangedByTranslate();
+		setWaitForUpdate();
+	}
+
 	@Override
 	protected void setPickPointFromMouse(GPoint mouse) {
 		super.setPickPointFromMouse(mouse);
@@ -290,6 +310,11 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	public void setHits(PointerEventType type) {
+
+		if (!input3D.currentlyUseMouse2D()
+				&& (input3D.isRightPressed() || input3D.isThirdButtonPressed())) {
+			return;
+		}
 
 		super.setHits(type);
 
@@ -695,6 +720,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	private boolean drawStylusBeam() {
 		return input3D.hasMouseDirection() && !input3D.isRightPressed()
+				&& !input3D.isThirdButtonPressed()
 				&& hasMouse();
 	}
 

@@ -24,7 +24,7 @@ public class InputZSpace3D implements Input3D {
 
 	private double[] mouseOrientation;
 	
-	private boolean isRightPressed, isLeftPressed;
+	private boolean isRightPressed, isLeftPressed, isThirdButtonPressed;
 	
 	
 	
@@ -87,6 +87,9 @@ public class InputZSpace3D implements Input3D {
 			mouseOrientation[3] = socket.stylusOrientationW;
 
 			
+			// third button
+			isThirdButtonPressed = socket.button3;
+
 			// right button
 			isRightPressed = socket.buttonRight;
 			
@@ -133,6 +136,10 @@ public class InputZSpace3D implements Input3D {
 	
 	public boolean isLeftPressed(){
 		return isLeftPressed;
+	}
+
+	public boolean isThirdButtonPressed() {
+		return isThirdButtonPressed;
 	}
 
 	public double[] getGlassesPosition(int i){

@@ -56,6 +56,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	private boolean wasRightReleased;
 	private boolean wasLeftReleased;
+	private boolean wasThirdButtonReleased;
 
 	protected double screenHalfWidth, screenHalfHeight;
 	protected Dimension panelDimension;
@@ -126,6 +127,11 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				e.printStackTrace();
 			}
 		}
+
+		// buttons
+		wasRightReleased = true;
+		wasLeftReleased = true;
+		wasThirdButtonReleased = true;
 
 	}
 
@@ -249,10 +255,17 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 					// App.debug("\nstart: "+startMouse3DOrientation+"\ncurrent: "+mouse3DOrientation);
 
-					if (input3D.isRightPressed()) { // process right press
+					if (input3D.isThirdButtonPressed()) { // process 3rd button
+						processThirdButtonPress();
+						wasThirdButtonReleased = false;
+						wasRightReleased = true;
+						wasLeftReleased = true;
+					} else if (input3D.isRightPressed()) { // process right
+															// press
 						processRightPress();
 						wasRightReleased = false;
 						wasLeftReleased = true;
+						wasThirdButtonReleased = true;
 					} else if (input3D.isLeftPressed()) { // process left press
 						if (wasLeftReleased) {
 							startMouse3DPosition.set(mouse3DPosition);
@@ -264,9 +277,11 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 						}
 						wasRightReleased = true;
 						wasLeftReleased = false;
+						wasThirdButtonReleased = true;
 					} else {
 						// process button release
-						if (!wasRightReleased || !wasLeftReleased) {
+						if (!wasRightReleased || !wasLeftReleased
+								|| !wasLeftReleased) {
 							wrapMouseReleased(mouseEvent);
 						}
 
@@ -274,6 +289,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 						wrapMouseMoved(mouseEvent);
 						wasRightReleased = true;
 						wasLeftReleased = true;
+						wasThirdButtonReleased = true;
 					}
 				}
 
@@ -373,6 +389,20 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	 */
 	protected Quaternion getCurrentRotQuaternion() {
 		return currentRot;
+	}
+
+	private void processThirdButtonPress() {
+		if (wasThirdButtonReleased) {
+			startMouse3DPosition.set(mouse3DPosition);
+			view.rememberOrigins();
+		} else {
+			tmpCoords.setSub(mouse3DPosition, startMouse3DPosition);
+			tmpCoords2.setMul(view3D.getToSceneMatrix(), tmpCoords.val);
+
+			((EuclidianViewInput3D) view3D)
+					.setCoordSystemFromMouse3DMove(tmpCoords2);
+
+		}
 	}
 
 	private void processRightPress() {
@@ -503,7 +533,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		
 	}
 
-	private Coords tmpCoords = new Coords(3);
+	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3);
 
 	private void processRightDrag() {
 
@@ -563,20 +593,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 	}
 
-	/**
-	 * 
-	 * @return true if 3D mouse has a button pressed
-	 */
-	public boolean isMouse3DPressed() {
-		return input3D.isLeftPressed() || input3D.isRightPressed();
-	}
 
-	// @Override
-	// public void addListenersTo(Component evjpanel) {
-	// // restrict to the minimum : all will be done by the 3D mouse
-	// evjpanel.addComponentListener(this);
-	// evjpanel.addMouseListener(this);
-	// }
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -697,5 +714,14 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		} else {
 			super.setMouseOrigin(point);
 		}
+	}
+
+	@Override
+	protected int getModeForShallMoveView(AbstractEvent event) {
+		if (input3D.currentlyUseMouse2D()) {
+			return super.getModeForShallMoveView(event);
+		}
+
+		return EuclidianConstants.MODE_MOVE;
 	}
 }

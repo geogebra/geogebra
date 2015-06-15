@@ -157,6 +157,10 @@ public class InputIntelRealsense3D implements Input3D {
 		return isLeftPressed;
 	}
 
+	public boolean isThirdButtonPressed() {
+		return false;
+	}
+
 	public double[] getGlassesPosition(int i){
 		return glassesPosition;
 	}

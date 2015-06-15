@@ -31,7 +31,7 @@ public class Socket {
     public double glassesCenterX, glassesCenterY, glassesCenterZ;
     public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
 
-    public boolean buttonLeft, buttonRight;
+	public boolean buttonLeft, buttonRight, button3;
     
     /** says if it has got a message from leo */
     public boolean gotMessage = false;      
@@ -90,6 +90,7 @@ public class Socket {
     		
     		buttonLeft = zsggb.getButton(0);
     		buttonRight = zsggb.getButton(1);
+			button3 = zsggb.getButton(2);
     		
     		return true;
     	}
