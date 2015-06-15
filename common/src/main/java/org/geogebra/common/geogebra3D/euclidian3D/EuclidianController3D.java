@@ -123,9 +123,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	static final public int ANGLE_MAX = 90;
 
 	/** for animated rotation */
-	private double animatedRotSpeed;
+	protected double animatedRotSpeed;
 	/** used when time is needed */
-	private double timeOld;
+	protected double timeOld;
 	/** used to record x information */
 	private int xOld;
 

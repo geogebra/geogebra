@@ -524,7 +524,21 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 
+	private double angleOld;
+
 	private void startRightPress() {
+
+		// automatic rotation
+		if (view3D.isRotAnimated()) {
+			view3D.stopRotAnimation();
+			viewRotationOccured = true;
+		}
+
+		timeOld = app.getMillisecondTime();
+		animatedRotSpeed = 0;
+		angleOld = 0;
+
+		// start values
 		startMouse3DPosition.set(mouse3DPosition);
 
 		view.rememberOrigins();
@@ -553,6 +567,16 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		view3D.shiftRotAboutZ(angle);
 
+		double time = app.getMillisecondTime();
+		animatedRotSpeed = (angleOld - angle) / (time - timeOld);
+		timeOld = time;
+		angleOld = angle;
+
+	}
+
+	private void processRightRelease() {
+		((EuclidianView3D) view).setRotContinueAnimation(
+				app.getMillisecondTime() - timeOld, animatedRotSpeed);
 	}
 
 
@@ -722,5 +746,16 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 
 		return EuclidianConstants.MODE_MOVE;
+	}
+
+	@Override
+	public void wrapMouseReleased(AbstractEvent e) {
+		if (!wasRightReleased && !input3D.useQuaternionsForRotate()) {
+			processRightRelease();
+			return;
+		}
+
+		super.wrapMouseReleased(e);
+
 	}
 }

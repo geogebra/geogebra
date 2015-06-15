@@ -231,7 +231,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/** velocity of animated scaling */
 	private double animatedScaleTimeFactor;
 	/** starting time for animated scale */
-	private long animatedScaleTimeStart;
+	private double animatedScaleTimeStart;
 	/** x start of animated scale */
 	private double animatedScaleStartX;
 	/** y start of animated scale */
@@ -1646,7 +1646,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		animatedScaleEndZ = z;
 
 		animatedScaleStart = getScale();
-		animatedScaleTimeStart = System.currentTimeMillis();
+		animatedScaleTimeStart = app.getMillisecondTime();
 		animatedScaleEnd = newScale;
 		animatedScale = true;
 
@@ -1693,7 +1693,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// Application.debug("mouse = ("+ox+","+oy+")"+"\nscale end = ("+animatedScaleEndX+","+animatedScaleEndY+")"+"\nZero = ("+animatedScaleStartX+","+animatedScaleStartY+")");
 
 		animatedScaleStart = getScale();
-		animatedScaleTimeStart = System.currentTimeMillis();
+		animatedScaleTimeStart = app.getMillisecondTime();
 		animatedScaleEnd = newScale;
 		animatedScale = true;
 
@@ -1817,7 +1817,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		if (bOld > 180)
 			bOld -= 360;
 
-		animatedRotTimeStart = System.currentTimeMillis();
+		animatedRotTimeStart = app.getMillisecondTime();
 
 	}
 
@@ -1833,7 +1833,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/** animate the view for changing scale, orientation, etc. */
 	private void animate() {
 		if (animatedScale) {
-			double t = (System.currentTimeMillis() - animatedScaleTimeStart)
+			double t = (app.getMillisecondTime() - animatedScaleTimeStart)
 					* animatedScaleTimeFactor;
 			t += 0.2; // starting at 1/4
 
@@ -1860,16 +1860,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 
 		if (animatedContinueRot) {
-			double da = (System.currentTimeMillis() - animatedRotTimeStart)
+			double da = (app.getMillisecondTime() - animatedRotTimeStart)
 					* animatedRotSpeed;
-			setRotXYinDegrees(aOld + da, bOld);
 
-			updateMatrix();
-			setViewChangedByRotate();
+			shiftRotAboutZ(da);
 		}
 
 		if (animatedRot) {
-			double t = (System.currentTimeMillis() - animatedRotTimeStart) * 0.001;
+			double t = (app.getMillisecondTime() - animatedRotTimeStart) * 0.001;
 			t *= t;
 			// t+=0.2; //starting at 1/4
 
