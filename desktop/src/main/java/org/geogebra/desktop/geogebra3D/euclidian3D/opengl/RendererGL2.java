@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 /**

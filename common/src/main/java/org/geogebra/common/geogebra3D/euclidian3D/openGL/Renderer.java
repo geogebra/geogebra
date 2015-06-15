@@ -1890,7 +1890,7 @@ public abstract class Renderer {
 		enableNormalNormalized();
 
 		// textures
-		textures.init();
+		initTextures();
 
 		// reset euclidian view
 		view3D.reset();
@@ -1901,6 +1901,10 @@ public abstract class Renderer {
 		// ensure that animation is on (needed when undocking/docking 3D view)
 		resumeAnimator();
 
+	}
+
+	protected void initTextures() {
+		textures.init();
 	}
 
 	protected void enableLightingOnInit() {
