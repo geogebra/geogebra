@@ -35,7 +35,6 @@ public class NewCASTableCellEditorW extends Label implements
 	private CASTableW table;
 	private AppW app;
 	private EquationEditor editor;
-	private String input;
 	private final SpanElement seMayLaTeX;
 	private CASTableControllerW ml;
 
@@ -115,10 +114,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public String getInput() {
-		if (this.input == null || input.length() == 0) {
-			return input = DrawEquationWeb.getMathQuillContent(seMayLaTeX);
-		}
-		return this.input;
+		return DrawEquationWeb.getActualEditedValue(seMayLaTeX, false);
 	}
 
 	public void setInputSelectionStart(int selStart) {
@@ -145,7 +141,6 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public void clearInputText() {
 		editor.setText("", false);
-		this.input = null;
 	}
 
 	@Override
@@ -239,7 +234,6 @@ public class NewCASTableCellEditorW extends Label implements
 		// TODO Auto-generated method stub
 		App.debug("STOPPED" + input2 + "," + latex);
 		this.editor.addToHistory(input2, latex);
-		this.input = input2;
 		this.ml.handleEnterKey(false, false, app);
 		return false;
 	}
@@ -279,7 +273,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void resetInput() {
-		input = null;
+		// TODO clear input
 	}
 
 	public void keypress(char character, boolean alt, boolean ctrl,
