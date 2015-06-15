@@ -26,7 +26,8 @@ public class Socket {
 
     public double stylusOrientationX, stylusOrientationY, stylusOrientationZ, stylusOrientationW;
      
-    public double leftEyeX, leftEyeY, leftEyeZ;
+	public double leftEyeX = 0, leftEyeY = -1500 * Math.sin(Math.PI / 6),
+			leftEyeZ = 1500 * Math.cos(Math.PI / 6);
     public double rightEyeX, rightEyeY, rightEyeZ;
     public double glassesCenterX, glassesCenterY, glassesCenterZ;
     public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
@@ -90,7 +91,8 @@ public class Socket {
     		rightEyeY = zsggb.getRightEyeY();
     		rightEyeZ = zsggb.getRightEyeZ();
     		
-//    		App.debug("\nleft eye: "+leftEyeX+","+leftEyeY+","+leftEyeZ);
+			// App.debug("\nleft eye: " + leftEyeX + "," + leftEyeY + ","
+			// + leftEyeZ);
 //    		App.debug("\nright eye: "+rightEyeX+","+rightEyeY+","+rightEyeZ);
     		
 
