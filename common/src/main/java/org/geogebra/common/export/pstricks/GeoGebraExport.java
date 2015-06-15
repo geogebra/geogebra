@@ -28,11 +28,11 @@ import org.geogebra.common.kernel.algos.AlgoSumRectangle;
 import org.geogebra.common.kernel.algos.AlgoSumTrapezoidal;
 import org.geogebra.common.kernel.algos.AlgoSumUpper;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -55,7 +56,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
@@ -281,24 +281,24 @@ public abstract class GeoGebraExport {
 				drawGeoElement(geo.get(i), true, false);
 			}
 		} else if (g.isEuclidianVisible() || trimmedInter) {
-			if (g.isGeoPoint()) {
+			if (g instanceof GeoPoint) {
 				drawGeoPoint((GeoPoint) g);
 				drawLabel(g, null);
-			} else if (g.isGeoSegment()) {
+			} else if (g instanceof GeoSegment) {
 				drawGeoSegment((GeoSegment) g);
 				drawLabel(g, null);
-			} else if (g.isGeoRay()) {
+			} else if (g instanceof GeoRay) {
 				drawGeoRay((GeoRay) g);
 				drawLabel(g, null);
 			} else if (g instanceof GeoPolyLine) {
 				drawPolyLine((GeoPolyLine) g);
-			} else if (g.isGeoLine()) {
+			} else if (g instanceof GeoLine) {
 				drawGeoLine((GeoLine) g);
 				drawLabel(g, null);
-			} else if (g.isGeoPolygon()) {
+			} else if (g instanceof GeoPolygon) {
 				drawPolygon((GeoPolygon) g);
 				drawLabel(g, null);
-			} else if (g.isGeoAngle()) {
+			} else if (g instanceof GeoAngle) {
 				if (g.isIndependent()) {
 					// independent number may be shown as slider
 					drawSlider((GeoNumeric) g);
@@ -308,7 +308,7 @@ public abstract class GeoGebraExport {
 					// label="$"+Util.toLaTeXString(g.getLabelDescription(),true)+"$";
 					drawLabel(g, euclidianView.getDrawableFor(g));
 				}
-			} else if (g.isGeoImplicitPoly()) {
+			} else if (g instanceof GeoImplicitPoly) {
 				drawImplicitPoly((GeoImplicitPoly) g);
 			}
 			// To draw Inequalities
@@ -359,16 +359,16 @@ public abstract class GeoGebraExport {
 					drawBarChartOrHistogram((GeoNumeric) g);
 					drawLabel(g, null);
 				}
-			} else if (g.isGeoVector()) {
+			} else if (g instanceof GeoVector) {
 				drawGeoVector((GeoVector) g);
 				drawLabel(g, null);
-			} else if (g.isGeoConicPart()) {
+			} else if (g instanceof GeoConicPart) {
 				GeoConicPart geo = (GeoConicPart) g;
 				drawGeoConicPart(geo);
 				if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC
 						|| geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR)
 					drawLabel(g, null);
-			} else if (g.isGeoConic()) {
+			} else if (g instanceof GeoConic) {
 				if (isSinglePointConic(g)) {
 					GeoConic geo = (GeoConic) g;
 					GeoPoint point = geo.getSinglePoint();
@@ -406,20 +406,23 @@ public abstract class GeoGebraExport {
 					drawGeoConic((GeoConic) g);
 					drawLabel(g, null);
 				}
-			} else if (g.isGeoFunction()) {
+			} else if (g instanceof GeoFunction) {
 				drawFunction((GeoFunction) g);
 				drawLabel(g, null);
-			} else if (g.isGeoCurveCartesian()) {
+			} else if (g instanceof GeoCurveCartesian) {
 				drawCurveCartesian(g);
 				drawLabel(g, null);
 			} else if (g.isGeoText()) {
 				drawText((GeoText) g);
 			} else if (g.isGeoImage()) {
 				// Image --> export to eps is better and easier!
-			} else if (g.isGeoLocus()) {
+			} else if (g instanceof GeoLocus) {
 				drawLocus((GeoLocus) g);
 			} else if (g instanceof GeoTransferFunction) {
 				drawNyquist((GeoTransferFunction) g);
+			} else {
+				App.debug("Export: unsupported GeoElement "
+						+ g.getGeoClassType());
 			}
 		}
 
