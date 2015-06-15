@@ -174,7 +174,9 @@ class OptionsTab extends FlowPanel {
 			IOptionPanel panel = buildPanel(m, (AppW) app, isDefaults);
 			if (panel != null) {
 				add(panel.getWidget());
-				m.updateMPanel(m.getGeos());
+				// geos might be null in fome models because update only checks
+				// for the first one
+				m.updateMPanel(models.get(0).getGeos());
 			}
 		}
 
