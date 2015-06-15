@@ -5837,3 +5837,7 @@ div.SymbolTablePopup, div.providersPopup{
 body.application[dir=rtl] .deleteAlgebra {
 	float:left;
 }
+
+.noDots .binop-dot{
+	visibility:hidden;
+}

@@ -42,7 +42,9 @@ public class CASTableCellW extends VerticalPanel {
 	 */
 	public CASTableCellW(GeoCasCell casCell, App app) {
 		this.casCell = casCell;
-		inputPanel = app.has(Feature.CAS_EDITOR) ? new InputPanelCanvas(app)
+		inputPanel = app.has(Feature.CAS_EDITOR)
+				&& (casCell == null || !casCell.isUseAsText()) ? new InputPanelCanvas(
+				app)
 				: new InputPanelLabel();
 		inputPanel.addStyleName("CAS_inputPanel");
 		if (casCell != null) {

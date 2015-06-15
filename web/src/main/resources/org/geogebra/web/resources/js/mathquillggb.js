@@ -4599,6 +4599,14 @@ var BinaryOperator = P(Symbol, function(_, _super) {
   };
 });
 
+var BinaryOperatorDot = P(Symbol, function(_, _super) {
+	  _.init = function(ctrlSeq, html, text) {
+	    _super.init.call(this,
+	      ctrlSeq, '<span class="binary-operator binop-dot">'+html+'</span>', text
+	    );
+	  };
+	});
+
 var FixedBinaryOperator = P(BinaryOperator, function(_, _super) {
   _.deleteTowards = Symbol.prototype.moveTowards;
   _.createSelection = noop;
@@ -4643,7 +4651,7 @@ LatexCmds.mp = LatexCmds.mnplus = LatexCmds.minusplus =
 //	  bind(BinaryOperator, '\\cdot ', '&middot;', '*');
 
 CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
-  bind(BinaryOperator, '\\cdot ', '&middot;', ' ');
+  bind(BinaryOperatorDot, '\\cdot ', '&middot;', ' ');
 
 //semantically should be &sdot;, but &middot; looks better
 

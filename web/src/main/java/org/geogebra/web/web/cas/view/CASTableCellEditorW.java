@@ -92,4 +92,9 @@ public class CASTableCellEditorW implements CASTableCellEditor, CASEditorW {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void setAutocomplete(boolean autocomplete) {
+		this.textField.setAutoComplete(autocomplete);
+
+	}
 }

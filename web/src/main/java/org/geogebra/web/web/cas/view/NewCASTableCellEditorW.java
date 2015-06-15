@@ -37,6 +37,7 @@ public class NewCASTableCellEditorW extends Label implements
 	private EquationEditor editor;
 	private final SpanElement seMayLaTeX;
 	private CASTableControllerW ml;
+	private boolean autocomplete = true;
 
 	public NewCASTableCellEditorW(CASTableW table, final AppW app,
 	        final CASTableControllerW ml) {
@@ -145,7 +146,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public boolean getAutoComplete() {
-		return true;
+		return this.autocomplete;
 	}
 
 	@Override
@@ -321,5 +322,15 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public String getLaTeX() {
 		return DrawEquationWeb.getActualEditedValue(seMayLaTeX, true);
+	}
+
+	public void setAutocomplete(boolean b) {
+		if (b) {
+			this.seMayLaTeX.addClassName("noDots");
+		} else {
+			this.seMayLaTeX.removeClassName("noDots");
+		}
+		this.autocomplete = b;
+
 	}
 }

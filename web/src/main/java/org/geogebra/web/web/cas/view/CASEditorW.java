@@ -7,4 +7,6 @@ public interface CASEditorW extends CASTableCellEditor {
 	public AutoCompleteW getWidget();
 
 	public void resetInput();
+
+	public void setAutocomplete(boolean b);
 }
