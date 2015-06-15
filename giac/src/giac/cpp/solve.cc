@@ -2515,9 +2515,11 @@ namespace giac {
 	  break;
 	if (onlyone)
 	  return vecteur(1,a);
-	res.push_back(a);
+	if (is_exactly_zero(a))
+	  res.push_back(a);
 	a +=decal;
       }
+      fb=fa;
       for (;is_strictly_greater(b,a,contextptr);){
 	fb=subst(equation,var,b,false,contextptr);
 	fb=eval(fb,1,contextptr);
@@ -2525,7 +2527,8 @@ namespace giac {
 	  break;
 	if (onlyone)
 	  return vecteur(1,b);
-	res.push_back(b);
+	if (is_exactly_zero(b))
+	  res.push_back(b);
 	b -=decal;
       }
 #ifndef NO_STDEXCEPT
@@ -2536,7 +2539,7 @@ namespace giac {
 #endif
     int ntries=40;
     gen ab=(b-a)/ntries;
-    if (fb.type!=_DOUBLE_){      
+    if (fb.type!=_DOUBLE_ || is_undef(fb)){      
       for (int i=0;i<ntries;++i){
 	b -= ab;
 	fb=subst(equation,var,b,false,contextptr);
