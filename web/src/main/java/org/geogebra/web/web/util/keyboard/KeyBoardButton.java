@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -50,9 +49,6 @@ public class KeyBoardButton extends SimplePanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				// * #5248
-				((DrawEquationWeb) handler.getApp().getDrawEquation())
-						.setAllowLeaveOnMouseOut(false);
 				ToolTipManagerW.hideAllToolTips();
 				if(handler.getApp().getLAF().isSmart() && type == PointerEventType.TOUCH){
 					return;
@@ -70,6 +66,7 @@ public class KeyBoardButton extends SimplePanel {
 			}
 		});
 		addStyleName("KeyBoardButton");
+		addStyleName("MouseDownDoesntExitEditingFeature");
 	}
 
 	/**

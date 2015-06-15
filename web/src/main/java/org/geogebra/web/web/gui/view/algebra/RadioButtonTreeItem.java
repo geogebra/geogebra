@@ -80,6 +80,7 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -911,6 +912,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public void startEditing() {
+		// buttonPanel.setVisible(true);
+
 		thisIsEdited = true;
 		if (newCreationMode) {
 			DrawEquationWeb.editEquationMathQuillGGB(this,
@@ -1024,11 +1027,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		scrollIntoView();
 
 		buttonPanel.setVisible(true);
+		maybeSetPButtonVisibility(true);
 	}
 
 	public void stopEditingSimple(String newValue) {
 
-		buttonPanel.setVisible(false);
+		removeCloseButton();
 
 		thisIsEdited = false;
 		av.cancelEditing();
@@ -1081,13 +1085,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public boolean stopEditing(String newValue0) {
 
-		buttonPanel.setVisible(false);
-
 		boolean ret = false;
 
 		if (blockBlur && blockBlurSensible()) {
 			return false;
 		}
+
+		removeCloseButton();
 
 		thisIsEdited = false;
 		av.cancelEditing();
@@ -1566,7 +1570,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
 			buttonPanel.setVisible(true);
-			maybeSetPButtonVisibility(false);
+			if (!isThisEdited()) {
+				maybeSetPButtonVisibility(false);
+			}
 			((AlgebraViewW) this.av).setActiveTreeItem(this);
 		}
 
@@ -1797,6 +1803,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public void onBlur(BlurEvent be) {
+		// to be overridden in NewRadioButtonTreeItem
+	}
+
+	public void onFocus(FocusEvent be) {
 		// to be overridden in NewRadioButtonTreeItem
 	}
 

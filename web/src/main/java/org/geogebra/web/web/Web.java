@@ -9,6 +9,7 @@ import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.cas.giac.PNaCl;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.html5.util.Dom;
@@ -27,7 +28,11 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -96,6 +101,29 @@ public class Web implements EntryPoint {
 	}
 
 	private static void run() {
+
+		// native preview handlers independent from app/applet
+		// maybe better than putting into both GeoGebraFrame / GeoGebraAppFrame
+		// edit: maybe put this at the end of this method in production builds?
+		Event.addNativePreviewHandler(new NativePreviewHandler() {
+			public void onPreviewNativeEvent(NativePreviewEvent event) {
+				NativeEvent ne;
+				switch (event.getTypeInt()) {
+				// case Event.ONKEYDOWN:
+				// ne = event.getNativeEvent();
+				// break;
+				case Event.ONMOUSEDOWN:
+					ne = event.getNativeEvent();
+					DrawEquationWeb.escEditingWhenMouseDownElsewhere();
+					// do not prevent default or change default behaviour
+					// in any case! this is just an "extra"
+					break;
+				default:
+					break;
+				}
+			}
+		});
+
 		if (!Web.checkAppNeeded()) {
 			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
@@ -109,6 +137,10 @@ public class Web implements EntryPoint {
 
 	}
 
+	// TODO: what about global preview events?
+	// these are an issue even if we register them elsewhere
+	// maybe do not register them again in case of rerun?
+	// this could be done easily now with a boolean parameter
 	private native void allowRerun() /*-{
 		$wnd.ggbRerun = function() {
 			@org.geogebra.web.web.Web::run()();

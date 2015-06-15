@@ -10,10 +10,6 @@ import org.geogebra.web.web.css.GuiResources;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -52,18 +48,8 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 				addNewRow();
 			}
 		});
-		pButton.addMouseOverHandler(new MouseOverHandler() {
-			public void onMouseOver(MouseOverEvent moe) {
-				((DrawEquationWeb) app.getDrawEquation())
-						.setAllowLeaveOnMouseOut(false);
-			}
-		});
-		pButton.addMouseOutHandler(new MouseOutHandler() {
-			public void onMouseOut(MouseOutEvent moe) {
-				((DrawEquationWeb) app.getDrawEquation())
-						.setAllowLeaveOnMouseOut(true);
-			}
-		});
+		pButton.addStyleName("MouseDownDoesntExitEditingFeature");
+		pButton.addStyleName("BlurDoesntUpdateGUIFeature");
 
 		// basically, everything except onClick,
 		// static to prevent more instances

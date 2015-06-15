@@ -780,12 +780,73 @@ public class DrawEquationWeb extends DrawEquation {
 
 	}-*/;
 
+	public static void escEditingWhenMouseDownElsewhere() {
+		if (currentWidget != null) {
+			// cases that do not escape editing:
+			if (mouseIsOver(currentWidget.getElement(), "MouseDownDoesntExitEditingFeature")) {
+				// 1. the widget itself...
+				// 2. any KeyboardButton ("false" includes that)
+				// 3. any AV helper icon ("false" includes that)
+				return;
+			}
+
+			// in this case, escape
+			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
+					currentElement);
+			currentWidget = null;
+			currentElement = null;
+		}
+	}
+
+	/**
+	 * If mouse is currently over Element el,
+	 * OR mouse is currently over an element with
+	 * CSS class pure, e.g. "MouseDownDoesntExitEditingFeature"
+	 *              
+	 * @param el
+	 * @param pure
+	 * @return
+	 */
+	public static native boolean mouseIsOver(Element el, String pure) /*-{
+		if (el) {
+			if ($wnd.$ggbQuery(el).filter(':hover').length) {
+				return true;
+			}
+		}
+		if (pure) {
+			var ret = false;
+			$wnd.$ggbQuery("." + pure).each(function(idx, elm) {
+				if ($wnd.$ggbQuery(elm).filter(':hover').length) {
+					// this means the mouse is currently over an element
+					// with the "MouseDownDoesntExitEditingFeature" CSS class
+					// that is enough knowledge to return "true"
+					ret = true;
+				}
+			});
+			return ret;
+		}
+
+		// no CSS class provided, or it is empty, mouse is over nothing significant
+		return false;
+	}-*/;
+
 	public static void escEditing() {
 		if (currentWidget != null) {
 			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
 			        currentElement);
+			currentWidget = null;
+			currentElement = null;
 		}
 	}
+
+	/**
+	 * Only sets currentWidget if we are not in newCreationMode, to avoid
+	 * closing newCreationMode when we should not also good not to confuse
+	 * things in GeoGebraFrame
+	 * 
+	 * @param rbti
+	 * @param parentElement
+	 */
 	private static void setCurrentWidget(GeoContainer rbti,
 	        Element parentElement) {
 		if (currentWidget != rbti) {
@@ -794,6 +855,7 @@ public class DrawEquationWeb extends DrawEquation {
 		currentWidget = rbti;
 		currentElement = parentElement;
 	}
+
 	/**
 	 * Edits a MathQuillGGB equation which was created by
 	 * drawEquationMathQuillGGB
@@ -831,13 +893,13 @@ GeoContainer rbti,
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').mathquillggb(
 				'editable').focus();
 
-		@org.geogebra.web.html5.main.DrawEquationWeb::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-
 		if (newCreationMode) {
 			if (elsecondInside.keyDownEventListenerAdded) {
 				// event listeners are already added
 				return;
 			}
+		} else {
+			@org.geogebra.web.html5.main.DrawEquationWeb::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 		}
 
 		$wnd
@@ -934,45 +996,8 @@ GeoContainer rbti,
 
 		if (!newCreationMode) {
 			// hacking to deselect the editing when the user does something else like in Desktop
-
-			// isMouseOut means: we CAN leave editing mode... it is usually true,
-			// but sometimes it can have temporary false value
-			// in case e.g. KeyBoardButton is used, but also dealt with earlier,
-			// so in this code here it will probably always be true
-			DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setAllowLeaveOnMouseOut(Z)(true);
-
-			$wnd.$ggbQuery(elsecondInside).mouseleave(function(evt) {
-				// I don't know why this is needed...
-				$wnd.$ggbQuery(this).find('textarea').focus();
-			});
-
-			// in Windows IE, focusout may be called as a result of opening editing mode too early,
-			// so to exclude that, we can add this to a timeout
-			setTimeout(
-					function() {
-						$wnd
-								.$ggbQuery(elsecondInside)
-								.find('textarea')
-								.focusout(
-										function(event) {
-											// note that this will be called every time
-											// focus is called as well
-											if (DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::isAllowLeaveOnMouseOut()()
-													&& ($wnd.$ggbQuery(
-															elsecondInside)
-															.filter(':hover').length == 0)) {
-												// only do this when the mouse is really outside AND
-												// isMouseOut is true, which means we CAN leave editing mode
-												@org.geogebra.web.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-											} else {
-												DrawEquation.@org.geogebra.web.html5.main.DrawEquationWeb::setAllowLeaveOnMouseOut(Z)(true);
-											}
-											event.stopPropagation();
-											event.preventDefault();
-											return false;
-										});
-					}, 1000);
-			// timeout of 500 is not enough in IE!
+			// all of this code is moved to GeoGebraFrame constructor AND
+			// DrawEquationWeb.escEditingWhenMouseDownElsewhere
 		} else {
 			// if newCreationMode is active, we should catch some Alt-key events!
 			var keydownfun = function(event) {
@@ -1855,15 +1880,6 @@ GeoContainer rbti,
 		return new GDimensionW((int) dimLeftCorr, (int) dimTopCorr);
 	}
 
-	private boolean allowLeaveOnMouseOut = false;
-
-	public void setAllowLeaveOnMouseOut(boolean b) {
-		allowLeaveOnMouseOut = b;
-	}
-	
-	public boolean isAllowLeaveOnMouseOut() {
-		return allowLeaveOnMouseOut;
-	}
 
 	public static DrawEquationWeb getNonStaticCopy(GeoContainer rbti) {
 		return (DrawEquationWeb) rbti.getApplication().getDrawEquation();

@@ -33,10 +33,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
@@ -75,26 +71,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
-
-		// as there cannot be editing and new formula creation
-		// at the same time (in theory), we can reuse this
-		// boolean variable to mean something like that, i.e.
-		// on blur/focus, only execute blur/focus action when
-		// this condition is true...
-		MouseOverHandler mouseover = new MouseOverHandler() {
-			public void onMouseOver(MouseOverEvent moe) {
-				((DrawEquationWeb) app.getDrawEquation())
-						.setAllowLeaveOnMouseOut(false);
-			}
-		};
-		MouseOutHandler mouseout = new MouseOutHandler() {
-			public void onMouseOut(MouseOutEvent moe) {
-				((DrawEquationWeb) app.getDrawEquation())
-						.setAllowLeaveOnMouseOut(true);
-			}
-		};
-		buttonPanel.addDomHandler(mouseover, MouseOverEvent.getType());
-		buttonPanel.addDomHandler(mouseout, MouseOutEvent.getType());
+		// buttonPanel.addStyleName("MouseDownDoesntExitEditingFeature");
+		buttonPanel.addStyleName("BlurDoesntUpdateGUIFeature");
 
 
 		// code copied from AutoCompleteTextFieldW,
@@ -175,8 +153,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			};
 			specialPopup.setAutoHideEnabled(true);
 			specialPopup.getPanel().addStyleName("AVmenuListContainer");
-			specialPopup.addDomHandler(mouseover, MouseOverEvent.getType());
-			specialPopup.addDomHandler(mouseout, MouseOutEvent.getType());
+			// specialPopup.addStyleName("MouseDownDoesntExitEditingFeature");
+			specialPopup.addStyleName("BlurDoesntUpdateGUIFeature");
 
 			UnorderedList itemList = new UnorderedList();
 			itemList.setStyleName("AVmenuListContent");
@@ -419,13 +397,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void setFocus(boolean b) {
-		// cause problems in IE #5244 #5245?? or not?
-		if (!((DrawEquationWeb) app.getDrawEquation()).isAllowLeaveOnMouseOut()) {
-			// do not change any focus
-			((DrawEquationWeb) app.getDrawEquation())
-					.setAllowLeaveOnMouseOut(true);
-			return;
-		}
 		//App.printStacktrace("FOCUS" + b);
 		DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
 
@@ -440,7 +411,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (b) {
 			onFocus(null);
 		} else {
-			onBlur(null);
+			// onBlur(null);
 		}
 	}
 
@@ -501,6 +472,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 	}
 
+	@Override
 	public void onFocus(FocusEvent event) {
 		if (!Browser.isInternetExplorer()) {
 			if (dummyLabel != null) {
@@ -562,7 +534,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		if (((DrawEquationWeb) app.getDrawEquation()).isAllowLeaveOnMouseOut()) {
+		// "false" also includes specialPopup and KeyboardButton, etc.
+		// this does not work well, so better to comment it out for now
+		if (!DrawEquationWeb.mouseIsOver(getElement(),
+				"BlurDoesntUpdateGUIFeature")) {
+
 			// #5244
 			// if (!Browser.isInternetExplorer()) {
 			// if (dummyLabel == null) {

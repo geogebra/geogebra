@@ -1372,7 +1372,11 @@ public class AlgebraViewW extends Tree implements LayerView,
 			return;
 		}
 
-		if (this.activeItem != null) {
+		if ((this.activeItem != null)
+				&& (this.activeItem != radioButtonTreeItem)
+				&& (!this.activeItem.isThisEdited())) {
+			// e.g. if setting it null, if this is edited,
+			// then the close button should still not be removed!
 			this.activeItem.removeCloseButton();
 		}
 		this.activeItem = radioButtonTreeItem;

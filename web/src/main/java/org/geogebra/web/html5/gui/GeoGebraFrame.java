@@ -73,23 +73,6 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		addStyleName("GeoGebraFrame");
 		DOM.sinkEvents(this.getElement(), Event.ONMOUSEDOWN | Event.ONMOUSEMOVE
 		        | Event.ONMOUSEUP | Event.ONMOUSEOVER);
-
-
-		/*Event.addNativePreviewHandler(new NativePreviewHandler() {
-			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				switch (event.getTypeInt()) {
-				case Event.ONKEYDOWN:
-					NativeEvent ne = event.getNativeEvent();
-					KeyCodes kc = org.geogebra.common.main.KeyCodes
-							.translateGWTcode(ne.getKeyCode());
-					switch (kc) {
-					case TAB:
-						break;
-					}
-					break;
-				}
-			}
-		});*/
 	}
 
 	protected static native void programFocusEvent(Element firstd, Element lastd) /*-{
