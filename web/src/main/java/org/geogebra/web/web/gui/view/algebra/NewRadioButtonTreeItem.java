@@ -348,14 +348,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 * up/down, otherwise consider up/down event for the history popup!
 	 */
 	@Override
-	public boolean shuffleSuggestions(boolean down) {
-		if (editor.sug.isSuggestionListShowing()) {
-			if (down) {
-				editor.sug.accessMoveSelectionDown();
-			} else {
-				editor.sug.accessMoveSelectionUp();
-			}
-			return false;
+	public void shuffleSuggestions(boolean down) {
+		if (editor.shuffleSuggestions(down)) {
+
+			return;
 		} else if (down) {
 			if (historyPopup != null && historyPopup.isDownPopup()) {
 				// this would give the focus to the historyPopup,
@@ -377,15 +373,12 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					editor.setText(text, true);
 			}
 		}
-		return true;
 	}
 
 	@Override
 	public boolean stopNewFormulaCreation(String newValue0, String latex,
 	        AsyncOperation callback) {
-		if (editor.sug.isSuggestionListShowing()) {
-			editor.sugCallback.onSuggestionSelected(editor.sug
-			        .accessCurrentSelection());
+		if (editor.needsEnterForSuggestion()) {
 			return false;
 		}
 		return super.stopNewFormulaCreation(newValue0, latex, callback);
@@ -639,7 +632,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public boolean isSuggesting() {
-		return editor.sug.isSuggestionListShowing();
+		return editor.isSuggesting();
 	}
 
 	@Override

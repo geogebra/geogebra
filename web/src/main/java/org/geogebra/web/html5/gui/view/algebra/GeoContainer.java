@@ -29,7 +29,7 @@ public interface GeoContainer {
 
 	public void scrollIntoView();
 
-	public boolean shuffleSuggestions(boolean down);
+	public void shuffleSuggestions(boolean down);
 
 	public App getApplication();
 

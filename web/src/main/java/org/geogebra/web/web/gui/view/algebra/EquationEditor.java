@@ -53,7 +53,7 @@ public class EquationEditor {
 		}
 	};
 	protected AutoCompleteDictionary dict;
-	protected ScrollableSuggestionDisplay sug;
+	private ScrollableSuggestionDisplay sug;
 	public static int querylimit = 5000;
 	private List<String> completions;
 	StringBuilder curWord;
@@ -314,8 +314,8 @@ public class EquationEditor {
 		return history;
 	}
 	
-	public ScrollableSuggestionDisplay getSug(){
-		return sug;
+	public boolean isSuggesting() {
+		return sug.isSuggestionListShowing();
 	}
 
 	public static void updateNewStatic(Element se) {
@@ -341,6 +341,26 @@ public class EquationEditor {
 		// geogebra.html5.main.DrawEquationWeb.scrollCursorIntoView(this,
 		// seMayLatex);
 		// put to focus handler
+	}
+
+	public boolean shuffleSuggestions(boolean down) {
+		if (this.sug.isSuggestionListShowing()) {
+			if (down) {
+				sug.accessMoveSelectionDown();
+			} else {
+				sug.accessMoveSelectionUp();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public boolean needsEnterForSuggestion() {
+		if (sug.isSuggestionListShowing()) {
+			sugCallback.onSuggestionSelected(sug.accessCurrentSelection());
+			return true;
+		}
+		return false;
 	}
 
 }

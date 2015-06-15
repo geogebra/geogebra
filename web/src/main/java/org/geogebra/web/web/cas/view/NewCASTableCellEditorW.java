@@ -193,7 +193,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public boolean isSuggesting() {
-		return editor.getSug().isSuggestionListShowing();
+		return editor.isSuggesting();
 	}
 
 	@Override
@@ -231,6 +231,9 @@ public class NewCASTableCellEditorW extends Label implements
 	@Override
 	public boolean stopNewFormulaCreation(String input2, String latex,
 	        AsyncOperation callback) {
+		if (editor.needsEnterForSuggestion()) {
+			return false;
+		}
 		// TODO Auto-generated method stub
 		App.debug("STOPPED" + input2 + "," + latex);
 		this.editor.addToHistory(input2, latex);
@@ -257,9 +260,8 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	@Override
-	public boolean shuffleSuggestions(boolean down) {
-		// TODO Auto-generated method stub
-		return false;
+	public void shuffleSuggestions(boolean down) {
+		editor.shuffleSuggestions(down);
 	}
 
 	@Override
