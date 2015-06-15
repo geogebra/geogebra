@@ -33,6 +33,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
@@ -71,6 +75,27 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
+
+		// as there cannot be editing and new formula creation
+		// at the same time (in theory), we can reuse this
+		// boolean variable to mean something like that, i.e.
+		// on blur/focus, only execute blur/focus action when
+		// this condition is true...
+		MouseOverHandler mouseover = new MouseOverHandler() {
+			public void onMouseOver(MouseOverEvent moe) {
+				((DrawEquationWeb) app.getDrawEquation())
+						.setAllowLeaveOnMouseOut(false);
+			}
+		};
+		MouseOutHandler mouseout = new MouseOutHandler() {
+			public void onMouseOut(MouseOutEvent moe) {
+				((DrawEquationWeb) app.getDrawEquation())
+						.setAllowLeaveOnMouseOut(true);
+			}
+		};
+		buttonPanel.addDomHandler(mouseover, MouseOverEvent.getType());
+		buttonPanel.addDomHandler(mouseout, MouseOutEvent.getType());
+
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
@@ -150,6 +175,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			};
 			specialPopup.setAutoHideEnabled(true);
 			specialPopup.getPanel().addStyleName("AVmenuListContainer");
+			specialPopup.addDomHandler(mouseover, MouseOverEvent.getType());
+			specialPopup.addDomHandler(mouseout, MouseOutEvent.getType());
 
 			UnorderedList itemList = new UnorderedList();
 			itemList.setStyleName("AVmenuListContent");
@@ -542,24 +569,21 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void onBlur(BlurEvent event) {
+		if (((DrawEquationWeb) app.getDrawEquation()).isAllowLeaveOnMouseOut()) {
+			// #5244
+			// if (!Browser.isInternetExplorer()) {
+			// if (dummyLabel == null) {
+			// dummyLabel = new Label(app.getPlain("InputLabel")
+			// + Unicode.ellipsis);
+			// dummyLabel.getElement().getStyle().setColor("#999999");
+			// EquationEditor.updateNewStatic(dummyLabel.getElement());
+			// }
+			//
+			// ihtml.getElement().insertFirst(dummyLabel.getElement());
+			// }
 
-		// #5244
-		// if (!Browser.isInternetExplorer()) {
-		// if (dummyLabel == null) {
-		// dummyLabel = new Label(app.getPlain("InputLabel")
-		// + Unicode.ellipsis);
-		// dummyLabel.getElement().getStyle().setColor("#999999");
-		// EquationEditor.updateNewStatic(dummyLabel.getElement());
-		// }
-		//
-		// ihtml.getElement().insertFirst(dummyLabel.getElement());
-		// }
-
-		// in theory, this method will only be called from
-		// this.setFocus(false)... and it is only called from
-		// DrawEquationWeb.editEquationMathQuillGGB, JQuery-style
-		// blur handler at the end... App.debug shows this really runs,
-		updateGUIfocus(event == null ? this : event.getSource(), true);
+			updateGUIfocus(event == null ? this : event.getSource(), true);
+		}
 	}
 
 	public ArrayList<String> getHistory() {
