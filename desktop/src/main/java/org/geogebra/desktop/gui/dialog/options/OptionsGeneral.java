@@ -125,7 +125,7 @@ public class OptionsGeneral extends JPanel implements SetLabels {
 		tabbedPane.setTitleAt(0, app.getMenu("General"));
 		tabbedPane.setTitleAt(1, app.getPlain("Display"));
 		tabbedPane.setTitleAt(2, app.getMenu("Export"));
-		tabbedPane.setTitleAt(3, app.getPlain("Color"));		
+		tabbedPane.setTitleAt(3, app.getMenu("Color"));
 	}
 	
 	/**

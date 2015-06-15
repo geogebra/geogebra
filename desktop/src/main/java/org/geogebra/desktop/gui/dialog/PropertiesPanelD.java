@@ -557,15 +557,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		// update labels of tabs
 		// TODO change label for script tab
 		basicTab.setTitle(app.getMenu("Properties.Basic"));
-		colorTab.setTitle(app.getPlain("Color"));
+		colorTab.setTitle(app.getMenu("Color"));
 		styleTab.setTitle(app.getMenu("Properties.Style"));
-		textTab.setTitle(app.getPlain("Text"));
+		textTab.setTitle(app.getMenu("Text"));
 		algebraTab.setTitle(app.getMenu("Properties.Algebra"));
-		sliderTab.setTitle(app.getPlain("Slider"));
+		sliderTab.setTitle(app.getMenu("Slider"));
 
 		if (!isDefaults) {
 			positionTab.setTitle(app.getMenu("Properties.Position"));
-			scriptTab.setTitle(app.getPlain("Scripting"));
+			scriptTab.setTitle(app.getMenu("Scripting"));
 			advancedTab.setTitle(app.getMenu("Advanced"));
 		}
 

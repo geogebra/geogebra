@@ -282,7 +282,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbBoldAxes = new CheckBox(app.getPlain("Bold"));
 
 			// axes color
-			colorLabel = new Label(app.getPlain("Color") + ":");
+			colorLabel = new Label(app.getMenu("Color") + ":");
 
 			btAxesColor = new MyCJButton();
 			
@@ -557,7 +557,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			axesOptionsTitle.setText(app.getMenu("Axes"));
 			cbShowAxes.setText(app.getPlain("ShowAxes"));
 			cbBoldAxes.setText(app.getPlain("Bold"));
-			colorLabel.setText(app.getPlain("Color") + ":");
+			colorLabel.setText(app.getMenu("Color") + ":");
 			lineStyle.setText(app.getPlain("LineStyle") + ":");
 
 			miscTitle.setText(app.getPlain("Miscellaneous"));
@@ -939,7 +939,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	        lbGridTickAngle.setSelectedIndex(idx);
 			cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
 			lblGridStyle.setText(app.getPlain("LineStyle"));
-			lblColor.setText(app.getPlain("Color") + ":");
+			lblColor.setText(app.getMenu("Color") + ":");
 			cbBoldGrid.setText(app.getMenu("Bold"));
 		}
 		

@@ -297,7 +297,7 @@ public class OptionsEuclidianD extends
 		cbBoldAxes = new JCheckBox(app.getPlain("Bold"));
 
 		// axes color
-		color = new JLabel(app.getPlain("Color") + ":");
+		color = new JLabel(app.getMenu("Color") + ":");
 		color.setLabelFor(btAxesColor);
 		btAxesColor = new JButton("\u2588");
 		btAxesColor.addActionListener(this);
@@ -457,7 +457,7 @@ public class OptionsEuclidianD extends
 		cbGridStyle.addActionListener(this);
 
 		// color
-		lblColor = new JLabel(app.getPlain("Color") + ":");
+		lblColor = new JLabel(app.getMenu("Color") + ":");
 		lblColor.setLabelFor(btGridColor);
 
 		// bold
@@ -620,7 +620,7 @@ public class OptionsEuclidianD extends
 		stylePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("LineStyle")));
 
 		// color
-		lblColor.setText(app.getPlain("Color") + ":");
+		lblColor.setText(app.getMenu("Color") + ":");
 		cbBoldGrid.setText(app.getMenu("Bold"));
 
 		// TODO --- finish set labels
@@ -673,7 +673,7 @@ public class OptionsEuclidianD extends
 		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
 		tooltips.setText(app.getPlain("Tooltips") + ":");
 
-		color.setText(app.getPlain("Color") + ":");
+		color.setText(app.getMenu("Color") + ":");
 		lineStyle.setText(app.getPlain("LineStyle") + ":");
 
 		int index = cbTooltips.getSelectedIndex();
