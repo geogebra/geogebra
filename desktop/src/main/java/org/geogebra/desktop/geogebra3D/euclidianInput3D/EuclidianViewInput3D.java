@@ -564,8 +564,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	@Override
-	public boolean stereoGlassesDetected() {
-		return input3D.glassedDetected();
+	public boolean wantsStereo() {
+		return input3D.wantsStereo();
 	}
 
 	@Override

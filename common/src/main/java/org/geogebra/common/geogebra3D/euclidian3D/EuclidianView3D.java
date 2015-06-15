@@ -3647,7 +3647,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return false;
 	}
 
-	public boolean stereoGlassesDetected() {
+	public boolean wantsStereo() {
 		return false;
 	}
 

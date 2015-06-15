@@ -32,7 +32,7 @@ public class Socket {
     public double glassesCenterX, glassesCenterY, glassesCenterZ;
     public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
 
-	public boolean glassesDetected;
+	public boolean wantsStereo;
 
 	public boolean buttonLeft, buttonRight, button3;
     
@@ -58,7 +58,7 @@ public class Socket {
     
     public boolean getData(){
 
-		glassesDetected = zsggb.glassesDetected();
+		wantsStereo = zsggb.wantsStereo();
 
     	if (zsggb.eventOccured()){
     		

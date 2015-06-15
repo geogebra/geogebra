@@ -97,6 +97,12 @@ public class ZSpaceGeoGebra {
 			super(zsggb);
 		}
 		
+		public void runWithEventData(final ZSTrackerEventData eventData) {
+
+			zsggb.setStylusDetected();
+			super.runWithEventData(eventData);
+		}
+
 		protected void updateCoords(){
 			// update x, y, z
 			x = viewPortMatrix.getM03() * zsggb.toPixelRatio;
@@ -163,7 +169,7 @@ public class ZSpaceGeoGebra {
 
 		public void runWithEventData(final ZSTrackerEventData eventData) {
 
-			zsggb.setGlassesTracked();
+			zsggb.setGlassesDetected();
 			super.runWithEventData(eventData);
 		}
 		
@@ -411,8 +417,12 @@ public class ZSpaceGeoGebra {
     
     private boolean eventOccured = false;
     
-	public void setGlassesTracked() {
+	public void setGlassesDetected() {
 		lastGlassesDetection = System.currentTimeMillis();
+	}
+
+	public void setStylusDetected() {
+		lastStylusDetection = System.currentTimeMillis();
 	}
 
     public void setEventOccured(){
@@ -599,13 +609,23 @@ public class ZSpaceGeoGebra {
 
 	private long lastGlassesDetection = 0;
 
+	private long lastStylusDetection = 0;
+
+	/**
+	 * 
+	 * @return true if it wants stereo
+	 */
+	public boolean wantsStereo() {
+		return System.currentTimeMillis() < lastGlassesDetection
+				+ TRACKER_NOT_DETECTED_MAX_DELAY;
+	}
 
 	/**
 	 * 
 	 * @return true if glasses are detected
 	 */
-	public boolean glassesDetected() {
-		return System.currentTimeMillis() < lastGlassesDetection
+	public boolean stylusDetected() {
+		return System.currentTimeMillis() < lastStylusDetection
 				+ TRACKER_NOT_DETECTED_MAX_DELAY;
 	}
 

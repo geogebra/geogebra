@@ -250,7 +250,7 @@ public class InputIntelRealsense3D implements Input3D {
 		return false;
 	}
 
-	public boolean glassedDetected() {
+	public boolean wantsStereo() {
 		return false;
 	}
 

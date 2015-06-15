@@ -208,6 +208,6 @@ public interface Input3D {
 	 * @return true if stereo glasses are detected
 	 * 
 	 */
-	public boolean glassedDetected();
+	public boolean wantsStereo();
 
 }

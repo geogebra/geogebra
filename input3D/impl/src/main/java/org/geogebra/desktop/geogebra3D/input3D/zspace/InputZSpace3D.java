@@ -229,8 +229,8 @@ public class InputZSpace3D implements Input3D {
 		return false;
 	}
 
-	public boolean glassedDetected() {
-		return socket.glassesDetected;
+	public boolean wantsStereo() {
+		return socket.wantsStereo;
 	}
 
 }

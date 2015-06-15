@@ -253,7 +253,7 @@ public class InputLeo3D implements Input3D {
 		return true;
 	}
 
-	public boolean glassedDetected() {
+	public boolean wantsStereo() {
 		return true;
 	}
 }
