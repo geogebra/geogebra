@@ -204,4 +204,10 @@ public interface Input3D {
 	 */
 	public boolean useQuaternionsForRotate();
 
+	/**
+	 * @return true if stereo glasses are detected
+	 * 
+	 */
+	public boolean glassedDetected();
+
 }

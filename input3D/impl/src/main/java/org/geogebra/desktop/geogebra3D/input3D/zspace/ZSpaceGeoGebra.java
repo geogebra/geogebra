@@ -1,7 +1,6 @@
 package org.geogebra.desktop.geogebra3D.input3D.zspace;
 import java.text.DecimalFormat;
 
-
 import com.zspace.Sdk3;
 import com.zspace.ZSCoordinateSpace;
 import com.zspace.ZSDisplayType;
@@ -23,6 +22,12 @@ public class ZSpaceGeoGebra {
 	public static float TRACKER_THRESHOLD_ANGLE = 1f;
 	public static float TRACKER_THRESHOLD_TIME = 0.02f;
 	
+	/**
+	 * max delay (in ms) during which the tracker may be not detected but
+	 * present
+	 */
+	private static int TRACKER_NOT_DETECTED_MAX_DELAY = 3000;
+
 //	@BeforeClass
 	public static void RunOnce() 
 	{
@@ -154,6 +159,12 @@ public class ZSpaceGeoGebra {
 
 		public ZJEventListenerHead(ZSpaceGeoGebra zsggb) {
 			super(zsggb);
+		}
+
+		public void runWithEventData(final ZSTrackerEventData eventData) {
+
+			zsggb.setGlassesTracked();
+			super.runWithEventData(eventData);
 		}
 		
 		protected void updateCoords(){
@@ -400,6 +411,10 @@ public class ZSpaceGeoGebra {
     
     private boolean eventOccured = false;
     
+	public void setGlassesTracked() {
+		lastGlassesDetection = System.currentTimeMillis();
+	}
+
     public void setEventOccured(){
     	eventOccured = true;
     }
@@ -582,5 +597,16 @@ public class ZSpaceGeoGebra {
 		return toPixelRatio;
 	}
 
+	private long lastGlassesDetection = 0;
+
+
+	/**
+	 * 
+	 * @return true if glasses are detected
+	 */
+	public boolean glassesDetected() {
+		return System.currentTimeMillis() < lastGlassesDetection
+				+ TRACKER_NOT_DETECTED_MAX_DELAY;
+	}
 
 }

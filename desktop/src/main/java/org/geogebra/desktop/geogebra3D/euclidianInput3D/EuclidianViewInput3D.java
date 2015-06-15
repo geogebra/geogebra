@@ -564,6 +564,11 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	@Override
+	public boolean stereoGlassesDetected() {
+		return input3D.glassedDetected();
+	}
+
+	@Override
 	public Coords getHittingDirection() {
 		if (input3D.hasMouseDirection()) {
 			return ((EuclidianControllerInput3D) euclidianController)

@@ -31,6 +31,8 @@ public class Socket {
     public double glassesCenterX, glassesCenterY, glassesCenterZ;
     public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
 
+	public boolean glassesDetected;
+
 	public boolean buttonLeft, buttonRight, button3;
     
     /** says if it has got a message from leo */
@@ -54,6 +56,9 @@ public class Socket {
     
     
     public boolean getData(){
+
+		glassesDetected = zsggb.glassesDetected();
+
     	if (zsggb.eventOccured()){
     		
     		zsggb.getData();    		
@@ -88,6 +93,7 @@ public class Socket {
 //    		App.debug("\nleft eye: "+leftEyeX+","+leftEyeY+","+leftEyeZ);
 //    		App.debug("\nright eye: "+rightEyeX+","+rightEyeY+","+rightEyeZ);
     		
+
     		buttonLeft = zsggb.getButton(0);
     		buttonRight = zsggb.getButton(1);
 			button3 = zsggb.getButton(2);
@@ -95,6 +101,7 @@ public class Socket {
     		return true;
     	}
     	
+
     	return false;
     }
 

@@ -60,14 +60,12 @@ public class InputZSpace3D implements Input3D {
 	
 	
 	public boolean update(GPoint panelPosition, GDimension panelDimension) {
-	
+
 		// set view port and check if changed
 		boolean viewPortChanged = socket.setViewPort(panelPosition, panelDimension);
 		
 		// check if new message
 		if (socket.getData() || viewPortChanged){
-			
-			
 			
 			// mouse position
 			mousePosition[0] = socket.stylusX;
@@ -229,6 +227,10 @@ public class InputZSpace3D implements Input3D {
 
 	public boolean useQuaternionsForRotate() {
 		return false;
+	}
+
+	public boolean glassedDetected() {
+		return socket.glassesDetected;
 	}
 
 }

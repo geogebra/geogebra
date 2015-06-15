@@ -154,7 +154,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		panelDimension = ((EuclidianView3DD) view3D).getJPanel().getSize();
 		panelPosition = ((EuclidianView3DD) view3D).getJPanel().getLocationOnScreen();
 
-		
 		if (input3D.update(new GPoint(panelPosition.x, panelPosition.y),
 				new GDimensionD(panelDimension))) {
 

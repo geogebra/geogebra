@@ -252,4 +252,8 @@ public class InputLeo3D implements Input3D {
 	public boolean useQuaternionsForRotate() {
 		return true;
 	}
+
+	public boolean glassedDetected() {
+		return true;
+	}
 }

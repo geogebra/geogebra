@@ -3647,6 +3647,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return false;
 	}
 
+	public boolean stereoGlassesDetected() {
+		return false;
+	}
+
 
 	public double getScreenZOffset() {
 		return 0;

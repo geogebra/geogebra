@@ -314,7 +314,13 @@ public abstract class Renderer {
 			clearColorBuffer();
 		}
 
-		eye = EYE_RIGHT;
+		if (view3D.isStereoBuffered() && !view3D.stereoGlassesDetected()) {
+			// draw again left eye if no stereo glasses detected
+			eye = EYE_LEFT;
+		} else {
+			eye = EYE_RIGHT;
+		}
+
 		setColorMask();
 		clearDepthBuffer(); // clear depth buffer
 	}
