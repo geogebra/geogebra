@@ -17,6 +17,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
@@ -74,6 +78,20 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				}
 			}
 		});
+		MouseOverHandler mouseover = new MouseOverHandler() {
+			public void onMouseOver(MouseOverEvent moe) {
+				((DrawEquationWeb) app.getDrawEquation())
+						.setAllowLeaveOnMouseOut(false);
+			}
+		};
+		MouseOutHandler mouseout = new MouseOutHandler() {
+			public void onMouseOut(MouseOutEvent moe) {
+				((DrawEquationWeb) app.getDrawEquation())
+						.setAllowLeaveOnMouseOut(true);
+			}
+		};
+		pButton.addMouseOverHandler(mouseover);
+		pButton.addMouseOutHandler(mouseout);
 
 		// basically, everything except onClick,
 		// static to prevent more instances
@@ -83,7 +101,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		pButton.addMouseUpHandler(CancelEvents.instance);
 		pButton.addMouseMoveHandler(CancelEvents.instance);
 		// btnRow.addMouseOverHandler(cancelEvents);
-		pButton.addMouseOutHandler(CancelEvents.instance);
+		// pButton.addMouseOutHandler(CancelEvents.instance);
 		pButton.addTouchStartHandler(CancelEvents.instance);
 		pButton.addTouchEndHandler(CancelEvents.instance);
 		pButton.addTouchMoveHandler(CancelEvents.instance);
@@ -108,6 +126,8 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		};
 		specialPopup.setAutoHideEnabled(true);
 		specialPopup.getPanel().addStyleName("AVmenuListContainer");
+		specialPopup.addDomHandler(mouseover, MouseOverEvent.getType());
+		specialPopup.addDomHandler(mouseout, MouseOutEvent.getType());
 
 		UnorderedList itemList = new UnorderedList();
 		itemList.setStyleName("AVmenuListContent");
