@@ -14,12 +14,19 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.PopupPanel;
+
 public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 	GeoText editGeo;
 	GeoPointND startPoint;
 	private boolean rw;
 	private TextEditPanel editor;
+	private int cols;
+	private int rows;
+	private String dialogTitle;
 
 	public TextInputDialogW(App app2, String title, GeoText editGeo,
             GeoPointND startPoint, boolean rw, int cols, int rows, boolean isTextMode) {
@@ -28,6 +35,9 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		this.app = (AppW) app2;
 		this.startPoint = startPoint;
 		this.rw = rw;
+		dialogTitle = title;
+		this.cols = cols;
+		this.rows = rows;
 //		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
 //		textInputDialog = this;
@@ -37,6 +47,17 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 		createGUI(title, "", false, cols, rows, /*false*/ true, false, false, false,
 				DialogType.DynamicText);
+	}
+
+	@Override
+	protected void createGUI(String title, String message,
+			boolean autoComplete, int columns, int rows,
+			boolean showSymbolPopupIcon, boolean selectInitText,
+			boolean showProperties, boolean showApply, DialogType type) {
+		super.createGUI(title, message, autoComplete, columns, rows,
+				showSymbolPopupIcon, selectInitText, showProperties, showApply,
+				type);
+
 		editor = inputPanel.getTextAreaComponent();
 		if (editor != null) {
 			editor.setText(editGeo);
@@ -50,6 +71,13 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		wrappedPopup.show();
 
 		focus();
+		wrappedPopup.addCloseHandler(new CloseHandler<PopupPanel>() {
+
+			public void onClose(CloseEvent<PopupPanel> event) {
+				App.debug("MOST ZARNAK BEFELE");
+				editor = null;
+			}
+		});
 	}
 
 	int getFontStyle() {
@@ -262,6 +290,12 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 	}
 
 	public void reInitEditor(GeoText text, GeoPointND startPoint2, boolean rw) {
+		if (editor == null) {
+			createGUI(dialogTitle, "", false, cols, rows, /* false */true, false,
+					false, false, DialogType.DynamicText);
+
+			return;
+		}
 		this.startPoint = startPoint2;
 		this.rw = rw;
 		setGeoText(text);
