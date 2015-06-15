@@ -2701,7 +2701,7 @@ __GGB__keysVar.hu.plain = {
     "ReallySignOut": "Biztosan kil\xe9psz?",
     "Redefine": "\xdajradefini\xe1l",
     "Remove": "T\xf6r\xf6l",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Oszlop t\xf6rl\xe9se",
     "RemoveRow": "Remove Row",
     "Rename": "\xc1tnevez\xe9s",
     "Repeat": "Ism\xe9tl\xe9s",
