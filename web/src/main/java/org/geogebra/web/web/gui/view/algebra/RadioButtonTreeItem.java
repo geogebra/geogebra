@@ -461,7 +461,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 		xButton.addStyleName("XButton");
 		xButton.addStyleName("shown");
-		// xButton.addStyleName("BlurDoesntUpdateGUIFeature");//?
 		xButton.addMouseDownHandler(new MouseDownHandler() {
 			// ClickHandler changed to MouseDownHandler
 			// in order to fix a bug in Internet Explorer,

@@ -1063,6 +1063,11 @@ GeoContainer rbti,
 							function(eee) {
 								// at least notify the NewRadioButtonTreeItem about this!
 								rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+							})
+					.focus(
+							function(fff) {
+								// at least notify the NewRadioButtonTreeItem about this!
+								rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
 							});
 		}
 	}-*/;
@@ -1392,6 +1397,11 @@ GeoContainer rbti,
 						function(eee) {
 							// at least notify the NewRadioButtonTreeItem about this!
 							rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+						})
+				.focus(
+						function(fff) {
+							// at least notify the NewRadioButtonTreeItem about this!
+							rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
 						});
 	}-*/;
 

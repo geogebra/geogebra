@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -413,11 +412,15 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// just allow onFocus/onBlur handlers for new formula creation mode now,
 		// a.k.a. this class, but later we may want to add this feature to
 		// RadioButtonTreeItem, or editing mode (for existing formulas)
-		if (b) {
-			onFocus(null);
-		} else {
+		//if (b) {
+			// there is a focus handler on MathQuillGGB textarea
+			// onFocus(null);
+		//} else {
+			// no need for this here, because
+			// - this method is always called with true
+			// - there is a blur handler on MathQuillGGB textarea
 			// onBlur(null);
-		}
+		//}
 	}
 
 	private boolean firstTimeShowPopup = true;
@@ -479,13 +482,23 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 	}
 
+	/**
+	 * This is looking like a GWT FocusHandler method, and really it is, but it
+	 * is not added to any GWT widget yet, just called from DrawEquationWeb
+	 * JQuery focus handlers, or other places
+	 */
 	@Override
 	public void onFocus(FocusEvent event) {
-		if (!Browser.isInternetExplorer()) {
+		// earlier this method was mainly called from setFocus,
+		// and now it is also called from there, but in an
+		// indirect way: first MathQuillGGB textarea gets focus,
+		// then its onfocus handler gets called, which calls this
+
+		// if (!Browser.isInternetExplorer()) {
 			if (dummyLabel != null) {
 				ihtml.getElement().removeChild(dummyLabel.getElement());
 			}
-		}
+		// }
 
 		updateGUIfocus(event == null ? this : event.getSource(), false);
 
@@ -520,24 +533,35 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 	}
 
+	/**
+	 * This is looking like a GWT BlurHandler method, and really it is, but it
+	 * is not added to any GWT widget yet, just called from DrawEquationWeb
+	 * JQuery blur handlers, or other places
+	 */
 	@Override
 	public void onBlur(BlurEvent event) {
-		// "false" also includes specialPopup and KeyboardButton, etc.
-		// this does not work well, so better to comment it out for now
+		// next time if mouse is moved away after blur,
+		// then the onBlur action does not execute, although it should!
+		// remedy for this might be to set focus back to
+		// NewRadioButtonTreeItem in case "mouseIsOver", or some other
+		// idea shall be invented TODO
 		if (!DrawEquationWeb.mouseIsOver(getElement(),
 				"BlurDoesntUpdateGUIFeature")) {
 
-			// #5244
-			// if (!Browser.isInternetExplorer()) {
-			// if (dummyLabel == null) {
-			// dummyLabel = new Label(app.getPlain("InputLabel")
-			// + Unicode.ellipsis);
-			// dummyLabel.getElement().getStyle().setColor("#999999");
-			// EquationEditor.updateNewStatic(dummyLabel.getElement());
-			// }
-			//
-			// ihtml.getElement().insertFirst(dummyLabel.getElement());
-			// }
+			// dummy is not used yet, until blur/focus is more solid
+			// - sometimes it's not possible to blur permanently
+			// - sometimes it requires more clicks elsewhere
+			// - meanwhile it's blinking / flickering
+			// - meanwhile + sign might not be shown... 
+
+			//if (dummyLabel == null) {
+			//	dummyLabel = new Label(app.getPlain("InputLabel")
+			//			+ Unicode.ellipsis);
+			//	dummyLabel.getElement().getStyle().setColor("#999999");
+			//	EquationEditor.updateNewStatic(dummyLabel.getElement());
+			//}
+
+			//ihtml.getElement().insertFirst(dummyLabel.getElement());
 
 			updateGUIfocus(event == null ? this : event.getSource(), true);
 		}

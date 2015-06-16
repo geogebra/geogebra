@@ -6,6 +6,7 @@ import org.geogebra.common.util.AsyncOperation;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 
 /**
  * Object providing the corresponding geo
@@ -36,4 +37,6 @@ public interface GeoContainer {
 	public void typing(boolean heuristic);
 
 	public void onBlur(BlurEvent be);
+
+	public void onFocus(FocusEvent fe);
 }
