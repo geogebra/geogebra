@@ -793,8 +793,9 @@ public class DrawEquationWeb extends DrawEquation {
 			// in this case, escape
 			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
 					currentElement);
-			currentWidget = null;
-			currentElement = null;
+			// the above method will do these too
+			// currentWidget = null;
+			// currentElement = null;
 		}
 	}
 
@@ -834,8 +835,9 @@ public class DrawEquationWeb extends DrawEquation {
 		if (currentWidget != null) {
 			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
 			        currentElement);
-			currentWidget = null;
-			currentElement = null;
+			// the above method will do these too
+			// currentWidget = null;
+			// currentElement = null;
 		}
 	}
 
@@ -1545,6 +1547,8 @@ GeoContainer rbti,
 
 	public static boolean endEditingEquationMathQuillGGB(GeoContainer rbti,
 			String latex) {
+		currentWidget = null;
+		currentElement = null;
 		return rbti.stopEditing(latex);
 	}
 
