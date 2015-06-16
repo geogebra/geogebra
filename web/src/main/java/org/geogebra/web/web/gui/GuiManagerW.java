@@ -1700,8 +1700,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void openFilePicker() {
 		String title = "".equals(app.getKernel().getConstruction().getTitle()) ? "geogebra.ggb"
 		        : (app.getKernel().getConstruction().getTitle() + ".ggb");
-		JavaScriptObject callback = getDownloadCallback(title);
-		((AppW) app).getGgbApi().getGGB(true, callback);
+		GOptionPaneW.INSTANCE.showInputDialog(app, "export ggb", title, null,
+				new AsyncOperation() {
+
+					@Override
+					public void callback(Object obj) {
+						String[] dialogResult = (String[]) obj;
+						JavaScriptObject callback = getDownloadCallback(dialogResult[1]);
+						((AppW) app).getGgbApi().getGGB(true, callback);
+					}
+				});
 	}
 
 	private native JavaScriptObject getDownloadCallback(String title) /*-{
