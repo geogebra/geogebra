@@ -461,15 +461,20 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 		xButton.addStyleName("XButton");
 		xButton.addStyleName("shown");
-		xButton.addClickHandler(new ClickHandler() {
-
+		// xButton.addStyleName("BlurDoesntUpdateGUIFeature");//?
+		xButton.addMouseDownHandler(new MouseDownHandler() {
+			// ClickHandler changed to MouseDownHandler
+			// in order to fix a bug in Internet Explorer,
+			// where the button disappeared earlier than
+			// this method (onClick) could execute
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onMouseDown(MouseDownEvent event) {
 				event.stopPropagation();
 				ge.remove();
 				// event.preventDefault();
 			}
 		});
+
 
 		add(buttonPanel);// dirty hack of adding it two times!
 

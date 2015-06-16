@@ -33,6 +33,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
@@ -88,10 +90,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// XButton.getElement().setAttribute("style", "display: none");
 		// XButton.setText("X");
 		xButton.addStyleName("XButton");
-		xButton.addClickHandler(new ClickHandler() {
-
+		xButton.addMouseDownHandler(new MouseDownHandler() {
+			// ClickHandler changed to MouseDownHandler,
+			// but maybe it's not that important here
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onMouseDown(MouseDownEvent event) {
 				DrawEquationWeb.stornoFormulaMathQuillGGB(
 				        NewRadioButtonTreeItem.this, seMayLatex);
 				NewRadioButtonTreeItem.this.setFocus(true);
@@ -107,10 +110,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					new Image(GuiResources.INSTANCE.algebra_new_hover()));
 			pButton.getElement().setAttribute("data-visible", "false");
 			pButton.addStyleName("XButtonNeighbour");
-			pButton.addClickHandler(new ClickHandler() {
-
+			pButton.addMouseDownHandler(new MouseDownHandler() {
+				// ClickHandler changed to MouseDownHandler,
+				// but maybe it's not that important here
 				@Override
-				public void onClick(ClickEvent event) {
+				public void onMouseDown(MouseDownEvent event) {
 					if (specialPopup != null) {
 						if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
 								|| !app.wasPopupJustClosed()) {
@@ -163,6 +167,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			ListItem actual = new ListItem();
 			actual.add(new Image(GuiResources.INSTANCE.algebra_new_piecewise()));
 			actual.add(new Label(app.getPlain("PiecewiseFunction")));
+			// ClickHandler is Okay here, but maybe MouseDownHandler is better?
 			actual.addDomHandler(new ClickHandler() {
 				public void onClick(ClickEvent ce) {
 					specialPopup.setVisible(false);

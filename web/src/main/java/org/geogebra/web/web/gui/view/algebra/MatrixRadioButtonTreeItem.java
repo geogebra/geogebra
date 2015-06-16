@@ -120,6 +120,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		ListItem actual = new ListItem();
 		actual.add(new Image(GuiResources.INSTANCE.algebra_new()));
 		actual.add(new Label(app.getPlain("AddRow")));
+		// ClickHandler is okay here, but maybe MouseDownHandler is better?
 		actual.addDomHandler(new ClickHandler() {
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
