@@ -109,8 +109,11 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 
 		// set the circle
 		v1.calcNorm();
-		conic.setSphereND(new Coords(0, 0), v1.getNorm());
+		conic.setDefined();
+		conic.setSphereND(O, v1.getNorm());
 	}
+
+	static final private Coords O = new Coords(0, 0);
 
 	@Override
 	public Commands getClassName() {
