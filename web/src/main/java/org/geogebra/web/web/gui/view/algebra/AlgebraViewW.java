@@ -28,7 +28,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -37,11 +36,9 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -62,7 +59,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	protected final Localization loc;
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
-	protected AlgebraInputW inputPanel;
+	// protected AlgebraInputW inputPanel;
 	NewRadioButtonTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
 	public boolean editing = false;
@@ -201,8 +198,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			app.closePopups();
 			app.focusGained(AlgebraViewW.this);
 		}
-		if (!editing
-				&& (this.inputPanel == null || !this.inputPanel.hasFocus())) {
+		if (!editing) {
 			if (event.getTypeInt() == Event.ONCLICK) {
 				// background click
 				if (!CancelEventTimer.cancelKeyboardHide()
@@ -801,7 +797,6 @@ public class AlgebraViewW extends Tree implements LayerView,
 					TreeItem child = getItem(i);
 					if (transTypeString.compareTo(child.toString()) < 0 || 
 									(child.getWidget() != null
-					                && this.inputPanel != null
 					                && this.inputPanelTreeItem != null
 					                && this.inputPanelTreeItem.getWidget() != null
 					                && child.getWidget().equals(this.inputPanelTreeItem.getWidget()))) {
@@ -991,10 +986,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 				if (this.inputPanelLatex != null) {
 					this.inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
 				}
-				else if (this.inputPanel != null
-						&& this.inputPanel.getElement() != null) {
-					this.inputPanel.onFocus(null);
-				}
+
 			}
 			nodeTable.put(geo, node);
 			
@@ -1183,9 +1175,10 @@ public class AlgebraViewW extends Tree implements LayerView,
 	 * application if the language setting is changed.
 	 */
 	public void setLabels() {
-		if (inputPanel != null) {
-			inputPanel.setLabels();
-		}
+		/*
+		 * if (inputPanel != null) { inputPanel.setLabels(); }
+		 */
+		// TODO update autocomplete / add button ?
 		setTreeLabels();
 
 		if (this.styleBar != null) {
@@ -1220,13 +1213,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 		return inputPanelLatex;
 	}
 
-	public void setInputPanel(final AlgebraInputW inputPanel){
-		if (this.inputPanel != null) {
-			this.inputPanel.removeFromParent();
-		}
+	public void setInputPanel() {
 
 		// usually, inputPanel is here, but not in use (not attached)
-		this.inputPanel = inputPanel;
 		boolean forceKeyboard = false;
 		if ((!app.getLocalization().getLanguage().equals("ko")
  || app
@@ -1256,23 +1245,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 				}
 			}
 		}
-		if(inputPanel != null){
-			//make sure we do not trigger long touch here
-			inputPanel.getTextField().addDomHandler(new TouchStartHandler(){
-				// TODO: maybe use CancelEvents.instance?
-				@Override
-                public void onTouchStart(TouchStartEvent event) {
-	               event.stopPropagation();
-	                
-                }}, TouchStartEvent.getType());
-			inputPanel.getTextField().addDomHandler(new MouseDownHandler(){
 
-				@Override
-                public void onMouseDown(MouseDownEvent event) {
-					// event.stopPropagation();
-				}
-			}, MouseDownEvent.getType());
-		}
 		showAlgebraInput(forceKeyboard);
 	}
 
@@ -1293,7 +1266,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	}
 
 	private void showAlgebraInput(boolean forceKeyboard) {
-		if (inputPanel == null || !app.showAlgebraInput()) {
+		if (!app.showAlgebraInput() || app.getInputPosition() != InputPositon.algebraView) {
 			hideAlgebraInput();
 			return;
 		}
@@ -1306,22 +1279,36 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 			// inputPanel.removeFromParent();//?
 		}
+		boolean appletHack = false;
+		if (inputPanelLatex == null) {
+			inputPanelLatex = new NewRadioButtonTreeItem(kernel);
 
-		if(this.app.getInputPosition() == InputPositon.algebraView){
-			if ((!app.getLocalization().getLanguage().equals("ko")
- || app
-					.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
-				boolean appletHack = false;
-				if (inputPanelLatex == null) {
-					inputPanelLatex = new NewRadioButtonTreeItem(kernel);
+			// open the keyboard (or show the keyboard-open-button) at
+			// when the application is started
 
-					// open the keyboard (or show the keyboard-open-button) at
-					// when the application is started
+			appletHack = !App.isFullAppGui();
+		} else {
+			inputPanelLatex.removeFromParent();
+		}
 
-					appletHack = !App.isFullAppGui();
-				} else {
-					inputPanelLatex.removeFromParent();
-				}
+		inputPanelTreeItem = super.addItem(inputPanelLatex);
+		// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
+		inputPanelLatex.getElement().getParentElement()
+				.addClassName("NewRadioButtonTreeItemParent");
+		inputPanelLatex.replaceXButtonDOM();
+		if (appletHack) {
+			if (!isNodeTableEmpty()) {
+				AutoCompleteTextFieldW.showSymbolButtonIfExists(
+						inputPanelLatex, true);
+			} else {
+				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
+			}
+		}
+
+
+		if ((!app.getLocalization().getLanguage().equals("ko") || app
+				.has(Feature.KOREAN_KEYBOARD))) {
+
 				if (forceKeyboard) {
 					Scheduler.get().scheduleDeferred(
 							new Scheduler.ScheduledCommand() {
@@ -1330,23 +1317,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 								}
 							});
 				}
-				inputPanelTreeItem = super.addItem(inputPanelLatex);
-				// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
-				inputPanelLatex.getElement().getParentElement()
-				        .addClassName("NewRadioButtonTreeItemParent");
-				inputPanelLatex.replaceXButtonDOM();
-				if (appletHack) {
-					if (!isNodeTableEmpty()) {
-						AutoCompleteTextFieldW.showSymbolButtonIfExists(
-								inputPanelLatex, true);
-					} else {
-						inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
-					}
-				}
-			} else {
-				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+
 			}
-		}
+
 	}
 	
 	private boolean isAlgebraInputVisible() {

@@ -73,7 +73,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -81,8 +80,6 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -897,7 +894,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 							seMayLatex);
 				}
-				if (!this.newCreationMode && !LaTeX && shouldEditLaTeX()
+				if (!this.newCreationMode && !LaTeX
 						&& seNoLatex != null
 						&& ihtml.getElement().isOrHasChild(seMayLatex)) {
 					this.ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
@@ -936,7 +933,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					CancelEventTimer.keyboardSetVisible();
 				}
 			});
-		} else if (shouldEditLaTeX()) {
+		} else {
 			if (app.has(Feature.JLM_IN_WEB) && c != null) {
 				renderLatex(geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ),
@@ -963,70 +960,41 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					CancelEventTimer.keyboardSetVisible();
 				}
 			});
-		} else {
-			removeSpecial(ihtml);
-			tb = new GTextBox();
-			tb.setText(geo.getAlgebraDescriptionDefault());
-			addSpecial(tb);
-			mout = false;
-			tb.setFocus(true);
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					tb.setFocus(true);
-				}
-			});
-			tb.addKeyDownHandler(new KeyDownHandler() {
-				@Override
-				public void onKeyDown(KeyDownEvent kevent) {
-					if (kevent.getNativeKeyCode() == 13) {
-						removeSpecial(tb);
-						addSpecial(ihtml);
-						stopEditingSimple(tb.getText());
-						app.hideKeyboard();
-					} else if (kevent.getNativeKeyCode() == 27) {
-						removeSpecial(tb);
-						addSpecial(ihtml);
-						stopEditingSimple(null);
-						app.hideKeyboard();
-					}
-				}
-			});
-			tb.addBlurHandler(new BlurHandler() {
-				@Override
-				public void onBlur(BlurEvent bevent) {
-					if (mout && !blockBlur) {
-						removeSpecial(tb);
-						addSpecial(ihtml);
-						stopEditingSimple(null);
-					}
-				}
-			});
-			tb.addMouseOverHandler(new MouseOverHandler() {
-				@Override
-				public void onMouseOver(MouseOverEvent moevent) {
-					mout = false;
-				}
-			});
-			tb.addMouseOutHandler(new MouseOutHandler() {
-				@Override
-				public void onMouseOut(MouseOutEvent moevent) {
-					mout = true;
-					tb.setFocus(true);
-				}
-			});
-
-			ClickStartHandler.init(tb, new ClickStartHandler(false, true) {
-				@Override
-				public void onClickStart(int x, int y,
-				        final PointerEventType type) {
-					app.getGuiManager().setOnScreenKeyboardTextField(tb);
-					// prevent that keyboard is closed on clicks (changing
-					// cursor position)
-					CancelEventTimer.keyboardSetVisible();
-				}
-			});
-		}
+		} /*
+		 * else { removeSpecial(ihtml); tb = new GTextBox();
+		 * tb.setText(geo.getAlgebraDescriptionDefault()); addSpecial(tb); mout
+		 * = false; tb.setFocus(true); Scheduler.get().scheduleDeferred(new
+		 * Scheduler.ScheduledCommand() {
+		 * 
+		 * @Override public void execute() { tb.setFocus(true); } });
+		 * tb.addKeyDownHandler(new KeyDownHandler() {
+		 * 
+		 * @Override public void onKeyDown(KeyDownEvent kevent) { if
+		 * (kevent.getNativeKeyCode() == 13) { removeSpecial(tb);
+		 * addSpecial(ihtml); stopEditingSimple(tb.getText());
+		 * app.hideKeyboard(); } else if (kevent.getNativeKeyCode() == 27) {
+		 * removeSpecial(tb); addSpecial(ihtml); stopEditingSimple(null);
+		 * app.hideKeyboard(); } } }); tb.addBlurHandler(new BlurHandler() {
+		 * 
+		 * @Override public void onBlur(BlurEvent bevent) { if (mout &&
+		 * !blockBlur) { removeSpecial(tb); addSpecial(ihtml);
+		 * stopEditingSimple(null); } } }); tb.addMouseOverHandler(new
+		 * MouseOverHandler() {
+		 * 
+		 * @Override public void onMouseOver(MouseOverEvent moevent) { mout =
+		 * false; } }); tb.addMouseOutHandler(new MouseOutHandler() {
+		 * 
+		 * @Override public void onMouseOut(MouseOutEvent moevent) { mout =
+		 * true; tb.setFocus(true); } });
+		 * 
+		 * ClickStartHandler.init(tb, new ClickStartHandler(false, true) {
+		 * 
+		 * @Override public void onClickStart(int x, int y, final
+		 * PointerEventType type) {
+		 * app.getGuiManager().setOnScreenKeyboardTextField(tb); // prevent that
+		 * keyboard is closed on clicks (changing // cursor position)
+		 * CancelEventTimer.keyboardSetVisible(); } }); }
+		 */
 
 		scrollIntoView();
 
@@ -1124,7 +1092,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 					seMayLatex);
 		}
-		if (!LaTeX && !this.newCreationMode && shouldEditLaTeX()
+		if (!LaTeX && !this.newCreationMode
 				&& seNoLatex != null
 				&& ihtml.getElement().isOrHasChild(seMayLatex)) {
 			this.ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
@@ -1304,23 +1272,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			av.startEditing(geo);
-			if (shouldEditLaTeX()) {
-				app.showKeyboard(this);
-				this.setFocus(true);
-			}
-			// if (app.isPrerelease() && tb != null) {
-			// app.showKeyboard(tb);
-			// // update the keyboard, if it is already visible
-			// OnScreenKeyBoard.setInstanceTextField(tb);
-			// blockBlur = true;
-			// OnScreenKeyBoard.setResetComponent(this);
-			// } else if (app.isPrerelease()) {
-			// app.showKeyboard(this);
-			// // update the keyboard, if it is already visible
-			// OnScreenKeyBoard.setInstanceTextField(this);
-			// blockBlur = true;
-			// OnScreenKeyBoard.setResetComponent(this);
-			// }
+			app.showKeyboard(this);
+			this.setFocus(true);
 		}
 	}
 

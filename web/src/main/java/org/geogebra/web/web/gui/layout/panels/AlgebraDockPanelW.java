@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
-import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
@@ -17,7 +16,6 @@ public class AlgebraDockPanelW extends DockPanelW {
 	ScrollPanel algebrap;
 	SimplePanel simplep;
 	AlgebraViewW aview = null;
-	AlgebraInputW inputPanel = new AlgebraInputW();
 	private ShowKeyboardButton keyboardButton;
 
 	public AlgebraDockPanelW() {
@@ -43,8 +41,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 			// force loading the algebra view,
 			// as loadComponent should only load when needed
 			setAlgebraView((AlgebraViewW) app.getAlgebraView());
-			inputPanel.init(app);
-			aview.setInputPanel(inputPanel);
+			aview.setInputPanel();
 		}
 		return algebrap;
 	}
