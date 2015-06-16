@@ -10,10 +10,12 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
 public abstract class AppWFull extends AppW {
@@ -133,5 +135,20 @@ public abstract class AppWFull extends AppW {
 				infiniteLoopPreventer = false;
 			}
 		}
+	}
+
+	@Override
+	public final void uploadToGeoGebraTube() {
+
+		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
+		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
+		getGgbApi().getBase64(true, new StringHandler() {
+
+			@Override
+			public void handle(String s) {
+				ggbtube.uploadWorksheetSimple(s, popupBlockAvoider);
+
+			}
+		});
 	}
 }

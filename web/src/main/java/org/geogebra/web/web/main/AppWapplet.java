@@ -23,7 +23,6 @@ import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.HasAppletProperties;
-import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.URL;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
@@ -657,20 +656,6 @@ public class AppWapplet extends AppWFull {
 			this.lg = new LanguageGUI(this);
 		}
 		return this.lg;
-	}
-
-	@Override
-	public void uploadToGeoGebraTube() {
-		showURLinBrowserWaiterFixedDelay();
-		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
-		getGgbApi().getBase64(true, new StringHandler() {
-
-			@Override
-			public void handle(String s) {
-				ggbtube.uploadWorksheetSimple(s);
-
-			}
-		});
 	}
 
 	@Override

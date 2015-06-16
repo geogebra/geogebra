@@ -43,7 +43,7 @@ public abstract class GeoGebraTubeExport {
 	/**
 	 * Upload the current worksheet to GeoGebraTube.
 	 */
-	public abstract void uploadWorksheet(ArrayList<Macro> macros);
+	// public abstract void uploadWorksheet(ArrayList<Macro> macros);
 
 	protected abstract void statusLabelSetText(String plain);
 

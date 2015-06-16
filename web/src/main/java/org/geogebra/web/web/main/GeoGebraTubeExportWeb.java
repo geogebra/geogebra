@@ -10,6 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
+import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -64,7 +65,8 @@ public class GeoGebraTubeExportWeb extends
 		return stringBuffer;
 	}
 
-	protected void doUploadWorksheet(RequestBuilder rb, String postData) {
+	protected void doUploadWorksheet(RequestBuilder rb, String postData,
+			final PopupBlockAvoider pba) {
 		// encode '+'
 		// for some reason encode(postData) doesn't work
 		postData = postData.replace("+", "%2B");
@@ -97,8 +99,8 @@ public class GeoGebraTubeExportWeb extends
 						} else {
 							App.debug("Opening URL: " + uploadURL + "/"
 							        + results.getUID());
-							// app.showURLinBrowser(uploadURL + "/"
-							// + results.getUID());
+							pba.openURL(uploadURL + "/"
+									+ results.getUID());
 							hideDialog();
 						}
 					} else { // not Response.SC_OK
@@ -127,7 +129,7 @@ public class GeoGebraTubeExportWeb extends
 		}
 	}
 
-	public void uploadWorksheetSimple(String base64) {
+	public void uploadWorksheetSimple(String base64, PopupBlockAvoider pba) {
 		this.macros = null;
 
 		showDialog();
@@ -144,7 +146,7 @@ public class GeoGebraTubeExportWeb extends
 
 			String postData = getPostData(base64).toString();
 
-			doUploadWorksheet(rb, postData);
+			doUploadWorksheet(rb, postData, pba);
 		} catch (Exception e) {
 			statusLabelSetText(loc.getPlain("UploadError",
 			        Integer.toString(400)));
@@ -159,8 +161,7 @@ public class GeoGebraTubeExportWeb extends
 	/**
 	 * Upload the current worksheet to GeoGebraTube.
 	 */
-	@Override
-	public void uploadWorksheet(ArrayList<Macro> macrosIn) {
+	public void uploadWorksheet(ArrayList<Macro> macrosIn, PopupBlockAvoider pba) {
 
 		this.macros = macrosIn;
 
@@ -176,7 +177,7 @@ public class GeoGebraTubeExportWeb extends
 			// rb.setHeader("Accept-Language", "app.getLocaleStr()");
 
 			String postData = getPostData().toString();
-			doUploadWorksheet(rb, postData);
+			doUploadWorksheet(rb, postData, pba);
 		} catch (Exception e) {
 			statusLabelSetText(loc.getPlain("UploadError",
 			        Integer.toString(400)));

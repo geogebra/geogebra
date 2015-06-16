@@ -102,6 +102,7 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -2357,36 +2358,21 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	protected PopupBlockAvoider popupBlockAvoider;
 	@Override
 	public void showURLinBrowser(final String pageUrl) {
-		Window.open(pageUrl, "_blank", "");
+		if (popupBlockAvoider == null) {
+			Window.open(pageUrl, "_blank", "");
+		} else {
+			popupBlockAvoider.openURL(pageUrl);
+			popupBlockAvoider = null;
+		}
 		debug("opening: " + pageUrl);
 
 		// assume showURLinBrowserWaiterFixedDelay is called before
-		showURLinBrowserPageUrl = pageUrl;
 	}
 
-	public String showURLinBrowserPageUrl = null;
 
-	public native void showURLinBrowserWaiterFixedDelay() /*-{
-		this.@org.geogebra.web.html5.main.AppW::showURLinBrowserPageUrl = null;
-
-		var that = this;
-		var timer = {};
-		function intervalTask() {
-			if (that.@org.geogebra.web.html5.main.AppW::showURLinBrowserPageUrl != null) {
-				$wnd
-						.open(
-								that.@org.geogebra.web.html5.main.AppW::showURLinBrowserPageUrl,
-								"_blank");
-				if (timer.tout) {
-					$wnd.clearInterval(timer.tout);
-				}
-			}
-		}
-
-		timer.tout = $wnd.setInterval(intervalTask, 700);
-	}-*/;
 
 	@Override
 	public void initGuiManager() {

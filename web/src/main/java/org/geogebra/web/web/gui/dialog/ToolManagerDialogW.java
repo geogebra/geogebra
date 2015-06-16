@@ -32,6 +32,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.gui.ToolNameIconPanel;
 import org.geogebra.web.web.gui.ToolNameIconPanel.MacroChangeListener;
+import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.main.GeoGebraTubeExportWeb;
 
@@ -383,7 +384,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	public void uploadWorksheet(ArrayList<Macro> macros) {
 		GeoGebraTubeExportWeb exporter = new GeoGebraTubeExportWeb(app);
 
-		exporter.uploadWorksheet(macros);
+		exporter.uploadWorksheet(macros, new PopupBlockAvoider());
 
 	}
 
