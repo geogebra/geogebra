@@ -1840,7 +1840,7 @@ __GGB__keysVar.tr.menu = {
     "SaveCurrentPerspective": "\u015eimdiki Perspektifi kaydet",
     "SavePrintUndo": "Kaydet & Yazd\u0131r  etkinle\u015ftir",
     "SaveToGoogleDrive": "Google Drive'a Kaydet",
-    "SaveToSkyDrive": "SkyDrive'a Kaydet",
+    "SaveToSkyDrive": "OneDrive'a Kaydet",
     "SaveToXML": "XML'ye Kaydet",
     "SavedSuccessfully": "Ba\u015far\u0131l\u0131 \u015fekilde kaydedildi.",
     "Saving": "Kaydediliyor \u2026",

@@ -1840,7 +1840,7 @@ __GGB__keysVar.da.menu = {
     "SaveCurrentPerspective": "Gem det nuv\xe6rende perspektiv",
     "SavePrintUndo": "Sl\xe5 gem og udskriv til",
     "SaveToGoogleDrive": "Gem i Google drev",
-    "SaveToSkyDrive": "Gem i SkyDrive",
+    "SaveToSkyDrive": "Gem i OneDrive",
     "SaveToXML": "Gem som XML",
     "SavedSuccessfully": "Gemt med succes",
     "Saving": "Gemmer \u2026",

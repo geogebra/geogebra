@@ -1840,7 +1840,7 @@ __GGB__keysVar.ca.menu = {
     "SaveCurrentPerspective": "Desa l'Escenari Actual",
     "SavePrintUndo": "Activa desar i imprimir (i si escau, desfer)",
     "SaveToGoogleDrive": "Desa a Google Drive",
-    "SaveToSkyDrive": "Desa a SkyDrive",
+    "SaveToSkyDrive": "Desa a OneDrive",
     "SaveToXML": "Desa en format XML",
     "SavedSuccessfully": "Desat correctament.",
     "Saving": "Desant\u2026",

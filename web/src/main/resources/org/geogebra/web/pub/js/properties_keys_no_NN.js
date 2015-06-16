@@ -1840,7 +1840,7 @@ __GGB__keysVar.no_NN.menu = {
     "SaveCurrentPerspective": "Lagre gjeldande oppsett",
     "SavePrintUndo": "Tillat lagring og utskrift",
     "SaveToGoogleDrive": "Lagre til Google Drive",
-    "SaveToSkyDrive": "Lagre i SkyDrive",
+    "SaveToSkyDrive": "Lagre i OneDrive",
     "SaveToXML": "Lagre til XML",
     "SavedSuccessfully": "Vellukka lagring.",
     "Saving": "Lagrar\u2026",

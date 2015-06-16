@@ -1840,7 +1840,7 @@ __GGB__keysVar.hu.menu = {
     "SaveCurrentPerspective": "Jelenlegi munkaasztal elment\xe9se",
     "SavePrintUndo": "Ment\xe9s \xe9s nyomtat\xe1s enged\xe9lyez\xe9se",
     "SaveToGoogleDrive": "Ment\xe9s Google Drive-ba",
-    "SaveToSkyDrive": "Ment\xe9s SkyDrive-ra",
+    "SaveToSkyDrive": "Ment\xe9s OneDrive-ra",
     "SaveToXML": "Ment\xe9s XML-k\xe9nt",
     "SavedSuccessfully": "A ment\xe9s siker\xfclt.",
     "Saving": "Ment\xe9s \u2026",

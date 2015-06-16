@@ -1840,7 +1840,7 @@ __GGB__keysVar.cy.menu = {
     "SaveCurrentPerspective": "Cadw'r persbectif cyfredol",
     "SavePrintUndo": "Galluogi Arbed, Argraffu a Dadwneud",
     "SaveToGoogleDrive": "Safio i 'Google Drive'",
-    "SaveToSkyDrive": "Save to SkyDrive",
+    "SaveToSkyDrive": "Save to OneDrive",
     "SaveToXML": "Cadw ar ffurf XML",
     "SavedSuccessfully": "Saved successfully.",
     "Saving": "Saving \u2026",

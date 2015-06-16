@@ -1840,7 +1840,7 @@ __GGB__keysVar.zh_CN.menu = {
     "SaveCurrentPerspective": "\u4fdd\u5b58\u5f53\u524d\u683c\u5c40",
     "SavePrintUndo": "\u5141\u8bb8\u5b58\u76d8\u53ca\u6253\u5370",
     "SaveToGoogleDrive": "\u4fdd\u5b58\u5230 Google Drive",
-    "SaveToSkyDrive": "\u4fdd\u5b58\u5230 SkyDrive",
+    "SaveToSkyDrive": "\u4fdd\u5b58\u5230 OneDrive",
     "SaveToXML": "\u4fdd\u5b58\u5230 XML",
     "SavedSuccessfully": "\u5df2\u6210\u529f\u4fdd\u5b58.",
     "Saving": "\u4fdd\u5b58 \u2026",

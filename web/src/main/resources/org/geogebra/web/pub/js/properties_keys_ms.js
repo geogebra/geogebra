@@ -1840,7 +1840,7 @@ __GGB__keysVar.ms.menu = {
     "SaveCurrentPerspective": "Simpan Perspektif Semasa",
     "SavePrintUndo": "Membolehkan Simpan, Cetak & Buat Asal",
     "SaveToGoogleDrive": "Simpan ke Google Drive",
-    "SaveToSkyDrive": "Simpan ke SkyDrive",
+    "SaveToSkyDrive": "Simpan ke OneDrive",
     "SaveToXML": "Simpan ke XML",
     "SavedSuccessfully": "Berjaya disimpan.",
     "Saving": "Sedang menyimpan \u2026",

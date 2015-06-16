@@ -1840,7 +1840,7 @@ __GGB__keysVar.hr.menu = {
     "SaveCurrentPerspective": "Spremi trenutni izgled",
     "SavePrintUndo": "Omogu\u0107i Spremi i Ispis",
     "SaveToGoogleDrive": "Spremi na Google Drive",
-    "SaveToSkyDrive": "Spremi na SkyDrive",
+    "SaveToSkyDrive": "Spremi na OneDrive",
     "SaveToXML": "Spremi u XML formatu",
     "SavedSuccessfully": "Uspje\u0161no spremljeno",
     "Saving": "Spremanje...",

@@ -1840,7 +1840,7 @@ __GGB__keysVar.et.menu = {
     "SaveCurrentPerspective": "Salvesta praegune perspektiiv",
     "SavePrintUndo": "Luba salvestamist ja printimist",
     "SaveToGoogleDrive": "Salvesta Google'i draivile",
-    "SaveToSkyDrive": "Salvesta SkyDraivi",
+    "SaveToSkyDrive": "Salvesta OneDraivi",
     "SaveToXML": "Salvesta XMLi",
     "SavedSuccessfully": "Edukalt salvestatud.",
     "Saving": "Salvestamine \u2026",

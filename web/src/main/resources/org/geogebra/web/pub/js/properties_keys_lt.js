@@ -1840,7 +1840,7 @@ __GGB__keysVar.lt.menu = {
     "SaveCurrentPerspective": "I\u0161saugoti \u0161i\u0105 perspektyv\u0105",
     "SavePrintUndo": "Leisti saugojim\u0105 bei spausdinim\u0105",
     "SaveToGoogleDrive": "I\u0161saugoti \u012f Google Drive",
-    "SaveToSkyDrive": "I\u0161saugoti SkyDrive",
+    "SaveToSkyDrive": "I\u0161saugoti OneDrive",
     "SaveToXML": "Saugoti XML formatu",
     "SavedSuccessfully": "I\u0161saugota s\u0117kmingai.",
     "Saving": "Saugoma \u2026",

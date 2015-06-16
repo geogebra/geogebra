@@ -1840,7 +1840,7 @@ __GGB__keysVar.pl.menu = {
     "SaveCurrentPerspective": "Zapisz Domy\u015blny Widok",
     "SavePrintUndo": "W\u0142\u0105cz Zapisz i Drukuj",
     "SaveToGoogleDrive": "Zapisz na Google Dysk",
-    "SaveToSkyDrive": "Zapisz do SkyDrive",
+    "SaveToSkyDrive": "Zapisz do OneDrive",
     "SaveToXML": "Zapisz jako XML",
     "SavedSuccessfully": "Zapisane.",
     "Saving": "Oszcz\u0119dno\u015bci \u2026",

@@ -1840,7 +1840,7 @@ __GGB__keysVar.eo.menu = {
     "SaveCurrentPerspective": "Save Current Perspective",
     "SavePrintUndo": "Enable Save & Print",
     "SaveToGoogleDrive": "Save to Google Drive",
-    "SaveToSkyDrive": "Save to SkyDrive",
+    "SaveToSkyDrive": "Save to OneDrive",
     "SaveToXML": "Konservi kiel XML",
     "SavedSuccessfully": "Saved successfully.",
     "Saving": "Saving \u2026",

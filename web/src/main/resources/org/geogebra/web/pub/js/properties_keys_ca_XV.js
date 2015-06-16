@@ -1840,7 +1840,7 @@ __GGB__keysVar.ca_XV.menu = {
     "SaveCurrentPerspective": "Guarda l'escenari actual",
     "SavePrintUndo": "Activa Guarda, Imprimix, Desf\xe9s",
     "SaveToGoogleDrive": "Guarda al Google Drive",
-    "SaveToSkyDrive": "Guarda a l'SkyDrive",
+    "SaveToSkyDrive": "Guarda a l'OneDrive",
     "SaveToXML": "Guarda en format XML",
     "SavedSuccessfully": "S'ha guardat correctament.",
     "Saving": "S'est\xe0 guardant\u2026",

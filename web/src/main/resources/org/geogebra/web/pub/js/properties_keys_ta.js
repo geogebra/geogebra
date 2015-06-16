@@ -1840,7 +1840,7 @@ __GGB__keysVar.ta.menu = {
     "SaveCurrentPerspective": "\u0ba8\u0b9f\u0baa\u0bcd\u0baa\u0bc1 \u0baa\u0bb0\u0baa\u0bcd \u0baa\u0bbe\u0bb0\u0bcd\u0bb5\u0bc8\u0baf\u0bc8 \u0b9a\u0bc7\u0bae\u0bbf\u0b95\u0bcd\u0b95",
     "SavePrintUndo": "Enable Save & Print",
     "SaveToGoogleDrive": "Save to Google Drive",
-    "SaveToSkyDrive": "Save to SkyDrive",
+    "SaveToSkyDrive": "Save to OneDrive",
     "SaveToXML": "XML-\u0bb2\u0bcd \u0b9a\u0bc7\u0bae\u0bbf",
     "SavedSuccessfully": "Saved successfully.",
     "Saving": "Saving \u2026",

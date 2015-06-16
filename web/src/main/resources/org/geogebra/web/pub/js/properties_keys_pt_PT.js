@@ -1840,7 +1840,7 @@ __GGB__keysVar.pt_PT.menu = {
     "SaveCurrentPerspective": "Gravar a Configura\xe7\xe3o Atual",
     "SavePrintUndo": "Permitir Grava\xe7\xe3o/Impress\xe3o",
     "SaveToGoogleDrive": "Gravar para o Google Drive",
-    "SaveToSkyDrive": "Gravar para o SkyDrive",
+    "SaveToSkyDrive": "Gravar para o OneDrive",
     "SaveToXML": "Gravar em formato XML",
     "SavedSuccessfully": "Gravado com sucesso.",
     "Saving": "A gravar \u2026",

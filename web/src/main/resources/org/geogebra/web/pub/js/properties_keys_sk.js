@@ -1840,7 +1840,7 @@ __GGB__keysVar.sk.menu = {
     "SaveCurrentPerspective": "Ulo\u017ei\u0165 aktu\xe1lnu perspekt\xedvu",
     "SavePrintUndo": "Povoli\u0165 ulo\u017eenie a tla\u010d",
     "SaveToGoogleDrive": "Ulo\u017ei\u0165 do Google Drive",
-    "SaveToSkyDrive": "Ulo\u017ei\u0165 do SkyDrive",
+    "SaveToSkyDrive": "Ulo\u017ei\u0165 do OneDrive",
     "SaveToXML": "Ulo\u017ei\u0165 do XML",
     "SavedSuccessfully": "Ulo\u017eenie bolo \xfaspe\u0161n\xe9.",
     "Saving": "Ukl\xe1dam \u2026",

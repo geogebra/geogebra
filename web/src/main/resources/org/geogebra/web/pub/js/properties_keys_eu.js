@@ -1840,7 +1840,7 @@ __GGB__keysVar.eu.menu = {
     "SaveCurrentPerspective": "Gorde Uneko Antolaketa",
     "SavePrintUndo": "Gaitu Gorde eta Inprimatu",
     "SaveToGoogleDrive": "Google Drive-en gorde",
-    "SaveToSkyDrive": "SkyDriven gorde",
+    "SaveToSkyDrive": "OneDriven gorde",
     "SaveToXML": "Gorde XML eran",
     "SavedSuccessfully": "Aldaketak ongi gorde dira.",
     "Saving": "Gordetzen \u2026",

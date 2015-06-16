@@ -1840,7 +1840,7 @@ __GGB__keysVar.it.menu = {
     "SaveCurrentPerspective": "Salva la Raccolta corrente",
     "SavePrintUndo": "Consenti Salva e Stampa",
     "SaveToGoogleDrive": "Salva in Google Drive",
-    "SaveToSkyDrive": "Salva in SkyDrive",
+    "SaveToSkyDrive": "Salva in OneDrive",
     "SaveToXML": "Salva in XML",
     "SavedSuccessfully": "Salvataggio eseguito.",
     "Saving": "Salvataggio in corso\u2026",

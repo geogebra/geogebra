@@ -1840,7 +1840,7 @@ __GGB__keysVar.ro.menu = {
     "SaveCurrentPerspective": "Salvare perspectiv\u0103 curent\u0103",
     "SavePrintUndo": "Activare Salvare & Imprimare",
     "SaveToGoogleDrive": "Salveaz\u0103 \xeen Google Drive",
-    "SaveToSkyDrive": "Salveaz\u0103 pe SkyDrive",
+    "SaveToSkyDrive": "Salveaz\u0103 pe OneDrive",
     "SaveToXML": "Salveaz\u0103 \xeen XML",
     "SavedSuccessfully": "Salvat cu succes.",
     "Saving": "Se salveaz\u0103 \u2026",

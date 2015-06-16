@@ -1840,7 +1840,7 @@ __GGB__keysVar.si.menu = {
     "SaveCurrentPerspective": "\u0db4\u0dc0\u0dad\u0dd2\u0db1 \u0daf\u0dd8\u0dc2\u0dca\u0da7\u0dd2 \u0d9a\u0ddd\u0dab\u0dba \u0dc3\u0dd4\u0dbb\u0d9a\u0dd2\u0db1\u0dca\u0db1",
     "SavePrintUndo": "Enable Save & Print",
     "SaveToGoogleDrive": "Save to Google Drive",
-    "SaveToSkyDrive": "Save to SkyDrive",
+    "SaveToSkyDrive": "Save to OneDrive",
     "SaveToXML": "Save to XML",
     "SavedSuccessfully": "Saved successfully.",
     "Saving": "Saving \u2026",

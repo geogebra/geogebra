@@ -1840,7 +1840,7 @@ __GGB__keysVar.gl.menu = {
     "SaveCurrentPerspective": "Gardar a perspectiva actual",
     "SavePrintUndo": "Habilita gardar e imprimir",
     "SaveToGoogleDrive": "Garda en Google Drive",
-    "SaveToSkyDrive": "Gardar en SkyDrive",
+    "SaveToSkyDrive": "Gardar en OneDrive",
     "SaveToXML": "Garda como XML",
     "SavedSuccessfully": "Gardado con \xe9xito.",
     "Saving": "Gardando \u2026",

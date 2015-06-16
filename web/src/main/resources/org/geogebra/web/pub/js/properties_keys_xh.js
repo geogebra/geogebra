@@ -1840,7 +1840,7 @@ __GGB__keysVar.xh.menu = {
     "SaveCurrentPerspective": "Gcina leMbonakalo",
     "SavePrintUndo": "YenzaIkwazeke Gcina & uPrinte",
     "SaveToGoogleDrive": "Gcina kuGoogle Drive",
-    "SaveToSkyDrive": "Gcina kuSkyDrive",
+    "SaveToSkyDrive": "Gcina kuOneDrive",
     "SaveToXML": "Gcina ku XML",
     "SavedSuccessfully": "Igcinwe ngempumelelo",
     "Saving": "IyaGcina ngoku \u2026",

@@ -1840,7 +1840,7 @@ __GGB__keysVar.sl.menu = {
     "SaveCurrentPerspective": "Shrani trenutni izgled",
     "SavePrintUndo": "Dovoli shranjevanje in tiskanje",
     "SaveToGoogleDrive": "Shrani na Google Drive",
-    "SaveToSkyDrive": "Shrani na SkyDrive",
+    "SaveToSkyDrive": "Shrani na OneDrive",
     "SaveToXML": "Shrani v XML",
     "SavedSuccessfully": "Uspe\u0161no shranjeno.",
     "Saving": "Shranjevanje \u2026",

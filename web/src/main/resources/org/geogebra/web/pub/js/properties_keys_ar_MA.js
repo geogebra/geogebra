@@ -1840,7 +1840,7 @@ __GGB__keysVar.ar_MA.menu = {
     "SaveCurrentPerspective": "\u062d\u0641\u0638 \u0627\u0644\u0645\u0646\u0638\u0648\u0631 \u0627\u0644\u062d\u0627\u0644\u064a",
     "SavePrintUndo": "\u0627\u0644\u0633\u0645\u0627\u062d \u0628\u0627\u0644\u062d\u0641\u0637\u060c \u0627\u0644\u0637\u0628\u0639 \u0648 \u0627\u0644\u0625\u0644\u063a\u0627\u0621",
     "SaveToGoogleDrive": "Google \u062d\u0641\u0638 \u0641\u064a \u0645\u062d\u0631\u0643",
-    "SaveToSkyDrive": "Save to SkyDrive",
+    "SaveToSkyDrive": "Save to OneDrive",
     "SaveToXML": "XML \u062d\u0641\u0638 \u0641\u064a",
     "SavedSuccessfully": "Saved successfully.",
     "Saving": "Saving \u2026",

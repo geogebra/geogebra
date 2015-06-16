@@ -1840,7 +1840,7 @@ __GGB__keysVar.is.menu = {
     "SaveCurrentPerspective": "Vista n\xfavarandi r\xfams\xfdn",
     "SavePrintUndo": "Leyfa a\xf0 vista, prenta og h\xe6tta vi\xf0",
     "SaveToGoogleDrive": "Vista \xe1 Google Drive",
-    "SaveToSkyDrive": "Save to SkyDrive",
+    "SaveToSkyDrive": "Save to OneDrive",
     "SaveToXML": "Vista \xed XML",
     "SavedSuccessfully": "Saved successfully.",
     "Saving": "Saving \u2026",

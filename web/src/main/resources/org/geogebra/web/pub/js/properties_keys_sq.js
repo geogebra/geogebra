@@ -1840,7 +1840,7 @@ __GGB__keysVar.sq.menu = {
     "SaveCurrentPerspective": "Ruaj Perspektiven e Tanishme",
     "SavePrintUndo": "Lejo Ruajtje, Printo & Cbej",
     "SaveToGoogleDrive": "Ruaj ne ndarjen e Google",
-    "SaveToSkyDrive": "Save to SkyDrive",
+    "SaveToSkyDrive": "Save to OneDrive",
     "SaveToXML": "Ruaj ne XML",
     "SavedSuccessfully": "Saved successfully.",
     "Saving": "Saving \u2026",

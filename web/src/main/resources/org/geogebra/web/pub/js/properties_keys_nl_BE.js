@@ -1840,7 +1840,7 @@ __GGB__keysVar.nl_BE.menu = {
     "SaveCurrentPerspective": "Bewaar huidig perspectief",
     "SavePrintUndo": "Inschakelen Bewaren, Afdrukken en Ongedaan maken",
     "SaveToGoogleDrive": "Bewaren op Google Drive",
-    "SaveToSkyDrive": "Bewaar op SkyDrive",
+    "SaveToSkyDrive": "Bewaar op OneDrive",
     "SaveToXML": "Bewaar als XML",
     "SavedSuccessfully": "Met succes opgeslagen.",
     "Saving": "Bewaren \u2026",

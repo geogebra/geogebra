@@ -1840,7 +1840,7 @@ __GGB__keysVar.es_ES.menu = {
     "SaveCurrentPerspective": "Guardar la Apariencia actual",
     "SavePrintUndo": "Permitir Guardar e Imprimir",
     "SaveToGoogleDrive": "Guardar en Google Drive",
-    "SaveToSkyDrive": "Guardar en SkyDrive",
+    "SaveToSkyDrive": "Guardar en OneDrive",
     "SaveToXML": "Guardar como XML",
     "SavedSuccessfully": "Guardado con \xe9xito.",
     "Saving": "Guardando \u2026",

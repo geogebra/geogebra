@@ -1840,7 +1840,7 @@ __GGB__keysVar.sv.menu = {
     "SaveCurrentPerspective": "Spara Perspektiv",
     "SavePrintUndo": "Till\xe5t Spara och Skriv ut",
     "SaveToGoogleDrive": "Spara till Google Drive",
-    "SaveToSkyDrive": "Spara till SkyDrive",
+    "SaveToSkyDrive": "Spara till OneDrive",
     "SaveToXML": "Spara till XML",
     "SavedSuccessfully": "Sparad.",
     "Saving": "Sparar...",

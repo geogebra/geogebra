@@ -1840,7 +1840,7 @@ __GGB__keysVar.lv.menu = {
     "SaveCurrentPerspective": "Saglab\u0101t eso\u0161o Perspekt\u012bvu",
     "SavePrintUndo": "Nav iesp\u0113jams saglab\u0101t & izprint\u0113t",
     "SaveToGoogleDrive": "Saglab\u0101t Google Drive",
-    "SaveToSkyDrive": "Saglab\u0101t SkyDrive",
+    "SaveToSkyDrive": "Saglab\u0101t OneDrive",
     "SaveToXML": "Saglab\u0101t XML",
     "SavedSuccessfully": "Veiksm\u012bgi saglab\u0101ts",
     "Saving": "Saglab\u0101 \u2026",
