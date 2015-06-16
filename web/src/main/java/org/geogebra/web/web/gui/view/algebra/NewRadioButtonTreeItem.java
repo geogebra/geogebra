@@ -440,6 +440,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (this.xButton == null) {
 			return;
 		}
+		// xButton.setVisible(show);
 		Element showSymbolElement = this.xButton.getElement();
 		// App.debug("AF focused" + show);
 		if (showSymbolElement != null
@@ -457,6 +458,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (this.pButton == null) {
 			return;
 		}
+		// pButton.setVisible(show);
 		showSymbolElement = this.pButton.getElement();
 		if (showSymbolElement != null
 				&& "true"
@@ -490,32 +492,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	void updateGUIfocus(Object source, boolean blurtrue) {
 		((AlgebraViewW) av).setActiveTreeItem(null);
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
-			// TODO: maybe remove this code?
 			((AlgebraDockPanelW) app.getGuiManager().getLayout()
 					.getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.showStyleBarPanel(blurtrue);
-
-			// in case things are created, and then deleted again,
-			// this might be useful addition: but no, it is not!
-			// if (((AlgebraViewW) av).getStyleBar(true).isVisible() !=
-			// blurtrue) {
-			// ((AlgebraViewW) av).getStyleBar(true).setVisible(blurtrue);
-			// if (blurtrue) {
-			// ((AlgebraViewW) av).getStyleBar(true).update(null);
-			// }
-			// }
 		} else {
-			// the else branch is important since no onBlur on blur!
-			// note: but there is onBlur on setFocus, so is this needed?
 			((AlgebraDockPanelW) app.getGuiManager().getLayout()
 					.getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.showStyleBarPanel(true);
-
-			// no need for change in this case, behaviour was good
-			// if (!((AlgebraViewW) av).getStyleBar(true).isVisible()) {
-			// ((AlgebraViewW) av).getStyleBar(true).setVisible(true);
-			// ((AlgebraViewW) av).getStyleBar(true).update(null);
-			// }
 		}
 
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, !blurtrue);

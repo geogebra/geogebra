@@ -1231,15 +1231,13 @@ public class AlgebraViewW extends Tree implements LayerView,
 		if ((!app.getLocalization().getLanguage().equals("ko")
  || app
 				.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
+			boolean appletHack = false;
 			if (inputPanelLatex == null) {
 				inputPanelLatex = new NewRadioButtonTreeItem(kernel);
 				forceKeyboard = app.getArticleElement()
 						.getDataParamBase64String().length() == 0;
 
-				if (!isNodeTableEmpty() && !App.isFullAppGui()) {
-					AutoCompleteTextFieldW.showSymbolButtonIfExists(
-							inputPanelLatex, true);
-				}
+				appletHack = !App.isFullAppGui();
 			} else {
 				inputPanelLatex.removeFromParent();
 			}
@@ -1248,6 +1246,15 @@ public class AlgebraViewW extends Tree implements LayerView,
 			inputPanelLatex.getElement().getParentElement()
 			        .addClassName("NewRadioButtonTreeItemParent");
 			inputPanelLatex.replaceXButtonDOM();
+
+			if (appletHack) {
+				if (!isNodeTableEmpty()) {
+					AutoCompleteTextFieldW.showSymbolButtonIfExists(
+							inputPanelLatex, true);
+				} else {
+					inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
+				}
+			}
 		}
 		if(inputPanel != null){
 			//make sure we do not trigger long touch here
@@ -1304,16 +1311,14 @@ public class AlgebraViewW extends Tree implements LayerView,
 			if ((!app.getLocalization().getLanguage().equals("ko")
  || app
 					.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
+				boolean appletHack = false;
 				if (inputPanelLatex == null) {
 					inputPanelLatex = new NewRadioButtonTreeItem(kernel);
 
 					// open the keyboard (or show the keyboard-open-button) at
 					// when the application is started
 
-					if (!isNodeTableEmpty() && !App.isFullAppGui()) {
-						AutoCompleteTextFieldW.showSymbolButtonIfExists(
-								inputPanelLatex, true);
-					}
+					appletHack = !App.isFullAppGui();
 				} else {
 					inputPanelLatex.removeFromParent();
 				}
@@ -1330,6 +1335,14 @@ public class AlgebraViewW extends Tree implements LayerView,
 				inputPanelLatex.getElement().getParentElement()
 				        .addClassName("NewRadioButtonTreeItemParent");
 				inputPanelLatex.replaceXButtonDOM();
+				if (appletHack) {
+					if (!isNodeTableEmpty()) {
+						AutoCompleteTextFieldW.showSymbolButtonIfExists(
+								inputPanelLatex, true);
+					} else {
+						inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
+					}
+				}
 			} else {
 				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 			}
