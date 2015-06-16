@@ -1502,7 +1502,7 @@ GeoContainer rbti,
 				// is really successful! i.e. return true as old behaviour
 				stornoFormulaMathQuillGGB(rbti, parentElement);
 				// now update GUI!
-				rbti.typing(true, false);
+				// rbti.typing(true, false);
 			}
 		};
 		// return value is not reliable, callback is

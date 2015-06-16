@@ -109,7 +109,12 @@ public class AlgebraViewW extends Tree implements LayerView,
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
 	private GeoElement lastSelectedGeo = null;
-	protected HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(500);
+
+	// although Java also allowed protected, NewRadioButtonTreeItem can use
+	// package private
+	HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(
+			500);
+
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private StringBuilder sbXML;
 
@@ -926,11 +931,6 @@ public class AlgebraViewW extends Tree implements LayerView,
 	 */
 	public void add(GeoElement geo) {
 		add(geo, -1);
-
-		if (getInputTreeItem() != null) {
-			// focused style by default
-			getInputTreeItem().typing(true, false);
-		}
 	}
 
 	private void add(GeoElement geo, int forceLayer) {
@@ -1024,11 +1024,6 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 		if (node != null) {
 			removeFromModel(node);
-		}
-
-		if (getInputTreeItem() != null) {
-			// focused style by default
-			getInputTreeItem().typing(true, false);
 		}
 	}
 

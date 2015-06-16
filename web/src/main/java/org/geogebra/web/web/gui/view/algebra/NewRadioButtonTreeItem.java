@@ -169,6 +169,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			// ClickHandler is Okay here, but maybe MouseDownHandler is better?
 			actual.addDomHandler(new ClickHandler() {
 				public void onClick(ClickEvent ce) {
+					ce.stopPropagation();
 					specialPopup.setVisible(false);
 					EuclidianStyleBarW.CURRENT_POP_UP = null;
 
@@ -185,6 +186,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 						};
 						tim.schedule(500);
 					}
+					updateGUIfocus(NewRadioButtonTreeItem.this, false);
 				}
 			}, ClickEvent.getType());
 			itemList.add(actual);
@@ -194,6 +196,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			actual.add(new Label(app.getMenu("Matrix")));
 			actual.addDomHandler(new ClickHandler() {
 				public void onClick(ClickEvent ce) {
+					ce.stopPropagation();
 					specialPopup.setVisible(false);
 					EuclidianStyleBarW.CURRENT_POP_UP = null;
 
@@ -218,6 +221,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					// 200ms is not enough, and as this is a good machine
 					// let us say that 500ms is just right, or maybe too little
 					// on slow machines -> shall we use scheduleDeferred too?
+					updateGUIfocus(NewRadioButtonTreeItem.this, false);
 				}
 			}, ClickEvent.getType());
 			itemList.add(actual);
@@ -227,6 +231,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			actual.add(new Label(app.getPlain("CurveCartesian")));
 			actual.addDomHandler(new ClickHandler() {
 				public void onClick(ClickEvent ce) {
+					ce.stopPropagation();
 					specialPopup.setVisible(false);
 					EuclidianStyleBarW.CURRENT_POP_UP = null;
 
@@ -243,6 +248,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 						};
 						tim.schedule(500);
 					}
+					updateGUIfocus(NewRadioButtonTreeItem.this, false);
 				}
 			}, ClickEvent.getType());
 			itemList.add(actual);
@@ -430,12 +436,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			return;
 		}
 
-		if (buttonPanel.isVisible() && show && !firstTimeShowPopup) {
+		if (buttonPanel.isVisible() && show && !firstTimeShowPopup
+				&& (pButton != null)) {
 			if (xButton != null) {
 				xButton.setVisible(show);
 			}
 			return;
-		} else if (!buttonPanel.isVisible() && !show && !firstTimeShowPopup) {
+		} else if (!buttonPanel.isVisible() && !show && !firstTimeShowPopup
+				&& (pButton != null)) {
 			if (xButton != null) {
 				xButton.setVisible(show);
 			}
@@ -503,6 +511,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
 			// #5245#comment:8, cases B and C excluded
 			updateGUIfocus(event == null ? this : event.getSource(), false);
+		} else if (((AlgebraViewW) av).nodeTable.size() == 1) {
+			// maybe a new element has just been created?
+			// note: we are not doing this on blur!
+			updateGUIfocus(event == null ? this : event.getSource(), false);
+		} else {
+			// note: we are not doing this on blur!
+			typing(false, false);
 		}
 
 		app.getSelectionManager().clearSelectedGeos();
@@ -527,6 +542,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			if ("".equals(getText().trim())) {
 				if (this.xButton != null) {
 					this.xButton.setVisible(false);
+					if (pButton == null) {
+						this.buttonPanel.setVisible(false);
+					}
 				}
 			} else {
 				if (this.xButton != null) {
@@ -644,17 +662,27 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (heuristic) {
 			// something typed - surely true
 			if (xButton != null) {
-				xButton.setVisible(true);
+				if (pButton == null) {
+					updateGUIfocus(this, false);
+				} else {
+					xButton.setVisible(true);
+				}
 			}
 		}
 		// nothing typed - maybe true?
-		if ("".equals(getText().trim())) {
-			if (xButton != null) {
+		if (xButton != null) {
+			if ("".equals(getText().trim())) {
 				xButton.setVisible(false);
-			}
-		} else {
-			if (xButton != null) {
-				xButton.setVisible(true);
+				if (pButton == null) {
+					buttonPanel.setVisible(false);
+					// updateGUIfocus(this, true);
+				}
+			} else {
+				if (pButton == null) {
+					updateGUIfocus(this, false);
+				} else {
+					xButton.setVisible(true);
+				}
 			}
 		}
 	}

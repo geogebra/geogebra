@@ -467,11 +467,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			public void onMouseDown(MouseDownEvent event) {
 				event.stopPropagation();
 				ge.remove();
-				// now update GUI!
-				// redundant as it is called in av.remove...
-				// better, since geoElements can be removed
-				// in other ways as well
-				// ((AlgebraViewW) av).getInputTreeItem().typing(true, false);
 			}
 		});
 
