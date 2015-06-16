@@ -10,6 +10,7 @@ import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.cas.giac.PNaCl;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.html5.util.Dom;
@@ -28,7 +29,11 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
@@ -106,6 +111,39 @@ public class Tablet implements EntryPoint {
 
 		// setLocaleToQueryParam();
 
+		run();
+
+		// just debug for now
+		PNaCl.exportPNaCltoConsole();
+
+		// phoneGap.initializePhoneGap();
+		Web.registerSuperdevExceptionHandler();
+	}
+
+	private void run() {
+		// native preview handlers independent from app/applet
+		// maybe better than putting into both GeoGebraFrame / GeoGebraAppFrame
+		// edit: maybe put this at the end of this method in production builds?
+		Event.addNativePreviewHandler(new NativePreviewHandler() {
+			public void onPreviewNativeEvent(NativePreviewEvent event) {
+				NativeEvent ne;
+				switch (event.getTypeInt()) {
+				// case Event.ONKEYDOWN:
+				// ne = event.getNativeEvent();
+				// break;
+				case Event.ONTOUCHSTART:
+					// guess it's similar to ONMOUSEDOWN in Web.java
+					ne = event.getNativeEvent();
+					DrawEquationWeb.escEditingWhenMouseDownElsewhere();
+					// do not prevent default or change default behaviour
+					// in any case! this is just an "extra"
+					break;
+				default:
+					break;
+				}
+			}
+		});
+
 		if (!Tablet.checkAppNeeded()) {
 			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
@@ -116,12 +154,6 @@ public class Tablet implements EntryPoint {
 		} else {
 			loadAppAsync();
 		}
-
-		// just debug for now
-		PNaCl.exportPNaCltoConsole();
-
-		// phoneGap.initializePhoneGap();
-		Web.registerSuperdevExceptionHandler();
 	}
 
 	public static void goBack() {
