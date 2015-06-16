@@ -256,4 +256,12 @@ public class InputLeo3D implements Input3D {
 	public boolean wantsStereo() {
 		return true;
 	}
+
+	public double getDefaultRotationOz() {
+		return EuclidianView3D.ANGLE_ROT_OZ;
+	}
+
+	public double getDefaultRotationXOY() {
+		return EuclidianView3D.ANGLE_ROT_XOY;
+	}
 }

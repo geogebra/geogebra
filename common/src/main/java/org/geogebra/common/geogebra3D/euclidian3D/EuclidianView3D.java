@@ -1767,6 +1767,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	/**
+	 * rotate to default
+	 */
+	public void setDefaultRotAnimation() {
+		setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
+				EuclidianView3D.ANGLE_ROT_XOY, false);
+	}
+
+	/**
 	 * start a rotation animation to go to the new values
 	 * 
 	 * @param aN

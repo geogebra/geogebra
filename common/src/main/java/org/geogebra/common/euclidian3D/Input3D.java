@@ -210,4 +210,16 @@ public interface Input3D {
 	 */
 	public boolean wantsStereo();
 
+	/**
+	 * 
+	 * @return default rotation angle for Oz
+	 */
+	public double getDefaultRotationOz();
+
+	/**
+	 * 
+	 * @return default rotation angle for xOy
+	 */
+	public double getDefaultRotationXOY();
+
 }

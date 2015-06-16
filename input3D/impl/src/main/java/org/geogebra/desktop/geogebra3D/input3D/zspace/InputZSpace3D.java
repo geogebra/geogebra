@@ -233,4 +233,12 @@ public class InputZSpace3D implements Input3D {
 		return socket.wantsStereo;
 	}
 
+	public double getDefaultRotationOz() {
+		return 270;
+	}
+
+	public double getDefaultRotationXOY() {
+		return 60;
+	}
+
 }

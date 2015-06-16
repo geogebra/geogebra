@@ -113,8 +113,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 				getView().setRotAnimation(0, 0, true);
 				break;
 			case 3:
-				getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
-						EuclidianView3D.ANGLE_ROT_XOY, false);
+				getView().setDefaultRotAnimation();
 				break;
 			}
 		} else if (source.equals(btnViewProjection)) {
