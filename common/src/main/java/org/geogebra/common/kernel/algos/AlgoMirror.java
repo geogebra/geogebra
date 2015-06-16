@@ -495,9 +495,13 @@ public class AlgoMirror extends AlgoTransformation implements
 				botanaPolynomials[1] = v2.multiply(new Polynomial(2))
 						.subtract(c_2).subtract(c2);
 
-				Variable[] A = l.getStartPoint().getBotanaVars(
-						l.getStartPoint());
-				Variable[] B = l.getEndPoint().getBotanaVars(l.getEndPoint());
+				//
+				Variable[] A = new Variable[2];
+				A[0] = vL[0];
+				A[1] = vL[1];
+				Variable[] B = new Variable[2];
+				B[0] = vL[2];
+				B[1] = vL[3];
 
 				// A,V,B collinear
 				botanaPolynomials[2] = Polynomial.collinear(A[0], A[1], B[0],

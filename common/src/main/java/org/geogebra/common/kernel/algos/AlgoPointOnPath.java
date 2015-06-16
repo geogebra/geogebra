@@ -324,6 +324,37 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo,
 						fv[0], fv[1], botanaVars[0], botanaVars[1]);
 				return botanaPolynomials;
 			}
+			if (((GeoConic) input[0]).isParabola()) {
+				if (botanaVars == null) {
+					botanaVars = new Variable[4];
+					// point P on parabola
+					botanaVars[0] = new Variable(true);
+					botanaVars[1] = new Variable();
+					// T- projection of P on AB
+					botanaVars[2] = new Variable();
+					botanaVars[3] = new Variable();
+				}
+				Variable[] vparabola = ((SymbolicParametersBotanaAlgo) input[0])
+						.getBotanaVars(input[0]);
+				botanaPolynomials = new Polynomial[3];
+
+				// FP = PT
+				botanaPolynomials[0] = Polynomial.equidistant(vparabola[10],
+						vparabola[11], botanaVars[0], botanaVars[1],
+						botanaVars[2], botanaVars[3]);
+
+				// A,T,B collinear
+				botanaPolynomials[1] = Polynomial.collinear(vparabola[6],
+						vparabola[7], botanaVars[2], botanaVars[3],
+						vparabola[8], vparabola[9]);
+
+				// PT orthogonal AB
+				botanaPolynomials[2] = Polynomial.perpendicular(botanaVars[0],
+						botanaVars[1], botanaVars[2], botanaVars[3],
+						vparabola[6], vparabola[7], vparabola[8], vparabola[9]);
+
+				return botanaPolynomials;
+			}
 		}
 
 		throw new NoSymbolicParametersException();
