@@ -311,7 +311,9 @@ public class FileManagerW extends FileManager {
 			a.style = "display: none";
 			a.href = url;
 			a.download = title;
-			a.click();
+			$wnd.setTimeout(function() {
+				a.click()
+			}, 1000);
 		}
 
 	}-*/;
