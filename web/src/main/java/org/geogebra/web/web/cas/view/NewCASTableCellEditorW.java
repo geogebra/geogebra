@@ -237,7 +237,7 @@ public class NewCASTableCellEditorW extends Label implements
 		}
 		// TODO Auto-generated method stub
 		App.debug("STOPPED" + input2 + "," + latex);
-		this.editor.addToHistory(input2, latex);
+		this.editor.addToHistory(input2, dollarFix(latex));
 		this.ml.handleEnterKey(false, false, app);
 		return false;
 	}
@@ -321,7 +321,11 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public String getLaTeX() {
-		return DrawEquationWeb.getActualEditedValue(seMayLaTeX, true);
+		return dollarFix(DrawEquationWeb.getActualEditedValue(seMayLaTeX, true));
+	}
+
+	private String dollarFix(String actualEditedValue) {
+		return actualEditedValue.replace("$", "\\$");
 	}
 
 	public void setAutocomplete(boolean autocomplete) {

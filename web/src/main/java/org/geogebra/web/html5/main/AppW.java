@@ -102,7 +102,6 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -2358,15 +2357,9 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
-	protected PopupBlockAvoider popupBlockAvoider;
 	@Override
 	public void showURLinBrowser(final String pageUrl) {
-		if (popupBlockAvoider == null) {
-			Window.open(pageUrl, "_blank", "");
-		} else {
-			popupBlockAvoider.openURL(pageUrl);
-			popupBlockAvoider = null;
-		}
+		Window.open(pageUrl, "_blank", "");
 		debug("opening: " + pageUrl);
 
 		// assume showURLinBrowserWaiterFixedDelay is called before
