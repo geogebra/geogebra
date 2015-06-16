@@ -1098,7 +1098,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		if (newValue0 != null) {
 			String newValue = stopCommon(newValue0);
-
 			// not sure why it is needed... TODO: is this needed?
 			newValue.replace(" ", "");
 
@@ -1323,8 +1322,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	protected boolean shouldEditLaTeX() {
 		return (LaTeX || geo.isGeoPoint() || geo.isGeoNumeric())
-				&& !geo.isGeoVector()
-				&& (geo.isIndependent() || (geo.getParentAlgorithm() instanceof AlgoCurveCartesian));
+				&& !(geo.isGeoVector() && geo.isGeoElement3D())
+				&& (geo.isIndependent()
+						|| (geo.getParentAlgorithm() instanceof AlgoCurveCartesian) || geo
+							.isPointOnPath());
 		// AlgoCurveCartesian3D is an instance of AlgoCurveCartesian too
 	}
 
