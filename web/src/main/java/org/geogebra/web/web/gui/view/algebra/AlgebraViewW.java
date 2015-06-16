@@ -926,6 +926,11 @@ public class AlgebraViewW extends Tree implements LayerView,
 	 */
 	public void add(GeoElement geo) {
 		add(geo, -1);
+
+		if (getInputTreeItem() != null) {
+			// focused style by default
+			getInputTreeItem().typing(true, false);
+		}
 	}
 
 	private void add(GeoElement geo, int forceLayer) {
@@ -1019,6 +1024,11 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 		if (node != null) {
 			removeFromModel(node);
+		}
+
+		if (getInputTreeItem() != null) {
+			// focused style by default
+			getInputTreeItem().typing(true, false);
 		}
 	}
 
