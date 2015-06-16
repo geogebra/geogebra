@@ -1394,7 +1394,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (time - latestTouchEndTime < 500) {
 			// ctrl key, shift key for TouchEndEvent? interesting...
 			latestTouchEndTime = time;
-			if (!newCreationMode) {
+			if (!commonEditingCheck()) {
 				onDoubleClickAction(false // event.isControlKeyDown(),
 				// event.isShiftKeyDown()
 				);
