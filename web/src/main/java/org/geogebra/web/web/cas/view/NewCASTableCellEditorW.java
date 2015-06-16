@@ -324,13 +324,13 @@ public class NewCASTableCellEditorW extends Label implements
 		return DrawEquationWeb.getActualEditedValue(seMayLaTeX, true);
 	}
 
-	public void setAutocomplete(boolean b) {
-		if (b) {
-			this.seMayLaTeX.addClassName("noDots");
+	public void setAutocomplete(boolean autocomplete) {
+		if (!autocomplete) {
+			this.getElement().addClassName("noDots");
 		} else {
-			this.seMayLaTeX.removeClassName("noDots");
+			this.getElement().removeClassName("noDots");
 		}
-		this.autocomplete = b;
+		this.autocomplete = autocomplete;
 
 	}
 }
