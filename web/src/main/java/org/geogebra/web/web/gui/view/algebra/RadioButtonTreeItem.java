@@ -1568,9 +1568,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			((AlgebraViewW) this.av).getStyleBar(false).update(this.getGeo());
 		}
 
+		// note that this is only called when we are not doing editing!
 		addDeleteButton();
 	}
 
+	/**
+	 * This method shall only be called when we are not doing editing, so this
+	 * is for the delete button at selection
+	 */
 	private void addDeleteButton() {
 
 		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
@@ -1689,7 +1694,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		this.getElement().scrollIntoView();
 	}
 
-	public void typing(boolean heuristic) {
+	public void typing(boolean updateGUI, boolean heuristic) {
 		// to be overridden in NewRadioButtonTreeItem,
 		// to know whether it's empty, whether to show Xbutton
 	}

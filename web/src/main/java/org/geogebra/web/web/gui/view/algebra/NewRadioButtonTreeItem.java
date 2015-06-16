@@ -500,7 +500,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			}
 		// }
 
-		updateGUIfocus(event == null ? this : event.getSource(), false);
+		if (((AlgebraViewW) av).isNodeTableEmpty()) {
+			// #5245#comment:8, cases B and C excluded
+			updateGUIfocus(event == null ? this : event.getSource(), false);
+		}
 
 		app.getSelectionManager().clearSelectedGeos();
 
@@ -563,7 +566,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 			//ihtml.getElement().insertFirst(dummyLabel.getElement());
 
-			updateGUIfocus(event == null ? this : event.getSource(), true);
+			if (((AlgebraViewW) av).isNodeTableEmpty()) {
+				// #5245#comment:8, cases B and C excluded
+				updateGUIfocus(event == null ? this : event.getSource(), true);
+			}
 		}
 	}
 
@@ -630,7 +636,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	@Override
-	public void typing(boolean heuristic) {
+	public void typing(boolean updateGUI, boolean heuristic) {
+		if (updateGUI) {
+			// this makes sure things will be visible
+			updateGUIfocus(this, false);
+		}
 		if (heuristic) {
 			// something typed - surely true
 			if (xButton != null) {
@@ -639,11 +649,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 		// nothing typed - maybe true?
 		if ("".equals(getText().trim())) {
-			// this is a static method, and the same which is needed here too,
-			// so why duplicate the same thing in another copy?
-			// this will call the showPopup method, by the way
-			// showPopup(false);
-			// no, actually only make the xButton invisible!
 			if (xButton != null) {
 				xButton.setVisible(false);
 			}

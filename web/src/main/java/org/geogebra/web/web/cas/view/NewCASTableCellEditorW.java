@@ -312,7 +312,7 @@ public class NewCASTableCellEditorW extends Label implements
 		return false;
 	}
 
-	public void typing(boolean heuristic) {
+	public void typing(boolean updateGUI, boolean heuristic) {
 		// to be overridden in NewRadioButtonTreeItem,
 		// to know whether it's empty, whether to show Xbutton
 	}

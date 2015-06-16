@@ -940,9 +940,9 @@ GeoContainer rbti,
 								}
 							} else {
 								if ((code == 8) || (code == 32) || (code == 9)) { // backspace
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(false);
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZZ)(false, false);
 								} else {
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(true);
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZZ)(false, true);
 								}
 								// it would be counterproductive to call autoScroll and history popup
 								// after the editing/new formula creation ends! so put their code here
@@ -1501,6 +1501,8 @@ GeoContainer rbti,
 				// this should only be called when the new formula creation
 				// is really successful! i.e. return true as old behaviour
 				stornoFormulaMathQuillGGB(rbti, parentElement);
+				// now update GUI!
+				rbti.typing(true, false);
 			}
 		};
 		// return value is not reliable, callback is
