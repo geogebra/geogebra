@@ -584,6 +584,7 @@ public class MyList extends ValidExpression implements ListValue,
 		return null;
 	}
 
+
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl, true);

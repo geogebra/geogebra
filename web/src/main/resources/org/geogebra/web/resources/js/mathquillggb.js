@@ -3813,6 +3813,14 @@ var Bracket = P(MathCommand, function(_, _super) {
   };
 });
 
+var VBracket = P(HalfBracket, function(_, _super) { 
+	_.text = function() {
+	    return "vectorize("+_super.text.call(this) +")";
+	  };
+});
+LatexCmds.vectorize = bind(VBracket, '(', ')', '\\vectorize');
+
+
 LatexCmds.left = P(MathCommand, function(_) {
   _.parser = function() {
     var regex = Parser.regex;

@@ -282,6 +282,8 @@ public class ParserFunctions {
 		put(2, "ggbdiff", Operation.DIFF, null);
 		put(3, "ggbdiff", Operation.DIFF, null);
 		
+		put(1, "vectorize", Operation.MATRIXTOVECTOR, null);
+
 		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
 		RESERVED_FUNCTION_NAMES.add("freehand");
 

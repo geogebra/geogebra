@@ -678,14 +678,15 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			inputs[2] = kernel.format(z,tpl);
 		}
 
-		if(inputs.length == 3 && kernel.getApplication().isHTML5Applet()){
-			sb.append("\\openparenonly{\\closeparenonly{\\ggbtable{\\ggbtr{\\ggbtd{"); 
+		if (inputs.length == 3
+				&& kernel.getApplication().isLatexMathQuillStyle(tpl)) {
+			sb.append("\\vectorize{\\ggbtable{\\ggbtr{\\ggbtd{");
 			sb.append(inputs[0]); 
 			sb.append("}}\\ggbtr{\\ggbtd{"); 
 			sb.append(inputs[1]); 
 			sb.append("}}\\ggbtr{\\ggbtd{"); 
 			sb.append(inputs[2]); 
-			sb.append("}}}}}"); 
+			sb.append("}}}}");
 			return;
 		}
 		boolean alignOnDecimalPoint = true;
@@ -781,12 +782,13 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			// MathQuillGGB can't render v = \left( \begin{tabular}{r}-10 \\ 0 \\ \end{tabular} \right)
 			// so use eg \binom{ -10 }{ 0 } in web
 			// see #1987
-			if (inputs.length == 2 && kernel.getApplication().isHTML5Applet()) {
-				sb.append(" \\binom{ ");
+			if (inputs.length == 2
+					&& kernel.getApplication().isLatexMathQuillStyle(tpl)) {
+				sb.append("\\vectorize{\\ggbtable{\\ggbtr{\\ggbtd{");
 				sb.append(inputs[0]);
-				sb.append(" }{ ");
+				sb.append("}}\\ggbtr{\\ggbtd{");
 				sb.append(inputs[1]);
-				sb.append(" }");
+				sb.append("}}}}");
 				
 			} else {
 			

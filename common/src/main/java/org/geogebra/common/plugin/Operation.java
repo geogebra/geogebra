@@ -12,10 +12,12 @@ import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -25,6 +27,7 @@ import org.geogebra.common.kernel.kernelND.Geo3DVec;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -1569,6 +1572,28 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			return new MyDouble(ev.getKernel(), Double.NaN);
+		}
+	},
+	MATRIXTOVECTOR {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+
+			if (!(lt.unwrap() instanceof MyList)) {
+				return lt;
+			}
+
+			MyList list = (MyList) lt.unwrap();
+			Log.debug(list);
+			if (list.size() == 3) {
+				return new MyVec3DNode(ev.getKernel(), MyList.getCell(list, 0,
+						0),
+ MyList.getCell(list, 0, 1), MyList.getCell(list, 0,
+						2));
+			}
+			return new MyVecNode(ev.getKernel(), MyList.getCell(list, 0, 0),
+					MyList.getCell(list, 0, 1));
 		}
 	};
 
