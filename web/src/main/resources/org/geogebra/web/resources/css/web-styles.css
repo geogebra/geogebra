@@ -5818,7 +5818,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
 /* make sure popup glass pane hides KB button too*/
 div.openKeyboardButton{
-	z-index:99;
+	z-index:98;
 }
  
  
