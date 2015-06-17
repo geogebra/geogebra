@@ -598,6 +598,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			stylusBeam = new GeoSegment3D(getKernel().getConstruction());
 			stylusBeam.setCoord(Coords.O, Coords.VX);
 			stylusBeam.setObjColor(GColor.GREEN);
+			stylusBeam.setLineThickness(7);
 
 			stylusBeamDrawable = new DrawSegment3D(this, stylusBeam) {
 				@Override
