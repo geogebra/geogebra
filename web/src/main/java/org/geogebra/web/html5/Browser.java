@@ -262,4 +262,15 @@ public class Browser {
 	public native static boolean isIE10plus() /*-{
 		return !!$wnd.MSBlobBuilder;
 	}-*/;
+
+	public static native double getPixelRatio() /*-{
+		// TODO Auto-generated method stub
+		devicePixelRatio = window.devicePixelRatio || 1;
+		backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
+				|| testCtx.mozBackingStorePixelRatio
+				|| testCtx.msBackingStorePixelRatio
+				|| testCtx.oBackingStorePixelRatio
+				|| testCtx.backingStorePixelRatio || 1;
+		return devicePixelRatio / backingStorePixelRatio;
+	}-*/;
 }

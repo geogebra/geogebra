@@ -16,6 +16,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -40,6 +41,7 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
@@ -1896,6 +1898,7 @@ GeoContainer rbti,
 		return (DrawEquationWeb) rbti.getApplication().getDrawEquation();
 	}
 
+
 	public static Canvas paintOnCanvas(GeoElement geo, String text0, Canvas c,
 			int fontSize) {
 		if (geo == null) {
@@ -1908,12 +1911,17 @@ GeoContainer rbti,
 			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
 					c.getCoordinateSpaceHeight());
 		}
+		Context2d ctx = c.getContext2d();
 		TeXIcon icon = DrawEquationWeb.createIcon("\\mathsf{\\mathrm {" + text0
 				+ "}}", fontSize, GFont.PLAIN, false);
-		Graphics2DInterface g3 = new Graphics2DW(c.getContext2d());
+		Graphics2DInterface g3 = new Graphics2DW(ctx);
+		double ratio = Browser.getPixelRatio();
+		c.setCoordinateSpaceWidth((int) (icon.getIconWidth() * ratio));
+		c.setCoordinateSpaceHeight((int) (icon.getIconHeight() * ratio));
+		c.getElement().getStyle().setWidth(icon.getIconWidth(), Unit.PX);
+		c.getElement().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
+		g3.scale(ratio, ratio);
 
-		c.setCoordinateSpaceWidth(icon.getIconWidth());
-		c.setCoordinateSpaceHeight(icon.getIconHeight());
 		icon.paintIcon(new HasForegroundColor() {
 			@Override
 			public Color getForegroundColor() {
