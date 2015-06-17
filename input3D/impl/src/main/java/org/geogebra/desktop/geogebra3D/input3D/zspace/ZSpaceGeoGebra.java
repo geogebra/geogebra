@@ -616,8 +616,9 @@ public class ZSpaceGeoGebra {
 	 * @return true if it wants stereo
 	 */
 	public boolean wantsStereo() {
-		return System.currentTimeMillis() < lastGlassesDetection
-				+ TRACKER_NOT_DETECTED_MAX_DELAY;
+		return lastGlassesDetection > 0;
+		// return System.currentTimeMillis() < lastGlassesDetection
+		// + TRACKER_NOT_DETECTED_MAX_DELAY;
 	}
 
 	/**
