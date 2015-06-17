@@ -782,6 +782,26 @@ public class DrawEquationWeb extends DrawEquation {
 
 	}-*/;
 
+	public static void escEditingWhenMouseDownElsewhere(JavaScriptObject targ) {
+		if (currentWidget != null) {
+			// cases that do not escape editing:
+			if (targetHasFeature(targ, currentWidget.getElement(),
+					"MouseDownDoesntExitEditingFeature")) {
+				// 1. the widget itself...
+				// 2. any KeyboardButton ("false" includes that)
+				// 3. any AV helper icon ("false" includes that)
+				return;
+			}
+
+			// in this case, escape
+			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
+					currentElement);
+			// the above method will do these too
+			// currentWidget = null;
+			// currentElement = null;
+		}
+	}
+
 	public static void escEditingWhenMouseDownElsewhere() {
 		if (currentWidget != null) {
 			// cases that do not escape editing:
@@ -827,6 +847,31 @@ public class DrawEquationWeb extends DrawEquation {
 				}
 			});
 			return ret;
+		}
+
+		// no CSS class provided, or it is empty, mouse is over nothing significant
+		return false;
+	}-*/;
+
+	/**
+	 * If mouse is currently over Element el, OR mouse is currently over an
+	 * element with CSS class pure, e.g. "MouseDownDoesntExitEditingFeature"
+	 * 
+	 * @param el
+	 * @param pure
+	 * @return
+	 */
+	public static native boolean targetHasFeature(JavaScriptObject targ,
+			Element el, String pure) /*-{
+		if (el) {
+			if ($wnd.$ggbQuery(targ).parents().is(el)) {
+				return true;
+			}
+		}
+		if (pure) {
+			if ($wnd.$ggbQuery(targ).parents().is("." + pure)) {
+				return true;
+			}
 		}
 
 		// no CSS class provided, or it is empty, mouse is over nothing significant

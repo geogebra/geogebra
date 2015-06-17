@@ -133,8 +133,12 @@ public class Tablet implements EntryPoint {
 				// break;
 				case Event.ONTOUCHSTART:
 					// guess it's similar to ONMOUSEDOWN in Web.java
-					ne = event.getNativeEvent();
-					DrawEquationWeb.escEditingWhenMouseDownElsewhere();
+
+					// heuristic for hovering
+					JavaScriptObject targ = event.getNativeEvent()
+							.getChangedTouches().get(0).getTarget();
+
+					DrawEquationWeb.escEditingWhenMouseDownElsewhere(targ);
 					// do not prevent default or change default behaviour
 					// in any case! this is just an "extra"
 					break;
