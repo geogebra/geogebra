@@ -20,11 +20,11 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.View;
-import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -921,7 +921,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public void setCustomToolBar(String toolbarString) {
-		GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
+		GuiManagerInterfaceW gm = ((GuiManagerInterfaceW) app.getGuiManager());
 		gm.setToolBarDefinition(toolbarString);
 		gm.setGeneralToolBarDefinition(toolbarString);
 		gm.updateToolbar();
