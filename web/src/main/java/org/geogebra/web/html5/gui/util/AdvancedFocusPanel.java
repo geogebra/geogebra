@@ -87,9 +87,6 @@ public class AdvancedFocusPanel extends SimplePanel {
 	 *            string for copying/cutting
 	 */
 	public void setSelectedContent(String str) {
-		if (str == null || str.equals(focusTextarea.getValue())) {
-			return;
-		}
 		focusTextarea.setValue(str);
 		focusTextarea.select();
 	}
