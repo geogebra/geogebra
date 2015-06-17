@@ -9,6 +9,7 @@ import org.geogebra.web.web.main.FileManagerW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author bencze
@@ -46,8 +47,9 @@ public class ExportMenuW extends MenuBar {
 
 			        @Override
 			        public void doExecute() {
-				        app.getFileManager().export(app);
-			        }
+				hide();
+				app.getFileManager().export(app);
+			}
 		        });
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
@@ -56,7 +58,7 @@ public class ExportMenuW extends MenuBar {
 		        true), true, new Command() {
 
 			public void execute() {
-
+				hide();
 				// It works this way
 
 				// String url = ((EuclidianViewWInterface) app
@@ -85,6 +87,7 @@ public class ExportMenuW extends MenuBar {
 
 								app.getFileManager().exportImage(url,
 										dialogResult[1]);
+
 							}
 						});
 
@@ -95,12 +98,16 @@ public class ExportMenuW extends MenuBar {
 			        .getSafeUri().asString(), app.getPlain("AnimatedGIF"),
 			        true), true, new Command() {
 				public void execute() {
-					        ((FileManagerW) app.getFileManager())
+							hide();
+							((FileManagerW) app.getFileManager())
 					                .createRemoteAnimGif(app);
 					        }
 			});
 		}
 	}
 
-	
+	private void hide() {
+		PopupPanel p = (PopupPanel) getParent();
+		p.hide();
+	}
 }
