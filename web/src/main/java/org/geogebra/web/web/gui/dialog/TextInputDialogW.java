@@ -287,7 +287,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			createGUI(dialogTitle, "", false, cols, rows, /* false */true, false,
 					false, false, DialogType.DynamicText);
 
-			return;
+			// return;
 		}
 		this.startPoint = startPoint2;
 		this.rw = rw;
@@ -329,18 +329,12 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		}
 	}
 	
-	@Override
-    public void setVisible(boolean visible) {
-		
-		inputPanel.setVisible(visible);
-		wrappedPopup.setVisible(visible);
-		if (visible){
-			inputPanel.setTextComponentFocus();
-		}else{
-			if(app!=null){
-				app.setErrorHandler(null);
-			}
-		}
-	}
+	/*
+	 * @Override public void setVisible(boolean visible) {
+	 * 
+	 * inputPanel.setVisible(visible); wrappedPopup.setVisible(visible); if
+	 * (visible){ inputPanel.setTextComponentFocus(); }else{ if(app!=null){
+	 * app.setErrorHandler(null); } } }
+	 */
 	
 }
