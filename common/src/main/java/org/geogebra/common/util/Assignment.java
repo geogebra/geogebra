@@ -103,7 +103,7 @@ public class Assignment {
 		Iterator<GeoElement> it = sortedSet.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isIndependent() && geo.hasChildren()) {
+			if (geo.hasChildren()) {
 				for (GeoElement macroIn : macro.getMacroInput()) {
 					if (geo.getClass().equals(macroIn.getClass())) {
 						possibleInputGeos.add(geo);
