@@ -135,10 +135,16 @@ public class Tablet implements EntryPoint {
 					// guess it's similar to ONMOUSEDOWN in Web.java
 
 					// heuristic for hovering
-					JavaScriptObject targ = event.getNativeEvent()
-							.getChangedTouches().get(0).getTarget();
+					JavaScriptObject targ = null;
+					if (event.getNativeEvent() != null
+							&& event.getNativeEvent().getChangedTouches() != null
+							&& event.getNativeEvent().getChangedTouches()
+									.length() > 0)
+						targ = event.getNativeEvent().getChangedTouches()
+								.get(0).getTarget();
 
-					DrawEquationWeb.escEditingWhenMouseDownElsewhere(targ);
+					if (targ != null)
+						DrawEquationWeb.escEditingWhenMouseDownElsewhere(targ);
 					// do not prevent default or change default behaviour
 					// in any case! this is just an "extra"
 					break;
