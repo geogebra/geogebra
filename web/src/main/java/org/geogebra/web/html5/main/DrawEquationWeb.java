@@ -54,6 +54,8 @@ public class DrawEquationWeb extends DrawEquation {
 
 	private static Element currentElement;
 
+	private static Element currentHover;
+
 	private static Object initJLaTeXMath = null;
 
 	// private HashMap<String, SpanElement> equations = new HashMap<String,
@@ -783,6 +785,19 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static void escEditingWhenMouseDownElsewhere(JavaScriptObject targ) {
+		// also do the service of setting a "geogebraHover" class
+		Element el = null;
+		try {
+			el = Element.as(targ);
+		} catch (Exception ec) {
+		}
+		if (el != null) {
+			el.addClassName("geogebraHover");
+			currentHover.removeClassName("geogebraHover");
+			currentHover = el;
+		}
+
+		// or, try escEditingWhenMouseDownElsewhere with geogebraHover...
 		if (currentWidget != null) {
 			// cases that do not escape editing:
 			if (targetHasFeature(targ, currentWidget.getElement(),
@@ -834,18 +849,26 @@ public class DrawEquationWeb extends DrawEquation {
 		if (el) {
 			if ($wnd.$ggbQuery(el).filter(':hover').length) {
 				return true;
+			} else if ($wnd.$ggbQuery(el).filter('.geogebraHover').length) {
+				return true;
 			}
 		}
 		if (pure) {
 			var ret = false;
-			$wnd.$ggbQuery("." + pure).each(function(idx, elm) {
-				if ($wnd.$ggbQuery(elm).filter(':hover').length) {
-					// this means the mouse is currently over an element
-					// with the "MouseDownDoesntExitEditingFeature" CSS class
-					// that is enough knowledge to return "true"
-					ret = true;
-				}
-			});
+			$wnd
+					.$ggbQuery("." + pure)
+					.each(
+							function(idx, elm) {
+								if ($wnd.$ggbQuery(elm).filter(':hover').length) {
+									// this means the mouse is currently over an element
+									// with the "MouseDownDoesntExitEditingFeature" CSS class
+									// that is enough knowledge to return "true"
+									ret = true;
+								} else if ($wnd.$ggbQuery(elm).filter(
+										'.geogebraHover').length) {
+									ret = true;
+								}
+							});
 			return ret;
 		}
 
@@ -863,6 +886,10 @@ public class DrawEquationWeb extends DrawEquation {
 	 */
 	public static native boolean targetHasFeature(JavaScriptObject targ,
 			Element el, String pure) /*-{
+		var targe = targ;
+		if (targe === null) {
+			targe = ".geogebraHover";
+		}
 		if (el) {
 			if ($wnd.$ggbQuery(targ).parents().is(el)) {
 				return true;

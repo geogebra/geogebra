@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -592,7 +593,16 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// remedy for this might be to set focus back to
 		// NewRadioButtonTreeItem in case "mouseIsOver", or some other
 		// idea shall be invented TODO
-		if (!DrawEquationWeb.mouseIsOver(getElement(),
+		if (Browser.isMobileBrowser()) {
+			if (!DrawEquationWeb.targetHasFeature(null, getElement(),
+					"BlurDoesntUpdateGUIFeature")) {
+				if (((AlgebraViewW) av).isNodeTableEmpty()) {
+					// #5245#comment:8, cases B and C excluded
+					updateGUIfocus(event == null ? this : event.getSource(),
+							true);
+				}
+			}
+		} else if (!DrawEquationWeb.mouseIsOver(getElement(),
 				"BlurDoesntUpdateGUIFeature")) {
 
 			// dummy is not used yet, until blur/focus is more solid
