@@ -319,7 +319,9 @@ public abstract class Prover {
 		 */
 		public void rewrite(Construction cons) {
 			String cond = this.getCondition();
-			if ("ArePerpendicular".equals(cond) && this.geos.length == 3) {
+			if ("AreCollinear".equals(cond)) {
+				sortGeos();
+			} else if ("ArePerpendicular".equals(cond) && this.geos.length == 3) {
 				// ArePerpendicular[Line[P1,P3],Line[P3,P2]].
 				GeoPoint P1 = (GeoPoint) this.geos[0];
 				GeoPoint P2 = (GeoPoint) this.geos[1];
