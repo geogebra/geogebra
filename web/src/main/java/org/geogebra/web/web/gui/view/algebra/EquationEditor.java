@@ -212,7 +212,6 @@ public class EquationEditor {
 		if (this.dict == null) {
 			this.dict = // this.forCAS ? app.getCommandDictionaryCAS() :
 			app.getCommandDictionary();
-			App.debug("TOTAL COMMANDS" + dict.size());
 		}
 		return dict;
 	}
