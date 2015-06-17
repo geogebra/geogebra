@@ -7,7 +7,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.main.FileManagerW;
 
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -55,7 +54,8 @@ public class ExportMenuW extends MenuBar {
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		// translation not needed
 		        .getSafeUri().asString(), "png",
-		        true), true, new Command() {
+ true), true, new MenuCommand(
+				app) {
 
 			public void execute() {
 				hide();
@@ -96,8 +96,9 @@ public class ExportMenuW extends MenuBar {
 		if(!app.getLAF().isTablet()){
 			addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 			        .getSafeUri().asString(), app.getPlain("AnimatedGIF"),
-			        true), true, new Command() {
-				public void execute() {
+ true),
+					true, new MenuCommand(app) {
+						public void doExecute() {
 							hide();
 							((FileManagerW) app.getFileManager())
 					                .createRemoteAnimGif(app);
