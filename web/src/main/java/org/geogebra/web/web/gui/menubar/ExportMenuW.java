@@ -72,15 +72,19 @@ public class ExportMenuW extends MenuBar {
 
 							@Override
 							public void callback(Object obj) {
+								String[] dialogResult = (String[]) obj;
+
+								if (Integer.parseInt(dialogResult[0]) != 0) {
+									return;
+								}
+
 								String url = ((EuclidianViewWInterface) app
 										.getActiveEuclidianView())
 										.getExportImageDataUrl(1.0, false);
 
-								// String[] dialogResult = (String[]) obj;
 
 								app.getFileManager().exportImage(url,
-										"export.png");
-								// dialogResult[1]);
+										dialogResult[1]);
 							}
 						});
 

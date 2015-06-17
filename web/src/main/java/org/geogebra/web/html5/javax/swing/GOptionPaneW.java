@@ -66,10 +66,13 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		createGUI();
 	}
 
-	private void showDialog() {
+	private void showDialog(boolean autoComplete) {
 		loc = app.getLocalization();
 		updateGUI();
 		center();
+		if (inputField != null) {
+			inputField.setAutoComplete(autoComplete);
+		}
 		show();
 	}
 
@@ -87,6 +90,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 			App.debug("option: " + returnOption + "  value: " + returnValue);
 			String[] dialogResult = { returnOption + "", returnValue };
 			returnHandler.callback(dialogResult);
+
 		}
 
 		// return the focus to the input field calling this dialog
@@ -320,8 +324,8 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		this.returnHandler = null;
 		requiresReturnValue = false;
 
-		showDialog();
-		showDialog();
+		showDialog(true);
+		showDialog(true);
 
 		return returnOption;
 
@@ -353,7 +357,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		this.returnHandler = handler;
 		requiresReturnValue = false;
 
-		showDialog();
+		showDialog(true);
 
 	}
 
@@ -366,7 +370,8 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	 * 
 	 */
 	public void showInputDialog(App app, String message,
-	        String initialSelectionValue, Object icon, AsyncOperation handler) {
+			String initialSelectionValue, Object icon, AsyncOperation handler,
+			boolean autoComplete) {
 
 		this.app = app;
 		this.message = message;
@@ -379,7 +384,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		this.returnHandler = handler;
 		requiresReturnValue = true;
 
-		showDialog();
+		showDialog(autoComplete);
 
 	}
 
@@ -408,10 +413,19 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		this.returnHandler = handler;
 		requiresReturnValue = true;
 
-		showDialog();
+		showDialog(true);
 
 	}
 
+	public void showInputDialog(App app, String message,
+			String initialSelectionValue, Object icon,
+ AsyncOperation handler) {
+
+		showInputDialog(app, message, initialSelectionValue, icon,
+ handler,
+				true);
+
+	}
 	public void test(App app, int type) {
 
 		switch (type) {
