@@ -225,6 +225,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			wrappedPopup.show();
 			inputPanel.setTextComponentFocus();
 		}else{
+			forceHideKeyboard();
 			wrappedPopup.hide();
 			if(app!=null){
 				app.setErrorHandler(null);
@@ -232,6 +233,13 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		}
 	};
 	
+	private native void forceHideKeyboard() /*-{
+		if ($wnd.android && $wnd.android.callPlugin) {
+			$wnd.android.callPlugin("CloseKeyboard", []);
+		}
+
+	}-*/;
+
 	public void setLabels() {
 		wrappedPopup.setText(title);
 		btOK.setText(app.getPlain("OK"));
