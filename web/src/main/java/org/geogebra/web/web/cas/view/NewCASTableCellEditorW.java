@@ -134,7 +134,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void setLabels() {
-		// TODO
+		editor.resetLanguage();
 	}
 
 	public void setInput(String input) {
@@ -288,7 +288,7 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationWeb.triggerKeyUp(seMayLaTeX, key, alt, ctrl, shift);
+		DrawEquationWeb.triggerKeydown(seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 

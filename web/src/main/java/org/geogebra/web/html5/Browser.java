@@ -265,6 +265,8 @@ public class Browser {
 
 	public static native double getPixelRatio() /*-{
 		// TODO Auto-generated method stub
+		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
+				.getContext("2d");
 		devicePixelRatio = window.devicePixelRatio || 1;
 		backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
 				|| testCtx.mozBackingStorePixelRatio

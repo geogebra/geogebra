@@ -1183,9 +1183,11 @@ public class AlgebraViewW extends Tree implements LayerView,
 		/*
 		 * if (inputPanel != null) { inputPanel.setLabels(); }
 		 */
-		// TODO update autocomplete / add button ?
+		// TODO add button ?
 		setTreeLabels();
-
+		if (this.inputPanelLatex != null) {
+			this.inputPanelLatex.setLabels();
+		}
 		if (this.styleBar != null) {
 			this.styleBar.setLabels();
 		}

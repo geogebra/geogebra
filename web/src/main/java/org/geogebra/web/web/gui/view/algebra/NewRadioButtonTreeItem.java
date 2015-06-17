@@ -62,6 +62,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	EquationEditor editor;
 	Label dummyLabel;
 
+	private Label piecewiseLabel, matrixLabel, curveLabel;
+
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
 		editor = new EquationEditor(app, this);
@@ -171,7 +173,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 			ListItem actual = new ListItem();
 			actual.add(new Image(GuiResources.INSTANCE.algebra_new_piecewise()));
-			actual.add(new Label(app.getPlain("PiecewiseFunction")));
+			actual.add(piecewiseLabel = new Label(app
+					.getPlain("PiecewiseFunction")));
 			// ClickHandler is Okay here, but maybe MouseDownHandler is better?
 			actual.addDomHandler(new ClickHandler() {
 				public void onClick(ClickEvent ce) {
@@ -199,7 +202,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 			actual = new ListItem();
 			actual.add(new Image(GuiResources.INSTANCE.algebra_new_matrix()));
-			actual.add(new Label(app.getMenu("Matrix")));
+			actual.add(matrixLabel = new Label(app.getMenu("Matrix")));
 			actual.addDomHandler(new ClickHandler() {
 				public void onClick(ClickEvent ce) {
 					ce.stopPropagation();
@@ -234,7 +237,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 			actual = new ListItem();
 			actual.add(new Image(GuiResources.INSTANCE.algebra_new_parametric()));
-			actual.add(new Label(app.getPlain("CurveCartesian")));
+			actual.add(curveLabel = new Label(app.getPlain("CurveCartesian")));
 			actual.addDomHandler(new ClickHandler() {
 				public void onClick(ClickEvent ce) {
 					ce.stopPropagation();
@@ -698,5 +701,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		sug.setPositionRelativeTo(ihtml);
 	}
 
+	public void setLabels() {
+		editor.resetLanguage();
+		if (piecewiseLabel != null) {
+			piecewiseLabel.setText(app.getPlain("PiecewiseFunction"));
+			curveLabel.setText(app.getPlain("CurveCartesian"));
+			matrixLabel.setText(app.getMenu("Matrix"));
+		}
+	}
 
 }
