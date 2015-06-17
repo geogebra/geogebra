@@ -310,6 +310,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	public void replaceXButtonDOM() {// TODO
 		getElement().getParentElement().appendChild(buttonPanel.getElement());
+		// Internet Explorer seems to also require this lately:
+		if (pButton != null) {
+			buttonPanel.getElement().appendChild(pButton.getElement());
+		}
+		buttonPanel.getElement().appendChild(xButton.getElement());
 	}
 
 	/**
