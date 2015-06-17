@@ -76,15 +76,20 @@ public class AdvancedFocusPanel extends SimplePanel {
 	}
 
 	/**
-	 * In order for the copy/cut events to work naturally,
-	 * the focusTextarea should contain a selection which
-	 * contains the string to be copied. So as to work
-	 * properly, this string should be continuously
-	 * updated as the spreadsheet view has selected cells
+	 * In order for the copy/cut events to work naturally, the focusTextarea
+	 * should contain a selection which contains the string to be copied. So as
+	 * to work properly, this string should be continuously updated as the
+	 * spreadsheet view has selected cells
 	 * 
-	 * @param str string for copying/cutting
+	 * TODO the focus should only be called when we want to copy
+	 * 
+	 * @param str
+	 *            string for copying/cutting
 	 */
 	public void setSelectedContent(String str) {
+		if (str == null || str.equals(focusTextarea.getValue())) {
+			return;
+		}
 		focusTextarea.setValue(str);
 		focusTextarea.select();
 	}
