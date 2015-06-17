@@ -17,11 +17,12 @@ public class PlotterCursor {
 	static public int TYPE_CROSS3D = 3;
 	static public int TYPE_ALREADY_XY = 4;
 	static public int TYPE_ALREADY_Z = 5;
-	static public int TYPE_CUBE = 6;
-	static public int TYPE_SPHERE = 7;
-	static public int TYPE_SPHERE_HIGHLIGHTED = 8;
+	static public int TYPE_ALREADY_XYZ = 6;
+	static public int TYPE_CUBE = 7;
+	static public int TYPE_SPHERE = 8;
+	static public int TYPE_SPHERE_HIGHLIGHTED = 9;
 
-	static private int TYPE_LENGTH = 9;
+	static private int TYPE_LENGTH = 10;
 
 	static private float size = 12f;
 	static private float thickness = 1.25f;
@@ -95,6 +96,32 @@ public class PlotterCursor {
 		brush.segment(new Coords(0, 0, -size_start_move, 1), new Coords(0, 0,
 				-size_move, 1));
 		index[TYPE_ALREADY_Z] = brush.end();
+
+
+
+		// xyz
+		brush.start(-1);
+		brush.setColor(GColor.GRAY);
+		brush.setThickness(thickness3);// re sets the thickness
+		brush.segment(new Coords(size_start_move, 0, 0, 1), new Coords(
+				size_move, 0, 0, 1));
+		brush.setThickness(thickness3);// re sets the thickness
+		brush.segment(new Coords(-size_start_move, 0, 0, 1), new Coords(
+				-size_move, 0, 0, 1));
+		brush.setThickness(thickness3);// re sets the thickness
+		brush.segment(new Coords(0, size_start_move, 0, 1), new Coords(0,
+				size_move, 0, 1));
+		brush.setThickness(thickness3);// re sets the thickness
+		brush.segment(new Coords(0, -size_start_move, 0, 1), new Coords(0,
+				-size_move, 0, 1));
+		brush.setThickness(thickness3);// re sets the thickness
+		brush.segment(new Coords(0, 0, size_start_move, 1), new Coords(0, 0,
+				size_move, 1));
+		brush.setThickness(thickness3);// re sets the thickness
+		brush.segment(new Coords(0, 0, -size_start_move, 1), new Coords(0, 0,
+				-size_move, 1));
+		index[TYPE_ALREADY_XYZ] = brush.end();
+
 
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
 
@@ -190,6 +217,7 @@ public class PlotterCursor {
 	 */
 	static public boolean isTypeAlready(int type) {
 		return type == TYPE_ALREADY_XY || type == TYPE_ALREADY_Z
+				|| type == TYPE_ALREADY_XYZ
 				|| type == TYPE_CUBE;
 	}
 

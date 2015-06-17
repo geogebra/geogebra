@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -743,6 +744,9 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	protected void drawPointAlready(GeoPoint3D point) {
 		if (point.hasRegion()) {
 			super.drawPointAlready(point);
+		} else if (!point.hasPath()
+				&& point.getMoveMode() != GeoPointND.MOVE_MODE_NONE) {
+			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
 		}
 	}
 

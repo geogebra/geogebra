@@ -633,6 +633,13 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 	@Override
+	public void mouseMoved(MouseEvent e) {
+		if (input3D.currentlyUseMouse2D()) {
+			super.mouseMoved(e);
+		}
+	}
+
+	@Override
 	public boolean hasInput3D() {
 		return true;
 	}
