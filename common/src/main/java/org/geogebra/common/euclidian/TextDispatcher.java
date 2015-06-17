@@ -179,6 +179,7 @@ public class TextDispatcher {
 				setNoPointLoc(text, loc);
 			}
 
+			text.checkVisibleIn3DViewNeeded();
 			text.setBackgroundColor(GColor.WHITE);
 			text.updateRepaint();
 		}
@@ -275,6 +276,7 @@ public class TextDispatcher {
 						+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
 			}
 
+			text.checkVisibleIn3DViewNeeded();
 			text.setStartPoint(textCorner);
 			text.setBackgroundColor(GColor.WHITE);
 			text.updateRepaint();
@@ -348,6 +350,7 @@ public class TextDispatcher {
 			text.setLabel(removeUnderscores(l10n.getPlain("Text")
 					+ poly.getLabelSimple()));
 		}
+		text.checkVisibleIn3DViewNeeded();
 		GeoElement[] ret = { text };
 		return ret;
 	}

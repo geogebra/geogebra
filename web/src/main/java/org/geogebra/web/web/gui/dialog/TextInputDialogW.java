@@ -166,14 +166,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 							.getApplication().getActiveEuclidianView();
 
 					if (startPoint.isLabelSet()) {
-						if (t.isVisibleInView(App.VIEW_EUCLIDIAN)) {
-							// we need to force visibility in 3D view and views
-							// for plane
-							t.addView(App.VIEW_EUCLIDIAN3D);
-							kernel.getApplication().getEuclidianView3D().add(t);
-							t.setVisibleInViewForPlane(true);
-							kernel.getApplication().addToViewsForPlane(t);
-						}
+						t.checkVisibleIn3DViewNeeded();
 						try {
 							t.setStartPoint(startPoint);
 						} catch (Exception e) {
