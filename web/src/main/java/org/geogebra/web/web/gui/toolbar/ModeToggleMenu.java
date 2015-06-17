@@ -381,8 +381,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     }
 
 	public void showToolTipBottom(String helpURL, ModeSetter m) {
-		if (m != ModeSetter.CAS_VIEW) {
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, helpURL, ToolTipLinkType.Help, app);
+		if (m != ModeSetter.CAS_VIEW
+				&& app.getArticleElement().getDataParamShowToolBarHelp(true)) {
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText,
+					helpURL, ToolTipLinkType.Help, app);
 		}
 	}
 

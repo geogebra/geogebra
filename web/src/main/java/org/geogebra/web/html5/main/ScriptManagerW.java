@@ -588,6 +588,10 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showToolBar(Z)(show);
 		};
 
+		api.setCustomToolBar = function(toolbarDef) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCustomToolBar(Ljava/lang/String;)(toolbarDef);
+		};
+
 		api.showMenuBar = function(show) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showMenuBar(Z)(show);
 		};

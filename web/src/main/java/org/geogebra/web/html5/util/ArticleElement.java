@@ -138,6 +138,13 @@ public final class ArticleElement extends Element {
 		return getBoolParam("data-param-showToolBar", def);
 	}
 
+	public boolean getDataParamShowToolBarHelp(boolean def) {
+		if (!getDataParamShowToolBar(false) && !getDataParamApp()) {
+			return false;
+		}
+		return getBoolParam("data-param-showToolBarHelp", def);
+	}
+
 	/**
 	 * 
 	 * @return the data-param-customToolBar (default: null)
