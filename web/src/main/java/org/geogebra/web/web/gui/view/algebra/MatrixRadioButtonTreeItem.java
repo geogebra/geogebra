@@ -86,9 +86,9 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		pButton.addMouseMoveHandler(CancelEvents.instance);
 		// btnRow.addMouseOverHandler(cancelEvents);
 		// pButton.addMouseOutHandler(CancelEvents.instance);
-		pButton.addTouchStartHandler(CancelEvents.instance);
-		pButton.addTouchEndHandler(CancelEvents.instance);
-		pButton.addTouchMoveHandler(CancelEvents.instance);
+
+		// do not redefine TouchStartHandlers, as they are
+		// simulate mouse events!
 
 		specialPopup = new ButtonPopupMenu() {
 			@Override
