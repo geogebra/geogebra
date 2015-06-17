@@ -1,16 +1,13 @@
 package org.geogebra.web.html5.sound;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayInteger;
-import com.google.gwt.core.client.JsArrayUtils;
 
 public class WebAudioWrapper {
 	public interface FunctionAudioListener {
-		void fillBuffer();
+		double evaluate(double t);
 	}
 	public static final WebAudioWrapper INSTANCE = new WebAudioWrapper();
 	private FunctionAudioListener listener = null;
-	private int sampleRate = 44500;
 	private WebAudioWrapper() {
 		init();
 	}
@@ -21,6 +18,7 @@ public class WebAudioWrapper {
 		if (contextClass) {
 			// Web Audio API is available.
 			$wnd.context = new contextClass();
+			$wnd.deltaTime = 1 / $wnd.context.sampleRate;
 
 			return true;
 		} else {
@@ -29,49 +27,30 @@ public class WebAudioWrapper {
 	}-*/;
 
 
-	public native void start(int sampleRate) /*-{
+	public native void start(double min, int sampleRate) /*-{
 		$wnd.ins = this;
-		this.@org.geogebra.web.html5.sound.WebAudioWrapper::sampleRate = sampleRate;
-		$wnd.gainNode = $wnd.context.createGain();
-		$wnd.gainNode.gain.value = 10;
-		$wnd.processor = $wnd.context.createScriptProcessor(1024, 0, 1);
+		$wnd.processor = $wnd.context.createScriptProcessor(2048, 0, 1);
 		$wnd.processor.onaudioprocess = this.@org.geogebra.web.html5.sound.WebAudioWrapper::onAudioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
-		$wnd.processor.connect($wnd.gainNode);
-		$wnd.gainNode.connect($wnd.context.destination);
-		$wnd.counter = 0;
+		$wnd.processor.connect($wnd.context.destination);
+		$wnd.time = min;
 	}-*/;
 
-	public void fill() {
-		if (listener == null) {
-			return;
-		}
-		listener.fillBuffer();
-	}
-	public void write(byte[] buf, int length) {
-		JsArrayInteger arr = JsArrayUtils.readOnlyJsArray(buf);
-		addToBuffer(arr);
+	public double eval(double t) {
+		return listener.evaluate(t);
 	}
 
-	private native void addToBuffer(JsArrayInteger buf) /*-{
-		$wnd.audata = new Float32Array(buf.length);
-		for (var i = 0; i < buf.length; i++) {
-			$wnd.audata[i] = buf[i] / 32767.0
-		}
-	}-*/;
 
 	private native void onAudioProcess(JavaScriptObject e) /*-{
 		var data = e.outputBuffer.getChannelData(0);
-		var offset = $wnd.counter * 1024;
 		for (var i = 0; i < data.length; i++) {
-			data[i] = $wnd.audata[offset + i];
+
+			data[i] = $wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::eval(D)($wnd.time);
+			$wnd.time = $wnd.time + $wnd.deltaTime;
+
 		}
 
-		$wnd.counter++;
-		if ($wnd.counter == 2) {
-			$wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::fill()();
-			$wnd.counter = 0;
-		}
 	}-*/;
+
 	public native void stop() /*-{
 		$wnd.processor.disconnect($wnd.gainNode);
 		$wnd.gainNode.disconnect($wnd.context.destination);

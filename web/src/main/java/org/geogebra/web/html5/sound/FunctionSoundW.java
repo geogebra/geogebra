@@ -99,62 +99,10 @@ public final class FunctionSoundW extends FunctionSound implements
 
 
 	private void generateFunctionSound() {
-
 		stopped = false;
-
-		// time between samples
-		setSamplePeriod(1.0 / getSampleRate());
-
-		// create internal buffer for mathematically generated sound data
-		// a small buffer minimizes latency when the function changes
-		// dynamically
-		// TODO: find optimal buffer size
-		waw.start(getSampleRate());
-
-		int frameSetSize = getSampleRate() / 5; // 20ms ok?
-		if (getBitDepth() == 8) {
-			setBuf(new byte[frameSetSize]);
-		} else {
-			setBuf(new byte[2 * frameSetSize]);
-		}
-
-
-		setT(getMin());
-		loadBuffer();
-		doFade(getBuf()[0], false);
-		// waw.write(getBuf(), frameSetSize);
-		waw.write(getBuf(), getBufLength());
-
+		waw.start(getMin(), getSampleRate());
 	}
 
-	private void loadBuffer() {
-		if (getBitDepth() == 16) {
-			loadBuffer16(getT());
-		} else {
-			loadBuffer8(getT());
-		}
-
-	}
-
-	public void fillBuffer() {
-		int frameSetSize = getSampleRate() / 5;
-
-		if (getT() < getMax() && !stopped) {
-			setT(getT() + getSamplePeriod() * frameSetSize);
-			loadBuffer();
-			// waw.write(getBuf(), frameSetSize);
-			waw.write(getBuf(), getBufLength());
-		} else if (getBitDepth() == 16 || (getBitDepth() == 8 && !stopped)) {
-
-			doFade(getBuf()[getBufLength() - 1], true);
-		}
-
-	}
-
-	private void doFade(short peakValue, boolean isFadeOut) {
-		byte[] fadeBuf = getFadeBuffer(peakValue, isFadeOut);
-		waw.write(fadeBuf, fadeBuf.length);
-	}
 
 	/**
 	 * Stops function sound
@@ -164,4 +112,14 @@ public final class FunctionSoundW extends FunctionSound implements
 		waw.stop();
 	}
 
+	public double evaluate(double t) {
+		double value = getF().evaluate(t + 1.0 * getSamplePeriod());
+
+		if (value > 1.0)
+			value = 1.0;
+		if (value < -1.0)
+			value = -1.0;
+
+		return value;
 	}
+}
