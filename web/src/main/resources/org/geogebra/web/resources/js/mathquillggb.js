@@ -2019,6 +2019,13 @@ function createRoot(jQ, root, textbox, editable) {
 	// called until this onfocus executes, maybe does not matter
 
     if (textareaDOM.hadFocus === false) {
+      // I fear if we call this here, blur might interrupt,
+      // and blur code might execute earlier
+      // but if we call this later, other focus code might
+      // interrupt and execute earlier, but I'm not sure
+      // whether anything can interrupt in JavaScript
+      // and if the code fails, at least the boolean is Okay
+      textareaDOM.hadFocus = true;
       if (!cursor.parent)
         cursor.appendTo(root);
       cursor.parent.jQ.addClass('hasCursor');
@@ -2028,28 +2035,31 @@ function createRoot(jQ, root, textbox, editable) {
       } else {
         cursor.show();
       }
+      // no need to set this true if it is already true
+      // but trying to be extra-secure
+      textareaDOM.hadFocus = true;
     }
     // dirty hack, but effective, as mathquillggb.js is used
     // from GeoGebraWeb anyway (if not, it does no harm)
     if (root.common.newCreationMode) {
       textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
     }
-    textareaDOM.hadFocus = true;
   }).blur(function(e2) {
     e2.stopPropagation();
 
     if (textareaDOM.hadFocus === true) {
+      textareaDOM.hadFocus = false;
       if (cursor.parent)
         cursor.hide().parent.blur();
       if (cursor.selection)
         cursor.selection.jQ.addClass('blur');
+      textareaDOM.hadFocus = false;
     }
     // dirty hack, but effective, as mathquillggb.js is used
     // from GeoGebraWeb anyway (if not, it does no harm)
     if (root.common.newCreationMode) {
       textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
     }
-    textareaDOM.hadFocus = false;
   });
 
   // to make things clear:

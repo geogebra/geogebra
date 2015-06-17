@@ -990,7 +990,11 @@ GeoContainer rbti,
 					event4.stopPropagation();
 				})
 				.mouseup(function(event41) {
-					// maybe fixes a bug after quickly clicking input bar back/forth 
+					// maybe fixes a bug after quickly clicking input bar back/forth
+					// but probably not, since the real fix might be the
+					// onMouseUp handler in RadioButtonTreeItem! the blur bug
+					// happened on mouse up, by the way, but this is just a little
+					// box, and the user usually clicks on its big parent box
 					event41.stopPropagation();
 				})
 				.click(function(event6) {
