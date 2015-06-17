@@ -3740,7 +3740,7 @@ public abstract class App implements UpdateSelection {
 			return canary;
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
-		case CAS_EDITOR:
+
 		case EXERCISES:
 		case IMPLICIT_CURVES:
 		case KOREAN_KEYBOARD:
@@ -3750,6 +3750,7 @@ public abstract class App implements UpdateSelection {
 		case TUBE_BETA:
 		case ADD_NEW_OBJECT_BUTTON:
 			return prerelease;
+		case CAS_EDITOR:
 		case SF_DRAG:
 		case JLM_IN_WEB:
 		case DELETE_IN_ALGEBRA:
