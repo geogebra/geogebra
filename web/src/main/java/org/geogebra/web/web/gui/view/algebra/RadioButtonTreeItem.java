@@ -88,6 +88,8 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -120,6 +122,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RadioButtonTreeItem extends FlowPanel implements
         DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
+        MouseUpHandler,
         MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
 		EquationEditorListener, CanBlockBlurEvent {
@@ -375,6 +378,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		this.addDomHandler(this, ClickEvent.getType());
 		this.addDomHandler(this, MouseMoveEvent.getType());
 		this.addDomHandler(this, MouseDownEvent.getType());
+		this.addDomHandler(this, MouseUpEvent.getType());
 		this.addDomHandler(this, MouseOverEvent.getType());
 		this.addDomHandler(this, MouseOutEvent.getType());
 		this.addDomHandler(this, TouchStartEvent.getType());
@@ -1256,6 +1260,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt) {
+		evt.stopPropagation();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -1287,20 +1292,23 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		event.stopPropagation();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 		        ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
+	}
 
-		// This would prevent dragging, so commented out
-		// event.preventDefault();
+	@Override
+	public void onMouseUp(MouseUpEvent event) {
 		event.stopPropagation();
 	}
 
 	@Override
 	public void onClick(ClickEvent evt) {
+		evt.stopPropagation();
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -1314,6 +1322,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onMouseMove(MouseMoveEvent evt) {
+		evt.stopPropagation();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -1344,6 +1353,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
+		event.stopPropagation();
 		if (newCreationMode) {
 			setFocus(true);
 		}
@@ -1368,6 +1378,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
+		event.stopPropagation();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.rescheduleTimerIfRunning(this, x, y);
@@ -1380,6 +1391,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		// this would propagate the event to
+		// AlgebraView.onBrowserEvent... is this we want?
+		// probably no, as there is a stopPropagation
+		// in the onMouseDown method as well...
+		event.stopPropagation();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.scheduleTimer(this, x, y);

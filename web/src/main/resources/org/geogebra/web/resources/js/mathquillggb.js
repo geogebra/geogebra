@@ -2006,8 +2006,19 @@ function createRoot(jQ, root, textbox, editable) {
   textarea.focus(function(e1) {
     e1.stopPropagation();
 
+    // as far as I remember, timeouts are here to make this
+    // happen later than blur / onblur / blur / onblur events happen
+    // but if the first focus gets called, we can remove the timeouts
+    // to prevent focus called again a bit later, which is useful
+    // if the user really wants to blur in that short time
+	clearTimeout(textareaDOM.timeout1);
+	clearTimeout(textareaDOM.timeout2);
+	clearTimeout(textareaDOM.timeout3);
+	clearTimeout(textareaDOM.timeout4);
+	// but clearTimeout does not help when a focus event is already
+	// called until this onfocus executes, maybe does not matter
+
     if (textareaDOM.hadFocus === false) {
-      textareaDOM.hadFocus = true;
       if (!cursor.parent)
         cursor.appendTo(root);
       cursor.parent.jQ.addClass('hasCursor');
@@ -2023,11 +2034,11 @@ function createRoot(jQ, root, textbox, editable) {
     if (root.common.newCreationMode) {
       textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
     }
+    textareaDOM.hadFocus = true;
   }).blur(function(e2) {
     e2.stopPropagation();
 
     if (textareaDOM.hadFocus === true) {
-      textareaDOM.hadFocus = false;
       if (cursor.parent)
         cursor.hide().parent.blur();
       if (cursor.selection)
@@ -2038,6 +2049,7 @@ function createRoot(jQ, root, textbox, editable) {
     if (root.common.newCreationMode) {
       textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
     }
+    textareaDOM.hadFocus = false;
   });
 
   // to make things clear:
@@ -2078,14 +2090,19 @@ function createRoot(jQ, root, textbox, editable) {
 	}else if(window.mqTouchEvents === false){
 		textarea.removeAttr("disabled");
 	}
-	setTimeout(function() { textarea.focus(); });
 
     // so here are other setTimeout's, as
     // the bug just turned out to be a timeout issue,
     // which may be fixed differently but this works for sure:
-    setTimeout(function() { textarea.focus(); },100);
-    setTimeout(function() { textarea.focus(); },300);
-    setTimeout(function() { textarea.focus(); },500);
+	clearTimeout(textareaDOM.timeout1);
+	clearTimeout(textareaDOM.timeout2);
+	clearTimeout(textareaDOM.timeout3);
+	clearTimeout(textareaDOM.timeout4);
+	textareaDOM.timeout4 = setTimeout(function() { textarea.focus(); },500);
+	textareaDOM.timeout3 = setTimeout(function() { textarea.focus(); },300);
+	textareaDOM.timeout2 = setTimeout(function() { textarea.focus(); },100);
+	textareaDOM.timeout1 = setTimeout(function() { textarea.focus(); });
+
     //do this immediately (ATM also happens in timeout, might not be needed)
     if (root.common.newCreationMode) {
         textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');

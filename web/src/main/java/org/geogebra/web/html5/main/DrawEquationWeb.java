@@ -989,6 +989,10 @@ GeoContainer rbti,
 					// otherwise RadioButtonTreeItem would call preventDefault
 					event4.stopPropagation();
 				})
+				.mouseup(function(event41) {
+					// maybe fixes a bug after quickly clicking input bar back/forth 
+					event41.stopPropagation();
+				})
 				.click(function(event6) {
 					event6.stopPropagation();
 				})
