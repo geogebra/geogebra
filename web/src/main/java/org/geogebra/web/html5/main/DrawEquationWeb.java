@@ -942,9 +942,9 @@ GeoContainer rbti,
 								}
 							} else {
 								if ((code == 8) || (code == 32) || (code == 9)) { // backspace
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZZ)(false, false);
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(false);
 								} else {
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(ZZ)(false, true);
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(true);
 								}
 								// it would be counterproductive to call autoScroll and history popup
 								// after the editing/new formula creation ends! so put their code here

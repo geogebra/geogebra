@@ -103,6 +103,12 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		});
 
 		if (app.has(Feature.ADD_NEW_OBJECT_BUTTON)) {
+			// from now on, we'll check this Feature
+			// by (pButton != null) but that influences
+			// buttonPanel as well, because if both
+			// pButton and xButton are invisible, then
+			// buttonPanel should show either, e.g.
+			// by adding an additional CSS class to it
 			pButton = new PushButton(new Image(
 					GuiResources.INSTANCE.algebra_new()));
 			pButton.getUpHoveringFace().setImage(
@@ -308,7 +314,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// this code makes the cursor show when the page loads...
 	}
 
-	public void replaceXButtonDOM() {// TODO
+	public void replaceXButtonDOM() {
 		getElement().getParentElement().appendChild(buttonPanel.getElement());
 		// Internet Explorer seems to also require this lately:
 		if (pButton != null) {
@@ -522,7 +528,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			updateGUIfocus(event == null ? this : event.getSource(), false);
 		} else {
 			// note: we are not doing this on blur!
-			typing(false, false);
+			typing(false);
 		}
 
 		app.getSelectionManager().clearSelectedGeos();
@@ -530,9 +536,23 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// this.focused = true; // hasFocus is not needed, AFAIK
 	}
 
+	/**
+	 * This method does update the buttonPanel, xButton, pButton visibility
+	 * entirely
+	 * 
+	 * @param source
+	 *            : usually means "this"
+	 * @param blurtrue
+	 *            : whether we are in blurred mode
+	 */
 	void updateGUIfocus(Object source, boolean blurtrue) {
+		// deselects current selection
 		((AlgebraViewW) av).setActiveTreeItem(null);
-		if (((AlgebraViewW) av).isNodeTableEmpty()) {
+
+		boolean emptyCase = ((AlgebraViewW) av).isNodeTableEmpty();
+
+		// update style bar icon look
+		if (emptyCase) {
 			((AlgebraDockPanelW) app.getGuiManager().getLayout()
 					.getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.showStyleBarPanel(blurtrue);
@@ -542,20 +562,18 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					.showStyleBarPanel(true);
 		}
 
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, !blurtrue);
-		if (!blurtrue) {
-			if ("".equals(getText().trim())) {
-				if (this.xButton != null) {
-					this.xButton.setVisible(false);
-					if (pButton == null) {
-						this.buttonPanel.setVisible(false);
-					}
-				}
-			} else {
-				if (this.xButton != null) {
-					this.xButton.setVisible(true);
-				}
-			}
+		// always show popup, except (blurtrue && emptyCase) == true
+
+		// this basically calls the showPopup method, like:
+		// showPopup(!blurtrue || !emptyCase);
+		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, !blurtrue
+				|| !emptyCase);
+
+		// afterwards, if the popup shall be showing,
+		// then all of our three icons are visible in theory
+		// except pButton, if it is null...
+		if (!blurtrue || !emptyCase) {
+			typing(false);
 		}
 	}
 
@@ -659,34 +677,17 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	@Override
-	public void typing(boolean updateGUI, boolean heuristic) {
-		if (updateGUI) {
-			// this makes sure things will be visible
-			updateGUIfocus(this, false);
-		}
-		if (heuristic) {
-			// something typed - surely true
-			if (xButton != null) {
-				if (pButton == null) {
-					updateGUIfocus(this, false);
-				} else {
-					xButton.setVisible(true);
-				}
-			}
-		}
-		// nothing typed - maybe true?
+	public void typing(boolean heuristic) {
 		if (xButton != null) {
-			if ("".equals(getText().trim())) {
+			if (heuristic || !("".equals(getText().trim()))) {
+				if (pButton == null) {
+					buttonPanel.setVisible(true);
+				}
+				xButton.setVisible(true);
+			} else {
 				xButton.setVisible(false);
 				if (pButton == null) {
-					buttonPanel.setVisible(false);
-					// updateGUIfocus(this, true);
-				}
-			} else {
-				if (pButton == null) {
-					updateGUIfocus(this, false);
-				} else {
-					xButton.setVisible(true);
+					this.buttonPanel.setVisible(false);
 				}
 			}
 		}
