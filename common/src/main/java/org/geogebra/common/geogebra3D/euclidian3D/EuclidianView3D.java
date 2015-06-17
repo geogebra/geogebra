@@ -2854,16 +2854,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// projection
 		sb.append("\t<projection type=\"");
 		sb.append(getProjection());
-		int eyeDistance = (int) projectionPerspectiveEyeDistance[0];
-		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT){
-			sb.append("\" distance=\"");
-			sb.append(eyeDistance);
-		}
-		int sep = (int) getEyeSep();
-		if (sep != EuclidianSettings3D.EYE_SEP_DEFAULT){
-			sb.append("\" separation=\"");
-			sb.append(sep);
-		}
+		getXMLForStereo(sb);
 		if (projectionObliqueAngle != EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT){
 			sb.append("\" obliqueAngle=\"");
 			sb.append(projectionObliqueAngle);
@@ -2880,6 +2871,19 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// end
 		sb.append("</euclidianView3D>\n");
 
+	}
+
+	protected void getXMLForStereo(StringBuilder sb) {
+		int eyeDistance = (int) projectionPerspectiveEyeDistance[0];
+		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT) {
+			sb.append("\" distance=\"");
+			sb.append(eyeDistance);
+		}
+		int sep = (int) getEyeSep();
+		if (sep != EuclidianSettings3D.EYE_SEP_DEFAULT) {
+			sb.append("\" separation=\"");
+			sb.append(sep);
+		}
 	}
 
 	// ///////////////////////////////////////////////////

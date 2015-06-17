@@ -2,6 +2,7 @@ package org.geogebra.desktop.geogebra3D.input3D.zspace;
  
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 
 public class Socket {
@@ -26,9 +27,14 @@ public class Socket {
 
     public double stylusOrientationX, stylusOrientationY, stylusOrientationZ, stylusOrientationW;
      
-	public double leftEyeX = 0, leftEyeY = -1500 * Math.sin(Math.PI / 6),
-			leftEyeZ = 1500 * Math.cos(Math.PI / 6);
-    public double rightEyeX, rightEyeY, rightEyeZ;
+	// start values
+	public double leftEyeX = 0,
+			leftEyeY = -EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT
+					* Math.sin(Math.PI / 6),
+			leftEyeZ = EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT
+					* Math.cos(Math.PI / 6);
+	public double rightEyeX = EuclidianSettings3D.EYE_SEP_DEFAULT,
+			rightEyeY, rightEyeZ;
     public double glassesCenterX, glassesCenterY, glassesCenterZ;
     public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
 

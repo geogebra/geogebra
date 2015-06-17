@@ -262,4 +262,8 @@ public class InputIntelRealsense3D implements Input3D {
 		return EuclidianView3D.ANGLE_ROT_XOY;
 	}
 
+	public boolean shouldStoreStereoToXML() {
+		return true;
+	}
+
 }

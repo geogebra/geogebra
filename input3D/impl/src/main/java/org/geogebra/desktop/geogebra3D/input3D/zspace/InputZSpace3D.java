@@ -241,4 +241,8 @@ public class InputZSpace3D implements Input3D {
 		return 60;
 	}
 
+	public boolean shouldStoreStereoToXML() {
+		return false;
+	}
+
 }

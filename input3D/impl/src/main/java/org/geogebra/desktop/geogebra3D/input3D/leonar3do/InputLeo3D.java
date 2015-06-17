@@ -264,4 +264,8 @@ public class InputLeo3D implements Input3D {
 	public double getDefaultRotationXOY() {
 		return EuclidianView3D.ANGLE_ROT_XOY;
 	}
+
+	public boolean shouldStoreStereoToXML() {
+		return false;
+	}
 }

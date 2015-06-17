@@ -222,4 +222,11 @@ public interface Input3D {
 	 */
 	public double getDefaultRotationXOY();
 
+	/**
+	 * Inputs tracking head don't need to store eye position
+	 * 
+	 * @return true if we need to store stereo infos
+	 */
+	public boolean shouldStoreStereoToXML();
+
 }

@@ -761,4 +761,11 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		setRotAnimation(input3D.getDefaultRotationOz(),
 				input3D.getDefaultRotationXOY(), false);
 	}
+
+	@Override
+	protected void getXMLForStereo(StringBuilder sb) {
+		if (input3D.shouldStoreStereoToXML()) {
+			super.getXMLForStereo(sb);
+		}
+	}
 }
