@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -36,7 +35,6 @@ import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
@@ -386,40 +384,6 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 		}
 
-		/*
-		 * if (bgColor == null) shouldPaintBackground = false; else if
-		 * (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
-		 * !geo.isVisibleInView(App.VIEW_EUCLIDIAN2)) shouldPaintBackground =
-		 * false; else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN2) &&
-		 * (app1.getEuclidianView1().getBackgroundCommon() == bgColor))
-		 * shouldPaintBackground = false; else if
-		 * (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
-		 * !app1.hasEuclidianView2EitherShowingOrNot()) shouldPaintBackground =
-		 * false; else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
-		 * (app1.getEuclidianView2().getBackgroundCommon() == bgColor))
-		 * shouldPaintBackground = false; else if
-		 * ((app1.getEuclidianView1().getBackgroundCommon() == bgColor) &&
-		 * !app1.hasEuclidianView2EitherShowingOrNot()) shouldPaintBackground =
-		 * false; else if ((app1.getEuclidianView1().getBackgroundCommon() ==
-		 * bgColor) && (app1.getEuclidianView2().getBackgroundCommon() ==
-		 * bgColor)) shouldPaintBackground = false;
-		 */
-
-		if (geo.isGeoText() && ((GeoText) geo).isMathML()) {
-			// assume that the script is loaded; it is part of resources
-			// so we will probably get width and height OK, no need to update
-			// again
-			JsArrayInteger jai = drawEquationCanvasMath(
-			        ((GGraphics2DW) g2).getCanvas().getContext2d(),
-			        latexString,
-			        x,
-			        y,
-			        (fgColor == null) ? null : GColor.getColorString(fgColor),
-			        !shouldPaintBackground ? null : GColor
-			                .getColorString(bgColor));
-			return new org.geogebra.web.html5.awt.GDimensionW(jai.get(0), jai.get(1));
-		}
-
 		// the new way to draw an Equation (latex)
 		// no scriptloaded check yet (is it necessary?)
 
@@ -443,17 +407,6 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 		}
 
-		/*
-		 * // whether we are painting on EV1 now boolean visible1 =
-		 * (((GGraphics2DW)g2).getCanvas() == ((AppWeb)app1).getCanvas());
-		 * 
-		 * // whether we are painting on EV2 now boolean visible2 = false; if
-		 * (((AppWeb)app1).hasEuclidianView2()) { if
-		 * (((GGraphics2DW)g2).getCanvas() ==
-		 * ((GGraphics2DW)app1.getEuclidianView2
-		 * ().getGraphicsForPen()).getCanvas()) { visible2 = true; } }
-		 */
-
 		/*************************************************************************
 		 * If g2 is not painting in EV1 or EV2, then assume g2 is being used for
 		 * temporary drawing. In this case, the canvas associated with g2 does
@@ -461,21 +414,6 @@ public class DrawEquationWeb extends DrawEquation {
 		 * handle this problem elements are instead drawn invisibly into either
 		 * EV1 or EV2.
 		 *************************************************************************/
-
-		/*
-		 * GGraphics2DW g2visible = (GGraphics2DW)g2; if (!visible1 &&
-		 * !visible2) { if
-		 * (((AppWeb)app1).hasEuclidianView2EitherShowingOrNot()) { if
-		 * (app1.getEuclidianView2().getTempGraphics2D(font) == g2) { g2visible
-		 * =
-		 * (GGraphics2DW)((AppWeb)app1).getEuclidianView2().getGraphicsForPen();
-		 * } else if (app1.getEuclidianView1().getTempGraphics2D(font) == g2) {
-		 * g2visible =
-		 * (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView1
-		 * ()).getGraphicsForPen(); } } else { g2visible =
-		 * (GGraphics2DW)((EuclidianView
-		 * )((AppWeb)app1).getEuclidianView1()).getGraphicsForPen(); } }
-		 */
 
 		boolean hasActualParent = ((GGraphics2DW) g2).getCanvas().isAttached();
 
@@ -1831,49 +1769,6 @@ GeoContainer rbti,
 		}
 		return htmlt;
 	}
-
-	public static native JsArrayInteger drawEquationCanvasMath(Context2d ctx,
-	        String mathmlStr, int x, int y, String fg, String bg) /*-{
-
-		// Gabor's code a bit simplified
-
-		var script_loaded = @org.geogebra.web.html5.main.DrawEquationWeb::scriptloaded;
-		if (!script_loaded) {
-			return [ 50, 50 ];
-		}
-
-		var layout = $wnd.cvm.layout;
-		var mathMLParser = $wnd.cvm.mathml.parser;
-		var domParser = new $wnd.DOMParser();
-
-		var mathML2Expr = function(text) {
-			var mathml = domParser.parseFromString(text, "text/xml").firstChild;
-			return mathMLParser.parse(mathml);
-		};
-
-		var getBox = function(e) {
-			return layout.ofExpr(e).box();
-		};
-
-		var expression = mathML2Expr(mathmlStr);
-		var box = getBox(expression);
-
-		if (fg) {
-			box = $wnd.cvm.box.ColorBox.instanciate(fg, box);
-		}
-
-		if (bg) {
-			box = $wnd.cvm.box.Frame.instanciate({
-				background : bg
-			}, box);
-		}
-
-		var height = box.ascent - box.descent;
-
-		box.drawOnCanvas(ctx, x, y + box.ascent);
-
-		return [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ];
-	}-*/;
 
 	public static GDimension computeCorrection(GDimension dim,
 	        GDimension dimSmall, double rotateDegree) {
