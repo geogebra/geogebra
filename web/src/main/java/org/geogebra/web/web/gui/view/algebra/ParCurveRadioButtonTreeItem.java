@@ -35,10 +35,10 @@ public class ParCurveRadioButtonTreeItem extends RadioButtonTreeItem {
 				&& kern.getApplication().hasEuclidianView3D()
 				&& kern.getApplication().getEuclidianView3D().isShowing()) {
 			ret = kern.getAlgebraProcessor().processAlgebraCommand(
-					"Curve[t,t*2,t*3,t,0,1]", false);
+					"Curve[t^2,t*(t-1)*(t+1),t,t,-5,5]", false);
 		} else {
 			ret = kern.getAlgebraProcessor().processAlgebraCommand(
-					"Curve[t,t*2,t,0,1]", false);
+					"Curve[t^2,t*(t-1)*(t+1),t,-5,5]", false);
 		}
 
 		kern.setUseInternalCommandNames(oldVal);
