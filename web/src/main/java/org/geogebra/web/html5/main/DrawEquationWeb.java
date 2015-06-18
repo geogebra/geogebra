@@ -331,6 +331,7 @@ public class DrawEquationWeb extends DrawEquation {
 									fgColor.getBlue());
 				}
 			}, g3, x, y);
+			((GGraphics2DW) g2).updateCanvasColor();
 			g3.maybeNotifyDrawingFinishedCallback();
 			return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
 		}
