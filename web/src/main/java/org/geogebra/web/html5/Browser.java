@@ -250,6 +250,8 @@ public class Browser {
 	 * @return true if the browser is mobile
 	 */
 	public static native boolean isMobileBrowser() /*-{
+		// this shall be the same code as MathQuillGGB has
+		// for deciding whether its textarea shall be disabled
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test($wnd.navigator.userAgent);
 	}-*/;

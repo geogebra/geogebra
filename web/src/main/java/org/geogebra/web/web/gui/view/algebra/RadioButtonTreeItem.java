@@ -665,10 +665,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		if (newCreationMode) {
+		//if (newCreationMode) {
 			// maybe this fixes a bug with not focusing
-			setFocus(true);
-		}
+			// but in this case, focus is called about
+			// three times, which might cause problems
+			// TouchStart, TouchEnd, long touch so disabled
+		//	setFocus(true);
+		//}
 		onRightClick(x, y);
 	}
 
@@ -905,6 +908,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	public void startEditing() {
 		// buttonPanel.setVisible(true);
+
+		if (isThisEdited()) {
+			return;
+		}
 
 		thisIsEdited = true;
 		if (newCreationMode) {
@@ -1259,7 +1266,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		selection.clearSelectedGeos();
 		ev.resetMode();
 		if (geo != null && !ctrl) {
-			av.startEditing(geo);
+			if (!isThisEdited()) {
+				av.startEditing(geo);
+			}
 			app.showKeyboard(this);
 			this.setFocus(true);
 		}
@@ -1339,6 +1348,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void onTouchEnd(TouchEndEvent event) {
 		event.stopPropagation();
 		if (newCreationMode) {
+			// this might cause strange behaviour
 			setFocus(true);
 		}
 		long time = System.currentTimeMillis();
@@ -1395,6 +1405,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			onRightClick(event.getX(), event.getY());
 		} else if (commonEditingCheck()) {
 			if (!av.isEditing() && !isThisEdited()) {
+				// why start editing in new creation mode?
+				// it should have been already started
 				startEditing();
 			}
 			app.showKeyboard(this);

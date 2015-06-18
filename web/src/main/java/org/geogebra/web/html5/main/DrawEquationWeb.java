@@ -1098,20 +1098,37 @@ GeoContainer rbti,
 			// style in web-styles.css... but at least set newCreationMode here!
 			elsecondInside.newCreationMode = true;
 
+			// the following code will not do anything in tablets because the textarea
+			// is disabled in MathQuillGGB in that case... opening / closing keyboard!
 			// this shall be added again in storno, because the textarea is recreated...
-			$wnd
-					.$ggbQuery(elsecondInside)
-					.find('textarea')
-					.blur(
-							function(eee) {
-								// at least notify the NewRadioButtonTreeItem about this!
-								rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
-							})
-					.focus(
-							function(fff) {
-								// at least notify the NewRadioButtonTreeItem about this!
-								rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
-							});
+			if (@org.geogebra.web.html5.Browser::isMobileBrowser()) {
+				$wnd
+						.$ggbQuery(elsecondInside)
+						.blur(
+								function(eee) {
+									// at least notify the NewRadioButtonTreeItem about this!
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+								})
+						.focus(
+								function(fff) {
+									// at least notify the NewRadioButtonTreeItem about this!
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
+								});
+			} else {
+				$wnd
+						.$ggbQuery(elsecondInside)
+						.find('textarea')
+						.blur(
+								function(eee) {
+									// at least notify the NewRadioButtonTreeItem about this!
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+								})
+						.focus(
+								function(fff) {
+									// at least notify the NewRadioButtonTreeItem about this!
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
+								});
+			}
 		}
 	}-*/;
 
@@ -1431,8 +1448,14 @@ GeoContainer rbti,
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
 
+		// the following code will not do anything in tablets because the textarea
+		// is disabled in MathQuillGGB in that case... opening / closing keyboard!
 		// as the blur handler set in editEquationMathQuillGGB is harmed,
 		// re-set that blur handler here as well:
+		if (@org.geogebra.web.html5.Browser::isMobileBrowser()) {
+			return;
+		}
+
 		$wnd
 				.$ggbQuery(elsecondInside)
 				.find('textarea')
@@ -1446,6 +1469,7 @@ GeoContainer rbti,
 							// at least notify the NewRadioButtonTreeItem about this!
 							rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
 						});
+
 	}-*/;
 
 	public static native void updateEditingMathQuillGGB(Element parentElement,

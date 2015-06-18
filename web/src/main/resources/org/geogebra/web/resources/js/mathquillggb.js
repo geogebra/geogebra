@@ -1785,9 +1785,11 @@ function createRoot(jQ, root, textbox, editable) {
 
   //textarea stuff
   var textareaHtmlString = '<textarea tabindex="-1"></textarea>';
+  var disabledTextarea = false;
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test(window.navigator.userAgent)) {
 	textareaHtmlString = '<textarea disabled="disabled"></textarea>';
+	disabledTextarea = true;
   }
   var textareaSpan = root.textarea = $('<span class="textarea">' + textareaHtmlString + '</span>'),
   textarea = textareaSpan.children();
@@ -2002,8 +2004,8 @@ function createRoot(jQ, root, textbox, editable) {
 
   textareaDOM.hadFocus = false;
 
-  //focus and blur handling
-  textarea.focus(function(e1) {
+
+  var textareaFocusFunction = function(e1) {
     e1.stopPropagation();
 
     // as far as I remember, timeouts are here to make this
@@ -2035,16 +2037,15 @@ function createRoot(jQ, root, textbox, editable) {
       } else {
         cursor.show();
       }
-      // no need to set this true if it is already true
-      // but trying to be extra-secure
-      textareaDOM.hadFocus = true;
     }
     // dirty hack, but effective, as mathquillggb.js is used
     // from GeoGebraWeb anyway (if not, it does no harm)
     if (root.common.newCreationMode) {
       textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
     }
-  }).blur(function(e2) {
+  }; 
+
+  var textareaBlurFunction = function(e2) {
     e2.stopPropagation();
 
     if (textareaDOM.hadFocus === true) {
@@ -2053,14 +2054,16 @@ function createRoot(jQ, root, textbox, editable) {
         cursor.hide().parent.blur();
       if (cursor.selection)
         cursor.selection.jQ.addClass('blur');
-      textareaDOM.hadFocus = false;
     }
     // dirty hack, but effective, as mathquillggb.js is used
     // from GeoGebraWeb anyway (if not, it does no harm)
     if (root.common.newCreationMode) {
       textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
     }
-  });
+  };
+
+  //focus and blur handling
+  textarea.focus(textareaFocusFunction).blur(textareaBlurFunction);
 
   // to make things clear:
   // - jQ will have tabindex=1, event orders:
@@ -2088,7 +2091,10 @@ function createRoot(jQ, root, textbox, editable) {
 
     adjustFixedTextarea(jQ);
 
-	jQ.blur();
+    if (!disabledTextarea) {
+	  jQ.blur();
+    }
+
 	// if jQ just gets focus, why was here jQ.blur???
 	// to make this blur before textarea.focus() makes it blur,
 	// because it may be too late and trigger textarea.blur()
@@ -2101,25 +2107,33 @@ function createRoot(jQ, root, textbox, editable) {
 		textarea.removeAttr("disabled");
 	}
 
-    // so here are other setTimeout's, as
-    // the bug just turned out to be a timeout issue,
-    // which may be fixed differently but this works for sure:
-	clearTimeout(textareaDOM.timeout1);
-	clearTimeout(textareaDOM.timeout2);
-	clearTimeout(textareaDOM.timeout3);
-	clearTimeout(textareaDOM.timeout4);
-	textareaDOM.timeout4 = setTimeout(function() { textarea.focus(); },500);
-	textareaDOM.timeout3 = setTimeout(function() { textarea.focus(); },300);
-	textareaDOM.timeout2 = setTimeout(function() { textarea.focus(); },100);
-	textareaDOM.timeout1 = setTimeout(function() { textarea.focus(); });
+	if (disabledTextarea) {
+      textareaFocusFunction(e1);
+	} else {
+      // so here are other setTimeout's, as
+      // the bug just turned out to be a timeout issue,
+      // which may be fixed differently but this works for sure:
+	  clearTimeout(textareaDOM.timeout1);
+	  clearTimeout(textareaDOM.timeout2);
+	  clearTimeout(textareaDOM.timeout3);
+	  clearTimeout(textareaDOM.timeout4);
+	  textareaDOM.timeout4 = setTimeout(function() { textarea.focus(); },500);
+	  textareaDOM.timeout3 = setTimeout(function() { textarea.focus(); },300);
+	  textareaDOM.timeout2 = setTimeout(function() { textarea.focus(); },100);
+	  textareaDOM.timeout1 = setTimeout(function() { textarea.focus(); });
 
-    //do this immediately (ATM also happens in timeout, might not be needed)
-    if (root.common.newCreationMode) {
+      //do this immediately (ATM also happens in timeout, might not be needed)
+      if (root.common.newCreationMode) {
         textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
       }
+	}
   }).bind('blur.mathquillggb', function(e3) {
-    e3.stopPropagation();
-    textarea.blur();
+    if (disabledTextarea) {
+      textareaBlurFunction(e3);
+    } else {
+      e3.stopPropagation();
+      textarea.blur();
+    }
   }).blur();
 }
 
