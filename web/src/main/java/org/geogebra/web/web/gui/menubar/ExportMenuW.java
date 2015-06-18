@@ -68,7 +68,7 @@ public class ExportMenuW extends MenuBar {
 				// app.getFileManager().exportImage(url, "export.png");
 
 				// it does not work
-				GOptionPaneW.INSTANCE.showInputDialog(app,
+				GOptionPaneW.INSTANCE.showSaveDialog(app,
 						app.getPlain("ExportAsPicture"), "export.png", null,
 						new AsyncOperation() {
 
@@ -89,7 +89,7 @@ public class ExportMenuW extends MenuBar {
 										dialogResult[1]);
 
 							}
-						});
+						}, app.getPlain("Export"));
 
 			}
 		});

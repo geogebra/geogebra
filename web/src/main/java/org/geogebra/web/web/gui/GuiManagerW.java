@@ -1700,8 +1700,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void openFilePicker() {
 		String title = "".equals(app.getKernel().getConstruction().getTitle()) ? "geogebra.ggb"
 		        : (app.getKernel().getConstruction().getTitle() + ".ggb");
-		GOptionPaneW.INSTANCE.showInputDialog(app,
-				app.getMenu("Save"), title,
+		GOptionPaneW.INSTANCE.showSaveDialog(app, app.getPlain("Save"), title,
 				null,
 				new AsyncOperation() {
 
@@ -1715,7 +1714,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 									getDownloadCallback(dialogResult[1]));
 						}
 					}
-				}, false);
+				}, app.getPlain("Save"));
 	}
 
 	private native JavaScriptObject getDownloadCallback(String title) /*-{

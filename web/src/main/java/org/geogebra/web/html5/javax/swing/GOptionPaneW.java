@@ -49,6 +49,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 	private Image icon;
 	private HorizontalPanel messagePanel;
+	private String okLabel = null;
 
 	private static FocusWidget caller;
 
@@ -207,7 +208,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	}
 
 	private void setLabels() {
-		btnOK.setText(loc.getPlain("OK"));
+		btnOK.setText(okLabel == null ? loc.getPlain("OK") : okLabel);
 		btnCancel.setText(loc.getPlain("Cancel"));
 	}
 
@@ -385,6 +386,27 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		requiresReturnValue = true;
 
 		showDialog(autoComplete);
+
+	}
+
+	public void showSaveDialog(App app, String message,
+			String initialSelectionValue,
+ Object icon, AsyncOperation handler,
+			String okLabel) {
+
+		this.app = app;
+		this.message = message;
+		this.title = null;
+		this.okLabel = okLabel;
+		this.optionType = GOptionPane.OK_CANCEL_OPTION;
+		this.messageType = GOptionPane.PLAIN_MESSAGE;
+		this.icon = (Image) icon;
+
+		this.initialSelectionValue = initialSelectionValue;
+		this.returnHandler = handler;
+		requiresReturnValue = true;
+
+		showDialog(false);
 
 	}
 
