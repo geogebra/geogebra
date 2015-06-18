@@ -80,7 +80,7 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 		boolean oldVal = kern.isUsingInternalCommandNames();
 		kern.setUseInternalCommandNames(true);
 		GeoElement[] ret = kern.getAlgebraProcessor().processAlgebraCommand(
-				"If[x>0,x,0]", false);
+				"If[x<1,x,x^2]", false);
 		kern.setUseInternalCommandNames(oldVal);
 		if ((ret != null) && (ret.length > 0) && (ret[0] != null)
 				&& (ret[0] instanceof GeoFunction)) {
