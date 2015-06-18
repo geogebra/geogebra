@@ -1943,7 +1943,7 @@ GeoContainer rbti,
 		c.setCoordinateSpaceHeight((int) (icon.getIconHeight() * ratio));
 		c.getElement().getStyle().setWidth(icon.getIconWidth(), Unit.PX);
 		c.getElement().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
-		g3.scale(ratio, ratio);
+		ctx.scale(ratio, ratio);
 
 		icon.paintIcon(new HasForegroundColor() {
 			@Override
