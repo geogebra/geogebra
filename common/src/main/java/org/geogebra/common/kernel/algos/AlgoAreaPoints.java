@@ -22,12 +22,20 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
-public class AlgoAreaPoints extends AlgoElement {
+public class AlgoAreaPoints extends AlgoElement implements
+		SymbolicParametersBotanaAlgo {
 
 	protected GeoPointND[] P; // input
 	protected GeoNumeric area; // output
+
+	private Variable[] botanaVars;
+	private Polynomial[][] botanaPolynomials;
 
 	public AlgoAreaPoints(Construction cons, String label, GeoPointND[] P) {
 		this(cons, P);
@@ -92,6 +100,31 @@ public class AlgoAreaPoints extends AlgoElement {
 	@Override
 	public void compute() {
 		area.setValue(Math.abs(AlgoPolygon.calcAreaWithSign(P)));
+	}
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		if (botanaVars == null) {
+			GeoPoint A = (GeoPoint) P[0];
+			GeoPoint B = (GeoPoint) P[1];
+			GeoPoint C = (GeoPoint) P[2];
+			Variable[] vA = A.getBotanaVars(A);
+			Variable[] vB = B.getBotanaVars(B);
+			Variable[] vC = C.getBotanaVars(C);
+			botanaVars = new Variable[6];
+			botanaVars[0] = vA[0];
+			botanaVars[1] = vA[1];
+			botanaVars[2] = vB[0];
+			botanaVars[3] = vB[1];
+			botanaVars[4] = vC[0];
+			botanaVars[5] = vC[1];
+		}
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// TODO Consider locusequability

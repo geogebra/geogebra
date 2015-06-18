@@ -11,12 +11,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  * Single intersection point
  */
 public class AlgoIntersectSingle extends AlgoIntersect implements
-		RestrictionAlgoForLocusEquation {
+		RestrictionAlgoForLocusEquation, SymbolicParametersBotanaAlgo {
 
 	// input
 	private AlgoIntersect algo;
@@ -31,6 +34,9 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 
 	private GeoPoint[] parentOutput;
 	private int idx;
+
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
 
 	/**
 	 * Creates algo for single intersection close to given point
@@ -283,4 +289,36 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 		return LocusEquation.eqnIntersectSingle(geo, this, scope);
 	}
 
+	public Variable[] getBotanaVars(GeoElement geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		if (algo != null) {
+			if (algo instanceof AlgoIntersectLineConic) {
+				botanaPolynomials = ((SymbolicParametersBotanaAlgo) algo)
+						.getBotanaPolynomials(geo);
+				if (botanaVars == null) {
+					botanaVars = ((SymbolicParametersBotanaAlgo) algo)
+							.getBotanaVars(geo);
+				}
+			}
+			if (algo instanceof AlgoIntersectConics) {
+				botanaPolynomials = ((SymbolicParametersBotanaAlgo) algo)
+						.getBotanaPolynomials(geo);
+				if (botanaVars == null) {
+					botanaVars = ((SymbolicParametersBotanaAlgo) algo)
+							.getBotanaVars(geo);
+				}
+			}
+			return botanaPolynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
 }

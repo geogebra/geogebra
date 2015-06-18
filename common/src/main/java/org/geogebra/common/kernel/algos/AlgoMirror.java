@@ -460,7 +460,14 @@ public class AlgoMirror extends AlgoTransformation implements
 
 		if (getRelatedModeID() == EuclidianConstants.MODE_MIRROR_AT_LINE) {
 
-			GeoPoint P = (GeoPoint) inGeo;
+			GeoPoint P;
+			// if we want to mirror a line
+			// then get the startpoint of the line
+			if (inGeo instanceof GeoLine) {
+				P = ((GeoLine) inGeo).startPoint;
+			} else {
+				P = (GeoPoint) inGeo;
+			}
 			GeoLine l = (GeoLine) mirrorLine;
 
 			if (P != null && l != null) {

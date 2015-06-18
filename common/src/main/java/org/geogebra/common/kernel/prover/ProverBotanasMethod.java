@@ -242,7 +242,7 @@ public class ProverBotanasMethod {
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.getParentAlgorithm() == null) {
+			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
 				freePoints.add(geo.getLabelSimple());
 			} else if (!(geo instanceof GeoNumeric)) {
 				StringBuilder construction = new StringBuilder();
