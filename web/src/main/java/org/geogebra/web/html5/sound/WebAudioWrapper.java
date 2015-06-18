@@ -19,7 +19,10 @@ public class WebAudioWrapper {
 			// Web Audio API is available.
 			$wnd.context = new contextClass();
 			$wnd.deltaTime = 1 / $wnd.context.sampleRate;
-
+			$wnd.ins = this;
+			$wnd.processor = $wnd.context.createScriptProcessor(2048, 0, 1);
+			$wnd.processor.onaudioprocess = this.@org.geogebra.web.html5.sound.WebAudioWrapper::onAudioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
+		
 			return true;
 		} else {
 			return false;
@@ -28,11 +31,9 @@ public class WebAudioWrapper {
 
 
 	public native void start(double min, int sampleRate) /*-{
-		$wnd.ins = this;
-		$wnd.processor = $wnd.context.createScriptProcessor(2048, 0, 1);
-		$wnd.processor.onaudioprocess = this.@org.geogebra.web.html5.sound.WebAudioWrapper::onAudioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
-		$wnd.processor.connect($wnd.context.destination);
+		// TODO: use sampleRate somehow as well
 		$wnd.time = min;
+		$wnd.processor.connect($wnd.context.destination);
 	}-*/;
 
 	public double eval(double t) {
@@ -52,8 +53,7 @@ public class WebAudioWrapper {
 	}-*/;
 
 	public native void stop() /*-{
-		$wnd.processor.disconnect($wnd.gainNode);
-		$wnd.gainNode.disconnect($wnd.context.destination);
+		$wnd.processor.disconnect($wnd.context.destination);
 
 	}-*/;
 
