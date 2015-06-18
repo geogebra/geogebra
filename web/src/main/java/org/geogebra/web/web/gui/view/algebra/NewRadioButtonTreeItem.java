@@ -212,7 +212,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 					// TODO: only create it in the input bar!!!
 					final GeoList mat = MatrixRadioButtonTreeItem
-							.create2x2ZeroMatrix(app.getKernel());
+							.create2x2IdentityMatrix(app.getKernel());
 					// scheduleDeferred alone does not work well!
 					Timer tim2 = new Timer() {
 						public void run() {

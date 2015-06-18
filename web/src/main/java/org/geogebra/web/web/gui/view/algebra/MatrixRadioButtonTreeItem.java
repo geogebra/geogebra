@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -190,16 +191,18 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		pButton.setVisible(bool);
 	}
 
-	public static GeoList create2x2ZeroMatrix(Kernel kern) {
+	public static GeoList create2x2IdentityMatrix(Kernel kern) {
+
+		Construction cons = kern.getConstruction();
 		// this works in a similar was as AlgoIdentity
-		GeoList ret = new GeoList(kern.getConstruction());
-		GeoList row = new GeoList(kern.getConstruction());
-		row.add(new GeoNumeric(kern.getConstruction(), 0));
-		row.add(new GeoNumeric(kern.getConstruction(), 0));
+		GeoList ret = new GeoList(cons);
+		GeoList row = new GeoList(cons);
+		row.add(new GeoNumeric(cons, 1));
+		row.add(new GeoNumeric(cons, 0));
 		ret.add(row);
-		row = new GeoList(kern.getConstruction());
-		row.add(new GeoNumeric(kern.getConstruction(), 0));
-		row.add(new GeoNumeric(kern.getConstruction(), 0));
+		row = new GeoList(cons);
+		row.add(new GeoNumeric(cons, 0));
+		row.add(new GeoNumeric(cons, 1));
 		ret.add(row);
 		ret.setLabel(ret.getDefaultLabel());
 		return ret;
