@@ -29,7 +29,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -126,7 +125,7 @@ public class Tablet implements EntryPoint {
 		// edit: maybe put this at the end of this method in production builds?
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				NativeEvent ne;
+				// NativeEvent ne;
 				switch (event.getTypeInt()) {
 				// case Event.ONKEYDOWN:
 				// ne = event.getNativeEvent();
@@ -135,16 +134,25 @@ public class Tablet implements EntryPoint {
 					// guess it's similar to ONMOUSEDOWN in Web.java
 
 					// heuristic for hovering
-					JavaScriptObject targ = null;
-					if (event.getNativeEvent() != null
-							&& event.getNativeEvent().getChangedTouches() != null
-							&& event.getNativeEvent().getChangedTouches()
-									.length() > 0)
-						targ = event.getNativeEvent().getChangedTouches()
-								.get(0).getTarget();
+					Element targ = null;
 
-					if (targ != null)
+					// if (event.getNativeEvent().get)
+
+					if ((event.getNativeEvent() != null)
+							&& (event.getNativeEvent().getChangedTouches() != null)
+							&& (event.getNativeEvent().getChangedTouches()
+									.length() > 0)
+							&& (event.getNativeEvent().getChangedTouches()
+									.get(0) != null)) {
+						// in theory, getTarget is an Element,
+						// but if it is not, then we don't want to esc editing
+						targ = Element.as(event.getNativeEvent()
+								.getChangedTouches().get(0).getTarget());
+					}
+
+					if (targ != null) {
 						DrawEquationWeb.escEditingWhenMouseDownElsewhere(targ);
+					}
 					// do not prevent default or change default behaviour
 					// in any case! this is just an "extra"
 					break;

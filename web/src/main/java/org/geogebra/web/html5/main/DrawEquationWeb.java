@@ -727,23 +727,19 @@ public class DrawEquationWeb extends DrawEquation {
 	 * 
 	 * @param targ
 	 */
-	public static void escEditingWhenMouseDownElsewhere(JavaScriptObject targ) {
+	public static void escEditingWhenMouseDownElsewhere(Element el) {
 		// also do the service of setting a "geogebraHover" class
-		Element el = null;
-		try {
-			el = Element.as(targ);
+		if ((el != null) && (el != currentHover)) {
+			if (currentHover != null) {
+				currentHover.removeClassName("geogebraHover");
+			}
 			el.addClassName("geogebraHover");
-		} catch (Exception ec) {
-		}
-		if (el != null) {
-			currentHover.removeClassName("geogebraHover");
 			currentHover = el;
 		}
-
 		// or, try escEditingWhenMouseDownElsewhere with geogebraHover...
 		if (currentWidget != null) {
 			// cases that do not escape editing:
-			if (targetHasFeature(targ, currentWidget.getElement(),
+			if (targetHasFeature(el, currentWidget.getElement(),
 					"MouseDownDoesntExitEditingFeature")) {
 				// 1. the widget itself...
 				// 2. any KeyboardButton ("false" includes that)
@@ -792,26 +788,18 @@ public class DrawEquationWeb extends DrawEquation {
 		if (el) {
 			if ($wnd.$ggbQuery(el).filter(':hover').length) {
 				return true;
-			} else if ($wnd.$ggbQuery(el).filter('.geogebraHover').length) {
-				return true;
 			}
 		}
 		if (pure) {
 			var ret = false;
-			$wnd
-					.$ggbQuery("." + pure)
-					.each(
-							function(idx, elm) {
-								if ($wnd.$ggbQuery(elm).filter(':hover').length) {
-									// this means the mouse is currently over an element
-									// with the "MouseDownDoesntExitEditingFeature" CSS class
-									// that is enough knowledge to return "true"
-									ret = true;
-								} else if ($wnd.$ggbQuery(elm).filter(
-										'.geogebraHover').length) {
-									ret = true;
-								}
-							});
+			$wnd.$ggbQuery("." + pure).each(function(idx, elm) {
+				if ($wnd.$ggbQuery(elm).filter(':hover').length) {
+					// this means the mouse is currently over an element
+					// with the "MouseDownDoesntExitEditingFeature" CSS class
+					// that is enough knowledge to return "true"
+					ret = true;
+				}
+			});
 			return ret;
 		}
 
@@ -828,19 +816,23 @@ public class DrawEquationWeb extends DrawEquation {
 	 * @param pure
 	 * @return
 	 */
-	public static native boolean targetHasFeature(JavaScriptObject targ,
+	public static native boolean targetHasFeature(Element targ,
 			Element el, String pure) /*-{
 		var targe = targ;
 		if ((targ === null) || (targ === undefined)) {
 			targe = ".geogebraHover";
 		}
 		if (el) {
-			if ($wnd.$ggbQuery(targe).parents().is(el)) {
+			if ($wnd.$ggbQuery(targe).is(el)) {
+				return true;
+			} else if ($wnd.$ggbQuery(targe).parents().is(el)) {
 				return true;
 			}
 		}
 		if (pure) {
-			if ($wnd.$ggbQuery(targe).parents().is("." + pure)) {
+			if ($wnd.$ggbQuery(targe).is("." + pure)) {
+				return true;
+			} else if ($wnd.$ggbQuery(targe).parents().is("." + pure)) {
 				return true;
 			}
 		}
