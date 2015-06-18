@@ -669,4 +669,8 @@ public class Command extends ValidExpression implements
           
 	}
 
+	public void setName(String string) {
+		this.name = string;
+	}
+
 }

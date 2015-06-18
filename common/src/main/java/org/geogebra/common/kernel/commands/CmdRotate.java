@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.TransformRotate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
@@ -66,13 +67,17 @@ public class CmdRotate extends CommandProcessor {
 	final protected GeoElement[] process2(Command c, GeoElement[] arg,
 			boolean[] ok) {
 
-		if ((ok[0] = true) && (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+		if (arg[1] instanceof GeoNumberValue) {
+			if (arg[0] instanceof GeoText) {
+				c.setName("RotateText");
+				return kernelA.getAlgebraProcessor().processCommand(c, false);
+			}
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
 
 			return Rotate(c.getLabel(), arg[0], phi);
 		}
 
-		throw argErr(app, c.getName(), getBadArg(ok, arg));
+		throw argErr(app, c.getName(), arg[0]);
 	}
 
 	/**
@@ -91,7 +96,10 @@ public class CmdRotate extends CommandProcessor {
 
 		if ((ok[0] = true) && (ok[1] = (arg[1] instanceof GeoNumberValue))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
-
+			if (arg[0] instanceof GeoText) {
+				c.setName("RotateText");
+				return kernelA.getAlgebraProcessor().processCommand(c, false);
+			}
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
 			GeoPointND Q = (GeoPointND) arg[2];
 

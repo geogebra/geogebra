@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 
 /**
@@ -30,7 +30,7 @@ public class AlgoRotateText extends AlgoElement {
 
 	private GeoText text; // output
 	private GeoText args; // input
-	private GeoNumeric angle; // input
+	private GeoNumberValue angle; // input
 
 	private StringBuilder sb = new StringBuilder();
 
@@ -47,7 +47,7 @@ public class AlgoRotateText extends AlgoElement {
 	 *            angle of rotation
 	 */
 	public AlgoRotateText(Construction cons, String label, GeoText args,
-			GeoNumeric angle) {
+			GeoNumberValue angle) {
 		this(cons, args, angle);
 		text.setLabel(label);
 	}
@@ -62,7 +62,7 @@ public class AlgoRotateText extends AlgoElement {
 	 * @param angle
 	 *            angle of rotation
 	 */
-	AlgoRotateText(Construction cons, GeoText args, GeoNumeric angle) {
+	AlgoRotateText(Construction cons, GeoText args, GeoNumberValue angle) {
 		super(cons);
 		this.args = args;
 		this.angle = angle;
@@ -83,7 +83,7 @@ public class AlgoRotateText extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = args;
-		input[1] = angle;
+		input[1] = angle.toGeoElement();
 
 		args.addTextDescendant(text);
 
@@ -109,7 +109,7 @@ public class AlgoRotateText extends AlgoElement {
 		}
 
 		sb.setLength(0);
-		appendRotatedText(sb, args, angle.getValue() * 180 / Math.PI);
+		appendRotatedText(sb, args, angle.getDouble() * 180 / Math.PI);
 
 		text.setTextString(sb.toString());
 		text.setLaTeX(true, false);
