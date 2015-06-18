@@ -342,4 +342,8 @@ public class NewCASTableCellEditorW extends Label implements
 		this.autocomplete = autocomplete;
 
 	}
+
+	public boolean isForCAS() {
+		return true;
+	}
 }

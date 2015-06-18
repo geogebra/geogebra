@@ -1781,4 +1781,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		return null;
 	}
 
+	public boolean isForCAS() {
+		return false;
+	}
+
 }

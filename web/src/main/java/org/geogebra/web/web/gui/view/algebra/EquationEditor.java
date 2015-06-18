@@ -48,6 +48,7 @@ public class EquationEditor {
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
 		public void onSuggestionsReady(SuggestOracle.Request req,
 		        SuggestOracle.Response res) {
+			sug.updateHeight();
 			component.updatePosition(sug);
 			sug.accessShowSuggestions(res, popup, sugCallback);
 		}
@@ -210,8 +211,11 @@ public class EquationEditor {
 
 	public AutoCompleteDictionary getDictionary() {
 		if (this.dict == null) {
-			this.dict = // this.forCAS ? app.getCommandDictionaryCAS() :
+
+			this.dict = component.isForCAS() ? app.getCommandDictionaryCAS()
+					:
 			app.getCommandDictionary();
+			App.debug("COMMANDS LOADED" + dict.size());
 		}
 		return dict;
 	}

@@ -24,4 +24,6 @@ public interface EquationEditorListener extends AutoCompleteW {
 
 	String getLaTeX();
 
+	boolean isForCAS();
+
 }

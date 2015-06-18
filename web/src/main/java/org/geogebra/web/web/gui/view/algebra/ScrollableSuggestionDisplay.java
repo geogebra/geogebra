@@ -6,10 +6,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.Widget;
 
 public final class ScrollableSuggestionDisplay extends
         DefaultSuggestionDisplay {
@@ -50,11 +50,7 @@ public final class ScrollableSuggestionDisplay extends
 		scrollable = new ScrollPanel(suggestionList);
 
 		// heuristic
-		scrollable
-		        .getElement()
-		        .getStyle()
-		        .setProperty("maxHeight",
-		                (Window.getClientHeight() / 2) + "px");
+		updateHeight();
 		// it's a good question what this number might be, but on
 		// big screen (Window.getClientHeight() / 2) is not a problem
 		// and on small screens it may also be necessary
@@ -68,6 +64,14 @@ public final class ScrollableSuggestionDisplay extends
 		scrollable.addStyleName("ggb-AlgebraViewSuggestionList");
 
 		return scrollable;
+	}
+
+	public void updateHeight() {
+		scrollable
+				.getElement()
+				.getStyle()
+				.setProperty("maxHeight", (Window.getClientHeight() / 2) + "px");
+
 	}
 
 	public void accessShowSuggestions(SuggestOracle.Response res,
