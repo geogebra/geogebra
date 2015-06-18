@@ -7,7 +7,7 @@
 MY_VERSION=1.2
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
-TIMEOUT=10
+TIMEOUT=20
 IMGHEIGHT=25
 HTML=html/index.html
 TEX=html/index.tex
