@@ -731,9 +731,14 @@ public class DrawEquationWeb extends DrawEquation {
 		// also do the service of setting a "geogebraHover" class
 		if ((el != null) && (el != currentHover)) {
 			if (currentHover != null) {
-				currentHover.removeClassName("geogebraHover");
+				currentHover.removeAttribute("data-geogebra-tablet-hovered");
 			}
-			el.addClassName("geogebraHover");
+			// className is not working for canvas, or other elements
+			// which set the entire class name, and not only one of
+			// its parts (i.e. add or remove a word), and in JQuery,
+			// we don't have property selector, just .prop...
+			// so what remained? Attribute: data-geogebra-tablet-hovered
+			el.setAttribute("data-geogebra-tablet-hovered", "true");
 			currentHover = el;
 		}
 		// or, try escEditingWhenMouseDownElsewhere with geogebraHover...
@@ -818,25 +823,45 @@ public class DrawEquationWeb extends DrawEquation {
 	 */
 	public static native boolean targetHasFeature(Element targ,
 			Element el, String pure) /*-{
-		var targe = targ;
 		if ((targ === null) || (targ === undefined)) {
-			targe = ".geogebraHover";
-		}
-		if (el) {
-			if ($wnd.$ggbQuery(targe).is(el)) {
-				return true;
-			} else if ($wnd.$ggbQuery(targe).parents().is(el)) {
-				return true;
+			// instead of selecting targ, select the element
+			// with the geogebraHover JavaScript property
+			if (el) {
+				if ($wnd.$ggbQuery("[data-geogebra-tablet-hovered=true]")
+						.is(el)) {
+					return true;
+				} else if ($wnd
+						.$ggbQuery("[data-geogebra-tablet-hovered=true]")
+						.parents().is(el)) {
+					return true;
+				}
+			}
+			if (pure) {
+				if ($wnd.$ggbQuery("[data-geogebra-tablet-hovered=true]").is(
+						"." + pure)) {
+					return true;
+				} else if ($wnd
+						.$ggbQuery("[data-geogebra-tablet-hovered=true]")
+						.parents().is("." + pure)) {
+					return true;
+				}
+			}
+		} else {
+			if (el) {
+				if ($wnd.$ggbQuery(targ).is(el)) {
+					return true;
+				} else if ($wnd.$ggbQuery(targ).parents().is(el)) {
+					return true;
+				}
+			}
+			if (pure) {
+				if ($wnd.$ggbQuery(targ).is("." + pure)) {
+					return true;
+				} else if ($wnd.$ggbQuery(targ).parents().is("." + pure)) {
+					return true;
+				}
 			}
 		}
-		if (pure) {
-			if ($wnd.$ggbQuery(targe).is("." + pure)) {
-				return true;
-			} else if ($wnd.$ggbQuery(targe).parents().is("." + pure)) {
-				return true;
-			}
-		}
-
 		// no CSS class provided, or it is empty, mouse is over nothing significant
 		return false;
 	}-*/;
