@@ -784,15 +784,20 @@ public class DrawEquationWeb extends DrawEquation {
 
 	}-*/;
 
+	/**
+	 * This method shall only be called from mobile browsers
+	 * 
+	 * @param targ
+	 */
 	public static void escEditingWhenMouseDownElsewhere(JavaScriptObject targ) {
 		// also do the service of setting a "geogebraHover" class
 		Element el = null;
 		try {
 			el = Element.as(targ);
+			el.addClassName("geogebraHover");
 		} catch (Exception ec) {
 		}
 		if (el != null) {
-			el.addClassName("geogebraHover");
 			currentHover.removeClassName("geogebraHover");
 			currentHover = el;
 		}
@@ -878,7 +883,8 @@ public class DrawEquationWeb extends DrawEquation {
 
 	/**
 	 * If mouse is currently over Element el, OR mouse is currently over an
-	 * element with CSS class pure, e.g. "MouseDownDoesntExitEditingFeature"
+	 * element with CSS class pure, e.g. "MouseDownDoesntExitEditingFeature" in
+	 * theory, this method shall only be called from mobile browsers
 	 * 
 	 * @param el
 	 * @param pure
@@ -887,16 +893,16 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native boolean targetHasFeature(JavaScriptObject targ,
 			Element el, String pure) /*-{
 		var targe = targ;
-		if (targe === null) {
+		if ((targ === null) || (targ === undefined)) {
 			targe = ".geogebraHover";
 		}
 		if (el) {
-			if ($wnd.$ggbQuery(targ).parents().is(el)) {
+			if ($wnd.$ggbQuery(targe).parents().is(el)) {
 				return true;
 			}
 		}
 		if (pure) {
-			if ($wnd.$ggbQuery(targ).parents().is("." + pure)) {
+			if ($wnd.$ggbQuery(targe).parents().is("." + pure)) {
 				return true;
 			}
 		}

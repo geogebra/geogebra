@@ -9,6 +9,9 @@ import com.google.gwt.user.client.Window.Location;
 public class Browser {
 	public static boolean webWorkerSupported = false;
 
+	// for efficiency, saving computation time
+	public static boolean isMobile = isMobileBrowser();
+
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
 		// however, this is not necessarily the best method to decide
@@ -250,6 +253,10 @@ public class Browser {
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test($wnd.navigator.userAgent);
 	}-*/;
+
+	public static boolean isMobileBrowserQuick() {
+		return isMobile;
+	}
 	
 	/**
 	 * @return true if Javascript CAS is supported.

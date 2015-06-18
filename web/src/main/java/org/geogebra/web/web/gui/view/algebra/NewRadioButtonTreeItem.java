@@ -593,7 +593,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// remedy for this might be to set focus back to
 		// NewRadioButtonTreeItem in case "mouseIsOver", or some other
 		// idea shall be invented TODO
-		if (Browser.isMobileBrowser()) {
+		if (Browser.isMobileBrowserQuick()) {
 			if (!DrawEquationWeb.targetHasFeature(null, getElement(),
 					"BlurDoesntUpdateGUIFeature")) {
 				if (((AlgebraViewW) av).isNodeTableEmpty()) {
