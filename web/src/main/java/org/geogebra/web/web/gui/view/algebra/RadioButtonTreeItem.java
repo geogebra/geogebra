@@ -67,7 +67,6 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -101,7 +100,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -125,7 +123,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
         MouseUpHandler,
         MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
-		EquationEditorListener, CanBlockBlurEvent {
+ EquationEditorListener {
 
 	protected FlowPanel buttonPanel;
 	protected PushButton xButton;
@@ -150,11 +148,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private boolean needsUpdate;
 
 	private LongTouchManager longTouchManager;
-
-	/**
-	 * prevents that a blur event stops the editing process
-	 */
-	boolean blockBlur = false;
 
 	/**
 	 * Slider to be shown as part of the extended Slider entries
@@ -910,11 +903,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
-	public boolean blockBlurSensible() {
-		return !newCreationMode
-		        && (!LaTeX || (geo.isGeoVector() && geo.isIndependent()));
-	}
-
 	public void startEditing() {
 		// buttonPanel.setVisible(true);
 
@@ -1061,10 +1049,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public boolean stopEditing(String newValue0) {
 
 		boolean ret = false;
-
-		if (blockBlur && blockBlurSensible()) {
-			return false;
-		}
 
 		removeCloseButton();
 
@@ -1631,14 +1615,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// geogebra.html5.main.DrawEquationWeb.scrollCursorIntoView(this,
 		// seMayLatex);
 		// put to focus handler
-	}
-
-	public void resetBlockBlur() {
-		this.blockBlur = false;
-		if (tb != null) {
-			NativeEvent event = Document.get().createBlurEvent();
-			tb.onBrowserEvent(Event.as(event));
-		}
 	}
 
 	public void insertString(String text) {
