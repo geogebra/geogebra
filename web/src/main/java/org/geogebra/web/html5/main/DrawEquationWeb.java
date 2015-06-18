@@ -724,8 +724,6 @@ public class DrawEquationWeb extends DrawEquation {
 
 	/**
 	 * This method shall only be called from mobile browsers
-	 * 
-	 * @param targ
 	 */
 	public static void escEditingWhenMouseDownElsewhere(Element el) {
 		// also do the service of setting a "geogebraHover" class

@@ -146,8 +146,11 @@ public class Tablet implements EntryPoint {
 									.get(0) != null)) {
 						// in theory, getTarget is an Element,
 						// but if it is not, then we don't want to esc editing
-						targ = Element.as(event.getNativeEvent()
-								.getChangedTouches().get(0).getTarget());
+						JavaScriptObject obj = event.getNativeEvent()
+								.getChangedTouches().get(0).getTarget();
+						if (Element.is(obj)) {
+							targ = Element.as(obj);
+						}
 					}
 
 					if (targ != null) {
