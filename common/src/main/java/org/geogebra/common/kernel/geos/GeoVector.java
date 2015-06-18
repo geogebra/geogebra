@@ -689,6 +689,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sb.append("}}}}");
 			return;
 		}
+		buildTabular(inputs, sb);
+
+	}
+
+	private static void buildTabular(String[] inputs, StringBuilder sb) {
 		boolean alignOnDecimalPoint = true;
 		for (int i = 0; i < inputs.length; i++) {
 			if (inputs[i].indexOf('.') == -1) {
@@ -698,12 +703,12 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		}
 
 		if (alignOnDecimalPoint) {
-			sb.append("\\left( \\begin{tabular}{r@{.}l}");
+			sb.append("\\left(\\hspace{-0.4em} \\begin{tabular}{r@{.}l}");
 			for (int i = 0; i < inputs.length; i++) {
 				inputs[i] = inputs[i].replace('.', '&');
 			}
 		} else {
-			sb.append("\\left( \\begin{tabular}{r}");
+			sb.append("\\left(\\hspace{-0.4em} \\begin{tabular}{r}");
 		}
 
 		for (int i = 0; i < inputs.length; i++) {
@@ -711,7 +716,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sb.append(" \\\\ ");
 		}
 
-		sb.append("\\end{tabular} \\right)");
+		sb.append("\\end{tabular}\\hspace{-0.4em} \\right)");
 		
 	}
 
@@ -793,30 +798,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			} else {
 			
 
-				boolean alignOnDecimalPoint = true;
-				for (int i = 0 ; i < inputs.length ; i++) {
-					if (inputs[i].indexOf('.') == -1) {
-						alignOnDecimalPoint = false;
-						continue;
-					}
-				}
-
-				if (alignOnDecimalPoint) {
-					sb.append("\\left( \\begin{tabular}{r@{.}l}");
-					for (int i = 0 ; i < inputs.length ; i++) {
-						inputs[i] = inputs[i].replace('.', '&');
-					}
-				} else {			
-					sb.append("\\left( \\begin{tabular}{r}");
-				}
-
-
-				for (int i = 0 ; i < inputs.length ; i++) {
-					sb.append(inputs[i]);
-					sb.append(" \\\\ ");    			
-				}
-
-				sb.append("\\end{tabular} \\right)"); 
+				buildTabular(inputs, sb);
 			}
 			break;
 		}
