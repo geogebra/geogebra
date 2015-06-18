@@ -301,7 +301,8 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	@Override
-	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
+	public GDimension drawEquation(App app1, GeoElement geo,
+			final GGraphics2D g2,
 	        int x, int y, String latexString0, GFont font, boolean serif,
 	        final GColor fgColor, GColor bgColor, boolean useCache,
 			boolean updateAgain, final Runnable callback) {
@@ -311,10 +312,11 @@ public class DrawEquationWeb extends DrawEquation {
 			TeXIcon icon = createIcon(eqstring, font.getSize() + 3,
 					font.getStyle(), serif);
 			Graphics2DW g3 = new Graphics2DW(
-					((GGraphics2DW) g2).getContext());
+((GGraphics2DW) g2).getContext());
 			g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
 
 				public void onDrawingFinished() {
+					((GGraphics2DW) g2).updateCanvasColor();
 					if (callback != null) {
 						callback.run();
 					}
