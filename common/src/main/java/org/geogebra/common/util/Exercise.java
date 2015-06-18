@@ -13,8 +13,10 @@ public class Exercise {
 	private ArrayList<Assignment> assignments;
 	private Kernel kernel;
 	private Construction construction;
+	private App app;
 
 	public Exercise(App app) {
+		this.app = app;
 		kernel = app.getKernel();
 		construction = kernel.getConstruction();
 
@@ -31,8 +33,18 @@ public class Exercise {
 	}
 
 	public void checkExercise() {
+		ArrayList<String> addListeners = app.getScriptManager()
+				.getAddListeners();
+		ArrayList<String> tmpListeners = new ArrayList<String>();
+		for (String addListener : addListeners) {
+			tmpListeners.add(addListener);
+			app.getScriptManager().unregisterAddListener(addListener);
+		}
 		for (Assignment assignment : assignments) {
 			assignment.checkAssignment(construction);
+		}
+		for (String addListener : tmpListeners) {
+			app.getScriptManager().registerAddListener(addListener);
 		}
 	}
 
