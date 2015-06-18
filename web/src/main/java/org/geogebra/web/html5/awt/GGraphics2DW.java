@@ -632,6 +632,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 	}
 
 	public void drawRect(int x, int y, int width, int height) {
+		context.beginPath();
 		context.rect(x, y, width, height);
 		context.stroke();
 
