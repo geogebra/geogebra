@@ -73,8 +73,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		}
 		this.app.getLoginOperation().getView().add(this);
 		this.container = new HorizontalPanel();
-		this.container.setPixelSize(Window.getClientWidth(),
-		        Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.container.setPixelSize((int) app.getWidth(),
+ (int) app.getHeight()
+				- GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		this.container.setStyleName("content");
 
 		initMaterialListPanel();
