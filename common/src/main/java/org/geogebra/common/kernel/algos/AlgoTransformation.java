@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
  * Algorithms for transformations
@@ -85,16 +86,16 @@ public abstract class AlgoTransformation extends AlgoElement {
 			compute();
 			setTransformedObject(a, b);
 		}
-		if (a instanceof GeoConicPart) {
-			double p = ((GeoConicPart) a).getParameterStart();
-			double q = ((GeoConicPart) a).getParameterEnd();
+		if (a instanceof GeoConicPartND) {
+			double p = ((GeoConicPartND) a).getParameterStart();
+			double q = ((GeoConicPartND) a).getParameterEnd();
 			// Application.debug(p+","+q);
-			((GeoConicPart) b).setParameters(p, q,
-					swapOrientation((GeoConicPart) a));
+			((GeoConicPartND) b).setParameters(p, q,
+					swapOrientation((GeoConicPartND) a));
 		}
 	}
 
-	public boolean swapOrientation(GeoConicPart p) {
+	public boolean swapOrientation(GeoConicPartND p) {
 		// Application.debug(positiveOrientation);
 		return p == null || p.positiveOrientation();
 	}

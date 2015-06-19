@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.MyMath;
 
@@ -202,7 +203,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 	}
 
 	@Override
-	public boolean swapOrientation(GeoConicPart arc) {
+	public boolean swapOrientation(GeoConicPartND arc) {
 		if (shear || num == null)
 			return (arc == null || arc.positiveOrientation());
 		return (arc == null || arc.positiveOrientation())

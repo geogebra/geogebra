@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -419,17 +420,17 @@ public class AlgoMirror extends AlgoTransformation implements
 	}
 
 	@Override
-	public boolean swapOrientation(GeoConicPart arc) {
+	public boolean swapOrientation(GeoConicPartND arc) {
 		if (arc == null) {
 			return true;
-		} else if (mirror != mirrorConic) {
+		} else if (mirror != mirrorConic || !(arc instanceof GeoConicPart)) {
 			return arc.positiveOrientation();
 		}
-		GeoVec2D arcCentre = arc.getTranslationVector();
+		GeoVec2D arcCentre = ((GeoConicPart) arc).getTranslationVector();
 		GeoVec2D mirrorCentre = mirrorConic.getTranslationVector();
 		double dist = MyMath.length(arcCentre.getX() - mirrorCentre.getX(),
 				arcCentre.getY() - mirrorCentre.getY());
-		return !Kernel.isGreater(dist, arc.halfAxes[0]);
+		return !Kernel.isGreater(dist, ((GeoConicPart) arc).halfAxes[0]);
 	}
 
 	@Override

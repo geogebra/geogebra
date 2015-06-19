@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoly;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
  * 
@@ -186,7 +187,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	}
 
 	@Override
-	public boolean swapOrientation(GeoConicPart arc) {
+	public boolean swapOrientation(GeoConicPartND arc) {
 		double a, b, c, d;
 		a = ((NumberValue) (matrix.get(0, 0))).getDouble();
 		b = ((NumberValue) (matrix.get(1, 0))).getDouble();
