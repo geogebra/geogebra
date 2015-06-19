@@ -7,6 +7,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -43,6 +44,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	private DataAnalysisViewW statDialog;
 	private AppW app;
 	private DataAnalysisModel daModel;
+
+	private CheckBox ckPooled;
 
 	/*************************************
 	 * Constructor
@@ -98,19 +101,21 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		
 		switch (model.getSelectedMode()) {
 
-		case StatisticsModel.INFER_ZTEST:
 		case StatisticsModel.INFER_TTEST:
+		case StatisticsModel.INFER_ZTEST:
 		case StatisticsModel.INFER_ZINT:
 		case StatisticsModel.INFER_TINT:
 			inferencePanel.add(getOneVarInferencePanel());
 			break;
 
 		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TTEST_PAIRED:
 		case StatisticsModel.INFER_TINT_2MEANS:
+			inferencePanel.add(getTwoVarInferencePanel(true));
+			break;
+
+		case StatisticsModel.INFER_TTEST_PAIRED:
 		case StatisticsModel.INFER_TINT_PAIRED:
-			inferencePanel.add(getTwoVarInferencePanel());
-			//inferencePanel.add(statTable);
+			inferencePanel.add(getTwoVarInferencePanel(false));
 			break;
 
 		case StatisticsModel.INFER_ANOVA:
@@ -133,6 +138,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		selectionPanel = new FlowPanel();
 		selectionPanel.add(lbInferenceMode);
+
+
 	}
 
 	private ANOVATableW getAnovaTable() {
@@ -141,16 +148,27 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		return anovaTable;
 	}
 
+
 	private OneVarInferencePanelW getOneVarInferencePanel() {
-		if (oneVarInferencePanel == null)
+		if (oneVarInferencePanel == null) {
 			oneVarInferencePanel = new OneVarInferencePanelW(app, statDialog);
+		}
 		return oneVarInferencePanel;
 	}
 
 	private TwoVarInferencePanelW getTwoVarInferencePanel() {
-		if (twoVarInferencePanel == null)
+		if (twoVarInferencePanel == null) {
 			twoVarInferencePanel = new TwoVarInferencePanelW(app, statDialog);
+		}
+
+
 		return twoVarInferencePanel;
+	}
+
+	private TwoVarInferencePanelW getTwoVarInferencePanel(boolean pooled) {
+		TwoVarInferencePanelW p = getTwoVarInferencePanel();
+		p.setEnablePooled(pooled);
+		return p;
 	}
 
 	private MultiVarStatPanelW getMinMVStatPanel() {

@@ -49,8 +49,6 @@ public class StatisticsModel {
 	private HashMap<Integer, String> labelMap;
 	private HashMap<String, Integer> labelMapReverse;
 	private int selectedMode = SUMMARY_STATISTICS;
-
-
 	// ggb fields
 	private App app;
 	private DataAnalysisModel daModel;

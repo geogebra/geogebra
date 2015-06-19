@@ -14,6 +14,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -43,6 +45,8 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private FlowPanel samplePanel;
 	private TwoVarStatPanelW twoStatPanel;
 	private TwoVarInferenceModel model;
+	private boolean enablePooled;
+	private CheckBox ckPooled;
 	/**
 	 * Construct a TwoVarInference panel
 	 */
@@ -58,6 +62,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		this.setLabels();
 		setStyleName("daTwoVarInference");
 		isIniting = false;
+		this.enablePooled = false;
 
 	}
 
@@ -86,6 +91,15 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		lblTitle1 = new Label();
 		lblTitle2 = new Label();
 
+		ckPooled = new CheckBox();
+		ckPooled.addStyleName("ckPooled");
+		ckPooled.setValue(false);
+		ckPooled.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				model.setPooled(ckPooled.getValue());
+			}
+		});
 		ckEqualVariances = new CheckBox();
 
 		lbAltHyp = new ListBox();
@@ -142,6 +156,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 		// test panel
 		testPanel = new FlowPanel();
+
 		testPanel.add(LayoutUtil.panelRow(lblNull, lblHypParameter));
 		testPanel.add(LayoutUtil.panelRow(lblTailType, lbAltHyp));
 
@@ -164,6 +179,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 		// main panel
 		mainPanel = new FlowPanel();
+		add(ckPooled);
 		add(mainPanel);
 
 	}
@@ -270,7 +286,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		// btnCalc.setText(app.getMenu("Calculate"));
 
 		ckEqualVariances.setText(app.getMenu("EqualVariance"));
-
+		ckPooled.setText(app.getMenu("Pooled"));
 	}
 
 	public void updatePanel() {
@@ -352,6 +368,15 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	public void selectAltHyp(int idx) {
 	   lbAltHyp.setSelectedIndex(idx);
     }
+
+	public boolean isEnablePooled() {
+		return enablePooled;
+	}
+
+	public void setEnablePooled(boolean enablePooled) {
+		this.enablePooled = enablePooled;
+		ckPooled.setVisible(enablePooled);
+	}
 
 
 }

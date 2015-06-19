@@ -119,11 +119,15 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 			break;
 
 		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TTEST_PAIRED:
 		case StatisticsModel.INFER_TINT_2MEANS:
+			inferencePanel.add(getTwoVarInferencePanel(true),
+					BorderLayout.NORTH);
+			break;
+
+		case StatisticsModel.INFER_TTEST_PAIRED:
 		case StatisticsModel.INFER_TINT_PAIRED:
-			inferencePanel.add(getTwoVarInferencePanel(), BorderLayout.NORTH);
-			// inferencePanel.add(statTable, BorderLayout.CENTER);
+			inferencePanel.add(getTwoVarInferencePanel(false),
+					BorderLayout.NORTH);
 			break;
 
 		case StatisticsModel.INFER_ANOVA:
@@ -176,6 +180,12 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		if (twoVarInferencePanel == null)
 			twoVarInferencePanel = new TwoVarInferencePanel(app, statDialog);
 		return twoVarInferencePanel;
+	}
+
+	private TwoVarInferencePanel getTwoVarInferencePanel(boolean enablePooled) {
+		TwoVarInferencePanel p = getTwoVarInferencePanel();
+		p.setEnablePooled(enablePooled);
+		return p;
 	}
 
 	private MultiVarStatPanel getMinMVStatPanel() {

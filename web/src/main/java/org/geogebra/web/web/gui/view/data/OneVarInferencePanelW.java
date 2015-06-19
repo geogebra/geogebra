@@ -81,6 +81,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	
 	private int selectedPlot = StatisticsModel.INFER_TINT;
 	private LocalizationW loc;
+	private boolean enablePooled;
 
 	private class ParamKeyHandler implements KeyHandler {
 		private Object source;
@@ -110,7 +111,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	/***************************************
 	 * Construct a OneVarInference panel
 	 */
-	public OneVarInferencePanelW(AppW app, DataAnalysisViewW statDialog){
+	public OneVarInferencePanelW(AppW app, DataAnalysisViewW statDialog) {
 
 		isIniting = true;
 		this.app = app;
@@ -118,7 +119,6 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		this.kernel = app.getKernel();
 		this.statDialog = statDialog;
 		this.statDialog.getController().loadDataLists(true);
-		
 		this.createGUIElements();
 		
 		this.updateGUI();
@@ -584,5 +584,13 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
    
     }
 
+
+	public boolean isEnablePooled() {
+		return enablePooled;
+	}
+
+	public void setEnablePooled(boolean enablePooled) {
+		this.enablePooled = enablePooled;
+	}
 
 }

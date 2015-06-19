@@ -414,6 +414,7 @@ public class TwoVarInferenceModel {
 	}
 	public void setPooled(boolean pooled) {
 		this.pooled = pooled;
+		updateResults();
 	}
 
 	public void fillAlternateHyp() {

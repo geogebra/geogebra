@@ -53,6 +53,8 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private JPanel samplePanel;
 	private TwoVarStatPanel twoStatPanel;
 	private TwoVarInferenceModel model;
+	private boolean enablePooled;
+	private JCheckBox ckPooled;
 
 	/**
 	 * Construct a TwoVarInference panel
@@ -84,6 +86,9 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		cbTitle2 = new JComboBox();
 		cbTitle1.addActionListener(this);
 		cbTitle2.addActionListener(this);
+
+		ckPooled = new JCheckBox();
+		ckPooled.addActionListener(this);
 
 		lblTitle1 = new JLabel();
 		lblTitle2 = new JLabel();
@@ -170,6 +175,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		mainPanel.removeAll();
 
+
 		// constraints
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridy = GridBagConstraints.RELATIVE;
@@ -188,6 +194,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		tab.anchor = GridBagConstraints.NORTHWEST;
 
 		// layout
+		mainPanel.add(ckPooled, c);
 		if (model.isTest())
 			mainPanel.add(testPanel, c);
 		else
@@ -228,6 +235,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		updateMainPanel();
 
+		// ckPooled.setSelected(model.isPooled());
 		twoStatPanel.updatePanel();
 
 	}
@@ -302,7 +310,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		// btnCalc.setText(app.getMenu("Calculate"));
 
 		ckEqualVariances.setText(app.getMenu("EqualVariance"));
-
+		ckPooled.setText(app.getMenu("Pooled"));
 	}
 
 	public void updatePanel() {
@@ -334,7 +342,10 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		else if (source == ckEqualVariances) {
 			model.setPooled(ckEqualVariances.isSelected());
+		} else if (source == ckPooled) {
+			model.setPooled(ckPooled.isSelected());
 		}
+
 
 	}
 
@@ -407,6 +418,15 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	public void selectAltHyp(int idx) {
 		cbAltHyp.setSelectedIndex(idx);
+	}
+
+	public boolean isEnablePooled() {
+		return enablePooled;
+	}
+
+	public void setEnablePooled(boolean enablePooled) {
+		this.enablePooled = enablePooled;
+		ckPooled.setVisible(enablePooled);
 	}
 
 }
