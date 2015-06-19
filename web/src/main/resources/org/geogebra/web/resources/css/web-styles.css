@@ -4701,7 +4701,6 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 }
 
 .optionsPopup {
-	position: relative !important;
 	float: right;
 	background: none;
 	box-shadow: none;

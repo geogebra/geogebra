@@ -107,7 +107,8 @@ public class LayoutW extends Layout implements SettingListener {
 		// change the dock panel layout
 		app.setKeyboardNeeded(false);
 		for (DockPanelData dp : perspective.getDockPanelData()) {
-			if (dp.isVisible() && dp.getViewId() == App.VIEW_ALGEBRA) {
+			if (dp.isVisible()
+					&& (dp.getViewId() == App.VIEW_ALGEBRA || dp.getViewId() == App.VIEW_CAS)) {
 				app.setKeyboardNeeded(true);
 			}
 		}

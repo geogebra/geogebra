@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -151,6 +152,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	public void doShowKeyBoard(final boolean show,
 	        MathKeyboardListener textField) {
 		if (this.keyboardShowing == show) {
+			app.getGuiManager().setOnScreenKeyboardTextField(textField);
 			return;
 		}
 
@@ -251,7 +253,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	public void showKeyBoard(boolean show, MathKeyboardListener textField,
 	        boolean forceShow) {
-		keyBoardNeeded(show, textField);
+		if (forceShow) {
+			doShowKeyBoard(show, textField);
+		} else {
+			keyBoardNeeded(show, textField);
+		}
 	}
 
 	@Override
@@ -270,18 +276,40 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
-		if(app.getLAF().isSmart() || !(app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView)){
+		if (app.getLAF().isSmart() || !appNeedsKeyboard()) {
 			return;
 		}
 		if (showKeyboardButton == null) {
-			DockPanelW algebraDockPanel = (DockPanelW) app.getGuiManager()
-			        .getLayout()
-			        .getDockManager().getPanel(App.VIEW_ALGEBRA);
-			showKeyboardButton = new ShowKeyboardButton(this,
-					(DockManagerW) app.getGuiManager().getLayout()
-							.getDockManager(), algebraDockPanel);
+			if (app.has(Feature.CAS_EDITOR)) {
+				DockManagerW dm = (DockManagerW) app.getGuiManager()
+						.getLayout()
+						.getDockManager();
+				DockPanelW dockPanelKB = dm.getPanelForKeyboard();
+
+				if (dockPanelKB != null) {
+					showKeyboardButton = new ShowKeyboardButton(this, dm,
+							dockPanelKB);
+					dockPanelKB.setKeyBoardButton(showKeyboardButton);
+				}
+			} else {
+				showInAlgebra();
+			}
+
 		}
 		showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+	}
+
+	private boolean appNeedsKeyboard() {
+		return (app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView)
+				|| (app.has(Feature.CAS_EDITOR) && app.showView(App.VIEW_CAS));
+	}
+
+	private void showInAlgebra() {
+		DockPanelW algebraDockPanel = (DockPanelW) app.getGuiManager()
+				.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
+		showKeyboardButton = new ShowKeyboardButton(this, (DockManagerW) app
+				.getGuiManager().getLayout().getDockManager(), algebraDockPanel);
+
 	}
 
 	public void showKeyboardButton(boolean show) {
@@ -311,7 +339,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		} else {
 			if (app != null
 			        && app.isKeyboardNeeded()
- && app.showAlgebraInput()) {
+ && appNeedsKeyboard()) {
 				if (app.getArticleElement().getDataParamBase64String().length() == 0) {
 				keyboardShowing = true;
 				app.getGuiManager().invokeLater(new Runnable() {
@@ -336,6 +364,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 					}
 					});
 				} else {
+					this.showKeyboardButton(null);
 					app.getGuiManager().getOnScreenKeyboard(null, this)
 							.showOnFocus();
 				}
