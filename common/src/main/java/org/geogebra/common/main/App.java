@@ -3734,13 +3734,12 @@ public abstract class App implements UpdateSelection {
 	
 	public final boolean has(Feature f) {
 		switch (f) {
-		case SEQUENTIAL_COLORS:
 		case DATA_COLLECTION:
 		case GL_ELEMENTS:
 			return canary;
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
-
+		case SEQUENTIAL_COLORS:
 		case EXERCISES:
 		case IMPLICIT_CURVES:
 		case KOREAN_KEYBOARD:
