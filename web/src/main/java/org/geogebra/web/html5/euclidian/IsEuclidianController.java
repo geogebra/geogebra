@@ -22,4 +22,6 @@ public interface IsEuclidianController extends LongTouchHandler {
 
 	boolean isDraggingBeyondThreshold();
 
+	int getMode();
+
 }

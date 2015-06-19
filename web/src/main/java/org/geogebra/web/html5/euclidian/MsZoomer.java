@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -76,7 +77,9 @@ public class MsZoomer {
 	}
 
 	private void startLongTouch(int x, int y) {
-		this.tc.getLongTouchManager().scheduleTimer(tc, x, y);
+		if (this.tc.getMode() == EuclidianConstants.MODE_MOVE) {
+			this.tc.getLongTouchManager().scheduleTimer(tc, x, y);
+		}
 	}
 
 	private void moveLongTouch(int x, int y) {
