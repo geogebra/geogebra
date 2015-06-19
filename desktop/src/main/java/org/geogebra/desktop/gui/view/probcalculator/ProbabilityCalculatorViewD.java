@@ -819,6 +819,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		setLabelArrays();
 
+
 		lblDist.setText(loc.getMenu("Distribution") + ": ");
 		lblProb.setText(loc.getMenu("Probability") + ": ");
 
@@ -841,6 +842,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
 
+		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
+			lblParameterArray[i]
+					.setText(parameterLabels[selectedDist.ordinal()][i]);
+		}
 	}
 
 	private void setProbabilityComboBoxMenu() {

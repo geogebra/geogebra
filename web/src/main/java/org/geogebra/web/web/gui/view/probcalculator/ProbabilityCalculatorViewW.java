@@ -163,6 +163,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 		btnExport.setTitle(app.getMenu("Export"));
 		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
+		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
+			lblParameterArray[i]
+					.setText(parameterLabels[selectedDist.ordinal()][i]);
+		}
 	}
 	
 	/**
