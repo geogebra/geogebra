@@ -389,14 +389,14 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 	}
 
-	public void showSaveDialog(App app, String message,
+	public void showSaveDialog(App app, String title,
 			String initialSelectionValue,
  Object icon, AsyncOperation handler,
 			String okLabel) {
 
 		this.app = app;
-		this.message = message;
-		this.title = null;
+		this.message = "";
+		this.title = title;
 		this.okLabel = okLabel;
 		this.optionType = GOptionPane.OK_CANCEL_OPTION;
 		this.messageType = GOptionPane.PLAIN_MESSAGE;
