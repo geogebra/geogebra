@@ -65,10 +65,13 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 
 	private final AppletFactory factory;
 
+	private int id;
+	private static int counter = 0;
 	public GeoGebraAppFrame(GLookAndFeel laf, GDevice device, AppletFactory factory) {
 		this.laf = laf;
 		this.device = device;
 		this.factory = factory;
+		this.id = counter++;
 		frameLayout = newGGWFrameLayoutPanel();		
 		initWidget(frameLayout);
 		
@@ -312,14 +315,15 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	public void showBrowser(final HeaderPanel bg) {
 		this.isBrowserShowing = true;
 	    final int count = frameLayout.getWidgetCount();
-	    childVisible = new boolean[count];
+
 	    for(int i = 0; i<count;i++){
 	    	if(bg == frameLayout.getWidget(i)){
 	    		return;
 	    	}
 	    }
+		childVisible = new boolean[count];
 	    for(int i = 0; i<count;i++){
-	    	childVisible[i] = frameLayout.getWidget(i).isVisible(); 
+			childVisible[i] = frameLayout.getWidget(i).isVisible();
 	    	frameLayout.getWidget(i).setVisible(false);
 	    }
 	    frameLayout.add(bg);
