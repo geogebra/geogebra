@@ -192,7 +192,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		if (p.isShowing()) {
 			p.hide();
 		} else {
-			p.show();
+			p.showRelativeTo(rightPanel);
 		}
 	}
 	
