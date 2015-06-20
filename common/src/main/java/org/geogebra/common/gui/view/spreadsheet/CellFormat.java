@@ -1061,4 +1061,8 @@ public class CellFormat implements CellFormatInterface {
 
 	}
 
+	public static boolean isZeroBit(int value, int position) {
+		return (value &= (1 << position)) == 0;
+	}
+
 }

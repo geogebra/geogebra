@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
@@ -147,6 +148,59 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		// Background color
 		updateCellBackground(geo, row, column);
 
+		// Border
+		updateCellBorder(row, column);
+
+	}
+
+	public void updateCellBorder(int row, int column) {
+		Byte border = (Byte) formatHandler.getCellFormat(column, row,
+				CellFormat.FORMAT_BORDER);
+		if ((row == -1) || (column == -1)) {
+			App.debug("border for row/column not implemented yet");
+			return;
+		}
+		Style s = table.getCellFormatter().getElement(row, column).getStyle();
+		if (border != null) {
+			// left bar, 0
+			if (!CellFormat.isZeroBit(border, 0)) {
+				// left borders' width is 0px, so left neighbor's right border
+				// will be colored.
+				if (column > 0) {
+					Style sLeft = table.getCellFormatter()
+							.getElement(row, column - 1).getStyle();
+					sLeft.setProperty("borderRightColor", "#000000");
+				}
+			}
+			
+			// top bar, 1
+			if (!CellFormat.isZeroBit(border, 1)) {
+				// top borders' width is 0px, so top neighbor's bottom border
+				// will be colored.
+				if (row > 0) {
+					Style sTop = table.getCellFormatter()
+							.getElement(row - 1, column).getStyle();
+					sTop.setProperty("borderBottomColor", "#000000");
+				}
+			}
+			
+			// right bar, 2
+			if (!CellFormat.isZeroBit(border, 2)) {
+				s.setProperty("borderRightColor", "#000000");
+			}
+			
+			// bottom bar, 3
+			if (!CellFormat.isZeroBit(border, 3)) {
+				s.setProperty("borderBottomColor", "#000000");
+			}
+		} else {
+			// TODO
+			// s.clearBorderColor();
+			// s.clearBottom();
+			// s.clearLeft();
+			// s.clearRight();
+			// s.clearTop();
+		}
 	}
 
 	public void updateCellBackground(GeoElement geo, int row,
