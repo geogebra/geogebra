@@ -5,16 +5,20 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.main.LocalizationW;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -48,6 +52,8 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	private Label fldOutputY;
 	private boolean isIniting = true;
 	private FlowPanel predictionPanel;
+	private Canvas latexCanvas;
+	private GeoNumeric sample;
 
 	private DataAnalysisModel daModel;
 
@@ -66,6 +72,8 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		this.statDialog = statDialog;
 		this.daModel = statDialog.getModel();
 		setStyleName("daRegressionPanel");
+		sample = new GeoNumeric(app.getKernel().getConstruction());
+		sample.setObjColor(GColorW.RED);
 		createRegressionPanel();
 		setLabels();
 		updateRegressionPanel();
@@ -108,8 +116,6 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 			}
 		});
 
-		lblRegEquation = new Label();
-		lblRegEquation.setStyleName("daRegEquation");
 		lblEqn = new Label();
 
 		// regression combo panel
@@ -119,7 +125,16 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 		// regression label panel
 		FlowPanel eqnPanel = new FlowPanel();
-		eqnPanel.add(lblRegEquation);
+
+		if (app.has(Feature.JLM_IN_WEB)) {
+			latexCanvas = Canvas.createIfSupported();
+			latexCanvas.setStyleName("daRegEquation");
+			eqnPanel.add(latexCanvas);
+		} else {
+			lblRegEquation = new Label();
+			lblRegEquation.setStyleName("daRegEquation");
+			eqnPanel.add(lblRegEquation);
+		}
 		ScrollPanel scroller = new ScrollPanel();
 		scroller.add(eqnPanel);
 
@@ -281,11 +296,17 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 			eqn = "\\text{" + app.getPlain("NotAvailable") + "}";
 
 		}
-		lblRegEquation.setText("");
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(eqn);
-		DrawEquationWeb.drawEquationAlgebraView(lblRegEquation.getElement(), "\\mathrm {" + latexStr
- + "}", true);
+		if (app.has(Feature.JLM_IN_WEB)) {
+			DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
+					app.getFontSize());
 
+		} else {
+			lblRegEquation.setText("");
+			DrawEquationWeb.drawEquationAlgebraView(
+					lblRegEquation.getElement(), "\\mathrm {" + latexStr + "}",
+					true);
+		}
 		
 		updateGUI();
 	}
