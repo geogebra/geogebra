@@ -127,8 +127,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				break;
 			}
 		}
-
-
+		if (app.getGuiManager().hasAlgebraView()) {
+			((AlgebraViewW) app.getAlgebraView()).setShowAlgebraInput(app
+				.showAlgebraInput()
+				&& app.getInputPosition() == InputPositon.algebraView);
+		}
 		if (app.getGuiManager().getRootComponent() != null) {
 			dockPanel.add(app.getGuiManager().getRootComponent());
 			app.getGuiManager().getRootComponent().setStyleName("ApplicationPanel");
