@@ -12,8 +12,10 @@ import org.geogebra.common.gui.view.data.DataDisplayModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel.IDataDisplayListener;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Validation;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -28,6 +30,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -81,7 +84,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private PlotPanelEuclidianViewW plotPanel;
 
 	private Label imageContainer;
-
+	private Canvas latexCanvas;
+	private GeoNumeric sample;
 	// control panel
 	private FlowPanel controlPanel;
 	private DeckPanel controlDecks;
@@ -145,6 +149,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		daModel = daView.getModel();
 		setModel(new DataDisplayModel(daModel, this));
 		this.daView = daView;
+		this.sample = new GeoNumeric(app.getKernel().getConstruction());
+
 		// create the GUI
 		createGUI();
 
@@ -335,9 +341,14 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createImagePanel() {
 
 		imagePanel = new FlowPanel();
-		imageContainer = new Label();
+		if (app.has(Feature.JLM_IN_WEB)) {
+			latexCanvas = Canvas.createIfSupported();
+			imagePanel.add(latexCanvas);
+		} else {
+			imageContainer = new Label();
+			imagePanel.add(imageContainer);
+		}
 		imagePanel.setStyleName("daImagePanel");
-		imagePanel.add(imageContainer);
 
 	}
 
@@ -686,11 +697,20 @@ public class DataDisplayPanelW extends FlowPanel implements
 		btnOptions.setVisible(false);
 		btnExport.setVisible(false);
 		
-		imageContainer.setText("");
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(latex);
-		DrawEquationWeb.drawEquationAlgebraView(imageContainer.getElement(), "\\mathrm {" + latexStr
- + "}", true);
-		
+		if (app.has(Feature.JLM_IN_WEB)) {
+			DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
+					app.getFontSize());
+
+
+		} else {
+
+			imageContainer.setText("");
+			DrawEquationWeb.drawEquationAlgebraView(
+					imageContainer.getElement(), "\\mathrm {" + latexStr + "}",
+					true);
+		}
+
 		if (hasControlPanel) {
 			controlDecks.showWidget(STEM_IDX);
 		}
@@ -812,8 +832,13 @@ public class DataDisplayPanelW extends FlowPanel implements
 		if (update) {
 			getModel().updatePlot(false);
 		}
-		
-		imageContainer.setPixelSize(width, height);
+
+		if (app.has(Feature.JLM_IN_WEB)) {
+			imagePanel.setPixelSize(width, height);
+
+		} else {
+			imageContainer.setPixelSize(width, height);
+		}
 		
 	}
 
