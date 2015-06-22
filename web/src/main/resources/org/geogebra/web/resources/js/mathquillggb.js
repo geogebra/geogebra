@@ -519,6 +519,7 @@ var manageTextarea = (function() {
       //
       // And by nifty, we mean dumb (but useful sometimes).
       textarea.focus();
+      // TODO: disabledTextarea case!
 
       // checkTextareaFor2 because it might clash with
       // the onText event or something like that otherwise
@@ -1867,7 +1868,11 @@ function createRoot(jQ, root, textbox, editable) {
       $(e.target.ownerDocument).unbind('mousemove', docmousemove).unbind('mouseup', mouseup);
     }
 
-    setTimeout(function() { textarea.focus(); });
+    if (!disabledTextarea) {
+      setTimeout(function() { textarea.focus(); });
+    } else {
+      setTimeout(function() { jQ.focus(); });
+    }
       // preventDefault won't prevent focus on mousedown in IE<9
       // that means immediately after this mousedown, whatever was
       // mousedown-ed will receive focus
