@@ -499,7 +499,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	protected void fillCommandDict() {
 		getLocalization().initCommand();
-
 		if (!getLocalization().isCommandChanged()) {
 			return;
 		}
@@ -630,7 +629,9 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void updateCommandDictionary() {
 		// make sure all macro commands are in dictionary
-		fillCommandDict();
+		if (commandDict != null) {
+			fillCommandDict();
+		}
 	}
 
 	/**
