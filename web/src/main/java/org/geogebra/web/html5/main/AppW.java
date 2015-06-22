@@ -2119,7 +2119,8 @@ public abstract class AppW extends App implements SetLabels {
 		if (getGuiManager() == null)
 			return;
 
-		if (!getGuiManager().getAlgebraView().isAttached())
+		if (getGuiManager().hasAlgebraView()
+				&& !getGuiManager().getAlgebraView().isAttached())
 			getGuiManager().attachView(VIEW_ALGEBRA);
 
 		if (needsSpreadsheetTableModel())

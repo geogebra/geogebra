@@ -127,9 +127,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				break;
 			}
 		}
-		((AlgebraViewW) app.getAlgebraView()).setShowAlgebraInput(app
-				.showAlgebraInput()
-				&& app.getInputPosition() == InputPositon.algebraView);
 
 
 		if (app.getGuiManager().getRootComponent() != null) {
@@ -152,7 +149,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			@Override
 			public void run() {
 				// show the keyboard button
-				if (app.getAlgebraView() != null
+				if (app.getGuiManager() != null
+						&& app.getGuiManager().hasAlgebraView()
 						&& !keyboardShowing
 						&& app.getInputPosition() == InputPositon.algebraView) {
 					showKeyboardButton(true,
