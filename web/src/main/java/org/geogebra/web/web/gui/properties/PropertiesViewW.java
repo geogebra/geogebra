@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class PropertiesViewW extends
 org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize, SetLabels {
 
-	private static final String AlgebraViewWeb = null;
 
 	private FlowPanel wrappedPanel;
 
@@ -64,6 +63,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 		notImplemented = new Label("Not implemented");
 		optionType = ot;
 		initGUI();
+		app.setDefaultCursor();
 	}
 
 	public void initGUI() {
