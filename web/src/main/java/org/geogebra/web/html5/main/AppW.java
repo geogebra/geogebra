@@ -102,9 +102,6 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -951,14 +948,9 @@ public abstract class AppW extends App implements SetLabels {
 
 		clearInputBar();
 
-		// reset spreadsheet columns, reset trace columns
-		if (isUsingFullGui()) {
-			// getGuiManager().resetSpreadsheet();
-		}
 
 		resetEVs();
 
-		resetAllToolbars();
 
 		// make sure file->new->probability does not clear the prob. calc
 		if (this.getGuiManager() != null
@@ -967,8 +959,6 @@ public abstract class AppW extends App implements SetLabels {
 			        .getProbabilityCalculator()).updateAll();
 		}
 
-		// reload the saved/(default) preferences
-		GeoGebraPreferencesW.getPref().loadXMLPreferences(this);
 
 		resetUniqueId();
 		setLocalID(-1);
@@ -980,19 +970,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
-	private void resetAllToolbars() {
-
-		GuiManagerW gm = (GuiManagerW) getGuiManager();
-
-		DockPanelW[] panels = gm.getLayout().getDockManager().getPanels();
-		for (DockPanelW panel : panels) {
-			if (panel.canCustomizeToolbar()) {
-				panel.setToolbarString(panel.getDefaultToolbarString());
-			}
-		}
-
-		gm.setToolBarDefinition(gm.getDefaultToolbarString());
-	}
 	/**
 	 * @param allMacroXML
 	 * @param macro

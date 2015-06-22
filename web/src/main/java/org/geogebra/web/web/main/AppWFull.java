@@ -12,6 +12,7 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -151,4 +152,25 @@ public abstract class AppWFull extends AppW {
 			}
 		});
 	}
+
+	@Override
+	public void fileNew() {
+		super.fileNew();
+		resetAllToolbars();
+	}
+
+	private void resetAllToolbars() {
+
+		GuiManagerW gm = (GuiManagerW) getGuiManager();
+
+		DockPanelW[] panels = gm.getLayout().getDockManager().getPanels();
+		for (DockPanelW panel : panels) {
+			if (panel.canCustomizeToolbar()) {
+				panel.setToolbarString(panel.getDefaultToolbarString());
+			}
+		}
+
+		gm.setToolBarDefinition(gm.getDefaultToolbarString());
+	}
+
 }
