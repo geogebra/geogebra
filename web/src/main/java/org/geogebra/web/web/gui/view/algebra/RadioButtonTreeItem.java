@@ -612,7 +612,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
 		if (commonEditingCheck()) {
-			DrawEquationWeb.triggerKeydown(seMayLatex, key,
+			DrawEquationWeb.triggerKeydown(this, seMayLatex, key,
 			        alt, ctrl, shift);
 		}
 	}
@@ -637,7 +637,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift) {
 		if (commonEditingCheck()) {
-			DrawEquationWeb.triggerKeypress(seMayLatex,
+			DrawEquationWeb.triggerKeypress(this, seMayLatex,
 			        character, alt, ctrl, shift);
 		}
 	}

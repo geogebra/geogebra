@@ -1318,7 +1318,8 @@ GeoContainer rbti,
 	}-*/;
 
 	// documentation in RadioButtonTreeItem.keydown
-	public static native void triggerKeydown(Element parentElement,
+	public static native void triggerKeydown(GeoContainer rbti,
+			Element parentElement,
 	        int keycode, boolean altk, boolean ctrlk, boolean shiftk) /*-{
 		var elfirst = parentElement.firstChild.firstChild;
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
@@ -1338,11 +1339,20 @@ GeoContainer rbti,
 				shiftKey : shiftk
 			});
 			textarea.trigger(evt);
+
+			if (rbti) {
+				// it might be backspace! but maybe we have to wait for it...
+				setTimeout(function() {
+					// first trying to wait for just a little
+					rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(false);
+				});
+			}
 		}
 	}-*/;
 
 	// documentation in RadioButtonTreeItem.keypress
-	public static native void triggerKeypress(Element parentElement,
+	public static native void triggerKeypress(GeoContainer rbti,
+			Element parentElement,
 	        int charcode, boolean altk, boolean ctrlk, boolean shiftk) /*-{
 		var elfirst = parentElement.firstChild.firstChild;
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
@@ -1364,6 +1374,14 @@ GeoContainer rbti,
 				shiftKey : shiftk
 			});
 			textarea.trigger(evt);
+
+			if (rbti) {
+				// it might be a lot of kinds of keys that add! but maybe we have to wait for it...
+				setTimeout(function() {
+					// first trying to wait for just a little
+					rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(true);
+				});
+			}
 		}
 	}-*/;
 

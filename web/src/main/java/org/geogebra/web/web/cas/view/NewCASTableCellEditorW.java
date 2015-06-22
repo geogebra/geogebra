@@ -285,13 +285,14 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift) {
-		DrawEquationWeb.triggerKeypress(this.seMayLaTeX, character, alt, ctrl,
+		DrawEquationWeb.triggerKeypress(this, this.seMayLaTeX, character, alt,
+				ctrl,
 				shift);
 
 	}
 
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationWeb.triggerKeydown(seMayLaTeX, key, alt, ctrl, shift);
+		DrawEquationWeb.triggerKeydown(this, seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 
