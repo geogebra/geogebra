@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
@@ -596,6 +597,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (Browser.isMobileBrowserQuick()) {
 			if (!DrawEquationWeb.targetHasFeature(null, getElement(),
 					"BlurDoesntUpdateGUIFeature")) {
+
+				// addDummyLabel();
+
 				if (((AlgebraViewW) av).isNodeTableEmpty()) {
 					// #5245#comment:8, cases B and C excluded
 					updateGUIfocus(event == null ? this : event.getSource(),
@@ -605,26 +609,23 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		} else if (!DrawEquationWeb.mouseIsOver(getElement(),
 				"BlurDoesntUpdateGUIFeature")) {
 
-			// dummy is not used yet, until blur/focus is more solid
-			// - sometimes it's not possible to blur permanently
-			// - sometimes it requires more clicks elsewhere
-			// - meanwhile it's blinking / flickering
-			// - meanwhile + sign might not be shown... 
-
-			//if (dummyLabel == null) {
-			//	dummyLabel = new Label(app.getPlain("InputLabel")
-			//			+ Unicode.ellipsis);
-			//	dummyLabel.getElement().getStyle().setColor("#999999");
-			//	EquationEditor.updateNewStatic(dummyLabel.getElement());
-			//}
-
-			//ihtml.getElement().insertFirst(dummyLabel.getElement());
+			// addDummyLabel();
 
 			if (((AlgebraViewW) av).isNodeTableEmpty()) {
 				// #5245#comment:8, cases B and C excluded
 				updateGUIfocus(event == null ? this : event.getSource(), true);
 			}
 		}
+	}
+
+	private void addDummyLabel() {
+		if (dummyLabel == null) {
+			dummyLabel = new Label(app.getPlain("InputLabel")
+					+ Unicode.ellipsis);
+			dummyLabel.getElement().getStyle().setColor("#999999");
+			EquationEditor.updateNewStatic(dummyLabel.getElement());
+		}
+		ihtml.getElement().insertFirst(dummyLabel.getElement());
 	}
 
 	public ArrayList<String> getHistory() {
