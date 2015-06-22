@@ -1224,9 +1224,6 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 		// usually, inputPanel is here, but not in use (not attached)
 		boolean forceKeyboard = false;
-		if ((!app.getLocalization().getLanguage().equals("ko")
- || app
-				.has(Feature.KOREAN_KEYBOARD)) && !app.getLAF().isSmart()) {
 			boolean appletHack = false;
 			if (inputPanelLatex == null) {
 				inputPanelLatex = new NewRadioButtonTreeItem(kernel);
@@ -1251,7 +1248,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 					inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
 				}
 			}
-		}
+
 
 		showAlgebraInput(forceKeyboard);
 	}
@@ -1272,7 +1269,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 		inputPanelTreeItem = null;
 	}
 
-	private void showAlgebraInput(boolean forceKeyboard) {
+	private void showAlgebraInput(boolean forceKeyboard0) {
 		if (!app.showAlgebraInput() || app.getInputPosition() != InputPositon.algebraView) {
 			hideAlgebraInput();
 			return;
@@ -1287,7 +1284,11 @@ public class AlgebraViewW extends Tree implements LayerView,
 			// inputPanel.removeFromParent();//?
 		}
 		boolean appletHack = false;
+		boolean forceKeyboard = false;
 		if (inputPanelLatex == null) {
+			forceKeyboard = forceKeyboard0
+					|| app.getArticleElement()
+					.getDataParamBase64String().length() == 0;
 			inputPanelLatex = new NewRadioButtonTreeItem(kernel);
 
 			// open the keyboard (or show the keyboard-open-button) at
@@ -1315,7 +1316,6 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 		if ((!app.getLocalization().getLanguage().equals("ko") || app
 				.has(Feature.KOREAN_KEYBOARD))) {
-
 				if (forceKeyboard) {
 					Scheduler.get().scheduleDeferred(
 							new Scheduler.ScheduledCommand() {
