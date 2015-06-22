@@ -37,7 +37,8 @@ public class EquationEditor {
 			String currentWord = curWord.toString();
 
 			// So we also provide currentWord as a heuristic or helper:
-			org.geogebra.web.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
+			org.geogebra.web.html5.main.DrawEquationWeb
+					.writeLatexInPlaceOfCurrentWord(null,
 			        component.getLaTeXSpan(), sugg, currentWord, true);
 
 			// not to forget making the popup disappear after success!

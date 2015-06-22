@@ -1517,7 +1517,7 @@ GeoContainer rbti,
 		return inx - 1;
 	}-*/;
 
-	public static native void writeLatexInPlaceOfCurrentWord(
+	public static native void writeLatexInPlaceOfCurrentWord(GeoContainer rbti,
 	        Element parentElement, String latex, String currentWord,
 	        boolean command) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
@@ -1559,6 +1559,14 @@ GeoContainer rbti,
 		//$wnd.setTimeout(function() {
 		//	$wnd.$ggbQuery(elsecondInside).mathquillggb('redraw');
 		//}, 500);
+
+		if (rbti) {
+			if (eqstring) {
+				rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(true);
+			} else {
+				rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(false);
+			}
+		}
 	}-*/;
 
 	public static boolean newFormulaCreatedMathQuillGGB(

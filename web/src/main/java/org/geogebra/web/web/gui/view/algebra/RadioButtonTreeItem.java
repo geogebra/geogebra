@@ -1638,7 +1638,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
 		// seMayLatex, "" + text.charAt(i), "", false);
 
-		DrawEquationWeb.writeLatexInPlaceOfCurrentWord(seMayLatex, text, "", false);
+		DrawEquationWeb.writeLatexInPlaceOfCurrentWord(this, seMayLatex, text,
+				"", false);
 	}
 
 	public String getText() {

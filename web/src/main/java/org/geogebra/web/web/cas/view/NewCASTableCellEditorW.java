@@ -167,7 +167,10 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public void insertString(String text) {
-		DrawEquationWeb.writeLatexInPlaceOfCurrentWord(seMayLaTeX, text, "",
+		// "this" can be null, it only calls the typing method
+		// which is empty now...
+		DrawEquationWeb.writeLatexInPlaceOfCurrentWord(this, seMayLaTeX, text,
+				"",
 				false);
 	}
 
