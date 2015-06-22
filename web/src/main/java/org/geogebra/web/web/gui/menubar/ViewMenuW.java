@@ -99,9 +99,8 @@ public class ViewMenuW extends GMenuBar {
 				Timer timer = new Timer() {
 					@Override
 					public void run() {
-						// true, because this can only be executed, if menu is
-						// open
-						app.getGuiManager().updateStyleBarPositions(true);
+						// false, because we have just closed the menu
+						app.getGuiManager().updateStyleBarPositions(false);
 					}
 				};
 				timer.schedule(0);
