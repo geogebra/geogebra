@@ -22,7 +22,6 @@ import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.AnimationManager;
@@ -947,17 +946,6 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		clearInputBar();
-
-
-		resetEVs();
-
-
-		// make sure file->new->probability does not clear the prob. calc
-		if (this.getGuiManager() != null
-		        && this.getGuiManager().hasProbabilityCalculator()) {
-			((ProbabilityCalculatorView) this.getGuiManager()
-			        .getProbabilityCalculator()).updateAll();
-		}
 
 
 		resetUniqueId();

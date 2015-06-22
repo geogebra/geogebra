@@ -1,6 +1,7 @@
 package org.geogebra.web.web.main;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.kernel.View;
@@ -156,6 +157,15 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public void fileNew() {
 		super.fileNew();
+		resetEVs();
+
+		// make sure file->new->probability does not clear the prob. calc
+		if (this.getGuiManager() != null
+				&& this.getGuiManager().hasProbabilityCalculator()) {
+			((ProbabilityCalculatorView) this.getGuiManager()
+					.getProbabilityCalculator()).updateAll();
+		}
+
 		resetAllToolbars();
 	}
 
