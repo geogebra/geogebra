@@ -519,9 +519,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// then its onfocus handler gets called, which calls this
 
 		// if (!Browser.isInternetExplorer()) {
-			if (dummyLabel != null) {
+		if (dummyLabel != null) {
+			// if (dummyLabel.getElement().hasParentElement()) {
+			if ((dummyLabel.getElement() != null)
+					&& ihtml.getElement().isOrHasChild(dummyLabel.getElement())) {
 				ihtml.getElement().removeChild(dummyLabel.getElement());
 			}
+		}
 		// }
 
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
@@ -625,7 +629,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			dummyLabel.getElement().getStyle().setColor("#999999");
 			EquationEditor.updateNewStatic(dummyLabel.getElement());
 		}
-		ihtml.getElement().insertFirst(dummyLabel.getElement());
+		//if (dummyLabel.getElement() != null) {
+			//if (dummyLabel.getElement().hasParentElement()) {
+				// in theory, this is done in insertFirst,
+				// just making sure here as well
+				//dummyLabel.getElement().removeFromParent();
+			//}
+			ihtml.getElement().insertFirst(dummyLabel.getElement());
+		//}
 	}
 
 	public ArrayList<String> getHistory() {
