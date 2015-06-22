@@ -352,9 +352,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					((Vector3DValue) arg).getPointAsDouble()[0]);
 		} else if (arg instanceof GeoLine) {
 			return new MyDouble(kernel, ((GeoLine) arg).x);
-		} else
+		} else if (op == Operation.REAL && arg instanceof NumberValue) {
+			// real(3) should return 3
+			return new MyDouble(kernel, arg.evaluateDouble());
+		} else {
 			return polynomialOrDie(arg, op, op == Operation.XCOORD ? "x("
 					: "real(");
+		}
 
 	}
 
@@ -375,9 +379,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					((Vector3DValue) arg).getPointAsDouble()[1]);
 		} else if (arg instanceof GeoLine) {
 			return new MyDouble(kernel, ((GeoLine) arg).y);
-		} else
+		} else if (op == Operation.IMAGINARY && arg instanceof NumberValue) {
+			// imaginary(3) should return 0
+			return new MyDouble(kernel, 0);
+		} else {
 			return polynomialOrDie(arg, op, op == Operation.YCOORD ? "y("
 					: "imaginary(");
+		}
 	}
 
 	/**
