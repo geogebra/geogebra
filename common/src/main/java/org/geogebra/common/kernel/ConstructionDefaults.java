@@ -119,6 +119,10 @@ public class ConstructionDefaults {
 
 	/** default */
 	public static final int DEFAULT_LIST = 130;
+
+	private static final int[] colorSequence = new int[] { 0x3333CC, 0x006600,
+			0xFF3300, 0x990066, 0x9966FF, 0x339900, 0xCC0099, 0x0066FF,
+			0x009999, 0x660000, 0x333333 };
 	// DEFAULT COLORs
 	// points
 	/** default color for points */
@@ -991,15 +995,10 @@ public class ConstructionDefaults {
 	}
 
 	private int colorIndex = 0;
-	private int[] colorSequence = new int[] { 0x3333CC, 0x006600, 0xFF3300,
-			0x990066, 0x9966FF, 0x339900, 0xCC0099, 0x0066FF, 0x009999,
-			0x660000, 0x333333 };
+
 	public GColor getNextColor() {
-		GColor color = colorIndex < colorSequence.length ? AwtFactory.prototype
-				.newColor(colorSequence[colorIndex]) : AwtFactory.prototype
-				.newColor(colorIndex * 163 % 255, colorIndex * 103 % 255,
-						colorIndex * 67 % 255);
-		colorIndex++;
+		GColor color = AwtFactory.prototype.newColor(colorSequence[colorIndex]);
+		colorIndex = (colorIndex + 1) % colorSequence.length;
 		return color;
 	}
 

@@ -15,6 +15,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.debug.GeoGebraLogger;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
@@ -23,7 +24,6 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -352,10 +352,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 							@Override
 							public void run() {
-								((AlgebraViewW) app.getAlgebraView())
-								        .setFocus(true);
-								((AlgebraViewW) app.getAlgebraView())
-						        .getInputTreeItem().ensureEditing();
+									DockManagerW dm = (DockManagerW) app
+											.getGuiManager().getLayout()
+											.getDockManager();
+									MathKeyboardListener ml = dm
+											.getPanelForKeyboard()
+											.getKeyboardListener();
+									((GuiManagerW) app.getGuiManager())
+											.setOnScreenKeyboardTextField(ml);
+									ml.setFocus(true);
+									ml.ensureEditing();
 
 
 							}
