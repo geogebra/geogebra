@@ -101,6 +101,7 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -949,6 +950,9 @@ public abstract class AppW extends App implements SetLabels {
 
 
 		resetUniqueId();
+		// reload the saved/(default) preferences
+		GeoGebraPreferencesW.getPref().loadXMLPreferences(this);
+
 		setLocalID(-1);
 		resetActiveMaterial();
 
