@@ -44,6 +44,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -544,8 +545,15 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	@Override
 	public void show() {
+		this.setAnimationEnabled(false);
 		super.show();
-		setTitle();
+		app.getGuiManager().invokeLater(new Runnable() {
+			public void run() {
+				position();
+			}
+		});
+		
+		this.setTitle();
 		if (app.isOffline()) {
 			this.providerPopup.setVisible(this.supportedProviders
 					.contains(Provider.LOCAL));
@@ -592,9 +600,19 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		runAfterSave = newConstruction;
 		if (!app.isSaved()) {
 			center();
+			position();
 		} else {
 			runAfterSaveCallback();
 		}
+	}
+
+	private void position() {
+		int left = (Window.getClientWidth() - getOffsetWidth()) >> 1;
+		int top = Math.min((Window.getClientHeight() - getOffsetHeight()) >> 1,
+				100);
+		setPopupPosition(Math.max(Window.getScrollLeft() + left, 0),
+				Math.max(Window.getScrollTop() + top, 0));
+
 	}
 
 	private void setTitle() {
