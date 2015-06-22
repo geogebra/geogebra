@@ -774,10 +774,11 @@ public class Ggb2giac {
 				// }
 				"[d:=sqrt(d)]," + "[u:=(-q/2+d)^(1/3)]," + "[v:=-p/3/u],"
 				+ "[x1:=u+v-b/3]," + "[x2:=u*j+v*conj(j)-b/3],"
-				+ "[x3:=u*conj(j)+v*j-b/3]," + "[x1s:=simplify(x1)],"
-				+ "[x2s:=simplify(x2)]," + "[x3s:=simplify(x3)]," +
+				+ "[x3:=u*conj(j)+v*j-b/3]," + "[x1s:=regroup(normal(x1))],"
+				+ "[x2s:=regroup(normal(x2))]," + "[x3s:=regroup(normal(x3))],"
+				+
 				// "[when(d==0,[solve(%0,x)],[when(x1s[1][0]=='rootof',x1,x1s),when(x2s[1][0]=='rootof',x2,x2s),when(x3s[1][0]=='rootof',x3,x3s)])]"+
-				"[[x1,x2,x3]]" + "][18][0]");
+				"[[x1s,x2s,x3s]]" + "][18][0]");
 
 		// SolveQuartic[2x^4+3x^3+x^2+1]
 		// SolveQuartic[x^4+6x^2-60x+36] approx = {(-1.872136644123) -
