@@ -2774,7 +2774,9 @@ public abstract class AppW extends App implements SetLabels {
 	protected void clearInputBar() {
 		if (isUsingFullGui() && showAlgebraInput() && getGuiManager() != null) {
 			AlgebraInput ai = (getGuiManager().getAlgebraInput());
-			ai.setText("");
+			if (ai != null) {
+				ai.setText("");
+			}
 		}
 	}
 
