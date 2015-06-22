@@ -30,4 +30,9 @@ public interface DockPanel extends Component {
 	public void setVisible(boolean visible);
 
 	void deferredOnResize();
+
+	/**
+	 * update navigation bar
+	 */
+	public void updateNavigationBar();
 }

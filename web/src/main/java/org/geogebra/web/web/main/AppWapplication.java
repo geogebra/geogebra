@@ -314,8 +314,8 @@ public class AppWapplication extends AppWFull {
 		// put in a deferred call because of drag & dropping files
 		updateViewSizes();
 
+		updateNavigationBars();
 
-		this.getEuclidianViewpanel().updateNavigationBar();
 		setDefaultCursor();
 		GeoGebraProfiler.getInstance().profileEnd();
 		((GGWToolBar) this.getToolbar()).updateToolbarPanel();
@@ -588,8 +588,8 @@ public class AppWapplication extends AppWFull {
 	
 	
 	@Override
-	public void toggleShowConstructionProtocolNavigation() {
-		super.toggleShowConstructionProtocolNavigation();
+	public void toggleShowConstructionProtocolNavigation(int id) {
+		super.toggleShowConstructionProtocolNavigation(id);
 		((GuiManagerW) this.guiManager).updateMenubar();
 	}
 

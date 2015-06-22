@@ -75,22 +75,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 
 		addAxesAndGridCheckBoxes();
 
-		AbstractAction showConstructionStep = new AbstractAction(
-				app.getMenu("NavigationBar")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				toggleShowConstructionProtocolNavigation();
-
-			}
-		};
-		JCheckBoxMenuItem cbShowConstructionStep = new JCheckBoxMenuItem(
-				showConstructionStep);
-		cbShowConstructionStep.setSelected(app.showConsProtNavigation());
-		cbShowConstructionStep.setBackground(wrappedPopup.getBackground());
-		wrappedPopup.add(cbShowConstructionStep);
-
-		wrappedPopup.addSeparator();
+		addNavigationBar();
 
 		// zoom for both axes
 		JMenu zoomMenu = new JMenu(app.getMenu("Zoom"));
@@ -129,6 +114,26 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 
 	}
 
+	protected void addNavigationBar() {
+		AbstractAction showConstructionStep = new AbstractAction(
+				app.getMenu("NavigationBar")) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				toggleShowConstructionProtocolNavigation();
+
+			}
+		};
+		JCheckBoxMenuItem cbShowConstructionStep = new JCheckBoxMenuItem(
+				showConstructionStep);
+		cbShowConstructionStep.setSelected(app.showConsProtNavigation(app
+				.getActiveEuclidianView().getViewID()));
+		cbShowConstructionStep.setBackground(wrappedPopup.getBackground());
+		wrappedPopup.add(cbShowConstructionStep);
+
+		wrappedPopup.addSeparator();
+	}
+
 	/**
 	 * add show all objects item
 	 */
@@ -161,7 +166,8 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	}
 
 	void toggleShowConstructionProtocolNavigation() {
-		((AppD) app).toggleShowConstructionProtocolNavigation();
+		((AppD) app).toggleShowConstructionProtocolNavigation(app
+				.getActiveEuclidianView().getViewID());
 	}
 
 	protected void addMiProperties() {

@@ -37,6 +37,7 @@ import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -114,7 +115,7 @@ public class ConstructionProtocolNavigationD extends
 	 * @param flag whether button to show construction protocol should be visible
 	 */
 	@Override
-	public void setConsProtButtonVisible(boolean flag) {		
+	public void setConsProtButtonVisible(boolean flag) {
 		showConsProtButton = flag;	
 		if (btOpenWindow != null) {
 			btOpenWindow.setVisible(flag);
@@ -141,6 +142,7 @@ public class ConstructionProtocolNavigationD extends
 	 * Initializes all components, sets labels
 	 */
 	public void initGUI() {
+
 		implPanel.removeAll();	
 					
 		btFirst = new JButton(app.getScaledIcon("nav_skipback.png"));
@@ -168,6 +170,7 @@ public class ConstructionProtocolNavigationD extends
 		btPlay.addActionListener(this); 	
 											
 		spDelay.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent e) {
 				try {
 					playDelay = Double.parseDouble(spDelay.getValue().toString());
@@ -185,6 +188,7 @@ public class ConstructionProtocolNavigationD extends
 		btOpenWindow = new JButton();
 		btOpenWindow.setIcon(app.getScaledIcon("table.gif"));
 		btOpenWindow.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				//app.getGuiManager().showConstructionProtocol();
 				if(!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL))
@@ -233,16 +237,12 @@ public class ConstructionProtocolNavigationD extends
 		}
 	}
 	
-	/**
-	 * Registers this navigation bar at its protocol
-	 * to be informed about updates.
-	 * @param constructionProtocolView CP view
-	 */
-	public void register(ConstructionProtocolViewD constructionProtocolView) { 
+	@Override
+	public void register(ConstructionProtocolView constructionProtocolView) {
 		if (prot == null) { 
 			initGUI(); 
 		}
-		prot = constructionProtocolView;
+		prot = (ConstructionProtocolViewD) constructionProtocolView;
 		prot.registerNavigationBar(this);
 	}
 	
@@ -253,6 +253,7 @@ public class ConstructionProtocolNavigationD extends
 		prot.unregisterNavigationBar(this);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
@@ -297,6 +298,18 @@ public class ConstructionProtocolNavigationD extends
 		lbSteps.setEnabled(true);
 	}	
 	
+	@Override
+	public void setButtonPlay() {
+		btPlay.setIcon(new ImageIcon(app.getPlayImage()));
+		btPlay.setText(loc.getPlain("Play"));
+	}
+
+	@Override
+	public void setButtonPause() {
+		btPlay.setIcon(new ImageIcon(app.getPauseImage()));
+		btPlay.setText(loc.getPlain("Pause"));
+	}
+
 	/**
 	 * Steps through the construction automatically.
 	 */
@@ -316,8 +329,7 @@ public class ConstructionProtocolNavigationD extends
         	// dispatch events to play button
 			app.startDispatchingEventsTo(btPlay);
 			isPlaying = true;
-			btPlay.setIcon(new ImageIcon(app.getPauseImage()));
-			btPlay.setText(loc.getPlain("Pause"));
+			app.setNavBarButtonPause();
 			setComponentsEnabled(false);
 			app.setWaitCursor();
 			
@@ -334,13 +346,13 @@ public class ConstructionProtocolNavigationD extends
             // unblock application events
 			app.stopDispatchingEvents();
 			isPlaying = false;
-			btPlay.setIcon(new ImageIcon(app.getPlayImage()));
-			btPlay.setText(loc.getPlain("Play"));
+			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
 			app.setDefaultCursor();
         }
 
-        public synchronized void actionPerformed(ActionEvent e) {        	        	
+		@Override
+		public synchronized void actionPerformed(ActionEvent e) {
         	prot.nextStep();        	
         	if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
         		stopAnimation();
@@ -348,6 +360,7 @@ public class ConstructionProtocolNavigationD extends
         }       
     }
 
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings)settings;
 		setPlayButtonVisible(cps.showPlayButton());
@@ -360,7 +373,6 @@ public class ConstructionProtocolNavigationD extends
 	@Override
 	public void setVisible(boolean visible) {
 		getImpl().setVisible(visible);
-		
 	}
 
 	public void updateIcons() {

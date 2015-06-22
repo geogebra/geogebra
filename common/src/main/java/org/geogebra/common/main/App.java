@@ -3297,8 +3297,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	protected boolean needsSpreadsheetTableModel = false;
-	protected boolean showConstProtNavigationNeedsUpdate = false;
-	protected boolean showConsProtNavigation = false;
+	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
+	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	private boolean isErrorDialogsActive = true;
 
 	public void setNeedsSpreadsheetTableModel() {
@@ -3376,12 +3376,73 @@ public abstract class App implements UpdateSelection {
 
 	}
 
-	public boolean getShowCPNavNeedsUpdate() {
-		return showConstProtNavigationNeedsUpdate;
+	public boolean getShowCPNavNeedsUpdate(int id) {
+		if (showConstProtNavigationNeedsUpdate == null){
+			return false;
+		}
+		
+		Boolean update = showConstProtNavigationNeedsUpdate.get(id);
+		if (update == null) {
+			return false;
+		}
+		return update;
+	}
+
+	private boolean getShowCPNavNeedsUpdate() {
+		if (showConstProtNavigationNeedsUpdate == null) {
+			return false;
+		}
+
+		
+		for (boolean update : showConstProtNavigationNeedsUpdate.values()){
+			if (update) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean showConsProtNavigation() {
-		return showConsProtNavigation;
+		if (showConsProtNavigation == null) {
+			return false;
+		}
+
+		for (boolean show : showConsProtNavigation.values()) {
+			if (show) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public void getConsProtNavigationIds(StringBuilder sb) {
+
+		boolean alreadyOne = false;
+		for (int id : showConsProtNavigation.keySet()) {
+			if (showConsProtNavigation.get(id)) {
+				if (alreadyOne) {
+					sb.append(" ");
+				} else {
+					alreadyOne = true;
+				}
+				sb.append(id);
+			}
+		}
+	}
+
+	public boolean showConsProtNavigation(int id) {
+		if (showConsProtNavigation == null) {
+			return false;
+		}
+
+		Boolean show = showConsProtNavigation.get(id);
+		if (show == null) {
+			return false;
+		}
+
+		return show;
 	}
 
 	/**
@@ -3394,7 +3455,7 @@ public abstract class App implements UpdateSelection {
 	 * @param showProtButton
 	 *            whether button to show construction protocol should be visible
 	 */
-	public void setShowConstructionProtocolNavigation(boolean show,
+	public void setShowConstructionProtocolNavigation(boolean show, int id,
 			boolean playButton, double playDelay, boolean showProtButton) {
 
 		ConstructionProtocolSettings cpSettings = getSettings()
@@ -3407,13 +3468,79 @@ public abstract class App implements UpdateSelection {
 			getGuiManager().applyCPsettings(cpSettings);
 		}
 
-		setShowConstructionProtocolNavigation(show);
+		setShowConstructionProtocolNavigation(show, id);
 
 		if (getGuiManager() != null) {
 
 			if (show) {
-				getGuiManager().setShowConstructionProtocolNavigation(show,
+				getGuiManager().setShowConstructionProtocolNavigation(show, id,
 						playButton, playDelay, showProtButton);
+			}
+		}
+
+	}
+
+	public void setHideConstructionProtocolNavigation() {
+		if (!showConsProtNavigation() && (!getShowCPNavNeedsUpdate())) {
+			return;
+		}
+
+		if (getGuiManager() != null) {
+			for (int id : showConsProtNavigation.keySet()) {
+				showConsProtNavigation.put(id, false);
+				getGuiManager()
+						.setShowConstructionProtocolNavigation(false, id);
+				setShowConstProtNavigationNeedsUpdate(id, false);
+			}
+		} else {
+			for (int id : showConsProtNavigation.keySet()) {
+				setShowConstProtNavigationNeedsUpdate(id, true);
+			}
+		}
+	}
+
+	private void setShowConstProtNavigationNeedsUpdate(int id, boolean flag) {
+		if (showConstProtNavigationNeedsUpdate == null) {
+			showConstProtNavigationNeedsUpdate = new HashMap<Integer, Boolean>();
+		}
+		Boolean update = showConstProtNavigationNeedsUpdate.get(id);
+		if (update == null || update != flag) {
+			showConstProtNavigationNeedsUpdate.put(id, flag);
+		}
+	}
+
+	/**
+	 * Displays the construction protocol navigation
+	 * 
+	 * @param show
+	 *            true to show navigation bar
+	 */
+	public void setShowConstructionProtocolNavigation(boolean flag) {
+
+		if (!flag) {
+			setHideConstructionProtocolNavigation();
+		} else {
+			if (!showConsProtNavigation()) {
+				// show navigation bar in active view
+				setShowConstructionProtocolNavigation(true,
+						getActiveEuclidianView().getViewID());
+				return;
+
+			} else if (!getShowCPNavNeedsUpdate()) {
+				return;
+			}
+
+			if (getGuiManager() != null) {
+				for (int id : showConsProtNavigation.keySet()) {
+					showConsProtNavigation.put(id, true);
+					getGuiManager().setShowConstructionProtocolNavigation(true,
+							id);
+					setShowConstProtNavigationNeedsUpdate(id, false);
+				}
+			} else {
+				for (int id : showConsProtNavigation.keySet()) {
+					setShowConstProtNavigationNeedsUpdate(id, true);
+				}
 			}
 		}
 
@@ -3425,18 +3552,35 @@ public abstract class App implements UpdateSelection {
 	 * @param show
 	 *            true to show navigation bar
 	 */
-	public void setShowConstructionProtocolNavigation(boolean flag) {
-		if ((flag == showConsProtNavigation)
-				&& (!showConstProtNavigationNeedsUpdate)) {
-			return;
+	public void setShowConstructionProtocolNavigation(boolean flag, int id) {
+
+		if (showConsProtNavigation == null) {
+			showConsProtNavigation = new HashMap<Integer, Boolean>();
+		} else {
+			if ((flag == showConsProtNavigation(id))
+					&& (!getShowCPNavNeedsUpdate(id))) {
+				return;
+			}
 		}
-		showConsProtNavigation = flag;
+		showConsProtNavigation.put(id, flag);
 
 		if (getGuiManager() != null) {
-			getGuiManager().setShowConstructionProtocolNavigation(flag);
-			showConstProtNavigationNeedsUpdate = false;
+			getGuiManager().setShowConstructionProtocolNavigation(flag, id);
+			setShowConstProtNavigationNeedsUpdate(id, false);
 		} else {
-			showConstProtNavigationNeedsUpdate = true;
+			setShowConstProtNavigationNeedsUpdate(id, true);
+		}
+	}
+
+	public void setNavBarButtonPause() {
+		if (getGuiManager() != null) {
+			getGuiManager().setNavBarButtonPause();
+		}
+	}
+
+	public void setNavBarButtonPlay() {
+		if (getGuiManager() != null) {
+			getGuiManager().setNavBarButtonPlay();
 		}
 	}
 
@@ -3445,16 +3589,17 @@ public abstract class App implements UpdateSelection {
 
 	}
 
-	public void toggleShowConstructionProtocolNavigation() {
+	public void toggleShowConstructionProtocolNavigation(int id) {
 
-		setShowConstructionProtocolNavigation(!showConsProtNavigation());
+		setShowConstructionProtocolNavigation(!showConsProtNavigation(id), id);
 
 		setUnsaved();
 		// updateCenterPanel(true);
 
-		if (getGuiManager() != null)
+		if (getGuiManager() != null) {
 			getGuiManager()
-					.updateCheckBoxesForShowConstructinProtocolNavigation();
+					.updateCheckBoxesForShowConstructinProtocolNavigation(id);
+		}
 
 	}
 

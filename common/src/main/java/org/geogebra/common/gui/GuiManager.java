@@ -12,6 +12,7 @@ the Free Software Foundation.
 package org.geogebra.common.gui;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -19,6 +20,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.Kernel;
@@ -75,8 +77,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			sb.append(getConstructionProtocolView().getConsProtocolXML());
 		if ((app).showConsProtNavigation()) {
 			sb.append("\t<consProtNavigationBar ");
-			sb.append("show=\"");
-			sb.append((app).showConsProtNavigation());
+			sb.append("id=\"");
+			app.getConsProtNavigationIds(sb);
 			sb.append('\"');
 			sb.append(" playButton=\"");
 			sb.append(getConstructionProtocolNavigation().isPlayButtonVisible());
@@ -421,8 +423,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		openHelp(page, Help.GENERIC);
 	}
 
-	public void setShowConstructionProtocolNavigation(boolean show) {
-		getConstructionProtocolNavigation().setVisible(show);
+	public void setShowConstructionProtocolNavigation(boolean show, int id) {
+		getConstructionProtocolNavigation(id).setVisible(show);
 
 		if (show) {
 			if (getApp().getActiveEuclidianView() != null)
@@ -431,9 +433,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
-	public void setShowConstructionProtocolNavigation(boolean show,
+	public void setShowConstructionProtocolNavigation(boolean show, int id,
 			boolean playButton, double playDelay, boolean showProtButton) {
-		setShowConstructionProtocolNavigation(show);
+		setShowConstructionProtocolNavigation(show, id);
 
 		getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
 		getConstructionProtocolNavigation().setPlayDelay(playDelay);
@@ -441,31 +443,112 @@ public abstract class GuiManager implements GuiManagerInterface {
 					showProtButton);
 	}
 
-	protected ConstructionProtocolNavigation constProtocolNavigation;
+	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
 
 	/**
 	 * Returns the construction protocol navigation bar instance.
+	 * 
+	 * @param id
+	 *            view id
+	 * @return construction protocol for the view id
 	 */
-	public abstract ConstructionProtocolNavigation getConstructionProtocolNavigation();
+	final public ConstructionProtocolNavigation getConstructionProtocolNavigation(
+			int id) {
+
+		if (constProtocolNavigationMap == null) {
+			constProtocolNavigationMap = new HashMap<Integer, ConstructionProtocolNavigation>();
+		}
+
+		ConstructionProtocolNavigation constProtocolNavigation = constProtocolNavigationMap
+				.get(id);
+		if (constProtocolNavigation == null) {
+			constProtocolNavigation = newConstructionProtocolNavigation();
+			constProtocolNavigationMap.put(id, constProtocolNavigation);
+		}
+
+		return constProtocolNavigation;
+	}
+
+
+	final public Collection<ConstructionProtocolNavigation> getAllConstructionProtocolNavigations() {
+		if (constProtocolNavigationMap == null) {
+			return null;
+		}
+
+		return constProtocolNavigationMap.values();
+	}
+
+	final public void setNavBarButtonPause() {
+		if (constProtocolNavigationMap != null) {
+			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap
+					.values()) {
+				cpn.setButtonPause();
+			}
+		}
+	}
+
+	final public void setNavBarButtonPlay() {
+		if (constProtocolNavigationMap != null) {
+			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap
+					.values()) {
+				cpn.setButtonPlay();
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @return new construction protocol navigation bar instance
+	 */
+	protected abstract ConstructionProtocolNavigation newConstructionProtocolNavigation();
+
+	/**
+	 * Returns the default construction protocol navigation bar instance.
+	 * 
+	 * @return construction protocol for the view id
+	 */
+	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
+		return getConstructionProtocolNavigation(App.VIEW_EUCLIDIAN);
+	}
 
 	/**
 	 * Returns the construction protocol navigation bar instance or null, if it
 	 * not exists.
 	 */
 	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists() {
-		return constProtocolNavigation;
+		if (constProtocolNavigationMap == null) {
+			return null;
+		}
+		return constProtocolNavigationMap.get(App.VIEW_EUCLIDIAN);
 	}
 
-	public abstract void updateCheckBoxesForShowConstructinProtocolNavigation();
+	public abstract void updateCheckBoxesForShowConstructinProtocolNavigation(
+			int id);
 
 	public void applyCPsettings(ConstructionProtocolSettings cps) {
-		if (constProtocolNavigation == null) {
+		if (constProtocolNavigationMap == null) {
 			return;
 		}
-		constProtocolNavigation.setConsProtButtonVisible(cps
-				.showConsProtButton());
-		constProtocolNavigation.setPlayDelay(cps.getPlayDelay());
-		constProtocolNavigation.setPlayButtonVisible(cps.showPlayButton());
+
+		for (ConstructionProtocolNavigation constProtocolNavigation : constProtocolNavigationMap
+				.values()) {
+			constProtocolNavigation.setConsProtButtonVisible(cps
+					.showConsProtButton());
+			constProtocolNavigation.setPlayDelay(cps.getPlayDelay());
+			constProtocolNavigation.setPlayButtonVisible(cps.showPlayButton());
+		}
+	}
+
+	public void registerConstructionProtocolView(ConstructionProtocolView cpv) {
+		if (constProtocolNavigationMap == null) {
+			ConstructionProtocolNavigation cpn = getConstructionProtocolNavigation();
+			cpn.register(cpv);
+		} else {
+			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap
+					.values()) {
+				cpn.register(cpv);
+			}
+		}
 	}
 
 	// ==================================

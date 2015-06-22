@@ -427,7 +427,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbShowNavbar.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-					app.toggleShowConstructionProtocolNavigation();
+					app.toggleShowConstructionProtocolNavigation(view
+							.getViewID());
 					cbNavPlay.setEnabled(cbShowNavbar.getValue());
 					cbOpenConsProtocol.setEnabled(cbShowNavbar.getValue());
                 }});

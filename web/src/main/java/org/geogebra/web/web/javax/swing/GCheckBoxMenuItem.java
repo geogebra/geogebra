@@ -52,6 +52,14 @@ public class GCheckBoxMenuItem {
 		menuItem.setHTML(itemPanel.toString());
 	}
 
+	/**
+	 * 
+	 * @return true if check box is checked
+	 */
+	public boolean isSelected() {
+		return checkBox.getValue();
+	}
+
 	public MenuItem getMenuItem() {
 		return menuItem;
 	}

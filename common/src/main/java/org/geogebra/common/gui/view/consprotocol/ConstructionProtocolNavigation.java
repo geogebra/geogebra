@@ -86,5 +86,24 @@ public abstract class ConstructionProtocolNavigation{
 			playPanel.setVisible(flag);
 		}
 	}
+
+	/**
+	 * Registers this navigation bar at its protocol to be informed about
+	 * updates.
+	 * 
+	 * @param constructionProtocolView
+	 *            CP view
+	 */
+	abstract public void register(ConstructionProtocolView cpv);
 	
+	/**
+	 * set button to "play" aspect
+	 */
+	abstract public void setButtonPlay();
+
+	/**
+	 * set button to "pause" aspect
+	 */
+	abstract public void setButtonPause();
+
 }

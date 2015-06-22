@@ -171,7 +171,7 @@ public class AppWapplet extends AppWFull {
 	protected void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
 		initGuiManager();
-		if (this.showConsProtNavigation()) {
+		if (this.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 			((EuclidianDockPanelW) euclidianViewPanel).addNavigationBar();
 		}
 		// following lines were swapped before but for async file loading it
@@ -225,7 +225,7 @@ public class AppWapplet extends AppWFull {
 	public void buildApplicationPanel() {
 
 		if (!isUsingFullGui()) {
-			if (showConsProtNavigation || !isJustEuclidianVisible()) {
+			if (showConsProtNavigation() || !isJustEuclidianVisible()) {
 				useFullGui = true;
 			}
 		}
@@ -359,7 +359,7 @@ public class AppWapplet extends AppWFull {
 	public void afterLoadFileAppOrNot() {
 		String perspective = getArticleElement().getDataParamPerspective();
 		if (!isUsingFullGui()) {
-			if (showConsProtNavigation || !isJustEuclidianVisible()
+			if (showConsProtNavigation() || !isJustEuclidianVisible()
 			        || perspective.length() > 0) {
 				useFullGui = true;
 			}
@@ -417,8 +417,9 @@ public class AppWapplet extends AppWFull {
 			}
 		}
 
-		if (isUsingFullGui())
-			this.getEuclidianViewpanel().updateNavigationBar();
+		if (isUsingFullGui()) {
+			updateNavigationBars();
+		}
 		setDefaultCursor();
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
  frame);
@@ -426,6 +427,8 @@ public class AppWapplet extends AppWFull {
 		onOpenFile();
 		showStartTooltip();
 	}
+
+
 
 	private View focusedView;
 	@Override

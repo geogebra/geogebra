@@ -41,20 +41,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		addAxesAndGridCheckBoxes();
 
-		// Show construction protocol navigation bar checkbox item
-		Command showConstructionStepCommand = new Command() {
-			public void execute() {
-				toggleShowConstructionProtocolNavigation();
-			}
-		};
-		String htmlString = MainMenu.getMenuBarHtml(AppResources.INSTANCE
-		        .empty().getSafeUri().asString(), app.getMenu("NavigationBar"));
-		GCheckBoxMenuItem cbShowConstructionStep = new GCheckBoxMenuItem(
-		        htmlString, showConstructionStepCommand);
-		cbShowConstructionStep.setSelected(app.showConsProtNavigation());
-		wrappedPopup.addItem(cbShowConstructionStep);
+		addNavigationBar();
 
-		wrappedPopup.addSeparator();
+
 
 		// zoom for both axes
 		MenuBar zoomMenu = new MenuBar(true);
@@ -111,7 +100,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	}
 
 	void toggleShowConstructionProtocolNavigation() {
-		((AppW) app).toggleShowConstructionProtocolNavigation();
+		((AppW) app).toggleShowConstructionProtocolNavigation(app
+				.getActiveEuclidianView().getViewID());
 	}
 
 	protected void addMiProperties(String name) {
@@ -265,6 +255,24 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid());
 		wrappedPopup.addItem(cbShowGrid);
 
+	}
+
+	protected void addNavigationBar() {
+		// Show construction protocol navigation bar checkbox item
+		Command showConstructionStepCommand = new Command() {
+			public void execute() {
+				toggleShowConstructionProtocolNavigation();
+			}
+		};
+		String htmlString = MainMenu.getMenuBarHtml(AppResources.INSTANCE
+				.empty().getSafeUri().asString(), app.getMenu("NavigationBar"));
+		GCheckBoxMenuItem cbShowConstructionStep = new GCheckBoxMenuItem(
+				htmlString, showConstructionStepCommand);
+		cbShowConstructionStep.setSelected(app.showConsProtNavigation(app
+				.getActiveEuclidianView().getViewID()));
+		wrappedPopup.addItem(cbShowConstructionStep);
+
+		wrappedPopup.addSeparator();
 	}
 
 	public void actionPerformed(String command) {

@@ -27,7 +27,7 @@ public class ViewMenuW extends GMenuBar {
 	AppW app;
 	GCheckBoxMenuItem inputBarItem;
 	private GCheckBoxMenuItem dataCollection;
-	private GCheckBoxMenuItem consProtNav;
+	GCheckBoxMenuItem consProtNav;
 
 	/**
 	 * Constructs the "View" menu
@@ -114,7 +114,17 @@ public class ViewMenuW extends GMenuBar {
 
 			@Override
 			public void doExecute() {
-				app.toggleShowConstructionProtocolNavigation();
+				if (consProtNav.isSelected()) {
+					app.setShowConstructionProtocolNavigation(false);
+				} else {
+					int id = app.getActiveEuclidianView().getViewID();
+					app.setShowConstructionProtocolNavigation(true, id);
+					app.getGuiManager()
+							.updateCheckBoxesForShowConstructinProtocolNavigation(
+									id);
+				}
+
+
 			}
 		});
 		addItem(consProtNav.getMenuItem());

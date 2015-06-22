@@ -690,7 +690,7 @@ public abstract class AppW extends App implements SetLabels {
 			// Before opening the file,
 			// hide navigation bar for construction steps if visible.
 			// (Don't do this for ggt files.)
-			setShowConstructionProtocolNavigation(false);
+			setHideConstructionProtocolNavigation();
 
 			if (macros != null) {
 				// App.debug("start processing macros: "+System.currentTimeMillis());
@@ -3288,6 +3288,18 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void openCSVbase64(String base64) {
 		// TODO Auto-generated method stub
+
+	}
+
+	protected void updateNavigationBars() {
+		if (showConstProtNavigationNeedsUpdate == null) {
+			return;
+		}
+
+		for (int key : showConstProtNavigationNeedsUpdate.keySet()) {
+			getGuiManager().getLayout().getDockManager().getPanel(key)
+					.updateNavigationBar();
+		}
 
 	}
 }

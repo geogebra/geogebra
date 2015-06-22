@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.consprotocol;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.javax.swing.GPanelW;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
@@ -135,16 +136,12 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		}
 	}
 	
-	/**
-	 * Registers this navigation bar at its protocol
-	 * to be informed about updates.
-	 * @param constructionProtocolView {@link ConstructionProtocolViewW}
-	 */
-	public void register(ConstructionProtocolViewW constructionProtocolView) { 
+	@Override
+	public void register(ConstructionProtocolView constructionProtocolView) {
 		if (prot == null) { 
 			initGUI(); 
 		}
-		prot = constructionProtocolView;
+		prot = (ConstructionProtocolViewW) constructionProtocolView;
 		prot.registerNavigationBar(this);
 	}
 
@@ -239,8 +236,24 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		}
 		btPlay.setEnabled(true);	
 		//? lbSteps.setEnabled(true);
-	}		
+	}
 	
+	@Override
+	public void setButtonPlay() {
+		Image playImage = getImageForIcon(AppResources.INSTANCE.nav_play()
+				.getSafeUri());
+		btPlay.setHTML(playImage.toString() + "<div class=\"gwt-Label\">"
+				+ app.getPlain("Play") + "</div>");
+	}
+
+	@Override
+	public void setButtonPause() {
+		Image playImage = getImageForIcon(AppResources.INSTANCE.nav_pause()
+				.getSafeUri());
+		btPlay.setHTML(playImage.toString() + "<div class=\"gwt-Label\">"
+				+ app.getPlain("Pause") + "</div>");
+	}
+
 	private class AutomaticPlayer{
 		Timer timer;
 		
@@ -271,8 +284,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			//TODO set cursor:wait
 			
 			isPlaying = true;
-			Image playImage = getImageForIcon(AppResources.INSTANCE.nav_pause().getSafeUri());
-			btPlay.setHTML(playImage.toString()+"<div class=\"gwt-Label\">"+app.getPlain("Pause")+"</div>");
+			app.setNavBarButtonPause();
 			setComponentsEnabled(false);
 
 			if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
@@ -289,8 +301,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
             // unblock application events
 //			app.stopDispatchingEvents();
 			isPlaying = false;
-			Image playImage = getImageForIcon(AppResources.INSTANCE.nav_play().getSafeUri());
-			btPlay.setHTML(playImage.toString()+"<div class=\"gwt-Label\">"+app.getPlain("Play")+"</div>");
+			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
         }
 	}

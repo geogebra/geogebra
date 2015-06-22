@@ -1487,7 +1487,7 @@ public class AppD extends App implements KeyEventDispatcher {
 						// check if full GUI is necessary
 						if (success && !isMacroFile) {
 							if (!isUsingFullGui()) {
-								if (showConsProtNavigation
+								if (showConsProtNavigation()
 										|| !isJustEuclidianVisible()) {
 									useFullGui = true;
 								}
@@ -1502,7 +1502,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 						if (success && !isMacroFile) {
 							if (!isUsingFullGui()) {
-								if (showConsProtNavigation
+								if (showConsProtNavigation()
 										|| !isJustEuclidianVisible()) {
 									useFullGui = true;
 								}
@@ -1551,7 +1551,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		setWaitCursor();
 		// hide navigation bar for construction steps if visible
-		setShowConstructionProtocolNavigation(false);
+		setHideConstructionProtocolNavigation();
 
 		try {
 			success = loadFromHtml(file.toURI().toURL()); // file.toURL() does
@@ -3445,7 +3445,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (!isMacroFile) {
 			// hide navigation bar for construction steps if visible
-			setShowConstructionProtocolNavigation(false);
+			setHideConstructionProtocolNavigation();
 		}
 
 		boolean success = loadXML(file, isMacroFile);

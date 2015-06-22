@@ -71,11 +71,14 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 			consProtNav.settingsChanged(cps);
 			cps.addListener(consProtNav);
 				
-			if (app.getShowCPNavNeedsUpdate()){
-				app.setShowConstructionProtocolNavigation(app.showConsProtNavigation());
+			if (app.getShowCPNavNeedsUpdate(App.VIEW_EUCLIDIAN)) {
+				app.setShowConstructionProtocolNavigation(
+						app.showConsProtNavigation(App.VIEW_EUCLIDIAN),
+						App.VIEW_EUCLIDIAN);
 			}
 			consProtNav.getImpl().setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.lightGray));
-			consProtNav.getImpl().setVisible(app.showConsProtNavigation());
+			consProtNav.getImpl().setVisible(
+					app.showConsProtNavigation(App.VIEW_EUCLIDIAN));
 			
 			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be invisible, but made visible later
 		}

@@ -1,16 +1,23 @@
 package org.geogebra.desktop.geogebra3D.gui.layout.panels;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
+import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -37,9 +44,53 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 		setEmbeddedSize(300);
 	}
 
+	/**
+	 * Panel to hold euclidian view and navigation bar if necessary.
+	 */
+	private JPanel panel;
+
+	/**
+	 * Component of the construction protocol navigation bar, invisible if not
+	 * needed.
+	 */
+	private ConstructionProtocolNavigationD consProtNav;
+
 	@Override
 	protected JComponent loadComponent() {
-		return ((EuclidianView3DD) app.getEuclidianView3D()).getJPanel();
+		if (panel == null) {
+			panel = new JPanel(new BorderLayout());
+
+			panel.add(
+					((EuclidianView3DD) app.getEuclidianView3D()).getJPanel(),
+					BorderLayout.CENTER);
+
+			consProtNav = (ConstructionProtocolNavigationD) app.getGuiManager()
+					.getConstructionProtocolNavigation(App.VIEW_EUCLIDIAN3D);
+
+			ConstructionProtocolSettings cps = app.getSettings()
+					.getConstructionProtocol();
+			consProtNav.settingsChanged(cps);
+			cps.addListener(consProtNav);
+
+			if (app.getShowCPNavNeedsUpdate(App.VIEW_EUCLIDIAN3D)) {
+				app.setShowConstructionProtocolNavigation(
+						app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D),
+						App.VIEW_EUCLIDIAN3D);
+			}
+			consProtNav.getImpl().setBorder(
+					BorderFactory
+							.createMatteBorder(1, 0, 0, 0, Color.lightGray));
+			consProtNav.getImpl().setVisible(
+					app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D));
+
+			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be
+																	// invisible,
+																	// but made
+																	// visible
+																	// later
+		}
+
+		return panel;
 	}
 
 	@Override

@@ -22,6 +22,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.NumberFormat;
+import java.util.Collection;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
@@ -46,6 +47,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -590,6 +592,7 @@ public class OptionsEuclidianD extends
 	}
 
 	public void updateConsProtocolPanel(boolean isVisible) {
+
 		// cons protocol panel
 		ckShowNavbar.setSelected(isVisible);
 		ckNavPlay.setSelected(((GuiManagerD) app.getGuiManager())
@@ -1000,7 +1003,7 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			app.toggleShowConstructionProtocolNavigation();
+			app.toggleShowConstructionProtocolNavigation(view.getViewID());
 		}
 	};
 
@@ -1008,11 +1011,15 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app
-					.getGuiManager().getConstructionProtocolNavigation();
-			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
-			// cpn.initGUI();
-			SwingUtilities.updateComponentTreeUI(cpn.getImpl());
+			Collection<ConstructionProtocolNavigation> cpns = app
+					.getGuiManager().getAllConstructionProtocolNavigations();
+			for (ConstructionProtocolNavigation cpn : cpns) {
+				cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
+				// cpn.initGUI();
+				SwingUtilities
+						.updateComponentTreeUI(((ConstructionProtocolNavigationD) cpn)
+								.getImpl());
+			}
 			app.setUnsaved();
 			updateGUI();
 		}
@@ -1022,11 +1029,16 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app
-					.getGuiManager().getConstructionProtocolNavigation();
-			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
-			// cpn.initGUI();
-			SwingUtilities.updateComponentTreeUI(cpn.getImpl());
+
+			Collection<ConstructionProtocolNavigation> cpns = app
+					.getGuiManager().getAllConstructionProtocolNavigations();
+			for (ConstructionProtocolNavigation cpn : cpns) {
+				cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
+				// cpn.initGUI();
+				SwingUtilities
+						.updateComponentTreeUI(((ConstructionProtocolNavigationD) cpn)
+								.getImpl());
+			}
 			app.setUnsaved();
 			updateGUI();
 		}

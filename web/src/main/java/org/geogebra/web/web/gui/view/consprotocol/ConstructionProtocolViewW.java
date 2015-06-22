@@ -36,7 +36,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 public class ConstructionProtocolViewW extends ConstructionProtocolView implements SetLabels, SettingListener{
 
-	private ConstructionProtocolNavigationW protNavBar;
 	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
 	public FlowPanel cpPanel;
 	/** table with constructionsteps **/
@@ -61,8 +60,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		this.app = app;
 		kernel = app.getKernel();
 		data = new ConstructionTableDataW(this);
-		protNavBar = (ConstructionProtocolNavigationW) (app.getGuiManager().getConstructionProtocolNavigation());
-		protNavBar.register(this);
+
+		app.getGuiManager().registerConstructionProtocolView(this);
+
 		table = new CellTable<RowData>();
 		table.addStyleName("cpTable");
 				
@@ -301,14 +301,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	
 	@Override
 	public void updateNavigationBars() {
-		// update the navigation bar of the protocol window
-		protNavBar.update();
-	
-//		// update all registered navigation bars
-//		int size = navigationBars.size();
-//		for (int i = 0; i < size; i++) {
-//			navigationBars.get(i).update();
-//		}
+		// update all registered navigation bars
+		int size = navigationBars.size();
+		for (int i = 0; i < size; i++) {
+			navigationBars.get(i).update();
+		}
 	}
 	
 	@Override

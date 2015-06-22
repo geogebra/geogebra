@@ -2113,15 +2113,31 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleConsProtNavigationBar(App app1,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			boolean show = parseBoolean(attrs.get("show"));
+
 			boolean playButton = parseBoolean(attrs.get("playButton"));
 			double playDelay = StringUtil.parseDouble(attrs.get("playDelay"));
 			boolean showProtButton = parseBoolean(attrs.get("protButton"));
 
-			// Maybe there is not guiManager yet. In this case we store the
-			// navigation bar's states in ConstructionProtocolSettings
-			app1.setShowConstructionProtocolNavigation(show, playButton,
-					playDelay, showProtButton);
+			String showStr = attrs.get("show");
+			if (showStr == null) { // new XML
+				String idStr = attrs.get("id");
+				for (String id : idStr.split(" ")) {
+					int viewId = Integer.parseInt(id);
+					app1.setShowConstructionProtocolNavigation(true, viewId,
+							playButton, playDelay, showProtButton);
+				}
+			} else { // old XML
+				boolean show = parseBoolean(attrs.get("show"));
+				// Maybe there is not guiManager yet. In this case we store the
+				// navigation bar's states in ConstructionProtocolSettings
+				app1.setShowConstructionProtocolNavigation(show,
+						App.VIEW_EUCLIDIAN, playButton, playDelay,
+						showProtButton);
+			}
+
+
+
+
 
 			// construction step: handled at end of parsing
 			String strConsStep = attrs.get("consStep");

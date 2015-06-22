@@ -455,7 +455,8 @@ public class EuclidianOptionsModel {
 				view.getGridDistances(), view.getGridType());
 
 		// cons protocol panel
-		listener.updateConsProtocolPanel(app.showConsProtNavigation());
+		listener.updateConsProtocolPanel(app.showConsProtNavigation(view
+				.getViewID()));
 	}
 
 	public static int getAxesStyleLength() {

@@ -1674,4 +1674,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		updateToggleStyleBarButtons();
 	}
 
+	public void updateNavigationBar() {
+		// not needed in desktop
+	}
+
 }

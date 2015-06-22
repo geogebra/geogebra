@@ -1,5 +1,6 @@
 package org.geogebra.desktop.geogebra3D.gui.view.properties;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.gui.dialogs.options.OptionsEuclidian3DD;
@@ -72,6 +73,15 @@ public class PropertiesView3DD extends PropertiesViewD {
 	@Override
 	protected PropertiesStyleBarD newPropertiesStyleBar() {
 		return new PropertiesStyleBar3DD(this, (AppD) app);
+	}
+
+	@Override
+	public void updatePanelGUI(int id) {
+		if (id == App.VIEW_EUCLIDIAN3D && euclidianPanel3D != null) {
+			euclidianPanel3D.updateGUI();
+		} else {
+			super.updatePanelGUI(id);
+		}
 	}
 
 }

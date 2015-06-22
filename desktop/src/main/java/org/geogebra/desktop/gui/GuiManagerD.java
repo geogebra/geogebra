@@ -62,6 +62,7 @@ import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.VirtualKeyboardListener;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
@@ -2362,9 +2363,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void updateCheckBoxesForShowConstructinProtocolNavigation() {
-		if (propertiesView != null)
-			propertiesView.updateEuclidianPanelsGUI();
+	public void updateCheckBoxesForShowConstructinProtocolNavigation(int id) {
+		if (propertiesView != null) {
+			propertiesView.updatePanelGUI(id);
+		}
 	}
 
 	@Override
@@ -3101,15 +3103,18 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return ToolCreationDialog.isMyCellRenderer(renderer);
 	}
 
-	@Override
-	public org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation getConstructionProtocolNavigation() {
-		if (constProtocolNavigation == null) {
-			constProtocolNavigation = new ConstructionProtocolNavigationD(
-					this.getApp());
-		}
 
-		return constProtocolNavigation;
+	protected ConstructionProtocolNavigation newConstructionProtocolNavigation() {
+		ConstructionProtocolNavigationD cpn = new ConstructionProtocolNavigationD(
+				this.getApp());
+		if (constructionProtocolView != null) {
+			cpn.register(constructionProtocolView);
+		}
+		return cpn;
 	}
+
+
+
 
 	public void login() {
 		app.getDialogManager().showLogInDialog();

@@ -38,7 +38,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		addAxesAndGridCheckBoxes();
 
-		wrappedPopup.addSeparator();
+		addNavigationBar();
 
 		MenuItem miStandardView = new MenuItem(app.getPlain("StandardView"),
 		        new Command() {

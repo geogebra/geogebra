@@ -174,8 +174,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		ConstructionKeyListener keyListener = new ConstructionKeyListener();
 		table.addKeyListener(keyListener);
 
-		((ConstructionProtocolNavigationD) app.getGuiManager()
-				.getConstructionProtocolNavigation()).register(this);
+		app.getGuiManager().registerConstructionProtocolView(this);
+
 		// navigation bar
 		protNavBar = new ConstructionProtocolNavigationD(app);
 		protNavBar.register(this);

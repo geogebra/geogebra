@@ -31,8 +31,10 @@ public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
 		setTitle("<html>" + app.getPlain("GraphicsView3D") + "</html>");
 
 		addAxesAndGridCheckBoxes();
+		
+		addNavigationBar();
 
-		getWrappedPopup().addSeparator();
+		// getWrappedPopup().addSeparator();
 
 		addShowAllObjectsView(app);
 

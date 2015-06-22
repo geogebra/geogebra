@@ -71,7 +71,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		// but then the addNavigationBar method will be called explicitly.
 		// By the way, this method is only called from AppWapplet,
 		// so this will be actually null here.
-		if (app.getGuiManager() != null && app.showConsProtNavigation()){
+		if (app.getGuiManager() != null
+				&& app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 			addNavigationBar();
 		}
 	}
@@ -92,28 +93,33 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	
 	public void addNavigationBar(){
 		consProtNav = (ConstructionProtocolNavigationW)(app.getGuiManager()
-		        .getConstructionProtocolNavigation());
+				.getConstructionProtocolNavigation(App.VIEW_EUCLIDIAN));
 		consProtNav.getImpl().addStyleName("consProtNav");
-		euclidianpanel.add(consProtNav.getImpl()); // may be invisible, but made visible later		
+		euclidianpanel.add(consProtNav.getImpl()); // may be invisible, but made
+													// visible later
 		updateNavigationBar();
 	}
 	
+	@Override
 	public void updateNavigationBar(){
 //		ConstructionProtocolSettings cps = app.getSettings()
 //		        .getConstructionProtocol();
 //		((ConstructionProtocolNavigationW) consProtNav).settingsChanged(cps);
 //		cps.addListener((ConstructionProtocolNavigation)consProtNav);
 
-		if (app.getShowCPNavNeedsUpdate()) {
-			app.setShowConstructionProtocolNavigation(app
-			        .showConsProtNavigation());
+		if (app.getShowCPNavNeedsUpdate(App.VIEW_EUCLIDIAN)) {
+			app.setShowConstructionProtocolNavigation(
+					app.showConsProtNavigation(App.VIEW_EUCLIDIAN),
+					App.VIEW_EUCLIDIAN);
 		}
-		if(app.showConsProtNavigation() && consProtNav == null){
+		if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN)
+				&& consProtNav == null) {
 			this.addNavigationBar();
 		}
 		if(consProtNav != null){
 			consProtNav.update();
-			consProtNav.setVisible(app.showConsProtNavigation());
+			consProtNav.setVisible(app
+					.showConsProtNavigation(App.VIEW_EUCLIDIAN));
 			euclidianpanel.onResize();
 		}
 	}
@@ -139,7 +145,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 				int h = dockPanel.getComponentInteriorHeight();
 				int w = dockPanel.getComponentInteriorWidth();
-				if(app.showConsProtNavigation()){
+				if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 					h -= dockPanel.navHeight();
 				}
 

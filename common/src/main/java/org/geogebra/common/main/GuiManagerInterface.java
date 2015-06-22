@@ -12,6 +12,7 @@ the Free Software Foundation.
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -317,12 +318,16 @@ public interface GuiManagerInterface {
 
 	public ConstructionProtocolView getConstructionProtocolView();
 
-	public void setShowConstructionProtocolNavigation(boolean show);
+	public void setShowConstructionProtocolNavigation(boolean show, int id);
 
-	public void setShowConstructionProtocolNavigation(boolean show,
+	public void setShowConstructionProtocolNavigation(boolean show, int id,
 			boolean playButton, double playDelay, boolean showProtButton);
 
-	public void updateCheckBoxesForShowConstructinProtocolNavigation();
+	public void updateCheckBoxesForShowConstructinProtocolNavigation(int id);
+
+	public void setNavBarButtonPause();
+
+	public void setNavBarButtonPlay();
 
 	/*
 	 * In web there are some drawable which not drawn on the canvas of euclidian
@@ -347,7 +352,11 @@ public interface GuiManagerInterface {
 
 	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists();
 
+	ConstructionProtocolNavigation getConstructionProtocolNavigation(int id);
+
 	ConstructionProtocolNavigation getConstructionProtocolNavigation();
+
+	public Collection<ConstructionProtocolNavigation> getAllConstructionProtocolNavigations();
 
 	public void logout();
 
@@ -358,4 +367,6 @@ public interface GuiManagerInterface {
 	public void addToToolbarDefinition(int mode);
 
 	public Object getToolbarDefinition();
+
+	public void registerConstructionProtocolView(ConstructionProtocolView view);
 }

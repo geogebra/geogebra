@@ -496,6 +496,37 @@ public class PropertiesViewD extends
 	}
 
 	/**
+	 * update panel GUI
+	 * 
+	 * @param id
+	 *            view id
+	 */
+	public void updatePanelGUI(int id) {
+		switch (id) {
+		case App.VIEW_EUCLIDIAN:
+			if (euclidianPanel != null) {
+				euclidianPanel.updateGUI();
+			}
+			break;
+		case App.VIEW_EUCLIDIAN2:
+			if (euclidianPanel2 != null) {
+				euclidianPanel2.updateGUI();
+			}
+			break;
+		case App.VIEW_SPREADSHEET:
+			if (spreadsheetPanel != null) {
+				spreadsheetPanel.updateGUI();
+			}
+			break;
+		case App.VIEW_CAS:
+			if (casPanel != null) {
+				casPanel.updateGUI();
+			}
+			break;
+		}
+	}
+
+	/**
 	 * Returns the option panel for the given type. If the panel does not exist,
 	 * a new one is constructed
 	 * 

@@ -1417,4 +1417,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	public MathKeyboardListener getKeyboardListener() {
 		return null;
 	}
+
+	public void updateNavigationBar() {
+		// TODO Auto-generated method stub
+	}
 }
