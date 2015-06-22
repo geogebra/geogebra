@@ -8652,7 +8652,7 @@ public abstract class EuclidianController {
 			}
 
 			if (hits.isEmpty() || needsAxisZoom(hits, event)
-					|| !app.has(Feature.SF_DRAG)) {
+					|| !app.has(Feature.SF_DRAG) || specialMoveEvent(event)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
 				if (mayPaste()) { // #5246 make sure we don't switch to
@@ -8689,7 +8689,7 @@ public abstract class EuclidianController {
 			return specialMoveEvent(event);
 		}
 		return app.isShiftDragZoomEnabled()
-				&& (!doubleClickStarted && mode == EuclidianConstants.MODE_MOVE);
+				&& (!doubleClickStarted && (mode == EuclidianConstants.MODE_MOVE || specialMoveEvent(event)));
 	}
 
 	private boolean specialMoveEvent(AbstractEvent event) {
