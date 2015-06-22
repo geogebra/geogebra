@@ -288,7 +288,10 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraPreferencesD.getPref().clearPreferences();
-
+					boolean oldAxisX = app.getSettings().getEuclidian(1)
+							.getShowAxis(0);
+					boolean oldAxisY = app.getSettings().getEuclidian(1)
+							.getShowAxis(1);
 					// reset defaults for GUI, views etc
 					// this has to be called before load XML preferences,
 					// in order to avoid overwrite
@@ -297,7 +300,8 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 					// for geoelement defaults, this will do nothing, so it is
 					// OK here
 					GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
-
+					app.getSettings().getEuclidian(0)
+							.setShowAxes(oldAxisX, oldAxisY);
 					// reset default line thickness etc
 					app.getKernel().getConstruction().getConstructionDefaults()
 							.resetDefaults();

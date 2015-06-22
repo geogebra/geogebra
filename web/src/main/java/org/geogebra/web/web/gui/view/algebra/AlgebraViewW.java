@@ -1315,7 +1315,8 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 
 		if ((!app.getLocalization().getLanguage().equals("ko") || app
-				.has(Feature.KOREAN_KEYBOARD))) {
+				.has(Feature.KOREAN_KEYBOARD))
+				&& app.showView(App.VIEW_ALGEBRA)) {
 				if (forceKeyboard) {
 					Scheduler.get().scheduleDeferred(
 							new Scheduler.ScheduledCommand() {
