@@ -1347,6 +1347,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		event.stopPropagation();
+		// event.preventDefault();
 		if (newCreationMode) {
 			// this might cause strange behaviour
 			setFocus(true);
@@ -1373,6 +1374,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.stopPropagation();
+		// event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.rescheduleTimerIfRunning(this, x, y);
@@ -1390,6 +1392,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// probably no, as there is a stopPropagation
 		// in the onMouseDown method as well...
 		event.stopPropagation();
+		event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.scheduleTimer(this, x, y);
