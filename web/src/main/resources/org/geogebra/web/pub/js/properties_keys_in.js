@@ -1603,7 +1603,7 @@ __GGB__keysVar.in.menu = {
     "LowerQuartile.short": "Q1",
     "MagneticField": "Magnetic Field",
     "ManagePerspectives": "Atur Prespektif",
-    "Manual": "Manual",
+    "Manual": "Petujuk",
     "MarginOfError": "Margin Kesalahan",
     "MarginOfError.short": "ME",
     "MathematicalFunctions": "Fungsi Matematik",

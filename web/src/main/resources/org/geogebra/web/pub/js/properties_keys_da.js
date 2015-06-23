@@ -131,7 +131,7 @@ __GGB__keysVar.da.command = {
     "CFactor.SyntaxCAS": "[ <Udtryk> ]\n[ <Udtryk>, <Variabel> ]",
     "CIFactor": "CIFaktoriser",
     "CIFactor.SyntaxCAS": "[ <Udtryk> ]\n[ <Udtryk>, <Variabel> ]",
-    "CSolutions": "Cl\xf8sninger",
+    "CSolutions": "CL\xf8sninger",
     "CSolutions.SyntaxCAS": "[ <ligning> ]\n[ <ligning>, <variabel> ]\n[ <Liste med ligninger>, <List med variable> ]",
     "CSolve": "CBeregn",
     "CSolve.SyntaxCAS": "[ <ligning> ]\n[ <ligning>, <variabel> ]\n[ <Liste med ligninger>, <List med variable> ]",
