@@ -25,6 +25,11 @@
   <replace-with class="org.geogebra.web.geogebra3D.AppletFactory3D">
     <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
   </replace-with>
+  <replace-with class="org.geogebra.web.html5.gui.util.RichTextAreaImpl">
+     <when-type-is class="com.google.gwt.user.client.ui.impl.RichTextAreaImplG"/>
+     <when-property-is name="user.agent" value="gecko1_8" />
+  </replace-with>
+  
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>
