@@ -1952,6 +1952,18 @@ FromMeta
 		matrix[5] = - (lsq * fy + g.y * g.z);
 				
 		classifyConic();
+
+		// avoid flip
+		if (defined && eigenvecX * g.x + eigenvecY * g.y < 0) {
+			eigenvecX *= -1;
+			eigenvecY *= -1;
+
+			c.setX(matrix[4] * eigenvecX + matrix[5] * eigenvecY);
+			c.setY(matrix[5] * eigenvecX - matrix[4] * eigenvecY);
+
+			parabola();
+		}
+
 	}
 	
 	/**
