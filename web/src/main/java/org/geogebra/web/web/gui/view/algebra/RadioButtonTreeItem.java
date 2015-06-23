@@ -180,14 +180,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	private boolean playButtonValue;
 
-	/**
-	 * TODO this will be replaced by a check-box in the settings
-	 * 
-	 * allow slider (for a number) or checkBox (for a boolean) in AV as part of
-	 * the RadioButtonTreeItem
-	 */
-	public static boolean showSliderOrTextBox = false;
-
 	public void updateOnNextRepaint() {
 		this.needsUpdate = true;
 	}
@@ -312,7 +304,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		add(marblePanel);
 
 		// Sliders
-		if (showSliderOrTextBox && app.has(Feature.AV_EXTENSIONS)
+		if (app.has(Feature.AV_EXTENSIONS)
 		        && geo instanceof GeoNumeric
 		        && ((GeoNumeric) geo).isShowingExtendedAV()) {
 			if (!geo.isEuclidianVisible()) {
@@ -387,7 +379,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ihtml.getElement().appendChild(se2);
 		// String text = "";
 
-		if (showSliderOrTextBox && app.has(Feature.AV_EXTENSIONS)
+		if (app.has(Feature.AV_EXTENSIONS)
 		        && geo instanceof GeoBoolean) {
 			// CheckBoxes
 			checkBox = new CheckBox();

@@ -72,7 +72,6 @@ import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
-import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -1326,8 +1325,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		fixCheckboxPanel = new FixCheckboxPanel();
 		basicTab.add(fixCheckboxPanel.getWidget());
 
-		if (app.has(Feature.AV_EXTENSIONS)
-				&& RadioButtonTreeItem.showSliderOrTextBox) {
+		if (app.has(Feature.AV_EXTENSIONS)) {
 			if (!isDefaults) {
 				avPanel = new ExtendedAVPanel();
 				checkboxPanel.add(avPanel.getWidget());

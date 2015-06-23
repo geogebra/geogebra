@@ -232,7 +232,6 @@ public class AlgebraViewW extends Tree implements LayerView,
 	public boolean suggestRepaint(){
 
 		if (app.has(Feature.AV_EXTENSIONS)
-				&& RadioButtonTreeItem.showSliderOrTextBox
 				&& waitForRepaint != TimerSystemW.REPAINT_FLAG) {
 			doSpecialRepaint();
 		}
