@@ -507,7 +507,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 					StringUtil.parseDouble(attrs.get("A7")),
 					StringUtil.parseDouble(attrs.get("A8")),
 					StringUtil.parseDouble(attrs.get("A9")) };
-			quadric.setMatrix(matrix);
+			quadric.setMatrixFromXML(matrix);
 		} else {
 			super.handleMatrixConicOrQuadric(attrs);
 		}

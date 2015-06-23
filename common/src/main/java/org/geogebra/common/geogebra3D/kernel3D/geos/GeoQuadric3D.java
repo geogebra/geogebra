@@ -95,6 +95,23 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	/**
+	 * sets quadric's matrix from coefficients of equation from array
+	 * 
+	 * @param coeffs
+	 *            Array of coefficients
+	 */
+	final public void setMatrixFromXML(double[] coeffs) {
+
+		for (int i = 0; i < 10; i++) {
+			matrix[i] = coeffs[i];
+		}
+
+		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
+			classifyQuadric();
+		}
+	}
+
+	/**
 	 * Update conic type and properties
 	 */
 	protected void classifyQuadric() {
@@ -121,6 +138,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				* matrix[4] * matrix[4] + 2 * matrix[4] * matrix[5] * matrix[6];
 		if (Kernel.isZero(detS)) {
 			type = QUADRIC_NOT_CLASSIFIED; // TODO
+			App.printStacktrace("QUADRIC_NOT_CLASSIFIED");
 		} else {
 			classifyMidpointQuadric(degenerate);
 		}
@@ -182,6 +200,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (degenerate || Kernel.isZero(beta)) {
 			// TODO : degenerate
 			type = QUADRIC_NOT_CLASSIFIED;
+			App.printStacktrace("QUADRIC_NOT_CLASSIFIED");
 		} else {
 			mu[0] = -eigenval[0] / beta;
 			mu[1] = -eigenval[1] / beta;
@@ -189,6 +208,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			if (detS < 0) {
 				// TODO : hyperboloid
 				type = QUADRIC_NOT_CLASSIFIED;
+				App.printStacktrace("QUADRIC_NOT_CLASSIFIED");
 			} else {
 				if (mu[0] > 0 && mu[1] > 0 && mu[2] > 0) {
 					ellipsoid();
@@ -236,6 +256,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		} else { // ellipsoid
 			// TODO
 			type = QUADRIC_NOT_CLASSIFIED;
+			App.printStacktrace("QUADRIC_NOT_CLASSIFIED");
 		}
 
 	}
@@ -376,6 +397,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// set type
 		type = QUADRIC_CONE;
+
 	}
 
 	// //////////////////////////////
@@ -980,7 +1002,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters(P)) {
+		if (!getKernel().usePathAndRegionParameters(P)
+				|| P.getRegionParameters().isNaN()) {
 			pointChangedForRegion(P);
 			return;
 		}
@@ -993,10 +1016,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 		}
 
+		App.debug("before=\n" + P.getCoordsInD3());
+
 		RegionParameters rp = p.getRegionParameters();
+		App.debug("parameters=" + rp.getT1() + "," + rp.getT2());
 		Coords coords = getPointInRegion(rp.getT1(), rp.getT2());
 		p.setCoords(coords, false);
 		p.updateCoords();
+
+		App.debug("after=\n" + P.getCoordsInD3());
 
 	}
 

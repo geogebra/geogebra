@@ -3427,7 +3427,8 @@ FromMeta
 	public void regionChanged(GeoPointND PI) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(PI)){
+		if (!getKernel().usePathAndRegionParameters(PI)
+				|| PI.getRegionParameters().isNaN()) {
 			pointChangedForRegion(PI);
 			return;
 		}

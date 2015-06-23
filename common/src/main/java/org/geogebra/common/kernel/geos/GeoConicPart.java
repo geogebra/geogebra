@@ -801,7 +801,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters(PI)) {
+		if (!getKernel().usePathAndRegionParameters(PI)
+				|| PI.getRegionParameters().isNaN()) {
 			pointChangedForRegion(PI);
 			return;
 		}

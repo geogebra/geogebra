@@ -44,10 +44,10 @@ public class RegionParameters {
 	 * @param t2
 	 *            second parameter
 	 */
-	public RegionParameters(double t1, double t2) {
+	private RegionParameters(double t1, double t2) {
 
-		setT1(t1);
-		setT2(t2);
+		this.t1 = t1;
+		this.t2 = t2;
 
 		normal = new Coords(0, 0, 1, 0); // z-direction by default
 
@@ -81,12 +81,9 @@ public class RegionParameters {
 	 *            new first parameter
 	 */
 	public final void setT1(double t1) {
-		// Application.printStacktrace(""+t1);
 		if (isNaN(t1))
 			return;
 		this.t1 = t1;
-		// isDefined = true; TODO unused //assume that setT1() is called before
-		// setT2()
 	}
 
 	/**
@@ -150,6 +147,14 @@ public class RegionParameters {
 	 */
 	public final boolean isOnPath() {
 		return isOnPath;
+	}
+
+	/**
+	 * 
+	 * @return true if at least one of the parameters is NaN
+	 */
+	public boolean isNaN() {
+		return isNaN(t1) || isNaN(t2);
 	}
 
 }
