@@ -120,7 +120,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 						// for geoelement defaults, this will do nothing, so it is
 						// OK here
 						GeoGebraPreferencesW.getPref().loadXMLPreferences(app);
-				app.getSettings().getEuclidian(0)
+				app.getSettings().getEuclidian(1)
 						.setShowAxes(oldAxisX, oldAxisY);
 						
 						// reset default line thickness etc
