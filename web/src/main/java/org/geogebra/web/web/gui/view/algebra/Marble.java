@@ -1,14 +1,9 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -43,45 +38,14 @@ public class Marble extends SimplePanel
 		this.showUrl = showUrl;
 		this.hiddenUrl = hiddenUrl;
 		this.gc = gc;
-		addDomHandler(new ClickHandler()
-		{
-			public void onClick(ClickEvent event)
-			{	
-				// event.stopPropagation();
-				App.debug("click");
-				if(touchUsed){
-					touchUsed = false;
-				}else{
-					toggleVisibility();
-				}
-				event.stopPropagation();
-			}
-		}, ClickEvent.getType());
-		//MouseDown triggers scrolling if the element is too long for AV
-		addDomHandler(new MouseDownHandler()
-		{
-			public void onMouseDown(MouseDownEvent event)
-			{	
-				// event.preventDefault();
-				// event.stopPropagation();
-				App.debug("mouse down");
-			}
-			
-		}, MouseDownEvent.getType());
-		//let's also prevent default TouchStart; note that calling preventDefault may cause missing Click event
-		addDomHandler(new TouchStartHandler()
-		{
-			public void onTouchStart(TouchStartEvent event)
-			{	
-				event.preventDefault();
-				event.stopPropagation();
+
+		// stopPropagation activated (parameters for the constructor)
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
 				toggleVisibility();
-				touchUsed = true;
-				App.debug("touch start");
 			}
-		}, TouchStartEvent.getType());
-
-
+		});
 	}
 
 	/**

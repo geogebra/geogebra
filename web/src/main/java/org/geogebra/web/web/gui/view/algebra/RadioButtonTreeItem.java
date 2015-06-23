@@ -335,8 +335,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
 				        .nav_pause() : AppResources.INSTANCE.nav_play();
 				playButton = new Image(imageresource);
-				playButton.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
+
+				ClickStartHandler.init(playButton, new ClickStartHandler() {
+					@Override
+					public void onClickStart(int x, int y, PointerEventType type) {
 						boolean newValue = !(geo.isAnimating() && app
 						        .getKernel().getAnimatonManager().isRunning());
 						geo.setAnimating(newValue);
