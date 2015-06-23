@@ -2821,7 +2821,10 @@ namespace giac {
     if (l!=l_subst) 
       e_copy=subst(e_copy,l,l_subst,false,contextptr);
     // return global_eval(normal(e_copy),100);
+    int z=MPZ_MAXLOG2;
+    MPZ_MAXLOG2=int(8e7);
     gen res=normal(e_copy,distribute_div,contextptr);
+    MPZ_MAXLOG2=z;
     if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && !lop(res,at_rootof).empty())
       return simplifier(ratnormal(normalize_sqrt(e_copy,contextptr)),contextptr);
     return res;
