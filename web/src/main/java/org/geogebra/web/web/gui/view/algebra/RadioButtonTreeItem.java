@@ -281,7 +281,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public RadioButtonTreeItem(final GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super();
-		getElement().setDraggable(Element.DRAGGABLE_TRUE);
+
 
 		geo = ge;
 		kernel = geo.getKernel();
@@ -1685,9 +1685,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public void setDraggable() {
-
+		Widget draggableContent = this;
+		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoNumeric
+				&& slider != null) {
+			draggableContent = ihtml;
+			getElement().setDraggable(Element.DRAGGABLE_FALSE);
+		}
 		getElement().setAttribute("position", "absolute");
-		addDomHandler(new DragStartHandler() {
+		draggableContent.getElement().setDraggable(Element.DRAGGABLE_TRUE);
+		draggableContent.addDomHandler(new DragStartHandler() {
 
 			public void onDragStart(DragStartEvent event) {
 				event.setData("text", "draggginggg");
