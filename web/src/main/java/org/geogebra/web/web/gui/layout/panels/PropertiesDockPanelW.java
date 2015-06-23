@@ -74,28 +74,8 @@ public class PropertiesDockPanelW extends DockPanelW {
 	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-		if (visible == this.isVisible) {
-			return;
-		}
-		this.isVisible = visible;
-		if (visible) {
-			wasAVShowing = app.getGuiManager().hasAlgebraViewShowing();
-			auxWasVisible = app.getSettings().getAlgebra()
-				        .getShowAuxiliaryObjects();
-			if (!wasAVShowing) {
-				app.getGuiManager().setShowView(true, App.VIEW_ALGEBRA);
-				app.updateViewSizes();
-			}
-			app.setShowAuxiliaryObjects(true);
-
-		} else {
-			if (!auxWasVisible) {
-				app.setShowAuxiliaryObjects(false);
-			}
-			if (!wasAVShowing) {
-				app.getGuiManager().setShowView(false, App.VIEW_ALGEBRA);
-				app.updateViewSizes();
-			}
+		if (view != null) {
+			view.updateAVvisible(visible);
 		}
 
 

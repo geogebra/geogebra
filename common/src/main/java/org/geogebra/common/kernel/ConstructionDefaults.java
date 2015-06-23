@@ -447,6 +447,7 @@ public class ConstructionDefaults {
 		function.setLocalVariableLabel("Function");
 		function.setObjColor(colFunction);
 		function.setDefaultGeoType(DEFAULT_FUNCTION);
+		function.setLineThickness(3);
 		function.remove();
 		if (cons.getKernel().getApplication().has(Feature.SEQUENTIAL_COLORS)) {
 			function.setSequentialColor(true);

@@ -53,6 +53,12 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 	private FlowPanel contentsPanel;
 	private OptionType optionType;
 
+	private boolean wasAVShowing;
+
+	private boolean auxWasVisible;
+
+	private boolean isObjectOptionsVisible;
+
 	public PropertiesViewW(AppW app, OptionType ot) {
 		super(app);
 		this.wrappedPanel = new FlowPanel();
@@ -198,17 +204,42 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 							}
 						});
 
-			} else {
-				OptionsObjectW op =	getObjectPanel();
-				//op.reinit();
-				//op.selectTab(subType);
 			}
+
 			App.debug("obect prop SELECTING TAB " + subType);
 			((OptionsObjectW) objectPanel).selectTab(subType);
 			return (OptionPanelW) objectPanel;
 		}
 		return null;
 	}
+
+	public void updateAVvisible(boolean visible) {
+		if ((visible && this.optionPanel instanceof OptionsObjectW) == this.isObjectOptionsVisible) {
+			return;
+		}
+		this.isObjectOptionsVisible = !this.isObjectOptionsVisible;
+		if (visible) {
+			wasAVShowing = app.getGuiManager().hasAlgebraViewShowing();
+			auxWasVisible = app.getSettings().getAlgebra()
+					.getShowAuxiliaryObjects();
+			if (!wasAVShowing) {
+				app.getGuiManager().setShowView(true, App.VIEW_ALGEBRA);
+				app.updateViewSizes();
+			}
+			app.setShowAuxiliaryObjects(true);
+
+		} else {
+			if (!auxWasVisible) {
+				app.setShowAuxiliaryObjects(false);
+			}
+			if (!wasAVShowing) {
+				app.getGuiManager().setShowView(false, App.VIEW_ALGEBRA);
+				app.updateViewSizes();
+			}
+		}
+
+	}
+
 	private OptionsObjectW getObjectPanel() {
 		return objectPanel != null ? (OptionsObjectW) objectPanel:null;
 	}
@@ -307,6 +338,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 		optionType = type;
 		contentsPanel.clear();
 		optionPanel = getOptionPanel(type, subType);
+		updateAVvisible(true);
 		Widget wPanel = optionPanel.getWrappedPanel();
 		notImplemented.setText(getTypeString(type) + " - Not implemented");
 		contentsPanel.add(wPanel != null ? wPanel: notImplemented);
