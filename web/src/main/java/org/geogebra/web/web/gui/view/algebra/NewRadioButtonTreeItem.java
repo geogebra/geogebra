@@ -445,53 +445,27 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		//}
 	}
 
-	private boolean firstTimeShowPopup = true;
-
 	public void showPopup(boolean show) {
 		if (this.buttonPanel == null) {
 			return;
 		}
+		buttonPanel.setVisible(show);
+		setButtonVisible(xButton, show);
+		setButtonVisible(pButton, show);
+	}
 
-		if (buttonPanel.isVisible() && show && !firstTimeShowPopup
-				&& (pButton != null)) {
-			if (xButton != null) {
-				xButton.setVisible(show);
-			}
-			return;
-		} else if (!buttonPanel.isVisible() && !show && !firstTimeShowPopup
-				&& (pButton != null)) {
-			if (xButton != null) {
-				xButton.setVisible(show);
-			}
-			return;
-		} else {
-			firstTimeShowPopup = false;
-			buttonPanel.setVisible(show);
-		}
-
-		if (this.xButton == null) {
+	/**
+	 * Earlier methods used the 'shown' class to show the xButton, but later
+	 * code used simply xButton.setVisible(true)... to be compatible with both,
+	 * this method is here
+	 * 
+	 * @param visible
+	 */
+	public void setButtonVisible(final PushButton button, boolean show) {
+		if (button == null) {
 			return;
 		}
-		// xButton.setVisible(show);
-		Element showSymbolElement = this.xButton.getElement();
-		// App.debug("AF focused" + show);
-		if (showSymbolElement != null
-		        && "true"
-		                .equals(showSymbolElement.getAttribute("data-visible"))) {
-			if (show) {
-				showSymbolElement.addClassName("shown");
-			} else {
-				if (!"true".equals(showSymbolElement
-				        .getAttribute("data-persist"))) {
-					showSymbolElement.removeClassName("shown");
-				}
-			}
-		}
-		if (this.pButton == null) {
-			return;
-		}
-		// pButton.setVisible(show);
-		showSymbolElement = this.pButton.getElement();
+		Element showSymbolElement = button.getElement();
 		if (showSymbolElement != null
 				&& "true"
 						.equals(showSymbolElement.getAttribute("data-visible"))) {
@@ -504,6 +478,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				}
 			}
 		}
+		button.setVisible(show);
 	}
 
 	/**
@@ -708,11 +683,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				if (pButton == null) {
 					buttonPanel.setVisible(true);
 				}
-				xButton.setVisible(true);
+				setButtonVisible(xButton, true);
 			} else {
-				xButton.setVisible(false);
+				setButtonVisible(xButton, false);
 				if (pButton == null) {
-					this.buttonPanel.setVisible(false);
+					buttonPanel.setVisible(false);
 				}
 			}
 		}
