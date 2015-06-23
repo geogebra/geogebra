@@ -11,6 +11,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ErrorHandler;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -87,6 +89,13 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		        selectInitText, geo != null, geo != null, type);
 
 		centerOnScreen();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				inputPanel.getTextComponent().setFocus(true);
+
+			}
+		});
 
 	}
 
