@@ -341,15 +341,18 @@ public class AlgoAreEqual extends AlgoElement implements
 			Polynomial f1 = new Polynomial(v1[4]);
 			Polynomial f2 = new Polynomial(v1[5]);
 			
-			Polynomial det1 = a1.multiply(b2).add(b1.multiply(c2)).
-					add(c1.multiply(a2)).subtract(c1.multiply(b2)).
-					subtract(a1.multiply(c2)).subtract(a2.multiply(b1));
-			
-			Polynomial det2 = d1.multiply(e2).add(e1.multiply(f2)).
-					add(f1.multiply(d2)).subtract(f1.multiply(e2)).
-					subtract(d1.multiply(f2)).subtract(d2.multiply(e1));
-			
-			botanaPolynomials[0][0] = det1.subtract(det2);
+			// We need the absolute value of the determinant since
+			// we are not interested in signed area (at the moment at least).
+			// Thanks to Fabian Vitabar for finding this issue.
+			Polynomial det1sqr = Polynomial.sqr(a1.multiply(b2)
+					.add(b1.multiply(c2)).add(c1.multiply(a2))
+					.subtract(c1.multiply(b2)).subtract(a1.multiply(c2))
+					.subtract(a2.multiply(b1)));
+			Polynomial det2sqr = Polynomial.sqr(d1.multiply(e2)
+					.add(e1.multiply(f2)).add(f1.multiply(d2))
+					.subtract(f1.multiply(e2)).subtract(d1.multiply(f2))
+					.subtract(d2.multiply(e1)));
+			botanaPolynomials[0][0] = det1sqr.subtract(det2sqr);
 
 			return botanaPolynomials;
 		}
