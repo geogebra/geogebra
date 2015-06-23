@@ -102,7 +102,6 @@ public class GeoText extends GeoElement implements Locateable,
 
 		// don't show in algebra view
 		// setAlgebraVisible(false);
-		setAuxiliaryObject(true);
 	}
 	/**
 	 * Creates new geo text
