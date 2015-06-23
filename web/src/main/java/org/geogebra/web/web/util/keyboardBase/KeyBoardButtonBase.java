@@ -16,8 +16,27 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class KeyBoardButtonBase extends SimplePanel {
 
 	private String caption;
-	private String feedback;
-	private Label label;
+
+	/**
+	 * the feedback that is returned when the button is clicked
+	 */
+	protected String feedback;
+
+	/**
+	 * the label that is displayed on the button
+	 */
+	protected Label label;
+
+	/**
+	 * only basic initialization
+	 * 
+	 * TODO remove/integrate
+	 */
+	protected KeyBoardButtonBase() {
+		this.caption = "";
+		this.feedback = "";
+		this.label = new Label();
+	}
 
 	/**
 	 * @param caption
