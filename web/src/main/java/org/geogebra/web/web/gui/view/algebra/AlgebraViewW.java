@@ -1361,7 +1361,11 @@ public class AlgebraViewW extends Tree implements LayerView,
 	}
 
 	public void setActiveTreeItem(RadioButtonTreeItem radioButtonTreeItem) {
-		if (!app.has(Feature.AV_EXTENSIONS)) {
+		if (!app.has(Feature.AV_EXTENSIONS)
+				&& !app.has(Feature.DELETE_IN_ALGEBRA)) {
+			// if there is delete button in algebra view, let's allow this,
+			// or the alternative is to add the delete button when
+			// both AV_EXTENSIONS and DELETE_IN_ALGEBRA are true
 			return;
 		}
 
