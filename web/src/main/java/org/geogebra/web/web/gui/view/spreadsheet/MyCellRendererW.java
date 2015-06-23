@@ -161,6 +161,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 		Style s = table.getCellFormatter().getElement(row, column).getStyle();
+		s.clearProperty("borderBottomColor");
+		s.clearProperty("borderRightColor");
 		if (border != null) {
 			// left bar, 0
 			if (!CellFormat.isZeroBit(border, 0)) {
@@ -193,13 +195,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			if (!CellFormat.isZeroBit(border, 3)) {
 				s.setProperty("borderBottomColor", "#000000");
 			}
-		} else {
-			// TODO
-			// s.clearBorderColor();
-			// s.clearBottom();
-			// s.clearLeft();
-			// s.clearRight();
-			// s.clearTop();
 		}
 	}
 
