@@ -300,7 +300,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 					// for geoelement defaults, this will do nothing, so it is
 					// OK here
 					GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
-					app.getSettings().getEuclidian(0)
+					app.getSettings().getEuclidian(1)
 							.setShowAxes(oldAxisX, oldAxisY);
 					// reset default line thickness etc
 					app.getKernel().getConstruction().getConstructionDefaults()
