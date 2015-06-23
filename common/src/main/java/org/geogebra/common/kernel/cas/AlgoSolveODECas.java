@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -17,7 +16,7 @@ import org.geogebra.common.main.App;
  * @author zbynek
  *
  */
-public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
+public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements UsesCAS {
 	private CasEvaluableFunction f;
 	private GeoElement g;
 	private GeoPointND pt;
@@ -176,6 +175,12 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 	 */
 	public GeoElement getResult() {
 		return g;
+	}
+
+	@Override
+	public void refreshCASResults() {
+		this.oldCASstring = "";
+
 	}
 
 	// TODO Consider locusequability
