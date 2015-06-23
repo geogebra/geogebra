@@ -1232,6 +1232,10 @@ FromMeta
 		return (type == CONIC_PARABOLA);
 	}
 
+	public boolean isEllipse() {
+		return (type == CONIC_ELLIPSE);
+	}
+
 	/** Changes equation mode to Specific */
 	final public void setToSpecific() {
 		setToStringMode(EQUATION_SPECIFIC);
