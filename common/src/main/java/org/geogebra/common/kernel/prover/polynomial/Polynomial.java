@@ -12,9 +12,9 @@ import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac;
-import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -917,20 +917,21 @@ public class Polynomial implements Comparable<Polynomial> {
 			solvableProgram = createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString, 
 					freeVars, dependantVars, transcext);
  		
-			if (solvableProgram.length()>500)
+			if (solvableProgram.length() > SingularWSSettings.debugMaxProgramSize)
 				App.debug(solvableProgram.length() + " bytes -> singular");
 			else
 				App.debug(solvableProgram + " -> singular");
 			try {
 				solvableResult = App.singularWS.directCommand(solvableProgram);
-				if (solvableResult.length()>500)
+				if (solvableResult.length() > SingularWSSettings.debugMaxProgramSize)
 					App.debug("singular -> " + solvableResult.length() + " bytes");
 				else
 					App.debug("singular -> " + solvableResult);
 				if ("0".equals(solvableResult))
 					return false; // no solution
 			} catch (Throwable e) {
-				throw new CASException("Couldn't compute ");
+				App.debug("Could not compute solvability with SingularWS");
+				return null;
 			}
 			return true; // at least one solution exists
 		}
@@ -1007,14 +1008,19 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 	
 	/**
-	 * Returns the elimination ideal for the given equation system,
-	 * assuming given substitutions. Only the dependent variables
-	 * will be eliminated. 
-	 * @param eqSystem the equation system
-	 * @param substitutions fixed values for certain variables
-	 * @param kernel GeoGebra kernel
-	 * @param permutation use this permutation number for changing the order of the first free variables
-	 * @return elements of the elimination ideal
+	 * Returns the elimination ideal for the given equation system, assuming
+	 * given substitutions. Only the dependent variables will be eliminated.
+	 * 
+	 * @param eqSystem
+	 *            the equation system
+	 * @param substitutions
+	 *            fixed values for certain variables
+	 * @param kernel
+	 *            GeoGebra kernel
+	 * @param permutation
+	 *            use this permutation number for changing the order of the
+	 *            first free variables
+	 * @return elements of the elimination ideal or null if computation failed
 	 */
 	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
 			HashMap<Variable, Integer> substitutions, Kernel kernel, int permutation) {
@@ -1103,7 +1109,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			elimProgram = createEliminateFactorizedScript(
 					eqSystemSubstituted, pVariables, dependentVariables);
 			
-			if (elimProgram.length() > 500)
+			if (elimProgram.length() > SingularWSSettings.debugMaxProgramSize)
 				App.debug(elimProgram.length()
 						+ " bytes -> singular");
 			else
@@ -1113,12 +1119,13 @@ public class Polynomial implements Comparable<Polynomial> {
 				if (elimResult == null) {
 					return null;
 				}
-				if (elimResult.length() > 500)
+				if (elimResult.length() > SingularWSSettings.debugMaxProgramSize)
 					App.debug("singular -> " + elimResult.length() + " bytes");
 				else
 					App.debug("singular -> " + elimResult);
 			} catch (Throwable e) {
-				throw new CASException("Cannot compute elimination with SingularWS");
+				App.debug("Could not compute elimination with SingularWS");
+				return null;
 			}
 		} else {
 			

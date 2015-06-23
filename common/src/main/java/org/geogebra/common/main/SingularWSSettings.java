@@ -20,6 +20,12 @@ public class SingularWSSettings {
 	 */
 	public static int singularWebServiceTimeout = 5;
 	/**
+	 * Above this value there is no detailed logging, only the size of the
+	 * program code will be printed as a debug message. This can help avoiding
+	 * too noisy debug.
+	 */
+	public static int debugMaxProgramSize = 2000;
+	/**
 	 * Use caching on server side? It's possible to use server side default by
 	 * setting this to null, otherwise we'll override the server setting.
 	 */
