@@ -401,15 +401,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    
 		btnExport = new MenuBar();
 		createExportMenu();
-		// btnExport.setStyleName("MyToggleButton");
+
 		btnExport.addStyleName("btnExport");
-		// btnExport.addFastClickHandler(new FastClickHandler() {
-		// @Override
-		// public void onClick(Widget source) {
-		// ((AppW) app).copyEVtoClipboard((EuclidianViewW)plotPanel);
-		// }
-		// });
-	    
+
 		btnNormalOverlay = new MyToggleButton2(
 		        GuiResources.INSTANCE.normal_overlay());
 	    btnNormalOverlay.addStyleName("btnNormalOverlay");
