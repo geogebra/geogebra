@@ -1,8 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.main.FileManagerW;
@@ -59,38 +57,12 @@ public class ExportMenuW extends MenuBar {
 
 			public void execute() {
 				hide();
-				// It works this way
+				String url = ((EuclidianViewWInterface) app
+						.getActiveEuclidianView()).getExportImageDataUrl(1.0,
+						false);
 
-				// String url = ((EuclidianViewWInterface) app
-				// .getActiveEuclidianView()).getExportImageDataUrl(1.0,
-				// false);
-				//
-				// app.getFileManager().exportImage(url, "export.png");
-
-				// it does not work
-				GOptionPaneW.INSTANCE.showSaveDialog(app,
-						app.getPlain("ExportAsPicture"), "export.png", null,
-						new AsyncOperation() {
-
-							@Override
-							public void callback(Object obj) {
-								String[] dialogResult = (String[]) obj;
-
-								if (Integer.parseInt(dialogResult[0]) != 0) {
-									return;
-								}
-
-								String url = ((EuclidianViewWInterface) app
-										.getActiveEuclidianView())
-										.getExportImageDataUrl(1.0, false);
-
-
-								app.getFileManager().exportImage(url,
-										dialogResult[1]);
-
-							}
-						}, app.getPlain("Export"));
-
+				((FileManagerW) app.getFileManager())
+						.showExportAsPictureDialog(url);
 			}
 		});
 		if(!app.getLAF().isTablet()){

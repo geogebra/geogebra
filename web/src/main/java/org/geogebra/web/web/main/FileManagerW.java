@@ -8,6 +8,8 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
+import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
@@ -273,6 +275,27 @@ public class FileManagerW extends FileManager {
 		return true;
 	}
 	
+	public void showExportAsPictureDialog(final String url) {
+		GOptionPaneW.INSTANCE.showSaveDialog(getApp(),
+				getApp().getPlain("ExportAsPicture"), "export.png", null,
+				new AsyncOperation() {
+
+					@Override
+					public void callback(Object obj) {
+						String[] dialogResult = (String[]) obj;
+
+						if (Integer.parseInt(dialogResult[0]) != 0) {
+							return;
+						}
+
+
+						getApp().getFileManager().exportImage(url,
+								dialogResult[1]);
+
+					}
+				}, getApp().getPlain("Export"));
+
+	}
 	public native void exportImage(String url,
 	        String title) /*-{
 		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768

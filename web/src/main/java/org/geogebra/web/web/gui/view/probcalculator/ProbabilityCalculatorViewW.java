@@ -18,6 +18,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.view.data.PlotPanelEuclidianViewW;
+import org.geogebra.web.web.main.FileManagerW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -1069,11 +1070,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
 			MenuItem miAsPicture = new MenuItem(
-					app.getPlain("CopyToClipboard"), new Command() {
+					app.getPlain("ExportAsPicture"), new Command() {
 
 						public void execute() {
-							((AppW) app)
-									.copyEVtoClipboard((EuclidianViewW) plotPanel);
+							String url = ((EuclidianViewW) plotPanel)
+									.getExportImageDataUrl(3, true);
+							((FileManagerW) ((AppW) app).getFileManager())
+									.showExportAsPictureDialog(url);
 						}
 					});
 			menu.addItem(miAsPicture);
