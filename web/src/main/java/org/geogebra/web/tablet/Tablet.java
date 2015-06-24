@@ -29,6 +29,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -125,11 +126,14 @@ public class Tablet implements EntryPoint {
 		// edit: maybe put this at the end of this method in production builds?
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				// NativeEvent ne;
+				NativeEvent ne;
 				switch (event.getTypeInt()) {
-				// case Event.ONKEYDOWN:
-				// ne = event.getNativeEvent();
-				// break;
+				// AFAIK, mouse events do not fire on touch devices,
+				// and touch events do not fire on mouse devices,
+				// so this will be okay (except laptops with touch
+				// screens, but then also, the event will either be
+				// mouse event or touch event, but not both)
+				// TODO: merge this with the same code in Web.java!!!
 				case Event.ONTOUCHSTART:
 					// guess it's similar to ONMOUSEDOWN in Web.java
 
@@ -156,6 +160,12 @@ public class Tablet implements EntryPoint {
 					if (targ != null) {
 						DrawEquationWeb.escEditingWhenMouseDownElsewhere(targ);
 					}
+					// do not prevent default or change default behaviour
+					// in any case! this is just an "extra"
+					break;
+				case Event.ONMOUSEDOWN:
+					ne = event.getNativeEvent();
+					DrawEquationWeb.escEditingWhenMouseDownElsewhere();
 					// do not prevent default or change default behaviour
 					// in any case! this is just an "extra"
 					break;

@@ -109,9 +109,41 @@ public class Web implements EntryPoint {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 				NativeEvent ne;
 				switch (event.getTypeInt()) {
-				// case Event.ONKEYDOWN:
-				// ne = event.getNativeEvent();
-				// break;
+				// AFAIK, mouse events do not fire on touch devices,
+				// and touch events do not fire on mouse devices,
+				// so this will be okay (except laptops with touch
+				// screens, but then also, the event will either be
+				// mouse event or touch event, but not both)
+				// TODO: merge this with the same code in Tablet.java!!!
+				case Event.ONTOUCHSTART:
+					// guess it's similar to ONMOUSEDOWN in Web.java
+
+					// heuristic for hovering
+					Element targ = null;
+
+					// if (event.getNativeEvent().get)
+
+					if ((event.getNativeEvent() != null)
+							&& (event.getNativeEvent().getChangedTouches() != null)
+							&& (event.getNativeEvent().getChangedTouches()
+									.length() > 0)
+							&& (event.getNativeEvent().getChangedTouches()
+									.get(0) != null)) {
+						// in theory, getTarget is an Element,
+						// but if it is not, then we don't want to esc editing
+						JavaScriptObject obj = event.getNativeEvent()
+								.getChangedTouches().get(0).getTarget();
+						if (Element.is(obj)) {
+							targ = Element.as(obj);
+						}
+					}
+
+					if (targ != null) {
+						DrawEquationWeb.escEditingWhenMouseDownElsewhere(targ);
+					}
+					// do not prevent default or change default behaviour
+					// in any case! this is just an "extra"
+					break;
 				case Event.ONMOUSEDOWN:
 					ne = event.getNativeEvent();
 					DrawEquationWeb.escEditingWhenMouseDownElsewhere();

@@ -763,6 +763,8 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	public static void escEditingWhenMouseDownElsewhere() {
+		// TODO: select :hover by jQuery and add the
+		// data-geogebra-tablet-hovered class to it
 		if (currentWidget != null) {
 			// cases that do not escape editing:
 			if (mouseIsOver(currentWidget.getElement(), "MouseDownDoesntExitEditingFeature")) {
