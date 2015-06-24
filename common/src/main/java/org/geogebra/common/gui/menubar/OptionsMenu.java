@@ -147,7 +147,7 @@ public class OptionsMenu {
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals > 0 && decimals < App.decimalsLookup.length)
+			if (decimals >= 0 && decimals < App.decimalsLookup.length)
 				pos = App.decimalsLookup[decimals];
 
 		}
