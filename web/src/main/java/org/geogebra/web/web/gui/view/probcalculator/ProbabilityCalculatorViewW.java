@@ -11,14 +11,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
-import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.data.PlotPanelEuclidianViewW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -40,12 +38,14 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -88,7 +88,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboProbHandler, comboDistributionHandler;
 	private boolean valueChanged;
-	private StandardButton btnExport;
+	private MenuBar btnExport;
 	private MyToggleButton2 btnNormalOverlay;
 	
 	/**
@@ -398,15 +398,16 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    lblMeanSigma = new Label();
 	    lblMeanSigma.addStyleName("lblMeanSigma");
 	    
-	    btnExport = new StandardButton(GuiResources.INSTANCE.prob_calc_export());
-	    btnExport.setStyleName("MyToggleButton");
-	    btnExport.addStyleName("btnExport");
-	    btnExport.addFastClickHandler(new FastClickHandler() {
-			@Override
-            public void onClick(Widget source) {
-				((AppW) app).copyEVtoClipboard((EuclidianViewW)plotPanel);
-            }  	
-	    });
+		btnExport = new MenuBar();
+		createExportMenu();
+		// btnExport.setStyleName("MyToggleButton");
+		// btnExport.addStyleName("btnExport");
+		// btnExport.addFastClickHandler(new FastClickHandler() {
+		// @Override
+		// public void onClick(Widget source) {
+		// ((AppW) app).copyEVtoClipboard((EuclidianViewW)plotPanel);
+		// }
+		// });
 	    
 		btnNormalOverlay = new MyToggleButton2(
 		        GuiResources.INSTANCE.normal_overlay());
@@ -1051,4 +1052,39 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 			}
 		}
 	}
+
+	private void createExportMenu() {
+		MenuBar menu = new MenuBar(true);
+
+		MenuItem miToGraphich = new MenuItem(app.getMenu("CopyToGraphics"),
+				new Command() {
+
+					public void execute() {
+						exportToEVAction.execute();
+					}
+
+				});
+
+		menu.addItem(miToGraphich);
+
+		if (((AppW) app).getLAF().copyToClipboardSupported()) {
+			MenuItem miAsPicture = new MenuItem(
+					app.getPlain("CopyToClipboard"), new Command() {
+
+						public void execute() {
+							((AppW) app)
+									.copyEVtoClipboard((EuclidianViewW) plotPanel);
+						}
+					});
+			menu.addItem(miAsPicture);
+		}
+
+		String image = "<img src=\""
+				+ GuiResources.INSTANCE.prob_calc_export().getSafeUri()
+						.asString()
+				+ "\" >";
+		btnExport.addItem(image, true, menu);
+
+	}
+
 }
