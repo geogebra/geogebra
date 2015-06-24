@@ -3595,7 +3595,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					}
 
 					// big tick
-					if (drawMajorTicks[0] && rw != axisCross[1]) {
+					if (drawMajorTicks[0]
+							&& (!showAxes[1] || rw != axisCross[1])) {
 						g2.setStroke(tickStroke);
 						g2.drawStraightLine(pix, yZeroTick, pix, yBig);
 					}
@@ -3690,7 +3691,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 							StringTemplate.defaultTemplate);
 
 			for (; pix >= maxY; rw += axesNumberingDistances[1], pix -= axesStep, labelno++) {
-				if (pix >= maxY && pix <= yAxisEnd) {
+				if (pix >= maxY && pix < yAxisEnd + 1) {
 					if (showAxesNumbers[1]) {
 						String strNum = kernel.formatPiE(rw,
 								axesNumberFormat[1],
@@ -3729,7 +3730,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 							} else {
 								y = (int) (pix + yoffset);
 							}
-
 							// draw number
 							drawString(g2, sb.toString(), x, y);
 
@@ -3745,7 +3745,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 									(int) (pix + Kernel.MIN_PRECISION)));
 						}
 					}
-					if (drawMajorTicks[1] && rw != axisCross[0]) {
+					if (drawMajorTicks[1]
+							&& (!showAxes[0] || rw != axisCross[0])) {
 						g2.setStroke(tickStroke);
 						g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 					}
