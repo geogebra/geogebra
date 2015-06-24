@@ -333,6 +333,9 @@ public class TextFieldProcessing {
 			} else if (text.equals("abs")) {
 				((EquationEditorListener) field).keypress('|', false, false,
 						false);
+			} else if (text.equals("quotes")) {
+				((EquationEditorListener) field).keypress('"', false, false,
+						false);
 			} else {
 				((EquationEditorListener) field).insertString(text);
 				((EquationEditorListener) field).popupSuggestions();
