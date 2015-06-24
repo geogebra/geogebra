@@ -731,7 +731,7 @@ __GGB__keysVar.zh_CN.command = {
     "Rename": "\u91cd\u547d\u540d",
     "Rename.Syntax": "[ <\u5bf9\u8c61>, <\u540d\u79f0> ]",
     "Repeat": "\u91cd\u590d",
-    "Repeat.Syntax": "[ <\u6570\u503c>, <\u811a\u672c\u6307\u4ee41>, <\u811a\u672c\u6307\u4ee42>, ... ]",
+    "Repeat.Syntax": "[ <\u91cd\u590d\u6b21\u6570>, <\u811a\u672c\u6307\u4ee41>, <\u811a\u672c\u6307\u4ee42>, ... ]",
     "ResidualPlot": "\u6b8b\u5dee\u56fe",
     "ResidualPlot.Syntax": "[ <\u70b9\u5217\u8868>, <\u51fd\u6570> ]",
     "Reverse": "\u9006\u5e8f",
