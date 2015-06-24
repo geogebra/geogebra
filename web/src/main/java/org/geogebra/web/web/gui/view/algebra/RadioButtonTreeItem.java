@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.TimerListener;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -125,6 +126,27 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
  EquationEditorListener {
 
+	public class PlayButton extends Image implements TimerListener {
+
+		public PlayButton(ImageResource imageresource) {
+			super(imageresource);
+			geo.getKernel().getAnimatonManager().addListener(this);
+		}
+
+		@Override
+		public void onTimerStarted() {
+			playButton.setResource(AppResources.INSTANCE.nav_pause());
+			geo.setAnimating(true);
+		}
+
+		@Override
+		public void onTimerStopped() {
+			playButton.setResource(AppResources.INSTANCE.nav_play());
+			geo.setAnimating(false);
+		}
+
+	}
+
 	protected FlowPanel buttonPanel;
 	protected PushButton xButton;
 
@@ -168,7 +190,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * start/pause slider animations
 	 */
-	Image playButton;
+	PlayButton playButton;
 
 	/**
 	 * checkbox displaying boolean variables
@@ -320,6 +342,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			slider.setMinorTickSpacing(geo.getAnimationStep());
 
 			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
+				@Override
 				public void onValueChange(ValueChangeEvent<Double> event) {
 					((GeoNumeric) geo).setValue(event.getValue());
 					geo.updateCascade();
@@ -334,21 +357,21 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (geo.isAnimatable()) {
 				ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
 				        .nav_pause() : AppResources.INSTANCE.nav_play();
-				playButton = new Image(imageresource);
+				playButton = new PlayButton(imageresource);
 
 				ClickStartHandler.init(playButton, new ClickStartHandler() {
 					@Override
 					public void onClickStart(int x, int y, PointerEventType type) {
 						boolean newValue = !(geo.isAnimating() && app
-						        .getKernel().getAnimatonManager().isRunning());
+								.getKernel().getAnimatonManager().isRunning());
 						geo.setAnimating(newValue);
 						playButton.setResource(newValue ? AppResources.INSTANCE
-						        .nav_pause() : AppResources.INSTANCE.nav_play());
+								.nav_pause() : AppResources.INSTANCE.nav_play());
 						geo.updateRepaint();
 
 						if (geo.isAnimating()) {
 							geo.getKernel().getAnimatonManager()
-							        .startAnimation();
+									.startAnimation();
 						}
 					}
 				});
@@ -388,6 +411,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			checkBox.setValue(((GeoBoolean) geo).getBoolean());
 			add(checkBox);
 			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
 					((GeoBoolean) geo).setValue(event.getValue());
 					geo.updateCascade();
@@ -566,6 +590,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * Method to be overridden in NewRadioButtonTreeItem
 	 */
+	@Override
 	public boolean popupSuggestions() {
 		return false;
 	}
@@ -573,6 +598,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * Method to be overridden in NewRadioButtonTreeItem
 	 */
+	@Override
 	public boolean hideSuggestions() {
 		return false;
 	}
@@ -580,6 +606,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * Method to be overridden in NewRadioButtonTreeItem
 	 */
+	@Override
 	public void shuffleSuggestions(boolean down) {
 		//
 	}
@@ -604,6 +631,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param shift
 	 *            boolean
 	 */
+	@Override
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
 		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeydown(this, seMayLatex, key,
@@ -628,6 +656,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param shift
 	 *            boolean maybe not useful
 	 */
+	@Override
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift) {
 		if (commonEditingCheck()) {
@@ -650,6 +679,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param shift
 	 *            boolean
 	 */
+	@Override
 	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
 		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeyUp(seMayLatex, key,
@@ -1090,6 +1120,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			doUpdate();
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				scrollIntoView();
 			}
@@ -1104,6 +1135,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param newValue0
 	 * @return boolean whether it was successful
 	 */
+	@Override
 	public boolean stopNewFormulaCreation(String newValue0,
 	        final String latexx, final AsyncOperation cb) {
 
@@ -1182,7 +1214,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 					Scheduler.get().scheduleDeferred(
 					        new Scheduler.ScheduledCommand() {
-						        public void execute() {
+								@Override
+								public void execute() {
 							        scrollIntoView();
 							        if (newCreationMode) {
 								        setFocus(true);
@@ -1615,6 +1648,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param b
 	 *            focus (false: blur)
 	 */
+	@Override
 	public void setFocus(boolean b) {
 		DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
@@ -1626,6 +1660,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// put to focus handler
 	}
 
+	@Override
 	public void insertString(String text) {
 		// even worse
 		// for (int i = 0; i < text.length(); i++)
@@ -1636,18 +1671,22 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				"", false);
 	}
 
+	@Override
 	public String getText() {
 		return DrawEquationWeb.getActualEditedValue(seMayLatex, false);
 	}
 
+	@Override
 	public void scrollCursorIntoView() {
 		DrawEquationWeb.scrollCursorIntoView(this, seMayLatex, newCreationMode);
 	}
 
+	@Override
 	public void scrollIntoView() {
 		this.getElement().scrollIntoView();
 	}
 
+	@Override
 	public void typing(boolean heuristic) {
 		// to be overridden in NewRadioButtonTreeItem,
 		// to know whether it's empty, whether to show Xbutton
@@ -1695,6 +1734,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		draggableContent.getElement().setDraggable(Element.DRAGGABLE_TRUE);
 		draggableContent.addDomHandler(new DragStartHandler() {
 
+			@Override
 			public void onDragStart(DragStartEvent event) {
 				event.setData("text", "draggginggg");
 				event.getDataTransfer().setDragImage(getElement(), 10, 10);
@@ -1705,6 +1745,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	}
 
+	@Override
 	public App getApplication() {
 		return app;
 	}
@@ -1716,75 +1757,91 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
+	@Override
 	public boolean getAutoComplete() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public List<String> resetCompletions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public List<String> getCompletions() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public final void toggleSymbolButton(boolean toggled) {
 		// Just for compatibility with AutoCompleteTextFieldW
 	}
 
+	@Override
 	public ArrayList<String> getHistory() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void setText(String s) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean isSuggesting() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void requestFocus() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public final Widget toWidget() {
 		return this;
 	}
 
+	@Override
 	public final SpanElement getLaTeXSpan() {
 		return seMayLatex;
 	}
 
+	@Override
 	public void updatePosition(ScrollableSuggestionDisplay sug) {
 		// TODO Auto-generated method stub
 
 	}
 	
+	@Override
 	public boolean resetAfterEnter() {
 		return true;
 	}
 
+	@Override
 	public void onBlur(BlurEvent be) {
 		// to be overridden in NewRadioButtonTreeItem
 	}
 
+	@Override
 	public void onFocus(FocusEvent be) {
 		// to be overridden in NewRadioButtonTreeItem
 	}
 
+	@Override
 	public String getLaTeX() {
 		// TODO atm needed for CAS only
 		return null;
 	}
 
+	@Override
 	public boolean isForCAS() {
 		return false;
 	}

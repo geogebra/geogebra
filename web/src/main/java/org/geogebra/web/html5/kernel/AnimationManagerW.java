@@ -2,6 +2,7 @@ package org.geogebra.web.html5.kernel;
 
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.TimerListener;
 import org.geogebra.web.html5.gawt.Timer;
 
 public class AnimationManagerW extends AnimationManager implements
@@ -26,14 +27,20 @@ public class AnimationManagerW extends AnimationManager implements
 	@Override
 	protected void stopTimer() {
 		timer.stop();
+		for (TimerListener tl : listener) {
+			tl.onTimerStopped();
+		}
 	}
 
 	@Override
 	protected void startTimer() {
 		timer.start();
-
+		for (TimerListener tl : listener) {
+			tl.onTimerStarted();
+		}
 	}
 
+	@Override
 	public void actionPerformed() {
 		sliderStep();
 	}

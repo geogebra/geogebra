@@ -28,6 +28,12 @@ public abstract class AnimationManager {
 	private boolean needToShowAnimationButton;
 
 	/**
+	 * list containing all {@link TimerListener} that will receive notifications
+	 * when the timer is started or stopped
+	 */
+	protected ArrayList<TimerListener> listener = new ArrayList<TimerListener>();
+
+	/**
 	 * @param kernel2
 	 *            kernel
 	 */
@@ -232,6 +238,32 @@ public abstract class AnimationManager {
 			//collect some potential garbage
 			kernel.notifyRemoveGroup();
 		}
+	}
+
+	/**
+	 * add a {@link TimerListener} that will be notified when the timer is
+	 * started or stopped
+	 * 
+	 * @param timerListener
+	 *            the listener to be added
+	 */
+	public void addListener(TimerListener timerListener) {
+		listener.add(timerListener);
+	}
+
+	/**
+	 * removes a {@link TimerListener} that will no longer receive notifications
+	 * when the timer is started or stopped
+	 * 
+	 * if there exists more than one {@link TimerListener} that is equal to the
+	 * given listener (e.g. if one listener was added multiple times), only the
+	 * first one will be removed
+	 * 
+	 * @param timerListener
+	 *            the listener to be removed
+	 */
+	public void removeTimerListener(TimerListener timerListener) {
+		listener.remove(timerListener);
 	}
 
 	/**
