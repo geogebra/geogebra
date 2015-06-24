@@ -88,7 +88,9 @@ public class ViewMenuW extends GMenuBar {
 			@Override
 			public void doExecute() {
 				app.persistWidthAndHeight();
-				// app.setShowAlgebraInput(!app.showAlgebraInput(), true);
+				app.getArticleElement().setAttribute(
+						"data-param-showAlgebraInput", "true");
+				app.setShowAlgebraInput(true, false);
 				app.setInputPositon(
 						app.getInputPosition() == InputPositon.algebraView ? InputPositon.bottom
 								: InputPositon.algebraView, true);
@@ -195,7 +197,8 @@ public class ViewMenuW extends GMenuBar {
 					app.getGuiManager().showView(viewID));
 		}
 		inputBarItem
-				.setSelected(app.getInputPosition() != InputPositon.algebraView);
+.setSelected(app.showAlgebraInput()
+				&& app.getInputPosition() != InputPositon.algebraView);
 		consProtNav.setSelected(app.showConsProtNavigation());
 		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollection.setSelected(app.getGuiManager().showView(
