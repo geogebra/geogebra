@@ -29,7 +29,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -122,52 +121,31 @@ public class Tablet implements EntryPoint {
 
 	private void run() {
 		// native preview handlers independent from app/applet
+		// THIS IS THE SAME CODE AS IN Web.java!!!
 		// maybe better than putting into both GeoGebraFrame / GeoGebraAppFrame
+		// it it would even be better to find a common class and put there
+		// although I'm not sure it's good to use AppW or something like that
+		// for preloading, code block separation GWT cache JavaScript files...
 		// edit: maybe put this at the end of this method in production builds?
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				NativeEvent ne;
 				switch (event.getTypeInt()) {
 				// AFAIK, mouse events do not fire on touch devices,
 				// and touch events do not fire on mouse devices,
 				// so this will be okay (except laptops with touch
 				// screens, but then also, the event will either be
-				// mouse event or touch event, but not both)
-				// TODO: merge this with the same code in Web.java!!!
+				// mouse event or touch event, but not both, I think)
 				case Event.ONTOUCHSTART:
-					// guess it's similar to ONMOUSEDOWN in Web.java
-
-					// heuristic for hovering
-					Element targ = null;
-
-					// if (event.getNativeEvent().get)
-
-					if ((event.getNativeEvent() != null)
-							&& (event.getNativeEvent().getChangedTouches() != null)
-							&& (event.getNativeEvent().getChangedTouches()
-									.length() > 0)
-							&& (event.getNativeEvent().getChangedTouches()
-									.get(0) != null)) {
-						// in theory, getTarget is an Element,
-						// but if it is not, then we don't want to esc editing
-						JavaScriptObject obj = event.getNativeEvent()
-								.getChangedTouches().get(0).getTarget();
-						if (Element.is(obj)) {
-							targ = Element.as(obj);
-						}
+					if (event.getNativeEvent() != null) {
+						DrawEquationWeb.escEditingHoverTapWhenElsewhere(
+								event.getNativeEvent(), true);
 					}
-
-					if (targ != null) {
-						DrawEquationWeb.escEditingWhenMouseDownElsewhere(targ);
-					}
-					// do not prevent default or change default behaviour
-					// in any case! this is just an "extra"
 					break;
 				case Event.ONMOUSEDOWN:
-					ne = event.getNativeEvent();
-					DrawEquationWeb.escEditingWhenMouseDownElsewhere();
-					// do not prevent default or change default behaviour
-					// in any case! this is just an "extra"
+					if (event.getNativeEvent() != null) {
+						DrawEquationWeb.escEditingHoverTapWhenElsewhere(
+								event.getNativeEvent(), false);
+					}
 					break;
 				default:
 					break;

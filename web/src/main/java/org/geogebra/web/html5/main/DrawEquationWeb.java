@@ -37,6 +37,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -725,95 +726,84 @@ public class DrawEquationWeb extends DrawEquation {
 
 	}-*/;
 
-	/**
-	 * This method shall only be called from mobile browsers
-	 */
-	public static void escEditingWhenMouseDownElsewhere(Element el) {
-		// also do the service of setting a "geogebraHover" class
-		if ((el != null) && (el != currentHover)) {
-			if (currentHover != null) {
-				currentHover.removeAttribute("data-geogebra-tablet-hovered");
-			}
-			// className is not working for canvas, or other elements
-			// which set the entire class name, and not only one of
-			// its parts (i.e. add or remove a word), and in JQuery,
-			// we don't have property selector, just .prop...
-			// so what remained? Attribute: data-geogebra-tablet-hovered
-			el.setAttribute("data-geogebra-tablet-hovered", "true");
-			currentHover = el;
-		}
-		// or, try escEditingWhenMouseDownElsewhere with geogebraHover...
-		if (currentWidget != null) {
-			// cases that do not escape editing:
-			if (targetHasFeature(el, currentWidget.getElement(),
-					"MouseDownDoesntExitEditingFeature")) {
-				// 1. the widget itself...
-				// 2. any KeyboardButton ("false" includes that)
-				// 3. any AV helper icon ("false" includes that)
-				return;
-			}
-
-			// in this case, escape
-			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
-					currentElement);
-			// the above method will do these too
-			// currentWidget = null;
-			// currentElement = null;
-		}
-	}
-
-	public static void escEditingWhenMouseDownElsewhere() {
-		// TODO: select :hover by jQuery and add the
-		// data-geogebra-tablet-hovered class to it
-		if (currentWidget != null) {
-			// cases that do not escape editing:
-			if (mouseIsOver(currentWidget.getElement(), "MouseDownDoesntExitEditingFeature")) {
-				// 1. the widget itself...
-				// 2. any KeyboardButton ("false" includes that)
-				// 3. any AV helper icon ("false" includes that)
-				return;
-			}
-
-			// in this case, escape
-			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
-					currentElement);
-			// the above method will do these too
-			// currentWidget = null;
-			// currentElement = null;
-		}
-	}
-
-	/**
-	 * If mouse is currently over Element el,
-	 * OR mouse is currently over an element with
-	 * CSS class pure, e.g. "MouseDownDoesntExitEditingFeature"
-	 *              
-	 * @param el
-	 * @param pure
-	 * @return
-	 */
-	public static native boolean mouseIsOver(Element el, String pure) /*-{
-		if (el) {
-			if ($wnd.$ggbQuery(el).filter(':hover').length) {
-				return true;
-			}
-		}
-		if (pure) {
-			var ret = false;
-			$wnd.$ggbQuery("." + pure).each(function(idx, elm) {
-				if ($wnd.$ggbQuery(elm).filter(':hover').length) {
-					// this means the mouse is currently over an element
-					// with the "MouseDownDoesntExitEditingFeature" CSS class
-					// that is enough knowledge to return "true"
-					ret = true;
+	public static native Element getCurrentMouseHover() /*-{
+		var highestHover = null;
+		$wnd.$ggbQuery(':hover').each(function(idx, elm) {
+			if (elm) {
+				if (highestHover) {
+					if ($wnd.$ggbQuery.contains(highestHover, elm)) {
+						highestHover = elm;
+					}
+				} else {
+					highestHover = elm;
 				}
-			});
-			return ret;
+			}
+		});
+		return highestHover;
+	}-*/;
+
+	public static void escEditingHoverTapWhenElsewhere(NativeEvent natEv,
+			boolean isTouch) {
+		// At first, update currentHover which shall be done anyway!
+		// once it's updated, it can be used cross mobile/web, and
+		// currentHover can be used later in other code...
+		if (isTouch) {
+			// heuristic for hovering
+			Element targ = null;
+			if ((natEv.getChangedTouches() != null) &&
+				(natEv.getChangedTouches().length() > 0) &&
+				(natEv.getChangedTouches().get(0) != null)) {
+				// in theory, getTarget is an Element,
+				// but if it is not, then we don't want to esc editing
+				JavaScriptObject obj = natEv.getChangedTouches().get(0).getTarget();
+				if (Element.is(obj)) {
+					targ = Element.as(obj);
+				}
+			}
+			if (targ != null) {
+				currentHover = targ;
+			} else {
+				return;
+			}
+		} else {
+			// not being sure if natEv.currentEventTarget would return the
+			// right thing in case of event capturing, so instead, trying
+			// to detect the "last" hovered element in some way by jQuery
+			Element el = getCurrentMouseHover();
+			if (el != null) {
+				currentHover = el;
+			} else {
+				return;
+			}
 		}
 
-		// no CSS class provided, or it is empty, mouse is over nothing significant
-		return false;
-	}-*/;
+		// Secondly, if currentWidget is not null, do the escEditing action!
+		if (currentWidget != null) {
+			// cases that do not escape editing:
+			if (targetHasFeature(currentWidget.getElement(),
+					"MouseDownDoesntExitEditingFeature")) {
+				// 1. the widget itself... currentWidget.getElement()
+				// 2. any KeyboardButton "MouseDownDoesntExitEditingFeature"
+				// 3. any AV helper icon "MouseDownDoesntExitEditingFeature"
+				return;
+			}
+
+			// in this case, escape
+			DrawEquationWeb.escEditingEquationMathQuillGGB(currentWidget,
+					currentElement);
+			// the above method will do these too
+			// currentWidget = null;
+			// currentElement = null;
+		}
+	}
+
+	public static boolean targetHasFeature(Element el, String pure) {
+		if (currentHover == null) {
+			// possible place for debugging
+			return false;
+		}
+		return targetHasFeature(currentHover, el, pure);
+	}
 
 	/**
 	 * If mouse is currently over Element el, OR mouse is currently over an
@@ -826,45 +816,31 @@ public class DrawEquationWeb extends DrawEquation {
 	 */
 	public static native boolean targetHasFeature(Element targ,
 			Element el, String pure) /*-{
+
 		if ((targ === null) || (targ === undefined)) {
-			// instead of selecting targ, select the element
-			// with the geogebraHover JavaScript property
-			if (el) {
-				if ($wnd.$ggbQuery("[data-geogebra-tablet-hovered=true]")
-						.is(el)) {
-					return true;
-				} else if ($wnd
-						.$ggbQuery("[data-geogebra-tablet-hovered=true]")
-						.parents().is(el)) {
-					return true;
-				}
-			}
-			if (pure) {
-				if ($wnd.$ggbQuery("[data-geogebra-tablet-hovered=true]").is(
-						"." + pure)) {
-					return true;
-				} else if ($wnd
-						.$ggbQuery("[data-geogebra-tablet-hovered=true]")
-						.parents().is("." + pure)) {
-					return true;
-				}
-			}
-		} else {
-			if (el) {
-				if ($wnd.$ggbQuery(targ).is(el)) {
-					return true;
-				} else if ($wnd.$ggbQuery(targ).parents().is(el)) {
-					return true;
-				}
-			}
-			if (pure) {
-				if ($wnd.$ggbQuery(targ).is("." + pure)) {
-					return true;
-				} else if ($wnd.$ggbQuery(targ).parents().is("." + pure)) {
-					return true;
-				}
+			return false;
+		}
+
+		var jqo = null;
+		if (el) {
+			jqo = $wnd.$ggbQuery(targ);
+			if (jqo.is(el)) {
+				return true;
+			} else if (jqo.parents().is(el)) {
+				return true;
 			}
 		}
+		if (pure) {
+			if (jqo === null) {
+				jqo = $wnd.$ggbQuery(targ);
+			}
+			if (jqo.is("." + pure)) {
+				return true;
+			} else if (jqo.parents().is("." + pure)) {
+				return true;
+			}
+		}
+
 		// no CSS class provided, or it is empty, mouse is over nothing significant
 		return false;
 	}-*/;

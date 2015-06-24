@@ -12,7 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -568,24 +567,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 */
 	@Override
 	public void onBlur(BlurEvent event) {
-		// next time if mouse is moved away after blur,
-		// then the onBlur action does not execute, although it should!
-		// remedy for this might be to set focus back to
-		// NewRadioButtonTreeItem in case "mouseIsOver", or some other
-		// idea shall be invented TODO
-		if (Browser.isMobileBrowserQuick()) {
-			if (!DrawEquationWeb.targetHasFeature(null, getElement(),
-					"BlurDoesntUpdateGUIFeature")) {
-
-				// addDummyLabel();
-
-				if (((AlgebraViewW) av).isNodeTableEmpty()) {
-					// #5245#comment:8, cases B and C excluded
-					updateGUIfocus(event == null ? this : event.getSource(),
-							true);
-				}
-			}
-		} else if (!DrawEquationWeb.mouseIsOver(getElement(),
+		if (!DrawEquationWeb.targetHasFeature(getElement(),
 				"BlurDoesntUpdateGUIFeature")) {
 
 			// addDummyLabel();
