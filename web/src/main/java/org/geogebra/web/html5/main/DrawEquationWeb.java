@@ -748,6 +748,7 @@ public class DrawEquationWeb extends DrawEquation {
 		// once it's updated, it can be used cross mobile/web, and
 		// currentHover can be used later in other code...
 		if (isTouch) {
+			Browser.setHasTouchScreen();
 			// heuristic for hovering
 			Element targ = null;
 			if ((natEv.getChangedTouches() != null) &&
@@ -1077,37 +1078,47 @@ GeoContainer rbti,
 			// style in web-styles.css... but at least set newCreationMode here!
 			elsecondInside.newCreationMode = true;
 
-			// the following code will not do anything in tablets because the textarea
-			// is disabled in MathQuillGGB in that case... opening / closing keyboard!
-			// this shall be added again in storno, because the textarea is recreated...
-			if (@org.geogebra.web.html5.Browser::isMobileBrowser()) {
-				$wnd
-						.$ggbQuery(elsecondInside)
+			var textareaJQ = $wnd.$ggbQuery(elsecondInside).find('textarea');
+			if (textareaJQ && textareaJQ.length) {
+				var textareaDOM = textareaJQ[0];
+				// we don't know whether we're in touch mode until the user first taps to focus/blur
+				// so the disabledTextarea might still get more accurate in the future
+				// which is based on whether there is touch screen "INSTEAD OF" keyboard
+				// letting this decision being made by MathQuillGGB, although we can have
+				// something similar at @org.geogebra.web.html5.Browser::hasTouchScreen()
+				// which only tells whether any touchstart event happened on the device
+				// this shall be added again in storno, because the textarea is recreated...
+
+				// but in theory, in disabledTextarea case these events won't even fire
+				textareaJQ
 						.blur(
 								function(eee) {
-									// at least notify the NewRadioButtonTreeItem about this!
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+									if (!textareaDOM.disabledTextarea) {
+										rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+									}
 								})
 						.focus(
 								function(fff) {
-									// at least notify the NewRadioButtonTreeItem about this!
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
-								});
-			} else {
-				$wnd
-						.$ggbQuery(elsecondInside)
-						.find('textarea')
-						.blur(
-								function(eee) {
-									// at least notify the NewRadioButtonTreeItem about this!
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
-								})
-						.focus(
-								function(fff) {
-									// at least notify the NewRadioButtonTreeItem about this!
-									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
+									if (!textareaDOM.disabledTextarea) {
+										rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
+									}
 								});
 			}
+			// as disabledTextarea might be updated, add this anyway, but check for it in the handlers
+			$wnd
+					.$ggbQuery(elsecondInside)
+					.blur(
+							function(eee) {
+								if (textareaDOM.disabledTextarea) {
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+								}
+							})
+					.focus(
+							function(fff) {
+								if (textareaDOM.disabledTextarea) {
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
+								}
+							});
 		}
 	}-*/;
 
@@ -1449,24 +1460,33 @@ GeoContainer rbti,
 		// is disabled in MathQuillGGB in that case... opening / closing keyboard!
 		// as the blur handler set in editEquationMathQuillGGB is harmed,
 		// re-set that blur handler here as well:
-		if (@org.geogebra.web.html5.Browser::isMobileBrowser()) {
+		if (@org.geogebra.web.html5.Browser::hasTouchScreen()) {
+			// I think this is the same check MathQuillGGB needs, because
+			// the textarea is disabled mainly because the touch-screen
+			// keyboard would open otherwise, and I guess the touch-screen
+			// keyboard is present on laptops with touch-screens
 			return;
 		}
 
-		$wnd
-				.$ggbQuery(elsecondInside)
-				.find('textarea')
-				.blur(
-						function(eee) {
-							// at least notify the NewRadioButtonTreeItem about this!
-							rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
-						})
-				.focus(
-						function(fff) {
-							// at least notify the NewRadioButtonTreeItem about this!
-							rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
-						});
+		var textareaJQ = $wnd.$ggbQuery(elsecondInside).find('textarea');
+		if (textareaJQ && textareaJQ.length) {
+			var textareaDOM = textareaJQ[0];
+			// see comments at DrawEquationWeb.editEquationMathQuillGGB, at the end
 
+			textareaJQ
+					.blur(
+							function(eee) {
+								if (!textareaDOM.disabledTextarea) {
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onBlur(Lcom/google/gwt/event/dom/client/BlurEvent;)(null);
+								}
+							})
+					.focus(
+							function(fff) {
+								if (!textareaDOM.disabledTextarea) {
+									rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::onFocus(Lcom/google/gwt/event/dom/client/FocusEvent;)(null);
+								}
+							});
+		}
 	}-*/;
 
 	public static native void updateEditingMathQuillGGB(Element parentElement,

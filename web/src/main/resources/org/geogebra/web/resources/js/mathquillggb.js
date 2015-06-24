@@ -1795,6 +1795,7 @@ function createRoot(jQ, root, textbox, editable) {
   var textareaSpan = root.textarea = $('<span class="textarea">' + textareaHtmlString + '</span>'),
   textarea = textareaSpan.children();
   var textareaDOM = textarea[0];
+  textareaDOM.disabledTextarea = disabledTextarea;
 
   /******
    * TODO [Han]: Document this

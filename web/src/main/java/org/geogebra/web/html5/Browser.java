@@ -10,7 +10,7 @@ public class Browser {
 	public static boolean webWorkerSupported = false;
 
 	// for efficiency, saving computation time
-	public static boolean isMobile = isMobileBrowser();
+	public static boolean hasTouchScreen = false;
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
@@ -243,21 +243,21 @@ public class Browser {
 		return false;
 	}-*/;
 
-	/**
-	 * Returns true if the browser used is a mobile browser. Please note that
-	 * this is unreliable, use detection of features if necessary.
-	 * 
-	 * @return true if the browser is mobile
-	 */
-	public static native boolean isMobileBrowser() /*-{
-		// this shall be the same code as MathQuillGGB has
-		// for deciding whether its textarea shall be disabled
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-				.test($wnd.navigator.userAgent);
-	}-*/;
+	public static boolean hasTouchScreen() {
+		return hasTouchScreen;
+	}
 
-	public static boolean isMobileBrowserQuick() {
-		return isMobile;
+	/**
+	 * By default, the browser is considered Desktop browser until the first
+	 * touch event happens... afterwards, the browser is considered a mobile
+	 * browser. Note: in case of laptops with touch screens,
+	 * 
+	 * @param mobile
+	 */
+	public static void setHasTouchScreen() {
+		if (!hasTouchScreen) {
+			hasTouchScreen = true;
+		}
 	}
 	
 	/**
