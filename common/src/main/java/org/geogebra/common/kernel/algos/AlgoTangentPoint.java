@@ -279,8 +279,8 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 				Polynomial m1 = new Polynomial(botanaVars[0]);
 				Polynomial m2 = new Polynomial(botanaVars[1]);
 				// coordinates of focus point of parabola
-				Polynomial f1 = new Polynomial(vparabola[10]);
-				Polynomial f2 = new Polynomial(vparabola[11]);
+				Polynomial f1 = new Polynomial(vparabola[8]);
+				Polynomial f2 = new Polynomial(vparabola[9]);
 				// coordinates of T'
 				Polynomial t_1 = new Polynomial(vPoint[2]);
 				Polynomial t_2 = new Polynomial(vPoint[3]);
