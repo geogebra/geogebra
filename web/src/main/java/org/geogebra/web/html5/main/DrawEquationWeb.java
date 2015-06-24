@@ -1456,18 +1456,6 @@ GeoContainer rbti,
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
 
-		// the following code will not do anything in tablets because the textarea
-		// is disabled in MathQuillGGB in that case... opening / closing keyboard!
-		// as the blur handler set in editEquationMathQuillGGB is harmed,
-		// re-set that blur handler here as well:
-		if (@org.geogebra.web.html5.Browser::hasTouchScreen()) {
-			// I think this is the same check MathQuillGGB needs, because
-			// the textarea is disabled mainly because the touch-screen
-			// keyboard would open otherwise, and I guess the touch-screen
-			// keyboard is present on laptops with touch-screens
-			return;
-		}
-
 		var textareaJQ = $wnd.$ggbQuery(elsecondInside).find('textarea');
 		if (textareaJQ && textareaJQ.length) {
 			var textareaDOM = textareaJQ[0];
