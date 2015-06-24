@@ -3370,12 +3370,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 				} else {
 					// draw top arrow for y-axis
-					tempLine.setLine(xCrossPix + 0.5, arrowAdjusty, xCrossPix
+					g2.drawStraightLine(xCrossPix, arrowAdjusty,
+							xCrossPix
 							- arrowSize, arrowAdjusty + arrowSize);
-					g2.draw(tempLine);
-					tempLine.setLine(xCrossPix - 0.5, arrowAdjusty, xCrossPix
+					g2.drawStraightLine(xCrossPix, arrowAdjusty,
+							xCrossPix
 							+ arrowSize, arrowAdjusty + arrowSize);
-					g2.draw(tempLine);
+
 				}
 			}
 
@@ -3397,14 +3398,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 				} else {
 					// draw bottom arrow for y-axis
-					tempLine.setLine(xCrossPix + 0.5, getHeight()
+					g2.drawStraightLine(xCrossPix, getHeight()
 							- arrowAdjusty, xCrossPix - arrowSize, getHeight()
 							- arrowAdjusty - arrowSize);
-					g2.draw(tempLine);
-					tempLine.setLine(xCrossPix - 0.5, getHeight()
+					g2.drawStraightLine(xCrossPix, getHeight()
 							- arrowAdjusty, xCrossPix + arrowSize, getHeight()
 							- arrowAdjusty - arrowSize);
-					g2.draw(tempLine);
 				}
 			}
 			// erase grid to make space for labels
@@ -3496,14 +3495,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				} else {
 
 					// draw right arrow for x-axis
-					tempLine.setLine(getWidth() - arrowAdjustx,
-							yCrossPix + 0.5, getWidth() - arrowAdjustx
+					g2.drawStraightLine(getWidth() - arrowAdjustx, yCrossPix,
+							getWidth() - arrowAdjustx
 									- arrowSize, yCrossPix - arrowSize);
-					g2.draw(tempLine);
-					tempLine.setLine(getWidth() - arrowAdjustx,
-							yCrossPix - 0.5, getWidth() - arrowAdjustx
+
+					g2.drawStraightLine(getWidth() - arrowAdjustx, yCrossPix,
+							getWidth() - arrowAdjustx
 									- arrowSize, yCrossPix + arrowSize);
-					g2.draw(tempLine);
+
 				}
 			}
 
@@ -3523,12 +3522,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				} else {
 
 					// draw left arrow for x-axis
-					tempLine.setLine(arrowAdjustx, yCrossPix + 0.5,
+					g2.drawStraightLine(arrowAdjustx, yCrossPix,
 							arrowAdjustx + arrowSize, yCrossPix - arrowSize);
-					g2.draw(tempLine);
-					tempLine.setLine(arrowAdjustx, yCrossPix - 0.5,
+					g2.drawStraightLine(arrowAdjustx, yCrossPix,
 							arrowAdjustx + arrowSize, yCrossPix + arrowSize);
-					g2.draw(tempLine);
 				}
 			}
 
