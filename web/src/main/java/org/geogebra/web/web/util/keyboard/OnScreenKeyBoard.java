@@ -615,7 +615,7 @@ public class OnScreenKeyBoard extends PopupPanel implements VirtualKeyboard {
 		addButton(Unicode.IS_SUBSET_OF + "", index, chars);
 		addButton(Unicode.IS_SUBSET_OF_STRICT + "", index, chars);
 		addButton(Unicode.ANGLE, index, chars);
-		addButton(Unicode.OPEN_DOUBLE_QUOTE + "x" + Unicode.CLOSE_DOUBLE_QUOTE,
+		addButton(Unicode.OPEN_DOUBLE_QUOTE + " " + Unicode.CLOSE_DOUBLE_QUOTE,
 				"quotes", index, chars);
 
 		// fill forth row
