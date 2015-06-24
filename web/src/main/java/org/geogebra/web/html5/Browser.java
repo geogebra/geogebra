@@ -10,7 +10,7 @@ public class Browser {
 	public static boolean webWorkerSupported = false;
 
 	// for efficiency, saving computation time
-	public static boolean hasTouchScreen = false;
+	// public static boolean hasTouchScreen = false;
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
@@ -243,22 +243,25 @@ public class Browser {
 		return false;
 	}-*/;
 
-	public static boolean hasTouchScreen() {
-		return hasTouchScreen;
-	}
+	// public static boolean hasTouchScreen() {
+	// return hasTouchScreen;
+	// }
 
-	/**
-	 * By default, the browser is considered Desktop browser until the first
-	 * touch event happens... afterwards, the browser is considered a mobile
-	 * browser. Note: in case of laptops with touch screens,
-	 * 
-	 * @param mobile
-	 */
-	public static void setHasTouchScreen() {
-		if (!hasTouchScreen) {
-			hasTouchScreen = true;
-		}
-	}
+	// public static void setHasTouchScreen() {
+	// if (!hasTouchScreen) {
+	// hasTouchScreen = true;
+	// }
+	// }
+
+	//public static native boolean wrongIsMobileBrowserCheck() /*-{ 
+		// this shall be the same code as MathQuillGGB has 
+		// for deciding whether its textarea shall be disabled
+		// BUT it seems this returned true when I used Firefox
+		// or Chrome, a Desktop browser, but it returned false in
+		// MathQuillGGB... so the cause is probably this being JSNI
+	//	return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i 
+	//		.test($wnd.navigator.userAgent); 
+	//}-*/; 
 	
 	/**
 	 * @return true if Javascript CAS is supported.

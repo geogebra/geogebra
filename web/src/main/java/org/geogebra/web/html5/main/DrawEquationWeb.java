@@ -748,7 +748,7 @@ public class DrawEquationWeb extends DrawEquation {
 		// once it's updated, it can be used cross mobile/web, and
 		// currentHover can be used later in other code...
 		if (isTouch) {
-			Browser.setHasTouchScreen();
+			// Browser.setHasTouchScreen();
 			// heuristic for hovering
 			Element targ = null;
 			if ((natEv.getChangedTouches() != null) &&
