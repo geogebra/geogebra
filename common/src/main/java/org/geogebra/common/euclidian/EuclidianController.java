@@ -8646,11 +8646,7 @@ public abstract class EuclidianController {
 			setViewHits(event.getType());
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
-			if (!hits.isEmpty()) { // bugfix 2008-02-19 removed this:&&
-									// ((GeoElement) hits.get(0)).isGeoPoint())
-				dontClearSelection = true;
-			}
-
+			dontClearSelection = !hits.isEmpty();
 			if (hits.isEmpty() || needsAxisZoom(hits, event)
 					|| !app.has(Feature.SF_DRAG) || specialMoveEvent(event)) {
 				temporaryMode = true;
