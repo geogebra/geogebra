@@ -508,10 +508,10 @@ view.estimateNumberWidth(rw,
 							view.drawString(g2, sb.toString(), x, y);
 							// measure width, so grid line can avoid it
 							// use same (max) for all labels
-							if (sb.charAt(0) == '–'
+							if (sb.charAt(0) == Unicode.MINUS
 									&& width > view.yLabelMaxWidthNeg) {
 								view.yLabelMaxWidthNeg = width;
-							} else if (sb.charAt(0) != '–'
+							} else if (sb.charAt(0) != Unicode.MINUS
 									&& width > view.yLabelMaxWidthPos) {
 								view.yLabelMaxWidthPos = width;
 							}
