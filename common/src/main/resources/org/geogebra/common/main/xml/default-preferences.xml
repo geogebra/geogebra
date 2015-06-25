@@ -17,7 +17,7 @@
 	<bgColor r="255" g="255" b="255"/>
 	<axesColor r="0" g="0" b="0"/>
 	<gridColor r="192" g="192" b="192"/>
-	<lineStyle axes="1" grid="10"/>
+	<lineStyle axes="1" grid="0"/>
 	<axis id="0" show="true" label="" unitLabel="" tickStyle="1" showNumbers="true" axisCross="0.0" positiveAxis="false"/>
 	<axis id="1" show="true" label="" unitLabel="" tickStyle="1" showNumbers="true" axisCross="0.0" positiveAxis="false"/>
 </euclidianView>

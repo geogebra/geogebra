@@ -3956,11 +3956,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void setGridLineStyle(int gridLineStyle) {
 		this.gridLineStyle = gridLineStyle;
 		gridStroke = EuclidianStatic.getStroke(gridIsBold ? 2f : 1f,
-				gridLineStyle); // Michael
-		// Borcherds
-		// 2008-04-11
-		// added
-		// gridisbold
+				gridLineStyle);
 	}
 
 	/**

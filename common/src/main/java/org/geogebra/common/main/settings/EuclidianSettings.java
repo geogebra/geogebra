@@ -42,7 +42,7 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * Line style of grid.
 	 */
-	private int gridLineStyle = EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT;
+	private int gridLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 
 	/**
 	 * Various distances between lines of the grid.
@@ -88,7 +88,7 @@ public class EuclidianSettings extends AbstractSettings {
 		yminObject = null;
 		ymaxObject = null;
 
-		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_FULL);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(GColor.BLACK); // Michael Borcherds 2008-01-26 was darkgray
 		setGridColor(GColor.LIGHT_GRAY);
