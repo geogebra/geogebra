@@ -3997,48 +3997,6 @@ sb.toString(), getFontAxes(),
 
 	}
 
-	protected void addAxisXML(int i, StringBuilder sbxml) {
-		sbxml.append("\t<axis id=\"");
-		sbxml.append(i);
-		sbxml.append("\" show=\"");
-		sbxml.append(getShowAxis(i));
-		sbxml.append("\" label=\"");
-		if (axesLabels[i] != null && settings!=null) {
-			StringUtil.encodeXML(sbxml, this.settings.axisLabelForXML(i));
-		}
-		sbxml.append("\" unitLabel=\"");
-		if (axesUnitLabels[i] != null) {
-			StringUtil.encodeXML(sbxml, axesUnitLabels[i]);
-		}
-		sbxml.append("\" tickStyle=\"");
-		sbxml.append(axesTickStyles[i]);
-		sbxml.append("\" showNumbers=\"");
-		sbxml.append(showAxesNumbers[i]);
-
-		// the tick distance should only be saved if
-		// it isn't calculated automatically
-		if (!automaticAxesNumberingDistances[i]) {
-			sbxml.append("\" tickDistance=\"");
-			sbxml.append(axesNumberingDistances[i]);
-		}
-
-		// axis crossing values
-		if (drawBorderAxes[i]) {
-			sbxml.append("\" axisCrossEdge=\"");
-			sbxml.append(true);
-		} else if (!Kernel.isZero(axisCross[i]) && !drawBorderAxes[i]) {
-			sbxml.append("\" axisCross=\"");
-			sbxml.append(axisCross[i]);
-		}
-
-		// positive direction only flags
-		if (positiveAxes[i]) {
-			sbxml.append("\" positiveAxis=\"");
-			sbxml.append(positiveAxes[i]);
-		}
-
-		sbxml.append("\"/>\n");
-	}
 
 	/**
 	 * end settings in XML format
@@ -4910,5 +4868,12 @@ sb.toString(), getFontAxes(),
 		}
 
 		return text;
+	}
+
+	public boolean isViewForPlane() {
+		if (settings == null) {
+			return false;
+		}
+		return settings.isViewForPlane();
 	}
 }

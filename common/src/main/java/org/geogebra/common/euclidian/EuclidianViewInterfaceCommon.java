@@ -984,4 +984,6 @@ public interface EuclidianViewInterfaceCommon extends
 
 	public GeoDirectionND getDirection();
 
+	public boolean isViewForPlane();
+
 }

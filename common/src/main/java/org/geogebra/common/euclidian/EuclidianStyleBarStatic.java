@@ -518,6 +518,9 @@ public class EuclidianStyleBarStatic {
 					&& app.getEuclidianView3D() == ev) {
 				changed = app.getSettings().getEuclidian(3)
 						.setShowAxes(!ev.getShowXaxis());
+			} else if (ev.isViewForPlane()) {
+				changed = ev.getSettings().setShowAxes(!ev.getShowXaxis(),
+						!ev.getShowXaxis());
 			} else {
 				changed = ev.setShowAxes(!ev.getShowXaxis(), true);
 			}

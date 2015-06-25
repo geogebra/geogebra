@@ -51,9 +51,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 	private CoordMatrix4x4 transform;
 
 	public void initView(ViewCreator plane) {
-		// initView(true);
-		view.setShowAxes(false, false);
-		// showGrid(false);
 
 		setPlane(plane);
 
