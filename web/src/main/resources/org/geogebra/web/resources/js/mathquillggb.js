@@ -2104,8 +2104,6 @@ function createRoot(jQ, root, textbox, editable) {
     // making sure stopPropagation is really get called
     e1.stopPropagation(); // it will be called in textarea?
 
-    if ((textareaDOM.hadFocus === false) || disabledTextarea) {
-
     adjustFixedTextarea(jQ);
 
     if (!disabledTextarea) {
@@ -2116,21 +2114,31 @@ function createRoot(jQ, root, textbox, editable) {
       jQ.blur();
     }
 
-	// if jQ just gets focus, why was here jQ.blur???
-	// to make this blur before textarea.focus() makes it blur,
-	// because it may be too late and trigger textarea.blur()
-	// after textarea.focus(), I think, which is too late
-	// but still in this case, textarea.blur may be called too
-	// late, setTimeout is not the best solution:
-	if(window.mqTouchEvents){
-		textarea.attr("disabled","true");
-	}else if(window.mqTouchEvents === false){
-		textarea.removeAttr("disabled");
-	}
+    // if jQ just gets focus, why was here jQ.blur???
+    // to make this blur before textarea.focus() makes it blur,
+    // because it may be too late and trigger textarea.blur()
+    // after textarea.focus(), I think, which is too late
+    // but still in this case, textarea.blur may be called too
+    // late, setTimeout is not the best solution:
+    if (window.mqTouchEvents) {
+      textarea.attr("disabled","true");
+    } else if (window.mqTouchEvents === false) {
+      textarea.removeAttr("disabled");
+    }
 
-	if (disabledTextarea) {
+    if (disabledTextarea) {
       textareaFocusFunction(e1);
-	} else {
+    } else {
+      var timFunction = function() {
+        //if (textareaDOM.hadFocus === false) {
+          // as jQ takes focus from textareaDOM,
+          // we shall focus it again, anyway...
+          // BUT then there are a lot of events,
+    	  // so setting hadFocus better might help
+          textarea.focus();
+        //}
+      };
+
       // so here are other setTimeout's, as
       // the bug just turned out to be a timeout issue,
       // which may be fixed differently but this works for sure:
@@ -2138,18 +2146,16 @@ function createRoot(jQ, root, textbox, editable) {
 	  clearTimeout(textareaDOM.timeout2);
 	  clearTimeout(textareaDOM.timeout3);
 	  clearTimeout(textareaDOM.timeout4);
-	  textareaDOM.timeout4 = setTimeout(function() { textarea.focus(); },500);
-	  textareaDOM.timeout3 = setTimeout(function() { textarea.focus(); },300);
-	  textareaDOM.timeout2 = setTimeout(function() { textarea.focus(); },100);
-	  textareaDOM.timeout1 = setTimeout(function() { textarea.focus(); });
+	  textareaDOM.timeout4 = setTimeout(timFunction, 500);
+	  textareaDOM.timeout3 = setTimeout(timFunction, 300);
+	  textareaDOM.timeout2 = setTimeout(timFunction, 100);
+	  textareaDOM.timeout1 = setTimeout(timFunction);
 
       //do this immediately (ATM also happens in timeout, might not be needed)
       if (root.common.newCreationMode) {
         textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
       }
 	}
-
-    }
   }).bind('blur.mathquillggb', function(e3) {
     if (disabledTextarea) {
       textareaBlurFunction(e3);
