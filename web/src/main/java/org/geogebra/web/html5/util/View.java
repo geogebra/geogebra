@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
+import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
@@ -308,6 +309,11 @@ public class View {
       }-*/;
 
 	public void processFileName(String url) {
+		if (url.endsWith(".off")) {
+			OFFHandler h = new OFFHandler(app.getKernel(), app.getKernel()
+					.getConstruction());
+			h.updateAfterParsing();
+		}
 		String workerUrls = prepareFileReading();
 		populateArchiveContentFromFile(url, workerUrls, this);
 	}

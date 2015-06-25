@@ -117,6 +117,7 @@ import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -175,7 +176,7 @@ import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.io.MyXMLioD;
-import org.geogebra.desktop.io.OFFHandler;
+import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.kernel.AnimationManagerD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterDesktop;
@@ -3428,12 +3429,13 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		boolean status = true;
 		try {
+			OFFReader reader = new OFFReader();
 			if (!initing) {
 				initing = true;
-				getOFFHandler().parse(file);
+				reader.parse(file, getOFFHandler());
 				initing = false;
 			} else {
-				getOFFHandler().parse(file);
+				reader.parse(file, getOFFHandler());
 			}
 		} catch (Exception ex) {
 			status = false;
@@ -3774,7 +3776,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public OFFHandler getOFFHandler() {
 		if (offHandler == null) {
-			new OFFHandler(kernel, kernel.getConstruction());
+			offHandler = new OFFHandler(kernel, kernel.getConstruction());
 		}
 		return offHandler;
 	}
