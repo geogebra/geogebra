@@ -1,8 +1,10 @@
 package org.geogebra.common.io;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
@@ -11,6 +13,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.opencsv.CSVException;
+import org.geogebra.common.util.opencsv.CSVParser;
 
 /**
  * 
@@ -28,6 +33,7 @@ public class OFFHandler {
 	public List<Coords> vertices;
 	public List<int[]> faces;
 	public GColor[] facesColor;
+	private CSVParser parser;
 	private static final String OFF = "OFF";
 	private static final String COMMENT_PREFIX = "#";
 	/**
@@ -42,6 +48,7 @@ public class OFFHandler {
 
 		this.kernel = kernel;
 		this.construction = construction;
+		this.parser = new CSVParser(' ');
 	}
 
 
@@ -177,6 +184,8 @@ public class OFFHandler {
 		faceCount = f;
 		edgeCount = e;
 		facesColor = new GColor[faceCount];
+		faces = new ArrayList<int[]>(faceCount);
+		vertices = new ArrayList<Coords>(vertexCount);
 
 	}
 
@@ -192,5 +201,84 @@ public class OFFHandler {
 
 	public static boolean isComment1(String line) {
 		return line.startsWith(COMMENT_PREFIX);
+	}
+
+	public static GColor tryReadColor(String[] in, int offset) {
+		GColor color = null;
+		try {
+			if (in.length > offset && in[offset].indexOf('.') < 0) {
+				int r = Integer.parseInt(in[offset]);
+				int g = 0;
+				int b = 0;
+				int a = 0xff;
+				if (in.length > offset + 1) {
+					g = Integer.parseInt(in[offset + 1]);
+					b = in.length > offset + 2 ? Integer
+							.parseInt(in[offset + 2]) : 0;
+					a = in.length > offset + 3 ? Integer
+							.parseInt(in[offset + 3]) : 0xff;
+				} else {
+					a = r & 0xff;
+					b = (r >>> 8) & 0xff;
+					g = (r >>> 16) & 0xff;
+					r = r >>> 24;
+				}
+				color = AwtFactory.prototype.newColor(r, g, b, a);
+			}
+
+			else if (in.length > offset) {
+				float h = Float.parseFloat(in[offset]);
+				h = Math.min(1, h);
+				if (in.length > offset + 1) {
+					float s = Float.parseFloat(in[offset + 1]);
+					float b = Float.parseFloat(in[offset + 2]);
+					float a = 1.0f;
+					if (in.length > offset + 3) {
+						a = Float.parseFloat(in[offset + 3]);
+					}
+					s = Math.min(1.0f, s);
+					b = Math.min(1.0f, b);
+					a = Math.min(1.0f, a);
+					color = AwtFactory.prototype.newColor(h, s, b, a);
+				} else
+					color = AwtFactory.prototype.newColor(h, h, h);
+			}
+		} catch (Exception ex) {
+			Log.debug(ex.getMessage());
+		}
+		return color;
+	}
+
+	public void addFaceLine(String line) throws CSVException {
+
+		if (!OFFHandler.isComment(line)) {
+			String[] aux = parser.parseLine(line);
+			int vCount = Integer.parseInt(aux[0]);
+			int[] v = new int[vCount];
+			for (int j = 0; j < vCount; j++) {
+				v[j] = Integer.parseInt(aux[j + 1]);
+				if (v[j] < 0 || v[j] >= getVertexCount()) {
+					Log.error(v[j] + " out of range");
+				}
+			}
+			faces.add(v);
+
+			// check whether face color is specified;
+			facesColor[faces.size() - 1] = OFFHandler
+					.tryReadColor(aux, vCount + 1);
+
+		}
+
+	}
+
+	public void addVertexLine(String line) throws CSVException {
+		line = line.trim();
+
+		if (!OFFHandler.isComment(line)) {
+			String[] aux = parser.parseLine(line);
+			vertices.add(new Coords(Double.parseDouble(aux[0]), Double
+					.parseDouble(aux[1]), Double.parseDouble(aux[2]), 1.0));
+		}
+
 	}
 }
