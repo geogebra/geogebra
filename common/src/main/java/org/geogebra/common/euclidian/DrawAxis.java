@@ -35,8 +35,8 @@ public class DrawAxis {
 		// for axes ticks
 		double yZeroTick = yCrossPix;
 		double xZeroTick = xCrossPix;
-		double yBig = yCrossPix + 4;
-		double xBig = xCrossPix - 4;
+		double yBig = yCrossPix + 3;
+		double xBig = xCrossPix - 3;
 		double ySmall1 = yCrossPix + 0;
 		double ySmall2 = yCrossPix + 2;
 		double xSmall1 = xCrossPix - 0;
