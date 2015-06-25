@@ -100,7 +100,7 @@ public final class FunctionSoundW extends FunctionSound implements
 
 	private void generateFunctionSound() {
 		stopped = false;
-		waw.start(getMin(), getSampleRate());
+		waw.start(getMin(), getMax(), getSampleRate());
 	}
 
 
