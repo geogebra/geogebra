@@ -35,7 +35,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		super(c, o, v);
 	}
 
-	public void setParameter(String s) {
+	public void setToParametric(String s) {
 		this.parameter = s;
 	}
 
@@ -160,6 +160,10 @@ public class GeoLine3D extends GeoCoordSys1D {
 		super.getXMLtags(sb);
 
 		getCoordsXML(sb);
+
+		sb.append("\t<eqnStyle style=\"parametric\" parameter=\"");
+		sb.append(parameter);
+		sb.append("\"/>\n");
 
 	}
 

@@ -252,14 +252,14 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 							coefY[1].evaluateDouble(),
 							coefZ[1].evaluateDouble() });
 					line.setCoord(start, v);
-					line.setParameter(fv.getSetVarString());
+					line.setToParametric(fv.getSetVarString());
 					line.setLabel(label);
 				} else {
 					line = (GeoLine3D) kernel.getManager3D().Line3D(label,
 							coefX, coefY, coefZ);
 
 				}
-				line.setParameter(fv.getSetVarString());
+				line.setToParametric(fv.getSetVarString());
 				return new GeoElement[] { line };
 
 			}
