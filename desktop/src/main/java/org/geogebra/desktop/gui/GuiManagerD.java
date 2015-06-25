@@ -1991,8 +1991,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						return (name.endsWith("." + AppD.FILE_EXT_GEOGEBRA)
 								|| name.endsWith("."
 										+ AppD.FILE_EXT_GEOGEBRA_TOOL)
-								|| name.endsWith("." + AppD.FILE_EXT_HTM) || name
-								.endsWith("." + AppD.FILE_EXT_HTML));
+								|| name.endsWith("." + AppD.FILE_EXT_HTM)
+								|| name.endsWith("." + AppD.FILE_EXT_HTML) || name
+								.endsWith("." + AppD.FILE_EXT_OFF));
 					}
 				});
 				fd.setTitle(app.getMenu("Load"));
@@ -2048,6 +2049,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			templateFilter.addExtension(AppD.FILE_EXT_GEOGEBRA);
 			templateFilter.setDescription(app.getMenu("ApplyTemplate"));
 			fileChooser.addChoosableFileFilter(templateFilter);
+
+			MyFileFilter offFilter = new MyFileFilter(AppD.FILE_EXT_OFF);
+			// TODO: Localization
+			offFilter.setDescription("OFF file");
+			fileChooser.addChoosableFileFilter(offFilter);
 
 			if (oldCurrentFile == null
 					|| AppD.getExtension(oldCurrentFile).equals(
@@ -2108,6 +2114,24 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				app.setDefaultCursor();
 
+			} else if (filter == offFilter) {
+
+				app.setWaitCursor();
+				app.setMoveMode();
+
+				for (int i = 0; i < files.length; i++) {
+					
+					File file0 = files[i];
+					
+					if (!file0.exists()) {
+						file0 = addExtension(file0, AppD.FILE_EXT_OFF);
+					}
+
+				}
+
+				doOpenFiles(files, true);
+				app.setDefaultCursor();
+
 			} else {
 				doOpenFiles(files, true);
 			}
@@ -2149,6 +2173,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 								AppD.FILE_EXT_HTM);
 					}
 
+					if (extension.equals(AppD.FILE_EXT_GEOGEBRA)
+							&& !file.exists()) {
+						file = addExtension(removeExtension(file),
+								AppD.FILE_EXT_OFF);
+					}
+
 					if (!file.exists()) {
 						// Put the correct extension back on for the error
 						// message
@@ -2177,6 +2207,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						// if we loaded from GGB, we don't want to overwrite old
 						// file
 						htmlLoaded = loadBase64File(file);
+					} else if (AppD.FILE_EXT_OFF.equals(ext)) {
+						loadOffFile(file);
 					} else {
 						// standard GeoGebra file
 						GeoGebraFrame inst = GeoGebraFrame
@@ -2259,6 +2291,21 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		updateGUIafterLoadFile(success, false);
 		return success;
 
+	}
+
+	/**
+	 * Load off files to current view
+	 * 
+	 * @param file
+	 *            off file
+	 * @return status
+	 */
+	public boolean loadOffFile(final File file) {
+
+		boolean success = ((AppD) app).loadOffFile(file);
+		updateGUIafterLoadFile(success, false);
+
+		return success;
 	}
 
 	@Override

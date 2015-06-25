@@ -175,6 +175,7 @@ import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.io.MyXMLioD;
+import org.geogebra.desktop.io.OFFHandler;
 import org.geogebra.desktop.kernel.AnimationManagerD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterDesktop;
@@ -275,6 +276,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	public static final String FILE_EXT_TEX = "tex";
 	/** extension of Asymptote files */
 	public static final String FILE_EXT_ASY = "asy";
+	/** extension of OFF file */
+	public static final String FILE_EXT_OFF = "off";
 	// ==============================================================
 	// RESOURCE fields
 	// ==============================================================
@@ -3416,6 +3419,32 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
+	private OFFHandler offHandler;
+	public boolean loadOffFile(File file) {
+		if (!checkFileExistsAndShowFileNotFound(file)) {
+			return false;
+		}
+		kernel.notifyOpeningFile(file.getName());
+
+		boolean status = true;
+		try {
+			if (!initing) {
+				initing = true;
+				getOFFHandler().parse(file);
+				initing = false;
+			} else {
+				getOFFHandler().parse(file);
+			}
+		} catch (Exception ex) {
+			status = false;
+			ex.printStackTrace();
+		}
+
+		kernel.notifyFileOpenComplete(true);
+
+		return status;
+	}
+
 	protected final boolean checkFileExistsAndShowFileNotFound(File file) {
 		// show file not found message
 		if (!file.exists()) {
@@ -3741,6 +3770,13 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	final public MyXMLioD getXMLio() {
 		return (MyXMLioD) myXMLio;
+	}
+
+	public OFFHandler getOFFHandler() {
+		if (offHandler == null) {
+			new OFFHandler(kernel, kernel.getConstruction());
+		}
+		return offHandler;
 	}
 
 	@Override
