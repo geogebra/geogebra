@@ -1924,7 +1924,9 @@ public class Manager3D implements Manager3DInterface {
 				coefZ[0]);
 		MyVec3DNode v = new MyVec3DNode(kernel, coefX[1], coefY[1], coefZ[1]);
 		AlgoDependentPoint3D pt = new AlgoDependentPoint3D(cons, start.wrap());
+		cons.removeFromConstructionList(pt);
 		AlgoDependentVector3D vec = new AlgoDependentVector3D(cons, v.wrap());
+		cons.removeFromConstructionList(vec);
 		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, label,
 				pt.getPoint3D(), vec.getVector3D());
 		GeoLine3D g = algo.getLine();
