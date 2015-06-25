@@ -166,19 +166,17 @@ public class MsZoomer {
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
 
 						});
-
-		element
-				.addEventListener(
-						"MSPointerUp",
-						function(e) {
-							if ($wnd.first.id == e.pointerId) {
-								$wnd.first.id = -1;
-							} else {
-								$wnd.second.id = -1;
-							}
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::pointersUp()();
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
-						});
+		removePointer = function(e) {
+			if ($wnd.first.id == e.pointerId) {
+				$wnd.first.id = -1;
+			} else {
+				$wnd.second.id = -1;
+			}
+			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::pointersUp()();
+			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
+		};
+		element.addEventListener("MSPointerUp", removePointer);
+		element.addEventListener("MSPointerOut", removePointer);
 	}-*/;
 
 }
