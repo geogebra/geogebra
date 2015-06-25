@@ -2104,10 +2104,16 @@ function createRoot(jQ, root, textbox, editable) {
     // making sure stopPropagation is really get called
     e1.stopPropagation(); // it will be called in textarea?
 
+    if ((textareaDOM.hadFocus === false) || disabledTextarea) {
+
     adjustFixedTextarea(jQ);
 
     if (!disabledTextarea) {
-	  jQ.blur();
+  	  clearTimeout(textareaDOM.timeout1);
+	  clearTimeout(textareaDOM.timeout2);
+	  clearTimeout(textareaDOM.timeout3);
+	  clearTimeout(textareaDOM.timeout4);
+      jQ.blur();
     }
 
 	// if jQ just gets focus, why was here jQ.blur???
@@ -2142,12 +2148,16 @@ function createRoot(jQ, root, textbox, editable) {
         textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
       }
 	}
+
+    }
   }).bind('blur.mathquillggb', function(e3) {
     if (disabledTextarea) {
       textareaBlurFunction(e3);
     } else {
       e3.stopPropagation();
-      textarea.blur();
+      if (textareaDOM.hadFocus === true) {
+        textarea.blur();
+      }
     }
   }).blur();
 }
