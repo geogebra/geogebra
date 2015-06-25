@@ -1639,7 +1639,7 @@ __GGB__keysVar.de_AT.menu = {
     "Mode": "Modus",
     "Motif": "Motiv",
     "Move": "Bewege",
-    "Move.Help": "W\xe4hlen oder ziehen Sie ein Objekt (Sie k\xf6nnen auch die Esc-Taste dr\xfccken um dieses Werkzeug zu aktivieren).",
+    "Move.Help": "W\xe4hlen oder ziehen Sie Objekte.",
     "MoveRotate": "Bewege um Punkt",
     "MoveRotate.Help": "W\xe4hlen Sie einen Punkt als Drehzentrum und ziehen Sie dann ein Objekt um es zu drehen.",
     "MovementTools": "Werzeuge f\xfcr Bewegungen",
