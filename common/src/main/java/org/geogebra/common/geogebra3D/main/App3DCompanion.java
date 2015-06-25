@@ -14,7 +14,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * 
@@ -108,8 +107,6 @@ public abstract class App3DCompanion extends AppCompanion {
 			evSettings = new EuclidianSettingsForPlane(app.getEuclidianView1()
 					.getSettings());
 			evSettings.setShowGridSetting(false);
-			evSettings
-					.setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 			evSettings.setShowAxes(false, false);
 			settings.setEuclidianSettingsForPlane(name, evSettings);
 		}
