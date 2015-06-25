@@ -1236,6 +1236,10 @@ FromMeta
 		return (type == CONIC_ELLIPSE);
 	}
 
+	public boolean isHyperbola() {
+		return (type == CONIC_HYPERBOLA);
+	}
+
 	/** Changes equation mode to Specific */
 	final public void setToSpecific() {
 		setToStringMode(EQUATION_SPECIFIC);

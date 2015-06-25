@@ -297,6 +297,60 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 			throw new NoSymbolicParametersException();
 
 		}
+		if (c.isEllipse()) {
+			GeoPoint point = this.getPoint();
+			GeoConic ellipse = this.getConic();
+
+			if (point != null && ellipse != null) {
+				Variable[] vPoint = point.getBotanaVars(point);
+				Variable[] vellipse = ellipse.getBotanaVars(ellipse);
+
+				if (botanaVars == null) {
+					botanaVars = new Variable[6];
+					// M - tangent point
+					botanaVars[0] = new Variable();
+					botanaVars[1] = new Variable();
+					// T - point on ellipse
+					botanaVars[2] = vPoint[0];
+					botanaVars[3] = vPoint[1];
+					// D
+					botanaVars[4] = new Variable();
+					botanaVars[5] = new Variable();
+				}
+
+				botanaPolynomials = new Polynomial[4];
+
+				Polynomial m1 = new Polynomial(botanaVars[0]);
+				Polynomial m2 = new Polynomial(botanaVars[1]);
+				// coordinates of second focus point of ellipse
+				Polynomial f21 = new Polynomial(vellipse[8]);
+				Polynomial f22 = new Polynomial(vellipse[9]);
+				// coordinates of D
+				Polynomial d1 = new Polynomial(botanaVars[4]);
+				Polynomial d2 = new Polynomial(botanaVars[5]);
+
+				// F_1,T,D collinear
+				botanaPolynomials[0] = Polynomial.collinear(vellipse[6],
+						vellipse[7], vPoint[0], vPoint[1], botanaVars[4],
+						botanaVars[5]);
+
+				// F_2T = TD
+				botanaPolynomials[1] = Polynomial.equidistant(vellipse[8],
+						vellipse[9], vPoint[0], vPoint[1], botanaVars[4],
+						botanaVars[5]);
+
+				// M midpoint of F_2D
+				botanaPolynomials[2] = new Polynomial(2).multiply(m1)
+						.subtract(f21).subtract(d1);
+				botanaPolynomials[3] = new Polynomial(2).multiply(m2)
+						.subtract(f22).subtract(d2);
+
+				return botanaPolynomials;
+
+			}
+			throw new NoSymbolicParametersException();
+
+		}
 		throw new NoSymbolicParametersException();
 	}
 

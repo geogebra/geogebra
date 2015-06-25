@@ -29,6 +29,7 @@ public class AlgoIsOnPath extends AlgoElement implements
 
 	private GeoBoolean outputBoolean; // output
 	private Polynomial[][] botanaPolynomials;
+	private Variable[] botanaVars;
 
 	/**
 	 * Creates a new AlgoIsOnPath function
@@ -87,6 +88,10 @@ public class AlgoIsOnPath extends AlgoElement implements
 		outputBoolean.setUndefined();
 	}
 
+	public Variable[] getBotanaVars() {
+		return botanaVars;
+	}
+
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -116,6 +121,64 @@ public class AlgoIsOnPath extends AlgoElement implements
 					botanaPolynomials = new Polynomial[1][1];
 					botanaPolynomials[0][0] = Polynomial.equidistant(fv1[0],
 							fv1[1], fv2[0], fv2[1], fv2[2], fv2[3]);
+					return botanaPolynomials;
+				}
+				if (((GeoConic) inputPath).isParabola()) {
+					if (botanaVars == null) {
+						botanaVars = new Variable[2];
+						// T - projection of P to directrix
+						botanaVars[0] = new Variable();
+						botanaVars[1] = new Variable();
+					}
+
+					Variable[] fv1 = new Variable[2];
+					Variable[] fv2 = new Variable[10];
+					fv1 = inputPoint.getBotanaVars(inputPoint);
+					fv2 = ((GeoConic) inputPath)
+							.getBotanaVars((GeoConic) inputPath);
+
+					botanaPolynomials = new Polynomial[1][3];
+
+					// |FP| = |PT|
+					botanaPolynomials[0][0] = Polynomial.equidistant(fv2[8],
+							fv2[9], fv1[0], fv1[1], botanaVars[0],
+							botanaVars[1]);
+
+					// A,T,B collinear
+					botanaPolynomials[0][1] = Polynomial.collinear(fv2[4],
+							fv2[5], botanaVars[0], botanaVars[1], fv2[6],
+							fv2[7]);
+
+					// PT orthogonal AB
+					botanaPolynomials[0][2] = Polynomial.perpendicular(fv1[0],
+							fv1[1], botanaVars[0], botanaVars[1], fv2[4],
+							fv2[5], fv2[6], fv2[7]);
+
+					return botanaPolynomials;
+				}
+				if (((GeoConic) inputPath).isEllipse()
+						|| ((GeoConic) inputPath).isHyperbola()) {
+
+					Variable[] fv1 = new Variable[2];
+					Variable[] fv2 = new Variable[12];
+					fv1 = inputPoint.getBotanaVars(inputPoint);
+					fv2 = ((GeoConic) inputPath)
+							.getBotanaVars((GeoConic) inputPath);
+
+					botanaPolynomials = new Polynomial[1][2];
+
+					Polynomial e1 = new Polynomial(fv2[4]);
+					Polynomial e2 = new Polynomial(fv2[5]);
+
+					// e1^2=Polynomial.sqrDistance(a1,a2,p1,p2)
+					botanaPolynomials[0][0] = Polynomial.sqrDistance(fv2[6],
+							fv2[7], fv1[0], fv1[1]).subtract(e1.multiply(e1));
+
+					// e2^2=Polynomial.sqrDistance(b1,b2,p1,p2)
+					botanaPolynomials[0][1] = Polynomial.sqrDistance(fv2[7],
+							fv2[8], fv1[0], fv1[1]).subtract(
+							e2.multiply(e2));
+
 					return botanaPolynomials;
 				}
 			}

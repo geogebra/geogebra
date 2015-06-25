@@ -355,50 +355,30 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo,
 
 				return botanaPolynomials;
 			}
-			if (((GeoConic) input[0]).isEllipse()) {
+			if (((GeoConic) input[0]).isEllipse()
+					|| ((GeoConic) input[0]).isHyperbola()) {
 				if (botanaVars == null) {
-					botanaVars = new Variable[6];
+					botanaVars = new Variable[2];
 					// P - point of ellipse
-					botanaVars[0] = new Variable();
+					botanaVars[0] = new Variable(true);
 					botanaVars[1] = new Variable();
-					// D
-					botanaVars[2] = new Variable();
-					botanaVars[3] = new Variable();
-					// E
-					botanaVars[4] = new Variable();
-					botanaVars[5] = new Variable();
 				}
 
 				Variable[] vellipse = ((SymbolicParametersBotanaAlgo) input[0])
 						.getBotanaVars(input[0]);
 
-				botanaPolynomials = new Polynomial[5];
+				botanaPolynomials = new Polynomial[2];
 
-				Polynomial d1 = new Polynomial(botanaVars[2]);
-				Polynomial d2 = new Polynomial(botanaVars[3]);
-				Polynomial e1 = new Polynomial(botanaVars[4]);
-				Polynomial e2 = new Polynomial(botanaVars[5]);
-
-				// d1+d2 = e1+e2
-				botanaPolynomials[0] = d1.add(d2).subtract(e1).subtract(e2);
-
-				// d1^2=Polynomial.sqrDistance(a1,a2,c1,c2)
-				botanaPolynomials[1] = Polynomial.sqrDistance(vellipse[6],
-						vellipse[7], vellipse[10], vellipse[11]).subtract(
-						d1.multiply(d1));
-
-				// d2^2=Polynomial.sqrDistance(b1,b2,c1,c2)
-				botanaPolynomials[2] = Polynomial.sqrDistance(vellipse[8],
-						vellipse[9], vellipse[10], vellipse[11]).subtract(
-						d2.multiply(d2));
+				Polynomial e1 = new Polynomial(vellipse[4]);
+				Polynomial e2 = new Polynomial(vellipse[5]);
 
 				// e1^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-				botanaPolynomials[3] = Polynomial.sqrDistance(vellipse[6],
+				botanaPolynomials[0] = Polynomial.sqrDistance(vellipse[6],
 						vellipse[7], botanaVars[0], botanaVars[1]).subtract(
 						e1.multiply(e1));
 
 				// e2^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-				botanaPolynomials[4] = Polynomial.sqrDistance(vellipse[8],
+				botanaPolynomials[1] = Polynomial.sqrDistance(vellipse[8],
 						vellipse[9], botanaVars[0], botanaVars[1]).subtract(
 						e2.multiply(e2));
 

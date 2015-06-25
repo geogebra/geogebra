@@ -99,6 +99,7 @@ public class AlgoAreEqual extends AlgoElement implements
 		// outputBoolean.setValue(inputElement1.isEqual(inputElement2));
 		// But we prefer to have the same output as for inputElement1 ==
 		// inputElement2 for being consistent:
+
 		outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel,
 				inputElement1, inputElement2).getBoolean());
 	}
@@ -317,7 +318,10 @@ public class AlgoAreEqual extends AlgoElement implements
 		if (inputElement1 instanceof GeoNumeric
 				&& inputElement2 instanceof GeoNumeric
 				&& (inputElement1.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA
-				&& (inputElement2.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA) {
+				&& (inputElement2.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA
+				&& (inputElement1.getParentAlgorithm()).getInput().length == 3 // is
+																				// triangle
+				&& (inputElement2.getParentAlgorithm()).getInput().length == 3) {
 			botanaPolynomials = new Polynomial[1][1];
 
 			Variable[] v1 = new Variable[6];
