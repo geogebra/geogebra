@@ -6,7 +6,6 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
@@ -507,7 +506,6 @@ view.estimateNumberWidth(rw,
 							}
 							// draw number
 							view.drawString(g2, sb.toString(), x, y);
-							App.debug(sb.charAt(0) + "");
 							// measure width, so grid line can avoid it
 							// use same (max) for all labels
 							if (sb.charAt(0) == '–'
