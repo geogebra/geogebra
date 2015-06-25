@@ -46,12 +46,21 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 			break;
 
 		case CURVE_CARTESIAN3D:
-			d = new DrawParametricCurve(view, new CurveEvaluableFor3D(
-					(GeoCurveCartesian3D) geo));
+			d = newDrawParametricCurve((GeoCurveCartesian3D) geo);
 			break;
 		}
 
 		return d;
+	}
+
+	/**
+	 * 
+	 * @param geo
+	 *            curve
+	 * @return drawable for curve
+	 */
+	protected DrawableND newDrawParametricCurve(GeoCurveCartesian3D geo) {
+		return new DrawParametricCurve(view, new CurveEvaluableFor3D(geo));
 	}
 
 	@Override

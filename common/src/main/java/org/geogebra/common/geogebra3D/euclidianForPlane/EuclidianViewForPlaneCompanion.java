@@ -3,12 +3,16 @@ package org.geogebra.common.geogebra3D.euclidianForPlane;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawAngle;
+import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidianFor3D.CurveEvaluableForPlane;
 import org.geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -381,6 +385,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		case ANGLE3D:
 		case TEXT:
 		case LOCUS:
+		case CURVE_CARTESIAN3D:
 			return geo.isVisibleInViewForPlane();
 		case ANGLE:
 			if (geo.isIndependent()) { // no slider in view for plane (for now)
@@ -600,6 +605,13 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 	public void updateAllDrawables(boolean repaint) {
 		view.updateAllDrawables(repaint);
 
+	}
+
+
+	@Override
+	protected DrawableND newDrawParametricCurve(GeoCurveCartesian3D geo) {
+		return new DrawParametricCurve(view, new CurveEvaluableForPlane(geo,
+				this));
 	}
 
 }

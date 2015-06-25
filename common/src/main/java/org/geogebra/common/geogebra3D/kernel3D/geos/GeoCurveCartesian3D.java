@@ -322,8 +322,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * @param b
 	 *            end parameter
 	 * @param funX
+	 *            x(t)
 	 * @param funY
+	 *            y(t)
 	 * @param funZ
+	 *            z(t)
 	 * @return an interval within [a, b] where the funX, funY, funZ are defined.
 	 * 
 	 */
@@ -338,6 +341,36 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// compute interval for z(t) and update interval
 		RealRootUtil.updateDefinedIntervalIntersecting(funZ, a, b, interval);
+
+		return interval;
+
+	}
+
+	/**
+	 * @param a
+	 *            start parameter
+	 * @param b
+	 *            end parameter
+	 * @param funX
+	 *            x(t)
+	 * @param funY
+	 *            y(t)
+	 * @param funZ
+	 *            z(t)
+	 * @param fun
+	 *            additionnal function for view for plane
+	 * @return an interval within [a, b] where the funX, funY, funZ are defined.
+	 * 
+	 */
+	static public double[] getDefinedInterval(double a, double b,
+			RealRootFunction funX, RealRootFunction funY,
+			RealRootFunction funZ, RealRootFunction fun) {
+
+		// compute interval for x(t), y(t), z(t)
+		double[] interval = getDefinedInterval(a, b, funX, funY, funZ);
+
+		// compute interval for fun(t) and update interval
+		RealRootUtil.updateDefinedIntervalIntersecting(fun, a, b, interval);
 
 		return interval;
 
