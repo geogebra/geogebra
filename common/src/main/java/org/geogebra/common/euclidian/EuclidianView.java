@@ -3005,7 +3005,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		axesLabelsPositionsY.clear();
 		axesLabelsPositionsX.clear();
 
-		yLabelMaxWidth = 0;
+		yLabelMaxWidthPos = 0;
+		yLabelMaxWidthNeg = 0;
 		xLabelHeights = estimateNumberHeight(getFontAxes());
 
 		// this will fill axesLabelsBounds with the rectangles where the axes
@@ -3338,7 +3339,8 @@ sb.toString(), getFontAxes(),
 
 	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<Integer>();
 	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<Integer>();
-	double yLabelMaxWidth = 0;
+	double yLabelMaxWidthPos = 0;
+	double yLabelMaxWidthNeg = 0;
 	double xLabelHeights = 0;
 
 	private void drawLineAvoidingLabelsH(GGraphics2D g2, double x1, double y1,
@@ -3346,7 +3348,9 @@ sb.toString(), getFontAxes(),
 
 		if (xCrossPix > x1 && xCrossPix < x2) {
 			// split in 2
-			g2.drawStraightLine(x1, y1, xCrossPix - yLabelMaxWidth - 10, y2);
+			g2.drawStraightLine(x1, y1, xCrossPix
+					- (this.toRealWorldCoordY(y1) > 0 ? yLabelMaxWidthPos
+							: yLabelMaxWidthNeg) - 10, y2);
 			g2.drawStraightLine(xCrossPix, y1, x2, y2);
 
 		} else {
