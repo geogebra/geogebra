@@ -12,7 +12,7 @@ public class WebAudioWrapper {
 	private FunctionAudioListener listener = null;
 	private boolean supported;
 	private WebAudioWrapper() {
-		supported = !Browser.isIE();
+		supported = !Browser.isIE() && !Browser.isFirefox();
 		init();
 	}
 
