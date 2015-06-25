@@ -37,12 +37,13 @@ public class WebAudioWrapper {
 	}-*/;
 
 
-	public native void start(double min, int sampleRate) /*-{
+	public native void start(double min, double max, int sampleRate) /*-{
 		if (!this.@org.geogebra.web.html5.sound.WebAudioWrapper::isSupported()()) {
 			return;
 		}
 		// TODO: use sampleRate somehow as well
 		$wnd.time = min;
+		$wnd.stopTime = max;
 		$wnd.processor.connect($wnd.context.destination);
 	}-*/;
 
@@ -57,7 +58,9 @@ public class WebAudioWrapper {
 
 			data[i] = $wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::eval(D)($wnd.time);
 			$wnd.time = $wnd.time + $wnd.deltaTime;
-
+		}
+		if ($wnd.time >= $wnd.stopTime) {
+			$wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::stop()();
 		}
 
 	}-*/;
