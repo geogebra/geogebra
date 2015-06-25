@@ -3813,10 +3813,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	// ////////////////////////////////////////
 	// ABSTRACTEUCLIDIANVIEW
 	// ////////////////////////////////////////
-	@Override
-	protected void drawAxes(org.geogebra.common.awt.GGraphics2D g2) {
-		// for 2D only
-	}
 
 	// ////////////////////////////////////////
 	// EUCLIDIANVIEWND
