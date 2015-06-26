@@ -102,7 +102,7 @@ public class TextFieldProcessingBase implements TextFieldProcessing {
 			break;
 		case equationEditorListener:
 		case newRadioButtonTreeItem:
-			((EquationEditorListener) field).setFocus(true);
+			((EquationEditorListener) field).setFocus(true, false);
 			break;
 		}
 	}

@@ -12,7 +12,7 @@ public interface AutoCompleteW {
 
 	public List<String> getCompletions();
 
-	public void setFocus(boolean b);
+	public void setFocus(boolean b, boolean sv);
 
 	public void insertString(String text);
 

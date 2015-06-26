@@ -86,11 +86,11 @@ public class HistoryPopupW extends PopupPanel implements ClickHandler,
 		case GWTKeycodes.KEY_ESCAPE:
 			hide();
 			textField.setText(originalTextEditorContent);
-			textField.setFocus(true);
+			textField.setFocus(true, false);
 			break;
 		case GWTKeycodes.KEY_ENTER:
 			hide();
-			textField.setFocus(true);
+			textField.setFocus(true, false);
 			break;
 		}
 

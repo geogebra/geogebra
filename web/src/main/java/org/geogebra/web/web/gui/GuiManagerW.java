@@ -145,6 +145,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	private int activeViewID;
 
+	private boolean inputBarSetFocusScheduled = false;
+	private boolean inputBarSetFocusAllowed = true;
+
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
 		this.device = device;
@@ -1927,5 +1930,42 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			dataCollectionView.getXML(sb, asPreference);
 		}
 
+	}
+
+	/**
+	 * This is just a method for implementing the logic in
+	 * NewRadioButtonTreeItem.setFocus, because it might not be accessible at
+	 * early a time... I tried to do everything in one method to spare
+	 * 
+	 * Comment copied from there (as earlier):
+	 * 
+	 * This method should tell the Input Bar that a focus is scheduled in a
+	 * timeout or invokelater or some other method, this is important because
+	 * any intentional blur should cancel the schedule (hopefully), so:
+	 * 
+	 * - setFocus shall set setFocusScheduled to false AND call the focus, in
+	 * case setFocusAllowed was true but do not call it if setFocusAllowed was
+	 * false AND setFocusScheduled was true at the same time
+	 * 
+	 * - any blur event shall set setFocusAllowed to false, in case
+	 * setFocusScheduled was true (at least, it can have effect only in this
+	 * case)
+	 */
+	public boolean focusScheduled(boolean setNotGet,
+			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed) {
+		if (setNotGet) {
+			inputBarSetFocusScheduled = setOrGetScheduledPrioritized;
+			inputBarSetFocusAllowed = setOrGetAllowed;
+
+			// shall not be used:
+			return true;
+		} else if (setOrGetScheduledPrioritized) {
+			return inputBarSetFocusScheduled;
+		} else if (setOrGetAllowed) {
+			return inputBarSetFocusAllowed;
+		}
+
+		// shall not be used:
+		return true;
 	}
 }

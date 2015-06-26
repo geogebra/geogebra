@@ -54,13 +54,15 @@ public class ShowKeyboardButton extends SimplePanel {
 						.getKeyboardListener();
 				listener.doShowKeyBoard(true, mathKeyboardListener);
 
+				// no app, TODO
+				// app.getGuiManager().focusScheduled(true, true, true);
 				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 
 					@Override
 					public boolean execute() {
 						if (mathKeyboardListener != null) {
-							mathKeyboardListener.ensureEditing();
-							mathKeyboardListener.setFocus(true);
+							// mathKeyboardListener.ensureEditing();
+							// mathKeyboardListener.setFocus(true);
 						}
 						return false;
 					}

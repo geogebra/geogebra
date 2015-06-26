@@ -348,6 +348,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 					public void run() {
 						app.persistWidthAndHeight();
 						addKeyboard(null);
+							app.getGuiManager()
+									.focusScheduled(true, true, true);
 						new Timer() {
 
 							@Override
@@ -360,7 +362,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 											.getKeyboardListener();
 									((GuiManagerW) app.getGuiManager())
 											.setOnScreenKeyboardTextField(ml);
-									ml.setFocus(true);
+									ml.setFocus(true, true);
 									ml.ensureEditing();
 
 

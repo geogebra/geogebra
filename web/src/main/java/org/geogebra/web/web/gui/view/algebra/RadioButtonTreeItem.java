@@ -1648,16 +1648,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * @param b
 	 *            focus (false: blur)
 	 */
-	@Override
 	public void setFocus(boolean b) {
+		setFocus(b, false);
+	}
+
+	@Override
+	public void setFocus(boolean b, boolean sv) {
 		DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
-
-		// as the focus operation sometimes also scrolls
-		// if (b)
-		// geogebra.html5.main.DrawEquationWeb.scrollCursorIntoView(this,
-		// seMayLatex);
-		// put to focus handler
 	}
 
 	@Override

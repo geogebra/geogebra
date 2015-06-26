@@ -306,7 +306,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				dockPanel.onResize();
 				scrollToInputField();
 				if(textField!= null){
-					textField.setFocus(true);
+					textField.setFocus(true, true);
 					textField.ensureEditing();
 				}
 				// necessary in Internet Explorer, should not do harm in other browsers
@@ -318,6 +318,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				}
 			}
 		};
+		app.getGuiManager().focusScheduled(true, true, true);
 		timer.schedule(500);
 	}
 

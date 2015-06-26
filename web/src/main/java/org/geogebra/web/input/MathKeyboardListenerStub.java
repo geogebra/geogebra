@@ -16,7 +16,7 @@ public class MathKeyboardListenerStub implements MathKeyboardListener {
 
 	}
 
-	public void setFocus(boolean focus) {
+	public void setFocus(boolean focus, boolean sv) {
 		// stub
 	}
 

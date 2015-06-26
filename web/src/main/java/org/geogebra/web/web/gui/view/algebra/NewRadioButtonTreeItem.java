@@ -421,27 +421,17 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	@Override
-	public void setFocus(boolean b) {
-		//App.printStacktrace("FOCUS" + b);
-		DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
-
-		// if (b)
-		// geogebra.html5.main.DrawEquationWeb.scrollCursorIntoView(this,
-		// seMayLatex);
-		// put to focus handler
-
-		// just allow onFocus/onBlur handlers for new formula creation mode now,
-		// a.k.a. this class, but later we may want to add this feature to
-		// RadioButtonTreeItem, or editing mode (for existing formulas)
-		//if (b) {
-			// there is a focus handler on MathQuillGGB textarea
-			// onFocus(null);
-		//} else {
-			// no need for this here, because
-			// - this method is always called with true
-			// - there is a blur handler on MathQuillGGB textarea
-			// onBlur(null);
-		//}
+	public void setFocus(boolean b, boolean scheduledVersion) {
+		boolean setFocusAllowed = app.getGuiManager().focusScheduled(false,
+				false, true);
+		boolean setFocusScheduled = app.getGuiManager().focusScheduled(false,
+				true, false);
+		if (setFocusAllowed || !setFocusScheduled) {
+			DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
+		}
+		if (scheduledVersion) {
+			app.getGuiManager().focusScheduled(true, false, true);
+		}
 	}
 
 	public void showPopup(boolean show) {
@@ -567,6 +557,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 */
 	@Override
 	public void onBlur(BlurEvent event) {
+		if (app.getGuiManager().focusScheduled(false, true, false)) {
+			app.getGuiManager().focusScheduled(true, true, false);
+		}
+
 		if (!DrawEquationWeb.targetHasFeature(getElement(),
 				"BlurDoesntUpdateGUIFeature")) {
 

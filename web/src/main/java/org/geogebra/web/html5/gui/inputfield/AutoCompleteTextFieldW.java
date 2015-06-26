@@ -1619,6 +1619,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		}
 	}
 
+	public void setFocus(boolean b, boolean sv) {
+		setFocus(b);
+	}
+
 	public void setFocus(boolean b) {
 		textField.setFocus(b);
 	}

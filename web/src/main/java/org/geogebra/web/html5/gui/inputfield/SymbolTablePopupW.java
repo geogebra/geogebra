@@ -51,7 +51,7 @@ public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 
 	public void onClick(ClickEvent event) {
 		// autoCompleteTextField should not loose focus
-		this.textField.setFocus(true);
+		this.textField.setFocus(true, false);
 		Cell clickCell = ((HTMLTable) event.getSource()).getCellForEvent(event);
 		textField.insertString(clickCell.getElement().getInnerText());
 		hide();

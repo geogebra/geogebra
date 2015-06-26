@@ -160,8 +160,12 @@ public class NewCASTableCellEditorW extends Label implements
 		return editor.getCompletions();
 	}
 
-	@Override
 	public void setFocus(boolean b) {
+		setFocus(b, false);
+	}
+
+	@Override
+	public void setFocus(boolean b, boolean sv) {
 		editor.setFocus(true);
 	}
 

@@ -111,4 +111,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 			UpdateKeyBoardListener listener);
 
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField);
+
+	public boolean focusScheduled(boolean setNotGet,
+			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed);
 }
