@@ -353,7 +353,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 						app.persistWidthAndHeight();
 						addKeyboard(null);
 							app.getGuiManager()
-									.focusScheduled(true, true, true);
+									.focusScheduled(false, false, false);
 						new Timer() {
 
 							@Override

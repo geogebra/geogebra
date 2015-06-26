@@ -1963,6 +1963,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return inputBarSetFocusScheduled;
 		} else if (setOrGetAllowed) {
 			return inputBarSetFocusAllowed;
+		} else {
+			// strange, but we need another option of just setting
+			// one of them at once, so that focusScheduled can be called
+			// many times after one another, with also onBlur being called
+			// meanwhile, where the inputBarSetFocusAllowed shall be
+			// collected and summed all along the way, while still being
+			// in the same scheduled mode! In theory, the allowed
+			// property is set to true when the previous setFocus returns
+			inputBarSetFocusScheduled = true;
 		}
 
 		// shall not be used:

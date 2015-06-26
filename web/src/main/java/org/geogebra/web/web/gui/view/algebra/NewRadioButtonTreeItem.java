@@ -426,7 +426,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				false, true);
 		boolean setFocusScheduled = app.getGuiManager().focusScheduled(false,
 				true, false);
-		if (setFocusAllowed || !setFocusScheduled) {
+
+		if (setFocusAllowed || !scheduledVersion || !setFocusScheduled) {
 			DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
 		}
 		if (scheduledVersion) {

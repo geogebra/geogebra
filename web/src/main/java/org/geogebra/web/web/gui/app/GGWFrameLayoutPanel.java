@@ -322,7 +322,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				}
 			}
 		};
-		app.getGuiManager().focusScheduled(true, true, true);
+		app.getGuiManager().focusScheduled(false, false, false);
 		timer.schedule(500);
 	}
 

@@ -74,7 +74,7 @@ public class ShowKeyboardButton extends SimplePanel {
 					// but it's probably Okay, as the method returns false
 
 					listener.getAppW().getGuiManager()
-							.focusScheduled(true, true, true);
+							.focusScheduled(false, false, false);
 
 					Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 

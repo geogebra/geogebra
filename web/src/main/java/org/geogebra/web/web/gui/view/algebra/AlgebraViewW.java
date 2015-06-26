@@ -208,6 +208,10 @@ public class AlgebraViewW extends Tree implements LayerView,
 				// background click
 				if (!CancelEventTimer.cancelKeyboardHide()
 						&& !CancelEventTimer.cancelMouseEvent()) {
+					// maybe another focusScheduled is called, but
+					// that should not be a problem, the problem should
+					// collect blur events all along the way
+					app.getGuiManager().focusScheduled(true, true, true);
 					app.hideKeyboard();
 				}
 			}
