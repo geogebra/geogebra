@@ -66,6 +66,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ErrorHandler;
 import org.geogebra.web.web.gui.dialog.options.model.ExtendedAVModel;
 import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
@@ -372,7 +373,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 
-	private class NamePanel extends OptionPanel implements IObjectNameListener {
+	private class NamePanel extends OptionPanel implements IObjectNameListener,
+			ErrorHandler {
 
 
 
@@ -385,10 +387,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private FlowPanel mainWidget;
 		private FlowPanel nameStrPanel;
 		private FlowPanel defPanel;
+		private FlowPanel errorPanel;
 		private FlowPanel captionPanel;
 
 		public NamePanel() {
 			model = new ObjectNameModel(app, this);
+
 			setModel(model);
 			// NAME PANEL
 
@@ -430,6 +434,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				}
 			});
 
+			;
 			tfDefinition.addKeyHandler(new KeyHandler() {
 
 				@Override
@@ -477,6 +482,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			defPanel.add(defLabel);
 			defPanel.add(inputPanelDef);
 			mainWidget.add(defPanel);
+			errorPanel = new FlowPanel();
+			errorPanel.addStyleName("Dialog-errorPanel");
+			mainWidget.add(errorPanel);
 
 			// caption panel
 			captionPanel = new FlowPanel();
@@ -499,10 +507,16 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			captionLabel.setText(loc.getMenu("Button.Caption") + ":");
 		}
 
+		public OptionPanel updatePanel(Object[] geos) {
+			OptionPanel result = super.updatePanel(geos);
+			setActive(result != null);
+			return result;
+		}
+		
 		@Override
 		public void updateGUI(boolean showDefinition, boolean showCaption) {
 			mainWidget.clear();
-
+			setActive(true);
 //			if (loc.isRightToLeftReadingOrder()) {
 //				mainWidget.add(inputPanelName);
 //				mainWidget.add(nameLabel);
@@ -521,6 +535,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 //					mainWidget.add(inputPanelDef);
 //				}
 				mainWidget.add(defPanel);
+				mainWidget.add(errorPanel);
 			}
 
 			if (showCaption) {
@@ -553,6 +568,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			//		if (actionPerforming)
 			//			return;
 
+			errorPanel.clear();
 			model.getDefInputHandler().setGeoElement(geo);
 			tfDefinition.setText(ObjectNameModel.getDefText(geo));
 
@@ -613,6 +629,23 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			redefinitionForFocusLost = tfDefinition.getText();
 
 
+		}
+
+		@Override
+		public void showError(String msg) {
+			if (msg == null) {
+				return;
+			}
+			errorPanel.clear();
+			String[] lines = msg.split("\n");
+			for (String item : lines) {
+				errorPanel.add(new Label(item));
+			}
+
+		}
+
+		public void setActive(boolean b) {
+			getAppW().setErrorHandler(b ? this : null);
 		}
 	}
 
