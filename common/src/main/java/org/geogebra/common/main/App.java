@@ -3056,7 +3056,7 @@ public abstract class App implements UpdateSelection {
 		sb.append("\"showToolBar\":" + showToolBar + ",\n");
 		if (showToolBar) {
 			if (gui != null) {
-				sb.append("\"customToolbar\":\"");
+				sb.append("\"customToolBar\":\"");
 				sb.append(gui.getToolbarDefinition());
 				sb.append("\",\n");
 			}
