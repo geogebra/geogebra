@@ -116,7 +116,12 @@ public class HttpRequestD extends org.geogebra.common.util.HttpRequest {
 		}
 	}
 
-	@Override
+	/**
+	 * @param url
+	 *            HTTP request URL
+	 * @return response This method only works in desktop, since this is
+	 *         synchronous.
+	 */
 	public String sendRequestGetResponseSync(String url) {
 		sendRequest(url);
 		return getResponse();

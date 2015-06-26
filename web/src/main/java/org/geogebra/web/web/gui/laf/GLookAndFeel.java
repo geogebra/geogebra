@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.laf;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
@@ -111,7 +112,7 @@ public class GLookAndFeel implements GLookAndFeelI{
     }
 
 	public SignInButton getSignInButton(App app) {
-	    return new SignInButton(app, 0);
+		return new SignInButton(app, Browser.isIE9() ? 2000 : 0);
     }
 
 	@Override

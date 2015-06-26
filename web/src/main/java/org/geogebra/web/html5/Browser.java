@@ -27,6 +27,16 @@ public class Browser {
 		return false;
 	}-*/;
 
+	public static native boolean isIE9() /*-{
+		// copying checking code from isFirefox() and checked from web
+		// however, this is not necessarily the best method to decide
+		if (navigator.userAgent.toLowerCase().indexOf("msie") > -1
+				&& navigator.userAgent.toLowerCase().indexOf("9.0") > -1) {
+			return true;
+		}
+		return false;
+	}-*/;
+
 	/**
 	 * Better solution, copied from CopyPasteCutW originally TODO: add
 	 * toLowerCase() call to it!

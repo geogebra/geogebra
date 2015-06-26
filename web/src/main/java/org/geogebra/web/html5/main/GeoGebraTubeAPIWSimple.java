@@ -19,7 +19,8 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	}
 	@Override
 	protected HttpRequest createHttpRequest() {
-		return new org.geogebra.web.html5.util.HttpRequestW();
+		return Browser.isIE9() ? new org.geogebra.web.html5.util.HttpRequestIE()
+				: new org.geogebra.web.html5.util.HttpRequestW();
 	}
 
 	@Override

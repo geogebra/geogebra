@@ -84,11 +84,5 @@ public abstract class HttpRequest {
 		return success;
 	}
 
-	/**
-	 * @param url
-	 *            HTTP request URL
-	 * @return response This method only works in desktop, since this is
-	 *         synchronous.
-	 */
-	public abstract String sendRequestGetResponseSync(String url);
+
 }

@@ -60,7 +60,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.HttpRequest;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -75,6 +74,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.DownloadManager;
 import org.geogebra.desktop.util.FrameCollector;
+import org.geogebra.desktop.util.HttpRequestD;
 import org.geogebra.desktop.util.Util;
 
 /**
@@ -592,7 +592,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			}
 
 			String myVersion = GeoGebraConstants.VERSION_STRING;
-			HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
+			HttpRequestD httpr = (HttpRequestD) UtilFactory.prototype
+					.newHttpRequest();
 			String newestVersion = null;
 			StringBuilder sb = new StringBuilder();
 			Long newestVersionL;
