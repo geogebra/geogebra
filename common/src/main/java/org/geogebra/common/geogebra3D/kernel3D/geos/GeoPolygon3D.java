@@ -489,7 +489,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			((GeoSegment3D) seg).setCoordFromPoints(getPoint3D(index),
 					getPoint3D((index + 1) % getPointsLength()));
 		} else {
-			seg = segments[index];
+			seg = segments[index % segments.length];
 		}
 
 		// sets the path parameter for the segment, calc the new position of the
