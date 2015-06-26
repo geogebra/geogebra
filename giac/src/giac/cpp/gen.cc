@@ -3526,8 +3526,15 @@ namespace giac {
 	return -s;
       if (has_num_coeff(s))
 	return 0.0;
-      else
+      else {
+#ifdef HAVE_LIBMPFR
+	tmp=accurate_evalf(s,ABS_NBITS_EVALF+10);
+	if (is_greater(1,abs(tmp,contextptr)*pow(2,ABS_NBITS_EVALF,contextptr),contextptr))
+	  return 0;
+#else
 	return 0;
+#endif
+      }
     }
     if (tmp.type==_FLOAT_){
       if (tmp._FLOAT_val>epsilon(contextptr))

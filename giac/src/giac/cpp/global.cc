@@ -1533,6 +1533,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   int PROOT_FACTOR_MAXDEG=30;
 #endif
+  int ABS_NBITS_EVALF=1000;
 
   // used by WIN32 for the path to the xcas directory
   string & xcasroot(){

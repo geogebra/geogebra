@@ -250,6 +250,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern int MAX_RECURSION_LEVEL;
   extern int GBASIS_DETERMINISTIC;
   extern int PROOT_FACTOR_MAXDEG;
+  extern int ABS_NBITS_EVALF;
   extern volatile bool ctrl_c,interrupted;
   void ctrl_c_signal_handler(int signum);
 #ifdef TIMEOUT
