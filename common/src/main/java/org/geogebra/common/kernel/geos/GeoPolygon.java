@@ -61,7 +61,7 @@ Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
 GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	/** maximal number of vertices for polygon tool */
-	public static final int POLYGON_MAX_POINTS = 100;
+	public static final int POLYGON_MAX_POINTS = 1000;
 	/** polygon vertices */
 	protected GeoPointND[] points;
 	/** polygon edges */
