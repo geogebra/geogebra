@@ -3529,8 +3529,11 @@ namespace giac {
       else {
 #ifdef HAVE_LIBMPFR
 	tmp=accurate_evalf(s,ABS_NBITS_EVALF+10);
-	if (is_greater(1,abs(tmp,contextptr)*pow(2,ABS_NBITS_EVALF,contextptr),contextptr))
-	  return 0;
+	if (!is_greater(1,abs(tmp,contextptr)*pow(2,ABS_NBITS_EVALF,contextptr),contextptr)){
+	  if (is_positive(tmp,contextptr))
+	    return s;
+	  return -s;
+	}
 #else
 	return 0;
 #endif
