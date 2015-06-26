@@ -2029,54 +2029,44 @@ function createRoot(jQ, root, textbox, editable) {
 	// but clearTimeout does not help when a focus event is already
 	// called until this onfocus executes, maybe does not matter
 
-    if (textareaDOM.hadFocus === true) {
-      return;
-    }
+    if (textareaDOM.hadFocus === false) {
+      if (!cursor.parent)
+        cursor.appendTo(root);
+      cursor.parent.jQ.addClass('hasCursor');
+      if (cursor.selection) {
+        cursor.selection.jQ.removeClass('blur');
+        setTimeout(root.selectionChanged); //re-select textarea contents after tabbing away and back
+      } else {
+        cursor.show();
+      }
 
-    // I fear if we call this here, blur might interrupt,
-    // and blur code might execute earlier
-    // but if we call this later, other focus code might
-    // interrupt and execute earlier, but I'm not sure
-    // whether anything can interrupt in JavaScript
-    // and if the code fails, at least the boolean is Okay
-    if (!cursor.parent)
-      cursor.appendTo(root);
-    cursor.parent.jQ.addClass('hasCursor');
-    if (cursor.selection) {
-      cursor.selection.jQ.removeClass('blur');
-      setTimeout(root.selectionChanged); //re-select textarea contents after tabbing away and back
-    } else {
-      cursor.show();
+      // dirty hack, but effective, as mathquillggb.js is used
+      // from GeoGebraWeb anyway (if not, it does no harm)
+      if (root.common.newCreationMode) {
+        textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
+      }
+      textareaDOM.hadFocus = true;
     }
-
-    // dirty hack, but effective, as mathquillggb.js is used
-    // from GeoGebraWeb anyway (if not, it does no harm)
-    if (root.common.newCreationMode) {
-      textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
-    }
-    textareaDOM.hadFocus = true;
   };
 
   var textareaBlurFunction = function(e2) {
     e2.stopPropagation();
 
-    if (textareaDOM.hadFocus === false) {
-      return;
-    }
+    if (textareaDOM.hadFocus) {
+      if (cursor.parent) {
+        cursor.hide().parent.blur();
+      }
+      if (cursor.selection) {
+        cursor.selection.jQ.addClass('blur');
+      }
 
-    if (cursor.parent) {
-      cursor.hide().parent.blur();
+      // dirty hack, but effective, as mathquillggb.js is used
+      // from GeoGebraWeb anyway (if not, it does no harm)
+      if (root.common.newCreationMode) {
+        textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
+      }
+      textareaDOM.hadFocus = false;
     }
-    if (cursor.selection) {
-      cursor.selection.jQ.addClass('blur');
-    }
-
-    // dirty hack, but effective, as mathquillggb.js is used
-    // from GeoGebraWeb anyway (if not, it does no harm)
-    if (root.common.newCreationMode) {
-      textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
-    }
-    textareaDOM.hadFocus = false;
   };
 
   //focus and blur handling
