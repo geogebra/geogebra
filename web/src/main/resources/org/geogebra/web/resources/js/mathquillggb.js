@@ -1865,8 +1865,10 @@ function createRoot(jQ, root, textbox, editable) {
       }
 
       // delete the mouse handlers now that we're not dragging anymore
-      jQ.unbind('mousemove', mousemove);
-      $(e.target.ownerDocument).unbind('mousemove', docmousemove).unbind('mouseup', mouseup);
+      jQ.unbind('mousemove', mousemove).unbind('mouseup', mouseup);
+      if ((e) && (e.target) && (e.target.ownerDocument)) {
+        $(e.target.ownerDocument).unbind('mousemove', docmousemove).unbind('mouseup', mouseup);
+      }
     }
 
     if (!disabledTextarea) {
@@ -1887,7 +1889,9 @@ function createRoot(jQ, root, textbox, editable) {
     if (!editable) jQ.prepend(textareaSpan);
 
     jQ.mousemove(mousemove).mouseup(mouseup);
-    $(e.target.ownerDocument).mousemove(docmousemove).mouseup(mouseup);
+    if ((e) && (e.target) && (e.target.ownerDocument)) {
+      $(e.target.ownerDocument).mousemove(docmousemove).mouseup(mouseup);
+    }
 
     return false;
   });
