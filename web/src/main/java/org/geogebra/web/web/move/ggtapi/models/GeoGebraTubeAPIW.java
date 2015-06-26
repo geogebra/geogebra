@@ -11,11 +11,11 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
+import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.util.HttpRequestW;
 import org.geogebra.web.html5.util.WindowW;
 import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
 
@@ -123,7 +123,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	protected void performRequest(String requestString,
 	        final MaterialCallback cb) {
 
-		HttpRequestW req = new HttpRequestW();
+		HttpRequest req = createHttpRequest();
 		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
 
 			public void onSuccess(String response) {
@@ -141,11 +141,6 @@ response,
 			}
 		});
 
-	}
-
-	@Override
-	protected org.geogebra.common.util.HttpRequest createHttpRequest() {
-		return new org.geogebra.web.html5.util.HttpRequestW();
 	}
 
 	/**
