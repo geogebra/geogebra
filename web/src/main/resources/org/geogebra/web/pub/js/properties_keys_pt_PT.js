@@ -1466,7 +1466,7 @@ __GGB__keysVar.pt_PT.menu = {
     "FreehandShape.Help": "Desenhar qualquer fun\xe7\xe3o ou um objeto geom\xe9trico, arrastando",
     "Frequencies": "Frequ\xeancias",
     "Frequency": "Frequ\xeancias Ponderadas",
-    "FrequencyHz": "Frequency (Hz)",
+    "FrequencyHz": "Frequ\xeancia (Hz)",
     "FrequencyPolygon": "Pol\xedgono de Frequ\xeancias",
     "FrequencyTable": "Tabela de Frequ\xeancias",
     "FrequencyTable.Count": "Frequ\xeancia",
