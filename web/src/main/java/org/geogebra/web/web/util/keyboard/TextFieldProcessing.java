@@ -337,7 +337,12 @@ public class TextFieldProcessing {
 				((EquationEditorListener) field).keypress('"', false, false,
 						false);
 			} else {
-				((EquationEditorListener) field).insertString(text);
+				if (text.length() == 1) {
+					((EquationEditorListener) field).keypress(text.charAt(0),
+							false, false, false);
+				} else {
+					((EquationEditorListener) field).insertString(text);
+				}
 				((EquationEditorListener) field).popupSuggestions();
 			}
 			break;
