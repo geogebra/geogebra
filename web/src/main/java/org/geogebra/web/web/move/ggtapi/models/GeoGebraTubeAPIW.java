@@ -15,6 +15,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
+import org.geogebra.web.html5.util.HttpRequestW;
 import org.geogebra.web.html5.util.WindowW;
 import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
 
@@ -121,29 +122,25 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 */
 	protected void performRequest(String requestString,
 	        final MaterialCallback cb) {
-		try {
-			RequestCallback callback = new RequestCallback() {
 
-				@Override
-				public void onResponseReceived(Request request,
-				        Response response) {
+		HttpRequestW req = new HttpRequestW();
+		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
+
+			public void onSuccess(String response) {
 					ArrayList<Material> result = new ArrayList<Material>();
 					ArrayList<Chapter> meta = JSONparserGGT.parseResponse(
-					        response.getText(), result);
+response,
+						result);
 					cb.onLoaded(result, meta);
-				}
-
-				@Override
-				public void onError(Request request, Throwable exception) {
-					cb.onError(exception);
 
 				}
-			};
-			this.requestBuilder.sendRequest(requestString, callback);
-		} catch (RequestException e) {
-			// TODO Handle the error!
-			e.printStackTrace();
-		}
+
+			public void onError(String error) {
+				cb.onError(new Exception(error));
+
+			}
+		});
+
 	}
 
 	@Override
