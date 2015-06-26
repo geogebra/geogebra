@@ -149,6 +149,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	    
     }
 
+	public AppW getAppW() {
+		return app;
+	}
+
 	public void doShowKeyBoard(final boolean show,
 	        MathKeyboardListener textField) {
 		if (this.keyboardShowing == show) {

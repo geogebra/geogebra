@@ -1,6 +1,7 @@
 package org.geogebra.web.input;
 
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 
 public class UpdateKeyboardListenerStub implements UpdateKeyBoardListener {
@@ -15,5 +16,9 @@ public class UpdateKeyboardListenerStub implements UpdateKeyBoardListener {
 
 	public void showInputField() {
 		// stub
+	}
+
+	public AppW getAppW() {
+		return null;
 	}
 }

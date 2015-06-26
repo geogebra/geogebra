@@ -54,19 +54,40 @@ public class ShowKeyboardButton extends SimplePanel {
 						.getKeyboardListener();
 				listener.doShowKeyBoard(true, mathKeyboardListener);
 
-				// no app, TODO
-				// app.getGuiManager().focusScheduled(true, true, true);
-				Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+				if ((listener.getAppW() == null)
+						|| (listener.getAppW().getGuiManager() == null)) {
+					// e.g. AppStub, Android device, do the old way
+					Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 
-					@Override
-					public boolean execute() {
-						if (mathKeyboardListener != null) {
-							// mathKeyboardListener.ensureEditing();
-							// mathKeyboardListener.setFocus(true);
+						@Override
+						public boolean execute() {
+							if (mathKeyboardListener != null) {
+								mathKeyboardListener.ensureEditing();
+								mathKeyboardListener.setFocus(true, false);
+							}
+							return false;
 						}
-						return false;
-					}
-				}, 0);
+					}, 0);
+				} else {
+					// TODO: check why scheduleFixedDelay is needed,
+					// would not scheduleDeferred or something like that better?
+					// but it's probably Okay, as the method returns false
+
+					listener.getAppW().getGuiManager()
+							.focusScheduled(true, true, true);
+
+					Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+
+						@Override
+						public boolean execute() {
+							if (mathKeyboardListener != null) {
+								mathKeyboardListener.ensureEditing();
+								mathKeyboardListener.setFocus(true, true);
+							}
+							return false;
+						}
+					}, 0);
+				}
 
 			}
 		});
