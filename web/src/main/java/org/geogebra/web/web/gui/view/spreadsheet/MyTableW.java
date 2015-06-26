@@ -2453,11 +2453,24 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void updateAllCellFormats() {
+		App.debug("updateAllCellFormats");
 		for (int row = 0; row < getRowCount(); row++) {
 			for (int column = 0; column < getColumnCount(); column++) {
+				defaultTableCellRenderer.clearBorder(row, column);
 				updateCellFormat(row, column);
 			}
 		}
+		for (int row = 0; row < getRowCount(); row++) {
+			defaultTableCellRenderer.updateCellBorder(row, -1);
+		}
+		for (int column = 0; column < getColumnCount(); column++) {
+			defaultTableCellRenderer.updateColumnBorder(column);
+		}
+
+		HashMap<GPoint, Object> map = table.getCellFormatHandler()
+				.getFormatMap(CellFormat.FORMAT_BORDER);
+		App.debug(map + "");
+
 	}
 
 	public void updateCellFormat(ArrayList<CellRange> cellRangeList) {

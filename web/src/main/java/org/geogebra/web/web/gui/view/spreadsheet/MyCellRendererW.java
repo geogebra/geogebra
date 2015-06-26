@@ -153,6 +153,66 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 	}
 
+	public void clearBorder(int row, int column) {
+		Style s = table.getCellFormatter().getElement(row, column).getStyle();
+		s.clearProperty("borderBottomColor");
+		s.clearProperty("borderRightColor");
+	}
+
+	public void updateColumnBorder(int column) {
+		Byte border = (Byte) formatHandler.getCellFormat(column, -1,
+				CellFormat.FORMAT_BORDER);
+		if (border != null) {
+			if (!CellFormat.isZeroBit(border, 0)) {
+				for (int row = 0; row < 20; row++) {
+					// left borders' width is 0px, so left neighbor's right
+					// border
+					// will be colored.
+					if (column > 0) {
+						Style sLeft = table.getCellFormatter()
+								.getElement(row, column - 1).getStyle();
+						sLeft.setProperty("borderRightColor", "#000000");
+					}
+				}
+			}
+
+			if (!CellFormat.isZeroBit(border, 2)) {
+				for (int row = 0; row < 20; row++) {
+					Style s = table.getCellFormatter().getElement(row, column)
+							.getStyle();
+					s.setProperty("borderRightColor", "#000000");
+				}
+			}
+
+		}
+	}
+
+	public void updateRowBorder(int row) {
+		Byte border = (Byte) formatHandler.getCellFormat(-1, row,
+				CellFormat.FORMAT_BORDER);
+		if (border != null) {
+			if (!CellFormat.isZeroBit(border, 1)) {
+				// top borders' width is 0px, so top neighbor's bottom border
+				// will be colored.
+				for (int column = 0; column < 20; column++) {
+					if (row > 0) {
+						Style sTop = table.getCellFormatter()
+								.getElement(row - 1, column).getStyle();
+						sTop.setProperty("borderBottomColor", "#000000");
+					}
+				}
+			}
+			if (!CellFormat.isZeroBit(border, 3)) {
+				for (int column = 0; column < 20; column++) {
+					Style s = table.getCellFormatter()
+							.getElement(row - 1, column).getStyle();
+					s.setProperty("borderBottomColor", "#000000");
+
+				}
+			}
+		}
+	}
+
 	public void updateCellBorder(int row, int column) {
 		Byte border = (Byte) formatHandler.getCellFormat(column, row,
 				CellFormat.FORMAT_BORDER);
@@ -161,8 +221,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 		Style s = table.getCellFormatter().getElement(row, column).getStyle();
-		s.clearProperty("borderBottomColor");
-		s.clearProperty("borderRightColor");
+		// s.clearProperty("borderBottomColor");
+		// s.clearProperty("borderRightColor");
 		if (border != null) {
 			// left bar, 0
 			if (!CellFormat.isZeroBit(border, 0)) {
