@@ -16,7 +16,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.gui.layout.DockPanel;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -312,37 +311,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		settingsFromLoadFile = evs.isFromLoadFile();
 		evs.setFromLoadFile(false);
 
-	}
-
-	@Override
-	public void setXYMinMaxForUpdateSize() {
-
-		if (settingsFromLoadFile) {
-			// prevent update when loading file
-			if (view.getWidth() == 0 || view.getHeight() == 0) {
-				super.setXYMinMaxForUpdateSize();
-				return;
-			}
-
-			// prevent update when loading file
-			if (view.xmax - view.xmin < Kernel.MAX_PRECISION
-					|| view.ymax - view.ymin < Kernel.MAX_PRECISION) {
-				super.setXYMinMaxForUpdateSize();
-				return;
-			}
-		}
-
-		// keep center of the view at center of the frame
-
-		double c = (view.xmin + view.xmax) / 2;
-		double l = view.getWidth() * view.getInvXscale() / 2;
-		view.xmin = c - l;
-		view.xmax = c + l;
-
-		c = (view.ymin + view.ymax) / 2;
-		l = view.getHeight() * view.getInvYscale() / 2;
-		view.ymax = c + l;
-		view.ymin = c - l;
 	}
 
 	@Override

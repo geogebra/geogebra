@@ -132,7 +132,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 		EVPanel = euclidianViewPanel;
 
-		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo);
+		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo,
+				settings);
 
 		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
 			@Override
@@ -175,7 +176,7 @@ public class EuclidianViewW extends EuclidianView implements
 		// instead of EVNO_GENERAL
 		// at mouse events which call setActiveToolbarId #plotpanelevno
 		// initBaseComponents(EVPanel, euclidiancontroller, -1);
-		initBaseComponents(EVPanel, euclidiancontroller, viewNo);
+		initBaseComponents(EVPanel, euclidiancontroller, viewNo, settings);
 
 		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
 			@Override
@@ -607,7 +608,8 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
-	        EuclidianController euclidiancontroller, int evNo) {
+			EuclidianController euclidiancontroller, int evNo,
+			EuclidianSettings settings) {
 
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		this.evNo = evNo;
@@ -714,11 +716,20 @@ public class EuclidianViewW extends EuclidianView implements
 		// euclidianViewPanel.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		// euclidianViewPanel.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
 
-		if ((evNo == 1) || (evNo == 2)) {
-			EuclidianSettings es = this.app.getSettings().getEuclidian(evNo);
+		EuclidianSettings es = null;
+		if (settings != null) {
+			es = settings;
+			// settings from XML for EV1, EV2
+			// not for eg probability calculator
+		} else if ((evNo == 1) || (evNo == 2)) {
+			es = getApplication().getSettings().getEuclidian(evNo);
+		}
+
+		if (es != null) {
 			settingsChanged(es);
 			es.addListener(this);
 		}
+
 	}
 
 	/**
