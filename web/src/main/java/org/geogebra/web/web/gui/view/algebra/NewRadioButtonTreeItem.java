@@ -422,16 +422,19 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public void setFocus(boolean b, boolean scheduledVersion) {
-		boolean setFocusAllowed = app.getGuiManager().focusScheduled(false,
-				false, true);
-		boolean setFocusScheduled = app.getGuiManager().focusScheduled(false,
-				true, false);
-
-		if (setFocusAllowed || !scheduledVersion || !setFocusScheduled) {
-			DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
-		}
 		if (scheduledVersion) {
+			boolean setFocusAllowed = app.getGuiManager().focusScheduled(false,
+					false, true);
+			boolean setFocusScheduled = app.getGuiManager().focusScheduled(
+					false, true, false);
+
+			if (setFocusAllowed || !setFocusScheduled) {
+				DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
+			}
+
 			app.getGuiManager().focusScheduled(true, false, true);
+		} else {
+			DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
 		}
 	}
 
