@@ -1886,7 +1886,7 @@ function createRoot(jQ, root, textbox, editable) {
 
     if (!editable) jQ.prepend(textareaSpan);
 
-    jQ.mousemove(mousemove);
+    jQ.mousemove(mousemove).mouseup(mouseup);
     $(e.target.ownerDocument).mousemove(docmousemove).mouseup(mouseup);
 
     return false;
