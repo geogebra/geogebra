@@ -140,6 +140,11 @@ public class AlgoFitLineY extends AlgoElement {
 		g.y = -Sxx;
 		g.z = -Sxy * mux + Sxx * muy;
 
+		// #5294
+		if (Kernel.isZero(g.x) || Kernel.isZero(g.y) || Kernel.isZero(g.z)) {
+			return;
+		}
+
 		// normalize coefficients (copied from
 		// GeoLine.getnormalizedCoefficients())
 		// #5230
