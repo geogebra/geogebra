@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -118,6 +119,11 @@ public class AlgoFitLineX extends AlgoElement {
 		g.x = -Syy;
 		g.y = Sxy;
 		g.z = -Sxy * muy + Syy * mux;
+
+		// #5294
+		if (Kernel.isZero(g.x) || Kernel.isZero(g.y) || Kernel.isZero(g.z)) {
+			return;
+		}
 
 		// normalize coefficients (copied from
 		// GeoLine.getnormalizedCoefficients())
