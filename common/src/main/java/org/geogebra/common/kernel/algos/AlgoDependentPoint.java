@@ -23,19 +23,25 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  *
  * @author Markus
  * @version
  */
-public class AlgoDependentPoint extends AlgoElement implements DependentAlgo {
+public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
+		SymbolicParametersBotanaAlgo {
 
 	private ExpressionNode root; // input
 	private GeoPoint P; // output
 
+	private Variable[] botanaVars;
 	private GeoVec2D temp;
 
 	/**
@@ -117,5 +123,19 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo {
 		return root.toString(tpl);
 	}
 
+	public Variable[] getBotanaVars(GeoElement geo) {
+		GeoElement left = (GeoElement) root.getLeft();
+		// GeoElement right = (GeoElement) root.getRight();
+		if (left != null) {
+			botanaVars = ((SymbolicParametersBotanaAlgo) left)
+					.getBotanaVars(left);
+		}
+		return botanaVars;
+	}
 	// TODO Consider locusequability
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+		return null;
+	}
 }
