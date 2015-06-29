@@ -162,7 +162,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
 		btnExport.setTitle(app.getMenu("Export"));
-		createExportMenu();
 		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
 		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
@@ -398,9 +397,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 	    lblMeanSigma = new Label();
 	    lblMeanSigma.addStyleName("lblMeanSigma");
-	    
-		btnExport = new MenuBar();
-		btnExport.addStyleName("btnExport");
+
+		createExportMenu();
 
 		btnNormalOverlay = new MyToggleButton2(
 		        GuiResources.INSTANCE.normal_overlay());
@@ -1047,6 +1045,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	}
 
 	private void createExportMenu() {
+
+		btnExport = new MenuBar();
+		btnExport.addStyleName("btnExport");
+
 		MenuBar menu = new MenuBar(true);
 
 		if (!app.isApplet()) {
