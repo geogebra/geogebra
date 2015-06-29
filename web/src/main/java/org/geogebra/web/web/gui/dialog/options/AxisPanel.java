@@ -227,6 +227,10 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		updatePanel();
 	}
 	
+	public void updateView(EuclidianView view) {
+		this.view = view;
+		model.setView(view);
+	}
 
 	public void updatePanel() {
 		int axis = model.getAxis();

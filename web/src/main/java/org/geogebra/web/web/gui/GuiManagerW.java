@@ -320,6 +320,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		case App.VIEW_EUCLIDIAN3D:
 			setFocusedPanel(getEuclidian3DPanel(), updatePropertiesView);
 			break;
+		default:
+			if (evID >= App.VIEW_EUCLIDIAN_FOR_PLANE_START
+					&& evID <= App.VIEW_EUCLIDIAN_FOR_PLANE_END) {
+				setFocusedPanel(getLayout().getDockManager().getPanel(evID),
+						updatePropertiesView);
+			}
+			break;
 		}
 	}
 
@@ -902,8 +909,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void mouseReleasedForPropertiesView(final boolean creatorMode) {
-		// TODO Auto-generated method stub
-
+		if (propertiesView != null) {
+			propertiesView.mouseReleasedForPropertiesView(creatorMode);
+		}
 	}
 
 	@Override

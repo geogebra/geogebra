@@ -138,6 +138,10 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		updatePanel();
 	}
 	
+	public void updateView(EuclidianView view) {
+		this.view = view;
+		model.setView(view);
+	}
 	
 	protected void addCrossPanel(JPanel crossPanel){
 		add(crossPanel);

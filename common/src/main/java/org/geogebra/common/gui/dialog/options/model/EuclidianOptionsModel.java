@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
 
@@ -71,6 +72,10 @@ public class EuclidianOptionsModel {
 		this.listener = listener;
 	}
 
+	public void setView(EuclidianView view) {
+		this.view = view;
+	}
+
 	public void applyBackgroundColor() {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings()
@@ -92,38 +97,70 @@ public class EuclidianOptionsModel {
 			app.getSettings()
 			.getEuclidian(viewIdx)
 			.setBackground(color);
-		} else {
-			view.setBackground(view.getBackgroundCommon());
-			
+			return;
 		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setBackground(color);
+			return;
+		}
+
+		view.setBackground(view.getBackgroundCommon());
+			
 	}
 	
 	public void applyAxesColor(GColor col) {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1).setAxesColor(col);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setAxesColor(col);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setAxesColor(col);
+			return;
+		}
 
-		} else {
-			view.setAxesColor(col);
-		}	
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setAxesColor(col);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setAxesColor(col);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setAxesColor(col);
+			return;
+		}
+
+		view.setAxesColor(col);
 	}
 
 	public void applyGridColor(GColor col) {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1).setGridColor(col);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setGridColor(col);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setGridColor(col);
-
-		} else {
-			view.setGridColor(col);
+			return;
 		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setGridColor(col);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setGridColor(col);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setGridColor(col);
+			return;
+		}
+
+		view.setGridColor(col);
+
 	}	
 
 	public void applyTooltipMode(int mode) {
@@ -135,19 +172,32 @@ public class EuclidianOptionsModel {
 			mode = EuclidianStyleConstants.TOOLTIPS_OFF;
 		}
 
-		if (view instanceof EuclidianView) {
 			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setAllowToolTips(mode);
+			return;
 				
-			} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-				app.getSettings().getEuclidian(2).setAllowToolTips(mode);
-			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-				app.getSettings().getEuclidian(3).setAllowToolTips(mode);
-
-			} else {
-				((EuclidianView) view).setAllowToolTips(mode);
-			}
 		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+				app.getSettings().getEuclidian(2).setAllowToolTips(mode);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+				app.getSettings().getEuclidian(3).setAllowToolTips(mode);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setAllowToolTips(mode);
+			return;
+		}
+
+
+		view.setAllowToolTips(mode);
+
 
 	}
 
@@ -158,30 +208,57 @@ public class EuclidianOptionsModel {
 			.setShowAxes(value,
 					value);
 			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
+			return;
+
+		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2).setShowAxes(value,
 					value);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setShowAxes(value);
-			
-		} else {
-			view.setShowAxes(value, true);
+			return;
 		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setShowAxes(value);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setShowAxes(value);
+			return;
+		}
+
+		view.setShowAxes(value, true);
+
 	}
 
 	public void applyBoldAxes(boolean isBold, boolean isVisible) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1)
 			.setBoldAxes(isBold);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setBoldAxes(isBold);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setBoldAxes(isBold);
-			
-		} else {
-			view.setBoldAxes(isBold);
+			return;
 		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setBoldAxes(isBold);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setBoldAxes(isBold);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setBoldAxes(isBold);
+			return;
+		}
+
+		view.setBoldAxes(isBold);
 
 	}
 
@@ -189,15 +266,27 @@ public class EuclidianOptionsModel {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1)
 			.showGrid(value);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).showGrid(value);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).showGrid(value);
+			return;
+		}
 
-		} else {
-			view.showGrid(value);
-		}	
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).showGrid(value);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).showGrid(value);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.showGrid(value);
+			return;
+		}
+
+		view.showGrid(value);
 	}
 
 	public void applyBoldGrid(boolean value) {
@@ -205,15 +294,28 @@ public class EuclidianOptionsModel {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1)
 			.setGridIsBold(value);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setGridIsBold(value);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setGridIsBold(value);
+			return;
+		}
 
-		} else {
-			view.setGridIsBold(value);
-		}	
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setGridIsBold(value);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setGridIsBold(value);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setGridIsBold(value);
+			return;
+		}
+
+		view.setGridIsBold(value);
+
 	}
 
 	public void applyMouseCoords(boolean value) {
@@ -221,63 +323,113 @@ public class EuclidianOptionsModel {
 			app.getSettings()
 			.getEuclidian(1)
 			.setAllowShowMouseCoords(value);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setAllowShowMouseCoords(value);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setAllowShowMouseCoords(value);
-
-		} else {
-			view.setAllowShowMouseCoords(value);
+			return;
 		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setAllowShowMouseCoords(value);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setAllowShowMouseCoords(value);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setAllowShowMouseCoords(value);
+			return;
+		}
+
+		view.setAllowShowMouseCoords(value);
 	}
 
 	public void appyGridType(int type) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1)
 			.setGridType(type);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setGridType(type);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setGridType(type);
-
-		} else {
-			view.setGridType(type);
-			if (type == EuclidianView.GRID_POLAR) {
-				view.updateBounds(true, true);
-			}
+			return;
 		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setGridType(type);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setGridType(type);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setGridType(type);
+			return;
+		}
+
+		view.setGridType(type);
+		if (type == EuclidianView.GRID_POLAR) {
+			view.updateBounds(true, true);
+		}
+
 
 	}
 
 	public void appyAxesStyle(int style) {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1).setAxesLineStyle(style);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setAxesLineStyle(style);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setAxesLineStyle(style);
-
-		} else {
-			view.setAxesLineStyle(style);
+			return;
 		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setAxesLineStyle(style);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setAxesLineStyle(style);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setAxesLineStyle(style);
+			return;
+		}
+
+		view.setAxesLineStyle(style);
+
 
 	}
 
 	public void appyGridStyle(int style) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setGridLineStyle(style);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setGridLineStyle(style);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setGridLineStyle(style);
-
-		} else {
-			view.setGridLineStyle(style);
+			return;
 		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setGridLineStyle(style);
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			app.getSettings().getEuclidian(3).setGridLineStyle(style);
+			return;
+		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setGridLineStyle(style);
+			return;
+		}
+
+		view.setGridLineStyle(style);
 
 	}
 
@@ -287,17 +439,29 @@ public class EuclidianOptionsModel {
 			.getEuclidian(1)
 			.setAutomaticGridDistance(
 					!value, true);
-			
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
+			return;
+		}
+
+		if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2).setAutomaticGridDistance(
 					!value, true);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
+			return;
+		}
+
+		if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
 			app.getSettings().getEuclidian(3).setAutomaticGridDistance(
 					!value, true);
-
-		} else {
-			view.setAutomaticGridDistance(!value);
+			return;
 		}
+
+		EuclidianSettings settings = view.getSettings();
+		if (settings != null) {
+			settings.setAutomaticGridDistance(!value, true);
+			return;
+		}
+
+		view.setAutomaticGridDistance(!value);
 
 	}
 
@@ -344,7 +508,12 @@ public class EuclidianOptionsModel {
 					app.getSettings().getEuclidian(3).setXmaxObject(minMax, true);
 					
 				} else {
-					view.setXmaxObject(minMax);
+					EuclidianSettings settings = view.getSettings();
+					if (settings != null) {
+						settings.setXmaxObject(minMax, true);
+					} else {
+						view.setXmaxObject(minMax);
+					}
 				}
 				break;
 			case maxY:
@@ -358,7 +527,12 @@ public class EuclidianOptionsModel {
 					app.getSettings().getEuclidian(3).setYmaxObject(minMax, true);
 
 				} else {
-					view.setYmaxObject(minMax);
+					EuclidianSettings settings = view.getSettings();
+					if (settings != null) {
+						settings.setYmaxObject(minMax, true);
+					} else {
+						view.setYmaxObject(minMax);
+					}
 				}
 				break;
 			case minX:
@@ -372,7 +546,12 @@ public class EuclidianOptionsModel {
 					app.getSettings().getEuclidian(3).setXminObject(minMax, true);
 
 				} else {
-					view.setXminObject(minMax);
+					EuclidianSettings settings = view.getSettings();
+					if (settings != null) {
+						settings.setXminObject(minMax, true);
+					} else {
+						view.setXminObject(minMax);
+					}
 				}
 				break;
 			case minY:
@@ -386,7 +565,12 @@ public class EuclidianOptionsModel {
 					app.getSettings().getEuclidian(3).setYminObject(minMax, true);
 
 				} else {
-					view.setYminObject(minMax);
+					EuclidianSettings settings = view.getSettings();
+					if (settings != null) {
+						settings.setYminObject(minMax, true);
+					} else {
+						view.setYminObject(minMax);
+					}
 				}
 				break;
 			default:

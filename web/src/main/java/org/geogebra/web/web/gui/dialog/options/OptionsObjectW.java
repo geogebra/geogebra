@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.dialog.options;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -1234,6 +1235,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		// build GUI
 		initGUI(onTabSelection);
 	}
+	
 
 	AppW getAppW() {
 		return (AppW) app;
@@ -1296,6 +1298,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		});
 		wrappedPanel.setVisible(false);
 		selectTab(0);
+
 
 	}
 
@@ -1512,17 +1515,21 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	public void updateGUI() {
 		App.debug("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
-		Object[] geos = app.getSelectionManager().getSelectedGeos().toArray();
+
+		update(app.getSelectionManager().getSelectedGeos());
+
+	}
+
+	private void update(ArrayList<GeoElement> list) {
+		Object[] geos = list.toArray();
 
 		if (geos != null && geos.length != 0) {
 			wrappedPanel.setVisible(true);
 
-			// app.setShowAuxiliaryObjects(true);
-			for (OptionsTab tab: tabs) {
+			for (OptionsTab tab : tabs) {
 				tab.update(geos);
 			}
 
-			
 		} else {
 			wrappedPanel.setVisible(false);
 
@@ -1559,5 +1566,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			tab.onResize(height, width);
 		}
     }
+
+	public void updateSelection(ArrayList<GeoElement> geos) {
+		selection = geos;
+		update(geos);
+
+	}
 	
 }

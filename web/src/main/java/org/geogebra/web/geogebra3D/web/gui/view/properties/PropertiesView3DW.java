@@ -1,8 +1,10 @@
 package org.geogebra.web.geogebra3D.web.gui.view.properties;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.dialog.options.OptionsEuclidian3DW;
+import org.geogebra.web.geogebra3D.web.gui.dialog.options.OptionsEuclidianForPlaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsEuclidianW;
@@ -17,7 +19,7 @@ import org.geogebra.web.web.gui.properties.PropertiesViewW;
  */
 public class PropertiesView3DW extends PropertiesViewW {
 
-	private OptionsEuclidianW euclidianPanel3D;
+	private OptionsEuclidianW euclidianPanel3D, euclidianForPlanePanel;
 
 	/**
 	 * Constructor
@@ -31,18 +33,34 @@ public class PropertiesView3DW extends PropertiesViewW {
 
 	@Override
 	public OptionPanelW getOptionPanel(OptionType type, int subType) {
-		if (type == OptionType.EUCLIDIAN3D) {
+		switch (type) {
+		case EUCLIDIAN3D:
 			if (euclidianPanel3D == null) {
 				euclidianPanel3D = new OptionsEuclidian3DW((AppW) app,
-				        app.getEuclidianView3D());
+						app.getEuclidianView3D());
 				euclidianPanel3D.setLabels();
 				euclidianPanel3D.setView((EuclidianView3DW) app
-				        .getEuclidianView3D());
+						.getEuclidianView3D());
 				euclidianPanel3D.showCbView(false);
 			}
 
 			return euclidianPanel3D;
 
+		case EUCLIDIAN_FOR_PLANE:
+			EuclidianView view = (EuclidianView) app.getActiveEuclidianView();
+			if (!view.isViewForPlane()) {
+				view = app.getViewForPlaneVisible();
+			}
+			if (euclidianForPlanePanel == null) {
+				euclidianForPlanePanel = new OptionsEuclidianForPlaneW(
+						(AppW) app, view);
+				euclidianForPlanePanel.setLabels();
+			} else {
+				euclidianForPlanePanel.updateView(view);
+				euclidianForPlanePanel.setLabels();
+			}
+
+			return euclidianForPlanePanel;
 		}
 
 		return super.getOptionPanel(type, subType);

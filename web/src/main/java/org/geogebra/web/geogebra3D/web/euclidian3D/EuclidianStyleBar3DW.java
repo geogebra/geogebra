@@ -9,10 +9,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
-import org.geogebra.web.web.gui.images.AppResourcesConverter;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -48,7 +48,11 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	 */
 	public EuclidianStyleBar3DW(EuclidianView ev) {
 		super(ev, App.VIEW_EUCLIDIAN3D);
-		optionType = optionType.EUCLIDIAN3D;
+	}
+
+	@Override
+	protected void setOptionType() {
+		optionType = OptionType.EUCLIDIAN3D;
 	}
 
 	@Override
@@ -65,9 +69,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	}
 
-	private void setIcon(PopupMenuButton button, ImageResource icon) {
-		AppResourcesConverter.setIcon(icon, button);
-	}
 
 	@Override
 	protected void createButtons() {

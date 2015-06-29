@@ -1,11 +1,13 @@
 package org.geogebra.desktop.geogebra3D.gui.view.properties;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.gui.dialogs.options.OptionsEuclidian3DD;
 import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
 import org.geogebra.desktop.gui.dialog.options.OptionsEuclidianD;
+import org.geogebra.desktop.gui.dialog.options.OptionsEuclidianForPlaneD;
 import org.geogebra.desktop.gui.view.properties.PropertiesStyleBarD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
@@ -18,6 +20,7 @@ import org.geogebra.desktop.main.AppD;
 public class PropertiesView3DD extends PropertiesViewD {
 	
 	private OptionsEuclidianD euclidianPanel3D;
+	private OptionsEuclidianForPlaneD euclidianForPlanePanel;
 
 	/**
 	 * Constructor
@@ -31,7 +34,9 @@ public class PropertiesView3DD extends PropertiesViewD {
 	
 	@Override
 	public OptionPanelD getOptionPanel(OptionType type) {
-		if(type==OptionType.EUCLIDIAN3D){
+
+		switch (type) {
+		case EUCLIDIAN3D:
 			if (euclidianPanel3D == null) {
 				euclidianPanel3D = new OptionsEuclidian3DD((AppD) app,
 						((App3D) app).getEuclidianView3D());
@@ -40,6 +45,21 @@ public class PropertiesView3DD extends PropertiesViewD {
 
 			return euclidianPanel3D;
 
+		case EUCLIDIAN_FOR_PLANE:
+			EuclidianView view = (EuclidianView) app.getActiveEuclidianView();
+			if (!view.isViewForPlane()) {
+				view = app.getViewForPlaneVisible();
+			}
+			if (euclidianForPlanePanel == null) {
+				euclidianForPlanePanel = new OptionsEuclidianForPlaneD(
+						(AppD) app, view);
+				euclidianForPlanePanel.setLabels();
+			} else {
+				euclidianForPlanePanel.updateView(view);
+				euclidianForPlanePanel.setLabels();
+			}
+
+			return euclidianForPlanePanel;
 		}
 		
 		return super.getOptionPanel(type);
@@ -51,8 +71,13 @@ public class PropertiesView3DD extends PropertiesViewD {
 		
 		super.setLabels();
 		
-		if (euclidianPanel3D != null)
+		if (euclidianPanel3D != null) {
 			euclidianPanel3D.setLabels();
+		}
+
+		if (euclidianForPlanePanel != null) {
+			euclidianForPlanePanel.setLabels();
+		}
 
 	}
 	
@@ -65,8 +90,13 @@ public class PropertiesView3DD extends PropertiesViewD {
 
 		super.updateFonts();
 		
-		if (euclidianPanel3D != null)
+		if (euclidianPanel3D != null) {
 			euclidianPanel3D.updateFont();
+		}
+
+		if (euclidianForPlanePanel != null) {
+			euclidianForPlanePanel.updateFont();
+		}
 		
 	}
 	

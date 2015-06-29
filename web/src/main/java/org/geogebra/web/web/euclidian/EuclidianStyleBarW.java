@@ -160,6 +160,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		setMode(ev.getMode()); // this will also update the stylebar
 		setToolTips();
 
+		setOptionType();
+	}
+
+	protected void setOptionType() {
 		if (ev.equals(app.getEuclidianView1())) {
 			optionType = OptionType.EUCLIDIAN;
 		} else {

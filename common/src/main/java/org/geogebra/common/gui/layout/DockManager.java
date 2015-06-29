@@ -19,4 +19,6 @@ public abstract class DockManager implements SetLabels {
 	}
 
 	public abstract int getNumberOfOpenViews();
+
+	public abstract int getFocusedViewId();
 }

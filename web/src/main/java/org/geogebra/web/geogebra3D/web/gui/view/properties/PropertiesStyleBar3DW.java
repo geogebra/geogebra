@@ -35,21 +35,34 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 
 	@Override
 	protected void setIcon(OptionType type, PopupMenuButton btn) {
-		if (type == OptionType.EUCLIDIAN3D) {
+		switch (type) {
+		case EUCLIDIAN3D :
 			PerspectiveResources pr = ((ImageFactory) GWT
 			        .create(ImageFactory.class)).getPerspectiveResources();
 			AppResourcesConverter.setIcon(pr.menu_icon_graphics3D(), btn);
-		} else {
+			break;
+		case EUCLIDIAN_FOR_PLANE :
+			pr = ((ImageFactory) GWT
+			        .create(ImageFactory.class)).getPerspectiveResources();
+			AppResourcesConverter.setIcon(pr.menu_icon_graphics_for_plane(), btn);
+			break;
+		default:
 			super.setIcon(type, btn);
+			break;
 		}
 	}
 
 	@Override
 	protected String getTypeIcon(OptionType type) {
-		if (type == OptionType.EUCLIDIAN3D) {
+		switch (type) {
+		case EUCLIDIAN3D:
 			PerspectiveResources pr = ((ImageFactory) GWT
 			        .create(ImageFactory.class)).getPerspectiveResources();
 			return GGWToolBar.safeURI(pr.menu_icon_graphics3D());
+		case EUCLIDIAN_FOR_PLANE:
+			pr = ((ImageFactory) GWT.create(ImageFactory.class))
+					.getPerspectiveResources();
+			return GGWToolBar.safeURI(pr.menu_icon_graphics_for_plane());
 		}
 		return super.getTypeIcon(type);
 	}
@@ -61,6 +74,9 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 
 		buttonMap.get(OptionType.EUCLIDIAN3D).setVisible(
 		        app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D));
+
+		buttonMap.get(OptionType.EUCLIDIAN_FOR_PLANE).setVisible(
+				app.hasEuclidianViewForPlaneVisible());
 
 	}
 

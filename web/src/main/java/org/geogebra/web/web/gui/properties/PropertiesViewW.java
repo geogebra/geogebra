@@ -313,13 +313,17 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 			setOptionPanel(OptionType.OBJECTS);
 		}
 		else if (app.getSelectionManager().selectedGeosSize() == 0) {
-			if (optionType != OptionType.EUCLIDIAN ||  optionType != OptionType.EUCLIDIAN2 ||
-					optionType != OptionType.EUCLIDIAN3D) {
+			if (optionType != OptionType.EUCLIDIAN
+					|| optionType != OptionType.EUCLIDIAN2
+					|| optionType != OptionType.EUCLIDIAN3D
+					|| optionType != OptionType.EUCLIDIAN_FOR_PLANE) {
 				if (app.getActiveEuclidianView().isEuclidianView3D()) {
 					setOptionPanel(OptionType.EUCLIDIAN3D);
-				} else {
+				} else if (app.getActiveEuclidianView().isDefault2D()) {
 					setOptionPanel(app.getActiveEuclidianView().getEuclidianViewNo() == 1
 						? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2);
+				} else {
+					setOptionPanel(OptionType.EUCLIDIAN_FOR_PLANE);
 				}
 			}
 		}
@@ -329,8 +333,36 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 	}
 
 	@Override
-	public void setOptionPanel(OptionType type) {
+	protected void setOptionPanelWithoutCheck(OptionType type) {
 		setOptionPanel(type, 0);
+	}
+
+	@Override
+	protected void setObjectsToolTip() {
+		App.debug("=============== PropertiesViewW.setObjectsToolTip() : TODO");
+		// styleBar.setObjectsToolTip();
+	}
+
+	@Override
+	protected void setSelectedTab(OptionType type) {
+		switch (type) {
+		case EUCLIDIAN:
+			euclidianPanel.setSelectedTab(selectedTab);
+			break;
+		case EUCLIDIAN2:
+			euclidianPanel2.setSelectedTab(selectedTab);
+			break;
+		}
+	}
+
+	@Override
+	protected void updateObjectPanelSelection(ArrayList<GeoElement> geos) {
+		if (objectPanel == null) {
+			return;
+		}
+		((OptionsObjectW) objectPanel).updateSelection(geos);
+		updateTitleBar();
+		setObjectsToolTip();
 	}
 
 	@Override

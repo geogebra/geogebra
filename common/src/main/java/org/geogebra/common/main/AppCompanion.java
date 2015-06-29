@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.kernel.Kernel;
@@ -136,6 +137,22 @@ public class AppCompanion {
 	 */
 	public boolean hasEuclidianViewForPlane() {
 		return false;
+	}
+
+	/**
+	 * 
+	 * @return true if some view for plane is visible
+	 */
+	public boolean hasEuclidianViewForPlaneVisible() {
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return a visible view for plane if one, or null
+	 */
+	public EuclidianView getViewForPlaneVisible() {
+		return null;
 	}
 
 	/**

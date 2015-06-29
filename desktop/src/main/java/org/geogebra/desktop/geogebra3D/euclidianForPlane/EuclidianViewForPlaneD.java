@@ -51,4 +51,21 @@ public class EuclidianViewForPlaneD extends EuclidianViewD implements
 		return new EuclidianStyleBarForPlane(this);
 	}
 
+	@Override
+	public int getViewID() {
+		return panelID;
+	}
+
+	private int panelID;
+
+	/**
+	 * set panel id
+	 * 
+	 * @param panelID
+	 *            panel id
+	 */
+	public void setPanelID(int panelID) {
+		this.panelID = panelID;
+	}
+
 }

@@ -177,6 +177,20 @@ public class OptionsEuclidianD extends
 	}
 
 	/**
+	 * update the view (also for model)
+	 * 
+	 * @param view
+	 *            view
+	 */
+	public void updateView(EuclidianView view) {
+		setView(view);
+		view.setOptionPanel(this);
+		model.setView(view);
+		xAxisPanel.updateView(view);
+		yAxisPanel.updateView(view);
+	}
+
+	/**
 	 * inits GUI with labels of current language
 	 */
 	private void initGUI() {

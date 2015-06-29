@@ -29,7 +29,9 @@ public class PropertiesStyleBarW extends
 
 	private static OptionType OptionTypesImpl[] = {
 		// Implemented types of the web
-		OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2, OptionType.EUCLIDIAN3D, OptionType.SPREADSHEET
+			OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2,
+			OptionType.EUCLIDIAN_FOR_PLANE, OptionType.EUCLIDIAN3D,
+			OptionType.SPREADSHEET
 	};
 	
 	private PropertiesViewW propertiesView;
@@ -124,7 +126,8 @@ public class PropertiesStyleBarW extends
 	 * @return true if the type is really available
 	 */
 	protected boolean typeAvailable(OptionType type){
-		return type != OptionType.EUCLIDIAN3D;
+		return type != OptionType.EUCLIDIAN3D
+				&& type != OptionType.EUCLIDIAN_FOR_PLANE;
 	}
 	
 	
@@ -185,6 +188,9 @@ public class PropertiesStyleBarW extends
 			AppResourcesConverter.setIcon(pr.menu_icon_graphics(), btn);
 		case EUCLIDIAN2:
 			AppResourcesConverter.setIcon(pr.menu_icon_graphics2(), btn);
+		case EUCLIDIAN_FOR_PLANE:
+			AppResourcesConverter.setIcon(pr.menu_icon_graphics_for_plane(),
+					btn);
 		case EUCLIDIAN3D:
 			AppResourcesConverter.setIcon(pr.menu_icon_graphics3D(), btn);
 		case CAS:

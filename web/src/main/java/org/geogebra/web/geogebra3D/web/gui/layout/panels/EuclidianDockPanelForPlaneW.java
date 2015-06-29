@@ -16,6 +16,7 @@ import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -187,6 +188,11 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		        openInFrame,
 		        showStyleBar, new Rectangle(frameBounds), embeddedDef,
  embeddedSize, view.getFromPlaneString());
+	}
+
+	@Override
+    public ResourcePrototype getIcon() {
+		return getResources().menu_icon_graphics_for_plane();
 	}
 
 }

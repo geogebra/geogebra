@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Unicode;
 
 public class AxisModel {
@@ -73,7 +74,12 @@ public class AxisModel {
 				app.getSettings().getEuclidian(3).setAxesNumberingDistance(value, axis);
 
 			} else {
-				view.setAxesNumberingDistance(value, axis);
+				EuclidianSettings settings = view.getSettings();
+				if (settings != null) {
+					settings.setAxesNumberingDistance(value, axis);
+				} else {
+					view.setAxesNumberingDistance(value, axis);
+				}
 			}
 			
 			view.updateBackground();
@@ -110,7 +116,12 @@ public class AxisModel {
 		
 		}
 		else {
-			view.setShowAxis(axis, value, true);
+			EuclidianSettings settings = view.getSettings();
+			if (settings != null) {
+				settings.setShowAxis(axis, value);
+			} else {
+				view.setShowAxis(axis, value, true);
+			}
 		}
 
 		view.updateBackground();
@@ -138,8 +149,12 @@ public class AxisModel {
 					!value, axis, true);
 		}
 		else {
-			view.setAutomaticAxesNumberingDistance(
-					!value, axis);
+			EuclidianSettings settings = view.getSettings();
+			if (settings != null) {
+				settings.setAutomaticAxesNumberingDistance(!value, axis, true);
+			} else {
+				view.setAutomaticAxesNumberingDistance(!value, axis);
+			}
 		}
 		view.updateBackground();
 
@@ -161,7 +176,12 @@ public class AxisModel {
 
 		}
 		else {
-			view.setAxesUnitLabels(labels);
+			EuclidianSettings settings = view.getSettings();
+			if (settings != null) {
+				settings.setAxesUnitLabels(labels);
+			} else {
+				view.setAxesUnitLabels(labels);
+			}
 		}
 		
 		view.updateBackground();
@@ -182,7 +202,12 @@ public class AxisModel {
 
 		}
 		else {
-			view.setAxisLabel(axis, text);
+			EuclidianSettings settings = view.getSettings();
+			if (settings != null) {
+				settings.setAxisLabel(axis, text);
+			} else {
+				view.setAxisLabel(axis, text);
+			}
 		}
 	
 		view.updateBounds(true, true);
@@ -205,7 +230,13 @@ public class AxisModel {
 			app.getSettings().getEuclidian(3).setAxisTickStyle(axis, type);
 		
 		} else {
-			view.setAxesTickStyles(styles);
+			EuclidianSettings settings = view.getSettings();
+			if (settings != null) {
+				settings.setAxisTickStyle(axis, type);
+			} else {
+				view.setAxesTickStyles(styles);
+			}
+
 		}
 		view.updateBackground();
 	}
@@ -221,7 +252,12 @@ public class AxisModel {
 			app.getSettings().getEuclidian(3).setPositiveAxis(axis, value);
 		
 		} else {
-			view.setPositiveAxis(axis, value);
+			EuclidianSettings settings = view.getSettings();
+			if (settings != null) {
+				settings.setPositiveAxis(axis, value);
+			} else {
+				view.setPositiveAxis(axis, value);
+			}
 		}
 		
 		view.updateBackground();
@@ -257,7 +293,13 @@ public class AxisModel {
 
 
 			} else {
-				view.setAxesCross(ac);
+				EuclidianSettings settings = view.getSettings();
+				if (settings != null) {
+					settings.setAxisCross(axis, cross);
+				} else {
+					view.setAxesCross(ac);
+				}
+
 			}
 		}
 		
@@ -292,5 +334,9 @@ public class AxisModel {
 			listener.addAxisLabelItem(greeks[i]);
 		}
 	
+	}
+
+	public void setView(EuclidianView view) {
+		this.view = view;
 	}
 }

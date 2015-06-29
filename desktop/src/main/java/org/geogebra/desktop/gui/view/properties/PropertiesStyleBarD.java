@@ -135,6 +135,10 @@ public class PropertiesStyleBarD extends
 			return null;
 		}
 
+		if (type == OptionType.EUCLIDIAN_FOR_PLANE) { // used only for 3D
+			return null;
+		}
+
 		return new PropertiesButton();
 	}
 
@@ -175,6 +179,10 @@ public class PropertiesStyleBarD extends
 	protected JMenuItem newJMenuItem(OptionType type) {
 
 		if (type == OptionType.EUCLIDIAN3D) { // used only for 3D
+			return null;
+		}
+
+		if (type == OptionType.EUCLIDIAN_FOR_PLANE) { // used only for 3D
 			return null;
 		}
 
@@ -261,6 +269,8 @@ public class PropertiesStyleBarD extends
 		case EUCLIDIAN:
 			return app.getScaledIcon("menu_view_graphics.png");
 		case EUCLIDIAN2:
+			return app.getScaledIcon("menu_view_graphics2.png");
+		case EUCLIDIAN_FOR_PLANE:
 			return app.getScaledIcon("menu_view_graphics2.png");
 		case EUCLIDIAN3D:
 			return app.getScaledIcon("menu_view_graphics3D.png");

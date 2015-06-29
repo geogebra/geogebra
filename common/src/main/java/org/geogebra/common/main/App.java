@@ -3955,6 +3955,14 @@ public abstract class App implements UpdateSelection {
 		return companion.hasEuclidianViewForPlane();
 	}
 	
+	final public boolean hasEuclidianViewForPlaneVisible() {
+		return companion.hasEuclidianViewForPlaneVisible();
+	}
+
+	final public EuclidianView getViewForPlaneVisible() {
+		return companion.getViewForPlaneVisible();
+	}
+
 	/**
 	 * add to views for plane (if any)
 	 * 

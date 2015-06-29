@@ -112,6 +112,10 @@ public class GraphicsViewLocationModel extends OptionsModel {
 	@Override
 	public boolean checkGeos() {
 		
+		if (listener == null) {
+			return false;
+		}
+
 		listener.setCheckBox3DVisible(true);
 		
 		if (app.hasEuclidianViewForPlane()) {

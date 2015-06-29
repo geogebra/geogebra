@@ -10,7 +10,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanelForPlaneW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -82,8 +81,11 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 		if (getApplication().getGuiManager() == null) {
 			return null;
 		}
-		return ((GuiManagerW) getApplication().getGuiManager())
-		        .newEuclidianStylebar(this, panelID);
+		return new EuclidianStyleBarForPlaneW(this, panelID);
 	}
 
+	@Override
+	public int getViewID() {
+		return panelID;
+	}
 }

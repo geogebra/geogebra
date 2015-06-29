@@ -685,6 +685,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			add(axisPanel);
 		}
 		
+		public void updateView(EuclidianView view) {
+			axisPanel.updateView(view);
+		}
+
 		public void setShowAxis(boolean value) {
 			axisPanel.setShowAxis(value);
 		}
@@ -1023,6 +1027,20 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		isIniting = false;
     }
 
+	/**
+	 * update the view (also for model)
+	 * 
+	 * @param view
+	 *            view
+	 */
+	public void updateView(EuclidianView view) {
+		setView(view);
+		view.setOptionPanel(this);
+		model.setView(view);
+		xAxisTab.updateView(view);
+		yAxisTab.updateView(view);
+	}
+
 	private void initGUI() {
 		tabPanel = new TabPanel();
 		addTabs();
@@ -1245,5 +1263,16 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			}
 		}
     }
+
+	/**
+	 * select the correct tab
+	 * 
+	 * @param index
+	 *            index
+	 */
+	public void setSelectedTab(int index) {
+		// tabbedPane.setSelectedIndex(index);
+		App.debug("======== OptionsEuclidianW.setSelectedTab() : TODO");
+	}
 }
 

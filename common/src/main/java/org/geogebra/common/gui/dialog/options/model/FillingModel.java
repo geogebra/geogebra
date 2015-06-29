@@ -469,9 +469,10 @@ public class FillingModel extends MultipleOptionsModel {
 			}
 
 			// TODO add fill type for 3D elements
-			if (geo.isGeoElement3D()
-					|| geo.isGeoImage()) {
-				getFillingListener().setFillTypeVisible(false);
+			if (getFillingListener() != null) {
+				if (geo.isGeoElement3D() || geo.isGeoImage()) {
+					getFillingListener().setFillTypeVisible(false);
+				}
 			}
 		}
 		

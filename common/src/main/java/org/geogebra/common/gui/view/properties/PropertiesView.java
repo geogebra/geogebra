@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.gui.dialog.options.OptionsObject;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -37,6 +38,8 @@ public abstract class PropertiesView implements View {
 		viewMap.put(App.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
 		viewMap.put(App.VIEW_EUCLIDIAN2, OptionType.EUCLIDIAN2);
 		viewMap.put(App.VIEW_EUCLIDIAN3D, OptionType.EUCLIDIAN3D);
+		viewMap.put(App.VIEW_EUCLIDIAN_FOR_PLANE_START,
+				OptionType.EUCLIDIAN_FOR_PLANE);
 	}
 
 	protected Kernel kernel;
@@ -66,9 +69,90 @@ public abstract class PropertiesView implements View {
 	public abstract void updateSelection(ArrayList<GeoElement> geos);
 
 	/**
-	 * Set the option panel to be displayed
+	 * Sets and shows the option panel for the given option type
+	 * 
+	 * @param type
+	 *            type
 	 */
-	public abstract void setOptionPanel(OptionType type);
+	final public void setOptionPanel(OptionType type) {
+
+		ArrayList<GeoElement> geos = removeAllConstants(app
+				.getSelectionManager().getSelectedGeos());
+
+		if (type == OptionType.OBJECTS) {// ensure that at least one geo is
+											// selected
+			if (geos.size() == 0) {
+				GeoElement geo = app.getSelectionManager()
+						.setFirstGeoSelectedForPropertiesView();
+				if (geo == null) {
+					// does nothing: stay in same panel
+					return;
+				}
+
+				// add this first geo
+				geos.add(geo);
+
+			}
+		}
+
+		setOptionPanel(type, geos);
+	}
+
+	protected void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
+
+		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting);
+		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
+		// App.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
+
+		if (type == null) {
+			return;
+		}
+
+		// update selection
+		if (type == OptionType.OBJECTS) {
+			if (geos != null) {
+				updateObjectPanelSelection(geos);
+			}
+
+			setObjectsToolTip();
+
+		}
+
+		setOptionPanelWithoutCheck(type);
+	}
+
+	abstract protected void setObjectsToolTip();
+
+	abstract protected void updateObjectPanelSelection(
+			ArrayList<GeoElement> geos);
+
+	protected ArrayList<GeoElement> removeAllConstants(
+			ArrayList<GeoElement> geosList) {
+
+		Construction.Constants firstConstant = Construction.Constants.NOT;
+
+		// check if there is constants, remove it and remember what type
+		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+
+		for (GeoElement geo : geosList) {
+			Construction.Constants constant = kernel.getConstruction()
+					.isConstantElement(geo);
+			if (constant == Construction.Constants.NOT) {
+				// add if not constant
+				geos.add(geo);
+			} else {
+				// remember type
+				if (firstConstant == Construction.Constants.NOT)
+					firstConstant = constant;
+			}
+		}
+
+		if (firstConstant != Construction.Constants.NOT)
+			updateSelectedTab(firstConstant);
+
+		return geos;
+
+	}
 
 	public abstract void setOptionPanel(OptionType type, int subType);
 
@@ -90,6 +174,8 @@ public abstract class PropertiesView implements View {
 			return loc.getPlain("PreferencesOfA", loc.getPlain("DrawingPad"));
 		case EUCLIDIAN2:
 			return loc.getPlain("PreferencesOfA", loc.getPlain("DrawingPad2"));
+		case EUCLIDIAN_FOR_PLANE:
+			return loc.getPlain("PreferencesOfA", loc.getPlain("ExtraViews"));
 		case EUCLIDIAN3D:
 			return loc.getPlain("PreferencesOfA", loc.getPlain("GraphicsView3D"));
 		case CAS:
@@ -131,6 +217,9 @@ public abstract class PropertiesView implements View {
 			return loc.getMenu("Layout");
 		case EUCLIDIAN3D:
 			return loc.getPlain("GraphicsView3D");
+		case EUCLIDIAN_FOR_PLANE:
+			return loc.getPlain("ExtraViews");
+
 		}
 		return null;
 	}
@@ -165,6 +254,9 @@ public abstract class PropertiesView implements View {
 		case EUCLIDIAN2:
 			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
 			break;
+		case EUCLIDIAN_FOR_PLANE:
+			isAvailable = app.hasEuclidianViewForPlaneVisible();
+			break;
 		case EUCLIDIAN3D:
 			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D);
 			break;
@@ -193,5 +285,167 @@ public abstract class PropertiesView implements View {
 		
 	}
 
+	/**
+	 * acts when mouse has been released in euclidian controller
+	 * 
+	 * @param creatorMode
+	 *            says if euclidian view is in creator mode (ie not move mode)
+	 */
+	public void mouseReleasedForPropertiesView(boolean creatorMode) {
+
+		GeoElement geo;
+		if (objectPanel == null) {
+			geo = null;
+		} else {
+			geo = objectPanel.consumeGeoAdded();
+		}
+
+		if (app.getSelectionManager().selectedGeosSize() > 0) {
+			// selected geo is the most important
+			updatePropertiesViewCheckConstants(app.getSelectionManager()
+					.getSelectedGeos());
+		} else if (geo != null) { // last created geo
+			if (creatorMode) { // if euclidian view is e.g. in move mode, then
+				// geo was created by a script, so just show
+				// object properties
+				ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+				geos.add(geo);
+				setOptionPanel(OptionType.OBJECTS, geos);
+			} else {
+				setOptionPanel(OptionType.OBJECTS, null);
+			}
+		} else { // focus
+			updateSelectedTab(Construction.Constants.NOT);
+			setOptionPanelRegardingFocus(true);
+			// updatePropertiesView();
+		}
+	}
 	
+	/**
+	 * Updates properties view panel. If geos are not empty then the Objects
+	 * panel will be shown. If not, then an option pane for the current focused
+	 * view is shown.
+	 * 
+	 * @param geosList
+	 *            geos list
+	 */
+	protected void updatePropertiesViewCheckConstants(
+			ArrayList<GeoElement> geosList) {
+
+		// remove constant geos
+		ArrayList<GeoElement> geos = removeAllConstants(geosList);
+
+		updatePropertiesView(geos);
+	}
+	
+	private void updatePropertiesView(ArrayList<GeoElement> geos) {
+
+		if (geos.size() > 0) {
+			if (!stayInCurrentPanel())
+				setOptionPanel(OptionType.OBJECTS, geos);
+		} else {
+
+			setOptionPanelRegardingFocus(true);
+
+		}
+	}
+
+	final protected void setOptionPanelRegardingFocus(boolean updateEuclidianTab) {
+
+		if (stayInCurrentPanelWithObjects())
+			return;
+
+		int focusedViewId = app.getGuiManager().getLayout().getDockManager()
+				.getFocusedViewId();
+
+		OptionType type = getTypeFromFocusedViewId(focusedViewId);
+
+		if (type != null) {
+			if (type == OptionType.EUCLIDIAN || type == OptionType.EUCLIDIAN2) {
+
+				if (app.getActiveEuclidianView().getEuclidianController()
+						.checkBoxOrTextfieldOrButtonJustHitted()) {
+					// hit check box or text field : does nothing
+					return;
+				}
+
+				// ev clicked
+				setOptionPanelWithoutCheck(type);
+				if (updateEuclidianTab) {
+					setSelectedTab(type);
+				}
+
+			} else
+				setOptionPanel(type);
+
+			// here necessary no object is selected
+			updateObjectPanelSelection(app.getSelectionManager()
+					.getSelectedGeos());
+		}
+
+	}
+
+	protected int selectedTab = 0;
+	private int subType;
+
+	abstract protected void setSelectedTab(OptionType type);
+
+	protected void updateSelectedTab(Construction.Constants constant) {
+		switch (constant) {
+		case X_AXIS:
+			selectedTab = 1;
+			break;
+		case Y_AXIS:
+			selectedTab = 2;
+			break;
+		default:
+			selectedTab = 0;
+			break;
+		}
+	}
+
+	abstract protected void setOptionPanelWithoutCheck(OptionType type);
+
+
+	protected OptionType getTypeFromFocusedViewId(int id) {
+		switch (id) {
+		case App.VIEW_CAS:
+			return OptionType.CAS;
+		case App.VIEW_SPREADSHEET:
+			return OptionType.SPREADSHEET;
+		case App.VIEW_EUCLIDIAN:
+			return OptionType.EUCLIDIAN;
+		case App.VIEW_EUCLIDIAN2:
+			return OptionType.EUCLIDIAN2;
+		case App.VIEW_EUCLIDIAN3D:
+			return OptionType.EUCLIDIAN3D;
+		}
+
+		if (id >= App.VIEW_EUCLIDIAN_FOR_PLANE_START
+				&& id <= App.VIEW_EUCLIDIAN_FOR_PLANE_END) {
+			return OptionType.EUCLIDIAN_FOR_PLANE;
+		}
+
+		return null;
+
+	}
+
+	protected boolean stayInCurrentPanelWithObjects() {
+
+		return stayInCurrentPanel()
+				|| (selectedOptionType == OptionType.OBJECTS && app
+						.getSelectionManager().getSelectedGeos().size() > 0);
+	}
+
+	/**
+	 * say if it has to stay in current panel. Should disable any try to change
+	 * panel, unless from stylebar buttons.
+	 */
+	protected boolean stayInCurrentPanel() {
+
+		return selectedOptionType == OptionType.DEFAULTS
+				|| selectedOptionType == OptionType.ADVANCED
+				|| selectedOptionType == OptionType.LAYOUT;
+	}
+
 }
