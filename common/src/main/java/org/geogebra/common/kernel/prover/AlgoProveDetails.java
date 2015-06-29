@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.prover;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -152,11 +151,9 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		p.setReturnExtraNDGs(true);
 
 		// Adding benchmarking:
-		Date date = new Date();
-		long startTime = date.getTime();
+		double startTime = cons.getApplication().getMillisecondTime();
 		p.compute(); // the computation of the proof
-		date = new Date();
-		long elapsedTime = date.getTime() - startTime;
+		int elapsedTime = (int) (cons.getApplication().getMillisecondTime() - startTime);
 
 		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
 		App.debug("Benchmarking: " + elapsedTime + " ms");

@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.prover;
 
-import java.util.Date;
-
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -121,11 +119,9 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		p.setReturnExtraNDGs(false);
 
 		// Adding benchmarking:
-		Date date = new Date();
-		long startTime = date.getTime();
+		double startTime = cons.getApplication().getMillisecondTime();
 		p.compute(); // the computation of the proof
-		date = new Date();
-		long elapsedTime = date.getTime() - startTime;
+		int elapsedTime = (int) (cons.getApplication().getMillisecondTime() - startTime);
 		
 		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
 		App.debug("Benchmarking: " + elapsedTime + " ms");
