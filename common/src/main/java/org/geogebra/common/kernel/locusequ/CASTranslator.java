@@ -293,7 +293,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 					append("poly pp=1; int i; for (i=1; i<=size(l); i++) { pp=pp*l[i][1][1]; }").
 					append("string s=string(pp);int sl=size(s);string pg=\"poly p=\"+s[2,sl-2];").
 					append("ring rr=0,(x,y),dp;execute(pg);").
-					append("printf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
+					append("sprintf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
 					append("coeffs(coeffs(p,x),y));").toString();
 			Log.debug(script);
 			return script.toString();
@@ -325,7 +325,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 				append(convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 				append(";ideal m1=eliminate(m,").
 				append(this.getVarsToEliminate().replaceAll(",", "*")).
-				append(");printf(\"%s,%s,%s\",size(coeffs(m1,x)),size(coeffs(m1,y)),").
+				append(");sprintf(\"%s,%s,%s\",size(coeffs(m1,x)),size(coeffs(m1,y)),").
 				append("coeffs(coeffs(m1,x),y));").toString();
 		/**
 		 *  Singular will return degree of x (+1), degree of y (+1), and then

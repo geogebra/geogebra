@@ -358,7 +358,7 @@ public class AlgoEnvelope extends AlgoElement {
 		script.append("ring rr=0,(x,y),dp;");
 		script.append("execute(ex);");
 		// Now we obtain the coefficients (see exactly the same code for locus equation):
-		script.append("printf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
+		script.append("sprintf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
 			append("coeffs(coeffs(p,x),y));");
 		Log.info("[Envelope] input to singular: "+script);
 		String result = App.singularWS.directCommand(script.toString());
