@@ -26,7 +26,10 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_graphics2.png")
 	ImageResource menu_icon_graphics2();
-	
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_graphics2.png")
+	ImageResource menu_icon_graphics_for_plane();
+
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_spreadsheet.png")
 	ImageResource menu_icon_spreadsheet();
 	

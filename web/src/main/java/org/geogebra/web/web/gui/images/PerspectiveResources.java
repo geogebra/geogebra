@@ -17,7 +17,9 @@ public interface PerspectiveResources {
 	ResourcePrototype menu_icon_graphics1();
 	
 	ResourcePrototype menu_icon_graphics2();
-	
+
+	ResourcePrototype menu_icon_graphics_for_plane();
+
 	ResourcePrototype menu_icon_spreadsheet();
 	
 	ResourcePrototype menu_icon_graphics3D();
