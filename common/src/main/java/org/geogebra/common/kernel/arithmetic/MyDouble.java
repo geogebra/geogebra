@@ -43,7 +43,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		Comparable<Object> {
 
 	private double val;
-	private boolean isAngle = false;
+	private int angleDim = 0;
 
 	/**
 	 * kernel
@@ -83,7 +83,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public MyDouble(MyDouble d) {
 		kernel = d.kernel;
 		val = d.val;
-		isAngle = d.isAngle;
+		angleDim = d.angleDim;
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (isAngle) {
+		if (angleDim == 1) {
 			// convert to angle value first, see issue 87
 			// http://code.google.com/p/geogebra/issues/detail?id=87
 			double angleVal = Kernel.convertToAngleValue(val);
@@ -219,11 +219,15 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * Switches to angle mode (to use degrees)
 	 */
 	public void setAngle() {
-		isAngle = true;
+		angleDim = 1;
 	}
 
 	public boolean isAngle() {
-		return isAngle;
+		return angleDim == 1;
+	}
+
+	public int getAngleDim() {
+		return angleDim;
 	}
 
 	/**
@@ -231,7 +235,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble random() {
 		val = kernel.getApplication().getRandomNumber();
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -246,7 +250,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            result
 	 */
 	final public static void add(MyDouble a, NumberValue b, MyDouble c) {
-		c.isAngle = a.isAngle && b.isAngle();
+		c.angleDim = a.angleDim == b.getAngleDim() ? a.angleDim : 0;
 		c.set(a.val + b.getDouble());
 	}
 
@@ -261,7 +265,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            result
 	 */
 	final public static void sub(MyDouble a, NumberValue b, MyDouble c) {
-		c.isAngle = a.isAngle && b.isAngle();
+		c.angleDim = a.angleDim == b.getAngleDim() ? a.angleDim : 0;
 		c.set(a.val - b.getDouble());
 	}
 
@@ -278,7 +282,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            result
 	 * */
 	final public static void mult(MyDouble a, NumberValue b, MyDouble c) {
-		c.isAngle = a.isAngle || b.isAngle();
+		c.angleDim = a.angleDim + b.getAngleDim();
 		double bval = b.getDouble();
 		// ? * anything = ?
 		if (Double.isNaN(a.val) || Double.isNaN(bval)) {
@@ -310,7 +314,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            result
 	 * */
 	final public static void mult(MyDouble a, double b, MyDouble c) {
-		c.isAngle = a.isAngle;
+		c.angleDim = a.angleDim;
 
 		// ? * anything = ?
 		if (Double.isNaN(a.val) || Double.isNaN(b)) {
@@ -340,7 +344,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            result
 	 */
 	final public static void div(MyDouble a, MyDouble b, MyDouble c) {
-		c.isAngle = a.isAngle && !b.isAngle;
+		c.angleDim = a.angleDim - b.angleDim;
 		c.set(a.val / b.val);
 	}
 
@@ -355,7 +359,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            result
 	 */
 	final public static void pow(MyDouble a, MyDouble b, MyDouble c) {
-		c.isAngle = a.isAngle && !b.isAngle;
+		c.angleDim = b.angleDim > 0 ? 0 : a.angleDim;
 
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
@@ -393,7 +397,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public static void powDoubleSgnChange(MyDouble a, MyDouble b,
 			MyDouble c) {
-		c.isAngle = a.isAngle && !b.isAngle;
+		c.angleDim = b.angleDim > 0 ? 0 : a.angleDim;
 
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
@@ -411,7 +415,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble cos() {
 		val = Math.cos(val);
-		isAngle = false;
+		angleDim = 0;
 		checkZero();
 		return this;
 	}
@@ -421,7 +425,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble sin() {
 		val = Math.sin(val);
-		isAngle = false;
+		angleDim = 0;
 		checkZero();
 		return this;
 	}
@@ -448,7 +452,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			val = Math.tan(val);
 			checkZero();
 		}
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -456,7 +460,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return acos(this)
 	 */
 	final public MyDouble acos() {
-		isAngle = kernel.getInverseTrigReturnsAngle();
+		angleDim = kernel.getInverseTrigReturnsAngle() ? 1 : 0;
 		set(Math.acos(val));
 		return this;
 	}
@@ -465,7 +469,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return asin(this)
 	 */
 	final public MyDouble asin() {
-		isAngle = kernel.getInverseTrigReturnsAngle();
+		angleDim = kernel.getInverseTrigReturnsAngle() ? 1 : 0;
 		set(Math.asin(val));
 		return this;
 	}
@@ -474,7 +478,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return atan(this)
 	 */
 	final public MyDouble atan() {
-		isAngle = kernel.getInverseTrigReturnsAngle();
+		angleDim = kernel.getInverseTrigReturnsAngle() ? 1 : 0;
 		set(Math.atan(val));
 		return this;
 	}
@@ -485,7 +489,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return atan2(this,y)
 	 */
 	final public MyDouble atan2(NumberValue y) {
-		isAngle = kernel.getInverseTrigReturnsAngle();
+		angleDim = kernel.getInverseTrigReturnsAngle() ? 1 : 0;
 		set(Math.atan2(val, y.getDouble()));
 		return this;
 	}
@@ -495,7 +499,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble log() {
 		val = Math.log(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -506,7 +510,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble log(NumberValue base) {
 		val = Math.log(val) / Math.log(base.getDouble());
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -515,7 +519,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble erf() {
 		val = MyMath2.erf(0.0, 1.0, val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -524,7 +528,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble inverf() {
 		val = MyMath2.inverf(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -535,7 +539,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble polygamma(NumberValue order) {
 		val = MyMath2.polyGamma(order, val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -544,7 +548,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble psi() {
 		val = MyMath2.psi(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -553,7 +557,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble log10() {
 		val = Math.log(val) / MyMath.LOG10;
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -562,7 +566,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble log2() {
 		val = Math.log(val) / MyMath.LOG2;
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -571,7 +575,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble exp() {
 		val = Math.exp(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -580,7 +584,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble sqrt() {
 		val = Math.sqrt(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -589,7 +593,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble cbrt() {
 		val = MyMath.cbrt(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 	final public void add(double a){
@@ -610,7 +614,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise floor(60degrees) gives
 		// 59degrees
-		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+		if (angleDim == 1 && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
 					* Math.floor(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
@@ -626,7 +630,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	final public MyDouble ceil() {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise ceil(241deg) fails
-		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+		if (angleDim == 1 && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
 					* Math.ceil(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
@@ -641,7 +645,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble round() {
 		// angle in degrees
-		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+		if (angleDim == 1 && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180 * MyDouble.doRound(val * Kernel.CONST_180_PI));
 		} else {
 			// number or angle in radians
@@ -682,7 +686,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble sgn() {
 		val = MyMath.sgn(kernel, val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -691,7 +695,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble cosh() {
 		val = MyMath.cosh(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -700,7 +704,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble sinh() {
 		val = MyMath.sinh(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -709,7 +713,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble tanh() {
 		val = MyMath.tanh(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -718,7 +722,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble acosh() {
 		val = MyMath.acosh(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -727,7 +731,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble asinh() {
 		val = MyMath.asinh(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -736,7 +740,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble csc() {
 		val = MyMath.csc(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -745,7 +749,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble sec() {
 		val = MyMath.sec(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -754,7 +758,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble cot() {
 		val = MyMath.cot(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -763,7 +767,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble csch() {
 		val = MyMath.csch(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -772,7 +776,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble sech() {
 		val = MyMath.sech(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -781,7 +785,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble coth() {
 		val = MyMath.coth(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -790,7 +794,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble atanh() {
 		val = MyMath.atanh(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -799,7 +803,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble cosineIntegral() {
 		val = MyMath2.ci(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -808,7 +812,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble sineIntegral() {
 		val = MyMath2.si(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -817,7 +821,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble expIntegral() {
 		val = MyMath2.ei(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -826,7 +830,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble factorial() {
 		val = MyMath2.factorial(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -835,7 +839,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble gamma() {
 		val = MyMath2.gamma(val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -846,7 +850,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	final public MyDouble apply(Evaluatable lt) {
 		val = lt.evaluate(val);
-		isAngle = false; // want function to return numbers eg f(x) = sin(x),
+		angleDim = 0; // want function to return numbers eg f(x) = sin(x),
 							// f(45^o)
 		return this;
 	}
@@ -1009,7 +1013,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	public ExpressionValue gammaIncompleteRegularized(NumberValue lt) {
 		val = MyMath2.gammaIncompleteRegularized(lt.getDouble(), val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -1020,7 +1024,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	public ExpressionValue gammaIncomplete(NumberValue lt) {
 		val = MyMath2.gammaIncomplete(lt.getDouble(), val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -1031,7 +1035,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 */
 	public ExpressionValue beta(NumberValue lt) {
 		val = MyMath2.beta(val, lt.getDouble());
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -1043,7 +1047,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public ExpressionValue betaIncomplete(VectorValue lt) {
 		GeoVec2D vec = lt.getVector();
 		val = MyMath2.betaIncomplete(vec.getX(), vec.getY(), val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 
@@ -1055,7 +1059,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public ExpressionValue betaIncompleteRegularized(VectorValue lt) {
 		GeoVec2D vec = lt.getVector();
 		val = MyMath2.betaIncompleteRegularized(vec.getX(), vec.getY(), val);
-		isAngle = false;
+		angleDim = 0;
 		return this;
 	}
 

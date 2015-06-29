@@ -6033,8 +6033,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return true for angles
 	 */
-	public boolean isAngle() {
-		return false;
+	public int getAngleDim() {
+		return 0;
 	}
 
 	public boolean evaluatesToNonComplex2DVector() {
@@ -7829,4 +7829,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return last hit type
 	 */
 	abstract public HitType getLastHitType();
+
+	public final boolean isAngle() {
+		return getAngleDim() == 1;
+	}
 }

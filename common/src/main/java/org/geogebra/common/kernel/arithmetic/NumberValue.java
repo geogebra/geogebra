@@ -36,7 +36,7 @@ public interface NumberValue extends ExpressionValue, ToGeoElement {
 	 * 
 	 * @return true for angles
 	 */
-	public boolean isAngle();
+	public int getAngleDim();
 
 	/**
 	 * 

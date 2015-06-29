@@ -230,8 +230,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}
 	
 	@Override
-	final public boolean isAngle() {
-		return true;
+	final public int getAngleDim() {
+		return 1;
 	}
 
 	@Override

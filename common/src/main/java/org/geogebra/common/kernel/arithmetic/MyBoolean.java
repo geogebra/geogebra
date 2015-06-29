@@ -136,8 +136,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 		return new MyDouble(kernel, getDouble());
 	}
 
-	public boolean isAngle() {
-		return false;
+	public int getAngleDim() {
+		return 0;
 	}
 
 	public boolean isDefined() {
