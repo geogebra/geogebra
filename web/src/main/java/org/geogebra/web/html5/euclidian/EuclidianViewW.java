@@ -1117,6 +1117,9 @@ public class EuclidianViewW extends EuclidianView implements
 		// but the reasons of it are not well understood #5158
 		// after better understanding, this can probably be merged
 		// with the following method (requestFocusInWindow()):
+
+		// TODO: or, one method shall do this for sure, the other one
+		// should do this only when isInFocus is false
 		requestFocusInWindow();
 
 	}

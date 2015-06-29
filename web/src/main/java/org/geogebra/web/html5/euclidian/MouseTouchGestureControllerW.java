@@ -663,7 +663,13 @@ public class MouseTouchGestureControllerW implements
 			return;
 		}
 		if ((!ec.isTextfieldHasFocus()) && (!comboBoxHit())) {
-			event.preventDefault();
+			if (!app.isApplet()) { // #5245
+				event.preventDefault();
+			}
+			// if (app.isApplet()) {
+			// bugfix that is also in preventDefault!
+			// ec.view.requestFocus();
+			// }
 		}
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		ec.onPointerEventStart(e);

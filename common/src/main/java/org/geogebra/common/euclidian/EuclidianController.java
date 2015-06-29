@@ -8987,6 +8987,13 @@ public abstract class EuclidianController {
 			pressedButton.setPressed(false);
 			pressedButton = null;
 		}
+		// we have to call this anyway, for we need focus in EV
+		// #5245, but maybe put this at another place, so that
+		// this command shall surely be reached... but then isn't
+		// calling this method two times redundant?
+		// else if (app.isHTML5Applet()) {
+		// view.requestFocusInWindow();
+		// }
 
 		// remove deletion rectangle
 		if (view.getDeletionRectangle() != null) {
