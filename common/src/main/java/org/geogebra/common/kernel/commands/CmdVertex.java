@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.algos.AlgoTextCorner;
 import org.geogebra.common.kernel.algos.AlgoVertexConic;
 import org.geogebra.common.kernel.algos.AlgoVertexIneq;
 import org.geogebra.common.kernel.algos.AlgoVertexPolygon;
+import org.geogebra.common.kernel.algos.AlgoVertexSegment;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -18,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -94,7 +96,6 @@ public class CmdVertex extends CommandProcessor {
 				GeoElement[] ret = { algo.getCorner() };
 				return ret;
 			}
-			// Michael Borcherds 2007-11-26 BEGIN Corner[] for textboxes
 			// Corner[ <Text>, <number> ]
 			else if ((ok[0] = (arg[0].isGeoText()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
@@ -104,7 +105,26 @@ public class CmdVertex extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getCorner() };
 				return ret;
-				// Michael Borcherds 2007-11-26 END
+			} else if ((ok[0] = (arg[0].isGeoSegment()))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+
+				GeoSegmentND segment = (GeoSegmentND) arg[0];
+
+				GeoElement P = (GeoElement) segment.getStartPoint();
+				GeoElement Q = (GeoElement) segment.getEndPoint();
+
+				// P and Q should either be both 2D or both 3D
+				if (P.getGeoClassType().equals(Q.getGeoClassType())) {
+
+					AlgoVertexSegment algo = new AlgoVertexSegment(cons,
+							c.getLabel(), (GeoSegmentND) arg[0],
+							(GeoNumberValue) arg[1]);
+
+					GeoElement[] ret = { (GeoElement) algo.getPoint() };
+					return ret;
+				}
+
+				throw argErr(app, c.getName(), arg[0]);
 			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				GeoElement[] ret = { (GeoElement) cornerOfDrawingPad(
