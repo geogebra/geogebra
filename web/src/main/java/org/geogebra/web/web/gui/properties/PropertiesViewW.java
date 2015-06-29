@@ -507,4 +507,12 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 			spreadsheetPanel.setLabels();
 		}
     }
+
+	@Override
+	public void updateStyleBar() {
+
+		if (styleBar != null) {
+			styleBar.updateGUI();
+		}
+	}
 }

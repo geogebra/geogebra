@@ -2936,6 +2936,16 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
+	/**
+	 * close properties view
+	 * 
+	 */
+	public void updatePropertiesViewStylebar() {
+		if (propertiesView != null) {
+			propertiesView.updateStyleBar();
+		}
+	}
+
 	public void mouseReleasedForPropertiesView(boolean creatorMode) {
 		if (propertiesView != null) {
 			propertiesView.mouseReleasedForPropertiesView(creatorMode);
@@ -3238,5 +3248,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void getDataCollectionViewXML(StringBuilder sb, boolean asPreference) {
 		// not available in desktop
 	}
+
 
 }

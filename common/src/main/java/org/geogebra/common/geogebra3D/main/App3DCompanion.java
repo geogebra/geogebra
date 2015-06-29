@@ -206,7 +206,8 @@ public abstract class App3DCompanion extends AppCompanion {
 		}
 
 		for (EuclidianViewForPlaneCompanion c : euclidianViewForPlaneCompanionList) {
-			if (c.getView().isShowing()) {
+
+			if (c.isPanelVisible()) {
 				return true;
 			}
 		}

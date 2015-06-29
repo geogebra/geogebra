@@ -369,4 +369,6 @@ public interface GuiManagerInterface {
 	public Object getToolbarDefinition();
 
 	public void registerConstructionProtocolView(ConstructionProtocolView view);
+
+	public void updatePropertiesViewStylebar();
 }

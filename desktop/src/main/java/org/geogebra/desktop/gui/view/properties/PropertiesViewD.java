@@ -512,7 +512,8 @@ public class PropertiesViewD extends
 
 	}
 
-	private void updateStyleBar() {
+	@Override
+	public void updateStyleBar() {
 
 		if (styleBar != null) {
 			styleBar.updateGUI();
@@ -916,5 +917,7 @@ public class PropertiesViewD extends
 		return false;
 		// only for web
 	}
+
+
 
 }

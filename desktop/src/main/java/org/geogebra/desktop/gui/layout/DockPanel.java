@@ -1283,7 +1283,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 
 	@Override
 	public void setVisible(boolean visible) {
-		this.visible = visible;
+		if (this.visible != visible) {
+			this.visible = visible;
+			if (app.getGuiManager() != null) {
+				app.getGuiManager().updatePropertiesViewStylebar();
+			}
+		}
 	}
 
 	@Override

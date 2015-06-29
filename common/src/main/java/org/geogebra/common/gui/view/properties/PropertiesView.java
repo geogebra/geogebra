@@ -448,4 +448,10 @@ public abstract class PropertiesView implements View {
 				|| selectedOptionType == OptionType.LAYOUT;
 	}
 
+	/**
+	 * update style bar
+	 */
+	abstract public void updateStyleBar();
+
+
 }

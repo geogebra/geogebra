@@ -895,6 +895,22 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	public void updatePropertiesViewStylebar() {
+		if (propertiesView != null) {
+			propertiesView.updateStyleBar();
+		}
+	}
+
+	/**
+	 * close properties view
+	 * 
+	 */
+	public void closePropertiesView() {
+		if (propertiesView != null) {
+			getLayout().getDockManager().closePanel(App.VIEW_PROPERTIES, false);
+		}
+	}
+
 	@Override
 	public void mousePressedForPropertiesView() {
 		if (propertiesView != null) {
@@ -1985,4 +2001,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// shall not be used:
 		return true;
 	}
+
+
 }

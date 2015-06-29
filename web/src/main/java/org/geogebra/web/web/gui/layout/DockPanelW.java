@@ -1406,7 +1406,12 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	@Override
 	public void setVisible(boolean visible) {
-		this.visible = visible;
+		if (this.visible != visible) {
+			this.visible = visible;
+			if (app.getGuiManager() != null) {
+				app.getGuiManager().updatePropertiesViewStylebar();
+			}
+		}
 
 		// hide the keyboard-button, when the view is closed
 		if (keyboardButton != null && !visible) {

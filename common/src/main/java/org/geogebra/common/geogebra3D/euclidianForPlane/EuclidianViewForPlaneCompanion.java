@@ -538,6 +538,14 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		this.id = panel.getViewId();
 	}
 
+	/**
+	 * 
+	 * @return true if the panel is visible
+	 */
+	public boolean isPanelVisible() {
+		return panel.isVisible();
+	}
+
 	private int id;
 
 	public int getId() {
