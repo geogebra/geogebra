@@ -135,7 +135,7 @@ public class AlgoEllipseHyperbolaFociPoint extends
 
 				// if the 2 focus points are equal
 				// handel the ellipse as a circle
-				if (vA[0] == vB[0] && vB[1] == vB[1]) {
+				if (vA[0] == vB[0] && vA[1] == vB[1]) {
 					if (botanaVars == null) {
 						botanaVars = new Variable[4];
 						// center
@@ -152,10 +152,10 @@ public class AlgoEllipseHyperbolaFociPoint extends
 					// P - point of ellipse
 					botanaVars[0] = new Variable();
 					botanaVars[1] = new Variable();
-					// D
+					// D - first auxiliary point
 					botanaVars[2] = new Variable();
 					botanaVars[3] = new Variable();
-					// E
+					// E - second auxiliary point
 					botanaVars[4] = new Variable();
 					botanaVars[5] = new Variable();
 					// A - focus point
