@@ -2022,7 +2022,7 @@ function createRoot(jQ, root, textbox, editable) {
     // but if the first focus gets called, we can remove the timeouts
     // to prevent focus called again a bit later, which is useful
     // if the user really wants to blur in that short time
-	clearTimeout(textareaDOM.timeout1);
+	//clearTimeout(textareaDOM.timeout1);
 	clearTimeout(textareaDOM.timeout2);
 	clearTimeout(textareaDOM.timeout3);
 	clearTimeout(textareaDOM.timeout4);
@@ -2101,7 +2101,7 @@ function createRoot(jQ, root, textbox, editable) {
     adjustFixedTextarea(jQ);
 
     if (!disabledTextarea) {
-  	  clearTimeout(textareaDOM.timeout1);
+  	  //clearTimeout(textareaDOM.timeout1);
 	  clearTimeout(textareaDOM.timeout2);
 	  clearTimeout(textareaDOM.timeout3);
 	  clearTimeout(textareaDOM.timeout4);
@@ -2136,14 +2136,14 @@ function createRoot(jQ, root, textbox, editable) {
       // so here are other setTimeout's, as
       // the bug just turned out to be a timeout issue,
       // which may be fixed differently but this works for sure:
-	  clearTimeout(textareaDOM.timeout1);
+	  //clearTimeout(textareaDOM.timeout1);
 	  clearTimeout(textareaDOM.timeout2);
 	  clearTimeout(textareaDOM.timeout3);
 	  clearTimeout(textareaDOM.timeout4);
 	  textareaDOM.timeout4 = setTimeout(timFunction, 500);
 	  textareaDOM.timeout3 = setTimeout(timFunction, 300);
 	  textareaDOM.timeout2 = setTimeout(timFunction, 100);
-	  textareaDOM.timeout1 = setTimeout(timFunction);
+	  //textareaDOM.timeout1 = setTimeout(timFunction);
 
       //do this immediately (ATM also happens in timeout, might not be needed)
       if (root.common.newCreationMode) {
