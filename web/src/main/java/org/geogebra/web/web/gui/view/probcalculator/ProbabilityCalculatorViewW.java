@@ -162,7 +162,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
 
-		btnExport.setTitle(app.getMenu("Export"));
+		if (btnExport != null) {
+			btnExport.setTitle(app.getMenu("Export"));
+		}
+
 		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
 		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
@@ -254,7 +257,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    plotPanelOptions = new FlowPanel();
 	    plotPanelOptions.setStyleName("plotPanelOptions");
 	    plotPanelOptions.add(lblMeanSigma);
-		if (!app.isExam()) {
+		if (!app.isExam() && btnExport != null) {
 			plotPanelOptions.add(btnExport);
 		}
 	    plotPanelOptions.add(btnNormalOverlay);
@@ -399,8 +402,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    lblMeanSigma = new Label();
 	    lblMeanSigma.addStyleName("lblMeanSigma");
 	    
-		btnExport = new MenuBar();
-		createExportMenu();
+		if (app.isApplet()) {
+			btnExport = null;
+		} else {
+			btnExport = new MenuBar();
+			createExportMenu();
+		}
 
 		btnExport.addStyleName("btnExport");
 
@@ -1081,7 +1088,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 						.asString()
 				+ "\" >";
 		btnExport.addItem(image, true, menu);
-
+		btnExport.removeStyleName("gwt-MenuBar");
+		btnExport.addStyleName("MyToggleButton");
 	}
 
 }
