@@ -840,7 +840,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		}
 		throw new NoSymbolicParametersException();
-		} else if (c.isParabola() || c.isEllipse()) {
+		} else if (c.isParabola() || c.isEllipse() || c.isHyperbola()) {
 			
 			if (g != null && c != null) {
 
