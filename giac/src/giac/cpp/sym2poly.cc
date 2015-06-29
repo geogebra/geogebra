@@ -3133,8 +3133,13 @@ namespace giac {
     if (divide_an_by.type>=_IDNT){
       gen divide=e2r(divide_an_by,l,contextptr);
       fxnd(divide,dnum,dden);
-      if (dnum.type==_POLY)
-	dnum=dnum._POLYptr->coord.front().value;
+      if (dnum.type==_POLY){
+	if (dnum._POLYptr->lexsorted_degree()>0){
+	  simplify3(f_num,dnum);
+	}
+	if (dnum.type==_POLY)
+	  dnum=dnum._POLYptr->coord.front().value;
+      }
       if (dden.type==_POLY)
 	dden=dden._POLYptr->coord.front().value;
     }
