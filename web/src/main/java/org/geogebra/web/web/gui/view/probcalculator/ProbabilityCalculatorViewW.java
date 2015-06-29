@@ -161,11 +161,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		btnIntervalLeft.setToolTipText(loc.getMenu("LeftProb"));
 		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
-
-		if (btnExport != null) {
-			btnExport.setTitle(app.getMenu("Export"));
-		}
-
+		btnExport.setTitle(app.getMenu("Export"));
+		createExportMenu();
 		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
 		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
@@ -257,7 +254,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    plotPanelOptions = new FlowPanel();
 	    plotPanelOptions.setStyleName("plotPanelOptions");
 	    plotPanelOptions.add(lblMeanSigma);
-		if (!app.isExam() && btnExport != null) {
+		if (!app.isExam()) {
 			plotPanelOptions.add(btnExport);
 		}
 	    plotPanelOptions.add(btnNormalOverlay);
@@ -402,13 +399,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    lblMeanSigma = new Label();
 	    lblMeanSigma.addStyleName("lblMeanSigma");
 	    
-		if (app.isApplet()) {
-			btnExport = null;
-		} else {
-			btnExport = new MenuBar();
-			createExportMenu();
-		}
-
+		btnExport = new MenuBar();
 		btnExport.addStyleName("btnExport");
 
 		btnNormalOverlay = new MyToggleButton2(
@@ -1058,7 +1049,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	private void createExportMenu() {
 		MenuBar menu = new MenuBar(true);
 
-		MenuItem miToGraphich = new MenuItem(app.getMenu("CopyToGraphics"),
+		if (!app.isApplet()) {
+			MenuItem miToGraphich = new MenuItem(app.getMenu("CopyToGraphics"),
 				new Command() {
 
 					public void execute() {
@@ -1068,7 +1060,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				});
 
 		menu.addItem(miToGraphich);
-
+		}
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
 			MenuItem miAsPicture = new MenuItem(
 					app.getPlain("ExportAsPicture"), new Command() {
@@ -1089,6 +1081,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				+ "\" >";
 		btnExport.addItem(image, true, menu);
 		btnExport.removeStyleName("gwt-MenuBar");
+		btnExport.addStyleName("gwt-ToggleButton");
 		btnExport.addStyleName("MyToggleButton");
 	}
 
