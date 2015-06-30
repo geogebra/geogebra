@@ -2015,20 +2015,6 @@ function createRoot(jQ, root, textbox, editable) {
   textareaDOM.hadFocus = false;
 
   var textareaFocusFunction = function(e1) {
-    e1.stopPropagation();
-
-    // as far as I remember, timeouts are here to make this
-    // happen later than blur / onblur / blur / onblur events happen
-    // but if the first focus gets called, we can remove the timeouts
-    // to prevent focus called again a bit later, which is useful
-    // if the user really wants to blur in that short time
-	//clearTimeout(textareaDOM.timeout1);
-	clearTimeout(textareaDOM.timeout2);
-	clearTimeout(textareaDOM.timeout3);
-	clearTimeout(textareaDOM.timeout4);
-	// but clearTimeout does not help when a focus event is already
-	// called until this onfocus executes, maybe does not matter
-
     if (textareaDOM.hadFocus === false) {
       if (!cursor.parent)
         cursor.appendTo(root);
@@ -2050,8 +2036,6 @@ function createRoot(jQ, root, textbox, editable) {
   };
 
   var textareaBlurFunction = function(e2) {
-    e2.stopPropagation();
-
     if (textareaDOM.hadFocus) {
       if (cursor.parent) {
         cursor.hide().parent.blur();
@@ -2095,23 +2079,7 @@ function createRoot(jQ, root, textbox, editable) {
     // and also because the blur event on TAB should
     // really leave this element in case TAB is pressed!
 
-    // making sure stopPropagation is really get called
-    e1.stopPropagation(); // it will be called in textarea?
-
     adjustFixedTextarea(jQ);
-
-    if (!disabledTextarea) {
-  	  //clearTimeout(textareaDOM.timeout1);
-	  clearTimeout(textareaDOM.timeout2);
-	  clearTimeout(textareaDOM.timeout3);
-	  clearTimeout(textareaDOM.timeout4);
-
-	  // jQ.blur was called early in order to avoid
-	  // it being called too late... but instead, we'll
-	  // instead prevent textarea.blur being called on
-	  // jQ.blur entirely!!!
-      //jQ.blur();
-    }
 
     // if jQ just gets focus, why was here jQ.blur???
     // to make this blur before textarea.focus() makes it blur,
@@ -2128,27 +2096,12 @@ function createRoot(jQ, root, textbox, editable) {
     if (disabledTextarea) {
       textareaFocusFunction(e1);
     } else {
-      var timFunction = function() {
-        //if (textareaDOM.hadFocus === false) {
-          // as jQ takes focus from textareaDOM,
-          // we shall focus it again, anyway...
-          // BUT then there are a lot of events,
-    	  // so setting hadFocus better might help
-          textarea.focus();
-        //}
-      };
-
-      // so here are other setTimeout's, as
-      // the bug just turned out to be a timeout issue,
-      // which may be fixed differently but this works for sure:
-	  //clearTimeout(textareaDOM.timeout1);
-	  clearTimeout(textareaDOM.timeout2);
-	  clearTimeout(textareaDOM.timeout3);
-	  clearTimeout(textareaDOM.timeout4);
-	  textareaDOM.timeout4 = setTimeout(timFunction, 500);
-	  textareaDOM.timeout3 = setTimeout(timFunction, 300);
-	  textareaDOM.timeout2 = setTimeout(timFunction, 100);
-	  //textareaDOM.timeout1 = setTimeout(timFunction);
+      // I think there is no point in setting more setTimeout
+      // when the first one will clear the other ones, so
+      // this is the simplest solution so far, but is this
+      // the most reliable? Probably not...
+      // 100ms is experimental, 0ms does not work with Web.html
+      setTimeout(function() { textarea.focus(); }, 100);
 
       //do this immediately (ATM also happens in timeout, might not be needed)
       if (root.common.newCreationMode) {
@@ -2158,14 +2111,7 @@ function createRoot(jQ, root, textbox, editable) {
   }).bind('blur.mathquillggb', function(e3) {
     if (disabledTextarea) {
       textareaBlurFunction(e3);
-    } //else {
-      //e3.stopPropagation();
-      //if (textareaDOM.hadFocus === true) {
-      // well, if textarea has focus, then this blur
-      // method should not even execute?
-      //  textarea.blur();
-      //}
-    //}
+    }
   }).blur();
 }
 
