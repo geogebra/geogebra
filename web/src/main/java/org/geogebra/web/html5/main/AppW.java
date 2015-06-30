@@ -183,7 +183,7 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super();
-
+		setPrerelease(ae.getDataParamPrerelease());
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = ae;
 		this.laf = laf;
@@ -1681,7 +1681,6 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param this_app
 	 */
 	protected void initCoreObjects(final boolean undoActive, final App this_app) {
-		setPrerelease(getArticleElement().getDataParamPrerelease());
 		kernel = newKernel(this_app);
 
 		// init settings

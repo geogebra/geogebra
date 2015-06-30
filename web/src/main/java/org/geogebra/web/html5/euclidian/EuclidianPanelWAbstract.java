@@ -30,4 +30,5 @@ public interface EuclidianPanelWAbstract {
 	public void updateNavigationBar();
 
 	public Element getElement();
+
 }

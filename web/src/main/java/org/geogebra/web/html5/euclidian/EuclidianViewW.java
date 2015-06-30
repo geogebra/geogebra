@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -615,6 +616,9 @@ public class EuclidianViewW extends EuclidianView implements
 		this.evNo = evNo;
 
 		this.g2p = new org.geogebra.web.html5.awt.GGraphics2DW(canvas);
+		App app1 = euclidiancontroller.getApplication();
+		g2p.devicePixelRatio = app1 == null || !app1.has(Feature.RETINA) ? 1
+				: Browser.getPixelRatio();
 		g2p.setView(this);
 
 		updateFonts();

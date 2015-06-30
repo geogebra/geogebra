@@ -262,7 +262,7 @@ public class Browser {
 		return !!$wnd.MSBlobBuilder;
 	}-*/;
 
-	public static native double getPixelRatio() /*-{
+	public static native float getPixelRatio() /*-{
 		// TODO Auto-generated method stub
 		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
 				.getContext("2d");

@@ -728,6 +728,9 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static native Element getCurrentMouseHover() /*-{
 		var highestHover = null;
+		if(!$wnd.$ggbQuery){
+			return null;
+		}
 		$wnd.$ggbQuery(':hover').each(function(idx, elm) {
 			if (elm) {
 				if (highestHover) {

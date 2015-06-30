@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -796,13 +797,18 @@ public class MouseTouchGestureControllerW implements
 	@Override
 	public int mouseEventX(int clientX) {
 		return Math.round((clientX) * (1 / style.getScaleX())
-		        * (1 / style.getHeightScale()));
+				* (1 / style.getHeightScale()) * getDevicePixelRatio());
+	}
+
+	private float getDevicePixelRatio() {
+		return app != null && app.has(Feature.RETINA) ? Browser.getPixelRatio()
+				: 1;
 	}
 
 	@Override
 	public int mouseEventY(int clientY) {
 		return Math.round((clientY) * (1 / style.getScaleY())
-		        * (1 / style.getHeightScale()));
+				* (1 / style.getHeightScale()) * getDevicePixelRatio());
 	}
 
 	@Override

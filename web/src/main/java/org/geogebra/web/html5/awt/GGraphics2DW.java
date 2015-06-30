@@ -57,7 +57,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 	/**
 	 * the pixel ratio of the canvas.
 	 */
-	public int devicePixelRatio = 1;
+	public double devicePixelRatio = 1;
 	private int id;
 
 	private static int counter = 1;
@@ -425,9 +425,13 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		return currentFont;
 	}
 
+	private int physicalPX(int logicalPX) {
+		return (int) (logicalPX * devicePixelRatio);
+	}
 	public void setCoordinateSpaceSize(int width, int height) {
-		canvas.setCoordinateSpaceWidth(width * devicePixelRatio);
-		canvas.setCoordinateSpaceHeight(height * devicePixelRatio);
+		App.debug("Coordinates ratio" + devicePixelRatio);
+		canvas.setCoordinateSpaceWidth(physicalPX(width));
+		canvas.setCoordinateSpaceHeight(physicalPX(height));
 		scale(devicePixelRatio, devicePixelRatio);
 		setWidth(width);
 		setHeight(height);
@@ -675,10 +679,9 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		// as it is prepared by the browser and not yet ready...
 		// if preferredSize can be negative, have a check for it instead
 		setCoordinateSpaceSize(
-		        ((preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0)
-		                * devicePixelRatio,
-		        ((preferredSize.getHeight() >= 0) ? preferredSize.getHeight()
-		                : 0) * devicePixelRatio);
+				(preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0,
+				(preferredSize.getHeight() >= 0) ? preferredSize.getHeight()
+						: 0);
 	}
 
 	public Canvas getCanvas() {
@@ -931,7 +934,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		}
 	}
 
-	public int getScale() {
+	public double getScale() {
 		return devicePixelRatio;
 	}
 
