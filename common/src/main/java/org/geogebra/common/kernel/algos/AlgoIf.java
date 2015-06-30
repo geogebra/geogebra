@@ -152,5 +152,15 @@ public class AlgoIf extends AlgoElement {
 		return new ExpressionNode(kernel, cond, Operation.IF_LIST, funs);
 	}
 
+	public boolean isUndefined() {
+		for (int i = 0; i < conditions.size(); i++) {
+			if (conditions.get(i).getBoolean()) {
+				return !alternatives.get(i).isDefined();
+			}
+
+		}
+		return false;
+	}
+
 	// TODO Consider locusequability
 }

@@ -1727,4 +1727,13 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return false;
 	}
 
+	public boolean isUndefined() {
+		for (GeoElement geo : getInput()) {
+			if (!geo.isDefined()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

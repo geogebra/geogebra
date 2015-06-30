@@ -131,13 +131,9 @@ public class AlgoCurveCartesian extends AlgoElement {
 			AlgoElement algo = null;
 			if (coords[i].toGeoElement() != null)
 				algo = (coords[i].toGeoElement()).getParentAlgorithm();
-			if (algo != null) {
-				for (GeoElement geo : algo.getInput()) {
-					if (!geo.isDefined()) {
-						curve.setUndefined();
-						return;
-					}
-				}
+			if (algo != null && algo.isUndefined()) {
+				curve.setUndefined();
+				return;
 			}
 			if(containsFunctions[i]){
 				ExpressionValue ev = null;
