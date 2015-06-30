@@ -34,8 +34,8 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 		else
 			canv = canvas;
 
-		canv.setCoordinateSpaceWidth(width);
-		canv.setCoordinateSpaceHeight(height);
+		canv.setCoordinateSpaceWidth((int) (width * pixelRatio));
+		canv.setCoordinateSpaceHeight((int) (height * pixelRatio));
 		canv.setWidth(width + "px");
 		canv.setHeight(height + "px");
 		Context2d c2d = canv.getContext2d();
