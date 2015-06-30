@@ -2356,6 +2356,10 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     if (cc >= 65 && cc <= 90) {
       // ASCII A-Z OK
       this.common.GeoGebraSuggestionPopupCanShow = true;
+    } else if (cc >= 97 && cc <= 122) {
+      // we shall also accept lowercase, as this method
+      // is also called from somewhere else!
+      this.common.GeoGebraSuggestionPopupCanShow = true;
     } else if (cc >= 48 && cc <= 57) {
       // ASCII 0-9 maybe OK (?)
       this.common.GeoGebraSuggestionPopupCanShow = true;
@@ -6471,6 +6475,7 @@ $.fn.mathquillggb = function(cmd, latex) {
 
           // now we shall actualize GeoGebraSuggestionPopupCanShow
           if (cursor.root && latex.length) {
+        	var croot = cursor.root;
         	// get the last character of latex, and check it
         	var lastchar = latex.charCodeAt(latex.length - 1);
         	if (latex.trim) {
@@ -6480,8 +6485,17 @@ $.fn.mathquillggb = function(cmd, latex) {
         	    lastchar = ltrim.charCodeAt(ltrim.length - 1);
         	  }
         	}
-            cursor.root.geogebraAutocompleteSuggestionCheck(lastchar);
-          }
+        	if (croot.common) {
+              var esi = croot.common;
+              esi.GeoGebraSuggestionPopupCanShow = false;
+              croot.geogebraAutocompleteSuggestionCheck(lastchar);
+        	}
+          } //else {
+          //  if (croot.common) {
+          //    var esi = croot.common;
+          //    esi.GeoGebraSuggestionPopupCanShow = false;
+          //  }
+          //}
 
           if (original_arguments[3]) {// if this is a GeoGebra command suggestion
 
