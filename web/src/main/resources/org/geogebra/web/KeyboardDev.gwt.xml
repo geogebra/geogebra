@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='keyboard'>
+
+ <inherits name="com.google.gwt.resources.Resources" />
+  <inherits name='com.google.gwt.user.User'/> 
+  <inherits name='org.geogebra.Common'/>
+  
+  <!-- #3511 -->
+  <set-property name="compiler.stackMode" value="strip"/>
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='org.geogebra.web.android.AndroidKeyboard'/>
+  
+  <!-- Specify the paths for translatable code                    -->
+  <source path="web"/>
+  <source path="android"/>
+  <source path="plugin"/>
+  <source path='html5'/>
+  <super-source path='html5-super' />
+  
+  <resource path='resources'/>
+  <public path="pub" />
+  
+  <replace-with class="org.geogebra.web.web.gui.PNGImageFactory">
+    <when-type-is class="org.geogebra.web.web.gui.ImageFactory" />    
+  </replace-with>
+
+  <replace-with class="org.geogebra.web.web.gui.applet.AppletFactory2D">
+    <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
+  </replace-with>
+  <!-- Compile only one permutation -->
+  
+  <collapse-all-properties />
+</module>
