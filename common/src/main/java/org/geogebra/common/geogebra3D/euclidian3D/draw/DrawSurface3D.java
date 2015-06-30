@@ -38,7 +38,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	// max split array size ( size +=4 for one last split)
 	private static final int MAX_SPLIT_SPEED = 4096;
-	private static final int MAX_SPLIT_QUALITY = MAX_SPLIT_SPEED * 8;
+	private static final int MAX_SPLIT_QUALITY = MAX_SPLIT_SPEED * 2;
 	
 	
 	private static final int MAX_SPLIT_IN_ONE_UPDATE_SPEED = 512;
