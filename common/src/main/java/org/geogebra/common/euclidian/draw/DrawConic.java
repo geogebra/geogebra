@@ -481,6 +481,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		point.copyLabel(conic);
 		point.setObjColor(conic.getObjectColor());
+		point.setLabelColor(conic.getLabelColor());
 		point.setPointSize(conic.lineThickness);
 
 		drawPoint.update(coords);
@@ -1374,7 +1375,25 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			return shape.getBounds();
+		case GeoConicNDConstants.CONIC_HYPERBOLA:
+			// might need another formula for flat hyperbolae, max() prevents
+			// flattening of xx-yy=1000
+			double focX = Math.max(
+					Math.abs(conic.linearEccentricity
+							* conic.eigenvec[0].getX()),
+					Math.abs(conic.linearEccentricity
+							* conic.eigenvec[0].getY()));
+			int xmin = view.toScreenCoordX(midpoint.getX()
+ - focX);
+			int xmax = view.toScreenCoordX(midpoint.getX()
+ + focX);
+			int ymin = view.toScreenCoordY(midpoint.getY()
+ - focX);
+			int ymax = view.toScreenCoordY(midpoint.getY()
+ + focX);
 
+			return AwtFactory.prototype.newRectangle(xmin, ymax, xmax - xmin,
+					ymin - ymax);
 		default:
 			return null;
 		}
