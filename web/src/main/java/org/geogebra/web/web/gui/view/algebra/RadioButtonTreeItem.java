@@ -328,7 +328,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// Sliders
 		if (app.has(Feature.AV_EXTENSIONS)
 		        && geo instanceof GeoNumeric
-		        && ((GeoNumeric) geo).isShowingExtendedAV()) {
+				&& ((GeoNumeric) geo).isShowingExtendedAV()) {
 			if (!geo.isEuclidianVisible()) {
 				// number inserted via input bar
 				// -> initialize min/max etc.
@@ -336,47 +336,57 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				geo.setEuclidianVisible(false);
 			}
 
-			slider = new SliderPanelW(
-					(int) ((GeoNumeric) geo).getIntervalMin(),
-			        (int) ((GeoNumeric) geo).getIntervalMax());
-			slider.setValue(((GeoNumeric) geo).getValue());
-			slider.setMinorTickSpacing(geo.getAnimationStep());
+			// if the geo still has no min/max, it should not be displayed with
+			// a slider (e.g. boxplots)
+			if (((GeoNumeric) geo).getIntervalMinObject() != null
+					&& ((GeoNumeric) geo).getIntervalMaxObject() != null) {
 
-			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
-				@Override
-				public void onValueChange(ValueChangeEvent<Double> event) {
-					((GeoNumeric) geo).setValue(event.getValue());
-					geo.updateCascade();
-					// updates other views (e.g. Euclidian)
-					kernel.notifyRepaint();
-				}
-			});
+				slider = new SliderPanelW(
+						(int) ((GeoNumeric) geo).getIntervalMin(),
+						(int) ((GeoNumeric) geo).getIntervalMax());
+				slider.setValue(((GeoNumeric) geo).getValue());
+				slider.setMinorTickSpacing(geo.getAnimationStep());
 
-			sliderPanel = new VerticalPanel();
-			add(sliderPanel);
-
-			if (geo.isAnimatable()) {
-				ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
-				        .nav_pause() : AppResources.INSTANCE.nav_play();
-				playButton = new PlayButton(imageresource);
-
-				ClickStartHandler.init(playButton, new ClickStartHandler() {
+				slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 					@Override
-					public void onClickStart(int x, int y, PointerEventType type) {
-						boolean newValue = !(geo.isAnimating() && app
-								.getKernel().getAnimatonManager().isRunning());
-						geo.setAnimating(newValue);
-						playButton.setResource(newValue ? AppResources.INSTANCE
-								.nav_pause() : AppResources.INSTANCE.nav_play());
-						geo.updateRepaint();
-
-						if (geo.isAnimating()) {
-							geo.getKernel().getAnimatonManager()
-									.startAnimation();
-						}
+					public void onValueChange(ValueChangeEvent<Double> event) {
+						((GeoNumeric) geo).setValue(event.getValue());
+						geo.updateCascade();
+						// updates other views (e.g. Euclidian)
+						kernel.notifyRepaint();
 					}
 				});
-				marblePanel.add(playButton);
+
+				sliderPanel = new VerticalPanel();
+				add(sliderPanel);
+
+				if (geo.isAnimatable()) {
+					ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
+							.nav_pause() : AppResources.INSTANCE.nav_play();
+					playButton = new PlayButton(imageresource);
+
+					ClickStartHandler.init(playButton, new ClickStartHandler() {
+						@Override
+						public void onClickStart(int x, int y,
+								PointerEventType type) {
+							boolean newValue = !(geo.isAnimating() && app
+									.getKernel().getAnimatonManager()
+									.isRunning());
+							geo.setAnimating(newValue);
+							playButton
+									.setResource(newValue ? AppResources.INSTANCE
+											.nav_pause()
+											: AppResources.INSTANCE.nav_play());
+							geo.updateRepaint();
+
+							if (geo.isAnimating()) {
+								geo.getKernel().getAnimatonManager()
+										.startAnimation();
+							}
+						}
+					});
+					marblePanel.add(playButton);
+				}
 			}
 		}
 
