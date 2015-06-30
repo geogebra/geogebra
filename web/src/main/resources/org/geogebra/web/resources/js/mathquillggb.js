@@ -2105,7 +2105,12 @@ function createRoot(jQ, root, textbox, editable) {
 	  clearTimeout(textareaDOM.timeout2);
 	  clearTimeout(textareaDOM.timeout3);
 	  clearTimeout(textareaDOM.timeout4);
-      jQ.blur();
+
+	  // jQ.blur was called early in order to avoid
+	  // it being called too late... but instead, we'll
+	  // instead prevent textarea.blur being called on
+	  // jQ.blur entirely!!!
+      //jQ.blur();
     }
 
     // if jQ just gets focus, why was here jQ.blur???
@@ -2153,12 +2158,14 @@ function createRoot(jQ, root, textbox, editable) {
   }).bind('blur.mathquillggb', function(e3) {
     if (disabledTextarea) {
       textareaBlurFunction(e3);
-    } else {
-      e3.stopPropagation();
-      if (textareaDOM.hadFocus === true) {
-        textarea.blur();
-      }
-    }
+    } //else {
+      //e3.stopPropagation();
+      //if (textareaDOM.hadFocus === true) {
+      // well, if textarea has focus, then this blur
+      // method should not even execute?
+      //  textarea.blur();
+      //}
+    //}
   }).blur();
 }
 
