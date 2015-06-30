@@ -141,6 +141,12 @@ public class View {
 		return ((ArticleElement) container);
 	}
 
+	private native void log(Object ex)/*-{
+		if ($wnd.console) {
+			$wnd.console.log(ex);
+		}
+	}-*/;
+
 	private void maybeLoadFile() {
 		if (app == null || archiveContent == null) {
 			return;
@@ -151,7 +157,7 @@ public class View {
 			App.debug("loadggb finished" + System.currentTimeMillis());
 		} catch (Throwable ex) {
 			ex.printStackTrace();
-			App.debug(ex.getMessage());
+			log(ex);
 			return;
 		}
 		archiveContent = null;
