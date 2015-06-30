@@ -58,8 +58,9 @@ public class Drawable3DListsForView extends Drawable3DLists {
 					view3D.removeOneGeoToPick();
 				}
 				listForPicking.remove(drawable);
+				drawable.removeFromGL();
 			}
-			// drawable.removeFromGL();
+
 		}
 
 	}
