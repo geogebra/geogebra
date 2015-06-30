@@ -181,7 +181,7 @@ public class HatchingHandler {
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
 			GColor bgColor, float backgroundTransparency, int xInt, int yInt) {
 		bufferedImage = AwtFactory.prototype.newBufferedImage(xInt * 3,
-				yInt * 3, GBufferedImage.TYPE_INT_ARGB);
+				yInt * 3, 1);
 
 		GGraphics2D g2d = bufferedImage.createGraphics();
 
@@ -231,7 +231,7 @@ public class HatchingHandler {
 		if (alpha < 1.0f) {
 			GBufferedImage copy = AwtFactory.prototype.newBufferedImage(
 					image.getWidth(), image.getHeight(),
-					GBufferedImage.TYPE_INT_ARGB);
+ 1);
 
 			GGraphics2D g2d = copy.createGraphics();
 

@@ -949,7 +949,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 		// create and return a buffered image with power-of-two dimensions
 		return new GBufferedImageW(label.getWidthPowerOfTwo(),
-		        label.getHeightPowerOfTwo(), 0);
+				label.getHeightPowerOfTwo(), 1);
 	}
 
 	@Override

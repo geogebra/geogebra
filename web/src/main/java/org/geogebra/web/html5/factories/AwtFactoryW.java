@@ -97,8 +97,8 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
-	        int typeIntArgb) {
-		return new GBufferedImageW(pixelWidth, pixelHeight, typeIntArgb);
+			float pixelRatio) {
+		return new GBufferedImageW(pixelWidth, pixelHeight, pixelRatio);
 	}
 
 	@Override
@@ -264,7 +264,9 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
 		return new MyImageW(new GBufferedImageW(pixelWidth, pixelHeight,
-		        typeIntArgb).getImageElement(), false);
+ 1)
+						.getImageElement(),
+				false);
 	}
 
 	@Override

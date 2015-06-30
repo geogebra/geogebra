@@ -518,15 +518,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		context.clip();
 	}
 
-	public void drawGraphics(GGraphics2DW gother, int x, int y,
-	        GBufferedImageOp op) {
-
-		if (gother == null)
-			return;
-
-		context.drawImage(gother.getCanvas().getCanvasElement(), x, y);
-	}
-
 	public void fillRect(int x, int y, int w, int h) {
 		context.fillRect(x, y, w, h);
 	}
@@ -973,7 +964,22 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 			return;
 		try {
 			if (bi.hasCanvas()) {
-				context.drawImage(bi.getCanvas().getCanvasElement(), x, y);
+				App.debug(bi.getCanvas().getCoordinateSpaceWidth()
+						+ " pixels wide background");
+				context.drawImage(
+						bi.getCanvas().getCanvasElement(),
+						0,
+						0,
+						bi
+						.getCanvas().getCoordinateSpaceWidth(), bi.getCanvas()
+.getCoordinateSpaceHeight(),
+						x,
+						y,
+						bi.getCanvas().getCoordinateSpaceWidth()
+								/ bi.getPixelRatio(),
+						bi.getCanvas().getCoordinateSpaceHeight()
+								/ bi.getPixelRatio());
+
 			} else {
 				context.drawImage(bi.getImageElement(), x, y);
 			}

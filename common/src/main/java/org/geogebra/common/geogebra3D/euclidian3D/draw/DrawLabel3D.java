@@ -61,7 +61,7 @@ public class DrawLabel3D {
 
 	/** temp graphics used for calculate bounds */
 	protected GGraphics2D tempGraphics = org.geogebra.common.factories.AwtFactory.prototype
-			.newBufferedImage(1, 1, GBufferedImage.TYPE_INT_ARGB)
+			.newBufferedImage(1, 1, 1)
 			.createGraphics();
 
 	protected Drawable3D drawable;

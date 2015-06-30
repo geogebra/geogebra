@@ -84,8 +84,9 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
-			int type) {
-		return new org.geogebra.desktop.awt.GBufferedImageD(pixelWidth, pixelHeight, type);
+			float pixelRatio) {
+		return new org.geogebra.desktop.awt.GBufferedImageD(pixelWidth,
+				pixelHeight, GBufferedImage.TYPE_INT_ARGB);
 	}
 
 	@Override

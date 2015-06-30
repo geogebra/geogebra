@@ -17,12 +17,17 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 
 	Canvas canv = null; // not necessary, but if present, this is the main one
 
-	public GBufferedImageW(int width, int height, int imageType, boolean opaque) {
-		this(null, width, height, imageType, opaque);
+	private float pixelRatio;
+
+	public GBufferedImageW(int width, int height, float pixelRatio,
+			boolean opaque) {
+		this(null, width, height, pixelRatio, opaque);
 	}
 
-	public GBufferedImageW(Canvas canvas, int width, int height, int imageType,
+	public GBufferedImageW(Canvas canvas, int width, int height,
+			float pixelRatio,
 	        boolean opaque) {
+		this.pixelRatio = pixelRatio;
 
 		if (canvas == null)
 			canv = makeCanvas();
@@ -33,9 +38,8 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 		canv.setCoordinateSpaceHeight(height);
 		canv.setWidth(width + "px");
 		canv.setHeight(height + "px");
-
+		Context2d c2d = canv.getContext2d();
 		if (opaque) {
-			Context2d c2d = canv.getContext2d();
 			// com.google.gwt.canvas.dom.client.FillStrokeStyle fss =
 			// c2d.getStrokeStyle();
 			// com.google.gwt.canvas.dom.client.FillStrokeStyle fsf =
@@ -48,12 +52,15 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 			// c2d.setStrokeStyle(fss);
 			// c2d.setFillStyle(fsf);
 		}
+		if (pixelRatio != 1) {
+			c2d.scale(pixelRatio, pixelRatio);
+		}
 
 		// img = getImageElement();
 	}
 
-	public GBufferedImageW(int width, int height, int imageType) {
-		this(width, height, imageType, false);
+	public GBufferedImageW(int width, int height, float pixelRatio) {
+		this(width, height, pixelRatio, false);
 	}
 
 	public GBufferedImageW(ImageElement imageElement) {
@@ -162,5 +169,9 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 	public ImageData getImageData() {
 		return getCanvas().getContext2d().getImageData(0, 0, getWidth(),
 		        getHeight());
+	}
+
+	public float getPixelRatio() {
+		return pixelRatio;
 	}
 }

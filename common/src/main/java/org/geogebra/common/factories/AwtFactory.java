@@ -48,7 +48,7 @@ public abstract class AwtFactory {
 	public abstract GRectangle newRectangle(int x, int y, int w, int h);
 
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
-			int pixelHeight, int typeIntArgb);
+			int pixelHeight, float pixelRatio);
 
 	public abstract MyImage newMyImage(int pixelWidth, int pixelHeight,
 			int typeIntArgb);

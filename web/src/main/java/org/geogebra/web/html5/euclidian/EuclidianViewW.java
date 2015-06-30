@@ -250,8 +250,8 @@ public class EuclidianViewW extends EuclidianView implements
 		if (this.isGridOrAxesShown() || this.hasBackgroundImages()
 		        || this.tracing || app.showResetIcon()
 		        || kernel.needToShowAnimationButton()) {
-			((org.geogebra.web.html5.awt.GGraphics2DW) g2).drawGraphics(
-			        (org.geogebra.web.html5.awt.GGraphics2DW) bgGraphics, 0, 0, null);
+			((org.geogebra.web.html5.awt.GGraphics2DW) g2).drawImage(bgImage,
+					0, 0);
 		} else {
 			((org.geogebra.web.html5.awt.GGraphics2DW) g2).fillWith(this
 			        .getBackgroundCommon());
@@ -558,7 +558,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void createImage() {
-		bgImage = new GBufferedImageW(getWidth(), getHeight(), 0, false);
+		bgImage = new GBufferedImageW(getWidth(), getHeight(), app == null
+				|| !app.has(Feature.RETINA) ? 1 : Browser.getPixelRatio(),
+				false);
 		bgGraphics = bgImage.createGraphics();
 	}
 
