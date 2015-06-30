@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * manager using shaders and binding to gpu buffers
@@ -26,6 +26,32 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 			fanIndirectIndicesSize;
 
 	final static boolean DEBUG = false;
+
+	/**
+	 * debug if debug mode
+	 * 
+	 * @param message
+	 *            message
+	 */
+	final static void debug(String message) {
+		if (DEBUG) {
+			Log.debug(message);
+		}
+	}
+
+	/**
+	 * debug if debug mode
+	 * 
+	 * @param message
+	 *            message
+	 * @param val
+	 *            value
+	 */
+	final static void debug(String message, double val) {
+		if (DEBUG) {
+			Log.debug(message + val);
+		}
+	}
 
 	/**
 	 * 
@@ -82,7 +108,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 		if (size > curvesIndicesSize) {
 
-			App.debug("NEW curvesIndicesSize : " + size);
+			debug("NEW curvesIndicesSize : ", size);
 
 			// creates indices buffer
 			short[] arrayI = new short[3 * 2 * size * PlotterBrush.LATITUDES];
@@ -134,7 +160,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 		if (size > fanDirectIndicesSize) {
 
-			App.debug("NEW fanDirectIndicesSize : " + size);
+			debug("NEW fanDirectIndicesSize : ", size);
 
 			// creates indices buffer
 			short[] arrayI = new short[3 * (size - 2)];
@@ -175,7 +201,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 		if (size > fanIndirectIndicesSize) {
 
-			App.debug("NEW fanIndirectIndicesSize : " + size);
+			debug("NEW fanIndirectIndicesSize : ", size);
 
 			// creates indices buffer
 			short[] arrayI = new short[3 * (size - 2)];
@@ -312,15 +338,13 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 						bufferI);
 				if (arrayI == null
 						|| (!indicesDone && arrayI.length != getLength())) {
-					App.debug("NEW index buffer");
+					debug("NEW index buffer");
 					arrayI = new short[getLength()];
 					for (short i = 0; i < getLength(); i++) {
 						arrayI[i] = i;
 					}
 				} else {
-					if (DEBUG) {
-						App.debug("keep same index buffer");
-					}
+					debug("keep same index buffer");
 				}
 				indicesLength = arrayI.length;
 
@@ -329,18 +353,14 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 				break;
 
 			case CURVE:
-				if (DEBUG) {
-					App.debug("curve: shared index buffer");
-				}
+				debug("curve: shared index buffer");
 				bufferI = getBufferIndicesForCurve(r, size);
 				indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
 				hasSharedIndexBuffer = true;
 				break;
 
 			case SURFACE:
-				if (DEBUG) {
-					App.debug("surface -- keep same index buffer");
-				}
+				debug("surface -- keep same index buffer");
 
 				if (hasSharedIndexBuffer) {
 					// need specific index if was sharing one
@@ -357,17 +377,13 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 				break;
 
 			case FAN_DIRECT:
-				if (DEBUG) {
-					App.debug("fan direct: shared index buffer");
-				}
+				debug("fan direct: shared index buffer");
 				bufferI = getBufferIndicesForFanDirect(r, size);
 				indicesLength = 3 * (size - 2);
 				hasSharedIndexBuffer = true;
 				break;
 			case FAN_INDIRECT:
-				if (DEBUG) {
-					App.debug("fan indirect: shared index buffer");
-				}
+				debug("fan indirect: shared index buffer");
 				bufferI = getBufferIndicesForFanIndirect(r, size);
 				indicesLength = 3 * (size - 2);
 				hasSharedIndexBuffer = true;
