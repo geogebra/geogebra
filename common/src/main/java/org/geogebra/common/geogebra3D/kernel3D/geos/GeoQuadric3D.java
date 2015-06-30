@@ -139,7 +139,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				* matrix[4] * matrix[4] + 2 * matrix[4] * matrix[5] * matrix[6];
 		if (Kernel.isZero(detS)) {
 			type = QUADRIC_NOT_CLASSIFIED; // TODO
-			App.printStacktrace("QUADRIC_NOT_CLASSIFIED");
 		} else {
 			classifyMidpointQuadric(degenerate);
 		}
