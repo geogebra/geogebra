@@ -2893,6 +2893,7 @@ namespace giac {
   static gen rectangular2polar(const gen & g,const context * contextptr){
     gen args=remove_at_pnt(g);
     gen module=abs(args,contextptr),argument=arg(args,contextptr);
+    module=normal(module,contextptr);
     if (is_zero(argument))
       return module;
     gen res=module*symbolic(at_exp,cst_i*argument);
