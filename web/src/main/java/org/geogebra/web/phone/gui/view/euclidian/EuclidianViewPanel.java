@@ -38,11 +38,10 @@ public class EuclidianViewPanel extends AbstractViewPanel {
 
 		euclidianView.g2p = new GGraphics2DW(Canvas.createIfSupported());
 		if (app.has(Feature.RETINA)) {
-			App.debug("Setting ratio" + Browser.getPixelRatio());
 			euclidianView.g2p.devicePixelRatio = Browser
 					.getPixelRatio();
 		} else {
-			App.printStacktrace("Let ratio 1");
+			App.debug("Retina not enabled");
 		}
 		euclidianView.g2p.setView(euclidianView);
 
