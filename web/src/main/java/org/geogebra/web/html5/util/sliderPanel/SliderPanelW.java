@@ -1,6 +1,5 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.util.sliderPanel;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.awt.GDimensionW;
 
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -11,28 +10,24 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 
-public class SliderPanel extends FlowPanel implements HasChangeHandlers,
-        HasValue<Integer> {
+public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
+		HasValue<Double> {
 
-	private Slider slider;
+	private SliderW slider;
 	private Label minLabel;
 	private Label maxLabel;
 
-	public SliderPanel() {
-		this(0, 100);
-	}
-
-	public SliderPanel(int min, int max) {
+	public SliderPanelW(int min, int max) {
 		minLabel = new Label(String.valueOf(min));
 		add(minLabel);
-		slider = new Slider(min, max);
+		slider = new SliderW(min, max);
 		add(slider);
 		maxLabel = new Label(String.valueOf(max));
 		add(maxLabel);
 		setStyleName("optionsSlider");
 	}
 
-	public Integer getValue() {
+	public Double getValue() {
 		return slider.getValue();
 	}
 
@@ -46,20 +41,12 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		maxLabel.setText(String.valueOf(max));
 	}
 
-	public void setMajorTickSpacing(int step) {
+	public void setMajorTickSpacing(double step) {
 		slider.setMajorTickSpacing(step);
 	}
 
-	public void setMinorTickSpacing(int step) {
+	public void setMinorTickSpacing(double step) {
 		slider.setMinorTickSpacing(step);
-	}
-
-	public void setPaintTicks(boolean b) {
-		App.debug("not applicable for range");
-	}
-
-	public void setPaintLabels(boolean b) {
-		App.debug("not applicable for range");
 	}
 
 	public GDimensionW getPreferredSize() {
@@ -67,15 +54,15 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public HandlerRegistration addValueChangeHandler(
-	        ValueChangeHandler<Integer> handler) {
+			ValueChangeHandler<Double> handler) {
 		return slider.addValueChangeHandler(handler);
 	}
 
-	public void setValue(Integer value) {
+	public void setValue(Double value) {
 		slider.setValue(value, false);
 	}
 
-	public void setValue(Integer value, boolean fireEvents) {
+	public void setValue(Double value, boolean fireEvents) {
 		slider.setValue(value, fireEvents);
 	}
 

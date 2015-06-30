@@ -57,11 +57,11 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.util.EventUtil;
+import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
-import org.geogebra.web.web.gui.util.SliderW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArray;
@@ -174,7 +174,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * Slider to be shown as part of the extended Slider entries
 	 */
-	private SliderW slider;
+	private SliderPanelW slider;
 
 	/**
 	 * panel to correctly display an extended slider entry
@@ -336,7 +336,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				geo.setEuclidianVisible(false);
 			}
 
-			slider = new SliderW(((GeoNumeric) geo).getIntervalMin(),
+			slider = new SliderPanelW(
+					(int) ((GeoNumeric) geo).getIntervalMin(),
 			        (int) ((GeoNumeric) geo).getIntervalMax());
 			slider.setValue(((GeoNumeric) geo).getValue());
 			slider.setMinorTickSpacing(geo.getAnimationStep());
@@ -807,8 +808,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		if (geo instanceof GeoNumeric && slider != null
 		        && sliderPanel != null) {
-			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
-			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
+			slider.setMinimum((int) ((GeoNumeric) geo).getIntervalMin());
+			slider.setMaximum((int) ((GeoNumeric) geo).getIntervalMax());
 			slider.setMinorTickSpacing(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()
@@ -1726,8 +1727,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		Widget draggableContent = this;
 		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoNumeric
 				&& slider != null) {
-			draggableContent = ihtml;
-			getElement().setDraggable(Element.DRAGGABLE_FALSE);
+			return;
+			// draggableContent = ihtml;
+			// getElement().setDraggable(Element.DRAGGABLE_FALSE);
 		}
 		getElement().setAttribute("position", "absolute");
 		draggableContent.getElement().setDraggable(Element.DRAGGABLE_TRUE);

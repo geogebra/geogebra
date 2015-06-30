@@ -170,5 +170,5 @@ public class LineStyleModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 }

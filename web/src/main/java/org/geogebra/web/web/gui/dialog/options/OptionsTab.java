@@ -84,7 +84,7 @@ class OptionsTab extends FlowPanel {
 	private int index;
 	private List<OptionsModel> models;
 	private TabPanel tabPanel;
-	private Localization loc;
+	Localization loc;
 	private boolean inited = false;
 	private boolean focused = false, updated = true;
 	

@@ -1,6 +1,5 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.util.sliderPanel;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.awt.GDimensionW;
 
 import com.google.gwt.dom.client.Document;
@@ -20,18 +19,14 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasValue;
 
-public class Slider extends FocusWidget implements HasChangeHandlers,
-        HasValue<Integer>, MouseDownHandler, MouseUpHandler, MouseMoveHandler {
+public class SliderW extends FocusWidget implements HasChangeHandlers,
+		HasValue<Double>, MouseDownHandler, MouseUpHandler, MouseMoveHandler {
 
 	private Element range;
 	private boolean valueChangeHandlerInitialized;
-	private Integer valueOnDragStart;
+	private Double curValue;
 
-	public Slider() {
-		this(0, 100);
-	}
-
-	public Slider(int min, int max) {
+	public SliderW(int min, int max) {
 		range = Document.get().createElement("input");
 		range.setAttribute("type", "range");
 		range.setAttribute("min", String.valueOf(min));
@@ -39,17 +34,16 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		setRangeValue(range, String.valueOf(min));
 		setElement(range);
 		addMouseDownHandler(this);
-		// addMouseMoveHandler(this);
+		addMouseMoveHandler(this);
 		addMouseUpHandler(this);
-
 	}
 
 	private native void setRangeValue(Element range, String value) /*-{
 		range.value = value;
 	}-*/;
 
-	public Integer getValue() {
-		return Integer.valueOf(getRangeValue(range));
+	public Double getValue() {
+		return Double.valueOf(getRangeValue(range));
 	}
 
 	private native String getRangeValue(Element range) /*-{
@@ -64,20 +58,12 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		range.setAttribute("max", String.valueOf(max));
 	}
 
-	public void setMajorTickSpacing(int step) {
+	public void setMajorTickSpacing(double step) {
 		range.setAttribute("step", String.valueOf(step));
 	}
 
-	public void setMinorTickSpacing(int step) {
+	public void setMinorTickSpacing(double step) {
 		range.setAttribute("step", String.valueOf(step));
-	}
-
-	public void setPaintTicks(boolean b) {
-		App.debug("not applicable for range");
-	}
-
-	public void setPaintLabels(boolean b) {
-		App.debug("not applicable for range");
 	}
 
 	public GDimensionW getPreferredSize() {
@@ -85,28 +71,24 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	}
 
 	public HandlerRegistration addValueChangeHandler(
-	        ValueChangeHandler<Integer> handler) {
+			ValueChangeHandler<Double> handler) {
 		if (!valueChangeHandlerInitialized) {
 			valueChangeHandlerInitialized = true;
 			addChangeHandler(new ChangeHandler() {
 				public void onChange(ChangeEvent event) {
-					ValueChangeEvent.fire(Slider.this, getValue());
+					ValueChangeEvent.fire(SliderW.this, getValue());
 				}
 			});
 		}
 		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
-	public void setValue(Integer value) {
+	public void setValue(Double value) {
 		setValue(value, false);
 	}
 
-	public void setValue(Integer value, boolean fireEvents) {
-		// Integer oldValue = getValue();
+	public void setValue(Double value, boolean fireEvents) {
 		setSliderValue(String.valueOf(value));
-		// if (fireEvents) {
-		// ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
-		// }
 	}
 
 	private void setSliderValue(String value) {
@@ -118,16 +100,21 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-		ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
-
+		ValueChangeEvent.fireIfNotEqual(this, curValue, getValue());
+		curValue = null;
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
-		valueOnDragStart = getValue();
+		curValue = getValue();
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
 		event.stopPropagation();
+		Double value = getValue();
+		if (curValue != null) {
+			ValueChangeEvent.fireIfNotEqual(this, curValue, value);
+			curValue = value;
+		}
 	}
 
 }
