@@ -2328,16 +2328,12 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     		  }
     		  if (key2.length === 1) {
     			  var cc = key2.charCodeAt(0);
-    			  if (cc >= 65 && cc <= 90) {
-    				  // ASCII A-Z OK
-    				  this.common.GeoGebraSuggestionPopupCanShow = true;
-    			  } else if (cc >= 48 && cc <= 57) {
-    				  // ASCII 0-9 maybe OK (?)
-    				  this.common.GeoGebraSuggestionPopupCanShow = true;
-    			  }
+    			  this.geogebraAutocompleteSuggestionCheck(cc);
     		  }
     	  }
-    	  
+    	  // note: something like the above method shall be called in
+    	  // case the mathquillggb replace command happens!!! But in that
+    	  // case, we can take the character directly (its character code)
     	}
       }
       return false;
@@ -2354,6 +2350,16 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     e.preventDefault();
     return false;
+  };
+  _.geogebraAutocompleteSuggestionCheck = function(cc) {
+	// cc is charCode
+    if (cc >= 65 && cc <= 90) {
+      // ASCII A-Z OK
+      this.common.GeoGebraSuggestionPopupCanShow = true;
+    } else if (cc >= 48 && cc <= 57) {
+      // ASCII 0-9 maybe OK (?)
+      this.common.GeoGebraSuggestionPopupCanShow = true;
+    }
   };
   _.onText = function(curs, ch) {
 	if (ch === ',') {
@@ -6462,6 +6468,20 @@ $.fn.mathquillggb = function(cmd, latex) {
 
           // alternative may be better?
           //cursor.writeLatex(latex);
+
+          // now we shall actualize GeoGebraSuggestionPopupCanShow
+          if (cursor.root && latex.length) {
+        	// get the last character of latex, and check it
+        	var lastchar = latex.charCodeAt(latex.length - 1);
+        	if (latex.trim) {
+        	  // who supports IE8, etc?
+        	  var ltrim = latex.trim();
+        	  if (ltrim.length) {
+        	    lastchar = ltrim.charCodeAt(ltrim.length - 1);
+        	  }
+        	}
+            cursor.root.geogebraAutocompleteSuggestionCheck(lastchar);
+          }
 
           if (original_arguments[3]) {// if this is a GeoGebra command suggestion
 

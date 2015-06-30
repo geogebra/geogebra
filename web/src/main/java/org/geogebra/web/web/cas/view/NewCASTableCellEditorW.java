@@ -252,6 +252,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public boolean popupSuggestions() {
+		// on-screen keyboard should use showOrHideSuggestions instead!
 		return editor.popupSuggestions();
 	}
 
@@ -271,6 +272,17 @@ public class NewCASTableCellEditorW extends Label implements
 	@Override
 	public void shuffleSuggestions(boolean down) {
 		editor.shuffleSuggestions(down);
+	}
+
+	@Override
+	public void showOrHideSuggestions() {
+		// in theory, this shall also suggest
+		// if popupSuggestions and shuffleSuggestions work,
+		// but then probably this is the call,
+		// (almost) the same as in NewRadioButtonTreeItem:
+		if ((seMayLaTeX != null) && seMayLaTeX.hasParentElement()) {
+			DrawEquationWeb.showOrHideSuggestions(this, seMayLaTeX);
+		}
 	}
 
 	@Override

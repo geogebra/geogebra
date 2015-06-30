@@ -18,6 +18,8 @@ public interface EquationEditorListener extends AutoCompleteW {
 
 	boolean popupSuggestions();
 
+	void showOrHideSuggestions();
+
 	void scrollCursorIntoView();
 
 	boolean resetAfterEnter();

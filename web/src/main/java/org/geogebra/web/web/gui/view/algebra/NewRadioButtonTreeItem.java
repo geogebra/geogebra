@@ -338,12 +338,20 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 */
 	@Override
 	public boolean popupSuggestions() {
+		// on-screen keyboard should use showOrHideSuggestions instead!
 		return editor.popupSuggestions();
 	}
 
 	@Override
 	public boolean hideSuggestions() {
 		return editor.hideSuggestions();
+	}
+
+	@Override
+	public void showOrHideSuggestions() {
+		if ((seMayLatex != null) && seMayLatex.hasParentElement()) {
+			DrawEquationWeb.showOrHideSuggestions(this, seMayLatex);
+		}
 	}
 
 	/**

@@ -876,6 +876,28 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	/**
+	 * In case we're in (editing) newCreationMode, then this method shall decide
+	 * whether to show the autocomplete suggestions or hide them...
+	 */
+	public static native void showOrHideSuggestions(GeoContainer rbti,
+			Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var querr = elsecond.lastChild;
+
+		if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
+			// when the suggestions should pop up, we make them pop up,
+			// when not, there may be two possibilities: we should hide the old,
+			// or we should not hide the old... e.g. up/down arrows should not hide...
+			// is there any other case? (up/down will unset later here)
+			if (querr.GeoGebraSuggestionPopupCanShow === true) {
+				@org.geogebra.web.html5.main.DrawEquationWeb::popupSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
+			} else {
+				@org.geogebra.web.html5.main.DrawEquationWeb::hideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
+			}
+		}
+	}-*/;
+
+	/**
 	 * Edits a MathQuillGGB equation which was created by
 	 * drawEquationMathQuillGGB
 	 * 
@@ -971,18 +993,8 @@ GeoContainer rbti,
 								@org.geogebra.web.html5.main.DrawEquationWeb::scrollCursorIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 
 								if (newCreationMode) {
-									var querr = elsecondInside;
-									if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
-										// when the suggestions should pop up, we make them pop up,
-										// when not, there may be two possibilities: we should hide the old,
-										// or we should not hide the old... e.g. up/down arrows should not hide...
-										// is there any other case? (up/down will unset later here)
-										if (querr.GeoGebraSuggestionPopupCanShow === true) {
-											@org.geogebra.web.html5.main.DrawEquationWeb::popupSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
-										} else {
-											@org.geogebra.web.html5.main.DrawEquationWeb::hideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
-										}
-									}
+									// the same method can be called from the on-screen keyboard!
+									@org.geogebra.web.html5.main.DrawEquationWeb::showOrHideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							}
 

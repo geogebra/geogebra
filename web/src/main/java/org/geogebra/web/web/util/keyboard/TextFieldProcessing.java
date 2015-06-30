@@ -337,13 +337,18 @@ public class TextFieldProcessing {
 				((EquationEditorListener) field).keypress('"', false, false,
 						false);
 			} else {
-				if (text.length() == 1) {
-					((EquationEditorListener) field).keypress(text.charAt(0),
-							false, false, false);
-				} else {
+				//if (text.length() == 1) {
+				//	((EquationEditorListener) field).keypress(text.charAt(0),
+				//			false, false, false);
+				//} else {
 					((EquationEditorListener) field).insertString(text);
-				}
-				((EquationEditorListener) field).popupSuggestions();
+				//}
+				// in case of keypress, we shall wait until the keypress event
+				// is really effective and only check for show suggestions then...
+				// but this is non-trivial unless we deal with it in the keypress
+				// event, not sure it's worth the work when we can also use
+				// insertString in this case as well...
+				((EquationEditorListener) field).showOrHideSuggestions();
 			}
 			break;
 		}

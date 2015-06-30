@@ -250,7 +250,7 @@ public class TextFieldProcessingBase implements TextFieldProcessing {
 						false);
 			} else {
 				((EquationEditorListener) field).insertString(text);
-				((EquationEditorListener) field).popupSuggestions();
+				((EquationEditorListener) field).showOrHideSuggestions();
 			}
 			break;
 		}

@@ -24,6 +24,8 @@ public interface GeoContainer {
 
 	public boolean popupSuggestions();
 
+	public void showOrHideSuggestions();
+
 	public boolean stopEditing(String latex);
 
 	public Element getElement();

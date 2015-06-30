@@ -616,6 +616,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	/**
 	 * Method to be overridden in NewRadioButtonTreeItem
+	 * 
+	 * @return
+	 */
+	@Override
+	public void showOrHideSuggestions() {
+	}
+
+	/**
+	 * Method to be overridden in NewRadioButtonTreeItem
 	 */
 	@Override
 	public void shuffleSuggestions(boolean down) {
