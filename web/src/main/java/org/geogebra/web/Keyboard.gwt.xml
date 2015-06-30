@@ -9,11 +9,11 @@
   <set-property name="compiler.stackMode" value="strip"/>
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='org.geogebra.web.input.AndroidKeyboard'/>
+  <entry-point class='org.geogebra.web.android.AndroidKeyboard'/>
   
   <!-- Specify the paths for translatable code                    -->
   <source path="web"/>
-  <source path="input"/>
+  <source path="android"/>
   <source path="plugin"/>
   <source path='html5'/>
   <super-source path='html5-super' />

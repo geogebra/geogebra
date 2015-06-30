@@ -1,4 +1,4 @@
-package org.geogebra.web.input;
+package org.geogebra.web.android;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;

@@ -1,12 +1,12 @@
-package org.geogebra.web.input;
+package org.geogebra.web.android;
 
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.android.mathquill.MathQuillInput;
+import org.geogebra.web.android.mathquill.OnEnterPressedListener;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
-import org.geogebra.web.input.mathquill.MathQuillInput;
-import org.geogebra.web.input.mathquill.OnEnterPressedListener;
 import org.geogebra.web.web.util.keyboardBase.OnScreenKeyBoardBase;
 
 import com.google.gwt.core.client.EntryPoint;

@@ -1,4 +1,4 @@
-package org.geogebra.web.input;
+package org.geogebra.web.android;
 
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
