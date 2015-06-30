@@ -114,8 +114,8 @@ public class PlotterBrushElements extends PlotterBrush {
 	@Override
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
 
-		// needs to specify sectionSize = 0 before moveTo() to avoid endCurve()
-		sectionSize = 0;
+		// needs to specify sectionSize = -1 before moveTo() to avoid endCurve()
+		sectionSize = -1;
 		moveTo(pos);
 
 	}
@@ -124,7 +124,7 @@ public class PlotterBrushElements extends PlotterBrush {
 	public void moveTo(double[] pos) {
 
 		// close last part
-		if (sectionSize > 0) {
+		if (sectionSize >= 0) {
 			endCurve();
 		}
 
