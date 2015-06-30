@@ -106,7 +106,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			matrix[i] = coeffs[i];
 		}
 
-		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
+		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED
+				|| type == GeoQuadricNDConstants.QUADRIC_NOT_SET) {
 			classifyQuadric();
 		}
 	}

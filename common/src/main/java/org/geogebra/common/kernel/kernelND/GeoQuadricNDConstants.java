@@ -42,4 +42,7 @@ public interface GeoQuadricNDConstants {
 	public static final int QUADRIC_CYLINDER = 31;
 	/** temporary type: not classified*/
 	public static final int QUADRIC_NOT_CLASSIFIED = 32;
+	/** start mode: not set */
+	public static final int QUADRIC_NOT_SET = -1;
+
 }
