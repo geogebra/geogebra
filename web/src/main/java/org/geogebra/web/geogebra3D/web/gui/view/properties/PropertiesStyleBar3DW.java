@@ -44,7 +44,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 		case EUCLIDIAN_FOR_PLANE :
 			pr = ((ImageFactory) GWT
 			        .create(ImageFactory.class)).getPerspectiveResources();
-			AppResourcesConverter.setIcon(pr.menu_icon_graphics_for_plane(), btn);
+			AppResourcesConverter.setIcon(pr.menu_icon_graphics_extra(), btn);
 			break;
 		default:
 			super.setIcon(type, btn);
@@ -62,7 +62,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 		case EUCLIDIAN_FOR_PLANE:
 			pr = ((ImageFactory) GWT.create(ImageFactory.class))
 					.getPerspectiveResources();
-			return GGWToolBar.safeURI(pr.menu_icon_graphics_for_plane());
+			return GGWToolBar.safeURI(pr.menu_icon_graphics_extra());
 		}
 		return super.getTypeIcon(type);
 	}

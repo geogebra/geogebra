@@ -189,7 +189,7 @@ public class PropertiesStyleBarW extends
 		case EUCLIDIAN2:
 			AppResourcesConverter.setIcon(pr.menu_icon_graphics2(), btn);
 		case EUCLIDIAN_FOR_PLANE:
-			AppResourcesConverter.setIcon(pr.menu_icon_graphics_for_plane(),
+			AppResourcesConverter.setIcon(pr.menu_icon_graphics_extra(),
 					btn);
 		case EUCLIDIAN3D:
 			AppResourcesConverter.setIcon(pr.menu_icon_graphics3D(), btn);

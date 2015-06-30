@@ -23,8 +23,8 @@ public interface SvgPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_graphics2.svg")
 	SVGResource menu_icon_graphics2();
 	
-	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_graphics2.svg")
-	SVGResource menu_icon_graphics_for_plane();
+	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_graphics_extra.svg")
+	SVGResource menu_icon_graphics_extra();
 
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_spreadsheet.svg")
 	SVGResource menu_icon_spreadsheet();

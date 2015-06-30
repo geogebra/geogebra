@@ -192,7 +192,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 	@Override
     public ResourcePrototype getIcon() {
-		return getResources().menu_icon_graphics_for_plane();
+		return getResources().menu_icon_graphics_extra();
 	}
 
 }
