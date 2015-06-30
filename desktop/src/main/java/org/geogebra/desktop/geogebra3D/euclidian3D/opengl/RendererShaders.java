@@ -1230,9 +1230,7 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	protected Manager createManager() {
-		App.error("========== createManager");
 		return new ManagerShadersWithTemplates(this, view3D);
-		// return new ManagerShadersBindBuffers(this, view3D);
 	}
 
 	private boolean texturesEnabled;

@@ -6,7 +6,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElements;
-import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 /**
@@ -31,7 +30,6 @@ public class RendererShadersElements extends RendererShaders {
 
 	@Override
 	protected Manager createManager() {
-		App.debug("========== createManager");
 		return new ManagerShadersElements(this, view3D);
 	}
 
