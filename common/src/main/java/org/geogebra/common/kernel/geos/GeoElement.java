@@ -228,8 +228,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	protected GColor bgColor = null; // none by default
 	/** color when selected */
 	protected GColor selColor = objColor;
-	/** color for label */
-	protected GColor labelColor = objColor;
 	/** color for fill*/
 	protected GColor fillColor = objColor;
 	private int layer = 0; 
@@ -1015,9 +1013,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void setObjColor(final GColor color) {
 		
 		isColorSet = true;
-
 		objColor = color;
-		labelColor = color;
 		fillColor = color;
 		setAlphaValue(alphaValue);
 
@@ -1220,19 +1216,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	// Michael Borcherds 2008-04-01
 	public GColor getLabelColor() {
-		if (colFunction == null) {
-			return labelColor;
-		}
 		return getObjectColor();
 	}
-	/**
-	 * 
-	 * @param color new color for label
-	 */
-	// Michael Borcherds 2008-04-01
-	public void setLabelColor(final GColor color) {
-		labelColor = color;
-	}
+
 	/**
 	 * 
 	 * @return color of background
@@ -1636,13 +1622,11 @@ public abstract class GeoElement extends ConstructionElement implements
 			GColor next = cons.getConstructionDefaults().getNextColor();
 			objColor = next;
 			selColor = next;
-			labelColor = next;
 			return;
 		}
 		
 		objColor = geo.objColor;
 		selColor = geo.selColor;
-		labelColor = geo.labelColor;
 		if (geo.isFillable()) {
 			fillColor = geo.fillColor;
 			fillType = geo.fillType;
