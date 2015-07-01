@@ -146,6 +146,66 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 	/**
 	 * 
+	 * @param curveBufferOld
+	 *            current curve buffer
+	 * @param r
+	 *            renderer
+	 * @param size
+	 *            sections size
+	 * @return GPU buffer for curve indices, update it if current is not same
+	 *         size
+	 */
+	public final static GPUBuffer getBufferIndicesForCurve(
+			GPUBuffer curveBufferOld, RendererShadersInterface r, int size,
+			int sizeOld) {
+
+		if (size == sizeOld) {
+			debug("SAME curve size : ", size);
+			return curveBufferOld;
+		}
+
+		GPUBuffer curveBuffer = createElementBufferIfNeeded(r, curveBufferOld);
+
+		// if (size > curvesIndicesSize) {
+
+		debug("NEW curve size : ", size);
+
+			// creates indices buffer
+			short[] arrayI = new short[3 * 2 * size * PlotterBrush.LATITUDES];
+
+			int index = 0;
+			for (int k = 0; k < size; k++) {
+				for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
+					int iNext = (i + 1) % PlotterBrush.LATITUDES;
+					// first triangle
+					arrayI[index] = (short) (i + k * PlotterBrush.LATITUDES);
+					index++;
+					arrayI[index] = (short) (i + (k + 1)
+							* PlotterBrush.LATITUDES);
+					index++;
+					arrayI[index] = (short) (iNext + (k + 1)
+							* PlotterBrush.LATITUDES);
+					index++;
+					// second triangle
+					arrayI[index] = (short) (i + k * PlotterBrush.LATITUDES);
+					index++;
+					arrayI[index] = (short) (iNext + (k + 1)
+							* PlotterBrush.LATITUDES);
+					index++;
+					arrayI[index] = (short) (iNext + k * PlotterBrush.LATITUDES);
+					index++;
+				}
+			}
+
+		// curvesIndicesSize = size;
+			r.storeElementBuffer(arrayI, arrayI.length, curveBuffer);
+		// }
+
+		return curveBuffer;
+	}
+
+	/**
+	 * 
 	 * @param r
 	 *            renderer
 	 * @param size
@@ -353,10 +413,15 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 				break;
 
 			case CURVE:
-				debug("curve: shared index buffer");
-				bufferI = getBufferIndicesForCurve(r, size);
+				// debug("curve: shared index buffer");
+				// bufferI = getBufferIndicesForCurve(r, size);
+				// indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
+				// hasSharedIndexBuffer = true;
+				debug("curve: NOT shared index buffer");
+				bufferI = getBufferIndicesForCurve(bufferI, r, size,
+						indicesLength / (3 * 2 * PlotterBrush.LATITUDES));
 				indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
-				hasSharedIndexBuffer = true;
+				hasSharedIndexBuffer = false;
 				break;
 
 			case SURFACE:
