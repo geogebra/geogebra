@@ -3,7 +3,7 @@ package org.geogebra.web.phone;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.phone.gui.GeoGebraAppFrameP;
 import org.geogebra.web.phone.gui.PhoneUI;
-import org.geogebra.web.phone.gui.view.View;
+import org.geogebra.web.phone.gui.view.AbstractView;
 import org.geogebra.web.phone.gui.view.algebra.AlgebraView;
 import org.geogebra.web.phone.gui.view.euclidian.EuclidianView;
 import org.geogebra.web.phone.gui.view.menu.MenuView;
@@ -24,8 +24,8 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 public class Phone implements EntryPoint {
 
 	private static PhoneUI phoneGui;
-	private static View euclidianView;
-	private static View browseView;
+	private static AbstractView euclidianView;
+	private static AbstractView browseView;
 	static GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
@@ -46,7 +46,8 @@ public class Phone implements EntryPoint {
 	}
 
 	private static void addViews() {
-		browseView = (View) appFrame.app.getGuiManager().getBrowseView();
+		browseView = (AbstractView) appFrame.app.getGuiManager()
+				.getBrowseView();
 		phoneGui.addView(new AlgebraView(appFrame.app));
 		phoneGui.addView(euclidianView = new EuclidianView(appFrame.app));
 		phoneGui.addView(browseView);

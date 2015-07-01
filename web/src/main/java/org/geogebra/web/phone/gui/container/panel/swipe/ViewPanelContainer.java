@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.web.phone.PhoneLookAndFeel;
-import org.geogebra.web.phone.gui.view.View;
+import org.geogebra.web.phone.gui.view.AbstractView;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -23,10 +23,10 @@ public class ViewPanelContainer extends SimplePanel implements
 
 	private SwipePanel content;
 
-	private List<View> viewOrder;
-	private Map<View, ViewPanelWithStylebar> viewPanels;
+	private List<AbstractView> viewOrder;
+	private Map<AbstractView, ViewPanelWithStylebar> viewPanels;
 
-	private View activeView;
+	private AbstractView activeView;
 
 	/**
 	 * Constructor
@@ -35,8 +35,8 @@ public class ViewPanelContainer extends SimplePanel implements
 		setStyleName("viewContainer");
 		buildGui();
 
-		viewOrder = new ArrayList<View>();
-		viewPanels = new HashMap<View, ViewPanelWithStylebar>();
+		viewOrder = new ArrayList<AbstractView>();
+		viewPanels = new HashMap<AbstractView, ViewPanelWithStylebar>();
 	}
 
 	private void buildGui() {
@@ -44,7 +44,7 @@ public class ViewPanelContainer extends SimplePanel implements
 		add(content);
 	}
 
-	public void addView(View view) {
+	public void addView(AbstractView view) {
 		if (hasView(view)) {
 			return;
 		}
@@ -64,7 +64,7 @@ public class ViewPanelContainer extends SimplePanel implements
 		}
 	}
 
-	public void removeView(View view) {
+	public void removeView(AbstractView view) {
 		if (!hasView(view)) {
 			return;
 		}
@@ -88,7 +88,7 @@ public class ViewPanelContainer extends SimplePanel implements
 		}
 	}
 
-	public void showView(View view) {
+	public void showView(AbstractView view) {
 		if (view == activeView || !hasView(view)) {
 			return;
 		}
@@ -107,7 +107,7 @@ public class ViewPanelContainer extends SimplePanel implements
 		content.swipeTo(getViewIndex(activeView));
 	}
 
-	private int getViewIndex(View view) {
+	private int getViewIndex(AbstractView view) {
 		return viewOrder.indexOf(view);
 	}
 
@@ -131,14 +131,14 @@ public class ViewPanelContainer extends SimplePanel implements
 		style.setOverflowY(Overflow.HIDDEN);
 	}
 
-	private ViewPanelWithStylebar createViewPanelWithStylebar(View view) {
+	private ViewPanelWithStylebar createViewPanelWithStylebar(AbstractView view) {
 		ViewPanelWithStylebar viewPanel = new ViewPanelWithStylebar();
 		viewPanel.setPanel(view.getViewPanel());
 		viewPanel.setStyleBar(view.getStyleBar());
 		return viewPanel;
 	}
 
-	private boolean hasView(View view) {
+	private boolean hasView(AbstractView view) {
 		return viewPanels.containsKey(view);
 	}
 

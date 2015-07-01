@@ -58,6 +58,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 	 * the pixel ratio of the canvas.
 	 */
 	public double devicePixelRatio = 1;
+	private double canvasPixelRatio = 1;
 	private int id;
 
 	private static int counter = 1;
@@ -73,10 +74,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		this.context = (MyContext2d) canvas.getContext2d();
 		currentTransform = new AffineTransform();
 		preventContextMenu(canvas.getElement());
-		// TODO put this back in
-		devicePixelRatio = 2;
-		// devicePixelRatio = checkPixelRatio(canvas.getElement());
-
 	}
 
 	/**
@@ -94,18 +91,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 	public View getView() {
 		return view;
 	}
-
-	private native int checkPixelRatio(Element canvas) /*-{
-		var devicePixelRatio = $wnd.devicePixelRatio || 1, context = canvas
-				.getContext("2d"), backingStorePixelRatio = context.webkitBackingStorePixelRatio
-				|| context.mozBackingStorePixelRatio
-				|| context.msBackingStorePixelRatio
-				|| context.oBackingStorePixelRatio
-				|| context.backingStorePixelRatio || 1;
-
-		pixelRatio = devicePixelRatio / backingStorePixelRatio;
-		return pixelRatio;
-	}-*/;
 
 	public void setImageInterpolation(boolean b) {
 		setImageInterpolationNative(canvas.getContext2d(), b);
@@ -435,7 +420,9 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		App.debug("Coordinates ratio" + devicePixelRatio);
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
-		scale(devicePixelRatio, devicePixelRatio);
+		scale(devicePixelRatio / canvasPixelRatio, devicePixelRatio
+				/ canvasPixelRatio);
+		canvasPixelRatio = devicePixelRatio;
 		setWidth(width);
 		setHeight(height);
 		this.updateCanvasColor();

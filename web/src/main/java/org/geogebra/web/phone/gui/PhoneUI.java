@@ -13,7 +13,7 @@ import org.geogebra.web.phone.gui.container.panel.swipe.ViewPanelContainer;
 import org.geogebra.web.phone.gui.event.EventUtil;
 import org.geogebra.web.phone.gui.event.ViewChangeEvent;
 import org.geogebra.web.phone.gui.event.ViewChangeHandler;
-import org.geogebra.web.phone.gui.view.View;
+import org.geogebra.web.phone.gui.view.AbstractView;
 
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -62,17 +62,17 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 		resizeListeners.add(panel);
 	}
 
-	public void addView(View view) {
+	public void addView(AbstractView view) {
 		header.addView(view);
 		panel.addView(view);
 	}
 
-	public void removeView(View view) {
+	public void removeView(AbstractView view) {
 		header.removeView(view);
 		panel.removeView(view);
 	}
 
-	public void showView(View view) {
+	public void showView(AbstractView view) {
 		header.showView(view);
 		panel.showView(view);
 	}

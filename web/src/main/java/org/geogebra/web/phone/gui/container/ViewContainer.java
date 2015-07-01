@@ -1,7 +1,7 @@
 package org.geogebra.web.phone.gui.container;
 
 import org.geogebra.web.html5.gui.ResizeListener;
-import org.geogebra.web.phone.gui.view.View;
+import org.geogebra.web.phone.gui.view.AbstractView;
 
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -15,20 +15,20 @@ public interface ViewContainer  extends ResizeListener, IsWidget {
 	 * it will show the newly added view.
 	 * @param view the view to be added
 	 */
-	void addView(View view);
+	void addView(AbstractView view);
 
 	/**
 	 * Removes a view from the container. If the view was shown previously,
 	 * the container will show the last view of the container.
 	 * @param view the view to be removed.
 	 */
-	void removeView(View view);
+	void removeView(AbstractView view);
 
 	/**
 	 * Shows the view. Does nothing if the view is no part of the container,
 	 * or if it is already showing.
 	 * @param view the view to be shown
 	 */
-	void showView(View view);
+	void showView(AbstractView view);
 
 }

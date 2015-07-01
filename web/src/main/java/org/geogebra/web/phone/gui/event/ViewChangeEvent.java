@@ -1,6 +1,6 @@
 package org.geogebra.web.phone.gui.event;
 
-import org.geogebra.web.phone.gui.view.View;
+import org.geogebra.web.phone.gui.view.AbstractView;
 
 import com.google.web.bindery.event.shared.Event;
 
@@ -12,13 +12,13 @@ public class ViewChangeEvent extends Event<ViewChangeHandler> {
 		return TYPE;
 	}
 	
-	public View view;
+	public AbstractView view;
 	
-	public ViewChangeEvent(View view) {
+	public ViewChangeEvent(AbstractView view) {
 		this.view = view;
 	}
 
-	public View getView() {
+	public AbstractView getView() {
 		return view;
 	}
 

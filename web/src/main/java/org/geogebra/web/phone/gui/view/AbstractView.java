@@ -4,7 +4,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.resources.client.ImageResource;
 
-public abstract class AbstractView implements View {
+public abstract class AbstractView {
 
 	protected ImageResource icon;
 	protected ViewPanel viewPanel;
@@ -17,6 +17,9 @@ public abstract class AbstractView implements View {
 		this.app = app;
 	}
 
+	/**
+	 * @return the icon of the view
+	 */
 	public ImageResource getViewIcon() {
 		if (icon == null) {
 			icon = createViewIcon();
@@ -24,6 +27,9 @@ public abstract class AbstractView implements View {
 		return icon;
 	}
 
+	/**
+	 * @return the panel the view
+	 */
 	public ViewPanel getViewPanel() {
 		if (viewPanel == null) {
 			viewPanel = createViewPanel();
@@ -31,6 +37,9 @@ public abstract class AbstractView implements View {
 		return viewPanel;
 	}
 
+	/**
+	 * @return the header of the view if exists, null otherwise
+	 */
 	public HeaderPanel getHeaderPanel() {
 		if (headerPanel == null) {
 			headerPanel = createHeaderPanel();
@@ -38,6 +47,9 @@ public abstract class AbstractView implements View {
 		return headerPanel;
 	}
 
+	/**
+	 * @return the stylebar of the view, if exists, null otherwise
+	 */
 	public StyleBar getStyleBar() {
 		if (styleBar == null) {
 			styleBar = createStyleBar();

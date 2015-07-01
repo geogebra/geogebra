@@ -6,8 +6,8 @@ import java.util.List;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.phone.PhoneLookAndFeel;
 import org.geogebra.web.phone.gui.container.header.Header;
+import org.geogebra.web.phone.gui.view.AbstractView;
 import org.geogebra.web.phone.gui.view.HeaderPanel;
-import org.geogebra.web.phone.gui.view.View;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -22,7 +22,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 
 	private List<SimpleHeaderView> views;
 	
-	private View activeView;
+	private AbstractView activeView;
 
 	public SimpleHeader(AppW app) {
 		this.app = app;
@@ -53,7 +53,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		add(rightTabPanel);
 	}
 
-	public void addView(View view) {
+	public void addView(AbstractView view) {
 		SimpleHeaderView headerView = new SimpleHeaderView(view);
 		if (views.size() > 0) {
 			views.get(views.size() - 1).removeStyleName("lastTab");
@@ -63,7 +63,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		rightTabPanel.add(headerView);
 	}
 
-	public void removeView(View view) {
+	public void removeView(AbstractView view) {
 		SimpleHeaderView headerView = getSimpleHeaderViewByView(view);
 		if (headerView == null) {
 			return;
@@ -75,7 +75,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		}
 	}
 
-	public void showView(View view) {
+	public void showView(AbstractView view) {
 		if (view == activeView) {
 			return;
 		}
@@ -96,7 +96,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		}
 	}
 
-	private SimpleHeaderView getSimpleHeaderViewByView(View view) {
+	private SimpleHeaderView getSimpleHeaderViewByView(AbstractView view) {
 		for (int i = 0; i < views.size(); i++) {
 			SimpleHeaderView headerView = views.get(i);
 			if (headerView.getView() == view) {
