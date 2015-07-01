@@ -1374,6 +1374,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			return shape.getBounds();
+		case GeoConicNDConstants.CONIC_PARABOLA:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			// might need another formula for flat hyperbolae, max() prevents
 			// flattening of xx-yy=1000
