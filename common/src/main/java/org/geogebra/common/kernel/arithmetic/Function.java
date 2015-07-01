@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.roots.RealRootDerivFunction;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of one variable x that returns either a number or a boolean. This
@@ -395,13 +394,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				return expression;
 
 			default:
-				Log.debug(expression);
-				Log.debug("wrong op");
 				return addNumber(expression, vy);
 			}
 		}
-		Log.debug(expression);
-		Log.debug("wrong type");
 		return addNumber(expression, vy);
 
 	}
