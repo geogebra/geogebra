@@ -728,17 +728,43 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static native Element getCurrentMouseHover() /*-{
 		var highestHover = null;
-		if(!$wnd.$ggbQuery){
+		if (!$wnd.$ggbQuery) {
 			return null;
+		}
+		var setHighestHover = function(elm) {
+			if (elm.tagName !== 'IMG') {
+				highestHover = elm;
+			} else if (elm.className) {
+				if (elm.className.indexOf('gwt-Image') < 0) {
+					// okay, not our case
+					highestHover = elm;
+				} else if (elm.parentNode) {
+					// if it does not have parent node,
+					// then it should not be highest hover either!
+					if (elm.parentNode.className) {
+						if (elm.parentNode.className
+								.indexOf('XButtonNeighbour') < 0) {
+							// we're just doing bugfixing for this specific case now
+							// but similar bugs may be fixed in a similar way
+							highestHover = elm;
+						}
+					} else {
+						highestHover = elm;
+					}
+				}
+			} else {
+				// has no className, okay
+				highestHover = elm;
+			}
 		}
 		$wnd.$ggbQuery(':hover').each(function(idx, elm) {
 			if (elm) {
 				if (highestHover) {
 					if ($wnd.$ggbQuery.contains(highestHover, elm)) {
-						highestHover = elm;
+						setHighestHover(elm);
 					}
 				} else {
-					highestHover = elm;
+					setHighestHover(elm);
 				}
 			}
 		});
