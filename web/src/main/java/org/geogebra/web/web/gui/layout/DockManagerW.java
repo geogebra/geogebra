@@ -345,10 +345,19 @@ public class DockManagerW extends DockManager {
 				
 				// Now find the correct applet window dimensions and resize the rootPane.
 				
-				windowWidth = app.getWidthForSplitPanel(spw.get(rootPane));
+				windowWidth = app
+						.getWidthForSplitPanel(spw.get(rootPane) <= 0 ? app
+								.getPreferredSize().getWidth() : spw
+								.get(rootPane));
 
-				// this is applet window height 
-				windowHeight = app.getHeightForSplitPanel(sph.get(rootPane));
+				// this is applet window height. Priority: applet params > split
+				// pane sizes > guess based on overall window size (assumes
+				// desktop toolbar)
+
+				windowHeight = app
+						.getHeightForSplitPanel(sph.get(rootPane) <= 0 ? app
+								.getPreferredSize().getHeight() : sph
+								.get(rootPane));
 
 				rootPane.clear();
 				rootPane.setPixelSize(windowWidth, windowHeight);
@@ -411,13 +420,24 @@ public class DockManagerW extends DockManager {
 	}
 	
 	/**
-	 * Sets split pane divider locations 
+	 * Sets split pane divider locations
+	 * 
 	 * @param spData
+	 *            split pane sizes
 	 * @param splitPanes
+	 *            actual split panes
 	 * @param windowHeight
+	 *            center pane width of original file
 	 * @param windowWidth
+	 *            center pane height of original file
+	 * @param theRealWindowHeight
+	 *            target center pane height (might be affected by data param)
+	 * @param theRealWindowWidth
+	 *            target center pane width (might be affected by data param)
 	 */
-	private void setSplitPaneDividers(DockSplitPaneData[] spData, DockSplitPaneW[] splitPanes, int windowHeight, int windowWidth, int theRealWindowHeight, int theRealWindowWidth) {
+	protected void setSplitPaneDividers(DockSplitPaneData[] spData,
+			DockSplitPaneW[] splitPanes, int windowHeight, int windowWidth,
+			int theRealWindowHeight, int theRealWindowWidth) {
 
 		double sdl = 0;
 		int divLoc = 0;
