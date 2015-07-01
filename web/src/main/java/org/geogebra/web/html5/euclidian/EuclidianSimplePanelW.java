@@ -117,7 +117,4 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	public void updateNavigationBar() {
 	}
 
-	public double getDevicePixelRatio() {
-		return 1;
-	}
 }

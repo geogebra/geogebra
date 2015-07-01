@@ -18,6 +18,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1143,6 +1144,19 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public org.geogebra.web.html5.awt.GGraphics2DW getG2P() {
 		return g2p;
+	}
+
+	@Override
+	public void setPixelRatio(float pixelRatio) {
+		if (Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
+			return;
+		}
+		double realWidth = g2p.getCoordinateSpaceWidth() / g2p.devicePixelRatio;
+		double realHeight = g2p.getCoordinateSpaceHeight()
+				/ g2p.devicePixelRatio;
+		g2p.devicePixelRatio = pixelRatio;
+		g2p.setCoordinateSpaceSize((int) realWidth, (int) realHeight);
+		repaint();
 	}
 
 }

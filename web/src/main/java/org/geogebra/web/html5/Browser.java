@@ -266,12 +266,13 @@ public class Browser {
 		// TODO Auto-generated method stub
 		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
 				.getContext("2d");
-		devicePixelRatio = window.devicePixelRatio || 1;
+		devicePixelRatio = $wnd.devicePixelRatio || 1;
 		backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
 				|| testCtx.mozBackingStorePixelRatio
 				|| testCtx.msBackingStorePixelRatio
 				|| testCtx.oBackingStorePixelRatio
 				|| testCtx.backingStorePixelRatio || 1;
+		$wnd.console.log(devicePixelRatio, backingStorePixelRatio);
 		return devicePixelRatio / backingStorePixelRatio;
 	}-*/;
 }

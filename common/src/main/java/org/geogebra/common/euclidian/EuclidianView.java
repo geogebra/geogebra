@@ -4876,4 +4876,8 @@ sb.toString(), getFontAxes(),
 		}
 		return settings.isViewForPlane();
 	}
+
+	public void setPixelRatio(float pixelRatio) {
+		// TODO Auto-generated method stub
+	}
 }

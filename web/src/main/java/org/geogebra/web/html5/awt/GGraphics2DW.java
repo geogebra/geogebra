@@ -58,7 +58,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 	 * the pixel ratio of the canvas.
 	 */
 	public double devicePixelRatio = 1;
-	private double canvasPixelRatio = 1;
 	private int id;
 
 	private static int counter = 1;
@@ -70,7 +69,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		this.id = counter++;
 		this.canvas = canvas;
 		setDirection();
-
 		this.context = (MyContext2d) canvas.getContext2d();
 		currentTransform = new AffineTransform();
 		preventContextMenu(canvas.getElement());
@@ -368,9 +366,12 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 	}
 
 	public void setTransform(GAffineTransform Tx) {
-		context.setTransform(Tx.getScaleX(), Tx.getShearY(), Tx.getShearX(),
-		        Tx.getScaleY(), ((AffineTransform) Tx).getTranslateX(),
-		        ((AffineTransform) Tx).getTranslateY());
+		context.setTransform(devicePixelRatio * Tx.getScaleX(),
+				devicePixelRatio * Tx.getShearY(),
+				devicePixelRatio * Tx.getShearX(),
+				devicePixelRatio * Tx.getScaleY(), devicePixelRatio
+						* ((AffineTransform) Tx).getTranslateX(),
+				devicePixelRatio * ((AffineTransform) Tx).getTranslateY());
 		currentTransform = Tx;
 
 	}
@@ -420,9 +421,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		App.debug("Coordinates ratio" + devicePixelRatio);
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
-		scale(devicePixelRatio / canvasPixelRatio, devicePixelRatio
-				/ canvasPixelRatio);
-		canvasPixelRatio = devicePixelRatio;
+		setTransform(currentTransform);
 		setWidth(width);
 		setHeight(height);
 		this.updateCanvasColor();
