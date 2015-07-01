@@ -2794,9 +2794,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	}
 
 	public String getLaTeXInput() {
-		return latexInput == null ? (inputVE == null ? input :
- inputVE
-				.toString(StringTemplate.latexTemplate)) : latexInput;
+		return latexInput == null ? (inputVE == null ? input : inputVE
+				.toAssignmentString(StringTemplate.latexTemplate,
+						getAssignmentType())) : latexInput;
 	}
 
 	public void setLaTeXInput(String latexInput) {

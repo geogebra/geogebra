@@ -3437,7 +3437,7 @@ kernel, left,
 				}
 				sb.append('[');
 				sb.append(leftStr);
-				sb.append(',');
+				sb.append(", ");
 				sb.append(rightStr);
 				sb.append(']');
 			}
@@ -3457,7 +3457,7 @@ kernel, left,
 				}
 				sb.append("[");
 				sb.append(leftStr);
-				sb.append(",");
+				sb.append(", ");
 				sb.append(rightStr);
 				sb.append("]");
 			}
