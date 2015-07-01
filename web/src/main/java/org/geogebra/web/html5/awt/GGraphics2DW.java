@@ -74,6 +74,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		currentTransform = new AffineTransform();
 		preventContextMenu(canvas.getElement());
 		// TODO put this back in
+		devicePixelRatio = 2;
 		// devicePixelRatio = checkPixelRatio(canvas.getElement());
 
 	}
@@ -117,7 +118,9 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		// IE11+ only
 		ctx['msImageSmoothingEnabled'] = b;
 		ctx['oImageSmoothingEnabled'] = b;
-		ctx['webkitImageSmoothingEnabled'] = b;
+		// deprecated
+		// https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/Ud3cV1mj35s/Ssat21OeRqYJ
+		// ctx['webkitImageSmoothingEnabled'] = b;
 
 	}-*/;
 
