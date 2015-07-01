@@ -214,29 +214,30 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 	}
 
 	public void updateAVvisible(boolean visible) {
-		if ((visible && this.optionPanel instanceof OptionsObjectW) == this.isObjectOptionsVisible) {
-			return;
-		}
-		this.isObjectOptionsVisible = !this.isObjectOptionsVisible;
-		if (visible) {
-			wasAVShowing = app.getGuiManager().hasAlgebraViewShowing();
-			auxWasVisible = app.getSettings().getAlgebra()
-					.getShowAuxiliaryObjects();
-			if (!wasAVShowing) {
-				app.getGuiManager().setShowView(true, App.VIEW_ALGEBRA);
-				app.updateViewSizes();
-			}
-			app.setShowAuxiliaryObjects(true);
-
-		} else {
-			if (!auxWasVisible) {
-				app.setShowAuxiliaryObjects(false);
-			}
-			if (!wasAVShowing) {
-				app.getGuiManager().setShowView(false, App.VIEW_ALGEBRA);
-				app.updateViewSizes();
-			}
-		}
+		// if ((visible && this.optionPanel instanceof OptionsObjectW) ==
+		// this.isObjectOptionsVisible) {
+		// return;
+		// }
+		// this.isObjectOptionsVisible = !this.isObjectOptionsVisible;
+		// if (visible) {
+		// wasAVShowing = app.getGuiManager().hasAlgebraViewShowing();
+		// auxWasVisible = app.getSettings().getAlgebra()
+		// .getShowAuxiliaryObjects();
+		// if (!wasAVShowing) {
+		// app.getGuiManager().setShowView(true, App.VIEW_ALGEBRA);
+		// app.updateViewSizes();
+		// }
+		// app.setShowAuxiliaryObjects(true);
+		//
+		// } else {
+		// if (!auxWasVisible) {
+		// app.setShowAuxiliaryObjects(false);
+		// }
+		// if (!wasAVShowing) {
+		// app.getGuiManager().setShowView(false, App.VIEW_ALGEBRA);
+		// app.updateViewSizes();
+		// }
+		// }
 
 	}
 
