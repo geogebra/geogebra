@@ -2,8 +2,6 @@ package org.geogebra.web.android.keyboard;
 
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.android.AppStub;
-import org.geogebra.web.android.MathKeyboardListenerStub;
-import org.geogebra.web.android.UpdateKeyboardListenerStub;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
