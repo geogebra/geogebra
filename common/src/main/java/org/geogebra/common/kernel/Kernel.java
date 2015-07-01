@@ -4271,14 +4271,10 @@ public class Kernel {
 			GeoClass geoType = it.next();
 
 			if (geoType.is3D) {
-				App.debug("found 3D geo: " + geoType.xmlName);
+				// App.debug("found 3D geo: " + geoType.xmlName);
 				kernelHas3DObjects = true;
 				break;
 			}
-		}
-
-		if (kernelHas3DObjects) {
-			App.error("kernel has 3D objects");
 		}
 
 		return kernelHas3DObjects;
