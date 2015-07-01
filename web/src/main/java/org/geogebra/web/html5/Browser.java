@@ -272,7 +272,6 @@ public class Browser {
 				|| testCtx.msBackingStorePixelRatio
 				|| testCtx.oBackingStorePixelRatio
 				|| testCtx.backingStorePixelRatio || 1;
-		$wnd.console.log(devicePixelRatio, backingStorePixelRatio);
 		return devicePixelRatio / backingStorePixelRatio;
 	}-*/;
 }

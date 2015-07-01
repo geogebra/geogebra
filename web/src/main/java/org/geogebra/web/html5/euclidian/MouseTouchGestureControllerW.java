@@ -804,8 +804,7 @@ public class MouseTouchGestureControllerW implements
 	}
 
 	private float getDevicePixelRatio() {
-		return app != null && app.has(Feature.RETINA) ? Browser.getPixelRatio()
-				: 1;
+		return 1;
 	}
 
 	@Override
