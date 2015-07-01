@@ -25,7 +25,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	private int curvesIndicesSize, fanDirectIndicesSize,
 			fanIndirectIndicesSize;
 
-	final static boolean DEBUG = false;
+	final static boolean DEBUG = true;
 
 	/**
 	 * debug if debug mode
@@ -152,6 +152,8 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	 *            renderer
 	 * @param size
 	 *            sections size
+	 * @param sizeOld
+	 *            old size for curve
 	 * @return GPU buffer for curve indices, update it if current is not same
 	 *         size
 	 */
@@ -166,40 +168,35 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 		GPUBuffer curveBuffer = createElementBufferIfNeeded(r, curveBufferOld);
 
-		// if (size > curvesIndicesSize) {
-
 		debug("NEW curve size : ", size);
 
-			// creates indices buffer
-			short[] arrayI = new short[3 * 2 * size * PlotterBrush.LATITUDES];
+		// creates indices buffer
+		short[] arrayI = new short[3 * 2 * size * PlotterBrush.LATITUDES];
 
-			int index = 0;
-			for (int k = 0; k < size; k++) {
-				for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
-					int iNext = (i + 1) % PlotterBrush.LATITUDES;
-					// first triangle
-					arrayI[index] = (short) (i + k * PlotterBrush.LATITUDES);
-					index++;
-					arrayI[index] = (short) (i + (k + 1)
-							* PlotterBrush.LATITUDES);
-					index++;
-					arrayI[index] = (short) (iNext + (k + 1)
-							* PlotterBrush.LATITUDES);
-					index++;
-					// second triangle
-					arrayI[index] = (short) (i + k * PlotterBrush.LATITUDES);
-					index++;
-					arrayI[index] = (short) (iNext + (k + 1)
-							* PlotterBrush.LATITUDES);
-					index++;
-					arrayI[index] = (short) (iNext + k * PlotterBrush.LATITUDES);
-					index++;
-				}
+		int index = 0;
+		for (int k = 0; k < size; k++) {
+			for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
+				int iNext = (i + 1) % PlotterBrush.LATITUDES;
+				// first triangle
+				arrayI[index] = (short) (i + k * PlotterBrush.LATITUDES);
+				index++;
+				arrayI[index] = (short) (i + (k + 1) * PlotterBrush.LATITUDES);
+				index++;
+				arrayI[index] = (short) (iNext + (k + 1)
+						* PlotterBrush.LATITUDES);
+				index++;
+				// second triangle
+				arrayI[index] = (short) (i + k * PlotterBrush.LATITUDES);
+				index++;
+				arrayI[index] = (short) (iNext + (k + 1)
+						* PlotterBrush.LATITUDES);
+				index++;
+				arrayI[index] = (short) (iNext + k * PlotterBrush.LATITUDES);
+				index++;
 			}
+		}
 
-		// curvesIndicesSize = size;
-			r.storeElementBuffer(arrayI, arrayI.length, curveBuffer);
-		// }
+		r.storeElementBuffer(arrayI, arrayI.length, curveBuffer);
 
 		return curveBuffer;
 	}
@@ -247,6 +244,56 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 	/**
 	 * 
+	 * @param bufferOld
+	 *            old buffer
+	 * @param r
+	 *            renderer
+	 * @param size
+	 *            sections size
+	 * @param sizeOld
+	 *            old size
+	 * @return GPU buffer for direct fan indices, update it if current is not
+	 *         big enough
+	 */
+	public final static GPUBuffer getBufferIndicesForFanDirect(
+			GPUBuffer bufferOld,
+			RendererShadersInterface r, int size,
+			int sizeOld) {
+
+
+		if (size == sizeOld) {
+			debug("SAME fanDirectIndicesSize : ", size);
+			return bufferOld;
+		}
+
+		GPUBuffer buffer = createElementBufferIfNeeded(r, bufferOld);
+
+
+		debug("NEW fanDirectIndicesSize : ", size);
+
+		// creates indices buffer
+		short[] arrayI = new short[3 * (size - 2)];
+
+		int index = 0;
+		short k = 1;
+		while (k < size - 1) {
+			arrayI[index] = 0;
+			index++;
+			arrayI[index] = k;
+			index++;
+
+			k++;
+			arrayI[index] = k;
+			index++;
+		}
+
+		r.storeElementBuffer(arrayI, arrayI.length, buffer);
+
+		return buffer;
+	}
+
+	/**
+	 * 
 	 * @param r
 	 *            renderer
 	 * @param size
@@ -284,6 +331,57 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 		}
 
 		return fanIndirectIndices;
+	}
+	
+	
+	/**
+	 * 
+	 * @param bufferOld
+	 *            old buffer
+	 * @param r
+	 *            renderer
+	 * @param size
+	 *            sections size
+	 * @param sizeOld
+	 *            old size
+	 * @return GPU buffer for direct fan indices, update it if current is not
+	 *         big enough
+	 */
+	public final static GPUBuffer getBufferIndicesForFanIndirect(
+			GPUBuffer bufferOld,
+			RendererShadersInterface r, int size,
+			int sizeOld) {
+
+
+		if (size == sizeOld) {
+			debug("SAME fanIndirectIndicesSize : ", size);
+			return bufferOld;
+		}
+
+		GPUBuffer buffer = createElementBufferIfNeeded(r, bufferOld);
+
+
+		debug("NEW fanIndirectIndicesSize : ", size);
+
+		// creates indices buffer
+		short[] arrayI = new short[3 * (size - 2)];
+
+		int index = 0;
+		short k = (short) (size - 1);
+		while (k > 1) {
+			arrayI[index] = 0;
+			index++;
+			arrayI[index] = k;
+			index++;
+
+			k--;
+			arrayI[index] = k;
+			index++;
+		}
+
+		r.storeElementBuffer(arrayI, arrayI.length, buffer);
+
+		return buffer;
 	}
 
 	protected class GeometriesSetElements extends GeometriesSet {
@@ -442,16 +540,26 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 				break;
 
 			case FAN_DIRECT:
-				debug("fan direct: shared index buffer");
-				bufferI = getBufferIndicesForFanDirect(r, size);
+				// debug("fan direct: shared index buffer");
+				// bufferI = getBufferIndicesForFanDirect(r, size);
+				// indicesLength = 3 * (size - 2);
+				// hasSharedIndexBuffer = true;
+				debug("fan direct: NOT shared index buffer");
+				bufferI = getBufferIndicesForFanDirect(bufferI, r, size,
+						indicesLength / 3 + 2);
 				indicesLength = 3 * (size - 2);
-				hasSharedIndexBuffer = true;
+				hasSharedIndexBuffer = false;
 				break;
 			case FAN_INDIRECT:
-				debug("fan indirect: shared index buffer");
-				bufferI = getBufferIndicesForFanIndirect(r, size);
+				// debug("fan indirect: shared index buffer");
+				// bufferI = getBufferIndicesForFanIndirect(r, size);
+				// indicesLength = 3 * (size - 2);
+				// hasSharedIndexBuffer = true;
+				debug("fan indirect: NOT shared index buffer");
+				bufferI = getBufferIndicesForFanIndirect(bufferI, r, size,
+						indicesLength / 3 + 2);
 				indicesLength = 3 * (size - 2);
-				hasSharedIndexBuffer = true;
+				hasSharedIndexBuffer = false;
 				break;
 
 			}
