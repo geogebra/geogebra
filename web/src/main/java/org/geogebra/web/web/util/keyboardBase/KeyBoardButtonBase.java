@@ -66,14 +66,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				// ((DrawEquationWeb)
-				// handler.getApp().getDrawEquation()).setMouseOut(false);
-				// ToolTipManagerW.hideAllToolTips();
-				// if(handler.getApp().getLAF().isSmart() && type ==
-				// PointerEventType.TOUCH){
-				// return;
-				// }
-				handler.onClick(KeyBoardButtonBase.this);
+				// do nothing
 			}
 
 		});
@@ -82,7 +75,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 		ClickEndHandler.init(this, new ClickEndHandler(true, true) {
 			@Override
 			public void onClickEnd(int x, int y, PointerEventType type) {
-				// nothing to do here
+				handler.onClick(KeyBoardButtonBase.this);
 			}
 		});
 		addStyleName("KeyBoardButton");
