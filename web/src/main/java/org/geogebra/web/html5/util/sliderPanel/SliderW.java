@@ -26,7 +26,7 @@ public class SliderW extends FocusWidget implements HasChangeHandlers,
 	private boolean valueChangeHandlerInitialized;
 	private Double curValue;
 
-	public SliderW(int min, int max) {
+	public SliderW(double min, double max) {
 		range = Document.get().createElement("input");
 		range.setAttribute("type", "range");
 		range.setAttribute("min", String.valueOf(min));
@@ -50,11 +50,11 @@ public class SliderW extends FocusWidget implements HasChangeHandlers,
 		return range.value;
 	}-*/;
 
-	public void setMinimum(int min) {
+	public void setMinimum(double min) {
 		range.setAttribute("min", String.valueOf(min));
 	}
 
-	public void setMaximum(int max) {
+	public void setMaximum(double max) {
 		range.setAttribute("max", String.valueOf(max));
 	}
 

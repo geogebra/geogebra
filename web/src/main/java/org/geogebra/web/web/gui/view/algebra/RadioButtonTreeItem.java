@@ -341,9 +341,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (((GeoNumeric) geo).getIntervalMinObject() != null
 					&& ((GeoNumeric) geo).getIntervalMaxObject() != null) {
 
-				slider = new SliderPanelW(
-						(int) ((GeoNumeric) geo).getIntervalMin(),
-						(int) ((GeoNumeric) geo).getIntervalMax());
+				slider = new SliderPanelW(((GeoNumeric) geo).getIntervalMin(),
+						((GeoNumeric) geo).getIntervalMax());
 				slider.setValue(((GeoNumeric) geo).getValue());
 				slider.setMinorTickSpacing(geo.getAnimationStep());
 
@@ -827,8 +826,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		if (geo instanceof GeoNumeric && slider != null
 		        && sliderPanel != null) {
-			slider.setMinimum((int) ((GeoNumeric) geo).getIntervalMin());
-			slider.setMaximum((int) ((GeoNumeric) geo).getIntervalMax());
+			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
+			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
 			slider.setMinorTickSpacing(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()

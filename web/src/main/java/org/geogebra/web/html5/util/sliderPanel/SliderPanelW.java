@@ -17,7 +17,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	private Label minLabel;
 	private Label maxLabel;
 
-	public SliderPanelW(int min, int max) {
+	public SliderPanelW(double min, double max) {
 		minLabel = new Label(String.valueOf(min));
 		add(minLabel);
 		slider = new SliderW(min, max);
@@ -31,12 +31,12 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		return slider.getValue();
 	}
 
-	public void setMinimum(int min) {
+	public void setMinimum(double min) {
 		slider.setMinimum(min);
 		minLabel.setText(String.valueOf(min));
 	}
 
-	public void setMaximum(int max) {
+	public void setMaximum(double max) {
 		slider.setMaximum(max);
 		maxLabel.setText(String.valueOf(max));
 	}
