@@ -64,7 +64,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	PreviewPanel previewPanel;
 	private OpacityPanel opacityPanel;
 	private BackgroundColorPanel backgroundColorPanel;
-	private Button addCustomColor;
+	private Button btnCustomColor;
 	App app;
 	private CustomColorDialog dialog;
 
@@ -599,16 +599,16 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		setPreviewTitle("Preview");
 		setBgFgTitles("BackgroundColor", "ForegroundColor");
 		setOpacityTitle("Opacity");
-		addCustomColor = new Button("+");
-		addCustomColor.setStyleName("CustomColorButton");
-		addCustomColor.addClickHandler(new ClickHandler(){
+		btnCustomColor = new Button("+");
+		btnCustomColor.setStyleName("CustomColorButton");
+		btnCustomColor.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				showCustomColorDialog();
             }
 
 			});
-		SimplePanel sp = new SimplePanel(addCustomColor);
+		SimplePanel sp = new SimplePanel(btnCustomColor);
 		sp.addStyleName("CustomColorButtonParent");
 		add(canvas);
 		add(sp);
@@ -728,6 +728,13 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	    opacityPanel.setAlpaValue(alpha);
 	    
     }
+
+	public void enableColorPanel(boolean enabled) {
+		canvas.setVisible(enabled);
+		previewPanel.setVisible(enabled);
+		btnCustomColor.setVisible(enabled);
+
+	}
 
 	public void enableOpacity(boolean enabled) {
 		opacityPanel.setVisible(enabled);

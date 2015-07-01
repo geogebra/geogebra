@@ -354,8 +354,13 @@ class OptionsTab extends FlowPanel {
 			GColor selectedBGColor = null;
 			float alpha = 1;
 			GeoElement geo0 = model.getGeoAt(0);
-			selectedColor = null;
+			if (geo0.isGeoImage()) {
+				colorChooserW.enableColorPanel(false);
+			} else {
+				colorChooserW.enableColorPanel(true);
 
+			}
+			selectedColor = null;
 			if (equalObjColorBackground) {
 				selectedBGColor = geo0.getBackgroundColor();
 			}
