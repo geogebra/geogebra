@@ -725,6 +725,10 @@ public class MyList extends ValidExpression implements ListValue,
 		return listElements.get(i);
 	}
 
+	public ExpressionValue setListElement(int i, ExpressionValue ev) {
+		return listElements.set(i, ev);
+	}
+
 	/*
 	 * public String toString() { }
 	 */

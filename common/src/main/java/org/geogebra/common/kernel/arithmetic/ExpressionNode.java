@@ -3900,7 +3900,7 @@ kernel, left,
 		
 	}
 
-	private static boolean isConstantDouble(ExpressionValue ev, double v) {
+	public static boolean isConstantDouble(ExpressionValue ev, double v) {
 		ExpressionValue base = ev.unwrap();
 		return base instanceof MyDouble && base.isConstant()
 		// don't use Kernel.isEqual() to check == 0

@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.roots.RealRootDerivFunction;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of one variable x that returns either a number or a boolean. This
@@ -317,23 +318,58 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		return node;
 	}
 
+	final public void translateY(double vy) {
+		expression = translateY(expression, fVars, vy);
+
+	}
 	/**
 	 * Shifts the function by vy up
 	 * 
 	 * @param vy
 	 *            vertical translation
 	 */
-	final public void translateY(double vy) {
-		if (expression.getRight() instanceof MyDouble) { // is there a constant
+	final public static ExpressionNode translateY(ExpressionNode expression,
+			FunctionVariable[] fVars,
+			double vy) {
+		if (expression.getOperation() == Operation.IF) {
+			expression.setRight(translateY(expression.getRight().wrap(), fVars,
+					vy));
+			return expression;
+		}
+ else if (expression.getOperation() == Operation.IF_ELSE) {
+
+			MyNumberPair left = (MyNumberPair) expression.getLeft();
+			left.setY(translateY(left.getY().wrap(), fVars, vy));
+			expression.setRight(translateY(expression.getRight().wrap(), fVars,
+					vy));
+			return expression;
+		} else if (expression.getOperation() == Operation.IF_LIST) {
+
+			MyList left = (MyList) expression.getRight();
+			for(int i = 0; i < left.size();i++){
+				left.setListElement(i,
+						translateY(left.getListElement(i).wrap(), fVars, vy));
+			}
+			
+			return expression;
+		} else if (expression.getOperation() == Operation.MULTIPLY
+				&& ExpressionNode.isConstantDouble(expression.getLeft(), -1)) {
+			expression.setRight(translateY(expression.getRight().wrap(), fVars,
+					-vy));
+			return expression;
+		} else if (expression.getRight() instanceof MyDouble) { // is
+																			// there
+																			// a
+																			// constant
 															// number to the
 															// right
 			MyDouble num = (MyDouble) expression.getRight();
 			if (num == fVars[0]) { // right side might be the function variable
-				addNumber(Kernel.checkDecimalFraction(vy));
-				return;
+				return addNumber(expression, Kernel.checkDecimalFraction(vy));
 			}
 			double temp;
 			switch (expression.getOperation()) {
+
 			case PLUS:
 				temp = Kernel.checkDecimalFraction(num.getDouble() + vy);
 				if (Kernel.isZero(temp)) {
@@ -344,7 +380,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				} else {
 					num.set(temp);
 				}
-				break;
+				return expression;
 
 			case MINUS:
 				temp = Kernel.checkDecimalFraction(num.getDouble() - vy);
@@ -356,22 +392,28 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				} else {
 					num.set(temp);
 				}
-				break;
+				return expression;
 
 			default:
-				addNumber(vy);
+				Log.debug(expression);
+				Log.debug("wrong op");
+				return addNumber(expression, vy);
 			}
-		} else {
-			addNumber(vy);
 		}
+		Log.debug(expression);
+		Log.debug("wrong type");
+		return addNumber(expression, vy);
+
 	}
 
-	final private void addNumber(double n) {
+	final private static ExpressionNode addNumber(ExpressionNode expression,
+			double n) {
+		Kernel kernel = expression.getKernel();
 		if (n > 0) {
-			expression = new ExpressionNode(kernel, expression, Operation.PLUS,
+			return new ExpressionNode(kernel, expression, Operation.PLUS,
 					new MyDouble(kernel, n));
 		} else {
-			expression = new ExpressionNode(kernel, expression,
+			return new ExpressionNode(kernel, expression,
 					Operation.MINUS, new MyDouble(kernel, -n));
 		}
 	}
