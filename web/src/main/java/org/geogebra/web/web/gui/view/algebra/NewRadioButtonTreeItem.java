@@ -576,7 +576,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (!DrawEquationWeb.targetHasFeature(getElement(),
 				"BlurDoesntUpdateGUIFeature")) {
 
-			// addDummyLabel();
+			if (isEmpty())
+				addDummyLabel();
 
 			if (((AlgebraViewW) av).isNodeTableEmpty()) {
 				// #5245#comment:8, cases B and C excluded
@@ -667,7 +668,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	@Override
 	public void typing(boolean heuristic) {
 		if (xButton != null) {
-			if (heuristic || !("".equals(getText().trim()))) {
+			if (heuristic || !isEmpty()) {
 				if (pButton == null) {
 					buttonPanel.setVisible(true);
 				}
@@ -679,6 +680,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				}
 			}
 		}
+	}
+
+	protected boolean isEmpty() {
+		return "".equals(getText().trim());
 	}
 
 	@Override

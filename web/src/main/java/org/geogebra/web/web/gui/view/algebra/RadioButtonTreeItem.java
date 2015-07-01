@@ -1691,8 +1691,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public String getText() {
-		return seMayLatex == null ? "" : DrawEquationWeb.getActualEditedValue(
-				seMayLatex, false);
+		if (seMayLatex == null)
+			return "";
+
+		String ret = DrawEquationWeb.getActualEditedValue(seMayLatex, false);
+
+		if (ret == null)
+			return "";
+
+		return ret;
 	}
 
 	@Override
