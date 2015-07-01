@@ -1174,7 +1174,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
 		glContext.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
-				MyInt16Array.create(fb), WebGLRenderingContext.STREAM_DRAW);
+				MyInt16Array.create(fb), GL_TYPE_DRAW_TO_BUFFER);
 
 	}
 
@@ -1415,9 +1415,10 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	protected void glBufferData(GLBuffer fb) {
 		glContext
 		        .bufferData(WebGLRenderingContext.ARRAY_BUFFER,
-		                ((GLBufferW) fb).getBuffer(),
-		                WebGLRenderingContext.STREAM_DRAW);
+				((GLBufferW) fb).getBuffer(), GL_TYPE_DRAW_TO_BUFFER);
 	}
+
+	final static private int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STATIC_DRAW;
 
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 
