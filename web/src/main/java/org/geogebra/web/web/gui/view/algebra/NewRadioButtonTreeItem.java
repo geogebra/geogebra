@@ -35,6 +35,8 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
@@ -102,6 +104,18 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				NewRadioButtonTreeItem.this.setFocus(true);
 				event.stopPropagation();
 				// event.preventDefault();
+			}
+		});
+		xButton.addTouchStartHandler(new TouchStartHandler() {
+			// ClickHandler changed to MouseDownHandler,
+			// but maybe it's not that important here
+			@Override
+			public void onTouchStart(TouchStartEvent event) {
+				DrawEquationWeb.stornoFormulaMathQuillGGB(
+						NewRadioButtonTreeItem.this, seMayLatex);
+				NewRadioButtonTreeItem.this.setFocus(true);
+				event.stopPropagation();
+				event.preventDefault();
 			}
 		});
 
