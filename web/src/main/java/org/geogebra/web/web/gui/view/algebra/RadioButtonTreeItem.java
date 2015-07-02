@@ -1331,6 +1331,16 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
+		if (newCreationMode) {
+			// necessary after the MathQuillGGB gets its
+			// focusMathQuillGGB method...
+			// and setFocus will be called in onPointerDown anyway.
+			// about other default actions of this event,
+			// I don't care (MathQuillGGB formula is over this,
+			// and accepts its events before this, e.g. the
+			// selection highlighting event, which looks good)
+			event.preventDefault();
+		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}

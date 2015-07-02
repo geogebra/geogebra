@@ -456,13 +456,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			boolean setFocusScheduled = app.getGuiManager().focusScheduled(
 					false, true, false);
 
-			// but we need to govern the setFocus in one other way,
-			// i.e. when it gets focus, and still having focus, and would
-			// get another focus, then some browsers implement this by
-			// calling a blur and then a focus event again...
-			// this should be prevented, e.g. focusEquationMathQuillGGB
-			// should take the activeElement into account, or is there
-			// any better solution which checks the onBlur event here?
 			if (setFocusAllowed || !setFocusScheduled) {
 				DrawEquationWeb.focusEquationMathQuillGGB(seMayLatex, b);
 			}

@@ -1882,12 +1882,9 @@ function createRoot(jQ, root, textbox, editable) {
       }
     }
 
-    // TODO: maybe always call jQ.focus() here?
-    if (!disabledTextarea) {
-      setTimeout(function() { textarea.focus(); });
-    } else {
-      setTimeout(function() { jQ.focus(); });
-    }
+    // TODO: revise this
+    setTimeout(function() { jQ[0].focusMathQuillGGB(); });
+
       // preventDefault won't prevent focus on mousedown in IE<9
       // that means immediately after this mousedown, whatever was
       // mousedown-ed will receive focus
@@ -2097,6 +2094,18 @@ function createRoot(jQ, root, textbox, editable) {
   }
   // That's why a better solution is needed here:
   jQ.attr('tabindex', 1).bind('focus.mathquillggb', function(e1) {
+    // the problem is that this might be called when still
+    // the textarea is having focus... but actually, the
+    // blur method and handler of the textarea might be called earlier,
+    // so by this time we do not know how this was called...
+
+    // so the only good solution, I think, is to check this at
+    // the time of triggering the focus event by the focus method
+    // or in some other way... but then we shall make sure that
+    // all these calling methods do that check
+    // and we can probably do it by document.activeElement
+    // instead of textareaDOM.hadFocus
+
     // it gets tabindex of 1 to get focus ASAP,
     // and also because the blur event on TAB should
     // really leave this element in case TAB is pressed!
@@ -2135,6 +2144,19 @@ function createRoot(jQ, root, textbox, editable) {
       textareaBlurFunction(e3);
     }
   }).blur();
+
+  // we need a method that only focuses when the textareaDOM is
+  // not yet having focus! 
+  jQ[0].focusMathQuillGGB = // the same thing, in theory
+  root.common.focusMathQuillGGB = function() {
+    if (document.activeElement === textareaDOM) {
+      // do no focus!
+    } else if (textareaDOM.hadFocus) {
+      // do no focus!
+    } else {
+      this.focus();
+    }
+  }
 }
 
 var RootMathBlock = P(MathBlock, function(_, _super) {
