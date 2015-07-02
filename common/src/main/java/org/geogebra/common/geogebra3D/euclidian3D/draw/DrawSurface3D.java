@@ -173,7 +173,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
+		renderer.setLayer(getLayer()); // +0f for z-fighting with planes
 		renderer.getGeometryManager().draw(getSurfaceIndex());
+		renderer.setLayer(0);
 	}
 
 	@Override
