@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.opencsv.CSVException;
-import org.geogebra.common.util.opencsv.CSVParser;
 
 /**
  * Read OFF (Object File Format) file. Off file begins with "OFF" indicating it
@@ -48,43 +47,12 @@ public class OFFReader {
 
 		String[] aux;
 		String line = in.readLine();
-
-		if (line != null) {
-			CSVParser parser = new CSVParser(' ');
-			// Skip comments and headers
-			while (OFFHandler.isCommentOrOffHeader(line))
-				line = in.readLine();
-			aux = parser.parseLine(line);
-			handler.setCounts(Integer.parseInt(aux[0]),
-					Integer.parseInt(aux[1]), Integer.parseInt(aux[2]));
-
-
-			// read all vertices
-			while (handler.getVertices().size() < handler.getVertexCount()) {
-				line = in.readLine();
-				if (line == null) {
-					return;
-				}
-				handler.addVertexLine(line);
-
-			}
-
-			while (handler.getFaces().size() < handler.getFaceCount()) {
-				line = in.readLine();
-				if (line == null) {
-					return;
-				}
-				handler.addFaceLine(in.readLine());
-			}
+		handler.reset();
+		while (line != null) {
+			handler.addLine(line);
+			line = in.readLine();
 		}
-	}
-
-
-
-	private void exc(int k, OFFHandler handler) {
-		throw new RuntimeException("Invalid vertex index " + k
-				+ "(expected an integer between 0(inclusive) and "
-				+ handler.getVertexCount() + "(exclusive))");
+		handler.updateAfterParsing();
 	}
 
 
@@ -99,7 +67,7 @@ public class OFFReader {
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(stream));
 			parse(br, handler);
-			handler.updateAfterParsing();
+
 			App.debug(String.format("Off file has ben load:(v=%d;e=%d;f=%d)",
 					handler.getVertexCount(), handler.getEdgeCount(),
 					handler.getEdgeCount()));

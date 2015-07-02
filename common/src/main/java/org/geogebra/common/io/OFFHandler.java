@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.common.util.opencsv.CSVParser;
@@ -250,9 +251,9 @@ public class OFFHandler {
 	}
 
 	public void addFaceLine(String line) throws CSVException {
-
+		App.debug(line);
 		if (!OFFHandler.isComment(line)) {
-			String[] aux = parser.parseLine(line);
+			String[] aux = nonempty(parser.parseLine(line));
 			int vCount = Integer.parseInt(aux[0]);
 			int[] v = new int[vCount];
 			for (int j = 0; j < vCount; j++) {
@@ -272,13 +273,50 @@ public class OFFHandler {
 	}
 
 	public void addVertexLine(String line) throws CSVException {
-		line = line.trim();
-
 		if (!OFFHandler.isComment(line)) {
-			String[] aux = parser.parseLine(line);
+			String[] aux = nonempty(parser.parseLine(line));
 			vertices.add(new Coords(Double.parseDouble(aux[0]), Double
 					.parseDouble(aux[1]), Double.parseDouble(aux[2]), 1.0));
 		}
+
+	}
+
+	private String[] nonempty(String[] parseLine) {
+		String[] nonempty = new String[parseLine.length];
+		int j = 0;
+		for (int i = 0; i < parseLine.length; i++) {
+			if (parseLine[i].trim().length() > 0) {
+				nonempty[j++] = parseLine[i].trim();
+			}
+		}
+		return nonempty;
+	}
+
+	public void addLine(String line) throws CSVException {
+		if (OFFHandler.isCommentOrOffHeader(line)) {
+			return;
+		}
+		if (vertexCount == 0) {
+			String[] aux = nonempty(parser.parseLine(line));
+			setCounts(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]),
+				Integer.parseInt(aux[2]));
+			return;
+		}
+		// read all vertices
+		if (getVertices().size() < vertexCount) {
+			addVertexLine(line);
+			return;
+		}
+
+		while (getFaces().size() < faceCount) {
+			addFaceLine(line);
+			return;
+		}
+
+	}
+
+	public void reset() {
+		this.vertexCount = 0;
 
 	}
 }
