@@ -1038,28 +1038,21 @@ GeoContainer rbti,
 					// to prevent focus moving away
 					event3.stopPropagation();
 				})
-				.mousedown(function(event4) {
-					// otherwise RadioButtonTreeItem would call preventDefault
-					event4.stopPropagation();
-				})
-				.mouseup(function(event41) {
-					// maybe fixes a bug after quickly clicking input bar back/forth
-					// but probably not, since the real fix might be the
-					// onMouseUp handler in RadioButtonTreeItem! the blur bug
-					// happened on mouse up, by the way, but this is just a little
-					// box, and the user usually clicks on its big parent box
-					event41.stopPropagation();
-				})
-				.click(function(event6) {
-					event6.stopPropagation();
-				})
 				.select(
 						function(event7) {
 							@org.geogebra.web.html5.main.DrawEquationWeb::scrollSelectionIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 						});
-		// could be: mouseover, mouseout, mousemove, mouseup, but this seemed to be enough
 
 		if (!newCreationMode) {
+			// not being sure whether we need these in not-new-creation mode
+			$wnd.$ggbQuery(elsecondInside).mousedown(function(event4) {
+				event4.stopPropagation();
+			}).mouseup(function(event41) {
+				event41.stopPropagation();
+			}).click(function(event6) {
+				event6.stopPropagation();
+			});
+
 			// hacking to deselect the editing when the user does something else like in Desktop
 			// all of this code is moved to GeoGebraFrame constructor AND
 			// DrawEquationWeb.escEditingWhenMouseDownElsewhere

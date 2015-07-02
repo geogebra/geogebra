@@ -1836,7 +1836,18 @@ function createRoot(jQ, root, textbox, editable) {
         cursor.selectFrom(anticursor);
       }
 
-      return false;
+      // mousemove has no default action according to Mozilla
+      // so it's Okay to remove this, return false,
+      // because it would prevent RadioButtonTreeItem.onMouseMove
+      // which is for highlighting-related code...
+      // also, it would be good not to return false
+      // on mouse move in the whole document just for MathQuillGGB!
+      // return false;
+
+      // although we can make things more efficient in
+      // the editing case:
+      if (editable)
+    	  return false;
     }
 
     // docmousemove is attached to the document, so that
@@ -1849,7 +1860,7 @@ function createRoot(jQ, root, textbox, editable) {
       // cursor.seek needs to be refactored.
       delete e.target;
 
-      return mousemove(e);
+      mousemove(e);
     }
 
     function mouseup(e) {
@@ -1893,7 +1904,17 @@ function createRoot(jQ, root, textbox, editable) {
       $(e.target.ownerDocument).mousemove(docmousemove).mouseup(mouseup);
     }
 
-    return false;
+    if (!editable) {
+      return false;
+    }
+
+    // return false would mean stopPropagation & preventDefault,
+    // but in case of editing mode, we actually want this to
+    // propagate, so that the actions of the whole input bar shall
+    // also execute on this part of it! preventDefault is Okay
+    // however, because it is like clicking at a neutral place
+    // AND maybe it's important for something in MathQuillGGB!
+    e.preventDefault();
   });
 
   if (!editable) {
@@ -4052,6 +4073,8 @@ CharCmds['\\'] = P(MathCommand, function(_, _super) {
           'mousedown mousemove', //FIXME: is monkey-patching the mousedown and mousemove handlers the right way to do this?
           function(e) {
             $(e.target = el).trigger(e);
+            // as this is triggered once again,
+            // it's probably okay to return false in this case (?)
             return false;
           }
         ).insertBefore(this.jQ).add(this.jQ);
