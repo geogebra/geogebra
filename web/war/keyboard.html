@@ -7,7 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body {
-	    margin: 0px
+	    margin: 0px;
+        -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+      }
+      input, textarea, select, a { 
+        outline: none;
       }
     </style>
 </head>
