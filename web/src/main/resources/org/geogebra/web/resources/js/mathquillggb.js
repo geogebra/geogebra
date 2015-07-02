@@ -2023,7 +2023,7 @@ function createRoot(jQ, root, textbox, editable) {
     	  }
       }
 
-      cursor.writeLatexSafe(text3).show();
+      cursor.writeLatexSafe(text3);
     }
   });
 
@@ -6100,12 +6100,13 @@ var Cursor = P(Point, function(_) {
     // because putting latex inside TextBlock should be illegal
     if (this.parent instanceof TextBlock) {
       self.parent.bubble('onText', self, mort);
+      return false;
     } else if ((this.parent.parent) && (this.parent.parent instanceof TextBlock)) {
       self.parent.bubble('onText', self, mort);
-    } else {
-      self.writeLatex(mort).show();
+      return false;
     }
-    return this.hide();
+    self.writeLatex(mort).show();
+    return true;
   };
   _.writeLatex = function(latex) {
     this.checkColorCursor(false);
@@ -6493,28 +6494,34 @@ $.fn.mathquillggb = function(cmd, latex) {
           // then writing the latex...
           // this seems to write GeoGebra command syntax help
           // as nicely as latex, so no problem here, but...
-          cursor.writeLatexSafe(latex).parent.blur();
+          var cursorWas = cursor;
+          var latexWritingHappened = cursor.writeLatexSafe(latex);
 
-          // alternative may be better?
-          //cursor.writeLatexSafe(latex);
+          // maybe this is just for historical reasons?
+          // copied from some other code and adapted...
+          cursorWas.parent.blur();
 
           // now we shall actualize GeoGebraSuggestionPopupCanShow
           if (cursor.root && latex.length) {
-        	var croot = cursor.root;
-        	// get the last character of latex, and check it
-        	var lastchar = latex.charCodeAt(latex.length - 1);
-        	if (latex.trim) {
-        	  // who supports IE8, etc?
-        	  var ltrim = latex.trim();
-        	  if (ltrim.length) {
-        	    lastchar = ltrim.charCodeAt(ltrim.length - 1);
-        	  }
-        	}
-        	if (croot.common) {
+            var croot = cursor.root;
+            if (croot.common) {
               var esi = croot.common;
               esi.GeoGebraSuggestionPopupCanShow = false;
-              croot.geogebraAutocompleteSuggestionCheck(lastchar);
-        	}
+              // in case of this was written in TextBlock,
+              // leave GeoGebraSuggestionPopupCanShow false...
+              if (latexWritingHappened) {
+                // get the last character of latex, and check it
+                var lastchar = latex.charCodeAt(latex.length - 1);
+                if (latex.trim) {
+                  // who supports IE8, etc?
+                  var ltrim = latex.trim();
+                  if (ltrim.length) {
+                    lastchar = ltrim.charCodeAt(ltrim.length - 1);
+                  }
+                }
+                croot.geogebraAutocompleteSuggestionCheck(lastchar);
+        	  }
+            }
           }
 
           if (original_arguments[3]) {// if this is a GeoGebra command suggestion
