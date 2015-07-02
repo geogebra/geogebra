@@ -645,9 +645,10 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	}
 
 	@Override
-	public short[] getCurrentGeometryIndices(int size) {
-		return ((GeometryElements) currentGeometriesSet.currentGeometry)
-				.getBufferI(size);
+	public GLBufferIndices getCurrentGeometryIndices(int size) {
+		// return ((GeometryElements) currentGeometriesSet.currentGeometry)
+		// .getBufferI(size);
+		return null; // TODO
 	}
 
 	@Override
@@ -708,7 +709,8 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 			size += triFan.size() - 1;
 		}
 
-		short[] arrayI = getCurrentGeometryIndices(size * 3);
+		short[] arrayI = new short[size * 3];// getCurrentGeometryIndices(size *
+												// 3); //TODO
 
 		int index = 0;
 		for (TriangleFan triFan : triFanList) {

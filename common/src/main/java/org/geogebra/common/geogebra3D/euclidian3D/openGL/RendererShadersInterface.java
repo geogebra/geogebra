@@ -18,7 +18,7 @@ public interface RendererShadersInterface {
 
 	public void loadVertexBuffer(GLBuffer fbVertices, int length);
 
-	public void loadIndicesBuffer(short[] arrayI, int length);
+	public void loadIndicesBuffer(GLBufferIndices arrayI, int length);
 
 	public void setCenter(Coords center);
 

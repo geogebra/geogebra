@@ -320,36 +320,36 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 							- lastBoth; lastIndex += lastBoth) {
 
-						arrayI[arrayIndex] = lastIndex;
+						arrayI.put(lastIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
 
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayI.put((short) (currentIndex + both));
 						arrayIndex++;
 
 						currentIndex += both;
 					}
 
 					if (longitudeLength == longitude) {
-						arrayI[arrayIndex] = lastIndex;
+						arrayI.put(lastIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = lastStartIndex;
+						arrayI.put(lastStartIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
 
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = lastStartIndex;
+						arrayI.put(lastStartIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentStartIndex;
+						arrayI.put(currentStartIndex);
 						arrayIndex++;
 					}
 
@@ -368,36 +368,36 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 							- both; lastIndex += lastBoth) {
-						arrayI[arrayIndex] = lastIndex;
+						arrayI.put(lastIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
 
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayI.put((short) (currentIndex + both));
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
 
 						currentIndex += both;
 					}
 
 					if (longitudeLength == longitude) {
-						arrayI[arrayIndex] = lastIndex;
+						arrayI.put(lastIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = lastStartIndex;
+						arrayI.put(lastStartIndex);
 						arrayIndex++;
 
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentStartIndex;
+						arrayI.put(currentStartIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = lastStartIndex;
+						arrayI.put(lastStartIndex);
 						arrayIndex++;
 					}
 				}
@@ -430,25 +430,25 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 							- 2 * lastBoth; lastIndex += 2 * lastBoth) {
 
-						arrayI[arrayIndex] = lastIndex;
+						arrayI.put(lastIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
-						arrayIndex++;
-
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
-						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + 2 * lastBoth);
-						arrayIndex++;
-						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayI.put(currentIndex);
 						arrayIndex++;
 
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayI.put((short) (lastIndex + 2 * lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put((short) (currentIndex + both));
+						arrayIndex++;
+
+						arrayI.put((short) (lastIndex + lastBoth));
+						arrayIndex++;
+						arrayI.put((short) (currentIndex + both));
+						arrayIndex++;
+						arrayI.put(currentIndex);
 						arrayIndex++;
 
 						currentIndex += both;
@@ -457,25 +457,25 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 					if (longitudeLength == longitude) {
 						// close the parallel
-						arrayI[arrayIndex] = lastIndex;
+						arrayI.put(lastIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
-						arrayIndex++;
-
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
-						arrayIndex++;
-						arrayI[arrayIndex] = lastStartIndex;
-						arrayIndex++;
-						arrayI[arrayIndex] = currentStartIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
 
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = currentStartIndex;
+						arrayI.put(lastStartIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentStartIndex);
+						arrayIndex++;
+
+						arrayI.put((short) (lastIndex + lastBoth));
+						arrayIndex++;
+						arrayI.put(currentStartIndex);
+						arrayIndex++;
+						arrayI.put(currentIndex);
 						arrayIndex++;
 					}
 
@@ -490,25 +490,25 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 							- 2 * lastBoth; lastIndex += 2 * lastBoth) {
-						arrayI[arrayIndex] = lastIndex;
+						arrayI.put(lastIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
-						arrayIndex++;
-
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
-						arrayIndex++;
-						arrayI[arrayIndex] = (short) (currentIndex + both);
-						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + 2 * lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
 
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put((short) (currentIndex + both));
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (currentIndex + both);
+						arrayI.put((short) (lastIndex + 2 * lastBoth));
+						arrayIndex++;
+
+						arrayI.put((short) (lastIndex + lastBoth));
+						arrayIndex++;
+						arrayI.put(currentIndex);
+						arrayIndex++;
+						arrayI.put((short) (currentIndex + both));
 						arrayIndex++;
 
 						currentIndex += both;
@@ -517,25 +517,25 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 					if (longitudeLength == longitude) {
 						// close the parallel
-						arrayI[arrayIndex] = lastIndex;
+						arrayI.put(lastIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
-						arrayIndex++;
-
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
-						arrayIndex++;
-						arrayI[arrayIndex] = currentStartIndex;
-						arrayIndex++;
-						arrayI[arrayIndex] = lastStartIndex;
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
 
-						arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+						arrayI.put((short) (lastIndex + lastBoth));
 						arrayIndex++;
-						arrayI[arrayIndex] = currentIndex;
+						arrayI.put(currentStartIndex);
 						arrayIndex++;
-						arrayI[arrayIndex] = currentStartIndex;
+						arrayI.put(lastStartIndex);
+						arrayIndex++;
+
+						arrayI.put((short) (lastIndex + lastBoth));
+						arrayIndex++;
+						arrayI.put(currentIndex);
+						arrayIndex++;
+						arrayI.put(currentStartIndex);
 						arrayIndex++;
 					}
 
@@ -569,21 +569,21 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				short lastIndex;
 				for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 						- lastBoth; lastIndex += lastBoth) {
-					arrayI[arrayIndex] = lastIndex;
+					arrayI.put(lastIndex);
 					arrayIndex++;
-					arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+					arrayI.put((short) (lastIndex + lastBoth));
 					arrayIndex++;
-					arrayI[arrayIndex] = currentStartIndex;
+					arrayI.put(currentStartIndex);
 					arrayIndex++;
 				}
 
 				if (longitudeLength == longitude) {
 					// close the parallel
-					arrayI[arrayIndex] = lastIndex;
+					arrayI.put(lastIndex);
 					arrayIndex++;
-					arrayI[arrayIndex] = lastStartIndex;
+					arrayI.put(lastStartIndex);
 					arrayIndex++;
-					arrayI[arrayIndex] = currentStartIndex;
+					arrayI.put(currentStartIndex);
 					arrayIndex++;
 				}
 
@@ -599,21 +599,21 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				short lastIndex;
 				for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
 						- lastBoth; lastIndex += lastBoth) {
-					arrayI[arrayIndex] = lastIndex;
+					arrayI.put(lastIndex);
 					arrayIndex++;
-					arrayI[arrayIndex] = currentStartIndex;
+					arrayI.put(currentStartIndex);
 					arrayIndex++;
-					arrayI[arrayIndex] = (short) (lastIndex + lastBoth);
+					arrayI.put((short) (lastIndex + lastBoth));
 					arrayIndex++;
 				}
 
 				if (longitudeLength == longitude) {
 					// close the parallel
-					arrayI[arrayIndex] = lastIndex;
+					arrayI.put(lastIndex);
 					arrayIndex++;
-					arrayI[arrayIndex] = currentStartIndex;
+					arrayI.put(currentStartIndex);
 					arrayIndex++;
-					arrayI[arrayIndex] = lastStartIndex;
+					arrayI.put(lastStartIndex);
 					arrayIndex++;
 				}
 
@@ -622,13 +622,15 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		debug("==== arrayIndex (2) = " + arrayIndex);
 
+		arrayI.rewind();
+
 		manager.endGeometry(arrayIndex,
 				TypeElement.SURFACE);
 
 	}
 
 	private int arrayIndex = 0;
-	private short[] arrayI;
+	private GLBufferIndices arrayI;
 
 	@Override
 	public void startTriangles(int size) {
@@ -655,6 +657,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	@Override
 	public void endGeometryDirect() {
+		arrayI.rewind();
 		manager.endGeometry(arrayIndex, TypeElement.SURFACE);
 	}
 
@@ -663,7 +666,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	 *            vertex normal id
 	 */
 	public void drawIndex(int id) {
-		arrayI[arrayIndex] = (short) id;
+		arrayI.put((short) id);
 		arrayIndex++;
 	}
 }

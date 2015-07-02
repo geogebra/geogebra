@@ -720,7 +720,7 @@ abstract public class Manager {
 	 *            size
 	 * @return current geometry indices buffer with correct size
 	 */
-	public short[] getCurrentGeometryIndices(int size) {
+	public GLBufferIndices getCurrentGeometryIndices(int size) {
 		return null;
 	}
 

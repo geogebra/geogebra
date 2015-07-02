@@ -14,6 +14,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
@@ -1476,7 +1477,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
-	public void loadIndicesBuffer(short[] arrayI, int length) {
+	public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
 
 		// ///////////////////////////////////
 		// VBO - indices
@@ -1488,7 +1489,8 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
 		glContext.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
-				MyInt16Array.create(arrayI), GL_TYPE_DRAW_TO_BUFFER);
+						((GLBufferIndicesW) arrayI).getBuffer(),
+						GL_TYPE_DRAW_TO_BUFFER);
 
 	}
 

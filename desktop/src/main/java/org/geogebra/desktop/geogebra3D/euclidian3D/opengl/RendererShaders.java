@@ -18,6 +18,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersWithTemplates;
@@ -558,7 +559,7 @@ public class RendererShaders extends RendererD implements
 		// VBO - vertices
 
 		// Select the VBO, GPU memory data, to use for vertices
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboVertices);
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
@@ -573,20 +574,21 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	public void loadIndicesBuffer(short[] arrayI, int length) {
+	public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
 
 		// ///////////////////////////////////
 		// VBO - indices
 
 		// Select the VBO, GPU memory data, to use for indices
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ELEMENT_ARRAY_BUFFER,
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER,
 				vboIndices);
 
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
 		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
-				ShortBuffer.wrap(arrayI), RendererJogl.GL_STREAM_DRAW);
+				((GLBufferIndicesD) arrayI).getBuffer(),
+				RendererJogl.GL_STREAM_DRAW);
 
 	}
 
@@ -693,10 +695,10 @@ public class RendererShaders extends RendererD implements
 	 */
 	private void attribPointers() {
 
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboVertices);
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboVertices);
 		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
 
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboNormals);
 		vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
 
 		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboColors);
