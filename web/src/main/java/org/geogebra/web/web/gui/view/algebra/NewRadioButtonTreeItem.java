@@ -328,10 +328,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 		addStyleName("SymbolCanBeShown");
 
-		// adding this here at the same time as removing it from
-		// RadioButtonTreeItem.onPointerDown, because it was highly
-		// redundant doing that in each mouse down
-		ensureEditing();
+		// this would give initial focus to Web.html, but not to tablet.html,
+		// and may make app.html initially blink, so I'm thinking about a
+		// better solution, which needs understanding what av.editing means
+		// ensureEditing();
 	}
 
 	public void replaceXButtonDOM() {
