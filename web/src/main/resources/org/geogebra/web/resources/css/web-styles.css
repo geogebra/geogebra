@@ -19,7 +19,9 @@
 .GeoGebraFrame img {
 	vertical-align: baseline;
 }
-
+.GeoGebraFrame {
+	background-color: white;
+}
 /**
  * The reference theme can be used to determine when this style sheet has
  * loaded.  Create a hidden div element with absolute position, assign the style
