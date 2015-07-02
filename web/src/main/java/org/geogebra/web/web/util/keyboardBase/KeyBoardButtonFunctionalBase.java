@@ -12,9 +12,10 @@ import com.google.gwt.user.client.ui.Image;
 public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 
 	/**
+	 * the possible actions for a functional button
 	 * 
 	 */
-	protected enum Action {
+	public enum Action {
 		ENTER, BACKSPACE, SHIFT, ARROW_LEFT, ARROW_RIGHT, SWITCH_KEYBOARD;
 	}
 	
@@ -31,8 +32,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param action
 	 *            {@link Action}
 	 */
-	public KeyBoardButtonFunctionalBase(ImageResource image,
-			OnScreenKeyBoardBase handler,
+	public KeyBoardButtonFunctionalBase(ImageResource image, KBBase handler,
 	        Action action) {
 		super(handler);
 		this.image = new Image(image);
@@ -52,8 +52,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param action
 	 *            {@link Action}
 	 */
-	public KeyBoardButtonFunctionalBase(String caption,
-			OnScreenKeyBoardBase handler,
+	public KeyBoardButtonFunctionalBase(String caption, KBBase handler,
 	        Action action) {
 		super(caption, caption, handler);
 		this.action = action;

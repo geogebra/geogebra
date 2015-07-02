@@ -28,17 +28,6 @@ public class KeyBoardButtonBase extends SimplePanel {
 	protected Label label;
 
 	/**
-	 * only basic initialization
-	 * 
-	 * TODO remove/integrate
-	 */
-	protected KeyBoardButtonBase() {
-		this.caption = "";
-		this.feedback = "";
-		this.label = new Label();
-	}
-
-	/**
 	 * @param caption
 	 *            text of the button
 	 * @param feedback
@@ -46,7 +35,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public KeyBoardButtonBase(String caption, String feedback, OnScreenKeyBoardBase handler) {
+	public KeyBoardButtonBase(String caption, String feedback, KBBase handler) {
 		this(handler);
 		this.label = new Label();
 		setCaption(caption);
@@ -61,24 +50,23 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	protected KeyBoardButtonBase(final OnScreenKeyBoardBase handler) {
+	protected KeyBoardButtonBase(final KBBase handler) {
 		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
-
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// do nothing
 			}
-
 		});
 
 		// only used for preventDefault and stopPropagation
 		ClickEndHandler.init(this, new ClickEndHandler(true, true) {
 			@Override
 			public void onClickEnd(int x, int y, PointerEventType type) {
-				handler.onClick(KeyBoardButtonBase.this);
+				handler.onClick(KeyBoardButtonBase.this, type);
 			}
 		});
 		addStyleName("KeyBoardButton");
+		addStyleName("MouseDownDoesntExitEditingFeature");
 	}
 
 	/**
