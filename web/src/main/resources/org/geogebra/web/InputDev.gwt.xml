@@ -3,7 +3,7 @@
 
   <inherits name='org.geogebra.web.Html5'/>
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='org.geogebra.web.android.mathquill.InputEntry'/>
+  <entry-point class='org.geogebra.web.android.input.InputEntry'/>
   
   <!-- Specify the paths for translatable code                    -->
   <source path="web"/>

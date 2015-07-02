@@ -1,4 +1,4 @@
-package org.geogebra.web.android.mathquill;
+package org.geogebra.web.android.input;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package org.geogebra.web.android.mathquill;
+package org.geogebra.web.android.input;
 
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.android.AppStub;
@@ -12,9 +12,11 @@ import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class InputEntry implements EntryPoint, ScriptLoadCallback {
+public class InputEntry implements EntryPoint, ScriptLoadCallback,
+		OnEnterPressedListener {
 
 	private AppStub app;
+	private MathQuillInput mathQuillInput;
 
 	public void onModuleLoad() {
 		injectResources();
@@ -54,13 +56,23 @@ public class InputEntry implements EntryPoint, ScriptLoadCallback {
 		createUserInterface();
 	}
 
+	public void enterPressed() {
+		String input = mathQuillInput.getText();
+		callEnterPressedCallback(input);
+	}
+	
+	private native void callEnterPressedCallback(String text) /*-{
+		$wnd.androidInput.onEnter(text);
+	}-*/;
+
 	private void createUserInterface() {
 		String inputText = Location.getParameter("text");
 		inputText = inputText == null ? "" : inputText;
-		MathQuillInput input = new MathQuillInput(inputText);
-		exportProcessing(input.getProcessing());
-		RootPanel.get().add(input);
-		input.setFocus(true);
+		mathQuillInput = new MathQuillInput(inputText);
+		exportProcessing(mathQuillInput.getProcessing());
+		RootPanel.get().add(mathQuillInput);
+		mathQuillInput.setFocus(true);
+		mathQuillInput.setOnEnterPressedListener(this);
 
 	}
 
@@ -69,21 +81,21 @@ public class InputEntry implements EntryPoint, ScriptLoadCallback {
 	}
 
 	private native void exportProcessingNative(TextFieldProcessing processing) /*-{
-		$wnd.mathquillInput = {};
-		$wnd.mathquillInput.onEnter = $entry(function() {
+		$wnd.jsInput = {};
+		$wnd.jsInput.onEnter = $entry(function() {
 			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::onEnter()();
 		});
-		$wnd.mathquillInput.onBackspace = $entry(function() {
+		$wnd.jsInput.onBackspace = $entry(function() {
 			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::onBackSpace()();
 		});
-		$wnd.mathquillInput.onArrow = $entry(function(arrowType) {
+		$wnd.jsInput.onArrow = $entry(function(arrowType) {
 			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::onArrow(Lorg/geogebra/web/web/util/keyboardBase/TextFieldProcessing$ArrowType;)(@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing.ArrowType::values()[arrowType]);
 		});
-		$wnd.mathquillInput.insertString = $entry(function(text) {
+		$wnd.jsInput.insertString = $entry(function(text) {
 			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::insertString(Ljava/lang/String;)(text);
 		});
 		
-		$wnd.mathquillInput.scrollCursorIntoView = $entry(function() {
+		$wnd.jsInput.scrollCursorIntoView = $entry(function() {
 			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::scrollCursorIntoView()();
 		});
 	}-*/;

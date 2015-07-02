@@ -46,7 +46,7 @@ public class KeyboardListener implements TextFieldProcessing {
 	}
 
 	private native void scrollCursorIntoViewNative() /*-{
-		$wnd.androidKeyboard.scrollCursosIntoView();
+		$wnd.androidKeyboard.scrollCursorIntoView();
 	}-*/;
 
 	public boolean resetAfterEnter() {

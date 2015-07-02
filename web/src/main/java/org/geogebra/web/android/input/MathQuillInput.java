@@ -1,4 +1,4 @@
-package org.geogebra.web.android.mathquill;
+package org.geogebra.web.android.input;
 
 import org.geogebra.web.web.util.keyboardBase.TextFieldProcessable;
 import org.geogebra.web.web.util.keyboardBase.TextFieldProcessing;
@@ -46,11 +46,11 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 
 	private native void nativeCreateElement() /*-{
 		var that = this;
-		var panel = that.@org.geogebra.web.android.mathquill.MathQuillInput::flowPanelElement;
-		var string = that.@org.geogebra.web.android.mathquill.MathQuillInput::initText;
+		var panel = that.@org.geogebra.web.android.input.MathQuillInput::flowPanelElement;
+		var string = that.@org.geogebra.web.android.input.MathQuillInput::initText;
 		var mqElement = $wnd.$ggbQuery('<span>' + string + '</span>');
 		mqElement.appendTo(panel).mathquillggb('editable');
-		that.@org.geogebra.web.android.mathquill.MathQuillInput::setMathQuillElement(Lcom/google/gwt/core/client/JavaScriptObject;)(mqElement);
+		that.@org.geogebra.web.android.input.MathQuillInput::setMathQuillElement(Lcom/google/gwt/core/client/JavaScriptObject;)(mqElement);
 	}-*/;
 
 	private void setMathQuillElement(JavaScriptObject mathQuillElement) {
@@ -60,7 +60,7 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 	public native void triggerKeyEvent(String eventType, int keyOrCharCode,
 			boolean altk, boolean ctrlk, boolean shiftk) /*-{
 		var that = this;
-		var mqElement = that.@org.geogebra.web.android.mathquill.MathQuillInput::mathQuillElement;
+		var mqElement = that.@org.geogebra.web.android.input.MathQuillInput::mathQuillElement;
 		var textarea = mqElement.find('textarea');
 		var evt = $wnd.$ggbQuery.Event(eventType, {
 			keyCode : keyOrCharCode,
@@ -75,7 +75,7 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 	public native void triggerCharEvent(String eventType, int keyOrCharCode,
 			boolean altk, boolean ctrlk, boolean shiftk) /*-{
 		var that = this;
-		var mqElement = that.@org.geogebra.web.android.mathquill.MathQuillInput::mathQuillElement;
+		var mqElement = that.@org.geogebra.web.android.input.MathQuillInput::mathQuillElement;
 		var textarea = mqElement.find('textarea');
 		textarea.val(String.fromCharCode(keyOrCharCode));
 		var evt = $wnd.$ggbQuery.Event(eventType, {
@@ -109,7 +109,7 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 	
 	private native String getTextNative() /*-{
 		var that = this;
-		var mqElement = that.@org.geogebra.web.android.mathquill.MathQuillInput::mathQuillElement;
+		var mqElement = that.@org.geogebra.web.android.input.MathQuillInput::mathQuillElement;
 		return mqElement.mathquillggb('text');
 	}-*/;
 
@@ -119,7 +119,7 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 	
 	private native void insertStringNative(String string) /*-{
 		var that = this;
-		var mqElement = that.@org.geogebra.web.android.mathquill.MathQuillInput::mathQuillElement;
+		var mqElement = that.@org.geogebra.web.android.input.MathQuillInput::mathQuillElement;
 		mqElement.mathquillggb('replace', string, '', false)
 	}-*/;
 	
@@ -129,7 +129,7 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 	
 	private native void setFocusNative(boolean focus) /*-{
 		var that = this;
-		var panel = that.@org.geogebra.web.android.mathquill.MathQuillInput::flowPanelElement;
+		var panel = that.@org.geogebra.web.android.input.MathQuillInput::flowPanelElement;
 		var edl = $wnd.$ggbQuery(panel).find(".mathquillggb-editable");
 		if (focus) {
 			edl[0].focus();

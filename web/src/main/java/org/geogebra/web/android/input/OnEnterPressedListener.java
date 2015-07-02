@@ -1,4 +1,4 @@
-package org.geogebra.web.android.mathquill;
+package org.geogebra.web.android.input;
 
 public interface OnEnterPressedListener {
 	void enterPressed();
