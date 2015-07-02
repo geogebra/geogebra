@@ -23,6 +23,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	private org.geogebra.common.awt.GColor defaultColor;
 	private HashMap<String,Integer> lookupMap; 
 
+	private boolean enableTable;
 	private boolean hasSlider;
 	private GDimensionW iconSize;
 
@@ -116,6 +117,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	 * @return the selected {@link GColor color}
 	 */
 	public org.geogebra.common.awt.GColor getSelectedColor(){
+		if (!enableTable) {
+			return null;
+		}
 		int index = getSelectedIndex();
 		if(index <= -1) {
 			return defaultColor;
@@ -195,4 +199,14 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			setSelectedIndex(si);
 		}
     }
+
+	public boolean isEnableTable() {
+		return enableTable;
+	}
+
+	public void setEnableTable(boolean enableTable) {
+		this.enableTable = enableTable;
+		getMyTable().setVisible(enableTable);
+	}
+
 }

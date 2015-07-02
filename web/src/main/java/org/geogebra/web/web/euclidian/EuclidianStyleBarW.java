@@ -743,7 +743,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 						        .getGeoElementForPropertiesDialog();
-						if (geo instanceof GeoImage || geo instanceof GeoText
+						if (geo instanceof GeoText
 						        || geo instanceof GeoButton) {
 							geosOK = false;
 							break;
@@ -751,6 +751,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					}
 
 					setVisible(geosOK);
+
 
 					if (geosOK) {
 						// get color from first geo
@@ -779,7 +780,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						setSliderValue(Math.round(alpha * 100));
 
 						updateColorTable();
-
+						setEnableTable(!(geos[0] instanceof GeoImage));
 						// find the geoColor in the table and select it
 						int index = this.getColorIndex(geoColor);
 						setSelectedIndex(index);
@@ -812,9 +813,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						geosOK = false;
 						break;
 					}
+
 				}
 
 				setVisible(geosOK);
+
 
 				if (geosOK) {
 					// get color from first geo
@@ -845,8 +848,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha,
 						        geoColor, null));
 					}
+
 				}
+
+				
 			}
+
 		};
 		btnBgColor.setKeepVisible(true);
 		btnBgColor.addPopupHandler(this);
