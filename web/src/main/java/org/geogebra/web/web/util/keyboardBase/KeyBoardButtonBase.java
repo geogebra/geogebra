@@ -62,7 +62,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 *            {@link ClickHandler}
 	 */
 	protected KeyBoardButtonBase(final OnScreenKeyBoardBase handler) {
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
