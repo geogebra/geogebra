@@ -215,14 +215,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 		// translate y
 		if (!Kernel.isZero(vy)) {
-			if (isLeaf && left != fVars[0]) { // special case f(x) = constant
-				MyDouble c = ((NumberValue) expression.getLeft()).getNumber();
-				c.set(Kernel.checkDecimalFraction(c.getDouble() + vy));
-				expression.setLeft(c);
-			} else {
 				// f(x) = f(x) + vy
-				translateY(vy);
-			}
+			translateY(vy);
 		}
 
 		// make sure that expression object is changed!
@@ -330,7 +324,14 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	final public static ExpressionNode translateY(ExpressionNode expression,
 			FunctionVariable[] fVars,
 			double vy) {
-		if (expression.getOperation() == Operation.IF) {
+		// special case: constant
+		if (expression.isLeaf() && expression.getLeft() != fVars[0]) {
+			MyDouble c = ((NumberValue) expression.getLeft()).getNumber();
+			c.set(Kernel.checkDecimalFraction(c.getDouble() + vy));
+			expression.setLeft(c);
+			return expression;
+		} else if (expression.getOperation() == Operation.IF) {
+
 			expression.setRight(translateY(expression.getRight().wrap(), fVars,
 					vy));
 			return expression;
@@ -338,7 +339,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
  else if (expression.getOperation() == Operation.IF_ELSE) {
 
 			MyNumberPair left = (MyNumberPair) expression.getLeft();
-			left.setY(translateY(left.getY().wrap(), fVars, vy));
+			left.setY(translateY(left.getY().unwrap().wrap(), fVars, vy));
 			expression.setRight(translateY(expression.getRight().wrap(), fVars,
 					vy));
 			return expression;
@@ -347,7 +348,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			MyList left = (MyList) expression.getRight();
 			for(int i = 0; i < left.size();i++){
 				left.setListElement(i,
-						translateY(left.getListElement(i).wrap(), fVars, vy));
+						translateY(left.getListElement(i).unwrap().wrap(),
+								fVars, vy));
 			}
 			
 			return expression;
@@ -356,46 +358,14 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			expression.setRight(translateY(expression.getRight().wrap(), fVars,
 					-vy));
 			return expression;
-		} else if (expression.getRight() instanceof MyDouble) { // is
-																			// there
-																			// a
-																			// constant
-															// number to the
-															// right
-			MyDouble num = (MyDouble) expression.getRight();
-			if (num == fVars[0]) { // right side might be the function variable
-				return addNumber(expression, Kernel.checkDecimalFraction(vy));
-			}
-			double temp;
-			switch (expression.getOperation()) {
-
-			case PLUS:
-				temp = Kernel.checkDecimalFraction(num.getDouble() + vy);
-				if (Kernel.isZero(temp)) {
-					expression = expression.getLeftTree();
-				} else if (temp < 0) {
-					expression.setOperation(Operation.MINUS);
-					num.set(-temp);
-				} else {
-					num.set(temp);
-				}
-				return expression;
-
-			case MINUS:
-				temp = Kernel.checkDecimalFraction(num.getDouble() - vy);
-				if (Kernel.isZero(temp)) {
-					expression = expression.getLeftTree();
-				} else if (temp < 0) {
-					expression.setOperation(Operation.PLUS);
-					num.set(-temp);
-				} else {
-					num.set(temp);
-				}
-				return expression;
-
-			default:
-				return addNumber(expression, vy);
-			}
+		} else if (expression.getOperation() == Operation.PLUS) {
+			expression.setRight(translateY(expression.getRight().wrap(), fVars,
+					vy));
+			return expression;
+		} else if (expression.getOperation() == Operation.MINUS) {
+			expression.setRight(translateY(expression.getRight().wrap(), fVars,
+					-vy));
+			return expression;
 		}
 		return addNumber(expression, vy);
 
