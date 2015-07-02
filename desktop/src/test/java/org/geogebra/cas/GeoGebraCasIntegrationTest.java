@@ -2815,7 +2815,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariable_0 () {
-    t("Solve[x = 1]", "{x = 1}");
+		t("Solve[x = 1]", "{x = 1}");
+		t("Solve[x^5 = -1]", "{x = -1}");
   }
 
   @Test
