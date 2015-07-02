@@ -2001,7 +2001,7 @@ function createRoot(jQ, root, textbox, editable) {
     	  }
       }
 
-      cursor.writeLatexSafe(text3);
+      cursor.writeLatexSafe(text3).show();
     }
   });
 
@@ -6081,6 +6081,7 @@ var Cursor = P(Point, function(_) {
     } else {
       self.writeLatex(mort).show();
     }
+    return this.hide();
   };
   _.writeLatex = function(latex) {
     this.checkColorCursor(false);
@@ -6468,10 +6469,10 @@ $.fn.mathquillggb = function(cmd, latex) {
           // then writing the latex...
           // this seems to write GeoGebra command syntax help
           // as nicely as latex, so no problem here, but...
-          cursor.writeLatex(latex).parent.blur();
+          cursor.writeLatexSafe(latex).parent.blur();
 
           // alternative may be better?
-          //cursor.writeLatex(latex);
+          //cursor.writeLatexSafe(latex);
 
           // now we shall actualize GeoGebraSuggestionPopupCanShow
           if (cursor.root && latex.length) {
@@ -6490,12 +6491,7 @@ $.fn.mathquillggb = function(cmd, latex) {
               esi.GeoGebraSuggestionPopupCanShow = false;
               croot.geogebraAutocompleteSuggestionCheck(lastchar);
         	}
-          } //else {
-          //  if (croot.common) {
-          //    var esi = croot.common;
-          //    esi.GeoGebraSuggestionPopupCanShow = false;
-          //  }
-          //}
+          }
 
           if (original_arguments[3]) {// if this is a GeoGebra command suggestion
 
