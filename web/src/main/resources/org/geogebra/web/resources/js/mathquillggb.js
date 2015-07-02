@@ -1882,6 +1882,7 @@ function createRoot(jQ, root, textbox, editable) {
       }
     }
 
+    // TODO: maybe always call jQ.focus() here?
     if (!disabledTextarea) {
       setTimeout(function() { textarea.focus(); });
     } else {

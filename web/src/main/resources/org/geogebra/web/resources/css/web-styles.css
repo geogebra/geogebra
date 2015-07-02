@@ -110,6 +110,15 @@
 	overflow-x: scroll;
 	overflow-y: hidden;
 	direction: ltr;
+
+	/* so that it shall have the same cursor as MathQuillGGB editing */
+	cursor: text;
+}
+
+.NewRadioButtonTreeItem * {
+	/* some of its descendants would not naturally get it */
+	/* probably because of GWT or web-styles.css */
+	cursor: text !important;
 }
 
 .AdvancedFocusPanelsTextarea {
