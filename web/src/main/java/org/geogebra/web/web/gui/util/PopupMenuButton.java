@@ -374,6 +374,16 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		return mySlider;
 	}
 	
+	public void showSlider(boolean show) {
+		if (show) {
+			getMySlider().setVisible(show);
+			sliderLabel.setVisible(show);
+		} else if (mySlider != null) {
+			mySlider.setVisible(false);
+			sliderLabel.setVisible(false);
+		}
+	}
+
 	private void initSlider() {
 		
 		mySlider = new Slider(0,100);

@@ -715,9 +715,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
     private void createStandardViewBtn() {
 		btnStandardView = new MyCJButton();
-		ImageOrText icon = new ImageOrText();
-		icon.setUrl(StyleBarResources.INSTANCE.standard_view().getSafeUri()
-		        .asString());
+		ImageOrText icon = new ImageOrText(
+				StyleBarResources.INSTANCE.standard_view());
 		btnStandardView.setIcon(icon);
 		btnStandardView.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -1020,9 +1019,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize
-		        .setIcon(GeoGebraIcon
-		                .createResourceImageIcon(StyleBarResources.INSTANCE
+		btnTextSize.setIcon(new ImageOrText(StyleBarResources.INSTANCE
 		                        .font_size()));
 
 	}

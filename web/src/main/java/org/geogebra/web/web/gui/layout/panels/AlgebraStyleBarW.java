@@ -190,9 +190,8 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			        strTreeMode.length, 1,
 			        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 	
-			ImageOrText icon = new ImageOrText();
-			icon.setUrl(StyleBarResources.INSTANCE.sortObjects().getSafeUri()
-			        .asString());
+			ImageOrText icon = new ImageOrText(
+					StyleBarResources.INSTANCE.sortObjects());
 			treeModeButton.setFixedIcon(icon);
 	
 			treeModeButton.addClickHandler(new ClickHandler() {

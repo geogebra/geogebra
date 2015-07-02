@@ -869,7 +869,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return propertiesView;
 	}
 
-	public View getPropertiesView(OptionType ot) {
+	public PropertiesView getPropertiesView(OptionType ot) {
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();

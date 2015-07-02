@@ -26,12 +26,11 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @return Canvas with icon drawn
 	 */
 	public static ImageOrText createLineStyleIcon(int dashStyle, int thickness, GColor fgColor, GColor bgColor) {
-		ImageOrText ret = new ImageOrText();
 		if(dashStyle >= lineStyleIcons.length){
-			return ret;
+			return new ImageOrText();
 		}
-		ret.setUrl(lineStyleIcons[dashStyle].getSafeUri().asString());
-		return ret;
+		return new ImageOrText(lineStyleIcons[dashStyle]);
+
     }
 
 	private static StyleBarResources LafIcons = StyleBarResources.INSTANCE;
@@ -64,9 +63,7 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createPointStyleIcon(int pointStyle) {
-		ImageOrText ret = new ImageOrText();
-		ret.setUrl(pointStyleIcons[pointStyle].getSafeUri().asString());
-		return ret;
+		return new ImageOrText(pointStyleIcons[pointStyle]);
     }
 	
 	/**
@@ -75,9 +72,7 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createGridStyleIcon(int pointStyle) {
-		ImageOrText ret = new ImageOrText();
-		ret.setUrl(gridStyleIcons[pointStyle].getSafeUri().asString());
-		return ret;
+		return new ImageOrText(gridStyleIcons[pointStyle]);
     }
 	
 	/**
@@ -147,23 +142,11 @@ public class GeoGebraIcon extends BasicIcons{
 	}
 
 	/**
-	 * @param res
-	 *            {@link ImageResource}
-	 * @return {@link ImageOrText}
-	 */
-	public static ImageOrText createResourceImageIcon(ImageResource res) {
-		ImageOrText ret = new ImageOrText();
-		ret.setUrl(res.getSafeUri().asString());
-	    return ret;
-    }
-
-	/**
 	 * @param id
 	 *            {@code int}
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createDecorAngleIcon(int id) {
-		ImageOrText ret = new ImageOrText();
 		ImageResource url = null;
 		switch(id){
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
@@ -192,8 +175,7 @@ public class GeoGebraIcon extends BasicIcons{
 				url =  GuiResources.INSTANCE.deco_angle_1line();
 //			 Michael Borcherds 2007-11-19 END
 		}
-		ret.setUrl(url.getSafeUri().asString());
-		return ret;
+		return new ImageOrText(url);
 
 	}
 
@@ -203,7 +185,6 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createDecorSegmentIcon(int id) {
-		ImageOrText ret = new ImageOrText();
 		ImageResource url = null;
 
 		switch (id) {		
@@ -232,8 +213,7 @@ public class GeoGebraIcon extends BasicIcons{
 		// Michael Borcherds 20071006 end
 		}
 
-		ret.setUrl(url.getSafeUri().asString());
-		return ret;
+		return new ImageOrText(url);
 
     }
 
@@ -243,7 +223,6 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createAxesStyleIcon(int id) {
-		ImageOrText ret = new ImageOrText();
 		ImageResource url = null;
 		switch(id){
 			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
@@ -261,7 +240,7 @@ public class GeoGebraIcon extends BasicIcons{
 			default:
 				url =  GuiResources.INSTANCE.deco_axes_none();
 		}
-		ret.setUrl(url.getSafeUri().asString());
-		return ret;
+
+		return new ImageOrText(url);
 	}
 }

@@ -571,6 +571,9 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_dots.png")
 	ImageResource dots();
 
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylebar_more.png")
+	ImageResource more();
+
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_dots_active.png")
 	ImageResource dots_active();
 

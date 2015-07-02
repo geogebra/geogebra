@@ -622,9 +622,8 @@ public class FunctionInspectorW extends FunctionInspector {
 		        strOptions.length, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
-		ImageOrText icon = new ImageOrText();
-		icon.setUrl(GuiResources.INSTANCE.menu_icon_tools().getSafeUri()
-                .asString());
+		ImageOrText icon = new ImageOrText(
+				GuiResources.INSTANCE.menu_icon_tools());
 		btnOptions.setFixedIcon(icon);
 		btnOptions.setSelectedIndex(-1);
 		btnOptions.addPopupHandler(new PopupMenuHandler() {

@@ -112,22 +112,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// ========================================
 		// view direction button
 
-		ImageOrText[] directionIcons = new ImageOrText[6];
-		for (int i = 0; i < 6; i++) {
-			directionIcons[i] = new ImageOrText();
-		}
-		directionIcons[0].setUrl(StyleBarResources.INSTANCE.standard_view()
-				.getSafeUri().asString());
-		directionIcons[1].setUrl(StyleBarResources.INSTANCE.view_all_objects()
-				.getSafeUri().asString());
-		directionIcons[2].setUrl(StyleBar3DResources.INSTANCE
-				.standardViewRotate().getSafeUri().asString());
-		directionIcons[3].setUrl(StyleBar3DResources.INSTANCE.viewXY()
-		        .getSafeUri().asString());
-		directionIcons[4].setUrl(StyleBar3DResources.INSTANCE.viewXZ()
-		        .getSafeUri().asString());
-		directionIcons[5].setUrl(StyleBar3DResources.INSTANCE.viewYZ()
-		        .getSafeUri().asString());
+		ImageOrText[] directionIcons = ImageOrText.convert(new ImageResource[] {
+				StyleBarResources.INSTANCE.standard_view(),
+				StyleBarResources.INSTANCE.view_all_objects(),
+				StyleBar3DResources.INSTANCE.standardViewRotate(),
+				StyleBar3DResources.INSTANCE.viewXY(),
+				StyleBar3DResources.INSTANCE.viewXZ(),
+				StyleBar3DResources.INSTANCE.viewYZ() }, 24);
+
 		btnChangeView = new ProjectionPopup(app, directionIcons);
 		btnChangeView.addPopupHandler(this);
 
@@ -178,10 +170,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		public RotateViewPopup(ImageResource playIcon, ImageResource pauseIcon) {
 			super();
 
-			this.playIcon = new ImageOrText();
-			this.playIcon.setUrl(playIcon.getSafeUri().asString());
-			this.pauseIcon = new ImageOrText();
-			this.pauseIcon.setUrl(pauseIcon.getSafeUri().asString());
+			this.playIcon = new ImageOrText(playIcon);
+			this.pauseIcon = new ImageOrText(pauseIcon);
 
 			setIcon(this.playIcon);
 
@@ -338,18 +328,12 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		// ========================================
 		// show axes button
-		ImageOrText[] axesAndPlaneIcons = new ImageOrText[4];
-		for (int i = 0; i < 4; i++) {
-			axesAndPlaneIcons[i] = new ImageOrText();
-		}
-		axesAndPlaneIcons[0].setUrl(StyleBarResources.INSTANCE
-		        .stylingbar_empty().getSafeUri().asString());
-		axesAndPlaneIcons[1].setUrl(StyleBarResources.INSTANCE.axes()
-		        .getSafeUri().asString());
-		axesAndPlaneIcons[2].setUrl(StyleBar3DResources.INSTANCE.plane()
-		        .getSafeUri().asString());
-		axesAndPlaneIcons[3].setUrl(StyleBar3DResources.INSTANCE.axes_plane()
-		        .getSafeUri().asString());
+		ImageOrText[] axesAndPlaneIcons = ImageOrText.convert(
+				new ImageResource[] {
+						StyleBarResources.INSTANCE.stylingbar_empty(),
+						StyleBarResources.INSTANCE.axes(),
+						StyleBar3DResources.INSTANCE.plane(),
+						StyleBar3DResources.INSTANCE.axes_plane() }, 24);
 
 		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons, -1,
 		        4, org.geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());

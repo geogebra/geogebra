@@ -1155,8 +1155,10 @@ public class EuclidianViewW extends EuclidianView implements
 		double realHeight = g2p.getCoordinateSpaceHeight()
 				/ g2p.devicePixelRatio;
 		g2p.devicePixelRatio = pixelRatio;
-		g2p.setCoordinateSpaceSize((int) realWidth, (int) realHeight);
-		repaint();
+		if (realHeight > 0 && realWidth > 0) {
+			g2p.setCoordinateSpaceSize((int) realWidth, (int) realHeight);
+			repaint();
+		}
 	}
 
 }

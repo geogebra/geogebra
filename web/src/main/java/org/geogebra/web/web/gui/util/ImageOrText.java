@@ -23,15 +23,23 @@ public class ImageOrText {
 		this.setText(string);
 	}
 
+	public ImageOrText(ImageResource res) {
+		setResource(res);
+		bgSize = res.getWidth();
+	}
+
+	public void setResource(ImageResource res) {
+		setUrl(res.getSafeUri().asString());
+
+	}
+
 	public static ImageOrText[] convert(ImageResource[] res, int size) {
 	    ImageOrText[] arr = new ImageOrText[res.length];
 	    for(int i=0; i< arr.length; i++){
 	    	if(res[i] == null){
 	    		return arr;
 	    	}
-	    	arr[i] = new ImageOrText();
-	    	arr[i].setUrl(res[i].getSafeUri().asString());
-	    	arr[i].bgSize = size;
+			arr[i] = new ImageOrText(res[i]);
 	    }
 	    return arr;
     }

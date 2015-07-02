@@ -64,8 +64,8 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		if(menuButton == null){
 			menuButton = new MyCJButton();
 	
-			ImageOrText icon = new ImageOrText();
-			icon.setUrl(GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString());
+			ImageOrText icon = new ImageOrText(
+					GuiResources.INSTANCE.menu_icon_options());
 			menuButton.setIcon(icon);
 	
 			menuButton.addClickHandler(new ClickHandler() {
@@ -102,8 +102,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		if (numberOfOpenViews > 1) {
 			// show close button if there are more than 1 views open
 			data[0] = new ImageOrText(app.getMenu("Close"));
-			data[0].setUrl(GuiResources.INSTANCE.dockbar_close().getSafeUri()
-			        .asString());
+			data[0].setResource(GuiResources.INSTANCE.dockbar_close());
 
 			// placeholder for the separator (needs to be != null)
 			data[1] = new ImageOrText("");
@@ -148,14 +147,12 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			@Override
 			public void onClick(ClickEvent event) {
 				if (!viewButton.getMyPopup().isVisible()) {
-					ImageOrText icon = new ImageOrText();
-					icon.setUrl(AppResources.INSTANCE.dots().getSafeUri()
-					        .asString());
+					ImageOrText icon = new ImageOrText(AppResources.INSTANCE
+							.dots());
 					viewButton.setFixedIcon(icon);
 				} else {
-					ImageOrText icon = new ImageOrText();
-					icon.setUrl(AppResources.INSTANCE.dots_active()
-					        .getSafeUri().asString());
+					ImageOrText icon = new ImageOrText(AppResources.INSTANCE
+							.dots_active());
 					viewButton.setFixedIcon(icon);
 				}
 			}
@@ -163,8 +160,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 
 	    viewButton.getMyPopup().addCloseHandler(new CloseHandler<PopupPanel>() {
 			public void onClose(CloseEvent<PopupPanel> event) {
-				ImageOrText icon = new ImageOrText();
-				icon.setUrl(AppResources.INSTANCE.dots().getSafeUri().asString());
+				ImageOrText icon = new ImageOrText(AppResources.INSTANCE.dots());
 				viewButton.setFixedIcon(icon);
 			}
 		});

@@ -441,6 +441,30 @@ public class GeoGebraColorConstants {
 	}
 
 	/**
+	 * Returns array of colors for color popup menus
+	 * 
+	 * @param colorSetType
+	 *            COLORSET_* (background or primary)
+	 * @return array of colors for color popup menus
+	 */
+	public static GColor[] getSimplePopupArray(int colorSetType) {
+
+		GColor[] popupColors = new GColor[10];
+
+		popupColors[0] = AwtFactory.prototype.newColor(0, 128, 0);
+		popupColors[1] = AwtFactory.prototype.newColor(0, 128, 128);
+		popupColors[2] = AwtFactory.prototype.newColor(0, 0, 255);
+		popupColors[3] = AwtFactory.prototype.newColor(153, 51, 255);
+		popupColors[4] = AwtFactory.prototype.newColor(244, 0, 153);
+		popupColors[5] = AwtFactory.prototype.newColor(0, 0, 0);
+		popupColors[6] = AwtFactory.prototype.newColor(102, 102, 102);
+		popupColors[7] = AwtFactory.prototype.newColor(153, 51, 0);
+		popupColors[8] = AwtFactory.prototype.newColor(204, 0, 0);
+		popupColors[9] = null; // placeholder for (...) button
+		return popupColors;
+	}
+
+	/**
 	 * Array of colors intended for the primary color swatch panel of the
 	 * GeoGebraColorChooser class.
 	 * 
