@@ -1447,12 +1447,27 @@ GeoContainer rbti,
 		var edl = $wnd.$ggbQuery(parentElement).find(".mathquillggb-editable");
 
 		if (edl.length) {
-			// maybe it's already in focus, then let's blur first, anyway! (for bugfixing)
-			//edl[0].blur();// no, it does not fix the bug!
-
 			if (focus) {
 				// now it can get focus!
-				edl[0].focus();
+				// but if the element is still having focus, then don't this!
+				// but having focus does not mean this:
+				//if ($doc.activeElement === edl[0]) {
+				// but instead:
+				var textareaJQ = edl.find('textarea');
+				if (textareaJQ.length) {
+					if (textareaJQ[0] === $doc.activeElement) {
+						// focusing a focused element might call blur,
+						// and it is buggy... minor task is to rule
+						// out this case from here, for better fix
+						// or major task if it can be done quickly
+					} else {
+						// general case
+						edl[0].focus();
+					}
+				} else {
+					// this should not happen in theory!
+					edl[0].focus();
+				}
 			} else {
 				edl[0].blur();
 			}
