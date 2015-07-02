@@ -3908,6 +3908,14 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
+	 * 
+	 * @return true if we want to use shaders
+	 */
+	public boolean useShaders() {
+		return false;
+	}
+
+	/**
 	 * Method is used to determine whether we CAN && SHOULD display LaTeX by
 	 * MathQuillGGB, should not be changed or used for a different reason.
 	 * 

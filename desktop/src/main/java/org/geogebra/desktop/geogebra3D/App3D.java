@@ -21,7 +21,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -38,11 +37,9 @@ import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
@@ -467,10 +464,7 @@ public class App3D extends AppD {
 
 	private boolean useShaders;
 
-	/**
-	 * 
-	 * @return true if we want to use shaders
-	 */
+	@Override
 	public boolean useShaders() {
 		return useShaders;
 	}

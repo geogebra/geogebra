@@ -3301,4 +3301,9 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 	}
+
+	@Override
+	public boolean useShaders() {
+		return true;
+	}
 }

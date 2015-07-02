@@ -604,7 +604,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	final private DrawSurface3D newDrawSurface3D(SurfaceEvaluable surface) {
-		if (app.has(Feature.GL_ELEMENTS)) {
+		if (app.useShaders() && app.has(Feature.GL_ELEMENTS)) {
 			return new DrawSurface3DElements(this, surface);
 		}
 		return new DrawSurface3D(this, surface);
