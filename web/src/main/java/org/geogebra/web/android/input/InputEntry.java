@@ -5,7 +5,7 @@ import org.geogebra.web.android.AppStub;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
-import org.geogebra.web.web.util.keyboardBase.TextFieldProcessing;
+import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
@@ -76,27 +76,27 @@ public class InputEntry implements EntryPoint, ScriptLoadCallback,
 
 	}
 
-	private void exportProcessing(TextFieldProcessing processing) {
+	private void exportProcessing(KeyBoardProcessable processing) {
 		exportProcessingNative(processing);
 	}
 
-	private native void exportProcessingNative(TextFieldProcessing processing) /*-{
+	private native void exportProcessingNative(KeyBoardProcessable processing) /*-{
 		$wnd.jsInput = {};
 		$wnd.jsInput.onEnter = $entry(function() {
-			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::onEnter()();
+			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::onEnter()();
 		});
 		$wnd.jsInput.onBackspace = $entry(function() {
-			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::onBackSpace()();
+			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::onBackSpace()();
 		});
 		$wnd.jsInput.onArrow = $entry(function(arrowType) {
-			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::onArrow(Lorg/geogebra/web/web/util/keyboardBase/TextFieldProcessing$ArrowType;)(@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing.ArrowType::values()[arrowType]);
+			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::onArrow(Lorg/geogebra/web/web/util/keyboardBase/KeyBoardProcessable$ArrowType;)(@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable.ArrowType::values()[arrowType]);
 		});
 		$wnd.jsInput.insertString = $entry(function(text) {
-			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::insertString(Ljava/lang/String;)(text);
+			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::insertString(Ljava/lang/String;)(text);
 		});
 		
 		$wnd.jsInput.scrollCursorIntoView = $entry(function() {
-			processing.@org.geogebra.web.web.util.keyboardBase.TextFieldProcessing::scrollCursorIntoView()();
+			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::scrollCursorIntoView()();
 		});
 	}-*/;
 

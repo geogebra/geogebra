@@ -1,7 +1,7 @@
 package org.geogebra.web.android.input;
 
 import org.geogebra.web.web.util.keyboardBase.TextFieldProcessable;
-import org.geogebra.web.web.util.keyboardBase.TextFieldProcessing;
+import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -29,7 +29,7 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 		initWidget(flowPanel);
 	}
 
-	public TextFieldProcessing getProcessing() {
+	public KeyBoardProcessable getProcessing() {
 		return new MathQuillInputProcessor(this);
 	}
 

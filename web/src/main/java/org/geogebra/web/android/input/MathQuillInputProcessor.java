@@ -7,9 +7,9 @@ import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.web.util.keyboard.KeyboardConstants;
-import org.geogebra.web.web.util.keyboardBase.TextFieldProcessing;
+import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
 
-public class MathQuillInputProcessor implements TextFieldProcessing {
+public class MathQuillInputProcessor implements KeyBoardProcessable {
 
 	private static final int BACKSPACE = 8;
 	private static final int ENTER = '\r';

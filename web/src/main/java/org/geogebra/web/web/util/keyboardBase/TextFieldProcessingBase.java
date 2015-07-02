@@ -19,19 +19,15 @@ import com.google.gwt.user.client.Event;
  * manages the processing of the different types of widgets that
  * {@link OnScreenKeyBoardBase} can work with
  */
-public class TextFieldProcessingBase implements TextFieldProcessing {
-
-	private enum State {
-		empty, gTextBox, equationEditorListener, newRadioButtonTreeItem, other;
-	}
+public class TextFieldProcessingBase implements KeyBoardProcessable {
 
 	/** ASCII */
-	private static final int BACKSPACE = 8;
-	private static final int ENTER = '\r'; // 13;
+	protected static final int BACKSPACE = 8;
+	protected static final int ENTER = '\r'; // 13;
 
-	private MathKeyboardListener field;
-	private State state = State.empty;
-	private HashSet<String> needsLeftParenthesis = new HashSet<String>();
+	protected MathKeyboardListener field;
+	protected State state = State.empty;
+	protected HashSet<String> needsLeftParenthesis = new HashSet<String>();
 
 	public TextFieldProcessingBase() {
 		initNeedsLeftParenthesis();
@@ -187,13 +183,11 @@ public class TextFieldProcessingBase implements TextFieldProcessing {
 			switch (type) {
 			case left:
 				((EquationEditorListener) field).keydown(GWTKeycodes.KEY_LEFT,
-						false,
-						false, false);
+						false, false, false);
 				break;
 			case right:
 				((EquationEditorListener) field).keydown(GWTKeycodes.KEY_RIGHT,
-						false,
-						false, false);
+						false, false, false);
 				break;
 			}
 			break;
@@ -220,15 +214,17 @@ public class TextFieldProcessingBase implements TextFieldProcessing {
 				((EquationEditorListener) field).keypress('^', false,
 						false, false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
-				((EquationEditorListener) field).insertString("e");
+				// this should be like this, in order to avoid confusion
+				// with a possible variable name called "e"
+				((EquationEditorListener) field)
+						.insertString(Unicode.EULER_STRING);
 				// inserts: ^{}
 				((EquationEditorListener) field).keypress('^', false,
 						false, false);
 			} else if (needsLeftParenthesis.contains(text)) {
 				((EquationEditorListener) field).insertString(text);
 				// inserts: ()
-				((EquationEditorListener) field).keypress('(', false,
-						false,
+				((EquationEditorListener) field).keypress('(', false, false,
 						false);
 			} else if (text.equals("nroot")) {
 				((EquationEditorListener) field).insertString("nroo");
@@ -236,8 +232,7 @@ public class TextFieldProcessingBase implements TextFieldProcessing {
 						false, true);
 			} else if (text.equals("log")) {
 				((EquationEditorListener) field).insertString("log_{10}");
-				((EquationEditorListener) field).keypress('(', false,
-						false,
+				((EquationEditorListener) field).keypress('(', false, false,
 						false);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((EquationEditorListener) field)
@@ -248,8 +243,23 @@ public class TextFieldProcessingBase implements TextFieldProcessing {
 			} else if (text.equals("abs")) {
 				((EquationEditorListener) field).keypress('|', false, false,
 						false);
+			} else if (text.equals("quotes")) {
+				((EquationEditorListener) field).keypress('"', false, false,
+						false);
 			} else {
+				// if (text.length() == 1) {
+				// ((EquationEditorListener) field).keypress(text.charAt(0),
+				// false, false, false);
+				// } else {
 				((EquationEditorListener) field).insertString(text);
+				// }
+				// in case of keypress, we shall wait until the keypress event
+				// is really effective and only check for show suggestions
+				// then...
+				// but this is non-trivial unless we deal with it in the
+				// keypress
+				// event, not sure it's worth the work when we can also use
+				// insertString in this case as well...
 				((EquationEditorListener) field).showOrHideSuggestions();
 			}
 			break;
@@ -286,6 +296,7 @@ public class TextFieldProcessingBase implements TextFieldProcessing {
 	/**
 	 * Method just used for RadioButtonTreeItem for now
 	 */
+	@Override
 	public void scrollCursorIntoView() {
 		switch (state) {
 		case newRadioButtonTreeItem:

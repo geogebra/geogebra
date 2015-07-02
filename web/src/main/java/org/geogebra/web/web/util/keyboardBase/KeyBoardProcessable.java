@@ -2,7 +2,11 @@ package org.geogebra.web.web.util.keyboardBase;
 
 import org.geogebra.common.main.Localization;
 
-public interface TextFieldProcessing {
+/**
+ * interface for classes that can receive input from the
+ * {@link OnScreenKeyBoardBase}
+ */
+public interface KeyBoardProcessable {
 	
 	/**
 	 * arrow keys of the keyboard
@@ -12,6 +16,10 @@ public interface TextFieldProcessing {
 		right
 	}
 	
+	enum State {
+		empty, autoCompleteTextField, gTextBox, equationEditorListener, newRadioButtonTreeItem, other;
+	}
+
 	void setFocus(boolean focus);
 
 	void onEnter();

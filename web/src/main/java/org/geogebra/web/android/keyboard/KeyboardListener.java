@@ -1,9 +1,9 @@
 package org.geogebra.web.android.keyboard;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.web.util.keyboardBase.TextFieldProcessing;
+import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
 
-public class KeyboardListener implements TextFieldProcessing {
+public class KeyboardListener implements KeyBoardProcessable {
 
 	public void setFocus(boolean focus) {
 		// ignored

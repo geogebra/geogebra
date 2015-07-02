@@ -7,7 +7,7 @@ import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.web.util.keyboardBase.OnScreenKeyBoardBase;
-import org.geogebra.web.web.util.keyboardBase.TextFieldProcessing;
+import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Window.Location;
@@ -40,7 +40,7 @@ public class KeyboardEntry implements EntryPoint, ScriptLoadCallback {
 	public void onLoad() {
 		MathKeyboardListener textField = new MathKeyboardListenerStub();
 		UpdateKeyboardListenerStub listener = new UpdateKeyboardListenerStub();
-		TextFieldProcessing processing = new KeyboardListener();
+		KeyBoardProcessable processing = new KeyboardListener();
 		OnScreenKeyBoardBase oskb = OnScreenKeyBoardBase.getInstance(textField,
 				listener, app);
 		oskb.setProcessing(processing);

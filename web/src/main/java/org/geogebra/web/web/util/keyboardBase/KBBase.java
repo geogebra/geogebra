@@ -18,7 +18,7 @@ import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.util.keyboard.KeyboardConstants;
 import org.geogebra.web.web.util.keyboard.KeyboardMode;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardButtonFunctionalBase.Action;
-import org.geogebra.web.web.util.keyboardBase.TextFieldProcessing.ArrowType;
+import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable.ArrowType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -146,7 +146,7 @@ public class KBBase extends PopupPanel {
 	protected HorizontalPanel contentNumber = new HorizontalPanel();
 	protected HorizontalPanel contentSpecialChars = new HorizontalPanel();
 	protected FlowPanel contentLetters = new FlowPanel();
-	private TextFieldProcessing processField;
+	private KeyBoardProcessable processField;
 	protected KeyboardMode mode = KeyboardMode.NUMBER;
 	protected KeyPanelBase letters;
 	protected KeyBoardButtonBase switchABCGreek;
@@ -779,7 +779,7 @@ public class KBBase extends PopupPanel {
 		});
 	}
 
-	public void setProcessing(TextFieldProcessing processing) {
+	public void setProcessing(KeyBoardProcessable processing) {
 		this.processField = processing;
 	}
 
