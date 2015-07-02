@@ -14,15 +14,6 @@ import org.geogebra.common.util.debug.Log;
 @SuppressWarnings("javadoc")
 public enum Language {
 
-	// ====================================================================================
-	// IMPORTANT: This list is automatically edited by the build script on the
-	// web platform
-	// by the sed utility when selecting the applicable set of languages with
-	// the "-l" option.
-	// Please don't do big changes in the format of this list, or
-	// if yes, make sure you edit the build script as well. Thanks! --- Zoltan
-	// ====================================================================================
-
 	// need to be in Alphabetical order so they appear in the menu in the right
 	// order
 	// Afrikaans(null, false, "af","af", "Afrikaans", Country.SouthAfrica),
