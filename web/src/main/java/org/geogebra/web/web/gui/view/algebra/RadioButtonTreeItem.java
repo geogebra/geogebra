@@ -1331,14 +1331,18 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
-		if (newCreationMode) {
-			// necessary after the MathQuillGGB gets its
-			// focusMathQuillGGB method...
+		if (commonEditingCheck()) {
+			// in newCreationMode, this is necessary after the
+			// MathQuillGGB gets its focusMathQuillGGB method...
 			// and setFocus will be called in onPointerDown anyway.
 			// about other default actions of this event,
 			// I don't care (MathQuillGGB formula is over this,
 			// and accepts its events before this, e.g. the
 			// selection highlighting event, which looks good)
+
+			// as for an Internet Explorer bug in editing mode
+			// (not newCreationMode) the condition is extended
+			// to all cases of editing
 			event.preventDefault();
 		}
 		if (CancelEventTimer.cancelMouseEvent()) {
