@@ -587,7 +587,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			// here it complains that geo is undefined
 			doUpdate();
-			// startEditing();
 		}
 		// FIXME: geo.getLongDescription() doesn't work
 		// geo.getKernel().getApplication().setTooltipFlag();
@@ -1453,10 +1452,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (event.isRightClick()) {
 			onRightClick(event.getX(), event.getY());
 		} else if (commonEditingCheck()) {
-			if (!av.isEditing() && !isThisEdited()) {
-				// why start editing in new creation mode?
-				// it should have been already started
-				startEditing();
+			if (!av.isEditing()) {
+				// e.g. Web.html might not be in editing mode
+				// initially (temporary fix)
+				ensureEditing();
 			}
 			app.showKeyboard(this);
 			PointerEvent pointerEvent = (PointerEvent) event;

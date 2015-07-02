@@ -328,8 +328,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 		addStyleName("SymbolCanBeShown");
 
-		// When scheduleDeferred does not work...
-		// this code makes the cursor show when the page loads...
+		// adding this here at the same time as removing it from
+		// RadioButtonTreeItem.onPointerDown, because it was highly
+		// redundant doing that in each mouse down
+		ensureEditing();
 	}
 
 	public void replaceXButtonDOM() {
