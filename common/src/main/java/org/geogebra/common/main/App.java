@@ -3881,7 +3881,6 @@ public abstract class App implements UpdateSelection {
 	public final boolean has(Feature f) {
 		switch (f) {
 		case DATA_COLLECTION:
-		case GL_ELEMENTS:
 			return canary;
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
@@ -3901,6 +3900,7 @@ public abstract class App implements UpdateSelection {
 		case SF_DRAG:
 		case JLM_IN_WEB:
 		case DELETE_IN_ALGEBRA:
+		case GL_ELEMENTS:
 			return true;
 		default:
 			return false;

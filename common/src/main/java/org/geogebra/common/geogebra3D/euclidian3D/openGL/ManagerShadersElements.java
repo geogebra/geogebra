@@ -644,11 +644,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 		return new PlotterSurfaceElements(this);
 	}
 
-	/**
-	 * @param size
-	 *            size
-	 * @return current geometry indices buffer with correct size
-	 */
+	@Override
 	public short[] getCurrentGeometryIndices(int size) {
 		return ((GeometryElements) currentGeometriesSet.currentGeometry)
 				.getBufferI(size);

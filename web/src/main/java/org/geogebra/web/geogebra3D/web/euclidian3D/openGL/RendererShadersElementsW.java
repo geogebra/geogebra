@@ -1,7 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElements;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
@@ -26,7 +26,7 @@ public class RendererShadersElementsW extends RendererW {
 
 	@Override
 	protected Manager createManager() {
-		return new ManagerShadersElements(this, view3D);
+		return new ManagerShadersElementsGlobalBuffer(this, view3D);
 	}
 
 	@Override

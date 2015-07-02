@@ -534,6 +534,7 @@ public class ManagerShaders extends Manager {
 																	// that
 	}
 
+	@Override
 	public void endGeometry(int size, TypeElement type) {
 		currentGeometriesSet.setVertices(vertices, verticesLength);
 		currentGeometriesSet.setNormals(normals, normalsLength);

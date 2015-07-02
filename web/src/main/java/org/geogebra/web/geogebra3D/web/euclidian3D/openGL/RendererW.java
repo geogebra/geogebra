@@ -279,6 +279,8 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		vboNormals = glContext.createBuffer();
 		vboTextureCoords = glContext.createBuffer();
 		vboIndices = glContext.createBuffer();
+		
+		attribPointers();
 
 	}
 
@@ -1324,8 +1326,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glBufferData(fbColors);
 
 		// Associate attribute
-		glContext.vertexAttribPointer(GLSL_ATTRIB_COLOR, 4,
-		        WebGLRenderingContext.FLOAT, false, 0, 0);
+		vertexAttribPointerGlobal(GLSL_ATTRIB_COLOR, 4);
 
 		// VBO
 		glContext.enableVertexAttribArray(GLSL_ATTRIB_COLOR);
@@ -1374,12 +1375,47 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glBufferData(fbNormals);
 
 		// Associate attribute
-		glContext.vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3,
-		        WebGLRenderingContext.FLOAT, false, 0, 0);
+		vertexAttribPointerGlobal(GLSL_ATTRIB_NORMAL, 3);
 
 		// VBO
 		glContext.enableVertexAttribArray(GLSL_ATTRIB_NORMAL);
 
+	}
+
+	/**
+	 * set vertex attribute pointer
+	 * 
+	 * @param attrib
+	 *            attribute
+	 * @param size
+	 *            size
+	 */
+	private void vertexAttribPointer(int attrib, int size) {
+		glContext.vertexAttribPointer(attrib, size,
+				WebGLRenderingContext.FLOAT, false, 0, 0);
+	}
+
+	private void vertexAttribPointerGlobal(int attrib, int size) {
+		// vertexAttribPointer(attrib, size);
+	}
+
+	/**
+	 * attribute vertex pointers
+	 */
+	private void attribPointers() {
+
+		glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vboVertices);
+		vertexAttribPointer(GLSL_ATTRIB_POSITION, 3);
+
+		glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vboNormals);
+		vertexAttribPointer(GLSL_ATTRIB_NORMAL, 3);
+
+		glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vboColors);
+		vertexAttribPointer(GLSL_ATTRIB_COLOR, 4);
+
+		glContext.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER,
+				vboTextureCoords);
+		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 	}
 
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
@@ -1404,8 +1440,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glBufferData(fbTextures);
 
 		// Associate attribute
-		glContext.vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2,
-		        WebGLRenderingContext.FLOAT, false, 0, 0);
+		vertexAttribPointerGlobal(GLSL_ATTRIB_TEXTURE, 2);
 
 		// VBO
 		glContext.enableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
@@ -1433,11 +1468,27 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glBufferData(fbVertices);
 
 		// Associate Vertex attribute 0 with the last bound VBO
-		glContext.vertexAttribPointer(GLSL_ATTRIB_POSITION, 3,
-		        WebGLRenderingContext.FLOAT, false, 0, 0);
+		vertexAttribPointerGlobal(GLSL_ATTRIB_POSITION, 3);
 
 		// VBO
 		glContext.enableVertexAttribArray(GLSL_ATTRIB_POSITION);
+
+	}
+
+	@Override
+	public void loadIndicesBuffer(short[] arrayI, int length) {
+
+		// ///////////////////////////////////
+		// VBO - indices
+
+		// Select the VBO, GPU memory data, to use for indices
+		glContext.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
+				vboIndices);
+
+		// transfer data to VBO, this perform the copy of data from CPU -> GPU
+		// memory
+		glContext.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
+				MyInt16Array.create(arrayI), GL_TYPE_DRAW_TO_BUFFER);
 
 	}
 

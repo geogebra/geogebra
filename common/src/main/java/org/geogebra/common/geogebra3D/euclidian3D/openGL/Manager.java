@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
@@ -184,6 +185,18 @@ abstract public class Manager {
 	 */
 	public void endGeometryDirect(){
 		endGeometry();
+	}
+
+	/**
+	 * end current geometry (only with shaders + elements, with type)
+	 * 
+	 * @param size
+	 *            geometry size
+	 * @param type
+	 *            geometry type
+	 */
+	public void endGeometry(int size, TypeElement type) {
+		// not used for all managers
 	}
 
 	/**
@@ -700,6 +713,16 @@ abstract public class Manager {
 		}
 	}
 
+	/**
+	 * (used only for elements)
+	 * 
+	 * @param size
+	 *            size
+	 * @return current geometry indices buffer with correct size
+	 */
+	public short[] getCurrentGeometryIndices(int size) {
+		return null;
+	}
 
 
 }
