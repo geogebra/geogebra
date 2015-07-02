@@ -508,15 +508,15 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// indirect way: first MathQuillGGB textarea gets focus,
 		// then its onfocus handler gets called, which calls this
 
-		// if (!Browser.isInternetExplorer()) {
 		if (dummyLabel != null) {
+			// it can only be non-null when
+			// app.has(Feature.INPUT_SHOWN_IN_INPUTBAR)
 			// if (dummyLabel.getElement().hasParentElement()) {
 			if ((dummyLabel.getElement() != null)
 					&& ihtml.getElement().isOrHasChild(dummyLabel.getElement())) {
 				ihtml.getElement().removeChild(dummyLabel.getElement());
 			}
 		}
-		// }
 
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
 			// #5245#comment:8, cases B and C excluded
@@ -590,7 +590,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (!DrawEquationWeb.targetHasFeature(getElement(),
 				"BlurDoesntUpdateGUIFeature")) {
 
-			if (isEmpty())
+			if (isEmpty() && app.has(Feature.INPUT_SHOWN_IN_INPUTBAR))
 				addDummyLabel();
 
 			if (((AlgebraViewW) av).isNodeTableEmpty()) {
