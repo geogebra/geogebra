@@ -120,9 +120,9 @@ public class ConstructionDefaults {
 	/** default */
 	public static final int DEFAULT_LIST = 130;
 
-	private static final int[] colorSequence = new int[] { 0x3333CC, 0x006600,
-			0xFF3300, 0x990066, 0x9966FF, 0x339900, 0xCC0099, 0x0066FF,
-			0x009999, 0x660000, 0x333333 };
+	private static final int[] colorSequence = new int[] { 0x000000, 0xCC0000,
+			0x008000, 0x9933FF, 0x008080, 0x0000FF, 0x666666,
+			0x993300 };
 	// DEFAULT COLORs
 	// points
 	/** default color for points */

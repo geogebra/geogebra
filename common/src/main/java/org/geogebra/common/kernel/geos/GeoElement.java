@@ -1619,16 +1619,20 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	protected void setColorVisualStyle(final GeoElement geo){
 		if (geo.isSequentialColor()) {
-			GColor next = cons.getConstructionDefaults().getNextColor();
-			objColor = next;
-			selColor = next;
-			return;
+			setObjColor(cons.getConstructionDefaults().getNextColor());
+		} else {
+			objColor = geo.objColor;
+			selColor = geo.selColor;
 		}
 		
-		objColor = geo.objColor;
-		selColor = geo.selColor;
+
 		if (geo.isFillable()) {
-			fillColor = geo.fillColor;
+			if (geo.isSequentialColor()) {
+				fillColor = objColor;
+				setAlphaValue(geo.getAlphaValue());
+			} else {
+				fillColor = geo.fillColor;
+			}
 			fillType = geo.fillType;
 			hatchingAngle = geo.hatchingAngle;
 			hatchingDistance = geo.hatchingDistance;

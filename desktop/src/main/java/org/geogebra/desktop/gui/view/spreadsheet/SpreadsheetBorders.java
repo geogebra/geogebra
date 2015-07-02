@@ -6,9 +6,9 @@ import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Set;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.main.GeoGebraColorConstants;
 
 /**
  * Methods for drawing custom spreadsheet borders
@@ -28,7 +28,7 @@ public class SpreadsheetBorders {
 	public static void drawFormatBorders(Graphics2D g2, MyTableD table) {
 
 		g2.setColor(org.geogebra.desktop.awt.GColorD
-				.getAwtColor(GeoGebraColorConstants.BLACK));
+.getAwtColor(GColor.BLACK));
 		g2.setStroke(new BasicStroke(1));
 
 		HashMap<GPoint, Object> map = table.getCellFormatHandler()

@@ -29,6 +29,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.Utilities;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
@@ -106,7 +107,7 @@ public class TextLineNumber extends JPanel implements CaretListener,
 		setMinimumDisplayDigits(minimumDisplayDigits);
 
 		setCurrentLineForeground(org.geogebra.desktop.awt.GColorD
-				.getAwtColor(GeoGebraColorConstants.BLACK));
+				.getAwtColor(GColor.BLACK));
 		this.setForeground(org.geogebra.desktop.awt.GColorD
 				.getAwtColor(GeoGebraColorConstants.GRAY6));
 		this.setBackground(org.geogebra.desktop.awt.GColorD

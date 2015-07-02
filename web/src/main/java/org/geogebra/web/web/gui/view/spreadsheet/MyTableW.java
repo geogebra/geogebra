@@ -75,7 +75,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public static final GColor BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER;
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.GRAY2;
 	public static final GColor HEADER_GRID_COLOR = GeoGebraColorConstants.GRAY4;
-	public static final GColor SELECTED_RECTANGLE_COLOR = GeoGebraColorConstants.BLUE;
+	public static final GColor SELECTED_RECTANGLE_COLOR = GColor.BLUE;
 
 	protected Kernel kernel;
 	protected AppW app;

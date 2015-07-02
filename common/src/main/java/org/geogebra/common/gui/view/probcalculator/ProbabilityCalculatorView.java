@@ -98,8 +98,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 	// colors
 	private static final GColor COLOR_PDF = GeoGebraColorConstants.DARKBLUE;
-	private static final GColor COLOR_NORMALOVERLAY = GeoGebraColorConstants.RED;
-	private static final GColor COLOR_PDF_FILL = GeoGebraColorConstants.BLUE;
+	private static final GColor COLOR_NORMALOVERLAY = GColor.RED;
+	private static final GColor COLOR_PDF_FILL = GColor.BLUE;
 	private static final GColor COLOR_POINT = GColor.BLACK;
 
 	

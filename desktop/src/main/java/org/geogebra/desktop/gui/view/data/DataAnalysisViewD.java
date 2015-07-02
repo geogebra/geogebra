@@ -23,9 +23,9 @@ import javax.swing.JSplitPane;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
-import org.geogebra.common.gui.view.data.DataSource;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
+import org.geogebra.common.gui.view.data.DataSource;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -62,7 +62,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
 	public static final Color TABLE_HEADER_COLOR = new Color(240, 240, 240);
 	public static final Color HISTOGRAM_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.BLUE);
+			.getAwtColor(GColor.BLUE);
 	public static final Color BOXPLOT_COLOR = org.geogebra.desktop.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.CRIMSON);
 	public static final Color BARCHART_COLOR = org.geogebra.desktop.awt.GColorD

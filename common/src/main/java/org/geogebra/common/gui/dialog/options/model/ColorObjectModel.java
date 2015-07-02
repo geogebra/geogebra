@@ -158,7 +158,7 @@ public class ColorObjectModel extends OptionsModel {
 
 	@Override
 	public boolean checkGeos() {
-		return !hasDefaultGeos();
+		return true;
 	}
 
 	/**

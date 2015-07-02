@@ -41,7 +41,7 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 	// colors
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
 	public static final GColor TABLE_HEADER_COLOR = new GColorW(240, 240, 240);
-	public static final GColor HISTOGRAM_COLOR = GeoGebraColorConstants.BLUE;
+	public static final GColor HISTOGRAM_COLOR = GColor.BLUE;
 	public static final GColor BOXPLOT_COLOR = GeoGebraColorConstants.CRIMSON;
 	public static final GColor BARCHART_COLOR = GeoGebraColorConstants.DARKGREEN;
 

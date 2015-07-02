@@ -17,10 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.probcalculator.ChiSquareCell;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -484,7 +485,7 @@ public class ChiSquarePanelD extends org.geogebra.common.gui.view.probcalculator
 				fldInput.setVisible(true);
 				wrappedPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 				fldInput.setBackground(org.geogebra.desktop.awt.GColorD
-						.getAwtColor(GeoGebraColorConstants.WHITE));
+						.getAwtColor(GColor.WHITE));
 			}
 
 		}

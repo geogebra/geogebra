@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -143,7 +144,7 @@ public abstract class CASTableCell extends JPanel {
 					.getAwtColor(cellValue.getObjectColor()));
 		} else {
 			inputPanel.setCommentColor(org.geogebra.desktop.awt.GColorD
-					.getAwtColor(GeoGebraColorConstants.BLACK));
+					.getAwtColor(GColor.BLACK));
 		}
 		outputPanel.setForeground(cellValue.getAlgebraColor());
 		dummyField.setText(inputPanel.getInput());
