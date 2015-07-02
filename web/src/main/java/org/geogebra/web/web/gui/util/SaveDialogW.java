@@ -540,7 +540,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	        MaterialCallback materialCallback) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .uploadMaterial(app, tubeID, visibility, this.title.getText(),
-		                base64, materialCallback);
+						base64, materialCallback, this.saveType);
 	}
 
 	@Override
@@ -677,10 +677,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			this.setAvailableProviders();
 		}
-	}
-
-	public MaterialType getSaveType() {
-		return saveType;
 	}
 
 	public void setSaveType(MaterialType saveType) {

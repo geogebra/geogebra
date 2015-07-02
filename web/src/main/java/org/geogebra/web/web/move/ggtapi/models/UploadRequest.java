@@ -2,6 +2,7 @@ package org.geogebra.web.web.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Request;
 import org.geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import org.geogebra.common.move.ggtapi.models.json.JSONNumber;
@@ -18,7 +19,7 @@ public class UploadRequest implements Request {
 	private final String API = "1.0.0";
 	private final String GGB = "geogebra";
 	private final String TASK = "upload";
-	private final String TYPE = "applet";
+	private final String type;
 	private final String consTitle;
 	private int uniqueID;
 	private String base64;
@@ -34,8 +35,10 @@ public class UploadRequest implements Request {
 	 * @param base64
 	 *            String
 	 */
-	UploadRequest(int tubeID, String visibility, String consTitle, String base64) {
+	UploadRequest(int tubeID, String visibility, String consTitle,
+			String base64, MaterialType type) {
 		this.consTitle = consTitle;
+		this.type = type == MaterialType.ggb ? "applet" : type.name();
 		this.uniqueID = tubeID;
 		this.base64 = base64;
 		this.visibility = visibility;
@@ -54,6 +57,8 @@ public class UploadRequest implements Request {
 	 */
 	UploadRequest(AppW app, Material mat) {
 		this.consTitle = mat.getTitle();
+		this.type = mat.getType() == MaterialType.ggb ? "applet" : mat
+				.getType().name();
 		if (mat.getId() != 0) {
 			this.uniqueID = mat.getId();
 		}
@@ -74,6 +79,7 @@ public class UploadRequest implements Request {
 	UploadRequest(AppW app, String newTitle, int id) {
 		this.consTitle = newTitle;
 		this.uniqueID = id;
+		this.type = "applet"; // TODO can this be ignored
 	}
 
 	@Override
@@ -102,7 +108,7 @@ public class UploadRequest implements Request {
 		}
 
 		// type
-		task.put("type", new JSONString(this.TYPE));
+		task.put("type", new JSONString(this.type));
 
 		// title
 		task.put("title", new JSONString(this.consTitle));
@@ -148,8 +154,8 @@ public class UploadRequest implements Request {
 	 */
 	public static UploadRequest getRequestElement(int tubeID,
 	        String visibility, String filename,
-	        String base64) {
-		return new UploadRequest(tubeID, visibility, filename, base64);
+ String base64, MaterialType type) {
+		return new UploadRequest(tubeID, visibility, filename, base64, type);
 	}
 
 	/**

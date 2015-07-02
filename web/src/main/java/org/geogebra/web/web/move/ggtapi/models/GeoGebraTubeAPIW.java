@@ -9,6 +9,7 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.util.HttpRequest;
@@ -256,11 +257,12 @@ response,
 	 */
 	public void uploadMaterial(App app, int tubeID, String visibility,
 	        final String filename,
-	        String base64, final MaterialCallback cb) {
+ String base64, final MaterialCallback cb,
+			MaterialType type) {
 
 		performRequest(
 		        UploadRequest.getRequestElement(tubeID, visibility, filename,
-		                base64)
+						base64, type)
 .toJSONString(client), cb);
 
 	}
