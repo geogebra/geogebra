@@ -25,7 +25,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	private int curvesIndicesSize, fanDirectIndicesSize,
 			fanIndirectIndicesSize;
 
-	final static boolean DEBUG = true;
+	final static boolean DEBUG = false;
 
 	/**
 	 * debug if debug mode
@@ -157,7 +157,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	 * @return GPU buffer for curve indices, update it if current is not same
 	 *         size
 	 */
-	public final static GPUBuffer getBufferIndicesForCurve(
+	private final static GPUBuffer getBufferIndicesForCurve(
 			GPUBuffer curveBufferOld, RendererShadersInterface r, int size,
 			int sizeOld) {
 
@@ -255,7 +255,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	 * @return GPU buffer for direct fan indices, update it if current is not
 	 *         big enough
 	 */
-	public final static GPUBuffer getBufferIndicesForFanDirect(
+	private final static GPUBuffer getBufferIndicesForFanDirect(
 			GPUBuffer bufferOld,
 			RendererShadersInterface r, int size,
 			int sizeOld) {
@@ -347,7 +347,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 	 * @return GPU buffer for direct fan indices, update it if current is not
 	 *         big enough
 	 */
-	public final static GPUBuffer getBufferIndicesForFanIndirect(
+	private final static GPUBuffer getBufferIndicesForFanIndirect(
 			GPUBuffer bufferOld,
 			RendererShadersInterface r, int size,
 			int sizeOld) {
@@ -511,15 +511,15 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 				break;
 
 			case CURVE:
-				// debug("curve: shared index buffer");
-				// bufferI = getBufferIndicesForCurve(r, size);
-				// indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
-				// hasSharedIndexBuffer = true;
-				debug("curve: NOT shared index buffer");
-				bufferI = getBufferIndicesForCurve(bufferI, r, size,
-						indicesLength / (3 * 2 * PlotterBrush.LATITUDES));
+				debug("curve: shared index buffer");
+				bufferI = getBufferIndicesForCurve(r, size);
 				indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
-				hasSharedIndexBuffer = false;
+				hasSharedIndexBuffer = true;
+				// debug("curve: NOT shared index buffer");
+				// bufferI = getBufferIndicesForCurve(bufferI, r, size,
+				// indicesLength / (3 * 2 * PlotterBrush.LATITUDES));
+				// indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
+				// hasSharedIndexBuffer = false;
 				break;
 
 			case SURFACE:
@@ -540,26 +540,26 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 				break;
 
 			case FAN_DIRECT:
-				// debug("fan direct: shared index buffer");
-				// bufferI = getBufferIndicesForFanDirect(r, size);
-				// indicesLength = 3 * (size - 2);
-				// hasSharedIndexBuffer = true;
-				debug("fan direct: NOT shared index buffer");
-				bufferI = getBufferIndicesForFanDirect(bufferI, r, size,
-						indicesLength / 3 + 2);
+				debug("fan direct: shared index buffer");
+				bufferI = getBufferIndicesForFanDirect(r, size);
 				indicesLength = 3 * (size - 2);
-				hasSharedIndexBuffer = false;
+				hasSharedIndexBuffer = true;
+				// debug("fan direct: NOT shared index buffer");
+				// bufferI = getBufferIndicesForFanDirect(bufferI, r, size,
+				// indicesLength / 3 + 2);
+				// indicesLength = 3 * (size - 2);
+				// hasSharedIndexBuffer = false;
 				break;
 			case FAN_INDIRECT:
-				// debug("fan indirect: shared index buffer");
-				// bufferI = getBufferIndicesForFanIndirect(r, size);
-				// indicesLength = 3 * (size - 2);
-				// hasSharedIndexBuffer = true;
-				debug("fan indirect: NOT shared index buffer");
-				bufferI = getBufferIndicesForFanIndirect(bufferI, r, size,
-						indicesLength / 3 + 2);
+				debug("fan indirect: shared index buffer");
+				bufferI = getBufferIndicesForFanIndirect(r, size);
 				indicesLength = 3 * (size - 2);
-				hasSharedIndexBuffer = false;
+				hasSharedIndexBuffer = true;
+				// debug("fan indirect: NOT shared index buffer");
+				// bufferI = getBufferIndicesForFanIndirect(bufferI, r, size,
+				// indicesLength / 3 + 2);
+				// indicesLength = 3 * (size - 2);
+				// hasSharedIndexBuffer = false;
 				break;
 
 			}

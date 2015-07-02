@@ -1418,7 +1418,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 				((GLBufferW) fb).getBuffer(), GL_TYPE_DRAW_TO_BUFFER);
 	}
 
-	final static private int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STATIC_DRAW;
+	final static private int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
 
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 
