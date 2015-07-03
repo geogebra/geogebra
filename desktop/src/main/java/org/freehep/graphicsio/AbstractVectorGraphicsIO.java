@@ -1236,7 +1236,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
      * @param hints table to be added
      */
     public void addRenderingHints(Map hints) {
-        hints.putAll(hints);
+		this.hints.putAll(hints);
     }
 
     /**
@@ -1245,8 +1245,8 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
      * @param hints table to be set
      */
     public void setRenderingHints(Map hints) {
-        hints.clear();
-        hints.putAll(hints);
+		this.hints.clear();
+		this.hints.putAll(hints);
     }
 
     /**
