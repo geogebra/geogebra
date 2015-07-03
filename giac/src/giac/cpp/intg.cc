@@ -1457,10 +1457,12 @@ namespace giac {
     if (x.type!=_IDNT) return gensizeerr(contextptr); // see limit
     if (has_num_coeff(e)){
       gen ee=exact(e,contextptr);
-      ee=integrate_rational(ee,x,remains_to_integrate,xvar,intmode,contextptr);
-      ee=evalf(ee,1,contextptr);
-      remains_to_integrate=evalf(remains_to_integrate,1,contextptr);
-      return ee;
+      if (!has_num_coeff(ee)){
+	ee=integrate_rational(ee,x,remains_to_integrate,xvar,intmode,contextptr);
+	ee=evalf(ee,1,contextptr);
+	remains_to_integrate=evalf(remains_to_integrate,1,contextptr);
+	return ee;
+      }
     }
     const vecteur & varx=lvarx(e,x);
     int varxs=varx.size();
