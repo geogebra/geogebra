@@ -70,6 +70,7 @@ public class InputEntry implements EntryPoint, ScriptLoadCallback,
 		inputText = inputText == null ? "" : inputText;
 		mathQuillInput = new MathQuillInput(inputText);
 		exportProcessing(mathQuillInput.getProcessing());
+		exportSetText(mathQuillInput);
 		RootPanel.get().add(mathQuillInput);
 		mathQuillInput.setFocus(true);
 		mathQuillInput.setOnEnterPressedListener(this);
@@ -100,4 +101,13 @@ public class InputEntry implements EntryPoint, ScriptLoadCallback,
 		});
 	}-*/;
 
+	private void exportSetText(MathQuillInput input) {
+		exportSetTextNative(input);
+	}
+
+	private native void exportSetTextNative(MathQuillInput input) /*-{
+		$wnd.jsInput.setText = $entry(function(text) {
+			input.@org.geogebra.web.android.input.MathQuillInput::setText(Ljava/lang/String;)(text);
+		});
+	}-*/;
 }

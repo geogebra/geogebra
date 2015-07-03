@@ -1,7 +1,7 @@
 package org.geogebra.web.android.input;
 
-import org.geogebra.web.web.util.keyboardBase.TextFieldProcessable;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
+import org.geogebra.web.web.util.keyboardBase.TextFieldProcessable;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -37,6 +37,18 @@ public class MathQuillInput extends Composite implements TextFieldProcessable {
 			OnEnterPressedListener enterPressedListener) {
 		this.enterPressedListener = enterPressedListener;
 	}
+
+	public void setText(String text) {
+		initText = text;
+		removeNative();
+		nativeCreateElement();
+	}
+
+	private native void removeNative() /*-{
+		var that = this;
+		var mqElement = that.@org.geogebra.web.android.input.MathQuillInput::mathQuillElement;
+		mqElement.remove();
+	}-*/;
 
 	@Override
 	protected void onAttach() {
