@@ -13,10 +13,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -415,6 +415,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// translation found:
 		// replace %0, %1, etc. in translation by command arguments
 		else {
+			if ("Evaluate".equals(name) && args.size() == 1
+					&& args.get(0).unwrap() instanceof Command
+					&& "Evaluate".equals(((Command) args.get(0).unwrap())
+							.getName())) {
+				return toString(args.get(0), symbolic, tpl);
+			}
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
 				if (ch == '%') {
