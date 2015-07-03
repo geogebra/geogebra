@@ -40,6 +40,7 @@ public class ImageOrText {
 	    		return arr;
 	    	}
 			arr[i] = new ImageOrText(res[i]);
+			arr[i].bgSize = size;
 	    }
 	    return arr;
     }
