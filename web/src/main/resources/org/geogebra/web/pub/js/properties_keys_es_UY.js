@@ -2762,7 +2762,7 @@ __GGB__keysVar.es_UY.plain = {
     "SignInInProgress": "Conectar a",
     "SignInSuccessful": "\xa1Conexi\xf3n concretada!",
     "SignInToGGT": "Conectar a GeoGebraTube",
-    "SignedInAsA": "Conectarse como %0",
+    "SignedInAsA": "Conectado como %0",
     "SimpleFormulas": "F\xf3rmulas simples",
     "Size": "Tama\xf1o",
     "SizeInPixels": "Tama\xf1o en pixels",
