@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -282,6 +283,11 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		Polynomial polynomial = firstSegPoly.multiply(firstSegPoly);
 		boolean isRightSideSide = false;
 		int index = 1;
+		// if left side of equation is 0
+		// handle as right side of equation = 0
+		if (operations.get(0) == Operation.EQUAL_BOOLEAN) {
+			operations.remove(0);
+		}
 		while (index < segmentSquares.size()) {
 			// get current segments botana variable
 			GeoSegment currentSegment = (GeoSegment) segmentSquares.get(index)
@@ -368,19 +374,30 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 
 			traverseExpression(root);
-			if (operations.size() + 1 != segmentSquares.size()) {
-				throw new NoSymbolicParametersException();
-			}
-			ArrayList<Polynomial> polynomials = getSegmentDistPolynomials();
-			Polynomial[][] ret = new Polynomial[1][polynomials.size() + 1];
-			int i = 0;
-			for (Polynomial p : polynomials) {
-				ret[0][i] = p;
-				i++;
-			}
-			ret[0][polynomials.size()] = getConditionPolynomial();
+			// case right side of equation is 0
+			if ((operations.size() == segmentSquares.size()
+					&& operations.get(operations.size() - 1) == Operation.EQUAL_BOOLEAN
+					&& root.getRight() instanceof MyDouble && Integer
+					.parseInt(root.getRight().toString()) == 0)
+			// case left side of equation is 0
+					|| ((operations.size() == segmentSquares.size()
+							&& operations.get(0) == Operation.EQUAL_BOOLEAN
+							&& root.getLeft() instanceof MyDouble && Integer
+							.parseInt(root.getLeft().toString()) == 0))
+					// case all the terms in equation are segment squares
+					|| operations.size() + 1 == segmentSquares.size()) {
+				ArrayList<Polynomial> polynomials = getSegmentDistPolynomials();
+				Polynomial[][] ret = new Polynomial[1][polynomials.size() + 1];
+				int i = 0;
+				for (Polynomial p : polynomials) {
+					ret[0][i] = p;
+					i++;
+				}
+				ret[0][polynomials.size()] = getConditionPolynomial();
+				return ret;
 
-			return ret;
+			}
+			throw new NoSymbolicParametersException();
 		}
 
 
