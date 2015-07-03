@@ -80,4 +80,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	public boolean isKeyboardShowing() {
 		return false;
 	}
+
+	public void showKeyboardOnFocus() {
+		// no keyboard
+	}
 }

@@ -66,9 +66,6 @@ public class OnScreenKeyBoard extends KBBase implements
 
 		// TODO
 		ToolTipManagerW.hideAllToolTips();
-		if (((AppW) app).getLAF().isSmart() && type == PointerEventType.TOUCH) {
-			return;
-		}
 
 		if (btn instanceof KeyBoardButtonFunctionalBase) {
 			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;

@@ -28,9 +28,6 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void showKeyboard(MathKeyboardListener textField) {
-		if(getLAF().isSmart()){
-			return;
-		}
 		getAppletFrame().showKeyBoard(true, textField, false);
 		if (textField != null) {
 			CancelEventTimer.keyboardSetVisible();
@@ -39,9 +36,6 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void showKeyboard(MathKeyboardListener textField, boolean forceShow) {
-		if(getLAF().isSmart()){
-			return;
-		}
 		getAppletFrame().showKeyBoard(true, textField, forceShow);
 		if (textField != null) {
 			CancelEventTimer.keyboardSetVisible();

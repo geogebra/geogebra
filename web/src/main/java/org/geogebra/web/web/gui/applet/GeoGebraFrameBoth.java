@@ -280,7 +280,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
-		if (app.getLAF().isSmart() || !appNeedsKeyboard()) {
+		if (!appNeedsKeyboard()) {
 			return;
 		}
 		if (showKeyboardButton == null) {
@@ -396,6 +396,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	@Override
 	public boolean isKeyboardShowing() {
 		return this.keyboardShowing;
+	}
+
+	public void showKeyboardOnFocus() {
+		this.app.getGuiManager().getOnScreenKeyboard(null, this).showOnFocus();
 	}
 
 }

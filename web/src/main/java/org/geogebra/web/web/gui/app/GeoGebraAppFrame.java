@@ -458,4 +458,10 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	public boolean isKeyboardShowing() {
 		return this.frameLayout.keyboardShowing;
 	}
+
+	public void showKeyboardOnFocus() {
+		this.app.getGuiManager().getOnScreenKeyboard(null, frameLayout)
+				.showOnFocus();
+
+	}
 }

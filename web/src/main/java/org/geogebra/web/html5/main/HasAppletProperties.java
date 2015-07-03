@@ -91,4 +91,6 @@ public interface HasAppletProperties {
 	        boolean forceShow);
 
 	public boolean isKeyboardShowing();
+
+	public void showKeyboardOnFocus();
 }

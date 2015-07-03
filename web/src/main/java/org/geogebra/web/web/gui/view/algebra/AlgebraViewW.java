@@ -1288,7 +1288,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 		}
 		boolean appletHack = false;
 		boolean forceKeyboard = false;
+		boolean suggestKeyboard = false;
 		if (inputPanelLatex == null) {
+			suggestKeyboard = true;
 			forceKeyboard = forceKeyboard0
 					|| app.getArticleElement()
 					.getDataParamBase64String().length() == 0;
@@ -1327,6 +1329,8 @@ public class AlgebraViewW extends Tree implements LayerView,
 									app.showKeyboard(inputPanelLatex, true);
 								}
 							});
+				}else if(suggestKeyboard){
+				app.getAppletFrame().showKeyboardOnFocus();
 				}
 
 			}
