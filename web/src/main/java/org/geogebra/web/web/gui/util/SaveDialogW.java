@@ -593,16 +593,20 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * shows the {@link SaveDialogW} if there are unsaved changes before editing
 	 * another file or creating a new one
 	 * 
-	 * @param newConstruction
-	 *            {@link Runnable}
+	 * Never shown in embedded LAF (Mix, SMART)
+	 * 
+	 * @param runnable
+	 *            runs either after saved successfully or immediately if dialog
+	 *            not needed {@link Runnable}
 	 */
-	public void showIfNeeded(Runnable newConstruction) {
-		runAfterSave = newConstruction;
-		if (!app.isSaved()) {
+	public void showIfNeeded(Runnable runnable) {
+		if (!app.isSaved() && !app.getLAF().isEmbedded()) {
+			runAfterSave = runnable;
 			center();
 			position();
 		} else {
-			runAfterSaveCallback();
+			runAfterSave = null;
+			runnable.run();
 		}
 	}
 
