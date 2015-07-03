@@ -10,8 +10,13 @@ import java.util.Set;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
+import org.geogebra.common.kernel.algos.AlgoIntersectConics;
+import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -327,6 +332,7 @@ public class ProverBotanasMethod {
 
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
+		boolean interpretFalseAsUndefined = false;
 
 		// write construction in readable format
 		App.debug(getTextFormat(statement));
@@ -374,7 +380,24 @@ public class ProverBotanasMethod {
 					}
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo)
 							.getBotanaPolynomials(geo);
-
+					
+					/* Check if the construction step could be reliably translated to
+					 * an algebraic representation. This is the case for linear
+					 * constructions (parallel, perpendicular etc.) but not for
+					 * quadratic ones (intersection of conics etc.). In the latter case the equation system
+					 * may be solvable even if geometrically, "seemingly" the statement is
+					 * true. To avoid such confusing cases, it's better to report undefined
+					 * instead of false.
+					 */
+					AlgoElement algo = geo.getParentAlgorithm();
+					if (algo instanceof AlgoAngularBisectorPoints ||
+							algo instanceof AlgoEllipseHyperbolaFociPoint ||
+							algo instanceof AlgoIntersectConics ||
+							algo instanceof AlgoIntersectLineConic) {
+						interpretFalseAsUndefined = true;
+						App.debug("Due to " + algo + " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
+					}
+				
 					if (geoPolys != null) {
 						if (geo instanceof GeoPoint) {
 							Variable[] v = new Variable[2];
@@ -427,6 +450,7 @@ public class ProverBotanasMethod {
 
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement
 					.getParentAlgorithm()).getBotanaPolynomials();
+			
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
 			if (ProverSettings.freePointsNeverCollinear == null) {
@@ -614,7 +638,11 @@ public class ProverBotanasMethod {
 									}
 								App.debug("Statement is GENERALLY FALSE");
 								*/
-								return ProofResult.FALSE;
+									if (interpretFalseAsUndefined) {
+										App.debug("Interpreting FALSE as UNKNOWN");
+										return ProofResult.UNKNOWN;
+									}
+									return ProofResult.FALSE;
 								}
 									
 							if (!poly.isConstant()) {
@@ -745,6 +773,10 @@ public class ProverBotanasMethod {
 						}
 						App.debug("Statement is GENERALLY FALSE");
 						*/
+						if (interpretFalseAsUndefined) {
+							App.debug("Interpreting FALSE as UNKNOWN");
+							return ProofResult.UNKNOWN;
+						}
 						return ProofResult.FALSE;
 					}
 				}
