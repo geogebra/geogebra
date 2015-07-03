@@ -13,8 +13,10 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -24,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
@@ -42,6 +45,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	private ExpressionNode root; // input
 	private GeoBoolean bool; // output
+	private ArrayList<ExpressionNode> segmentSquares = new ArrayList<ExpressionNode>();
+	private ArrayList<Variable> segBotanaVars = new ArrayList<Variable>();
+	private ArrayList<GeoSegment> listOfSegments = new ArrayList<GeoSegment>();
+	private ArrayList<Operation> operations = new ArrayList<Operation>();
 
 	public AlgoDependentBoolean(Construction cons, String label,
 			ExpressionNode root) {
@@ -234,8 +241,149 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
+	// procedure to traverse inorder the expression
+	private void traverseExpression(ExpressionNode node) {
+		// node has form a^2, a is GeoSegment
+		if (node.isSegmentSquare()) {
+			// collect segment squares
+			segmentSquares.add(node);
+		}
+		if (node.getLeft().isExpressionNode()) {
+			traverseExpression((ExpressionNode) node.getLeft());
+		}
+		if (!node.isSegmentSquare()) {
+			// collect non-square operations
+			operations.add(node.getOperation());
+		}
+		if (node.getRight().isExpressionNode()) {
+			traverseExpression((ExpressionNode) node.getRight());
+		}
+	}
+
+	// function to get a segments botanaVar
+	private Variable getBotanaVarOfSegment(GeoSegment segment) {
+		int index = 0;
+		for (GeoSegment geoSegment : listOfSegments) {
+			if (geoSegment == segment) {
+				return segBotanaVars.get(index);
+			}
+			index++;
+		}
+		return null;
+	}
+
+	// function to get the condition polynomial
+	private Polynomial getConditionPolynomial() {
+		// get first segments botana variable
+		GeoSegment firstSegment = (GeoSegment) segmentSquares.get(0).getLeft();
+		Variable firstSegBotanaVar = getBotanaVarOfSegment(firstSegment);
+		Polynomial firstSegPoly = new Polynomial(firstSegBotanaVar);
+		// add to condition polynomial
+		Polynomial polynomial = firstSegPoly.multiply(firstSegPoly);
+		boolean isRightSideSide = false;
+		int index = 1;
+		while (index < segmentSquares.size()) {
+			// get current segments botana variable
+			GeoSegment currentSegment = (GeoSegment) segmentSquares.get(index)
+					.getLeft();
+			Variable currentSegBotanaVar = getBotanaVarOfSegment(currentSegment);
+			Polynomial currentSegPoly = new Polynomial(currentSegBotanaVar);
+			Polynomial term = currentSegPoly.multiply(currentSegPoly);
+			// add/subtract/multiply polynomial with nem term
+			switch (operations.get(index - 1)) {
+			case PLUS:
+				if (!isRightSideSide) {
+					polynomial = polynomial.add(term);
+				} else {
+					// we reached the equations other side
+					// proceed inverse operation
+					polynomial = polynomial.subtract(term);
+				}
+				break;
+			case MINUS:
+				if (!isRightSideSide) {
+					polynomial = polynomial.subtract(term);
+				} else {
+					// we reached the equations other side
+					// proceed inverse operation
+					polynomial = polynomial.add(term);
+				}
+				break;
+			case EQUAL_BOOLEAN:
+				isRightSideSide = true;
+				polynomial = polynomial.subtract(term);
+				break;
+			default:
+
+				break;
+			}
+			index++;
+		}
+		return polynomial;
+	}
+
+	// function to collect distance polynomials of segments
+	// ex: segment a = [A,B] = v5 , A = (v1,v2), B = (v3,v4)
+	// v5^2 = sqrDist(v1,v2,v3,v4)
+	private ArrayList<Polynomial> getSegmentDistPolynomials() {
+		int index = 0;
+		ArrayList<Polynomial> polynomials = new ArrayList<Polynomial>();
+		Set<GeoSegment> setOfSegments = new HashSet<GeoSegment>();
+		while (index < segmentSquares.size()) {
+			// check if current segment was already processed
+			if (setOfSegments.contains(segmentSquares.get(index).getLeft())) {
+				index++;
+			} else {
+				// current segment was not processed
+				GeoSegment currentSegment = (GeoSegment) segmentSquares.get(
+						index).getLeft();
+				// add to processed segments
+				setOfSegments.add(currentSegment);
+				listOfSegments.add(currentSegment);
+				// create new botana variable for segment
+				Variable segmentVar = new Variable();
+				segBotanaVars.add(segmentVar);
+				// get coordinates of end points of segment
+				Variable botanaVars[] = ((GeoLine) currentSegment)
+						.getBotanaVars(currentSegment);
+				Polynomial s = new Polynomial(segmentVar);
+				// distance polynomial
+				// v5^2 = sqrDist(v1,v2,v3,v4)
+				Polynomial currentSegmentDist = s.multiply(s).subtract(
+						Polynomial.sqrDistance(botanaVars[0], botanaVars[1],
+								botanaVars[2], botanaVars[3]));
+				polynomials.add(currentSegmentDist);
+				index++;
+			}
+		}
+
+		return polynomials;
+	}
+
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
+
+		if ((root.getLeftTree().isExpressionNode() || root.getRightTree()
+				.isExpressionNode())
+				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+
+			traverseExpression(root);
+			if (operations.size() + 1 != segmentSquares.size()) {
+				throw new NoSymbolicParametersException();
+			}
+			ArrayList<Polynomial> polynomials = getSegmentDistPolynomials();
+			Polynomial[][] ret = new Polynomial[1][polynomials.size() + 1];
+			int i = 0;
+			for (Polynomial p : polynomials) {
+				ret[0][i] = p;
+				i++;
+			}
+			ret[0][polynomials.size()] = getConditionPolynomial();
+
+			return ret;
+		}
+
+
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
 			throw new NoSymbolicParametersException();
 

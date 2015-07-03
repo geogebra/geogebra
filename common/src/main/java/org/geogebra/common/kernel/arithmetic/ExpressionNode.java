@@ -5745,4 +5745,14 @@ kernel, left,
 		}
 		return null;
 	}
+
+	public boolean isSegmentSquare() {
+		if (this.getLeft() instanceof GeoSegment
+				&& this.getRight() instanceof MyDouble
+				&& Integer.parseInt(this.getRight().toString()) == 2
+				&& this.getOperation() == Operation.POWER) {
+			return true;
+		}
+		return false;
+	}
 }
