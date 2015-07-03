@@ -331,6 +331,17 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// this would give initial focus to Web.html, but not to tablet.html,
 		// moreover, it would make Apple IPad emulation in Chrome wrong
 		// ensureEditing();
+
+		// but another stopNewFormulaCreation would fix that... so maybe this
+		// is just called too early for some reason?
+
+		Timer tim = new Timer() {
+			@Override
+			public void run() {
+				ensureEditing();
+			}
+		};
+		tim.schedule(500);
 	}
 
 	public void replaceXButtonDOM() {
