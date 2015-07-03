@@ -329,8 +329,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		addStyleName("SymbolCanBeShown");
 
 		// this would give initial focus to Web.html, but not to tablet.html,
-		// and may make app.html initially blink, so I'm thinking about a
-		// better solution, which needs understanding what av.editing means
+		// moreover, it would make Apple IPad emulation in Chrome wrong
 		// ensureEditing();
 	}
 

@@ -98,7 +98,9 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 			break;
 		case equationEditorListener:
 		case newRadioButtonTreeItem:
-			((EquationEditorListener) field).setFocus(true, false);
+			if (focus) {
+				((EquationEditorListener) field).setFocus(true, false);
+			}
 			break;
 		}
 	}
