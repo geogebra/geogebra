@@ -4,7 +4,9 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
+import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -94,13 +96,8 @@ public abstract class AppWFull extends AppW {
 				runnable);
 	}
 
-	private native String decode(String base64)/*-{
-		return atob(base64);
-	}-*/;
-
 	@Override
-	public void openCSVbase64(String base64){
-			String csv = decode(base64);
+	public void openCSV(String csv) {
 			String[][] data = DataImport.parseExternalData(this, csv, true);
 		CopyPasteCut cpc = ((MyTableW) getGuiManager().getSpreadsheetView()
 				.getSpreadsheetTable()).getCopyPasteCut();
@@ -178,6 +175,27 @@ public abstract class AppWFull extends AppW {
 		}
 
 		gm.setToolBarDefinition(gm.getDefaultToolbarString());
+	}
+	
+	@Override
+	public void openOFF(String content){
+		OFFHandler h = new OFFHandler(getKernel(), 
+				getKernel().getConstruction());
+		h.reset();
+		String[] lines = content.split("\n");
+		try {
+			for (String line : lines) {
+
+				h.addLine(line);
+
+			}
+		} catch (CSVException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		h.updateAfterParsing();
+		afterLoadFileAppOrNot();
+
 	}
 
 }

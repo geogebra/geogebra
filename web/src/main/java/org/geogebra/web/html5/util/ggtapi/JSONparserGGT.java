@@ -169,8 +169,8 @@ public class JSONparserGGT {
 	}
 
 	private static boolean getBoolean(JSONObject obj, String string, boolean def) {
-		if (obj.get(string) == null
-		        || "".equals(obj.get(string).isString().stringValue())) {
+		if (obj.get(string) == null || obj.get(string).isString() == null
+				|| "".equals(obj.get(string).isString().stringValue())) {
 			return def;
 		}
 		return Boolean.parseBoolean(obj.get(string).isString().stringValue());

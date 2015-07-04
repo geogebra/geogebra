@@ -11,7 +11,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
@@ -55,8 +54,6 @@ public class OFFHandler {
 
 
 	public void updateAfterParsing() {
-
-		AlgoDispatcher disp = kernel.getAlgoDispatcher();
 
 		int vCount = getVertexCount();
 		GeoPointND[] vert = new GeoPointND[vCount];
@@ -108,6 +105,7 @@ public class OFFHandler {
 	private GeoPoint3D geoPoint(Coords p3d) {
 		GeoPoint3D p = new GeoPoint3D(construction);
 		p.setCoords(p3d);
+		p.setEuclidianVisible(false);
 		p.setLabel(null);
 		return p;
 	}
@@ -118,7 +116,7 @@ public class OFFHandler {
 	 *            index of the face
 	 * @return color associated with the face
 	 */
-	public GColor getFaceColor(int faceIndex) {
+	private GColor getFaceColor(int faceIndex) {
 		rangeCheck(faceIndex);
 		return facesColor[faceIndex];
 	}
@@ -134,7 +132,7 @@ public class OFFHandler {
 	 *            face index
 	 * @return true if face color is specified in the file
 	 */
-	public boolean hasColor(int faceIndex) {
+	private boolean hasColor(int faceIndex) {
 		rangeCheck(faceIndex);
 		return facesColor[faceIndex] != null;
 	}
@@ -167,7 +165,7 @@ public class OFFHandler {
 	 * 
 	 * @return unmodifiable list of faces
 	 */
-	public List<int[]> getFaces() {
+	private List<int[]> getFaces() {
 		return faces;
 	}
 
@@ -175,11 +173,11 @@ public class OFFHandler {
 	 * 
 	 * @return unmodifiable list of vertices
 	 */
-	public List<Coords> getVertices() {
+	private List<Coords> getVertices() {
 		return vertices;
 	}
 
-	public void setCounts(int v, int f, int e) {
+	private void setCounts(int v, int f, int e) {
 
 		vertexCount = v;
 		faceCount = f;
@@ -190,24 +188,25 @@ public class OFFHandler {
 
 	}
 
-	public static boolean isCommentOrOffHeader(String line) {
+	private static boolean isCommentOrOffHeader(String line) {
 		String l = line == null ? "" : line.trim();
 		return isComment1(l) || OFF.equalsIgnoreCase(l);
 	}
 
-	public static boolean isComment(String line) {
+	private static boolean isComment(String line) {
 		String l = line == null ? "" : line.trim();
 		return isComment1(l);
 	}
 
-	public static boolean isComment1(String line) {
+	private static boolean isComment1(String line) {
 		return line.startsWith(COMMENT_PREFIX);
 	}
 
-	public static GColor tryReadColor(String[] in, int offset) {
+	private static GColor tryReadColor(String[] in, int offset) {
 		GColor color = null;
 		try {
-			if (in.length > offset && in[offset].indexOf('.') < 0) {
+			if (in.length > offset && in[offset] != null
+					&& in[offset].indexOf('.') < 0) {
 				int r = Integer.parseInt(in[offset]);
 				int g = 0;
 				int b = 0;
@@ -250,7 +249,7 @@ public class OFFHandler {
 		return color;
 	}
 
-	public void addFaceLine(String line) throws CSVException {
+	private void addFaceLine(String line) throws CSVException {
 		App.debug(line);
 		if (!OFFHandler.isComment(line)) {
 			String[] aux = nonempty(parser.parseLine(line));
@@ -272,7 +271,7 @@ public class OFFHandler {
 
 	}
 
-	public void addVertexLine(String line) throws CSVException {
+	private void addVertexLine(String line) throws CSVException {
 		if (!OFFHandler.isComment(line)) {
 			String[] aux = nonempty(parser.parseLine(line));
 			vertices.add(new Coords(Double.parseDouble(aux[0]), Double

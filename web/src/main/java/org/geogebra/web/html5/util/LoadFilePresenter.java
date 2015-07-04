@@ -10,7 +10,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window.Location;
@@ -253,9 +252,7 @@ public class LoadFilePresenter {
 
 	private void fetch(String fileName) {
 		getView().showLoadAnimation();
-		String url = fileName.startsWith("http") ? fileName : GWT
-		        .getModuleBaseURL() + "../" + fileName;
-		getView().processFileName(url);
+		getView().processFileName(fileName);
 	}
 
 	public AppW getApplication() {

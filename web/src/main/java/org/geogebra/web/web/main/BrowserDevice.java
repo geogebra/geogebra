@@ -53,7 +53,7 @@ public class BrowserDevice implements GDevice {
 				if (files.length) {
 					bg.@org.geogebra.web.web.gui.browser.BrowseGUI::showLoading()();
 					var fileToHandle = files[0];
-					bg.@org.geogebra.web.web.gui.browser.BrowseGUI::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+					bg.@org.geogebra.web.web.gui.browser.BrowseGUI::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
 				}
 
 			};

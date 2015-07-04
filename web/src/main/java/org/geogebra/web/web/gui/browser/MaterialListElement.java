@@ -601,7 +601,8 @@ public class MaterialListElement extends FlowPanel implements
 							material = parseResponse.get(0);
 							material.setSyncStamp(synced);
 							if (material.getType() == MaterialType.csv) {
-								app.openCSVbase64(material.getBase64());
+								app.openCSV(AppW.decode(material
+										.getBase64()));
 							} else {
 								app.getGgbApi().setBase64(material.getBase64());
 							}

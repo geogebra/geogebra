@@ -268,12 +268,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	// super.setFrame(frame);
 	// }
 
-	public void openFileAsGgb(final JavaScriptObject fileToHandle,
+	public void openFile(final JavaScriptObject fileToHandle,
 	        final JavaScriptObject callback) {
 		if (app.getLAF().supportsLocalSave()) {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
-		app.openFileAsGgb(fileToHandle, callback);
+		app.openFile(fileToHandle, callback);
 	}
 
 	/**

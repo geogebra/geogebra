@@ -1085,9 +1085,9 @@ public abstract class AppW extends App implements SetLabels {
 	 *         mean, that the file opening was successful, and the opening
 	 *         finished already.
 	 */
-	public native boolean openFileAsGgb(JavaScriptObject fileToHandle,
+	public native boolean openFile(JavaScriptObject fileToHandle,
 	        JavaScriptObject callback) /*-{
-		var ggbRegEx = /\.(ggb|ggt)$/i;
+		var ggbRegEx = /\.(ggb|ggt|csv|off)$/i;
 		if (!fileToHandle.name.toLowerCase().match(ggbRegEx))
 			return false;
 
@@ -1096,7 +1096,16 @@ public abstract class AppW extends App implements SetLabels {
 		reader.onloadend = function(ev) {
 			if (reader.readyState === reader.DONE) {
 				var fileStr = reader.result;
-				appl.@org.geogebra.web.html5.main.AppW::loadGgbFileAsBase64Again(Ljava/lang/String;)(fileStr);
+				if (fileToHandle.name.toLowerCase().match(/\.(ggb|ggt)$/i)) {
+
+					appl.@org.geogebra.web.html5.main.AppW::loadGgbFileAsBase64Again(Ljava/lang/String;)(fileStr);
+				}
+				if (fileToHandle.name.toLowerCase().match(/\.(csv)$/i)) {
+					appl.@org.geogebra.web.html5.main.AppW::openCSV(Ljava/lang/String;)(atob(fileStr.substring(fileStr.indexOf(",")+1)));
+				}
+				if (fileToHandle.name.toLowerCase().match(/\.(off)$/i)) {
+					appl.@org.geogebra.web.html5.main.AppW::openOFF(Ljava/lang/String;)(atob(fileStr.substring(fileStr.indexOf(",")+1)));
+				}
 				if (callback != null)
 					callback();
 			}
@@ -1740,7 +1749,7 @@ public abstract class AppW extends App implements SetLabels {
 									//at first this tries to open the fileToHandle as image,
 									//if fileToHandle not an image, this will try to open as ggb or ggt.
 									if (!appl.@org.geogebra.web.html5.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null)) {
-										appl.@org.geogebra.web.html5.main.AppW::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
+										appl.@org.geogebra.web.html5.main.AppW::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
 									}
 
 								} else {
@@ -3285,7 +3294,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
-	public void openCSVbase64(String base64) {
+	public void openCSV(String base64) {
 		// TODO Auto-generated method stub
 
 	}
@@ -3306,4 +3315,13 @@ public abstract class AppW extends App implements SetLabels {
 	public boolean useShaders() {
 		return true;
 	}
+
+	public void openOFF(String response) {
+		// only makes sense in 3D
+
+	}
+
+	public static native String decode(String base64)/*-{
+		return atob(base64);
+	}-*/;
 }
