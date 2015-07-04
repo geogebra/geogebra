@@ -153,4 +153,6 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public Coords getEyePosition();
 
+	public void zoomRW(Coords boundsMin2, Coords boundsMax2);
+
 }

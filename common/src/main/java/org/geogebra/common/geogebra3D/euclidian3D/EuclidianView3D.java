@@ -4058,13 +4058,18 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			return;
 		}
 
+		zoomRW(boundsMin, boundsMax);
+
+	}
+
+	public void zoomRW(Coords boundsMin2, Coords boundsMax2) {
 		double dx0 = getXmax() - getXmin();
 		double dy0 = getYmax() - getYmin();
 		double dz0 = getZmax() - getZmin();
 
-		double dx = boundsMax.getX() - boundsMin.getX();
-		double dy = boundsMax.getY() - boundsMin.getY();
-		double dz = boundsMax.getZ() - boundsMin.getZ();
+		double dx = boundsMax2.getX() - boundsMin2.getX();
+		double dy = boundsMax2.getY() - boundsMin2.getY();
+		double dz = boundsMax2.getZ() - boundsMin2.getZ();
 
 		double scale = Double.POSITIVE_INFINITY;
 		if (!Kernel.isZero(dx)) {
@@ -4090,9 +4095,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			scale *= 0.94;
 		}
 
-		double x = -(boundsMin.getX() + boundsMax.getX()) / 2;
-		double y = -(boundsMin.getY() + boundsMax.getY()) / 2;
-		double z = -(boundsMin.getZ() + boundsMax.getZ()) / 2;
+		double x = -(boundsMin2.getX() + boundsMax2.getX()) / 2;
+		double y = -(boundsMin2.getY() + boundsMax2.getY()) / 2;
+		double z = -(boundsMin2.getZ() + boundsMax2.getZ()) / 2;
 
 		setAnimatedCoordSystem(x, y, z, scale, 15);
 

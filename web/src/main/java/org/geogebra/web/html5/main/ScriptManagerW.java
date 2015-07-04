@@ -427,8 +427,13 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setRepaintingActive(Z)(flag);
 		};
 
-		api.setCoordSystem = function(xmin, xmax, ymin, ymax) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoordSystem(DDDD)(xmin,xmax,ymin,ymax);
+		api.setCoordSystem = function(xmin, xmax, ymin, ymax, zmin, zmax,
+				verticalY) {
+			if (typeof zmin !== "number") {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoordSystem(DDDD)(xmin,xmax,ymin,ymax);
+			} else {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoordSystem(DDDDDDZ)(xmin,xmax,ymin,ymax,zmin,zmax, !!verticalY);
+			}
 		};
 
 		api.setAxesVisible = function(xVisible, yVisible) {

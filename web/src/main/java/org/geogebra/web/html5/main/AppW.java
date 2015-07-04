@@ -103,9 +103,6 @@ import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
-import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -1918,30 +1915,6 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * initializes the google drive event flow
 	 */
-
-	private void showSplashImageOnCanvas() {
-		if (this.canvas != null) {
-			String geogebra = GeoGebraConstants.APPLICATION_NAME;
-
-			canvas.setWidth("427px");
-			canvas.setHeight("120px");
-			canvas.setCoordinateSpaceWidth(427);
-			canvas.setCoordinateSpaceHeight(120);
-			Context2d ctx = canvas.getContext2d();
-			ctx.clearRect(0, 0, canvas.getCoordinateSpaceWidth(),
-			        canvas.getCoordinateSpaceHeight());
-			ctx.setTextBaseline(TextBaseline.TOP);
-			ctx.setTextAlign(TextAlign.START);
-			ctx.setFont("50px Century Gothic, Helvetica, sans-serif");
-			ctx.setFillStyle("#666666");
-			ctx.fillText(geogebra, 33, 37);
-			// TextMetrics txm = ctx.measureText(geogebra);
-			// ctx.setFillStyle("#7e7eff");
-			// ctx.setTextAlign(TextAlign.LEFT);
-			// ctx.setFont("20px Century Gothic, Helvetica, sans-serif");
-			// ctx.fillText("4",txm.getWidth(),37);
-		}
-	}
 
 	public boolean onlyGraphicsViewShowing() {
 		if (!isUsingFullGui() || getGuiManager() == null) {

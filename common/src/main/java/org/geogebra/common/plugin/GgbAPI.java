@@ -9,6 +9,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UserAwarenessListener;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
@@ -987,6 +989,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized void setCoordSystem(double xmin, double xmax,
 			double ymin, double ymax) {
 		app.getEuclidianView1().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
+	}
+
+	public synchronized void setCoordSystem(double xmin, double xmax,
+			double ymin, double ymax, double zmin, double zmax,
+			boolean verticalY) {
+		EuclidianView3DInterface e3d = (EuclidianView3DInterface) app
+				.getEuclidianView3D();
+		e3d.setYAxisVertical(verticalY);
+		Coords boundsMin = new Coords(xmin, ymin, zmin);
+		Coords boundsMax = new Coords(xmax, ymax, zmax);
+		e3d.zoomRW(boundsMin, boundsMax);
+
 	}
 
 	/**
