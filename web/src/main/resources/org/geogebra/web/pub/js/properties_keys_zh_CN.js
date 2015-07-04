@@ -2583,7 +2583,7 @@ __GGB__keysVar.zh_CN.plain = {
     "Name.penStroke": "\u7ed8\u56fe",
     "Name.picture": "\u56fe\u50cf",
     "Name.polygon": "\u591a\u8fb9\u5f62",
-    "Name.slopefield": "\u65b9\u5411\u573a",
+    "Name.slopefield": "\u659c\u7387\u573a",
     "Name.text": "\u6587\u672c",
     "Name.textfield": "\u8f93\u5165\u6846",
     "Name.turtle": "\u6d77\u9f9f",
