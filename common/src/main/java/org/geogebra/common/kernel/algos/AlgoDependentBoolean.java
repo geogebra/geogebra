@@ -369,10 +369,38 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 
+		// Easy cases: both sides are GeoElements:
+		if (root.getLeft().isGeoElement() && root.getRight().isGeoElement()) {
+
+			GeoElement left = (GeoElement) root.getLeft();
+			GeoElement right = (GeoElement) root.getRight();
+
+			if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+				AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+				Polynomial[][] ret = algo.getBotanaPolynomials();
+				algo.remove();
+				return ret;
+			}
+			if (root.getOperation().equals(Operation.PERPENDICULAR)) {
+				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
+					(GeoLine) left, (GeoLine) right);
+				Polynomial[][] ret = algo.getBotanaPolynomials();
+				algo.remove();
+				return ret;
+			}
+			if (root.getOperation().equals(Operation.PARALLEL)) {
+				AlgoAreParallel algo = new AlgoAreParallel(cons, "",
+					(GeoLine) left, (GeoLine) right);
+				Polynomial[][] ret = algo.getBotanaPolynomials();
+				algo.remove();
+				return ret;
+			}
+		}
+		
+		// More difficult cases: sides are expressions:
 		if ((root.getLeftTree().isExpressionNode() || root.getRightTree()
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-
 			traverseExpression(root);
 			// case right side of equation is 0
 			if ((operations.size() == segmentSquares.size()
@@ -397,38 +425,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				return ret;
 
 			}
-			throw new NoSymbolicParametersException();
+			throw new NoSymbolicParametersException(); // unhandled equation
 		}
 
-
-		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
-			throw new NoSymbolicParametersException();
-
-		GeoElement left = (GeoElement) root.getLeft();
-		GeoElement right = (GeoElement) root.getRight();
-
-		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
-					(GeoLine) left, (GeoLine) right);
-			Polynomial[][] ret = algo.getBotanaPolynomials();
-			algo.remove();
-			return ret;
-		}
-		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
-					(GeoLine) left, (GeoLine) right);
-			Polynomial[][] ret = algo.getBotanaPolynomials();
-			algo.remove();
-			return ret;
-		}
-		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
-			Polynomial[][] ret = algo.getBotanaPolynomials();
-			algo.remove();
-			return ret;
-		}
-
-		throw new NoSymbolicParametersException();
+		throw new NoSymbolicParametersException(); // unhandled expression
 	}
 
 	// TODO Consider locusequability
