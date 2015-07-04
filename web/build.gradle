@@ -42,7 +42,7 @@ def devModule = 'org.geogebra.web.Web3D'
 gwt {
 	gwtVersion = '2.7.0'
 	modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
- 	    'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D', 'org.geogebra.web.Phone', 'org.geogebra.web.Keyboard', 'org.geogebra.web.Input']
+ 	    'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D', 'org.geogebra.web.Keyboard', 'org.geogebra.web.Input']
 	
 	if (System.env['DEVMODULES'] != null && System.env['DEVMODULES'] == "all") {
 	    devModules = modules
@@ -76,7 +76,7 @@ def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 
 task cleanWar(type: Delete){
-	delete warDirRel + '/web3d', warDirRel + '/web', warDirRel + '/webSimple', warDirRel + '/tablet', warDirRel + '/tablet3d', warDirRel + '/phone'
+	delete warDirRel + '/web3d', warDirRel + '/web', warDirRel + '/webSimple', warDirRel + '/tablet', warDirRel + '/tablet3d'
 }
 
 task deployIntoWar(type: Copy, dependsOn: cleanWar) {
@@ -88,7 +88,7 @@ task deployIntoWar(type: Copy, dependsOn: cleanWar) {
 task symlinkIntoWar {
 	description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
 	doLast {
-	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d', 'phone'].each { folder ->
+	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
 			ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
 		}
 	}
@@ -97,7 +97,7 @@ task symlinkIntoWar {
 task draftSymlinkIntoWar {
 	description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
 	doLast {
-	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d', 'phone'].each { folder ->
+	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
 			ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
 		}
 	}
