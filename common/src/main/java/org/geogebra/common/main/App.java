@@ -3880,6 +3880,7 @@ public abstract class App implements UpdateSelection {
 	
 	public final boolean has(Feature f) {
 		switch (f) {
+		case RETINA:
 		case DATA_COLLECTION:
 			return canary;
 		case ALL_LANGUAGES:
@@ -3893,7 +3894,6 @@ public abstract class App implements UpdateSelection {
 		case INPUT_SHOWN_IN_INPUTBAR:
 		case TOOL_EDITOR:
 		case TUBE_BETA:
-		case RETINA:
 			return prerelease;
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:
