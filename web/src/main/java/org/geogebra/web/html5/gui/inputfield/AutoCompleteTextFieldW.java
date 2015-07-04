@@ -926,11 +926,20 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	boolean ctrlC = false;
 
+	private boolean isBadCode(int code) {
+		return code > 128;
+	}
 	@Override
 	public void onKeyPress(KeyPressEvent e) {
 
 		// only handle parentheses
 		char ch = e.getCharCode();
+
+		if (isBadCode(ch) && e.isAltKeyDown()) {
+			e.preventDefault();
+			e.stopPropagation();
+			return;
+		}
 
 		int caretPos = getCaretPosition();
 
@@ -1029,7 +1038,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			return;
 		}
 		int keyCode = e.getNativeKeyCode();
-		if (keyCode == GWTKeycodes.KEY_TAB) {
+		if (keyCode == GWTKeycodes.KEY_TAB
+				|| (isBadCode(keyCode) && e.isAltKeyDown())) {
 			e.preventDefault();
 		}
 	}
