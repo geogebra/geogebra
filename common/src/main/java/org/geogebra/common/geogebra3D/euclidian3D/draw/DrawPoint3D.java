@@ -230,11 +230,15 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 
 	@Override
 	public boolean hitForList(Hitting hitting) {
-		GeoPointND point = (GeoPointND) getGeoElement();
-		Coords p = point.getInhomCoordsInD3();
+		if (hasGeoElementVisible() && getGeoElement().isPickable()) {
+			GeoPointND point = (GeoPointND) getGeoElement();
+			Coords p = point.getInhomCoordsInD3();
 
-		return DrawPoint3D.hit(hitting, p, this, point.getPointSize(), project,
-				parameters, true);
+			return DrawPoint3D.hit(hitting, p, this, point.getPointSize(),
+					project, parameters, true);
+		}
+
+		return false;
 
 	}
 

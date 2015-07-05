@@ -8,7 +8,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -17,7 +16,6 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 /**
  * @author ggb3D
@@ -829,7 +827,11 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 
 	@Override
 	public boolean hitForList(Hitting hitting) {
-		return hit(hitting, true);
+		if (hasGeoElementVisible() && getGeoElement().isPickable()) {
+			return hit(hitting, true);
+		}
+
+		return false;
 	}
 
 	/**

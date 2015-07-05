@@ -522,11 +522,18 @@ public abstract class Drawable3D extends DrawableND {
 			visible = true;
 		}
 
-		return visible
-				&& (getGeoElement().hasDrawable3D()
-						&& getGeoElement().isEuclidianVisible() && getGeoElement()
-						.isDefined());
+		return visible && hasGeoElementVisible();
 
+	}
+
+	/**
+	 * 
+	 * @return true if geo is visible (and defined)
+	 */
+	protected boolean hasGeoElementVisible() {
+		return getGeoElement().hasDrawable3D()
+				&& getGeoElement().isEuclidianVisible()
+				&& getGeoElement().isDefined();
 	}
 
 	/**
@@ -1533,7 +1540,11 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return true if hit
 	 */
 	public boolean hitForList(Hitting hitting) {
-		return hit(hitting);
+		if (hasGeoElementVisible() && getGeoElement().isPickable()) {
+			return hit(hitting);
+		}
+
+		return false;
 	}
 
 	/**
