@@ -6683,3 +6683,5 @@ $.fn.mathquillggb = function(cmd, latex) {
 //set back the original namespace
 jQuery.noConflict(true);
 }());
+
+//@ sourceURL=mathquillggb.js
