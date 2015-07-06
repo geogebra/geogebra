@@ -339,9 +339,34 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			@Override
 			public void run() {
 				ensureEditing();
+
+				// on Tablets, this is needed to change the stylebar icon
+				// to the + sign, but unfortunately, the borders are still gray
+				// (on Desktop, this does no harm, although maybe inefficient)
+				if (!app.isApplet()) {
+					onFocus(null);
+				}
+
+				// just there is no reliable way to distinguish between
+				// Web and Tablet at this point, although we could use some
+				// heuristic later, just it is not settled what that heuristic
+				// should be, probably not the same as MathQuillGGB's
+				// disabledTextarea
+				// and for the same reason, the Timer is good at 500ms timeout,
+				// I think, for app.html and tablet.html... although we could
+				// decrease it in case of Web.html (app.isApplet())
 			}
 		};
-		tim.schedule(500);
+		if (app.isApplet()) {
+			// timeout is looking too big, and not even needed,
+			// as this is not about the tablet bug for sure
+			tim.schedule(0);
+		} else {
+			// either app.html or tablet.html, seems Okay
+			// as we cannot tell the two apart yet, until mouse is pressed
+			// or touch events are used (although we could use heuristic?)
+			tim.schedule(500);
+		}
 	}
 
 	public void replaceXButtonDOM() {
