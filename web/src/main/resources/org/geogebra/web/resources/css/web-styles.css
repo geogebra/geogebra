@@ -3311,8 +3311,8 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 
 .cas_header table td {
 	text-align: center;
-	padding-left: 5px;
-	padding-right: 5px;
+	padding-left: 2px;
+	padding-right: 2px;
 }
 
 .CAS_substitute_editTextCell input[type="text"],.cas_sub_editTextCell select
@@ -3855,9 +3855,6 @@ body.application[dir=rtl] .algebraOpenButton {
  	-webkit-box-sizing: border-box;
  }
 
-.marble {
-	margin-right: 10px;
-}
 body.application[dir=rtl] .marble {
 	margin-right: 0px;
 	margin-left: 10px;

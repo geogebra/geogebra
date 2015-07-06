@@ -3882,7 +3882,6 @@ public abstract class App implements UpdateSelection {
 		switch (f) {
 		case RETINA:
 		case DATA_COLLECTION:
-			return canary;
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
 		case SEQUENTIAL_COLORS:
