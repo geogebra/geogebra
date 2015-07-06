@@ -90,12 +90,13 @@ public class InputEntry implements EntryPoint, ScriptLoadCallback,
 			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::onBackSpace()();
 		});
 		$wnd.jsInput.onArrow = $entry(function(arrowType) {
-			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::onArrow(Lorg/geogebra/web/web/util/keyboardBase/KeyBoardProcessable$ArrowType;)(@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable.ArrowType::values()[arrowType]);
+			var arrowValues = @org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable.ArrowType::values()();
+			var arrow = arrowValues[arrowType];
+			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::onArrow(Lorg/geogebra/web/web/util/keyboardBase/KeyBoardProcessable$ArrowType;)(arrow);
 		});
 		$wnd.jsInput.insertString = $entry(function(text) {
 			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::insertString(Ljava/lang/String;)(text);
 		});
-		
 		$wnd.jsInput.scrollCursorIntoView = $entry(function() {
 			processing.@org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable::scrollCursorIntoView()();
 		});
