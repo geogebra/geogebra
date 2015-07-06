@@ -345,6 +345,25 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				// (on Desktop, this does no harm, although maybe inefficient)
 				if (!app.isApplet()) {
 					onFocus(null);
+					// not sure why this is needed in case of tablet.html,
+					// but the following hack fixes it:
+					if (app.getGuiManager() != null
+							&& app.getGuiManager().getLayout() != null
+							&& app.getGuiManager().getLayout().getDockManager() != null
+							&& app.getGuiManager().getLayout().getDockManager()
+									.getPanel(App.VIEW_ALGEBRA) != null) {
+						// in every case we use NewRadioButtonTreeItem, we use
+						// DockPanelW anyway
+						AlgebraDockPanelW ad = (AlgebraDockPanelW) app
+								.getGuiManager().getLayout().getDockManager()
+								.getPanel(App.VIEW_ALGEBRA);
+						ad.getAbsolutePanel()
+								.addStyleName("NoHorizontalScroll");
+						// Now borders are blue!!!
+						// by the way, the next blur event cancels this in
+						// theory
+						// just from now, we suppose that it's initially focused
+					}
 				}
 
 				// just there is no reliable way to distinguish between

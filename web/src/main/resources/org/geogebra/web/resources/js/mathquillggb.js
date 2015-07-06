@@ -2133,12 +2133,12 @@ function createRoot(jQ, root, textbox, editable) {
       // the most reliable? Probably not...
       // 100ms is experimental, 0ms does not work with Web.html
       setTimeout(function() { textarea.focus(); }, 100);
-
-      //do this immediately (ATM also happens in timeout, might not be needed)
-      if (root.common.newCreationMode) {
-        textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
-      }
 	}
+
+    // do this immediately (ATM also happens in timeout, might not be needed)
+    if (root.common.newCreationMode) {
+      textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
+    }
   }).bind('blur.mathquillggb', function(e3) {
     if (disabledTextarea) {
       textareaBlurFunction(e3);
