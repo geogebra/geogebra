@@ -480,8 +480,8 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void setCoordinateSpaceSize(int width, int height) {
-		int oldWidth = g2p.getCoordinateSpaceWidth();
-		int oldHeight = g2p.getCoordinateSpaceHeight();
+		int oldWidth = (int) (g2p.getCoordinateSpaceWidth() / g2p.devicePixelRatio);
+		int oldHeight = (int) (g2p.getCoordinateSpaceHeight() / g2p.devicePixelRatio);
 		g2p.setCoordinateSpaceSize(width, height);
 		try {
 			app.syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
