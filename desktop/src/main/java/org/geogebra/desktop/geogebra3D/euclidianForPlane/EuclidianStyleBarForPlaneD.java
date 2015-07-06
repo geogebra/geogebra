@@ -15,7 +15,7 @@ import org.geogebra.desktop.gui.util.MyToggleButton;
  * @author matthieu
  *
  */
-public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
+public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 
 	/**
 	 * 
@@ -29,7 +29,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	 * 
 	 * @param ev
 	 */
-	public EuclidianStyleBarForPlane(EuclidianViewForPlaneD ev) {
+	public EuclidianStyleBarForPlaneD(EuclidianViewForPlaneD ev) {
 		super(ev);
 	}
 

@@ -48,7 +48,7 @@ public class EuclidianViewForPlaneD extends EuclidianViewD implements
 
 	@Override
 	protected EuclidianStyleBarD newEuclidianStyleBar() {
-		return new EuclidianStyleBarForPlane(this);
+		return new EuclidianStyleBarForPlaneD(this);
 	}
 
 	@Override

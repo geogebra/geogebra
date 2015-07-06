@@ -720,10 +720,17 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnStandardView.setIcon(icon);
 		btnStandardView.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				ev.setStandardView(true);
+				setEvStandardView();
 			}
 		});
     }
+
+	/**
+	 * set EV to standard view
+	 */
+	protected void setEvStandardView() {
+		ev.setStandardView(true);
+	}
 
 	private void createColorBtn() {
 
