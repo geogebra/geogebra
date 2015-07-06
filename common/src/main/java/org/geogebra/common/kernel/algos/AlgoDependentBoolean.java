@@ -283,6 +283,16 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		Polynomial polynomial = firstSegPoly.multiply(firstSegPoly);
 		boolean isRightSideSide = false;
 		int index = 1;
+		// handle case: a^2 = b^2
+		if (operations.size() == 1
+				&& operations.get(0) == Operation.EQUAL_BOOLEAN) {
+			GeoSegment currentSegment = (GeoSegment) segmentSquares.get(index)
+					.getLeft();
+			Variable currentSegBotanaVar = getBotanaVarOfSegment(currentSegment);
+			Polynomial currentSegPoly = new Polynomial(currentSegBotanaVar);
+			Polynomial term = currentSegPoly.multiply(currentSegPoly);
+			return polynomial = polynomial.subtract(term);
+		}
 		// if left side of equation is 0
 		// handle as right side of equation = 0
 		if (operations.get(0) == Operation.EQUAL_BOOLEAN) {
