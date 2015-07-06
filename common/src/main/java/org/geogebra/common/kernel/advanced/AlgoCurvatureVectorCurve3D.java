@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
@@ -8,7 +9,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,7 +33,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 	private double f2eval[] = new double[3];
 
 	private AlgoDerivative algoCAS, algoCAS2;
-	private GeoConic gc;
+	private GeoConic3D gc;
 
 	public AlgoCurvatureVectorCurve3D(Construction cons, String label,
 			GeoPoint3D arg, GeoCurveCartesian3D arg2) {
@@ -65,6 +65,26 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		setInputOutput();
 		compute();
 	}
+
+	public AlgoCurvatureVectorCurve3D(Construction cons, String label,
+			GeoPoint3D arg, GeoConic3D geoConic3D) {
+		super(cons);
+		this.gc = geoConic3D;
+		this.A = arg;
+		// create new vector
+		v = new GeoVector3D(cons);
+		try {
+			v.setStartPoint(A);
+		} catch (CircularDefinitionException e) {
+		}
+		f = new GeoCurveCartesian3D(cons);
+		gc.toGeoCurveCartesian(f);
+		cas();
+
+		setInputOutput();
+		compute();
+	}
+
 
 	private void cas() {
 		// First derivative of curve f
@@ -126,10 +146,12 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 	public final void compute() {
 		try {
 			double tvalue;
-			/*
-			 * if (gc!=null){ f=new GeoCurveCartesian2D(cons);
-			 * gc.toGeoCurveCartesian(f); cas(); }
-			 */
+
+			if (gc != null) {
+				// f = new GeoCurveCartesian3D(cons);
+				gc.toGeoCurveCartesian(f);
+				cas();
+			}
 
 			tvalue = f.getClosestParameter(A, f.getMinParameter());
 			f1.evaluateCurve(tvalue, f1eval);

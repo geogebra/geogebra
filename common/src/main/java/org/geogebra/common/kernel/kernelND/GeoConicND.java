@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.FromMeta;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -3484,11 +3483,11 @@ FromMeta
 	 * Sets curve to this conic
 	 * @param curve curve for storing this conic
 	 */
-	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
+	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		FunctionVariable fv = new FunctionVariable(kernel,"t");
 		ExpressionNode evX=null,evY=null;
 		double min=0,max=0;
-		if(type == CONIC_CIRCLE){
+		if (type == CONIC_CIRCLE && curve.getDimension() == 2) {
 			evX = new ExpressionNode(kernel, 
 					new ExpressionNode(kernel,fv,Operation.COS,null),
 					Operation.MULTIPLY,
@@ -3503,13 +3502,18 @@ FromMeta
 			ExpressionNode rwY = new ExpressionNode(kernel,evY,
 					Operation.PLUS,
 					new MyDouble(kernel,b.getY()));
-			curve.setFunctionX(new Function(rwX,fv));
-			curve.setFunctionY(new Function(rwY,fv));
-			curve.setInterval(0, 2*Math.PI);	
+			curve.setFun(0, new Function(rwX, fv));
+			curve.setFun(1, new Function(rwY, fv));
+			curve.setInterval(0, 2 * Math.PI);
+			if (curve.getDimension() == 3) {
+				curve.setFun(2, new Function(new ExpressionNode(kernel, 0.0),
+						fv));
+			}
 			return;
 			
 		}
-		if(type == CONIC_ELLIPSE){
+		if (type == CONIC_ELLIPSE || type == CONIC_CIRCLE
+				&& curve.getDimension() == 3) {
 			evX = new ExpressionNode(kernel, 
 					new ExpressionNode(kernel,fv,Operation.COS,null),
 					Operation.MULTIPLY,
@@ -3544,24 +3548,42 @@ FromMeta
 			max = kernel.getXmaxForFunctions();
 			}
 		else return;
-		ExpressionNode rwX = new ExpressionNode(kernel,new ExpressionNode(kernel, 
-				new ExpressionNode(kernel,evX,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].getX())),
-				Operation.PLUS,
-				new ExpressionNode(kernel,evY,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].getY()))),
-				Operation.PLUS,
-				new MyDouble(kernel,b.getX()));
-		ExpressionNode rwY = new ExpressionNode(kernel,new ExpressionNode(kernel, 
-				new ExpressionNode(kernel,evX,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].getY())),
-				Operation.PLUS,
-				new ExpressionNode(kernel,evY,Operation.MULTIPLY,new MyDouble(kernel,-eigenvec[0].getX()))),
-				Operation.PLUS,
-				new MyDouble(kernel,b.getY()));
-		curve.setFunctionX(new Function(rwX,fv));
-		curve.setFunctionY(new Function(rwY,fv));
+
+
+		if (curve.getDimension() == 3) {
+			Coords e0 = this.getEigenvec3D(0);
+			Coords e1 = this.getEigenvec3D(1);
+			Coords m = getMidpoint3D();
+			ExpressionNode rwX = linComb(evX, evY, e0.getX(), e1.getX(),
+					m.getX());
+			ExpressionNode rwY = linComb(evX, evY, e0.getY(), e1.getY(),
+					m.getY());
+			ExpressionNode rwZ = linComb(evX, evY, e0.getZ(), e1.getZ(),
+					m.getZ());
+			curve.setFun(0, new Function(rwX, fv));
+			curve.setFun(1, new Function(rwY, fv));
+			curve.setFun(2, new Function(rwZ, fv));
+		} else {
+			ExpressionNode rwX = linComb(evX, evY, eigenvec[0].getX(),
+					eigenvec[0].getY(), b.getX());
+			ExpressionNode rwY = linComb(evX, evY, eigenvec[0].getY(),
+					-eigenvec[0].getX(), b.getY());
+			curve.setFun(0, new Function(rwX, fv));
+			curve.setFun(1, new Function(rwY, fv));
+		}
 		curve.setInterval(min, max);			
 		
 	}
 
+	private ExpressionNode linComb(ExpressionNode evX, ExpressionNode evY,
+			double cX, double cY, double c1) {
+		return new ExpressionNode(kernel, new ExpressionNode(kernel,
+				new ExpressionNode(kernel, evX, Operation.MULTIPLY,
+						new MyDouble(kernel, cX)), Operation.PLUS,
+				new ExpressionNode(kernel, evY, Operation.MULTIPLY,
+						new MyDouble(kernel, cY))), Operation.PLUS,
+				new MyDouble(kernel, c1));
+	}
 
 	/**
 	 * Sets implicit poly to this conic

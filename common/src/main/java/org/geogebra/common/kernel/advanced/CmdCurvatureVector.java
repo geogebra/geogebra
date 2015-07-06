@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Kernel;
@@ -51,6 +52,14 @@ public class CmdCurvatureVector extends CommandProcessor {
 				AlgoCurvatureVectorCurve3D algo = new AlgoCurvatureVectorCurve3D(
 						cons, c.getLabel(), (GeoPoint3D) arg[0],
 						(GeoCurveCartesian3D) arg[1]);
+				GeoElement[] ret = { algo.getVector() };
+				return ret;
+			} else if ((ok[0] = (arg[0] instanceof GeoPoint3D))
+					&& (ok[1] = (arg[1] instanceof GeoConic3D))) {
+
+				AlgoCurvatureVectorCurve3D algo = new AlgoCurvatureVectorCurve3D(
+						cons, c.getLabel(), (GeoPoint3D) arg[0],
+						(GeoConic3D) arg[1]);
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
