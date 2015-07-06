@@ -3623,7 +3623,11 @@ LatexCmds['\u221a'] = P(MathCommand, function(_, _super) {
     +   '<span class="non-leaf sqrt-stem">&0</span>'
     + '</span>'
   ;
-  _.textTemplate = ['sqrt(', ')'];
+  // leaving one space before the sqrt in order to avoid
+  // problems like xsqrt(x)... in theory, the space should not
+  // do harm in case of + before, either, GeoGebraWeb shall
+  // know how to parse it well (sometimes *, sometimes nothing)
+  _.textTemplate = [' sqrt(', ')'];
   _.parser = function() {
     return latexMathParser.optBlock.then(function(optBlock) {
       return latexMathParser.block.map(function(block) {
