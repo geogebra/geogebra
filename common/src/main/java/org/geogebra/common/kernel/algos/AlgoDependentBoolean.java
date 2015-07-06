@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.PolynomialNode;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -50,6 +51,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	private ArrayList<Variable> segBotanaVars = new ArrayList<Variable>();
 	private ArrayList<GeoSegment> listOfSegments = new ArrayList<GeoSegment>();
 	private ArrayList<Operation> operations = new ArrayList<Operation>();
+	private PolynomialNode polyRoot = new PolynomialNode();
 
 	public AlgoDependentBoolean(Construction cons, String label,
 			ExpressionNode root) {
@@ -242,6 +244,92 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
+	// fill the polynomial tree
+	public void expressionNodeToPolynomial(ExpressionNode expNode,
+			PolynomialNode polyNode) {
+		if (polyNode.getPoly() != null) {
+			return;
+		}
+		if (polyNode.getLeft().getPoly() != null
+				&& polyNode.getRight().getPoly() != null) {
+			Polynomial leftPoly = polyNode.getLeft().getPoly();
+			Polynomial rightPoly = polyNode.getRight().getPoly();
+			switch (polyNode.getOperation()) {
+			case PLUS:
+				polyNode.setPoly(leftPoly.add(rightPoly));
+				break;
+			case MINUS:
+				polyNode.setPoly(leftPoly.subtract(rightPoly));
+				break;
+			case MULTIPLY:
+				polyNode.setPoly(leftPoly.multiply(rightPoly));
+				break;
+			case POWER:
+				polyNode.setPoly(leftPoly.multiply(leftPoly));
+				break;
+			default:
+				break;
+			}
+		}
+		if (expNode.getLeft().isExpressionNode()) {
+			expressionNodeToPolynomial((ExpressionNode) expNode.getLeft(),
+				polyNode.getLeft());
+		}
+		if (expNode.getRight().isExpressionNode()) {
+		expressionNodeToPolynomial((ExpressionNode) expNode.getRight(),
+				polyNode.getRight());
+		}
+
+	}
+
+	// build a Polynomial tree from ExpressionNode
+	private void buildPolynomialTree(ExpressionNode expNode,
+			PolynomialNode polyNode) {
+		if (expNode == null) {
+			return;
+		}
+		polyNode.setOperation(expNode.getOperation());
+		if (expNode.getLeft() != null) {
+			polyNode.setLeft(new PolynomialNode());
+			if (expNode.getLeft().isExpressionNode()) {
+				buildPolynomialTree((ExpressionNode) expNode.getLeft(),
+					polyNode.getLeft());
+			} else {
+				if (expNode.getLeft() instanceof GeoSegment) {
+					polyNode.getLeft().setPoly(
+							new Polynomial(
+									getBotanaVarOfSegment((GeoSegment) expNode
+											.getLeft())));
+				}
+				if (expNode.getLeft() instanceof MyDouble) {
+					polyNode.getLeft().setPoly(
+							new Polynomial(Integer.parseInt(expNode.getLeft()
+									.toString())));
+				}
+			}
+
+		}
+		if (expNode.getRight() != null) {
+			polyNode.setRight(new PolynomialNode());
+			if (expNode.getRight().isExpressionNode()) {
+				buildPolynomialTree((ExpressionNode) expNode.getRight(),
+					polyNode.getRight());
+			} else {
+				if (expNode.getRight() instanceof GeoSegment) {
+					polyNode.getRight().setPoly(
+							new Polynomial(
+									getBotanaVarOfSegment((GeoSegment) expNode
+											.getRight())));
+				}
+				if (expNode.getRight() instanceof MyDouble) {
+					polyNode.getRight().setPoly(
+							new Polynomial(Integer.parseInt(expNode.getRight()
+									.toString())));
+				}
+			}
+		}
+	}
+
 	// procedure to traverse inorder the expression
 	private void traverseExpression(ExpressionNode node) {
 		// node has form a^2, a is GeoSegment
@@ -271,71 +359,6 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			index++;
 		}
 		return null;
-	}
-
-	// function to get the condition polynomial
-	private Polynomial getConditionPolynomial() {
-		// get first segments botana variable
-		GeoSegment firstSegment = (GeoSegment) segmentSquares.get(0).getLeft();
-		Variable firstSegBotanaVar = getBotanaVarOfSegment(firstSegment);
-		Polynomial firstSegPoly = new Polynomial(firstSegBotanaVar);
-		// add to condition polynomial
-		Polynomial polynomial = firstSegPoly.multiply(firstSegPoly);
-		boolean isRightSideSide = false;
-		int index = 1;
-		// handle case: a^2 = b^2
-		if (operations.size() == 1
-				&& operations.get(0) == Operation.EQUAL_BOOLEAN) {
-			GeoSegment currentSegment = (GeoSegment) segmentSquares.get(index)
-					.getLeft();
-			Variable currentSegBotanaVar = getBotanaVarOfSegment(currentSegment);
-			Polynomial currentSegPoly = new Polynomial(currentSegBotanaVar);
-			Polynomial term = currentSegPoly.multiply(currentSegPoly);
-			return polynomial = polynomial.subtract(term);
-		}
-		// if left side of equation is 0
-		// handle as right side of equation = 0
-		if (operations.get(0) == Operation.EQUAL_BOOLEAN) {
-			operations.remove(0);
-		}
-		while (index < segmentSquares.size()) {
-			// get current segments botana variable
-			GeoSegment currentSegment = (GeoSegment) segmentSquares.get(index)
-					.getLeft();
-			Variable currentSegBotanaVar = getBotanaVarOfSegment(currentSegment);
-			Polynomial currentSegPoly = new Polynomial(currentSegBotanaVar);
-			Polynomial term = currentSegPoly.multiply(currentSegPoly);
-			// add/subtract/multiply polynomial with nem term
-			switch (operations.get(index - 1)) {
-			case PLUS:
-				if (!isRightSideSide) {
-					polynomial = polynomial.add(term);
-				} else {
-					// we reached the equations other side
-					// proceed inverse operation
-					polynomial = polynomial.subtract(term);
-				}
-				break;
-			case MINUS:
-				if (!isRightSideSide) {
-					polynomial = polynomial.subtract(term);
-				} else {
-					// we reached the equations other side
-					// proceed inverse operation
-					polynomial = polynomial.add(term);
-				}
-				break;
-			case EQUAL_BOOLEAN:
-				isRightSideSide = true;
-				polynomial = polynomial.subtract(term);
-				break;
-			default:
-
-				break;
-			}
-			index++;
-		}
-		return polynomial;
 	}
 
 	// function to collect distance polynomials of segments
@@ -379,49 +402,19 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 
-		// Easy cases: both sides are GeoElements:
-		if (root.getLeft().isGeoElement() && root.getRight().isGeoElement()) {
-
-			GeoElement left = (GeoElement) root.getLeft();
-			GeoElement right = (GeoElement) root.getRight();
-
-			if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-				AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
-				Polynomial[][] ret = algo.getBotanaPolynomials();
-				algo.remove();
-				return ret;
-			}
-			if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
-					(GeoLine) left, (GeoLine) right);
-				Polynomial[][] ret = algo.getBotanaPolynomials();
-				algo.remove();
-				return ret;
-			}
-			if (root.getOperation().equals(Operation.PARALLEL)) {
-				AlgoAreParallel algo = new AlgoAreParallel(cons, "",
-					(GeoLine) left, (GeoLine) right);
-				Polynomial[][] ret = algo.getBotanaPolynomials();
-				algo.remove();
-				return ret;
-			}
-		}
-		
-		// More difficult cases: sides are expressions:
 		if ((root.getLeftTree().isExpressionNode() || root.getRightTree()
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+
 			traverseExpression(root);
-			// case right side of equation is 0
+			// case right side of equation is number
 			if ((operations.size() == segmentSquares.size()
-					&& operations.get(operations.size() - 1) == Operation.EQUAL_BOOLEAN
-					&& root.getRight() instanceof MyDouble && Integer
-					.parseInt(root.getRight().toString()) == 0)
-			// case left side of equation is 0
+					&& operations.get(operations.size() - 1) == Operation.EQUAL_BOOLEAN && root
+						.getRight() instanceof MyDouble)
+			// case left side of equation is number
 					|| ((operations.size() == segmentSquares.size()
-							&& operations.get(0) == Operation.EQUAL_BOOLEAN
-							&& root.getLeft() instanceof MyDouble && Integer
-							.parseInt(root.getLeft().toString()) == 0))
+							&& operations.get(0) == Operation.EQUAL_BOOLEAN && root
+								.getLeft() instanceof MyDouble))
 					// case all the terms in equation are segment squares
 					|| operations.size() + 1 == segmentSquares.size()) {
 				ArrayList<Polynomial> polynomials = getSegmentDistPolynomials();
@@ -431,14 +424,49 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					ret[0][i] = p;
 					i++;
 				}
-				ret[0][polynomials.size()] = getConditionPolynomial();
+				buildPolynomialTree(root, polyRoot);
+				expressionNodeToPolynomial(root, polyRoot);
+				while (polyRoot.getLeft().getPoly() == null
+						|| polyRoot.getRight().getPoly() == null) {
+					expressionNodeToPolynomial(root, polyRoot);
+				}
+				Polynomial condPoly = polyRoot.getLeft().getPoly()
+						.subtract(polyRoot.getRight().getPoly());
+				ret[0][polynomials.size()] = condPoly;
 				return ret;
 
 			}
-			throw new NoSymbolicParametersException(); // unhandled equation
+			throw new NoSymbolicParametersException();
 		}
 
-		throw new NoSymbolicParametersException(); // unhandled expression
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+			throw new NoSymbolicParametersException();
+
+		GeoElement left = (GeoElement) root.getLeft();
+		GeoElement right = (GeoElement) root.getRight();
+
+		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
+					(GeoLine) left, (GeoLine) right);
+			Polynomial[][] ret = algo.getBotanaPolynomials();
+			algo.remove();
+			return ret;
+		}
+		if (root.getOperation().equals(Operation.PARALLEL)) {
+			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
+					(GeoLine) left, (GeoLine) right);
+			Polynomial[][] ret = algo.getBotanaPolynomials();
+			algo.remove();
+			return ret;
+		}
+		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			Polynomial[][] ret = algo.getBotanaPolynomials();
+			algo.remove();
+			return ret;
+		}
+
+		throw new NoSymbolicParametersException();
 	}
 
 	// TODO Consider locusequability
