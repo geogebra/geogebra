@@ -195,8 +195,6 @@ public class MouseTouchGestureControllerW implements
 			return;
 		}
 		style = new EnvironmentStyleW();
-		style.setWidthScale(getEnvWidthScale());
-		style.setHeightScale(getEnvHeightScale());
 		style.setxOffset(getEnvXoffset());
 		style.setyOffset(getEnvYoffset());
 		style.setScaleX(app.getArticleElement().getScaleX());
@@ -799,18 +797,12 @@ public class MouseTouchGestureControllerW implements
 
 	@Override
 	public int mouseEventX(int clientX) {
-		return Math.round((clientX) * (1 / style.getScaleX())
-				* (1 / style.getHeightScale()) * getDevicePixelRatio());
-	}
-
-	private float getDevicePixelRatio() {
-		return 1;
+		return Math.round((clientX) * (1 / style.getScaleX()));
 	}
 
 	@Override
 	public int mouseEventY(int clientY) {
-		return Math.round((clientY) * (1 / style.getScaleY())
-				* (1 / style.getHeightScale()) * getDevicePixelRatio());
+		return Math.round((clientY) * (1 / style.getScaleY()));
 	}
 
 	@Override

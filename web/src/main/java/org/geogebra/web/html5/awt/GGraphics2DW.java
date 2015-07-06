@@ -953,8 +953,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 			return;
 		try {
 			if (bi.hasCanvas()) {
-				App.debug(bi.getCanvas().getCoordinateSpaceWidth()
-						+ " pixels wide background");
 				context.drawImage(
 						bi.getCanvas().getCanvasElement(),
 						0,

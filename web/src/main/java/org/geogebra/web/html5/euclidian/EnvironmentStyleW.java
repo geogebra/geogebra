@@ -4,8 +4,6 @@ import org.geogebra.common.euclidian.EnvironmentStyle;
 
 public class EnvironmentStyleW extends EnvironmentStyle {
 
-	private float widthScale;
-	private float heightScale;
 	private float scaleX;
 	private float scaleY;
 	private int xOffset;
@@ -14,36 +12,6 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	private int scrollTop;
 
 	public EnvironmentStyleW() {
-	}
-
-	/**
-	 * @return the widthScale
-	 */
-	public float getWidthScale() {
-		return widthScale;
-	}
-
-	/**
-	 * @param widthScale
-	 *            the widthScale to set
-	 */
-	public void setWidthScale(float widthScale) {
-		this.widthScale = widthScale;
-	}
-
-	/**
-	 * @return the heightScale
-	 */
-	public float getHeightScale() {
-		return heightScale;
-	}
-
-	/**
-	 * @param heightScale
-	 *            the heightScale to set
-	 */
-	public void setHeightScale(float heightScale) {
-		this.heightScale = heightScale;
 	}
 
 	/**
@@ -138,8 +106,7 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 
 	@Override
 	public String toString() {
-		return " ws: " + this.widthScale + ", hs: " + this.heightScale
-		        + ", xo: " + this.xOffset + ", yo: " + this.yOffset + ", sx: "
+		return " xo: " + this.xOffset + ", yo: " + this.yOffset + ", sx: "
 		        + this.scaleX + ", sy: " + this.scaleY + ", scrollL: "
 		        + this.scrollLeft + ", scrollt: " + this.scrollTop;
 	}
