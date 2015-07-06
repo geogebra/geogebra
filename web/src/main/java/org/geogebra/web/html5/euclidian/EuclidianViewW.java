@@ -350,7 +350,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public GBufferedImageW getExportImage(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
-		GBufferedImageW img = new GBufferedImageW(width, height, 0, true);
+		GBufferedImageW img = new GBufferedImageW(width, height, 1, true);
 		exportPaint(new GGraphics2DW(img.getCanvas()), scale, transparency);
 		return img;
 	}
@@ -480,8 +480,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void setCoordinateSpaceSize(int width, int height) {
-		int oldWidth = (int) (g2p.getCoordinateSpaceWidth() / g2p.devicePixelRatio);
-		int oldHeight = (int) (g2p.getCoordinateSpaceHeight() / g2p.devicePixelRatio);
+
+		int oldWidth = g2p.getOffsetWidth();
+		int oldHeight = g2p.getOffsetHeight();
 		g2p.setCoordinateSpaceSize(width, height);
 		try {
 			app.syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
@@ -559,7 +560,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void createImage() {
-		bgImage = new GBufferedImageW(getWidth(), getHeight(), app == null
+		bgImage = new GBufferedImageW(g2p.getOffsetWidth(),
+				g2p.getOffsetHeight(),
+				app == null
 				|| !app.has(Feature.RETINA) ? 1 : Browser.getPixelRatio(),
 				false);
 		bgGraphics = bgImage.createGraphics();
@@ -1151,12 +1154,13 @@ public class EuclidianViewW extends EuclidianView implements
 		if (Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
 			return;
 		}
-		double realWidth = g2p.getCoordinateSpaceWidth() / g2p.devicePixelRatio;
-		double realHeight = g2p.getCoordinateSpaceHeight()
-				/ g2p.devicePixelRatio;
+		int realWidth = g2p.getOffsetWidth();
+		int realHeight = g2p.getOffsetHeight();
 		g2p.devicePixelRatio = pixelRatio;
 		if (realHeight > 0 && realWidth > 0) {
-			g2p.setCoordinateSpaceSize((int) realWidth, (int) realHeight);
+			g2p.setCoordinateSpaceSize(realWidth, realHeight);
+			this.createImage();
+			this.updateBackground();
 			repaint();
 		}
 	}

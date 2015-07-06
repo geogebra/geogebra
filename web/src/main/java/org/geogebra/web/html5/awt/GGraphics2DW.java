@@ -962,10 +962,8 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 .getCoordinateSpaceHeight(),
 						x,
 						y,
-						bi.getCanvas().getCoordinateSpaceWidth()
-								/ bi.getPixelRatio(),
-						bi.getCanvas().getCoordinateSpaceHeight()
-								/ bi.getPixelRatio());
+ this
+						.getOffsetWidth(), this.getOffsetHeight());
 
 			} else {
 				context.drawImage(bi.getImageElement(), x, y);
