@@ -122,6 +122,8 @@ public class OptionsEuclidianD extends
 	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle,
 			cbTooltips;
 
+	private JLabel lblAxisLabelStyle;
+	private JCheckBox cbAxisLabelBold, cbAxisLabelItalic;
 	private JTextField tfAxesRatioX, tfAxesRatioY;
 
 	private NumberFormat nfAxesRatio;
@@ -312,6 +314,15 @@ public class OptionsEuclidianD extends
 		// show bold checkbox
 		cbBoldAxes = new JCheckBox(app.getPlain("Bold"));
 
+		// show axis label bold checkbox
+		cbAxisLabelBold = new JCheckBox(app.getPlain("Bold"));
+
+		// show axis label bold checkbox
+		cbAxisLabelItalic = new JCheckBox(app.getPlain("Italic"));
+
+		cbAxisLabelBold.addActionListener(this);
+		cbAxisLabelItalic.addActionListener(this);
+
 		// axes color
 		color = new JLabel(app.getMenu("Color") + ":");
 		color.setLabelFor(btAxesColor);
@@ -321,6 +332,9 @@ public class OptionsEuclidianD extends
 		// axes style
 		lineStyle = new JLabel(app.getPlain("LineStyle") + ":");
 		lineStyle.setLabelFor(cbAxesStyle);
+
+		// axes font style
+		lblAxisLabelStyle = new JLabel(app.getPlain("LabelStyle") + ":");
 
 		AxesStyleListRenderer renderer = new AxesStyleListRenderer();
 		cbAxesStyle = new JComboBox(EuclidianStyleConstants.lineStyleOptions);
@@ -358,6 +372,9 @@ public class OptionsEuclidianD extends
 				Box.createHorizontalStrut(20), cbBoldAxes));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(color, btAxesColor,
 				Box.createHorizontalStrut(20), lineStyle, cbAxesStyle));
+
+		axesOptionsPanel.add(LayoutUtil.flowPanel(lblAxisLabelStyle,
+				cbAxisLabelBold, cbAxisLabelItalic));
 	}
 
 	protected void initMiscPanel() {
@@ -707,6 +724,10 @@ public class OptionsEuclidianD extends
 
 		cbShowAxes.setText(app.getPlain("ShowAxes"));
 		cbBoldAxes.setText(app.getPlain("Bold"));
+
+		lblAxisLabelStyle.setText(app.getPlain("LabelStyle"));
+		cbAxisLabelBold.setText(app.getPlain("Bold"));
+		cbAxisLabelItalic.setText(app.getPlain("Italic"));
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -757,8 +778,15 @@ public class OptionsEuclidianD extends
 			// make sure bold checkbox doesn't change
 					+ (cbBoldAxes.isSelected() ? EuclidianStyleConstants.AXES_BOLD
 							: 0));
+		} else if (source == cbAxisLabelBold) {
+			model.setAxisFontBold(cbAxisLabelBold.isSelected());
 
-		} else if (source == cbGridStyle) {
+		} else if (source == cbAxisLabelItalic) {
+			model.setAxisFontItalic(cbAxisLabelItalic.isSelected());
+
+		}
+
+		else if (source == cbGridStyle) {
 			model.appyGridStyle(((Integer) cbGridStyle.getSelectedItem())
 					.intValue());
 
@@ -1167,5 +1195,10 @@ public class OptionsEuclidianD extends
 	public void reinit() {
 		wrappedPanel.removeAll();
 		initGUI();
+	}
+
+	public void updateAxisFontStyle(boolean isBold, boolean isItalic) {
+		cbAxisLabelBold.setSelected(isBold);
+		cbAxisLabelItalic.setSelected(isItalic);
 	}
 }

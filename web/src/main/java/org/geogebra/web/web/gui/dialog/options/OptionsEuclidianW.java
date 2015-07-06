@@ -111,7 +111,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CheckBox cbOpenConsProtocol;
 		private CheckBox cbShowGrid;
 		private CheckBox cbBoldGrid;
-
+		private Label lblAxisLabelStyle;
+		CheckBox cbAxisLabelBold;
+		CheckBox cbAxisLabelItalic;
 		public BasicTab() {
 			super();
 			addDimensionPanel();
@@ -284,6 +286,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// axes color
 			colorLabel = new Label(app.getMenu("Color") + ":");
 
+			lblAxisLabelStyle = new Label(app.getMenu("LabelStyle"));
+			// show axis label bold checkbox
+			cbAxisLabelBold = new CheckBox(app.getPlain("Bold"));
+
+			// show axis label italic checkbox
+			cbAxisLabelItalic = new CheckBox(app.getPlain("Italic"));
+
 			btAxesColor = new MyCJButton();
 			
 			btAxesColor.addClickHandler(new ClickHandler(){
@@ -363,7 +372,20 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					updateView();
                 }});
 			
-		
+			cbAxisLabelBold.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					model.setAxisFontBold(cbAxisLabelBold.getValue());
+				}
+			});
+
+			cbAxisLabelItalic.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					model.setAxisFontItalic(cbAxisLabelItalic.getValue());
+				}
+			});
+
 			indent(axesOptionsPanel);
 		}
 		
@@ -379,6 +401,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					 cbBoldAxes));
 			axesOptionsPanel.add(LayoutUtil.panelRow(colorLabel, btAxesColor,
 					 lineStyle, axesStylePopup));
+			axesOptionsPanel.add(LayoutUtil.panelRow(lblAxisLabelStyle,
+					cbAxisLabelBold, cbAxisLabelItalic));
+
 		}
 
 
@@ -575,8 +600,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbShowNavbar.setText(app.getPlain("Show"));
 			cbNavPlay.setText(app.getPlain("PlayButton"));
 			cbOpenConsProtocol.setText(app.getPlain("ConstructionProtocolButton"));
-
 			
+			lblAxisLabelStyle.setText(app.getPlain("LabelStyle"));
+			cbAxisLabelBold.setText(app.getPlain("Bold"));
+			cbAxisLabelItalic.setText(app.getPlain("Italic"));
+
 		}
 
 		public void enableAxesRatio(boolean value) {
@@ -1273,6 +1301,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	public void setSelectedTab(int index) {
 		// tabbedPane.setSelectedIndex(index);
 		App.debug("======== OptionsEuclidianW.setSelectedTab() : TODO");
+	}
+
+	public void updateAxisFontStyle(boolean isBold, boolean isItalic) {
+		basicTab.cbAxisLabelBold.setValue(isBold);
+		basicTab.cbAxisLabelItalic.setValue(isItalic);
+
 	}
 }
 

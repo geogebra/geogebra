@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -24,6 +25,8 @@ public class EuclidianOptionsModel {
 		void addGridTypeItem(String item);
 
 		void updateAxes(GColor color, boolean isShown, boolean isBold);
+
+		void updateAxisFontStyle(boolean isBold, boolean isItalic);
 
 		void updateBackgroundColor(GColor color);
 		
@@ -641,6 +644,10 @@ public class EuclidianOptionsModel {
 		// cons protocol panel
 		listener.updateConsProtocolPanel(app.showConsProtNavigation(view
 				.getViewID()));
+		int fontStyle = view.getSettings().getAxisFontStyle();
+		listener.updateAxisFontStyle((fontStyle & GFont.BOLD) == GFont.BOLD,
+				(fontStyle & GFont.ITALIC) == GFont.ITALIC);
+
 	}
 
 	public static int getAxesStyleLength() {
@@ -698,6 +705,28 @@ public class EuclidianOptionsModel {
 	public GColor getBackgroundColor() {
 		return view.getBackgroundCommon();
 	}
-				
-}
 
+	public int getAxisFontStyle() {
+		return view.getSettings().getAxisFontStyle();
+	}
+
+	public void setAxisFontStyle(int fontStyle) {
+		view.getSettings().setAxisFontStyle(fontStyle);
+		view.updateFonts();
+	}
+
+	private void setAxisFontStyle(boolean value, int attribute) {
+		int style = getAxisFontStyle();
+		style += (value ? 1 : -1) * attribute;
+		setAxisFontStyle(style);
+	}
+
+	public void setAxisFontBold(boolean value) {
+		setAxisFontStyle(value, GFont.BOLD);
+	}
+
+	public void setAxisFontItalic(boolean value) {
+		setAxisFontStyle(value, GFont.ITALIC);
+	}
+
+}

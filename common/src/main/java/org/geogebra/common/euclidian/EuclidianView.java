@@ -2704,10 +2704,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setFontPoint(getApplication().getPlainFontCommon().deriveFont(
 				GFont.PLAIN, getFontSize()));
 
+		if (getSettings() != null) {
 		setFontCoords(getApplication().getPlainFontCommon().deriveFont(
 				getSettings().getAxisFontStyle(),
 				Math.max(Math.round(getFontSize() * 0.75), 10)));
-
+		}
 		updateDrawableFontSize();
 		updateBackground();
 	}

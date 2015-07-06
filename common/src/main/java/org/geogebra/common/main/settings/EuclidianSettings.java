@@ -930,5 +930,9 @@ public class EuclidianSettings extends AbstractSettings {
 		return axisFontStyle ;
 	}
 
+	public void setAxisFontStyle(int axisFontStyle) {
+		this.axisFontStyle = axisFontStyle;
+		settingChanged();
+	}
 
 }
