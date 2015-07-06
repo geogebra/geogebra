@@ -2,6 +2,7 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
@@ -322,6 +323,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private Double lockedAxesRatio = null;
 
 	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
+
+	private int axisFontStyle = GFont.PLAIN;
 
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
@@ -915,6 +918,16 @@ public class EuclidianSettings extends AbstractSettings {
 	final public double toRealWorldCoordY(double y) {
 		//return (getyZero() - y) * getInvYscale();
 		return (yZero - y) / yscale;
+	}
+
+	/**
+	 * Axis font style
+	 * 
+	 * @return eg GFont.PLAIN + GFont.BOLD
+	 */
+	public int getAxisFontStyle() {
+		// #5320
+		return axisFontStyle ;
 	}
 
 
