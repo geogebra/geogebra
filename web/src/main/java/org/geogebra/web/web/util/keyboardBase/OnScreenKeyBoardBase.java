@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Language;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 
@@ -19,15 +18,13 @@ public class OnScreenKeyBoardBase extends KBBase {
 	/**
 	 * creates a keyboard instance
 	 * 
-	 * @param textField
-	 *            the textField to receive the key-events
 	 * @param listener
 	 *            {@link UpdateKeyBoardListener}
 	 * @param app
 	 *            {@link App}
 	 * @return instance of onScreenKeyBoard
 	 */
-	public static OnScreenKeyBoardBase getInstance(MathKeyboardListener textField,
+	public static OnScreenKeyBoardBase getInstance(
 			UpdateKeyBoardListener listener, App app) {
 
 		if (instances == null) {

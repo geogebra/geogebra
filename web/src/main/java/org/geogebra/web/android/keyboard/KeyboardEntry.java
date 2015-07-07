@@ -4,7 +4,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.android.AppStub;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
 import org.geogebra.web.web.util.keyboardBase.OnScreenKeyBoardBase;
@@ -38,11 +37,10 @@ public class KeyboardEntry implements EntryPoint, ScriptLoadCallback {
 	}
 
 	public void onLoad() {
-		MathKeyboardListener textField = new MathKeyboardListenerStub();
 		UpdateKeyboardListenerStub listener = new UpdateKeyboardListenerStub();
 		KeyBoardProcessable processing = new KeyboardListener();
-		OnScreenKeyBoardBase oskb = OnScreenKeyBoardBase.getInstance(textField,
-				listener, app);
+		OnScreenKeyBoardBase oskb = OnScreenKeyBoardBase.getInstance(listener,
+				app);
 		oskb.setProcessing(processing);
 		oskb.show();
 

@@ -115,20 +115,43 @@ public class KBBase extends PopupPanel {
 		// supportedLocales.put(Language.Yiddish.localeGWT, "ji");
 	}
 
-
+	/**
+	 * minimum width of the whole application to use normal font (small font
+	 * otherwise)
+	 */
 	protected static final int MIN_WIDTH_FONT = 485;
+
+	/**
+	 * number of buttons in each horizontal line of buttons on the keyboard
+	 */
 	protected static final int KEY_PER_ROW = 12;
+
+	/**
+	 * number of buttons with one letter on them
+	 */
 	protected static final int NUM_LETTER_BUTTONS = 38;
 
-	/** text of the buttons */
+	// text of the buttons:
+	/**
+	 * Greek letters
+	 */
 	protected static final String GREEK = Unicode.alphaBetaGamma;
+	/**
+	 * letters of the given language
+	 */
 	protected static final String TEXT = KeyboardMode.TEXT.getInternalName();
+	/**
+	 * numbers and basic math
+	 */
 	protected static final String NUMBER = KeyboardMode.NUMBER
 			.getInternalName();
+	/**
+	 * advanced math
+	 */
 	protected static final String SPECIAL_CHARS = KeyboardMode.SPECIAL_CHARS
 			.getInternalName();
 
-	/** images of the buttons */
+	// images of the buttons:
 	private final ImageResource SHIFT = GuiResources.INSTANCE
 			.keyboard_shift();
 	private final ImageResource SHIFT_DOWN = GuiResources.INSTANCE
@@ -151,6 +174,9 @@ public class KBBase extends PopupPanel {
 	protected KeyBoardButtonBase switchABCGreek;
 	private int numVisibleButtons;
 
+	/**
+	 * application that is used
+	 */
 	protected App app;
 
 	protected boolean accentDown = false;
@@ -185,7 +211,7 @@ public class KBBase extends PopupPanel {
 
 	/** language of application */
 	protected String keyboardLocale = "";
-	private KeyBoardButtonFunctionalBase shiftButton; // TODO
+	private KeyBoardButtonFunctionalBase shiftButton;
 	private KeyBoardButtonBase backspaceButton;
 	protected LocalizationW loc;
 
@@ -699,7 +725,16 @@ public class KBBase extends PopupPanel {
 		return button;
 	}
 
-	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
+	/**
+	 * processes the click on one of the keyboard buttons
+	 * 
+	 * @param btn
+	 *            the button that was clicked
+	 * @param type
+	 *            the type of click (mouse vs. touch)
+	 */
+	public void onClick(KeyBoardButtonBase btn,
+			@SuppressWarnings("unused") PointerEventType type) {
 		if (btn instanceof KeyBoardButtonFunctionalBase) {
 			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
 
@@ -778,6 +813,12 @@ public class KBBase extends PopupPanel {
 		});
 	}
 
+	/**
+	 * set the text field that will receive the input from the keyboard
+	 * 
+	 * @param processing
+	 *            the text field to be used
+	 */
 	public void setProcessing(KeyBoardProcessable processing) {
 		this.processField = processing;
 	}
