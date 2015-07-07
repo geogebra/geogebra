@@ -1,8 +1,10 @@
 package org.geogebra.common.kernel.advanced;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -80,8 +82,12 @@ public class AlgoCurvatureCurve extends AlgoElement {
 		input = new GeoElement[2];
 		input[0] = A.toGeoElement();
 		if (gc != null) {
-			f = new GeoCurveCartesian(cons);
-			gc.toGeoCurveCartesian((GeoCurveCartesian) f);
+			if (gc instanceof GeoConic) {
+				f = new GeoCurveCartesian(cons);
+			} else {
+				f = new GeoCurveCartesian3D(cons);
+			}
+			gc.toGeoCurveCartesian(f);
 			input[1] = gc;
 		} else
 			input[1] = f;
@@ -99,8 +105,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	public final void compute() {
 
 		if (gc != null) {
-			f = new GeoCurveCartesian(cons);
-			gc.toGeoCurveCartesian((GeoCurveCartesian) f);
+			gc.toGeoCurveCartesian(f);
 		}
 
 		if (f.isDefined()) {
