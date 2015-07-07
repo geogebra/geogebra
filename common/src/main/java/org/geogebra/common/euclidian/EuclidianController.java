@@ -5575,7 +5575,7 @@ public abstract class EuclidianController {
 	 * 
 	 * @return false
 	 */
-	protected boolean processRightReleaseFor3D(PointerEventType type) {
+	protected boolean processReleaseForRotate3D(PointerEventType type) {
 		return false;
 	}
 
@@ -8235,9 +8235,8 @@ public abstract class EuclidianController {
 	}
 
 	/** right-press the mouse makes start 3D rotation */
-	protected boolean processRightPressFor3D() {
+	protected void processRightPressFor3D(AbstractEvent event) {
 		// 3D only
-		return false;
 	}
 
 	protected void createNewPointForModePoint(Hits hits, boolean complex) {
@@ -8634,10 +8633,10 @@ public abstract class EuclidianController {
 			return;
 		}
 
+
 		if (app.isRightClick(event)) {
 			// ggb3D - for 3D rotation
-			processRightPressFor3D();
-
+			processRightPressFor3D(event);
 			return;
 		} else if (shallMoveView(event)) {
 			// Michael Borcherds 2007-12-08 BEGIN
@@ -9094,14 +9093,16 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		// if rotate, set continue animation / stop it
+		if (processReleaseForRotate3D(type)) {
+			return;
+		}
+
 		// allow drag with right mouse button or ctrl
 		// make sure Ctrl still works for selection (when no dragging occured)
 		if (right || (control && draggingOccured))// &&
 													// !TEMPORARY_MODE)
 		{
-			if (processRightReleaseFor3D(type)) {
-				return;
-			}
 			if (!temporaryMode) {
 				processRightReleased(right, control, type);
 				return;

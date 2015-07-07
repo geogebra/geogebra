@@ -1735,9 +1735,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// /////////////////////////////////////////
 	// EMPTY METHODS IN EuclidianController USED FOR EuclidianView3D
 
-	/** right-press the mouse makes start 3D rotation */
 	@Override
-	protected boolean processRightPressFor3D() {
+	protected void processRightPressFor3D(AbstractEvent event) {
+		temporaryMode = true;
+		oldMode = mode; // remember current mode
+		view.setMode(EuclidianConstants.MODE_ROTATEVIEW);
+		switchModeForMousePressed(event);
+	}
+
+	private void processPressForRotate3D() {
 
 		if (view3D.isRotAnimated()) {
 			view3D.stopRotAnimation();
@@ -1752,7 +1758,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		timeOld = app.getMillisecondTime();
 		xOld = startLoc.x;
 		animatedRotSpeed = 0;
-		return true;
 	}
 
 	/**
@@ -1783,7 +1788,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return true if a rotation occured
 	 */
 	@Override
-	protected boolean processRightReleaseFor3D(PointerEventType type) {
+	protected boolean processReleaseForRotate3D(PointerEventType type) {
 
 		if (viewRotationOccured) {
 			viewRotationOccured = false;
@@ -2078,8 +2083,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_ROTATEVIEW:
-			startLoc = mouseLoc;
-			view.rememberOrigins();
+			processPressForRotate3D();
 			moveMode = MOVE_ROTATE_VIEW;
 			break;
 
