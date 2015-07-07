@@ -3979,6 +3979,11 @@ sb.toString(), getFontAxes(),
 		sbxml.append(gridLineStyle);
 		sbxml.append("\"/>\n");
 
+		// axes label style
+		sbxml.append("\t<labelStyle axes=\"");
+		sbxml.append(getSettings().getAxisFontStyle());
+		sbxml.append("\"/>\n");
+
 		// axis settings
 		for (int i = 0; i < 2; i++) {
 			getSettings().addAxisXML(i, sbxml);

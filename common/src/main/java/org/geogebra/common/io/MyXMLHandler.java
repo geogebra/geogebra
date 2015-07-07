@@ -865,7 +865,11 @@ public class MyXMLHandler implements DocHandler {
 			if ("lineStyle".equals(eName)) {
 				ok = handleLineStyle(evSet, attrs);
 				break;
+			} else if ("labelStyle".equals(eName)) {
+				ok = handleLabelStyle(evSet, attrs);
+				break;
 			}
+
 
 		case 's':
 			if ("size".equals(eName)) {
@@ -1546,6 +1550,15 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private static boolean handleLabelStyle(EuclidianSettings ev,
+			LinkedHashMap<String, String> attrs) {
+		try {
+			ev.setAxisFontStyle(Integer.parseInt(attrs.get("axes")));
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 	private static boolean handleGrid(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		// <grid distX="2.0" distY="4.0"/>
