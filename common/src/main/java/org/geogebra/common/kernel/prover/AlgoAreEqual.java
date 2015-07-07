@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -96,12 +95,13 @@ public class AlgoAreEqual extends AlgoElement implements
 	@Override
 	public final void compute() {
 		// Formerly we used this:
-		// outputBoolean.setValue(inputElement1.isEqual(inputElement2));
-		// But we prefer to have the same output as for inputElement1 ==
-		// inputElement2 for being consistent:
+		// outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel,
+		// inputElement1, inputElement2).getBoolean());
+		// But this way is more useful eg for segments, polygons
+		// ie compares endpoints NOT just length
 
-		outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel,
-				inputElement1, inputElement2).getBoolean());
+		// #5331
+		outputBoolean.setValue(inputElement1.isEqual(inputElement2));
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
