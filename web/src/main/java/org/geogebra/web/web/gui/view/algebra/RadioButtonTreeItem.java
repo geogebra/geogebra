@@ -858,7 +858,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			EquationEditor.updateNewStatic(se);
 			updateColor(se);
 			ihtml.getElement().replaceChild(se, old);
-			String text = DrawEquationWeb.inputLatexCosmetics(text0);
+			String text = text0;
+			if (text0 == null) {
+				text = "";
+			}
+			text = DrawEquationWeb.inputLatexCosmetics(text);
 			seMayLatex = se;
 			if (newCreationMode) {
 				// in editing mode, we shall avoid letting an invisible, but
@@ -877,7 +881,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (app.has(Feature.JLM_IN_WEB)) {
 			c = DrawEquationWeb.paintOnCanvas(geo, text0, c, getFontSize());
 		} else {
-			if ("".equals(text0)) {
+			if ("".equals(text0) || (text0 == null)) {
 				DrawEquationWeb
 						.updateEquationMathQuillGGB("", seMayLatex, true);
 			} else {

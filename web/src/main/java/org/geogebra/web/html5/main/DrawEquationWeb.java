@@ -80,7 +80,8 @@ public class DrawEquationWeb extends DrawEquation {
 
 		if (eqstringin == null) {
 			// at least to avoid possible exception in case
-			// of wrong usage...
+			// of wrong usage... but this looks buggy as well,
+			// which is good, for the bug shall be fixed elsewhere
 			return "";
 		}
 
