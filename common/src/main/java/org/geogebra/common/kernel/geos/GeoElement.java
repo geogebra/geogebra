@@ -4869,6 +4869,27 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
+	 * In RadioButtonTreeItem, we don't want to return null from
+	 * getLaTeXAlgebraDescription in case of GeoText, but return its simple
+	 * algebra description, which shall be (label="content") in theory
+	 */
+	public String getLaTeXAlgebraDescriptionWithFallback(
+			final boolean substituteNumbers, StringTemplate tpl) {
+		String ret = getLaTeXAlgebraDescription(substituteNumbers, tpl);
+		if ((ret == null) && isGeoText()) {
+			// we are primarily going to use this for fetching LaTeX,
+			// and the "" signs are not proper for MathQuillGGB in case
+			// of simple: getAlgebraDescriptionDefault()
+			// ret = getAlgebraDescriptionDefault();
+
+			// but this is good:
+			ret = getAlgebraDescription(tpl);
+			// ret = getAlgebraDescription(StringTemplate.latexTemplateMQ);
+		}
+		return ret;
+	}
+
+	/**
 	 * Returns a string used to render a LaTeX form of the geo's algebra
 	 * description.
 	 * 

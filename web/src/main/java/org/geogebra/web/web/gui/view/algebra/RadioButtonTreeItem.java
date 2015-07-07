@@ -768,7 +768,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
 				if (newCreationMode) {
-					text = geo.getLaTeXAlgebraDescription(true,
+					text = geo.getLaTeXAlgebraDescriptionWithFallback(true,
 							StringTemplate.latexTemplateMQ);
 				}
 				updateLaTeX(text);
@@ -984,12 +984,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			});
 		} else {
 			if (app.has(Feature.JLM_IN_WEB) && c != null) {
-				renderLatex(geo.getLaTeXAlgebraDescription(true,
+				renderLatex(geo.getLaTeXAlgebraDescriptionWithFallback(true,
 						StringTemplate.latexTemplateMQ),
 						c.getCanvasElement(),
 						true);
 			} else if (!LaTeX) {
-				renderLatex(geo.getLaTeXAlgebraDescription(true,
+				renderLatex(geo.getLaTeXAlgebraDescriptionWithFallback(true,
 						StringTemplate.latexTemplateMQ), seNoLatex,
 						true);
 			}

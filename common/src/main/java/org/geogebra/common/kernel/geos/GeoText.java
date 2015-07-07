@@ -384,10 +384,18 @@ public class GeoText extends GeoElement implements Locateable,
 			sbToString.append(label);
 			sbToString.append(" = ");
 		}
-		sbToString.append('\"');
+		if (tpl1 == StringTemplate.latexTemplateMQ) {
+			sbToString.append(" \\quotation{");
+		} else {
+			sbToString.append('\"');
+		}
 		if (str != null)
 			sbToString.append(str);
-		sbToString.append('\"');
+		if (tpl1 == StringTemplate.latexTemplateMQ) {
+			sbToString.append("} ");
+		} else {
+			sbToString.append('\"');
+		}
 		return sbToString.toString();
 	}
 

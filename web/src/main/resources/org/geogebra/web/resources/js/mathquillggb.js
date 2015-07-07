@@ -1971,54 +1971,8 @@ function createRoot(jQ, root, textbox, editable) {
     	// but when we do, it will look the same way without \\text too!
         //text = '\\text{' + text + '}';
       }
-      // " either means '"' or '\\quotation{' / '}', so we have to convert
-      // " to the right meaning, which depends on:
-      // - is there \\quotation used elsewhere? then no substitution inside
-      // - outside of \\quotation, outermost " should be converted to that
-      var text2 = text;
-      var text3 = "";
-      var inside1 = false;// inside \\quotation
-      var inside2 = false;// inside " "
-      while (text2.length > 0) {
-    	  if (text2.substring(0,1) === '"') {
-			  text2 = text2.substring(1);
-    		  if (inside1) {
-    			  text3 += '"';
-    		  } else if (inside2) {
-    			  text3 += '}';
-    			  inside2 = false;
-    		  } else {
-    			  text3 += '\\quotation{';
-    			  inside2 = true;
-    		  }
-    	  } else if ((text2.length >= 11) && (text2.substring(0,11) === '\\quotation{')) {
-    		  text2 = text2.substring(11);
-    		  if (inside1) {
-    			  text3 += '\\quotation{';
-    		  } else if (inside2) {
-    			  // this should not happen in theory, by the way!
-    			  text3 += '\\quotation{';
-    		  } else {
-    			  text3 += '\\quotation{';
-    			  inside1 = true;
-    		  }
-    	  } else if (text2.substring(0,1) === '}') {
-    		  text2 = text2.substring(1);
-    		  if (inside1) {
-    			  text3 += '}';
-    			  inside1 = false;
-    		  } else if (inside2) {
-    			  text3 += '}';
-    		  } else {
-    			  // this should not happen in theory, by the way
-    			  text3 += '}';
-    		  }
-    	  } else {
-    		  var char1 = text2.substring(0,1);
-    		  text2 = text2.substring(1);
-    		  text3 += char1;
-    	  }
-      }
+
+      var text3 = cursor.substQuotations(text);
 
       cursor.writeLatexSafe(text3);
     }
@@ -2174,7 +2128,13 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     jQ.children().slice(1).remove();
     this.ch[L] = this.ch[R] = 0;
 
-    this.cursor.appendTo(this).writeLatex(latex);
+    var newCursor = this.cursor.appendTo(this);
+    //var latex2 = newCursor.substQuotations(latex);
+    // maybe we shall not do this, but do it in
+    // GeoGebraWeb instead! Because " can be inside
+    // real \\quotation syntax, would be buggy...
+    var latex2 = latex;
+    newCursor.writeLatex(latex2);
   };
   _.onKey = function(curs, key, e) {
     switch (key) {
@@ -5858,7 +5818,57 @@ var Cursor = P(Point, function(_) {
 
     this.upDownCache = {};
   };
-
+  _.substQuotations = function(text) {
+    // " either means '"' or '\\quotation{' / '}', so we have to convert
+    // " to the right meaning, which depends on:
+    // - is there \\quotation used elsewhere? then no substitution inside
+    // - outside of \\quotation, outermost " should be converted to that
+    var text2 = text;
+    var text3 = "";
+    var inside1 = false;// inside \\quotation
+    var inside2 = false;// inside " "
+    while (text2.length > 0) {
+      if (text2.substring(0,1) === '"') {
+        text2 = text2.substring(1);
+        if (inside1) {
+          text3 += '"';
+        } else if (inside2) {
+          text3 += '}';
+          inside2 = false;
+        } else {
+          text3 += '\\quotation{';
+          inside2 = true;
+        }
+      } else if ((text2.length >= 11) && (text2.substring(0,11) === '\\quotation{')) {
+        text2 = text2.substring(11);
+        if (inside1) {
+          text3 += '\\quotation{';
+        } else if (inside2) {
+          // this should not happen in theory, by the way!
+          text3 += '\\quotation{';
+        } else {
+          text3 += '\\quotation{';
+          inside1 = true;
+        }
+      } else if (text2.substring(0,1) === '}') {
+        text2 = text2.substring(1);
+        if (inside1) {
+          text3 += '}';
+          inside1 = false;
+        } else if (inside2) {
+          text3 += '}';
+        } else {
+          // this should not happen in theory, by the way
+          text3 += '}';
+        }
+      } else {
+        var char1 = text2.substring(0,1);
+        text2 = text2.substring(1);
+        text3 += char1;
+      }
+    }
+    return text3;
+  };
   _.show = function() {
     this.jQ = this._jQ.removeClass('blink');
     if ('intervalId' in this) //already was shown, just restart interval
