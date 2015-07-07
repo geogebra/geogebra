@@ -388,6 +388,22 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
+		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean) {
+			// CheckBoxes
+			checkBox = new CheckBox();
+			checkBox.setValue(((GeoBoolean) geo).getBoolean());
+			add(checkBox);
+			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+				@Override
+				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					((GeoBoolean) geo).setValue(event.getValue());
+					geo.updateCascade();
+					// updates other views (e.g. Euclidian)
+					kernel.notifyRepaint();
+				}
+			});
+		}
+
 		SpanElement se = DOM.createSpan().cast();
 		EquationEditor.updateNewStatic(se);
 		updateColor(se);
@@ -413,25 +429,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ihtml.getElement().appendChild(se2);
 		// String text = "";
 
-		if (app.has(Feature.AV_EXTENSIONS)
-		        && geo instanceof GeoBoolean) {
-			// CheckBoxes
-			checkBox = new CheckBox();
-			checkBox.setValue(((GeoBoolean) geo).getBoolean());
-			add(checkBox);
-			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-				@Override
-				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					((GeoBoolean) geo).setValue(event.getValue());
-					geo.updateCascade();
-					// updates other views (e.g. Euclidian)
-					kernel.notifyRepaint();
-				}
-			});
-
-			// use only the name of the GeoBoolean
-			getBuilder(se).append(geo.getLabel(StringTemplate.defaultTemplate));
-		} else if (geo.isIndependent()) {
+		if (geo.isIndependent()
+				|| (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean)) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
 		} else {
 			switch (kernel.getAlgebraStyle()) {
@@ -735,12 +734,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		if (this.checkBox != null
 		        && ((HasExtendedAV) geo).isShowingExtendedAV()) {
-			add(checkBox);
+			// adds the checkBox at the right side
+			addSpecial(ihtml);
+
+			// reset the value of the checkBox
 			checkBox.setValue(((GeoBoolean) geo).getBoolean());
-			// reset the label text; use only the name of the GeoBoolean
-			getBuilder(seNoLatex).clear();
-			getBuilder(seNoLatex).append(
-			        geo.getLabel(StringTemplate.defaultTemplate));
+
+			// reset the label text
+			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 			return;
 		} else if (this.checkBox != null) {
 			remove(checkBox);
@@ -1766,10 +1767,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		} else if (checkBox != null) {
 			remove(checkBox);
-			add(w);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
 				add(checkBox);
 			}
+			add(w);
 		} else {
 			add(w);
 		}
