@@ -78,6 +78,12 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static String inputLatexCosmetics(String eqstringin) {
 
+		if (eqstringin == null) {
+			// at least to avoid possible exception in case
+			// of wrong usage...
+			return "";
+		}
+
 		String eqstring = eqstringin;
 
 		eqstring = eqstring.replace('\n', ' ');
@@ -1563,6 +1569,10 @@ GeoContainer rbti,
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var eqstring = latex;
 
+		if ((eqstring === null) || (eqstring === undefined)) {
+			eqstring = "";
+		}
+
 		if (command) {
 			// we should write \\left[ instead of [
 			// and \\right] instead of ]
@@ -1598,7 +1608,7 @@ GeoContainer rbti,
 		//}, 500);
 
 		if (rbti) {
-			if (eqstring) {
+			if (latex) {
 				rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(true);
 			} else {
 				rbti.@org.geogebra.web.html5.gui.view.algebra.GeoContainer::typing(Z)(false);

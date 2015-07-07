@@ -810,10 +810,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				SpanElement se = DOM.createSpan().cast();
 				EquationEditor.updateNewStatic(se);
 				updateColor(se);
-				if (seMayLatex != null) {
-					ihtml.getElement().replaceChild(se, seMayLatex);
+				if (!newCreationMode && app.has(Feature.JLM_IN_WEB)
+						&& c != null) {
+					ihtml.getElement().replaceChild(se, c.getCanvasElement());
 				} else {
-
+					ihtml.getElement().replaceChild(se, seMayLatex);
 				}
 				seNoLatex = se;
 				LaTeX = false;
