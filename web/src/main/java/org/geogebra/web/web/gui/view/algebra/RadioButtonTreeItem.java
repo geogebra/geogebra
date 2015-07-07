@@ -388,7 +388,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
-		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean) {
+		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean
+				&& geo.isIndependent()) {
 			// CheckBoxes
 			checkBox = new CheckBox();
 			checkBox.setValue(((GeoBoolean) geo).getBoolean());
