@@ -122,8 +122,8 @@ public class OptionsEuclidianD extends
 	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle,
 			cbTooltips;
 
-	private JLabel lblAxisLabelStyle;
-	private JCheckBox cbAxisLabelBold, cbAxisLabelItalic;
+	protected JLabel lblAxisLabelStyle;
+	protected JCheckBox cbAxisLabelBold, cbAxisLabelItalic;
 	private JTextField tfAxesRatioX, tfAxesRatioY;
 
 	private NumberFormat nfAxesRatio;
