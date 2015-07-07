@@ -161,7 +161,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	boolean mout = false;
 
 	protected SpanElement seMayLatex;
-	protected SpanElement seMayLatexEmpty;
 	private SpanElement seNoLatex;
 
 	private Marble radio;
@@ -811,7 +810,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				SpanElement se = DOM.createSpan().cast();
 				EquationEditor.updateNewStatic(se);
 				updateColor(se);
-				ihtml.getElement().replaceChild(se, seMayLatex);
+				if (seMayLatex != null) {
+					ihtml.getElement().replaceChild(se, seMayLatex);
+				} else {
+
+				}
 				seNoLatex = se;
 				LaTeX = false;
 			}
@@ -927,7 +930,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// newCreationMode,
 		// we can put an if check here safely for the present time
 		if (!newCreationMode) {
-			if (LaTeX) {
+			// if (LaTeX) {
 				DrawEquationWeb
 				        .endEditingEquationMathQuillGGB(this, seMayLatex);
 				if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB)
@@ -940,11 +943,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 						&& ihtml.getElement().isOrHasChild(seMayLatex)) {
 					this.ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
 				}
-			} else {
-				removeSpecial(tb);
-				addSpecial(ihtml);
-				stopEditingSimple(tb.getText());
-			}
+			// } else {
+			// removeSpecial(tb);
+			// addSpecial(ihtml);
+			// stopEditingSimple(tb.getText());
+			// }
 		}
 	}
 
@@ -1042,6 +1045,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		maybeSetPButtonVisibility(true);
 	}
 
+	/*
 	public void stopEditingSimple(String newValue) {
 
 		removeCloseButton();
@@ -1064,7 +1068,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// maybe it's possible to enter something which is LaTeX
 		// note: this should be OK for independent GeoVectors too
 		doUpdate();
-	}
+	}*/
 
 	private static String stopCommon(String newValue0) {
 		String newValue = newValue0;
@@ -1716,7 +1720,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void scrollCursorIntoView() {
-		DrawEquationWeb.scrollCursorIntoView(this, seMayLatex, newCreationMode);
+		if (seMayLatex != null) {
+			DrawEquationWeb.scrollCursorIntoView(this, seMayLatex,
+					newCreationMode);
+		}
 	}
 
 	@Override
@@ -1735,12 +1742,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		buttonPanel.setVisible(false);
 	}
 
+	/*
 	void removeSpecial(Widget w) {
 		remove(w);
 		if (sliderPanel != null) {
 			sliderPanel.remove(w);
 		}
 	}
+	*/
 
 	void addSpecial(Widget w) {
 		if (geo != null && geo instanceof GeoNumeric && slider != null
