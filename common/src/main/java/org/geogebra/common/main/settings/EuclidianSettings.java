@@ -120,6 +120,8 @@ public class EuclidianSettings extends AbstractSettings {
 		axisCross[1] = 0;
 		positiveAxes[0] = false;
 		positiveAxes[1] = false;
+
+		axisFontStyle = GFont.PLAIN;
 	}
 
 	/**
@@ -930,9 +932,12 @@ public class EuclidianSettings extends AbstractSettings {
 		return axisFontStyle ;
 	}
 
-	public void setAxisFontStyle(int axisFontStyle) {
-		this.axisFontStyle = axisFontStyle;
-		settingChanged();
+	public void setAxisFontStyle(int style) {
+
+		if (axisFontStyle != style) {
+			axisFontStyle = style;
+			settingChanged();
+		}
 	}
 
 }
