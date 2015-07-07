@@ -160,13 +160,15 @@ public class ManagerShadersElementsGlobalBuffer extends
 			}
 			fanIndirectIndices.allocate(3 * (size - 2));
 
+			short k2 = 2;
+			short k = 1;
 			short zero = 0;
-			short k = (short) (size - 1);
-			while (k > 1) {
+			while (k < size - 1) {
 				fanIndirectIndices.put(zero);
+				fanIndirectIndices.put(k2);
 				fanIndirectIndices.put(k);
-				k--;
-				fanIndirectIndices.put(k);
+				k++;
+				k2++;
 			}
 
 			fanIndirectIndices.rewind();
