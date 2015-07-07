@@ -1737,6 +1737,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected void processRightPressFor3D(AbstractEvent event) {
+
+		if (viewHasHitsForMouseDragged()) {
+			return;
+		}
 		temporaryMode = true;
 		oldMode = mode; // remember current mode
 		view.setMode(EuclidianConstants.MODE_ROTATEVIEW);
@@ -3356,12 +3360,23 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected boolean viewHasHitsForMouseDragged() {
 		// Application.debug(moveMode);
 		if (moveMode == MOVE_POINT
-				&& view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY)
+				&& view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY) {
 			return view.getHits().containsGeoPoint(); // if a point is under the
 														// mouse, don't try to
 														// find another hit
-		else
-			return super.viewHasHitsForMouseDragged();
+		}
+
+		Hits hits = view.getHits();
+
+		if (hits.isEmpty()) {
+			return false;
+		}
+
+		if (hits.get(0) == kernel.getXOYPlane()) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override

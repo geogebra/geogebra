@@ -8012,11 +8012,6 @@ public abstract class EuclidianController {
 					|| (!view.getHits().get(0).isGeoPoint() && view.getHits()
 							.get(0).hasDrawable3D())) {
 				if (processRotate3DView()) { // in 2D view, return false
-					if (temporaryMode) {
-						temporaryMode = false;
-						mode = oldMode;
-						view.setMode(mode);
-					}
 					return;
 				}
 			}
