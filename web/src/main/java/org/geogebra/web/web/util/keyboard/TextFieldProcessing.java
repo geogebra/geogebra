@@ -40,6 +40,10 @@ public class TextFieldProcessing extends TextFieldProcessingBase {
 	 */
 	@Override
 	public void setFocus(boolean focus) {
+		if (field == null) {
+			return;
+		}
+
 		if (state == State.autoCompleteTextField) {
 			((AutoCompleteTextFieldW) field).setFocus(focus);
 		} else {

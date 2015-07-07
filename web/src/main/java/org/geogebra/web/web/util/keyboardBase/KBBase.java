@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
@@ -146,7 +145,7 @@ public class KBBase extends PopupPanel {
 	protected HorizontalPanel contentNumber = new HorizontalPanel();
 	protected HorizontalPanel contentSpecialChars = new HorizontalPanel();
 	protected FlowPanel contentLetters = new FlowPanel();
-	private KeyBoardProcessable processField;
+	public KeyBoardProcessable processField;
 	protected KeyboardMode mode = KeyboardMode.NUMBER;
 	protected KeyPanelBase letters;
 	protected KeyBoardButtonBase switchABCGreek;
@@ -902,16 +901,6 @@ public class KBBase extends PopupPanel {
 			shiftButton.setPicture(SHIFT);
 			updateKeys("lowerCase", local);
 		}
-	}
-
-	/**
-	 * The text field to be used
-	 * 
-	 * @param textField
-	 *            the text field connected to the keyboard
-	 */
-	public void setTextField(MathKeyboardListener textField) {
-		// TODO remove
 	}
 
 	public void setListener(UpdateKeyBoardListener listener) {

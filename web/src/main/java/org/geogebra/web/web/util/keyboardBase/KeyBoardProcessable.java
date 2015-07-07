@@ -20,6 +20,10 @@ public interface KeyBoardProcessable {
 		empty, autoCompleteTextField, gTextBox, equationEditorListener, newRadioButtonTreeItem, other;
 	}
 
+	/** ASCII */
+	public static final int BACKSPACE = 8;
+	public static final int ENTER = '\r'; // 13;
+
 	void setFocus(boolean focus);
 
 	void onEnter();

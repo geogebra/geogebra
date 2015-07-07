@@ -12,6 +12,7 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.web.util.keyboardBase.KBBase;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardButtonBase;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardButtonFunctionalBase;
+import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable.ArrowType;
 
 import com.google.gwt.core.client.Scheduler;
@@ -23,19 +24,15 @@ public class OnScreenKeyBoard extends KBBase implements
 		VirtualKeyboard {
 
 	/**
-	 * directs the actions to the textField
-	 */
-	TextFieldProcessing processing = new TextFieldProcessing();
-
-	/**
 	 * set whether the keyboard is used at the moment or not
 	 * 
 	 * @param used
 	 *            whether the keyboard is used or not
 	 */
 	public void setUsed(boolean used) {
-		if (this.processing.getTextField() != null) {
-			this.processing.setKeyBoardUsed(used
+		// TODO only required for AutoCompleteTextFieldW
+		if (this.processField instanceof TextFieldProcessing) {
+			((TextFieldProcessing) this.processField).setKeyBoardUsed(used
 					&& this.contentNumber.isVisible());
 		}
 	}
@@ -76,20 +73,20 @@ public class OnScreenKeyBoard extends KBBase implements
 				processShift();
 				break;
 			case BACKSPACE:
-				processing.onBackSpace();
+				processField.onBackSpace();
 				break;
 			case ENTER:
 				// make sure enter is processed correctly
-				processing.onEnter();
-				if (processing.resetAfterEnter()) {
+				processField.onEnter();
+				if (processField.resetAfterEnter()) {
 					updateKeyBoardListener.keyBoardNeeded(false, null);
 				}
 				break;
 			case ARROW_LEFT:
-				processing.onArrow(ArrowType.left);
+				processField.onArrow(ArrowType.left);
 				break;
 			case ARROW_RIGHT:
-				processing.onArrow(ArrowType.right);
+				processField.onArrow(ArrowType.right);
 				break;
 			case SWITCH_KEYBOARD:
 				String caption = button.getCaption();
@@ -121,7 +118,7 @@ public class OnScreenKeyBoard extends KBBase implements
 			if (isAccent(text)) {
 				processAccent(text, btn);
 			} else {
-				processing.insertString(text);
+				processField.insertString(text);
 				if (accentDown) {
 					removeAccents();
 				}
@@ -131,21 +128,19 @@ public class OnScreenKeyBoard extends KBBase implements
 				processShift();
 			}
 
-			if (processing.getTextField() != null) {
-				// textField could be null after onEnter()
-				processing.setFocus(true);
-			}
+			processField.setFocus(true);
 		}
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				Scheduler.get().scheduleDeferred(
+						new Scheduler.ScheduledCommand() {
 							@Override
-					public void execute() {
-						processing.scrollCursorIntoView();
-					}
-				});
+							public void execute() {
+								processField.scrollCursorIntoView();
+							}
+						});
 			}
 		});
 	}
@@ -156,9 +151,13 @@ public class OnScreenKeyBoard extends KBBase implements
 	 * @param textField
 	 *            the text field connected to the keyboard
 	 */
-	@Override
 	public void setTextField(MathKeyboardListener textField) {
-		this.processing.setField(textField);
+		if (textField instanceof KeyBoardProcessable) {
+			this.processField = (KeyBoardProcessable) textField;
+		} else {
+			this.processField = new TextFieldProcessing();
+			((TextFieldProcessing) this.processField).setField(textField);
+		}
 	}
 
 	/**
@@ -169,7 +168,8 @@ public class OnScreenKeyBoard extends KBBase implements
 	public void setKeyboardMode(final KeyboardMode mode) {
 		this.mode = mode;
 		if (mode == KeyboardMode.NUMBER) {
-			processing.setKeyBoardModeText(false);
+			// TODO required for AutoCompleteTextFieldW
+			// processField.setKeyBoardModeText(false);
 			contentNumber.setVisible(true);
 			contentLetters.setVisible(false);
 			contentSpecialChars.setVisible(false);
@@ -178,10 +178,12 @@ public class OnScreenKeyBoard extends KBBase implements
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(true);
 			contentSpecialChars.setVisible(false);
-			processing.setKeyBoardModeText(true);
+			// TODO required for AutoCompleteTextFieldW
+			// processField.setKeyBoardModeText(true);
 			updateKeyBoardListener.showInputField();
 		} else if (mode == KeyboardMode.SPECIAL_CHARS) {
-			processing.setKeyBoardModeText(false);
+			// TODO required for AutoCompleteTextFieldW
+			// processField.setKeyBoardModeText(false);
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(false);
 			contentSpecialChars.setVisible(true);
@@ -234,7 +236,7 @@ public class OnScreenKeyBoard extends KBBase implements
 			}
 		}
 
-		processing.updateForNewLanguage(loc);
+		processField.updateForNewLanguage(loc);
 
 		checkStyle();
 	}

@@ -21,10 +21,6 @@ import com.google.gwt.user.client.Event;
  */
 public class TextFieldProcessingBase implements KeyBoardProcessable {
 
-	/** ASCII */
-	protected static final int BACKSPACE = 8;
-	protected static final int ENTER = '\r'; // 13;
-
 	protected MathKeyboardListener field;
 	protected State state = State.empty;
 	protected HashSet<String> needsLeftParenthesis = new HashSet<String>();
@@ -92,6 +88,10 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 	 *            true: focus; false: blur
 	 */
 	public void setFocus(boolean focus) {
+		if (field == null) {
+			return;
+		}
+
 		switch (state) {
 		case gTextBox:
 			((GTextBox) field).setFocus(focus);

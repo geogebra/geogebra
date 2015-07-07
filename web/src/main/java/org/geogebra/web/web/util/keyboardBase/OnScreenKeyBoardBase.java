@@ -39,29 +39,9 @@ public class OnScreenKeyBoardBase extends KBBase {
 			instances.put(app, instance);
 		}
 
-		instance.setTextField(textField);
-
 		instance.setListener(listener);
 		return instance;
 	}
-
-	/**
-	 * updates the textField of the current instance, if the instance is not
-	 * null
-	 * 
-	 * @param app
-	 *            the App for which the textField is updated
-	 * 
-	 * @param textField
-	 *            the new textField
-	 */
-	public static void setInstanceTextField(App app,
-	        MathKeyboardListener textField) {
-		if (instances != null && instances.get(app) != null) {
-			instances.get(app).setTextField(textField);
-		}
-	}
-
 
 	/**
 	 * should not be called; use getInstance instead
@@ -82,17 +62,6 @@ public class OnScreenKeyBoardBase extends KBBase {
 		initAccentGraveLetters();
 		initAccentCaronLetters();
 		initAccentCircumflexLetters();
-	}
-
-	/**
-	 * The text field to be used
-	 * 
-	 * @param textField
-	 *            the text field connected to the keyboard
-	 */
-	@Override
-	public void setTextField(MathKeyboardListener textField) {
-		// TODO remove
 	}
 
 	@Override
