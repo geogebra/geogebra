@@ -77,6 +77,8 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 	protected void fillAxesOptionsPanel() {
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes));
 		axesOptionsPanel.add(LayoutUtil.flowPanel(cbYAxisVertical));
+		axesOptionsPanel.add(LayoutUtil.flowPanel(lblAxisLabelStyle,
+				cbAxisLabelBold, cbAxisLabelItalic));
 	}
 
 	@Override
