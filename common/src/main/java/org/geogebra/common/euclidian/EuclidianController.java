@@ -8646,7 +8646,8 @@ public abstract class EuclidianController {
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			dontClearSelection = !hits.isEmpty();
-			if (hits.isEmpty() || needsAxisZoom(hits, event)
+			if (hasNoHitsDisablingModeForShallMoveView(hits)
+					|| needsAxisZoom(hits, event)
 					|| !app.has(Feature.SF_DRAG) || specialMoveEvent(event)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
@@ -8664,6 +8665,10 @@ public abstract class EuclidianController {
 		switchModeForMousePressed(event);
 	}
 	
+	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits) {
+		return hits.isEmpty();
+	}
+
 	private boolean needsAxisZoom(Hits hits, AbstractEvent event) {
 		return (hits.hasXAxis() || hits.hasYAxis())
 				&& this.specialMoveEvent(event);

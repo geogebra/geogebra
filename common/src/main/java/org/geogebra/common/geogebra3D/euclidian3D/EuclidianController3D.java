@@ -4016,5 +4016,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return EuclidianConstants.MODE_ROTATEVIEW;
 	}
 
+	@Override
+	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits) {
+		if (hits.isEmpty()) {
+			return true;
+		}
+
+		GeoElement geo = hits.get(0);
+		return geo == kernel.getXOYPlane();
+	}
+
 
 }
