@@ -227,8 +227,7 @@ public class DrawLabel3D {
 
 	protected GRectangle getBounds() {
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
-				view.getApplication(), text, 0, 0, tempGraphics, serif,
-				tempGraphics.getFont());
+				view.getApplication(), text, 0, 0, tempGraphics, false, font);
 		if (text.contains("_")) { // text contains subscript
 			hasIndex = true;
 			org.geogebra.common.awt.GPoint p = EuclidianStatic.drawIndexedString(
@@ -277,6 +276,7 @@ public class DrawLabel3D {
 
 		bimg = createBufferedImage();
 		g2d = createGraphics2D(bimg);
+		g2d.setFont(font);
 
 		if (hasIndex) {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, text,
