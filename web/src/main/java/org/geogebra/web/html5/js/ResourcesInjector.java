@@ -48,7 +48,9 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.mathquillggbJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
-		        .getText());
+				.getText());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.keyboardStyle()
+				.getText());
 
 		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT
 		        .getModuleBaseURL());

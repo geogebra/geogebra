@@ -32,6 +32,8 @@ public class InputEntry implements EntryPoint, ScriptLoadCallback,
 	private void injectResources() {
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
 				.getText());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.keyboardStyle()
+				.getText());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.mathquillggbCss()
 				.getText());
 		ScriptInjector
