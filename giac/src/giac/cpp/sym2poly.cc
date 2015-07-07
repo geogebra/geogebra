@@ -3134,7 +3134,7 @@ namespace giac {
       gen divide=e2r(divide_an_by,l,contextptr);
       fxnd(divide,dnum,dden);
       if (dnum.type==_POLY){
-	if (dnum._POLYptr->lexsorted_degree()>0){
+	if (!Tis_constant(*dnum._POLYptr)){
 	  simplify3(f_num,dnum);
 	}
 	if (dnum.type==_POLY)
