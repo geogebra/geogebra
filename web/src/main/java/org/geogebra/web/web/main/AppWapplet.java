@@ -474,6 +474,7 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
+		App.debug(widthDiff + "x" + heightDiff);
 		if (evno == 1 && getEuclidianView1().isShowing()) {
 			// this should follow the resizing of the EuclidianView
 			if (getSplitLayoutPanel() != null)

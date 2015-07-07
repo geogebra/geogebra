@@ -483,11 +483,11 @@ public final class ArticleElement extends Element {
 		return ret == null ? "" : ret;
 	}
 
-	public double getDataParamScale() {
+	public float getDataParamScale() {
 		String scale = this.getAttribute("data-param-scale");
-		double ret = 1;
+		float ret = 1;
 		try {
-			ret = Double.valueOf(scale);
+			ret = Float.valueOf(scale);
 		} catch (Throwable t) {
 			Log.warn("Invalid scale");
 		}

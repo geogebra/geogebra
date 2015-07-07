@@ -563,7 +563,8 @@ public class EuclidianViewW extends EuclidianView implements
 		bgImage = new GBufferedImageW(g2p.getOffsetWidth(),
 				g2p.getOffsetHeight(),
 				app == null
-				|| !app.has(Feature.RETINA) ? 1 : Browser.getPixelRatio(),
+ || !app.has(Feature.RETINA) ? 1 : app
+						.getPixelRatio(),
 				false);
 		bgGraphics = bgImage.createGraphics();
 	}
@@ -624,7 +625,7 @@ public class EuclidianViewW extends EuclidianView implements
 		this.g2p = new org.geogebra.web.html5.awt.GGraphics2DW(canvas);
 		App app1 = euclidiancontroller.getApplication();
 		g2p.devicePixelRatio = app1 == null || !app1.has(Feature.RETINA) ? 1
-				: Browser.getPixelRatio();
+				: app.getPixelRatio();
 		g2p.setView(this);
 
 		updateFonts();

@@ -202,7 +202,7 @@ public class MouseTouchGestureControllerW implements
 		style.setScrollLeft(Window.getScrollLeft());
 		style.setScrollTop(Window.getScrollTop());
 		if (app.has(Feature.RETINA)) {
-			ec.view.setPixelRatio(Browser.getPixelRatio());
+			ec.view.setPixelRatio(app.getPixelRatio());
 		}
 	}
 

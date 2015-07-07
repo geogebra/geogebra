@@ -2,7 +2,6 @@ package org.geogebra.web.phone.gui.view.euclidian;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
@@ -38,8 +37,7 @@ public class EuclidianViewPanel extends AbstractViewPanel {
 
 		euclidianView.g2p = new GGraphics2DW(Canvas.createIfSupported());
 		if (app.has(Feature.RETINA)) {
-			euclidianView.g2p.devicePixelRatio = Browser
-					.getPixelRatio();
+			euclidianView.g2p.devicePixelRatio = app.getPixelRatio();
 		} else {
 			App.debug("Retina not enabled");
 		}

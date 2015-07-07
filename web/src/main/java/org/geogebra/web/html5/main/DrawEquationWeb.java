@@ -15,7 +15,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -1994,7 +1993,8 @@ GeoContainer rbti,
 		TeXIcon icon = DrawEquationWeb.createIcon("\\mathsf{\\mathrm {" + text0
 				+ "}}", fontSize, GFont.PLAIN, false);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
-		double ratio = Browser.getPixelRatio();
+		double ratio = ((AppW) geo.getKernel().getApplication())
+				.getPixelRatio();
 		c.setCoordinateSpaceWidth((int) (icon.getIconWidth() * ratio));
 		c.setCoordinateSpaceHeight((int) (icon.getIconHeight() * ratio));
 		c.getElement().getStyle().setWidth(icon.getIconWidth(), Unit.PX);

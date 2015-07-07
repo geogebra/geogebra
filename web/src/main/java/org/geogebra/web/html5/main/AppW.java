@@ -3297,4 +3297,9 @@ public abstract class AppW extends App implements SetLabels {
 	public static native String decode(String base64)/*-{
 		return atob(base64);
 	}-*/;
+
+	public float getPixelRatio() {
+		return Browser.getPixelRatio()
+				* (float) articleElement.getDataParamScale();
+	}
 }
