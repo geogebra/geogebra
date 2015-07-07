@@ -1799,6 +1799,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 			view.setHitCursor();
 			app.storeUndoInfo();
 
+			if (temporaryMode) {
+				view.setMode(oldMode);
+				temporaryMode = false;
+			}
+
 			((EuclidianView3D) view).setRotContinueAnimation(
 					app.getMillisecondTime() - timeOld, animatedRotSpeed);
 
