@@ -17,7 +17,6 @@ public class PolynomialNode {
 	}
 
 	public PolynomialNode() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public PolynomialNode getLeft() {

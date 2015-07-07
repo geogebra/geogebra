@@ -47,11 +47,20 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	private ExpressionNode root; // input
 	private GeoBoolean bool; // output
-	private ArrayList<ExpressionNode> segmentSquares = new ArrayList<ExpressionNode>();
+	// quadratic GeoSegments (with repetition)
+	private ArrayList<GeoSegment> segments = new ArrayList<GeoSegment>();
+	// botana variables of quadratic GeoSegments
 	private ArrayList<Variable> segBotanaVars = new ArrayList<Variable>();
+	// quadratic GeoSegments (without repetition)
 	private ArrayList<GeoSegment> listOfSegments = new ArrayList<GeoSegment>();
+	// non-power operations in expression
 	private ArrayList<Operation> operations = new ArrayList<Operation>();
+	// polynomial tree according to root
 	private PolynomialNode polyRoot = new PolynomialNode();
+	// operations in subexpressions
+	private ArrayList<Operation> auxOperations = new ArrayList<Operation>();
+	// GeoSegments in subexpression
+	private ArrayList<GeoSegment> auxSegments = new ArrayList<GeoSegment>();
 
 	public AlgoDependentBoolean(Construction cons, String label,
 			ExpressionNode root) {
@@ -126,14 +135,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
-					(GeoLine) left, (GeoLine) right);
+					left, right);
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
 			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
-					(GeoLine) left, (GeoLine) right);
+ left, right);
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
@@ -157,14 +166,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
-					(GeoLine) left, (GeoLine) right);
+					left, right);
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
 			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
-					(GeoLine) left, (GeoLine) right);
+ left, right);
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
@@ -190,14 +199,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
-					(GeoLine) left, (GeoLine) right);
+					left, right);
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
 			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
-					(GeoLine) left, (GeoLine) right);
+ left, right);
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
@@ -222,14 +231,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
-					(GeoLine) left, (GeoLine) right);
+					left, right);
 			Polynomial[] ret = algo.getPolynomials();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
-					(GeoLine) left, (GeoLine) right);
+			AlgoAreParallel algo = new AlgoAreParallel(cons, "", left, right);
 			Polynomial[] ret = algo.getPolynomials();
 			algo.remove();
 			return ret;
@@ -282,6 +290,40 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	}
 
+	// get number of GeoElements in expression
+	private int getNrOfGeoElementsInExpressionNode(ExpressionNode node) {
+		if (node == null) {
+			return 0;
+		}
+		if (node.getLeft().isGeoElement()) {
+			if (node.getRight().isGeoElement()) {
+				return 2;
+			}
+			return 1;
+		}
+		if (node.getLeft().isExpressionNode()
+				&& node.getRight().isExpressionNode()) {
+			return getNrOfGeoElementsInExpressionNode((ExpressionNode) node
+					.getLeft())
+					+ getNrOfGeoElementsInExpressionNode((ExpressionNode) node
+							.getRight());
+		} else if (!(node.getLeft().isExpressionNode())) {
+			if (node.getLeft().isGeoElement()) {
+				return 1 + getNrOfGeoElementsInExpressionNode((ExpressionNode) node
+						.getRight());
+			}
+			return getNrOfGeoElementsInExpressionNode((ExpressionNode) node
+					.getRight());
+		} else {
+			if (node.getRight().isGeoElement()) {
+				return 1 + getNrOfGeoElementsInExpressionNode((ExpressionNode) node
+						.getLeft());
+			}
+			return getNrOfGeoElementsInExpressionNode((ExpressionNode) node
+					.getLeft());
+		}
+	}
+
 	// build a Polynomial tree from ExpressionNode
 	private void buildPolynomialTree(ExpressionNode expNode,
 			PolynomialNode polyNode) {
@@ -330,12 +372,66 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 	}
 
+	// collect operations and GeoSegments from expression
+	private int checkSegmentsInExpressioNode(ExpressionNode node) {
+		if (node == null) {
+			return 0;
+		}
+		if (node.getOperation() != Operation.NO_OPERATION) {
+			auxOperations.add(node.getOperation());
+		}
+		if (node.getLeft() instanceof GeoSegment && node.getRight() == null) { 
+			auxSegments.add((GeoSegment) node.getLeft());
+			return 1;
+		}
+		return checkSegmentsInExpressioNode(node.getLeftTree())
+				+ checkSegmentsInExpressioNode(node.getRightTree());
+	}
+
+	// check if all operations are MULTIPLY
+	private boolean allAuxOpAreMultiply(ArrayList<Operation> operations) {
+		for (Operation operation : operations) {
+			if (!(operation == Operation.MULTIPLY)) {
+				return false;
+			}
+		}
+		return true;
+	}
 	// procedure to traverse inorder the expression
-	private void traverseExpression(ExpressionNode node) {
+	private void traverseExpression(ExpressionNode node)
+			throws NoSymbolicParametersException {
 		// node has form a^2, a is GeoSegment
 		if (node.isSegmentSquare()) {
 			// collect segment squares
-			segmentSquares.add(node);
+			segments.add((GeoSegment) node.getLeft());
+		}
+		// case we found square of something
+		// check if something has form s_1*s_2*...*s_n
+		// where s_1,s_2,...,s_n are GeoSegments
+		else if (node.getRight() instanceof MyDouble
+				&& Integer.parseInt(node.getRight().toString()) == 2
+				&& node.getOperation() == Operation.POWER) {
+			// get GeoSegments, operations and number of GeoSegments from
+			// expression
+			int nrOfSegmentInSubExpression = checkSegmentsInExpressioNode(node
+					.getLeftTree());
+			// case all GeoElements from expression are GeoSegments
+			if ((nrOfSegmentInSubExpression == auxOperations.size() + 1)
+			// and all operations are MULTIPLY
+					&& allAuxOpAreMultiply(auxOperations)) {
+				// add operations from subexpression
+				for (Operation operation : auxOperations) {
+					operations.add(operation);
+				}
+				auxOperations = new ArrayList<Operation>();
+				// add segments from subexpression
+				for (GeoSegment segment : auxSegments) {
+					segments.add(segment);
+				}
+				auxSegments = new ArrayList<GeoSegment>();
+			} else
+				throw new NoSymbolicParametersException();
+			return;
 		}
 		if (node.getLeft().isExpressionNode()) {
 			traverseExpression((ExpressionNode) node.getLeft());
@@ -368,14 +464,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		int index = 0;
 		ArrayList<Polynomial> polynomials = new ArrayList<Polynomial>();
 		Set<GeoSegment> setOfSegments = new HashSet<GeoSegment>();
-		while (index < segmentSquares.size()) {
+		while (index < segments.size()) {
 			// check if current segment was already processed
-			if (setOfSegments.contains(segmentSquares.get(index).getLeft())) {
+			if (setOfSegments.contains(segments.get(index))) {
 				index++;
 			} else {
 				// current segment was not processed
-				GeoSegment currentSegment = (GeoSegment) segmentSquares.get(
-						index).getLeft();
+				GeoSegment currentSegment = segments.get(index);
 				// add to processed segments
 				setOfSegments.add(currentSegment);
 				listOfSegments.add(currentSegment);
@@ -409,14 +504,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 			if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
-						(GeoLine) left, (GeoLine) right);
+						left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.PARALLEL)) {
-				AlgoAreParallel algo = new AlgoAreParallel(cons, "",
-						(GeoLine) left, (GeoLine) right);
+				AlgoAreParallel algo = new AlgoAreParallel(cons, "", left,
+						right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();
 				return ret;
@@ -435,16 +530,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 
 			traverseExpression(root);
-			// case right side of equation is number
-			if ((operations.size() == segmentSquares.size()
-					&& operations.get(operations.size() - 1) == Operation.EQUAL_BOOLEAN && root
-						.getRight() instanceof MyDouble)
-			// case left side of equation is number
-					|| ((operations.size() == segmentSquares.size()
-							&& operations.get(0) == Operation.EQUAL_BOOLEAN && root
-								.getLeft() instanceof MyDouble))
-					// case all the terms in equation are segment squares
-					|| operations.size() + 1 == segmentSquares.size()) {
+			// get number of GeoElements in expression
+			int nrOfGeoElements = getNrOfGeoElementsInExpressionNode(root);
+			// case expression is composed of quadratic segments
+			if (nrOfGeoElements == segments.size()) {
 				ArrayList<Polynomial> polynomials = getSegmentDistPolynomials();
 				Polynomial[][] ret = new Polynomial[1][polynomials.size() + 1];
 				int i = 0;
@@ -466,7 +555,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			}
 			throw new NoSymbolicParametersException(); // unhandled equation
 		}
-		throw new NoSymbolicParametersException(); // unhandled equation
+		throw new NoSymbolicParametersException(); // unhandled expression
 	}
 
 	// TODO Consider locusequability
