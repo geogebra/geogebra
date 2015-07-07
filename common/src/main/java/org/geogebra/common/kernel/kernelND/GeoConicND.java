@@ -3076,11 +3076,7 @@ FromMeta
 	 * @return 0 iff (p.x, p.y, 1) lies on conic
 	 */
 	public final double evaluate(GeoVec2D pt) {
-		return matrix[2]
-			+ matrix[4] * pt.getX()
-			+ matrix[5] * pt.getY()
-			+ pt.getY() * (matrix[5] + matrix[3] * pt.getX() + matrix[1] * pt.getY())
-			+ pt.getX() * (matrix[4] + matrix[0] * pt.getX() + matrix[3] * pt.getY());
+		return evaluate(pt.getX(), pt.getY());
 	}
 
 	/**
