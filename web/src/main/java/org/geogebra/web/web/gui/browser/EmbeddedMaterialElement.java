@@ -22,10 +22,6 @@ public class EmbeddedMaterialElement extends MaterialListElement {
 	
 	@Override
     public void onView() {
-		if (app.getArticleElement() != null) {
-			app.getArticleElement().setAttribute(
-					"data-param-perspective", "");
-		}
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(getMaterial().getId()+"", new MaterialCallback(){
 
 			@Override
