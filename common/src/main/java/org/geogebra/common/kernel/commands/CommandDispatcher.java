@@ -448,6 +448,7 @@ public abstract class CommandDispatcher {
 			case AreConcyclic:
 			case ArePerpendicular:
 			case AreEqual:
+			case AreCongruent:
 			case AreConcurrent:
 			case ToBase:
 			case FromBase:

@@ -83,7 +83,10 @@ public class RelationNumerical {
 			ArePerpendicular, /**
 			 * member of a path
 			 */
-			IsOnPath
+			IsOnPath, /**
+			 * congruent segments
+			 */
+			AreCongruent
 		}
 
 		/**
@@ -296,7 +299,7 @@ public class RelationNumerical {
 					((GeoElement) b).getColoredLabel());
 			bool = false;
 		}
-		register(bool, RelationCommand.AreEqual, str);
+		register(bool, RelationCommand.AreCongruent, str);
 
 		// Checking parallelism:
 		bool = ((GeoLine) a).isParallel((GeoLine) b);

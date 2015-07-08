@@ -1,14 +1,8 @@
 package org.geogebra.common.kernel.prover;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.SymbolicParameters;
-import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.commands.Commands;
@@ -18,27 +12,23 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Decides if the objects are equal. Can be embedded into the Prove command to
- * work symbolically. This class should work exactly the same as the "=="
- * operation.
+ * work symbolically.
  * 
- * @author Simon Weitzhofer 17th of may 2012
+ * @author Simon Weitzhofer 17 May 2012
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoAreEqual extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
+		SymbolicParametersBotanaAlgoAre {
 
 	private GeoElement inputElement1; // input
 	private GeoElement inputElement2; // input
 
 	private GeoBoolean outputBoolean; // output
-	private Polynomial[] polynomials;
 	private Polynomial[][] botanaPolynomials;
 
 	/**
@@ -101,113 +91,10 @@ public class AlgoAreEqual extends AlgoElement implements
 		// ie compares endpoints NOT just length
 
 		// #5331
+		// The formerly used computation is now implemented in AlgoAreCongruent.
 		outputBoolean.setValue(inputElement1.isEqual(inputElement2));
 	}
 
-	public SymbolicParameters getSymbolicParameters() {
-		return new SymbolicParameters(this);
-	}
-
-	public void getFreeVariables(HashSet<Variable> variables)
-			throws NoSymbolicParametersException {
-		if ((inputElement1 instanceof GeoSegment)
-				|| (inputElement2 instanceof GeoSegment)) {
-			throw new NoSymbolicParametersException();
-		}
-		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
-					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
-					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
-				((SymbolicParametersAlgo) inputElement1)
-						.getFreeVariables(variables);
-				((SymbolicParametersAlgo) inputElement2)
-						.getFreeVariables(variables);
-				return;
-			}
-		}
-		throw new NoSymbolicParametersException();
-	}
-
-	public int[] getDegrees() throws NoSymbolicParametersException {
-		if ((inputElement1 instanceof GeoSegment)
-				|| (inputElement2 instanceof GeoSegment)) {
-			throw new NoSymbolicParametersException();
-		}
-		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
-					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
-					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
-				int[] degrees1 = ((SymbolicParametersAlgo) inputElement1)
-						.getDegrees();
-				int[] degrees2 = ((SymbolicParametersAlgo) inputElement2)
-						.getDegrees();
-				int[] degrees = new int[1];
-				degrees[0] = Math.max(
-						Math.max(degrees1[0] + degrees2[2], degrees2[0]
-								+ degrees1[2]),
-						Math.max(degrees1[1] + degrees2[2], degrees2[1]
-								+ degrees1[2]));
-				return degrees;
-			}
-		}
-		throw new NoSymbolicParametersException();
-	}
-
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
-			throws NoSymbolicParametersException {
-		if ((inputElement1 instanceof GeoSegment)
-				|| (inputElement2 instanceof GeoSegment)) {
-			throw new NoSymbolicParametersException();
-		}
-		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
-					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
-					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
-				BigInteger[] coords1 = ((SymbolicParametersAlgo) inputElement1)
-						.getExactCoordinates(values);
-				BigInteger[] coords2 = ((SymbolicParametersAlgo) inputElement2)
-						.getExactCoordinates(values);
-				BigInteger[] coords = new BigInteger[1];
-				coords[0] = coords1[0]
-						.multiply(coords2[2])
-						.subtract(coords2[0].multiply(coords1[2]))
-						.abs()
-						.add(coords1[1].multiply(coords2[2])
-								.subtract(coords2[1].multiply(coords1[2]))
-								.abs());
-				return coords;
-			}
-		}
-		throw new NoSymbolicParametersException();
-	}
-
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
-		Log.debug(polynomials);
-		if (polynomials != null) {
-			return polynomials;
-		}
-		if ((inputElement1 instanceof GeoSegment)
-				|| (inputElement2 instanceof GeoSegment)) {
-			throw new NoSymbolicParametersException();
-		}
-		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
-					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
-					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
-				Polynomial[] coords1 = ((SymbolicParametersAlgo) inputElement1)
-						.getPolynomials();
-				Polynomial[] coords2 = ((SymbolicParametersAlgo) inputElement2)
-						.getPolynomials();
-				polynomials = new Polynomial[2];
-				polynomials[0] = coords1[0].multiply(coords2[2]).subtract(
-						coords2[0].multiply(coords1[2]));
-				polynomials[1] = coords1[1].multiply(coords2[2]).subtract(
-						coords2[1].multiply(coords1[2]));
-				return polynomials;
-			}
-		}
-		throw new NoSymbolicParametersException();
-	}
 
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
@@ -232,36 +119,12 @@ public class AlgoAreEqual extends AlgoElement implements
 			return botanaPolynomials;
 		}
 
-		// Order is important here: a GeoSegment is also a GeoLine!
 		if (inputElement1 instanceof GeoSegment
 				&& inputElement2 instanceof GeoSegment) {
-			// We check whether their length are equal.
-			botanaPolynomials = new Polynomial[1][1];
-
-			Variable[] v1 = new Variable[4];
-			Variable[] v2 = new Variable[4];
-			v1 = ((GeoSegment) inputElement1).getBotanaVars(inputElement1); // AB
-			v2 = ((GeoSegment) inputElement2).getBotanaVars(inputElement2); // CD
-
-			// We want to prove: d(AB)=d(CD) =>
-			// (a1-b1)^2+(a2-b2)^2=(c1-d1)^2+(c2-d2)^2
-			// => (a1-b1)^2+(a2-b2)^2-(c1-d1)^2-(c2-d2)^2
-			Polynomial a1 = new Polynomial(v1[0]);
-			Polynomial a2 = new Polynomial(v1[1]);
-			Polynomial b1 = new Polynomial(v1[2]);
-			Polynomial b2 = new Polynomial(v1[3]);
-			Polynomial c1 = new Polynomial(v2[0]);
-			Polynomial c2 = new Polynomial(v2[1]);
-			Polynomial d1 = new Polynomial(v2[2]);
-			Polynomial d2 = new Polynomial(v2[3]);
-			botanaPolynomials[0][0] = ((Polynomial.sqr(a1.subtract(b1))
-					.add(Polynomial.sqr(a2.subtract(b2)))).subtract(Polynomial
-					.sqr(c1.subtract(d1)))).subtract(Polynomial.sqr(c2
-					.subtract(d2)));
-
-			return botanaPolynomials;
+			// currently unimplemented
+			throw new NoSymbolicParametersException();
 		}
-
+		
 		if (inputElement1 instanceof GeoLine
 				&& inputElement2 instanceof GeoLine) {
 			botanaPolynomials = new Polynomial[2][1];

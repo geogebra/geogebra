@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.prover.AlgoAreCongruent;
 import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
@@ -200,6 +201,9 @@ public class Relation {
 			case AreEqual:
 				ae = new AlgoAreEqual(cons, null, g1, g2);
 				break;
+			case AreCongruent:
+				ae = new AlgoAreCongruent(cons, null, g1, g2);
+				break;
 			case AreParallel:
 				ae = new AlgoAreParallel(cons, null, g1, g2);
 				break;
@@ -255,6 +259,9 @@ public class Relation {
 		String[] ret;
 		try {
 			switch (command) {
+			case AreCongruent:
+				ae = new AlgoAreCongruent(cons, null, g1, g2);
+				break;
 			case AreEqual:
 				ae = new AlgoAreEqual(cons, null, g1, g2);
 				break;

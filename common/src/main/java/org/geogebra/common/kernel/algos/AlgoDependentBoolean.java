@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.prover.AlgoAreEqual;
+import org.geogebra.common.kernel.prover.AlgoAreCongruent;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -148,7 +148,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			return;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
@@ -179,7 +179,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
@@ -212,7 +212,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
@@ -243,7 +243,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
 			Polynomial[] ret = algo.getPolynomials();
 			algo.remove();
 			return ret;
@@ -517,7 +517,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-				AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+				AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();
 				return ret;

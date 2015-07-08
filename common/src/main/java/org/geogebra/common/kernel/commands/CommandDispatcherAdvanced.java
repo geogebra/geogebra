@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.advanced.CmdApplyMatrix;
 import org.geogebra.common.kernel.advanced.CmdAreCollinear;
 import org.geogebra.common.kernel.advanced.CmdAreConcurrent;
 import org.geogebra.common.kernel.advanced.CmdAreConcyclic;
+import org.geogebra.common.kernel.advanced.CmdAreCongruent;
 import org.geogebra.common.kernel.advanced.CmdAreEqual;
 import org.geogebra.common.kernel.advanced.CmdAreParallel;
 import org.geogebra.common.kernel.advanced.CmdArePerpendicular;
@@ -254,6 +255,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdArePerpendicular(kernel);
 		case AreEqual:
 			return new CmdAreEqual(kernel);
+		case AreCongruent:
+			return new CmdAreCongruent(kernel);
 		case AreConcurrent:
 			return new CmdAreConcurrent(kernel);
 		case ToBase:
