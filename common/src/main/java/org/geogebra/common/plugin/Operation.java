@@ -1,6 +1,8 @@
 package org.geogebra.common.plugin;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -19,12 +21,14 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.Geo3DVec;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
@@ -287,6 +291,22 @@ public enum Operation {
 				return new MyBoolean(ev.getKernel(), MyList.isElementOf(lt,
 						((ListValue) rt).getMyList()));
 			}
+
+			// checks for 2D or 3D point
+			if (lt.isGeoElement() && ((GeoElement) lt).isGeoPoint()) {
+
+				// check Region before Path (eg Polygon)
+				if (rt instanceof Region) {
+					return new MyBoolean(ev.getKernel(),
+							((Region) rt).isInRegion(((GeoPointND) lt)));
+				}
+
+				if (rt instanceof Path) {
+					return new MyBoolean(ev.getKernel(), ((Path) rt).isOnPath(
+							((GeoPointND) lt), Kernel.STANDARD_PRECISION));
+				}
+			}
+
 			return ev.illegalListOp(lt, rt,
 					ExpressionNodeConstants.strIS_ELEMENT_OF);
 		}
