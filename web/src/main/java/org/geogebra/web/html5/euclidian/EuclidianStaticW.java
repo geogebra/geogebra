@@ -1,13 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
@@ -20,18 +13,6 @@ public class EuclidianStaticW extends org.geogebra.common.euclidian.EuclidianSta
 
 	}
 
-	@Override
-	protected GRectangle doDrawMultilineLaTeX(App app,
-	        GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2,
-	        GFont font, GColor fgColor, GColor bgColor, String labelDesc,
-			int x, int y, boolean serif, Runnable callback) {
-
-		GDimension dim = app.getDrawEquation()
-				.drawEquation(app, geo, g2, x, y, labelDesc, font, serif,
-						fgColor, bgColor, false, true, callback);
-
-		return new Rectangle(x, y, dim.getWidth(), dim.getHeight());
-	}
 
 	/*private static GFont getIndexFont(GFont f) {
 		// index font size should be at least 8pt
@@ -89,5 +70,7 @@ public class EuclidianStaticW extends org.geogebra.common.euclidian.EuclidianSta
 			        });
 		}
 	}
+
+
 
 }

@@ -1,10 +1,17 @@
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -255,12 +262,170 @@ public abstract class EuclidianStatic {
 	 *            true touseserif font
 	 * @return bounds of resulting LaTeX formula
 	 */
-	protected abstract org.geogebra.common.awt.GRectangle doDrawMultilineLaTeX(
-			App app, org.geogebra.common.awt.GGraphics2D tempGraphics,
-			GeoElement geo, org.geogebra.common.awt.GGraphics2D g2,
-			org.geogebra.common.awt.GFont font, org.geogebra.common.awt.GColor fgColor,
-			org.geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
- int yLabel, boolean serif, Runnable callback);
+	public final GRectangle doDrawMultilineLaTeX(App app,
+			GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2,
+			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
+			int xLabel, int yLabel, boolean serif, Runnable callback) {
+		int fontSize = g2.getFont().getSize();
+		int lineSpread = (int) (fontSize * 1.0f);
+		int lineSpace = (int) (fontSize * 0.5f);
+
+		// latex delimiters \[ \] \( \) $$ -> $
+		// labelDesc = labelDesc.replaceAll(
+		// "(\\$\\$|\\\\\\[|\\\\\\]|\\\\\\(|\\\\\\))", "\\$");
+
+		// split on $ but not \$
+		String[] elements = blockSplit(labelDesc);
+
+		ArrayList<Integer> lineHeights = new ArrayList<Integer>();
+		lineHeights.add(new Integer(lineSpread + lineSpace));
+		ArrayList<Integer> elementHeights = new ArrayList<Integer>();
+
+		int depth = 0;
+
+		// use latex by default just if there is just a single element
+		boolean isLaTeX = (elements.length == 1);
+
+		// calculate the required space of every element
+		for (int i = 0, currentLine = 0; i < elements.length; ++i) {
+			// in web some blocks may be null due to the replacement of split
+			if (elements[i] == null) {
+				continue;
+			}
+			if (isLaTeX) {
+				// save the height of this element by drawing it to a temporary
+				// buffer
+				GDimension dim = AwtFactory.prototype.newDimension(0,0);
+				dim = app.getDrawEquation().drawEquation(app, geo,
+						tempGraphics, 0, 0, elements[i], font,
+						((GeoText) geo).isSerifFont(), fgColor, bgColor, false,
+						false, callback);
+
+				int height = dim.getHeight();
+
+				// depth += dim.depth;
+
+				elementHeights.add(new Integer(height));
+
+				// check if this element is taller than every else in the line
+				if (height > (lineHeights.get(currentLine)).intValue())
+					lineHeights.set(currentLine, new Integer(height));
+			} else {
+				elements[i] = elements[i].replaceAll("\\\\\\$", "\\$");
+				String[] lines = elements[i].split("\\n", -1);
+
+				for (int j = 0; j < lines.length; ++j) {
+					elementHeights.add(new Integer(lineSpread));
+
+					// create a new line
+					if (j + 1 < lines.length) {
+						++currentLine;
+
+						lineHeights.add(new Integer(lineSpread + lineSpace));
+					}
+				}
+			}
+
+			isLaTeX = !isLaTeX;
+		}
+
+		int width = 0;
+		int height = 0;
+
+		// use latex by default just if there is just a single element
+		isLaTeX = (elements.length == 1);
+
+		int xOffset = 0;
+		int yOffset = 0;
+
+		// now draw all elements
+		for (int i = 0, currentLine = 0, currentElement = 0; i < elements.length; ++i) {
+			if (elements[i] == null) {
+				continue;
+			}
+			if (isLaTeX) {
+				// calculate the y offset of this element by: (lineHeight -
+				// elementHeight) / 2
+				yOffset = (((lineHeights.get(currentLine))).intValue() - ((elementHeights
+						.get(currentElement))).intValue()) / 2;
+
+				DrawEquation de = app.getDrawEquation();
+				// draw the equation and save the x offset
+				xOffset += de.drawEquation(app, geo, g2, xLabel + xOffset,
+						(yLabel + height) + yOffset, elements[i], font,
+						((GeoText) geo).isSerifFont(), fgColor, bgColor, true,
+						false, callback).getWidth();
+
+				++currentElement;
+			} else {
+				String[] lines = elements[i].split("\\n", -1);
+
+				for (int j = 0; j < lines.length; ++j) {
+					// calculate the y offset like done with the element
+					yOffset = (((lineHeights.get(currentLine))).intValue() - ((elementHeights
+							.get(currentElement))).intValue()) / 2;
+
+					// draw the string
+					g2.setFont(font); // JLaTeXMath changes g2's fontsize
+					xOffset += drawIndexedString(app, g2, lines[j], xLabel
+							+ xOffset, yLabel + height + yOffset + lineSpread,
+							serif, true).x;
+
+					// add the height of this line if more lines follow
+					if (j + 1 < lines.length) {
+						height += ((lineHeights.get(currentLine))).intValue();
+
+						if (xOffset > width)
+							width = xOffset;
+					}
+
+					// create a new line if more will follow
+					if (j + 1 < lines.length) {
+						++currentLine;
+						xOffset = 0;
+					}
+
+					++currentElement;
+				}
+			}
+
+			// last element, increase total height and check if this is the most
+			// wide element
+			if (i + 1 == elements.length) {
+				height += ((lineHeights.get(currentLine))).intValue();
+
+				if (xOffset > width)
+					width = xOffset;
+			}
+
+			isLaTeX = !isLaTeX;
+		}
+
+		return AwtFactory.prototype.newRectangle(xLabel - 3,
+				yLabel - 3 + depth, width + 6, height + 6);
+
+	}
+
+	protected String[] blockSplit(String labelDesc) {
+		String[] ret = labelDesc.split("\\$", -1);
+		for (int i = 0; i < ret.length; i++) {
+			int slashes = 0;
+			while (ret[i].length() > slashes
+					&& ret[i].charAt(ret[i].length() - 1 - slashes) == '\\') {
+				slashes++;
+			}
+			if (slashes % 2 == 1) {
+				if (i == ret.length - 1) {
+					ret[i] = ret[i] + '$';
+				} else {
+					ret[i] = ret[i] + '$' + ret[i + 1];
+					ret[i + 1] = null;
+					i++;
+				}
+			}
+		}
+		return ret;
+	}
 
 	private static org.geogebra.common.awt.GFont getIndexFont(
 			org.geogebra.common.awt.GFont f) {
