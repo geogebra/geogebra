@@ -1,5 +1,6 @@
 package org.geogebra.desktop.plugin;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppD;
 import org.mozilla.javascript.Context;
@@ -36,6 +37,18 @@ public class GeoGebraGlobal implements IdFunctionCall {
 				break;
 			case Id_prompt:
 				name = "prompt";
+				break;
+			case Id_setTimeout:
+				name = "setTimeout";
+				break;
+			case Id_setInterval:
+				name = "setInterval";
+				break;
+			case Id_clearTimeout:
+				name = "clearTimeout";
+				break;
+			case Id_clearInterval:
+				name = "clearInterval";
 				break;
 			default:
 				throw Kit.codeBug();
@@ -86,6 +99,12 @@ public class GeoGebraGlobal implements IdFunctionCall {
 				 */
 				return app.getGgbApi().prompt(value0, value1);
 			}
+			case Id_clearInterval:
+			case Id_clearTimeout:
+			case Id_setInterval:
+			case Id_setTimeout:
+				App.debug("ignored in desktop");
+				return null;
 			}
 		}
 		throw f.unknown();
@@ -147,6 +166,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 
 	private static final Object FTAG = "Global";
 
-	private static final int Id_alert = 1, Id_prompt = 2,
-			LAST_SCOPE_FUNCTION_ID = 2;
+	private static final int Id_alert = 1, Id_prompt = 2, Id_setTimeout = 3,
+			Id_setInterval = 4, Id_clearTimeout = 5, Id_clearInterval = 6,
+			LAST_SCOPE_FUNCTION_ID = 6;
 }
