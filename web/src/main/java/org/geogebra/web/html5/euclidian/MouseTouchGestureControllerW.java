@@ -291,7 +291,7 @@ public class MouseTouchGestureControllerW implements
 				calculateEnvironment();
 			}
 		});
-
+		app.addWindowResizeListener(this);
 		longTouchManager = LongTouchManager.getInstance();
 	}
 

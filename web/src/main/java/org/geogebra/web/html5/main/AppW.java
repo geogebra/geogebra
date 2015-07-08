@@ -75,6 +75,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
@@ -199,9 +200,12 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
-	protected void windowResized() {
-		if (this.euclidianView != null) {
-			this.euclidianView.getEuclidianController().calculateEnvironment();
+	protected final void windowResized() {
+		for (MouseTouchGestureControllerW mtg : this.euclidianHandlers) {
+			mtg.calculateEnvironment();
+		}
+		if (this.getGuiManager() != null) {
+			getGuiManager().setPixelRatio(getPixelRatio());
 		}
 
 	}
@@ -3325,6 +3329,12 @@ public abstract class AppW extends App implements SetLabels {
 	public float getPixelRatio() {
 		return Browser.getPixelRatio()
 				* (float) articleElement.getDataParamScale();
+	}
+
+	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();
+
+	public void addWindowResizeListener(MouseTouchGestureControllerW mtg) {
+		this.euclidianHandlers.add(mtg);
 	}
 
 }
