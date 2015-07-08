@@ -198,4 +198,14 @@ public abstract class AppWFull extends AppW {
 
 	}
 
+	@Override
+	protected void windowResized() {
+		super.windowResized();
+		if (this.hasEuclidianView2(1)) {
+			this.getEuclidianView2(1).getEuclidianController()
+					.calculateEnvironment();
+		}
+		getGuiManager().setPixelRatio(getPixelRatio());
+	}
+
 }

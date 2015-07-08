@@ -2002,5 +2002,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return true;
 	}
 
+	public void setPixelRatio(double ratio) {
+		if (!app.has(Feature.RETINA)) {
+			return;
+		}
+		if (hasAlgebraView()) {
+			this.getAlgebraView().setPixelRatio(ratio);
+		}
+		if (hasCasView()) {
+			((CASViewW) getCasView()).setPixelRatio(ratio);
+		}
+		if (hasSpreadsheetView()) {
+			getSpreadsheetView().setPixelRatio(ratio);
+		}
+
+	}
 
 }

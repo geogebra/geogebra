@@ -278,12 +278,14 @@ public class ToolTipManagerW {
 			style.setLeft(
 					app.getAbsLeft()
 			                + ((app.getWidth() - bottomInfoTipPanel
-			                        .getOffsetWidth()) * app.getArticleElement().getScaleX()) / 2, Unit.PX);
+.getOffsetWidth()))
+					/ 2, Unit.PX);
 
 			style.setTop(
 app.getAbsTop()
 					+ (app.getHeight()
-			        - (app.getAppletFrame().isKeyboardShowing() ? 250 : 70)) * app.getArticleElement().getScaleY() ,
+ - (app.getAppletFrame()
+							.isKeyboardShowing() ? 250 : 70)),
 			        Unit.PX);
 		}
 		if (link == ToolTipLinkType.Help && helpLinkURL != null

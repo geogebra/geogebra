@@ -155,4 +155,16 @@ public class CASViewW extends CASView {
 		 */
 		
 	}
+
+	public void setPixelRatio(double ratio) {
+		if (this.consoleTable != null) {
+			for (int row = 0; row < this.getRowCount(); row++) {
+				if (consoleTable.getWidget(row, CASTableW.COL_CAS_CELLS_WEB) instanceof CASTableCellW) {
+					((CASTableCellW) consoleTable.getWidget(row,
+							CASTableW.COL_CAS_CELLS_WEB)).setPixelRatio(ratio);
+				}
+			}
+		}
+
+	}
 }

@@ -113,6 +113,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Visibility;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.storage.client.StorageMap;
 import com.google.gwt.user.client.Cookies;
@@ -187,6 +189,20 @@ public abstract class AppW extends App implements SetLabels {
 
 		getTimerSystem();
 		this.showInputTop = InputPositon.algebraView;
+		Window.addResizeHandler(new ResizeHandler() {
+
+			@Override
+			public void onResize(ResizeEvent event) {
+				windowResized();
+			}
+		});
+
+	}
+
+	protected void windowResized() {
+		if (this.euclidianView != null) {
+			this.euclidianView.getEuclidianController().calculateEnvironment();
+		}
 
 	}
 
@@ -3310,4 +3326,5 @@ public abstract class AppW extends App implements SetLabels {
 		return Browser.getPixelRatio()
 				* (float) articleElement.getDataParamScale();
 	}
+
 }

@@ -1534,4 +1534,24 @@ public class AlgebraViewW extends Tree implements LayerView,
 		GFont font = app.getPlainFontCommon();
 		getStyleElement().getStyle().setFontSize(font.getSize(), Style.Unit.PX);
 	}
+
+	public void setPixelRatio(double ratio) {
+		for (int i = 0; i < getItemCount(); i++) {
+			TreeItem ti = getItem(i);
+			if (ti.getWidget() instanceof RadioButtonTreeItem) {
+				((RadioButtonTreeItem) ti.getWidget()).updateOnNextRepaint();
+			} else if (ti.getWidget() instanceof GroupHeader) {
+
+				for (int j = 0; j < ti.getChildCount(); j++) {
+					if (ti.getChild(j).getWidget() instanceof RadioButtonTreeItem) {
+						((RadioButtonTreeItem) ti.getChild(j).getWidget())
+								.updateOnNextRepaint();
+
+					}
+				}
+
+			}
+		}
+		this.repaintView();
+	}
 }

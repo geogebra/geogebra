@@ -23,12 +23,18 @@ public interface InputPanel extends IsWidget {
 
 		}
 
+		public void setPixelRatio(double ratio) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	public class InputPanelCanvas implements InputPanel {
 		private String text;
 		private Canvas c;
 		private App app;
+		private String laTex;
 
 		public InputPanelCanvas(App app) {
 			this.app = app;
@@ -66,6 +72,7 @@ public interface InputPanel extends IsWidget {
 		}
 
 		public void setLaTeX(String laTeX) {
+			this.laTex = laTeX;
 			if (laTeX == null) {
 				c.setCoordinateSpaceHeight(1);
 				c.setCoordinateSpaceWidth(1);
@@ -73,6 +80,13 @@ public interface InputPanel extends IsWidget {
 			}
 			DrawEquationWeb.paintOnCanvas(new GeoNumeric(app.getKernel()
 					.getConstruction()), laTeX, c, app.getFontSize());
+
+		}
+
+		public void setPixelRatio(double ratio) {
+			if (this.laTex != null) {
+				setLaTeX(laTex);
+			}
 
 		}
 
@@ -85,5 +99,7 @@ public interface InputPanel extends IsWidget {
 	public Element getElement();
 
 	public void setLaTeX(String laTeX);
+
+	public void setPixelRatio(double ratio);
 
 }

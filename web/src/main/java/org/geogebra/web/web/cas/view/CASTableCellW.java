@@ -212,4 +212,24 @@ public class CASTableCellW extends VerticalPanel {
 		textField.insertString(input);
 	}
 
+	public void setPixelRatio(double ratio) {
+		if (casCell != null && casCell.showOutput()) {
+			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
+				String eqstring = casCell.getLaTeXOutput();
+				if (!casCell.getKernel().getApplication()
+						.has(Feature.JLM_IN_WEB)) {
+					return;
+				}
+				this.outputPanel.clear();
+				this.outputPanel.add(DrawEquationWeb.paintOnCanvas(casCell,
+						eqstring, null, casCell.getKernel().getApplication()
+.getFontSize() + 1));
+			}
+
+		}
+		if (inputPanel != null) {
+			this.inputPanel.setPixelRatio(ratio);
+		}
+	}
+
 }

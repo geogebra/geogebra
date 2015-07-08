@@ -1220,4 +1220,11 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			styleBar.setLabels();
 		}
 	}
+
+	public void setPixelRatio(double ratio) {
+		if (this.table != null) {
+			table.setPixelRatio(ratio);
+		}
+
+	}
 }

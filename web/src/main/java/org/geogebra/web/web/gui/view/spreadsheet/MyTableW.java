@@ -35,6 +35,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
@@ -2821,5 +2822,17 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public void setToolTipText(String toolTipText) {
 
 		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
+	}
+
+	public void setPixelRatio(double ratio) {
+		for (int column = 0; column < this.getColumnCount(); column++) {
+			for (int row = 0; row < this.getRowCount(); row++) {
+				if (ssGrid.getWidget(row, column) instanceof Canvas) {
+					this.updateTableCellValue(app.getSpreadsheetTableModel()
+							.getValueAt(row, column), row, column);
+				}
+			}
+		}
+
 	}
 }

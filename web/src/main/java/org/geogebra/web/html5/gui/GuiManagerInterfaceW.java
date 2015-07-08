@@ -114,4 +114,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public boolean focusScheduled(boolean setNotGet,
 			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed);
+
+	public void setPixelRatio(double ratio);
 }
