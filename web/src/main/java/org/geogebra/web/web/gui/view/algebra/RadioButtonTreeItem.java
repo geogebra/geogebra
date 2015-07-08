@@ -343,7 +343,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				slider = new SliderPanelW(((GeoNumeric) geo).getIntervalMin(),
 						((GeoNumeric) geo).getIntervalMax());
 				slider.setValue(((GeoNumeric) geo).getValue());
-				slider.setMinorTickSpacing(geo.getAnimationStep());
+				slider.setStep(geo.getAnimationStep());
 
 				slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 					@Override
@@ -833,7 +833,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		        && sliderPanel != null) {
 			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
-			slider.setMinorTickSpacing(geo.getAnimationStep());
+			slider.setStep(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()
 			        && !geo.isEuclidianVisible()) {

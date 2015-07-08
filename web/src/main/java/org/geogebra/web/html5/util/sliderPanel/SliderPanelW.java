@@ -41,12 +41,8 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		maxLabel.setText(String.valueOf(max));
 	}
 
-	public void setMajorTickSpacing(double step) {
-		slider.setMajorTickSpacing(step);
-	}
-
-	public void setMinorTickSpacing(double step) {
-		slider.setMinorTickSpacing(step);
+	public void setStep(double step) {
+		slider.setStep(step);
 	}
 
 	public GDimensionW getPreferredSize() {

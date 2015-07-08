@@ -58,11 +58,7 @@ public class SliderW extends FocusWidget implements HasChangeHandlers,
 		range.setAttribute("max", String.valueOf(max));
 	}
 
-	public void setMajorTickSpacing(double step) {
-		range.setAttribute("step", String.valueOf(step));
-	}
-
-	public void setMinorTickSpacing(double step) {
+	public void setStep(double step) {
 		range.setAttribute("step", String.valueOf(step));
 	}
 
@@ -99,15 +95,18 @@ public class SliderW extends FocusWidget implements HasChangeHandlers,
 		return addDomHandler(handler, ChangeEvent.getType());
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		ValueChangeEvent.fireIfNotEqual(this, curValue, getValue());
 		curValue = null;
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		curValue = getValue();
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		event.stopPropagation();
 		Double value = getValue();
