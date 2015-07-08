@@ -88,6 +88,8 @@
 	cursor: text;
 	/* push the scrollbar down so that ::after can kill it*/
 	padding-bottom:18px;
+	/* may need to hide blue selected background */
+	background-color:white;
 }
 
 .NewRadioButtonTreeItem * {

@@ -104,7 +104,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 			// if enabled, render with LaTeX
 			if (view.isRenderLaTeX()
-					&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+					&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
+					&& geo.isDefined()) {
 				latexFont = new Font(app.getBoldFont().getName(), app
 						.getBoldFont().getStyle(), app.getFontSize() - 1);
 				latexStr = geo.getLaTeXAlgebraDescription(true,

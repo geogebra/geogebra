@@ -455,12 +455,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
-			String latexStr = geo.getLaTeXAlgebraDescription(true,
-			        StringTemplate.latexTemplateMQ);
-			seNoLatex = se;
-			if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
-				this.needsUpdate = true;
-				av.repaintView();
+			if (geo.isDefined()) {
+				String latexStr = geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplateMQ);
+				seNoLatex = se;
+				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
+					this.needsUpdate = true;
+					av.repaintView();
+				}
 			}
 		} else {
 			seNoLatex = se;
@@ -760,7 +762,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 							StringTemplate.latexTemplateMQ);
 				}
 				if ((text != null) && text.length() < 1500
-						&& geo.isLaTeXDrawableGeo()) {
+						&& geo.isLaTeXDrawableGeo() && geo.isDefined()) {
 					newLaTeX = true;
 				}
 			} else {
@@ -784,6 +786,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 		// check for new text
 		if (!newLaTeX) {
+
 			if (geo.isIndependent()) {
 				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 			} else {
@@ -809,16 +812,20 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (!LaTeX) {
 				updateColor(seNoLatex);
 			} else {
-				SpanElement se = DOM.createSpan().cast();
-				EquationEditor.updateNewStatic(se);
-				updateColor(se);
+				if (seNoLatex == null) {
+					SpanElement se = DOM.createSpan().cast();
+					EquationEditor.updateNewStatic(se);
+					seNoLatex = se;
+				}
+				updateColor(seNoLatex);
 				if (!newCreationMode && app.has(Feature.JLM_IN_WEB)
 						&& c != null) {
-					ihtml.getElement().replaceChild(se, c.getCanvasElement());
+					ihtml.getElement().replaceChild(seNoLatex,
+							c.getCanvasElement());
 				} else {
-					ihtml.getElement().replaceChild(se, seMayLatex);
+					ihtml.getElement().replaceChild(seNoLatex, seMayLatex);
 				}
-				seNoLatex = se;
+
 				LaTeX = false;
 			}
 		}
