@@ -88,6 +88,8 @@ __GGB__keysVar.tl.command = {
     "AreConcurrent.Syntax": "[ <Line>, <Line>, <Line> ]",
     "AreConcyclic": "AreConcyclic",
     "AreConcyclic.Syntax": "[ <Point>, <Point>, <Point>, <Point> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "AreEqual",
     "AreEqual.Syntax": "[ <Object>, <Object> ]",
     "AreParallel": "AreParallel",

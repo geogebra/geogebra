@@ -88,6 +88,8 @@ __GGB__keysVar.hr.command = {
     "AreConcurrent.Syntax": "[ <pravac>, <pravac>, <pravac> ]",
     "AreConcyclic": "JesuLiKoncikli\u010dne",
     "AreConcyclic.Syntax": "[ <to\u010dka>, <to\u010dka>, <to\u010dka>, <to\u010dka> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "JesuLiJednaki",
     "AreEqual.Syntax": "[ <objekt>, <objekt> ]",
     "AreParallel": "JesuLiUsporedni",

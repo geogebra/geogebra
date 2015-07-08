@@ -88,6 +88,8 @@ __GGB__keysVar.ar_TN.command = {
     "AreConcurrent.Syntax": "[ <\u062e\u0637>, <\u062e\u0637>, <\u062e\u0637> ]",
     "AreConcyclic": "\u0645\u0634\u062a\u0631\u0643\u0629_\u0639\u0644\u0649_\u0627\u0644\u062f\u0627\u0626\u0631\u0629",
     "AreConcyclic.Syntax": "[ <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "\u0645\u062a\u0633\u0627\u0648\u064a\u0629",
     "AreEqual.Syntax": "[ <\u0639\u0646\u0635\u0631>, <\u0639\u0646\u0635\u0631> ]",
     "AreParallel": "\u0645\u062a\u0648\u0627\u0632\u064a\u0629",

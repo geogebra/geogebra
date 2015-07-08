@@ -88,6 +88,8 @@ __GGB__keysVar.hi.command = {
     "AreConcurrent.Syntax": "[ <\u0930\u0947\u0916\u093e>, <\u0930\u0947\u0916\u093e>, <\u0930\u0947\u0916\u093e> ]",
     "AreConcyclic": "\u0938\u0902\u0935\u094d\u0930\u0924\u094d\u0924\u093f\u092f\u0939\u0948",
     "AreConcyclic.Syntax": "[ <\u092c\u093f\u0902\u0926\u0941>, <\u092c\u093f\u0902\u0926\u0941>, <\u092c\u093f\u0902\u0926\u0941>, <\u092c\u093f\u0902\u0926\u0941> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "\u0915\u094d\u092f\u093e\u092c\u0930\u093e\u092c\u0930\u0939\u0948",
     "AreEqual.Syntax": "[ <\u0935\u0938\u094d\u0924\u0941>, <\u0935\u0938\u094d\u0924\u0941> ]",
     "AreParallel": "\u0938\u092e\u093e\u0928\u093e\u0928\u094d\u0924\u0930\u0939\u0948",

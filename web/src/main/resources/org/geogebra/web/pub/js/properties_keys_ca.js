@@ -88,6 +88,8 @@ __GGB__keysVar.ca.command = {
     "AreConcurrent.Syntax": "[ <Recta>, <Recta>, <Recta> ]",
     "AreConcyclic": "S\xf3nConc\xedclics",
     "AreConcyclic.Syntax": "[ <Punt>, <Punt>, <Punt>, <Punt> ]",
+    "AreCongruent": "\xc9sCongruent",
+    "AreCongruent.Syntax": "[ <Objecte>, <Objecte> ]",
     "AreEqual": "S\xf3nIguals",
     "AreEqual.Syntax": "[ <Objecte>, <Objecte> ]",
     "AreParallel": "S\xf3nParal\xb7leles",

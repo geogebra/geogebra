@@ -88,6 +88,8 @@ __GGB__keysVar.in.command = {
     "AreConcurrent.Syntax": "[ <Garis>, <Garis>, <Garis> ]",
     "AreConcyclic": "ApaSatuLingkaran",
     "AreConcyclic.Syntax": "[ <Titik>, <Titik>, <Titik>, <Titik> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "ApaSama",
     "AreEqual.Syntax": "[ <Objek>, <Objek> ]",
     "AreParallel": "ApaPararel",

@@ -88,6 +88,8 @@ __GGB__keysVar.lv.command = {
     "AreConcurrent.Syntax": "[ <Taisne>, <Taisne>, <Taisne> ]",
     "AreConcyclic": "IrUzRi\u0146\u0137aL\u012bnijas",
     "AreConcyclic.Syntax": "[ <Punkts>, <Punkts>, <Punkts>, <Punkts> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "IrVien\u0101di",
     "AreEqual.Syntax": "[ <Objekts>, <Objekts> ]",
     "AreParallel": "IrParal\u0113las",

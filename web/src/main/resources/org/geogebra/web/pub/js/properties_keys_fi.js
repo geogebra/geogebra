@@ -88,6 +88,8 @@ __GGB__keysVar.fi.command = {
     "AreConcurrent.Syntax": "[ <Suora>, <Suora>, <Suora> ]",
     "AreConcyclic": "OvatkoKonsyklisi\xe4",
     "AreConcyclic.Syntax": "[ <Piste>, <Piste>, <Piste>, <Piste> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "OvatkoYht\xe4suuret",
     "AreEqual.Syntax": "[ <Objekti>, <Objekti> ]",
     "AreParallel": "OvatkoYhdensuuntaiset",

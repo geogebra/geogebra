@@ -88,6 +88,8 @@ __GGB__keysVar.tr.command = {
     "AreConcurrent.Syntax": "[ <Do\u011fru>, <Do\u011fru>, <Do\u011fru> ]",
     "AreConcyclic": "E\u015f\xc7emberselMi",
     "AreConcyclic.Syntax": "[ <Nokta>, <Nokta>, <Nokta>, <Nokta> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "E\u015fitMi",
     "AreEqual.Syntax": "[ <Nesne>, <Nesne> ]",
     "AreParallel": "ParalelMi",

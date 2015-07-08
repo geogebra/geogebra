@@ -88,6 +88,8 @@ __GGB__keysVar.vi.command = {
     "AreConcurrent.Syntax": "[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110\u01b0\u1eddng th\u1eb3ng> ]",
     "AreConcyclic": "NoiTiepKhong",
     "AreConcyclic.Syntax": "[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "B\u1eb1ngNhauKh\xf4ng",
     "AreEqual.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ed1i t\u01b0\u1ee3ng> ]",
     "AreParallel": "SongSongKhong",

@@ -88,6 +88,8 @@ __GGB__keysVar.pt_PT.command = {
     "AreConcurrent.Syntax": "[ <Reta>, <Reta>, <Reta> ]",
     "AreConcyclic": "Est\xe3onaCircunfer\xeancia",
     "AreConcyclic.Syntax": "[ <Ponto>, <Ponto>, <Ponto>, <Ponto> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "S\xe3oCongruentes",
     "AreEqual.Syntax": "[ <Objeto>, <Objeto> ]",
     "AreParallel": "S\xe3oParalelas",

@@ -88,6 +88,8 @@ __GGB__keysVar.et.command = {
     "AreConcurrent.Syntax": "[ <Sirge>, <Sirge>, <Sirge> ]",
     "AreConcyclic": "OnRingjoonel",
     "AreConcyclic.Syntax": "[ <Punkt>, <Punkt>, <Punkt>, <Punkt> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "OnV\xf5rdsed",
     "AreEqual.Syntax": "[ <Objekt>, <Objekt> ]",
     "AreParallel": "OnParalleelsed",

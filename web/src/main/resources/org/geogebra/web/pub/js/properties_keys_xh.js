@@ -88,6 +88,8 @@ __GGB__keysVar.xh.command = {
     "AreConcurrent.Syntax": "[ <Umgca>, <Umgca>, <Umgca> ]",
     "AreConcyclic": "ZiphezuKwesangqa",
     "AreConcyclic.Syntax": "[ <Ichaphaza>, <Ichaphaza>, <Ichaphaza>, <Ichaphaza> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "Ziyalingana",
     "AreEqual.Syntax": "[ <Into>, <Into> ]",
     "AreParallel": "ZiMelene",

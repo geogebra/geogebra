@@ -88,6 +88,8 @@ __GGB__keysVar.gl.command = {
     "AreConcurrent.Syntax": "[ <Li\xf1a>, <Li\xf1a>, <Li\xf1a> ]",
     "AreConcyclic": "SonConc\xedclicos",
     "AreConcyclic.Syntax": "[ <Punto>, <Punto>, <Punto>, <Punto> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "SonIguais",
     "AreEqual.Syntax": "[ <Obxecto>, <Obxecto> ]",
     "AreParallel": "SonParalelas",

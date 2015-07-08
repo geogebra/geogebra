@@ -88,6 +88,8 @@ __GGB__keysVar.ro.command = {
     "AreConcurrent.Syntax": "[ <Dreapt\u0103>, <Dreapt\u0103>, <Dreapt\u0103> ]",
     "AreConcyclic": "SuntConciclice",
     "AreConcyclic.Syntax": "[ <Punct>, <Punct>, <Punct>, <Punct> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "SuntEgale",
     "AreEqual.Syntax": "[ <Obiect>, <Obiect> ]",
     "AreParallel": "SuntParalele",

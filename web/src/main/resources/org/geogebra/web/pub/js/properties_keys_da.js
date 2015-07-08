@@ -88,6 +88,8 @@ __GGB__keysVar.da.command = {
     "AreConcurrent.Syntax": "[ <Linje>, <Linje>, <Linje> ]",
     "AreConcyclic": "LiggerP\xe5Cirkel",
     "AreConcyclic.Syntax": "[ <Punkt>, <Punkt>, <Punkt>, <Punkt> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "ErLig",
     "AreEqual.Syntax": "[ <Objekt>, <Objekt> ]",
     "AreParallel": "ErParallel",

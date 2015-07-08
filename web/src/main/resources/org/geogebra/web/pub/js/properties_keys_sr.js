@@ -88,6 +88,8 @@ __GGB__keysVar.sr.command = {
     "AreConcurrent.Syntax": "[ <Prava>, <Prava>, <Prava> ]",
     "AreConcyclic": "JesuKoncikli\u010dne",
     "AreConcyclic.Syntax": "[ <Ta\u010dka>, <Ta\u010dka>, <Ta\u010dka>, <Ta\u010dka> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "JesuJednaki",
     "AreEqual.Syntax": "[ <Objekat>, <Objekat> ]",
     "AreParallel": "JesuParalelni",

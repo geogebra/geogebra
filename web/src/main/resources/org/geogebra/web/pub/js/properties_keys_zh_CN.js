@@ -88,6 +88,8 @@ __GGB__keysVar.zh_CN.command = {
     "AreConcurrent.Syntax": "[ <\u76f4\u7ebf1>, <\u76f4\u7ebf2>, <\u76f4\u7ebf3> ]",
     "AreConcyclic": "\u5171\u5706",
     "AreConcyclic.Syntax": "[ <\u70b91>, <\u70b92>, <\u70b93>, <\u70b94> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "\u5168\u7b49",
     "AreEqual.Syntax": "[ <\u51e0\u4f55\u5bf9\u8c611>, <\u51e0\u4f55\u5bf9\u8c612> ]",
     "AreParallel": "\u5e73\u884c",

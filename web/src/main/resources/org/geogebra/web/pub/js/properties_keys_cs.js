@@ -88,6 +88,8 @@ __GGB__keysVar.cs.command = {
     "AreConcurrent.Syntax": "[ <P\u0159\xedmka>, <P\u0159\xedmka>, <P\u0159\xedmka> ]",
     "AreConcyclic": "JsouNaKruznici",
     "AreConcyclic.Syntax": "[ <Bod>, <Bod>, <Bod>, <Bod> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "JsouTotozne",
     "AreEqual.Syntax": "[ <Objekt>, <Objekt> ]",
     "AreParallel": "JsouRovnobezne",

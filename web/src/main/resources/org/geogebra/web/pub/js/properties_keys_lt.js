@@ -88,6 +88,8 @@ __GGB__keysVar.lt.command = {
     "AreConcurrent.Syntax": "[ <Ties\u0117>, <Ties\u0117>, <Ties\u0117> ]",
     "AreConcyclic": "ApskritimoTa\u0161kai",
     "AreConcyclic.Syntax": "[ <Ta\u0161kas>, <Ta\u0161kas>, <Ta\u0161kas>, <Ta\u0161kas> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "YraLyg\u016bs",
     "AreEqual.Syntax": "[ <Objektas>, <Objektas> ]",
     "AreParallel": "YraLygiagret\u016bs",

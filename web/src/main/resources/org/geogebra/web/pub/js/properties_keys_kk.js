@@ -88,6 +88,8 @@ __GGB__keysVar.kk.command = {
     "AreConcurrent.Syntax": "[ <\u0422\u04af\u0437\u0443>, <\u0422\u04af\u0437\u0443>, <\u0422\u04af\u0437\u0443> ]",
     "AreConcyclic": "AreConcyclic",
     "AreConcyclic.Syntax": "[ <\u041d\u04af\u043a\u0442\u0435>, <\u041d\u04af\u043a\u0442\u0435>, <\u041d\u04af\u043a\u0442\u0435>, <\u041d\u04af\u043a\u0442\u0435> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "\u0422\u0435\u04a3",
     "AreEqual.Syntax": "[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u041e\u0431\u044a\u0435\u043a\u0442> ]",
     "AreParallel": "\u041f\u0430\u0440\u0430\u043b\u043b\u0435\u043b\u044c",

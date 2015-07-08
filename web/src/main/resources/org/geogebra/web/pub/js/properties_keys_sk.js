@@ -88,6 +88,8 @@ __GGB__keysVar.sk.command = {
     "AreConcurrent.Syntax": "[ <Priamka>, <Priamka>, <Priamka> ]",
     "AreConcyclic": "S\xfaKoncyklick\xe9",
     "AreConcyclic.Syntax": "[ <Bod>, <Bod>, <Bod>, <Bod> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "S\xfaZhodn\xe9",
     "AreEqual.Syntax": "[ <Objekt>, <Objekt> ]",
     "AreParallel": "S\xfaRovnobe\u017en\xe9",

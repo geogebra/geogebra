@@ -88,6 +88,8 @@ __GGB__keysVar.it.command = {
     "AreConcurrent.Syntax": "[ <Retta>, <Retta>, <Retta> ]",
     "AreConcyclic": "TestConciclici",
     "AreConcyclic.Syntax": "[ <Punto>, <Punto>, <Punto>, <Punto> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "TestUguaglianza",
     "AreEqual.Syntax": "[ <Oggetto>, <Oggetto> ]",
     "AreParallel": "TestParallelismo",

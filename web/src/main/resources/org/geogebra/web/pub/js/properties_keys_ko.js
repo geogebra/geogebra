@@ -88,6 +88,8 @@ __GGB__keysVar.ko.command = {
     "AreConcurrent.Syntax": "[ <\uc120>, <\uc120>, <\uc120> ]",
     "AreConcyclic": "\ub3d9\uc77c\uc6d0\uc5ec\ubd80",
     "AreConcyclic.Syntax": "[ <\uc810>, <\uc810>, <\uc810>, <\uc810> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "\uc77c\uce58\uc5ec\ubd80",
     "AreEqual.Syntax": "[ <\ub300\uc0c1>, <\ub300\uc0c1> ]",
     "AreParallel": "\ud3c9\ud589\uc5ec\ubd80",

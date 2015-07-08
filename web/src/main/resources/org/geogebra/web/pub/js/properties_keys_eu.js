@@ -88,6 +88,8 @@ __GGB__keysVar.eu.command = {
     "AreConcurrent.Syntax": "[ <Lerroa>, <Lerroa>, <Lerroa> ]",
     "AreConcyclic": "ZirkunferentziakideakOte",
     "AreConcyclic.Syntax": "[ <Puntua>, <Puntua>, <Puntua>, <Puntua> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "BerdinakOte",
     "AreEqual.Syntax": "[ <Objektua>, <Objektua> ]",
     "AreParallel": "ParaleloakOte",

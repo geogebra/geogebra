@@ -88,6 +88,8 @@ __GGB__keysVar.sq.command = {
     "AreConcurrent.Syntax": "[ <Vije>, <Vije>, <Vije> ]",
     "AreConcyclic": "JaneBashkerrethore",
     "AreConcyclic.Syntax": "[ <Pike>, <Pike>, <Pike>, <Pike> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "JaneteBarabarte",
     "AreEqual.Syntax": "[ <Objekt>, <Objekt> ]",
     "AreParallel": "JaneParalele",

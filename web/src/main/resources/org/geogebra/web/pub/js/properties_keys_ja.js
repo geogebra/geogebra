@@ -88,6 +88,8 @@ __GGB__keysVar.ja.command = {
     "AreConcurrent.Syntax": "[ <\u76f4\u7dda>, <\u76f4\u7dda>, <\u76f4\u7dda> ]",
     "AreConcyclic": "AreConcyclic",
     "AreConcyclic.Syntax": "[ <\u70b9>, <\u70b9>, <\u70b9>, <\u70b9> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "AreEqual",
     "AreEqual.Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8> ]",
     "AreParallel": "AreParallel",

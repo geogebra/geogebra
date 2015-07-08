@@ -88,6 +88,8 @@ __GGB__keysVar.pl.command = {
     "AreConcurrent.Syntax": "[ <Prosta>, <Prosta>, <Prosta> ]",
     "AreConcyclic": "Le\u017c\u0105NaOkr\u0119gu",
     "AreConcyclic.Syntax": "[ <Punkt>, <Punkt>, <Punkt>, <Punkt> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "S\u0105R\xf3wne",
     "AreEqual.Syntax": "[ <Obiekt>, <Obiekt> ]",
     "AreParallel": "S\u0105R\xf3wnoleg\u0142e",

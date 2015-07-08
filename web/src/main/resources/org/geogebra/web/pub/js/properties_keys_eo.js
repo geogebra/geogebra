@@ -88,6 +88,8 @@ __GGB__keysVar.eo.command = {
     "AreConcurrent.Syntax": "[ <Rekto>, <Rekto>, <Rekto> ]",
     "AreConcyclic": "Samcirklaj",
     "AreConcyclic.Syntax": "[ <Punkto>, <Punkto>, <Punkto>, <Punkto> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "Egalaj",
     "AreEqual.Syntax": "[ <Objekto>, <Objekto> ]",
     "AreParallel": "Paralelaj",

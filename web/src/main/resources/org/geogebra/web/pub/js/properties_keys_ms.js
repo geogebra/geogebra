@@ -88,6 +88,8 @@ __GGB__keysVar.ms.command = {
     "AreConcurrent.Syntax": "[ <Garis>, <Garis>, <Garis> ]",
     "AreConcyclic": "SebulatanDengan",
     "AreConcyclic.Syntax": "[ <Titik>, <Titik>, <Titik>, <Titik> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "SamaDengan",
     "AreEqual.Syntax": "[ <Objek>, <Objek> ]",
     "AreParallel": "SelariDengan",

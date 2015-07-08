@@ -88,6 +88,8 @@ __GGB__keysVar.no_NN.command = {
     "AreConcurrent.Syntax": "[ <Linje>, <Linje>, <Linje> ]",
     "AreConcyclic": "ErKonsyklisk",
     "AreConcyclic.Syntax": "[ <Punkt>, <Punkt>, <Punkt>, <Punkt> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "ErLike",
     "AreEqual.Syntax": "[ <Objekt>, <Objekt> ]",
     "AreParallel": "ErParallell",

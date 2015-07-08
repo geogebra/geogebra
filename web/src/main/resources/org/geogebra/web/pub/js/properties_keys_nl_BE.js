@@ -88,6 +88,8 @@ __GGB__keysVar.nl_BE.command = {
     "AreConcurrent.Syntax": "[ <Rechte>, <Rechte>, <Rechte> ]",
     "AreConcyclic": "Zijnconcyclisch",
     "AreConcyclic.Syntax": "[ <Punt>, <Punt>, <Punt>, <Punt> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "ZijnGelijk",
     "AreEqual.Syntax": "[ <Object>, <Object> ]",
     "AreParallel": "ZijnEvenwijdig",

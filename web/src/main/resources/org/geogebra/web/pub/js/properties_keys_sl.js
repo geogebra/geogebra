@@ -88,6 +88,8 @@ __GGB__keysVar.sl.command = {
     "AreConcurrent.Syntax": "[ <premica>, <premica>, <premica> ]",
     "AreConcyclic": "SoKoncikli\u010dne",
     "AreConcyclic.Syntax": "[ <to\u010dka>, <to\u010dka>, <to\u010dka>, <to\u010dka> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "Ekvivalenca",
     "AreEqual.Syntax": "[ <objekt>, <objekt> ]",
     "AreParallel": "Vzporednost",

@@ -88,6 +88,8 @@ __GGB__keysVar.sv.command = {
     "AreConcurrent.Syntax": "[ <Linje>, <Linje>, <Linje> ]",
     "AreConcyclic": "KontrolleraOmPunkternaLiggerP\xe5EnCirkel",
     "AreConcyclic.Syntax": "[ <Punkt>, <Punkt>, <Punkt>, <Punkt> ]",
+    "AreCongruent": "AreCongruent",
+    "AreCongruent.Syntax": "[ <Object>, <Object> ]",
     "AreEqual": "KontrolleraOmObjekten\xc4rIdentiska",
     "AreEqual.Syntax": "[ <Objekt>, <Objekt> ]",
     "AreParallel": "KontrolleraOmLinjerna\xc4rParallella",
