@@ -1709,6 +1709,7 @@ public class AlgebraProcessor {
 			if (getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0), loc)
 					&& getTrigCoeffs(cy, coefY,
 							new ExpressionNode(kernel, 1.0), loc)) {
+
 				ExpressionNode a, b, c, d, xx, xy, yy;
 
 				ExpressionNode x = new FunctionVariable(kernel, "x").wrap()
@@ -1845,7 +1846,7 @@ public class AlgebraProcessor {
 
 	protected int getPolyCoeffs(ExpressionNode cx, ExpressionValue[] coefX,
 			ExpressionNode mult, GeoNumeric loc2) {
-		if (!cx.contains(loc2)) {
+		if (!cx.containsDeep(loc2)) {
 			add(coefX, 0, mult.multiply(cx));
 			return 0;
 		} else if (cx.getOperation() == Operation.PLUS) {
@@ -1980,11 +1981,14 @@ public class AlgebraProcessor {
 		Operation[] ops = new Operation[] { Operation.XCOORD, Operation.YCOORD,
 				Operation.ZCOORD };
 		if (exp.isLeaf()) {
-			if (exp.getLeft() instanceof MyVecNode) {
+			if (exp.getLeft() instanceof MyVecNode
+					&& ((MyVecNode) exp.getLeft()).getMode() == Kernel.COORD_CARTESIAN) {
 				return i == 0 ? ((MyVecNode) exp.getLeft()).getX().wrap()
 						: ((MyVecNode) exp.getLeft()).getY().wrap();
 			}
-			if (exp.getLeft() instanceof MyVec3DNode) {
+			if (exp.getLeft() instanceof MyVec3DNode
+					&& (((MyVec3DNode) exp.getLeft()).getMode() == Kernel.COORD_CARTESIAN || ((MyVec3DNode) exp
+							.getLeft()).getMode() == Kernel.COORD_CARTESIAN_3D)) {
 				return i == 0 ? ((MyVec3DNode) exp.getLeft()).getX().wrap()
 						: (i == 1 ? ((MyVec3DNode) exp.getLeft()).getY().wrap()
 								: ((MyVec3DNode) exp.getLeft()).getZ().wrap());

@@ -447,4 +447,13 @@ public abstract class ValidExpression implements ExpressionValue {
 		return this.isNumberValue();
 	}
 
+	public boolean containsDeep(final ExpressionValue needle) {
+		return inspect(new Inspecting() {
+
+			public boolean check(ExpressionValue v) {
+				return v == needle;
+			}
+		});
+	}
+
 }
