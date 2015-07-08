@@ -7,6 +7,7 @@ import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimati
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
@@ -20,9 +21,13 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	private AppW app;
 	
 	public AnimationSpeedPanelW(AppW app) {
+		this(new AnimationSpeedModel(app), app);
+	}
+
+	public AnimationSpeedPanelW(AnimationSpeedModel m, AppW app) {
         super(app.getLocalization(), app.getPlain("AnimationSpeed"));
         this.app = app;
-		model = new AnimationSpeedModel(app);
+		model = m;
 		model.setListener(this);
     	setModel(model);
     	modeLabel = new Label();
@@ -38,8 +43,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
         speedPanel.add(tfAnimSpeed);
         repeatPanel.add(modeLabel);
         repeatPanel.add(getListBox());
-        mainPanel.add(speedPanel);
-        mainPanel.add(repeatPanel);
+		mainPanel.add(LayoutUtil.panelRow(speedPanel, repeatPanel));
         setWidget(mainPanel);
 
         tfAnimSpeed.addKeyHandler(new KeyHandler(){

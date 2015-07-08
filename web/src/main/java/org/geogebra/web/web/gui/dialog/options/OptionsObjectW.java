@@ -12,6 +12,7 @@ import org.geogebra.common.gui.dialog.options.OptionsObject;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimatingModel;
+import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import org.geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
@@ -1486,6 +1487,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		tab.addModel(new CoordsModel());
 		tab.addModel(new LineEqnModel());
 		tab.addModel(new ConicEqnModel(loc));
+		tab.addModel(new AnimationSpeedModel(getAppW()));
+
+		// tab.addModel(new AnimationStepModel(null, app));
+
 		App.debug("ALGEBRA" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 
