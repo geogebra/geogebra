@@ -111,9 +111,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CheckBox cbOpenConsProtocol;
 		private CheckBox cbShowGrid;
 		private CheckBox cbBoldGrid;
-		private Label lblAxisLabelStyle;
-		CheckBox cbAxisLabelBold;
-		CheckBox cbAxisLabelItalic;
+		protected Label lblAxisLabelStyle;
+		protected CheckBox cbAxisLabelBold;
+		protected CheckBox cbAxisLabelItalic;
 		public BasicTab() {
 			super();
 			addDimensionPanel();
