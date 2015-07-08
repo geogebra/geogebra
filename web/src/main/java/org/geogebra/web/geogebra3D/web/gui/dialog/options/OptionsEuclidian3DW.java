@@ -129,6 +129,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		protected void fillAxesOptionsPanel() {
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes));
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbYAxisVertical));
+			axesOptionsPanel.add(LayoutUtil.panelRow(lblAxisLabelStyle,
+					cbAxisLabelBold, cbAxisLabelItalic));
+
 		}
 
 		private void addClippingOptionsPanel() {

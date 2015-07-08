@@ -57,6 +57,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
@@ -2354,6 +2355,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			((AppD) app).updateContentPane();
 		}
 
+		if (app.getEuclidianView3D() != null) {
+			EuclidianView ev = (EuclidianView) app.getEuclidianView3D();
+			ev.updateFonts();
+			((EuclidianView3DInterface) ev).updateAllDrawables();
+		}
 		// force JavaScript ggbOnInit(); to be called
 		if (!app.isApplet())
 			app.getScriptManager().ggbOnInit();

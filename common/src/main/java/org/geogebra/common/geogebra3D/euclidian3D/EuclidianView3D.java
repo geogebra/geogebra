@@ -2866,7 +2866,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		sb.append("\"/>\n");
 		
-		
+		// axes label style
+		sb.append("\t<labelStyle axes=\"");
+		sb.append(getSettings().getAxisFontStyle());
+		sb.append("\"/>\n");
 
 		// end
 		sb.append("</euclidianView3D>\n");

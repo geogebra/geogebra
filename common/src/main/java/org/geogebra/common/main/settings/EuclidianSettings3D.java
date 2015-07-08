@@ -1,8 +1,8 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.main.App;
 
 /**
  * Settings for 3D view
@@ -279,6 +279,8 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	
 	
 	private boolean useLight = true;
+
+	private int axisFontStyle3D = GFont.PLAIN;
 	
 	public void setUseLight(boolean flag){
 		if (useLight != flag) {
@@ -340,6 +342,19 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		this.xscale = scale;
 		this.yscale = scale;
 		this.zscale = scale;
+	}
+
+	public int getAxisFontStyle() {
+		// #5320
+		return axisFontStyle3D;
+	}
+
+	public void setAxisFontStyle(int style) {
+
+		if (axisFontStyle3D != style) {
+			axisFontStyle3D = style;
+			settingChanged();
+		}
 	}
 
 }

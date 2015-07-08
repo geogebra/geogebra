@@ -113,8 +113,10 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (eName.equals("light")) {
 				ok = handleLight((EuclidianSettings3D) evSet, attrs);
 				break;
+			} else if ("labelStyle".equals(eName)) {
+				ok = handleLabelStyle(evSet, attrs);
+				break;
 			}
-
 
 		case 'p':
 			if (eName.equals("plate")) {

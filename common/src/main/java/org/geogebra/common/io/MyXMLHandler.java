@@ -1550,7 +1550,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleLabelStyle(EuclidianSettings ev,
+	protected static boolean handleLabelStyle(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		try {
 			ev.setAxisFontStyle(Integer.parseInt(attrs.get("axes")));
