@@ -176,10 +176,10 @@ public class Inequality {
 			if (newBorder.degree() < 2) {
 				if (lineBorder == null)
 					lineBorder = new GeoLine(kernel.getConstruction());
-				// conicBorder.setLabel("res");
+				// if we got here coefX and coefY are null #5315
 				ExpressionValue[][] evs = equ.getNormalForm().getCoeff();
-				lineBorder.setCoords(GeoConic.evalCoeff(evs, 1, 0),
-						GeoConic.evalCoeff(evs, 0, 1),
+				lineBorder.setCoords(coefX = GeoConic.evalCoeff(evs, 1, 0),
+						coefY = GeoConic.evalCoeff(evs, 0, 1),
 						GeoConic.evalCoeff(evs, 0, 0));
 				type = IneqType.INEQUALITY_LINEAR;
 				border = lineBorder;
