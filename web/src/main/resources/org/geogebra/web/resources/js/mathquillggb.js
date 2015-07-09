@@ -3950,6 +3950,21 @@ var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _su
       return self;
     });
   };
+  _.latex = function() {
+	// well, GeoGebraWeb cannot parse the \\quotation syntax anyway,
+    // and this is just for output, I think...
+	// so let's help the copy operation instead!
+	var cont = this.ch[L].latex();
+	// cont might have {} around, so let's remove them!
+	// or we could remove them in TextBlock, but maybe harmful
+
+	// ... we BELIEVE that cont has {} signs around,
+	// no need for checking... just a little
+	if (cont.length >= 2) {
+	  cont = cont.substring(1, cont.length - 1);
+	}
+    return '"' + cont + '"';
+  };
 });
 
 LatexCmds.lbrace =
@@ -5885,10 +5900,20 @@ var Cursor = P(Point, function(_) {
       } else if (text2.substring(0,1) === '}') {
         text2 = text2.substring(1);
         if (inside1) {
+          // for better syntax, we need to escape this!
+          // but we can only escape this in a right way
+          // when we're not using the \\quotation syntax,
+          // since this could be ambiguous:
+          // \\quotation{ \frac{3}{5} } would close it early
+          // so the best solution will be just to copy the LaTeX
+          // in the "\frac{3}{5}" format, and users need not know
+          // about the quotation syntax at all...
+          // in short - this should only happen if users want bugs
           text3 += '}';
           inside1 = false;
         } else if (inside2) {
-          text3 += '}';
+          // so, here we are!!! escape!
+          text3 += '//}';
         } else {
           // this should not happen in theory, by the way
           text3 += '}';
