@@ -134,8 +134,8 @@ public class DrawAxis3D extends DrawLine3D {
 					// creates new label
 					label = new DrawLabel3D(getView3D(), this);
 					label.setAnchor(true);
-					label.update(strNum, getView3D().getApplication()
-							.getPlainFontCommon(), getGeoElement()
+					label.update(strNum, getView3D().getFontAxes(),
+							getGeoElement()
 							.getObjectColor(), origin.copyVector(),
 							numbersXOffset, numbersYOffset);
 					label.updatePosition(getView3D().getRenderer());
