@@ -27,20 +27,28 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  *
  * @author Markus
  * @version
  */
-public class AlgoRotatePoint extends AlgoTransformation {
+public class AlgoRotatePoint extends AlgoTransformation implements
+		SymbolicParametersBotanaAlgo {
 
 	private GeoPointND Q;
 	private PointRotateable out;
 	private NumberValue angle;
 	private GeoElement inGeo, outGeo, angleGeo;
+
+	private Variable[] botanaVars;
+	private Polynomial[] botanaPolynomials;
 
 	/**
 	 * Creates new point rotation algo
@@ -152,6 +160,80 @@ public class AlgoRotatePoint extends AlgoTransformation {
 	@Override
 	public double getAreaScaleFactor() {
 		return 1;
+	}
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		// point to rotate
+		GeoPoint A = (GeoPoint) Q;
+		// point around the rotation is processed
+		GeoPoint B = (GeoPoint) input[0];
+
+		if (A != null && B != null) {
+			Variable[] vA = A.getBotanaVars(A);
+			Variable[] vB = B.getBotanaVars(B);
+
+			if (botanaVars == null) {
+				botanaVars = new Variable[6];
+				// A' - rotation point
+				botanaVars[0] = new Variable();
+				botanaVars[1] = new Variable();
+				// A - point around the rotation is processed
+				botanaVars[2] = vA[0];
+				botanaVars[3] = vA[1];
+				// B - point to rotate
+				botanaVars[4] = vB[0];
+				botanaVars[5] = vB[1];
+			}
+
+			double angleDoubleVal = angle.getDouble();
+
+			Polynomial a1 = new Polynomial(vA[0]);
+			Polynomial a2 = new Polynomial(vA[1]);
+			Polynomial b1 = new Polynomial(vB[0]);
+			Polynomial b2 = new Polynomial(vB[1]);
+			Polynomial a_1 = new Polynomial(botanaVars[0]);
+			Polynomial a_2 = new Polynomial(botanaVars[1]);
+
+			// rotate by 0 degrees
+			if (angleDoubleVal == 0.0) {
+				botanaPolynomials = new Polynomial[2];
+				botanaPolynomials[0] = a_1.subtract(a1).subtract(b1).add(a1);
+				botanaPolynomials[1] = a_2.subtract(a2).subtract(b2).add(a2);
+			}
+			// rotate by 180 degrees
+			if (angleDoubleVal == 3.141592653589793
+					|| angleDoubleVal == -3.141592653589793) {
+				botanaPolynomials = new Polynomial[2];
+				botanaPolynomials[0] = a_1.subtract(a1).add(b1).subtract(a1);
+				botanaPolynomials[1] = a_2.subtract(a2).add(b2).subtract(a2);
+			}
+			// rotate by 90 degrees
+			if (angleDoubleVal == 1.5707963267948966) {
+				botanaPolynomials = new Polynomial[2];
+				botanaPolynomials[0] = a_1.subtract(a1).subtract(b2).add(a2);
+				botanaPolynomials[1] = a_2.subtract(a2).add(b1).subtract(a1);
+			}
+			// rotate by -90 degrees
+			if (angleDoubleVal == -1.5707963267948966) {
+				botanaPolynomials = new Polynomial[2];
+				botanaPolynomials[0] = a_1.subtract(a1).subtract(b2).add(a2);
+				botanaPolynomials[1] = a_2.subtract(a2).add(b1).subtract(a1);
+			}
+
+			return botanaPolynomials;
+
+		}
+		throw new NoSymbolicParametersException();
 	}
 
 	// TODO Consider locusequability
