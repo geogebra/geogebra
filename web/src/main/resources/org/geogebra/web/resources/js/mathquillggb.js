@@ -5913,7 +5913,7 @@ var Cursor = P(Point, function(_) {
           inside1 = false;
         } else if (inside2) {
           // so, here we are!!! escape!
-          text3 += '//}';
+          text3 += '\\}';
         } else {
           // this should not happen in theory, by the way
           text3 += '}';
