@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -28,10 +29,12 @@ import org.geogebra.common.kernel.arithmetic.PolynomialNode;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.AlgoAreCongruent;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
+import org.geogebra.common.kernel.prover.AlgoIsOnPath;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -518,6 +521,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			}
 			if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 				AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
+				Polynomial[][] ret = algo.getBotanaPolynomials();
+				algo.remove();
+				return ret;
+			}
+			if (root.getOperation().equals(Operation.IS_ELEMENT_OF)) {
+				AlgoIsOnPath algo = new AlgoIsOnPath(cons, "", (GeoPoint) left,
+						(Path) right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();
 				return ret;
