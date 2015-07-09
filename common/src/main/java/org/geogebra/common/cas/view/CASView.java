@@ -187,9 +187,16 @@ public abstract class CASView implements View, SetLabels {
 			backToEvaluate = false;
 			// ignore other modes
 		}
-		if (backToEvaluate)
+		if (backToEvaluate){
+			showTooltip(mode);
 			getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE,
 					ModeSetter.CAS_VIEW);
+		}
+	}
+
+	protected void showTooltip(int mode) {
+		// only in web
+
 	}
 
 	/**

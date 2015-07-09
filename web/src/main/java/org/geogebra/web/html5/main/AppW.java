@@ -3332,4 +3332,8 @@ public abstract class AppW extends App implements SetLabels {
 		this.euclidianHandlers.add(mtg);
 	}
 
+	public boolean showToolBarHelp() {
+		return getArticleElement().getDataParamShowToolBarHelp(true);
+	}
+
 }

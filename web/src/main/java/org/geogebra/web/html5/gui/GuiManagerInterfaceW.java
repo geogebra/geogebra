@@ -116,4 +116,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed);
 
 	public void setPixelRatio(double ratio);
+
+	public String getTooltipURL(int mode);
 }

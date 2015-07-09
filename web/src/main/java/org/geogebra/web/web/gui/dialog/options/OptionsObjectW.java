@@ -312,7 +312,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			
 			mainPanel.add(title);
 			// non auto complete input panel
-			InputPanelW inputPanel = new InputPanelW(null, getAppW(), -1, false);
+			InputPanelW inputPanel = new InputPanelW(null, getAppW(), 1, -1,
+					true);
 			tfCondition = inputPanel.getTextComponent();
 
 			tfCondition.addKeyHandler(new KeyHandler(){

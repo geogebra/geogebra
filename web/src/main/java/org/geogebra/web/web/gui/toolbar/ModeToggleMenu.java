@@ -3,8 +3,6 @@ package org.geogebra.web.web.gui.toolbar;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
@@ -178,7 +176,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (menu.get(0) == mode) {
 				
 
-				showToolTipBottom(getTooltipURL(mode), m);
+				showToolTipBottom(app.getGuiManager().getTooltipURL(mode), m);
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
@@ -209,7 +207,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);
 				
-				showToolTipBottom(getTooltipURL(mode), m);
+				showToolTipBottom(app.getGuiManager().getTooltipURL(mode), m);
 				return true;
 			}
 		}
@@ -218,14 +216,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	
-	private String getTooltipURL(int mode) {
 
-		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-			return app.getGuiManager().getHelpURL(Help.GENERIC, "Custom_Tools");
-		}
-
-		return app.getGuiManager().getHelpURL(Help.TOOL, app.getKernel().getModeText(mode));    
-	}
 
 	public int getFirstMode() {
 		if (menu.size() == 0){
@@ -382,7 +373,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	public void showToolTipBottom(String helpURL, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW
-				&& app.getArticleElement().getDataParamShowToolBarHelp(true)) {
+ && app.showToolBarHelp()) {
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText,
 					helpURL, ToolTipLinkType.Help, app);
 		}

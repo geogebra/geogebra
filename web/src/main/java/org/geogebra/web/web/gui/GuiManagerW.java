@@ -2028,4 +2028,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	}
 
+	public String getTooltipURL(int mode) {
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			return getHelpURL(Help.GENERIC, "Custom_Tools");
+		}
+
+		return getHelpURL(Help.TOOL, app.getKernel().getModeText(mode));
+	}
+
 }

@@ -4,6 +4,8 @@ import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 
@@ -166,5 +168,14 @@ public class CASViewW extends CASView {
 			}
 		}
 
+	}
+	
+	protected void showTooltip(int mode) {
+		if (getApp().showToolBarHelp()) {
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+					app.getToolTooltipHTML(mode),
+					app.getGuiManager().getTooltipURL(mode),
+					ToolTipLinkType.Help, app);
+		}
 	}
 }
