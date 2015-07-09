@@ -866,8 +866,7 @@ public class SpreadsheetTraceManager {
 
 		try {
 			cell = new GeoList(cons);
-			cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column,
-					row));
+			putCell(cell, column, row);
 			cell.setEuclidianVisible(false);
 			cell.setAuxiliaryObject(true);
 			cell.updateCascade();
@@ -875,6 +874,17 @@ public class SpreadsheetTraceManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void putCell(GeoElement cell, int column, int row) {
+		String label = GeoElementSpreadsheet
+				.getSpreadsheetCellName(column, row);
+		GeoElement old = cell.getKernel().lookupLabel(label);
+		if (old != null) {
+			old.remove();
+		}
+		cell.setLabel(label);
+
 	}
 
 	private void updateTraceListCell(Construction cons, GeoElement geo,
@@ -965,9 +975,7 @@ public class SpreadsheetTraceManager {
 
 					for (int j = 0; j < strings.size(); j++) {
 						headerText = strings.get(j);
-						String cellName = GeoElementSpreadsheet
-								.getSpreadsheetCellName(column, row);
-						headerText.setLabel(cellName);
+						putCell(headerText, column, row);
 						column++;
 					}
 				}
