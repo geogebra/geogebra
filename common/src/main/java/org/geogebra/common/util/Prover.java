@@ -370,11 +370,7 @@ public abstract class Prover {
 					geos[0] = l1;
 					geos[1] = l2;
 					sortGeos();
-					this.setCondition("AreEqual");
-					/*
-					 * This equality is length equality, but this is the natural
-					 * interpretation.
-					 */
+					this.setCondition("AreCongruent");
 				}
 			}
 		}
