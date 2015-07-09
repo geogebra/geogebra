@@ -20,6 +20,7 @@ import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.util.debug.Log;
 
@@ -323,7 +324,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		// preferences for some reasons, create and store them now (plus: store
 		// version string)
 		if (factoryDefaultXml == null) {
-			factoryDefaultXml = getDefaultPreferences();
+			factoryDefaultXml = getDefaultPreferences(app);
 			ggbPrefs.put(XML_FACTORY_DEFAULT, factoryDefaultXml);
 			ggbPrefs.put(VERSION, GeoGebraConstants.VERSION_STRING);
 		}
@@ -529,7 +530,12 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * @return Default preferences
 	 */
-	private String getDefaultPreferences() {
+	private String getDefaultPreferences(App app) {
+
+		if (app.has(Feature.AUTOMATIC_FONTSIZE)) {
+			return GeoGebraPreferencesXML.getXML();
+		}
+
 		StringBuilder text = new StringBuilder();
 		String NL = System.getProperty("line.separator");
 		Scanner scanner = new Scanner(this.getClass().getResourceAsStream(
