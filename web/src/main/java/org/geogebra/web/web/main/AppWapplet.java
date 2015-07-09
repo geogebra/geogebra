@@ -15,6 +15,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -47,6 +48,7 @@ import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -420,6 +422,8 @@ public class AppWapplet extends AppWFull {
 		if (isUsingFullGui()) {
 			updateNavigationBars();
 		}
+		this.setPreferredSize(new GDimensionW((int) this.getWidth(), (int) this
+				.getHeight()));
 		setDefaultCursor();
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
  frame);
@@ -607,6 +611,8 @@ public class AppWapplet extends AppWFull {
 			this.getMenuBar().setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
 			        this.oldSplitLayoutPanel.getOffsetHeight());
 			this.getGuiManager().refreshDraggingViews();
+			oldSplitLayoutPanel.getElement().getStyle()
+					.setOverflow(Overflow.HIDDEN);
 		} else {
 			hideMenu();
 		}
@@ -624,6 +630,8 @@ public class AppWapplet extends AppWFull {
 				this.oldSplitLayoutPanel.getOffsetHeight());
 
 		this.splitPanelWrapper.remove(this.getMenuBar());
+		oldSplitLayoutPanel.getElement().getStyle()
+				.setOverflow(Overflow.VISIBLE);
 		if (this.getGuiManager() != null
 				&& this.getGuiManager().getLayout() != null) {
 			this.getGuiManager().getLayout().getDockManager().resizePanels();

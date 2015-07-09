@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.app;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,6 +34,15 @@ public class GGWMenuBar extends Composite {
 
 	public void removeMenus(){
 		ggbmenubarwrapper.clear();
+	}
+
+	@Override
+	public void setPixelSize(int w, int h) {
+		super.setPixelSize(w, h);
+		if (menubar != null && menubar.getElement().getParentElement() != null) {
+			menubar.getElement().getParentElement().getStyle()
+				.setHeight(h, Unit.PX);
+		}
 	}
 
 	public void focus() {

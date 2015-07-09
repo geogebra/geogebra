@@ -2408,7 +2408,7 @@ body.application[dir=rtl] .toolbar_mainItem {
 	margin-left: 50px;
 }
 
-.toolbar_item {
+.GeoGebraFrame li.toolbar_item {
 	margin: 0px 5px 0px 0px;
 	text-align: center;
 	position: relative;
