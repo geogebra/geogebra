@@ -36,6 +36,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Language;
+import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -1007,6 +1008,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		}
 
+		// #5320
+		getApp().getEuclidianView1().updateFonts();
+		if (hasEuclidianView2(1)) {
+			((EuclidianView) getEuclidianView2(1)).updateFonts();
+		}
+
+		if (getApp().getEuclidianView3D() != null) {
+			((EuclidianView3DW) (getApp().getEuclidianView3D())).doRepaint2();
+
+		}
 		// force JavaScript ggbOnInit(); to be called
 		if (!app.isApplet())
 			app.getScriptManager().ggbOnInit();

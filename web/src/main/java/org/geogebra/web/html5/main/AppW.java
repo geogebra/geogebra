@@ -718,12 +718,7 @@ public abstract class AppW extends App implements SetLabels {
 			// App.debug("start processing" + System.currentTimeMillis());
 			getXMLio().processXMLString(construction, true, false);
 
-			// #5320
-			getEuclidianView1().updateFonts();
-			if (getGuiManager() != null && getGuiManager().hasEuclidianView2(1)) {
-				((EuclidianView) getGuiManager().getEuclidianView2(1))
-						.updateFonts();
-			}
+
 
 			// App.debug("end processing" + System.currentTimeMillis());
 			// defaults (optional)
