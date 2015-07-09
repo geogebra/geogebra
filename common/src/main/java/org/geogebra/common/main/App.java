@@ -3892,7 +3892,6 @@ public abstract class App implements UpdateSelection {
 		case POLYGON_TRIANGULATION:
 		case TOOL_EDITOR:
 		case TUBE_BETA:
-		case AUTOMATIC_FONTSIZE:
 			return prerelease;
 		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:
@@ -3901,6 +3900,7 @@ public abstract class App implements UpdateSelection {
 		case JLM_IN_WEB:
 		case DELETE_IN_ALGEBRA:
 		case GL_ELEMENTS:
+		case AUTOMATIC_FONTSIZE:
 			return true;
 		default:
 			return false;
