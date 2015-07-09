@@ -1831,9 +1831,13 @@ function createRoot(jQ, root, textbox, editable) {
     function mousemove(e) {
       cursor.seek($(e.target), e.pageX, e.pageY);
 
-      if (cursor[L] !== anticursor[L]
-          || cursor.parent !== anticursor.parent) {
-        cursor.selectFrom(anticursor);
+      if (anticursor) {
+    	// I don't understand, why anticursor is not really
+    	// updated? Maybe something was deleted unintentionally?
+        if (cursor[L] !== anticursor[L]
+            || cursor.parent !== anticursor.parent) {
+          cursor.selectFrom(anticursor);
+        }
       }
 
       // mousemove has no default action according to Mozilla
