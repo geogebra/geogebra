@@ -715,18 +715,35 @@ public class EuclidianOptionsModel {
 		view.updateFonts();
 	}
 
-	private void setAxisFontStyle(boolean value, int attribute) {
-		int style = getAxisFontStyle();
-		style += (value ? 1 : -1) * attribute;
-		setAxisFontStyle(style);
-	}
 
 	public void setAxisFontBold(boolean value) {
-		setAxisFontStyle(value, GFont.BOLD);
+		int style = getAxisFontStyle();
+		if (value) {
+			if (style == GFont.PLAIN || style == GFont.ITALIC) {
+				style += GFont.BOLD;
+				setAxisFontStyle(style);
+			}
+		} else {
+			if (style == GFont.BOLD || style == GFont.ITALIC + GFont.BOLD) {
+				style -= GFont.BOLD;
+				setAxisFontStyle(style);
+			}
+		}
 	}
 
 	public void setAxisFontItalic(boolean value) {
-		setAxisFontStyle(value, GFont.ITALIC);
+		int style = getAxisFontStyle();
+		if (value) {
+			if (style == GFont.PLAIN || style == GFont.BOLD) {
+				style += GFont.ITALIC;
+				setAxisFontStyle(style);
+			}
+		} else {
+			if (style == GFont.ITALIC || style == GFont.ITALIC + GFont.BOLD) {
+				style -= GFont.ITALIC;
+				setAxisFontStyle(style);
+			}
+		}
 	}
 
 }
