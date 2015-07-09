@@ -42,7 +42,7 @@ public class GeoGebraPreferencesXML {
 		// 192 to 200%
 		double sf = screenDPI / 96.0;
 		defaultWindowX = (int) (800.0 * sf);
-		defaultWindowX = (int) (600.0 * sf);
+		defaultWindowY = (int) (600.0 * sf);
 	}
 
 	private static int getLegalFontSize(int fontSize) {

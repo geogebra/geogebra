@@ -17,6 +17,7 @@ import java.awt.Toolkit;
 import java.net.URL;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.desktop.main.GeoGebraPreferencesXML;
 
 public class GeoGebra {
 
@@ -31,6 +32,15 @@ public class GeoGebra {
 
 	protected void doMain(String[] cmdArgs) {
 		CommandLineArguments args = new CommandLineArguments(cmdArgs);
+
+		if (args.containsArg("screenDPI") && args.containsArg("screenX")
+				&& args.containsArg("screenY")) {
+			int screenDPI = Integer.parseInt(args.getStringValue("screenDPI"));
+			int screenX = Integer.parseInt(args.getStringValue("screenX"));
+			int screenY = Integer.parseInt(args.getStringValue("screenY"));
+
+			GeoGebraPreferencesXML.setDefaults(screenDPI, screenX, screenY);
+		}
 
 		boolean showSplash = true;
 		if (!args.getBooleanValue("showSplash", true)) {
