@@ -3890,10 +3890,10 @@ public abstract class App implements UpdateSelection {
 		case KOREAN_KEYBOARD:
 		case LOCALSTORAGE_FILES:
 		case POLYGON_TRIANGULATION:
-		case INPUT_SHOWN_IN_INPUTBAR:
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 			return prerelease;
+		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:
 		case SF_DRAG:
