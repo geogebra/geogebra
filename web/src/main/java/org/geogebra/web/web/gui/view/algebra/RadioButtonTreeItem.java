@@ -456,8 +456,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			if (geo.isDefined()) {
-				String latexStr = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplateMQ);
+				String latexStr = geo.getLaTeXAlgebraDescriptionWithFallback(
+						true, StringTemplate.latexTemplateMQ, false);
 				seNoLatex = se;
 				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
 					this.needsUpdate = true;
@@ -755,11 +755,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			String text = "";
 			if (geo != null) {
 				if (app.has(Feature.JLM_IN_WEB) && !newCreationMode) {
-					text = geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplate);
+					text = geo.getLaTeXAlgebraDescriptionWithFallback(true,
+							StringTemplate.latexTemplate, false);
 				} else {
-					text = geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplateMQ);
+					text = geo.getLaTeXAlgebraDescriptionWithFallback(true,
+							StringTemplate.latexTemplateMQ, false);
 				}
 				if ((text != null) && text.length() < 1500
 						&& geo.isLaTeXDrawableGeo() && geo.isDefined()) {
@@ -772,7 +772,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (LaTeX && newLaTeX) {
 				if (newCreationMode) {
 					text = geo.getLaTeXAlgebraDescriptionWithFallback(true,
-							StringTemplate.latexTemplateMQ);
+							StringTemplate.latexTemplateMQ, true);
+					// or false? well, in theory, it should not matter
 				}
 				updateLaTeX(text);
 
@@ -992,14 +993,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			});
 		} else {
 			if (app.has(Feature.JLM_IN_WEB) && c != null) {
+				String str = null;
 				renderLatex(geo.getLaTeXAlgebraDescriptionWithFallback(true,
-						StringTemplate.latexTemplateMQ),
-						c.getCanvasElement(),
-						true);
+						StringTemplate.latexTemplateMQ, true),
+						c.getCanvasElement(), true);
 			} else if (!LaTeX) {
 				renderLatex(geo.getLaTeXAlgebraDescriptionWithFallback(true,
-						StringTemplate.latexTemplateMQ), seNoLatex,
-						true);
+						StringTemplate.latexTemplateMQ, true), seNoLatex, true);
 			}
 			DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, false);

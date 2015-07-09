@@ -4874,17 +4874,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * algebra description, which shall be (label="content") in theory
 	 */
 	public String getLaTeXAlgebraDescriptionWithFallback(
-			final boolean substituteNumbers, StringTemplate tpl) {
-		String ret = getLaTeXAlgebraDescription(substituteNumbers, tpl);
-		if ((ret == null) && isGeoText()) {
-			// we are primarily going to use this for fetching LaTeX,
-			// and the "" signs are not proper for MathQuillGGB in case
-			// of simple: getAlgebraDescriptionDefault()
-			// ret = getAlgebraDescriptionDefault();
-
-			// but this is good:
+			final boolean substituteNumbers, StringTemplate tpl,
+			boolean fallback) {
+		String ret = null;
+		if (!isDefined() || !isGeoText()) {
+			ret = getLaTeXAlgebraDescription(substituteNumbers, tpl);
+		}
+		if ((ret == null) && isGeoText() && fallback) {
 			ret = getAlgebraDescription(tpl);
-			// ret = getAlgebraDescription(StringTemplate.latexTemplateMQ);
 		}
 		return ret;
 	}

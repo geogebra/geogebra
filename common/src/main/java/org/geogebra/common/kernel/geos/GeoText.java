@@ -386,14 +386,20 @@ public class GeoText extends GeoElement implements Locateable,
 		}
 		if (tpl1 == StringTemplate.latexTemplateMQ) {
 			sbToString.append(" \\quotation{");
-		} else {
-			sbToString.append('\"');
-		}
-		if (str != null)
-			sbToString.append(str);
-		if (tpl1 == StringTemplate.latexTemplateMQ) {
+			if (str != null) {
+				// do the reverse of what MathQuillGGB will replace
+				// this escaping is necessary for proper parsing
+				String str2 = str.replace("}", "\\}");
+				if (str2.endsWith("\\")) {
+					str2 += " ";
+				}
+				sbToString.append(str2);
+			}
 			sbToString.append("} ");
 		} else {
+			sbToString.append('\"');
+			if (str != null)
+				sbToString.append(str);
 			sbToString.append('\"');
 		}
 		return sbToString.toString();

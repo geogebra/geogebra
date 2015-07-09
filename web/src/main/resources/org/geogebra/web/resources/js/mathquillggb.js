@@ -5307,13 +5307,45 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
     var regex = Parser.regex;
     var optWhitespace = Parser.optWhitespace;
     return optWhitespace
-      .then(string('{')).then(regex(/^[^}]*/)).skip(string('}'))
+      .then(string('{')).then(regex(/^(([\\][}])*[^}]?)*/)).skip(string('}'))
       .map(function(text) {
         // TODO: is this the correct behavior when parsing
         // the latex \text{} ?  This violates the requirement that
         // the text contents are always nonempty.  Should we just
         // disown the parent node instead?
-        TextPiece(text).adopt(textBlock, 0, 0);
+
+    	// and make sure text did not end with \
+    	// so there is an extra space at the end in that case
+    	// note that JavaScript also escapes backslash,
+    	// so we double it everywhere
+    	var text2 = text;
+    	if (text.substring(text.length-2) === '\\ ') {
+    		text2 = text2.substring(0,text2.length-1);
+    	}
+
+    	// if all } was escaped, \} could only have come from escaping }
+        // if }s were not escaped by us, then it can go wrong anyway
+    	// but this is we are going to avoid (see other comments)
+    	text2 = text2.replace(/\\}/g,'}');
+
+        // but it is a good question when this escaping
+        // should have happened in case of parsing / pasting
+        // so, to escape everything perfectly, then it
+        // might need pre-processing similar to parsing!
+    	// i.e. only escape things inside \quotation{}
+    	// but then comes the original problem again:
+    	// which } sign should mean the end of \quotation?
+    	// e.g. \quotation{12}+\quotation{34} can be:
+    	// "12"+"34" or "12}+\quotation{34", otherwise we
+    	// could not enter "12}+\quotation{34"...
+    	// so we might require that all content inside
+    	// \quotation shall be escaped by default!
+    	// i.e. the user shall take care to paste only
+    	// escaped things inside quotations, and in
+    	// case of GeoGebraWeb calling this, it should do that.
+    	// TODO: copy with CTRL+C shall escape it, however!
+
+        TextPiece(text2).adopt(textBlock, 0, 0);
         return textBlock;
       });
   };
