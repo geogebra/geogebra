@@ -3980,9 +3980,13 @@ sb.toString(), getFontAxes(),
 		sbxml.append("\"/>\n");
 
 		// axes label style
-		sbxml.append("\t<labelStyle axes=\"");
-		sbxml.append(getSettings().getAxisFontStyle());
-		sbxml.append("\"/>\n");
+		int style = getSettings().getAxisFontStyle();
+		if (style == GFont.BOLD || style == GFont.ITALIC
+				|| style == GFont.BOLD + GFont.ITALIC) {
+			sbxml.append("\t<labelStyle axes=\"");
+			sbxml.append(style);
+			sbxml.append("\"/>\n");
+		}
 
 		// axis settings
 		for (int i = 0; i < 2; i++) {

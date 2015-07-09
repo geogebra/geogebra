@@ -2867,9 +2867,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		sb.append("\"/>\n");
 		
 		// axes label style
-		sb.append("\t<labelStyle axes=\"");
-		sb.append(getSettings().getAxisFontStyle());
-		sb.append("\"/>\n");
+		int style = getSettings().getAxisFontStyle();
+		if (style == GFont.BOLD || style == GFont.ITALIC
+				|| style == GFont.BOLD + GFont.ITALIC) {
+			sb.append("\t<labelStyle axes=\"");
+			sb.append(style);
+			sb.append("\"/>\n");
+		}
 
 		// end
 		sb.append("</euclidianView3D>\n");
