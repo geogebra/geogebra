@@ -164,4 +164,7 @@ public interface GeoGebraConstants {
 	public static final String DATA_LOGGING_WEBSOCKET_URL = "//data-logger.geogebra.org:80";
 
 	public static final String QUICKSTART_URL = "http://tube.geogebra.org/student/b308593";
+
+	public static int[] VALID_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28, 32, 48 };
+
 }

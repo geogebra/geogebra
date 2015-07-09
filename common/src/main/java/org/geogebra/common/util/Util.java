@@ -12,6 +12,8 @@
 
 package org.geogebra.common.util;
 
+import org.geogebra.common.GeoGebraConstants;
+
 public class Util extends Object {
 
 	/**
@@ -44,5 +46,38 @@ public class Util extends Object {
 		}
 
 		return sb.toString();
+	}
+
+	/**
+	 * 
+	 * Optimised for short code - checks every number in List. Use
+	 * ConcurrentSkipListMap for longer lists
+	 * 
+	 * @param num
+	 *            number to check against list
+	 * @param nums
+	 *            list of numbers
+	 * @return next highest number in the list (fallback: return last number in
+	 *         the list)
+	 */
+	public static int getNextHigestNumberInSortedList(int num, int[] nums) {
+
+		for (int i = 0; i < nums.length; i++) {
+			if (num <= nums[i]) {
+				return nums[i];
+			}
+		}
+
+		return nums[nums.length - 1];
+	}
+
+	/**
+	 * @param fontSize
+	 *            desired size
+	 * @return valid, supported fontSize
+	 */
+	public static int getValidFontSize(int fontSize) {
+		return getNextHigestNumberInSortedList(fontSize,
+				GeoGebraConstants.VALID_FONT_SIZES);
 	}
 }

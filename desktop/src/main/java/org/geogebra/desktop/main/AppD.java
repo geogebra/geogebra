@@ -151,6 +151,7 @@ import org.geogebra.common.util.Language;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.Log.LogDestination;
 import org.geogebra.desktop.CommandLineArguments;
@@ -920,7 +921,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		String fontSize = args.getStringValue("fontSize");
 		if (fontSize.length() > 0) {
-			setFontSize(Integer.parseInt(fontSize));
+			setFontSize(Util.getValidFontSize(Integer.parseInt(fontSize)));
 		}
 
 		boolean enableUndo = args.getBooleanValue("enableUndo", true);

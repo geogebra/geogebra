@@ -18,7 +18,7 @@ import java.net.URL;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
-import org.geogebra.desktop.util.Util;
+import org.geogebra.common.util.Util;
 
 public class GeoGebra {
 
@@ -30,6 +30,7 @@ public class GeoGebra {
 	public static void main(String[] cmdArgs) {
 		(new GeoGebra()).doMain(cmdArgs);
 	}
+
 
 	/**
 	 * calculate the default font size and according to some heuristics
@@ -47,7 +48,7 @@ public class GeoGebra {
 		int fontSize = (int) Math.round(screenDPI / 8.0);
 
 		GeoGebraPreferencesXML.defaultFontSize = Util
-				.getLegalFontSize(fontSize);
+				.getValidFontSize(fontSize);
 
 		// 96 corresponds to 100%
 		// 192 to 200%
