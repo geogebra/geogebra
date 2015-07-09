@@ -35,6 +35,9 @@ import java.net.UnknownHostException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Comparator;
+import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -286,6 +289,35 @@ public class Util extends org.geogebra.common.util.Util {
 				}
 			}
 		});
+	}
+
+	private static NavigableMap<Integer, Integer> validFontSizes = null;
+
+	/**
+	 * @param fontSize
+	 *            preferred size
+	 * @return fontSize mapped to legal size
+	 */
+	public static int getLegalFontSize(int fontSize) {
+
+		if (validFontSizes == null) {
+			validFontSizes = new ConcurrentSkipListMap<Integer, Integer>();
+
+			int[] fontSizes = { 12, 14, 16, 18, 20, 24, 28, 32, 48 };
+
+			for (int i = 0; i < fontSizes.length; i++) {
+				validFontSizes.put(fontSizes[i], i);
+			}
+		}
+
+		Entry<Integer, Integer> entry = validFontSizes.floorEntry(fontSize);
+
+		if (entry == null) {
+			// less than 12, return 12
+			entry = validFontSizes.ceilingEntry(fontSize);
+		}
+
+		return entry.getKey();
 	}
 
 }

@@ -17,7 +17,8 @@ import java.awt.Toolkit;
 import java.net.URL;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.desktop.main.GeoGebraPreferencesXML;
+import org.geogebra.common.main.GeoGebraPreferencesXML;
+import org.geogebra.desktop.util.Util;
 
 public class GeoGebra {
 
@@ -30,6 +31,31 @@ public class GeoGebra {
 		(new GeoGebra()).doMain(cmdArgs);
 	}
 
+	/**
+	 * calculate the default font size and according to some heuristics
+	 * 
+	 * @param screenDPI
+	 *            eg 96 for regular screen
+	 *            https://technet.microsoft.com/en-GB/library/dn528846.aspx
+	 * @param screenResX
+	 *            horizontal screen size
+	 * @param screenResY
+	 *            vertical screen size
+	 */
+	public static void setDefaults(int screenDPI, int screenResX, int screenResY) {
+
+		int fontSize = (int) Math.round(screenDPI / 8.0);
+
+		GeoGebraPreferencesXML.defaultFontSize = Util
+				.getLegalFontSize(fontSize);
+
+		// 96 corresponds to 100%
+		// 192 to 200%
+		double sf = screenDPI / 96.0;
+		GeoGebraPreferencesXML.defaultWindowX = (int) (800.0 * sf);
+		GeoGebraPreferencesXML.defaultWindowY = (int) (600.0 * sf);
+	}
+
 	protected void doMain(String[] cmdArgs) {
 		CommandLineArguments args = new CommandLineArguments(cmdArgs);
 
@@ -39,7 +65,7 @@ public class GeoGebra {
 			int screenX = Integer.parseInt(args.getStringValue("screenX"));
 			int screenY = Integer.parseInt(args.getStringValue("screenY"));
 
-			GeoGebraPreferencesXML.setDefaults(screenDPI, screenX, screenY);
+			setDefaults(screenDPI, screenX, screenY);
 		}
 
 		boolean showSplash = true;

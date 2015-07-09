@@ -22,6 +22,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
+import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.Log;
 
 /**

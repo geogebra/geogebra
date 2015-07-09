@@ -1,8 +1,5 @@
-package org.geogebra.desktop.main;
+package org.geogebra.common.main;
 
-import java.util.Map.Entry;
-import java.util.NavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * @author michael
@@ -14,63 +11,14 @@ public class GeoGebraPreferencesXML {
 	 * these can get changed by --screenDPI (and maybe by --screenResX,
 	 * --screenResY)
 	 */
-	private static int defaultFontSize = 12;
-	private static int defaultWindowX = 800;
-	private static int defaultWindowY = 600;
-
-	private static NavigableMap<Integer, Integer> validFontSizes = null;
-
-	/**
-	 * calculate the default font size and according to some heuristics
-	 * 
-	 * @param screenDPI
-	 *            eg 96 for regular screen
-	 *            https://technet.microsoft.com/en-GB/library/dn528846.aspx
-	 * @param screenResX
-	 *            horizontal screen size
-	 * @param screenResY
-	 *            vertical screen size
-	 */
-	public static void setDefaults(int screenDPI, int screenResX,
-			int screenResY) {
-
-		int fontSize = (int) Math.round(screenDPI / 8.0);
-
-		defaultFontSize = getLegalFontSize(fontSize);
-
-		// 96 corresponds to 100%
-		// 192 to 200%
-		double sf = screenDPI / 96.0;
-		defaultWindowX = (int) (800.0 * sf);
-		defaultWindowY = (int) (600.0 * sf);
-	}
-
-	private static int getLegalFontSize(int fontSize) {
-
-		if (validFontSizes == null) {
-			validFontSizes = new ConcurrentSkipListMap<Integer, Integer>();
-
-			int[] fontSizes = { 12, 14, 16, 18, 20, 24, 28, 32, 48 };
-
-			for (int i = 0; i < fontSizes.length; i++) {
-				validFontSizes.put(fontSizes[i], i);
-			}
-		}
-
-		Entry<Integer, Integer> entry = validFontSizes.floorEntry(fontSize);
-
-		if (entry == null) {
-			// less than 12, return 12
-			entry = validFontSizes.ceilingEntry(fontSize);
-		}
-
-		return entry.getKey();
-	}
+	public static int defaultFontSize = 12;
+	public static int defaultWindowX = 800;
+	public static int defaultWindowY = 600;
 
 	/**
 	 * @return defaults as XML
 	 */
-	static String getXML() {
+	public static String getXML() {
 
 		return "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 				+ "<geogebra format=\"5.0\" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/ggb.xsd\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >"
