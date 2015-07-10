@@ -235,4 +235,10 @@ public interface Input3D {
 	 */
 	public boolean needsGrayBackground();
 
+	/**
+	 * 
+	 * @return true if this input uses head tracking
+	 */
+	public boolean useHeadTracking();
+
 }

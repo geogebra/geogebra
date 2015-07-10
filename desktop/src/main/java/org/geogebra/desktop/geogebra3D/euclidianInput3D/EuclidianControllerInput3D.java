@@ -162,7 +162,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 
 			// eyes : set position only if we use glasses
-			if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+			if (input3D.useHeadTracking()
+					&& view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
 				for (int i = 0 ; i < 2 ; i++){
 					double[] pos = input3D.getGlassesPosition(i);
 					setPositionXYOnPanel(pos, glassesPosition[i]);

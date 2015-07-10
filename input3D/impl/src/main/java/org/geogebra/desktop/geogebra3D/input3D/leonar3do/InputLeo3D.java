@@ -272,4 +272,8 @@ public class InputLeo3D implements Input3D {
 	public boolean needsGrayBackground() {
 		return false;
 	}
+
+	public boolean useHeadTracking() {
+		return true;
+	}
 }

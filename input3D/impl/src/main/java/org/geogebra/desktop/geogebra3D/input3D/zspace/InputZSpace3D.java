@@ -249,4 +249,8 @@ public class InputZSpace3D implements Input3D {
 		return true;
 	}
 
+	public boolean useHeadTracking() {
+		return true;
+	}
+
 }

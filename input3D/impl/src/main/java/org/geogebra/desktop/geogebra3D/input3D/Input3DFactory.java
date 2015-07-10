@@ -1,7 +1,7 @@
 package org.geogebra.desktop.geogebra3D.input3D;
 
 import org.geogebra.common.euclidian3D.Input3D;
-import org.geogebra.desktop.geogebra3D.input3D.zspace.InputZSpace3D;
+import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
 
 /**
  * Factory to create the proper 3D input
@@ -17,8 +17,8 @@ public class Input3DFactory {
 	static public Input3D createInput3D(){
 		// return null; // use this to switch off 3D input
 		//return new InputLeo3D(); //use this for Leonar3do input
-		// return new InputIntelRealsense3D(); // use this for intel realsense
+		return new InputIntelRealsense3D(); // use this for intel realsense
 		// input
-		return new InputZSpace3D(); // use this for zspace
+		// return new InputZSpace3D(); // use this for zspace
 	}
 }
