@@ -206,21 +206,29 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 						inputPositionOnScreen[1] = inputPosition[1];
 					}
 
-					int x = (int) (inputPositionOnScreen[0] + screenHalfWidth);
-					if (x >= 0 && x <= screenHalfWidth * 2) {
-						int y = (int) (screenHalfHeight - inputPositionOnScreen[1]);
-						if (y >= 0 && y <= screenHalfHeight * 2) {
+					// init to center panel
+					int x = (int) (panelPosition.x + panelDimension.getWidth() / 2);
+					int y = (int) (panelPosition.y + panelDimension.getHeight() / 2);
 
-							// process mouse
-							if (robotX != x || robotY != y) {
-								// App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
-								// App.debug(x+","+y);
-								robotX = x;
-								robotY = y;
-								robot.mouseMove(robotX, robotY);
-							}
+					// check if pointer is on screen
+					int x1 = x + (int) (inputPositionOnScreen[0]);
+					if (x1 >= 0 && x1 <= screenHalfWidth * 2) {
+						int y1 = y - (int) (inputPositionOnScreen[1]);
+						if (y1 >= 0 && y1 <= screenHalfHeight * 2) {
+							x = x1;
+							y = y1;
 						}
 					}
+
+					// process mouse
+					if (robotX != x || robotY != y) {
+						// App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
+						// App.debug(x+","+y);
+						robotX = x;
+						robotY = y;
+						robot.mouseMove(robotX, robotY);
+					}
+
 				}
 			}
 
