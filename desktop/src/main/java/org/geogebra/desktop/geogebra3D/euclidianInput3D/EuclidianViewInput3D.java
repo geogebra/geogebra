@@ -770,4 +770,15 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			super.getXMLForStereo(sb);
 		}
 	}
+
+	@Override
+	public void setBackground(GColor color) {
+
+		if (input3D.needsGrayBackground() && color.getGrayScale() > 0.5) {
+			super.setBackground(GColor.GRAY);
+		} else {
+			super.setBackground(color);
+		}
+
+	}
 }

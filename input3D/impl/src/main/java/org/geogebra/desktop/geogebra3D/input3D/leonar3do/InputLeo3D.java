@@ -268,4 +268,8 @@ public class InputLeo3D implements Input3D {
 	public boolean shouldStoreStereoToXML() {
 		return false;
 	}
+
+	public boolean needsGrayBackground() {
+		return false;
+	}
 }

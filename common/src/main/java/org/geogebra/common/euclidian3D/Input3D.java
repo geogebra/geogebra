@@ -229,4 +229,10 @@ public interface Input3D {
 	 */
 	public boolean shouldStoreStereoToXML();
 
+	/**
+	 * 
+	 * @return true if this input needs gray background to minimize ghost effect
+	 */
+	public boolean needsGrayBackground();
+
 }

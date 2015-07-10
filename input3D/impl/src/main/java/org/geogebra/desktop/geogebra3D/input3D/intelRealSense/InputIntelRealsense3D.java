@@ -266,4 +266,8 @@ public class InputIntelRealsense3D implements Input3D {
 		return true;
 	}
 
+	public boolean needsGrayBackground() {
+		return false;
+	}
+
 }

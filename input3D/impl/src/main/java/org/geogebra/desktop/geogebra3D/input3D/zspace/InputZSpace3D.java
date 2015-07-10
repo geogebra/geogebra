@@ -245,4 +245,8 @@ public class InputZSpace3D implements Input3D {
 		return false;
 	}
 
+	public boolean needsGrayBackground() {
+		return true;
+	}
+
 }
