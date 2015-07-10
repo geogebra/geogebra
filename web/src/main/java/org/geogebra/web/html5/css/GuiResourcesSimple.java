@@ -51,6 +51,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/WebMIDIAPIWrapper.js")
 	TextResource webMidiAPIWrapperJs();
 
+	@Source("org/geogebra/web/resources/js/midi/jasmid.js")
+	TextResource jasmidJs();
+
 	@Source("org/geogebra/web/resources/css/mathquillggb.css")
 	TextResource mathquillggbCss();
 
