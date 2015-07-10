@@ -133,7 +133,7 @@ __GGB__keysVar.nl_BE.command = {
     "CFactor.SyntaxCAS": "[ <Uitdrukking> ]\n[ <Uitdrukking>, <Variabele> ]",
     "CIFactor": "CIFactor",
     "CIFactor.SyntaxCAS": "[ <Uitdrukking> ]\n[ <Uitdrukking>, <Variabele> ]",
-    "CSolutions": "Oplossingenverzameling_in_C",
+    "CSolutions": "Coplossingenverzameling",
     "CSolutions.SyntaxCAS": "[ <Vergelijking> ]\n[ <Vergelijking>, <Variabele> ]\n[ <Stelsel van vergelijkingen>, <Lijst van veranderlijken> ]",
     "CSolve": "Los_Op_In_C",
     "CSolve.SyntaxCAS": "[ <Vergelijking> ]\n[ <Vergelijking>, <Veranderlijke> ]\n[ <Lijst van vergelijkingen>, <Lijst van veranderlijken> ]",
