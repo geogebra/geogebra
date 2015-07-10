@@ -202,6 +202,8 @@ public class Construction {
 	private String xAxisLocalName, yAxisLocalName;
 	private GeoPoint origin;
 
+	private GeoElement selfGeo;
+
 	/**
 	 * Returns the point (0,0)
 	 * 
@@ -215,6 +217,9 @@ public class Construction {
 		return origin;
 	}
 
+	public void setSelfGeo(GeoElement selfGeo) {
+		this.selfGeo = selfGeo;
+	}
 	/**
 	 * Returns x-axis
 	 * 
@@ -2067,7 +2072,9 @@ public class Construction {
 				}
 			}
 		}
-
+		if ("self".equals(label1)) {
+			return this.selfGeo;
+		}
 		// try upper case version for spreadsheet label like a1
 		if (allowAutoCreate) {
 			if (StringUtil.isLetter(label1.charAt(0)) // starts with letter

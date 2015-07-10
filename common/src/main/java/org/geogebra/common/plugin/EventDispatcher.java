@@ -52,9 +52,11 @@ public class EventDispatcher implements ClientView {
 	 *            the event to be dispatched
 	 */
 	public void dispatchEvent(Event evt) {
+		app.getKernel().getConstruction().setSelfGeo(evt.target);
 		for (EventListener listener : listeners) {
 			listener.sendEvent(evt);
 		}
+		app.getKernel().getConstruction().setSelfGeo(null);
 	}
 
 	/**
