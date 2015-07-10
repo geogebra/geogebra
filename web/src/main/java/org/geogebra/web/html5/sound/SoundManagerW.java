@@ -63,12 +63,13 @@ public class SoundManagerW implements SoundManager {
 			url = url + "files/material-" + id + ".mp3";
 
 		}
-
 		// TODO check extension, play MIDI .mid files
 
 		if (!url.endsWith(".mp3")) {
 			Log.warn("assuming MP3 file: " + url);
 		}
+
+		getMidiSound().playMidiFile(url);
 		playMP3(url);
 
 	}

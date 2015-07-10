@@ -135,4 +135,9 @@ public class MidiSoundW {
 		$wnd.mwaw.ports.out[0] = $wnd.mwaw.devices.outputs[this.@org.geogebra.web.html5.sound.MidiSoundW::outputPort];
 	}-*/;
 
+	public void playMidiFile(String url) {
+		App.debug(PREFIX + "playing midi file " + url);
+		MidiPlayerW.INSTANCE.playFile(url);
+	}
+
 }
