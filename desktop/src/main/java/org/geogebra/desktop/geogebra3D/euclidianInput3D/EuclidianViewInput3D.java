@@ -590,6 +590,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	private GeoSegment3D stylusBeam;
 	private DrawSegment3D stylusBeamDrawable;
 
+	static private int STYLUS_BEAM_THICKNESS = 9;
+
 	@Override
 	public void initAxisAndPlane() {
 		super.initAxisAndPlane();
@@ -598,7 +600,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			stylusBeam = new GeoSegment3D(getKernel().getConstruction());
 			stylusBeam.setCoord(Coords.O, Coords.VX);
 			stylusBeam.setObjColor(GColor.GREEN);
-			stylusBeam.setLineThickness(7);
+			stylusBeam.setLineThickness(STYLUS_BEAM_THICKNESS);
 
 			stylusBeamDrawable = new DrawSegment3D(this, stylusBeam) {
 				@Override
