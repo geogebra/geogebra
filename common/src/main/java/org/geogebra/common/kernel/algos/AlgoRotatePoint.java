@@ -211,7 +211,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 				botanaPolynomials[0] = a_1.subtract(a1).subtract(b1).add(a1);
 				botanaPolynomials[1] = a_2.subtract(a2).subtract(b2).add(a2);
 			}
-			// rotate by 180 degrees
+			// rotate by 180 or -180 degrees
 			if (angleDoubleVal == Math.PI || angleDoubleVal == -Math.PI) {
 				botanaPolynomials[0] = a_1.subtract(a1).add(b1).subtract(a1);
 				botanaPolynomials[1] = a_2.subtract(a2).add(b2).subtract(a2);
@@ -223,8 +223,8 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 			}
 			// rotate by -90 degrees
 			if (angleDoubleVal == -Math.PI / 2) {
-				botanaPolynomials[0] = a_1.subtract(a1).subtract(b2).add(a2);
-				botanaPolynomials[1] = a_2.subtract(a2).add(b1).subtract(a1);
+				botanaPolynomials[0] = a_1.subtract(a1).add(b2).subtract(a2);
+				botanaPolynomials[1] = a_2.subtract(a2).subtract(b1).add(a1);
 			}
 			// rotate by 30 degrees
 			if (angleDoubleVal == Math.PI / 6) {
