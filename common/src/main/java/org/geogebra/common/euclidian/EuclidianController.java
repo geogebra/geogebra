@@ -9377,13 +9377,13 @@ public abstract class EuclidianController {
 						// selection.addSelectedGeo(hits.get(0));
 					}
 
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					if (canShowPopupMenu()) {
 						showPopupMenuChooseGeo(getAppSelectedGeos(), hits);
 					}
 
 				} else { // other modes : want to apply tool of one of the hits
 							// (choose geo and show popup menu)
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					if (canShowPopupMenu()) {
 						
 						GeoElement geo = chooseGeo(hits, true, false);
 
@@ -9399,7 +9399,7 @@ public abstract class EuclidianController {
 
 			} else {
 				// no selected geos: choose geo and show popup menu
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				if (canShowPopupMenu()) {
 					
 					GeoElement geo = chooseGeo(hits, true, false);
 
@@ -9413,6 +9413,11 @@ public abstract class EuclidianController {
 				}
 			}
 		}
+	}
+
+	private final boolean canShowPopupMenu() {
+		return !draggingOccured && app.isUsingFullGui()
+				&& app.getGuiManager() != null;
 	}
 
 	/**
