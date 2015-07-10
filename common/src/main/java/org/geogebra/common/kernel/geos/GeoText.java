@@ -385,6 +385,9 @@ public class GeoText extends GeoElement implements Locateable,
 			sbToString.append(" = ");
 		}
 		if (tpl1 == StringTemplate.latexTemplateMQ) {
+			if (isLaTeXorMathML) {
+				sbToString.append("FormulaText[");
+			}
 			sbToString.append(" \\quotation{");
 			if (str != null) {
 				// do the reverse of what MathQuillGGB will replace
@@ -396,6 +399,9 @@ public class GeoText extends GeoElement implements Locateable,
 				sbToString.append(str2);
 			}
 			sbToString.append("} ");
+			if (isLaTeXorMathML) {
+				sbToString.append("]");
+			}
 		} else {
 			sbToString.append('\"');
 			if (str != null)

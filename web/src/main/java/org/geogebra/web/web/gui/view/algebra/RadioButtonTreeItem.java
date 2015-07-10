@@ -456,8 +456,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			if (geo.isDefined()) {
-				String latexStr = geo.getLaTeXAlgebraDescriptionWithFallback(
-						true, StringTemplate.latexTemplateMQ, false);
+				String latexStr = geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplateMQ);
 				seNoLatex = se;
 				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
 					this.needsUpdate = true;
@@ -755,11 +755,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			String text = "";
 			if (geo != null) {
 				if (app.has(Feature.JLM_IN_WEB) && !newCreationMode) {
-					text = geo.getLaTeXAlgebraDescriptionWithFallback(true,
-							StringTemplate.latexTemplate, false);
+					text = geo.getLaTeXAlgebraDescription(true,
+							StringTemplate.latexTemplate);
 				} else {
-					text = geo.getLaTeXAlgebraDescriptionWithFallback(true,
-							StringTemplate.latexTemplateMQ, false);
+					text = geo.getLaTeXAlgebraDescription(true,
+							StringTemplate.latexTemplateMQ);
 				}
 				if ((text != null) && text.length() < 1500
 						&& geo.isLaTeXDrawableGeo() && geo.isDefined()) {
@@ -771,8 +771,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (LaTeX && newLaTeX) {
 				if (newCreationMode) {
-					text = geo.getLaTeXAlgebraDescriptionWithFallback(true,
-							StringTemplate.latexTemplateMQ, true);
+					text = geo.getLaTeXAlgebraDescription(true,
+							StringTemplate.latexTemplateMQ);
 					// or false? well, in theory, it should not matter
 				}
 				updateLaTeX(text);
@@ -993,7 +993,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			});
 		} else {
 			if (app.has(Feature.JLM_IN_WEB) && c != null) {
-				String str = null;
 				renderLatex(geo.getLaTeXAlgebraDescriptionWithFallback(true,
 						StringTemplate.latexTemplateMQ, true),
 						c.getCanvasElement(), true);
