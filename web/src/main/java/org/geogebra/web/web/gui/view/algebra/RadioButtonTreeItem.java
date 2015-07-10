@@ -325,67 +325,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		add(marblePanel);
 
 		// Sliders
-		if (app.has(Feature.AV_EXTENSIONS)
-		        && geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV()) {
-			if (!geo.isEuclidianVisible()) {
-				// number inserted via input bar
-				// -> initialize min/max etc.
-				geo.setEuclidianVisible(true);
-				geo.setEuclidianVisible(false);
-			}
-
-			// if the geo still has no min/max, it should not be displayed with
-			// a slider (e.g. boxplots)
-			if (((GeoNumeric) geo).getIntervalMinObject() != null
-					&& ((GeoNumeric) geo).getIntervalMaxObject() != null) {
-
-				slider = new SliderPanelW(((GeoNumeric) geo).getIntervalMin(),
-						((GeoNumeric) geo).getIntervalMax());
-				slider.setValue(((GeoNumeric) geo).getValue());
-				slider.setStep(geo.getAnimationStep());
-
-				slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
-					@Override
-					public void onValueChange(ValueChangeEvent<Double> event) {
-						((GeoNumeric) geo).setValue(event.getValue());
-						geo.updateCascade();
-						// updates other views (e.g. Euclidian)
-						kernel.notifyRepaint();
-					}
-				});
-
-				sliderPanel = new VerticalPanel();
-				add(sliderPanel);
-
-				if (geo.isAnimatable()) {
-					ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
-							.nav_pause() : AppResources.INSTANCE.nav_play();
-					playButton = new PlayButton(imageresource);
-
-					ClickStartHandler.init(playButton, new ClickStartHandler() {
-						@Override
-						public void onClickStart(int x, int y,
-								PointerEventType type) {
-							boolean newValue = !(geo.isAnimating() && app
-									.getKernel().getAnimatonManager()
-									.isRunning());
-							geo.setAnimating(newValue);
-							playButton
-									.setResource(newValue ? AppResources.INSTANCE
-											.nav_pause()
-											: AppResources.INSTANCE.nav_play());
-							geo.updateRepaint();
-
-							if (geo.isAnimating()) {
-								geo.getKernel().getAnimatonManager()
-										.startAnimation();
-							}
-						}
-					});
-					marblePanel.add(playButton);
-				}
-			}
+		if (sliderNeeded()) {
+			initSlider();
 		}
 
 		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean
@@ -503,6 +444,70 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// also, the place of buttonPanel should also be changed!
 		// so these things are moved to replaceXbuttonDOM!
 		// buttonPanel.add(xButton);
+	}
+
+	private boolean sliderNeeded() {
+		return app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoNumeric
+				&& !geo.isEuclidianVisible()
+				&& ((GeoNumeric) geo).isShowingExtendedAV();
+	}
+
+	private void initSlider() {
+		if (!geo.isEuclidianVisible()) {
+			// number inserted via input bar
+			// -> initialize min/max etc.
+			geo.setEuclidianVisible(true);
+			geo.setEuclidianVisible(false);
+		}
+
+		// if the geo still has no min/max, it should not be displayed with
+		// a slider (e.g. boxplots)
+		if (((GeoNumeric) geo).getIntervalMinObject() != null
+				&& ((GeoNumeric) geo).getIntervalMaxObject() != null) {
+
+			slider = new SliderPanelW(((GeoNumeric) geo).getIntervalMin(),
+					((GeoNumeric) geo).getIntervalMax());
+			slider.setValue(((GeoNumeric) geo).getValue());
+			slider.setStep(geo.getAnimationStep());
+
+			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
+				@Override
+				public void onValueChange(ValueChangeEvent<Double> event) {
+					((GeoNumeric) geo).setValue(event.getValue());
+					geo.updateCascade();
+					// updates other views (e.g. Euclidian)
+					kernel.notifyRepaint();
+				}
+			});
+
+			sliderPanel = new VerticalPanel();
+			add(sliderPanel);
+
+			if (geo.isAnimatable()) {
+				ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
+						.nav_pause() : AppResources.INSTANCE.nav_play();
+				playButton = new PlayButton(imageresource);
+
+				ClickStartHandler.init(playButton, new ClickStartHandler() {
+					@Override
+					public void onClickStart(int x, int y, PointerEventType type) {
+						boolean newValue = !(geo.isAnimating() && app
+								.getKernel().getAnimatonManager().isRunning());
+						geo.setAnimating(newValue);
+						playButton.setResource(newValue ? AppResources.INSTANCE
+								.nav_pause() : AppResources.INSTANCE.nav_play());
+						geo.updateRepaint();
+
+						if (geo.isAnimating()) {
+							geo.getKernel().getAnimatonManager()
+									.startAnimation();
+						}
+					}
+				});
+				marblePanel.add(playButton);
+			}
+		}
+
 	}
 
 	public void replaceXButtonDOM(TreeItem item) {
@@ -837,8 +842,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		updatePlayButton();
 
-		if (geo instanceof GeoNumeric && slider != null
-		        && sliderPanel != null) {
+		if (geo instanceof GeoNumeric
+				&& (slider != null && sliderPanel != null) || sliderNeeded()) {
+			if (slider == null) {
+				initSlider();
+				addSpecial(ihtml);
+				getElement().setDraggable(Element.DRAGGABLE_FALSE);
+			}
 			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
 			slider.setStep(geo.getAnimationStep());
