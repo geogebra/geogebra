@@ -66,7 +66,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public void drawMouseCursor(Renderer renderer1) {
 
-		if (input3D.currentlyUseMouse2D() || input3D.hasMouseDirection()) {
+		if (input3D.hasMouseDirection()) {
+			return;
+		}
+
+		if (input3D.currentlyUseMouse2D()) {
+			super.drawMouseCursor(renderer1);
 			return;
 		}
 
