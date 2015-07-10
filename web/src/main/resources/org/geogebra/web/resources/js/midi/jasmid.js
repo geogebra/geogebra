@@ -127,6 +127,10 @@ function MidiFile(data) {
 				var length = stream.readVarInt();
 				event.data = stream.read(length);
 				return event;
+			} else if (eventTypeByte == 0xfd) {
+				event.subtype = 'undefined_fld1';
+				event.value = param1;
+				return event;
 			} else {
 				throw "Unrecognised MIDI event type byte: " + eventTypeByte;
 			}

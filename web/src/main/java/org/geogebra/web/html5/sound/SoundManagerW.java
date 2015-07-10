@@ -48,7 +48,7 @@ public class SoundManagerW implements SoundManager {
 	public void playFile(String url) {
 
 		// eg PlaySound["#12345"] to play material 12345 from GeoGebraTube
-		if (url.startsWith("#")) {
+		if (url.startsWith("#") || url.startsWith("@")) {
 			String id = url.substring(1);
 
 			if (app.has(Feature.TUBE_BETA)) {
@@ -60,18 +60,20 @@ public class SoundManagerW implements SoundManager {
 			// something like
 			// http://tube-beta.geogebra.org/files/material-1264825.mp3
 
-			url = url + "files/material-" + id + ".mp3";
+			url = url + "files/material-" + id + (url.startsWith("#") ? ".mp3": ".mid");
 
-		}
+		} 
 		// TODO check extension, play MIDI .mid files
 
-		if (!url.endsWith(".mp3")) {
-			Log.warn("assuming MP3 file: " + url);
+		if (url.endsWith(".mp3")) {
+			playMP3(url);
+		} else if (url.endsWith(".mid")) {
+			getMidiSound().playMidiFile(url);
+		} else {
+			Log.warn("assuming MP3 or MID file: " + url);
+
 		}
-
-		getMidiSound().playMidiFile(url);
-		playMP3(url);
-
+		
 	}
 
 	MidiSoundW getMidiSound() {

@@ -137,7 +137,9 @@ public class MidiSoundW {
 
 	public void playMidiFile(String url) {
 		App.debug(PREFIX + "playing midi file " + url);
-		MidiPlayerW.INSTANCE.playFile(url);
+		MidiPlayerW.INSTANCE
+.playFile(url);
+
 	}
 
 }

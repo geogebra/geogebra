@@ -6,6 +6,11 @@ import org.geogebra.web.html5.js.JavaScriptInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 
 public class MidiPlayerW {
 	public static final MidiPlayerW INSTANCE = new MidiPlayerW();
@@ -31,38 +36,60 @@ public class MidiPlayerW {
 		});
 	}
 
-	public native void loadFile(String url) /*-{
+	private void load(String url) {
+		RequestCallback cb = new RequestCallback() {
+
+			public void onResponseReceived(Request request, Response response) {
+				App.debug("response is " + response.getText());
+	//			createMidiFile(response.getText());
+			}
+
+			public void onError(Request request, Throwable exception) {
+				// TODO Auto-generated method stub
+
+			}
+		};
+
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, url);
+
+		try {
+			rb.setHeader("Content-type", "text/plain");
+			rb.sendRequest("", cb);
+		} catch (RequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private native void createMidiFile(String url)/*-{
 		var fetch = new XMLHttpRequest();
 		fetch.open('GET', url);
-		fetch.overrideMimeType('text/plain; charset=x-user-defined');
+		fetch.overrideMimeType("text/plain; charset=x-user-defined");
 		fetch.onreadystatechange = function() {
-			if (this.readyState === 1) {
-				if (this.status === 200) {
-					var t = this.responseText || '';
-					var ff = [];
-					var mx = t.length;
-					var scc = String.fromCharCode;
-					for (var z = 0; z < mx; z++) {
-						ff[z] = scc(t.charCodeAt(z) & 255);
-					}
-					///
-					var data = ff.join('');
-					$wnd.midiFile = new $wnd.MidiFile(data);
-					console.dir($wnd.midiFile);
-				} else {
-
-					console.log('Unable to load MIDI file');
+			if (this.readyState == 4 && this.status == 200) {
+				var t = this.responseText || "";
+				var ff = [];
+				var mx = t.length;
+				var scc = String.fromCharCode;
+				for (var z = 0; z < mx; z++) {
+					ff[z] = scc(t.charCodeAt(z) & 255);
 				}
+				$wnd.midiFile = new $wnd.MidiFile(ff.join(""));
+				@org.geogebra.common.main.App::debug(Ljava/lang/String;)($wnd.midiFile);
+
 			}
 		}
+		fetch.send();
+
 	}-*/;
+
 
 	public void playFile(String url) {
 		if (!jsLoaded) {
 			return;
 		}
 
-		loadFile(url.replace('"', ' '));
+		createMidiFile(url.replace('"', ' '));
 
 	}
 }
