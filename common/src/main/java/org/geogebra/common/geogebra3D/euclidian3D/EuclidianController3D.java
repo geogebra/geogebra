@@ -1797,6 +1797,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (temporaryMode) {
 			view.setMode(oldMode);
 			temporaryMode = false;
+			if (dontClearSelection == false) {
+				clearSelections();
+			}
+			dontClearSelection = false;
 		}
 
 		if (viewRotationOccured) {
