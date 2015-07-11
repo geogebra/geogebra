@@ -2044,7 +2044,7 @@ __GGB__keysVar.fi.menu = {
     "TranslateView.Help": "Siirr\xe4 piirtoaluetta tai akselia (vaihto + ved\xe4)",
     "Transparent": "L\xe4pin\xe4kyv\xe4",
     "Transpose": "Transpoosi",
-    "Tutorials": "Opetusohjelmat",
+    "Tutorials": "Ohjeet",
     "TwoVarStats": "Kahden muuttujan regressioanalyysi",
     "TwoVarStats.Help": "Analysoi valittujen lukuparien ominaisuuksia",
     "TwoVariable": "Kaksi muuttujaa",
