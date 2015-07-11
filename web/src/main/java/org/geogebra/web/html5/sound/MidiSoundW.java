@@ -120,7 +120,7 @@ public class MidiSoundW {
 		App.debug(PREFIX + "selectPort()");
 		for (int i = 0; i < outputs.size(); i++) {
 			String out = outputs.get(i);
-			// App.debug(PREFIX + "Available output: " + out + "(" + i + ")");
+			App.debug(PREFIX + "Available output: " + out + "(" + i + ")");
 			if (MS_WAVE_SYNTH.equals(out) || TIMIDITY.equals(out)
 					|| IAC.equals(out)) {
 				outputPort = i;
