@@ -10,21 +10,27 @@ import org.geogebra.web.html5.js.JavaScriptInjector;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.user.client.Command;
 
 public class MidiSoundW {
 	public static final MidiSoundW INSTANCE = new MidiSoundW();
 	protected static final String PREFIX = "[MIDISOUNDW] ";
 	private static final String MS_WAVE_SYNTH = "Microsoft GS Wavetable Synth";
 	private static final String TIMIDITY = "TiMidity port 0";
-	private static final String IAC = "Bus 1";
+	private static final String IAC = "IAC Driver Bus 1";
 	private static final int NO_PORT = -1;
 	protected boolean jsLoaded;
 	protected List<String> outputs;
+
+	// storing commands while MIDI is not fully initialized.
+	protected List<Command> cmdQueue;
+
 	private int outputPort;
 	public MidiSoundW() {
 		initialize();
 		outputs = new ArrayList<String>();
 		outputPort = NO_PORT;
+		cmdQueue = new ArrayList<Command>();
 	}
 
 	public void initialize() {
@@ -56,6 +62,7 @@ public class MidiSoundW {
 
 			that.@org.geogebra.web.html5.sound.MidiSoundW::selectPort()();
 			$wnd.mwaw.ports.out[0] = $wnd.mwaw.devices.outputs[that.@org.geogebra.web.html5.sound.MidiSoundW::outputPort];
+			that.@org.geogebra.web.html5.sound.MidiSoundW::processQueue()();
 
 		}
 
@@ -81,15 +88,32 @@ public class MidiSoundW {
 
 	// $wnd.mwaw.sendNoteOn(port, ch, note, velocity, time);
 
-
-	public void playSequenceNote(int ch, int note, int velocity, double time) {
-		if (!isValid()) {
-			return;
+	private void processCommand(Command cmd) {
+		if (isValid()) {
+			cmd.execute();
+		} else {
+			cmdQueue.add(cmd);
 		}
-		App.debug("[MIDIW] ch: " + ch + " note: " + note + " velocity: "
-				+ velocity
-				+ " time: " + time);
-		sendNote(0, ch, note, velocity, time);
+	}
+
+	private void processQueue() {
+		for (Command cmd : cmdQueue) {
+			cmd.execute();
+		}
+		cmdQueue.clear();
+	}
+	public void playSequenceNote(final int ch, final int note,
+			final int velocity, final double time) {
+
+		processCommand(new Command() {
+
+			public void execute() {
+				App.debug("[MIDIW] ch: " + ch + " note: " + note
+						+ " velocity: " + velocity + " time: " + time);
+				sendNote(0, ch, note, velocity, time);
+			}
+		});
+
 	}
 
 	private void selectPort() {
@@ -135,11 +159,14 @@ public class MidiSoundW {
 		$wnd.mwaw.ports.out[0] = $wnd.mwaw.devices.outputs[this.@org.geogebra.web.html5.sound.MidiSoundW::outputPort];
 	}-*/;
 
-	public void playMidiFile(String url) {
-		App.debug(PREFIX + "playing midi file " + url);
-		MidiPlayerW.INSTANCE
-.playFile(url);
+	public void playMidiFile(final String url) {
+		processCommand(new Command() {
 
+			public void execute() {
+				App.debug(PREFIX + "playing midi file " + url);
+				MidiPlayerW.INSTANCE.playFile(url);
+			}
+		});
 	}
 
 }
