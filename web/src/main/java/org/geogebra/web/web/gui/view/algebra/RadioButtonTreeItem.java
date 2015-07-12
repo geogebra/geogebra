@@ -161,7 +161,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	boolean mout = false;
 
 	protected SpanElement seMayLatex;
-	private SpanElement seNoLatex;
+	private final SpanElement seNoLatex;
 
 	private Marble radio;
 	InlineHTML ihtml;
@@ -346,9 +346,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			});
 		}
 
-		SpanElement se = DOM.createSpan().cast();
-		EquationEditor.updateNewStatic(se);
-		updateColor(se);
+		seNoLatex = DOM.createSpan().cast();
+		EquationEditor.updateNewStatic(seNoLatex);
+		updateColor(seNoLatex);
 		ihtml = new InlineHTML();
 
 		this.addDomHandler(this, DoubleClickEvent.getType());
@@ -363,7 +363,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		this.addDomHandler(this, TouchEndEvent.getType());
 
 		addSpecial(ihtml);
-		ihtml.getElement().appendChild(se);
+		ihtml.getElement().appendChild(seNoLatex);
 
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.appendChild(Document.get().createTextNode(
@@ -373,23 +373,23 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		if (geo.isIndependent()
 				|| (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean)) {
-			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
+			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 		} else {
 			switch (kernel.getAlgebraStyle()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
-				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
+				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
 				geo.addLabelTextOrHTML(
 				        geo.getDefinitionDescription(StringTemplate.defaultTemplate),
-				        getBuilder(se));
+						getBuilder(seNoLatex));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_COMMAND:
 				geo.addLabelTextOrHTML(geo
 				        .getCommandDescription(StringTemplate.defaultTemplate),
-				        getBuilder(se));
+						getBuilder(seNoLatex));
 				break;
 			}
 		}
@@ -399,14 +399,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (geo.isDefined()) {
 				String latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ);
-				seNoLatex = se;
 				if ((latexStr != null) && geo.isLaTeXDrawableGeo()) {
 					this.needsUpdate = true;
 					av.repaintView();
 				}
 			}
 		} else {
-			seNoLatex = se;
+			// nothing to do, senolatex already up to date
 		}
 		// FIXME: geo.getLongDescription() doesn't work
 		// geo.getKernel().getApplication().setTooltipFlag();
@@ -754,7 +753,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		} else if (this.checkBox != null) {
 			remove(checkBox);
 		}
-
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String text = "";
@@ -766,6 +764,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					text = geo.getLaTeXAlgebraDescription(true,
 							StringTemplate.latexTemplateMQ);
 				}
+
 				if ((text != null) && text.length() < 1500
 						&& geo.isLaTeXDrawableGeo() && geo.isDefined()) {
 					newLaTeX = true;
@@ -818,11 +817,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (!LaTeX) {
 				updateColor(seNoLatex);
 			} else {
-				if (seNoLatex == null) {
-					SpanElement se = DOM.createSpan().cast();
-					EquationEditor.updateNewStatic(se);
-					seNoLatex = se;
-				}
 				updateColor(seNoLatex);
 				if (!newCreationMode && app.has(Feature.JLM_IN_WEB)
 						&& c != null) {
