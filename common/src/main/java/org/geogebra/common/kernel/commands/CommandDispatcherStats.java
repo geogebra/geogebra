@@ -151,6 +151,8 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdHarmonicMean(kernel);
 		case RootMeanSquare:
 			return new CmdRootMeanSquare(kernel);
+		case RandomDiscrete:
+			return new CmdRandomDiscrete(kernel);
 		case RandomNormal:
 			return new CmdRandomNormal(kernel);
 		case RandomUniform:

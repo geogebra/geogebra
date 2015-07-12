@@ -214,6 +214,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdRandom(kernel);
 		case RandomBetween:
 			return new CmdRandom(kernel);
+		case RandomPointIn:
+			return new CmdRandomPointIn(kernel);
 
 		case Sum:
 			return new CmdSum(kernel);

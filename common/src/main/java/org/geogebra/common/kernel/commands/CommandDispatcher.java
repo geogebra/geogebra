@@ -489,7 +489,6 @@ public abstract class CommandDispatcher {
 			case Join:
 			case LCM:
 			case GCD:
-			case Normalize:
 			case LetterToUnicode:
 			case UnicodeToLetter:
 			case Object:
@@ -586,6 +585,7 @@ public abstract class CommandDispatcher {
 
 			case Random:
 			case RandomBetween:
+			case RandomPointIn:
 
 			case Sum:
 
@@ -615,6 +615,8 @@ public abstract class CommandDispatcher {
 
 			case FormulaText:
 			case LaTeX:
+
+			case Normalize:
 				return getBasicDispatcher().dispatch(command, kernel);
 
 			case CFactor:
@@ -714,6 +716,7 @@ public abstract class CommandDispatcher {
 			case Q1:
 			case Q3:
 			case RSquare:
+			case RandomDiscrete:
 			case RandomElement:
 			case RandomPolynomial:
 			case RandomBinomial:

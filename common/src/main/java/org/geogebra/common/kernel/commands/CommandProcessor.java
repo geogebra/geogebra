@@ -154,7 +154,6 @@ public abstract class CommandProcessor {
 	 */
 	protected final GeoElement[] resArg(ExpressionNode arg) throws MyError {
 		GeoElement[] geos = algProcessor.processExpressionNode(arg);
-
 		if (geos != null) {
 			return geos;
 		}

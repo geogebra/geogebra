@@ -184,6 +184,8 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_PROBABILITY), Uniform(TABLE_PROBABILITY), Erlang(
 			TABLE_PROBABILITY), InverseLogNormal(TABLE_PROBABILITY), RandomPolynomial(
 			TABLE_PROBABILITY), nPr(TABLE_PROBABILITY),
+ RandomDiscrete(
+			TABLE_PROBABILITY), RandomPointIn(TABLE_PROBABILITY),
 
 	// =============================================================
 	// vector & matrix
