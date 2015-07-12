@@ -489,6 +489,7 @@ public abstract class CommandDispatcher {
 			case Join:
 			case LCM:
 			case GCD:
+			case Normalize:
 			case LetterToUnicode:
 			case UnicodeToLetter:
 			case Object:

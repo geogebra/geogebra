@@ -34,6 +34,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdLCM(kernel);
 		case GCD:
 			return new CmdGCD(kernel);
+		case Normalize:
+			return new CmdNormalize(kernel);
 		case Object:
 			return new CmdObject(kernel);
 		case LetterToUnicode:

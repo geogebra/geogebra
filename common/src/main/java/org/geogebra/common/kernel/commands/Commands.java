@@ -94,7 +94,8 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_FUNCTION), Curvature(TABLE_FUNCTION), OsculatingCircle(
 			TABLE_FUNCTION), IterationList(TABLE_FUNCTION), RootList(
 			TABLE_FUNCTION), ImplicitCurve(TABLE_FUNCTION), ImplicitDerivative(
-			TABLE_FUNCTION), NSolveODE(TABLE_FUNCTION), Spline(TABLE_FUNCTION),
+			TABLE_FUNCTION), NSolveODE(TABLE_FUNCTION), Spline(TABLE_FUNCTION), Normalize(
+			TABLE_FUNCTION),
 	// =============================================================
 	// conics
 	// =============================================================
