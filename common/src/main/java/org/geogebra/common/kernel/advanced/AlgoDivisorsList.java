@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.cas.AlgoPrimeFactorization;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoDivisorsList extends AlgoElement {
 
@@ -74,7 +73,7 @@ public class AlgoDivisorsList extends AlgoElement {
 		Iterator<Long> iterator = sortedSet.iterator();
 
 		while (iterator.hasNext()) {
-			result.add(new GeoNumeric(cons, iterator.next()));
+			result.addNumber(iterator.next(), this);
 		}
 
 	}

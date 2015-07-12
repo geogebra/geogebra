@@ -120,7 +120,7 @@ public class AlgoUnique extends AlgoElement {
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			while (itr.hasNext()) {
 				MyDouble n = (MyDouble) itr.next();
-				uniqueList.add(new GeoNumeric(cons, n.getDouble()));
+				uniqueList.addNumber(n.getDouble(), this);
 			}
 		}
 	}

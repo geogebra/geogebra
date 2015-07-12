@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Prime factors of a number. Adapted from AlgoMode
@@ -82,36 +81,15 @@ public class AlgoPrimeFactors extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		int count = 0;
-
 		for (int i = 2; i <= n / i; i++) {
 			while (n % i == 0) {
-				setListElement(count++, i);
+				outputList.addNumber(i, this);
 				n /= i;
 			}
 		}
 		if (n > 1) {
-			setListElement(count++, n);
+			outputList.addNumber(n, this);
 		}
-	}
-
-	// copied from AlgoInterationList.java
-	// TODO should it be centralised?
-	private void setListElement(int index, double value) {
-		GeoNumeric listElement;
-		if (index < outputList.getCacheSize()) {
-			// use existing list element
-			listElement = (GeoNumeric) outputList.getCached(index);
-		} else {
-			// create a new list element
-			listElement = new GeoNumeric(cons);
-			listElement.setParentAlgorithm(this);
-			listElement.setConstructionDefaults();
-			listElement.setUseVisualDefaults(false);
-		}
-
-		outputList.add(listElement);
-		listElement.setValue(value);
 	}
 
 	// TODO Consider locusequability

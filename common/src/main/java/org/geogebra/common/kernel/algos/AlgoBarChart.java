@@ -32,10 +32,10 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.statistics.AlgoUsingUniqueAndFrequency;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Cloner;
@@ -1129,26 +1129,29 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 			IntegerDistribution dist) throws Exception {
 		boolean oldSuppress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		if (list1 != null)
-			list1.remove();
-		list1 = new GeoList(cons);
-
-		if (list2 != null)
-			list2.remove();
-		list2 = new GeoList(cons);
-
+		if(list1 == null){
+			list1= new GeoList(cons);
+		}
+		else{
+			list1.clear();
+		}
+		if(list2 == null){
+			list2= new GeoList(cons);
+		}else{
+			list2.clear();
+		}
 		double prob;
 		double cumProb = 0;
 
 		for (int i = first; i <= last; i++) {
-			list1.add(new GeoNumeric(cons, i));
+			list1.addNumber(i, this);
 			prob = dist.probability(i);
 			cumProb += prob;
 			if (isCumulative != null
 					&& ((GeoBoolean) isCumulative).getBoolean())
-				list2.add(new GeoNumeric(cons, cumProb));
+				list2.addNumber(cumProb, this);
 			else
-				list2.add(new GeoNumeric(cons, prob));
+				list2.addNumber(prob, this);
 		}
 		cons.setSuppressLabelCreation(oldSuppress);
 	}

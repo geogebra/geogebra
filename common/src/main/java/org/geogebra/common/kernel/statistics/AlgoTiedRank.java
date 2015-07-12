@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * List ranking using tie strategy.
@@ -96,7 +95,7 @@ public class AlgoTiedRank extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 		for (int i = 0; i < size; i++) {
-			outputList.add(new GeoNumeric(cons, outputArray[i]));
+			outputList.addNumber(outputArray[i], this);
 		}
 	}
 

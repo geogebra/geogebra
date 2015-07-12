@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * RootList[{1,2,3}] makes { (1,0) (2,0), (3,0) }. Adapted from AlgoSort
@@ -80,8 +79,8 @@ public class AlgoRootList extends AlgoElement {
 			GeoElement geo = inputList.get(i);
 			if (geo.isGeoNumeric()) {
 				GeoNumeric num = (GeoNumeric) geo;
-				outputList.add(new GeoPoint(cons, null, num.getDouble(), 0.0,
-						1.0));
+				outputList.addPoint(num.getDouble(), 0.0, 1.0,
+						this);
 			}
 		}
 		cons.setSuppressLabelCreation(suppressLabelCreation);

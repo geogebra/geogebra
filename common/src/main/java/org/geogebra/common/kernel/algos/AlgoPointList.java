@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Sort a list. Adapted from AlgoMax and AlgoIterationList
@@ -85,9 +84,8 @@ public class AlgoPointList extends AlgoElement {
 					GeoElement geoX = list.get(0);
 					GeoElement geoY = list.get(1);
 					if (geoX.isGeoNumeric() && geoY.isGeoNumeric()) {
-						outputList.add(new GeoPoint(cons, null,
-								((GeoNumeric) geoX).getDouble(),
-								((GeoNumeric) geoY).getDouble(), 1.0));
+						outputList.addPoint(((GeoNumeric) geoX).getDouble(),
+								((GeoNumeric) geoY).getDouble(), 1.0, this);
 					}
 				}
 

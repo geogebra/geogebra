@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -31,8 +30,6 @@ public class AlgoNormalize extends AlgoElement {
 
 	private GeoList geoList; // input
 	private GeoList normalList; // output
-	private GeoNumeric[] geoNum;
-	private GeoPoint[] geoPoint;
 
 	/**
 	 * @param cons
@@ -52,21 +49,6 @@ public class AlgoNormalize extends AlgoElement {
 		super(cons);
 		this.geoList = geoList;
 		normalList = new GeoList(cons);
-
-		GeoElement geo0 = geoList.get(0);
-
-		if (geo0.isGeoPoint()) {
-			geoPoint = new GeoPoint[geoList.size()];
-			for (int i = 0; i < geoList.size(); i++) {
-				geoPoint[i] = new GeoPoint(cons);
-				geoPoint[i].setZero();
-			}
-		} else if (geo0.isGeoNumeric()) {
-			geoNum = new GeoNumeric[geoList.size()];
-			for (int i = 0; i < geoList.size(); i++) {
-				geoNum[i] = new GeoNumeric(cons);
-			}
-		}
 
 		setInputOutput();
 		compute();
@@ -174,9 +156,8 @@ public class AlgoNormalize extends AlgoElement {
 					xVal = (((NumberValue) geo0).getDouble() - xMinVal)
 							/ normalXVal;
 				}
-				geoNum[i].setValue(xVal);
-				geoNum[i].updateCascade();
-				normalList.add(geoNum[i]);
+
+				normalList.addNumber(xVal, this);
 			}
 		} else if (geo0.isGeoPoint()) {
 			for (int i = 0; i < size; i++) {
@@ -191,9 +172,8 @@ public class AlgoNormalize extends AlgoElement {
 				} else {
 					yVal = (pt.getY() - yMinVal) / normalYVal;
 				}
-				geoPoint[i].setCoords(xVal, yVal, 1.0);
-				geoPoint[i].updateCascade();
-				normalList.add(geoPoint[i]);
+
+				normalList.addPoint(xVal, yVal, 1.0, this);
 			}
 		}
 

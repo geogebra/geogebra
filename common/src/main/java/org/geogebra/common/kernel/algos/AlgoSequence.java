@@ -272,7 +272,7 @@ public class AlgoSequence extends AlgoElement {
 		if (last_to < to)
 			for (int k = (int) last_to; k < to; k++)
 				if (k >= 0)
-					list.add(new GeoNumeric(cons, k + 1));
+					list.addNumber(k + 1, this);
 		if (last_to > to)
 			for (int k = (int) last_to; k > to; k--)
 				if (k >= 1) {

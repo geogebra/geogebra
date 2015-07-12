@@ -2823,5 +2823,39 @@ AngleProperties {
 		return HitType.ON_FILLING;
 	}
 	
+	public void addNumber(double value, AlgoElement parent) {
+		GeoNumeric listElement;
+		if (size() < getCacheSize()) {
+			// use existing list element
+			listElement = (GeoNumeric) getCached(size());
+		} else {
+			// create a new list element
+			listElement = new GeoNumeric(cons);
+			listElement.setParentAlgorithm(parent);
+			listElement.setConstructionDefaults();
+			listElement.setUseVisualDefaults(false);
+		}
+
+		add(listElement);
+		listElement.setValue(value);
+	}
+
+	public void addPoint(double x, double y, double z,
+			AlgoElement parent) {
+		GeoPoint listElement;
+		if (size() < getCacheSize()) {
+			// use existing list element
+			listElement = (GeoPoint) getCached(size());
+		} else {
+			// create a new list element
+			listElement = new GeoPoint(cons);
+			listElement.setParentAlgorithm(parent);
+			listElement.setConstructionDefaults();
+			listElement.setUseVisualDefaults(false);
+		}
+
+		add(listElement);
+		listElement.setCoords(x, y, z);
+	}
 
 }
