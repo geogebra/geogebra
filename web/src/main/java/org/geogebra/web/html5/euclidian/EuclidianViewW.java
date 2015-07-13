@@ -623,9 +623,7 @@ public class EuclidianViewW extends EuclidianView implements
 		this.evNo = evNo;
 
 		this.g2p = new org.geogebra.web.html5.awt.GGraphics2DW(canvas);
-		App app1 = euclidiancontroller.getApplication();
-		g2p.devicePixelRatio = app1 == null || !app1.has(Feature.RETINA) ? 1
-				: app.getPixelRatio();
+		g2p.devicePixelRatio = app.getPixelRatio();
 		g2p.setView(this);
 
 		updateFonts();
