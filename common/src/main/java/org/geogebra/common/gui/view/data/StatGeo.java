@@ -280,7 +280,6 @@ public class StatGeo {
 					(GeoList) dataList.get(0), (GeoList) dataList.get(1),
 					new GeoBoolean(cons, true), new GeoNumeric(cons, density),
 					histogramRight);
-
 		} else if (settings.groupType() == GroupType.CLASS) {
 
 			// histogram constructed from classes and frequencies
@@ -828,6 +827,7 @@ public class StatGeo {
 				DataAnalysisModel.DOTPLOT_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
 
+
 		return geo;
 	}
 
@@ -838,6 +838,7 @@ public class StatGeo {
 
 		setXYBounds(settings);
 
+
 		settings.showYAxis = true;
 		settings.forceXAxisBuffer = false;
 		settings.isEdgeAxis[0] = true;
@@ -846,6 +847,8 @@ public class StatGeo {
 		settings.isPositiveOnly[1] = true;
 
 	}
+
+
 
 	public GeoElement createRegressionPlot(GeoList dataList, Regression reg,
 			int order, boolean residual) {
@@ -935,7 +938,6 @@ public class StatGeo {
 		settings.forceXAxisBuffer = false;
 
 	}
-
 	/*
 	 * public GeoElement createResidualPlot(GeoList dataList, int regType, int
 	 * order){

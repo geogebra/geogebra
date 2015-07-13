@@ -986,4 +986,13 @@ public interface EuclidianViewInterfaceCommon extends
 
 	public boolean isViewForPlane();
 
+	/*
+	 * return true if the axis is logarithmic
+	 */
+	public boolean setLogAxis(int axis, boolean flag, boolean update);
+
+	public boolean getXaxisLog();
+
+	public boolean getYaxisLog();
+
 }

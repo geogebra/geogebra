@@ -25,9 +25,11 @@ public class PlotSettings {
 	public boolean forceYAxisBuffer = false;
 	public boolean[] isEdgeAxis = {false,false};
 	public boolean[] isPositiveOnly = {false,false};
-	
 	public boolean showGrid = false;
 	
+	public boolean logXAxis = false;
+	public boolean logYAxis = false;
+
 	/**
 	 * Default constructor
 	 */

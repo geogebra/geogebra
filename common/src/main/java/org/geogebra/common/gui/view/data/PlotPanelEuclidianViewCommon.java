@@ -21,6 +21,7 @@ public class PlotPanelEuclidianViewCommon {
 	private PlotSettings plotSettings;
 	public static boolean showGrid = false;
 	public static boolean[] showAxes = { true, true };
+	public static boolean[] logAxes = { false, false };
 
 	/**
 	 * @param overDragRegion
@@ -72,13 +73,17 @@ public class PlotPanelEuclidianViewCommon {
 	 * @param plotPanelEuclidianViewD TODO
 	 */
 	public void setEVParams(PlotPanelEuclidianViewInterface plotPanelEuclidianViewD) {
-	
 		plotPanelEuclidianViewD.showGrid(getPlotSettings().showGrid);
 		plotPanelEuclidianViewD.setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
 				getPlotSettings().showYAxis, false);
-		
+
 		plotPanelEuclidianViewD.setShowAxis(EuclidianViewInterfaceCommon.AXIS_X,
 				getPlotSettings().showXAxis, false);
+
+		plotPanelEuclidianViewD.setLogAxis(EuclidianViewInterfaceCommon.AXIS_X,
+				getPlotSettings().logXAxis, false);
+		plotPanelEuclidianViewD.setLogAxis(EuclidianViewInterfaceCommon.AXIS_Y,
+				getPlotSettings().logYAxis, false);
 	
 		plotPanelEuclidianViewD.setAutomaticGridDistance(getPlotSettings().gridIntervalAuto);
 		if (!getPlotSettings().gridIntervalAuto) {
@@ -130,6 +135,7 @@ public class PlotPanelEuclidianViewCommon {
 		plotPanelEuclidianViewD.setPointCapturing(getPlotSettings().pointCaptureStyle);
 	
 		// do this last ?
+
 		plotPanelEuclidianViewD.setRealWorldCoordSystem(getPlotSettings().xMin, getPlotSettings().xMax,
 				getPlotSettings().yMin, getPlotSettings().yMax);
 	

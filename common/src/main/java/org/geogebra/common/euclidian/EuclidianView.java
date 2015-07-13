@@ -192,6 +192,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected NumberFormatAdapter[] axesNumberFormat;
 	protected boolean[] showAxes = { true, true };
 
+	protected boolean[] logAxes = { false, false };
+
 	// distances between grid lines
 	private boolean automaticGridDistance = true;
 
@@ -691,7 +693,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return screen equivalent of real world x-coord
 	 */
 	final public int toScreenCoordX(double xRW) {
-		return (int) Math.round(getxZero() + (xRW * getXscale()));
+		return (int) Math.round(getxZero() + xRW * getXscale());
 	}
 
 	/**
@@ -713,7 +715,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return screen equivalent of real world x-coord as double
 	 */
 	final public double toScreenCoordXd(double xRW) {
-		return getxZero() + (xRW * getXscale());
+		if (getXaxisLog())
+			return getxZero() + (Math.log10(xRW) * getXscale());
+		else
+			return getxZero() + (xRW * getXscale());
 	}
 
 	/**
@@ -724,7 +729,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return screen equivalent of real world y-coord
 	 */
 	final public double toScreenCoordYd(double yRW) {
-		return getyZero() - (yRW * getYscale());
+		if (getYaxisLog())
+			return getYZero() + (Math.log10(yRW) * getYscale());
+		else
+			return getyZero() - (yRW * getYscale());
 	}
 
 	/**
@@ -779,8 +787,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	final public boolean toScreenCoords(double[] inOut) {
 		// convert to screen coords
-		inOut[0] = getxZero() + (inOut[0] * getXscale());
-		inOut[1] = getyZero() - (inOut[1] * getYscale());
+
+		if (getXaxisLog()) {
+			inOut[0] = getxZero() + (Math.log10(inOut[0]) * getXscale());
+		} else
+			inOut[0] = getxZero() + (inOut[0] * getXscale());
+
+		if (getYaxisLog()) {
+			inOut[1] = getyZero() - (Math.log10(inOut[1]) * getYscale());
+		} else
+			inOut[1] = getyZero() - (inOut[1] * getYscale());
 
 		// check if (x, y) is on screen
 		boolean onScreen = true;
@@ -951,6 +967,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
 			double ymin2, double ymax2) {
 		double calcXscale = getWidth() / (xmax2 - xmin2);
+		if (getXaxisLog()) {
+			calcXscale = getWidth() / (xmax2 - xmin2);
+		}
 		double calcYscale = getHeight() / (ymax2 - ymin2);
 		double calcXzero = -calcXscale * xmin2;
 		double calcYzero = calcYscale * ymax2;
@@ -1419,6 +1438,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double maxPix = 100; // only one tick is allowed per maxPix pixels
 		double units = maxPix / scale;
 		int exp = (int) Math.floor(Math.log(units) / Math.log(10));
+
+		// if (logAxes[axis]) {
+		// exp = (int) Math.log10(exp);
+		// }
+
 		int maxFractionDigtis = Math.max(-exp, kernel.getPrintDecimals());
 
 		if (automaticAxesNumberingDistances[axis]) {
@@ -1450,6 +1474,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				} else {
 					axesNumberingDistances[axis] = pot;
 				}
+
+
 			}
 		}
 		AxesTickInterval[axis] = axesNumberingDistances[axis] / 2.0;
@@ -2338,6 +2364,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.positiveAxes = positiveAxis;
 	}
 
+
 	// for xml handler
 	public void setPositiveAxis(int axis, boolean isPositiveAxis) {
 		positiveAxes[axis] = isPositiveAxis;
@@ -2581,6 +2608,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public boolean getShowYaxis() {
 		return getShowAxis(AXIS_Y);
+	}
+
+	/*
+	 * say if the axis is logarithmic
+	 */
+
+	public boolean getLogAxis(int axis) {
+		return logAxes[axis];
+	}
+
+	public boolean getXaxisLog() {
+		return getLogAxis(AXIS_X);
+	}
+
+	public boolean getYaxisLog() {
+		return getLogAxis(AXIS_Y);
 	}
 
 	// ///////////////////////////////////////
@@ -3130,10 +3173,27 @@ sb.toString(), getFontAxes(),
 			double tickStep = getXscale() * gridDistances[0];
 			double start = getxZero() % tickStep;
 			double pix = start;
-
+			double rw = getXmin() - (getXmin() % axesNumberingDistances[0]);
+			double rwBase = Kernel.checkDecimalFraction(rw);
+			if (pix < SCREEN_BORDER) {
+				pix += tickStep;
+				if (!getXaxisLog() || getXmin() < 0)
+					rw += axesNumberingDistances[0];
+			}
 			for (int i = 0; pix <= getWidth(); i++) {
 				// don't draw the grid line x=0 if the y-axis is showing
 				// or if it's too close (eg sticky axes)
+				if(getXaxisLog()){
+					double r = rwBase + Kernel.checkDecimalFraction(axesNumberingDistances[0] * i);
+					if (Math.round(r) == r)
+						rw = Math.pow(10, r); // condition of integer power
+					else {
+						rw = Math.pow(10, (int) r);
+						double decimal = r - (int) r;
+						rw = decimal * 10 * rw;
+					}
+					pix = toScreenCoordXd(rw);
+				}
 				if (!showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
 					if (axesLabelsPositionsX.contains(new Integer(
 							(int) (pix + Kernel.MIN_PRECISION)))) {
@@ -3157,10 +3217,30 @@ sb.toString(), getFontAxes(),
 			tickStep = getYscale() * gridDistances[1];
 			start = getyZero() % tickStep;
 			pix = start;
-
+			rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
+			rwBase = Kernel.checkDecimalFraction(rw);
+			if (pix > (getHeight() - SCREEN_BORDER)) {
+				pix -= tickStep;
+				if (!getYaxisLog() || getYmin() < 0)
+					rw += axesNumberingDistances[1];
+			}
 			for (int j = 0; pix <= getHeight(); j++) {
 				// don't draw the grid line x=0 if the y-axis is showing
 				// or if it's too close (eg sticky axes)
+				if (getYaxisLog()) {
+					double r = rwBase
+							+ Kernel.checkDecimalFraction(axesNumberingDistances[1]
+									* j);
+					if (Math.round(r) == r)
+						rw = Math.pow(10, r); // condition of integer power
+					else {
+						rw = Math.pow(10, (int) r);
+						double decimal = r - (int) r;
+						rw = decimal * 10 * rw;
+					}
+					pix = 2 * getYZero() - toScreenCoordYd(rw);
+				}
+
 				if (!showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
 					if (axesLabelsPositionsY.contains(new Integer(
@@ -3448,6 +3528,7 @@ sb.toString(), getFontAxes(),
 	public boolean showGrid(boolean show) {
 		return companion.showGrid(show);
 	}
+
 
 	public void setGridIsBold(boolean gridIsBold) {
 		if (this.gridIsBold == gridIsBold) {
@@ -3788,6 +3869,28 @@ sb.toString(), getFontAxes(),
 		return setShowAxis(AXIS_Y, flag, true) || changedX;
 	}
 
+	/*
+	 * change logarithmic flag of the axes
+	 */
+
+	public boolean setLogAxis(int axis, boolean flag, boolean update) {
+		if (flag == logAxes[axis]) {
+			return false;
+		}
+
+		logAxes[axis] = flag;
+
+		if (update) {
+			updateBackgroundImage();
+		}
+		return true;
+	}
+
+	public boolean setLogAxes(boolean flag, boolean update) {
+		boolean changedX = setLogAxis(AXIS_X, flag, false);
+		return setLogAxis(AXIS_Y, flag, true) || changedX;
+	}
+
 	/**
 	 * @param bold
 	 *            true for bold axes
@@ -4031,7 +4134,6 @@ sb.toString(), getFontAxes(),
 	 */
 	public void drawPoints(GeoImage ge, double[] x, double[] y) {
 		ArrayList<GPoint> ptList = new ArrayList<GPoint>();
-
 		for (int i = 0; i < x.length; i++) {
 			int xi = toScreenCoordX(x[i]);
 			int yi = toScreenCoordY(y[i]);
@@ -4632,6 +4734,11 @@ sb.toString(), getFontAxes(),
 	public void setShowAxis(boolean show) {
 		setShowAxis(0, show, false);
 		setShowAxis(1, show, true);
+	}
+
+	public void setLogAxis(boolean log) {
+		setLogAxis(0, log, false);
+		setLogAxis(0, log, true);
 	}
 
 	/**

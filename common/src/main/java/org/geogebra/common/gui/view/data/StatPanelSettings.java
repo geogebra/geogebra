@@ -42,6 +42,20 @@ public class StatPanelSettings extends PlotSettings {
 	// graph options
 	private boolean isAutomaticWindow = true;
 
+	private CoordMode coordMode = CoordMode.STANDTOSTAND;
+	public enum CoordMode {
+		STANDTOSTAND(0), LOGTOSTAND(1), STANDTOLOG(2), LOGTOLOG(3);
+		private int mode;
+
+		private CoordMode(int mode) {
+			this.mode = mode;
+		}
+
+		public int mode() {
+			return mode;
+		}
+	}
+
 	// stemplot options
 	private int stemAdjust = 0;
 	
@@ -211,6 +225,32 @@ public class StatPanelSettings extends PlotSettings {
 
 	public void setStemAdjust(int stemAdjust) {
 		this.stemAdjust = stemAdjust;
+	}
+
+	public void setCoordMode(CoordMode coordMode) {
+		this.coordMode = coordMode;
+		switch (coordMode) {
+		case STANDTOSTAND:
+			this.logXAxis = false;
+			this.logYAxis = false;
+			break;
+		case LOGTOSTAND:
+			this.logXAxis = true;
+			this.logYAxis = false;
+			break;
+		case STANDTOLOG:
+			this.logXAxis = false;
+			this.logYAxis = true;
+			break;
+		case LOGTOLOG:
+			this.logXAxis = true;
+			this.logYAxis = true;
+			break;
+		}
+	}
+
+	public CoordMode getCoordMode() {
+		return coordMode;
 	}
 
 }

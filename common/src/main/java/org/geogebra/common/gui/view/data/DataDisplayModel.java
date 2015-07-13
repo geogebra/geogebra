@@ -81,7 +81,8 @@ public class DataDisplayModel {
 		HISTOGRAM("Histogram"), BOXPLOT("Boxplot"), DOTPLOT("DotPlot"), NORMALQUANTILE(
 				"NormalQuantilePlot"), STEMPLOT("StemPlot"), BARCHART(
 						"BarChart"), SCATTERPLOT("Scatterplot"), RESIDUAL(
-								"ResidualPlot"), MULTIBOXPLOT("StackedBoxPlots");
+				"ResidualPlot"), MULTIBOXPLOT(
+				"StackedBoxPlots");
 
 		/**
 		 * the associated key from menu.properties app.getMenu(key) gives the
@@ -115,7 +116,8 @@ public class DataDisplayModel {
 
 	private GeoElement[] boxPlotTitles;
 	private GeoElement histogram, dotPlot, frequencyPolygon, normalCurve,
-	scatterPlot, scatterPlotLine, residualPlot, nqPlot, boxPlot,
+			scatterPlot, scatterPlotLine, residualPlot, logarithmicPlot,
+			nqPlot, boxPlot,
 	barChart, freqTableGeo;
 
 	private boolean hasControlPanel = true;
@@ -164,6 +166,7 @@ public class DataDisplayModel {
 				listener.addDisplayTypeItem(PlotType.DOTPLOT);
 				listener.addDisplayTypeItem(PlotType.STEMPLOT);
 				listener.addDisplayTypeItem(PlotType.NORMALQUANTILE);
+
 			}
 
 			else if (getSettings().groupType() == GroupType.FREQUENCY) {
@@ -401,9 +404,10 @@ public class DataDisplayModel {
 					break;
 	
 				case SCATTERPLOT:
+
 					if (doCreate) {
 						App.debug("[DDMODEL]  UPDATE SCATTERPLOT");
-						scatterPlot = statGeo.createScatterPlot(dataListSelected);
+					scatterPlot = statGeo.createScatterPlot(dataListSelected);
 						plotGeoList.add(scatterPlot);
 	
 						if (daModel.getRegressionModel() != null
@@ -424,9 +428,10 @@ public class DataDisplayModel {
 							daModel.getDaCtrl().isLeftToRight());
 	
 					// update settings
-					statGeo.getScatterPlotSettings(dataListSelected, settings);
+				statGeo.getScatterPlotSettings(dataListSelected, settings);
 					listener.updatePlotPanelSettings();
 					listener.showPlotPanel();
+
 					break;
 	
 				case RESIDUAL:

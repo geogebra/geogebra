@@ -279,7 +279,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected boolean[] showAxes = { true, true, true };
 	protected boolean[] showAxesNumbers = { true, true, true };
-
+	protected boolean[] logAxes = { false, false, false };
 	protected String[] axesLabels = { null, null, null };
 
 	protected String[] axesUnitLabels = { null, null, null };
@@ -353,6 +353,19 @@ public class EuclidianSettings extends AbstractSettings {
 		return changed;
 	}
 
+	/*
+	 * change logarithmic of axes
+	 */
+	public boolean setLogAxis(int axis, boolean flag) {
+		boolean changed = flag != logAxes[axis];
+
+		if (changed) {
+			logAxes[axis] = flag;
+			settingChanged();
+		}
+		return changed;
+	}
+
 	/**
 	 * says if the axis is shown or not
 	 * 
@@ -362,6 +375,10 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public boolean getShowAxis(int axis) {
 		return showAxes[axis];
+	}
+	
+	public boolean getLogAxis(int axis){
+		return logAxes[axis];
 	}
 
 	/**
@@ -693,6 +710,21 @@ public class EuclidianSettings extends AbstractSettings {
 
 	}
 
+	public boolean setLogAxes(boolean x, boolean y) {
+		boolean changedX = this.setLogAxis(0, x);
+		return this.setLogAxis(1, y) || changedX;
+		// settingChanged() is called from those above
+
+	}
+
+	public boolean setLogAxes(boolean flag) {
+		boolean changed = this.setLogAxis(0, flag);
+		changed = this.setLogAxis(1, flag) || changed;
+		return this.setLogAxis(2, flag) || changed;
+		// settingChanged() is called from those above
+
+	}
+
 	public boolean showGrid(boolean show) {
 		if (show == showGrid) {
 			return false;
@@ -939,5 +971,7 @@ public class EuclidianSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
+
+
 
 }

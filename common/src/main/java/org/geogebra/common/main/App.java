@@ -346,6 +346,8 @@ public abstract class App implements UpdateSelection {
 	protected final boolean[] showAxes = { true, true };
 	/** whether grid should be visible when EV is created */
 	protected boolean showGrid = false;
+	/** whether axes should be logarithmci when EV is created */
+	protected final boolean[] logAxes = { false, false };
 	/**
 	 * this flag is true during initialization phase (until GUI is built and
 	 * command line args handled, incl. file loading) or when we are opening a
