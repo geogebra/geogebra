@@ -67,6 +67,7 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianView implements
@@ -716,7 +717,13 @@ public class EuclidianViewW extends EuclidianView implements
 									// focus event that accompanies this
 									// blur first, and only request for
 									// new focus afterwards...
-									firstInstance.requestFocus();
+									Timer tim = new Timer() {
+										public void run() {
+											firstInstance.requestFocus();
+										}
+									};
+									tim.schedule(1000);
+									// firstInstance.requestFocus();
 									//firstInstance
 									//		.getCanvas()
 									//		.getElement()
