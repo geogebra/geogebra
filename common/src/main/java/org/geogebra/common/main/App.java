@@ -3880,7 +3880,6 @@ public abstract class App implements UpdateSelection {
 	
 	public final boolean has(Feature f) {
 		switch (f) {
-		case RETINA:
 		case DATA_COLLECTION:
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
@@ -3901,6 +3900,7 @@ public abstract class App implements UpdateSelection {
 		case DELETE_IN_ALGEBRA:
 		case GL_ELEMENTS:
 		case AUTOMATIC_FONTSIZE:
+		case RETINA:
 			return true;
 		default:
 			return false;
