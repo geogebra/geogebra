@@ -3321,6 +3321,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .dataCollectionView .panelTitle .gwt-Label {
 	float: left;
+	padding-top: 2px;
 }
 
 .dataCollectionView .rowContainer {
@@ -3343,7 +3344,6 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 .dataCollectionView .sensorOnOffButton {
 	float: left;
   	padding-right: 5px;
-  	padding-top: 1px;
 }
 
 /*#####################################################################################

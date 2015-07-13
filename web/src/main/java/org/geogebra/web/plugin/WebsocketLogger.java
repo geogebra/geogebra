@@ -41,8 +41,7 @@ public class WebsocketLogger extends SensorLogger {
 	private void createConnection() {
 		if (this.connection == null
 		        || this.connection.getReadyState() != WebSocketConnection.OPEN) {
-			this.connection = WebSocketFactory
-.create(this.websocket_url);
+			this.connection = WebSocketFactory.create(this.websocket_url);
 			this.connection.onOpen(new OpenEventHandler() {
 
 				public void open(JavaScriptObject event) {
@@ -174,9 +173,7 @@ public class WebsocketLogger extends SensorLogger {
 		if (JSON.get(json, type.toString()) != null) {
 			for (WebSocketListener listener : this.listeners) {
 				listener.onSensorActive(type,
-						Boolean
-						.parseBoolean(JSON.get(json,
- type.toString())));
+						Boolean.parseBoolean(JSON.get(json, type.toString())));
 			}
 		}
 
