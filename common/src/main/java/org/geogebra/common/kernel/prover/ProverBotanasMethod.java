@@ -13,12 +13,14 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
+import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -26,6 +28,7 @@ import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ProverSettings;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.NDGCondition;
 import org.geogebra.common.util.Prover.ProofResult;
@@ -445,11 +448,30 @@ public class ProverBotanasMethod {
 		}
 		updateBotanaVarsInv(statement);
 		try {
+			boolean interpretTrueAsUndefined = false;
 			// The sets of statement polynomials.
 			// The last equation of each set will be negated.
 
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement
 					.getParentAlgorithm()).getBotanaPolynomials();
+			
+			AlgoElement algo = statement
+					.getParentAlgorithm();
+			if (algo instanceof AlgoDependentBoolean) {
+				Operation operation = ((AlgoDependentBoolean) algo)
+						.getOperation();
+				if (operation == Operation.IS_ELEMENT_OF) {
+					if (algo.input[0] instanceof GeoConic
+							&& (((GeoConic) algo.input[0]).isEllipse() || ((GeoConic) algo.input[0])
+									.isHyperbola())) {
+						interpretTrueAsUndefined = true;
+					} else if (algo.input[1] instanceof GeoConic
+							&& (((GeoConic) algo.input[1]).isEllipse() || ((GeoConic) algo.input[1])
+									.isHyperbola())) {
+						interpretTrueAsUndefined = true;
+					}
+				}
+			}
 			
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
@@ -773,14 +795,17 @@ public class ProverBotanasMethod {
 						}
 						App.debug("Statement is GENERALLY FALSE");
 						*/
-						if (interpretFalseAsUndefined) {
+					if (interpretFalseAsUndefined && !interpretTrueAsUndefined) {
 							App.debug("Interpreting FALSE as UNKNOWN");
 							return ProofResult.UNKNOWN;
 						}
 						return ProofResult.FALSE;
 					}
 				}
-
+			if (interpretTrueAsUndefined) {
+				App.debug("Interpreting TRUE as UNKNOWN");
+				return ProofResult.UNKNOWN;
+			}
 			App.debug("Statement is GENERALLY TRUE");
 			return ProofResult.TRUE;
 

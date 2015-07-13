@@ -207,27 +207,28 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 			botanaPolynomials = new Polynomial[2];
 
 			// rotate by 0 degrees
-			if (angleDoubleVal == 0.0) {
+			if (((Double) angleDoubleVal).equals(0.0)) {
 				botanaPolynomials[0] = a_1.subtract(a1).subtract(b1).add(a1);
 				botanaPolynomials[1] = a_2.subtract(a2).subtract(b2).add(a2);
 			}
 			// rotate by 180 or -180 degrees
-			if (angleDoubleVal == Math.PI || angleDoubleVal == -Math.PI) {
+			if (((Double) angleDoubleVal).equals(Math.PI)
+					|| ((Double) angleDoubleVal).equals(-Math.PI)) {
 				botanaPolynomials[0] = a_1.subtract(a1).add(b1).subtract(a1);
 				botanaPolynomials[1] = a_2.subtract(a2).add(b2).subtract(a2);
 			}
 			// rotate by 90 degrees
-			if (angleDoubleVal == Math.PI / 2) {
+			if (((Double) angleDoubleVal).equals(Math.PI / 2)) {
 				botanaPolynomials[0] = a_1.subtract(a1).subtract(b2).add(a2);
 				botanaPolynomials[1] = a_2.subtract(a2).add(b1).subtract(a1);
 			}
 			// rotate by -90 degrees
-			if (angleDoubleVal == -Math.PI / 2) {
+			if (((Double) angleDoubleVal).equals(-Math.PI / 2)) {
 				botanaPolynomials[0] = a_1.subtract(a1).add(b2).subtract(a2);
 				botanaPolynomials[1] = a_2.subtract(a2).subtract(b1).add(a1);
 			}
 			// rotate by 30 degrees
-			if (angleDoubleVal == Math.PI / 6) {
+			if (((Double) angleDoubleVal).equals(Math.PI / 6)) {
 				Polynomial p1 = new Polynomial(2).multiply(a_1)
 						.subtract(new Polynomial(2).multiply(a1)).subtract(b2)
 						.add(a2);
@@ -242,7 +243,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 				botanaPolynomials[1] = p4.multiply(p4).subtract(p6);
 			}
 			// rotate by -30 degrees
-			if (angleDoubleVal == -Math.PI / 6) {
+			if (((Double) angleDoubleVal).equals(-Math.PI / 6)) {
 				Polynomial p1 = new Polynomial(2).multiply(a_1)
 						.subtract(new Polynomial(2).multiply(a1)).add(b2)
 						.subtract(a2);
@@ -257,7 +258,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 				botanaPolynomials[1] = p4.multiply(p4).subtract(p6);
 			}
 			// rotate by 45 degrees
-			if (angleDoubleVal == Math.PI / 4) {
+			if (((Double) angleDoubleVal).equals(Math.PI / 4)) {
 				Polynomial p1 = new Polynomial(2).multiply(a_1).subtract(
 						new Polynomial(2).multiply(a1));
 				Polynomial p2 = b1.subtract(a1).add(b2).subtract(a2);
@@ -270,7 +271,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 						new Polynomial(2).multiply(p4).multiply(p4));
 			}
 			// rotate by -45 degrees
-			if (angleDoubleVal == -Math.PI / 4) {
+			if (((Double) angleDoubleVal).equals(-Math.PI / 4)) {
 				Polynomial p1 = new Polynomial(2).multiply(a_1).subtract(
 						new Polynomial(2).multiply(a1));
 				Polynomial p2 = b1.subtract(a1).subtract(b2).add(a2);
@@ -283,7 +284,8 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 						new Polynomial(2).multiply(p4).multiply(p4));
 			}
 			// rotate by 60 or -60 degrees
-			if (angleDoubleVal == Math.PI / 3 || angleDoubleVal == -Math.PI / 3) {
+			if (((Double) angleDoubleVal).equals(Math.PI / 3)
+					|| ((Double) angleDoubleVal).equals(-Math.PI / 3)) {
 				Polynomial p1 = new Polynomial(2).multiply(a_1)
 						.subtract(new Polynomial(2).multiply(a1)).subtract(b1)
 						.add(a1);

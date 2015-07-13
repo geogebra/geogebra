@@ -573,4 +573,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public ExpressionNode getExpression() {
 		return root;
 	}
+
+	public Operation getOperation() {
+		return root.getOperation();
+	}
 }

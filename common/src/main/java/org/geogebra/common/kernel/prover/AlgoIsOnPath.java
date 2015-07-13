@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.prover;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.commands.Commands;
@@ -160,7 +161,8 @@ public class AlgoIsOnPath extends AlgoElement implements
 				if (((GeoConic) inputPath).isEllipse()
 						|| ((GeoConic) inputPath).isHyperbola()) {
 
-					if (botanaVars == null) {
+					if (botanaVars == null
+							&& ((GeoElement) inputPoint).getParentAlgorithm() != null) {
 						botanaVars = new Variable[4];
 						botanaVars = ((SymbolicParametersBotanaAlgo) ((GeoElement) inputPoint)
 								.getParentAlgorithm())
@@ -169,39 +171,48 @@ public class AlgoIsOnPath extends AlgoElement implements
 
 					Variable[] fv1 = new Variable[4];
 					Variable[] fv2 = new Variable[12];
+					// botana variables of input point
 					fv1 = inputPoint.getBotanaVars(inputPoint);
+					// botana variables of input path
 					fv2 = ((GeoConic) inputPath)
 							.getBotanaVars((GeoConic) inputPath);
 
-					botanaPolynomials = new Polynomial[1][5];
-
-					Polynomial e_1 = new Polynomial(botanaVars[2]);
-					Polynomial e_2 = new Polynomial(botanaVars[3]);
+					botanaPolynomials = new Polynomial[1][3];
+					
+					Polynomial e_1 = new Polynomial();
+					Polynomial e_2 = new Polynomial();
+					AlgoElement algoParent = ((GeoElement) inputPoint)
+							.getParentAlgorithm();
+					// case input point is point on ellipse/hyperbola
+					if (algoParent instanceof AlgoPointOnPath
+							&& (((GeoConic) ((AlgoPointOnPath) algoParent)
+									.getPath()).isEllipse() || ((GeoConic) ((AlgoPointOnPath) algoParent)
+									.getPath()).isHyperbola())) {
+						e_1 = new Polynomial(botanaVars[2]);
+						e_2 = new Polynomial(botanaVars[3]);
+					}
+					// case input point is point from ellipses definition
+					else if (fv1[0].equals(fv2[10]) && fv1[1].equals(fv2[11])) {
+						e_1 = new Polynomial(fv2[2]);
+						e_2 = new Polynomial(fv2[3]);
+					} else {
+						e_1 = new Polynomial(new Variable());
+						e_2 = new Polynomial(new Variable());
+					}
 					Polynomial d1 = new Polynomial(fv2[2]);
 					Polynomial d2 = new Polynomial(fv2[3]);
-					Polynomial e1 = new Polynomial(fv2[4]);
-					Polynomial e2 = new Polynomial(fv2[5]);
 
 					// d1+d2 = e1'+e2'
 					botanaPolynomials[0][0] = d1.add(d2).subtract(e_1)
 							.subtract(e_2);
 
-					// e1'^2=Polynomial.sqrDistance(a1,a2,d1,d2)
+					// e1'^2=Polynomial.sqrDistance(a1,a2,p1,p2)
 					botanaPolynomials[0][1] = Polynomial.sqrDistance(fv2[6],
-							fv2[7], fv2[2], fv2[3]).subtract(e_1.multiply(e_1));
+							fv2[7], fv1[0], fv1[1]).subtract(e_1.multiply(e_1));
 
-					// e2'^2=Polynomial.sqrDistance(b1,b2,d1,d2)
+					// e2'^2=Polynomial.sqrDistance(b1,b2,p1,p2)
 					botanaPolynomials[0][2] = Polynomial.sqrDistance(fv2[8],
-							fv2[9], fv2[2], fv2[3]).subtract(e_2.multiply(e_2));
-
-					// e1^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-					botanaPolynomials[0][3] = Polynomial.sqrDistance(fv2[6],
-							fv2[7], fv1[0], fv1[1]).subtract(e1.multiply(e1));
-
-					// e2^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-					botanaPolynomials[0][4] = Polynomial.sqrDistance(fv2[8],
-							fv2[9], fv1[0], fv1[1]).subtract(
-							e2.multiply(e2));
+							fv2[9], fv1[0], fv1[1]).subtract(e_2.multiply(e_2));
 
 					return botanaPolynomials;
 				}
