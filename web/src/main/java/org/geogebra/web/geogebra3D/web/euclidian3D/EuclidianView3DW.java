@@ -126,18 +126,35 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		if (EuclidianViewW.firstInstance == null) {
 			EuclidianViewW.firstInstance = this;
-		} else if (EuclidianViewW.compareDocumentPosition(this.getCanvas()
-				.getCanvasElement(), EuclidianViewW.firstInstance.getCanvas()
-				.getCanvasElement())) {
-			EuclidianViewW.firstInstance = this;
+		} else if (getCanvas().isAttached()) {
+			if (EuclidianViewW.compareDocumentPosition(this.getCanvas()
+					.getCanvasElement(), EuclidianViewW.firstInstance
+					.getCanvas().getCanvasElement())) {
+				EuclidianViewW.firstInstance = this;
+			}
+		} else {
+			if (EuclidianViewW
+					.compareDocumentPosition(((AppW) app).getFrameElement(),
+							EuclidianViewW.firstInstance.getCanvas()
+									.getCanvasElement())) {
+				EuclidianViewW.firstInstance = this;
+			}
 		}
 
 		if (EuclidianViewW.lastInstance == null) {
 			EuclidianViewW.lastInstance = this;
-		} else if (EuclidianViewW.compareDocumentPosition(
-				EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
-				this.getCanvas().getCanvasElement())) {
-			EuclidianViewW.lastInstance = this;
+		} else if (getCanvas().isAttached()) {
+			if (EuclidianViewW.compareDocumentPosition(
+					EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
+					this.getCanvas().getCanvasElement())) {
+				EuclidianViewW.lastInstance = this;
+			}
+		} else {
+			if (EuclidianViewW.compareDocumentPosition(
+					EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
+					((AppW) app).getFrameElement())) {
+				EuclidianViewW.lastInstance = this;
+			}
 		}
 
 		canvas.addBlurHandler(new BlurHandler() {
@@ -168,6 +185,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 									// blur first, and only request for
 									// new focus afterwards...
 									EuclidianViewW.firstInstance.requestFocus();
+									//EuclidianViewW.firstInstance
+									//		.getCanvas()
+									//		.getElement()
+									//		.getStyle()
+									//		.setProperty("border",
+									//				"red solid 5px");
 								}
 							});
 				}

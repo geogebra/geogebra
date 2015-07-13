@@ -644,17 +644,40 @@ public class EuclidianViewW extends EuclidianView implements
 			canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
 			if (firstInstance == null) {
 				firstInstance = this;
-			} else if (compareDocumentPosition(this.getCanvas()
-					.getCanvasElement(), firstInstance.getCanvas()
-					.getCanvasElement())) {
-				firstInstance = this;
+			} else if (getCanvas().isAttached()) {
+				if (compareDocumentPosition(
+						this.getCanvas().getCanvasElement(), firstInstance
+								.getCanvas().getCanvasElement())) {
+					firstInstance = this;
+				}
+			} else {
+				// then compare to something equivalent!
+				// if we are in different applet;
+				// ... anything from this applet is right
+				// if we are in the same applet;
+				// ... does it matter? (yes, but just a little bit)
+				// TODO: to be fixed in a better way later,
+				// after it is seen whether this is really a little fix...
+				if (compareDocumentPosition(app.getFrameElement(),
+						firstInstance
+								.getCanvas().getCanvasElement())) {
+					firstInstance = this;
+				}
 			}
 
 			if (lastInstance == null) {
 				lastInstance = this;
-			} else if (compareDocumentPosition(lastInstance.getCanvas()
-					.getCanvasElement(), this.getCanvas().getCanvasElement())) {
-				lastInstance = this;
+			} else if (getCanvas().isAttached()) {
+				if (compareDocumentPosition(lastInstance.getCanvas()
+						.getCanvasElement(), this.getCanvas()
+						.getCanvasElement())) {
+					lastInstance = this;
+				}
+			} else {
+				if (compareDocumentPosition(lastInstance.getCanvas()
+						.getCanvasElement(), app.getFrameElement())) {
+					lastInstance = this;
+				}
 			}
 		} else {
 			// is this the best?
@@ -694,6 +717,12 @@ public class EuclidianViewW extends EuclidianView implements
 									// blur first, and only request for
 									// new focus afterwards...
 									firstInstance.requestFocus();
+									//firstInstance
+									//		.getCanvas()
+									//		.getElement()
+									//		.getStyle()
+									//		.setProperty("border",
+									//				"red solid 5px");
 								}
 							});
 				}
