@@ -640,7 +640,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 		registerDragDropHandlers(euclidianViewPanel,(EuclidianControllerW) euclidiancontroller);
 
-		if ((evNo == 1) || (evNo == 2)) {
+		if ((evNo == 1)
+				|| (evNo == 2)
+				|| ((getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
 			canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
 			if (firstInstance == null) {
 				firstInstance = this;
