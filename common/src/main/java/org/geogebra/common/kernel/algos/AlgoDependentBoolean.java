@@ -276,7 +276,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				polyNode.setPoly(leftPoly.multiply(rightPoly));
 				break;
 			case POWER:
-				polyNode.setPoly(leftPoly.multiply(leftPoly));
+				int pow = Integer.parseInt(polyNode.getRight().getPoly()
+						.toString());
+				Polynomial poly = leftPoly;
+				for (int i = 1; i < pow; i++) {
+					poly = poly.multiply(leftPoly);
+				}
+				polyNode.setPoly(poly);
 				break;
 			default:
 				break;
@@ -412,7 +418,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		// check if something has form s_1*s_2*...*s_n
 		// where s_1,s_2,...,s_n are GeoSegments
 		else if (node.getRight() instanceof MyDouble
-				&& Integer.parseInt(node.getRight().toString()) == 2
+				&& Integer.parseInt(node.getRight().toString()) % 2 == 0
 				&& node.getOperation() == Operation.POWER) {
 			// get GeoSegments, operations and number of GeoSegments from
 			// expression

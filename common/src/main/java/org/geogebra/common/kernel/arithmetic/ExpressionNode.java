@@ -5749,7 +5749,7 @@ kernel, left,
 	public boolean isSegmentSquare() {
 		if (this.getLeft() instanceof GeoSegment
 				&& this.getRight() instanceof MyDouble
-				&& Integer.parseInt(this.getRight().toString()) == 2
+				&& Integer.parseInt(this.getRight().toString()) % 2 == 0
 				&& this.getOperation() == Operation.POWER) {
 			return true;
 		}
