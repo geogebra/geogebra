@@ -339,6 +339,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 						// App.debug("------------------ resize -----------------------");
 						// App.debug("w = "+w+" , h = "+h);
+						renderer.setPixelRatio(((AppW) app).getPixelRatio());
 						renderer.setView(0, 0, w, h);
 						getEuclidianController().calculateEnvironment();
 					}

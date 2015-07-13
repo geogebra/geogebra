@@ -128,12 +128,21 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		});
 	}-*/;
 
+	private double ratio;
+
+	public void setPixelRatio(double ratio) {
+		this.ratio = ratio;
+	}
 	@Override
 	public void setView(int x, int y, int w, int h) {
-		webGLCanvas.setCoordinateSpaceWidth(w);
-		webGLCanvas.setCoordinateSpaceHeight(h);
-		setGLViewPort(w, h);
-
+		if (glContext == null || webGLCanvas == null) {
+			return;
+		}
+		webGLCanvas.setCoordinateSpaceWidth((int) (w * ratio));
+		webGLCanvas.setCoordinateSpaceHeight((int) (h * ratio));
+		glContext.viewport(0, 0, (int) (w * ratio), (int) (h * ratio));
+		webGLCanvas.setHeight(h + "px");
+		webGLCanvas.setWidth(w + "px");
 		super.setView(x, y, w, h);
 
 		start();
@@ -148,9 +157,10 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	 * @param h
 	 *            height
 	 */
-	protected void setGLViewPort(int w, int h) {
-		glContext.viewport(0, 0, w, h);
-	}
+	/*
+	 * protected void setGLViewPort(int w, int h) { glContext.viewport(0, 0, w,
+	 * h); }
+	 */
 
 	/**
 	 * 

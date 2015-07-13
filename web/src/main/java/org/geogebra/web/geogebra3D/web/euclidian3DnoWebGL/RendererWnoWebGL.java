@@ -32,11 +32,6 @@ public class RendererWnoWebGL extends RendererW {
 	}
 
 	@Override
-	protected void setGLViewPort(int w, int h) {
-		// no webGL context here...
-	}
-
-	@Override
 	protected void start() {
 		// nothing to start here
 	}
