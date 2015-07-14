@@ -84,7 +84,9 @@ public class MidiSoundW {
 	
 	public native JavaScriptObject sendNote(int port, int ch, int note,
 			double velocity, double time) /*-{
-		$wnd.mwaw.sendNoteOn(port, ch, note, velocity, time);
+		$wnd.mwaw.initializePerformanceNow();
+		$wnd.mwaw.sendNoteOn(port, ch, note, velocity, 0);
+		$wnd.mwaw.sendNoteOff(port, ch, note, velocity, 1600 * time);
 	}-*/;
 
 	public native void sendAllSoundOff(int port, int ch, double time) /*-{
