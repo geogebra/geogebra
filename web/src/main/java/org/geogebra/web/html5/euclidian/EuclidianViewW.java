@@ -67,6 +67,7 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -620,7 +621,7 @@ public class EuclidianViewW extends EuclidianView implements
 			EuclidianController euclidiancontroller, int evNo,
 			EuclidianSettings settings) {
 
-		Canvas canvas = euclidianViewPanel.getCanvas();
+		final Canvas canvas = euclidianViewPanel.getCanvas();
 		this.evNo = evNo;
 
 		this.g2p = new org.geogebra.web.html5.awt.GGraphics2DW(canvas);
@@ -641,7 +642,34 @@ public class EuclidianViewW extends EuclidianView implements
 
 		registerDragDropHandlers(euclidianViewPanel,(EuclidianControllerW) euclidiancontroller);
 
-		updateFirstAndLast(true);
+		updateFirstAndLast(true, true);
+
+		canvas.addAttachHandler(new AttachEvent.Handler() {
+			public void onAttachOrDetach(AttachEvent ae) {
+				if (ae.isAttached()) {
+					// canvas just attached
+					// if (canvas.isVisible()) {
+						// if the canvas is set to visible,
+						// we're also going to call this
+					// but it seems the canvas is never
+					// made invisible now (otherwise
+					// we would need to override it maybe)
+
+					// ... it is a good question whether the
+					// respective methods of DockManagerW, i.e.
+					// show, hide, maximize and drop call this?
+					updateFirstAndLast(true, false);
+					// }
+				} else {
+					// canvas just detached
+					// here lazy update shall happen!
+					// i.e. focus handler shall update
+					// firstInstance and lastInstance
+					// BUT also we shall make them null now
+					updateFirstAndLast(false, false);
+				}
+			}
+		});
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
@@ -735,50 +763,52 @@ public class EuclidianViewW extends EuclidianView implements
 
 	}
 
-	public void updateFirstAndLast(boolean anyway) {
-		if ((evNo == 1) || (evNo == 2) || isViewForPlane()) {
-			getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-			if (firstInstance == null) {
-				firstInstance = this;
-			} else if (getCanvas().isAttached()) {
-				if (compareDocumentPosition(
-getCanvas().getCanvasElement(),
-						firstInstance
-								.getCanvas().getCanvasElement())) {
+	@Override
+	public void updateFirstAndLast(boolean attach, boolean anyway) {
+		if (attach) {
+			if ((evNo == 1) || (evNo == 2) || isViewForPlane()) {
+				getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+				if (firstInstance == null) {
 					firstInstance = this;
-				}
-			} else if (anyway) {
-				// then compare to something equivalent!
-				// if we are in different applet;
-				// ... anything from this applet is right
-				// if we are in the same applet;
-				// ... does it matter? (yes, but just a little bit)
-				// TODO: to be fixed in a better way later,
-				// after it is seen whether this is really a little fix...
-				if (compareDocumentPosition(app.getFrameElement(),
+				} else if (getCanvas().isAttached()) {
+					if (compareDocumentPosition(getCanvas().getCanvasElement(),
+							firstInstance.getCanvas().getCanvasElement())) {
+						firstInstance = this;
+					}
+				} else if (anyway) {
+					// then compare to something equivalent!
+					// if we are in different applet;
+					// ... anything from this applet is right
+					// if we are in the same applet;
+					// ... does it matter? (yes, but just a little bit)
+					// TODO: to be fixed in a better way later,
+					// after it is seen whether this is really a little fix...
+					if (compareDocumentPosition(app.getFrameElement(),
 						firstInstance.getCanvas().getCanvasElement())) {
-					firstInstance = this;
+						firstInstance = this;
+					}
 				}
-			}
 
-			if (lastInstance == null) {
-				lastInstance = this;
-			} else if (getCanvas().isAttached()) {
-				if (compareDocumentPosition(lastInstance.getCanvas()
-						.getCanvasElement(), getCanvas()
-						.getCanvasElement())) {
+				if (lastInstance == null) {
 					lastInstance = this;
+				} else if (getCanvas().isAttached()) {
+					if (compareDocumentPosition(lastInstance.getCanvas()
+							.getCanvasElement(), getCanvas().getCanvasElement())) {
+						lastInstance = this;
+					}
+				} else if (anyway) {
+					if (compareDocumentPosition(lastInstance.getCanvas()
+							.getCanvasElement(), app.getFrameElement())) {
+						lastInstance = this;
+					}
 				}
-			} else if (anyway) {
-				if (compareDocumentPosition(lastInstance.getCanvas()
-						.getCanvasElement(), app.getFrameElement())) {
-					lastInstance = this;
-				}
+			} else {
+				// is this the best?
+				getCanvas().setTabIndex(
+						GeoGebraFrame.GRAPHICS_VIEW_TABINDEX - 1);
 			}
 		} else {
-			// is this the best?
-			getCanvas().setTabIndex(
-					GeoGebraFrame.GRAPHICS_VIEW_TABINDEX - 1);
+			// ?
 		}
 	}
 

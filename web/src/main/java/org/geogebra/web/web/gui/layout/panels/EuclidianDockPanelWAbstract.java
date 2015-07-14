@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
 /**
@@ -51,4 +52,16 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 	 * @return view in this dock panel
 	 */
 	abstract public EuclidianView getEuclidianView();
+
+	@Override
+	public void setVisible(boolean sv) {
+		super.setVisible(sv);
+		// if (getEuclidianView() != null) {// also included in:
+		if (getEuclidianView() instanceof EuclidianViewWInterface) {
+			((EuclidianViewWInterface) getEuclidianView()).updateFirstAndLast(
+					sv,
+						false);
+			}
+		// }
+	}
 }

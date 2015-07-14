@@ -56,6 +56,7 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -123,7 +124,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
 		        (EuclidianController3DW) euclidiancontroller);
 
-		updateFirstAndLast(true);
+		updateFirstAndLast(true, true);
+
+		canvas.addAttachHandler(new AttachEvent.Handler() {
+			public void onAttachOrDetach(AttachEvent ae) {
+				// see attach handler of EuclidianViewW
+				updateFirstAndLast(ae.isAttached(), false);
+			}
+		});
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
@@ -196,39 +204,57 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		es.addListener(this);
 	}
 
-	public void updateFirstAndLast(boolean anyway) {
-		getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+	@Override
+	public void updateFirstAndLast(boolean attach, boolean anyway) {
+		if (attach) {
+			getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
 
-		if (EuclidianViewW.firstInstance == null) {
-			EuclidianViewW.firstInstance = this;
-		} else if (getCanvas().isAttached()) {
-			if (EuclidianViewW.compareDocumentPosition(getCanvas()
-					.getCanvasElement(), EuclidianViewW.firstInstance
-					.getCanvas().getCanvasElement())) {
+			if (EuclidianViewW.firstInstance == null) {
 				EuclidianViewW.firstInstance = this;
+			} else if (getCanvas().isAttached()) {
+				if (EuclidianViewW.compareDocumentPosition(getCanvas()
+						.getCanvasElement(), EuclidianViewW.firstInstance
+						.getCanvas().getCanvasElement())) {
+					EuclidianViewW.firstInstance = this;
+				}
+			} else if (anyway) {
+				if (EuclidianViewW.compareDocumentPosition(((AppW) app)
+						.getFrameElement(), EuclidianViewW.firstInstance
+						.getCanvas().getCanvasElement())) {
+					EuclidianViewW.firstInstance = this;
+				}
 			}
-		} else if (anyway) {
-			if (EuclidianViewW
-					.compareDocumentPosition(((AppW) app).getFrameElement(),
-							EuclidianViewW.firstInstance.getCanvas()
-									.getCanvasElement())) {
-				EuclidianViewW.firstInstance = this;
-			}
-		}
 
-		if (EuclidianViewW.lastInstance == null) {
-			EuclidianViewW.lastInstance = this;
-		} else if (getCanvas().isAttached()) {
-			if (EuclidianViewW.compareDocumentPosition(
-					EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
-					getCanvas().getCanvasElement())) {
+			if (EuclidianViewW.lastInstance == null) {
 				EuclidianViewW.lastInstance = this;
+			} else if (getCanvas().isAttached()) {
+				if (EuclidianViewW.compareDocumentPosition(
+						EuclidianViewW.lastInstance.getCanvas()
+								.getCanvasElement(), getCanvas()
+								.getCanvasElement())) {
+					EuclidianViewW.lastInstance = this;
+				}
+			} else if (anyway) {
+				if (EuclidianViewW.compareDocumentPosition(
+						EuclidianViewW.lastInstance.getCanvas()
+								.getCanvasElement(), ((AppW) app)
+								.getFrameElement())) {
+					EuclidianViewW.lastInstance = this;
+				}
 			}
-		} else if (anyway) {
-			if (EuclidianViewW.compareDocumentPosition(
-					EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
-					((AppW) app).getFrameElement())) {
-				EuclidianViewW.lastInstance = this;
+		} else {
+			// TODO: shall we unset tabindex?
+			if (EuclidianViewW.firstInstance == this) {
+				// note that we shall set it to another EV, probably
+				// TODO: how to do it?
+				// now setting it to null, because compareDocumentPosition
+				// will not work anyway...
+				// EuclidianViewW.firstInstance = null;
+			}
+			if (EuclidianViewW.lastInstance == this) {
+				// note that we shall set it to another EV, probably
+				// TODO: how to do it?
+				// EuclidianViewW.lastInstance = null;
 			}
 		}
 	}

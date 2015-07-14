@@ -77,4 +77,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	public String getCanvasBase64WithTypeString();
 
 	public void requestFocus();
+
+	public void updateFirstAndLast(boolean attach, boolean anyway);
 }

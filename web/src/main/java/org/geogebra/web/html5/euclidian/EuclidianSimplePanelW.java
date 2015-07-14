@@ -117,4 +117,11 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	public void updateNavigationBar() {
 	}
 
+	@Override
+	public void setVisible(boolean sv) {
+		super.setVisible(sv);
+		if (getEuclidianView() != null) {
+			((EuclidianViewW) getEuclidianView()).updateFirstAndLast(sv, false);
+		}
+	}
 }
