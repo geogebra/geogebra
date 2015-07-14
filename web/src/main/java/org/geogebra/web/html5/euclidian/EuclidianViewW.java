@@ -641,49 +641,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		registerDragDropHandlers(euclidianViewPanel,(EuclidianControllerW) euclidiancontroller);
 
-		if ((evNo == 1) || (evNo == 2) || isViewForPlane()) {
-			canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-			if (firstInstance == null) {
-				firstInstance = this;
-			} else if (getCanvas().isAttached()) {
-				if (compareDocumentPosition(
-						this.getCanvas().getCanvasElement(), firstInstance
-								.getCanvas().getCanvasElement())) {
-					firstInstance = this;
-				}
-			} else {
-				// then compare to something equivalent!
-				// if we are in different applet;
-				// ... anything from this applet is right
-				// if we are in the same applet;
-				// ... does it matter? (yes, but just a little bit)
-				// TODO: to be fixed in a better way later,
-				// after it is seen whether this is really a little fix...
-				if (compareDocumentPosition(app.getFrameElement(),
-						firstInstance
-								.getCanvas().getCanvasElement())) {
-					firstInstance = this;
-				}
-			}
-
-			if (lastInstance == null) {
-				lastInstance = this;
-			} else if (getCanvas().isAttached()) {
-				if (compareDocumentPosition(lastInstance.getCanvas()
-						.getCanvasElement(), this.getCanvas()
-						.getCanvasElement())) {
-					lastInstance = this;
-				}
-			} else {
-				if (compareDocumentPosition(lastInstance.getCanvas()
-						.getCanvasElement(), app.getFrameElement())) {
-					lastInstance = this;
-				}
-			}
-		} else {
-			// is this the best?
-			canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX - 1);
-		}
+		updateFirstAndLast(true);
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
@@ -775,6 +733,53 @@ public class EuclidianViewW extends EuclidianView implements
 			es.addListener(this);
 		}
 
+	}
+
+	public void updateFirstAndLast(boolean anyway) {
+		if ((evNo == 1) || (evNo == 2) || isViewForPlane()) {
+			getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+			if (firstInstance == null) {
+				firstInstance = this;
+			} else if (getCanvas().isAttached()) {
+				if (compareDocumentPosition(
+getCanvas().getCanvasElement(),
+						firstInstance
+								.getCanvas().getCanvasElement())) {
+					firstInstance = this;
+				}
+			} else if (anyway) {
+				// then compare to something equivalent!
+				// if we are in different applet;
+				// ... anything from this applet is right
+				// if we are in the same applet;
+				// ... does it matter? (yes, but just a little bit)
+				// TODO: to be fixed in a better way later,
+				// after it is seen whether this is really a little fix...
+				if (compareDocumentPosition(app.getFrameElement(),
+						firstInstance.getCanvas().getCanvasElement())) {
+					firstInstance = this;
+				}
+			}
+
+			if (lastInstance == null) {
+				lastInstance = this;
+			} else if (getCanvas().isAttached()) {
+				if (compareDocumentPosition(lastInstance.getCanvas()
+						.getCanvasElement(), getCanvas()
+						.getCanvasElement())) {
+					lastInstance = this;
+				}
+			} else if (anyway) {
+				if (compareDocumentPosition(lastInstance.getCanvas()
+						.getCanvasElement(), app.getFrameElement())) {
+					lastInstance = this;
+				}
+			}
+		} else {
+			// is this the best?
+			getCanvas().setTabIndex(
+					GeoGebraFrame.GRAPHICS_VIEW_TABINDEX - 1);
+		}
 	}
 
 	/**

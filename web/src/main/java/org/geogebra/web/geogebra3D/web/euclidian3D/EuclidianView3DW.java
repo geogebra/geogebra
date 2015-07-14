@@ -123,40 +123,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
 		        (EuclidianController3DW) euclidiancontroller);
 
-		canvas.setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
-
-		if (EuclidianViewW.firstInstance == null) {
-			EuclidianViewW.firstInstance = this;
-		} else if (getCanvas().isAttached()) {
-			if (EuclidianViewW.compareDocumentPosition(this.getCanvas()
-					.getCanvasElement(), EuclidianViewW.firstInstance
-					.getCanvas().getCanvasElement())) {
-				EuclidianViewW.firstInstance = this;
-			}
-		} else {
-			if (EuclidianViewW
-					.compareDocumentPosition(((AppW) app).getFrameElement(),
-							EuclidianViewW.firstInstance.getCanvas()
-									.getCanvasElement())) {
-				EuclidianViewW.firstInstance = this;
-			}
-		}
-
-		if (EuclidianViewW.lastInstance == null) {
-			EuclidianViewW.lastInstance = this;
-		} else if (getCanvas().isAttached()) {
-			if (EuclidianViewW.compareDocumentPosition(
-					EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
-					this.getCanvas().getCanvasElement())) {
-				EuclidianViewW.lastInstance = this;
-			}
-		} else {
-			if (EuclidianViewW.compareDocumentPosition(
-					EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
-					((AppW) app).getFrameElement())) {
-				EuclidianViewW.lastInstance = this;
-			}
-		}
+		updateFirstAndLast(true);
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
@@ -227,6 +194,43 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		EuclidianSettings es = this.app.getSettings().getEuclidian(3);
 		settingsChanged(es);
 		es.addListener(this);
+	}
+
+	public void updateFirstAndLast(boolean anyway) {
+		getCanvas().setTabIndex(GeoGebraFrame.GRAPHICS_VIEW_TABINDEX);
+
+		if (EuclidianViewW.firstInstance == null) {
+			EuclidianViewW.firstInstance = this;
+		} else if (getCanvas().isAttached()) {
+			if (EuclidianViewW.compareDocumentPosition(getCanvas()
+					.getCanvasElement(), EuclidianViewW.firstInstance
+					.getCanvas().getCanvasElement())) {
+				EuclidianViewW.firstInstance = this;
+			}
+		} else if (anyway) {
+			if (EuclidianViewW
+					.compareDocumentPosition(((AppW) app).getFrameElement(),
+							EuclidianViewW.firstInstance.getCanvas()
+									.getCanvasElement())) {
+				EuclidianViewW.firstInstance = this;
+			}
+		}
+
+		if (EuclidianViewW.lastInstance == null) {
+			EuclidianViewW.lastInstance = this;
+		} else if (getCanvas().isAttached()) {
+			if (EuclidianViewW.compareDocumentPosition(
+					EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
+					getCanvas().getCanvasElement())) {
+				EuclidianViewW.lastInstance = this;
+			}
+		} else if (anyway) {
+			if (EuclidianViewW.compareDocumentPosition(
+					EuclidianViewW.lastInstance.getCanvas().getCanvasElement(),
+					((AppW) app).getFrameElement())) {
+				EuclidianViewW.lastInstance = this;
+			}
+		}
 	}
 
 	private void setEvNo(Canvas canvas) {
