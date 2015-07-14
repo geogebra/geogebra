@@ -82,19 +82,21 @@ public class MidiSoundW {
 		outputs.add(item);
 	}
 	
-	public native JavaScriptObject sendNote(int port, int ch, int note,
+	public native JavaScriptObject sendNote(int port, int instrument, int note,
 			double velocity, double time) /*-{
 		$wnd.mwaw.initializePerformanceNow();
+		var ch = 1;
+		$wnd.mwaw.sendProgramChange(port, ch, instrument, 0);
 		$wnd.mwaw.sendNoteOn(port, ch, note, velocity, 0);
 		$wnd.mwaw.sendNoteOff(port, ch, note, velocity, 1600 * time);
 	}-*/;
 
-	public native void sendAllSoundOff(int port, int ch, double time) /*-{
-		$wnd.mwaw.sendAllNoteOff(port, ch, time);
+	public native void sendAllSoundOff(int port, int instrument, double time) /*-{
+		$wnd.mwaw.sendAllNoteOff(port, instrument, time);
 
 	}-*/;
 
-	// $wnd.mwaw.sendNoteOn(port, ch, note, velocity, time);
+	// $wnd.mwaw.sendNoteOn(port, instrument, note, velocity, time);
 
 	private void processCommand(Command cmd) {
 		if (isValid()) {
@@ -110,15 +112,16 @@ public class MidiSoundW {
 		}
 		cmdQueue.clear();
 	}
-	public void playSequenceNote(final int ch, final int note,
+
+	public void playSequenceNote(final int instrument, final int note,
 			final int velocity, final double time) {
 
 		processCommand(new Command() {
 
 			public void execute() {
-				App.debug("[MIDIW] ch: " + ch + " note: " + note
+				App.debug("[MIDIW] ch: " + instrument + " note: " + note
 						+ " velocity: " + velocity + " time: " + time);
-				sendNote(0, ch, note, velocity, time);
+				sendNote(0, instrument, note, velocity, time);
 			}
 		});
 
