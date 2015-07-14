@@ -2382,7 +2382,7 @@ __GGB__keysVar.hu.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "%2-n \xe1thalad\xf3, %3-val/vel p\xe1rhozamos %0, %1 f\xf3kusz\xfa ellipszis",
     "EllipseWithFociABandFirstAxisLengthC": "%2 negytengely hossz\xfa %0, %1 f\xf3kuszpont\xfa ellipszis",
     "EmphasizeRightAngle": "Der\xe9ksz\xf6g kiemel\xe9se",
-    "EmptyBox": "A Sz\xf6veg besz\xfar\xe1sa eszk\xf6z Alakzatok leg\xf6rd\xfcl\u0151 men\xfcj\xe9ben \xfcres k\xe9plet doboz besz\xfar\xe1s\xe1ra szolg\xe1k(\xfcres doboz)",
+    "EmptyBox": "\xfcres doboz",
     "EmptySet": "\xdcres halmaz",
     "EnableScripting": "Script enged\xe9lyez\xe9se",
     "EnterPercentage": "Sz\xe1zal\xe9k megad\xe1sa",
