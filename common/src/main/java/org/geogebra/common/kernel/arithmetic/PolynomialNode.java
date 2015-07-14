@@ -51,4 +51,8 @@ public class PolynomialNode {
 	public org.geogebra.common.kernel.prover.polynomial.Polynomial getPoly() {
 		return poly;
 	}
+
+	public Integer evaluateInteger() {
+		return this.poly.getConstant();
+	}
 }

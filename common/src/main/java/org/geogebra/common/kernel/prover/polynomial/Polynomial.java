@@ -688,6 +688,16 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 	
 	/**
+	 * @return Integer value of Polynomial if it is constant
+	 */
+	public Integer getConstant() {
+		if (terms.size() > 1) {
+			return null;
+		}
+		return terms.firstEntry().getValue();
+	}
+
+	/**
 	 * Tests if two polynomials are associates by a +/-1 multiplier
 	 * @param p1 First polynomial
 	 * @param p2 Second polynomial

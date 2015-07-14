@@ -5746,12 +5746,17 @@ kernel, left,
 		return null;
 	}
 
+	/**
+	 * @return true if the ExpressionNode is a GeoSegment on even power
+	 */
 	public boolean isSegmentSquare() {
 		if (this.getLeft() instanceof GeoSegment
-				&& this.getRight() instanceof MyDouble
-				&& Integer.parseInt(this.getRight().toString()) % 2 == 0
-				&& this.getOperation() == Operation.POWER) {
-			return true;
+				&& this.getOperation() == Operation.POWER
+				&& this.getRight() instanceof NumberValue) {
+			double d = this.getRight().evaluateDouble();
+			if (Kernel.isInteger(d) && d % 2 == 0) {
+				return true;
+			}
 		}
 		return false;
 	}

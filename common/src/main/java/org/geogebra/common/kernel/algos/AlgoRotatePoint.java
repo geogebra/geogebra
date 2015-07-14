@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -213,28 +214,28 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 			botanaPolynomials = new Polynomial[2];
 
 			// rotate by 0 degrees
-			if (((Double) angleDoubleVal).equals(0.0)) {
+			if (Kernel.isEqual(angleDoubleVal, 0)) {
 				botanaPolynomials[0] = a_1.subtract(a1).subtract(b1).add(a1);
 				botanaPolynomials[1] = a_2.subtract(a2).subtract(b2).add(a2);
 			}
 			// rotate by 180 or -180 degrees
-			if (((Double) angleDoubleVal).equals(Math.PI)
-					|| ((Double) angleDoubleVal).equals(-Math.PI)) {
+			if (Kernel.isEqual(angleDoubleVal, Math.PI)
+					|| Kernel.isEqual(angleDoubleVal, -Math.PI)) {
 				botanaPolynomials[0] = a_1.subtract(a1).add(b1).subtract(a1);
 				botanaPolynomials[1] = a_2.subtract(a2).add(b2).subtract(a2);
 			}
 			// rotate by 90 degrees
-			if (((Double) angleDoubleVal).equals(Math.PI / 2)) {
+			if (Kernel.isEqual(angleDoubleVal, Math.PI / 2)) {
 				botanaPolynomials[0] = a_1.subtract(a1).subtract(b2).add(a2);
 				botanaPolynomials[1] = a_2.subtract(a2).add(b1).subtract(a1);
 			}
 			// rotate by -90 degrees
-			if (((Double) angleDoubleVal).equals(-Math.PI / 2)) {
+			if (Kernel.isEqual(angleDoubleVal, -Math.PI / 2)) {
 				botanaPolynomials[0] = a_1.subtract(a1).add(b2).subtract(a2);
 				botanaPolynomials[1] = a_2.subtract(a2).subtract(b1).add(a1);
 			}
 			// rotate by 30 degrees
-			if (((Double) angleDoubleVal).equals(Math.PI / 6)) {
+			if (Kernel.isEqual(angleDoubleVal, Math.PI / 6)) {
 				botanaPolynomials = new Polynomial[3];
 				botanaPolynomials[0] = t1.multiply(t1)
 						.subtract(new Polynomial(3));
@@ -252,7 +253,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 				botanaPolynomials[2] = p4.subtract(p6);
 			}
 			// rotate by -30 degrees
-			if (((Double) angleDoubleVal).equals(-Math.PI / 6)) {
+			if (Kernel.isEqual(angleDoubleVal, -Math.PI / 6)) {
 				botanaPolynomials = new Polynomial[3];
 				botanaPolynomials[0] = t1.multiply(t1)
 						.subtract(new Polynomial(3));
@@ -270,7 +271,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 				botanaPolynomials[2] = p4.subtract(p6);
 			}
 			// rotate by 45 degrees
-			if (((Double) angleDoubleVal).equals(Math.PI / 4)) {
+			if (Kernel.isEqual(angleDoubleVal, Math.PI / 4)) {
 				botanaPolynomials = new Polynomial[3];
 				botanaPolynomials[0] = t2.multiply(t2).subtract(new Polynomial(2));
 				Polynomial p1 = new Polynomial(2).multiply(a_1).subtract(
@@ -285,7 +286,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 						t2.multiply(p4));
 			}
 			// rotate by -45 degrees
-			if (((Double) angleDoubleVal).equals(-Math.PI / 4)) {
+			if (Kernel.isEqual(angleDoubleVal, -Math.PI / 4)) {
 				botanaPolynomials = new Polynomial[3];
 				botanaPolynomials[0] = t2.multiply(t2).subtract(new Polynomial(2));
 				Polynomial p1 = new Polynomial(2).multiply(a_1).subtract(
@@ -298,9 +299,8 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 				Polynomial p4 = b1.subtract(a1).add(b2).subtract(a2);
 				botanaPolynomials[2] = p3.subtract(t2.multiply(p4));
 			}
-			// rotate by 60 or -60 degrees
-			if (((Double) angleDoubleVal).equals(Math.PI / 3)
-					|| ((Double) angleDoubleVal).equals(-Math.PI / 3)) {
+			// rotate by 60 degrees
+			if (Kernel.isEqual(angleDoubleVal, Math.PI / 3)) {
 				botanaPolynomials = new Polynomial[3];
 				botanaPolynomials[0] = t1.multiply(t1).subtract(
 						new Polynomial(3));
@@ -312,7 +312,118 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 				Polynomial p3 = new Polynomial(2).multiply(a_2)
 						.subtract(new Polynomial(2).multiply(a2)).subtract(b2)
 						.add(a2);
+				Polynomial p4 = a1.subtract(b1);
+				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
+			}
+			// rotate by -60 degrees
+			if (Kernel.isEqual(angleDoubleVal, -Math.PI / 3)) {
+				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials[0] = t1.multiply(t1).subtract(
+						new Polynomial(3));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1)).subtract(b1)
+						.add(a1);
+				Polynomial p2 = a2.subtract(b2);
+				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2)).subtract(b2)
+						.add(a2);
 				Polynomial p4 = b1.subtract(a1);
+				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
+			}
+			// rotate by 120 degrees
+			if (Kernel.isEqual(angleDoubleVal, 2 * Math.PI / 3)) {
+				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials[0] = t1.multiply(t1).subtract(
+						new Polynomial(3));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1)).add(b1)
+						.subtract(a1);
+				Polynomial p2 = b2.subtract(a2);
+				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2)).add(b2)
+						.subtract(a2);
+				Polynomial p4 = a1.subtract(b1);
+				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
+			}
+			// rotate by -120 degrees
+			if (Kernel.isEqual(angleDoubleVal, -2 * Math.PI / 3)) {
+				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials[0] = t1.multiply(t1).subtract(
+						new Polynomial(3));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1)).add(b1)
+						.subtract(a1);
+				Polynomial p2 = a2.subtract(b2);
+				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2)).add(b2)
+						.subtract(a2);
+				Polynomial p4 = b1.subtract(a1);
+				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
+			}
+			// rotate by 150 degrees
+			if (Kernel.isEqual(angleDoubleVal, 5*Math.PI/6)) {
+				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials[0] = t1.multiply(t1).subtract(new Polynomial(3));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1)).subtract(b2)
+						.add(a2);
+				Polynomial p2 = a1.subtract(b1);
+				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2)).add(b1)
+						.subtract(a1);
+				Polynomial p4 = a2.subtract(b2);
+				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
+			}
+			// rotate by -150 degrees
+			if (Kernel.isEqual(angleDoubleVal, -5*Math.PI/6)) {
+				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials[0] = t1.multiply(t1).subtract(
+						new Polynomial(3));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1)).add(b2)
+						.subtract(a2);
+				Polynomial p2 = a1.subtract(b1);
+				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2)).subtract(b1)
+						.add(a1);
+				Polynomial p4 = a2.subtract(b2);
+				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
+			}
+			// rotate by 210 degrees
+			if (Kernel.isEqual(angleDoubleVal, 7 * Math.PI / 6)) {
+				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials[0] = t1.multiply(t1).subtract(
+						new Polynomial(3));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1)).add(b2)
+						.subtract(a2);
+				Polynomial p2 = a1.subtract(b1);
+				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2)).subtract(b1)
+						.add(a1);
+				Polynomial p4 = a2.subtract(b2);
+				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
+			}
+			// rotate by -210 degrees
+			if (Kernel.isEqual(angleDoubleVal, -7 * Math.PI / 6)) {
+				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials[0] = t1.multiply(t1).subtract(
+						new Polynomial(3));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1)).subtract(b2)
+						.add(a2);
+				Polynomial p2 = a1.subtract(b1);
+				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2)).add(b1)
+						.subtract(a1);
+				Polynomial p4 = a2.subtract(b2);
 				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
 			}
 

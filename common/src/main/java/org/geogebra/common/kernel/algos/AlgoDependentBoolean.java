@@ -19,12 +19,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolynomialNode;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -276,13 +278,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				polyNode.setPoly(leftPoly.multiply(rightPoly));
 				break;
 			case POWER:
-				int pow = Integer.parseInt(polyNode.getRight().getPoly()
-						.toString());
-				Polynomial poly = leftPoly;
-				for (int i = 1; i < pow; i++) {
-					poly = poly.multiply(leftPoly);
+				Integer pow = polyNode.getRight().evaluateInteger();
+				if (pow != null) {
+					Polynomial poly = leftPoly;
+					for (Integer i = 1; i < pow; i++) {
+						poly = poly.multiply(leftPoly);
+					}
+					polyNode.setPoly(poly);
 				}
-				polyNode.setPoly(poly);
 				break;
 			default:
 				break;
@@ -417,30 +420,32 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		// case we found square of something
 		// check if something has form s_1*s_2*...*s_n
 		// where s_1,s_2,...,s_n are GeoSegments
-		else if (node.getRight() instanceof MyDouble
-				&& Integer.parseInt(node.getRight().toString()) % 2 == 0
+		else if (node.getRight() instanceof NumberValue
 				&& node.getOperation() == Operation.POWER) {
-			// get GeoSegments, operations and number of GeoSegments from
-			// expression
-			int nrOfSegmentInSubExpression = checkSegmentsInExpressioNode(node
+			double n = node.getRight().evaluateDouble();
+			if (Kernel.isInteger(n) && n % 2 == 0) {
+				// get GeoSegments, operations and number of GeoSegments from
+				// expression
+				int nrOfSegmentInSubExpression = checkSegmentsInExpressioNode(node
 					.getLeftTree());
-			// case all GeoElements from expression are GeoSegments
-			if ((nrOfSegmentInSubExpression == auxOperations.size() + 1)
-			// and all operations are MULTIPLY
+				// case all GeoElements from expression are GeoSegments
+				if ((nrOfSegmentInSubExpression == auxOperations.size() + 1)
+				// and all operations are MULTIPLY
 					&& allAuxOpAreMultiply(auxOperations)) {
-				// add operations from subexpression
-				for (Operation operation : auxOperations) {
-					operations.add(operation);
-				}
-				auxOperations = new ArrayList<Operation>();
-				// add segments from subexpression
-				for (GeoSegment segment : auxSegments) {
-					segments.add(segment);
-				}
-				auxSegments = new ArrayList<GeoSegment>();
-			} else
-				throw new NoSymbolicParametersException();
-			return;
+					// add operations from subexpression
+					for (Operation operation : auxOperations) {
+						operations.add(operation);
+					}
+					auxOperations = new ArrayList<Operation>();
+					// add segments from subexpression
+					for (GeoSegment segment : auxSegments) {
+						segments.add(segment);
+					}
+					auxSegments = new ArrayList<GeoSegment>();
+				} else
+					throw new NoSymbolicParametersException();
+				return;
+			}
 		}
 		if (node.getLeft().isExpressionNode()) {
 			traverseExpression((ExpressionNode) node.getLeft());
