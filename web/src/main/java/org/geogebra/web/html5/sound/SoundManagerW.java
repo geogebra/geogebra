@@ -6,13 +6,15 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.sound.MidiSoundW.MidiSoundListenerW;
 
 /**
  * @author micro_000
  *
  */
-public class SoundManagerW implements SoundManager {
+public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 
 	private AppW app;
 
@@ -22,6 +24,7 @@ public class SoundManagerW implements SoundManager {
 	 */
 	public SoundManagerW(AppW app) {
 		this.app = app;
+		getMidiSound().setListener(this);
 	}
 
 	public void pauseResumeSound(boolean b) {
@@ -108,6 +111,19 @@ public class SoundManagerW implements SoundManager {
 		});
 
 	}-*/;
+
+	public void onError(int errorCode) {
+		if (errorCode == MidiSoundW.MIDI_ERROR_PORT) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(
+					"No valid MIDI output port was found.", true, (AppW) app);
+		}
+	}
+
+	public void onInfo(String msg) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true,
+				(AppW) app);
+
+	}
 	
 
 }

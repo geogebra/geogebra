@@ -13,14 +13,20 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Command;
 
 public class MidiSoundW {
+	public interface MidiSoundListenerW {
+		void onInfo(String msg);
+		void onError(int errorCode);
+	}
 	public static final MidiSoundW INSTANCE = new MidiSoundW();
 	protected static final String PREFIX = "[MIDISOUNDW] ";
 	private static final String MS_WAVE_SYNTH = "Microsoft GS Wavetable Synth";
 	private static final String TIMIDITY = "TiMidity port 0";
 	private static final String IAC = "IAC Driver Bus 1";
 	private static final int NO_PORT = -1;
+	public static final int MIDI_ERROR_PORT = 1;
 	protected boolean jsLoaded;
 	protected List<String> outputs;
+	private MidiSoundListenerW listener = null;
 
 	// storing commands while MIDI is not fully initialized.
 	protected List<Command> cmdQueue;
@@ -124,9 +130,18 @@ public class MidiSoundW {
 			if (MS_WAVE_SYNTH.equals(out) || TIMIDITY.equals(out)
 					|| IAC.equals(out)) {
 				outputPort = i;
-				App.debug(PREFIX + "Selected output: " + out + "(" + outputPort
-						+ ")");
+				listener.onInfo("Selected output: " + out);
 				break;
+			}
+		}
+		if (outputPort == NO_PORT) {
+			if (outputs.size() == 0) {
+				listener.onError(MIDI_ERROR_PORT);
+			} else {
+				outputPort = 0;
+				listener.onInfo("Selecting default output: "
+						+ outputs.get(outputPort));
+
 			}
 		}
 
@@ -167,6 +182,14 @@ public class MidiSoundW {
 				MidiPlayerW.INSTANCE.playFile(url);
 			}
 		});
+	}
+
+	public MidiSoundListenerW getListener() {
+		return listener;
+	}
+
+	public void setListener(MidiSoundListenerW listener) {
+		this.listener = listener;
 	}
 
 }
