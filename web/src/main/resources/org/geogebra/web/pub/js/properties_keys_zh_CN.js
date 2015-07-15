@@ -2028,7 +2028,7 @@ __GGB__keysVar.zh_CN.menu = {
     "ToolName": "\u5de5\u5177\u540d\u79f0",
     "Toolbar": "\u5de5\u5177\u680f",
     "Toolbar.Customize": "\u5b9a\u5236\u5de5\u5177\u680f",
-    "Toolbar.ResetDefault": "\u6062\u590d\u5de5\u5177\u680f\u9884\u8bbe",
+    "Toolbar.ResetDefault": "\u6062\u590d\u9884\u8bbe\u5de5\u5177\u680f",
     "Tools": "\u5de5\u5177",
     "Tooltip": "\u5de5\u5177\u63d0\u793a",
     "Total": "\u603b\u6570",
