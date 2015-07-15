@@ -277,7 +277,10 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 		return text.equals("/") || text.equals("_") || text.equals("$")
 				|| text.equals(" ") || text.equals("|") || text.equals(",")
 				|| text.equals("*") || text.startsWith("(")
-				|| text.equals(Unicode.SQUARE_ROOT + "");
+				|| text.equals(Unicode.SQUARE_ROOT + "")
+				// allowing both syntaxes for * and / here
+				|| text.equals(Unicode.MULTIPLY + "")
+				|| text.equals(Unicode.DIVIDE);
 	}
 
 	/**
