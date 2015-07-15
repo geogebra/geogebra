@@ -57,7 +57,6 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -160,20 +159,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 									// focus event that accompanies this
 									// blur first, and only request for
 									// new focus afterwards...
-									if (App.isFullAppGui()) {
-										EuclidianViewW.firstInstance
-												.requestFocus();
-									} else {
-										// but this only seems to be important
-										// in the applet case
-										Timer tim = new Timer() {
-											public void run() {
-												EuclidianViewW.firstInstance
-														.requestFocus();
-											}
-										};
-										tim.schedule(1000);
-									}
+									EuclidianViewW.firstInstance.requestFocus();
 								}
 							});
 				}
@@ -323,6 +309,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 				((AppW) this.app).focusGained(this, getCanvas().getElement());
 			}
 		}
+	}
+
+	public boolean isInFocus() {
+		return isInFocus;
 	}
 
 	/**

@@ -27,6 +27,7 @@ public class GlobalKeyDispatcherW extends
 
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
+	private boolean keydownPreventsDefaultKeypressTAB = false;
 
 	public static boolean getControlDown() {
 		return controlDown;
@@ -74,7 +75,7 @@ public class GlobalKeyDispatcherW extends
 					.getKeyCode());
 			if (kc != KeyCodes.TAB) {
 				event.preventDefault();
-			} else if (EuclidianViewW.tabPressed == false) {
+			} else if (keydownPreventsDefaultKeypressTAB) {
 				// we only have to allow default action for TAB
 				// if the onKeyDown handler allowed it, so we
 				// have to check this boolean here, which is double
@@ -199,7 +200,7 @@ public class GlobalKeyDispatcherW extends
 		event.stopPropagation();
 
 		// this is quite complex, call at the end of the method
-		boolean preventDefault = false;
+		keydownPreventsDefaultKeypressTAB = false;
 
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
@@ -210,7 +211,7 @@ public class GlobalKeyDispatcherW extends
 		        event.isAltKeyDown(), false);
 		// if not handled, do not consume so that keyPressed works
 		if (InFocus && handled) {
-			preventDefault = true;
+			keydownPreventsDefaultKeypressTAB = true;
 		}
 
 		// Now comes what were in KeyUpEvent for the TAB key,
@@ -228,19 +229,27 @@ public class GlobalKeyDispatcherW extends
 				// should select first GeoElement in next applet
 				// this should work well except from last to first
 				// so there will be a blur handler there
-				preventDefault = false;
+
 				// it would be too hard to select the first GeoElement
 				// from here, so this will be done in the focus handler
 				// of the other applet, depending on whether really
 				// this code called it, and it can be done by a static
 				// variable for the short term
 				EuclidianViewW.tabPressed = true;
+
+				// except EuclidianViewW.lastInstance, do not prevent:
+				if (EuclidianViewW.lastInstance.isInFocus()) {
+					keydownPreventsDefaultKeypressTAB = true;
+					EuclidianViewW.lastInstance.getCanvas().getElement().blur();
+				} else {
+					keydownPreventsDefaultKeypressTAB = false;
+				}
 			} else {
-				preventDefault = true;
 				EuclidianViewW.tabPressed = false;
+				keydownPreventsDefaultKeypressTAB = true;
 			}
 		} else if (kc == KeyCodes.ESCAPE) {
-			preventDefault = true;
+			keydownPreventsDefaultKeypressTAB = true;
 			// EuclidianViewW.tabPressed = false;
 			app.loseFocus();
 			// here we shall focus on a dummy element that is
@@ -250,7 +259,7 @@ public class GlobalKeyDispatcherW extends
 			}
 		}
 
-		if (preventDefault) {
+		if (keydownPreventsDefaultKeypressTAB) {
 			event.preventDefault();
 		}
 	}

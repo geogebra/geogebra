@@ -68,7 +68,6 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianView implements
@@ -701,20 +700,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 									// calling it two times shall not do harm in
 									// theory
-									if (App.isFullAppGui()) {
-										firstInstance.requestFocus();
-									} else {
-										// probably we have to wait for the
-										// focus event that accompanies this
-										// blur first, and only request for
-										// new focus afterwards...
-										Timer tim = new Timer() {
-											public void run() {
-												firstInstance.requestFocus();
-											}
-										};
-										tim.schedule(1000);
-									}
+									firstInstance.requestFocus();
 								}
 							});
 				}
@@ -1014,6 +1000,10 @@ public class EuclidianViewW extends EuclidianView implements
 				this.app.focusGained(this, getCanvas().getElement());
 			}
 		}
+	}
+
+	public boolean isInFocus() {
+		return isInFocus;
 	}
 
 	@Override

@@ -25,6 +25,8 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public Hits getHits();
 
+	public boolean isInFocus();
+
 	public boolean hasStyleBar();
 
 	public org.geogebra.common.euclidian.EuclidianStyleBar getStyleBar();
