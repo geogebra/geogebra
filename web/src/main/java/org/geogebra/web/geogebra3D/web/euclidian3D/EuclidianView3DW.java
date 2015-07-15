@@ -160,20 +160,20 @@ public class EuclidianView3DW extends EuclidianView3D implements
 									// focus event that accompanies this
 									// blur first, and only request for
 									// new focus afterwards...
-									Timer tim = new Timer() {
-										public void run() {
-											EuclidianViewW.firstInstance
-													.requestFocus();
-										}
-									};
-									tim.schedule(1000);
-									// EuclidianViewW.firstInstance.requestFocus();
-									//EuclidianViewW.firstInstance
-									//		.getCanvas()
-									//		.getElement()
-									//		.getStyle()
-									//		.setProperty("border",
-									//				"red solid 5px");
+									if (App.isFullAppGui()) {
+										EuclidianViewW.firstInstance
+												.requestFocus();
+									} else {
+										// but this only seems to be important
+										// in the applet case
+										Timer tim = new Timer() {
+											public void run() {
+												EuclidianViewW.firstInstance
+														.requestFocus();
+											}
+										};
+										tim.schedule(1000);
+									}
 								}
 							});
 				}

@@ -699,23 +699,22 @@ public class EuclidianViewW extends EuclidianView implements
 									// make sure?
 									tabPressed = true;
 
-									// probably we have to wait for the
-									// focus event that accompanies this
-									// blur first, and only request for
-									// new focus afterwards...
-									Timer tim = new Timer() {
-										public void run() {
-											firstInstance.requestFocus();
-										}
-									};
-									tim.schedule(1000);
-									// firstInstance.requestFocus();
-									//firstInstance
-									//		.getCanvas()
-									//		.getElement()
-									//		.getStyle()
-									//		.setProperty("border",
-									//				"red solid 5px");
+									// calling it two times shall not do harm in
+									// theory
+									if (App.isFullAppGui()) {
+										firstInstance.requestFocus();
+									} else {
+										// probably we have to wait for the
+										// focus event that accompanies this
+										// blur first, and only request for
+										// new focus afterwards...
+										Timer tim = new Timer() {
+											public void run() {
+												firstInstance.requestFocus();
+											}
+										};
+										tim.schedule(1000);
+									}
 								}
 							});
 				}
