@@ -9,6 +9,7 @@ import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.cas.giac.PNaCl;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
@@ -29,6 +30,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
@@ -128,6 +130,17 @@ public class Web implements EntryPoint {
 								event.getNativeEvent(), false);
 					}
 					break;
+				// this is an addition, only matters in Web.java, not on tablets
+				case Event.ONKEYDOWN:
+					if (event.getNativeEvent() != null) {
+						if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+							// in case ENTER is pressed while the AppWapplet is
+							// out of focus, then give the applet the focus
+							// back! but which applet? it should have been
+							// remembered!
+							AppW.giveFocusBack();
+						}
+					}
 				default:
 					break;
 				}

@@ -241,7 +241,7 @@ public class GlobalKeyDispatcherW extends
 			}
 		} else if (kc == KeyCodes.ESCAPE) {
 			preventDefault = true;
-			EuclidianViewW.tabPressed = false;
+			// EuclidianViewW.tabPressed = false;
 			app.loseFocus();
 			// here we shall focus on a dummy element that is
 			// after all graphics views by one:

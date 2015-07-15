@@ -436,8 +436,8 @@ public class AppWapplet extends AppWFull {
 
 	private View focusedView;
 	@Override
-	public void focusLost(View v) {
-		super.focusLost(v);
+	public void focusLost(View v, Element el) {
+		super.focusLost(v, el);
 		if (v != focusedView) {
 			return;
 		}
@@ -450,8 +450,8 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public void focusGained(View v) {
-		super.focusGained(v);
+	public void focusGained(View v, Element el) {
+		super.focusGained(v, el);
 		focusedView = v;
 		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
 

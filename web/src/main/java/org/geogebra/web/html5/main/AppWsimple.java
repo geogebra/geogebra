@@ -121,7 +121,8 @@ public class AppWsimple extends AppW {
 
 	private boolean hasFocus = false;
 	@Override
-	public void focusLost(View v) {
+	public void focusLost(View v, Element el) {
+		super.focusLost(v, el);
 		hasFocus = true;
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
  frame);
@@ -129,7 +130,8 @@ public class AppWsimple extends AppW {
 	}
 
 	@Override
-	public void focusGained(View v) {
+	public void focusGained(View v, Element el) {
+		super.focusGained(v, el);
 		hasFocus = true;
 		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
 

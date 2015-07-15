@@ -563,11 +563,12 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 */
 	@Override
 	public void onFocus(FocusEvent event) {
+		super.onFocus(event);
+
 		// earlier this method was mainly called from setFocus,
 		// and now it is also called from there, but in an
 		// indirect way: first MathQuillGGB textarea gets focus,
 		// then its onfocus handler gets called, which calls this
-
 		if (dummyLabel != null) {
 			// it can only be non-null when
 			// app.has(Feature.INPUT_SHOWN_IN_INPUTBAR)

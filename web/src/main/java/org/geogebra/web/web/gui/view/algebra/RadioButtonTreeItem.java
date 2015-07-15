@@ -1898,6 +1898,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onFocus(FocusEvent be) {
 		// to be overridden in NewRadioButtonTreeItem
+		// AppW.anyAppHasFocus = true;
 	}
 
 	@Override

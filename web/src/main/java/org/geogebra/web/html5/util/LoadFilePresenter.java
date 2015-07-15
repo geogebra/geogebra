@@ -204,7 +204,7 @@ public class LoadFilePresenter {
 			// }
 		}
 		app.updateToolBar();
-		app.focusLost(null);
+		app.focusLost(null, null);
 		app.showStartTooltip();
 	}
 

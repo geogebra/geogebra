@@ -22,6 +22,8 @@ import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
+import com.google.gwt.dom.client.Element;
+
 public abstract class AppWFull extends AppW {
 
 	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf) {
@@ -107,16 +109,12 @@ public abstract class AppWFull extends AppW {
 			onOpenFile();
 	}
 
-	@Override
-	public void focusLost(View v) {
-		// not important to override AppW as long as it is not changed
-	}
-
 	// maybe this is unnecessary, just I did not want to make error here
 	boolean infiniteLoopPreventer = false;
 
 	@Override
-	public void focusGained(View v) {
+	public void focusGained(View v, Element el) {
+		super.focusGained(v, el);
 		if (getGuiManager() != null) {
 			// somehow the panel was not activated in case focus gain
 			// so it is good to do here, unless it makes an

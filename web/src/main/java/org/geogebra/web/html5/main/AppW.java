@@ -174,6 +174,12 @@ public abstract class AppW extends App implements SetLabels {
 	private ErrorHandler errorHandler;
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
+	// when losing focus, remembering it so that ENTER can give focus back
+	public static Element lastActiveElement = null;
+	// but not in case of anything important in any app has focus,
+	// we shall set it to true in each of those cases, e.g. AV input bar too !!!
+	public static boolean anyAppHasFocus = true;
+
 	/**
 	 * @param ae
 	 *            {@link ArticleElement}
@@ -1926,11 +1932,21 @@ public abstract class AppW extends App implements SetLabels {
 		return null;
 	}
 
-	// methods used just from AppWapplet
-	public void focusLost(org.geogebra.common.kernel.View w) {
+	// methods used just from AppWapplet (and AppWsimple)
+	public void focusLost(org.geogebra.common.kernel.View w, Element el) {
+		// other things are handled in subclasses of AppW
+		// anyAppHasFocus = false;
+		if (el != null) {
+			lastActiveElement = el;
+		}
 	}
 
-	public void focusGained(org.geogebra.common.kernel.View w) {
+	public void focusGained(org.geogebra.common.kernel.View w, Element el) {
+		// this is used through the super keyword
+		// anyAppHasFocus = true;
+		if (el != null) {
+			lastActiveElement = el;
+		}
 	}
 
 	public void setCustomToolBar() {
@@ -2667,21 +2683,91 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * @return whether the focus was lost
 	 */
-	private static native boolean nativeLoseFocus(Element element) /*-{
+	private static native Element nativeLoseFocus(Element element) /*-{
 		var active = $doc.activeElement;
 		if (active
 				&& ((active === element) || (active
 						.compareDocumentPosition(element) & $wnd.Node.DOCUMENT_POSITION_CONTAINS))) {
 			active.blur();
-			return true;
+			return active;
 		}
-		return false;
+		return null;
 	}-*/;
 
 	@Override
 	public void loseFocus() {
-		if (nativeLoseFocus(articleElement)) {
+		// probably this is called on ESC, so the reverse
+		// should happen on ENTER
+		Element ret = nativeLoseFocus(articleElement);
+		if (ret != null) {
+			lastActiveElement = ret;
+			anyAppHasFocus = false;
 			getGlobalKeyDispatcher().InFocus = false;
+		}
+	}
+
+	/**
+	 * @return whether we can focus on ENTER
+	 */
+	private static native boolean nativeGiveFocusBack() /*-{
+		var active = $doc.activeElement;
+		if (active && (active !== $doc.body)) {
+			// not blurred, probably
+			if ($wnd.$ggbQuery) {
+				// have jQuery, do the other checks
+				var act = $wnd.$ggbQuery(active);
+				// from web-styles.css
+				var checkstr = ".GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup,.ToolTip,.PhoneGUI";
+				// similar to DrawEquationWeb.targetHasFeature
+				if (act.is(checkstr)) {
+					return false;
+				} else if (act.parents().is(checkstr)) {
+					return false;
+				}
+				// probably this is outside of GeoGebraWeb elements, shall be safe
+				return true;
+			}
+			// not doing more checks, don't do any action, which is safe
+			return false;
+		}
+		// blurred, probably, so it's safe to focus on ENTER
+		return true;
+	}-*/;
+
+	/**
+	 * Let's say this is the pair of loseFocus, so that only loseFocus can lose
+	 * focus from ALL applets officially (i.e. "ESC"), and from each part of
+	 * each applet (e.g. input bar, Graphics view, etc), while only
+	 * giveFocusBack can give focus back to an applet removed by the loseFocus
+	 * method - to avoid hidden bugs.
+	 * 
+	 * What if focus is received by some other method than ENTER (pair of ESC)?
+	 * I think let's allow it, but if ENTER comes next, then we should adjust
+	 * our knowledge about it (otherwise, it should have been watched in the
+	 * entire codebase, which is probably worse, for there are possibilities of
+	 * errors). This way just these two methods shall be checked.
+	 */
+	public static void giveFocusBack() {
+		if (anyAppHasFocus) {
+			// here we are sure that ENTER should not do anything
+			return;
+		}
+
+		// update for the variable in this case, must be made anyway
+		// just it is a question whether this shall also mean a focus?
+		anyAppHasFocus = true;
+
+		// here we could insert static aggregates of relevant
+		// variables like getGlobalKeyDispatcher().InFocus
+		// ... but what if e.g. the input bar has focus?
+
+		// then we can easily check for $doc.activeElement,
+		// whether it means blur=OK /OR/ whether it is
+		// part of the DOM of any applet (harder, needs jQuery)
+		if (nativeGiveFocusBack()) {
+			if (lastActiveElement != null) {
+				lastActiveElement.focus();
+			}
 		}
 	}
 
