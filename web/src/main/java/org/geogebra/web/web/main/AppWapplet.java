@@ -444,6 +444,9 @@ public class AppWapplet extends AppWFull {
 		focusedView = null;
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
  frame);
+
+		// if it is there in focusGained, why not put it here?
+		this.getGlobalKeyDispatcher().InFocus = false;
 	}
 
 	@Override
@@ -451,6 +454,21 @@ public class AppWapplet extends AppWFull {
 		super.focusGained(v);
 		focusedView = v;
 		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
+
+		// we really need to set it to true
+		switch (v.getViewID()) {
+		case App.VIEW_ALGEBRA:
+		case App.VIEW_EUCLIDIAN:
+		case App.VIEW_EUCLIDIAN2:
+		case App.VIEW_EUCLIDIAN3D:
+			this.getGlobalKeyDispatcher().InFocus = true;
+			break;
+		default:
+			if ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START)
+					&& (v.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END)) {
+				this.getGlobalKeyDispatcher().InFocus = true;
+			}
+		}
 	}
 
 	@Override

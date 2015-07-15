@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -131,6 +132,26 @@ public class AppWsimple extends AppW {
 	public void focusGained(View v) {
 		hasFocus = true;
 		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
+
+		// if focusLost sets this to false, it is probably
+		// right to set this to true again here! Otherwise
+		// it would only be set to true in case of key ENTER,
+		// but of course, we also want to be able to focus by mouse
+		// Graphics views and Algebra views register GlobalKeyDispatcher,
+		// so in those cases, this is good, otherwise (?)
+		switch (v.getViewID()) {
+		case App.VIEW_ALGEBRA:
+		case App.VIEW_EUCLIDIAN:
+		case App.VIEW_EUCLIDIAN2:
+		case App.VIEW_EUCLIDIAN3D:
+			this.getGlobalKeyDispatcher().InFocus = true;
+			break;
+		default:
+			if ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START)
+					&& (v.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END)) {
+				this.getGlobalKeyDispatcher().InFocus = true;
+			}
+		}
 	}
 
 	@Override
