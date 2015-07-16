@@ -6375,20 +6375,27 @@ var Cursor = P(Point, function(_) {
     // but in case leftEnd or rightEnd is ggbtd or ggbtr,
     // then it's not good for us, so we have to select only
     // one element, the ggbtable!
-    if (leftEnd.ctrlSeq.indexOf('\\ggbtd') > -1) {
-      if (lca.parent && lca.parent.parent) {
-        rightEnd = leftEnd = lca.parent;
-        lca = leftEnd.parent;
+    if (leftEnd.ctrlSeq) {
+      if (leftEnd.ctrlSeq.indexOf('\\ggbtd') > -1) {
+        if (lca && lca.parent && lca.parent.parent) {
+          rightEnd = leftEnd = lca.parent;
+          lca = leftEnd.parent;
+        }
       }
-    }
-    if (leftEnd.ctrlSeq.indexOf('\\ggbtr') > -1) {
-      if (lca.parent && lca.parent.parent) {
-        rightEnd = leftEnd = lca.parent;
-        lca = leftEnd.parent;
+      if (leftEnd.ctrlSeq.indexOf('\\ggbtr') > -1) {
+        if (lca && lca.parent && lca.parent.parent) {
+          rightEnd = leftEnd = lca.parent;
+          lca = leftEnd.parent;
+        }
       }
+    } else {
+      // e.g. TextPiece?
     }
-    lca.selectChildren(this.hide(), leftEnd, rightEnd);
-    this.root.selectionChanged();
+
+    if (lca && lca.selectChildren) {
+      lca.selectChildren(this.hide(), leftEnd, rightEnd);
+      this.root.selectionChanged();
+    }
   };
   _.selectDir = function(dir) {
     var self = this;
