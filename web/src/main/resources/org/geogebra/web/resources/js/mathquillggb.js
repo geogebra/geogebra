@@ -335,6 +335,7 @@ var manageTextarea = (function() {
     var onCut = opts.cut || noop;
     var onCopy = opts.copy || noop;
     var rootJQ = opts.rootJQ || noop;
+    var cursorMoveLeft = opts.moveLeft || noop;
 
     var textarea = $(el);
     var target = $(opts.container || textarea);
@@ -446,21 +447,17 @@ var manageTextarea = (function() {
     	//}
       }
       // else textarea.val(''); do not do it to avoid deleting one hat
+      if (textarea[0] && textarea[0].simulatedKeypressMore) {
+        textarea[0].simulatedKeypressMore = false;
+    	if (text.charAt(0) == '(') {
+    		callback(')');
+    		cursorMoveLeft();
+    	}
+      }
     }
 
     function handleKey() {
       keyCallback(stringify(keydown), keydown);
-      // if they key is handled, I think we'll never
-      // want to call handleKey for the same key again,
-      // moreover, it is harmful when we simulate only
-      // the keypress event from the on-screen keyboard,
-      // and it calls handleKey with keydown as a
-      // different key, e.g. backspace!
-
-      // but we might need repeated keypresses
-      // when holding the key, so this is not perfect!
-      // using textarea[0].simulatedKeypress instead!
-      //keydown = null;
     }
 
     // -*- event handlers -*- //
@@ -1957,6 +1954,9 @@ function createRoot(jQ, root, textbox, editable) {
     //container: jQ,
     container: textarea,
     rootJQ: jQ,
+    moveLeft: function() {
+      cursor.moveLeft();
+    },
     key: function(key, evt) {
       cursor.parent.bubble('onKey', cursor, key, evt);
     },

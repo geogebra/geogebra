@@ -43,6 +43,13 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 		needsLeftParenthesis.add("arcsin");
 		needsLeftParenthesis.add("arccos");
 		needsLeftParenthesis.add("arctan");
+
+		// my on-screen keyboard has these! Hungarian
+		// TODO: fix this by calling updateForNewLanguage!
+		needsLeftParenthesis.add("tg");
+		needsLeftParenthesis.add("sh");
+		needsLeftParenthesis.add("ch");
+		needsLeftParenthesis.add("th");
 	}
 
 	/**
@@ -214,7 +221,7 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 					return;
 				}
 				((EquationEditorListener) field).keypress('^', false,
-						false, false);
+						false, false, false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
 				// this should be like this, in order to avoid confusion
 				// with a possible variable name called "e"
@@ -222,42 +229,51 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 						.insertString(Unicode.EULER_STRING);
 				// inserts: ^{}
 				((EquationEditorListener) field).keypress('^', false,
-						false, false);
+						false, false, false);
 			} else if (needsLeftParenthesis.contains(text)) {
 				((EquationEditorListener) field).insertString(text);
 				// inserts: () in Math mode, ( in Quotations
-				((EquationEditorListener) field).keypress('(', false, false,
-						false);
-				// so in quotations, we might want to make this more perfect,
-				// that is also compatible with Math mode:
-				// ((EquationEditorListener) field).keypress(')', false, false,
+				// ((EquationEditorListener) field).keypress('(', false, false,
 				// false);
-				// ((EquationEditorListener)
-				// field).keydown(GWTKeycodes.KEY_LEFT,
-				// false, false, false);
-				// Note: this might not work perfectly until the keypress
-				// event itself is also fixed for Quotations!
-				// timing is very important here, makes things indeterministic!
+				// for Quotations, we need an additional ')' and backspace
+				// but the timing of these events might makes these things
+				// more indeterministic! so instead, preparing custom code
+				// just for this use case...
+
+				// some parameter should be added to mean also '(', ')' AND
+				// a left key effect (without keydown event triggering)
+				// instead of overriding ALT, CTRL, SHIFT, it is more clean
+				// to add another parameter "more" so we can add custom code
+				// then
+				((EquationEditorListener) field).keypress('(', false, false,
+						false, true);
+				// the last true parameter means that this '(',
+				// when executed, shall also make a ')' and a left key
+
+				// if there is only one event happening, then we will
+				// probably not have issues for indeterministic behaviour
+				// that's why this is probably better than entering
+				// "(" + ")" by keypress events...
 			} else if (text.equals("nroot")) {
 				((EquationEditorListener) field).insertString("nroo");
 				((EquationEditorListener) field).keypress('t', false,
-						false, true);
+						false, true, false);
 			} else if (text.equals("log")) {
 				((EquationEditorListener) field).insertString("log_{10}");
 				((EquationEditorListener) field).keypress('(', false, false,
-						false);
+						false, false);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((EquationEditorListener) field)
 						.insertString(Unicode.Superscript_2 + "");
 			} else if (keyPressNeeded(text)) {
 				((EquationEditorListener) field).keypress(text.charAt(0),
-						false, false, false);
+						false, false, false, false);
 			} else if (text.equals("abs")) {
 				((EquationEditorListener) field).keypress('|', false, false,
-						false);
+						false, false);
 			} else if (text.equals("quotes")) {
 				((EquationEditorListener) field).keypress('"', false, false,
-						false);
+						false, false);
 			} else {
 				// if (text.length() == 1) {
 				// ((EquationEditorListener) field).keypress(text.charAt(0),

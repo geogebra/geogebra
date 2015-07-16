@@ -1381,7 +1381,7 @@ GeoContainer rbti,
 	// documentation in RadioButtonTreeItem.keypress
 	public static native void triggerKeypress(GeoContainer rbti,
 			Element parentElement,
-	        int charcode, boolean altk, boolean ctrlk, boolean shiftk) /*-{
+	        int charcode, boolean altk, boolean ctrlk, boolean shiftk, boolean more) /*-{
 		var elfirst = parentElement.firstChild.firstChild;
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
@@ -1398,6 +1398,12 @@ GeoContainer rbti,
 			// this will tell MathQuillGGB not to do keydown / handleKey
 			// as well, for a different key pressed earlier
 			textarea[0].simulatedKeypress = true;
+
+			if (more) {
+				textarea[0].simulatedKeypressMore = true;
+			} else {
+				textarea[0].simulatedKeypressMore = false;
+			}
 
 			var evt = $wnd.$ggbQuery.Event("keypress", {
 				charCode : charcode,

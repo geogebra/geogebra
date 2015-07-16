@@ -683,10 +683,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	@Override
 	public void keypress(char character, boolean alt, boolean ctrl,
-			boolean shift) {
+			boolean shift, boolean more) {
 		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeypress(this, seMayLatex,
-			        character, alt, ctrl, shift);
+			        character, alt, ctrl, shift, more);
 		}
 	}
 
