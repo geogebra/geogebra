@@ -124,6 +124,10 @@
   display: inline-block;
   white-space: nowrap;
 }
+.mathquillggb-rendered-math .text.quotationtext,
+.mathquillggb-editable .text.quotationtext {
+  font-family: monospace !important;
+}
 .mathquillggb-rendered-math .non-leaf,
 .mathquillggb-rendered-math .scaled {
   display: -moz-inline-box;

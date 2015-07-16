@@ -3776,7 +3776,7 @@ LatexCmds.closedoubleonly = bind(HalfBracket, '', '||', '\\closedoubleonly');
 // Round/Square/Curly/Angle Brackets (aka Parens/Brackets/Braces)
 var Bracket = P(MathCommand, function(_, _super) {
   _.init = function(open, close, ctrlSeq, end, blockClass) {
-	if ((blockClass === undefined) || (blockClass !== 'non-leaf text')) {
+	if ((blockClass === undefined) || (blockClass !== 'non-leaf text quotationtext')) {
 	  blockClass = 'non-leaf';
 	}
     _super.init.call(this, '\\left'+ctrlSeq,
@@ -3907,7 +3907,7 @@ LatexCmds.right = P(MathCommand, function(_) {
 
 var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _super) {
   _.init = function() {
-    _super.init.call(this, '"', '"', '"', '"', 'non-leaf text');
+    _super.init.call(this, '"', '"', '"', '"', 'non-leaf text quotationtext');
     this.ctrlSeq = '\\quotation';
     this.end = '';
     // in GeoGebraWeb, this needs some changes anyway...
