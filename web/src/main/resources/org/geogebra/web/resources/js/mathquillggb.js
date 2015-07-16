@@ -6597,7 +6597,8 @@ $.fn.mathquillggb = function(cmd, latex) {
 
           // maybe this is just for historical reasons?
           // copied from some other code and adapted...
-          cursorWas.parent.blur();
+          // but this turns out to be harmful!!!
+          //cursorWas.parent.blur();
 
           // now we shall actualize GeoGebraSuggestionPopupCanShow
           if (cursor.root && latex.length) {
