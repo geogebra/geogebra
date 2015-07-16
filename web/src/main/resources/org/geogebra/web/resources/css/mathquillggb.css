@@ -126,7 +126,16 @@
 }
 .mathquillggb-rendered-math .text.quotationtext,
 .mathquillggb-editable .text.quotationtext {
-  font-family: monospace !important;
+  /*
+  monospace surely removes overline from sqrt sign,
+  apart from that we shall only use specific fonts
+  about which we know they do not add overline to the
+  next character when sqrt sign is used! This
+  selection comes from web-styles.css, so it is
+  probably compatible with the current styles
+  ... and adding the same to web-styles.css as sqrtFontFix
+  */
+  font-family: Arial Unicode MS, Arial, monospace !important;
 }
 .mathquillggb-rendered-math .non-leaf,
 .mathquillggb-rendered-math .scaled {

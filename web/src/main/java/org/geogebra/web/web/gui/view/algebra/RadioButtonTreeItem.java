@@ -347,6 +347,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 
 		seNoLatex = DOM.createSpan().cast();
+		seNoLatex.addClassName("sqrtFontFix");
 		EquationEditor.updateNewStatic(seNoLatex);
 		updateColor(seNoLatex);
 		ihtml = new InlineHTML();
@@ -587,6 +588,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		 */
 		// if enabled, render with LaTeX
 		seNoLatex = se;
+		seNoLatex.addClassName("sqrtFontFix");
 		if (av.isRenderLaTeX()) {
 			this.needsUpdate = true;
 

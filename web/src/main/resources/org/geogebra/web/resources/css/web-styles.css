@@ -40,6 +40,19 @@
 	position: relative;
 }
 
+.sqrtFontFix {
+  /*
+  monospace surely removes overline from sqrt sign,
+  apart from that we shall only use specific fonts
+  about which we know they do not add overline to the
+  next character when sqrt sign is used! This
+  selection comes from web-styles.css, so it is
+  probably compatible with the current styles
+  ... the same is there in mathquillggb.css
+  */
+  font-family: Arial Unicode MS, Arial, monospace !important;
+}
+
 .XButtonPanelParent {
 	position: relative !important;
 }
