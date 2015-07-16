@@ -449,8 +449,14 @@ var manageTextarea = (function() {
       // else textarea.val(''); do not do it to avoid deleting one hat
       if (textarea[0] && textarea[0].simulatedKeypressMore) {
         textarea[0].simulatedKeypressMore = false;
-    	if (text.charAt(0) == '(') {
+    	if (text.charAt(0) === '(') {
     		callback(')');
+    		cursorMoveLeft();
+    	} else if (text.charAt(0) === '|') {
+    		callback('|');
+    		cursorMoveLeft();
+    	} else if (text.charAt(0) === '"') {
+    		callback('"');
     		cursorMoveLeft();
     	}
       }

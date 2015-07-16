@@ -261,19 +261,20 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 			} else if (text.equals("log")) {
 				((EquationEditorListener) field).insertString("log_{10}");
 				((EquationEditorListener) field).keypress('(', false, false,
-						false, false);
+						false, true);
 			} else if (text.equals(KeyboardConstants.A_SQUARE)) {
 				((EquationEditorListener) field)
 						.insertString(Unicode.Superscript_2 + "");
 			} else if (keyPressNeeded(text)) {
 				((EquationEditorListener) field).keypress(text.charAt(0),
-						false, false, false, false);
+						false, false, false,
+						text.startsWith("(") || text.startsWith("|"));
 			} else if (text.equals("abs")) {
 				((EquationEditorListener) field).keypress('|', false, false,
-						false, false);
+						false, true);
 			} else if (text.equals("quotes")) {
 				((EquationEditorListener) field).keypress('"', false, false,
-						false, false);
+						false, true);
 			} else {
 				// if (text.length() == 1) {
 				// ((EquationEditorListener) field).keypress(text.charAt(0),
