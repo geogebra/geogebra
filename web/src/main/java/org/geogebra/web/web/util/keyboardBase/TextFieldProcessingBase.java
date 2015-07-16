@@ -225,9 +225,19 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 						false, false);
 			} else if (needsLeftParenthesis.contains(text)) {
 				((EquationEditorListener) field).insertString(text);
-				// inserts: ()
+				// inserts: () in Math mode, ( in Quotations
 				((EquationEditorListener) field).keypress('(', false, false,
 						false);
+				// so in quotations, we might want to make this more perfect,
+				// that is also compatible with Math mode:
+				// ((EquationEditorListener) field).keypress(')', false, false,
+				// false);
+				// ((EquationEditorListener)
+				// field).keydown(GWTKeycodes.KEY_LEFT,
+				// false, false, false);
+				// Note: this might not work perfectly until the keypress
+				// event itself is also fixed for Quotations!
+				// timing is very important here, makes things indeterministic!
 			} else if (text.equals("nroot")) {
 				((EquationEditorListener) field).insertString("nroo");
 				((EquationEditorListener) field).keypress('t', false,

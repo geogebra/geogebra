@@ -450,6 +450,17 @@ var manageTextarea = (function() {
 
     function handleKey() {
       keyCallback(stringify(keydown), keydown);
+      // if they key is handled, I think we'll never
+      // want to call handleKey for the same key again,
+      // moreover, it is harmful when we simulate only
+      // the keypress event from the on-screen keyboard,
+      // and it calls handleKey with keydown as a
+      // different key, e.g. backspace!
+
+      // but we might need repeated keypresses
+      // when holding the key, so this is not perfect!
+      // using textarea[0].simulatedKeypress instead!
+      //keydown = null;
     }
 
     // -*- event handlers -*- //
@@ -466,11 +477,20 @@ var manageTextarea = (function() {
     }
 
     function onKeypress(e) {
-      // call the key handler for repeated keypresses.
-      // This excludes keypresses that happen directly
-      // after keydown.  In that case, there will be
-      // no previous keypress, so we skip it here
-      if (keydown && keypress) handleKey();
+      if (textarea[0] && textarea[0].simulatedKeypress) {
+        // of course, this case do not handleKey,
+    	// maybe we could set keypress to null,
+    	// after the keypress had effect,
+    	// but it is not that important...
+    	keydown = null;
+        textarea[0].simulatedKeypress = false;
+      } else if (keydown && keypress) {
+        // call the key handler for repeated keypresses.
+        // This excludes keypresses that happen directly
+        // after keydown.  In that case, there will be
+        // no previous keypress, so we skip it here
+    	handleKey();
+      }
 
       keypress = e;
 

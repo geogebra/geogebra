@@ -1392,7 +1392,13 @@ GeoContainer rbti,
 
 		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
 		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
+			// MathQuillGGB will actually look for the character here
 			textarea.val(String.fromCharCode(charcode));
+
+			// this will tell MathQuillGGB not to do keydown / handleKey
+			// as well, for a different key pressed earlier
+			textarea[0].simulatedKeypress = true;
+
 			var evt = $wnd.$ggbQuery.Event("keypress", {
 				charCode : charcode,
 				which : charcode,
