@@ -770,7 +770,9 @@ public class DrawEquationWeb extends DrawEquation {
 						setHighestHover(elm);
 					}
 				} else {
-					setHighestHover(elm);
+					if ($wnd.$ggbQuery.contains($doc.body, elm)) {
+						setHighestHover(elm);
+					}
 				}
 			}
 		});
@@ -798,6 +800,7 @@ public class DrawEquationWeb extends DrawEquation {
 			if (targ != null) {
 				currentHover = targ;
 			} else {
+				currentHover = null;
 				return;
 			}
 		} else {
@@ -808,6 +811,7 @@ public class DrawEquationWeb extends DrawEquation {
 			if (el != null) {
 				currentHover = el;
 			} else {
+				currentHover = null;
 				return;
 			}
 		}
@@ -816,7 +820,7 @@ public class DrawEquationWeb extends DrawEquation {
 		if (currentWidget != null) {
 			// cases that do not escape editing:
 			if (targetHasFeature(currentWidget.getElement(),
-					"MouseDownDoesntExitEditingFeature")) {
+					"MouseDownDoesntExitEditingFeature", true)) {
 				// 1. the widget itself... currentWidget.getElement()
 				// 2. any KeyboardButton "MouseDownDoesntExitEditingFeature"
 				// 3. any AV helper icon "MouseDownDoesntExitEditingFeature"
@@ -832,10 +836,10 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 	}
 
-	public static boolean targetHasFeature(Element el, String pure) {
+	public static boolean targetHasFeature(Element el, String pure, boolean such) {
 		if (currentHover == null) {
 			// possible place for debugging
-			return false;
+			return such;
 		}
 		return targetHasFeature(currentHover, el, pure);
 	}

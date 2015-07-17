@@ -657,7 +657,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		}
 
 		if (!DrawEquationWeb.targetHasFeature(getElement(),
-				"BlurDoesntUpdateGUIFeature")) {
+				"BlurDoesntUpdateGUIFeature", true)) {
 
 			if (isEmpty() && app.has(Feature.INPUT_SHOWN_IN_INPUTBAR))
 				addDummyLabel();
