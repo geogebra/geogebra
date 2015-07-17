@@ -16,6 +16,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
 import org.geogebra.web.html5.gui.util.BasicIcons;
+import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
@@ -137,6 +138,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				// but maybe it's not that important here
 				@Override
 				public void onMouseDown(MouseDownEvent event) {
+					event.stopPropagation();
+
+					// although this does not seem to help in itself,
+					// why not prevent default action? maybe the same
+					// bug has two distint causes, both needs to be fixed
+					event.preventDefault();
+
 					if (specialPopup != null) {
 						if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
 								|| !app.wasPopupJustClosed()) {
@@ -153,10 +161,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 							EuclidianStyleBarW.CURRENT_POP_UP = null;
 						}
 					}
-					event.stopPropagation();
-					// event.preventDefault();
 				}
 			});
+			pButton.addClickHandler(CancelEvents.instance);
+			pButton.addMouseUpHandler(CancelEvents.instance);
 
 			specialPopup = new ButtonPopupMenu() {
 				@Override
@@ -287,7 +295,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		});
 
 		if (pButton != null) {
-			ClickStartHandler.init(pButton, new ClickStartHandler(false, true) {
+			ClickStartHandler.init(pButton, new ClickStartHandler(true, true) {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					// nothing to do here; just makes sure that
