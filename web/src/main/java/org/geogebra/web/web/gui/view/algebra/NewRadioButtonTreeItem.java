@@ -16,7 +16,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
 import org.geogebra.web.html5.gui.util.BasicIcons;
-import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
@@ -143,7 +142,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					// although this does not seem to help in itself,
 					// why not prevent default action? maybe the same
 					// bug has two distint causes, both needs to be fixed
-					event.preventDefault();
+					// but r41773 is undone for problems on emulated tablet
+					// event.preventDefault();
 
 					if (specialPopup != null) {
 						if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
@@ -163,8 +163,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					}
 				}
 			});
-			pButton.addClickHandler(CancelEvents.instance);
-			pButton.addMouseUpHandler(CancelEvents.instance);
+			// pButton.addClickHandler(CancelEvents.instance);
+			// pButton.addMouseUpHandler(CancelEvents.instance);
 
 			specialPopup = new ButtonPopupMenu() {
 				@Override
@@ -295,7 +295,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		});
 
 		if (pButton != null) {
-			ClickStartHandler.init(pButton, new ClickStartHandler(true, true) {
+			ClickStartHandler.init(pButton, new ClickStartHandler(false, true) {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					// nothing to do here; just makes sure that
