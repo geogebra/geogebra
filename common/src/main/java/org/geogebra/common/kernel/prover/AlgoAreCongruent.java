@@ -24,8 +24,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Decides if two objects are congruent. Currently only segments are
- * implemented.
+ * Decides if two objects are congruent. Currently only a few special cases are
+ * implemented. The other cases return undefined at the moment.
  *
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
@@ -47,9 +47,9 @@ public class AlgoAreCongruent extends AlgoElement implements
 	 * @param label
 	 *            the name of the boolean
 	 * @param a
-	 *            the first segment
+	 *            the first object
 	 * @param b
-	 *            the second segment
+	 *            the second object
 	 */
 	public AlgoAreCongruent(final Construction cons, final String label,
 			final GeoElement a, final GeoElement b) {
@@ -82,7 +82,8 @@ public class AlgoAreCongruent extends AlgoElement implements
 	/**
 	 * Returns the result of the test
 	 * 
-	 * @return true if the three points lie on one line, false otherwise
+	 * @return true if the two objects are congruent, false if not,
+	 * 		undefined if testing is unimplemented in that case 
 	 */
 	public GeoBoolean getResult() {
 		return outputBoolean;
@@ -115,18 +116,18 @@ public class AlgoAreCongruent extends AlgoElement implements
 			}
 			// Two parabolas are congruent if they have the same distance between the focus and directrix:
 			if (((GeoConic)inputElement1).isParabola() && ((GeoConic)inputElement2).isParabola()) {
-				GeoElement[] ge = (inputElement1.getParentAlgorithm().input);
-				if (ge.length == 2) {
+				GeoElement[] ge1 = (inputElement1.getParentAlgorithm().input);
+				GeoElement[] ge2 = (inputElement2.getParentAlgorithm().input);
+				if (ge1.length == 2 && ge2.length == 2) {
 					// Easy case: definition by focus and directrix:
-					GeoPoint F = (GeoPoint) ge[0];
-					GeoLine d = (GeoLine) ge[1];
+					GeoPoint F = (GeoPoint) ge1[0];
+					GeoLine d = (GeoLine) ge1[1];
 					double d1 = getKernel().getAlgoDispatcher()
 							.getNewAlgoClosestPoint(cons, (Path) d, F).getP()
 							.distance(F);
 
-					ge = (inputElement2.getParentAlgorithm().input);
-					F = (GeoPoint) ge[0];
-					d = (GeoLine) ge[1];
+					F = (GeoPoint) ge2[0];
+					d = (GeoLine) ge2[1];
 					double d2 = getKernel().getAlgoDispatcher()
 							.getNewAlgoClosestPoint(cons, (Path) d, F).getP()
 							.distance(F);
@@ -135,12 +136,65 @@ public class AlgoAreCongruent extends AlgoElement implements
 					}
 				// TODO: Handle the other case(s).
 				}
+			
+			// Two ellipses are congruent if they have the same distances between the two foci,
+			// and also the sum of generatrixes are equal:
+			if (((GeoConic)inputElement1).isEllipse() && ((GeoConic)inputElement2).isEllipse()) {
+				GeoElement[] ge1 = (inputElement1.getParentAlgorithm().input);
+				GeoElement[] ge2 = (inputElement2.getParentAlgorithm().input);
+				if (ge1.length == 3 && ge2.length == 3) {
+					// Easy case: definition with 2 foci and one point on the ellipse:
+					GeoPoint F1 = (GeoPoint) ge1[0];
+					GeoPoint F2 = (GeoPoint) ge1[1];
+					GeoPoint P = (GeoPoint) ge1[2];
+					double d1 = F1.distance(F2);
+					double d2 = F1.distance(P) + F2.distance(P);
+
+					F1 = (GeoPoint) ge2[0];
+					F2 = (GeoPoint) ge2[1];
+					P = (GeoPoint) ge2[2];
+					double d1_ = F1.distance(F2);
+					double d2_ = F1.distance(P) + F2.distance(P);
+
+					outputBoolean.setValue((d1 == d1_) && (d2 == d2_));
+					return;
+					}
+				// TODO: Handle the other case(s).
+				}
+
+			// Two hyperbolas are congruent if they have the same distances between the two foci,
+			// and also the absolute value of the subtraction of generatrixes are equal:
+			if (((GeoConic)inputElement1).isHyperbola() && ((GeoConic)inputElement2).isHyperbola()) {
+				GeoElement[] ge1 = (inputElement1.getParentAlgorithm().input);
+				GeoElement[] ge2 = (inputElement2.getParentAlgorithm().input);
+				if (ge1.length == 3 && ge2.length == 3) {
+					// Easy case: definition with 2 foci and one point on the hyperbola:
+					GeoPoint F1 = (GeoPoint) ge1[0];
+					GeoPoint F2 = (GeoPoint) ge1[1];
+					GeoPoint P = (GeoPoint) ge1[2];
+					double d1 = F1.distance(F2);
+					double d2 = F1.distance(P) - F2.distance(P);
+
+					F1 = (GeoPoint) ge2[0];
+					F2 = (GeoPoint) ge2[1];
+					P = (GeoPoint) ge2[2];
+					double d1_ = F1.distance(F2);
+					double d2_ = F1.distance(P) - F2.distance(P);
+
+					outputBoolean.setValue((d1 == d1_) && (d2 == d2_));
+					return;
+					// TODO: Consider unifying this case with the ellipse case. 
+					}
+				// TODO: Handle the other case(s).
+				}	
 			}
 		if (inputElement1.isEqual(inputElement2)) {
 			outputBoolean.setValue(true);
 			return;
 		}
 		outputBoolean.setUndefinedProverOnly(); // Don't use this.
+		// FIXME: It seems once outputBoolean is changing to undefined,
+		// it remains undefined even if meanwhile it shouldn't.
 		// FIXME: Implement all missing cases.
 	}
 
