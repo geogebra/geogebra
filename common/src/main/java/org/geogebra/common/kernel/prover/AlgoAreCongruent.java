@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -12,6 +13,7 @@ import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -88,8 +90,52 @@ public class AlgoAreCongruent extends AlgoElement implements
 
 	@Override
 	public final void compute() {
-		outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel,
+		// Segments are congruent if they are of equal length:
+		if (inputElement1 instanceof GeoSegment && inputElement2 instanceof GeoSegment) {
+			outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel,
 				inputElement1, inputElement2).getBoolean());
+			return;
+		}
+		// Lines/points are always congruent:
+		if ((inputElement1 instanceof GeoLine && inputElement2 instanceof GeoLine) ||
+				(inputElement1 instanceof GeoPoint && inputElement2 instanceof GeoPoint)) {
+			outputBoolean.setValue(true);
+			return;
+		}
+		// Conics: 
+		if (inputElement1 instanceof GeoConic && inputElement2 instanceof GeoConic) {
+			// Circles are congruent if their radius are of equal length:
+			if (((GeoConic)inputElement1).isCircle() && ((GeoConic)inputElement2).isCircle()) {
+				if (((GeoConic)inputElement1).getCircleRadius() == ((GeoConic)inputElement2).getCircleRadius()) {
+					outputBoolean.setValue(true);
+					return;
+				}
+				outputBoolean.setValue(false);
+				return;
+			}
+			// Two parabolas are congruent if they have the same distance between the focus and directrix:
+			if (((GeoConic)inputElement1).isParabola() && ((GeoConic)inputElement2).isParabola()) {
+				GeoElement[] ge = (inputElement1.getParentAlgorithm().input);
+				GeoPoint F = (GeoPoint) ge[0];
+				GeoLine d = (GeoLine) ge[1];
+				double d1 = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons,
+					(Path) d, F).getP().distance(F);
+				
+				ge = (inputElement2.getParentAlgorithm().input);
+				F = (GeoPoint) ge[0];
+				d = (GeoLine) ge[1];
+				double d2 = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons,
+						(Path) d, F).getP().distance(F);
+				outputBoolean.setValue(d1 == d2);
+				return;
+				}
+			}
+		if (inputElement1.isEqual(inputElement2)) {
+			outputBoolean.setValue(true);
+			return;
+		}
+		outputBoolean.setUndefinedProverOnly(); // Don't use this.
+		// FIXME: Implement all missing cases.
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
