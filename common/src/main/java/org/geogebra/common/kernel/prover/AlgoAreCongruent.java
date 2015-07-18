@@ -116,18 +116,24 @@ public class AlgoAreCongruent extends AlgoElement implements
 			// Two parabolas are congruent if they have the same distance between the focus and directrix:
 			if (((GeoConic)inputElement1).isParabola() && ((GeoConic)inputElement2).isParabola()) {
 				GeoElement[] ge = (inputElement1.getParentAlgorithm().input);
-				GeoPoint F = (GeoPoint) ge[0];
-				GeoLine d = (GeoLine) ge[1];
-				double d1 = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons,
-					(Path) d, F).getP().distance(F);
-				
-				ge = (inputElement2.getParentAlgorithm().input);
-				F = (GeoPoint) ge[0];
-				d = (GeoLine) ge[1];
-				double d2 = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons,
-						(Path) d, F).getP().distance(F);
-				outputBoolean.setValue(d1 == d2);
-				return;
+				if (ge.length == 2) {
+					// Easy case: definition by focus and directrix:
+					GeoPoint F = (GeoPoint) ge[0];
+					GeoLine d = (GeoLine) ge[1];
+					double d1 = getKernel().getAlgoDispatcher()
+							.getNewAlgoClosestPoint(cons, (Path) d, F).getP()
+							.distance(F);
+
+					ge = (inputElement2.getParentAlgorithm().input);
+					F = (GeoPoint) ge[0];
+					d = (GeoLine) ge[1];
+					double d2 = getKernel().getAlgoDispatcher()
+							.getNewAlgoClosestPoint(cons, (Path) d, F).getP()
+							.distance(F);
+					outputBoolean.setValue(d1 == d2);
+					return;
+					}
+				// TODO: Handle the other case(s).
 				}
 			}
 		if (inputElement1.isEqual(inputElement2)) {
