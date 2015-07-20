@@ -549,7 +549,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if ((root.getLeftTree().isExpressionNode() || root.getRightTree()
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-
+			// handle expression algebraic sum of three segments
+			GeoSegment[] threeSegment = root
+					.getSegmentsFromAlgebraicSumOfThreeSegments();
+			if (threeSegment != null) {
+				Polynomial[][] ret = new Polynomial[1][4];
+				ret = getBotanaPolynomialsAlgebraicSumOfThreeSegments(threeSegment);
+				return ret;
+			}
 			traverseExpression(root);
 			// get number of GeoElements in expression
 			int nrOfGeoElements = getNrOfGeoElementsInExpressionNode(root);
@@ -581,6 +588,58 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	// TODO Consider locusequability
 
+	private Polynomial[][] getBotanaPolynomialsAlgebraicSumOfThreeSegments(
+			GeoSegment[] threeSegment) {
+		/*
+		 * Let AB=a, CD=b and EF=c, then one segment is sum of other two
+		 * segments: a = b + c or b = a + c or c = a + b
+		 * 
+		 * this gives equation: (b + c - a)(a + c - b)(a + b - c) = 0
+		 * 
+		 * we can multiply also by (a + b + c) since a, b, c >=0 ==> a + b + c
+		 * >=0 and a + b + c = 0 <==> a = b = c = 0
+		 * 
+		 * then we get equivalent condition by multiplying by (a + b + c):
+		 * 
+		 * [(a + b) - c][(a + b) + c][c + (a - b)][c - (a - b)] = 0 [(a + b)^2 -
+		 * c^2][c^2 - (a - b)^2] = 0 finally we obtain: a^4 + b^4 + c^4 -
+		 * 2*(a^2*b^2 + a^2*c^2 + b^2*c^2) = 0
+		 */
+		Polynomial[][] botanaPolynomials = new Polynomial[1][4];
+		Variable[] seg1botanaVars = threeSegment[0]
+				.getBotanaVars(threeSegment[0]);
+		Variable[] seg2botanaVars = threeSegment[1]
+				.getBotanaVars(threeSegment[1]);
+		Variable[] seg3botanaVars = threeSegment[2]
+				.getBotanaVars(threeSegment[2]);
+		Variable va = new Variable();
+		Variable vb = new Variable();
+		Variable vc = new Variable();
+		Polynomial a = new Polynomial(va);
+		Polynomial b = new Polynomial(vb);
+		Polynomial c = new Polynomial(vc);
+		Polynomial aSquare = a.multiply(a);
+		Polynomial bSquare = b.multiply(b);
+		Polynomial cSquare = c.multiply(c);
+		botanaPolynomials[0][0] = aSquare.subtract(
+				Polynomial.sqrDistance(seg1botanaVars[0], seg1botanaVars[1],
+						seg1botanaVars[2], seg1botanaVars[3]));
+		botanaPolynomials[0][1] = bSquare.subtract(
+				Polynomial.sqrDistance(seg2botanaVars[0], seg2botanaVars[1],
+						seg2botanaVars[2], seg2botanaVars[3]));
+		botanaPolynomials[0][2] = cSquare.subtract(
+				Polynomial.sqrDistance(seg3botanaVars[0], seg3botanaVars[1],
+						seg3botanaVars[2], seg3botanaVars[3]));
+		// a^2*b^2 + a^2*c^2 + b^2*c^2
+		Polynomial poly = aSquare.multiply(bSquare)
+				.add(aSquare.multiply(cSquare)).add(bSquare.multiply(cSquare));
+		// a^4 + b^4 + c^4 - 2*(a^2*b^2 + a^2*c^2 + b^2*c^2) = 0
+		botanaPolynomials[0][3] = aSquare.multiply(aSquare)
+				.add(bSquare.multiply(bSquare)).add(cSquare.multiply(cSquare))
+				.subtract(new Polynomial(2).multiply(poly));
+		return botanaPolynomials;
+	}
+
 	public ExpressionNode getExpression() {
 		return root;
 	}
@@ -588,4 +647,5 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public Operation getOperation() {
 		return root.getOperation();
 	}
+
 }

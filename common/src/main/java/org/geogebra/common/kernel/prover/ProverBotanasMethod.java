@@ -470,6 +470,10 @@ public class ProverBotanasMethod {
 									.isHyperbola())) {
 						interpretTrueAsUndefined = true;
 					}
+				} else if (((AlgoDependentBoolean) statement
+						.getParentAlgorithm()).getExpression()
+						.isAlgebraicSumOfThreeSegments()) {
+					interpretTrueAsUndefined = true;
 				}
 			}
 			

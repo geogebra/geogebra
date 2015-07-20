@@ -5760,4 +5760,59 @@ kernel, left,
 		}
 		return false;
 	}
+
+	/**
+	 * @return true if the expression is sum or difference of two segments
+	 */
+	public boolean isSumOrDiffOfTwoSegments() {
+		if (this.getLeft().isGeoElement()
+				&& ((GeoElement) this.getLeft()).isGeoSegment()
+				&& this.getRight().isGeoElement()
+				&& ((GeoElement) this.getRight()).isGeoSegment()
+				&& (this.getOperation() == Operation.PLUS || this
+						.getOperation() == Operation.MINUS)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @return if the ExpressionNode is algebraic sum of three segments, then
+	 *         returns the segments, otherwise return null
+	 */
+	public GeoSegment[] getSegmentsFromAlgebraicSumOfThreeSegments() {
+		GeoSegment[] threeSegment = new GeoSegment[3];
+		if (this.getLeft().isGeoElement()
+				&& ((GeoElement) this.getLeft()).isGeoSegment()
+				&& this.getRightTree().isSumOrDiffOfTwoSegments()) {
+			threeSegment[0] = (GeoSegment) this.getLeft();
+			threeSegment[1] = (GeoSegment) this.getRightTree().getLeft();
+			threeSegment[2] = (GeoSegment) this.getRightTree().getRight();
+			return threeSegment;
+		} else if (this.getRight().isGeoElement()
+				&& ((GeoElement) this.getRight()).isGeoSegment()
+				&& this.getLeftTree().isSumOrDiffOfTwoSegments()) {
+			threeSegment[0] = (GeoSegment) this.getRight();
+			threeSegment[1] = (GeoSegment) this.getLeftTree().getLeft();
+			threeSegment[2] = (GeoSegment) this.getLeftTree().getRight();
+			return threeSegment;
+		}
+		return null;
+	}
+
+	/**
+	 * @return true if the expression is algebraic sum of three segments, false
+	 *         otherwise
+	 */
+	public boolean isAlgebraicSumOfThreeSegments() {
+		if ((this.getLeft().isGeoElement()
+				&& ((GeoElement) this.getLeft()).isGeoSegment() && this
+				.getRightTree().isSumOrDiffOfTwoSegments())
+				|| (this.getRight().isGeoElement()
+						&& ((GeoElement) this.getRight()).isGeoSegment() && this
+						.getLeftTree().isSumOrDiffOfTwoSegments())) {
+			return true;
+		}
+		return false;
+	}
 }
