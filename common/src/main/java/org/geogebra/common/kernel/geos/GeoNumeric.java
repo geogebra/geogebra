@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -57,7 +58,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		AbsoluteScreenLocateable, GeoFunctionable, Animatable, HasExtendedAV,
 		SymbolicParametersBotanaAlgo {
 
-	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
 
 	/** eg boxplot */
@@ -239,12 +239,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 					if (!isIntervalMaxActive()
 							&& !(intervalMax instanceof GeoNumeric)) {
 						// set both to default
-						double min = Math.min(num.getIntervalMin(),
-								Math.floor(value));
-						double max = Math.max(num.getIntervalMax(),
-								Math.ceil(value));
-						setIntervalMin(new MyDouble(kernel, min));
-						setIntervalMax(new MyDouble(kernel, max));
+						setMinFrom(num);
+						setMaxFrom(num);
 					} else {
 						// max is available but no min
 						double min = Math.min(num.getIntervalMin(),
@@ -279,6 +275,31 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		super.setEuclidianVisible(visible);
 	}
 
+	private void setMaxFrom(GeoNumeric num) {
+		double max = num.getIntervalMax();
+		if (Math.ceil(value) > max) {
+			if (Math.ceil(value) < 0) {
+				max = 0;
+			} else {
+				max = MyMath.nextPrettyNumber(value);
+			}
+		}
+
+		setIntervalMax(new MyDouble(kernel, max));
+
+	}
+	private void setMinFrom(GeoNumeric num) {
+		double min = num.getIntervalMin();
+		if (Math.floor(value) < min) {
+			if (Math.floor(value) > 0) {
+				min = 0;
+			} else {
+				min = -MyMath.nextPrettyNumber(Math.abs(value));
+			}
+		}
+		setIntervalMin(new MyDouble(kernel, min));
+
+	}
 	private void initScreenLocation() {
 		int count = countSliders();
 
