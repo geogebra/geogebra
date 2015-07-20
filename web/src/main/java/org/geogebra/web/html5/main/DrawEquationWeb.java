@@ -765,13 +765,25 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 		$wnd.$ggbQuery(':hover').each(function(idx, elm) {
 			if (elm) {
-				if (highestHover) {
-					if ($wnd.$ggbQuery.contains(highestHover, elm)) {
-						setHighestHover(elm);
-					}
-				} else {
-					if ($wnd.$ggbQuery.contains($doc.body, elm)) {
-						setHighestHover(elm);
+				if ($wnd.$ggbQuery(elm).is(':visible')) {
+					// CSS display:none shall be excluded, of course!
+
+					// ... is this the best way of avoiding it?
+					// on the net, they write that :visible check might
+					// not always give the best results, e.g. Chrome,
+					// ... we only need this in Internet Explorer, so
+					// might be Okay... if not, then a
+					// if ($wnd.$ggbQuery(elm).parents(':visible').length)
+					// check would also be needed...
+
+					if (highestHover) {
+						if ($wnd.$ggbQuery.contains(highestHover, elm)) {
+							setHighestHover(elm);
+						}
+					} else {
+						if ($wnd.$ggbQuery.contains($doc.body, elm)) {
+							setHighestHover(elm);
+						}
 					}
 				}
 			}
