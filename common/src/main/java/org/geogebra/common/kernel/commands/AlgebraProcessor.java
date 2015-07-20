@@ -1497,6 +1497,9 @@ public class AlgebraProcessor {
 							&& ret[0].isIndependent()
 							&& compatibleTypes(replaceable.getGeoClassType(),
 									ret[0].getGeoClassType())) {
+						if (replaceable instanceof GeoNumeric) {
+							((GeoNumeric) replaceable).extendMinMax(ret[0]);
+						}
 						replaceable.set(ret[0]);
 						replaceable.updateRepaint();
 						ret[0] = replaceable;

@@ -1537,5 +1537,18 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return null; // Here maybe an exception should be thrown...?
 	}
 
+	public void extendMinMax(GeoElement geoElement) {
+		if (geoElement instanceof GeoNumeric) {
+			value = geoElement.evaluateDouble();
+			if (getIntervalMaxObject() != null) {
+				setMaxFrom(this);
+			}
+			if (getIntervalMinObject() != null) {
+				setMinFrom(this);
+			}
+		}
+
+	}
+
 
 }
