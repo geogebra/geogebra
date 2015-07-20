@@ -305,6 +305,10 @@ public class ManagerShadersElementsGlobalBuffer extends
 		@Override
 		public void draw(RendererShadersInterface r) {
 
+			if (arrayI == null) {
+				return;
+			}
+
 			r.loadVertexBuffer(getVertices(), getLength());
 			r.loadNormalBuffer(getNormals(), getLength());
 			r.loadColorBuffer(getColors(), getLength());

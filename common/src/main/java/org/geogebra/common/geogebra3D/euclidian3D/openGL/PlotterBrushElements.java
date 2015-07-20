@@ -87,10 +87,12 @@ public class PlotterBrushElements extends PlotterBrush {
 
 		((ManagerShaders) manager).endGeometry(sectionSize, TypeElement.CURVE);
 
+		sectionSize = -1;
+
 	}
 
 
-	private int sectionSize;
+	private int sectionSize = -1;
 
 	@Override
 	public void join() {
@@ -139,4 +141,9 @@ public class PlotterBrushElements extends PlotterBrush {
 		endCurve();
 	}
 
+	@Override
+	public int end() {
+		sectionSize = -1;
+		return super.end();
+	}
 }
