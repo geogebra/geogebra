@@ -1,9 +1,10 @@
 package org.geogebra.web.html5.util.sliderPanel;
 
-import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.common.main.App;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -14,51 +15,62 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
 
-public class SliderW extends FocusWidget implements SliderWI {
+public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	private Element range;
 	private boolean valueChangeHandlerInitialized;
 	private Double curValue;
 
-	public SliderW(double min, double max) {
-		range = Document.get().createElement("input");
-		range.setAttribute("type", "range");
-		range.setAttribute("min", String.valueOf(min));
-		range.setAttribute("max", String.valueOf(max));
-		setRangeValue(range, String.valueOf(min));
+	public SliderWJquery(double min, double max) {
+		range = Document.get().createElement("div");
+		range.getStyle().setWidth(200, Unit.PX);
+		App.debug("setting up" + min + "," + max);
+		setup(range, min, max, min);
+
 		setElement(range);
 		addMouseDownHandler(this);
 		addMouseMoveHandler(this);
 		addMouseUpHandler(this);
 	}
 
-	private native void setRangeValue(Element range, String value) /*-{
-		range.value = value;
+	private native void setup(Element range1, double min, double max, double val)/*-{
+		$wnd.$ggbQuery(range1).slider({
+			"min" : min,
+			"max" : max,
+			"values" : [ val ]
+		});
+	}-*/;
+
+	private native void setRangeValue(Element range1, double val) /*-{
+		$wnd.$ggbQuery(range1).slider("values", [ val ]);
 	}-*/;
 
 	public Double getValue() {
-		return Double.valueOf(getRangeValue(range));
+		return getRangeValue(range);
 	}
 
-	private native String getRangeValue(Element range) /*-{
-		return range.value;
+	private native double getRangeValue(Element range1) /*-{
+		return $wnd.$ggbQuery(range1).slider("values")[0];
 	}-*/;
 
-	public void setMinimum(double min) {
-		range.setAttribute("min", String.valueOf(min));
-	}
+	public native void setProperty(Element range1, String prop, double val) /*-{
+		$wnd.$ggbQuery(range1).slider({
+			prop : val
+		});
+	}-*/;
 
 	public void setMaximum(double max) {
-		range.setAttribute("max", String.valueOf(max));
+		setProperty(range, "max", max);
+	}
+
+	public void setMinimum(double min) {
+		setProperty(range, "min", min);
 	}
 
 	public void setStep(double step) {
-		range.setAttribute("step", String.valueOf(step));
+		setProperty(range, "step", step);
 	}
 
-	public GDimensionW getPreferredSize() {
-		return new GDimensionW(100, 10);
-	}
 
 	public HandlerRegistration addValueChangeHandler(
 			ValueChangeHandler<Double> handler) {
@@ -66,7 +78,7 @@ public class SliderW extends FocusWidget implements SliderWI {
 			valueChangeHandlerInitialized = true;
 			addChangeHandler(new ChangeHandler() {
 				public void onChange(ChangeEvent event) {
-					ValueChangeEvent.fire(SliderW.this, getValue());
+					ValueChangeEvent.fire(SliderWJquery.this, getValue());
 				}
 			});
 		}
@@ -78,12 +90,13 @@ public class SliderW extends FocusWidget implements SliderWI {
 	}
 
 	public void setValue(Double value, boolean fireEvents) {
-		setSliderValue(String.valueOf(value));
-	}
-
-	private void setSliderValue(String value) {
 		setRangeValue(range, value);
 	}
+
+	/*
+	 * private void setSliderValue(String value) { setRangeValue(range, value);
+	 * }
+	 */
 
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());

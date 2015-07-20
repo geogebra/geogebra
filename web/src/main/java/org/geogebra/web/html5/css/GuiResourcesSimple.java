@@ -48,6 +48,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/visibility.js")
 	TextResource visibilityJs();
 
+	@Source("org/geogebra/web/resources/js/jquery-ui.js")
+	TextResource jqueryUI();
+
 	@Source("org/geogebra/web/resources/js/WebMIDIAPIWrapper.js")
 	TextResource webMidiAPIWrapperJs();
 
@@ -59,6 +62,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/css/web-styles.css")
 	TextResource modernStyle();
+
+	@Source("org/geogebra/web/resources/css/jquery-ui.css")
+	TextResource jqueryStyle();
 
 	@Source("org/geogebra/web/resources/css/keyboard-styles.css")
 	TextResource keyboardStyle();

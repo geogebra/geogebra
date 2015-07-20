@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		HasValue<Double> {
 
-	private SliderW slider;
+	private SliderWI slider;
 	private Label minLabel;
 	private Label maxLabel;
 

@@ -341,7 +341,8 @@ public class AlgebraViewW extends Tree implements LayerView,
 			if (ti != null) {
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					geo = ti.getChild(j).getUserObject();
-					if (geo instanceof GeoNumeric) {
+					if (geo instanceof GeoNumeric
+							&& ti.getChild(j).getWidget() instanceof RadioButtonTreeItem) {
 						((RadioButtonTreeItem) ti.getChild(j).getWidget())
 								.repaint();
 
