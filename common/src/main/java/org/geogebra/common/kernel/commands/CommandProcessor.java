@@ -25,8 +25,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -317,6 +317,87 @@ public abstract class CommandProcessor {
 			// remove local variable name from kernel again
 
 		}
+		GeoElement[] arg = resArg(c.getArgument(0));
+
+		return arg[0];
+	}
+
+	/**
+	 * Resolve argument for Iteration command
+	 * 
+	 * @param c
+	 *            command to use in the iteration
+	 * @param vars
+	 *            variables
+	 * @param over
+	 *            list from which the variables should be taken
+	 * @param number
+	 *            number of iterations
+	 * @return
+	 */
+	protected final GeoElement resArgsForIteration(Command c,
+			GeoElement[] vars, GeoList[] over, GeoNumeric[] number) {
+		// check if there is a local variable in arguments
+		int numArgs = c.getArgumentNumber();
+
+		Construction cmdCons = c.getKernel().getConstruction();
+
+		for (int varPos = 1; varPos < numArgs - 1; varPos += 2) {
+			String localVarName = c.getVariableName(varPos);
+
+			if (localVarName == null
+					&& c.getArgument(varPos).isTopLevelCommand()) {
+				localVarName = c.getArgument(varPos).getTopLevelCommand()
+						.getVariableName(0);
+			}
+
+			if (localVarName == null) {
+				throw argErr(app, c.getName(), c.getArgument(varPos));
+			}
+
+			// add local variable name to construction
+
+			GeoElement num = null;
+
+			// initialize first value of local numeric variable from initPos
+
+			GeoList gl = null;
+			if (c.getArgumentNumber() > varPos + 1) {
+				gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
+			}
+
+			if (gl == null) {
+				num = new GeoNumeric(cons);
+			} else if (gl.size() == 0) {
+				if (gl.getTypeStringForXML() != null) {
+					num = kernelA.createGeoElement(cons,
+							gl.getTypeStringForXML());
+				} else {
+					// guess
+					num = new GeoNumeric(cons);
+				}
+			} else {
+				// list not zero length
+				num = gl.get(0).copyInternal(cons);
+			}
+
+			cmdCons.addLocalVariable(localVarName, num);
+			replaceZvarIfNeeded(localVarName, c);
+			// set local variable as our varPos argument
+			c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
+			vars[varPos / 2] = num.toGeoElement();
+			if (gl != null) {
+				over[varPos / 2] = gl;
+			}
+
+			// resolve all command arguments including the local variable just
+			// created
+
+			// remove local variable name from kernel again
+
+		}
+
+		number[0] = (GeoNumeric) resArg(c.getArgument(numArgs - 1))[0];
 		GeoElement[] arg = resArg(c.getArgument(0));
 
 		return arg[0];

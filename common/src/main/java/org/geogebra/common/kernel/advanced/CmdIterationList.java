@@ -1,16 +1,21 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIterationList;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
  * IterationList[ <function>, <start>, <n> ]
+ * 
+ * IterationList[ <function>, <var_name>, <var_value>, <n> ]
  */
 public class CmdIterationList extends CommandProcessor {
 	/**
@@ -43,6 +48,28 @@ public class CmdIterationList extends CommandProcessor {
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
+		case 4:
+			GeoElement arg1 = null;
+			GeoElement[] vars = new GeoElement[(n - 2) / 2];
+			GeoList[] over = new GeoList[(n - 2) / 2];
+			GeoNumeric[] num = new GeoNumeric[1];
+			boolean oldval = cons.isSuppressLabelsActive();
+
+			try {
+				cons.setSuppressLabelCreation(true);
+				arg1 = resArgsForIteration(c, vars, over, num);
+			} finally {
+				for (GeoElement localVar : vars) {
+					if (localVar != null)
+						cons.removeLocalVariable(localVar
+								.getLabel(StringTemplate.defaultTemplate));
+				}
+				cons.setSuppressLabelCreation(oldval);
+			}
+
+			AlgoIterationList algo = new AlgoIterationList(cons, c.getLabel(),
+					arg1, vars, over, num[0]);
+			return algo.getOutput();
 
 		default:
 			throw argNumErr(app, c.getName(), n);
