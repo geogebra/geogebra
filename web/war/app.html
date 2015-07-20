@@ -36,13 +36,15 @@ fontactive: function(familyName, fvd) {},
 				e("ggw").setAttribute("data-param-perspective",id);
 			}
 			var page = e("ggbPage");
-			page.style.display = "none";
+			// this verily matters, should hide every harmful "a button"
+			page.className ="verilyhidden";
 			if(window.ggbRerun){
 				window.ggbRerun();
 			}
 		}else{
+		    // app.html does not run into this branch, in theory
 			var page = e("ggbPage");
-			page.style.display = "none";
+			page.className = "verilyhidden";
 			var container = e("appletContainer");
 			container.style.visibility = "visible";
 			if(id){
@@ -192,7 +194,10 @@ fontactive: function(familyName, fvd) {},
 	}
 	function showInLang(lang){
 		document.body.parentNode.style.overflow = "auto";
-		e("ggbPage").style.display="";
+		// cancels out "verilyhidden" class
+		e("ggbPage").className="antihidden";
+        // cancels out initial page setup
+        //e("ggbPage").style.display="";
 		if(finalLang && finalLang != lang){
 			console.log("wrong lang");
 			return;
@@ -229,9 +234,11 @@ fontactive: function(familyName, fvd) {},
 				if(e("signIn")){
 					e("signIn").innerHTML="Sign in";
 				}
-				e("ggbPage").style.display="";
+				// cancels out verilyhidden class
+				e("ggbPage").className="antihidden";
+				// cancels out initial page setup
+				//e("ggbPage").style.display="";
 			}
-			
 		}
 	var langs = ["af",  "ar",  "ar_MA",  "ar_TN",  "bg",  "bs",  "ca",  "ca_XV",  "cs",  "cy",  "da", 
 	"de_AT",  "de",  "el",  "en_AU",  "en_GB",  "en",  "eo",  "es_ES",  "es",  "es_UY",  "et",  "eu", 
@@ -512,6 +519,16 @@ a.button:focus {
 #ggbPage {
   background-color: #ffffff;
 }
+#ggbPage.verilyhidden {
+  display: none !important;
+  position: static !important;
+  visibility: hidden !important;
+}
+#ggbPage.verilyhidden * {
+  display: none !important;
+  position: static !important;
+  visibility: hidden !important;
+}
 .ggbPageContent {
   padding: 50px 30px;
   text-align: center;
@@ -585,7 +602,7 @@ z-index:501;
     </style>
 </head>
 <body dir="ltr" tabindex="-1" onload="checkLogin()">
-	<div id="ggbPage" style="display:none">
+	<div id="ggbPage" class="verilyhidden">
 
     <div id="ggbHeader">
         <div id="ggbHeaderContent" class="clearfix">
