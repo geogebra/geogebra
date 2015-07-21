@@ -16,7 +16,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -39,6 +42,7 @@ import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
 import org.geogebra.common.kernel.prover.AlgoIsOnPath;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Term;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.plugin.Operation;
 
@@ -66,6 +70,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	private ArrayList<Operation> auxOperations = new ArrayList<Operation>();
 	// GeoSegments in subexpression
 	private ArrayList<GeoSegment> auxSegments = new ArrayList<GeoSegment>();
+	// list of coefficients in expression
+	private ArrayList<MyDouble> coefficients = new ArrayList<MyDouble>();
+	private int nrOfMaxDecimals;
 
 	public AlgoDependentBoolean(Construction cons, String label,
 			ExpressionNode root) {
@@ -210,8 +217,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
- left, right);
+			AlgoAreParallel algo = new AlgoAreParallel(cons, "", left, right);
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
@@ -259,7 +265,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	// fill the polynomial tree
 	public void expressionNodeToPolynomial(ExpressionNode expNode,
-			PolynomialNode polyNode) {
+			PolynomialNode polyNode) throws NoSymbolicParametersException {
 		if (polyNode.getPoly() != null) {
 			return;
 		}
@@ -288,7 +294,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				}
 				break;
 			default:
-				break;
+				throw new NoSymbolicParametersException();
 			}
 		}
 		if (expNode.getLeft().isExpressionNode()) {
@@ -304,7 +310,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	// get number of GeoElements in expression
 	private int getNrOfGeoElementsInExpressionNode(ExpressionNode node) {
-		if (node == null) {
+		if (node == null
+				|| (node.getLeft() instanceof MyDouble && node.getRight() instanceof MyDouble)) {
 			return 0;
 		}
 		if (node.getLeft().isGeoElement()) {
@@ -338,8 +345,43 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	// build a Polynomial tree from ExpressionNode
 	private void buildPolynomialTree(ExpressionNode expNode,
-			PolynomialNode polyNode) {
+			PolynomialNode polyNode) throws NoSymbolicParametersException {
 		if (expNode == null) {
+			return;
+		}
+		// simplify polynomial if the left and right sides are numbers
+		if (expNode.getLeft() instanceof MyDouble
+				&& expNode.getRight() instanceof MyDouble) {
+			double d1 = expNode.getLeft().evaluateDouble();
+			double d2 = expNode.getRight().evaluateDouble();
+			Double d;
+			switch (expNode.getOperation()) {
+			case PLUS:
+				d = d1 + d2;
+				break;
+			case MINUS:
+				d = d1 - d2;
+				break;
+			case MULTIPLY:
+				d = d1 * d2;
+				break;
+			case POWER:
+				d = Math.pow(d1, d2);
+				break;
+			default:
+				throw new NoSymbolicParametersException();
+			}
+			int i;
+			// if in the expression exists rational number with n decimals
+			// (if there's more than one rational number, then n is the max of
+			// decimal numbers)
+			// than multiply the coefficient with 10^n
+			if (nrOfMaxDecimals != 0) {
+				i = (int) (d * Math.pow(10, nrOfMaxDecimals));
+			} else {
+				i = d.intValue();
+			}
+			polyNode.setPoly(new Polynomial(i));
 			return;
 		}
 		polyNode.setOperation(expNode.getOperation());
@@ -356,9 +398,20 @@ public class AlgoDependentBoolean extends AlgoElement implements
 											.getLeft())));
 				}
 				if (expNode.getLeft() instanceof MyDouble) {
-					polyNode.getLeft().setPoly(
-							new Polynomial(Integer.parseInt(expNode.getLeft()
-									.toString())));
+					Double d = expNode.getLeft().evaluateDouble();
+					int i;
+					// if in the expression exists rational number with n
+					// decimals
+					// (if there's more than one rational number, then n is the
+					// max of decimal numbers)
+					// than multiply the coefficient with 10^n
+					if (nrOfMaxDecimals != 0) {
+						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
+					}
+					else {
+						i = d.intValue();
+					}
+					polyNode.getLeft().setPoly(new Polynomial(i));
 				}
 			}
 
@@ -376,9 +429,36 @@ public class AlgoDependentBoolean extends AlgoElement implements
 											.getRight())));
 				}
 				if (expNode.getRight() instanceof MyDouble) {
-					polyNode.getRight().setPoly(
-							new Polynomial(Integer.parseInt(expNode.getRight()
-									.toString())));
+					Double d = expNode.getRight().evaluateDouble();
+					int i;
+					// simplify the polynomial if in expression is product of
+					// numbers
+					if (polyNode.getLeft().getPoly().isConstant()) {
+						switch (polyNode.getOperation()) {
+						case MULTIPLY:
+							i = (int) (polyNode.getLeft().getPoly()
+									.getConstant() * d);
+							break;
+
+						default:
+							throw new NoSymbolicParametersException();
+						}
+						polyNode.setPoly(new Polynomial(i));
+						return;
+					}
+					// if in the expression exists rational number with n
+					// decimals
+					// (if there's more than one rational number, then n is the
+					// max of decimal numbers)
+					// than multiply the coefficient with 10^n
+					if (nrOfMaxDecimals != 0
+							&& expNode.getOperation() != Operation.POWER) {
+						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
+					}
+					else {
+						i = d.intValue();
+					}
+					polyNode.getRight().setPoly(new Polynomial(i));
 				}
 			}
 		}
@@ -400,6 +480,33 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				+ checkSegmentsInExpressioNode(node.getRightTree());
 	}
 
+	// collect non-integer coefficients fractional parts from expression
+	private ArrayList<Double> getCoefficientsFractionalPart() {
+		ArrayList<Double> fractionalParts = new ArrayList<Double>();
+		if (coefficients.isEmpty()) {
+			return fractionalParts;
+		}
+		for (MyDouble myDouble : coefficients) {
+			Double d = myDouble.evaluateDouble();
+			if (!(Kernel.isInteger(d))) {
+				int wholePart = d.intValue();
+				fractionalParts.add(d - wholePart);
+			}
+		}
+		return fractionalParts;
+	}
+
+	private int getNrOfMaxDecimals(ArrayList<Double> fractionalParts) {
+		int nrOfMaxDecimals = 0;
+		for (Double d : fractionalParts) {
+			String[] result = d.toString().split("\\.");
+			if (result[1].length() > nrOfMaxDecimals) {
+				nrOfMaxDecimals = result[1].length();
+			}
+		}
+		return nrOfMaxDecimals;
+	}
+
 	// check if all operations are MULTIPLY
 	private boolean allAuxOpAreMultiply(ArrayList<Operation> operations) {
 		for (Operation operation : operations) {
@@ -409,6 +516,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 		return true;
 	}
+
 	// procedure to traverse inorder the expression
 	private void traverseExpression(ExpressionNode node)
 			throws NoSymbolicParametersException {
@@ -445,6 +553,35 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				} else
 					throw new NoSymbolicParametersException();
 				return;
+			}
+		}
+		// collect coefficients from expression
+		if (node.getLeft() instanceof MyDouble
+				&& node.getRight() instanceof MyDouble) {
+			double d1 = node.getLeft().evaluateDouble();
+			double d2 = node.getRight().evaluateDouble();
+			switch (node.getOperation()) {
+			case PLUS:
+				coefficients.add(new MyDouble(kernel, d1 + d2));
+				break;
+			case DIVIDE:
+				coefficients.add(new MyDouble(kernel, d1 / d2));
+				break;
+			case MINUS:
+				coefficients.add(new MyDouble(kernel, d1 - d2));
+				break;
+			case MULTIPLY:
+				coefficients.add(new MyDouble(kernel, d1 * d2));
+				break;
+			default:
+				throw new NoSymbolicParametersException();
+			}
+		} else if (node.getOperation() == Operation.MULTIPLY) {
+			if (node.getLeft() instanceof NumberValue) {
+				coefficients.add((MyDouble) node.getLeft());
+			}
+			if (node.getRight() instanceof NumberValue) {
+				coefficients.add((MyDouble) node.getRight());
 			}
 		}
 		if (node.getLeft().isExpressionNode()) {
@@ -558,6 +695,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				return ret;
 			}
 			traverseExpression(root);
+			ArrayList<Double> fractionalParts = getCoefficientsFractionalPart();
+			nrOfMaxDecimals = getNrOfMaxDecimals(fractionalParts);
 			// get number of GeoElements in expression
 			int nrOfGeoElements = getNrOfGeoElementsInExpressionNode(root);
 			// case expression is composed of quadratic segments
@@ -575,8 +714,21 @@ public class AlgoDependentBoolean extends AlgoElement implements
 						|| polyRoot.getRight().getPoly() == null) {
 					expressionNodeToPolynomial(root, polyRoot);
 				}
-				Polynomial condPoly = polyRoot.getLeft().getPoly()
+				Polynomial condPoly = new Polynomial();
+				condPoly = polyRoot.getLeft().getPoly()
 						.subtract(polyRoot.getRight().getPoly());
+				// handle terms without coefficients
+				if (nrOfMaxDecimals != 0) {
+					TreeMap<Term, Integer> terms = condPoly.getTerms();
+					Set<Entry<Term, Integer>> entrySet = terms.entrySet();
+					Iterator<Entry<Term, Integer>> it = entrySet.iterator();
+					while (it.hasNext()) {
+						Entry<Term, Integer> term = it.next();
+						if (term.getValue() == 1 || term.getValue() == -1) {
+							term.setValue((int) Math.pow(10, nrOfMaxDecimals));
+						}
+					}
+				}
 				ret[0][polynomials.size()] = condPoly;
 				return ret;
 
