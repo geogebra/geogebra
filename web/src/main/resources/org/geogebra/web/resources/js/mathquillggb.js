@@ -2231,6 +2231,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     return root;
   };
   _.onKey = function(curs, key, e) {
+	var quasiRoot = this.maybeThisMaybeStyle();
     switch (key) {
     case 'Ctrl-Shift-Backspace':
     case 'Ctrl-Backspace':
@@ -2311,7 +2312,6 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     // Ctrl-End -> move all the way to the end of the root block.
     case 'Ctrl-End':
-      var quasiRoot = this.maybeThisMaybeStyle();
       this.cursor.prepareMove().appendTo(quasiRoot);
       break;
 
@@ -2324,7 +2324,9 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     // Ctrl-Shift-End -> select to the end of the root block.
     case 'Ctrl-Shift-End':
-      while (this.cursor[R] || this.cursor.parent !== this) {
+      while (this.cursor[R] ||
+    		 ((this.cursor.parent !== this) &&
+    		  (this.cursor.parent !== quasiRoot))) {
         this.cursor.selectRight();
       }
       break;
@@ -2336,7 +2338,6 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     // Ctrl-Home -> move to the start of the current block.
     case 'Ctrl-Home':
-      var quasiRoot = this.maybeThisMaybeStyle();
       this.cursor.prepareMove().prependTo(quasiRoot);
       break;
 
@@ -2349,7 +2350,9 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     // Ctrl-Shift-Home -> move to the start of the root block.
     case 'Ctrl-Shift-Home':
-      while (this.cursor[L] || this.cursor.parent !== this) {
+      while (this.cursor[L] ||
+    		 ((this.cursor.parent !== this) &&
+    		  (this.cursor.parent !== quasiRoot))) {
         this.cursor.selectLeft();
       }
       break;
@@ -2406,7 +2409,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       //so not stopPropagation'd at RootMathCommand
       if (this !== this.cursor.root) return;
 
-      this.cursor.prepareMove().appendTo(this);
+      this.cursor.prepareMove().appendTo(quasiRoot);
       while (this.cursor[L]) this.cursor.selectLeft();
       break;
 
