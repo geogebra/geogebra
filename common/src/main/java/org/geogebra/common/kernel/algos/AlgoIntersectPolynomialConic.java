@@ -108,6 +108,10 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 
 			double nroots = 0;
 			double res[] = new double[2];
+			// bounds of the ellipse:
+			// axx+byy+c+2dxy+2ex+2fy = b yy + (2dx + 2f)+(axx+2ex+c) has
+			// exactly one root wrt y if
+			// 0=(2dx +2f)^2-4*b(axx+2ex+c)=4*((d^2-ab)xx+(2df-2eb)x+(f^2-bc))
 			if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE
 					|| c.getType() == GeoConicNDConstants.CONIC_ELLIPSE) {
 				nroots = kernel.getEquationSolver().solveQuadratic(
