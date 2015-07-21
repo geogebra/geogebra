@@ -1,3 +1,5 @@
+apply plugin: 'java'
+
 project.setDescription('Parts of GeoGebra related to Java OpenGL')
 
 sourceCompatibility = 1.6
