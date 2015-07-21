@@ -1470,7 +1470,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (!draggingOccured && !app.isControlDown(e))
 			view3D.switchMoveCursor();
 
-		super.wrapMouseReleasedND(e);
+		super.wrapMouseReleasedND(e, true);
 	}
 
 	@Override

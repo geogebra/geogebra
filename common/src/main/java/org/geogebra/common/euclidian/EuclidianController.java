@@ -9026,13 +9026,13 @@ public abstract class EuclidianController {
 						event.getType());
 
 				if (this.selPoints() == 1 && !view.getHits().contains(p)) {
-					wrapMouseReleasedND(event);
+					wrapMouseReleasedND(event, true);
 				}
 
 				return;
 			}
 
-			wrapMouseReleasedND(event);
+			wrapMouseReleasedND(event, true);
 
 			this.view.setHits(new GPoint(event.getX(), event.getY()),
 					event.getType());
@@ -9049,11 +9049,11 @@ public abstract class EuclidianController {
 				switchModeForProcessMode(hits, event.isControlDown(), null);
 			}
 		} else {
-			wrapMouseReleasedND(event);
+			wrapMouseReleasedND(event, true);
 		}
 	}
 
-	public void wrapMouseReleasedND(final AbstractEvent event) {
+	public void wrapMouseReleasedND(final AbstractEvent event, boolean mayFocus) {
 		
 		int x = event.getX();
 		int y = event.getY();
@@ -9167,10 +9167,7 @@ public abstract class EuclidianController {
 		movedGeoPointDragged = false;
 		movedGeoNumericDragged = false;
 
-		if ((view.getHits() == null)
-				|| (view.getHits().size() == 0)
-				|| !(view.getHits().getTopHits().get(0) instanceof GeoTextField || view
-						.getHits().getTopHits().get(0) instanceof GeoList)) {
+		if (mayFocus && !hitComboBoxOrTextfield()) {
 			view.requestFocusInWindow();
 		}
 
@@ -9317,6 +9314,13 @@ public abstract class EuclidianController {
 
 		draggingOccuredBeforeRelease = false;
 
+	}
+
+	private boolean hitComboBoxOrTextfield() {
+		return view.getHits() != null
+				&& view.getHits().size() > 0
+				&& (view.getHits().getTopHits().get(0) instanceof GeoTextField || view
+						.getHits().getTopHits().get(0) instanceof GeoList);
 	}
 
 	private static boolean modeCreatesHelperPoints(int mode2) {
@@ -10264,7 +10268,7 @@ public abstract class EuclidianController {
 			this.view.setHits(this.mouseLoc, e.getType());
 
 			if (mode != EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
-				wrapMouseReleasedND(e);
+				wrapMouseReleasedND(e, false);
 				e.release();
 			}
 
