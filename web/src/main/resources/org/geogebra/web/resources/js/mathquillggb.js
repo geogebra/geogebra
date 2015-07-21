@@ -1503,6 +1503,23 @@ var MathBlock = P(MathElement, function(_) {
       // but move to a sibling MathBlock e.g. &0 &1
       cursor.appendDir(-dir, this[dir]);
     } else {
+      // in case this is a block of a Style mathcommand,
+      // which is the only child of RootMathBlock, then
+      // we shall not support moving out of this block!
+      if (this.parent instanceof Style) {
+        var parentblock = this.parent.parent;
+        if (parentblock) {
+          if (parentblock instanceof RootMathBlock) {
+            if (parentblock.ch[L] === parentblock.ch[R]) {
+              // if the Style is the only child of MathBlock,
+              // then do not do it!
+              return;
+            }
+          }
+    	}
+      }
+
+
       // this would move out of the block to
       // put the cursor beside the parent command;
       // however, we want more in case of \\ggbtd and \\ggbtr
@@ -1604,6 +1621,23 @@ var MathBlock = P(MathElement, function(_) {
     }
   };
   _.selectOutOf = function(dir, cursor) {
+    // in case this is a block of a Style mathcommand,
+    // which is the only child of RootMathBlock, then
+    // we shall not support moving out of this block!
+    if (this.parent instanceof Style) {
+      var parentblock = this.parent.parent;
+      if (parentblock) {
+        if (parentblock instanceof RootMathBlock) {
+          if (parentblock.ch[L] === parentblock.ch[R]) {
+            // if the Style is the only child of MathBlock,
+            // then do not do it!
+            return;
+          }
+        }
+      }
+    }
+
+
     var cmd = this.parent;
     // for simplicity, select the whole matrix
     // in every case! thus cmd should be
@@ -1630,6 +1664,23 @@ var MathBlock = P(MathElement, function(_) {
     }
   };
   _.deleteOutOf = function(dir, cursor) {
+    // in case this is a block of a Style mathcommand,
+    // which is the only child of RootMathBlock, then
+    // we shall not support moving out of this block!
+    if (this.parent instanceof Style) {
+      var parentblock = this.parent.parent;
+      if (parentblock) {
+        if (parentblock instanceof RootMathBlock) {
+          if (parentblock.ch[L] === parentblock.ch[R]) {
+            // if the Style is the only child of MathBlock,
+            // then do not do it!
+            return;
+          }
+        }
+      }
+    }
+
+
 	// in case we are in ggbtable, don't allow
 	// deleting out of this mathblock!
 	var cmd = this.parent;
