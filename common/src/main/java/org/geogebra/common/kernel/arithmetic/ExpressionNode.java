@@ -3607,7 +3607,10 @@ kernel, left,
 				sb.append(giac);
 				sb.append('(');
 				break;
-
+			case PGF:
+				sb.append(key);
+				sb.append('(');
+				break;
 			case PSTRICKS:
 				sb.append(psTricks);
 				break;
