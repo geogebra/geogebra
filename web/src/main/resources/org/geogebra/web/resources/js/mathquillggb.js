@@ -1491,6 +1491,21 @@ var MathBlock = P(MathElement, function(_) {
     return this.ch[L] === 0 && this.ch[R] === 0;
   };
 
+  _.whetherRootStyleBlock = function() {
+    if (this.parent instanceof Style) {
+      var parentblock = this.parent.parent;
+      if (parentblock) {
+        if (parentblock instanceof RootMathBlock) {
+          if (parentblock.ch[L] === parentblock.ch[R]) {
+            // if the Style is the only child of MathBlock,
+            // then do not do it!
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
   // editability methods: called by the cursor for editing, cursor movements,
   // and selection of the MathQuillGGB tree, these all take in a direction and
   // the cursor
@@ -1506,17 +1521,8 @@ var MathBlock = P(MathElement, function(_) {
       // in case this is a block of a Style mathcommand,
       // which is the only child of RootMathBlock, then
       // we shall not support moving out of this block!
-      if (this.parent instanceof Style) {
-        var parentblock = this.parent.parent;
-        if (parentblock) {
-          if (parentblock instanceof RootMathBlock) {
-            if (parentblock.ch[L] === parentblock.ch[R]) {
-              // if the Style is the only child of MathBlock,
-              // then do not do it!
-              return;
-            }
-          }
-    	}
+      if (this.whetherRootStyleBlock()) {
+    	return;
       }
 
 
@@ -1624,17 +1630,8 @@ var MathBlock = P(MathElement, function(_) {
     // in case this is a block of a Style mathcommand,
     // which is the only child of RootMathBlock, then
     // we shall not support moving out of this block!
-    if (this.parent instanceof Style) {
-      var parentblock = this.parent.parent;
-      if (parentblock) {
-        if (parentblock instanceof RootMathBlock) {
-          if (parentblock.ch[L] === parentblock.ch[R]) {
-            // if the Style is the only child of MathBlock,
-            // then do not do it!
-            return;
-          }
-        }
-      }
+    if (this.whetherRootStyleBlock()) {
+      return;
     }
 
 
@@ -1667,17 +1664,8 @@ var MathBlock = P(MathElement, function(_) {
     // in case this is a block of a Style mathcommand,
     // which is the only child of RootMathBlock, then
     // we shall not support moving out of this block!
-    if (this.parent instanceof Style) {
-      var parentblock = this.parent.parent;
-      if (parentblock) {
-        if (parentblock instanceof RootMathBlock) {
-          if (parentblock.ch[L] === parentblock.ch[R]) {
-            // if the Style is the only child of MathBlock,
-            // then do not do it!
-            return;
-          }
-        }
-      }
+    if (this.whetherRootStyleBlock()) {
+      return;
     }
 
 
@@ -1858,6 +1846,14 @@ function createRoot(jQ, root, textbox, editable) {
 
   root.renderLatex(contents.text());
 
+  if (root.ch[L]) {
+	if (root.ch[L].ch[L]) {
+	  if (root.ch[L].ch[L].whetherRootStyleBlock()) {
+		cursor.appendTo(root.ch[L].ch[L]);
+	  }
+	}
+  }
+  
   //textarea stuff
   var textareaHtmlString = '<textarea tabindex="-1"></textarea>';
   var disabledTextarea = false;
