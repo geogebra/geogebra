@@ -1470,7 +1470,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (!draggingOccured && !app.isControlDown(e))
 			view3D.switchMoveCursor();
 
-		super.wrapMouseReleased(e);
+		super.wrapMouseReleasedND(e);
 	}
 
 	@Override
@@ -2121,7 +2121,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			hits = view.getHits();
 			break;
 		default:
-			super.switchModeForMousePressed(e);
+			super.switchModeForMousePressedND(e);
 		}
 
 	}
