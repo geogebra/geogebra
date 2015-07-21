@@ -156,7 +156,8 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-
+		// source for tangent point of conics:
+		// www.cs.usfca.edu/~cruse/math109s06/tangents.ppt
 		if (c.isCircle()) {
 			GeoPoint point = this.getPoint();
 			GeoConic circle = this.getConic();
