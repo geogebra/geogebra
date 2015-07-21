@@ -99,9 +99,8 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 		boolean fvLeft;
 		while (root != null && !root.isLeaf() && root.isExpressionNode()) {
-
-			ExpressionValue left = ((ExpressionNode) root).getLeft();
-			ExpressionValue right = ((ExpressionNode) root).getRight();
+			ExpressionValue left = ((ExpressionNode) root).getLeft().unwrap();
+			ExpressionValue right = ((ExpressionNode) root).getRight().unwrap();
 
 			Operation op;
 			switch (op = ((ExpressionNode) root).getOperation()) {
