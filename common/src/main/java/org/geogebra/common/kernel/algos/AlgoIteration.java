@@ -46,7 +46,7 @@ public class AlgoIteration extends AlgoElement {
 		nGeo = n.toGeoElement();
 
 		result = new GeoNumeric(cons);
-
+		isSimple = true;
 		setInputOutput();
 		compute();
 		result.setLabel(label);

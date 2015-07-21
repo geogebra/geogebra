@@ -122,10 +122,23 @@ public class CommandsTest extends Assert{
 		t("Dot[(0,0,1),(0,0,1)]","1");
 		t("Dot[(0,3),(0,2)]","6");
 	}
+
+	@Test
+	public void cmdNormalize() {
+		t("Normalize[{1,3,2}]", "{0, 1, 0.5}");
+		t("Normalize[{(1,1),(3,1),(2,1)}]", "{(0, 0), (1, 0), (0.5, 0)}");
+	}
 	
 	@Test
 	public void cmdDataFunction(){
-		t("DataFunction[]","freehand(x)");
+		t("DataFunction[]", "DataFunction[{}, {}]");
 	}
 	
+	@Test
+	public void cmdAreCongruent() {
+		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
+		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
+		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(2,0),(0,2)]]", "false");
+	}
+
 }

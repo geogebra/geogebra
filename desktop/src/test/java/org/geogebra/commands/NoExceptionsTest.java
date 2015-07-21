@@ -2291,6 +2291,7 @@ public class NoExceptionsTest {
 		t("Vertex[ x>y ]");
 		t("Vertex[ poly1 ]");
 		t("Vertex[ poly1, n2]");
+		t("Vertex[ Segment[(1,0),(0,1)], 1]");
 	}
 
 	@Test
@@ -2766,13 +2767,29 @@ public class NoExceptionsTest {
 		t("TurtleDown[turtle1]");
 	}
 	
+	@Test
 	public void cmdStartRecord(){
 		t("StartRecord[]");
 		t("StartRecord[false]");
 		t("StartRecord[true]");
 	}
 	
+	@Test
 	public void cmdRepeat(){
-		t("Repeat[UpdateConstruction[],2]");
+		t("Repeat[2, UpdateConstruction[]]");
+	}
+
+	@Test
+	public void cmdRandomPointIn() {
+		t("RandomPointIn[x^2+y^2=1]");
+		t("RandomPointIn[Polygon[(0,0),(1,0),(0,1)]]");
+		t("RandomPointIn[0,0,1,1]");
+	}
+
+	@Test
+	public void cmdRandomDiscrete() {
+		t("RandomDiscrete[{1,2,3},{4,5,6}]");
+		t("RandomDiscrete[{1,2,3},{}]");
+		t("RandomDiscrete[{1,2,3},{4,5,-9}]");
 	}
 }
