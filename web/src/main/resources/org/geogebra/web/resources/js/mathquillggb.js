@@ -1846,12 +1846,21 @@ function createRoot(jQ, root, textbox, editable) {
 
   root.renderLatex(contents.text());
 
-  if (root.ch[L]) {
-	if (root.ch[L].ch[L]) {
-	  if (root.ch[L].ch[L].whetherRootStyleBlock()) {
-		cursor.appendTo(root.ch[L].ch[L]);
-	  }
-	}
+  if (root instanceof RootMathBlock) {
+	// maybe there is no need for so much checks,
+	// but who knows? what error might arise,
+	// exceptions shall be avoided in any case!
+    if (root.ch[L]) {
+      if (root.ch[L] instanceof MathCommand) {
+	    if (root.ch[L].ch[L]) {
+	      if (root.ch[L].ch[L] instanceof MathBlock) {
+	        if (root.ch[L].ch[L].whetherRootStyleBlock()) {
+              cursor.appendTo(root.ch[L].ch[L]);
+	        }
+	      }
+	    }
+      }
+    }
   }
   
   //textarea stuff
