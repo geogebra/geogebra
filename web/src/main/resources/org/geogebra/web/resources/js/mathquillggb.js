@@ -1847,22 +1847,12 @@ function createRoot(jQ, root, textbox, editable) {
   root.renderLatex(contents.text());
 
   if (root instanceof RootMathBlock) {
-	// maybe there is no need for so much checks,
-	// but who knows? what error might arise,
-	// exceptions shall be avoided in any case!
-    if (root.ch[L]) {
-      if (root.ch[L] instanceof MathCommand) {
-	    if (root.ch[L].ch[L]) {
-	      if (root.ch[L].ch[L] instanceof MathBlock) {
-	        if (root.ch[L].ch[L].whetherRootStyleBlock()) {
-              cursor.appendTo(root.ch[L].ch[L]);
-	        }
-	      }
-	    }
-      }
-    }
+	var quasiRoot = root.maybeThisMaybeStyle();
+	if (quasiRoot !== root) {
+	  cursor.appendTo(quasiRoot);
+	}
   }
-  
+
   //textarea stuff
   var textareaHtmlString = '<textarea tabindex="-1"></textarea>';
   var disabledTextarea = false;
@@ -2222,6 +2212,24 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     var latex2 = latex;
     newCursor.writeLatex(latex2);
   };
+  _.maybeThisMaybeStyle = function() {
+    var root = this;
+    // maybe there is no need for so much checks,
+    // but who knows? what error might arise,
+    // exceptions shall be avoided in any case!
+    if (root.ch[L]) {
+      if (root.ch[L] instanceof MathCommand) {
+        if (root.ch[L].ch[L]) {
+          if (root.ch[L].ch[L] instanceof MathBlock) {
+            if (root.ch[L].ch[L].whetherRootStyleBlock()) {
+              return root.ch[L].ch[L];
+            }
+          }
+        }
+      }
+    }
+    return root;
+  };
   _.onKey = function(curs, key, e) {
     switch (key) {
     case 'Ctrl-Shift-Backspace':
@@ -2303,7 +2311,8 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     // Ctrl-End -> move all the way to the end of the root block.
     case 'Ctrl-End':
-      this.cursor.prepareMove().appendTo(this);
+      var quasiRoot = this.maybeThisMaybeStyle();
+      this.cursor.prepareMove().appendTo(quasiRoot);
       break;
 
     // Shift-End -> select to the end of the current block.
@@ -2327,7 +2336,8 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     // Ctrl-Home -> move to the start of the current block.
     case 'Ctrl-Home':
-      this.cursor.prepareMove().prependTo(this);
+      var quasiRoot = this.maybeThisMaybeStyle();
+      this.cursor.prepareMove().prependTo(quasiRoot);
       break;
 
     // Shift-Home -> select to the start of the current block.
