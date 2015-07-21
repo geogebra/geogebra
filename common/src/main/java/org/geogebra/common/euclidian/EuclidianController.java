@@ -7373,10 +7373,16 @@ public abstract class EuclidianController {
 		DrawSlider ds = (DrawSlider) view.getDrawableFor(movedGeoNumeric);
 		// TEMPORARY_MODE true -> dragging slider using Slider Tool
 		// or right-hand mouse button
+		boolean hitPoint = ds.hitPoint(mouseLoc.x, mouseLoc.y, hitThreshold);
+		boolean hitSlider = ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
 		return ((temporaryMode && app.isRightClickEnabled()) || !movedGeoNumeric
 				.isSliderFixed())
-				&& !ds.hitPoint(mouseLoc.x, mouseLoc.y, hitThreshold)
-				&& ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
+ && !hitPoint && hitSlider;
+		// return ((temporaryMode && app.isRightClickEnabled()) ||
+		// !movedGeoNumeric
+		// .isSliderFixed())
+		// && !ds.hitPoint(mouseLoc.x, mouseLoc.y, hitThreshold)
+		// && ds.hitSlider(mouseLoc.x, mouseLoc.y, hitThreshold);
 	}
 
 	protected boolean isMoveCheckboxExpected() {
@@ -7945,7 +7951,16 @@ public abstract class EuclidianController {
 				// types
 				if (mode == EuclidianConstants.MODE_SLIDER) {
 					if (view.getHits().size() != 1) {
-						return;
+						// if all sliders, leave the first one. No dragging
+						// otherwise.
+						for (int i = 1; i < view.getHits().size(); i++) {
+							GeoElement elem = view.getHits().get(i);
+							if (!(elem.isGeoNumeric() && ((GeoNumeric) elem)
+									.isSlider())) {
+								return;
+							}
+							view.getHits().remove(i);
+						}
 					}
 
 					if (!(view.getHits().get(0) instanceof GeoNumeric)) {
