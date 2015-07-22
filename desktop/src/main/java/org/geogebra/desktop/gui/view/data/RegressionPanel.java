@@ -20,10 +20,9 @@ import javax.swing.border.TitledBorder;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -245,13 +244,6 @@ public class RegressionPanel extends JPanel implements ActionListener,
 			if (daModel.getRegressionMode().equals(Regression.NONE)
 					|| statDialog.getRegressionModel() == null) {
 				eqn = app.getPlain("");
-			}
-
-			// linear
-			else if (daModel.getRegressionMode().equals(Regression.LINEAR)) {
-				((GeoLine) statDialog.getRegressionModel()).setToExplicit();
-				eqn = statDialog.getRegressionModel().getFormulaString(
-						highPrecision, true);
 			}
 
 			// nonlinear
