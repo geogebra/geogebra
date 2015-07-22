@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -37,7 +36,6 @@ import org.geogebra.common.kernel.statistics.AlgoClasses;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
 import org.geogebra.common.kernel.statistics.AlgoFitExp;
 import org.geogebra.common.kernel.statistics.AlgoFitGrowth;
-import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.kernel.statistics.AlgoFitLog;
 import org.geogebra.common.kernel.statistics.AlgoFitLogistic;
 import org.geogebra.common.kernel.statistics.AlgoFitPoly;
@@ -884,7 +882,7 @@ public class StatGeo {
 			// fall through to linear
 		case LINEAR:
 		default:
-			algo = new AlgoFitLineY(cons, dataList);
+			algo = new AlgoFitPoly(cons, dataList, new MyDouble(kernel, 1));
 			break;
 
 		}
@@ -905,9 +903,6 @@ public class StatGeo {
 			// set geo options
 			geo.setObjColor(listener.createColor(
 					DataAnalysisModel.REGRESSION_COLOR_IDX));
-			if (reg.equals(Regression.LINEAR)) {
-				((GeoLine) geo).setToExplicit();
-			}
 
 			// hide the dummy geo
 			if (regNone)
