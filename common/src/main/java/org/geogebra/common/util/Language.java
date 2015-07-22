@@ -63,6 +63,9 @@ public enum Language {
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u062A\u0648\u0646\u0633)"
 					+ Unicode.RightToLeftMark, Country.Tunisia),
 
+	// Azerbaijani(null, null, false, "az", "az", "Azerbaijani",
+	// Country.Azerbaijan),
+
 	Basque(Unicode.CURRENCY_EURO, null, true, "eu", "eu", "Basque / Euskara",
 			"basque"),
 	// fudge to get right flag
