@@ -538,6 +538,7 @@ public class SelectionManager {
 			}
 
 			GeoElement actual = null;
+
 			// in case of no cycle, it also means that this
 			// was called from Web, in Graphics views, so
 			// in this case, it's better to change selection
@@ -554,7 +555,23 @@ public class SelectionManager {
 			}
 
 			if (selGeo == null) {
-				selGeo = selectedGeos.get(0);
+				// no selected geo in this view,
+				// maybe better to handle this as if
+				// there were no geo selected!
+				// but also clear selected geos!
+				itt = selectedGeos.iterator();
+				while (itt.hasNext()) {
+					// does something more than simple clear
+					removeSelectedGeo(itt.next(), false, true);
+				}
+
+				if (it.hasNext()) {
+					addSelectedGeo(it.next());
+				}
+				return false;
+
+				// old behaviour
+				// selGeo = selectedGeos.get(0);
 			}
 
 			// remove every GeoElement from the selection
@@ -575,6 +592,24 @@ public class SelectionManager {
 		if (selGeo == null) {
 			// at least one selected, select next one
 			selGeo = selectedGeos.get(0);
+		}
+
+		// maybe selGeo is there in Graphics View 2,
+		// but it is not there in "tree", since we're
+		// in Graphics View 1! Then we probably want
+		// the same thing as when nothing is selected here!
+		if (!tree.contains(selGeo)) {
+			// but only after clearing the selection properly!
+			Iterator<GeoElement> itt = selectedGeos.iterator();
+			while (itt.hasNext()) {
+				// does something more than simple clear
+				removeSelectedGeo(itt.next(), false, true);
+			}
+
+			if (it.hasNext()) {
+				addSelectedGeo(it.next());
+			}
+			return false;
 		}
 
 		while (it.hasNext()) {
