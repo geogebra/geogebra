@@ -1,7 +1,8 @@
 /*
  * Riemann.java - Program providing the Riemann zeta function.
  *
- * Copyright (C) 2004 Andreas de Vries
+ * Copyright (C) 2004-2012 Andreas de Vries
+ * http://math-it.org/java/index.html
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,21 +21,18 @@
  */
 package org.geogebra.common.util;
 
-import org.geogebra.common.kernel.Kernel;
-
 /**
- * This class provides the Riemann zeta function &#950;(<i>s</i>) for any
- * complex number <i>s</i> &#8712; <span
- * style="font-size:large;">&#8450;</span>. In this version, the absolute
- * approximation error is about 1E-6 for <i>s</i> with relatively small absolute
- * value, |<i>s</i>| smaller than 50. On the real line, the accuracy should be
- * in that range even for much greater or smaller values of <i>s</i>, and on the
- * "critical strip" 0 &lt; Re <i>s</i> &lt; 1 the Riemann-Siegel formula is
- * used, which guarantees a high accuracy especially for very high values of
- * Im<i>s</i>.
+ * This class provides the Riemann zeta function &#950;(<i>s</i>) for any comlex
+ * number <i>s</i> &#8712; <span style="font-size:large;">&#8450;</span>. In
+ * this version, the absolute approximation error is about 1E-6 for <i>s</i>
+ * with relatively small absolute value, |<i>s</i>| smaller than 50. On the real
+ * line, the accuracy should be in that range even for much greater or smaller
+ * values of <i>s</i>, and on the "critical strip" 0 &lt; Re <i>s</i> &lt; 1 the
+ * Riemann-Siegel formula is used, which guarantees a high accuracy especially
+ * for very high values of Im<i>s</i>.
  *
  * @author Andreas de Vries
- * @version 1.1
+ * @version 1.2
  */
 public class Riemann {
 	// Suppresses default constructor, ensuring non-instantiability.
@@ -46,14 +44,13 @@ public class Riemann {
 	 * 
 	 * @see #zeta(double[])
 	 */
-	public static final double EPSILON = Kernel.STANDARD_PRECISION;
+	public static final double EPSILON = 1e-6;
 
 	/**
 	 * Returns the value &#967;(<i>s</i>) for a complex number <i>s</i> &#8712;
 	 * <span style="font-size:large;">&#8450;</span>, such that &#950;(<i>s</i>)
 	 * = &#967;(<i>s</i>) &#950;(1 - <i>s</i>). It is defined as
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * &#967;(<i>s</i>)</td>
@@ -62,7 +59,7 @@ public class Riemann {
 	 * <td align="center">
 	 * &#960;<sup><i>s</i> - 1/2</sup></td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">&#915;((1 - <i>s</i>)/2)</td>
 	 * </tr>
@@ -77,7 +74,6 @@ public class Riemann {
 	 * </td>
 	 * </tr>
 	 * </table>
-	 * </p>
 	 * We have &#967;(<i>s</i>) &#967;(1 - <i>s</i>) = 1. [Eqs.
 	 * (2.1.10)-(2.1.12) in E.C. Titchmarsh: <i>The Theory of the Riemann
 	 * Zeta-function.</i> 2nd Edition, Oxford University Press, Oxford 1986].
@@ -98,64 +94,37 @@ public class Riemann {
 												// log-versions
 			// s ln 2 + (s-1) ln pi + lnGamma(1-s) + lnSin (pi s/2)
 			result = Complex.multiply(Math.log(2), s);
-			// System.out.println("### 1) result = " + Complex.toString(result)
-			// + ", s=" + Complex.toString(s));
 			result = Complex.add(
 					result,
 					Complex.multiply(Math.log(Math.PI),
 							Complex.subtract(s, Complex.ONE_)));
-			// System.out.println("### 2) result = " +
-			// Complex.toString(result));
 			result = Complex.add(result,
 					Complex.lnGamma(Complex.subtract(Complex.ONE_, s)));
-			// System.out.println("### 3) result = " +
-			// Complex.toString(result));
 			result = Complex.add(result,
 					Complex.lnSin(Complex.multiply(Math.PI / 2, s)));
-			// System.out.println("### 4) result = " +
-			// Complex.toString(result));
 			return Complex.exp(result);
 		}
 		// 2^s pi^(s-1) Gamma(1-s) sin(pi s/2):
 		result = Complex.gamma(Complex.subtract(Complex.ONE_, s));
-		// System.out.println("### 1) result = " + Complex.toString(result) +
-		// ", s=" + Complex.toString(s));
-		// System.out.println("### 1a) sin = " + Complex.toString( Complex.sin(
-		// Complex.multiply(Math.PI/2, s) ) ) + ", pi s/2=" +
-		// Complex.toString(Complex.multiply(Math.PI/2, s)));
 		result = Complex.multiply(result,
 				Complex.sin(Complex.multiply(Math.PI / 2, s)));
-		// System.out.println("### 2) result = " + Complex.toString(result));
 		result = Complex.multiply(result,
 				Complex.power(Math.PI, Complex.subtract(s, Complex.ONE_)));
-		// System.out.println("### 3) result = " + Complex.toString(result));
 		result = Complex.multiply(result, Complex.power(2, s));
-		// */
-		/*
-		 * // pi^(s-1/2) Gamma( 1/2 (1 - s) ) / Gamma(s/2): double[] result =
-		 * Complex.gamma( Complex.multiply(.5, Complex.subtract( Complex.ONE_, s
-		 * ) ) ); result = Complex.divide( result, Complex.gamma(
-		 * Complex.multiply(.5, s) ) ); double[] exponent = Complex.subtract( s,
-		 * Complex.multiply(.5, Complex.ONE_) ); result = Complex.multiply(
-		 * result, Complex.power(Math.PI, exponent) );
-		 */
-		// System.out.println("### chi(" + Complex.toString(s) + ") = " +
-		// Complex.toString(result));
 		return result;
 	}
 
 	/**
 	 * Riemann zeta function &#950;(<i>s</i>) for <i>s</i> &#8712; <span
 	 * style="font-size:large;">&#8450;</span>. It is computed by
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * &#950;(<i>s</i>)</td>
 	 * <td align="center">
 	 * &nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">1</td>
 	 * </tr>
@@ -169,7 +138,7 @@ public class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center" class="small">&#8734;</td>
 	 * </tr>
@@ -182,7 +151,7 @@ public class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">(-1)<sup><i>n</i> - 1</sup></td>
 	 * </tr>
@@ -209,7 +178,7 @@ public class Riemann {
 	 * <td align="center">
 	 * &nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">1</td>
 	 * </tr>
@@ -223,7 +192,7 @@ public class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center" class="small">&#8734;</td>
 	 * </tr>
@@ -236,7 +205,7 @@ public class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">1</td>
 	 * </tr>
@@ -250,7 +219,7 @@ public class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center" class="small"><i>n</i></td>
 	 * </tr>
@@ -263,12 +232,12 @@ public class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">(-1)<sup><i>k</i></sup></td>
 	 * <td style="font-size:xx-large;">(</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td><i>n</i></td>
 	 * </tr>
@@ -285,7 +254,6 @@ public class Riemann {
 	 * &nbsp; &nbsp; &nbsp; otherwise.</td>
 	 * </tr>
 	 * </table>
-	 * </p>
 	 * <p>
 	 * Note that the second formula holds for all <i>s</i> &#8800; 1. However,
 	 * the first sum converges faster. On the critical strip 0 &lt; <i>s</i>
@@ -294,6 +262,10 @@ public class Riemann {
 	 * href="http://mathworld.wolfram.com/RiemannZetaFunction.html"
 	 * target="_top">http://mathworld.wolfram.com/RiemannZetaFunction.html</a>
 	 * </p>
+	 * 
+	 * @param s
+	 *            the argument
+	 * @return the zeta function value
 	 */
 	public static double[] zeta(double[] s) {
 		// int nMax = 2000;
@@ -301,8 +273,6 @@ public class Riemann {
 		double[] sum = new double[2];
 		double[] tmp = new double[2];
 		double[] exponent = { 1 - s[0], -s[1] };
-		// System.out.println("### zeta invoked with zeta(" +
-		// Complex.toString(s) + ")");
 
 		if (Math.abs(s[0] - 1) < EPSILON && Math.abs(s[1]) < EPSILON) {
 			sum[0] = Double.POSITIVE_INFINITY;
@@ -321,8 +291,6 @@ public class Riemann {
 			int m = (int) Math.sqrt(Math.abs(s[1]) / (2 * Math.PI));
 			double[] chi = chi(s);
 			exponent = Complex.subtract(s, Complex.ONE_); // = (s-1)
-			// System.out.println("### chi=" + Complex.toString(chi) +
-			// ", exponent=" + Complex.toString(exponent) );
 			for (int n = 1; n <= m; n++) {
 				sum = Complex.add(sum, Complex.divide(1, Complex.power(n, s)));
 				sum = Complex.add(sum,
@@ -333,23 +301,8 @@ public class Riemann {
 		} else if (s[0] < 0.0) { // actually: s[0] < 0.5, but the result is
 									// unsatisfactory...
 			// use the reflection formula zeta(s) = chi(s) zeta(1-s):
-			// System.out.println("### use reflection formula!");
 			return Complex.multiply(chi(s),
 					zeta(Complex.subtract(Complex.ONE_, s)));
-			/*
-			 * } else if ( s[0] > 6 ) { // Euler's formula: int nMax = (int)
-			 * Math.pow( EPSILON, -1/s[0] ); int maxIntern = (int) 5e6+1; if (
-			 * nMax <=0 || nMax > maxIntern ) {
-			 * System.out.println("== Accuracy +/- " + EPSILON +
-			 * ", requires the zeta sum to be summed up to n=" + nMax + ";");
-			 * nMax = maxIntern; }
-			 * System.out.println("== Compute the zeta sum up to n=" + nMax +
-			 * " =="); exponent[0] = -s[0]; exponent[1] = -s[1]; for ( int n =
-			 * 1; n <= nMax; n++ ) { sum = Complex.add( sum, Complex.power(n,
-			 * exponent) ); } System.out.println("### used Euler's formula!");
-			 * return sum;
-			 */
-			// /*
 		} else if (s[0] > 6) {
 			int nMax = (int) Math.pow(EPSILON, -1 / s[0]);
 			int maxIntern = (int) 5e6 + 1;
@@ -359,8 +312,6 @@ public class Riemann {
 						+ nMax + ";");
 				nMax = maxIntern;
 			}
-			// System.out.println("== Compute the zeta sum up to n=" + nMax +
-			// " ==");
 			for (int n = 1; n <= nMax; n++) {
 				tmp[0] = Math.pow(n, -s[0]) * Math.cos(-s[1] * Math.log(n));
 				tmp[1] = Math.pow(n, -s[0]) * Math.sin(-s[1] * Math.log(n));
@@ -375,31 +326,16 @@ public class Riemann {
 			tmp = Complex.power(2.0, exponent);
 			tmp[0] = 1 - tmp[0];
 			tmp[1] = -tmp[1];
-			// System.out.println("### tmp = " + tmp[0] + " + " + tmp[1] + " i"
-			// );
-			// System.out.println("### exponent = " + exponent[0] + " + " +
-			// exponent[1] + " i" );
 			sum = Complex.divide(sum, tmp);
-			// System.out.println("### sum = " + sum[0] + " + " + sum[1] + " i"
-			// );
-			// */
 		} else { // else - s[0] < 0 (?)
-		// System.out.println("### im else-Zweig fuer s = " +
-		// Complex.toString(s));
 			int nMax = 30;
-			/*
-			 * if ( s[0] > 0 ) { nMax = 500; //nMax = (int) Math.abs(s[1]); //
-			 * korrekt, aber lang!!!!! //System.out.println(" nMax =" + nMax); }
-			 */
 			// factor = 1 / ( 1 - 2 (1-s) ):
 			double[] factor = Complex.power(2., exponent);
 			factor[0] = 1 - factor[0];
 			factor[1] *= -1;
 			factor = Complex.divide(Complex.ONE_, factor);
-			// System.out.println("### factor = " + factor[0] + " + " +
-			// factor[1] + " i" );
 
-			double[] h = new double[2]; // auxiliary/temporary number;
+			double[] h; // auxiliary/temporary number;
 			exponent[0] = -s[0];
 			// if ( nMax > 1029 ) nMax = 1029; // this is the maximal n for ( n
 			// choose k )!
@@ -409,23 +345,11 @@ public class Riemann {
 													// absolute value) ...
 			// if ( nMax > 30 ) nMax = (int) 30; // this seems to be best for
 			// negative n (small absolute value) ...
-			// System.out.println("== Compute the zeta sum up to n=" + nMax +
-			// " ==");
 			for (int n = 0; n <= nMax; n++) {
 				h = Complex.multiply(Math.pow(2, -(n + 1)), factor);
-				// if ( n == 5 ) {
-				// System.out.println("--- n=" + n + ", exponent = " +
-				// exponent[0] + " + " + exponent[1] + " i" );
-				// }
 				for (int k = 0; k <= n; k++) {
 					tmp = Complex.power(k + 1, exponent);
 					tmp = Complex.multiply(MyMath.binomial(n, k), tmp);
-					// if ( n <= 4 ) {
-					// System.out.println("### n=" + n + ", k="+k+", tmp = " +
-					// tmp[0] + " + " + tmp[1] + " i" );
-					// System.out.println("    h=" + h[0] + " + " + h[1] + " i"
-					// );
-					// }
 					tmp = Complex.multiply(h, tmp);
 					if (k % 2 == 0) {
 						sum[0] += tmp[0];
@@ -434,34 +358,6 @@ public class Riemann {
 						sum[0] -= tmp[0];
 						sum[1] -= tmp[1];
 					}
-
-					/*
-					 * if ( ( Math.abs(sum[0]) <= .1 || n == -s[0] || n == -s[0]
-					 * + 1 || n == -s[0] - 1 ) && k == n ) {
-					 * System.out.println("### n=" + n + ", k="+k+", tmp = " +
-					 * tmp[0] + " + " + tmp[1] + " i" );
-					 * System.out.println("    h=" + h[0] + " + " + h[1] + " i"
-					 * ); System.out.println("    n ber k = " +
-					 * Combinatorics.binomial(n,k) ); double[] exp = { -s[0],
-					 * -s[1]}; double[] y = Complex.power( k+1, exp );
-					 * System.out.println("    (k+1) hoch (-s) = " + y[0] +
-					 * " + " + y[1] + " i" ); y = Complex.multiply(
-					 * Combinatorics.binomial(n, k), y ); System.out.println(
-					 * "    h * (k+1) hoch (-s) * ( n ber k ) = " + (h[0]*y[0] -
-					 * h[1]*y[1]) + " + " + (h[0]*y[1] + h[1]*y[0]) + " i" );
-					 * System.out.println("  sum=" + sum[0] + " + " + sum[1] +
-					 * " i" ); }
-					 */
-					/*
-					 * if ( tmp[1] != 0 ) { System.out.println("### n=" + n +
-					 * ", k="+k+", tmp = " + tmp[0] + " + " + tmp[1] + " i" );
-					 * System.out.println("    h=" + h[0] + " + " + h[1] + " i"
-					 * ); System.out.println("    n ber k = " +
-					 * Combinatorics.binomial(n,k) ); double[] y =
-					 * Complex.power( k+1, exponent );
-					 * System.out.println("    (k+1) hoch (-s) = " + y[0] +
-					 * " + " + y[1] + " i" ); return sum; }
-					 */
 				}
 			}
 		}
@@ -471,8 +367,7 @@ public class Riemann {
 	/**
 	 * Riemann-Siegel Z-function <i>Z</i>(<i>t</i>). It is determined by the
 	 * formula
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * <i>Z</i>(<i>t</i>)</td>
@@ -481,7 +376,7 @@ public class Riemann {
 	 * <td>
 	 * 2</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center" class="small"><i>m</i></td>
 	 * </tr>
@@ -494,7 +389,7 @@ public class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">cos[&#952;(<i>t</i>) - <i>t</i> ln <i>n</i>]</td>
 	 * </tr>
@@ -513,12 +408,10 @@ public class Riemann {
 	 * &nbsp; + <i>O</i>(|<i>t</i>|<sup>-1/4</sup>).</td>
 	 * </tr>
 	 * </table>
-	 * </p>
 	 * <p>
 	 * where
 	 * </p>
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * <i>m</i> &nbsp; = &nbsp; <i>m</i>(<i>t</i>)</td>
@@ -527,7 +420,7 @@ public class Riemann {
 	 * <td>
 	 * <span style="font-size:xx-large;">&#9123;</span></td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">|<i>t</i>|</td>
 	 * </tr>
@@ -543,19 +436,17 @@ public class Riemann {
 	 * <td>
 	 * <span style="font-size:xx-large;">&#9126;</span></td>
 	 * </table>
-	 * </p>
 	 * <p>
 	 * and
 	 * </p>
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * <i>&#952;</i>(<i>t</i>)</td>
 	 * <td align="center">
 	 * &nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>t</i></td>
 	 * </tr>
@@ -570,9 +461,8 @@ public class Riemann {
 	 * </td>
 	 * <td>
 	 * ln</td>
-	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>t</i></td>
 	 * </tr>
@@ -588,7 +478,7 @@ public class Riemann {
 	 * <td align="center">
 	 * &nbsp; - &nbsp;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>t</i></td>
 	 * </tr>
@@ -604,7 +494,7 @@ public class Riemann {
 	 * <td align="center">
 	 * &nbsp; - &nbsp;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">&#960;</td>
 	 * </tr>
@@ -620,7 +510,7 @@ public class Riemann {
 	 * <td align="center">
 	 * &nbsp; + &nbsp;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">1</td>
 	 * </tr>
@@ -636,7 +526,7 @@ public class Riemann {
 	 * <td>
 	 * &nbsp; + <i>R</i>(<i>t</i>) &nbsp; &nbsp; with |<i>R</i>(<i>t</i>)| &lt;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">7</td>
 	 * </tr>
@@ -652,7 +542,7 @@ public class Riemann {
 	 * <td>
 	 * +</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">2</td>
 	 * </tr>
@@ -667,11 +557,10 @@ public class Riemann {
 	 * </td>
 	 * </tr>
 	 * </table>
-	 * </p>
 	 * <p>
 	 * We have the equality <i>Z</i>(<i>t</i>) = e<sup>i &#952;(<i>t</i>)</sup>
-	 * &#950;(&#189; + i<i>t</i>). Cf. Section6.5 in H.M. Edwards: <i>Riemann's
-	 * Zeta Function.</i> Academic Press, New York 1974.
+	 * &#950;(&#189; + i<i>t</i>). Cf. 6.5 in H.M. Edwards: <i>Riemann's Zeta
+	 * Function.</i> Academic Press, New York 1974.
 	 * </p>
 	 * 
 	 * @param t
