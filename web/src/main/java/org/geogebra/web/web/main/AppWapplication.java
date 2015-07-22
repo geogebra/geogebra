@@ -376,7 +376,7 @@ public class AppWapplication extends AppWFull {
 	@Override
 	public int getOWidth() {
 		int width = getAppFrame().getOffsetWidth();
-		if (width <= 1) {
+		if (width <= 1 && Location.getParameter("GeoGebraTargetWidth") != null) {
 			width = Integer.parseInt(Location
 					.getParameter("GeoGebraTargetWidth"));
 		}
@@ -386,7 +386,8 @@ public class AppWapplication extends AppWFull {
 	@Override
 	public int getOHeight() {
 		int height = getAppFrame().getOffsetHeight();
-		if (height <= 1) {
+		if (height <= 1
+				&& Location.getParameter("GeoGebraTargetHeight") != null) {
 			height = Integer.parseInt(Location
 					.getParameter("GeoGebraTargetHeight"));
 		}
