@@ -203,7 +203,25 @@ public class Ggb2giac {
 				"[[ggbfitans:=%0],[ggbfitans:=exponential_regression(ggbfitans)],evalf(ggbfitans[1])*exp(ln(evalf(ggbfitans[0]))*x)][2]");
 		p("FitLog.1",
 				"[[ggbfitans:=%0],[ggbfitans:=logarithmic_regression(%0)],evalf(ggbfitans[0])*ln(x)+evalf(ggbfitans[1])][2]");
-		p("FitPoly.2", "normal(evalf(horner(polynomial_regression(%0,%1),x)))");
+
+		p("FitPoly.2",
+				"[[[ggbfitpans:=0/0], [ggbvar:=x], [ggbinput:=%0], [ggborder:=%1], "
+						+ "when(ggborder + 1 == size(ggbinput),"
+						// use exact fit when correct number of points
+						// eg FitPoly[ {(-6.64803509914449, -9.72031412828010),
+						// (7.22538138096244, 7.18002958385020),
+						// (20.0000000000000, -20.0000000000000),
+						// (32.4497749811568, -13.2517292323073),
+						// (-10.4316941391736, -13.5039731683093)} , 4]
+						// adapted from Polynomial.N + evalf()
+						+ "[[xvals := [seq(evalf(xcoord(ggbinput[j])),j=0..size(ggbinput)-1)]], [yvals := [seq(evalf(ycoord(ggbinput[j])),j=0..size(ggbinput)-1)]], [ggbfitpans := normal(lagrange(xvals,yvals,x))]]"
+						+ ","
+						// eg FitPoly[ {(0.44, 0.42), (1.7, 0.48), (2.7, 1.2),
+						// (3.5, 1.78), (4.36, 2.64), (5.12, 3.76), (5.78,
+						// 4.66)} ,3]
+						+ "[ggbfitpans:=normal(evalf(horner(polynomial_regression(%0,%1),x)))]"
+						+ ")],ggbfitpans][1]");
+
 		p("FitPow.1",
 				"[[ggbfitans:=%0],[ggbfitans:=power_regression(ggbfitans)],evalf(ggbfitans[1])*x^evalf(ggbfitans[0])][2]");
 
