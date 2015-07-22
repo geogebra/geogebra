@@ -29,10 +29,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
-import org.geogebra.common.gui.view.data.StatPanelSettings;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
+import org.geogebra.common.gui.view.data.StatPanelSettings;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -65,6 +66,9 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 			lblYInterval;
 	private MyTextField fldXMin, fldXMax, fldYMin, fldYMax, fldXInterval,
 			fldYInterval;
+	private JRadioButton rbStandToStand, rbLogToStand, rbStandToLog,
+			rbLogToLog; // coordinate option
+	private JPanel coordPanel;
 	private boolean showYAxisSettings = true;
 
 	// bar chart panel GUI
@@ -425,6 +429,24 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		fldYInterval.addActionListener(this);
 		fldYInterval.addFocusListener(this);
 
+		/*
+		 * Coordinate alternative
+		 */
+		rbStandToStand = new JRadioButton();
+		rbStandToStand.addActionListener(this);
+		rbLogToStand = new JRadioButton();
+		rbLogToStand.addActionListener(this);
+		rbStandToLog = new JRadioButton();
+		rbStandToLog.addActionListener(this);
+		rbLogToLog = new JRadioButton();
+		rbLogToLog.addActionListener(this);
+
+		ButtonGroup logAxesButtons = new ButtonGroup();
+		logAxesButtons.add(rbStandToStand);
+		logAxesButtons.add(rbLogToStand);
+		logAxesButtons.add(rbStandToLog);
+		logAxesButtons.add(rbLogToLog);
+
 		// create graph options panel
 		JPanel graphOptionsPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -483,10 +505,20 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		dimPanel.add(lblYInterval, c1);
 		dimPanel.add(fldYInterval, c2);
 
+		// create coordinate mode panel
+		coordPanel = new JPanel(new GridBagLayout());
+		coordPanel.add(rbStandToStand, c);
+		coordPanel.add(rbLogToStand, c);
+		coordPanel.add(rbStandToLog, c);
+		coordPanel.add(rbLogToLog, c);
+
 		// put the sub-panels together
 		Box vBox = Box.createVerticalBox();
 		vBox.add(graphOptionsPanel);
 		vBox.add(dimPanel);
+		if (app.has(Feature.LOG_AXES)) {
+			vBox.add(coordPanel);
+		}
 
 		graphPanel = new JPanel(new BorderLayout());
 		graphPanel.add(vBox, BorderLayout.NORTH);
@@ -524,6 +556,8 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 				.getMenu("FrequencyType")));
 		dimPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getPlain("Dimensions")));
+		coordPanel.setBorder(BorderFactory.createTitledBorder(app
+				.getPlain("Coordinate Mode")));
 
 		// histogram options
 		ckManual.setText(app.getMenu("SetClasssesManually"));
@@ -558,6 +592,11 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 
 		lblXInterval.setText(app.getPlain("xstep") + ":");
 		lblYInterval.setText(app.getPlain("ystep") + ":");
+
+		rbStandToStand.setText(app.getPlain("Standard To Standard"));
+		rbLogToStand.setText(app.getPlain("Logarithmic To Standard"));
+		rbStandToLog.setText(app.getPlain("Standard To Logarithmic"));
+		rbLogToLog.setText(app.getPlain("Logarithmic To Logarithmic"));
 
 		// scatterplot options
 		ckShowLines.setText(app.getMenu("LineGraph"));
@@ -625,6 +664,16 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		lblYMin.setEnabled(!ckAutoWindow.isSelected());
 		lblYMax.setEnabled(!ckAutoWindow.isSelected());
 		lblYInterval.setEnabled(!ckAutoWindow.isSelected());
+
+		// coordinate mode
+		rbStandToStand
+				.setSelected(settings.getCoordMode() == StatPanelSettings.CoordMode.STANDTOSTAND);
+		rbLogToStand
+				.setSelected(settings.getCoordMode() == StatPanelSettings.CoordMode.LOGTOSTAND);
+		rbStandToLog
+				.setSelected(settings.getCoordMode() == StatPanelSettings.CoordMode.STANDTOLOG);
+		rbLogToLog
+				.setSelected(settings.getCoordMode() == StatPanelSettings.CoordMode.LOGTOLOG);
 
 		// update automatic dimensions
 		fldXMin.setText("" + daModel.format(settings.xMin));
@@ -739,6 +788,18 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 			firePropertyChange("settings", true, false);
 		} else if (source == ckAutoBarWidth) {
 			settings.setAutomaticBarWidth(ckAutoBarWidth.isSelected());
+			firePropertyChange("settings", true, false);
+		} else if (source == rbStandToStand) {
+			settings.setCoordMode(StatPanelSettings.CoordMode.STANDTOSTAND);
+			firePropertyChange("settings", true, false);
+		} else if (source == rbLogToStand) {
+			settings.setCoordMode(StatPanelSettings.CoordMode.LOGTOSTAND);
+			firePropertyChange("settings", true, false);
+		} else if (source == rbStandToLog) {
+			settings.setCoordMode(StatPanelSettings.CoordMode.STANDTOLOG);
+			firePropertyChange("settings", true, false);
+		} else if (source == rbLogToLog) {
+			settings.setCoordMode(StatPanelSettings.CoordMode.LOGTOLOG);
 			firePropertyChange("settings", true, false);
 		} else {
 			firePropertyChange("settings", true, false);

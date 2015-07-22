@@ -3893,6 +3893,7 @@ public abstract class App implements UpdateSelection {
 		case POLYGON_TRIANGULATION:
 		case TOOL_EDITOR:
 		case TUBE_BETA:
+		case LOG_AXES:
 			return prerelease;
 		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:
