@@ -180,10 +180,27 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	// Michael Borcherds 2008-04-30
+	/**
+	 * Yields true if the points of this polyline is equal to the points of
+	 * polyline p.
+	 */
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		// TODO
-		return false;
+		boolean pointsOK = false;
+		if (geo.isGeoPolyLine()) {
+			GeoPolyLine g = (GeoPolyLine) geo;
+			int numPoints = this.getNumPoints();
+			if (numPoints == g.getNumPoints()) {
+				pointsOK = true;
+				for (int i = 0; i < numPoints && pointsOK; i++) {
+					pointsOK = this.getPoint(i).isEqual(g.getPoint(i))
+							|| this.getPoint(i).isEqual(
+									g.getPoint(numPoints - 1 - i));
+				}
+
+			}
+		}
+		return pointsOK;
 	}
 
 	@Override
