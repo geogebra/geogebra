@@ -5768,13 +5768,15 @@ kernel, left,
 	 * @return true if the expression is sum or difference of two segments
 	 */
 	public boolean isSumOrDiffOfTwoSegments() {
-		if (this.getLeft().isGeoElement()
+		if (this.getLeft() != null && this.getRight() != null) {
+			if (this.getLeft().isGeoElement()
 				&& ((GeoElement) this.getLeft()).isGeoSegment()
 				&& this.getRight().isGeoElement()
 				&& ((GeoElement) this.getRight()).isGeoSegment()
 				&& (this.getOperation() == Operation.PLUS || this
 						.getOperation() == Operation.MINUS)) {
 			return true;
+			}
 		}
 		return false;
 	}
@@ -5808,13 +5810,18 @@ kernel, left,
 	 *         otherwise
 	 */
 	public boolean isAlgebraicSumOfThreeSegments() {
-		if ((this.getLeft().isGeoElement()
+		if ((this.getLeft().isGeoElement() && this.getRight()
+				.isExpressionNode())
+				|| (this.getRight().isGeoElement() && this.getLeft()
+						.isExpressionNode())) {
+			if ((this.getLeft().isGeoElement()
 				&& ((GeoElement) this.getLeft()).isGeoSegment() && this
 				.getRightTree().isSumOrDiffOfTwoSegments())
 				|| (this.getRight().isGeoElement()
 						&& ((GeoElement) this.getRight()).isGeoSegment() && this
 						.getLeftTree().isSumOrDiffOfTwoSegments())) {
-			return true;
+				return true;
+			}
 		}
 		return false;
 	}
