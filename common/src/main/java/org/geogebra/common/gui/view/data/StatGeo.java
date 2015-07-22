@@ -919,13 +919,7 @@ public class StatGeo {
 		if (settings.isAutomaticWindow()) {
 			getDataBounds(dataList, true);
 
-			double xBuffer = .25 * (xMaxData - xMinData);
-			settings.xMin = xMinData - xBuffer;
-			settings.xMax = xMaxData + xBuffer;
-
-			double yBuffer = .25 * (yMaxData - yMinData);
-			settings.yMin = yMinData - yBuffer;
-			settings.yMax = yMaxData + yBuffer;
+			setXYBounds(settings, .25, .25);
 			
 		}
 
@@ -995,14 +989,28 @@ public class StatGeo {
 			double yBufferScale) {
 
 		if (settings.isAutomaticWindow()) {
+			double xMin = xMinData, yMin = yMinData, xMax = xMaxData, yMax = yMaxData;
+			// TODO #4952 following settings make the scaling right for points,
+			// but a wrong part of a curve is used
+			// if (settings.logXAxis) {
+			// xMin = xMin < 0 ? 0 : Math.log10(xMin);
+			// xMax = xMax < 0 ? xMin : Math.log10(xMax);
+			// }
+			// if (settings.logYAxis) {
+			// yMin = yMin < 0 ? 0 : Math.log10(yMin);
+			// yMax = yMax < 0 ? yMin : Math.log10(yMax);
+			// }
+			double xBuffer = Kernel.isEqual(xMax, xMin) ? DEFAULT_BUFFER
+					: xBufferScale * (xMax - xMin);
+			settings.xMin = xMin - xBuffer;
+			settings.xMax = xMax + xBuffer;
 
-			double xBuffer = Kernel.isEqual(xMaxData, xMinData) ? DEFAULT_BUFFER : xBufferScale * (xMaxData - xMinData);
-			settings.xMin = xMinData - xBuffer;
-			settings.xMax = xMaxData + xBuffer;
+			double yBuffer = Kernel.isEqual(yMax, yMin) ? DEFAULT_BUFFER
+					: yBufferScale * (yMax - yMin);
 
-			double yBuffer = Kernel.isEqual(yMaxData, yMinData) ? DEFAULT_BUFFER : yBufferScale * (yMaxData - yMinData);
-			settings.yMin = yMinData - yBuffer;
-			settings.yMax = yMaxData + yBuffer;
+			settings.yMin = yMin - yBuffer;
+			settings.yMax = yMax + yBuffer;
+
 		}
 
 	}
