@@ -197,6 +197,8 @@ public class GlobalKeyDispatcherW extends
 		setDownKeys(event);
 		// AbstractApplication.debug("onkeydown");
 
+		EuclidianViewW.tabPressed = false;
+
 		event.stopPropagation();
 
 		// this is quite complex, call at the end of the method
