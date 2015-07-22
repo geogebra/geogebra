@@ -2712,20 +2712,18 @@ public abstract class AppW extends App implements SetLabels {
 	private static native boolean nativeGiveFocusBack() /*-{
 		var active = $doc.activeElement;
 		if (active && (active !== $doc.body)) {
-			// not blurred, probably
 			if ($wnd.$ggbQuery) {
 				// have jQuery, do the other checks
 				var act = $wnd.$ggbQuery(active);
-				// from web-styles.css
-				var checkstr = ".GeoGebraFrame,.GeoGebraPopup,.DialogBox,.gwt-PopupPanel,.gwt-SuggestBoxPopup,.ToolTip,.PhoneGUI";
-				// similar to DrawEquationWeb.targetHasFeature
-				if (act.is(checkstr)) {
-					return false;
-				} else if (act.parents().is(checkstr)) {
-					return false;
+				if (act.is(".geogebraweb-dummy-invisible")) {
+					// actually, ESC focuses this, does not blur!
+					return true;
 				}
-				// probably this is outside of GeoGebraWeb elements, shall be safe
-				return true;
+				// this shall execute the default ENTER action on
+				// that element, to be independent (e.g. click on links!)
+				// OR if it is part of GeoGebra, then we shall also not
+				// support selecting GeoGebra again by ENTER
+				//return false; // behold the other return false;
 			}
 			// not doing more checks, don't do any action, which is safe
 			return false;
@@ -2755,17 +2753,19 @@ public abstract class AppW extends App implements SetLabels {
 
 		// update for the variable in this case, must be made anyway
 		// just it is a question whether this shall also mean a focus?
-		anyAppHasFocus = true;
+		// BUT only when nativeGiveFocusBack is changed, and this
+		// variable also filled perfectly
+		// anyAppHasFocus = true;
 
 		// here we could insert static aggregates of relevant
 		// variables like getGlobalKeyDispatcher().InFocus
 		// ... but what if e.g. the input bar has focus?
 
 		// then we can easily check for $doc.activeElement,
-		// whether it means blur=OK /OR/ whether it is
-		// part of the DOM of any applet (harder, needs jQuery)
+		// whether it means blur=OK
 		if (nativeGiveFocusBack()) {
 			if (lastActiveElement != null) {
+				anyAppHasFocus = true;
 				lastActiveElement.focus();
 			}
 		}
