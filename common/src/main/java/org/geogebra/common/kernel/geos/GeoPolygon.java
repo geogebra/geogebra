@@ -939,8 +939,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 								j = j%gLength;
 								i++;
 							}
-							return pointOK;
 						}
+						return pointOK;
 					}
 				}
 			}
