@@ -3642,7 +3642,7 @@ var Limit =
 
 var LiveFraction =
 LatexCmds.over =
-LatexCmds['\u00f7'] =
+CharCmds['\u00f7'] =
 CharCmds['/'] = P(Fraction, function(_, _super) {
   _.createBefore = function(cursor) {
     if (!this.replacedFragment) {
@@ -4812,7 +4812,7 @@ LatexCmds.mp = LatexCmds.mnplus = LatexCmds.minusplus =
 //CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
 //	  bind(BinaryOperator, '\\cdot ', '&middot;', '*');
 
-LatexCmds['\u00d7'] = CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
+CharCmds['\u00d7'] = CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
   bind(BinaryOperatorDot, '\\cdot ', '&middot;', ' ');
 
 //semantically should be &sdot;, but &middot; looks better
