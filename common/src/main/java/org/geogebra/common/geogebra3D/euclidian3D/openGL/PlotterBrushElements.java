@@ -142,8 +142,10 @@ public class PlotterBrushElements extends PlotterBrush {
 	}
 
 	@Override
-	public int end() {
+	public void start(int old) {
 		sectionSize = -1;
-		return super.end();
+		super.start(old);
 	}
+
+
 }
