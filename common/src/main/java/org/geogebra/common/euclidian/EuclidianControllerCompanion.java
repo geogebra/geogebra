@@ -455,6 +455,7 @@ public class EuclidianControllerCompanion {
 		p.update();
 		ec.xRW = p.inhomX;
 		ec.yRW = p.inhomY;
+		p.remove();
 	}
 
 	public ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
