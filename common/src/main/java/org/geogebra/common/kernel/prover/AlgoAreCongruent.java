@@ -3,9 +3,12 @@ package org.geogebra.common.kernel.prover;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.algos.AlgoAnglePolygon;
+import org.geogebra.common.kernel.algos.AlgoAnglePolygonND;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -17,8 +20,10 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.util.debug.Log;
@@ -188,6 +193,35 @@ public class AlgoAreCongruent extends AlgoElement implements
 				// TODO: Handle the other case(s).
 				}	
 			}
+		// Polygons:
+		// two polygon are congruent if the corresponding sides has same length
+		// and corresponding angles has same size
+		if (inputElement1.isGeoPolygon() && inputElement2.isGeoPolygon()) {
+			int nrSidesPoly1 = ((GeoPolygon) inputElement1).getSegments().length;
+			int nrSidesPoly2 = ((GeoPolygon) inputElement2).getSegments().length;
+			// two polygon can be congruent when their number of sides are equal
+			// and have the same area
+			if (nrSidesPoly1 == nrSidesPoly2
+					&& ((GeoPolygon) inputElement1).hasSameArea(inputElement2)) {
+				GeoSegmentND[] segmentsPoly1 = ((GeoPolygon) inputElement1)
+						.getSegments();
+				GeoSegmentND[] segmentsPoly2 = ((GeoPolygon) inputElement2)
+						.getSegments();
+				AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, null,
+						(GeoPolygon) inputElement1);
+				AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, null,
+						(GeoPolygon) inputElement2);
+				GeoElement[] anglesPoly1 = algo1.getAngles();
+				GeoElement[] anglesPoly2 = algo2.getAngles();
+				outputBoolean.setValue(checkSegmentsAreCongruent(segmentsPoly1,
+						segmentsPoly2)
+						&& checkAnglesAreCongruent(anglesPoly1, anglesPoly2));
+				return;
+			}
+			outputBoolean.setValue(false);
+			return;
+		}
+
 		if (inputElement1.isEqual(inputElement2)) {
 			outputBoolean.setValue(true);
 			return;
@@ -196,6 +230,48 @@ public class AlgoAreCongruent extends AlgoElement implements
 		// FIXME: It seems once outputBoolean is changing to undefined,
 		// it remains undefined even if meanwhile it shouldn't.
 		// FIXME: Implement all missing cases.
+	}
+
+	private boolean checkSegmentsAreCongruent(GeoSegmentND[] segmentsPoly1,
+			GeoSegmentND[] segmentsPoly2) {
+		Set<GeoSegmentND> setOfSegPoly2 = new HashSet<GeoSegmentND>();
+		for (int i = 0; i < segmentsPoly2.length; i++) {
+			setOfSegPoly2.add(segmentsPoly2[i]);
+		}
+		for (int i = 0; i < segmentsPoly1.length; i++) {
+			for (GeoSegmentND geoSegmentND : setOfSegPoly2) {
+				if (ExpressionNodeEvaluator.evalEquals(kernel,
+						segmentsPoly1[i], geoSegmentND).getBoolean()) {
+					setOfSegPoly2.remove(geoSegmentND);
+					break;
+				}
+			}
+		}
+		if (setOfSegPoly2.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean checkAnglesAreCongruent(GeoElement[] anglesPoly1,
+			GeoElement[] anglesPoly2) {
+		Set<GeoElement> setOfAnglePoly2 = new HashSet<GeoElement>();
+		for (int i = 0; i < anglesPoly2.length; i++) {
+			setOfAnglePoly2.add(anglesPoly2[i]);
+		}
+		for (int i = 0; i < anglesPoly1.length; i++) {
+			for (GeoElement geoElement : setOfAnglePoly2) {
+				if (ExpressionNodeEvaluator.evalEquals(kernel, geoElement,
+						anglesPoly1[i]).getBoolean()) {
+					setOfAnglePoly2.remove(geoElement);
+					break;
+				}
+			}
+		}
+		if (setOfAnglePoly2.isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
