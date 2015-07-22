@@ -34,11 +34,18 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	}
 
 	private native void setup(Element range1, double min, double max, double val)/*-{
-		$wnd.$ggbQuery(range1).slider({
-			"min" : min,
-			"max" : max,
-			"values" : [ val ]
-		});
+		var that = this;
+		$wnd
+				.$ggbQuery(range1)
+				.slider(
+						{
+							"min" : min,
+							"max" : max,
+							"values" : [ val ],
+							"slide" : function(event, ui) {
+								that.@org.geogebra.web.html5.util.sliderPanel.SliderWJquery::slide(D)(ui.value)
+							}
+						});
 	}-*/;
 
 	private native void setRangeValue(Element range1, double val) /*-{
@@ -54,9 +61,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	}-*/;
 
 	public native void setProperty(Element range1, String prop, double val) /*-{
-		$wnd.$ggbQuery(range1).slider({
-			prop : val
-		});
+		$wnd.$ggbQuery(range1).slider("option", prop, val);
 	}-*/;
 
 	public void setMaximum(double max) {
@@ -104,22 +109,29 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
+		App.debug("up");
 		ValueChangeEvent.fireIfNotEqual(this, curValue, getValue());
-		curValue = null;
-	}
-
-	@Override
-	public void onMouseDown(MouseDownEvent event) {
 		curValue = getValue();
 	}
 
 	@Override
-	public void onMouseMove(MouseMoveEvent event) {
+	public void onMouseDown(MouseDownEvent event) {
+		App.debug("down");
 		event.stopPropagation();
+		// curValue = getValue();
+	}
+
+	private void slide(double val) {
+		ValueChangeEvent.fireIfNotEqual(this, curValue, val);
+		curValue = val;
+	}
+	@Override
+	public void onMouseMove(MouseMoveEvent event) {
+		App.debug("move");
+		// event.stopPropagation();
 		Double value = getValue();
 		if (curValue != null) {
-			ValueChangeEvent.fireIfNotEqual(this, curValue, value);
-			curValue = value;
+			slide(value);
 		}
 	}
 

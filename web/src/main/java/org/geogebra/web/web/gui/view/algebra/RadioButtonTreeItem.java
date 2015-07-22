@@ -1397,7 +1397,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onMouseMove(MouseMoveEvent evt) {
-		evt.stopPropagation();
+		if (sliderPanel == null) {
+			evt.stopPropagation();
+		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -1428,6 +1430,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
+		if (sliderPanel != null) {
+			return;
+		}
 		event.stopPropagation();
 		// event.preventDefault();
 		if (newCreationMode) {
@@ -1455,6 +1460,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
+		if (sliderPanel != null) {
+			return;
+		}
 		event.stopPropagation();
 		// event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
@@ -1469,6 +1477,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		if (sliderPanel != null) {
+			return;
+		}
 		// this would propagate the event to
 		// AlgebraView.onBrowserEvent... is this we want?
 		// probably no, as there is a stopPropagation

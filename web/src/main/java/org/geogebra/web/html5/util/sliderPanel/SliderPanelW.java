@@ -20,7 +20,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	public SliderPanelW(double min, double max) {
 		minLabel = new Label(String.valueOf(min));
 		add(minLabel);
-		slider = new SliderW(min, max);
+		slider = new SliderWJquery(min, max);
 		add(slider);
 		maxLabel = new Label(String.valueOf(max));
 		add(maxLabel);
