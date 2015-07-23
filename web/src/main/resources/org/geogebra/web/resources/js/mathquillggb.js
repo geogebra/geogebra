@@ -1896,7 +1896,7 @@ function createRoot(jQ, root, textbox, editable) {
 
   //drag-to-select event handling
   var anticursor, blink = cursor.blink;
-  jQ.bind('mousedown.mathquillggb', function(e) {
+  jQ.bind('mousedown.mathquillggb touchstart.mathquillggb', function(e) {
     function mousemove(e) {
       cursor.seek($(e.target), e.pageX, e.pageY);
 
@@ -1921,6 +1921,11 @@ function createRoot(jQ, root, textbox, editable) {
       // the editing case:
       if (editable)
     	  return false;
+
+      // but again, this would also prevent touch events maybe...
+      // so maybe it's right to prevent default in every case,
+      // and also assign touch events!
+      e.preventDefault();
     }
 
     // docmousemove is attached to the document, so that
@@ -1950,9 +1955,15 @@ function createRoot(jQ, root, textbox, editable) {
 
       // delete the mouse handlers now that we're not dragging anymore
       jQ.unbind('mousemove', mousemove).unbind('mouseup', mouseup);
+      jQ.unbind('touchmove', mousemove);
       if ((e) && (e.target) && (e.target.ownerDocument)) {
         $(e.target.ownerDocument).unbind('mousemove', docmousemove).unbind('mouseup', mouseup);
+        $(e.target.ownerDocument).unbind('touchmove', docmousemove);
       }
+
+      // no return false, no preventDefault,
+      // so probably this will also generate a corresponding
+      // touch event, which is Okay!
     }
 
     // TODO: revise this
@@ -1971,8 +1982,10 @@ function createRoot(jQ, root, textbox, editable) {
     if (!editable) jQ.prepend(textareaSpan);
 
     jQ.mousemove(mousemove).mouseup(mouseup);
+    jQ.bind('touchmove', mousemove);
     if ((e) && (e.target) && (e.target.ownerDocument)) {
       $(e.target.ownerDocument).mousemove(docmousemove).mouseup(mouseup);
+      $(e.target.ownerDocument).bind('touchmove', docmousemove);
     }
 
     if (!editable) {
@@ -1986,6 +1999,10 @@ function createRoot(jQ, root, textbox, editable) {
     // however, because it is like clicking at a neutral place
     // AND maybe it's important for something in MathQuillGGB!
     e.preventDefault();
+
+    // note: but this will prevent the touchstart event from firing!!!
+    // so at least we should bind the touchstart event as well,
+    // which is probably Okay from JQuery 1.7+, it seems...
   });
 
   if (!editable) {
