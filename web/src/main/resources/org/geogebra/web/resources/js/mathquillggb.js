@@ -1269,7 +1269,19 @@ var MathCommand = P(MathElement, function(_, _super) {
     cursor.insertAfter(this);
   };
   _.seek = function(pageX, cursor) {
-    cursor.insertAfter(this).seekHoriz(pageX, this.parent);
+	if (this.parent) {
+	  var blockofthis = this.parent;
+	  if (blockofthis instanceof RootMathBlock) {
+		var maybestyle = blockofthis.maybeThisMaybeStyle();
+		if (maybestyle !== blockofthis) {
+		  // this MathCommand seems to be the Style itself!
+		  // then let's just appendTo instead!
+          cursor.appendTo(maybestyle).seekHoriz(pageX, maybestyle);
+          return;
+		}
+	  }
+      cursor.insertAfter(this).seekHoriz(pageX, blockofthis);
+	}
   };
 
   // methods involved in creating and cross-linking with HTML DOM nodes
@@ -1706,7 +1718,13 @@ var MathBlock = P(MathElement, function(_) {
     cursor.insertAfter(last);
   };
   _.seek = function(pageX, cursor) {
-    cursor.appendTo(this).seekHoriz(pageX, this);
+	var thisMod = this;
+	//if (cursor.root === this) {
+	if (this instanceof RootMathBlock) {
+      thisMod = this.maybeThisMaybeStyle();
+	}
+	//}
+    cursor.appendTo(thisMod).seekHoriz(pageX, thisMod);
   };
   _.write = function(cursor, ch, replacedFragment) {
     var cmd;
@@ -5844,9 +5862,14 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
     return false;
   };
 
-  _.seek = function() {
+  _.seek = function(pageX, cursor) {
     consolidateChildren(this);
-    MathBlock.prototype.seek.apply(this, arguments);
+
+    //MathBlock.prototype.seek.apply(this, arguments);
+    // this is equivalent to this:
+    cursor.appendTo(this).seekHoriz(pageX, this);
+    // but... is cursor.appendTo valid with TextBlock?
+    // in theory yes, as it is called in createBefore 
   };
 
   _.blur = function() {
