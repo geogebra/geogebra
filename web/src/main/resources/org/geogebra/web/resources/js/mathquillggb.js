@@ -1896,9 +1896,17 @@ function createRoot(jQ, root, textbox, editable) {
 
   //drag-to-select event handling
   var anticursor, blink = cursor.blink;
-  jQ.bind('mousedown.mathquillggb touchstart.mathquillggb', function(e) {
+  jQ.bind('mousedown.mathquillggb', function(e) {
     function mousemove(e) {
-      cursor.seek($(e.target), e.pageX, e.pageY);
+      var etarget;
+      if (e.target) {
+    	// mousemove
+    	etarget = $(e.target);
+      } else {
+    	// docmousemove
+    	etarget = $([]);
+      }
+      cursor.seek(etarget, e.pageX, e.pageY);
 
       if (anticursor) {
     	// I don't understand, why anticursor is not really
@@ -1955,15 +1963,12 @@ function createRoot(jQ, root, textbox, editable) {
 
       // delete the mouse handlers now that we're not dragging anymore
       jQ.unbind('mousemove', mousemove).unbind('mouseup', mouseup);
-      jQ.unbind('touchmove', mousemove);
       if ((e) && (e.target) && (e.target.ownerDocument)) {
         $(e.target.ownerDocument).unbind('mousemove', docmousemove).unbind('mouseup', mouseup);
-        $(e.target.ownerDocument).unbind('touchmove', docmousemove);
       }
 
-      // no return false, no preventDefault,
-      // so probably this will also generate a corresponding
-      // touch event, which is Okay!
+      // preventDefault + touchend needed here!
+      e.preventDefault();
     }
 
     // TODO: revise this
@@ -1982,10 +1987,137 @@ function createRoot(jQ, root, textbox, editable) {
     if (!editable) jQ.prepend(textareaSpan);
 
     jQ.mousemove(mousemove).mouseup(mouseup);
-    jQ.bind('touchmove', mousemove);
     if ((e) && (e.target) && (e.target.ownerDocument)) {
       $(e.target.ownerDocument).mousemove(docmousemove).mouseup(mouseup);
-      $(e.target.ownerDocument).bind('touchmove', docmousemove);
+    }
+
+    if (!editable) {
+      return false;
+    }
+
+    // return false would mean stopPropagation & preventDefault,
+    // but in case of editing mode, we actually want this to
+    // propagate, so that the actions of the whole input bar shall
+    // also execute on this part of it! preventDefault is Okay
+    // however, because it is like clicking at a neutral place
+    // AND maybe it's important for something in MathQuillGGB!
+    e.preventDefault();
+
+    // note: but this will prevent the touchstart event from firing!!!
+    // so at least we should bind the touchstart event as well,
+    // which is probably Okay from JQuery 1.7+, it seems...
+  });
+
+  jQ.bind('touchstart.mathquillggb', function(e) {
+    function touchmove(e) {
+      var ourtarget;
+      var origevt = e.originalEvent;
+      if (origevt) {
+        if (origevt.changedTouches) {
+          if (origevt.changedTouches[0]) {
+            // please, do not move more touching fingers :-)
+            ourtarget = origevt.changedTouches[0];
+          }
+        }
+      }
+
+      if (ourtarget) {
+        var etarget;
+        if (e.docmousemoveMathQuillGGB) {
+          etarget = $([]);
+        } else if (ourtarget.target) {
+	      // mousemove
+	      etarget = $(ourtarget.target);
+	    } else {
+	      // docmousemove
+	      etarget = $([]);
+	    }
+        cursor.seek(etarget, ourtarget.pageX, ourtarget.pageY);
+
+	    if (anticursor) {
+	      // I don't understand, why anticursor is not really
+	      // updated? Maybe something was deleted unintentionally?
+	      if (cursor[L] !== anticursor[L] || cursor.parent !== anticursor.parent) {
+	        cursor.selectFrom(anticursor);
+	      }
+	    }
+      }
+
+	  // although we can make things more efficient in
+	  // the editing case:
+	  if (editable)
+	    return false;
+
+      // but again, this would also prevent touch events maybe...
+	  // so maybe it's right to prevent default in every case,
+	  // and also assign touch events!
+	  e.preventDefault();
+    } 
+
+    function doctouchmove(e) {
+      e.doctouchmoveMathQuillGGB = true;
+      touchmove(e);
+    }
+
+    function touchend(e) {
+      anticursor = undefined;
+      cursor.blink = blink;
+      if (!cursor.selection) {
+        if (editable) {
+          cursor.show();
+        } else {
+          textareaSpan.detach();
+        }
+      }
+
+      // delete the mouse handlers now that we're not dragging anymore
+      jQ.unbind('touchmove', touchmove).unbind('touchend', touchend);
+
+      if ((e) && (e.target) && (e.target.ownerDocument)) {
+    	// I think here we can use e.target, as it is only used to get the ownerDocument!
+        $(e.target.ownerDocument).unbind('touchmove', doctouchmove).unbind('touchend', touchend);
+      }
+
+      // preventDefault + touchend needed here!
+      e.preventDefault();
+    }
+
+    // TODO: revise this
+    setTimeout(function() { jQ[0].focusMathQuillGGB(); });
+
+      // preventDefault won't prevent focus on mousedown in IE<9
+      // that means immediately after this mousedown, whatever was
+      // mousedown-ed will receive focus
+      // http://bugs.jquery.com/ticket/10345
+
+    cursor.blink = noop;
+
+    // Note that we also need to change the code here! Although it may
+    // seem to work, but e.target is not a standard way of getting
+    // touch event target, so using the same approach as in touchmove
+    //cursor.seek($(e.target), e.pageX, e.pageY);
+
+    // and use the "e" only for a fallback
+    var ourtarget = e;
+    var origevt = e.originalEvent;
+    if (origevt) {
+      if (origevt.changedTouches) {
+        if (origevt.changedTouches[0]) {
+          // please, do not move more touching fingers :-)
+          ourtarget = origevt.changedTouches[0];
+        }
+      }
+    }
+    cursor.seek($(ourtarget.target), ourtarget.pageX, ourtarget.pageY);
+
+    anticursor = Point(cursor.parent, cursor[L], cursor[R]);
+
+    if (!editable) jQ.prepend(textareaSpan);
+
+    jQ.bind('touchmove', touchmove).bind('touchend', touchend);
+    if ((e) && (e.target) && (e.target.ownerDocument)) {
+      // I think here we can use e.target, as it is only used to get the ownerDocument!
+      $(e.target.ownerDocument).bind('touchmove', doctouchmove).bind('touchend', touchend);
     }
 
     if (!editable) {
@@ -4189,11 +4321,16 @@ CharCmds['\\'] = P(MathCommand, function(_, _super) {
       var el = this.jQ[0];
       this.jQ =
         this._replacedFragment.jQ.addClass('blur').bind(
-          'mousedown mousemove', //FIXME: is monkey-patching the mousedown and mousemove handlers the right way to do this?
+          'mousedown mousemove touchstart touchmove', //FIXME: is monkey-patching the mousedown and mousemove handlers the right way to do this?
           function(e) {
             $(e.target = el).trigger(e);
             // as this is triggered once again,
             // it's probably okay to return false in this case (?)
+
+            // just because this returns false,
+            // touchstart and touchmove events are also added,
+            // however, it will probably not used as this
+            // MathQuillGGB class is probably not used in GGW, AFAIK
             return false;
           }
         ).insertBefore(this.jQ).add(this.jQ);
