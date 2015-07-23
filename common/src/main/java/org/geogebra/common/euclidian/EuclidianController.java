@@ -7881,6 +7881,22 @@ public abstract class EuclidianController {
 		return false;
 	}
 
+	private abstract class HitsFilter {
+		public HitsFilter() {
+		}
+
+		public void run() {
+			for (int i = 1; i < view.getHits().size(); i++) {
+				if (!isValid(view.getHits().get(i))) {
+					return;
+				}
+				view.getHits().remove(i);
+			}
+		}
+
+		public abstract boolean isValid(GeoElement geo);
+
+	}
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 		
 		// kill view moving when animation button pressed
@@ -7951,16 +7967,16 @@ public abstract class EuclidianController {
 				// types
 				if (mode == EuclidianConstants.MODE_SLIDER) {
 					if (view.getHits().size() != 1) {
-						// if all sliders, leave the first one. No dragging
-						// otherwise.
-						for (int i = 1; i < view.getHits().size(); i++) {
-							GeoElement elem = view.getHits().get(i);
-							if (!(elem.isGeoNumeric() && ((GeoNumeric) elem)
-									.isSlider())) {
-								return;
+						HitsFilter filter = new HitsFilter() {
+
+							@Override
+							public boolean isValid(GeoElement geo) {
+								return geo.isGeoNumeric()
+										&& ((GeoNumeric) geo).isSlider();
 							}
-							view.getHits().remove(i);
-						}
+						};
+						filter.run();
+
 					}
 
 					if (!(view.getHits().get(0) instanceof GeoNumeric)) {
@@ -7969,7 +7985,14 @@ public abstract class EuclidianController {
 				} else if ((mode == EuclidianConstants.MODE_BUTTON_ACTION)
 						|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)) {
 					if (view.getHits().size() != 1) {
-						return;
+						HitsFilter filter = new HitsFilter() {
+
+							@Override
+							public boolean isValid(GeoElement geo) {
+								return geo instanceof GeoButton;
+							}
+						};
+						filter.run();
 					}
 
 					if (!(view.getHits().get(0) instanceof GeoButton)) {
@@ -7977,7 +8000,14 @@ public abstract class EuclidianController {
 					}
 				} else if (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX) {
 					if (view.getHits().size() != 1) {
-						return;
+						HitsFilter filter = new HitsFilter() {
+
+							@Override
+							public boolean isValid(GeoElement geo) {
+								return geo.isGeoBoolean();
+							}
+						};
+						filter.run();
 					}
 
 					if (!(view.getHits().get(0) instanceof GeoBoolean)) {
