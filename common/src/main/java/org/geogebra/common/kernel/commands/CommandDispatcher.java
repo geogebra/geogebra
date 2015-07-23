@@ -428,6 +428,7 @@ public abstract class CommandDispatcher {
 			case AxisStepX:
 			case AxisStepY:
 			case ConstructionStep:
+			case SetConstructionStep:
 			case Polar:
 
 			case LinearEccentricity:

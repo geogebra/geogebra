@@ -81,6 +81,7 @@ import org.geogebra.common.kernel.advanced.CmdSecondAxis;
 import org.geogebra.common.kernel.advanced.CmdSecondAxisLength;
 import org.geogebra.common.kernel.advanced.CmdSelectedElement;
 import org.geogebra.common.kernel.advanced.CmdSelectedIndex;
+import org.geogebra.common.kernel.advanced.CmdSetConstructionStep;
 import org.geogebra.common.kernel.advanced.CmdSlopeField;
 import org.geogebra.common.kernel.advanced.CmdTaylorSeries;
 import org.geogebra.common.kernel.advanced.CmdToBase;
@@ -218,6 +219,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdAxisStepY(kernel);
 		case ConstructionStep:
 			return new CmdConstructionStep(kernel);
+		case SetConstructionStep:
+			return new CmdSetConstructionStep(kernel);
 		case Polar:
 			return new CmdPolar(kernel);
 
