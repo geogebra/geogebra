@@ -293,7 +293,7 @@ public class Riemann {
 			int m = (int) Math.sqrt(Math.abs(s[1]) / (2 * Math.PI));
 			double[] chi = chi(s);
 			exponent = Complex.subtract(s, Complex.ONE_); // = (s-1)
-			for (int n = 1; n <= 50 * m; n++) {
+			for (int n = 1; n <= 5 * m; n++) {
 				sum = Complex.add(sum, Complex.divide(1, Complex.power(n, s)));
 				// sum = Complex.add(sum,
 				// Complex.multiply(chi, Complex.power(n, exponent)));
