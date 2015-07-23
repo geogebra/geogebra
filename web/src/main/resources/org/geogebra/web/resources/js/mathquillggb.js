@@ -5565,6 +5565,9 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
       MathElement.prototype.finalizeInsert.call(this);
 	}
   };
+  _.whetherRootStyleBlock = function() {
+	return false;
+  };
   _.ctrlSeq = '\\text';
   _.endSeq = '';
   _.join = function(methodName) {
