@@ -21,6 +21,8 @@
  */
 package org.geogebra.common.util;
 
+import org.geogebra.common.kernel.Kernel;
+
 /**
  * This class provides the Riemann zeta function &#950;(<i>s</i>) for any comlex
  * number <i>s</i> &#8712; <span style="font-size:large;">&#8450;</span>. In
@@ -44,7 +46,7 @@ public class Riemann {
 	 * 
 	 * @see #zeta(double[])
 	 */
-	public static final double EPSILON = 1e-6;
+	public static final double EPSILON = Kernel.STANDARD_PRECISION;
 
 	/**
 	 * Returns the value &#967;(<i>s</i>) for a complex number <i>s</i> &#8712;
@@ -286,15 +288,15 @@ public class Riemann {
 			return sum;
 			// /*
 		} else if (s[0] > 0 && s[0] < 1 && Math.abs(s[1]) > 45) { // the
-																	// "critical strip"
+			// "critical strip"
 			// use Riemann-Siegel formula sum ( n^(-s) + chi(s) n^(s-1):
 			int m = (int) Math.sqrt(Math.abs(s[1]) / (2 * Math.PI));
 			double[] chi = chi(s);
 			exponent = Complex.subtract(s, Complex.ONE_); // = (s-1)
-			for (int n = 1; n <= m; n++) {
+			for (int n = 1; n <= 50 * m; n++) {
 				sum = Complex.add(sum, Complex.divide(1, Complex.power(n, s)));
-				sum = Complex.add(sum,
-						Complex.multiply(chi, Complex.power(n, exponent)));
+				// sum = Complex.add(sum,
+				// Complex.multiply(chi, Complex.power(n, exponent)));
 			}
 			return sum;
 			// */
