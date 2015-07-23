@@ -50,6 +50,7 @@
 	box-shadow: none;
 	font-family: geogebra-sans-serif;
 	position: relative;
+	padding: 5px;
 }
 
 .KeyBoard .SymbolTable {
