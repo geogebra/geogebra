@@ -15,9 +15,13 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GFontRenderContext;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.event.FocusEvent;
@@ -32,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 
@@ -57,6 +62,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	private KeyHandler ifKeyListener;
 	private GBox box;
 
+	private boolean drawOnCanvas;
+
 	/**
 	 * @param view
 	 *            view
@@ -67,6 +74,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		this.view = view;
 		this.geoTextField = geo;
 		this.geo = geo;
+		drawOnCanvas = view.getApplication().has(
+				Feature.DRAW_FURNITURE_TO_CANVAS);
 		box = geo.getKernel().getApplication().getSwingFactory()
 				.createHorizontalBox(view.getEuclidianController());
 		// action listener for checkBox
@@ -74,8 +83,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		ifListener = new InputFieldListener();
 		ifKeyListener = new InputFieldKeyListener();
 		textField = geoTextField.getTextField(view.getViewID(), this);// SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(),
-																		// view.getApplication(),
-																		// this);
+		// view.getApplication(),
+		// this);
 		// this will be set in update(): textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
@@ -349,12 +358,22 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 	private int oldLength = 0;
 
+	private GDimension prefSize;
+
+	private GFont labelFont;
+
+	private GPoint labelSize;
+
+	private int labelFontSize;
+
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		// textField.setVisible(isVisible);
-		// label.setVisible(isVisible);
-		box.setVisible(isVisible);
+
+		textField.setVisible(drawOnCanvas ? false : isVisible);
+		label.setVisible(drawOnCanvas ? false : isVisible);
+
+		box.setVisible(drawOnCanvas ? false : isVisible);
 		int length = geoTextField.getLength();
 		if (length != oldLength) {
 			textField.setColumns(length);
@@ -373,7 +392,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			String caption = geo.getCaption(StringTemplate.defaultTemplate);
 			if (!caption.equals(oldCaption)) {
 				oldCaption = caption;
-				labelDesc = GeoElement.indicesToHTML(caption, true);
+				labelDesc = caption;// GeoElement.indicesToHTML(caption, true);
 			}
 			label.setText(labelDesc);
 		} else {
@@ -382,13 +401,13 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			label.setText("");
 		}
 
-		int fontSize = (int) (view.getFontSize() * geoTextField
+		labelFontSize = (int) (view.getFontSize() * geoTextField
 				.getFontSizeMultiplier());
 		App app = view.getApplication();
 
 		GFont vFont = view.getFont();
 		GFont font = app.getFontCanDisplay(textField.getText(), false,
-				vFont.getStyle(), fontSize);
+				vFont.getStyle(), labelFontSize);
 
 		textField.setOpaque(true);
 		label.setOpaque(false);
@@ -408,23 +427,78 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		GDimension prefSize = box.getPreferredSize();
+		prefSize = box.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
 	}
 
+	final public GDimension getPrefSize() {
+		return new GDimension() {
+
+			@Override
+			public int getWidth() {
+				return labelFontSize * geoTextField.getLength();
+			}
+
+			@Override
+			public int getHeight() {
+				return (int) (Math.round(labelFontSize * 1.5));
+			}
+		};
+	}
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-			if (geo.doHighlighting()) {
-				label.setOpaque(true);
-				label.setBackground(GColor.LIGHT_GRAY);
+			if (drawOnCanvas) {
+				drawOnCanvas(g2);
+			}
+			else {
+				if (geo.doHighlighting()) {
+					label.setOpaque(true);
+					label.setBackground(GColor.LIGHT_GRAY);
 
-			} else {
-				label.setOpaque(false);
+				} else {
+					label.setOpaque(false);
+				}
 			}
 		}
+	}
+
+	final public void drawOnCanvas(org.geogebra.common.awt.GGraphics2D g2) {
+		App app = view.getApplication();
+		prefSize = getPrefSize();
+		GFont vFont = view.getFont();
+		labelFont = app.getFontCanDisplay(textField.getText(), false,
+				vFont.getStyle(), labelFontSize);
+
+		g2.setFont(labelFont);
+		g2.setStroke(EuclidianStatic.getDefaultStroke());
+
+		g2.setPaint(geo.getObjectColor());
+
+		if (geo.isLabelVisible()) {
+			drawTextFieldLabel(g2);
+			drawTextField(g2);
+		}
+	}
+
+
+	private void drawTextField(GGraphics2D g2) {
+		GFontRenderContext frc = g2.getFontRenderContext();
+		int x = xLabel + labelSize.x;
+		g2.drawRect(x, yLabel, prefSize.getWidth(),
+				prefSize.getHeight());
+	}
+
+	private void drawTextFieldLabel(GGraphics2D g2) {
+
+		int y = prefSize.getHeight() - labelFontSize / 2;
+		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
+				g2, labelDesc, xLabel, yLabel + y, false,
+				false);
+		// g2.drawString(labelDesc, xLabel, yLabel + y);
+
 	}
 
 	/**
