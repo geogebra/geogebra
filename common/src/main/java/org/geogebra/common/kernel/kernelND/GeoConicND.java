@@ -1227,16 +1227,40 @@ FromMeta
 		return (type == CONIC_CIRCLE);
 	}
 
+	/**
+	 * returns true if this conic is a parabola
+	 * 
+	 * @return true iff this conic is parabola
+	 */
 	public boolean isParabola() {
 		return (type == CONIC_PARABOLA);
 	}
 
+	/**
+	 * returns true if this conic is an ellipse
+	 * 
+	 * @return true iff this conic is ellipse
+	 */
 	public boolean isEllipse() {
 		return (type == CONIC_ELLIPSE);
 	}
 
+	/**
+	 * returns true if this conic is a hyperbola
+	 * 
+	 * @return true iff this conic is hyperbola
+	 */
 	public boolean isHyperbola() {
 		return (type == CONIC_HYPERBOLA);
+	}
+
+	/**
+	 * returns true if this conic is a double line
+	 * 
+	 * @return true iff this conic is double line
+	 */
+	public boolean isDoubleLine() {
+		return (type == CONIC_DOUBLE_LINE);
 	}
 
 	/** Changes equation mode to Specific */

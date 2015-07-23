@@ -433,7 +433,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					int i;
 					// simplify the polynomial if in expression is product of
 					// numbers
-					if (polyNode.getLeft().getPoly().isConstant()) {
+					if (polyNode.getLeft().getPoly() != null
+							&& polyNode.getLeft().getPoly().isConstant()) {
 						switch (polyNode.getOperation()) {
 						case MULTIPLY:
 							i = (int) (polyNode.getLeft().getPoly()
@@ -690,8 +691,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			GeoSegment[] threeSegment = root
 					.getSegmentsFromAlgebraicSumOfThreeSegments();
 			if (threeSegment != null) {
-				Polynomial[][] ret = new Polynomial[1][4];
-				ret = getBotanaPolynomialsAlgebraicSumOfThreeSegments(threeSegment);
+				Polynomial[][] ret = getBotanaPolynomialsAlgebraicSumOfThreeSegments(threeSegment);
 				return ret;
 			}
 			traverseExpression(root);

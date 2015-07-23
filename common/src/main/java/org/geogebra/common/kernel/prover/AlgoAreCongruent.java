@@ -3,12 +3,8 @@ package org.geogebra.common.kernel.prover;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.algos.AlgoAnglePolygon;
-import org.geogebra.common.kernel.algos.AlgoAnglePolygonND;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -23,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.util.debug.Log;
@@ -110,115 +105,14 @@ public class AlgoAreCongruent extends AlgoElement implements
 		}
 		// Conics: 
 		if (inputElement1 instanceof GeoConic && inputElement2 instanceof GeoConic) {
-			// Circles are congruent if their radius are of equal length:
-			if (((GeoConic)inputElement1).isCircle() && ((GeoConic)inputElement2).isCircle()) {
-				if (((GeoConic)inputElement1).getCircleRadius() == ((GeoConic)inputElement2).getCircleRadius()) {
-					outputBoolean.setValue(true);
-					return;
-				}
-				outputBoolean.setValue(false);
-				return;
-			}
-			// Two parabolas are congruent if they have the same distance between the focus and directrix:
-			if (((GeoConic)inputElement1).isParabola() && ((GeoConic)inputElement2).isParabola()) {
-				GeoElement[] ge1 = (inputElement1.getParentAlgorithm().input);
-				GeoElement[] ge2 = (inputElement2.getParentAlgorithm().input);
-				if (ge1.length == 2 && ge2.length == 2) {
-					// Easy case: definition by focus and directrix:
-					GeoPoint F = (GeoPoint) ge1[0];
-					GeoLine d = (GeoLine) ge1[1];
-					double d1 = getKernel().getAlgoDispatcher()
-							.getNewAlgoClosestPoint(cons, (Path) d, F).getP()
-							.distance(F);
-
-					F = (GeoPoint) ge2[0];
-					d = (GeoLine) ge2[1];
-					double d2 = getKernel().getAlgoDispatcher()
-							.getNewAlgoClosestPoint(cons, (Path) d, F).getP()
-							.distance(F);
-					outputBoolean.setValue(d1 == d2);
-					return;
-					}
-				// TODO: Handle the other case(s).
-				}
-			
-			// Two ellipses are congruent if they have the same distances between the two foci,
-			// and also the sum of generatrixes are equal:
-			if (((GeoConic)inputElement1).isEllipse() && ((GeoConic)inputElement2).isEllipse()) {
-				GeoElement[] ge1 = (inputElement1.getParentAlgorithm().input);
-				GeoElement[] ge2 = (inputElement2.getParentAlgorithm().input);
-				if (ge1.length == 3 && ge2.length == 3) {
-					// Easy case: definition with 2 foci and one point on the ellipse:
-					GeoPoint F1 = (GeoPoint) ge1[0];
-					GeoPoint F2 = (GeoPoint) ge1[1];
-					GeoPoint P = (GeoPoint) ge1[2];
-					double d1 = F1.distance(F2);
-					double d2 = F1.distance(P) + F2.distance(P);
-
-					F1 = (GeoPoint) ge2[0];
-					F2 = (GeoPoint) ge2[1];
-					P = (GeoPoint) ge2[2];
-					double d1_ = F1.distance(F2);
-					double d2_ = F1.distance(P) + F2.distance(P);
-
-					outputBoolean.setValue((d1 == d1_) && (d2 == d2_));
-					return;
-					}
-				// TODO: Handle the other case(s).
-				}
-
-			// Two hyperbolas are congruent if they have the same distances between the two foci,
-			// and also the absolute value of the subtraction of generatrixes are equal:
-			if (((GeoConic)inputElement1).isHyperbola() && ((GeoConic)inputElement2).isHyperbola()) {
-				GeoElement[] ge1 = (inputElement1.getParentAlgorithm().input);
-				GeoElement[] ge2 = (inputElement2.getParentAlgorithm().input);
-				if (ge1.length == 3 && ge2.length == 3) {
-					// Easy case: definition with 2 foci and one point on the hyperbola:
-					GeoPoint F1 = (GeoPoint) ge1[0];
-					GeoPoint F2 = (GeoPoint) ge1[1];
-					GeoPoint P = (GeoPoint) ge1[2];
-					double d1 = F1.distance(F2);
-					double d2 = F1.distance(P) - F2.distance(P);
-
-					F1 = (GeoPoint) ge2[0];
-					F2 = (GeoPoint) ge2[1];
-					P = (GeoPoint) ge2[2];
-					double d1_ = F1.distance(F2);
-					double d2_ = F1.distance(P) - F2.distance(P);
-
-					outputBoolean.setValue((d1 == d1_) && (d2 == d2_));
-					return;
-					// TODO: Consider unifying this case with the ellipse case. 
-					}
-				// TODO: Handle the other case(s).
-				}	
-			}
+			outputBoolean.setValue(((GeoConic) inputElement1)
+					.isCongruent((GeoConic) inputElement2));
+			return;
+		}
 		// Polygons:
-		// two polygon are congruent if the corresponding sides has same length
-		// and corresponding angles has same size
 		if (inputElement1.isGeoPolygon() && inputElement2.isGeoPolygon()) {
-			int nrSidesPoly1 = ((GeoPolygon) inputElement1).getSegments().length;
-			int nrSidesPoly2 = ((GeoPolygon) inputElement2).getSegments().length;
-			// two polygon can be congruent when their number of sides are equal
-			// and have the same area
-			if (nrSidesPoly1 == nrSidesPoly2
-					&& ((GeoPolygon) inputElement1).hasSameArea(inputElement2)) {
-				GeoSegmentND[] segmentsPoly1 = ((GeoPolygon) inputElement1)
-						.getSegments();
-				GeoSegmentND[] segmentsPoly2 = ((GeoPolygon) inputElement2)
-						.getSegments();
-				AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, null,
-						(GeoPolygon) inputElement1);
-				AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, null,
-						(GeoPolygon) inputElement2);
-				GeoElement[] anglesPoly1 = algo1.getAngles();
-				GeoElement[] anglesPoly2 = algo2.getAngles();
-				outputBoolean.setValue(checkSegmentsAreCongruent(segmentsPoly1,
-						segmentsPoly2)
-						&& checkAnglesAreCongruent(anglesPoly1, anglesPoly2));
-				return;
-			}
-			outputBoolean.setValue(false);
+			outputBoolean.setValue(((GeoPolygon) inputElement1)
+					.isCongruent((GeoPolygon) inputElement2));
 			return;
 		}
 
@@ -230,48 +124,6 @@ public class AlgoAreCongruent extends AlgoElement implements
 		// FIXME: It seems once outputBoolean is changing to undefined,
 		// it remains undefined even if meanwhile it shouldn't.
 		// FIXME: Implement all missing cases.
-	}
-
-	private boolean checkSegmentsAreCongruent(GeoSegmentND[] segmentsPoly1,
-			GeoSegmentND[] segmentsPoly2) {
-		Set<GeoSegmentND> setOfSegPoly2 = new HashSet<GeoSegmentND>();
-		for (int i = 0; i < segmentsPoly2.length; i++) {
-			setOfSegPoly2.add(segmentsPoly2[i]);
-		}
-		for (int i = 0; i < segmentsPoly1.length; i++) {
-			for (GeoSegmentND geoSegmentND : setOfSegPoly2) {
-				if (ExpressionNodeEvaluator.evalEquals(kernel,
-						segmentsPoly1[i], geoSegmentND).getBoolean()) {
-					setOfSegPoly2.remove(geoSegmentND);
-					break;
-				}
-			}
-		}
-		if (setOfSegPoly2.isEmpty()) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean checkAnglesAreCongruent(GeoElement[] anglesPoly1,
-			GeoElement[] anglesPoly2) {
-		Set<GeoElement> setOfAnglePoly2 = new HashSet<GeoElement>();
-		for (int i = 0; i < anglesPoly2.length; i++) {
-			setOfAnglePoly2.add(anglesPoly2[i]);
-		}
-		for (int i = 0; i < anglesPoly1.length; i++) {
-			for (GeoElement geoElement : setOfAnglePoly2) {
-				if (ExpressionNodeEvaluator.evalEquals(kernel, geoElement,
-						anglesPoly1[i]).getBoolean()) {
-					setOfAnglePoly2.remove(geoElement);
-					break;
-				}
-			}
-		}
-		if (setOfAnglePoly2.isEmpty()) {
-			return true;
-		}
-		return false;
 	}
 
 	public SymbolicParameters getSymbolicParameters() {

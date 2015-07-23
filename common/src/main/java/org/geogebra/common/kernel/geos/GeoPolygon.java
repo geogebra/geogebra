@@ -13,6 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
@@ -28,6 +30,8 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoAnglePolygon;
+import org.geogebra.common.kernel.algos.AlgoAnglePolygonND;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
@@ -36,6 +40,7 @@ import org.geogebra.common.kernel.algos.AlgoTransformation;
 import org.geogebra.common.kernel.algos.PolygonAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -944,6 +949,74 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 					}
 				}
 			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param polygon
+	 *            input
+	 * @return true - if input is congruent with this polygon false - otherwise
+	 */
+	public boolean isCongruent(GeoPolygon polygon) {
+		// Polygons:
+		// two polygon are congruent if the corresponding sides has same length
+		// and corresponding angles has same size
+		int nrSidesPoly1 = this.getSegments().length;
+		int nrSidesPoly2 = polygon.getSegments().length;
+		// two polygon can be congruent when their number of sides are equal
+		// and have the same area
+		if (nrSidesPoly1 == nrSidesPoly2 && (this).hasSameArea(polygon)) {
+			GeoSegmentND[] segmentsPoly1 = this.getSegments();
+			GeoSegmentND[] segmentsPoly2 = polygon.getSegments();
+			AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, null, this);
+			AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, null, polygon);
+			GeoElement[] anglesPoly1 = algo1.getAngles();
+			GeoElement[] anglesPoly2 = algo2.getAngles();
+			return (checkSegmentsAreCongruent(segmentsPoly1, segmentsPoly2) && checkAnglesAreCongruent(
+					anglesPoly1, anglesPoly2));
+		}
+		return false;
+	}
+
+	private boolean checkSegmentsAreCongruent(GeoSegmentND[] segmentsPoly1,
+			GeoSegmentND[] segmentsPoly2) {
+		Set<GeoSegmentND> setOfSegPoly2 = new HashSet<GeoSegmentND>();
+		for (int i = 0; i < segmentsPoly2.length; i++) {
+			setOfSegPoly2.add(segmentsPoly2[i]);
+		}
+		for (int i = 0; i < segmentsPoly1.length; i++) {
+			for (GeoSegmentND geoSegmentND : setOfSegPoly2) {
+				if (ExpressionNodeEvaluator.evalEquals(kernel,
+						segmentsPoly1[i], geoSegmentND).getBoolean()) {
+					setOfSegPoly2.remove(geoSegmentND);
+					break;
+				}
+			}
+		}
+		if (setOfSegPoly2.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean checkAnglesAreCongruent(GeoElement[] anglesPoly1,
+			GeoElement[] anglesPoly2) {
+		Set<GeoElement> setOfAnglePoly2 = new HashSet<GeoElement>();
+		for (int i = 0; i < anglesPoly2.length; i++) {
+			setOfAnglePoly2.add(anglesPoly2[i]);
+		}
+		for (int i = 0; i < anglesPoly1.length; i++) {
+			for (GeoElement geoElement : setOfAnglePoly2) {
+				if (ExpressionNodeEvaluator.evalEquals(kernel, geoElement,
+						anglesPoly1[i]).getBoolean()) {
+					setOfAnglePoly2.remove(geoElement);
+					break;
+				}
+			}
+		}
+		if (setOfAnglePoly2.isEmpty()) {
+			return true;
 		}
 		return false;
 	}
