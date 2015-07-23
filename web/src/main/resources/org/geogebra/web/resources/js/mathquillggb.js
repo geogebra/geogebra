@@ -2073,7 +2073,20 @@ function createRoot(jQ, root, textbox, editable) {
       // delete the mouse handlers now that we're not dragging anymore
       jQ.unbind('touchmove', touchmove).unbind('touchend', touchend);
 
-      if ((e) && (e.target) && (e.target.ownerDocument)) {
+      var ourtarget = e;
+      var origevt = e.originalEvent;
+      if (origevt) {
+        if (origevt.changedTouches) {
+          if (origevt.changedTouches[0]) {
+            // please, do not move more touching fingers :-)
+            ourtarget = origevt.changedTouches[0];
+          }
+        }
+      }
+
+      if ((ourtarget) && (ourtarget.target) && (ourtarget.target.ownerDocument)) {
+        $(ourtarget.target.ownerDocument).unbind('touchmove', doctouchmove).unbind('touchend', touchend);
+      } else if ((e) && (e.target) && (e.target.ownerDocument)) {
     	// I think here we can use e.target, as it is only used to get the ownerDocument!
         $(e.target.ownerDocument).unbind('touchmove', doctouchmove).unbind('touchend', touchend);
       }
@@ -2115,7 +2128,9 @@ function createRoot(jQ, root, textbox, editable) {
     if (!editable) jQ.prepend(textareaSpan);
 
     jQ.bind('touchmove', touchmove).bind('touchend', touchend);
-    if ((e) && (e.target) && (e.target.ownerDocument)) {
+    if ((ourtarget) && (ourtarget.target) && (ourtarget.target.ownerDocument)) {
+      $(ourtarget.target.ownerDocument).bind('touchmove', doctouchmove).bind('touchend', touchend);
+    } else if ((e) && (e.target) && (e.target.ownerDocument)) {
       // I think here we can use e.target, as it is only used to get the ownerDocument!
       $(e.target.ownerDocument).bind('touchmove', doctouchmove).bind('touchend', touchend);
     }
