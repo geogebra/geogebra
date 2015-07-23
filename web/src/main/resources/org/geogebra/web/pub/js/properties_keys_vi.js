@@ -822,6 +822,8 @@ __GGB__keysVar.vi.command = {
     "SetColor.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, \"<M\xe0u>\" ]\n[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ecf>, <Xanh l\xe1 c\xe2y>, <Xanh da tr\u1eddi> ]",
     "SetConditionToShowObject": "ThietLapDieuKienHienThi",
     "SetConditionToShowObject.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110i\u1ec1u ki\u1ec7n> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "Thi\u1ebftL\u1eadpTo\u1ea1\u0110\u1ed9",
     "SetCoords.Syntax": "[ <\u0110i\u1ec3m>, <x>, <y> ]",
     "SetDynamicColor": "ThietLapMauDong",

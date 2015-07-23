@@ -822,6 +822,8 @@ __GGB__keysVar.ar_TN.command = {
     "SetColor.Syntax": "[ <\u0639\u0646\u0635\u0631>, \"<\u0644\u0648\u0646>\" ]\n[ <\u0639\u062a\u0635\u0631>, <\u0623\u062d\u0645\u0631>, <\u0623\u062e\u0636\u0631>, <\u0623\u0632\u0631\u0642> ]",
     "SetConditionToShowObject": "\u0634\u0631\u0637_\u0644\u0625\u0638\u0647\u0627\u0631_\u0639\u0646\u0635\u0631",
     "SetConditionToShowObject.Syntax": "[ <\u0639\u0646\u0635\u0631>, <\u0627\u0644\u0634\u0631\u0637> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "\u0625\u062d\u062f\u0627\u062b\u064a\u0627\u062a",
     "SetCoords.Syntax": "[ <\u0646\u0642\u0637\u0629>, <x>, <y> ]",
     "SetDynamicColor": "\u0644\u0648\u0646_\u062f\u064a\u0646\u0627\u0645\u064a\u0643\u064a",

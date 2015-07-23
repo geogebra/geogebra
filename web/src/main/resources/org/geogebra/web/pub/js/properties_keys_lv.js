@@ -822,6 +822,8 @@ __GGB__keysVar.lv.command = {
     "SetColor.Syntax": "[ <Objekts>, \"<Kr\u0101sa>\" ]\n[ <Objekts>, <Sarkans>, <Za\u013c\u0161>, <Zils> ]",
     "SetConditionToShowObject": "Nosac\u012bjumiObjektaR\u0101d\u012b\u0161anai",
     "SetConditionToShowObject.Syntax": "[ <Objekts>, <Nosac\u012bjums> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <Objekts>, <x>, <y> ]",
     "SetDynamicColor": "SetDynamicColor",

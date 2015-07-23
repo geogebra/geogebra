@@ -822,6 +822,8 @@ __GGB__keysVar.sv.command = {
     "SetColor.Syntax": "[ <Objekt>, \"<F\xe4rg>\" ]\n[ <Objekt>, <R>, <G>, <B> ]",
     "SetConditionToShowObject": "S\xe4ttVillkorAttVisaObjekt",
     "SetConditionToShowObject.Syntax": "[ <Objekt>, <Villkor> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "S\xe4ttKoordinater",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]",
     "SetDynamicColor": "S\xe4ttDynamiskF\xe4rg",

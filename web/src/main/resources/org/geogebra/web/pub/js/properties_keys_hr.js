@@ -822,6 +822,8 @@ __GGB__keysVar.hr.command = {
     "SetColor.Syntax": "[ <objekt>, \"<boja>\" ]\n[ <objekt>, <crvena>, <zelena>, <plava> ]",
     "SetConditionToShowObject": "PostaviUvjetZaPrikazObjekta",
     "SetConditionToShowObject.Syntax": "[ <objekt>, <uvjet> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "PostaviKoordinate",
     "SetCoords.Syntax": "[ <objekt>, <x>, <y> ]",
     "SetDynamicColor": "PostaviDinami\u010dneBoje",

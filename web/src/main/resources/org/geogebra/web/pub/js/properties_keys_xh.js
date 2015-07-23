@@ -822,6 +822,8 @@ __GGB__keysVar.xh.command = {
     "SetColor.Syntax": "[ <Into>, \"<umBala>\" ]\n[ <Into>, <Bomvu>, <Luhlaza>, <Bhlu> ]",
     "SetConditionToShowObject": "SetConditionToShowObject",
     "SetConditionToShowObject.Syntax": "[ <Into>, <Imeko> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "LungisaIiCoords",
     "SetCoords.Syntax": "[ <Into>, <x>, <y> ]",
     "SetDynamicColor": "SetDynamicColor",

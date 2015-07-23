@@ -822,6 +822,8 @@ __GGB__keysVar.in.command = {
     "SetColor.Syntax": "[ <Objek>, \"<Warna>\" ]\n[ <Objek>, <Merah>, <Hijau>, <Biru> ]",
     "SetConditionToShowObject": "AturKondisiMenampilkanObjek",
     "SetConditionToShowObject.Syntax": "[ <Objek>, <Kondisi> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "AturKoordinat",
     "SetCoords.Syntax": "[ <Titik>, <x>, <y> ]",
     "SetDynamicColor": "AturWarnaDinasmis",

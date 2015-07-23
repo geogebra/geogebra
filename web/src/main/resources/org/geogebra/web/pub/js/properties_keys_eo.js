@@ -822,6 +822,8 @@ __GGB__keysVar.eo.command = {
     "SetColor.Syntax": "[ <Objekto>, \"<Koloro>\" ]\n[ <Objekto>, <Ru\u011da>, <Verda>, <Blua> ]",
     "SetConditionToShowObject": "SetConditionToShowObject",
     "SetConditionToShowObject.Syntax": "[ <Objekto>, <Kondi\u0109o> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <Objekto>, <x>, <y> ]",
     "SetDynamicColor": "SetDynamicColor",

@@ -822,6 +822,8 @@ __GGB__keysVar.fr.command = {
     "SetColor.Syntax": "[ <Objet>, \"<couleur>\" ]\n[ <Objet>, <Rouge>, <Vert>, <Bleu> ]",
     "SetConditionToShowObject": "SoitConditionPourAfficherObjet",
     "SetConditionToShowObject.Syntax": "[ <Objet>, <Condition> ]",
+    "SetConstructionStep": "Soit\xc9tapeConstruction",
+    "SetConstructionStep.Syntax": "[ <Nombre> ]",
     "SetCoords": "SoitCoordonn\xe9es",
     "SetCoords.Syntax": "[ <Objet>, <x>, <y> ]",
     "SetDynamicColor": "SoitCouleurDynamique",

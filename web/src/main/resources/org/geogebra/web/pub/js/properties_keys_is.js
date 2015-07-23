@@ -822,6 +822,8 @@ __GGB__keysVar.is.command = {
     "SetColor.Syntax": "[ <Hlutur>, \"<Litur>\" ]\n[ <Hlutur>, <Rau\xf0ur>, <Gr\xe6nn>, <Bl\xe1r> ]",
     "SetConditionToShowObject": "SetjaSkilyr\xf0iS\xfdnaHlut",
     "SetConditionToShowObject.Syntax": "[ <Hlutur>, <Skilyr\xf0i> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetjaHnit",
     "SetCoords.Syntax": "[ <Punktur>, <x>, <y> ]",
     "SetDynamicColor": "SetjaKvikaLiti",

@@ -822,6 +822,8 @@ __GGB__keysVar.bs.command = {
     "SetColor.Syntax": "[ <Figura>, \"<Boja>\" ]\n[ <Figura>, <Crvena>, <Zelena>, <Plava> ]",
     "SetConditionToShowObject": "PostaviUvjetZaPrikazFigure",
     "SetConditionToShowObject.Syntax": "[ <Figura>, <Uvjet> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "PostaviKoordinate",
     "SetCoords.Syntax": "[ <Figura>, <x>, <y> ]",
     "SetDynamicColor": "PostaviDinami\u010dkeBoje",

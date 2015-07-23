@@ -822,6 +822,8 @@ __GGB__keysVar.si.command = {
     "SetColor.Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, \"<\u0dc0\u0dbb\u0dca\u0dab\u0dba>\" ]\n[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dbb\u0dad\u0dd4>, <\u0d9a\u0ddc\u0dc5>, <\u0db1\u0dd2\u0dbd\u0dca> ]",
     "SetConditionToShowObject": "SetConditionToShowObject",
     "SetConditionToShowObject.Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dad\u0dad\u0dca\u0dc0\u0dba> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <x>, <y> ]",
     "SetDynamicColor": "SetDynamicColor",

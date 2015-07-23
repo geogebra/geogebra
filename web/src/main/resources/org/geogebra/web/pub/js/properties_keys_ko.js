@@ -822,6 +822,8 @@ __GGB__keysVar.ko.command = {
     "SetColor.Syntax": "[ <\ub300\uc0c1>, \"<\uc0c9\uc0c1>\" ]\n[ <\ub300\uc0c1>, <R>, <G>, <B> ]",
     "SetConditionToShowObject": "\ub300\uc0c1\ubcf4\uc774\uae30\uc870\uac74\uc124\uc815",
     "SetConditionToShowObject.Syntax": "[ <\ub300\uc0c1>, <\uc870\uac74> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "\uc88c\ud45c\uc124\uc815",
     "SetCoords.Syntax": "[ <\ub300\uc0c1>, <x>, <y> ]",
     "SetDynamicColor": "\ub3d9\uc801\uc0c9\uc0c1\uc124\uc815",

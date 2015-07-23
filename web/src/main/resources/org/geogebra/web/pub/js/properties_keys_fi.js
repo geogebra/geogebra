@@ -822,6 +822,8 @@ __GGB__keysVar.fi.command = {
     "SetColor.Syntax": "[ <Objekti>, \"<V\xe4ri>\" ]\n[ <Objekti>, <Punainen>, <Vihre\xe4>, <Sininen> ]",
     "SetConditionToShowObject": "AsetaObjektinN\xe4ytt\xe4misehto",
     "SetConditionToShowObject.Syntax": "[ <Objekti>, <Ehto> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "AsetaKoordinaatit",
     "SetCoords.Syntax": "[ <Objekti>, <x>, <y> ]",
     "SetDynamicColor": "AsetaDynaaminenV\xe4ri",

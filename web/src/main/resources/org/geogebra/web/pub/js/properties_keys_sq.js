@@ -822,6 +822,8 @@ __GGB__keysVar.sq.command = {
     "SetColor.Syntax": "[ <Objekt>, \"<Ngjyre>\" ]\n[ <Objekti>, <Kuq>, <Gjelber>, <Blu> ]",
     "SetConditionToShowObject": "VendosKonditePerShfaqjeObjekti",
     "SetConditionToShowObject.Syntax": "[ <Objekti>, <Kondita> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "VendosKoordinata",
     "SetCoords.Syntax": "[ <Pike>, <x>, <y> ]",
     "SetDynamicColor": "VendosNgjyreDinamike",

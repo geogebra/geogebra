@@ -822,6 +822,8 @@ __GGB__keysVar.cs.command = {
     "SetColor.Syntax": "[ <Objekt>, \"<barva>\" ]\n[ <Objekt>, <\u010cerven\xe1>, <Zelen\xe1>, <Modr\xe1> ]",
     "SetConditionToShowObject": "NastavitPodminkuZobrazeni",
     "SetConditionToShowObject.Syntax": "[ <Objekt>, <Podm\xednka> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "NastavitSouradnice",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]",
     "SetDynamicColor": "NastavitDynamickeBarvy",

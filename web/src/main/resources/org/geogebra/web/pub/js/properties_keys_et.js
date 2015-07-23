@@ -822,6 +822,8 @@ __GGB__keysVar.et.command = {
     "SetColor.Syntax": "[ <Objekt>, \"<V\xe4rv>\" ]\n[ <Objekt>, <Punane>, <Roheline>, <Sinine> ]",
     "SetConditionToShowObject": "M\xe4\xe4raTingimusObjektiN\xe4itamiseks",
     "SetConditionToShowObject.Syntax": "[ <Objekt>, <Tingimus> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "M\xe4\xe4raKoordinaadid",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]",
     "SetDynamicColor": "M\xe4\xe4raD\xfcnaamilineV\xe4rv",

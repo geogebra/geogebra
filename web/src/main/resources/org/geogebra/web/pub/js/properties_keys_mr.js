@@ -822,6 +822,8 @@ __GGB__keysVar.mr.command = {
     "SetColor.Syntax": "[ <Object>, \"<Color>\" ]\n[ <Object>, <Red>, <Green>, <Blue> ]",
     "SetConditionToShowObject": "\u0935\u0938\u094d\u0924\u0942\u0926\u0930\u094d\u0936\u0935\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940\u0905\u091f\u0928\u093f\u0936\u094d\u091a\u093f\u0924\u0915\u0930\u093e",
     "SetConditionToShowObject.Syntax": "[ <\u0935\u0938\u094d\u0924\u0942>, <\u0935\u0938\u094d\u0924\u0942> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <Object>, <x>, <y> ]",
     "SetDynamicColor": "SetDynamicColor",

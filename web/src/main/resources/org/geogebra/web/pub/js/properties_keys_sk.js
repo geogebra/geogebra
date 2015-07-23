@@ -822,6 +822,8 @@ __GGB__keysVar.sk.command = {
     "SetColor.Syntax": "[ <Objekt>, \"farba\" ]\n[ <Objekt>, <\u010derven\xe1>, <zelen\xe1>, <modr\xe1> ]",
     "SetConditionToShowObject": "Nastavi\u0165PodmienkuNaZobrazenieObjektu",
     "SetConditionToShowObject.Syntax": "[ <Objekt>, <Podmienka> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "Nastavi\u0165S\xfaradnicov\xfdSyst\xe9m",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]",
     "SetDynamicColor": "Nastavi\u0165Dynamick\xe9Farby",

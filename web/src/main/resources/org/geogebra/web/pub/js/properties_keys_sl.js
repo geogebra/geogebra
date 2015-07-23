@@ -822,6 +822,8 @@ __GGB__keysVar.sl.command = {
     "SetColor.Syntax": "[ <objekt>, \"<Barva>\" ]\n[ <objekt>, <rde\u010da>, <zelena>, <modra> ]",
     "SetConditionToShowObject": "Dolo\u010diPogojZaPrikaz",
     "SetConditionToShowObject.Syntax": "[ <objekt>, <pogoj> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "Dolo\u010diKoordinate",
     "SetCoords.Syntax": "[ <objekt>, <x>, <y> ]",
     "SetDynamicColor": "Dolo\u010diDinami\u010dnoBarvo",

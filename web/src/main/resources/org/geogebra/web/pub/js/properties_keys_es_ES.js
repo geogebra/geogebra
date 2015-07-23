@@ -822,6 +822,8 @@ __GGB__keysVar.es_ES.command = {
     "SetColor.Syntax": "[ <Objeto>, \"<Nombre del color (entre comillas)>\" ]\n[ <Objeto>, <Rojo>, <Verde>, <Azul> ]",
     "SetConditionToShowObject": "Condici\xf3nParaMostrar",
     "SetConditionToShowObject.Syntax": "[ <Objeto>, <Condici\xf3n> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "Coordenadas",
     "SetCoords.Syntax": "[ <Objeto>, <x>, <y> ]",
     "SetDynamicColor": "ColorDin\xe1mico",

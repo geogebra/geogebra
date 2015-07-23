@@ -822,6 +822,8 @@ __GGB__keysVar.no_NB.command = {
     "SetColor.Syntax": "[ <Objekt>, \"<Farge>\" ]\n[ <Objekt>, <R\xf8d>, <Gr\xf8nn>, <Bl\xe5> ]",
     "SetConditionToShowObject": "VelgVilk\xe5rForObjektvisning",
     "SetConditionToShowObject.Syntax": "[ <Objekt>, <Vilk\xe5r> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "VelgKoordinater",
     "SetCoords.Syntax": "[ <Objekt>, <x>, <y> ]",
     "SetDynamicColor": "VelgDynamiskFarge",

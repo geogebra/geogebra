@@ -822,6 +822,8 @@ __GGB__keysVar.hu_gm.command = {
     "SetColor.Syntax": "[ <Alakzat>, \"Sz\xedn\" ]\n[ <Alakzat>, <Piros>, <Z\xf6ld>, <K\xe9k> ]",
     "SetConditionToShowObject": "MutatHa",
     "SetConditionToShowObject.Syntax": "[ <Alakzat>, <Felt\xe9tel> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "PontKoordin\xe1t\xe1i",
     "SetCoords.Syntax": "[ <Objektum>, <x>, <y> ]",
     "SetDynamicColor": "DinamikusSzinek",

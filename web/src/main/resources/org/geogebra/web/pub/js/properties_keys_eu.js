@@ -822,6 +822,8 @@ __GGB__keysVar.eu.command = {
     "SetColor.Syntax": "[ <Objektua>, \"<Kolorea>\" ]\n[ <Objektua>, <Gorria>, <Berdea>, <Urdina> ]",
     "SetConditionToShowObject": "ObjektuaErakustekoBaldintza",
     "SetConditionToShowObject.Syntax": "[ <Objektua>, <Baldintza> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "FinkatuKoordenatuak",
     "SetCoords.Syntax": "[ <Objektua>, <x>, <y> ]",
     "SetDynamicColor": "FinkatuKoloreDinamikoa",

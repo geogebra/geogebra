@@ -822,6 +822,8 @@ __GGB__keysVar.tr.command = {
     "SetColor.Syntax": "[ <Nesne>, \"<Renk>\" ]\n[ <Nesne>, <K\u0131rm\u0131z\u0131>, <Ye\u015fil>, <Mavi> ]",
     "SetConditionToShowObject": "NesneyiG\xf6sterme\u015eart\u0131Ayarla",
     "SetConditionToShowObject.Syntax": "[ <Nesne>, <\u015eart> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "KoordinatAyarla",
     "SetCoords.Syntax": "[ <Nesne>, <x>, <y> ]",
     "SetDynamicColor": "DinamikRenkAyarla",

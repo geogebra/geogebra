@@ -822,6 +822,8 @@ __GGB__keysVar.gl.command = {
     "SetColor.Syntax": "[ <Obxecto>, \"<Cor>\" ]\n[ <Obxecto>, <Vermello>, <Verde>, <Azul> ]",
     "SetConditionToShowObject": "Condici\xf3nParaMostrar",
     "SetConditionToShowObject.Syntax": "[ <Obxecto>, <Condici\xf3n> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "Coordenadas",
     "SetCoords.Syntax": "[ <Obxecto>, <x>, <y> ]",
     "SetDynamicColor": "CorDin\xe1mico",

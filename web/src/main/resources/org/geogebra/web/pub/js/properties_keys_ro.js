@@ -822,6 +822,8 @@ __GGB__keysVar.ro.command = {
     "SetColor.Syntax": "[ <Obiect>, \"<Culoare>\" ]\n[ <Obiect>, <Ro\u015fu>, <Verde>, <Albastru> ]",
     "SetConditionToShowObject": "Seteaz\u0103Condi\u0163ieAr\u0103tareObiect",
     "SetConditionToShowObject.Syntax": "[ <Obiect>, <Condi\u0163ie> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "Seteaz\u0103Coordonate",
     "SetCoords.Syntax": "[ <Obiect>, <x>, <y> ]",
     "SetDynamicColor": "Seteaz\u0103CuloareDinamic\u0103",

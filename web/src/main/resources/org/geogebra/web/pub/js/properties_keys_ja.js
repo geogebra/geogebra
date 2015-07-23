@@ -822,6 +822,8 @@ __GGB__keysVar.ja.command = {
     "SetColor.Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, \"<Color>\" ]\n[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <Red>, <Green>, <Blue> ]",
     "SetConditionToShowObject": "SetConditionToShowObject",
     "SetConditionToShowObject.Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u6761\u4ef6> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
     "SetCoords.Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <x>, <y> ]",
     "SetDynamicColor": "SetDynamicColor",

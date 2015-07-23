@@ -822,6 +822,8 @@ __GGB__keysVar.lt.command = {
     "SetColor.Syntax": "[ <Objektas>, \"<Spalva>\" ]\n[ <Objketas>, <Raudona>, <\u017dalia>, <M\u0117lyna> ]",
     "SetConditionToShowObject": "NustatytiObjektoRodymoS\u0105lyg\u0105",
     "SetConditionToShowObject.Syntax": "[ <Objektas>, <S\u0105lyga> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "NustatytiKoordinates",
     "SetCoords.Syntax": "[ <Objektas>, <x>, <y> ]",
     "SetDynamicColor": "NustatytiDinamin\u0119Spalv\u0105",

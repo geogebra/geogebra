@@ -822,6 +822,8 @@ __GGB__keysVar.ca.command = {
     "SetColor.Syntax": "[ <Objecte>, \"color\" ]\n[ <Objecte>, <Vermell>, <Verd>, <Blau> ]",
     "SetConditionToShowObject": "DefineixCondici\xf3PerAMostrarObjecte",
     "SetConditionToShowObject.Syntax": "[ <Objecte>, <Condici\xf3> ]",
+    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep.Syntax": "[ <Nombre> ]",
     "SetCoords": "DefineixCoordenades",
     "SetCoords.Syntax": "[ <Punt>, <x>, <y> ]",
     "SetDynamicColor": "DefineixColorDin\xe0mic",
