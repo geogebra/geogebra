@@ -143,7 +143,7 @@ public class GeoElementSpreadsheet {
 			s = s.substring(1);
 		}
 		
-		if (column > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP) { 
+		if (column > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP) {
 			return -1; 
 		}
 		
@@ -168,7 +168,7 @@ public class GeoElementSpreadsheet {
 			return -1; 
 		} 
 
-		if (ret + 1 > Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) { 
+		if (ret + 1 > Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
 			return -1; 
 		} 
 

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.Kernel;
 
 /**
  * Settings for the spreadsheet view.
@@ -30,6 +31,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 	public static final int TABLE_CELL_HEIGHT = 21; // G.Sturr (old height 20) +
 													// 1 to stop cell editor
 													// clipping
+	public static int MAX_SPREADSHEET_ROWS_VISIBLE = Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
+	public static int MAX_SPREADSHEET_COLUMNS_VISIBLE = Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
 
 	// layout settings
 	private boolean showFormulaBar = Defaults.SHOW_FORMULA_BAR;

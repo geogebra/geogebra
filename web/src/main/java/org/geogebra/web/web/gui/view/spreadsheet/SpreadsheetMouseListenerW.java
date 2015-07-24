@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -538,13 +539,13 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 					// increase size if we're at the bottom of the spreadsheet
 					if (table.dragingToRow + 1 == table.getRowCount()
-					        && table.dragingToRow < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
+							&& table.dragingToRow < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE) {
 						model.setRowCount(table.getRowCount() + 1);
 					}
 
 					// increase size if we go beyond the right edge
 					if (table.dragingToColumn + 1 == table.getColumnCount()
-					        && table.dragingToColumn < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
+							&& table.dragingToColumn < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
 						model.setColumnCount(table.getColumnCount() + 1);
 						// view.columnHeaderRevalidate();
 						// Java's addColumn method will clear selection, so
@@ -569,7 +570,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 							        table.minSelectionRow - 1,
 							        table.minSelectionColumn, true).getHeight())
 								rowOffset = 0;
-						} else if (table.maxSelectionRow < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE
+						} else if (table.maxSelectionRow < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE
 						        && table.dragingToRow > table.maxSelectionRow) {
 							rowOffset = mouseY
 							        - ((int) selRect.getY() + (int) selRect
@@ -589,7 +590,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 							        table.minSelectionColumn - 1, true)
 							        .getWidth())
 								colOffset = 0;
-						} else if (table.maxSelectionColumn < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
+						} else if (table.maxSelectionColumn < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE
 						        && table.dragingToColumn > table.maxSelectionColumn) {
 							colOffset = mouseX
 							        - ((int) selRect.getX() + (int) selRect

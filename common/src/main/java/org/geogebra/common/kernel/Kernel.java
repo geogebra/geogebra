@@ -112,9 +112,6 @@ public class Kernel {
 	/** Maximal number of spreadsheet rows */
 	public static int MAX_SPREADSHEET_ROWS_DESKTOP = 9999;
 
-	public static int MAX_SPREADSHEET_COLUMNS_VISIBLE = MAX_SPREADSHEET_COLUMNS_DESKTOP;
-	public static int MAX_SPREADSHEET_ROWS_VISIBLE = MAX_SPREADSHEET_ROWS_DESKTOP;
-
 	/** string for +- */
 	public static String STRING_PLUS_MINUS = "\u00B1 ";
 	/** string for -+ */

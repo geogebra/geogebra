@@ -1,10 +1,10 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.settings.SpreadsheetSettings;
 
 /**
  * Abstract class for managing spreadsheet GeoElement cells in a table model
@@ -215,8 +215,8 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		GPoint location = geo.getSpreadsheetCoords();
 
 		if (location != null
-				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
+				&& location.x < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE
+				&& location.y < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE) {
 
 			highestUsedColumn = Math.max(highestUsedColumn, location.x);
 			highestUsedRow = Math.max(highestUsedRow, location.y);

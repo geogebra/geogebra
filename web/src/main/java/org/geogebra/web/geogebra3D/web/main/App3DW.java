@@ -1,6 +1,7 @@
 package org.geogebra.web.geogebra3D.web.main;
 
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -11,7 +12,6 @@ import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.EuclidianView3DWnoWebG
 import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianControllerFor3DW;
 import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianViewFor3DW;
 import org.geogebra.web.geogebra3D.web.gui.GuiManager3DW;
-import org.geogebra.web.geogebra3D.web.kernel3D.Kernel3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -31,7 +31,7 @@ public class App3DW {
 	 * @return new kernel
 	 */
 	static final protected Kernel newKernel(App this_app) {
-		return new Kernel3DW(this_app);
+		return new Kernel3D(this_app);
 	}
 
 	/**

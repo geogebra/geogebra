@@ -51,6 +51,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.events.NativeEventAttacher;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -90,7 +91,6 @@ import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.kernel.AnimationManagerW;
-import org.geogebra.web.html5.kernel.KernelW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
@@ -1707,7 +1707,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * @return a kernel
 	 */
 	protected Kernel newKernel(App this_app) {
-		return new KernelW(this_app);
+		return new Kernel(this_app);
 	}
 
 	/**
@@ -1721,7 +1721,8 @@ public abstract class AppW extends App implements SetLabels {
 
 		// init settings
 		settings = companion.newSettings();
-
+		SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE = 200;
+		SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE = 26;
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
 
 		fontManager = new FontManagerW();

@@ -417,8 +417,8 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 	public void update(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null
-				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
+				&& location.x < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE
+				&& location.y < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE) {
 
 			// TODO: rowHeader and column
 			// changes should be handled by a table model listener
