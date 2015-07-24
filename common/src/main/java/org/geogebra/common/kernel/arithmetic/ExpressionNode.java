@@ -3148,7 +3148,7 @@ kernel, left,
 		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
 			sb.append(loc.getCommand("Element"));
-			sb.append('[');
+			sb.append(tpl.leftSquareBracket());
 			if (left.isGeoElement()) {
 				sb.append(((GeoElement) left).getLabel(tpl));
 			} else {
@@ -3156,7 +3156,7 @@ kernel, left,
 			}
 			sb.append(", ");
 			sb.append(((MyList) right).getListElement(0).toString(tpl));
-			sb.append(']');
+			sb.append(tpl.rightSquareBracket());
 			break;
 
 		case FUNCTION_NVAR:
@@ -3335,11 +3335,11 @@ kernel, left,
 			} else {
 				sb.append("DataFunction");
 			}
-			sb.append('[');
+			sb.append(tpl.leftSquareBracket());
 			if (tpl.hasType(StringType.GEOGEBRA_XML)) {
 				sb.append(rightStr);
 			}
-			sb.append(']');
+			sb.append(tpl.rightSquareBracket());
 			break;
 		case INTEGRAL:
 			if (stringType == StringType.LATEX) {
@@ -3435,11 +3435,11 @@ kernel, left,
 				} else {
 					sb.append("If");
 				}
-				sb.append('[');
+				sb.append(tpl.leftSquareBracket());
 				sb.append(leftStr);
 				sb.append(", ");
 				sb.append(rightStr);
-				sb.append(']');
+				sb.append(tpl.rightSquareBracket());
 			}
 			break;
 		case IF_ELSE:
@@ -3455,11 +3455,14 @@ kernel, left,
 				} else {
 					sb.append("If");
 				}
-				sb.append("[");
+				if (stringType == StringType.LATEX) {
+					sb.append(" \\left");
+				}
+				sb.append(tpl.leftSquareBracket());
 				sb.append(leftStr);
 				sb.append(", ");
 				sb.append(rightStr);
-				sb.append("]");
+				sb.append(tpl.rightSquareBracket());
 			}
 			break;
 
@@ -3468,10 +3471,10 @@ kernel, left,
 				sb.append(loc.getCommand("piecewise("));
 			} else if (tpl.isPrintLocalizedCommandNames()) {
 				sb.append(loc.getCommand("If"));
-				sb.append("[");
+				sb.append(tpl.leftSquareBracket());
 			} else {
 				sb.append("If");
-				sb.append("[");
+				sb.append(tpl.rightSquareBracket());
 			}
 
 			MyList cond = (MyList) left;
@@ -3493,7 +3496,8 @@ kernel, left,
 						.toString(tpl));
 			}
 
-			sb.append(stringType == StringType.GIAC ? ")" : "]");
+			sb.append(stringType == StringType.GIAC ? ")" : tpl
+					.rightSquareBracket());
 
 			break;
 
