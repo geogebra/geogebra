@@ -1,6 +1,5 @@
 package org.geogebra.common.util;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -53,10 +52,6 @@ public class Assignment {
 		 * The assignment could not be checked
 		 */
 		UNKNOWN,
-		/**
-		 * There are to many independent Inputs
-		 */
-		INPUT_AMBIGUOUS
 	}
 
 	/**
@@ -79,6 +74,7 @@ public class Assignment {
 
 	/**
 	 * @param macro
+	 *            the macro (user defined tool) corresponding to the assignment
 	 */
 	public Assignment(Macro macro) {
 		this.macro = macro;
@@ -93,13 +89,14 @@ public class Assignment {
 	/**
 	 * Exhaustive Testing of the Assignment
 	 * 
+	 * @param cons
+	 *            the construction object of the kernel
+	 * 
 	 * @return {@link Result} of the check
 	 */
 	public Result checkAssignment(Construction cons) {
 		res = Result.UNKNOWN;
-
-		TreeSet<GeoElement> macroOutputGeos = new TreeSet<GeoElement>(
-				Arrays.asList(macro.getMacroOutput()));
+		callsToAlgoEqual = 0;
 		TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>();
 
 		// find all possible inputgeos and all outputgeos that match the type of
@@ -121,7 +118,7 @@ public class Assignment {
 		if (macro.getMacroOutput().length > possibleOutputGeos.size()) {
 			res = Result.WRONG_OUTPUT_TYPE;
 		} else {
-			checkEqualityOfGeos(possibleOutputGeos, cons);
+			checkCorrectness(possibleOutputGeos, cons);
 		}
 		App.debug("Checking on " + macro.getToolName()
 				+ " completed. Comparisons of Objects: " + callsToAlgoEqual);
@@ -129,10 +126,8 @@ public class Assignment {
 		return res;
 	}
 
-	private void checkEqualityOfGeos(TreeSet<GeoElement> possibleOutputGeos,
+	private void checkCorrectness(TreeSet<GeoElement> possibleOutputGeos,
 			Construction cons) {
-
-		GeoElement saveInput;
 
 		PermutationOfGeOElementsUtil outputPermutationUtil = new PermutationOfGeOElementsUtil(
 				possibleOutputGeos.toArray(new GeoElement[0]),
@@ -142,89 +137,89 @@ public class Assignment {
 		TreeSet<Result> partRes = new TreeSet<Result>();
 
 		while (possibleOutputPermutation != null && res != Result.CORRECT) {
-			GeoElement[] input;
 			TreeSet<GeoElement> possibleInputGeos = getAllPredecessors(possibleOutputPermutation);
 			if (possibleInputGeos.size() < macro.getInputTypes().length) {
 				res = Result.NOT_ENOUGH_INPUTS;
 			} else {
-				PermutationOfGeOElementsUtil inputPermutationUtil = new PermutationOfGeOElementsUtil(
-						possibleInputGeos.toArray(new GeoElement[0]),
-						macro.getInputTypes().length);
-				input = inputPermutationUtil.next();
-				boolean solutionFound = false;
-				while (input != null && !solutionFound) {
-					partRes.clear();
-					if (areTypesOK(input)) {
-						AlgoMacro algoMacro = new AlgoMacro(cons, null, macro,
-								input);
-						GeoElement[] macroOutput = algoMacro.getOutput();
-						for (int i = 0; i < possibleOutputPermutation.length
-								&& (!partRes.contains(Result.WRONG)); i++) {
-							AlgoAreEqual algoEqual = new AlgoAreEqual(cons, "",
-									macroOutput[i],
-									possibleOutputPermutation[i]);
-							partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
-									: Result.WRONG);
-							callsToAlgoEqual++;
-							int j = 0;
-							while (j < input.length
-									&& !partRes.contains(Result.WRONG)) {
-								if (input[j].isRandomizable()) {
-									saveInput = input[j].copy();
-									input[j].randomizeForProbabilisticChecking();
-									input[j].updateCascade();
-									partRes.add(algoEqual.getResult()
-											.getBoolean() ? Result.CORRECT
-											: Result.WRONG_AFTER_RANDOMIZE);
-									callsToAlgoEqual++;
-									input[j].set(saveInput);
-									input[j].updateCascade();
-								}
-								j++;
-							}
-						}
-						algoMacro.remove();
-						solutionFound = !partRes.contains(Result.WRONG)
-								&& !partRes
-										.contains(Result.WRONG_AFTER_RANDOMIZE)
-								&& partRes.contains(Result.CORRECT);
-					} else if (res != Result.WRONG_AFTER_RANDOMIZE
-							&& res != Result.WRONG) {
-						res = Result.WRONG_INPUT_TYPES;
-					}
-					if (partRes.contains(Result.WRONG)
-							&& res != Result.WRONG_AFTER_RANDOMIZE) {
-						res = Result.WRONG;
-					} else if (partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
-						res = Result.WRONG_AFTER_RANDOMIZE;
-						App.debug("Objects wrong after Randomize: "
-								+ toString(possibleOutputPermutation));
-						App.debug("Objects used as inputs: " + toString(input));
-					} else if (partRes.contains(Result.CORRECT)) {
-						res = Result.CORRECT;
-						solutionObjects = possibleOutputPermutation;
-						App.debug("Objects found to be the Solution: "
-								+ toString(solutionObjects));
-						App.debug("Objects used as inputs: " + toString(input));
-					}
-					input = inputPermutationUtil.next();
-
-				}
+				checkPermutationsOfInputs(cons, possibleOutputPermutation,
+						partRes, possibleInputGeos);
 			}
 			possibleOutputPermutation = outputPermutationUtil.next();
 		}
 	}
 
-	public static String toString(GeoElement[] elements) {
-		String solObj = "";
-		for (GeoElement g : elements) {
-			if (!solObj.isEmpty()) {
-				solObj += ", ";
+	private void checkPermutationsOfInputs(Construction cons,
+			GeoElement[] possibleOutputPermutation, TreeSet<Result> partRes,
+			TreeSet<GeoElement> possibleInputGeos) {
+		GeoElement[] input;
+		PermutationOfGeOElementsUtil inputPermutationUtil = new PermutationOfGeOElementsUtil(
+				possibleInputGeos.toArray(new GeoElement[0]),
+				macro.getInputTypes().length);
+		input = inputPermutationUtil.next();
+		boolean solutionFound = false;
+		while (input != null && !solutionFound) {
+			partRes.clear();
+			if (areTypesOK(input)) {
+				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro,
+						input);
+				GeoElement[] macroOutput = algoMacro.getOutput();
+				for (int i = 0; i < possibleOutputPermutation.length
+						&& (!partRes.contains(Result.WRONG)); i++) {
+					checkEqualityOfGeos(cons, input, macroOutput[i],
+							possibleOutputPermutation[i], partRes);
+				}
+				algoMacro.remove();
+				solutionFound = !partRes.contains(Result.WRONG)
+						&& !partRes
+								.contains(Result.WRONG_AFTER_RANDOMIZE)
+						&& partRes.contains(Result.CORRECT);
+			} else if (res != Result.WRONG_AFTER_RANDOMIZE
+					&& res != Result.WRONG) {
+				res = Result.WRONG_INPUT_TYPES;
 			}
-			solObj += g.toString(StringTemplate.defaultTemplate);
+			if (partRes.contains(Result.WRONG)
+					&& res != Result.WRONG_AFTER_RANDOMIZE) {
+				res = Result.WRONG;
+			} else if (partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
+				res = Result.WRONG_AFTER_RANDOMIZE;
+				App.debug("Objects wrong after Randomize: "
+						+ toString(possibleOutputPermutation));
+				App.debug("Objects used as inputs: " + toString(input));
+			} else if (partRes.contains(Result.CORRECT)) {
+				res = Result.CORRECT;
+				solutionObjects = possibleOutputPermutation;
+				App.debug("Objects found to be the Solution: "
+						+ toString(solutionObjects));
+				App.debug("Objects used as inputs: " + toString(input));
+			}
+			input = inputPermutationUtil.next();
 
 		}
-		return solObj;
+	}
+
+	private void checkEqualityOfGeos(Construction cons, GeoElement[] input,
+			GeoElement macroOutput, GeoElement possibleOutput,
+			TreeSet<Result> partRes) {
+		GeoElement saveInput;
+		AlgoAreEqual algoEqual = new AlgoAreEqual(cons, "", macroOutput,
+				possibleOutput);
+		partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+				: Result.WRONG);
+		callsToAlgoEqual++;
+		int j = 0;
+		while (j < input.length && !partRes.contains(Result.WRONG)) {
+			if (input[j].isRandomizable()) {
+				saveInput = input[j].copy();
+				input[j].randomizeForProbabilisticChecking();
+				input[j].updateCascade();
+				partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+						: Result.WRONG_AFTER_RANDOMIZE);
+				callsToAlgoEqual++;
+				input[j].set(saveInput);
+				input[j].updateCascade();
+			}
+			j++;
+		}
 	}
 
 	private static TreeSet<GeoElement> getAllPredecessors(
@@ -254,6 +249,18 @@ public class Assignment {
 			k++;
 		}
 		return typesOK;
+	}
+
+	private static String toString(GeoElement[] elements) {
+		String solObj = "";
+		for (GeoElement g : elements) {
+			if (!solObj.isEmpty()) {
+				solObj += ", ";
+			}
+			solObj += g.toString(StringTemplate.defaultTemplate);
+	
+		}
+		return solObj;
 	}
 
 	/**
@@ -288,6 +295,9 @@ public class Assignment {
 		return macro.getIconFileName();
 	}
 
+	/**
+	 * @return the Name of the Tool corresponding to this Assignment
+	 */
 	public String getToolName() {
 		return macro.getToolName();
 	}
@@ -321,10 +331,15 @@ public class Assignment {
 		return res;
 	}
 
-	public String getHintForResult(Result res) {
+	/**
+	 * @param result
+	 *            the Result for which the hint should be returned
+	 * @return hint corresponding to result
+	 */
+	public String getHintForResult(Result result) {
 		String hint = "";
-		if (hintForResult.containsKey(res)) {
-			hint = hintForResult.get(res);
+		if (hintForResult.containsKey(result)) {
+			hint = hintForResult.get(result);
 		}
 		return hint;
 	}
