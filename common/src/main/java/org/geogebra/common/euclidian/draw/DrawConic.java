@@ -581,7 +581,9 @@ public class DrawConic extends Drawable implements Previewable {
 		yradius = halfAxes[1] * view.getYscale(); // radius scaled in y
 													// direction
 		if (radius > DrawConic.HUGE_RADIUS || yradius > DrawConic.HUGE_RADIUS) {
-			isVisible = false;
+			App.debug("ellipse fallback");
+			// ellipse drawing is handling those cases better
+			updateEllipse();
 			return;
 		}
 
@@ -710,7 +712,10 @@ public class DrawConic extends Drawable implements Previewable {
 			else {
 				// huge circle with center on screen: use screen rectangle
 				// instead of circle for possible filling
-
+				if (radius < BIG_RADIUS || yradius < BIG_RADIUS) {
+					updateEllipse();
+					return;
+				}
 				shape = circle = AwtFactory.prototype.newRectangle(-1, -1,
 						view.getWidth() + 2, view.getHeight() + 2);
 
