@@ -92,7 +92,8 @@ public class Riemann {
 			return Complex.divide(1.0, chi(Complex.subtract(Complex.ONE_, s)));
 		}
 		double[] result;
-		if (Math.PI * Math.abs(s[1]) > 709) { // for large imaginary parts use
+		if (Math.PI * Math.abs(s[1]) > 709) { // for large imaginary
+														// parts use
 												// log-versions
 			// s ln 2 + (s-1) ln pi + lnGamma(1-s) + lnSin (pi s/2)
 			result = Complex.multiply(Math.log(2), s);
@@ -290,13 +291,15 @@ public class Riemann {
 		} else if (s[0] > 0 && s[0] < 1 && Math.abs(s[1]) > 45) { // the
 			// "critical strip"
 			// use Riemann-Siegel formula sum ( n^(-s) + chi(s) n^(s-1):
+			// equation 4 from
+			// http://numbers.computation.free.fr/Constants/Miscellaneous/zetaevaluations.pdf
 			int m = (int) Math.sqrt(Math.abs(s[1]) / (2 * Math.PI));
 			double[] chi = chi(s);
 			exponent = Complex.subtract(s, Complex.ONE_); // = (s-1)
-			for (int n = 1; n <= 5 * m; n++) {
+			for (int n = 1; n <= m; n++) {
 				sum = Complex.add(sum, Complex.divide(1, Complex.power(n, s)));
-				// sum = Complex.add(sum,
-				// Complex.multiply(chi, Complex.power(n, exponent)));
+				 sum = Complex.add(sum,
+				 Complex.multiply(chi, Complex.power(n, exponent)));
 			}
 			return sum;
 			// */

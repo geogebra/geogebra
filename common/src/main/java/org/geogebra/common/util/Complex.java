@@ -1,7 +1,7 @@
 /*
  * Complex.java - Class providing static methods for complex numbers.
  *
- * Copyright (C) 2004-2008 Andreas de Vries
+ * Copyright (C) 2004-2012 Andreas de Vries
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,14 @@
  */
 package org.geogebra.common.util;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.atan;
+import static java.lang.Math.atan2;
+import static java.lang.Math.cosh;
+import static java.lang.Math.log;
+import static java.lang.Math.sinh;
+import static java.lang.Math.tan;
+
 /**
  * This class enables the creation of objects representing complex numbers, as
  * well the implementation of mathematical functions of complex numbers by
@@ -35,7 +43,7 @@ package org.geogebra.common.util;
  * complex number objects.
  * 
  * @author Andreas de Vries
- * @version 1.0
+ * @version 1.1
  */
 public class Complex {
 	private static final long serialVersionUID = -1679819632;
@@ -82,6 +90,11 @@ public class Complex {
 	/**
 	 * Creates a complex number <i>z</i> = <i>x</i> + i<i>y</i> with real part
 	 * <i>x</i> and imaginary part <i>y</i>.
+	 * 
+	 * @param x
+	 *            the real part of the complex number
+	 * @param y
+	 *            the imaginary part of the complex number
 	 */
 	public Complex(double x, double y) {
 		z = new double[] { x, y };
@@ -91,12 +104,17 @@ public class Complex {
 	 * Creates a complex number <i>z</i> = <i>z</i>[0] + i<i>z</i>[1] from the
 	 * "array representation," i.e., with real part <i>z</i>[0] and imaginary
 	 * part <i>z</i>[1].
+	 * 
+	 * @param z
+	 *            an array with z[0] representing the real part and z[1]
+	 *            representing the imaginary part of the complex number
 	 */
 	public Complex(double[] z) {
 		this.z = new double[z.length];
-		for (int i = 0; i < z.length; i++) {
-			this.z[i] = z[i];
-		}
+		System.arraycopy(z, 0, this.z, 0, z.length);
+		/*
+		 * for (int i = 0; i < z.length; i++) { this.z[i] = z[i]; } //
+		 */
 	}
 
 	/**
@@ -131,7 +149,7 @@ public class Complex {
 	 * @return |<i>z</i>|
 	 */
 	public static double abs(double[] z) {
-		double x = 0.0;
+		double x;
 		double h;
 
 		if (Math.abs(z[0]) == 0 && Math.abs(z[1]) == 0) {
@@ -143,7 +161,6 @@ public class Complex {
 			h = z[0] / z[1];
 			x = Math.abs(z[1]) * Math.sqrt(1 + h * h);
 		}
-
 		return x;
 	}
 
@@ -177,7 +194,7 @@ public class Complex {
 	 * Returns the sum of two complex numbers <i>x</i> and <i>y</i>. For
 	 * <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and <i>y</i> =
 	 * <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
-	 * <p align="center">
+	 * <p style="text-align:center;">
 	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i
 	 * (<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>)
 	 * </p>
@@ -200,7 +217,7 @@ public class Complex {
 	 * Returns the sum of this number and the complex number <i>z</i>. For
 	 * <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and <i>y</i> =
 	 * <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
-	 * <p align="center">
+	 * <p style="text-align:center;">
 	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i
 	 * (<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>)
 	 * </p>
@@ -225,7 +242,7 @@ public class Complex {
 	 * @see #arg(Complex)
 	 */
 	public static double arg(double[] z) {
-		return Math.atan2(z[1], z[0]);
+		return atan2(z[1], z[0]);
 	}
 
 	/**
@@ -239,7 +256,7 @@ public class Complex {
 	 * @see #arg(double[])
 	 */
 	public static double arg(Complex z) {
-		return Math.atan2(z.z[1], z.z[0]);
+		return atan2(z.z[1], z.z[0]);
 	}
 
 	/**
@@ -254,32 +271,30 @@ public class Complex {
 		return arg(this);
 	}
 
-	/** Returns the cosine of a complex number <i>z</i>. */
+	/**
+	 * Returns the cosine of a complex number <i>z</i>.
+	 * 
+	 * @param z
+	 *            the argument
+	 * @return the cosine
+	 */
 	public static double[] cos(double[] z) {
 		double[] result = new double[2];
 
-		result[0] = Math.cos(z[0]) * Math.cosh(z[1]); // since JDK 1.5:
-		// result[0] = Math.cos(z[0]) * ( Math.exp(z[1]) + Math.exp(-z[1]) ) /
-		// 2;
-		result[1] = Math.sin(z[0]) * Math.sinh(z[1]); // since JDK 1.5
-		// result[1] = Math.sin(z[0]) * ( Math.exp(z[1]) - Math.exp(-z[1]) ) /
-		// 2;
+		result[0] = Math.cos(z[0]) * Math.cosh(z[1]);
+		result[1] = Math.sin(z[0]) * Math.sinh(z[1]);
 		return result;
 	}
 
-	/** Returns the cosine of this complex number. */
+	/**
+	 * Returns the cosine of this complex number.
+	 * 
+	 * @param z
+	 *            the argument
+	 * @return the cosine
+	 */
 	public static Complex cos(Complex z) {
 		return new Complex(cos(new double[] { z.z[0], z.z[1] }));
-		/*
-		 * double[] result = new double[2];
-		 * 
-		 * result[0] = Math.cos(z[0]) * Math.cosh(z[1]); // since JDK 1.5:
-		 * //result[0] = Math.cos(z.z[0]) * ( Math.exp(z.z[1]) +
-		 * Math.exp(-z.z[1]) ) / 2; result[1] = Math.sin(z[0]) *
-		 * Math.sinh(z[1]); // since JDK 1.5 //result[1] = Math.sin(z.z[0]) * (
-		 * Math.exp(z.z[1]) - Math.exp(-z.z[1]) ) / 2; return new
-		 * Complex(result);
-		 */
 	}
 
 	/**
@@ -290,6 +305,7 @@ public class Complex {
 	 *            the dividend
 	 * @param y
 	 *            the divisor
+	 * @return the complex number <i>x/y</i>
 	 * @see #divide(double, Complex)
 	 * @see #divide(double[], double[])
 	 */
@@ -298,12 +314,13 @@ public class Complex {
 		double h;
 
 		if (Math.abs(y[0]) == 0 && Math.abs(y[1]) == 0) {
-			if (x > 0)
+			if (x > 0) {
 				w[0] = Double.POSITIVE_INFINITY;
-			else if (x < 0)
+			} else if (x < 0) {
 				w[0] = Double.NEGATIVE_INFINITY;
-			else
+			} else {
 				w[0] = 1;
+			}
 			return w;
 		}
 
@@ -328,6 +345,7 @@ public class Complex {
 	 *            the dividend
 	 * @param y
 	 *            the divisor
+	 * @return <i>x/y</i>
 	 * @see #divide(double, double[])
 	 */
 	public static Complex divide(double x, Complex y) {
@@ -350,18 +368,20 @@ public class Complex {
 		double h;
 
 		if (Math.abs(y[0]) == 0 && Math.abs(y[1]) == 0) {
-			if (x[0] > 0)
+			if (x[0] > 0) {
 				w[0] = Double.POSITIVE_INFINITY;
-			else if (x[0] < 0)
+			} else if (x[0] < 0) {
 				w[0] = Double.NEGATIVE_INFINITY;
-			else
+			} else {
 				w[0] = 1;
-			if (x[1] > 0)
+			}
+			if (x[1] > 0) {
 				w[1] = Double.POSITIVE_INFINITY;
-			else if (x[1] < 0)
+			} else if (x[1] < 0) {
 				w[1] = Double.NEGATIVE_INFINITY;
-			else
-				w[1] = 0; // if Im x == 0, x/0 is real!
+			} else {
+				w[1] = 0;
+			} // if Im x == 0, x/0 is real!
 			return w;
 		}
 
@@ -421,18 +441,13 @@ public class Complex {
 	 * </p>
 	 * where <i>z</i> is this complex number.
 	 * 
+	 * @param z
+	 *            the argument
 	 * @return exp(<i>z</i>) where <i>z</i> is this complex number
 	 * @see #ln(Complex)
 	 */
 	public static Complex exp(Complex z) {
 		return new Complex(exp(new double[] { z.z[0], z.z[1] }));
-		/*
-		 * if ( z[0] > 709 ) return new Complex(multiply(
-		 * Double.POSITIVE_INFINITY, ONE_ ));
-		 * 
-		 * double[] w = { Math.exp(z[0]) * Math.cos(z[1]), Math.exp(z[0]) *
-		 * Math.sin(z[1]) }; return new Complex(w);
-		 */
 	}
 
 	/**
@@ -440,15 +455,14 @@ public class Complex {
 	 * For Re <i>z</i> &gt; 0, it is computed according to the method of
 	 * Lanczos. Otherwise, the following formula of Weierstrass is applied,
 	 * which holds for any <i>z</i> but converges more slowly.
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * &#915;(<i>z</i>)</td>
 	 * <td align="center">
 	 * &nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">1</td>
 	 * </tr>
@@ -462,7 +476,7 @@ public class Complex {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center" class="small">&#8734;</td>
 	 * </tr>
@@ -479,7 +493,7 @@ public class Complex {
 	 * <td>
 	 * 1 +</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
@@ -499,7 +513,6 @@ public class Complex {
 	 * <td align="center" style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
-	 * </p>
 	 * It is approximated up to a relative error of 10<sup>6</sup> times the
 	 * given {@link #ACCURACY accuracy}. Here &#947; denotes the
 	 * {@link Numbers#GAMMA Euler-Mascheroni constant}.
@@ -549,7 +562,7 @@ public class Complex {
 			s = add(s, divide(c[i], anum));
 		}
 		s = multiply(2.506628275, s);
-		// g = Math.pow(xgh, xh) * s / Math.exp(xgh);
+		// g = pow(xgh, xh) * s / exp(xgh);
 		double[] g = multiply(power(xgh, xh), s);
 		g = divide(g, power(Math.E, xgh));
 		if (reflec) {
@@ -557,11 +570,12 @@ public class Complex {
 			if (Math.abs(x[1]) > 709) { // sin( 710 i ) = Infinity !!
 				return ZERO_;
 			}
-			double[] result = multiply(Math.PI, x);
-			result = divide(result, multiply(g, sin(multiply(Math.PI, x))));
+			double[] result = multiply(PI, x);
+			result = divide(result, multiply(g, sin(multiply(PI, x))));
 			return result;
+		} else {
+			return g;
 		}
-		return g;
 	}
 
 	/**
@@ -569,15 +583,14 @@ public class Complex {
 	 * For Re <i>z</i> &gt; 0, it is computed according to the method of
 	 * Lanczos. Otherwise, the following formula of Weierstrass is applied,
 	 * which holds for any <i>z</i> but converges more slowly.
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * &#915;(<i>z</i>)</td>
 	 * <td align="center">
 	 * &nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">1</td>
 	 * </tr>
@@ -591,7 +604,7 @@ public class Complex {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center" class="small">&#8734;</td>
 	 * </tr>
@@ -608,7 +621,7 @@ public class Complex {
 	 * <td>
 	 * 1 +</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
@@ -628,7 +641,6 @@ public class Complex {
 	 * <td align="center" style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
-	 * </p>
 	 * It is approximated up to a relative error of 10<sup>6</sup> times the
 	 * given {@link #ACCURACY accuracy}. Here &#947; denotes the
 	 * {@link Numbers#GAMMA Euler-Mascheroni constant}.
@@ -645,24 +657,28 @@ public class Complex {
 
 	/**
 	 * Returns the natural logarithm of the cosine of a complex number <i>z</i>.
+	 *
+	 * @param z
+	 *            the argument
+	 * @return the natural logarithm of the cosine of <i>z</i>
 	 */
 	public static double[] lnCos(double[] z) {
 		double[] result = new double[2];
 
 		if (Math.abs(z[1]) <= 709) {
-			// result[0] = Math.cos(z[0]) * Math.cosh(z[1]); // since JDK 1.5:
-			result[0] = Math.cos(z[0]) * (Math.exp(z[1]) + Math.exp(-z[1])) / 2;
-			// result[1] = Math.sin(z[0]) * Math.sinh(z[1]); // since JDK 1.5
-			result[1] = Math.sin(z[0]) * (Math.exp(z[1]) - Math.exp(-z[1])) / 2;
+			result[0] = Math.cos(z[0]) * Math.cosh(z[1]); // since JDK 1.5:
+			// result[0] = cos(z[0]) * ( exp(z[1]) + exp(-z[1]) ) / 2;
+			result[1] = Math.sin(z[0]) * Math.sinh(z[1]); // since JDK 1.5
+			// result[1] = sin(z[0]) * ( exp(z[1]) - exp(-z[1]) ) / 2;
 			result = ln(result);
 		} else { // approximately cosh y = sinh y = e^|y| / 2:
 			// ln |cos z| = ln |y| - ln 2 for z = x + iy
-			result[0] = Math.abs(z[1]) - Math.log(2);
+			result[0] = Math.abs(z[1]) - log(2);
 			// arg |sin z| = arctan( sgn y cot x ) for z = x + iy:
 			if (z[1] < 0) {
-				result[1] = Math.atan(-1 / Math.tan(z[0]));
+				result[1] = atan(-1 / tan(z[0]));
 			} else {
-				result[1] = Math.atan(1 / Math.tan(z[0]));
+				result[1] = atan(1 / tan(z[0]));
 			}
 		}
 		return result;
@@ -672,6 +688,8 @@ public class Complex {
 	 * Logarithm of this complex number <i>z</i>. It is defined by ln <i>z</i> =
 	 * ln |<i>z</i>| + i arg(<i>z</i>).
 	 * 
+	 * @param z
+	 *            the argument
 	 * @return ln <i>z</i> where <i>z</i> is this complex number
 	 * @see #abs(Complex)
 	 * @see #arg(Complex)
@@ -695,7 +713,7 @@ public class Complex {
 	 * @see #ln(Complex)
 	 */
 	public static double[] ln(double[] z) {
-		double[] result = { Math.log(abs(z)), arg(z) };
+		double[] result = { log(abs(z)), arg(z) };
 		return result;
 	}
 
@@ -704,8 +722,7 @@ public class Complex {
 	 * Re <i>z</i> &gt; 0, it is computed according to the method of Lanczos.
 	 * Otherwise, the following formula is applied, which holds for any <i>z</i>
 	 * but converges more slowly.
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * ln &#915;(<i>z</i>)</td>
@@ -716,7 +733,7 @@ public class Complex {
 	 * <td>
 	 * +</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center" class="small">&#8734;</td>
 	 * </tr>
@@ -730,7 +747,7 @@ public class Complex {
 	 * </td>
 	 * <td align="center" style="font-size:xx-large;">[</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
@@ -749,7 +766,7 @@ public class Complex {
 	 * <td>
 	 * 1 +</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
@@ -766,7 +783,6 @@ public class Complex {
 	 * <td align="center" style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
-	 * </p>
 	 * Here &#947; denotes the {@link Numbers#GAMMA Euler-Mascheroni constant}.
 	 * 
 	 * @param z
@@ -814,19 +830,19 @@ public class Complex {
 			s = add(s, divide(c[i], anum));
 		}
 		s = multiply(2.506628275, s);
-		// g = xh * Math.log(xgh) + Math.log(s) - xgh;
+		// g = xh * log(xgh) + log(s) - xgh;
 		double[] g = multiply(xh, ln(xgh));
 		g = add(g, ln(s));
 		g = subtract(g, xgh);
 		if (reflec) {
-			// result = Math.log(xx * Math.PI) - g - Math.log( Math.sin(xx *
-			// Math.PI) );
-			double[] result = ln(multiply(Math.PI, x));
+			// result = log(xx * PI) - g - log( sin(xx * PI) );
+			double[] result = ln(multiply(PI, x));
 			result = subtract(result, g);
-			result = subtract(result, lnSin(multiply(Math.PI, x)));
+			result = subtract(result, lnSin(multiply(PI, x)));
 			return result;
+		} else {
+			return g;
 		}
-		return g;
 	}
 
 	/**
@@ -834,8 +850,7 @@ public class Complex {
 	 * Re <i>z</i> &gt; 0, it is computed according to the method of Lanczos.
 	 * Otherwise, the following formula is applied, which holds for any <i>z</i>
 	 * but converges more slowly.
-	 * <p align="center">
-	 * <table align="center" border="0">
+	 * <table summary="" align="center" border="0">
 	 * <tr>
 	 * <td>
 	 * ln &#915;(<i>z</i>)</td>
@@ -846,7 +861,7 @@ public class Complex {
 	 * <td>
 	 * +</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center" class="small">&#8734;</td>
 	 * </tr>
@@ -860,7 +875,7 @@ public class Complex {
 	 * </td>
 	 * <td align="center" style="font-size:xx-large;">[</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
@@ -879,7 +894,7 @@ public class Complex {
 	 * <td>
 	 * 1 +</td>
 	 * <td>
-	 * <table border="0">
+	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
@@ -896,7 +911,6 @@ public class Complex {
 	 * <td align="center" style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
-	 * </p>
 	 * Here &#947; denotes the {@link Numbers#GAMMA Euler-Mascheroni constant}.
 	 * 
 	 * @param z
@@ -931,21 +945,19 @@ public class Complex {
 		double[] result = new double[2];
 
 		if (Math.abs(z[1]) <= 709) {
-			result[0] = Math.sin(z[0]) * Math.cosh(z[1]); // since JDK 1.5:
-			// result[0] = Math.sin(z[0]) * ( Math.exp(z[1]) + Math.exp(-z[1]) )
-			// / 2;
-			result[1] = Math.cos(z[0]) * Math.sinh(z[1]); // since JDK 1.5
-			// result[1] = Math.cos(z[0]) * ( Math.exp(z[1]) - Math.exp(-z[1]) )
-			// / 2;
+			result[0] = Math.sin(z[0]) * cosh(z[1]); // since JDK 1.5:
+			// result[0] = sin(z[0]) * ( exp(z[1]) + exp(-z[1]) ) / 2;
+			result[1] = Math.cos(z[0]) * sinh(z[1]); // since JDK 1.5
+			// result[1] = cos(z[0]) * ( exp(z[1]) - exp(-z[1]) ) / 2;
 			result = ln(result);
 		} else { // approximately cosh y = sinh y = e^|y| / 2:
 			// ln |sin z| = ln |y| - ln 2 for z = x + iy
-			result[0] = Math.abs(z[1]) - Math.log(2);
+			result[0] = Math.abs(z[1]) - log(2);
 			// arg |sin z| = arctan( sgn y cot x ) for z = x + iy:
 			if (z[1] < 0) {
-				result[1] = Math.atan(-1 / Math.tan(z[0]));
+				result[1] = atan(-1 / tan(z[0]));
 			} else {
-				result[1] = Math.atan(1 / Math.tan(z[0]));
+				result[1] = atan(1 / tan(z[0]));
 			}
 		}
 		return result;
@@ -998,7 +1010,7 @@ public class Complex {
 	 * The product of two complex numbers. For <i>x</i> = <i>x</i><sub>0</sub> +
 	 * i<i>x</i><sub>1</sub> and <i>y</i> = <i>y</i><sub>0</sub> +
 	 * i<i>y</i><sub>1</sub>, we have
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> -
 	 * <i>x</i><sub>1</sub><i>y</i><sub>1</sub> + i
 	 * (<i>x</i><sub>1</sub><i>y</i><sub>0</sub> +
@@ -1020,7 +1032,7 @@ public class Complex {
 	 * The product of two complex numbers. For <i>x</i> = <i>x</i><sub>0</sub> +
 	 * i<i>x</i><sub>1</sub> and <i>y</i> = <i>y</i><sub>0</sub> +
 	 * i<i>y</i><sub>1</sub>, we have
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> -
 	 * <i>x</i><sub>1</sub><i>y</i><sub>1</sub> + i
 	 * (<i>x</i><sub>1</sub><i>y</i><sub>0</sub> +
@@ -1046,7 +1058,7 @@ public class Complex {
 	 * Returns the product of this complex number and the complex number
 	 * <i>z</i>. For <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and
 	 * <i>y</i> = <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> -
 	 * <i>x</i><sub>1</sub><i>y</i><sub>1</sub> + i
 	 * (<i>x</i><sub>1</sub><i>y</i><sub>0</sub> +
@@ -1066,7 +1078,7 @@ public class Complex {
 	 * Returns the sum of this number and the complex number <i>z</i>. For
 	 * <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and <i>y</i> =
 	 * <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i
 	 * (<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>)
 	 * </p>
@@ -1084,7 +1096,7 @@ public class Complex {
 	 * Returns <i>x<sup>s</sup></i> for a real number <i>x</i> and a complex
 	 * number <i>s</i>. For <i>s</i> = <i>s</i><sub>0</sub> +
 	 * i<i>s</i><sub>1</sub>, we have
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>x<sup>s</sup></i> = <i>x</i><sup><i>s</i><sub>0</sub></sup> [ cos(
 	 * <i>s</i><sub>1</sub> ln <i>x</i> ) + i sin( <i>s</i><sub>1</sub> ln
 	 * <i>x</i> ) ].
@@ -1092,7 +1104,7 @@ public class Complex {
 	 * <p>
 	 * if <i>x</i> &gt; 0, and
 	 * </p>
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>x<sup>s</sup></i> = |<i>x</i>|<sup><i>s</i><sub>0</sub></sup> [ cos(
 	 * <i>s</i><sub>1</sub> ln |<i>x</i>| + <i>s</i><sub>0</sub>&#960;) + i sin(
 	 * <i>s</i><sub>1</sub> ln |<i>x</i>| + <i>s</i><sub>0</sub>&#960;) ].
@@ -1114,7 +1126,7 @@ public class Complex {
 	 * Returns <i>x<sup>s</sup></i> for a real number <i>x</i> and a complex
 	 * number <i>s</i>. For <i>s</i> = <i>s</i><sub>0</sub> +
 	 * i<i>s</i><sub>1</sub>, we have
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>x<sup>s</sup></i> = <i>x</i><sup><i>s</i><sub>0</sub></sup> [ cos(
 	 * <i>s</i><sub>1</sub> ln <i>x</i> ) + i sin( <i>s</i><sub>1</sub> ln
 	 * <i>x</i> ) ].
@@ -1122,7 +1134,7 @@ public class Complex {
 	 * <p>
 	 * if <i>x</i> &gt; 0, and
 	 * </p>
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>x<sup>s</sup></i> = |<i>x</i>|<sup><i>s</i><sub>0</sub></sup> [ cos(
 	 * <i>s</i><sub>1</sub> ln |<i>x</i>| + <i>s</i><sub>0</sub>&#960;) + i sin(
 	 * <i>s</i><sub>1</sub> ln |<i>x</i>| + <i>s</i><sub>0</sub>&#960;) ].
@@ -1150,11 +1162,11 @@ public class Complex {
 		w[0] = Math.pow(x, s[0]);
 		w[1] = w[0];
 		if (x > 0) {
-			w[0] *= Math.cos(s[1] * Math.log(absX));
-			w[1] *= Math.sin(s[1] * Math.log(absX));
+			w[0] *= Math.cos(s[1] * log(absX));
+			w[1] *= Math.sin(s[1] * log(absX));
 		} else {
-			w[0] *= Math.cos(s[1] * Math.log(absX) + s[0] * Math.PI);
-			w[1] *= Math.sin(s[1] * Math.log(absX) + s[0] * Math.PI);
+			w[0] *= Math.cos(s[1] * log(absX) + s[0] * PI);
+			w[1] *= Math.sin(s[1] * log(absX) + s[0] * PI);
 		}
 
 		return w;
@@ -1166,7 +1178,7 @@ public class Complex {
 	 * e<sup>i<i>&#966;</i></sup> (that is, <i>r</i> = |<i>z</i>| and
 	 * <i>&#966;</i> = arg <i>z</i>), and <i>s</i> = <i>x</i> + i<i>y</i>, we
 	 * have
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>z<sup>s</sup></i> &nbsp; = &nbsp; <i>r<sup>x</sup></i>
 	 * e<sup>-<i>y&#966;</i></sup> [ cos( <i>x&#966;</i> + <i>y</i> ln <i>r</i>
 	 * ) + i sin( <i>x&#966;</i> + <i>y</i> ln <i>r</i> ) ].
@@ -1187,7 +1199,7 @@ public class Complex {
 		}
 
 		double phi = arg();
-		double phase = s.z[0] * phi + s.z[1] * Math.log(r);
+		double phase = s.z[0] * phi + s.z[1] * log(r);
 		double[] w = new double[2];
 		w[0] = Math.pow(r, s.z[0]) * Math.exp(-s.z[1] * phi);
 		w[1] = w[0];
@@ -1203,7 +1215,7 @@ public class Complex {
 	 * For <i>z</i> = <i>r</i> e<sup>i<i>&#966;</i></sup> (that is, <i>r</i> =
 	 * |<i>z</i>| and <i>&#966;</i> = arg <i>z</i>), and <i>s</i> = <i>x</i> +
 	 * i<i>y</i>, we have
-	 * <p align="center">
+	 * <p style="text-align:center">
 	 * <i>z<sup>s</sup></i> &nbsp; = &nbsp; <i>r<sup>x</sup></i>
 	 * e<sup>-<i>y&#966;</i></sup> [ cos( <i>x&#966;</i> + <i>y</i> ln <i>r</i>
 	 * ) + i sin( <i>x&#966;</i> + <i>y</i> ln <i>r</i> ) ].
@@ -1226,7 +1238,7 @@ public class Complex {
 		}
 
 		double phi = arg(z);
-		double phase = s[0] * phi + s[1] * Math.log(r);
+		double phase = s[0] * phi + s[1] * log(r);
 		double[] w = new double[2];
 		w[0] = Math.pow(r, s[0]) * Math.exp(-s[1] * phi);
 		w[1] = w[0];
@@ -1305,8 +1317,8 @@ public class Complex {
 	 * @return sin <i>z</i>
 	 */
 	public static double[] sin(double[] z) {
-		return new double[] { Math.sin(z[0]) * Math.cosh(z[1]),
-				Math.cos(z[0]) * Math.sinh(z[1]) };
+		return new double[] { Math.sin(z[0]) * cosh(z[1]),
+				Math.cos(z[0]) * sinh(z[1]) };
 	}
 
 	/**
@@ -1317,8 +1329,8 @@ public class Complex {
 	 * @return sin <i>z</i>
 	 */
 	public static Complex sin(Complex z) {
-		return new Complex(Math.sin(z.z[0]) * Math.cosh(z.z[1]),
-				Math.cos(z.z[0]) * Math.sinh(z.z[1]));
+		return new Complex(Math.sin(z.z[0]) * cosh(z.z[1]), Math.cos(z.z[0])
+				* sinh(z.z[1]));
 	}
 
 	/**
@@ -1327,8 +1339,8 @@ public class Complex {
 	 * @return sin <i>z</i>
 	 */
 	public Complex sin() {
-		return new Complex(Math.sin(z[0]) * Math.cosh(z[1]), Math.cos(z[0])
-				* Math.sinh(z[1]));
+		return new Complex(Math.sin(z[0]) * cosh(z[1]), Math.cos(z[0])
+				* sinh(z[1]));
 	}
 
 	/**
@@ -1340,7 +1352,7 @@ public class Complex {
 	 */
 	public static double[] sqrt(double[] z) {
 		double[] y = { 0., 0. };
-		double w = 0.;
+		double w;
 		double h;
 
 		if (Math.abs(z[0]) != 0 || Math.abs(z[1]) != 0) {
@@ -1417,8 +1429,10 @@ public class Complex {
 	 * Returns a string representation of this complex number in a "readable"
 	 * standard format.
 	 * 
+	 * @return a string representing <i>z</i>
 	 * @see #toString(double[],java.text.DecimalFormat)
 	 */
+	@Override
 	public String toString() {
 		return toString(new double[] { z[0], z[1] });
 	}
@@ -1427,6 +1441,9 @@ public class Complex {
 	 * Returns a string representation of the complex number <i>z</i> in a
 	 * "readable" standard format.
 	 * 
+	 * @param z
+	 *            the complex number to be formatted
+	 * @return a string representing <i>z</i>
 	 * @see #toString(double[])
 	 */
 	public static String toString(Complex z) {
@@ -1439,6 +1456,7 @@ public class Complex {
 	 * 
 	 * @param z
 	 *            the complex number to be formatted
+	 * @return a string representing <i>z</i>
 	 * @see #toString(double[],java.text.DecimalFormat)
 	 */
 	public static String toString(double[] z) {
@@ -1455,6 +1473,7 @@ public class Complex {
 	 *            the complex number to be formatted
 	 * @param digit
 	 *            the decimal format in which <i>z</i> is to be displayed
+	 * @return a string representing <i>z</i> in the specified decimal format
 	 * @see #toString(double[],java.text.DecimalFormat)
 	 */
 	public static String toString(Complex z, java.text.DecimalFormat digit) {
@@ -1470,16 +1489,18 @@ public class Complex {
 	 *            the complex number to be formatted
 	 * @param digit
 	 *            the decimal format in which <i>z</i> is to be displayed
+	 * @return a string representing <i>z</i> in the specified decimal format
 	 * @see #toString(double[])
 	 */
 	public static String toString(double[] z, java.text.DecimalFormat digit) {
 		java.text.DecimalFormat scientific = new java.text.DecimalFormat(
 				"0.########E0");
 		double upLimit = 1e9, lowLimit = 1e-9;
-		boolean formatCondition = true;
+		boolean formatCondition;
 		String output = "";
 
-		if (Double.isNaN(z[0]) || Double.isNaN(z[1])) {
+		if (Double.toString(z[0]).equals("NaN")
+				|| Double.toString(z[1]).equals("NaN")) {
 			output += "NaN";
 		} else if (Math.abs(z[0]) < ACCURACY && Math.abs(z[1]) < ACCURACY) { // z[0]
 																				// ==
@@ -1532,6 +1553,7 @@ public class Complex {
 		return output;
 	}
 
+
 	/** for test purposes ... */
 	/*
 	 * public static void main ( String args[] ) { // Eingabefeld:
@@ -1573,8 +1595,8 @@ public class Complex {
 	 * 
 	 * //double[] v = lnSin(z); Complex v = lnSin(z); ausgabe += "\n ln sin(" +
 	 * toString(z, digit) + ") = " + toString(v,digit); //digit.format( abs(z)
-	 * ); //ausgabe += ", arg = " + ( z[1] % Math.PI ) + " \u03C0"; ausgabe +=
-	 * ", arg = " + ( z.z[1] % Math.PI ) + " \u03C0"; ausgabe += "\n exp(" +
+	 * ); //ausgabe += ", arg = " + ( z[1] % PI ) + " \u03C0"; ausgabe +=
+	 * ", arg = " + ( z.z[1] % PI ) + " \u03C0"; ausgabe += "\n exp(" +
 	 * toString(v,digit) + ") = "; v = exp(v); ausgabe += toString(v,digit);
 	 * 
 	 * 
