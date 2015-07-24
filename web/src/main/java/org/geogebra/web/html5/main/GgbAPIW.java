@@ -898,7 +898,6 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			partresult.put("hint", new JSONString(hint));
 			partresult.put("fraction", new JSONNumber(part.getFraction()));
 		}
-		result.put("fractionsum", new JSONNumber(ex.getFraction()));
 		return result.getJavaScriptObject();
 	}
 
