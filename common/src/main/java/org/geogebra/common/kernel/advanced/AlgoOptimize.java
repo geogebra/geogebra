@@ -16,9 +16,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
-import org.geogebra.common.kernel.optimization.RealRootFunctionVariable;
+import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * AlgoOptimize: Abstract class for AlgoMaximize and AlgoMinimize Command
@@ -49,10 +48,10 @@ public abstract class AlgoOptimize extends AlgoElement {
 	private Construction optCons = null;
 	private ExtremumFinder extrFinder = null; // Uses ExtremumFinder for the
 												// dirty work
-	private RealRootFunctionVariable i_am_not_a_real_function = null;
+	private RealRootFunction i_am_not_a_real_function = null;
 	private GeoElement dep = null;
-	private GeoNumeric indep = null;
-	private GeoNumeric result = null;
+	private Optimizer indep = null;
+	private GeoElement result = null;
 	private OptimizationType type = OptimizationType.MINIMIZE;
 	private boolean isrunning = false; // To stop recursive calls. Both Maximize
 										// and Minimize.
@@ -72,15 +71,15 @@ public abstract class AlgoOptimize extends AlgoElement {
 	 *            maximize or minimize
 	 * */
 	public AlgoOptimize(Construction cons, String label, NumberValue dep,
-			GeoNumeric indep, OptimizationType type) {
+			Optimizer indep, OptimizationType type) {
 		super(cons);
 		this.optCons = cons;
 		this.dep = dep.toGeoElement();
 		this.indep = indep;
 		this.type = type;
 		extrFinder = new ExtremumFinder();
-		i_am_not_a_real_function = new RealRootFunctionVariable(dep, indep);
-		result = new GeoNumeric(cons);
+		i_am_not_a_real_function = indep;
+		result = indep.getGeo().copy();
 		setInputOutput();
 		compute();
 		result.setLabel(label);
@@ -96,7 +95,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 		 */
 		input = new GeoElement[2];
 		input[0] = dep;
-		input[1] = indep;
+		input[1] = indep.getGeo();
 
 		super.setOutputLength(1);
 		super.setOutput(0, result);
@@ -115,8 +114,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 
 		old = indep.getValue();
 		isrunning = true;
-		if (indep.getIntervalMaxObject() == null
-				|| indep.getIntervalMinObject() == null) {
+		if (!indep.hasBounds()) {
 			result.setUndefined();
 			return;
 		}
@@ -127,7 +125,8 @@ public abstract class AlgoOptimize extends AlgoElement {
 			res = extrFinder.findMaximum(indep.getIntervalMin(),
 					indep.getIntervalMax(), i_am_not_a_real_function, 5.0E-8); // debug("Maximize ("+counter+") found "+res);
 		}
-		result.setValue(res);
+		indep.setValue(res);
+		result.set(indep.getGeo());
 		indep.setValue(old);
 
 		// indep.updateCascade();

@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * AlgoMaximize Command Minimize[ <dependent variable>, <independent variable> ]
@@ -45,10 +46,17 @@ public class AlgoMaximize extends AlgoOptimize {
 	 */
 	public AlgoMaximize(Construction cons, String label, NumberValue dep,
 			GeoNumeric indep) {
-		super(cons, label, dep, indep, OptimizationType.MAXIMIZE);
+		super(cons, label, dep, new OptimizerNumeric(dep, indep),
+				OptimizationType.MAXIMIZE);
 		// cons.registerEuclididanViewAlgo(this);
 	}// Constructor for Maximize
 
+	public AlgoMaximize(Construction cons, String label, NumberValue dep,
+			GeoPointND indep) {
+		super(cons, label, dep, new OptimizerPoint(dep, indep),
+				OptimizationType.MAXIMIZE);
+		// cons.registerEuclididanViewAlgo(this);
+	}
 	@Override
 	public Commands getClassName() {
 		return Commands.Maximize;
