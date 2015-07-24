@@ -346,6 +346,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		Timer tim = new Timer() {
 			@Override
 			public void run() {
+				if (!app.getGuiManager().hasAlgebraViewShowing()) {
+					return;
+				}
 				ensureEditing();
 
 				// on Tablets, this is needed to change the stylebar icon
