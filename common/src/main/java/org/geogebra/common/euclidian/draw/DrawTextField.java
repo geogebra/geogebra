@@ -108,6 +108,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		view.add(box);
 
+
+
 		// Add mouse listeners to textField so that it becomes draggable
 		// on a right click. These listeners are registered first to prevent
 		// the JTextField listeners from initiating editing.
@@ -393,6 +395,12 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			if (!caption.equals(oldCaption)) {
 				oldCaption = caption;
 				labelDesc = caption;// GeoElement.indicesToHTML(caption, true);
+
+				// cheat: change Caption to "a" if you want the old
+				// behavior.
+				if ("a".equals(caption)) {
+					drawOnCanvas = false;
+				}
 			}
 			label.setText(labelDesc);
 		} else {
@@ -427,10 +435,11 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		prefSize = box.getPreferredSize();
-		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
-				prefSize.getHeight());
-		box.setBounds(labelRectangle);
+
+		// labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
+		// prefSize.getHeight());
+		// box.setBounds(labelRectangle);
+
 	}
 
 	final public GDimension getPrefSize() {
@@ -438,12 +447,13 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 			@Override
 			public int getWidth() {
-				return labelFontSize * geoTextField.getLength();
+				return (int) (Math.round(labelFontSize * 0.8) * geoTextField
+						.getLength());
 			}
 
 			@Override
 			public int getHeight() {
-				return (int) (Math.round(labelFontSize * 1.5));
+				return (int) (Math.round(labelFontSize * 1.8));
 			}
 		};
 	}
@@ -451,6 +461,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (drawOnCanvas) {
+
 				drawOnCanvas(g2);
 			}
 			else {
@@ -468,6 +479,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	final public void drawOnCanvas(org.geogebra.common.awt.GGraphics2D g2) {
 		App app = view.getApplication();
 		prefSize = getPrefSize();
+
 		GFont vFont = view.getFont();
 		labelFont = app.getFontCanDisplay(textField.getText(), false,
 				vFont.getStyle(), labelFontSize);
@@ -480,6 +492,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		if (geo.isLabelVisible()) {
 			drawTextFieldLabel(g2);
 			drawTextField(g2);
+
 		}
 	}
 
@@ -487,8 +500,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	private void drawTextField(GGraphics2D g2) {
 		GFontRenderContext frc = g2.getFontRenderContext();
 		int x = xLabel + labelSize.x;
-		g2.drawRect(x, yLabel, prefSize.getWidth(),
-				prefSize.getHeight());
+		g2.drawRoundRect(x, yLabel, prefSize.getWidth(), prefSize.getHeight(),
+				5, 5);
 	}
 
 	private void drawTextFieldLabel(GGraphics2D g2) {
@@ -514,9 +527,19 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		// App.debug(x + ", " + y + ": " + box.getBounds().getX() + ", " +
-		// box.getBounds().getY());
-		return box.getBounds().contains(x, y);
+		int left = xLabel;
+		int top = yLabel;
+		int right = left + prefSize.getWidth();
+		int bottom = top + prefSize.getHeight();
+
+		// App.debug(x + ", " + y + ": (" + left + ", " + top + ", " + right
+		// + ", " + bottom + ")");
+
+
+		boolean res = x > left && x < right && y > top && y < bottom;
+
+		// App.debug("[DoC] box.getBounds().contains(x, y) " + res);
+		return res;
 	}
 
 	@Override
