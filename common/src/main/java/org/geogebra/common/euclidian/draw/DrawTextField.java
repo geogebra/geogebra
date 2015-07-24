@@ -178,6 +178,14 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			if (!textField.getText().equals(initialText)) {
 				geoTextField.textObjectUpdated(textField);
 				geoTextField.textSubmitted();
+				if (drawOnCanvas) {
+					update();
+				}
+			}
+
+			if (drawOnCanvas) {
+				textField.setVisible(false);
+
 			}
 		}
 	}
@@ -208,6 +216,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				// Force focus removal in IE
 				textField.setFocus(false);
 				getView().requestFocusInWindow();
+				if (drawOnCanvas) {
+					update();
+				}
 			} else {
 				GeoElement linkedGeo = ((GeoTextField) getGeo()).getLinkedGeo();
 
@@ -439,9 +450,13 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		yLabel = geo.labelOffsetY;
 
 		prefSize = box.getPreferredSize();
-		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
-				prefSize.getHeight());
-		box.setBounds(labelRectangle);
+
+		if (!drawOnCanvas) {
+			labelRectangle.setBounds(xLabel, yLabel,
+					prefSize.getWidth(),
+					prefSize.getHeight());
+			box.setBounds(labelRectangle);
+		}
 	}
 
 	final public GDimension getPrefSize() {
@@ -495,7 +510,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			drawTextFieldLabel(g2);
 			drawTextField(g2);
 
+
 		}
+
 	}
 
 
@@ -503,6 +520,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		int x = xLabel + labelSize.x;
 		g2.drawRoundRect(x, yLabel, prefSize.getWidth(), prefSize.getHeight(),
 				5, 5);
+		labelRectangle.setBounds(x - 2, yLabel - 1, prefSize.getWidth(),
+				prefSize.getHeight());
+		box.setBounds(labelRectangle);
 	}
 
 	private void drawTextFieldLabel(GGraphics2D g2) {
@@ -511,7 +531,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
 				g2, labelDesc, xLabel, yLabel + y, false,
 				false);
-
+		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+				geoTextField.getText(), xLabel + labelSize.x, yLabel + y,
+				false, false);
 	}
 
 	/**
