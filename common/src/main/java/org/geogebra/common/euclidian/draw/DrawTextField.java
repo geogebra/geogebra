@@ -15,7 +15,6 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -103,7 +102,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		// label.addMouseListener(bl);
 		// label.addMouseMotionListener(bl);
 		textField.addKeyHandler(ifKeyListener);
-		box.add(label);
+		if (!drawOnCanvas) {
+			box.add(label);
+		}
 		box.add(textField);
 
 		view.add(box);
@@ -277,6 +278,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	// ec.mouseClicked(e);
 	// }
 	//
+
 	// public void mousePressed(MouseEvent e) {
 	//
 	// // prevent textField editing on right click
@@ -288,7 +290,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	// e.translatePoint(box.getX(), box.getY());
 	// ec.mousePressed(e);
 	// }
-	//
+
 	// public void mouseReleased(MouseEvent e) {
 	//
 	// // prevent textField editing on right click
@@ -436,10 +438,10 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 
-		// labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
-		// prefSize.getHeight());
-		// box.setBounds(labelRectangle);
-
+		prefSize = box.getPreferredSize();
+		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
+				prefSize.getHeight());
+		box.setBounds(labelRectangle);
 	}
 
 	final public GDimension getPrefSize() {
@@ -498,7 +500,6 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 
 	private void drawTextField(GGraphics2D g2) {
-		GFontRenderContext frc = g2.getFontRenderContext();
 		int x = xLabel + labelSize.x;
 		g2.drawRoundRect(x, yLabel, prefSize.getWidth(), prefSize.getHeight(),
 				5, 5);
@@ -510,7 +511,6 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
 				g2, labelDesc, xLabel, yLabel + y, false,
 				false);
-		// g2.drawString(labelDesc, xLabel, yLabel + y);
 
 	}
 
@@ -537,11 +537,18 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 
 		boolean res = x > left && x < right && y > top && y < bottom;
-
 		// App.debug("[DoC] box.getBounds().contains(x, y) " + res);
 		return res;
 	}
 
+	public void showIntputField(boolean show) {
+		if (show) {
+			textField.setVisible(true);
+		} else {
+			textField.setVisible(false);
+		}
+		box.setVisible(show);
+	}
 	@Override
 	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
 		return rect.contains(labelRectangle);
