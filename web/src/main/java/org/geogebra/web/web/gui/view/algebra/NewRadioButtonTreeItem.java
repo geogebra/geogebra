@@ -69,6 +69,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
+
 		editor = new EquationEditor(app, this);
 
 
@@ -346,9 +347,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		Timer tim = new Timer() {
 			@Override
 			public void run() {
-				if (!app.getGuiManager().hasAlgebraViewShowing()) {
-					return;
-				}
 				ensureEditing();
 
 				// on Tablets, this is needed to change the stylebar icon
@@ -387,15 +385,19 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				// decrease it in case of Web.html (app.isApplet())
 			}
 		};
-		if (app.isApplet()) {
-			// timeout is looking too big, and not even needed,
-			// as this is not about the tablet bug for sure
-			tim.schedule(0);
-		} else {
-			// either app.html or tablet.html, seems Okay
-			// as we cannot tell the two apart yet, until mouse is pressed
-			// or touch events are used (although we could use heuristic?)
-			tim.schedule(500);
+		if (app.getGuiManager().hasAlgebraViewShowing()) {
+			// onFocus is not called in any other case,
+			// just from the JavaScript focus event
+			if (app.isApplet()) {
+				// timeout is looking too big, and not even needed,
+				// as this is not about the tablet bug for sure
+				tim.schedule(0);
+			} else {
+				// either app.html or tablet.html, seems Okay
+				// as we cannot tell the two apart yet, until mouse is pressed
+				// or touch events are used (although we could use heuristic?)
+				tim.schedule(500);
+			}
 		}
 	}
 
