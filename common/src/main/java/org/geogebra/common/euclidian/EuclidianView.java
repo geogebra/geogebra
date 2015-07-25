@@ -1644,6 +1644,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 							.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
+					((DrawTextField) d).showIntputField(true);
 					return true;
 				}
 			}
