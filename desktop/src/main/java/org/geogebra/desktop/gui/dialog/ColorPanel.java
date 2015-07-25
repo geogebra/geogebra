@@ -69,7 +69,7 @@ class ColorPanel extends JPanel implements ActionListener,
 
 	private Color selectedColor;
 	private JPanel southPanel;
-	private JCheckBox sequential;
+	private JCheckBox automatic;
 
 	// For handle single bar
 	private JToggleButton[] selectionBarButtons;
@@ -84,8 +84,8 @@ class ColorPanel extends JPanel implements ActionListener,
 		previewPanel = new PreviewPanel();
 		previewLabel = new JLabel();
 		currentColorLabel = new JLabel();
-		sequential = new JCheckBox("SEQUENTIAL");
-		sequential.addActionListener(this);
+		automatic = new JCheckBox();
+		automatic.addActionListener(this);
 		// prepare color chooser
 		colChooser.setLocale(this.propertiesPanelD.app.getLocale());
 		colChooser.getSelectionModel().addChangeListener(this);
@@ -151,7 +151,7 @@ class ColorPanel extends JPanel implements ActionListener,
 		// put the sub-panels together
 		setLayout(new BorderLayout());
 		if (propertiesPanelD.app.has(Feature.SEQUENTIAL_COLORS)) {
-			southPanel.add(sequential);
+			southPanel.add(automatic);
 		}
 		add(colorChooserContainer, BorderLayout.NORTH);
 		add(southPanel, this.propertiesPanelD.loc.borderWest());
@@ -236,7 +236,8 @@ class ColorPanel extends JPanel implements ActionListener,
 		rbtnBackgroundColor.setText(this.propertiesPanelD.app.getMenu("BackgroundColor"));
 		rbtnForegroundColor.setText(this.propertiesPanelD.app.getMenu("ForegroundColor"));
 		btnClearBackground.setToolTipText(this.propertiesPanelD.app.getPlain("Remove"));
-
+		this.automatic
+				.setText(this.propertiesPanelD.app.getPlain("Automatic"));
 		updateToolTipText();
 	}
 
@@ -261,8 +262,8 @@ class ColorPanel extends JPanel implements ActionListener,
 		colorChooserContainer.setVisible(!model.hasImageGeo()
 				&& !model.isSequentialColor());
 		previewMetaPanel.setVisible(!model.hasImageGeo());
-		sequential.setVisible(model.hasDefaultGeos());
-		sequential.setSelected(model.isSequentialColor());
+		automatic.setVisible(model.hasDefaultGeos());
+		automatic.setSelected(model.isSequentialColor());
 		return this;
 	}
 
@@ -422,8 +423,8 @@ class ColorPanel extends JPanel implements ActionListener,
 			addSelectionBar();
 			update();
 		}
-		if (source == sequential) {
-			model.setSequential(sequential.isSelected());
+		if (source == automatic) {
+			model.setSequential(automatic.isSelected());
 			update();
 		}
 	}
@@ -563,7 +564,7 @@ class ColorPanel extends JPanel implements ActionListener,
 				geo.setAlphaValue(alpha);
 			}
 		}
-		sequential.setSelected(geo.isSequentialColor());
+		automatic.setSelected(geo.isSequentialColor());
 
 	}
 

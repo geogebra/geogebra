@@ -3885,7 +3885,6 @@ public abstract class App implements UpdateSelection {
 		case DATA_COLLECTION:
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
-		case SEQUENTIAL_COLORS:
 		case EXERCISES:
 		case IMPLICIT_CURVES:
 		case KOREAN_KEYBOARD:
@@ -3895,6 +3894,7 @@ public abstract class App implements UpdateSelection {
 		case TUBE_BETA:
 		case LOG_AXES:
 			return prerelease;
+		case SEQUENTIAL_COLORS:
 		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:
