@@ -406,4 +406,12 @@ public class EuclidianViewCompanion {
 	public Coords getCoordsForView(GeoPointND point) {
 		return point.getInhomCoords();
 	}
+	
+	/**
+	 * Size changed, make sure our settings reflect that but do not update
+	 * drawables
+	 */
+	protected void updateSizeKeepDrawables() {
+		view.updateSizeKeepDrawables();
+	}
 }

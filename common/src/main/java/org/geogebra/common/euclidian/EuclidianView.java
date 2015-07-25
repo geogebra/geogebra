@@ -2919,7 +2919,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (firstPaint) {
 				if ((getWidth() > 1) && (getHeight() > 1) && (!reIniting)) {
 					// only set firstPaint to false if the bgImage was generated
-					updateSizeKeepDrawables();
+					companion.updateSizeKeepDrawables();
 					paintBackground(g2);
 					// g2.drawImage(bgImage, 0, 0, null);
 					firstPaint = false;

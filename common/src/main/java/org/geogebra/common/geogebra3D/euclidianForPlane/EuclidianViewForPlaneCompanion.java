@@ -53,14 +53,18 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 
 	private CoordMatrix4x4 transform;
 
+	private boolean initViewJustCreated = false;
+
 	public void initView(ViewCreator plane) {
 
 		setPlane(plane);
 
 		if (settingsFromLoadFile) {
+			initViewJustCreated = false;
 			// view is created from file, only update matrices
 			updateOtherMatrices();
 		} else {
+			initViewJustCreated = true;
 			// view is created from scratch
 			updateMatrix();
 			// set coord system to fit 3D view
@@ -106,6 +110,20 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 	}
 
 	private Coords tmpCoords = new Coords(4);
+
+	@Override
+	protected void updateSizeKeepDrawables() {
+
+		if (initViewJustCreated) {
+			// set coord system to fit 3D view
+			// previous set may fail due to width = height = 0
+			updateCenterAndOrientationRegardingView();
+			updateScaleRegardingView();
+			initViewJustCreated = false;
+		}
+
+		super.updateSizeKeepDrawables();
+	}
 
 	/**
 	 * update center and orientation of the view regarding 3D view
