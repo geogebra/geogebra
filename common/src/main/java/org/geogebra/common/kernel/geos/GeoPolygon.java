@@ -1309,10 +1309,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	/**
 	 * @param PI point
-	 * @param update TODO unused even in 3D 
 	 * @return true if PI is in this polygon
 	 */
-	public boolean isInRegion(GeoPointND PI, boolean update) {
+	public boolean isInRegion(GeoPointND PI) {
 
 		Coords coords = PI.getCoordsInD2();
 		return isInRegion(coords.getX() / coords.getZ(),
@@ -1320,11 +1319,6 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	}
 
-	public boolean isInRegion(GeoPointND PI) {
-
-		return isInRegion(PI, false);
-
-	}
 
 	/**
 	 * says if the point (x0,y0) is in the region
@@ -1383,7 +1377,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			setRegionChanged(P, p0.inhomX + rp.getT1() * xu + rp.getT2() * xv,
 					p0.inhomY + rp.getT1() * yu + rp.getT2() * yv);
 
-			if (!isInRegion(P, false)) {
+			if (!isInRegion(P)) {
 				pointChanged(P);
 				rp.setIsOnPath(true);
 			}

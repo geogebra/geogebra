@@ -576,12 +576,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	@Override
-	public boolean isInRegion(GeoPointND PI, boolean update) {
-
-		GeoPoint3D P = (GeoPoint3D) PI;
-		P.updateCoords2D(this, false);
-
-		return isInRegion(P.getX2D(), P.getY2D());
+	public boolean isInRegion(GeoPointND PI) {
+		
+		Coords coords = PI.getCoordsInD2(getCoordSys());
+		return isInRegion(coords.getX(), coords.getY());
 
 	}
 
