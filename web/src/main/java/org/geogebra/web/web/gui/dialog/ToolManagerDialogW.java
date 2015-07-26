@@ -189,55 +189,85 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	}
 
 	private void deleteTools() {
-		final List<String> sel = ListBoxApi.getSelection(toolList);
-		final List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
+		// final List<String> sel = ListBoxApi.getSelection(toolList);
+		List<Integer> selIndexesTemp = ListBoxApi.getSelectionIndexes(toolList);
 
-		if (sel.isEmpty()) {
+		if (selIndexesTemp.isEmpty()) {
 			return;
 		}
+		// List<Macro> macros = toolList.getSelectedMacros();
+		String macroNamesNoDel = "";
+		String macroNamesDel = "";
 
-		String[] options = { loc.getMenu("DeleteTool"),
-				loc.getMenu("DontDeleteTool") };
-		GOptionPaneW.INSTANCE.showOptionDialog(app, loc.getMenu("Tool.DeleteQuestion"),
- loc.getPlain("Question"),
-				GOptionPane.CUSTOM_OPTION,
- GOptionPane.QUESTION_MESSAGE, null,
-		        options, new AsyncOperation() {
+		for (int j = 0; j < selIndexesTemp.size(); j++) {
+			int i = selIndexesTemp.get(j);
+			if (toolList.getMacro(i).isUsed()) {
+				macroNamesNoDel += "\n"
+						+ toolList.getMacro(i).getToolOrCommandName() + ": "
+						+ toolList.getMacro(i).getNeededTypesString();
+				toolList.setItemSelected(j, false);
+			} else {
+				macroNamesDel += "\n"
+						+ toolList.getMacro(i).getToolOrCommandName() + ": "
+						+ toolList.getMacro(i).getNeededTypesString();
+			}
+		}
+		final List<Integer> selIndexes = ListBoxApi
+				.getSelectionIndexes(toolList);
+		String question = "";
+		String message = "";
+		if (macroNamesDel.isEmpty()) {
+			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
+					+ " " + macroNamesNoDel);
+		} else {
+			question = loc.getPlain("Question");
+			message = loc.getMenu("Tool.DeleteQuestion") + macroNamesDel;
 
-			        @Override
-			        public void callback(Object obj) {
+			if (!macroNamesNoDel.isEmpty()) {
+				message += "\n" + loc.getError("Tool.DeleteUsed")
+						+ macroNamesNoDel;
+			}
+			String[] options = { loc.getMenu("DeleteTool"),
+					loc.getMenu("DontDeleteTool") };
+			GOptionPaneW.INSTANCE.showOptionDialog(app, message, question,
+					GOptionPane.CUSTOM_OPTION, GOptionPane.QUESTION_MESSAGE,
+					null, options, new AsyncOperation() {
 
-				        String[] dialogResult = (String[]) obj;
-				        if ("0".equals(dialogResult[0])) {
+						@Override
+						public void callback(Object obj) {
 
-					        List<Macro> macros = toolList.getSelectedMacros();
-					        // need this because of removing
+							String[] dialogResult = (String[]) obj;
+							if ("0".equals(dialogResult[0])) {
 
-					        Collections.reverse(selIndexes);
+								List<Macro> macros = toolList
+										.getSelectedMacros();
+								// need this because of removing
 
-					        for (Integer idx : selIndexes) {
-						        toolList.removeItem(idx);
-					        }
+								Collections.reverse(selIndexes);
 
-					        if (!toolList.isEmpty()) {
-						        toolList.setSelectedIndex(0);
-					        } else {
-						        macroPanel.setMacro(null);
-					        }
+								for (Integer idx : selIndexes) {
+									toolList.removeItem(idx);
+								}
 
-					        updateMacroPanel();
+								if (!toolList.isEmpty()) {
+									toolList.setSelectedIndex(0);
+								} else {
+									macroPanel.setMacro(null);
+								}
 
-					        if (model.deleteTools(macros.toArray())) {
-						        applyChanges();
-						        updateToolBar();
-					}
-				        }
+								updateMacroPanel();
 
-			        }
+								if (model.deleteTools(macros.toArray())) {
+									applyChanges();
+									updateToolBar();
+								}
+							}
 
-		});
+						}
+
+					});
+		}
 	}
-
 
 	private FlowPanel createListUpDownRemovePanel() {
 		btUp = new Button("\u25b2");
