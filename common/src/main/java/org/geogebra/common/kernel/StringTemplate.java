@@ -2124,7 +2124,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		default:
 			// check for 1 in denominator
-			if (ExpressionNode.isEqualString(right, 1, !valueForm)) {
+			// #5396
+			if (left.isLeaf()
+					&& ExpressionNode.isEqualString(right, 1, !valueForm)) {
 				sb.append(leftStr);
 				break;
 			}
