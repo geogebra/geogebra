@@ -6607,7 +6607,7 @@ public abstract class EuclidianController {
 	// make sure scripts not run twice
 	private boolean scriptsHaveRun = false;
 
-	private boolean doubleClickStarted;
+	protected boolean doubleClickStarted;
 
 	private GPoint lastMouseUpLoc;
 
@@ -6655,8 +6655,6 @@ public abstract class EuclidianController {
 	 *            mouse y
 	 * @param type
 	 *            event type
-	 * @param gPoint
-	 *            point
 	 */
 	public boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
 		return false;
