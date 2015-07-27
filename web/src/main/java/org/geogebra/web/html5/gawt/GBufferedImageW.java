@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gawt;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -156,7 +157,9 @@ public class GBufferedImageW implements org.geogebra.common.awt.GBufferedImage {
 
 	@Override
 	public GGraphics2D createGraphics() {
-		return new org.geogebra.web.html5.awt.GGraphics2DW(getCanvas(), true);
+		GGraphics2DW g2 = new GGraphics2DW(getCanvas(), true);
+		g2.devicePixelRatio = this.pixelRatio;
+		return g2;
 	}
 
 	@Override
