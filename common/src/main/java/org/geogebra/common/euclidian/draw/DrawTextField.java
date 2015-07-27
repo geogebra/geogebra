@@ -451,26 +451,32 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		prefSize = box.getPreferredSize();
 
-		if (!drawOnCanvas) {
+		// if (!drawOnCanvas) {
 			labelRectangle.setBounds(xLabel, yLabel,
 					prefSize.getWidth(),
 					prefSize.getHeight());
 			box.setBounds(labelRectangle);
-		}
+		// }
 	}
 
 	final public GDimension getPrefSize() {
+		// final int heightsInPx[] = {};
 		return new GDimension() {
 
 			@Override
 			public int getWidth() {
-				return (int) (Math.round(labelFontSize * 0.8) * geoTextField
-						.getLength());
+				// return (int) (Math.round(labelFontSize * 0.8
+				// * geoTextField.getLength()));
+				return (int) Math.round(((view.getFontSize() * geoTextField
+						.getFontSizeMultiplier()))
+						* geoTextField.getLength()
+						* 0.8) + 5;
 			}
 
 			@Override
 			public int getHeight() {
-				return (int) (Math.round(labelFontSize * 1.8));
+				return (int) Math.round(((view.getFontSize() * geoTextField
+						.getFontSizeMultiplier()) + 10) * 1.1);
 			}
 		};
 	}
@@ -524,8 +530,11 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				5, 5);
 
 		g2.setPaint(geo.getObjectColor());
-		g2.drawRoundRect(inputLeft, yLabel, prefSize.getWidth(), prefSize.getHeight(),
-				5, 5);
+		// g2.drawRoundRect(inputLeft, yLabel, prefSize.getWidth(),
+		// prefSize.getHeight(),
+		// 5, 5);
+		//
+		// g2.setPaint(GColor.RED);
 
 		int y = prefSize.getHeight() - labelFontSize / 2;
 		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
@@ -545,12 +554,18 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				geoTextField.getText(), xLabel + labelSize.x, yLabel + y,
+				geoTextField.getText(), xLabel + labelSize.x + 2, yLabel + y
+						- 1,
 				false, false);
 
-		labelRectangle.setBounds(inputLeft - 2, yLabel - 1, prefSize.getWidth(),
+		g2.setPaint(GColor.LIGHT_GRAY);
+		g2.drawRoundRect(inputLeft - 3, yLabel - 2, prefSize.getWidth(),
+				prefSize.getHeight(), 5, 5);
+		labelRectangle.setBounds(inputLeft - 3, yLabel - 2,
+				prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
+		GRectangle r = box.getBounds();
 	}
 
 	private void drawTextFieldLabel(GGraphics2D g2) {
