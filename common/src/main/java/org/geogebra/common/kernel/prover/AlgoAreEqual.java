@@ -181,47 +181,53 @@ public class AlgoAreEqual extends AlgoElement implements
 		if (inputElement1 instanceof GeoNumeric
 				&& inputElement2 instanceof GeoNumeric
 				&& (inputElement1.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA
-				&& (inputElement2.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA
-				&& (inputElement1.getParentAlgorithm()).getInput().length == 3 // is
+				&& (inputElement2.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA) {
+			if ((inputElement1.getParentAlgorithm()).getInput().length == 3 // is
 																				// triangle
 				&& (inputElement2.getParentAlgorithm()).getInput().length == 3) {
-			botanaPolynomials = new Polynomial[1][1];
+				botanaPolynomials = new Polynomial[1][1];
 
-			Variable[] v1 = new Variable[6];
-			Variable[] v2 = new Variable[6];
-			// get coordinates of the points
-			v1 = ((SymbolicParametersBotanaAlgo) inputElement1
+				Variable[] v1 = new Variable[6];
+				Variable[] v2 = new Variable[6];
+				// get coordinates of the points
+				v1 = ((SymbolicParametersBotanaAlgo) inputElement1
 					.getParentAlgorithm()).getBotanaVars(inputElement1); // A,B,C
-			v2 = ((SymbolicParametersBotanaAlgo) inputElement2
+				v2 = ((SymbolicParametersBotanaAlgo) inputElement2
 					.getParentAlgorithm()).getBotanaVars(inputElement2); // D,E,F
 			
-			Polynomial a1 = new Polynomial(v1[0]);
-			Polynomial a2 = new Polynomial(v1[1]);
-			Polynomial b1 = new Polynomial(v1[2]);
-			Polynomial b2 = new Polynomial(v1[3]);
-			Polynomial c1 = new Polynomial(v1[4]);
-			Polynomial c2 = new Polynomial(v1[5]);
-			Polynomial d1 = new Polynomial(v2[0]);
-			Polynomial d2 = new Polynomial(v2[1]);
-			Polynomial e1 = new Polynomial(v1[2]);
-			Polynomial e2 = new Polynomial(v1[3]);
-			Polynomial f1 = new Polynomial(v1[4]);
-			Polynomial f2 = new Polynomial(v1[5]);
+				/*
+				 * Polynomial a1 = new Polynomial(v1[0]); Polynomial a2 = new
+				 * Polynomial(v1[1]); Polynomial b1 = new Polynomial(v1[2]);
+				 * Polynomial b2 = new Polynomial(v1[3]); Polynomial c1 = new
+				 * Polynomial(v1[4]); Polynomial c2 = new Polynomial(v1[5]);
+				 * Polynomial d1 = new Polynomial(v2[0]); Polynomial d2 = new
+				 * Polynomial(v2[1]); Polynomial e1 = new Polynomial(v2[2]);
+				 * Polynomial e2 = new Polynomial(v2[3]); Polynomial f1 = new
+				 * Polynomial(v2[4]); Polynomial f2 = new Polynomial(v2[5]);
+				 */
 			
-			// We need the absolute value of the determinant since
-			// we are not interested in signed area (at the moment at least).
-			// Thanks to Fabian Vitabar for finding this issue.
-			Polynomial det1sqr = Polynomial.sqr(a1.multiply(b2)
-					.add(b1.multiply(c2)).add(c1.multiply(a2))
-					.subtract(c1.multiply(b2)).subtract(a1.multiply(c2))
-					.subtract(a2.multiply(b1)));
-			Polynomial det2sqr = Polynomial.sqr(d1.multiply(e2)
-					.add(e1.multiply(f2)).add(f1.multiply(d2))
-					.subtract(f1.multiply(e2)).subtract(d1.multiply(f2))
-					.subtract(d2.multiply(e1)));
-			botanaPolynomials[0][0] = det1sqr.subtract(det2sqr);
+				// We need the absolute value of the determinant since
+				// we are not interested in signed area (at the moment at
+				// least).
+				// Thanks to Fabian Vitabar for finding this issue.
+				Polynomial det1sqr = Polynomial.sqr(Polynomial.area(v1[0],
+						v1[1], v1[2], v1[3], v1[4], v1[5]));
+				Polynomial det2sqr = Polynomial.sqr(Polynomial.area(v2[0],
+						v2[1], v2[2], v2[3], v2[4], v2[5]));
+				botanaPolynomials[0][0] = det1sqr.subtract(det2sqr);
 
+				return botanaPolynomials;
+			}
+
+			Polynomial areaOfPoly1 = ((SymbolicParametersBotanaAlgo) inputElement1
+					.getParentAlgorithm()).getBotanaPolynomials(inputElement1)[0];
+			Polynomial areaOfPoly2 = ((SymbolicParametersBotanaAlgo) inputElement2
+					.getParentAlgorithm()).getBotanaPolynomials(inputElement2)[0];
+			botanaPolynomials = new Polynomial[1][1];
+			botanaPolynomials[0][0] = areaOfPoly1.subtract(areaOfPoly2);
 			return botanaPolynomials;
+
+
 		}
 		// TODO: Implement circles etc.
 

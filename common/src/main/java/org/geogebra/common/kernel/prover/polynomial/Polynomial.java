@@ -548,6 +548,39 @@ public class Polynomial implements Comparable<Polynomial> {
 				.subtract((a2.subtract(b2)).multiply(c1.subtract(d1)));
 		return ret;
 	}
+
+	/**
+	 * Creates a polynomial which describes the area of a triangle, i.e. area of
+	 * triangle ABC.
+	 * 
+	 * @param v1
+	 *            x-coordinate of the first point (A)
+	 * @param v2
+	 *            y-coordinate of the first point (A)
+	 * @param v3
+	 *            x-coordinate of the second point (B)
+	 * @param v4
+	 *            y-coordinate of the second point (B)
+	 * @param v5
+	 *            x-coordinate of the third point (C)
+	 * @param v6
+	 *            y-coordinate of the third point (C)
+	 * @return the polynomial
+	 */
+	public static Polynomial area(Variable v1, Variable v2, Variable v3,
+			Variable v4, Variable v5, Variable v6) {
+		Polynomial a1 = new Polynomial(v1);
+		Polynomial a2 = new Polynomial(v2);
+		Polynomial b1 = new Polynomial(v3);
+		Polynomial b2 = new Polynomial(v4);
+		Polynomial c1 = new Polynomial(v5);
+		Polynomial c2 = new Polynomial(v6);
+
+		Polynomial ret = a1.multiply(b2).add(b1.multiply(c2))
+				.add(c1.multiply(a2)).subtract(c1.multiply(b2))
+				.subtract(a1.multiply(c2)).subtract(a2.multiply(b1));
+		return ret;
+	}
 		
 	/**
 	 * Calculates the determinant of a 4 times 4 matrix

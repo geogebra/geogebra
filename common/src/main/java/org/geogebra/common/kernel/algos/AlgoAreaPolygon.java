@@ -22,7 +22,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  * Computes the area of a polygon
@@ -30,10 +35,13 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
  * @author mathieu
  * @version
  */
-public class AlgoAreaPolygon extends AlgoElement {
+public class AlgoAreaPolygon extends AlgoElement implements SymbolicParametersBotanaAlgo {
 
 	private GeoPolygon polygon; // input
 	private GeoNumeric area; // output
+	
+	private Variable[] botanaVars;
+	private Polynomial[] botanaPolynomials;
 
 	public AlgoAreaPolygon(Construction cons, String label, GeoPolygon polygon) {
 		super(cons);
@@ -81,6 +89,40 @@ public class AlgoAreaPolygon extends AlgoElement {
 
 		area.setValue(polygon.getArea());
 	}
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+		if (polygon != null) {
+			GeoPointND[] pointsOfPolygon = polygon.getPoints();
+			if (botanaVars == null) {
+				botanaVars = new Variable[pointsOfPolygon.length * 2];
+				for (int i = 0; i < pointsOfPolygon.length; i++) {
+					Variable[] currentPointBotanavars = ((GeoPoint) pointsOfPolygon[i])
+						.getBotanaVars((GeoPoint) pointsOfPolygon[i]);
+					botanaVars[2 * i] = currentPointBotanavars[0];
+					botanaVars[2 * i + 1] = currentPointBotanavars[1];
+				}
+			}
+			botanaPolynomials = new Polynomial[1];
+			botanaPolynomials[0] = Polynomial.sqr(Polynomial.area(
+					botanaVars[0], botanaVars[1], botanaVars[2], botanaVars[3],
+					botanaVars[4], botanaVars[5]));
+			for (int i = 4; i <= botanaVars.length - 4; i = i + 2) {
+				botanaPolynomials[0] = botanaPolynomials[0].add(Polynomial
+						.sqr(Polynomial.area(botanaVars[0], botanaVars[1],
+								botanaVars[i], botanaVars[i + 1],
+								botanaVars[i + 2], botanaVars[i + 3])));
+			}
+			return botanaPolynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	
 
 	// TODO Consider locusequability
 
