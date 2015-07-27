@@ -376,32 +376,37 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			super.onResize();
 			if (dockPanel != null) {
 				// making this deferred helps the Win8 app
-				app.getGuiManager().invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						int w = dockPanel.getComponentInteriorWidth();
-						int h = dockPanel.getComponentInteriorHeight();
-
-						// if non positive values, use frame bounds (e.g. when
-						// set
-						// perspective)
-						if (w <= 0 || h <= 0) {
-							// GRectangle r = dockPanel.getFrameBounds();
-							w = dockPanel.getEmbeddedDimWidth();
-							h = dockPanel.getEmbeddedDimHeight();
-						}
-
-						// App.debug("------------------ resize -----------------------");
-						// App.debug("w = "+w+" , h = "+h);
-						renderer.setPixelRatio(((AppW) app).getPixelRatio());
-						renderer.setView(0, 0, w, h);
-						getEuclidianController().calculateEnvironment();
-					}
-				});
+				resizeView();
 			}
 		}
 
+	}
+
+	void resizeView() {
+		app.getGuiManager().invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				int w = dockPanel.getComponentInteriorWidth();
+				int h = dockPanel.getComponentInteriorHeight();
+
+				// if non positive values, use frame bounds (e.g. when
+				// set
+				// perspective)
+				if (w <= 0 || h <= 0) {
+					// GRectangle r = dockPanel.getFrameBounds();
+					w = dockPanel.getEmbeddedDimWidth();
+					h = dockPanel.getEmbeddedDimHeight();
+				}
+
+				// App.debug("------------------ resize -----------------------");
+				// App.debug("w = "+w+" , h = "+h);
+				((RendererW) renderer).setPixelRatio(((AppW) app)
+						.getPixelRatio());
+				renderer.setView(0, 0, w, h);
+				getEuclidianController().calculateEnvironment();
+			}
+		});
 	}
 
 	private boolean readyToRender = false;
@@ -751,6 +756,13 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		((RendererW) this.renderer).setBuffering(false);
 		return ret;
 		
+	}
+
+	@Override
+	public void setPixelRatio(float pixelRatio) {
+		// needed in applets; in app we might want to avoid this because panel
+		// resizing does the same.
+		this.resizeView();
 	}
 
 }
