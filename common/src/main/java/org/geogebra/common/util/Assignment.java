@@ -8,9 +8,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoMacro;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Test;
-import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.main.App;
 
 /**
@@ -70,7 +70,9 @@ public class Assignment {
 
 	private Result res;
 
-	private int callsToAlgoEqual = 0;
+	private int callsToEqual, callsToCheckTypes = 0;
+
+	private Test[] inputTypes;
 
 	/**
 	 * @param macro
@@ -78,6 +80,9 @@ public class Assignment {
 	 */
 	public Assignment(Macro macro) {
 		this.macro = macro;
+		inputTypes = macro.getInputTypes();
+		// inputTypes = new TreeSet<Test>(Arrays.asList(macro.getInputTypes()));
+		// inputTypes = macro.getInputTypes();
 
 		fractionForResult = new HashMap<Result, Float>();
 
@@ -96,13 +101,16 @@ public class Assignment {
 	 */
 	public Result checkAssignment(Construction cons) {
 		res = Result.UNKNOWN;
-		callsToAlgoEqual = 0;
+		callsToEqual = 0;
 		TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>();
 
 		// find all possible inputgeos and all outputgeos that match the type of
 		// the macro
 		TreeSet<GeoElement> sortedSet = cons.getGeoSetNameDescriptionOrder();
 		Iterator<GeoElement> it = sortedSet.iterator();
+		boolean oldSilentMode = cons.getKernel().isSilentMode();
+		cons.getKernel().setSilentMode(true);
+
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			for (GeoElement macroOut : macro.getMacroOutput()) {
@@ -121,7 +129,10 @@ public class Assignment {
 			checkCorrectness(possibleOutputGeos, cons);
 		}
 		App.debug("Checking on " + macro.getToolName()
-				+ " completed. Comparisons of Objects: " + callsToAlgoEqual);
+				+ " completed. Comparisons of Objects: " + callsToEqual);
+		App.debug("Checking on " + macro.getToolName()
+				+ " completed. Checked types of Objects: " + callsToCheckTypes);
+		cons.getKernel().setSilentMode(oldSilentMode);
 
 		return res;
 	}
@@ -135,9 +146,9 @@ public class Assignment {
 		GeoElement[] possibleOutputPermutation = outputPermutationUtil.next();
 
 		TreeSet<Result> partRes = new TreeSet<Result>();
-
 		while (possibleOutputPermutation != null && res != Result.CORRECT) {
-			TreeSet<GeoElement> possibleInputGeos = getAllPredecessors(possibleOutputPermutation);
+			TreeSet<GeoElement> possibleInputGeos = getAllPredecessors(
+					possibleOutputPermutation, inputTypes);
 			if (possibleInputGeos.size() < macro.getInputTypes().length) {
 				res = Result.NOT_ENOUGH_INPUTS;
 			} else {
@@ -160,8 +171,7 @@ public class Assignment {
 		while (input != null && !solutionFound) {
 			partRes.clear();
 			if (areTypesOK(input)) {
-				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro,
-						input);
+				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input);
 				GeoElement[] macroOutput = algoMacro.getOutput();
 				for (int i = 0; i < possibleOutputPermutation.length
 						&& (!partRes.contains(Result.WRONG)); i++) {
@@ -170,8 +180,7 @@ public class Assignment {
 				}
 				algoMacro.remove();
 				solutionFound = !partRes.contains(Result.WRONG)
-						&& !partRes
-								.contains(Result.WRONG_AFTER_RANDOMIZE)
+						&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE)
 						&& partRes.contains(Result.CORRECT);
 			} else if (res != Result.WRONG_AFTER_RANDOMIZE
 					&& res != Result.WRONG) {
@@ -201,20 +210,28 @@ public class Assignment {
 			GeoElement macroOutput, GeoElement possibleOutput,
 			TreeSet<Result> partRes) {
 		GeoElement saveInput;
-		AlgoAreEqual algoEqual = new AlgoAreEqual(cons, "", macroOutput,
-				possibleOutput);
-		partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+		partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
+				macroOutput, possibleOutput).getBoolean() ? Result.CORRECT
 				: Result.WRONG);
-		callsToAlgoEqual++;
+		// AlgoAreEqual algoEqual = new AlgoAreEqual(cons, "", macroOutput,
+		// possibleOutput);
+		// partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+		// : Result.WRONG);
+		callsToEqual++;
 		int j = 0;
 		while (j < input.length && !partRes.contains(Result.WRONG)) {
 			if (input[j].isRandomizable()) {
 				saveInput = input[j].copy();
 				input[j].randomizeForProbabilisticChecking();
 				input[j].updateCascade();
-				partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+				// partRes.add(algoEqual.getResult().getBoolean() ?
+				// Result.CORRECT
+				// : Result.WRONG_AFTER_RANDOMIZE);
+				partRes.add(ExpressionNodeEvaluator.evalEquals(
+						macro.getKernel(), macroOutput, possibleOutput)
+						.getBoolean() ? Result.CORRECT
 						: Result.WRONG_AFTER_RANDOMIZE);
-				callsToAlgoEqual++;
+				callsToEqual++;
 				input[j].set(saveInput);
 				input[j].updateCascade();
 			}
@@ -223,11 +240,25 @@ public class Assignment {
 	}
 
 	private static TreeSet<GeoElement> getAllPredecessors(
-			GeoElement[] possibleOutputPermutation) {
+			GeoElement[] possibleOutputPermutation, Test[] inputTypes) {
+
 		TreeSet<GeoElement> possibleInputGeos = new TreeSet<GeoElement>();
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleOutputPermutation[i].addPredecessorsToSet(
-					possibleInputGeos, true);
+					possibleInputGeos, false);
+		}
+
+		Iterator<GeoElement> it = possibleInputGeos.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (!geo.labelSet) {
+				possibleInputGeos.remove(geo);
+			} else {
+				for (int j = 0; j < inputTypes.length; ++j) {
+					if (!inputTypes[j].check(geo))
+						possibleInputGeos.remove(geo);
+				}
+			}
 		}
 		return possibleInputGeos;
 	}
@@ -235,12 +266,9 @@ public class Assignment {
 	private boolean areTypesOK(GeoElement[] input) {
 		boolean typesOK = true; // we assume that types are OK
 
-		Test[] inputTypes = macro.getInputTypes();
-
 		int k = 0;
-		// we assumed types are OK in the beginning
-		typesOK = true;
 		while (k < input.length && typesOK) {
+			callsToCheckTypes++;
 			if (inputTypes[k].check(input[k])) {
 				typesOK = true;
 			} else {
@@ -258,7 +286,7 @@ public class Assignment {
 				solObj += ", ";
 			}
 			solObj += g.toString(StringTemplate.defaultTemplate);
-	
+
 		}
 		return solObj;
 	}
