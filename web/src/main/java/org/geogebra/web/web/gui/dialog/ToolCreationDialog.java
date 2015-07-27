@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.dialog;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
 import org.geogebra.common.gui.dialog.ToolInputOutputListener;
 import org.geogebra.common.kernel.Macro;
@@ -12,6 +13,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ToolNameIconPanel;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.OptionElement;
+import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -341,6 +345,10 @@ public class ToolCreationDialog extends DialogBoxW implements
 		}
 		for (int i = 0; i < geos.length; i++) {
 			lb.addItem(geos[i].getLongDescription());
+			SelectElement selectElement = SelectElement.as(lb.getElement());
+			NodeList<OptionElement> options = selectElement.getOptions();
+			options.getItem(options.getLength() - 1).getStyle()
+					.setColor(GColor.getColorString(geos[i].getAlgebraColor()));
 		}
 	}
 
