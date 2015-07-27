@@ -517,23 +517,49 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 
 	private void drawTextField(GGraphics2D g2) {
-		int x = xLabel + labelSize.x;
-		g2.drawRoundRect(x, yLabel, prefSize.getWidth(), prefSize.getHeight(),
+		int inputLeft = xLabel + labelSize.x + 2;
+		GColor bgColor = geo.getBackgroundColor();
+		g2.setPaint(bgColor != null ? bgColor : view.getBackgroundCommon());
+		g2.fillRoundRect(inputLeft, yLabel, prefSize.getWidth(), prefSize.getHeight(),
 				5, 5);
-		labelRectangle.setBounds(x - 2, yLabel - 1, prefSize.getWidth(),
+
+		g2.setPaint(geo.getObjectColor());
+		g2.drawRoundRect(inputLeft, yLabel, prefSize.getWidth(), prefSize.getHeight(),
+				5, 5);
+
+		int y = prefSize.getHeight() - labelFontSize / 2;
+		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
+				g2, labelDesc, xLabel, yLabel + y, false, false);
+
+		if (geo.doHighlighting()) {
+			g2.setPaint(GColor.LIGHT_GRAY);
+			g2.fillRect(xLabel, yLabel + (prefSize.getHeight() - labelFontSize)
+					/ 2, labelSize.x, labelFontSize + 4); /* magic numbers */
+
+			g2.setPaint(geo.getObjectColor());
+			labelSize = EuclidianStatic.drawIndexedString(
+					view.getApplication(), g2, labelDesc, xLabel, yLabel + y,
+					false, false);
+
+		}
+
+
+		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+				geoTextField.getText(), xLabel + labelSize.x, yLabel + y,
+				false, false);
+
+		labelRectangle.setBounds(inputLeft - 2, yLabel - 1, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
 	}
 
 	private void drawTextFieldLabel(GGraphics2D g2) {
 
+		g2.setPaint(geo.getObjectColor());
 		int y = prefSize.getHeight() - labelFontSize / 2;
 		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
 				g2, labelDesc, xLabel, yLabel + y, false,
 				false);
-		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				geoTextField.getText(), xLabel + labelSize.x, yLabel + y,
-				false, false);
 	}
 
 	/**
