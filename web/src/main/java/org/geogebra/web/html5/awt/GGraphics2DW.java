@@ -878,8 +878,7 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 
 	public void fillWith(GColor color) {
 		this.setColor(color);
-		this.fillRect(0, 0, canvas.getCoordinateSpaceWidth(),
-		        canvas.getCoordinateSpaceHeight());
+		this.fillRect(0, 0, getOffsetWidth(), getOffsetHeight());
 	}
 
 	private boolean lastDebugOk = false;
