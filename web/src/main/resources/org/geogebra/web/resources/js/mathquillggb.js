@@ -1060,6 +1060,28 @@ var Fragment = P(function(_) {
   // There must exist an LCA, i.e., A and B must be in the same tree, and A
   // and B must not be the same Point.
   this.between = function(A, B) {
+    // TextPiece and TextBlock selection is still not
+    // implemented well, but at least let's do a quick
+	// fix for the arising bug! #5291 second part
+    if (A.parent instanceof TextPiece) {
+      A = A.parent;
+    }
+    if (A.parent instanceof TextBlock) {
+      A = A.parent;
+      if (A.parent instanceof Quotation) {
+    	A = A.parent;
+      }
+    }
+    if (B.parent instanceof TextPiece) {
+      B = B.parent;
+    }
+    if (B.parent instanceof TextBlock) {
+      B = B.parent;
+      if (B.parent instanceof Quotation) {
+    	B = B.parent;
+      }
+    }
+
     var ancA = A; // an ancestor of A
     var ancB = B; // an ancestor of B
     var ancMapA = {}; // a map from the id of each ancestor of A visited
