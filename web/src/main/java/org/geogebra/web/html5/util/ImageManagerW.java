@@ -99,10 +99,11 @@ public class ImageManagerW extends ImageManager {
 	public ImageElement getExternalImage(String fileName) {
 		ImageElement match = externalImageTable.get(StringUtil
 		        .removeLeadingSlash(fileName));
-		int md5length = app.getMD5folderLength(fileName);
 		// FIXME this is a bit hacky: if we did not get precise match, assume
 		// encoding problem and rely on MD5
-		if (match == null && fileName.length() > md5length) {
+		if (match == null
+				&& fileName.length() > app.getMD5folderLength(fileName)) {
+			int md5length = app.getMD5folderLength(fileName);
 			String md5 = fileName.substring(0, md5length);
 			for (String s : externalImageTable.keySet()) {
 				if (md5.equals(s.substring(0, md5length))) {

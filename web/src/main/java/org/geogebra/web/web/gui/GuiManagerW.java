@@ -23,6 +23,7 @@ import org.geogebra.common.javax.swing.GTextComponent;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
@@ -36,6 +37,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Language;
+import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -2034,6 +2036,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 
 		return getHelpURL(Help.TOOL, app.getKernel().getModeText(mode));
+	}
+
+	public String getToolImageURL(int mode, GeoImage geoImage) {
+		String url = GGWToolBar.getImageURL(mode, (AppW) app);
+		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
+		String fn = "geogebra_tool_" + mode;
+		String zip_directory = md5e.encrypt(fn);
+		fn = zip_directory + "/" + fn;
+		((AppW) app).getImageManager().addExternalImage(fn, url);
+		((AppW) app).getImageManager().triggerSingleImageLoading(fn, geoImage);
+		return fn;
 	}
 
 }

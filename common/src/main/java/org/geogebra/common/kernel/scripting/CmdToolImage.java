@@ -45,12 +45,16 @@ public class CmdToolImage extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[0]);
 
 				// TODO Fix me
-				String fileName = app.getImageManager().createImage(
-						"/org/geogebra/desktop/gui/toolbar/images/64/mode_" + modeStr
-								+ ".png", app);
+
 				GeoImage geoImage = new GeoImage(app.getKernel()
 						.getConstruction());
-				geoImage.setImageFileName(fileName);
+				if (app.getGuiManager() != null) {
+
+					String fileName = app.getGuiManager().getToolImageURL(mode,
+							geoImage);
+					geoImage.setImageFileName(fileName);
+
+				}
 				geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
 
 				boolean oldState = cons.isSuppressLabelsActive();

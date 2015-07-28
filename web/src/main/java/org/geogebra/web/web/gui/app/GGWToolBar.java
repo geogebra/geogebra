@@ -359,9 +359,12 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		String url = getImageURL(mode);
 		return (url.length()>0) ? "<img src=\""+url+"\" width=\"32\">" : "";
 	}
-	
-	
+
 	public String getImageURL(int mode) {
+		return getImageURL(mode, app);
+	}
+	
+	public static String getImageURL(int mode, AppW app) {
 		
 
 //		String modeText = app.getKernel().getModeText(mode);
@@ -403,7 +406,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	    return "";
     }
 
-	protected ResourcePrototype getImageURLNotMacro(int mode) {
+	protected static ResourcePrototype getImageURLNotMacro(int mode) {
 		switch (mode) {
 
 		case EuclidianConstants.MODE_ANGLE:

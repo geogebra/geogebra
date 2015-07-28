@@ -24,6 +24,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.util.AsyncOperation;
@@ -371,4 +372,6 @@ public interface GuiManagerInterface {
 	public void registerConstructionProtocolView(ConstructionProtocolView view);
 
 	public void updatePropertiesViewStylebar();
+
+	public String getToolImageURL(int mode, GeoImage geoImage);
 }

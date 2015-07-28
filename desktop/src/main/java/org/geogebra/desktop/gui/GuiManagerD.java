@@ -3255,5 +3255,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// not available in desktop
 	}
 
+	public String getToolImageURL(int mode, GeoImage gi) {
+		String modeStr = StringUtil.toLowerCase(kernel.getModeText(mode));
+		return app.getImageManager().createImage(
+				"/org/geogebra/desktop/gui/toolbar/images/64/mode_" + modeStr
+						+ ".png", app);
+	}
 
 }
