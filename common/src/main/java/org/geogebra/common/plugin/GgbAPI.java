@@ -815,10 +815,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null)
 			return "";
 
-		if (geo.isGeoText())
+		if (geo.isGeoText()) {
 			return ((GeoText) geo).getTextString();
+		}
 		
-		if(geo.isGeoCasCell()){
+		if (geo.isGeoCasCell()) {
 			return ((GeoCasCell)geo).getOutput(StringTemplate.numericDefault);
 		}
 
@@ -830,9 +831,21 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public synchronized String getDefinitionString(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null)
+		if (geo == null) {
 			return "";
+		}
 		return geo.getDefinitionDescription(StringTemplate.defaultTemplate);
+	}
+
+	/**
+	 * Returns the object with the given name as a LaTeX string.
+	 */
+	public synchronized String getLaTeXString(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) {
+			return "";
+		}
+		return geo.toValueString(StringTemplate.latexTemplate);
 	}
 
 	/**

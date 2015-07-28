@@ -359,6 +359,11 @@ public interface JavaScriptAPI {
 	public String getDefinitionString(String objName);
 
 	/**
+	 * Returns the object with the given name as a LaTeX string.
+	 */
+	public String getLaTeXString(String objName);
+
+	/**
 	 * Returns the command of the object with the given name as a string.
 	 */
 	public String getCommandString(String objName);

@@ -338,6 +338,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getDefinitionString(Ljava/lang/String;)(objName);
 		};
 
+		api.getLaTeXString = function(objName) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLaTeXString(Ljava/lang/String;)(objName);
+		};
+
 		api.getCommandString = function(objName) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCommandString(Ljava/lang/String;)(objName);
 		};

@@ -19,9 +19,10 @@ import javax.swing.JApplet;
 import javax.swing.RepaintManager;
 import javax.swing.SwingUtilities;
 
-import org.geogebra.desktop.*;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.JavaScriptAPI;
+import org.geogebra.desktop.AppletImplementationInterface;
+import org.geogebra.desktop.AppletSplashScreen;
 import org.geogebra.desktop.main.AppletImplementation;
 
 /**
@@ -341,6 +342,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public synchronized String getDefinitionString(String objName) {
 		return getAppletImplementation().getDefinitionString(objName);
+	}
+
+	public synchronized String getLaTeXString(String objName) {
+		return getAppletImplementation().getLaTeXString(objName);
 	}
 
 	public synchronized byte[] getGGBfile() {

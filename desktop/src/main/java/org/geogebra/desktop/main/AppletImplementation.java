@@ -37,6 +37,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import netscape.javascript.JSObject;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -48,8 +50,6 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.Util;
-
-import netscape.javascript.JSObject;
 
 /**
  * GeoGebra applet implementation operating on a given JApplet object.
@@ -1158,6 +1158,13 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 */
 	public synchronized String getDefinitionString(String objName) {
 		return ggbApi.getDefinitionString(objName);
+	}
+
+	/**
+	 * Returns the definition of the object with the given name as a string.
+	 */
+	public synchronized String getLaTeXString(String objName) {
+		return ggbApi.getLaTeXString(objName);
 	}
 
 	/**
