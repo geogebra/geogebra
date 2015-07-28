@@ -4357,7 +4357,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	@Override
-	final public String getDefinitionDescription(StringTemplate tpl) {
+	public String getDefinitionDescription(StringTemplate tpl) {
 		if (algoParent == null) {
 			return "";
 		}
