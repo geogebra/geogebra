@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GPoint2D.Double;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
@@ -41,7 +40,7 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 	private GeoList inputList; // input
 	private GeoLocus locus; // output
 	private ArrayList<MyPoint> al;
-	private ArrayList<Double> vl;
+	private ArrayList<GPoint2D.Double> vl;
 	private int size;
 
 	/**
@@ -98,7 +97,6 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 		double inhom[] = new double[2];
 
 
-
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo.isDefined() && geo.isGeoPoint()) {
@@ -107,7 +105,12 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 				
 				// make sure duplicates aren't added
 				if (!contains(vl, inhom[0], inhom[1])) {
+					if (Double.isNaN(inhom[0]) || Double.isNaN(inhom[1])) {
+						locus.setUndefined();
+						return;
+					}
 					vl.add(new GPoint2D.Double(inhom[0], inhom[1]));
+
 				}
 			}
 		}
@@ -119,7 +122,7 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 		}
 
 		if (vl.size() == 1) {
-			MyPoint p = al.get(0);
+			GPoint2D.Double p = vl.get(0);
 			al.add(new MyPoint(p.x, p.y, false));
 			al.add(new MyPoint(p.x, p.y, true));
 			locus.setPoints(al);
@@ -147,7 +150,8 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 
 	}
 
-	private static boolean contains(ArrayList<Double> vl2, double x, double y) {
+	private static boolean contains(ArrayList<GPoint2D.Double> vl2, double x,
+			double y) {
 		for (int i = 0 ; i < vl2.size() ; i++) {
 			GPoint2D.Double p = vl2.get(i);
 			if (Kernel.isEqual(p.x, x) && Kernel.isEqual(p.y, y)) {
