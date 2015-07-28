@@ -15,7 +15,9 @@ public class Exercise {
 	private Construction construction;
 	private App app;
 
-	public Exercise(App app) {
+	private static Exercise INSTANCE;
+
+	private Exercise(App app) {
 		this.app = app;
 		kernel = app.getKernel();
 		construction = kernel.getConstruction();
@@ -72,11 +74,20 @@ public class Exercise {
 		return fraction > 1 ? 1 : fraction;
 	}
 
-	public void addAssignment(Macro macro) {
-		assignments.add(new Assignment(macro));
+	public Assignment addAssignment(Macro macro) {
+		Assignment a = new Assignment(macro);
+		assignments.add(a);
+		return a;
 	}
 
 	public ArrayList<Assignment> getParts() {
 		return assignments;
+	}
+
+	public static Exercise getInstance(App app) {
+		if (INSTANCE == null) {
+			INSTANCE = new Exercise(app);
+		}
+		return INSTANCE;
 	}
 }

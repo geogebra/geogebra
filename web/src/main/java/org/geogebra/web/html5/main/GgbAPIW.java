@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.util.Assignment;
+import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -65,6 +66,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		View view = new View(RootPanel.getBodyElement(), (AppW) app);
 		view.processBase64String(base64);
 	}
+
 	public void setBase64(String base64, final JavaScriptObject callback) {
 		if (callback != null) {
 			OpenFileListener listener = new OpenFileListener() {
@@ -108,16 +110,16 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public boolean writePNGtoFile(String filename, double exportScale,
-	        boolean transparent, double DPI) {
+			boolean transparent, double DPI) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public String getPNGBase64(double exportScale, boolean transparent,
-	        double DPI) {
+			double DPI) {
 		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
-		        .getExportImageDataUrl(exportScale, transparent).substring(
-		                "data:image/png;base64,".length());
+				.getExportImageDataUrl(exportScale, transparent).substring(
+						"data:image/png;base64,".length());
 	}
 
 	public String getLaTeXBase64(String label, boolean value){
@@ -161,33 +163,33 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
 
 		getGGBZipJs(prepareToEntrySet(archiveContent), callback,
-		        zipJSworkerURL());
+				zipJSworkerURL());
 
 	}
 
 	public static String zipJSworkerURL() {
 		// FIXME disabled workers in Touch for now
 		if ("tablet".equals(GWT.getModuleName())
-		        || "phone".equals(GWT.getModuleName())) {
+				|| "phone".equals(GWT.getModuleName())) {
 			return "false";
 		}
 		return Browser.webWorkerSupported ? GWT.getModuleBaseURL()
-		        + "js/zipjs/" : "false";
+				+ "js/zipjs/" : "false";
 	}
 
 	public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
 
 		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback,
-		        zipJSworkerURL(), false);
+				zipJSworkerURL(), false);
 	}
 
 	public void getMacrosBase64(boolean includeThumbnail,
-	        JavaScriptObject callback) {
+			JavaScriptObject callback) {
 		Map<String, String> archiveContent = createMacrosArchive();
 
 		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback,
-		        zipJSworkerURL(), false);
+				zipJSworkerURL(), false);
 	}
 
 	public JavaScriptObject getFileJSON(boolean includeThumbnail) {
@@ -272,8 +274,8 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		// write construction thumbnails
 		if (includeThumbnail)
 			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-			        ((EuclidianViewWInterface) app.getActiveEuclidianView())
-			                .getCanvasBase64WithTypeString(), archiveContent);
+					((EuclidianViewWInterface) app.getActiveEuclidianView())
+							.getCanvasBase64WithTypeString(), archiveContent);
 
 		if (!macroXml.equals("")) {
 			writeMacroImages(archiveContent);
@@ -314,14 +316,14 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		if (archive.entrySet() != null) {
 			for (Entry<String, String> entry : archive.entrySet()) {
 				pushIntoNativeEntry(entry.getKey(), entry.getValue(),
-				        nativeEntry);
+						nativeEntry);
 			}
 		}
 		return nativeEntry;
 	}
 
 	public native void pushIntoNativeEntry(String key, String value,
-	        JavaScriptObject ne) /*-{
+			JavaScriptObject ne) /*-{
 		if (typeof ne["archive"] === "undefined") { //needed because gwt gives an __objectId key :-(
 			ne["archive"] = [];
 		}
@@ -332,7 +334,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}-*/;
 
 	public native void getGGBZipJs(JavaScriptObject arch, JavaScriptObject clb,
-	        String workerURLs) /*-{
+			String workerURLs) /*-{
 
 		if (workerURLs === "false") {
 			$wnd.zip.useWebWorkers = false;
@@ -465,7 +467,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}-*/;
 
 	private native void getNativeBase64ZipJs(JavaScriptObject arch,
-	        JavaScriptObject clb, String workerUrls, boolean sync) /*-{
+			JavaScriptObject clb, String workerUrls, boolean sync) /*-{
 
 		if (workerUrls === "false" || sync) {
 			$wnd.zip.useWebWorkers = false;
@@ -605,7 +607,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	private void writeMacroImages(ArrayList<Macro> macros, String filePath,
-	        Map<String, String> archive) {
+			Map<String, String> archive) {
 		if (macros == null)
 			return;
 
@@ -617,13 +619,13 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			String fileName = macro.getIconFileName();
 			if (fileName != null && !fileName.isEmpty()) {
 				String url = ((ImageManagerW) app.getImageManager())
-				        .getExternalImageSrc(fileName);
+						.getExternalImageSrc(fileName);
 				if (url != null) {
 					String ext = fileName.substring(
-					        fileName.lastIndexOf('.') + 1).toLowerCase();
+							fileName.lastIndexOf('.') + 1).toLowerCase();
 					MyImageW img = new MyImageW(
-					        ImageElement.as((new Image(url)).getElement()),
-					        "svg".equals(ext));
+							ImageElement.as((new Image(url)).getElement()),
+							"svg".equals(ext));
 
 					addImageToArchive("", fileName, url, ext, img, archive);
 				}
@@ -660,13 +662,13 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 				geo.getGraphicsAdapter().convertToSaveableFormat();
 				String newName = geo.getGraphicsAdapter().getImageFileName();
 				((ImageManagerW) app.getImageManager()).replace(fileName,
-				        newName);
+						newName);
 			}
 		}
 	}
 
 	private void writeConstructionImages(Construction cons, String filePath,
-	        Map<String, String> archive) {
+			Map<String, String> archive) {
 		// save all GeoImage images
 		// TreeSet images =
 		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
@@ -682,9 +684,9 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			String fileName = geo.getImageFileName();
 			if (fileName != "") {
 				String url = ((ImageManagerW) app.getImageManager())
-				        .getExternalImageSrc(fileName);
+						.getExternalImageSrc(fileName);
 				String ext = fileName.substring(fileName.lastIndexOf('.') + 1)
-				        .toLowerCase();
+						.toLowerCase();
 				MyImageW img = (MyImageW) geo.getFillImage();
 
 				App.debug("filename = " + fileName);
@@ -695,14 +697,14 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	private void addImageToArchive(String filePath, String fileName,
-	        String url, String ext, MyImageW img, Map<String, String> archive) {
+			String url, String ext, MyImageW img, Map<String, String> archive) {
 		if ("svg".equals(ext)) {
 			addSvgToArchive(fileName, img, archive);
 			return;
 		}
 		String dataURL;
 		if ((url == null || url.startsWith("http"))
-		        && (img != null && img.getImage() != null)) {
+				&& (img != null && img.getImage() != null)) {
 			dataURL = convertImgToPng(img);
 		} else {
 			dataURL = url;
@@ -712,10 +714,10 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 				addImageToZip(filePath + fileName, dataURL, archive);
 			} else if (!"svg".equals(ext)) {
 				addImageToZip(
-				        filePath
-				                + fileName.substring(0,
-				                        fileName.lastIndexOf('.')) + ".png",
-				        dataURL, archive);
+						filePath
+								+ fileName.substring(0,
+										fileName.lastIndexOf('.')) + ".png",
+						dataURL, archive);
 			}
 		}
 	}
@@ -736,7 +738,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	private void addSvgToArchive(String fileName, MyImageW img,
-	        Map<String, String> archive) {
+			Map<String, String> archive) {
 		ImageElement svg = img.getImage();
 
 		// TODO
@@ -758,7 +760,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	private void addImageToZip(String filename, String base64img,
-	        Map<String, String> archive) {
+			Map<String, String> archive) {
 		archive.put(filename, base64img);
 	}
 
@@ -769,7 +771,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	 * boolean)
 	 */
 	public synchronized boolean evalCommand(final String cmdString,
-	        boolean waitForResult) {
+			boolean waitForResult) {
 		return evalCommand(cmdString);
 	}
 
@@ -904,12 +906,29 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	/**
+	 * If there are Macros or a Exercise present in the current file This can be
+	 * used to check if parts of the construction are equivalent to the Macros
+	 * in the file. <br />
+	 * Hint will be empty unless specified otherwise with the ExerciseBuilder. <br />
+	 * Fraction will be 0 or 1 unless specified otherwise with the
+	 * ExerciseBuilder. <br />
+	 * Result will be in {@link Result},i.e: <br />
+	 * CORRECT, The assignment is CORRECT <br />
+	 * WRONG, if the assignment is WRONG and we can't tell why <br />
+	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check <br />
+	 * WRONG_INPUT_TYPES, if there are enough input geos, but one or more are of
+	 * the wrong type <br />
+	 * WRONG_OUTPUT_TYPE, if there is no output geo matching our macro <br />
+	 * WRONG_AFTER_RANDOMIZE, if the assignment was correct in the first place
+	 * but wrong after randomization <br />
+	 * UNKNOWN, if the assignment could not be checked
+	 * 
 	 * @return JavaScriptObject representation of the exercise result. For
-	 *         Example: "{"Werkzeug1":{ "result":"CORRECT", "hint":"",
-	 *         "fraction":1}," fractionsum":1}"
+	 *         Example: "{"Tool1":{ "result":"CORRECT", "hint":"",
+	 *         "fraction":1}}"
 	 */
 	public JavaScriptObject getExerciseResult() {
-		Exercise ex = new Exercise(app); // TODO register Exercise to App...
+		Exercise ex = Exercise.getInstance(app);
 		ex.checkExercise();
 		JSONObject result = new JSONObject();
 		ArrayList<Assignment> parts = ex.getParts();
@@ -926,7 +945,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public String getExerciseFraction() {
-		Exercise ex = new Exercise(app); // TODO register Exercise to App...
+		Exercise ex = Exercise.getInstance(app);
 		ex.checkExercise();
 		return Float.toString(ex.getFraction());
 	}
