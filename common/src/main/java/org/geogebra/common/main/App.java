@@ -74,6 +74,7 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -2363,7 +2364,7 @@ public abstract class App implements UpdateSelection {
 		if (points == appFontSize) {
 			return;
 		}
-		appFontSize = points;
+		appFontSize = Util.getValidFontSize(points);
 		// isSaved = false;
 		if (!update) {
 			return;
