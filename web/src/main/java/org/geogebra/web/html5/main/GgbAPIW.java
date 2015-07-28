@@ -10,6 +10,8 @@ import java.util.TreeSet;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
@@ -117,6 +119,28 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		        .getExportImageDataUrl(exportScale, transparent).substring(
 		                "data:image/png;base64,".length());
 	}
+
+	public String getLaTeXBase64(String label, boolean value){
+		Canvas c = Canvas.createIfSupported();
+		GeoElement geo = kernel.lookupLabel(label);
+		if(geo == null){
+			return "";
+		}
+		String str;
+		if (value) {
+			str = geo.toValueString(StringTemplate.latexTemplate);
+		} else {
+			str = geo instanceof GeoCasCell ? ((GeoCasCell) geo)
+					.getLaTeXInput() : geo
+					.toString(StringTemplate.latexTemplate);
+		}
+		DrawEquationWeb.paintOnCanvas(
+				geo,
+ str, c, app
+						.getFontSize());
+		return c.toDataUrl().substring("data:image/png;base64,".length());
+	}
+
 
 	public void drawToImage(String label, double[] x, double[] y) {
 		// TODO Auto-generated method stub
