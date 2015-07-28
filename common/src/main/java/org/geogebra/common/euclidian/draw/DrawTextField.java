@@ -47,6 +47,12 @@ import org.geogebra.common.util.Unicode;
  * @author Michael
  */
 public final class DrawTextField extends Drawable implements RemoveNeeded {
+	// TODO: examine these two, why are they needed and why these values.
+	private static final double TF_HEIGHT_FACTOR = 1.22;
+	private static final double TF_WIDTH_FACTOR = 0.83;
+
+	private static final int TF_PADDING = 5;
+
 	private static final int TF_MARGIN = 10;
 
 	/** textfield */
@@ -462,23 +468,25 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	}
 
 	final public GDimension getPrefSize() {
-		// final int heightsInPx[] = {};
+		// TODO: eliminate magic numbers
 		return new GDimension() {
 
 			@Override
 			public int getWidth() {
-				// return (int) (Math.round(labelFontSize * 0.8
-				// * geoTextField.getLength()));
-				return (int) Math.round(((view.getFontSize() * geoTextField
+				return (int) Math
+						.round(((view.getApplication().getFontSize() * geoTextField
 						.getFontSizeMultiplier()))
-						* geoTextField.getLength()
-						* 0.8);
+								* geoTextField.getLength() * TF_WIDTH_FACTOR
+);
 			}
 
 			@Override
 			public int getHeight() {
-				return (int) Math.round(((view.getFontSize() * geoTextField
-						.getFontSizeMultiplier()) + TF_MARGIN) * 1.23) + 2;
+				return (int) Math
+						.round(((view.getApplication().getFontSize() * geoTextField
+								.getFontSizeMultiplier())) * TF_HEIGHT_FACTOR)
+						+ TF_MARGIN;
+
 			}
 		};
 	}
@@ -538,14 +546,16 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		//
 		// g2.setPaint(GColor.RED);
 
-		int y = prefSize.getHeight() - labelFontSize / 2;
+		int y = getTextY();
 		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
 				g2, labelDesc, xLabel, yLabel + y, false, false);
 
 		if (geo.doHighlighting()) {
 			g2.setPaint(GColor.LIGHT_GRAY);
-			g2.fillRect(xLabel, yLabel + (prefSize.getHeight() - labelFontSize)
-					/ 2, labelSize.x, labelFontSize + 4); /* magic numbers */
+
+			/* some magic */
+			g2.fillRect(xLabel, yLabel, labelSize.x,
+					(int) Math.round(labelFontSize * 1.5));
 
 			g2.setPaint(geo.getObjectColor());
 			labelSize = EuclidianStatic.drawIndexedString(
@@ -570,12 +580,15 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		GRectangle r = box.getBounds();
 	}
 
+	private int getTextY() {
+		return prefSize.getHeight() / 2 + (labelFontSize / 2) - 4;
+	}
+
 	private void drawTextFieldLabel(GGraphics2D g2) {
 
 		g2.setPaint(geo.getObjectColor());
-		int y = prefSize.getHeight() - labelFontSize / 2;
 		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
-				g2, labelDesc, xLabel, yLabel + y, false,
+				g2, labelDesc, xLabel, yLabel + getTextY(), false,
 				false);
 	}
 
