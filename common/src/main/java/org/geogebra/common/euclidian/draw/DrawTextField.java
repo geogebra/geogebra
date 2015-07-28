@@ -47,6 +47,8 @@ import org.geogebra.common.util.Unicode;
  * @author Michael
  */
 public final class DrawTextField extends Drawable implements RemoveNeeded {
+	private static final int TF_MARGIN = 10;
+
 	/** textfield */
 	final GeoTextField geoTextField;
 
@@ -179,7 +181,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				geoTextField.textObjectUpdated(textField);
 				geoTextField.textSubmitted();
 				if (drawOnCanvas) {
-					update();
+					draw(view.getGraphicsForPen());
 				}
 			}
 
@@ -190,6 +192,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		}
 	}
 
+	private void updateCanvas() {
+
+	}
 	/**
 	 * Listens to key events in this textfield
 	 * 
@@ -217,7 +222,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				textField.setFocus(false);
 				getView().requestFocusInWindow();
 				if (drawOnCanvas) {
-					update();
+					textField.setVisible(false);
+					draw(view.getGraphicsForPen());
 				}
 			} else {
 				GeoElement linkedGeo = ((GeoTextField) getGeo()).getLinkedGeo();
@@ -409,11 +415,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				oldCaption = caption;
 				labelDesc = caption;// GeoElement.indicesToHTML(caption, true);
 
-				// cheat: change Caption to "a" if you want the old
-				// behavior.
-				if ("a".equals(caption)) {
-					drawOnCanvas = false;
-				}
+
 			}
 			label.setText(labelDesc);
 		} else {
@@ -470,13 +472,13 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				return (int) Math.round(((view.getFontSize() * geoTextField
 						.getFontSizeMultiplier()))
 						* geoTextField.getLength()
-						* 0.8) + 5;
+						* 0.8);
 			}
 
 			@Override
 			public int getHeight() {
 				return (int) Math.round(((view.getFontSize() * geoTextField
-						.getFontSizeMultiplier()) + 10) * 1.1);
+						.getFontSizeMultiplier()) + TF_MARGIN) * 1.23) + 2;
 			}
 		};
 	}
@@ -561,9 +563,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		g2.setPaint(GColor.LIGHT_GRAY);
 		g2.drawRoundRect(inputLeft - 3, yLabel - 2, prefSize.getWidth(),
 				prefSize.getHeight(), 5, 5);
-		labelRectangle.setBounds(inputLeft - 3, yLabel - 2,
+		labelRectangle.setBounds(inputLeft - 3, yLabel - 3,
 				prefSize.getWidth(),
-				prefSize.getHeight());
+ prefSize.getHeight());
 		box.setBounds(labelRectangle);
 		GRectangle r = box.getBounds();
 	}
