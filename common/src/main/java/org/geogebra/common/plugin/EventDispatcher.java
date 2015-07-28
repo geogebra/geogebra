@@ -85,7 +85,7 @@ public class EventDispatcher implements ClientView {
 	 *            the target of the event
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo) {
-		if ((null != geo) && (!geo.isLabelSet())) {
+		if ((null != geo) && !geo.isLabelSet() && !geo.isGeoCasCell()) {
 			return;
 		}
 		dispatchEvent(new Event(evtType, geo));
