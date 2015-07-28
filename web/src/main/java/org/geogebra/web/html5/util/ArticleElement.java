@@ -485,6 +485,9 @@ public final class ArticleElement extends Element {
 
 	public float getDataParamScale() {
 		String scale = this.getAttribute("data-param-scale");
+		if (scale.length() < 1) {
+			return 1;
+		}
 		float ret = 1;
 		try {
 			ret = Float.valueOf(scale);
