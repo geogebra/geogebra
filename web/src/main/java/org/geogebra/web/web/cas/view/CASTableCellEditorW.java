@@ -97,4 +97,9 @@ public class CASTableCellEditorW implements CASTableCellEditor, CASEditorW {
 		this.textField.setAutoComplete(autocomplete);
 
 	}
+
+	public Object getCellEditorValue() {
+		// TODO: implement!
+		return null;
+	}
 }

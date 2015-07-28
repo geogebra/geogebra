@@ -17,6 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.web.gui.GuiManagerW;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
@@ -116,9 +117,27 @@ public class CASTableControllerW extends CASTableCellController implements
 			return;
 		}
 		mouseDown = false;
-		onPointerUp(event);
-		event.stopPropagation();
 
+		if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
+			// only makes sense for mouse events yet
+			// TODO: add this functionality to touch events,
+			// maybe override onPointerUp??
+			CASTableW table = view.getConsoleTable();
+			CASTableCellEditorW tableCellEditor = (CASTableCellEditorW) table
+					.getEditor();
+			RowContentPopupMenuW popupMenu = new RowContentPopupMenuW(app,
+					(GeoCasCell) tableCellEditor.getCellEditorValue(),
+					tableCellEditor, table, RowContentPopupMenuW.Panel.INPUT);
+
+			// ?
+			// popupMenu.show(e.getComponent(), event.getX(), event.getY());
+
+			// nothing happens...
+			// popupMenu.show(new GPoint(event.getX(), event.getY()));
+		} else {
+			onPointerUp(event);
+		}
+		event.stopPropagation();
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
