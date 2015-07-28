@@ -473,7 +473,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 				newSelection = CmdDataFunction.getDataFunction(
 						this.app.getKernel(), null,
 						new MyList(this.app.getKernel()),
-						new MyList(this.app.getKernel()))[0];
+						new MyList(this.app.getKernel()), null)[0];
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
 			}
