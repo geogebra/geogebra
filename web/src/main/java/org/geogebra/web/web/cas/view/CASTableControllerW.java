@@ -127,13 +127,13 @@ public class CASTableControllerW extends CASTableCellController implements
 					.getEditor();
 			RowContentPopupMenuW popupMenu = new RowContentPopupMenuW(app,
 					(GeoCasCell) tableCellEditor.getCellEditorValue(),
-					tableCellEditor, table, RowContentPopupMenuW.Panel.INPUT);
+					tableCellEditor, table, RowContentPopupMenuW.Panel.OUTPUT);
 
 			// ?
 			// popupMenu.show(e.getComponent(), event.getX(), event.getY());
 
 			// nothing happens...
-			// popupMenu.show(new GPoint(event.getX(), event.getY()));
+			//popupMenu.show(new GPoint(event.getClientX(), event.getClientY()));
 		} else {
 			onPointerUp(event);
 		}
