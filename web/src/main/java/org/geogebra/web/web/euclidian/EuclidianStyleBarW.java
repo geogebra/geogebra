@@ -861,6 +861,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 
 		};
+
+		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(true);
 		btnBgColor.addPopupHandler(this);
 	}
@@ -904,6 +906,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 
 		};
+		btnTextColor.setEnableTable(true);
 		btnTextColor.addStyleName("btnTextColor");
 		btnTextColor.addPopupHandler(this);
 
