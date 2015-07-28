@@ -321,11 +321,13 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * @param vy
 	 *            vertical translation
 	 */
-	final public static ExpressionNode translateY(ExpressionNode expression,
+	final public static ExpressionNode translateY(ExpressionNode expr,
 			FunctionVariable[] fVars,
 			double vy) {
+		ExpressionNode expression = expr.unwrap().wrap();
 		// special case: constant
-		if (expression.isLeaf() && expression.getLeft() != fVars[0]) {
+		if (expression.isLeaf() && expression.getLeft() != fVars[0]
+				&& (expression.getLeft() instanceof NumberValue)) {
 			MyDouble c = ((NumberValue) expression.getLeft()).getNumber();
 			c.set(Kernel.checkDecimalFraction(c.getDouble() + vy));
 			expression.setLeft(c);
