@@ -459,12 +459,12 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		prefSize = box.getPreferredSize();
 
-		// if (!drawOnCanvas) {
-			labelRectangle.setBounds(xLabel, yLabel,
-					prefSize.getWidth(),
-					prefSize.getHeight());
+		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
+				prefSize.getHeight());
 			box.setBounds(labelRectangle);
-		// }
+		if (!drawOnCanvas) {
+			draw(view.getGraphicsForPen());
+		}
 	}
 
 	final public GDimension getPrefSize() {
@@ -571,9 +571,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				false, false);
 
 		g2.setPaint(GColor.LIGHT_GRAY);
-		g2.drawRoundRect(inputLeft - 3, yLabel - 2, prefSize.getWidth(),
+		g2.drawRoundRect(inputLeft, yLabel, prefSize.getWidth(),
 				prefSize.getHeight(), 5, 5);
-		labelRectangle.setBounds(inputLeft - 3, yLabel - 3,
+		labelRectangle.setBounds(inputLeft, yLabel,
 				prefSize.getWidth(),
  prefSize.getHeight());
 		box.setBounds(labelRectangle);
