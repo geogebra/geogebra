@@ -3338,7 +3338,9 @@ kernel, left,
 			sb.append(tpl.leftSquareBracket());
 			if (tpl.hasType(StringType.GEOGEBRA_XML)) {
 				sb.append(rightStr);
+				sb.append(',');
 			}
+			sb.append(leftStr);
 			sb.append(tpl.rightSquareBracket());
 			break;
 		case INTEGRAL:

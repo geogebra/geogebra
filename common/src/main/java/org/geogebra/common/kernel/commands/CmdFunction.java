@@ -50,7 +50,8 @@ public class CmdFunction extends CommandProcessor {
 		switch (n) {
 		case 0:
 			return CmdDataFunction.getDataFunction(kernelA, c.getLabel(),
-					new MyList(app.getKernel()), new MyList(app.getKernel()));
+					new MyList(app.getKernel()), new MyList(app.getKernel()),
+					null);
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoList()) {
