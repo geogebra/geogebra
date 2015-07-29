@@ -127,6 +127,7 @@ public class ObjectNameModel extends OptionsModel {
 			if (defInputHandler.processInput(definition)) {
 				// if succeeded, switch current geo
 				currentGeo = defInputHandler.getGeoElement();
+				app.getSelectionManager().clearSelectedGeos(false, false);
 				app.getSelectionManager().addSelectedGeo(currentGeo);
 			} else {
 				setRedefinitionFailed(true);

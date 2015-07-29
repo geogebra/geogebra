@@ -936,9 +936,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (!inputBarStr.equals("")) {
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
+			// beware correct vars for f(t) = t + a
 			final char delimiter = getLabelDelimiter();
 			if (inputBarStr.indexOf(delimiter) < 0) {
-				inputBarStr = getLabel(StringTemplate.editTemplate)
+				inputBarStr = getAssignmentLHS(StringTemplate.editTemplate)
 						+ (delimiter == '=' ? " =" : delimiter) + " "
 						+ inputBarStr;
 			}
