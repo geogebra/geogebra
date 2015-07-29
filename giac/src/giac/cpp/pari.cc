@@ -91,7 +91,7 @@ namespace giac {
       pari_function_table[ptr->name]=ptr;
     }
     // initialize variable ordering x,y,z
-    flisexpr("[x,y,z,t]");
+    gp_read_str("[x,y,z,t]");
   }
 
   struct giac_pari_init {
@@ -524,7 +524,8 @@ namespace giac {
     // if (vars_.empty()) vars_.push_back(vx_var);
     if (!vars_.empty())
       s="["+(vars_.size()==1?vars_.front().print():print_VECT(vars_,_SEQ__VECT,contextptr))+","+s+"]";
-    GEN res= flisexpr((char *) s.c_str());
+    GEN res= gp_read_str((char *) s.c_str());
+    // gp_read_str seems to have problems with large strings (s.size()>2^16?)
     return vars_.empty()?res:gel(res,1+vars_.size());
   }
   GEN gen2GEN(const gen & e,const vecteur & vars,GIAC_CONTEXT){
@@ -659,7 +660,7 @@ namespace giac {
     }
     s+="]";
     // cerr << s << endl;
-    GEN pari_factmod=flisexpr((char *) s.c_str());
+    GEN pari_factmod=gp_read_str((char *) s.c_str());
     GEN pari_modulo=gen2GEN(modulo,vecteur(0),0);
     GEN pari_res=combine_factors(pari_a,pari_factmod,pari_modulo,0,1);
     // back conversion
@@ -696,7 +697,7 @@ namespace giac {
 	// setsizeerr();
 	return undef;
       } 
-    GEN gres= flisexpr((char *) s.c_str());
+    GEN gres= gp_read_str((char *) s.c_str());
     gen res=GEN2gen(gres,vecteur(0));
     avma=av;
     PARI_stack_limit = save_pari_stack_limit ;
@@ -1013,7 +1014,10 @@ namespace giac {
     long av=avma;
     void * save_pari_stack_limit = PARI_stack_limit;
     PARI_stack_limit=0; 
-    tmp=GEN2gen(polresultant0(gen2GEN(p,lv,contextptr),gen2GEN(q,lv,contextptr),-1,2),lv);
+    GEN P=gen2GEN(p,lv,contextptr);
+    GEN Q=gen2GEN(q,lv,contextptr);
+    GEN PQ=polresultant0(P,Q,-1,2);
+    tmp=GEN2gen(PQ,lv);
     avma=av;
     PARI_stack_limit=save_pari_stack_limit;
     if (pari_mutex_ptr) pthread_mutex_unlock(pari_mutex_ptr);    
@@ -1045,6 +1049,31 @@ namespace giac {
     return true;
   }
 
+  bool pari_galoisconj(const gen & g,vecteur & w,GIAC_CONTEXT){
+    if (check_pari_mutex())
+      return false;
+    gen res;
+    pthread_cleanup_push(pari_cleanup, (void *) pari_mutex_ptr);
+
+    res=in_pari(makesequence(string2gen("nfgaloisconj",false),g),contextptr);
+
+    if (pari_mutex_ptr) pthread_mutex_unlock(pari_mutex_ptr);    
+    pthread_cleanup_pop(0);
+    if (res.type!=_VECT)
+      return false;
+    w=*res._VECTptr;
+    gen gp=_symb2poly(makesequence(g,vx_var),contextptr);
+    for (int i=0;i<int(w.size());++i){
+      gen tmp=w[i];
+      tmp=_symb2poly(makesequence(tmp,vx_var),contextptr);
+      gen d=1;
+      if (tmp.type==_VECT)
+	lcmdeno(*tmp._VECTptr,d,contextptr);
+      w[i]=symb_rootof(tmp,gp,contextptr)/d;
+    }
+    return true;
+  }
+  
 
 #ifndef NO_NAMESPACE_GIAC
 }
@@ -1088,6 +1117,10 @@ namespace giac {
     return false;
   }
 
+  bool pari_galoisconj(const gen & g,vecteur & w,GIAC_CONTEXT){
+    return false;
+  }
+  
   gen _pari(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     return pari_error();

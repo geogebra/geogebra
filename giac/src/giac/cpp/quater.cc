@@ -38,12 +38,13 @@
 #include "giacintl.h"
 using namespace std;
 
-#ifndef NO_RTTI
-
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
+#ifdef NO_RTTI
+  extern const unary_function_ptr * const  at_quaternion=0; // user-level quaterni
+#else
   static const char _quaternion_s []="quaternion";
   gen _quaternion(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -86,7 +87,7 @@ namespace giac {
   // If it is only irreducible, returns 2 and sets vmin to a primitive poly mod p if primitive is true
   int is_irreducible_primitive(const modpoly & v,const gen & p,modpoly & vmin,bool primitive,GIAC_CONTEXT){
     vmin=v;
-    int m=v.size()-1;
+    int m=int(v.size())-1;
     if (m<2)
       return 0; // setsizeerr(gettext("irreducibility: degree too short")+gen(v).print());
     gen gpm=pow(p,m);
@@ -115,7 +116,7 @@ namespace giac {
     // Primi: must not divide x^[(p^m-1)/d]-1 for any prime divisor d of p^m-1
     gen pm_minus_1=gpm-1;
     vecteur vp(pfacprem(pm_minus_1,true,context0));
-    int ntest=vp.size();
+    int ntest=int(vp.size());
     for (int i=0;i<ntest;i+=2){
       // Compute x^[(p^m-1)/d] mod v, mod p, is it 1?
       gen pm_d=(gpm-1)/vp[i];
@@ -247,7 +248,7 @@ namespace giac {
 	return galois_field(args,true,contextptr);
       v=*args._VECTptr;
     }
-    int s=v.size();
+    int s=int(v.size());
     if (s<1 || !is_integer(v[0]))
       return gensizeerr(contextptr);
     if (_isprime(v[0],contextptr)==0){
@@ -680,7 +681,7 @@ namespace giac {
   }
 
   gen galois_field::sqrt(GIAC_CONTEXT) const {
-    unsigned m=P._VECTptr->size()-1;
+    unsigned m=unsigned(P._VECTptr->size())-1;
     // K* has cardinal p^m-1, a has a sqrt iff a^((p^m-1)/2)==1
     environment env;
     env.modulo=p;
@@ -750,7 +751,7 @@ namespace giac {
   gen galois_field::makegen(int i) const {
     if (P.type!=_VECT || p.type!=_INT_)
       return gendimerr();
-    unsigned n=P._VECTptr->size()-1;
+    unsigned n=unsigned(P._VECTptr->size())-1;
     //    i += pow(p,int(n)).val;
     vecteur res;
     for (unsigned j=0;j<n;++j){
@@ -806,7 +807,7 @@ namespace giac {
 
   gen galois_field::rand (GIAC_CONTEXT) const {
     int c=p.val;
-    int m=P._VECTptr->size()-1;
+    int m=int(P._VECTptr->size())-1;
     vecteur v(m);
     for (int i=0;i<m;++i){
       if (c==2)
@@ -818,8 +819,9 @@ namespace giac {
     return galois_field(p,P,x,v);
   }
 
+#endif // NO_RTTI
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
 
-#endif // NO_RTTI

@@ -52,6 +52,7 @@ namespace giac {
   // w[5] = watch vecteur, w[6] = watch values
   gen equaltosame(const gen & a);
   gen sametoequal(const gen & a);    
+  gen equaltosto(const gen & g);
   int bind(const vecteur & vals,const vecteur & vars,context * & contextptr);
   bool leave(int protect,vecteur & vars,context * & contextptr);
 

@@ -134,7 +134,7 @@ namespace giac {
   static gen spol12gen(const gen & coeff,const gen & x){
     if (coeff.type==_VECT){
       vecteur v=*coeff._VECTptr;
-      int s=v.size();
+      int s=int(v.size());
       for (int i=0;i<s;++i){
 	v[i]=spol12gen(v[i],x);
       }
@@ -353,8 +353,8 @@ namespace giac {
       interrupted=ctrl_c=true;
       return false;
     }
-    int asize=celuici.size();
-    int bsize=other.size();
+    int asize=int(celuici.size());
+    int bsize=int(other.size());
     if ( (!asize) || (!bsize) ) {
       final_seq.clear();
       return true;
@@ -767,7 +767,7 @@ namespace giac {
     }
     vecteur l;
     lvar(v,l);
-    int l_size(l.size());
+    int l_size(int(l.size()));
     vector<gen> w;
     w.reserve(2*l_size);
     gen common=1,num,den,f;
@@ -856,7 +856,7 @@ namespace giac {
     }
     // COUT << "compose " << vcopy << " with " << pcopy << endl;
     it=vcopy.begin(),itend=vcopy.end();
-    int n=itend-it-1;
+    int n=int(itend-it)-1;
     bool n_truncate=false; 
     gen n_valuation;
     if (is_undef(*it)){
@@ -1065,7 +1065,7 @@ namespace giac {
       N=Ng.val;
       if (is_undef(it->coeff))
 	break;
-      for (int n=pv.size();n<N;++n){
+      for (int n=int(pv.size());n<N;++n){
 	pv.push_back(0);
       }
       pv.push_back(it->coeff);
@@ -1420,7 +1420,7 @@ namespace giac {
       // compose with sommet expansion
       // fixme: multiargs disabled, should return a vecteur of series_exp
       if (temp__SYMB.sommet != at_of && temp__SYMB.feuille.type==_VECT){
-	int nargs=temp__SYMB.feuille._VECTptr->size();
+	int nargs=int(temp__SYMB.feuille._VECTptr->size());
 	if (nargs==4 && temp__SYMB.sommet==at_sum){
 	  vecteur & tempfv=*temp__SYMB.feuille._VECTptr;
 	  gen k=tempfv[1],lo=tempfv[2],up=tempfv[3];
@@ -1757,7 +1757,7 @@ namespace giac {
 	  // derive expansion
 	  vecteur & v =*expansion._VECTptr;
 	  for (int i=0;i<addorder;++i){
-	    int vs=v.size();
+	    int vs=int(v.size());
 	    if (is_zero(shift_coeff)){
 	      vecteur w(vs-1);
 	      for (int j=1;j<vs;++j){
@@ -1999,7 +1999,7 @@ namespace giac {
 
   static int check_bounded(const gen & g,GIAC_CONTEXT){
     vecteur v=loptab(g,sincostan_tab);
-    int vs=v.size();
+    int vs=int(v.size());
     vecteur w;
     for (int i=0;i<vs;++i){
       if (v[i].type==_SYMB && v[i]._SYMBptr->feuille.type==_SPOL1)
@@ -2065,7 +2065,7 @@ namespace giac {
     // Find functions depending of x in e which are in the list
     // If their argument tends to +/-infinity, replace these functions
     vecteur v=rlvarx(e,x);
-    int vs=v.size(),pos1,pos2;
+    int vs=int(v.size()),pos1,pos2;
     vecteur v1,v2;
     for (int i=0;i<vs;++i){
       if (v[i].type==_SYMB){
@@ -2116,7 +2116,7 @@ namespace giac {
     if (!v1.empty())
       e=remove_lnexp(subst(e,v1,v2,false,contextptr),contextptr);
     v=rlvarx(e,x);
-    vs=v.size();
+    vs=int(v.size());
     v1.clear(); v2.clear();
     for (int i=0;i<vs;++i){
 #if 1
@@ -2337,7 +2337,7 @@ namespace giac {
     }
     gen e_copy;
     // Rewrite non rational ^ and tan 
-    e_copy=_pow2exp(tan2sincos(e,contextptr),contextptr);
+    e_copy=_pow2exp(tan2sincos(exact(e,contextptr),contextptr),contextptr);
     // FIXME: this translate exp(i*...) to sin/cos without bugging for
     // exp(exp(exp(x)/(1-1/x)))-exp(exp(exp(x)/(1-1/x-exp((-(ln(x)))*ln(ln(x))))))
     if (has_i(e_copy)) {
@@ -2757,7 +2757,7 @@ namespace giac {
       pos_b=equalposcomp(b,*it);
       if (pos_b){
 	--pos_b;
-	pos_a=it-a.begin();
+	pos_a=int(it-a.begin());
 	return true;
       }
     return false;
@@ -2781,7 +2781,7 @@ namespace giac {
     // sincosinf.clear();
     if (is_undef(lim_point))
       return lim_point;
-    gen l=in_limit(e,x,lim_point,direction,contextptr);
+    gen l=in_limit(exact(e,contextptr),x,exact(lim_point,contextptr),direction,contextptr);
     // inside_limit(save_inside_limit,contextptr);
     // vecteur sincosinfsub(sincosinf.size(),undef);
     // l=eval(subst(l,sincosinf,sincosinfsub));
@@ -2801,7 +2801,7 @@ namespace giac {
     if (args.type!=_VECT)
       return quotedlimit(args,*vx_var._IDNTptr,0,0,contextptr);
     vecteur v =*args._VECTptr;
-    int s=v.size();
+    int s=int(v.size());
     if (!s)
       toofewargs(_limit_s);
     gen G=v[0];
@@ -2856,7 +2856,7 @@ namespace giac {
     if (g.type!=_VECT)
       return s+gen2tex(g,contextptr);
     vecteur v(*g._VECTptr);
-    int l(v.size());
+    int l(int(v.size()));
     if (!l)
       return s;
     if (l==1)
@@ -2894,7 +2894,7 @@ namespace giac {
       // search embedded ln if mrv_var is an exp var
       mrv_fait=mrv_fait._SYMBptr->feuille;
       vecteur l(lop(mrv_fait,at_ln));
-      int ls=l.size();
+      int ls=int(l.size());
       for (int i=0;i<ls;++i){
 	identificateur tx(" x");
 	gen tmpx(tx);
@@ -2982,7 +2982,7 @@ namespace giac {
     }
     if (e.type==_VECT){
       vecteur res = *e._VECTptr;
-      int l=res.size();
+      int l=int(res.size());
       for (int i=0;i<l;++i){
 	res[i]=in_series(_pow2exp(tan2sincos(res[i],contextptr),contextptr),x,lim_point,ordre,direction,contextptr);
       }
@@ -3058,7 +3058,7 @@ namespace giac {
       return res;
     }
     v[0]=Heavisidetosign(when2sign(piecewise2when(v[0],contextptr),contextptr),contextptr);
-    int s=v.size();
+    int s=int(v.size());
     if (!s)
       toofewargs(_series_s);
     if (s==1)
@@ -3180,7 +3180,7 @@ namespace giac {
     }
     vecteur v=lop(g,at_sum);
     vecteur w=v;
-    int s=v.size();
+    int s=int(v.size());
     for (int i=0;i<s;++i){
       if (!convert_to_euler_mac_laurin(v[i],n,w[i],contextptr))
 	return false;

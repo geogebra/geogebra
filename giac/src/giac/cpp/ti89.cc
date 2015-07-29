@@ -47,6 +47,9 @@ using namespace std;
 #include "input_parser.h"
 #include "input_lexer.h"
 #include "giacintl.h"
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -233,7 +236,7 @@ namespace giac {
 
   gen _InputStr(const gen & g,GIAC_CONTEXT){
     vecteur v(gen2vecteur(g));
-    int s=v.size();
+    int s=int(v.size());
     gen res;
     if (s==1)
       res= __click.op(makevecteur(string2gen(v[0].print(contextptr)),0,v[0],1),contextptr);
@@ -344,7 +347,7 @@ namespace giac {
 
   static gen zeros(const gen &g,bool complexmode,GIAC_CONTEXT){
     vecteur v(solvepreprocess(g,complexmode,contextptr));
-    int s=v.size();
+    int s=int(v.size());
     if (s>2)
       return gentoomanyargs("solve");
     return solve(remove_equal(v.front()),v.back(),complexmode,contextptr);
@@ -458,7 +461,7 @@ namespace giac {
   gen _randPoly(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
-    int vs=v.size(),deg=10;
+    int vs=int(v.size()),deg=10;
     gen x=vx_var;
     gen f=0;
     if (vs>=3 && v[0].type==_INT_ && v[1].type==_INT_ && v[2].type==_VECT){
@@ -479,7 +482,7 @@ namespace giac {
       }
       int tdeg=v[0].val;
       int nterms=absint(v[1].val);
-      int dim=v[2]._VECTptr->size();
+      int dim=int(v[2]._VECTptr->size());
       vecteur w=vranm(nterms,f,contextptr);
       polynome p(dim);
       for (int i=0;i<nterms;++i){
@@ -795,7 +798,7 @@ namespace giac {
       f=makevecteur(r,i);
     }
     M=f;
-    int dim=f._VECTptr->size();
+    int dim=int(f._VECTptr->size());
     gen vitesse=derive(f,x,contextptr),v2=normal(l2norm2(vitesse),contextptr);
     gen sqrtv2=sqrt(v2,contextptr); // v=ds/dt
     T=vitesse/sqrtv2;
@@ -866,7 +869,7 @@ namespace giac {
       reim(f,r,i,contextptr);
       f=makevecteur(r,i);
     }
-    int dim=f._VECTptr->size();
+    int dim=int(f._VECTptr->size());
     gen vitesse=derive(f,x,contextptr),v2=normal(l2norm2(vitesse),contextptr);
     gen sqrtv2=sqrt(v2,contextptr); // v=ds/dt
     gen accel=derive(vitesse,x,contextptr),res;
@@ -999,7 +1002,7 @@ namespace giac {
 	  digits ++;
 	digits = digits < 2 ? 2 : digits;
 	if (digits + 1 < txt.size()){
-	  string tmp = txt.substr(0, 1) + "." + txt.substr(1, digits) + "e+" + print_INT_(txt.size() - 1);
+	  string tmp = txt.substr(0, 1) + "." + txt.substr(1, digits) + "e+" + print_INT_(int(txt.size()) - 1);
 	  return tmp;
 	}
       }  
@@ -1064,7 +1067,7 @@ namespace giac {
       return string2gen(v[0]._STRNGptr->substr(0,v[1].val),false);
     if (v[0].type==_VECT){
       const_iterateur it=v[0]._VECTptr->begin(),itend=v[0]._VECTptr->end();
-      int length=giacmax(0,giacmin(itend-it,v[1].val));
+      int length=giacmax(0,giacmin(int(itend-it),v[1].val));
       return gen(vecteur(it,it+length),v[0].subtype);
     }
     return g;
@@ -1099,13 +1102,13 @@ namespace giac {
       return g;
     if (v[0].type==_STRNG){
       string & s=*v[0]._STRNGptr;
-      int l=s.size();
+      int l=int(s.size());
       int m=giacmin(giacmax(v[1].val,0),l);
       return string2gen(s.substr(l-m,m),false);
     }
     if (v[0].type==_VECT){
       const_iterateur it=v[0]._VECTptr->begin(),itend=v[0]._VECTptr->end();
-      int length=giacmax(0,giacmin(itend-it,v[1].val));
+      int length=giacmax(0,giacmin(int(itend-it),v[1].val));
       return gen(vecteur(itend-length,itend),v[0].subtype);
     }
     return g;
@@ -1134,14 +1137,14 @@ namespace giac {
       string & s=*v[0]._STRNGptr;
       if (debut>=signed(s.size()) || debut<0)
 	return string2gen("",false);
-      int m=giacmin(giacmax(nbre,0),s.size());
+      int m=giacmin(giacmax(nbre,0),int(s.size()));
       return string2gen(s.substr(debut,m),false);
     }
     if (v[0].type==_VECT){
       const_iterateur it=v[0]._VECTptr->begin(),itend=v[0]._VECTptr->end();
       if (debut>=itend-it || debut<0)
 	return gen(vecteur(0),v[0].subtype);
-      int length=giacmax(0,giacmin(itend-it-debut,nbre));
+      int length=giacmax(0,giacmin(int(itend-it)-debut,nbre));
       return gen(vecteur(it+debut,it+debut+length),v[0].subtype);
     }
     return g;
@@ -1185,7 +1188,7 @@ namespace giac {
     }
     if (a.type==_VECT){
       const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end();
-      nbre=giacmin(nbre,itend-it);
+      nbre=giacmin(nbre,int(itend-it));
       if (shift){
 	if (right)
 	  return gen(mergevecteur(vecteur(it+nbre,itend),vecteur(nbre,0)),a.subtype);
@@ -1197,7 +1200,7 @@ namespace giac {
     }
     if (a.type==_STRNG){
       string & s=*a._STRNGptr;
-      int l=s.size();
+      int l=int(s.size());
       nbre=giacmin(nbre,l);
       if (shift){
 	if (right)
@@ -1410,7 +1413,7 @@ namespace giac {
 	return prodsum(g.eval(eval_level(contextptr),contextptr),true);
       vecteur v=*g._VECTptr;
       maple_sum_product_unquote(v,contextptr);
-      int s=v.size();
+      int s=int(v.size());
       if (!adjust_int_sum_arg(v,s))
 	return gensizeerr(contextptr);
       if (v.size()==4 && (v[2].type!=_INT_ || v[3].type!=_INT_)){
@@ -1431,7 +1434,7 @@ namespace giac {
 	  v[0]=e2r(v[0],lv,contextptr);
 	  gen p1,p2;
 	  fxnd(v[0],p1,p2);
-	  return simplify(product(gen2polynome(p1,lv.size()),lv,n,v[2],v[3],contextptr)/product(gen2polynome(p2,lv.size()),lv,n,v[2],v[3],contextptr),contextptr);
+	  return simplify(product(gen2polynome(p1,int(lv.size())),lv,n,v[2],v[3],contextptr)/product(gen2polynome(p2,int(lv.size())),lv,n,v[2],v[3],contextptr),contextptr);
 	}
       }
       if (v.size()==4 && v[2].type==_INT_ && v[3].type==_INT_ && v[2].val>v[3].val){
@@ -1656,7 +1659,7 @@ namespace giac {
     }
     if (v.size()!=3 || !ckmatrix(v[1]) || v[2].type!=_INT_ )
       return gentypeerr(contextptr);
-    int s=v[1]._VECTptr->size();
+    int s=int(v[1]._VECTptr->size());
     int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l=v[2].val-shift;
     if (l<0 || l>=s)
@@ -1686,7 +1689,7 @@ namespace giac {
     v[2]=_floor(v[2],contextptr);
     if (!ckmatrix(v[1]) || v[2].type!=_INT_ || v[3].type!=_INT_)
       return gentypeerr(contextptr);
-    int s=v[1]._VECTptr->size();
+    int s=int(v[1]._VECTptr->size());
     int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l1=v[2].val-shift,l2=v[3].val-shift;
     if (l1<0 || l1>=s || l2<0 || l2>=s)
@@ -1716,7 +1719,7 @@ namespace giac {
     v[2]=_floor(v[2],contextptr);
     if (!ckmatrix(v[0]) || v[1].type!=_INT_ || v[2].type!=_INT_)
       return gentypeerr(contextptr);
-    int s=v[0]._VECTptr->size();
+    int s=int(v[0]._VECTptr->size());
     int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l1=v[1].val-shift,l2=v[2].val-shift;
     if (l1<0 || l1>=s || l2<0 || l2>=s)
@@ -1746,7 +1749,7 @@ namespace giac {
     v[2]=_floor(v[2],contextptr);
     if (!ckmatrix(v[0]) || v[1].type!=_INT_ || v[2].type!=_INT_)
       return gentypeerr(contextptr);
-    int s=v[0]._VECTptr->size();
+    int s=int(v[0]._VECTptr->size());
     int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l1=v[1].val-shift,l2=v[2].val-shift;
     if (l1<0 || l1>=s || l2<0 || l2>=s)
@@ -1850,7 +1853,7 @@ namespace giac {
     gen det;
     vecteur pivots;
     matrice res;
-    mrref(*a._VECTptr,res,pivots,det,0,a._VECTptr->size(),0,a._VECTptr->front()._VECTptr->size(),
+    mrref(*a._VECTptr,res,pivots,det,0,int(a._VECTptr->size()),0,int(a._VECTptr->front()._VECTptr->size()),
 	  /* fullreduction */0,0,true,1,0,
 	  contextptr);
     bool reducelast = a._VECTptr->size()!=a._VECTptr->front()._VECTptr->size()-1;
@@ -2354,7 +2357,7 @@ namespace giac {
   gen _CyclePic(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
-    int s=v.size();
+    int s=int(v.size());
     if (s<2 || v[0].type!=_STRNG || v[1].type!=_INT_)
       return gensizeerr(contextptr);
     int n=giacmax(absint(v[1].val),1);
@@ -2434,7 +2437,7 @@ namespace giac {
 
   gen _RandSeed(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(VISUALC) || defined(__MINGW_H) || defined BESTA_OS || defined EMCC || defined NSPIRE
+#if defined(NSPIRE_NEWLIB) || defined(VISUALC) || defined(__MINGW_H) || defined BESTA_OS || defined EMCC || defined NSPIRE
     srand(g.val);
 #else
 #ifndef GNUWINCE
@@ -2994,8 +2997,8 @@ namespace giac {
 	s = (char) c+s;
     }
     --ptr;
-    int pos=s.find('\\');
-    int l=s.size();
+    int pos=int(s.find('\\'));
+    int l=int(s.size());
     gen res;
     if (pos>0 && pos+1<l){
       string s1=s.substr(0,pos);
@@ -4628,7 +4631,7 @@ namespace giac {
       is.get(c);
       lu += c;
     }
-    unsigned int s=lu.size();
+    unsigned int s=unsigned(lu.size());
     if (s<0x60)
       return gensizeerr(gettext("Too short for a TI archive"));
 #ifdef VISUALC

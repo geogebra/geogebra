@@ -37,7 +37,7 @@ namespace giac {
     gen errcode=checkanglemode(contextptr);
     if (is_undef(errcode)) return vecteur(1,errcode);
     int n;
-    n=M.size();
+    n=int(M.size());
     vecteur I;
     // for (int i=0;i<n;i++){
     //vecteur li(n);
@@ -156,7 +156,7 @@ namespace giac {
       // n est un vecteur et d1 est la dimension du vecteur n 
       //si n n'est pas un vecteur il le devient! (cf else ...donc d1>=1)
       vecteur e=*(n._VECTptr);
-      d1=e.size();
+      d1=int(e.size());
       if (d1>=3) {
 	d=d1;
       }
@@ -291,7 +291,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_mkisom(args);
-    int s=args._VECTptr->size();
+    int s=int(args._VECTptr->size());
     if (s!=2)
       return gendimerr();
     if (args._VECTptr->back().type==_INT_){

@@ -141,10 +141,10 @@ namespace giac {
   int simplify(int & a,int & b);
 
   struct ref_mpz_t {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     mpz_t z;
     ref_mpz_t():ref_count(1) {mpz_init(z);}
-    ref_mpz_t(size_t nbits):ref_count(1) {mpz_init2(z,nbits);}
+    ref_mpz_t(size_t nbits):ref_count(1) {mpz_init2(z,int(nbits));}
     ref_mpz_t(const mpz_t & Z): ref_count(1) { mpz_init_set(z,Z); }
     ~ref_mpz_t() { mpz_clear(z); }
   };
@@ -169,14 +169,14 @@ namespace giac {
     void * grob_data;
   };
   struct ref_grob {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     grob g;
     ref_grob(const grob & G):ref_count(1),g(G) {}
   };
   class gen_user;
   struct ref_gen_user ; // user defined type
   struct ref_string {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     std::string s;
     ref_string(const std::string & S):ref_count(1),s(S) {}
   };
@@ -198,7 +198,7 @@ namespace giac {
 
   template<class T> class Tref_fraction; // in fraction.h
   struct ref_void_pointer {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     void * p;
     ref_void_pointer(void * P):ref_count(1),p(P) {}
   };
@@ -281,7 +281,7 @@ namespace giac {
     virtual double evalf_double() const;
   };
   struct ref_real_object {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     real_object r;
     ref_real_object():ref_count(1) {}
     ref_real_object(const real_object & R):ref_count(1),r(R) {}
@@ -385,7 +385,7 @@ namespace giac {
     virtual gen atanh() const;
   };
   struct ref_real_interval {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     real_interval r; // assumes that storage of real_object inside real_interval is first
     ref_real_interval():ref_count(1) {}
     ref_real_interval(const real_interval & R):ref_count(1),r(R) {}
@@ -432,7 +432,7 @@ namespace giac {
     unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token);
 #else // NO_UNARY_FUNCTION_COMPOSE
     const unary_function_abstract * _ptr;
-    // int * ref_count;
+    // long * ref_count;
     // int quoted; // will be used to avoid evaluation of args by eval
     // constructors
     // lexer_register is true to add dynamically the function name
@@ -540,7 +540,7 @@ namespace giac {
       ref_void_pointer * __POINTERptr;
 #endif
     };
-    inline volatile int & ref_count() const { 
+    inline volatile ref_count_t & ref_count() const { 
 #ifdef SMARTPTR64
       return ((ref_mpz_t *) ((* (ulonglong *) (this))>>16))->ref_count;
 #else
@@ -563,7 +563,7 @@ namespace giac {
 	setsizeerr(gettext("Pointer out of range"));
 #endif
       * ((ulonglong *) this) = __POINTERptr << 16;
-      subtype=subt;
+      subtype=(signed char)subt;
       type=_POINTER_;
     };
 #else
@@ -584,6 +584,7 @@ namespace giac {
       control_c();
 #endif
     };
+    gen(long i);
     gen(longlong i);
 #ifdef INT128
     gen(int128_t i);
@@ -733,7 +734,7 @@ namespace giac {
   class vectpoly:public std::vector<polynome> {
   public:
     vectpoly():std::vector<polynome>::vector() {};
-    vectpoly(int i,const polynome & p):std::vector<polynome>::vector(i,p) {};
+    vectpoly(size_t i,const polynome & p):std::vector<polynome>::vector(i,p) {};
     void dbgprint(){  
 #ifndef NSPIRE
       CERR << *this << std::endl; 
@@ -742,7 +743,7 @@ namespace giac {
   };
 
   struct ref_gen_map {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     gen_map m;
 #if 1 // def NSPIRE
     ref_gen_map(): ref_count(1),m() {}
@@ -752,15 +753,15 @@ namespace giac {
     ref_gen_map(const gen_map & M):ref_count(1),m(M) {}
   };
 
-  struct alias_ref_fraction { int ref_count; alias_gen num; alias_gen den; };
+  struct alias_ref_fraction { ref_count_t ref_count; alias_gen num; alias_gen den; };
   struct alias_ref_complex {
-    int ref_count;
+    ref_count_t ref_count;
     int display;
     alias_gen re,im;
   };
 
   struct ref_vecteur {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     vecteur v;
     ref_vecteur():ref_count(1) {}
     ref_vecteur(unsigned s):ref_count(1),v(s) {}
@@ -794,30 +795,30 @@ namespace giac {
 
   // ? #ifdef __GNUC__
 #ifdef IMMEDIATE_VECTOR
-  struct alias_ref_vecteur { int ref_count; const int _taille; const alias_gen * begin_immediate_vect; const alias_gen * end_immediate_vect; void * ptr; };
+  struct alias_ref_vecteur { ref_count_t ref_count; const int _taille; const alias_gen * begin_immediate_vect; const alias_gen * end_immediate_vect; void * ptr; };
 #define define_alias_ref_vecteur(name,b) alias_ref_vecteur name={-1,sizeof(b)/sizeof(gen),(const alias_gen *)b,(const alias_gen *)b+sizeof(b)/sizeof(gen),0};
 #define define_alias_ref_vecteur2(name,b) alias_ref_vecteur name={-1,2,&b[0],&b[2],0};
 #else
-  struct alias_ref_vecteur { int ref_count; const alias_gen * begin; const alias_gen * end; const alias_gen * finish; void * ptr; };
+  struct alias_ref_vecteur { ref_count_t ref_count; const alias_gen * begin; const alias_gen * end; const alias_gen * finish; void * ptr; };
 #define define_alias_ref_vecteur(name,b) alias_ref_vecteur name={-1,(const alias_gen *)b,(const alias_gen *)b+sizeof(b)/sizeof(gen),(const alias_gen *)b+sizeof(b)/sizeof(gen),0};
 #define define_alias_ref_vecteur2(name,b) alias_ref_vecteur name={-1,&b[0],&b[2],&b[2],0};
 #endif
 
   struct ref_complex {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     int display;
     gen re,im;
     ref_complex(const gen & R,const gen & I):ref_count(1),display(0),re(R),im(I) {}
     ref_complex(const gen & R,const gen & I,int display_mode):ref_count(1),display(display_mode),re(R),im(I) {}
   };
   struct ref_modulo {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     gen n,modulo;
     ref_modulo():ref_count(1) {}
     ref_modulo(const gen &N,const gen &M):ref_count(1),n(N),modulo(M) {}
   };
   struct ref_algext {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     gen P,Pmin,additional;
     ref_algext():ref_count(1) {}
   };
@@ -1112,7 +1113,7 @@ namespace giac {
     virtual gen rand(GIAC_CONTEXT) const { return string2gen("rand not redefined"); };
   };
   struct ref_gen_user {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     gen_user * u;
     ref_gen_user(const gen_user & U):ref_count(1),u(U.memory_alloc()) {}
     ~ref_gen_user() {delete u;}
@@ -1197,7 +1198,7 @@ namespace giac {
   };
 
     struct ref_sparse_poly1 {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     sparse_poly1 s;
     ref_sparse_poly1(const sparse_poly1 & S):ref_count(1),s(S) {}
   };
@@ -1228,7 +1229,7 @@ namespace giac {
     void dbgprint(){ CERR << g << ":" << dx<< ","<< dy<< "+"<<x <<","<< y<< "," << baseline << "," << eqw_attributs.fontsize << "," << eqw_attributs.background << "," << eqw_attributs.text_color << std::endl; }
   };
   struct ref_eqwdata {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     eqwdata e;
     ref_eqwdata(const eqwdata & E): ref_count(1),e(E) {}
   };
@@ -1277,14 +1278,14 @@ namespace giac {
     void MakeCopyOfNameIfNotLocal(); ///< if the name is not dynamicaly allocated, create a copy for that id.
   };
   struct ref_identificateur {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     identificateur i;
     ref_identificateur(const char * s):ref_count(1),i(s){}
     ref_identificateur(const std::string & s):ref_count(1),i(s){}
     ref_identificateur(const identificateur & s):ref_count(1),i(s){}
   };
   struct alias_ref_identificateur {
-    int i;
+    ref_count_t i;
     int * ref_count;
     gen * value;
     const char * id_name;
@@ -1293,7 +1294,7 @@ namespace giac {
   };
 
   struct ref_unary_function_ptr {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     unary_function_ptr u;
     ref_unary_function_ptr(const unary_function_ptr & U):ref_count(1),u(U) {}
     ref_unary_function_ptr(const unary_function_ptr * U):ref_count(1),u(*U) {}
@@ -1321,19 +1322,19 @@ namespace giac {
   };
 
   struct ref_symbolic {
-    volatile int ref_count;
+    volatile ref_count_t ref_count;
     symbolic s;
     ref_symbolic(const symbolic & S):ref_count(1),s(S) {}
   };
 #ifdef SMARTPTR64
   struct alias_ref_symbolic {
-    int ref_count;
+    ref_count_t ref_count;
     unary_function_eval * sommet;
     ulonglong feuille;
   };
 #else
   struct alias_ref_symbolic {
-    int ref_count;
+    ref_count_t ref_count;
     unary_function_eval * sommet;
     unsigned char type;  // see dispatch.h
     signed char subtype;

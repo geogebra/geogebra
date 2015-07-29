@@ -21,13 +21,13 @@
 #include "gen.h"
 #include <string>
 
-#ifndef NO_RTTI
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   
   extern const unary_function_ptr * const  at_quaternion; // user-level quaternion constructor
+#ifndef NO_RTTI
   class quaternion : public gen_user {
   public:
     gen r,i,j,k;
@@ -102,10 +102,11 @@ namespace giac {
   vecteur find_irreducible_primitive(int p,int m,bool primitive,GIAC_CONTEXT);
   gen _galois_field(const gen & args,GIAC_CONTEXT);
 
+#endif // NO_RTTI
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
 
-#endif // NO_RTTI
 
 #endif // _GIAC_QUATER_H

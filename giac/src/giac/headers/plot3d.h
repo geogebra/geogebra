@@ -27,22 +27,6 @@
 #include "gen.h"
 #include <stdio.h>
 // #include <stdiostream.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#else
-#define clock_t int
-#define clock() 0
-#endif
-#ifndef HAVE_NO_SYS_RESOURCE_WAIT_H
-#include <sys/resource.h>
-#include <sys/wait.h>
-#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -121,6 +105,9 @@ namespace giac {
   bool est_cospherique(const gen & a,const gen & b,const gen & c,const gen & d,const gen & f,GIAC_CONTEXT);
   gen _est_cospherique(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_est_cospherique;
+
+  // convert 2-d graphic object to 3-d (with z=0)
+  gen convert3d(const gen & g,GIAC_CONTEXT);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

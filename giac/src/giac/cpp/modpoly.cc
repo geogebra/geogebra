@@ -32,6 +32,12 @@ using namespace std;
 #include <cmath>
 #include <stdexcept>
 #include <string.h>
+#ifdef HAVE_SYS_TIME_H
+#include <time.h>
+#else
+#define clock_t int
+#define clock() 0
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -89,7 +95,7 @@ namespace giac {
     if (p.empty())
       return p;
     modpoly new_coord;
-    int d=p.size()-1;
+    int d=int(p.size())-1;
     new_coord.reserve(d);
     modpoly::const_iterator it=p.begin(); // itend=p.end(),
     for (;d;++it,--d)
@@ -101,7 +107,7 @@ namespace giac {
     if (p.empty())
       return p;
     modpoly new_coord;
-    int d=p.size()-1;
+    int d=int(p.size())-1;
     new_coord.reserve(d);
     modpoly::const_iterator it=p.begin(); // itend=p.end(),
     gen n0( 0);
@@ -256,7 +262,7 @@ namespace giac {
       return polynome(1);
     vector< monomial<gen> > v;
     index_t i;
-    int deg=a.size()-1;
+    int deg=int(a.size())-1;
     i.push_back(deg);
     vecteur::const_iterator it=a.begin();
     vecteur::const_iterator itend=a.end();
@@ -351,7 +357,7 @@ namespace giac {
 
   // high = high*x^n + low, size of low must be < n
   void mergemodpoly(modpoly & high,const modpoly & low,int n){
-    int l=low.size();
+    int l=int(low.size());
     for (int i=0;i<n-l;i++)
       high.push_back(0);
     modpoly::const_iterator it=low.begin(), itend=low.end();
@@ -367,8 +373,8 @@ namespace giac {
 
   // !! Do not call with modpoly slices if new_coord and th/other overlapp
   void Addmodpoly(modpoly::const_iterator th_it,modpoly::const_iterator th_itend,modpoly::const_iterator other_it,modpoly::const_iterator other_itend,environment * env, modpoly & new_coord){
-    int n=(th_itend-th_it);
-    int m=(other_itend-other_it);
+    int n=int(th_itend-th_it);
+    int m=int(other_itend-other_it);
     if (m>n){ // swap th and other in order to have n>=m
       modpoly::const_iterator tmp=th_it;
       th_it=other_it;
@@ -484,13 +490,13 @@ namespace giac {
 
 
   void Submodpoly(modpoly::const_iterator th_it,modpoly::const_iterator th_itend,modpoly::const_iterator other_it,modpoly::const_iterator other_itend,environment * env,modpoly & new_coord){
-    int n=(th_itend-th_it);
+    int n=int(th_itend-th_it);
     if (!n){
       new_coord=modpoly(other_it,other_itend);
       mulmodpoly(new_coord,-1,new_coord);
       return;
     }
-    int m=(other_itend-other_it);
+    int m=int(other_itend-other_it);
     if (th_it==new_coord.begin()){
       if (n<m){
 	modpoly temp(new_coord);
@@ -895,8 +901,8 @@ namespace giac {
 
   // new_coord memory must be reserved, Mulmodpoly clears new_coord
   static void Mulmodpolymod(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord){
-    int a=(ita_end-ita);
-    int b=(itb_end-itb);
+    int a=int(ita_end-ita);
+    int b=int(itb_end-itb);
     if (!b)
       return ;
     if ( ( a <= KARAMUL_SIZE) || ( b <= KARAMUL_SIZE) ){
@@ -1001,8 +1007,8 @@ namespace giac {
   }
 
   static void Mulmodpolysmall(modpoly::const_iterator & ita,modpoly::const_iterator & ita_end,modpoly::const_iterator & itb,modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord){
-    int a=(ita_end-ita);
-    int b=(itb_end-itb);
+    int a=int(ita_end-ita);
+    int b=int(itb_end-itb);
     if (!b)
       return ;
     if ( ( a <= INT_KARAMUL_SIZE) || ( b <= INT_KARAMUL_SIZE) ){
@@ -1070,8 +1076,8 @@ namespace giac {
       new_coord.clear();
       return;
     }
-    int as=a.size()-1;
-    int bs=b.size()-1;
+    int as=int(a.size())-1;
+    int bs=int(b.size())-1;
     if (!as){
       mulmodpoly(b,a.front(),env,new_coord);
       return;
@@ -1198,7 +1204,7 @@ namespace giac {
 
   // res=(*it) * ... (*(it_end-1))
   void mulmodpoly(vector<modpoly>::const_iterator it,vector<modpoly>::const_iterator it_end,environment * env,modpoly & new_coord){
-    int n=it_end-it;
+    int n=int(it_end-it);
     if (n>3){
       vector<modpoly>::const_iterator it_mid=it+(it_end-it)/2;
       modpoly first,second;
@@ -1278,7 +1284,7 @@ namespace giac {
 
   // right redimension poly to degree n
   void rrdm(modpoly & p, int n){
-    int s=p.size();
+    int s=int(p.size());
     if (s==n+1)
       return;
     for (;s>n+1;--s){ // remove trainling coeff
@@ -1375,8 +1381,8 @@ namespace giac {
       rem=th;
       return true ;
     }
-    int a=th.size()-1;
-    int b=other.size()-1;
+    int a=int(th.size())-1;
+    int b=int(other.size())-1;
     if (other.size()==1){
       divmodpoly(th,other.front(),env,quo);
       rem.clear();
@@ -1498,7 +1504,7 @@ namespace giac {
   }
 
   bool DenseDivRem(const modpoly & th, const modpoly & other,modpoly & quo, modpoly & rem,bool fastfalsetest){
-    int n=th.size(), m=other.size();
+    int n=int(th.size()), m=int(other.size());
     gen t=th[n-1], o=other[m-1];
     if (fastfalsetest && n && m ){
       if (is_zero(o)){
@@ -1548,8 +1554,8 @@ namespace giac {
 
   // Pseudo division a*th = other*quo + rem
   void PseudoDivRem(const dense_POLY1 & th, const dense_POLY1 & other, dense_POLY1 & quo, dense_POLY1 & rem, gen & a){
-    int ts=th.size();
-    int os=other.size();
+    int ts=int(th.size());
+    int os=int(other.size());
     if (ts<os){
       quo.clear();
       rem=th;
@@ -1607,8 +1613,8 @@ namespace giac {
       rem=th;
       return;
     }
-    int a=th.size()-1;
-    int b=other.size()-1;
+    int a=int(th.size())-1;
+    int b=int(other.size())-1;
     int coeff=other.front(),invcoeff=invmod(coeff,m);
     if (!b){
       quo=th;
@@ -1705,7 +1711,7 @@ namespace giac {
   // this will not compute low degree coeff of r during division and spare some time
   static void rem(int * & r,int *rend,int * b,int *bend,int m,int * & quo,int *quoend,bool exactquo=false){
     int * i,*j,*rstop,*qcur,k,q,q2,lcoeffinv=1;
-    k=bend-b;
+    k=int(bend-b);
     if (!k){
       quo=quoend;
       return;
@@ -1907,7 +1913,7 @@ namespace giac {
   // Efficient small modular gcd of p and q using vector<int>
   void gcdsmallmodpoly(const modpoly &p,const modpoly & q,int m,modpoly & d){
 
-    int as=p.size(),bs=q.size();
+    int as=int(p.size()),bs=int(q.size());
 #if defined VISUALC || defined BESTA_OS
     int *asave=new int[as], *a=asave,*aend=a+as;
     int *bsave=new int[bs], *b=bsave,*bend=b+bs,*qcur=0;
@@ -1974,7 +1980,7 @@ namespace giac {
       if (a!=aend)
 	ainv=invmod(*a,m);
       if (promote){
-	for (int deg=aend-a-1;a!=aend;++a,--deg){
+	for (int deg=int(aend-a)-1;a!=aend;++a,--deg){
 	  if (*a){
 	    *a=smod((*a)*longlong(ainv),m);
 	    d.coord.push_back(monomial<gen>(*a,deg,1,1));
@@ -1982,7 +1988,7 @@ namespace giac {
 	}
       }
       else {
-	for (int deg=aend-a-1;a!=aend;++a,--deg){
+	for (int deg=int(aend-a)-1;a!=aend;++a,--deg){
 	  if (*a){
 	    *a=smod((*a)*ainv,m);
 	    d.coord.push_back(monomial<gen>(*a,deg,1,1));
@@ -2000,14 +2006,14 @@ namespace giac {
 	// int * qsave=new int[as], *qcur=qsave,*qend=qsave+as;
 	rem(A,Aend,aa,aend,m,qcur,qend);
 	dp.coord.clear();
-	for (int deg=qend-qcur-1;qcur!=qend;++qcur,--deg){
+	for (int deg=int(qend-qcur)-1;qcur!=qend;++qcur,--deg){
 	  if (*qcur)
 	    dp.coord.push_back(monomial<gen>(smod(*qcur,m),deg,1,1));
 	}
 	qcur=qsave;
 	rem(B,Bend,aa,aend,m,qcur,qend);
 	dq.coord.clear();
-	for (int deg=qend-qcur-1;qcur!=qend;++qcur,--deg){
+	for (int deg=int(qend-qcur)-1;qcur!=qend;++qcur,--deg){
 	  if (*qcur)
 	    dq.coord.push_back(monomial<gen>(smod(*qcur,m),deg,1,1));
 	}
@@ -2096,7 +2102,7 @@ namespace giac {
   void quoremdouble(const vector<double> & A,const vector<double> & B,vector<double> & Q,vector<double> & R,double m){
     Q.clear();
     R=A;
-    int rs=R.size(),bs=B.size();
+    int rs=int(R.size()),bs=int(B.size());
     if (rs<bs)
       return;
     if (rs==bs+1){ } // possible improvement
@@ -2178,7 +2184,7 @@ namespace giac {
   void gcdsmallmodpoly(const vector<int> &p,const vector<int> & q,int m,vector<int> & d){
     gcdsmallmodpoly(p,q,m,d,0,0);
     return;
-    int as=p.size(),bs=q.size();
+    int as=int(p.size()),bs=int(q.size());
     if (!as){ d=q; return ; }
     if (!bs){ d=p; return ; }
 #if defined VISUALC || defined BESTA_OS
@@ -2218,7 +2224,7 @@ namespace giac {
   }
 
   void gcdsmallmodpoly(const vector<int> &p,const vector<int> & q,int m,vector<int> & d,vector<int> * pcof,vector<int> * qcof){
-    int as=p.size(),bs=q.size();
+    int as=int(p.size()),bs=int(q.size());
     if (!as){ 
       // p==0, pcof is undefined
       if (pcof)
@@ -2457,7 +2463,7 @@ namespace giac {
 	res.coord.push_back(monomial<gen>(it->value,i));
       else {
 	const_iterateur jt=it->value._VECTptr->begin(),jtend=it->value._VECTptr->end();
-	deg=jtend-jt-1;
+	deg=int(jtend-jt)-1;
 	for (;jt!=jtend;++jt,--deg){
 	  if (!is_zero(*jt)){
 	    i[dim]=deg;
@@ -2596,7 +2602,7 @@ namespace giac {
     vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
     for (;it!=itend;++it){
       if (it->value.type==_VECT)
-	res=giacmax(res,it->value._VECTptr->size());
+	res=giacmax(res,int(it->value._VECTptr->size()));
     }
     return res-1;
   }
@@ -2635,7 +2641,7 @@ namespace giac {
 	pxn[0].coord.push_back(*it);
       else {
 	vecteur & v=*it->value._VECTptr;
-	int j=v.size()-1;
+	int j=int(v.size())-1;
 	if (j>=0){
 	  for (;j>=pxns;++pxns)
 	    pxn.push_back(polynome(dim));
@@ -2859,7 +2865,7 @@ namespace giac {
       gcdmodpoly(*pb._VECTptr,*qb._VECTptr,&env,db);
       if (is_undef(db))
 	return false;
-      int dbdeg=db.size()-1;
+      int dbdeg=int(db.size())-1;
       if (!dbdeg){ 
 	gcddeg=0; break; 
       }
@@ -2918,7 +2924,7 @@ namespace giac {
     // gcddeg*size estimates the time for lifting to gcddeg
     // sumdeg*size estimates the time for full lifting
     // if sumdeg<(gcddeg+%age^dim*(1-%age)^dim*size) do full lifting
-    int Deltadeg = Delta.size()-1,liftdeg=giacmax(pxndeg,qxndeg)+Deltadeg;
+    int Deltadeg = int(Delta.size())-1,liftdeg=giacmax(pxndeg,qxndeg)+Deltadeg;
     int gcddeg_plus_delta=gcddeg+Deltadeg;
     int liftdeg0=giacmax(liftdeg-gcddeg,gcddeg_plus_delta);
     // once liftdeg0 is reached we can replace g/gp/gq computation
@@ -2926,7 +2932,7 @@ namespace giac {
     // and d*dq=dxn*lcoeff(d*dq)/lcoeff(qxn) at alpha
     int sumdeg = pxndeg+qxndeg;
     double percentage = double(gcddeg)/giacmin(pxndeg,qxndeg);
-    int sumsize = p_orig.coord.size()+q_orig.coord.size();
+    int sumsize = int(p_orig.coord.size()+q_orig.coord.size());
     double gcdlift=gcddeg+std::pow(percentage,dim)*std::pow(1-percentage,dim)*sumsize;
     bool compute_cof = sumdeg<gcdlift/(1+dim);
     polynome p(dim),q(dim);
@@ -3033,7 +3039,7 @@ namespace giac {
 	    // Reduce linear system modulo modulo
 	    gen det; vecteur pivots; matrice mred;
 	    // CERR << "SPMOD " << clock() << endl;
-	    if (!modrref(m,mred,pivots,det,0,m.size(),0,m.front()._VECTptr->size()-1,true,false,modulo,false))
+	    if (!modrref(m,mred,pivots,det,0,int(m.size()),0,int(m.front()._VECTptr->size())-1,true,false,modulo,false))
 	      return false;
 	    // CERR << "SPMODend " << clock() << endl;
 	    if (!is_zero(det)){	      
@@ -3041,7 +3047,7 @@ namespace giac {
 	      // that must be untrunced with index = to non-0 coeff of vzero
 	      polynome trygcd(dim);
 	      index_t::const_iterator it=vzero.begin(),itend=vzero.end();
-	      int deg=itend-it-1;
+	      int deg=int(itend-it)-1;
 	      for (int pos=0;it!=itend;++it,--deg){
 		if (!*it)
 		  continue;
@@ -3290,7 +3296,7 @@ namespace giac {
     // ur*a+vr*b=r
     // a <- b, b <- r, ua <- ub and ub<- ur
     for (;;){
-      int n=b.size();
+      int n=int(b.size());
       if (n==1){ // b is cst !=0 hence is the gcd, ub is valid
 	break;
       }
@@ -3330,11 +3336,11 @@ namespace giac {
     gen g(1),h(1),r20,r2pow,hpow;
     for (;;){
       // During the loop, v1*x+not_computed*n=r1 and v2*x+not_computed*n=r2
-      int deg2=r2.size()-1;
+      int deg2=int(r2.size())-1;
       if (deg2<l){ 
 	break;
       }
-      int deg1=r1.size()-1,ddeg=deg1-deg2;
+      int deg1=int(r1.size())-1,ddeg=deg1-deg2;
       if (!env || !env->moduloon){
 	r20=r2.front();
 	r2pow=pow(r2.front(),ddeg+1);
@@ -3385,7 +3391,7 @@ namespace giac {
       return vecteur(1,gensizeerr(gettext("Argument must be a vector of even size")+gen(v_orig).print(context0)));
     vecteur v(v_orig);
     reverse(v.begin(),v.end());
-    int n=v.size()/2;
+    int n=int(v.size()/2);
     vecteur x2n(2*n+1),A,B;
     x2n[0]=1;
     egcd_pade(x2n,v,n,A,B,0,psron);
@@ -3403,7 +3409,7 @@ namespace giac {
   // given a, find u such that 
   // a[0]*...a[n-1]*u[n]+a[0]*...*a[n-2]*a[n]*u[n-1]+...+a[1]*...*a[n-1]*u[0]=1
   bool egcd(const vector<modpoly> & a,environment * env,vector<modpoly> & u){
-    int n=a.size();
+    int n=int(a.size());
     if (n==0) return false; // setsizeerr(gettext("modpoly.cc/egcd"));
     // first compute the sequence of products
     // pi[0]=a[n-1], pi[k]=pi[k-1]*a[n-k-1], ... pi[n-2]=pi[n-3]*a[1]
@@ -3709,7 +3715,7 @@ namespace giac {
 
   // P(x) -> P(-x)
   void Pminusx(vecteur & P){
-    unsigned Ps=P.size();
+    unsigned Ps=unsigned(P.size());
     for (unsigned i=0;i<Ps;++i){
       if ( (Ps-i-1) %2)
 	P[i]=-P[i];
@@ -3718,7 +3724,7 @@ namespace giac {
 
   // split P=Pp-Pn in two parts, Pp positive coeffs and Pn negative coeffs
   void splitP(const vecteur &P,vecteur &Pp,vecteur &Pn){
-    unsigned Ps=P.size();
+    unsigned Ps=unsigned(P.size());
     Pp.resize(Ps);
     Pn.resize(Ps);
     for (unsigned i=0;i<Ps;++i){
@@ -3803,7 +3809,7 @@ namespace giac {
   }
 
   gen horner(const modpoly & p,const gen & x,environment * env,bool simp){
-    int s=p.size();
+    int s=int(p.size());
     if (s==0)
       return 0;
     if (s==1)
@@ -3856,13 +3862,27 @@ namespace giac {
     if (args.type!=_VECT)
       return symbolic(at_horner,args);
     vecteur & v=*args._VECTptr;
-    int s=v.size();
+    int s=int(v.size());
     if (s<2)
       return gensizeerr(contextptr);
     p=v.front();
     q=v[1];
-    if (p.type==_VECT)
+    if (p.type==_VECT){
+      if (q.type==_VECT && p._VECTptr->size()==q._VECTptr->size() && s==3){
+	// Horner-like evaluation for divided difference
+	// p=divided differences, q=list of abscissas, r=eval point
+	x=v[2];
+	gen r=0;
+	const vecteur & P=*p._VECTptr;
+	s=int(P.size())-1;
+	const vecteur & Q=*q._VECTptr;
+	for (int i=s;i>=0;--i){
+	  r=r*(x-Q[i])+P[i];
+	}
+	return r;
+      }
       return horner(*p._VECTptr,q);
+    }
     if (s==2)
       x=vx_var;
     else 
@@ -3894,7 +3914,7 @@ namespace giac {
       return 0;
     modpoly::const_iterator it=p.begin(),itend=p.end();
     gen res;
-    int i=itend-it-1;
+    int i=int(itend-it)-1;
     if (!i)
       return *it;
     for (;i>=0;++it,--i){
@@ -3960,7 +3980,7 @@ namespace giac {
   }
 
   static modpoly taylordiff(const modpoly & p,const gen & x){
-    int d=p.size();
+    int d=int(p.size());
     modpoly res(p),P(p);
     for (int i=1;i<=d;++i){
       res[d-i]=horner(P,x);
@@ -4018,11 +4038,11 @@ namespace giac {
     if (x==1 && a.size()>5 && isintpoly(a)){
       mpz_t * tab;
       modpoly2mpzpoly(a,tab);
-      taylorshift1(tab,a.size());
+      taylorshift1(tab,int(a.size()));
       mpzpoly2modpoly(tab,a);
       return a;
     }
-    int d=p.size();
+    int d=int(p.size());
     for (int i=0;i<d;++i){
       res.push_back(horner(a,x,env,b));
       a.swap(b); // a=b;
@@ -4075,7 +4095,7 @@ namespace giac {
     dense_POLY1::const_iterator a_end = p.end();
     dense_POLY1::const_iterator b = q.begin();
     dense_POLY1::const_iterator b_end = q.end();
-    int n=(a_end-a), m=(b_end-b);
+    int n=int(a_end-a), m=int(b_end-b);
     dense_POLY1 res;
     res.reserve(giacmax(n,m));
     for (;m>n;++b,--m)
@@ -4106,7 +4126,7 @@ namespace giac {
 
   void divided_differences(const vecteur & x,const vecteur & y,vecteur & res,environment * env){
     res=y;
-    int s=x.size();
+    int s=int(x.size());
     for (int k=1;k<s;++k){
       if (env && env->moduloon){
 	for (int j=s-1;j>=k;--j){
@@ -4124,7 +4144,7 @@ namespace giac {
   void interpolate(const vecteur & x,const vecteur & y,modpoly & res,environment * env){
     vecteur alpha;
     divided_differences(x,y,alpha,env);
-    unsigned s=x.size();
+    unsigned s=unsigned(x.size());
     res.clear();
     res.reserve(s);
     int j=s-1;
@@ -4178,12 +4198,12 @@ namespace giac {
   // return [f(1),f(omega),...,f(omega^[n-1]) [it's indeed n, not m]
   // WARNING f is given in ascending power
   void fft(const modpoly & f,const modpoly & w ,modpoly & res,environment * env){
-    unsigned long n=f.size();
+    unsigned long n=long(f.size()); // unsigned long does not parse with gcc
     if (n==1){
       res = f;
       return ;
     }
-    unsigned long m=w.size();
+    unsigned long m=long(w.size());
     unsigned long step=m/n;
     unsigned k=0;
     if (n%2){
@@ -4323,7 +4343,7 @@ namespace giac {
     modpoly p(p0),q(q0);
     reverse(p.begin(),p.end());
     reverse(q.begin(),q.end());
-    unsigned long ps=p.size(),qs=q.size();
+    unsigned long ps=long(p.size()),qs=long(q.size());
     for (unsigned long i=ps;i<n;++i)
       p.push_back(0);
     for (unsigned long i=qs;i<n;++i)
@@ -4337,7 +4357,7 @@ namespace giac {
   // Only useful for large degree (around 1000 for coeff of size 2^degree(p))
   // Following ntl src/ZZX1.c SSMul
   void fftmult(const modpoly & p,const modpoly & q,modpoly & pq){
-    int ps=p.size(),qs=q.size();
+    int ps=int(p.size()),qs=int(q.size());
     unsigned long l=gen(ps+qs-1).bindigits()-1; // m=2^l <= deg(p*q) < 2^{l+1}
     // long m2 = 1u << (l + 1); /* m2 = 2m = 2^{l+1} */
     gen P=norm(p,0), Q=norm(q,0); // coeff assumed to be integers -> no context
@@ -4375,7 +4395,7 @@ namespace giac {
       return false;
     // COUT << "modular gcd 1 " << pp << " " << qq << endl;
     gen gcdfirstcoeff(gcd(pp.front(),qq.front(),context0));
-    int gcddeg= giacmin(pp.size(),qq.size())-1;
+    int gcddeg= giacmin(int(pp.size()),int(qq.size()))-1;
     gen bound(pow(gen(2),gcddeg+1)* abs(gcdfirstcoeff,context0));
     if (is_zero(im(pp,context0)) && is_zero(im(qq,context0)))
       bound=bound * min(norm(pp,context0), norm(qq,context0),context0);
@@ -4410,7 +4430,7 @@ namespace giac {
       // COUT << "Modulo:" << modulo << " " << gcdmod << endl;
       gen adjustcoeff=gcdfirstcoeff*invmod(gcdmod.front(),env->modulo);
       mulmodpoly(gcdmod,adjustcoeff,env,gcdmod);
-      int m=gcdmod.size()-1;
+      int m=int(gcdmod.size())-1;
       if (!m){
 	d=polynome(gen(1),1);
 	delete env;

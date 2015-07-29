@@ -1,9 +1,10 @@
 // -*- mode:C++ ; compile-command: "g++ -I.. -g -c help.cc -Wall" -*-
+//#define _SCL_SECURE_NO_WARNINGS
 #include "giacPCH.h"
 
 #include "path.h"
 /*
- *  Copyright (C) 2000,7 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
+ *  Copyright (C) 2000,14 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,8 +17,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 using namespace std;
 #include <algorithm>
@@ -25,12 +25,12 @@ using namespace std;
 #include "help.h"
 #include <iostream>
 #include "global.h"
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 #if defined VISUALC || defined BESTA_OS
 
-#ifndef RTOS_THREADX
-#include <io.h>
-#endif
 
 #define opendir FindFirstFile
 #define readdir FindNextFile
@@ -44,7 +44,7 @@ using namespace std;
 #include <sys/param.h>
 #endif
 
-#ifndef BESTA_OS // test should always return true
+#if !defined BESTA_OS && !defined NSPIRE // test should always return true
 #include <dirent.h>
 #endif
 
@@ -67,7 +67,7 @@ namespace giac {
   };
 
   const static_help_t static_help[]={
-#if !defined RTOS_THREADX && !defined BESTA_OS && !defined GIAC_HAS_STO_38
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined GIAC_HAS_STO_38 
 #include "static_help.h"
 #else
     { "", { "", "", "", ""}, "", "", "" },
@@ -76,23 +76,41 @@ namespace giac {
 
   const int static_help_size=sizeof(static_help)/sizeof(static_help_t);
 
-  inline bool static_help_sort (const static_help_t & a ,const static_help_t & b){
-    return strcmp(a.cmd_name, b.cmd_name) < 0;
+  struct static_help_sort {
+    static_help_sort() {}
+    inline bool operator () (const static_help_t & a ,const static_help_t & b){
+      return strcmp(a.cmd_name, b.cmd_name) < 0;
+    }
+  };
+
+  inline int mon_max(int a,int b){
+    if (a>b)
+      return a;
+    else
+      return b;
+  }
+
+  bool seconddec (const pair<int,int> & a,const pair<int,int> & b){
+    return a.second>b.second;
   }
 
   // NB: cmd_name may be localized but related is not localized
   bool has_static_help(const char * cmd_name,int lang,const char * & howto,const char * & syntax,const char * & related,const char * & examples){
+#ifdef GIAC_HAS_STO_38
     const char nullstring[]=" ";
+#else
+    const char nullstring[]="";
+#endif
     if (lang<=0)
       lang=2;
     if (lang>HELP_LANGUAGES)
       lang=2;
     string s=unlocalize(cmd_name);
-    int l=s.size();
+    int l=int(s.size());
     if ( (l>2) && (s[0]=='\'') && (s[l-1]=='\'') )
       s=s.substr(1,l-2);
-    static_help_t h={s.c_str(),0,0,0,0};
-    std::pair<const static_help_t *,const static_help_t *> p=equal_range(static_help,static_help+static_help_size,h,static_help_sort);
+    static_help_t h={s.c_str(),{0,0,0,0},0,0,0};
+    std::pair<const static_help_t *,const static_help_t *> p=equal_range(static_help,static_help+static_help_size,h,static_help_sort());
     if (p.first!=p.second && p.first!=static_help+static_help_size){
       howto=p.first->cmd_howto[lang-1];
       if (!howto)
@@ -108,12 +126,54 @@ namespace giac {
 	examples=nullstring;
       return true;
     }
+#ifdef EMCC
+    // Find closest string
+    syntax=nullstring;
+    related=nullstring;
+    static string res;
+    res="";
+    int best_score=0,cur_score;
+    vector< pair<int,int> > best_j;
+    for (int j=0;j<static_help_size;++j){
+      cur_score=score(s,static_help[j].cmd_name);
+      if (cur_score>best_score){
+	best_score=cur_score;
+	vector< pair<int,int> > tmp;
+	for (unsigned k=0;k<best_j.size();++k){
+	  if (best_j[k].second>=best_score-6)
+	    tmp.push_back(best_j[k]);
+	}
+	best_j=tmp;
+	best_j.push_back(pair<int,int>(j,cur_score));
+	continue;
+      }
+      if (cur_score>=mon_max(best_score-6,0)){
+	best_j.push_back(pair<int,int>(j,cur_score));
+      }
+    }
+    if (best_score>0){
+      sort(best_j.begin(),best_j.end(),seconddec);
+      vector< pair<int,int> >::iterator it=best_j.begin(),itend=best_j.end();
+      for (int k=1;(k<10) && (it!=itend);++k,++it){
+	res = res+static_help[it->first].cmd_name;
+	res = res+",";
+      }
+      if (!res.empty())
+	res=res.substr(0,res.size()-1);
+    }
+    static string syn;
+    syn = gettext("Best match has score ") + printint(best_score) + "\n";
+    howto = syn.c_str();
+    examples = res.c_str();
+    return true;
+#else
     return false;
+#endif
   }
 
   static std::string output_quote(const string s){
     string res;
-    int ss=s.size();
+    int ss=int(s.size());
     for (int i=0;i<ss;++i){
       switch (s[i]){
       case '"':
@@ -128,6 +188,7 @@ namespace giac {
 
   // Run ./icas with export GIAC_DEBUG=-2 to print static_help.h and static_help_w.h
   static bool output_static_help(vector<aide> & v,const vector<int> & langv){
+#ifndef NSPIRE
     ofstream of("static_help.h");
     vector<aide>::iterator it=v.begin(),itend=v.end();
     for (;it!=itend;){
@@ -135,7 +196,7 @@ namespace giac {
       of << '"' << output_quote(it->cmd_name) << '"' << ",";
       std::vector<localized_string> & blabla = it->blabla;
       sort(blabla.begin(),blabla.end());
-      int bs=blabla.size();
+      int bs=int(blabla.size());
       of << "{";
       for (int i=0;i<HELP_LANGUAGES;i++){
 	if (i<bs && equalposcomp(langv,i+1))
@@ -149,7 +210,7 @@ namespace giac {
       }
       of << "," << '"' << output_quote(it->syntax) << '"' << ',' ;
       std::vector<std::string> & examples = it->examples;
-      bs=examples.size();
+      bs=int(examples.size());
       if (bs){
 	of << '"';
 	for (int i=0;i<bs;i++){
@@ -164,7 +225,7 @@ namespace giac {
 	of << 0 ;
       of << "," ;
       std::vector<indexed_string> & related = it->related;
-      bs=related.size();
+      bs=int(related.size());
       if (bs){
 	of << '"';
 	for (int i=0;i<bs;i++){
@@ -196,7 +257,7 @@ namespace giac {
       ofwindex << "{NULL,NULL, " << 'L' << '"' << output_quote(cmd) << '"' << ", HIDInherit }" ;
       std::vector<localized_string> & blabla = it->blabla;
       sort(blabla.begin(),blabla.end());
-      int bs=blabla.size();
+      int bs=int(blabla.size());
       ofw << "{";
       for (int i=0;i<HELP_LANGUAGES;i++){
 	if (i<bs && equalposcomp(langv,i+1))
@@ -210,7 +271,7 @@ namespace giac {
       }
       ofw << ",L" << '"' << output_quote(it->cmd_name) << '(' << output_quote(it->syntax) << ')' << '"' << ',' ;
       std::vector<std::string> & examples = it->examples;
-      bs=examples.size();
+      bs=int(examples.size());
       if (bs>=1){
 	ofw << 'L' << '"';
 	ofw << output_quote(examples[0]) ;
@@ -226,7 +287,7 @@ namespace giac {
       else
 	ofw << 0 << "," << 0 << ",";
       std::vector<indexed_string> & related = it->related;
-      bs=related.size();
+      bs=int(related.size());
       if (bs>=1){
 	ofw << 'L' << '"';
 	ofw << output_quote(related[0].chaine) ;
@@ -250,6 +311,7 @@ namespace giac {
     }
     ofw << endl;
     ofwindex << "};" << endl;
+#endif
     return true;
   }
 
@@ -284,13 +346,6 @@ namespace giac {
 #endif
   }
 
-  inline int mon_max(int a,int b){
-    if (a>b)
-      return a;
-    else
-      return b;
-  }
-
   inline int max(int a,int b,int c){
     if (a>=b){
       if (a>=c)
@@ -305,12 +360,12 @@ namespace giac {
   }
 
   int score(const string & s,const string & t){
-    int ls=s.size(),lt=t.size();
+    int ls=int(s.size()),lt=int(t.size());
     if (!ls) return -1;
     vector<int> cur_l, new_l(lt+1,0);
     for (int j=0;j<=lt;++j)
       cur_l.push_back(-j);
-    vector<int>::iterator newbeg=new_l.begin(),newend=new_l.end(),newit;
+    vector<int>::iterator newbeg=new_l.begin(),newend=new_l.end(),newit=newbeg;
     vector<int>::iterator curbeg=cur_l.begin(),curit;//curend=cur_l.end(),
     for (int i=0;i<ls;++i){
       newit=newbeg;
@@ -352,7 +407,7 @@ namespace giac {
       s2[i]=tolower(s2[i]);
     if (s1!=s2)
       return s1<s2;
-    return a1.cmd_name<= a2.cmd_name;
+    return a1.cmd_name< a2.cmd_name;
   }
 
   static void find_synonymes(const std::string & cmd_name,vector<localized_string> & current_synonymes){
@@ -362,7 +417,7 @@ namespace giac {
     int i;
     for (;;){
       // cout << s << endl;
-      i=s.find(' ');
+      i=int(s.find(' '));
       if (i<=0){
 	if (!s.empty())
 	  current_synonymes.push_back(localized_string(0,s));
@@ -390,6 +445,7 @@ namespace giac {
   }
   void readhelp(vector<aide> & v,const char * f_name,int & count,bool warn){
     count=0;
+#ifndef NSPIRE
     if (access(f_name,R_OK)){
       if (warn)
 	std::cerr << "Help file " << f_name << " not found" << endl;
@@ -419,7 +475,7 @@ namespace giac {
 	  find_synonymes(current_aide.cmd_name,current_synonymes);
 	  current_aide.synonymes=current_synonymes;
 	  vector<localized_string>::const_iterator it=current_synonymes.begin(),itend=current_synonymes.end();
-	  vpositions=vposition.size();
+	  vpositions=int(vposition.size());
 	  for (int pos=0;it!=itend;++it,++pos){
 	    current_aide.cmd_name=it->chaine;
 	    if (pos<vpositions)
@@ -448,16 +504,16 @@ namespace giac {
 	      current_blabla=itpos->blabla;
 	      current_examples=itpos->examples;
 	      current_related=itpos->related;
-	      vposition.push_back(itpos-v.begin());
+	      vposition.push_back(int(itpos-v.begin()));
 	    }
 	  }
 	}
 	continue;
       }
       // look for space
-      int l=current_line.find_first_of(' ');
+      int l=int(current_line.find_first_of(' '));
       if ( (l==1) && (current_line[0]=='0') ){
-	int cs=current_line.size();
+	int cs=int(current_line.size());
 	while (l<cs && current_line[l]==' '){ ++l; }
         current_aide.syntax=current_line.substr(l,cs-l);
         continue;
@@ -505,6 +561,7 @@ namespace giac {
       // langv.push_back(4);
       output_static_help(v,langv);
     }
+#endif
   }
 
   static aide add_synonyme_name_to_examples(const aide & a){
@@ -514,7 +571,7 @@ namespace giac {
       if (!it->empty() && (*it)[0]==' ')
 	continue;
       // look for a (
-      unsigned i=it->find('(');
+      unsigned i=unsigned(it->find('('));
       if (i>0 && i<it->size()){ // check whether the beginning of the string is in synonyms
 	string cmd=it->substr(0,i);
 	std::vector<localized_string>::const_iterator jt=res.synonymes.begin(),jtend=res.synonymes.end();
@@ -531,10 +588,6 @@ namespace giac {
 	*it=res.cmd_name+'('+*it+')';
     }
     return res;
-  }
-
-  bool seconddec (const pair<int,int> & a,const pair<int,int> & b){
-    return a.second>b.second;
   }
 
   aide helpon(const string & demande,const vector<aide> & v,int language,int count,bool with_op){
@@ -617,7 +670,7 @@ namespace giac {
     return result;
   }
 
-#ifndef RTOS_THREADX
+#if !defined(NSPIRE_NEWLIB) || !defined(RTOS_THREADX) && !defined(EMCC) &&!defined(NSPIRE)
   multimap<string,string> html_mtt,html_mall;
   std::vector<std::string> html_vtt,html_vall;
 
@@ -637,31 +690,31 @@ namespace giac {
       string s(buf);
       if (s=="<!--End of Navigation Panel-->")
 	break;
-      int t=s.size();
+      int t=int(s.size());
       if (t>24 && s.substr(t-24,24)=="<LI CLASS=\"li-indexenv\">"){
 	// hevea file contains index
 	for (;i && !i.eof(); ){
 	  i.getline(buf,BUFFER_SIZE,'\n');
 	  s=buf;
-	  t=s.size();
+	  t=int(s.size());
 	  if (t>29 && s.substr(0,29)=="</LI><LI CLASS=\"li-indexenv\">"){
 	    s=s.substr(29,s.size()-29);
-	    t=s.size();
+	    t=int(s.size());
 	    if (!t || s[0]=='<') // skip index words with special color/font
 	      continue;
-	    int endcmd=s.find("<"); // position of end of commandname
+	    int endcmd=int(s.find("<")); // position of end of commandname
 	    if (endcmd>2 && endcmd<t){
 	      string cmdname=s.substr(0,endcmd-2);
 	      s=s.substr(endcmd,t-endcmd); // s has all the links
 	      vector<string> hrefs;
 	      for (;;){
-		t=s.size();
-		endcmd=s.find("<A HREF=\"");
+		t=int(s.size());
+		endcmd=int(s.find("<A HREF=\""));
 		if (endcmd<0 || endcmd+9>=t)
 		  break;
 		s=s.substr(endcmd+9,s.size()-endcmd-9);
-		t=s.size();
-		endcmd=s.find("\"");
+		t=int(s.size());
+		endcmd=int(s.find("\""));
 		if (endcmd<0 || endcmd+2>=t)
 		  break;
 		string link=s.substr(0,endcmd);
@@ -670,7 +723,7 @@ namespace giac {
 		else
 		  link = current_dir + link;
 		s=s.substr(endcmd+2,s.size()-endcmd-2);
-		t=s.size();
+		t=int(s.size());
 		if (t<3)
 		  break;
 		if (s.substr(0,3)=="<B>")
@@ -694,7 +747,7 @@ namespace giac {
       }
       if (t>14 && s.substr(t-14,14)=="Index</A></B> "){
 	// look in the corresponding index file instead
-	int t1=s.find("HREF")+6;
+	int t1=int(s.find("HREF"))+6;
 	if (t1>=0 && t1<t-16){
 	  s=s.substr(t1,t-16-t1);
 	  if (warn)
@@ -715,7 +768,7 @@ namespace giac {
     for (;i && !i.eof();){
       // read i search for a <A word
       i >> tmp;
-      int l=tmp.size();
+      int l=int(tmp.size());
       string tts;
       if (is_index){
 	if (l<13)
@@ -727,7 +780,7 @@ namespace giac {
 	  tmpl=12;
 	if (!tmpl)
 	  continue;
-	int l1=tmp.find("</STRONG>");
+	int l1=int(tmp.find("</STRONG>"));
 	if (l1<=tmpl || l1>=l)
 	  continue;
 	tts=tmp.substr(tmpl,l1-tmpl);
@@ -745,10 +798,10 @@ namespace giac {
 	tmp += c; 
 	if (s>4 && tmp.substr(s-4,4)=="<DT>"){
 	  // no <B> found, truncate tmp to the first </A> found
-	  int l=tmp.find("</A>");
+	  int l=int(tmp.find("</A>"));
 	  if (l<s && l>0)
 	    tmp=tmp.substr(0,l);
-	  s=tmp.size();
+	  s=int(tmp.size());
 	  break;
 	}
 	if (s>8 && tmp.substr(s-8,8)=="</B></A>"){
@@ -767,7 +820,7 @@ namespace giac {
       }
       // cerr << tmp << endl;
       // analysis, search for HREF
-      int href=tmp.find("HREF=\"");
+      int href=int(tmp.find("HREF=\""));
       if (href<0 || href+6>=s)
 	continue;
       string hrefs(current_dir);
@@ -787,7 +840,7 @@ namespace giac {
       }
       else {
 	// search for TT
-	int tt=tmp.find("<TT>"),ttend=tt;
+	int tt=int(tmp.find("<TT>")),ttend=tt;
 	if (tt>=0 && tt+6<s){
 	  for (ttend+=4;ttend<s;++ttend){
 	    if (tmp[ttend]=='<'){
@@ -801,11 +854,11 @@ namespace giac {
 	  tmp=tmp.substr(0,tt)+tmp.substr(ttend,tmp.size()-ttend);
 	}
 	// add href for all normal words
-	s=tmp.size();
+	s=int(tmp.size());
 	int j=hrefend+1;
 	for (;j<s;){
 	  // read word
-	  int pos=tmp.find(' ',j);
+	  int pos=int(tmp.find(' ',j));
 	  if (pos>j && pos<s){
 	    // add it
 	    string tmpins(tmp.substr(j,pos-j));
@@ -826,14 +879,14 @@ namespace giac {
   static const string subdir_strings[]={"cascmd","casgeo","casrouge","cassim","castor","tutoriel","casinter","casexo","cascas"};
   static const int subdir_taille=sizeof(subdir_strings)/sizeof(string);
   static int equalposcomp(const string * tab,const string & s){
-    int i=s.size()-1;
+    int i=int(s.size())-1;
     for (;i>=0;--i){
       if (s[i]=='/')
 	break;
     }
     ++i;
     string t=s.substr(i,s.size()-i);
-    i=t.size()-1;
+    i=int(t.size())-1;
     for (;i>=0;--i){
       if (t[i]=='_')
 	t=t.substr(0,i);
@@ -846,7 +899,7 @@ namespace giac {
     return 0;
   }
 
-#if ! (defined VISUALC || defined BESTA_OS)
+#if ! (defined VISUALC || defined BESTA_OS || defined NSPIRE || defined NSPIRE_NEWLIB)
 #ifdef WIN32
   static int dir_select (const struct dirent *d){
     string s(d->d_name);
@@ -866,9 +919,9 @@ namespace giac {
     return  s=="index.htm";
   }
 #else
-// __APPLE_CC__ == 5666 on Mac OS X 10.6
-// __APPLE_CC__ == 5658 on Mac OS X 10.8
-#if ( defined(__APPLE__) && __APPLE_CC__ != 5658 ) || ( defined(__FreeBSD_version) && __FreeBSD_version<800501)
+// __APPLE_CC__ == 5666 on Mac OS X 10.6, 5658 on geogebra build system OS X 10.8
+// should check __APPLE__ OS X version instead!
+#if ( defined(__MAC_OS_X_VERSION_MAX_ALLOWED)&&  __MAC_OS_X_VERSION_MAX_ALLOWED<  1080 ) || ( defined(__IPHONE_OS_VERSION_MAX_ALLOWED)&&  __IPHONE_OS_VERSION_MAX_ALLOWED<  60100 ) || defined(__OpenBSD__) || ( defined(__FreeBSD_version)&&  __FreeBSD_version<800501)
   static int dir_select (struct dirent *d){
 #else
   static int dir_select (const struct dirent *d){
@@ -892,7 +945,7 @@ namespace giac {
 #endif // visualc
 
   void find_all_index(const std::string & subdir,multimap<std::string,std::string> & mtt,multimap<std::string,std::string> & mall){
-#if defined GNUWINCE || defined __MINGW_H || defined __ANDROID__ || defined EMCC
+#if defined GNUWINCE || defined __MINGW_H || defined __ANDROID__ || defined EMCC || defined NSPIRE_NEWLIB
     return;
 #else
     // cerr << "HTML help Scanning " << subdir << endl;
@@ -915,7 +968,7 @@ namespace giac {
     struct dirent **eps;
     int n;
 #if defined APPLE_SMART || defined NO_SCANDIR
-    n = -1;
+    n =-1;
 #else
     n = scandir (subdir.c_str(), &eps, dir_select, alphasort);
 #endif
@@ -965,12 +1018,14 @@ namespace giac {
     string xcasroot;
     if (getenv("XCAS_ROOT")){
       xcasroot=string(getenv("XCAS_ROOT"));
+      if (xcasroot.empty()) 
+	xcasroot="/";
       if (xcasroot[xcasroot.size()-1]!='/')
 	xcasroot+='/';
     }
     else {
       xcasroot=arg;
-      int xcasroot_size=xcasroot.size()-1;
+      int xcasroot_size=int(xcasroot.size())-1;
       for (;xcasroot_size>=0;--xcasroot_size){
 	if (xcasroot[xcasroot_size]=='/')
 	  break;
@@ -1012,6 +1067,9 @@ namespace giac {
       if (!if_mtt || if_mtt.eof()){
 	if (verbose)
 	  cerr << "// Read " << n << " entries from cache " << filename << endl;
+#if defined VISUALC || defined BESTA_OS
+	delete [] buf;
+#endif
 	return true;
       }
       string first(buf);
@@ -1025,7 +1083,7 @@ namespace giac {
       multi.insert(pair<string,string>(first,buf));
       if (!(n%100)){ // check every 100 links if link exists
 	first=buf;
-	int l=first.size(),j;
+	int l=int(first.size()),j;
 	char ch=0;
 	for (j=l-1;j>=0;--j){
 	  ch=first[j];
@@ -1046,6 +1104,9 @@ namespace giac {
 	    cerr << "Cache file "<< filename << " has been deleted" << endl;
 	  #endif
 	  #endif
+#if defined VISUALC || defined BESTA_OS
+	  delete [] buf;
+#endif
 	  return false;
 	}
       }
@@ -1054,6 +1115,9 @@ namespace giac {
     }
     if (verbose)
       cerr << "// Read " << n << " entries from cache " << filename ;
+#if defined VISUALC || defined BESTA_OS
+    delete [] buf;
+#endif
     return true;
   }
 
@@ -1073,6 +1137,9 @@ namespace giac {
 #endif
 	if (verbose)	
 	  cerr << "// Read " << n << " entries from cache " << filename << endl;
+#if defined VISUALC || defined BESTA_OS
+	delete [] buf;
+#endif
 	return true;
       }
       multi.push_back(buf);
@@ -1110,7 +1177,8 @@ namespace giac {
       cerr << "Unable to open HTML doc directory " << html_help_dir << endl;
     html_help_dir += find_lang_prefix(language);
 #ifdef WIN32
-   html_help_dir +="cascmd_"+find_lang_prefix(giac::language(context0)); // temporary workaround, for win archive copy doc/fr/html_vall to doc/fr/cascmd_fr/html_vall and change path
+    string html_help_dir_save=html_help_dir;
+    html_help_dir +="cascmd_"+find_lang_prefix(giac::language(context0)); // temporary workaround, for win archive copy doc/fr/html_vall to doc/fr/cascmd_fr/html_vall and change path
 #endif
     html_mtt.clear();
     html_mall.clear();
@@ -1123,6 +1191,11 @@ namespace giac {
 	return html_help_dir;
     }
     find_all_index(html_help_dir,html_mtt,html_mall);
+#ifdef WIN32
+    for (unsigned i=0;i<sizeof(subdir_strings)/sizeof(const string);++i){
+      find_all_index(html_help_dir_save+subdir_strings[i]+"/",html_mtt,html_mall);
+    }
+#endif
     // Write all indices in a file cache
     ofstream of_mtt((html_help_dir+"html_mtt").c_str());
     multimap<string,string>::const_iterator it=html_mtt.begin(),itend=html_mtt.end();
@@ -1150,7 +1223,7 @@ namespace giac {
   }
 
   static bool multigrep(FILE * f,const string & s){
-    int l=s.size();
+    int l=int(s.size());
     // find spaces
     string tmp;
     vector<string> vs;
@@ -1165,7 +1238,7 @@ namespace giac {
     }
     if (!tmp.empty())
       vs.push_back(tmp);
-    l=vs.size();
+    l=int(vs.size());
     if (!f || !l)
       return false;
     char c;
@@ -1252,9 +1325,9 @@ namespace giac {
       }
       if (c==' '){
 	if (!tmp.empty()){ // search tmp in vs
-	  unsigned tmpl=tmp.size(),tmpvs;
+	  unsigned tmpl=unsigned(tmp.size()),tmpvs;
 	  for (int i=0;i<l;++i){
-	    if ( (tmpvs=vs[i].size())<=tmpl && tmp.substr(0,tmpvs)==vs[i]){
+	    if ( (tmpvs=unsigned(vs[i].size()))<=tmpl && tmp.substr(0,tmpvs)==vs[i]){
 	      vs.erase(vs.begin()+i);
 	      --l;
 	      if (l<=0)
@@ -1270,7 +1343,7 @@ namespace giac {
   }
 
   bool grep(FILE * f,const string & s){
-    int l=s.size();
+    int l=int(s.size());
     int pos=0;
     if (!f || !l)
       return false;
@@ -1329,7 +1402,7 @@ namespace giac {
 
   std::string unlocalize(const std::string & s){
     std::string res,tmp;
-    int ss=s.size();
+    int ss=int(s.size());
     std::map<std::string,std::string>::const_iterator it,itend=lexer_localization_map().end();
     int mode=0; // 1 if inside a string
     for (int i=0;;++i){
@@ -1367,7 +1440,7 @@ namespace giac {
 
   std::string localize(const std::string & s,int language){
     std::string res,tmp;
-    int ss=s.size();
+    int ss=int(s.size());
     int mode=0; // 1 if inside a string
     std::multimap<std::string,localized_string>::const_iterator it0,it,itend,backend=back_lexer_localization_map().end();
     for (int i=0;;++i){

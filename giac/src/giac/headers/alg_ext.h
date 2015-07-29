@@ -32,9 +32,15 @@ namespace giac {
   bool proot_cached(const vecteur & v,double eps,vecteur & res);
   bool proot_cache(const vecteur & v,double eps,const vecteur & res);
 
+  bool galoisconj_cached(const vecteur & v,vecteur & res);
+  bool galoisconj_cache(const vecteur & v,const vecteur & res);
+  vecteur galoisconj(const vecteur & v,GIAC_CONTEXT);
+  bool conj_in_nf(const vecteur & w,gen & g,GIAC_CONTEXT);
+
   bool islesscomplex(const gen & a,const gen & b);
   bool is_sqrt(const gen & a,gen & arg);
   gen select_root(const vecteur & v,GIAC_CONTEXT);
+  gen in_select_root(const vecteur & a,bool reel,GIAC_CONTEXT);
   bool is_known_rootof(const vecteur & v,gen & symroot,GIAC_CONTEXT);
   gen horner_rootof(const vecteur & p,const gen & g,GIAC_CONTEXT);
   bool has_rootof_value(const gen & Pmin,gen & value,GIAC_CONTEXT);

@@ -47,8 +47,10 @@ namespace giac {
   gen _suppress(const gen & args,GIAC_CONTEXT);
   gen _valuation(const gen & args,GIAC_CONTEXT);
   gen _degree(const gen & args,GIAC_CONTEXT);
+  gen _total_degree(const gen & args,GIAC_CONTEXT);
   gen _lcoeff(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lcoeff ;
+  extern const unary_function_ptr * const  at_set_language ;
 
   gen _tcoeff(const gen & args,GIAC_CONTEXT);
   gen _sqrfree(const gen & args,GIAC_CONTEXT);
@@ -235,8 +237,6 @@ namespace giac {
 
   bool has_undef_stringerr(const gen & g,std::string & err);
 
-  bool is_sparse_matrix(const gen & g,int & nrows,int & ncols,int & n);
-  bool is_sparse_vector(const gen & g,int & nrows,int & n);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

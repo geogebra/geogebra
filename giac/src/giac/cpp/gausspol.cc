@@ -834,8 +834,8 @@ namespace giac {
       return;
     }
     std::vector< monomial<gen> > multcoord;
-    int asize=ita_end-ita,bsize=itb_end-itb;
-    int d=ita->index.size();
+    int asize=int(ita_end-ita),bsize=int(itb_end-itb);
+    int d=int(ita->index.size());
     multcoord.reserve(asize*bsize); // correct for sparse polynomial
     std::vector< monomial<gen> >::const_iterator ita_begin = ita,itb_begin=itb ;
     index_m old_pow=(*ita).index+(*itb).index;
@@ -908,7 +908,7 @@ namespace giac {
     if (my_isinf(r) || my_isnan(r) || r>1e9)
       new_coord.reserve(itend-it);
     else
-      new_coord.reserve(giacmin(int(r),itend-it));
+      new_coord.reserve(giacmin(int(r),int(itend-it)));
     // add terms with same power
     addsamepower_gen(it,itend,new_coord);
     if (debug_infolevel)
@@ -959,12 +959,12 @@ namespace giac {
     lagrtime *= sumdeg;
     // Now look if length a=1 or length b=1, happens frequently
     // think of x^3*y^2*z translated to internal form
-    int c1=th.coord.size();
+    int c1=int(th.coord.size());
     if (c1==1){
       res=other.shift(th.coord.front().index,th.coord.front().value);
       return ;
     }
-    int c2=other.coord.size();
+    int c2=int(other.coord.size());
     if (c2==1){
       res=th.shift(other.coord.front().index,other.coord.front().value);
       return;
@@ -1086,7 +1086,7 @@ namespace giac {
 	      if (th.dim==1 || !threadmult<longlong,unsigned>(p1d,p2d,pd,unsigned(ans/d[0]),0,size_t(c1c2)))
 		smallmult<longlong,unsigned>(p1d,p2d,pd,0,size_t(c1c2));
 	      if(debug_infolevel>5) CERR << "End smallmult " << clock() << endl;
-	      unsigned pds=pd.size();
+	      unsigned pds=unsigned(pd.size());
 	      if ( res_size< 1 ){
 		convert_from<longlong,unsigned>(pd,d,res,false);
 		return;
@@ -1437,7 +1437,7 @@ namespace giac {
     }
     vector< monomial<gen> >::const_iterator ita = th.coord.begin();
     vector< monomial<gen> >::const_iterator ita_end = th.coord.end();
-    int c1=ita_end-ita;
+    int c1=int(ita_end-ita);
     if (c1==0){
       res=th;
       return true;
@@ -1509,7 +1509,7 @@ namespace giac {
       for (int i=1;i<u;++i){
 	if (debug_infolevel>20)
 	  CERR << "power gen " << i << " " << clock() << endl;
-	unsigned c1c2 = p1.size()*p2.size();
+	unsigned c1c2 = unsigned(p1.size()*p2.size());
 	// threadmult<gen,.> does not work on multi-CPU (malloc error with GMP data structures)
 	// if (th.dim==1 || !threadmult<gen,unsigned>(p1,p2,p,ans/d[0],0,c1c2))
 	  smallmult<gen,unsigned>(p1,p2,p,0,c1c2);
@@ -1545,7 +1545,7 @@ namespace giac {
     quo.dim=a.dim;
     r.dim=a.dim;
     r.coord.clear();
-    int bs=b.coord.size();
+    int bs=int(b.coord.size());
     if ( b.dim<=1 || bs==1 || a.coord.empty() ){
       return a.TDivRem(b,quo,r,allowrational) && (exactquo>0?r.coord.empty():true) ;
     }
@@ -1586,7 +1586,7 @@ namespace giac {
 	  longlong maxp1,maxp2;
 	  doit=convert_int(a,d,p1,maxp1) && convert_int(b,d,p2,maxp2) && maxp1/RAND_MAX < RAND_MAX;
 	  if (doit){
-	    if (maxp1<RAND_MAX && maxp2<RAND_MAX/p2.size()){
+	    if (maxp1<int(RAND_MAX) && maxp2<double(RAND_MAX)/p2.size()){
 	      if (debug_infolevel>1)
 		CERR << "hashdivrem1 int32 begin " << clock() << " maxp1=" << maxp1 << " maxp2=" << maxp2 << " ddeg=" << ddeg << std::endl;
 	      // try with int instead of longlong
@@ -1921,7 +1921,7 @@ namespace giac {
   gen vecteur2polynome(const vecteur & v,int dimension){
     const_iterateur it=v.begin(),itend=v.end();
     gen e;
-    for (int d=itend-it-1;it!=itend;++it,--d){
+    for (int d=int(itend-it)-1;it!=itend;++it,--d){
       if (!is_zero(*it))
 	e = e+untrunc(*it,d,dimension);
     }
@@ -1931,7 +1931,7 @@ namespace giac {
   polynome poly12polynome(const vecteur & v){
     const_iterateur it=v.begin(),itend=v.end();
     polynome p(1);
-    for (int d=itend-it-1;it!=itend;++it,--d){
+    for (int d=int(itend-it)-1;it!=itend;++it,--d){
       if (!is_zero(*it))
 	p.coord.push_back(monomial<gen>(*it,d,1,1));
     }
@@ -1946,7 +1946,7 @@ namespace giac {
       p.dim=inner_POLYdim(v);
     p.coord.clear();
     const_iterateur it=v.begin(),itend=v.end();
-    for (int d=(itend-it)-1;it!=itend;++it,--d){
+    for (int d=int(itend-it)-1;it!=itend;++it,--d){
       if (is_zero(*it))
 	continue;
       if (it->type!=_POLY || (it->_POLYptr->dim+1)!=p.dim)
@@ -1965,7 +1965,7 @@ namespace giac {
   polynome poly1_2_polynome(const vecteur & v, int dimension){
     polynome p(dimension);
     const_iterateur it=v.begin(),itend=v.end();
-    for (int d=(itend-it)-1;it!=itend;++it,--d){
+    for (int d=int(itend-it)-1;it!=itend;++it,--d){
       if (is_zero(*it))
 	continue;
       p.coord.push_back(monomial<gen>(*it,d,1,p.dim));
@@ -2037,13 +2037,13 @@ namespace giac {
   }
 
   static bool divremmod2 (const polynome & th,const polynome & other, const gen & modulo,polynome & quo, polynome & rem) {
-    int asize=th.coord.size();
+    int asize=int(th.coord.size());
     if (!asize){
       quo=th;
       rem=th; 
       return true;
     }
-    int bsize=other.coord.size();
+    int bsize=int(other.coord.size());
     if (bsize==0){
 #ifndef NO_STDEXCEPT
       setsizeerr(gettext("gausspol.cc/divremmod2"));
@@ -2094,7 +2094,7 @@ namespace giac {
     r.dim=th.dim;
     if ( (th.dim<=1) || (th.coord.empty()) )
       return divremmod2(th,other,modulo,quo,r);
-    int os=other.coord.size();
+    int os=int(other.coord.size());
     if (!os){
       r=th;
       return true;
@@ -2435,9 +2435,9 @@ namespace giac {
     }
     double pq=double(p.coord.size())*q.coord.size();
     unsigned dim=p.dim;
-#if 1 // def HAVE_LIBPARI
+#if 0 // def HAVE_LIBPARI : PARI is faster but has problems with some large inputs
     // we must keep the same variable ordering than in PARI
-    if (dim>=2 && dim<=4 && pq>256){
+    if (dim>=2 && dim<=4 && pq>256 && p>4 && q>4){
       gen coefft,coeffqt;
       int pt=coefftype(p,coefft),qt=coefftype(q,coeffqt);
       if (pt==0 && qt==0){
@@ -2945,14 +2945,14 @@ namespace giac {
 	    // Reduce linear system modulo modulo
 	    gen det; vecteur pivots; matrice mred;
 	    // CERR << "SPMOD " << clock() << endl;
-	    modrref(m,mred,pivots,det,0,m.size(),0,m.front()._VECTptr->size()-1,true,false,modulo,false);
+	    modrref(m,mred,pivots,det,0,int(m.size()),0,int(m.front()._VECTptr->size())-1,true,false,modulo,false);
 	    // CERR << "SPMODend " << clock() << endl;
 	    if (!is_zero(det)){	      
 	      // Last column is the solution, it should be polynomials
 	      // that must be untrunced with index = to non-0 coeff of vzero
 	      polynome trygcd(p.dim);
 	      index_t::const_iterator it=vzero.begin(),itend=vzero.end();
-	      int deg=itend-it-1;
+	      int deg=int(itend-it)-1;
 	      for (int pos=0;it!=itend;++it,--deg){
 		if (!*it)
 		  continue;
@@ -3373,7 +3373,7 @@ namespace giac {
   static int extract_monomials(const polynome &p,const index_t & pi,vectpoly & vp){
     index_t pdeg=p.degree();
     // find largest degree of p with respect to these variables
-    int s=pi.size(),ans=1;
+    int s=int(pi.size()),ans=1;
     index_t v(s+1);
     int i=0;
     for (;i<s;++i){
@@ -3437,7 +3437,7 @@ namespace giac {
     }
     if (pi.empty())
       return false;
-    int s=pi.size();
+    int s=int(pi.size());
     if (s==p.dim){
       gen n=gcd(Tcontent<gen>(p),Tcontent<gen>(q),context0);
       d=polynome(monomial<gen>(n,p.dim));
@@ -3911,7 +3911,7 @@ namespace giac {
 	gcdmodpoly(pp,qq,env,_gcdmod);
 	if (is_undef(_gcdmod))
 	  return false;
-	Dbdeg=giacmin(Dbdeg,_gcdmod.size()-1);
+	Dbdeg=giacmin(Dbdeg,int(_gcdmod.size())-1);
 	if (!Dbdeg)
 	  break;
       }
@@ -3934,7 +3934,7 @@ namespace giac {
     int maxpqdeg0=giacmax(p_simp.lexsorted_degree(),q_simp.lexsorted_degree());
     int minpqdeg0=giacmin(p_simp.lexsorted_degree(),q_simp.lexsorted_degree());
     index_t maxpqdeg(p_simp.dim);
-    double sparsenessp=p_simp.coord.size(),sparsenessq=q_simp.coord.size();
+    double sparsenessp=double(p_simp.coord.size()),sparsenessq=double(q_simp.coord.size());
     for (int i=0;i<p_simp.dim;++i){
       maxpqdeg[i]=giacmax(p_deg[i],q_deg[i]);
       sparsenessp /= (p_deg[i]+i+1);
@@ -4129,7 +4129,7 @@ namespace giac {
     int res=0,deg;
     vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
     for (;it!=itend;++it){
-      deg=it->index.total_degree();
+      deg=int(it->index.total_degree());
       if (deg>res)
 	res=deg;
     }
@@ -4197,7 +4197,7 @@ namespace giac {
       if (tmp==res)
 	vpos.push_back(j);
     }
-    int s=vpos.size();
+    int s=int(vpos.size());
     // Same lowest degree, eval p at 0...0 and compare
     // (for ezgcd to find good eval: peval at zero must be non 0
     // and the lcoeff must be as small as possible)
@@ -4891,12 +4891,12 @@ namespace giac {
       return false;
     }
     gen ip=im(p,context0);
-    if (!is_zero(ip)){
+    if (!is_zero(ip) ||complexmode){
       // replace i by [1,0]:[1,0,1]
-      gen newp=re(p,context0)+algebraic_EXTension(makevecteur(1,0),makevecteur(1,0,1))*ip;
+      gen bn=1,the_ext=algebraic_EXTension(makevecteur(1,0),makevecteur(1,0,1));
+      gen newp=re(p,context0)+the_ext*ip;
       if (newp.type!=_POLY)
 	return false;
-      gen bn=1,the_ext;
       lcmdeno(*newp._POLYptr,bn);
       newp=bn*newp;
       vector< monomial<gen> >::iterator it=newp._POLYptr->coord.begin(),itend=newp._POLYptr->coord.end();
@@ -4911,6 +4911,12 @@ namespace giac {
 	  else
 	    the_ext=it->value;
 	}
+      }
+      if (e.type==_EXT){
+	common_EXT(*(e._EXTptr+1),*(the_ext._EXTptr+1),0,context0);
+	the_ext=ext_reduce(the_ext);
+	if (the_ext.type==_FRAC)
+	  the_ext=the_ext._FRACptr->num;
       }
       for (it=newp._POLYptr->coord.begin();it!=itend;++it){
 	if (it->value.type==_EXT)
@@ -4967,7 +4973,7 @@ namespace giac {
       // polynome p_mini(poly12polynome(v_mini,1,p.dim+1));
       polynome p_mini(p.dim+1);
       const_iterateur tmp_it=v_mini.begin(),tmp_itend=v_mini.end();
-      for (int d=(tmp_itend-tmp_it)-1;tmp_it!=tmp_itend;++tmp_it,--d){
+      for (int d=int(tmp_itend-tmp_it)-1;tmp_it!=tmp_itend;++tmp_it,--d){
 	if (is_zero(*tmp_it))
 	  continue;
 	p_mini.coord.push_back(monomial<gen>(*tmp_it,d,1,p_mini.dim));
@@ -5023,7 +5029,7 @@ namespace giac {
       }
 #endif
       int k;
-      if (!algfactor(p_y,p_mini,k,fz,complexmode,extra_div))
+      if (!algfactor(p_y,p_mini,k,fz,false,extra_div))
 	return false;
       factorization::const_iterator f_it=fz.begin(),f_itend=fz.end();
       if (f_itend-f_it==1){ // irreducible (after sqff)
@@ -5371,7 +5377,7 @@ namespace giac {
       factorization::const_iterator ff_it=ff.begin(),ff_end=ff.end();
       for (;ff_it!=ff_end;++ff_it)
 	f.push_back(ff_it->fact);
-      return ff.size();
+      return int(ff.size());
     }
     ppz(unitaryp); // remove content
     gen n_2(2),np,n_73794(73794),n_27011(27011);
@@ -5397,11 +5403,11 @@ namespace giac {
       if (nf==-1)
 	return nf;
       if (!nf)
-	return f.size();
+	return int(f.size());
       if (nf==1) {
 	f.push_back(unitaryp);
 	unitaryp=polynome(monomial<gen>(gen(1),0,unitaryp.dim));
-	return f.size();
+	return int(f.size());
       }
       // factorization fz into factorization f
       vectpoly::iterator f_it=fz.begin(),f_itend=fz.end();
@@ -5422,17 +5428,17 @@ namespace giac {
     if (nf==-1)
       return nf;
     if (!nf)
-      return f.size();
+      return int(f.size());
     if (nf==1){
       f.push_back(unitaryp);
       unitaryp=polynome(monomial<gen>(gen(1),0,unitaryp.dim));
-      return f.size();
+      return int(f.size());
     }
     vectpoly::iterator f_it=fz.begin(),f_itend=fz.end();
     for (;f_it!=f_itend;++f_it)
       f.push_back(f_it->untrunc1());
     unitaryp=polynome(monomial<gen>(gen(1),0,unitaryp.dim));
-    return f.size();
+    return int(f.size());
   }
   
   void unitarize(const polynome &pcur, polynome &unitaryp, polynome & an){
@@ -5722,7 +5728,7 @@ namespace giac {
 	if (!listmax(p,lm))
 	  lm=100;
 	if (p.dim>2 && !is_zero(b0) && is_greater(lm,10,context0)){
-	  int b0d=b0.size();
+	  int b0d=int(b0.size());
 	  // search a smaller b
 	  for (int essai=0;essai<3;++essai){
 	    for (int i=0;i<b0d;++i){
@@ -5828,7 +5834,7 @@ namespace giac {
   }
 
   bool polynome_less(const polynome & f,const polynome & g){
-    unsigned fs=f.coord.size(),gs=g.coord.size();
+    unsigned fs=unsigned(f.coord.size()),gs=unsigned(g.coord.size());
     if (fs!=gs)
       return fs<gs;
     if (!gs)
@@ -6562,7 +6568,7 @@ namespace giac {
   }
 
   gen peval(const polynome & p,const vecteur & v,const gen & m,bool simplify_at_end,vector<int_unsigned> * pptr){
-    int pdim=p.dim,vsize=v.size(),var0=pdim-vsize;
+    int pdim=int(p.dim),vsize=int(v.size()),var0=pdim-vsize;
     if (v==vecteur(vsize)){ // fast evaluation at 0
       index_t i(pdim);
       i[vsize-1]=1;

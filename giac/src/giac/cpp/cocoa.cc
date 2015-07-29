@@ -46,6 +46,7 @@
 using namespace std;
 
 #include <iostream>
+#include <iomanip>
 #include "cocoa.h"
 #include "gausspol.h"
 #include "identificateur.h"
@@ -55,6 +56,10 @@ using namespace std;
 
 #if defined(USE_GMP_REPLACEMENTS) || defined(GIAC_VECTOR)
 #undef HAVE_LIBCOCOA
+#endif
+
+#if defined VISUALC && defined __x86_64__ 
+#undef __x86_64__
 #endif
 
 #ifndef NO_NAMESPACE_GIAC
@@ -416,6 +421,7 @@ namespace giac {
 
 #define GIAC_SHORTSHIFTTYPE 16
 
+
   void swap_indices(short * tab){
     swap(tab[1],tab[3]);
     swap(tab[4],tab[7]);
@@ -429,8 +435,79 @@ namespace giac {
   }
 
   struct tdeg_t {
+    // data
+#ifdef GIAC_64VARS
+    union {
+      short tab[GROEBNER_VARS+1];
+      struct {
+	short tdeg; // actually it's twice the total degree+1
+	short tdeg2;
+	int order_;
+	size_t ui;
+      };
+    };
+    index_m * i() const { return (index_m *) &ui;}
+    tdeg_t(const tdeg_t & a){
+      if (a.tab[0]%2){
+	tdeg=a.tdeg;
+	tdeg2=a.tdeg2;
+	order_=a.order_;
+	ui=a.ui;
+	++i()->riptr->ref_count;
+      }
+      else {
+	longlong * ptr = (longlong *) tab;
+	longlong * aptr = (longlong *) a.tab;
+	ptr[0]=aptr[0];
+	ptr[1]=aptr[1];
+	ptr[2]=aptr[2];
+	ptr[3]=aptr[3];
+      }
+    }
+    ~tdeg_t(){
+      if (tab[0]%2){
+	index_m * ptr=i();
+	--ptr->riptr->ref_count;
+	if (ptr->riptr->ref_count==0)
+	  delete ptr->riptr;
+      }
+    }
+    tdeg_t & operator = (const tdeg_t & a){
+      if (tab[0] % 2){
+	index_m * ptr=i();
+	--ptr->riptr->ref_count;
+	if (ptr->riptr->ref_count==0)
+	  delete ptr->riptr;
+	if (a.tab[0] % 2){
+	  tdeg=a.tdeg;
+	  tdeg2=a.tdeg2;
+	  order_=a.order_;
+	  ui=a.ui;
+	  ++i()->riptr->ref_count;
+	  return *this;
+	}
+      }
+      else {
+	if (a.tab[0]%2)
+	  ++a.i()->riptr->ref_count;
+      }
+      longlong * ptr = (longlong *) tab;
+      longlong * aptr = (longlong *) a.tab;
+      ptr[0]=aptr[0];
+      ptr[1]=aptr[1];
+      ptr[2]=aptr[2];
+      ptr[3]=aptr[3];
+      return *this;
+    }
+#else
     short tab[GROEBNER_VARS+1];
+#endif
+    // methods
     unsigned total_degree(short order) const {
+#ifdef GIAC_64VARS
+      if (tab[0]%2)
+	return tdeg/2+tdeg2;
+#endif
       // works only for revlex and tdeg
 #if 0
       if (order==_REVLEX_ORDER || order==_TDEG_ORDER)
@@ -460,13 +537,35 @@ namespace giac {
 #endif
     }
     void get_tab(short * ptr) const {
+#ifdef GIAC_64VARS
+      if (tab[0]%2){ // copy only 16 first
+	short * ptr_=&i()->front();
+	for (unsigned i=0;i<=GROEBNER_VARS;++i)
+	  ptr[i]=ptr_[i];
+	return;
+      }
+#endif
       for (unsigned i=0;i<=GROEBNER_VARS;++i)
 	ptr[i]=tab[i];
+#ifdef GIAC_64VARS
+      ptr[0]/=2;
+#endif
 #ifdef GBASIS_SWAP
       swap_indices(ptr);
 #endif
     }
     tdeg_t(const index_m & lm,short order){ 
+#ifdef GIAC_64VARS
+      if (lm.size()>GROEBNER_VARS){
+	++lm.riptr->ref_count;
+	ui=*(size_t*)&lm;
+	tdeg=nvar_total_degree(lm,order);
+	tdeg=2*tdeg+1;
+	tdeg2=sum_degree_from(lm,order); 
+	order_=order;
+	return;
+      }
+#endif
       longlong * ptr_ = (longlong *) tab;
       ptr_[2]=ptr_[1]=ptr_[0]=0;
       short * ptr=tab;
@@ -476,7 +575,11 @@ namespace giac {
       // tab[GROEBNER_VARS]=order;
 #if GROEBNER_VARS==15
       if (order==_3VAR_ORDER){
+#ifdef GIAC_64VARS
+	ptr[0]=2*(lm[0]+lm[1]+lm[2]);
+#else
 	ptr[0]=lm[0]+lm[1]+lm[2];
+#endif
 	ptr[1]=lm[2];
 	ptr[2]=lm[1];
 	ptr[3]=lm[0];
@@ -491,7 +594,11 @@ namespace giac {
 	return;
       }
       if (order==_7VAR_ORDER){
+#ifdef GIAC_64VARS
+	ptr[0]=2*(lm[0]+lm[1]+lm[2]+lm[3]+lm[4]+lm[5]+lm[6]);
+#else
 	ptr[0]=lm[0]+lm[1]+lm[2]+lm[3]+lm[4]+lm[5]+lm[6];
+#endif
 	ptr[1]=lm[6];
 	ptr[2]=lm[5];
 	ptr[3]=lm[4];
@@ -510,7 +617,11 @@ namespace giac {
 	return;
       }
       if (order==_11VAR_ORDER){
+#ifdef GIAC_64VARS
+	ptr[0]=2*(lm[0]+lm[1]+lm[2]+lm[3]+lm[4]+lm[5]+lm[6]+lm[7]+lm[8]+lm[9]+lm[10]);
+#else
 	ptr[0]=lm[0]+lm[1]+lm[2]+lm[3]+lm[4]+lm[5]+lm[6]+lm[7]+lm[8]+lm[9]+lm[10];
+#endif
 	ptr[1]=lm[10];
 	ptr[2]=lm[9];
 	ptr[3]=lm[8];
@@ -549,6 +660,9 @@ namespace giac {
 #ifdef GBASIS_SWAP
       swap_indices(tab);
 #endif
+#ifdef GIAC_64VARS
+      *tab *=2;
+#endif
     }
   };
 
@@ -557,6 +671,10 @@ namespace giac {
 #ifdef NSPIRE
   template<class T>
   nio::ios_base<T> & operator << (nio::ios_base<T> & os,const tdeg_t & x){
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2)
+      return os << *x.i();
+#endif    
     os << "[";
     for (unsigned i=0; i<=GROEBNER_VARS;++i){
       os << x.tab[i] << ",";
@@ -565,6 +683,10 @@ namespace giac {
   }
 #else
   ostream & operator << (ostream & os,const tdeg_t & x){
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2)
+      return os << *x.i();
+#endif    
     os << "[";
     for (unsigned i=0; i<=GROEBNER_VARS;++i){
       os << x.tab[i] << ",";
@@ -572,37 +694,17 @@ namespace giac {
     return os << "]";
   }
 #endif
-  inline void add(const tdeg_t & x,const tdeg_t & y,tdeg_t & res,int dim){
-#if 1
-    ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y,*ztab=(ulonglong *)&res;
-    ztab[0]=xtab[0]+ytab[0];
-    ztab[1]=xtab[1]+ytab[1];
-    ztab[2]=xtab[2]+ytab[2];
-#if GROEBNER_VARS>11
-    ztab[3]=xtab[3]+ytab[3];
-#endif
-#else
-    for (unsigned i=0;i<=dim;++i)
-      res.tab[i]=x.tab[i]+y.tab[i];
-#endif
-  }
-  inline tdeg_t operator + (const tdeg_t & x,const tdeg_t & y){
-    tdeg_t res;
-#if 1
-    ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y,*ztab=(ulonglong *)&res;
-    ztab[0]=xtab[0]+ytab[0];
-    ztab[1]=xtab[1]+ytab[1];
-    ztab[2]=xtab[2]+ytab[2];
-#if GROEBNER_VARS>11
-    ztab[3]=xtab[3]+ytab[3];
-#endif
-#else
-    for (unsigned i=0;i<=GROEBNER_VARS;++i)
-      res.tab[i]=x.tab[i]+y.tab[i];
-#endif
-    return res;
-  }
   inline tdeg_t & operator += (tdeg_t & x,const tdeg_t & y){ 
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2){
+      if (!y.tab[0]%2)
+	COUT << "erreur" << endl;
+      *x.i() = *x.i()+*y.i();
+      x.tdeg += 2*(y.tdeg/2);
+      x.tdeg2 += y.tdeg2;
+      return x;
+    }
+#endif    
 #if 1
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
     xtab[0]+=ytab[0];
@@ -617,7 +719,69 @@ namespace giac {
 #endif
     return x;  
   }
+  inline tdeg_t operator + (const tdeg_t & x,const tdeg_t & y){
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2){
+      if (!y.tab[0]%2)
+	COUT << "erreur" << endl;
+      tdeg_t res(*x.i()+*y.i(),x.order_);
+      return res;
+    }
+#endif    
+    tdeg_t res(x);
+    return res += y;
+#if 1
+    ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y,*ztab=(ulonglong *)&res;
+    ztab[0]=xtab[0]+ytab[0];
+    ztab[1]=xtab[1]+ytab[1];
+    ztab[2]=xtab[2]+ytab[2];
+#if GROEBNER_VARS>11
+    ztab[3]=xtab[3]+ytab[3];
+#endif
+#else
+    for (unsigned i=0;i<=GROEBNER_VARS;++i)
+      res.tab[i]=x.tab[i]+y.tab[i];
+#endif
+    return res;
+  }
+  inline void add(const tdeg_t & x,const tdeg_t & y,tdeg_t & res,int dim){
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2){
+      if (!y.tab[0]%2)
+	COUT << "erreur" << endl;
+      res=tdeg_t(*x.i()+*y.i(),x.order_);
+      return;
+    }
+#endif    
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2){
+      res = x;
+      res += y;
+      return;
+    }
+#endif    
+#if 1
+    ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y,*ztab=(ulonglong *)&res;
+    ztab[0]=xtab[0]+ytab[0];
+    ztab[1]=xtab[1]+ytab[1];
+    ztab[2]=xtab[2]+ytab[2];
+#if GROEBNER_VARS>11
+    ztab[3]=xtab[3]+ytab[3];
+#endif
+#else
+    for (unsigned i=0;i<=dim;++i)
+      res.tab[i]=x.tab[i]+y.tab[i];
+#endif
+  }
   inline tdeg_t operator - (const tdeg_t & x,const tdeg_t & y){ 
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2){
+      if (!y.tab[0]%2)
+	COUT << "erreur" << endl;
+      tdeg_t res1(*x.i()-*y.i(),x.order_);
+      return res1;
+    }
+#endif    
     tdeg_t res;
 #if 1
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y,*ztab=(ulonglong *)&res;
@@ -634,6 +798,10 @@ namespace giac {
     return res;
   }
   inline bool operator == (const tdeg_t & x,const tdeg_t & y){ 
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2)
+      return x.tdeg==y.tdeg && x.tdeg2==y.tdeg2 && *x.i()==*y.i();
+#endif    
     return  ((longlong *) x.tab)[0] == ((longlong *) y.tab)[0] && 
       ((longlong *) x.tab)[1] == ((longlong *) y.tab)[1] &&
       ((longlong *) x.tab)[2] == ((longlong *) y.tab)[2] 
@@ -895,6 +1063,20 @@ namespace giac {
   }
 
   inline bool tdeg_t_greater (const tdeg_t & x,const tdeg_t & y,short order){
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2){
+      if (order==_3VAR_ORDER || order>=_7VAR_ORDER){
+	if (x.tdeg!=y.tdeg)
+	  return x.tdeg>y.tdeg;
+	return i_nvar_is_greater(*x.i(),*y.i(),order,true);
+      }
+      if (order==_REVLEX_ORDER)
+	return i_total_revlex_is_greater(*x.i(),*y.i());
+      if (order==_TDEG_ORDER && x.tdeg!=y.tdeg) 
+	return x.tdeg>y.tdeg;
+      return i_lex_is_greater(*x.i(),*y.i());
+    }
+#endif
 #if GROEBNER_VARS==15
     if (order==_3VAR_ORDER)
       return tdeg_t_3var_greater(x,y);
@@ -912,6 +1094,11 @@ namespace giac {
   }
 
   inline bool tdeg_t_all_greater(const tdeg_t & x,const tdeg_t & y,short order){
+#ifdef GIAC_64VARS
+    if (x.tab[0]%2){
+      return *x.i()>=*y.i();
+    }
+#endif
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
     if ((xtab[0]-ytab[0]) & 0x8000800080008000ULL)
       return false;
@@ -927,6 +1114,16 @@ namespace giac {
   }
 
   void index_lcm(const tdeg_t & x,const tdeg_t & y,tdeg_t & z,short order){
+#ifdef GIAC_64VARS
+    if (x.tdeg%2){
+      if (!y.tab[0]%2)
+	COUT << "erreur" << endl;
+      index_t res;
+      index_lcm(*x.i(),*y.i(),res);
+      z=tdeg_t(res,order);
+      return;
+    }
+#endif
     int t=0;
     const short * xtab=&x.tab[1],*ytab=&y.tab[1];
     short *ztab=&z.tab[1];
@@ -938,7 +1135,11 @@ namespace giac {
     ++xtab; ++ytab; ++ztab;
 #if GROEBNER_VARS==15
     if (order==_3VAR_ORDER){
+#ifdef GIAC_64VARS
+      z.tab[0]=2*t;
+#else
       z.tab[0]=t;
+#endif
       t=0;
       ++xtab;++ytab;++ztab;
       t += (*ztab=(*xtab>*ytab)?*xtab:*ytab); // 5
@@ -976,7 +1177,11 @@ namespace giac {
     ++xtab; ++ytab; ++ztab;
 #if GROEBNER_VARS==15
     if (order==_7VAR_ORDER){
+#ifdef GIAC_64VARS
+      z.tab[0]=2*t;
+#else
       z.tab[0]=t;
+#endif
       t=0;
       ++xtab;++ytab;++ztab;
       t += (*ztab=(*xtab>*ytab)?*xtab:*ytab); // 9
@@ -1007,7 +1212,11 @@ namespace giac {
     ++xtab; ++ytab; ++ztab;
 #if GROEBNER_VARS==15
     if (order==_11VAR_ORDER){
+#ifdef GIAC_64VARS
+      z.tab[0]=2*t;
+#else
       z.tab[0]=t;
+#endif
       t=0;
       ++xtab; ++ytab; ++ztab;
       t += (*ztab=(*xtab>*ytab)?*xtab:*ytab); // 13
@@ -1027,13 +1236,29 @@ namespace giac {
     ++xtab; ++ytab; ++ztab;
     t += (*ztab=(*xtab>*ytab)?*xtab:*ytab); // 15
 #endif
-    if (order==_REVLEX_ORDER || order==_TDEG_ORDER)
+    if (order==_REVLEX_ORDER || order==_TDEG_ORDER){
+#ifdef GIAC_64VARS
+      z.tab[0]=2*t;
+#else
       z.tab[0]=t;
-    else
-      t += (z.tab[0]=(x.tab[0]>y.tab[0])?x.tab[0]:y.tab[0]);
+#endif
+    }
+    else {
+#ifdef GIAC_64VARS
+      z.tab[0]=2*((x.tab[0]>y.tab[0])?x.tab[0]:y.tab[0]);
+#else
+      z.tab[0]=(x.tab[0]>y.tab[0])?x.tab[0]:y.tab[0];
+#endif
+    }
   }
 
   void get_index(const tdeg_t & x_,index_t & idx,int order,int dim){
+#ifdef GIAC_64VARS
+    if (x_.tab[0]%2){
+      idx=x_.i()->iref();
+      return;
+    }
+#endif
     idx.resize(dim);
 #ifdef GBASIS_SWAP    
     tdeg_t x(x_);
@@ -1080,10 +1305,17 @@ namespace giac {
     else {
       for (int i=0;i<dim;++ptr,++i)
 	idx[i]=*ptr;
+#ifdef GIAC_64VARS
+      idx[0]/=2;
+#endif
     }
   }
   
   bool disjoint(const tdeg_t & a,const tdeg_t & b,short order,short dim){
+#ifdef GIAC_64VARS
+    if (a.tab[0]%2)
+      return disjoint(*a.i(),*b.i());
+#endif
 #if GROEBNER_VARS==15
     if (order==_3VAR_ORDER){
       if ( (a.tab[1] && b.tab[1]) ||
@@ -1180,7 +1412,11 @@ namespace giac {
 	if (p.is_strictly_greater==i_total_lex_is_strictly_greater)
 	  order=_TDEG_ORDER;
       }
-      if (p.dim>GROEBNER_VARS)
+      if (
+#ifdef GIAC_64VARS
+	  0 &&
+#endif
+	  p.dim>GROEBNER_VARS)
 	CERR << "Number of variables is too large to be handled by giac";
       else {
 	coord.reserve(p.coord.size());
@@ -1494,7 +1730,7 @@ namespace giac {
       q[i].dim=f.dim;
       q[i].order=f.order;
       q[i].coord.clear();
-      guess += g[G[i]].coord.size();
+      guess += unsigned(g[G[i]].coord.size());
     }
     vector<heap_t> H;
     compare_heap_t key(f.order);
@@ -1578,7 +1814,7 @@ namespace giac {
       }
       // divide (c,m) by one of the g if possible, otherwise push in remainder
       if (finish)
-	i=G.size();
+	i=unsigned(G.size());
       else {
 	finish=true;
 	for (i=0;i<G.size();++i){
@@ -1626,7 +1862,7 @@ namespace giac {
       }
       // push in heap
       if (g[G[i]].coord.size()>1){
-	heap_t current={i,q[i].coord.size()-1,1,g[G[i]].coord[1].u+monom};
+	heap_t current={i,int(q[i].coord.size())-1,1,g[G[i]].coord[1].u+monom};
 	H.push_back(current);
 	push_heap(H.begin(),H.end(),key);
       }
@@ -2036,7 +2272,7 @@ namespace giac {
 
   static void gbasis_update(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpoly8 & res,unsigned pos,poly8 & TMP1,poly8 & TMP2,vectpoly8 & vtmp,environment * env){
     if (debug_infolevel>1)
-      CERR << clock() << " begin gbasis update " << endl;
+      CERR << CLOCK() << " begin gbasis update " << endl;
     const poly8 & h = res[pos];
     short order=h.order;
     vector<unsigned> C;
@@ -2110,7 +2346,7 @@ namespace giac {
     swap(B1,B);
     // Update G by removing elements with leading monomial >= leading monomial of h
     if (debug_infolevel>1)
-      CERR << clock() << " begin Groebner interreduce " << endl;
+      CERR << CLOCK() << " begin Groebner interreduce " << endl;
     C.clear();
     C.reserve(G.size());
     vector<unsigned> hG(1,pos);
@@ -2132,7 +2368,7 @@ namespace giac {
       // NB: removing all pairs containing i in it does not work
     }
     if (debug_infolevel>1)
-      CERR << clock() << " end Groebner interreduce " << endl;
+      CERR << CLOCK() << " end Groebner interreduce " << endl;
     C.push_back(pos);
     swap(C,G);
   }
@@ -2149,7 +2385,7 @@ namespace giac {
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
       if (debug_infolevel>1)
-	CERR << clock() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
+	CERR << CLOCK() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
       tdeg_t small0,cur;
       unsigned smallpos,smallsugar=0,cursugar=0;
@@ -2194,22 +2430,22 @@ namespace giac {
       }
       pair<unsigned,unsigned> bk=B[smallpos];
       if (debug_infolevel>1 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
-	CERR << clock() << " reducing pair with 1 element not in basis " << bk << endl;
+	CERR << CLOCK() << " reducing pair with 1 element not in basis " << bk << endl;
       B.erase(B.begin()+smallpos);
       poly8 h(res.front().order,res.front().dim);
       spoly(res[bk.first],res[bk.second],h,TMP1,env);
       if (debug_infolevel>1)
-	CERR << clock() << " reduce begin, pair " << bk << " remainder size " << h.coord.size() << endl;
+	CERR << CLOCK() << " reduce begin, pair " << bk << " remainder size " << h.coord.size() << endl;
       reduce(h,res,G,-1,vtmp,h,TMP1,TMP2,env);
       if (debug_infolevel>1){
 	if (debug_infolevel>3){ CERR << h << endl; }
-	CERR << clock() << " reduce end, remainder size " << h.coord.size() << endl;
+	CERR << CLOCK() << " reduce end, remainder size " << h.coord.size() << endl;
       }
       if (!h.coord.empty()){
 	res.push_back(h);
-	gbasis_update(G,B,res,res.size()-1,TMP1,TMP2,vtmp,env);
+	gbasis_update(G,B,res,unsigned(res.size()-1),TMP1,TMP2,vtmp,env);
 	if (debug_infolevel>2)
-	  CERR << clock() << " basis indexes " << G << " pairs indexes " << B << endl;
+	  CERR << CLOCK() << " basis indexes " << G << " pairs indexes " << B << endl;
       }
     }
     return true;
@@ -2642,7 +2878,7 @@ namespace giac {
       q[i].dim=f.dim;
       q[i].order=f.order;
       q[i].coord.clear();
-      guess += g[G[i]].coord.size();
+      guess += unsigned(g[G[i]].coord.size());
     }
     vector<heap_t> H;
     compare_heap_t key(f.order);
@@ -2751,7 +2987,7 @@ namespace giac {
       q[i].coord.push_back(T_unsigned<modint,tdeg_t>(c,monom));
       // push in heap
       if (g[G[i]].coord.size()>1){
-	heap_t current={i,q[i].coord.size()-1,1,g[G[i]].coord[1].u+monom};
+	heap_t current={i,int(q[i].coord.size())-1,1,g[G[i]].coord[1].u+monom};
 	H.push_back(current);
 	push_heap(H.begin(),H.end(),key);
       }
@@ -2794,7 +3030,7 @@ namespace giac {
       q[i].dim=f.dim;
       q[i].order=f.order;
       q[i].coord.clear();
-      guess += g[G[i]].coord.size();
+      guess += unsigned(g[G[i]].coord.size());
     }
     vector<heap_t> H_;
     vector<unsigned> H;
@@ -2854,8 +3090,8 @@ namespace giac {
       q[i].coord.push_back(T_unsigned<modint,tdeg_t>(1,monom));
       // push in heap
       if (g[G[i]].coord.size()>1){
-	heap_t current={i,q[i].coord.size()-1,1,g[G[i]].coord[1].u+monom};
-	H.push_back(H_.size());
+	heap_t current={i,int(q[i].coord.size())-1,1,g[G[i]].coord[1].u+monom};
+	H.push_back(unsigned(H_.size()));
 	H_.push_back(current);
 	keyheap.ptr=&H_.front();
 	std::push_heap(H.begin(),H.end(),keyheap);
@@ -3132,7 +3368,7 @@ namespace giac {
 
   static void gbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpolymod & res,unsigned pos,polymod & TMP2,modint env,bool reduce){
     if (debug_infolevel>2)
-      CERR << clock() << " mod begin gbasis update " << G.size() << endl;
+      CERR << CLOCK() << " mod begin gbasis update " << G.size() << endl;
     if (debug_infolevel>3)
       CERR << G << endl;
     const polymod & h = res[pos];
@@ -3154,11 +3390,11 @@ namespace giac {
     // -> if g leading monomial is not disjoint from h leading monomial
     //    keep it only if lcm of leading monomial is not divisible by another one
 #if 1
-    unsigned tmpsize=G.size();
+    size_t tmpsize=G.size();
     vector<tdeg_t> tmp(tmpsize);
     for (unsigned i=0;i<tmpsize;++i){
       if (res[G[i]].coord.empty()){
-	tmp[i].tab[0]=-1;
+	tmp[i].tab[0]=-2;
       }
       else
 	index_lcm(h0,res[G[i]].coord.front().u,tmp[i],order); 
@@ -3171,7 +3407,7 @@ namespace giac {
     vector<tdeg_t> tmp(tmpsize);
     for (unsigned i=0;i<tmpsize;++i){
       if (res[i].coord.empty()){
-	tmp[i].tab[0]=-1;
+	tmp[i].tab[0]=-2;
       }
       else
 	index_lcm(h0,res[i].coord.front().u,tmp[i],order); 
@@ -3193,7 +3429,7 @@ namespace giac {
 #endif
       tdeg_t * tmp2=&tmp[0],*tmpend=tmp2+tmpsize;
       for (;tmp2!=tmp1;++tmp2){
-	if (tmp2->tab[0]==-1)
+	if (tmp2->tab[0]<0)
 	  continue;
 	if (tdeg_t_all_greater(*tmp1,*tmp2,order))
 	  break; // found another pair, keep the smallest, or the first if equal
@@ -3201,7 +3437,7 @@ namespace giac {
       if (tmp2!=tmp1)
 	continue;
       for (++tmp2;tmp2<tmpend;++tmp2){
-	if (tmp2->tab[0]==-1)
+	if (tmp2->tab[0]<0)
 	  continue;
 	if (tdeg_t_all_greater(*tmp1,*tmp2,order) && *tmp1!=*tmp2){
 	  break; 
@@ -3243,7 +3479,7 @@ namespace giac {
     swap(B1,B);
     // Update G by removing elements with leading monomial >= leading monomial of h
     if (debug_infolevel>2){
-      CERR << clock() << " end, pairs:"<< endl;
+      CERR << CLOCK() << " end, pairs:"<< endl;
       if (debug_infolevel>3)
 	CERR << B << endl;
       CERR << "mod begin Groebner interreduce " << endl;
@@ -3267,7 +3503,7 @@ namespace giac {
       // NB: removing all pairs containing i in it does not work
     }
     if (debug_infolevel>2)
-      CERR << clock() << " mod end Groebner interreduce " << endl;
+      CERR << CLOCK() << " mod end Groebner interreduce " << endl;
     C.push_back(pos);
     swap(C,G);
 #if 0
@@ -3294,7 +3530,7 @@ namespace giac {
   // new spolys index are starting at debut
   static void gbasis_multiupdatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpolymod & res,unsigned debut,polymod & TMP2,modint env){
     if (debug_infolevel>2)
-      CERR << clock() << " mod begin gbasis update " << G.size() << "+" << add.size() << endl;
+      CERR << CLOCK() << " mod begin gbasis update " << G.size() << "+" << add.size() << endl;
     if (debug_infolevel>3)
       CERR << G << endl;
     vector<unsigned> C;
@@ -3369,7 +3605,7 @@ namespace giac {
     swap(B1,B);
     // Update G by removing elements with leading monomial >= leading monomial of h
     if (debug_infolevel>2){
-      CERR << clock() << " end, pairs:"<< endl;
+      CERR << CLOCK() << " end, pairs:"<< endl;
       if (debug_infolevel>3)
 	CERR << B << endl;
       CERR << "mod begin Groebner interreduce " << endl;
@@ -3394,14 +3630,14 @@ namespace giac {
 	C.push_back(G[i]);
     }
     if (debug_infolevel>2)
-      CERR << clock() << " mod end Groebner interreduce " << endl;
+      CERR << CLOCK() << " mod end Groebner interreduce " << endl;
     swap(C,G);
   }
 #endif
 
   bool in_gbasismod(vectpoly8 & res8,vectpolymod &res,vector<unsigned> & G,modint env,bool sugar,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero){
     convert(res8,res,env);
-    unsigned ressize=res8.size();
+    unsigned ressize=unsigned(res8.size());
     unsigned learned_position=0;
     bool learning=pairs_reducing_to_zero && pairs_reducing_to_zero->empty();
     if (debug_infolevel>1000)
@@ -3419,7 +3655,7 @@ namespace giac {
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
       if (debug_infolevel>1)
-	CERR << clock() << " mod number of pairs: " << B.size() << ", base size: " << G.size() << endl;
+	CERR << CLOCK() << " mod number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
       tdeg_t small0,cur;
       unsigned smallpos,smallsugar=0,cursugar=0;
@@ -3469,16 +3705,16 @@ namespace giac {
 	continue;
       }
       if (debug_infolevel>1 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
-	CERR << clock() << " mod reducing pair with 1 element not in basis " << bk << endl;
+	CERR << CLOCK() << " mod reducing pair with 1 element not in basis " << bk << endl;
       // polymod h(res.front().order,res.front().dim);
       spolymod(res[bk.first],res[bk.second],TMP1,TMP2,env);
       if (debug_infolevel>1){
-	CERR << clock() << " mod reduce begin, pair " << bk << " spoly size " << TMP1.coord.size() << " sugar deg " << TMP1.sugar << " degree " << TMP1.coord.front().u << endl;
+	CERR << CLOCK() << " mod reduce begin, pair " << bk << " spoly size " << TMP1.coord.size() << " sugar deg " << TMP1.sugar << " degree " << TMP1.coord.front().u << endl;
       }
       reducemod(TMP1,res,G,-1,TMP1,env);
       if (debug_infolevel>1){
 	if (debug_infolevel>2){ CERR << TMP1 << endl; }
-	CERR << clock() << " mod reduce end, remainder size " << TMP1.coord.size() << endl;
+	CERR << CLOCK() << " mod reduce end, remainder size " << TMP1.coord.size() << endl;
       }
       if (!TMP1.coord.empty()){
 	if (ressize==res.size())
@@ -3487,7 +3723,7 @@ namespace giac {
 	++ressize;
 	gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
 	if (debug_infolevel>2)
-	  CERR << clock() << " mod basis indexes " << G << " pairs indexes " << B << endl;
+	  CERR << CLOCK() << " mod basis indexes " << G << " pairs indexes " << B << endl;
       }
       else {
 	if (learning && pairs_reducing_to_zero)
@@ -3509,7 +3745,7 @@ namespace giac {
     tdeg_t u;
     heap_tt(bool l,unsigned a,unsigned b,tdeg_t t):left(l),f4buchbergervpos(a),polymodpos(b),u(t){};
     heap_tt(unsigned a,unsigned b,tdeg_t t):left(true),f4buchbergervpos(a),polymodpos(b),u(t){};
-    heap_tt():left(true),f4buchbergervpos(0),polymodpos(0),u(0){};
+    heap_tt():left(true),f4buchbergervpos(0),polymodpos(0),u(){};
   };
 
   struct heap_tt_compare {
@@ -3568,7 +3804,7 @@ namespace giac {
     for (unsigned i=0;it!=itend;++i,++it){
       keyorder=it->order;
       if (int(it->coord.size())>start){
-	s=giacmax(s,it->coord.size());
+	s=giacmax(s,unsigned(it->coord.size()));
 	Ht.push_back(heap_tt(i,start,it->coord[start].u));
 	H.push_back(heap_tt_ptr(&Ht.back()));
       }
@@ -3593,7 +3829,7 @@ namespace giac {
   }
 
   void collect(const vectpolymod & f4buchbergerv,const vector<unsigned> & G,polymod & allf4buchberger,unsigned start=0){
-    unsigned Gsize=G.size();
+    unsigned Gsize=unsigned(G.size());
     if (!Gsize) return;
     vector<heap_tt> H;
     compare_heap_tt key(f4buchbergerv[G[0]].order);
@@ -3625,7 +3861,7 @@ namespace giac {
       const polymod & q=res[B[i].second];
       if (debug_infolevel>2)
 	CERR << "leftright " << p << "," << q << endl;
-      tdeg_t l;
+      tdeg_t l(p.coord.front().u);
       index_lcm(p.coord.front().u,q.coord.front().u,l,p.order);
       leftshift[i]=l-p.coord.front().u;
       rightshift[i]=l-q.coord.front().u;
@@ -3647,12 +3883,12 @@ namespace giac {
       const polymod & q=res[B[i].second];
       keyorder=p.order;
       if (int(p.coord.size())>start){
-	s=giacmax(s,p.coord.size());
+	s=giacmax(s,unsigned(p.coord.size()));
 	Ht.push_back(heap_tt(true,i,start,p.coord[start].u+leftshift[i]));
 	H.push_back(heap_tt_ptr(&Ht.back()));
       }
       if (int(q.coord.size())>start){
-	s=giacmax(s,q.coord.size());
+	s=giacmax(s,unsigned(q.coord.size()));
 	Ht.push_back(heap_tt(false,i,start,q.coord[start].u+rightshift[i]));
 	H.push_back(heap_tt_ptr(&Ht.back()));
       }
@@ -3687,7 +3923,7 @@ namespace giac {
   struct sparse_element {
     modint val;
     unsigned pos;
-    sparse_element(modint v,unsigned u):val(v),pos(u){};
+    sparse_element(modint v,size_t u):val(v),pos(unsigned(u)){};
     sparse_element():val(0),pos(-1){};
   };
 
@@ -3982,9 +4218,9 @@ namespace giac {
     }
     for (vt=v.begin();vt!=vtend;++vt){
       if (*vt)
-	return vt-v.begin();
+	return unsigned(vt-v.begin());
     }
-    return v.size();
+    return unsigned(v.size());
   }
 
 #ifdef PSEUDO_MOD
@@ -4034,9 +4270,9 @@ namespace giac {
 #endif
     for (vt=v.begin();vt!=vtend;++vt){
       if (*vt)
-	return vt-v.begin();
+	return unsigned(vt-v.begin());
     }
-    return v.size();
+    return unsigned(v.size());
   }
 
 
@@ -4504,7 +4740,7 @@ namespace giac {
       for (;fit!=fitend;++fit){
 	if (fastcheck && *(wt0+*fit)==0)
 	  continue;
-	unsigned i=fit-fit0;
+	unsigned i=unsigned(fit-fit0);
 	if (!fastcheck){ 
 	  if ((i&0xffff)==0xffff){
 	    // reduce the line mod env
@@ -4613,7 +4849,7 @@ namespace giac {
       for (;fit!=fitend;++fit){
 	if (*(vt0+*fit)==0)
 	  continue;
-	unsigned i=fit-fit0;
+	unsigned i=unsigned(fit-fit0);
 	const vector<modint> & mcoeff=coeffs[coeffindex[i].u];
 	bool shortshifts=coeffindex[i].b;
 	vector<modint>::const_iterator jt=mcoeff.begin(),jtend=mcoeff.end(),jt_=jt-8;
@@ -4714,9 +4950,9 @@ namespace giac {
     } // end else based on modulo size
     for (vt=v.begin();vt!=vtend;++vt){
       if (*vt)
-	return vt-v.begin();
+	return unsigned(vt-v.begin());
     }
-    return v.size();
+    return unsigned(v.size());
   }
 
   unsigned reducef4buchbergersplitu(vector<modint> &v,const vector< vector<unsigned> > & M,vector< vector<modint> > & coeffs,vector<coeffindex_t> & coeffindex,modint env,vector<modint2> & v64){
@@ -4823,9 +5059,9 @@ namespace giac {
     } // end else based on modulo size
     for (vt=v.begin();vt!=vtend;++vt){
       if (*vt)
-	return vt-v.begin();
+	return unsigned(vt-v.begin());
     }
-    return v.size();
+    return unsigned(v.size());
   }
 
   unsigned reducef4buchbergersplits(vector<modint> &v,const vector< vector<unsigned short> > & M,vector< vector<modint> > & coeffs,vector<coeffindex_t> & coeffindex,modint env,vector<modint2> & v64){
@@ -4932,9 +5168,9 @@ namespace giac {
     } // end else based on modulo size
     for (vt=v.begin();vt!=vtend;++vt){
       if (*vt)
-	return vt-v.begin();
+	return unsigned(vt-v.begin());
     }
-    return v.size();
+    return unsigned(v.size());
   }
 
   bool tri(const vector<sparse_element> & v1,const vector<sparse_element> & v2){
@@ -5147,10 +5383,10 @@ namespace giac {
   // create matrix from list of coefficients and bitmap of non-zero positions
   // M must already have been created with the right number of rows
   void create_matrix(const vector<modint> & lescoeffs,const unsigned * bitmap,unsigned bitmapcols,const vector<used_t> & used,vector< vector<modint> > & M){
-    unsigned nrows=M.size();
+    unsigned nrows=unsigned(M.size());
     int ncols=0;
     vector<used_t>::const_iterator ut=used.begin(),utend=used.end();
-    unsigned jend=utend-ut;
+    unsigned jend=unsigned(utend-ut);
     vector<modint>::const_iterator it=lescoeffs.begin();
     for (;ut!=utend;++ut){
       ncols += *ut;
@@ -5175,10 +5411,10 @@ namespace giac {
   }
 
   void create_matrix(const unsigned * bitmap,unsigned bitmapcols,const vector<used_t> & used,vector< vector<modint> > & M){
-    unsigned nrows=M.size();
+    unsigned nrows=unsigned(M.size());
     int ncols=0;
     vector<used_t>::const_iterator ut=used.begin(),utend=used.end();
-    unsigned jend=utend-ut;
+    unsigned jend=unsigned(utend-ut);
     for (;ut!=utend;++ut){
       ncols += *ut;
     }
@@ -5222,7 +5458,7 @@ namespace giac {
 	tdeg_t u=it->u+*shiftptr;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    push32(v,it->g,pos,jt-R.coord.begin());
+	    push32(v,it->g,pos,unsigned(jt-R.coord.begin()));
 	    ++jt;
 	    break;
 	  }
@@ -5234,7 +5470,7 @@ namespace giac {
 	const tdeg_t & u=it->u;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    push32(v,it->g,pos,jt-R.coord.begin());
+	    push32(v,it->g,pos,unsigned(jt-R.coord.begin()));
 	    ++jt;
 	    break;
 	  }
@@ -5263,7 +5499,7 @@ namespace giac {
     unsigned pos=0;
     for (it=v.begin();it!=itend;++it){
       if (*it)
-	push32(w,*it,pos,it-v.begin());
+	push32(w,*it,pos,unsigned(it-v.begin()));
     }
   }
 
@@ -5271,15 +5507,15 @@ namespace giac {
     // step2: for each monomials of quo[i], shift res[G[i]] by monomial
     // set coefficient in a line of a matrix M, columns are R monomials indices
     if (debug_infolevel>1)
-      CERR << clock() << " begin build M" << endl;
-    unsigned N=R.coord.size(),i,j=0;
+      CERR << CLOCK() << " begin build M" << endl;
+    unsigned N=unsigned(R.coord.size()),i,j=0;
     unsigned c=N;
     double sknon0=0;
     vector<used_t> used(N,0);
     unsigned usedcount=0,zerolines=0,Msize=0;
     vector< vector<modint> > K(f4buchbergervG.size());
     for (i=0;i<G.size();++i){
-      Msize += quo[i].coord.size();
+      Msize += unsigned(quo[i].coord.size());
     }
     if ( env<(1<<24) && env*double(env)*Msize<9.223e18 ){
       vector< vector<sparse32> > M;
@@ -5300,7 +5536,7 @@ namespace giac {
 	}
       }
       if (debug_infolevel>1)
-	CERR << clock() << " end build M32" << endl;
+	CERR << CLOCK() << " end build M32" << endl;
       // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
       // CERR << "before sort " << M << endl;
       sort_vector_sparse_element(atrier.begin(),atrier.end()); // sort(atrier.begin(),atrier.end(),tri1);
@@ -5313,7 +5549,7 @@ namespace giac {
       swap(M,M1);
       bool freemem=mem>4e7; // should depend on real memory available
       if (debug_infolevel>1)
-	CERR << clock() << " M32 sorted, rows " << M.size() << " columns " << N << " terms " << mem << " ratio " << (mem/M.size())/N <<endl;
+	CERR << CLOCK() << " M32 sorted, rows " << M.size() << " columns " << N << " terms " << mem << " ratio " << (mem/M.size())/N <<endl;
       // CERR << "after sort " << M << endl;
       // step3 reduce
       vector<modint> v(N); vector<modint2> w(N);
@@ -5332,11 +5568,11 @@ namespace giac {
       }
       M.clear();
       if (debug_infolevel>1)
-	CERR << clock() << " f4buchbergerv reduced " << f4buchbergervG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+	CERR << CLOCK() << " f4buchbergerv reduced " << f4buchbergervG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
       for (i=0;i<N;++i)
 	usedcount += (used[i]>0);
       if (debug_infolevel>1){
-	CERR << clock() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
+	CERR << CLOCK() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
 	if (debug_infolevel>2)
 	  CERR << " column32 used " << used << endl;
       }
@@ -5395,7 +5631,7 @@ namespace giac {
 	}
       }
       if (debug_infolevel>1)
-	CERR << clock() << " end build M" << endl;
+	CERR << CLOCK() << " end build M" << endl;
       // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
       // CERR << "before sort " << M << endl;
       sort_vector_sparse_element(atrier.begin(),atrier.end()); // sort(atrier.begin(),atrier.end(),tri1); 
@@ -5412,7 +5648,7 @@ namespace giac {
       bool freemem=mem>4e7; // should depend on real memory available
       // sort(M.begin(),M.end(),tri);
       if (debug_infolevel>1)
-	CERR << clock() << " M sorted, rows " << M.size() << " columns " << N << "[" << firstpart << "] terms " << mem << " ratio " << (mem/N)/M.size() << endl;
+	CERR << CLOCK() << " M sorted, rows " << M.size() << " columns " << N << "[" << firstpart << "] terms " << mem << " ratio " << (mem/N)/M.size() << endl;
       // CERR << "after sort " << M << endl;
       // step3 reduce
       vector<modint> v(N);
@@ -5449,11 +5685,11 @@ namespace giac {
       }
       M.clear();
       if (debug_infolevel>1)
-	CERR << clock() << " f4buchbergerv reduced " << f4buchbergervG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+	CERR << CLOCK() << " f4buchbergerv reduced " << f4buchbergervG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
       for (i=0;i<N;++i)
 	usedcount += (used[i]>0);
       if (debug_infolevel>1){
-	CERR << clock() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
+	CERR << CLOCK() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
 	// if (debug_infolevel>2) CERR << " column use " << used << endl;
       }
       // create dense matrix K 
@@ -5485,15 +5721,15 @@ namespace giac {
       }
     }
     if (debug_infolevel>1)
-      CERR << clock() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
+      CERR << CLOCK() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
     vecteur pivots; vector<int> maxrankcols; longlong idet;
     // CERR << K << endl;
-    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
     //CERR << K << "," << permutation << endl;
     vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
     vector<int> permu=perminv(permutation);
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchbergerv interreduced" << endl;
+      CERR << CLOCK() << " f4buchbergerv interreduced" << endl;
     for (i=0;i<f4buchbergervG.size();++i){
 #if 0 // spare memory, keep exactly the right number of monomials in f4buchbergerv[]
       polymod tmpP(f4buchbergerv[f4buchbergervG[i]].order,f4buchbergerv[f4buchbergervG[i]].dim);
@@ -5570,15 +5806,42 @@ namespace giac {
       v.push_back(it->g);
   }
 
+  // dichotomic seach for jt->u==u in [jt,jtend[
+  bool dicho(std::vector< T_unsigned<modint,tdeg_t> >::const_iterator & jt,std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jtend,const tdeg_t & u,int order){
+    if (jt->u==u) return true;
+    for (;;){
+      std::vector< T_unsigned<modint,tdeg_t> >::const_iterator j=jt+(jtend-jt)/2;
+      if (j==jt)
+	return j->u==u;
+      if (tdeg_t_greater(j->u,u,order)){
+	jt=j;
+	if (j->u==u)
+	  return true;
+      }
+      else
+	jtend=j;
+    }
+  }
+
   void makelinesplit(const polymod & p,const tdeg_t * shiftptr,const polymod & R,vector<shifttype> & v){
     std::vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=R.coord.begin(),jtend=R.coord.end();
     unsigned pos=0;
+    double nop1=R.coord.size(); 
+    double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
+    bool dodicho=nop2<nop1;
     if (shiftptr){
       for (;it!=itend;++it){
 	tdeg_t u=it->u+*shiftptr;
+	/* new faster code */
+	if (dodicho && dicho(jt,jtend,u,R.order)){
+	  pushsplit(v,pos,unsigned(jt-R.coord.begin()));
+	  ++jt;
+	  continue;
+	}
+	/* end new faster code */
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    pushsplit(v,pos,jt-R.coord.begin());
+	    pushsplit(v,pos,unsigned(jt-R.coord.begin()));
 	    ++jt;
 	    break;
 	  }
@@ -5588,9 +5851,16 @@ namespace giac {
     else {
       for (;it!=itend;++it){
 	const tdeg_t & u=it->u;
+	/* new faster code */
+	if (dodicho && dicho(jt,jtend,u,R.order)){
+	  pushsplit(v,pos,unsigned(jt-R.coord.begin()));
+	  ++jt;
+	  continue;
+	}
+	/* end new faster code */
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    pushsplit(v,pos,jt-R.coord.begin());
+	    pushsplit(v,pos,unsigned(jt-R.coord.begin()));
 	    ++jt;
 	    break;
 	  }
@@ -5623,7 +5893,7 @@ namespace giac {
 	tdeg_t u=it->u+*shiftptr;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    pushsplit(v,pos,jt-jt0);
+	    pushsplit(v,pos,unsigned(jt-jt0));
 	    ++jt;
 	    break;
 	  }
@@ -5635,7 +5905,7 @@ namespace giac {
 	const tdeg_t & u=it->u;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    pushsplit(v,pos,jt-jt0);
+	    pushsplit(v,pos,unsigned(jt-jt0));
 	    ++jt;
 	    break;
 	  }
@@ -5651,7 +5921,7 @@ namespace giac {
 	tdeg_t u=it->u+*shiftptr;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    vu.push_back(jt-jt0);
+	    vu.push_back(hashgcd_U(jt-jt0));
 	    ++jt;
 	    break;
 	  }
@@ -5663,7 +5933,7 @@ namespace giac {
 	const tdeg_t & u=it->u;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    vu.push_back(jt-jt0);
+	    vu.push_back(hashgcd_U(jt-jt0));
 	    ++jt;
 	    break;
 	  }
@@ -5679,7 +5949,7 @@ namespace giac {
 	tdeg_t u=it->u+*shiftptr;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    vu.push_back(jt-jt0);
+	    vu.push_back(hashgcd_U(jt-jt0));
 	    ++jt;
 	    break;
 	  }
@@ -5691,7 +5961,7 @@ namespace giac {
 	const tdeg_t & u=it->u;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    vu.push_back(jt-jt0);
+	    vu.push_back(hashgcd_U(jt-jt0));
 	    ++jt;
 	    break;
 	  }
@@ -5712,8 +5982,8 @@ namespace giac {
     // step2: for each monomials of quo[i], shift res[G[i]] by monomial
     // set coefficient in a line of a matrix M, columns are R monomials indices
     if (debug_infolevel>1)
-      CERR << clock() << " begin build M" << endl;
-    unsigned N=R.coord.size(),i,j=0;
+      CERR << CLOCK() << " begin build M" << endl;
+    unsigned N=unsigned(R.coord.size()),i,j=0;
     if (N==0) return;
 #if GIAC_SHORTSHIFTTYPE==16
     bool useshort=true;
@@ -5722,7 +5992,7 @@ namespace giac {
 #endif
     unsigned nrows=0;
     for (i=0;i<G.size();++i){
-      nrows += quo[i].coord.size();
+      nrows += unsigned(quo[i].coord.size());
     }
     unsigned c=N;
     double sknon0=0;
@@ -5785,7 +6055,7 @@ namespace giac {
       }
     }
     if (debug_infolevel>1)
-      CERR << clock() << " end build Mindex/Mcoeff" << endl;
+      CERR << CLOCK() << " end build Mindex/Mcoeff rref_f4buchbergermodsplit_interreduce" << endl;
     // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
     // CERR << "before sort " << M << endl;
     sort_vector_sparse_element(atrier.begin(),atrier.end()); // sort(atrier.begin(),atrier.end(),tri1); 
@@ -5799,7 +6069,7 @@ namespace giac {
 	swap(coeffindex1[i],coeffindex[atrier[i].pos]);
       }
       swap(Mindex,Mindex1);
-      nrows=Mindex.size();
+      nrows=unsigned(Mindex.size());
     }
     else {
       vector< vector<unsigned> > Muindex1(atrier.size());
@@ -5809,7 +6079,7 @@ namespace giac {
 	swap(coeffindex1[i],coeffindex[atrier[i].pos]);
       }
       swap(Muindex,Muindex1);
-      nrows=Muindex.size();
+      nrows=unsigned(Muindex.size());
     }
     swap(coeffindex,coeffindex1);
     vector<unsigned> firstpos(atrier.size());
@@ -5818,7 +6088,7 @@ namespace giac {
     }
     bool freemem=true; // mem>4e7; // should depend on real memory available
     if (debug_infolevel>1)
-      CERR << clock() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << (mem/nrows)/N <<endl;
+      CERR << CLOCK() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << (mem/nrows)/N <<endl;
     // CERR << "after sort " << M << endl;
     // step3 reduce
     vector<modint> v(N); 
@@ -5909,11 +6179,11 @@ namespace giac {
 #endif
     Mindex.clear(); Muindex.clear();
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchbergerv split reduced " << f4buchbergervG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+      CERR << CLOCK() << " f4buchbergerv split reduced " << f4buchbergervG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
     for (i=0;i<N;++i)
       usedcount += (used[i]>0);
     if (debug_infolevel>1){
-      CERR << clock() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
+      CERR << CLOCK() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
       if (debug_infolevel>3)
 	CERR << " column split used " << used << endl;
     }
@@ -5955,15 +6225,15 @@ namespace giac {
     } // end create dense matrix K
 #endif // GIAC_Z
     if (debug_infolevel>1)
-      CERR << clock() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
+      CERR << CLOCK() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
     vecteur pivots; vector<int> maxrankcols; longlong idet;
     //CERR << K << endl;
-    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
     //CERR << K << "," << permutation << endl;
     vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
     vector<int> permu=perminv(permutation);
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchbergerv interreduced" << endl;
+      CERR << CLOCK() << " f4buchbergerv interreduced" << endl;
     for (i=0;i<f4buchbergervG.size();++i){
       // CERR << v << endl;
       vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4buchbergerv[f4buchbergervG[i]].coord;
@@ -5995,20 +6265,20 @@ namespace giac {
   }
 
   void rref_f4buchbergermod_nointerreduce(vectpolymod & f4buchbergerv,const vector<unsigned> & f4buchbergervG,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation){
-    unsigned N=R.coord.size(),i,j=0;
+    unsigned N=unsigned(R.coord.size()),i,j=0;
     for (i=0;i<G.size();++i){
       if (!quo[i].coord.empty())
 	break;
     }
     if (i==G.size()){
       if (debug_infolevel>1)
-	CERR << clock() << " No inter-reduction" << endl;
+	CERR << CLOCK() << " No inter-reduction" << endl;
       return;
     }
     // step2: for each monomials of quo[i], shift res[G[i]] by monomial
     // set coefficient in a line of a matrix M, columns are R monomials indices
     if (debug_infolevel>1)
-      CERR << clock() << " begin build M" << endl;
+      CERR << CLOCK() << " begin build M" << endl;
     vector< vector<sparse_element> > M;
     M.reserve(N);
     vector<sparse_element> atrier;
@@ -6023,7 +6293,7 @@ namespace giac {
       }
     }
     if (debug_infolevel>1)
-      CERR << clock() << " end build M" << endl;
+      CERR << CLOCK() << " end build M" << endl;
     // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
     // CERR << "before sort " << M << endl;
     sort_vector_sparse_element(atrier.begin(),atrier.end()); // sort(atrier.begin(),atrier.end(),tri1); 
@@ -6034,7 +6304,7 @@ namespace giac {
     swap(M,M1);
     // sort(M.begin(),M.end(),tri);
     if (debug_infolevel>1)
-      CERR << clock() << " M sorted, rows " << M.size() << " columns " << N << " #basis to reduce" << f4buchbergervG.size() << endl;
+      CERR << CLOCK() << " M sorted, rows " << M.size() << " columns " << N << " #basis to reduce" << f4buchbergervG.size() << endl;
     // CERR << "after sort " << M << endl;
     // step3 reduce
     unsigned c=N;
@@ -6107,15 +6377,15 @@ namespace giac {
   void reducemodf4buchberger(vectpolymod & f4buchbergerv,vectpolymod & res,const vector<unsigned> & G,unsigned excluded, modint env,info_t & info_tmp){
     polymod allf4buchberger(f4buchbergerv.front().order,f4buchbergerv.front().dim),rem(f4buchbergerv.front().order,f4buchbergerv.front().dim);
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchberger begin collect monomials" << f4buchbergerv.size() << endl;
+      CERR << CLOCK() << " f4buchberger begin collect monomials on #polys " << f4buchbergerv.size() << endl;
     // collect all terms in f4buchbergerv
     collect(f4buchbergerv,allf4buchberger);
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchberger symbolic preprocess" << endl;
+      CERR << CLOCK() << " f4buchberger symbolic preprocess" << endl;
     // find all monomials required to reduce all polymod in f4buchberger with res[G[.]]
     symbolic_preprocess(allf4buchberger,res,G,excluded,info_tmp.quo,rem,&info_tmp.R);
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchberger end symbolic preprocess" << endl;
+      CERR << CLOCK() << " f4buchberger end symbolic preprocess" << endl;
     // build a matrix with first lines res[G[.]]*quo[.] in terms of monomials in S
     // and finishing with lines of f4buchbergerv
     // rref (below) the matrix and find the last lines in f4buchbergerv
@@ -6160,7 +6430,7 @@ namespace giac {
     leftright(res,B,leftshift,rightshift);
     f4buchbergerv.resize(B.size());
     info_t info_tmp;
-    unsigned nonzero=B.size();
+    unsigned nonzero=unsigned(B.size());
     info_t * info_ptr=&info_tmp;
     if (!learning && f4buchberger_info && f4buchberger_info_position<f4buchberger_info->size()){
       info_ptr=&(*f4buchberger_info)[f4buchberger_info_position];
@@ -6170,17 +6440,17 @@ namespace giac {
     else {
       polymod all(res[B[0].first].order,res[B[0].first].dim),rem;
       if (debug_infolevel>1)
-	CERR << clock() << " f4buchberger begin collect monomials" << f4buchbergerv.size() << endl;
+	CERR << CLOCK() << " f4buchberger begin collect monomials on #polys " << f4buchbergerv.size() << endl;
       collect(res,B,all,leftshift,rightshift);
       if (debug_infolevel>1)
-	CERR << clock() << " f4buchberger symbolic preprocess" << endl;
+	CERR << CLOCK() << " f4buchberger symbolic preprocess" << endl;
       symbolic_preprocess(all,res,G,-1,info_tmp.quo,rem,&info_tmp.R);
       if (debug_infolevel>1)
-	CERR << clock() << " end symbolic preprocess, rem size " << rem.coord.size() << endl;
+	CERR << CLOCK() << " end symbolic preprocess, rem size " << rem.coord.size() << endl;
     }
     polymod & R = info_ptr->R;
     vectpolymod & quo = info_ptr->quo;
-    unsigned N=R.coord.size(),i,j=0;
+	unsigned N = unsigned(R.coord.size()), i, j = 0;
     if (N==0){
       if (learning && f4buchberger_info)
 	f4buchberger_info->push_back(*info_ptr);
@@ -6193,7 +6463,7 @@ namespace giac {
 #endif
     unsigned nrows=0;
     for (i=0;i<G.size();++i){
-      nrows += quo[i].coord.size();
+		nrows += unsigned(quo[i].coord.size());
     }
     unsigned c=N;
     double sknon0=0;
@@ -6256,7 +6526,7 @@ namespace giac {
       }
     }
     if (debug_infolevel>1)
-      CERR << clock() << " end build Mindex/Mcoeff" << endl;
+      CERR << CLOCK() << " end build Mindex/Mcoeff f4mod" << endl;
     // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
     // CERR << "before sort " << M << endl;
     sort_vector_sparse_element(atrier.begin(),atrier.end()); // sort(atrier.begin(),atrier.end(),tri1); 
@@ -6270,7 +6540,7 @@ namespace giac {
 	swap(coeffindex1[i],coeffindex[atrier[i].pos]);
       }
       swap(Mindex,Mindex1);
-      nrows=Mindex.size();
+	  nrows = unsigned(Mindex.size());
     }
     else {
       vector< vector<unsigned> > Muindex1(atrier.size());
@@ -6280,7 +6550,7 @@ namespace giac {
 	swap(coeffindex1[i],coeffindex[atrier[i].pos]);
       }
       swap(Muindex,Muindex1);
-      nrows=Muindex.size();
+	  nrows = unsigned(Muindex.size());
     }
     swap(coeffindex,coeffindex1);
     vector<unsigned> firstpos(atrier.size());
@@ -6289,7 +6559,7 @@ namespace giac {
     }
     bool freemem=mem>4e7; // should depend on real memory available
     if (debug_infolevel>1)
-      CERR << clock() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << (mem/nrows)/N <<endl;
+      CERR << CLOCK() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << (mem/nrows)/N <<endl;
     // CERR << "after sort " << M << endl;
     // step3 reduce
     vector<modint> v(N);
@@ -6361,11 +6631,11 @@ namespace giac {
     } // end for (i=0;i<B.size();++i)
     Mindex.clear(); Muindex.clear();
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchbergerv split reduced " << B.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+      CERR << CLOCK() << " f4buchbergerv split reduced " << B.size() << " polynoms over " << N << " monomials, start at " << c << endl;
     for (i=0;i<N;++i)
       usedcount += (used[i]>0);
     if (debug_infolevel>1){
-      CERR << clock() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
+      CERR << CLOCK() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
       if (debug_infolevel>3)
 	CERR << " column split used " << used << endl;
     }
@@ -6376,12 +6646,12 @@ namespace giac {
     //vector<modint> tmp; lescoeffs.swap(tmp); 
     { vector<unsigned> tmp1; lebitmap.swap(tmp1); }
     if (debug_infolevel>1)
-      CERR << clock() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
+      CERR << CLOCK() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
     vecteur pivots; vector<int> permutation,maxrankcols; longlong idet;
     // CERR << K << endl;
-    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
     //CERR << K << endl;
-    unsigned first0=pivots.size();
+	unsigned first0 = unsigned(pivots.size());
     if (first0<K.size() && (learning || !f4buchberger_info)){
       vector<modint> & tmpv=K[first0];
       for (i=0;i<tmpv.size();++i){
@@ -6389,7 +6659,7 @@ namespace giac {
 	  break;
       }
       if (i==tmpv.size()){
-	unsigned Ksize=K.size();
+		  unsigned Ksize = unsigned(K.size());
 	K.resize(first0);
 	K.resize(Ksize);
       }
@@ -6410,7 +6680,7 @@ namespace giac {
     vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
     // vector<int> permu=perminv(permutation);
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchbergerv interreduced" << endl;
+      CERR << CLOCK() << " f4buchbergerv interreduced" << endl;
     for (i=0;i<f4buchbergerv.size();++i){
       // CERR << v << endl;
       vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4buchbergerv[permutation[i]].coord;
@@ -6475,7 +6745,7 @@ namespace giac {
     // Improve: we don't really need to compute the s-polys here
     // it's sufficient to do that at linalg step
     if (debug_infolevel>1)
-      CERR << clock() << " Computing s-polys " << smallposp.size() << endl;
+      CERR << CLOCK() << " Computing s-polys " << smallposp.size() << endl;
     if (f4buchbergerv.size()<smallposp.size())
       f4buchbergerv.clear();
     f4buchbergerv.resize(smallposp.size());
@@ -6492,7 +6762,7 @@ namespace giac {
       if (debug_infolevel>2)
 	CERR << bk << " f4buchberger not learned " << learned_position << endl;
       if (debug_infolevel>2 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
-	CERR << clock() << " mod reducing pair with 1 element not in basis " << bk << endl;
+	CERR << CLOCK() << " mod reducing pair with 1 element not in basis " << bk << endl;
       // polymod h(res.front().order,res.front().dim);
       spolymod(res[bk.first],res[bk.second],TMP1,TMP2,env);
       f4buchbergerv[i].coord.swap(TMP1.coord);
@@ -6501,7 +6771,7 @@ namespace giac {
       return 0;
     // reduce spolys in f4buchbergerv
     if (debug_infolevel>1)
-      CERR << clock() << " base size " << G.size() << " reduce f4buchberger begin on " << f4buchbergerv.size() << " pairs" << endl;
+      CERR << CLOCK() << " base size " << G.size() << " reduce f4buchberger begin on " << f4buchbergerv.size() << " pairs" << endl;
     if (!learning && f4buchberger_info && f4buchberger_info_position<f4buchberger_info->size()){
       info_t & info=(*f4buchberger_info)[f4buchberger_info_position];
       // apply(perminv(info.permu),f4buchbergerv);
@@ -6565,10 +6835,10 @@ namespace giac {
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
       if (debug_infolevel>1)
-	CERR << clock() << " begin new iteration mod, number of pairs: " << B.size() << ", base size: " << G.size() << endl;
+	CERR << CLOCK() << " begin new iteration mod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       if (1){
 	// mem clear: remove res[i] if i is not in G nor in B
-	vector<bool> clean(G.back(),true);
+	vector<bool> clean(G.back()+1,true);
 	for (unsigned i=0;i<G.size();++i){
 	  clean[G[i]]=false;
 	}
@@ -6578,7 +6848,7 @@ namespace giac {
 	}
 	for (unsigned i=0;i<clean.size();++i){
 	  if (clean[i] && res[i].coord.capacity()>1){
-	    cleared += res[i].coord.capacity()-1;
+		  cleared += unsigned(res[i].coord.capacity()) - 1;
 	    polymod clearer;
 	    clearer.coord.push_back(res[i].coord.front());
 	    clearer.coord.swap(res[i].coord);
@@ -6653,11 +6923,11 @@ namespace giac {
 	if (debug_infolevel>2)
 	  CERR << bk << " not learned " << learned_position << endl;
 	if (debug_infolevel>2 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
-	  CERR << clock() << " mod reducing pair with 1 element not in basis " << bk << endl;
+	  CERR << CLOCK() << " mod reducing pair with 1 element not in basis " << bk << endl;
 	// polymod h(res.front().order,res.front().dim);
 	spolymod(res[bk.first],res[bk.second],TMP1,TMP2,env);
 	if (debug_infolevel>1){
-	  CERR << clock() << " mod reduce begin, pair " << bk << " spoly size " << TMP1.coord.size() << " sugar degree " << TMP1.sugar << " totdeg deg " << TMP1.coord.front().u.total_degree(order) << " degree " << TMP1.coord.front().u << endl;
+	  CERR << CLOCK() << " mod reduce begin, pair " << bk << " spoly size " << TMP1.coord.size() << " sugar degree " << TMP1.sugar << " totdeg deg " << TMP1.coord.front().u.total_degree(order) << " degree " << TMP1.coord.front().u << endl;
 	}
 #if 0 // def GBASIS_HEAP
 	heap_reducemod(TMP1,res,G,-1,information.quo,TMP2,env);
@@ -6667,7 +6937,7 @@ namespace giac {
 #endif
 	if (debug_infolevel>1){
 	  if (debug_infolevel>3){ CERR << TMP1 << endl; }
-	  CERR << clock() << " mod reduce end, remainder size " << TMP1.coord.size() << " begin gbasis update" << endl;
+	  CERR << CLOCK() << " mod reduce end, remainder size " << TMP1.coord.size() << " begin gbasis update" << endl;
 	}
 	if (!TMP1.coord.empty()){
 	  increase(res);
@@ -6687,7 +6957,7 @@ namespace giac {
 	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
 #endif
 	  if (debug_infolevel>3)
-	    CERR << clock() << " mod basis indexes " << G << " pairs indexes " << B << endl;
+	    CERR << CLOCK() << " mod basis indexes " << G << " pairs indexes " << B << endl;
 	}
 	else {
 	  if (learning && pairs_reducing_to_zero){
@@ -6707,7 +6977,7 @@ namespace giac {
 	for (unsigned i=0;i<smallposv.size();++i)
 	  smallposp.push_back(B[smallposv[i]]);
 	// remove pairs
-	for (int i=smallposv.size()-1;i>=0;--i)
+	for (int i=int(smallposv.size())-1;i>=0;--i)
 	  B.erase(B.begin()+smallposv[i]);
       }
       vectpolymod f4buchbergerv; // collect all spolys
@@ -6737,7 +7007,7 @@ namespace giac {
 	  ++added;
       }
       if (debug_infolevel>1)
-	CERR << clock() << " reduce f4buchberger end on " << added << " from " << f4buchbergerv.size() << " pairs, gbasis update begin" << endl;
+	CERR << CLOCK() << " reduce f4buchberger end on " << added << " from " << f4buchbergerv.size() << " pairs, gbasis update begin" << endl;
       for (unsigned i=0;i<f4buchbergerv.size();++i){
 	if (!f4buchbergerv[i].coord.empty()){
 	  increase(res);
@@ -6772,7 +7042,7 @@ namespace giac {
 	f4buchberger_info->back().nonzero=added;
       }
 #endif
-      unsigned debut=G.size()-added;
+	  unsigned debut = unsigned(G.size()) - added;
 #if GBASIS_POSTF4BUCHBERGER>0
       if (added>GBASIS_F4BUCHBERGER){
 	// final interreduce 
@@ -6788,7 +7058,7 @@ namespace giac {
 	  information.R2.dim=TMP1.dim;
 	  TMP1.coord.clear();
 	  if (debug_infolevel>1)
-	    CERR << clock() << " collect monomials from old basis" << endl;
+	    CERR << CLOCK() << " collect monomials from old basis" << endl;
 	  collect(res,G1,TMP1); // collect all monomials in res[G[0..debut-1]]
 	  // in_heap_reducemod(TMP1,res,G2,-1,info_tmp.quo2,TMP2,&info_tmp.R2,env);
 	  in_heap_reducemod(TMP1,res,G2,-1,information.quo2,TMP2,&information.R2,env);
@@ -6817,8 +7087,8 @@ namespace giac {
     if (debug_infolevel>1){
       unsigned t=0;
       for (unsigned i=0;i<res.size();++i)
-	t += res[i].coord.size();
-      CERR << clock() << " total number of monomials in res " << t << endl;
+		  t += unsigned(res[i].coord.size());
+      CERR << CLOCK() << " total number of monomials in res " << t << endl;
       CERR << "Number of monomials cleared " << cleared << endl;
     }
     // sort(res.begin(),res.end(),tripolymod);
@@ -6828,7 +7098,7 @@ namespace giac {
 
   bool in_gbasisf4buchbergermod(vectpoly8 & res8,vectpolymod &res,vector<unsigned> & G,modint env,bool totdeg,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero,vector< info_t > * f4buchberger_info,bool recomputeR){
     convert(res8,res,env);
-    unsigned ressize=res8.size();
+	unsigned ressize = unsigned(res8.size());
     bool b=in_gbasisf4buchbergermod(res,ressize,G,env,totdeg,pairs_reducing_to_zero,f4buchberger_info,recomputeR);
     convert(res,res8,env);
     return b;
@@ -7244,7 +7514,7 @@ namespace giac {
       if (v[i]!=0)
 	return i;
     }
-    return v.size();
+	return unsigned(v.size());
   }
 
   struct sparse_gen {
@@ -7262,7 +7532,7 @@ namespace giac {
 	tdeg_t u=it->u+*shiftptr;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    v.push_back(sparse_gen(it->g,jt-R.coord.begin()));
+	    v.push_back(sparse_gen(it->g,int(jt-R.coord.begin())));
 	    ++jt;
 	    break;
 	  }
@@ -7274,7 +7544,7 @@ namespace giac {
 	const tdeg_t & u=it->u;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    v.push_back(sparse_gen(it->g,jt-R.coord.begin()));
+	    v.push_back(sparse_gen(it->g,int(jt-R.coord.begin())));
 	    ++jt;
 	    break;
 	  }
@@ -7564,7 +7834,7 @@ namespace giac {
       return false;
     if (p.coord.empty())
       return true;
-    unsigned s=p.coord.size();
+	unsigned s = unsigned(p.coord.size());
     int lc=smod(v.coord[0].g,m).val;
     int lcp=p.coord[0].g;
     if (lcp!=1){
@@ -7595,7 +7865,7 @@ namespace giac {
   bool chk_equal_mod(const poly8 & v,const poly8 & p,int m){
     if (v.coord.size()!=p.coord.size())
       return false;
-    unsigned s=p.coord.size();
+    unsigned s=unsigned(p.coord.size());
     int lc=smod(v.coord[0].g,m).val;
     for (unsigned i=0;i<s;++i){
       if (!chk_equal_mod(v.coord[i].g,(longlong(lc)*p.coord[i].g.val)%m,m))
@@ -7623,16 +7893,16 @@ namespace giac {
     vectpolymod resmod,quo;
     convert(res,resmod,0);
     if (debug_infolevel>1)
-      CERR << clock() << " checkf4buchberger begin collect monomials" << f4buchbergerv.size() << endl;
+      CERR << CLOCK() << " checkf4buchberger begin collect monomials on #polys " << f4buchbergerv.size() << endl;
     // collect all terms in f4buchbergerv
     collect(f4buchbergerv,allf4buchberger);
     if (debug_infolevel>1)
-      CERR << clock() << " checkf4buchberger symbolic preprocess" << endl;
+      CERR << CLOCK() << " checkf4buchberger symbolic preprocess" << endl;
     // find all monomials required to reduce allf4buchberger with res[G[.]]
     polymod R;
     in_heap_reducemod(allf4buchberger,resmod,G,excluded,quo,rem,&R,0);
     if (debug_infolevel>1)
-      CERR << clock() << " checkf4buchberger end symbolic preprocess" << endl;
+      CERR << CLOCK() << " checkf4buchberger end symbolic preprocess" << endl;
     // build a matrix with rows res[G[.]]*quo[.] in terms of monomials in allf4buchberger
     // sort the matrix
     // checking reduction to 0 is equivalent to
@@ -7647,17 +7917,17 @@ namespace giac {
     // and on l*f4buchbergerv, and we check further the equality modulo additional
     // primes until the equality is proved
     if (debug_infolevel>1)
-      CERR << clock() << " begin build M" << endl;
+      CERR << CLOCK() << " begin build M" << endl;
     vector< vector<sparse_gen> > M;
     vector<sparse_element> atrier;
-    unsigned N=R.coord.size(),i,j=0,nterms=0;
+    unsigned N=unsigned(R.coord.size()),i,j=0,nterms=0;
     M.reserve(N); // actual size is at most N (difference is the remainder part size)
     for (i=0;i<res.size();++i){
       std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=quo[i].coord.begin(),jtend=quo[i].coord.end();
       for (;jt!=jtend;++j,++jt){
 	M.push_back(vector<sparse_gen>(0));
 	makeline(res[G[i]],&jt->u,R,M[j]);
-	nterms += M[j].size();
+	nterms += unsigned(M[j].size());
 	atrier.push_back(sparse_element(M[j].front().pos,j));
       }
     }
@@ -7669,7 +7939,7 @@ namespace giac {
     swap(M,M1);
     // CERR << M << endl;
     if (debug_infolevel>0)
-      CERR << clock() << " rows, columns, terms: " << M.size() << "x" << N << "=" << nterms << endl; 
+      CERR << CLOCK() << " rows, columns, terms: " << M.size() << "x" << N << "=" << nterms << endl; 
     // PSEUDO_MOD is not interesting here since there is no inter-reduction
     gen p(int(longlong(1<<31)-1));
     gen pip(1);
@@ -7710,7 +7980,7 @@ namespace giac {
       // reduce f4buchbergerv and stores coefficients of quotients for f4buchbergerv[i] in coeffmat[i]
       convert(f4buchbergerv,f4buchbergervmod,env);
       if (debug_infolevel>0)
-	CERR << clock() << " checking mod " << p << endl;
+	CERR << CLOCK() << " checking mod " << p << endl;
       vector<modint> v;
       unsigned countres=0;
 #ifdef __x86_64__
@@ -7744,13 +8014,13 @@ namespace giac {
 	// if 2*bounds < product of primes recheck stabilization and return true
 	if (is_strictly_greater(pip,bound,context0)){
 	  if (debug_infolevel>0)
-	    CERR << clock() << " modular check finished " << endl;
+	    CERR << CLOCK() << " modular check finished " << endl;
 	  return true;
 	}
       }
       // combine coeffmat with previous one by chinese remaindering
       if (debug_infolevel>0)
-	CERR << clock() << " chinrem mod " << p << endl;
+	CERR << CLOCK() << " chinrem mod " << p << endl;
       if (iter)
 	ichinrem_inplace(coeffmat,coeffmatmodp,pip,p.val);
       else
@@ -7775,12 +8045,12 @@ namespace giac {
 	if (checkquo!=prevmatq){
 	  swap(prevmatq,checkquo);
 	  if (debug_infolevel>0)
-	    CERR << clock() << " unstable mod " << p << " reconstructed " << prevmatq.size() << endl;
+	    CERR << CLOCK() << " unstable mod " << p << " reconstructed " << prevmatq.size() << endl;
 	  continue;
 	}
 	matrice coeffmatq=*_copy(checkquo,context0)._VECTptr;
 	if (debug_infolevel>0)
-	  CERR << clock() << " full stable mod " << p << endl;
+	  CERR << CLOCK() << " full stable mod " << p << endl;
 	stable=true;
 	gen lall=1; vecteur l(coeffmatq.size());
 	for (unsigned i=0;i<coeffmatq.size();++i){
@@ -7789,7 +8059,7 @@ namespace giac {
 	    lall=l[i];
 	}
 	if (debug_infolevel>0)
-	  CERR << clock() << " lcmdeno ok/start bound " << p << endl;
+	  CERR << CLOCK() << " lcmdeno ok/start bound " << p << endl;
 	gen ball=1,bi; // ball is the max bound of all coeff in coeffmatq
 	for (unsigned i=0;i<coeffmatq.size();++i){
 	  bi=linfnorm(coeffmatq[i],context0);
@@ -7817,16 +8087,16 @@ namespace giac {
     vectpolymod resmod,quo;
     convert(res,resmod,0);
     if (debug_infolevel>1)
-      CERR << clock() << " checkf4buchberger split begin collect monomials" << f4buchbergerv.size() << endl;
+      CERR << CLOCK() << " checkf4buchberger split begin collect monomials on #polys " << f4buchbergerv.size() << endl;
     // collect all terms in f4buchbergerv
     collect(f4buchbergerv,allf4buchberger);
     if (debug_infolevel>1)
-      CERR << clock() << " checkf4buchberger split symbolic preprocess" << endl;
+      CERR << CLOCK() << " checkf4buchberger split symbolic preprocess" << endl;
     // find all monomials required to reduce allf4buchberger with res[G[.]]
     polymod R;
     in_heap_reducemod(allf4buchberger,resmod,G,excluded,quo,rem,&R,0);
     if (debug_infolevel>1)
-      CERR << clock() << " checkf4buchberger split end symbolic preprocess" << endl;
+      CERR << CLOCK() << " checkf4buchberger split end symbolic preprocess" << endl;
     // build a matrix with rows res[G[.]]*quo[.] in terms of monomials in allf4buchberger
     // sort the matrix
     // checking reduction to 0 is equivalent to
@@ -7841,12 +8111,12 @@ namespace giac {
     // and on l*f4buchbergerv, and we check further the equality modulo additional
     // primes until the equality is proved
     if (debug_infolevel>1)
-      CERR << clock() << " begin build Mcoeff/Mindex" << endl;
+      CERR << CLOCK() << " begin build Mcoeff/Mindex" << endl;
     vector< vector<gen> > Mcoeff(G.size());
     vector<vector<shifttype> > Mindex;
     vector<coeffindex_t> coeffindex;
     vector<sparse_element> atrier;
-    unsigned N=R.coord.size(),i,j=0,nterms=0;
+    unsigned N=unsigned(R.coord.size()),i,j=0,nterms=0;
     Mindex.reserve(N);
     atrier.reserve(N);
     coeffindex.reserve(N);
@@ -7884,7 +8154,7 @@ namespace giac {
     swap(coeffindex,coeffindex1);
     // CERR << M << endl;
     if (debug_infolevel>0)
-      CERR << clock() << " rows, columns, terms: " << Mindex.size() << "x" << N << "=" << nterms << endl; 
+      CERR << CLOCK() << " rows, columns, terms: " << Mindex.size() << "x" << N << "=" << nterms << endl; 
     // PSEUDO_MOD is not interesting here since there is no inter-reduction
     gen p(int(longlong(1<<31)-1));
     gen pip(1);
@@ -7925,7 +8195,7 @@ namespace giac {
       // reduce f4buchbergerv and stores coefficients of quotients for f4buchbergerv[i] in coeffmat[i]
       convert(f4buchbergerv,f4buchbergervmod,env);
       if (debug_infolevel>0)
-	CERR << clock() << " checking mod " << p << endl;
+	CERR << CLOCK() << " checking mod " << p << endl;
       vector<modint> v;
       unsigned countres=0;
 #ifdef __x86_64__
@@ -7959,13 +8229,13 @@ namespace giac {
 	// if 2*bounds < product of primes recheck stabilization and return true
 	if (is_strictly_greater(pip,bound,context0)){
 	  if (debug_infolevel>0)
-	    CERR << clock() << " modular check finished " << endl;
+	    CERR << CLOCK() << " modular check finished " << endl;
 	  return true;
 	}
       }
       // combine coeffmat with previous one by chinese remaindering
       if (debug_infolevel>0)
-	CERR << clock() << " chinrem mod " << p << endl;
+	CERR << CLOCK() << " chinrem mod " << p << endl;
       if (iter)
 	ichinrem_inplace(coeffmat,coeffmatmodp,pip,p.val);
       else
@@ -7990,12 +8260,12 @@ namespace giac {
 	if (checkquo!=prevmatq){
 	  swap(prevmatq,checkquo);
 	  if (debug_infolevel>0)
-	    CERR << clock() << " unstable mod " << p << " reconstructed " << prevmatq.size() << endl;
+	    CERR << CLOCK() << " unstable mod " << p << " reconstructed " << prevmatq.size() << endl;
 	  continue;
 	}
 	matrice coeffmatq=*_copy(checkquo,context0)._VECTptr;
 	if (debug_infolevel>0)
-	  CERR << clock() << " full stable mod " << p << endl;
+	  CERR << CLOCK() << " full stable mod " << p << endl;
 	stable=true;
 	gen lall=1; vecteur l(coeffmatq.size());
 	for (unsigned i=0;i<coeffmatq.size();++i){
@@ -8004,7 +8274,7 @@ namespace giac {
 	    lall=l[i];
 	}
 	if (debug_infolevel>0)
-	  CERR << clock() << " lcmdeno ok/start bound " << p << endl;
+	  CERR << CLOCK() << " lcmdeno ok/start bound " << p << endl;
 	gen ball=1,bi; // ball is the max bound of all coeff in coeffmatq
 	for (unsigned i=0;i<coeffmatq.size();++i){
 	  bi=linfnorm(coeffmatq[i],context0);
@@ -8158,8 +8428,8 @@ namespace giac {
     vector<zmodint> coord;
     const vector<tdeg_t> * expo;
     tdeg_t ldeg;
-    zpolymod():order(0),dim(0),expo(0),ldeg(0) {}
-    zpolymod(int o,int d): order(o),dim(d),expo(0),ldeg(0) {}
+    zpolymod():order(0),dim(0),expo(0),ldeg() {}
+    zpolymod(int o,int d): order(o),dim(d),expo(0),ldeg() {}
     zpolymod(int o,int d,const tdeg_t & l): order(o),dim(d),expo(0),ldeg(l) {}
     zpolymod(int o,int d,const vector<tdeg_t> * e,const tdeg_t & l): order(o),dim(d),expo(e),ldeg(l) {}
     void dbgprint() const;
@@ -8339,12 +8609,12 @@ namespace giac {
       const zpolymod & q=res[B[i].second];
       keyorder=p.order;
       if (int(p.coord.size())>start){
-	s=giacmax(s,p.coord.size());
+		  s = giacmax(s, unsigned(p.coord.size()));
 	Ht.push_back(heap_tt(true,i,start,(*p.expo)[p.coord[start].u]+leftshift[i]));
 	H.push_back(heap_tt_ptr(&Ht.back()));
       }
       if (int(q.coord.size())>start){
-	s=giacmax(s,q.coord.size());
+		  s = giacmax(s, unsigned(q.coord.size()));
 	Ht.push_back(heap_tt(false,i,start,(*q.expo)[q.coord[start].u]+rightshift[i]));
 	H.push_back(heap_tt_ptr(&Ht.back()));
       }
@@ -8417,7 +8687,7 @@ namespace giac {
     unsigned guess=0;
     for (unsigned i=0;i<G.size();++i){
       q[i].clear();
-      guess += g[G[i]].coord.size();
+	  guess += unsigned(g[G[i]].coord.size());
     }
     if (f.empty() || G.empty())
       return ;
@@ -8484,8 +8754,8 @@ namespace giac {
       // CERR << i << " " << q[i] << endl;
       // push in heap
       if (gGi.coord.size()>1){
-	heap_t current={i,q[i].size()-1,1,(*gGi.expo)[gGi.coord[1].u]+monom};
-	H.push_back(H_.size());
+		  heap_t current = { i, unsigned(q[i].size()) - 1, 1, (*gGi.expo)[gGi.coord[1].u] + monom };
+	H.push_back(hashgcd_U(H_.size()));
 	H_.push_back(current);
 	key.ptr=&H_.front();
 	std::push_heap(H.begin(),H.end(),key);
@@ -8502,17 +8772,44 @@ namespace giac {
       v.push_back(it->g);
   }
 
+  // dichotomic seach for jt->u==u in [jt,jtend[
+  bool dicho(std::vector<tdeg_t>::const_iterator & jt,std::vector<tdeg_t>::const_iterator jtend,const tdeg_t & u,int order){
+    if (*jt==u) return true;
+    for (;;){
+      std::vector<tdeg_t>::const_iterator j=jt+(jtend-jt)/2;
+      if (j==jt)
+	return *j==u;
+      if (tdeg_t_greater(*j,u,order)){
+	jt=j;
+	if (*j==u)
+	  return true;
+      }
+      else
+	jtend=j;
+    }
+  }
+
   void zmakelinesplit(const zpolymod & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<shifttype> & v){
     std::vector<zmodint>::const_iterator it=p.coord.begin(),itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtend=R.end();
+    double nop1=R.size(); 
+    double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
+    bool dodicho=nop2<nop1;
     const vector<tdeg_t> & expo=*p.expo;
     unsigned pos=0;
     if (shiftptr){
       for (;it!=itend;++it){
 	tdeg_t u=expo[it->u]+*shiftptr;
+#if 1
+	if (dodicho && dicho(jt,jtend,u,p.order)){
+	  pushsplit(v,pos,unsigned(jt-R.begin()));
+	  ++jt;
+	  continue;
+	}
+#endif
 	for (;jt!=jtend;++jt){
 	  if (*jt==u){
-	    pushsplit(v,pos,jt-R.begin());
+	    pushsplit(v,pos,int(jt-R.begin()));
 	    ++jt;
 	    break;
 	  }
@@ -8522,9 +8819,16 @@ namespace giac {
     else {
       for (;it!=itend;++it){
 	const tdeg_t & u=expo[it->u];
+#if 1
+	if (dodicho && dicho(jt,jtend,u,p.order)){
+	  pushsplit(v,pos,unsigned(jt-R.begin()));
+	  ++jt;
+	  continue;
+	}
+#endif
 	for (;jt!=jtend;++jt){
 	  if (*jt==u){
-	    pushsplit(v,pos,jt-R.begin());
+	    pushsplit(v,pos,int(jt-R.begin()));
 	    ++jt;
 	    break;
 	  }
@@ -8610,7 +8914,7 @@ namespace giac {
 	if (*it==t)
 	  break;
       }
-      *vt=jt-jt0;
+      *vt=hashgcd_U(jt-jt0);
     }
   }
 
@@ -8623,7 +8927,7 @@ namespace giac {
     zleftright(res,B,leftshift,rightshift);
     f4buchbergerv.resize(B.size());
     zinfo_t info_tmp;
-    unsigned nonzero=B.size();
+	unsigned nonzero = unsigned(B.size());
     zinfo_t * info_ptr=0;
     if (!learning && f4buchberger_info_position<f4buchberger_info.size()){
       info_ptr=&f4buchberger_info[f4buchberger_info_position];
@@ -8633,13 +8937,13 @@ namespace giac {
     else {
       vector<tdeg_t> all;
       if (debug_infolevel>1)
-	CERR << clock() << " zf4buchberger begin collect monomials" << f4buchbergerv.size() << endl;
+	CERR << CLOCK() << " zf4buchberger begin collect monomials on #polys " << f4buchbergerv.size() << endl;
       zcollect(res,B,all,leftshift,rightshift);
       if (debug_infolevel>1)
-	CERR << clock() << " zf4buchberger symbolic preprocess" << endl;
+	CERR << CLOCK() << " zf4buchberger symbolic preprocess" << endl;
       zsymbolic_preprocess(all,res,G,-1,info_tmp.quo,info_tmp.rem,info_tmp.R);
       if (debug_infolevel>1)
-	CERR << clock() << " zend symbolic preprocess" << endl;
+	CERR << CLOCK() << " zend symbolic preprocess" << endl;
 #if 0
       f4buchberger_info->push_back(*info_ptr);
 #else
@@ -8657,11 +8961,11 @@ namespace giac {
     Rtorem(R,info_ptr->rem,Rtoremv);
     const vector< vector<tdeg_t> > & quo = info_ptr->quo;
     //CERR << quo << endl;
-    unsigned N=R.size(),i,j=0;
+	unsigned N = unsigned(R.size()), i, j = 0;
     if (N==0) return 1;
     unsigned nrows=0;
     for (i=0;i<G.size();++i){
-      nrows += quo[i].size();
+		nrows += unsigned(quo[i].size());
     }
     unsigned c=N;
     double sknon0=0;
@@ -8697,7 +9001,7 @@ namespace giac {
       }
     }
     if (debug_infolevel>1)
-      CERR << clock() << " end build Mindex/Mcoeff" << endl;
+      CERR << CLOCK() << " end build Mindex/Mcoeff zf4mod" << endl;
     // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
     // CERR << "before sort " << Mindex << endl;
     sort_vector_sparse_element(atrier.begin(),atrier.end()); // sort(atrier.begin(),atrier.end(),tri1); 
@@ -8710,7 +9014,7 @@ namespace giac {
       swap(coeffindex1[i],coeffindex[atrier[i].pos]);
     }
     swap(Mindex,Mindex1);
-    nrows=Mindex.size();
+	nrows = unsigned(Mindex.size());
     swap(coeffindex,coeffindex1);
     vector<unsigned> firstpos(atrier.size());
     for (i=0;i < atrier.size();++i){
@@ -8718,7 +9022,7 @@ namespace giac {
     }
     bool freemem=mem>4e7; // should depend on real memory available
     if (debug_infolevel>1)
-      CERR << clock() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << (mem/nrows)/N <<endl;
+      CERR << CLOCK() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << (mem/nrows)/N <<endl;
     // CERR << "after sort " << Mindex << endl;
     // step3 reduce
     vector<modint> v(N);
@@ -8770,11 +9074,11 @@ namespace giac {
       info_ptr->R.swap(clearer);
     }
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchbergerv split reduced " << B.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+      CERR << CLOCK() << " f4buchbergerv split reduced " << B.size() << " polynoms over " << N << " monomials, start at " << c << endl;
     for (i=0;i<N;++i)
       usedcount += (used[i]>0);
     if (debug_infolevel>1){
-      CERR << clock() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
+      CERR << CLOCK() << " number of non-zero columns " << usedcount << " over " << N << endl; // usedcount should be approx N-M.size()=number of cols of M-number of rows
       if (debug_infolevel>3)
 	CERR << " column split used " << used << endl;
     }
@@ -8785,12 +9089,12 @@ namespace giac {
     //vector<modint> tmp; lescoeffs.swap(tmp); 
     { vector<unsigned> tmp1; lebitmap.swap(tmp1); }
     if (debug_infolevel>1)
-      CERR << clock() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
+      CERR << CLOCK() << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
     vecteur pivots; vector<int> permutation,maxrankcols; longlong idet;
     //CERR << K << endl;
-    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
     //CERR << K << endl;
-    unsigned first0=pivots.size();
+	unsigned first0 = unsigned(pivots.size());
     if (first0<K.size() && learning){
       vector<modint> & tmpv=K[first0];
       for (i=0;i<tmpv.size();++i){
@@ -8798,7 +9102,7 @@ namespace giac {
 	  break;
       }
       if (i==tmpv.size()){
-	unsigned Ksize=K.size();
+		  unsigned Ksize = unsigned(K.size());
 	K.resize(first0);
 	K.resize(Ksize);
       }
@@ -8818,7 +9122,7 @@ namespace giac {
     // CERR << K << "," << permutation << endl;
     // vector<int> permu=perminv(permutation);
     if (debug_infolevel>1)
-      CERR << clock() << " f4buchbergerv interreduced" << endl;
+      CERR << CLOCK() << " f4buchbergerv interreduced" << endl;
     for (i=0;i<f4buchbergerv.size();++i){
       // CERR << v << endl;
       f4buchbergerv[permutation[i]].expo=&info_ptr->rem;
@@ -8865,7 +9169,7 @@ namespace giac {
   // f:=(1387482169552326*s*t1*t2^2-25694114250969*s*t1*t2+240071563017*s*t1+579168836143704*t1*t2^2-10725348817476*t1*t2+100212766488*t1):;fb:=(-7035747399*s*t1^2*t2^2+118865637*s*t1^2*t2-793881*s*t1^2+118865637*s*t1*t2^2-1167858*s*t1*t2+1944*s*t1-1089126*s*t2^2+1944*s*t2+18*s-2936742966*t1^2*t2^2+49601160*t1^2*t2-328050*t1^2+49601160*t1*t2^2-485514*t1*t2+972*t1-446148*t2^2+972*t2+36):;rmp:=s^2+10*s+4:;gbasis([f,fb,rmp],[s,t1,t2],revlex);
   static void zgbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectzpolymod & res,unsigned pos,vector<unsigned> & oldG){
     if (debug_infolevel>2)
-      CERR << clock() << " zmod begin gbasis update " << G.size() << endl;
+      CERR << CLOCK() << " zmod begin gbasis update " << G.size() << endl;
     if (debug_infolevel>3)
       CERR << "G=" << G << "B=" << B << endl;
     const zpolymod & h = res[pos];
@@ -8884,7 +9188,7 @@ namespace giac {
     // -> if g leading monomial is not disjoint from h leading monomial
     //    keep it only if lcm of leading monomial is not divisible by another one
 #if 1
-    unsigned tmpsize=G.size();
+	unsigned tmpsize = unsigned(G.size());
     vector<tdeg_t> tmp(tmpsize);
     for (unsigned i=0;i<tmpsize;++i){
       index_lcm(h0,res[G[i]].ldeg,tmp[i],order); 
@@ -8965,7 +9269,7 @@ namespace giac {
     swap(B1,B);
     // Update G by removing elements with leading monomial >= leading monomial of h
     if (debug_infolevel>2){
-      CERR << clock() << " end, pairs:"<< endl;
+      CERR << CLOCK() << " end, pairs:"<< endl;
       if (debug_infolevel>3)
 	CERR << B << endl;
       CERR << "mod begin Groebner interreduce " << endl;
@@ -8985,7 +9289,7 @@ namespace giac {
       // NB: removing all pairs containing i in it does not work
     }
     if (debug_infolevel>2)
-      CERR << clock() << " mod end Groebner interreduce " << endl;
+      CERR << CLOCK() << " mod end Groebner interreduce " << endl;
     C.push_back(pos);
     swap(C,G);
   }
@@ -9004,7 +9308,7 @@ namespace giac {
 	  break;
       }
       if (jt!=jtend)
-	q.coord.push_back(zmodint(it->g,jt-jt0));
+	q.coord.push_back(zmodint(it->g,int(jt-jt0)));
       ++jt;
     }
     q.expo=&R;
@@ -9058,7 +9362,7 @@ namespace giac {
     unsigned cleared=0;
     unsigned learned_position=0,f4buchberger_info_position=0;
     bool learning=f4buchberger_info.empty();
-    unsigned capa=f4buchberger_info.capacity();
+	unsigned capa = unsigned(f4buchberger_info.capacity());
     short order=resmod.front().order,dim=resmod.front().dim;
     polymod TMP2(order,dim);
     vector< pair<unsigned,unsigned> > B,BB;
@@ -9092,7 +9396,7 @@ namespace giac {
       if (f4buchberger_info_position>=capa-1)
 	return false;
       if (debug_infolevel>1)
-	CERR << clock() << " begin new iteration zmod, number of pairs: " << B.size() << ", base size: " << G.size() << endl;
+	CERR << CLOCK() << " begin new iteration zmod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // mem clear: remove res[i] if i is not in G nor in B
       vector<bool> clean(G.back(),true);
       vector<tdeg_t> Blcm(B.size());
@@ -9106,7 +9410,7 @@ namespace giac {
       }
       for (unsigned i=0;i<clean.size();++i){
 	if (clean[i] && res[i].coord.capacity()>1){
-	  cleared += res[i].coord.capacity()-1;
+	  cleared += int(res[i].coord.capacity())-1;
 	  zpolymod clearer;
 	  clearer.coord.swap(res[i].coord);
 	}
@@ -9152,7 +9456,7 @@ namespace giac {
 	  for (unsigned i=0;i<smallposv.size();++i)
 	    smallposp.push_back(B[smallposv[i]]);
 	  // remove pairs
-	  for (int i=smallposv.size()-1;i>=0;--i)
+	  for (int i=int(smallposv.size())-1;i>=0;--i)
 	    B.erase(B.begin()+smallposv[i]);
 	}
       }
@@ -9180,7 +9484,7 @@ namespace giac {
 	  ++added;
       }
       if (debug_infolevel>1)
-	CERR << clock() << " reduce f4buchberger end on " << added << " from " << f4buchbergerv.size() << " pairs, gbasis update begin" << endl;
+	CERR << CLOCK() << " reduce f4buchberger end on " << added << " from " << f4buchbergerv.size() << " pairs, gbasis update begin" << endl;
       vector<unsigned> oldG(G);
       for (unsigned i=0;i<f4buchbergerv.size();++i){
 	if (!f4buchbergerv[i].coord.empty()){
@@ -9227,8 +9531,8 @@ namespace giac {
     if (debug_infolevel>1){
       unsigned t=0;
       for (unsigned i=0;i<res.size();++i)
-	t += res[i].coord.size();
-      CERR << clock() << " total number of monomials in res " << t << endl;
+		  t += unsigned(res[i].coord.size());
+      CERR << CLOCK() << " total number of monomials in res " << t << endl;
       CERR << "Number of monomials cleared " << cleared << endl;
     }
     smod(resmod,env);
@@ -9240,7 +9544,7 @@ namespace giac {
     for (unsigned i=0;i<resmod.size();++i)
       resmod[i].coord.clear();
     convert(res8,resmod,env);
-    unsigned ressize=res8.size();
+	unsigned ressize = unsigned(res8.size());
     bool b=in_zgbasis(resmod,ressize,G,env,totdeg,pairs_reducing_to_zero,f4buchberger_info,recomputeR);
     if (convertpoly8)
       convert(resmod,res8,env);
@@ -9259,6 +9563,9 @@ namespace giac {
     if (order==_3VAR_ORDER) return 3;
     if (order==_7VAR_ORDER) return 7;
     if (order==_11VAR_ORDER) return 11;
+    if (order==_16VAR_ORDER) return 16;
+    if (order==_32VAR_ORDER) return 32;
+    if (order==_64VAR_ORDER) return 64;
     return dim;
   }
 
@@ -9271,7 +9578,7 @@ namespace giac {
     int order=gbmod.front().order,dim=gbmod.front().dim;
     lm.order=order; lm.dim=dim; lm.coord.clear();
     polymod gblm(order,dim);
-    unsigned S=gbmod.size();
+	unsigned S = unsigned(gbmod.size());
     for (unsigned i=0;i<S;++i){
       if (gbmod[i].coord.empty())
 	continue;
@@ -9316,7 +9623,7 @@ namespace giac {
     for (int I=0;I<M;++I){
       int i=I;
       // i-> cur -> tdeg_t
-      for (int j=v.size()-1;j>=0;--j){
+      for (int j=int(v.size())-1;j>=0;--j){
 	cur[j]=i%v[j];
 	i/=v[j];
       }
@@ -9345,7 +9652,7 @@ namespace giac {
 	lm.coord.push_back(T_unsigned<modint,tdeg_t>(1,curu));
     }
     sort(lm.coord.begin(),lm.coord.end(),tdeg_t_sort_t(order));
-    return lm.coord.size();
+	return unsigned(lm.coord.size());
   }
 
   // multiply a by b mod p in res
@@ -9377,7 +9684,7 @@ namespace giac {
 
   // s*coordinates reduced as a linear combination of the lines of M
   bool rur_linsolve(const vectpolymod & gbmod,const polymod & lm,const polymod & s,const matrice & M,modint p,matrice & res){
-    int S=lm.coord.size(),order=lm.order,dim=lm.dim;
+    int S=int(lm.coord.size()),order=lm.order,dim=lm.dim;
     polymod TMP1(order,dim);
     vector<unsigned> G(gbmod.size());
     for (unsigned i=0;i<G.size();++i)
@@ -9397,7 +9704,7 @@ namespace giac {
     }
     N=mtran(N);
     if (debug_infolevel)
-      CERR << clock() << " rur rref" << endl;
+      CERR << CLOCK() << " rur rref" << endl;
     gen n=_rref(N,context0);
     if (!ckmatrix(n))
       return false;
@@ -9428,7 +9735,7 @@ namespace giac {
 
   // Compute minimal polynomial of s
   bool rur_minpoly(const vectpolymod & gbmod,const polymod & lm,const polymod & s,modint p,vecteur & m,matrice & M){
-    int S=lm.coord.size(),order=lm.order,dim=lm.dim;
+    int S=int(lm.coord.size()),order=lm.order,dim=lm.dim;
     polymod TMP1(order,dim);
     vector<unsigned> G(gbmod.size());
     for (unsigned i=0;i<G.size();++i)
@@ -9454,11 +9761,11 @@ namespace giac {
     N=mtran(N);
     vecteur K;
     if (debug_infolevel)
-      CERR << clock() << " begin rur ker" << endl;
+      CERR << CLOCK() << " begin rur ker" << endl;
     if (!mker(N,K,1,context0) || K.empty() || K.front().type!=_VECT)
       return false;
     if (debug_infolevel)
-      CERR << clock() << " end rur ker" << endl;
+      CERR << CLOCK() << " end rur ker" << endl;
     m=*K.front()._VECTptr;
     for (unsigned i=0;i<m.size();++i){
       if (m[i].type==_MOD)
@@ -9472,7 +9779,7 @@ namespace giac {
   }
 
   void rur_convert_univariate(const vecteur & v,int varno,polymod & tmp){
-    int vs=v.size();
+    int vs=int(v.size());
     int order=tmp.order;
     tmp.coord.clear();
     index_t l(tmp.dim);
@@ -9567,7 +9874,7 @@ namespace giac {
     if (!shrinkit)
       return false;
     vector<unsigned> G;
-    if (!in_gbasisf4buchbergermod(gbmod,gbmod.size(),G,p,/* totdeg */ true,0,0,true))
+    if (!in_gbasisf4buchbergermod(gbmod,unsigned(gbmod.size()),G,p,/* totdeg */ true,0,0,true))
       return false;
     vectpolymod newgb;
     for (unsigned i=0;i<G.size();++i)
@@ -9624,7 +9931,7 @@ namespace giac {
     vecteur m1=derivative(m,&env);
     m1=gcd(m,m1,&env);
     if (debug_infolevel && m1.size()>1)
-      CERR << clock() << " sqrfree mod " << p << ":" << m1 << endl;
+      CERR << CLOCK() << " sqrfree mod " << p << ":" << m1 << endl;
     m1=operator_div(m,m1,&env); // m1 is the square free part
     vecteur m2=derivative(m1,&env); // m2 is the derivative, prime with m1
     // make the "product" with M (rows of M are powers of t)
@@ -9640,7 +9947,7 @@ namespace giac {
     else
       return false;
     if (debug_infolevel)
-      CERR << clock() << " rur linsolve" << endl;
+      CERR << CLOCK() << " rur linsolve" << endl;
     if (!rur_linsolve(gbmod,lm,mprime,M,p,res))
       return false;
     // rur=[separating element,sqrfree part of minpoly,derivative of sqrfree part,
@@ -9667,7 +9974,7 @@ namespace giac {
   // returns 1 if lm1 contains lm2
   // returns 2 if lm2 contains lm1
   int rur_compare(polymod & lm1,polymod & lm2){
-    unsigned s1=lm1.coord.size(),s2=lm2.coord.size();
+    unsigned s1=unsigned(lm1.coord.size()),s2=unsigned(lm2.coord.size());
     if (s1==s2){
       if (lm1==lm2)
 	return 0;
@@ -9731,7 +10038,7 @@ namespace giac {
 #endif
 
   bool mod_gbasis(vectpoly8 & res,bool modularcheck,bool zdata,bool & rur,GIAC_CONTEXT){
-    unsigned initial=res.size();
+    unsigned initial=unsigned(res.size());
     double eps=proba_epsilon(contextptr);
     short int order=0;
     for (unsigned i=0;i<res.size();++i){
@@ -9742,13 +10049,13 @@ namespace giac {
 	  return false;
       }
     }
-    if (order!=_REVLEX_ORDER && order!=_3VAR_ORDER && order!=_7VAR_ORDER && order!=_11VAR_ORDER)
+    if (order!=_REVLEX_ORDER && order!=_3VAR_ORDER && order!=_7VAR_ORDER && order!=_11VAR_ORDER && order!=_16VAR_ORDER && order!=_32VAR_ORDER && order!=_64VAR_ORDER)
       return false;
     // if (order!=_REVLEX_ORDER) zdata=false;
     vectpoly8 current,vtmp,afewpolys;
     vectpolymod resmod,gbmod;
     poly8 poly8tmp;
-#if 0
+#ifdef EMCC
     // make first iteration with a smaller prime to spare memory
     // next iterations will use larger primes
     gen p=(1<<24)-_floor(giac_rand(contextptr)/32e3,contextptr);
@@ -9795,7 +10102,7 @@ namespace giac {
 	th=0;
       else
 	th=giacmin(nthreads-1,32); // no more than 32 threads
-#if 1
+#ifndef EMCC
       if (count==1 && p.val<(1<<24)){
 #ifdef PSEUDO_MOD
 	p=(1<<29)-1;
@@ -9833,7 +10140,7 @@ namespace giac {
       current=res;
       G.clear();
       if (debug_infolevel)
-	CERR << clock() << " begin computing basis modulo " << p << endl;
+	CERR << std::setprecision(15) << CLOCK() << " begin computing basis modulo " << p << endl;
       // CERR << "write " << th << " " << p << endl;
 #ifdef GBASIS_F4BUCHBERGER 
       if (zdata){
@@ -9882,7 +10189,7 @@ namespace giac {
 	}
       }
       if (debug_infolevel){
-	CERR << clock() << " end, basis size " << G.size() << " prime number " << count+1 << endl;
+	CERR << CLOCK() << " end, basis size " << G.size() << " prime number " << count+1 << endl;
 	if (count==0)
 	  CERR << "G=" << G << endl;
       }
@@ -9935,13 +10242,13 @@ namespace giac {
 	    continue;
 	  }
 	  if (debug_infolevel)
-	    CERR << clock() << " begin modular rur computation" << endl;
+	    CERR << CLOCK() << " begin modular rur computation" << endl;
 	  if (!rur_compute(gbmod,lmtmp,lmmodradical,p.val,s,rurv)){
 	    ok=rur=false;
 	    continue;
 	  }
 	  if (debug_infolevel)
-	    CERR << clock() << " end modular rur computation" << endl;
+	    CERR << CLOCK() << " end modular rur computation" << endl;
 	  if (lmmodradical.coord.empty())
 	    lmmodradical=lmtmp;
 	  else {
@@ -9996,7 +10303,7 @@ namespace giac {
 	    break; // find another prime
 	  }
 	  for (;jpos<V[i].size();++jpos){
-	    unsigned Vijs=V[i][jpos].coord.size();
+	    unsigned Vijs=unsigned(V[i][jpos].coord.size());
 	    if (Vijs!=gbmod[jpos].coord.size()){
 	      if (debug_infolevel>1)
 		CERR << jpos << endl;
@@ -10021,7 +10328,7 @@ namespace giac {
 	    if (!fracmod(V[i][jpos],P[i],
 			 zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
 			 poly8tmp)){
-	      CERR << clock() << " reconstruction failure at position " << jpos << endl;
+	      CERR << CLOCK() << " reconstruction failure at position " << jpos << endl;
 	      break;
 	    }
 	    if (rur && !poly8tmp.coord.empty() && !chk_equal_mod(poly8tmp.coord.front().g,gbmod[jpos].coord.front().g,p.val))
@@ -10033,12 +10340,12 @@ namespace giac {
 	    Wlast[i].back().coord.swap(poly8tmp.coord);
 	  }
 	  if (debug_infolevel>0)
-	    CERR << clock() << " unstable mod " << p << " from " << V[i].size() << " reconstructed " << Wlast[i].size() << " (#" << i << ")" << endl;
+	    CERR << CLOCK() << " unstable mod " << p << " from " << V[i].size() << " reconstructed " << Wlast[i].size() << " (#" << i << ")" << endl;
 	  break;
 	} // end for loop on i
 	if (i==V.size()){
 	  if (debug_infolevel)
-	    CERR << clock() << " creating reconstruction #" << i << endl;
+	    CERR << CLOCK() << " creating reconstruction #" << i << endl;
 	  // not found
 	  V.push_back(vectpoly8());
 	  convert(gbmod,V.back(),p.val);
@@ -10049,10 +10356,10 @@ namespace giac {
 	}
 	if (jpos<gbmod.size()){
 	  if (debug_infolevel)
-	    CERR << clock() << " i= " << i << " begin chinese remaindering " << p << endl;
+	    CERR << CLOCK() << " i= " << i << " begin chinese remaindering " << p << endl;
 	  int r=chinrem(V[i],P[i],gbmod,p.val,poly8tmp);
 	  if (debug_infolevel)
-	    CERR << clock() << " end chinese remaindering" << endl;
+	    CERR << CLOCK() << " end chinese remaindering" << endl;
 	  if (r==-1){
 	    ok=false;
 	    continue;
@@ -10064,11 +10371,11 @@ namespace giac {
 	  W[i]=Wlast[i];
 	  if (!rur){
 	    if (debug_infolevel)
-	      CERR << clock() << " stable, clearing denominators " << endl;
+	      CERR << CLOCK() << " stable, clearing denominators " << endl;
 	    cleardeno(W[i]); // clear denominators
 	  }
 	  if (debug_infolevel)
-	    CERR << clock() << " end rational reconstruction " << endl;
+	    CERR << CLOCK() << " end rational reconstruction " << endl;
 	  // now check if W[i] is a Groebner basis over Q, if so it's the answer
 	  if (rur){ 
 	    // a final check could be performed by replacing
@@ -10093,7 +10400,7 @@ namespace giac {
 	    return true;
 	  }
 	  if (debug_infolevel)
-	    CERR << clock() << " begin final check, checking " << initial << " generators" << endl;
+	    CERR << CLOCK() << " begin final check, checking " << initial << " generators" << endl;
 	  // first verify that the initial generators reduce to 0
 	  poly8 tmp0,tmp1,tmp2;
 	  vectpoly8 wtmp;
@@ -10115,7 +10422,7 @@ namespace giac {
 	  }
 	  if (j!=finalchecks){
 	    if (debug_infolevel){
-	      CERR << clock() << " final check failure, retrying with another prime " << endl;
+	      CERR << CLOCK() << " final check failure, retrying with another prime " << endl;
 	      CERR << "Non-zero remainder " << tmp0 << endl;
 	      CERR << "checking res[j], " << j << "<" << initial << endl;
 	      CERR << "res[j]=" << res[j] << endl;
@@ -10130,7 +10437,7 @@ namespace giac {
 	    int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
 	    for (unsigned k=0;k<W[i].size();++k){
 	      terms += W[i][k].coord.size();
-	      termsmin = giacmin(termsmin,W[i][k].coord.size());
+	      termsmin = giacmin(termsmin,unsigned(W[i][k].coord.size()));
 	    }
 	    termsmin = 7*(2*termsmin-1);
 	    int epsp=mpz_sizeinbase(*P[i]._ZINTptr,10)-int(std::ceil(2*std::log10(terms)));
@@ -10144,7 +10451,7 @@ namespace giac {
 	    continue; // in_gbasis(W[i],G,0,true);
 	  }
 	  if (debug_infolevel)
-	    CERR << clock() << " end final check " << endl;
+	    CERR << CLOCK() << " end final check " << endl;
 	  swap(res,W[i]);
 	  mpz_clear(zd);
 	  mpz_clear(zu);
@@ -10167,16 +10474,16 @@ namespace giac {
 #else
 	for (i=0;i<V.size();++i){
 	  if (debug_infolevel)
-	    CERR << clock() << " i= " << i << " begin chinese remaindering" << endl;
+	    CERR << CLOCK() << " i= " << i << " begin chinese remaindering" << endl;
 	  int r=chinrem(V[i],P[i],gbmod,p.val,poly8tmp);
 	  if (debug_infolevel)
-	    CERR << clock() << " end chinese remaindering" << endl;
+	    CERR << CLOCK() << " end chinese remaindering" << endl;
 	  if (r==-1){
 	    ok=false;
 	    break;
 	  }
 	  if (r==0){
-	    CERR << clock() << " leading terms do not match with reconstruction " << i << " modulo " << p << endl;
+	    CERR << CLOCK() << " leading terms do not match with reconstruction " << i << " modulo " << p << endl;
 	    continue;
 	  }
 	  // found one! V is already updated, update W
@@ -10200,7 +10507,7 @@ namespace giac {
 	      if (!fracmod(V[i][jpos],P[i],
 			   zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
 			   poly8tmp)){
-		CERR << clock() << " reconstruction failure at position " << jpos << endl;
+		CERR << CLOCK() << " reconstruction failure at position " << jpos << endl;
 		break;
 	      }
 	      if (afewpolys.size()<=jpos){
@@ -10231,18 +10538,18 @@ namespace giac {
 	  if (afewpolys!=Wlast[i]){
 	    swap(afewpolys,Wlast[i]);
 	    if (debug_infolevel>0)
-	      CERR << clock() << " unstable mod " << p << " from " << V[i].size() << " reconstructed " << Wlast[i].size() << endl;
+	      CERR << CLOCK() << " unstable mod " << p << " from " << V[i].size() << " reconstructed " << Wlast[i].size() << endl;
 	    break;
 	  }
 	  if (debug_infolevel)
-	    CERR << clock() << " stable, clearing denominators " << endl;
+	    CERR << CLOCK() << " stable, clearing denominators " << endl;
 	  W[i]=Wlast[i];
 	  cleardeno(W[i]); // clear denominators
 	  if (debug_infolevel)
-	    CERR << clock() << " end rational reconstruction " << endl;
+	    CERR << CLOCK() << " end rational reconstruction " << endl;
 	  // now check if W[i] is a Groebner basis over Q, if so it's the answer
 	  if (debug_infolevel)
-	    CERR << clock() << " begin final check, checking " << initial << " generators " << endl;
+	    CERR << CLOCK() << " begin final check, checking " << initial << " generators " << endl;
 	  // first verify that the initial generators reduce to 0
 	  poly8 tmp0,tmp1,tmp2;
 	  vectpoly8 wtmp;
@@ -10264,7 +10571,7 @@ namespace giac {
 	  }
 	  if (j!=finalchecks){
 	    if (debug_infolevel){
-	      CERR << clock() << " final check failure, retrying with another prime " << endl;
+	      CERR << CLOCK() << " final check failure, retrying with another prime " << endl;
 	      CERR << "Non-zero remainder " << tmp0 << endl;
 	      CERR << "checking res[j], " << j << "<" << initial << endl;
 	      CERR << "res[j]=" << res[j] << endl;
@@ -10299,7 +10606,7 @@ namespace giac {
 	  }
 #endif
 	  if (debug_infolevel)
-	    CERR << clock() << " end final check " << endl;
+	    CERR << CLOCK() << " end final check " << endl;
 	  swap(res,W[i]);
 	  mpz_clear(zd);
 	  mpz_clear(zu);
@@ -10321,7 +10628,7 @@ namespace giac {
 	} // end for (i<V.size())
 	if (i==V.size()){
 	  if (debug_infolevel)
-	    CERR << clock() << " creating reconstruction #" << i << endl;
+	    CERR << CLOCK() << " creating reconstruction #" << i << endl;
 	  // not found
 	  V.push_back(gb);
 	  W.push_back(vectpoly8()); // no reconstruction yet, wait at least another prime
@@ -10344,7 +10651,7 @@ namespace giac {
     return false;
   }
 
-  bool gbasis8(const vectpoly & v,int & order,vectpoly & newres,environment * env,bool modularcheck,bool & rur,GIAC_CONTEXT){
+bool gbasis8(const vectpoly & v,int & order,vectpoly & newres,environment * env,bool modularalgo,bool modularcheck,bool & rur,GIAC_CONTEXT){
     vectpoly8 res;
     vectpolymod resmod;
     vector<unsigned> G;
@@ -10354,7 +10661,7 @@ namespace giac {
       rur=false;
       order=absint(order);
     }
-    if (!env || env->modulo==0 || env->moduloon==false){
+    if (modularalgo && (!env || env->modulo==0 || env->moduloon==false)){
       if (mod_gbasis(res,modularcheck,
 		     order==_REVLEX_ORDER /* zdata*/,
 		     // true /* zdata*/,

@@ -25,32 +25,10 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
-#ifdef HAVE_SSTREAM
-#include <sstream>
-#endif
 #include "gen.h"
 #include "plot3d.h"
-#ifdef HAVE_SIGNAL_H
-#include <signal.h>
-#endif
 #include <stdio.h>
 // #include <stdiostream.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#else
-#define clock_t int
-#define clock() 0
-#endif
-#ifndef HAVE_NO_SYS_RESOURCE_WAIT_H
-#include <sys/resource.h>
-#include <sys/wait.h>
-#endif
 
 #ifdef HAVE_LIBFLTK
 #include <FL/Enumerations.H>
@@ -86,7 +64,9 @@ enum Fl_Color {	// standard colors
   FL_COLOR_CUBE		= 56
 };
 #else // GIAC_HAS_STO_38
-#include "../../graphics/Colors.h"
+typedef ptrdiff_t Int;
+#include "Colors.h"
+//#include "../../src/Colors.h"
 enum Fl_Color {
   FL_BLACK = ColorBlack,
   FL_WHITE = ColorWhite,

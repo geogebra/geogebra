@@ -134,7 +134,7 @@ namespace giac {
 
 #endif // GIAC_GENERIC_CONSTANTS
 
-#if defined GIAC_HAS_STO_38 || defined NSPIRE
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined NSPIRE_NEWLIB
 #if 0
   static const alias_identificateur alias_identificateur_a38={0,0,"A",0,0};
   const identificateur & a__IDNT=* (const identificateur *) &alias_identificateur_a38;
@@ -583,7 +583,7 @@ namespace giac {
 #else
     string tmp=string(" "+print_INT_(std_rand()));
 #endif
-    int l=tmp.size();
+    int l=int(tmp.size());
     char * c = new char[l+1];
     strcpy(c,tmp.c_str());
     ptr->s=c;

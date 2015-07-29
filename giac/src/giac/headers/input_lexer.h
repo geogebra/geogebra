@@ -64,7 +64,7 @@ namespace giac {
   std::multimap<std::string,localized_string> & back_lexer_localization_map();
   // lexer_localization_map translates keywords from the locale to giac 
   // lexer_localization_vector is the list of languages currently translated
-  void update_lexer_localization(const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,localized_string> &back_lexer_map);
+  void update_lexer_localization(const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,localized_string> &back_lexer_map,GIAC_CONTEXT);
 #endif
   
 

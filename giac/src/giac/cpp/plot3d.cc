@@ -482,7 +482,7 @@ namespace giac {
       if (it->type!=_VECT)
 	return gensizeerr(gettext("Each element must be a face (vector of 3/4 points)"));
       vecteur w(*it->_VECTptr);
-      int s=w.size();
+      int s=int(w.size());
       if (s<3)
 	return gensizeerr(gettext("at least 3 points by face"));
       iterateur jt=w.begin(),jtend=w.end();
@@ -516,7 +516,7 @@ namespace giac {
       vecteur nv;
       if (w.front()!=w.back())
 	w.push_back(w.front());
-      int s=w.size();
+      int s=int(w.size());
       if (s<3)
 	return gendimerr(contextptr);
       for (int i=0;i<s;++i){
@@ -548,7 +548,7 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur w = *base._VECTptr;
     gen x=sommet-w[0];
-    int s=w.size();
+    int s=int(w.size());
     vecteur faces;
     for (int i=0;i<s;++i){
       faces.push_back(makevecteur(w[i],w[(i+1)%s],w[(i+1)%s]+x,w[i]+x));
@@ -594,9 +594,13 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return gensizeerr(contextptr);
-    vecteur & v(*args._VECTptr);
+    vecteur v(*args._VECTptr);
     vecteur attributs(1,default_color(contextptr));
     int s=read_attributs(v,attributs,contextptr);
+    if (s==3){
+      v.insert(v.begin(),makevecteur(0,0,0));
+      ++s;
+    }
     if (s!=4)
       return gendimerr(contextptr);
     gen A=remove_at_pnt(v[0]);
@@ -1301,7 +1305,7 @@ namespace giac {
 	if (sol.type!=_VECT)
 	  return vecteur(1,gensizeerr(contextptr));
 	// for each element of sol, get the first component t, subst in A
-	int nsol=sol._VECTptr->size();
+	int nsol=int(sol._VECTptr->size());
 	for (int i=0;i<nsol;i++){
 	  if (sol[i].type==_VECT && sol[i]._VECTptr->size()==3){
 	    gen As=ratnormal(subst(A,t,sol[i]._VECTptr->front(),false,contextptr));
@@ -1329,7 +1333,7 @@ namespace giac {
 	    return vecteur(1,gensizeerr(contextptr));
 	}
 	// for each element of sol, get the first component t, subst in A
-	int nsol=sol._VECTptr->size();
+	int nsol=int(sol._VECTptr->size());
 	for (int i=0;i<nsol;i++){
 	  gen As=ratnormal(subst(A,t,sol[i],false,contextptr));
 	  gen smin=gnuplot_tmin,smax=gnuplot_tmax;
@@ -1448,7 +1452,7 @@ namespace giac {
       vecteur v(interpolygone(ABCD,*it,contextptr));
       if (is_undef(v))
 	return v;
-      int s=v.size();
+      int s=int(v.size());
       if (!s)
 	continue;
       if (s==1)
@@ -1461,7 +1465,7 @@ namespace giac {
 
   static vecteur segments2polygone(const vecteur & v,GIAC_CONTEXT){
     vecteur polylines,other;
-    int s=v.size();
+    int s=int(v.size());
     for (int i=0;i<s;++i){
       gen g=remove_at_pnt(v[i]);
       if (g.type!=_VECT || g._VECTptr->size()!=2){
@@ -1469,7 +1473,7 @@ namespace giac {
 	continue;
       }
       gen a=g._VECTptr->front(),b=g._VECTptr->back();
-      int ps=polylines.size(),j=0;
+      int ps=int(polylines.size()),j=0;
       for (int j=0;j<ps;++j){
 	if (polylines[j].type==_VECT && !polylines[j]._VECTptr->empty()){
 	  vecteur w=*polylines[j]._VECTptr;
@@ -1498,7 +1502,7 @@ namespace giac {
       if (j==ps)
 	polylines.push_back(g);
     }
-    s=polylines.size();
+    s=int(polylines.size());
     for (int i=0;i<s;++i){
       other.push_back(symb_pnt(polylines[i],contextptr));
     }
@@ -1515,7 +1519,7 @@ namespace giac {
       if (it->type!=_VECT)
 	continue;
       vecteur v=*it->_VECTptr;
-      int s=v.size();
+      int s=int(v.size());
       if (s<3)
 	continue;
       gen AB(v[1]-v[0]),AC(v[2]-v[0]);
@@ -1596,12 +1600,12 @@ namespace giac {
       vecteur V0,V1,V2,param_curves,propre,centre;
       quadrique_reduite(f,M,vxyz,x0,y0,z0,V0,V1,V2,propre,equation_reduite,param_curves,centre,numeric,contextptr);
       vecteur res;
-      int n=param_curves.size();
+      int n=int(param_curves.size());
       for (int i=0;i<n;++i){
 	gen & obj=param_curves[i];
 	if (obj.type==_VECT){
 	  vecteur & objv=*obj._VECTptr;
-	  int s=objv.size();
+	  int s=int(objv.size());
 	  if (s==2)
 	    res.push_back(obj);
 	  if (s==5){
@@ -1954,7 +1958,7 @@ namespace giac {
     if (f_orig.is_symb_of_sommet(at_prod) && f_orig._SYMBptr->feuille.type==_VECT){
       vecteur res;
       vecteur & fv = *f_orig._SYMBptr->feuille._VECTptr;
-      int s=fv.size();
+      int s=int(fv.size());
       for (int i=0;i<s;++i){
 	gen tmp=in_plotimplicit(fv[i],x,y,z,xmin,xmax,ymin,ymax,zmin,zmax,
 				nxstep,nystep,nzstep,eps,attributs,contextptr);
@@ -2136,7 +2140,7 @@ namespace giac {
       nystep=nxstep;
       nzstep=nxstep;
     }
-    gen ff(unfactored?f_orig:factor(f_orig,false,contextptr));
+    gen ff( (unfactored || has_num_coeff(f_orig))?f_orig:factor(f_orig,false,contextptr));
     return in_plotimplicit(ff,x,y,z,xmin,xmax,ymin,ymax,zmin,zmax,nxstep,nystep,nzstep,eps,attributs,contextptr);
   }
 
@@ -2254,7 +2258,7 @@ namespace giac {
     if (args.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur & v=*args._VECTptr ;
-    int s=v.size();
+    int s=int(v.size());
     gen a(v[0]),b(undef),c(undef),d(undef);
     for (int i=1;i<s;++i){
       if (is_undef(b)){
@@ -2283,6 +2287,93 @@ namespace giac {
   static const char _est_cospherique_s []="is_cospherical";
   static define_unary_function_eval (__est_cospherique,&giac::_est_cospherique,_est_cospherique_s);
   define_unary_function_ptr5( at_est_cospherique ,alias_at_est_cospherique,&__est_cospherique,0,true);
+
+  gen in_convert3d(const gen & h0,GIAC_CONTEXT){
+    if (h0.type!=_VECT)
+      return h0;
+    // convert complex to 3d vectors
+    vecteur w=*h0._VECTptr;
+    gen r,I;
+    for (unsigned i=0;i<w.size();++i){
+      reim(w[i],r,I,contextptr);
+      w[i]=gen(makevecteur(r,I,0),_POINT__VECT);
+    }
+    return gen(w,h0.subtype);
+  }
+
+  gen convert3d(const gen & g,GIAC_CONTEXT){
+    if (g.type==_VECT)
+      return apply(g,convert3d,contextptr);
+    if (!g.is_symb_of_sommet(at_pnt))
+      return g;
+    gen h=g._SYMBptr->feuille;
+    if (h.type!=_VECT || h._VECTptr->size()<2)
+      return g;
+    vecteur v=*h._VECTptr;
+    gen h0=v.front();
+    if (h0.is_symb_of_sommet(at_curve)){
+      gen c=h0._SYMBptr->feuille;
+      if (c.type!=_VECT || c._VECTptr->size()<2)
+	return g;
+      vecteur vc=*c._VECTptr;
+      gen c0=vc[0];
+      gen c1=vc[1];
+      if (c0.type==_VECT && !c0._VECTptr->empty()){
+	vecteur v0=*c0._VECTptr;
+	gen r,i;
+	reim(v0[0],r,i,contextptr);
+	v0[0]=gen(makevecteur(r,i,0),_POINT__VECT);
+	vc[0]=gen(v0,c0.subtype);
+      }
+      vc[1]=in_convert3d(c1,contextptr);
+      h0=symbolic(at_curve,gen(vc,h0.subtype));
+      v.front()=h0;
+      h=gen(v,h.subtype);
+      return symbolic(at_pnt,h);
+    }
+    if (h0.is_symb_of_sommet(at_cercle)){
+      gen centre,rayon;
+      if (!centre_rayon(h0,centre,rayon,false,contextptr))
+	return gensizeerr(contextptr); // don't care about radius sign
+      double nstep=50.0;
+      gen tmin=0,tmax=2*M_PI;
+      if (h0.type==_VECT && h0._VECTptr->size()>4){
+	tmin=(*h0._VECTptr)[2];
+	tmax=(*h0._VECTptr)[3];
+      }
+      gen tstep=(tmax-tmin)/nstep;
+      vecteur curve;
+      for (int i=0;i<=nstep;++i){
+	gen t=tmin+i*tstep;
+	if (i==nstep){
+	  if (h0.type==_VECT && h0._VECTptr->size()>4)
+	    t=tmax;
+	  else
+	    t=tmin;
+	}
+	gen z=centre+rayon*exp(cst_i*t,contextptr),zx,zy;
+	reim(z,zx,zy,contextptr);
+	curve.push_back(gen(makevecteur(zx,zy,0),_POINT__VECT));
+      }
+      v[0]=gen(curve,_GROUP__VECT);
+      return symbolic(at_pnt,gen(v,h.subtype));
+    }
+    if (h0.type==_VECT){
+      v.front()=in_convert3d(h0,contextptr);
+      h=gen(v,h.subtype);
+      return symbolic(at_pnt,h);
+    }
+    gen r,i;
+    reim(h0,r,i,contextptr);
+    h0=gen(makevecteur(r,i,0),_POINT__VECT);
+    v[0]=h0;
+    h=gen(v,h.subtype);
+    return symbolic(at_pnt,h);    
+  }
+  static const char _convert3d_s []="convert3d";
+  static define_unary_function_eval (__convert3d,&giac::convert3d,_convert3d_s);
+  define_unary_function_ptr5( at_convert3d ,alias_at_convert3d,&__convert3d,0,true);
+
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

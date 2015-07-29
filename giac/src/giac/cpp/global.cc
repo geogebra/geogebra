@@ -20,6 +20,11 @@
  */
 
 using namespace std;
+#ifdef HAVE_SSTREAM
+#include <sstream>
+#else
+#include <strstream>
+#endif
 #include "global.h"
 // #include <time.h>
 #ifndef BESTA_OS
@@ -162,6 +167,10 @@ namespace giac {
   }
 #endif // TIMEOUT
 
+#ifdef NSPIRE_NEWLIB
+  void usleep(int t){
+  }
+#endif
 
 #if defined VISUALC || defined BESTA_OS
   int R_OK=4;
@@ -203,7 +212,11 @@ extern "C" void Sleep(unsigned int miliSecond);
     static std::vector<std::string> * ans = new  std::vector<std::string>;
     return ans;
   }
+#ifdef NSPIRE_NEWLIB
+  const context * context0=new context;
+#else
   const context * context0=0;
+#endif
   // Global variable when context is 0
   void (*fl_widget_delete_function)(void *) =0;
 #ifndef NSPIRE
@@ -366,7 +379,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 #if 1
-  static double _epsilon_=0;
+  static double _epsilon_=1e-12;
 #else
 #ifdef __SGI_CPP_LIMITS
   static double _epsilon_=100*numeric_limits<double>::epsilon();
@@ -894,7 +907,11 @@ extern "C" void Sleep(unsigned int miliSecond);
       res=contextptr->globalptr->_logptr_;
     else
       res= _logptr_;
+#ifdef EMCC
+    return res?res:&COUT;
+#else
     return res?res:&CERR;
+#endif
   }
 #endif
 #endif
@@ -1445,6 +1462,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   bool in_texmacs=false;
   bool block_signal=false;
   bool CAN_USE_LAPACK = true;
+  bool simplify_sincosexp_pi=true;
   int history_begin_level=0; 
   // variable used to avoid copying the whole history between processes 
 #ifdef WIN32 // Temporary
@@ -1452,7 +1470,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   int debug_infolevel=0;
 #endif
-#if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS || defined NSPIRE
+#if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS || defined NSPIRE || defined NSPIRE_NEWLIB
   int threads=1;
 #else
   int threads=sysconf (_SC_NPROCESSORS_ONLN);
@@ -1486,6 +1504,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int MAX_PRINTABLE_ZINT=10000;
   int MAX_RECURSION_LEVEL=9;
   int GBASIS_DETERMINISTIC=20;
+
   const int BUFFER_SIZE=512;
 #else
   int CALL_LAPACK=1111;
@@ -1558,7 +1577,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 
   void ctrl_c_signal_handler(int signum){
     ctrl_c=true;
-#if !defined WIN32 && !defined BESTA_OS && !defined NSPIRE
+#if !defined NSPIRE_NEWLIB && !defined WIN32 && !defined BESTA_OS && !defined NSPIRE
     if (child_id)
       kill(child_id,SIGINT);
 #endif
@@ -2393,6 +2412,12 @@ extern "C" void Sleep(unsigned int miliSecond);
       }
     }
 #ifdef __APPLE__
+    if (!access("/Applications/usr/share/giac/",R_OK))
+      return "/Applications/usr/share/giac/";
+    if (getenv("XCAS_ROOT")){
+      string s=getenv("XCAS_ROOT");
+      return s;
+    }
     return "/Applications/usr/share/giac/";
 #endif
 #ifdef WIN32
@@ -2504,7 +2529,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   bool check_file_path(const string & s){
-    int ss=s.size(),i;
+    int ss=int(s.size()),i;
     for (i=0;i<ss;++i){
       if (s[i]==' ')
 	break;
@@ -2514,7 +2539,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     if (!ch || name[0]=='/')
       return is_file_available(name.c_str());
     string path;
-    int l=strlen(ch);
+    int l=int(strlen(ch));
     for (i=0;i<l;++i){
       if (ch[i]==':'){
 	if (!path.empty()){
@@ -2586,7 +2611,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (with_firefox)
 	s2=s1;
       else {
-	int t=s1.size();
+	int t=int(s1.size());
 	for (int i=0;i<t;++i){
 	  if (s1[i]=='/')
 	    s2+="\\";
@@ -2600,7 +2625,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       // s = s.substr(0,5)+"C:\\\\xcas\\\\"+s2;
     }
     // Remove # trailing part of URL
-    int ss=s.size();
+    int ss=int(s.size());
     for (--ss;ss>0;--ss){
       if (s[ss]=='#' || s[ss]=='.' || s[ss]=='/' )
 	break;
@@ -2675,7 +2700,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (res[0]!='/')
 	res=giac_aide_dir()+res;
       // Remove # trailing part of URL
-      int ss=res.size();
+      int ss=int(res.size());
       for (--ss;ss>0;--ss){
 	if (res[ss]=='#' || res[ss]=='.' || res[ss]=='/' )
 	  break;
@@ -2690,9 +2715,9 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (_epath != NULL && *_epath != 0
 	  && cygwin_posix_path_list_p (_epath)){
 #ifdef __x86_64__
-	int s = cygwin_conv_path (CCP_POSIX_TO_WIN_W , _epath, NULL, 0);
+	int s = cygwin_conv_path (CCP_POSIX_TO_WIN_A , _epath, NULL, 0);
 	char * _win32path = (char *) malloc(s);
-	cygwin_conv_path(CCP_POSIX_TO_WIN_W,_epath, _win32path,s);
+	cygwin_conv_path(CCP_POSIX_TO_WIN_A,_epath, _win32path,s);
 #else
 	char * _win32path = (char *) malloc (cygwin_posix_to_win32_path_list_buf_size (_epath));
 	cygwin_posix_to_win32_path_list (_epath, _win32path);
@@ -2739,7 +2764,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     vector<int>::const_iterator it=v.begin(),itend=v.end();
     for (;it!=itend;++it)
       if (*it==i)
-	return it-v.begin()+1;
+	return int(it-v.begin())+1;
     return 0;
   }
 
@@ -2747,7 +2772,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     vector<short int>::const_iterator it=v.begin(),itend=v.end();
     for (;it!=itend;++it)
       if (*it==i)
-	return it-v.begin()+1;
+	return int(it-v.begin())+1;
     return 0;
   }
 
@@ -2838,17 +2863,18 @@ extern "C" void Sleep(unsigned int miliSecond);
   void update_completions(){
     if (vector_completions_ptr()){
       vector_completions_ptr()->clear();
-      int n=vector_aide_ptr()->size();
+      int n=int(vector_aide_ptr()->size());
       for (int k=0;k<n;++k){
 	vector_completions_ptr()->push_back((*vector_aide_ptr())[k].cmd_name);
       }
     }
   }
 
-  void add_language(int i){
+  void add_language(int i,GIAC_CONTEXT){
     if (!equalposcomp(lexer_localization_vector(),i)){
       lexer_localization_vector().push_back(i);
-      update_lexer_localization(lexer_localization_vector(),lexer_localization_map(),back_lexer_localization_map());
+      update_lexer_localization(lexer_localization_vector(),lexer_localization_map(),back_lexer_localization_map(),contextptr);
+#ifndef EMCC
       if (vector_aide_ptr()){
 	// add locale command description
 	int count;
@@ -2867,7 +2893,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	    }
 	  }
 	}
-	int s = vector_aide_ptr()->size();
+	int s = int(vector_aide_ptr()->size());
 	for (int j=0;j<s;++j){
 	  aide a=(*vector_aide_ptr())[j];
 	  it=back_lexer_localization_map().find(a.cmd_name);
@@ -2886,14 +2912,15 @@ extern "C" void Sleep(unsigned int miliSecond);
 	sort(vector_aide_ptr()->begin(),vector_aide_ptr()->end(),alpha_order);
 	update_completions();
       }
+#endif
     }
   }
 
-  void remove_language(int i){
+  void remove_language(int i,GIAC_CONTEXT){
     if (int pos=equalposcomp(lexer_localization_vector(),i)){
       if (vector_aide_ptr()){
 	vector<aide> nv;
-	int s=vector_aide_ptr()->size();
+	int s=int(vector_aide_ptr()->size());
 	for (int j=0;j<s;++j){
 	  if ((*vector_aide_ptr())[j].language!=i)
 	    nv.push_back((*vector_aide_ptr())[j]);
@@ -2913,8 +2940,8 @@ extern "C" void Sleep(unsigned int miliSecond);
       }
       --pos;
       lexer_localization_vector().erase(lexer_localization_vector().begin()+pos);
-      update_lexer_localization(lexer_localization_vector(),lexer_localization_map(),back_lexer_localization_map());
-    }
+      update_lexer_localization(lexer_localization_vector(), lexer_localization_map(), back_lexer_localization_map(), contextptr);
+	}
   }
 
   int string2lang(const string & s){
@@ -2940,8 +2967,15 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   std::string set_language(int i,GIAC_CONTEXT){
+#ifdef EMCC
+    if (language(contextptr)!=i){
+      language(i,contextptr);
+      add_language(i,contextptr);
+    }
+#else
     language(i,contextptr);
-    add_language(i);
+    add_language(i,contextptr);
+#endif
     return find_doc_prefix(i);
   }
 
@@ -3054,7 +3088,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   string add_extension(const string & s,const string & ext,const string & def){
     if (s.empty())
       return def+"."+ext;
-    int i=s.size();
+    int i=int(s.size());
     for (--i;i>0;--i){
       if (s[i]=='.')
 	break;
@@ -3217,7 +3251,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifdef HAVE_LIBPTHREAD
       pthread_mutex_lock(&context_list_mutex);
 #endif
-      int s=context_list().size();
+      int s=int(context_list().size());
       for (int i=s-1;i>0;--i){
 	if (context_list()[i]==this){
 	  context_list().erase(context_list().begin()+i);
@@ -3244,12 +3278,12 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
 #ifndef CLK_TCK
-#define CLK_TCK
+#define CLK_TCK 1
 #endif
 
 #ifndef HAVE_NO_SYS_TIMES_H
    double delta_tms(struct tms tmp1,struct tms tmp2){
-#if defined(HAVE_SYSCONF) // && !defined(EMCC) // New EMCC supports _SC_CLK_TCK instead of CLK_TCK
+#if defined(HAVE_SYSCONF) && !defined(EMCC)
      return double( tmp2.tms_utime+tmp2.tms_stime+tmp2.tms_cutime+tmp2.tms_cstime-(tmp1.tms_utime+tmp1.tms_stime+tmp1.tms_cutime+tmp1.tms_cstime) )/sysconf(_SC_CLK_TCK);
 #else
     return double( tmp2.tms_utime+tmp2.tms_stime+tmp2.tms_cutime+tmp2.tms_cstime-(tmp1.tms_utime+tmp1.tms_stime+tmp1.tms_cutime+tmp1.tms_cstime) )/CLK_TCK;
@@ -3258,7 +3292,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif /// HAVE_NO_SYS_TIMES_H
 
   string remove_filename(const string & s){
-    int l=s.size();
+    int l=int(s.size());
     for (;l;--l){
       if (s[l-1]=='/')
 	break;
@@ -3410,7 +3444,8 @@ extern "C" void Sleep(unsigned int miliSecond);
     return ans;
   }
 
-  giac::gen thread_eval(const giac::gen & g,int level,context * contextptr,void (* wait_0001)(context *) ){
+  giac::gen thread_eval(const giac::gen & g_,int level,context * contextptr,void (* wait_0001)(context *) ){
+    gen g=equaltosto(g_);
     /* launch a new thread for evaluation only,
        no more readqueue, readqueue is done by the "parent" thread
        Ctrl-C will kill the "child" thread
@@ -3567,7 +3602,13 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
 #else
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&CERR), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), 
+#ifdef EMCC
+		     _logptr_(&COUT), 
+#else
+		     _logptr_(&CERR), 
+#endif
+_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
 #endif
   { 
     _pl._i_sqrt_minus1_=1;
@@ -3888,7 +3929,7 @@ unsigned int ConvertUTF16toUTF8 (
     target += bytesToWrite;
     }
 
-    unsigned int length = target - targetStart;
+    unsigned int length = int(target - targetStart);
     return length;
 }
 
@@ -4022,7 +4063,7 @@ unsigned int ConvertUTF8toUTF16 (
     }
     }
 
-    unsigned int length = target - targetStart;
+    unsigned int length = unsigned(target - targetStart);
     return length;
 }
 
@@ -4102,7 +4143,7 @@ unsigned int ConvertUTF8toUTF16 (
   wchar_t * utf82unicode(const char * idname){
     if (!idname)
       return 0;
-    int l=strlen(idname);
+    int l=int(strlen(idname));
     wchar_t * wname=new wchar_t[l+1];
     utf82unicode(idname,wname,l);
     return wname;
@@ -4120,7 +4161,7 @@ unsigned int ConvertUTF8toUTF16 (
   char * unicode2utf8(const wchar_t * idname){
     if (!idname)
       return 0;
-    int l=wcslen(idname);
+    int l=int(wcslen(idname));
     char * name=new char[4*l+1];
     unicode2utf8(idname,name,l);
     return name;
@@ -4278,9 +4319,46 @@ unsigned int ConvertUTF8toUTF16 (
     return false;
   }
 
+
   bool archive_save(void * f,const gen & g,GIAC_CONTEXT){
     return archive_save(f,g,(size_t (*)(void const* p, size_t nbBytes,size_t NbElements, void *file))fwrite,contextptr);
   }
+
+#ifdef GIAC_HAS_STO_38
+  // return true/false to tell if s is recognized. return the appropriate gen if true
+  int lexerCompare(void const *a, void const *b) { 
+    charptr_gen_unary const * ptr=(charptr_gen_unary const *)b;
+    const char * aptr=(const char *) a;
+    return strcmp(aptr, ptr->s); 
+  }
+
+  bool casbuiltin(const char *s, gen &g){
+    // binary search in builtin_lexer_functions
+#if 1 // def SMARTPTR64
+    int n=builtin_lexer_functions_number; 
+    charptr_gen_unary const * f = (charptr_gen_unary const *)bsearch(s, builtin_lexer_functions, n, sizeof(builtin_lexer_functions[0]), lexerCompare);
+    if (f != NULL) {
+      g = 0;
+      int pos = int(f - builtin_lexer_functions);
+      size_t val = builtin_lexer_functions_[pos];
+      unary_function_ptr * at_val = (unary_function_ptr *)val;
+      g = at_val;
+      return true;
+    }
+#else
+    charptr_gen_unary const * f = (charptr_gen_unary const *)bsearch(s, builtin_lexer_functions, builtin_lexer_functions_number, sizeof(builtin_lexer_functions[0]), lexerCompare);
+    if (f != NULL) {
+      g = gen(0);
+      int pos=f - builtin_lexer_functions;
+      *(size_t *)(&g) = builtin_lexer_functions_[pos] + f->_FUNC_;
+      g = gen(*g._FUNCptr);
+      return true;
+    }
+#endif
+    return false;
+  }
+
+#endif
 
   // restore a gen from an opened file
   gen archive_restore(void * f,size_t readfunc(void * p, size_t nbBytes,size_t NbElements, void *file),GIAC_CONTEXT){
@@ -4339,8 +4417,9 @@ unsigned int ConvertUTF8toUTF16 (
 	return undef;
       if (index>0){
 	const unary_function_ptr * aptr=archive_function_tab();
-	if (index<archive_function_tab_length)
+	if (index<archive_function_tab_length){
 	  g=symbolic(aptr[index-1],fe);
+	}
 	else
 	  g=fe; // ERROR
       }
@@ -4375,6 +4454,10 @@ unsigned int ConvertUTF8toUTF16 (
 	  }
 #else	  
 	  if (builtin_lexer_functions_){
+#ifdef GIAC_HAS_STO_38
+	    if (!casbuiltin(ch,res))
+	      res=0;
+#else
 	    std::pair<charptr_gen *,charptr_gen *> p=equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ch,0),tri);
 	    if (p.first!=p.second && p.first!=builtin_lexer_functions_end()){
 	      res = p.first->second;
@@ -4382,6 +4465,7 @@ unsigned int ConvertUTF8toUTF16 (
 	      res=gen(int(builtin_lexer_functions_[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
 	      res=gen(*res._FUNCptr);
 	    }
+#endif
 	  }
 #endif 
 	}
@@ -4503,7 +4587,7 @@ unsigned int ConvertUTF8toUTF16 (
 
   bool unarchive_session(const gen & g,int level,const gen & replace,GIAC_CONTEXT,bool with_history){
     int l;
-    if (g.type!=_VECT || (l=g._VECTptr->size())<4)
+    if (g.type!=_VECT || (l=int(g._VECTptr->size()))<4)
       return false;
     vecteur v=*g._VECTptr;
     if (v[2].type!=_VECT || v[3].type!=_VECT || (v[2]._VECTptr->size()!=v[3]._VECTptr->size() && v[2]._VECTptr->size()!=v[3]._VECTptr->size()+1))
@@ -4657,7 +4741,7 @@ unsigned int ConvertUTF8toUTF16 (
     string s;
     int pos=0;
     for (unsigned i=0;i<v.size();++i){
-      int p=format.find("%gen",pos);
+      int p=int(format.find("%gen",pos));
       if (p<0 || p>=int(format.size()))
 	break;
       s += format.substr(pos,p-pos);
@@ -4678,65 +4762,98 @@ unsigned int ConvertUTF8toUTF16 (
 #ifdef USTL    
   // void update_lexer_localization(const std::vector<int> & v,ustl::map<std::string,std::string> &lexer_map,ustl::multimap<std::string,giac::localized_string> &back_lexer_map){}
 #else
-    void update_lexer_localization(const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,giac::localized_string> &back_lexer_map){
-      lexer_map.clear();
-      back_lexer_map.clear();
-      int s=v.size();
-      for (int i=0;i<s;++i){
-	int lang=v[i];
-	if (lang>=1 && lang<=4){
-	  std::string doc=find_doc_prefix(lang);
-	  std::string file=giac::giac_aide_dir()+doc+"keywords";
-	  std::string giac_kw,local_kw;
-	  size_t l;
-	  char * line = (char *)malloc(1024);
-	  ifstream f(file.c_str());
-	  if (f.good()){
-	    CERR << "// Using keyword file " << file << endl;
-	    for (;;){
-	      f.getline(line,1023,'\n');
-	      l=strlen(line);
-	      if (f.eof()){
-		f.close();
-		break;
-	      }
-	      if (l>3 && line[0]!='#'){
-		if (line[l-1]=='\n')
-		  --l;
-		// read giac keyword
-		size_t j;
-		giac_kw="";
-		for (j=0;j<l;++j){
-		  if (line[j]==' ')
-		    break;
-		  giac_kw += line[j];
-		}
-		// read corresponding local keywords
-		local_kw="";
-		for (++j;j<l;++j){
-		  if (line[j]==' '){
-		    if (!local_kw.empty()){
-		      lexer_map[local_kw]=giac_kw;
-		      back_lexer_map.insert(pair<string,localized_string>(giac_kw,localized_string(lang,local_kw)));
-		    }
-		    local_kw="";
-		  }
-		  else
-		    local_kw += line[j];
-		}
-		if (!local_kw.empty()){
-		  lexer_map[local_kw]=giac_kw;
-		  back_lexer_map.insert(pair<string,localized_string>(giac_kw,localized_string(lang,local_kw)));
-		}
-	      }
+  vecteur * keywords_vecteur_ptr(){
+    static vecteur v;
+    return &v;
+  }
+
+  static void in_update_lexer_localization(istream & f,int lang,const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,giac::localized_string> &back_lexer_map,GIAC_CONTEXT){
+    char * line = (char *)malloc(1024);
+    std::string giac_kw,local_kw;
+    size_t l;
+    for (;;){
+      f.getline(line,1023,'\n');
+      l=strlen(line);
+      if (f.eof()){
+	break;
+      }
+      if (l>3 && line[0]!='#'){
+	if (line[l-1]=='\n')
+	  --l;
+	// read giac keyword
+	size_t j;
+	giac_kw="";
+	for (j=0;j<l;++j){
+	  if (line[j]==' ')
+	    break;
+	  giac_kw += line[j];
+	}
+	// read corresponding local keywords
+	local_kw="";
+	vecteur * keywordsptr=keywords_vecteur_ptr();
+	for (++j;j<l;++j){
+	  if (line[j]==' '){
+	    if (!local_kw.empty()){
+#ifdef EMCC
+	      gen localgen(gen(local_kw,contextptr));
+	      keywordsptr->push_back(localgen);
+	      sto(gen(giac_kw,contextptr),localgen,contextptr);
+#else
+	      lexer_map[local_kw]=giac_kw;
+	      back_lexer_map.insert(pair<string,localized_string>(giac_kw,localized_string(lang,local_kw)));
+#endif
 	    }
-	    free(line);
-	  } // if (f)
+	    local_kw="";
+	  }
+	  else
+	    local_kw += line[j];
+	}
+	if (!local_kw.empty()){
+#ifdef EMCC
+	  gen localgen(gen(local_kw,contextptr));
+	  keywordsptr->push_back(localgen);
+	  sto(gen(giac_kw,contextptr),localgen,contextptr);
+#else
+	  lexer_map[local_kw]=giac_kw;
+	  back_lexer_map.insert(pair<string,localized_string>(giac_kw,localized_string(lang,local_kw)));
+#endif
+	}
+      }
+    }
+    free(line);
+  }
+	    
+  void update_lexer_localization(const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,giac::localized_string> &back_lexer_map,GIAC_CONTEXT){
+    lexer_map.clear();
+    back_lexer_map.clear();
+    int s=int(v.size());
+    for (int i=0;i<s;++i){
+      int lang=v[i];
+      if (lang>=1 && lang<=4){
+	std::string doc=find_doc_prefix(lang);
+	std::string file=giac::giac_aide_dir()+doc+"keywords";
+	//COUT << "keywords " << file << endl;
+	ifstream f(file.c_str());
+	if (f.good()){
+	  in_update_lexer_localization(f,lang,v,lexer_map,back_lexer_map,contextptr);
+	  // COUT << "// Using keyword file " << file << endl;
+	} // if (f)
+	else {
+	  if (lang==1){
+#ifdef HAVE_SSTREAM
+      istringstream f(
+#else
+      istrstream f(
+#endif
+		   "# enter couples\n# giac_keyword translation\n# for example, to define integration as a translation for integrate \nintegrate integration\neven est_pair\nodd est_impair\n# geometry\nbarycenter barycentre\nisobarycenter isobarycentre\nmidpoint milieu\nline_segments aretes\nmedian_line mediane\nhalf_line demi_droite\nparallel parallele\nperpendicular perpendiculaire\ncommon_perpendicular perpendiculaire_commune\nenvelope enveloppe\nequilateral_triangle triangle_equilateral\nisosceles_triangle triangle_isocele\nright_triangle triangle_rectangle\nlocus lieu\ncircle cercle\nconic conique\nreduced_conic conique_reduite\nquadric quadrique\nreduced_quadric quadrique_reduite\nhyperbola hyperbole\ncylinder cylindre\nhalf_cone demi_cone\nline droite\nplane plan\nparabola parabole\nrhombus losange\nsquare carre\nhexagon hexagone\npyramid pyramide\nquadrilateral quadrilatere\nparallelogram parallelogramme\northocenter orthocentre\nexbisector exbissectrice\nparallelepiped parallelepipede\npolyhedron polyedre\ntetrahedron tetraedre\ncentered_tetrahedron tetraedre_centre\ncentered_cube cube_centre\noctahedron octaedre\ndodecahedron dodecaedre\nicosahedron icosaedre\nbisector bissectrice\nperpen_bisector mediatrice\naffix affixe\naltitude hauteur\ncircumcircle circonscrit\nexcircle exinscrit\nincircle inscrit\nis_prime est_premier\nis_equilateral est_equilateral\nis_rectangle est_rectangle\nis_parallel est_parallele\nis_perpendicular est_perpendiculaire\nis_orthogonal est_orthogonal\nis_collinear est_aligne\nis_concyclic est_cocyclique\nis_element est_element\nis_included est_inclus\nis_coplanar est_coplanaire\nis_isosceles est_isocele\nis_square est_carre\nis_rhombus est_losange\nis_parallelogram est_parallelogramme\nis_conjugate est_conjugue\nis_harmonic_line_bundle est_faisceau_droite\nis_harmonic_circle_bundle est_faisceau_cercle\nis_inside est_dans\narea aire\nperimeter perimetre\ndistance longueur\ndistance2 longueur2\nareaat aireen\nslopeat penteen\nangleat angleen\nperimeterat perimetreen\ndistanceat distanceen\nareaatraw aireenbrut\nslopeatraw penteenbrut\nangleatraw angleenbrut\nperimeteratraw perimetreenbrut\ndistanceatraw distanceenbrut\nextract_measure extraire_mesure\ncoordinates coordonnees\nabscissa abscisse\nordinate ordonnee\ncenter centre\nradius rayon\npowerpc puissance\nvertices sommets\npolygon polygone\nisopolygon isopolygone\nopen_polygon polygone_ouvert\nhomothety homothetie\nsimilarity similitude\n# affinity affinite\nreflection symetrie\nreciprocation polaire_reciproque\nscalar_product produit_scalaire\n# solid_line ligne_trait_plein\n# dash_line ligne_tiret\n# dashdot_line ligne_tiret_point\n# dashdotdot_line ligne_tiret_pointpoint\n# cap_flat_line ligne_chapeau_plat\n# cap_round_line ligne_chapeau_rond\n# cap_square_line ligne_chapeau_carre\n# line_width_1 ligne_epaisseur_1\n# line_width_2 ligne_epaisseur_2\n# line_width_3 ligne_epaisseur_3\n# line_width_4 ligne_epaisseur_4\n# line_width_5 ligne_epaisseur_5\n# line_width_6 ligne_epaisseur_6\n# line_width_7 ligne_epaisseur_7\n# line_width_8 ligne_epaisseur_8\n# rhombus_point point_losange\n# plus_point point_plus\n# square_point point_carre\n# cross_point point_croix\n# triangle_point point_triangle\n# star_point point_etoile\n# invisible_point point_invisible\n# point_width_1 point_epaisseur_1\n# point_width_2 point_epaisseur_2\n# point_width_3 point_epaisseur_3\n# point_width_4 point_epaisseur_4\n# point_width_5 point_epaisseur_5\n# point_width_6 point_epaisseur_6\n# point_width_7 point_epaisseur_7\n# point_width_8 point_epaisseur_8\ncross_ratio birapport\nradical_axis axe_radical\npolar polaire\npolar_point point_polaire\npolar_coordinates coordonnees_polaires\nrectangular_coordinates coordonnees_rectangulaires\nharmonic_conjugate conj_harmonique\nharmonic_division div_harmonique\ndivision_point point_div\n# harmonic_division_point point_division_harmonique\ndisplay affichage\nvertices_abc sommets_abc\nvertices_abca sommets_abca\nline_inter inter_droite\nsingle_inter inter_unique\ncolor couleur\nlegend legende\nis_harmonic est_harmonique\nbar_plot diagramme_batons\nbarplot diagrammebatons\nhistogram histogramme\nprism prisme\nis_cospherical est_cospherique\ndot_paper papier_pointe\ngrid_paper papier_quadrille\nline_paper papier_ligne\ntriangle_paper papier_triangule\nvector vecteur\nplotarea tracer_aire\nplotproba graphe_probabiliste\nmult_c_conjugate mult_conjugue_C\nmult_conjugate mult_conjugue\ncanonical_form forme_canonique\ntrue vrai\nfalse faux\n#or ou\n#and et\n#not non\nibpu integrer_par_parties_u\nibpdv integrer_par_parties_dv\nwhen quand\nslope pente\ntablefunc table_fonction\ntableseq table_suite\nfsolve resoudre_numerique\ninput saisir\nprint afficher\nassume supposons\nabout domaine\nbreakpoint point_arret\nwatch montrer\nrmwatch ne_plus_montrer\nrmbreakpoint suppr_point_arret\nrand alea\nInputStr saisir_chaine\nfilled rempli\nhidden_name nom_cache\nblack noir\nwhite blanc\nred rouge\nblue bleu\nyellow jaune\ngreen vert\nOx_2d_unit_vector vecteur_unitaire_Ox_2d\nOy_2d_unit_vector vecteur_unitaire_Oy_2d\nOx_3d_unit_vector vecteur_unitaire_Ox_3d\nOy_3d_unit_vector vecteur_unitaire_Oy_3d\nOz_3d_unit_vector vecteur_unitaire_Oz_3d\nframe_2d repere_2d\nframe_3d repere_3d\n# areaplot tracer_aire\nrsolve resoudre_recurrence\nassume supposons\nrealproot racines\nbounded_function fonction_bornee\nsort trier\ncumulated_frequencies frequences_cumulees\nfrequencies frequences\nnormald loi_normale\nregroup regrouper\nosculating_circle cercle_osculateur\ncurvature courbure\nevolute developpee\n");
+	    in_update_lexer_localization(f,1,v,lexer_map,back_lexer_map,contextptr);
+	  }
 	  else
 	    CERR << "// Unable to find keyword file " << file << endl;
 	}
       }
     }
+  }
 #endif
 
 #ifndef NSPIRE
@@ -4771,7 +4888,13 @@ unsigned int ConvertUTF8toUTF16 (
 	registered_lexer_functions().push_back(user_function(s,parser_token));
       if (!builtin_lexer_functions_sorted){
 #ifndef STATIC_BUILTIN_LEXER_FUNCTIONS
+#ifdef NSPIRE_NEWLIB
 	builtin_lexer_functions_begin()[builtin_lexer_functions_number]=std::pair<const char *,gen>(s,gen(u));
+#else
+	builtin_lexer_functions_begin()[builtin_lexer_functions_number].first=s;
+	builtin_lexer_functions_begin()[builtin_lexer_functions_number].second.type=0;
+	builtin_lexer_functions_begin()[builtin_lexer_functions_number].second=gen(u);
+#endif
 	if (parser_token==1)
 	  builtin_lexer_functions_begin()[builtin_lexer_functions_number].second.subtype=T_UNARY_OP-256;
 	else
@@ -4787,7 +4910,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  lexer_functions()[s].subtype=parser_token-256;
       }
       // If s is a library function name (with ::), update the library
-      int ss=strlen(s),j=0;
+      int ss=int(strlen(s)),j=0;
       for (;j<ss-1;++j){
 	if (s[j]==':' && s[j+1]==':')
 	  break;
@@ -4893,13 +5016,13 @@ unsigned int ConvertUTF8toUTF16 (
 	  res=gen(int((*builtin_lexer_functions_())[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
 	  res=gen(*res._FUNCptr);	  
 #else
-#ifdef SMARTPTR64
+#ifndef NSPIRE_NEWLIB
 	  res=0;
-	  int pos=p.first-builtin_lexer_functions_begin();
+	  int pos=int(p.first-builtin_lexer_functions_begin());
 	  size_t val=builtin_lexer_functions_[pos];
 	  unary_function_ptr * at_val=(unary_function_ptr *)val;
 	  res=at_val;
-#else
+#else // keep this code, required for the nspire otherwise evalf(pi)=reboot
 	  res=gen(int(builtin_lexer_functions_[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
 	  res=gen(*res._FUNCptr);
 #endif
@@ -5115,7 +5238,7 @@ unsigned int ConvertUTF8toUTF16 (
       if (!ans){
 	ans = new charptr_gen[builtin_lexer_functions_number];
 	for (unsigned i=0;i<builtin_lexer_functions_number;i++){
-	  charptr_gen tmp={builtin_lexer_functions[i].s,builtin_lexer_functions[i]._FUNC_};
+	  charptr_gen tmp; tmp.first=builtin_lexer_functions[i].s; tmp.second=builtin_lexer_functions[i]._FUNC_;
 	  tmp.second.subtype=builtin_lexer_functions[i].subtype;
 	  ans[i]=tmp;
 	}

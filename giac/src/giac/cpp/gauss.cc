@@ -46,7 +46,7 @@ namespace giac {
     gen dq;
     gen dqs;
     gen qdd;
-    int n=x.size();
+    int n=int(x.size());
     
     vecteur A;
     //creation d'une matrice carree A d'ordre n
@@ -115,7 +115,7 @@ namespace giac {
     //(les variables sont dans x)
     int d;
     //d nbre de variables
-    d=x.size();
+    d=int(x.size());
     // int da;
     //il faut verifier que q est quadratique
     vecteur A;
@@ -137,7 +137,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_q2a(args);
-    int s=args._VECTptr->size();
+    int s=int(args._VECTptr->size());
     if (s!=2)
       return gendimerr(contextptr);
     if (args._VECTptr->back().type==_VECT)
@@ -149,7 +149,7 @@ namespace giac {
   define_unary_function_ptr5( at_q2a ,alias_at_q2a,&__q2a,0,true);
 
   vecteur gauss(const gen & q, const vecteur & x, vecteur & D, vecteur & U, vecteur & P,GIAC_CONTEXT){
-    int n=x.size();
+    int n=int(x.size());
     int b;
     gen u1;
     gen u2;
@@ -332,7 +332,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_gauss(args);
-    int s=args._VECTptr->size();
+    int s=int(args._VECTptr->size());
     if (s!=2)
       return gendimerr(contextptr);
     if (args._VECTptr->back().type==_VECT)
@@ -348,11 +348,11 @@ namespace giac {
     //(les variables sont dans x)
     int d;
     //d nbre de variables
-    d=x.size();
+    d=int(x.size());
     int da;
     //il faut verifier que A est carree
     //A n'est pas forcement symetrique  
-    da=A.size();
+    da=int(A.size());
     if (!(is_squarematrix(A)) || (da!=d) ){
       return gensizeerr(gettext("Invalid dimension"));
     } 
@@ -379,7 +379,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_a2q(args);
-    int s=args._VECTptr->size();
+    int s=int(args._VECTptr->size());
     if (s!=2)
       return gendimerr(contextptr);
     if ((args._VECTptr->front().type==_VECT) && (args._VECTptr->back().type==_VECT))
@@ -395,7 +395,7 @@ namespace giac {
     //(les variables sont dans x)
     int d;
     //d nbre de variables
-    d=x.size();
+    d=int(x.size());
     // int da;
     //il faut verifier que q est quadratique
     vecteur A;
@@ -414,6 +414,9 @@ namespace giac {
     if (is_undef(M))
       return undef;
     gen Mx,My,x(x__IDNT_e),y(y__IDNT_e),t(t__IDNT_e);
+    ck_parameter_x(contextptr);
+    ck_parameter_y(contextptr);
+    ck_parameter_t(contextptr);
     reim(M,Mx,My,contextptr);
     gen eqM=_quo(makesequence(subst(eq,makevecteur(x,y),makevecteur(Mx+x,My+t*x),false,contextptr),x),contextptr);
     vecteur res=solve(eqM,x,0,contextptr); // x in terms of t
@@ -1017,7 +1020,7 @@ namespace giac {
 
   gen conique_quadrique_reduite(const gen & args,GIAC_CONTEXT,bool conique){
     vecteur v(gen2vecteur(args));
-    int s=v.size();
+    int s=int(v.size());
     if (!s || s>4)
       return gendimerr(contextptr);
     if (s==4)

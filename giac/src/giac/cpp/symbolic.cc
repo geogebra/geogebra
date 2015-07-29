@@ -185,7 +185,7 @@ namespace giac {
     vecteur & v = *g.feuille._VECTptr;
     if (v.empty())
       return s;
-    int l=v.size();
+    int l=int(v.size());
     if (l==1)
       s += '+';
     add_print(s, v.front(),contextptr);
@@ -197,7 +197,7 @@ namespace giac {
   }
 
   static string & add_print_neg(string & s,const gen & feuille,GIAC_CONTEXT){
-    int l = s.size();
+    int l = int(s.size());
     // +- and -- -> - and +
     if (l && s[l-1]=='+')
       s[l-1]='-';
@@ -230,7 +230,7 @@ namespace giac {
       f=-f;
       isneg=!isneg;
     }
-    int l=s.size();
+    int l=int(s.size());
     if (isneg && l && s[l-1]=='-'){
       if (l==1) 
 	s.clear();
@@ -279,7 +279,7 @@ namespace giac {
     if (g.feuille.type!=_VECT)
       return add_print(s,g.feuille,contextptr);
     vecteur & v = *g.feuille._VECTptr;
-    int l=v.size();
+    int l=int(v.size());
     for (int i=0;i<l;++i){
       gen e(v[i]);
       if (e.type!=_SYMB){
@@ -428,7 +428,7 @@ namespace giac {
 
   static string & add_print_int(string & s,int i,GIAC_CONTEXT){
     char ch[32];
-    int l=s.size();
+    int l=int(s.size());
     if (i<0){
       if (l && s[l-1]=='+')
 	s[l-1]='-';
@@ -493,7 +493,7 @@ namespace giac {
       s += ')';
       return s;
     }
-    int l=g.feuille._VECTptr->size();
+    int l=int(g.feuille._VECTptr->size());
     s += g.sommet.ptr()->print(contextptr);
     s += '(';
     if (g.feuille.subtype!=_SEQ__VECT)
@@ -519,7 +519,7 @@ namespace giac {
 	(s += g._IDNTptr->print(contextptr));
       return s;
     }
-    int l=s.size();
+    int l=int(s.size());
     if (g.type==_INT_ && g.subtype==0)
       return add_print_int(s,g.val,contextptr);
     if (g.type==_VECT && g.subtype==0){
@@ -701,7 +701,7 @@ namespace giac {
     gen old;
     vecteur argl;
     signed char state;
-    nr_pointers_t(unsigned _arglpos,gen * _itbeg,gen * _it,gen * _itend,gen _old,int argls,signed char _state):itbeg(_itbeg),curpos(_it-_itbeg),endpos(_itend-_itbeg),arglpos(_arglpos),old(_old),argl(argls),state(_state) {};
+    nr_pointers_t(unsigned _arglpos,gen * _itbeg,gen * _it,gen * _itend,gen _old,int argls,signed char _state):itbeg(_itbeg),curpos(unsigned(_it-_itbeg)),endpos(unsigned(_itend-_itbeg)),arglpos(_arglpos),old(_old),argl(argls),state(_state) {};
     nr_pointers_t():itbeg(0),curpos(0),endpos(0),arglpos(0),old(0),argl(0),state(0){}
   };
 
@@ -761,7 +761,7 @@ namespace giac {
 #endif
 	if (lasterr.type==_STRNG || (destination->type==_STRNG && destination->subtype==-1)){
 	  // error!
-	  debug_ptr(contextptr)->current_instruction += itend-it;
+	  debug_ptr(contextptr)->current_instruction += int(itend-it);
 	  it=itend;
 	  if (lasterr.type!=_STRNG)
 	    lasterr=*destination;
@@ -781,7 +781,7 @@ namespace giac {
 	      }
 	      ++it;
 	      if (it==itend){
-		debug_ptr(contextptr)->current_instruction -= (itend-itbeg);
+		debug_ptr(contextptr)->current_instruction -= int(itend-itbeg);
 		for (it=itbeg;it!=itend;++it){
 		  if (it->is_symb_of_sommet(at_label) && label==it->_SYMBptr->feuille){
 		    *destination=*it;
@@ -824,7 +824,7 @@ namespace giac {
 		++destination;
 	      continue;
 	    }
-	    fromto_stack.push_back(nr_pointers_t(destination-(gen *) &argl.front(),itbeg,it,itend,old,1,state));
+	    fromto_stack.push_back(nr_pointers_t(unsigned(destination-(gen *) &argl.front()),itbeg,it,itend,old,1,state));
 	    argl.swap(fromto_stack.back().argl);
 	    // vecteur beginning by comment?
 	    tmp=*it;
@@ -924,7 +924,7 @@ namespace giac {
 	      continue;
 	    }
 	    // save pointers and state, eval args
-	    fromto_stack.push_back(nr_pointers_t(destination-(gen *)&argl.front(),itbeg,it,itend,old,1,state));
+	    fromto_stack.push_back(nr_pointers_t(unsigned(destination-(gen *)&argl.front()),itbeg,it,itend,old,1,state));
 	    argl.swap(fromto_stack.back().argl);
 	    state=specop?specop:nr_eval_op;
 	    old=*it;
@@ -1004,7 +1004,7 @@ namespace giac {
 	    else { 
 	      // tmp is a sequence inside a vector, 
 	      // enlarge argl and copy tmp._VECTptr in argl
-	      int pos=destination-(gen *)&argl.front();
+	      int pos=int(destination-(gen *)&argl.front());
 	      for (unsigned i=1;i<tmp._VECTptr->size();++i)
 		argl.push_back(0);
 	      destination=(gen *)&argl.front()+pos;
@@ -1438,7 +1438,7 @@ namespace giac {
     n=1; d=1;
     if (arg.type==_VECT && !arg._VECTptr->empty() && arg._VECTptr->back().is_symb_of_sommet(at_inv)) {
       vecteur & uv=*arg._VECTptr;
-      int tmps=uv.size(),invbegin;
+      int tmps=int(uv.size()),invbegin;
       vecteur den(1,uv.back()._SYMBptr->feuille);
       // group all inv from the end to the beginning for the denominator
       for (invbegin=tmps-2;invbegin>=0;--invbegin){

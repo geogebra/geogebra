@@ -4,7 +4,7 @@
 #undef clock
 #undef clock_t
 #ifndef ConnectivityKit
-#include "../../windows/stdafx.h"
+#include "../../../_windows/src/stdafx.h"
 #endif
 #endif
 
@@ -57,12 +57,30 @@ using namespace std;
 #include "maple.h"
 #include "solve.h"
 #include "csturm.h"
+#include "sparse.h"
 #include "giacintl.h"
 #ifdef RTOS_THREADX
 extern "C" uint32_t mainThreadStack[];
 #endif
 #ifdef HAVE_PTHREAD_H
 #include <pthread.h>
+#endif
+
+#ifdef EMCC_BIND
+#include <emscripten/bind.h>  
+#endif
+
+#ifdef EMCC
+#if 0 // def EMCC_GLUT
+#include <GL/glut.h>
+#else
+#include "SDL/SDL.h"
+#include <SDL/SDL_ttf.h>
+#include <emscripten.h>
+//#include "SDL/SDL_image.h"
+#include "SDL/SDL_opengl.h"
+#endif
+#include "opengl.h"
 #endif
 
 #ifdef USE_GMP_REPLACEMENTS
@@ -248,7 +266,11 @@ namespace giac {
 #ifdef NSPIRE
     dtostr(d,8,ch); // FIXME!
 #else
+#ifdef EMCC
+    sprintf(ch,format,d);
+#else
     my_sprintf(ch,format,d);
+#endif
 #endif
   }
 
@@ -530,6 +552,38 @@ namespace giac {
     if (g.type!=_CPLX)
       return 0;
     return (int *)(g._CPLXptr)-1;
+  }
+
+  gen::gen(long i) { 
+#ifdef COMPILE_FOR_STABILITY
+    control_c();
+#endif
+    val=(int)i;
+    //    longlong temp=val;
+    if (val==i && val!=1<<31){
+      type=_INT_;
+      subtype=0;
+    }
+    else {
+#ifdef SMARTPTR64
+      * ((longlong * ) this) = longlong(new ref_mpz_t(64)) << 16;
+#else
+      __ZINTptr = new ref_mpz_t(64);
+#endif
+      type =_ZINT;
+      subtype=0;
+      // convert longlong to mpz_t
+      bool signe=(i<0);
+      if (signe)
+	i=-i;
+      unsigned int i1=i>>32;
+      unsigned int i2=(unsigned int)i;
+      mpz_set_ui(*_ZINTptr,i1);
+      mpz_mul_2exp(*_ZINTptr,*_ZINTptr,32);
+      mpz_add_ui(*_ZINTptr,*_ZINTptr,i2);
+      if (signe)
+	mpz_neg(*_ZINTptr,*_ZINTptr);
+    }
   }
 
   gen::gen(longlong i) { 
@@ -2044,7 +2098,7 @@ namespace giac {
     gen G=g;
     if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val!=0)
       round2(G,int(nbits-std::log(std::abs(tmp._DOUBLE_val))/std::log(2.0)));
-    return G;
+    return evalf_double(G,1,context0);
 #endif
   }
 
@@ -2800,7 +2854,7 @@ namespace giac {
     }
     if (res.type==_VECT){
       vecteur v(*res._VECTptr);
-      int n=v.size();
+      int n=int(v.size());
       int r=0;
       for (int i=0;i<n;++i){
         r += adjust_complex_display(v[i],value);
@@ -2828,6 +2882,8 @@ namespace giac {
       return adjust_complex_display(gen(*_CPLXptr,-(*(_CPLXptr+1))),*this);
     case _VECT:
       return gen(_VECTconj(*_VECTptr,contextptr),subtype);
+    case _MAP:
+      return apply(*this,giac::conj,contextptr);
     case _USER:
       return _USERptr->conj(contextptr);
     case _IDNT: 
@@ -2850,6 +2906,18 @@ namespace giac {
 	gen a;
 	if (has_evalf(*this,a,1,contextptr) && is_zero(a.im(contextptr),contextptr))
 	  return *this;
+	if (_SYMBptr->feuille.type==_VECT && _SYMBptr->feuille._VECTptr->size()==2){
+	  vecteur tmp=*_SYMBptr->feuille._VECTptr;
+	  if (lidnt(tmp[1]).empty()){
+	    vecteur w=*tmp[1]._VECTptr;
+	    gen P;
+	    if (conj_in_nf(w,P,contextptr)){
+	      // P is a rootof such that conj(rootof(w))=P
+	      gen c=horner(tmp[0].conj(contextptr),P);
+	      return c;
+	    }
+	  }
+	}
       }
       if (equalposcomp(plot_sommets,_SYMBptr->sommet) || equalposcomp(analytic_sommets,_SYMBptr->sommet) || _SYMBptr->sommet==at_surd)
 	return new_ref_symbolic(symbolic(_SYMBptr->sommet,_SYMBptr->feuille.conj(contextptr)));
@@ -3064,6 +3132,17 @@ namespace giac {
 	  vecteur w=*tmp[1]._VECTptr;
 	  gen pol(symb_horner(w,vx_var));
 	  nrealposroot=sturmab(pol,vx_var,0,plus_inf,contextptr);
+	  if (nrealposroot==0 && is_zero(im(tmp[1],contextptr))){
+	    // complex, perhaps the conjugate is in the same nf
+	    gen P;
+	    if (conj_in_nf(w,P,contextptr)){
+	      // P is a rootof such that conj(rootof(w))=P
+	      gen c=horner(conj(tmp[0],contextptr),P);
+	      r=normal((s+c)/2,contextptr);
+	      i=normal((s-c)/2/cst_i,contextptr);
+	      return;
+	    }
+	  }
 	}
 	if (nrealposroot>0){
 	  reim(tmp[0],r,i,contextptr);
@@ -3366,6 +3445,8 @@ namespace giac {
       return *_CPLXptr;
     case _VECT:
       return gen(subtype==_POLY1__VECT?trim(_VECTre(*_VECTptr,contextptr),0):_VECTre(*_VECTptr,contextptr),subtype);
+    case _MAP:
+      return apply(*this,giac::re,contextptr);
     case _IDNT: 
       if (is_assumed_real(*this,contextptr))
 	return *this;
@@ -3477,6 +3558,8 @@ namespace giac {
       return *(_CPLXptr+1);
     case _VECT:
       return gen(subtype==_POLY1__VECT?trim(_VECTim(*_VECTptr,contextptr),0):_VECTim(*_VECTptr,contextptr),subtype);
+    case _MAP:
+      return apply(*this,giac::im,contextptr);
     case _IDNT: 
       if (is_inf(*this) || is_undef(*this))
 	return undef;
@@ -3528,8 +3611,8 @@ namespace giac {
 	return 0.0;
       else {
 #ifdef HAVE_LIBMPFR
-	tmp=accurate_evalf(s,ABS_NBITS_EVALF+10);
-	if (!is_greater(1,abs(tmp,contextptr)*pow(2,ABS_NBITS_EVALF,contextptr),contextptr)){
+	tmp=accurate_evalf(s,ABS_NBITS_EVALF+10)*pow(2,ABS_NBITS_EVALF,contextptr);
+	if (!is_greater(1,abs(tmp,contextptr),contextptr)){
 	  if (is_positive(tmp,contextptr))
 	    return s;
 	  return -s;
@@ -3537,7 +3620,7 @@ namespace giac {
 #else
 	return 0;
 #endif
-      }
+      }	
     }
     if (tmp.type==_FLOAT_){
       if (tmp._FLOAT_val>epsilon(contextptr))
@@ -3701,7 +3784,7 @@ namespace giac {
     if (is_zero(realpart,contextptr)){
       if (is_zero(imagpart,contextptr))
 	return undef;
-      return cst_pi_over_2*sign(imagpart,contextptr);
+      return (cst_pi_over_2-atan(realpart/imagpart,contextptr))*sign(imagpart,contextptr);
     }
     if (is_zero(imagpart,contextptr))
       return (1-sign(realpart,contextptr))*cst_pi_over_2;
@@ -3969,6 +4052,10 @@ namespace giac {
   }
 
   gen operator_plus_eq(gen &a,const gen & b,GIAC_CONTEXT){
+#ifdef EMCC
+    a=operator_plus(a,b,contextptr);
+    return a;
+#endif
     register unsigned t=(a.type<< _DECALAGE) | b.type;
     if (t==_DOUBLE___DOUBLE_){
 #ifdef DOUBLEVAL
@@ -4078,6 +4165,16 @@ namespace giac {
       if (a.subtype==_POINT__VECT && b.subtype==_POINT__VECT)
 	return gen(addvecteur(*a._VECTptr,*b._VECTptr),0);
       return gen(addvecteur(*a._VECTptr,*b._VECTptr),a.subtype?a.subtype:b.subtype);
+    case _MAP__MAP:
+      {
+	int arows,acols,an,brows,bcols,bn;
+	if ( (is_sparse_matrix(a,arows,acols,an) && is_sparse_matrix(b,brows,bcols,bn)) || (is_sparse_vector(a,arows,an) && is_sparse_vector(b,brows,bn)) ){
+	  gen_map res;
+	  gen g(res);
+	  sparse_add(*a._MAPptr,*b._MAPptr,*g._MAPptr);
+	  return g;
+	}
+      }
     case _INT___ZINT: 
       e = new ref_mpz_t;
       if (a.val<0)
@@ -4160,6 +4257,26 @@ namespace giac {
       if (b==unsigned_inf)
 	return b;
       return new_ref_symbolic(symbolic(at_plus,makesequence(a,b)));
+    case _VECT__MAP:
+      {
+	int brows,bcols,an;
+	if (is_sparse_matrix(b,brows,bcols,an)){
+	  matrice B;
+	  if (!convert(*b._MAPptr,B))
+	    return gendimerr(contextptr);
+	  return a+B;
+	}
+      }
+    case _MAP__VECT:
+      {
+	int arows,acols,an;
+	if (is_sparse_matrix(a,arows,acols,an)){
+	  matrice A;
+	  if (!convert(*a._MAPptr,A))
+	    return gendimerr(contextptr);
+	  return A+b;
+	}
+      }
     default:
       if (is_undef(a))
 	return a;
@@ -4293,18 +4410,22 @@ namespace giac {
 	if (is_undef(tmp)) return tmp;
 	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(va[0]+g*vb[0],va[1])));
       }
-      gen g=mksa_reduce(a,contextptr);
-      gen tmp=chk_not_unit(g);
-      if (is_undef(tmp)) return tmp;
-      return g+b;
+      if (lidnt(b).empty()){
+	gen g=mksa_reduce(a,contextptr);
+	gen tmp=chk_not_unit(g);
+	if (is_undef(tmp)) return tmp;
+	return g+b;
+      }
     }
     if (b.is_symb_of_sommet(at_unit)){
       if (is_zero(a))
 	return b;
-      gen g=mksa_reduce(b,contextptr);
-      gen tmp=chk_not_unit(g);
-      if (is_undef(tmp)) return tmp;
-      return a+g;
+      if (lidnt(a).empty()){
+	gen g=mksa_reduce(b,contextptr);
+	gen tmp=chk_not_unit(g);
+	if (is_undef(tmp)) return tmp;
+	return a+g;
+      }
     }
     if (a.is_approx()){
       gen b1;
@@ -4441,7 +4562,7 @@ namespace giac {
 	return gen(res,_PNT__VECT);
       }
       if (a.subtype!=_POLY1__VECT && ckmatrix(a)){ // matrix+cst
-	int s=res.size();
+	int s=int(res.size());
 	if (unsigned(s)==res.front()._VECTptr->size()){
 	  for (int i=0;i<s;i++){
 	    vecteur v = *res[i]._VECTptr;
@@ -4671,6 +4792,10 @@ namespace giac {
   }
 
   gen operator_minus_eq (gen & a,const gen & b,GIAC_CONTEXT){
+#ifdef EMCC
+    a=operator_minus(a,b,contextptr);
+    return a;
+#endif
     register unsigned t=(a.type<< _DECALAGE) | b.type;
     if (t==_DOUBLE___DOUBLE_){
 #ifdef DOUBLEVAL
@@ -4771,6 +4896,16 @@ namespace giac {
       if (a.subtype==_POINT__VECT && b.subtype==_POINT__VECT)
 	return gen(subvecteur(*a._VECTptr,*b._VECTptr),0);
       return gen(subvecteur(*a._VECTptr,*b._VECTptr),a.subtype);
+    case _MAP__MAP:
+      {
+	int arows,acols,an,brows,bcols,bn;
+	if ( (is_sparse_matrix(a,arows,acols,an) && is_sparse_matrix(b,brows,bcols,bn)) || (is_sparse_vector(a,arows,an) && is_sparse_vector(b,brows,bn)) ){
+	  gen_map res;
+	  gen g(res);
+	  sparse_sub(*a._MAPptr,*b._MAPptr,*g._MAPptr);
+	  return g;
+	}
+      }
     case _INT___ZINT: 
       e =  new ref_mpz_t; 
       if (a.val<0)
@@ -5115,6 +5250,13 @@ namespace giac {
       if (a.subtype==_PNT__VECT)
 	return gen(negfirst(*a._VECTptr),a.subtype);
       return gen(negvecteur(*a._VECTptr),a.subtype);
+    case _MAP:{
+      gen_map res;
+      gen g(res);
+      *g._MAPptr=*a._MAPptr;
+      sparse_neg(*g._MAPptr);
+      return g;
+    } 
     case _POLY:
       return -(*a._POLYptr);
     case _EXT:
@@ -5159,10 +5301,10 @@ namespace giac {
       return th;
     // Now look if length a=1 or length b=1, happens frequently
     // think of x^3*y^2*z translated to internal form
-    int c1=th._POLYptr->coord.size();
+    int c1=int(th._POLYptr->coord.size());
     if (c1==1)
       return other._POLYptr->shift(th._POLYptr->coord.front().index,th._POLYptr->coord.front().value);
-    int c2=other._POLYptr->coord.size();
+    int c2=int(other._POLYptr->coord.size());
     if (c2==1)
       return th._POLYptr->shift(other._POLYptr->coord.front().index,other._POLYptr->coord.front().value);
     ref_polynome * resptr = new ref_polynome(th._POLYptr->dim);
@@ -5523,6 +5665,78 @@ namespace giac {
       return spmul(*a._SPOL1ptr,*b._SPOL1ptr,contextptr);
     case _EXT__EXT:
       return ext_mul(a,b,contextptr);
+    case _MAP__MAP:
+      {
+	int arows,acols,an,brows,bcols,bn;
+	if (is_sparse_matrix(a,arows,acols,an) && is_sparse_matrix(b,brows,bcols,bn)){
+	  gen_map res;
+	  gen g(res);
+	  sparse_mult(*a._MAPptr,*b._MAPptr,*g._MAPptr);
+	  return g;
+	}
+      }
+    case _MAP__VECT:
+      {
+	int arows,acols,an;
+	if (is_sparse_matrix(a,arows,acols,an)){
+	  if (acols>b._VECTptr->size())
+	    return gendimerr(contextptr);
+	  if (ckmatrix(b)){
+	    vecteur A;
+	    convert(*a._MAPptr,A);
+	    return A*b;
+	  }
+	  smatrix as;
+	  if (convert(*a._MAPptr,as)){
+	    vecteur res;
+	    sparse_mult(as,*b._VECTptr,res);
+	    return res;
+	  }
+	  gen_map res;
+	  gen g(res);
+	  if (!sparse_mult(*a._MAPptr,*b._VECTptr,*g._MAPptr))
+	    return gendimerr(contextptr);
+	  // Should probably check if g is dense or not
+	  return g;
+	}
+      }
+    case _VECT__MAP:
+      {
+	int brows,bcols,an;
+	if (is_sparse_matrix(b,brows,bcols,an)){
+	  if (brows>a._VECTptr->size())
+	    return gendimerr(contextptr);
+	  if (ckmatrix(a)){
+	    vecteur B;
+	    convert(*b._MAPptr,B);
+	    return a*B;
+	  }
+	  smatrix bs;
+	  if (convert(*b._MAPptr,bs)){
+	    vecteur res;
+	    sparse_mult(*a._VECTptr,bs,res);
+	    return res;
+	  }
+	  gen_map res;
+	  gen g(res);
+	  if (!sparse_mult(*a._VECTptr,*b._MAPptr,*g._MAPptr))
+	    return gendimerr(contextptr);
+	  // Should probably check if g is dense or not
+	  return g;
+	}
+      }
+    case _INT___MAP: case _ZINT__MAP: case _DOUBLE___MAP: case _FLOAT___MAP: case _CPLX__MAP: case _SYMB__MAP: case _IDNT__MAP: case _POLY__MAP: case _EXT__MAP: case _MOD__MAP: case _FRAC__MAP: case _REAL__MAP: {
+	int brows,bcols,bn;
+	if (is_sparse_matrix(b,brows,bcols,bn)){
+	  gen_map res;
+	  gen g(res);
+	  if (is_zero(a))
+	    return g;
+	  *g._MAPptr=*b._MAPptr;
+	  sparse_mult(a,*g._MAPptr);
+	  return g;
+	}
+    }
     case _POLY__INT_: case _POLY__ZINT: case _POLY__DOUBLE_: case _POLY__FLOAT_: case _POLY__CPLX: case _POLY__USER: case _POLY__REAL:
       if (is_one(b))
 	return a;
@@ -5646,7 +5860,7 @@ namespace giac {
       if (f.type!=_VECT)
 	return minus1pow(f,contextptr);
       vecteur & v = *f._VECTptr;
-      int s=v.size();
+      int s=int(v.size());
       for (int i=0;i<s;++i)
 	res = res * minus1pow(v[i],contextptr);
       return res;
@@ -5655,7 +5869,7 @@ namespace giac {
       gen & f =exponent._SYMBptr->feuille;
       if (f.type==_VECT){
 	vecteur & v = *f._VECTptr;
-	int i,s=v.size();
+	int i,s=int(v.size());
 	bool even=false,perhapsone=true;
 	gen num=1,den=1;
 	for (i=0;i<s;++i){
@@ -5916,6 +6130,9 @@ namespace giac {
 	return fraction(1,pow(*base._POLYptr,-exponent.val));
       else
 	return pow(*base._POLYptr,exponent.val);
+    case _MAP__INT_:
+      if (exponent.val>=0)
+	return pow(base,exponent.val);
     case _FRAC__INT_:
       return pow(*base._FRACptr,exponent.val);
     case _EXT__INT_: case _MOD__INT_: case _VECT__INT_: case _USER__INT_:
@@ -6076,10 +6293,12 @@ namespace giac {
 	  return va[0]*v[0];
 	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(va[0]*v[0],res)));
       }
-      else
-	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(va[0]*b,va[1])));
+      else {
+	if (lidnt(b).empty())
+	  return new_ref_symbolic(symbolic(at_unit,makenewvecteur(va[0]*b,va[1])));
+      }
     }
-    if (b.is_symb_of_sommet(at_unit)){
+    if (b.is_symb_of_sommet(at_unit) && lidnt(a).empty()){
       vecteur & v=*b._SYMBptr->feuille._VECTptr;
       return new_ref_symbolic(symbolic(at_unit,makenewvecteur(a*v[0],v[1])));
     }
@@ -6247,6 +6466,10 @@ namespace giac {
     }
     if (b.is_symb_of_sommet(at_neg))
       return -operator_times(a,b._SYMBptr->feuille,contextptr);
+    if (a.type<=_CPLX && b.is_symb_of_sommet(at_inv)&& b._SYMBptr->feuille.type<=_CPLX)
+      return fraction(a,b._SYMBptr->feuille).normal();
+    if (b.type<=_CPLX && a.is_symb_of_sommet(at_inv)&& a._SYMBptr->feuille.type<=_CPLX)
+      return fraction(b,a._SYMBptr->feuille).normal();
     if ((a.type<=_REAL || a.type==_FLOAT_) && is_strictly_positive(-a,contextptr))
       return -sym_mult(-a,b,contextptr);
     if ((b.type<=_REAL || b.type==_FLOAT_) && is_strictly_positive(-b,contextptr))
@@ -6534,7 +6757,7 @@ namespace giac {
       // gauss integer power
       if (!exponent){
 	if (ckmatrix(base))
-	  return midn(base._VECTptr->size());
+	  return midn(int(base._VECTptr->size()));
 	return 1;
       }
       inpow(base,exponent,res);
@@ -6563,6 +6786,11 @@ namespace giac {
       return pow(*base._POLYptr,(int) exponent);
     case _FRAC:
       return pow(*base._FRACptr,(int) exponent);
+    case _MAP:{
+      gen res;
+      inpow(base,exponent,res);
+      return res;
+    }
     default: 
       if (is_undef(base))
 	return base;
@@ -6834,6 +7062,14 @@ namespace giac {
       if (a.subtype==_VECTOR__VECT)
 	return a*inv(b,contextptr);
       return gen(divvecteur(*a._VECTptr,b),a.subtype);
+    case _MAP__INT_: case _MAP__ZINT: case _MAP__DOUBLE_: case _MAP__FLOAT_: case _MAP__CPLX: 
+    case _MAP__SYMB: case _MAP__IDNT: case _MAP__POLY: case _MAP__EXT: {
+      gen_map m;
+      gen g(m);
+      *g._MAPptr=*a._MAPptr;
+      sparse_div(*g._MAPptr,b);
+      return g;
+    }
     case _VECT__VECT:
       if (a.subtype==_POLY1__VECT || b.subtype==_POLY1__VECT)
 	return fraction(a,b).normal();
@@ -7333,7 +7569,7 @@ namespace giac {
 
   // equality of vecteurs representing geometrical lines
   static bool geo_equal(const vecteur &v,const vecteur & w,int subtype,GIAC_CONTEXT){
-    int vs=v.size(),ws=w.size();
+    int vs=int(v.size()),ws=int(w.size());
     if (vs!=ws)
       return false;
     if (v==w)
@@ -7775,6 +8011,8 @@ namespace giac {
       return fis_nan(e._FLOAT_val);
     case _DOUBLE_:
       return my_isnan(e._DOUBLE_val);
+    case _CPLX:
+      return is_undef(*e._CPLXptr) || is_undef(*(e._CPLXptr+1));
     case _FRAC:
       return is_undef(e._FRACptr->num);
     default:
@@ -7798,7 +8036,7 @@ namespace giac {
     case _ZINT: 
       return (!mpz_sgn(*a._ZINTptr));
     case _REAL:
-      return a._REALptr->is_zero();
+      return fabs(evalf_double(a,1,contextptr)._DOUBLE_val)<=epsilon(contextptr);// return a._REALptr->is_zero();
     case _CPLX:
       return (is_zero(*a._CPLXptr,contextptr) && is_zero(*(a._CPLXptr+1),contextptr));
     case _DOUBLE_:
@@ -7972,7 +8210,7 @@ namespace giac {
     if (unsigned(i)>=_VECTptr->size()){
       if (xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38)
 	++i;
-      return gendimerr(gettext("Index outside range : ")+ print_INT_(i)+", vector size is "+print_INT_(_VECTptr->size())
+      return gendimerr(gettext("Index outside range : ")+ print_INT_(i)+", vector size is "+print_INT_(int(_VECTptr->size()))
 #ifndef GIAC_HAS_STO_38
 		       +", syntax compatibility mode "+print_program_syntax(xcas_mode(contextptr))
 #endif
@@ -8002,7 +8240,7 @@ namespace giac {
 	return (*this)[int(id)];
     }
     if ((type==_STRNG) && (i.type==_INT_)){
-      int s=_STRNGptr->size();
+      int s=int(_STRNGptr->size());
       if ( (i.val<s) && (i.val>=0))
 	return string2gen(string()+'"'+(*_STRNGptr)[i.val]+'"');
     }
@@ -8037,9 +8275,9 @@ namespace giac {
 	  int debut=i1.val,fin=i2.val;
 	  debut=giacmax(debut,0);
 	  if (type==_STRNG)
-	    fin=giacmin(fin,_STRNGptr->size()-1);
+	    fin=giacmin(fin,int(_STRNGptr->size())-1);
 	  if (type==_VECT)
-	    fin=giacmin(fin,_VECTptr->size()-1);
+	    fin=giacmin(fin,int(_VECTptr->size())-1);
 	  if (fin<debut)
 	    return (type==_STRNG)?string2gen("",false):gen(vecteur(0),subtype); // swap(debut,fin);
 	  if (type==_STRNG){
@@ -8071,7 +8309,7 @@ namespace giac {
 	      swap(debut,fin);
 	    if (res.type==_VECT){
 	      debut=giacmax(debut,0);
-	      fin=giacmin(fin,res._VECTptr->size()-1);
+	      fin=giacmin(fin,int(res._VECTptr->size())-1);
 	      iterateur jt=res._VECTptr->begin()+debut,jtend=_VECTptr->begin()+fin+1;
 	      gen fin_it(vecteur(it+1,itend),_SEQ__VECT);
 	      vecteur v;
@@ -8267,7 +8505,7 @@ namespace giac {
 	  abs_calc_mode(contextptr)==38){
 	if (i.type==_VECT){
 	  gen res=*this;
-	  int is=i._VECTptr->size();
+	  int is=int(i._VECTptr->size());
 	  for (int k=0;k<is;++k){
 	    res=res(i[k],contextptr);
 	  }
@@ -8295,13 +8533,14 @@ namespace giac {
   }
 
   static bool compare_VECT(const vecteur & v,const vecteur & w){
-    int s1=v.size(),s2=w.size();
+    int s1=int(v.size()),s2=int(w.size());
     if (s1!=s2)
       return s1<s2;
     const_iterateur it=v.begin(),itend=v.end(),jt=w.begin();
     for (;it!=itend;++it,++jt){
-      if (*it!=*jt)
+      if (*it!=*jt){
 	return it->islesscomplexthan(*jt);
+      }
     }
     // setsizeerr(); should not happen... commented because it happens!
     return false;
@@ -8310,8 +8549,10 @@ namespace giac {
   // return true if *this is "strictly less complex" than other
   bool gen::islesscomplexthan (const gen & other ) const {
     // FIXME it is not the natural order, but used for pivot selection
-    if (type<_IDNT && is_zero(*this,context0))
+    if (type<_IDNT && is_zero(*this,context0)){
+      // if (type==_INT_ && other.type==_INT_) return val<other.val;
       return false;
+    }
     if (other.type<_IDNT && is_zero(other,context0))
       return true;
     if (type != other.type)
@@ -8682,7 +8923,7 @@ namespace giac {
     }
     if (x._SYMBptr->sommet==at_prod && (tmp=x._SYMBptr->feuille).type==_VECT && !tmp._VECTptr->empty() ){
       vecteur & v = *tmp._VECTptr;
-      int s=v.size();
+      int s=int(v.size());
       if (s==2 && (sorted || tmp.subtype==_SORTED__VECT))
 	return makevecteur(v[0],v[1]);
       vecteur vtmp(v.begin(),v.end());
@@ -8905,7 +9146,7 @@ namespace giac {
       else
 	res.push_back(coeff*tmp);
     }
-    int s=res.size();
+    int s=int(res.size());
     if (!s)
       return zero;
     if (s==1)
@@ -9298,9 +9539,13 @@ namespace giac {
       if (d._EXTptr->type==_VECT){
 	vecteur u,v,dd;
 	if ( (d._EXTptr+1)->type!=_VECT)
-	  return gensizeerr(gettext("simplify"));
+	  return gensizeerr(gettext("gen.cc:simplify"));
 	egcd(*(d._EXTptr->_VECTptr),*((d._EXTptr+1)->_VECTptr),0,u,v,dd);
         gen tmp=algebraic_EXTension(u,*((d._EXTptr+1)->_VECTptr));
+	if (tmp.type!=_EXT){ 
+	  return gensizeerr(gettext("gen.cc:simplify/tmp.type!=_EXT")); 
+	  return 1;
+	}
 	n=n*tmp;
 	d=d*tmp;
 	return simplify(n,d)*inv_EXT(tmp);
@@ -10284,7 +10529,7 @@ namespace giac {
 #else
     longlong ll=strtoll(s,&endchar,base);
 #endif
-    int l =strlen(s);
+    int l =int(strlen(s));
     if (l>0 && s[l-1]=='.'){
       // make a copy of s, call chartab2gen recursivly, 
       // because some implementations of strtod do not like a . at the end
@@ -10449,7 +10694,7 @@ namespace giac {
 	  vecteur v(rlvarx(p,i__IDNT_e));
 	  if (!v.empty()){
 	    vecteur w=lop(v,at_program);
-	    int i,vs=w.size();
+	    int i,vs=int(w.size());
 	    for (i=0;i<vs;i++){
 	      gen & args = w[i]._SYMBptr->feuille;
 	      if (args.type!=_VECT || args._VECTptr->empty())
@@ -10460,7 +10705,7 @@ namespace giac {
 	      }
 	    }
 	    w=lop(v,at_local);
-	    vs=w.size();
+	    vs=int(w.size());
 	    for (i=0;i<vs;i++){
 	      gen & args = w[i]._SYMBptr->feuille;
 	      if (args.type!=_VECT || args._VECTptr->empty())
@@ -10471,7 +10716,7 @@ namespace giac {
 	      }
 	    }
 	    v=lop(v,at_sto);
-	    vs=v.size();
+	    vs=int(v.size());
 	    for (i=0;i<vs;i++){
 	      if (v[i]._SYMBptr->feuille[1]==i__IDNT_e){
 		*logptr(contextptr) << gettext("Warning, i is usually sqrt(-1), I'm using a symbolic variable instead but you should check your input") << endl;
@@ -10600,7 +10845,7 @@ namespace giac {
 
   static int protected_giac_yyparse(const string & chaine,gen & parse_result,GIAC_CONTEXT){
     int s;
-    s=chaine.size();
+    s=int(chaine.size());
     if (!s)
       return 1;
     int res=try_parse(chaine,contextptr);
@@ -10681,7 +10926,7 @@ namespace giac {
     const wchar_t * ptr=ws;
     for (;*ptr;++ptr){ ++l; }
     char * line=new char[4*l+1];
-    unicode2utf8(ws,line,l);
+    unicode2utf8(ws,line,int(l));
     string ss(line);
     delete [] line;
     subtype=0;
@@ -10820,7 +11065,7 @@ namespace giac {
       return gentypeerr(gettext("Bad array indexes"));
     vecteur & pv=*premidx._VECTptr;
     vecteur & lv=*lastidx._VECTptr;
-    unsigned ps=pv.size();
+    unsigned ps=unsigned(pv.size());
     vector<int> indexes(ps);
     if (lv.size()!=ps)
       return gendimerr(contextptr);
@@ -10874,7 +11119,12 @@ namespace giac {
 	else
 	  bb=bb+plus_one;
       }
-      s += bb.print(contextptr)+ " = " + it->second.print(contextptr);
+      if (bb.type==_VECT && bb.subtype==_SEQ__VECT)
+	s+='(';
+      s += bb.print(contextptr);
+      if (bb.type==_VECT && bb.subtype==_SEQ__VECT)
+	s+=')';
+      s += " = " + it->second.print(contextptr);
       ++it;
       if (it!=itend)
 	s += ',';
@@ -11216,8 +11466,8 @@ namespace giac {
     string s;
     if (subtype==_SPREAD__VECT && !v.empty() && v.front().type==_VECT){
       s = "spreadsheet[";
-      int nr=v.size();
-      int nc=v.front()._VECTptr->size();
+      int nr=int(v.size());
+      int nc=int(v.front()._VECTptr->size());
       for (int i=0;;){
 	int save_r,save_c;
 	vecteur & w=*v[i]._VECTptr;
@@ -11323,7 +11573,7 @@ namespace giac {
 
   string print_STRNG(const string & s){
     string res("\"");
-    int l=s.size();
+    int l=int(s.size());
     for (int i=0;i<l;++i){
       res += s[i];
       if (s[i]=='"')
@@ -11386,7 +11636,7 @@ namespace giac {
 
   wchar_t * gen::wprint(GIAC_CONTEXT) const {
     string s=print(contextptr);
-    unsigned int ss=s.size();
+    unsigned int ss=unsigned(s.size());
     wchar_t * ptr = (wchar_t *) malloc(sizeof(wchar_t)*(ss+1));
     /*
     unsigned int l=utf82unicode(s.c_str(),ptr,ss);
@@ -12206,7 +12456,7 @@ namespace giac {
     case _EQW:
       return print_EQW(*_EQWptr);
     case _POINTER_:
-      return "pointer("+hexa_print_INT_((alias_type)_POINTER_val)+","+print_INT_(subtype)+")";
+      return "pointer("+hexa_print_INT_(int((alias_type)_POINTER_val))+","+print_INT_(subtype)+")";
     default:
 #ifndef NO_STDEXCEPT
       settypeerr(gettext("print"));
@@ -12335,11 +12585,11 @@ namespace giac {
       pos=0;
     else
       pos=ligne_end.back()+1;
-    int l=chaine.size();
+    int l=int(chaine.size());
     string res;
     for (int i=0;i<l;){
       // look for \n between i and l
-      int k=chaine.find_first_of('\n',i);
+      int k=int(chaine.find_first_of('\n',i));
       if ( (l-i<nchar) && ((k<i)||(k>=l-1)) ){
 	ligne_end.push_back(pos+l);
 	// CERR << clock() << endl;
@@ -12352,9 +12602,9 @@ namespace giac {
       }
       else {
 	int j;
-	int j1=chaine.find_last_of('+',i+nchar+4*(i==0));
-	int j2=chaine.find_last_of('-',i+nchar+4*(i==0));
-	int j3=chaine.find_last_of(',',i+nchar+4*(i==0));
+	int j1=int(chaine.find_last_of('+',i+nchar+4*(i==0)));
+	int j2=int(chaine.find_last_of('-',i+nchar+4*(i==0)));
+	int j3=int(chaine.find_last_of(',',i+nchar+4*(i==0)));
 	j=giacmax(j1,giacmax(j2,j3));
 	if ((j-i)<(nchar/2))
 	  j=i+nchar+4*(i==0);
@@ -12375,7 +12625,7 @@ namespace giac {
     string res;
     endlines.clear();
     positions.clear();
-    int s_in=history_in.size(),s_out=history_out.size();
+    int s_in=int(history_in.size()),s_out=int(history_out.size());
     int s=giacmax(s_in,s_out);
     for (int i=0;i<s;++i){
       string chaine;
@@ -12420,7 +12670,7 @@ namespace giac {
   bool matchpos(const string & s,int & pos){
     char c=s[pos];
     char c_orig=c;
-    int l=s.size();
+    int l=int(s.size());
     int counter1=0,counter2=0,counter3=0,incr;
     if ( (c==')') || (c==']') || (c=='}') )
       incr=-1;
@@ -12476,7 +12726,7 @@ namespace giac {
   }
 
   static void find_left(const string & s,int & pos1,int & pos2){
-    int l=s.size();
+    int l=int(s.size());
     pos1=giacmin(giacmax(pos1,0),l);
     int pos1orig=pos1;
     if (!pos1)
@@ -12543,7 +12793,7 @@ namespace giac {
   }
 
   static void find_right(const string & s,int & pos1,int & pos2){
-    int l=s.size();
+    int l=int(s.size());
     pos1=giacmin(giacmax(pos1,0),l);
     pos2=giacmax(giacmin(pos2,l),0);
     int pos2orig=pos2;
@@ -12559,7 +12809,7 @@ namespace giac {
       if (ch==']')
 	--counter2;
       if ( (counter1<0) && (pos1) ){ // restart at an earlier position
-	pos1=s.find_last_of('(',pos1-1);
+	pos1=int(s.find_last_of('(',pos1-1));
 	if (pos1<0)
 	  pos1=0;
 	i=pos1-1;
@@ -12609,7 +12859,7 @@ namespace giac {
   }
 
   void increase_selection(const string & s,int & pos1,int& pos2){
-    int l=s.size();
+    int l=int(s.size());
     int pos1_orig(pos1),pos2_orig(pos2);
     // adjust selection (does not change anything on a valid selection)
     find_left(s,pos1,pos2);
@@ -12648,7 +12898,7 @@ namespace giac {
   }
 
   void decrease_selection(const string & s,int & pos1,int& pos2){
-    int l=s.size();
+    int l=int(s.size());
     int pos2_orig(pos2);
     // adjust selection (does not change anything on a valid selection)
     find_left(s,pos1,pos2);
@@ -12692,7 +12942,7 @@ namespace giac {
   }
 
   void move_selection_right(const string & s,int & pos1, int & pos2){
-    int l=s.size();
+    int l=int(s.size());
     // int pos1_orig(pos1),pos2_orig(pos2);
     // adjust selection (does not change anything on a valid selection)
     find_right(s,pos1,pos2);
@@ -12732,9 +12982,9 @@ namespace giac {
   }
 
   string remove_extension(const string & chaine){
-    int s=chaine.size();
-    int l=chaine.find_last_of('.',s);
-    int ll=chaine.find_last_of('/',s);
+    int s=int(chaine.size());
+    int l=int(chaine.find_last_of('.',s));
+    int ll=int(chaine.find_last_of('/',s));
     if (l>0 && l<s){
       if ( ll<=0 || ll>=s || l>ll)
 	return chaine.substr(0,l);
@@ -14248,6 +14498,7 @@ namespace giac {
     int cres=pthread_create(&pth,&attr,thread_caseval,(void *)&cp);
     if (cres){
       g=gen(s,&C);
+      g=equaltosto(g);
       g=protecteval(g,1,&C);
     }
     else {
@@ -14293,16 +14544,90 @@ namespace giac {
     }
 #else
     gen g(s,&C);
+    g=equaltosto(g);
+    if (g.type==_VECT && !g._VECTptr->empty() && g._VECTptr->front().is_symb_of_sommet(at_set_language)){
+      vecteur v=*g._VECTptr;
+      protecteval(v.front(),1,&C);
+      v.erase(v.begin());
+      if (g.subtype==_SEQ__VECT && v.size()==1)
+	g=v.front();
+      else
+	g=gen(v,g.subtype);
+    }
+    bool push=!g.is_symb_of_sommet(at_mathml);
+    if (push){
+      history_in(&C).push_back(g);
+      // COUT << "hin " << g << endl;
+    }
     g=protecteval(g,1,&C);
+    if (push){
+      history_out(&C).push_back(g);
+      // COUT << "hout " << g << endl;
+    }
+#endif
+#ifdef EMCC
+    // compile with -s LEGACY_GL_EMULATION=1
+    gen last=g;
+    while (last.type==_VECT && !last._VECTptr->empty())
+      last=last._VECTptr->back();
+    if (calc_mode(&C)!=1 && last.is_symb_of_sommet(at_pnt)){
+      if (is3d(last)){
+	//giac_renderer(last.print(&C).c_str());
+	giac_gen_renderer(g,&C);
+	return "Done";
+      }
+      bool fullview=true;
+      vector<double> vx,vy,vz;
+      double window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax;
+      bool ortho=autoscaleg(g,vx,vy,vz,&C);
+      autoscaleminmax(vx,window_xmin,window_xmax,fullview);
+      autoscaleminmax(vy,window_ymin,window_ymax,fullview);
+      double xscale=window_xmax-window_xmin,yscale=window_ymax-window_ymin;
+      double ratio=yscale/xscale;
+      double gratio=0.6,gwidth=9;
+      if (ratio<gratio/2 || ratio>2*gratio) ortho=false;
+      if (ortho){
+	if (ratio>gratio){ // yscale>gratio*xscale, use yscale for x
+	  double xc=(window_xmax+window_xmin)/2;
+	  window_xmin=xc-yscale/(2*gratio);
+	  window_xmax=xc+yscale/(2*gratio);
+	}
+	else { // xscale>yscale/gratio
+	  double yc=(window_ymax+window_ymin)/2;
+	  window_ymin=yc-gratio*xscale/2;
+	  window_ymax=yc+gratio*xscale/2;
+	}
+	ortho=false;
+      }
+      overwrite_viewbox(g,window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax);
+      //COUT << window_xmin << " " << window_xmax << " " << window_ymin << " " << window_ymax << endl;
+      //g=_symetrie(makesequence(_droite(makesequence(0,1),&C),g),&C);
+      //S='"'+svg_preamble(7,7,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,ortho,false)+gen2svg(g,&C)+svg_grid(gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax)+"</svg>\"";
+      S='"'+svg_preamble(gwidth,gwidth*gratio,window_xmin,window_xmax,window_ymin,window_ymax,ortho,false);
+      S= S+(gen2svg(g,window_xmin,window_xmax,window_ymin,window_ymax,&C)+svg_grid(window_xmin,window_xmax,window_ymin,window_ymax)+"</svg>\"");
+      return S.c_str();
+    }
 #endif
     if (!lop(g,at_rootof).empty())
       g=evalf(g,1,&C);
     if (has_undef_stringerr(g,S))
       S="GIAC_ERROR: "+S;
-    else
+    else {
+#if 1
       S=g.print(&C);
+#else
+      S=ingen2mathml(g,true,&C);
+#endif
+    }
     return S.c_str();
   }
+
+#ifdef EMCC_BIND
+  EMSCRIPTEN_BINDINGS(cas){
+    emscripten::function("caseval",&caseval,emscripten::allow_raw_pointers());
+  }
+#endif
+  
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

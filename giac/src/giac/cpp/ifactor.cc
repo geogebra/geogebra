@@ -39,7 +39,7 @@ using namespace std;
 #ifdef GIAC_HAS_STO_38
 #undef clock
 #undef clock_t
-#include "../../../native/AspenPCH.h"
+#include "PrimePCH.h"
 #else
 #include <fstream>
 //#include <unistd.h> // For reading arguments from file
@@ -253,7 +253,7 @@ namespace giac {
     if (C)
       C=giacmin(C,int(v.size()));
     else
-      C=v.size();
+      C=int(v.size());
     for (int c=0;c<C;++c){
       for (int s=0;s<32;++s){
 	os << (((v[c] >> s & 1)==1)?1:0) << " ";
@@ -266,7 +266,7 @@ namespace giac {
     if (L)
       L=giacmin(L,int(m.size()));
     else
-      L=m.size();
+      L=int(m.size());
     for (int l=0;l<L;++l){
       printbool(os,m[l]);
     }
@@ -427,7 +427,10 @@ namespace giac {
   typedef unsigned short int short_t;
 #endif
 
-#if defined(HASH_MAP_NAMESPACE) && defined(PRIMES32)
+#ifdef EMCC
+#include <map>
+#endif
+#if (defined EMCC || defined(HASH_MAP_NAMESPACE)) && defined(PRIMES32)
 #define ADDITIONAL_PRIMES_HASHMAP
 #endif
 #endif // RTOS_THREADX || BESTA_OS
@@ -463,7 +466,7 @@ namespace giac {
 #endif
 
 #ifdef ADDITIONAL_PRIMES_HASHMAP
-#if 0 // container does not seem to be important for <= 70 digits
+#ifdef EMCC // container does not seem to be important for <= 70 digits
   typedef map<unsigned,axbinv> additional_map_t;
 #else
   typedef HASH_MAP_NAMESPACE::hash_map<unsigned,axbinv,hash_function_unsigned_object > additional_map_t ;
@@ -701,7 +704,7 @@ namespace giac {
     int nbits=mpz_sizeinbase(*isqrtN._ZINTptr,2)+sizeinbase2(absshift>shiftss?absshift:shiftss);
     // int nbits1=int(0.5+std::log(evalf_double(isqrtN,1,context0)._DOUBLE_val/2.*(absshift>shiftss?absshift:shiftss))/std::log(2.));
     // int curbits=0;
-    int bs=basis.size();
+    int bs=int(basis.size());
     double up_to=1.5;
     if (nbits>70)
       up_to += (0.8*(nbits-70))/70;
@@ -846,7 +849,7 @@ namespace giac {
 #ifdef __x86_64__
       if ( !( (*st8  | st8[1] | st8[2] | st8[3] ) & 0x8080808080808080) )
 	continue;
-      int pos=((slicetype*)st8)-slice;
+      int pos=int(((slicetype*)st8)-slice);
 #else
       if ( !( (*st4  | st4[1] | st4[2] | st4[3] | st4[4] | st4[5] | st4[6] | st4[7]) & 0x80808080) )
 	continue;
@@ -1022,7 +1025,7 @@ namespace giac {
 	  ++nrelations;
 	  if (debug_infolevel>6)
 	    *logptr(contextptr) << clock() << gettext(" true relation ") << endl;
-	  axbmodn.push_back(axbinv(sqrtavals.size()-1,shiftpos,bvals.size()-1,puissancesptr-puissancesbegin,(puissancesptr-puissancesbegin)+curpuissances.size()));	
+	  axbmodn.push_back(axbinv(int(sqrtavals.size())-1,shiftpos,int(bvals.size())-1,int(puissancesptr-puissancesbegin),int(puissancesptr-puissancesbegin)+int(curpuissances.size())));	
 	  for (unsigned i=0;i<curpuissances.size();++puissancesptr,++i){
 	    if (puissancesptr>=puissancesend)
 	      return -1;
@@ -1084,7 +1087,7 @@ namespace giac {
 		continue;
 	      additional_primes.push_back(P);
 	      additional_primes_twice.push_back(false);
-	      Ppos=additional_primes.size()-1;
+	      Ppos=int(additional_primes.size())-1;
 	    }
 	    // add relation
 	    curpuissances.push_back(1); // marker
@@ -1094,7 +1097,7 @@ namespace giac {
 #endif
 #endif
 	    curpuissances.push_back(P);
-	    axbmodn.push_back(axbinv(sqrtavals.size()-1,shiftpos,bvals.size()-1,(puissancesptr-puissancesbegin),(puissancesptr-puissancesbegin)+curpuissances.size()));
+	    axbmodn.push_back(axbinv(int(sqrtavals.size())-1,shiftpos,int(bvals.size())-1,int(puissancesptr-puissancesbegin),int(puissancesptr-puissancesbegin)+int(curpuissances.size())));
 	    for (unsigned i=0;i<curpuissances.size();++puissancesptr,++i){
 	      if (puissancesptr>=puissancesend)
 		return -1;
@@ -1163,7 +1166,7 @@ namespace giac {
   }
 #endif
 
-#if (defined __i386__ || defined __x86_64__) && !defined PIC && !defined _I386_ && !defined __APPLE__ 
+#if (defined __i386__ || defined __x86_64__) && !defined PIC && !defined _I386_ && !defined __APPLE__ && !defined VISUALC
   #define _I386_
 #endif
 
@@ -1371,12 +1374,12 @@ namespace giac {
   }
 
   void add_relation(vector<line_t> relations,unsigned j,ushort_t * curpui,ushort_t * curpuiend,const vector<basis_t> & basis,const vector<additional_t> & additional_primes){
-    unsigned curpuisize=curpuiend-curpui;
+    unsigned curpuisize=unsigned(curpuiend-curpui);
     bool done=false;
     unsigned i=0; // position in basis
     unsigned k=0; // position in curpui
     additional_t p=0; // prime
-    unsigned bs=basis.size();
+    unsigned bs=unsigned(basis.size());
     for (;k<curpuisize;++k){
       p=curpui[k];
       if (p==0xffff){
@@ -1737,7 +1740,7 @@ namespace giac {
 		  ulonglong usqrta,
 #endif
 		  const gen & a,const gen & b,const vecteur & bvalues,mpz_t & zq,unsigned M){
-    unsigned bs=basis.size();
+    unsigned bs=unsigned(basis.size());
     basis_t * basisptr=&basis.front(),*basisend=basisptr+bs; 
 #ifdef SQRTMOD_OUTSIDE
     vector<ushort_t>::const_iterator sqrtmodit=sqrtmod.begin();
@@ -2028,7 +2031,7 @@ namespace giac {
 #endif
     }
     if (!lp_basis_pos)
-      lp_basis_pos=basis.size();
+      lp_basis_pos=unsigned(basis.size());
 #ifdef LP_SMALL_PRIMES
     vector<small_basis_t> small_basis(lp_basis_pos); // will be filled by primes<2^16
 #endif
@@ -2051,7 +2054,7 @@ namespace giac {
 #endif
     if (debug_infolevel)
       *logptr(contextptr) << clock() << gettext(" sieve basis OK, size ") << basis.size() << " largest prime in basis " << basis.back().p << " large prime " << maxadditional << " Mtarget " << Mtarget << endl ;
-    int bs=basis.size();
+    int bs=int(basis.size());
     gen isqrtN=isqrt(N);
     isqrtN.uncoerce(); 
     // now compare isqrtN to a^2 for a in the basis
@@ -2196,7 +2199,11 @@ namespace giac {
     vecteur sqrtavals,bvals;
 #ifdef GIAC_ADDITIONAL_PRIMES
 #ifdef ADDITIONAL_PRIMES_HASHMAP
+#ifdef EMCC
+    additional_map_t additional_primes_map;
+#else
     additional_map_t additional_primes_map(8*bs);
+#endif
     axbmodn.reserve(bs);
 #else 
 #if defined(RTOS_THREADX) || defined(BESTA_OS) || defined NSPIRE
@@ -2341,7 +2348,7 @@ namespace giac {
 #ifdef ADDITIONAL_PRIMES_HASHMAP
       todo_rel=bs+marge;
 #else
-      todo_rel=bs+marge+additional_primes.size();
+      todo_rel=bs+marge+unsigned(additional_primes.size());
 #endif
       if (axbmodn.size()>=todo_rel)
 	break;
@@ -2402,7 +2409,7 @@ namespace giac {
 	    if (bvalues.empty())
 	      bvalues.push_back(s);
 	    else {
-	      int js=bvalues.size();
+	      int js=int(bvalues.size());
 	      for (int j=0;j<js;++j){
 		bvalues.push_back(ichinrem(bvalues[j],-s,curprod,p2));
 		bvalues[j]=ichinrem(bvalues[j],s,curprod,p2);
@@ -2428,7 +2435,7 @@ namespace giac {
 #ifdef ADDITIONAL_PRIMES_HASHMAP
 	todo_rel=bs+marge;
 #else
-	todo_rel=bs+marge+additional_primes.size();
+	todo_rel=bs+marge+unsigned(additional_primes.size());
 #endif
 	if (axbmodn.size()>=todo_rel)
 	  break;
@@ -2621,7 +2628,7 @@ namespace giac {
 #ifdef ADDITIONAL_PRIMES_HASHMAP
 	  todo_rel=bs+marge;
 #else
-	  todo_rel=bs+marge+additional_primes.size();
+	  todo_rel=bs+marge+unsigned(additional_primes.size());
 #endif
 	  if (axbmodn.size()>=todo_rel)
 	    break;
@@ -2657,7 +2664,7 @@ namespace giac {
 #ifdef ADDITIONAL_PRIMES_HASHMAP
 	  todo_rel=bs+marge;
 #else
-	  todo_rel=bs+marge+additional_primes.size();
+	  todo_rel=bs+marge+unsigned(additional_primes.size());
 #endif
 	}
 	if (nrelationsb==0) 
@@ -2713,7 +2720,7 @@ namespace giac {
     if (debug_infolevel)
       *logptr(contextptr) << clock() << gettext(" removing additional primes") << endl;
     // remove relations with additional primes which are used only once
-    int lastp=axbmodn.size()-1,lasta=additional_primes.size()-1;
+    int lastp=int(axbmodn.size())-1,lasta=int(additional_primes.size())-1;
     for (int i=0;i<=lastp;++i){
       ushort_t * curbeg=puissancestab+axbmodn[i].first, * curend=puissancestab+axbmodn[i].second;
       bool done=false;
@@ -2824,15 +2831,15 @@ namespace giac {
     reverse(relations.begin(),relations.end());
 #endif // RREF_SORT
     // rref(relations,relations.size(),C32,0);
-    rref(relations,relations.size(),C32,1);
-    rref(relations,relations.size(),C32,2);
+    rref(relations,int(relations.size()),C32,1);
+    rref(relations,int(relations.size()),C32,2);
     if (debug_infolevel)
       *logptr(contextptr) << clock() << " end rref" << endl;
     // printbool(*logptr(contextptr),relations);
     // move pivots on the diagonal by inserting 0 lines
     vector< unsigned * > relations2(l32);
     i=0;
-    int j=0,rs=relations.size();
+    int j=0,rs=int(relations.size());
     for (;i<rs && j<l32;++j){
       if (relations[i].tab[j/32] & (1 << j%32)){
 	swap(relations2[j],relations[i].tab);
@@ -3302,7 +3309,7 @@ namespace giac {
     if (!eratosthene2(i*std::log(double(i))*1.1,vptr))
       return gensizeerr(contextptr);
     unsigned count=2;
-    unsigned s=vptr->size();
+    unsigned s=unsigned(vptr->size());
     for (unsigned k=2;k<s;++k){
       if ((*vptr)[k]){
 	++count;
@@ -3352,7 +3359,7 @@ namespace giac {
       return gensizeerr(contextptr);
     unsigned count=1; // 2 is prime, then count odd primes
     i=(i-1)/2;
-    for (unsigned k=1;k<=i;++k){
+    for (int k=1;k<=i;++k){
       if ((*vptr)[k])
 	++count;
     }
@@ -3750,7 +3757,7 @@ namespace giac {
     const vecteur & facto = ifactors(norm,contextptr);
     if (is_undef(facto))
       return facto;
-    int l=facto.size()/2;
+    int l=int(facto.size())/2;
     vecteur res;
     for (int i=0;i<l;++i){
       gen prime=facto[2*i];
@@ -3953,7 +3960,7 @@ namespace giac {
 
   static gen ifactors2ifactor(const vecteur & l,bool quote){
     int s;
-    s=l.size();
+    s=int(l.size());
     gen r;
     vecteur v(s/2);
     for (int j=0;j<s;j=j+2){
@@ -4013,9 +4020,9 @@ namespace giac {
   static vecteur divis(const vecteur & l3,GIAC_CONTEXT){
     vecteur l1(1);
     gen d,e;
-    int s=l3.size();
+    int s=int(l3.size());
     gen taille=1;
-    for (unsigned k=0;k<s;k+=2){
+    for (int k=0;k<s;k+=2){
       taille=taille*(l3[k+1]+1);
     }
     if (taille.type!=_INT_ || taille.val>LIST_SIZE_LIMIT)
@@ -4026,7 +4033,7 @@ namespace giac {
       vecteur l2;
       l2.reserve(taille.val);
       int s1;
-      s1=l1.size();
+      s1=int(l1.size());
       vecteur l4(s1);
       d=l3[k];
       e=l3[k+1];

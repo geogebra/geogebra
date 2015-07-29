@@ -22,6 +22,10 @@
 #include "config.h"
 #endif
 #include "first.h"
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 /*
 #ifndef WIN32
 #if defined(__APPLE__) || defined(__FreeBSD__) || defined(VISUALC) | defined(__NetBSD__) 
@@ -40,7 +44,7 @@
 #endif
 #include <map>
 #include "monomial.h"
-#ifdef HAVE_PTHREAD_H
+#if defined HAVE_PTHREAD_H && defined HAVE_LIBPTHREAD
 #include <pthread.h>
 #endif
 
@@ -56,7 +60,9 @@
 #if defined HAVE_SYS_TIME_H && !defined VISUALC13
 #include <time.h>
 #else
+#ifndef VISUALC13
 #define clock_t int
+#endif
 #define clock() 0
 #endif
 
@@ -921,7 +927,7 @@ namespace giac {
 
   template<class T,class U>
   void smallmulpoly_interpolate(const std::vector< T_unsigned<T,U> > & v1,const std::vector< T_unsigned<T,U> > & v2,std::vector< T_unsigned<T,U> > & v,const std::vector<U> & vars,const index_t & vdeg,int reduce){
-    int dim=vars.size();
+    int dim=int(vars.size());
     if (dim==1){
       smallmult(v1,v2,v,reduce,0);
       return;
@@ -959,7 +965,7 @@ namespace giac {
 
   template<class T,class U>
   void smallmulpoly_interpolate(const std::vector< T_unsigned<T,U> > & v1,const std::vector< T_unsigned<T,U> > & v2,std::vector< T_unsigned<T,U> > & v,const std::vector<U> & vars,const index_t & vdeg){
-    int dim=vars.size();
+    int dim=int(vars.size());
     if (dim==1){
       smallmult(v1,v2,v,0,0);
       return;
@@ -995,7 +1001,7 @@ namespace giac {
 
   template<class T,class U>
   void smallmulpoly_interpolate(const std::vector< T_unsigned<T,U> > & v1,const std::vector< T_unsigned<T,U> > & v2,std::vector< T_unsigned<T,U> > & v,const index_t & vdeg,int reduce){
-    int dim=vdeg.size();
+    int dim=int(vdeg.size());
     std::vector<U> vars(dim);
     vars.back()=vdeg.back();
     for (int i=dim-1;i>0;--i){
@@ -1006,7 +1012,7 @@ namespace giac {
 
   template<class T,class U>
   void smallmulpoly_interpolate(const std::vector< T_unsigned<T,U> > & v1,const std::vector< T_unsigned<T,U> > & v2,std::vector< T_unsigned<T,U> > & v,const index_t & vdeg){
-    int dim=vdeg.size();
+    int dim=int(vdeg.size());
     std::vector<U> vars(dim);
     vars.back()=vdeg.back();
     for (int i=dim-1;i>0;--i){
@@ -1098,7 +1104,7 @@ namespace giac {
     T g1,g;
     U u1=it1beg->u,u2=it2beg->u,u;
     v.clear();
-    unsigned v1s=it1end-it1beg,v2s=it2end-it2beg;
+    unsigned v1s=unsigned(it1end-it1beg),v2s=unsigned(it2end-it2beg);
     double v1v2=double(v1s)*v2s;
     U u12=u1+u2; // size of the array for array multiplication
     // compare u12 and v1v2*ln(v1v2)
@@ -1165,8 +1171,8 @@ namespace giac {
 	U_unsigned<U> * heap0, *heapbeg=heap,* heapend=heap+v1s;
 	for (it1=it1beg,heap0=heap;heap0!=heapend;++heap0,++it1){
 	  // vindex[it1-it1beg]=vector_size64< std::pair<unsigned,unsigned> >(1,std::pair<unsigned,unsigned>(it1-it1beg,0));
-	  vindex[it1-it1beg]=std::vector< std::pair<unsigned,unsigned> >(1,std::pair<unsigned,unsigned>(it1-it1beg,0));
-	  *heap0=U_unsigned<U>(it1->u+u2,it1-it1beg);
+	  vindex[it1-it1beg]=std::vector< std::pair<unsigned,unsigned> >(1,std::pair<unsigned,unsigned>(unsigned(it1-it1beg),0));
+	  *heap0=U_unsigned<U>(it1->u+u2,unsigned(it1-it1beg));
 	}
 	// vector_size64< std::pair<unsigned,unsigned> > nouveau;
 	std::vector< std::pair<unsigned,unsigned> > nouveau;
@@ -1206,7 +1212,7 @@ namespace giac {
 	  for (;it!=itend;++it){
 	    u=(it1beg+it->first)->u+(it2beg+it->second)->u;
 	    // check if u is in the path to the root of the heap
-	    unsigned holeindex=heapend-heapbeg,parentindex;
+	    unsigned holeindex=unsigned(heapend-heapbeg),parentindex;
 	    if (holeindex && u==heapbeg->u){
 	      vindex[heapbeg->v].push_back(*it);
 	      ++count1;
@@ -1252,7 +1258,7 @@ namespace giac {
 	typename mmap::iterator Mbeg,Mit=M.begin(),Mitbeg,Mend;
 	// fill M with (f_i,g_1)
 	for (it1=it1end-1;;){
-	  Mit=M.insert(Mit,std::pair<U,std::pair<unsigned,unsigned> >(it1->u+u2,std::pair<unsigned,unsigned>(it1-it1beg,0)));
+	  Mit=M.insert(Mit,std::pair<U,std::pair<unsigned,unsigned> >(it1->u+u2,std::pair<unsigned,unsigned>(unsigned(it1-it1beg),0)));
 	  if (it1==it1beg)
 	    break;
 	  --it1;
@@ -1301,7 +1307,7 @@ namespace giac {
 	typename mmap::iterator Mit=M.begin();
 	// fill M with (f_i,g_1)
 	for (it1=it1end-1;;){
-	  Mit=M.insert(Mit,std::pair<U,std::vector< std::pair<unsigned,unsigned> > >(it1->u+u2,std::vector< std::pair<unsigned,unsigned> > (1, std::pair<unsigned,unsigned>(it1-it1beg,0) )));
+	  Mit=M.insert(Mit,std::pair<U,std::vector< std::pair<unsigned,unsigned> > >(it1->u+u2,std::vector< std::pair<unsigned,unsigned> > (1, std::pair<unsigned,unsigned>(unsigned(it1-it1beg),0) )));
 	  if (it1==it1beg)
 	    break;
 	  --it1;
@@ -1341,7 +1347,7 @@ namespace giac {
       u_pair_index<U> newelem, * heap = new u_pair_index<U>[v1s] ; // pointers to v2 monomials
       u_pair_index<U> * heap0, *heapbeg=heap,* heapend=heap+v1s, * heaplast=heap+v1s-1;
       for (it1=it1beg,heap0=heap;heap0!=heapend;++heap0,++it1){
-	*heap0=u_pair_index<U>(it1-it1beg,0,it1->u+u2);
+	*heap0=u_pair_index<U>(unsigned(it1-it1beg),0,it1->u+u2);
       }
       for (;heapbeg!=heapend;){
 	if (!v.empty() && v.back().u==heapbeg->u){
@@ -1457,7 +1463,7 @@ namespace giac {
     U_unsigned<U> * heapptr;
   };
 
-#ifdef HAVE_PTHREAD_H
+#if defined HAVE_PTHREAD_H && defined HAVE_LIBPTHREAD
 
   template<class T,class U> void * do_threadmult(void * ptr){
     threadmult_t<T,U> * argptr = (threadmult_t<T,U> *) ptr;
@@ -2141,7 +2147,7 @@ namespace giac {
       // CERR << "hashdivrem end dim " << vars.size() << " clock " << clock() << std::endl;
       return 1;
     }
-    unsigned as=a.size(),bs=b.size();
+    unsigned as=unsigned(a.size()),bs=unsigned(b.size());
     double v1v2=double(as)*bs;
     // FIXME, if bdeg==0
     if ( (!quo_only || quo_only==3) && 
@@ -2334,7 +2340,7 @@ namespace giac {
 		for (;it!=itend;++it){
 		  u=(itbbeg+it->first)->u+(q.begin()+it->second)->u;
 		  // check if u is in the path to the root of the heap
-		  unsigned holeindex=heapend-heapbeg,parentindex;
+		  unsigned holeindex=unsigned(heapend-heapbeg),parentindex;
 		  if (holeindex && u==heapbeg->u){
 		    vindex[heapbeg->v].push_back(*it);
 		    continue;
@@ -2410,7 +2416,7 @@ namespace giac {
 	    continue;
 	  u=(itbbeg+it->first)->u+(q.begin()+it->second)->u;
 	  // check if u is in the path to the root of the heap
-	  unsigned holeindex=heapend-heapbeg,parentindex;
+	  unsigned holeindex=unsigned(heapend-heapbeg),parentindex;
 	  if (holeindex && u==heapbeg->u){
 	    vindex[heapbeg->v].push_back(*it);
 	    continue;
@@ -2510,7 +2516,7 @@ namespace giac {
 	  for (;it!=itend;++it){
 	    u=(itbbeg+it->first)->u+(q.begin()+it->second)->u;
 	    // check if u is in the path to the root of the heap
-	    unsigned holeindex=heapend-heapbeg,parentindex;
+	    unsigned holeindex=unsigned(heapend-heapbeg),parentindex;
 	    if (holeindex && u==heapbeg->u){
 	      vindex[heapbeg->v].push_back(*it);
 	      continue;
@@ -2670,7 +2676,7 @@ namespace giac {
     // copy remainder to r and sort
     unsigned rsize=0;
     for (int i=0;i<bdeg;++i)
-      rsize += produit[i].size();
+      rsize += unsigned(produit[i].size());
     r.reserve(rsize);
     T_unsigned<T,U> gu;
     for (int i=bdeg-1;i>=0;--i){
@@ -2729,7 +2735,7 @@ namespace giac {
 		const T & reduce){
     if (vars.empty())
       return it->g;
-    int dim=vars.size()-1,nterms;
+    int dim=int(vars.size())-1,nterms;
     if (dim!=int(v.size())){
 #ifndef NO_STDEXCEPT
       throw(std::runtime_error("Invalid dimension"));

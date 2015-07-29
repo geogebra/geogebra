@@ -198,10 +198,10 @@ namespace giac {
   const char mbox_end[]="}";
 
   string spread2tex(const matrice & m,int formule,GIAC_CONTEXT){
-    int l=m.size();
+    int l=int(m.size());
     if (!l)
       return "\\mbox{empty_spread}";
-    int c=m.front()._VECTptr->size();
+    int c=int(m.front()._VECTptr->size());
     string s("\\ \\mbox{\\begin{tabular}{|");
     for (int j=0;j<=c;++j)
       s += "r|";
@@ -233,7 +233,7 @@ namespace giac {
 	  int save_r=printcell_current_row(contextptr),save_c=printcell_current_col(contextptr);
 	  printcell_current_row(contextptr)=i,printcell_current_col(contextptr)=j;
 	  string t(m[i][j][0].print(contextptr)),tt;
-	  int ll=t.size();
+	  int ll=int(t.size());
 	  for (int l=0;l<ll;++l){
 	    if (t[l]!='$')
 	      tt += t[l];
@@ -261,10 +261,10 @@ namespace giac {
   }
 
   static string matrix2tex(const matrice & m,GIAC_CONTEXT){
-    int l=m.size();
+    int l=int(m.size());
     if (!l)
       return string("()");
-    int c=m.front()._VECTptr->size();
+    int c=int(m.front()._VECTptr->size());
     string s("\\left(\\begin{array}{");
     for (int j=0;j<c;++j)
       s += 'c';
@@ -524,7 +524,7 @@ namespace giac {
 
 
   int greek2tex(const string & s,string & texs,bool mathmode){
-    int n=s.size(),res=0;
+    int n=int(s.size()),res=0;
     wchar_t * w = new wchar_t[n+1];
     n=utf8(w,s.c_str(),n);
     for (int j=0;j<n;j++){
@@ -615,7 +615,7 @@ namespace giac {
     if (mathmode)
       return s0;
     mathmode=true;
-    int n=s0.size(),j;
+    int n=int(s0.size()),j;
     for (j=n-1;j>=2;--j){
       if (s0[j]>32 && isalpha(s0[j]))
 	break;
@@ -704,7 +704,7 @@ namespace giac {
   // output is written to file or to sres if file==NULL
   static bool pnt2tex_(FILE * file,const vecteur & v,double xmin,double ymin,double xmax,double ymax,double & xd,double & yd,bool & drawlegende, int & labelpos,int & couleur,string * sres,GIAC_CONTEXT){
     drawlegende=true;
-    int s=v.size();
+    int s=int(v.size());
     if (!s)
       return false;
     // set color
@@ -805,7 +805,7 @@ namespace giac {
       return false;
     }
     vecteur & w=*point._VECTptr;
-    int ws=w.size();
+    int ws=int(w.size());
     if (ws==2){ 
       gen A=w[0].evalf(1,contextptr),B=w[1].evalf(1,contextptr);
       gen Ax=re(A,contextptr),Ay=im(A,contextptr).evalf(1,contextptr),
@@ -1034,6 +1034,44 @@ namespace giac {
     return false;
   }
 
+  void overwrite_viewbox(const gen & g,double & window_xmin,double & window_xmax,double & window_ymin,double & window_ymax,double &window_zmin,double & window_zmax){
+    if (g.type==_VECT){
+      vecteur v =*g._VECTptr;
+      for (int i=0;i<int(v.size());++i){
+	overwrite_viewbox(v[i],window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax);
+      }
+    }
+    if (g.is_symb_of_sommet(at_equal)){
+      gen f=g._SYMBptr->feuille;
+      if (f.type==_VECT && f._VECTptr->size()==2){
+	gen optname= f._VECTptr->front(),optvalue=f._VECTptr->back();
+	if (optvalue.is_symb_of_sommet(at_interval) && optname.type==_INT_ && optname.subtype==_INT_PLOT && optname.val>=_GL_X && optname.val<=_GL_Z){
+	  gen optvf=evalf_double(optvalue._SYMBptr->feuille,1,context0);
+	  if (optvf.type==_VECT && optvf._VECTptr->size()==2){
+	    gen a=optvf._VECTptr->front();
+	    gen b=optvf._VECTptr->back();
+	    if (a.type==_DOUBLE_ && b.type==_DOUBLE_){
+	      switch (optname.val){
+	      case _GL_X:
+		window_xmin=a._DOUBLE_val;
+		window_xmax=b._DOUBLE_val;
+		break;
+	      case _GL_Y:
+		window_ymin=a._DOUBLE_val;
+		window_ymax=b._DOUBLE_val;
+		break;
+	      case _GL_Z:
+		window_zmin=a._DOUBLE_val;
+		window_zmax=b._DOUBLE_val;
+		break;
+	      }
+	    } 
+	  }
+	}
+      }
+    }
+  }
+
   static void zoom(double &m,double & M,double d){
     double x_center=(M+m)/2;
     double dx=(M-m);
@@ -1045,7 +1083,7 @@ namespace giac {
   }
 
   void autoscaleminmax(vector<double> & v,double & m,double & M,bool fullview){
-    int s=v.size();
+    int s=int(v.size());
     if (s>1){    
       sort(v.begin(),v.end());
       m=v[s/10];
@@ -1106,7 +1144,7 @@ namespace giac {
       return opstring + "\\left(" + gen2tex(feu,contextptr) +"\\right)" ;
     }
     string s;
-    int l=feu._VECTptr->size();
+    int l=int(feu._VECTptr->size());
     if ( mys.sommet==at_plus ){
       for (int i=0;i<l;++i){
 	gen e((*(feu._VECTptr))[i]);
@@ -1158,7 +1196,7 @@ namespace giac {
       string res=gen2tex(v.front(),contextptr);
       bool par = (v.front().type>=_CPLX || is_strictly_positive(-v.front(),contextptr) ) && v.front().type!=_IDNT && !ckmatrix(v.front());
       if (par){
-	int ress=res.size(),i;
+	int ress=int(res.size()),i;
 	for (i=1;i<ress;++i){
 	  if (res[i]<=32 || !isalpha(res[i]))
 	    break;
@@ -1299,7 +1337,7 @@ namespace giac {
       // fprintf(file,"\\psframe[fillstyle=solid,fillcolor=gray](%.4f,%.4f)(%.4f,%.4f)\n",X1,Y1,X2,Y2);
       vector<logo_turtle> w=vecteur2turtlevect(v);
       vector<logo_turtle> * turtleptr=&w;
-      int l=turtleptr->size();
+      int l=int(turtleptr->size());
       if (l>0){
 	double labelsep(0.1/xunit),angle(45);
 	fprintf(file,"%s{%.4f}[%.4f](%.4f,%.4f){%s%i}\n","%\\uput",labelsep,angle,X2-100,Y2-25, "x ",int(turtleptr->back().x+.5));
@@ -1415,7 +1453,7 @@ namespace giac {
   }
 
   std::string get_path(const string & st){
-    int s=st.size(),i;
+    int s=int(st.size()),i;
     for (i=s-1;i>=0;--i){
       if (st[i]=='/')
 	break;
@@ -1424,7 +1462,7 @@ namespace giac {
   }
 
   std::string remove_path(const std::string & st){
-    int s=st.size(),i;
+    int s=int(st.size()),i;
     for (i=s-1;i>=0;--i){
       if (st[i]=='/')
 	break;
@@ -1485,7 +1523,7 @@ namespace giac {
     if ( (args.type!=_VECT) || (args._VECTptr->size()<2) )
       return symbolic(at_graph2tex,args);
     vecteur & v=*args._VECTptr;
-    int vs=v.size();
+    int vs=int(v.size());
     if ( (v[0].type!=_STRNG) || (v[1].type!=_DOUBLE_) )
       return gensizeerr();
     if ( (vs>2) && (v[2].type==_DOUBLE_) )
@@ -1518,7 +1556,7 @@ namespace giac {
       return string2gen(s,false);
     }
     else { // search in history for the last plot command answer == to an int
-      int s=giacmin(history_out(contextptr).size(),history_in(contextptr).size());
+      int s=giacmin(int(history_out(contextptr).size()),int(history_in(contextptr).size()));
       for (int i=s-1;i>=0;--i){
 	if (history_out(contextptr)[i].is_symb_of_sommet(at_pnt) && history_out(contextptr)[i].subtype>=0)
 	  return history_out(contextptr)[i].subtype;

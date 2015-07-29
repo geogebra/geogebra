@@ -70,8 +70,8 @@ namespace giac {
     modpoly a(r0),b(r1),quo,r;
     gen b0(1);
     for (int loop_counter=0;;++loop_counter){
-      int m=a.size()-1;
-      int n=b.size()-1;
+      int m=int(a.size())-1;
+      int n=int(b.size())-1;
       int ddeg=m-n; // should be 1 generically
       if (!n) { // if b is constant, gcd=1
 	return 1;
@@ -130,7 +130,7 @@ namespace giac {
   }
 
   static int csturm_vertex_ab(const modpoly & r0,const modpoly & r1,const vecteur & listquo,const vecteur & coeffP, const vecteur & coeffR,const gen & a,int start,GIAC_CONTEXT){
-    int n=listquo.size(),j,k,res=0;
+    int n=int(listquo.size()),j,k,res=0;
     vecteur R(n+2);
     R[0]=csturm_horner(r0,a);
     R[1]=csturm_horner(r1,a);
@@ -172,7 +172,7 @@ namespace giac {
 #endif
 
   void change_scale(modpoly & p,const gen & l){
-    int n=p.size();
+    int n=int(p.size());
     gen lton(l);
     for (int i=n-2;i>=0;--i){
       p[i] = p[i] * lton;
@@ -181,7 +181,7 @@ namespace giac {
   }
 
   void back_change_scale(modpoly & p,const gen & l){
-    int n=p.size();
+    int n=int(p.size());
     gen lton(l);
     for (int i=n-2;i>=0;--i){
       p[i] = p[i] / lton;
@@ -462,7 +462,7 @@ namespace giac {
   }
 
   static void csturm_normalize(modpoly & p,const gen & a0,const gen & b0,const gen & a1,const gen & b1,vecteur & roots){
-    int n=p.size()-1;
+    int n=int(p.size())-1;
     // Make sure that x->a+i*x does not return a multiple 
     // of a real polynomial with the multiple non real
     // If degree of p is even the multiple will be a real (because of lcoeff)
@@ -476,7 +476,7 @@ namespace giac {
       modpoly q(taylor(p,shift));
       gen q0;
       // remove valuation
-      int qs=q.size();
+      int qs=int(q.size());
       int n1=0;
       for (;qs>0;--qs,++n1){
 	if (!is_zero(q0=q[qs-1]))
@@ -1061,7 +1061,7 @@ namespace giac {
     } // end for k
 #else
     if (N>int(P.size())/4-epsn/2)
-      N=P.size()/4-epsn/2;
+      N=int(P.size())/4-epsn/2;
     gen deuxN=pow(2,N,context0);
     for (int k=0;k<kmax;++k){
       in_round2(r,deuxN,N); // round2(r,deuxN,context0);
@@ -1280,7 +1280,7 @@ namespace giac {
       }
       return w;
     }
-    unsigned vs=v.size();
+    unsigned vs=unsigned(v.size());
     gen A(0),B(0),a0(minus_inf),b0(minus_inf),a1(plus_inf),b1(plus_inf);
     if (vs>3){
       A=v[2];
@@ -1438,7 +1438,7 @@ namespace giac {
   // This implementation is much faster, using basic data structures of giac
   // number of sign changes of the coefficients of P, returns -1 on error
   int variations(const modpoly & P,GIAC_CONTEXT){
-    int res=0,n=P.size();
+    int res=0,n=int(P.size());
     if (!n)
       return -1;
     int previous=fastsign(P.front(),contextptr);
@@ -1483,7 +1483,7 @@ namespace giac {
   }
 
   static bool compute_lnabsmantexpo(const vecteur & cl,vector<double> & cllnabsmant,vector<long int> & clexpo,vector<short int> & clsign,GIAC_CONTEXT){
-    int k=cl.size();
+    int k=int(cl.size());
     cllnabsmant.resize(k);
     clexpo.resize(k);
     clsign.resize(k);
@@ -1527,7 +1527,7 @@ namespace giac {
     //---Reference:"Linear and Quadratic Complexity Bounds on the Values of the 
     //---Positive Roots of Polynomials" by Alkiviadis G. Akritas. 
     //---Journal of Universal Computer Science, Vol. 15, No. 3, 523-537, 2009. 
-    int k=P.size();
+    int k=int(P.size());
     if (k<=1)
       return 0;
     vecteur cl;
@@ -1583,7 +1583,7 @@ namespace giac {
     //---Reference:"Linear and Quadratic Complexity Bounds on the Values of the 
     //---Positive Roots of Polynomials" by Alkiviadis G. Akritas. 
     //---Journal of Universal Computer Science, Vol. 15, No. 3, 523-537, 2009. 
-    int k=P.size();
+    int k=int(P.size());
     if (k<=1)
       return 0;
     vecteur cl(P);

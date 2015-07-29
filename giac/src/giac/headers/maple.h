@@ -18,12 +18,6 @@
 #ifndef _GIAC_MAPLE_H
 #define _GIAC_MAPLE_H
 #include "first.h"
-#ifndef HAVE_PNG_H
-#undef HAVE_LIBPNG
-#endif
-#ifdef HAVE_LIBPNG
-#include <png.h>
-#endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -91,9 +85,7 @@ namespace giac {
   gen _readrgb(const gen & g,GIAC_CONTEXT);
 
 
-#ifdef HAVE_LIBPNG
-  int write_png(const char *file_name, png_bytep *rows, int w, int h, int colortype, int bitdepth);
-#endif
+  int write_png(const char *file_name, void *rows, int w, int h, int colortype, int bitdepth);
   extern bool (* readrgb_ptr)(const std::string & s,int W,int H,gen & res);
 
   gen linear_apply(const gen & e,const gen & x,const gen & l,gen & remains, GIAC_CONTEXT, gen (* f)(const gen &,const gen &,const gen &,gen &,const context *));

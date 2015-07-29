@@ -435,7 +435,7 @@ namespace giac {
       return;
     }
     index_t::const_reverse_iterator ditbeg=deg.rbegin(),ditend=deg.rend(),dit;
-    int pdim=deg.size();
+    int pdim=int(deg.size());
     U u,prevu=0;
     int k;
     int count=0;
@@ -541,7 +541,7 @@ namespace giac {
   template<class T,class U>
   void convert_from(const std::vector< T_unsigned<T,U> > & v,const index_t & deg,polynome & p,bool threaded=false){
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v.begin(),itend=v.end();
-    p.dim=deg.size();
+    p.dim=int(deg.size());
     // p.coord.clear(); p.coord.reserve(itend-it);
     p.coord=std::vector< monomial<gen> >(itend-it);
     std::vector< monomial<gen> >::iterator jt=p.coord.begin();

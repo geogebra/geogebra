@@ -24,7 +24,7 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   class gen;
   gen incomplete_beta(double a,double b,double p,bool regularize=true);
-  gen lower_incomplete_gamma(double s,double z,bool regularize=true); // lower incomplete
+  gen lower_incomplete_gamma(double s,double z,bool regularize,GIAC_CONTEXT); // lower incomplete
 
 
   gen moyal(const gen & a,const gen & b,const gen & vars,const gen & order);
@@ -241,7 +241,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_polygamma ;
 
   // kind=0: BesselI, =1 BesselJ, =2 BesselK, =3 BesselY
-  gen Bessel(const gen & g,int kind,GIAC_CONTEXT);
+  gen Bessel(const gen & g,int kind,bool swap,GIAC_CONTEXT);
 
   gen _BesselI(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_BesselI ;

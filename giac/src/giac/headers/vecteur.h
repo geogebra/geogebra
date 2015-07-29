@@ -182,6 +182,8 @@ namespace giac {
   vecteur multvecteurmat(const vecteur & a,const matrice & b);
   // Scalar product (does not conjugate, see scalarproduct in misc.h)
   gen dotvecteur(const vecteur & a,const vecteur & b);
+  giac_double dotvecteur_double(const std::vector<giac_double> & a,const std::vector<giac_double> & c);
+  giac_double dotvecteur(const std::vector<giac_double> & a,const std::vector<giac_double> & c);
   gen dotvecteur(const gen & a,const gen & b);
   gen generalized_dotvecteur(const vecteur & a,const vecteur & b,int pos);
   vecteur generalized_multmatvecteur(const matrice & a,const vecteur & b);
@@ -239,6 +241,7 @@ namespace giac {
 
   bool convert(const vecteur & v,std::vector<giac_double> & v1,bool crunch);
   bool convert(const vecteur & v,std::vector< complex_double > & v1,bool crunch);
+  bool convert(const std::vector<giac_double> & v,vecteur & v1);
   void matrice2std_matrix_gen(const matrice & m,std_matrix<gen> & M);
   void std_matrix_gen2matrice(const std_matrix<gen> & M,matrice & m);
   bool vecteur2index(const vecteur & v,index_t & i);

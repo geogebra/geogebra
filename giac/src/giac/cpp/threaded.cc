@@ -343,7 +343,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       if (ctrl_c || interrupted || !DivRem(current,pcontxn,pminptr,modulo,tmp,reste))
 	return false;
       typename vector<T>::const_iterator jt=tmp.begin(),jtend=tmp.end();
-      for (int s=jtend-jt-1;jt!=jtend;++jt,--s){
+      for (int s=int(jtend-jt)-1;jt!=jtend;++jt,--s){
 	if (!is_zero(*jt))
 	  res.push_back(T_unsigned<T,hashgcd_U>(*jt,u+s*var2));
       }
@@ -428,7 +428,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	      index_t & res){
     typename vector< T_unsigned<T,hashgcd_U> >::const_iterator it=p.begin(),itend=p.end();
     index_t::const_iterator jtbeg=shift_vars.begin(),jtend=shift_vars.end(),jt;
-    int dim=jtend-jtbeg;
+    int dim=int(jtend-jtbeg);
     if (dim==1){
       int deg=it->u >> *jtbeg;
       res.clear();
@@ -587,11 +587,11 @@ mpz_class smod(const mpz_class & a,int reduce){
   // p main var is y, inner var is x
   static bool is_front_primitive(vector< vector<int> > & p,int modulo){
     vector< vector<int> >::iterator it=p.begin(),itend=p.end();
-    int degy=(itend-it)-1;
+    int degy=int(itend-it)-1;
     vector<int> degrees;
     int degs=0,d;
     for (it=p.begin();it!=itend;++it,--degy){
-      d=it->size();
+      d=int(it->size());
       // there is a x^d*y^degy term -> set degree of x^0 to x^d to degy at least 
       if (d>degs){
 	degrees.insert(degrees.end(),d-degs,degy);
@@ -617,7 +617,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     if (maxdeg>=0){
       uend=(maxdeg+1)*vars.front();
       // dichotomy to find start position
-      int pos1=0,pos2=itend-it,pos;
+      int pos1=0,pos2=int(itend-it),pos;
       for (;pos2-pos1>1;){
 	pos=(pos1+pos2)/2;
 	if ((it+pos)->u<uend)
@@ -921,7 +921,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   static void addmod(vector<int> & v,const vector<int> & w,int m){
     vector<int>::const_iterator jt=w.begin(),jtend=w.end();
     vector<int>::iterator it=v.begin(),itend=v.end();
-    int ws=jtend-jt,vs=v.size();
+    int ws=int(jtend-jt),vs=int(v.size());
     if (ws>vs){
       if ((int)v.capacity()<ws){
 	vector<int> tmp(ws);
@@ -950,7 +950,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   static void addmod(vector< vector<int> > & v,const vector< vector<int> > & w,int m){
     vector< vector<int> >::iterator it=v.begin(),itend=v.end();
     vector< vector<int> >::const_iterator jt=w.begin(),jtend=w.end();
-    int addv=(jtend-jt)-(itend-it);
+    int addv=int(jtend-jt)-int(itend-it);
     if (addv>0){
       v.insert(v.begin(),addv,vector<int>(0));
       it=v.begin();
@@ -965,7 +965,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   static void addmod(vecteur & v,const vecteur & w,int m){
     vecteur::const_iterator jt=w.begin(),jtend=w.end();
     vecteur::iterator it=v.begin(),itend=v.end();
-    int ws=jtend-jt,vs=v.size();
+    int ws=int(jtend-jt),vs=int(v.size());
     if (ws>vs){
       if ((int)v.capacity()<ws){
 	vecteur tmp(ws);
@@ -994,7 +994,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   static void submod(vector<int> & v,const vector<int> & w,int m){
     vector<int>::iterator it=v.begin(),itend=v.end();
     vector<int>::const_iterator jt=w.begin(),jtend=w.end();
-    int addv=(jtend-jt)-(itend-it);
+    int addv=int(jtend-jt)-int(itend-it);
     if (addv>0){
       v.insert(v.begin(),addv,0);
       it=v.begin();
@@ -1015,7 +1015,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   static void mulsubmod(int k,vector<int> & v,const vector<int> & w,int m){
     vector<int>::iterator it=v.begin(),itend=v.end();
     vector<int>::const_iterator jt=w.begin(),jtend=w.end();
-    int addv=(jtend-jt)-(itend-it);
+    int addv=int(jtend-jt)-int(itend-it);
     if (addv>0){
       v.insert(v.begin(),addv,0);
       it=v.begin();
@@ -1054,16 +1054,16 @@ mpz_class smod(const mpz_class & a,int reduce){
   // eval p at x with respect to all but the last variable
   template<class T>
   static bool horner(const std::vector< T_unsigned<T,hashgcd_U> > & p,const std::vector<int> & x,const std::vector<hashgcd_U> & vars,std::vector<T> & px,int modulo){
-    int s=x.size();
+    int s=int(x.size());
     // int xback=x.back();
-    int vs=vars.size();
+    int vs=int(vars.size());
     if (s+1!=vs || vs<2)
       return false; // setdimerr();
     hashgcd_U var=vars[vs-2],var2=vars.back();
     int shift_var=find_shift(var),shift_var2=find_shift(var2);
     typename vector< T_unsigned<T,hashgcd_U> >::const_iterator it=p.begin(),itend=p.end();
     if (is_zero(x)){
-      int pos1=0,pos2=itend-it,pos;
+      int pos1=0,pos2=int(itend-it),pos;
       for (;pos2-pos1>1;){
 	pos=(pos1+pos2)/2;
 	if ((it+pos)->u<var)
@@ -1137,7 +1137,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   static void convert_back(const vector<T> & v,hashgcd_U var,vector< T_unsigned<T,hashgcd_U> > & p){
     p.clear();
     typename vector<T>::const_iterator it=v.begin(),itend=v.end();
-    unsigned s=itend-it;
+    unsigned s=unsigned(itend-it);
     p.reserve(s);
     hashgcd_U u=var*(s-1);
     for (;it!=itend;u-=var,++it){
@@ -1151,8 +1151,8 @@ mpz_class smod(const mpz_class & a,int reduce){
     vector< T_unsigned<int,hashgcd_U> >::iterator kt=p.begin(),ktend=p.end();
     for (;jt!=jtend;++jt){
       vector<int>::const_iterator it=jt->begin(),itend=jt->end();
-      unsigned s=itend-it;
-      hashgcd_U u=var2*(s-1)+varxn*((jtend-jt)-1);
+      unsigned s=unsigned(itend-it);
+      hashgcd_U u=var2*(s-1)+varxn*(unsigned(jtend-jt)-1);
       for (;it!=itend;u-=var2,++it){
 	if (*it!=0){
 	  if (kt!=ktend){
@@ -1473,7 +1473,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     pv.clear();
     vector< T_unsigned<int,hashgcd_U> >::const_iterator it=p.begin(),itend=p.end();
     vector<int>::const_iterator jtbeg=v.begin(),jtend=v.end(),jt;
-    int vs=jtend-jtbeg,j;
+    int vs=int(jtend-jtbeg),j;
     pv.reserve((itend-it)*vs);
     if (modulo>=46340){
       for (;it!=itend;++it){
@@ -1505,7 +1505,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     vector< T_unsigned<vector<int>,hashgcd_U> >::const_iterator it=p.begin(),itend=p.end();
     vector<int> tmp;
     vector<int>::const_iterator jtbeg=v.begin(),jtend=v.end(),jt;
-    int vs=jtend-jtbeg,j;
+    int vs=int(jtend-jtbeg),j;
     pv.reserve((itend-it)*vs);
     for (;it!=itend;++it){
       for (jt=jtbeg,j=1;jt!=jtend;++j,++jt){
@@ -1804,7 +1804,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   }
 
   static bool is_p_a_times_b(const vector<int> & p,const vector<int> & a,const vector<int> & b,int modulo,int maxdeg){
-    int as=a.size(),bs=b.size(),ps=p.size();
+    int as=int(a.size()),bs=int(b.size()),ps=int(p.size());
     if (ps!=as+bs-1 && ps!=maxdeg+1)
       return false;
     if (ps<=maxdeg){
@@ -1854,11 +1854,11 @@ mpz_class smod(const mpz_class & a,int reduce){
       return p.empty();
     if (p.empty())
       return false;
-    int dim=vars.size()-1;
+    int dim=int(vars.size())-1;
     if (dim<=0)
       return false; // setdimerr();
     // double as=a.size(),bs=b.size();
-    double ps=p.size();
+    double ps=double(p.size());
     hashgcd_U var2=vars[dim-1];
     if (dim==1){
       // ? dense vector<int> multiplication or sparse mult ?
@@ -1952,7 +1952,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 
   template<class T>
   static void divided_differences(const vector<int> & x,vector< vector< T_unsigned<T,hashgcd_U> > > & res,int modulo){
-    int s=x.size();
+    int s=int(x.size());
     int fact;
     vector< T_unsigned<T,hashgcd_U> > tmp;
     for (int k=1;k<s;++k){
@@ -1970,7 +1970,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   template<class T>
   static void interpolate(const vector<int> & x,vector< vector< T_unsigned<T,hashgcd_U> > > & diff,vector< T_unsigned<T,hashgcd_U> > & res,hashgcd_U varx,int modulo){
     divided_differences(x,diff,modulo);
-    int s=diff.size();
+    int s=int(diff.size());
     vector<int> interp(1,1);
     res=diff.front();
     int alpha;
@@ -1999,7 +1999,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   }
 
   static void divided_differences(const vector<int> & x,vector< vector<int> > & res,int modulo){
-    int s=x.size();
+    int s=int(x.size());
     int fact;
     for (int k=1;k<s;++k){
       for (int j=s-1;j>=k;--j){
@@ -2019,10 +2019,10 @@ mpz_class smod(const mpz_class & a,int reduce){
     divided_differences(x,diff,modulo);
     // CERR << "end diff div " << clock() << endl;
     res.clear();
-    int s=diff.size(),alpha;
+    int s=int(diff.size()),alpha;
     int ysize=0,cur;
     for (int i=0;i<s;++i){
-      if ( (cur=diff[i].size()) >ysize )
+      if ( (cur=int(diff[i].size())) >ysize )
 	ysize=cur;
     }
     res.reserve(ysize);
@@ -2030,7 +2030,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       res.push_back(vector<int>(0));
       vector<int> & curx = res.back();
       vector<int> & cury = diff[s-1];
-      if ( (cur=cury.size()) >i)
+      if ( (cur=int(cury.size())) >i)
 	curx.push_back(cury[cur-1-i]);
       for (int j=s-2;;--j){
 	// multiply curx by (x-x[j])
@@ -2046,7 +2046,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	}
 	// add diff[j]
 	vector<int> & cury = diff[j];
-	if ( (cur=cury.size()) >i){
+	if ( (cur=int(cury.size())) >i){
 	  if (curx.empty())
 	    curx.push_back(cury[cur-1-i]);
 	  else
@@ -2074,7 +2074,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     }
     */
     // unsigne res
-    s=res.size();
+    s=int(res.size());
     for (int j=0;j<s;++j){
       vector<int> & cur=res[j];
       vector<int>::iterator it=cur.begin(),itend=cur.end();
@@ -2273,7 +2273,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     }
     d.clear();
     // Check dim, if 1 ->
-    int dim=vars.size();
+    int dim=int(vars.size());
     if (dim==1){
       hashgcd_U var=vars.front();
       vector<int> pv,qv,dv,pvcof,qvcof;
@@ -2367,12 +2367,12 @@ mpz_class smod(const mpz_class & a,int reduce){
       for (;;){
 	for (int i=0;i<dim-1;++i)
 	  bnext[i]=std_rand() % modulo;
-	if (bnext!=b){ b=bnext; break; }
+	if (!(bnext==b)){ b=bnext; break; }
       }
       if (int(pb.size())!=pxndeg+1 || int(qb.size())!=qxndeg+1)
 	continue;
       gcdsmallmodpoly(pb,qb,modulo,db);
-      int dbdeg=db.size()-1;
+      int dbdeg=int(db.size())-1;
       if (!dbdeg){
 	d=dcont;
 	if (compute_pcofactor){
@@ -2449,7 +2449,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     // gcddeg*size estimates the time for lifting to gcddeg
     // sumdeg*size estimates the time for full lifting
     // if sumdeg<(gcddeg+%age^dim*(1-%age)^dim*size) do full lifting
-    int Deltadeg = Delta.size()-1,liftdeg=(compute_qcofactor?qxndeg:pxndeg)+Deltadeg;
+    int Deltadeg = int(Delta.size())-1,liftdeg=(compute_qcofactor?qxndeg:pxndeg)+Deltadeg;
     int gcddeg_plus_delta=gcddeg+Deltadeg;
     int liftdeg0=giacmax(liftdeg-gcddeg,gcddeg_plus_delta);
     // once liftdeg0 is reached we can replace g/gp/gq computation
@@ -2457,7 +2457,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     // and d*dq=dxn*lcoeff(d*dq)/lcoeff(qxn) at alpha
     int sumdeg = pxndeg+qxndeg;
     double percentage = double(gcddeg)/giacmin(pxndeg,qxndeg);
-    int sumsize = p.size()+q.size();
+    int sumsize = int(p.size()+q.size());
     // ? add a malus factor for division
     double gcdlift=gcddeg+std::pow(percentage,dim)*std::pow(1-percentage,dim)*sumsize;
     bool compute_cof = dim==2 || sumdeg<gcdlift;
@@ -2773,7 +2773,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       pthread_t tab[nthreads-1];
 #endif
       for (int thread=0;thread<nthreads;++thread){
-	int vpos=alphav.size()-(nthreads-thread);
+	int vpos=int(alphav.size())-(nthreads-thread);
 	gcd_call_param_v[thread].vpos=vpos;
 	if (thread!=nthreads-1 && !dim2){
 	  gcd_call_param_v[thread].pv=0;
@@ -2811,12 +2811,12 @@ mpz_class smod(const mpz_class & a,int reduce){
       }
 #endif
       for (int thread=0;thread<nthreads;++thread){
-	int vpos=alphav.size()-(nthreads-thread);
+	int vpos=int(alphav.size())-(nthreads-thread);
 	// Compare gcd degree in x1..xn-1, 0 means trash this value of alpha1
 	int comp=0;
 	if ( dim2 ? (!dim2gcdv[vpos].empty()) : (!gcdv[vpos].empty()) ){
 	  if (dim2)
-	    gdeg[0]=dim2gcdv[vpos].size()-1;
+	    gdeg[0]=int(dim2gcdv[vpos].size())-1;
 	  else
 	    degree(gcdv[vpos],shift_vars_truncated,gdeg);
 	  comp=compare(gdeg,delta); 
@@ -2859,7 +2859,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 		}
 		vector< T_unsigned<int,hashgcd_U> > trygcd,pquo,qquo,tmprem;
 		index_t::const_iterator it=vzero.begin(),itend=vzero.end();
-		int deg=itend-it-1;
+		int deg=int(itend-it)-1;
 		for (int j=0;it!=itend;++it,--deg){
 		  if (!*it)
 		    continue;
@@ -3410,8 +3410,8 @@ mpz_class smod(const mpz_class & a,int reduce){
 	if (compute_cofactors){
 	  // d*pcofactor=p_orig*gcdlcoeff mod pimod
 	  // if |gcdlcoeff*p_orig|+|g|*|pcof|*min(size(g),size(pcof))< pimod we are done
-	  int mgp=std::min(d.size(),pcofactor.size());
-	  int mgq=std::min(d.size(),qcofactor.size());
+	  int mgp=int(std::min(d.size(),pcofactor.size()));
+	  int mgq=int(std::min(d.size(),qcofactor.size()));
 	  gen maxg=max(d,context0),maxp=max(p_orig,context0),maxq=max(q_orig,context0),maxpcof=max(pcofactor,context0),maxqcof=max(qcofactor,context0);
 	  gen dz=ppz(d,0,false),pz=ppz(pcofactor,0,false),qz=ppz(qcofactor,0,false);
 	  maxg = maxg/abs(dz,context0);
@@ -3507,8 +3507,8 @@ mpz_class smod(const mpz_class & a,int reduce){
       if (compute_cofactors){
 	// d*pcofactor=p_orig*gcdlcoeff mod pimod
 	// if |gcdlcoeff*p_orig|+|g|*|pcof|*min(size(g),size(pcof))< pimod we are done
-	int mgp=std::min(d.size(),pcofactor.size());
-	int mgq=std::min(d.size(),qcofactor.size());
+	int mgp=int(std::min(d.size(),pcofactor.size()));
+	int mgq = int(std::min(d.size(), qcofactor.size()));
 	gen maxg=max(d,context0),maxp=max(p_orig,context0),maxq=max(q_orig,context0),maxpcof=max(pcofactor,context0),maxqcof=max(qcofactor,context0);
 	gen dz=ppz(d,0,false),pz=ppz(pcofactor,0,false),qz=ppz(qcofactor,0,false);
 	maxg = maxg/ dz;
@@ -3820,7 +3820,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   // a=b*q+r, modifies b (multiplication by inverse of lcoeff)
   // if you want q corresponding to original b, set q_orig_b to true
   static bool divrem(vector< vector<int> > & a,vector< vector<int> > & b,const vector<int> & pmin, int modulo, vector< vector<int> > * qptr,bool set_q_orig_b){
-    int as=a.size(),bs=b.size();
+    int as=int(a.size()),bs=int(b.size());
     if (!bs)
       return false;
     vector<int> b0,b0inv;
@@ -3968,7 +3968,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   static bool polyfracmod(const vector<int> & a,const vector<int> &m,int modulo,vector<int> & n, vector<int> & d){
     vector<int> r0(m),r1(a),r2,v0,v1(1,1),v2,q,tmp;
     // m*u0+a*v0=m=r0, m*u1+a*v1=a=r1, u0, u1 and u2 are not computed (not used)
-    int N=(m.size()-1)/2;
+    int N=int(m.size()-1)/2;
     for (;(int)r1.size()>N+1;){
       DivRem(r0,r1,modulo,q,r2);
       smallmult(q.begin(),q.end(),v1.begin(),v1.end(),tmp,modulo);
@@ -4140,7 +4140,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	}
       }
     }
-    return ppcm.size();
+    return int(ppcm.size());
   }
 
   static bool gentoint(const vector< T_unsigned<vecteur,hashgcd_U> > & p0,vector< T_unsigned<vector<int>,hashgcd_U> > & p){
@@ -4303,7 +4303,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   }
 
   static vecteur interp_tk(const vecteur & interp_ancien,const gen & ancienpi,const vecteur & interp_tk,int tk,int modulo){
-    int as=interp_ancien.size(),bs=interp_tk.size(),cs=giacmax(as,bs);
+    int as=int(interp_ancien.size()),bs=int(interp_tk.size()),cs=giacmax(as,bs);
     vecteur res(cs);
     gen pi(hornermod(ancienpi,tk,modulo));
     if (pi.type!=_INT_)
@@ -4345,7 +4345,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	g=0;
 	return;
       }
-      i.back()=(jtend-jt)-1;
+      i.back()=int(jtend-jt)-1;
       for (;jt!=jtend;--i.back(),++jt){
 	if (!is_zero(*jt))
 	  p.coord.push_back(monomial<gen>(*jt,i));
@@ -4366,7 +4366,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	const_iterateur jt=it->value._VECTptr->begin(),jtend=it->value._VECTptr->end();
 	if (jtend==jt)
 	  continue;
-	i.back()=(jtend-jt)-1;
+	i.back()=int(jtend-jt)-1;
 	for (;jt!=jtend;--i.back(),++jt){
 	  if (!is_zero(*jt))
 	    p.coord.push_back(monomial<gen>(*jt,i));	
@@ -4554,7 +4554,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 
   std::vector<int> operator + (const std::vector<int> & a, const std::vector<int> & b){
     std::vector<int>::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin(),itbend=b.end();
-    unsigned s=itaend-ita,t=itbend-itb;
+    unsigned s=unsigned(itaend-ita),t=unsigned(itbend-itb);
     if (s>=t){
       std::vector<int> res(a);
       std::vector<int>::iterator itres=res.begin()+(s-t);  
@@ -4573,7 +4573,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 
   std::vector<int> operator - (const std::vector<int> & a, const std::vector<int> & b){
     std::vector<int>::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin(),itbend=b.end();
-    unsigned s=itaend-ita,t=itbend-itb;
+    unsigned s=unsigned(itaend-ita),t=unsigned(itbend-itb);
     if (s>=t){
       std::vector<int> res(a);
       std::vector<int>::iterator itres=res.begin()+(s-t);  
@@ -4622,7 +4622,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     pv.clear();
     vector< T_unsigned<vector<int>,hashgcd_U> >::const_iterator it=p.begin(),itend=p.end();
     vector< vector<int> >::const_iterator jtbeg=v.begin(),jtend=v.end(),jt;
-    int vs=jtend-jtbeg,j;
+    int vs=int(jtend-jtbeg),j;
     pv.reserve((itend-it)*vs);
     for (;it!=itend;++it){
       for (jt=jtbeg,j=1;jt!=jtend;++j,++jt){
@@ -4645,7 +4645,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     if (maxdeg>=0){
       uend=(maxdeg+1)*vars.front();
       // dichotomy to find start position
-      int pos1=0,pos2=itend-it,pos;
+      int pos1=0,pos2=int(itend-it),pos;
       for (;pos2-pos1>1;){
 	pos=(pos1+pos2)/2;
 	if ((it+pos)->u<uend)
@@ -4845,7 +4845,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 #else
     //nthreads=1; // FIXME, !=1 segfaults on compaq mini
     hashgcd_U var=vars.front();
-    int dim=vars.size();
+    int dim=int(vars.size());
     if (dim==1){
       vector< vector<int> > P,Q,D;
       convert(p_orig,var,P);
@@ -4907,13 +4907,13 @@ mpz_class smod(const mpz_class & a,int reduce){
       for (;;){
 	for (int i=0;i<dim-1;++i)
 	  bnext[i]=std_rand() % modulo;
-	if (bnext!=b){ b=bnext; break; }
+	if (!(bnext==b)){ b=bnext; break; }
       }
       if (int(pb.size())!=pxndeg+1 || int(qb.size())!=qxndeg+1)
 	continue;
       if (!gcdsmallmodpoly_ext(pb,qb,pmin,modulo,db))
 	continue;
-      int dbdeg=db.size()-1;
+      int dbdeg=int(db.size())-1;
       if (!dbdeg){
 	d=dcont;
 	if (compute_pcofactor){
@@ -4995,7 +4995,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     // gcddeg*size estimates the time for lifting to gcddeg
     // sumdeg*size estimates the time for full lifting
     // if sumdeg<(gcddeg+%age^dim*(1-%age)^dim*size) do full lifting
-    int Deltadeg = Delta.size()-1,liftdeg=(compute_qcofactor?qxndeg:pxndeg)+Deltadeg;
+    int Deltadeg = int(Delta.size())-1,liftdeg=(compute_qcofactor?qxndeg:pxndeg)+Deltadeg;
     int gcddeg_plus_delta=gcddeg+Deltadeg;
     int liftdeg0=giacmax(liftdeg-gcddeg,gcddeg_plus_delta);
     // once liftdeg0 is reached we can replace g/gp/gq computation
@@ -5003,7 +5003,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     // and d*dq=dxn*lcoeff(d*dq)/lcoeff(qxn) at alpha
     int sumdeg = pxndeg+qxndeg;
     double percentage = double(gcddeg)/giacmin(pxndeg,qxndeg);
-    int sumsize = p.size()+q.size();
+    int sumsize = int(p.size()+q.size());
     // ? add a malus factor for division
     double gcdlift=gcddeg+std::pow(percentage,dim)*std::pow(1-percentage,dim)*sumsize;
     bool compute_cof = false; // dim==2 || sumdeg<gcdlift;
@@ -5262,7 +5262,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       pthread_t tab[nthreads-1];
 #endif
       for (int thread=0;thread<nthreads;++thread){
-	int vpos=alphav.size()-(nthreads-thread);
+	int vpos=int(alphav.size())-(nthreads-thread);
 	gcd_call_param_v[thread].vpos=vpos;
 	if (thread!=nthreads-1){
 	  gcd_call_param_v[thread].pv=0;
@@ -5287,7 +5287,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 #endif
 	if (ctrl_c || interrupted)
 	  return 0;
-	int vpos=alphav.size()-(nthreads-thread);
+	int vpos=int(alphav.size())-(nthreads-thread);
 	// wait for thread to finish
 #ifdef HAVE_PTHREAD_H
 	if (thread!=nthreads-1){
@@ -5313,7 +5313,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       if (gcd_ext_ok!=1)
 	continue; 
       for (int thread=0;thread<nthreads;++thread){
-	int vpos=alphav.size()-(nthreads-thread);
+	int vpos=int(alphav.size())-(nthreads-thread);
 	// Compare gcd degree in x1..xn-1, 0 means trash this value of alpha1
 	int comp=0;
 	if (!gcdv[vpos].empty()){

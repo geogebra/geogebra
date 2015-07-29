@@ -128,7 +128,7 @@ namespace giac {
 
   static vecteur vectvector_int_2_vecteur(const vector< vector<int> > & v,GIAC_CONTEXT){
     //transforme un vector< vector<int> > en vecteur  
-    int s=v.size();
+    int s=int(v.size());
     vecteur res;
     res.reserve(s);
     for (int i=0;i<s;++i)
@@ -138,7 +138,7 @@ namespace giac {
 
   vecteur vectvector_int_2_vecteur(const vector< vector<int> > & v){
     //transforme un vector< vector<int> > en vecteur  
-    int s=v.size();
+    int s=int(v.size());
     vecteur res;
     res.reserve(s);
     for (int i=0;i<s;++i)
@@ -148,12 +148,12 @@ namespace giac {
 
   vector<int> sizes(const vector< vector<int> > & v){
     //donne la liste des tailles des vecteurs qui forment v
-    int s=v.size();
+    int s=int(v.size());
     vector<int> res(s);
     for (int i=0;i<s;i++){
       vector<int> vi;
       vi=v[i];
-      res[i]=vi.size();
+      res[i]=int(vi.size());
       //res.push_back(vi.size());pourqoi?
     }
     return res;
@@ -225,7 +225,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT){
       vecteur & v = *args._VECTptr;
-      vector<int> p=randperm(v.size());
+      vector<int> p=randperm(int(v.size()));
       vecteur w(v);
       for (unsigned i=0;i<v.size();++i){
 	w[i]=v[p[i]];
@@ -244,7 +244,7 @@ namespace giac {
   bool is_permu(const vecteur &p,vector<int> & p1,GIAC_CONTEXT) {
     //renvoie true si p est une perm et transforme p en le vector<int> p1  
     int n;
-    n=p.size();
+    n=int(p.size());
     vector<int> p2(n);
     p1=p2;
     vector<int> temp(n);
@@ -288,7 +288,7 @@ namespace giac {
   bool is_cycle(const vecteur & c,vector<int> & c1,GIAC_CONTEXT) {
     //renvoie true si c est un cycle et transf c vecteur en le cycle c1 vector<int>
     int n1;
-    n1=c.size();
+    n1=int(c.size());
     //vector<int> p;
     vector<int> c2(n1);
     c1=c2;
@@ -322,7 +322,7 @@ namespace giac {
   vector<int> cycle2perm(const vector<int> & c) {
     //transforme c en la permu p et renvoie p
     int n1;
-    n1=c.size();
+    n1=int(c.size());
     //vector<int> c1(n1);
     int n;
     n=c[0];
@@ -358,9 +358,9 @@ namespace giac {
   vector<int> p1op2(const vector<int> & p1,const vector<int> & p2) {
     //composition de 2 perm p1 et p2 de long n1 et n2 : a pour long max(n1,n2)
     int n1;
-    n1=p1.size();
+    n1=int(p1.size());
     int n2;
-    n2=p2.size();
+    n2=int(p2.size());
     vector<int> p3;
     vector<int> p4;
     p3=p1;
@@ -402,9 +402,9 @@ namespace giac {
     vector<int> p2;
     p2=cycle2perm(c2);
     int n1;
-    n1=p1.size();
+    n1=int(p1.size());
     int n2;
-    n2=p2.size();
+    n2=int(p2.size());
     int n;
     if (n1>n2) {
       n=n1;
@@ -445,9 +445,9 @@ namespace giac {
     vector<int> p1,p3;    
     p1=cycle2perm(c1);
     int n1;
-    n1=p1.size();
+    n1=int(p1.size());
     int n2;
-    n2=p2.size();
+    n2=int(p2.size());
     p3=p2;
     int n;
     if (n1>n2) {
@@ -487,9 +487,9 @@ namespace giac {
     vector<int> p2,p3;
     p2=cycle2perm(c2);
     int n2;
-    n2=p2.size();
+    n2=int(p2.size());
     int n1;
-    n1=p1.size();
+    n1=int(p1.size());
     p3=p1;
     int n;
     if (n1>n2) {n=n1;
@@ -524,7 +524,7 @@ namespace giac {
   vector<int> cycles2permu(const vector< vector<int> > & c) {
     //transforme une liste de cycles en la permutation produit
     int n;
-    n=c.size();
+    n=int(c.size());
     vector<int> pk;
     vector<int> p;
     vector<int> ck;
@@ -559,7 +559,7 @@ namespace giac {
 
   vector< vector<int> > permu2cycles(const vector<int> & p) {
     //transforme la permutation p en une liste de cycles (p= produit de ces cycles)
-    int l=p.size();
+    int l=int(p.size());
     int n=0;
     int deb;
     vector<int> p1(l);
@@ -606,7 +606,7 @@ namespace giac {
 
   vector<int> perminv(const vector<int> & p){
     int n;
-    n=p.size();
+    n=int(p.size());
     vector<int> p1(n);
     for (int j=0;j<n;j++){
       p1[p[j]]=j;
@@ -629,7 +629,7 @@ namespace giac {
   
   vector<int> cycleinv(const vector<int> & c){
     int n;
-    n=c.size();
+    n=int(c.size());
     vector<int> c1(n);
     for (int j=0;j<n;j++){
       c1[j]=c[n-j-1];
@@ -657,9 +657,9 @@ namespace giac {
     s=1;     
     vector< vector<int> > c;
     c=permu2cycles(p);
-    int l=c.size();
+    int l=int(c.size());
     for (int k=0;k<l;k++){
-      int lk=c[k].size()-1;
+      int lk=int(c[k].size())-1;
       if (lk%2) s=s*-1;
     }
     return(s);
@@ -692,7 +692,7 @@ namespace giac {
 
   vecteur vectvector_giac_double_2_vecteur(const vector< vector<giac_double> > & v){
     //transforme un vector< vector<double> > en vecteur  
-    int s=v.size();
+    int s=int(v.size());
     vecteur res;
     res.reserve(s);
     for (int i=0;i<s;++i)
@@ -796,14 +796,14 @@ namespace giac {
     vecteur v1(*g1._VECTptr); 
     vecteur v2(*g2._VECTptr);
     if (v1.size()!=v2.size()) return gensizeerr(contextptr);
-    int n=v1.size();
+    int n=int(v1.size());
     vecteur c;
     for (int k=0;k<n;k++){
       if ((v1[k].type!=_VECT) ||(v2[k].type!=_VECT)) return gentypeerr(contextptr); 
       vecteur l1(*(v1[k])._VECTptr);
       vecteur l2(*(v2[k])._VECTptr);
       if (l1.size()!=l2.size()) return gensizeerr(contextptr);
-      int p=l1.size();
+      int p=int(l1.size());
       vecteur l(p);
       for (int j=0;j<p;j++){
 	l[j]=l1[j]*l2[j];
@@ -837,7 +837,7 @@ namespace giac {
     vecteur v1(*g1._VECTptr);
     vecteur v2(*g2._VECTptr);
     
-    int n=v2.size(),m=v1.size();
+    int n=int(v2.size()),m=int(v1.size());
     vecteur c;
     for (int k=0;k<m;k++){
       vecteur l(n+1);
@@ -861,11 +861,11 @@ namespace giac {
     if (args.type!=_VECT)  
       return gentypeerr(contextptr);
     vecteur v(*args._VECTptr);
-    int n=v.size(),m=n;
+    int n=int(v.size()),m=n;
     if (n==2 && v[1].type==_INT_ && v[0].type==_VECT){
       m=v[1].val;
       v=*v[0]._VECTptr;
-      n=v.size();
+      n=int(v.size());
     }
     vecteur c; 
     vecteur l(n); 
@@ -920,7 +920,7 @@ namespace giac {
     if (g2.type!=_VECT) 
       return gentypeerr(contextptr);
     vecteur v2(*g2._VECTptr);
-    int n=v2.size();
+    int n=int(v2.size());
     gen la;
     la=0;
     for (int k=0;k<n;k++){
@@ -943,7 +943,7 @@ namespace giac {
     if (g2.type!=_VECT) 
       return gentypeerr(contextptr);
     vecteur v2(*g2._VECTptr);
-    int n=v2.size();
+    int n=int(v2.size());
     vecteur he;    
     for (int k=0;k<n;k++){
       vecteur l(n);
@@ -989,7 +989,7 @@ namespace giac {
       return gentypeerr(contextptr);
     vecteur v1(*g1._VECTptr);
     vecteur v2(*g2._VECTptr);
-    int n=v2.size();
+    int n=int(v2.size());
     gen di;
     di=0;
     for (int k=0;k<n;k++){
@@ -1033,7 +1033,7 @@ namespace giac {
       return gentypeerr(contextptr);
     vecteur v1(*g1._VECTptr);
     vecteur v2(*g2._VECTptr);
-    int n=v2.size();
+    int n=int(v2.size());
     if (n!=3) return gensizeerr(contextptr);
     vecteur rot(3);
     rot[0]=derive(v1[2],v2[1],contextptr)-derive(v1[1],v2[2],contextptr);
@@ -1258,7 +1258,7 @@ namespace giac {
 	continue;
       }
       const_iterateur jt=v.begin(),jtend=v.end();
-      int s=jtend-jt;
+      int s=int(jtend-jt);
       gen somme(0);
       for (;jt!=jtend;++jt){
 	//somme = somme + evalf(*jt);
@@ -1290,7 +1290,7 @@ namespace giac {
 	continue;
       }
       const_iterateur jt=v.begin(),jtend=v.end();
-      int s=jtend-jt;
+      int s=int(jtend-jt);
       gen somme(0);
       for (;jt!=jtend;++jt){
 	// somme = somme + evalf((*jt)*(*jt));
@@ -1320,7 +1320,7 @@ namespace giac {
       if (v.empty())
 	continue;
       const_iterateur jt=v.begin(),jtend=v.end();
-      int n=jtend-jt;
+      int n=int(jtend-jt);
       vector<double> vv(n);
       for (int j=0;jt!=jtend;++jt,++j){
 	if ( (jt->type==_VECT) && (jt->_VECTptr->size()==3) )
@@ -1350,7 +1350,7 @@ namespace giac {
     vecteur p(*args._VECTptr);
     if (!(is_permu(p,p1,contextptr)))  
       return gentypeerr(contextptr);
-    int n=p.size();
+    int n=int(p.size());
     vecteur c; 
     vecteur l(n); 
     for (int k=0;k<n;k++){
@@ -1386,9 +1386,9 @@ namespace giac {
   vector< vector<int> > groupermu(const vector<int> & p1,const vector<int> & p2) {
     //groupe engendre par de 2 perm p1 et p2 de long n1 et n2 : a pour long max(n1,n2)
     int n1;
-    n1=p1.size();
+    n1=int(p1.size());
     int n2;
-    n2=p2.size();
+    n2=int(p2.size());
     vector<int> a;
     vector<int> b;
     a=p1;
@@ -1494,11 +1494,11 @@ namespace giac {
     if (g2.type!=_VECT)
       return gentypeerr(contextptr);
     vecteur v2(*g2._VECTptr);
-    int n=v2.size();
+    int n=int(v2.size());
     if (n!=2) return gensizeerr(contextptr);
     vecteur fa;
     fa=factors(g1,vx_var,contextptr);
-    int l=fa.size();
+    int l=int(fa.size());
     gen ax=1;
     gen ay=1;
     for (int k=0;k<l;k=k+2){
@@ -1532,7 +1532,7 @@ namespace giac {
     if (g2.type!=_VECT)
       return gentypeerr(contextptr);
     vecteur v2(*g2._VECTptr);
-    int sv2=v2.size();
+    int sv2=int(v2.size());
     if (sv2!=2) return gensizeerr(contextptr);
     identificateur x("rieman_sum_x");
     //on pose k=n*x

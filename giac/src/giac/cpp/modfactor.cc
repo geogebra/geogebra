@@ -67,7 +67,7 @@ namespace giac {
       return false;
     if (ddfactor.size()-1){
       for (int i=0;i<env->pn.val;i++){
-	int dddeg=ddfactor.size()-1;
+	int dddeg=int(ddfactor.size())-1;
 	if (!dddeg)
 	  break; // no more linear factor to extract
 	if (dddeg==1){
@@ -98,7 +98,7 @@ namespace giac {
     if (jstart)
       dim=jstart;
     else
-      dim=q.size()-1;
+      dim=int(q.size())-1;
     normalize_env(env);
     v.reserve(dim);
     modpoly temp(one()),temp2,temp3;
@@ -128,12 +128,12 @@ namespace giac {
     if (r.empty())
       return true;
     normalize_env(env);
-    int rs=r.size();
+    int rs=int(r.size());
     if ((rs-1)*env->pn.val<qsize){
       s=x_to_xp(r,env->pn.val);
       return !is_undef(s);
     }
-    int d=v.size();
+    int d=int(v.size());
     if (rs-1>=d)
       return false; // setsizeerr();
     int maxdeg(1); // maximal degree+1
@@ -228,7 +228,7 @@ namespace giac {
   }
 
   static gen lastnonzero(const dense_POLY1 & q) {
-    int d=q.size();
+    int d=int(q.size());
     gen n( 0),n0( 0);
     for (;d;--d){
       n=q[d-1];
@@ -251,7 +251,7 @@ namespace giac {
     int k=1;
     modpoly xpi=xtop ;
     for (int i=2;;i++){
-      int qremdeg=qrem.size()-1;
+      int qremdeg=int(qrem.size())-1;
       if (!qremdeg)
 	return true;
       if (qremdeg<2*i){
@@ -271,7 +271,7 @@ namespace giac {
       gcdmodpoly(operator_minus(xpi,xpower1(),env),qrem,env,ddfactor);
       if (is_undef(ddfactor))
 	return false;
-      k=ddfactor.size()-1;
+      k=int(ddfactor.size())-1;
       if (k)
 	v.push_back(facteur<modpoly>(ddfactor,i));
       if (k==qremdeg)
@@ -287,7 +287,7 @@ namespace giac {
       COUT << "Factoring [" << i << "] " << ddfactor << endl 
 	// << " " << qmat << endl
 	;
-    int k=ddfactor.size()-1; 
+    int k=int(ddfactor.size())-1; 
     if (k==i){
       v.push_back(ddfactor);
       return true;
@@ -362,7 +362,7 @@ namespace giac {
       if (is_undef(fact1))
 	return false;
       // hopefully it will split ddfactor
-      deg=fact1.size()-1;
+      deg=int(fact1.size())-1;
     }
     // COUT << "cz:" << i << fact1 << ddfactor/fact1 << endl;
     // recursive calls
@@ -422,14 +422,14 @@ namespace giac {
   
   // number of factors and possible degrees
   int nfact(const vector< facteur<modpoly> > & v, vector<bool> & possible_degrees , int maxdeg){
-    int k=v.size(); 
+    int k=int(v.size()); 
     possible_degrees[0]=true;
     for (int i=1;i<maxdeg;i++)
       possible_degrees[i]=false;
     int i=0;
     for (int j=0;j<k;j++){
       int deg=v[j].mult; // degree of this equal degree factor
-      int mult=(v[j].fact.size()-1)/deg; // number of equal degree factors
+      int mult=int(v[j].fact.size()-1)/deg; // number of equal degree factors
       if (debuglevel)
 	COUT << "Distinct degree factor of " << mult << " factors of deg " << deg << endl;
       i = i + mult;
@@ -468,7 +468,7 @@ namespace giac {
 
   // Landau-Mignotte bound
   gen mignotte_bound(const dense_POLY1 & p){
-    int d=p.size()-1;
+    int d=int(p.size())-1;
     gen n( d+1);
     if (d%2)
       n=n+n;
@@ -507,7 +507,7 @@ namespace giac {
 	polynome temp=unmodularize(test);
 	q=quo;
 	v_out.push_back(temp);
-	totaldegreefound += it->size()-1;
+	totaldegreefound += int(it->size())-1;
 	n--;
 	if (n==1){
 	  v_in.clear();
@@ -553,7 +553,7 @@ namespace giac {
       COUT << "Lifting v_in:" << v_in << endl << "u:" << u << endl;
       COUT << "Modulo:" << env->modulo << " Bound:" << bound << endl;
     }
-    int n=v_in.size();
+    int n=int(v_in.size());
     int nfact_to_find = n;
     vector<bool> truefactor(n),hasbeentested(n);
     for (int i=0;i<n;i++){
@@ -629,12 +629,12 @@ namespace giac {
 	      }
 	      newq=tmp1;
 	      bound=mignotte_bound(newq);
-	      int truefactdeg=truefact.size()-1;
+	      int truefactdeg=int(truefact.size())-1;
 	      for (int j=0;j<signed(newq.size());j++)
 		possible_degrees[j]=possible_degrees[j+truefactdeg];
 	      if (debuglevel){
 		COUT << "New degree set ";
-		print_possible_degrees(possible_degrees,newq.size()-1);
+		print_possible_degrees(possible_degrees,int(newq.size())-1);
 	      }
 	    }
 	    else {
@@ -733,8 +733,8 @@ namespace giac {
       COUT << "Lifting v_in:" << v_in << endl << "u:" << u << endl;
       COUT << "Modulo:" << env->modulo << "Bound" << bound << endl;
     }
-    int n=v_in.size();
-    int d=q.size()-1;
+    int n=int(v_in.size());
+    int d=int(q.size())-1;
     // at bound/2^d/2, we will look for factors of q1 in v_in, 
     // if true add factors to v_out and reduce the bound
     // modulo_orig^tryfactors=bound/2^d/2
@@ -791,7 +791,7 @@ namespace giac {
   void combine(const dense_POLY1 & q, const vector<modpoly> & v_in,environment * env,vectpoly & v_out,vector<bool> & possible_degrees, int k){
     if (v_in.empty())
       return; // nothing to do
-    int n=v_in.size();
+    int n=int(v_in.size());
     if (debuglevel)
       COUT << clock() << "Starting combining with " << n << " factors" << endl;
     gen lcoeff(smod(q.front(),env->modulo));
@@ -810,7 +810,7 @@ namespace giac {
 #endif
     vector<int> degrees(n); // records degrees of v_in polynomials
     for (int j=0;j<n;j++)
-      degrees[j]=v_in[j].size()-1;
+      degrees[j]=int(v_in[j].size())-1;
     gen twoto32(pow(gen(2),32)); // requires int=32 bits
     vector<int> d1tab(n); // records coeff of degree d-1*2^32/modulo
     for (int j=0;j<n;j++)
@@ -839,13 +839,13 @@ namespace giac {
 	it[j+1]=it[j]+1;
 	lastpi = smod(lastpi*cstcoeff(*it[j]),env->modulo);
 	picstcoeff.push_back(lastpi);
-	lastdeg += it[j]->size()-1;
+	lastdeg += int(it[j]->size())-1;
 	totaldeg.push_back(lastdeg);
 	lastdminus1 = lastdminus1 + (*it[j])[1];
 	dminus1.push_back(lastdminus1);
       }
       // look if the next possible degree is > degree(q)/2 -> q is irreducible
-      int tmp=lastdeg+it[k]->size()-1;
+      int tmp=lastdeg+int(it[k]->size())-1;
       for (;2*tmp<=signed(q.size());++tmp)
 	if (possible_degrees[tmp])
 	  break;
@@ -910,12 +910,12 @@ namespace giac {
 	      // else call combine with q <- quo
 	      if (v_new.size()>24){
 		int j=3;
-		factorunivsqff(unmodularize(quo),env,v_out,j,debuglevel,v_new.size());
+		factorunivsqff(unmodularize(quo),env,v_out,j,debuglevel,int(v_new.size()));
 	      }
 	      else {
 		// re_VECTute possible_degrees
 		int founddeg=found.lexsorted_degree();
-		int newqdeg=q.size()-1-founddeg;
+		int newqdeg=int(q.size())-1-founddeg;
 		vector<bool> new_possible_degrees(newqdeg+1);
 		for (int j=0;j<=newqdeg;j++)
 		  new_possible_degrees[j]=possible_degrees[j+founddeg];
@@ -951,7 +951,7 @@ namespace giac {
 	    for (;j<k;j++){
 	      lastpi = smod(lastpi*cstcoeff(*it[j]),env->modulo);
 	      picstcoeff[j]=lastpi;
-	      lastdeg += it[j]->size()-1;
+	      lastdeg += int(it[j]->size())-1;
 	      totaldeg[j]=lastdeg;
 	      lastdminus1 = lastdminus1 + (*it[j])[1];
 	      dminus1[j]=lastdminus1;

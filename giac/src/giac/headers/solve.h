@@ -19,6 +19,9 @@
 #define _GIAC_SOLVE_H
 #include "first.h"
 
+#define GIAC_64VARS 
+// comment if you don't want the modular algorithm for gbasis with >15 var
+
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC

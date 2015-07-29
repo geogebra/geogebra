@@ -19,12 +19,6 @@
 #ifndef _GIAC_MODPOLY_H_
 #define _GIAC_MODPOLY_H_
 #include "first.h"
-#ifdef HAVE_SYS_TIME_H
-#include <time.h>
-#else
-#define clock_t int
-#define clock() 0
-#endif
 #include "global.h"
 #include "fraction.h"
 #ifdef HAVE_LIBNTL

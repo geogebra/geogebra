@@ -31,7 +31,7 @@
 #if defined VISUALC || defined BESTA_OS 
 typedef long pid_t;
 #else // VISUALC
-#if !defined(__MINGW_H) && !defined(BESTA_OS) && !defined(NSPIRE) && !defined(__ANDROID__)
+#if !defined(__MINGW_H) && !defined(BESTA_OS) && !defined(NSPIRE) && !defined(__ANDROID__) && !defined(NSPIRE_NEWLIB) && !defined(OSX)
 #include "wince_replacements.h"
 #endif
 #ifdef __MINGW_H
@@ -43,9 +43,6 @@ typedef long pid_t;
 #if defined VISUALC || defined BESTA_OS
 #include <math.h>
 #include <float.h>
-#ifndef RTOS_THREADX
-#include <io.h>
-#endif
 #endif
 #ifndef WIN32
 #include <math.h>
@@ -178,6 +175,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   int access(const char * ch,int mode);
   void usleep(int );
 #endif
+#ifdef NSPIRE_NEWLIB
+  void usleep(int );
+#endif
 
   double delta_tms(struct tms tmp1,struct tms tmp2);
 
@@ -219,6 +219,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern unsigned short int GIAC_PADIC;
 
   extern bool CAN_USE_LAPACK;
+  extern bool simplify_sincosexp_pi;
 #ifndef RTOS_THREADX
 #ifndef BESTA_OS
   extern int CALL_LAPACK; // lapack is used if dim of matrix is >= CALL_LAPACK
@@ -292,8 +293,8 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     // inherited constructors
     dbgprint_vector() : std::imvector<T>::imvector() { };
     dbgprint_vector(const T * b,const T * e) : std::imvector<T>::imvector(b,e) { };
-    dbgprint_vector(int i) : std::imvector<T>::imvector(i) { };
-    dbgprint_vector(int i,const T & t) : std::imvector<T>::imvector(i,t) { };
+    dbgprint_vector(size_t i) : std::imvector<T>::imvector(i) { };
+    dbgprint_vector(size_t i,const T & t) : std::imvector<T>::imvector(i,t) { };
     // ~dbgprint_vector() { };
     // inherited destructors
     void dbgprint() const { COUT << *this << std::endl; }
@@ -307,8 +308,8 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     dbgprint_vector(const typename std::vector<T>::const_iterator & b,const typename std::vector<T>::const_iterator & e) : std::vector<T>::vector(b,e) { };
 #endif
     dbgprint_vector(const T * b,const T * e) : std::vector<T>::vector(b,e) { };
-    dbgprint_vector(int i) : std::vector<T>::vector(i) { };
-    dbgprint_vector(int i,const T & t) : std::vector<T>::vector(i,t) { };
+    dbgprint_vector(size_t i) : std::vector<T>::vector(i) { };
+    dbgprint_vector(size_t i,const T & t) : std::vector<T>::vector(i,t) { };
     // ~dbgprint_vector() { };
     // inherited destructors
     void dbgprint() const { COUT << *this << std::endl; }
@@ -319,17 +320,17 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   public:
     // inherited constructors
     std_matrix() : std::vector< dbgprint_vector<T> >::vector() { };
-    std_matrix(int i) : std::vector< dbgprint_vector<T> >::vector(i) { };
-    std_matrix(int i,const dbgprint_vector<T> & v) : std::vector< dbgprint_vector<T> >::vector(i,v) { };
-    std_matrix(int i,int j) : std::vector< dbgprint_vector<T> >::vector(i,dbgprint_vector<T>(j)) { };
-    std_matrix(int i,int j,const T & t) : std::vector< dbgprint_vector<T> >::vector(i,dbgprint_vector<T>(j,t)) { };
+    std_matrix(size_t i) : std::vector< dbgprint_vector<T> >::vector(i) { };
+    std_matrix(size_t i,const dbgprint_vector<T> & v) : std::vector< dbgprint_vector<T> >::vector(i,v) { };
+    std_matrix(size_t i,size_t j) : std::vector< dbgprint_vector<T> >::vector(i,dbgprint_vector<T>(j)) { };
+    std_matrix(size_t i,size_t j,const T & t) : std::vector< dbgprint_vector<T> >::vector(i,dbgprint_vector<T>(j,t)) { };
     // ~dbgprint_vector() { };
     // inherited destructors
     std_matrix<T> transpose() const {
       if (std::vector< dbgprint_vector<T> >::empty())
 	return *this;
-      int n=std::vector< dbgprint_vector<T> >::size();
-      int m=std::vector< dbgprint_vector<T> >::front().dbgprint_vector<T>::size();
+      int n=int(std::vector< dbgprint_vector<T> >::size());
+      int m=int(std::vector< dbgprint_vector<T> >::front().dbgprint_vector<T>::size());
       std_matrix<T> res(m,n);
       typename std_matrix<T>::const_iterator it=std::vector< dbgprint_vector<T> >::begin();
       for (int i=0;i<n;++i,++it){
@@ -365,6 +366,8 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   // vecteurs and dense 1-d polynomilas
 
   typedef dbgprint_vector<gen> vecteur; // debugging support
+
+  vecteur * keywords_vecteur_ptr(); // idnt assigned to a commandname for localization, like mediatrice for perpen_bissector
 
   class context;
   
@@ -859,8 +862,8 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   std::string find_lang_prefix(int i);
   int string2lang(const std::string & s); // convert "fr" to 1, "es" to 3 etc.
   void update_completions();
-  void add_language(int i);
-  void remove_language(int i);
+  void add_language(int i,GIAC_CONTEXT);
+  void remove_language(int i,GIAC_CONTEXT);
   std::string set_language(int i,GIAC_CONTEXT);
   std::string read_env(GIAC_CONTEXT,bool verbose=true); // return doc prefix
   std::string home_directory();

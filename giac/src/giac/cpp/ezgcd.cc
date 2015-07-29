@@ -58,7 +58,7 @@ namespace giac {
   // returns q such that p=q [degree] and q has only terms of degree<degree
   // p=q[N] means that p-q vanishes at v at order N
   static polynome reduce(const polynome & p,const vecteur & v,int degree){
-    int vsize=v.size();
+    int vsize=int(v.size());
     if (!vsize)
       return p;
     if (v==vecteur(vsize)){ 
@@ -133,13 +133,13 @@ namespace giac {
   // FIXME: this implementation does not work currently, except if other
   // depends only on the first var
   static bool reduce_divrem2(const polynome & a,const polynome & other,const vecteur & v,int n,polynome & quo,polynome & rem,bool allowrational=false) {
-    int asize=(a).coord.size();
+    int asize=int(a.coord.size());
     if (!asize){
       quo=a;
       rem=a; 
       return true;
     }
-    int bsize=other.coord.size();
+    int bsize=int(other.coord.size());
     if (bsize==0) {
 #ifdef NO_STDEXCEPT
       return false;
@@ -271,7 +271,7 @@ namespace giac {
     for (;it!=itend;++it){
       index_t i (dim);
       i=it->index.iref();
-      for (int j=i.size();j<dim;++j)
+      for (int j=int(i.size());j<dim;++j)
 	i.push_back(0);
       it->index = i;
     }
@@ -292,7 +292,7 @@ namespace giac {
     for (;vit!=vitend;++vit){
       if (vit->mult>1)
 	break;
-      unknowns += vit->fact.coord.size()-1; // lcoeff is known
+      unknowns += int(vit->fact.coord.size())-1; // lcoeff is known
     }
     if (unknowns>=pcur.lexsorted_degree()/2 || unknowns==0)
       return false;
@@ -338,7 +338,7 @@ namespace giac {
     // to solve syst wrt la, we search all linear equations
     // if none return false, otherwise solve system, subst 
     while (!syst.empty()){
-      int N=syst.size();
+      int N=int(syst.size());
       vecteur linear;
       for (int i=0;i<N;++i){
 	if (is_zero(derive(derive(syst[i],la,context0),la,context0)))
@@ -378,7 +378,7 @@ namespace giac {
 	  
   bool try_hensel_lift_factor(const polynome & pcur,const polynome & F0,const factorization & v0,int mult,factorization & f){
     int dim=pcur.dim;
-    int s=v0.size();
+    int s=int(v0.size());
     polynome lcp(Tfirstcoeff(pcur));
     if (lcp.coord.back().index.back()!=0)
       return false;
@@ -439,7 +439,7 @@ namespace giac {
 	} // flcoeff0 contains the list of factors of lcoeff(pcur) evaled at 0
 	F0it=fx1x2.begin();
 	F0itend=fx1x2.end();
-	s=F0itend-F0it;
+	s=int(F0itend-F0it);
 	F0fact.clear();
 	lcoeffs.clear();
 	modpoly piF(1,1);
@@ -528,7 +528,7 @@ namespace giac {
       P[i].dim=pcur_adjusted.dim;
       P0[i].dim=pcur_adjusted.dim;
       modpoly::const_iterator it=F0fact[i].begin(),itend=F0fact[i].end();
-      int deg=itend-it-1;
+      int deg=int(itend-it)-1;
       P[i]=lcoeffs[i].trunc1().untrunc1(deg);
       for (int n=0;it!=itend;++it,++n){
 	if (!is_zero(*it)){
@@ -539,7 +539,7 @@ namespace giac {
       }
       U[i].dim=pcur_adjusted.dim;
       it=u[i].begin(); itend=u[i].end();
-      deg=itend-it-1;
+      deg=int(itend-it)-1;
       for (int n=0;it!=itend;++it,++n){
 	if (!is_zero(*it))
 	  U[i].coord.push_back(monomial<gen>(*it,deg-n,1,pcur_adjusted.dim));
@@ -755,7 +755,7 @@ namespace giac {
 
   // Replace the last coordinates of p with b instead of the first
   gen peval_back(const polynome & p,const vecteur & b){
-    int pdim=p.dim,bdim=b.size();
+    int pdim=p.dim,bdim=int(b.size());
     vector<int> cycle(pdim);
     int deltad=pdim-bdim;
     for (int i=0;i<bdim;++i)
@@ -801,7 +801,7 @@ namespace giac {
     polynome res(1);
     vector< monomial<gen> > & v=res.coord;
     index_t i;
-    int deg=a.size()-1;
+    int deg=int(a.size())-1;
     i.push_back(deg);
     vector<int>::const_iterator it=a.begin();
     vector<int>::const_iterator itend=a.end();
@@ -827,7 +827,7 @@ namespace giac {
 
   // return true if a good eval point has been found
   bool find_good_eval(const polynome & F,const polynome & G,polynome & Fb,polynome & Gb,vecteur & b,bool debuglog,const gen & mod){
-    int Fdeg=F.lexsorted_degree(),Gdeg=G.lexsorted_degree(),nvars=b.size();
+    int Fdeg=int(F.lexsorted_degree()),Gdeg=int(G.lexsorted_degree()),nvars=int(b.size());
     gen Fg,Gg;
     int essai=0;
     int dim=F.dim;
@@ -921,7 +921,7 @@ namespace giac {
       return true;
     }
     polynome lcF(Tfirstcoeff(F)),lcG(Tfirstcoeff(G));
-    double nop=lcF.coord.size()*F.coord.size()+lcG.coord.size()*G.coord.size();
+    double nop=double(lcF.coord.size())*double(F.coord.size())+double(lcG.coord.size())*double(G.coord.size());
     if (maxop>0){
       if (maxop<nop/10)
 	return false;

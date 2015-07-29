@@ -27,6 +27,7 @@ using namespace std;
 #include "symbolic.h"
 #include "input_lexer.h"
 #include "rpn.h"
+#include "sparse.h"
 #include "giacintl.h"
 
 #ifndef NO_NAMESPACE_GIAC
@@ -201,6 +202,12 @@ namespace giac {
   */
 
   gen apply(const gen & e,const unary_function_ptr & f,GIAC_CONTEXT){
+    if (e.type==_MAP){
+      gen_map res;
+      gen g(res);
+      map_apply(*e._MAPptr,f,*g._MAPptr,contextptr);
+      return g;
+    }
     if (e.type!=_VECT)
       return f(e,contextptr);
     const_iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();
@@ -248,6 +255,12 @@ namespace giac {
   }
 
   gen apply(const gen & e, gen (* f) (const gen &,const context *),GIAC_CONTEXT ){
+    if (e.type==_MAP){
+      gen_map res;
+      gen g(res);
+      map_apply(*e._MAPptr,*g._MAPptr,contextptr,f);
+      return g;
+    }
     if (e.type!=_VECT)
       return f(e,contextptr);
     const_iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();
@@ -305,6 +318,12 @@ namespace giac {
   }
 
   gen apply(const gen & e, const context * contextptr,const gen_op_context & f ){
+    if (e.type==_MAP){
+      gen_map res;
+      gen g(res);
+      map_apply(*e._MAPptr,*g._MAPptr,contextptr,f);
+      return g;
+    }
     if (e.type!=_VECT)
       return f(e,contextptr);
     const_iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();

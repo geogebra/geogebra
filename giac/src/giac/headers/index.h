@@ -35,7 +35,7 @@
 #endif
 ///////////////////////////////////////////
 
-#ifdef C11_UNORDERED_MAP
+#if defined C11_UNORDERED_MAP && (defined __clang__ || !defined __APPLE__)
 #undef HASH_MAP
 #undef EXT_HASH_MAP
 #undef UNORDERED_MAP
@@ -50,7 +50,7 @@
 #define hash_map unordered_map
 #else // UNORDERED_MAP
 
-#if (defined(VISUALC) || defined(BESTA_OS) || defined(__ANDROID__) )
+#if (defined(VISUALC) || defined(BESTA_OS) || defined(__ANDROID__) || defined(OSX))
 #undef HASH_MAP
 #undef EXT_HASH_MAP
 #endif
@@ -85,6 +85,7 @@ namespace giac {
   void swapdouble(double & a,double & b);
 
   // index type for tensors
+  void add(const index_t & a, const index_t & b,index_t & res);
 
   index_t operator + (const index_t & a, const index_t & b);
   index_t operator - (const index_t & a, const index_t & b);
@@ -230,7 +231,7 @@ namespace giac {
 
   class ref_index_t {
   public:
-    int ref_count;
+    ref_count_t ref_count;
     index_t i;
     ref_index_t():ref_count(1) {}
     ref_index_t(int s):ref_count(1),i(s) {}
@@ -292,7 +293,7 @@ namespace giac {
     index_t::iterator end() { return riptr->i.end(); }
     index_t::const_iterator begin() const { return riptr->i.begin(); }
     index_t::const_iterator end() const { return riptr->i.end(); }
-#ifndef NSPIRE
+#if !defined(NSPIRE) && !defined(OSX)
     index_t::reverse_iterator rbegin() { return riptr->i.rbegin(); }
     index_t::reverse_iterator rend() { return riptr->i.rend(); }
     index_t::const_reverse_iterator rbegin() const { return riptr->i.rbegin(); }
@@ -370,7 +371,7 @@ namespace giac {
       }
     }
     index_m(const index_t & i){
-      int s=i.size();
+      int s=int(i.size());
       if (s<=POLY_VARS){
 	taille=2*s+1;
 	deg_t * target=direct,*end=direct+s;
@@ -388,7 +389,7 @@ namespace giac {
     index_m(size_t s){
       if (int(s)<=POLY_VARS){
 	riptr=0;
-	taille=2*s+1;
+	taille=2*int(s)+1;
 #if (HAS_POLY_VARS_OTHER==1)
 	* (size_t *) other =0;
 #endif
@@ -405,12 +406,12 @@ namespace giac {
       }
       else {
 	// taille=0;
-	riptr=new ref_index_t(s);
+	riptr=new ref_index_t(int(s));
       }
     }
     index_m(index_t::const_iterator it,index_t::const_iterator itend){
       if (itend-it<=POLY_VARS){
-	taille=2*(itend-it)+1;
+	taille=2*int(itend-it)+1;
 	deg_t * target = direct;
 	for (;it!=itend;++it,++target){
 	  *target=*it;
@@ -574,6 +575,8 @@ namespace giac {
 
 #endif
 
+  void add(const index_m & a, const index_m & b,index_t & res);
+  bool equal(const index_m & a,const index_t &b);
   index_m operator + (const index_m & a, const index_m & b);
   index_m operator - (const index_m & a, const index_m & b);
   index_m operator * (const index_m & a, int fois);
@@ -585,6 +588,7 @@ namespace giac {
   bool operator >= (const index_m & a, const index_m & b);
   bool operator <= (const index_m & a, const index_m & b);
   int sum_degree(const index_m & v1);
+  int sum_degree_from(const index_m & v1,int start);
   inline int total_degree(const index_m & v1){ return sum_degree(v1); }
   bool i_lex_is_greater(const index_m & v1, const index_m & v2);
   bool i_lex_is_strictly_greater(const index_m & v1, const index_m & v2);
@@ -592,9 +596,17 @@ namespace giac {
   bool i_total_revlex_is_strictly_greater(const index_m & v1, const index_m & v2);
   bool i_total_lex_is_greater(const index_m & v1, const index_m & v2);
   bool i_total_lex_is_strictly_greater(const index_m & v1, const index_m & v2);
+  bool i_16var_is_greater(const index_m & v1, const index_m & v2);
+  bool i_32var_is_greater(const index_m & v1, const index_m & v2);
+  bool i_64var_is_greater(const index_m & v1, const index_m & v2);
   bool i_11var_is_greater(const index_m & v1, const index_m & v2);
   bool i_7var_is_greater(const index_m & v1, const index_m & v2);
   bool i_3var_is_greater(const index_m & v1, const index_m & v2);
+  bool i_nvar_is_greater(const index_m & v1, const index_m & v2,int n,bool sametdeg);
+  int nvar_total_degree(const index_m & v1,int n);
+  inline bool i_16var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_16var_is_greater(v2,v1); }
+  inline bool i_32var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_32var_is_greater(v2,v1); }
+  inline bool i_64var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_64var_is_greater(v2,v1); }
   inline bool i_11var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_11var_is_greater(v2,v1); }
   inline bool i_7var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_7var_is_greater(v2,v1); }
   inline bool i_3var_is_strictly_greater(const index_m & v1, const index_m & v2){ return !i_3var_is_greater(v2,v1); }

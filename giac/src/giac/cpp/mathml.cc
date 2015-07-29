@@ -38,7 +38,7 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-#if defined RTOS_THREADX || defined NSPIRE
+#if defined GIAC_HAS_STO_38 || defined NSPIRE
   gen _mathml_error(const gen & g,GIAC_CONTEXT){
     return gensizeerr(gettext("No mathml support"));
   }
@@ -62,8 +62,18 @@ namespace giac {
   const char math_end[]="</math>";
   const char provisoire_mbox_begin[]="<mi>";
   const char provisoire_mbox_end[]="</mi>";
-  string svg_legend("");
   const char svg_end[]="</svg>";
+  const double svg_epaisseur1=200; // thickness=(xmax-xmin)/svg_epaisseur1
+
+  struct svg_attribut {
+    int color;
+    int width;
+    int epaisseur_point;
+    int type_line;
+    int type_point;
+    bool fill_polygon;
+    bool hidden_name;
+  };
 
   // 2 fonctions de service
   static void elimine_inf_sup(string &s){
@@ -183,6 +193,18 @@ namespace giac {
   }
 
   static string _VECT2mathml(const vecteur & v, unsigned char type,string &svg,GIAC_CONTEXT){
+#if 1
+    string s(begin_VECT_string(type,false,contextptr));
+    vecteur::const_iterator it=v.begin(),itend=v.end();
+    for (;it!=itend;){
+      s += gen2mathml(*it,svg,contextptr);  
+      ++it;
+      if (it!=itend)
+	s += "<mo>,</mo>";
+    }
+    s+=end_VECT_string(type,false,contextptr);
+    return s;
+#else
     string s("<mfenced open=\"");
     if (type==_SEQ__VECT) s.append("(\" close=\")\">");
     else {
@@ -202,6 +224,7 @@ namespace giac {
     }
     s +="</mrow></mfenced>";
     return s;
+#endif
   }
 
   static bool needs_times(gen g,GIAC_CONTEXT){
@@ -518,134 +541,185 @@ namespace giac {
 
   //---------------- Zone SVG  ---------------
 
-  static void svg_dx_dy(double svg_width, double svg_height, int * dx, int *dy){
+  static void svg_dx_dy(double svg_width, double svg_height, double & dx, double & dy){
     // calibrage des graduations
     int p_h=(int) std::log10(svg_height);
     int p_w=(int) std::log10(svg_width);
-    *dx=(int) std::pow((double)10,p_w-1);
-    *dy=(int) std::pow((double)10,p_h-1);
-    if (*dx==0)
-      *dx=1;
-    if (*dy==0)
-      *dy=1;
-    if (svg_width/(*dx)>25)
-      *dx=5*(*dx);
-    if (svg_height/(*dy)>25)
-      *dy=5*(*dy);
+    dx=std::pow(10.0,p_w-1);
+    dy=std::pow(10.0,p_h-1);
+    if (dx==0)
+      dx=1;
+    if (dy==0)
+      dy=1;
+    if (svg_width/dx>25){
+      dx *= 5;
+    }
+    if (svg_height/dy>25){
+      dy *=5;
+    }
   }
 
-  string svg_preamble(double svg_width_cm, double svg_height_cm){
-    double svg_width=gnuplot_xmax-gnuplot_xmin;
-    double svg_height=gnuplot_ymax-gnuplot_ymin;
-    double x_scale=(gnuplot_xmax-gnuplot_xmin)/10;
-    double y_scale=(gnuplot_ymax-gnuplot_ymin)/10;
+  string svg_preamble(double svg_width_cm, double svg_height_cm,bool xml){
+    return svg_preamble(svg_width_cm,svg_height_cm,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,true,xml);
+  }
+
+  string svg_preamble(double svg_width_cm, double svg_height_cm,double xmin,double xmax,double ymin,double ymax,bool ortho,bool xml){
+    double svg_width=xmax-xmin;
+    double svg_height=ymax-ymin;
+    double x_scale=(xmax-xmin)/10;
+    double y_scale=(ymax-ymin)/10;
     int i;
-    string grid_color="blue";
-    string grid_color2="navy";
-#ifdef HAVE_SSTREAM
-    ostringstream sortie;
-#else
-    ostrstream sortie;
-#endif
-    if (svg_width<svg_height){
-      svg_width_cm=svg_width_cm*svg_width/svg_height+1; 
-      svg_height_cm=svg_height_cm+1;
-    }  else {
-      svg_height_cm=svg_height_cm*svg_height/svg_width+1;
-      svg_width_cm=svg_width_cm+1;
+    char grid_color[]="cyan";
+    char grid_color2[]="blue";
+    char buffer[16384];
+    char * pos=buffer;
+
+    if (ortho){
+      if (svg_width<svg_height){
+	svg_width_cm=svg_width_cm*svg_width/svg_height+1; 
+	svg_height_cm=svg_height_cm+1;
+      }  else {
+	svg_height_cm=svg_height_cm*svg_height/svg_width+1;
+	svg_width_cm=svg_width_cm+1;
+      }
     }
-    sortie<<"<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>"<<endl;
-    sortie<<"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" preserveAspectRatio=\"xMidyMin meet\" width=\""<<svg_width_cm+2<<"cm\" height=\""<<svg_height_cm+1<<"cm\" viewBox=\""<<gnuplot_xmin-x_scale<<" "<<gnuplot_ymin-y_scale<<" "<<svg_width+3*x_scale<<" "<<svg_height+2*x_scale<<"\" >\n<g transform=\"translate(0,"<<svg_height+2*gnuplot_ymin<<") scale(1,-1)\">\n";
-
-
+    if (xml){
+      sprintf(pos,"<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" ");
+      // sortie<<"<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>"<<endl;
+      // sortie<<"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" ";
+    }
+    else {
+      sprintf(pos,"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\"");
+      // sortie << "<svg ";
+    }
+    pos=buffer+strlen(buffer);
+    if (ortho){
+      sprintf(pos,"preserveAspectRatio=\"xMidyMin meet\" width=\"%.5gcm\" height=\"%.5gcm\" viewBox=\"%.5g %.5g %.5g %.5g\" >\n<g transform=\"translate(0,%.5g) scale(1,-1)\">\n",svg_width_cm+2,svg_height_cm+1,xmin-x_scale,ymin-y_scale,svg_width+3*x_scale,svg_height+2*x_scale,svg_height+2*ymin);
+      // sortie << "preserveAspectRatio=\"xMidyMin meet\"";
+      // sortie << " width=\""<<svg_width_cm+2<<"cm\" height=\""<<svg_height_cm+1<<"cm\" viewBox=\""<<xmin-x_scale<<" "<<ymin-y_scale<<" "<<svg_width+3*x_scale<<" "<<svg_height+2*x_scale<<"\" >\n<g transform=\"translate(0,"<<svg_height+2*ymin<<") scale(1,-1)\">\n";
+    }
+    else {
+      sprintf(pos,"width=\"%.5gcm\" height=\"%.5gcm\" preserveAspectRatio=\"none\" viewBox=\"%.5g %.5g %.5g %.5g\" >\n<g transform=\"translate(0,%.5g) scale(1,-1)\">\n",svg_width_cm*1.2,svg_height_cm*1.2,xmin-x_scale,ymin-y_scale,svg_width+2*x_scale,svg_height+2*y_scale,svg_height+2*ymin);
+      // sortie << " width=\""<<svg_width_cm+2<<"cm\" height=\""<<svg_height_cm+1<<"cm\" viewBox=\""<<xmin-x_scale<<" "<<ymin-y_scale<<" "<< svg_width+2*x_scale<<" "<<svg_height+2*y_scale<<'"';
+      // sortie << " preserveAspectRatio=\"none\" >" ;
+      // sortie << "\n<g transform=\"translate(0,"<<svg_height+2*ymin<<") scale(1,-1)\">\n";
+    }
+    pos=buffer+strlen(buffer);
     // calibrage des graduations
-    int  dx, dy;
-    svg_dx_dy(svg_width, svg_height, &dx, &dy);
-    double i_min_x= gnuplot_xmin/dx;
-    double i_min_y= gnuplot_ymin/dy;
+    double  dx, dy;
+    svg_dx_dy(svg_width, svg_height, dx, dy);
+    double i_min_x= xmin/dx;
+    double i_min_y= ymin/dy;
   
     //grille  
     double x,y;
-    //gen thickness((gnuplot_xmax-gnuplot_xmin)/1000);
-    double thickness((gnuplot_xmax+gnuplot_ymax-gnuplot_xmin-gnuplot_ymin)/2000);
+    double xthickness((xmax-xmin)/svg_epaisseur1/3),ythickness((ymax-ymin)/svg_epaisseur1/3);
+    // double thickness((xmax+ymax-xmin-ymin)/2000);
     
-    for (i=(int) i_min_x; i*dx<gnuplot_xmax; i++){
+    for (i=(int) i_min_x; i*dx<xmax; i++){
       x=i*dx;
-      sortie<<"<line x1=\""<<x <<"\" y1=\""<<gnuplot_ymin <<"\" x2=\""<<x <<"\" y2=\""<<gnuplot_ymax;
-      if(i%5==0)
-	sortie<<"\" stroke=\""<<grid_color2<<"\"  stroke-width=\""<<2*thickness<<"\" />"<<endl;
-      else   
-	sortie<<"\" stroke=\""<<grid_color<<"\"  stroke-dasharray=\""
-	      <<10*thickness<<","<<10*thickness
-	      <<"\" stroke-width=\""<<thickness<<"\" />"<<endl;
+      sprintf(pos,"<line x1=\"%.5g\" y1=\"%.5g\" x2=\"%.5g\" y2=\"%.5g\"",x,ymin,x,ymax);
+      pos=buffer+strlen(buffer);
+      // sortie<<"<line x1=\""<<x <<"\" y1=\""<<ymin <<"\" x2=\""<<x <<"\" y2=\""<<ymax << "\" ";
+      if(i%5==0){
+	sprintf(pos,"stroke=\"%s\" stroke-width=\"%.5g\" />\n",grid_color2,2*xthickness);
+	// sortie<<"stroke=\""<<grid_color2<<"\"  stroke-width=\""<<2*thickness<<"\" />"<<endl;
+      }
+      else {
+	sprintf(pos,"stroke=\"%s\" stroke-width=\"%.5g\" />\n",grid_color,xthickness);
+	// sortie<<"stroke=\""<<grid_color<<"\"  stroke-dasharray=\""<<10*thickness<<","<<10*thickness <<"\" stroke-width=\""<<thickness<<"\" />"<<endl;
+      }
+      pos=buffer+strlen(buffer);
     }
-
-    for (i=(int) i_min_y; i*dy<gnuplot_ymax; i++){
+    for (i=(int) i_min_y; i*dy<ymax; i++){
       y=i*dy;
-      sortie<<"<line x1=\""<<gnuplot_xmin <<"\" y1=\""<<y <<"\" x2=\""<<gnuplot_xmax <<"\" y2=\""<<y;
-      if (i%5==0)
-	sortie<<"\" stroke=\""<<grid_color2<<"\"  stroke-width=\""<<2*thickness<<"\" />"<<endl;
-      else
-	sortie<<"\" stroke=\""<<grid_color<<"\"  stroke-dasharray=\""
-	      <<10*thickness<<","<<10*thickness
-	      <<"\" stroke-width=\""<<thickness<<"\" />"<<endl;
+      sprintf(pos,"<line x1=\"%.5g\" y1=\"%.5g\" x2=\"%.5g\" y2=\"%.5g\"",xmin,y,xmax,y);
+      pos=buffer+strlen(buffer);
+      // sortie<<"<line x1=\""<<xmin <<"\" y1=\""<<y <<"\" x2=\""<<xmax <<"\" y2=\""<<y;
+      if (i%5==0){
+	sprintf(pos,"stroke=\"%s\" stroke-width=\"%.5g\" />\n",grid_color2,2*ythickness);	
+	// sortie<<"\" stroke=\""<<grid_color2<<"\"  stroke-width=\""<<2*thickness<<"\" />"<<endl;
+      }
+      else {
+	sprintf(pos,"stroke=\"%s\" stroke-width=\"%.5g\" />\n",grid_color,ythickness);
+	// sortie<<"\" stroke=\""<<grid_color<<"\"  stroke-dasharray=\"" <<10*thickness<<","<<10*thickness <<"\" stroke-width=\""<<thickness<<"\" />"<<endl;
+      }
+      pos=buffer+strlen(buffer);
     }
-
     //cadre
-    sortie<<"<rect stroke=\""<<"black"<<"\"  stroke-width=\""<<2*thickness<<"\" fill=\"none\" x=\""<<gnuplot_xmin<<"\" y=\""<<gnuplot_ymin<<"\" width=\""<<svg_width<<"\" height=\""<<svg_height<<"\" />"<<endl;  
-    return sortie.str();
+    sprintf(pos,"<rect stroke=\"black\" stroke-width=\"%.5g\" fill=\"none\" x=\"%.5g\" y=\"%.5g\" width=\"%.5g\" height=\"%.5g\" />",2*std::min(xthickness,ythickness),xmin,ymin,svg_width,svg_height);
+    // sortie<<"<rect stroke=\""<<"black"<<"\"  stroke-width=\""<<2*thickness<<"\" fill=\"none\" x=\""<<xmin<<"\" y=\""<<ymin<<"\" width=\""<<svg_width<<"\" height=\""<<svg_height<<"\" />"<<endl;  
+    // string s=sortie.str();
+    return buffer;
   }
 
   string svg_grid(){
-    double svg_width=gnuplot_xmax-gnuplot_xmin;
-    double svg_height=gnuplot_ymax-gnuplot_ymin;
+    return svg_grid(gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax);
+  }
+  
+  string svg_grid(double xmin,double xmax,double ymin,double ymax){
+    double svg_width=xmax-xmin;
+    double svg_height=ymax-ymin;
 #ifdef HAVE_SSTREAM
-    ostringstream sortie;
+    // ostringstream sortie;
 #else
-    ostrstream sortie;
+    // ostrstream sortie;
 #endif
-    string s;
 
     // 4 rectangles to mask the borders
-    double x_scale=(gnuplot_xmax-gnuplot_xmin)/10;
-    double y_scale=(gnuplot_ymax-gnuplot_ymin)/10;
-    sortie<<"<rect x=\""<<gnuplot_xmin-x_scale<<"\" y=\""<<gnuplot_ymax<<"\" height=\""<<y_scale<<"\" width=\""<<svg_width+2*x_scale<<
-      "\" stroke=\"none\" fill=\"white\"/>"<<endl;
-    sortie<<"<rect x=\""<<gnuplot_xmin-x_scale<<"\" y=\""<<gnuplot_ymin<<"\" width=\""<<x_scale <<"\" height=\""<<svg_height<<
-      "\" stroke=\"none\" fill=\"white\"/>"<<endl;
-    sortie<<"<rect x=\""<<gnuplot_xmax<<"\" y=\""<<gnuplot_ymin<<"\" width=\""<<x_scale*2 <<"\" height=\""<<svg_height<<
-      "\" stroke=\"none\" fill=\"white\"/>"<<endl;
-    sortie<<"<rect x=\""<<gnuplot_xmin-x_scale<<"\" y=\""<<gnuplot_ymin-y_scale<<"\" width=\""<<svg_width+2*x_scale <<
-      "\" height=\""<<y_scale <<"\" stroke=\"none\" fill=\"white\"/>\n</g>"<<endl;
+    double x_scale=(xmax-xmin)/10;
+    double y_scale=(ymax-ymin)/10;
+    double ratio=y_scale/x_scale;
+    double fontscale=x_scale*.6; // (x_scale<y_scale?y_scale:x_scale)*.3;
+    char buffer[16384];
+    char * pos=buffer;
+    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" height=\"%.5g\" width=\"%.5g\" stroke=\"none\" fill=\"white\"/\n>\n",xmin-x_scale,ymax,y_scale,svg_width+2*x_scale);
+    // sortie<<"<rect x=\""<<xmin-x_scale<<"\" y=\""<<ymax<<"\" height=\""<<y_scale<<"\" width=\""<<svg_width+2*x_scale<< "\" stroke=\"none\" fill=\"white\"/>"<<endl;
+    pos = buffer+strlen(buffer);
+    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" height=\"%.5g\" width=\"%.5g\" stroke=\"none\" fill=\"white\"/\n>\n",xmin-x_scale,ymin,x_scale,svg_height);
+    // sortie<<"<rect x=\""<<xmin-x_scale<<"\" y=\""<<ymin<<"\" width=\""<<x_scale <<"\" height=\""<<svg_height<< "\" stroke=\"none\" fill=\"white\"/>"<<endl;
+    pos = buffer+strlen(buffer);
+    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" height=\"%.5g\" width=\"%.5g\" stroke=\"none\" fill=\"white\"/\n>\n",xmax,ymin,x_scale*2,svg_height);
+    // sortie<<"<rect x=\""<<xmax<<"\" y=\""<<ymin<<"\" width=\""<<x_scale*2 <<"\" height=\""<<svg_height<<"\" stroke=\"none\" fill=\"white\"/>"<<endl;
+    pos = buffer+strlen(buffer);
+    sprintf(pos,"<rect x=\"%.5g\" y=\"%.5g\" height=\"%.5g\" width=\"%.5g\" stroke=\"none\" fill=\"white\"/\n></g>\n",xmin-x_scale,ymin-y_scale,svg_width+2*x_scale,y_scale);
+    pos = buffer+strlen(buffer);
+    // sortie<<"<rect x=\""<<xmin-x_scale<<"\" y=\""<<ymin-y_scale<<"\" width=\""<<svg_width+2*x_scale <<"\" height=\""<<y_scale <<"\" stroke=\"none\" fill=\"white\"/>\n</g>"<<endl;
 
     // calibrage des graduations
-    int dx,dy;
-    svg_dx_dy(svg_width, svg_height, & dx, &dy);
+    double dx,dy;
+    svg_dx_dy(svg_width, svg_height, dx, dy);
     double x,y;
     int i;
-    double i_min_x= gnuplot_xmin/dx;
-    double i_min_y= gnuplot_ymin/dy;
-    int di_x=1;
-    int di_y=1;
-    if ((gnuplot_xmax-gnuplot_xmin)/dx>9)
-      di_x=5;
-    if ((gnuplot_ymax-gnuplot_ymin)/dx>9)
-      di_y=5;
+    if ((xmax-xmin)/dx>9)
+      dx*=5;
+    if ((ymax-ymin)/dy>9)
+      dy*=5;
+    double i_min_x= xmin/dx;
+    double i_min_y= ymin/dy;
     // index des graduations 
-    for (i=(int) i_min_x;  i*dx<=gnuplot_xmax ; i=i+di_x){
+    for (i=(int) i_min_x;  i*dx<=xmax ; ++i){
       x=i*dx;
-      sortie<<setprecision(5)<<"<text x=\""<<x<<"\" y=\""<<gnuplot_ymax+0.6*y_scale<<"\" style=\"font-size:"<<0.3*x_scale<<"pt; text-anchor:middle;\">"<<(float)x<<"</text>"<<endl;
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.5g</text>\n",x/fontscale,(ymax+0.6*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,1.0,x);
+      pos = buffer+strlen(buffer);
+      // sortie << setprecision(5)<<"<text x=\""<<x<<"\" y=\""<<ymax+0.6*y_scale<<"\" ";
+      // sortie <<" style=\"font-size:"<<fontscale<<"pt; text-anchor:middle;\"";
+      // sortie << ">" << (float)x <<"</text>"<<endl;
     } 
-    for (i=(int) i_min_y;  i*dy<=gnuplot_ymax ; i=i+di_y){
+    for (i=(int) i_min_y;  i*dy<=ymax ; ++i){
       y=i*dy;
-      sortie<<setprecision(5)<<"<text x=\""<<gnuplot_xmax+0.2*x_scale<<"\" y=\""<<gnuplot_ymax+gnuplot_ymin-y+0.1*y_scale<<"\" style=\"font-size:"<<0.3*x_scale<<"pt\">"<<(float)y<<"</text>"<<endl;
+      sprintf(pos,"<text x=\"%.5g\" y=\"%.5g\" transform=\"scale(%.5g,%.5g)\" style=\"font-size:%.5gpt; text-anchor:middle;\">%.5g</text>\n",(xmax+0.3*x_scale)/fontscale,(ymax+ymin-y+0.1*y_scale)/ratio/fontscale,fontscale,ratio*fontscale,1.0,y);
+      pos = buffer+strlen(buffer);
+      // sortie<<setprecision(5)<<"<text x=\""<<xmax+0.2*x_scale<<"\" y=\""<<ymax+ymin-y+0.1*y_scale << "\" ";
+      // sortie <<"style=\"font-size:"<<fontscale<<"pt\"";
+      // sortie << ">" << (float)y<<"</text>"<<endl;
     }
-    return string(sortie.str())+"\n";
+    return buffer;
   }
 
 
-  static string color_string(int color){
-    switch (color) {
+  static string color_string(svg_attribut attr){
+    switch (attr.color) {
     case 0:
       return "black";
     case 1:
@@ -676,69 +750,81 @@ namespace giac {
   }
 #endif
  
-  static void svg_text(gen A, string legende, int color,GIAC_CONTEXT){
-    static gen right_space((gnuplot_xmax-gnuplot_xmin)/50);
-    static gen text_size(0.3*(gnuplot_ymax-gnuplot_ymin)/10);
+  static string svg_text(gen A, string legende, svg_attribut attr,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+    double x_scale=(xmax-xmin)/10;
+    double y_scale=(ymax-ymin)/10;
+    double fontscale=0.6*x_scale;
+    double ratio=y_scale/x_scale;
     if (legende=="")
-      return;
+      return legende;
     // remove " from legende
     int end=legende.size()-1;
     if (legende[0]=='\"')
       legende=legende.substr(1,end-1);
-    gen x=re(A,contextptr)-right_space;
-    gen y(gnuplot_ymax+gnuplot_ymin-im(A,contextptr));
-    if (x==gnuplot_xmax){
-      // A traiter, la l??gende sort du cadre
+    gen x=re(A,contextptr); // should take care of legend position
+    gen y(ymax+ymin-im(A,contextptr));
+    if (x==xmax){
+      // A traiter, la legende sort du cadre
     }
-    svg_legend=svg_legend+ "<text  fill=\"" +color_string(color)+"\"  x=\""+x.print(contextptr)+"\" y=\""+y.print(contextptr)
-      +"\" style=\"font-size:"+text_size.print(contextptr)+"pt; text-anchor:end;\">"
+    return "<text  fill=\"" +color_string(attr)+"\"  x=\""+(x/fontscale).print(contextptr)+"\" y=\""+(y/ratio/fontscale).print(contextptr)
+      +"\" transform=\"translate(0,"+print_DOUBLE_(ymin+ymax,contextptr)+") scale("+print_DOUBLE_(fontscale,contextptr)+","+print_DOUBLE_(-ratio*fontscale,contextptr)+")\" style=\"font-size:1.0pt; text-anchor:end;\">"
       +legende
       +"</text>\n";                                      
   }
-
-  static string svg_circle(gen diameter0, gen diameter1, int color, string legende,GIAC_CONTEXT){
+  /*
+  static double geo_thickness(double xmin,double xmax,double ymin,double ymax){
+    double dx=xmax-xmin,dy=ymax-ymin,m=std::min(dx,dy);
+    return std::pow((xmax-xmin)*(ymax-ymin)*m*m,0.25);
+  }
+  */
+  
+  static string svg_circle(const gen & diameter0, const gen & diameter1, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     string s="";
-    gen center=evalf((diameter0+diameter1)/2,1,contextptr);
-    gen radius=evalf(abs(diameter1-diameter0)/2,1,contextptr);
-    gen thickness((gnuplot_xmax+gnuplot_ymax-gnuplot_xmin-gnuplot_ymin)/500);
-    s=  "<circle stroke=\""+color_string(color)+"\"  stroke-width=\""+thickness.print(contextptr)+"\" fill=\"none\" cx=\""
+    gen d0=evalf_double(diameter0,1,contextptr);
+    gen d1=evalf_double(diameter1,1,contextptr);
+    gen center=(d0+d1)/2.0;
+    gen radius=abs(d1-d0,contextptr);
+    // COUT << d0 << "," << d1 << "," << radius << endl;
+    double r=radius._DOUBLE_val/2.0;
+    // COUT << r << endl;
+    s=  "<circle vector-effect=\"non-scaling-stroke\" stroke=\""+color_string(attr)+"\"  stroke-width=\""+print_INT_(attr.width)+"\" fill=\"none\" cx=\""
       +re(center,contextptr).print(contextptr)+"\" cy=\""
       +im(center,contextptr).print(contextptr)+"\" r=\""
-      +radius.print(contextptr)
+      +print_DOUBLE_(r,contextptr)
       +"\" />\n";
     if (legende!="")
-      svg_text(evalf(center+radius,1,contextptr),legende,color,contextptr);
+      s+=svg_text(evalf(center+r,1,contextptr),legende,attr,xmin,xmax,ymin,ymax,contextptr);
     return s;
   }
 
 
-  static string svg_segment(gen A, gen B, int  color, string legende,GIAC_CONTEXT){
+  static string svg_segment(gen A, gen B, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     string s;
-    gen thickness((gnuplot_xmax+gnuplot_ymax-gnuplot_xmin-gnuplot_ymin)/500);
+    // gen thickness((xmax+ymax-xmin-ymin)/svg_epaisseur1);
     A=evalf(A,1,contextptr); B=evalf(B,1,contextptr);
-    s= "<line  stroke-width=\""+thickness.print(contextptr)+"\" stroke=\""
-      +color_string(color)+"\" x1=\""
+    // gen thickness(geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width);
+    // s= "<line stroke-width=\""+thickness.print(contextptr)+"\" stroke=\""
+    s= "<line vector-effect=\"non-scaling-stroke\" stroke-width=\""+print_INT_(attr.width)+"\" stroke=\""
+      +color_string(attr)+"\" x1=\""
       +re(A,contextptr).print(contextptr)+"\" y1=\""
       +im(A,contextptr).print(contextptr)+"\" x2=\""
       +re(B,contextptr).print(contextptr)+"\" y2=\""
       +im(B,contextptr).print(contextptr)+"\"/>\n";
-    svg_text(B,legende,color,contextptr);
+    s+=svg_text(B,legende,attr,xmin,xmax,ymin,ymax,contextptr);
     return s;
   }
 
-  static string svg_point(gen center, int color, string legende,GIAC_CONTEXT){
-    double svg_width=gnuplot_xmax-gnuplot_xmin;
-    // double svg_height=gnuplot_ymax-gnuplot_ymin;
+  static string svg_point(gen center, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+    double svg_width=xmax-xmin;
+    double svg_height=ymax-ymin;
     gen i=cst_i;
     gen dx(svg_width/100);
-    gen dy(svg_width/100);
-    svg_text(center,legende,color,contextptr);
-    return svg_segment(center-dx-i*dy,center+dx+i*dy,color,"",contextptr)+
-      svg_segment(center-dx+i*dy,center+dx-i*dy,color,"",contextptr);
+    gen dy(svg_height/100);
+    return svg_segment(center-dx-i*dy,center+dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center+dx-i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
   }
 
-  static string svg_line(gen A, gen B, int color, string legende,GIAC_CONTEXT){
-    gen i=cst_i,xmin(gnuplot_xmin),ymin(gnuplot_ymin),xmax(gnuplot_xmax),ymax(gnuplot_ymax), C,D;
+  static string svg_line(gen A, gen B, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+    gen i=cst_i, C,D;
     A=evalf(A,1,contextptr); B=evalf(B,1,contextptr);
     // recherche de l'??quation de la droite
     if (is_zero(eval(re(A,contextptr)-re(B,contextptr),eval_level(contextptr),contextptr))){
@@ -750,11 +836,11 @@ namespace giac {
       C=xmin+i*(a*xmin+b);
       D=xmax+i*(a*xmax+b);
     }
-    return svg_segment(C,D,color,legende,contextptr);
+    return svg_segment(C,D,attr,legende,xmin,xmax,ymin,ymax,contextptr);
   }
 
-  static string svg_half_line(gen A, gen B, int color, string legende,GIAC_CONTEXT){
-    gen i=cst_i,xmin(gnuplot_xmin),ymin(gnuplot_ymin),xmax(gnuplot_xmax),ymax(gnuplot_ymax), C,D;
+  static string svg_half_line(gen A, gen B, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+    gen i=cst_i, C,D;
     A=evalf(A,1,contextptr); B=evalf(B,1,contextptr);
     // recherche de l'??quation de la droite
     if (is_zero(eval(re(A,contextptr)-re(B,contextptr),eval_level(contextptr),contextptr))){
@@ -772,36 +858,34 @@ namespace giac {
       else
 	C=xmin+i*(a*xmin+b); 
     }
-    return svg_segment(A,C,color,legende,contextptr);
+    return svg_segment(A,C,attr,legende,xmin,xmax,ymin,ymax,contextptr);
   }
 
 
-  static string svg_polyline(gen g,int color, string name,GIAC_CONTEXT){
+  static string svg_polyline(gen g,svg_attribut attr, string name,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     string x="x", y="y", s;
     int i;
-    gen thickness((gnuplot_xmax+gnuplot_ymax-gnuplot_xmin-gnuplot_ymin)/500);
     g=eval(g,eval_level(contextptr),contextptr);
     vecteur v=*(g._VECTptr);
     if (v[0]==v[v.size()-1])
-      s= "<polygon  stroke-width=\""+thickness.print(contextptr)+"\" stroke=\""+color_string(color)+"\" fill=\"none\" points=\"";
+      s= "<polygon vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width)+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" points=\"";
     else
-      s= "<polyline  stroke-width=\""+thickness.print(contextptr)+"\" stroke=\""+color_string(color)+"\" fill=\"none\" points=\"";
+      s= "<polyline vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width)+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" points=\"";
     for (i=0 ; i<signed(v.size())-1 ; i++){
       s=s+re(evalf(v[i],1,contextptr),contextptr).print(contextptr)+" "+im(evalf(v[i],1,contextptr),contextptr).print(contextptr)+", ";
     }
     s=s+re(evalf(v[i],1,contextptr),contextptr).print(contextptr)+" "+im(evalf(v[i],1,contextptr),contextptr).print(contextptr)+"\" /> ";
-    svg_text(v[i],name,color,contextptr);
+    s+=svg_text(v[i],name,attr,xmin,xmax,ymin,ymax,contextptr);
     return s;
   }
 
   // Trac?? de courbes
   // un point sur 2 sert de point de contr??le
   // on peut sophistiquer
-  static string svg_bezier_curve(gen g, int color, string legende,GIAC_CONTEXT){ 
+  static string svg_bezier_curve(gen g, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){ 
     string x="x", y="y";
     int i;
-    gen thickness((gnuplot_xmax-gnuplot_xmin)/250);
-    string s= "<path  stroke-width=\""+thickness.print(contextptr)+"\" stroke=\""+color_string(color)+"\" fill=\"none\" d=\"M";
+    string s= "<path vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width)+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" d=\"M";
     g=evalf(g,1,contextptr);
     vecteur v=*(g._VECTptr);
     for (i=0 ; i<signed(v.size()) ; i++){
@@ -820,11 +904,11 @@ namespace giac {
     // on ??crit la l??gende
     //recherche d'un point dans le cadre pour ancrer la l??gende
     for (i=0 ; i<signed(v.size()) ; i++){
-      if (is_positive(re(v[i],contextptr)-gnuplot_xmin,contextptr) 
-	  && is_positive(im(v[i],contextptr)-gnuplot_ymin,contextptr)
-	  && is_positive(gnuplot_xmax-re(v[i],contextptr),contextptr) 
-	  && is_positive(gnuplot_ymax-im(v[i],contextptr),contextptr) ){
-	svg_text(v[i],legende,color,contextptr);
+      if (is_positive(re(v[i],contextptr)-xmin,contextptr) 
+	  && is_positive(im(v[i],contextptr)-ymin,contextptr)
+	  && is_positive(xmax-re(v[i],contextptr),contextptr) 
+	  && is_positive(ymax-im(v[i],contextptr),contextptr) ){
+	s+=svg_text(v[i],legende,attr,xmin,xmax,ymin,ymax,contextptr);
 	break;
       }
     }
@@ -832,38 +916,61 @@ namespace giac {
   }
 
 
-  static string symbolic2svg(const symbolic & mys,GIAC_CONTEXT);
+  static string symbolic2svg(const symbolic & mys,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT);
 
   //fonction appel??e ssi v est un vecteur
-  static string vect2svg(gen v, int color, string name,GIAC_CONTEXT){
+  static string vect2svg(gen v, svg_attribut attr, string name,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     if (v.type != _VECT)
       return "error";
     if (v.subtype==_SYMB){
       if (v[0].type==_VECT){
-	return vect2svg(v[0], color, name,contextptr);
+	return vect2svg(v[0], attr, name,xmin,xmax,ymin,ymax,contextptr);
       }
       if (v[0].type==_SYMB)
-	return symbolic2svg(*v[0]._SYMBptr,contextptr);
+	return symbolic2svg(*v[0]._SYMBptr,xmin,xmax,ymin,ymax,contextptr);
     }
     if (v.subtype==_GROUP__VECT)
-      return svg_polyline(v, color, name,contextptr);
+      return svg_polyline(v, attr, name,xmin,xmax,ymin,ymax,contextptr);
     if (v.subtype==_LINE__VECT)
-      return svg_line(v[0],v[1], color, name,contextptr);
+      return svg_line(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
     if (v.subtype==_HALFLINE__VECT)
-      return svg_half_line(v[0],v[1], color, name,contextptr);
+      return svg_half_line(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
     return "vect2svg error";
   }
 
 
-  static string symbolic2svg(const symbolic & mys,GIAC_CONTEXT){ 
-   int color=default_color(contextptr);
+  static string symbolic2svg(const symbolic & mys,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){ 
+    int color=default_color(contextptr);
     string name="";
     if (mys.sommet==at_pnt){ 
       vecteur v=*(mys.feuille._VECTptr);
+      string the_legend;
+      vecteur style(get_style(v,the_legend));
+      int styles=style.size();
+      // color
+      int ensemble_attributs = style.front().val;
+      bool hidden_name = false;
+      if (style.front().type==_ZINT){
+	ensemble_attributs = mpz_get_si(*style.front()._ZINTptr);
+	hidden_name=true;
+      }
+      else
+	hidden_name=ensemble_attributs<0;
+      int width           =(ensemble_attributs & 0x00070000) >> 16; // 3 bits
+      int epaisseur_point =(ensemble_attributs & 0x00380000) >> 19; // 3 bits
+      int type_line       =(ensemble_attributs & 0x01c00000) >> 22; // 3 bits
+      if (type_line>4)
+	type_line=(type_line-4)<<8;
+      int type_point      =(ensemble_attributs & 0x0e000000) >> 25; // 3 bits
+      int labelpos        =(ensemble_attributs & 0x30000000) >> 28; // 2 bits
+      bool fill_polygon   =(ensemble_attributs & 0x40000000) >> 30;
+      color         =(ensemble_attributs & 0x0000ffff);
+      epaisseur_point += 2;
+      svg_attribut attr={color,width+1,epaisseur_point,type_line,type_point,fill_polygon,hidden_name};
       if(v.size()==3)
 	name=v[2].print(contextptr);
       if (v[0].type==_VECT){
-	return vect2svg(v[0], color, name,contextptr);
+	return vect2svg(v[0], attr, name,xmin,xmax,ymin,ymax,contextptr);
       }                     
       if (v[0].type==4)           //indispensable, mais je ne sais pas pourquoi
 	v[0]=gen(v[0].print(contextptr),contextptr);
@@ -871,41 +978,45 @@ namespace giac {
 	symbolic figure=*v[0]._SYMBptr; 
 	if (figure.sommet == at_curve){
 	  gen curve=figure.feuille;
-	  return svg_bezier_curve(curve[1],color,name,contextptr);
+	  return svg_bezier_curve(curve[1],attr,name,xmin,xmax,ymin,ymax,contextptr);
 	}
 	if (figure.sommet == at_pnt)
-	  return symbolic2svg(figure,contextptr);
+	  return symbolic2svg(figure,xmin,xmax,ymin,ymax,contextptr);
 	if (figure.sommet==at_segment){
 	  gen segment=figure.feuille;
-	  return svg_segment(segment[0],segment[1], color, name,contextptr); 
+	  return svg_segment(segment[0],segment[1], attr, name,xmin,xmax,ymin,ymax,contextptr); 
 	}   
 	if (figure.sommet==at_droite ){
 	  gen segment=figure.feuille;
-	  return svg_line(segment[0],segment[1], color, name,contextptr);
+	  return svg_line(segment[0],segment[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
 	}
 	if (figure.sommet==at_demi_droite ){
 	  gen segment=figure.feuille;
-	  return svg_half_line(segment[0],segment[1], color, name,contextptr);
+	  return svg_half_line(segment[0],segment[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
 	}
 	if (figure.sommet==at_cercle ){
 	  gen diametre;
-	  if (figure.feuille[0].type==_VECT)
-	    diametre=figure.feuille[0];
+	  if (figure.feuille.type==_VECT && !figure.feuille._VECTptr->empty() && figure.feuille._VECTptr->front().type==_VECT)
+	    diametre=figure.feuille._VECTptr->front();
 	  else
 	    diametre=figure.feuille;
-	  return svg_circle(diametre[0],diametre[1], color, name,contextptr);
+	  if (diametre.type==_VECT && diametre._VECTptr->size()>=2){
+	    vecteur v=*diametre._VECTptr;
+	    return svg_circle(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
+	  }
+	  return "svg circle error";
 	}
-	return svg_point(v[0], color, name,contextptr); 
+	return svg_point(v[0], attr, name,xmin,xmax,ymin,ymax,contextptr); 
       }
-      return svg_point(v[0], color, name,contextptr); 
+      return svg_point(v[0], attr, name,xmin,xmax,ymin,ymax,contextptr); 
     }
     return "undef";
   }
 
 
-  string gen2svg(const gen &e,GIAC_CONTEXT){  
+  string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     if (e.type== _SYMB)
-      return symbolic2svg(*e._SYMBptr,contextptr);
+      return symbolic2svg(*e._SYMBptr,xmin,xmax,ymin,ymax,contextptr);
     if (e.type==_VECT){
       string s;
       vecteur v=*e._VECTptr;
@@ -913,12 +1024,18 @@ namespace giac {
 	if (v[i].type==_SYMB){
 	  symbolic sym=*v[i]._SYMBptr; 
 	  if (sym.sommet==at_pnt)
-	    s=s+symbolic2svg(sym,contextptr);
+	    s=s+symbolic2svg(sym,xmin,xmax,ymin,ymax,contextptr);
+	}
+	if (v[i].type==_VECT){
+	  s=s+gen2svg(v[i],xmin,xmax,ymin,ymax,contextptr);
 	}
       }
       return s;
     }
     return "error";
+  }
+  string gen2svg(const gen &e,GIAC_CONTEXT){
+    return gen2svg(e,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,contextptr);
   }
   gen _svg(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -942,7 +1059,7 @@ namespace giac {
     if (opstring!="/" && mys.sommet.ptr()->texprint)  
       return mathml_print(mys,contextptr);
     if (mys.sommet==at_pnt) { 
-      svg=svg+symbolic2svg(mys,contextptr);
+      svg=svg+symbolic2svg(mys,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,contextptr);
       return "<mtext>"+mys.print(contextptr)+"</mtext>";
     }
     if ( (mys.feuille.type==_VECT) && (mys.feuille._VECTptr->empty()) )
@@ -1028,11 +1145,9 @@ namespace giac {
       if ( (mys.feuille._VECTptr->back()==minus_one_half ) || 
 	   (mys.feuille._VECTptr->back()==fraction(minus_one,plus_two) ) )
 	return "<mfrac><mn>1</mn><msqrt>"+gen2mathml(mys.feuille._VECTptr->front(),contextptr)+"</msqrt></mfrac>";
-      string s_bra="<msup><mfenced open=\"(\" close=\")\"><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr)
-    +"</mrow></mfenced><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)
-	+"</mrow></msup>";
-      string s_no_bra= "<msup><mrow> "+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr) 
-	+"</mrow><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)+"</mrow></msup>";
+      string s0=gen2mathml((*(mys.feuille._VECTptr))[0],contextptr),s1=gen2mathml((*(mys.feuille._VECTptr))[1],contextptr);
+      string s_bra="<msup><mfenced open=\"(\" close=\")\"><mrow>("+s0+")</mrow></mfenced><mrow>"+s1+"</mrow></msup>";
+      string s_no_bra= "<msup><mrow> "+s0+"</mrow><mrow>"+s1+"</mrow></msup>";
       if (mys.feuille._VECTptr->front().type==_SYMB){
 
 	symbolic mantisse(*mys.feuille._VECTptr->front()._SYMBptr);
@@ -1084,6 +1199,20 @@ namespace giac {
     return gen2mathml(e, svg,contextptr);
   }
 
+  static string mathml_split(const string & s,int slicesize){
+    if (s.size()<=slicesize)
+      return s;
+    string res;
+    for (int l=0;;){
+      int n=giacmin(slicesize,s.size()-l);
+      res = res + s.substr(l,n);
+      l += slicesize;
+      if (l>s.size()) break;
+      res = res +"\\<br>";
+    }
+    return res;
+  }
+
   string gen2mathml(const gen &e, string &svg,GIAC_CONTEXT){
     string part_re="", part_im="<mi>i</mi>";
     if (e.type==_SYMB && e._SYMBptr->sommet==at_sum)
@@ -1095,7 +1224,7 @@ namespace giac {
     else
       switch (e.type){
       case _INT_: case _ZINT:                        
-	return "<mn>"+e.print(contextptr)+"</mn>";
+	return "<mn>"+mathml_split(e.print(contextptr),50)+"</mn>";
       case _DOUBLE_:                        
 	/* FH: This should be tuned in the context
         if (fabs(e._DOUBLE_val)<1.1e-5)
@@ -1104,7 +1233,7 @@ namespace giac {
 	*/
 	  return "<mn>"+e.print(contextptr)+"</mn>"; 
       case _REAL:                        
-	  return "<mn>"+e.print(contextptr)+"</mn>"; 
+	return "<mn>"+mathml_split(e.print(contextptr),50)+"</mn>"; 
       case _CPLX:
 	if (!is_zero(re(e,contextptr)))
 	    part_re="<mn>"+re(e,contextptr).print(contextptr)+"</mn>";
@@ -1165,17 +1294,28 @@ namespace giac {
     return "mathml error (gen2mathml)";
   }
 
-
+  
+  string ingen2mathml(const gen & g,bool html5,GIAC_CONTEXT){
+    if (html5) return "\n<math display=\"inline\" xmlns=\"http://www.w3.org/1998/Math/MathML\">\n\n"+gen2mathml(g,contextptr)+"\n\n</math>\n";
+    return "\n<math mode=\"display\" xmlns=\"http://www.w3.org/1998/Math/MathML\">\n\n"+gen2mathml(g,contextptr)+"\n\n</math><br/>\n";
+  }
 
   static string gen2mathmlfull(const gen & g,GIAC_CONTEXT){
-    return string(mathml_preamble)+"\n<math mode=\"display\" xmlns=\"http://www.w3.org/1998/Math/MathML\">\n\n"+gen2mathml(g,contextptr)+"\n\n</math><br/>\n"+mathml_end+'\n';
+    return string(mathml_preamble)+ingen2mathml(g,false,contextptr)+mathml_end+'\n';
   }
   gen _mathml(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>1 && (*g._VECTptr)[1].type==_STRNG){
+    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>1 && (*g._VECTptr)[1].type==_STRNG && *((*g._VECTptr)[1]._STRNGptr)!="Done"){
       ofstream of((*g._VECTptr)[1]._STRNGptr->c_str());
       of << gen2mathmlfull(g._VECTptr->front(),contextptr) << endl;
       return plus_one;
+    }
+    if (g.type==_VECT && g._VECTptr->size()==2 && g._VECTptr->back().type==_INT_)
+      return string2gen(ingen2mathml(g._VECTptr->front(),g._VECTptr->back().val,contextptr),false);
+    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>2 && g._VECTptr->back().type==_INT_){
+      vecteur v(g._VECTptr->begin(),g._VECTptr->end()-1);
+      gen g1(v,g.subtype);
+      return string2gen(ingen2mathml(g1,g._VECTptr->back().val,contextptr),false);
     }
     return string2gen(gen2mathmlfull(g,contextptr),false);
   }

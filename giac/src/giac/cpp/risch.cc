@@ -67,7 +67,7 @@ namespace giac {
   // The derivative wrt to x_i (i-th index) is the i-th element of v
   // The last element of v should normally be 1 (derivative of x)
   static fraction diff(const polynome & f,const vecteur & v){
-    int s=v.size();
+    int s=int(v.size());
     if (f.dim<s)
       return fraction(gensizeerr(gettext("Risch diff dimension")));
     fraction res(zero);
@@ -216,7 +216,7 @@ namespace giac {
       return true;
     }
     polynome R(R0),S(S0),T(T0);
-    int s=lv.size();
+    int s=int(lv.size());
     if (ydeg<0 || !rischde_simplify(R,S,T))
       return false;
     int r=R.lexsorted_degree();
@@ -268,7 +268,7 @@ namespace giac {
     if (is_undef(dz))
       return false;
     gen b=r2sym(S,lv,contextptr)/rr;
-    int tdeg=t.size()-1;
+    int tdeg=int(t.size())-1;
     gen previous,sol;
     bool ok;
     for (int k=tdeg;k>=0;--k){
@@ -288,7 +288,7 @@ namespace giac {
   // returns true and y or false
   static bool risch_desolve(const gen & f,const gen & g,const identificateur & x,const vecteur & v,gen & y,bool f_is_derivative,GIAC_CONTEXT){
     gen Z=v.front();
-    int s=v.size();
+    int s=int(v.size());
     vecteur lv(lvar(v));
     vecteur v1(v.begin()+1,v.end());
     vecteur vdiff(s);
@@ -301,7 +301,7 @@ namespace giac {
     lvar(f,lv);
     lvar(g,lv);
     vecteur lv1(lv.begin()+1,lv.end());
-    int ss=lv.size();
+    int ss=int(lv.size());
     for (int i=0;i<s;++i)
       vdiff[i]=sym2r(vdiff[i],lv,contextptr);
     // identificateur Zi(" Z");
@@ -467,7 +467,7 @@ namespace giac {
       prim=pprime.num;
       return p;
     }
-    int s=lv.size();
+    int s=int(lv.size());
     polynome fprime=gen2poly(pprime.num,s),fprimeden=gen2poly(pprime.den,s);
     polynome d(s),u(s),v(s),C(s);
     polynome resnum(s),resden(plus_one,s),numtemp(s),dentemp(s);
@@ -528,7 +528,7 @@ namespace giac {
     vecteur l(1,x);
     lvar(coeff,l);
     lvar(a,l);
-    int s=l.size();
+    int s=int(l.size());
     vecteur l1(l.begin()+1,l.end());
     gen r=e2r(coeff,l,contextptr),ar=e2r(a,l,contextptr);
     // cout << "Int " << r << endl;
@@ -610,7 +610,7 @@ namespace giac {
       prim=prim+symb_horner(tmp,x);
       return true;
     } 
-    int s=e.size(); // degree is s-1
+    int s=int(e.size()); // degree is s-1
     vecteur v1(v.begin()+1,v.end());
     gen X=v.front();
     if (X.is_symb_of_sommet(at_ln)){
@@ -683,7 +683,7 @@ namespace giac {
     prim=zero;
     lncoeff=zero;
     remains_to_integrate= zero;
-    int vs=v.size();
+    int vs=int(v.size());
     vecteur l(v);
     // add top non-x vars
     lvar(e,l);
@@ -693,7 +693,7 @@ namespace giac {
     vecteur vx=*diffv._VECTptr;
     lvar(vx,l);
     vecteur vl;
-    int s=l.size();
+    int s=int(l.size());
     for (int i=0;i<vs;++i)
       vl.push_back(e2r(vx[i],l,contextptr));
     vecteur l1(l.begin()+1,l.end());
@@ -885,7 +885,7 @@ namespace giac {
     if (g.type!=_VECT)
       return _risch(vecteur(1,g),contextptr);
     vecteur & v=*g._VECTptr;
-    int s=v.size();
+    int s=int(v.size());
     if (s>2)
       return _integrate(g,contextptr);
     gen tmp;
@@ -908,7 +908,7 @@ namespace giac {
     vecteur P0(polynome2poly1(p/lgcd(p),1));
     vecteur P(P0);
     // eval every coeff at (0,...,0)
-    int d=P.size();
+    int d=int(P.size());
     for (int i=0;i<d;++i){
       if (P[i].type==_POLY)
 	P[i]=peval(*P[i]._POLYptr,zerozero,0);
@@ -952,7 +952,7 @@ namespace giac {
     if (!linearfind(p0,env,temp,v,ithprime)) // FIXME??
       res.clear();// int bound=
     delete env;
-    d=v.size();
+    d=int(v.size());
     for (int i=0;i<d;++i){
       vecteur tmpv=polynome2poly1(v[i]);
       if (tmpv.size()!=2)

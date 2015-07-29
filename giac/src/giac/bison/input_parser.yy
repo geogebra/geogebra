@@ -236,6 +236,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_DIGITS T_AFFECT exp	{$$ = symbolic(*$1._FUNCptr,$3);}
 	| exp TI_STO T_DIGITS	{$$ = symbolic(*$3._FUNCptr,$1);}
 	| exp T_TEST_EQUAL exp	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
+	| exp T_TEST_EQUAL symbol T_TEST_EQUAL exp	{$$ = symb_and(symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT)),symbolic(*$4._FUNCptr,gen(makevecteur($3,$5),_SEQ__VECT)));}
 	| exp T_EQUAL exp	        {$$ = symbolic(*$2._FUNCptr,makesequence($1,$3)); }
 	| T_EQUAL exp %prec T_BIDON { 
 	if ($2.type==_SYMB) $$=$2; else $$=symbolic(at_nop,$2); 
@@ -398,10 +399,10 @@ exp	: T_NUMBER		{$$ = $1;}
           $$=symbolic(*$1._FUNCptr,makevecteur(symb_sto($3,$2),$6,symb_sto(symb_plus($2,$4),$2),symb_bloc($8))); 
         }
 	| T_FOR {$$ = gen(*$1._FUNCptr,4);}
-	| T_DO prg_suite T_BLOC_END { 
+	/* | T_DO prg_suite T_BLOC_END { 
           if ($3.type==_INT_ && $3.val && $3.val!=2 && $3.val!=9) giac_yyerror(scanner,"missing loop end delimiter");
            vecteur v=makevecteur(zero,plus_one,zero,symb_bloc($2)); $$=symbolic(*$1._FUNCptr,v); 
-         }
+         } */
 	| T_REPEAT prg_suite T_UNTIL exp { 
         vecteur v=gen2vecteur($2);
         v.push_back(symb_ifte(equaltosame($4),symbolic(at_break,zero),0));
@@ -533,6 +534,11 @@ exp	: T_NUMBER		{$$ = $1;}
           if ($8.type==_INT_ && $8.val && $8.val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);
            $$=symb_program_sto($4,zero*$4,symb_local($6,$7,contextptr),$2,false,contextptr); 
+        }
+	| T_PROC symbol T_BEGIN_PAR suite T_END_PAR T_BLOC_BEGIN entete prg_suite T_BLOC_END { 
+          if ($9.type==_INT_ && $9.val && $9.val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
+          const giac::context * contextptr = giac_yyget_extra(scanner);
+           $$=symb_program_sto($4,zero*$4,symb_local($7,$8,contextptr),$2,false,contextptr); 
         }
 	| T_PROC T_BEGIN_PAR suite T_END_PAR entete T_BLOC_BEGIN prg_suite T_BLOC_END { 
           if ($8.type==_INT_ && $8.val && $8.val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
