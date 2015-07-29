@@ -144,6 +144,9 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 		this.app = (AppW) app;
 		addMacroHandler = new AddMacroDOMHandler(app);
 		exercise = Exercise.getInstance(app);
+		if (exercise.getParts().isEmpty()) {
+			exercise.initStandardExercise();
+		}
 		createGUI();
 	}
 

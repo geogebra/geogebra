@@ -388,7 +388,7 @@ public class Assignment {
 
 	public String getAssignmentXML() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("\n\t<assignment toolName=\"");
+		sb.append("\t<assignment toolName=\"");
 		StringUtil.encodeXML(sb, macro.getToolName());
 		sb.append("\">\n");
 

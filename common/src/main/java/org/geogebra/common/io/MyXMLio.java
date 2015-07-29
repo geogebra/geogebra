@@ -18,6 +18,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.Exercise;
 
 /**
  * Converts GeoGebra constructions to strings and vice versa
@@ -237,7 +239,10 @@ public abstract class MyXMLio {
 		addGeoGebraHeader(sb, true, null);
 		// save construction
 		sb.append(kernel.getMacroXML(macros));
-
+		if (app.has(Feature.EXERCISES)) {
+			sb.append(Exercise.getInstance(app).getExerciseXML());
+			App.debug(Exercise.getInstance(app).getExerciseXML());
+		}
 		sb.append("</geogebra>");
 		return sb.toString();
 	}

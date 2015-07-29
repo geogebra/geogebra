@@ -88,6 +88,9 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.util.Assignment;
+import org.geogebra.common.util.Assignment.Result;
+import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -106,6 +109,9 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_INVALID = -1;
 	private static final int MODE_GEOGEBRA = 1;
 	private static final int MODE_MACRO = 50;
+	private static final int MODE_EXERCISE = 60;
+	private static final int MODE_ASSIGNMENT = 61;
+
 	private static final int MODE_EUCLIDIAN_VIEW = 100;
 	/** currently parsing tags for Euclidian3D view */
 	protected static final int MODE_EUCLIDIAN_VIEW3D = 101; // only for 3D
@@ -161,11 +167,15 @@ public class MyXMLHandler implements DocHandler {
 	private int mode;
 	private int constMode; // submode for <construction>
 	private int casMode; // submode for <cascell>
+	private int exerciseMode; // submode for <exercise>
+
 	/** currently parsed element */
 	protected GeoElement geo;
 	private GeoCasCell geoCasCell;
 	private Command cmd;
 	private Macro macro;
+	private Exercise exercise;
+	private Assignment assignment;
 	/** application */
 	protected final App app;
 	/** lacalization */
@@ -328,6 +338,7 @@ public class MyXMLHandler implements DocHandler {
 
 		mode = MODE_INVALID;
 		constMode = MODE_CONSTRUCTION;
+		exerciseMode = MODE_EXERCISE;
 	}
 
 	private void reset(boolean start) {
@@ -445,6 +456,10 @@ public class MyXMLHandler implements DocHandler {
 
 		case MODE_MACRO:
 			startMacroElement(eName, attrs);
+			break;
+
+		case MODE_EXERCISE:
+			startExerciseElement(eName, attrs);
 			break;
 
 		case MODE_DEFAULTS:
@@ -657,6 +672,10 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 
+		case MODE_EXERCISE:
+			endExerciseElement(eName);
+			break;
+			
 		case MODE_GEOGEBRA:
 			if ("geogebra".equals(eName)) {
 				// start animation if necessary
@@ -720,6 +739,9 @@ public class MyXMLHandler implements DocHandler {
 		} else if ("macro".equals(eName)) {
 			mode = MODE_MACRO;
 			initMacro(attrs);
+		} else if ("exercise".equals(eName)) {
+			mode = MODE_EXERCISE;
+			initExercise(attrs);
 		} else if ("construction".equals(eName)) {
 			// App.debug("parsing start" + System.currentTimeMillis());
 			mode = MODE_CONSTRUCTION;
@@ -770,6 +792,36 @@ public class MyXMLHandler implements DocHandler {
 			handleConstruction(attrs);
 		} else {
 			App.error("unknown tag in <macro>: " + eName);
+		}
+	}
+
+	private void startExerciseElement(String eName,
+			LinkedHashMap<String, String> attrs) {
+		switch (exerciseMode) {
+		case MODE_EXERCISE:
+			if ("assignment".equals(eName)) {
+				exerciseMode = MODE_ASSIGNMENT;
+				String toolName = attrs.get("toolName");
+				assignment = exercise.addAssignment(kernel.getMacro(toolName));
+			} else {
+				App.error("unknown tag in <exercise>: " + eName);
+			}
+			break;
+		case MODE_ASSIGNMENT:
+			if ("result".equals(eName)) {
+				String name = attrs.get("name");
+				String hint = attrs.get("hint");
+				String fractionS = attrs.get("fraction");
+				if (hint != null && !hint.isEmpty()) {
+					assignment.setHintForResult(Result.valueOf(name), hint);
+				}
+				if (fractionS != null && !fractionS.isEmpty()) {
+					assignment.setFractionForResult(Result.valueOf(name),
+							Float.parseFloat(fractionS));
+				}
+			} else {
+				App.error("unknown tag in <assignment>: " + eName);
+			}
 		}
 	}
 
@@ -2805,6 +2857,29 @@ public class MyXMLHandler implements DocHandler {
 
 		// set kernel and construction back to the original values
 		initKernelVars();
+	}
+
+	private void initExercise(LinkedHashMap<String, String> attrs) {
+		exercise = Exercise.getInstance(app);
+		exercise.reset();
+	}
+
+	private void endExerciseElement(String eName) {
+		switch (exerciseMode) {
+		case MODE_EXERCISE:
+			if ("exercise".equals(eName)) {
+				mode = MODE_GEOGEBRA;
+			}
+			break;
+		case MODE_ASSIGNMENT:
+			if ("assignment".equals(eName)) {
+				exerciseMode = MODE_EXERCISE;
+			}
+			break;
+		default:
+			exerciseMode = MODE_EXERCISE; // set back mode
+			App.error("unknown exercise mode:" + exerciseMode);
+		}
 	}
 
 	/*

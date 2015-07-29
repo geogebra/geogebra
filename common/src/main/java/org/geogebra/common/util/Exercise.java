@@ -23,9 +23,21 @@ public class Exercise {
 		construction = kernel.getConstruction();
 
 		assignments = new ArrayList<Assignment>();
-		// results = new ArrayList<>();
-		// TODO if there is a saved Exercise
-		// else
+	}
+
+	public static Exercise getInstance(App app) {
+		if (INSTANCE == null) {
+			INSTANCE = new Exercise(app);
+		}
+		return INSTANCE;
+	}
+
+	public void reset() {
+		assignments = new ArrayList<Assignment>();
+	}
+
+	public void initStandardExercise() {
+		reset();
 		if (app.getKernel().hasMacros()) {
 			ArrayList<Macro> macros = app.getKernel().getAllMacros();
 			for (Macro macro : macros) {
@@ -35,6 +47,9 @@ public class Exercise {
 	}
 
 	public void checkExercise() {
+		if (assignments.isEmpty()) {
+			initStandardExercise();
+		}
 		ArrayList<String> addListeners = app.getScriptManager()
 				.getAddListeners();
 		ArrayList<String> tmpListeners = new ArrayList<String>();
@@ -84,13 +99,6 @@ public class Exercise {
 		return assignments;
 	}
 
-	public static Exercise getInstance(App app) {
-		if (INSTANCE == null) {
-			INSTANCE = new Exercise(app);
-		}
-		return INSTANCE;
-	}
-
 	/**
 	 * @return false if there are no Macros or any change to the standard
 	 *         behavior has been made with the ExerciseBuilder <br />
@@ -111,11 +119,11 @@ public class Exercise {
 	public String getExerciseXML() {
 		StringBuilder sb = new StringBuilder();
 		if (!isStandardExercise()) {
-			sb.append("<exercise>");
+			sb.append("<exercise>\n");
 			for (Assignment a : assignments) {
 				sb.append(a.getAssignmentXML());
 			}
-			sb.append("</exercise>");
+			sb.append("</exercise>\n");
 		}
 		return sb.toString();
 	}
