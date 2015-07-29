@@ -24,6 +24,11 @@ public abstract class ScriptManager implements EventListener {
 	protected ArrayList<String> clearListeners = new ArrayList<String>();
 	protected ArrayList<String> clientListeners = new ArrayList<String>();
 
+	private ArrayList[] listenerLists() {
+		return new ArrayList[] { addListeners,
+			storeUndoListeners, removeListeners, renameListeners,
+			updateListeners, clickListeners, clearListeners, clientListeners };
+	}
 	public ScriptManager(App app) {
 		this.app = app;
 		app.getEventDispatcher().addEventListener(this);
@@ -163,28 +168,10 @@ public abstract class ScriptManager implements EventListener {
 			addListeners.clear();
 		}
 
-		/*
-		 * if (storeUndoListeners != null) { storeUndoListeners.clear(); }
-		 */
-
-		if (removeListeners != null) {
-			removeListeners.clear();
-		}
-
-		if (renameListeners != null) {
-			renameListeners.clear();
-		}
-
-		if (updateListeners != null) {
-			updateListeners.clear();
-		}
-
-		if (clearListeners != null) {
-			clearListeners.clear();
-		}
-
-		if (clientListeners != null) {
-			clientListeners.clear();
+		for (ArrayList a : listenerLists()) {
+			if (a != null && a != storeUndoListeners && a.size() > 0) {
+				a.clear();
+			}
 		}
 	}
 
@@ -522,4 +509,22 @@ public abstract class ScriptManager implements EventListener {
 	public void setGlobalScript() {
 		// to be overridden
 	}
+
+
+	public boolean hasListeners() {
+		// TODO Auto-generated method stub
+		if (updateListenerMap != null && updateListenerMap.size() > 0) {
+			return true;
+		}
+		if (clickListenerMap != null && clickListenerMap.size() > 0) {
+			return true;
+		}
+		for (ArrayList a : listenerLists()) {
+			if (a != null && a.size() > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
