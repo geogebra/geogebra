@@ -235,6 +235,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		appIDpanel.addStyleName("sharingCodePanel");
 		this.appID = new Label("GeoGebra Data Sharing Code:");
 		this.appIDTextBox = new TextBox();
+		this.appIDTextBox.addStyleName("appIdTextBox");
+		;
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
 		
 			public void onKeyDown(KeyDownEvent event) {
@@ -295,7 +297,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			this.connecting.setVisible(true);
 			this.connectionFailed.setVisible(false);
 			((AppWapplication) this.app).getDataCollection().onConnect(
-					this.appIDTextBox.getText());
+					this.appIDTextBox.getText().toUpperCase());
 		} else {
 			this.appIDTextBox.removeStyleName("disabled");
 			this.connectionStatusPanel.setVisible(false);

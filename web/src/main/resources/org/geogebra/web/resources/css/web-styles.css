@@ -3313,6 +3313,10 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	padding-bottom: 0px;	
 }
 
+.dataCollectionView .appIdTextBox {
+	text-transform: uppercase;
+}
+
 /** SETTINGS */
 
 .dataCollectionView .panelIndent {
