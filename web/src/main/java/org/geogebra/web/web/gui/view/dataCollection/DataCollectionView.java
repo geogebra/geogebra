@@ -236,7 +236,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.appID = new Label("GeoGebra Data Sharing Code:");
 		this.appIDTextBox = new TextBox();
 		this.appIDTextBox.addStyleName("appIdTextBox");
-		;
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
 		
 			public void onKeyDown(KeyDownEvent event) {
