@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
@@ -23,14 +25,8 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -69,8 +65,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 	private ToolbarSubemuW userAddModes;
 
 	private class AddMacroDOMHandler implements MouseDownHandler,
-			MouseUpHandler, TouchStartHandler, TouchEndHandler,
-			MouseOutHandler, MouseOverHandler, KeyUpHandler {
+			MouseUpHandler, TouchStartHandler, TouchEndHandler {
 
 		App app;
 
@@ -79,22 +74,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 			this.app = app;
 		}
 
-		public void onKeyUp(KeyUpEvent event) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void onMouseOver(MouseOverEvent event) {
-			// TODO Auto-generated method stub
-		}
-
-		public void onMouseOut(MouseOutEvent event) {
-			// TODO Auto-generated method stub
-
-		}
-
 		public void onTouchEnd(TouchEndEvent event) {
-			// TODO Auto-generated method stub
 			onEnd(event);
 
 		}
@@ -105,9 +85,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 		}
 
 		public void onMouseUp(MouseUpEvent event) {
-			// TODO Auto-generated method stub
 			onEnd(event);
-
 		}
 
 		public void onMouseDown(MouseDownEvent event) {
@@ -118,7 +96,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 		public void onEnd(DomEvent<?> event) {
 			String modeS = event.getRelativeElement().getAttribute("mode");
 			if (modeS.isEmpty()) {
-				newTool();
+				handleAddClick();
 			} else {
 				int mode = Integer.parseInt(modeS);
 				App.debug("onEnd: " + mode);
@@ -126,17 +104,39 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 			}
 		}
 
-
 	}
 
-	void newTool() {
-		if (app.getKernel().getMacroNumber() == 0) {
-			this.setVisible(false);
-			ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app);
-			toolCreationDialog.center();
+	void handleAddClick() {
+		if (app.getKernel().getMacroNumber() == 0
+				|| app.getKernel().getMacroNumber() <= exercise.getParts()
+						.size()) {
+			newTool();
+		} else {
+			for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
+				ListItem item = userAddModes.addItem(i
+						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
+				addDomHandlers(item);
+			}
+			userAddModes.setVisible(true);
 		}
 	}
 
+	private void newTool() {
+		this.setVisible(false);
+		ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app,
+				new AsyncOperation() {
+					@Override
+					public void callback(Object obj) {
+						if (obj != null) {
+							Macro macro = (Macro) obj;
+							addAssignment(macro);
+						}
+						ExerciseBuilderDialog.this.setVisible(true);
+					}
+				});
+		toolCreationDialog.center();
+
+	}
 
 	public ExerciseBuilderDialog(App app) {
 		super(false, false, null);
@@ -179,25 +179,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 		addList.add(addListItem);
 		userAddModes = new ToolbarSubemuW(app, 0);
 		userAddModes.addStyleName("toolbar_item");
-		// // {
-		// // @Override
-		// // public void setVisible(boolean visible) {
-		// // super.setVisible(visible);
-		// //
-		// // }
-		// // };
-		//
-		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
-			ListItem item = userAddModes.addItem(i
-					+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
-			addDomHandlers(item);
-			// item.addDomHandler(new ExerciseBuilderDOMHandler(),
-			// MouseUpEvent.getType());
-			// item.addDomHandler(new ExerciseBuilderDOMHandler(),
-			// TouchEndEvent.getType());
-		}
-		// assignmentsTable.setWidget(exercise.getParts().size() + 3, 0,
-		// userAddModes);
 		addList.add(userAddModes);
 		userAddModes.setVisible(false);
 
@@ -222,66 +203,25 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 
 	}
 
-	@Override
-	public void show() {
-		super.show();
-		// hideShowAddIcon();
-	}
-
 	private void createAssignmentsTable() {
 		for (Assignment assignment : exercise.getParts()) {
 			appendAssignmentRow(assignment);
 		}
-
-		// addList.getElement().addClassName("toolbar_mainItem");
-		// addIcon = new Image(GuiResources.INSTANCE.menu_icon_file_new());
-
-		// addIcon.addClickHandler(new ClickHandler() {
-		//
-		// public void onClick(ClickEvent event) {
-		// }
-		// });
-		// hideShowAddIcon();
-
 	}
 
-	public void addDomHandlers(Widget w) {
+	private void addDomHandlers(Widget w) {
 		w.addDomHandler(addMacroHandler, MouseDownEvent.getType());
 		w.addDomHandler(addMacroHandler, MouseUpEvent.getType());
 		w.addDomHandler(addMacroHandler, TouchStartEvent.getType());
 		w.addDomHandler(addMacroHandler, TouchEndEvent.getType());
 	}
 
-	// private void hideShowAddIcon() {
-	// int rowCount = assignmentsTable.getRowCount();
-	// if (app.getKernel().getMacroNumber() == 0
-	// || app.getKernel().getMacroNumber() > exercise.getParts()
-	// .size()) {
-	// if (!(assignmentsTable.getWidget(rowCount - 1, 0) != null &&
-	// assignmentsTable
-	// .getWidget(rowCount - 1, 0).equals(addList))) {
-	// assignmentsTable.setWidget(rowCount, 0, addList);
-	// addList.setVisible(true);
-	// }
-	// } else if (app.getKernel().getMacroNumber() <= exercise.getParts()
-	// .size()) {
-	// addList.setVisible(false);
-	// if (rowCount > 0) {
-	// if (assignmentsTable.getWidget(rowCount - 1, 0) != null
-	// && assignmentsTable.getWidget(rowCount - 1, 0).equals(
-	// addList)) {
-	// assignmentsTable.removeRow(rowCount - 1);
-	// }
-	// }
-	// }
-	// }
-
-	void appendAssignmentRow(final Assignment assignment) {
+	private void appendAssignmentRow(final Assignment assignment) {
 		int row = assignmentsTable.getRowCount();
 		addAssignmentRow(assignment, row + 1);
 	}
 
-	void addAssignmentRow(final Assignment assignment, int row) {
+	private void addAssignmentRow(final Assignment assignment, int row) {
 		int j = 0;
 		if (row <= assignmentsTable.getRowCount()) {
 			row = assignmentsTable.insertRow(row);
@@ -316,8 +256,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 		});
 		assignmentsTable.setWidget(row, j++, editIcon);
 	}
-
-	// FlexTable getAssignmentstable
 
 	ListBox getFractionsLB(final Assignment assignment, final Result res) {
 		final ListBox fractions = new ListBox();
@@ -416,7 +354,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 				assignmentsTable.setVisible(true);
 				checkAssignmentsTable.setVisible(false);
 				btTest.setText(app.getPlain("Test"));
-				// btApply.setVisible(true);
+				btApply.setText(app.getPlain("OK"));
 				hide();
 				setGlassEnabled(true);
 				center();
@@ -487,11 +425,15 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 						StringTemplate.defaultTemplate)));
 	}
 
-	void addAssignment(int mode) {
-		Assignment a = exercise.addAssignment(app.getKernel().getMacro(
-				mode - EuclidianConstants.MACRO_MODE_ID_OFFSET));
+	private void addAssignment(Macro macro) {
+		Assignment a = exercise.addAssignment(macro);
 		appendAssignmentRow(a);
 		userAddModes.setVisible(false);
+	}
+
+	private void addAssignment(int mode) {
+		addAssignment(app.getKernel().getMacro(
+				mode - EuclidianConstants.MACRO_MODE_ID_OFFSET));
 	}
 
 }

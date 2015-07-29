@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ToolNameIconPanel;
 
@@ -51,6 +52,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	private Button btRemove;
 	private Button btDown;
 	private Button btUp;
+	private AsyncOperation returnHandler;
 
 	public ToolCreationDialog(App app) {
 		super(false, false, null);
@@ -65,6 +67,11 @@ public class ToolCreationDialog extends DialogBoxW implements
 		createGUI();
 
 		toolModel = new ToolCreationDialogModel(app, this);
+	}
+
+	public ToolCreationDialog(AppW app, AsyncOperation returnhandler) {
+		this(app);
+		this.returnHandler = returnhandler;
 	}
 
 	@Override
@@ -263,8 +270,8 @@ public class ToolCreationDialog extends DialogBoxW implements
 				tabPanel.selectTab(selectedTab + 1);
 			}
 		} else if (target == btCancel.getElement()) {
-			hide();
-			app.getActiveEuclidianView().requestFocusInWindow();
+			setVisible(false);
+			callHandler();
 		} else {
 			ArrayList<Integer> selIndices = new ArrayList<Integer>();
 			switch (selectedTab) {
@@ -327,6 +334,17 @@ public class ToolCreationDialog extends DialogBoxW implements
 		// app.showMessage(app.getMenu("Tool.CreationSuccess"));
 		setVisible(false);
 		// TODO: call to toolModel.overwriteMacro
+
+		callHandler();
+	}
+
+	private void callHandler() {
+		if (returnHandler != null) {
+			returnHandler.callback(toolModel.getNewTool());
+			returnHandler = null;
+		} else {
+			app.getActiveEuclidianView().requestFocusInWindow();
+		}
 	}
 
 	public void updateLists() {

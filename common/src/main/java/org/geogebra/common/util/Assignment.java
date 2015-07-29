@@ -371,6 +371,52 @@ public class Assignment {
 		}
 		return hint;
 	}
+
+	public Macro getTool() {
+		// TODO Auto-generated method stub
+		return macro;
+	}
+
+	public boolean hasHint() {
+		return !hintForResult.isEmpty();
+	}
+
+	public boolean hasFraction() {
+		// TODO Auto-generated method stub
+		return !fractionForResult.isEmpty();
+	}
+
+	public String getAssignmentXML() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n\t<assignment toolName=\"");
+		StringUtil.encodeXML(sb, macro.getToolName());
+		sb.append("\">\n");
+
+		if (hasHint() || hasFraction()) {
+			for (Result res : Result.values()) {
+				String hint = hintForResult.get(res);
+				Float fraction = fractionForResult.get(res);
+				if (hint != null && !hint.isEmpty() || fraction != null) {
+					sb.append("\t\t<result name=\"");
+					StringUtil.encodeXML(sb, res.toString());
+					sb.append("\" ");
+					if (hint != null && !hint.isEmpty()) {
+						sb.append("hint=\"");
+						StringUtil.encodeXML(sb, hint);
+						sb.append("\" ");
+					}
+					if (fraction != null) {
+						sb.append("fraction=\"");
+						sb.append(fraction.floatValue());
+						sb.append("\" ");
+					}
+					sb.append("/>\n");
+				}
+			}
+		}
+		sb.append("\t</assignment>\n");
+		return sb.toString();
+	}
 }
 
 // Eyal Schneider

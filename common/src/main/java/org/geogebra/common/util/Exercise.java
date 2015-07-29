@@ -90,4 +90,34 @@ public class Exercise {
 		}
 		return INSTANCE;
 	}
+
+	/**
+	 * @return false if there are no Macros or any change to the standard
+	 *         behavior has been made with the ExerciseBuilder <br />
+	 *         true if there are Macros which can be used for checking
+	 * 
+	 */
+	private boolean isStandardExercise() {
+		boolean res = app.getKernel().hasMacros();
+		for (int i = 0; i < assignments.size() && res; i++) {
+			res = assignments.get(i).getTool()
+					.equals(app.getKernel().getAllMacros().get(i))
+					&& !(assignments.get(i).hasHint() || assignments.get(i)
+							.hasFraction());
+		}
+		return res;
+	}
+
+	public String getExerciseXML() {
+		StringBuilder sb = new StringBuilder();
+		if (!isStandardExercise()) {
+			sb.append("<exercise>");
+			for (Assignment a : assignments) {
+				sb.append(a.getAssignmentXML());
+			}
+			sb.append("</exercise>");
+		}
+		return sb.toString();
+	}
+
 }
