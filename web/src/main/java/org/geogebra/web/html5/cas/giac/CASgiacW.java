@@ -105,10 +105,13 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 		if (!giacSetToGeoGebraMode) {
 			nativeEvaluateRaw(initString, Log.logger != null);
 			giacSetToGeoGebraMode = true;
+
+			nativeEvaluateRaw("timeout " + (timeoutMillis / 1000), false);
 		}
 
-		nativeEvaluateRaw("timeout " + (timeoutMillis / 1000), false);
-
+		// running this each time means that all 1600+ tests can be run at once
+		// without getting stuck
+		// in desktop it's run just once
 		nativeEvaluateRaw(specialFunctions, false);
 
 		// make sure we don't always get the same value!
