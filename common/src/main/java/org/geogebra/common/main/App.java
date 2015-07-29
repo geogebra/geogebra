@@ -3051,6 +3051,7 @@ public abstract class App implements UpdateSelection {
 		sb.append("<script>\n");
 
 		sb.append("var parameters = {\n");
+		sb.append("\"id\": \"ggbApplet\",\n");
 		sb.append("\"width\":" + (int) getWidth() + ",\n");
 		sb.append("\"height\":" + (int) getHeight() + ",\n");
 		sb.append("\"showMenuBar\":" + showMenuBar + ",\n");
@@ -3075,7 +3076,10 @@ public abstract class App implements UpdateSelection {
 		sb.append("\"preventFocus\":false,\n");
 
 		sb.append("\"language\":\"" + getLocalization().getLanguage() + "\",\n");
-
+		
+		sb.append("// use this instead of ggbBase64 to load a material from GeoGebraTube\n");
+		sb.append("// \"material_id\":12345,\n");
+		
 		sb.append("\"ggbBase64\":\"");
 		// don't include preview bitmap
 		sb.append(getGgbApi().getBase64(false));
