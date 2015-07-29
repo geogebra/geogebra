@@ -569,6 +569,11 @@ public final class ArticleElement extends Element {
 	}
 
 	public void initID(int i) {
+		String paramID = getDataParamId();
+		if (paramID.length() > 0) {
+			setId(paramID);
+			return;
+		}
 		Date creationDate = new Date();
 		setId(GeoGebraConstants.GGM_CLASS_NAME + i + creationDate.getTime());
 
