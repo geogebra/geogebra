@@ -1,7 +1,9 @@
 package org.geogebra.web.web.cas.view;
 
 import org.geogebra.common.cas.view.CASTableCellEditor;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.html5.AttachedToDOM;
 //import org.geogebra.web.html5.gui.util.ImageSelection;
@@ -103,24 +105,23 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 
 	private void handleCopy(String ac) {
 
-		// Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
-		// Transferable data = null;
+		String toBeCopied = null;
 
-		if (ac.equals("copy")) {
-			// data = new StringSelection(
-			// use xmlTemplate so that sin(2x) -> sin(2*x)
-			// so that it can be pasted into other software
-			// value.getOutput(StringTemplate.xmlTemplate));
-		} else if (ac.equals("copyAsLatex")) {
-			String latexOutput = value.getLaTeXOutput();
-			// data = new StringSelection(StringUtil.toLaTeXString(latexOutput,
-			// true));
-
+		if (value != null) {
+			if (ac.equals("copy")) {
+				toBeCopied = value.getOutput(StringTemplate.xmlTemplate);
+				// use xmlTemplate so that sin(2x) -> sin(2*x)
+				// so that it can be pasted into other software
+			} else if (ac.equals("copyAsLatex")) {
+				String latexOutput = value.getLaTeXOutput();
+				toBeCopied = StringUtil.toLaTeXString(latexOutput, true);
+			}
 		}
 
-		// if (data != null) {
-		// sysClip.setContents(data, null);
-		// }
+		// HOW to put the data toBeCopied to Web clipboard?
+		if (toBeCopied != null) {
+
+		}
 	}
 
 	/*private void handlePaste(ActionEvent e) {
