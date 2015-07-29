@@ -58,7 +58,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private final String DATA_SHARING_CODE = "DataSharingCode";
 	private final String CONNECTION_FAILD = "DataConnectionFailed";
 	private final String CONNECTING = "Connecting";
-	private final String FREQUENCY = "Frequency (Hz)";
+	private final String FREQUENCY = "FrequencyHz";
 
 	private AppW app;
 	private TabLayoutPanel tabPanel;
@@ -308,43 +308,45 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	}
 
 	private void addAccelerometer() {
-		this.acc = new AccSetting(this.app, this, "Accelerometer");
+		this.acc = new AccSetting(this.app, this, "Accelerometer", "m/s\u00B2");
 		this.sensors.add(this.acc);
 		this.sensorSettings.add(this.acc);
 	}
 
 	private void addMagneticField() {
-		this.magField = new MagFieldSetting(this.app, this, "MagneticField");
+		this.magField = new MagFieldSetting(this.app, this, "MagneticField",
+				"\u00B5T");
 		this.sensors.add(this.magField);
 		this.sensorSettings.add(this.magField);
 	}
 
 	private void addTime() {
-		this.time = new TimeSetting(this.app, this, "Time");
+		this.time = new TimeSetting(this.app, this, "Time", "ms");
 		this.sensors.add(this.time);
 		this.sensorSettings.add(this.time);
 	}
 
 	private void addOrientation() {
-		this.orientation = new OrientationSetting(this.app, this, "Orientation");
+		this.orientation = new OrientationSetting(this.app, this,
+				"Orientation", "degree");
 		this.sensors.add(this.orientation);
 		this.sensorSettings.add(this.orientation);
 	}
 
 	private void addProximity() {
-		this.proxi = new ProxiSetting(this.app, this, "Proximity");
+		this.proxi = new ProxiSetting(this.app, this, "Proximity", "cm");
 		this.sensors.add(this.proxi);
 		this.sensorSettings.add(this.proxi);
 	}
 
 	private void addLight() {
-		this.light = new LightSetting(this.app, this, "Light");
+		this.light = new LightSetting(this.app, this, "Light", "lx");
 		this.sensors.add(this.light);
 		this.sensorSettings.add(this.light);
 	}
 
 	private void addLoudness() {
-		this.loudness = new LoudnessSetting(this.app, this, "Loudness");
+		this.loudness = new LoudnessSetting(this.app, this, "Loudness", "");
 		this.sensors.add(this.loudness);
 		this.sensorSettings.add(this.loudness);
 	}
@@ -371,11 +373,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			this.proxi.setOn(flag);
 			break;
 		case LIGHT:
-			this.light.setVisible(true);
 			this.light.setOn(flag);
 			break;
 		case TIMESTAMP:
-			this.time.setVisible(true);
 			this.time.setOn(flag);
 			break;
 		// case LOUDNESS:
@@ -392,8 +392,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.connectionLabel.setText(this.app.getMenu(DATA_CONNECTION));
 		this.connecting.setText(this.app.getMenu(CONNECTING));
 		this.connectionFailed.setText(this.app.getMenu(CONNECTION_FAILD));
-		// TODO translation
-		this.frequency.setText(FREQUENCY + ": " + this.freqHz);
+		this.frequency.setText(app.getMenu(FREQUENCY) + ": " + this.freqHz);
 		for (SensorSetting setting : this.sensors) {
 			setting.setLabels();
 		}
@@ -597,9 +596,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 *            frequency in Hz
 	 */
 	public void setFrequency(int freq) {
-		// TODO translation for frequency
 		this.freqHz = freq;
-		this.frequency.setText(FREQUENCY + ": " + this.freqHz);
+		this.frequency.setText(app.getMenu(FREQUENCY) + ": " + this.freqHz);
 	}
 
 	@Override
@@ -727,5 +725,36 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			}
 		}
 		updateListBoxes();
+	}
+
+	/**
+	 * update the label for the real frequency for the given type of sensor
+	 * 
+	 * @param sensor
+	 *            {@link Types}
+	 * @param freq
+	 *            int
+	 */
+	public void setRealFrequency(Types sensor, int freq) {
+		switch (sensor) {
+		case ACCELEROMETER_X:
+			this.acc.setRealFrequency(freq);
+			break;
+		case MAGNETIC_FIELD_X:
+			this.magField.setRealFrequency(freq);
+			break;
+		case ORIENTATION_X:
+			this.orientation.setRealFrequency(freq);
+			break;
+		case LIGHT:
+			this.light.setRealFrequency(freq);
+			break;
+		case PROXIMITY:
+			this.proxi.setRealFrequency(freq);
+			break;
+		case LOUDNESS:
+			this.loudness.setRealFrequency(freq);
+			break;
+		}
 	}
 }

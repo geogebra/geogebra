@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 public abstract class SensorSetting extends FlowPanel implements SetLabels {
+	private final String REAL_FREQUENCY = "Receiving data with about ";
 
 	private String captionString;
 	/** Panel with an image to show if sensor is on or off */
@@ -43,6 +44,11 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 	protected AppW app;
 	private DataCollectionView view;
+	private String unit;
+
+	private Label realFreqLabel;
+	private int realFreq;
+	private FlowPanel realFreqContainer;
 
 	/**
 	 * 
@@ -52,12 +58,15 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 *            {@link DataCollectionView}
 	 * @param captionString
 	 *            the String to look up for translations
+	 * @param unit
+	 *            unit of the sensor values
 	 */
 	public SensorSetting(AppW app, DataCollectionView dataView,
-			String captionString) {
+			String captionString, String unit) {
 		this.captionString = captionString;
 		this.app = app;
 		this.view = dataView;
+		this.unit = unit;
 		createGUI();
 	}
 
@@ -66,9 +75,23 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		this.dataValues.addStyleName("panelIndent");
 
 		addCaption();
+		addFrequencyPanel();
 		addContent();
 
 		this.add(dataValues);
+	}
+
+	/**
+	 * adds a panel to show the "real" frequency
+	 */
+	protected void addFrequencyPanel() {
+		this.realFreqContainer = new FlowPanel();
+		this.realFreqContainer.addStyleName("rowContainer");
+		// TODO translation
+		this.realFreqLabel = new Label(REAL_FREQUENCY + this.realFreq + " Hz");
+		this.realFreqContainer.add(this.realFreqLabel);
+		this.dataValues.add(this.realFreqContainer);
+		setRealFreqVisible(false);
 	}
 
 	protected abstract void addContent();
@@ -83,7 +106,9 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		FlowPanel caption = new FlowPanel();
 		caption.addStyleName("panelTitle");
 
-		this.captionLabel = new Label(app.getMenu(captionString));
+		// TODO translations for units
+		this.captionLabel = new Label(app.getMenu(captionString) + " ("
+				+ this.unit + ")");
 
 		collapse = new ToggleButton(
 				new Image(GuiResources.INSTANCE.collapse()), new Image(
@@ -210,7 +235,33 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		this.captionLabel.setText(app.getMenu(captionString));
+		this.captionLabel.setText(app.getMenu(captionString) + " (" + this.unit
+				+ ")");
+
+		// is null for TimeSetting
+		if (this.realFreqLabel != null) {
+			this.realFreqLabel.setText(REAL_FREQUENCY + this.realFreq + " Hz");
+		}
+	}
+
+	/**
+	 * updates the label of the "real" frequency
+	 * 
+	 * @param freq
+	 *            int
+	 */
+	public void setRealFrequency(int freq) {
+		this.realFreq = freq;
+		this.realFreqLabel.setText(REAL_FREQUENCY + this.realFreq + " Hz");
+	}
+
+	/**
+	 * shows/hides the label with the "real" frequency
+	 * 
+	 * @param visible
+	 */
+	private void setRealFreqVisible(boolean visible) {
+		this.realFreqContainer.setVisible(visible);
 	}
 
 	/**
@@ -223,6 +274,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	public void setOn(boolean flag) {
 		this.sensorIsOn = flag;
 		sensorOnOff.clear();
+		setRealFreqVisible(flag);
 		if (flag) {
 			sensorOnOff.add(sensorON);
 			for (GeoListBox listbox : listBoxes) {

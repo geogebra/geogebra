@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.view.dataCollection;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -21,6 +22,7 @@ public class DataCollection implements WebSocketListener {
 	private WebsocketLogger sensorLogger;
 	private DataCollectionView dataView;
 	private AppW app;
+	private ArrayList<Frequency> frequencies = new ArrayList<Frequency>();
 
 	/**
 	 * 
@@ -33,6 +35,16 @@ public class DataCollection implements WebSocketListener {
 		this.sensorLogger.addListener(this);
 		this.dataView = ((GuiManagerW) app.getGuiManager())
 				.getDataCollectionView();
+		initFreq();
+	}
+
+	private void initFreq() {
+		this.frequencies.add(new Frequency(Types.ACCELEROMETER_X, this));
+		this.frequencies.add(new Frequency(Types.MAGNETIC_FIELD_X, this));
+		this.frequencies.add(new Frequency(Types.ORIENTATION_X, this));
+		this.frequencies.add(new Frequency(Types.PROXIMITY, this));
+		this.frequencies.add(new Frequency(Types.LIGHT, this));
+		this.frequencies.add(new Frequency(Types.LOUDNESS, this));
 	}
 
 	/**
@@ -155,5 +167,17 @@ public class DataCollection implements WebSocketListener {
 
 	public void onFrequency(int freq) {
 		this.dataView.setFrequency(freq);
+	}
+
+	public void onDataReceived(Types sensor, double timestamp, int dataCount) {
+		for (Frequency freq : this.frequencies) {
+			if (freq.getType().equals(sensor)) {
+				freq.addTimestamp(timestamp, dataCount);
+			}
+		}
+	}
+
+	public void updateRealFrequency(Types sensor, int freq) {
+		this.dataView.setRealFrequency(sensor, freq);
 	}
 }

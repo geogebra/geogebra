@@ -17,9 +17,12 @@ public class ProxiSetting extends SensorSetting {
 	 *            {@link DataCollectionView}
 	 * @param captionString
 	 *            the String to look up for translations
+	 * @param unit
+	 *            unit of the sensor values
 	 */
-	public ProxiSetting(AppW app, DataCollectionView view, String captionString) {
-		super(app, view, captionString);
+	public ProxiSetting(AppW app, DataCollectionView view,
+			String captionString, String unit) {
+		super(app, view, captionString, unit);
 	}
 
 	@Override
