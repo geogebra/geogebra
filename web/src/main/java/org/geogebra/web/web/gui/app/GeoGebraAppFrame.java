@@ -3,8 +3,6 @@
  */
 package org.geogebra.web.web.gui.app;
 
-import java.util.Date;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -155,8 +153,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		setVisible(true);
 		final ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
 		GeoGebraLogger.startLogger(article);
-		final Date creationDate = new Date();
-		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
+		article.initID(0);
 		//cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
 		//ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));
 		

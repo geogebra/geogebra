@@ -1,7 +1,6 @@
 package org.geogebra.web.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -46,30 +45,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Web implements EntryPoint {
 
-	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
-		NodeList<Element> nodes = Dom
-				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Date creationDate = new Date();
-			nodes.getItem(i).setId(
-					GeoGebraConstants.GGM_CLASS_NAME + i
-							+ creationDate.getTime());
-			articleNodes.add(ArticleElement.as(nodes.getItem(i)));
-		}
-		return articleNodes;
-	}
 
-	private static boolean checkAppNeeded() {
-		NodeList<Element> nodes = Dom
-				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		for (int i = 0; i < nodes.getLength(); i++) {
-			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * set true if Google Api Js loaded
@@ -148,7 +124,7 @@ public class Web implements EntryPoint {
 			}
 		});
 
-		if (!Web.checkAppNeeded()) {
+		if (!ArticleElement.checkAppNeeded()) {
 			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
 				loadAppletAsync();
@@ -218,7 +194,7 @@ public class Web implements EntryPoint {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		startGeoGebra(getGeoGebraMobileTags());
+		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 		// }
 
 		// ublic void onFailure(Throwable reason) {
@@ -247,7 +223,8 @@ public class Web implements EntryPoint {
 	 * create app frame
 	 */
 	protected static void createGeoGebraAppFrame(GDevice device) {
-		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()), device,
+		new GeoGebraAppFrame(
+				Web.getLAF(ArticleElement.getGeoGebraMobileTags()), device,
 				(AppletFactory) GWT.create(AppletFactory.class));
 	}
 
@@ -270,7 +247,7 @@ public class Web implements EntryPoint {
 
 		GeoGebraFrameBoth.renderArticleElement(el,
 				(AppletFactory) GWT.create(AppletFactory.class),
-				getLAF(getGeoGebraMobileTags()), clb);
+				getLAF(ArticleElement.getGeoGebraMobileTags()), clb);
 	}
 
 	/*

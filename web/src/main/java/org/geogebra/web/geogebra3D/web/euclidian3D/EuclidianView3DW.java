@@ -247,7 +247,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	private void setEvNo(Canvas canvas) {
 
-		canvas.getElement().setId("View_" + App.VIEW_EUCLIDIAN3D);
 		this.evNo = EVNO_3D;
 	}
 

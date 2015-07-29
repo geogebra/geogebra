@@ -3528,28 +3528,28 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 
 /* ========== Input Help  end ============ */
 /* first td of heading table should have width: 0% */
-#View_2 {
+.algebraView {
 	height: 100%;
 }
 
-#View_2 div table:not(.spec) {
+.algebraView div table:not(.spec) {
 	width: 100%;
 }
 
-#View_2 div table:not(.spec) tr>td+td {
+.algebraView div table:not(.spec) tr>td+td {
 	width: 100%;
 }
 
-#View_2 div div>div {
+.algebraView div div>div {
 	margin-left: 0px !important;
 /* 	width: 100%; */
 }
 
-#View_2>div {
+.algebraView>div {
 	padding: 0px !important;
 	margin-bottom: 10px;
 }
-#View_2 .avItem {
+.algebraView .avItem {
 	padding: 3px 10px !important;
 }
 
@@ -3558,7 +3558,7 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	position: relative;
 }
 
-#View_2 div table+div {
+.algebraView div table+div {
 	margin-top: 5px;
 }
 

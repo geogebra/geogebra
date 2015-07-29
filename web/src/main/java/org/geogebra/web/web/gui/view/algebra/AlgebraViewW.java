@@ -158,7 +158,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 		setLabels();
 
-		getElement().setId("View_" + App.VIEW_ALGEBRA);
+		getElement().addClassName("algebraView");
 
 		this.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		this.addKeyUpHandler(this.app.getGlobalKeyDispatcher());

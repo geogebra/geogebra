@@ -1,7 +1,6 @@
 package org.geogebra.web.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
@@ -47,20 +46,6 @@ import com.google.gwt.user.client.ui.RootPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class PerformanceTest implements EntryPoint {
-
-	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
-		NodeList<Element> nodes = Dom
-		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Date creationDate = new Date();
-			nodes.getItem(i).setId(
-			        GeoGebraConstants.GGM_CLASS_NAME + i
-			                + creationDate.getTime());
-			articleNodes.add(ArticleElement.as(nodes.getItem(i)));
-		}
-		return articleNodes;
-	}
 
 	/**
 	 * set true if Google Api Js loaded
@@ -225,7 +210,7 @@ public class PerformanceTest implements EntryPoint {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				startGeoGebra(getGeoGebraMobileTags());
+				startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 			}
 
 			public void onFailure(Throwable reason) {

@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
@@ -687,8 +686,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 			GeoGebraLogger.startLogger(article);
 		}
 		article.clear();
-		Date creationDate = new Date();
-		element.setId(GeoGebraConstants.GGM_CLASS_NAME + creationDate.getTime());
+		article.initID(0);
 		final GeoGebraFrame inst = frame;
 		inst.ae = article;
 		inst.onLoadCallback = onLoadCallback;

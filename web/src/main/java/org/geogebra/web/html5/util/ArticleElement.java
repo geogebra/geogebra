@@ -1,5 +1,9 @@
 package org.geogebra.web.html5.util;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.util.debug.Log;
@@ -8,6 +12,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -538,6 +543,35 @@ public final class ArticleElement extends Element {
 
 	public boolean getDataParamEnableFileFeatures() {
 		return !"false".equals(getAttribute("data-param-enableFileFeatures"));
+	}
+
+	public static ArrayList<ArticleElement> getGeoGebraMobileTags() {
+		NodeList<Element> nodes = Dom
+				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
+		for (int i = 0; i < nodes.getLength(); i++) {
+			ArticleElement ae = ArticleElement.as(nodes.getItem(i));
+			ae.initID(i);
+			articleNodes.add(ae);
+		}
+		return articleNodes;
+	}
+
+	public static boolean checkAppNeeded() {
+		NodeList<Element> nodes = Dom
+				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		for (int i = 0; i < nodes.getLength(); i++) {
+			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void initID(int i) {
+		Date creationDate = new Date();
+		setId(GeoGebraConstants.GGM_CLASS_NAME + i + creationDate.getTime());
+
 	}
 
 }

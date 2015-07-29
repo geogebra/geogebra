@@ -1,9 +1,7 @@
 package org.geogebra.web.tablet;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
@@ -13,7 +11,6 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
 import org.geogebra.web.web.Web;
@@ -29,7 +26,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
@@ -52,31 +48,6 @@ public class Tablet implements EntryPoint {
 	public void t(final String s, final AlgebraProcessor ap) throws Exception {
 		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true,
 		        false);
-	}
-
-	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
-		final NodeList<Element> nodes = Dom
-		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		final ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
-		for (int i = 0; i < nodes.getLength(); i++) {
-			final Date creationDate = new Date();
-			nodes.getItem(i).setId(
-			        GeoGebraConstants.GGM_CLASS_NAME + i
-			                + creationDate.getTime());
-			articleNodes.add(ArticleElement.as(nodes.getItem(i)));
-		}
-		return articleNodes;
-	}
-
-	private static boolean checkAppNeeded() {
-		final NodeList<Element> nodes = Dom
-		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		for (int i = 0; i < nodes.getLength(); i++) {
-			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -153,7 +124,7 @@ public class Tablet implements EntryPoint {
 			}
 		});
 
-		if (!Tablet.checkAppNeeded()) {
+		if (!ArticleElement.checkAppNeeded()) {
 			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
 				loadAppletAsync();
@@ -198,7 +169,7 @@ public class Tablet implements EntryPoint {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		startGeoGebra(getGeoGebraMobileTags());
+		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 		// }
 
 		// ublic void onFailure(Throwable reason) {

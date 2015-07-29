@@ -1,39 +1,20 @@
 package org.geogebra.web.html5;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class WebSimple implements EntryPoint {
-
-	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
-		NodeList<Element> nodes = Dom
-		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Date creationDate = new Date();
-			nodes.getItem(i).setId(
-			        GeoGebraConstants.GGM_CLASS_NAME + i
-			                + creationDate.getTime());
-			articleNodes.add(ArticleElement.as(nodes.getItem(i)));
-		}
-		return articleNodes;
-	}
 
 	/**
 	 * set true if Google Api Js loaded
@@ -65,14 +46,14 @@ public class WebSimple implements EntryPoint {
 
 		// loadAppletAsync();
 		// instead, load it immediately
-		startGeoGebra(getGeoGebraMobileTags());
+		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 	}
 
 	public static void loadAppletAsync() {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				startGeoGebra(getGeoGebraMobileTags());
+				startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 			}
 
 			public void onFailure(Throwable reason) {
