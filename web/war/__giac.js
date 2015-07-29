@@ -1630,6 +1630,7 @@ var __giac = [ {}, { cat:"Solve", cmd:"Solve[c^2=a^2+b^2-2 a b cos(g),g]", resul
 { cat:"Evaluate", cmd:"abs(pi-53686027289178694741704702233/17088793236078350364533888675)", result:"-π + 53686027289178694741704702233 / 17088793236078350364533888675" },
 { cat:"Factor", cmd:"Factor[16b ℯ^(3x) + 20c ℯ^(3x) + 20b x ℯ^(3x),  ℯ ^(3x) ]", result:"4ℯ^(3x) (5b x + 4b + 5c)", notes:"#5298, extra ^2" },
 { cat:"Factor", cmd:"Factor[x^3-2,2^(1/3)]", result:"(x - cbrt(2)) (x² + cbrt(2) x + cbrt(2)²)", notes:"not documented in ggb manual" },
+{ cat:"NSolve", cmd:"Numeric[Substitute[{π / x = cos(x - 2y), 2 y - π = sin(x)}, NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=3,y=1}]]]", result:"{0.953405634136 = 0.953405634136, -0.1529318581848 = -0.1529318581848}", notes:"test numeric solving by substituting back in" },
 
 ];
 
@@ -1713,6 +1714,7 @@ var betterForm = [
 var randomAnswers = [
 { cat:"NSolve", cmd:"NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x,y}]", result:"{x = 3.14159265359, y = 1.570796326795}" },
 
+
 ];
 
 // not supported in Giac/ggb yet
@@ -1747,6 +1749,7 @@ var differentJNI = [
 { cat:"Evaluate", cmd:"Evaluate[alt((a,b,c))]", result:"atan(c / sqrt(a^(2) + b^(2)))", notes:"#5110, #5150, wrong in giac.js" },
 { cat: "SolveCubic", cmd:"SolveCubic[43 x^3 - 93 x^2 + 53 x - 11]", result:"{(1 / 5547 * ((5547 * ((cbrt(4 / 715563) * cbrt((sqrt(69) * 989) + 10431)))^(2)) + ((3999 * cbrt(4 / 715563)) * cbrt((sqrt(69) * 989) + 10431)) + 604) / ((cbrt(4 / 715563) * cbrt((sqrt(69) * 989) + 10431)))), (1 / 11094 * (((sqrt(3) * (5547 * ί)) * ((cbrt(4 / 715563) * cbrt((sqrt(69) * 989) + 10431)))^(2)) - (5547 * ((cbrt(4 / 715563) * cbrt((sqrt(69) * 989) + 10431)))^(2)) + ((7998 * cbrt(4 / 715563)) * cbrt((sqrt(69) * 989) + 10431)) + (sqrt(3) * ((-604) * ί)) - 604) / ((cbrt(4 / 715563) * cbrt((sqrt(69) * 989) + 10431)))), (1 / 11094 * (((sqrt(3) * ((-5547) * ί)) * ((cbrt(4 / 715563) * cbrt((sqrt(69) * 989) + 10431)))^(2)) - (5547 * ((cbrt(4 / 715563) * cbrt((sqrt(69) * 989) + 10431)))^(2)) + ((7998 * cbrt(4 / 715563)) * cbrt((sqrt(69) * 989) + 10431)) + (sqrt(3) * (604 * ί)) - 604) / ((cbrt(4 / 715563) * cbrt((sqrt(69) * 989) + 10431))))}" },
 { cat: "Tangent", cmd:"Tangent[(0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374)),  Ellipse[(1, 1), (3, 2), (2, 3)]]", result:"{y = (5.558214085318 * x) - 0.02680677762992, y = (((-6.458423681599) * 10^((-10))) * x) - 0.02680674231686}" },
+{ cat:"Simplify", cmd:"Simplify[((-8 (10) sqrt(224sqrt(10) + 687) sqrt(31) + 3627 (10) - 93sqrt(10) sqrt(224sqrt(10) + 687) sqrt(31) + 20832sqrt(10) - 261sqrt(224sqrt(10) + 687) sqrt(31) + 27621) / (2418 (10) + 13888sqrt(10) + 18414))]", result:"((-sqrt((2 * sqrt(10)) + 3)) + 3) / 2", notes:"#3435" },
 ];
 
 
@@ -1754,15 +1757,13 @@ var differentJNI = [
 // either kill Java or giac.js
 var problems = [
 
-// Java-killers
-// Solve[x cos(y) exp(x) -y exp(x) sin(y)=-1/ℯ]
-// Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)
+{ cat:"PROBLEM", cmd:"Solve[x cos(y) exp(x) -y exp(x) sin(y)=-1/ℯ]", result:"" },
+{ cat:"PROBLEM", cmd:"Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)", result:"" },
 
-// test numeric solving by substituting back in
-//Numeric[Substitute[{π / x = cos(x - 2y), 2 y - π = sin(x)}, NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=3,y=1}]]]
+// 
+
 
 // crashes JS, OK in JNI
-{ cat:"Simplify", cmd:"Simplify[((-8 (10) sqrt(224sqrt(10) + 687) sqrt(31) + 3627 (10) - 93sqrt(10) sqrt(224sqrt(10) + 687) sqrt(31) + 20832sqrt(10) - 261sqrt(224sqrt(10) + 687) sqrt(31) + 27621) / (2418 (10) + 13888sqrt(10) + 18414))]", result:"", notes:"#3435" },
 { cat:"Evaluate", cmd:"Evaluate[(4*x*y)^(1/2)/(2*x^(1/2))]", result:"sqrt(x) sqrt(4x y) / (2x)", notes:"works better with sqrt() rather than ^(1/2) freezes?" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt(4*x*y)/(2*x^(1/2))]", result:"", notes:"freezes?" },
 
@@ -1775,22 +1776,21 @@ var problems = [
 { cat:"Simplify", cmd:"Simplify[(abs(x)*y)^(1/2)-abs(x)^(1/2)*y^(1/2)]", result:"0" },
 
 { cat:"NSolve", cmd:"NSolve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", result:"", notes:"Bavarian 50-1.ggb, kills giac.js (Firefox)" },
-{ cat:"Solve", cmd:"Solve[(abs(abs(abs(y) - 3) + abs(x) - 3) = 1),y]", result:"", notes:"Java-killer, Reduce gives {y = abs(x) + 1, y = abs(x) - 1, y = abs(x) - 5, y = abs(x) - 7, y = -abs(x) + 7, y = -abs(x) + 5, y = -abs(x) + 1, y = -abs(x) - 1} http://www.wolframalpha.com/input/?i=make+x+the+subject+of+abs%28abs%28x%29%2Babs%28abs%28y%29-3%29-3%29%3D1" },
+{ cat:"Solve", cmd:"Solve[(abs(abs(abs(y) - 3) + abs(x) - 3) = 1),y]", result:"{}", notes:"Java-killer, Reduce gives {y = abs(x) + 1, y = abs(x) - 1, y = abs(x) - 5, y = abs(x) - 7, y = -abs(x) + 7, y = -abs(x) + 5, y = -abs(x) + 1, y = -abs(x) - 1} http://www.wolframalpha.com/input/?i=make+x+the+subject+of+abs%28abs%28x%29%2Babs%28abs%28y%29-3%29-3%29%3D1" },
 { cat:"Integral", cmd:"Integral[abs(x⁴ - 6x³ + 10x² - 10-(3 x - 8.889)),0,1]", result:"(sqrt((sqrt(13610) * 16677694) + 1945651750) - 31675) / 37500", notes:"OK in JNI" },
 { cat:"Integral", cmd:"Integral[abs(x⁴ - 6x³ + 10x² - 10-(3 x - 8.88)),0,1]", result:"(sqrt((sqrt(137) * 1634410) + 19143250) - 3100) / 3750", notes:"OK in JNI" },
 { cat:"Integral", cmd:"Integral[abs(x⁴ - 6x³ + 10x² - 10-3 x + 8.889),0,1]", result:"(sqrt((sqrt(13610) * 16677694) + 1945651750) - 31675) / 37500", notes:"OK in JNI" },
-{ cat:"Limit", cmd:"Limit[(3^x+5^x)^(1/x),∞]", result:"5", notes:"OK in JNI" },
+{ cat:"Limit", cmd:"Limit[(3^x+5^x)^(1/x),∞]", result:"5", notes:"OK in JNI (but slow)" },
 { cat:"Factor", cmd:"Factor[2^(2^7)+1]", result:"59649589127497217 (5704689200685129054721)", notes:"OK in JNI" },
 { cat:"Solve", cmd:"Simplify[SolveCubic[x^3-x]]", result:"{0, 1, -1}", notes:"OK in JNI" },
 { cat:"NSolve", cmd:"NSolve[{85=u +27,82=u exp(2 λ)+27},{u=1,λ=1}]", result:"{u = 58, λ = -0.02655491265697}", notes:"#4745, also timeout doesn't work with giac.js for this one" },
 
-{ cat:"CFactor", cmd:"XXCFactor[sqrt(21) - 2sqrt(7) x ί + 3sqrt(3) x² ί + 6x³]", result:"168 (x + ί sqrt(3) / 2) (x² - ί sqrt(7) / 3) / 28", notes:"kills giac.js, #3057, Reduce gives (3x² - ί sqrt(7)) (2x + ί sqrt(3)), Giac/JNI gives 168 (x + ί sqrt(3) / 2) (x² - ί sqrt(7) / 3) / 28" },
+{ cat:"CFactor", cmd:"CFactor[sqrt(21) - 2sqrt(7) x ί + 3sqrt(3) x² ί + 6x³]", result:"168 (x + ί sqrt(3) / 2) (x² - ί sqrt(7) / 3) / 28", notes:"kills giac.js, #3057, Reduce gives (3x² - ί sqrt(7)) (2x + ί sqrt(3)), Giac/JNI gives 168 (x + ί sqrt(3) / 2) (x² - ί sqrt(7) / 3) / 28" },
 
 { cat:"Evaluate", cmd:"Evaluate[sqrt((1355050424792466287485561)/(981647716744573948433529))]", result:"(1 / 990781366773 * sqrt(1355050424792466287485561))", notes:"#4008, too slow in JS" },
 
 
-// freezes Giac
-{ cat:"Solve", cmd:"Solve[5lg(x)+2?3lg(x)+4]", result:"{x>10}" },
+{ cat:"Solve", cmd:"Solve[5lg(x)+2>3lg(x)+4]", result:"{x>10}" },
 
 ];
 
