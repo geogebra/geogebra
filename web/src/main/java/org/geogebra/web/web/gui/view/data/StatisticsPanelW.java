@@ -267,4 +267,35 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	}
 
+	public double estimateHeight(int rows) {
+
+		switch (model.getSelectedMode()) {
+
+		case StatisticsModel.INFER_TTEST:
+		case StatisticsModel.INFER_ZTEST:
+		case StatisticsModel.INFER_ZINT:
+		case StatisticsModel.INFER_TINT:
+			// inferencePanel.add(getOneVarInferencePanel());
+			return 150;
+
+		case StatisticsModel.INFER_TTEST_2MEANS:
+		case StatisticsModel.INFER_TINT_2MEANS:
+			// /inferencePanel.add(getTwoVarInferencePanel(true));
+			return 320;
+
+		case StatisticsModel.INFER_TTEST_PAIRED:
+		case StatisticsModel.INFER_TINT_PAIRED:
+			// inferencePanel.add(getTwoVarInferencePanel(false));
+			return 320;
+
+		case StatisticsModel.INFER_ANOVA:
+
+			return 200 + rows * 20;
+
+
+		default:
+			return 70 + rows * 20;
+		}
+	}
+
 }

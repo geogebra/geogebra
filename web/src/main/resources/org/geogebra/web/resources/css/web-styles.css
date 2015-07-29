@@ -4189,7 +4189,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	padding: 0;
 }
 
-#ProbCalcPanel {
+.ProbCalcPanel {
 	overflow: auto;
 }
 
@@ -5270,6 +5270,9 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	height: 150px;	
 }
 
+.daMultiVarStatistics{
+	overflow:auto;
+}
 .daTwoVarInference table,
 .daANNOVA table,
 .daMultiVarStatistics table,
@@ -5379,7 +5382,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	color: red;
 } 
 
-#daSwapXYButton {
+.daSwapXYButton {
 	width: 48px;
 	height: 24px;
 }
@@ -5387,7 +5390,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    ###    END OF DATA ANALYSIS VIEW     ###
    ######################################## */
    
-#cbCreationList {
+.cbCreationList {
   	width: 80%;
   	overflow: auto;
   }

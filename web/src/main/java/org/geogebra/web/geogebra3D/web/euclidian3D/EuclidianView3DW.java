@@ -373,15 +373,15 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		@Override
 		public void onResize() {
 			super.onResize();
-			if (dockPanel != null) {
-				// making this deferred helps the Win8 app
-				resizeView();
-			}
+			resizeView();
 		}
 
 	}
 
 	void resizeView() {
+		if (this.dockPanel == null) {
+			return;
+		}
 		app.getGuiManager().invokeLater(new Runnable() {
 
 			@Override

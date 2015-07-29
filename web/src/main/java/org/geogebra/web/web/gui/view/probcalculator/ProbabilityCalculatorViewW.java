@@ -235,7 +235,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		mainSplitPane.add(new ClearPanel());
 		probCalcPanel = new FlowPanel();
 		probCalcPanel.addStyleName("ProbCalcPanel");
-		probCalcPanel.getElement().setId("ProbCalcPanel");
 		
 		probCalcPanel.add(mainSplitPane);
 		

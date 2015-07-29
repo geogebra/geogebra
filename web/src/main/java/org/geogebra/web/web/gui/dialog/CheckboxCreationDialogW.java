@@ -206,17 +206,14 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelW ip = new InputPanelW(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
-		if (tfCaption instanceof AutoCompleteTextFieldW) {
-			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) tfCaption;
-			atf.setAutoComplete(false);
-		}
+		tfCaption.setAutoComplete(false);
 		tfCaption.showPopupSymbolButton(true);
 		FlowPanel captionPanel = new FlowPanel();
 		captionPanel.add(LayoutUtil.panelRow(captionLabel, ip));
 
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);
-		gbList.getElement().setId("cbCreationList");
+		gbList.getElement().addClassName("cbCreationList");
 		btnRemove = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
 		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtil.panelRow(gbList, btnRemove));

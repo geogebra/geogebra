@@ -68,7 +68,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnSwapXY = new MyToggleButton2(getSwapXYString());
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.addClickHandler(this);
-		btnSwapXY.getElement().setId("daSwapXYButton");
+		btnSwapXY.getElement().addClassName("daSwapXYButton");
 		buildRoundingButton();
 		createDataSourcePanel();
 

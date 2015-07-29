@@ -20,7 +20,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
@@ -255,7 +254,6 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 		mainSplit.clear();
 		boolean stat = model.showStatPanel();
 		boolean data = model.showDataPanel();
-		Label lbData= new Label("Data");
 
 		if (data && dataPanel == null) {
 			buildDataPanel();
@@ -265,8 +263,11 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 			comboPanelSplit.clear();
 		
 			if (stat) {
-				comboPanelSplit.addNorth(dataDisplayPanel1, 500);
-				comboPanelSplit.add(statisticsPanel);
+				// set the size of
+				comboPanelSplit.addSouth(statisticsPanel,
+ statisticsPanel
+						.estimateHeight(model.getDataTitles().length));
+				comboPanelSplit.add(dataDisplayPanel1);
 			} else {
 				comboPanelSplit.add(dataDisplayPanel1);
 				
