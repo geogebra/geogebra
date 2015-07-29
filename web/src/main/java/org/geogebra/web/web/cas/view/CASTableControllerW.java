@@ -123,14 +123,15 @@ public class CASTableControllerW extends CASTableCellController implements
 			// TODO: add this functionality to touch events,
 			// maybe override onPointerUp??
 			CASTableW table = view.getConsoleTable();
+			GPoint point = table.getPointForEvent(event);
 			CASTableCellEditor tableCellEditor = table.getEditor();
 			RowContentPopupMenuW popupMenu = new RowContentPopupMenuW(app,
-					(GeoCasCell) tableCellEditor.getCellEditorValue(),
+					(GeoCasCell) tableCellEditor.getCellEditorValue(point.getY()),
 					tableCellEditor, table, RowContentPopupMenuW.Panel.OUTPUT);
 
 			// event.getX() and event.getY() are really not good here!
 			// GUI is ready! just commented out while not doing anything
-			// popupMenu.show(new GPoint(event.getClientX(), event.getClientY()));
+			//popupMenu.show(new GPoint(event.getClientX(), event.getClientY()));
 		} else {
 			onPointerUp(event);
 		}

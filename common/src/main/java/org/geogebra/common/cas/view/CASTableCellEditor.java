@@ -1,6 +1,7 @@
 package org.geogebra.common.cas.view;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 
 /**
  * Interface for CAS cell editor
@@ -45,5 +46,5 @@ public interface CASTableCellEditor extends SetLabels {
 
 	void setInput(String string);
 
-	Object getCellEditorValue();
+	GeoCasCell getCellEditorValue(int idx);
 }

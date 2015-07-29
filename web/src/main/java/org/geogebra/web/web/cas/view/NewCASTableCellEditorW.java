@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
@@ -360,15 +361,20 @@ public class NewCASTableCellEditorW extends Label implements
 			this.getElement().removeClassName("noDots");
 		}
 		this.autocomplete = autocomplete;
-
 	}
 
 	public boolean isForCAS() {
 		return true;
 	}
 
-	public Object getCellEditorValue() {
-		// TODO: implement!
+	/**
+	 * This is a bit different from Desktop ... why not?
+	 */
+	@Override
+	public GeoCasCell getCellEditorValue(int index) {
+		if (table != null) {
+			return table.getGeoCasCell(index);
+		}
 		return null;
 	}
 }

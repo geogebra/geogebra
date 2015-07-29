@@ -120,7 +120,7 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 
 		// HOW to put the data toBeCopied to Web clipboard?
 		if (toBeCopied != null) {
-
+			// App.debug(toBeCopied);
 		}
 	}
 

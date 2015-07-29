@@ -1,6 +1,7 @@
 package org.geogebra.web.web.cas.view;
 
 import org.geogebra.common.cas.view.CASTableCellEditor;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -98,8 +99,14 @@ public class CASTableCellEditorW implements CASTableCellEditor, CASEditorW {
 
 	}
 
-	public Object getCellEditorValue() {
-		// TODO: implement!
+	/**
+	 * This is a bit different from Desktop ... why not?
+	 */
+	@Override
+	public GeoCasCell getCellEditorValue(int index) {
+		if (table != null) {
+			return table.getGeoCasCell(index);
+		}
 		return null;
 	}
 }
