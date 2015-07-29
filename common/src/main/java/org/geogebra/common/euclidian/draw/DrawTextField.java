@@ -47,9 +47,11 @@ import org.geogebra.common.util.Unicode;
  * @author Michael
  */
 public final class DrawTextField extends Drawable implements RemoveNeeded {
+	private static final int HIGHLIGTH_MARGIN = 2;
+	private static final int BOX_ROUND = 8;
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
-	private static final double TF_WIDTH_FACTOR = 0.83;
+	private static final double TF_WIDTH_FACTOR = 0.81;
 
 	private static final int TF_PADDING = 5;
 
@@ -523,7 +525,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		g2.setPaint(geo.getObjectColor());
 
 		if (geo.isLabelVisible()) {
-			drawTextFieldLabel(g2);
+
 			drawTextField(g2);
 
 
@@ -533,62 +535,64 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 
 	private void drawTextField(GGraphics2D g2) {
-		int inputLeft = xLabel + labelSize.x + 2;
+
+		// no drawing, just measuring.
+		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
+				g2, labelDesc, 0, 0, false, false, false);
+
+		int boxLeft = xLabel + labelSize.x + 2;
+		int boxTop = yLabel;
+		int boxWidth = prefSize.getWidth();
+		int boxHeight = prefSize.getHeight();
+		int boxRound = BOX_ROUND;
+		int padding = (int) (TF_PADDING * geoTextField.getFontSizeMultiplier());
+
+		int textLeft = boxLeft + 2;
+		int textBottom = getTextBottom();
+
+		// TF Bounds
+
+		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
+				boxHeight - 3);
+		box.setBounds(labelRectangle);
+
+		// Backround
 		GColor bgColor = geo.getBackgroundColor();
 		g2.setPaint(bgColor != null ? bgColor : view.getBackgroundCommon());
-		g2.fillRoundRect(inputLeft, yLabel, prefSize.getWidth(), prefSize.getHeight(),
-				5, 5);
+		g2.fillRoundRect(boxLeft, boxTop, boxWidth, boxHeight, boxRound,
+				boxRound);
 
-		g2.setPaint(geo.getObjectColor());
-		// g2.drawRoundRect(inputLeft, yLabel, prefSize.getWidth(),
-		// prefSize.getHeight(),
-		// 5, 5);
-		//
-		// g2.setPaint(GColor.RED);
+		// TF Rectangle
+		g2.setPaint(GColor.LIGHT_GRAY);
+		g2.drawRoundRect(boxLeft, boxTop, boxWidth, boxHeight, boxRound,
+				boxRound);
 
-		int y = getTextY();
-		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
-				g2, labelDesc, xLabel, yLabel + y, false, false);
-
+		// Label highlight
 		if (geo.doHighlighting()) {
-			g2.setPaint(GColor.LIGHT_GRAY);
-
-			/* some magic */
-			g2.fillRect(xLabel, yLabel, labelSize.x,
-					(int) Math.round(labelFontSize * 1.5));
-
-			g2.setPaint(geo.getObjectColor());
-			labelSize = EuclidianStatic.drawIndexedString(
-					view.getApplication(), g2, labelDesc, xLabel, yLabel + y,
-					false, false);
-
+			int h = labelFontSize + HIGHLIGTH_MARGIN;
+			g2.fillRect(xLabel, textBottom - h, labelSize.x, h
+					+ HIGHLIGTH_MARGIN);
 		}
+		g2.setPaint(geo.getObjectColor());
+
+		drawTextFieldLabel(g2);
 
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				geoTextField.getText(), xLabel + labelSize.x + 2, yLabel + y
-						- 1,
+				geoTextField.getText(), textLeft, textBottom,
 				false, false);
-
-		g2.setPaint(GColor.LIGHT_GRAY);
-		g2.drawRoundRect(inputLeft, yLabel, prefSize.getWidth(),
-				prefSize.getHeight(), 5, 5);
-		labelRectangle.setBounds(inputLeft, yLabel,
-				prefSize.getWidth(),
- prefSize.getHeight());
-		box.setBounds(labelRectangle);
-		GRectangle r = box.getBounds();
 	}
 
-	private int getTextY() {
-		return prefSize.getHeight() / 2 + (labelFontSize / 2) - 4;
+	private int getTextBottom() {
+		return yLabel + (prefSize.getHeight() / 2) + labelFontSize / 2 - 2;
 	}
 
 	private void drawTextFieldLabel(GGraphics2D g2) {
 
 		g2.setPaint(geo.getObjectColor());
-		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
-				g2, labelDesc, xLabel, yLabel + getTextY(), false,
+		EuclidianStatic.drawIndexedString(view.getApplication(),
+ g2, labelDesc,
+				xLabel, getTextBottom(), false,
 				false);
 	}
 
@@ -610,12 +614,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		int right = left + prefSize.getWidth();
 		int bottom = top + prefSize.getHeight();
 
-		// App.debug(x + ", " + y + ": (" + left + ", " + top + ", " + right
-		// + ", " + bottom + ")");
-
-
 		boolean res = x > left && x < right && y > top && y < bottom;
-		// App.debug("[DoC] box.getBounds().contains(x, y) " + res);
 		return res;
 	}
 

@@ -435,9 +435,9 @@ public abstract class EuclidianStatic {
 	}
 
 	/**
-	 * Draws a string str with possible indices to g2 at position x, y. The
-	 * indices are drawn using the given indexFont. Examples for strings with
-	 * indices: "a_1" or "s_{ab}"
+	 * Always draws a string str with possible indices to g2 at position x, y.
+	 * The indices are drawn using the given indexFont. Examples for strings
+	 * with indices: "a_1" or "s_{ab}"
 	 * 
 	 * @param app
 	 *            application
@@ -458,13 +458,44 @@ public abstract class EuclidianStatic {
 			org.geogebra.common.awt.GGraphics2D g3, String str, float xPos,
 			float yPos, boolean serif, boolean precise) {
 
+		return drawIndexedString(app, g3, str, xPos, yPos, serif, precise, true);
+	}
+
+	/**
+	 * Draws or just measures the string str with possible indices to g2. The
+	 * indices are drawn using the given indexFont. Examples for strings with
+	 * indices: "a_1" or "s_{ab}"
+	 * 
+	 * @param app
+	 *            application
+	 * @param g3
+	 *            graphics
+	 * 
+	 * @param str
+	 *            input string
+	 * @param xPos
+	 *            x-coord
+	 * @param yPos
+	 *            y-coord
+	 * @param serif
+	 *            true to use serif font
+	 * @param doDraw
+	 *            true to draw, false to measure only.
+	 * @return additional pixel needed to draw str (x-offset, y-offset)
+	 */
+	public static org.geogebra.common.awt.GPoint drawIndexedString(
+			App app, org.geogebra.common.awt.GGraphics2D g3, String str,
+ float xPos,
+			float yPos, boolean serif, boolean precise, boolean doDraw) {
+
 		org.geogebra.common.awt.GFont g2font = g3.getFont();
 		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
 		org.geogebra.common.awt.GFont indexFont = getIndexFont(g2font);
 		org.geogebra.common.awt.GFont font = g2font;
 		// geogebra.common.awt.font.GTextLayout layout;
-		org.geogebra.common.awt.GFontRenderContext frc = g3.getFontRenderContext();
+		org.geogebra.common.awt.GFontRenderContext frc = g3
+				.getFontRenderContext();
 
 		int indexOffset = indexFont.getSize() / 2;
 		float maxY = 0;
@@ -486,8 +517,12 @@ public abstract class EuclidianStatic {
 					if (y > maxY)
 						maxY = y;
 					String tempStr = str.substring(startPos, i);
-					g3.setFont(font);
-					g3.drawString(tempStr, x, y);
+
+					if (doDraw) {
+						g3.setFont(font);
+						g3.drawString(tempStr, x, y);
+					}
+
 					x += measureString(tempStr, font, frc);
 				}
 				startPos = i + 1;
@@ -501,8 +536,10 @@ public abstract class EuclidianStatic {
 					if (y > maxY)
 						maxY = y;
 					String tempStr = str.substring(startPos, startPos + 1);
-					g3.setFont(font);
-					g3.drawString(tempStr, x, y);
+					if (doDraw) {
+						g3.setFont(font);
+						g3.drawString(tempStr, x, y);
+					}
 					x += measureString(tempStr, font, frc);
 					depth--;
 				}
@@ -518,8 +555,10 @@ public abstract class EuclidianStatic {
 						if (y > maxY)
 							maxY = y;
 						String tempStr = str.substring(startPos, i);
-						g3.setFont(font);
-						g3.drawString(tempStr, x, y);
+						if (doDraw) {
+							g3.setFont(font);
+							g3.drawString(tempStr, x, y);
+						}
 						x += measureString(tempStr, font, frc);
 					}
 					startPos = i + 1;
@@ -535,16 +574,20 @@ public abstract class EuclidianStatic {
 			if (y > maxY)
 				maxY = y;
 			String tempStr = str.substring(startPos);
-			g3.setFont(font);
-			g3.drawString(tempStr, x, y);
+			if (doDraw) {
+				g3.setFont(font);
+				g3.drawString(tempStr, x, y);
+			}
 			x += measureString(tempStr, font, frc);
 		}
-		g3.setFont(g2font);
+
+		if (doDraw) {
+			g3.setFont(g2font);
+		}
 		return new org.geogebra.common.awt.GPoint(Math.round(x - xPos),
 				Math.round(maxY - yPos));
 
 	}
-
 	private static double measureString(String tempStr, GFont font,
 			GFontRenderContext frc) {
 		if (frc != null)

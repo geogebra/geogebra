@@ -1646,6 +1646,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				if (geo.isEuclidianVisible()) {
 					((DrawTextField) d).showIntputField(true);
 					return true;
+				} else {
+					((DrawTextField) d).showIntputField(false);
 				}
 			}
 		}
