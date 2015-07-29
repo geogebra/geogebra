@@ -99,6 +99,8 @@ import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -436,7 +438,10 @@ public class AlgebraProcessor {
 
 			if (newLabel.equals(oldLabel)) {
 				// try to overwrite
+				app.getScriptManager().disableListeners();
 				result = processValidExpression(newValue, redefineIndependent);
+				app.getScriptManager().enableListeners();
+				app.dispatchEvent(new Event(EventType.UPDATE, geo));
 				if (result != null) {
 					app.getCompanion().recallViewCreators();
 					if (storeUndoInfo)
