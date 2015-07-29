@@ -597,7 +597,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			        root.getOffsetHeight() + heightChanged);
 		}
 		if (this.algebraInput != null) {
-			this.algebraInput.setWidth(width - 2 + "px");
+			this.algebraInput.setWidth((width - 2) + "px");
 			this.algebraInput.setInputFieldWidth(width - 2);
 		}
 		if (this.toolbarPanel != null) {

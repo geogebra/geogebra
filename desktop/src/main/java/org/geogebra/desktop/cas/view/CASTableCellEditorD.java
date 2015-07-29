@@ -160,6 +160,11 @@ public class CASTableCellEditorD extends CASTableCell implements
 		return editing; // && hasFocus();
 	}
 
+	public Object getCellEditorValue(int idx) {
+		// idx is not used in Desktop
+		return cellValue;
+	}
+
 	public Object getCellEditorValue() {
 		return cellValue;
 	}
