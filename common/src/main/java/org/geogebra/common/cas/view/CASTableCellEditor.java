@@ -45,4 +45,5 @@ public interface CASTableCellEditor extends SetLabels {
 
 	void setInput(String string);
 
+	Object getCellEditorValue();
 }

@@ -366,4 +366,9 @@ public class NewCASTableCellEditorW extends Label implements
 	public boolean isForCAS() {
 		return true;
 	}
+
+	public Object getCellEditorValue() {
+		// TODO: implement!
+		return null;
+	}
 }

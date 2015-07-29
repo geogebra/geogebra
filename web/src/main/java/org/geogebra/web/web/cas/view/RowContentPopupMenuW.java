@@ -1,5 +1,6 @@
 package org.geogebra.web.web.cas.view;
 
+import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.html5.AttachedToDOM;
@@ -14,7 +15,7 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 	private static final long serialVersionUID = 1L;
 
 	private final GeoCasCell value;
-	private final CASTableCellEditorW editor;
+	private final CASTableCellEditor editor;
 	private final CASTableW table;
 	private final AppW app;
 
@@ -33,7 +34,7 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 	 *            needed to get the {@link AppD}
 	 */
 	public RowContentPopupMenuW(AppW app, GeoCasCell value,
-			CASTableCellEditorW editor, CASTableW table) {
+			CASTableCellEditor editor, CASTableW table) {
 		super(app);
 		this.value = value;
 		this.table = table;
@@ -45,7 +46,7 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 	}
 
 	public RowContentPopupMenuW(AppW app, GeoCasCell value,
-			CASTableCellEditorW editor, CASTableW table, Panel clickedPanel) {
+			CASTableCellEditor editor, CASTableW table, Panel clickedPanel) {
 		super(app);
 		this.value = value;
 		this.table = table;
