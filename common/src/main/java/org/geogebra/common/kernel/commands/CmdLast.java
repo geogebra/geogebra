@@ -2,9 +2,11 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoLast;
+import org.geogebra.common.kernel.algos.AlgoLastFunction;
 import org.geogebra.common.kernel.algos.AlgoLastString;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -42,7 +44,11 @@ public class CmdLast extends CommandProcessor {
 			} else if (arg[0].isGeoText()) {
 				GeoElement[] ret = { Last(c.getLabel(), (GeoText) arg[0], null) };
 				return ret;
-			} else
+			} else if (arg[0].isGeoFunction()) {
+				AlgoLastFunction algo = new AlgoLastFunction(cons,
+						c.getLabel(), (GeoFunction) arg[0]);
+				return new GeoElement[] { algo.getResult() };
+			}
 				throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
