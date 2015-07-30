@@ -16,10 +16,6 @@
 #include <libintl.h>
 #else
 
-#ifndef APPLE_SMART
-inline const char * gettext(const char * s) { return s; };
-#endif
-
 #ifndef _LIBINTL_H
 
 #define _LIBINTL_H      1
@@ -27,7 +23,9 @@ inline const char * gettext(const char * s) { return s; };
 #if defined GIAC_HAS_STO_38 || defined EMCC
 const char * gettext(const char * s); // in aspen.cc or opengl.cc
 #else
-
+#ifndef APPLE_SMART
+inline const char * gettext(const char * s) { return s; };
+#endif
 #endif
 #endif // _LIBINTL_H
 
