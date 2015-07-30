@@ -46,7 +46,7 @@ import org.geogebra.common.util.Unicode;
  * 
  * @author Michael
  */
-public abstract class DrawTextField extends Drawable implements
+public class DrawTextField extends Drawable implements
 		RemoveNeeded {
 	private static final int HIGHLIGTH_MARGIN = 2;
 	private static final int BOX_ROUND = 8;
@@ -588,7 +588,9 @@ public abstract class DrawTextField extends Drawable implements
 		return text.startsWith("$") && text.endsWith("$");
 	}
 
-	protected abstract void drawLatex(String text, int x, int y);
+	protected void drawLatex(String text, int x, int y) {
+
+	};
 
 	private int getTextBottom() {
 		return yLabel + (prefSize.getHeight() / 2) + labelFontSize / 2 - 2;

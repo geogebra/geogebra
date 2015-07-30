@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.SwingFactory;
@@ -21,7 +20,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.main.AlgoCubicSwitchInterface;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
@@ -586,12 +584,6 @@ public class AppStub extends App {
 	public void copyFullHTML5ExportToClipboard() {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public DrawTextField getDrawTextField(EuclidianView view, GeoTextField geo) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
