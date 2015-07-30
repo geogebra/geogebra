@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -54,6 +55,7 @@ import org.geogebra.common.kernel.commands.MyException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -1875,6 +1877,9 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public abstract DrawEquation getDrawEquation();
+
+	public abstract DrawTextField getDrawTextField(EuclidianView view,
+			GeoTextField geo);
 
 	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
 

@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.main.AlgoCubicSwitchInterface;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
@@ -103,6 +104,7 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.euclidian.DrawTextFieldW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -135,6 +137,7 @@ public abstract class AppW extends App implements SetLabels {
 
 
 	private DrawEquationWeb drawEquation;
+	private DrawTextFieldW drawTextField;
 
 	private NormalizerMinimal normalizerMinimal;
 	private GgbAPIW ggbapi;
@@ -257,6 +260,11 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		return drawEquation;
+	}
+
+	@Override
+	public DrawTextFieldW getDrawTextField(EuclidianView view, GeoTextField geo) {
+		return new DrawTextFieldW(view, geo);
 	}
 
 	@Override

@@ -27,7 +27,6 @@ import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawSlope;
 import org.geogebra.common.euclidian.draw.DrawText;
-import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.draw.DrawTurtle;
 import org.geogebra.common.euclidian.draw.DrawUpperLowerSum;
 import org.geogebra.common.euclidian.draw.DrawVector;
@@ -103,7 +102,7 @@ public class EuclidianDraw {
 
 		case TEXTFIELD:
 
-			d = new DrawTextField(ev, (GeoTextField) geo);
+			d = ev.getApplication().getDrawTextField(ev, (GeoTextField) geo);
 			break;
 
 		case POINT:

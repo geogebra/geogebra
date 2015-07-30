@@ -46,7 +46,8 @@ import org.geogebra.common.util.Unicode;
  * 
  * @author Michael
  */
-public final class DrawTextField extends Drawable implements RemoveNeeded {
+public abstract class DrawTextField extends Drawable implements
+		RemoveNeeded {
 	private static final int HIGHLIGTH_MARGIN = 2;
 	private static final int BOX_ROUND = 8;
 	// TODO: examine these two, why are they needed and why these values.
@@ -582,6 +583,12 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				geoTextField.getText(), textLeft, textBottom,
 				false, false);
 	}
+
+	public static boolean isLatexString(String text) {
+		return text.startsWith("$") && text.endsWith("$");
+	}
+
+	protected abstract void drawLatex(String text, int x, int y);
 
 	private int getTextBottom() {
 		return yLabel + (prefSize.getHeight() / 2) + labelFontSize / 2 - 2;

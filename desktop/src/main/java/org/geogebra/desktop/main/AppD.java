@@ -133,6 +133,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.main.AlgoCubicSwitchInterface;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
@@ -157,6 +158,7 @@ import org.geogebra.common.util.debug.Log.LogDestination;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
 import org.geogebra.desktop.euclidian.DrawEquationD;
+import org.geogebra.desktop.euclidian.DrawTextFieldD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
@@ -4567,6 +4569,12 @@ public class AppD extends App implements KeyEventDispatcher {
 			drawEquation = new DrawEquationD();
 		}
 		return drawEquation;
+	}
+
+
+	@Override
+	public DrawTextFieldD getDrawTextField(EuclidianView view, GeoTextField geo) {
+		return new DrawTextFieldD(view, geo);
 	}
 
 	// random id to identify ggb files
