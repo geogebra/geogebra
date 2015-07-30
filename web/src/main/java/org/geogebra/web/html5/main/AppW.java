@@ -105,7 +105,6 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.euclidian.DrawTextFieldW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -138,7 +137,6 @@ public abstract class AppW extends App implements SetLabels {
 
 
 	private DrawEquationWeb drawEquation;
-	private DrawTextFieldW drawTextField;
 
 	private NormalizerMinimal normalizerMinimal;
 	private GgbAPIW ggbapi;
@@ -265,7 +263,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public DrawTextField getDrawTextField(EuclidianView view, GeoTextField geo) {
-		return new DrawTextFieldW(view, geo);
+		return new DrawTextField(view, geo);
 	}
 
 	@Override
