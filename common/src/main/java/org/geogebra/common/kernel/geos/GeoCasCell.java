@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -1554,9 +1555,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		// silent evaluation of output in GeoGebra
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE, allowFunction);
 		
+
+		Log.debug(lastOutputEvaluationGeo);
 		
 		
+
 		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
+			App.debug("DEPENDS NOT" + allowFunction);
 			try {
 				if (Test.canSet(twinGeo,lastOutputEvaluationGeo)) {
 					// if both geos are the same type we can use set safely
@@ -1575,6 +1580,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				e.printStackTrace();
 			}
 		} else {
+			App.debug("DEPENDS");
 			// r2835: if the evaluation of outputVE returns null we have no twin
 			// geo, we remove the old one and return
 			// We only hide the geo from XML to avoid parsing eg 0=0 on next
@@ -1621,6 +1627,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return ret;
 		}
 		boolean wasFunction = outputVE instanceof FunctionNVar;
+		boolean wasCurve = twinGeo == null
+				|| twinGeo instanceof GeoCurveCartesianND;
 		
 		// replace variables x and y with a FunctionVariable object
 		FunctionVariable fvX = new FunctionVariable(kernel,"x");
@@ -1648,6 +1656,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			
 			if (ggbEval != null) {
 				if(!allowFunction && (ggbEval[0] instanceof FunctionalNVar) && !wasFunction)
+					return null;
+				if (!allowFunction
+						&& (ggbEval[0] instanceof GeoCurveCartesianND)
+						&& !wasCurve)
 					return null;
 				
 				return ggbEval[0];
