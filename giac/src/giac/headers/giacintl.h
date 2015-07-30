@@ -24,7 +24,7 @@ inline const char * gettext(const char * s) { return s; };
 
 #define _LIBINTL_H      1
 #define __LIBINTL_H_DEFINED__ // Pour NetBSD 
-#ifdef GIAC_HAS_STO_38 || defined EMCC
+#if defined GIAC_HAS_STO_38 || defined EMCC
 const char * gettext(const char * s); // in aspen.cc or opengl.cc
 #else
 
