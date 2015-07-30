@@ -537,8 +537,10 @@ public class DrawTextField extends Drawable implements
 
 	private void drawTextField(GGraphics2D g2) {
 
+		boolean latexLabel = isLatexString(labelDesc);
+
 		// no drawing, just measuring.
-		if (isLatexString(labelDesc)) {
+		if (latexLabel) {
 			GDimension d = drawLatex(g2, labelDesc, xLabel, yLabel);
 			labelSize = new GPoint(d.getWidth(), d.getHeight());
 		} else {
@@ -547,15 +549,15 @@ public class DrawTextField extends Drawable implements
 				.drawIndexedString(view.getApplication(), g2, labelDesc, 0, 0,
 					false, false, false);
 		}
+
 		int boxLeft = xLabel + labelSize.x + 2;
-		int boxTop = yLabel;
+		int boxTop = latexLabel ? yLabel + (labelSize.y - prefSize.getHeight())
+				/ 2 : yLabel;
 		int boxWidth = prefSize.getWidth();
 		int boxHeight = prefSize.getHeight();
 		int boxRound = BOX_ROUND;
-		int padding = (int) (TF_PADDING * geoTextField.getFontSizeMultiplier());
-
 		int textLeft = boxLeft + 2;
-		int textBottom = getTextBottom();
+		int textBottom = boxTop + getTextBottom();
 
 		// TF Bounds
 
@@ -576,9 +578,13 @@ public class DrawTextField extends Drawable implements
 
 		// Label highlight
 		if (geo.doHighlighting()) {
+			if (latexLabel) {
+				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
+			} else {
 			int h = labelFontSize + HIGHLIGTH_MARGIN;
 			g2.fillRect(xLabel, textBottom - h, labelSize.x, h
 					+ HIGHLIGTH_MARGIN);
+			}
 		}
 		g2.setPaint(geo.getObjectColor());
 
@@ -604,7 +610,7 @@ public class DrawTextField extends Drawable implements
 	};
 
 	private int getTextBottom() {
-		return yLabel + (prefSize.getHeight() / 2) + labelFontSize / 2 - 2;
+		return (prefSize.getHeight() / 2) + labelFontSize / 2 - 2;
 	}
 
 	private void drawTextFieldLabel(GGraphics2D g2) {
@@ -615,7 +621,7 @@ public class DrawTextField extends Drawable implements
 			g2.setPaint(geo.getObjectColor());
 
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-					labelDesc, xLabel, getTextBottom(), false, false);
+					labelDesc, xLabel, yLabel + getTextBottom(), false, false);
 		}
 
 	}
