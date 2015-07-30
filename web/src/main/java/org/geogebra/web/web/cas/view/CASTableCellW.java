@@ -72,13 +72,7 @@ public class CASTableCellW extends VerticalPanel {
 											.getFontSize() + 1);
 				}
 			} else {
-				outputLabel = new Label();
-				if (casCell.isError()) {
-					outputLabel.getElement().getStyle().setColor("red");
-				}
-				// #5119
-				outputLabel.setText(casCell
-						.getOutput(StringTemplate.numericDefault));
+				outputLabel = renderPlain();
 			}
 			// #5119
 			outputText = casCell.getOutput(StringTemplate.numericDefault);
@@ -97,6 +91,16 @@ public class CASTableCellW extends VerticalPanel {
 		outputPanel.setStyleName("CAS_outputPanel");
 		add(outputPanel);
 
+	}
+
+	private Label renderPlain() {
+		Label outputLabel = new Label();
+		if (casCell.isError()) {
+			outputLabel.getElement().getStyle().setColor("red");
+		}
+		// #5119
+		outputLabel.setText(casCell.getOutput(StringTemplate.numericDefault));
+		return outputLabel;
 	}
 
 	private void renderOld(Label outputLabel, String latex) {
@@ -124,6 +128,10 @@ public class CASTableCellW extends VerticalPanel {
 		textBeforeEdit = inputPanel.getText();
 		editor.setText(textBeforeEdit);
 		add(outputPanel);
+		if(getCASCell() != null && getCASCell().isError()){
+			outputPanel.clear();
+			outputPanel.add(renderPlain());
+		}
 		editor.requestFocus();
 	}
 
