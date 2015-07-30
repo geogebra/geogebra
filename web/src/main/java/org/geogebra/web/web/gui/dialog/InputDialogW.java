@@ -76,7 +76,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	 */
 	public InputDialogW(AppW app, String message, String title,
 	        String initString, boolean autoComplete, InputHandler handler,
-	        boolean modal, boolean selectInitText, GeoElement geo, DialogType type) {
+			boolean modal, final boolean selectInitText, GeoElement geo,
+			DialogType type) {
 
 		this(modal);
 
@@ -93,6 +94,11 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 			public void execute() {
 				inputPanel.getTextComponent().setFocus(true);
+				// Firefox: correct cursor position #5419
+				if (!selectInitText) {
+				inputPanel.getTextComponent().setCaretPosition(
+						inputPanel.getText().length());
+				}
 
 			}
 		});
