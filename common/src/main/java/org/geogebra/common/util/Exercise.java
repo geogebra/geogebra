@@ -6,8 +6,13 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.Assignment.Result;
 
+/**
+ * An exercise containing the assignments
+ * 
+ * @author Christoph
+ *
+ */
 public class Exercise {
 
 	private ArrayList<Assignment> assignments;
@@ -25,6 +30,11 @@ public class Exercise {
 		assignments = new ArrayList<Assignment>();
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @return the Instance of the Exercise
+	 */
 	public static Exercise getInstance(App app) {
 		if (INSTANCE == null) {
 			INSTANCE = new Exercise(app);
@@ -32,10 +42,16 @@ public class Exercise {
 		return INSTANCE;
 	}
 
+	/**
+	 * Resets the Exercise to contain no user defined tools.
+	 */
 	public void reset() {
 		assignments = new ArrayList<Assignment>();
 	}
 
+	/**
+	 * Resets the Exercise and adds all user defined tools to the Exercise.
+	 */
 	public void initStandardExercise() {
 		reset();
 		if (app.getKernel().hasMacros()) {
@@ -46,6 +62,11 @@ public class Exercise {
 		}
 	}
 
+	/**
+	 * Checks all Assignments in this exercise.
+	 * 
+	 * Use getResult() and getHints
+	 */
 	public void checkExercise() {
 		if (assignments.isEmpty()) {
 			initStandardExercise();
@@ -65,22 +86,15 @@ public class Exercise {
 		}
 	}
 
-	public ArrayList<Result> getResults() {
-		ArrayList<Result> results = new ArrayList<Result>();
-		for (Assignment assignment : assignments) {
-			results.add(assignment.getResult());
-		}
-		return results;
-	}
-
-	public ArrayList<String> getHints() {
-		ArrayList<String> hints = new ArrayList<String>();
-		for (Assignment assignment : assignments) {
-			hints.add(assignment.getHint());
-		}
-		return hints;
-	}
-
+	/**
+	 * The overall fraction of the Exercise
+	 * 
+	 * TODO is this really doing the right thing???? i.e. if more assignments
+	 * with 100% are in the Exercise... I guess we should use weighted fractions
+	 * or use optional tag...
+	 * 
+	 * @return the sum of fractions for each assignment
+	 */
 	public float getFraction() {
 		float fraction = 0;
 		for (Assignment assignment : assignments) {
@@ -89,12 +103,22 @@ public class Exercise {
 		return fraction > 1 ? 1 : fraction;
 	}
 
+	/**
+	 * Creates a new Assignment and adds it to the Exercise.
+	 * 
+	 * @param macro
+	 *            the user defined Tool corresponding to the Assignment
+	 * @return the newly created Assignment
+	 */
 	public Assignment addAssignment(Macro macro) {
 		Assignment a = new Assignment(macro);
 		assignments.add(a);
 		return a;
 	}
 
+	/**
+	 * @return all assignments contained in the exercise
+	 */
 	public ArrayList<Assignment> getParts() {
 		return assignments;
 	}
@@ -116,6 +140,27 @@ public class Exercise {
 		return res;
 	}
 
+	/**
+	 * @return XML describing the Exercise. Will be empty if no changes to the
+	 *         Exercise were made (i.e. if isStandardExercise).<br />
+	 *         Only Elements and Properties which are set or not standard will
+	 *         be included.
+	 * 
+	 *         <pre>
+	 * {@code <exercise>
+	 * 	<assignment toolName="Tool2">
+	 * 		<result name="CORRECT" hint="Great, that&apos;s correct!" />
+	 * 		<result name="WRONG" hint="Try again!" />
+	 * 		<result name="NOT_ENOUGH_INPUTS" hint="You should at least have &#123;inputs&#125; in your construction!" />
+	 * 		<result name="WRONG_INPUT_TYPES" hint="We were not able to find &#123;inputs&#125;, although it seems you have drawn a triangle!" />
+	 * 		<result name="WRONG_OUTPUT_TYPE" hint="We couldn&apos;t find a triangle in the construction!" />
+	 * 		<result name="WRONG_AFTER_RANDOMIZE" hint="Should never happen in this construction! Contact your teacher!" fraction="0.5" />
+	 * 		<result name="UNKNOWN" hint="Something went wrong - ask your teacher!" />
+	 * 	</assignment>
+	 * </exercise>
+	 * }
+	 * </pre>
+	 */
 	public String getExerciseXML() {
 		StringBuilder sb = new StringBuilder();
 		if (!isStandardExercise()) {

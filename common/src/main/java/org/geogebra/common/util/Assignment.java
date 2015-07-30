@@ -175,7 +175,7 @@ public class Assignment {
 				GeoElement[] macroOutput = algoMacro.getOutput();
 				for (int i = 0; i < possibleOutputPermutation.length
 						&& (!partRes.contains(Result.WRONG)); i++) {
-					checkEqualityOfGeos(cons, input, macroOutput[i],
+					checkEqualityOfGeos(input, macroOutput[i],
 							possibleOutputPermutation[i], partRes);
 				}
 				algoMacro.remove();
@@ -206,7 +206,7 @@ public class Assignment {
 		}
 	}
 
-	private void checkEqualityOfGeos(Construction cons, GeoElement[] input,
+	private void checkEqualityOfGeos(GeoElement[] input,
 			GeoElement macroOutput, GeoElement possibleOutput,
 			TreeSet<Result> partRes) {
 		GeoElement saveInput;
@@ -292,8 +292,13 @@ public class Assignment {
 	}
 
 	/**
-	 * @return the fraction for the Result if set, else 1.0 for correct Result
-	 *         and 0 else.
+	 * Get the fraction for the current state of the assignment. Don't forget to
+	 * call checkAssignment() or checkExercise() prior to getFraction() if you
+	 * want to update the Result.
+	 * 
+	 * @return the fraction for the current state of the assignment <br />
+	 *         if the user specified a fraction it will be returned otherwise 1
+	 *         for Result.CORRECT 0 else
 	 */
 	public float getFraction() {
 		float fraction = 0f;
@@ -305,20 +310,40 @@ public class Assignment {
 		return fraction;
 	}
 
-	public void setFractionForResult(Result res, float f) {
-		fractionForResult.put(res, f);
+	/**
+	 * @param result
+	 *            the result for which the fraction should be set
+	 * @param f
+	 *            the fraction in the interval [0,1] which should be used for
+	 *            the result (will do nothing if fraction is not in [0,1])
+	 */
+	public void setFractionForResult(Result result, float f) {
+		if (0 <= f && f <= 1) {
+			fractionForResult.put(result, f);
+		}
 	}
 
-	public float getFractionForResult(Result res) {
+	/**
+	 * @param result
+	 *            the result for which the fraction should be returned
+	 * @return the fraction corresponding to the result<br />
+	 *         if the user specified a fraction it will be returned otherwise 1
+	 *         for Result.CORRECT 0 else
+	 */
+	public float getFractionForResult(Result result) {
 		float frac = 0f;
-		if (fractionForResult.containsKey(res)) {
-			frac = fractionForResult.get(res);
-		} else if (res == Result.CORRECT) {
+		if (fractionForResult.containsKey(result)) {
+			frac = fractionForResult.get(result);
+		} else if (result == Result.CORRECT) {
 			frac = 1.0f;
 		}
 		return frac;
 	}
 
+	/**
+	 * @return the icon file name of the user defined tool corresponding to this
+	 *         assignment
+	 */
 	public String getIconFileName() {
 		return macro.getIconFileName();
 	}
@@ -372,20 +397,49 @@ public class Assignment {
 		return hint;
 	}
 
+	/**
+	 * @return the user defined tool corresponding to the assignment
+	 */
 	public Macro getTool() {
-		// TODO Auto-generated method stub
 		return macro;
 	}
 
+	/**
+	 * @return true if user specified hints for any result in the assignment
+	 */
 	public boolean hasHint() {
 		return !hintForResult.isEmpty();
 	}
 
+	/**
+	 * @return true if user specified fractions for any result result in the
+	 *         assignment
+	 */
 	public boolean hasFraction() {
-		// TODO Auto-generated method stub
 		return !fractionForResult.isEmpty();
 	}
 
+	/**
+	 * @return XML describing the Exercise. Will be empty if no changes to the
+	 *         Exercise were made (i.e. if isStandardExercise).<br />
+	 *         Only Elements and Properties which are set or not standard will
+	 *         be included.
+	 * 
+	 *         <pre>
+	 * {@code <exercise>
+	 * 	<assignment toolName="Tool2">
+	 * 		<result name="CORRECT" hint="Great, that&apos;s correct!" />
+	 * 		<result name="WRONG" hint="Try again!" />
+	 * 		<result name="NOT_ENOUGH_INPUTS" hint="You should at least have &#123;inputs&#125; in your construction!" />
+	 * 		<result name="WRONG_INPUT_TYPES" hint="We were not able to find &#123;inputs&#125;, although it seems you have drawn a triangle!" />
+	 * 		<result name="WRONG_OUTPUT_TYPE" hint="We couldn&apos;t find a triangle in the construction!" />
+	 * 		<result name="WRONG_AFTER_RANDOMIZE" hint="Should never happen in this construction! Contact your teacher!" fraction="0.5" />
+	 * 		<result name="UNKNOWN" hint="Something went wrong - ask your teacher!" />
+	 * 	</assignment>
+	 * </exercise>
+	 * }
+	 * </pre>
+	 */
 	public String getAssignmentXML() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\t<assignment toolName=\"");
@@ -393,12 +447,12 @@ public class Assignment {
 		sb.append("\">\n");
 
 		if (hasHint() || hasFraction()) {
-			for (Result res : Result.values()) {
-				String hint = hintForResult.get(res);
-				Float fraction = fractionForResult.get(res);
+			for (Result res1 : Result.values()) {
+				String hint = hintForResult.get(res1);
+				Float fraction = fractionForResult.get(res1);
 				if (hint != null && !hint.isEmpty() || fraction != null) {
 					sb.append("\t\t<result name=\"");
-					StringUtil.encodeXML(sb, res.toString());
+					StringUtil.encodeXML(sb, res1.toString());
 					sb.append("\" ");
 					if (hint != null && !hint.isEmpty()) {
 						sb.append("hint=\"");

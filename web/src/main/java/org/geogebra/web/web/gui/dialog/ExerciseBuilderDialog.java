@@ -67,11 +67,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 	private class AddMacroDOMHandler implements MouseDownHandler,
 			MouseUpHandler, TouchStartHandler, TouchEndHandler {
 
-		App app;
-
-		public AddMacroDOMHandler(App app) {
+		public AddMacroDOMHandler() {
 			super();
-			this.app = app;
 		}
 
 		public void onTouchEnd(TouchEndEvent event) {
@@ -106,6 +103,13 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 
 	}
 
+	/**
+	 * If add symbol is clicked, <br />
+	 * a ToolCreationDialog will be created, if there are no (more) Macros which
+	 * can be used for the Exercise <br />
+	 * or a SubMenu like chooser of the tools which can be used for the Exercise
+	 * will be shown.
+	 */
 	void handleAddClick() {
 		if (app.getKernel().getMacroNumber() == 0
 				|| app.getKernel().getMacroNumber() <= exercise.getParts()
@@ -113,6 +117,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 			newTool();
 		} else {
 			for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
+				// if (exercise.g)
 				ListItem item = userAddModes.addItem(i
 						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
 				addDomHandlers(item);
@@ -138,11 +143,17 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 
 	}
 
+	/**
+	 * Brings up a new ExerciseBuilderDialog
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public ExerciseBuilderDialog(App app) {
 		super(false, false, null);
 
 		this.app = (AppW) app;
-		addMacroHandler = new AddMacroDOMHandler(app);
+		addMacroHandler = new AddMacroDOMHandler();
 		exercise = Exercise.getInstance(app);
 		if (exercise.getParts().isEmpty()) {
 			exercise.initStandardExercise();
@@ -313,21 +324,15 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 
 	private Image getDeleteIcon(final Assignment assignment) {
 		Image delIcon = new Image(GuiResources.INSTANCE.menu_icon_edit_delete());
-		delIcon.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				exercise.getParts().remove(assignment);
-				assignmentsTable.removeRow(assignmentsTable.getCellForEvent(
-						event).getRowIndex());
-				// hideShowAddIcon();
-				// if (app.getKernel().getMacroNumber() > exercise.getParts()
-				// .size()) {
-				// assignmentsTable.setWidget(exercise.getParts().size() + 2,
-				// 0, addIcon);
-				// addIcon.setVisible(true);
-				// }
-			}
-		});
+		addDomHandlers(delIcon);
+		// delIcon.addClickHandler(new ClickHandler() {
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// exercise.getParts().remove(assignment);
+		// assignmentsTable.removeRow(assignmentsTable.getCellForEvent(
+		// event).getRowIndex());
+		// }
+		// });
 		return delIcon;
 	}
 
@@ -383,9 +388,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 
 	private void check() {
 		exercise.checkExercise();
-		App.debug(String.valueOf(exercise.getResults()));
-		App.debug(String.valueOf(exercise.getHints()));
-		App.debug(String.valueOf(exercise.getFraction()));
 
 		int k = 1;
 		int i = 0; // keep track of the row we're in
@@ -428,13 +430,27 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 						StringTemplate.defaultTemplate)));
 	}
 
-	private void addAssignment(Macro macro) {
+	/**
+	 * Adds a user defined tool to the exercise as well as the view
+	 * 
+	 * @param macro
+	 *            the user defined tool which should be added to the exercise as
+	 *            well as the view
+	 */
+	void addAssignment(Macro macro) {
 		Assignment a = exercise.addAssignment(macro);
 		appendAssignmentRow(a);
 		userAddModes.setVisible(false);
 	}
 
-	private void addAssignment(int mode) {
+	/**
+	 * Adds a user defined tool to the exercise as well as the view
+	 * 
+	 * @param mode
+	 *            the ID of the user defined tool which should be added to the
+	 *            exercise as well as the view
+	 */
+	void addAssignment(int mode) {
 		addAssignment(app.getKernel().getMacro(
 				mode - EuclidianConstants.MACRO_MODE_ID_OFFSET));
 	}
