@@ -367,8 +367,9 @@ namespace giac {
   }
 
   int sum_degree_from(const index_m & v1,int start){
+    index_t & i1=v1.riptr->i;
+    index_t::const_iterator it = i1.begin()+start,itend = i1.end();
     int i=0;
-    index_t::const_iterator it=v1.begin()+start,itend=v1.end();
     for (;it!=itend;++it)
       i += *it;
     return i;
@@ -459,7 +460,25 @@ namespace giac {
     if (((i1.taille % 2))==0){
       if (i1.riptr==i2.riptr)
 	return true;
+#if 0 // def __x86_64__
+      const index_t & i1t=i1.riptr->i;
+      const index_t & i2t=i2.riptr->i;
+      int n=i1t.size();
+      if (n!=i2.size()) return false;
+      const ulonglong * ptr1=(const ulonglong *)&i1t.front(),* ptr1end=ptr1+n/4,*ptr2=(const ulonglong *)&i2t.front();
+      for (;ptr1!=ptr1end;++ptr2,++ptr1){
+	if (*ptr1!=*ptr2)
+	  return false;
+      }
+      const deg_t * i1ptr=(const deg_t *) ptr1,*i1end=i1ptr+n%4,* i2ptr= (const deg_t *) ptr2;    
+      for (;i1ptr!=i1end;++i2ptr,++i1ptr){
+	if (*i1ptr!=*i2ptr)
+	  return false;
+      }
+      return true;
+#else
       return (i1.riptr->i==i2.riptr->i);
+#endif
     }
     if (i1.taille!=i2.taille)
       return false;
@@ -509,16 +528,26 @@ namespace giac {
 
   
   index_m operator + (const index_m & a, const index_m & b){
-    index_t::const_iterator ita=a.begin();
-    index_t::const_iterator itaend=a.end();
-    index_t::const_iterator itb=b.begin();
-    int s=int(itaend-ita);
+    const deg_t * ita=&*a.begin(), * itb=&*b.begin();
+    int s=int(a.size());
+    const deg_t * itaend=ita+s;
 #ifdef DEBUG_SUPPORT
     if (s!=signed(b.size()))
       setsizeerr(gettext("index.cc index_m operator +"));
 #endif // DEBUG_SUPPORT
     index_m res(s);
-    index_t::iterator it=res.begin();
+    deg_t * it=(deg_t*)&*res.begin();
+#if 0 // def __x86_64__
+    ulonglong * target=(ulonglong *) &*it;
+    const ulonglong * ptr1=(const ulonglong *) &*ita,* ptr1end=ptr1+s/(sizeof(ulonglong)/sizeof(deg_t));
+    const ulonglong * ptr2=(const ulonglong *) &*itb;
+    for (;ptr1!=ptr1end;++target,++ptr2,++ptr1){
+      *target=*ptr1+*ptr2;
+    }
+    ita=(const deg_t*)&*ptr1;
+    itb=(const deg_t*)&*ptr2;
+    it=(deg_t*)&*target;
+#endif
     for (;ita!=itaend;++it,++itb,++ita)
       *it = (*ita)+(*itb);
     return res;

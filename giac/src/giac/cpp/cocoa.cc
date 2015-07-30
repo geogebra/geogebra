@@ -1064,8 +1064,8 @@ namespace giac {
 
   inline bool tdeg_t_greater (const tdeg_t & x,const tdeg_t & y,short order){
 #ifdef GIAC_64VARS
-    if (x.tab[0]%2){
-      if (order==_3VAR_ORDER || order>=_7VAR_ORDER){
+    if (x.tdeg%2){
+      if (order>=_7VAR_ORDER || order==_3VAR_ORDER){
 	if (x.tdeg!=y.tdeg)
 	  return x.tdeg>y.tdeg;
 	return i_nvar_is_greater(*x.i(),*y.i(),order,true);
@@ -1096,7 +1096,7 @@ namespace giac {
   inline bool tdeg_t_all_greater(const tdeg_t & x,const tdeg_t & y,short order){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      return *x.i()>=*y.i();
+      return x.tdeg>=y.tdeg && x.tdeg2>=y.tdeg2 && *x.i()>=*y.i();
     }
 #endif
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
@@ -10267,8 +10267,8 @@ namespace giac {
 	    }
 	  }
 	  gbmod.swap(rurv); // reconstruct the rur instead of the gbasis
-	}
-	unsigned jpos; gen num,den;
+	} // end if (rur)
+	unsigned jpos; gen num,den; 
 	if (debug_infolevel>2)
 	  CERR << "p=" << p << ":" << gbmod << endl;
 	for (i=0;i<V.size();++i){
