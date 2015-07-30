@@ -1722,7 +1722,7 @@ public abstract class AppW extends App implements SetLabels {
 		// init settings
 		settings = companion.newSettings();
 		SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE = 200;
-		SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE = 26;
+		SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE = 200;
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
 
 		fontManager = new FontManagerW();
