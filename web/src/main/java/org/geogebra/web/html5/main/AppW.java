@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.SwingFactory;
@@ -263,7 +264,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	@Override
-	public DrawTextFieldW getDrawTextField(EuclidianView view, GeoTextField geo) {
+	public DrawTextField getDrawTextField(EuclidianView view, GeoTextField geo) {
 		return new DrawTextFieldW(view, geo);
 	}
 
