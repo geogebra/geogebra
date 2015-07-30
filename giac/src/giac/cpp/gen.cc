@@ -70,7 +70,7 @@ extern "C" uint32_t mainThreadStack[];
 #include <emscripten/bind.h>  
 #endif
 
-#if defined EMCC && !defined GEOGEBRA
+#if defined EMCC && !defined GIAC_GGB
 
 #if 0 // def EMCC_GLUT
 #include <GL/glut.h>
@@ -14573,7 +14573,7 @@ namespace giac {
     while (last.type==_VECT && !last._VECTptr->empty())
       last=last._VECTptr->back();
     if (calc_mode(&C)!=1 && last.is_symb_of_sommet(at_pnt)){
-#ifndef GEOGEBRA
+#ifndef GIAC_GGB
       if (is3d(last)){
 	//giac_renderer(last.print(&C).c_str());
 	giac_gen_renderer(g,&C);
