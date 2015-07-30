@@ -822,7 +822,7 @@ __GGB__keysVar.ca_XV.command = {
     "SetColor.Syntax": "[ <Objecte>, \"<color>\" ]\n[ <Objecte>, <Roig>, <Verd>, <Blau> ]",
     "SetConditionToShowObject": "DefinixCondici\xf3PerAMostrarObjecte",
     "SetConditionToShowObject.Syntax": "[ <Objecte>, <Condici\xf3> ]",
-    "SetConstructionStep": "SetConstructionStep",
+    "SetConstructionStep": "PasConstrucci\xf3Fixa",
     "SetConstructionStep.Syntax": "[ <Nombre> ]",
     "SetCoords": "DefinixCoordenades",
     "SetCoords.Syntax": "[ <Punt>, <x>, <y> ]",
