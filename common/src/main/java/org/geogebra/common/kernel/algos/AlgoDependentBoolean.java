@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.Unicode;
 
 /**
  *
@@ -544,13 +543,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		botanaVars = new Variable[allSegmentsFromExpression.size()];
 		int index = 0;
 		for (GeoSegment segment : allSegmentsFromExpression) {
-			if (segment.getLabelSimple().equals("e")) {
-				labels[index] = "ee";
-			} else if (segment.getLabelSimple().equals("i")) {
-				labels[index] = "ii";
-			} else {
-				labels[index] = segment.getLabelSimple();
-			}
+			labels[index] = segment.getLabel(StringTemplate.giacTemplate);
 			botanaVars[index] = new Variable();
 			Variable[] thisSegBotanaVars = segment.getBotanaVars(segment);
 			Polynomial s = new Polynomial(botanaVars[index]);
@@ -561,17 +554,11 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			extraPolys.add(currPoly);
 			index++;
 		}
-		String rootStr = root.toString(StringTemplate.defaultTemplate);
-		if (rootStr.contains("e")) {
-			rootStr = rootStr.replaceAll("e", "ee");
-		}
-		if (rootStr.contains("i")) {
-			rootStr = rootStr.replaceAll("i", "ii");
-		}
-		String[] splitedStatement = rootStr.split(Unicode.QUESTEQ);
+		String rootStr = root.toString(StringTemplate.giacTemplate);
+		String[] splitedStr = rootStr.split(",");
+		rootStr = splitedStr[0].substring(28, splitedStr[0].length() - 2);
 		StringBuilder strForGiac = new StringBuilder();
-		strForGiac.append("eliminate([" + splitedStatement[0] + "="
-				+ splitedStatement[1]);
+		strForGiac.append("eliminate([" + rootStr + "=0");
 		StringBuilder labelsStr = new StringBuilder();
 		for (int i = 0; i < labels.length; i++) {
 			if (i == 0) {
