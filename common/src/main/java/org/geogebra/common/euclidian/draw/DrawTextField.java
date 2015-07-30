@@ -538,9 +538,15 @@ public class DrawTextField extends Drawable implements
 	private void drawTextField(GGraphics2D g2) {
 
 		// no drawing, just measuring.
-		labelSize = EuclidianStatic.drawIndexedString(view.getApplication(),
-				g2, labelDesc, 0, 0, false, false, false);
+		if (isLatexString(labelDesc)) {
+			GDimension d = drawLatex(g2, labelDesc, xLabel, yLabel);
+			labelSize = new GPoint(d.getWidth(), d.getHeight());
+		} else {
+			labelSize = EuclidianStatic
 
+				.drawIndexedString(view.getApplication(), g2, labelDesc, 0, 0,
+					false, false, false);
+		}
 		int boxLeft = xLabel + labelSize.x + 2;
 		int boxTop = yLabel;
 		int boxWidth = prefSize.getWidth();
@@ -579,6 +585,7 @@ public class DrawTextField extends Drawable implements
 		drawTextFieldLabel(g2);
 
 
+
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 				geoTextField.getText(), textLeft, textBottom,
 				false, false);
@@ -588,8 +595,12 @@ public class DrawTextField extends Drawable implements
 		return text.startsWith("$") && text.endsWith("$");
 	}
 
-	protected void drawLatex(String text, int x, int y) {
-
+	protected GDimension drawLatex(GGraphics2D g2, String text, int x, int y) {
+		App app = view.getApplication();
+		return app.getDrawEquation().drawEquation(app, geoTextField, g2, x, y,
+				text,
+				labelFont, false, geo.getObjectColor(),
+				geo.getBackgroundColor(), false, false, null);
 	};
 
 	private int getTextBottom() {
@@ -598,11 +609,15 @@ public class DrawTextField extends Drawable implements
 
 	private void drawTextFieldLabel(GGraphics2D g2) {
 
-		g2.setPaint(geo.getObjectColor());
-		EuclidianStatic.drawIndexedString(view.getApplication(),
- g2, labelDesc,
-				xLabel, getTextBottom(), false,
-				false);
+		if (isLatexString(labelDesc)) {
+			drawLatex(g2, labelDesc, xLabel, yLabel);
+		} else {
+			g2.setPaint(geo.getObjectColor());
+
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+					labelDesc, xLabel, getTextBottom(), false, false);
+		}
+
 	}
 
 	/**
