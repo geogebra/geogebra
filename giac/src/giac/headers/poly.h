@@ -49,7 +49,7 @@ namespace giac {
     tensor() : dim(0), is_strictly_greater(i_lex_is_strictly_greater), m_is_strictly_greater(std::ptr_fun<const monomial<T> &, const monomial<T> &, bool>(m_lex_is_strictly_greater<T>)) { }
     explicit tensor(int d) : dim(d), is_strictly_greater(i_lex_is_strictly_greater), m_is_strictly_greater(std::ptr_fun<const monomial<T> &, const monomial<T> &, bool>(m_lex_is_strictly_greater<T>)) { }
     explicit tensor(int d,const tensor<T> & t) : dim(d),is_strictly_greater(t.is_strictly_greater), m_is_strictly_greater(t.m_is_strictly_greater)  { }
-    tensor(const monomial<T> & v) : dim(v.index.size()), is_strictly_greater(i_lex_is_strictly_greater), m_is_strictly_greater(std::ptr_fun<const monomial<T> &, const monomial<T> &, bool>(m_lex_is_strictly_greater<T>)) { 
+    tensor(const monomial<T> & v) : dim(int(v.index.size())), is_strictly_greater(i_lex_is_strictly_greater), m_is_strictly_greater(std::ptr_fun<const monomial<T> &, const monomial<T> &, bool>(m_lex_is_strictly_greater<T>)) { 
       coord.push_back(v);
     }
     tensor(const T & v, int d) : dim(d), is_strictly_greater(i_lex_is_strictly_greater), m_is_strictly_greater(std::ptr_fun<const monomial<T> &, const monomial<T> &, bool>(m_lex_is_strictly_greater<T>)) {
@@ -184,7 +184,7 @@ namespace giac {
   };
   template <class T> class Tref_tensor{
   public:
-    int ref_count;
+    ref_count_t ref_count;
     tensor<T> t;
     Tref_tensor<T>(const tensor<T> & P): ref_count(1),t(P) {}
     Tref_tensor<T>(int dim): ref_count(1),t(dim) {}
@@ -419,7 +419,7 @@ namespace giac {
 
   template <class T> 
   int tensor<T>::position(const index_m & v) const {
-    int smax=coord.size()-1;
+    int smax=int(coord.size())-1;
     int smin=0;
     int s;
     for (;smin<smax;){
@@ -839,7 +839,7 @@ namespace giac {
     if (it==itend)
       return tensor<T>(0);
     int n=it->index.front();
-    int d=it->index.size();
+    int d=int(it->index.size());
     tensor<T> res(d-1);
     for (;(it!=itend) && (it->index.front()==n);++it)
       res.coord.push_back(it->trunc1());
@@ -1129,13 +1129,13 @@ namespace giac {
 
   template <class T>
   bool tensor<T>::TDivRem (const tensor<T> & other, tensor<T> & quo, tensor<T> & rem, bool allowrational ) const {  
-    int asize=(*this).coord.size();
+    int asize=int((*this).coord.size());
     if (!asize){
       quo=*this;
       rem=*this; 
       return true;
     }
-    int bsize=other.coord.size();
+    int bsize=int(other.coord.size());
     if (!bsize){
       quo.dim=dim; quo.coord.clear();
       rem=*this;
@@ -2201,7 +2201,7 @@ namespace giac {
   // num and den are assumed to be prime together
   template<class T>
   void Tpartfrac(const tensor<T> & num, const tensor<T> & den, const std::vector< facteur< tensor<T> > > & v , std::vector < pf <T> > & pfdecomp, tensor<T> & ipnum, tensor<T> & ipden ){
-    int n=v.size();
+    int n=int(v.size());
     pfdecomp.reserve(n);
     // compute ip and call Tpartfrac
     tensor<T> rem(num.dim);

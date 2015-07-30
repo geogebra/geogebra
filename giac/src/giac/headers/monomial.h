@@ -216,7 +216,7 @@ namespace giac {
       return monomial<T>(value,i+index);
     }
     void reverse()  {
-      int s=index.size();
+      int s=int(index.size());
       index_m new_i;
       new_i.reserve(s);
       index_t::const_iterator it=index.begin();
@@ -228,7 +228,7 @@ namespace giac {
       index=new_i;
     }
     void reorder(const std::vector<int> & permutation)  {
-      int s=index.size();
+      int s=int(index.size());
       if (unsigned(s)!=permutation.size()){
 #ifndef NO_STDEXCEPT
 	setsizeerr("Error monomial.h reorder(const index_t &)");
@@ -259,7 +259,7 @@ namespace giac {
     }
     // add a principal degree equal to j and adjust dimension to dim
     monomial<T> untrunc (int j,int dim) const {
-      int s=index.size();
+      int s=int(index.size());
       assert(s<dim);
       index_m new_i(dim);
       index_t::const_iterator it=index.begin();
@@ -312,6 +312,21 @@ namespace giac {
   template <class T>
   bool m_11var_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
     return(i_11var_is_strictly_greater(m1.index,m2.index));
+  }
+
+  template <class T>
+  bool m_16var_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
+    return(i_16var_is_strictly_greater(m1.index,m2.index));
+  }
+
+  template <class T>
+  bool m_32var_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
+    return(i_32var_is_strictly_greater(m1.index,m2.index));
+  }
+
+  template <class T>
+  bool m_64var_is_strictly_greater(const monomial<T> & m1, const monomial<T> & m2){
+    return(i_64var_is_strictly_greater(m1.index,m2.index));
   }
 
   template<class T> class sort_helper {

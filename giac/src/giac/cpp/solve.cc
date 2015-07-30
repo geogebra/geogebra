@@ -5700,6 +5700,8 @@ namespace giac {
   vecteur gsolve(const vecteur & eq_orig,const vecteur & var_orig,bool complexmode,int evalf_after,GIAC_CONTEXT){
     // replace variables in var_orig by true identificators
     vecteur var(var_orig);
+    if (!lop(eq_orig,*at_unit).empty())
+      *logptr(contextptr) << "Units are not supported in systems"<<endl;
     // check if the whole system is linear
     if (is_zero(derive(derive(eq_orig,var,contextptr),var,contextptr),contextptr)){
       gen sol=_linsolve(makesequence(eq_orig,var),contextptr);
