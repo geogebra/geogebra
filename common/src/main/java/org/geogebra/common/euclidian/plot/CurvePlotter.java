@@ -679,6 +679,8 @@ public class CurvePlotter {
 			}
 		}
 
+		gp.endPlot();
+
 		return coords;
 	}
 }
