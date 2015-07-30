@@ -238,4 +238,6 @@ public interface ExpressionValue {
 	 * @return whether this evaluates to number
 	 */
 	boolean evaluatesToNumber(boolean def);
+
+	public Object getAssignmentOperator();
 }

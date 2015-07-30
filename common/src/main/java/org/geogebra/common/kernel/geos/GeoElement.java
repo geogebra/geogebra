@@ -7840,4 +7840,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public final boolean isAngle() {
 		return getAngleDim() == 1;
 	}
+	
+	public String getAssignmentOperator(){
+		return ":=";
+	}
 }

@@ -186,7 +186,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		switch (assignmentType) {
 		case DEFAULT:
 			sb.append(getLabelForAssignment());
-			sb.append(getAssignmentOperator());
+			sb.append(unwrap().getAssignmentOperator());
 			break;
 		case DELAYED:
 			sb.append(getLabelForAssignment());
