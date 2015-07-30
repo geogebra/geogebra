@@ -5831,4 +5831,11 @@ kernel, left,
 		}
 		return false;
 	}
+
+	public GeoSegment getGeoSegment() {
+		if (this.isGeoElement() && this.left instanceof GeoSegment) {
+			return (GeoSegment) this.left;
+		}
+		return null;
+	}
 }

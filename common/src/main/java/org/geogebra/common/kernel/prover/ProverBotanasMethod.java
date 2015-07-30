@@ -20,6 +20,10 @@ import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.PolynomialNode;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -454,7 +458,78 @@ public class ProverBotanasMethod {
 
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement
 					.getParentAlgorithm()).getBotanaPolynomials();
-			
+
+			// case input was an expression
+			if (statements == null) {
+				AlgoElement algo = statement.getParentAlgorithm();
+				// get expression string for giac
+				String strForGiac = ((AlgoDependentBoolean) algo)
+						.getStrForGiac();
+
+				GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel()
+						.getGeoGebraCAS();
+				try {
+					String output = cas.getCurrentCAS().evaluateRaw(
+							strForGiac.toString());
+					// unhandled input expression
+					if (output.contains("?")) {
+						return ProofResult.UNKNOWN;
+					}
+					// giac output is not empty
+					if (!(output.equals("{}"))) {
+						// App.debug(output);
+						ValidExpression validExpression = (statement
+								.getKernel()
+							.getGeoGebraCAS()).getCASparser()
+							.parseGeoGebraCASInputAndResolveDummyVars(output,
+									statement.getKernel(), null);
+						// App.debug(validExpression
+						// .toString(StringTemplate.defaultTemplate));
+						PolynomialNode polyRoot = new PolynomialNode();
+						ExpressionNode expNode = new ExpressionNode(
+							statement.getKernel(),
+							((ExpressionNode) validExpression).getLeft());
+						MyList list = new MyList(statement.getKernel());
+						ExpressionNode root = null;
+						if (expNode.getLeft() instanceof MyList) {
+							list = ((MyList) expNode.getLeft()).getMyList();
+						}
+						if (list.getListElement(0).isExpressionNode()) {
+							root = (ExpressionNode) list.getListElement(0);
+						}
+						((AlgoDependentBoolean) algo).buildPolynomialTree(root,
+							polyRoot);
+						((AlgoDependentBoolean) algo)
+								.expressionNodeToPolynomial(
+							root, polyRoot);
+						while (polyRoot.getPoly() == null) {
+							((AlgoDependentBoolean) algo)
+								.expressionNodeToPolynomial(root,
+										polyRoot);
+						}
+						// get distance polynomials
+						ArrayList<Polynomial> extraPolys = ((AlgoDependentBoolean) algo)
+							.getExtraPolys();
+						statements = new Polynomial[1][extraPolys.size() + 1];
+						int index = 0;
+						for (Polynomial p : extraPolys) {
+							statements[0][index] = p;
+							index++;
+						}
+						// add input polynomial
+						statements[0][index] = polyRoot.getPoly();
+					}
+					// case giac result was empty
+					else {
+						statements = new Polynomial[1][1];
+						statements[0][0] = new Polynomial(0);
+					}
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+
+			}
+
 			AlgoElement algo = statement
 					.getParentAlgorithm();
 			if (algo instanceof AlgoDependentBoolean) {
