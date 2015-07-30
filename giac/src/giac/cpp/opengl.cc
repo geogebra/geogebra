@@ -4119,7 +4119,7 @@ void freeglutStrokeCharacter( int character )
   
   int init_screen(int & w,int & h){
     int fs;
-    emscripten_get_canvas_size(&w, &h, &fs);
+    //emscripten_get_canvas_size(&w, &h, &fs);
     if (w==0) w=400;
     if (h==0) h=250;
     if ( SDL_Init(SDL_INIT_VIDEO) != 0 ) {
