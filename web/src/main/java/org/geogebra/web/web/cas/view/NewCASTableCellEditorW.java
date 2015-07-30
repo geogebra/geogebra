@@ -40,6 +40,8 @@ public class NewCASTableCellEditorW extends Label implements
 	private final SpanElement seMayLaTeX;
 	private CASTableControllerW ml;
 	private boolean autocomplete = true;
+	private boolean thisIsEdited;
+
 
 	public NewCASTableCellEditorW(CASTableW table, final AppW app,
 	        final CASTableControllerW ml) {
@@ -244,6 +246,7 @@ public class NewCASTableCellEditorW extends Label implements
 		if (editor.needsEnterForSuggestion()) {
 			return false;
 		}
+		this.thisIsEdited = false;
 		// TODO Auto-generated method stub
 		App.debug("STOPPED" + input2 + "," + latex);
 		this.editor.addToHistory(input2, dollarFix(latex));
@@ -259,6 +262,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 	@Override
 	public boolean stopEditing(String latex) {
+		thisIsEdited = false;
 		// TODO Auto-generated method stub
 		App.debug("STOPPED" + latex);
 		return false;
@@ -324,7 +328,10 @@ public class NewCASTableCellEditorW extends Label implements
 	}
 
 	public void ensureEditing() {
-		DrawEquationWeb.editEquationMathQuillGGB(this, seMayLaTeX, true);
+		if (!thisIsEdited) {
+			thisIsEdited = true;
+			DrawEquationWeb.editEquationMathQuillGGB(this, seMayLaTeX, true);
+		}
 		// TODO Auto-generated method stub
 
 	}
