@@ -57,7 +57,7 @@ public class Exercise {
 		if (app.getKernel().hasMacros()) {
 			ArrayList<Macro> macros = app.getKernel().getAllMacros();
 			for (Macro macro : macros) {
-				assignments.add(new Assignment(macro));
+				addAssignment(macro);
 			}
 		}
 	}
@@ -123,6 +123,18 @@ public class Exercise {
 		return assignments;
 	}
 
+	public boolean usesMacro(Macro macro) {
+		boolean uses = false;
+		for (Assignment assignment : assignments) {
+			uses = uses || assignment.getTool().equals(macro);
+		}
+		return uses;
+	}
+
+	public boolean usesMacro(int macroID) {
+		return usesMacro(kernel.getMacro(macroID));
+	}
+
 	/**
 	 * @return false if there are no Macros or any change to the standard
 	 *         behavior has been made with the ExerciseBuilder <br />
@@ -164,13 +176,19 @@ public class Exercise {
 	public String getExerciseXML() {
 		StringBuilder sb = new StringBuilder();
 		if (!isStandardExercise()) {
-			sb.append("<exercise>\n");
 			for (Assignment a : assignments) {
 				sb.append(a.getAssignmentXML());
 			}
-			sb.append("</exercise>\n");
 		}
 		return sb.toString();
+	}
+
+	public boolean isEmpty() {
+		return assignments.isEmpty();
+	}
+
+	public void remove(Assignment assignment) {
+		assignments.remove(assignment);
 	}
 
 }

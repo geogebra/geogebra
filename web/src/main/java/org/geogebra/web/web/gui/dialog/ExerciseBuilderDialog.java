@@ -49,7 +49,14 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
+/**
+ * Dialog for editing an {@link Exercise}
+ * 
+ * @author Christoph
+ *
+ */
+public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
+		MouseDownHandler, MouseUpHandler, TouchStartHandler, TouchEndHandler {
 
 	private AppW app;
 	private Exercise exercise;
@@ -60,47 +67,47 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 	private FlexTable assignmentsTable;
 	private FlexTable checkAssignmentsTable;
 
-	private AddMacroDOMHandler addMacroHandler;
+	// private ExerciseBuilderDOMHandler exerciseBuilderHandler;
 	private UnorderedList addList;
 	private ToolbarSubemuW userAddModes;
 
-	private class AddMacroDOMHandler implements MouseDownHandler,
-			MouseUpHandler, TouchStartHandler, TouchEndHandler {
+	public void onTouchEnd(TouchEndEvent event) {
+		onEnd(event);
+	}
 
-		public AddMacroDOMHandler() {
-			super();
-		}
+	public void onTouchStart(TouchStartEvent event) {
+		// TODO Auto-generated method stub
 
-		public void onTouchEnd(TouchEndEvent event) {
-			onEnd(event);
+	}
 
-		}
+	public void onMouseUp(MouseUpEvent event) {
+		onEnd(event);
+	}
 
-		public void onTouchStart(TouchStartEvent event) {
-			// TODO Auto-generated method stub
+	public void onMouseDown(MouseDownEvent event) {
+		// TODO Auto-generated method stub
 
-		}
+	}
 
-		public void onMouseUp(MouseUpEvent event) {
-			onEnd(event);
-		}
+	private void onEnd(DomEvent<?> event) {
 
-		public void onMouseDown(MouseDownEvent event) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void onEnd(DomEvent<?> event) {
-			String modeS = event.getRelativeElement().getAttribute("mode");
+		Element relativeElement = event.getRelativeElement();
+		String modeS = relativeElement.getAttribute("mode");
+		// Element target = event.getNativeEvent().getEventTarget().cast();
+		if (addList.getElement().isOrHasChild(relativeElement)) {
 			if (modeS.isEmpty()) {
 				handleAddClick();
 			} else {
 				int mode = Integer.parseInt(modeS);
-				App.debug("onEnd: " + mode);
 				addAssignment(mode);
+				relativeElement.removeFromParent();
+				userAddModes.setVisible(false);
 			}
+			event.stopPropagation();
+		} else {
+			userAddModes.setVisible(false);
+			event.stopPropagation();
 		}
-
 	}
 
 	/**
@@ -116,12 +123,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 						.size()) {
 			newTool();
 		} else {
-			for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
-				// if (exercise.g)
-				ListItem item = userAddModes.addItem(i
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
-				addDomHandlers(item);
-			}
 			userAddModes.setVisible(true);
 		}
 	}
@@ -153,9 +154,9 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 		super(false, false, null);
 
 		this.app = (AppW) app;
-		addMacroHandler = new AddMacroDOMHandler();
+		// exerciseBuilderHandler = new ExerciseBuilderDOMHandler();
 		exercise = Exercise.getInstance(app);
-		if (exercise.getParts().isEmpty()) {
+		if (exercise.isEmpty()) {
 			exercise.initStandardExercise();
 		}
 		createGUI();
@@ -166,6 +167,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 		getCaption().setText(app.getMenu("Exercise.CreateNew"));
 
 		setWidget(mainWidget = new VerticalPanel());
+		addDomHandlers(mainWidget);
 		assignmentsTable = new FlexTable();
 		FlexCellFormatter cellFormatter = assignmentsTable
 				.getFlexCellFormatter();
@@ -184,18 +186,25 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 		mainWidget.add(checkAssignmentsTable);
 
 		addList = new UnorderedList();
+		addDomHandlers(addList);
 		// addIcon = new ListItem();
 		Image addIcon = new Image(GuiResources.INSTANCE.menu_icon_file_new());
 		ListItem addListItem = new ListItem();
 		addListItem.addStyleName("toolbar_item");
 		addListItem.add(addIcon);
-		addDomHandlers(addListItem);
 		addList.add(addListItem);
-		userAddModes = new ToolbarSubemuW(app, 0);
-		userAddModes.addStyleName("toolbar_item");
-		addList.add(userAddModes);
-		userAddModes.setVisible(false);
 
+		userAddModes = new ToolbarSubemuW(app, 1);
+		userAddModes.addStyleName("toolbar_item");
+		userAddModes.setVisible(false);
+		for (int i = 0; i < app.getKernel().getMacroNumber(); i++) {
+			if (!exercise.usesMacro(i)) {
+				ListItem item = userAddModes.addItem(i
+						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
+				addDomHandlers(item);
+			}
+		}
+		addList.add(userAddModes);
 		mainWidget.add(addList);
 
 		mainWidget.add(bottomWidget = new FlowPanel());
@@ -224,10 +233,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 	}
 
 	private void addDomHandlers(Widget w) {
-		w.addDomHandler(addMacroHandler, MouseDownEvent.getType());
-		w.addDomHandler(addMacroHandler, MouseUpEvent.getType());
-		w.addDomHandler(addMacroHandler, TouchStartEvent.getType());
-		w.addDomHandler(addMacroHandler, TouchEndEvent.getType());
+		w.addDomHandler(this, MouseDownEvent.getType());
+		w.addDomHandler(this, MouseUpEvent.getType());
+		w.addDomHandler(this, TouchStartEvent.getType());
+		w.addDomHandler(this, TouchEndEvent.getType());
 	}
 
 	private void appendAssignmentRow(final Assignment assignment) {
@@ -324,18 +333,26 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 
 	private Image getDeleteIcon(final Assignment assignment) {
 		Image delIcon = new Image(GuiResources.INSTANCE.menu_icon_edit_delete());
-		addDomHandlers(delIcon);
-		// delIcon.addClickHandler(new ClickHandler() {
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// exercise.getParts().remove(assignment);
-		// assignmentsTable.removeRow(assignmentsTable.getCellForEvent(
-		// event).getRowIndex());
-		// }
-		// });
+		delIcon.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				ListItem item = userAddModes.addItem(app.getKernel()
+						.getMacroID(assignment.getTool())
+						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
+				addDomHandlers(item);
+				exercise.remove(assignment);
+				assignmentsTable.removeRow(assignmentsTable.getCellForEvent(
+						event).getRowIndex());
+			}
+		});
 		return delIcon;
 	}
 
+	/**
+	 * @param fileName
+	 *            of user defined tool
+	 * @return {@link SafeUri} of Icon with fileName
+	 */
 	SafeUri getIconFile(String fileName) {
 		if (!fileName.isEmpty()) {
 			String imageURL = app.getImageManager().getExternalImageSrc(
@@ -355,7 +372,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 			if (isEditing) {
 				hide();
 				app.getActiveEuclidianView().requestFocusInWindow();
-
 				app.storeUndoInfo();
 				app.getKernel().notifyRepaint();
 			} else {
@@ -366,7 +382,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 				hide();
 				setGlassEnabled(true);
 				center();
-
 			}
 		} else if (target == btTest.getElement()) {
 			if (isEditing) {
@@ -383,7 +398,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler {
 				check();
 			}
 		}
-		// }
 	}
 
 	private void check() {
