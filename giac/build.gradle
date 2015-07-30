@@ -142,7 +142,8 @@ model {
             sources.cpp {
                 source {
                     srcDirs 'src/giac/cpp', 'src/jni/cpp'
-                    exclude '**/first.cc', '**/firstcc.cc', '**/hello.cc' // consider removing them from SVN
+                    exclude '**/first.cc', '**/firstcc.cc', '**/hello.cc', // consider removing them from SVN
+			'**/freeglut*.c*', '**/opengl.cc'
             	    }
                 exportedHeaders {
                     srcDirs 'src/giac/headers', 'src/jni/jdkHeaders'
