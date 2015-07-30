@@ -2394,10 +2394,12 @@ namespace giac {
 	  a1=a1._SYMBptr->feuille;
 	  a2=a2._SYMBptr->feuille;
 	}
-	if (a2.type!=_VECT && !lvarx(a1,v.back()).empty() && !lvarx(a2,v.back()).empty()){
+	// solve(simplify(surd((5/10),570)^(x))=(8/10))
+	if (a2.type!=_VECT && (!lvarx(a1,v.back()).empty() || !lvarx(a2,v.back()).empty())){
 	  vecteur lv=lvarx(makevecteur(a1,a2),v.back());
-	  vecteur w=mergevecteur(lop(lv,at_pow),lop(lv,at_exp));
-	  if (w.size()>1){
+	  vecteur wpow=lop(lv,at_pow);
+	  vecteur w=mergevecteur(wpow,lop(lv,at_exp));
+	  if (!wpow.empty() || w.size()>1){
 	    arg1=ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr);
 	    if (lvarx(arg1,v.back()).size()>1){
 	      arg1=lnexpand(arg1,contextptr);
@@ -5701,7 +5703,7 @@ namespace giac {
     // replace variables in var_orig by true identificators
     vecteur var(var_orig);
     if (!lop(eq_orig,*at_unit).empty())
-      *logptr(contextptr) << "Units are not supported in systems"<<endl;
+      *logptr(contextptr) << "Units are not supported"<<endl;
     // check if the whole system is linear
     if (is_zero(derive(derive(eq_orig,var,contextptr),var,contextptr),contextptr)){
       gen sol=_linsolve(makesequence(eq_orig,var),contextptr);

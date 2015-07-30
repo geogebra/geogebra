@@ -20,7 +20,7 @@
 
 #define _LIBINTL_H      1
 #define __LIBINTL_H_DEFINED__ // Pour NetBSD 
-#if defined GIAC_HAS_STO_38 || defined EMCC
+#if defined GIAC_HAS_STO_38 || ( defined EMCC && !defined GEOGEBRA )
 const char * gettext(const char * s); // in aspen.cc or opengl.cc
 #else
 #ifndef APPLE_SMART

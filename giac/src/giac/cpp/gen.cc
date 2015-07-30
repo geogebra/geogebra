@@ -70,7 +70,8 @@ extern "C" uint32_t mainThreadStack[];
 #include <emscripten/bind.h>  
 #endif
 
-#ifdef EMCC
+#if defined EMCC && !defined GEOGEBRA
+
 #if 0 // def EMCC_GLUT
 #include <GL/glut.h>
 #else
@@ -80,6 +81,7 @@ extern "C" uint32_t mainThreadStack[];
 //#include "SDL/SDL_image.h"
 #include "SDL/SDL_opengl.h"
 #endif
+
 #include "opengl.h"
 #endif
 
@@ -14571,11 +14573,13 @@ namespace giac {
     while (last.type==_VECT && !last._VECTptr->empty())
       last=last._VECTptr->back();
     if (calc_mode(&C)!=1 && last.is_symb_of_sommet(at_pnt)){
+#ifndef GEOGEBRA
       if (is3d(last)){
 	//giac_renderer(last.print(&C).c_str());
 	giac_gen_renderer(g,&C);
 	return "Done";
       }
+#endif
       bool fullview=true;
       vector<double> vx,vy,vz;
       double window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax;
