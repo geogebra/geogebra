@@ -31,19 +31,23 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
  * 
  * @author Michael Borcherds
  */
-public class AlgoNumerator extends AlgoElement {
+public class AlgoNumeratorDenominatorFun extends AlgoElement {
 
 	private FunctionalNVar f; // input
 	private GeoElement g; // output
+	private Commands type;
 
-	public AlgoNumerator(Construction cons, String label, FunctionalNVar f) {
-		this(cons, f);
+	public AlgoNumeratorDenominatorFun(Construction cons, String label,
+			FunctionalNVar f, Commands type) {
+		this(cons, f, type);
 		g.setLabel(label);
 	}
 
-	public AlgoNumerator(Construction cons, FunctionalNVar f) {
+	public AlgoNumeratorDenominatorFun(Construction cons, FunctionalNVar f,
+			Commands type) {
 		super(cons);
 		this.f = f;
+		this.type = type;
 
 		if (f instanceof GeoFunction) {
 			g = new GeoFunction(cons);
@@ -65,8 +69,7 @@ public class AlgoNumerator extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = (GeoElement) f;
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		super.setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -82,11 +85,14 @@ public class AlgoNumerator extends AlgoElement {
 		}
 		ExpressionValue[] numDen = new ExpressionValue[2];
 		f.getFunctionExpression().deepCopy(kernel).wrap().getFraction(numDen, false);;
-		if (numDen[1] == null) {
-			numDen[1] = new ExpressionNode(kernel,1);
+		ExpressionValue ev;
+		if (type == Commands.Numerator) {
+			ev = numDen[0];
+		} else if (numDen[1] == null) {
+			ev = new ExpressionNode(kernel, 1);
+		} else {
+			ev = numDen[1];
 		}
-
-		ExpressionValue ev = getPart(numDen); // get Numerator
 
 		// Application.debug(root.left.getClass()+"");
 

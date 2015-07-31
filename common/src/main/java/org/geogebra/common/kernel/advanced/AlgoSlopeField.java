@@ -6,9 +6,8 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.algos.AlgoDenominator;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoNumerator;
+import org.geogebra.common.kernel.algos.AlgoNumeratorDenominatorFun;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -33,8 +32,8 @@ public class AlgoSlopeField extends AlgoElement {
 	@SuppressWarnings("javadoc")
 	ArrayList<MyPoint> al;
 
-	private AlgoNumerator numAlgo;
-	private AlgoDenominator denAlgo;
+	private AlgoNumeratorDenominatorFun numAlgo;
+	private AlgoNumeratorDenominatorFun denAlgo;
 	private FunctionalNVar num, den;
 	private boolean quotient;
 	private EuclidianView mainView;
@@ -72,8 +71,10 @@ public class AlgoSlopeField extends AlgoElement {
 		this.maxX = maxX;
 		this.maxY = maxY;
 
-		numAlgo = new AlgoNumerator(cons, func);
-		denAlgo = new AlgoDenominator(cons, func);
+		numAlgo = new AlgoNumeratorDenominatorFun(cons, func,
+				Commands.Numerator);
+		denAlgo = new AlgoNumeratorDenominatorFun(cons, func,
+				Commands.Denominator);
 		cons.removeFromConstructionList(numAlgo);
 		cons.removeFromConstructionList(denAlgo);
 

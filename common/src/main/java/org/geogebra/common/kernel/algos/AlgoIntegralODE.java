@@ -34,8 +34,8 @@ public class AlgoIntegralODE extends AlgoElement {
 
 	private FunctionalNVar f0 = null;
 
-	private AlgoNumerator numAlgo;
-	private AlgoDenominator denAlgo;
+	private AlgoNumeratorDenominatorFun numAlgo;
+	private AlgoNumeratorDenominatorFun denAlgo;
 	private FunctionalNVar num, den;
 
 	@SuppressWarnings("javadoc")
@@ -72,8 +72,9 @@ public class AlgoIntegralODE extends AlgoElement {
 			}
 		} // else leave f0 = null
 
-		numAlgo = new AlgoNumerator(cons, f0);
-		denAlgo = new AlgoDenominator(cons, f0);
+		numAlgo = new AlgoNumeratorDenominatorFun(cons, f0, Commands.Numerator);
+		denAlgo = new AlgoNumeratorDenominatorFun(cons, f0,
+				Commands.Denominator);
 		cons.removeFromConstructionList(numAlgo);
 		cons.removeFromConstructionList(denAlgo);
 

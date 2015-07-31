@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.advanced.CmdContinuedFraction;
 import org.geogebra.common.kernel.advanced.CmdCrossRatio;
 import org.geogebra.common.kernel.advanced.CmdCurvature;
 import org.geogebra.common.kernel.advanced.CmdCurvatureVector;
-import org.geogebra.common.kernel.advanced.CmdDenominator;
 import org.geogebra.common.kernel.advanced.CmdDeterminant;
 import org.geogebra.common.kernel.advanced.CmdDimension;
 import org.geogebra.common.kernel.advanced.CmdDirection;
@@ -63,7 +62,7 @@ import org.geogebra.common.kernel.advanced.CmdMatrixRank;
 import org.geogebra.common.kernel.advanced.CmdMaximize;
 import org.geogebra.common.kernel.advanced.CmdMinimize;
 import org.geogebra.common.kernel.advanced.CmdNSolveODE;
-import org.geogebra.common.kernel.advanced.CmdNumerator;
+import org.geogebra.common.kernel.advanced.CmdNumeratorDenominator;
 import org.geogebra.common.kernel.advanced.CmdOrdinal;
 import org.geogebra.common.kernel.advanced.CmdOsculatingCircle;
 import org.geogebra.common.kernel.advanced.CmdParameter;
@@ -123,9 +122,9 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case Directrix:
 			return new CmdDirectrix(kernel);
 		case Numerator:
-			return new CmdNumerator(kernel);
+			return new CmdNumeratorDenominator(kernel, c);
 		case Denominator:
-			return new CmdDenominator(kernel);
+			return new CmdNumeratorDenominator(kernel, c);
 		case ComplexRoot:
 			return new CmdComplexRoot(kernel);
 		case SlopeField:

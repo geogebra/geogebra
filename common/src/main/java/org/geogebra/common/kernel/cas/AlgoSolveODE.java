@@ -12,9 +12,8 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.algos.AlgoDenominator;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoNumerator;
+import org.geogebra.common.kernel.algos.AlgoNumeratorDenominatorFun;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -36,8 +35,8 @@ public class AlgoSolveODE extends AlgoElement {
 	private GeoLocus locus; // output
 	@SuppressWarnings("javadoc")
 	ArrayList<MyPoint> al;
-	private AlgoNumerator numAlgo;
-	private AlgoDenominator denAlgo;
+	private AlgoNumeratorDenominatorFun numAlgo;
+	private AlgoNumeratorDenominatorFun denAlgo;
 	private FunctionalNVar num;
 	private FunctionalNVar den;
 	@SuppressWarnings("javadoc")
@@ -73,8 +72,10 @@ public class AlgoSolveODE extends AlgoElement {
 		this.step = step;
 
 		if (f1 == null) {
-			numAlgo = new AlgoNumerator(cons, f0);
-			denAlgo = new AlgoDenominator(cons, f0);
+			numAlgo = new AlgoNumeratorDenominatorFun(cons, f0,
+					Commands.Numerator);
+			denAlgo = new AlgoNumeratorDenominatorFun(cons, f0,
+					Commands.Denominator);
 			cons.removeFromConstructionList(numAlgo);
 			cons.removeFromConstructionList(denAlgo);
 
