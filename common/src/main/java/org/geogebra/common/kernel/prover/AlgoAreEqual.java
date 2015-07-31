@@ -177,57 +177,40 @@ public class AlgoAreEqual extends AlgoElement implements
 			return botanaPolynomials;
 		}
 
-		// area of two triangles
+		// area of two polygons
+		// area of polygon is the sum of areas of triangles in polygon
 		if (inputElement1 instanceof GeoNumeric
 				&& inputElement2 instanceof GeoNumeric
 				&& (inputElement1.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA
 				&& (inputElement2.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA) {
-			if ((inputElement1.getParentAlgorithm()).getInput().length == 3 // is
-																				// triangle
-				&& (inputElement2.getParentAlgorithm()).getInput().length == 3) {
-				botanaPolynomials = new Polynomial[1][1];
 
-				Variable[] v1 = new Variable[6];
-				Variable[] v2 = new Variable[6];
-				// get coordinates of the points
-				v1 = ((SymbolicParametersBotanaAlgo) inputElement1
-					.getParentAlgorithm()).getBotanaVars(inputElement1); // A,B,C
-				v2 = ((SymbolicParametersBotanaAlgo) inputElement2
-					.getParentAlgorithm()).getBotanaVars(inputElement2); // D,E,F
-			
-				/*
-				 * Polynomial a1 = new Polynomial(v1[0]); Polynomial a2 = new
-				 * Polynomial(v1[1]); Polynomial b1 = new Polynomial(v1[2]);
-				 * Polynomial b2 = new Polynomial(v1[3]); Polynomial c1 = new
-				 * Polynomial(v1[4]); Polynomial c2 = new Polynomial(v1[5]);
-				 * Polynomial d1 = new Polynomial(v2[0]); Polynomial d2 = new
-				 * Polynomial(v2[1]); Polynomial e1 = new Polynomial(v2[2]);
-				 * Polynomial e2 = new Polynomial(v2[3]); Polynomial f1 = new
-				 * Polynomial(v2[4]); Polynomial f2 = new Polynomial(v2[5]);
-				 */
-			
-				// We need the absolute value of the determinant since
-				// we are not interested in signed area (at the moment at
-				// least).
-				// Thanks to Fabian Vitabar for finding this issue.
-				Polynomial det1sqr = Polynomial.sqr(Polynomial.area(v1[0],
+			// get botanaVars of points of first polygon
+			Variable[] v1 = ((SymbolicParametersBotanaAlgo) inputElement1
+						.getParentAlgorithm()).getBotanaVars(inputElement1);
+			// get botanaVars of points of first polygon
+			Variable[] v2 = ((SymbolicParametersBotanaAlgo) inputElement2
+						.getParentAlgorithm()).getBotanaVars(inputElement2);
+
+			// add areas of triangles in first polygon
+			Polynomial det1sqr = Polynomial.sqr(Polynomial.area(v1[0],
 						v1[1], v1[2], v1[3], v1[4], v1[5]));
-				Polynomial det2sqr = Polynomial.sqr(Polynomial.area(v2[0],
-						v2[1], v2[2], v2[3], v2[4], v2[5]));
-				botanaPolynomials[0][0] = det1sqr.subtract(det2sqr);
-
-				return botanaPolynomials;
+			for (int i = 4; i < v1.length - 3; i = i + 2) {
+				det1sqr = det1sqr.add(Polynomial.sqr(Polynomial.area(v1[0],
+							v1[1], v1[i], v1[i + 1], v1[i + 2], v1[i + 3])));
 			}
 
-			Polynomial areaOfPoly1 = ((SymbolicParametersBotanaAlgo) inputElement1
-					.getParentAlgorithm()).getBotanaPolynomials(inputElement1)[0];
-			Polynomial areaOfPoly2 = ((SymbolicParametersBotanaAlgo) inputElement2
-					.getParentAlgorithm()).getBotanaPolynomials(inputElement2)[0];
+			// add areas of triangles in second polygon
+			Polynomial det2sqr = Polynomial.sqr(Polynomial.area(v2[0],
+						v2[1], v2[2], v2[3], v2[4], v2[5]));
+			for (int i = 4; i < v2.length - 3; i = i + 2) {
+				det2sqr = det2sqr.add(Polynomial.sqr(Polynomial.area(v2[0],
+							v2[1], v2[i], v2[i + 1], v2[i + 2], v2[i + 3])));
+			}
+
 			botanaPolynomials = new Polynomial[1][1];
-			botanaPolynomials[0][0] = areaOfPoly1.subtract(areaOfPoly2);
+			botanaPolynomials[0][0] = det1sqr.subtract(det2sqr);
+
 			return botanaPolynomials;
-
-
 		}
 		// TODO: Implement circles etc.
 

@@ -91,37 +91,23 @@ public class AlgoAreaPolygon extends AlgoElement implements SymbolicParametersBo
 	}
 
 	public Variable[] getBotanaVars(GeoElement geo) {
+		GeoPointND[] pointsOfPolygon = polygon.getPoints();
+		if (botanaVars == null) {
+			botanaVars = new Variable[pointsOfPolygon.length * 2];
+			for (int i = 0; i < pointsOfPolygon.length; i++) {
+				Variable[] currentPointBotanavars = ((GeoPoint) pointsOfPolygon[i])
+						.getBotanaVars((GeoPoint) pointsOfPolygon[i]);
+				botanaVars[2 * i] = currentPointBotanavars[0];
+				botanaVars[2 * i + 1] = currentPointBotanavars[1];
+			}
+		}
 		return botanaVars;
 	}
 
 	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
-		if (polygon != null) {
-			GeoPointND[] pointsOfPolygon = polygon.getPoints();
-			if (botanaVars == null) {
-				botanaVars = new Variable[pointsOfPolygon.length * 2];
-				for (int i = 0; i < pointsOfPolygon.length; i++) {
-					Variable[] currentPointBotanavars = ((GeoPoint) pointsOfPolygon[i])
-						.getBotanaVars((GeoPoint) pointsOfPolygon[i]);
-					botanaVars[2 * i] = currentPointBotanavars[0];
-					botanaVars[2 * i + 1] = currentPointBotanavars[1];
-				}
-			}
-			botanaPolynomials = new Polynomial[1];
-			botanaPolynomials[0] = Polynomial.sqr(Polynomial.area(
-					botanaVars[0], botanaVars[1], botanaVars[2], botanaVars[3],
-					botanaVars[4], botanaVars[5]));
-			for (int i = 4; i <= botanaVars.length - 4; i = i + 2) {
-				botanaPolynomials[0] = botanaPolynomials[0].add(Polynomial
-						.sqr(Polynomial.area(botanaVars[0], botanaVars[1],
-								botanaVars[i], botanaVars[i + 1],
-								botanaVars[i + 2], botanaVars[i + 3])));
-			}
-			return botanaPolynomials;
-		}
-		throw new NoSymbolicParametersException();
+			return null;
 	}
-	
 	
 
 	// TODO Consider locusequability

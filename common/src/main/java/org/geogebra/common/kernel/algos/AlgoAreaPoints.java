@@ -103,20 +103,15 @@ public class AlgoAreaPoints extends AlgoElement implements
 	}
 
 	public Variable[] getBotanaVars(GeoElement geo) {
+		GeoPointND[] points = getPoints();
 		if (botanaVars == null) {
-			GeoPoint A = (GeoPoint) P[0];
-			GeoPoint B = (GeoPoint) P[1];
-			GeoPoint C = (GeoPoint) P[2];
-			Variable[] vA = A.getBotanaVars(A);
-			Variable[] vB = B.getBotanaVars(B);
-			Variable[] vC = C.getBotanaVars(C);
-			botanaVars = new Variable[6];
-			botanaVars[0] = vA[0];
-			botanaVars[1] = vA[1];
-			botanaVars[2] = vB[0];
-			botanaVars[3] = vB[1];
-			botanaVars[4] = vC[0];
-			botanaVars[5] = vC[1];
+			botanaVars = new Variable[points.length * 2];
+			for (int i = 0; i < points.length; i++) {
+				Variable[] currentPointBotanavars = ((GeoPoint) points[i])
+						.getBotanaVars((GeoPoint) points[i]);
+				botanaVars[2 * i] = currentPointBotanavars[0];
+				botanaVars[2 * i + 1] = currentPointBotanavars[1];
+			}
 		}
 		return botanaVars;
 	}
