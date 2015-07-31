@@ -172,7 +172,7 @@ public class DrawTextField extends Drawable implements
 		 */
 		public void focusGained(FocusEvent e) {
 			getView().getEuclidianController().textfieldHasFocus(true);
-			// geoTextField.updateText(textField);
+			geoTextField.updateText(textField);
 
 			initialText = textField.getText();
 		}
@@ -233,6 +233,7 @@ public class DrawTextField extends Drawable implements
 				if (drawOnCanvas) {
 					textField.setVisible(false);
 					draw(view.getGraphicsForPen());
+					geoTextField.setText(textField.getText());
 				}
 			} else {
 				GeoElement linkedGeo = ((GeoTextField) getGeo()).getLinkedGeo();
@@ -541,6 +542,8 @@ public class DrawTextField extends Drawable implements
 	public void showIntputField(boolean show) {
 		if (show) {
 			textField.setVisible(true);
+			textField.requestFocus();
+
 		} else {
 			textField.setVisible(false);
 		}

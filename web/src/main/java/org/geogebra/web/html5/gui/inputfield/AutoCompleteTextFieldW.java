@@ -38,6 +38,7 @@ import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -1490,6 +1491,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		return geoUsedForInputBox != null;
 	}
 
+	Scheduler.ScheduledCommand deferredFocus = new Scheduler.ScheduledCommand() {
+		public void execute() {
+			textField.setFocus(true);
+		}
+	};
 	@Override
 	public void requestFocus() {
 		// if (app.isPrerelease()) {
@@ -1498,7 +1504,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// // TODO needs to be removed for mobile devices
 		// textField.setFocus(true);
 		// } else {
-		textField.setFocus(true);
+
+		Scheduler.get().scheduleDeferred(deferredFocus);
+		// textField.setFocus(true);
 		// }
 
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
