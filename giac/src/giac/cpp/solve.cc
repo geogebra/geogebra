@@ -2403,8 +2403,11 @@ namespace giac {
 	    arg1=ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr);
 	    if (lvarx(arg1,v.back()).size()>1){
 	      arg1=lnexpand(arg1,contextptr);
-	      if (!lop(arg1,at_pow).empty()) 
-		arg1=a1-a2;
+	      if (!lop(arg1,at_pow).empty()){ 
+		arg1=lnexpand(a1-a2,contextptr);
+		if (lvarx(arg1,v.back()).size()>1)
+		  arg1=a1-a2;
+	      }
 	    }
 	  }
 	  w=lop(lv,at_exp);
