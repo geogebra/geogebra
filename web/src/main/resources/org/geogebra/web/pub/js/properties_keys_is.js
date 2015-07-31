@@ -1732,7 +1732,7 @@ __GGB__keysVar.is.menu = {
     "PerspectivePanel": "Stj\xf3rnbor\xf0 fyrir mismunandi s\xfdn",
     "Perspectives": "S\xfdn",
     "Pixels.short": "px",
-    "Plane": "Plane",
+    "Plane": "Plan",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",
     "PlaneThreePoint": "Plan gegnum \xferj\xe1 punkta",
     "PlaneThreePoint.Help": "Velji\xf0 \xferj\xe1 punkta",
