@@ -5760,36 +5760,37 @@ namespace giac {
 #if 1 // ATESTER
       if (eq.size()<=lidnt(eq).size()+3){
 	// first check for linear dependencies -> substitutions
+	gen a,b;
 	for (unsigned i=0;i<eq.size();++i){
 	  for (unsigned j=0;j<var.size();++j){
-	    gen a,b;
-	    if (is_linear_wrt(eq[i],var[j],a,b,contextptr) 
-		&& is_exactly_zero(derive(eq[i]-a*var[j],var,contextptr)) 
-		&& !is_zero(simplify(a,contextptr),contextptr)){
-	      // eq[i]=a*var[j]+b
-	      // replace var[j] by -b/a
-	      gen elimj=-b/a;
-	      vecteur eqs(eq);
-	      vecteur elim(var);
-	      eqs.erase(eqs.begin()+i);
-	      for (unsigned k=0;k<eqs.size();++k){
-		eqs[k]=_numer(subst(eqs[k],elim[j],elimj,false,contextptr),contextptr);
-	      }
-	      elim.erase(elim.begin()+j);
-	      vecteur res=gsolve(eqs,elim,complexmode,evalf_after,contextptr);
-	      for (unsigned k=0;k<res.size();++k){
-		gen & resk=res[k];
-		if (resk.type==_VECT && resk._VECTptr->size()==elim.size()){
-		  vecteur resmodif(*resk._VECTptr);
-		  gen resval=subst(elimj,elim,resk,false,contextptr);
-		  resmodif.insert(resmodif.begin()+j,resval);
-		  resk=gen(resmodif,resk.subtype);
+	    if (is_linear_wrt(eq[i],var[j],a,b,contextptr)){
+	      if (is_zero(derive(a,var,contextptr),contextptr) 
+		  && !is_zero(simplify(a,contextptr),contextptr)){
+		// eq[i]=a*var[j]+b
+		// replace var[j] by -b/a
+		gen elimj=-b/a;
+		vecteur eqs(eq);
+		vecteur elim(var);
+		eqs.erase(eqs.begin()+i);
+		for (unsigned k=0;k<eqs.size();++k){
+		  eqs[k]=_numer(subst(eqs[k],elim[j],elimj,false,contextptr),contextptr);
 		}
-		else
-		  resk=gensizeerr(contextptr);
+		elim.erase(elim.begin()+j);
+		vecteur res=gsolve(eqs,elim,complexmode,evalf_after,contextptr);
+		for (unsigned k=0;k<res.size();++k){
+		  gen & resk=res[k];
+		  if (resk.type==_VECT && resk._VECTptr->size()==elim.size()){
+		    vecteur resmodif(*resk._VECTptr);
+		    gen resval=subst(elimj,elim,resk,false,contextptr);
+		    resmodif.insert(resmodif.begin()+j,resval);
+		    resk=gen(resmodif,resk.subtype);
+		  }
+		  else
+		    resk=gensizeerr(contextptr);
+		}
+		return res;
 	      }
-	      return res;
-	    }
+	    } // end if is_linear
 	  }
 	}
       }
