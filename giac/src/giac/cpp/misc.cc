@@ -6187,6 +6187,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__Li,&_Li,_Li_s);
   define_unary_function_ptr5( at_Li ,alias_at_Li,&__Li,0,true);
 
+  gen _add_autosimplify(const gen & args,GIAC_CONTEXT){
+    return eval(add_autosimplify(args,contextptr),eval_level(contextptr),contextptr);
+  }
+  static const char _add_autosimplify_s []="add_autosimplify";
+  static define_unary_function_eval (__add_autosimplify,&_add_autosimplify,_add_autosimplify_s);
+  define_unary_function_ptr5( at_add_autosimplify ,alias_at_add_autosimplify,&__add_autosimplify,_QUOTE_ARGUMENTS,true);
+
 
 #if 0
   // Small graphs, not tested

@@ -2395,7 +2395,7 @@ namespace giac {
 	  a2=a2._SYMBptr->feuille;
 	}
 	// solve(simplify(surd((5/10),570)^(x))=(8/10))
-	if (a2.type!=_VECT && (!lvarx(a1,v.back()).empty() || !lvarx(a2,v.back()).empty())){
+	if (a2.type!=_VECT && !is_zero(a2) && (!lvarx(a1,v.back()).empty() || !lvarx(a2,v.back()).empty())){
 	  vecteur lv=lvarx(makevecteur(a1,a2),v.back());
 	  vecteur wpow=lop(lv,at_pow);
 	  vecteur w=mergevecteur(wpow,lop(lv,at_exp));
