@@ -581,6 +581,21 @@ extern "C" void Sleep(unsigned int miliSecond);
       _eval_abs_=b;
   }
 
+  static bool _eval_equaltosto_=true;
+  bool & eval_equaltosto(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      return contextptr->globalptr->_eval_equaltosto_;
+    else
+      return _eval_equaltosto_;
+  }
+
+  void eval_equaltosto(bool b,GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      contextptr->globalptr->_eval_equaltosto_=b;
+    else
+      _eval_equaltosto_=b;
+  }
+
   static bool _all_trig_sol_=false; 
   bool & all_trig_sol(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -3185,6 +3200,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_expand_re_im_=_expand_re_im_;
      ptr->globalptr->_do_lnabs_=_do_lnabs_;
      ptr->globalptr->_eval_abs_=_eval_abs_;
+     ptr->globalptr->_eval_equaltosto_=_eval_equaltosto_;
      ptr->globalptr->_complex_mode_=_complex_mode_;
      ptr->globalptr->_try_parse_i_=_try_parse_i_;
      ptr->globalptr->_specialtexprint_double_=_specialtexprint_double_;
@@ -3445,7 +3461,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   giac::gen thread_eval(const giac::gen & g_,int level,context * contextptr,void (* wait_0001)(context *) ){
-    gen g=equaltosto(g_);
+    gen g=equaltosto(g_,contextptr);
     /* launch a new thread for evaluation only,
        no more readqueue, readqueue is done by the "parent" thread
        Ctrl-C will kill the "child" thread
@@ -3593,7 +3609,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifdef BCD
 		     _bcd_decpoint_('.'|('E'<<16)|(' '<<24)),_bcd_mantissa_(12+(15<<8)), _bcd_flags_(0),_bcd_printdouble_(false),
 #endif
-		     _expand_re_im_(true), _do_lnabs_(true), _eval_abs_(true),_integer_mode_(true),_complex_mode_(false), _complex_variables_(false), _increasing_power_(false), _approx_mode_(false), _variables_are_files_(false), _local_eval_(true), 
+		     _expand_re_im_(true), _do_lnabs_(true), _eval_abs_(true),_eval_equaltosto_(true),_integer_mode_(true),_complex_mode_(false), _complex_variables_(false), _increasing_power_(false), _approx_mode_(false), _variables_are_files_(false), _local_eval_(true), 
 		     _withsqrt_(true), 
 		     _show_point_(true),  _io_graph_(true),
 		     _all_trig_sol_(false),
@@ -3648,6 +3664,7 @@ _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_ma
      _expand_re_im_=g._expand_re_im_;
      _do_lnabs_=g._do_lnabs_;
      _eval_abs_=g._eval_abs_;
+     _eval_equaltosto_=g._eval_equaltosto_;
      _complex_mode_=g._complex_mode_;
      _complex_variables_=g._complex_variables_;
      _increasing_power_=g._increasing_power_;
@@ -4527,6 +4544,8 @@ unsigned int ConvertUTF8toUTF16 (
     _all_trig_sol_=on;
     _withsqrt_=!on;
     _calc_mode_=on?1:0;
+    _eval_equaltosto_=on?0:1;
+    eval_equaltosto(on?0:1,contextptr);
     decimal_digits(on?13:12,contextptr);
     all_trig_sol(on,contextptr);
     withsqrt(!on,contextptr);

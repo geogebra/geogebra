@@ -14500,7 +14500,7 @@ namespace giac {
     int cres=pthread_create(&pth,&attr,thread_caseval,(void *)&cp);
     if (cres){
       g=gen(s,&C);
-      g=equaltosto(g);
+      g=equaltosto(g,&C);
       g=protecteval(g,1,&C);
     }
     else {
@@ -14546,7 +14546,7 @@ namespace giac {
     }
 #else
     gen g(s,&C);
-    g=equaltosto(g);
+    g=equaltosto(g,&C);
     if (g.type==_VECT && !g._VECTptr->empty() && g._VECTptr->front().is_symb_of_sommet(at_set_language)){
       vecteur v=*g._VECTptr;
       protecteval(v.front(),1,&C);

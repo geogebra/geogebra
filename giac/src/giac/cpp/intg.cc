@@ -2526,7 +2526,8 @@ namespace giac {
     if (!has_nop_var(v)){
       // additional check for non integer powers
       v=lop(lvar(e),at_pow);
-      if (lvarx(v,gen_x,contextptr).empty())
+      vecteur vx=lvarx(v,gen_x,contextptr);
+      if (vx.empty() || vx==vecteur(1,gen_x))
 	return integrate_linearizable(e,gen_x,remains_to_integrate,intmode,contextptr);
     }
     // trigonometric fraction (or exp _FRAC), rewrite all elemnts of rvar as

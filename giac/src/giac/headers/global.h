@@ -498,6 +498,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     bool _expand_re_im_;
     bool _do_lnabs_;
     bool _eval_abs_;
+    bool _eval_equaltosto_;
     bool _integer_mode_;
     bool _complex_mode_;
     bool _complex_variables_;
@@ -666,6 +667,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   bool & eval_abs(GIAC_CONTEXT);
   void eval_abs(bool b,GIAC_CONTEXT);
+
+  bool & eval_equaltosto(GIAC_CONTEXT);
+  void eval_equaltosto(bool b,GIAC_CONTEXT);
 
   bool & complex_variables(GIAC_CONTEXT);
   void complex_variables(bool b,GIAC_CONTEXT);

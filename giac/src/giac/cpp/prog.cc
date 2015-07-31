@@ -95,7 +95,9 @@ namespace giac {
   modules_tab giac_modules_tab;
 #endif
 
-  gen equaltosto(const gen & g){
+  gen equaltosto(const gen & g,GIAC_CONTEXT){
+    if (!eval_equaltosto(contextptr))
+      return g;
     if (is_equal(g)){
       vecteur v=*g._SYMBptr->feuille._VECTptr;
       gen a;
@@ -1094,7 +1096,7 @@ namespace giac {
 #endif
       if (prog.type!=_VECT || prog.subtype){
 	++debug_ptr(newcontextptr)->current_instruction;
-	prog=equaltosto(prog);
+	prog=equaltosto(prog,contextptr);
 	if (debug_ptr(newcontextptr)->debug_mode){
 	  debug_loop(res,newcontextptr);
 	  if (!is_undef(res)){
@@ -1124,12 +1126,12 @@ namespace giac {
 	  }
 	  if (!findlabel){
 	    if (it->is_symb_of_sommet(at_return)){
-	      if (!equaltosto(it->_SYMBptr->feuille).in_eval(prog_eval_level(newcontextptr),newres,newcontextptr))
+	      if (!equaltosto(it->_SYMBptr->feuille,contextptr).in_eval(prog_eval_level(newcontextptr),newres,newcontextptr))
 		newres=it->_SYMBptr->feuille;
 	      is_return(newres,res);
 	      break;
 	    }
-	    if (!equaltosto(*it).in_eval(prog_eval_level(newcontextptr),res,newcontextptr))
+	    if (!equaltosto(*it,contextptr).in_eval(prog_eval_level(newcontextptr),res,newcontextptr))
 	      res=*it;
 	  }
 	  else
@@ -1414,8 +1416,8 @@ namespace giac {
       }
     }
     bool rt;
-    gen clause_vraie=equaltosto((*(args._VECTptr))[1]);
-    gen clause_fausse=equaltosto(args._VECTptr->back());
+    gen clause_vraie=equaltosto((*(args._VECTptr))[1],contextptr);
+    gen clause_fausse=equaltosto(args._VECTptr->back(),contextptr);
     // *logptr(contextptr) << "Ifte " << debug_ptr(contextptr)->current_instruction << endl ;
     if (is_zero(test)){ // test false, do the else part
       if (isifte){
@@ -1830,7 +1832,7 @@ namespace giac {
     vecteur forprog=prog.type==_VECT?*prog._VECTptr:vecteur(1,prog);
     iterateur it,itbeg=forprog.begin(),itend=forprog.end();
     for (it=itbeg;it!=itend;++it){
-      *it=to_increment(equaltosto(*it));
+      *it=to_increment(equaltosto(*it,contextptr));
     }
     gen res,oldres;
     // loop
@@ -1863,7 +1865,7 @@ namespace giac {
 	}
 	index_name=test._SYMBptr->feuille._VECTptr->front();
       }
-      for (equaltosto(initialisation).eval(eval_lev,newcontextptr);
+      for (equaltosto(initialisation,contextptr).eval(eval_lev,newcontextptr);
 	   for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):ck_is_one(test.eval(eval_lev,newcontextptr).evalf(1,newcontextptr));
 	   ++counter,(test.val?increment.eval(eval_lev,newcontextptr):0)){
 	if (interrupted)
@@ -2240,7 +2242,7 @@ namespace giac {
     gen prog=args._VECTptr->back(),res,newres;
     if (protect!=-RAND_MAX){
       if (prog.type!=_VECT){
-	prog=equaltosto(prog);
+	prog=equaltosto(prog,contextptr);
 	++debug_ptr(newcontextptr)->current_instruction;
 	if (debug_ptr(newcontextptr)->debug_mode){
 	  debug_loop(res,newcontextptr);
@@ -2268,7 +2270,7 @@ namespace giac {
 	    debug_loop(res,newcontextptr);
 	    if (!is_undef(res)){
 	      if (!findlabel){
-		if (!equaltosto(*it).in_eval(eval_level(newcontextptr),res,newcontextptr))
+		if (!equaltosto(*it,contextptr).in_eval(eval_level(newcontextptr),res,newcontextptr))
 		  res=*it;
 	      }
 	      else
@@ -2277,7 +2279,7 @@ namespace giac {
 	  }
 	  else {
 	    if (!findlabel){
-	      if (!equaltosto(*it).in_eval(eval_level(newcontextptr),res,newcontextptr))
+	      if (!equaltosto(*it,contextptr).in_eval(eval_level(newcontextptr),res,newcontextptr))
 		res=*it;
 	    }
 	    else
