@@ -192,23 +192,24 @@ public class AlgoAreEqual extends AlgoElement implements
 						.getParentAlgorithm()).getBotanaVars(inputElement2);
 
 			// add areas of triangles in first polygon
-			Polynomial det1sqr = Polynomial.sqr(Polynomial.area(v1[0],
-						v1[1], v1[2], v1[3], v1[4], v1[5]));
+			Polynomial det1sqr = Polynomial.area(v1[0], v1[1], v1[2], v1[3],
+					v1[4], v1[5]);
 			for (int i = 4; i < v1.length - 3; i = i + 2) {
-				det1sqr = det1sqr.add(Polynomial.sqr(Polynomial.area(v1[0],
-							v1[1], v1[i], v1[i + 1], v1[i + 2], v1[i + 3])));
+				det1sqr = det1sqr.add(Polynomial.area(v1[0], v1[1], v1[i],
+						v1[i + 1], v1[i + 2], v1[i + 3]));
 			}
 
 			// add areas of triangles in second polygon
-			Polynomial det2sqr = Polynomial.sqr(Polynomial.area(v2[0],
-						v2[1], v2[2], v2[3], v2[4], v2[5]));
+			Polynomial det2sqr = Polynomial.area(v2[0], v2[1], v2[2], v2[3],
+					v2[4], v2[5]);
 			for (int i = 4; i < v2.length - 3; i = i + 2) {
-				det2sqr = det2sqr.add(Polynomial.sqr(Polynomial.area(v2[0],
-							v2[1], v2[i], v2[i + 1], v2[i + 2], v2[i + 3])));
+				det2sqr = det2sqr.add(Polynomial.area(v2[0], v2[1], v2[i],
+						v2[i + 1], v2[i + 2], v2[i + 3]));
 			}
 
 			botanaPolynomials = new Polynomial[1][1];
-			botanaPolynomials[0][0] = det1sqr.subtract(det2sqr);
+			botanaPolynomials[0][0] = (Polynomial.sqr(det1sqr))
+					.subtract(Polynomial.sqr(det2sqr));
 
 			return botanaPolynomials;
 		}
