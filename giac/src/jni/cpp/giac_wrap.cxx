@@ -15618,6 +15618,7 @@ SWIGEXPORT jlong JNICALL Java_javagiac_giacJNI_Bessel(JNIEnv *jenv, jclass jcls,
   jlong jresult = 0 ;
   giac::gen *arg1 = 0 ;
   int arg2 ;
+  bool aeg3 ;
   giac::context *arg4 = (giac::context *) 0 ;
   giac::gen result;
   
