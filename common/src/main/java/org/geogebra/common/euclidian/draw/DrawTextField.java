@@ -259,133 +259,6 @@ public class DrawTextField extends Drawable implements
 		}
 	}
 
-	// private class ButtonListener implements MouseListener,
-	// MouseMotionListener,
-	// FocusListener, KeyListener {
-	//
-	// private boolean dragging = false;
-	// private final EuclidianController ec =
-	// ((EuclidianView)view).getEuclidianController();
-	//
-	// public ButtonListener() {
-	// // TODO Auto-generated constructor stub
-	// }
-	//
-	// /**
-	// * Handles click on check box. Changes value of GeoBoolean.
-	// */
-	// @SuppressWarnings("unused")
-	// public void itemStateChanged(ItemEvent e) {
-	// // TODO delete?
-	// }
-	//
-	// public void mouseDragged(MouseEvent e) {
-	//
-	// dragging = true;
-	// e.translatePoint(box.getX(), box.getY());
-	// ec.mouseDragged(e);
-	// ((EuclidianView)view).setToolTipText(null);
-	// }
-	//
-	// public void mouseMoved(MouseEvent e) {
-	//
-	// e.translatePoint(box.getX(), box.getY());
-	// ec.mouseMoved(e);
-	// ((EuclidianView)view).setToolTipText(null);
-	// }
-	//
-	// public void mouseClicked(MouseEvent e) {
-	//
-	// if (e.getClickCount() > 1) {
-	// return;
-	// }
-	//
-	// e.translatePoint(box.getX(), box.getY());
-	// ec.mouseClicked(e);
-	// }
-	//
-
-	// public void mousePressed(MouseEvent e) {
-	//
-	// // prevent textField editing on right click
-	// if (Application.isRightClick(e)) {
-	// e.consume();
-	// }
-	//
-	// dragging = false;
-	// e.translatePoint(box.getX(), box.getY());
-	// ec.mousePressed(e);
-	// }
-
-	// public void mouseReleased(MouseEvent e) {
-	//
-	// // prevent textField editing on right click
-	// if (Application.isRightClick(e)) {
-	// e.consume();
-	// }
-	//
-	// if (!dragging && !e.isMetaDown() && !e.isPopupTrigger()
-	// && (view.getMode() == EuclidianConstants.MODE_MOVE)) {
-	// // handle LEFT CLICK
-	// // geoBool.setValue(!geoBool.getBoolean());
-	// // geoBool.updateRepaint();
-	// // geo.runScript();
-	// //
-	//
-	// // make sure itemChanged does not change
-	// // the value back my faking a drag
-	// dragging = true;
-	// } else {
-	// // handle right click and dragging
-	// e.translatePoint(box.getX(), box.getY());
-	// ec.mouseReleased(e);
-	// }
-	//
-	// }
-	//
-	// public void mouseEntered(MouseEvent arg0) {
-	// if (!textField.hasFocus()) {
-	// hit = true;
-	// ((EuclidianView)view).setToolTipText(null);
-	// geoButton.updateText(textField);
-	// }
-	// }
-	// public void mouseExited(MouseEvent arg0) {
-	// hit = false;
-	// }
-	//
-	// public void focusGained(FocusEvent e) {
-	// ((EuclidianView)view).getEuclidianController().textfieldHasFocus(true);
-	// geoTextField.updateText(textField);
-	//
-	// }
-	//
-	// public void focusLost(FocusEvent e) {
-	// ((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
-	//
-	// geoTextField.textObjectUpdated(textField);
-	//
-	// }
-	//
-	// public void keyPressed(KeyEvent e) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// public void keyReleased(KeyEvent e) {
-	// if (e.getKeyChar() == '\n') {
-	// ((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
-	// geoTextField.textObjectUpdated(textField);
-	// }
-	//
-	// }
-	//
-	// public void keyTyped(KeyEvent e) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	// }
-
 	private int oldLength = 0;
 
 	private GDimension prefSize;
@@ -453,8 +326,8 @@ public class DrawTextField extends Drawable implements
 
 		textField.setFocusable(true);
 		textField.setEditable(true);
-		geoTextField.updateText(textField);
 
+		geoTextField.updateText(textField);
 		box.revalidate();
 
 		xLabel = geo.labelOffsetX;
@@ -593,12 +466,13 @@ public class DrawTextField extends Drawable implements
 
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				geoTextField.getText(), textLeft, textBottom,
+				geoTextField.getText(),
+				textLeft, textBottom,
 				false, false);
 	}
 
 	public static boolean isLatexString(String text) {
-		return text.startsWith("$") && text.endsWith("$");
+		return text.startsWith("$") && text.trim().endsWith("$");
 	}
 
 	protected GDimension drawLatex(GGraphics2D g2, String text, int x, int y) {
@@ -691,11 +565,6 @@ public class DrawTextField extends Drawable implements
 	public void setFocus(final String str) {
 		textField.requestFocus();
 		if (str != null && !str.equals("\t")) {
-			// SwingUtilities.invokeLater(new Runnable() {
-			// public void run() {
-			// textField.setText(str);
-			// }
-			// });
 			textField.wrapSetText(str);
 		}
 
