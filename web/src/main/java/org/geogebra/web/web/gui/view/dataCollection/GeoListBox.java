@@ -20,7 +20,7 @@ public class GeoListBox extends ListBox {
 	 */
 	public enum DefaultEntries {
 		EMPTY_SELECTION(0, "- - -"), CREATE_NUMBER(1, "CreateNumber"), CREATE_DATA_FUNCTION(
-				2, "CreateDataFunction");
+				2, "CreateDataFunction"), CREATE_LIST(3, "CreateList");
 
 		private int index;
 		private String text;
@@ -154,7 +154,7 @@ public class GeoListBox extends ListBox {
 		for (DefaultEntries entry : DefaultEntries.values()) {
 			if (this.type != Types.TIMESTAMP
 					|| entry != DefaultEntries.CREATE_DATA_FUNCTION) {
-				this.addItem(app.getMenu(entry.getText()));
+				this.addItem(app.getMenu(entry.getText()), entry.getText());
 			}
 		}
 	}

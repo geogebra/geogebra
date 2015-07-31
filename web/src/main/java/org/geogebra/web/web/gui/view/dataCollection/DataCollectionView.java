@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.CmdDataFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -447,6 +448,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		GeoListBox listBox = (GeoListBox) event.getSource();
 		// if a geo was selected give it free
 		GeoElement oldSelection = listBox.getSelection();
+		int selectedIndex = listBox.getSelectedIndex();
 
 		if (oldSelection != null) {
 			setGeoUnused(oldSelection, listBox);
@@ -458,17 +460,18 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 		if (newSelection == null) {
 
-			if (listBox.getSelectedIndex() == DefaultEntries.EMPTY_SELECTION
-					.getIndex()) {
+			if (listBox.getValue(selectedIndex) == DefaultEntries.EMPTY_SELECTION
+					.getText()) {
 				listBox.setSelection(newSelection); // set null, handled in
 													// GeoListBox
-			} else if (listBox.getSelectedIndex() == DefaultEntries.CREATE_NUMBER
-					.getIndex()) {
+			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_NUMBER
+					.getText()) {
 				newSelection = new GeoNumeric(this.app.getKernel()
 						.getConstruction(), null, 0);
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
-			} else {
+			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_DATA_FUNCTION
+					.getText()) {
 				// create new data function
 				newSelection = CmdDataFunction.getDataFunction(
 						this.app.getKernel(), null,
@@ -476,12 +479,20 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 						new MyList(this.app.getKernel()), null)[0];
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
+			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_LIST
+					.getText()) {
+				newSelection = new GeoList(this.app.getKernel()
+						.getConstruction());
+				listBox.addItem(newSelection);
+				setGeoUsed(newSelection, listBox);
 			}
 
 		} else {
 			setGeoUsed(newSelection, listBox);
 		}
-		updateOtherListBoxes(listBox);
+		// updateOtherListBoxes(listBox);somehow this sown {} list instead of
+		// "time list" in the listbox it was created
+		updateListBoxes();
 	}
 
 	/**
