@@ -268,6 +268,10 @@ public class DrawTextField extends Drawable implements
 	private GPoint labelSize;
 
 	private int labelFontSize;
+	private int boxLeft;
+	private int boxTop;
+	private int boxWidth;
+	private int boxHeight;
 
 	@Override
 	final public void update() {
@@ -423,11 +427,8 @@ public class DrawTextField extends Drawable implements
 					false, false, false);
 		}
 
-		int boxLeft = xLabel + labelSize.x + 2;
-		int boxTop = latexLabel ? yLabel + (labelSize.y - prefSize.getHeight())
-				/ 2 : yLabel;
-		int boxWidth = prefSize.getWidth();
-		int boxHeight = prefSize.getHeight();
+		calculateBoxBounds(latexLabel);
+	
 		int boxRound = BOX_ROUND;
 		int textLeft = boxLeft + 2;
 		int textBottom = boxTop + getTextBottom();
@@ -469,6 +470,14 @@ public class DrawTextField extends Drawable implements
 				geoTextField.getText(),
 				textLeft, textBottom,
 				false, false);
+	}
+
+	private void calculateBoxBounds(boolean latex) {
+		boxLeft = xLabel + labelSize.x + 2;
+		boxTop = latex ? yLabel + (labelSize.y - prefSize.getHeight()) / 2
+				: yLabel;
+		boxWidth = prefSize.getWidth();
+		boxHeight = prefSize.getHeight();
 	}
 
 	public static boolean isLatexString(String text) {
@@ -513,12 +522,19 @@ public class DrawTextField extends Drawable implements
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		int left = xLabel;
-		int top = yLabel;
-		int right = left + prefSize.getWidth();
-		int bottom = top + prefSize.getHeight();
+		int left = boxLeft;
+		int top = boxTop;
+		int right = left + boxWidth;
+		int bottom = top + boxHeight;
+		//
+		boolean res = (x > left && x < right && y > top && y < bottom)
+				|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel && y < yLabel
+						+ labelSize.y);
+		;
+		if (res) {
+			App.debug("[DrawTextFied] hit");
+		}
 
-		boolean res = x > left && x < right && y > top && y < bottom;
 		return res;
 	}
 
@@ -532,6 +548,7 @@ public class DrawTextField extends Drawable implements
 	}
 	@Override
 	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+		App.debug("[DrawTextFied] isInside");
 		return rect.contains(labelRectangle);
 	}
 
@@ -563,6 +580,8 @@ public class DrawTextField extends Drawable implements
 	 *            input string
 	 */
 	public void setFocus(final String str) {
+		App.debug("[DrawTextFied] setFocus");
+
 		textField.requestFocus();
 		if (str != null && !str.equals("\t")) {
 			textField.wrapSetText(str);
