@@ -15614,27 +15614,25 @@ SWIGEXPORT jlong JNICALL Java_javagiac_giacJNI__1Beta(JNIEnv *jenv, jclass jcls,
 }
 
 
-SWIGEXPORT jlong JNICALL Java_javagiac_giacJNI_Bessel(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jboolean jarg3, jlong jarg4, jobject jarg4_) {
+SWIGEXPORT jlong JNICALL Java_javagiac_giacJNI_Bessel(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_) {
   jlong jresult = 0 ;
   giac::gen *arg1 = 0 ;
   int arg2 ;
-  bool arg3 ;
-  giac::context *arg4 = (giac::context *) 0 ;
+  giac::context *arg3 = (giac::context *) 0 ;
   giac::gen result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  (void)jarg4_;
+  (void)jarg3_;
   arg1 = *(giac::gen **)&jarg1;
   if (!arg1) {
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "giac::gen const & reference is null");
     return 0;
   } 
   arg2 = (int)jarg2;
-  arg3 = jarg3 ? true : false; 
-  arg4 = *(giac::context **)&jarg4; 
-  result = giac::Bessel((giac::gen const &)*arg1,arg2,arg3,arg4);
+  arg3 = *(giac::context **)&jarg3; 
+  result = giac::Bessel((giac::gen const &)*arg1,arg2,arg3);
   *(giac::gen **)&jresult = new giac::gen((const giac::gen &)result); 
   return jresult;
 }
