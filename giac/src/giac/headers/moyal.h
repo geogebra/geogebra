@@ -241,7 +241,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_polygamma ;
 
   // kind=0: BesselI, =1 BesselJ, =2 BesselK, =3 BesselY
-  gen Bessel(const gen & g,int kind,bool swap,GIAC_CONTEXT);
+  gen Bessel(const gen & g,int kind,GIAC_CONTEXT);
 
   gen _BesselI(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_BesselI ;
