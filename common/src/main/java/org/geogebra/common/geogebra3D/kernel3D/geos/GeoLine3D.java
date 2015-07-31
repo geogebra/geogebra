@@ -362,4 +362,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return HitType.ON_BOUNDARY;
 	}
 
+	public boolean isParametric() {
+		return true;
+	}
 }

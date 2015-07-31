@@ -7844,4 +7844,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getAssignmentOperator(){
 		return ":=";
 	}
+
+	public boolean isParametric() {
+		return false;
+	}
 }

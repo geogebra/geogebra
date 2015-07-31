@@ -480,4 +480,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 
 	public abstract ExpressionValue evaluateCurve(double double1);
 
+	public boolean isParametric() {
+		return true;
+	}
+
 }

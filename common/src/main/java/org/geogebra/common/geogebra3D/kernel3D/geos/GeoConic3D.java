@@ -722,4 +722,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) view;
 	}
 
+	public boolean isParametric() {
+		return true;
+	}
+
 }
