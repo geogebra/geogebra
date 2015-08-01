@@ -588,6 +588,16 @@ public class Ggb2giac {
 		p("Sequence.1", "seq(j,j,1,%0)");
 		p("Sequence.4", "seq(%0,%1,%2,%3)");
 		p("Sequence.5", "seq(%0,%1,%2,%3,%4)");
+
+		// default 15, like Input Bar version
+		p("ScientificText.1",
+				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
+						+ "[ggbstans:=evalf(ggbstinput / 10^ggbstpower, 15) + \" 10^ \" + ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
+
+		p("ScientificText.2",
+				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
+						+ "[ggbstans:=evalf(ggbstinput / 10^ggbstpower, %1) + \" 10^ \" + ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
+
 		p("SD.1", "normal(stddev(%0))");
 
 		// removed, Shuffle[{1,2}] kills Giac

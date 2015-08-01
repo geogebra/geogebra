@@ -766,7 +766,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// Numeric used
 				includesNumericCommand = includesNumericCommand
 						|| ("Numeric".equals(cmdName) && cmd
-								.getArgumentNumber() > 1);
+								.getArgumentNumber() > 1)
+						|| "ScientificText".equals(cmdName);
 
 				// if command not known to CAS
 				if (!kernel.getGeoGebraCAS().isCommandAvailable(cmd)) {
