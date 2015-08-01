@@ -155,7 +155,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		this.app = (AppW) app;
 		// exerciseBuilderHandler = new ExerciseBuilderDOMHandler();
-		exercise = Exercise.getInstance(app);
+		exercise = app.getKernel().getExercise();
 		if (exercise.isEmpty()) {
 			exercise.initStandardExercise();
 		}

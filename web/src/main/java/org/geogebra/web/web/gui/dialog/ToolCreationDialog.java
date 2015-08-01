@@ -32,8 +32,11 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Dialog to create a new user defined tool
+ */
 public class ToolCreationDialog extends DialogBoxW implements
-        GeoElementSelectionListener, ClickHandler, ToolInputOutputListener {
+		GeoElementSelectionListener, ClickHandler, ToolInputOutputListener {
 
 	private App app;
 	/**
@@ -54,6 +57,13 @@ public class ToolCreationDialog extends DialogBoxW implements
 	private Button btUp;
 	private AsyncOperation returnHandler;
 
+	/**
+	 * Creates new tool creation dialog, if in macro-editing mode,
+	 * 
+	 * @param app
+	 *            Aplication to which this dialog belongs
+	 */
+
 	public ToolCreationDialog(App app) {
 		super(false, false, null);
 		this.setGlassEnabled(false);
@@ -69,9 +79,22 @@ public class ToolCreationDialog extends DialogBoxW implements
 		toolModel = new ToolCreationDialogModel(app, this);
 	}
 
-	public ToolCreationDialog(AppW app, AsyncOperation returnhandler) {
+	/**
+	 * Creates new tool creation dialog, if in macro-editing mode, if launched
+	 * from another Dialog this can be use to return to that dialog again. The
+	 * returnHandler is passed the newly created {@link Macro} if successful or
+	 * null if unsuccessful.
+	 * 
+	 * @param app
+	 *            Application to which this dialog belongs
+	 * @param returnHandler
+	 *            the {@link AsyncOperation} handling the resulting
+	 *            {@link Macro}
+	 * 
+	 */
+	public ToolCreationDialog(AppW app, AsyncOperation returnHandler) {
 		this(app);
-		this.returnHandler = returnhandler;
+		this.returnHandler = returnHandler;
 	}
 
 	@Override
@@ -112,7 +135,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		});
 		outputLB = new ListBox();
 		VerticalPanel outputObjectPanel = createInputOutputPanel(outputAddLB,
-		        outputLB);
+				outputLB);
 
 		inputAddLB = new ListBox();
 		inputAddLB.addChangeHandler(new ChangeHandler() {
@@ -123,7 +146,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		});
 		inputLB = new ListBox();
 		VerticalPanel inputObjectPanel = createInputOutputPanel(inputAddLB,
-		        inputLB);
+				inputLB);
 
 		toolNameIconPanel = new ToolNameIconPanel(app);
 
@@ -323,13 +346,12 @@ public class ToolCreationDialog extends DialogBoxW implements
 		boolean showInToolBar = toolNameIconPanel.getShowTool();
 		String iconFileName = toolNameIconPanel.getIconFileName();
 
-		toolModel.finish(app, commandName, toolName, toolHelp,
-		        showInToolBar, iconFileName);
+		toolModel.finish(app, commandName, toolName, toolHelp, showInToolBar,
+				iconFileName);
 		AppW w = (AppW) app;
-		// if (w.isToolLoadedFromStorage()) {
-		// w.storeMacro(app.getMacro(), true);
-		//
-		// }
+		if (w.isToolLoadedFromStorage()) {
+			w.storeMacro(app.getMacro(), true);
+		}
 		// Not working:
 		// app.showMessage(app.getMenu("Tool.CreationSuccess"));
 		setVisible(false);
@@ -355,7 +377,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	}
 
 	private static void updateListBox(ListBox lb, GeoElement[] geos,
-	        boolean addList) {
+			boolean addList) {
 		App.debug("Call to ToolCreationDialog.updateListBox");
 		lb.clear();
 		if (addList) {

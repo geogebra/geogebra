@@ -2839,7 +2839,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private void initExercise(LinkedHashMap<String, String> attrs) {
 		if (exercise == null) {
-			exercise = Exercise.getInstance(app);
+			exercise = kernel.getExercise();
 			exercise.reset();
 		}
 		String toolName = attrs.get("toolName");

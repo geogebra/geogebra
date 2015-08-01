@@ -928,7 +928,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	 *         "fraction":1}}"
 	 */
 	public JavaScriptObject getExerciseResult() {
-		Exercise ex = Exercise.getInstance(app);
+		Exercise ex = kernel.getExercise();
 		ex.checkExercise();
 		JSONObject result = new JSONObject();
 		ArrayList<Assignment> parts = ex.getParts();
@@ -945,7 +945,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	public String getExerciseFraction() {
-		Exercise ex = Exercise.getInstance(app);
+		Exercise ex = kernel.getExercise();
 		ex.checkExercise();
 		return Float.toString(ex.getFraction());
 	}

@@ -1,128 +1,467 @@
 <!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>GeoGebra 5.0 Beta Release</title>
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css" type="text/css">
 
-<script type="text/javascript">
-// for IE9
-if (!window.console) window.console = {};
-if (!window.console.log) window.console.log = function () { };
+    <script type="text/javascript">
+        WebFontConfig = {
+            loading: function () {
+            },
+            active: function () {
+            },
+            inactive: function () {
+            },
+            fontloading: function (familyName, fvd) {
+                console.log("font fontloading: " + familyName);
+            },
+            fontactive: function (familyName, fvd) {
+                console.log("font active: " + familyName);
+            },
+            fontinactive: function (familyName, fvd) {
+            },
+            custom: {
+                families: ["geogebra-serif", "geogebra-sans-serif"],
+                urls: ["web3d/css/fonts.css?v=1.15"]
+            }
+        };
 
-            WebFontConfig = {
-                loading: function() {},
-                active: function() {},
-                inactive: function() {},
-				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
-				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
-                fontinactive: function(familyName, fvd) {},
-                custom: {
-                    families: ["geogebra-serif", "geogebra-sans-serif" ],
-                    urls: [ "web3d/css/fonts.css?v=1.15" ]
+
+        tests = {
+            parallelogramm: {
+                title: "Parallelogramm construction",
+                description: "Step 1. Make a line segment AB.<br>" +
+                "Step 2. Make a new line segment BC, where A, B and C are not collinear.<br>" +
+                "Step 3. Make a line through C, parallel with AB.<br>" +
+                "Step 4. Make a line through A, parallel with BC.<br>" +
+                "Step 5. Find the intersection point D between the lines.<br>" +
+                "Step 6. Make a polygon ABCD, and check if this is a parallelogram when you move one of the points.",
+                ggbbase64: "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",
+                steps: [{
+                    ggbCommands: ["A=(0.5,0.5)"],
+                    result: {
+                        Step1: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step2: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step3: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step4: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step5: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step6: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        }
+                    }
+                }, {
+                    ggbCommands: ["B=(3,1)", "a=Segment[A,B]"],
+                    result: {
+                        Step1: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step2: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step3: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step4: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step5: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step6: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        }
+                    }
+                }, {
+                    ggbCommands: ["C=(9,3)", "D=(6,5)", "c=Segment[C,D]"],
+                    result: {
+                        Step1: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step2: {
+                            result: "WRONG",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step3: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step4: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step5: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step6: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        }
+                    }
+
+                }, {
+                    ggbCommands: ["d=Segment[B,D]"],
+                    result: {
+                        Step1: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step2: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step3: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step4: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step5: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step6: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        }
+                    }
+
+                }, {
+                    ggbCommands: ["e=PerpendicularLine[B,a]", "f=PerpendicularLine[D,e]"],
+                    result: {
+                        Step1: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step2: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step3: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step4: {
+                            result: "WRONG",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step5: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step6: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        }
+                    }
+
+                }, {
+                    ggbCommands: ["g=Line[A,d]"],
+                    result: {
+                        Step1: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step2: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step3: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step4: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step5: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        },
+                        Step6: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        }
+                    }
+
+                }, {
+                    ggbCommands: ["E=Intersect[g,f]"],
+                    result: {
+                        Step1: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step2: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step3: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step4: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step5: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step6: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "",
+                            fraction: 0
+                        }
+                    }
+
+                }, {
+                    ggbCommands: ["Polygon[A,B,D,E]"],
+                    result: {
+                        Step1: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step2: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step3: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step4: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step5: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        },
+                        Step6: {
+                            result: "CORRECT",
+                            hint: "",
+                            fraction: 1
+                        }
+                    }
+
+                }]
+
+            },
+            verysimpletriangle: {
+                title: "Draw a triangle",
+                description: "Just draw a triangle",
+                ggbbase64: "UEsDBBQACAgIAKGSAUcAAAAAAAAAAAAAAAASAAAAZ2VvZ2VicmFfbWFjcm8ueG1s3Vhbc9o6EH5uf4Wqd3wDg8ngZBKStJk2kCFk2p6XjLCF0YmRPJZcIL/+6GITCJDTdJIZKA9YXq92V9+udz/onMynKfiFc04YDaFrORBgGrGY0CSEhRjXAnhy/LGTYJbgUY7AmOVTJELoK83lPnlnufWmkoE5J0eU9dAU8wxF+Daa4Cn6xiIktOpEiOzItmezmVUZtVie2EkirDmPIZABUR7CcnEkza1tmtW1uuc4rv3j+psxXyOUC0QjDIEMdoqinIFoGqsgQjhkLHUhEPKyIfiC00z5IhGjlyTFas0nbHZFldIZykMo8kKajVi26KJMnYGXssrTFc0KAZATwlMIkBvCM3nxQtiFdqXSL0SlExmdjKULVytIz1zai5RpIIgwQaBCTFiuVjESSiI1cYqnmAogFhlWFggVEKRohFPl+vjjh44KHbDRvzgSVeDlc31jKx35uMtSlgNpXeYr0d+jEHq+L92m2QQpiVZN0QLn4BdKVyTS2jWL8ZoUUTLV6QVcYImnBJdnGMd6ZaKVi0ya02U1Rikvg4kYy2MO5iGs1a1mA4JFCBtW4EHwqPZoHX3QW/JY+qyvSsUiXQ2lY5cY/Q9aZwePlms1S7Ca7w1W9y8Aq2VKq24FjTdAK2LTKaIxoLqd3MhXOWFUo0Re6gUSoKc+YBqA1omMDpKXeghHxlvpY0tujLcKfWNHA0goNlGLCYkeKOayU3kVSo5ZfCFxjOkSgN1ZXUFyNa2uX9eJ9V2dWecpr5b7mszuLj6OE3W3DCT6o/LbHecr66+Yk5SgfGGkW+vLseQ0Wv24ga42z3JMtdXalus0ghWF0uUfZEyWUKpq/YoKOX2xHht8I7gHjLOh3NynwxxRrqa20anQ+n380QHg3wrW8Pc0/DXFSdprH/PuW0G7ERxQBkZ7nwEJdXs9Babfys7bfvZq6BT4lt929isF9ioPU/eauG1nk95zNum9B5s8N9PhwkyHy61sUnV/7w1p5PnBz3pJI4Ny1vvvTIwuDh4s1zKt0n1/Fnl58GDVLddwbudt0PodFrmlB2ywSM/ojI1ObFgkfj2L9P5mFjne+xkqaUlFGxsbs/TR/Ippus0Vub9XA/Rl/OP9x3/JWJpr6JtXvWHVW753QIDjvQe85lUVL+mjb2CuBVarFTT29ZfSLpIoD8w5SajJxzNqKB9/6OSYF6koe323PxhcdIcQTOSICOHnHCPxCYJxjiLzJ6lE397c9n3Q732uNg0ltihBhH7arXvfvxve3A3vhz9vLqp9pzkGC1YAXuQKTCy/CQcIiJwgmqT45AVzp5fDi8H94LR33r+++mdp8nbCilTOMSbABGUZpoBQlScOIsTx2sEcRcq22L/rfe31v/eWQfIHFWQOBEaRjLE8Y8d+glmhX/2BfPwfUEsHCPIaDtwaBAAAxxYAAFBLAwQUAAgICAChkgFHAAAAAAAAAAAAAAAAFwAAAGdlb2dlYnJhX2RlZmF1bHRzMmQueG1s7VpRc9o4EH6+/gqNn3oPgAXYkExIJ+3MzWUmTTOXTOdehb0YXWzJJ8nB8OsrS2CbJFBi0mRIkwdLK1bS7rer1UrKyac8idEdCEk5Gzm47ToIWMBDyqKRk6lJa+h8Ov1wEgGPYCwImnCREDVyvIKz7KepNu75RRvKJT1m/JIkIFMSwHUwhYRc8IAowzpVKj3udGazWXs1aJuLqBNFqp3L0EFaICZHzrJyrIdb6zTrGfau6+LOv18v7PAtyqQiLAAHaWFDmJAsVlJXIYYEmEJqnsLISTllykExGUM8cq4KCn2cCIA/HbTspDFwndMPf5zIKZ8hPv4PAt2mRAZlP0N0Ch798xcec4HEyNGqR+Y7Hjldz3MQidMpKVoMa0zmINAdiWsterSvPATb2rethNHEIIWkglRL4yCZAoSmZrXQlVQPZyw0IbFcChNwLkKJ8pFzSS4dNF+WC1saFqP/NV0sp+zVW9U8hpp8J50ldLuBGEIKLNRMa0jiRkj6QwNlUYxt8RtB+Y3VAew2AhB3PYOgKX9Ddzxn/0CkZa4j2XtHcm9v7L/ZwGhYLFKy+I6cgCdpDPkzwhtTVkF1YYgS2u7+e477C4F1GwNbKG0hUlMa3DKQemvv1sYtKn/TUG8dxXymD/zP1kxBtSVoQNV2eCVEBVUidr2iK5CbbUdvE2SeqbiY65wpncRpLLRs0opcm/wWIL3Rnb+xG0GYLJI/y7OCarM9Jhkzg15+J6JEONM5wkRLG9bN0iw0bwwrbR2rX8Q2P9d9u977h9NXcMen+9pmmASZb1uu3iHic6jL9U6PyauF+n1Jltbove9QlTUeSReIUCApYdtRDjijQQnZF0uVGPcPEuNGWzyNgFmXkwjlrpll7hr2hbu8h8ixoefY/LrAttn016IKmqMz2+PMMp51bdGzRd8WXql4s7zCmCzV5q2Fqntro98sscBez1jOw/dN18au/cP9IxdjX58D3425uzFfIFyyLAFRW8qXK7p0Cs8uZj1eBmsm22HpbrK/jGmoHSChGvyWTnkSoiNbkfqMJY8zBdeBAGDVXZt1whkN1bQ4YxRmsFYw3wnNC5ewTFMu6IIzRdbctYk73Hc+rc3eCRVhUVwtpzNLVVDbaxLDdP889pgF6jC6SxT9dnfYw0Ov5w7w4Mgb+juiiodPR3UtUFjtd4nw2N3ZUXYNFE+y73JsIoLaUdjdZHR3OOj6ft/vekdHA+z3B8+fVf9VNpSu4L+dLbTXLKne+dzlN8uvzVnr0aA1ePVzV8rjeVRzkKsVXSo9sP7RJK4d/va+Hbi1+6mrsqGCDr8YdK+6HLfc4PEgk9UVnqVKfIYHGXpIltOYEjF/kB0950lfQV7lzzeGqL23vSZwG9TfrIoGOqpEO7dU7cnLKjOhGjdGEt3BTkTZZxLcRoLrUPwA6udRHb/2+hhzHgOpwu/nFV170HqQFW+CYfe8aE8XCKYQ3I55vpa5/eQmX1befGGI2kPTI968T47XeiGzNovsu72MtB6Eh07tjb6z+j+A0x9QSwcI8NykjnkEAACOIAAAUEsDBBQACAgIAKGSAUcAAAAAAAAAAAAAAAAXAAAAZ2VvZ2VicmFfZGVmYXVsdHMzZC54bWztlktu2zAQQNfNKQjuY4n6OHFgJTDSRQskQYtsuqWlscyWIhWSjuVcrXfomcqP4sj5AUmLoEXrBTkkZ8iZN0Na05Ou4egalGZSFJiMYoxAlLJioi7wyiz2D/HJ8d60BlnDXFG0kKqhpsC509za2dGIpGM3hzrNjoS8oA3olpZwWS6hoWeypMarLo1pj6JovV6PbjcdSVVHdW1Gna4wsg4JXeBeOLLb7RitU6+exDGJvpyfhe33mdCGihIwss5WsKArbrQVgUMDwiCzaaHAtGM6tUdwOgde4Jkbvseo1y9wSuIUH++9m+qlXCM5/wqlnTVqBVsbP4icjl0+lVwqpAps4659O/ct5e2SOskrcroBha4pH8zYvc5lBWE2C7NUsMZDQtpAa5OBkW4BKi+FAOzerd3OJ2dBue5d4UzApdlwQGbJym8CtAWYDIyc8IFVFbgcBxu4EsFEu7bALVU2ZUax0p4RZLCR/fju1KdRD/IB0nKlrqGkyoBmVAzgnrqF+3TH/wbdZ3BJwcoBpY/CUtYWhHPMs9wBlsevApbkuUdGkoP70EYkDj+STWJCxiT5czHaImU1CFtfRiptX5bYn7KJvfpN3L9XHfHjDfGrNyRMe3vrqmIdmgWLWVCcJaFLQ5eFLt8Gfv9msKblrGTm91eDxSRgUA2f/Hjnzth37lUlMJn4CkjIxFeA77c1kL9VzkspVaVRFxIU0ubb9fbIBXX/Nb0Xj1fnMwAl3yyhUlLcMRxM3WFMe4yvKcKXoid56tnn5MHly/rw8sk4zsbZG+XhaX5XK1r5F78P6PPteEiO/NIb9ODZHh28Wfm99Pqj2Th0B6E7DN2kd/BpjnqlFvZb57H/wX5pF2n2lyJ9moAAs/X+wsnDcPP/d88RiwYfptHtx+/xT1BLBwj2zFT9pQIAAIMLAABQSwMEFAAICAgAoZIBRwAAAAAAAAAAAAAAABYAAABnZW9nZWJyYV9qYXZhc2NyaXB0LmpzSyvNSy7JzM9TSE9P8s/zzMss0dBUqK4FAFBLBwjWN725GQAAABcAAABQSwMEFAAICAgAoZIBRwAAAAAAAAAAAAAAAAwAAABnZW9nZWJyYS54bWzVWFlv2zgQfm5/BaHn2CZFUZILu0UPFCiQLYpNd7HYN1piZDayJIj0kSI/fmdISZaTtMjRXWARMySHwzm+GQ5pL94cNiXZqdbouloGbEoDoqqsznVVLIOtvZykwZvXLxeFqgu1aiW5rNuNtMtAIOewD2ZTxmOk6XwZJJxGWZrKySpX8SSSjE1WQuaThM/FZZyHcZiLgJCD0a+q+rPcKNPITF1ka7WR53UmrRO6trZ5NZvt9/tpr35at8WsKFbTg8kDAqZXZhl0g1cg7mTTnjv2kFI2++u3cy9+oitjZZWpgKBbW/365YvFXld5vSd7ndv1MohpGJC10sUa/IxwMkOmBpxtVGb1ThnYOpo6n+2mCRybrHD9hR+RcnAnILne6Vy1y4BOQ0FTTkUcJWlEBWc8IHWrVWU7ZtYpnfXiFjut9l4ujpzKiM4TCII2elWqZXApSwNu6eqyBUjBonYLU2OvS7WSbT8/GsTO3B+w6O8KpUH0PBKwRukZtgSaENRbM1YdEFvXpZNLyc0NCWlIyRl2zHchdHHsl6inUe670HeR74Tnifz2yLNGnifyPBH/iZvd/OhnRzhxtHeS3+dkDM15f8vJdOQkQyduCEPrXccJ2s2c/dhF3TT208R1jHbUFP/NcQKYxKkbPNMn/iSf2EirT4jHKO1VJvH84SrD56gcvGSC3VUJx+h+L58J7lHpCFrQ5T6u3VHJw8eovHMWn6AxPjmEzykET1DOwvQRGn+McJQ+WGVC7y06vmdd/7Mo/Bs4PLc0DTg8XKVg4SkQhBEB1UkQNseii6UnJEyQCCgpUBLCkSZYRDhBFsaJq6yRq1JYsYSA/YIShuUXcCRQvwHTECu2EETERCS4EYtfPHfCKDTkBnOgcaRxDs3ReAQNa7gAQcKLASMEj90Ia6YA+QLjRxyRpySagyIkiIQRDjbAPKEEJHIUz5wTcE/ghxF/RSQkTAnIA79RMn1M/J+elYtZfx0vukAQs0berr5ZtTEYGo5QIerpCe4iHYEPyMdITFwkYQ9C5wMRRl0ozrpg3NwJBmAXjeDDSzTBi6qDD3SHYwBDuH1CkmA8IBvwIiIhSAwJ4B7jvh9h626x4Q6kiHNTGz3gtlZlMyDqINJVs7UnsGSbvB/a+hZ3XmdX7wYYuxUljR2zwXPo+Oryz6OTR9mLRSlXqoS36wUGmZCdLLE0Og2XdWVJf8BDTyta2ax1Zi6UtbDLkG9yJ8+lVYePwG163U61eysu1DYrda5l9SckQP8u+7zdrFRL3LBGOJxwVEX6R6W7MftHpYjmniWr6za/uDaQL+Twt2phcxjPp3yeRJEQ4TxOEgpV/tov8YRNWSqSOBRpBIcKYmAyiZkes+k85VHCaBLxlDIBz+vr+9c6z9Vu8FkelOnjUrRYYTrEcfLJvKvLI6mpdWXfy8ZuW/cNAapfiz69rYpSOdBdNsBTO7ta1YcLh3YYe1lfrxs1hGNVvK/LuiVwDkM0t+j6le8dD1o2cFHHQx0H7cOn82GdzUPH4fqV7x0X5IM3rfOU9W4y2qvRxlVWED7OV5dM+HDfVtqe9xOrs6ujp8jvw99jeCqS/SKRi9mtzFtcqbZSJSrbGmX4B5/sRxMyyGBdbeut8StDKrsNX6Rdv63y31UBJ/iLxAJpQeFtIbnK9AY2enoHqMRg/wEOeGquilb1fpfue5qHe3z6fKbfITtRH9t686nafYVMumXqYtZ7uTBZqxtMWLKCgn2ljjmZayOh3ufjfSdg8Q8/OGt0OFow+u5HEzYVw7nCS/ngchucR55uPInpf3GM7hya/0OmjkSGv0xkU0JRHgt7cA2BPGgaTBtI+uEJMDKquxA6NW39DW+TuiL2iPuts4fphKfLgICOV1s03+SXAZFbu65b93UfTIbe/cBQt1dmrZT9qg6WyFW9gxXp+AEFNMZNnK6xZHfvdL99vP4HUEsHCIU9tY6zBQAArBEAAFBLAQIUABQACAgIAKGSAUfyGg7cGgQAAMcWAAASAAAAAAAAAAAAAAAAAAAAAABnZW9nZWJyYV9tYWNyby54bWxQSwECFAAUAAgICAChkgFH8NykjnkEAACOIAAAFwAAAAAAAAAAAAAAAABaBAAAZ2VvZ2VicmFfZGVmYXVsdHMyZC54bWxQSwECFAAUAAgICAChkgFH9sxU/aUCAACDCwAAFwAAAAAAAAAAAAAAAAAYCQAAZ2VvZ2VicmFfZGVmYXVsdHMzZC54bWxQSwECFAAUAAgICAChkgFH1je9uRkAAAAXAAAAFgAAAAAAAAAAAAAAAAACDAAAZ2VvZ2VicmFfamF2YXNjcmlwdC5qc1BLAQIUABQACAgIAKGSAUeFPbWOswUAAKwRAAAMAAAAAAAAAAAAAAAAAF8MAABnZW9nZWJyYS54bWxQSwUGAAAAAAUABQBIAQAATBIAAAAA",
+                steps: [{
+                    ggbCommands: ["A=(0.5,0.5)"],
+                    result: {
+                        Tool2: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "Are you sure there is a triangle?",
+                            fraction: 0
+                        }
+                    }
+                }, {
+                    ggbCommands: ["B=(3,1)"],
+                    result: {
+                        Tool2: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "Are you sure there is a triangle?",
+                            fraction: 0
+                        }
+                    }
+                }, {
+                    ggbCommands: ["C=(2,4)"],
+                    result: {
+                        Tool2: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "Are you sure there is a triangle?",
+                            fraction: 0
+                        }
+                    }
+                }, {
+                    ggbCommands: ["Polygon[A,B,C]"],
+                    result: {
+                        Tool2: {
+                            result: "CORRECT",
+                            hint: "Great!",
+                            fraction: 1
+                        }
+                    }
+                }]
+
+            }
+        }
+        ggbApplet = Array();
+        function runtests(id) {
+            ggbApplet[id] = window[id];
+
+            for (step in tests[id].steps) {
+                var commands = tests[id].steps[step].ggbCommands;
+                var result = tests[id].steps[step].result;
+                var success = false;
+                for (key in commands) {
+                    success = ggbApplet[id].evalCommand(commands[key]);
                 }
-            };
-            function perspective(id){
-            	if(document.getElementById("ggw")){
-	            	document.getElementById("ggw").className="geogebraweb";
-	            	document.getElementById("ggw").setAttribute("data-param-perspective",id);
-	            	var page = document.getElementById("ggbPage");
-	            	page.style.display = "none";
-	            	web3d();
-            	}else{
-            		var page = document.getElementById("ggbPage");
-                	page.style.display = "none";
-                	var container = document.getElementById("appletContainer");
-                	container.style.visibility = "visible";
-                	ggbApplet.setPerspective(id+"");
-            	}
+                infoCreate = document.createElement("p");
+                if (!success) {
+                    infoCreate.setAttribute("style", "color: white; background: red;");
+                    infoCreate.appendChild(document.createTextNode("FAILED! "));
+                }
+                infoCreate.appendChild(document.createTextNode("Creating object: " + commands));
+                document.getElementById(id + "_result_div").appendChild(infoCreate);
+
+                infoResult = document.createElement("p");
+                infoResult.appendChild(document.createTextNode("Result of checking: " + JSON.stringify(ggbApplet[id].getExerciseResult())));
+                document.getElementById(id + "_result_div").appendChild(infoResult);
+
+                infoResulttest = document.createElement("p");
+                if (JSON.stringify(ggbApplet[id].getExerciseResult()) != JSON.stringify(result)) {
+                    infoResulttest.setAttribute("style", "color: white; background: red;");
+                    infoResulttest.appendChild(document.createTextNode("FAILED! Result should be: " + JSON.stringify(result)));
+
+                } else {
+                    infoResulttest.setAttribute("style", "color: white; background: green;");
+                    infoResulttest.appendChild(document.createTextNode("OK"));
+
+                }
+                document.getElementById(id + "_result_div").appendChild(infoResulttest);
+
             }
-            function e(id){
-        		return document.getElementById(id);
-        	}
-            function showStartScreen(lang, user){
-            	showInEnglish();
-            	return true;
+        }
+
+        function ggbAppletOnLoad(id) {
+            setTimeout(function () {
+                runtests(id);
+            }, 1000);
+        }
+
+
+        window.onload = function () {
+
+            for (testKey in tests) {
+                var appletDiv = document.createElement("div");
+                appletDiv.setAttribute("id", testKey + "_div");
+                appletDiv.setAttribute("style", "clear: both;");
+
+                var titleEl = document.createElement("h2");
+                titleEl.appendChild(document.createTextNode(tests[testKey].title));
+
+                var descEl = document.createElement("p");
+                descEl.innerHTML = tests[testKey].description;
+
+                var ggbArticle = document.createElement("article");
+                ggbArticle.setAttribute("class", "geogebraweb");
+                ggbArticle.setAttribute("data-param-showLogging", "true");
+                ggbArticle.setAttribute("data-param-prerelease", "true");
+                ggbArticle.setAttribute("data-param-id", testKey);
+                ggbArticle.setAttribute("data-param-width", "800");
+                ggbArticle.setAttribute("data-param-height", "500");
+                ggbArticle.setAttribute("data-param-showtoolbar", "true");
+                ggbArticle.setAttribute("data-param-showmenubar", "true");
+                ggbArticle.setAttribute("data-param-showalgebrainput", "true");
+                ggbArticle.setAttribute("data-param-showreseticon", "true");
+                ggbArticle.setAttribute("data-param-enablelabeldrags", "true");
+                ggbArticle.setAttribute("data-param-enableshiftdragzoom", "true");
+                ggbArticle.setAttribute("data-param-enablerightclick", "true");
+                ggbArticle.setAttribute("data-param-showtoolbarhelp", "true");
+                ggbArticle.setAttribute("data-param-errordialogsactive", "true");
+                ggbArticle.setAttribute("data-param-usebrowserforjs", "false");
+                ggbArticle.setAttribute("data-param-language", "en");
+                ggbArticle.setAttribute("data-param-ggbbase64", tests[testKey].ggbbase64);
+                ggbArticle.setAttribute("style", "float: left;");
+
+                var resultDiv = document.createElement("div");
+                resultDiv.setAttribute("id", testKey + "_result_div");
+
+                appletDiv.appendChild(titleEl);
+                appletDiv.appendChild(descEl);
+                appletDiv.appendChild(ggbArticle);
+                appletDiv.appendChild(resultDiv);
+
+                document.body.appendChild(appletDiv);
             }
-            function showInEnglish(){
-    			if(!window.__GGB__keysVar){
-
-    				e("algebraAndGraphics").innerHTML="Algebra and Graphics";
-    				e("geometry").innerHTML="Geometry";
-    				e("cas").innerHTML="CAS";
-    				e("spreadsheet").innerHTML="Spreadsheet";
-    				e("perspective3d").innerHTML="3D Graphics";
-    				e("probCalc").innerHTML="Probability";
-    				e("search").innerHTML="Search GeoGebra materials";
-    				if(e("signIn")){
-    					e("signIn").innerHTML="Sign in";
-    				}
-    				e("ggbPage").style.display="";
-    			}
-    			
-    		}
-</script>
-<script type="text/javascript">
-// test to see if the app is running as a chrome webapp
-document.isChromeWebapp = function isChromeWebapp() {
-	if (typeof chrome === 'object' && 
-			typeof chrome.app === 'object' && 
-			typeof chrome.app.isInstalled === 'boolean' && 
-			chrome.app.isInstalled) {
-			return true;
-		}
-		return false;
-	};
-</script>
-<script src="web3d/js/webfont.js?v=1.15"></script>
-
-
-    <!-- Google Analytics (Start) -->
-	<script type="text/javascript">
-
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-1780044-1']);
-		_gaq.push(['_setDomainName', 'web.geogebra.org']);
-		_gaq.push(['_setAllowLinker', true]);
-		_gaq.push(['_trackPageview']);
-		_gaq.push(['_trackEvent', 'Startup', 'Application', 'GeoGebraWeb']);
-
-		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript';
-			ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0];
-			s.parentNode.insertBefore(ga, s);
-		})();
-	</script> 
- 	<!-- Google Analytics (End) -->
-    <script>
-	    var GGW_appengine = GGW_appengine || {};
-	    GGW_appengine.FILE_IDS = [""];
-	    GGW_appengine.CLIENT_ID = "";
-	    GGW_appengine.USER_EMAIL = "";
-  	</script>
+        }
+    </script>
+    <script src="web3d/js/webfont.js?v=1.15"></script>
     <script type="text/javascript" src="web3d/web3d.nocache.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-    body {
-     -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
-	 -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
-    }
-    
-    
-    </style>
 </head>
 
 <body dir="ltr" tabindex="-1">
-	
+<h1>Exercise tests</h1>
 
-    
-
-
-    <article class="geogebraweb" data-param-showLogging="true" data-param-app="true" data-param-prerelease="true" data-param-laf="standard" 
-    data-param-ggbbase64="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"
-    ></article>
 </body>
 </html>

@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -28,6 +27,13 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	private FlowPanel bottomWidget;
 	private ExerciseBuilderDialog exerciseBuilderDialog;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param assignment
+	 *            the assignment being edited
+	 * @param exerciseBuilderDialog
+	 */
 	public AssignmentEditDialog(App app, Assignment assignment,
 	        ExerciseBuilderDialog exerciseBuilderDialog) {
 		super(false, false, null);
@@ -55,10 +61,6 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		mainWidget.add(toolNameIconPanel);
 
 		hintsAndFractiosforResult = new FlexTable();
-		FlexCellFormatter cellFormatter = hintsAndFractiosforResult
-		        .getFlexCellFormatter();
-
-		// cellFormatter.setColSpan(0, 1, 2);
 
 		hintsAndFractiosforResult.setWidget(0, 0,
 		        new Label(app.getPlain("Result")));

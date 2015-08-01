@@ -90,6 +90,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -4492,6 +4493,15 @@ public class Kernel {
 	 */
 	public int getMacroID(Macro macro) {
 		return (macroManager == null) ? -1 : macroManager.getMacroID(macro);
+	}
+
+	private Exercise exercise;
+
+	public Exercise getExercise() {
+		if (exercise == null) {
+			exercise = new Exercise(getApplication());
+		}
+		return exercise;
 	}
 
 	/**

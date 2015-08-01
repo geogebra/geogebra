@@ -20,9 +20,9 @@ public class Exercise {
 	private Construction construction;
 	private App app;
 
-	private static Exercise INSTANCE;
+	// private static Exercise INSTANCE;
 
-	private Exercise(App app) {
+	public Exercise(App app) {
 		this.app = app;
 		kernel = app.getKernel();
 		construction = kernel.getConstruction();
@@ -35,12 +35,13 @@ public class Exercise {
 	 *            application
 	 * @return the Instance of the Exercise
 	 */
-	public static Exercise getInstance(App app) {
-		if (INSTANCE == null) {
-			INSTANCE = new Exercise(app);
-		}
-		return INSTANCE;
-	}
+	// public static Exercise getInstance(App app) {
+	// if (INSTANCE == null) {
+	// INSTANCE = new Exercise(app);
+	// }
+	// return INSTANCE;
+	// }
+
 
 	/**
 	 * Resets the Exercise to contain no user defined tools.
