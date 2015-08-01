@@ -266,7 +266,7 @@ public class DrawTextField extends Drawable implements
 
 	private GFont labelFont;
 
-	private GPoint labelSize;
+	private GPoint labelSize = new GPoint(0, 0);
 
 	private int labelFontSize;
 	private int boxLeft;
@@ -420,7 +420,8 @@ public class DrawTextField extends Drawable implements
 		// no drawing, just measuring.
 		if (latexLabel) {
 			GDimension d = drawLatex(g2, labelDesc, xLabel, yLabel);
-			labelSize = new GPoint(d.getWidth(), d.getHeight());
+			labelSize.x = d.getWidth();
+			labelSize.y = d.getHeight();
 		} else {
 			labelSize = EuclidianStatic
 
@@ -429,7 +430,7 @@ public class DrawTextField extends Drawable implements
 		}
 
 		calculateBoxBounds(latexLabel);
-	
+
 		int boxRound = BOX_ROUND;
 		int textLeft = boxLeft + 2;
 		int textBottom = boxTop + getTextBottom();
