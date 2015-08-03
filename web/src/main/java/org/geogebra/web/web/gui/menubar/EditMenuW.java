@@ -16,6 +16,9 @@ public class EditMenuW extends GMenuBar {
 	 * Application instance
 	 */
 	final AppW app;
+	/**
+	 * Reference to selection manager
+	 */
 	final SelectionManager selection;
 	private boolean valid = true;
 	/**
@@ -33,6 +36,9 @@ public class EditMenuW extends GMenuBar {
 		initActions();
 	}
 
+	/**
+	 * initializes the menu
+	 */
 	void initActions() {
 
 		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
@@ -100,13 +106,8 @@ public class EditMenuW extends GMenuBar {
 
 					@Override
 					public void doExecute() {
-						if (!selection.getSelectedGeos().isEmpty()) {
 							app.getDialogManager().showPropertiesDialog(
 									OptionType.OBJECTS, null);
-						} else {
-							app.getDialogManager().showPropertiesDialog(
-									OptionType.EUCLIDIAN, null);
-				        }
 					}
 				});
 
@@ -248,6 +249,9 @@ public class EditMenuW extends GMenuBar {
 		});
 	}
 
+	/**
+	 * Make sure next update() rebuilds the UI
+	 */
 	public void invalidate(){
 		if (app.isMenuShowing()) {
 			this.valid = true;
@@ -256,6 +260,10 @@ public class EditMenuW extends GMenuBar {
 			this.valid = false;
 		}
 	}
+
+	/**
+	 * Rebuild the UI if invalid
+	 */
 	public void update() {
 		if (!valid) {
 			valid = true;
