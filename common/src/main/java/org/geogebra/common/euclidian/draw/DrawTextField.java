@@ -193,11 +193,6 @@ public class DrawTextField extends Drawable implements
 					draw(view.getGraphicsForPen());
 				}
 			}
-
-			if (drawOnCanvas) {
-				textField.setVisible(false);
-
-			}
 		}
 	}
 
@@ -533,9 +528,9 @@ public class DrawTextField extends Drawable implements
 				|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel && y < yLabel
 						+ labelSize.y);
 		;
-		if (res) {
-			App.debug("[DrawTextFied] hit");
-		}
+		// if (res) {
+		// App.debug("[DrawTextFied] hit");
+		// }
 
 		return res;
 	}
@@ -543,7 +538,9 @@ public class DrawTextField extends Drawable implements
 	public void showIntputField(boolean show) {
 		if (show) {
 			textField.setVisible(true);
-			textField.requestFocus();
+			if (!view.getEuclidianController().isTemporaryMode()) {
+				textField.requestFocus();
+			}
 
 		} else {
 			textField.setVisible(false);
