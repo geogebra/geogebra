@@ -8,7 +8,6 @@ import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -16,6 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 	private Image marble;
 	private boolean oldValue;
+	private RowHeaderHandler handler;
 
 	public RowHeaderWidget(CASTableW casTableW, int n, GeoCasCell cell, AppW app) {
 		Label label = new Label();
@@ -27,8 +27,17 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		if (cell != null)
 			CASInputHandler.handleMarble(cell, this);
 		marble.addClickHandler(new MarbleClickHandler(cell, this));
-		addDomHandler(new RowHeaderHandler(app, casTableW, this),
-		        MouseUpEvent.getType());
+
+		// instead of here, from now on the whole of header areas should
+		// handle this event, so this is moved to CASTableCellControllerW
+		// but still, create the RowHeaderHandler for quick implementation
+		// addDomHandler(
+		handler = new RowHeaderHandler(app, casTableW, this);
+		// , MouseUpEvent.getType());
+	}
+
+	public RowHeaderHandler getHandler() {
+		return handler;
 	}
 
 	public void setLabel(String text) {

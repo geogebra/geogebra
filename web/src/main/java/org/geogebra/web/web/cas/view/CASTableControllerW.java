@@ -126,7 +126,20 @@ public class CASTableControllerW extends CASTableCellController implements
 							.copyToSystemClipboard("Copying to clipboard. Please wait... ")) {
 				// also, do not do this if the header area or question area is
 				// clicked
-				if (!checkHeaderClick(event) && !checkQuestionClick(event)) {
+				if (checkHeaderClick(event)) {
+					// at first access the RowHeaderWidget, then call its
+					// handler!
+					CASTableW table = view.getConsoleTable();
+					GPoint point = table.getPointForEvent(event);
+					Widget wid = table.getWidget(point.y, point.x);
+					if ((wid != null) && (wid instanceof RowHeaderWidget)) {
+						// quick implementation would call the handler
+						if (((RowHeaderWidget) wid).getHandler() != null) {
+							((RowHeaderWidget) wid).getHandler().onMouseUp(
+									event);
+						}
+					}
+				} else if (!checkQuestionClick(event)) {
 					// only makes sense for mouse events yet
 					// TODO: add this functionality to touch events,
 					// maybe override onPointerUp??
