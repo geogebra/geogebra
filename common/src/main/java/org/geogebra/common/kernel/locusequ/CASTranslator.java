@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
@@ -233,21 +232,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 				this.getVars(), this.getVarsToEliminate());
 		
 		Log.info("[LocusEqu] input to cas: "+script);
-		// We will use non-geogebra mode statements from Giac:
-		try {
-			cas.evaluateRaw(CASgiac.closeString);
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		result = cas.evaluate(script);
-		// Switching back to normal mode:
-		try {
-			cas.evaluateRaw(CASgiac.initString);
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		Log.info("[LocusEqu] output from cas: "+result);
 		return cas.getCurrentCAS().getBivarPolyCoefficients(result, cas);
 	}

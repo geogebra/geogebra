@@ -106,8 +106,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));"
 			+ "ggb_is_zero(x):=when(x==0,true,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,when(type(x)=='DOM_LIST',max(x)==min(x)&&min(x)==0,false)));";
 
-	protected final static String myeliminate = "[containsvars(poly,varlist):={local ii; for (ii:=0; ii<size(varlist); ii++) { if (degree(poly,varlist[ii])>0) { return true } } return false}],"
-			+ "[myeliminate(polylist,varlist):={local ii,jj,kk; kk:=[]; jj:=gbasis(polylist,append(varlist,y,x),revlex); for (ii:=0; ii<size(jj); ii++) { if (!containsvars(jj[ii],varlist)) { kk:=append(kk,jj[ii]) } } return kk }]";
+	protected final static String myeliminate = "[containsvars(poly,varlist):=begin local ii; for (ii:=0; ii<size(varlist); ii++) begin if (degree(poly,varlist[ii])>0) begin return true end end return false end],"
+			+ "[myeliminate(polylist,varlist):=begin local ii,jj,kk; kk:=[]; jj:=gbasis(polylist,append(varlist,y,x),revlex); for (ii:=0; ii<size(jj); ii++) begin if (!containsvars(jj[ii],varlist)) begin kk:=append(kk,jj[ii]) end end return kk end]";
 
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
@@ -443,7 +443,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				.
 				// myeliminate() may be inaccurate, see
 				// https://dev.geogebra.org/trac/ticket/4221
-				append("[if (size(aa)==0) {aa:=" + eliminateCommand + "}],")
+				append("[if (size(aa)==0) begin aa:=" + eliminateCommand + " end],")
 				.
 				// Creating a matrix from the output to satisfy Sergio:
 				append("[bb:=coeffs(aa[0],x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],")
@@ -551,11 +551,11 @@ public abstract class CASgiac implements CASGenericInterface {
 				 */
 				myeliminate + "," + "[ff:=\"\"],[aa:=my")
 				.append(eliminateCommand)
-				.append("],[if (size(aa)==0) {aa:=" + eliminateCommand + "}],")
+				.append("],[if (size(aa)==0) begin aa:=" + eliminateCommand + " end],")
 				.append("[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ")
 				.append(" _[1]=1\");cc:=factors(aa[ii]);dd:=size(cc);")
 				.append("for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: ")
-				.append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\"){ff:=[0]}],ff][8]")
+				.append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\") begin ff:=[0] end],ff][8]")
 
 				.toString();
 

@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
@@ -304,21 +303,7 @@ public class AlgoEnvelope extends AlgoElement {
 				String script2 = cas.getCurrentCAS().createLocusEquationScript(polys + "," + det, vars + ",x,y", vars);
 
 				Log.info("[Envelope] input to giac: " + script2);
-				// We will use non-geogebra mode statements from Giac:
-				try {
-					cas.evaluateRaw(CASgiac.closeString);
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				String result = cas.getCurrentCAS().evaluateRaw(script2);
-				// Switching back to normal mode:
-				try {
-					cas.evaluateRaw(CASgiac.initString);
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				// Trimming [ and ]
 				result = result.substring(1,result.length()-1); 
 				return result;
