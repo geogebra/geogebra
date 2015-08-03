@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
@@ -1056,4 +1056,8 @@ public class FileManagerT extends FileManager {
 			$wnd.android.share(base64, title, 'png');
 		}
 	}-*/;
+
+	public boolean hasBase64(Material material) {
+		return true;
+	}
 }

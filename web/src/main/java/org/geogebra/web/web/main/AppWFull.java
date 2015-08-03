@@ -57,6 +57,13 @@ public abstract class AppWFull extends AppW {
 	}
 
 	@Override
+	public final boolean letShowPropertiesDialog() {
+		return rightClickEnabled
+				|| getArticleElement().getDataParamShowMenuBar(false)
+				|| getArticleElement().getDataParamApp();
+	}
+
+	@Override
 	public void updateKeyboard() {
 
 		getGuiManager().focusScheduled(false, false, false);

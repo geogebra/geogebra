@@ -325,4 +325,8 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 
+	public boolean hasBase64(Material material) {
+		return true;
+	}
+
 }

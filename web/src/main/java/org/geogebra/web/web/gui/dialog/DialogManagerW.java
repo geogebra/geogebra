@@ -372,7 +372,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 			return;
 
 		// get PropertiesView
-		PropertiesView pv = (PropertiesView) ((GuiManagerW)app.getGuiManager())
+		PropertiesView pv = ((GuiManagerW) app.getGuiManager())
 				.getPropertiesView(type);
 		int subType = -1;
 		// select geos

@@ -3,8 +3,8 @@ package org.geogebra.web.html5.main;
 import java.util.ArrayList;
 
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
+import org.geogebra.common.move.ggtapi.models.SyncEvent;
 
 public interface FileManagerI {
 
@@ -45,4 +45,6 @@ public interface FileManagerI {
 	void export(AppW app);
 
 	void exportImage(String url, String string);
+
+	boolean hasBase64(Material material);
 }

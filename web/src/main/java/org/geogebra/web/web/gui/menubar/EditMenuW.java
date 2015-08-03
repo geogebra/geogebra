@@ -90,26 +90,28 @@ public class EditMenuW extends GMenuBar {
 		addSeparator();
 
 		// object properties menu
-		if (!app.isApplet()) {
 
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_options().getSafeUri().asString(),
-			        !app.getKernel().isEmpty() ? app.getPlain("Properties")
-			                : app.getMenu("Options") + " ...", true), true,
-			        new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(
+				GuiResources.INSTANCE.menu_icon_options().getSafeUri()
+						.asString(),
+				!app.getKernel().isEmpty() ? app.getPlain("Properties") : app
+						.getMenu("Options") + " ...", true), true,
+				new MenuCommand(app) {
 
-				        @Override
-				        public void doExecute() {
-					        if (!selection.getSelectedGeos().isEmpty()) {
-						        app.getDialogManager().showPropertiesDialog(
-						                OptionType.OBJECTS, null);
-					        }
+					@Override
+					public void doExecute() {
+						if (!selection.getSelectedGeos().isEmpty()) {
+							app.getDialogManager().showPropertiesDialog(
+									OptionType.OBJECTS, null);
+						} else {
+							app.getDialogManager().showPropertiesDialog(
+									OptionType.EUCLIDIAN, null);
 				        }
-			        });
+					}
+				});
 
-			addSeparator();
+		addSeparator();
 
-		}
 
 		// select all menu
 		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("SelectAll"), true),

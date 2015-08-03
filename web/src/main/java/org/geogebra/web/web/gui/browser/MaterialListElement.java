@@ -580,8 +580,7 @@ public class MaterialListElement extends FlowPanel implements
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
 					app.getMenu("Loading"), false, app);
-			if (this.material.getBase64() == null
-					|| this.material.getBase64().length() == 0) {
+			if (this.app.getFileManager().hasBase64(this.material)) {
 				loadMaterialAsGGB();
 			} else {
 				this.app.getFileManager().openMaterial(this.material);

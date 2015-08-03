@@ -341,4 +341,9 @@ public class FileManagerW extends FileManager {
 
 	}-*/;
 
+	public boolean hasBase64(Material material) {
+		return material.getBase64() != null
+				&& material.getBase64().length() > 0;
+	}
+
 }

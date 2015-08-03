@@ -61,6 +61,9 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	 * adds a {@link MyCJButton button} to show properties dialog
 	 */
 	protected void addMenuButton(){
+		if (!app.letShowPropertiesDialog()) {
+			return;
+		}
 		if(menuButton == null){
 			menuButton = new MyCJButton();
 	

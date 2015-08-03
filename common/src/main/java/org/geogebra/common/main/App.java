@@ -3195,7 +3195,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * @return whether properties dialog is enabled
 	 */
-	public final boolean letShowPropertiesDialog() {
+	public boolean letShowPropertiesDialog() {
 		return rightClickEnabled;
 	}
 
