@@ -122,7 +122,13 @@ public class ButtonDialog extends JDialog implements ActionListener,
 			Iterator<GeoElement> it = sortedSet.iterator();
 			comboModel.addElement(null);
 			FontMetrics fm = getFontMetrics(getFont());
-			int width = (int) cbAdd.getPreferredSize().getWidth();
+
+			// minimum width
+			// make sure if there are just objects with short descriptions
+			// eg sliders
+			// then they display OK
+			int width = app.getGUIFontSize() * 10;
+
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
 				if (!geo.isGeoImage() && !(geo.isGeoButton())
