@@ -1002,31 +1002,29 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 				// we have the external angles
 				if (((GeoAngle) anglesPoly1[0]).getValue() >= Math.PI
 						&& ((GeoAngle) anglesPoly2[0]).getValue() >= Math.PI) {
-					double d1 = 360 * Math.PI / 180
+					double d1 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly1[0]).getDouble();
-					double d2 = 360 * Math.PI / 180
+					double d2 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly2[0]).getDouble();
-					double d3 = 360 * Math.PI / 180
+					double d3 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly1[1]).getDouble();
-					double d4 = 360 * Math.PI / 180
+					double d4 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly2[1]).getDouble();
 					// first two angle values are congruent
 					if (Kernel.isEqual(d1, d2) && Kernel.isEqual(d3, d4)) {
 						break;
 					}
-					double d5 = 360
+					double d5 = 2
 							* Math.PI
-							/ 180
 							- ((GeoAngle) anglesPoly2[anglesPoly2.length - 1])
 									.getDouble();
-					double d6 = 360
+					double d6 = 2
 							* Math.PI
-							/ 180
 							- ((GeoAngle) anglesPoly2[anglesPoly2.length - 2])
 									.getDouble();
 					// first two angle values from anglesPoly1 equals to last
 					// two angle values from anglesPoly2
-					if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d2, d6)) {
+					if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d3, d6)) {
 						break;
 					}
 					anglesPoly2 = shiftAngles(anglesPoly2);
@@ -1037,28 +1035,26 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 				else if (((GeoAngle) anglesPoly1[0]).getValue() < Math.PI
 						&& ((GeoAngle) anglesPoly2[0]).getValue() >= Math.PI) {
 					double d1 = ((GeoAngle) anglesPoly1[0]).getDouble();
-					double d2 = 360 * Math.PI / 180
+					double d2 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly2[0]).getDouble();
 					double d3 = ((GeoAngle) anglesPoly1[1]).getDouble();
-					double d4 = 360 * Math.PI / 180
+					double d4 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly2[1]).getDouble();
 					// first two angle values are congruent
 					if (Kernel.isEqual(d1, d2) && Kernel.isEqual(d3, d4)) {
 						break;
 					}
-					double d5 = 360
+					double d5 = 2
 							* Math.PI
-							/ 180
 							- ((GeoAngle) anglesPoly2[anglesPoly2.length - 1])
 									.getDouble();
-					double d6 = 360
+					double d6 = 2
 							* Math.PI
-							/ 180
 							- ((GeoAngle) anglesPoly2[anglesPoly2.length - 2])
 									.getDouble();
 					// first two angle values from anglesPoly1 equals to last
 					// two angle values from anglesPoly2
-					if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d2, d6)) {
+					if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d3, d6)) {
 						break;
 					}
 					anglesPoly2 = shiftAngles(anglesPoly2);
@@ -1068,10 +1064,10 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 				// angles of second polygon
 				else if (((GeoAngle) anglesPoly1[0]).getValue() >= Math.PI
 						&& ((GeoAngle) anglesPoly2[0]).getValue() < Math.PI) {
-					double d1 = 360 * Math.PI / 180
+					double d1 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly1[0]).getDouble();
 					double d2 = ((GeoAngle) anglesPoly2[0]).getDouble();
-					double d3 = 360 * Math.PI / 180
+					double d3 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly1[1]).getDouble();
 					double d4 = ((GeoAngle) anglesPoly2[1]).getDouble();
 					// first two angle values are congruent
@@ -1084,7 +1080,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 									.getDouble();
 					// first two angle values from anglesPoly1 equals to last
 					// two angle values from anglesPoly2
-					if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d2, d6)) {
+					if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d3, d6)) {
 						break;
 					}
 					anglesPoly2 = shiftAngles(anglesPoly2);
@@ -1119,8 +1115,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 			boolean result = checkInBothDirection(segmentsPoly1, segmentsPoly2,
 					anglesPoly1, anglesPoly2);
-			algo1.remove();
-			algo2.remove();
+			// algo1.remove();
+			// algo2.remove();
 			return result;
 		}
 		return false;
@@ -1167,9 +1163,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			if (((GeoAngle) anglesPoly1[0]).getDouble() >= Math.PI
 					&& ((GeoAngle) anglesPoly2[0]).getDouble() >= Math.PI) {
 				for (int i = 0; i < anglesPoly1.length; i++) {
-					double d1 = 360 * Math.PI / 180
+					double d1 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly1[i]).getDouble();
-					double d2 = 360 * Math.PI / 180
+					double d2 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly2[i]).getDouble();
 					if (!Kernel.isEqual(d1, d2)) {
 						return false;
@@ -1182,8 +1178,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 					&& ((GeoAngle) anglesPoly2[0]).getDouble() >= Math.PI) {
 				for (int i = 0; i < anglesPoly1.length; i++) {
 					double d1 = ((GeoAngle) anglesPoly1[i]).getDouble();
-					double d2 = 360 * Math.PI / 180
-						- ((GeoAngle) anglesPoly2[i]).getDouble();
+					double d2 = 2 * Math.PI
+							- ((GeoAngle) anglesPoly2[i]).getDouble();
 					if (!Kernel.isEqual(d1, d2)) {
 						return false;
 					}
@@ -1194,7 +1190,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			else if (((GeoAngle) anglesPoly1[0]).getDouble() >= Math.PI
 					&& ((GeoAngle) anglesPoly2[0]).getDouble() < Math.PI) {
 				for (int i = 0; i < anglesPoly1.length; i++) {
-					double d1 = 360 * Math.PI / 180
+					double d1 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly1[i]).getDouble();
 					double d2 = ((GeoAngle) anglesPoly2[i]).getDouble();
 					if (!Kernel.isEqual(d1, d2)) {
