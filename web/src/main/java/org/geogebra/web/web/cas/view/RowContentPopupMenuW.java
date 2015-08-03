@@ -120,38 +120,32 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 
 		// HOW to put the data toBeCopied to Web clipboard?
 		if (toBeCopied != null) {
-			copyDummyElementWithString(toBeCopied);
-			// App.debug(toBeCopied);
+			copyToSystemClipboard(toBeCopied);
 		}
 	}
 
-	public static native boolean copyDummyElementWithString(String toBeCopied) /*-{
-		if (!($doc.queryCommandSupported("copy"))) {
-			// in theory, this has been checked, but check again!
-			return false;
+	/**
+	 * The code for this method is the same as:
+	 * CopyPasteCutW.copyToSystemClipboardChromeWebapp ... so its name suggests
+	 * that there is still some limitation to its use, even if it will work in
+	 * Firefox 41 ... problem is that it's harder to feature-detect
+	 * 
+	 * @param value
+	 *            String to copy to clipboard
+	 */
+	public static native void copyToSystemClipboard(String value) /*-{
+		var copyFrom = $doc.getElementById('hiddenCopyPasteTextArea');
+		if (!copyFrom) {
+			copyFrom = $doc.createElement("textarea");
+			copyFrom.id = 'hiddenCopyPasteTextArea';
+			copyFrom.style.position = 'absolute';
+			copyFrom.style.zIndex = '100';
+			copyFrom.style.left = '-1000px';
+			$doc.getElementsByTagName('body')[0].appendChild(copyFrom);
 		}
-
-		var dummy = $doc.createElement('textarea');
-		dummy.value = toBeCopied;
-
-		// how to add this to the DOM in a hidden way?
-		// maybe Okay, as it is temporary:
-		dummy.style.position = 'fixed';
-		dummy.style.visibility = 'hidden';
-		$doc.body.appendChild(dummy);
-
-		dummy.select();
-
-		try {
-			var success = $doc.execCommand('copy');
-			if (success) {
-				$doc.body.removeChild(dummy);
-				return true;
-			}
-		} catch (ex) {
-		}
-		$doc.body.removeChild(dummy);
-		return false;
+		copyFrom.value = value;
+		copyFrom.select();
+		$doc.execCommand('copy');
 	}-*/;
 
 	/*private void handlePaste(ActionEvent e) {

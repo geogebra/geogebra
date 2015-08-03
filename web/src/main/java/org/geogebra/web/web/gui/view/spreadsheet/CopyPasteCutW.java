@@ -301,7 +301,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		return contents;
 	}-*/;
 
-	private static native void copyToSystemClipboardChromeWebapp(String value) /*-{
+	public static native void copyToSystemClipboardChromeWebapp(String value) /*-{
 		var copyFrom = @org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
 		copyFrom.value = value;
 		copyFrom.select();
