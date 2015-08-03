@@ -1115,8 +1115,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 			boolean result = checkInBothDirection(segmentsPoly1, segmentsPoly2,
 					anglesPoly1, anglesPoly2);
-			// algo1.remove();
-			// algo2.remove();
+			algo1.remove();
+			algo2.remove();
 			return result;
 		}
 		return false;
