@@ -132,8 +132,9 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 	 * 
 	 * @param value
 	 *            String to copy to clipboard
+	 * @return whether the method returns successfully or fails
 	 */
-	public static native void copyToSystemClipboard(String value) /*-{
+	public static native boolean copyToSystemClipboard(String value) /*-{
 		var copyFrom = $doc.getElementById('hiddenCopyPasteTextArea');
 		if (!copyFrom) {
 			copyFrom = $doc.createElement("textarea");
@@ -145,7 +146,12 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 		}
 		copyFrom.value = value;
 		copyFrom.select();
-		$doc.execCommand('copy');
+		try {
+			$doc.execCommand('copy');
+		} catch (ex) {
+			return false;
+		}
+		return true;
 	}-*/;
 
 	/*private void handlePaste(ActionEvent e) {

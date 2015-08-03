@@ -120,7 +120,9 @@ public class CASTableControllerW extends CASTableCellController implements
 
 		if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
 			// only do this action when supported
-			if (checkClipboardSupported()) {
+			if (checkClipboardSupported()
+					&& RowContentPopupMenuW
+							.copyToSystemClipboard("Copying to clipboard. Please wait... ")) {
 				// only makes sense for mouse events yet
 				// TODO: add this functionality to touch events,
 				// maybe override onPointerUp??
@@ -133,8 +135,8 @@ public class CASTableControllerW extends CASTableCellController implements
 
 				// event.getX() and event.getY() are really not good here!
 				// GUI is ready! just commented out while not doing anything
-				// popupMenu.show(new GPoint(event.getClientX(), event
-				// .getClientY()));
+				popupMenu.show(new GPoint(event.getClientX(), event
+						.getClientY()));
 			}
 		} else {
 			onPointerUp(event);
