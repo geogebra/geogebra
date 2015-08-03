@@ -341,8 +341,23 @@ public abstract class CommandProcessor {
 		int numArgs = c.getArgumentNumber();
 
 		Construction cmdCons = c.getKernel().getConstruction();
-
-		for (int varPos = 1; varPos < numArgs - 1; varPos += 2) {
+		GeoList gl = (GeoList) resArg(c.getArgument(numArgs - 2))[0];
+		GeoElement num = null;
+		if (gl == null) {
+			num = new GeoNumeric(cons);
+		} else if (gl.size() == 0) {
+			if (gl.getTypeStringForXML() != null) {
+				num = kernelA.createGeoElement(cons, gl.getTypeStringForXML());
+			} else {
+				// guess
+				num = new GeoNumeric(cons);
+			}
+		} else {
+			// list not zero length
+			num = gl.get(0).copyInternal(cons);
+		}
+		over[0] = gl;
+		for (int varPos = 1; varPos < numArgs - 2; varPos += 1) {
 			String localVarName = c.getVariableName(varPos);
 
 			if (localVarName == null
@@ -357,45 +372,30 @@ public abstract class CommandProcessor {
 
 			// add local variable name to construction
 
-			GeoElement num = null;
+
 
 			// initialize first value of local numeric variable from initPos
 
-			GeoList gl = null;
-			if (c.getArgumentNumber() > varPos + 1) {
-				gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
-			}
 
-			if (gl == null) {
-				num = new GeoNumeric(cons);
-			} else if (gl.size() == 0) {
-				if (gl.getTypeStringForXML() != null) {
-					num = kernelA.createGeoElement(cons,
-							gl.getTypeStringForXML());
-				} else {
-					// guess
-					num = new GeoNumeric(cons);
-				}
-			} else {
-				// list not zero length
-				num = gl.get(0).copyInternal(cons);
-			}
+
 
 			cmdCons.addLocalVariable(localVarName, num);
 			replaceZvarIfNeeded(localVarName, c);
 			// set local variable as our varPos argument
 			c.setArgument(varPos, new ExpressionNode(c.getKernel(), num));
-			vars[varPos / 2] = num.toGeoElement();
-			if (gl != null) {
-				over[varPos / 2] = gl;
-			}
+			vars[varPos - 1] = num.toGeoElement();
 
+			if (varPos < numArgs - 3) {
+				num = num.copy();
+			}
 			// resolve all command arguments including the local variable just
 			// created
 
 			// remove local variable name from kernel again
 
 		}
+
+
 
 		number[0] = (GeoNumeric) resArg(c.getArgument(numArgs - 1))[0];
 		GeoElement[] arg = resArg(c.getArgument(0));

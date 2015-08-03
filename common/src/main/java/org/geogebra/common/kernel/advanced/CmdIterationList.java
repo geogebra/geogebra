@@ -35,6 +35,10 @@ public class CmdIterationList extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+		case 0:
+		case 1:
+		case 2:
+			throw argNumErr(app, c.getName(), n);
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoFunction())
@@ -48,10 +52,10 @@ public class CmdIterationList extends CommandProcessor {
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
-		case 4:
+		default:
 			GeoElement arg1 = null;
-			GeoElement[] vars = new GeoElement[(n - 2) / 2];
-			GeoList[] over = new GeoList[(n - 2) / 2];
+			GeoElement[] vars = new GeoElement[n - 3];
+			GeoList[] over = new GeoList[1];
 			GeoNumeric[] num = new GeoNumeric[1];
 			boolean oldval = cons.isSuppressLabelsActive();
 
@@ -71,8 +75,7 @@ public class CmdIterationList extends CommandProcessor {
 					arg1, vars, over, num[0]);
 			return algo.getOutput();
 
-		default:
-			throw argNumErr(app, c.getName(), n);
+
 		}
 	}
 }

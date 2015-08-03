@@ -55,7 +55,6 @@ public class AlgoIteration extends AlgoElement {
 	private GeoElement expression; // input expression dependent on var
 	private GeoElement[] vars; // input: local variable
 	private int varCount;
-	private int listCount;
 	private GeoList[] over;
 	private boolean expIsFunctionOrCurve, isSimple, isEmpty;
 	private AlgoElement expressionParentAlgo;
@@ -71,7 +70,6 @@ public class AlgoIteration extends AlgoElement {
 		this.nGeo = n.toGeoElement();
 		isSimple = false;
 
-		listCount = over.length;
 		varCount = vars.length;
 
 		expressionParentAlgo = expression.getParentAlgorithm();
@@ -99,13 +97,14 @@ public class AlgoIteration extends AlgoElement {
 
 			// done by AlgoElement
 		} else {
-			input = new GeoElement[2 + listCount + varCount];
+			input = new GeoElement[3 + varCount];
 			input[0] = expression;
-			for (int i = 0; i < listCount; i++) {
-				input[2 * i + 1] = vars[i];
-				input[2 * i + 2] = over[i];
+			for (int i = 0; i < varCount; i++) {
+				input[i + 1] = vars[i];
+
 			}
-			input[1 + listCount + varCount] = nGeo;
+			input[1 + varCount] = over[0];
+			input[2 + varCount] = nGeo;
 
 		}// done by AlgoElement
 		super.setOutputLength(1);
@@ -160,7 +159,7 @@ public class AlgoIteration extends AlgoElement {
 		// list.setDefined(true);
 
 		int iterations = (int) Math.round(n.getDouble());
-		if (iterations < 0) {
+		if (iterations < 0 || varCount > over[0].size()) {
 			updateRunning = false;
 			result.setUndefined();
 			return;
@@ -168,8 +167,6 @@ public class AlgoIteration extends AlgoElement {
 
 		isEmpty = over[0].size() == 0;
 
-		boolean setValuesOnly = false;
-		setValuesOnly = setValuesOnly && !expIsFunctionOrCurve;
 
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
@@ -181,21 +178,37 @@ public class AlgoIteration extends AlgoElement {
 		cons.setSuppressLabelCreation(oldSuppressLabels);
 		updateRunning = false;
 	}
+
+	@Override
+	public GeoElement[] getInputForUpdateSetPropagation() {
+		GeoElement[] realInput = new GeoElement[2];
+		realInput[0] = expression;
+		realInput[1] = over[0];
+
+		return realInput;
+	}
+
 	// TODO Consider locusequability
 
 	private void updateListItems() {
 		if (isEmpty)
 			return;
 
-		int currentVal = 0;
 		int listSize = (int) Math.round(n.getDouble());
-		int i = 0;
-		GeoElement listElement = over[0].get(0).copyInternal(cons);
-
-		while (i < listSize) {
-			App.debug(i + "level");
 
 
+		if (listSize < over[0].size()) {
+			result.set(over[0].get(listSize));
+			return;
+		}
+		for (int j = 1; j < varCount; j++) {
+			vars[j].set(over[0].get(over[0].size() - varCount + j - 1));
+		}
+
+		GeoElement listElement = over[0].get(over[0].size() - 1).copyInternal(
+				cons);
+		int i = over[0].size();
+		while (i <= listSize) {
 			// check we haven't run out of memory
 
 			// set local var value
@@ -212,8 +225,9 @@ public class AlgoIteration extends AlgoElement {
 								.replaceChildrenByValues(vars[j]);
 					}
 				}
-			} else
+			} else {
 				listElement.setUndefined();
+			}
 			if (listElement instanceof GeoNumeric
 					&& listElement.getDrawAlgorithm() instanceof DrawInformationAlgo) {
 				listElement.setDrawAlgorithm(((DrawInformationAlgo) expression
@@ -231,20 +245,17 @@ public class AlgoIteration extends AlgoElement {
 		if (index == 0) {
 			return;
 		}
-		for (int i = 0; i < listCount; i++) {
-			vars[i].set(listElement);
+		for (int i = 0; i < varCount - 1; i++) {
+			vars[i].set(vars[i + 1]);
 		}
-		if (varCount > listCount) {
-			((GeoNumeric) vars[varCount - 1]).setValue(index + 1);
-		}
-
+		vars[varCount - 1].set(listElement);
 		// update var's algorithms until we reach expression
 		if (expressionParentAlgo != null) {
 			// update all dependent algorithms of the local variable var
 			this.setStopUpdateCascade(true);
-			// for (int i = 0; i < listCount; i++)
-			App.debug("TODO" + vars[0].getAlgoUpdateSet().getSize());//
-			vars[0].getAlgoUpdateSet().updateAllUntil(expressionParentAlgo);
+			for (int i = 0; i < varCount; i++) {
+				vars[i].getAlgoUpdateSet().updateAllUntil(expressionParentAlgo);
+			}
 			this.setStopUpdateCascade(false);
 			expressionParentAlgo.update();
 			listElement.set(expression);

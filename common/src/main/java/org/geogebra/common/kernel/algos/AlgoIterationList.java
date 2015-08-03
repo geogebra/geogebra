@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Iteration[ f(x), x0, n ]
@@ -41,7 +42,6 @@ public class AlgoIterationList extends AlgoElement {
 	private GeoElement expression; // input expression dependent on var
 	private GeoElement[] vars; // input: local variable
 	private int varCount;
-	private int listCount;
 	private GeoList[] over;
 
 	private boolean expIsFunctionOrCurve, isSimple, isEmpty;
@@ -50,6 +50,7 @@ public class AlgoIterationList extends AlgoElement {
 	// we need to check that some Object[] reference didn't cause infinite
 	// update cycle
 	private boolean updateRunning = false;
+	private int iterationsOld = -1;
 
 	/**
 	 * @param cons
@@ -107,7 +108,6 @@ public class AlgoIterationList extends AlgoElement {
 		this.nGeo = n.toGeoElement();
 		isSimple = false;
 
-		listCount = over.length;
 		varCount = vars.length;
 
 		expressionParentAlgo = expression.getParentAlgorithm();
@@ -137,13 +137,14 @@ public class AlgoIterationList extends AlgoElement {
 			super.setOutput(0, list);
 			setDependencies(); // done by AlgoElement
 		} else {
-			input = new GeoElement[2 + listCount + varCount];
+			input = new GeoElement[3 + varCount];
 			input[0] = expression;
-			for (int i = 0; i < listCount; i++) {
-				input[2 * i + 1] = vars[i];
-				input[2 * i + 2] = over[i];
+			for (int i = 0; i < varCount; i++) {
+				input[i + 1] = vars[i];
+
 			}
-			input[1 + listCount + varCount] = nGeo;
+			input[1 + varCount] = over[0];
+			input[2 + varCount] = nGeo;
 
 			setOutputLength(1);
 			setOutput(0, list);
@@ -160,11 +161,10 @@ public class AlgoIterationList extends AlgoElement {
 	 */
 	@Override
 	public GeoElement[] getInputForUpdateSetPropagation() {
-		GeoElement[] realInput = new GeoElement[listCount + 1];
+		GeoElement[] realInput = new GeoElement[2];
 		realInput[0] = expression;
-		for (int i = 0; i < listCount; i++) {
-			realInput[i + 1] = over[i];
-		}
+		realInput[1] = over[0];
+
 		return realInput;
 	}
 
@@ -193,25 +193,27 @@ public class AlgoIterationList extends AlgoElement {
 		list.setDefined(true);
 
 		int iterations = (int) Math.round(n.getDouble());
-		if (iterations < 0) {
+		if (iterations < 0 || varCount > over[0].size()) {
 			list.setUndefined();
 			updateRunning = false;
 			return;
 		}
 
-		isEmpty = minOverSize() == 0;
+		isEmpty = over[0].size() == 0;
 
-		boolean setValuesOnly = false;
+		boolean setValuesOnly = iterations == iterationsOld - 1;
 		setValuesOnly = setValuesOnly && !expIsFunctionOrCurve;
 
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		// update list
-		if (setValuesOnly)
+		if (setValuesOnly) {
 			updateListItems();
-		else
+		} else {
 			createNewList();
+		}
+		this.iterationsOld = iterations;
 
 		// revert label creation setting
 		cons.setSuppressLabelCreation(oldSuppressLabels);
@@ -219,9 +221,17 @@ public class AlgoIterationList extends AlgoElement {
 	}
 
 	private void createNewList() {
-		int i = 0;
+		int i = Math.min(over[0].size(), (int) Math.round(n.getDouble()));
 		int oldListSize = list.size();
+		Log.debug(over[0]);
 		list.clear();
+		for (int j = 0; j < over[0].size()
+				&& j < (int) Math.round(n.getDouble()); j++) {
+			list.add(over[0].get(j).copyInternal(cons));
+			if (j + 1 < varCount) {
+				vars[j + 1].set(over[0].get(j));
+			}
+		}
 		if (!isEmpty) {
 			// needed capacity
 			list.ensureCapacity(((int) Math.round(n.getDouble())) + 1);
@@ -241,7 +251,7 @@ public class AlgoIterationList extends AlgoElement {
 				}
 
 				// set local var value
-				updateLocalVar(i);
+				updateLocalVar(i, list.get(i - 1));
 				addElement(i);
 
 				i++;
@@ -336,12 +346,27 @@ public class AlgoIterationList extends AlgoElement {
 		if (isEmpty)
 			return;
 
-		int currentVal = 0;
+		// int currentVal = 0;
 		int listSize = (int) Math.round(n.getDouble());
-		int i = 0;
+		int i = over[0].size();
+		for (int j = 0; j < over[0].size()
+				&& j < (int) Math.round(n.getDouble()); j++) {
+			list.get(j).set(over[0].get(j));
+			if (j + 1 < vars.length) {
+				vars[j + 1].set(over[0].get(j));
+			}
+		}
+		App.debug("VC" + varCount);
+		if (over[0].size() >= (int) Math.round(n.getDouble())) {
+			return;
+		}
 
+		for (int p = 0; p < varCount; p++) {
+			Log.debug(p + ":");
+			Log.debug(vars[p]);
+		}
 		while (i < listSize) {
-			GeoElement listElement = list.get(currentVal);
+			GeoElement listElement = list.get(i);
 
 			// check we haven't run out of memory
 			if (kernel.getApplication().freeMemoryIsCritical()) {
@@ -355,7 +380,7 @@ public class AlgoIterationList extends AlgoElement {
 
 			// set local var value
 			// updateLocalVar(currentVal);
-			updateLocalVar(i);
+			updateLocalVar(i, listElement);
 
 			// copy expression value to listElement
 			// if it's undefined, just copy the undefined property
@@ -384,24 +409,23 @@ public class AlgoIterationList extends AlgoElement {
 	 * Sets value of the local loop variable of the sequence and updates all
 	 * it's dependencies until we reach the main algo.
 	 */
-	private void updateLocalVar(int index) {
+	private void updateLocalVar(int index, GeoElement listElement) {
 		// set local variable to given value
 		if (index == 0) {
 			return;
 		}
-		for (int i = 0; i < listCount; i++) {
-			vars[i].set(list.get(index - 1));
+		for (int i = 0; i < varCount - 1; i++) {
+			vars[i].set(vars[i + 1]);
 		}
-		if (varCount > listCount) {
-			((GeoNumeric) vars[varCount - 1]).setValue(index + 1);
-		}
+
+		vars[varCount - 1].set(listElement);
 
 
 		// update var's algorithms until we reach expression
 		if (expressionParentAlgo != null) {
 			// update all dependent algorithms of the local variable var
 			this.setStopUpdateCascade(true);
-			for (int i = 0; i < listCount; i++)
+			for (int i = 0; i < varCount; i++)
 				vars[i].getAlgoUpdateSet().updateAllUntil(expressionParentAlgo);
 			this.setStopUpdateCascade(false);
 			expressionParentAlgo.update();
@@ -409,13 +433,6 @@ public class AlgoIterationList extends AlgoElement {
 
 	}
 
-	private int minOverSize() {
-		int min = over[0].size();
-		for (int i = 1; i < listCount; i++)
-			if (over[i].size() < min)
-				min = over[i].size();
-		return min;
-	}
 
 	private void computeSimple() {
 		list.setDefined(true);
