@@ -302,6 +302,26 @@ public class AlgoAreCongruent extends AlgoElement implements
 					v1[3], v2[2], v2[3]);
 			return botanaPolynomials;
 		}
+		
+		if (inputElement1 instanceof GeoConic && inputElement2 instanceof GeoConic) {
+			if (((GeoConic) inputElement1).isCircle()
+					&& ((GeoConic) inputElement2).isCircle()) {
+				botanaPolynomials = new Polynomial[1][1];
+
+				Variable[] v1 = new Variable[4];
+				Variable[] v2 = new Variable[4];
+				// circle with center A and point B
+				v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
+				// circle with center C and point D
+				v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
+
+				// We want to prove: |AB|^2 = |CD|^2
+				botanaPolynomials[0][0] = Polynomial.sqrDistance(v1[0], v1[1],
+						v1[2], v1[3]).subtract(
+						Polynomial.sqrDistance(v2[0], v2[1], v2[2], v2[3]));
+				return botanaPolynomials;
+			}
+		}
 
 		throw new NoSymbolicParametersException();
 	}
