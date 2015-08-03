@@ -4,15 +4,10 @@
 * Copyright 2015 jQuery Foundation and other contributors; Licensed MIT */
 
 (function( factory ) {
-	if ( typeof define === "function" && define.amd ) {
-
-		// AMD. Register as an anonymous module.
-		define([ "jquery" ], factory );
-	} else {
-
+	
 		// Browser globals
-		factory( jQuery || $ggbQuery );
-	}
+	factory( jQuery || $ggbQuery );
+	
 }(function( $ ) {
 /*!
  * jQuery UI Core 1.11.4
