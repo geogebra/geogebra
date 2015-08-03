@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -140,6 +141,29 @@ public class AlgoAreEqual extends AlgoElement implements
 			botanaPolynomials[1][0] = Polynomial.collinear(v1[0], v1[1], v1[2],
 					v1[3], v2[2], v2[3]);
 			return botanaPolynomials;
+		}
+
+		if (inputElement1 instanceof GeoConic
+				&& inputElement2 instanceof GeoConic) {
+			if (((GeoConic) inputElement1).isCircle()
+					&& ((GeoConic) inputElement2).isCircle()) {
+				botanaPolynomials = new Polynomial[2][1];
+
+				Variable[] v1 = new Variable[4];
+				Variable[] v2 = new Variable[4];
+				// circle with center A and point B
+				v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
+				// circle with center C and point D
+				v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
+
+				// We want to prove: 1) |AC|^2 = 0, 2) |AB|^2 = |CD|^2
+				botanaPolynomials[0][0] = Polynomial.sqrDistance(v1[0], v1[1],
+						v2[0], v2[1]);
+				botanaPolynomials[1][0] = Polynomial.sqrDistance(v1[0], v1[1],
+						v1[2], v1[3]).subtract(
+						Polynomial.sqrDistance(v2[0], v2[1], v2[2], v2[3]));
+				return botanaPolynomials;
+			}
 		}
 
 		// distance between 2 point without segment
