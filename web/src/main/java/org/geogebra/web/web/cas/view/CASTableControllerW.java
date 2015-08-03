@@ -123,20 +123,27 @@ public class CASTableControllerW extends CASTableCellController implements
 			if (checkClipboardSupported()
 					&& RowContentPopupMenuW
 							.copyToSystemClipboard("Copying to clipboard. Please wait... ")) {
-				// only makes sense for mouse events yet
-				// TODO: add this functionality to touch events,
-				// maybe override onPointerUp??
-				CASTableW table = view.getConsoleTable();
-				GPoint point = table.getPointForEvent(event);
-				CASTableCellEditor tableCellEditor = table.getEditor();
-				RowContentPopupMenuW popupMenu = new RowContentPopupMenuW(app,
-					(GeoCasCell) tableCellEditor.getCellEditorValue(point.getY()),
-					tableCellEditor, table, RowContentPopupMenuW.Panel.OUTPUT);
+				// also, do not do this if the header area or question area is
+				// clicked
+				if (!checkHeaderClick(event)) {
+					// only makes sense for mouse events yet
+					// TODO: add this functionality to touch events,
+					// maybe override onPointerUp??
+					CASTableW table = view.getConsoleTable();
+					GPoint point = table.getPointForEvent(event);
+					CASTableCellEditor tableCellEditor = table.getEditor();
+					RowContentPopupMenuW popupMenu = new RowContentPopupMenuW(
+							app,
+							(GeoCasCell) tableCellEditor
+									.getCellEditorValue(point.getY()),
+							tableCellEditor, table,
+							RowContentPopupMenuW.Panel.OUTPUT);
 
-				// event.getX() and event.getY() are really not good here!
-				// GUI is ready! just commented out while not doing anything
-				popupMenu.show(new GPoint(event.getClientX(), event
-						.getClientY()));
+					// event.getX() and event.getY() are really not good here!
+					// GUI is ready! just commented out while not doing anything
+					popupMenu.show(new GPoint(event.getClientX(), event
+							.getClientY()));
+				}
 			}
 		} else {
 			onPointerUp(event);
@@ -150,6 +157,15 @@ public class CASTableControllerW extends CASTableCellController implements
 		}
 		return false;
 	}-*/;
+
+	public boolean checkHeaderClick(HumanInputEvent<?> event) {
+		CASTableW cw = view.getConsoleTable();
+		GPoint gp = cw.getPointForEvent(event);
+		if (gp.x == 0) {
+			return true;
+		}
+		return false;
+	}
 
 	public void onMouseDown(MouseDownEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
