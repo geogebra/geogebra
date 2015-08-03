@@ -409,10 +409,10 @@ public class DrawTextField extends Drawable implements
 
 
 	private void drawTextField(GGraphics2D g2) {
-
-		boolean latexLabel = isLatexString(labelDesc);
+		boolean latexLabel = false;
 		boolean hasLabel = geo.isLabelVisible();
 		if (hasLabel) {
+			latexLabel = isLatexString(labelDesc);
 			// no drawing, just measuring.
 			if (latexLabel) {
 				GDimension d = drawLatex(g2, labelDesc, xLabel, yLabel);
