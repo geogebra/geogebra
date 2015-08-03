@@ -47,7 +47,7 @@ import org.geogebra.common.util.Unicode;
  * @author Michael
  */
 public class DrawTextField extends Drawable implements
-		RemoveNeeded {
+ RemoveNeeded {
 	private static final int HIGHLIGTH_MARGIN = 2;
 	private static final int BOX_ROUND = 8;
 	// TODO: examine these two, why are they needed and why these values.
@@ -337,7 +337,7 @@ public class DrawTextField extends Drawable implements
 
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
-			box.setBounds(labelRectangle);
+		box.setBounds(labelRectangle);
 		if (!drawOnCanvas) {
 			draw(view.getGraphicsForPen());
 		}
@@ -351,7 +351,7 @@ public class DrawTextField extends Drawable implements
 			public int getWidth() {
 				return (int) Math
 						.round(((view.getApplication().getFontSize() * geoTextField
-						.getFontSizeMultiplier()))
+								.getFontSizeMultiplier()))
 								* geoTextField.getLength() * TF_WIDTH_FACTOR
 );
 			}
@@ -398,7 +398,7 @@ public class DrawTextField extends Drawable implements
 
 		g2.setPaint(geo.getObjectColor());
 
-		if (geo.isLabelVisible()) {
+		if (geo.isVisible()) {
 
 			drawTextField(g2);
 
@@ -411,20 +411,23 @@ public class DrawTextField extends Drawable implements
 	private void drawTextField(GGraphics2D g2) {
 
 		boolean latexLabel = isLatexString(labelDesc);
-
-		// no drawing, just measuring.
-		if (latexLabel) {
-			GDimension d = drawLatex(g2, labelDesc, xLabel, yLabel);
-			labelSize.x = d.getWidth();
-			labelSize.y = d.getHeight();
-		} else {
-			labelSize = EuclidianStatic
+		boolean hasLabel = geo.isLabelVisible();
+		if (hasLabel) {
+			// no drawing, just measuring.
+			if (latexLabel) {
+				GDimension d = drawLatex(g2, labelDesc, xLabel, yLabel);
+				labelSize.x = d.getWidth();
+				labelSize.y = d.getHeight();
+			} else {
+				labelSize = EuclidianStatic
 
 				.drawIndexedString(view.getApplication(), g2, labelDesc, 0, 0,
-					false, false, false);
+						false, false, false);
+			}
+			calculateBoxBounds(latexLabel);
+		} else {
+			calculateBoxBounds();
 		}
-
-		calculateBoxBounds(latexLabel);
 
 		int boxRound = BOX_ROUND;
 		int textLeft = boxLeft + 2;
@@ -448,18 +451,20 @@ public class DrawTextField extends Drawable implements
 				boxRound);
 
 		// Label highlight
-		if (geo.doHighlighting()) {
+		if (hasLabel && geo.doHighlighting()) {
 			if (latexLabel) {
 				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
 			} else {
-			int h = labelFontSize + HIGHLIGTH_MARGIN;
-			g2.fillRect(xLabel, textBottom - h, labelSize.x, h
-					+ HIGHLIGTH_MARGIN);
+				int h = labelFontSize + HIGHLIGTH_MARGIN;
+				g2.fillRect(xLabel, textBottom - h, labelSize.x, h
+						+ HIGHLIGTH_MARGIN);
 			}
 		}
 		g2.setPaint(geo.getObjectColor());
 
-		drawTextFieldLabel(g2);
+		if (hasLabel) {
+			drawTextFieldLabel(g2);
+		}
 
 
 
@@ -473,6 +478,13 @@ public class DrawTextField extends Drawable implements
 		boxLeft = xLabel + labelSize.x + 2;
 		boxTop = latex ? yLabel + (labelSize.y - prefSize.getHeight()) / 2
 				: yLabel;
+		boxWidth = prefSize.getWidth();
+		boxHeight = prefSize.getHeight();
+	}
+
+	private void calculateBoxBounds() {
+		boxLeft = xLabel + 2;
+		boxTop = yLabel;
 		boxWidth = prefSize.getWidth();
 		boxHeight = prefSize.getHeight();
 	}
@@ -521,18 +533,18 @@ public class DrawTextField extends Drawable implements
 	final public boolean hit(int x, int y, int hitThreshold) {
 		boolean res = false;
 		if (drawOnCanvas) {
-		int left = boxLeft;
-		int top = boxTop;
-		int right = left + boxWidth;
-		int bottom = top + boxHeight;
-		//
+			int left = boxLeft;
+			int top = boxTop;
+			int right = left + boxWidth;
+			int bottom = top + boxHeight;
+			//
 			res = (x > left && x < right && y > top && y < bottom)
-				|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel && y < yLabel
-						+ labelSize.y);
-		;
-		// if (res) {
-		// App.debug("[DrawTextFied] hit");
-		// }
+					|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel && y < yLabel
+							+ labelSize.y);
+			;
+			// if (res) {
+			// App.debug("[DrawTextFied] hit");
+			// }
 		} else {
 			res = box.getBounds().contains(x, y);
 		}
