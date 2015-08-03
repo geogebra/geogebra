@@ -519,23 +519,30 @@ public class DrawTextField extends Drawable implements
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
+		boolean res = false;
+		if (drawOnCanvas) {
 		int left = boxLeft;
 		int top = boxTop;
 		int right = left + boxWidth;
 		int bottom = top + boxHeight;
 		//
-		boolean res = (x > left && x < right && y > top && y < bottom)
+			res = (x > left && x < right && y > top && y < bottom)
 				|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel && y < yLabel
 						+ labelSize.y);
 		;
 		// if (res) {
 		// App.debug("[DrawTextFied] hit");
 		// }
-
+		} else {
+			res = box.getBounds().contains(x, y);
+		}
 		return res;
 	}
 
 	public void showIntputField(boolean show) {
+		if (!drawOnCanvas) {
+			return;
+		}
 		if (show) {
 			textField.setVisible(true);
 			if (!view.getEuclidianController().isTemporaryMode()) {
