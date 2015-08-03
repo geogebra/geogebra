@@ -119,24 +119,35 @@ public class CASTableControllerW extends CASTableCellController implements
 		mouseDown = false;
 
 		if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
-			// only makes sense for mouse events yet
-			// TODO: add this functionality to touch events,
-			// maybe override onPointerUp??
-			CASTableW table = view.getConsoleTable();
-			GPoint point = table.getPointForEvent(event);
-			CASTableCellEditor tableCellEditor = table.getEditor();
-			RowContentPopupMenuW popupMenu = new RowContentPopupMenuW(app,
+			// only do this action when supported
+			if (checkClipboardSupported()) {
+				// only makes sense for mouse events yet
+				// TODO: add this functionality to touch events,
+				// maybe override onPointerUp??
+				CASTableW table = view.getConsoleTable();
+				GPoint point = table.getPointForEvent(event);
+				CASTableCellEditor tableCellEditor = table.getEditor();
+				RowContentPopupMenuW popupMenu = new RowContentPopupMenuW(app,
 					(GeoCasCell) tableCellEditor.getCellEditorValue(point.getY()),
 					tableCellEditor, table, RowContentPopupMenuW.Panel.OUTPUT);
 
-			// event.getX() and event.getY() are really not good here!
-			// GUI is ready! just commented out while not doing anything
-			//popupMenu.show(new GPoint(event.getClientX(), event.getClientY()));
+				// event.getX() and event.getY() are really not good here!
+				// GUI is ready! just commented out while not doing anything
+				// popupMenu.show(new GPoint(event.getClientX(), event
+				// .getClientY()));
+			}
 		} else {
 			onPointerUp(event);
 		}
 		event.stopPropagation();
 	}
+
+	public static native boolean checkClipboardSupported() /*-{
+		if ($doc.queryCommandSupported("copy")) {
+			return true;
+		}
+		return false;
+	}-*/;
 
 	public void onMouseDown(MouseDownEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {

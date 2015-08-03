@@ -120,9 +120,39 @@ public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
 
 		// HOW to put the data toBeCopied to Web clipboard?
 		if (toBeCopied != null) {
+			copyDummyElementWithString(toBeCopied);
 			// App.debug(toBeCopied);
 		}
 	}
+
+	public static native boolean copyDummyElementWithString(String toBeCopied) /*-{
+		if (!($doc.queryCommandSupported("copy"))) {
+			// in theory, this has been checked, but check again!
+			return false;
+		}
+
+		var dummy = $doc.createElement('textarea');
+		dummy.value = toBeCopied;
+
+		// how to add this to the DOM in a hidden way?
+		// maybe Okay, as it is temporary:
+		dummy.style.position = 'fixed';
+		dummy.style.visibility = 'hidden';
+		$doc.body.appendChild(dummy);
+
+		dummy.select();
+
+		try {
+			var success = $doc.execCommand('copy');
+			if (success) {
+				$doc.body.removeChild(dummy);
+				return true;
+			}
+		} catch (ex) {
+		}
+		$doc.body.removeChild(dummy);
+		return false;
+	}-*/;
 
 	/*private void handlePaste(ActionEvent e) {
 		String ac = e.getActionCommand();
