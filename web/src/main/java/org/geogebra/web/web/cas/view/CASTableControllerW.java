@@ -119,27 +119,26 @@ public class CASTableControllerW extends CASTableCellController implements
 		}
 		mouseDown = false;
 
-		if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
-			// only do this action when supported
-			if (checkClipboardSupported()
-					&& RowContentPopupMenuW
-							.copyToSystemClipboard("Copying to clipboard. Please wait... ")) {
-				// also, do not do this if the header area or question area is
-				// clicked
-				if (checkHeaderClick(event)) {
-					// at first access the RowHeaderWidget, then call its
-					// handler!
-					CASTableW table = view.getConsoleTable();
-					GPoint point = table.getPointForEvent(event);
-					Widget wid = table.getWidget(point.y, point.x);
-					if ((wid != null) && (wid instanceof RowHeaderWidget)) {
-						// quick implementation would call the handler
-						if (((RowHeaderWidget) wid).getHandler() != null) {
-							((RowHeaderWidget) wid).getHandler().onMouseUp(
-									event);
-						}
-					}
-				} else if (!checkQuestionClick(event)) {
+		if (checkHeaderClick(event)) {
+			// do this even if left/right click, even if clipboard is not
+			// supported!
+			CASTableW table = view.getConsoleTable();
+			GPoint point = table.getPointForEvent(event);
+			Widget wid = table.getWidget(point.y, point.x);
+			if ((wid != null) && (wid instanceof RowHeaderWidget)) {
+				// quick implementation would call the handler
+				if (((RowHeaderWidget) wid).getHandler() != null) {
+					((RowHeaderWidget) wid).getHandler().onMouseUp(event);
+				}
+			}
+		} else if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
+			// in theory, checkHeaderClick(event) is already false here...
+			if (!checkQuestionClick(event)) {
+				// only do this action when supported
+				if (checkClipboardSupported()
+						&& RowContentPopupMenuW
+								.copyToSystemClipboard("Copying to clipboard. Please wait... ")) {
+
 					// only makes sense for mouse events yet
 					// TODO: add this functionality to touch events,
 					// maybe override onPointerUp??

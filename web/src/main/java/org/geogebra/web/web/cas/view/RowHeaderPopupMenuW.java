@@ -68,16 +68,19 @@ public class RowHeaderPopupMenuW extends
 		miUseAsText.addStyleName("mi_no_image");
 
 
-		MenuItem latexItem = new MenuItem(app.getMenu("CopyAsLaTeX"),
+		if (CASTableControllerW.checkClipboardSupported()
+				&& RowContentPopupMenuW
+						.copyToSystemClipboard("Copying to clipboard. Please wait... ")) {
+
+			MenuItem latexItem = new MenuItem(app.getMenu("CopyAsLaTeX"),
 				new ScheduledCommand() {
 					public void execute() {
 						actionPerformed("copyAsLaTeX");
 					}
 				});
-		rowHeaderPopupMenu.addItem(latexItem);
-		latexItem.addStyleName("mi_no_image");
-
-		// latexItem.setIcon(((AppD) app).getEmptyIcon());
+			rowHeaderPopupMenu.addItem(latexItem);
+			latexItem.addStyleName("mi_no_image");
+		}
 	}
 
 	public void actionPerformed(String ac) {
