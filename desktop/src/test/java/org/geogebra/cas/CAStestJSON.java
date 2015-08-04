@@ -22,12 +22,11 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-@Ignore
 public class CAStestJSON {
 
 	  static GeoGebraCasInterface cas;
@@ -47,8 +46,15 @@ public class CAStestJSON {
 	            fileData.append(readData);
 	        }
 	        reader.close();
-	        return fileData.toString();
-	    }
+		String[] parts = fileData.toString().split("\n");
+		StringBuffer noComments = new StringBuffer();
+		for (int i = 0; i < parts.length; i++) {
+			if (!parts[i].trim().startsWith("//")) {
+				noComments.append(parts[i]);
+			}
+		}
+		return noComments.toString();
+	}
 	
 	@BeforeClass
 	  public static void setupCas () {
@@ -68,12 +74,15 @@ public class CAStestJSON {
 			Log.debug("CAS: loading testcases");
 			String json = readFileAsString("../web/war/__giac.js");
 			Log.debug("CAS: parsing testcases");
-			JSONObject testsJSON =  new JSONObject(json.substring("__giac = ".length()));
-			Log.debug("CAS: testcases parsed");
+			Log.debug("CAS: testcases parsed"
+					+ json.substring("var __giac = ".length()));
+			JSONArray testsJSON = new JSONArray(
+					json.substring("var __giac = ".length()));
+
 			int i = 1;
-			while(testsJSON.has(""+i)){
+			while (i < testsJSON.length()) {
 				
-			JSONObject test = testsJSON.getJSONObject(""+i);			
+				JSONObject test = testsJSON.getJSONObject(i);
 			i++;
 			String cat = "general";
 			if(test.has("cat")){
