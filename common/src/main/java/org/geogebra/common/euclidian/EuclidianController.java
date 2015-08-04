@@ -135,6 +135,8 @@ public abstract class EuclidianController {
 
 	protected static final int MAX_CONTINUITY_STEPS = 4;
 
+	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
+
 	protected static void removeAxes(ArrayList<GeoElement> geos) {
 
 		for (int i = geos.size() - 1; i >= 0; i--) {
@@ -7431,6 +7433,7 @@ public abstract class EuclidianController {
 				|| (app.isHTML5Applet() && !App.isFullAppGui());
 	}
 
+
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
 		if (view.getSelectionRectangle() == null) {
 			view.setSelectionRectangle(org.geogebra.common.factories.AwtFactory.prototype
@@ -7449,15 +7452,19 @@ public abstract class EuclidianController {
 		if (keepScreenRatio) {
 			double ratio = (double) view.getViewWidth()
 					/ (double) view.getViewHeight();
-			if (dxabs >= (dyabs * ratio)) {
-				height = (int) (Math.round(dxabs / ratio));
-				if (dy < 0) {
-					height = -height;
-				}
-			} else {
-				width = (int) Math.round(dyabs * ratio);
-				if (dx < 0) {
-					width = -width;
+			double newRatio = dy == 0 ? ratio : Math.abs(dx / (double) dy);
+			if (newRatio < Math.abs(ratio * ZOOM_RECTANGLE_SNAP_RATIO)
+					&& ratio > Math.abs(newRatio * ZOOM_RECTANGLE_SNAP_RATIO)) {
+				if (dxabs >= (dyabs * ratio)) {
+					height = (int) (Math.round(dxabs / ratio));
+					if (dy < 0) {
+						height = -height;
+					}
+				} else {
+					width = (int) Math.round(dyabs * ratio);
+					if (dx < 0) {
+						width = -width;
+					}
 				}
 			}
 		}
@@ -8097,7 +8104,9 @@ public abstract class EuclidianController {
 				// right-drag: zoom
 				// Shift-right-drag: zoom without preserving aspect ratio
 				if (app.has(Feature.SF_DRAG)) {
-					updateSelectionRectangle(false);
+					updateSelectionRectangle(event.isShiftDown()
+							|| mode == EuclidianConstants.MODE_ZOOM_IN
+							|| mode == EuclidianConstants.MODE_ZOOM_OUT);
 				} else {
 					updateSelectionRectangle((app.isRightClick(event) && !event
 							.isShiftDown())
