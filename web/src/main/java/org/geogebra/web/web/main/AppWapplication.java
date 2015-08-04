@@ -377,10 +377,21 @@ public class AppWapplication extends AppWFull {
 	public int getOWidth() {
 		int width = getAppFrame().getOffsetWidth();
 		if (width <= 1 && Location.getParameter("GeoGebraTargetWidth") != null) {
-			width = Integer.parseInt(Location
-					.getParameter("GeoGebraTargetWidth"));
+			width = getIntParam("GeoGebraTargetWidth");
 		}
 		return width;
+	}
+
+	private static int getIntParam(String string) {
+		int res = 0;
+		try {
+			res = (int) Float.parseFloat(Location.getParameter(string).replace(
+					',', '.'));
+		} catch (Exception ex) {
+			App.debug("Invalid parameter " + string + ":"
+					+ Location.getParameter(string));
+		}
+		return res;
 	}
 
 	@Override
@@ -388,8 +399,7 @@ public class AppWapplication extends AppWFull {
 		int height = getAppFrame().getOffsetHeight();
 		if (height <= 1
 				&& Location.getParameter("GeoGebraTargetHeight") != null) {
-			height = Integer.parseInt(Location
-					.getParameter("GeoGebraTargetHeight"));
+			height = getIntParam("GeoGebraTargetHeight");
 		}
 		return height;
 	}
