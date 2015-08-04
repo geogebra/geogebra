@@ -192,6 +192,8 @@ import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.GeoGebraLogger;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.Normalizer;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 public class AppD extends App implements KeyEventDispatcher {
 
@@ -944,6 +946,106 @@ public class AppD extends App implements KeyEventDispatcher {
 			this.showGrid = showGridParam;
 			this.getSettings().getEuclidian(1).showGrid(showGridParam);
 			this.getSettings().getEuclidian(2).showGrid(showGridParam);
+		}
+
+		if (args.containsArg("giacJSONtests")) {
+			String filename = args.getStringValue("giacJSONtests");
+
+			// Open the file
+			FileInputStream fstream;
+			try {
+				fstream = new FileInputStream(filename);
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						fstream, "UTF8"));
+
+				String strLine;
+
+				// Read File Line By Line
+				while ((strLine = br.readLine()) != null
+						&& (strLine.indexOf("JSONSTART") == -1)) {
+					// Print the content on the console
+					System.out.println("IGNORE " + strLine);
+				}
+
+				while ((strLine = br.readLine()) != null
+						&& (strLine.indexOf("JSONEND") == -1)) {
+					// Print the content on the console
+
+					strLine = strLine.trim();
+
+					if (strLine.endsWith(",")) {
+						strLine = strLine.substring(0, strLine.length() - 1);
+					}
+					System.out.println(strLine);
+
+					if (strLine.startsWith("{")) {
+
+						JSONTokener tokener = new JSONTokener(strLine);
+						JSONObject response = new JSONObject(tokener);
+						String command = (String) response.get("cmd");
+						String result = (String) response.get("result");
+						String category = (String) response.get("cat");
+						// String notes = (String) response.get("notes");
+						// JSONObject responseArray =
+						// response.getJSONObject("cmd");
+
+						// System.out.println("response = " + response);
+						// System.out.println("result = " + result);
+
+						//command = "Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]";
+						//result = "{-ln(55)/ln(13/5)}|OR|{x=(-ln(11)-ln(5))/(ln(13)-ln(5))}";
+
+						String casResult = getGgbApi().evalGeoGebraCAS(command);
+
+
+						// remove spaces
+						casResult = casResult.replace(" ", "");
+						result = result.replace(" ", "");
+
+						casResult = casResult.replaceAll("arbconst\\([0-9]\\)",
+								"c_0");
+
+						casResult = casResult.replaceAll("arbint\\([0-9]\\)",
+								"n_0");
+
+						String[] results = {result};
+						
+						if (result.indexOf("|OR|") > -1) {
+							results = result.split("\\|OR\\|");
+						}
+
+						boolean OK = false;
+
+						// check if one of the answers matches
+						for (int i = 0; i < results.length; i++) {
+							if (casResult.equals(results[i])) {
+								OK = true;
+								break;
+							}
+						}
+
+						if (OK) {
+							System.err.println("OK");
+						} else {
+							System.err.println("not OK");
+							System.err.println("cmd = " + command);
+							System.err.println("result = " + result);
+							System.err.println("casResult = " + casResult);
+						}
+
+					}
+
+
+				}
+
+				br.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.exit(0);
+
 		}
 
 		if (args.containsArg("forceFont")) {
