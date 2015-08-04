@@ -949,6 +949,11 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (args.containsArg("giacJSONtests")) {
+
+			// set CAS timeout to 13 seconds
+			kernel.getApplication().getSettings().getCasSettings()
+					.setTimeoutMilliseconds(13000);
+
 			String filename = args.getStringValue("giacJSONtests");
 
 			// Open the file
@@ -997,16 +1002,22 @@ public class AppD extends App implements KeyEventDispatcher {
 
 						String casResult = getGgbApi().evalGeoGebraCAS(command);
 
+						String casResultOriginal = casResult;
 
 						// remove spaces
 						casResult = casResult.replace(" ", "");
 						result = result.replace(" ", "");
 
-						casResult = casResult.replaceAll("arbconst\\([0-9]\\)",
+						// sort out arbitrary constants
+						result = result.replaceAll("n_[0-9]*", "n_0");
+						result = result.replaceAll("c_[0-9]*", "c_0");
+
+						casResult = casResult.replaceAll(
+								"arbconst\\([0-9]*\\)",
 								"c_0");
 
-						casResult = casResult.replaceAll("arbint\\([0-9]\\)",
-								"n_0");
+						casResult = casResult.replaceAll(
+								"arbint\\(([0-9]*)\\)", "n_0");
 
 						String[] results = {result};
 						
@@ -1024,13 +1035,14 @@ public class AppD extends App implements KeyEventDispatcher {
 							}
 						}
 
-						if (OK) {
+						if (OK || "RANDOM".equals(result)) {
 							System.err.println("OK");
 						} else {
 							System.err.println("not OK");
 							System.err.println("cmd = " + command);
 							System.err.println("result = " + result);
-							System.err.println("casResult = " + casResult);
+							System.err.println("casResult = "
+									+ casResultOriginal);
 						}
 
 					}
