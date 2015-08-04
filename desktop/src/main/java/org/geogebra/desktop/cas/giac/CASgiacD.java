@@ -221,7 +221,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 			if (!giacSetToGeoGebraMode) {
 
-				evalRaw(initString);
+				// now done in evalRaw
+				// evalRaw(initString);
 				evalRaw("\"timeout " + (timeoutMillis / 1000) + "\"");
 
 				giacSetToGeoGebraMode = true;
@@ -352,9 +353,14 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	 */
 	String evalRaw(String exp0) {
 
+		// make sure we are in GeoGebra mode
+		// Giac seems to forget sometimes
+		gen g = new gen(initString, C);
+		g = g.eval(1, C);
+
 		String exp = wrapInevalfa(exp0);
 
-		gen g = new gen("caseval(" + exp + ")", C);
+		g = new gen("caseval(" + exp + ")", C);
 		App.debug("giac evalRaw input: " + exp);
 		g = g.eval(1, C);
 		String ret = g.print(C);
