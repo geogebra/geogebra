@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoPointInRegion;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
-import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
@@ -440,9 +440,9 @@ public class GeoTextField extends GeoButton {
 	public boolean isFixed() { 
 
 		// make sure dragging on touch gives focus to TextField 
-		if (kernel.getApplication().isHTML5Applet()) { 
-			return false; 
-		} 
+		if (kernel.getApplication().isHTML5Applet()) {
+			return false;
+		}
 
 		return super.isFixed(); 
 	}

@@ -85,7 +85,7 @@ public class DrawTextField extends Drawable implements
 		this.geoTextField = geo;
 		this.geo = geo;
 		drawOnCanvas = view.getApplication().has(
-				Feature.DRAW_FURNITURE_TO_CANVAS);
+				Feature.DRAW_INPUTBOXES_TO_CANVAS);
 		box = geo.getKernel().getApplication().getSwingFactory()
 				.createHorizontalBox(view.getEuclidianController());
 		// action listener for checkBox
@@ -533,7 +533,7 @@ public class DrawTextField extends Drawable implements
 	final public boolean hit(int x, int y, int hitThreshold) {
 		boolean res = false;
 		if (drawOnCanvas) {
-			int left = boxLeft;
+			int left = xLabel;
 			int top = boxTop;
 			int right = left + boxWidth;
 			int bottom = top + boxHeight;

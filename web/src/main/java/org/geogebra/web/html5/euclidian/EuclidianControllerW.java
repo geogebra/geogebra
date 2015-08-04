@@ -282,7 +282,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
+	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
 
 
 		if (isComboboxFocused()) {

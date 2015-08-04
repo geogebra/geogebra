@@ -3898,7 +3898,7 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case LOG_AXES:
-		case DRAW_FURNITURE_TO_CANVAS:
+		case DRAW_INPUTBOXES_TO_CANVAS:
 			return prerelease;
 		case SEQUENTIAL_COLORS:
 		case INPUT_SHOWN_IN_INPUTBAR:

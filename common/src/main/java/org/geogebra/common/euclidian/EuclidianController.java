@@ -6656,7 +6656,10 @@ public abstract class EuclidianController {
 	 * @param type
 	 *            event type
 	 */
-	public boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
+	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
+		if (app.has(Feature.DRAW_INPUTBOXES_TO_CANVAS)) {
+			return view.textfieldClicked(x, y, type);
+		}
 		return false;
 	}
 
@@ -7996,7 +7999,7 @@ public abstract class EuclidianController {
 						filter.run();
 					}
 
-					if (!(view.getHits().get(0) instanceof GeoButton)) {
+					if (view.getHits().size() > 0 && !(view.getHits().get(0) instanceof GeoButton)) {
 						return;
 					}
 				} else if (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX) {
@@ -9161,7 +9164,7 @@ public abstract class EuclidianController {
 		transformCoordsOffset[0] = 0;
 		transformCoordsOffset[1] = 0;
 
-		if (this.textfieldJustFocusedW(x, y, type)) {
+		if (this.textfieldJustFocused(x, y, type)) {
 			return;
 		}
 

@@ -262,7 +262,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 
 	@Override
-	public boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
+	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
 		return view.textfieldClicked(x, y, type);
 	}
 
