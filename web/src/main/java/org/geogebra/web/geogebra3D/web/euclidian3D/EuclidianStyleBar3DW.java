@@ -1,5 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
@@ -130,6 +132,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	}
 
+	@Override
 	protected void createChangeViewButtons() {
 		ImageOrText[] directionIcons = ImageOrText.convert(new ImageResource[] {
 				StyleBarResources.INSTANCE.standard_view(),
@@ -301,7 +304,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	@Override
 	protected void addBtnRotateView() {
-
+		add(btnViewProjection);
 		add(btnRotateView);
 
 	}
@@ -377,5 +380,33 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		btnShowAxesAndPlane.removeActionListener(this);
 		btnShowAxesAndPlane.setIndexFromEV();
+	}
+
+	@Override
+	protected boolean processSource(Object source,
+			ArrayList<GeoElement> targetGeos) {
+		if (source.equals(btnViewProjection)) {
+			int si = btnViewProjection.getSelectedIndex();
+			switch (si) {
+			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+				getView().getSettings().setProjection(
+						EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
+				break;
+			case EuclidianView3D.PROJECTION_PERSPECTIVE:
+				getView().getSettings().setProjection(
+						EuclidianView3D.PROJECTION_PERSPECTIVE);
+				break;
+			case EuclidianView3D.PROJECTION_GLASSES:
+				getView().getSettings().setProjection(
+						EuclidianView3D.PROJECTION_GLASSES);
+				break;
+			case EuclidianView3D.PROJECTION_OBLIQUE:
+				getView().getSettings().setProjection(
+						EuclidianView3D.PROJECTION_OBLIQUE);
+				break;
+			}
+			return true;
+		}
+		return super.processSource(source, targetGeos);
 	}
 }

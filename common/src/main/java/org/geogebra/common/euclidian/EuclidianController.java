@@ -7720,6 +7720,9 @@ public abstract class EuclidianController {
 
 	protected boolean allowSelectionRectangle() {
 		switch (mode) {
+		case EuclidianConstants.MODE_ZOOM_IN:
+		case EuclidianConstants.MODE_ZOOM_OUT:
+			return true;
 		// move objects
 		case EuclidianConstants.MODE_MOVE:
 			return moveMode == MOVE_NONE;
@@ -8823,7 +8826,8 @@ public abstract class EuclidianController {
 		app.updateSelection(hits.size() > 0);
 	}
 
-	protected void processSelectionRectangle(boolean alt, boolean isControlDown) {
+	protected void processSelectionRectangle(boolean alt,
+			boolean isControlDown, boolean shift) {
 		startCollectingMinorRepaints();
 
 		clearSelections();
@@ -8834,6 +8838,10 @@ public abstract class EuclidianController {
 		boolean changedKernel = false;
 
 		switch (mode) {
+		case EuclidianConstants.MODE_ZOOM_IN:
+		case EuclidianConstants.MODE_ZOOM_OUT:
+			processZoomRectangle();
+			break;
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			break;
 
@@ -8925,6 +8933,9 @@ public abstract class EuclidianController {
 				}
 				sb.append("} ");
 				textComponent.replaceSelection(sb.toString());
+			} else if (shift) {
+				processZoomRectangle();
+				return;
 			}
 			break;
 		}
@@ -9245,7 +9256,8 @@ public abstract class EuclidianController {
 													// !TEMPORARY_MODE)
 		{
 			if (!temporaryMode) {
-				processRightReleased(right, control, type);
+				processRightReleased(right, alt, control, event.isShiftDown(),
+						type);
 				return;
 			}
 		}
@@ -9273,7 +9285,7 @@ public abstract class EuclidianController {
 			if (!temporaryMode) {
 				// Michael Borcherds 2007-10-08
 				if (allowSelectionRectangle()) {
-					processSelectionRectangle(alt, control);
+					processSelectionRectangle(alt, control, event.isShiftDown());
 
 					return;
 				}
@@ -9461,7 +9473,8 @@ public abstract class EuclidianController {
 
 	}
 
-	private void processRightReleased(boolean right, boolean control,
+	private void processRightReleased(boolean right, boolean alt,
+			boolean control, boolean shift,
 			PointerEventType type) {
 		
 		if (!app.isRightClickEnabled()) {
@@ -9479,7 +9492,7 @@ public abstract class EuclidianController {
 		}
 		if (draggingOccured && app.has(Feature.SF_DRAG)) {
 			if (allowSelectionRectangle()) {
-				processSelectionRectangle(false, control);
+				processSelectionRectangle(alt, control, shift);
 				return;
 			}
 		}
@@ -9494,7 +9507,7 @@ public abstract class EuclidianController {
 				if (view.getSelectionRectangle() != null) {
 					// don't show a contextMenu if there's a
 					// selectionRectangle
-					processSelectionRectangle(false, control);
+					processSelectionRectangle(alt, control, shift);
 					return;
 				} else if (selection.selectedGeosSize() > 0) {
 					// GeoElement selGeo = (GeoElement)
@@ -9908,7 +9921,7 @@ public abstract class EuclidianController {
 				&& (view.getSelectionRectangle() != null)) {
 			initNewMode(newMode);
 			if (app.getActiveEuclidianView() == view) {
-				processSelectionRectangle(false, false);
+				processSelectionRectangle(false, false, false);
 			}
 		} else if (EuclidianView.usesSelectionAsInput(newMode)) {
 			initNewMode(newMode);
