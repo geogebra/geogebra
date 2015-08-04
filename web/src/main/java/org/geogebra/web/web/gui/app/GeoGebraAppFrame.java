@@ -65,6 +65,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 
 	private int id;
 	private static int counter = 0;
+
 	public GeoGebraAppFrame(GLookAndFeel laf, GDevice device, AppletFactory factory) {
 		this.laf = laf;
 		this.device = device;
@@ -377,6 +378,11 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		} else {
 			this.frameLayout.keyBoardNeeded(show, textField);
 		}
+	}
+
+	@Override
+	public void updateKeyboardHeight() {
+		this.frameLayout.updateKeyboardHeight();
 	}
 
 	@Override

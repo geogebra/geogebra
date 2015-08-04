@@ -7,11 +7,9 @@ public interface UpdateKeyBoardListener {
 
 	public void showInputField();
 
-	public void keyBoardNeeded(boolean show,
-	        MathKeyboardListener textField);
+	public void keyBoardNeeded(boolean show, MathKeyboardListener textField);
 
-	public void doShowKeyBoard(boolean b,
-	        MathKeyboardListener textField);
+	public void doShowKeyBoard(boolean b, MathKeyboardListener textField);
 
 	public AppW getAppW();
 }

@@ -87,6 +87,13 @@
 	cursor: pointer;
 	border-radius: 5px;
 	background-color: #F8F8F8;
+	white-space: nowrap;
+}
+
+.lowerHeight .KeyBoardButton {
+	height: 10px;
+	padding-top: 3px;
+    padding-bottom: 13px;
 }
 
 .KeyBoardButton.accentDown {
@@ -118,8 +125,9 @@
 	padding-bottom: 12px;
 }
 
-.KeyBoardButton.switchToSpecialChar {
-	white-space: nowrap;
+.lowerHeight .KeyBoardButton.backspace {
+    padding-top: 1px;
+    padding-bottom: 15px;
 }
 
 /* -- NUMBERS -- */
@@ -136,6 +144,14 @@
 
 .KeyBoardButton.enter {
 	height: 64px;
+}
+
+.lowerHeight .KeyBoardButton.enter {
+    height: 41px;
+}
+
+.lowerHeight .KeyBoardButton.enter img {
+	padding-top: 15px;	
 }
 
 .KeyBoardButton.enter img {
@@ -198,6 +214,10 @@
 }
 
 .scale .KeyPanelRow td {
+	width: 25%;
+}
+
+.scale .KeyPanelLetters .KeyPanelRow td {
 	width: 7%;
 }
 
@@ -210,36 +230,37 @@
 	padding-right: 0px;
 }
 
-.scale.smallerFont .KeyPanelControl,
-.scale.smallerFont .KeyPanelFunction,
-.scale.smallerFont .KeyPanelLetters .KeyBoardButton.colored {
-	font-size: 75%;
+.scale.smallerFont {
+	font-size: 100% !important;
 }
 
-/* -- NUMBERS -- */
+.scale.smallerFont .switchKeyboard {
+	font-size: 10pt;
+}
+
+.scale.smallerFont .KeyBoardContentNumbers .KeyBoardButton.colored {
+	font-size: 86% !important;
+}
+
+
+.scale.smallerFont .KeyBoardContentSpecialChars .KeyPanelFunction {
+	font-size: 75% !important;
+}
+
+.scale.smallerFont .KeyBoardButton.supScript .gwt-Label {
+	margin-top: -5px;
+}
+
 .scale .KeyPanelFunction,
 .scale .KeyPanelNum {
 	padding-right: 2%;
 }
 
-.scale .KeyBoardContentNumbers .KeyPanelFunction .KeyPanelRow td {
-	width: 20%;
-}
-
-.scale .KeyBoardContentNumbers .KeyPanelNum .KeyPanelRow td {
-	width: 25%;
-}
-
-.scale .KeyBoardContentNumbers>tbody>tr>td {
- 	width: 50%;
-}
-
+.scale .KeyBoardContentSpecialChars>tbody>tr>td,
+.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(2),
+.scale .KeyBoardContentNumbers>tbody>tr>td, 
 .scale .KeyBoardContentNumbers>tbody>tr>td:nth-child(2) {
-	width: 40%;
-}
-
-.scale .KeyBoardContentNumbers>tbody>tr>td:nth-child(3) {
-	width: 8%;
+ 	width: 50%;
 }
 
 /* -- LETTERS -- */
@@ -248,27 +269,10 @@
 .scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(4) {
 	width: 50%;
 }
-
-
-/* -- SPECIAL CHARS --*/
-.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(1) {
- 	width: 25%;
+/* width of panel with enter, delete, left, right */
+.scale .KeyPanelLetters .KeyPanelRow td {
+	width: 9%;
 }
 
-.scale .KeyBoardContentSpecialChars .KeyPanelFunction .KeyPanelRow td {
-	width: 30%;
-}
-
-.scale .KeyBoardContentSpecialChars .KeyPanelNum .KeyPanelRow td {
-	width: 15%;
-}
-
-.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(2) {
-	width: 50%;
-}
-
-.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(3) {
-	width: 8%;
-}
 
 /* ### End onScreenKeyboard ### */

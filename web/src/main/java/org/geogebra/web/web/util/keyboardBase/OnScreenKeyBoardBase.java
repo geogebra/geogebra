@@ -69,5 +69,4 @@ public class OnScreenKeyBoardBase extends KBBase {
 		setStyleName();//maybe not needed always, but definitely in Win8 app
 		super.show();
 	}
-
 }

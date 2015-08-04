@@ -84,4 +84,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	public void showKeyboardOnFocus() {
 		// no keyboard
 	}
+
+	public void updateKeyboardHeight() {
+		// no keyboard
+	}
 }

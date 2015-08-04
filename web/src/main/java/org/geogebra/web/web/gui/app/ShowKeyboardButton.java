@@ -29,8 +29,8 @@ public class ShowKeyboardButton extends SimplePanel {
 	/**
 	 * @param listener
 	 *            {@link UpdateKeyBoardListener}
-	 * @param textField
-	 *            {@link Widget}
+	 * @param dm
+	 *            {@link DockManagerW}
 	 * @param parent
 	 *            {@link Element}
 	 */

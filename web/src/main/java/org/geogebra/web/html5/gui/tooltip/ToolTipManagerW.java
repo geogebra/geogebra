@@ -183,9 +183,9 @@ public class ToolTipManagerW {
 		bottomInfoTipHTML.setStyleName("infoText");
 
 		questionMark = GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
-		        .asString();
+				.asString();
 		viewSavedFile = GuiResourcesSimple.INSTANCE.viewSaved().getSafeUri()
-		        .asString();
+				.asString();
 
 		bottomInfoTipPanel = new HorizontalPanel();
 		bottomInfoTipPanel.setStyleName("infoTooltip");
@@ -195,10 +195,8 @@ public class ToolTipManagerW {
 		RootPanel.get().add(bottomInfoTipPanel);
 		ClickEndHandler.init(bottomInfoTipPanel, new ClickEndHandler() {
 
-
 			@Override
-			public void onClickEnd(int x, int y,
- PointerEventType type) {
+			public void onClickEnd(int x, int y, PointerEventType type) {
 				if (helpURL != null) {
 					openWindow(helpURL);
 					hideAllToolTips();
@@ -229,7 +227,7 @@ public class ToolTipManagerW {
 	 *            app for positioning
 	 */
 	public void showBottomInfoToolTip(String text, final String helpLinkURL,
-	        ToolTipLinkType link, AppW app) {
+			ToolTipLinkType link, AppW app) {
 		if (blockToolTip) {
 			return;
 		}
@@ -241,23 +239,22 @@ public class ToolTipManagerW {
 		}
 
 		boolean online = app == null || app.getNetworkOperation() == null
-		        || app.getNetworkOperation().isOnline();
+				|| app.getNetworkOperation().isOnline();
 		this.helpURL = helpLinkURL;
 		if (helpLinkURL != null && helpLinkURL.length() > 0 && link != null
-		        && online) {
+				&& online) {
 
 			helpLabel = new Label();
 
 			if (link.equals(ToolTipLinkType.Help)) {
 				helpLabel.getElement().getStyle()
-				        .setBackgroundImage("url(" + this.questionMark + ")");
+						.setBackgroundImage("url(" + this.questionMark + ")");
 			} else if (link.equals(ToolTipLinkType.ViewSavedFile)) {
 				helpLabel.getElement().getStyle()
-				        .setBackgroundImage("url(" + this.viewSavedFile + ")");
+						.setBackgroundImage("url(" + this.viewSavedFile + ")");
 			}
 			// IE and FF block popups if they are comming from mousedown, so use
 			// mouseup instead
-
 
 			helpLabel.addStyleName("manualLink");
 
@@ -272,21 +269,16 @@ public class ToolTipManagerW {
 		bottomInfoTipPanel.setVisible(true);
 
 		if (app != null) {
-		// Helps to align the InfoTooltip in the center of the screen:
+			// Helps to align the InfoTooltip in the center of the screen:
 
 			Style style = bottomInfoTipPanel.getElement().getStyle();
-			style.setLeft(
-					app.getAbsLeft()
-			                + ((app.getWidth() - bottomInfoTipPanel
-.getOffsetWidth()))
+			style.setLeft(app.getAbsLeft()
+					+ ((app.getWidth() - bottomInfoTipPanel.getOffsetWidth()))
 					/ 2, Unit.PX);
 
-			style.setTop(
-app.getAbsTop()
-					+ (app.getHeight()
- - (app.getAppletFrame()
-							.isKeyboardShowing() ? 250 : 70)),
-			        Unit.PX);
+			style.setTop(app.getAbsTop()
+					+ (app.getHeight() - (app.getAppletFrame()
+							.isKeyboardShowing() ? 250 : 70)), Unit.PX);
 		}
 		if (link == ToolTipLinkType.Help && helpLinkURL != null
 				&& helpLinkURL.length() > 0) {
@@ -463,14 +455,14 @@ app.getAbsTop()
 		// handle toolTip overflow at left and bottom edge
 		int w = tipPanel.getOffsetWidth();
 		int windowLeft = RootPanel.get().getAbsoluteLeft()
-		        + RootPanel.get().getOffsetWidth();
+				+ RootPanel.get().getOffsetWidth();
 		if (left + w > windowLeft) {
 			left = left - w;
 		}
 
 		int h = tipPanel.getOffsetHeight();
 		int windowBottom = RootPanel.get().getAbsoluteTop()
-		        + RootPanel.get().getOffsetHeight();
+				+ RootPanel.get().getOffsetHeight();
 		if (top + h > windowBottom) {
 			top = windowBottom - h;
 		}
@@ -569,8 +561,7 @@ app.getAbsTop()
 			return;
 		}
 		// exit if toolTip is already hidden
-		if (!tipPanel.isVisible()
-		        && oldText.equals("")) {
+		if (!tipPanel.isVisible() && oldText.equals("")) {
 			return;
 		}
 
@@ -647,8 +638,8 @@ app.getAbsTop()
 	}
 
 	public void registerWidget(final Widget widget,
-	        final AsyncOperation toolTipHandler, final boolean alignToElement,
-	        final boolean showImmediately1) {
+			final AsyncOperation toolTipHandler, final boolean alignToElement,
+			final boolean showImmediately1) {
 
 		MouseOverHandler mouseOverHandler = new MouseOverHandler() {
 			@Override
@@ -661,10 +652,10 @@ app.getAbsTop()
 				toolTipHandler.callback(null);
 				if (alignToElement) {
 					sharedInstance().showToolTip(widget.getElement(),
-					        (String) toolTipHandler.getData());
+							(String) toolTipHandler.getData());
 				} else {
 					sharedInstance().showToolTip(
-					        (String) toolTipHandler.getData());
+							(String) toolTipHandler.getData());
 				}
 
 				if (showImmediately1) {

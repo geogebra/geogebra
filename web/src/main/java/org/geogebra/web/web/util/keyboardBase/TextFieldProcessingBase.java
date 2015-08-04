@@ -303,7 +303,9 @@ public class TextFieldProcessingBase implements KeyBoardProcessable {
 	private static boolean keyPressNeeded(String text) {
 		return text.equals("/") || text.equals("_") || text.equals("$")
 				|| text.equals(" ") || text.equals("|") || text.equals(",")
-				|| text.equals("*") || text.startsWith("(")
+				|| text.equals("*") || text.startsWith("(") || text.equals(")")
+				|| text.equals("[") || text.equals("]") || text.equals("{")
+				|| text.equals("}")
 				|| text.equals(Unicode.SQUARE_ROOT + "")
 				// allowing both syntaxes for * and / here
 				|| text.equals(Unicode.MULTIPLY + "")

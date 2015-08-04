@@ -81,7 +81,7 @@ public class AppWapplet extends AppWFull {
 	 * @param gf
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf, int dimension,
-	        GLookAndFeel laf) {
+			GLookAndFeel laf) {
 		this(ae, gf, true, dimension, laf);
 	}
 
@@ -92,7 +92,7 @@ public class AppWapplet extends AppWFull {
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
-	        final boolean undoActive, int dimension, GLookAndFeel laf) {
+			final boolean undoActive, int dimension, GLookAndFeel laf) {
 		super(ae, dimension, laf);
 		this.frame = gf;
 		this.objectPool = new ObjectPool();
@@ -100,19 +100,19 @@ public class AppWapplet extends AppWFull {
 		setAppletWidth(frame.getComputedWidth());
 
 		this.useFullGui = !isApplet() || ae.getDataParamShowAlgebraInput(false)
-		        || ae.getDataParamShowToolBar(false)
-		        || ae.getDataParamShowMenuBar(false)
-		        || ae.getDataParamEnableRightClick();
+				|| ae.getDataParamShowToolBar(false)
+				|| ae.getDataParamShowMenuBar(false)
+				|| ae.getDataParamEnableRightClick();
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
-		        + GeoGebraConstants.BUILD_DATE + " "
-		        + Window.Navigator.getUserAgent());
+				+ GeoGebraConstants.BUILD_DATE + " "
+				+ Window.Navigator.getUserAgent());
 		initCommonObjects();
 		initing = true;
 
 		this.euclidianViewPanel = new EuclidianDockPanelW(this,
-		        getArticleElement().getDataParamShowMenuBar(false)
-		                || getArticleElement().getDataParamAllowStyleBar(false));
+				getArticleElement().getDataParamShowMenuBar(false)
+						|| getArticleElement().getDataParamAllowStyleBar(false));
 		// (EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
@@ -137,7 +137,7 @@ public class AppWapplet extends AppWFull {
 		if (ggwMenuBar == null) {
 			ggwMenuBar = new GGWMenuBar();
 			((GuiManagerW) getGuiManager()).getObjectPool().setGgwMenubar(
-			        ggwMenuBar);
+					ggwMenuBar);
 		}
 		return ggwMenuBar;
 	}
@@ -157,7 +157,8 @@ public class AppWapplet extends AppWFull {
 		// this should not be called from AppWsimple!
 		setWaitCursor();
 		guiManager = newGuiManager();
-		getGuiManager().setLayout(new org.geogebra.web.web.gui.layout.LayoutW(this));
+		getGuiManager().setLayout(
+				new org.geogebra.web.web.gui.layout.LayoutW(this));
 		getGuiManager().initialize();
 		setDefaultCursor();
 	}
@@ -193,15 +194,15 @@ public class AppWapplet extends AppWFull {
 			this.getEuclidianView1().createImage();
 			((DockPanelW) getEuclidianViewpanel()).setVisible(true);
 			((DockPanelW) getEuclidianViewpanel())
-			        .setEmbeddedSize(getSettings().getEuclidian(1)
-			                .getPreferredSize().getWidth());
+					.setEmbeddedSize(getSettings().getEuclidian(1)
+							.getPreferredSize().getWidth());
 			((DockPanelW) getEuclidianViewpanel()).updatePanel(false);
 			getEuclidianViewpanel()
-			        .setPixelSize(
-			                getSettings().getEuclidian(1).getPreferredSize()
-			                        .getWidth(),
-			                getSettings().getEuclidian(1).getPreferredSize()
-			                        .getHeight());
+					.setPixelSize(
+							getSettings().getEuclidian(1).getPreferredSize()
+									.getWidth(),
+							getSettings().getEuclidian(1).getPreferredSize()
+									.getHeight());
 
 			// FIXME: temporary hack until it is found what causes
 			// the 1px difference
@@ -210,15 +211,15 @@ public class AppWapplet extends AppWFull {
 			// getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setTop(1,
 			// Style.Unit.PX);
 			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
-			        .setBottom(-1, Style.Unit.PX);
+					.setBottom(-1, Style.Unit.PX);
 			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
-			        .setRight(-1, Style.Unit.PX);
+					.setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
 		}
 	}
 
 	private Widget oldSplitLayoutPanel = null; // just a technical helper
-	                                           // variable
+												// variable
 	private HorizontalPanel splitPanelWrapper = null;
 
 	private CustomizeToolbarGUI ct;
@@ -253,8 +254,8 @@ public class AppWapplet extends AppWFull {
 			attachToolbar();
 		}
 		if (this.getInputPosition() == InputPositon.top
-		        && articleElement
-		                .getDataParamShowAlgebraInput(showAlgebraInput)) {
+				&& articleElement
+						.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
 		}
 		attachSplitLayoutPanel();
@@ -263,8 +264,8 @@ public class AppWapplet extends AppWFull {
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
 		if (this.getInputPosition() == InputPositon.bottom
-		        && articleElement
-		                .getDataParamShowAlgebraInput(showAlgebraInput)) {
+				&& articleElement
+						.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
 		}
 
@@ -273,8 +274,8 @@ public class AppWapplet extends AppWFull {
 
 	public void refreshSplitLayoutPanel() {
 		if (frame != null && frame.getWidgetCount() != 0
-		        && frame.getWidgetIndex(getSplitLayoutPanel()) == -1
-		        && frame.getWidgetIndex(oldSplitLayoutPanel) != -1) {
+				&& frame.getWidgetIndex(getSplitLayoutPanel()) == -1
+				&& frame.getWidgetIndex(oldSplitLayoutPanel) != -1) {
 			int wi = frame.getWidgetIndex(oldSplitLayoutPanel);
 			frame.remove(oldSplitLayoutPanel);
 			frame.insert(getSplitLayoutPanel(), wi);
@@ -290,7 +291,7 @@ public class AppWapplet extends AppWFull {
 		inputbar.attachApp(this);
 		frame.add(inputbar);
 		this.getGuiManager().getAlgebraInput()
-		        .setInputFieldWidth(this.appletWidth);
+				.setInputFieldWidth(this.appletWidth);
 	}
 
 	public void attachMenubar() {
@@ -318,14 +319,14 @@ public class AppWapplet extends AppWFull {
 
 	public void attachSplitLayoutPanel() {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
-		
+
 		if (oldSplitLayoutPanel != null) {
 			if (getArticleElement().getDataParamShowMenuBar(false)) {
 				this.splitPanelWrapper = new HorizontalPanel();
 
 				splitPanelWrapper.add(oldSplitLayoutPanel);
 				if (this.menuShowing) {
-				splitPanelWrapper.add(getMenuBar());
+					splitPanelWrapper.add(getMenuBar());
 				}
 				frame.add(splitPanelWrapper);
 
@@ -333,27 +334,29 @@ public class AppWapplet extends AppWFull {
 				frame.add(oldSplitLayoutPanel);
 			}
 			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
-		
-			ClickStartHandler.init(oldSplitLayoutPanel, new ClickStartHandler() {
-				@Override
-				public void onClickStart(int x, int y, final PointerEventType type) {
-							AlgebraStyleBarW styleBar = ((AlgebraViewW)
-							getView(App.VIEW_ALGEBRA)).getStyleBar(false);
-					if (styleBar != null) {
-						styleBar.update(null);
-					}
-	
-					if (!CancelEventTimer.cancelKeyboardHide()) {
-						Timer timer = new Timer() {
-							@Override
-							public void run() {
-								frame.keyBoardNeeded(false, null);
+
+			ClickStartHandler.init(oldSplitLayoutPanel,
+					new ClickStartHandler() {
+						@Override
+						public void onClickStart(int x, int y,
+								final PointerEventType type) {
+							AlgebraStyleBarW styleBar = ((AlgebraViewW) getView(App.VIEW_ALGEBRA))
+									.getStyleBar(false);
+							if (styleBar != null) {
+								styleBar.update(null);
 							}
-						};
-						timer.schedule(0);
-					}
-				}
-			});
+
+							if (!CancelEventTimer.cancelKeyboardHide()) {
+								Timer timer = new Timer() {
+									@Override
+									public void run() {
+										frame.keyBoardNeeded(false, null);
+									}
+								};
+								timer.schedule(0);
+							}
+						}
+					});
 		}
 	}
 
@@ -362,7 +365,7 @@ public class AppWapplet extends AppWFull {
 		String perspective = getArticleElement().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()
-			        || perspective.length() > 0) {
+					|| perspective.length() > 0) {
 				useFullGui = true;
 			}
 		}
@@ -372,20 +375,20 @@ public class AppWapplet extends AppWFull {
 		} else {
 			// a small thing to fix a rare bug
 			((LayoutW) getGuiManager().getLayout()).getDockManager()
-			        .kickstartRoot(frame);
+					.kickstartRoot(frame);
 			Perspective p = null;
 			if (perspective != null) {
 				p = PerspectiveDecoder.decode(perspective, this.getKernel()
-				        .getParser(), ToolBar.getAllToolsNoMacros(true, false));
+						.getParser(), ToolBar.getAllToolsNoMacros(true, false));
 			}
 			getGuiManager().getLayout()
-			        .setPerspectives(getTmpPerspectives(), p);
+					.setPerspectives(getTmpPerspectives(), p);
 		}
 
 		getScriptManager().ggbOnInit(); // put this here from Application
-		                                // constructor because we have to delay
-		                                // scripts until the EuclidianView is
-		                                // shown
+										// constructor because we have to delay
+										// scripts until the EuclidianView is
+										// shown
 
 		initUndoInfoSilent();
 
@@ -412,7 +415,7 @@ public class AppWapplet extends AppWFull {
 			// bugs
 			if (getGuiManager().hasSpreadsheetView()) {
 				DockPanel sp = getGuiManager().getLayout().getDockManager()
-				        .getPanel(App.VIEW_SPREADSHEET);
+						.getPanel(App.VIEW_SPREADSHEET);
 				if (sp != null) {
 					sp.deferredOnResize();
 				}
@@ -425,16 +428,14 @@ public class AppWapplet extends AppWFull {
 		this.setPreferredSize(new GDimensionW((int) this.getWidth(), (int) this
 				.getHeight()));
 		setDefaultCursor();
-		GeoGebraFrame.useDataParamBorder(getArticleElement(),
- frame);
+		GeoGebraFrame.useDataParamBorder(getArticleElement(), frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
 		showStartTooltip();
 	}
 
-
-
 	private View focusedView;
+
 	@Override
 	public void focusLost(View v, Element el) {
 		super.focusLost(v, el);
@@ -442,8 +443,7 @@ public class AppWapplet extends AppWFull {
 			return;
 		}
 		focusedView = null;
-		GeoGebraFrame.useDataParamBorder(getArticleElement(),
- frame);
+		GeoGebraFrame.useDataParamBorder(getArticleElement(), frame);
 
 		// if it is there in focusGained, why not put it here?
 		this.getGlobalKeyDispatcher().InFocus = false;
@@ -488,8 +488,8 @@ public class AppWapplet extends AppWFull {
 	public void setCustomToolBar() {
 		String customToolbar = articleElement.getDataParamCustomToolBar();
 		if ((customToolbar != null) && (customToolbar.length() > 0)
-		        && (articleElement.getDataParamShowToolBar(false))
-		        && (getGuiManager() != null)) {
+				&& (articleElement.getDataParamShowToolBar(false))
+				&& (getGuiManager() != null)) {
 			getGuiManager().setGeneralToolBarDefinition(customToolbar);
 		}
 	}
@@ -501,14 +501,14 @@ public class AppWapplet extends AppWFull {
 			// this should follow the resizing of the EuclidianView
 			if (getSplitLayoutPanel() != null)
 				getSplitLayoutPanel().setPixelSize(
-				        getSplitLayoutPanel().getOffsetWidth() + widthDiff,
-				        getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
+						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
 		} else if (evno == 2 && hasEuclidianView2(1)
-		        && getEuclidianView2(1).isShowing()) {// or the EuclidianView 2
+				&& getEuclidianView2(1).isShowing()) {// or the EuclidianView 2
 			if (getSplitLayoutPanel() != null)
 				getSplitLayoutPanel().setPixelSize(
-				        getSplitLayoutPanel().getOffsetWidth() + widthDiff,
-				        getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
+						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
 		}
 	}
 
@@ -571,21 +571,17 @@ public class AppWapplet extends AppWFull {
 		// we need relative position to make sure the menubar / toolbar are not
 		// hiddn
 		this.oldSplitLayoutPanel.getElement().getStyle()
-		        .setPosition(Position.RELATIVE);
-		
+				.setPosition(Position.RELATIVE);
+
 		// TODO
 
 	}
 
 	@Override
 	public void updateContentPane() {
-
 		super.updateContentPane();
 		frame.setApplication(this);
 		frame.refreshKeyboard();
-
-
-
 	}
 
 	@Override
@@ -623,11 +619,11 @@ public class AppWapplet extends AppWFull {
 			}
 			this.splitPanelWrapper.add(this.getMenuBar());
 			this.oldSplitLayoutPanel.setPixelSize(
-			        this.oldSplitLayoutPanel.getOffsetWidth()
-			                - GLookAndFeel.MENUBAR_WIDTH,
-			        this.oldSplitLayoutPanel.getOffsetHeight());
+					this.oldSplitLayoutPanel.getOffsetWidth()
+							- GLookAndFeel.MENUBAR_WIDTH,
+					this.oldSplitLayoutPanel.getOffsetHeight());
 			this.getMenuBar().setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
-			        this.oldSplitLayoutPanel.getOffsetHeight());
+					this.oldSplitLayoutPanel.getOffsetHeight());
 			this.getGuiManager().refreshDraggingViews();
 			oldSplitLayoutPanel.getElement().getStyle()
 					.setOverflow(Overflow.HIDDEN);
@@ -699,7 +695,7 @@ public class AppWapplet extends AppWFull {
 		googleDriveOperation = new GoogleDriveOperationW(this);
 		String state = URL.getQueryParameterAsString("state");
 		if (getNetworkOperation().isOnline() && state != null
-		        && !"".equals(state)) {
+				&& !"".equals(state)) {
 			googleDriveOperation.initGoogleDriveApi();
 		}
 
@@ -747,8 +743,8 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void showConfirmDialog(String title, String mess) {
 		GOptionPaneW.INSTANCE.showInputDialog(this, "", title, mess,
-		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
-		        null, null);
+				GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
+				null, null);
 	}
 
 	@Override
@@ -760,11 +756,11 @@ public class AppWapplet extends AppWFull {
 		getEuclidianViewpanel().deferredOnResize();
 		if (hasEuclidianView2(1)) {
 			((GuiManagerW) getGuiManager()).getEuclidianView2DockPanel(1)
-			        .deferredOnResize();
+					.deferredOnResize();
 		}
 		if (getGuiManager().hasSpreadsheetView()) {
 			DockPanel sp = getGuiManager().getLayout().getDockManager()
-			        .getPanel(App.VIEW_SPREADSHEET);
+					.getPanel(App.VIEW_SPREADSHEET);
 			if (sp != null) {
 				sp.deferredOnResize();
 			}

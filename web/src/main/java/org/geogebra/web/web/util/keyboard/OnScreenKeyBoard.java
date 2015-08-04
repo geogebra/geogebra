@@ -20,8 +20,7 @@ import com.google.gwt.core.client.Scheduler;
 /**
  * on screen keyboard containing mathematical symbols and formulas
  */
-public class OnScreenKeyBoard extends KBBase implements
-		VirtualKeyboard {
+public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 
 	/**
 	 * set whether the keyboard is used at the moment or not
@@ -60,7 +59,6 @@ public class OnScreenKeyBoard extends KBBase implements
 
 	@Override
 	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
-
 		// TODO
 		ToolTipManagerW.hideAllToolTips();
 
@@ -109,6 +107,10 @@ public class OnScreenKeyBoard extends KBBase implements
 					setKeyboardMode(KeyboardMode.TEXT);
 				} else if (caption.equals(SPECIAL_CHARS)) {
 					setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
+				} else if (caption.equals(PAGE_ONE_OF_TWO)) {
+					showSecondPage();
+				} else if (caption.equals(PAGE_TWO_OF_TWO)) {
+					showFirstPage();
 				}
 			}
 		} else {
@@ -143,6 +145,16 @@ public class OnScreenKeyBoard extends KBBase implements
 						});
 			}
 		});
+	}
+
+	private void showFirstPage() {
+		specialCharContainer.clear();
+		specialCharContainer.add(firstPageChars);
+	}
+
+	private void showSecondPage() {
+		specialCharContainer.clear();
+		specialCharContainer.add(secondPageChars);
 	}
 
 	/**
@@ -252,7 +264,7 @@ public class OnScreenKeyBoard extends KBBase implements
 		this.keyboardWanted = true;
 		updateSize();
 		checkLanguage();
-		setStyleName();//maybe not needed always, but definitely in Win8 app
+		setStyleName();// maybe not needed always, but definitely in Win8 app
 		super.show();
 	}
 }

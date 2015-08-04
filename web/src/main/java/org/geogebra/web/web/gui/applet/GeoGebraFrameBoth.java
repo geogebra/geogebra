@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GeoGebraFrameBoth extends GeoGebraFrame implements
-        HeaderPanelDeck, UpdateKeyBoardListener {
+		HeaderPanelDeck, UpdateKeyBoardListener {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -43,8 +43,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElement ae,
-	        GLookAndFeelI laf) {
+	protected AppW createApplication(ArticleElement ae, GLookAndFeelI laf) {
 		AppW app = factory.getApplet(ae, this, laf);
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
@@ -58,10 +57,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	/**
 	 * Main entry points called by geogebra.web.Web.startGeoGebra()
+	 * 
 	 * @param geoGebraMobileTags
-	 *          list of &lt;article&gt; elements of the web page
+	 *            list of &lt;article&gt; elements of the web page
 	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags, AppletFactory factory, GLookAndFeel laf) {
+	public static void main(ArrayList<ArticleElement> geoGebraMobileTags,
+			AppletFactory factory, GLookAndFeel laf) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrame inst = new GeoGebraFrameBoth(factory, laf);
@@ -85,83 +86,85 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	}
 
 	/**
-	 * @param el html element to render into
+	 * @param el
+	 *            html element to render into
 	 */
-	public static void renderArticleElement(Element el, AppletFactory factory, GLookAndFeel laf, JavaScriptObject clb) {
+	public static void renderArticleElement(Element el, AppletFactory factory,
+			GLookAndFeel laf, JavaScriptObject clb) {
 
 		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
 				factory, laf), clb);
 
 		GeoGebraFrame.reCheckForDummies(el);
 	}
-	
+
 	@Override
-	public Object getGlassPane(){
+	public Object getGlassPane() {
 		return this.glass;
 	}
-	
+
 	@Override
-	public void attachGlass(){
-		if(this.glass!=null){
+	public void attachGlass() {
+		if (this.glass != null) {
 			this.add(glass);
 		}
 	}
+
 	private boolean[] childVisible = new boolean[0];
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
-	
+
 	@Override
-    public void showBrowser(HeaderPanel bg) {
+	public void showBrowser(HeaderPanel bg) {
 		GeoGebraFrame frameLayout = this;
-	    final int count = frameLayout.getWidgetCount();
+		final int count = frameLayout.getWidgetCount();
 		final int oldHeight = this.getOffsetHeight();
 		final int oldWidth = this.getOffsetWidth();
-	    childVisible = new boolean[count];
-	    for(int i = 0; i<count;i++){
-	    	childVisible[i] = frameLayout.getWidget(i).isVisible(); 
-	    	frameLayout.getWidget(i).setVisible(false);
-	    }
-	    frameLayout.add(bg);
+		childVisible = new boolean[count];
+		for (int i = 0; i < count; i++) {
+			childVisible[i] = frameLayout.getWidget(i).isVisible();
+			frameLayout.getWidget(i).setVisible(false);
+		}
+		frameLayout.add(bg);
 		bg.setHeight(oldHeight + "px");
 		bg.setWidth(oldWidth + "px");
 		bg.onResize();
-	    bg.setVisible(true);
+		bg.setVisible(true);
 
-	    ((MyHeaderPanel)bg).setFrame(this);
-	    //frameLayout.forceLayout();
-	    
-    }
+		((MyHeaderPanel) bg).setFrame(this);
+		// frameLayout.forceLayout();
+
+	}
 
 	@Override
-    public void hideBrowser(MyHeaderPanel bg) {
+	public void hideBrowser(MyHeaderPanel bg) {
 		GeoGebraFrame frameLayout = this;
 		frameLayout.remove(bg);
 		final int count = frameLayout.getWidgetCount();
-		for(int i = 0; i<count;i++){
-			if(childVisible.length > i){
+		for (int i = 0; i < count; i++) {
+			if (childVisible.length > i) {
 				frameLayout.getWidget(i).setVisible(childVisible[i]);
 			}
-	    }
-	    //frameLayout.setLayout(app);
-	    //frameLayout.forceLayout();
-	    app.updateViewSizes(); 
-	    
-    }
+		}
+		// frameLayout.setLayout(app);
+		// frameLayout.forceLayout();
+		app.updateViewSizes();
+
+	}
 
 	public AppW getAppW() {
 		return app;
 	}
 
 	public void doShowKeyBoard(final boolean show,
-	        MathKeyboardListener textField) {
+			MathKeyboardListener textField) {
 		if (this.keyboardShowing == show) {
 			app.getGuiManager().setOnScreenKeyboardTextField(textField);
 			return;
 		}
 
 		// this.mainPanel.clear();
-
 
 		if (show) {
 			app.hideMenu();
@@ -172,7 +175,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			showKeyboardButton(textField);
 			removeKeyboard(textField);
 		}
-
 
 		// this.mainPanel.add(this.dockPanel);
 
@@ -189,8 +191,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	private void removeKeyboard(MathKeyboardListener textField) {
 		final VirtualKeyboard keyBoard = app.getGuiManager()
-				.getOnScreenKeyboard(textField,
-				this);
+				.getOnScreenKeyboard(textField, this);
 		App.printStacktrace("HIDE KEYBOARD");
 		this.keyboardShowing = false;
 		app.addToHeight(keyboardHeight);
@@ -203,8 +204,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	private void addKeyboard(MathKeyboardListener textField) {
 		final VirtualKeyboard keyBoard = app.getGuiManager()
-				.getOnScreenKeyboard(textField,
-				this);
+				.getOnScreenKeyboard(textField, this);
 		this.keyboardShowing = true;
 		keyBoard.show();
 		keyBoard.setVisible(false);
@@ -247,16 +247,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	 */
 	void scrollToInputField() {
 		if (app.showAlgebraInput()
-		        && app.getInputPosition() == InputPositon.algebraView) {
+				&& app.getInputPosition() == InputPositon.algebraView) {
 			((AlgebraDockPanelW) (app.getGuiManager().getLayout()
-			        .getDockManager()
-			        .getPanel(org.geogebra.common.main.App.VIEW_ALGEBRA)))
-			        .scrollToBottom();
+					.getDockManager()
+					.getPanel(org.geogebra.common.main.App.VIEW_ALGEBRA)))
+					.scrollToBottom();
 		}
 	}
 
 	public void showKeyBoard(boolean show, MathKeyboardListener textField,
-	        boolean forceShow) {
+			boolean forceShow) {
 		if (forceShow) {
 			doShowKeyBoard(show, textField);
 		} else {
@@ -267,9 +267,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	@Override
 	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
 		if (app.getLAF().isTablet()
-		        || keyboardShowing // if keyboard is already
-		                           // showing, we don't have
-		                           // to handle the showKeyboardButton
+				|| keyboardShowing // if keyboard is already
+									// showing, we don't have
+									// to handle the showKeyboardButton
 				|| app.getGuiManager().getOnScreenKeyboard(textField, this)
 						.shouldBeShown()) {
 			doShowKeyBoard(show, textField);
@@ -286,8 +286,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		if (showKeyboardButton == null) {
 			if (app.has(Feature.CAS_EDITOR)) {
 				DockManagerW dm = (DockManagerW) app.getGuiManager()
-						.getLayout()
-						.getDockManager();
+						.getLayout().getDockManager();
 				DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
 				if (dockPanelKB != null) {
@@ -320,9 +319,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		if (showKeyboardButton == null) {
 			return;
 		}
-		if(show){
+		if (show) {
 			showKeyboardButton.setVisible(true);
-		}else{
+		} else {
 			showKeyboardButton.hide();
 		}
 	}
@@ -330,8 +329,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	public void refreshKeyboard() {
 		if (keyboardShowing) {
 			final VirtualKeyboard keyBoard = app.getGuiManager()
-					.getOnScreenKeyboard(null,
-					this);
+					.getOnScreenKeyboard(null, this);
 			if (app.isKeyboardNeeded()) {
 				add(keyBoard);
 			} else {
@@ -341,23 +339,21 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 				}
 			}
 		} else {
-			if (app != null
-			        && app.isKeyboardNeeded()
- && appNeedsKeyboard()) {
+			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()) {
 				if (app.getArticleElement().getDataParamBase64String().length() == 0) {
-				keyboardShowing = true;
-				app.getGuiManager().invokeLater(new Runnable() {
+					keyboardShowing = true;
+					app.getGuiManager().invokeLater(new Runnable() {
 
-					@Override
-					public void run() {
-						app.persistWidthAndHeight();
-						addKeyboard(null);
-							app.getGuiManager()
-									.focusScheduled(false, false, false);
-						new Timer() {
+						@Override
+						public void run() {
+							app.persistWidthAndHeight();
+							addKeyboard(null);
+							app.getGuiManager().focusScheduled(false, false,
+									false);
+							new Timer() {
 
-							@Override
-							public void run() {
+								@Override
+								public void run() {
 									DockManagerW dm = (DockManagerW) app
 											.getGuiManager().getLayout()
 											.getDockManager();
@@ -369,11 +365,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 									ml.setFocus(true, true);
 									ml.ensureEditing();
 
+								}
+							}.schedule(500);
 
-							}
-						}.schedule(500);
-
-					}
+						}
 					});
 				} else {
 					this.showKeyboardButton(null);
@@ -381,13 +376,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 							.showOnFocus();
 				}
 
-			}
- else if (app != null && app.isKeyboardNeeded()) {
+			} else if (app != null && app.isKeyboardNeeded()) {
 				this.showKeyboardButton(true);
 			}
 
 			else if (app != null && !app.isKeyboardNeeded()
-			        && this.showKeyboardButton != null) {
+					&& this.showKeyboardButton != null) {
 				this.showKeyboardButton.hide();
 			}
 		}
@@ -402,4 +396,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		this.app.getGuiManager().getOnScreenKeyboard(null, this).showOnFocus();
 	}
 
+	public void updateKeyboardHeight() {
+		// TODO update of height
+	}
 }

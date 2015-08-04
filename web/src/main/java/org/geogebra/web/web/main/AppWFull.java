@@ -32,10 +32,7 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void showKeyboard(MathKeyboardListener textField) {
-		getAppletFrame().showKeyBoard(true, textField, false);
-		if (textField != null) {
-			CancelEventTimer.keyboardSetVisible();
-		}
+		showKeyboard(textField, false);
 	}
 
 	@Override
@@ -46,6 +43,11 @@ public abstract class AppWFull extends AppW {
 		}
 	}
 
+	@Override
+	public void updateKeyboardHeight() {
+		getAppletFrame().updateKeyboardHeight();
+	}
+	
 	@Override
 	public void updateKeyBoardField(MathKeyboardListener field) {
 		getGuiManager().setOnScreenKeyboardTextField(field);

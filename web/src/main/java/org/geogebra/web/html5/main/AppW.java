@@ -3218,6 +3218,10 @@ public abstract class AppW extends App implements SetLabels {
 		// Overwritten in subclass - nothing to do here
 	}
 
+	public void updateKeyboardHeight() {
+		// Overwritten in subclass - nothing to do here
+	}
+
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
 	 */

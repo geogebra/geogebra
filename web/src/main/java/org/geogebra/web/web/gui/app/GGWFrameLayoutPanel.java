@@ -247,6 +247,27 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		}
 	}
 
+	public void updateKeyboardHeight() {
+		VirtualKeyboard keyboard = app.getGuiManager().getOnScreenKeyboard(
+				null, this);
+		this.mainPanel.setWidgetSize(spaceForKeyboard,
+				keyboard.getOffsetHeight());
+
+		// necessary to prevent lag when resizing panels/widgets
+		this.mainPanel.forceLayout();
+
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				onResize();
+				dockPanel.onResize();
+				scrollToInputField();
+			}
+		};
+		app.getGuiManager().focusScheduled(false, false, false);
+		timer.schedule(500);
+	}
+
 	/**
 	 * Shows or hides keyboard. In case keyboard state changed, it rebuilds the
 	 * DOM in the process so it may steal focus from currently selected element.
@@ -271,8 +292,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		if (show && textField != null) {
 			keyBoard.show();
 			CancelEventTimer.keyboardSetVisible();
-
-			this.mainPanel.setWidgetSize(spaceForKeyboard, keyBoard.getOffsetHeight());
+			this.mainPanel.setWidgetSize(spaceForKeyboard,
+					keyBoard.getOffsetHeight());
 			spaceForKeyboard.add(keyBoard);
 			
 			if (showKeyboardButton != null) {
@@ -281,7 +302,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		} else {
 			if (app.has(Feature.CAS_EDITOR)) {
 				if (app.getGuiManager().getLayout().getDockManager() != null) {
-
 					this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
 					spaceForKeyboard.remove(keyBoard);
 					showKeyboardButton(true, textField);
@@ -332,7 +352,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	private void showKBButtonInAlgebra(MathKeyboardListener textField,
 			VirtualKeyboard keyBoard) {
 		if (app.getAlgebraView() != null) {
-
 			this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
 			spaceForKeyboard.remove(keyBoard);
 			MathKeyboardListener tf = textField != null ? textField

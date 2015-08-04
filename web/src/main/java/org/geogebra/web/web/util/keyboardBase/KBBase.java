@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
@@ -37,6 +38,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * on screen keyboard containing mathematical symbols and formulas
  */
 public class KBBase extends PopupPanel {
+
+	private static final int LOWER_HEIGHT = 350;
 
 	/**
 	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,
@@ -151,13 +154,17 @@ public class KBBase extends PopupPanel {
 	protected static final String SPECIAL_CHARS = KeyboardMode.SPECIAL_CHARS
 			.getInternalName();
 
+	/**
+	 * 
+	 */
+	protected static final String PAGE_ONE_OF_TWO = "1/2";
+	protected static final String PAGE_TWO_OF_TWO = "2/2";
+
 	// images of the buttons:
-	private final ImageResource SHIFT = GuiResources.INSTANCE
-			.keyboard_shift();
+	private final ImageResource SHIFT = GuiResources.INSTANCE.keyboard_shift();
 	private final ImageResource SHIFT_DOWN = GuiResources.INSTANCE
 			.keyboard_shiftDown();
-	private final ImageResource ENTER = GuiResources.INSTANCE
-			.keyboard_enter();
+	private final ImageResource ENTER = GuiResources.INSTANCE.keyboard_enter();
 	private final ImageResource BACKSPACE = GuiResources.INSTANCE
 			.keyboard_backspace();
 	private final ImageResource ARROW_LEFT = GuiResources.INSTANCE
@@ -220,6 +227,12 @@ public class KBBase extends PopupPanel {
 	 * default label (which can be found in loc.getPlain)
 	 */
 	protected HashMap<KeyBoardButtonBase, String> updateButton = new HashMap<KeyBoardButtonBase, String>();
+
+	protected KeyPanelBase firstPageChars;
+	protected KeyPanelBase secondPageChars;
+	protected SimplePanel specialCharContainer;
+
+	private boolean isSmallKeyboard = false;
 
 	protected void initAccentAcuteLetters() {
 		accentAcute.put("a", "\u00e1");
@@ -346,6 +359,20 @@ public class KBBase extends PopupPanel {
 	public void updateSize() {
 		// -10 because of padding, -2 for applet border
 		this.setWidth(app.getWidth() - 12 + "px");
+
+		if (app.getHeight() <= LOWER_HEIGHT && !isSmallKeyboard) {
+			this.addStyleName("lowerHeight");
+			updateHeight();
+			this.isSmallKeyboard = !this.isSmallKeyboard;
+		} else if (app.getHeight() > LOWER_HEIGHT && isSmallKeyboard) {
+			this.removeStyleName("lowerHeight");
+			updateHeight();
+			this.isSmallKeyboard = !this.isSmallKeyboard;
+		}
+	}
+
+	private void updateHeight() {
+		((AppW) app).updateKeyboardHeight();
 	}
 
 	/**
@@ -407,40 +434,30 @@ public class KBBase extends PopupPanel {
 		addButton("a^2", Unicode.Superscript_2 + "", index, functions)
 				.addStyleName("supScript");
 		addButton(Unicode.SQUARE_ROOT + "", index, functions);
+
+		// fill next row
+		index++;
 		addButton("a^x", KeyboardConstants.A_POWER_X, index, functions)
 				.addStyleName("supScript");
+		addButton("|x|", "abs", index, functions);
+		addButton(Unicode.DEGREE, index, functions);
+		addButton(Unicode.PI_STRING, index, functions);
 
 		// fill next row
 		index++;
-		addButton("( )", "()", index, functions);
-		addButton(Unicode.DEGREE, index, functions);
+		addButton("(", index, functions);
+		addButton(")", index, functions);
 		addButton("<", index, functions);
 		addButton(">", index, functions);
-		addButton(Unicode.COLON_EQUALS, index, functions);
 
 		// fill next row
 		index++;
-		updateButton.put(
-				addButton(loc.getPlain("Function.sin"), index, functions),
-				"Function.sin");
-		updateButton.put(
-				addButton(loc.getPlain("Function.cos"), index, functions),
-				"Function.cos");
-		updateButton.put(
-				addButton(loc.getPlain("Function.tan"), index, functions),
-				"Function.tan");
-		addButton("e^x", Unicode.EULER_STRING + "^", index, functions)
-				.addStyleName("supScript");
-		addButton("|x|", "abs", index, functions);
-
-		// fill next row
-		index++;
-		addFunctionalButton(index, functions, TEXT, Action.SWITCH_KEYBOARD);
+		addFunctionalButton(index, functions, TEXT, Action.SWITCH_KEYBOARD)
+				.addStyleName("switchKeyboard");
 		addFunctionalButton(index, functions, SPECIAL_CHARS,
-				Action.SWITCH_KEYBOARD).addStyleName("switchToSpecialChar");
-		addFunctionalButton(index, functions, GREEK, Action.SWITCH_KEYBOARD);
-
-		addButton(Unicode.PI_STRING, index, functions);
+				Action.SWITCH_KEYBOARD).addStyleName("switchKeyboard");
+		addFunctionalButton(index, functions, GREEK, Action.SWITCH_KEYBOARD)
+				.addStyleName("switchKeyboard");
 		addButton(",", index, functions);
 
 		contentNumber.add(functions);
@@ -548,11 +565,13 @@ public class KBBase extends PopupPanel {
 
 		// fill forth row - fixed buttons for all languages
 		index++;
-		addFunctionalButton(index, letters, NUMBER, Action.SWITCH_KEYBOARD);
+		addFunctionalButton(index, letters, NUMBER, Action.SWITCH_KEYBOARD)
+				.addStyleName("switchKeyboard");
 		addFunctionalButton(index, letters, SPECIAL_CHARS,
-				Action.SWITCH_KEYBOARD).addStyleName("switchToSpecialChar");
+				Action.SWITCH_KEYBOARD).addStyleName("switchKeyboard");
 		switchABCGreek = addFunctionalButton(index, letters, GREEK,
 				Action.SWITCH_KEYBOARD);
+		switchABCGreek.addStyleName("switchKeyboard");
 		addButton(" ", index, letters).addStyleName("space");
 		addFunctionalButton(ARROW_LEFT, Action.ARROW_LEFT, index, letters);
 		addFunctionalButton(ARROW_RIGHT, Action.ARROW_RIGHT, index, letters);
@@ -568,11 +587,37 @@ public class KBBase extends PopupPanel {
 
 		// fill first row
 		int index = 0;
-		addButton("ln", index, functions);
-		addButton("log_10", "log", index, functions);
-		addButton("nroot", index, functions);
+		updateButton.put(
+				addButton(loc.getPlain("Function.sin"), index, functions),
+				"Function.sin");
+		updateButton.put(
+				addButton(loc.getPlain("Function.cos"), index, functions),
+				"Function.cos");
+		updateButton.put(
+				addButton(loc.getPlain("Function.tan"), index, functions),
+				"Function.tan");
+		addButton("e^x", Unicode.EULER_STRING + "^", index, functions)
+				.addStyleName("supScript");
 
 		// fill second row
+		index++;
+		KeyBoardButtonBase button = addButton(loc.getPlain("Function.sin")
+				+ "^-1", "arcsin", index, functions);
+		button.addStyleName("supScript");
+		updateButton.put(button, "Function.sin" + "^-1");
+
+		button = addButton(loc.getPlain("Function.cos") + "^-1", "arccos",
+				index, functions);
+		button.addStyleName("supScript");
+		updateButton.put(button, "Function.cos" + "^-1");
+
+		button = addButton(loc.getPlain("Function.tan") + "^-1", "arctan",
+				index, functions);
+		button.addStyleName("supScript");
+		updateButton.put(button, "Function.tan" + "^-1");
+		addButton("ln", index, functions);
+
+		// fill third row
 		index++;
 		updateButton.put(
 				addButton(loc.getPlain("Function.sinh"), "sinh", index,
@@ -583,67 +628,90 @@ public class KBBase extends PopupPanel {
 		updateButton.put(
 				addButton(loc.getPlain("Function.tanh"), "tanh", index,
 						functions), "Function.tanh");
-
-		// fill third row
-		index++;
-		updateButton.put(
-				addButton(loc.getPlain("Function.sin") + "^-1", "arcsin",
-						index, functions), "Function.sin" + "^-1");
-		updateButton.put(
-				addButton(loc.getPlain("Function.cos") + "^-1", "arccos",
-						index, functions), "Function.cos" + "^-1");
-		updateButton.put(
-				addButton(loc.getPlain("Function.tan") + "^-1", "arctan",
-						index, functions), "Function.tan" + "^-1");
+		addButton("log_10", "log", index, functions);
 
 		// fill forth row
 		index++;
-		addFunctionalButton(index, functions, TEXT, Action.SWITCH_KEYBOARD);
-		addFunctionalButton(index, functions, NUMBER, Action.SWITCH_KEYBOARD);
-		addFunctionalButton(index, functions, GREEK, Action.SWITCH_KEYBOARD);
+		addFunctionalButton(index, functions, TEXT, Action.SWITCH_KEYBOARD)
+				.addStyleName("switchKeyboard");
+		addFunctionalButton(index, functions, NUMBER, Action.SWITCH_KEYBOARD)
+				.addStyleName("switchKeyboard");
+		addFunctionalButton(index, functions, GREEK, Action.SWITCH_KEYBOARD)
+				.addStyleName("switchKeyboard");
+		addButton("nroot", index, functions);
 
-		KeyPanelBase chars = new KeyPanelBase();
-		chars.addStyleName("KeyPanelNum");
+		firstPageChars = new KeyPanelBase();
+		firstPageChars.addStyleName("KeyPanelNum");
 
 		// fill first row
 		index = 0;
-		addButton(Unicode.IMAGINARY, index, chars);
-		addButton(Unicode.INFINITY + "", index, chars);
-		addButton(Unicode.VECTOR_PRODUCT + "", index, chars);
-		addButton(Unicode.QUESTEQ, index, chars);
-		addButton(Unicode.NOTEQUAL, index, chars);
-		addButton(Unicode.NOT, index, chars);
+		addButton("[", index, firstPageChars);
+		addButton("]", index, firstPageChars);
+		addButton("!", index, firstPageChars);
+		addButton(Unicode.IMAGINARY, index, firstPageChars);
 
 		// fill second row
 		index++;
-		addButton(Unicode.LESS_EQUAL + "", index, chars);
-		addButton(Unicode.GREATER_EQUAL + "", index, chars);
-		addButton(Unicode.AND, index, chars);
-		addButton(Unicode.OR, index, chars);
-		addButton(Unicode.PARALLEL, index, chars);
-		addButton(Unicode.PERPENDICULAR + "", index, chars);
+		addButton("{", index, firstPageChars);
+		addButton("}", index, firstPageChars);
+		addButton("a_n", "_", index, firstPageChars);
+		addButton(Unicode.OPEN_DOUBLE_QUOTE + " " + Unicode.CLOSE_DOUBLE_QUOTE,
+				"quotes", index, firstPageChars);
+
 
 		// fill third row
 		index++;
-		addButton(Unicode.IMPLIES, index, chars);
-		addButton(Unicode.IS_ELEMENT_OF + "", index, chars);
-		addButton(Unicode.IS_SUBSET_OF + "", index, chars);
-		addButton(Unicode.IS_SUBSET_OF_STRICT + "", index, chars);
-		addButton(Unicode.ANGLE, index, chars);
-		addButton(Unicode.OPEN_DOUBLE_QUOTE + " " + Unicode.CLOSE_DOUBLE_QUOTE,
-				"quotes", index, chars);
+		addButton(Unicode.LESS_EQUAL + "", index, firstPageChars);
+		addButton(Unicode.GREATER_EQUAL + "", index, firstPageChars);
+		addButton("%", index, firstPageChars);
+		addButton("$", index, firstPageChars);
 
 		// fill forth row
 		index++;
-		addButton(":", index, chars);
-		addButton(";", index, chars);
-		addButton("_", index, chars);
-		addButton("!", index, chars);
-		addButton("%", index, chars);
-		addButton("$", index, chars);
+		addFunctionalButton(index, firstPageChars, PAGE_ONE_OF_TWO,
+				Action.SWITCH_KEYBOARD).addStyleName("switchKeyboard");
+		addButton(Unicode.COLON_EQUALS, index, firstPageChars);
+		addButton(":", index, firstPageChars);
+		addButton(";", index, firstPageChars);
+
+		/** create second page of special chars */
+		secondPageChars = new KeyPanelBase();
+		secondPageChars.addStyleName("KeyPanelNum");
+
+		// fill first row
+		index = 0;
+		addButton(Unicode.INFINITY + "", index, secondPageChars);
+		addButton(Unicode.QUESTEQ, index, secondPageChars);
+		addButton(Unicode.NOTEQUAL, index, secondPageChars);
+		addButton("&", index, secondPageChars);
+
+		// fill second row
+		index++;
+		addButton(Unicode.AND, index, secondPageChars);
+		addButton(Unicode.OR, index, secondPageChars);
+		addButton(Unicode.IMPLIES, index, secondPageChars);
+		addButton(Unicode.NOT, index, secondPageChars);
+
+		// fill third row
+		index++;
+		addButton(Unicode.IS_ELEMENT_OF + "", index, secondPageChars);
+		addButton(Unicode.IS_SUBSET_OF_STRICT + "", index, secondPageChars);
+		addButton(Unicode.IS_SUBSET_OF + "", index, secondPageChars);
+		addButton(Unicode.ANGLE, index, secondPageChars);
+
+		// fill forth row
+		index++;
+		addFunctionalButton(index, secondPageChars, PAGE_TWO_OF_TWO,
+				Action.SWITCH_KEYBOARD).addStyleName("switchKeyboard");
+		addButton(Unicode.PARALLEL, index, secondPageChars);
+		addButton(Unicode.PERPENDICULAR + "", index, secondPageChars);
+		addButton(Unicode.VECTOR_PRODUCT + "", index, secondPageChars);
+
+		specialCharContainer = new SimplePanel();
+		specialCharContainer.add(firstPageChars);
 
 		contentSpecialChars.add(functions);
-		contentSpecialChars.add(chars);
+		contentSpecialChars.add(specialCharContainer);
 		contentSpecialChars.add(getControlKeyPanel());
 	}
 

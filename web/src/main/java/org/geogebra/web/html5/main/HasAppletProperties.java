@@ -93,4 +93,6 @@ public interface HasAppletProperties {
 	public boolean isKeyboardShowing();
 
 	public void showKeyboardOnFocus();
+
+	public void updateKeyboardHeight();
 }
