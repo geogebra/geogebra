@@ -244,11 +244,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		addAssignmentRow(assignment, row + 1);
 	}
 
-	private void addAssignmentRow(final Assignment assignment, int row) {
+	private void addAssignmentRow(final Assignment assignment, int insertrow) {
 		int j = 0;
-		if (row <= assignmentsTable.getRowCount()) {
-			row = assignmentsTable.insertRow(row);
-		}
+		int row = (insertrow <= assignmentsTable.getRowCount()) ? assignmentsTable
+				.insertRow(insertrow) : insertrow;
 
 		Image delIcon = getDeleteIcon(assignment);
 		// assignment

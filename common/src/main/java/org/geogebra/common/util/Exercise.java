@@ -20,8 +20,12 @@ public class Exercise {
 	private Construction construction;
 	private App app;
 
-	// private static Exercise INSTANCE;
-
+	/**
+	 * Create a new Exercise
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public Exercise(App app) {
 		this.app = app;
 		kernel = app.getKernel();
@@ -29,19 +33,6 @@ public class Exercise {
 
 		assignments = new ArrayList<Assignment>();
 	}
-
-	/**
-	 * @param app
-	 *            application
-	 * @return the Instance of the Exercise
-	 */
-	// public static Exercise getInstance(App app) {
-	// if (INSTANCE == null) {
-	// INSTANCE = new Exercise(app);
-	// }
-	// return INSTANCE;
-	// }
-
 
 	/**
 	 * Resets the Exercise to contain no user defined tools.
@@ -124,6 +115,13 @@ public class Exercise {
 		return assignments;
 	}
 
+	/**
+	 * Check if a macro is already used by this exercise
+	 * 
+	 * @param macro
+	 *            the user defined tool
+	 * @return true if this exercise uses the macro
+	 */
 	public boolean usesMacro(Macro macro) {
 		boolean uses = false;
 		for (Assignment assignment : assignments) {
@@ -132,6 +130,13 @@ public class Exercise {
 		return uses;
 	}
 
+	/**
+	 * Check if a macro is already used by this exercise
+	 * 
+	 * @param macroID
+	 *            the id of the user defined tool
+	 * @return {@link #usesMacro(Macro)}
+	 */
 	public boolean usesMacro(int macroID) {
 		return usesMacro(kernel.getMacro(macroID));
 	}
@@ -184,10 +189,21 @@ public class Exercise {
 		return sb.toString();
 	}
 
+	/**
+	 * Check if the Exercise has assignments
+	 * 
+	 * @return true if there are no assignments in this Exercise
+	 */
 	public boolean isEmpty() {
 		return assignments.isEmpty();
 	}
 
+	/**
+	 * Remove an assignment from this Exercise
+	 * 
+	 * @param assignment
+	 *            the assignment to be removed from the Exercise
+	 */
 	public void remove(Assignment assignment) {
 		assignments.remove(assignment);
 	}

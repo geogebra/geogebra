@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 
 /**
@@ -82,11 +83,8 @@ public class Assignment {
 	public Assignment(Macro macro) {
 		this.macro = macro;
 		inputTypes = macro.getInputTypes();
-		// inputTypes = new TreeSet<Test>(Arrays.asList(macro.getInputTypes()));
-		// inputTypes = macro.getInputTypes();
 
 		fractionForResult = new HashMap<Result, Float>();
-
 		hintForResult = new HashMap<Result, String>();
 
 		res = Result.UNKNOWN;
@@ -255,9 +253,16 @@ public class Assignment {
 			if (!geo.labelSet) {
 				possibleInputGeos.remove(geo);
 			} else {
-				for (int j = 0; j < inputTypes.length; ++j) {
-					if (!inputTypes[j].check(geo))
-						possibleInputGeos.remove(geo);
+				for (int j = 0; j < inputTypes.length
+						&& possibleInputGeos.contains(geo); ++j) {
+					if (!inputTypes[j].check(geo)) {
+						// TODO this is kind of a hack to find inputobjects of
+						// type GeoPoint where the the current geo is
+						// GeoPointND, ...
+						if (!(inputTypes[j].equals(Test.GEOPOINT) && geo instanceof GeoPointND)) {
+							possibleInputGeos.remove(geo);
+						}
+					}
 				}
 			}
 		}
