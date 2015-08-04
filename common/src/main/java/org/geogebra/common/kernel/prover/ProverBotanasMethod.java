@@ -516,6 +516,9 @@ public class ProverBotanasMethod {
 							statements[0][index] = p;
 							index++;
 						}
+						// clear polynomial list of distant conditions for the
+						// next check
+						extraPolys = new ArrayList<Polynomial>();
 						// add input polynomial
 						statements[0][index] = polyRoot.getPoly();
 					}

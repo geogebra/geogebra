@@ -321,6 +321,52 @@ public class AlgoAreCongruent extends AlgoElement implements
 						Polynomial.sqrDistance(v2[0], v2[1], v2[2], v2[3]));
 				return botanaPolynomials;
 			}
+
+			if (((GeoConic) inputElement1).isParabola()
+					&& ((GeoConic) inputElement2).isParabola()) {
+				botanaPolynomials = new Polynomial[1][5];
+
+				Variable[] v1 = new Variable[10];
+				Variable[] v2 = new Variable[10];
+				v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
+				v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
+
+				// auxiliary points
+				Variable[] auxVars = new Variable[4];
+				// P - first auxiliary point
+				auxVars[0] = new Variable();
+				auxVars[1] = new Variable();
+				// P' - second auxiliary point
+				auxVars[2] = new Variable();
+				auxVars[3] = new Variable();
+
+				// We want to prove, that the distance between foci points and
+				// directrixes are equal
+				// FP orthogonal to AB
+				botanaPolynomials[0][0] = Polynomial.perpendicular(v1[8],
+						v1[9], auxVars[0], auxVars[1], v1[4], v1[5], v1[6],
+						v1[7]);
+
+				// A, B, P collinear
+				botanaPolynomials[0][1] = Polynomial.collinear(auxVars[0],
+						auxVars[1], v1[4], v1[5], v1[6], v1[7]);
+
+				// F'P' orthogonal to A'B'
+				botanaPolynomials[0][2] = Polynomial.perpendicular(v2[8],
+						v2[9], auxVars[2], auxVars[3], v2[4], v2[5], v2[6],
+						v2[7]);
+
+				// A', B', P' collinear
+				botanaPolynomials[0][3] = Polynomial.collinear(auxVars[2],
+						auxVars[3], v2[4], v2[5], v2[6], v2[7]);
+
+				// |FP|^2 = |F'P'|^2
+				botanaPolynomials[0][4] = Polynomial.sqrDistance(v1[8], v1[9],
+						auxVars[0], auxVars[1]).subtract(
+						Polynomial.sqrDistance(v2[8], v2[9], auxVars[2],
+								auxVars[3]));
+				return botanaPolynomials;
+			}
 		}
 
 		throw new NoSymbolicParametersException();

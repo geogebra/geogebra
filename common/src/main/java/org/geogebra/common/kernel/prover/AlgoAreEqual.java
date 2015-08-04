@@ -164,6 +164,38 @@ public class AlgoAreEqual extends AlgoElement implements
 						Polynomial.sqrDistance(v2[0], v2[1], v2[2], v2[3]));
 				return botanaPolynomials;
 			}
+			
+			if (((GeoConic) inputElement1).isParabola()
+					&& ((GeoConic) inputElement2).isParabola()) {
+				botanaPolynomials = new Polynomial[4][1];
+
+				Variable[] v1 = new Variable[10];
+				Variable[] v2 = new Variable[10];
+
+				v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
+				v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
+
+				// We want to prove: 1) A, B, A' coll. 2) A, B, B' coll. 3) F=F'
+				// f1 = f'1
+				botanaPolynomials[0][0] = new Polynomial(v1[8])
+						.subtract(new Polynomial(v2[8]));
+
+				// f2 = f'2
+				botanaPolynomials[1][0] = new Polynomial(v1[9])
+						.subtract(new Polynomial(v2[9]));
+
+				// A, B, A'
+				botanaPolynomials[2][0] = Polynomial.collinear(v1[4], v1[5],
+						v1[6], v1[7], v2[4], v2[5]);
+
+				// A, B, B'
+				botanaPolynomials[3][0] = Polynomial.collinear(v1[4], v1[5],
+						v1[6], v1[7], v2[6], v2[7]);
+
+				return botanaPolynomials;
+
+			}
+
 		}
 
 		// distance between 2 point without segment
