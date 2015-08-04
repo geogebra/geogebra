@@ -2496,6 +2496,8 @@ namespace giac {
     switch (g.type){
     case _DOUBLE_:
       return exact_double(g._DOUBLE_val,epsilon(contextptr));
+    case _REAL:
+      return exact_double(evalf_double(g,1,contextptr)._DOUBLE_val,epsilon(contextptr));
 #ifdef BCD
     case _FLOAT_:
       return exact_double(evalf_double(g,1,contextptr)._DOUBLE_val,1e-10);

@@ -73,6 +73,7 @@ namespace giac {
     int type_point;
     bool fill_polygon;
     bool hidden_name;
+    bool ie; // Internet explorer flag for SVG
   };
 
   // 2 fonctions de service
@@ -771,29 +772,46 @@ namespace giac {
       +legende
       +"</text>\n";                                      
   }
-  /*
+  
   static double geo_thickness(double xmin,double xmax,double ymin,double ymax){
-    double dx=xmax-xmin,dy=ymax-ymin,m=std::min(dx,dy);
-    return std::pow((xmax-xmin)*(ymax-ymin)*m*m,0.25);
+    double dx=xmax-xmin,dy=ymax-ymin,m;
+    if (dx<dy) m=dx; else m=dy;
+    double res= dx*dy*m*m;
+    //COUT << dx << " " << dy << " " << m << " " << res << endl;
+    res=std::sqrt(res);
+    //COUT << res << endl;
+    res=std::sqrt(res);
+    // COUT << res << endl;
+    return res;
   }
-  */
   
   static string svg_circle(const gen & diameter0, const gen & diameter1, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     string s="";
-    gen d0=evalf_double(diameter0,1,contextptr);
-    gen d1=evalf_double(diameter1,1,contextptr);
-    gen center=(d0+d1)/2.0;
-    gen radius=abs(d1-d0,contextptr);
-    // COUT << d0 << "," << d1 << "," << radius << endl;
-    double r=radius._DOUBLE_val/2.0;
+    gen center=evalf_double((diameter0+diameter1)/2,1,contextptr);
+    gen d01=evalf_double(diameter0-diameter1,1,contextptr);
+    gen di,dr;
+    reim(d01,dr,di,contextptr);
+    double did=di._DOUBLE_val,drd=dr._DOUBLE_val;
+    // COUT << center << " " << d01 << " " << drd << " " << did << endl;
+    double r=std::sqrt(drd*drd+did*did)/2.0;
     // COUT << r << endl;
-    s=  "<circle vector-effect=\"non-scaling-stroke\" stroke=\""+color_string(attr)+"\"  stroke-width=\""+print_INT_(attr.width)+"\" fill=\"none\" cx=\""
-      +re(center,contextptr).print(contextptr)+"\" cy=\""
-      +im(center,contextptr).print(contextptr)+"\" r=\""
-      +print_DOUBLE_(r,contextptr)
-      +"\" />\n";
+    if (attr.ie){
+      // COUT << xmin << " " << xmax << " " << ymin << " " << ymax << " " << svg_epaisseur1 << " " << attr.width << endl;
+      double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
+      // COUT << thickness << endl;
+      s= "<circle stroke-width=\""+print_DOUBLE_(thickness,5)+"\" stroke=\""+color_string(attr);
+    }
+    else
+      s = "<circle vector-effect=\"non-scaling-stroke\" stroke=\""+color_string(attr)+"\"  stroke-width=\""+print_INT_(attr.width);
+    // COUT << s << endl;
+    s = s+"\" fill=\"none\" cx=\""
+      + re(center,contextptr).print(contextptr)+"\" cy=\""
+      + im(center,contextptr).print(contextptr)+"\" r=\""
+      + print_DOUBLE_(r,contextptr)
+      + "\" />\n";
     if (legende!="")
-      s+=svg_text(evalf(center+r,1,contextptr),legende,attr,xmin,xmax,ymin,ymax,contextptr);
+      s = s+svg_text(evalf(center+r,1,contextptr),legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    // COUT << s << endl;
     return s;
   }
 
@@ -802,15 +820,18 @@ namespace giac {
     string s;
     // gen thickness((xmax+ymax-xmin-ymin)/svg_epaisseur1);
     A=evalf(A,1,contextptr); B=evalf(B,1,contextptr);
-    // gen thickness(geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width);
-    // s= "<line stroke-width=\""+thickness.print(contextptr)+"\" stroke=\""
-    s= "<line vector-effect=\"non-scaling-stroke\" stroke-width=\""+print_INT_(attr.width)+"\" stroke=\""
-      +color_string(attr)+"\" x1=\""
-      +re(A,contextptr).print(contextptr)+"\" y1=\""
-      +im(A,contextptr).print(contextptr)+"\" x2=\""
-      +re(B,contextptr).print(contextptr)+"\" y2=\""
-      +im(B,contextptr).print(contextptr)+"\"/>\n";
-    s+=svg_text(B,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    if (attr.ie){
+      double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
+      s= "<line stroke-width=\""+print_DOUBLE_(thickness,5);
+    }
+    else
+      s= "<line vector-effect=\"non-scaling-stroke\" stroke-width=\""+print_INT_(attr.width);
+    s = s+"\" stroke=\""+color_string(attr)+"\" x1=\""
+      + re(A,contextptr).print(contextptr)+"\" y1=\""
+      + im(A,contextptr).print(contextptr)+"\" x2=\""
+      + re(B,contextptr).print(contextptr)+"\" y2=\""
+      + im(B,contextptr).print(contextptr)+"\"/>\n";
+    s = s+svg_text(B,legende,attr,xmin,xmax,ymin,ymax,contextptr);
     return s;
   }
 
@@ -868,24 +889,38 @@ namespace giac {
     g=eval(g,eval_level(contextptr),contextptr);
     vecteur v=*(g._VECTptr);
     if (v[0]==v[v.size()-1])
-      s= "<polygon vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width)+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" points=\"";
+      s= "<polygon ";
     else
-      s= "<polyline vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width)+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" points=\"";
-    for (i=0 ; i<signed(v.size())-1 ; i++){
-      s=s+re(evalf(v[i],1,contextptr),contextptr).print(contextptr)+" "+im(evalf(v[i],1,contextptr),contextptr).print(contextptr)+", ";
+      s= "<polyline ";
+    if (attr.ie){
+      double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
+      s = s+"stroke-width=\""+print_DOUBLE_(thickness,5);
     }
-    s=s+re(evalf(v[i],1,contextptr),contextptr).print(contextptr)+" "+im(evalf(v[i],1,contextptr),contextptr).print(contextptr)+"\" /> ";
-    s+=svg_text(v[i],name,attr,xmin,xmax,ymin,ymax,contextptr);
+    else
+      s = s+"vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width);
+    s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" points=\"";
+    for (i=0 ; i<signed(v.size())-1 ; i++){
+      s = s+re(evalf(v[i],1,contextptr),contextptr).print(contextptr)+" "+im(evalf(v[i],1,contextptr),contextptr).print(contextptr)+", ";
+    }
+    s = s+re(evalf(v[i],1,contextptr),contextptr).print(contextptr)+" "+im(evalf(v[i],1,contextptr),contextptr).print(contextptr)+"\" /> ";
+    s = s+svg_text(v[i],name,attr,xmin,xmax,ymin,ymax,contextptr);
     return s;
   }
 
-  // Trac?? de courbes
+  // Trace de courbes
   // un point sur 2 sert de point de contr??le
   // on peut sophistiquer
   static string svg_bezier_curve(gen g, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){ 
     string x="x", y="y";
     int i;
-    string s= "<path vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width)+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" d=\"M";
+    string s= "<path ";
+    if (attr.ie){
+      double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
+      s = s+"stroke-width=\""+print_DOUBLE_(thickness,5);
+    }
+    else
+      s = s+"vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width);
+    s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" d=\"M";
     g=evalf(g,1,contextptr);
     vecteur v=*(g._VECTptr);
     for (i=0 ; i<signed(v.size()) ; i++){
@@ -908,7 +943,7 @@ namespace giac {
 	  && is_positive(im(v[i],contextptr)-ymin,contextptr)
 	  && is_positive(xmax-re(v[i],contextptr),contextptr) 
 	  && is_positive(ymax-im(v[i],contextptr),contextptr) ){
-	s+=svg_text(v[i],legende,attr,xmin,xmax,ymin,ymax,contextptr);
+	s = s+svg_text(v[i],legende,attr,xmin,xmax,ymin,ymax,contextptr);
 	break;
       }
     }
@@ -918,7 +953,7 @@ namespace giac {
 
   static string symbolic2svg(const symbolic & mys,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT);
 
-  //fonction appel??e ssi v est un vecteur
+  //fonction appelee ssi v est un vecteur
   static string vect2svg(gen v, svg_attribut attr, string name,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     if (v.type != _VECT)
       return "error";
@@ -938,6 +973,9 @@ namespace giac {
     return "vect2svg error";
   }
 
+#if defined EMCC && !defined GIAC_GGB
+#include <emscripten.h>
+#endif
 
   static string symbolic2svg(const symbolic & mys,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){ 
     int color=default_color(contextptr);
@@ -966,7 +1004,19 @@ namespace giac {
       bool fill_polygon   =(ensemble_attributs & 0x40000000) >> 30;
       color         =(ensemble_attributs & 0x0000ffff);
       epaisseur_point += 2;
-      svg_attribut attr={color,width+1,epaisseur_point,type_line,type_point,fill_polygon,hidden_name};
+      bool ie=false; // detect here if we are using IE
+#if defined EMCC && !defined GIAC_GGB
+      ie=EM_ASM_INT_V({
+	  var ua = window.navigator.userAgent;
+	  var old_ie = ua.indexOf('MSIE ');
+	  var new_ie = ua.indexOf('Trident/');
+	  if ((old_ie > -1) || (new_ie > -1))
+	    return 1;
+	  else
+	    return 0;
+	});
+#endif
+      svg_attribut attr={color,width+1,epaisseur_point,type_line,type_point,fill_polygon,hidden_name,ie};
       if(v.size()==3)
 	name=v[2].print(contextptr);
       if (v[0].type==_VECT){
@@ -1094,19 +1144,19 @@ namespace giac {
 	gen e((*(mys.feuille._VECTptr))[i]);
 	if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_neg)){
 	  if ( (e._SYMBptr->feuille).type==_SYMB && (e._SYMBptr->feuille)._SYMBptr->sommet==at_plus)
-	    s += string("<mo>-</mo><mrow><mo>(</mo>")
+	    s = s+string("<mo>-</mo><mrow><mo>(</mo>")
 	      + gen2mathml(e._SYMBptr->feuille,contextptr)+
 	      string("<mo>)</mo></mrow>");
 	  else
-	    s += string("<mo>-</mo><mrow>") + gen2mathml(e._SYMBptr->feuille,contextptr)+string("</mrow>");
+	    s = s+string("<mo>-</mo><mrow>") + gen2mathml(e._SYMBptr->feuille,contextptr)+string("</mrow>");
 	}
 	else {
 	  if ( ( (e.type==_INT_) || (e.type==_ZINT) ) && (!is_positive(e,contextptr)) )
-	    s += "<mo>-</mo><mn>"+(-e).print(contextptr)+"</mn>";
+	    s = s+"<mo>-</mo><mn>"+(-e).print(contextptr)+"</mn>";
 	  else {
 	    if (i)
-	      s += "<mo>"+opstring+"</mo>";
-	    s += gen2mathml(e,contextptr);
+	      s = s+"<mo>"+opstring+"</mo>";
+	    s = s+gen2mathml(e,contextptr);
 	  }
 	}
       } // end_for
@@ -1122,9 +1172,9 @@ namespace giac {
 	  den.push_back(e._SYMBptr->feuille);
 	else {
 	  if (!den.empty()){
-	    s += "<mfrac><mrow>"+prod_vect2mathml_no_bra(num,contextptr)+"</mrow><mrow>"+prod_vect2mathml_no_bra(den,contextptr)
+	    s = s+"<mfrac><mrow>"+prod_vect2mathml_no_bra(num,contextptr)+"</mrow><mrow>"+prod_vect2mathml_no_bra(den,contextptr)
 	      +"</mrow></mfrac>";
-	    s+="<mo>&times;</mo>"; // A revoir ?  F.H: est ce que le seul cas utile est '1/y*(-33)' sinon un espace pour couper les barres de fractions serait plus joli
+	    s = s+"<mo>&times;</mo>"; // A revoir ?  F.H: est ce que le seul cas utile est '1/y*(-33)' sinon un espace pour couper les barres de fractions serait plus joli
 	    num.clear();
 	    den.clear();
 	  }
@@ -1183,10 +1233,10 @@ namespace giac {
 
     s = string(provisoire_mbox_begin)+opstring + string(provisoire_mbox_end) +"<mrow><mo>(</mo>";
     for (int i=0;;++i){
-      s += gen2mathml((*(mys.feuille._VECTptr))[i],contextptr);
+      s = s+gen2mathml((*(mys.feuille._VECTptr))[i],contextptr);
       if (i==l-1)
 	return s+"<mo>)</mo></mrow>";
-      s += ',';
+      s = s+',';
     }
   }
 
@@ -1240,10 +1290,10 @@ namespace giac {
 	if (!is_zero(im(e,contextptr))){
 	  if (is_positive(im(e,contextptr),contextptr)){
 	    if (!is_zero(re(e,contextptr)))
-	      part_re+="<mo>+</mo>";
+	      part_re = part_re+"<mo>+</mo>";
 	  }
 	  else
-	    part_re+="<mo>-</mo>";
+	    part_re = part_re+"<mo>-</mo>";
 	}
 	if (!is_one(-im(e,contextptr)) && ! is_one(im(e,contextptr)))
 	  part_im="<mn>"+abs(im(e,contextptr),contextptr).print(contextptr)+"</mn>"+part_im;	
