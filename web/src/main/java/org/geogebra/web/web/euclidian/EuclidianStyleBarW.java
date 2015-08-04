@@ -109,6 +109,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private PopupMenuButton btnAngleInterval;
 	private PopupMenuButton btnShowGrid;
 	protected PopupMenuButton btnPointCapture;
+	protected PopupMenuButton btnChangeView;
 
 	private MyToggleButton2 btnShowAxes;
 	MyToggleButton2 btnBold;
@@ -511,7 +512,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * add standard view, show all objects, etc. buttons
 	 */
 	protected void addChangeViewButtons() {
-		add(btnStandardView);
+		add(btnChangeView);
 	}
 
 	/**
@@ -540,7 +541,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return new PopupMenuButton[] { getAxesOrGridPopupMenuButton(),
 		        btnColor, btnBgColor, btnTextColor, btnLineStyle,
 		        btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle,
-		        btnPointCapture };
+				btnPointCapture, btnChangeView };
 	}
 
 	// =====================================================
@@ -565,6 +566,40 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		createFixPositionBtn();
 		createFixObjectBtn();
 		createTextSizeBtn();
+		createChangeViewButtons();
+	}
+
+	protected class ProjectionPopup extends PopupMenuButton {
+		private static final long serialVersionUID = 1L;
+
+		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
+			super(app, projectionIcons, 1, projectionIcons.length,
+					org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
+					true, false);
+		}
+
+		@Override
+		public void update(Object[] geos) {
+			this.setVisible(geos.length == 0
+					&& mode != EuclidianConstants.MODE_PEN);
+		}
+
+		/*
+		 * @Override public Point getToolTipLocation(MouseEvent e) { return new
+		 * Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
+		 */
+
+	}
+	protected void createChangeViewButtons() {
+		ImageOrText[] directionIcons = ImageOrText.convert(new ImageResource[] {
+				StyleBarResources.INSTANCE.standard_view(),
+				StyleBarResources.INSTANCE.view_all_objects() }, 24);
+
+		btnChangeView = new ProjectionPopup(app, directionIcons);
+		btnChangeView.setIcon(new ImageOrText(StyleBarResources.INSTANCE
+				.standard_view()));
+		btnChangeView.addPopupHandler(this);
+
 	}
 
 	protected void createAxesAndGridButtons() {
@@ -1131,8 +1166,21 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		if (super.processSource(source, targetGeos)) {
 			return true;
 		}
+		if (source.equals(btnChangeView)) {
+			int si = btnChangeView.getSelectedIndex();
+			switch (si) {
+			case 0: // standard view
+				getView().setStandardView(true);
+				break;
+			case 1: // show all objects
+				getView().setViewShowAllObjects(true);
+				break;
+			default:
+				setDirection(si);
+				break;
+			}
 
-		if (source == btnBgColor) {
+		} else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
 				float alpha = btnBgColor.getSliderValue() / 100.0f;
@@ -1183,6 +1231,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		return true;
+	}
+
+	protected void setDirection(int si) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public static void setGridType(EuclidianView ev, int val) {
