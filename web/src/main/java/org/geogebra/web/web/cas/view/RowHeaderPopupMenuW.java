@@ -114,7 +114,18 @@ public class RowHeaderPopupMenuW extends
 			undoNeeded = true;
 		} else if (ac.equals("copyAsLaTeX")) {
 			String toBeCopied = table.getCASView().getLaTeXfromCells(selRows);
+			// it's possible that the last row is the input bar,
+			// and if this is the case, the formula ends by:
+			// \\ undefined \\
 			if (toBeCopied != null) {
+				// App.debug("*" + toBeCopied + "*");
+				if (toBeCopied.endsWith("\\\\ undefined \\\\ ")) {
+					toBeCopied = toBeCopied.substring(0,
+							toBeCopied.length() - 14);
+				} else if (toBeCopied.endsWith("\\\\ undefined \\\\")) {
+					toBeCopied = toBeCopied.substring(0,
+							toBeCopied.length() - 13);
+				}
 				RowContentPopupMenuW.copyToSystemClipboard(toBeCopied);
 			}
 		}
