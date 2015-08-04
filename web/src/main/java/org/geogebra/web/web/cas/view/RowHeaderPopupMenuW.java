@@ -67,6 +67,17 @@ public class RowHeaderPopupMenuW extends
 		rowHeaderPopupMenu.addItem(miUseAsText);
 		miUseAsText.addStyleName("mi_no_image");
 
+
+		MenuItem latexItem = new MenuItem(app.getMenu("CopyAsLaTeX"),
+				new ScheduledCommand() {
+					public void execute() {
+						actionPerformed("copyAsLaTeX");
+					}
+				});
+		rowHeaderPopupMenu.addItem(latexItem);
+		latexItem.addStyleName("mi_no_image");
+
+		// latexItem.setIcon(((AppD) app).getEmptyIcon());
 	}
 
 	public void actionPerformed(String ac) {
@@ -98,6 +109,11 @@ public class RowHeaderPopupMenuW extends
 				casCell.setUseAsText(useAsText);
 			}
 			undoNeeded = true;
+		} else if (ac.equals("copyAsLaTeX")) {
+			String toBeCopied = table.getCASView().getLaTeXfromCells(selRows);
+			if (toBeCopied != null) {
+				RowContentPopupMenuW.copyToSystemClipboard(toBeCopied);
+			}
 		}
 
 		if (undoNeeded) {
