@@ -308,7 +308,7 @@ task emccGiacJs (dependsOn: 'emccCompile') {
     def inputInclude = []
     FileTree files = fileTree(dir: 'build/objs/giac.js')
     files.visit { f ->
-	if (!f.name.startsWith("first") && !f.name.startsWith("hello")) { // consider completely removing first*.cc and hello.cc
+	if (!f.name.startsWith("first") && !f.name.startsWith("hello") && !f.name.startsWith("opengl")) { // consider completely removing first*.cc and hello.cc
     	    def emccCompileTask = 'emccCompile_' + f.name - '.o' + 'Cc'
 	    inputInclude << f.name
 	    inputInclude << ('src/giac/cpp/' + f.name - '.o' + '.cc')
