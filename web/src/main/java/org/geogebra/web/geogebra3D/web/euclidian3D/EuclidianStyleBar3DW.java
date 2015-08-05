@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.images.StyleBarResources;
@@ -128,6 +129,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		projectionIcons[3].setUrl(StyleBar3DResources.INSTANCE.viewOblique()
 				.getSafeUri().asString());
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
+		btnViewProjection.setSelectedIndex(((EuclidianSettings3D) ev
+				.getSettings()).getProjection());
 		btnViewProjection.addPopupHandler(this);
 
 	}
@@ -405,6 +408,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 						EuclidianView3D.PROJECTION_OBLIQUE);
 				break;
 			}
+			getView().repaint();
 			return true;
 		}
 		return super.processSource(source, targetGeos);

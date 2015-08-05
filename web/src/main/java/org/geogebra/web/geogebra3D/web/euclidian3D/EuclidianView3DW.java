@@ -374,6 +374,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		public void onResize() {
 			super.onResize();
 			resizeView();
+			getEuclidianController().calculateEnvironment();
 		}
 
 	}
@@ -403,7 +404,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 				((RendererW) renderer).setPixelRatio(((AppW) app)
 						.getPixelRatio());
 				renderer.setView(0, 0, w, h);
-				getEuclidianController().calculateEnvironment();
+
 			}
 		});
 	}
