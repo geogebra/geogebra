@@ -309,7 +309,7 @@ public class Ggb2giac {
 
 						"[ggbinarg0:=%0],"
 						+ "[ggbinarg1:=%1],"
-						+ "[ggbinterans:=normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1)))],[ggbinterans:=when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))],ggbinterans][5]");
+						+ "[ggbinterans:=normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1)))],[ggbinterans:=when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans)))],ggbinterans][5]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
