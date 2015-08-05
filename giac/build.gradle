@@ -293,7 +293,7 @@ task emccCompile {
     def list = []
     FileTree files = fileTree(dir: 'src/giac/cpp')
     files.visit { f ->
-	if (f.name.endsWith('.cc')) {
+	if (f.name.endsWith('.cc') && !f.name.startsWith("first") && !f.name.startsWith("hello") && !f.name.startsWith("opengl")) {
     	    def emccCompileTask = 'emccCompile_' + f.name - '.cc' + 'Cc'
 	    list << emccCompileTask
 	    }
