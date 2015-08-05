@@ -294,8 +294,9 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		}
 
 		private static String toString(Coords3 c) {
-			return String.format("(%.2f, %.2f, %.2f)", c.getXd(), c.getYd(),
-					c.getZd());
+			return "";
+			// return String.format("(%.2f, %.2f, %.2f)", c.getXd(), c.getYd(),
+			// c.getZd());
 		}
 	}
 }
