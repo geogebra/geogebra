@@ -1955,9 +1955,9 @@ public abstract class EuclidianController {
 			if (selPolygons() == 1) {
 				GeoPolygon[] poly = getSelectedPolygons();
 
-				GeoPoint[] points = (GeoPoint[]) poly[0].getPoints();
+				GeoPointND[] points = (GeoPointND[]) poly[0].getPoints();
 
-				GeoPoint[] pointsCopy = new GeoPoint[points.length];
+				GeoPointND[] pointsCopy = new GeoPointND[points.length];
 
 				// make a free copy of all points
 				for (int i = 0; i < points.length; i++) {
@@ -1975,7 +1975,8 @@ public abstract class EuclidianController {
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
 				((GeoPolygon) ret[0]).getPoints()[0].setCoords(
-						pointsCopy[0].inhomX + offset, pointsCopy[0].inhomY
+						pointsCopy[0].getInhomX() + offset,
+						pointsCopy[0].getInhomY()
 								- offset, 1.0);
 				((GeoPolygon) ret[0]).getPoints()[0].updateRepaint();
 
