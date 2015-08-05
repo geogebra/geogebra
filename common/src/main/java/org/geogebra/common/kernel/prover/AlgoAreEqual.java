@@ -2,10 +2,12 @@ package org.geogebra.common.kernel.prover;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoAnglePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -195,6 +197,40 @@ public class AlgoAreEqual extends AlgoElement implements
 				return botanaPolynomials;
 
 			}
+
+		}
+
+		if (inputElement1 instanceof GeoAngle
+				&& inputElement2 instanceof GeoAngle) {
+			AlgoAnglePoints algo1 = (AlgoAnglePoints) inputElement1
+					.getParentAlgorithm();
+			// get points of first angle
+			GeoPoint A = (GeoPoint) algo1.input[0];
+			GeoPoint B = (GeoPoint) algo1.input[1];
+			GeoPoint C = (GeoPoint) algo1.input[2];
+			Variable[] vA = A.getBotanaVars(A);
+			Variable[] vB = B.getBotanaVars(B);
+			Variable[] vC = C.getBotanaVars(C);
+
+			AlgoAnglePoints algo2 = (AlgoAnglePoints) inputElement2
+					.getParentAlgorithm();
+			// get points of second angle
+			GeoPoint D = (GeoPoint) algo2.input[0];
+			GeoPoint E = (GeoPoint) algo2.input[1];
+			GeoPoint F = (GeoPoint) algo2.input[2];
+			Variable[] vD = D.getBotanaVars(D);
+			Variable[] vE = E.getBotanaVars(E);
+			Variable[] vF = F.getBotanaVars(F);
+
+			botanaPolynomials = new Polynomial[3][1];
+			// We want to prove: 1) A = D 2) B = E 3) C = F
+			botanaPolynomials[0][0] = Polynomial.sqrDistance(vA[0], vA[1],
+					vD[0], vD[0]);
+			botanaPolynomials[1][0] = Polynomial.sqrDistance(vB[0], vB[1],
+					vE[0], vE[1]);
+			botanaPolynomials[2][0] = Polynomial.sqrDistance(vC[0], vC[1],
+					vF[0], vF[1]);
+			return botanaPolynomials;
 
 		}
 

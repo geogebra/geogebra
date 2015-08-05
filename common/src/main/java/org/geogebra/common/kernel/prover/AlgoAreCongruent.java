@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoAnglePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -367,6 +369,73 @@ public class AlgoAreCongruent extends AlgoElement implements
 								auxVars[3]));
 				return botanaPolynomials;
 			}
+		}
+
+		if (inputElement1 instanceof GeoAngle
+				&& inputElement2 instanceof GeoAngle) {
+			AlgoAnglePoints algo1 = (AlgoAnglePoints) inputElement1
+					.getParentAlgorithm();
+			// get points of first angle
+			GeoPoint A = (GeoPoint) algo1.input[0];
+			GeoPoint B = (GeoPoint) algo1.input[1];
+			GeoPoint C = (GeoPoint) algo1.input[2];
+			Variable[] vA = A.getBotanaVars(A);
+			Variable[] vB = B.getBotanaVars(B);
+			Variable[] vC = C.getBotanaVars(C);
+
+			AlgoAnglePoints algo2 = (AlgoAnglePoints) inputElement2
+					.getParentAlgorithm();
+			// get points of second angle
+			GeoPoint D = (GeoPoint) algo2.input[0];
+			GeoPoint E = (GeoPoint) algo2.input[1];
+			GeoPoint F = (GeoPoint) algo2.input[2];
+			Variable[] vD = D.getBotanaVars(D);
+			Variable[] vE = E.getBotanaVars(E);
+			Variable[] vF = F.getBotanaVars(F);
+
+			Polynomial a1 = new Polynomial(vB[0]);
+			Polynomial a2 = new Polynomial(vB[1]);
+			Polynomial b1 = new Polynomial(vA[0]);
+			Polynomial b2 = new Polynomial(vA[1]);
+			Polynomial c1 = new Polynomial(vC[0]);
+			Polynomial c2 = new Polynomial(vC[1]);
+			Polynomial d1 = new Polynomial(vE[0]);
+			Polynomial d2 = new Polynomial(vE[1]);
+			Polynomial e1 = new Polynomial(vD[0]);
+			Polynomial e2 = new Polynomial(vD[1]);
+			Polynomial f1 = new Polynomial(vF[0]);
+			Polynomial f2 = new Polynomial(vF[1]);
+
+			Polynomial p1 = a1.subtract(c1).multiply(b1.subtract(a1));
+			Polynomial p2 = a2.subtract(c2).multiply(b2.subtract(a2));
+			// (CA*AB)^2
+			Polynomial nominator1 = Polynomial.sqr(p1.add(p2));
+			Polynomial p3 = Polynomial.sqr(a1.subtract(c1)).add(
+					Polynomial.sqr(a2.subtract(c2)));
+			Polynomial p4 = Polynomial.sqr(b1.subtract(a1)).add(
+					Polynomial.sqr(b2.subtract(a2)));
+			// ||CA||^2 * ||AB||^2
+			Polynomial denominator1 = p3.multiply(p4);
+
+			Polynomial p5 = d1.subtract(f1).multiply(e1.subtract(d1));
+			Polynomial p6 = d2.subtract(f2).multiply(e2.subtract(d2));
+			// (FD*DE)^2
+			Polynomial nominator2 = Polynomial.sqr(p5.add(p6));
+			Polynomial p7 = Polynomial.sqr(d1.subtract(f1)).add(
+					Polynomial.sqr(d2.subtract(f2)));
+			Polynomial p8 = Polynomial.sqr(e1.subtract(d1)).add(
+					Polynomial.sqr(e2.subtract(d2)));
+			// ||FD||^2 * ||DE||^2
+			Polynomial denominator2 = p7.multiply(p8);
+
+			// We want to prove: (CA*AB)^2 / (||CA||^2 * ||AB||^2) = (FD*DE)^2 /
+			// (||FD||^2 * ||DE||^2)
+			botanaPolynomials = new Polynomial[1][1];
+			botanaPolynomials[0][0] = nominator1.multiply(denominator2)
+					.subtract(denominator1.multiply(nominator2));
+
+			return botanaPolynomials;
+
 		}
 
 		throw new NoSymbolicParametersException();
