@@ -656,13 +656,14 @@ public class Ggb2giac {
 		p("Substitute.3", "subst(%0,%1,%2)");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 
+		p("Sum.1", "sum(%0)");
+
 		// remove normal from Sum, otherwise
 		// Sum[1/n*sqrt(1-(k/n)^2),k,1,n]
 		// Sum[1/10*sqrt(1-(k/10)^2),k,1,10]
 		// don't work
-		p("Sum.1", "sum(%0)");
-
 		// Sum[Sum[x+2y, x, 1, 3], y, 2, 4]
+		// expand added for Sum[2+3(n-1),n,1,n]
 		p("Sum.4",
 				"expand(subst(sum(subst(%0,%1,ggbsumvar@1),ggbsumvar@1,%2,%3), ggbsumvar@1, %1))");
 
@@ -736,9 +737,7 @@ public class Ggb2giac {
 						+ "[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"
 						+ "when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]");
 
-		// try with and without tan2sincos(), tcollectsin() and check which is
-		// shortest (as a string)
-		// eg TrigCombine[(tan(x) + tan(2x)) / (1 - tan(x) tan(2x))]
+		// try with and without tan2sincos(), tcollectsin() and check which i		// eg TrigCombine[(tan(x) + tan(2x)) / (1 - tan(x) tan(2x))]
 		p("TrigCombine.1",
 				"[[[ggbtrigarg:=%0], [ggbsin:=tcollectsin(normal(ggbtrigarg))], [ggbcos:=tcollect(normal(ggbtrigarg))], [ggbtan:=tcollect(normal(tan2sincos(ggbtrigarg)))], "
 						+ "[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"
