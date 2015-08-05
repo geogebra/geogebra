@@ -201,8 +201,17 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 			if (strLabel != null && text.indexOf('=') > -1 && text.indexOf('=') == text.lastIndexOf('=')) {
 				
 				try {
-					double val = Double.parseDouble(text.substring(text.indexOf('=')+1));
-					
+					double val = 0;
+					if (text.indexOf(Unicode.DEGREE_CHAR) > text.indexOf('=')) {
+						val = Double.parseDouble(text.substring(
+								text.indexOf('=') + 1,
+								text.indexOf(Unicode.DEGREE_CHAR)));
+						val *= Math.PI / 180;
+					} else {
+						val = Double.parseDouble(text.substring(text
+								.indexOf('=') + 1));
+					}
+
 					GeoNumeric geoNum = ((GeoNumeric)geoResult);
 					
 					if (val > geoNum.getIntervalMax()) geoNum.setIntervalMax(val);
