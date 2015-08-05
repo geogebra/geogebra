@@ -37,8 +37,14 @@
             color: white;
             background: green;
         }
+
+        .partly {
+            color: white;
+            background: orange;
+        }
+
     </style>
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
         WebFontConfig = {
             loading: function () {
@@ -64,8 +70,78 @@
         var t = Array();
         var ggbApplet = Array();
         var delay = 5000;
+        var isReset = false;
 
         var tests = {
+            rectangleconst: {
+                title: "Rectangle Construction",
+                description: "1. Select the Segment tool and create an arbitrary segment AB.<br>" +
+                "2. Select the Perpendicular Line tool and create a perpendicular line to segment AB through point B.<br>" +
+                "3. Select the Point on Object tool and create a point C on the perpendicular line.<br>" +
+                "4. Select the Parallel Line tool and create a parallel line to segment AB through point C.<br>" +
+                "5. Select the Perpendicular Line tool and create a perpendicular line to segment AB through point A.<br>" +
+                "6. Select the Intersect tool and create the intersection point D of the last two lines.<br>" +
+                "7. Select the Polygon tool and create the rectangle ABCD by successively clicking on all the vertices.",
+                ggbbase64: "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",
+                steps: [{
+                    ggbCommands: ["A=(0.5,0.5)", "B=(2.5,0.5)", "C=(2.5,4.5)", "D=(0.5,4.5)", "Polygon[A,B,C,D]"],
+                    result: {
+                        IntersectionPoint: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "You will need an intersection point in order to construct the rectangle correctly.",
+                            fraction: 0
+                        },
+                        Rectangle: {
+                            result: "WRONG_AFTER_RANDOMIZE",
+                            hint: "It seems you have drawn a Quadrilateral which can not be proven to be a Rectangle after dragging the Points!",
+                            fraction: 0
+                        }
+                    },
+                    fraction: 0
+                }, {
+                    ggbCommands: ["Delete[C]", "Delete[D]", "a=Segment[A,B]", "b=PerpendicularLine[B,a]", "C=Point[b,0.6]", "c=Line[C,a]", "d=Line[A,b]", "E=Intersect[c,d]"],
+                    result: {
+                        IntersectionPoint: {
+                            result: "CORRECT",
+                            hint: "Great, the intersection point was constructed correctly.",
+                            fraction: 0.5
+                        },
+                        Rectangle: {
+                            result: "WRONG_OUTPUT_TYPE",
+                            hint: "Are you sure, that there is even a Polygon in the Construction?",
+                            fraction: 0
+                        }
+                    }
+                }, {
+                    ggbCommands: ["poly1=Polygon[A,B,C,E]"],
+                    result: {
+                        IntersectionPoint: {
+                            result: "CORRECT",
+                            hint: "Great, the intersection point was constructed correctly.",
+                            fraction: 0.5
+                        },
+                        Rectangle: {
+                            result: "CORRECT",
+                            hint: "Great! You did it!",
+                            fraction: 1
+                        }
+                    }
+                }, {
+                    ggbCommands: ["Delete[poly1]", "Delete[E]", "G=(3,2)", "H=(5,1.5)", "g=Circle[G, H]", "h=Line[G, H]", "I=Intersect[g, h, 2]", "J=Point[g]", "i=Line[G, J]", "K=Intersect[g, i, 2]", "poly2=Polygon[K, H, J, I]"],
+                    result: {
+                        IntersectionPoint: {
+                            result: "WRONG",
+                            hint: "You will need an intersection point in order to construct the rectangle correctly.",
+                            fraction: 0
+                        },
+                        Rectangle: {
+                            result: "CORRECT",
+                            hint: "Great! You did it!",
+                            fraction: 1
+                        }
+                    }
+                }]
+            },
             parallelogramm: {
                 title: "Parallelogramm construction",
                 description: "Step 1. Make a line segment AB.<br>" +
@@ -74,7 +150,7 @@
                 "Step 4. Make a line through A, parallel with BC.<br>" +
                 "Step 5. Find the intersection point D between the lines.<br>" +
                 "Step 6. Make a polygon ABCD, and check if this is a parallelogram when you move one of the points.",
-                ggbbase64: "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",
+                ggbbase64: "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",
                 steps: [{
                     ggbCommands: ["A=(0.5,0.5)"],
                     result: {
@@ -116,7 +192,7 @@
                         Step1: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step2: {
                             result: "WRONG_OUTPUT_TYPE",
@@ -150,7 +226,7 @@
                         Step1: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step2: {
                             result: "WRONG",
@@ -185,12 +261,12 @@
                         Step1: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step2: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step3: {
                             result: "WRONG_OUTPUT_TYPE",
@@ -220,17 +296,17 @@
                         Step1: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step2: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step3: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step4: {
                             result: "WRONG",
@@ -255,22 +331,22 @@
                         Step1: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step2: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step3: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step4: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step5: {
                             result: "WRONG_OUTPUT_TYPE",
@@ -290,27 +366,27 @@
                         Step1: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step2: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step3: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step4: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step5: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step6: {
                             result: "WRONG_OUTPUT_TYPE",
@@ -325,32 +401,32 @@
                         Step1: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step2: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step3: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step4: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step5: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         },
                         Step6: {
                             result: "CORRECT",
                             hint: "",
-                            fraction: 1
+                            fraction: 0.16666666666666666
                         }
                     }
 
@@ -399,42 +475,42 @@
                     }
                 }]
 
-            },
-            parallelepiped: {
-                title: "Basic Parallelepiped Construction",
-                description: '﻿1. ﻿Enter&nbsp;<code>A = (-1, 0, 0)&nbsp;</code>into the&nbsp;<i>Algebra Input</i>&nbsp;and press&nbsp;<i>Enter&nbsp;</i>in order to create a new point.<br />' +
-                '2.﻿Activate the&nbsp;<i>Polygon&nbsp;</i>tool<i>.</i> Select the existing points <i>A,</i>&nbsp;<i>B</i>, <i>C</i>, <i>D</i>, and then select point <i>A</i> again, in order to create a polygon.<br />'+
-                '3.﻿Activate the <i>Extrude to Prism or Cylinder</i> tool and select the polygon.&nbsp;﻿In the&nbsp;appearing dialog window, enter the altitude<i>&nbsp;<code>2</code> </i>and click <i>ok</i>.',
-                ggbbase64: "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",
-                steps: [{
-                    ggbCommands: ["A=(-1,0,0)"],
-                    result: {
-                        Parallelepiped: {
-                            result: "WRONG_OUTPUT_TYPE",
-                            hint: "",
-                            fraction: 0
-                        }
-                    }
-                }, {
-                    ggbCommands: ["poly1=Polygon[A,B,C,D]"],
-                    result: {
-                        Parallelepiped: {
-                            result: "WRONG_OUTPUT_TYPE",
-                            hint: "",
-                            fraction: 0
-                        }
-                    }
-                }, {
-                    ggbCommands: ["Prism[poly1,2]"],
-                    result: {
-                        Parallelepiped: {
-                            result: "CORRECT",
-                            hint: "",
-                            fraction: 1
-                        }
-                    }
-                }]
             }
+//          ,  parallelepiped: {
+//                title: "Basic Parallelepiped Construction",
+//                description: '﻿1. ﻿Enter&nbsp;<code>A = (-1, 0, 0)&nbsp;</code>into the&nbsp;<i>Algebra Input</i>&nbsp;and press&nbsp;<i>Enter&nbsp;</i>in order to create a new point.<br />' +
+//                '2.﻿Activate the&nbsp;<i>Polygon&nbsp;</i>tool<i>.</i> Select the existing points <i>A,</i>&nbsp;<i>B</i>, <i>C</i>, <i>D</i>, and then select point <i>A</i> again, in order to create a polygon.<br />' +
+//                '3.﻿Activate the <i>Extrude to Prism or Cylinder</i> tool and select the polygon.&nbsp;﻿In the&nbsp;appearing dialog window, enter the altitude<i>&nbsp;<code>2</code> </i>and click <i>ok</i>.',
+//                ggbbase64: "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",
+//                steps: [{
+//                    ggbCommands: ["A=(-1,0,0)"],
+//                    result: {
+//                        Parallelepiped: {
+//                            result: "WRONG_OUTPUT_TYPE",
+//                            hint: "",
+//                            fraction: 0
+//                        }
+//                    }
+//                }, {
+//                    ggbCommands: ["poly1=Polygon[A,B,C,D]"],
+//                    result: {
+//                        Parallelepiped: {
+//                            result: "WRONG_OUTPUT_TYPE",
+//                            hint: "",
+//                            fraction: 0
+//                        }
+//                    }
+//                }, {
+//                    ggbCommands: ["Prism[poly1,2]"],
+//                    result: {
+//                        Parallelepiped: {
+//                            result: "CORRECT",
+//                            hint: "",
+//                            fraction: 1
+//                        }
+//                    }
+//                }]
+//            }
         };
 
         function runtests(id) {
@@ -442,7 +518,7 @@
 
             ggbApplet[id] = window[id];
 
-            for (step in tests[id].steps) {
+            for (var step in tests[id].steps) {
                 var commands = tests[id].steps[step].ggbCommands;
                 var result = tests[id].steps[step].result;
                 var success = true;
@@ -456,7 +532,7 @@
                     infoCreate.addClass("failed");
                     infoCreate.append("FAILED! ");
                 }
-                infoCreate.append("Creating object: " + commands);
+                infoCreate.append("Evaluating command(s): " + commands);
                 infoCreate.addClass("result_step");
                 resultDiv.append(infoCreate);
 
@@ -470,12 +546,10 @@
                 infoResulttest = $("<p></p>");
                 if (JSON.stringify(exerciseResult) != JSON.stringify(result)) {
                     infoResulttest.addClass("failed");
-                    ;
                     infoResulttest.append("FAILED, after: " + totalTime / 1000 + "s! Result should be: " + JSON.stringify(result));
 
                 } else {
                     infoResulttest.addClass("ok");
-                    ;
                     infoResulttest.append("OK, after: " + totalTime / 1000 + "s");
                 }
                 resultDiv.append(infoResulttest);
@@ -488,10 +562,14 @@
         }
 
         function ggbAppletOnLoad(id) {
-            t.push(setTimeout(function () {
-                runtests(id);
-                $('#startinfo').remove();
-            }, delay));
+            if (isReset) {
+                isReset = false;
+            } else {
+                t.push(setTimeout(function () {
+                    runtests(id);
+                    $('#startinfo').remove();
+                }, delay));
+            }
         }
 
         $(document).ready(function () {
@@ -509,7 +587,8 @@
 
                 var testButtons = $('<div><input type="button" id="test_' + testKey +
                 '" value="(Re)run test case on this exercise" disabled="disabled"/><input type="button" id="check_' + testKey +
-                '" value="Check exercise for current state of applet" disabled="disabled"/></div>');
+                '" value="Check exercise for current state of applet" disabled="disabled"/><input type="button" id="reset_' +
+                testKey + '" value="Reset applet" disabled="disabled"/></div>');
 
                 var ggbArticle = $("<article></article>");
                 ggbArticle.attr({
@@ -567,13 +646,54 @@
                         ggbApplet[testKey].setBase64(tests[testKey].ggbbase64);
                     } else if (typeTest[0] == "check") {
                         testKey = typeTest[1];
-                        $("#" + testKey + "_result_div").empty();
+                        var resultdiv = $("#" + testKey + "_result_div");
+                        resultdiv.empty();
                         var totalTime = -new Date();
                         ggbApplet[testKey] = window[testKey];
                         var exerciseResult = ggbApplet[testKey].getExerciseResult();
                         totalTime += +new Date();
-                        $("#" + testKey + "_result_div").append("Result after " + totalTime / 1000 + "s is: <pre>" +
-                        JSON.stringify(exerciseResult,null,4) + '</pre><br />Fraction:' + ggbApplet[testKey].getExerciseFraction());
+                        var singleCorrectIgnoreOthers = false;
+                        var fractionsum = 0;
+                        resultdiv.append($("<p><em>A LMS would render the Result in this way:</em></p>"));
+                        for (key in exerciseResult) {
+                            if (0.999 < exerciseResult[key].fraction) {
+                                singleCorrectIgnoreOthers = true;
+                                var feedback = document.createElement("p");
+                                if (exerciseResult[key].hint != "") {
+                                    resultdiv.append($("<p>" + exerciseResult[key].hint + "</p>"));
+                                } else {
+                                    resultdiv.append($("<p>" + exerciseResult[key].result + "</p>"));
+                                }
+                                fractionsum = 1;
+                            }
+                        }
+                        if (!singleCorrectIgnoreOthers)
+                            for (key in exerciseResult) {
+                                var feedback = document.createElement("p");
+                                if (exerciseResult[key].hint != "") {
+                                    resultdiv.append($("<p>" + exerciseResult[key].hint + "</p>"));
+                                } else {
+                                    resultdiv.append($("<p>" + exerciseResult[key].result + "</p>"));
+                                }
+                                fractionsum += exerciseResult[key].fraction;
+                            }
+                        if (0.999 < fractionsum) {
+                            resultdiv.append("<p class=\"ok\">You got " + 100 + " Points out of 100.</p>");
+                        } else if (fractionsum > 0.001) {
+                            resultdiv.append("<p class=\"partly\">You got " + fractionsum * 100 + " Points out of 100.</p>");
+                        } else {
+                            resultdiv.append("<p class=\"failed\">You got " + fractionsum * 100 + " Points out of 100.</p>");
+                        }
+                        resultdiv.append("<div><p><em>The output of ggbApplet.getExerciseResult() after " + totalTime / 1000 +
+                        "s is:</em> <pre>" +
+                        JSON.stringify(exerciseResult, null, 4) + '</pre></p></div>');
+                    } else if (typeTest[0] == "reset") {
+                        testKey = typeTest[1];
+                        $("#" + testKey + "_result_div").empty();
+                        ggbApplet[testKey] = window[testKey];
+                        isReset = true;
+                        ggbApplet[testKey].reset();
+//                        ggbApplet[testKey].setBase64(tests[testKey].ggbbase64);
                     }
                 }
             });
@@ -596,8 +716,25 @@
 
 <body dir="ltr" tabindex="-1">
 <h1>Exercise tests</h1>
-
 <p id="startinfo">Automatic testing will start 5 seconds after Applet loading finished. Click anywhere to cancel.</p>
+
+<p>For creating an Exercise just start the "New Exercise" dialog and create or choose a "User defined Tool" which corresponds to
+    the output object the student should construct. In most cases it's best to use only the inputs suggested by the dialog but
+    if you change the input objects choose wisely and test with different possible constructions. Use the "Check" button for
+    this.</p>
+
+<p>If you have more than one Assignment (user defined tool) in your construction, note that the fractions just add up. This is
+    useful if there is one output which is the solution and has 100% and the other assignments are just intermediate steps
+    which are possibly wrong in the end but the solution is correct (for example if the student chose another way of constructing
+    the same object).</p>
+
+<p>As you can see in the rectangle construction below the user defined tools and the Exercises have been created using one tool
+    for the intersection point of a parallel and a perpendicular line to the Segment and one for the rectangle. If the student
+    constructs the Rectangle with a Circle and 2 Lines he will never hit the point in the construction where he has to intersect
+    two lines. In this case we want to give him full credit for the rectangle and partial credit for the intersection point. If
+    we want to force the same construction we would give him partial credit for the rectangle and the other for the intersection
+    point.</p>
+
 <input type="button" id="autotest" value="Reload all Applets and run all test cases!" disabled="disabled"/>
 
 <div id="tests_div"></div>
