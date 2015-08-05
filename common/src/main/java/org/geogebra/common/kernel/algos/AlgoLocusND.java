@@ -432,7 +432,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			locus.setUndefined();
 			return;
 		}
-
 		updateScreenBordersIfNecessary();
 
 		locus.clearPoints();
@@ -854,11 +853,14 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		}
 	}
 
-	void updateScreenBorders(int i) {
-
+	boolean updateScreenBorders(int i) {
+		boolean changed = xmax[i] != kernel.getXmax(i);
 		xmax[i] = kernel.getXmax(i);
+		changed = changed || xmin[i] != kernel.getXmin(i);
 		xmin[i] = kernel.getXmin(i);
+		changed = changed || ymax[i] != kernel.getYmax(i);
 		ymax[i] = kernel.getYmax(i);
+		changed = changed || ymin[i] != kernel.getYmin(i);
 		ymin[i] = kernel.getYmin(i);
 
 		setMaxDistances(i);
@@ -866,7 +868,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// near to screen rectangle
 		nearToScreenRect[i].setFrame(farXmin[i], farYmin[i], farXmax[i]
 				- farXmin[i], farYmax[i] - farYmin[i]);
-
+		return changed;
 		// App.debug(viewIndex+" -- "+xmin[i]+","+ymin[i]+" -- "+xmax[i]+","+ymax[i]);
 	}
 
@@ -888,7 +890,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	}
 
-	void updateScreenBorders() {
+	boolean updateScreenBorders() {
 
 		for (int i = 0; i < visibleEV.length; i++) {
 			visibleEV[i] = isVisibleInEV(i + 1);
@@ -903,19 +905,22 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		if (visibleEV[2]) {
 			views++;
 		}
-
+		boolean changed = false;
 		for (int i = 0; i < visibleEV.length; i++) {
 			if (visibleEV[i]) {
-				updateScreenBorders(i);
+				changed = changed || updateScreenBorders(i);
 			}
 		}
+		return changed;
 
 	}
 
 	@Override
 	public boolean euclidianViewUpdate() {
-		updateScreenBorders();
+		boolean changed = updateScreenBorders();
+		if (changed) {
 		update();
+		}
 		return false;
 	}
 
