@@ -517,7 +517,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		for (int i = 0; i < guess.size() && n < outputs; i++) {
 			evals = guess.get(i).val;
 			
-			if (!Double.isFinite(evals[0]) || !Double.isFinite(evals[1])) {
+			if (!MyDouble.isFinite(evals[0]) || !MyDouble.isFinite(evals[1])) {
 				continue;
 			}
 			
@@ -623,7 +623,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		for (int i = 0; i < size; i++) {
 			evals = guess.get(i).val;
 
-			if (!Double.isFinite(evals[0]) || !Double.isFinite(evals[1])) {
+			if (!MyDouble.isFinite(evals[0]) || !MyDouble.isFinite(evals[1])) {
 				continue;
 			}
 

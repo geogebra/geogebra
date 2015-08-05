@@ -604,7 +604,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public static void interpolate(double[] in, double[] out) {
 		double r = -in[1] / (in[0] - in[1]);
-		if (!Double.isFinite(r) || r > 1.0 || r < 0.0) {
+		if (!MyDouble.isFinite(r) || r > 1.0 || r < 0.0) {
 			r = 0.5;
 		}
 		out[0] = r * (in[2] - in[4]) + in[4];
@@ -1116,8 +1116,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				hBits <<= 1;
 			}
 			// Adjust plot and search depth according to size of viewport
-			plotDepth = Integer.min(hBits, MAX_PLOT_DEPTH);
-			searchDepth = Integer.min(hBits >> 2, MAX_SEARCH_DEPTH);
+			plotDepth = Math.min(hBits, MAX_PLOT_DEPTH);
+			searchDepth = Math.min(hBits >> 2, MAX_SEARCH_DEPTH);
 
 			// initialize x and y fractions corresponding to PLOT_DEPTH
 			super.fracX = mx / plotDepth;

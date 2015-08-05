@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
-import java.util.Iterator;
-
 import org.geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -216,7 +214,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	/**
 	 * An iterator to allow move forward about the current surface
 	 */
-	public static class SurfaceMover implements Iterator<Triangle> {
+	public static class SurfaceMover {
 		private final int size;
 		private int next;
 		private MyPoint3D[] points;
@@ -237,6 +235,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		public boolean hasNext() {
 			return next < size;
 		}
+
 
 		public Triangle next() {
 

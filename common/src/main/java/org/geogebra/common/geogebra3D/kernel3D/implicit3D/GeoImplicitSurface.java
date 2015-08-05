@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -950,7 +951,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		 */
 		public int sign(int vertex) {
 			double v = eval(vertex);
-			if (Double.isFinite(v)) {
+			if (MyDouble.isFinite(v)) {
 				return v <= 0.0 ? 0 : 1;
 			}
 			return -1;
@@ -968,7 +969,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		public boolean intersect(int v1, int v2) {
 			double e1 = eval(v1);
 			double e2 = eval(v2);
-			if (Double.isFinite(e1) && Double.isFinite(e2)) {
+			if (MyDouble.isFinite(e1) && MyDouble.isFinite(e2)) {
 				return (e1 <= 0.0 && e2 >= 0.0) || (e1 >= 0.0 && e2 <= 0.0);
 			}
 			return false;
