@@ -448,14 +448,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	private boolean sliderNeeded() {
 		return app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoNumeric
-				&& !geo.isEuclidianVisible()
 				&& ((GeoNumeric) geo).isShowingExtendedAV();
 	}
 
 	private void initSlider() {
 		if (!geo.isEuclidianVisible()) {
-			// number inserted via input bar
-			// -> initialize min/max etc.
+		// // number inserted via input bar
+		// // -> initialize min/max etc.
 			geo.setEuclidianVisible(true);
 			geo.setEuclidianVisible(false);
 		}
@@ -849,8 +848,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
 			slider.setStep(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
-			if (((HasExtendedAV) geo).isShowingExtendedAV()
-			        && !geo.isEuclidianVisible()) {
+			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
 				sliderPanel.add(slider);
 				marblePanel.add(playButton);
 			} else if (marblePanel != null) {
