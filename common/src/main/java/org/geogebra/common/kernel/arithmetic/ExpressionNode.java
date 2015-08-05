@@ -846,7 +846,8 @@ public class ExpressionNode extends ValidExpression implements
 		ExpressionValue ev = t.process(this);
 		if (ev != this)
 			return ev;
-		left = left.traverse(t);
+		if (left != null)
+			left = left.traverse(t);
 		if (right != null)
 			right = right.traverse(t);
 		// if we did some replacement in a leaf,

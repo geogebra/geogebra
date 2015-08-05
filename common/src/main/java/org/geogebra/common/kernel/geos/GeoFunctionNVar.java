@@ -856,6 +856,16 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	/**
+	 * Perform 3D translation
+	 * 
+	 * @param v
+	 *            translation vector
+	 */
+	public void translate3D(Coords v) {
+		fun.translate(v.getX(), v.getY(), v.getZ());
+	}
+
+	/**
 	 * Returns true if the element is translateable
 	 * 
 	 * @return true
@@ -878,7 +888,16 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		fun.translate(-S.getX(), -S.getY());
 		fun.matrixTransform(1 / r.getDouble(), 0, 0, 1 / r.getDouble());
 		fun.translate(S.getX(), S.getY());
+	}
 
+	/**
+	 * @param r
+	 *            dilate factor
+	 * @param S
+	 *            coordinate
+	 */
+	public void dilate3D(NumberValue r, Coords S) {
+		fun.dilate3D(r, S);
 	}
 
 	public void rotate(NumberValue phi) {
@@ -897,7 +916,14 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 
 	public void mirror(Coords Q) {
 		dilate(new MyDouble(kernel, -1.0), Q);
+	}
 
+	/**
+	 * @param Q
+	 *            coordinate
+	 */
+	public void mirror3D(Coords Q) {
+		dilate3D(new MyDouble(kernel, -1.0), Q);
 	}
 
 	public void mirror(GeoLineND g1) {

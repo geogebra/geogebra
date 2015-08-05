@@ -363,10 +363,13 @@ public abstract class CommandDispatcher {
 				return getScriptingDispatcher().dispatch(command, kernel);
 
 				// advanced
-
+			case ContourPlot:
 			case IntersectPath:
 			case IntersectRegion:
 			case Direction:
+
+			case Difference:
+			case Xor:
 
 			case TaylorPolynomial:
 			case TaylorSeries:
@@ -391,6 +394,7 @@ public abstract class CommandDispatcher {
 			case IterationList:
 			case RootList:
 			case ImplicitCurve:
+			case ImplicitSurface:
 			case Roots:
 			case AffineRatio:
 			case CrossRatio:
@@ -558,7 +562,7 @@ public abstract class CommandDispatcher {
 			case Center:
 			case Element:
 			case Sequence:
-				// case ContourPlot:
+
 
 			case Reflect:
 			case Mirror:

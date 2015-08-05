@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoEllipseFociLength;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -50,6 +51,7 @@ import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
@@ -3382,7 +3384,8 @@ FromMeta
 	 */
 	public boolean isInRegion(double x0, double y0) {
 		
-		return evaluate(x0,y0)*evaluateInSignificantPoint()  >= 0; 
+		return Kernel.isGreaterEqual(evaluate(x0, y0)
+				* evaluateInSignificantPoint(), 0);
 
 	}
 	
@@ -3624,6 +3627,26 @@ FromMeta
 		
 	}
 	
+	/**
+	 * Set implicit curve to this conic
+	 * 
+	 * @param curve
+	 *            Implicit curve to store this conic
+	 */
+	public void toGeoImplicitCurve(GeoImplicitCurve curve) {
+		FunctionVariable v1 = new FunctionVariable(kernel, "x");
+		FunctionVariable v2 = new FunctionVariable(kernel, "y");
+		MyDouble d = new MyDouble(kernel, 1.0);
+		ExpressionNode x = new ExpressionNode(kernel, v1, Operation.MULTIPLY, d);
+		ExpressionNode y = new ExpressionNode(kernel, v2, Operation.MULTIPLY, d);
+		ExpressionNode lhs = x.square().multiply(matrix[0])
+				.plus(y.square().multiply(matrix[1])).plus(matrix[2])
+				.plus(x.multiply(y).multiply(matrix[3]))
+				.plus(x.multiply(matrix[4])).plus(y.multiply(matrix[5]));
+		ExpressionNode rhs = new ExpressionNode(kernel, 0.0);
+		curve.fromEquation(new Equation(kernel, lhs, rhs));
+	}
+
 	/**
 	 * Some ellipses might be circles by accident.
 	 * This method tells us whether we can rely on this conic being circle after some points are moved.

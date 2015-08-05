@@ -5821,6 +5821,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
+	 * @return true for implicit curve
+	 */
+	public boolean isGeoImplicitCurve() {
+		return false;
+	}
+
+	/**
 	 * @return true for conics
 	 */
 	public boolean isGeoConic() {

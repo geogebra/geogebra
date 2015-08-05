@@ -39,10 +39,15 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.implicit.AlgoImplicitCurveFunction;
 import org.geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
+import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
+import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyPolyLine;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
+import org.geogebra.common.kernel.implicit.AlgoTangentImplicitCurve;
 import org.geogebra.common.kernel.implicit.AlgoTangentImplicitpoly;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -731,6 +736,13 @@ public class AlgoDispatcher {
 		return implicitPoly;
 	}
 
+	final public GeoImplicitCurve ImplicitCurve(String label,
+			GeoFunctionNVar func) {
+		AlgoImplicitCurveFunction algo = new AlgoImplicitCurveFunction(cons,
+				label, func);
+		return algo.getImplicitCurve();
+	}
+
 	/********************
 	 * ALGORITHMIC PART *
 	 ********************/
@@ -834,11 +846,34 @@ public class AlgoDispatcher {
 
 	/**
 	 * Intersect[polygon,polygon] G. Sturr
+	 * 
+	 * modified by thilina
 	 */
 	final public GeoElement[] IntersectPolygons(String[] labels,
-			GeoPolygon poly0, GeoPolygon poly1) {
+			GeoPolygon poly0, GeoPolygon poly1, boolean asRegion) {
+		if (asRegion) {
 		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
 				labels, poly0, poly1);
+		GeoElement[] polygon = algo.getOutput();
+		return polygon;
+		} else {
+			AlgoIntersectPolyLines algo = new AlgoIntersectPolyLines(cons,
+					labels, poly0, poly1, true, true);
+			return algo.getOutput();
+		}
+	}
+
+	/**
+	 * Intersect[polygon, polygon] as region. This is used when loading saved
+	 * files.
+	 * 
+	 * @author thilina
+	 */
+
+	final public GeoElement[] IntersectPolygons(String[] labels,
+			GeoPolygon poly0, GeoPolygon poly1, int[] outputSizes) {
+		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
+				labels, poly0, poly1, outputSizes);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}
@@ -849,6 +884,71 @@ public class AlgoDispatcher {
 	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1) {
 		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0, poly1);
+		GeoElement[] polygon = algo.getOutput();
+		return polygon;
+	}
+
+	/**
+	 * Union[polygon, polygon] as region. This is used when loading saved files
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1, int[] outputSizes) {
+		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0,
+				poly1, outputSizes);
+		GeoElement[] polygon = algo.getOutput();
+		return polygon;
+	}
+
+	/**
+	 * Difference[polygon,polygon]
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] Difference(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1) {
+		AlgoPolygonDifference algo = new AlgoPolygonDifference(cons, labels,
+				poly0, poly1);
+		GeoElement[] polygon = algo.getOutput();
+		return polygon;
+	}
+
+	/**
+	 * Difference[polygon, polygon] as region. This is used when loading saved
+	 * files
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] Difference(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1, int[] outputSizes) {
+		AlgoPolygonDifference algo = new AlgoPolygonDifference(cons, labels,
+				poly0, poly1, outputSizes);
+		GeoElement[] polygon = algo.getOutput();
+		return polygon;
+	}
+
+	/**
+	 * Xor[polygon,polygon]
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] Xor(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1) {
+		AlgoPolygonXor algo = new AlgoPolygonXor(cons, labels, poly0, poly1);
+		GeoElement[] polygon = algo.getOutput();
+		return polygon;
+	}
+
+	/**
+	 * Xor[polygon, polygon] as region. This is used when loading saved files
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] Xor(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1, int[] outputSizes) {
+		AlgoPolygonXor algo = new AlgoPolygonXor(cons, labels, poly0, poly1,
+				outputSizes);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}
@@ -944,6 +1044,20 @@ public class AlgoDispatcher {
 	}
 
 	/**
+	 * yields intersection points named label of polyLine g and polyLine p
+	 *
+	 * @author thilina
+	 */
+	final public GeoElement[] IntersectPolyLines(String[] labels,
+			GeoPolyLine g, GeoPolyLine p) {
+		AlgoIntersectPolyLines algo = new AlgoIntersectPolyLines(cons, labels,
+				g, p, false, false);
+		GeoElement[] points = algo.getOutput();
+		GeoElement el = points[100];
+		return algo.getOutput();
+	}
+
+	/**
 	 * yields intersection points named label of curve g and curve p
 	 */
 	final public GeoElement[] IntersectCurveCurve(String[] labels,
@@ -985,6 +1099,19 @@ public class AlgoDispatcher {
 	}
 
 	/**
+	 * yields intersection points named label of PolyLine g and polygon p (as
+	 * boundary)
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] IntersectPolyLinePolygon(String[] labels,
+			GeoPolyLine g, GeoPolygon p) {
+		AlgoIntersectPolyLines algo = new AlgoIntersectPolyLines(cons, labels,
+				g, p, false, true);
+		return algo.getOutput();
+	}
+
+	/**
 	 * Intersects f and g using starting point A (with Newton's root finding)
 	 */
 	final public GeoPoint IntersectFunctions(String label, GeoFunction f,
@@ -1019,6 +1146,38 @@ public class AlgoDispatcher {
 		GeoPoint[] points = algo.getIntersectionPoints();
 		GeoElement.setLabels(labels, points);
 		return points;
+	}
+
+	/**
+	 * IntersectPolyLineConic yields intersection points of polyLine g and conic
+	 * c
+	 */
+	public GeoElement[] IntersectPolyLineConic(String[] labels, GeoPolyLine g,
+			GeoConic c) {
+		AlgoIntersectPolyLineConic algo = getIntersectionAlgorithm(
+				(GeoPolyLine) g, (GeoConic) c);
+		algo.setPrintedInXML(true);
+		GeoElement[] points = algo.getOutput();
+		GeoElement.setLabels(labels, points);
+		return points;
+	}
+
+	/**
+	 * IntersectPolygonConic yields intersection points of polygon g and conic c
+	 */
+	public GeoElement[] IntersectPolygonConic(String[] labels, GeoPolygon g,
+			GeoConic c, boolean asRegion) {
+		if (asRegion) {
+			// TODO
+			return null;
+		} else {
+		AlgoIntersectPolyLineConic algo = getIntersectionAlgorithm(
+				(GeoPolygon) g, (GeoConic) c);
+		algo.setPrintedInXML(true);
+		GeoElement[] points = algo.getOutput();
+		GeoElement.setLabels(labels, points);
+		return points;
+		}
 	}
 
 	/**
@@ -1106,6 +1265,66 @@ public class AlgoDispatcher {
 	}
 
 	/**
+	 * Intersect function/polynomial-polyLine yields all intersection points of
+	 * GeoFunction f and polyLine l
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] IntersectPolynomialPolyLine(String[] labels,
+			GeoFunction f, GeoPolyLine pl) {
+
+
+			AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
+					cons, labels, f, pl, false);
+
+			return algo.getOutput();
+	}
+
+	/**
+	 * Intersect function/Polynomial-polygon yields all intersection points of
+	 * GeoFunction f and polygon pl
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] IntersectPolynomialPolygon(String[] labels,
+			GeoFunction f, GeoPolygon pl) {
+
+		AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
+					cons, labels, f, pl, true);
+		
+		return algo.getOutput();
+
+	}
+
+	/**
+	 * Intersect function-polyline yields all intersection points of GeoFunction
+	 * f and polyline pl
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] IntersectNPFunctionPolyLine(String[] labels,
+			GeoFunction f, GeoPolyLine pl, GeoPoint initPoint) {
+		
+		AlgoIntersectNpFunctionPolyLine algo = new AlgoIntersectNpFunctionPolyLine(
+				cons, labels, initPoint, f, pl, false);
+		return algo.getOutput();
+	}
+
+	/**
+	 * Intersect function-polygon yields all intersection points of GeoFunction
+	 * f and polygon pl
+	 * 
+	 * @author thilina
+	 */
+	final public GeoElement[] IntersectNPFunctionPolygon(String[] labels,
+			GeoFunction f, GeoPolygon pl, GeoPoint initPoint) {
+
+		AlgoIntersectNpFunctionPolyLine algo = new AlgoIntersectNpFunctionPolyLine(
+				cons, labels, initPoint, f, pl, true);
+		return algo.getOutput();
+	}
+
+	/**
 	 * get only one intersection point of two conics that is near to the given
 	 * location (xRW, yRW)
 	 */
@@ -1138,6 +1357,30 @@ public class AlgoDispatcher {
 			GeoImplicitPoly p, GeoLine l) {
 		AlgoIntersectImplicitpolyParametric algo = getIntersectionAlgorithm(p,
 				l);
+		algo.setPrintedInXML(true);
+		GeoPoint[] points = algo.getIntersectionPoints();
+		algo.setLabels(labels);
+		return points;
+	}
+
+	/**
+	 * get intersection points of a implicitPoly and a polyline
+	 */
+	final public GeoPoint[] IntersectImplicitpolyPolyLine(String[] labels,
+			GeoImplicitPoly p, GeoPolyLine l) {
+		AlgoIntersectImplicitpolyPolyLine algo = getIntersectionAlgorithm(p, l);
+		algo.setPrintedInXML(true);
+		GeoPoint[] points = algo.getIntersectionPoints();
+		algo.setLabels(labels);
+		return points;
+	}
+
+	/**
+	 * get intersection points of a implicitPoly and a polygon
+	 */
+	final public GeoPoint[] IntersectImplicitpolyPolygon(String[] labels,
+			GeoImplicitPoly p, GeoPolygon l) {
+		AlgoIntersectImplicitpolyPolyLine algo = getIntersectionAlgorithm(p, l);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
@@ -1183,6 +1426,42 @@ public class AlgoDispatcher {
 		return points;
 	}
 
+	final public GeoPoint[] IntersectImplicitCurveLine(String[] labels,
+			GeoImplicitCurve curve, GeoLine line) {
+		AlgoIntersectImplicitCurve algo = new AlgoIntersectImplicitCurve(cons,
+				labels, curve, line);
+		GeoPoint[] points = algo.getIntersectionPoints();
+		algo.setLabels(labels);
+		return points;
+	}
+
+	final public GeoPoint[] IntersectImplicitCurveConic(String[] labels,
+			GeoImplicitCurve curve, GeoConic conic) {
+		AlgoIntersectImplicitCurve algo = new AlgoIntersectImplicitCurve(cons,
+				labels, curve, conic);
+		GeoPoint[] points = algo.getIntersectionPoints();
+		algo.setLabels(labels);
+		return points;
+	}
+
+	final public GeoPoint[] IntersectImplicitCurveFunction(String[] labels,
+			GeoImplicitCurve curve, GeoFunction func) {
+		AlgoIntersectImplicitCurve algo = new AlgoIntersectImplicitCurve(cons,
+				labels, curve, func);
+		GeoPoint[] points = algo.getIntersectionPoints();
+		algo.setLabels(labels);
+		return points;
+	}
+
+	final public GeoPoint[] IntersectImplicitCurveImpCurve(String[] labels,
+			GeoImplicitCurve curve, GeoImplicitCurve impCurve) {
+		AlgoIntersectImplicitCurve algo = new AlgoIntersectImplicitCurve(cons,
+				labels, curve, impCurve);
+		GeoPoint[] points = algo.getIntersectionPoints();
+		algo.setLabels(labels);
+		return points;
+	}
+
 	// intersect polynomial and conic
 	public AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f,
 			GeoConic c) {
@@ -1207,6 +1486,36 @@ public class AlgoDispatcher {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectLineConic algo = new AlgoIntersectLineConic(cons, g, c);
+		algo.setPrintedInXML(false);
+		intersectionAlgos.add(algo); // remember this algorithm
+		return algo;
+	}
+
+	// intersect polyLine and Conic
+	public AlgoIntersectPolyLineConic getIntersectionAlgorithm(GeoPolyLine g,
+			GeoConic c) {
+		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(g, c);
+		if (existingAlgo != null)
+			return (AlgoIntersectPolyLineConic) existingAlgo;
+
+		// we didn't find a matching algorithm, so create a new one
+		AlgoIntersectPolyLineConic algo = new AlgoIntersectPolyLineConic(cons,
+				c, g, false);
+		algo.setPrintedInXML(false);
+		intersectionAlgos.add(algo); // remember this algorithm
+		return algo;
+	}
+
+	// intersect polygon(as boundary) and Conic
+	public AlgoIntersectPolyLineConic getIntersectionAlgorithm(GeoPolygon g,
+			GeoConic c) {
+		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(g, c);
+		if (existingAlgo != null)
+			return (AlgoIntersectPolyLineConic) existingAlgo;
+
+		// we didn't find a matching algorithm, so create a new one
+		AlgoIntersectPolyLineConic algo = new AlgoIntersectPolyLineConic(cons,
+				c, g, true);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -1264,6 +1573,36 @@ public class AlgoDispatcher {
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
 				cons, p, l);
+		algo.setPrintedInXML(false);
+		intersectionAlgos.add(algo); // remember this algorithm
+		return algo;
+	}
+
+	// intersection of GeoImplicitPoly, GeoPolyLine
+	public AlgoIntersectImplicitpolyPolyLine getIntersectionAlgorithm(
+			GeoImplicitPoly p, GeoPolyLine l) {
+		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, l);
+		if (existingAlgo != null)
+			return (AlgoIntersectImplicitpolyPolyLine) existingAlgo;
+
+		// we didn't find a matching algorithm, so create a new one
+		AlgoIntersectImplicitpolyPolyLine algo = new AlgoIntersectImplicitpolyPolyLine(
+				cons, p, l, false);
+		algo.setPrintedInXML(false);
+		intersectionAlgos.add(algo); // remember this algorithm
+		return algo;
+	}
+
+	// intersection of GeoImplicitPoly, GeoPolygon
+	public AlgoIntersectImplicitpolyPolyLine getIntersectionAlgorithm(
+			GeoImplicitPoly p, GeoPolygon l) {
+		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, l);
+		if (existingAlgo != null)
+			return (AlgoIntersectImplicitpolyPolyLine) existingAlgo;
+
+		// we didn't find a matching algorithm, so create a new one
+		AlgoIntersectImplicitpolyPolyLine algo = new AlgoIntersectImplicitpolyPolyLine(
+				cons, p, l, true);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -1369,6 +1708,15 @@ public class AlgoDispatcher {
 			GeoImplicitPoly p) {
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons,
 				labels, p, R);
+		algo.setLabels(labels);
+		GeoLine[] tangents = algo.getTangents();
+		return tangents;
+	}
+
+	final public GeoLine[] Tangent(String[] labels, GeoPointND R,
+			GeoImplicitCurve p) {
+		AlgoTangentImplicitCurve algo = new AlgoTangentImplicitCurve(cons,
+				labels, R, p);
 		algo.setLabels(labels);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;

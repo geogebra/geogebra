@@ -261,7 +261,7 @@ public class GeoConicPartParameters {
 		double lx = secondVec.getX() - firstVec.getX(), ly = secondVec.getY()
 				- firstVec.getY();
 
-		return (vx * ly - vy * lx > 0);
+		return Kernel.isGreaterEqual(vx * ly - vy * lx, 0);
 	}
 	
 	private double computeArg(double x0, double y0) {

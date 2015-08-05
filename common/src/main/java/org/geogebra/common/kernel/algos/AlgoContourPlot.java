@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
@@ -29,7 +29,7 @@ public class AlgoContourPlot extends AlgoElement {
 	private Equation equ;
 	private Polynomial poly;
 	private ExpressionNode en;
-	private GeoImplicitPoly implicitPoly;
+	private GeoImplicitCurve implicitPoly;
 	private double min, max, step, xstep, ystep;
 	private int divisionPoints;
 	private double calcmin, calcmax, calcxmin, calcxmax, calcymin, calcymax,
@@ -135,14 +135,14 @@ public class AlgoContourPlot extends AlgoElement {
 		equ = new Equation(kernel, en, new MyDouble(kernel, value));
 		equ.initEquation();
 		poly = equ.getNormalForm();
-		implicitPoly.setCoeff(poly.getCoeff());
-		list1.add(new GeoImplicitPoly(implicitPoly));
+		implicitPoly.fromEquation(equ);
+		list1.add(new GeoImplicitCurve(implicitPoly));
 	}
 
 	private double checkPolyValue(int i, int j) {
 		double x = xmin + xstep * i;
 		double y = ymin + ystep * j;
-		return implicitPoly.evalPolyAt(x, y);
+		return implicitPoly.evaluateImplicitCurve(x, y);
 	}
 
 	private int calculateBoundary(int order) {
@@ -245,7 +245,7 @@ public class AlgoContourPlot extends AlgoElement {
 		calcymax = ymax;
 		min = Double.MAX_VALUE;
 		max = -Double.MAX_VALUE;
-		implicitPoly = new GeoImplicitPoly(cons);
+		implicitPoly = new GeoImplicitCurve(cons);
 		implicitPoly.setDefined();
 		FunctionNVar f = func.getFunction();
 		FunctionVariable[] fvars = f.getFunctionVariables();
@@ -266,9 +266,7 @@ public class AlgoContourPlot extends AlgoElement {
 			en.replace(fvars[0], xVar);
 			en.replace(fvars[1], yVar);
 			equ = new Equation(kernel, en, new MyDouble(kernel));
-			equ.initEquation();
-			poly = equ.getNormalForm();
-			implicitPoly.setCoeff(poly.getCoeff());
+			implicitPoly.fromEquation(equ);
 			for (int i = 0; i < divisionPoints; i++) {
 				for (int j = 0; j < divisionPoints; j++) {
 					double val = checkPolyValue(i, j);
@@ -286,7 +284,7 @@ public class AlgoContourPlot extends AlgoElement {
 			}
 			double freeTerm = 0;
 			if (step == 0 && !fixed) {
-				freeTerm = implicitPoly.getCoeff()[0][0];
+				freeTerm = implicitPoly.evaluateImplicitCurve(0, 0);
 				step = Math.abs((max - min) / 10.0);
 				contourStep.set(new MyDouble(kernel, step).toGeoElement());
 			}
@@ -311,7 +309,7 @@ public class AlgoContourPlot extends AlgoElement {
 		} catch (MyError e) {
 			App.debug(e.getMessage());
 			implicitPoly.setUndefined();
-			list.add(new GeoImplicitPoly(implicitPoly));
+			list.add(new GeoImplicitCurve(implicitPoly));
 		}
 	}
 
@@ -320,12 +318,13 @@ public class AlgoContourPlot extends AlgoElement {
 				|| ymax > calcymax;
 	}
 
+	// TODO implement isOnScreen for implicit curves
 	private int getVisibleContourCount() {
 		int count = 0;
 		for (int i = 0; i < list.size(); i++) {
-			if (((GeoImplicitPoly) (list.get(i))).isOnScreen()) {
+			/* if (((GeoImplicitCurve) (list.get(i))).isOnScreen()) { */
 				count++;
-			}
+			// }
 		}
 		return count;
 	}

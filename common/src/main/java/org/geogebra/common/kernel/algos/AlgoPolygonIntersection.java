@@ -42,6 +42,26 @@ public class AlgoPolygonIntersection extends AlgoPolygonOperation {
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels for output
+	 * @param inPoly0
+	 *            first input polygon
+	 * @param inPoly1
+	 *            second input polygon
+	 * @param outputSizes
+	 *            sizes of the results of the operation. Consist of polgonSize,
+	 *            pointSize, segmentSize
+	 */
+	public AlgoPolygonIntersection(Construction cons, String[] labels,
+			GeoPolygon inPoly0, GeoPolygon inPoly1, int[] outputSizes) {
+
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION,
+				outputSizes);
+	}
+
 	@Override
 	public Commands getClassName() {
 		return Commands.IntersectPath;

@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoDependentImplicitSurface;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -2193,12 +2195,11 @@ public class AlgebraProcessor {
 				fun.setLabel(equ.getLabel());
 				return processFunction(fun);
 			}
-			if (equ.mayBePolynomial()) {
-				return processImplicitPoly(equ);
-			} else if (app.has(Feature.IMPLICIT_CURVES)) {
-
+			if (app.has(Feature.IMPLICIT_CURVES)) {
 				return processImplicitCurve(equ);
-			}
+			} else if (equ.mayBePolynomial()) {
+				return processImplicitPoly(equ);
+			} 
 
 			String[] errors = { "InvalidEquation" };
 			throw new MyError(loc, errors);
@@ -2347,13 +2348,26 @@ public class AlgebraProcessor {
 		GeoImplicitCurve poly;
 		GeoElement geo = null;
 		if (isIndependent) {
-			poly = new GeoImplicitCurve(cons, label, equ);
-			geo = poly;
+			if (kernel.getApplication().getActiveEuclidianView()
+					.isEuclidianView3D()) {
+				geo = new GeoImplicitSurface(cons, equ);
+			} else {
+				poly = new GeoImplicitCurve(cons, label, equ);
+				geo = poly;
+			}
 		} else {
-			AlgoDependentImplicitCurve algo = new AlgoDependentImplicitCurve(
-					cons, label, equ, true);
+			if (kernel.getApplication().getActiveEuclidianView()
+					.isEuclidianView3D()) {
+				AlgoDependentImplicitSurface algo = new AlgoDependentImplicitSurface(
+						cons, label, equ, true);
 
-			geo = algo.getGeo();
+				geo = algo.getGeo();
+			} else {
+				AlgoDependentImplicitCurve algo = new AlgoDependentImplicitCurve(
+						cons, label, equ, true);
+
+				geo = algo.getGeo();
+			}
 		}
 		ret[0] = geo;
 		// AbstractApplication.debug("User Input: "+equ);

@@ -56,7 +56,8 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_GEOMETRY), ArePerpendicular(TABLE_GEOMETRY), AreEqual(
 			TABLE_GEOMETRY), AreConcurrent(TABLE_GEOMETRY), AreCongruent(
 			TABLE_GEOMETRY), LocusEquation(
-			TABLE_GEOMETRY), Envelope(TABLE_GEOMETRY), Volume(TABLE_3D),
+			TABLE_GEOMETRY), Envelope(TABLE_GEOMETRY), Volume(TABLE_3D), Difference(
+			TABLE_GEOMETRY), Xor(TABLE_GEOMETRY),
 
 	// =============================================================
 	// text
@@ -94,8 +95,8 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_FUNCTION), Curvature(TABLE_FUNCTION), OsculatingCircle(
 			TABLE_FUNCTION), IterationList(TABLE_FUNCTION), RootList(
 			TABLE_FUNCTION), ImplicitCurve(TABLE_FUNCTION), ImplicitDerivative(
-			TABLE_FUNCTION), NSolveODE(TABLE_FUNCTION), Spline(TABLE_FUNCTION), Normalize(
-			TABLE_FUNCTION),
+			TABLE_FUNCTION), NSolveODE(TABLE_FUNCTION), Spline(TABLE_FUNCTION), ImplicitSurface(
+			TABLE_FUNCTION), Normalize(TABLE_FUNCTION),
 	// =============================================================
 	// conics
 	// =============================================================

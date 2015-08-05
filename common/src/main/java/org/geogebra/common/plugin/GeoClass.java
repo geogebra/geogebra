@@ -32,6 +32,11 @@ public enum GeoClass {
 			true),
 
 	SURFACECARTESIAN3D("Surface", "SurfaceCartesian3D", true),
+	
+	IMPLICIT_SURFACE_3D("ImplicitSurface3D", "ImplicitSurface3D", true),
+
+	TRIANGULATED_SURFACE_3D("TriangulatedSurface3D", "TriangulatedSurface3D",
+			true),
 
 	CLIPPINGCUBE3D("ClippingCube3D", true),
 

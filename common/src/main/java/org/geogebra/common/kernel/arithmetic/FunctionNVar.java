@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -779,6 +780,33 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		}
 	}
 
+	/**
+	 * translate the expression
+	 * 
+	 * @param vx
+	 *            x-translation
+	 * @param vy
+	 *            y-translation
+	 * @param vz
+	 *            z-translation
+	 */
+	public void translate(double vx, double vy, double vz) {
+		int zIndex;
+		if (!Kernel.isZero(vz) && (zIndex = getVarIndex("z")) != -1) {
+			translateX(expression, vz, zIndex);
+		}
+		translate(vx, vy);
+	}
+
+	private int getVarIndex(String s) {
+		for (int i = 0; i < fVars.length; i++) {
+			if (s.equals(fVars[i].toString(StringTemplate.defaultTemplate))) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	// replace every x in tree by (x - vx)
 	// i.e. replace fVar with (fvar - vx)
 	private void translateX(ExpressionNode en, double vx, int varNo) {
@@ -846,6 +874,35 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 					new MyDouble(kernel, -vx));
 		}
 		return node;
+	}
+
+	/**
+	 * @param d
+	 *            dilate factor
+	 * @param s
+	 *            coordinates
+	 */
+	public void dilate3D(NumberValue d, Coords s) {
+		double r = 1.0 / d.getDouble();
+		int zIndex = this.getVarIndex("z");
+		if (zIndex != -1) {
+			this.translate(-s.getX(), -s.getY(), -s.getZ());
+			ExpressionNode newX = new ExpressionNode(kernel, d,
+					Operation.MULTIPLY, fVars[0]);
+			ExpressionNode newY = new ExpressionNode(kernel, d,
+					Operation.MULTIPLY, fVars[1]);
+			ExpressionNode newZ = new ExpressionNode(kernel, d,
+					Operation.MULTIPLY, fVars[zIndex]);
+			expression = expression.replace(fVars[0], newX).wrap();
+			expression = expression.replace(fVars[1], newY).wrap();
+			expression = expression.replace(fVars[zIndex], newZ).wrap();
+			this.initIneqs(expression, this);
+			this.translate(s.getX(), s.getY(), s.getZ());
+		} else {
+			this.translate(-s.getX(), -s.getY());
+			this.matrixTransform(r, 0, 0, r);
+			this.translate(s.getX(), s.getY());
+		}
 	}
 
 	/**

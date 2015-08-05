@@ -84,6 +84,7 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -169,6 +170,8 @@ public abstract class EuclidianController {
 
 	protected GeoImplicitPoly tempImplicitPoly;
 
+	protected GeoImplicitCurve tempImplicitCurve;
+
 	protected ArrayList<GeoPoint> moveDependentPoints;
 
 	protected GeoFunction tempFunction;
@@ -182,6 +185,8 @@ public abstract class EuclidianController {
 	protected GeoConic movedGeoConic;
 
 	protected GeoImplicitPoly movedGeoImplicitPoly;
+
+	protected GeoImplicitCurve movedGeoImplicitCurve;
 
 	protected GeoVectorND movedGeoVector;
 
@@ -468,6 +473,7 @@ public abstract class EuclidianController {
 	protected static final int MOVE_FREEHAND = 124;
 	protected static final int MOVE_ATTACH_DETACH = 125;
 	public static final int MOVE_PLANE = 126;
+	protected static final int MOVE_IMPLICIT_CURVE = 127;
 
 	private static final int ZOOM_RECT_THRESHOLD = 30;
 	private static final int DRAG_THRESHOLD = 10;
@@ -2289,9 +2295,45 @@ public abstract class EuclidianController {
 				ret[0] = getAlgoDispatcher().IntersectFunctionLine(null,
 						fun[0], line[0], initPoint);
 			}
-			return ret;
-			// function and conic
-		} else if ((selFunctions() >= 1) && (selConics() >= 1)) {
+			return ret;	
+		} 
+		// polynomial and polyLine
+		else if ((selPolyLines() >= 1) && (selFunctions() >= 1)) {
+
+			GeoPolyLine[] polyLine = getSelectedPolyLines();
+			GeoFunction[] fun = getSelectedFunctions();
+			checkZooming();
+
+			if (fun[0].isPolynomialFunction(false)) {
+				return getAlgoDispatcher().IntersectPolynomialPolyLine(null,
+						fun[0], polyLine[0]);
+			}
+
+			GeoPoint initPoint = new GeoPoint(kernel.getConstruction());
+			initPoint.setCoords(xRW, yRW, 1.0);
+			return getAlgoDispatcher().IntersectNPFunctionPolyLine(null,
+					fun[0], polyLine[0], initPoint);
+
+		}
+		// polynomial and polygon
+		else if ((selPolygons() >= 1) && (selFunctions() >= 1)) {
+
+			GeoPolygon[] polygon = getSelectedPolygons();
+			GeoFunction[] fun = getSelectedFunctions();
+			checkZooming();
+
+			if (fun[0].isPolynomialFunction(false)) {
+				return getAlgoDispatcher().IntersectPolynomialPolygon(null,
+						fun[0], polygon[0]);
+			}
+
+			GeoPoint initPoint = new GeoPoint(kernel.getConstruction());
+			initPoint.setCoords(xRW, yRW, 1.0);
+			return getAlgoDispatcher().IntersectNPFunctionPolygon(null, fun[0],
+					polygon[0], initPoint);
+		}
+		// function and conic
+		else if ((selFunctions() >= 1) && (selConics() >= 1)) {
 			GeoConic[] conic = getSelectedConics();
 			GeoFunction[] fun = getSelectedFunctions();
 			// if (fun[0].isPolynomialFunction(false)){
@@ -2356,6 +2398,24 @@ public abstract class EuclidianController {
 				}
 				return getAlgoDispatcher().IntersectImplicitpolys(null, p[0],
 						p[1]);
+			}
+
+			// intersect implicitPoly and polyLine
+			else if (selPolyLines() >= 1) {
+				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoPolyLine pl = getSelectedPolyLines()[0];
+				checkZooming();
+				return getAlgoDispatcher().IntersectImplicitpolyPolyLine(null,
+						p, pl);
+			}
+
+			// intersect implicitPoly and polygon
+			else if (selPolygons() >= 1) {
+				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoPolygon pl = getSelectedPolygons()[0];
+				checkZooming();
+				return getAlgoDispatcher().IntersectImplicitpolyPolygon(null,
+						p, pl);
 			}
 		}
 		return null;
@@ -5803,6 +5863,17 @@ public abstract class EuclidianController {
 		}
 	}
 
+	protected final void moveImplicitCurve(boolean repaint) {
+		movedGeoImplicitCurve.set(tempImplicitCurve);
+		movedGeoImplicitCurve.translate(xRW - getStartPointX(), yRW
+				- getStartPointY());
+		if (repaint) {
+			movedGeoImplicitCurve.updateRepaint();
+		} else {
+			movedGeoImplicitCurve.updateCascade();
+		}
+	}
+
 	protected final void moveImplicitPoly(boolean repaint) {
 		movedGeoImplicitPoly.set(tempImplicitPoly);
 		movedGeoImplicitPoly.translate(xRW - getStartPointX(), yRW
@@ -7067,6 +7138,18 @@ public abstract class EuclidianController {
 				tempConic = new GeoConic(kernel.getConstruction());
 			}
 			tempConic.set(movedGeoConic);
+		} else if (movedGeoElement.isGeoImplicitCurve()) {
+			moveMode = MOVE_IMPLICIT_CURVE;
+			movedGeoImplicitCurve = (GeoImplicitCurve) movedGeoElement;
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+			setStartPointLocation();
+			if (tempImplicitCurve == null) {
+				tempImplicitCurve = new GeoImplicitCurve(movedGeoImplicitCurve);
+			} else {
+				tempImplicitCurve.set(movedGeoImplicitCurve);
+			}
+
 		} else if (movedGeoElement.isGeoImplicitPoly()) {
 			moveMode = MOVE_IMPLICITPOLY;
 			movedGeoImplicitPoly = (GeoImplicitPoly) movedGeoElement;
@@ -7119,6 +7202,7 @@ public abstract class EuclidianController {
 			// }
 			// }
 			// }
+
 
 		}
 		// else removed otherwise AlgoFunctionFreehand can't be dragged
@@ -7563,6 +7647,10 @@ public abstract class EuclidianController {
 
 		case MOVE_IMPLICITPOLY:
 			moveImplicitPoly(repaint);
+			break;
+
+		case MOVE_IMPLICIT_CURVE:
+			moveImplicitCurve(repaint);
 			break;
 
 		case MOVE_FREEHAND:

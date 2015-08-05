@@ -29,6 +29,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConicSection3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConify3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawCurve3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusion3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawImplicitSurface3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLine3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawList3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLocus3D;
@@ -65,6 +66,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -596,6 +598,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			case CLIPPINGCUBE3D:
 				d = new DrawClippingCube3D(this, (GeoClippingCube3D) geo);
 				break;
+			case IMPLICIT_SURFACE_3D:
+				d = new DrawImplicitSurface3D(this, (GeoImplicitSurface) geo);
 			}
 		}
 

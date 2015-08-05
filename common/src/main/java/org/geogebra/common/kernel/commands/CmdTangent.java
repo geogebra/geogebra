@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -117,6 +118,16 @@ public class CmdTangent extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoConic()))) {
 				return tangent(c.getLabels(), (GeoConicND) arg[0],
 						(GeoConicND) arg[1]);
+			} else if ((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1].isGeoImplicitCurve()))) {
+				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
+						(GeoPointND) arg[0], (GeoImplicitCurve) arg[1]);
+				return ret;
+			} else if ((ok[0] = (arg[0].isGeoImplicitCurve()))
+					&& (ok[1] = (arg[1].isGeoPoint()))) {
+				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
+						(GeoPointND) arg[1], (GeoImplicitCurve) arg[0]);
+				return ret;
 			}
 
 			// syntax error

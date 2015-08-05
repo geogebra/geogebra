@@ -289,6 +289,22 @@ public class PlotterSurface {
 	}
 	
 	/**
+	 * draw triangle
+	 * 
+	 * @param p1
+	 *            first vertex
+	 * @param p2
+	 *            second vertex
+	 * @param p3
+	 *            last vertex
+	 */
+	public void triangle(Coords3 p1, Coords3 p2, Coords3 p3) {
+		manager.vertex(p1.getXd(), p1.getYd(), p1.getZd());
+		manager.vertex(p2.getXd(), p2.getYd(), p2.getZd());
+		manager.vertex(p3.getXd(), p3.getYd(), p3.getZd());
+	}
+
+	/**
 	 * start triangles
 	 * @param size vertices size
 	 */
@@ -310,6 +326,10 @@ public class PlotterSurface {
 
 	public void endGeometryDirect() {
 		manager.endGeometryDirect();
+	}
+
+	public void endGeometry() {
+		manager.endGeometry();
 	}
 
 	/**

@@ -25,6 +25,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -38,6 +39,14 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 
 	private GeoFunction h; // input
 	private GeoConic c;
+
+	private static final int PIXELS_BETWEEN_SAMPLES = 5; // Open for empirical
+															// adjustments
+	private static final int MAX_SAMPLES = 400; // -"- (covers a screen up to
+												// 2000 pxs if 5-pix-convention)
+	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a
+												// 250pxs interval if
+												// 5-pix-convention)
 
 	// private boolean isLimitedPathSituation;
 
@@ -106,39 +115,67 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			c.toGeoImplicitPoly(iPoly);
 			GeoFunction paramEquation = new GeoFunction(cons, iPoly, null, h);
 
-			double nroots = 0;
-			double res[] = new double[2];
+			// int nroots = 0;
+			// double res[] = new double[2];
+
+			// bounds of the ellipse:
+			// axx+byy+c+2dxy+2ex+2fy = b yy + (2dx + 2f)+(axx+2ex+c) has
+			// exactly one root wrt y if
+			// 0=(2dx +2f)^2-4*b(axx+2ex+c)=4*((d^2-ab)xx+(2df-2eb)x+(f^2-bc))
+
+			// nroots = kernel.getEquationSolver().solveQuadratic(
+			// new double[] { -A[5] * A[5] + A[1] * A[2],
+			// 2 * (A[1] * A[4] - A[3] * A[5]),
+			// A[0] * A[1] - A[3] * A[3] }, res,
+			// Kernel.STANDARD_PRECISION);
+
+			Coords midPoint = null;
+			double[] halfAxes = null;
+			double ellipseCirlcleFactor = 1.05;
+			double hyperParaBolaFactor = 05;
+
 			// bounds of the ellipse:
 			// axx+byy+c+2dxy+2ex+2fy = b yy + (2dx + 2f)+(axx+2ex+c) has
 			// exactly one root wrt y if
 			// 0=(2dx +2f)^2-4*b(axx+2ex+c)=4*((d^2-ab)xx+(2df-2eb)x+(f^2-bc))
 			if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE
 					|| c.getType() == GeoConicNDConstants.CONIC_ELLIPSE) {
-				nroots = kernel.getEquationSolver().solveQuadratic(
-						new double[] { -A[5] * A[5] + A[1] * A[2],
-								2 * (A[1] * A[4] - A[3] * A[5]),
-								A[0] * A[1] - A[3] * A[3] }, res,
-						Kernel.STANDARD_PRECISION);
+
+				midPoint = c.getMidpoint();
+				halfAxes = c.getHalfAxes();
 			}
 
 			AlgoRoots algo = null;
-			if (nroots == 2) {
-				// assume res[0]>=res[1]
-				if (res[1] > res[0]) {
-					double temp = res[0];
-					res[0] = res[1];
-					res[1] = temp;
-				}
+			if (midPoint != null && halfAxes != null) {
 				algo = new AlgoRoots(cons, paramEquation, new GeoNumeric(cons,
-						Math.max(res[1] - Kernel.MIN_PRECISION,
-								h.getMinParameter())), new GeoNumeric(cons,
-						Math.min(res[0] + Kernel.MIN_PRECISION,
-								h.getMaxParameter())));
+						midPoint.getX() - ellipseCirlcleFactor
+								* Math.max(halfAxes[0], halfAxes[1])),
+						new GeoNumeric(cons, midPoint.getX()
+								+ ellipseCirlcleFactor
+								* Math.max(halfAxes[0], halfAxes[1])));
+
+				// Log.debug("interval(ellipse/circle): "
+				// + (midPoint.getX() - ellipseCirlcleFactor
+				// * Math.max(halfAxes[0], halfAxes[1]))
+				// + ", "
+				// + (midPoint.getX() + ellipseCirlcleFactor
+				// * Math.max(halfAxes[0], halfAxes[1])));
 			} else {
 				algo = new AlgoRoots(cons, paramEquation, new GeoNumeric(cons,
-						h.getMinParameter()), new GeoNumeric(cons,
-						h.getMaxParameter()));
+						h.getMinParameter() - hyperParaBolaFactor
+								* Math.abs(h.getMinParameter())),
+						new GeoNumeric(cons, h.getMaxParameter()
+								+ hyperParaBolaFactor
+								* Math.abs(h.getMaxParameter() * 0.5)));
+
+				// Log.debug("interval(hyperbola/parabola): "
+				// + (h.getMinParameter() - Math.abs(h.getMinParameter()
+				// * hyperParaBolaFactor))
+				// + ", "
+				// + (h.getMaxParameter() + Math.abs(h.getMaxParameter()
+				// * hyperParaBolaFactor)));
 			}
+
 			GeoPoint[] points = algo.getRootPoints();
 			List<double[]> valPairs = new ArrayList<double[]>();
 			for (int i = 0; i < points.length; i++) {

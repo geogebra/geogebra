@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.advanced.CmdFlatten;
 import org.geogebra.common.kernel.advanced.CmdFromBase;
 import org.geogebra.common.kernel.advanced.CmdIdentity;
 import org.geogebra.common.kernel.advanced.CmdImplicitPoly;
+import org.geogebra.common.kernel.advanced.CmdImplicitSurface;
 import org.geogebra.common.kernel.advanced.CmdIncircle;
 import org.geogebra.common.kernel.advanced.CmdIndexOf;
 import org.geogebra.common.kernel.advanced.CmdInsert;
@@ -90,6 +91,7 @@ import org.geogebra.common.kernel.advanced.CmdUnion;
 import org.geogebra.common.kernel.advanced.CmdUnique;
 import org.geogebra.common.kernel.advanced.CmdVerticalText;
 import org.geogebra.common.kernel.advanced.CmdZip;
+import org.geogebra.common.main.Feature;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet
@@ -108,13 +110,23 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdIntersectPath(kernel);
 		case Direction:
 			return new CmdDirection(kernel);
+
+		case Difference:
+			return !kernel.getApplication().has(Feature.POLYGON_OPS) ? null
+					: new CmdDifference(kernel);
+		case Xor:
+			return !kernel.getApplication().has(Feature.POLYGON_OPS) ? null
+					: new CmdXor(kernel);
+
 		case TaylorPolynomial:
 		case TaylorSeries:
 			return new CmdTaylorSeries(kernel);
 		case SecondAxis:
 		case MinorAxis:
 			return new CmdSecondAxis(kernel);
-
+		case ContourPlot:
+			return !kernel.getApplication().has(Feature.IMPLICIT_CURVES) ? null
+					: new CmdContourPlot(kernel);
 		case SemiMinorAxisLength:
 		case SecondAxisLength:
 			return new CmdSecondAxisLength(kernel);
@@ -147,6 +159,9 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdRootList(kernel);
 		case ImplicitCurve:
 			return new CmdImplicitPoly(kernel);
+		case ImplicitSurface:
+			return !kernel.getApplication().has(Feature.IMPLICIT_CURVES) ? null
+					: new CmdImplicitSurface(kernel);
 		case Roots:
 			return new CmdRoots(kernel);
 		case AffineRatio:
