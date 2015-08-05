@@ -918,8 +918,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	@Override
 	public boolean euclidianViewUpdate() {
 		boolean changed = updateScreenBorders();
-		if (changed) {
-		update();
+		if (changed || !locus.getAlgoUpdateSet().isEmpty()) {
+			update();
 		}
 		return false;
 	}
