@@ -535,7 +535,7 @@ public class DrawTextField extends Drawable implements
 		if (drawOnCanvas) {
 			int left = xLabel;
 			int top = boxTop;
-			int right = left + boxWidth;
+			int right = left + labelSize.x + boxWidth;
 			int bottom = top + boxHeight;
 			//
 			res = (x > left && x < right && y > top && y < bottom)
