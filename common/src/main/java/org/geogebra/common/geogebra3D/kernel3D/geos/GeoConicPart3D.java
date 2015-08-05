@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.Matrix.CoordNearest;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -32,6 +33,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartParameters;
@@ -45,7 +47,7 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
-		GeoNumberValue {
+		GeoNumberValue, LimitedPath {
 
 	// parameters (e.g. angles) for arc
 	private GeoConicPartParameters parameters;
@@ -831,6 +833,11 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 	public Coords getSegmentEnd3D() {
 		return getCoordSys().getPoint(lines[0].endPoint.inhomX,
 				lines[0].endPoint.inhomY);
+	}
+
+	public GeoElement[] createTransformedObject(Transform t, String label) {
+		// TODO: this way we discard the path limitation
+		return new GeoElement[] { t.getTransformedConic(this) };
 	}
 
 }
