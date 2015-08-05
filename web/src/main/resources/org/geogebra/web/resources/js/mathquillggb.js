@@ -2853,9 +2853,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       // now look back 3 characters, and check whether they are Korean
       // characters that can be merged...
       var triple = ch;
-      // this does not work with Korean characters: ᅩᅡ
-      // which are lowercase of \u1169\u1161
-      /*if (this.cursor[L]) {
+      if (this.cursor[L]) {
         if (this.cursor[L].ctrlSeq) {
           if (this.cursor[L].ctrlSeq.length === 1) {
             triple = this.cursor[L].ctrlSeq + triple;
@@ -2881,7 +2879,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
         	this.cursor.backspace();
           }
         }
-      }*/
+      }
 
       this.cursor.write(ch);
     }
@@ -6703,7 +6701,11 @@ var Cursor = P(Point, function(_) {
       self.parent.bubble('onText', self, mort);
       return false;
     }
-    self.writeLatex(mort).show();
+    var mrt = mort;
+    if (this.root) {
+      mrt = this.root.mergeKoreanDoubles(mrt);
+    }
+    self.writeLatex(mrt).show();
     return true;
   };
   _.writeLatex = function(latex) {
