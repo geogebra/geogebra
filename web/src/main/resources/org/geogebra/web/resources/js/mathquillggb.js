@@ -2850,8 +2850,41 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 	} else if (ch === ' ') {
       this.cursor.write('*');
 	} else {
+      // now look back 3 characters, and check whether they are Korean
+      // characters that can be merged...
+      var triple = ch;
+      // this does not work with Korean characters: ᅩᅡ
+      // which are lowercase of \u1169\u1161
+      /*if (this.cursor[L]) {
+        if (this.cursor[L].ctrlSeq) {
+          if (this.cursor[L].ctrlSeq.length === 1) {
+            triple = this.cursor[L].ctrlSeq + triple;
+          }
+        }
+        if (this.cursor[L][L]) {
+          if (this.cursor[L][L].ctrlSeq) {
+            if (this.cursor[L][L].ctrlSeq.length === 1) {
+              triple = this.cursor[L][L].ctrlSeq + triple;
+            }
+          }
+        }
+        var tripleL = triple.length;
+        if (tripleL > 1) {
+          triple = this.mergeKoreanDoubles(triple);
+          ch = triple[triple.length - 1];
+        }
+        if (tripleL != triple.length) {
+          if (tripleL.length - triple.length === 1) {
+            this.cursor.backspace();
+          } else {
+        	this.cursor.backspace();
+        	this.cursor.backspace();
+          }
+        }
+      }*/
+
       this.cursor.write(ch);
-	}
+    }
     return false;
   };
   _.selectNextSyntaxHelp = function() {
