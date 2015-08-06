@@ -239,16 +239,19 @@ public class EquationEditor {
 			String cmdInt = app.getInternalCommand(cmd);
 
 			String syntaxString;
-			// if (isCASInput) {
-			// syntaxString = loc.getCommandSyntaxCAS(cmdInt);
-			// } else {
-			syntaxString = app.getLocalization().getCommandSyntax(cmdInt);
-			// }
-			if (syntaxString.endsWith(// isCASInput ? Localization.syntaxCAS :
+			if (component.isForCAS()) {
+				syntaxString = app.getLocalization()
+						.getCommandSyntaxCAS(cmdInt);
+			} else {
+				syntaxString = app.getLocalization().getCommandSyntax(cmdInt);
+			}
+			if (syntaxString
+					.endsWith(component.isForCAS() ? Localization.syntaxCAS
+							:
 			        Localization.syntaxStr)) {
 
 				// command not found, check for macros
-				Macro macro = // isCASInput ? null :
+				Macro macro = component.isForCAS() ? null :
 				app.getKernel().getMacro(cmd);
 				if (macro != null) {
 					syntaxes.add(macro.toString());
