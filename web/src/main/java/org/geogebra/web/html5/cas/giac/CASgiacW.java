@@ -103,8 +103,8 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 		// #5439
 		// restart Giac before each call
 		nativeEvaluateRaw(initString, Log.logger != null);
-		nativeEvaluateRaw("timeout " + (timeoutMillis / 1000), false);
 		nativeEvaluateRaw(specialFunctions, false);
+		nativeEvaluateRaw("timeout " + (timeoutMillis / 1000), false);
 
 		// make sure we don't always get the same value!
 		int seed = rand.nextInt(Integer.MAX_VALUE);
