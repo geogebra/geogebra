@@ -2,6 +2,7 @@ package org.geogebra.common.cas.giac;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
@@ -41,6 +42,8 @@ import com.google.gwt.regexp.shared.RegExp;
 public abstract class CASgiac implements CASGenericInterface {
 	/** parser tools */
 	protected CasParserTools parserTools;
+
+	protected static Random rand = new Random();
 
 	/**
 	 * string to put Giac into GeoGebra mode (not affected by 'restart')

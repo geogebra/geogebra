@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.cas.giac;
 
-import java.util.Random;
-
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.Evaluate;
@@ -95,7 +93,6 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 		// not called?
 	}
 
-	private static Random rand = new Random();
 
 
 	public synchronized String evaluate(String s) {

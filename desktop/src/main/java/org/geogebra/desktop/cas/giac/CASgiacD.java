@@ -290,6 +290,11 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		g = new gen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", C);
 		giac._eval(g, C);
 
+		// make sure we don't always get the same value!
+		int seed = rand.nextInt(Integer.MAX_VALUE);
+		g = new gen("srand(" + seed + ")", C);
+		giac._eval(g, C);
+
 	}
 
 	/**
