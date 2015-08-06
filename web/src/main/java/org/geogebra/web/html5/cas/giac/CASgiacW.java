@@ -103,20 +103,10 @@ public class CASgiacW extends CASgiac implements org.geogebra.common.cas.Evaluat
 			return "?";
 		}
 
-		// as of 30th July 2015 giac.js doesn't seem to remember
-		// that it's in GeoGebra mode
-		// so set it each time
-		// http://dev.geogebra.org/trac/changeset/41957
-		// if (!giacSetToGeoGebraMode) {
-			nativeEvaluateRaw(initString, Log.logger != null);
-			giacSetToGeoGebraMode = true;
-
-			nativeEvaluateRaw("timeout " + (timeoutMillis / 1000), false);
-		// }
-
-		// running this each time means that all 1600+ tests can be run at once
-		// without getting stuck
-		// in desktop it's run just once
+		// #5439
+		// restart Giac before each call
+		nativeEvaluateRaw(initString, Log.logger != null);
+		nativeEvaluateRaw("timeout " + (timeoutMillis / 1000), false);
 		nativeEvaluateRaw(specialFunctions, false);
 
 		// make sure we don't always get the same value!

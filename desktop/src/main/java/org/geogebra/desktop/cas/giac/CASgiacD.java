@@ -113,14 +113,13 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	// whether to use thread (JNI only)
 	final private static boolean useThread = !AppD.LINUX;
 
-
-	@SuppressWarnings("deprecation")
 	public String evaluate(String input) throws Throwable {
 
 		return evaluate(input, timeoutMillis);
 
 	}
 
+	@Override
 	public String evaluate(String input, long timeoutMillis0) throws Throwable {
 
 		// don't need to replace Unicode when sending to JNI
@@ -132,52 +131,32 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		threadResult = null;
 		Thread thread;
 
-		if (app.isApplet() && (!AppD.hasFullPermissions() || !giacLoaded)) {
-			App.setCASVersionString("Giac/JS");
 
-			// can't load DLLs in unsigned applet
-			// so use JavaScript version instead
 
-			if (!giacSetToGeoGebraMode) {
-				app.getApplet().evalJS(wrapJSString(initString));
-				giacSetToGeoGebraMode = true;
+		if (useThread) {
+			// send expression to CAS
+			thread = new GiacJNIThread(exp);
+
+			thread.start();
+			thread.join(timeoutMillis0);
+			thread.interrupt();
+			// thread.interrupt() doesn't seem to stop it, so add this for
+			// good measure:
+			thread.stop();
+			// in fact, stop will do nothing (never implemented)
+			App.debug("giac: after interrupt/stop");
+
+			// if we haven't got a result, CAS took too long to return
+			// eg Solve[sin(5/4 pi+x)-cos(x-3/4 pi)=sqrt(6) *
+			// cos(x)-sqrt(2)]
+			if (threadResult == null) {
+				throw new org.geogebra.common.cas.error.TimeoutException(
+						"Thread timeout from Giac");
 			}
-
-			// set timeout (in seconds)
-			app.getApplet().evalJS(
-					wrapJSString("timeout " + (timeoutMillis0 / 1000)));
-
-			// reset Giac
-			app.getApplet().evalJS(wrapJSString(specialFunctions));
-
-			threadResult = app.getApplet().evalJS(wrapJSString(exp));
-
 		} else {
-
-			if (useThread) {
-				// send expression to CAS
-				thread = new GiacJNIThread(exp);
-
-				thread.start();
-				thread.join(timeoutMillis0);
-				thread.interrupt();
-				// thread.interrupt() doesn't seem to stop it, so add this for
-				// good measure:
-				thread.stop();
-				// in fact, stop will do nothing (never implemented)
-				App.debug("giac: after interrupt/stop");
-
-				// if we haven't got a result, CAS took too long to return
-				// eg Solve[sin(5/4 pi+x)-cos(x-3/4 pi)=sqrt(6) *
-				// cos(x)-sqrt(2)]
-				if (threadResult == null) {
-					throw new org.geogebra.common.cas.error.TimeoutException(
-							"Thread timeout from Giac");
-				}
-			} else {
-				threadResult = evalRaw(exp, timeoutMillis0);
-			}
+			threadResult = evalRaw(exp, timeoutMillis0);
 		}
+
 		ret = postProcess(threadResult);
 
 		App.debug("giac output: " + ret);
@@ -187,27 +166,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		}
 
 		return ret;
-	}
-
-	/**
-	 * 
-	 * wrap in _ggbCallGiac('...')
-	 * 
-	 * @param s
-	 *            string to wrap
-	 * @return wrapped string
-	 */
-	private static String wrapJSString(String s) {
-		StringBuilder sb = new StringBuilder(s.length() + 20);
-
-		// we will wrap string in '', so we need to escape any 's
-		String str = s.replace("'", "\\'");
-
-		sb.append("_ggbCallGiac('");
-		sb.append(str);
-		sb.append("');");
-
-		return sb.toString();
 	}
 
 	public void initCAS() {
@@ -337,10 +295,14 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	/**
 	 * @param exp0
 	 *            String to send to Giac
+	 * @param timeoutMilliseconds
+	 *            timeout in milliseconds
 	 * @return String from Giac
 	 */
 	String evalRaw(String exp0, long timeoutMilliseconds) {
 
+		// #5439
+		// reset Giac before each call
 		init(timeoutMilliseconds);
 
 		String exp = wrapInevalfa(exp0);
