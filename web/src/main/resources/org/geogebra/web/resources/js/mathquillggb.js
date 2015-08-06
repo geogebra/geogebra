@@ -2429,7 +2429,8 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     var sb = "", c, c2;
     for (var i = 0; i < str.length - 1; i++) {
       var offset = 1;
-      switch (c = str.charCodeAt(i)) {
+      c = str.charCodeAt(i);
+      switch (str.charAt(i)) {
         case '\u1161':
         case '\u1162':
         case '\u1165':
