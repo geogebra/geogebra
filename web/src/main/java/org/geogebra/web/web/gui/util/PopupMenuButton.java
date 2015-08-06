@@ -224,6 +224,10 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		myPopup.getPanel().add(myTable);
     }
 
+	protected void showTableItem(int col, boolean show) {
+		myTable.getWidget(0, col).setVisible(show);
+	}
+
 	/**
 	 * @param popupMenuHandler
 	 *            {@link PopupMenuHandler}

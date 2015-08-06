@@ -162,7 +162,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
 				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
 				new Integer(EuclidianStyleConstants.LINE_TYPE_DOTTED),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED) };
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_POINTWISE) };
 		return ret;
 	}
 

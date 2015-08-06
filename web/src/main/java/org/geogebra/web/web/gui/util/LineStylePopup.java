@@ -11,7 +11,7 @@ public class LineStylePopup extends PopupMenuButton  {
 	private static final int DEFAULT_SIZE = 2;
 
 	private static HashMap<Integer, Integer> lineStyleMap;
-	private static int mode;
+	private int mode;
 	private static ImageOrText [] lineStyleIcons = null;
 	public static void fillData(int iconHeight) {
 		
@@ -20,8 +20,7 @@ public class LineStylePopup extends PopupMenuButton  {
 		setLineStyleIcons(new ImageOrText[styleCount]);
 		
 		for (int i = 0; i < styleCount; i++)
-			getLineStyleIcons()[i] = GeoGebraIcon.createLineStyleIcon(
-					i, 2,  org.geogebra.common.awt.GColor.BLACK, null);
+			getLineStyleIcons()[i] = GeoGebraIcon.createLineStyleIcon(i);
 		
 		lineStyleMap = new HashMap<Integer, Integer>();
 		
@@ -32,11 +31,14 @@ public class LineStylePopup extends PopupMenuButton  {
 	}
 	public static LineStylePopup create(AppW app, int iconHeight, int mode, boolean hasSlider) {
 
-		LineStylePopup.setMode(mode);
+
 		fillData(iconHeight);
-		return new LineStylePopup(app, getLineStyleIcons(), -1, 5,
+		LineStylePopup ret = new LineStylePopup(app, getLineStyleIcons(), -1,
+				6,
 				 org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
 				true, hasSlider);
+		ret.setMode(mode);
+		return ret;
 	}
 
 	public LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
@@ -55,10 +57,7 @@ public class LineStylePopup extends PopupMenuButton  {
 	@Override
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
-			return GeoGebraIcon.createLineStyleIcon(
-					getSelectedIndex(),
-					this.getSliderValue(), 
-					org.geogebra.common.awt.GColor.BLACK, null);
+			return GeoGebraIcon.createLineStyleIcon(getSelectedIndex());
 
 		}
 
@@ -77,11 +76,13 @@ public class LineStylePopup extends PopupMenuButton  {
 	public static void setLineStyleIcons(ImageOrText [] lineStyleIcons) {
 	    LineStylePopup.lineStyleIcons = lineStyleIcons;
     }
-	public static int getMode() {
+
+	public int getMode() {
 	    return mode;
     }
-	public static void setMode(int mode) {
-	    LineStylePopup.mode = mode;
+
+	public void setMode(int mode) {
+		this.mode = mode;
     }
 }
 

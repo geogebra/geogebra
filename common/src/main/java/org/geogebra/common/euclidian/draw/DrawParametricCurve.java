@@ -12,7 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
@@ -23,11 +28,21 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.MyMath;
 
 /**
  * Draws graphs of parametric curves and functions
@@ -39,6 +54,7 @@ public class DrawParametricCurve extends Drawable {
 	private CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible, fillCurve;
+	private boolean pointwise = false;
 
 	/**
 	 * Creates graphical representation of the curve
@@ -59,11 +75,21 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void update() {
-		isVisible = geo.isEuclidianVisible();
+		isVisible = geo.isEuclidianVisible();		
 		if (!isVisible)
 			return;
+		dataExpression = null;
+		if (geo.getLineType() == EuclidianStyleConstants.LINE_TYPE_POINTWISE
+				&& (curve instanceof GeoFunction)) {
+			((GeoFunction) curve).getFunctionExpression().inspect(
+					checkPointwise());
+		}
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(geo);
+		if (dataExpression != null) {
+			updatePointwise();
+			return;
+		}
 		if (gp == null)
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		gp.reset();
@@ -152,9 +178,109 @@ public class DrawParametricCurve extends Drawable {
 		}
 	}
 
+	private int nPoints = 0;
+	private ArrayList<GPoint2D> points;
+	private GLine2D diag1, diag2;
+	private void updatePointwise() {
+		if(points == null){
+			points = new ArrayList<GPoint2D>();
+		}
+
+		diag1 = AwtFactory.prototype.newLine2D();
+		int size = geo.getLineThickness();
+		diag1.setLine(-size, -size, size, size);
+		diag2 = AwtFactory.prototype.newLine2D();
+		diag2.setLine(-size, size, size, -size);
+
+		nPoints = 0;
+
+		ListValue lvX = (ListValue) ((MyNumberPair) dataExpression.getRight())
+				.getX();
+		/*
+		 * ListValue lvY = (ListValue) ((MyNumberPair)
+		 * dataExpression.getRight()) .getY();
+		 */
+		for (int i = 0; i < lvX.size(); i++) {
+			double xRW = lvX.getListElement(i).evaluateDouble();
+			if (invert != null) {
+				invFV.set(xRW);
+				xRW = invert.evaluateDouble();
+			}
+			double x = view.toScreenCoordXd(xRW);
+			if (x < 0 || x > view.getWidth()) {
+				continue;
+			}
+			double y = view
+					.toScreenCoordYd(((GeoFunction) curve).evaluate(xRW));
+
+			if (y < 0 || y > view.getHeight()) {
+				continue;
+			}
+			GPoint2D pt = AwtFactory.prototype.newPoint2D(x, y);
+			if (points.size() > nPoints) {
+				points.set(nPoints, pt);
+			} else {
+				points.add(pt);
+			}
+			nPoints++;
+		}
+
+	}
+
+	private ExpressionNode dataExpression;
+	private FunctionVariable invFV;
+	private ExpressionNode invert;
+	private Inspecting checkPointwise() {
+		return new Inspecting(){
+
+			public boolean check(ExpressionValue v) {
+				/*
+				 * if (v.isExpressionNode() && ((ExpressionNode)
+				 * v).getOperation() == Operation.FUNCTION) {
+				 * if(((ExpressionNode) v).getLeft() instanceof GeoFunction &&
+				 * ((GeoFunction)((ExpressionNode)
+				 * v).getLeft()).getFunctionExpression().inspect(this)){ return
+				 * true; } }
+				 */
+				if (v.isExpressionNode()
+						&& ((ExpressionNode) v).getOperation() == Operation.DATA) {
+
+					dataExpression = ((ExpressionNode) v);
+					if (dataExpression.getLeft().unwrap() instanceof FunctionVariable) {
+						invert = null;
+						return true;
+					}
+					invFV = new FunctionVariable(view.getApplication()
+							.getKernel());
+					invert = AlgoFunctionInvert.invert(
+dataExpression.getLeft()
+							.unwrap(),
+							((GeoFunction) curve).getFunctionVariables()[0],
+							invFV, geo.getKernel());
+					if (invert == null) {
+						App.printStacktrace("" + dataExpression.getLeft());
+						dataExpression = null;
+					}
+					return true;
+				}
+				return false;
+			}};
+	}
+
 	@Override
-	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
+			if (dataExpression != null) {
+				g2.setPaint(getObjectColor());
+				if (geo.doHighlighting()) {
+					g2.setPaint(geo.getSelColor());
+					g2.setStroke(selStroke);
+					drawPoints(g2);
+				}
+				g2.setStroke(objStroke);
+				drawPoints(g2);
+				return;
+			}
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
@@ -183,6 +309,17 @@ public class DrawParametricCurve extends Drawable {
 		}
 	}
 
+	private void drawPoints(GGraphics2D g2) {
+		for (int i = 0; i < nPoints; i++) {
+			g2.saveTransform();
+			g2.translate(points.get(i).getX(), points.get(i).getY());
+			g2.draw(diag1);
+			g2.draw(diag2);
+			g2.restoreTransform();
+		}
+
+	}
+
 	@Override
 	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
@@ -193,7 +330,17 @@ public class DrawParametricCurve extends Drawable {
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
 		if (isVisible) {
+			if (dataExpression != null) {
+				for (int i = 0; i < nPoints; i++) {
+					if (MyMath.length(x - points.get(i).getX(),
+							y - points.get(i).getY()) < hitThreshold) {
+						return true;
+					}
+				}
+				return false;
+			}
 			GShape t = geo.isInverseFill() ? getShape() : gp;
+
 			if (strokedShape == null) {
 				// strokedShape = new
 				// geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));

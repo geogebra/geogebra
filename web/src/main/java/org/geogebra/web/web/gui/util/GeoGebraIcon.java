@@ -25,7 +25,7 @@ public class GeoGebraIcon extends BasicIcons{
 	 * @param bgColor
 	 * @return Canvas with icon drawn
 	 */
-	public static ImageOrText createLineStyleIcon(int dashStyle, int thickness, GColor fgColor, GColor bgColor) {
+	public static ImageOrText createLineStyleIcon(int dashStyle) {
 		if(dashStyle >= lineStyleIcons.length){
 			return new ImageOrText();
 		}
@@ -51,11 +51,10 @@ public class GeoGebraIcon extends BasicIcons{
 		(LafIcons.polar_grid()),
 		(LafIcons.isometric_grid())};
 	private static ImageResource[] lineStyleIcons = {
-		(LafIcons.line_solid()),
-		(LafIcons.line_dashed_long()),
-		(LafIcons.line_dashed_short()),
-		(LafIcons.line_dotted()),
-		(LafIcons.line_dash_dot()) };
+ LafIcons.line_solid(),
+			LafIcons.line_dashed_long(), LafIcons.line_dashed_short(),
+			LafIcons.line_dotted(), LafIcons.line_dash_dot(),
+			LafIcons.point_cross_diag() };
 	
 	/**
 	 * @param pointStyle

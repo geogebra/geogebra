@@ -1,6 +1,8 @@
 package org.geogebra.common.plugin;
 
 public class EuclidianStyleConstants {
+	public static final int LINE_TYPE_POINTWISE = -1;
+
 	public static final int LINE_TYPE_FULL = 0;
 
 	public static final int LINE_TYPE_DASHED_SHORT = 10;

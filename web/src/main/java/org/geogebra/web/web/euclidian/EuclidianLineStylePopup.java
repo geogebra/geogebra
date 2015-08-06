@@ -4,6 +4,7 @@ import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.LineStylePopup;
@@ -51,6 +52,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 			if (hasSlider()) {
 				setSliderValue(geo0.getLineThickness());
 			}
+			showTableItem(5, geo0 instanceof GeoFunction);
 			selectLineType(geo0.getLineType());
 
 		}

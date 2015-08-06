@@ -30,12 +30,11 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	protected void createLineStyleBtn(int mode) {
-		LineStylePopup.setMode(mode);
 		LineStylePopup.fillData(ICON_HEIGHT);
 		btnLineStyle = new EuclidianLineStylePopup(app,
-				LineStylePopup.getLineStyleIcons(), -1, 5,
+				LineStylePopup.getLineStyleIcons(), -1, 6,
 				org.geogebra.common.gui.util.SelectionTable.MODE_ICON, true, true);
-
+		btnLineStyle.setMode(mode);
 		btnLineStyle.getMySlider().setMinimum(1);
 		btnLineStyle.getMySlider().setMaximum(13);
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);

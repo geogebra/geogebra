@@ -95,9 +95,65 @@ public class AlgoFunctionInvert extends AlgoElement {
 		// make sure sin(y) inverts to arcsin(y)
 		FunctionVariable x = new FunctionVariable(kernel,
 				oldFV.getSetVarString());
-		ExpressionNode newRoot = new ExpressionNode(kernel, x);
+		ExpressionNode newRoot = invert(root, oldFV, x, kernel);
 
+		Function tempFun = new Function(newRoot, x);
+		tempFun.initFunction();
+		g.setDefined(true);
+		g.setFunction(tempFun);
+
+	}
+
+	private static Operation inverse(Operation op) {
+		switch (op) {
+		case PLUS:
+			return Operation.MINUS;
+		case MINUS:
+			return Operation.PLUS;
+		case MULTIPLY:
+			return Operation.DIVIDE;
+		case DIVIDE:
+			return Operation.MULTIPLY;
+		case SIN:
+			return Operation.ARCSIN;
+		case COS:
+			return Operation.ARCCOS;
+		case TAN:
+			return Operation.ARCTAN;
+		case ARCSIN:
+			return Operation.SIN;
+		case ARCCOS:
+			return Operation.COS;
+		case ARCTAN:
+			return Operation.TAN;
+		case SINH:
+			return Operation.ASINH;
+		case COSH:
+			return Operation.ACOSH;
+		case TANH:
+			return Operation.ATANH;
+		case ASINH:
+			return Operation.SINH;
+		case ACOSH:
+			return Operation.COSH;
+		case ATANH:
+			return Operation.TANH;
+		case EXP:
+			return Operation.LOG;
+		case LOG:
+			return Operation.EXP;
+		default:
+			return null;
+		}
+
+	}
+
+	public static ExpressionNode invert(ExpressionValue root0,
+			FunctionVariable oldFV,
+			FunctionVariable x, Kernel kernel) {
 		boolean fvLeft;
+		ExpressionNode newRoot = x.wrap();
+		ExpressionValue root = root0;
 		while (root != null && !root.isLeaf() && root.isExpressionNode()) {
 			ExpressionValue left = ((ExpressionNode) root).getLeft().unwrap();
 			ExpressionValue right = ((ExpressionNode) root).getRight().unwrap();
@@ -202,8 +258,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 			case LOGB:
 				if ((fvLeft = left.contains(oldFV)) && (right.contains(oldFV))) {
-					g.setUndefined();
-					return;
+					return null;
 				}
 
 				newRoot = new ExpressionNode(kernel, left, Operation.POWER,
@@ -263,8 +318,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 							}
 
 							if (frac[1] == 0 || frac[0] == 0) {
-								g.setUndefined();
-								return;
+								return null;
 							} else if (frac[0] < 100 && frac[1] < 100) {
 								// nice form for x^(23/45)
 								newRoot = new ExpressionNode(kernel, newRoot,
@@ -290,16 +344,14 @@ public class AlgoFunctionInvert extends AlgoElement {
 					root = left;
 				} else {
 					// AbstractApplication.debug("failed at POWER");
-					g.setUndefined();
-					return;
+					return null;
 				}
 				break;
 
 			case PLUS:
 			case MULTIPLY:
 				if ((fvLeft = left.contains(oldFV)) && (right.contains(oldFV))) {
-					g.setUndefined();
-					return;
+					return null;
 				}
 				// AbstractApplication.debug("left"+((ExpressionNode)
 				// root).getLeft().isConstant());
@@ -321,8 +373,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 			case MINUS:
 			case DIVIDE:
 				if ((fvLeft = left.contains(oldFV)) && (right.contains(oldFV))) {
-					g.setUndefined();
-					return;
+					return null;
 				}
 				// AbstractApplication.debug("left"+((ExpressionNode)
 				// root).getLeft().isConstant());
@@ -351,60 +402,10 @@ public class AlgoFunctionInvert extends AlgoElement {
 			default: // eg ABS, CEIL etc
 				// AbstractApplication.debug("failed at"+ ((ExpressionNode)
 				// root).getOperation().toString());
-				g.setUndefined();
-				return;
+				return null;
 			}
 		}
-
-		Function tempFun = new Function(newRoot, x);
-		tempFun.initFunction();
-		g.setDefined(true);
-		g.setFunction(tempFun);
-
-	}
-
-	private static Operation inverse(Operation op) {
-		switch (op) {
-		case PLUS:
-			return Operation.MINUS;
-		case MINUS:
-			return Operation.PLUS;
-		case MULTIPLY:
-			return Operation.DIVIDE;
-		case DIVIDE:
-			return Operation.MULTIPLY;
-		case SIN:
-			return Operation.ARCSIN;
-		case COS:
-			return Operation.ARCCOS;
-		case TAN:
-			return Operation.ARCTAN;
-		case ARCSIN:
-			return Operation.SIN;
-		case ARCCOS:
-			return Operation.COS;
-		case ARCTAN:
-			return Operation.TAN;
-		case SINH:
-			return Operation.ASINH;
-		case COSH:
-			return Operation.ACOSH;
-		case TANH:
-			return Operation.ATANH;
-		case ASINH:
-			return Operation.SINH;
-		case ACOSH:
-			return Operation.COSH;
-		case ATANH:
-			return Operation.TANH;
-		case EXP:
-			return Operation.LOG;
-		case LOG:
-			return Operation.EXP;
-		default:
-			return null;
-		}
-
+		return newRoot;
 	}
 
 	// TODO Consider locusequability
