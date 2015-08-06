@@ -6704,9 +6704,36 @@ var Cursor = P(Point, function(_) {
     }
     var mrt = mort;
     if (this.root) {
-      mrt = this.root.mergeKoreanDoubles(mrt);
+      var triple = mort;
+      var numadded = 0;
+      if (this[L]) {
+        if (this[L].ctrlSeq) {
+          if (this[L].ctrlSeq.length === 1) {
+            triple = this[L].ctrlSeq + triple;
+            numadded++;
+          }
+        }
+        if (this[L][L]) {
+          if (this[L][L].ctrlSeq) {
+            if (this[L][L].ctrlSeq.length === 1) {
+              triple = this[L][L].ctrlSeq + triple;
+              numadded++;
+            }
+          }
+        }
+      }
+      var tripleL = triple.length;
+      // this may be 0-1-2 characters more than mort.length
+      // but in case it's really more, try to merge!
+      // moreover, merge ANYWAY, if (tripleL > 1)!
+      if (tripleL > 1) {
+        mrt = this.root.mergeKoreanDoubles(triple);
+        for (var cv = 0; cv < numadded; cv++) {
+          this.backspace();
+        }
+      }
     }
-    self.writeLatex(mrt).show();
+    this.writeLatex(mrt).show();
     return true;
   };
   _.writeLatex = function(latex) {
