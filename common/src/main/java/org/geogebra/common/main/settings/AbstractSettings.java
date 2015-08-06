@@ -64,7 +64,7 @@ public abstract class AbstractSettings {
 	 */
 	public final void beginBatch() {
 		isBatch = true;
-		settingsChanged = false;
+		// settingsChanged = false;
 	}
 
 	/**

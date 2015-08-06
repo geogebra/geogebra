@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.Log;
 
 public class EuclidianStyleBarStatic {
@@ -513,20 +514,12 @@ public class EuclidianStyleBarStatic {
 		// cons = app.getKernel().getConstruction();
 		boolean changed = false;
 		if (actionCommand.equals("showAxes")) {
-			if (app.getEuclidianView1() == ev) {
-				changed = app.getSettings().getEuclidian(1)
-						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-					&& app.getEuclidianView2(1) == ev) {
-				changed = app.getSettings().getEuclidian(2)
-						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			} else if (app.hasEuclidianView3D()
-					&& app.getEuclidianView3D() == ev) {
-				changed = app.getSettings().getEuclidian(3)
-						.setShowAxes(!ev.getShowXaxis());
-			} else if (ev.isViewForPlane()) {
-				changed = ev.getSettings().setShowAxes(!ev.getShowXaxis(),
-						!ev.getShowXaxis());
+			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
+					app);
+
+			if (evs != null) {
+
+				changed = evs.setShowAxes(!evs.getShowAxis(0));
 			} else {
 				changed = ev.setShowAxes(!ev.getShowXaxis(), true);
 			}
@@ -534,17 +527,10 @@ public class EuclidianStyleBarStatic {
 		}
 
 		else if (actionCommand.equals("showGrid")) {
-			if (app.getEuclidianView1() == ev) {
-				changed = app.getSettings().getEuclidian(1)
-						.showGrid(!ev.getShowGrid());
-			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-					&& app.getEuclidianView2(1) == ev) {
-				changed = app.getSettings().getEuclidian(2)
-						.showGrid(!ev.getShowGrid());
-			} else if (app.hasEuclidianView3D()
-					&& app.getEuclidianView3D() == ev) {
-				changed = app.getSettings().getEuclidian(3)
-						.showGrid(!ev.getShowGrid());
+			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
+					app);
+			if (evs != null) {
+				changed = evs.showGrid(!evs.getShowGrid());
 			} else {
 				changed = ev.showGrid(!ev.getShowGrid());
 			}

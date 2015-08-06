@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.main.App;
+
 /**
  * Class which contains references to all settings of the application.
  * 
@@ -316,5 +319,21 @@ public class Settings {
 
 	public final DataCollectionSettings getDataCollection() {
 		return dataCollectionSettings;
+	}
+
+	public EuclidianSettings getEuclidianForView(
+			EuclidianViewInterfaceCommon ev, App app) {
+		if (app.getEuclidianView1() == ev) {
+			return getEuclidian(1);
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == ev) {
+			return getEuclidian(2);
+		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
+			return getEuclidian(3);
+		} else if (ev.isViewForPlane()) {
+			return ev.getSettings();
+		} else {
+			return null;
+		}
 	}
 }
