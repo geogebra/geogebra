@@ -2650,8 +2650,7 @@ body.application[dir=rtl] .smartButtonPanel {
 	margin: 0px 5px 0px 10px;
 	cursor: pointer;
 	float: left;
-	width: 30px;
-	height: 30px;
+	width: 30px;	height: 30px;
 	padding: 2px;
 }
 body.application[dir=rtl] .smartButtonPanel .button {
@@ -5577,4 +5576,35 @@ body.application[dir=rtl] .deleteAlgebra {
 .noDots .mathquillggb-rendered-math .binop-dot{
 	visibility:hidden;
 	padding:0px;
+}
+
+/* AV Extensions */ 
+.avAnimationSpeedPanel  {
+	float: right;
+	position: relative;
+	top: -24px;
+	left: -42px;
+	margin: 0px;
+}
+
+.avAnimationSpeedPanel >* {
+	float: rigth;
+	display: inline-block;
+	text-color: grey;
+}
+
+.avAnimationSpeedPanel .gwt-Button {
+	font-size: 16px;
+	border: 0px;
+	outline: none;
+	box-Shadow: none;
+	width: 32x;
+	margin: 0px;
+	padding: 0px;
+}
+
+.avAnimationSpeedPanel .gwt-Label {
+	font-size: 16px;
+	color: grey;
+	width: 8px;
 }

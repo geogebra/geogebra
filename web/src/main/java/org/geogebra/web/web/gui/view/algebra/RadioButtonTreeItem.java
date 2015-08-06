@@ -103,13 +103,14 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -168,6 +169,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	GTextBox tb;
 	private boolean needsUpdate;
 
+	private int speedIndex = 6;
+	private final static double animSpeeds[] = { 0.1, 0.15, 0.2, 0.35, 0.5,
+			0.75, 1, 1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -178,7 +182,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * panel to correctly display an extended slider entry
 	 */
-	private VerticalPanel sliderPanel;
+	private FlowPanel sliderPanel;
+
+	/**
+	 * panel to display animation speed control
+	 */
+	private FlowPanel speedPanel;
 
 	/**
 	 * this panel contains the marble (radio) and the play button for extended
@@ -200,6 +209,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * whether the playButton currently shows a play or a pause icon
 	 */
 	private boolean playButtonValue;
+	private Button btnSpeedDown;
+	private Label lblSpeed;
+	private Button btnSpeedUp;
 
 	public void updateOnNextRepaint() {
 		this.needsUpdate = true;
@@ -328,24 +340,26 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (sliderNeeded()) {
 			initSlider();
 		}
+		if (app.has(Feature.AV_EXTENSIONS)) {
 
-		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean
-				&& geo.isIndependent()) {
-			// CheckBoxes
-			checkBox = new CheckBox();
-			checkBox.setValue(((GeoBoolean) geo).getBoolean());
-			add(checkBox);
-			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-				@Override
-				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					((GeoBoolean) geo).setValue(event.getValue());
-					geo.updateCascade();
-					// updates other views (e.g. Euclidian)
-					kernel.notifyRepaint();
-				}
-			});
+			// createSpeedPanel();
+
+			if (geo instanceof GeoBoolean && geo.isIndependent()) {
+				// CheckBoxes
+				checkBox = new CheckBox();
+				checkBox.setValue(((GeoBoolean) geo).getBoolean());
+				add(checkBox);
+				checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+					@Override
+					public void onValueChange(ValueChangeEvent<Boolean> event) {
+						((GeoBoolean) geo).setValue(event.getValue());
+						geo.updateCascade();
+						// updates other views (e.g. Euclidian)
+						kernel.notifyRepaint();
+					}
+				});
+			}
 		}
-
 		seNoLatex = DOM.createSpan().cast();
 		seNoLatex.addClassName("sqrtFontFix");
 		EquationEditor.updateNewStatic(seNoLatex);
@@ -371,7 +385,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		        "\u00A0\u00A0\u00A0\u00A0"));
 		ihtml.getElement().appendChild(se2);
 		// String text = "";
-
 		if (geo.isIndependent()
 				|| (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean)) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
@@ -479,8 +492,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				}
 			});
 
-			sliderPanel = new VerticalPanel();
+			sliderPanel = new FlowPanel();
+
 			add(sliderPanel);
+
+			if (app.has(Feature.AV_EXTENSIONS)) {
+				createSpeedPanel();
+				slider.add(speedPanel);
+			}
 
 			if (geo.isAnimatable()) {
 				ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
@@ -500,6 +519,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 						if (geo.isAnimating()) {
 							geo.getKernel().getAnimatonManager()
 									.startAnimation();
+							speedPanel.setVisible(true);
+						} else {
+							speedPanel.setVisible(false);
+
 						}
 					}
 				});
@@ -594,6 +617,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			// here it complains that geo is undefined
 			doUpdate();
 		}
+
+
+
 		// FIXME: geo.getLongDescription() doesn't work
 		// geo.getKernel().getApplication().setTooltipFlag();
 		// se.setTitle(geo.getLongDescription());
@@ -602,6 +628,33 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		setDraggable();
 	}
 
+	private void setAnimationSpeed() {
+		double speed = animSpeeds[speedIndex];
+		geo.setAnimationSpeed(speed);
+		lblSpeed.setText(speed + "x");
+
+	}
+
+	private void createSpeedPanel() {
+
+		if (!geo.isAnimatable()) {
+			return;
+		}
+		btnSpeedDown = new Button("<<");
+		btnSpeedDown.addClickHandler(this);
+
+		lblSpeed = new Label(geo.getAnimationSpeed() + "x");
+		btnSpeedUp = new Button(">>");
+		btnSpeedUp.addClickHandler(this);
+
+		speedPanel = new FlowPanel();
+		speedPanel.addStyleName("avAnimationSpeedPanel");
+		speedPanel.add(btnSpeedDown);
+		speedPanel.add(lblSpeed);
+		speedPanel.add(btnSpeedUp);
+		speedPanel.setVisible(false);
+
+	}
 	/**
 	 * Method to be overridden in NewRadioButtonTreeItem
 	 */
@@ -850,6 +903,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			slider.setValue(((GeoNumeric) geo).value);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
 				sliderPanel.add(slider);
+				// sliderPanel.add(speedPanel);
 				marblePanel.add(playButton);
 			} else if (marblePanel != null) {
 				sliderPanel.remove(slider);
@@ -1381,6 +1435,21 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onClick(ClickEvent evt) {
+		Object source = evt.getSource();
+		if (source == btnSpeedDown) {
+			if (speedIndex > 0) {
+				speedIndex--;
+				setAnimationSpeed();
+
+			}
+			return;
+		} else if (source == btnSpeedUp) {
+			if (speedIndex < animSpeeds.length) {
+				speedIndex++;
+				setAnimationSpeed();
+			}
+
+		}
 		evt.stopPropagation();
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {
