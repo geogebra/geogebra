@@ -27,12 +27,5 @@ public interface Evaluate {
 	public String evaluate(String exp, long timeoutMilliseconds)
 			throws Throwable;
 
-	/**
-	 * Initializes the interpreter
-	 * 
-	 * @throws Throwable
-	 *             if initialization fails
-	 */
-	public void initialize() throws Throwable;
 
 }

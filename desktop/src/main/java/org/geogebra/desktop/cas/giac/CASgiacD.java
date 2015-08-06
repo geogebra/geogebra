@@ -108,13 +108,20 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	/**
 	 * Giac's context
 	 */
-	context C;
+	context C = new context();
 
 	// whether to use thread (JNI only)
 	final private static boolean useThread = !AppD.LINUX;
 
+
 	@SuppressWarnings("deprecation")
 	public String evaluate(String input) throws Throwable {
+
+		return evaluate(input, timeoutMillis);
+
+	}
+
+	public String evaluate(String input, long timeoutMillis0) throws Throwable {
 
 		// don't need to replace Unicode when sending to JNI
 		String exp = casParser.replaceIndices(input, false);
@@ -138,7 +145,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 			// set timeout (in seconds)
 			app.getApplet().evalJS(
-					wrapJSString("timeout " + (timeoutMillis / 1000)));
+					wrapJSString("timeout " + (timeoutMillis0 / 1000)));
 
 			// reset Giac
 			app.getApplet().evalJS(wrapJSString(specialFunctions));
@@ -146,14 +153,13 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			threadResult = app.getApplet().evalJS(wrapJSString(exp));
 
 		} else {
-			initialize();
 
 			if (useThread) {
 				// send expression to CAS
 				thread = new GiacJNIThread(exp);
 
 				thread.start();
-				thread.join(timeoutMillis);
+				thread.join(timeoutMillis0);
 				thread.interrupt();
 				// thread.interrupt() doesn't seem to stop it, so add this for
 				// good measure:
@@ -169,7 +175,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 							"Thread timeout from Giac");
 				}
 			} else {
-				threadResult = evalRaw(exp);
+				threadResult = evalRaw(exp, timeoutMillis0);
 			}
 		}
 		ret = postProcess(threadResult);
@@ -202,36 +208,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		sb.append("');");
 
 		return sb.toString();
-	}
-
-	@Override
-	public String evaluate(String exp, long timeoutMilliseconds)
-			throws Throwable {
-		evalRaw("\"timeout " + (timeoutMilliseconds / 1000) + "\"");
-		String retval = evaluate(exp);
-		evalRaw("\"timeout " + (getTimeoutMilliseconds() / 1000) + "\"");
-		return retval;
-	}
-
-	public void initialize() throws Throwable {
-		App.debug("giac: initialize");
-		if (C == null) {
-			C = new context();
-			gen g;
-
-			if (!giacSetToGeoGebraMode) {
-
-				// now done in evalRaw
-				// evalRaw(initString);
-				evalRaw("\"timeout " + (timeoutMillis / 1000) + "\"");
-
-				giacSetToGeoGebraMode = true;
-			}
-
-			g = new gen(specialFunctions, C);
-			g = giac._eval(g, C);
-			App.debug(g.print(C));
-		}
 	}
 
 	public void initCAS() {
@@ -335,7 +311,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			App.debug("thread starting: " + exp);
 
 			try {
-				threadResult = evalRaw(exp);
+				threadResult = evalRaw(exp, timeoutMillis);
 
 				App.debug("message from thread: " + threadResult);
 			} catch (Throwable t) {
@@ -346,21 +322,30 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		}
 	}
 
+	private void init(long timeoutMilliseconds) {
+		gen g = new gen(initString, C);
+		g.eval(1, C);
+
+		g = new gen(specialFunctions, C);
+		giac._eval(g, C);
+
+		g = new gen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", C);
+		giac._eval(g, C);
+
+	}
+
 	/**
 	 * @param exp0
 	 *            String to send to Giac
 	 * @return String from Giac
 	 */
-	String evalRaw(String exp0) {
+	String evalRaw(String exp0, long timeoutMilliseconds) {
 
-		// make sure we are in GeoGebra mode
-		// Giac seems to forget sometimes
-		gen g = new gen(initString, C);
-		g = g.eval(1, C);
+		init(timeoutMilliseconds);
 
 		String exp = wrapInevalfa(exp0);
 
-		g = new gen("caseval(" + exp + ")", C);
+		gen g = new gen("caseval(" + exp + ")", C);
 		App.debug("giac evalRaw input: " + exp);
 		g = g.eval(1, C);
 		String ret = g.print(C);
