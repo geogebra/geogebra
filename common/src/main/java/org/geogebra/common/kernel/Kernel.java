@@ -4742,8 +4742,11 @@ public class Kernel {
 		cons.setSuppressLabelCreation(true);
 		// create p1 = point on circle (so it can be dragged to rotate the whole
 		// shape)
-		GeoConicND circle = getAlgoDispatcher().Circle(null, p[0],
-				poly.getSegments()[0]);
+
+		GeoSegment radius = getAlgoDispatcher().Segment((String) null,
+				(GeoPoint) pts[0], (GeoPoint) pts[1]);
+
+		GeoConicND circle = getAlgoDispatcher().Circle(null, p[0], radius);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		p[1] = getAlgoDispatcher().Point(null, circle, poly.getPoint(1).inhomX,
@@ -4756,18 +4759,26 @@ public class Kernel {
 
 		StringBuilder sb = new StringBuilder();
 
-		for (int i = 2; i < poly.getPointsLength(); i++) {
+		int n = poly.getPointsLength();
+
+		for (int i = 2; i < n; i++) {
 
 			// build string like
-			// Rotate[B_1 + (l, 0), Angle[C - B] + Angle[B_1 - A_1] - Angle[B -
-			// A], B_1]
-			//
+			// Rotate[E+ (Segment[B,C], 0), Angle[C-B] + Angle[E-D] -
+			// Angle[B-A],E]
 
 			sb.setLength(0);
 			sb.append("Rotate[");
 			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
 			sb.append("+ (");
-			sb.append(segs[i - 1].getLabel(StringTemplate.defaultTemplate));
+
+			// #5445
+			sb.append("Segment[");
+			sb.append(pts[i - 1].getLabel(StringTemplate.defaultTemplate));
+			sb.append(",");
+			sb.append(pts[i % n].getLabel(StringTemplate.defaultTemplate));
+			sb.append("]");
+
 			sb.append(", 0), Angle[");
 			sb.append(pts[i].getLabel(StringTemplate.defaultTemplate)); // C
 			sb.append("-");
@@ -4784,7 +4795,7 @@ public class Kernel {
 			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
 			sb.append("]");
 
-			// app.debug(sb.toString());
+			App.debug(sb.toString());
 
 			p[i] = getAlgebraProcessor().evaluateToPoint(sb.toString(), true,
 					false);
