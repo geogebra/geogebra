@@ -333,11 +333,27 @@ public class Command extends ValidExpression implements
 	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		// not yet evaluated: process command
-		if (evalGeos == null)
+		if (evalGeos == null) {
 			evalGeos = evaluateMultiple();
-
+		}
 		if (evalGeos != null && evalGeos.length >= 1) {
 			return evalGeos[0];
+		}
+		App.debug("invalid command evaluation: " + name);
+		throw new MyError(app.getLocalization(), app.getLocalization()
+				.getError("InvalidInput") + ":\n" + this);
+
+	}
+
+	public ExpressionValue simplify(StringTemplate tpl) {
+		// not yet evaluated: process command
+		ExpressionValue result = kernel.getAlgebraProcessor().simplifyCommand(
+				this, false);
+		if (result instanceof GeoElement) {
+			evalGeos = new GeoElement[]{(GeoElement)result};
+		}
+		if (result != null) {
+			return result;
 		}
 		App.debug("invalid command evaluation: " + name);
 		throw new MyError(app.getLocalization(), app.getLocalization()

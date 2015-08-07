@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
@@ -29,28 +30,25 @@ public class CmdDataFunction extends CommandProcessor {
 
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
+		App.printStacktrace("");
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 0: 
-			return getDataFunction(kernelA, c.getLabel(), new MyList(kernelA),
-					new MyList(kernelA), null);
 		case 2:
-			return getDataFunction(kernelA, c.getLabel(), (MyList) c
-					.getArgument(0).unwrap(), (MyList) c.getArgument(1)
-					.unwrap(), null);
 		case 3:
-			return getDataFunction(kernelA, c.getLabel(), (MyList) c
-					.getArgument(0).unwrap(), (MyList) c.getArgument(1)
-					.unwrap(), c.getArgument(2));
+			FunctionVariable fv = new FunctionVariable(kernelA);
+			ExpressionValue en = simplify(c, fv);
+			GeoFunction geo = new GeoFunction(en.wrap(), fv);
+			geo.setLabel(c.getLabel());
+			return new GeoElement[] { geo };
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
 
-	public static GeoElement[] getDataFunction(Kernel kernelA, String label,
-			MyList ml, MyList vl, ExpressionNode arg0) {
-		FunctionVariable fv = new FunctionVariable(kernelA);
+	public static ExpressionNode getDataFunction(Kernel kernelA, String label,
+			MyList ml, MyList vl, ExpressionNode arg0, FunctionVariable fv) {
 
 		// ml.addListElement(new MyDouble(kernelA));
 		// vl.addListElement(new MyDouble(kernelA, -1));
@@ -59,11 +57,33 @@ public class CmdDataFunction extends CommandProcessor {
 			arg0.replaceVariables("x", fv);
 			arg = arg0;
 		}
-		ExpressionNode en = new ExpressionNode(kernelA, arg, Operation.DATA,
+		return new ExpressionNode(kernelA, arg, Operation.DATA,
 				new MyNumberPair(kernelA, ml, vl));
-		GeoFunction geo = new GeoFunction(en,fv);
-		geo.setLabel(label);
-		return new GeoElement[]{geo};
+
+	}
+
+	@Override
+	public ExpressionValue simplify(Command c) {
+		return simplify(c, new FunctionVariable(kernelA));
+	}
+
+	private ExpressionValue simplify(Command c, FunctionVariable fv) {
+		int n = c.getArgumentNumber();
+
+		switch (n) {
+		case 0:
+			return getDataFunction(kernelA, c.getLabel(), new MyList(kernelA),
+					new MyList(kernelA), null, fv);
+		case 2:
+			return getDataFunction(kernelA, c.getLabel(), (MyList) c
+					.getArgument(0).unwrap(), (MyList) c.getArgument(1)
+					.unwrap(), null, fv);
+		case 3:
+			return getDataFunction(kernelA, c.getLabel(), (MyList) c
+					.getArgument(0).unwrap(), (MyList) c.getArgument(1)
+					.unwrap(), c.getArgument(2), fv);
+		}
+		return null;
 	}
 
 	

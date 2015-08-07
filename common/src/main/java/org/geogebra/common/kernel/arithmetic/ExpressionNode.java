@@ -357,7 +357,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).simplifyAndEvalCommands();
 		} else if (left instanceof Command) {
-			left = ((Command) left).evaluate(StringTemplate.defaultTemplate);
+			left = ((Command) left).simplify(StringTemplate.defaultTemplate);
 		}
 
 		if (right != null) {
@@ -365,7 +365,7 @@ public class ExpressionNode extends ValidExpression implements
 				((ExpressionNode) right).simplifyAndEvalCommands();
 			} else if (right instanceof Command) {
 				right = ((Command) right)
-						.evaluate(StringTemplate.defaultTemplate);
+						.simplify(StringTemplate.defaultTemplate);
 			}
 		}
 	}

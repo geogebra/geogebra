@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
@@ -150,41 +151,13 @@ public abstract class CommandDispatcher {
 	final public GeoElement[] processCommand(Command c, boolean labelOutput)
 			throws MyError {
 
-		if (cmdTable == null) {
-			initCmdTable();
-		}
+		CommandProcessor cmdProc = getProcessor(c);
 
-		// cmdName
-		String cmdName = c.getName();
-		CommandProcessor cmdProc;
-		//
-		// // remove CAS variable prefix from command name if present
-		// cmdName = cmdName.replace(ExpressionNode.GGBCAS_VARIABLE_PREFIX, "");
+		return process(cmdProc, c, labelOutput);
+	}
 
-		// MACRO: is there a macro with this command name?
-		Macro macro = kernel.getMacro(cmdName);
-		if (macro != null) {
-			c.setMacro(macro);
-			cmdProc = macroProc;
-		}
-		// STANDARD CASE
-		else {
-			// get CommandProcessor object for command name from command table
-			cmdProc = cmdTable.get(cmdName);
-
-			if (cmdProc == null) {
-				cmdProc = commandTableSwitch(cmdName);
-				if (cmdProc != null) {
-					cmdTable.put(cmdName, cmdProc);
-				}
-			}
-
-			if (cmdProc == null && internalCmdTable != null) {
-				// try internal command
-				cmdProc = internalCmdTable.get(cmdName);
-			}
-		}
-
+	private GeoElement[] process(CommandProcessor cmdProc, Command c,
+			boolean labelOutput) {
 		if (cmdProc == null)
 			throw new MyError(app.getLocalization(), app.getLocalization()
 					.getError("UnknownCommand")
@@ -205,18 +178,54 @@ public abstract class CommandDispatcher {
 		} catch (Exception e) {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			e.printStackTrace();
-			throw new MyError(app.getLocalization(), "CAS.GeneralErrorMessage",c.getName(), e);
+			throw new MyError(app.getLocalization(), "CAS.GeneralErrorMessage",
+					c.getName(), e);
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
-
-		// remember macro command used:
-		// this is needed when a single tool A[] is exported to find
-		// all other tools that are needed for A[]
-		if (macro != null)
-			cons.addUsedMacro(macro);
-
 		return ret;
+	}
+
+	private CommandProcessor getProcessor(Command c) {
+		if (cmdTable == null) {
+			initCmdTable();
+		}
+
+		// cmdName
+		String cmdName = c.getName();
+		CommandProcessor cmdProc;
+		//
+		// // remove CAS variable prefix from command name if present
+		// cmdName = cmdName.replace(ExpressionNode.GGBCAS_VARIABLE_PREFIX, "");
+
+		// MACRO: is there a macro with this command name?
+		Macro macro = kernel.getMacro(cmdName);
+		if (macro != null) {
+			c.setMacro(macro);
+			cmdProc = macroProc;
+			// remember macro command used:
+			// this is needed when a single tool A[] is exported to find
+			// all other tools that are needed for A[]
+			cons.addUsedMacro(macro);
+		}
+		// STANDARD CASE
+		else {
+			// get CommandProcessor object for command name from command table
+			cmdProc = cmdTable.get(cmdName);
+
+			if (cmdProc == null) {
+				cmdProc = commandTableSwitch(cmdName);
+				if (cmdProc != null) {
+					cmdTable.put(cmdName, cmdProc);
+				}
+			}
+
+			if (cmdProc == null && internalCmdTable != null) {
+				// try internal command
+				cmdProc = internalCmdTable.get(cmdName);
+			}
+		}
+		return cmdProc;
 	}
 
 	/**
@@ -884,5 +893,14 @@ public abstract class CommandDispatcher {
 			basicDispatcher = new CommandDispatcherBasic();
 		}
 		return basicDispatcher;
+	}
+
+	public ExpressionValue simplifyCommand(Command c, boolean labelOutput) {
+		CommandProcessor cmdProc = getProcessor(c);
+		ExpressionValue simple = cmdProc.simplify(c);
+		if (simple != null) {
+			return simple;
+		}
+		return process(cmdProc, c, labelOutput)[0];
 	}
 }

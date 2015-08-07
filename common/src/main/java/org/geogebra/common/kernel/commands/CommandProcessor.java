@@ -846,4 +846,14 @@ public abstract class CommandProcessor {
 		return kernelA.getAlgoDispatcher();
 	}
 
+	/**
+	 * Reduces the command to expression node or gives null if not possible
+	 * 
+	 * @param c
+	 * @return
+	 */
+	public ExpressionValue simplify(Command c) {
+		return null;
+	}
+
 }

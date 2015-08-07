@@ -180,6 +180,12 @@ public class AlgebraProcessor {
 		return cmdDispatcher.processCommand(c, labelOutput);
 	}
 
+	final public ExpressionValue simplifyCommand(Command c,
+			boolean labelOutput)
+			throws MyError {
+		return cmdDispatcher.simplifyCommand(c, labelOutput);
+	}
+
 	/**
 	 * Processes the given casCell, i.e. compute its output depending on its
 	 * input. Note that this may create an additional twin GeoElement.
