@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
@@ -30,7 +29,6 @@ public class CmdDataFunction extends CommandProcessor {
 
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
-		App.printStacktrace("");
 		int n = c.getArgumentNumber();
 
 		switch (n) {
