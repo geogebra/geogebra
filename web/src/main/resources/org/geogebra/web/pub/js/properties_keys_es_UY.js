@@ -2777,7 +2777,7 @@ __GGB__keysVar.es_UY.plain = {
     "SlopeOfA": "Pendiente de %0",
     "Small": "Peque\xf1o",
     "SortBy": "Ordenado por",
-    "SortObjectsBy": "Ordena objetos por\u2026",
+    "SortObjectsBy": "Ordenar por\u2026",
     "Speed": "Velocidad",
     "Sphere": "Esfera",
     "SphereThroughAwithCenterB": "Esfera a trav\xe9s de %0 con centro en %1",

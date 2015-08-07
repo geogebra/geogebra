@@ -2171,7 +2171,7 @@ __GGB__keysVar.gl.plain = {
     "AandBarePerpendicular": "%0 e %1 son perpendiculares",
     "AandBcannotBeCompared": "%0 e %1 non poden ser comparados",
     "AbsoluteScreenLocation": "Posici\xf3n absoluta na pantalla",
-    "AddColumn": "Add Column",
+    "AddColumn": "Engadir columna",
     "AddRow": "Add Row",
     "AdoesNotLieOnB": "%0 non se acha sobre %1",
     "AdoesNotLieOnThePerimeterOfB": "%0 non se acha no per\xedmetro de %1",
