@@ -5579,20 +5579,8 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 /* AV Extensions */ 
-.avAnimationSpeedPanel  {
-	float: right;
-	position: relative;
-	top: -24px;
-	left: -42px;
-	margin: 0px;
-}
 
-.avAnimationSpeedPanel >* {
-	float: rigth;
-	display: inline-block;
-}
-
-.avAnimationSpeedPanel .gwt-Button {
+.gwt-Button.avSpeedButton {
 	font-size: 16px;
 	border: 0px;
 	outline: none;
@@ -5601,11 +5589,4 @@ body.application[dir=rtl] .deleteAlgebra {
 	margin: 0px;
 	padding: 0px;
 	text-color: grey;
-}
-
-.avAnimationSpeedPanel .gwt-Label {
-	font-size: 16px;
-	color: grey;
-	margin: 0px;
-	padding: 2px;
 }

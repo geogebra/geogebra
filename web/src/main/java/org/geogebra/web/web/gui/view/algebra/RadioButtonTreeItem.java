@@ -498,8 +498,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			add(sliderPanel);
 
 			if (app.has(Feature.AV_EXTENSIONS)) {
-				createSpeedPanel();
-				slider.add(speedPanel);
+				createSpeedButtons();
 			}
 
 			if (geo.isAnimatable()) {
@@ -520,14 +519,19 @@ public class RadioButtonTreeItem extends FlowPanel implements
 						if (geo.isAnimating()) {
 							geo.getKernel().getAnimatonManager()
 									.startAnimation();
-							speedPanel.setVisible(true);
+							showSpeedButtons(true);
 						} else {
-							speedPanel.setVisible(false);
+							showSpeedButtons(false);
 
 						}
 					}
 				});
-				marblePanel.add(playButton);
+				FlowPanel p = new FlowPanel();
+				p.addStyleName("panelRow");
+				p.add(playButton);
+				p.add(btnSpeedDown);
+				p.add(btnSpeedUp);
+				marblePanel.add(p);
 			}
 		}
 
@@ -636,20 +640,24 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	}
 
-	private void createSpeedPanel() {
+	private void showSpeedButtons(boolean value) {
+		btnSpeedUp.setVisible(value);
+		btnSpeedDown.setVisible(value);
+
+	}
+
+	private void createSpeedButtons() {
 
 		if (!geo.isAnimatable()) {
 			return;
 		}
 		btnSpeedDown = new Button("<<");
-		lblSpeed = new Label(geo.getAnimationSpeed() + "x");
+		btnSpeedDown.addStyleName("avSpeedButton");
 		btnSpeedUp = new Button(">>");
-		speedPanel = new FlowPanel();
-		speedPanel.addStyleName("avAnimationSpeedPanel");
-		speedPanel.add(btnSpeedDown);
-		speedPanel.add(lblSpeed);
-		speedPanel.add(btnSpeedUp);
-		speedPanel.setVisible(false);
+		btnSpeedUp.addStyleName("avSpeedButton");
+		showSpeedButtons(false);
+		btnSpeedDown.addClickHandler(this);
+		btnSpeedUp.addClickHandler(this);
 
 	}
 	/**
@@ -1416,16 +1424,16 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void onMouseDown(MouseDownEvent event) {
 
 		event.stopPropagation();
-		int x = event.getClientX();
-		int y = event.getClientY();
-
-		if (isWidgetHit(btnSpeedDown, x, y)) {
-			animSpeedDown();
-			return;
-		} else if (isWidgetHit(btnSpeedUp, x, y)) {
-			animSpeedUp();
-			return;
-		}
+		// int x = event.getClientX();
+		// int y = event.getClientY();
+		//
+		// if (isWidgetHit(btnSpeedDown, x, y)) {
+		// animSpeedDown();
+		// return;
+		// } else if (isWidgetHit(btnSpeedUp, x, y)) {
+		// animSpeedUp();
+		// return;
+		// }
 
 		if (commonEditingCheck()) {
 			// in newCreationMode, this is necessary after the
@@ -1472,7 +1480,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
-
+		Object source = evt.getSource();
+		if (source == btnSpeedDown) {
+			animSpeedDown();
+			return;
+		} else if (source == btnSpeedUp) {
+			animSpeedUp();
+			return;
+		}
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
