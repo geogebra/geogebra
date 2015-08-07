@@ -6704,40 +6704,13 @@ var Cursor = P(Point, function(_) {
     }
     var mrt = mort;
     if (this.root) {
-      var triple = mort;
-      var numadded = 0;
-      if (this[L]) {
-        if (this[L].ctrlSeq) {
-          if (this[L].ctrlSeq.length === 1) {
-            triple = this[L].ctrlSeq + triple;
-            numadded++;
-          }
-        }
-        if (this[L][L]) {
-          if (this[L][L].ctrlSeq) {
-            if (this[L][L].ctrlSeq.length === 1) {
-              triple = this[L][L].ctrlSeq + triple;
-              numadded++;
-            }
-          }
-        }
-      }
-      var tripleL = triple.length;
-      // this may be 0-1-2 characters more than mort.length
-      // but in case it's really more, try to merge!
-      // moreover, merge ANYWAY, if (tripleL > 1)!
-      if (tripleL > 1) {
-        mrt = this.root.mergeKoreanDoubles(triple);
-        for (var cv = 0; cv < numadded; cv++) {
-          this.backspace();
-        }
-      }
-    }
-    this.writeLatex(mrt).show();
+    	mrt = this.root.mergeKoreanDoubles(mrt); 
+    } 
+    self.writeLatex(mrt).show();      
     return true;
   };
   _.writeLatex = function(latex) {
-    this.checkColorCursor(false);
+	  this.checkColorCursor(false);
     var self = this;
     clearUpDownCache(self);
     self.show().deleteSelection();
