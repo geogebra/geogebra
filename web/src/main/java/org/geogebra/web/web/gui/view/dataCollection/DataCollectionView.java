@@ -7,7 +7,6 @@ import java.util.TreeSet;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.CmdDataFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -473,10 +472,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_DATA_FUNCTION
 					.getText()) {
 				// create new data function
-				newSelection = CmdDataFunction.getDataFunction(
-						this.app.getKernel(), null,
-						new MyList(this.app.getKernel()),
-						new MyList(this.app.getKernel()), null)[0];
+				newSelection = CmdDataFunction.emptyFunction(app.getKernel(),
+						null)[0];
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
 			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_LIST

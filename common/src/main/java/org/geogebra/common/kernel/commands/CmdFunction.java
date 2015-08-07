@@ -9,10 +9,8 @@ import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoFunctionInterval;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -50,14 +48,7 @@ public class CmdFunction extends CommandProcessor {
 		FunctionVariable fv;
 		switch (n) {
 		case 0:
-			fv = new FunctionVariable(kernelA);
-			ExpressionValue en = CmdDataFunction.getDataFunction(kernelA,
-					c.getLabel(),
- new MyList(app.getKernel()),
-					new MyList(app.getKernel()), null, fv);
-			GeoFunction geo = new GeoFunction(en.wrap(), fv);
-			geo.setLabel(c.getLabel());
-			return new GeoElement[] { geo };
+			return CmdDataFunction.emptyFunction(kernelA, c.getLabel());
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoList()) {

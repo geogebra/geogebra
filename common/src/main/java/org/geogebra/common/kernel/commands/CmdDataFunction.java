@@ -86,5 +86,13 @@ public class CmdDataFunction extends CommandProcessor {
 		return null;
 	}
 
+	public static GeoElement[] emptyFunction(Kernel kernelA, String label) {
+		FunctionVariable fv = new FunctionVariable(kernelA);
+		ExpressionValue en = CmdDataFunction.getDataFunction(kernelA, label,
+				new MyList(kernelA), new MyList(kernelA), null, fv);
+		GeoFunction geo = new GeoFunction(en.wrap(), fv);
+		geo.setLabel(label);
+		return new GeoElement[] { geo };
+	}
 	
 }
