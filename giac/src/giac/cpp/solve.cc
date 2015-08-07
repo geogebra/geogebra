@@ -6748,8 +6748,14 @@ namespace giac {
 	// convert eq to polynomial
 	vecteur eq_in(*e2r(eqs,l,contextptr)._VECTptr);
 	vectpoly eqp;
-	if (!vecteur2vector_polynome(eq_in,l,eqp))
-	  return gensizeerr(contextptr);
+	if (!vecteur2vector_polynome(eq_in,l,eqp)){
+	  for (int i=0;i<int(eq_in.size());++i){
+	    gen tmp=eq_in[i];
+	    if (!is_integer(tmp) && tmp.type!=_FRAC)
+	      return gensizeerr(contextptr);	      
+	  }
+	  return eq_in;
+	}
 	gen coeff;
 	environment env ;
 	env.moduloon = false;    
