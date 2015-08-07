@@ -109,9 +109,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));"
 			+ "ggb_is_zero(x):=when(x==0,true,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,when(type(x)=='DOM_LIST',max(x)==min(x)&&min(x)==0,false)));";
 
-	protected final static String myeliminate = "[containsvars(poly,varlist):=begin local ii; for (ii:=0; ii<size(varlist); ii++) begin if (degree(poly,varlist[ii])>0) begin return true end end return false end],"
-			+ "[myeliminate(polylist,varlist):=begin local ii,jj,kk; kk:=[]; jj:=gbasis(polylist,append(varlist,y,x),revlex); for (ii:=0; ii<size(jj); ii++) begin if (!containsvars(jj[ii],varlist)) begin kk:=append(kk,jj[ii]) end end return kk end]";
-
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
 	 */
@@ -440,20 +437,16 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		return script
 				.append("[")
-				.append(myeliminate + ",[aa:=my")
+				.append("[aa:=")
 				.append(eliminateCommand)
 				.append("],")
-				.
-				// myeliminate() may be inaccurate, see
-				// https://dev.geogebra.org/trac/ticket/4221
-				append("[if (size(aa)==0) begin aa:=" + eliminateCommand + " end],")
 				.
 				// Creating a matrix from the output to satisfy Sergio:
 				append("[bb:=coeffs(aa[0],x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],")
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
 				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
-				.append("cc:=append(cc,ee); od; od],cc][9]")
+				.append("cc:=append(cc,ee); od; od],cc][6]")
 				// See CASTranslator.createSingularScript for more details.
 
 				.toString();
@@ -530,35 +523,13 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		return script
 				.append("[" +
-				/**
-				 * Bernard suggested to substitute eliminate() with an own
-				 * implementation which directly computes gbasis with revlex and
-				 * then removes the unwanted polys from the result ideal.
-				 * (Mathematically speaking, we need the intersection of the
-				 * result ideal and the polynomial ring over the free
-				 * variables.) Here is the new code. Note that here it is
-				 * required to put the extra functions as one of the [...],[...]
-				 * steps, otherwise a Giac compilation error will occur. I tried
-				 * to put them into specialFunctions, but without any luck:
-				 * either this code cannot see the definition (I get "undef") or
-				 * the definition itself reports a Giac compilation error.
-				 * 
-				 * Later Bernard may implement a fast version of eliminate()
-				 * inside Giac natively. Then we can remove these two lines and
-				 * use eliminate() instead of myeliminate(). At the moment,
-				 * eliminate() is slow in Giac, that is why here we write our
-				 * own code.
-				 * 
-				 * Unfortunately, myeliminate() does not work always. So we will
-				 * still need to use a fallback.
-				 */
-				myeliminate + "," + "[ff:=\"\"],[aa:=my")
+				"[ff:=\"\"],[aa:=")
 				.append(eliminateCommand)
-				.append("],[if (size(aa)==0) begin aa:=" + eliminateCommand + " end],")
+				.append("],")
 				.append("[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ")
 				.append(" _[1]=1\");cc:=factors(aa[ii]);dd:=size(cc);")
 				.append("for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: ")
-				.append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\") begin ff:=[0] end],ff][8]")
+				.append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\") begin ff:=[0] end],ff][5]")
 
 				.toString();
 
