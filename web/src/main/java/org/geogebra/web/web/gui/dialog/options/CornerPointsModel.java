@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.dialog.options;
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.PropertyListener;
 import org.geogebra.common.kernel.Locateable;
+import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.web.web.gui.dialog.options.OptionsTab.CornerPointsPanel;
 
 public class CornerPointsModel extends OptionsModel {
@@ -10,7 +11,8 @@ public class CornerPointsModel extends OptionsModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		return getGeoAt(index) instanceof Locateable;
+		return getGeoAt(index) instanceof Locateable
+				&& !(getGeoAt(index).getParentAlgorithm() instanceof AlgoVector);
 	}
 
 	@Override
