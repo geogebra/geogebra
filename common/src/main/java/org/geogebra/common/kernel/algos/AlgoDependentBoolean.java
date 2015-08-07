@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolynomialNode;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
@@ -465,6 +466,40 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (node.getRight().isExpressionNode()) {
 			traverseExpression((ExpressionNode) node.getRight());
 		}
+		// expression is trusted, if children are trusted
+		if (node.getLeft().isExpressionNode() && node.getLeftTree().getTrustable() && node.getRight().isExpressionNode() && node.getRightTree().getTrustable()) {
+			node.setTrustable(true);
+		}
+		// case number with segment, eg. 2*a^2
+		if (node.getLeft() instanceof MyDouble
+				&& node.getRight().isExpressionNode()
+				&& node.getRightTree().getTrustable()) {
+			node.setTrustable(true);
+		}
+		// case segment with number, eg. a^2*1,5
+		if (node.getRight() instanceof MyDouble
+				&& node.getLeft().isExpressionNode()
+				&& node.getLeftTree().getTrustable()) {
+			node.setTrustable(true);
+		}
+		// case half trusted with trusted, eg. h/j*a^2
+		if (node.getLeft().isExpressionNode() && node.getRight().isExpressionNode()) {
+			if ((node.getOperation() == Operation.POWER
+					|| node.getOperation() == Operation.DIVIDE || node
+					.getOperation() == Operation.MULTIPLY)
+					&& (node.getLeftTree().getHalfTrustable() || node.getRightTree().getHalfTrustable())) {
+				node.setHalfTrustable(true);
+				node.setTrustable(true);
+			}
+		}
+		// h/j+a^2 is not trusted
+		if (!(node.getOperation() == Operation.POWER
+				|| node.getOperation() == Operation.DIVIDE || node
+				.getOperation() == Operation.MULTIPLY)
+				&& (node.getHalfTrustable() || node.getHalfTrustable())) {
+			node.setTrustable(false);
+		}
+
 	}
 
 	public Polynomial[][] getBotanaPolynomials()
@@ -510,11 +545,67 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			traverseExpression(root);
+			// to handle special case like h/j == 2 or h/j == a^2
+			if ((root.getLeftTree().getHalfTrustable() || root.getLeftTree()
+					.getTrustable())
+					&& (root.getRightTree().getTrustable() || root.getRight() instanceof NumberValue)) {
+				root.setTrustable(true);
+			}
+			// to handle special case like h/j+a^2==0
+			if (!root.getTrustable()) {
+				if (root.getRight() instanceof MyDouble) {
+					double d = root.getRight().evaluateDouble();
+					if (d == 0) {
+						ExpressionNode left = root.getLeftTree();
+						if (left.getOperation() == Operation.PLUS || left.getOperation() == Operation.MINUS) {
+							if ((left.getLeftTree().getHalfTrustable()
+									|| left.getLeftTree().getTrustable() || left
+										.getLeft() instanceof NumberValue)
+									&& (left.getRightTree().getTrustable()
+											|| left.getRightTree()
+													.getHalfTrustable() || left
+												.getRight() instanceof NumberValue)) {
+								if (!(left.getLeft() instanceof NumberValue)
+										|| !(left.getRight() instanceof NumberValue)) {
+									root.setTrustable(true);
+								}
+							}
+						}
+					}
+				}
+			}
+			// to handle special case like 0==h/j+a^2
+			if (!root.getTrustable()) {
+				if (root.getLeft() instanceof MyDouble) {
+					double d = root.getLeft().evaluateDouble();
+					if (d == 0) {
+						ExpressionNode right = root.getRightTree();
+						if (right.getOperation() == Operation.PLUS
+								|| right.getOperation() == Operation.MINUS) {
+							if ((right.getLeftTree().getHalfTrustable() && right
+									.getRightTree().getTrustable())
+									|| (right.getLeftTree().getTrustable() && right
+											.getRightTree().getHalfTrustable())
+									|| (right.getLeftTree().getHalfTrustable() && right
+											.getRightTree().getHalfTrustable())
+									|| (right.getLeftTree().getTrustable() && right
+											.getRightTree().getTrustable())) {
+								root.setTrustable(true);
+							}
+						}
+					}
+				}
+			}
+			// we won't accept untrusted expressions
+			if (root.getLeftTree().isExpressionNode()
+					&& root.getRightTree().isExpressionNode()
+					&& !root.getTrustable()) {
+				throw new NoSymbolicParametersException(); // not safe
+															// expressions
+			}
 			Polynomial[][] ret = null;
 			return ret;
 
-			// }
-			// throw new NoSymbolicParametersException(); // unhandled equation
 		}
 		throw new NoSymbolicParametersException(); // unhandled expression
 	}

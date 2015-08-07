@@ -70,6 +70,11 @@ public class ExpressionNode extends ValidExpression implements
 	public boolean leaf = false;
 	private boolean brackets;
 
+	/** true if the expression contains only segments in even power */
+	private boolean trustable = false;
+	/** true if the expression contains / or * of segments */
+	private boolean halfTrustable = false;
+
 	/**
 	 * Creates dummy expression node
 	 */
@@ -95,12 +100,14 @@ public class ExpressionNode extends ValidExpression implements
 		loc = kernel.getLocalization();
 
 		this.operation = operation;
+
 		setLeft(left);
 		if (right != null) {
 			setRight(right);
 		} else { // set dummy value
 			setRight(new MyDouble(kernel, Double.NaN));
 		}
+		isTrustableExpression();
 	}
 
 	/**
@@ -5772,71 +5779,77 @@ kernel, left,
 	}
 
 	/**
-	 * @return true if the expression is sum or difference of two segments
+	 * if expressionNode is GeoSegment
+	 * 
+	 * @return geoSegment leaf
 	 */
-	public boolean isSumOrDiffOfTwoSegments() {
-		if (this.getLeft() != null && this.getRight() != null) {
-			if (this.getLeft().isGeoElement()
-				&& ((GeoElement) this.getLeft()).isGeoSegment()
-				&& this.getRight().isGeoElement()
-				&& ((GeoElement) this.getRight()).isGeoSegment()
-				&& (this.getOperation() == Operation.PLUS || this
-						.getOperation() == Operation.MINUS)) {
-			return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * @return if the ExpressionNode is algebraic sum of three segments, then
-	 *         returns the segments, otherwise return null
-	 */
-	public GeoSegment[] getSegmentsFromAlgebraicSumOfThreeSegments() {
-		GeoSegment[] threeSegment = new GeoSegment[3];
-		if (this.getLeft().isGeoElement()
-				&& ((GeoElement) this.getLeft()).isGeoSegment()
-				&& this.getRightTree().isSumOrDiffOfTwoSegments()) {
-			threeSegment[0] = (GeoSegment) this.getLeft();
-			threeSegment[1] = (GeoSegment) this.getRightTree().getLeft();
-			threeSegment[2] = (GeoSegment) this.getRightTree().getRight();
-			return threeSegment;
-		} else if (this.getRight().isGeoElement()
-				&& ((GeoElement) this.getRight()).isGeoSegment()
-				&& this.getLeftTree().isSumOrDiffOfTwoSegments()) {
-			threeSegment[0] = (GeoSegment) this.getRight();
-			threeSegment[1] = (GeoSegment) this.getLeftTree().getLeft();
-			threeSegment[2] = (GeoSegment) this.getLeftTree().getRight();
-			return threeSegment;
-		}
-		return null;
-	}
-
-	/**
-	 * @return true if the expression is algebraic sum of three segments, false
-	 *         otherwise
-	 */
-	public boolean isAlgebraicSumOfThreeSegments() {
-		if ((this.getLeft().isGeoElement() && this.getRight()
-				.isExpressionNode())
-				|| (this.getRight().isGeoElement() && this.getLeft()
-						.isExpressionNode())) {
-			if ((this.getLeft().isGeoElement()
-				&& ((GeoElement) this.getLeft()).isGeoSegment() && this
-				.getRightTree().isSumOrDiffOfTwoSegments())
-				|| (this.getRight().isGeoElement()
-						&& ((GeoElement) this.getRight()).isGeoSegment() && this
-						.getLeftTree().isSumOrDiffOfTwoSegments())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public GeoSegment getGeoSegment() {
 		if (this.isGeoElement() && this.left instanceof GeoSegment) {
 			return (GeoSegment) this.left;
 		}
 		return null;
 	}
+	
+	/**
+	 * @return trustable
+	 */
+	public boolean getTrustable() {
+		return this.trustable;
+	}
+
+	/**
+	 * @return halfTrustable
+	 */
+	public boolean getHalfTrustable() {
+		return halfTrustable;
+	}
+
+	/**
+	 * @param trustable
+	 *            - true if expression is trustable
+	 */
+	public void setTrustable(boolean trustable) {
+		this.trustable = trustable;
+	}
+
+	/**
+	 * @param halfTrustable
+	 *            - true if expression is half trustable
+	 */
+	public void setHalfTrustable(boolean halfTrustable) {
+		this.halfTrustable = halfTrustable;
+	}
+
+	/**
+	 * check if expression is trustable or halftrustable
+	 */
+	public void isTrustableExpression() {
+		if (this.isExpressionNode()) {
+			// square of something is trustable
+			if (this.isVariableSquare()) {
+				setTrustable(true);
+				return;
+			}
+			// halftrusted expression, eg. a/b
+			if (this.getLeft() instanceof Variable
+					&& this.getRight() instanceof Variable
+					&& (operation == Operation.MULTIPLY || operation == Operation.DIVIDE)) {
+				setHalfTrustable(true);
+				return;
+			}
+		}
+	}
+
+	private boolean isVariableSquare() {
+		if (this.getLeft() instanceof Variable
+				&& this.getOperation() == Operation.POWER
+				&& this.getRight() instanceof NumberValue) {
+			double d = this.getRight().evaluateDouble();
+			if (Kernel.isInteger(d) && d % 2 == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

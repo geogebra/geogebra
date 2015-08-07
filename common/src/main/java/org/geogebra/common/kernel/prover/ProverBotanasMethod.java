@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.PolynomialNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -535,6 +536,12 @@ public class ProverBotanasMethod {
 
 			AlgoElement algo = statement
 					.getParentAlgorithm();
+			if (algo instanceof AlgoAreCongruent) {
+				if (algo.input[0] instanceof GeoAngle
+						&& algo.input[1] instanceof GeoAngle) {
+					interpretTrueAsUndefined = true;
+				}
+			}
 			if (algo instanceof AlgoDependentBoolean) {
 				Operation operation = ((AlgoDependentBoolean) algo)
 						.getOperation();
@@ -548,10 +555,11 @@ public class ProverBotanasMethod {
 									.isHyperbola())) {
 						interpretTrueAsUndefined = true;
 					}
-				} else if (((AlgoDependentBoolean) statement
-						.getParentAlgorithm()).getExpression()
-						.isAlgebraicSumOfThreeSegments()) {
-					interpretTrueAsUndefined = true;
+				} else if (operation == Operation.EQUAL_BOOLEAN) {
+					if (algo.input[0] instanceof GeoAngle
+							&& algo.input[1] instanceof GeoAngle) {
+						interpretTrueAsUndefined = true;
+					}
 				}
 			}
 			
