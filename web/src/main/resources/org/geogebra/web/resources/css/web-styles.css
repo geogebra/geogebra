@@ -5590,7 +5590,6 @@ body.application[dir=rtl] .deleteAlgebra {
 .avAnimationSpeedPanel >* {
 	float: rigth;
 	display: inline-block;
-	text-color: grey;
 }
 
 .avAnimationSpeedPanel .gwt-Button {
@@ -5598,13 +5597,15 @@ body.application[dir=rtl] .deleteAlgebra {
 	border: 0px;
 	outline: none;
 	box-Shadow: none;
-	width: 32x;
+	width: 32px;
 	margin: 0px;
 	padding: 0px;
+	text-color: grey;
 }
 
 .avAnimationSpeedPanel .gwt-Label {
 	font-size: 16px;
 	color: grey;
-	width: 8px;
+	margin: 0px;
+	padding: 2px;
 }

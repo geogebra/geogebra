@@ -445,6 +445,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			// this method (onClick) could execute
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
+
 				event.stopPropagation();
 				ge.remove();
 			}
@@ -641,12 +642,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		}
 		btnSpeedDown = new Button("<<");
-		btnSpeedDown.addClickHandler(this);
-
 		lblSpeed = new Label(geo.getAnimationSpeed() + "x");
 		btnSpeedUp = new Button(">>");
-		btnSpeedUp.addClickHandler(this);
-
 		speedPanel = new FlowPanel();
 		speedPanel.addStyleName("avAnimationSpeedPanel");
 		speedPanel.add(btnSpeedDown);
@@ -1403,9 +1400,33 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// AlgoCurveCartesian3D is an instance of AlgoCurveCartesian too
 	}
 
+	private boolean isWidgetHit(Widget w, int x, int y) {
+		if (w == null) {
+			return false;
+		}
+		int left = w.getAbsoluteLeft();
+		int top = w.getAbsoluteTop();
+		int right = left + w.getOffsetWidth();
+		int bottom = top + w.getOffsetHeight();
+
+		return (x > left && x < right && y > top && y < bottom);
+	}
+
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+
 		event.stopPropagation();
+		int x = event.getClientX();
+		int y = event.getClientY();
+
+		if (isWidgetHit(btnSpeedDown, x, y)) {
+			animSpeedDown();
+			return;
+		} else if (isWidgetHit(btnSpeedUp, x, y)) {
+			animSpeedUp();
+			return;
+		}
+
 		if (commonEditingCheck()) {
 			// in newCreationMode, this is necessary after the
 			// MathQuillGGB gets its focusMathQuillGGB method...
@@ -1433,24 +1454,25 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		event.stopPropagation();
 	}
 
-	@Override
-	public void onClick(ClickEvent evt) {
-		Object source = evt.getSource();
-		if (source == btnSpeedDown) {
-			if (speedIndex > 0) {
-				speedIndex--;
-				setAnimationSpeed();
+	private void animSpeedUp() {
+		if (speedIndex < animSpeeds.length - 1) {
+			speedIndex++;
+			setAnimationSpeed();
+		}
+	}
 
-			}
-			return;
-		} else if (source == btnSpeedUp) {
-			if (speedIndex < animSpeeds.length) {
-				speedIndex++;
-				setAnimationSpeed();
-			}
+	private void animSpeedDown() {
+		if (speedIndex > 0) {
+			speedIndex--;
+			setAnimationSpeed();
 
 		}
+	}
+
+	@Override
+	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
+
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
