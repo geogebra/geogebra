@@ -1426,4 +1426,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	public void updateNavigationBar() {
 		// TODO Auto-generated method stub
 	}
+
+	public boolean hasPlane() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

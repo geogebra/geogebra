@@ -3262,4 +3262,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						+ ".png", app);
 	}
 
+	public EuclidianViewInterfaceCommon getPlotPanelEuclidanView() {
+		return null;
+	}
+
 }

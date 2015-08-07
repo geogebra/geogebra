@@ -374,4 +374,6 @@ public interface GuiManagerInterface {
 	public void updatePropertiesViewStylebar();
 
 	public String getToolImageURL(int mode, GeoImage geoImage);
+
+	public EuclidianViewInterfaceCommon getPlotPanelEuclidanView();
 }

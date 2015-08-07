@@ -117,6 +117,19 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 
 	public String getPNGBase64(double exportScale, boolean transparent,
 			double DPI) {
+		if (app.getGuiManager() != null)
+			app.getGuiManager().getLayout().getDockManager().ensureFocus();
+			App.debug(app.getGuiManager().getLayout().getDockManager()
+					.getFocusedViewId()
+					+ " focused");
+		if (app.getGuiManager() != null
+				&& app.getGuiManager().getLayout().getDockManager()
+						.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
+			return ((EuclidianViewWInterface) app.getGuiManager()
+					.getPlotPanelEuclidanView()).getExportImageDataUrl(
+					exportScale, transparent).substring(
+					"data:image/png;base64,".length());
+		}
 		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
 				.getExportImageDataUrl(exportScale, transparent).substring(
 						"data:image/png;base64,".length());

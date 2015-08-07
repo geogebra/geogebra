@@ -103,6 +103,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 			this.dockPanel = dockPanel;
 		}
 
+		@Override
 		public void onResize() {
 
 			if (app != null) {
@@ -141,6 +142,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		}
 	}
 
+	@Override
 	public void updateNavigationBar() {
 		// TODO Auto-generated method stub
 	}
@@ -165,14 +167,17 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	}
 
+	@Override
 	public Canvas getCanvas() {
 		return eview1;
 	}
 
+	@Override
 	public AbsolutePanel getAbsolutePanel() {
 		return euclidianpanel;
 	}
 
+	@Override
 	public AbsolutePanel getEuclidianPanel() {
 		return euclidianpanel;
 	}
@@ -193,5 +198,10 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	@Override
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_graphics_extra();
+	}
+
+	@Override
+	public boolean hasPlane() {
+		return true;
 	}
 }

@@ -419,6 +419,29 @@ public class DockManagerW extends DockManager {
 		
 	}
 	
+	@Override
+	public void ensureFocus() {
+		if (this.focusedDockPanel != null) {
+			return;
+		}
+		boolean focusDone = false;
+		for (int i = 0; i < dockPanels.size() && !focusDone; ++i) {
+			if (!dockPanels.get(i).hasPlane()) { // we can't focus on
+				// view for plane
+				// otherwise we will
+				// recreate it
+				if (dockPanels.get(i) != null && dockPanels.get(i).isVisible()) {
+					setFocusedPanel(dockPanels.get(i));
+					// don't like algebra view as focused view
+					if (dockPanels.get(i).getViewId() != App.VIEW_ALGEBRA
+							&& dockPanels.get(i).getViewId() != App.VIEW_PROPERTIES) {
+						focusDone = true;
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	 * Sets split pane divider locations
 	 * 
@@ -1309,6 +1332,7 @@ public class DockManagerW extends DockManager {
 	/**
 	 * @return The viewId of the dock panel which has focus at the moment.
 	 */
+	@Override
 	public int getFocusedViewId() {
 		
 		if (focusedDockPanel == null)

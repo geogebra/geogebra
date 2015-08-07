@@ -947,7 +947,7 @@ public class DockManagerD extends org.geogebra.common.gui.layout.DockManager
 		if (focusedDockPanel == panel) {
 			return;
 		}
-
+		App.printStacktrace("");
 		// euclidian focus
 
 		// in case there is no focused panel there is also no focused euclidian

@@ -21,4 +21,9 @@ public abstract class DockManager implements SetLabels {
 	public abstract int getNumberOfOpenViews();
 
 	public abstract int getFocusedViewId();
+
+	public void ensureFocus() {
+		// TODO Auto-generated method stub
+
+	}
 }
