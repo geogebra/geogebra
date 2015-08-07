@@ -1175,8 +1175,9 @@ public class Polynomial implements Comparable<Polynomial> {
 			Log.info("[eliminateFactorized] output from cas: "+elimResult);	
 		}
 
-		// Singular returns "empty list", Giac "[0]" when the statement is false:
-		if ("empty list".equals(elimResult) || "[0]".equals(elimResult)) {
+		// Singular returns "empty list", Giac "{0}" when the statement is
+		// false:
+		if ("empty list".equals(elimResult) || "{0}".equals(elimResult)) {
 			// If we get an empty list from Singular, it means
 			// the answer is false, so we artificially create the {{0}} answer.
 			Set<Set<Polynomial>> ret = new HashSet<Set<Polynomial>>();
