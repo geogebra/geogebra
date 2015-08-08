@@ -108,7 +108,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			// subtype 27 is ggbvect[]
 			"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));"
 			+ "ggb_is_zero(x):=when(x==0,true,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,when(type(x)=='DOM_LIST',max(x)==min(x)&&min(x)==0,false)));";
-
 	/**
 	 * whether Giac has been set to GeoGebra mode yet
 	 */
@@ -358,12 +357,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	public void settingsChanged(AbstractSettings settings) {
 		CASSettings s = (CASSettings) settings;
 		timeoutMillis = s.getTimeoutMilliseconds();
-		try {
-			evaluateRaw("caseval(\"timeout " + (timeoutMillis / 1000) + "\")");
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public String translateAssignment(final String label, final String body) {
