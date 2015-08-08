@@ -289,6 +289,10 @@ public class ParserFunctions {
 
 	}
 
+	private static String[] translateable1var = new String[] { "sin", "cos",
+			"tan", "cot", "csc", "sec", "sinh", "cosh", "tanh", "coth", "csch",
+			"sech", "asin", "acos", "atan", "asinh", "acosh", "atanh", "real",
+			"imaginary", "conjugate", "fractionalPart" };
 	/**
 	 * Updates local names of functions
 	 * 
@@ -301,28 +305,9 @@ public class ParserFunctions {
 			reset();
 		}
 		this.localeLoaded = true;
-		put(1, app.getFunction("sin"), Operation.SIN);
-		put(1, app.getFunction("cos"), Operation.COS);
-		put(1, app.getFunction("tan"), Operation.TAN);
-		put(1, app.getFunction("cot"), Operation.COT);
-		put(1, app.getFunction("csc"), Operation.CSC);
-		put(1, app.getFunction("sec"), Operation.SEC);
-		put(1, app.getFunction("sinh"), Operation.SINH);
-		put(1, app.getFunction("cosh"), Operation.COSH);
-		put(1, app.getFunction("tanh"), Operation.TANH);
-		put(1, app.getFunction("coth"), Operation.COTH);
-		put(1, app.getFunction("csch"), Operation.CSCH);
-		put(1, app.getFunction("sech"), Operation.SECH);
-		put(1, app.getFunction("asin"), Operation.ARCSIN);
-		put(1, app.getFunction("acos"), Operation.ARCCOS);
-		put(1, app.getFunction("atan"), Operation.ARCTAN);
-		put(1, app.getFunction("asinh"), Operation.ASINH);
-		put(1, app.getFunction("acosh"), Operation.ACOSH);
-		put(1, app.getFunction("atanh"), Operation.ATANH);
-		put(1, app.getFunction("real"), Operation.REAL);
-		put(1, app.getFunction("imaginary"), Operation.IMAGINARY);
-		put(1, app.getFunction("conjugate"), Operation.CONJUGATE);
-		put(1, app.getFunction("fractionalPart"), Operation.FRACTIONAL_PART);
+		for (String fn : translateable1var) {
+			put(1, app.getFunction(fn), get(fn, 1));
+		}
 
 		put(2, app.getFunction("nroot"), Operation.NROOT, "( <x>, <n> )");
 	}
@@ -386,5 +371,26 @@ public class ParserFunctions {
 			completions.add(candidate);
 		}
 		return completions;
+	}
+
+	public Object getInternal(App app, String string) {
+		for (int i = 0; i < translateable1var.length; i++) {
+			if (translateable1var[i].equals(string)) {
+				return true;
+			}
+		}
+		if (app.getFunction("nroot").equals(string)) {
+			return "nroot";
+		}
+		return null;
+	}
+
+	public boolean isFunction(String string) {
+		for (int i = 0; i < translateable1var.length; i++) {
+			if (translateable1var[i].equals(string)) {
+				return true;
+			}
+		}
+		return "nroot".equals(string);
 	}
 }

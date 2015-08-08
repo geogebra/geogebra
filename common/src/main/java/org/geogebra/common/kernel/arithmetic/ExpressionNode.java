@@ -2491,7 +2491,12 @@ kernel, left,
 				break;
 
 			case GEOGEBRA:
-				sb.append(loc.getFunction("nroot"));
+				if (tpl.isPrintLocalizedCommandNames()) {
+					sb.append(loc.getFunction("nroot"));
+				} else {
+					sb.append("nroot");
+				}
+
 				sb.append("(");
 				sb.append(leftStr);
 				sb.append(',');

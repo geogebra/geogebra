@@ -68,8 +68,13 @@ public class GgbScript extends Script {
 		for (int i = 0; i < starr.length; i++) {
 			if ((i % 2) == 0 || isFunction(starr, i, app)) {
 				retone.append(starr[i]);
+				// app.getFunction("nroot")
+			} else if (app.getParserFunctions().isFunction(starr[i])) {
+				retone.append(app.getFunction(starr[i]));
 			} else {
-				retone.append(app.getLocalization().getCommand(starr[i]));
+				App.debug("NOT FUNCTION" + starr[i]);
+				retone.append(app.getLocalization().getCommand(
+						starr[i]));
 			}
 		}
 		return retone.toString();
@@ -100,9 +105,14 @@ public class GgbScript extends Script {
 				retone.append(starr[i]);
 			} else {
 				// allow English language command in French scripts
-				if (!isFunction(starr, i, app)
-						&& app.getInternalCommand(starr[i]) != null) {
+				if (isFunction(starr, i, app)) {
+					retone.append(starr[i]);
+				} else if (app.getInternalCommand(starr[i]) != null) {
 					retone.append(app.getInternalCommand(starr[i]));
+				} else if (app.getParserFunctions().getInternal(app, starr[i]) != null) {
+					retone.append(app.getParserFunctions()
+.getInternal(app,
+							starr[i]));
 				} else {
 					// fallback for wrong call in English already
 					// or if someone writes an English command into an
