@@ -6751,10 +6751,10 @@ namespace giac {
 	if (!vecteur2vector_polynome(eq_in,l,eqp)){
 	  for (int i=0;i<int(eq_in.size());++i){
 	    gen tmp=eq_in[i];
-	    if (!is_integer(tmp) && tmp.type!=_FRAC)
-	      return gensizeerr(contextptr);	      
+	    if (is_integer(tmp) || tmp.type==_FRAC)
+	      return vecteur(1,1);	      
 	  }
-	  return eq_in;
+	  return gensizeerr(contextptr);
 	}
 	gen coeff;
 	environment env ;
