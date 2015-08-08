@@ -1455,6 +1455,10 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
 }
 
+.gwt-SplitLayoutPanel-HDragger.disabled {
+	cursor: default;
+}
+
 .gwt-SplitLayoutPanel-VDragger {
 	cursor: row-resize;
 	background: #F8F8F8;
@@ -1469,6 +1473,12 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	background:#6161FF;
 	border-left: 1px solid #C6C6C6;
 	border-right: 1px solid #C6C6C6;
+}
+
+.gwt-SplitLayoutPanel-HDragger.disabled:ACTIVE  {
+	background: #F8F8F8;
+	border-left: 1px solid #DCDCDC;
+	border-right: 1px solid #DCDCDC;
 }
 
 .gwt-SplitLayoutPanel-VDragger:ACTIVE {
