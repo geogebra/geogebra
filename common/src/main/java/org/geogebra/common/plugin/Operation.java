@@ -479,8 +479,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof MyNumberPair) {
 				double x = ((NumberValue) lt).getDouble();
-				MyList keyList = (MyList) ((MyNumberPair)rt).getX();
-				MyList valueList = (MyList) ((MyNumberPair) rt).getY();
+				ListValue keyList = (ListValue) ((MyNumberPair) rt).getX();
+				ListValue valueList = (ListValue) ((MyNumberPair) rt).getY();
 				if (keyList.size() < 1) {
 					return new MyDouble(ev.getKernel(), Double.NaN);
 				}

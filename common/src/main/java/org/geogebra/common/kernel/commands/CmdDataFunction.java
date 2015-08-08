@@ -1,12 +1,15 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
@@ -46,7 +49,7 @@ public class CmdDataFunction extends CommandProcessor {
 	}
 
 	public static ExpressionNode getDataFunction(Kernel kernelA, String label,
-			MyList ml, MyList vl, ExpressionNode arg0, FunctionVariable fv) {
+			ListValue ml, ListValue vl, ExpressionNode arg0, FunctionVariable fv) {
 
 		// ml.addListElement(new MyDouble(kernelA));
 		// vl.addListElement(new MyDouble(kernelA, -1));
@@ -73,15 +76,26 @@ public class CmdDataFunction extends CommandProcessor {
 			return getDataFunction(kernelA, c.getLabel(), new MyList(kernelA),
 					new MyList(kernelA), null, fv);
 		case 2:
-			return getDataFunction(kernelA, c.getLabel(), (MyList) c
-					.getArgument(0).unwrap(), (MyList) c.getArgument(1)
-					.unwrap(), null, fv);
+			return getDataFunction(kernelA, c.getLabel(), toList(c, 0),
+					toList(c, 1), null, fv);
 		case 3:
-			return getDataFunction(kernelA, c.getLabel(), (MyList) c
-					.getArgument(0).unwrap(), (MyList) c.getArgument(1)
-					.unwrap(), c.getArgument(2), fv);
+			return getDataFunction(kernelA, c.getLabel(), toList(c, 0),
+					toList(c, 1), c.getArgument(2), fv);
 		}
 		return null;
+	}
+
+	private ListValue toList(Command c, int argIndex) {
+		ExpressionValue ev = c.getArgument(argIndex).unwrap();
+		if (ev instanceof Variable) {
+			ev = kernelA
+					.lookupLabel(ev
+					.toString(StringTemplate.noLocalDefault));
+		}
+		if (ev instanceof ListValue) {
+			return (ListValue) ev;
+		}
+		throw argErr(app, null, ev);
 	}
 
 	public static GeoElement[] emptyFunction(Kernel kernelA, String label) {
