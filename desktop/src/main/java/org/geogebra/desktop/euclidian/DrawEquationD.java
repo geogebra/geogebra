@@ -340,8 +340,8 @@ public class DrawEquationD extends DrawEquation {
 		org.geogebra.common.awt.GDimension d = new org.geogebra.desktop.awt.GDimensionD();
 		d = drawEquation(app, null, new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0,
 				0, latex, new org.geogebra.desktop.awt.GFontD(font), serif,
-				new org.geogebra.desktop.awt.GColorD(fgColor), new org.geogebra.desktop.awt.GColorD(
-bgColor), true, false,
+				new org.geogebra.desktop.awt.GColorD(fgColor),
+				new org.geogebra.desktop.awt.GColorD(bgColor), true, false,
 				null);
 
 		// Now use this size and draw again to get the final image
@@ -356,8 +356,8 @@ bgColor), true, false,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		d = drawEquation(app, null, new org.geogebra.desktop.awt.GGraphics2DD(g2image), 0,
 				0, latex, new org.geogebra.desktop.awt.GFontD(font), serif,
-				new org.geogebra.desktop.awt.GColorD(fgColor), new org.geogebra.desktop.awt.GColorD(
-bgColor), true, false,
+				new org.geogebra.desktop.awt.GColorD(fgColor),
+				new org.geogebra.desktop.awt.GColorD(bgColor), true, false,
 				null);
 
 		latexIcon.setImage(image);
