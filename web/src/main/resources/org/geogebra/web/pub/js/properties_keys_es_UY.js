@@ -2882,7 +2882,7 @@ __GGB__keysVar.es_UY.plain = {
     "back": "Anterior",
     "cartesian": "Cartesiano",
     "clockwise": "sentido horario",
-    "counterClockwise": "Sentido horario",
+    "counterClockwise": "sentido antihorario",
     "dependent": "Dependiente",
     "emf": "Meta formato enriquecido (.emf)",
     "eps": "Encapsulated Postscript",
