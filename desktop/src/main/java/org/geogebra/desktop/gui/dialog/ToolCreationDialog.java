@@ -262,10 +262,11 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	 * @version 2010-06-04
 	 */
 	private void overwriteMacro(Macro macro) {
-		Object[] options = { app.getMenu("DeleteTool"),
-				app.getMenu("DontDeleteTool") };
+		Object[] options = { app.getPlain("Tool.Replace"),
+				app.getPlain("Tool.DontReplace") };
 		int returnVal = JOptionPane.showOptionDialog(this,
-				app.getMenu("Tool.DeleteQuestion"), app.getPlain("Question"),
+				app.getLocalization().getPlain("Tool.ReplaceQuestion",
+						macro.getToolName()), app.getPlain("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				options, options[1]);
 		if (returnVal == 1)
@@ -281,19 +282,28 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
-			kernel.removeMacro(app.getMacro());
+			if (app.getMacro() != null) {
+				kernel.removeMacro(app.getMacro());
+			} else {
+				kernel.removeMacro(macro);
+			}
 			if (appToSave.addMacroXML(sb.toString())) {
 				// successfully saved, quitting
 				appToSave.setXML(appToSave.getXML(), true);
-				if (app.getMacro() != null)
+				if (app.getMacro() != null) {
 					app.setSaved();
-				app.exit();
+					app.exit();
+				} else {
+					setVisible(false);
+					dispose();
+				}
 			}
 
 		} else {
 			App.debug("not compatible");
 			JOptionPane.showMessageDialog(this,
-					app.getLocalization().getError("InvalidInput") + ":\n"
+					app.getLocalization().getPlain("Tool.NotCompatible")
+							+ ":\n"
 							+ macro.toString());
 		}
 	}
