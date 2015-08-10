@@ -374,6 +374,13 @@ public class ParserFunctions {
 		return completions;
 	}
 
+	/**
+	 * @param app
+	 *            app
+	 * @param string
+	 *            translated function
+	 * @return English function name
+	 */
 	public String getInternal(App app, String string) {
 		for (int i = 0; i < translateable1var.length; i++) {
 			if (app.getFunction(translateable1var[i]).equals(string)) {
@@ -386,6 +393,11 @@ public class ParserFunctions {
 		return null;
 	}
 
+	/**
+	 * @param string
+	 *            english function name
+	 * @return wheher this is a translateable function
+	 */
 	public boolean isFunction(String string) {
 		for (int i = 0; i < translateable1var.length; i++) {
 			if (translateable1var[i].equals(string)) {
