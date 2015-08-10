@@ -2416,9 +2416,90 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     var latex2 = latex;
     newCursor.writeLatex(latex2);
   };
-  _.mergeKoreanDoubles = function(str) {
+  _.hangulJamo = function(str) {
+    var ret = "";
+    for (var ii = 0; ii < str.length; ii++) {
+      ret += this.toHangulJamoChars(str.charAt(ii));
+    }
+    return ret;
+  };
+  _.toHangulJamoChars = function(kuc) {
+    switch (kuc) {
+    case '\u3131': return '\u1100';
+    case '\u3132': return '\u1101';
+    case '\u3134': return '\u1102';
+    case '\u3137': return '\u1103';
+    case '\u3138': return '\u1104';
+    case '\u3139': return '\u1105';
+    case '\u3141': return '\u1106';
+    case '\u3142': return '\u1107';
+    case '\u3143': return '\u1108';
+    case '\u3145': return '\u1109';
+    case '\u3146': return '\u110A';
+    case '\u3147': return '\u110B';
+    case '\u3148': return '\u110C';
+    case '\u3149': return '\u110D';
+    case '\u314A': return '\u110E';
+    case '\u314B': return '\u110F';
+    case '\u314C': return '\u1110';
+    case '\u314D': return '\u1111';
+    case '\u314E': return '\u1112';
+    case '\u314F': return '\u1161';
+    case '\u3150': return '\u1162';
+    case '\u3151': return '\u1163';
+    case '\u3152': return '\u1164';
+    case '\u3153': return '\u1165';
+    case '\u3154': return '\u1166';
+    case '\u3155': return '\u1167';
+    case '\u3156': return '\u1168';
+    case '\u3157': return '\u1169';
+    case '\u3158': return '\u116A';
+    case '\u3159': return '\u116B';
+    case '\u315A': return '\u116C';
+    case '\u315B': return '\u116D';
+    case '\u315C': return '\u116E';
+    case '\u315D': return '\u116F';
+    case '\u315E': return '\u1170';
+    case '\u315F': return '\u1171';
+    case '\u3160': return '\u1172';
+    case '\u3161': return '\u1173';
+    case '\u3162': return '\u1174';
+    case '\u3163': return '\u1175';
+    //(a lot of duplicates after here, ignore the repeats)
+    // \u3131 \u11A8 NOTE: different mapping?
+    // \u3132 \u11A9 NOTE: different mapping?
+    case '\u3133': return '\u11AA';
+    // \u3134 \u11AB NOTE: different mapping?
+    case '\u3135': return '\u11AC';
+    case '\u3136': return '\u11AD';
+    // \u3137 \u11AE NOTE: different mapping?
+    // \u3139 \u11AF NOTE: different mapping?
+    case '\u313A': return '\u11B0';
+    case '\u313B': return '\u11B1';
+    case '\u313C': return '\u11B2';
+    case '\u313D': return '\u11B3';
+    case '\u313E': return '\u11B4';
+    case '\u313F': return '\u11B5';
+    case '\u3140': return '\u11B6';
+    // \u3141 \u11B7 NOTE: different mapping?
+    // \u3142 \u11B8 NOTE: different mapping?
+    case '\u3144': return '\u11B9';
+    // \u3145 \u11BA NOTE: different mapping?
+    // \u3146 \u11BB NOTE: different mapping?
+    // \u3147 \u11BC NOTE: different mapping?
+    // \u3148 \u11BD NOTE: different mapping?
+    // \u314A \u11BE NOTE: different mapping?
+    // \u314B \u11BF NOTE: different mapping?
+    // \u314C \u11C0 NOTE: different mapping?
+    // \u314D \u11C1 NOTE: different mapping?
+    // \u314E \u11C2 NOTE: different mapping?
+    default: return kuc;
+    }
+  };
+  _.mergeKoreanDoubles = function(str2) {
+    var str = this.hangulJamo(str2);
     // ported to JavaScript from Java: GeoGebra/common...
-	// Korean.java / Korean.mergeDoubleCharacters(String)
+    // Korean.java / Korean.mergeDoubleCharacters(String)
     if (str.length) {
       if (str.length < 2) {
         return str;
