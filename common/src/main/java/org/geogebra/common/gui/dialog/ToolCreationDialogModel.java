@@ -7,12 +7,13 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 public class ToolCreationDialogModel {
 
-	private Kernel kernel;
+	// private Kernel kernel;
 	private App app;
 
 	// Drop Down Lists
@@ -30,7 +31,7 @@ public class ToolCreationDialogModel {
 
 	public ToolCreationDialogModel(App app, ToolInputOutputListener listener) {
 		this.app = app;
-		this.kernel = app.getKernel();
+		// this.kernel = app.getKernel();
 		this.listener = listener;
 		initLists();
 	}
@@ -83,7 +84,7 @@ public class ToolCreationDialogModel {
 	 */
 	public void initAddLists() {
 		if (inputAddList.size() == 0 || outputAddList.size() == 0) {
-			TreeSet<GeoElement> sortedSet = kernel.getConstruction()
+			TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 					.getGeoSetNameDescriptionOrder();
 			Iterator<GeoElement> it = sortedSet.iterator();
 			while (it.hasNext()) {
@@ -154,6 +155,7 @@ public class ToolCreationDialogModel {
 		GeoElement[] output = outputList.toGeoElements();
 
 		// try to create macro
+		Kernel kernel = app.getKernel();
 		try {
 			newTool = new Macro(kernel, "newTool", input, output);
 			return true;
@@ -181,7 +183,7 @@ public class ToolCreationDialogModel {
 		Kernel kernel = appToSave.getKernel();
 		// check if command name is not used already by another macro
 		if (kernel.getMacro(cmdName) != null) {
-			overwriteMacro(appToSave, kernel.getMacro(cmdName));
+			overwriteMacro(kernel.getMacro(cmdName));
 			return;
 		}
 
@@ -201,30 +203,38 @@ public class ToolCreationDialogModel {
 		// app.showMessage(app.getMenu("Tool.CreationSuccess"));
 	}
 
-	public boolean overwriteMacro(App appToSave, Macro macro) {
+	public boolean overwriteMacro(Macro macro) {
 		boolean compatible = newTool.getNeededTypesString().equals(
 				macro.getNeededTypesString());
 		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++)
 			compatible = compatible
 					&& macro.getMacroOutput()[i].getClass().equals(
 							newTool.getMacroOutput()[i].getClass());
+		Kernel kernel = macro.getKernel();
+		App appToSave = kernel.getApplication();
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
-			kernel.removeMacro(app.getMacro());
+			if (app.getMacro() != null) {
+				kernel.removeMacro(app.getMacro());
+			} else {
+				kernel.removeMacro(macro);
+			}
 			if (appToSave.addMacroXML(sb.toString())) {
 				// successfully saved, quitting
 				appToSave.setXML(appToSave.getXML(), true);
-				if (app.getMacro() != null)
+				if (app.getMacro() != null) {
 					app.setSaved();
-				// app.exit(); TODO?
+					// app.exit(); TODO! goto last window...
+				}
 			}
 			return true;
 		}
 		App.debug("not compatible");
 		return false;
 		// TODO JOptionPane.showMessageDialog(this,
-		// app.getLocalization().getError("InvalidInput") + ":\n"
+		// app.getLocalization().getPlain("Tool.NotCompatible")
+		// + ":\n"
 		// + macro.toString());
 
 	}
@@ -332,6 +342,23 @@ public class ToolCreationDialogModel {
 			}
 		}
 		listener.updateLists();
+	}
+
+	public void setFromMacro(Macro macro) {
+		for (int i = 0; i < macro.getMacroInput().length; i++) {
+			GeoElement el = app.getKernel().lookupLabel(
+					macro.getMacroInput()[i]
+							.getLabel(StringTemplate.defaultTemplate));
+			if (el != null)
+				this.inputList.add(0, el);
+		}
+		for (int i = 0; i < macro.getMacroOutput().length; i++) {
+			GeoElement el = app.getKernel().lookupLabel(
+					macro.getMacroOutput()[i]
+							.getLabel(StringTemplate.defaultTemplate));
+			if (el != null)
+				this.outputList.add(0, el);
+		}
 	}
 
 }

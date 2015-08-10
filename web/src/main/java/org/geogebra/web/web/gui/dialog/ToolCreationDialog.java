@@ -69,14 +69,20 @@ public class ToolCreationDialog extends DialogBoxW implements
 		this.setGlassEnabled(false);
 		this.app = app;
 
-		Macro appMacro = app.getMacro();
-		if (appMacro != null) {
-			// this.setFromMacro(appMacro); // TODO
-		}
 
 		createGUI();
 
 		toolModel = new ToolCreationDialogModel(app, this);
+
+		Macro appMacro = app.getMacro();
+		if (appMacro != null) {
+			this.setFromMacro(appMacro); // TODO
+		}
+	}
+
+	private void setFromMacro(Macro macro) {
+		toolNameIconPanel.setMacro(macro);
+		toolModel.setFromMacro(macro);
 	}
 
 	/**
@@ -346,7 +352,8 @@ public class ToolCreationDialog extends DialogBoxW implements
 		boolean showInToolBar = toolNameIconPanel.getShowTool();
 		String iconFileName = toolNameIconPanel.getIconFileName();
 
-		toolModel.finish(app, commandName, toolName, toolHelp, showInToolBar,
+		toolModel.finish(appToSave, commandName, toolName, toolHelp,
+				showInToolBar,
 				iconFileName);
 		AppW w = (AppW) app;
 		if (w.isToolLoadedFromStorage()) {

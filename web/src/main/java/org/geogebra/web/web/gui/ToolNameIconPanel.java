@@ -52,9 +52,11 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 	private AppW app;
 	private Macro macro;
 	private MacroChangeListener listener;
+	
 	/**
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public ToolNameIconPanel(final App app) {
 		super();
@@ -146,6 +148,13 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		add(mainWidget);
 	}
 
+	/**
+	 * Sets icon filename and updates thumbnail.
+	 * 
+	 * @param fileName
+	 *            Path to new icon file.
+	 * @param imgDataURL the data URL of the image
+	 */
 	public void setIconFile(String fileName, String imgDataURL) {
 		String data;
 		data = ImageResizer.resizeImage(imgDataURL, ICON_WIDTH, ICON_HEIGHT);
