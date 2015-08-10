@@ -7855,4 +7855,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isParametric() {
 		return false;
 	}
+	
+	public boolean evaluatesToMatrix() {
+		return false;
+	}
+
 }

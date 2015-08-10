@@ -3729,6 +3729,34 @@ kernel, left,
 	}
 
 	@Override
+	public boolean evaluatesToMatrix() {
+		if (isLeaf()) {
+			return left.evaluatesToMatrix();
+		}
+		// eg. sin(list), f(list)
+		if (Operation.isSimpleFunction(operation)
+				|| operation == Operation.FUNCTION) {
+			return left.evaluatesToMatrix();
+		}
+		if (operation == Operation.IS_ELEMENT_OF
+				|| operation == Operation.IS_SUBSET_OF
+				|| operation == Operation.IS_SUBSET_OF_STRICT
+				|| operation == Operation.EQUAL_BOOLEAN
+				|| operation == Operation.NOT_EQUAL
+				|| operation == Operation.FREEHAND
+				|| operation == Operation.DATA
+				|| operation == Operation.ELEMENT_OF
+				|| operation == Operation.FUNCTION_NVAR) {
+			return false;
+		}
+		if (left.evaluatesToMatrix()
+				|| (right != null && right.evaluatesToMatrix())) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean evaluatesToText() {
 		// should be efficient as it is used in operationToString()
 		if (leaf) {

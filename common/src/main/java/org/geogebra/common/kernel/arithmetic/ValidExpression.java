@@ -456,4 +456,8 @@ public abstract class ValidExpression implements ExpressionValue {
 		});
 	}
 
+	public boolean evaluatesToMatrix() {
+		return false;
+	}
+
 }

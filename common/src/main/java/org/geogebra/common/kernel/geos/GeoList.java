@@ -474,6 +474,7 @@ AngleProperties {
 	/**
 	 * Returns this GeoList as a MyList object.
 	 */
+	@Override
 	public MyList getMyList() {
 		final int size = geoList.size();
 		final MyList myList = new MyList(kernel, size);
@@ -686,6 +687,7 @@ AngleProperties {
 	 * 
 	 * @return array of double values from this list
 	 */
+	@Override
 	public double[] toDouble() {
 		try {
 			final double[] valueArray = new double[geoList.size()];
@@ -707,6 +709,7 @@ AngleProperties {
 		cacheList.ensureCapacity(size);
 	}
 
+	@Override
 	final public int size() {
 		return geoList.size();
 	}
@@ -1119,6 +1122,7 @@ AngleProperties {
 	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 	private int pointStyle = -1; // use global option if -1
 
+	@Override
 	public void setPointSize(final int size) {
 		pointSize = size;
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -1133,10 +1137,12 @@ AngleProperties {
 		}
 	}
 
+	@Override
 	public int getPointSize() {
 		return pointSize;
 	}
 
+	@Override
 	public void setPointStyle(final int style) {
 		pointStyle = style;
 
@@ -1211,6 +1217,7 @@ AngleProperties {
 
 	}
 
+	@Override
 	public int getPointStyle() {
 		return pointStyle;
 	}
@@ -1297,10 +1304,12 @@ AngleProperties {
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
 
+	@Override
 	public double getFontSizeMultiplier() {
 		return fontSizeD;
 	}
 
+	@Override
 	public void setFontSizeMultiplier(final double size) {
 		fontSizeD = size;
 
@@ -1316,10 +1325,12 @@ AngleProperties {
 		}
 	}
 
+	@Override
 	public int getFontStyle() {
 		return fontStyle;
 	}
 
+	@Override
 	public void setFontStyle(final int fontStyle) {
 		this.fontStyle = fontStyle;
 
@@ -1335,14 +1346,17 @@ AngleProperties {
 		}
 	}
 
+	@Override
 	final public int getPrintDecimals() {
 		return printDecimals;
 	}
 
+	@Override
 	final public int getPrintFigures() {
 		return printFigures;
 	}
 
+	@Override
 	public void setPrintDecimals(final int printDecimals, final boolean update) {
 		this.printDecimals = printDecimals;
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1353,6 +1367,7 @@ AngleProperties {
 		}
 	}
 
+	@Override
 	public void setPrintFigures(final int printFigures, final boolean update) {
 		this.printFigures = printFigures;
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1363,15 +1378,18 @@ AngleProperties {
 		}
 	}
 
+	@Override
 	public boolean useSignificantFigures() {
 		return useSignificantFigures;
 
 	}
 
+	@Override
 	public boolean isSerifFont() {
 		return serifFont;
 	}
 
+	@Override
 	public void setSerifFont(final boolean serifFont) {
 		this.serifFont = serifFont;
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1607,10 +1625,12 @@ AngleProperties {
 		return null;
 	}
 
+	@Override
 	public void setTrace(final boolean trace) {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
@@ -1633,6 +1653,7 @@ AngleProperties {
 	/*
 	 * adapted from GeoLocus
 	 */
+	@Override
 	public void pointChanged(final GeoPointND P) {
 		// Application.debug("pointChanged",1);
 
@@ -1746,6 +1767,7 @@ AngleProperties {
 	
 	
 
+	@Override
 	public void pathChanged(final GeoPointND PI) {
 		if(size()==0){
 			PI.setUndefined();
@@ -1825,6 +1847,7 @@ AngleProperties {
 		pp.setPathType(pt);
 	}
 
+	@Override
 	public boolean isOnPath(final GeoPointND PI, final double eps) {
 		// Application.debug("isOnPath",1);
 		for (int i = 0; i < geoList.size(); i++) {
@@ -1836,22 +1859,27 @@ AngleProperties {
 		return false;
 	}
 
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return geoList.size();
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		return !shouldUseAlgoLocusList;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
 
+	@Override
 	public boolean justFontSize() {
 		return false;
 	}
@@ -2295,44 +2323,54 @@ AngleProperties {
 		return drawAsComboBox();
 	}
 
+	@Override
 	public boolean isAbsoluteScreenLocActive() {		
 		return true;
 	}
 
+	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {		
 
 		labelOffsetX = x;
 		labelOffsetY = y;		
 	}
 
+	@Override
 	public int getAbsoluteScreenLocX() {	
 		return labelOffsetX;
 	}
 
+	@Override
 	public int getAbsoluteScreenLocY() {		
 		return labelOffsetY;
 	}
 
+	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		//do nothing
 	}
 
+	@Override
 	public void setRealWorldLoc(double x, double y) {
 		//do nothing
 	}
 
+	@Override
 	public double getRealWorldLocX() {
 		return 0;
 	}
 
+	@Override
 	public double getRealWorldLocY() {
 		return 0;
 	}
 
+	@Override
 	public boolean isFurniture() {
 		return drawAsComboBox();
 	}
 
+	@Override
 	public ExpressionValue getListElement(int i) {
 		return get(i);
 	}
@@ -2543,6 +2581,7 @@ AngleProperties {
 		return false;
 	}
 
+	@Override
 	public boolean showOnAxis() {
 		return showOnAxis;
 	}
@@ -2553,6 +2592,7 @@ AngleProperties {
 	 * @param showOnAxis
 	 *            true iff should be drawn on x-Axis only
 	 */
+	@Override
 	public void setShowOnAxis(boolean showOnAxis) {
 		this.showOnAxis = showOnAxis;
 		
@@ -2589,6 +2629,7 @@ AngleProperties {
 		return geoList.get(closestPointIndex).getMainDirection();
 	}
 
+	@Override
 	public boolean isLaTeXTextCommand() {
 		return false;
 	}
@@ -2597,6 +2638,7 @@ AngleProperties {
 	private boolean emphasizeRightAngle = true;
 	private int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 
+	@Override
 	public void setAngleStyle(int style) {
 		setAngleStyle(AngleStyle.getStyle(style));
 	}
@@ -2606,6 +2648,7 @@ AngleProperties {
 	 * See GeoAngle.ANGLE_*
 	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
+	@Override
 	public void setAngleStyle(AngleStyle angleStyle) {
 		AngleStyle newAngleStyle = angleStyle;
 		if (newAngleStyle == this.angleStyle)
@@ -2637,10 +2680,12 @@ AngleProperties {
 	}
 
 
+	@Override
 	public AngleStyle getAngleStyle() {
 		return angleStyle;
 	}
 
+	@Override
 	public boolean hasOrientation() {
 		return true;
 	}
@@ -2651,6 +2696,7 @@ AngleProperties {
 	 * @param allowReflexAngle If true, angle is allowed to be> 180 degrees
 	 * 
 	 */
+	@Override
 	final public void setAllowReflexAngle(boolean allowReflexAngle) {
 		switch (angleStyle) {
 		case NOTREFLEX:
@@ -2683,6 +2729,7 @@ AngleProperties {
 	 * Sets this angle shuld be drawn differently when right
 	 * @param emphasizeRightAngle true iff this angle shuld be drawn differently when right
 	 */
+	@Override
 	public void setEmphasizeRightAngle(boolean emphasizeRightAngle) {
 		this.emphasizeRightAngle = emphasizeRightAngle;
 	
@@ -2698,6 +2745,7 @@ AngleProperties {
 	 * Forces angle to be reflex or switches it to anticlockwise
 	 * @param forceReflexAngle switch to reflex for true
 	 */
+	@Override
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
 
 		if (forceReflexAngle){
@@ -2738,6 +2786,7 @@ AngleProperties {
 	 * Change the size of the arc in pixels, 
 	 * @param i arc size, should be in <10,100>
 	 */
+	@Override
 	public void setArcSize(int i) {
 		arcSize = i;
 	
@@ -2753,6 +2802,7 @@ AngleProperties {
 	 * returns size of the arc in pixels
 	 * @return arc size in pixels
 	 */
+	@Override
 	public int getArcSize() {
 		return arcSize;
 	}
@@ -2761,6 +2811,7 @@ AngleProperties {
 	 *
 	 * @return true iff this angle should be drawn differently when 90 degrees
 	 */
+	@Override
 	public boolean isEmphasizeRightAngle() {
 		return emphasizeRightAngle;
 	}
@@ -2856,6 +2907,11 @@ AngleProperties {
 
 		add(listElement);
 		listElement.setCoords(x, y, z);
+	}
+
+	@Override
+	public boolean evaluatesToMatrix() {
+		return isMatrix();
 	}
 
 }

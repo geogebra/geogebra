@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -1119,7 +1118,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// don't use isNumberValue(), isListValue as those lead to an
 			// evaluate()
 			if (left.evaluatesToList() && right instanceof NumberValue) {
-				App.debug(left + " " + left.evaluatesToList());
 				// eg {1,2,3} + 10
 				sb.append("map(");
 				sb.append(leftStr);
@@ -1463,7 +1461,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 		case GIAC:
 			if (left.evaluatesToList() && right instanceof NumberValue) {
-				App.debug(left + " " + left.evaluatesToList());
 				// eg {1,2,3} + 10
 				sb.append("map(");
 				sb.append(leftStr);
@@ -2593,9 +2590,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					// App.debug(((ListValue)left).getListElement(0).evaluatesToList());
 
 					// if list && !matrix
-					if (left.evaluatesToList()
-							&& !(left.unwrap() instanceof ListValue && ((ListValue) left
-									.unwrap()).isMatrix())) {
+					if (left.evaluatesToList() && !left.evaluatesToMatrix()) {
 						// make sure {1,2,3}^2 gives {1,4,9} rather than 14
 						sb.append(").^(");
 					} else {

@@ -526,6 +526,31 @@ public class Command extends ValidExpression implements
 
 	}
 
+	@Override
+	public boolean evaluatesToMatrix() {
+		if ("x".equals(getName()) || "y".equals(getName())
+				|| "z".equals(getName()) || "If".equals(getName())) {
+			return this.getArgument(0).evaluatesToMatrix();
+		}
+		// There we might add more commands that evaluate to matrix
+		if ("Identity".equals(getName())) {
+			return true;
+		}
+		if (!allowEvaluationForTypeCheck) {
+			return false;
+		}
+		try {
+			return evaluate(StringTemplate.defaultTemplate) instanceof ListValue;
+		} catch (MyError ex) {
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
+					.evaluateToExpression(this, null, kernel);
+			if (ev != null)
+				return ev.unwrap() instanceof ListValue;
+			throw ex;
+		}
+
+	}
+
 	/**
 	 * @return macro macro associated with this command
 	 */

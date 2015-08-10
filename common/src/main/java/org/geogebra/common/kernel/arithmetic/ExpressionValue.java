@@ -67,6 +67,11 @@ public interface ExpressionValue {
 	public boolean evaluatesToList();
 
 	/**
+	 * @return whether this evaluates to a matrix
+	 */
+	public boolean evaluatesToMatrix();
+
+	/**
 	 * @return whether this is instance of TextValue
 	 */
 	public boolean evaluatesToText();
