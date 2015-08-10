@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
 import org.geogebra.common.gui.dialog.ToolInputOutputListener;
+import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ToolNameIconPanel;
 
@@ -68,7 +70,6 @@ public class ToolCreationDialog extends DialogBoxW implements
 		super(false, false, null);
 		this.setGlassEnabled(false);
 		this.app = app;
-
 
 		createGUI();
 
@@ -341,30 +342,65 @@ public class ToolCreationDialog extends DialogBoxW implements
 	}
 
 	private void finish() {
-		App appToSave = app;
+		final App appToSave;
 		if (app.getMacro() != null) {
 			appToSave = app.getMacro().getKernel().getApplication();
+		} else {
+			appToSave = app;
 		}
 
-		String commandName = toolNameIconPanel.getCommandName();
-		String toolName = toolNameIconPanel.getToolName();
-		String toolHelp = toolNameIconPanel.getToolHelp();
-		boolean showInToolBar = toolNameIconPanel.getShowTool();
-		String iconFileName = toolNameIconPanel.getIconFileName();
+		final String commandName = toolNameIconPanel.getCommandName();
+		if (appToSave.getKernel().getMacro(commandName) != null) {
+			String[] options = { app.getPlain("Tool.Replace"),
+					app.getPlain("Tool.DontReplace") };
+			GOptionPaneW.INSTANCE.showOptionDialog(app, app.getLocalization()
+					.getPlain("Tool.ReplaceQuestion", commandName), app
+					.getPlain("Question"), GOptionPane.CUSTOM_OPTION,
+					GOptionPane.QUESTION_MESSAGE, null, options,
+					new AsyncOperation() {
 
-		toolModel.finish(appToSave, commandName, toolName, toolHelp,
-				showInToolBar,
-				iconFileName);
+						@Override
+						public void callback(Object obj) {
+							String[] dialogResult = (String[]) obj;
+							if ("0".equals(dialogResult[0])) {
+								saveMacro(appToSave, true);
+							}
+						}
+					});
+		} else {
+			saveMacro(appToSave, false);
+		}
+	}
+
+	void saveMacro(final App appToSave, boolean overwrite) {
+		final String commandName = toolNameIconPanel.getCommandName();
+		final String toolName = toolNameIconPanel.getToolName();
+		final String toolHelp = toolNameIconPanel.getToolHelp();
+		final boolean showInToolBar = toolNameIconPanel.getShowTool();
+		final String iconFileName = toolNameIconPanel.getIconFileName();
+
+		boolean success = toolModel.finish(appToSave, commandName, toolName,
+				toolHelp, showInToolBar, iconFileName);
+		if (success) {
+			GOptionPaneW.INSTANCE.showConfirmDialog(app,
+					app.getMenu("Tool.CreationSuccess"), app.getMenu("Info"),
+					GOptionPane.OK_OPTION, GOptionPane.INFORMATION_MESSAGE,
+					null);
+		} else {
+			// TODO: this will not work since it will be called from
+			// AsyncOperation within a GOptionPaneW Instance
+			// GOptionPaneW.INSTANCE.showConfirmDialog(app,app
+			// .getPlain("Tool.NotCompatible") , app.getLocalization()
+			// .getError("Error"), GOptionPane.OK_OPTION,
+			// GOptionPane.ERROR_MESSAGE, null);
+		}
 		AppW w = (AppW) app;
+
 		if (w.isToolLoadedFromStorage()) {
 			w.storeMacro(app.getMacro(), true);
 		}
-		// Not working:
-		// app.showMessage(app.getMenu("Tool.CreationSuccess"));
-		setVisible(false);
-		// TODO: call to toolModel.overwriteMacro
-
 		callHandler();
+		setVisible(!success);
 	}
 
 	private void callHandler() {

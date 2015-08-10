@@ -169,7 +169,7 @@ public class ToolCreationDialogModel {
 		}
 	}
 
-	public void finish(App appToSave, String cmdName, String toolName,
+	public boolean finish(App appToSave, String cmdName, String toolName,
 			String toolHelp, boolean showInToolBar, String iconFileName) {
 
 		newTool.setCommandName(cmdName);
@@ -183,8 +183,7 @@ public class ToolCreationDialogModel {
 		Kernel kernel = appToSave.getKernel();
 		// check if command name is not used already by another macro
 		if (kernel.getMacro(cmdName) != null) {
-			overwriteMacro(kernel.getMacro(cmdName));
-			return;
+			return overwriteMacro(kernel.getMacro(cmdName));
 		}
 
 		kernel.addMacro(newTool);
@@ -199,8 +198,7 @@ public class ToolCreationDialogModel {
 			appToSave.getGuiManager().updateToolbar();
 			appToSave.setMode(mode);
 		}
-
-		// app.showMessage(app.getMenu("Tool.CreationSuccess"));
+		return true;
 	}
 
 	public boolean overwriteMacro(Macro macro) {
@@ -232,11 +230,6 @@ public class ToolCreationDialogModel {
 		}
 		App.debug("not compatible");
 		return false;
-		// TODO JOptionPane.showMessageDialog(this,
-		// app.getLocalization().getPlain("Tool.NotCompatible")
-		// + ":\n"
-		// + macro.toString());
-
 	}
 
 	public GeoElement[] getInputAddList() {
