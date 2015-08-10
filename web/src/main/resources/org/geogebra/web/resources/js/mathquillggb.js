@@ -2505,6 +2505,61 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     // return is actual character
     return String.fromCharCode(unicode);
   };
+  _.flattenKorean = function(s) {
+	// init!
+    var sb = "";
+    var lastWasVowel = false;
+    var koreanLeadToTail = new Object();
+    koreanLeadToTail['\u1100'] = '\u11a8';
+    koreanLeadToTail['\u1101'] = '\u11a9';
+    koreanLeadToTail['\u1102'] = '\u11ab';
+    koreanLeadToTail['\u1103'] = '\u11ae';
+    koreanLeadToTail['\u1104'] = '\u1104';
+    koreanLeadToTail['\u1105'] = '\u11af';
+    koreanLeadToTail['\u1106'] = '\u11b7';
+    koreanLeadToTail['\u1107'] = '\u11b8';
+    koreanLeadToTail['\u1108'] = '\u1108';
+    koreanLeadToTail['\u1109'] = '\u11ba';
+    koreanLeadToTail['\u110a'] = '\u11bb';
+    koreanLeadToTail['\u110b'] = '\u11bc';
+    koreanLeadToTail['\u110c'] = '\u11bd';
+    koreanLeadToTail['\u110d'] = '\u110d';
+    koreanLeadToTail['\u110e'] = '\u11be';
+    koreanLeadToTail['\u110f'] = '\u11bf';
+    koreanLeadToTail['\u1110'] = '\u11c0';
+    koreanLeadToTail['\u1111'] = '\u11c1';
+    koreanLeadToTail['\u1112'] = '\u11c2';
+
+    for (var i = 0; i < s.length; i++) {
+      var c = s.charCodeAt(i);
+      if ((c >= 0xac00) && (c <= 0xd7af)) {
+      //if (isKoreanMultiChar(c))
+        var tail = String.fromCharCode(0x11a7 + (c - 44032) % 28);
+        var vowel = String.fromCharCode(0x1161 + ((c - 44032 - (tail - 0x11a7)) % 588) / 28);// TODO: "/"
+		var lead = String.fromCharCode(0x1100 + (c - 44032) / 588);// TODO: "/"
+		sb += lead;
+		sb += vowel;
+		sb += tail;
+      } else {
+        // if a "lead char" follows a vowel, turn into a "tail char"
+        if (lastWasVowel && (c >= 0x1100) && (c <= 0x1112)) {
+          var charac = String.fromCharCode(c);
+          charac = koreanLeadToTail[charac];
+          sb += charac;
+        } else {
+          sb += String.fromCharCode(c);
+        }
+      }
+      if (sb.length) {
+        var testc = sb.charCodeAt(sb.length - 1);
+        lastWasVowel = false;
+        if ((testc >= 0x1161) && (testc <= 0x1175)) {
+          lastWasVowel = true;
+        }
+      }
+    }
+    return sb;
+  };
   _.unflattenKorean = function(str) {
     var ret = "";
     var lead = 0;
@@ -2552,7 +2607,6 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
   };
   _.mergeKoreanDoubles = function(str2) {
     var str = this.hangulJamo(str2);
-    //str = this.unflattenKorean(str);
     // ported to JavaScript from Java: GeoGebra/common...
     // Korean.java / Korean.mergeDoubleCharacters(String)
     if (str.length) {
@@ -2562,6 +2616,15 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     } else {
       return str;
     }
+    //str = this.flattenKorean(str);
+    //str = this.unflattenKorean(str);
+    //if (str.length) {
+    //  if (str.length < 2) {
+    //    return str;
+    //  }
+    //} else {
+    //  return str;
+    //}
     var sb = "", c, c2;
     for (var i = 0; i < str.length - 1; i++) {
       var offset = 1;
@@ -2989,36 +3052,46 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 	} else {
       // now look back 3 characters, and check whether they are Korean
       // characters that can be merged...
+      var mrt = ch;
       var triple = ch;
-      if (this.cursor[L]) {
+      var numadded = 0;
+      if (this.cursor[L] && (this.cursor[L] instanceof Symbol)) {
         if (this.cursor[L].ctrlSeq) {
           if (this.cursor[L].ctrlSeq.length === 1) {
             triple = this.cursor[L].ctrlSeq + triple;
-          }
-        }
-        if (this.cursor[L][L]) {
-          if (this.cursor[L][L].ctrlSeq) {
-            if (this.cursor[L][L].ctrlSeq.length === 1) {
-              triple = this.cursor[L][L].ctrlSeq + triple;
+            numadded++;
+            if (this.cursor[L][L] && (this.cursor[L][L] instanceof Symbol)) {
+              if (this.cursor[L][L].ctrlSeq) {
+                if (this.cursor[L][L].ctrlSeq.length === 1) {
+                  triple = this.cursor[L][L].ctrlSeq + triple;
+                  numadded++;
+                }
+              }
             }
           }
         }
-        var tripleL = triple.length;
-        if (tripleL > 1) {
-          triple = this.mergeKoreanDoubles(triple);
-          ch = triple[triple.length - 1];
-        }
-        if (tripleL != triple.length) {
-          if (tripleL.length - triple.length === 1) {
-            this.cursor.backspace();
-          } else {
-        	this.cursor.backspace();
-        	this.cursor.backspace();
-          }
+      }
+      var tripleL = triple.length;
+      // this may be 0-1-2 characters more than mort.length
+      // but in case it's really more, try to merge!
+      // moreover, merge ANYWAY, if (tripleL > 1)!
+      if (tripleL > 1) {
+        mrt = this.mergeKoreanDoubles(triple);
+        // write mrt instead of the triple is good,
+        // and delete numadded chars... but maybe
+        // it's not the best, since delete-add the same,
+        // however, the other solution is more difficult
+        // and in case numadded is really added by this
+        // way, i.e. Symbols, then it shall be Okay
+
+        //ch = mrt[mrt.length - 1];
+
+        for (var cv = 0; cv < numadded; cv++) {
+          this.cursor.backspace();
         }
       }
-
-      this.cursor.write(ch);
+      //this.cursor.write(ch);
+      this.cursor.write(mrt);
     }
     return false;
   };
