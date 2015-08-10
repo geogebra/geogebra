@@ -67,6 +67,7 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
@@ -125,6 +126,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		MouseUpHandler, MouseOverHandler, MouseOutHandler, GeoContainer,
 		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
 		TouchEndHandler, LongTouchHandler, EquationEditorListener {
+
+	private static final int DEFAULT_SLIDER_WIDTH = 100;
 
 	public class PlayButton extends Image implements TimerListener {
 
@@ -214,6 +217,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 
 	private FlowPanel animPanel;
+	private ScheduledCommand resizeSliderCmd = new ScheduledCommand() {
+
+		public void execute() {
+			resizeSlider();
+		}
+	};
 
 	public void updateOnNextRepaint() {
 		this.needsUpdate = true;
@@ -464,6 +473,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// also, the place of buttonPanel should also be changed!
 		// so these things are moved to replaceXbuttonDOM!
 		// buttonPanel.add(xButton);
+		deferredResizeSlider();
+
 	}
 
 	private boolean sliderNeeded() {
@@ -509,11 +520,26 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				addSpecial(ihtml);
 				contentPanel.add(LayoutUtil.panelRow(animPanel, sliderPanel));
 				add(contentPanel);
-
 			}
 
 		}
 
+	}
+
+	private void deferredResizeSlider() {
+		if (!app.has(Feature.AV_EXTENSIONS)) {
+			return;
+		}
+		Scheduler.get().scheduleDeferred(resizeSliderCmd);
+	}
+
+	private void resizeSlider() {
+
+		int width = getOffsetWidth() - animPanel.getOffsetWidth()
+ - 2
+				* marblePanel.getOffsetWidth();
+		slider.setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
+				: width);
 	}
 
 	public void replaceXButtonDOM(TreeItem item) {
@@ -649,6 +675,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					showSpeedButtons(false);
 
 				}
+				deferredResizeSlider();
+
 			}
 		});
 
