@@ -1797,31 +1797,51 @@ SymbolicParametersBotanaAlgo {
 	
 	private Coords tmpCoords;
 	
-	public Coords getCoordsInD2(CoordSys coordSys) { // TODO use coord sys ?
+	public Coords getCoordsInD2IfInPlane(CoordSys coordSys){
+		
+		if (setCoords2D(coordSys)) {
+			return coords2D;
+		}
+
+		return null;
+	}
+	
+	public Coords getCoordsInD2(CoordSys coordSys) { 
+		
+		setCoords2D(coordSys);
+		return coords2D;
+	}
+		
+	private boolean setCoords2D(CoordSys coordSys) {
 		
 		if(coords2D == null){
 			coords2D = new Coords(new double[] { x, y, z });
-		}else{
-			if (coordSys == null){
-				coords2D.set(1, x);
-				coords2D.set(2, y);
-				coords2D.set(3, z);
-			}else{ // this should happen only when we try to put a 2D point on a 3D path (e.g. GeoConic3D)
-				// matrix for projection
-				if (tmpMatrix4x4 == null){
-					tmpMatrix4x4 = new CoordMatrix4x4();
-				}
-				tmpMatrix4x4.set(coordSys.getMatrixOrthonormal());
-				if (tmpCoords == null){
-					tmpCoords = new Coords(4);
-				}
-				getCoordsInD3().projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords);
-				coords2D.setX(tmpCoords.getX());
-				coords2D.setY(tmpCoords.getY());
-				coords2D.setZ(tmpCoords.getW());
-			}
 		}
-		return coords2D;
+
+		if (coordSys == null) {
+			coords2D.set(1, x);
+			coords2D.set(2, y);
+			coords2D.set(3, z);
+		} else { // this should happen only when we try to put a 2D point on a
+					// 3D path (e.g. GeoConic3D)
+					// matrix for projection
+			if (tmpMatrix4x4 == null) {
+				tmpMatrix4x4 = new CoordMatrix4x4();
+			}
+			tmpMatrix4x4.set(coordSys.getMatrixOrthonormal());
+			if (tmpCoords == null) {
+				tmpCoords = new Coords(4);
+			}
+			getCoordsInD3().projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords);
+			coords2D.setX(tmpCoords.getX());
+			coords2D.setY(tmpCoords.getY());
+			coords2D.setZ(tmpCoords.getW());
+
+			// check if point is included in the plane
+			return Kernel.isZero(tmpCoords.getZ());
+		}
+
+		return true;
 	}
 	
 	public Coords getCoordsInD2(){

@@ -216,6 +216,14 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public Coords getCoordsInD2(CoordSys coordSys);
 
 	/**
+	 * @param coordSys
+	 *            coord system
+	 * @return the coords of the point in 2D (projected on coord sys) or null if
+	 *         not included in coord sys
+	 */
+	public Coords getCoordsInD2IfInPlane(CoordSys coordSys);
+
+	/**
 	 * @return path on which this point lies
 	 */
 	public Path getPath();

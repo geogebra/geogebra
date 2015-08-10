@@ -375,9 +375,22 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private Coords tmpCoordsLength3;
 
-	@Override
+	public Coords getCoordsInD2IfInPlane(CoordSys coordSys) {
+
+		if (setCoords2D(coordSys)) {
+			return tmpCoordsLength3;
+		}
+
+		return null;
+	}
+
 	public Coords getCoordsInD2(CoordSys coordSys) {
 
+		setCoords2D(coordSys);
+		return tmpCoordsLength3;
+	}
+
+	private boolean setCoords2D(CoordSys coordSys) {
 		Coords coords;
 		if (tmpCoords1 == null) {
 			tmpCoords1 = Coords.createInhomCoorsInD3();
@@ -416,7 +429,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		tmpCoordsLength3.setY(tmpCoords1.getY());
 		tmpCoordsLength3.setZ(tmpCoords1.getW());
 
-		return tmpCoordsLength3;
+		return Kernel.isZero(tmpCoords1.getZ());
 
 	}
 

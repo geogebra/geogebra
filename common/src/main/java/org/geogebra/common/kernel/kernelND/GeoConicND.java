@@ -3368,7 +3368,13 @@ FromMeta
 
 	
 	public boolean isInRegion(GeoPointND PI) {
-		Coords coords = PI.getCoordsInD2(getCoordSys());		
+
+		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
+
+		if (coords == null) { // point is not in plane containing the polygon
+			return false;
+		}
+
 		return isInRegion(coords.getX(),coords.getY());
 		
 	}
