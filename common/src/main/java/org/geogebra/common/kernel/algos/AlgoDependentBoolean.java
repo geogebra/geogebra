@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -481,10 +482,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		// expression is trusted, if children are trusted
 		if (node.getLeft().isExpressionNode()
 				&& node.getLeftTree().getTrustable()
-				&& !node.getLeftTree().getHalfTrustable()
 				&& node.getRight().isExpressionNode()
-				&& node.getRightTree().getTrustable()
-				&& !node.getRightTree().getHalfTrustable()) {
+				&& node.getRightTree().getTrustable()) {
 			node.setTrustable(true);
 			return;
 		}
@@ -500,37 +499,53 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		// case segment with number, eg. a^2*1,5
 		if (node.getRight() instanceof MyDouble
 				&& node.getLeft().isExpressionNode()
-				&& node.getLeftTree().getTrustable()
-				&& (node.getOperation() == Operation.DIVIDE || node
-						.getOperation() == Operation.MULTIPLY)) {
+				&& node.getLeftTree().getTrustable()) {
 			node.setTrustable(true);
 			return;
 		}
-		// case half trusted with trusted, eg. h/j*a^2
-		if (node.getLeft().isExpressionNode() && node.getRight().isExpressionNode()) {
-			if ((node.getOperation() == Operation.DIVIDE || node
-					.getOperation() == Operation.MULTIPLY)
-					&& (node.getLeftTree().getHalfTrustable() || node.getRightTree().getHalfTrustable())) {
-				node.setHalfTrustable(true);
-				node.setTrustable(true);
+		// * and / with number is trusted
+		if (node.getLeft() instanceof MyDouble
+				|| node.getRight() instanceof MyDouble) {
+			if ((node.getOperation() == Operation.DIVIDE || node.getOperation() == Operation.MULTIPLY)) {
+					 node.setTrustable(true);
+				 }
+		}
+		// case we have something in even power
+		// check if in the parentheses we have halfTrusted expression (segments
+		// multiplied or divided)
+		if (node.getOperation() == Operation.POWER) {
+			if (node.getRight() instanceof MyDouble) {
+				double d = node.getRight().evaluateDouble();
+				if (Kernel.isInteger(d) && d % 2 == 0
+						&& node.getLeftTree().getHalfTrustable()) {
+					node.setTrustable(true);
+				}
 			}
 		}
-		// case NumberValue with NumberValue, eg. h*j
-		if (!(node.getLeft().isExpressionNode())
-					|| !(node.getRight().isExpressionNode())) {
-			if ((node.getOperation() == Operation.DIVIDE || node
+		// h*j*2 or h*j*k halfTrusted
+		if (node.getLeft().isExpressionNode()
+				&& node.getLeftTree().getHalfTrustable()
+				&& node.getRight() instanceof NumberValue
+				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
-				node.setHalfTrustable(true);
-				node.setTrustable(true);
-			}
+			node.setHalfTrustable(true);
 		}
-		// h/j+a^2 is not trusted
-		if (!(node.getOperation() == Operation.POWER
-				|| node.getOperation() == Operation.DIVIDE || node
-				.getOperation() == Operation.MULTIPLY)
-				&& (node.getLeftTree().getHalfTrustable() || node
-						.getRightTree().getHalfTrustable())) {
-			node.setTrustable(false);
+		// 2*h*j or k*h*j halfTrusted
+		if (node.getRight().isExpressionNode()
+				&& node.getRightTree().getHalfTrustable() 
+				&& node.getLeft() instanceof NumberValue
+				&& (node.getOperation() == Operation.DIVIDE || node
+						.getOperation() == Operation.MULTIPLY)) {
+			node.setHalfTrustable(true);
+		}
+		// h*j*k*l halfTrusted
+		if (node.getLeft().isExpressionNode()
+				&& node.getRight().isExpressionNode()
+				&& node.getLeftTree().getHalfTrustable()
+				&& node.getRightTree().getHalfTrustable()
+				&& (node.getOperation() == Operation.DIVIDE || node
+						.getOperation() == Operation.MULTIPLY)) {
+			node.setHalfTrustable(true);
 		}
 	}
 
@@ -594,61 +609,6 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			traverseExpression(root);
-			if (!(root.getTrustable())) {
-				// to handle special case like h/j == 2 or h/j == a^2
-				if ((root.getLeftTree().getHalfTrustable() || root
-						.getLeftTree()
-					.getTrustable())
-					&& (root.getRightTree().getTrustable() || root.getRight() instanceof NumberValue)) {
-					root.setTrustable(true);
-				}
-				// to handle special case like h/j+a^2==0
-				if (!root.getTrustable()) {
-					if (root.getRight() instanceof MyDouble) {
-						double d = root.getRight().evaluateDouble();
-						if (d == 0) {
-							ExpressionNode left = root.getLeftTree();
-							if (left.getOperation() == Operation.PLUS
-									|| left.getOperation() == Operation.MINUS) {
-								if ((left.getLeftTree().getHalfTrustable()
-									|| left.getLeftTree().getTrustable() || left
-										.getLeft() instanceof NumberValue)
-									&& (left.getRightTree().getTrustable()
-											|| left.getRightTree()
-													.getHalfTrustable() || left
-												.getRight() instanceof NumberValue)) {
-									if (!(left.getLeft() instanceof NumberValue)
-										|| !(left.getRight() instanceof NumberValue)) {
-										root.setTrustable(true);
-									}
-								}
-							}
-						}
-					}
-				}
-				// to handle special case like 0==h/j+a^2
-				if (!root.getTrustable()) {
-					if (root.getLeft() instanceof MyDouble) {
-						double d = root.getLeft().evaluateDouble();
-						if (d == 0) {
-							ExpressionNode right = root.getRightTree();
-							if (right.getOperation() == Operation.PLUS
-								|| right.getOperation() == Operation.MINUS) {
-								if ((right.getLeftTree().getHalfTrustable() && right
-									.getRightTree().getTrustable())
-									|| (right.getLeftTree().getTrustable() && right
-											.getRightTree().getHalfTrustable())
-									|| (right.getLeftTree().getHalfTrustable() && right
-											.getRightTree().getHalfTrustable())
-									|| (right.getLeftTree().getTrustable() && right
-											.getRightTree().getTrustable())) {
-									root.setTrustable(true);
-								}
-							}
-						}
-					}
-				}
-			}
 			// we won't accept untrusted expressions
 			if (root.getLeftTree().isExpressionNode()
 					&& root.getRightTree().isExpressionNode()
