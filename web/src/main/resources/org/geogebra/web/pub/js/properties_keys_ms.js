@@ -823,7 +823,7 @@ __GGB__keysVar.ms.command = {
     "SetConditionToShowObject": "SetKeadaanUntukTunjukObjek",
     "SetConditionToShowObject.Syntax": "[ <Objek>, <Keadaan> ]",
     "SetConstructionStep": "SetConstructionStep",
-    "SetConstructionStep.Syntax": "[ <Number> ]",
+    "SetConstructionStep.Syntax": "[ <Nombor> ]",
     "SetCoords": "SetKoords",
     "SetCoords.Syntax": "[ <Titik>, <x>, <y> ]",
     "SetDynamicColor": "SetWarnaDinamik",
