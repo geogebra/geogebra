@@ -467,27 +467,47 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			traverseExpression((ExpressionNode) node.getRight());
 		}
 		// expression is trusted, if children are trusted
-		if (node.getLeft().isExpressionNode() && node.getLeftTree().getTrustable() && node.getRight().isExpressionNode() && node.getRightTree().getTrustable()) {
+		if (node.getLeft().isExpressionNode()
+				&& node.getLeftTree().getTrustable()
+				&& !node.getLeftTree().getHalfTrustable()
+				&& node.getRight().isExpressionNode()
+				&& node.getRightTree().getTrustable()
+				&& !node.getRightTree().getHalfTrustable()) {
 			node.setTrustable(true);
+			return;
 		}
 		// case number with segment, eg. 2*a^2
 		if (node.getLeft() instanceof MyDouble
 				&& node.getRight().isExpressionNode()
-				&& node.getRightTree().getTrustable()) {
+				&& node.getRightTree().getTrustable()
+				&& (node.getOperation() == Operation.DIVIDE || node
+						.getOperation() == Operation.MULTIPLY)) {
 			node.setTrustable(true);
+			return;
 		}
 		// case segment with number, eg. a^2*1,5
 		if (node.getRight() instanceof MyDouble
 				&& node.getLeft().isExpressionNode()
-				&& node.getLeftTree().getTrustable()) {
+				&& node.getLeftTree().getTrustable()
+				&& (node.getOperation() == Operation.DIVIDE || node
+						.getOperation() == Operation.MULTIPLY)) {
 			node.setTrustable(true);
+			return;
 		}
 		// case half trusted with trusted, eg. h/j*a^2
 		if (node.getLeft().isExpressionNode() && node.getRight().isExpressionNode()) {
-			if ((node.getOperation() == Operation.POWER
-					|| node.getOperation() == Operation.DIVIDE || node
+			if ((node.getOperation() == Operation.DIVIDE || node
 					.getOperation() == Operation.MULTIPLY)
 					&& (node.getLeftTree().getHalfTrustable() || node.getRightTree().getHalfTrustable())) {
+				node.setHalfTrustable(true);
+				node.setTrustable(true);
+			}
+		}
+		// case NumberValue with NumberValue, eg. h*j
+		if (!(node.getLeft().isExpressionNode())
+					|| !(node.getRight().isExpressionNode())) {
+			if ((node.getOperation() == Operation.DIVIDE || node
+						.getOperation() == Operation.MULTIPLY)) {
 				node.setHalfTrustable(true);
 				node.setTrustable(true);
 			}
@@ -496,10 +516,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (!(node.getOperation() == Operation.POWER
 				|| node.getOperation() == Operation.DIVIDE || node
 				.getOperation() == Operation.MULTIPLY)
-				&& (node.getHalfTrustable() || node.getHalfTrustable())) {
+				&& (node.getLeftTree().getHalfTrustable() || node
+						.getRightTree().getHalfTrustable())) {
 			node.setTrustable(false);
 		}
-
 	}
 
 	public Polynomial[][] getBotanaPolynomials()
@@ -545,44 +565,47 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			traverseExpression(root);
-			// to handle special case like h/j == 2 or h/j == a^2
-			if ((root.getLeftTree().getHalfTrustable() || root.getLeftTree()
+			if (!(root.getTrustable())) {
+				// to handle special case like h/j == 2 or h/j == a^2
+				if ((root.getLeftTree().getHalfTrustable() || root
+						.getLeftTree()
 					.getTrustable())
 					&& (root.getRightTree().getTrustable() || root.getRight() instanceof NumberValue)) {
-				root.setTrustable(true);
-			}
-			// to handle special case like h/j+a^2==0
-			if (!root.getTrustable()) {
-				if (root.getRight() instanceof MyDouble) {
-					double d = root.getRight().evaluateDouble();
-					if (d == 0) {
-						ExpressionNode left = root.getLeftTree();
-						if (left.getOperation() == Operation.PLUS || left.getOperation() == Operation.MINUS) {
-							if ((left.getLeftTree().getHalfTrustable()
+					root.setTrustable(true);
+				}
+				// to handle special case like h/j+a^2==0
+				if (!root.getTrustable()) {
+					if (root.getRight() instanceof MyDouble) {
+						double d = root.getRight().evaluateDouble();
+						if (d == 0) {
+							ExpressionNode left = root.getLeftTree();
+							if (left.getOperation() == Operation.PLUS
+									|| left.getOperation() == Operation.MINUS) {
+								if ((left.getLeftTree().getHalfTrustable()
 									|| left.getLeftTree().getTrustable() || left
 										.getLeft() instanceof NumberValue)
 									&& (left.getRightTree().getTrustable()
 											|| left.getRightTree()
 													.getHalfTrustable() || left
 												.getRight() instanceof NumberValue)) {
-								if (!(left.getLeft() instanceof NumberValue)
+									if (!(left.getLeft() instanceof NumberValue)
 										|| !(left.getRight() instanceof NumberValue)) {
-									root.setTrustable(true);
+										root.setTrustable(true);
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			// to handle special case like 0==h/j+a^2
-			if (!root.getTrustable()) {
-				if (root.getLeft() instanceof MyDouble) {
-					double d = root.getLeft().evaluateDouble();
-					if (d == 0) {
-						ExpressionNode right = root.getRightTree();
-						if (right.getOperation() == Operation.PLUS
+				// to handle special case like 0==h/j+a^2
+				if (!root.getTrustable()) {
+					if (root.getLeft() instanceof MyDouble) {
+						double d = root.getLeft().evaluateDouble();
+						if (d == 0) {
+							ExpressionNode right = root.getRightTree();
+							if (right.getOperation() == Operation.PLUS
 								|| right.getOperation() == Operation.MINUS) {
-							if ((right.getLeftTree().getHalfTrustable() && right
+								if ((right.getLeftTree().getHalfTrustable() && right
 									.getRightTree().getTrustable())
 									|| (right.getLeftTree().getTrustable() && right
 											.getRightTree().getHalfTrustable())
@@ -590,7 +613,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 											.getRightTree().getHalfTrustable())
 									|| (right.getLeftTree().getTrustable() && right
 											.getRightTree().getTrustable())) {
-								root.setTrustable(true);
+									root.setTrustable(true);
+								}
 							}
 						}
 					}
