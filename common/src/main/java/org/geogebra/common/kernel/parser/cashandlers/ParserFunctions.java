@@ -374,10 +374,10 @@ public class ParserFunctions {
 		return completions;
 	}
 
-	public Object getInternal(App app, String string) {
+	public String getInternal(App app, String string) {
 		for (int i = 0; i < translateable1var.length; i++) {
-			if (translateable1var[i].equals(string)) {
-				return true;
+			if (app.getFunction(translateable1var[i]).equals(string)) {
+				return translateable1var[i];
 			}
 		}
 		if (app.getFunction("nroot").equals(string)) {
