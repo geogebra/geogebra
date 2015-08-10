@@ -5874,7 +5874,8 @@ kernel, left,
 	}
 
 	private boolean isVariableSquare() {
-		if (this.getLeft() instanceof Variable
+		if ((this.getLeft() instanceof Variable || (this.getLeft()
+				.isExpressionNode() && this.getLeftTree().getLeft() instanceof Command))
 				&& this.getOperation() == Operation.POWER
 				&& this.getRight() instanceof NumberValue) {
 			double d = this.getRight().evaluateDouble();

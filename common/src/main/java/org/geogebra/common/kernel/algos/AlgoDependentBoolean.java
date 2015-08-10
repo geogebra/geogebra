@@ -454,10 +454,22 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			throws NoSymbolicParametersException {
 		if (node.getLeft().isGeoElement()
 				&& node.getLeft() instanceof GeoSegment) {
+			// if segment was given with command, eg. Segment[A,B]
+			// set new name for segment (which giac will use later)
+			if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
+				((GeoSegment) node.getLeft()).setLabel(new Variable()
+						.toString());
+			}
 			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
 		if (node.getRight().isGeoElement()
 				&& node.getRight() instanceof GeoSegment) {
+			// if segment was given with command, eg. Segment[A,B]
+			// set new name for segment (which giac will use later)
+			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
+				((GeoSegment) node.getRight()).setLabel(new Variable()
+						.toString());
+			}
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
 		if (node.getLeft().isExpressionNode()) {
@@ -559,9 +571,26 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			}
 		}
 
+		// handle special case, when left expression is given by another algo
+		if (!(root.getLeft().isExpressionNode())
+				&& !(root.getLeft() instanceof MyDouble)) {
+			AlgoElement algo = ((GeoElement) root.getLeft()).getParentAlgorithm();
+			if (algo instanceof AlgoDependentNumber) {
+				root.setLeft(((AlgoDependentNumber) algo).getExpression());
+			}
+		}
+		// handle special case, when right expression is given by another algo
+		if (!(root.getRight().isExpressionNode())
+				&& !(root.getRight() instanceof MyDouble)) {
+			AlgoElement algo = ((GeoElement) root.getRight())
+					.getParentAlgorithm();
+			if (algo instanceof AlgoDependentNumber) {
+				root.setRight(((AlgoDependentNumber) algo).getExpression());
+			}
+		}
 
 		// More difficult cases: sides are expressions:
-		if ((root.getLeftTree().isExpressionNode() || root.getRightTree()
+		if ((root.getLeft().isExpressionNode() || root.getRight()
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			traverseExpression(root);
