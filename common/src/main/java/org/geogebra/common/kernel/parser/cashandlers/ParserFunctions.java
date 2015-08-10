@@ -149,7 +149,7 @@ public class ParserFunctions {
 		put(1, "Arctanh", Operation.ATANH, null);
 		put(1, "ArcTanh", Operation.ATANH, null);
 
-		put(2, "atan2", Operation.ARCTAN2);
+		put(2, "atan2", Operation.ARCTAN2, "( <y>, <x> )");
 		put(2, "Atan2", Operation.ARCTAN2, null);
 		put(2, "artan2", Operation.ARCTAN2, null);
 		put(2, "arctan2", Operation.ARCTAN2, null);
@@ -157,7 +157,7 @@ public class ParserFunctions {
 		put(2, "aTan2", Operation.ARCTAN2, null);
 		put(2, "ATan2", Operation.ARCTAN2, null);
 		put(2, "arTan2", Operation.ARCTAN2, null);
-		put(2, "arcTan2", Operation.ARCTAN2);
+		put(2, "arcTan2", Operation.ARCTAN2, "( <y>, <x> )");
 		put(2, "ArcTan2", Operation.ARCTAN2, null);
 
 		put(1, "erf", Operation.ERF);
@@ -165,7 +165,7 @@ public class ParserFunctions {
 
 		put(1, "psi", Operation.PSI);
 
-		put(2, "polygamma", Operation.POLYGAMMA);
+		put(2, "polygamma", Operation.POLYGAMMA, "( <m>, <x> )");
 		put(2, "polyGamma", Operation.POLYGAMMA, null);
 		put(2, "PolyGamma", Operation.POLYGAMMA, null);
 
@@ -189,19 +189,20 @@ public class ParserFunctions {
 		put(1, "zeta", Operation.ZETA);
 		put(1, "Zeta", Operation.ZETA, null);
 
-		put(2, "beta", Operation.BETA);
+		put(2, "beta", Operation.BETA, "( <a>, <b> )");
 		put(2, "Beta", Operation.BETA, null);
 
-		put(3, "beta", Operation.BETA_INCOMPLETE);
+		put(3, "beta", Operation.BETA_INCOMPLETE, "( <a>, <b>, <x> )");
 		put(3, "Beta", Operation.BETA_INCOMPLETE, null);
 
-		put(3, "betaRegularized", Operation.BETA_INCOMPLETE_REGULARIZED);
-		put(3, "ibeta", Operation.BETA_INCOMPLETE_REGULARIZED);
+		put(3, "betaRegularized", Operation.BETA_INCOMPLETE_REGULARIZED,
+				"( <a>, <b>, <x> )");
+		put(3, "ibeta", Operation.BETA_INCOMPLETE_REGULARIZED, null);
 
 		put(1, "gamma", Operation.GAMMA);
 		put(1, "Gamma", Operation.GAMMA, null);
 
-		put(2, "gamma", Operation.GAMMA_INCOMPLETE, "(x,y)");
+		put(2, "gamma", Operation.GAMMA_INCOMPLETE, "( <x>, <y> )");
 		put(2, "Gamma", Operation.GAMMA_INCOMPLETE, null);
 
 		put(2, "gammaRegularized", Operation.GAMMA_INCOMPLETE_REGULARIZED);
