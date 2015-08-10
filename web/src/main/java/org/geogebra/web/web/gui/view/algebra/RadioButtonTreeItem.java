@@ -111,6 +111,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -125,7 +126,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
 		MouseUpHandler, MouseOverHandler, MouseOutHandler, GeoContainer,
 		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
-		TouchEndHandler, LongTouchHandler, EquationEditorListener {
+		TouchEndHandler, LongTouchHandler, EquationEditorListener,
+		RequiresResize {
 
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
 
@@ -527,7 +529,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void deferredResizeSlider() {
-		if (!app.has(Feature.AV_EXTENSIONS)) {
+		if (!app.has(Feature.AV_EXTENSIONS) || slider == null) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(resizeSliderCmd);
@@ -2042,6 +2044,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public boolean isForCAS() {
 		return false;
+	}
+
+	@Override
+	public void onResize() {
+		deferredResizeSlider();
 	}
 
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util.sliderPanel;
 
 import org.geogebra.web.html5.awt.GDimensionW;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -64,5 +65,11 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return slider.addChangeHandler(handler);
+	}
+
+	public void setWidth(double width) {
+		double w = width - minLabel.getOffsetWidth()
+				- maxLabel.getOffsetWidth();
+		slider.asWidget().getElement().getStyle().setWidth(w, Unit.PX);
 	}
 }

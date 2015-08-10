@@ -5600,3 +5600,8 @@ body.application[dir=rtl] .deleteAlgebra {
 	padding: 0px;
 	text-color: grey;
 }
+
+.
+.avItemContent {
+	width: 100%;
+}
