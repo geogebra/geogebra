@@ -630,8 +630,12 @@ public abstract class CASgiac implements CASGenericInterface {
 	// private final static RegExp inequality =
 	// RegExp.compile("(.*)\\((ggbtmpvar[^,}\\(\\)]+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar[^,}\\(\\)]+)\\)(.*)");
 	// works only for variables in form [A-Za-z]+
-	private final static RegExp inequality = RegExp
-			.compile("(.*)\\(([A-Za-z]+)>(=*)(.+)\\) && \\((.+)>(=*)([A-Za-z]+)\\)(.*)");
+	public final static String expression = "([^\\(\\)]|\\([^\\(\\)]+\\)|\\(([^\\(\\)]|\\([^\\(\\)]+\\))+\\))+";
+	public final static RegExp inequality = RegExp
+			.compile("(.*)\\(([A-Za-z]+)>(=*)" + expression + "\\) && \\("
+ + expression
+					+ ">(=*)([A-Za-z]+)\\)(.*)", "");
+
 
 	// eg 3.7 > ggbtmpvarx
 	// eg (37/10) > ggbtmpvarx
@@ -690,21 +694,20 @@ public abstract class CASgiac implements CASGenericInterface {
 
 				// check variable the same
 				// ie not x>5 && y<4
-				matcher.getGroup(2).equals(matcher.getGroup(7))) {
+				matcher.getGroup(2).equals(matcher.getGroup(9))) {
 
-			// App.debug("1 "+matcher.getGroup(1));
-			// App.debug("2 "+matcher.getGroup(2));
-			// App.debug("3 "+matcher.getGroup(3));
-			// App.debug("4 "+matcher.getGroup(4));
-			// App.debug("5 "+matcher.getGroup(5));
-			// App.debug("6 "+matcher.getGroup(6));
-			// App.debug("7 "+matcher.getGroup(7));
+			// App.debug("1 " + matcher.getGroup(1));
+			// App.debug("2 " + matcher.getGroup(2));
+			// App.debug("3 " + matcher.getGroup(3));
+			// App.debug("4 " + matcher.getGroup(4));
+			// App.debug("5 " + matcher.getGroup(5));
+			// App.debug("6 " + matcher.getGroup(6));
+			// App.debug("7 " + matcher.getGroup(7));
 
 			ret = matcher.getGroup(1) + matcher.getGroup(4) + "<"
 					+ matcher.getGroup(3) + matcher.getGroup(2) + "<"
-					+ matcher.getGroup(6) + matcher.getGroup(5)
-					+ matcher.getGroup(8);
-
+					+ matcher.getGroup(8) + matcher.getGroup(6)
+					+ matcher.getGroup(10);
 		}
 
 		// swap {3>x, 6>y} into {x<3, y<6}

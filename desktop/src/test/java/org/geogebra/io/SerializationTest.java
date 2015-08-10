@@ -3,6 +3,7 @@ import java.util.Locale;
 
 import javax.swing.JFrame;
 
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -11,6 +12,8 @@ import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.google.gwt.regexp.shared.RegExp;
 public class SerializationTest {
 	
 	@Test
@@ -42,6 +45,26 @@ public class SerializationTest {
 		Assert.assertEquals("0", StringUtil.cannonicNumber(".0"));
 		Assert.assertEquals("1.0E2", StringUtil.cannonicNumber("1.0E2"));
 		Assert.assertEquals("1", StringUtil.cannonicNumber("1.00"));
+	}
+
+	@Test
+	public void testInequality() {
+		String[] testI = new String[] { "(x>=3) && (7>=x) && (10>=x)" };
+		String[] test = new String[] { "aaa", "(a)+b", "3", "((a)+(b))+7" };
+		String[] testFalse = new String[] { "3(", "(((7)))" };
+		for (String t : test) {
+			Assert.assertTrue(RegExp.compile("^" + CASgiac.expression + "$")
+					.test(t));
+
+		}
+		for (String t : testFalse) {
+			Assert.assertFalse(RegExp.compile("^" + CASgiac.expression + "$")
+					.test(t));
+
+		}
+		for (String t : testI) {
+			Assert.assertTrue(CASgiac.inequality.test(t));
+		}
 	}
 
 }
