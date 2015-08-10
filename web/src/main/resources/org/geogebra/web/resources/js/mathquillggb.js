@@ -2496,8 +2496,63 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     default: return kuc;
     }
   };
+  _.appendKoreanChar = function(lead, vowel, tail) {
+	// lead, vowel and tail are char codes
+    var lead0 = lead - 0x1100 + 1;
+    var vowel0 = vowel - 0x1161 + 1;
+    var tail0 = ((tail == 0) ? 0 : (tail - 0x11a8 + 1));
+    var unicode = (tail0 + (vowel0 - 1) * 28 + (lead0 - 1) * 588 + 44032);
+    // return is actual character
+    return String.fromCharCode(unicode);
+  };
+  _.unflattenKorean = function(str) {
+    var ret = "";
+    var lead = 0;
+    var vowel = 0;
+    var tail = 0;
+    for (var i = 0; i < str.length; i++) {
+      var korean = false;
+      var c = str.charCodeAt(i);
+      if ((c >= 0x1100) && (c <= 0x1112)) {
+      //if (isKoreanLeadChar(c)) {
+        korean = true;
+        if (lead != 0) {
+          ret += this.appendKoreanChar(lead, vowel, tail);
+          lead = 0;
+          vowel = 0;
+          tail = 0;
+        }
+        lead = c;
+      }
+      if ((c >= 0x1161) && (c <= 0x1175)) {
+      //if (isKoreanVowelChar(c)) {
+        korean = true;
+        vowel = c;
+      }
+      if ((c >= 0x11a8) && (c <= 0x11c2)) {
+      //if (isKoreanTailChar(c)) {
+        korean = true;
+        tail = c;
+        ret += this.appendKoreanChar(lead, vowel, tail);
+        lead = 0;
+        vowel = 0;
+        tail = 0;
+      }
+      if (!korean) {
+        ret += String.fromCharCode(c);
+        // or str.charAt(i)
+      }
+    }
+
+    // make sure last char done!
+    if (lead != 0) {
+      ret += this.appendKoreanChar(lead, vowel, tail);
+    }
+    return ret;
+  };
   _.mergeKoreanDoubles = function(str2) {
     var str = this.hangulJamo(str2);
+    //str = this.unflattenKorean(str);
     // ported to JavaScript from Java: GeoGebra/common...
     // Korean.java / Korean.mergeDoubleCharacters(String)
     if (str.length) {
