@@ -389,10 +389,10 @@ public class ToolCreationDialog extends DialogBoxW implements
 		} else {
 			// TODO: this will not work since it will be called from
 			// AsyncOperation within a GOptionPaneW Instance
-			// GOptionPaneW.INSTANCE.showConfirmDialog(app,app
-			// .getPlain("Tool.NotCompatible") , app.getLocalization()
-			// .getError("Error"), GOptionPane.OK_OPTION,
-			// GOptionPane.ERROR_MESSAGE, null);
+			GOptionPaneW.INSTANCE.showConfirmDialog(app, app
+					.getPlain("Tool.NotCompatible"), app.getLocalization()
+					.getError("Error"), GOptionPane.OK_OPTION,
+					GOptionPane.ERROR_MESSAGE, null);
 		}
 		AppW w = (AppW) app;
 

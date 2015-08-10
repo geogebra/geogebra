@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  */
 public class GOptionPaneW extends DialogBox implements GOptionPane,
-        ClickHandler {
+		ClickHandler {
 
 	private App app;
 	private String title, message, initialSelectionValue;
@@ -78,6 +78,9 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	}
 
 	protected void close() {
+		// if hide is called before the callback the callback can create another
+		// Message (without being hidden instantanousely)!
+		hide();
 
 		if (requiresReturnValue) {
 			if (returnOption == GOptionPane.CANCEL_OPTION) {
@@ -99,7 +102,6 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 			caller.setFocus(true);
 		caller = null;
 
-		hide();
 	}
 
 	public static void setCaller(FocusWidget c) {
@@ -231,19 +233,19 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 		case GOptionPane.ERROR_MESSAGE:
 			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_error()
-			        .getSafeUri());
+					.getSafeUri());
 			break;
 		case GOptionPane.INFORMATION_MESSAGE:
 			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_info()
-			        .getSafeUri());
+					.getSafeUri());
 			break;
 		case GOptionPane.WARNING_MESSAGE:
 			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_warning()
-			        .getSafeUri());
+					.getSafeUri());
 			break;
 		case GOptionPane.QUESTION_MESSAGE:
 			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_question()
-			        .getSafeUri());
+					.getSafeUri());
 			break;
 		case GOptionPane.PLAIN_MESSAGE:
 			icon = null;
@@ -313,7 +315,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	 * Launches a confirm dialog.
 	 */
 	public int showConfirmDialog(App app, String message, String title,
-	        int optionType, int messageType, Object icon) {
+			int optionType, int messageType, Object icon) {
 
 		this.app = app;
 		this.message = message;
@@ -346,8 +348,8 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	 * (Note that returnValue is meaningless here.)
 	 */
 	public void showOptionDialog(App app, String message, String title,
-	        int optionType, int messageType, Object icon, String[] optionNames,
-	        AsyncOperation handler) {
+			int optionType, int messageType, Object icon, String[] optionNames,
+			AsyncOperation handler) {
 
 		this.app = app;
 		this.message = message;
@@ -392,8 +394,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	}
 
 	public void showSaveDialog(App app, String title,
-			String initialSelectionValue,
- Object icon, AsyncOperation handler,
+			String initialSelectionValue, Object icon, AsyncOperation handler,
 			String okLabel) {
 
 		this.app = app;
@@ -422,8 +423,8 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	 * 
 	 */
 	public void showInputDialog(App app, String message, String title,
-	        String initialSelectionValue, int optionType, int messageType,
-	        Object icon, String[] optionNames, AsyncOperation handler) {
+			String initialSelectionValue, int optionType, int messageType,
+			Object icon, String[] optionNames, AsyncOperation handler) {
 
 		this.app = app;
 		this.message = message;
@@ -442,36 +443,35 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	}
 
 	public void showInputDialog(App app, String message,
-			String initialSelectionValue, Object icon,
- AsyncOperation handler) {
+			String initialSelectionValue, Object icon, AsyncOperation handler) {
 
-		showInputDialog(app, message, initialSelectionValue, icon,
- handler,
+		showInputDialog(app, message, initialSelectionValue, icon, handler,
 				true);
 
 	}
+
 	public void test(App app, int type) {
 
 		switch (type) {
 		case 1:
 			showConfirmDialog(app, "Something went wrong.", "Error Dialog",
-			        GOptionPane.OK_CANCEL_OPTION, GOptionPane.ERROR_MESSAGE,
-			        null);
+					GOptionPane.OK_CANCEL_OPTION, GOptionPane.ERROR_MESSAGE,
+					null);
 			break;
 		case 2:
 			showConfirmDialog(app, "The beer is free.", "Information Dialog",
-			        GOptionPane.OK_CANCEL_OPTION,
-			        GOptionPane.INFORMATION_MESSAGE, null);
+					GOptionPane.OK_CANCEL_OPTION,
+					GOptionPane.INFORMATION_MESSAGE, null);
 			break;
 		case 3:
 			showConfirmDialog(app, "Is the beer free?", "Question Dialog",
-			        GOptionPane.OK_CANCEL_OPTION, GOptionPane.QUESTION_MESSAGE,
-			        null);
+					GOptionPane.OK_CANCEL_OPTION, GOptionPane.QUESTION_MESSAGE,
+					null);
 			break;
 		case 4:
 			showConfirmDialog(app, "Watch out!", "Warning Dialog",
-			        GOptionPane.OK_CANCEL_OPTION, GOptionPane.WARNING_MESSAGE,
-			        null);
+					GOptionPane.OK_CANCEL_OPTION, GOptionPane.WARNING_MESSAGE,
+					null);
 		}
 	}
 }
