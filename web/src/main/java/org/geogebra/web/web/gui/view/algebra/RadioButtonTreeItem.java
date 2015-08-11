@@ -135,13 +135,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		public PlayButton(ImageResource imageresource) {
 			super(imageresource);
-			geo.getKernel().getAnimatonManager().addListener(this);
 		}
 
 		@Override
 		public void onTimerStarted() {
 			playButton.setResource(AppResources.INSTANCE.nav_pause());
 			geo.setAnimating(true);
+			geo.getKernel().getAnimatonManager().startAnimation();
 			showSpeedButtons(true);
 		}
 
@@ -149,6 +149,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		public void onTimerStopped() {
 			playButton.setResource(AppResources.INSTANCE.nav_play());
 			geo.setAnimating(false);
+			geo.getKernel().getAnimatonManager().startAnimation();
 			showSpeedButtons(false);
 		}
 
