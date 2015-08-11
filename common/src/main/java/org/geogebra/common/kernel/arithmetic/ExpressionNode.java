@@ -2490,6 +2490,7 @@ kernel, left,
 				sb.append('}');
 				break;
 
+			case GEOGEBRA_XML:
 			case GEOGEBRA:
 				if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(loc.getFunction("nroot"));
