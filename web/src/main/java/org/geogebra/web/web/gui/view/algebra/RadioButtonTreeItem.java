@@ -63,6 +63,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.web.gui.util.MyToggleButton2;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArray;
@@ -105,7 +106,6 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -213,8 +213,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * whether the playButton currently shows a play or a pause icon
 	 */
 	private boolean playButtonValue;
-	private Button btnSpeedDown;
-	private Button btnSpeedUp;
+	private MyToggleButton2 btnSpeedDown;
+	private MyToggleButton2 btnSpeedUp;
 
 	/**
 	 * panel to display animation related controls
@@ -643,7 +643,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private void setAnimationSpeed() {
 		double speed = animSpeeds[speedIndex];
 		geo.setAnimationSpeed(speed);
-
+		String tooltip = app.getPlain("Speed") + " " + speed;
+		btnSpeedDown.setToolTipText(tooltip);
+		btnSpeedUp.setToolTipText(tooltip);
 	}
 
 	private void showSpeedButtons(boolean value) {
@@ -684,10 +686,17 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		});
 
-		btnSpeedDown = new Button("&laquo;");
-		btnSpeedDown.addStyleName("avSpeedButton");
-		btnSpeedUp = new Button("&raquo;");
-		btnSpeedUp.addStyleName("avSpeedButton");
+		btnSpeedDown = new MyToggleButton2(AppResources.INSTANCE.nav_rewind());
+		btnSpeedDown.setStyleName("avSpeedButton");
+
+		// btnSpeedDown.removeStyleName("MyToggleButton");
+
+		btnSpeedUp = new MyToggleButton2(
+				AppResources.INSTANCE.nav_fastforward());
+
+		btnSpeedUp.setStyleName("avSpeedButton");
+		// btnSpeedUp.removeStyleName("MyToggleButton");
+
 		showSpeedButtons(false);
 		btnSpeedDown.addClickHandler(this);
 		btnSpeedUp.addClickHandler(this);

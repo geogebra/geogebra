@@ -5590,18 +5590,16 @@ body.application[dir=rtl] .deleteAlgebra {
 
 /* AV Extensions */ 
 
-.gwt-Button.avSpeedButton {
-	font-size: 16px;
-	border: 0px;
-	outline: none;
-	box-Shadow: none;
-	width: 32px;
-	margin: 0px;
-	padding: 0px;
-	text-color: grey;
-}
 
 .
 .avItemContent {
 	width: 100%;
+}
+
+.avItemContent img {
+	vertical-align: middle;
+}
+
+.avSpeedButton {
+	display: inline;
 }
