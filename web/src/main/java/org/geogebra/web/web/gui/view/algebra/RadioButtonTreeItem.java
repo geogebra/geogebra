@@ -1397,6 +1397,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
+		if (isWidgetHit(animPanel, evt.getClientX(), evt.getClientY())) {
+			return;
+		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
