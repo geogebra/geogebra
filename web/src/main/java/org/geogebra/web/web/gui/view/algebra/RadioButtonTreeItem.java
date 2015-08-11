@@ -110,6 +110,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -177,7 +178,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private boolean needsUpdate;
 
 	private int speedIndex = 6;
-	private final static double animSpeeds[] = { 0.1, 0.15, 0.2, 0.35, 0.5,
+	private final static double animSpeeds[] = { 0.05, 0.1, 0.15, 0.2, 0.35,
 			0.75, 1, 1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	private LongTouchManager longTouchManager;
 
@@ -215,6 +216,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	private boolean playButtonValue;
 	private MyToggleButton2 btnSpeedDown;
+	private Label lblSpeedValue;
 	private MyToggleButton2 btnSpeedUp;
 
 	/**
@@ -644,13 +646,19 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private void setAnimationSpeed() {
 		double speed = animSpeeds[speedIndex];
 		geo.setAnimationSpeed(speed);
-		String tooltip = app.getPlain("Speed") + " " + speed;
-		btnSpeedDown.setToolTipText(tooltip);
-		btnSpeedUp.setToolTipText(tooltip);
+		if (speed == 1) {
+			lblSpeedValue.setVisible(false);
+		} else {
+			lblSpeedValue.setVisible(true);
+			lblSpeedValue.setText("" + speed);
+
+		}
+		deferredResizeSlider();
 	}
 
 	private void showSpeedButtons(boolean value) {
 		btnSpeedUp.setVisible(value);
+		lblSpeedValue.setVisible(value);
 		btnSpeedDown.setVisible(value);
 
 	}
@@ -692,20 +700,23 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		// btnSpeedDown.removeStyleName("MyToggleButton");
 
+
 		btnSpeedUp = new MyToggleButton2(
 				AppResources.INSTANCE.nav_fastforward());
 
 		btnSpeedUp.setStyleName("avSpeedButton");
 		// btnSpeedUp.removeStyleName("MyToggleButton");
 
-		showSpeedButtons(false);
 		btnSpeedDown.addClickHandler(this);
 		btnSpeedUp.addClickHandler(this);
-
+		lblSpeedValue = new Label();
+		lblSpeedValue.addStyleName("speedValue");
 		animPanel = new FlowPanel();
 		animPanel.add(playButton);
 		animPanel.add(btnSpeedDown);
+		animPanel.add(lblSpeedValue);
 		animPanel.add(btnSpeedUp);
+		showSpeedButtons(false);
 	}
 
 	/**

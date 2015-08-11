@@ -5603,3 +5603,9 @@ body.application[dir=rtl] .deleteAlgebra {
 .avSpeedButton {
 	display: inline;
 }
+
+.avItemContent .speedValue {
+	display: inline;
+	margin: 1px;
+	font-size: 12px;
+}
