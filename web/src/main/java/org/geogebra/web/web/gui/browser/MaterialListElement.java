@@ -576,19 +576,19 @@ public class MaterialListElement extends FlowPanel implements
 			ToolTipManagerW.sharedInstance().showBottomMessage(
 					app.getMenu("Loading"), false, app);
 
-			loadMaterialAsGGB();
+			loadGGBfromTube();
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
 					app.getMenu("Loading"), false, app);
-			if (this.app.getFileManager().hasBase64(this.material)) {
-				loadMaterialAsGGB();
+			if (!this.app.getFileManager().hasBase64(this.material)) {
+				loadGGBfromTube();
 			} else {
 				this.app.getFileManager().openMaterial(this.material);
 			}
 		}
 	}
 
-	private void loadMaterialAsGGB() {
+	private void loadGGBfromTube() {
 		final long synced = material.getSyncStamp();
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 				.getItem(material.getId() + "", new MaterialCallback() {
