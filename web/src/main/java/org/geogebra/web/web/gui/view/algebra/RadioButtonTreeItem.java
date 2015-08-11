@@ -142,12 +142,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		public void onTimerStarted() {
 			playButton.setResource(AppResources.INSTANCE.nav_pause());
 			geo.setAnimating(true);
+			showSpeedButtons(true);
 		}
 
 		@Override
 		public void onTimerStopped() {
 			playButton.setResource(AppResources.INSTANCE.nav_play());
 			geo.setAnimating(false);
+			showSpeedButtons(false);
 		}
 
 	}
