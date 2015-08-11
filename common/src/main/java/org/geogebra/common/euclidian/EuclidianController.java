@@ -7539,7 +7539,7 @@ public abstract class EuclidianController {
 					/ (double) view.getViewHeight();
 			double newRatio = dy == 0 ? ratio : Math.abs(dx / (double) dy);
 			if (newRatio < Math.abs(ratio * ZOOM_RECTANGLE_SNAP_RATIO)
-					&& ratio > Math.abs(newRatio * ZOOM_RECTANGLE_SNAP_RATIO)) {
+					&& Math.abs(ratio) < newRatio * ZOOM_RECTANGLE_SNAP_RATIO) {
 				if (dxabs >= (dyabs * ratio)) {
 					height = (int) (Math.round(dxabs / ratio));
 					if (dy < 0) {
