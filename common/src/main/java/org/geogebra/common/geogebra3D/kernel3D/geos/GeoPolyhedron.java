@@ -1931,10 +1931,16 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	}
 
 	public void setPointSizeOrVisibility(int size) {
-		if (size > 0) {
-			setPointSize(size);
-		} else {
-			setPointNotVisibile();
+		for (GeoPoint3D point : pointsCreated) {
+			setPointSize(point, size);
+
+		}
+		if (getParentAlgorithm() != null) {
+			for (GeoElement point : getParentAlgorithm().getInput()) {
+				if (point.isGeoPoint()) {
+					setPointSize((GeoPointND) point, size);
+				}
+			}
 		}
 
 		for (GeoPolygon p : polygonsLinked) {
@@ -1942,11 +1948,30 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		}
 	}
 
+	private void setPointSize(GeoPointND point, int size) {
+		if (size > 0) {
+			point.setEuclidianVisibleIfNoConditionToShowObject(true);
+			point.setPointSize(size);
+		} else {
+			point.setEuclidianVisibleIfNoConditionToShowObject(false);
+		}
+		point.updateRepaint();
+	}
+
 	private void setPointSize(int size) {
 		for (GeoPoint3D point : pointsCreated) {
 			point.setEuclidianVisibleIfNoConditionToShowObject(true);
 			point.setPointSize(size);
 			point.updateRepaint();
+		}
+		if (getParentAlgorithm() != null) {
+			for (GeoElement point : getParentAlgorithm().getInput()) {
+				if (point.isGeoPoint()) {
+					point.setEuclidianVisibleIfNoConditionToShowObject(true);
+					((GeoPointND) point).setPointSize(size);
+					point.updateRepaint();
+				}
+			}
 		}
 	}
 

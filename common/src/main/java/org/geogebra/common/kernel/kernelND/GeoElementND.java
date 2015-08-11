@@ -219,4 +219,12 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	void setLabelMode(int labelName);
 	//public Kernel getKernel();
 	public String getLabelSimple();
+
+	/**
+	 * Sets visibility if not given by condition to show object
+	 * 
+	 * @param visible
+	 *            whether it should be visible
+	 */
+	public void setEuclidianVisibleIfNoConditionToShowObject(boolean visible);
 }
