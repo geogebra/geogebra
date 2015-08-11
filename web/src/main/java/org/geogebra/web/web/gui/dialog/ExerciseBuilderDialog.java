@@ -272,7 +272,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 			public void onClick(ClickEvent event) {
 				new AssignmentEditDialog(app, assignment,
-						ExerciseBuilderDialog.this).show();
+						ExerciseBuilderDialog.this).center();
 				ExerciseBuilderDialog.this.hide();
 			}
 		});

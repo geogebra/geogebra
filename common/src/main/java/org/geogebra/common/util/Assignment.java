@@ -1,6 +1,8 @@
 package org.geogebra.common.util;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -11,7 +13,6 @@ import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Test;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 
 /**
@@ -58,9 +59,12 @@ public class Assignment {
 	/**
 	 * Possible values for fractions (sorted ascending!)
 	 */
-	public final static float[] FRACTIONS = { 0f, 0.1f, 0.125f, (1f / 6), 0.2f,
-			0.25f, 0.3f, (1f / 3), 0.375f, 0.4f, 0.5f, 0.6f, (2f / 3), 0.625f,
-			0.7f, 0.75f, 0.8f, (5f / 6), 0.875f, 0.9f, 1f };
+	public final static float[] FRACTIONS = { -1f, -0.9f, -0.875f, -(5f / 6),
+			-0.8f, -0.75f, -0.7f, -(2f / 3), -0.625f, -0.6f, -0.5f, -0.4f,
+			-0.375f, -(1f / 3), -0.3f, -0.25f, -0.2f, -(1f / 6), -0.125f,
+			-0.1f, 0f, 0.1f, 0.125f, (1f / 6), 0.2f, 0.25f, 0.3f, (1f / 3),
+			0.375f, 0.4f, 0.5f, 0.6f, 0.625f, (2f / 3), 0.7f, 0.75f, 0.8f,
+			(5f / 6), 0.875f, 0.9f, 1f };
 
 	private Macro macro;
 
@@ -72,9 +76,10 @@ public class Assignment {
 
 	private Result res;
 
-	private int callsToEqual, callsToCheckTypes = 0;
+	private int callsToEqual, callsToCheckTypes;
 
 	private Test[] inputTypes;
+	private HashSet<Test> uniqueInputTypes;
 
 	/**
 	 * @param macro
@@ -83,6 +88,8 @@ public class Assignment {
 	public Assignment(Macro macro) {
 		this.macro = macro;
 		inputTypes = macro.getInputTypes();
+
+		uniqueInputTypes = new HashSet<Test>(Arrays.asList(inputTypes));
 
 		fractionForResult = new HashMap<Result, Float>();
 		hintForResult = new HashMap<Result, String>();
@@ -101,15 +108,16 @@ public class Assignment {
 	public Result checkAssignment(Construction cons) {
 		res = Result.UNKNOWN;
 		callsToEqual = 0;
+		callsToCheckTypes = 0;
+		boolean oldSilentMode = cons.getKernel().isSilentMode();
+		cons.getKernel().setSilentMode(true);
+
 		TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>();
 
 		// find all possible inputgeos and all outputgeos that match the type of
 		// the macro
 		TreeSet<GeoElement> sortedSet = cons.getGeoSetNameDescriptionOrder();
 		Iterator<GeoElement> it = sortedSet.iterator();
-		boolean oldSilentMode = cons.getKernel().isSilentMode();
-		cons.getKernel().setSilentMode(true);
-
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			for (GeoElement macroOut : macro.getMacroOutput()) {
@@ -147,7 +155,7 @@ public class Assignment {
 		TreeSet<Result> partRes = new TreeSet<Result>();
 		while (possibleOutputPermutation != null && res != Result.CORRECT) {
 			TreeSet<GeoElement> possibleInputGeos = getAllPredecessors(
-					possibleOutputPermutation, inputTypes);
+					possibleOutputPermutation, uniqueInputTypes);
 			if (possibleInputGeos.size() < macro.getInputTypes().length) {
 				res = Result.NOT_ENOUGH_INPUTS;
 			} else {
@@ -165,6 +173,7 @@ public class Assignment {
 		PermutationOfGeOElementsUtil inputPermutationUtil = new PermutationOfGeOElementsUtil(
 				possibleInputGeos.toArray(new GeoElement[0]),
 				macro.getInputTypes().length);
+
 		input = inputPermutationUtil.next();
 		boolean solutionFound = false;
 		while (input != null && !solutionFound) {
@@ -212,8 +221,26 @@ public class Assignment {
 		partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
 				macroOutput, possibleOutput).getBoolean() ? Result.CORRECT
 				: Result.WRONG);
-		// AlgoAreEqual algoEqual = new AlgoAreEqual(cons, "", macroOutput,
-		// possibleOutput);
+		// if (macro.getKernel().getApplication().has(Feature.EXERCISES)) {
+		// GeoElement root = new GeoBoolean(macro.getKernel()
+		// .getConstruction());
+		// AlgoAreEqual algoEqual = new AlgoAreEqual(macro.getKernel()
+		// .getConstruction(), null, macroOutput, possibleOutput);
+		// root.setParentAlgorithm(algoEqual);
+		// AlgoProve ap = new AlgoProve(macro.getKernel().getConstruction(),
+		// null, root);
+		// ap.compute();
+		// GeoElement[] o = ap.getOutput();
+		// GeoBoolean ans = ((GeoBoolean) o[0]);
+		//
+		// if (ans.isDefined()) {
+		// App.debug("Proveresult: " + ans.getBoolean());
+		// } else {
+		// App.debug("Proveresult: Undefined");
+		// }
+		// root.remove();
+		// o[0].remove();
+		// }
 		// partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
 		// : Result.WRONG);
 		callsToEqual++;
@@ -239,12 +266,16 @@ public class Assignment {
 	}
 
 	private static TreeSet<GeoElement> getAllPredecessors(
-			GeoElement[] possibleOutputPermutation, Test[] inputTypes) {
+			GeoElement[] possibleOutputPermutation,
+			HashSet<Test> uniqueInputTypes) {
 
 		TreeSet<GeoElement> possibleInputGeos = new TreeSet<GeoElement>();
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleOutputPermutation[i].addPredecessorsToSet(
 					possibleInputGeos, false);
+		}
+		for (int i = 0; i < possibleOutputPermutation.length; i++) {
+			possibleInputGeos.remove(possibleOutputPermutation[i]);
 		}
 
 		Iterator<GeoElement> it = possibleInputGeos.iterator();
@@ -252,18 +283,9 @@ public class Assignment {
 			GeoElement geo = it.next();
 			if (!geo.labelSet) {
 				possibleInputGeos.remove(geo);
-			} else {
-				for (int j = 0; j < inputTypes.length
-						&& possibleInputGeos.contains(geo); ++j) {
-					if (!inputTypes[j].check(geo)) {
-						// TODO this is kind of a hack to find inputobjects of
-						// type GeoPoint where the the current geo is
-						// GeoPointND, ...
-						if (!(inputTypes[j].equals(Test.GEOPOINT) && geo instanceof GeoPointND)) {
-							possibleInputGeos.remove(geo);
-						}
-					}
-				}
+			}
+			if (!uniqueInputTypes.contains(Test.getSpecificTest(geo))) {
+				possibleInputGeos.remove(geo);
 			}
 		}
 		return possibleInputGeos;
