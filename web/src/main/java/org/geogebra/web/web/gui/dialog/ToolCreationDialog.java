@@ -170,6 +170,17 @@ public class ToolCreationDialog extends DialogBoxW implements
 
 	}
 
+	/**
+	 * Assembles the input or output listboxes in a VerticalPanel adding the
+	 * up/down/remove buttons on the right
+	 * 
+	 * @param addLB
+	 *            dropdown Listbox for adding the inputs or outputs
+	 * @param lB
+	 *            multiselect, multiline Listbox with the used input and output
+	 *            elements
+	 * @return the panel containing the listboxes and controls
+	 */
 	VerticalPanel createInputOutputPanel(ListBox addLB, ListBox lB) {
 		lB.setVisibleItemCount(7);
 		lB.setMultipleSelect(true);
@@ -178,17 +189,17 @@ public class ToolCreationDialog extends DialogBoxW implements
 		Label labelInputAdd = new Label(app.getMenu("Tool.SelectObjects"));
 		inputPanel.add(labelInputAdd);
 
-		FlowPanel inAddListUpDownPanel = new FlowPanel();
-		inAddListUpDownPanel.add(addLB);
+		FlowPanel addListUpDownPanel = new FlowPanel();
+		addListUpDownPanel.add(addLB);
 
-		HorizontalPanel inUpDownRemovePanel = new HorizontalPanel();
-		inUpDownRemovePanel.add(lB);
-		inUpDownRemovePanel.add(createListUpDownRemovePanel());
-		inUpDownRemovePanel.setCellWidth(lB, "80%"); // TODO
+		HorizontalPanel upDownRemovePanel = new HorizontalPanel();
+		upDownRemovePanel.add(lB);
+		upDownRemovePanel.add(createListUpDownRemovePanel());
+		upDownRemovePanel.setCellWidth(lB, "80%"); // TODO
 
-		inAddListUpDownPanel.add(inUpDownRemovePanel);
+		addListUpDownPanel.add(upDownRemovePanel);
 
-		inputPanel.add(inAddListUpDownPanel);
+		inputPanel.add(addListUpDownPanel);
 		return inputPanel;
 	}
 
@@ -235,12 +246,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 				case 2: // name panel (finish)
 					if (toolModel.createTool()) {
 						btNext.setText(app.getPlain("Finish"));
-						// if createTool succeeds there should be no way that
-						// any list is empty...!?
-						// btNext.setEnabled(inputList.size() > 0
-						// && outputList.size() > 0);
 						btNext.setEnabled(true);
-						// namePanel.requestFocus();
 					} else {
 						btNext.setEnabled(false);
 					}
@@ -363,16 +369,23 @@ public class ToolCreationDialog extends DialogBoxW implements
 						public void callback(Object obj) {
 							String[] dialogResult = (String[]) obj;
 							if ("0".equals(dialogResult[0])) {
-								saveMacro(appToSave, true);
+								saveMacro(appToSave);
 							}
 						}
 					});
 		} else {
-			saveMacro(appToSave, false);
+			saveMacro(appToSave);
 		}
 	}
 
-	void saveMacro(final App appToSave, boolean overwrite) {
+	/**
+	 * Finish creation of user defined tool. Overwrites an existing macro with
+	 * the macro (without warning) if macros are compatible
+	 * 
+	 * @param appToSave
+	 *            application
+	 */
+	void saveMacro(final App appToSave) {
 		final String commandName = toolNameIconPanel.getCommandName();
 		final String toolName = toolNameIconPanel.getToolName();
 		final String toolHelp = toolNameIconPanel.getToolHelp();
@@ -387,8 +400,6 @@ public class ToolCreationDialog extends DialogBoxW implements
 					GOptionPane.OK_OPTION, GOptionPane.INFORMATION_MESSAGE,
 					null);
 		} else {
-			// TODO: this will not work since it will be called from
-			// AsyncOperation within a GOptionPaneW Instance
 			GOptionPaneW.INSTANCE.showConfirmDialog(app, app
 					.getPlain("Tool.NotCompatible"), app.getLocalization()
 					.getError("Error"), GOptionPane.OK_OPTION,
@@ -421,7 +432,6 @@ public class ToolCreationDialog extends DialogBoxW implements
 
 	private static void updateListBox(ListBox lb, GeoElement[] geos,
 			boolean addList) {
-		App.debug("Call to ToolCreationDialog.updateListBox");
 		lb.clear();
 		if (addList) {
 			lb.addItem(" ");

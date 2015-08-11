@@ -109,7 +109,6 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		Button labelIcon = new Button(app.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {
 
-			@SuppressWarnings("unused")
 			public void onClick(ClickEvent event) {
 				(new UploadImageDialog((AppW) app, ICON_WIDTH, ICON_HEIGHT) {
 

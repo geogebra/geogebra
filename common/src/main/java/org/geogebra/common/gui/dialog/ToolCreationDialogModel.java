@@ -11,6 +11,12 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
+/**
+ * Model for the ToolCreationDialog
+ * 
+ * @author Christoph
+ *
+ */
 public class ToolCreationDialogModel {
 
 	// private Kernel kernel;
@@ -29,6 +35,12 @@ public class ToolCreationDialogModel {
 
 	private Macro newTool;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param listener
+	 *            listener for changes in the ToolModel to update the view
+	 */
 	public ToolCreationDialogModel(App app, ToolInputOutputListener listener) {
 		this.app = app;
 		// this.kernel = app.getKernel();
@@ -169,6 +181,28 @@ public class ToolCreationDialogModel {
 		}
 	}
 
+	/**
+	 * Finish creation of user defined tool
+	 * 
+	 * @param appToSave
+	 *            application in which the macro should be saved (differnt from
+	 *            current if in macro editing mode)
+	 * @param cmdName
+	 *            command name of the macro
+	 * @param toolName
+	 *            name of the macro
+	 * @param toolHelp
+	 *            help for the tool (might be empty)
+	 * @param showInToolBar
+	 *            whether the tool should be shown in toolbar, might be a empty
+	 *            string
+	 * @param iconFileName
+	 *            fileName of the Icon to use for the macro, might be a empty
+	 *            string
+	 * @return true if successfull and false if a macro existed which could not
+	 *         be overwritten because the new macro was not compatible with the
+	 *         old.
+	 */
 	public boolean finish(App appToSave, String cmdName, String toolName,
 			String toolHelp, boolean showInToolBar, String iconFileName) {
 
@@ -201,6 +235,14 @@ public class ToolCreationDialogModel {
 		return true;
 	}
 
+	/**
+	 * Overwrites an existing macro with the macro (without warning)
+	 * 
+	 * @param macro
+	 *            the new user defined tool
+	 * @return true if the existing macro was overwritten, false if the macro
+	 *         was not compatible with the old
+	 */
 	public boolean overwriteMacro(Macro macro) {
 		boolean compatible = newTool.getNeededTypesString().equals(
 				macro.getNeededTypesString());
