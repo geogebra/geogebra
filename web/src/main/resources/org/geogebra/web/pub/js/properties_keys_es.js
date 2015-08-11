@@ -2932,7 +2932,7 @@ __GGB__keysVar.es.plain = {
     "stylebar.Bold": "Negrita",
     "stylebar.Border": "Borde",
     "stylebar.Bracket": "Par\xe9ntesis",
-    "stylebar.Caption": "R\xf3tulo",
+    "stylebar.Caption": "T\xedtulo",
     "stylebar.Capture": "Captura",
     "stylebar.Clipping": "Cuadro de recorte (in)activo",
     "stylebar.Color": "Color",
