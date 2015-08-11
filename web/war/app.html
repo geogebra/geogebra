@@ -7,6 +7,8 @@
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <script type="text/javascript">
+var web3dpath = "web3d";
+
 // for IE9
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
@@ -20,7 +22,7 @@ fontactive: function(familyName, fvd) {},
             fontinactive: function(familyName, fvd) {},
             custom: {
                 families: ["geogebra-serif", "geogebra-sans-serif" ],
-                urls: [ "web3d/css/fonts.css?v=1.15" ]
+                urls: [ web3dpath+"/css/fonts.css?v=1.15" ]
             }
         };
 			
@@ -301,14 +303,14 @@ fontactive: function(familyName, fvd) {},
 				}
 				
 			}
-			l10n.setAttribute("src","web3d/js/properties_keys_"+lang+".js");
+			l10n.setAttribute("src",web3dpath+"/js/properties_keys_"+lang+".js");
 		}
 		
 		
 	}
 function insertScript(){
         var app = document.createElement("script");
-		app.setAttribute("src","web3d/web3d.nocache.js");
+		app.setAttribute("src",web3dpath+"/web3d.nocache.js");
 		document.head.appendChild(app);
 }
 	function checkLogin(){
@@ -371,7 +373,6 @@ document.isChromeWebapp = function isChromeWebapp() {
 		return false;
 	};
 </script>
-<script src="web3d/js/webfont.js?v=1.15"></script>
 
 
     <!-- Google Analytics (Start) -->
@@ -388,6 +389,14 @@ document.isChromeWebapp = function isChromeWebapp() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript';
 			ga.async = true;
 			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+		
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = web3dpath+'/js/webfont.js';
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(ga, s);
 		})();
