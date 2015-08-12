@@ -167,6 +167,8 @@ public abstract class AppWFull extends AppW {
 			((ProbabilityCalculatorView) this.getGuiManager()
 					.getProbabilityCalculator()).updateAll();
 		}
+		// remove all Macros before loading preferences
+		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
 		GeoGebraPreferencesW.getPref().loadXMLPreferences(this);
 

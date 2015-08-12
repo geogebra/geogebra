@@ -671,6 +671,11 @@ public abstract class AppW extends App implements SetLabels {
 			        "File is corrupt: No GeoGebra data found");
 		}
 
+		if (construction != null) {
+			// ggb file: remove all macros from kernel before processing
+			kernel.removeAllMacros();
+		}
+
 		// Macros (optional)
 		// moved after the images are loaded, because otherwise
 		// exception might come for macros which use images
