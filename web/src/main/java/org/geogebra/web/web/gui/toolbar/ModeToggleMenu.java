@@ -87,33 +87,41 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	public native void addPasteHandlerTo(Element elem) /*-{
 		var self = this;
-		elem.onpaste = function(event) {
-			//$wnd.console.log('any paste happened');
+		var wind = $wnd;
+		elem.onkeydown = function(event) {
+			event.stopPropagation();
+		};
+		elem.onkeypress = function(event) {
+			event.stopPropagation();
+		};
+		elem.onpastehandler = function(event) {
 			var cbd;
 			if (event.clipboardData) {
 				// all the other browsers
 				cbd = event.clipboardData;
-			} else if ($wnd.clipboardData) {
+			} else if (wind.clipboardData) {
 				// Windows Internet Explorer
-				cbd = $wnd.clipboardData;
+				cbd = wind.clipboardData;
 			}
 			if (cbd.items) {
 				var is = cbd.items;
 				for (var cv = 0; cv < is.length; cv++) {
 					if (is[cv].type.indexOf('image') > -1) {
 						var bb = is[cv].getAsFile();
-						var ur = $wnd.URL || $wnd.webkitURL;
+						var ur = wind.URL || wind.webkitURL;
 						var sr = ur.createObjectURL(bb);
 						var pi = new Image();
 						pi.onload = function() {
 							self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Lcom/google/gwt/dom/client/ImageElement;)(pi);
 						}
 						pi.src = sr;
-
 					}
 				}
 			}
-		}
+			return false;
+		};
+		// this seems to run in Chrome!
+		wind.addEventListener("paste", elem.onpastehandler);
 	}-*/;
 
 	public void onPaste(ImageElement ie) {
