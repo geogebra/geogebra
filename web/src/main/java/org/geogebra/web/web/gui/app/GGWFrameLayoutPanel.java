@@ -186,7 +186,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	@Override
 	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
 
-		if ((app.getLAF().isTablet() && app.isKeyboardNeeded())
+		if ((app.getLAF().isTablet())
 		        || keyboardShowing // if keyboard is already
 		                           // showing, we don't have
 		                           // to handle the showKeyboardButton
