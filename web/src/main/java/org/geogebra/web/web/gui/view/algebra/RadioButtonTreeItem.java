@@ -141,17 +141,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		@Override
 		public void onTimerStarted() {
 			playButton.setResource(AppResources.INSTANCE.nav_pause());
-			geo.setAnimating(true);
-			geo.getKernel().getAnimatonManager().startAnimation();
-			showSpeedButtons(true);
+			setAnimating(true);
 		}
 
 		@Override
 		public void onTimerStopped() {
 			playButton.setResource(AppResources.INSTANCE.nav_play());
-			geo.setAnimating(false);
-			geo.getKernel().getAnimatonManager().startAnimation();
-			showSpeedButtons(false);
+			setAnimating(false);
 		}
 
 	}
@@ -680,13 +676,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 						.nav_pause() : AppResources.INSTANCE.nav_play());
 				geo.updateRepaint();
 
-				if (geo.isAnimating()) {
-					geo.getKernel().getAnimatonManager().startAnimation();
-					showSpeedButtons(true);
-				} else {
-					showSpeedButtons(false);
-
-				}
+				// if (geo.isAnimating()) {
+				// // geo.getKernel().getAnimatonManager().startAnimation();
+				// // showSpeedButtons(true);
+				// } else {
+				// showSpeedButtons(false);
+				//
+				// }
+				setAnimating(geo.isAnimating());
 				deferredResizeSlider();
 
 			}
@@ -1042,6 +1039,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			ImageResource newIcon = playButtonValue ? AppResources.INSTANCE
 					.nav_pause() : AppResources.INSTANCE.nav_play();
 			playButton.setResource(newIcon);
+			showSpeedButtons(playButtonValue);
 		}
 	}
 
@@ -1435,6 +1433,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			if (!isThisEdited()) {
+				setAnimating(false);
 				av.startEditing(geo);
 			}
 			app.showKeyboard(this);
@@ -2072,6 +2071,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onResize() {
 		deferredResizeSlider();
+	}
+
+	private void setAnimating(boolean value) {
+		geo.setAnimating(value);
+		geo.getKernel().getAnimatonManager().startAnimation();
+		showSpeedButtons(value);
 	}
 
 }
