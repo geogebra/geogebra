@@ -287,18 +287,20 @@ public class TextOptionsModel extends OptionsModel {
 		editGeo.setTextString(text);
 	}
 
-	public void applyEditedGeo(String text, boolean isLatex, boolean isSerif) {
+	public void applyEditedGeo(ArrayList<DynamicTextElement> text,
+			boolean isLatex, boolean isSerif) {
 		GeoText geo0 = getGeoTextAt(0);
-		geo0.setTextString(text);
-		geo0.setSerifFont(isSerif);
-		geo0.setLaTeX(isLatex, true);
-		geo0.updateRepaint();
+		GeoElement geo1 = app
+				.getKernel()
+				.getAlgebraProcessor()
+				.changeGeoElement(geo0,
+						dTProcessor.buildGeoGebraString(text, isLatex), true,
+						true);
+		((GeoText) geo1).setSerifFont(isSerif);
+		((GeoText) geo1).setLaTeX(isLatex, true);
+		((GeoText) geo1).updateRepaint();
+		app.getSelectionManager().addSelectedGeo(geo1);
 		editGeo = null;
-	}
-
-	public void applyEditedGeo(String text, boolean isLatex) {
-		GeoText geo0 = getGeoTextAt(0);
-		applyEditedGeo(text, isLatex, geo0.isSerifFont());
 	}
 
 	public void cancelEditGeo() {
