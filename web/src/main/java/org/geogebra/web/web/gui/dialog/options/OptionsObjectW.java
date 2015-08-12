@@ -65,6 +65,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -1267,8 +1268,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		tabPanel.setStyleName("propertiesTabPanel");
 		beforeTabs = System.currentTimeMillis();
 		createBasicTab();
-		App.debug("BASIC"
-				+ (System.currentTimeMillis() - this.beforeTabs));
 		if (!(app.isExam())) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),
 					addColorTab(), addStyleTab(), addPositionTab(),
@@ -1388,7 +1387,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		OptionsTab tab = makeOptionsTab("Text");
 		this.textModel = new TextOptionsModel(app);
 		tab.addModel(textModel);
-		App.debug("TEXT" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
@@ -1396,14 +1394,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		OptionsTab tab = makeOptionsTab("Slider");
 		SliderPanelW sliderPanel = new SliderPanelW(getAppW(), false, true);
 		tab.add(sliderPanel);
-		App.debug("SLIDER" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
 	private OptionsTab addColorTab() {
 		OptionsTab tab = makeOptionsTab("Color");
 		tab.addModel(new ColorObjectModel(app));
-		App.debug("COLOR" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
@@ -1429,13 +1425,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				.addModel(tfSize).addModel(buttonSize).addModel(filling)
 				.addModel(lod).addModel(interpol).addModel(decoAngle)
 				.addModel(decoSegment);
-		/*
-		 * tab.addPanelList(Arrays.asList(pointSizePanel, pointStylePanel,
-		 * lineStylePanel, angleArcSizePanel, slopeTriangleSizePanel,
-		 * ineqStylePanel, buttonSizePanel, textFieldSizePanel, fillingPanel,
-		 * lodPanel, interpolateImagePanel, decoAnglePanel, decoSegmentPanel ));
-		 */
-		App.debug("STYLE" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
@@ -1450,7 +1439,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			}
 		});
 		tab.addModel(model);
-		App.debug("SCRIPT" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 	
@@ -1477,7 +1465,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		misc.add(selectionAllowedPanel);
 		tab.add(misc);
 		tab.add(graphicsViewLocationPanel);
-		App.debug("ADVANCED" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 	}
 
@@ -1492,7 +1479,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		// tab.addModel(new AnimationStepModel(null, app));
 
-		App.debug("ALGEBRA" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 
 	}
@@ -1503,7 +1489,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		tab.addModel(new StartPointModel(app)).addModel(new CornerPointsModel())
 .addModel(
 				new AbsoluteScreenLocationModel(app));
-		App.debug("POSITION" + (System.currentTimeMillis() - this.beforeTabs));
 		return tab;
 
 	}
@@ -1519,7 +1504,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	@Override
 	public void updateGUI() {
-		App.debug("OPTION OBJECTS UPDATE_GUI");
+		Log.info("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
 
 		update(app.getSelectionManager().getSelectedGeos());
