@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class AlgoAngleVector extends AlgoAngleVectorND {
 
@@ -44,7 +45,7 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 	public boolean updateDrawInfo(double[] m, double[] firstVec,
 			DrawAngle drawable) {
 		if (vec.isGeoVector()) {
-			GeoPointND vertex = ((GeoVector) vec).getStartPoint();
+			GeoPointND vertex = getStartPoint((GeoVector) vec);
 			if (vertex != null)
 				vertex.getInhomCoords(m);
 			return vertex != null && vertex.isDefined() && !vertex.isInfinite();
@@ -58,7 +59,7 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 	public boolean getCoordsInD3(Coords[] drawCoords) {
 
 		if (vec.isGeoVector()) {
-			GeoPointND vertex = ((GeoVector) vec).getStartPoint();
+			GeoPointND vertex = getStartPoint((GeoVectorND) vec);
 			if (centerIsNotDrawable(vertex)) {
 				return false;
 			}

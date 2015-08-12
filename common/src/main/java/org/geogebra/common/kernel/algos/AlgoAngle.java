@@ -8,6 +8,8 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Abstract class for all angle algos
@@ -107,6 +109,7 @@ public abstract class AlgoAngle extends AlgoElement {
 	 * @return true if vertex is not correct center for drawing the angle
 	 */
 	static final protected boolean centerIsNotDrawable(GeoPointND vertex) {
+		Log.debug(vertex);
 		return vertex == null || !vertex.isDefined() || vertex.isInfinite();
 	}
 	
@@ -124,6 +127,10 @@ public abstract class AlgoAngle extends AlgoElement {
 				vn.mulInside3(-1);
 			}
 		}
+	}
+
+	protected GeoPointND getStartPoint(GeoVectorND v) {
+		return v.getStartPoint() == null ? cons.getOrigin() : v.getStartPoint();
 	}
 
 }

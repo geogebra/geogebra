@@ -45,7 +45,7 @@ public class AlgoAngleVector3D extends AlgoAngleElement3D {
 	}
 
 	protected final void setOrigin() {
-		GeoPointND start = ((GeoVector3D) vec).getStartPoint();
+		GeoPointND start = getStartPoint((GeoVector3D) vec);
 		if (centerIsNotDrawable(start)) {
 			o = Coords.UNDEFINED;
 		} else {

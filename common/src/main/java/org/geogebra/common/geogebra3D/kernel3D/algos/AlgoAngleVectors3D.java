@@ -77,7 +77,7 @@ public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
 		vn = AlgoAnglePoints3D.forceNormalVector(v1, v2);
 
 		// start point
-		GeoPointND start = getv().getStartPoint();
+		GeoPointND start = getStartPoint(getv());
 		if (centerIsNotDrawable(start)) {
 			o = Coords.UNDEFINED;
 		} else {

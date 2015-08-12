@@ -103,7 +103,7 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 	@Override
 	public boolean updateDrawInfo(double[] m, double[] firstVec,
 			DrawAngle drawable) {
-		GeoPointND vertex = v.getStartPoint();
+		GeoPointND vertex = getStartPoint(v);
 		if (centerIsNotDrawable(vertex)) {
 			return false;
 		}
@@ -132,7 +132,7 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 
 	@Override
 	public boolean getCoordsInD3(Coords[] drawCoords) {
-		GeoPointND vertex = v.getStartPoint();
+		GeoPointND vertex = getStartPoint(v);
 		if (centerIsNotDrawable(vertex)) {
 			return false;
 		}
