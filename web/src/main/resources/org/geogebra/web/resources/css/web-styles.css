@@ -5609,4 +5609,5 @@ body.application[dir=rtl] .deleteAlgebra {
 	margin: 1px;
 	width: 30px;
 	font-size: 12px;
+	text-align: center;
 }
