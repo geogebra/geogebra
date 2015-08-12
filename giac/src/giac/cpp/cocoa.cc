@@ -799,8 +799,11 @@ namespace giac {
   }
   inline bool operator == (const tdeg_t & x,const tdeg_t & y){ 
 #ifdef GIAC_64VARS
-    if (x.tab[0]%2)
+    if (x.tab[0]%2){
+      if (!y.tab[0]%2)
+	COUT << "erreur" << endl;
       return x.tdeg==y.tdeg && x.tdeg2==y.tdeg2 && *x.i()==*y.i();
+    }
 #endif    
     return  ((longlong *) x.tab)[0] == ((longlong *) y.tab)[0] && 
       ((longlong *) x.tab)[1] == ((longlong *) y.tab)[1] &&
@@ -1065,9 +1068,10 @@ namespace giac {
   inline bool tdeg_t_greater (const tdeg_t & x,const tdeg_t & y,short order){
 #ifdef GIAC_64VARS
     if (x.tdeg%2){
+      if (!y.tab[0]%2)
+	COUT << "erreur" << endl;
       if (order>=_7VAR_ORDER || order==_3VAR_ORDER){
-	if (x.tdeg!=y.tdeg)
-	  return x.tdeg>y.tdeg;
+	if (x.tdeg!=y.tdeg) return x.tdeg>y.tdeg;
 	return i_nvar_is_greater(*x.i(),*y.i(),order,true);
       }
       if (order==_REVLEX_ORDER)
@@ -1096,6 +1100,8 @@ namespace giac {
   inline bool tdeg_t_all_greater(const tdeg_t & x,const tdeg_t & y,short order){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
+      if (!y.tab[0]%2)
+	COUT << "erreur" << endl;
       return x.tdeg>=y.tdeg && x.tdeg2>=y.tdeg2 && *x.i()>=*y.i();
     }
 #endif
@@ -1313,8 +1319,11 @@ namespace giac {
   
   bool disjoint(const tdeg_t & a,const tdeg_t & b,short order,short dim){
 #ifdef GIAC_64VARS
-    if (a.tab[0]%2)
+    if (a.tab[0]%2){
+      if (!b.tab[0]%2)
+	COUT << "erreur" << endl;
       return disjoint(*a.i(),*b.i());
+    }
 #endif
 #if GROEBNER_VARS==15
     if (order==_3VAR_ORDER){
@@ -1484,6 +1493,21 @@ namespace giac {
       return os << 0 ;
     for (;it!=itend;){
       os << it->g  ;
+#ifdef GIAC_64VARS
+      if (it->u.tdeg%2){
+	index_m i=*it->u.i();
+	for (int j=0;j<int(i.size());++j){
+	  t2=i[j];
+	  if (t2)
+	    os << "*x"<< j << "^" << t2  ;
+	}
+	++it;
+	if (it==itend)
+	  break;
+	os << " + ";
+	continue;
+      }
+#endif
       short tab[GROEBNER_VARS+1];
       it->u.get_tab(tab);
       switch (p.order){
@@ -2706,6 +2730,21 @@ namespace giac {
       return os << 0 ;
     for (;it!=itend;){
       os << it->g  ;
+#ifdef GIAC_64VARS
+      if (it->u.tdeg%2){
+	index_m i=*it->u.i();
+	for (int j=0;j<int(i.size());++j){
+	  t2=i[j];
+	  if (t2)
+	    os << "*x"<< j << "^" << t2  ;
+	}
+	++it;
+	if (it==itend)
+	  break;
+	os << " + ";
+	continue;
+      }
+#endif
       short tab[GROEBNER_VARS+1];
       it->u.get_tab(tab);
       switch (p.order){
@@ -10663,8 +10702,8 @@ bool gbasis8(const vectpoly & v,int & order,vectpoly & newres,environment * env,
     }
     if (modularalgo && (!env || env->modulo==0 || env->moduloon==false)){
       if (mod_gbasis(res,modularcheck,
-		     order==_REVLEX_ORDER /* zdata*/,
-		     // true /* zdata*/,
+		     //order==_REVLEX_ORDER /* zdata*/,
+		     !rur /* zdata*/,
 		     rur,contextptr)){
 	newres=vectpoly(res.size(),polynome(v.front().dim,v.front()));
 	for (unsigned i=0;i<res.size();++i)
