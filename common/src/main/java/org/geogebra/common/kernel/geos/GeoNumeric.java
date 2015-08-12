@@ -1543,6 +1543,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if (getIntervalMaxObject() != null) {
 				setMaxFrom(this);
 			}
+			value = geoElement.evaluateDouble();
 			if (getIntervalMinObject() != null) {
 				setMinFrom(this);
 			}
