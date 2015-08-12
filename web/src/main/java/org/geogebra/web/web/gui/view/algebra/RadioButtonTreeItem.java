@@ -180,6 +180,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private int speedIndex = 6;
 	private final static double animSpeeds[] = { 0.05, 0.1, 0.15, 0.2, 0.35,
 			0.75, 1, 1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
+	private static final String MUL_SIGN = "\u00d7";
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -646,13 +647,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private void setAnimationSpeed() {
 		double speed = animSpeeds[speedIndex];
 		geo.setAnimationSpeed(speed);
-		if (speed == 1) {
-			lblSpeedValue.setVisible(false);
-		} else {
-			lblSpeedValue.setVisible(true);
-			lblSpeedValue.setText("" + speed);
-
-		}
+		lblSpeedValue.setText(speed + " " + MUL_SIGN);
 		deferredResizeSlider();
 	}
 

@@ -5605,7 +5605,8 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 .avItemContent .speedValue {
-	display: inline;
+	display: inline-block;
 	margin: 1px;
+	width: 30px;
 	font-size: 12px;
 }
