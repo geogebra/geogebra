@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>GeoGebra exercise example</title>
+    <link rel="stylesheet" href="https://web.geogebra.org/app/styles.css" type="text/css">
+
+    <script type="text/javascript" src="https://tube.geogebra.org/scripts/deployggb.js"></script>
+
+    <style>
+        .clearboth {
+            clear: both;
+        }
+
+        #tests_div {
+            margin: 10px;
+        }
+
+        .failed {
+            color: white;
+            background: red;
+        }
+
+        .ok {
+            color: white;
+            background: green;
+        }
+
+        .partly {
+            color: white;
+            background: orange;
+        }
+
+    </style>
+    <script type="text/javascript">
+
+        var parameters = {
+            "id": "ggbApplet",
+            "width": 800,
+            "height": 500,
+            "showMenuBar": false,
+            "showAlgebraInput": false,
+            "showToolBar": true,
+            "customToolBar": "0 39 | 1 501 67 , 5 19 , 72 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71 | 30 29 54 32 31 33 | 17 26 62 73 , 14 68 | 25 52 60 61 | 40 41 42 , 27 28 35 , 6",
+            "showToolBarHelp": true,
+            "showResetIcon": true,
+            "enableLabelDrags": false,
+            "enableShiftDragZoom": true,
+            "enableRightClick": true,
+            "errorDialogsActive": false,
+            "useBrowserForJS": true,
+            "preventFocus": false,
+            "language": "en",
+            "ggbbase64": "UEsDBBQACAgIAOkFDEcAAAAAAAAAAAAAAAASAAAAZ2VvZ2VicmFfbWFjcm8ueG1s3VptU9s4EP7c/grVH+5TcSy/Jm3SDgRomQHCQTp3vZsbRrGVxFdZ9tkKIf31t5LivJAXGgJtAIZYllfa1fOsVrsm9Y+3CUM3NC/ilDcMbFoGojxMo5j3GsZAdPeqxscPr+s9mvZoJyeom+YJEQ3Dk5KTcXBnYqcm+9BtEb/j6TlJaJGRkF6FfZqQ0zQkQon2hcjeVSrD4dAsJzXTvFfp9YR5W0QGAoN40TDGjXcw3dygoaPEbcvClT/PTvX0ezEvBOEhNRAYm5AwT1GYRNKIhnHCBdhJQ6n/Io25MJBIU7b24WfKsiUP/0a/MfH+YsC/id964v3btbfoHwPFYcqPY0bleop+OjzhbZj9gOQNo0tYAfaGaTZqkkyqgFWLfECNcgknPBsIRKyGsW8gghvGAVzshtE0KqVIayBKmUPVC/oKmESZjEQstGoyEP00l62ICNkDkpTRhHKBxCiDnkyvnZEOZVLfh9ev6tJglHb+BQDGlpXP9Q29aRiu1PqqDlLNlKU5AiXgBD312WkYtueBdpb1iexRooyMaI5uCJvpgUnP0ojO9RIeJ8pnUCEokIEBwYzSSLW00dDIYDrlqxpONTJM0zwq0K0SGKnP7/JTPVQLvYq/j5U5s71ixGZtqFfGGN2D1sELQct9NLTCNEkIjxBXe+yK9mS/Qile9GkNydSRiZ5tPMcC9sV4thJdcg/64332A/BbDwV/CqGlIHQUhHtjtFjMqQZL9OPwG6cFbHS7ZMXSjc9xFFE+wR3gYJKp2QhUaJ0z1H2jNGvD4BZv54QXMjZrGQXAWk5aOUSEXsoJOwXz7lBzoKkhC9R01lMjVzrBvbNLvAAXkhhL+7b9cGLof1wPKeRnw4iTjMVhLDaJF81t4gW2PQWNuv76mOGYtfkfX+8A0w2qjx5Ilrhqc5Wrhhu4arhLrjoXQrBluo5rTX/w07vuBoFifxX60QboR7uE/lyg2CKAPwzsSbi/g3OocY4WcD5cj/N83DncJu74VQW0vHT0ZVuoa9rRselY9oyHa8+vbRU2KrNpsLxXyfJiaXAJIBDeY3S2JLjTqUuBR0vlDzWVRzqVP16aymcpG+FHTOe3In6HEtQ9x5QGgNe4pvMo58s61I5eCmrYrOEStdrjn8rL0/uJn98NWXSz9J7u1OlgmRaeS3e8YFw1mb6rj+zAtD2rNiP1XKuAMYN0gcHuBod7d6fo0yyNVhIp+fPMwHFdd0czrqNVpLANSGHPjhTHtNw5UvxfW8Idv5yzwdJng2fiJ6jY1vrysfZltuDLyQa+nOySL688HvYm50PV9LCNp1LVXakxmGYjWWDjdJMa43S3agyI5th3sO1MT2N1WjtmtQa/wcxbC+DGNv3qPH2PuBVW4d5dhfvZJrif7RjuNRNcP5ji7k9wdz08xT14etwvoJiCCLQqPVVl2ClcnDHicxzoSkwX39dYC1PVAHGmGi5wd43v40rbULKhp33ovn9osMOeo3j28N14Z+LyXHVrFsb+5A3pDxG/+tC8m8xLDJ9mBRsenYPbmMUkHy0k0y8p17+nsHpeXAQQIsBLnQDLuILxJGO0ak7g1zzsB3bVtz3fH785NV07cIKq4wSe67t+dYs8/qdzw54RN2tzHmfuib00A9rivzE/nZjkWRGzdM/c3TK4NjmDq97Mfgl2ipZVb3QBiqKIe1xztuZrHSD6qp7TYsDEODFoti4vj5ptA/XhecP4lFMi3sIqKYpnRiOVbqAhKdDEBBpBO89BgI1MA3VzEuovt1gmVHOVRVV/XLbOP5WKvqYDNIwZQxyKNUT4MnUxR0AjuIJIp2qVbXn5dnrOhCU6z1vt66Pz1pdPn69Pzi++tK9K/e0+zSki8Kd0FWgIxPZhugGLUIeuQOAt6kBOxFMOD+ehYPE3OUCNm5LxZjUQ160vbTDouv314uipQalXpiat9JbpG/8f85I3SJobxRGK161zAjhsU9IjMd8Qk32gaASKikFOpWMStdhcEUBvKEcEjZPbEv7mzCb5uEbZ/nH76PL6cv/8sHV28tdE4YlABaVJobT2yQ1FUU6GUs/vAxLlMSPACWGlwwBLPBXSZbI8lfYAL3BD0ARPRLowQs7S60E8UDaq7Vi8WUZPvVJ+JezD/1BLBwgNOqcuPQYAAJkmAABQSwMEFAAICAgA6QUMRwAAAAAAAAAAAAAAABcAAABnZW9nZWJyYV9kZWZhdWx0czJkLnhtbO1aX3PaOBB/vn4KjZ96DwELMH8yIZ20MzeXmZRmLpnOvQp7MbrYkk+Sg+HTV5bANkmgxKRhSJMHSytW0u5vV6uVlLNPWRyhexCScjZ0cMN1EDCfB5SFQydVk5O+8+n8w1kIPISxIGjCRUzU0PFyzqKfphq4PcjbUCbpKeMjEoNMiA83/hRicsV9ogzrVKnktNmczWaN1aANLsJmGKpGJgMHaYGYHDrLyqkebq3TrG3YW66Lm/9+vbLDn1AmFWE+OEgLG8CEpJGSugoRxMAUUvMEhk7CKVMOisgYoqFznVPo40QA/OmgZSeNgeucf/jjTE75DPHxf+DrNiVSKPoZopnz6J+/8IgLJIaOVj003/HQaXmeg0iUTEneYlgjMgeB7klUadGjfeUB2NaObSWMxgYpJBUkWhoHyQQgMDWrha4kejhjoQmJ5FIYn3MRSJQNnREZOWi+LBe2NCxG/xu6WE7ZrraqeQQV+c6aS+h2AzGABFigmdaQxLWQ7PYNlHkxtsVvBOU3VgWwVQtA3PIMgqb8Dd3xkv0DoZa5imT7Hcm9vbHzZgOjYbFIyfw7dHweJxFkLwhvRFkJ1ZUhCmhb++857i8E1q0NbK60hUhNqX/HQOqtvVUZN6/8TQO9deTzmT7wP1szBdWWoD5V2+GVEOZUgdjNii5BrrcdvU2QeaqifK5LpnQSp7HQskkrcmXyO4DkVnf+xm4FYTJP/izPCqrN9pikzAw6+k5EgXCqc4SJljaomqVeaN4YVho6Vr+KbX6u+3a99w+nB3DH5/vaZpgEmW9brt4x4nOsy/Vej8nLhfp9SRbWaL/vUKU1nkgXiFAgKWHbUfY5o34B2RdLFRh3jhLjWls8DYFZl5MIZa6ZZe4a9oW7vIfIsKHn2Py6wLbZ9NeiCpqhC9vjwjJetGzRtkXHFl6heL28wpgs0eathKoHa6NTL7HAXttYzsMPTdfArv3DnYGLcVefA9+NubsxXyFcsjQGUVnKoxVdOIVnF7MeL4U1k+2wdDfZX0Y00A4QUw3+iU55YqIjW576jCWPUgU3vgBg5V2bdcIZDdQ0P2PkZrBWMN8JzXKXsExTLuiCM0XW3LWOOzx0Pq3N3gkVYWFULqcLS5VQ22sSw/TwPPaUBaowuksUu41Wv437Xtvt4d7A63d3RBX3n4/qWqCw2u8S4bG7s6PsGiieZd/l2ET4laOwu8nobr/X6nY73ZY3GPRwt9N7+az6r6KhcIXu29lC2/WS6p3PXd16+bU5az0ZtHoHP3clPJqHFQe5XtGF0j3rH3Xi2vFv79uBW7ufui4aSujwq0F30OW45QaP+6ksr/AsVeDTP8rQQ9KMRpSI+aPs6CVP+gqyMn++NUTlve2QwG1Qf7MqGuiwFO3SUpUnL6vMhGrcGIl1BzsRZZ+JfxcKrkPxI6hfRnV86PUx5jwCUobfzyu68qD1KCveBMPuedGeLuBPwb8b82wtc/vJTb4svfnKEJWHpie8eZ8c7+SVzFovsu/2MnLyKDw0K2/0zdX/AZz/AFBLBwgzlADregQAAI4gAABQSwMEFAAICAgA6QUMRwAAAAAAAAAAAAAAABcAAABnZW9nZWJyYV9kZWZhdWx0czNkLnhtbO2WS27bMBBA180pCO4jifo4UWAlMNJFCyRBi2y6paWxzFYiFZKO5Vytd+iZyo/iyPkBSYugResFOSRnyJk3Q1rTk75t0DVIxQQvMAkijICXomK8LvBKL/YP8cnx3rQGUcNcUrQQsqW6wJnV3NqZUUCS3M6hXrEjLi5oC6qjJVyWS2jpmSipdqpLrbujMFyv18HtpoGQdVjXOuhVhZFxiKsCD8KR2W7HaJ049TiKSPjl/Mxvv8+40pSXgJFxtoIFXTVaGREaaIFrpDcdFJj2TCXmiIbOoSnwzA7fYzToFzghUYKP995N1VKskZh/hdLMarmCrY0bhFbHLJ+KRkgkC2zirl07dy1tuiW1klNs6AYkuqbNaMbsdS4q8LOpn6WctQ4SUho6kwyMVAdQOckHYPbuzHYuOQvaqMGVhnG41JsGkF6y8hsHZQDGIyMrfGBVBTbH3gauuDdRti1wR6VJmZasNGd4GUxkP75b9Wk4gHyAtFzJayip1KAY5SO4p3bhPt3Jv0H3GVyCs3JE6SM3lJUBYR1zLHeAZdGrgMVZ5pCR+OA+tIBE/kfSPCJkQuI/F6MpUlYDN/WlhVTmZYncKZvIqd9Ew3vVEzfeELd6Q/y0szeuStajmbeYecVZ7LvEd6nvsm3g928Ga7uGlUz//mowmDiMquGTG+/cGfPOvaoE8txVQExyVwGu39ZA9lY5L4WQlUK9T5BPm2vX2yMX1P7XDF48Xp3PABTNZgmVFPyO4WjqDmMyYHxNEb4UPckSxz4jDy5fOoSX5ZMonaRvlIen+V2taOVe/CGgz7fjMTnyS2/Qg2c7OHiz8nvp9Uezie8OfHfou3xw8GmOaiUX5lvnsf/BYWkXafqXIn2aAAe99f7CyuNws/93zxILRx+m4e3H7/FPUEsHCJRxIVylAgAAgwsAAFBLAwQUAAgICADpBQxHAAAAAAAAAAAAAAAAFgAAAGdlb2dlYnJhX2phdmFzY3JpcHQuanMDAFBLBwgAAAAAAgAAAAAAAABQSwMEFAAICAgA6QUMRwAAAAAAAAAAAAAAAAwAAABnZW9nZWJyYS54bWzVGNlu2zjwuf2KgZ4Tm6ROF3aLNkWBAtmiaLqLxb7REmOzkUVBouyk6MfvDCnJdpIWSRMssEgIkqPh3Fcyf3O9KWGrmlabahHwCQtAVbkpdLVaBJ29PM2CN69fzlfKrNSykXBpmo20iyAmzPEd3iY8nBEMrlv9qjKf5Ea1tczVRb5WG3lucmkd6tra+tV0utvtJgPRiWlW09VqObluiwBQoKpdBP3hFZI7erQLHbpgjE///uPckz/VVWtllasASNhOv375Yr7TVWF2sNOFXS+CjKFwa6VXa5KeLlNCqlGFWuVWb1WLTw+uoItFYDd14NBkRd9f+BOUozoBFHqrC9UsAjYRsYgDMI1Wle2/857PdKAw32q186To5LjEXARgjSmXkujAD+AQM1zAZ3ACSYoQATyGCCEZQlIICRbzCEIgFB5CFOEeEZgn9C3G9zEDzhEMgoEQIDiIEK9xDHECcUoPBeImM0eM4SJsFAdXSLAwxOVgYYRL0AkJxZ4MChGHiTvFhI30Y0HiO2CYQTRDRgSIUw4hyoD3lAFSDIk8d0pEDOiXQ0TkRQoiA6SHehNlhqbZ6lYvS7UILmXZoo91ddlgfI331t6UytmuB+z9w0/wBzH0d9W73YcFfmHshFaCKxri4cAp0bFL0AMMdTuhjftNeCjzVxb6Tfgt8lvscSL/MvKoXlEWeZwofKqGg37hY/TLDvTjpAT6g6R3WwgkN3fy0xb118RfXZQxznpo5qEzuiZPVCb8LWUiNksfw9g23c+MGCfhXb4pLsymO3z5AVNP8zHKjiyz7OGqiqewHK0rKK9usxTx/Sz5E516r0uRl/t16w7L8FFpf8edv8ExOUr451E4yh7MnovsFzy9gs/MMmX3lji/835/Hj/MHu6Hp5bD0RDxr1nOp0MnnvdGgHZNuH1SWbVpD5sxdmHXj1Nx3I2TeGjH1IwzbMe+GcfZ2I2xFScRpI4Wdj/qpNSXRXTUl3/s+7LrythEo2ToogxSqtB9D0VO4rCLigQSASlSjSChaiyQkgBsvQm9Gtvr2FwxoWvT6tFka1XWozGddXRVd/bIIvmmGI7WILYs3fTW4xcmv3o32rCnpGRrD8niGLQfsPxYdDR/vZiXcqlKHD4vyMMAW1lS0XIcLk1loXcuViQHWzWyXuu8vVDW4qsWvsmtPJdWXX9A7Hbg7Vi7sXCuurzUhZbVX+j9YR771G2WqgF3NGQQR5xYwTA/uho9zI9RFHuU3JimuLhpMVjg+h/V4GPBswkLOYvTGRNREic4Et74TyGfTRKWJLM0TMOMU41rc0lxHvFJFGZJOEvTLGVhgi65+ckn4Tmr7aizvFbt4JlVQznUW5wuH9t3ptyDaqMreyZr2zVuxMdka0int9WqVM7oLh5wqs6vlub6wjeLxNP6elMrqo1OgOXqzJSmAUxCEaOOq35f+t3hkGQjFnM4zGGwwX26GL/zmXAYbl/63WFhPHjRek35oCYbuOgW/P0oYF0s0YjeVdqeDxer86u9ooTvvT+Y8JgkfyaS8+mtwJvXjVnKpS61vTmTZd6V0prGZZJubaOXHSUn2N7koNuzbkNImCl7b0oqi9ZxwhYe9JmLAEwc2JjCvy1JAfrzBz3dRzdm3v38531aD+mRm7KUdasKn4vMPz5Cml+pplIlYXetasP3HnVvzRxzUVed6Vr/ZUxK9+CztOu3VfFFrVDhz6NGt4kUKtcbfOjhfWhICts/0RceWqhVowYXehF94OxlH3L2DtiR+tCYzcdq+xVz4pao8+mg5bzNG11T6sES+86V2mcXuk5i3yoO3x35PXz/k6rBxiKBp+/+dMon8VghqJtduyyl4Q1x+vNpwv6LgnAn/f8PSXdAUjwbyRoTRR0Se3A1xDioawobDPpxpDsQqm9tPZvGfKO+eFAD7pYRCifKLiwYXY+rLYn/trNmg7Ui95WcmH5Bai7G4ezgQQCys2vTuP9koGK4E5dDmq539v+qef0vUEsHCNqcRybUBQAAMRIAAFBLAQIUABQACAgIAOkFDEcNOqcuPQYAAJkmAAASAAAAAAAAAAAAAAAAAAAAAABnZW9nZWJyYV9tYWNyby54bWxQSwECFAAUAAgICADpBQxHM5QA63oEAACOIAAAFwAAAAAAAAAAAAAAAAB9BgAAZ2VvZ2VicmFfZGVmYXVsdHMyZC54bWxQSwECFAAUAAgICADpBQxHlHEhXKUCAACDCwAAFwAAAAAAAAAAAAAAAAA8CwAAZ2VvZ2VicmFfZGVmYXVsdHMzZC54bWxQSwECFAAUAAgICADpBQxHAAAAAAIAAAAAAAAAFgAAAAAAAAAAAAAAAAAmDgAAZ2VvZ2VicmFfamF2YXNjcmlwdC5qc1BLAQIUABQACAgIAOkFDEfanEcm1AUAADESAAAMAAAAAAAAAAAAAAAAAGwOAABnZW9nZWJyYS54bWxQSwUGAAAAAAUABQBIAQAAehQAAAAA"
+        };
+
+        var applet = new GGBApplet(parameters, '5.0');
+
+        window.onload = function () {
+            applet.inject('appletdiv')
+        };
+
+        /*
+         * This function creates some outputs depending on the result.
+         */
+        function check() {
+            //save the return object of ggbApplet.getExerciseResult()
+            var exresult = ggbApplet.getExerciseResult();
+
+            document.getElementById('feedback').innerHTML = '';
+            var fractionsum = 0;
+            // if a part of the result has a fraction of 1 ignore the other results
+            var singleCorrectIgnoreOthers = false;
+            for (key in exresult) {
+                if (0.999 < exresult[key].fraction) {
+                    singleCorrectIgnoreOthers = true;
+                    var feedback = document.createElement("p");
+                    if (exresult[key].hint != "") {
+                        feedback.appendChild(document.createTextNode(exresult[key].hint));
+                    } else {
+                        feedback.appendChild(document.createTextNode(exresult[key].result));
+                    }
+                    document.getElementById('feedback').appendChild(feedback);
+                    fractionsum += exresult[key].fraction;
+                }
+            }
+            if (!singleCorrectIgnoreOthers)
+                for (key in exresult) {
+                    var feedback = document.createElement("p");
+                    if (exresult[key].hint != "") {
+                        feedback.appendChild(document.createTextNode(exresult[key].hint));
+                    } else {
+                        feedback.appendChild(document.createTextNode(exresult[key].result));
+                    }
+                    document.getElementById('feedback').appendChild(feedback);
+                    fractionsum += exresult[key].fraction;
+                }
+            if (0.999 < fractionsum) {
+                document.getElementById('feedback').appendChild(document.createTextNode("You got " + 100 + " Points out of 100."));
+            } else {
+                document.getElementById('feedback').appendChild(document.createTextNode("You got " + fractionsum * 100 + " Points out of 100."));
+            }
+            var resultText = document.createElement("p");
+            resultText.appendChild(document.createTextNode("The output of ggbApplet.getExerciseResult() was: "));
+            document.getElementById('feedback').appendChild(resultText);
+            var resultObj = document.createElement("pre");
+            resultObj.innerHTML=JSON.stringify(exresult, null, 4);
+            document.getElementById('feedback').appendChild(resultObj);
+        }
+    </script>
+
+</head>
+
+<body dir="ltr" tabindex="-1">
+<h1>Exercise tests</h1>
+
+<p>For creating an Exercise just start the "New Exercise" dialog and create or choose a "User defined Tool" which corresponds to
+    the output object the student should construct. In most cases it's best to use only the inputs suggested by the dialog but
+    if you change the input objects choose wisely and test with different possible constructions. Use the "Check" button for
+    this. If you can avoid semi-defined input object, such as point on path, chances for reliability of the test are higher.</p>
+
+<p>If you have more than one Assignment (user defined tool) in your construction, note that the fractions just add up. This is
+    useful if there is one output which is the solution and has 100% and the other assignments are just intermediate steps
+    which are possibly wrong in the end but the solution is correct (for example if the student chose another way of constructing
+    the same object).</p>
+
+<p>As you can see in the rectangle construction below the user defined tools and the Exercises have been created using one tool
+    for the intersection point of a parallel and a perpendicular line to the Segment and one for the rectangle. If the student
+    constructs the Rectangle with a Circle and 2 Lines he will never hit the point in the construction where he has to intersect
+    two lines. In this case we want to give him full credit for the rectangle and partial credit for the intersection point. If
+    we want to force the same construction we would give him partial credit for the rectangle and the other for the intersection
+    point.</p>
+
+<div id="tests_div">
+    <div id="rectangleconst_div" class="clearboth" style="transform: none; transform-origin: 0% 0% 0px;">
+        <h2>Rectangle Construction</h2>
+
+        <ol>
+            <li>Select the Segment tool and create an arbitrary segment AB.</li>
+            <li>Select the Perpendicular Line tool and create a
+                perpendicular line to segment AB through point B.
+            </li>
+            <li>Select the Point on Object tool and create a point C on the
+                perpendicular line.
+            </li>
+            <li>Select the Parallel Line tool and create a parallel line to segment AB through point C.</li>
+            <li>
+                Select the Perpendicular Line tool and create a perpendicular line to segment AB through point A.
+            </li>
+            <li>Select the
+                Intersect tool and create the intersection point D of the last two lines.
+            </li>
+            <li>Select the Polygon tool and create the
+                rectangle ABCD by successively clicking on all the vertices.
+            </li>
+        </ol>
+
+        <div><input type="button" id="check_rectangleconst" value="Check exercise for current state of applet"
+                    onclick="check();">
+
+            <div id="feedback" class="result_div"></div>
+        </div>
+        <div id="appletdiv"></div>
+    </div>
+    <div> <p>The JavaScript Code for checking this example:</p><pre>/*
+ * This function creates some outputs depending on the result.
+ */
+function check() {
+    //save the return object of ggbApplet.getExerciseResult()
+    var exresult = ggbApplet.getExerciseResult();
+
+    document.getElementById('feedback').innerHTML = '';
+    var fractionsum = 0;
+    // if a part of the result has a fraction of 1 ignore the other results
+    var singleCorrectIgnoreOthers = false;
+    for (key in exresult) {
+        if (0.999 < exresult[key].fraction) {
+            singleCorrectIgnoreOthers = true;
+            var feedback = document.createElement("p");
+            if (exresult[key].hint != "") {
+                feedback.appendChild(document.createTextNode(exresult[key].hint));
+            } else {
+                feedback.appendChild(document.createTextNode(exresult[key].result));
+            }
+            document.getElementById('feedback').appendChild(feedback);
+            fractionsum += exresult[key].fraction;
+        }
+    }
+    if (!singleCorrectIgnoreOthers)
+        for (key in exresult) {
+            var feedback = document.createElement("p");
+            if (exresult[key].hint != "") {
+                feedback.appendChild(document.createTextNode(exresult[key].hint));
+            } else {
+                feedback.appendChild(document.createTextNode(exresult[key].result));
+            }
+            document.getElementById('feedback').appendChild(feedback);
+            fractionsum += exresult[key].fraction;
+        }
+    if (0.999 < fractionsum) {
+        document.getElementById('feedback').appendChild(document.createTextNode("You got " + 100 + " Points out of 100."));
+    } else {
+        document.getElementById('feedback').appendChild(document.createTextNode("You got " + fractionsum * 100 + " Points out of 100."));
+    }
+    var resultText = document.createElement("p");
+    resultText.appendChild(document.createTextNode("The output of ggbApplet.getExerciseResult() was: "));
+    document.getElementById('feedback').appendChild(resultText);
+    var resultObj = document.createElement("pre");
+    resultObj.innerHTML=JSON.stringify(exresult, null, 4);
+    document.getElementById('feedback').appendChild(resultObj);
+}</pre>
+    </div>
+</div>
+
+</body>
+</html>
