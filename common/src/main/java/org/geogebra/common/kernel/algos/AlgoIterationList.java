@@ -161,9 +161,13 @@ public class AlgoIterationList extends AlgoElement {
 	 */
 	@Override
 	public GeoElement[] getInputForUpdateSetPropagation() {
-		GeoElement[] realInput = new GeoElement[2];
+		if (isSimple) {
+			return super.getInputForUpdateSetPropagation();
+		}
+		GeoElement[] realInput = new GeoElement[3];
 		realInput[0] = expression;
 		realInput[1] = over[0];
+		realInput[2] = nGeo;
 
 		return realInput;
 	}
@@ -221,16 +225,20 @@ public class AlgoIterationList extends AlgoElement {
 	}
 
 	private void createNewList() {
-		int i = Math.min(over[0].size(), (int) Math.round(n.getDouble()));
+		int iterations = (int) Math.round(n.getDouble());
+		int i = Math.min(over[0].size(), iterations);
 		int oldListSize = list.size();
 		Log.debug(over[0]);
 		list.clear();
 		for (int j = 0; j < over[0].size()
-				&& j < (int) Math.round(n.getDouble()); j++) {
+ && j < iterations + 1; j++) {
 			list.add(over[0].get(j).copyInternal(cons));
 			if (j + 1 < varCount) {
 				vars[j + 1].set(over[0].get(j));
 			}
+		}
+		if (iterations + 1 <= over[0].size()) {
+			return;
 		}
 		if (!isEmpty) {
 			// needed capacity

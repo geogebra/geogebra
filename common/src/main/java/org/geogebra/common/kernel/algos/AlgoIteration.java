@@ -181,9 +181,13 @@ public class AlgoIteration extends AlgoElement {
 
 	@Override
 	public GeoElement[] getInputForUpdateSetPropagation() {
-		GeoElement[] realInput = new GeoElement[2];
+		if (isSimple) {
+			return super.getInputForUpdateSetPropagation();
+		}
+		GeoElement[] realInput = new GeoElement[3];
 		realInput[0] = expression;
 		realInput[1] = over[0];
+		realInput[2] = nGeo;
 
 		return realInput;
 	}
