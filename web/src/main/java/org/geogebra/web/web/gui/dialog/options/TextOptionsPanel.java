@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
@@ -18,6 +19,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.web.gui.dialog.TextPreviewPanelW;
 import org.geogebra.web.web.gui.properties.OptionPanel;
+import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -218,6 +220,8 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 			public void onClick(ClickEvent event) {
 				model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
 						isSerif());
+				((PropertiesViewW) app.getGuiManager().getPropertiesView())
+						.getOptionPanel(OptionType.OBJECTS, 1);
 			}
 		});
 
