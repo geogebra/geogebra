@@ -2843,7 +2843,11 @@ public class MyXMLHandler implements DocHandler {
 			exercise.reset();
 		}
 		String toolName = attrs.get("toolName");
-		assignment = exercise.addAssignment(kernel.getMacro(toolName));
+		Macro m = kernel.getMacro(toolName);
+		if (m == null) {
+			m = kernel.getMacro(toolName.replace(" ", ""));
+		}
+		assignment = exercise.addAssignment(m);
 	}
 
 	private void endExerciseElement(String eName) {
