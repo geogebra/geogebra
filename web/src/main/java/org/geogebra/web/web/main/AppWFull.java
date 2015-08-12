@@ -79,8 +79,11 @@ public abstract class AppWFull extends AppW {
 					dp.getKeyboardListener().setFocus(true, true);
 					if (AppWFull.this.isKeyboardNeeded()) {
 						getAppletFrame().showKeyBoard(true,
-							dp == null ? null : dp.getKeyboardListener(), true);
+								dp.getKeyboardListener(), true);
 					}
+				}
+				if (!AppWFull.this.isKeyboardNeeded()) {
+					getAppletFrame().showKeyBoard(false, null, true);
 				}
 
 			}
