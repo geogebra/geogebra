@@ -3405,7 +3405,7 @@ namespace giac {
     }
   }
 
-  static void gbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpolymod & res,unsigned pos,polymod & TMP2,modint env,bool reduce){
+  static void gbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpolymod & res,unsigned pos,polymod & TMP2,modint env,bool reduce,const vector<unsigned> & oldG){
     if (debug_infolevel>2)
       CERR << CLOCK() << " mod begin gbasis update " << G.size() << endl;
     if (debug_infolevel>3)
@@ -3418,8 +3418,8 @@ namespace giac {
     C.reserve(G.size()+1);
     const tdeg_t & h0=h.coord.front().u;
     // FIXME: should use oldG instead of G here
-    for (unsigned i=0;i<G.size();++i){
-      if (tdeg_t_all_greater(h0,res[G[i]].coord.front().u,order))
+    for (unsigned i=0;i<oldG.size();++i){
+      if (tdeg_t_all_greater(h0,res[oldG[i]].coord.front().u,order))
 	return;
     }
     tdeg_t tmp1,tmp2;
@@ -3686,13 +3686,15 @@ namespace giac {
     short order=res.front().order;
     if (order==_PLEX_ORDER)
       sugar=false;
+    vector<unsigned> oldG(G);
     for (unsigned l=0;l<ressize;++l){
 #ifdef GIAC_REDUCEMODULO
       reducesmallmod(res[l],res,G,-1,env,TMP2,env);
 #endif      
-      gbasis_updatemod(G,B,res,l,TMP2,env,true);
+      gbasis_updatemod(G,B,res,l,TMP2,env,true,oldG);
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
+      oldG=G;
       if (debug_infolevel>1)
 	CERR << CLOCK() << " mod number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
@@ -3760,7 +3762,7 @@ namespace giac {
 	  res.push_back(polymod(TMP1.order,TMP1.dim));
 	swap(res[ressize],TMP1);
 	++ressize;
-	gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
+	gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true,oldG);
 	if (debug_infolevel>2)
 	  CERR << CLOCK() << " mod basis indexes " << G << " pairs indexes " << B << endl;
       }
@@ -6866,13 +6868,15 @@ namespace giac {
     short order=res.front().order;
     if (order==_PLEX_ORDER) // if (order!=_REVLEX_ORDER && order!=_TDEG_ORDER)
       totdeg=false;
+    vector<unsigned> oldG(G);
     for (unsigned l=0;l<ressize;++l){
 #ifdef GIAC_REDUCEMODULO
       reducesmallmod(res[l],res,G,-1,env,TMP2,env);
 #endif      
-      gbasis_updatemod(G,B,res,l,TMP2,env,true);
+      gbasis_updatemod(G,B,res,l,TMP2,env,true,oldG);
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
+      oldG=G;
       if (debug_infolevel>1)
 	CERR << CLOCK() << " begin new iteration mod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       if (1){
@@ -6991,9 +6995,9 @@ namespace giac {
 	  // either by the first reduction or by inter-reduction
 	  // here at most GBASIS_F4BUCHBERGER spolys may not be reduced by the previous ones
 	  // it happens for example for cyclic8, element no 97
-	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,false);
+	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,false,oldG);
 #else
-	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
+	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true,oldG);
 #endif
 	  if (debug_infolevel>3)
 	    CERR << CLOCK() << " mod basis indexes " << G << " pairs indexes " << B << endl;
@@ -7057,12 +7061,12 @@ namespace giac {
 #ifdef GBASIS_POSTF4BUCHBERGER
 #if GBASIS_POSTF4BUCHBERGER==0
 	  if (learning || !f4buchberger_info || f4buchberger_info_position-1>=f4buchberger_info->size())
-	    gbasis_updatemod(G,B,res,ressize-1,TMP2,env,false);
+	    gbasis_updatemod(G,B,res,ressize-1,TMP2,env,false,oldG);
 #else
-	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,added<=GBASIS_F4BUCHBERGER);
+	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,added<=GBASIS_F4BUCHBERGER,oldG);
 #endif
 #else
-	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
+	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true,oldG);
 #endif
 	}
 	else {
@@ -8517,6 +8521,21 @@ namespace giac {
       return os << 0 ;
     for (;it!=itend;){
       os << it->g  ;
+#ifdef GIAC_64VARS
+      if ((*p.expo)[it->u].tdeg%2){
+	index_m i=*(*p.expo)[it->u].i();
+	for (int j=0;j<int(i.size());++j){
+	  t2=i[j];
+	  if (t2)
+	    os << "*x"<< j << "^" << t2  ;
+	}
+	++it;
+	if (it==itend)
+	  break;
+	os << " + ";
+	continue;
+      }
+#endif
       short tab[GROEBNER_VARS+1];
       (*p.expo)[it->u].get_tab(tab);
       switch (p.order){
@@ -9411,11 +9430,12 @@ namespace giac {
     info_t information;
     if (order!=_REVLEX_ORDER && order!=_TDEG_ORDER)
       totdeg=false;
+    vector<unsigned> oldG(G);
     for (unsigned l=0;l<ressize;++l){
 #ifdef GIAC_REDUCEMODULO
       reducesmallmod(resmod[l],resmod,G,-1,env,TMP2,env);
 #endif
-      gbasis_updatemod(G,B,resmod,l,TMP2,env,true);
+      gbasis_updatemod(G,B,resmod,l,TMP2,env,true,oldG);
     }
     // init zpolymod before main loop
     collect(resmod,TMP2);
@@ -10078,7 +10098,7 @@ namespace giac {
 
   bool mod_gbasis(vectpoly8 & res,bool modularcheck,bool zdata,bool & rur,GIAC_CONTEXT){
     unsigned initial=unsigned(res.size());
-    double eps=proba_epsilon(contextptr);
+    double eps=proba_epsilon(contextptr); int rechecked=0;
     short int order=0;
     for (unsigned i=0;i<res.size();++i){
       const poly8 & P=res[i];
@@ -10327,13 +10347,16 @@ namespace giac {
 	    if (V[i][jpos].coord.front().u!=gbmod[jpos].coord.front().u)
 	      break;
 	  }
-	  if (jpos!=gbmod.size())
+	  if (jpos!=gbmod.size()){
+	    rechecked=0;
 	    continue;
+	  }
 	  jpos=0;
 	  // check existing Wlast
 	  for (;jpos<Wlast[i].size();++jpos){
 	    if (!chk_equal_mod(Wlast[i][jpos],gbmod[jpos],p.val)){
 	      Wlast[i].resize(jpos);
+	      rechecked=0;
 	      break;
 	    }
 	  }
@@ -10344,6 +10367,7 @@ namespace giac {
 	  for (;jpos<V[i].size();++jpos){
 	    unsigned Vijs=unsigned(V[i][jpos].coord.size());
 	    if (Vijs!=gbmod[jpos].coord.size()){
+	      rechecked=0;
 	      if (debug_infolevel>1)
 		CERR << jpos << endl;
 	      break;
@@ -10353,12 +10377,14 @@ namespace giac {
 	    if (Vijs && V[i][jpos].coord[Vijs].g.type==_ZINT){
 	      if (!in_fracmod(P[i],V[i][jpos].coord[Vijs].g,
 			      zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,num,den)){
+		rechecked=0;
 		if (debug_infolevel>1)
 		  CERR << jpos << endl;
 		break;
 	      }
 	      modint gg=gbmod[jpos].coord[Vijs].g;
 	      if (!chk_equal_mod(num/den,gg,p.val)){
+		rechecked=0;
 		if (debug_infolevel>1)
 		  CERR << jpos << endl;
 		break;
@@ -10367,13 +10393,18 @@ namespace giac {
 	    if (!fracmod(V[i][jpos],P[i],
 			 zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
 			 poly8tmp)){
+	      rechecked=0;
 	      CERR << CLOCK() << " reconstruction failure at position " << jpos << endl;
 	      break;
 	    }
-	    if (rur && !poly8tmp.coord.empty() && !chk_equal_mod(poly8tmp.coord.front().g,gbmod[jpos].coord.front().g,p.val))
+	    if (rur && !poly8tmp.coord.empty() && !chk_equal_mod(poly8tmp.coord.front().g,gbmod[jpos].coord.front().g,p.val)){
+	      rechecked=0;
 	      break;
-	    if (!chk_equal_mod(poly8tmp,gbmod[jpos],p.val))
+	    }
+	    if (!chk_equal_mod(poly8tmp,gbmod[jpos],p.val)){
+	      rechecked=0;
 	      break;
+	    }
 	    poly8 tmptmp(poly8tmp.order,poly8tmp.dim);
 	    Wlast[i].push_back(tmptmp);
 	    Wlast[i].back().coord.swap(poly8tmp.coord);
@@ -10413,6 +10444,7 @@ namespace giac {
 	      CERR << CLOCK() << " stable, clearing denominators " << endl;
 	    cleardeno(W[i]); // clear denominators
 	  }
+	  ++rechecked;
 	  if (debug_infolevel)
 	    CERR << CLOCK() << " end rational reconstruction " << endl;
 	  // now check if W[i] is a Groebner basis over Q, if so it's the answer
@@ -10471,6 +10503,10 @@ namespace giac {
 	  }
 	  if (int(W[i].size())<=GBASIS_DETERMINISTIC)
 	    eps=0;
+	  double eps2=std::pow(double(p.val),double(rechecked))*eps;
+	  // recheck by computing gbasis modulo another prime
+	  if (eps2>0 && eps2<1)
+	    continue;
 	  if (eps>0){
 	    double terms=0;
 	    int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
@@ -10485,7 +10521,7 @@ namespace giac {
 	    *logptr(contextptr) << gettext("Running a probabilistic check for the reconstructed Groebner basis. If successfull, error probability is less than ") << eps << gettext(" and is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
 	  }
 	  G.clear();
-	  if (eps<6e-8 && !is_gbasis(W[i],eps*1.677e7,modularcheck)){
+	  if (eps2<1 && !is_gbasis(W[i],eps2,modularcheck)){
 	    ok=false;
 	    continue; // in_gbasis(W[i],G,0,true);
 	  }
