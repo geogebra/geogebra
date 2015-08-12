@@ -674,6 +674,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getExerciseFraction()();
 		};
 
+		api.isExercise = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isExercise()();
+		};
+
 		api.setExternalPath = function(path) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setExternalPath(Ljava/lang/String;)(path);
 		};

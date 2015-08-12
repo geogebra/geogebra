@@ -28,6 +28,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.View;
+import org.geogebra.web.web.gui.dialog.ExerciseBuilderDialog;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -119,9 +120,9 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			double DPI) {
 		if (app.getGuiManager() != null)
 			app.getGuiManager().getLayout().getDockManager().ensureFocus();
-			App.debug(app.getGuiManager().getLayout().getDockManager()
-					.getFocusedViewId()
-					+ " focused");
+		App.debug(app.getGuiManager().getLayout().getDockManager()
+				.getFocusedViewId()
+				+ " focused");
 		if (app.getGuiManager() != null
 				&& app.getGuiManager().getLayout().getDockManager()
 						.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
@@ -135,10 +136,10 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 						"data:image/png;base64,".length());
 	}
 
-	public String getLaTeXBase64(String label, boolean value){
+	public String getLaTeXBase64(String label, boolean value) {
 		Canvas c = Canvas.createIfSupported();
 		GeoElement geo = kernel.lookupLabel(label);
-		if(geo == null){
+		if (geo == null) {
 			return "";
 		}
 		String str;
@@ -149,13 +150,9 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 					.getLaTeXInput() : geo
 					.toString(StringTemplate.latexTemplate);
 		}
-		DrawEquationWeb.paintOnCanvas(
-				geo,
- str, c, app
-						.getFontSize());
+		DrawEquationWeb.paintOnCanvas(geo, str, c, app.getFontSize());
 		return c.toDataUrl().substring("data:image/png;base64,".length());
 	}
-
 
 	public void drawToImage(String label, double[] x, double[] y) {
 		// TODO Auto-generated method stub
@@ -919,9 +916,12 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	}
 
 	/**
-	 * If there are Macros or a Exercise present in the current file This can be
-	 * used to check if parts of the construction are equivalent to the Macros
-	 * in the file. <br />
+	 * If there are Macros or an Exercise present in the current file this can
+	 * be used to check if parts of the construction are equivalent to the
+	 * Macros in the file. <br />
+	 * If you don't want that a Standard Exercise (using all the Macros in the
+	 * Construction and setting each fraction to 100) will be created, check if
+	 * this is a Exercise with {@link #isExercise()} first. <br>
 	 * Hint will be empty unless specified otherwise with the ExerciseBuilder. <br />
 	 * Fraction will be 0 or 1 unless specified otherwise with the
 	 * ExerciseBuilder. <br />
@@ -938,7 +938,8 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	 * 
 	 * @return JavaScriptObject representation of the exercise result. For
 	 *         Example: "{"Tool1":{ "result":"CORRECT", "hint":"",
-	 *         "fraction":1}}"
+	 *         "fraction":1}}", will be empty if now Macros or Assignments have
+	 *         been found.
 	 */
 	public JavaScriptObject getExerciseResult() {
 		Exercise ex = kernel.getExercise();
@@ -957,10 +958,39 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		return result.getJavaScriptObject();
 	}
 
-	public String getExerciseFraction() {
+	/**
+	 * If there are Macros or an Exercise present in the current file this can
+	 * be used to check if parts of the construction are equivalent to the
+	 * Macros in the file. <br>
+	 * It will return the overall Fraction of the Exercise.<br>
+	 * This is the sum of all the Fractions in the Assignment or 1 if one of the
+	 * Assignments has a fraction of 100 and no negative fractions are present.
+	 * Use {@link #getExerciseResult()} to get the fractions of each Assignment.
+	 * If you don't want that a standard exercise (using all the Macros in the
+	 * Construction and setting each fraction to 100) will be created, check if
+	 * this is a Exercise with {@link #isExercise()} first. <br>
+	 * 
+	 * @return the overall fraction of the Exercise
+	 * 
+	 */
+	public float getExerciseFraction() {
 		Exercise ex = kernel.getExercise();
 		ex.checkExercise();
-		return Float.toString(ex.getFraction());
+		return ex.getFraction();
+	}
+
+	/**
+	 * Check whether this applet is an Exercise
+	 * 
+	 * @return true if the Exercise has assignments, this will happen when
+	 *         either {@link #getExerciseResult()} or
+	 *         {@link #getExerciseFraction()} are called with user defined Tools
+	 *         present in the applet or if the {@link ExerciseBuilderDialog} was
+	 *         used to create the Exercise.
+	 */
+	public boolean isExercise() {
+		Exercise ex = kernel.getExercise();
+		return !ex.isEmpty();
 	}
 
 	public void setExternalPath(String s) {
