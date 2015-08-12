@@ -18,6 +18,7 @@ import java.util.Arrays;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.TableAlgo;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -30,7 +31,7 @@ import org.geogebra.common.util.StringUtil;
  * 
  * @author Michael
  */
-public class AlgoStemPlot extends AlgoElement {
+public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 	private GeoList geoList; // input
 	private GeoNumeric scaleAdjustment; // input
