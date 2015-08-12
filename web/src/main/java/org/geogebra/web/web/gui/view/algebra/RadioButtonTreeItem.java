@@ -657,9 +657,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void showSpeedButtons(boolean value) {
+		setAnimationSpeed();
 		btnSpeedUp.setVisible(value);
 		lblSpeedValue.setVisible(value);
 		btnSpeedDown.setVisible(value);
+		sliderPanel.setVisible(!value);
 
 	}
 
