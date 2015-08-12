@@ -75,30 +75,18 @@ public class AlgoUnion extends AlgoElement {
 		outputList.clear();
 
 		for (int i = 0; i < size; i++)
-			addToOutputList(inputList.get(i));
+			addToOutputList(outputList, inputList.get(i));
 
 		for (int i = 0; i < size2; i++) {
+			addToOutputList(outputList, inputList2.get(i));
 
-			boolean alreadyInList = false;
-			GeoElement geo = inputList2.get(i);
-
-			for (int j = 0; j < size; j++) {
-				if (inputList.get(j).isEqual(geo)) {
-					alreadyInList = true;
-					break;
-				}
-			}
-
-			if (!alreadyInList) {
-				addToOutputList(geo);
-			}
 		}
 	}
 
 	/*
 	 * checks not already in list
 	 */
-	private void addToOutputList(GeoElement geo) {
+	protected static void addToOutputList(GeoList outputList, GeoElement geo) {
 		boolean alreadyInOutputList = false;
 		for (int k = 0; k < outputList.size(); k++)
 			if (geo.isEqual(outputList.get(k))) {
@@ -107,7 +95,7 @@ public class AlgoUnion extends AlgoElement {
 			}
 
 		if (!alreadyInOutputList) {
-			outputList.add(geo.copyInternal(cons));
+			outputList.add(geo.copyInternal(outputList.getConstruction()));
 		}
 	}
 

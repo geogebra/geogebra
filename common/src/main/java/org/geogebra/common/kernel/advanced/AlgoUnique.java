@@ -83,14 +83,16 @@ public class AlgoUnique extends AlgoElement {
 			return;
 		}
 
-		if (!(dataList.getElementType().equals(GeoClass.TEXT) || dataList
-				.getElementType().equals(GeoClass.NUMERIC))) {
-			uniqueList.setUndefined();
-			return;
-		}
-
 		uniqueList.setDefined(true);
 		uniqueList.clear();
+
+		if (!(dataList.getElementType().equals(GeoClass.TEXT) || dataList
+				.getElementType().equals(GeoClass.NUMERIC))) {
+			for (int i = 0; i < dataList.size(); i++) {
+				AlgoUnion.addToOutputList(uniqueList, dataList.get(i));
+			}
+			return;
+		}
 
 		// Load the data into f, an instance of Frequency class
 		if (f == null)
