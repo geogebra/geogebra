@@ -16,6 +16,7 @@ import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -66,10 +67,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		this.menu = menu1;
 		this.addStyleName("toolbar_item");
 		buildButton();
-		
-		
 	}
-	
+
 	private void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
@@ -81,9 +80,46 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		tbutton.addDomHandler(this, MouseOutEvent.getType());
 		tbutton.addDomHandler(this, KeyUpEvent.getType());
 		tbutton.addDomHandler(this, MouseOverEvent.getType());
+		addPasteHandlerTo(tbutton.getElement());
 		this.add(tbutton);
 		setToolTipText(app.getToolTooltipHTML(menu.get(0).intValue()));
     }
+
+	public native void addPasteHandlerTo(Element elem) /*-{
+		var self = this;
+		elem.onpaste = function(event) {
+			//$wnd.console.log('any paste happened');
+			var cbd;
+			if (event.clipboardData) {
+				// all the other browsers
+				cbd = event.clipboardData;
+			} else if ($wnd.clipboardData) {
+				// Windows Internet Explorer
+				cbd = $wnd.clipboardData;
+			}
+			if (cbd.items) {
+				var is = cbd.items;
+				for (var cv = 0; cv < is.length; cv++) {
+					if (is[cv].type.indexOf('image') > -1) {
+						var bb = is[cv].getAsFile();
+						var ur = $wnd.URL || $wnd.webkitURL;
+						var sr = ur.createObjectURL(bb);
+						var pi = new Image();
+						pi.onload = function() {
+							self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Lcom/google/gwt/dom/client/ImageElement;)(pi);
+						}
+						pi.src = sr;
+
+					}
+				}
+			}
+		}
+	}-*/;
+
+	public void onPaste(ImageElement ie) {
+		// TODO!
+		// App.debug("onPaste of ModeToggleMenu runns!!");
+	}
 
 	private void buildGui(){
 		submenu = createToolbarSubmenu(app, order);
