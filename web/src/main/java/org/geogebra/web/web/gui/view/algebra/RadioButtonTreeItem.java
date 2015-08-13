@@ -219,7 +219,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			tfMin.addBlurHandler(this);
 			tfMax.addBlurHandler(this);
 			tfStep.addBlurHandler(this);
-
+			update();
 		}
 
 		public void update() {
@@ -1122,7 +1122,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			slider.setValue(((GeoNumeric) geo).value);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
 				sliderPanel.add(slider);
-				minMaxPanel.update();
+				minMaxPanel.setVisible(false);
+				playButton.setVisible(true);
 			} else if (marblePanel != null) {
 				sliderPanel.remove(slider);
 			}
