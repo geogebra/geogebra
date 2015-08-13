@@ -1088,6 +1088,28 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
+				return ((NumberValue) lt).getNumber().round();
+			}
+			if (lt instanceof VectorValue) {
+				GeoVec2D ret = ((VectorValue) lt).getVector().round();
+				// eg complex
+				ret.setMode(((VectorValue) lt).getMode());
+				return ret;
+			}
+			if (lt instanceof Vector3DValue) {
+				Geo3DVec ret = ((Vector3DValue) lt).getVector().round();
+				return ret;
+			}
+			return ev.polynomialOrDie(lt, this, "round(");
+
+		}
+	},
+	ROUND2 {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue) {
 				if (rt instanceof NumberValue
 						&& (!Double.isNaN(((NumberValue) rt).getDouble()) || rt
 								.isGeoElement())) {
@@ -1723,6 +1745,7 @@ public enum Operation {
 		case FLOOR:
 		case CEIL:
 		case ROUND:
+		case ROUND2:
 		case TAN:
 		case COT:
 		case SEC:

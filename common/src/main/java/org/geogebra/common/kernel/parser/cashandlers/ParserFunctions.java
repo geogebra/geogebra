@@ -250,8 +250,8 @@ public class ParserFunctions {
 		put(1, "round", Operation.ROUND);
 		put(1, "Round", Operation.ROUND, null);
 		
-		put(2, "round", Operation.ROUND);
-		put(2, "Round", Operation.ROUND, null);
+		put(2, "round", Operation.ROUND2, "( <x>, <y> )");
+		put(2, "Round", Operation.ROUND2, null);
 
 		put(1, "conjugate", Operation.CONJUGATE);
 		put(1, "Conjugate", Operation.CONJUGATE, null);

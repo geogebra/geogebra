@@ -2784,6 +2784,7 @@ kernel, left,
 			}
 			break;
 
+		case ROUND2:
 		case ROUND:
 			switch (stringType) {
 			case LATEX:
@@ -2797,9 +2798,7 @@ kernel, left,
 				sb.append("round(");
 			}
 			sb.append(leftStr);
-			if (right instanceof NumberValue
-					&& (!Double.isNaN(((NumberValue) right).getDouble()) || right
-							.isGeoElement())) {
+			if (operation == Operation.ROUND2) {
 				sb.append(", ");
 				sb.append(rightStr);
 			}
@@ -4949,6 +4948,7 @@ kernel, left,
 			break;
 		case REAL:
 			break;
+		case ROUND2:
 		case ROUND:
 			break;
 		case SET_DIFFERENCE:
