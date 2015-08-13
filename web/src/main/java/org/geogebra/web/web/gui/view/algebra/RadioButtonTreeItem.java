@@ -21,7 +21,10 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian.event.KeyEvent;
+import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -38,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.AsyncOperation;
@@ -46,6 +50,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -76,6 +81,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -152,6 +158,87 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	}
 
+	private class MinMaxPanel extends FlowPanel implements SetLabels,
+			KeyHandler, BlurHandler {
+		private AutoCompleteTextFieldW tfMin;
+		private AutoCompleteTextFieldW tfMax;
+		private AutoCompleteTextFieldW tfStep;
+		private Label lblValue;
+		private Label lblStep;
+		private GeoNumeric num;
+
+		public MinMaxPanel() {
+			if (geo instanceof GeoNumeric) {
+				num = (GeoNumeric) geo;
+			}
+			tfMin = new AutoCompleteTextFieldW(2, app);
+			tfMax = new AutoCompleteTextFieldW(2, app);
+			tfStep = new AutoCompleteTextFieldW(2, app);
+			lblValue = new Label(GTE_SIGN + " "
+					+ geo.getCaption(StringTemplate.defaultTemplate) + " "
+					+ GTE_SIGN);
+			lblStep = new Label(app.getPlain("Step"));
+			addStyleName("panelRow");
+			add(tfMin);
+			add(lblValue);
+			add(tfMax);
+			add(lblStep);
+			add(tfStep);
+
+			tfMin.addKeyHandler(this);
+			tfMax.addKeyHandler(this);
+			tfStep.addKeyHandler(this);
+
+			tfMin.addBlurHandler(this);
+			tfMax.addBlurHandler(this);
+			tfStep.addBlurHandler(this);
+
+		}
+
+		public void update() {
+			tfMin.setText("" + num.getIntervalMin());
+			tfMax.setText("" + num.getIntervalMax());
+			tfStep.setText("" + num.getAnimationStep());
+			setLabels();
+		}
+
+		public void setLabels() {
+			lblStep.setText(app.getPlain("Step"));
+		}
+
+		private void show() {
+			setAnimating(false);
+			playButton.setVisible(false);
+			sliderPanel.setVisible(false);
+			setVisible(true);
+		}
+
+		private void hide() {
+			playButton.setVisible(true);
+			sliderPanel.setVisible(true);
+			setVisible(false);
+
+		}
+
+		public void keyReleased(KeyEvent e) {
+			if (e.isEnterKey()) {
+				App.debug("[MINMAX_AV] ENTER");
+				apply();
+			} else if (e.getCharCode() == GWTKeycodes.KEY_Q) {
+				App.debug("[MINMAX_AV] ESC");
+				hide();
+			}
+		}
+
+		private void apply() {
+			hide();
+		}
+
+		public void onBlur(BlurEvent event) {
+			apply();
+		}
+
+	}
 	protected FlowPanel buttonPanel;
 	protected PushButton xButton;
 
@@ -177,6 +264,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private final static double animSpeeds[] = { 0.05, 0.1, 0.15, 0.2, 0.35,
 			0.75, 1, 1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	private static final String MUL_SIGN = "\u00d7";
+	private static final String GTE_SIGN = "\u2264";
+	private static final String LTE_SIGN = "\u2265";
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -227,6 +316,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			resizeSlider();
 		}
 	};
+	private MinMaxPanel minMaxPanel;
+
 
 	public void updateOnNextRepaint() {
 		this.needsUpdate = true;
@@ -518,11 +609,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			if (app.has(Feature.AV_EXTENSIONS)) {
 				createAnimPanel();
+				createMinMaxPanel();
 				contentPanel = new FlowPanel();
 				contentPanel.addStyleName("avItemContent");
 
 				addSpecial(ihtml);
-				contentPanel.add(LayoutUtil.panelRow(animPanel, sliderPanel));
+				contentPanel.add(LayoutUtil.panelRow(animPanel, sliderPanel,
+						minMaxPanel));
 				add(contentPanel);
 			}
 
@@ -713,6 +806,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		showSpeedButtons(false);
 	}
 
+	private void createMinMaxPanel() {
+		minMaxPanel = new MinMaxPanel();
+		minMaxPanel.setVisible(false);
+	}
+
 	/**
 	 * Method to be overridden in NewRadioButtonTreeItem
 	 */
@@ -768,10 +866,17 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	@Override
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
+		if (isMinMaxPanelVisible()) {
+			return;
+		}
 		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeydown(this, seMayLatex, key, alt, ctrl,
 					shift);
 		}
+	}
+
+	private boolean isMinMaxPanelVisible() {
+		return (minMaxPanel != null && minMaxPanel.isVisible());
 	}
 
 	/**
@@ -794,6 +899,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift, boolean more) {
+		if (isMinMaxPanelVisible()) {
+			return;
+		}
+
 		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeypress(this, seMayLatex, character, alt,
 					ctrl, shift, more);
@@ -816,6 +925,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	@Override
 	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
+		if (isMinMaxPanelVisible()) {
+			return;
+		}
+
 		if (commonEditingCheck()) {
 			DrawEquationWeb.triggerKeyUp(seMayLatex, key, alt, ctrl, shift);
 		}
@@ -962,6 +1075,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			slider.setValue(((GeoNumeric) geo).value);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
 				sliderPanel.add(slider);
+				minMaxPanel.update();
 			} else if (marblePanel != null) {
 				sliderPanel.remove(slider);
 			}
@@ -1418,6 +1532,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (isWidgetHit(animPanel, evt.getClientX(), evt.getClientY())) {
 			return;
 		}
+
+		// if (isWidgetHit(sliderPanel, evt.getClientX(), evt.getClientY())) {
+		// minMaxPanel.show();
+		// return;
+		// }
+
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -1529,6 +1649,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		} else if (source == btnSpeedUp) {
 			animSpeedUp();
+			return;
+		}
+
+		if (sliderPanel.isVisible()
+				&& isWidgetHit(sliderPanel.getWidget(0), evt.getClientX(),
+				evt.getClientY())
+				|| isWidgetHit(sliderPanel.getWidget(2), evt.getClientX(),
+						evt.getClientY())) {
+			minMaxPanel.show();
 			return;
 		}
 		// this 'if' should be the first one in every 'mouse' related method

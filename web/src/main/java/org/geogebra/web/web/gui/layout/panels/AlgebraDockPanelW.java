@@ -73,8 +73,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	public void onResize() {
 		// ignore super method
 
-
-    }
+	}
 
 	@Override
     public ResourcePrototype getIcon() {
