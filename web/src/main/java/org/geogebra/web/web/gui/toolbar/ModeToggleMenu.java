@@ -16,7 +16,6 @@ import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -88,6 +87,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	public native void addPasteHandlerTo(Element elem) /*-{
 		var self = this;
 		var wind = $wnd;
+		var docu = $doc;
 		elem.onkeydown = function(event) {
 			event.stopPropagation();
 		};
@@ -112,7 +112,16 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 						var sr = ur.createObjectURL(bb);
 						var pi = new Image();
 						pi.onload = function() {
-							self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Lcom/google/gwt/dom/client/ImageElement;)(pi);
+							// some code to get the data URL
+							// which GeoGebra knows how to convert
+							var ca = docu.createElement('canvas');
+							ca.width = pi.width;
+							ca.height = pi.height;
+							var ct = ca.getContext("2d");
+							ct.drawImage(pi, 0, 0);
+							var dl = ca.toDataURL("image/png");
+							//self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Lcom/google/gwt/dom/client/ImageElement;)(pi);
+							self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Ljava/lang/String;)(dl);
 						}
 						pi.src = sr;
 					}
@@ -124,9 +133,13 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		wind.addEventListener("paste", elem.onpastehandler);
 	}-*/;
 
-	public void onPaste(ImageElement ie) {
-		// TODO!
-		// App.debug("onPaste of ModeToggleMenu runns!!");
+	public void onPaste(String str) {
+		// public void onPaste(ImageElement ie) {
+
+		// this works! but not active yet, for 2 reasons:
+		// - there might be problems with too big images
+		// - it seems this code executes too many times
+		// app.getGgbApi().insertImage(str);
 	}
 
 	private void buildGui(){
