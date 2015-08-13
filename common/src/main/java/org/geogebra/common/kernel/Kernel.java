@@ -4390,6 +4390,11 @@ public class Kernel {
 	public void removeMacro(Macro macro) {
 		if (macroManager != null)
 			macroManager.removeMacro(macro);
+		// Also remove Assignments using this macro from Exercise
+		Exercise ex = getExercise();
+		if (!ex.isEmpty() && ex.usesMacro(macro)) {
+			ex.removeAssignment(macro);
+		}
 
 		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.removeMacro(macro);
@@ -4404,6 +4409,8 @@ public class Kernel {
 			getApplication().removeMacroCommands();
 			macroManager.removeAllMacros();
 		}
+		// Also remove Assignments using this macro from Exercise
+		getExercise().removeAllAssignments();
 
 		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.removeAllMacros();

@@ -103,8 +103,11 @@ public class Exercise {
 	 * @return the newly created Assignment
 	 */
 	public Assignment addAssignment(Macro macro) {
-		Assignment a = new Assignment(macro);
-		assignments.add(a);
+		Assignment a = getAssignment(macro);
+		if (a == null) {
+			a = new Assignment(macro);
+			addAssignment(a);
+		}
 		return a;
 	}
 
@@ -215,12 +218,68 @@ public class Exercise {
 	 *            the macro being used by the assignment which should be removed
 	 */
 	public void removeAssignment(Macro macro) {
+		Assignment assignmentToRemove = null;
 		for (Assignment assignment : assignments) {
 			if (assignment.getTool().equals(macro)) {
-				remove(assignment);
+				assignmentToRemove = assignment;
 			}
 		}
-
+		if (assignmentToRemove != null) {
+			remove(assignmentToRemove);
+		}
 	}
 
+	/**
+	 * Removes all Assignments from the Exercise
+	 */
+	public void removeAllAssignments() {
+		reset();
+	}
+
+	/**
+	 * @param macro
+	 *            the macro being used by the assignment which should be
+	 *            retrieved
+	 * @return the assignment being used by the macro or null if macro isn't
+	 *         used by the Exercise
+	 */
+	public Assignment getAssignment(Macro macro) {
+		Assignment assignmentToReturn = null;
+		for (Assignment assignment : assignments) {
+			if (assignment.getTool().equals(macro)) {
+				assignmentToReturn = assignment;
+			}
+		}
+		return assignmentToReturn;
+	}
+
+	/**
+	 * Adds an assignment to the exercise
+	 * 
+	 * @param assignment
+	 *            the assignment to add to the Exercise
+	 */
+	public void addAssignment(Assignment assignment) {
+		addAssignment(assignments.size(), assignment);
+	}
+
+	private boolean isValid(Assignment assignment) {
+		return !assignments.contains(assignment)
+				&& kernel.getMacro(assignment.getTool().getCommandName()) != null;
+	}
+
+	/**
+	 * Adds an assignment to the exercise at specified index
+	 * 
+	 * @param assignmentIndex
+	 *            the index to be used for the assignment, shifts all Elments =>
+	 *            assignmentIndex to the right
+	 * @param assignment
+	 *            the assignment to add to the Exercise
+	 */
+	public void addAssignment(int assignmentIndex, Assignment assignment) {
+		if (isValid(assignment)) {
+			assignments.add(assignmentIndex, assignment);
+		}
+	}
 }

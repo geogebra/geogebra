@@ -10,6 +10,8 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Assignment;
+import org.geogebra.common.util.Exercise;
 
 /**
  * Model for the ToolCreationDialog
@@ -255,6 +257,10 @@ public class ToolCreationDialogModel {
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
+			Exercise ex = app.getKernel().getExercise();
+			Assignment assignment = ex
+					.getAssignment(macro);
+			int assignmentIndex = ex.getParts().indexOf(assignment);
 			if (app.getMacro() != null) {
 				kernel.removeMacro(app.getMacro());
 			} else {
@@ -266,6 +272,10 @@ public class ToolCreationDialogModel {
 				if (app.getMacro() != null) {
 					app.setSaved();
 					// app.exit(); TODO! goto last window...
+				}
+				if (assignment != null) {
+					assignment.setMacro(newTool);
+					ex.addAssignment(assignmentIndex, assignment);
 				}
 			}
 			return true;

@@ -24,7 +24,9 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Exercise;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
@@ -463,7 +465,19 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			return;
 		}
 
+		// addMacros will remove all Macros and therefore all Assignments
+		// from the Exercise keeping pointers on the Assignments to put them in
+		// Place afterwards
+		Exercise ex = app.getKernel().getExercise();
+		ArrayList<Assignment> assignments = new ArrayList<Assignment>(
+				ex.getParts());
+
 		model.addMacros(toolList.getMacros().toArray());
+
+		for (Assignment assignment : assignments) {
+			ex.addAssignment(assignment);
+		}
+		
 		app.updateCommandDictionary();
 		refreshCustomToolsInToolBar();
 

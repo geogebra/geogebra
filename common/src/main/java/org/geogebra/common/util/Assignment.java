@@ -499,6 +499,14 @@ public class Assignment {
 		sb.append("\t</assignment>\n");
 		return sb.toString();
 	}
+
+	/**
+	 * @param newTool
+	 *            the Macro which should be used to checking
+	 */
+	public void setMacro(Macro newTool) {
+		macro = newTool;
+	}
 }
 
 // Eyal Schneider

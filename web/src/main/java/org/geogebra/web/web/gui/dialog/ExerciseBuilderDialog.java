@@ -451,8 +451,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *            well as the view
 	 */
 	void addAssignment(Macro macro) {
-		Assignment a = exercise.addAssignment(macro);
-		appendAssignmentRow(a);
+		if (!exercise.usesMacro(macro)) {
+			Assignment a = exercise.addAssignment(macro);
+			appendAssignmentRow(a);
+		}
 		userAddModes.setVisible(false);
 	}
 
