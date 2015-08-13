@@ -114,7 +114,9 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	// =====================================================
 
 	private void createGeoListBox() {
-		geoPanel = new ListBox(false);
+		// If this flag is True, it sucks on iPad. If it is false, it still
+		// sucks on iPad.
+		geoPanel = new ListBox(true);
 		geoPanel.setWidth("100%");
 		geoPanel.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
 		geoPanel.setVisibleItemCount(10);
