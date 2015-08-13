@@ -140,9 +140,10 @@ public class DockManagerW extends DockManager {
 				
 				panel.setAlone(false);
 			}
-			
+			TreeSet<Integer> updated = new TreeSet<Integer>();
 			// copy dock panel info settings
 			for(int i = 0; i < dpData.length; ++i) {
+				updated.add(dpData[i].getViewId());
 				DockPanelW panel = getPanel(dpData[i]);
 				if(panel == null) {
 					// TODO insert error panel
@@ -166,6 +167,11 @@ public class DockManagerW extends DockManager {
 					} else if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN2) {
 						((Euclidian2DockPanelW)panel).reset();
 					}
+				}
+			}
+			for (DockPanelW dockPanel : dockPanels) {
+				if (!updated.contains(dockPanel.getViewId())) {
+					dockPanel.setVisible(false);
 				}
 			}
 		}

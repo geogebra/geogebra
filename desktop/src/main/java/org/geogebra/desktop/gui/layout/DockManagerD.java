@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.TreeSet;
 
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
@@ -143,11 +144,11 @@ public class DockManagerD extends org.geogebra.common.gui.layout.DockManager
 
 				panel.setAlone(false);
 			}
-
+			TreeSet<Integer> updated = new TreeSet<Integer>();
 			// copy dock panel info settings
 			for (int i = 0; i < dpData.length; ++i) {
 				DockPanel panel = getPanel(dpData[i]);
-
+				updated.add(dpData[i].getViewId());
 				if (panel == null) {
 					App.error("null panel");
 					// TODO insert error panel
@@ -167,6 +168,11 @@ public class DockManagerD extends org.geogebra.common.gui.layout.DockManager
 					}
 
 					panel.setVisible(dpData[i].isVisible());
+				}
+			}
+			for (DockPanel dockPanel : dockPanels) {
+				if (!updated.contains(dockPanel.getViewId())) {
+					dockPanel.setVisible(false);
 				}
 			}
 		}
