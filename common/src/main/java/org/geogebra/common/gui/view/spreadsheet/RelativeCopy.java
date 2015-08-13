@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Traversing.SpreadsheetVariableRenamer;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -415,7 +415,7 @@ public class RelativeCopy {
 				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
 				prepareAddingValueToTableNoStoringUndoInfo(kernel, app, null,
-						oldValue, column, row);
+						oldValue, column, row, true);
 			}
 			return null;
 		}
@@ -543,7 +543,7 @@ public class RelativeCopy {
 			value2.updateRepaint();
 		} else {
 			value2 = prepareAddingValueToTableNoStoringUndoInfo(kernel, app,
-					text, oldValue, column0 + dx, row0 + dy);
+					text, oldValue, column0 + dx, row0 + dy, true);
 		}
 		value2.setAllVisualProperties(value, false);
 
@@ -700,13 +700,13 @@ public class RelativeCopy {
 		if (text == null) {
 			if (oldValue != null) {
 				prepareAddingValueToTableNoStoringUndoInfo(kernel, app, null,
-						oldValue, column, row);
+						oldValue, column, row, true);
 			}
 			return;
 		}
 
 		GeoElement value2 = prepareAddingValueToTableNoStoringUndoInfo(kernel,
-				app, text, oldValue, column, row);
+				app, text, oldValue, column, row, true);
 
 		if (geoForStyle != null) {
 			value2.setVisualStyle(geoForStyle);
@@ -1006,7 +1006,7 @@ public class RelativeCopy {
 	 */
 	public static GeoElement prepareAddingValueToTableNoStoringUndoInfo(
 			Kernel kernel, App app, String inputText, GeoElement oldValue,
-			int column, int row) throws Exception {
+			int column, int row, boolean internal) throws Exception {
 		String text = inputText;
 		// get the cell name
 		String name = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
@@ -1051,7 +1051,7 @@ public class RelativeCopy {
 			boolean oldFlag = kernel.isUsingInternalCommandNames();
 			try {
 				// this will be a new geo
-				kernel.setUseInternalCommandNames(true);
+				kernel.setUseInternalCommandNames(internal);
 				GeoElement ret = prepareNewValue(kernel, name, text);
 				kernel.setUseInternalCommandNames(oldFlag);
 				return ret;

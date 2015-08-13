@@ -470,7 +470,7 @@ public abstract class CopyPasteCut {
 						values2[iy][ix] = RelativeCopy
 								.prepareAddingValueToTableNoStoringUndoInfo(
 										kernel, app, data[iy][ix], value0,
-										column, row);
+										column, row, true);
 						// values2[iy][ix].setAuxiliaryObject(values2[iy][ix].isGeoNumeric());
 						values2[iy][ix].setAuxiliaryObject(true);
 			

@@ -267,7 +267,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				} else {
 					GeoElement newVal = RelativeCopy
 					        .prepareAddingValueToTableNoStoringUndoInfo(kernel,
-					                app, text, value, column, row);
+									app, text, value, column, row, false);
 					if (newVal == null) {
 						return false;
 					}

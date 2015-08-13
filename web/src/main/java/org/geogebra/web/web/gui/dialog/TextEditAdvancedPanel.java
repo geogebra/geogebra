@@ -114,7 +114,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	// =====================================================
 
 	private void createGeoListBox() {
-		geoPanel = new ListBox(true);
+		geoPanel = new ListBox(false);
 		geoPanel.setWidth("100%");
 		geoPanel.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
 		geoPanel.setVisibleItemCount(10);
