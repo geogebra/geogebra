@@ -177,7 +177,8 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager().setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		// select the upper left corner cell if nothing is selected
-		if(table.isSelectNone()){
+		if (table.isSelectNone() || table.getSelectedRow() < 0
+				|| table.getSelectedColumn() < 0) {
 			table.setSelection(0, 0);
 			update();
 		}
