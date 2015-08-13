@@ -94,52 +94,57 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		elem.onkeypress = function(event) {
 			event.stopPropagation();
 		};
-		elem.onpastehandler = function(event) {
-			var cbd;
-			if (event.clipboardData) {
-				// all the other browsers
-				cbd = event.clipboardData;
-			} else if (wind.clipboardData) {
-				// Windows Internet Explorer
-				cbd = wind.clipboardData;
-			}
-			if (cbd.items) {
-				var is = cbd.items;
-				for (var cv = 0; cv < is.length; cv++) {
-					if (is[cv].type.indexOf('image') > -1) {
-						var bb = is[cv].getAsFile();
-						var ur = wind.URL || wind.webkitURL;
-						var sr = ur.createObjectURL(bb);
-						var pi = new Image();
-						pi.onload = function() {
-							// some code to get the data URL
-							// which GeoGebra knows how to convert
-							var ca = docu.createElement('canvas');
-							ca.width = pi.width;
-							ca.height = pi.height;
-							var ct = ca.getContext("2d");
-							ct.drawImage(pi, 0, 0);
-							var dl = ca.toDataURL("image/png");
-							//self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Lcom/google/gwt/dom/client/ImageElement;)(pi);
-							self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Ljava/lang/String;)(dl);
+
+		if (wind.onpastehandleradded === undefined) {
+			// onpastehandler has nothing to do with
+			// "elem", so it's enough to register it once
+			// but remember whether it's registered
+			wind.onpastehandleradded = function(event) {
+				event.stopPropagation();
+				var cbd;
+				if (event.clipboardData) {
+					// all the other browsers
+					cbd = event.clipboardData;
+				} else if (wind.clipboardData) {
+					// Windows Internet Explorer
+					cbd = wind.clipboardData;
+				}
+				if (cbd.items) {
+					var is = cbd.items;
+					for (var cv = 0; cv < is.length; cv++) {
+						if (is[cv].type.indexOf('image') > -1) {
+							var bb = is[cv].getAsFile();
+							var ur = wind.URL || wind.webkitURL;
+							var sr = ur.createObjectURL(bb);
+							var pi = new Image();
+							pi.onload = function() {
+								// some code to get the data URL
+								// which GeoGebra knows how to convert
+								var ca = docu.createElement('canvas');
+								ca.width = pi.width;
+								ca.height = pi.height;
+								var ct = ca.getContext("2d");
+								ct.drawImage(pi, 0, 0);
+								var dl = ca.toDataURL("image/png");
+								self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Ljava/lang/String;)(dl);
+							}
+							pi.src = sr;
+
+							// do not paste more images at once!
+							break;
 						}
-						pi.src = sr;
 					}
 				}
-			}
-			return false;
-		};
-		// this seems to run in Chrome!
-		wind.addEventListener("paste", elem.onpastehandler);
+				return false;
+			};
+
+			// this seems to run in Chrome!
+			wind.addEventListener("paste", wind.onpastehandleradded);
+		}
 	}-*/;
 
 	public void onPaste(String str) {
-		// public void onPaste(ImageElement ie) {
-
-		// this works! but not active yet, for 2 reasons:
-		// - there might be problems with too big images
-		// - it seems this code executes too many times
-		// app.getGgbApi().insertImage(str);
+		app.getGgbApi().insertImage(str);
 	}
 
 	private void buildGui(){
