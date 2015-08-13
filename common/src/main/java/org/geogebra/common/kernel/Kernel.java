@@ -4438,11 +4438,11 @@ public class Kernel {
 	}
 
 	/**
-	 * Returns the macro object for a given macro name. Note: null may be
-	 * returned.
+	 * Returns the macro object for a given macro command name. Note: null may
+	 * be returned.
 	 */
-	public Macro getMacro(String name) {
-		return (macroManager == null) ? null : macroManager.getMacro(name);
+	public Macro getMacro(String commandName) {
+		return (macroManager == null) ? null : macroManager.getMacro(commandName);
 	}
 
 	/**

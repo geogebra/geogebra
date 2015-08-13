@@ -35,7 +35,7 @@ public abstract class MyXMLio {
 	 * XML_FILE_MACRO for the macros
 	 */
 	final public static String XML_FILE_MACRO = "geogebra_macro.xml";
-	
+
 	/**
 	 * defaults for 2D geos
 	 */
@@ -215,7 +215,7 @@ public abstract class MyXMLio {
 
 		// save gui settings
 		sb.append(app.getCompleteUserInterfaceXML(false));
-		
+
 		// save construction
 		cons.getConstructionXML(sb, false);
 

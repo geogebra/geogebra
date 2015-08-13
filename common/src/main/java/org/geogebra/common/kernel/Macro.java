@@ -716,6 +716,7 @@ public class Macro {
 		}
 
 		sb.append("</macro>\n");
+
 	}
 
 	/**

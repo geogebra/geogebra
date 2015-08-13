@@ -168,7 +168,7 @@ public class Exercise {
 	 *         be included.
 	 * 
 	 *         <pre>
-	 * {@code <exercise>
+	 * {@code 
 	 * 	<assignment toolName="Tool2">
 	 * 		<result name="CORRECT" hint="Great, that&apos;s correct!" />
 	 * 		<result name="WRONG" hint="Try again!" />
@@ -178,7 +178,6 @@ public class Exercise {
 	 * 		<result name="WRONG_AFTER_RANDOMIZE" hint="Should never happen in this construction! Contact your teacher!" fraction="0.5" />
 	 * 		<result name="UNKNOWN" hint="Something went wrong - ask your teacher!" />
 	 * 	</assignment>
-	 * </exercise>
 	 * }
 	 * </pre>
 	 */

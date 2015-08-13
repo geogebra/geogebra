@@ -2842,10 +2842,16 @@ public class MyXMLHandler implements DocHandler {
 			exercise = kernel.getExercise();
 			exercise.reset();
 		}
-		String toolName = attrs.get("toolName");
-		Macro m = kernel.getMacro(toolName);
+		String name = attrs.get("commandName");
+		if (name == null) {
+			name = attrs.get("toolName");
+		}
+		Macro m = kernel.getMacro(name);
+		// this should not be needed but for files saved between 41946 and 42226
+		// fileloading won't work (only files created in beta, probably
+		// only Judith and me, but...)
 		if (m == null) {
-			m = kernel.getMacro(toolName.replace(" ", ""));
+			m = kernel.getMacro(name.replace(" ", ""));
 		}
 		assignment = exercise.addAssignment(m);
 	}

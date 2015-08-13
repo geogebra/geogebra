@@ -454,7 +454,7 @@ public class Assignment {
 	 *         be included.
 	 * 
 	 *         <pre>
-	 * {@code <exercise>
+	 * {@code
 	 * 	<assignment toolName="Tool2">
 	 * 		<result name="CORRECT" hint="Great, that&apos;s correct!" />
 	 * 		<result name="WRONG" hint="Try again!" />
@@ -464,7 +464,6 @@ public class Assignment {
 	 * 		<result name="WRONG_AFTER_RANDOMIZE" hint="Should never happen in this construction! Contact your teacher!" fraction="0.5" />
 	 * 		<result name="UNKNOWN" hint="Something went wrong - ask your teacher!" />
 	 * 	</assignment>
-	 * </exercise>
 	 * }
 	 * </pre>
 	 */
@@ -472,6 +471,8 @@ public class Assignment {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\t<assignment toolName=\"");
 		StringUtil.encodeXML(sb, macro.getToolName());
+		sb.append("\" commandName=\"");
+		StringUtil.encodeXML(sb, macro.getCommandName());
 		sb.append("\">\n");
 
 		if (hasHint() || hasFraction()) {
