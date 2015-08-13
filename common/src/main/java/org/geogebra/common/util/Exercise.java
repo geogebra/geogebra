@@ -208,4 +208,19 @@ public class Exercise {
 		assignments.remove(assignment);
 	}
 
+	/**
+	 * Should be used if Macro is deleted
+	 * 
+	 * @param macro
+	 *            the macro being used by the assignment which should be removed
+	 */
+	public void removeAssignment(Macro macro) {
+		for (Assignment assignment : assignments) {
+			if (assignment.getTool().equals(macro)) {
+				remove(assignment);
+			}
+		}
+
+	}
+
 }

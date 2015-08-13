@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.Exercise;
 
 public class ToolManagerDialogModel {
 	public interface ToolManagerDialogListener {
@@ -83,6 +84,11 @@ public class ToolManagerDialogModel {
 				kernel.removeMacro(macro);
 				listener.refreshCustomToolsInToolBar();
 				deletedMacros.add(macro);
+				// Also remove Assignments using this macro from Exercise
+				Exercise ex = app.getKernel().getExercise();
+				if (!ex.isEmpty() && ex.usesMacro(macro)) {
+					ex.removeAssignment(macro);
+				}
 				didDeletion = true;
 			} else {
 				// don't delete, remember name
