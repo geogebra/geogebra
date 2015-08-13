@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.TimerListener;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -89,6 +90,9 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -158,22 +162,45 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	}
 
+	class AVField extends AutoCompleteTextFieldW {
+
+		public AVField(int columns, App app) {
+			super(columns, app);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void onKeyPress(KeyPressEvent e) {
+			e.stopPropagation();
+		}
+
+		@Override
+		public void onKeyDown(KeyDownEvent e) {
+			e.stopPropagation();
+		}
+
+		@Override
+		public void onKeyUp(KeyUpEvent e) {
+			e.stopPropagation();
+		}
+
+	}
+
 	private class MinMaxPanel extends FlowPanel implements SetLabels,
 			KeyHandler, BlurHandler {
-		private AutoCompleteTextFieldW tfMin;
-		private AutoCompleteTextFieldW tfMax;
-		private AutoCompleteTextFieldW tfStep;
+		private AVField tfMin;
+		private AVField tfMax;
+		private AVField tfStep;
 		private Label lblValue;
 		private Label lblStep;
 		private GeoNumeric num;
-
 		public MinMaxPanel() {
 			if (geo instanceof GeoNumeric) {
 				num = (GeoNumeric) geo;
 			}
-			tfMin = new AutoCompleteTextFieldW(2, app);
-			tfMax = new AutoCompleteTextFieldW(2, app);
-			tfStep = new AutoCompleteTextFieldW(2, app);
+			tfMin = new AVField(2, app);
+			tfMax = new AVField(2, app);
+			tfStep = new AVField(2, app);
 			lblValue = new Label(GTE_SIGN + " "
 					+ geo.getCaption(StringTemplate.defaultTemplate) + " "
 					+ GTE_SIGN);
@@ -222,20 +249,40 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		public void keyReleased(KeyEvent e) {
 			if (e.isEnterKey()) {
-				App.debug("[MINMAX_AV] ENTER");
 				apply();
-			} else if (e.getCharCode() == GWTKeycodes.KEY_Q) {
+			} else if (e.getCharCode() == GWTKeycodes.KEY_ESCAPE) {
 				App.debug("[MINMAX_AV] ESC");
 				hide();
 			}
 		}
 
 		private void apply() {
-			hide();
+			NumberValue min = getNumberFromInput(tfMin.getText().trim());
+			NumberValue max = getNumberFromInput(tfMax.getText().trim());
+			NumberValue step = getNumberFromInput(tfStep.getText().trim());
+
+			if (min != null && max != null
+					&& min.getDouble() <= max.getDouble() && step != null) {
+				num.setIntervalMin(min);
+				num.setIntervalMax(max);
+				num.setAnimationStep(step);
+				hide();
+			}
 		}
 
 		public void onBlur(BlurEvent event) {
-			apply();
+		}
+
+		// TODO: refactor needed: copied from SliderPanelW;
+		private NumberValue getNumberFromInput(final String inputText) {
+			boolean emptyString = inputText.equals("");
+			NumberValue value = null;// new MyDouble(kernel, Double.NaN);
+			if (!emptyString) {
+				value = kernel.getAlgebraProcessor().evaluateToNumeric(
+						inputText, false);
+			}
+
+			return value;
 		}
 
 	}
