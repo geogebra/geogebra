@@ -3088,9 +3088,54 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
         if (tripleL != triple.length) {
           mrt = triple;
-          for (var cv = 0; cv < numadded; cv++) {
+
+          // if mrt is more characters long,
+          // probably only keep its last character,
+          // this is important!!! at least if ch.length was 1
+          var numsub = 0;
+          if (ch.length === 1) {
+        	numsub = mrt.length - 1;
+            mrt = mrt[mrt.length - 1];
+          }
+          for (var cv = 0; cv < numadded - numsub; cv++) {
             this.cursor.backspace();
           }
+
+          // in this case mergeKoreanDoubles really did something
+          // so we have to find out
+          // - how many backspaces we will need
+          // ...
+          // this is the difference of the result of:
+          //var triple3 = triple;
+          //if (tripleL > numadded + 1) {
+          //  triple3 = triple.substring(0, numadded + 1);
+          //}
+          //var triple3b = this.root.mergeKoreanDoubles(triple3);
+          //var result3 = triple3.length - triple3b.length;
+
+          //var triple4 = triple;
+          //if (tripleL > numadded + 2) {
+          //  triple4 = triple.substring(0, numadded + 2);
+          //}
+          //var triple4b = this.root.mergeKoreanDoubles(triple4);
+          //var result4 = triple4.length - triple4b.length;
+          //if (result3 === result4) {
+          //  for (var cv = 0; cv < result3.length; cv++) {
+          //	  this.cursor.backspace();
+          //  }
+          //} else {
+        	  // this means that a merge also happened at the
+        	  // 1st and 2nd characters of "mort", but it is
+        	  // a good question whether the previous char
+        	  // was included or not... 1234 might be:
+        	  // (12)(34): result3: 1, result4: 2, backspace:
+        	  // 12(34): result3: 0, result4: 1
+        	  // 1(234): result3: 0, result4: 2
+        	  //
+          //  for (var cv = 0; cv < result3.length; cv++) {
+          //	  this.cursor.backspace();
+          //  }
+          //}
         }
       }
       this.cursor.write(mrt);
