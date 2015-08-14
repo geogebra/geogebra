@@ -1774,7 +1774,6 @@ public abstract class App implements UpdateSelection {
 	 *            labeling style for new objects
 	 */
 	public void setLabelingStyle(int labelingStyle) {
-		App.printStacktrace(labelingStyle + " LABELS");
 		this.labelingStyle = labelingStyle;
 		labelingStyleSelected = true;
 		getKernel().getConstruction().getConstructionDefaults().resetLabelModeDefaultGeos();
