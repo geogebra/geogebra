@@ -15,6 +15,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Widget;
 
 @TagName(ArticleElement.TAG)
@@ -348,7 +349,8 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showLogging (default: false)
 	 */
 	public boolean getDataParamShowLogging() {
-		return ("true".equals(this.getAttribute("data-param-showLogging")));
+		return ("true".equals(this.getAttribute("data-param-showLogging")) || Location
+				.getParameter("GeoGebraDebug") != null);
 	}
 
 	/**

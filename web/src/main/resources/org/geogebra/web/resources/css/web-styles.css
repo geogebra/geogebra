@@ -4194,7 +4194,9 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 .advanced-ListPopupPanel .item:hover {
 	background: #CCCCFF;
 }
-
+.geoSelectFirst {
+	width:50%;
+}
 /*#####################################################################################
 ###       PROPABILITY CALCULATOR
 #####################################################################################*/

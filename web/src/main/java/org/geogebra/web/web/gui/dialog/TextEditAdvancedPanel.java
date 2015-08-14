@@ -14,6 +14,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.SymbolTableW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.images.AppResources;
 
@@ -32,7 +33,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -48,7 +48,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	private AppW app;
 	protected ITextEditPanel editPanel;
 
-	private ListBox geoPanel;
+	private VerticalPanel geoPanel;
 	private VerticalPanel symbolPanel;
 	private VerticalPanel latexPanel;
 	private TextPreviewPanelW previewer;
@@ -75,7 +75,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		// create the tabs
 		add(new ScrollPanel(getPreviewer().getPanel()),
 		        loc.getMenu("Preview"));
-		add(geoPanel, geoTabImage);
+		add(new ScrollPanel(geoPanel), geoTabImage);
 		add(new ScrollPanel(symbolPanel), Unicode.alphaBetaGamma + "");
 		add(new ScrollPanel(latexPanel), loc.getMenu("LaTeXFormula"));
 
@@ -90,7 +90,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 			public void onSelection(SelectionEvent<Integer> event) {
 				if (event.getSelectedItem() == 1) {
 					updateGeoList();
-					geoPanel.setFocus(true);
+					// geoPanel.setFocus(true);
 				}
 			}
 		});
@@ -116,25 +116,35 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	private void createGeoListBox() {
 		// If this flag is True, it sucks on iPad. If it is false, it still
 		// sucks on iPad.
-		geoPanel = new ListBox(true);
+		geoPanel = new VerticalPanel();
 		geoPanel.setWidth("100%");
+		geoPanel.setHeight("100%");
 		geoPanel.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
-		geoPanel.setVisibleItemCount(10);
+		//geoPanel.setVisibleItemCount(10);
 
-		geoPanel.addClickHandler(new ClickHandler() {
+		/*geoPanel.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				String label = geoPanel.getItemText(geoPanel.getSelectedIndex());
 				editPanel.insertGeoElement(app.getKernel().lookupLabel(label));
 			}
-		});
+		});*/
 	}
 
 	public void updateGeoList() {
 		geoPanel.clear();
 		String[] geoLabels = getGeoObjectList(editPanel.getEditGeo());
-		for (int i = 0; i < geoLabels.length; i++) {
-			geoPanel.addItem(geoLabels[i]);
-		}
+		final SymbolTableW symTable = newSymbolTable(geoLabels, false,
+ 2,
+				new StringHandler() {
+
+					public void handle(String s) {
+						editPanel.insertGeoElement(app.getKernel().lookupLabel(
+								s));
+
+					}
+				});
+		symTable.getColumnFormatter().setStyleName(0, "geoSelectFirst");
+		geoPanel.add(symTable);
 	}
 
 	/**
@@ -193,11 +203,18 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 	}
 
-	private void addTable(String[] tableSymbols, boolean isLatex, int rowSize,
+	private void addTable(String[] tableSymbols, final boolean isLatex,
+			int rowSize,
 	        boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, isLatex,
-		        rowSize);
+				rowSize, new StringHandler() {
+
+					public void handle(String s) {
+						editPanel.insertTextString(s, isLatex);
+
+					}
+				});
 
 		if (addSeparator) {
 			symbolPanel.add(new HTML("<hr>"));
@@ -244,7 +261,13 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	        int rowSize, boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, true,
-		        rowSize);
+				rowSize, new StringHandler() {
+
+					public void handle(String s) {
+						editPanel.insertTextString(s, true);
+
+					}
+				});
 
 		if (addSeparator) {
 			latexPanel.add(new HTML("<hr>"));
@@ -259,10 +282,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	// =====================================================
 
 	private SymbolTableW newSymbolTable(String[] table, boolean isLatexSymbol,
-	        int rowSize) {
+			int rowSize, final StringHandler onChange) {
 
-		final boolean isLatex = isLatexSymbol;
-		final SymbolTableW symTable = new SymbolTableW(table, null, isLatex,
+		final SymbolTableW symTable = new SymbolTableW(table, null,
+				isLatexSymbol,
 				rowSize, app);
 
 		if (Browser.isIE10plus()) {
@@ -282,8 +305,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 					int row = TableRowElement.as(td.getParentElement())
 							.getSectionRowIndex();
 					int column = TableCellElement.as(td).getCellIndex();
-					editPanel.insertTextString(
-							symTable.getSymbolText(row, column), isLatex);
+						onChange.handle(symTable.getSymbolText(row, column));
 				}
 				event.preventDefault();
 				event.stopPropagation();
@@ -302,7 +324,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 					}
 					String text = symTable.getSymbolText(
 							clickCell.getRowIndex(), clickCell.getCellIndex());
-					editPanel.insertTextString(text, isLatex);
+					onChange.handle(text);
 				}
 			});
 		}
