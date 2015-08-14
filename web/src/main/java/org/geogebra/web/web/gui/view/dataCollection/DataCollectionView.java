@@ -16,6 +16,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -123,6 +124,13 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		}, ClickEvent.getType());
 
 		settingsChanged(this.settings);
+	}
+
+	/**
+	 * attaches this view to kernel
+	 */
+	public void attachView() {
+		app.getKernel().attach(this);
 	}
 
 	/**
@@ -411,7 +419,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.availableObjects.clear();
 		// fill list of available objects
 		for (GeoElement element : newTreeSet) {
-			if ((element instanceof GeoNumeric || element instanceof GeoFunction)
+			if ((element instanceof GeoNumeric || (element instanceof GeoFunction
+					&& ((GeoFunction) element).getFunctionExpression()
+							.getOperation() == Operation.DATA || element instanceof GeoList))
 					&& !this.usedObjects.contains(element)) {
 				this.availableObjects.add(element);
 			}
@@ -611,22 +621,22 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	@Override
 	public void add(GeoElement geo) {
-		// not used
+		this.updateGeoList();
 	}
 
 	@Override
 	public void remove(GeoElement geo) {
-		// not used
+		this.updateGeoList();
 	}
 
 	@Override
 	public void rename(GeoElement geo) {
-		// not used
+		this.updateGeoList();
 	}
 
 	@Override
 	public void update(GeoElement geo) {
-		// not used
+		this.updateGeoList();
 	}
 
 	@Override
@@ -717,7 +727,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.availableObjects.clear();
 		// fill list of available objects
 		for (GeoElement element : newTreeSet) {
-			if ((element instanceof GeoNumeric || element instanceof GeoFunction)) {
+			if ((element instanceof GeoNumeric || (element instanceof GeoFunction
+					&& ((GeoFunction) element).getFunctionExpression()
+							.getOperation() == Operation.DATA || element instanceof GeoList))) {
 				this.availableObjects.add(element);
 			}
 		}

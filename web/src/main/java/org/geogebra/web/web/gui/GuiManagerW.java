@@ -1105,6 +1105,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public DataCollectionView getDataCollectionView() {
 		if (dataCollectionView == null) {
 			dataCollectionView = new DataCollectionView((AppW) app);
+			dataCollectionView.attachView();
 		}
 		return dataCollectionView;
 	}
