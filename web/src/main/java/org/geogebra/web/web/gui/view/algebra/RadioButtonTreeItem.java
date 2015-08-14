@@ -95,6 +95,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -1583,7 +1584,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
-		if (isWidgetHit(animPanel, evt.getClientX(), evt.getClientY())) {
+		if (isWidgetHit(animPanel, evt)) {
 			return;
 		}
 
@@ -1624,10 +1625,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// AlgoCurveCartesian3D is an instance of AlgoCurveCartesian too
 	}
 
-	private boolean isWidgetHit(Widget w, int x, int y) {
+	private static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
 		if (w == null) {
 			return false;
 		}
+		int x = evt.getClientX(), y = evt.getClientY();
 		int left = w.getAbsoluteLeft();
 		int top = w.getAbsoluteTop();
 		int right = left + w.getOffsetWidth();
@@ -1706,11 +1708,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		}
 
-		if (sliderPanel.isVisible()
-				&& isWidgetHit(sliderPanel.getWidget(0), evt.getClientX(),
-				evt.getClientY())
-				|| isWidgetHit(sliderPanel.getWidget(2), evt.getClientX(),
-						evt.getClientY())) {
+		if (sliderPanel != null
+				&& sliderPanel.isVisible()
+				&& (isWidgetHit(sliderPanel.getWidget(0), evt) || isWidgetHit(
+						sliderPanel.getWidget(2), evt))) {
 			minMaxPanel.show();
 			return;
 		}
@@ -1724,6 +1725,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		onPointerUp(wrappedEvent);
 
 	}
+
 
 	@Override
 	public void onMouseMove(MouseMoveEvent evt) {
