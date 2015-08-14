@@ -10,7 +10,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.web.gui.view.dataCollection.GeoListBox;
-import org.geogebra.web.web.main.AppWapplication;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -261,7 +261,9 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 * @param visible
 	 */
 	private void setRealFreqVisible(boolean visible) {
-		this.realFreqContainer.setVisible(visible);
+		if (this.realFreqContainer != null) {
+			this.realFreqContainer.setVisible(visible);
+		}
 	}
 
 	/**
@@ -279,7 +281,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 			sensorOnOff.add(sensorON);
 			for (GeoListBox listbox : listBoxes) {
 				if (listbox.getSelection() != null) {
-					((AppWapplication) app).getDataCollection().registerGeo(
+					((AppWFull) app).getDataCollection().registerGeo(
 							listbox.getType().toString(),
 							listbox.getSelection());
 				}
@@ -287,7 +289,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		} else {
 			sensorOnOff.add(sensorOFF);
 			for (GeoListBox listbox : listBoxes) {
-				((AppWapplication) app).getDataCollection()
+				((AppWFull) app).getDataCollection()
 						.removeRegisteredGeo(listbox.getType());
 			}
 		}
