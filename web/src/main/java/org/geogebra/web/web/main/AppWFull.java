@@ -20,11 +20,14 @@ import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
+import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
 import com.google.gwt.dom.client.Element;
 
 public abstract class AppWFull extends AppW {
+
+	private DataCollection dataCollection;
 
 	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(ae, dimension, laf);
@@ -33,6 +36,13 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public void showKeyboard(MathKeyboardListener textField) {
 		showKeyboard(textField, false);
+	}
+
+	public DataCollection getDataCollection() {
+		if (this.dataCollection == null) {
+			this.dataCollection = new DataCollection(this);
+		}
+		return this.dataCollection;
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import org.geogebra.web.web.gui.view.dataCollection.Settings.OrientationSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.ProxiSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.SensorSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.TimeSetting;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -302,13 +303,13 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			this.connectionStatusPanel.setVisible(true);
 			this.connecting.setVisible(true);
 			this.connectionFailed.setVisible(false);
-			this.app.getDataCollection().onConnect(
+			((AppWFull) this.app).getDataCollection().onConnect(
 					this.appIDTextBox.getText().toUpperCase());
 		} else {
 			this.appIDTextBox.removeStyleName("disabled");
 			this.connectionStatusPanel.setVisible(false);
 			this.freqPanel.setVisible(false);
-			this.app.getDataCollection().onDisconnect();
+			((AppWFull) this.app).getDataCollection().onDisconnect();
 			for (SensorSetting setting : this.sensors) {
 				setting.setOn(false);
 			}
@@ -438,7 +439,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 				} else {
 					//
 					this.settings.removeMappedGeo(listBox.getType());
-					this.app.getDataCollection()
+					((AppWFull) this.app).getDataCollection()
 							.removeRegisteredGeo(listBox.getType());
 				}
 			}
@@ -518,7 +519,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.availableObjects.remove(geo);
 		this.usedObjects.add(geo);
 		if (listBox.getSensorSetting().isOn()) {
-			this.app.getDataCollection().registerGeo(
+			((AppWFull) this.app).getDataCollection().registerGeo(
 					listBox.getType().toString(), geo);
 		}
 	}
@@ -534,7 +535,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private void setGeoUnused(GeoElement geo, GeoListBox listBox) {
 		this.availableObjects.add(geo);
 		this.usedObjects.remove(geo);
-		this.app.getDataCollection().removeRegisteredGeo(
+		((AppWFull) this.app).getDataCollection().removeRegisteredGeo(
 				listBox.getType());
 	}
 
@@ -585,7 +586,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	public void onWrongID() {
 		this.connectionFailed.setVisible(true);
 		this.connecting.setVisible(false);
-		this.app.getDataCollection().onDisconnect();
+		((AppWFull) this.app).getDataCollection().onDisconnect();
 		this.connectButton.setDown(false);
 		this.appIDTextBox.setEnabled(true);
 		this.appIDTextBox.removeStyleName("disabled");
@@ -603,9 +604,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.connectionStatusPanel.setVisible(false);
 		this.appIDTextBox.addStyleName("disabled");
 		this.freqPanel.setVisible(true);
-		this.app.getDataCollection()
+		((AppWFull) this.app).getDataCollection()
 				.triggerAvailableSensors();
-		this.app.getDataCollection().triggerFrequency();
+		((AppWFull) this.app).getDataCollection().triggerFrequency();
 	}
 
 	/**

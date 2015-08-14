@@ -103,7 +103,6 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -3428,7 +3427,6 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();
-	private DataCollection dataCollection;
 
 	public void addWindowResizeListener(MouseTouchGestureControllerW mtg) {
 		this.euclidianHandlers.add(mtg);
@@ -3436,13 +3434,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	public boolean showToolBarHelp() {
 		return getArticleElement().getDataParamShowToolBarHelp(true);
-	}
-
-	public DataCollection getDataCollection() {
-		if (this.dataCollection == null) {
-			this.dataCollection = new DataCollection(this);
-		}
-		return this.dataCollection;
 	}
 
 }
