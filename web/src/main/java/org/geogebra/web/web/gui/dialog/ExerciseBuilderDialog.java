@@ -271,14 +271,35 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		editIcon.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				new AssignmentEditDialog(app, assignment,
-						ExerciseBuilderDialog.this).center();
-				ExerciseBuilderDialog.this.hide();
+				handleEditClick(assignment);
 			}
 		});
 		assignmentsTable.setWidget(row, j++, editIcon);
 	}
 
+	/**
+	 * Brings up a new AssignmentEditDialog to edit the assignment and hides
+	 * this ExerciseBuilderDialog
+	 * 
+	 * @param assignment
+	 *            The Assignment to be edited.
+	 */
+	void handleEditClick(Assignment assignment) {
+		new AssignmentEditDialog(app, assignment, ExerciseBuilderDialog.this)
+				.center();
+		hide();
+	}
+
+	/**
+	 * @param assignment
+	 *            the assignment for which the Listbox should set the fraction
+	 * @param res
+	 *            the result of the assignment for which the Listbox should set
+	 *            the fraction
+	 * @return a single select ListBox containing all possible fractions as
+	 *         defined in {@link Assignment#FRACTIONS} setting the fraction for
+	 *         a result in this assignment when they are changed
+	 */
 	ListBox getFractionsLB(final Assignment assignment, final Result res) {
 		final ListBox fractions = new ListBox();
 		fractions.setMultipleSelect(false);
@@ -308,13 +329,22 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		return fractions;
 	}
 
+	/**
+	 * @param assignment
+	 *            the assignment for which the TextBox should set the hint
+	 * @param res
+	 *            the result of the assignment for which the TextBox should set
+	 *            the hint
+	 * @return a TextBox setting the hint for a result in this assignment it is
+	 *         changed
+	 */
 	TextBox getHintTextBox(final Assignment assignment, final Result res) {
 		final TextBox textForResult = new TextBox();
 
 		textForResult.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
-					assignment.setHintForResult(res, textForResult.getText());
+				assignment.setHintForResult(res, textForResult.getText());
 			}
 		});
 
@@ -333,16 +363,29 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		delIcon.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ListItem item = userAddModes.addItem(app.getKernel()
-						.getMacroID(assignment.getTool())
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
-				addDomHandlers(item);
-				exercise.remove(assignment);
-				assignmentsTable.removeRow(assignmentsTable.getCellForEvent(
-						event).getRowIndex());
+				handleAssignmentDeleteClick(event, assignment);
 			}
 		});
 		return delIcon;
+	}
+
+	/**
+	 * Handles the remove of an Assignment from the Exercise
+	 * 
+	 * @param event
+	 *            the original event to determine which row should be removed
+	 *            from Table
+	 * @param assignment
+	 *            the assignment to remove from the Exercise
+	 */
+	void handleAssignmentDeleteClick(ClickEvent event, Assignment assignment) {
+		ListItem item = userAddModes.addItem(app.getKernel().getMacroID(
+				assignment.getTool())
+				+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
+		addDomHandlers(item);
+		exercise.remove(assignment);
+		assignmentsTable.removeRow(assignmentsTable.getCellForEvent(event)
+				.getRowIndex());
 	}
 
 	/**
@@ -387,7 +430,6 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				check();
 				btTest.setText(app.getPlain("Check"));
 				btApply.setText(app.getPlain("Back"));
-				// btApply.setVisible(false);
 				hide();
 				setGlassEnabled(false);
 				center();
