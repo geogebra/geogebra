@@ -409,7 +409,7 @@ public abstract class App implements UpdateSelection {
 			return;
 		}
 		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
-		if (cas == null) {
+		if (cas == null || subCommandDict == null) {
 			return;
 		}
 		getLocalization().setCommandChanged(false);
@@ -1321,6 +1321,7 @@ public abstract class App implements UpdateSelection {
 			if (isUsingFullGui()) {
 				if ((getGuiManager() != null)
 						&& getGuiManager().hasAlgebraViewShowing()) {
+					App.debug("Algebra visible");
 					return getAlgebraView().isVisible() ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
 							: ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 				}
@@ -1773,6 +1774,7 @@ public abstract class App implements UpdateSelection {
 	 *            labeling style for new objects
 	 */
 	public void setLabelingStyle(int labelingStyle) {
+		App.printStacktrace(labelingStyle + " LABELS");
 		this.labelingStyle = labelingStyle;
 		labelingStyleSelected = true;
 		getKernel().getConstruction().getConstructionDefaults().resetLabelModeDefaultGeos();

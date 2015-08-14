@@ -304,7 +304,8 @@ public abstract class CASView implements View, SetLabels {
 	 *            command name
 	 */
 	public void processInput(String ggbcmd) {
-		getApp().fillCasCommandDict(); // #5456 make sure we have the right dict
+		getApp().getCommandDictionaryCAS(); // #5456 make sure we have the right
+											// dict
 										// before evaluating
 		getInputHandler().processCurrentRow(ggbcmd);
 		getApp().storeUndoInfo();
