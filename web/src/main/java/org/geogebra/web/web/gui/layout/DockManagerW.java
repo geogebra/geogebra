@@ -170,7 +170,8 @@ public class DockManagerW extends DockManager {
 				}
 			}
 			for (DockPanelW dockPanel : dockPanels) {
-				if (!updated.contains(dockPanel.getViewId())) {
+				if (!dockPanel.hasPlane()
+						&& !updated.contains(dockPanel.getViewId())) {
 					dockPanel.setVisible(false);
 				}
 			}

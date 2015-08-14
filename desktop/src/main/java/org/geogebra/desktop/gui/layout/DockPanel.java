@@ -1683,4 +1683,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		// not needed in desktop
 	}
 
+	public boolean hasPlane() {
+		return false;
+	}
+
 }

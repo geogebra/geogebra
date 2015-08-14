@@ -171,7 +171,8 @@ public class DockManagerD extends org.geogebra.common.gui.layout.DockManager
 				}
 			}
 			for (DockPanel dockPanel : dockPanels) {
-				if (!updated.contains(dockPanel.getViewId())) {
+				if (!dockPanel.hasPlane()
+						&& !updated.contains(dockPanel.getViewId())) {
 					dockPanel.setVisible(false);
 				}
 			}
