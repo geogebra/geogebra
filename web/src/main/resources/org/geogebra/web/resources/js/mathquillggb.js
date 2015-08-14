@@ -3053,7 +3053,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       // now look back 3 characters, and check whether they are Korean
       // characters that can be merged...
       var mrt = ch;
-      var triple = ch;
+      /*var triple = ch;
       var numadded = 0;
       if (this.cursor[L] && (this.cursor[L] instanceof Symbol)) {
         if (this.cursor[L].ctrlSeq) {
@@ -3089,7 +3089,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
         for (var cv = 0; cv < numadded; cv++) {
           this.cursor.backspace();
         }
-      }
+      }*/
       //this.cursor.write(ch);
       this.cursor.write(mrt);
     }
