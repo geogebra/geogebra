@@ -33,9 +33,11 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel with symbols and GeoElements to be inserted into the GeoText editor
@@ -53,7 +55,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	private VerticalPanel latexPanel;
 	private TextPreviewPanelW previewer;
 	private Localization loc;
-
+	private Label previewLabel, latexLabel;
 	public TextEditAdvancedPanel(AppW app, ITextEditPanel editPanel) {
 		super(30, Unit.PX);
 		this.app = app;
@@ -73,16 +75,30 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		        .getSafeUri().asString(),AppResources.INSTANCE.geogebra().getWidth());
 
 		// create the tabs
+		previewLabel = new Label(loc.getMenu("Preview"));
 		add(new ScrollPanel(getPreviewer().getPanel()),
-		        loc.getMenu("Preview"));
+ previewLabel);
 		add(new ScrollPanel(geoPanel), geoTabImage);
 		add(new ScrollPanel(symbolPanel), Unicode.alphaBetaGamma + "");
-		add(new ScrollPanel(latexPanel), loc.getMenu("LaTeXFormula"));
+		latexLabel = new Label(loc.getMenu("LaTeXFormula"));
+		add(new ScrollPanel(latexPanel), latexLabel);
 
 		registerListeners();
 		setLabels();
 	}
 
+	@Override
+	public void insert(final Widget child, Widget tab, int beforeIndex) {
+		super.insert(child, tab, beforeIndex);
+		tab.addDomHandler(new MouseDownHandler(){
+
+			public void onMouseDown(MouseDownEvent event) {
+				TextEditAdvancedPanel.this.selectTab(child);
+				event.preventDefault();
+				
+			}
+		}, MouseDownEvent.getType());
+	}
 	private void registerListeners() {
 
 		// update the geoPanel when selected
@@ -105,8 +121,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	}
 
 	public void setLabels() {
-		setTabText(0, loc.getMenu("Preview"));
-		setTabText(3, loc.getPlain("LaTeXFormula"));
+		previewLabel.setText(loc.getMenu("Preview"));
+		latexLabel.setText(loc.getPlain("LaTeXFormula"));
 	}
 
 	// =====================================================
