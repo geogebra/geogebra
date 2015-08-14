@@ -314,9 +314,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		textForResult.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
-				if (!textForResult.getText().isEmpty()) {
 					assignment.setHintForResult(res, textForResult.getText());
-				}
 			}
 		});
 

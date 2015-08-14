@@ -342,8 +342,8 @@ public class Assignment {
 	 * @param result
 	 *            the result for which the fraction should be set
 	 * @param f
-	 *            the fraction in the interval [0,1] which should be used for
-	 *            the result (will do nothing if fraction is not in [0,1])
+	 *            the fraction in the interval [-1,1] which should be used for
+	 *            the result (will do nothing if fraction is not in [-1,1])
 	 */
 	public void setFractionForResult(Result result, float f) {
 		if (-1 <= f && f <= 1) {
