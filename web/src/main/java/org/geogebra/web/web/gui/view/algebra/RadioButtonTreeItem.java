@@ -259,13 +259,19 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		private void apply() {
 			NumberValue min = getNumberFromInput(tfMin.getText().trim());
 			NumberValue max = getNumberFromInput(tfMax.getText().trim());
-			NumberValue step = getNumberFromInput(tfStep.getText().trim());
+			String stepText = tfStep.getText().trim();
 
 			if (min != null && max != null
-					&& min.getDouble() <= max.getDouble() && step != null) {
+					&& min.getDouble() <= max.getDouble()) {
 				num.setIntervalMin(min);
 				num.setIntervalMax(max);
-				num.setAnimationStep(step);
+				if (stepText.isEmpty()) {
+					num.setAutoStep(true);
+				} else {
+					num.setAutoStep(false);
+					num.setAnimationStep(getNumberFromInput(stepText));
+				}
+
 				hide();
 			}
 		}

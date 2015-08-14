@@ -64,6 +64,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public static final int DEFAULT_THICKNESS = 2;
 	/** sliders */
 	public static final int DEFAULT_SLIDER_THICKNESS = 10;
+
+	private static final double AUTO_STEP_MUL = 0.005;
+
+	public static final double AUTO_STEP = Double.NaN;
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
 	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
 	/** 
@@ -107,6 +111,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	/** absolute screen location, true by default */
 	boolean hasAbsoluteScreenLocation = true;
+
+	private boolean autoStep = false;
 
 	/**
 	 * Creates new GeoNumeric
@@ -431,11 +437,44 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public double getAnimationStep() {
+
+
 		if (getAnimationStepObject() == null) {
+
 			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isGeoAngle());
 			setAnimationStep(num.getAnimationStep());
 		}
+
+		if (isAutoStep()) {
+			return getAutoStepValue();
+		}
+
 		return super.getAnimationStep();
+
+	}
+
+	private double getAutoStepValue() {
+		return (intervalMax.getDouble() - intervalMin.getDouble())
+				* getAnimationSpeed() * AUTO_STEP_MUL;
+	}
+
+	/**
+	 * indicates that animation step is computed automatically or not.
+	 * 
+	 * @return true is automatic animation step is set
+	 */
+	public boolean isAutoStep() {
+		return autoStep;
+	}
+
+	/**
+	 * Sets automatic animation step on or off.
+	 * 
+	 * @param autoStep
+	 *            true if step should be computed automatically.
+	 */
+	public void setAutoStep(boolean autoStep) {
+		this.autoStep = autoStep;
 	}
 
 	@Override
