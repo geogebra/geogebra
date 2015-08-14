@@ -81,18 +81,39 @@ public class Exercise {
 	/**
 	 * The overall fraction of the Exercise
 	 * 
-	 * TODO is this really doing the right thing???? i.e. if more assignments
-	 * with 100% are in the Exercise... I guess we should use weighted fractions
-	 * or use optional tag...
+	 * If one Assignment has 100%, the overall fraction will be 1 minus the sum
+	 * of the fractions of the Assignments having negative Fractions.<br>
+	 * Otherwise the overall fraction will be the sum of all positive fractions
+	 * capped at 1 minus all negative fractions and then capped at 0.
 	 * 
-	 * @return the sum of fractions for each assignment
+	 * @return the sum of fractions for all assignments
 	 */
 	public float getFraction() {
-		float fraction = 0;
+		float fractionsumplus = 0;
+		float fractionsumminus = 0;
+		Assignment singleCorrect = null;
+		double stdPrecision = Kernel.STANDARD_PRECISION;
 		for (Assignment assignment : assignments) {
-			fraction += assignment.getFraction();
+			float assignmenFraction = assignment.getFraction();
+
+			if (assignmenFraction >= 0) {
+				if (assignmenFraction >= 1 - stdPrecision) {
+					singleCorrect = assignment;
+				}
+				fractionsumplus += assignmenFraction;
+			} else {
+				fractionsumminus += assignmenFraction;
+			}
 		}
-		return fraction > 1 ? 1 : fraction;
+		float fraction = 0;
+		if (singleCorrect != null
+ || fractionsumplus >= 1 - stdPrecision) {
+			fraction = 1;
+		} else {
+			fraction = fractionsumplus;
+		}
+		fraction += fractionsumminus;
+		return fraction < 0 + stdPrecision ? 0 : fraction;
 	}
 
 	/**

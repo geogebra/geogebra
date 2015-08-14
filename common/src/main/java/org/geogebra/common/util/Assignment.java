@@ -346,7 +346,7 @@ public class Assignment {
 	 *            the result (will do nothing if fraction is not in [0,1])
 	 */
 	public void setFractionForResult(Result result, float f) {
-		if (0 <= f && f <= 1) {
+		if (-1 <= f && f <= 1) {
 			fractionForResult.put(result, f);
 		}
 	}
