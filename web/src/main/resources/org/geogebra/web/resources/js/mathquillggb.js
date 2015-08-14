@@ -3053,7 +3053,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       // now look back 3 characters, and check whether they are Korean
       // characters that can be merged...
       var mrt = ch;
-      /*var triple = ch;
+      var triple = ch;
       var numadded = 0;
       if (this.cursor[L] && (this.cursor[L] instanceof Symbol)) {
         if (this.cursor[L].ctrlSeq) {
@@ -3076,7 +3076,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       // but in case it's really more, try to merge!
       // moreover, merge ANYWAY, if (tripleL > 1)!
       if (tripleL > 1) {
-        mrt = this.mergeKoreanDoubles(triple);
+        triple = this.mergeKoreanDoubles(triple);
         // write mrt instead of the triple is good,
         // and delete numadded chars... but maybe
         // it's not the best, since delete-add the same,
@@ -3086,11 +3086,13 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
         //ch = mrt[mrt.length - 1];
 
-        for (var cv = 0; cv < numadded; cv++) {
-          this.cursor.backspace();
+        if (tripleL != triple.length) {
+          mrt = triple;
+          for (var cv = 0; cv < numadded; cv++) {
+            this.cursor.backspace();
+          }
         }
-      }*/
-      //this.cursor.write(ch);
+      }
       this.cursor.write(mrt);
     }
     return false;
@@ -6912,7 +6914,7 @@ var Cursor = P(Point, function(_) {
       return false;
     }
     var mrt = mort;
-    /*if (this.root) {
+    if (this.root) {
       var triple = mort;
       var numadded = 0;
       if (this[L] && (this[L] instanceof Symbol)) {
@@ -6936,12 +6938,15 @@ var Cursor = P(Point, function(_) {
       // but in case it's really more, try to merge!
       // moreover, merge ANYWAY, if (tripleL > 1)!
       if (tripleL > 1) {
-        mrt = this.root.mergeKoreanDoubles(triple);
-        for (var cv = 0; cv < numadded; cv++) {
-          this.backspace();
+        triple = this.root.mergeKoreanDoubles(triple);
+        if (tripleL != triple.length) {
+          mrt = triple;
+          for (var cv = 0; cv < numadded; cv++) {
+            this.backspace();
+          }
         }
       }
-    }*/
+    }
     this.writeLatex(mrt).show();
     return true;
   };
