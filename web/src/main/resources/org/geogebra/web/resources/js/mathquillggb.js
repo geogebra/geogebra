@@ -6912,7 +6912,7 @@ var Cursor = P(Point, function(_) {
       return false;
     }
     var mrt = mort;
-    if (this.root) {
+    /*if (this.root) {
       var triple = mort;
       var numadded = 0;
       if (this[L] && (this[L] instanceof Symbol)) {
@@ -6941,7 +6941,7 @@ var Cursor = P(Point, function(_) {
           this.backspace();
         }
       }
-    }
+    }*/
     this.writeLatex(mrt).show();
     return true;
   };
