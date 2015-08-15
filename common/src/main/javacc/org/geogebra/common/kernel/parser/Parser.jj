@@ -2077,9 +2077,9 @@ ExpressionNode numberFunction():
         // doesn't work properly, creates spurious geos
             else if (geo.isGeoList()) // list1(1) to get first element of list1
             {
-          //return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF, myList); 
-              String [] str = { "FunctionExpected", funcName };
-                  throw new MyParseError(loc, str);
+          return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF, myList); 
+          //    String [] str = { "FunctionExpected", funcName };
+          //        throw new MyParseError(loc, str);
         }
         // a(b) becomes a*b because a is not a function, no list, and no curve
         // e.g. a(1+x) = a*(1+x) when a is a number             

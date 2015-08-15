@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -1424,6 +1425,7 @@ public enum Operation {
 			return ev.illegalArgument(rt);
 		}
 	},
+
 	DERIVATIVE {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -1449,7 +1451,34 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			// TODO not implemented #1115
-			return new MyDouble(ev.getKernel(), Double.NaN);
+
+			// Application.debug(rt.getClass()+" "+rt.getClass());
+			if (lt instanceof GeoList && rt instanceof ListValue) {
+
+				GeoList sublist = ((GeoList) lt);
+				ListValue lv = (ListValue) rt;
+				int idx = -1;
+				// convert list1(1,2) into Element[Element[list1,1],2]
+				for (int i = 0; i < lv.size(); i++) {
+					ExpressionNode ith = (ExpressionNode) lv.getMyList()
+							.getListElement(i);
+					idx = 1 + (int) Math.round(ith.evaluateDouble());
+					if (i < lv.size() - 1) {
+						sublist = (GeoList) sublist.get(idx);
+					}
+
+				}
+				if (idx >= 0) {
+					return sublist.get(idx).copyInternal(
+							sublist.getConstruction());
+				}
+				GeoElement ret = sublist.createTemplateElement();
+				ret.setUndefined();
+				return ret;
+			}
+				return ev.illegalArgument(lt);
+
+
 		}
 	},
 	SUBSTITUTION {

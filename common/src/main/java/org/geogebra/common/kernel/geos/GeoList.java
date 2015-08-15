@@ -2914,4 +2914,16 @@ AngleProperties {
 		return isMatrix();
 	}
 
+	public GeoElement createTemplateElement() {
+		if (size() == 0) {
+			if (getTypeStringForXML() != null) {
+				return kernel.createGeoElement(cons, getTypeStringForXML());
+			}
+			// guess
+			return new GeoNumeric(cons);
+		}
+		// list not zero length
+		return get(0).copyInternal(cons);
+	}
+
 }

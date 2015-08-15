@@ -290,17 +290,8 @@ public abstract class CommandProcessor {
 
 			if (gl == null) {
 				num = new GeoNumeric(cons);
-			} else if (gl.size() == 0) {
-				if (gl.getTypeStringForXML() != null) {
-					num = kernelA.createGeoElement(cons,
-							gl.getTypeStringForXML());
-				} else {
-					// guess
-					num = new GeoNumeric(cons);
-				}
 			} else {
-				// list not zero length
-				num = gl.get(0).copyInternal(cons);
+				num = gl.createTemplateElement();
 			}
 
 			cmdCons.addLocalVariable(localVarName, num);
