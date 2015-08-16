@@ -399,4 +399,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	public void updateKeyboardHeight() {
 		// TODO update of height
 	}
+
+	public double getKeyboardHeight() {
+		return keyboardShowing ? keyboardHeight : 0;
+	}
 }

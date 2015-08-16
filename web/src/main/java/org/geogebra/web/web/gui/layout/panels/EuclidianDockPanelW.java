@@ -154,12 +154,10 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 				if (h <= 0 || w <= 0) {
 					return;
 				}
-				App.debug("h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
 				if (h != oldHeight || w != oldWidth) {
 					app.ggwGraphicsViewDimChanged(w, h);
 					oldHeight = h;
 					oldWidth = w;
-					App.debug("changed h: " + h + "oh: " + oldHeight +", w:" + w + ", ow: " + oldWidth);
 				} else {
 					// it's possible that the width/height didn't change but the position of EV did
 					app.getEuclidianView1().getEuclidianController().calculateEnvironment();

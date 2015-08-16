@@ -88,4 +88,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	public void updateKeyboardHeight() {
 		// no keyboard
 	}
+
+	public double getKeyboardHeight() {
+		return 0;
+	}
 }

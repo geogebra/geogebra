@@ -526,4 +526,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			this.ggwMenuBar.updateHeight(height);
 	    }
 	}
+
+	public double getKeyboardHeight() {
+		if (!keyboardShowing || spaceForKeyboard == null) {
+			return 0;
+		}
+		return spaceForKeyboard.getOffsetHeight();
+	}
 }

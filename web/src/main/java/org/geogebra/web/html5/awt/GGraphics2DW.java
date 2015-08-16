@@ -418,7 +418,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		return (int) (logicalPX * devicePixelRatio);
 	}
 	public void setCoordinateSpaceSize(int width, int height) {
-		App.debug("Coordinates ratio" + devicePixelRatio);
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
 		setTransform(currentTransform);

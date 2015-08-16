@@ -10,6 +10,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -77,7 +78,7 @@ public class EquationEditor {
 		curWord = new StringBuilder();
 		popup = new CompletionsPopup();
 		popup.addTextField(component);
-		sug = new ScrollableSuggestionDisplay();
+		sug = new ScrollableSuggestionDisplay(this);
 
 	}
 	/**
@@ -373,6 +374,21 @@ public class EquationEditor {
 
 	public void resetLanguage() {
 		dict = null;
+	}
+
+	public double getMaxSuggestionsHeight() {
+		double ret = (app.getHeight() / 2);
+		if (component != null) {
+			ret = Math
+					.max(29, Math.min(ret,
+							app.getHeight()
+									+ ((AppW) app).getAbsTop()
+									- component.getAbsoluteTop()
+					- component.toWidget().getOffsetHeight()
+									- ((AppW) app).getAppletFrame()
+											.getKeyboardHeight()));
+		}
+		return ret;
 	}
 
 }

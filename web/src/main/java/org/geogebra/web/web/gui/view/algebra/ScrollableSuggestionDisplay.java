@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -19,7 +18,12 @@ public final class ScrollableSuggestionDisplay extends
 	// maybe em-size is 19px, 120% of 16px font size... but smaller is OK
 	// TODO: improve it, if we can... this still seems smaller (but OK)
 	public static int lineWidth = 29;
+	private EquationEditor editor;
 
+	public ScrollableSuggestionDisplay(EquationEditor ed) {
+		super();
+		this.editor = ed;
+	}
 	protected ScrollPanel scrollable;
 
 	@Override
@@ -67,10 +71,14 @@ public final class ScrollableSuggestionDisplay extends
 	}
 
 	public void updateHeight() {
+		if (editor == null) {
+			return;
+		}
 		scrollable
 				.getElement()
 				.getStyle()
-				.setProperty("maxHeight", (Window.getClientHeight() / 2) + "px");
+				.setProperty("maxHeight",
+						editor.getMaxSuggestionsHeight() + "px");
 
 	}
 

@@ -467,4 +467,8 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 				.showOnFocus();
 
 	}
+
+	public double getKeyboardHeight() {
+		return this.frameLayout.getKeyboardHeight();
+	}
 }
