@@ -918,6 +918,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		lblSpeedValue = new Label();
 		lblSpeedValue.addStyleName("speedValue");
 		animPanel = new FlowPanel();
+		animPanel.addStyleName("avSliderSpeedControlPanel");
 		animPanel.add(playButton);
 		animPanel.add(btnSpeedDown);
 		animPanel.add(lblSpeedValue);

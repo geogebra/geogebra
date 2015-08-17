@@ -3615,6 +3615,10 @@ body.application[dir=rtl] .algebraOpenButton {
  	-webkit-box-sizing: border-box;
  }
 
+.marble {
+	height: 24px;
+}
+
 body.application[dir=rtl] .marble {
 	margin-right: 0px;
 	margin-left: 10px;
@@ -5593,7 +5597,6 @@ body.application[dir=rtl] .deleteAlgebra {
 /* AV Extensions */ 
 
 
-.
 .avItemContent {
 	width: 100%;
 }
@@ -5602,14 +5605,104 @@ body.application[dir=rtl] .deleteAlgebra {
 	vertical-align: middle;
 }
 
+
+.avItemContent .avSliderSpeedControlPanel {
+	height: 21px;
+	margin-right: 0px;
+}
+.avItemContent .avSliderSpeedControlPanel > * {
+	margin-right: 7px;
+}
+
 .avSpeedButton {
 	display: inline;
 }
 
 .avItemContent .speedValue {
 	display: inline-block;
-	margin: 1px;
 	width: 30px;
 	font-size: 12px;
 	text-align: center;
+}
+
+/* Options Slider */
+
+.avItemContent .optionsSlider .gwt-Label {
+	margin: 0px;
+	display: inline-block;
+}
+.avItemContent .optionsSlider .gwt-Label:first-child {
+	padding-right: 15px;
+	padding-left: 3px;
+}
+.avItemContent .optionsSlider .gwt-Label:last-child {
+	padding-left: 15px;
+}
+
+.avItemContent .optionsSlider .ui-slider {
+	margin: 0px;
+}
+
+.avItemContent .optionsSlider .ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all {
+	background: none;
+	/* overwrite background-color with real color of the slider */
+	background-color: rgba(0, 0, 0, 0.4);
+	
+	/* white outline for better contrast */
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.avItemContent .optionsSlider .ui-slider-horizontal {
+	height: 5px;
+	display: inline-block;
+}
+
+.avItemContent .optionsSlider .ui-state-default,
+.avItemContent .optionsSlider .ui-widget-content .ui-state-default,
+.avItemContent .optionsSlider .ui-widget-header .ui-state-default {
+	/* overwrite background-color with real color of the slider */
+	background-color: #000000;
+	border: 3px solid rgba(0, 0, 0, 0.4);
+	
+	-moz-background-clip: padding;     /* Firefox 3.6 */
+  	-webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
+  	background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
+	
+	/* white outline for better contrast */
+	box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.4);
+}
+.gwt-TreeItem-selected .avItemContent .optionsSlider .ui-state-default,
+.avItemContent .optionsSlider .ui-state-hover,
+.avItemContent .optionsSlider .ui-state-focus,
+.avItemContent .optionsSlider .ui-state-active,
+.avItemContent .optionsSlider .ui-widget-content .ui-state-hover,
+.avItemContent .optionsSlider .ui-widget-content .ui-state-focus,
+.avItemContent .optionsSlider .ui-widget-content .ui-state-active,
+.avItemContent .optionsSlider .ui-widget-header .ui-state-hover,
+.avItemContent .optionsSlider .ui-widget-header .ui-state-focus,
+.avItemContent .optionsSlider .ui-widget-header .ui-state-active {
+	border-width: 6px;
+}
+
+.avItemContent .optionsSlider .ui-slider .ui-slider-handle {
+	width: 12px;
+	height: 12px;
+	
+	border-radius: 12px;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+}
+
+.avItemContent .optionsSlider .ui-slider-horizontal .ui-slider-handle {
+	top: -6px;
+	margin-left: -9px;
+}
+
+.gwt-TreeItem-selected .avItemContent .optionsSlider .ui-state-default,
+.avItemContent .optionsSlider .ui-slider-horizontal .ui-slider-handle.ui-state-hover,
+.avItemContent .optionsSlider .ui-slider-horizontal .ui-slider-handle.ui-state-focus,
+.avItemContent .optionsSlider .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+	top: -9px;
+	margin-left: -12px;
 }
