@@ -377,8 +377,6 @@ dataExpression.getLeft()
 									.isFinite(middle))) {
 					return false;
 				}
-				App.debug("FALLBACK TO BUGGY AWT:" + middle + ":" + low + "-"
-						+ high);
 				return gp.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold)
 						&& !gp.contains(x - hitThreshold, y - hitThreshold,
