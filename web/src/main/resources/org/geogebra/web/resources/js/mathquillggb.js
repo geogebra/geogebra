@@ -474,7 +474,10 @@ var manageTextarea = (function() {
       adjustFixedTextarea(rootJQ);
 
       handleKey();
-
+      if (textarea[0].doStopPropagation) {
+    	  textarea[0].doStopPropagation = false;
+    	  e.stopPropagation();
+      }
       //e.stopPropagation();
       //return true;
     }
@@ -498,7 +501,10 @@ var manageTextarea = (function() {
       keypress = e;
 
       checkTextareaFor(typedText);
-
+      if (textarea[0].doStopPropagation) {
+    	  textarea[0].doStopPropagation = false;
+    	  e.stopPropagation();
+      }
       //e.stopPropagation();
       //return true;
     }
