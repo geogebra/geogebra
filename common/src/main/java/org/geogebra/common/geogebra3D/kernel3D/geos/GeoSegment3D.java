@@ -526,4 +526,15 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
+	public boolean setCoord(GeoPointND O, GeoPointND I) {
+
+		if (super.setCoord(O, I)) {
+			setUndefined();
+			return true;
+		}
+
+		return false;
+	}
+
 }

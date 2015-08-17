@@ -115,25 +115,31 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 	 *            origin point
 	 * @param I
 	 *            unit point
+	 * @return true if one point is null or infinite
 	 */
-	public void setCoord(GeoPointND O, GeoPointND I) {
+	public boolean setCoord(GeoPointND O, GeoPointND I) {
 
 		startPoint = O;
 		endPoint = I;
 
 		if ((O == null) || (I == null))
-			return;
+			return true;
 
-		if (I.isInfinite())
-			if (O.isInfinite())
+		if (I.isInfinite()) {
+			if (O.isInfinite()) {
 				setUndefined(); // TODO infinite line
-			else
+			} else {
 				setCoord(O.getInhomCoordsInD3(), I.getCoordsInD3());
-		else if (O.isInfinite())
+			}
+			return true;
+		} else if (O.isInfinite()) {
 			setCoord(I.getInhomCoordsInD3(), O.getCoordsInD3());
-		else
+			return true;
+		} else {
 			setCoord(O.getInhomCoordsInD3(),
 					I.getInhomCoordsInD3().sub(O.getInhomCoordsInD3()));
+			return false;
+		}
 
 	}
 
