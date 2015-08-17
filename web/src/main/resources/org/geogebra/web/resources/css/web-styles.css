@@ -3552,13 +3552,20 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 
 .algebraView div table:not(.spec) {
 	width: 100%;
+	border-collapse: collapse;
+}
+
+.algebraView div table:not(.spec) tr > td:first-child {
+	display: none;
 }
 
 .algebraView div table:not(.spec) tr>td+td {
 	width: 100%;
+	padding: 0px;
 }
 
-.algebraView div div>div {
+/*.algebraView div div>div {*/
+.algebraView > div > div > div {
 	margin-left: 0px !important;
 /* 	width: 100%; */
 }
@@ -3568,7 +3575,8 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	margin-bottom: 10px;
 }
 .algebraView .avItem {
-	padding: 3px 10px !important;
+	/*padding: 3px 10px !important;*/
+	padding: 1px 0px 0px 0px !important;
 }
 
 .elemHeading {
@@ -3581,7 +3589,7 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 }
 
 .elemHeadingName {
-	padding: 10px 10px 10px 23px;
+	padding: 10px 10px 10px 36px;
 }
 body.application[dir=rtl] .elemHeadingName {
 	padding: 10px 23px 10px 10px;
@@ -3599,7 +3607,7 @@ body.application[dir=rtl] .elemHeadingName {
 .algebraOpenButton {
 	position: absolute;
 	top: 12px;
-	left: 0px;
+	left: 10px;
 }
 body.application[dir=rtl] .algebraOpenButton {
 	left: auto;
@@ -3615,8 +3623,23 @@ body.application[dir=rtl] .algebraOpenButton {
  	-webkit-box-sizing: border-box;
  }
 
+/* Colors will be overwritten in java code
+** see: org.geogebra.web.web.gui.view.algebra.Marble.java
+*/
 .marble {
-	height: 24px;
+	height: 14px;
+	width: 14px;
+	background-color: #6161FF;
+	border: 1px solid #000000;
+	border-radius: 14px;
+	margin-left: 10px;
+}
+.marble.elemHidden {
+	background-color: #FFFFFF;
+}
+.marble.elemShown {
+	background-color: #6161FF;
+	border: 1px solid #CCCCFF;
 }
 
 body.application[dir=rtl] .marble {

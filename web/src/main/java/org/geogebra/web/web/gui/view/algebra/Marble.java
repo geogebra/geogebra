@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 
@@ -50,27 +52,56 @@ public class Marble extends SimplePanel
 
 	/**
 	 * set background-images via HTML
-	 * @param text URL of image as string
+	 * 
+	 * @param text
+	 *            URL of image as string
+	 * 
+	 *            STEFFI: OLD Marbles will be done by css now!
 	 */
-	public void setImage(String text)
-	{
-		//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
-		String html = "<img src=\"" + text + "\">";
-		this.getElement().setInnerHTML(html);
+	/*
+	 * public void setImage(String text) { //String html = "<img src=\"" + text
+	 * + "\" style=\"height: 19px;margin-right: 5px;\">"; String html =
+	 * "<img src=\"" + text + "\">"; this.getElement().setInnerHTML(html); }
+	 */
+
+	/**
+	 * @param value
+	 *            true tfor visible, false for invisible geo
+	 */
+	public void setChecked(boolean value) {
+		if (value) {
+			// Steffi: Marbles will be drawn by css now
+			// setImage(showUrl.asString());
+			this.removeStyleName("elemHidden");
+			this.addStyleName("elemShown");
+			updateMarble(true);
+		} else {
+			// setImage(hiddenUrl.asString());
+			this.removeStyleName("elemShown");
+			this.addStyleName("elemHidden");
+			updateMarble(false);
+		}
 	}
 
 	/**
-	 * @param value true tfor visible, false for invisible geo
+	 * Steffi, 17/8/2015
+	 * Function to set the marble style for visible and unvisible geo
+	 * (Background color changes, depending on visibility)
+	 * 
+	 * @param value: true for visible, false for invisible geo
 	 */
-	public void setChecked(boolean value)
-	{
-		if (value)
-		{
-			setImage(showUrl.asString());
+	private void updateMarble(boolean value) {
+		if (value) {
+			// Filling color should be the same color but 30% opacity (77)
+			GColorW fillColor = new GColorW(gc.getGeo().getAlgebraColor().getRed(),
+											gc.getGeo().getAlgebraColor().getGreen(),
+											gc.getGeo().getAlgebraColor().getBlue(),
+											77);
+			this.getElement().getStyle().setBorderColor(GColor.getColorString(gc.getGeo().getAlgebraColor()));
+			this.getElement().getStyle().setBackgroundColor(GColor.getColorString(fillColor));
 		}
-		else
-		{
-			setImage(hiddenUrl.asString());
+		else {
+			this.getElement().getStyle().setBackgroundColor(GColor.getColorString(GColor.WHITE));
 		}
 	}
 	
