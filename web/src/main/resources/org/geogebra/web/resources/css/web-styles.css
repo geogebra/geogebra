@@ -5666,8 +5666,10 @@ body.application[dir=rtl] .deleteAlgebra {
 	margin: 0px;
 }
 
-.avItemContent .optionsSlider .ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all {
+/*.avItemContent .optionsSlider .ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all*/
+.avItemContent .optionsSlider .ui-slider {
 	background: none;
+	
 	/* overwrite background-color with real color of the slider */
 	background-color: rgba(0, 0, 0, 0.4);
 	
@@ -5684,7 +5686,7 @@ body.application[dir=rtl] .deleteAlgebra {
 .avItemContent .optionsSlider .ui-state-default,
 .avItemContent .optionsSlider .ui-widget-content .ui-state-default,
 .avItemContent .optionsSlider .ui-widget-header .ui-state-default {
-	/* overwrite background-color with real color of the slider */
+	/* overwrite background-color and border-color with real color of the slider */
 	background-color: #000000;
 	border: 3px solid rgba(0, 0, 0, 0.4);
 	
