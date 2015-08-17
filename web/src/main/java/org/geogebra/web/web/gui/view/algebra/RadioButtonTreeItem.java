@@ -90,6 +90,7 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -163,11 +164,16 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	}
 
-	class AVField extends AutoCompleteTextFieldW {
+	interface CancelListener {
+		void cancel();
+	}
 
-		public AVField(int columns, App app) {
+	class AVField extends AutoCompleteTextFieldW {
+		private CancelListener listener;
+
+		public AVField(int columns, App app, CancelListener listener) {
 			super(columns, app);
-			// TODO Auto-generated constructor stub
+			this.listener = listener;
 		}
 
 		@Override
@@ -178,6 +184,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		@Override
 		public void onKeyDown(KeyDownEvent e) {
 			e.stopPropagation();
+			if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
+				listener.cancel();
+			}
+		
 		}
 
 		@Override
@@ -188,20 +198,21 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private class MinMaxPanel extends FlowPanel implements SetLabels,
-			KeyHandler, BlurHandler {
+			KeyHandler, BlurHandler, FocusHandler, CancelListener {
 		private AVField tfMin;
 		private AVField tfMax;
 		private AVField tfStep;
 		private Label lblValue;
 		private Label lblStep;
 		private GeoNumeric num;
+
 		public MinMaxPanel() {
 			if (geo instanceof GeoNumeric) {
 				num = (GeoNumeric) geo;
 			}
-			tfMin = new AVField(2, app);
-			tfMax = new AVField(2, app);
-			tfStep = new AVField(2, app);
+			tfMin = new AVField(2, app, this);
+			tfMax = new AVField(2, app, this);
+			tfStep = new AVField(2, app, this);
 			lblValue = new Label(GTE_SIGN + " "
 					+ geo.getCaption(StringTemplate.defaultTemplate) + " "
 					+ GTE_SIGN);
@@ -220,7 +231,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			tfMin.addBlurHandler(this);
 			tfMax.addBlurHandler(this);
 			tfStep.addBlurHandler(this);
+
+			tfMin.addFocusHandler(this);
+			tfMax.addFocusHandler(this);
+			tfStep.addFocusHandler(this);
+
 			update();
+
 		}
 
 		public void update() {
@@ -251,9 +268,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		public void keyReleased(KeyEvent e) {
 			if (e.isEnterKey()) {
 				apply();
-			} else if (e.getCharCode() == GWTKeycodes.KEY_ESCAPE) {
-				App.debug("[MINMAX_AV] ESC");
-				hide();
 			}
 		}
 
@@ -277,6 +291,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
+		public void onFocus(FocusEvent event) {
+		}
+
 		public void onBlur(BlurEvent event) {
 		}
 
@@ -290,6 +307,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 
 			return value;
+		}
+
+		public void cancel() {
+			hide();
 		}
 
 	}
@@ -1584,7 +1605,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
-		if (isWidgetHit(animPanel, evt)) {
+
+		if (isWidgetHit(animPanel, evt)
+				|| (minMaxPanel != null && minMaxPanel.isVisible())) {
 			return;
 		}
 
@@ -1698,7 +1721,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
-
+		if (minMaxPanel != null && minMaxPanel.isVisible()) {
+			return;
+		}
 		Object source = evt.getSource();
 		if (source == btnSpeedDown) {
 			animSpeedDown();
