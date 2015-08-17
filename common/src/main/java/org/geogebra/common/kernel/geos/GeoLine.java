@@ -903,7 +903,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			getInhomPointOnLine(P); // point
 			StringBuilder sbBuildValueStr = getSbBuildValueString();
 			sbBuildValueStr.setLength(0);
-			sbBuildValueStr.append("X = (");
+			GeoCasCell casCell = getCorrespondingCasCell();
+			if (casCell == null || !casCell.isAssignmentVariableDefined()) {
+				sbBuildValueStr.append("X = ");
+			}
+			sbBuildValueStr.append("(");
 			sbBuildValueStr.append(kernel.format(P[0],tpl));
 			sbBuildValueStr.append(", ");
 			sbBuildValueStr.append(kernel.format(P[1],tpl));
