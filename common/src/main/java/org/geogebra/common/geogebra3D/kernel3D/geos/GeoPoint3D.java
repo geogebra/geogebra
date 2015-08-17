@@ -267,10 +267,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		// Application.printStacktrace(getLabel());
 
+		boolean vIsDefined = v.isDefined();
+
 		// infinite point
 		// #5202
-		if (Kernel.isEpsilon(v.getW(), v.getX(), v.getY(), v.getZ())) {
-			// Application.debug("infinite");
+		if (vIsDefined
+				&& Kernel.isEpsilon(v.getW(), v.getX(), v.getY(), v.getZ())) {
 			isInfinite = true;
 			isDefined = !(Double.isNaN(v.get(1)) || Double.isNaN(v.get(2)) || Double
 					.isNaN(v.get(3)));
@@ -279,7 +281,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// finite point
 		else {
 			isInfinite = false;
-			isDefined = v.isDefined();
+			isDefined = vIsDefined;
 
 			if (isDefined) {
 				// make sure the z coordinate is always positive
@@ -853,6 +855,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				false);
 		setWillingCoordsUndefined();
 		isDefined = false;
+		isInfinite = false;
 
 	}
 
