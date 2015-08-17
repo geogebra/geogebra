@@ -54,6 +54,7 @@ import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
@@ -170,7 +171,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	class AVField extends AutoCompleteTextFieldW {
 		private CancelListener listener;
-
 		public AVField(int columns, App app, CancelListener listener) {
 			super(columns, app);
 			this.listener = listener;
@@ -197,15 +197,16 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	}
 
-	private class MinMaxPanel extends FlowPanel implements SetLabels,
-			KeyHandler, BlurHandler, FocusHandler, CancelListener {
+	private class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
+			KeyHandler, MouseDownHandler, MouseUpHandler,
+			CancelListener {
 		private AVField tfMin;
 		private AVField tfMax;
 		private AVField tfStep;
 		private Label lblValue;
 		private Label lblStep;
 		private GeoNumeric num;
-
+		private boolean tfPressed = false;
 		public MinMaxPanel() {
 			if (geo instanceof GeoNumeric) {
 				num = (GeoNumeric) geo;
@@ -227,16 +228,39 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			tfMin.addKeyHandler(this);
 			tfMax.addKeyHandler(this);
 			tfStep.addKeyHandler(this);
+			
+			tfMin.addFocusHandler(new FocusHandler() {
 
-			tfMin.addBlurHandler(this);
-			tfMax.addBlurHandler(this);
-			tfStep.addBlurHandler(this);
+				public void onFocus(FocusEvent event) {
+					tfMin.selectAll();
+				}
+			});
+			tfMax.addFocusHandler(new FocusHandler() {
 
-			tfMin.addFocusHandler(this);
-			tfMax.addFocusHandler(this);
-			tfStep.addFocusHandler(this);
+				public void onFocus(FocusEvent event) {
+					tfMax.selectAll();
+				}
+			});
+			tfStep.addFocusHandler(new FocusHandler() {
+
+				public void onFocus(FocusEvent event) {
+					tfStep.selectAll();
+				}
+			});
+
+
+			addMouseDownHandler(this);
+			addMouseUpHandler(this);
+			addBlurHandler(new BlurHandler() {
+
+				public void onBlur(BlurEvent event) {
+					App.debug("BLUUUUUUR");
+					hide();
+				}
+			});
 
 			update();
+
 
 		}
 
@@ -292,12 +316,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
-		public void onFocus(FocusEvent event) {
-		}
-
-		public void onBlur(BlurEvent event) {
-		}
-
 		// TODO: refactor needed: copied from SliderPanelW;
 		private NumberValue getNumberFromInput(final String inputText) {
 			boolean emptyString = inputText.equals("");
@@ -313,6 +331,31 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		public void cancel() {
 			hide();
 		}
+
+		public void onMouseUp(MouseUpEvent event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			if (isWidgetHit(tfMin, event) || isWidgetHit(tfMax, event)
+					|| isWidgetHit(tfStep, event)) {
+				((AutoCompleteTextFieldW) event.getSource()).selectAll();
+			} else if (!tfPressed) {
+				apply();
+			}
+
+		}
+
+		public void onMouseDown(MouseDownEvent event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			tfPressed = (isWidgetHit(tfMin, event) || isWidgetHit(tfMax, event) || isWidgetHit(
+					tfStep, event));
+			if (tfPressed) {
+				((AutoCompleteTextFieldW) event.getSource()).selectAll();
+			}
+		}
+
 
 	}
 	protected FlowPanel buttonPanel;
