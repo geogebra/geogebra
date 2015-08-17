@@ -261,6 +261,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		private void hide() {
 			playButton.setVisible(true);
 			sliderPanel.setVisible(true);
+			deferredResizeSlider();
 			setVisible(false);
 
 		}
