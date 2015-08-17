@@ -106,8 +106,7 @@ public class Exercise {
 			}
 		}
 		float fraction = 0;
-		if (singleCorrect != null
- || fractionsumplus >= 1 - stdPrecision) {
+		if (singleCorrect != null || fractionsumplus >= 1 - stdPrecision) {
 			fraction = 1;
 		} else {
 			fraction = fractionsumplus;
