@@ -511,8 +511,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * .toString();
 		 */
 
-		String eliminateCommand = "eliminate([" + polys + "],[" + elimVars
-				+ "])";
+		String eliminateCommand = "eliminate([" + polys + "],revlist(["
+				+ elimVars + "]))";
 
 		return script
 				.append("[" +
