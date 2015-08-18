@@ -2542,7 +2542,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       //if (isKoreanMultiChar(c))
         var tail = String.fromCharCode(0x11a7 + (c - 44032) % 28);
         var vowel = String.fromCharCode(0x1161 + Math.floor(((c - 44032 - (tail - 0x11a7)) % 588) / 28));
-        var lead = String.fromCharCode(Math.floor(0x1100 + (c - 44032) / 588));
+        var lead = String.fromCharCode(0x1100 + Math.floor((c - 44032) / 588));
 		sb = sb.concat(lead);
 		sb = sb.concat(vowel);
 		sb = sb.concat(tail);
