@@ -1197,6 +1197,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				sliderPanel.add(slider);
 				minMaxPanel.setVisible(false);
 				playButton.setVisible(true);
+				updateSliderColor();
 			} else if (marblePanel != null) {
 				sliderPanel.remove(slider);
 			}
@@ -1276,6 +1277,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			playButton.setResource(newIcon);
 			showSpeedButtons(playButtonValue);
 		}
+	}
+
+	private void updateSliderColor() {
+
+		slider.updateColor(geo.getAlgebraColor());
 	}
 
 	private void updateColor(SpanElement se) {

@@ -1,7 +1,11 @@
 package org.geogebra.web.html5.util.sliderPanel;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.util.Dom;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
@@ -71,5 +75,30 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		double w = width - minLabel.getOffsetWidth()
 				- maxLabel.getOffsetWidth();
 		slider.asWidget().getElement().getStyle().setWidth(w, Unit.PX);
+	}
+
+	public void updateColor(GColor color) {
+		String sColor = GColor.getColorString(color);
+		minLabel.getElement().getStyle().setColor(sColor);
+		maxLabel.getElement().getStyle().setColor(sColor);
+		slider.asWidget().getElement().getStyle().setBackgroundColor(sColor);
+		Style uiStyle = Dom.querySelectorForElement(getElement(), "ui-slider")
+				.getStyle();
+		uiStyle.setBackgroundColor(sColor);
+		uiStyle.setOpacity(0.4);
+
+		setUIStyle(getElement());
+		setUIStyle(Dom.querySelectorForElement(getElement(),
+				"ui-widget-content"));
+		setUIStyle(Dom
+				.querySelectorForElement(getElement(), "ui-widget-header"));
+
+	}
+
+	private void setUIStyle(Element elem) {
+		Style style = Dom.querySelectorForElement(elem,
+				"ui-state-default").getStyle();
+		style.setBackgroundColor("#000000");
+		style.setProperty("border", "3px solid rgba(0, 0, 0, 0.4)");
 	}
 }

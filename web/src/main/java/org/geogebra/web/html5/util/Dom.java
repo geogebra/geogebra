@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
@@ -31,6 +32,17 @@ public class Dom extends DOM {
 	 */
 	public static native Element querySelector(String className) /*-{
 		return $doc.querySelector("." + className);
+	}-*/;
+
+	/**
+	 * @param elem
+	 *            the root element
+	 * @param className
+	 * @return first Element found by selector className
+	 */
+	public static native Element querySelectorForElement(JavaScriptObject elem,
+			String className) /*-{
+		return elem.querySelector("." + className);
 	}-*/;
 
 	/**
