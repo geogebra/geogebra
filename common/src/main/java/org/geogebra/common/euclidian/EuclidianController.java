@@ -8079,7 +8079,7 @@ public abstract class EuclidianController {
 
 					}
 
-					if (!(view.getHits().get(0) instanceof GeoNumeric)) {
+					if (view.getHits().size() > 0 && !(view.getHits().get(0) instanceof GeoNumeric)) {
 						return;
 					}
 				} else if ((mode == EuclidianConstants.MODE_BUTTON_ACTION)
