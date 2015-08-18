@@ -5669,12 +5669,12 @@ body.application[dir=rtl] .deleteAlgebra {
 /*.avItemContent .optionsSlider .ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all*/
 .avItemContent .optionsSlider .ui-slider {
 	background: none;
+	border: none;
 	
 	/* overwrite background-color with real color of the slider */
 	background-color: rgba(0, 0, 0, 0.4);
 	
 	/* white outline for better contrast */
-	border: 1px solid rgba(255, 255, 255, 0.4);
 	box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.4);
 }
 
