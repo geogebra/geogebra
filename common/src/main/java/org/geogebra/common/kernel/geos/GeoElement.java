@@ -3544,13 +3544,25 @@ public abstract class GeoElement extends ConstructionElement implements
 		// stop animation of this geo
 		setAnimating(false);
 
+		// remove Listeners
+		AlgoElement algo = getParentAlgorithm();
+		// first remove all dependent algorithms
+		if (algorithmList != null) {
+			final Object[] algos = algorithmList.toArray();
+			for (int i = 0; i < algos.length; i++) {
+				algo = (AlgoElement) algos[i];
+				algo.remove(this);
+			}
+		}
+
 		// remove this object from List
 		if (isIndependent()) {
 			cons.removeFromConstructionList(this);
 		}
 
-		// remove Listeners
-		AlgoElement algo = getParentAlgorithm();
+		/*
+		 * // remove Listeners AlgoElement algo = getParentAlgorithm();
+		 */
 		if (algo != null) {
 			cons.unregisterEuclidianViewCE(algo);
 		}
@@ -3563,14 +3575,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			colFunction.unregisterColorFunctionListener(this);
 		}
 
-		// remove all dependent algorithms
-		if (algorithmList != null) {
-			final Object[] algos = algorithmList.toArray();
-			for (int i = 0; i < algos.length; i++) {
-				algo = (AlgoElement) algos[i];
-				algo.remove(this);
-			}
-		}
+		/*
+		 * // remove all dependent algorithms if (algorithmList != null) { final
+		 * Object[] algos = algorithmList.toArray(); for (int i = 0; i <
+		 * algos.length; i++) { algo = (AlgoElement) algos[i];
+		 * algo.remove(this); cons.updateCasCellRows(); } //
+		 * cons.updateCasCellRows(); }
+		 */
 
 		// remove this object from table
 		if (isLabelSet()) {

@@ -803,6 +803,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if (removed)
 			return;
 		removed = true;
+
 		cons.removeFromConstructionList(this);
 		cons.removeFromAlgorithmList(this);
 

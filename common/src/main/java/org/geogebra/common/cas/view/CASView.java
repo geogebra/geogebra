@@ -273,6 +273,7 @@ public abstract class CASView implements View, SetLabels {
 			// copied below
 			boolean wasEditing = getConsoleTable().isEditing();
 			getConsoleTable().stopEditing();
+
 			getConsoleTable().deleteRow(row);
 			if (wasEditing) {
 				getConsoleTable().startEditingRow(row);
