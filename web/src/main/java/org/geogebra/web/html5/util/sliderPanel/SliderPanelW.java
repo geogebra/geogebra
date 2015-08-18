@@ -81,13 +81,14 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	public void updateColor(GColor color) {
 		GColorW c = new GColorW(color.getRGB());
 		c.setAlpha(102);
-		String sColor = GColor.getColorString(color);
-		minLabel.getElement().getStyle().setColor(sColor);
-		maxLabel.getElement().getStyle().setColor(sColor);
-		slider.asWidget().getElement().getStyle().setBackgroundColor(sColor);
+		// String sColor = GColor.getColorString(color);
+		// minLabel.getElement().getStyle().setColor(sColor);
+		// maxLabel.getElement().getStyle().setColor(sColor);
+		// slider.asWidget().getElement().getStyle()
+		// .setBackgroundColor(GColor.getColorString(c));
 		Style uiStyle = Dom.querySelectorForElement(getElement(), "ui-slider")
 				.getStyle();
-		uiStyle.setBackgroundColor(sColor);
+		uiStyle.setBackgroundColor(GColor.getColorString(c));
 		setUIStyle(getElement(), color);
 
 	}
