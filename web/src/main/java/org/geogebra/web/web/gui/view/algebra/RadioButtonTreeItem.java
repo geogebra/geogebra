@@ -2335,6 +2335,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void setAnimating(boolean value) {
+		if (!geo.isAnimatable()) {
+			return;
+		}
 		geo.setAnimating(value);
 		geo.getKernel().getAnimatonManager().startAnimation();
 		showSpeedButtons(value);
