@@ -91,12 +91,6 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		uiStyle.setOpacity(0.4);
 
 		setUIStyle(getElement(), color);
-		setUIStyle(
-				Dom.querySelectorForElement(getElement(), "ui-widget-content"),
-				color);
-		setUIStyle(
-				Dom.querySelectorForElement(getElement(), "ui-widget-header"),
-				color);
 
 	}
 
