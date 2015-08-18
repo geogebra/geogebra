@@ -2592,7 +2592,7 @@ __GGB__keysVar.de.plain = {
     "Name.polygon": "Vieleck",
     "Name.slopefield": "Steigungsfeld",
     "Name.text": "Text",
-    "Name.textfield": "Textfeld",
+    "Name.textfield": "Eingabefeld",
     "Name.turtle": "Turtle",
     "NameAndValue": "Name & Wert",
     "Net": "Netz",

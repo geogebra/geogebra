@@ -2592,7 +2592,7 @@ __GGB__keysVar.ta.plain = {
     "Name.polygon": "\u0baa\u0bb2",
     "Name.slopefield": "slopefield",
     "Name.text": "\u0b89\u0bb0\u0bc8",
-    "Name.textfield": "inputBox",
+    "Name.textfield": "InputBox",
     "Name.turtle": "turtle",
     "NameAndValue": "\u0baa\u0bc6\u0baf\u0bb0\u0bcd \u0bae\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0bcd \u0baa\u0bc6\u0bb1\u0bc1\u0bae\u0ba4\u0bbf",
     "Net": "Net",

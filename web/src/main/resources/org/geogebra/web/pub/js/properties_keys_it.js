@@ -2592,7 +2592,7 @@ __GGB__keysVar.it.plain = {
     "Name.polygon": "poli",
     "Name.slopefield": "campodirezioni",
     "Name.text": "testo",
-    "Name.textfield": "campoInserimento",
+    "Name.textfield": "CampoInserimento",
     "Name.turtle": "tartaruga",
     "NameAndValue": "Nome e valore",
     "Net": "Sviluppo piano",

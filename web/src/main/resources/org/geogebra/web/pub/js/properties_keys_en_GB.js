@@ -2592,7 +2592,7 @@ __GGB__keysVar.en_GB.plain = {
     "Name.polygon": "poly",
     "Name.slopefield": "slopefield",
     "Name.text": "text",
-    "Name.textfield": "inputBox",
+    "Name.textfield": "InputBox",
     "Name.turtle": "turtle",
     "NameAndValue": "Name & Value",
     "Net": "Net",

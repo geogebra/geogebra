@@ -2592,7 +2592,7 @@ __GGB__keysVar.eo.plain = {
     "Name.polygon": "plur",
     "Name.slopefield": "slopefield",
     "Name.text": "teksto",
-    "Name.textfield": "inputBox",
+    "Name.textfield": "InputBox",
     "Name.turtle": "testudo",
     "NameAndValue": "Nomo kaj valoro",
     "Net": "Net",
