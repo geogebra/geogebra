@@ -1267,6 +1267,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	void updatePlayButton() {
 		if (playButton != null) {
+			if (!app.has(Feature.AV_EXTENSIONS)) {
+				return;
+			}
+
 			// update the icon of the playButton (if animation is started/paused
 			// from another place)
 			// TODO store actual icon and check before replacing it
@@ -1280,7 +1284,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void updateSliderColor() {
-
+		if (!app.has(Feature.AV_EXTENSIONS)) {
+			return;
+		}
 		slider.updateColor(geo.getAlgebraColor());
 	}
 

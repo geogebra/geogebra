@@ -7,7 +7,6 @@ import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
@@ -80,7 +79,8 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void updateColor(GColor color) {
-
+		GColorW c = new GColorW(color.getRGB());
+		c.setAlpha(102);
 		String sColor = GColor.getColorString(color);
 		minLabel.getElement().getStyle().setColor(sColor);
 		maxLabel.getElement().getStyle().setColor(sColor);
@@ -88,20 +88,17 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		Style uiStyle = Dom.querySelectorForElement(getElement(), "ui-slider")
 				.getStyle();
 		uiStyle.setBackgroundColor(sColor);
-		uiStyle.setOpacity(0.4);
-
 		setUIStyle(getElement(), color);
 
 	}
 
 	private void setUIStyle(Element elem, GColor color) {
+		GColorW c = new GColorW(color.getRGB());
+		c.setAlpha(102);
 		Style style = Dom.querySelectorForElement(elem,
 				"ui-state-default").getStyle();
 		style.setBackgroundColor(GColor.getColorString(color));
-		style.setBorderWidth(3, Unit.PX);
-		GColorW c = new GColorW(color.getRGB());
-		c.setAlpha(40);
+
 		style.setBorderColor(GColor.getColorString(c));
-		style.setBorderStyle(BorderStyle.SOLID);
 	}
 }
