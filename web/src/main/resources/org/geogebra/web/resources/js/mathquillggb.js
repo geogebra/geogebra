@@ -2540,12 +2540,13 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       var c = s.charCodeAt(i);
       if ((c >= 0xac00) && (c <= 0xd7af)) {
       //if (isKoreanMultiChar(c))
-        var tail = String.fromCharCode(0x11a7 + (c - 44032) % 28);
-        var vowel = String.fromCharCode(0x1161 + Math.floor(((c - 44032 - (tail - 0x11a7)) % 588) / 28));
-        var lead = String.fromCharCode(0x1100 + Math.floor((c - 44032) / 588));
-		sb = sb.concat(lead);
-		sb = sb.concat(vowel);
-		sb = sb.concat(tail);
+        var tail = 0x11a7 + (c - 44032) % 28;
+        var tailstr = String.fromCharCode(tail);
+        var vowelstr = String.fromCharCode(0x1161 + Math.floor(((c - 44032 - (tail - 0x11a7)) % 588) / 28));
+        var leadstr = String.fromCharCode(0x1100 + Math.floor((c - 44032) / 588));
+		sb = sb.concat(leadstr);
+		sb = sb.concat(vowelstr);
+		sb = sb.concat(tailstr);
       } else {
         // if a "lead char" follows a vowel, turn into a "tail char"
         if (lastWasVowel && (c >= 0x1100) && (c <= 0x1112)) {
