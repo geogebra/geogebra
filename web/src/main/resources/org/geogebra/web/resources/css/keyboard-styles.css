@@ -42,6 +42,11 @@
 	padding-top: 6px;
 }
 
+/* special css for Springboard */
+.GeoGebraFrame .KeyBoard table {
+    border-collapse: separate;
+}
+
 .KeyBoard {
 	border-radius: 0px;
 	-webkit-border-radius: 0px;
@@ -60,7 +65,7 @@
 .KeyBoardContentNumbers,
 .KeyBoardContentSpecialChars {
 	margin: 0 auto;
-	max-width: 745px;
+	max-width: 745px !important;
 }
 
 .KeyPanelLetters {
@@ -210,7 +215,7 @@
 .scale .KeyPanelLetters,
 .scale .KeyPanelFunction,
 .scale .KeyPanelNum {
-	width: 100%;
+	width: 100% !important;
 }
 
 .scale .KeyPanelRow td {
@@ -260,7 +265,7 @@
 .scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(2),
 .scale .KeyBoardContentNumbers>tbody>tr>td, 
 .scale .KeyBoardContentNumbers>tbody>tr>td:nth-child(2) {
- 	width: 50%;
+ 	width: 45%;
 }
 
 /* -- LETTERS -- */
@@ -273,6 +278,5 @@
 .scale .KeyPanelLetters .KeyPanelRow td {
 	width: 9%;
 }
-
 
 /* ### End onScreenKeyboard ### */
