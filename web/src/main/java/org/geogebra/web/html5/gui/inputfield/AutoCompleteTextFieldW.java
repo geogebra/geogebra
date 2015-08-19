@@ -1506,8 +1506,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// textField.setFocus(true);
 		// } else {
 
-		Scheduler.get().scheduleDeferred(deferredFocus);
-		// textField.setFocus(true);
+		// #5371
+		// Scheduler.get().scheduleDeferred(deferredFocus);
+		textField.setFocus(true);
+
 		// }
 
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
