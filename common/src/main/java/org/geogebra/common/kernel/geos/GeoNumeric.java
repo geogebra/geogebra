@@ -167,6 +167,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		setLabel(label);
 	}
 
+	public GeoNumeric(Construction c, String label, double x, boolean extendedAV) {
+		this(c, x);
+		setLabel(label);
+		setShowExtendedAV(extendedAV);
+	}
+
 	/**
 	 * Creates new number
 	 * 
@@ -1502,6 +1508,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
+		this.updateRepaint();
 	}
 	
 	

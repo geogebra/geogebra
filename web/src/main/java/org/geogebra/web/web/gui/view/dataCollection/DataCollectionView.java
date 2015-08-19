@@ -476,7 +476,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_NUMBER
 					.getText()) {
 				newSelection = new GeoNumeric(this.app.getKernel()
-						.getConstruction(), null, 0);
+						.getConstruction(), null, 0, false);
 				((GeoNumeric) newSelection).setDrawable(false);
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
