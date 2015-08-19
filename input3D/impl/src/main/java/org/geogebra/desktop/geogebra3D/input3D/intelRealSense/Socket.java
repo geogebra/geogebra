@@ -421,8 +421,10 @@ public class Socket {
 			handConfig.EnableAllAlerts();
 
 			// enables stabilizer and smoothing
-			// handConfig.EnableStabilizer(true);
-			// handConfig.SetSmoothingValue(1);
+			// pxcmStatus status = handConfig.EnableStabilizer(true);
+			// App.debug("EnableStabilizer: " + status.isSuccessful());
+			// status = handConfig.SetSmoothingValue(1);
+			// App.debug("SetSmoothingValue to 1: " + status.isSuccessful());
 			
 			GestureHandler handler = new GestureHandler() {
 				@Override
