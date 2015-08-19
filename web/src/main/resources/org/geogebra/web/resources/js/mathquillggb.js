@@ -2425,7 +2425,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
   _.hangulJamo = function(str) {
     var ret = "";
     for (var ii = 0; ii < str.length; ii++) {
-      ret = ret.concat(this.toHangulJamoChars(str.charAt(ii)));
+      ret += this.toHangulJamoChars(str.charAt(ii));
     }
     return ret;
   };
@@ -2544,19 +2544,19 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
         var tailstr = String.fromCharCode(tail);
         var vowelstr = String.fromCharCode(0x1161 + Math.floor(((c - 44032 - (tail - 0x11a7)) % 588) / 28));
         var leadstr = String.fromCharCode(0x1100 + Math.floor((c - 44032) / 588));
-		sb = sb.concat(leadstr);
-		sb = sb.concat(vowelstr);
+		sb += leadstr;
+		sb += vowelstr;
 		if (!this.isKoreanLeadPlusVowelChar(c)) {
-			sb = sb.concat(tailstr);
+			sb += tailstr;
 		}
       } else {
         // if a "lead char" follows a vowel, turn into a "tail char"
         if (lastWasVowel && (c >= 0x1100) && (c <= 0x1112)) {
           var charac = String.fromCharCode(c);
           charac = koreanLeadToTail[charac];
-          sb = sb.concat(charac);
+          sb += charac;
         } else {
-          sb = sb.concat(String.fromCharCode(c));
+          sb += String.fromCharCode(c);
         }
       }
       if (sb.length) {
@@ -2590,7 +2590,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       //if (isKoreanLeadChar(c)) {
         korean = true;
         if (lead != 0) {
-          ret = ret.concat(this.appendKoreanChar(lead, vowel, tail));
+          ret += this.appendKoreanChar(lead, vowel, tail);
           lead = 0;
           vowel = 0;
           tail = 0;
@@ -2606,20 +2606,20 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       //if (isKoreanTailChar(c)) {
         korean = true;
         tail = c;
-        ret = ret.concat(this.appendKoreanChar(lead, vowel, tail));
+        ret += this.appendKoreanChar(lead, vowel, tail);
         lead = 0;
         vowel = 0;
         tail = 0;
       }
       if (!korean) {
-        ret = ret.concat(String.fromCharCode(c));
+        ret += String.fromCharCode(c);
         // or str.charAt(i)
       }
     }
 
     // make sure last char done!
     if (lead != 0) {
-      ret = ret.concat(this.appendKoreanChar(lead, vowel, tail));
+      ret += this.appendKoreanChar(lead, vowel, tail);
     }
     return ret;
   };
@@ -2659,132 +2659,132 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
         case '\u11a8':
         case '\u11ba':
           if (str.charCodeAt(i + 1) === c) {
-            sb = sb.concat(String.fromCharCode(c + offset));
+            sb += String.fromCharCode(c + offset);
             // eg \u1101 ie doubled char
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
         case '\u1169':
           c2 = str.charAt(i + 1);
           if (c2 === '\u1161') {
-            sb = sb.concat('\u116a');
+            sb += '\u116a';
             i++;
           } else if (c2 === '\u1162') {
-            sb = sb.concat('\u116b');
+            sb += '\u116b';
             i++;
           } else if (c2 === '\u1175') {
-            sb = sb.concat('\u116c');
+            sb += '\u116c';
             i++;
           } else if (c2 === '\u1169') {
-            sb = sb.concat('\u116d');
+            sb += '\u116d';
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
         case '\u1105':
           c2 = str.charAt(i + 1);
           if (c2 === '\u1100') {
-            sb = sb.concat('\u11b0'); // eg \u1101 ie doubled char
+            sb += '\u11b0'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1106') {
-            sb = sb.concat('\u11b1'); // eg \u1101 ie doubled char
+            sb += '\u11b1'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1107') {
-            sb = sb.concat('\u11b2'); // eg \u1101 ie doubled char
+            sb += '\u11b2'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1109') {
-            sb = sb.concat('\u11b3'); // eg \u1101 ie doubled char
+            sb += '\u11b3'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1110') {
-            sb = sb.concat('\u11b4'); // eg \u1101 ie doubled char
+            sb += '\u11b4'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1112') {
-            sb = sb.concat('\u11b6'); // eg \u1101 ie doubled char
+            sb += '\u11b6'; // eg \u1101 ie doubled char
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
         case '\u116e':
           c2 = str.charAt(i + 1);
           if (c2 === '\u1165') {
-            sb = sb.concat('\u116f'); // eg \u1101 ie doubled char
+            sb += '\u116f'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1166') {
-            sb = sb.concat('\u1170'); // eg \u1101 ie doubled char
+            sb += '\u1170'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1175') {
-            sb = sb.concat('\u1171'); // eg \u1101 ie doubled char
+            sb += '\u1171'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u116e') {
-            sb = sb.concat('\u1172'); // eg \u1101 ie doubled char
+            sb += '\u1172'; // eg \u1101 ie doubled char
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
         case '\u1173':
           c2 = str.charAt(i + 1);
           if (c2 === '\u1175') {
-            sb = sb.concat('\u1174'); // eg \u1101 ie doubled char
+            sb += '\u1174'; // eg \u1101 ie doubled char
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
         case '\u1100':
           c2 = str.charAt(i + 1);
           if (c2 === '\u1100') {
-            sb = sb.concat('\u11a9'); // eg \u1101 ie doubled char
+            sb += '\u11a9'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1109') {
-            sb = sb.concat('\u11aa'); // eg \u1101 ie doubled char
+            sb += '\u11aa'; // eg \u1101 ie doubled char
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
         case '\u1102':
           c2 = str.charAt(i + 1);
           if (c2 === '\u110c') {
-            sb = sb.concat('\u11ac'); // eg \u1101 ie doubled char
+            sb += '\u11ac'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1112') {
-            sb = sb.concat('\u11ad'); // eg \u1101 ie doubled char
+            sb += '\u11ad'; // eg \u1101 ie doubled char
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
         case '\u1111':
           c2 = str.charAt(i + 1);
           if (c2 === '\u1111') {
-            sb = sb.concat('\u11b5'); // eg \u1101 ie doubled char
+            sb += '\u11b5'; // eg \u1101 ie doubled char
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
 		case '\u1107':
           c2 = str.charAt(i + 1);
           if (c2 === '\u1109') {
-            sb = sb.concat('\u11b9'); // eg \u1101 ie doubled char
+            sb += '\u11b9'; // eg \u1101 ie doubled char
             i++;
           } else if (c2 === '\u1107') {
-            sb = sb.concat('\u1108'); // eg \u1101 ie doubled char
+            sb += '\u1108'; // eg \u1101 ie doubled char
             i++;
           } else {
-            sb = sb.concat(String.fromCharCode(c));
+            sb += String.fromCharCode(c);
           }
           break;
         default:
-          sb = sb.concat(String.fromCharCode(c));
+          sb += String.fromCharCode(c);
       }
       if (i === str.length - 2) {
-        sb = sb.concat(str.charAt(str.length - 1));
+        sb += str.charAt(str.length - 1);
       }
     }
     return sb;
@@ -3076,12 +3076,12 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       if (this.cursor[L] && (this.cursor[L] instanceof Symbol)) {
         if (this.cursor[L].ctrlSeq) {
           if (this.cursor[L].ctrlSeq.length === 1) {
-            triple = this.cursor[L].ctrlSeq.concat(triple);
+            triple = this.cursor[L].ctrlSeq + triple;
             numadded++;
             if (this.cursor[L][L] && (this.cursor[L][L] instanceof Symbol)) {
               if (this.cursor[L][L].ctrlSeq) {
                 if (this.cursor[L][L].ctrlSeq.length === 1) {
-                  triple = this.cursor[L][L].ctrlSeq.concat(triple);
+                  triple = this.cursor[L][L].ctrlSeq + triple;
                   numadded++;
                 }
               }
@@ -6983,12 +6983,12 @@ var Cursor = P(Point, function(_) {
       if (this[L] && (this[L] instanceof Symbol)) {
         if (this[L].ctrlSeq) {
           if (this[L].ctrlSeq.length === 1) {
-            triple = this[L].ctrlSeq.concat(triple);
+            triple = this[L].ctrlSeq + triple;
             numadded++;
             if (this[L][L] && (this[L][L] instanceof Symbol)) {
               if (this[L][L].ctrlSeq) {
                 if (this[L][L].ctrlSeq.length === 1) {
-                  triple = this[L][L].ctrlSeq.concat(triple);
+                  triple = this[L][L].ctrlSeq + triple;
                   numadded++;
                 }
               }
