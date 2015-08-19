@@ -42,6 +42,8 @@ public class Korean {
 
 	/*
 	 * convert eg \uB458 to \u1103\u116e\u11af
+	 * 
+	 * and \uB450 to \u1103\u116E
 	 */
 	public static String flattenKorean(String s) {
 
@@ -60,11 +62,12 @@ public class Korean {
 				appendKoreanMultiChar(sb, c);
 			else {
 				// if a "lead char" follows a vowel, turn into a "tail char"
-				if (lastWasVowel && isKoreanLeadChar(c))
+				if (lastWasVowel && isKoreanLeadChar(c)) {
 					sb.append(koreanLeadToTail.get(new Character(c))
 							.charValue());
-				else
+				} else {
 					sb.append(c);
+				}
 			}
 			lastWasVowel = isKoreanVowelChar(sb.charAt(sb.length() - 1));
 		}
@@ -72,23 +75,59 @@ public class Korean {
 		return sb.toString();
 	}
 
+	// static {
+	// for (char i = 0x1100; i <= 0x1112; i++) {
+	// for (char j = 0x1161; j <= 0x1175; j++) {
+	// String s = i + "" + j;
+	// App.debug(i + " " + j + " " + StringUtil.toHexString(s)
+	// + StringUtil.toHexString(unflattenKorean(s).toString()));
+	// }
+	// }
+	//
+	// for (char i = 0xac00; i <= 0xD788; i += 1) {
+	// String s = i + "";
+	// App.debug(i + " " + StringUtil.toHexString(s) + " "
+	// + isKoreanLeadPlusVowelChar(i));
+	// }
+	// }
+
+	// from 0xac00 to 0xd788, every 28th character is a combination of 2
+	// characters not 3
+	private static boolean isKoreanLeadPlusVowelChar(char c) {
+		if (c >= 0xac00 && c <= 0xd7af) {
+
+			int ch = c - 0xac00;
+			if ((ch % 28) == 0) {
+				return true;
+			}
+
+		}
+
+		return false;
+	}
+
+
 	private static boolean isKoreanMultiChar(char c) {
-		if (c >= 0xac00 && c <= 0xd7af)
+		
+		if (c >= 0xac00 && c <= 0xd7af) {
 			return true;
+		}
 
 		return false;
 	}
 
 	private static boolean isKoreanLeadChar(char c) {
-		if (c >= 0x1100 && c <= 0x1112)
+		if (c >= 0x1100 && c <= 0x1112) {
 			return true;
+		}
 
 		return false;
 	}
 
 	private static boolean isKoreanVowelChar(char c) {
-		if (c >= 0x1161 && c <= 0x1175)
+		if (c >= 0x1161 && c <= 0x1175) {
 			return true;
+		}
 
 		return false;
 	}
@@ -102,6 +141,8 @@ public class Korean {
 
 	/*
 	 * convert eg \u1103\u116e\u11af to \uB458
+	 * 
+	 * also converts 2 chars eg \u1103\u116E to \uB450
 	 */
 	public static StringBuilder unflattenKorean(String str) {
 
@@ -177,8 +218,23 @@ public class Korean {
 		// Application.debug(Util.toHexString(c)+" decoded to "+Util.toHexString(lead)+Util.toHexString(vowel)+Util.toHexString(tail));
 		sb.append(lead);
 		sb.append(vowel);
-		sb.append(tail);
+		if (!isKoreanLeadPlusVowelChar(c)) {
+			sb.append(tail);
+		}
 	}
+
+	// static {
+	// String s = "\ub450";
+	// s = flattenKorean(s);
+	// App.debug("length = " + s.length());
+	// for (int i = 0; i < s.length(); i++) {
+	// App.debug(StringUtil.toHexString(s.charAt(i)));
+	// }
+	//
+	// s = "\u1103\u116E";
+	// s = unflattenKorean(s).toString();
+	// App.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
+	// }
 
 	/*
 	 * avoid having to press shift by merging eg \u1100\u1100 to \u1101
