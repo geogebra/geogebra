@@ -187,7 +187,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
 				listener.cancel();
 			}
-		
+
 		}
 
 		@Override
@@ -198,8 +198,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
-			KeyHandler, MouseDownHandler, MouseUpHandler,
-			CancelListener {
+			KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
 		private AVField tfMin;
 		private AVField tfMax;
 		private AVField tfStep;
@@ -228,7 +227,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			tfMin.addKeyHandler(this);
 			tfMax.addKeyHandler(this);
 			tfStep.addKeyHandler(this);
-			
+
 			tfMin.addFocusHandler(new FocusHandler() {
 
 				public void onFocus(FocusEvent event) {
@@ -366,6 +365,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	protected AppW app;
 	private SelectionManager selection;
 	protected AlgebraView av;
+	private boolean avExtension;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
 	boolean newCreationMode = false;
@@ -409,7 +409,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * start/pause slider animations
 	 */
-	PlayButton playButton;
+	PlayButton playButton = null;
 
 	/**
 	 * checkbox displaying boolean variables
@@ -545,6 +545,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		kernel = geo.getKernel();
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
+		avExtension = app.has(Feature.AV_EXTENSIONS);
+
 		selection = app.getSelectionManager();
 		addStyleName("elem");
 		addStyleName("panelRow");
@@ -561,7 +563,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		marblePanel.add(radio);
 		add(marblePanel);
 
-		if (app.has(Feature.AV_EXTENSIONS)) {
+		if (avExtension) {
 
 			if (geo instanceof GeoBoolean && geo.isIndependent()) {
 				// CheckBoxes
@@ -616,7 +618,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		// String text = "";
 		if (geo.isIndependent()
-				|| (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoBoolean)) {
+ || (avExtension && geo instanceof GeoBoolean)) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 		} else {
 			switch (kernel.getAlgebraStyle()) {
@@ -692,11 +694,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private boolean sliderNeeded() {
-		return app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoNumeric
+		return avExtension && geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV();
 	}
 
 	private void initSlider() {
+		if (!avExtension) {
+			return;
+		}
+
 		if (!geo.isEuclidianVisible()) {
 			// // number inserted via input bar
 			// // -> initialize min/max etc.
@@ -726,30 +732,31 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			sliderPanel = new FlowPanel();
 
-			if (app.has(Feature.AV_EXTENSIONS)) {
-				createAnimPanel();
-				createMinMaxPanel();
-				contentPanel = new FlowPanel();
-				contentPanel.addStyleName("avItemContent");
+			createAnimPanel();
+			createMinMaxPanel();
+			contentPanel = new FlowPanel();
+			contentPanel.addStyleName("avItemContent");
 
-				addSpecial(ihtml);
-				contentPanel.add(LayoutUtil.panelRow(animPanel, sliderPanel,
-						minMaxPanel));
-				add(contentPanel);
-			}
+			addSpecial(ihtml);
+			contentPanel.add(LayoutUtil.panelRow(animPanel, sliderPanel,
+					minMaxPanel));
+			add(contentPanel);
 
 		}
 
 	}
 
 	private void deferredResizeSlider() {
-		if (!app.has(Feature.AV_EXTENSIONS) || slider == null) {
+		if (!avExtension || slider == null) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(resizeSliderCmd);
 	}
 
 	private void resizeSlider() {
+		if (!avExtension || slider == null) {
+			return;
+		}
 
 		int width = getOffsetWidth() - animPanel.getOffsetWidth()
  - 2
@@ -853,6 +860,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void setAnimationSpeed() {
+		if (!avExtension) {
+			return;
+		}
+
 		double speed = animSpeeds[speedIndex];
 		geo.setAnimationSpeed(speed);
 		lblSpeedValue.setText(speed + " " + MUL_SIGN);
@@ -860,6 +871,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void showSpeedButtons(boolean value) {
+		if (!avExtension) {
+			return;
+		}
+
 		setAnimationSpeed();
 		btnSpeedUp.setVisible(value);
 		lblSpeedValue.setVisible(value);
@@ -869,6 +884,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void createAnimPanel() {
+		if (!avExtension) {
+			return;
+		}
 
 		if (!geo.isAnimatable()) {
 			return;
@@ -927,6 +945,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void createMinMaxPanel() {
+		if (!avExtension) {
+			return;
+		}
+
 		minMaxPanel = new MinMaxPanel();
 		minMaxPanel.setVisible(false);
 	}
@@ -986,7 +1008,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	@Override
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (isMinMaxPanelVisible()) {
+		if (avExtension && isMinMaxPanelVisible()) {
 			return;
 		}
 		if (commonEditingCheck()) {
@@ -1019,7 +1041,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift, boolean more) {
-		if (isMinMaxPanelVisible()) {
+		if (avExtension && isMinMaxPanelVisible()) {
 			return;
 		}
 
@@ -1045,7 +1067,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	@Override
 	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (isMinMaxPanelVisible()) {
+		if (avExtension && isMinMaxPanelVisible()) {
 			return;
 		}
 
@@ -1266,10 +1288,20 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	void updatePlayButton() {
+		if (!avExtension) {
+			return;
+		}
+		
+
 		if (playButton != null) {
-			if (!app.has(Feature.AV_EXTENSIONS)) {
+			if (!hasGeoExtendedAV()) {
+				setAnimating(false);
+				playButton.setVisible(false);
+
 				return;
 			}
+
+			playButton.setVisible(true);
 
 			// update the icon of the playButton (if animation is started/paused
 			// from another place)
@@ -1284,7 +1316,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void updateSliderColor() {
-		if (!app.has(Feature.AV_EXTENSIONS)) {
+		if (!avExtension) {
 			return;
 		}
 		slider.updateColor(geo.getAlgebraColor());
@@ -1534,8 +1566,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		final String input = newValue;
 		if (input == null || input.length() == 0) {
 			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
-																	// Borcherds
-																	// 2008-05-12
+			// Borcherds
+			// 2008-05-12
 			scrollIntoView();
 			return false;
 		}
@@ -1663,8 +1695,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if (isWidgetHit(animPanel, evt)
-				|| (minMaxPanel != null && minMaxPanel.isVisible())) {
+		if (avExtension
+				&& (isWidgetHit(animPanel, evt)
+						|| (minMaxPanel != null && minMaxPanel.isVisible()) || isWidgetHit(
+							marblePanel, evt))) {
 			return;
 		}
 
@@ -1778,24 +1812,27 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
-		if (minMaxPanel != null && minMaxPanel.isVisible()) {
-			return;
-		}
-		Object source = evt.getSource();
-		if (source == btnSpeedDown) {
-			animSpeedDown();
-			return;
-		} else if (source == btnSpeedUp) {
-			animSpeedUp();
-			return;
-		}
+		if (avExtension) {
+			if (minMaxPanel != null && minMaxPanel.isVisible()) {
 
-		if (sliderPanel != null
-				&& sliderPanel.isVisible()
-				&& (isWidgetHit(sliderPanel.getWidget(0), evt) || isWidgetHit(
-						sliderPanel.getWidget(2), evt))) {
-			minMaxPanel.show();
-			return;
+				return;
+			}
+			Object source = evt.getSource();
+			if (source == btnSpeedDown) {
+				animSpeedDown();
+				return;
+			} else if (source == btnSpeedUp) {
+				animSpeedUp();
+				return;
+			}
+
+			if (sliderPanel != null
+					&& sliderPanel.isVisible()
+					&& (isWidgetHit(sliderPanel.getWidget(0), evt) || isWidgetHit(
+							sliderPanel.getWidget(2), evt))) {
+				minMaxPanel.show();
+				return;
+			}
 		}
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -1985,7 +2022,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		} else {
 			selection.clearSelectedGeos(false); // repaint will be done
-												// next step
+			// next step
 			selection.addSelectedGeo(geo);
 			av.setLastSelectedGeo(geo);
 		}
@@ -2196,18 +2233,23 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				&& sliderPanel != null) {
 			sliderPanel.remove(slider);
 			contentPanel.add(w);
-			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
+			if (hasGeoExtendedAV()) {
 				sliderPanel.add(slider);
 			}
 		} else if (checkBox != null) {
 			remove(checkBox);
-			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
+			if (hasGeoExtendedAV()) {
 				add(checkBox);
 			}
 			add(w);
 		} else {
 			add(w);
 		}
+	}
+
+	private boolean hasGeoExtendedAV() {
+		return (geo instanceof HasExtendedAV && ((HasExtendedAV) geo)
+				.isShowingExtendedAV());
 	}
 
 	public void setDraggable() {
@@ -2337,11 +2379,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public void onResize() {
-		deferredResizeSlider();
+		if (avExtension) {
+			deferredResizeSlider();
+		}
 	}
 
 	private void setAnimating(boolean value) {
-		if (!geo.isAnimatable()) {
+		if (!(avExtension && geo.isAnimatable())) {
 			return;
 		}
 		geo.setAnimating(value);
