@@ -400,7 +400,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			coords = getWillingCoords();
 		else
 			// use real coords
-			coords = getCoords();
+			coords = getInhomCoordsInD3();
 
 		// matrix for projection
 		if (tmpMatrix4x4 == null) {
