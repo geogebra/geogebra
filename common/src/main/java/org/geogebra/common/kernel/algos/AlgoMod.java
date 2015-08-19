@@ -66,8 +66,14 @@ public class AlgoMod extends AlgoTwoNumFunction {
 			}
 
 			double mod = aVal % bAbs;
-			if (mod < 0)
-				mod += bAbs; // bugfix Michael Borcherds 2008-08-07
+
+			// https://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3
+			// It follows from this rule that the result of the remainder
+			// operation can be negative only if the dividend is negative, and
+			// can be positive only if the dividend is positive.
+			if (mod < 0) {
+				mod += bAbs;
+			}
 
 			num.setValue(mod);
 
