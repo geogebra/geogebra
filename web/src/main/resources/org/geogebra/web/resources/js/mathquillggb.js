@@ -2546,7 +2546,9 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
         var leadstr = String.fromCharCode(0x1100 + Math.floor((c - 44032) / 588));
 		sb = sb.concat(leadstr);
 		sb = sb.concat(vowelstr);
-		sb = sb.concat(tailstr);
+		if (!this.isKoreanLeadPlusVowelChar(c)) {
+			sb = sb.concat(tailstr);
+		}
       } else {
         // if a "lead char" follows a vowel, turn into a "tail char"
         if (lastWasVowel && (c >= 0x1100) && (c <= 0x1112)) {
@@ -2566,6 +2568,15 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       }
     }
     return sb;
+  };
+  _.isKoreanLeadPlusVowelChar = function(c) {
+    if ((c >= 0xac00) && (c <= 0xd7af)) {
+      var ch = c - 0xac00;
+      if ((ch % 28) === 0) {
+        return true;
+      }
+    }
+    return false;
   };
   _.unflattenKorean = function(str) {
     var ret = "";
