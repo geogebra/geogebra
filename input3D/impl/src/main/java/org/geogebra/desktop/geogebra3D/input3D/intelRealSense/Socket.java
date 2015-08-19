@@ -419,6 +419,10 @@ public class Socket {
 			PXCMHandConfiguration handConfig = handModule.CreateActiveConfiguration(); 
 			handConfig.EnableAllGestures();
 			handConfig.EnableAllAlerts();
+
+			// enables stabilizer and smoothing
+			// handConfig.EnableStabilizer(true);
+			// handConfig.SetSmoothingValue(1);
 			
 			GestureHandler handler = new GestureHandler() {
 				@Override
