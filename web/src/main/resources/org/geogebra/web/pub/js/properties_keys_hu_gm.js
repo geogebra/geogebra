@@ -2192,7 +2192,7 @@ __GGB__keysVar.hu_gm.plain = {
     "AllBars": "Minden oszlop",
     "AllViews": "\xd6sszes n\xe9zet",
     "AllowOfflineUse": "Kapcsolat n\xe9lk\xfcli munka enged\xe9lyez\xe9se",
-    "AllowStyleBar": "Form\xe1z\xf3 l\xe9c enged\xe9lyez\xe9se",
+    "AllowStyleBar": "Form\xe1z\xf3l\xe9c enged\xe9lyez\xe9se",
     "Alt": "Alt",
     "AltGr": "AltG",
     "Altitude": "Magass\xe1g",

@@ -1317,7 +1317,7 @@ __GGB__keysVar.de_AT.menu = {
     "Count": "Z\xe4hle",
     "CountCells": "Z\xe4hle",
     "CountCells.Help": "W\xe4hlen Sie eine Gruppe von Zellen um diese zu z\xe4hlen.",
-    "Create": "Erzeuge",
+    "Create": "Erzeugen",
     "CreateCurveFit": "Regressionskurve",
     "CreateCurveFit.Help": "W\xe4hlen Sie jene Zellen, aus denen Punkte erzeugt werden sollen und aktivieren Sie dann das Werkzeug.",
     "CreateDataFunction": "DatenFunktion erstellen",
