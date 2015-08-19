@@ -752,10 +752,11 @@ namespace giac {
 	yd=y._DOUBLE_val;
 	if (v.size()>2){
 	  gen theta1=evalf_double(v[1],1,contextptr),theta2=evalf_double(v[2],1,contextptr);
-	  bool rad=angle_radian(contextptr);
-	  angle_radian(true,contextptr);
+    //grad
+	  int mode=get_mode_set_radian(contextptr);
 	  gen angle=arg(e2-e1,contextptr).evalf_double(1,contextptr);
-	  angle_radian(rad,contextptr);
+    angle_mode(mode, contextptr);
+
 	  if (theta1.type==_DOUBLE_ && theta2.type==_DOUBLE_ && angle.type==_DOUBLE_){
 	    double t1=theta1._DOUBLE_val,t2=theta2._DOUBLE_val;
 	    if (t1>t2){

@@ -36,8 +36,15 @@ namespace giac {
   bool cocoa_greduce(const vectpoly & r,const vectpoly & v,const gen & order,vectpoly & res);
 
 #ifndef CAS38_DISABLED
-  // giac code for poly up to 15 variables
-  bool gbasis8(const vectpoly & v,int & order,vectpoly & res,environment * env,bool modularalgo,bool modularcheck,bool & rur,GIAC_CONTEXT);
+  // giac code for poly (fast up to 15 variables)
+  struct order_t {
+    short o;
+    unsigned char dim;
+    unsigned char lex;
+  };
+
+  bool gbasis8(const vectpoly & v,order_t & order,vectpoly & res,environment * env,bool modularalgo,bool modularcheck,bool & rur,GIAC_CONTEXT);
+  bool greduce8(const vectpoly & v,const vectpoly & G,order_t & order,vectpoly & res,environment * env,GIAC_CONTEXT);
 #endif
 
 #ifndef NO_NAMESPACE_GIAC

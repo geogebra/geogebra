@@ -4,11 +4,11 @@
 // MUST compile gnuplot with interactive mode enabled, file src/plot.c
 // line 448
 /*
-diff plot.c plot.c~
-448c448
-<     interactive = TRUE; // isatty(fileno(stdin));
----
->     interactive = isatty(fileno(stdin));
+  diff plot.c plot.c~
+  448c448
+  <     interactive = TRUE; // isatty(fileno(stdin));
+  ---
+  >     interactive = isatty(fileno(stdin));
 */
 
 /*
@@ -2708,10 +2708,10 @@ namespace giac {
     if ( calc_mode(contextptr)==1 && feuille.type==_VECT && !feuille._VECTptr->empty()){
       gen f0=feuille._VECTptr->front();
       /*
-      if (f0.type==_VECT && f0.subtype==_VECTOR__VECT){
+	if (f0.type==_VECT && f0.subtype==_VECTOR__VECT){
 	f0.subtype=_SEQ__VECT;
 	return "vector("+f0.print(contextptr)+")";
-      }
+	}
       */
       if (f0.type==_VECT && f0.subtype==_POINT__VECT){
 	f0.subtype=_SEQ__VECT;
@@ -3431,9 +3431,9 @@ namespace giac {
     bx=mx+efx; by=my+efy;
     return symb_segment(makecomplex(ax,ay),makecomplex(bx,by),attributs,_LINE__VECT,contextptr);
     /*
-    gen direction=im(f-e,contextptr)-cst_i*re(f-e,contextptr);
-    gen m=rdiv(e+f,plus_two);
-    return symb_segment(m-direction,m+direction,attributs,_LINE__VECT,contextptr);
+      gen direction=im(f-e,contextptr)-cst_i*re(f-e,contextptr);
+      gen m=rdiv(e+f,plus_two);
+      return symb_segment(m-direction,m+direction,attributs,_LINE__VECT,contextptr);
     */
   }
   static const char _mediatrice_s []="perpen_bisector";
@@ -3849,8 +3849,8 @@ namespace giac {
     int n=gn.val;
     if (gn.type!=_INT_ || absint(n)<2)
       return gensizeerr(contextptr);  
-    bool b=angle_radian(contextptr);
-    angle_radian(true,contextptr);
+    //grad
+    int mode=get_mode_set_radian(contextptr);
     if (n>0){
       context tmp;
       gen c;
@@ -3874,7 +3874,8 @@ namespace giac {
       w.push_back(e+ef*cos(2*i*cst_pi/n,contextptr)+nd*sin(2*i*cst_pi/n,contextptr));
     }
     w.push_back(f);
-    angle_radian(b,contextptr);
+    //grad
+    angle_mode(mode,contextptr);
     gen res=pnt_attrib(gen(w,_GROUP__VECT),attributs,contextptr);
     return res;
   }
@@ -4596,10 +4597,11 @@ namespace giac {
       gen centre,rayon;
       if (!centre_rayon(sur,centre,rayon,false,contextptr))
 	return gensizeerr(contextptr); // don't care about radius
-      bool b=angle_radian(contextptr);
-      angle_radian(true,contextptr);
+      //grad
+      int mode=get_mode_set_radian(contextptr);
       gen res=arg(p-centre,contextptr); 
-      angle_radian(b,contextptr);
+      angle_mode(mode,contextptr);
+
       return res;
     }
     // if p is on e return 0
@@ -5241,8 +5243,8 @@ namespace giac {
       e=e._VECTptr->front();
       v=makevecteur(e,f,g);
     }
-    bool tmp=angle_radian(contextptr);
-    angle_radian(true,contextptr);
+    //grad
+    int mode=get_mode_set_radian(contextptr);
     gen res;
     if (e.is_symb_of_sommet(at_hyperplan)){
       swapgen(e,f);
@@ -5338,11 +5340,15 @@ namespace giac {
       c2=gen(makevecteur(f,e,g),_LINE__VECT);
       c2=symb_pnt(c2,attributs[0],contextptr);
     }
-    if (!tmp){
+    //grad
+    if (mode){ //not radians
       gen resd;
       if (has_evalf(res,resd,1,contextptr))
-	res= rad2deg_d*resd;
-      angle_radian(tmp,contextptr);
+	if(!mode) //are we in degrees
+	  res= rad2deg_d*resd;
+	else
+	  res= rad2grad_d*resd;
+      angle_mode(mode,contextptr);
     }
     if (montrer && c.is_symb_of_sommet(at_pnt) && c._SYMBptr->feuille.type==_VECT && c._SYMBptr->feuille._VECTptr->size()==2){
       vecteur v=*c._SYMBptr->feuille._VECTptr;
@@ -5612,16 +5618,16 @@ namespace giac {
       }
       int n; 
       if (t.type==_VECT)
-      {
-        vecteur param=*t._VECTptr;
-        if (param.size()<2) return gensizeerr(gettext("plot.cc/parameter2point"));
-        if (param[0].type!=_INT_) 
-        { 
-          if (param[0].type!=_DOUBLE_) return gensizeerr(gettext("plot.cc/parameter2point"));
-          n= (int)param[0].DOUBLE_val();
-        } else n=param[0].val;
-        t= param[1];
-      } else {
+	{
+	  vecteur param=*t._VECTptr;
+	  if (param.size()<2) return gensizeerr(gettext("plot.cc/parameter2point"));
+	  if (param[0].type!=_INT_) 
+	    { 
+	      if (param[0].type!=_DOUBLE_) return gensizeerr(gettext("plot.cc/parameter2point"));
+	      n= (int)param[0].DOUBLE_val();
+	    } else n=param[0].val;
+	  t= param[1];
+	} else {
         t= t.evalf2double(1, contextptr);
         if (t.type!=_DOUBLE_) return gensizeerr(gettext("plot.cc/parameter2point"));
         n= (int)(t.DOUBLE_val());
@@ -6116,8 +6122,8 @@ namespace giac {
 	  if (tmin!=-T){
 	    if (tmax!=T)
 	      tmpg=giac_assume(symbolic(at_and,makevecteur(symb_superieur_egal(gen_t,tmin),
-						      symb_inferieur_egal(gen_t,tmax)))
-			  ,contextptr);
+							   symb_inferieur_egal(gen_t,tmax)))
+			       ,contextptr);
 	    else
 	      tmpg=giac_assume(symb_superieur_egal(gen_t,tmin),contextptr);
 	  }
@@ -6567,7 +6573,7 @@ namespace giac {
       y += Cy;
       return makecomplex(x,y);
     }
-    return centre+exp(cst_i*degtorad(angle,contextptr),contextptr)*(M-centre);
+    return centre+exp(cst_i*angletorad(angle,contextptr),contextptr)*(M-centre);
   }
 
   // 2-d r(centre,angle,M) or 3-d r(line,angle,M)
@@ -7321,7 +7327,7 @@ namespace giac {
       if (b.type==_VECT && b.subtype==_VECTOR__VECT && b._VECTptr->size()==2)
 	return _vector(gen(makevecteur(similitude(makevecteur(centre,rapport,angle,b._VECTptr->front()),s,contextptr),similitude(makevecteur(centre,rapport,angle,b._VECTptr->back()),s,contextptr)),_SEQ__VECT),contextptr);
       if (centre.type!=_VECT)
-	return symb_pnt(centre+rapport*exp(cst_i*degtorad(angle,contextptr),contextptr)*(b-centre),default_color(contextptr),contextptr);
+	return symb_pnt(centre+rapport*exp(cst_i*angletorad(angle,contextptr),contextptr)*(b-centre),default_color(contextptr),contextptr);
       return similitude3d(*centre._VECTptr,angle,rapport,b,1,contextptr);
     }
     if (s==3){
@@ -7425,21 +7431,21 @@ namespace giac {
     return string(sommetstr)+('('+feuille._VECTptr->front().print(contextptr)+string(",undef)"));
   }
   /*
-  static int sprintascurve(const gen & feuille,const char * sommetstr,string * sptr,GIAC_CONTEXT){
+    static int sprintascurve(const gen & feuille,const char * sommetstr,string * sptr,GIAC_CONTEXT){
     int res=1+strlen(sommetstr);
     if (sptr)
-      *sptr += '(';
+    *sptr += '(';
     if ( !fastcurveprint || (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) ){
-      res += feuille.sprint(sptr,contextptr);
-      if (sptr)
-	*sptr += ')';
-      return res+1;
+    res += feuille.sprint(sptr,contextptr);
+    if (sptr)
+    *sptr += ')';
+    return res+1;
     }
     res += feuille._VECTptr->front().sprint(sptr,contextptr);
     if (sptr)
-      *sptr += ",undef)";
+    *sptr += ",undef)";
     return res+7;    
-  }
+    }
   */
   gen _curve(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -7568,7 +7574,7 @@ namespace giac {
     gen f=vargs.front();
     gen vars=vargs[1];
     /*
-    if (f.type==_VECT && f._VECTptr->size()==2)
+      if (f.type==_VECT && f._VECTptr->size()==2)
       f=f._VECTptr->front()+cst_i*f._VECTptr->back();
     */
     bool param2d=f.type!=_VECT || f._VECTptr->size()==2;
@@ -7865,7 +7871,7 @@ namespace giac {
     if (theta.type!=_IDNT)
       return gensizeerr(gettext("2nd arg must be a free variable"));    
     // vargs.front()=symbolic(at_re,rho)*exp(cst_i*degtorad(theta,contextptr),contextptr);
-    vargs.front()=makevecteur(rho*cos(degtorad(theta,contextptr),contextptr),rho*sin(degtorad(theta,contextptr),contextptr));
+    vargs.front()=makevecteur(rho*cos(angletorad(theta,contextptr),contextptr),rho*sin(angletorad(theta,contextptr),contextptr));
     return _plotparam(gen(vargs,_SEQ__VECT),contextptr);
   }
   static const char _plotpolar_s []="plotpolar";
@@ -9116,8 +9122,14 @@ namespace giac {
 #else
     gen theta=identificateur("t"); // t__IDNT_e;
 #endif
-    if (!angle_radian(contextptr))
-      theta=gen(180)/cst_pi*theta;
+    if(!angle_radian(contextptr))
+      {
+	//grad
+	if(angle_degree(contextptr))
+	  theta=gen(180)/cst_pi*theta;
+	else
+	  theta = gen(200) / cst_pi*theta;
+      }
     if (n.type==_VECT){ // 3-d
       n=n-O;
       n=cross(cross(F1F2,n,contextptr),F1F2,contextptr);
@@ -9622,7 +9634,7 @@ namespace giac {
     if ( args.type!=_VECT )
       return gentypeerr(contextptr);
     vecteur v = *args._VECTptr;
-	int s = int(v.size());
+    int s = int(v.size());
     if (s<2)
       return gentypeerr(contextptr);
     gen l=_perimetre(v[0],contextptr);
@@ -9666,7 +9678,7 @@ namespace giac {
     if ( args.type!=_VECT )
       return gentypeerr(contextptr);
     vecteur v = *args._VECTptr;
-	int s = int(v.size());
+    int s = int(v.size());
     if (s<4)
       return gentypeerr(contextptr);
     gen l=_angle(gen(makevecteur(eval(v[0],eval_level(contextptr),contextptr),eval(v[1],eval_level(contextptr),contextptr),eval(v[2],eval_level(contextptr),contextptr)),_SEQ__VECT),contextptr);
@@ -9692,7 +9704,7 @@ namespace giac {
     if ( args.type!=_VECT )
       return gentypeerr(contextptr);
     vecteur v = *args._VECTptr;
-	int s = int(v.size());
+    int s = int(v.size());
     if (s<4)
       return gentypeerr(contextptr);
     gen l=_angle(gen(makevecteur(v[0],v[1],v[2]),_SEQ__VECT),contextptr);
@@ -9816,7 +9828,7 @@ namespace giac {
       return false; // setsizeerr(contextptr);
     normalize=false;
     vecteur v(*args._VECTptr);
-	int s = int(v.size());
+    int s = int(v.size());
     for (int i=0;i<s;++i){
       if (v[i]==at_normalize){
 	normalize=true;
@@ -9911,7 +9923,7 @@ namespace giac {
       init=makevecteur(re(init,contextptr),im(init,contextptr));
     gen t;
     int s;
-	if (vars.type != _VECT || (s = int(vars._VECTptr->size()))<2)
+    if (vars.type != _VECT || (s = int(vars._VECTptr->size()))<2)
       return gensizeerr(contextptr);
     if (s==3){
       t=vars._VECTptr->front();
@@ -9928,7 +9940,7 @@ namespace giac {
     }
     v[1]=vars;
     vecteur f=makevecteur(fp,(t.is_symb_of_sommet(at_equal)?t._SYMBptr->feuille._VECTptr->front():t),vars);
-	if (init.type != _VECT || (s = int(init._VECTptr->size()))<2)
+    if (init.type != _VECT || (s = int(init._VECTptr->size()))<2)
       return gensizeerr(contextptr);
     vecteur & initv=*init._VECTptr;
     gen t0=initv.front();
@@ -10333,7 +10345,7 @@ namespace giac {
 	s=u.ptr()->s;
       }
 #endif
-	  int l = int(s.size());
+      int l = int(s.size());
       if ( (l>4) && (s.substr(l-3,3)=="(0)") )
 	os << s.substr(0,l-3) << " ";
       else
@@ -10560,7 +10572,7 @@ namespace giac {
       return archive_session(true,*args._STRNGptr,contextptr);
     }
     int s;
-	if (args.type != _VECT || (s = int(args._VECTptr->size()))<2)
+    if (args.type != _VECT || (s = int(args._VECTptr->size()))<2)
       return gensizeerr(contextptr);
     gen a=args._VECTptr->front();
     gen b=(*args._VECTptr)[1];
@@ -10700,7 +10712,7 @@ namespace giac {
     if (args.type!=_VECT || args._VECTptr->size()<4)
       return gensizeerr(contextptr);
     vecteur w=*args._VECTptr;
-	int s = int(w.size());
+    int s = int(w.size());
     if (s<12){
       if (s<5) w.push_back(gnuplot_zmin);
       if (s<6) w.push_back(gnuplot_zmax);
@@ -10880,7 +10892,7 @@ namespace giac {
 #else
     if (f_orig.type==_VECT){
       vecteur & v = *f_orig._VECTptr,w;
-	  int vs = int(v.size());
+      int vs = int(v.size());
       for (int i=0;i<vs;++i){
 	w.push_back(in_plotimplicit(v[i],x,y,xmin,xmax,ymin,ymax,nxstep,nystep,eps,attributs,contextptr));
       }
@@ -10891,7 +10903,7 @@ namespace giac {
     if (f_orig.is_symb_of_sommet(at_prod) && f_orig._SYMBptr->feuille.type==_VECT){
       vecteur res;
       vecteur & fv = *f_orig._SYMBptr->feuille._VECTptr;
-	  int s = int(fv.size());
+      int s = int(fv.size());
       for (int i=0;i<s;++i){
 	gen tmp=in_plotimplicit(fv[i],x,y,xmin,xmax,ymin,ymax,nxstep,nystep,eps,attributs,contextptr);
 	if (!is_undef(tmp))
@@ -11160,7 +11172,7 @@ namespace giac {
       if (!pathfound){
 	++j;
 	if (j>nystep){
-	j=0;
+	  j=0;
 	  ++i;
 	  if (i>nxstep)
 	    break;
@@ -11627,7 +11639,7 @@ namespace giac {
   }
 
   static void glue_components(vecteur & v,double dx,double dy){
-	  int s = int(v.size());
+    int s = int(v.size());
     for (int i=0;i<s-1;++i){
       gen & cur = v[i];
       for (int j=i+1;j<s;++j){

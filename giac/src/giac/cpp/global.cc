@@ -754,11 +754,12 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   static int _angle_mode_=0;
-  bool angle_radian(GIAC_CONTEXT){
-    if (contextptr && contextptr->globalptr )
-      return contextptr->globalptr->_angle_mode_==0;
+  bool angle_radian(GIAC_CONTEXT)
+  {
+    if(contextptr && contextptr->globalptr)
+      return contextptr->globalptr->_angle_mode_ == 0;
     else
-      return _angle_mode_==0;
+      return _angle_mode_ == 0;
   }
 
   void angle_radian(bool b,GIAC_CONTEXT){
@@ -768,7 +769,40 @@ extern "C" void Sleep(unsigned int miliSecond);
       _angle_mode_=(b?0:1);
   }
 
-  int & angle_mode(GIAC_CONTEXT){
+  bool angle_degree(GIAC_CONTEXT)
+  {
+    if(contextptr && contextptr->globalptr)
+      return contextptr->globalptr->_angle_mode_ == 1;
+    else
+      return _angle_mode_ == 1;
+  }
+
+  int get_mode_set_radian(GIAC_CONTEXT)
+  {
+    int mode;
+    if(contextptr && contextptr->globalptr)
+    {
+      mode = contextptr->globalptr->_angle_mode_;
+      contextptr->globalptr->_angle_mode_ = 0;
+    }
+    else
+    {
+      mode = _angle_mode_;
+      _angle_mode_ = 0;
+    }
+    return mode;
+  }
+
+  void angle_mode(int b, GIAC_CONTEXT)
+  {
+    if(contextptr && contextptr->globalptr)
+      contextptr->globalptr->_angle_mode_ = b;
+    else
+      _angle_mode_ = b;
+  }
+
+  int & angle_mode(GIAC_CONTEXT)
+  {
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_angle_mode_;
     else
@@ -4972,9 +5006,9 @@ unsigned int ConvertUTF8toUTF16 (
 	check38=false;
       if (s.size()==1){
 #ifdef GIAC_HAS_STO_38
-	if (s[0]>='A' && s[0]<='Z'){
+	if (s[0]>='a' && s[0]<='z'){
 	  index_status(contextptr)=1; 
-	  res=*tab_one_letter_idnt[s[0]-'A'];
+	  res=*tab_one_letter_idnt[s[0]-'a'];
 	  return T_SYMBOL;
 	}
 	if (check38 && s[0]>='a' && s[0]<='z' && calc_mode(contextptr)==38)

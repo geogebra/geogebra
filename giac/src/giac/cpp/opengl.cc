@@ -27,6 +27,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_opengl.h"
 #include <emscripten.h>
+#include <html5.h>
 #endif
 
 #include <fstream>
@@ -1465,7 +1466,8 @@ namespace giac {
   Opengl3d::Opengl3d(int w__,int h__): 
     Opengl(w__,h__),
     theta_z(-110),theta_x(-13),theta_y(-95),
-    delta_theta(5),draw_mode(GL_QUADS),glcontext(0),dragi(0),dragj(0),push_in_area(false),depth(0),below_depth_hidden(false) {
+    delta_theta(5),draw_mode(GL_QUADS),//glcontext(0),
+    dragi(0),dragj(0),push_in_area(false),depth(0),below_depth_hidden(false) {
     // end();
     // mode=0;
     display_mode |= 0x80;
@@ -4033,8 +4035,47 @@ void freeglutStrokeCharacter( int character )
   }
 #endif
 
+  void Opengl3dcfg::store(const Opengl3d * ptr)  {
+    q=ptr->q;
+    window_xmin=ptr->window_xmin;
+    window_xmax=ptr->window_xmax;
+    window_ymin=ptr->window_ymin;
+    window_ymax=ptr->window_ymax;
+    window_zmin=ptr->window_zmin;
+    window_zmax=ptr->window_zmax;
+    theta_x=ptr->theta_x;
+    theta_y=ptr->theta_y;
+    theta_z=ptr->theta_z;
+    twodim=ptr->twodim;
+    plot_instructions=ptr->plot_instructions;
+    w=ptr->w();
+    h=ptr->h();
+  }
+  
+  Opengl3dcfg::Opengl3dcfg(const Opengl3d * ptr){
+    webglhandle=0;
+    store(ptr);
+  }
+
+  void Opengl3dcfg::load(Opengl3d * ptr) const {
+    ptr->q=q;
+    ptr->window_xmin=window_xmin;
+    ptr->window_xmax=window_xmax;
+    ptr->window_ymin=window_ymin;
+    ptr->window_ymax=window_ymax;
+    ptr->window_zmin=window_zmin;
+    ptr->window_zmax=window_zmax;
+    ptr->theta_x=theta_x;
+    ptr->theta_y=theta_y;
+    ptr->theta_z=theta_z;
+    ptr->twodim=twodim;
+    ptr->plot_instructions=plot_instructions;
+    ptr->resize(w,h);
+  }
+  
   int keys[1000];
-  Opengl3d * openglptr=0;
+  Opengl3d * openglptr=0; 
+  vector<Opengl3dcfg> v3d;
   bool pushed=false;
   void sdl_loop() {
     SDL_EnableUNICODE( 1 );
@@ -4117,98 +4158,135 @@ void freeglutStrokeCharacter( int character )
     }
   }
   
-  int init_screen(int & w,int & h){
+  int init_screen(int & w,int & h,int no){
     int fs;
-#ifndef GIAC_GGB
-    emscripten_get_canvas_size(&w, &h, &fs);
-#endif
+    static int oldno=-RAND_MAX;
+    if (oldno==no)
+      return 0;
+    oldno=no;
+    if (no==-1)
+      emscripten_get_canvas_size(&w, &h, &fs);
+    // COUT << "init_screen " << w << " " << h << endl;
     if (w==0) w=400;
     if (h==0) h=250;
     if ( SDL_Init(SDL_INIT_VIDEO) != 0 ) {
       printf("Unable to initialize SDL: %s\n", SDL_GetError());
       return 1; // "unable to init SDL";
     }
-    SDL_Window * window=0;
-    SDL_Surface *screen=0;
-    SDL_Renderer * sdlr=0;
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 ); // *new*
-    screen = SDL_SetVideoMode( w, h, 16, SDL_OPENGL ); // *changed*
-    if ( !screen ) {
-      printf("Unable to set video mode: %s\n", SDL_GetError());
-      return 2; // "unable to set video mode";
-    }
+    //COUT << "glinit " << no << endl;
+    int handle=glinit( w, h, 16, SDL_OPENGL ,no);
+    if (no>=0 && no<v3d.size())
+      v3d[no].webglhandle=handle;
     return 0;
   }
   
   int giac_renderer(const char * ch){
     // COUT << "giac_renderer " << ch << endl;
-    if (ch==0)
-      return -1;
-    int s=strlen(ch);
-    if (s==1 && openglptr){
-      int w,h,fs;
-      switch (ch[0]){
+    int i=0,s=strlen(ch),w=400,h=250,fs=1,no=-1;
+    if (s==0) return -1;
+    char cmd=' ';
+    if (*ch<'0' || *ch>'9'){
+      cmd=*ch;
+      ++ch;
+      --s;
+    }
+    for (;i<s;++i){
+      if (ch[i]<'0' || ch[i]>'9')
+	return -1;
+    }
+    if (!openglptr)
+      openglptr = new Opengl3d (400,250);
+    if (s){
+      no=atoi(ch)-1;
+      // COUT << no << " " << v3d.size() << endl;
+      if (no>=v3d.size() || no<0)
+	return -1;
+      //int ctx=emscripten_webgl_get_current_context();
+      v3d[no].load(openglptr);
+      //emscripten_webgl_make_context_current(ctx);
+    }
+    if (openglptr){
+      // COUT << "cmd " << cmd << " no " << no << endl;
+      switch (cmd){
       case 'q':
 	// emscripten_cancel_main_loop();
 	// SDL_Quit();
 	break;
+      case ' ':
+	fs=init_screen(w,h,no);
+	if (fs==0){
+	  openglptr->draw();
+          SDL_GL_SwapBuffers();
+	  SDL_Quit();
+	}
+	break;
       case '-':
-	fs=init_screen(w,h);
+	fs=init_screen(w,h,no);
 	if (fs==0){
 	  openglptr->zoom(1.414);
 	  openglptr->draw();
+          SDL_GL_SwapBuffers();
 	  SDL_Quit();
 	}
 	break;
       case '+':
-	fs=init_screen(w,h);
+	fs=init_screen(w,h,no);
 	if (fs==0){
 	  openglptr->zoom(0.707);
 	  openglptr->draw();
+          SDL_GL_SwapBuffers();
 	  SDL_Quit();
 	}
 	break;
       case 'a':
-	fs=init_screen(w,h);
+	fs=init_screen(w,h,no);
 	if (fs==0){
 	  openglptr->autoscale(true);
 	  openglptr->draw();
+          SDL_GL_SwapBuffers();
 	  SDL_Quit();
 	}
 	break;
       case 'l':
-	fs=init_screen(w,h);
+	fs=init_screen(w,h,no);
 	if (fs==0){
 	  openglptr->q=quaternion_double(-1,0,0)*openglptr->q;
 	  openglptr->draw();
+          SDL_GL_SwapBuffers();
 	  SDL_Quit();
 	}
 	break;
       case 'r':
-	fs=init_screen(w,h);
+	fs=init_screen(w,h,no);
 	if (fs==0){
 	  openglptr->q=quaternion_double(1,0,0)*openglptr->q;
 	  openglptr->draw();
+          SDL_GL_SwapBuffers();
 	  SDL_Quit();
 	}
 	break;
       case 'u':
-	fs=init_screen(w,h);
+	fs=init_screen(w,h,no);
 	if (fs==0){
 	  openglptr->q=rotation_2_quaternion_double(-1,0,0,1)*openglptr->q;
 	  openglptr->draw();
+          SDL_GL_SwapBuffers();
 	  SDL_Quit();
 	}
 	break;
       case 'd':
-	fs=init_screen(w,h);
+	fs=init_screen(w,h,no);
 	if (fs==0){
 	  openglptr->q=rotation_2_quaternion_double(1,0,0,1)*openglptr->q;
 	  openglptr->draw();
+          SDL_GL_SwapBuffers();
 	  SDL_Quit();
 	}
 	break;	
       }
+      if (no>=0)
+	v3d[no].store(openglptr);
       return 0;
     }
     context C;
@@ -4223,20 +4301,19 @@ void freeglutStrokeCharacter( int character )
       last=last._VECTptr->back();
     if (calc_mode(contextptr)!=1 && last.is_symb_of_sommet(at_pnt)){
       int w=0,h=0,fs;
-      // emscripten_set_canvas_size(640, 480);
-      fs=init_screen(w,h);
+      if (!openglptr)
+	openglptr = new Opengl3d (400,250);
+      fs=init_screen(w,h,-1);
       if (fs)
 	return fs;
+      v3d.push_back(openglptr);
+      // emscripten_set_canvas_size(640, 480);
       if (is3d(g)){
-	if (!openglptr)
-	  openglptr = new Opengl3d (w,h);
-	else {
-	  if (openglptr->twodim){
-	    openglptr->theta_z=-110;
-	    openglptr->theta_x=-13;
-	    openglptr->theta_y=-95;
-	    openglptr->q=euler_deg_to_quaternion_double(-110,-13,-95);
-	  }
+	if (openglptr->twodim){
+	  openglptr->theta_z=-110;
+	  openglptr->theta_x=-13;
+	  openglptr->theta_y=-95;
+	  openglptr->q=euler_deg_to_quaternion_double(-110,-13,-95);
 	}
 	openglptr->twodim=false;
 	openglptr->plot_instructions=vecteur(1,g);
@@ -4245,8 +4322,6 @@ void freeglutStrokeCharacter( int character )
 	//COUT << "reset g end" << endl;
       }
       else {
-	if (!openglptr)
-	  openglptr = new Opengl3d (w,h);
 	openglptr->twodim=true;
 	openglptr->theta_x=0;
 	openglptr->theta_y=0;
@@ -4258,6 +4333,7 @@ void freeglutStrokeCharacter( int character )
 	openglptr->draw();
 	//g.type=0;
       }
+      v3d.back().store(openglptr);
       SDL_GL_SwapBuffers();
       // emscripten_cancel_main_loop();
       // emscripten_set_main_loop(sdl_loop, 0, 0);
@@ -4273,9 +4349,8 @@ void freeglutStrokeCharacter( int character )
 	Module.print('SDL_Quit called (and ignored)');
 	},
       */
-      
     }
-    return 0;
+    return v3d.size();
   }
   
 #ifndef NO_NAMESPACE_GIAC

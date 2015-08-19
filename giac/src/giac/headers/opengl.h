@@ -180,6 +180,7 @@ namespace giac {
     std::string current_config();
     void adjust_cursor_point_type();
     void glRasterPos3d(double d1,double d2,double d3);
+    void resize(int w__,int h__){w_=w__; h_=h__; }
   };
 
 
@@ -190,7 +191,7 @@ namespace giac {
     double theta_z,theta_x,theta_y; // rotations
     double delta_theta; // rotation increment
     int draw_mode; // for sphere drawing
-    void * glcontext;
+    // void * glcontext;
     // save values of the projection and modelview matrices
     double proj[16],model[16],proj_inv[16],model_inv[16]; 
     double view[4];
@@ -215,7 +216,21 @@ namespace giac {
     void normal2plan(double & a,double &b,double &c);
   };
 
-  extern Opengl3d * openglptr;  
+  struct Opengl3dcfg {
+    int webglhandle;
+    int w,h;
+    double window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax;
+    quaternion_double q;
+    double theta_z,theta_x,theta_y; // rotations
+    giac::vecteur plot_instructions;
+    bool twodim;
+    Opengl3dcfg(const Opengl3d * ptr);
+    void load(Opengl3d * ptr) const;
+    void store(const Opengl3d * ptr) ;
+  };
+
+  extern Opengl3d * openglptr;
+  extern std::vector<Opengl3dcfg> v3d;
   void sdl_loop();
   int giac_renderer(const char * ch);
   int giac_gen_renderer(const gen & g,GIAC_CONTEXT);

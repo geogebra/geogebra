@@ -4725,10 +4725,27 @@ namespace giac {
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
     gen args(g);
     if (g.type==_DOUBLE_)
-      args=int(g._DOUBLE_val);    
+      args=int(g._DOUBLE_val);
+    //grad
+    //since this is a programming command, not sure what you want done here exactly..., will return 1 for radian, 0 for degree, and 2 for grads to match prior behavior
     if (args.type!=_INT_)
-      return angle_radian(contextptr);
-    angle_radian((args.val)!=0,contextptr);
+    {
+      if(angle_radian(contextptr))
+        return 1;
+      else if(angle_degree(contextptr))
+        return 0;
+      else
+        return 2;
+    }
+    //anything but 0 or 2 will result in radians...
+    int val = args.val;
+    if(val == 0) 
+      angle_mode(1, contextptr); //set to degrees if 0
+    else if(val==2)
+      angle_mode(2, contextptr); //set to grads if 2
+    else
+      angle_mode(0, contextptr); //set to radians for anything but those two
+
     parent_cas_setup(contextptr);
     return args;
   }
@@ -4865,11 +4882,31 @@ namespace giac {
 	complex_mode(v[2]._DOUBLE_val!=0,contextptr);
     }
     if (v[3].type==_INT_)
-      angle_radian(v[3].val!=0,contextptr);
+    {
+      //grad
+      //since end user sees val !=0 being radians, I have hijacked so 2 will be grad, 0 is deg, and anything else is radians
+      int val = v[3].val;
+      if(val == 0)
+        angle_mode(1, contextptr); //degrees if ==0
+      else if(val == 2)
+        angle_mode(2, contextptr); //grad if ==2
+      else
+        angle_mode(0, contextptr); //anything else is radians
+    }
     else {
       v[3]=evalf_double(v[3],1,contextptr);
       if (v[3].type==_DOUBLE_)
-	angle_radian(v[3]._DOUBLE_val!=0,contextptr);
+      {
+        //grad
+        //since end user sees val !=0 being radians, I have hijacked so 2 will be grad, 0 is deg, and anything else is radians
+        int val = v[3]._DOUBLE_val;
+        if(val == 0)
+          angle_mode(1, contextptr); //degrees if ==0
+        else if(val == 2)
+          angle_mode(2, contextptr); //grad if ==2
+        else
+          angle_mode(0, contextptr); //anything else is radians
+      }
     }
     v[4]=evalf_double(v[4],1,contextptr);
     if (v[4].type==_DOUBLE_){
@@ -4945,7 +4982,8 @@ namespace giac {
     v.push_back(approx_mode(contextptr));
     v.push_back(complex_variables(contextptr));
     v.push_back(complex_mode(contextptr));
-    v.push_back(angle_radian(contextptr));
+    int an=angle_mode(contextptr);
+    v.push_back(an==2?2:1-an); //grad //not sure if this will mess anything up on your side bernard, having int instead of bool
     v.push_back(scientific_format(contextptr)+16*integer_format(contextptr));
     v.push_back(makevecteur(epsilon(contextptr),proba_epsilon(contextptr)));
     v.push_back(decimal_digits(contextptr));

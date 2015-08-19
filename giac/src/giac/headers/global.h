@@ -31,7 +31,7 @@
 #if defined VISUALC || defined BESTA_OS 
 typedef long pid_t;
 #else // VISUALC
-#if !defined(__MINGW_H) && !defined(BESTA_OS) && !defined(NSPIRE) && !defined(__ANDROID__) && !defined(NSPIRE_NEWLIB) && !defined(OSX)
+#if !defined(__MINGW_H) && !defined(BESTA_OS) && !defined(NSPIRE) && !defined(__ANDROID__) && !defined(NSPIRE_NEWLIB) && !defined(OSX) && !defined(IOS)
 #include "wince_replacements.h"
 #endif
 #ifdef __MINGW_H
@@ -703,8 +703,11 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   std::vector<logo_turtle> & turtle_stack(GIAC_CONTEXT);
 
   int & angle_mode(GIAC_CONTEXT);
-  void angle_radian(bool b,GIAC_CONTEXT);
+  int get_mode_set_radian(GIAC_CONTEXT);
+  void angle_mode(int m,GIAC_CONTEXT);
   bool angle_radian(GIAC_CONTEXT);
+  void angle_radian(bool b,GIAC_CONTEXT);
+  bool angle_degree(GIAC_CONTEXT);
 
   bool & show_point(GIAC_CONTEXT);
   void show_point(bool b,GIAC_CONTEXT);

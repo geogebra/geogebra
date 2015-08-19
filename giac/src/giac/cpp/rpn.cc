@@ -4337,13 +4337,20 @@ namespace giac {
       {
 	HP_Real a, r, s, c;
 	fExpand(gen2HP(angle), &a); fExpand(gen2HP(res), &r);
-	fisin(&a, &s, angle_radian(contextptr)?AMRad:AMDeg); ficos(&a, &c, angle_radian(contextptr)?AMRad:AMDeg); 
+	fisin(&a, &s, angle_radian(contextptr)?AMRad:(angle_degree(contextptr)?AMDeg:AMGrad)); ficos(&a, &c, angle_radian(contextptr)?AMRad:(angle_degree(contextptr)?AMDeg:AMGrad)); //grad
 	fimul_L(&s, &r, &s); fimul_L(&c, &r, &c);
 	HP_gen C= fUnExpand(&c), S= fUnExpand(&s);
 	gen gC, gS; gC= HP2gen(C); gS= HP2gen(S);
 	res= gC+gS*cst_i;
       } else {
-      if (angle_radian(contextptr)==0) angle = angle * m_pi(contextptr)/180;
+      if(!angle_radian(contextptr))
+      {
+        //grad
+        if(angle_degree(contextptr))
+          angle = angle * m_pi(contextptr) / 180;
+        else
+          angle = angle * m_pi(contextptr) / 200;
+      }
       res=res*exp(cst_i*angle,contextptr);
     }
 #else

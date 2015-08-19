@@ -136,13 +136,14 @@ namespace giac {
     l=k.val+trig_deno/2;
     return true;
   }
-  static bool is_multiple_of_pi_over_12(const gen & a,int & l,bool angle_unit,GIAC_CONTEXT){
+  //grad
+  static bool is_multiple_of_pi_over_12(const gen & a,int & l,GIAC_CONTEXT){
     if (is_zero(a,contextptr)){
       l=0;
       return true;
     }
     gen k;
-    if (angle_unit){
+    if (angle_radian(contextptr)){
       if (!contains(a,cst_pi))
 	return false;
       k=derive(a,cst_pi,contextptr);
@@ -157,8 +158,11 @@ namespace giac {
 	setsizeerr();
       */
     }
-    else 
+    else if(angle_degree(contextptr))
       k=rdiv(a,15,context0);
+    //grad
+    else 
+      k=rdiv(a,rdiv(50,3),context0); //50/3 grads,  due to 200/12
     return is_multiple_of_12(k,l);
   }
 
@@ -384,10 +388,11 @@ namespace giac {
 #endif
       }
       if (e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_){
-	bool b=angle_radian(contextptr);
-	angle_radian(true,contextptr);
+  //grad
+	int mode=get_mode_set_radian(contextptr);
 	gen res=ln(abs(e,contextptr),contextptr)+cst_i*arg(e,contextptr);
-	angle_radian(b,contextptr);
+	angle_mode(mode,contextptr);
+
 	return res;
       }
       if (is_zero(*e._CPLXptr,contextptr)){
@@ -566,20 +571,28 @@ namespace giac {
 #endif
       if (angle_radian(contextptr)) 
 	return res;
+      else if(angle_degree(contextptr))
+	      return res*rad2deg_d;
       else
-	return res*rad2deg_d;
+        return res*rad2grad_d;
     }
     if (e.type==_REAL){
       if (angle_radian(contextptr)) 
 	return e._REALptr->atan();
+      else if(angle_degree(contextptr))
+	      return 180*e._REALptr->atan()/cst_pi;
+      //grad
       else
-	return 180*e._REALptr->atan()/cst_pi;
+        return 200*e._REALptr->atan()/cst_pi;
     }
     if ( (e.type==_CPLX) && (e.subtype || e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_)){
       if (angle_radian(contextptr)) 
 	return no_context_evalf(atanasln(e,contextptr));
+      else if(angle_degree(contextptr))
+	      return no_context_evalf(atanasln(e,contextptr))*gen(rad2deg_d);
+      //grad
       else
-	return no_context_evalf(atanasln(e,contextptr))*gen(rad2deg_d);
+        return no_context_evalf(atanasln(e, contextptr))*gen(rad2grad_d);
     }
     if (is_squarematrix(e))
       return analytic_apply(at_atan,*e._VECTptr,contextptr);
@@ -590,32 +603,56 @@ namespace giac {
     if (is_one(e)){
       if (angle_radian(contextptr)) 
 	return rdiv(cst_pi,4,contextptr);
+      else if(angle_degree(contextptr))
       return 45;
+      //grad
+      else
+        return 50;
     }
     if (is_minus_one(e)){
       if (angle_radian(contextptr)) 
 	return rdiv(-cst_pi,4,contextptr);
+      else if(angle_degree(contextptr))
       return -45;
+      //grad
+      else
+        return -50;
     }
     if (e==plus_sqrt3_3){
       if (angle_radian(contextptr)) 
 	return rdiv(cst_pi,6,contextptr);
+      else if(angle_degree(contextptr))
       return 30;
+      //grad
+      else
+        return rdiv(100,3); //100/3 grads
     }
     if (e==plus_sqrt3){
       if (angle_radian(contextptr)) 
 	return rdiv(cst_pi,3,contextptr);
+      else if(angle_degree(contextptr))
       return 60;
+      //grad
+      else
+        return rdiv(200,3); //200/3 grads
     }
     if (e==plus_inf){
       if (angle_radian(contextptr)) 
 	return cst_pi_over_2;
+      else if(angle_degree(contextptr))
       return 90;
+      //grad
+      else
+        return 100;
     }
     if (e==minus_inf){
       if (angle_radian(contextptr)) 
 	return -cst_pi_over_2;
+      else if(angle_degree(contextptr))
       return -90;
+      //grad
+      else
+        return -100;
     }
     if (is_undef(e))
       return e;
@@ -633,9 +670,9 @@ namespace giac {
 	  normal(horner(makevecteur(-5,60,-126,60,-5),e*e),contextptr)==0){
 	int res=int(std::floor(std::atan(std::abs(ed))*10/M_PI+.5));
 	if (res%2)
-	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:gen(18));
+	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:(angle_degree(contextptr)?gen(18):gen(20))); //grad
 	else
-	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:gen(36));
+	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:(angle_degree(contextptr)?gen(36):gen(40))); //grad
       }
       edh=horner(makevecteur(-3,55,-198,198,-55,3),tmp*tmp);
       if (std::abs(edh._DOUBLE_val)<1e-7){      
@@ -643,13 +680,13 @@ namespace giac {
 	int den=12;
 	int g=gcd(res,den);
 	res /=g; den /=g;
-	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:gen(15*g));
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:(angle_degree(contextptr)?gen(15*g):rdiv(50,3)*gen(g))); //grad   50/3*g grads
       }
       edh=horner(makevecteur(1,-6,1),ed*ed);
       if (std::abs(edh._DOUBLE_val)<1e-7 &&
 	  normal(horner(makevecteur(1,-6,1),e*e),contextptr)==0){
 	int res=int(std::floor(std::atan(std::abs(ed))*8/M_PI+.5));
-	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/8:gen(45)/2);
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/8:(angle_degree(contextptr)?gen(45)/2:gen(25))); //grad 
       }
     }
     if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_neg))
@@ -667,8 +704,14 @@ namespace giac {
     // if (e.is_symb_of_sommet(at_inv)) return sign(e._SYMBptr->feuille,contextptr)*cst_pi/2-atan(e._SYMBptr->feuille,contextptr);
     if (e.is_symb_of_sommet(at_tan)){
       gen tmp=cst_pi;
-      if (!angle_radian(contextptr))
-	tmp=180;
+      if(!angle_radian(contextptr))
+      {
+        if(angle_degree(contextptr))
+	  tmp=180;
+        //grad
+        else
+          tmp = 200;
+      }
       gen tmp2=evalf(e._SYMBptr->feuille,1,contextptr);
       if (tmp2.type<_IDNT)
 	tmp2=_floor(tmp2/tmp+plus_one_half,contextptr);
@@ -701,7 +744,11 @@ namespace giac {
     gen g=inv(1+pow(args,2),contextptr);
     if (angle_radian(contextptr))
       return g;
+    else if(angle_degree(contextptr))
     return g*deg2rad_e;
+    //grad
+    else
+      return g*grad2rad_e;
   }
   define_partial_derivative_onearg_genop( D_at_atan," D_at_atan",&d_atan);
   static gen taylor_atan (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
@@ -769,10 +816,11 @@ namespace giac {
 #endif
       }
       if (e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_){
-	bool b=angle_radian(contextptr);
-	angle_radian(true,contextptr);
+  //grad
+	int mode=get_mode_set_radian(contextptr);
 	gen res=exp(*e._CPLXptr,contextptr)*(cos(*(e._CPLXptr+1),contextptr)+cst_i*sin(*(e._CPLXptr+1),contextptr));
-	angle_radian(b,contextptr);
+	angle_mode(mode,contextptr);
+
 	return res;
       }
     }
@@ -1323,8 +1371,11 @@ namespace giac {
       double d;
       if (angle_radian(contextptr)) 
 	d=e._DOUBLE_val;
+      else if(angle_degree(contextptr))
+	      d=e._DOUBLE_val*deg2rad_d;
+      //grad
       else
-	d=e._DOUBLE_val*deg2rad_d;
+        d = e._DOUBLE_val*grad2rad_d;
 #ifdef _SOFTMATH_H
       return std::giac_gnuwince_cos(d);
 #else
@@ -1334,16 +1385,22 @@ namespace giac {
     if (e.type==_REAL){
       if (angle_radian(contextptr)) 
 	return e._REALptr->cos();
+      else if(angle_degree(contextptr))
+        return ((e*cst_pi)/180)._REALptr->cos();
+      //grad
       else
-	return ((e*cst_pi)/180)._REALptr->cos();
+	      return ((e*cst_pi)/200)._REALptr->cos();
     }
     if (e.type==_CPLX){ 
       if (e.subtype){
 	complex_double d;
 	if (angle_radian(contextptr)) 
 	  d=gen2complex_d(e);
-	else
+  else if(angle_degree(contextptr))
 	  d=gen2complex_d(e)*deg2rad_d;
+  //grad
+	else
+    d=gen2complex_d(e)*grad2rad_d;
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_cos(d);
 #else
@@ -1352,14 +1409,21 @@ namespace giac {
       }
       if (e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_){
 	gen e1=e;
-	if (!angle_radian(contextptr)) 
+  if(!angle_radian(contextptr))
+  {
+    //grad
+    if(angle_degree(contextptr))
 	  e1=e*deg2rad_g;
+    else
+      e1 = e*grad2rad_g;
+  }
 	gen e2=im(e1,contextptr);
 	e1=re(e1,contextptr);
-	bool tmp=angle_radian(contextptr);
-	angle_radian(true,contextptr);
+  //grad
+	int mode=get_mode_set_radian(contextptr);
 	e1= cos(e1,contextptr)*cosh(e2,contextptr)-cst_i*sinh(e2,contextptr)*sin(e1,contextptr);
-	angle_radian(tmp,contextptr);
+	angle_mode(mode,contextptr);
+
 	return e1;
       }
     }
@@ -1418,7 +1482,7 @@ namespace giac {
       }
     }
     else {
-      est_multiple=is_multiple_of_pi_over_12(e,k,angle_radian(contextptr),contextptr);
+      est_multiple=is_multiple_of_pi_over_12(e,k,contextptr);
       doit=est_multiple;
     }
     if (doit){ 
@@ -1473,13 +1537,19 @@ namespace giac {
 	    d=d/2; // cos(r/(2*d)*pi) = sin(pi/2(1-r/d))
 	    if (angle_radian(contextptr)) 
 	      return -q*sin((r-d)/2*cst_pi/d,contextptr);
-	    else 
+      else if(angle_degree(contextptr))
 	      return -q*sin(rdiv((r-d)*90,d,contextptr),contextptr);
+      //grad
+	    else 
+        return -q*sin(rdiv((r - d) * 100, d, contextptr), contextptr);
 	  }
 	  if (angle_radian(contextptr)) 
 	    return q*symb_cos(r*cst_pi/d);
-	  else
+    else if(angle_degree(contextptr))
 	    return q*symb_cos(rdiv(r*180,d,contextptr));
+    //grad
+	  else
+      return q*symb_cos(rdiv(r*200,d,contextptr));
 	}
       }
     }
@@ -1502,8 +1572,11 @@ namespace giac {
   static gen d_cos(const gen & e ,GIAC_CONTEXT){
     if (angle_radian(contextptr)) 
       return -(sin(e,contextptr));
-    else
+    else if(angle_degree(contextptr))
       return -deg2rad_e*sin(e,contextptr);
+    //grad
+    else
+      return -grad2rad_e*sin(e,contextptr);
   }
   define_partial_derivative_onearg_genop( D_at_cos," D_at_cos",d_cos);
   static const char _cos_s []="cos";
@@ -1532,8 +1605,11 @@ namespace giac {
       double d;
       if (angle_radian(contextptr)) 
 	d=e._DOUBLE_val;
+      else if(angle_degree(contextptr))
+	      d=e._DOUBLE_val*deg2rad_d;
+      //grad
       else
-	d=e._DOUBLE_val*deg2rad_d;
+        d=e._DOUBLE_val*grad2rad_d;
 #ifdef _SOFTMATH_H
       return std::giac_gnuwince_sin(d);
 #else
@@ -1543,16 +1619,22 @@ namespace giac {
     if (e.type==_REAL){
       if (angle_radian(contextptr)) 
 	return e._REALptr->sin();
+      else if(angle_degree(contextptr))
+	      return ((e*cst_pi)/180)._REALptr->sin();
+      //grad
       else
-	return ((e*cst_pi)/180)._REALptr->sin();
+        return ((e*cst_pi)/200)._REALptr->sin();
     }
     if (e.type==_CPLX){ 
       if (e.subtype){
 	complex_double d;
 	if (angle_radian(contextptr)) 
 	  d=gen2complex_d(e);
-	else
+  else if(angle_degree(contextptr))
 	  d=gen2complex_d(e)*deg2rad_d;
+  //grad
+	else
+    d=gen2complex_d(e)*grad2rad_d;
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_sin(d);
 #else
@@ -1561,14 +1643,21 @@ namespace giac {
       }
       if (e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_){
 	gen e1=e;
-	if (!angle_radian(contextptr)) 
+  if(!angle_radian(contextptr))
+  {
+    if(angle_degree(contextptr)) 
 	  e1=e*deg2rad_g;
+    //grad
+    else
+      e1 = e*grad2rad_g;
+  }
 	gen e2=im(e1,contextptr);
 	e1=re(e1,contextptr);
-	bool tmp=angle_radian(contextptr);
-	angle_radian(true,contextptr);
+  //grad
+	int mode=get_mode_set_radian(contextptr);
 	gen res=sin(e1,contextptr)*cosh(e2,contextptr)+cst_i*sinh(e2,contextptr)*cos(e1,contextptr);
-	angle_radian(tmp,contextptr);
+	angle_mode(mode,contextptr);
+
 	return res;
       }
     }
@@ -1621,7 +1710,7 @@ namespace giac {
       }
     }
     else {
-      est_multiple=is_multiple_of_pi_over_12(e,k,angle_radian(contextptr),contextptr);
+      est_multiple=is_multiple_of_pi_over_12(e,k,contextptr);
       doit=est_multiple;
     }
     if (doit){ 
@@ -1678,13 +1767,19 @@ namespace giac {
 	    d=d/2; // sin(r/(2*d)*pi) = cos(pi/2(1-r/d))
 	    if (angle_radian(contextptr))
 	      return q*cos((r-d)/2*cst_pi/d,contextptr);
-	    else
+      else if(angle_degree(contextptr))
 	      return q*cos(rdiv((r-d)*90,d,contextptr),contextptr);
+      //grad
+	    else
+        return q*cos(rdiv((r-d)*100,d,contextptr),contextptr);
 	  }
 	  if (angle_radian(contextptr)) 
 	    return q*symb_sin(r*cst_pi/d);
-	  else
+    else if(angle_degree(contextptr))
 	    return q*symb_sin(rdiv(r*180,d,contextptr));
+    //grad
+	  else
+      return q*symb_sin(rdiv(r*200,d,contextptr));
 	}
       }
     }
@@ -1707,8 +1802,11 @@ namespace giac {
   static gen d_sin(const gen & g,GIAC_CONTEXT){
     if (angle_radian(contextptr)) 
       return cos(g,contextptr);
-    else
+    else if(angle_degree(contextptr))
       return deg2rad_e*cos(g,contextptr);
+    //grad
+    else
+      return grad2rad_e*cos(g,contextptr);
   }
   static const char _sin_s []="sin";
   define_partial_derivative_onearg_genop( D_at_sin," D_at_sin",&d_sin);
@@ -1735,8 +1833,11 @@ namespace giac {
       double d;
       if (angle_radian(contextptr)) 
 	d=e._DOUBLE_val;
+      else if(angle_degree(contextptr))
+	      d=e._DOUBLE_val*deg2rad_d;
+      //grad
       else
-	d=e._DOUBLE_val*deg2rad_d;
+        d=e._DOUBLE_val*grad2rad_d;
 #ifdef _SOFTMATH_H
       return std::giac_gnuwince_tan(d);
 #else
@@ -1746,14 +1847,23 @@ namespace giac {
     if (e.type==_REAL){
       if (angle_radian(contextptr)) 
 	return e._REALptr->tan();
+      else if(angle_degree(contextptr))
+	      return ((e*cst_pi)/180)._REALptr->tan();
+      //grad
       else
-	return ((e*cst_pi)/180)._REALptr->tan();
+        return ((e*cst_pi)/200)._REALptr->tan();
     }
     if (e.type==_CPLX){ 
       if (e.subtype){
 	complex_double c(gen2complex_d(e));
-	if (!angle_radian(contextptr)) 
+  if(!angle_radian(contextptr))
+  {
+    //grad
+    if(angle_degree(contextptr))
 	  c *= deg2rad_d;
+    else
+      c *= grad2rad_d;
+  }
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_tan(c);
 #else
@@ -1763,13 +1873,21 @@ namespace giac {
       if (e._CPLXptr->type==_REAL || e._CPLXptr->type==_FLOAT_){
 	gen e1=e;
 	if (!angle_radian(contextptr)) 
+  {
+    //grad
+    if(angle_degree(contextptr))
 	  e1=e*deg2rad_g;
+    else
+      e1 = e*grad2rad_g;
+  }
+
 	gen e2=im(e1,contextptr);
 	e1=re(e1,contextptr);
-	bool tmp=angle_radian(contextptr);
-	angle_radian(true,contextptr);
+  //grad
+	int mode=get_mode_set_radian(contextptr);
 	e1=tan(e1,contextptr);
-	angle_radian(tmp,contextptr);
+	angle_mode(mode,contextptr);
+
 	e2=cst_i*tanh(e2,contextptr);
 	return (e1+e2)/(1-e1*e2);
       }
@@ -1791,22 +1909,25 @@ namespace giac {
       return symbolic(at_program,gen(makevecteur(a,0,tan(b,contextptr)),_SEQ__VECT));
     int k;
     if (!approx_mode(contextptr)){ 
-      if (is_multiple_of_pi_over_12(e,k,angle_radian(contextptr),contextptr)) 
+      if (is_multiple_of_pi_over_12(e,k,contextptr)) //grad
 	return *table_tan[(k%12)];
-      if (is_multiple_of_pi_over_12(2*e,k,angle_radian(contextptr),contextptr)) 
+      if (is_multiple_of_pi_over_12(2*e,k,contextptr)) //grad
 	return normal(sin(2*e,contextptr)/(1+cos(2*e,contextptr)),contextptr); 
       else {
 	gen kk;
 	if (angle_radian(contextptr)) 
 	  kk=normal(rdiv(e,cst_pi,contextptr),contextptr);
-	else
+  else if(angle_degree(contextptr))
 	  kk=normal(rdiv(e,180,contextptr),contextptr);
+  //grad
+	else
+    kk = normal(rdiv(e, 200, contextptr), contextptr);
 	if (is_assumed_integer(kk,contextptr))
 	  return zero;
 	int n,d;
 	if (is_rational(kk,n,d)){
 	  if (d==10)
-	    return inv(tan((angle_radian(contextptr)?cst_pi/2:90)-e,contextptr),contextptr);
+	    return inv(tan((angle_radian(contextptr)?cst_pi/2:(angle_degree(contextptr)?90:100))-e,contextptr),contextptr); //grad
 	  if (d==5){
 	    n %= 5;
 	    if (n<0)
@@ -1821,8 +1942,11 @@ namespace giac {
 	  }
 	  if (angle_radian(contextptr)) 
 	    return symb_tan((n%d)*inv(d,contextptr)*cst_pi);
-	  else
+    else if(angle_degree(contextptr))
 	    return symb_tan(rdiv((n%d)*180,d,contextptr));
+    //grad
+	  else
+      return symb_tan(rdiv((n%d)*200,d,contextptr));
 	}
       }
     }
@@ -1845,8 +1969,11 @@ namespace giac {
   static gen d_tan(const gen & e,GIAC_CONTEXT){
     if (angle_radian(contextptr)) 
       return 1+pow(tan(e,contextptr),2);
-    else
+    else if(angle_degree(contextptr))
       return deg2rad_e*(1+pow(tan(e,contextptr),2));
+    //grad
+    else
+      return grad2rad_e*(1+pow(tan(e,contextptr),2));
   }
   define_partial_derivative_onearg_genop( D_at_tan," D_at_tan",&d_tan);
   static const char _tan_s []="tan";
@@ -1869,7 +1996,7 @@ namespace giac {
       return gensizeerr(contextptr);
     if (e0.type==_FLOAT_){
       if (!is_positive(e0+1,contextptr) || !is_positive(1-e0,contextptr))
-	return asinasln(e0,contextptr)*gen(angle_radian(contextptr)?1.0:rad2deg_d); // cst_i*ln(sqrt(e0*e0-1,contextptr)+e0,contextptr)+evalf(cst_pi_over_2,1,contextptr);
+	return asinasln(e0,contextptr)*gen(angle_radian(contextptr)?1.0:(angle_degree(contextptr)?rad2deg_d:rad2grad_d)); //grad // cst_i*ln(sqrt(e0*e0-1,contextptr)+e0,contextptr)+evalf(cst_pi_over_2,1,contextptr);
 #ifdef BCD
       return fasin(e0._FLOAT_val,angle_mode(contextptr));
 #else
@@ -1894,21 +2021,30 @@ namespace giac {
 #endif
 	if (angle_radian(contextptr)) 
 	  return d;
-	else
+  else if(angle_degree(contextptr))
 	  return d*rad2deg_d;
+  //grad
+	else
+    return d*rad2grad_d;
       }
     }
     if (e.type==_REAL){
       if (angle_radian(contextptr)) 
 	return e._REALptr->asin();
+      else if(angle_degree(contextptr))
+	      return 180*e._REALptr->asin()/cst_pi;
+      //grad
       else
-	return 180*e._REALptr->asin()/cst_pi;
+        return 200*e._REALptr->asin()/cst_pi;
     }
     if ( e.type==_DOUBLE_ || (e.type==_CPLX && (e.subtype || e._CPLXptr->type==_FLOAT_ || e._CPLXptr->type==_REAL)) ){
       if (angle_radian(contextptr)) 
 	return no_context_evalf(asinasln(e,contextptr));
+      else if(angle_degree(contextptr))
+	      return no_context_evalf(asinasln(e,contextptr))*gen(rad2deg_d);
+      //grad
       else
-	return no_context_evalf(asinasln(e,contextptr))*gen(rad2deg_d);
+        return no_context_evalf(asinasln(e,contextptr))*gen(rad2grad_d);
     }
     if (is_squarematrix(e))
       return analytic_apply(at_asin,*e._VECTptr,contextptr);
@@ -1920,7 +2056,11 @@ namespace giac {
       if (is_zero(e)) fonction_bidon();
       if (angle_radian(contextptr))
 	return cst_pi_over_2;
+      else if(angle_degree(contextptr))
       return 90;
+      //grad
+      else
+        return 100;
     }
     if (e==sin_pi_12 
 #ifndef VISUALC
@@ -1929,7 +2069,11 @@ namespace giac {
 	){
       if (angle_radian(contextptr))
 	return rdiv(cst_pi,12,contextptr);
+      else if(angle_degree(contextptr))
       return 15;
+      //grad
+      else
+        return rdiv(50, 3); //50/3 grads
     }
     if (e==cos_pi_12 
 #ifndef VISUALC
@@ -1938,22 +2082,38 @@ namespace giac {
 	){
       if (angle_radian(contextptr))
 	return 5*cst_pi/12;
+      else if(angle_degree(contextptr))
       return 75;
+      //grad
+      else
+        return rdiv(250,3); //250/3 grads
     }
     if (e==plus_sqrt3_2){
       if (angle_radian(contextptr))
 	return rdiv(cst_pi,3,contextptr);
+      else if(angle_degree(contextptr))
       return 60;
+      //grad
+      else
+        return rdiv(200,3); //200/3 grads
     }
     if (e==plus_sqrt2_2){
       if (angle_radian(contextptr)) 
 	return rdiv(cst_pi,4,contextptr);
+      else if(angle_degree(contextptr))
       return 45;
+      //grad
+      else
+        return 50;
     }
     if (e==plus_one_half){
       if (angle_radian(contextptr)) 
 	return rdiv(cst_pi,6,contextptr);
+      else if(angle_degree(contextptr))
       return 30;
+      //grad
+      else
+        return rdiv(100,3); //100/3 grads
     }
     gen edg=evalf_double(e,1,contextptr);
     if (edg.type==_DOUBLE_){
@@ -1964,9 +2124,9 @@ namespace giac {
 	  normal(horner(makevecteur(256,-512,336,-80,5),e*e),contextptr)==0){
 	int res=int(std::floor(std::asin(std::abs(ed))*10/M_PI+.5));
 	if (res%2)
-	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:gen(18));
+	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:(angle_degree(contextptr)?gen(18):gen(20))); //grad
 	else
-	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:gen(36));
+	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:(angle_degree(contextptr)?gen(36):gen(40))); //grad
       }
       edh=horner(makevecteur(512,-1280,1152,-448,70,-3),edg*edg);
       if (std::abs(edh._DOUBLE_val)<1e-9 &&
@@ -1975,7 +2135,7 @@ namespace giac {
 	int den=12;
 	int g=gcd(res,den);
 	res /=g; den /=g;
-	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:gen(15*g));
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:(angle_degree(contextptr)?gen(15*g):rdiv(50,3)*gen(g))); //grad   50/3*g grads
       }
       edh=horner(makevecteur(64,-128,80,-16,1),edg*edg);
       if (std::abs(edh._DOUBLE_val)<1e-9 &&
@@ -1984,7 +2144,7 @@ namespace giac {
 	int den=8;
 	int g=gcd(res,den);
 	res /=g; den /=g;
-	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:gen(45*g)/2);
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:(angle_degree(contextptr)?gen(45*g)/2:gen(25))); //grad
       }
     }
     if (is_undef(e))
@@ -1994,7 +2154,7 @@ namespace giac {
       return symbolic(at_program,gen(makevecteur(a,0,asin(b,contextptr)),_SEQ__VECT));
     if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_neg))
       return -asin(e._SYMBptr->feuille,contextptr);
-    gen cste=angle_radian(contextptr)?cst_pi:180;
+    gen cste=angle_radian(contextptr)?cst_pi:(angle_degree(contextptr)?180:200);
     if (e.is_symb_of_sommet(at_cos))
       e=symbolic(at_sin,cste/2-e._SYMBptr->feuille);
     if (e.is_symb_of_sommet(at_sin) && has_evalf(e._SYMBptr->feuille,a,1,contextptr)){
@@ -2015,15 +2175,18 @@ namespace giac {
     if (is_equal(e))
       return apply_to_equal(e,asin,contextptr);
     if (lidnt(e).empty() && is_positive(e*e-1,contextptr))
-      return (angle_radian(contextptr)?1:rad2deg_g)*asinasln(e,contextptr);
+      return (angle_radian(contextptr)?1:(angle_degree(contextptr)?rad2deg_g:rad2grad_g))*asinasln(e,contextptr);
     return symb_asin(e);
   }
   static gen d_asin(const gen & args,GIAC_CONTEXT){
     gen g=inv(recursive_normal(sqrt(1-pow(args,2),contextptr),contextptr),contextptr);
     if (angle_radian(contextptr)) 
       return g;
-    else
+    else if(angle_degree(contextptr))
       return g*deg2rad_e;
+    //grad
+    else
+      return g*grad2rad_e;
   }
   static gen taylor_asin (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0)
@@ -2080,29 +2243,41 @@ namespace giac {
 #endif
 	if (angle_radian(contextptr)) 
 	  return d;
+  else if(angle_degree(contextptr))
+    return d*rad2deg_d;
+  //grad
 	else
-	  return d*rad2deg_d;
+    return d*rad2grad_d;
       }
     }
     if (e.type==_REAL){
       if (angle_radian(contextptr)) 
 	return e._REALptr->acos();
+      else if(angle_degree(contextptr))
+	      return 180*e._REALptr->acos()/cst_pi;
+      //grad
       else
-	return 180*e._REALptr->acos()/cst_pi;
+        return 200*e._REALptr->acos()/cst_pi;
     }
     if (e.type==_DOUBLE_ || e.type==_FLOAT_ || e.type==_REAL){
       gen res=cst_i*no_context_evalf(ln(sqrt(e*e-1,contextptr)+e,contextptr));
       if (angle_radian(contextptr)) 
 	return res;
+      else if(angle_degree(contextptr))
+	      return res*gen(rad2deg_d);
+      //grad
       else
-	return res*gen(rad2deg_d);
+        return res*gen(rad2grad_d);
     }
     if ( e.type==_CPLX && (e.subtype || e._CPLXptr->type==_FLOAT_ || e._CPLXptr->type==_REAL) ){
       gen res=cst_pi/2-asinasln(e,contextptr); // -cst_i*no_context_evalf(ln(sqrt(e*e-1,contextptr)+e,contextptr));
       if (angle_radian(contextptr)) 
 	return res;
+      else if(angle_degree(contextptr))
+	      return res*gen(rad2deg_d);
+      //grad
       else
-	return res*gen(rad2deg_d);
+        return res*gen(rad2grad_d);
     }
     if (is_squarematrix(e))
       return analytic_apply(at_acos,*e._VECTptr,contextptr);
@@ -2118,15 +2293,21 @@ namespace giac {
       return symb_acos(e);
     if (angle_radian(contextptr)) 
       return normal(cst_pi_over_2-asin(e,contextptr),contextptr);
-    else
+    else if(angle_degree(contextptr))
       return 90-asin(e,contextptr);
+    //grad
+    else
+      return 100-asin(e,contextptr);
   }
   static gen d_acos(const gen & args,GIAC_CONTEXT){
     gen g= -inv(recursive_normal(sqrt(1-pow(args,2),contextptr),contextptr),contextptr);
     if (angle_radian(contextptr)) 
       return g;
-    else
+    else if(angle_degree(contextptr))
       return g*deg2rad_e;
+    //grad
+    else
+      return g*grad2rad_e;
   }
   define_partial_derivative_onearg_genop( D_at_acos," D_at_acos",&d_acos);
   static gen taylor_acos (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
@@ -2328,8 +2509,10 @@ namespace giac {
       return analytic_apply(at_tanh,*e._VECTptr,contextptr);
     if (e.type==_VECT)
       return apply(e,giac::tanh,contextptr);
-    if (is_zero(e,contextptr) || (is_undef(e)) || (e==unsigned_inf))
+    if (is_zero(e,contextptr)) 
       return e;
+    if (is_undef(e) || (e==unsigned_inf))
+      return undef;
     if (e==plus_inf)
       return 1;
     if (e==minus_inf)
@@ -3485,8 +3668,26 @@ namespace giac {
 	  if (i2.is_symb_of_sommet(*at_interval) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
 	    gen deb2=i2._SYMBptr->feuille._VECTptr->front();
 	    gen fin2=i2._SYMBptr->feuille._VECTptr->back();
-	    if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_ || deb2.val<0 || fin2.val<0 || fin2.val-deb2.val!=fin.val-deb.val || fin2.val>=cols )
+	    if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_ || deb2.val<0 || fin2.val<0 || fin2.val>=cols )
 	      return gendimerr(contextptr);
+	    if (ckmatrix(a)){
+	      if (fin2.val-deb2.val+1!=a._VECTptr->front()._VECTptr->size())
+		return gendimerr(contextptr);	      
+	      for (int i=deb.val;i<=fin.val;++i){
+		vecteur & target=*(*vptr)[i]._VECTptr;
+		const vecteur & source=*(*a._VECTptr)[i-deb.val]._VECTptr;
+		if (target.size()<=fin2.val)
+		  target.resize(fin2.val+1);
+		for (int j=deb2.val;j<=fin2.val;++j){
+		  target[j]=source[j-deb2.val];
+		}
+	      }
+	      if (in_place)
+		return valeur; // string2gen("Done",false);
+	      return sto(gen(v,valeur.subtype),destination,in_place,contextptr);
+	    }
+	    if (fin2.val-deb2.val!=fin.val-deb.val)
+	      return gendimerr(contextptr);	      
 	    int shift=deb2.val-deb.val;
 	    if (a.type==_VECT){
 	      for (int i=deb.val;i<=fin.val;++i)
@@ -6990,10 +7191,9 @@ namespace giac {
 	}
 	mpfr_clear(u);
 	// if l and u<0 handled by reflection formula
-	bool b=angle_radian(contextptr);
-	angle_radian(true,contextptr);
+	int mode=get_mode_set_radian(contextptr);
 	gen tmp=cst_pi / (sin(cst_pi*x,contextptr)*Gamma(1-x,contextptr));
-	angle_radian(b,contextptr);
+	angle_mode(mode,contextptr);
 	return tmp;
       }
     }
@@ -7020,10 +7220,11 @@ namespace giac {
 	) {
 #if 1
       if (is_strictly_positive(.5-re(x,contextptr),contextptr)){
-	bool b=angle_radian(contextptr);
-	angle_radian(true,contextptr);
+  //grad
+	int mode=get_mode_set_radian(contextptr);
 	gen res=cst_pi / (sin(M_PI*x,contextptr)*Gamma(1-x,contextptr));
-	angle_radian(b,contextptr);
+	angle_mode(mode,contextptr);
+
 	return res;
       }
       return exp(lngamma(x,contextptr),contextptr);
@@ -7677,7 +7878,7 @@ namespace giac {
       if (s%2==0)
 	return (1-pow(2,1-s,contextptr))*Zeta(s,contextptr);
     }
-    if (s.type==_DOUBLE_ || s.type==_REAL || (s.type==_CPLX )){
+    if (s.type==_DOUBLE_ || s.type==_REAL || (s.type==_CPLX)){
       gen rx=re(s,contextptr).evalf_double(1,contextptr);
       if (rx._DOUBLE_val<0.5){
 	if (ndiff){
@@ -9420,19 +9621,32 @@ namespace giac {
   const gen & plus_three = *(const gen *) & alias_plus_three;
 #endif
 
+  //grad 
   const double rad2deg_d(180/M_PI);
   const double deg2rad_d(M_PI/180);
+  const double rad2grad_d(200 / M_PI);
+  const double grad2rad_d(M_PI / 200);
 #if defined(DOUBLEVAL) || defined(GIAC_GENERIC_CONSTANTS) || defined(VISUALC) || defined(__x86_64__)
   static const gen rad2deg_g_(rad2deg_d);
   const gen & rad2deg_g=rad2deg_g_;
   static const gen deg2rad_g_(deg2rad_d);
   const gen & deg2rad_g=deg2rad_g_;
+  //grad
+  static const gen rad2grad_g_(rad2grad_d);
+  const gen & rad2grad_g = rad2grad_g_;
+  static const gen grad2rad_g_(grad2rad_d);
+  const gen & grad2rad_g=grad2rad_g_;
 #else
     // Warning this does not work on ia64 with -O2
   const define_alias_gen(alias_rad2deg_g,_DOUBLE_, (*(longlong *)&rad2deg_d) >> 8,(*(longlong *)&rad2deg_d)>>16);
   const gen & rad2deg_g = *(const gen*) & alias_rad2deg_g;
   const define_alias_gen(alias_deg2rad_g,_DOUBLE_, (*(longlong *)&deg2rad_d) >> 8,(*(longlong *)&deg2rad_d)>>16);
   const gen & deg2rad_g = *(const gen*) & alias_deg2rad_g;
+  //grad
+  const define_alias_gen(alias_rad2grad_g,_DOUBLE_, (*(longlong *)&rad2grad_d) >> 8,(*(longlong *)&rad2grad_d)>>16);
+  const gen & rad2grad_g = *(const gen*) & alias_rad2grad_g;
+  const define_alias_gen(alias_grad2rad_g, _DOUBLE_, (*(longlong *)&grad2rad_d) >> 8, (*(longlong *)&grad2rad_d) >> 16);
+  const gen & grad2rad_g = *(const gen*)& alias_grad2rad_g;
 #endif
 
 #if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(__x86_64__)
@@ -9472,6 +9686,10 @@ namespace giac {
   gen minus_tan_5pi_12(symbolic(at_neg,tan_5pi_12));
   gen rad2deg_e(_FRAC2_SYMB(180,_IDNT_pi()));
   gen deg2rad_e(_FRAC2_SYMB(_IDNT_pi(),180));
+  //grad
+  gen rad2grad_e(_FRAC2_SYMB(200,_IDNT_pi()));
+  gen grad2rad_e(_FRAC2_SYMB(_IDNT_pi(),200));
+  
   // 0 = -pi, 12=0, 24=pi
   const gen * const table_cos[trig_deno+1]={
     &minus_one,&minus_cos_pi_12,&minus_sqrt3_2,&minus_sqrt2_2,&minus_one_half,&minus_sin_pi_12,
@@ -9679,6 +9897,19 @@ namespace giac {
   const define_alias_ref_symbolic( deg2rad_e_symb ,(size_t)&__prod,_VECT,_SEQ__VECT,&deg2rad_e_refv);
   const define_alias_gen(alias_deg2rad_e,_SYMB,0,&deg2rad_e_symb);
   const gen & deg2rad_e = *(const gen *)&alias_deg2rad_e;
+
+  //grad
+  const define_tab2_alias_gen(alias_rad2grad_e_tab, _INT_, 0, 200, _SYMB, 0, &inv_pi_symb);
+  const define_alias_ref_vecteur2(rad2grad_e_refv, alias_rad2grad_e_tab);
+  const define_alias_ref_symbolic(rad2grad_e_symb, (size_t)&_prod, _VECT, _SEQ__VECT, &rad2grad_e_refv);
+  const define_alias_gen(alias_rad2grad_e, _SYMB, 0, &rad2grad_e_symb);
+  const gen & rad2grad_e = *(const gen *)&alias_rad2grad_e;
+
+  const define_tab2_alias_gen(alias_grad2rad_e_tab, _IDNT, 0, &ref_pi, _SYMB, 0, &inv_180_symb);
+  const define_alias_ref_vecteur2(grad2rad_e_refv, alias_grad2rad_e_tab);
+  const define_alias_ref_symbolic(grad2rad_e_symb, (size_t)&__prod, _VECT, _SEQ__VECT, &grad2rad_e_refv);
+  const define_alias_gen(alias_grad2rad_e, _SYMB, 0, &grad2rad_e_symb);
+  const gen & grad2rad_e = *(const gen *)&alias_grad2rad_e;
 
 
   // 0 = -pi, 12=0, 24=pi

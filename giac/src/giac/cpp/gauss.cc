@@ -630,8 +630,10 @@ namespace giac {
 	  }
 	  if (is_undef(ratparam))
 	    ratparam=z0+zV0*(vp0*(1-pow(t,2))+cst_i*vp1*2*t)/(1+pow(t,2));
-	  bool rad=angle_radian(contextptr);
-	  param_curves.push_back(makevecteur(tmp,t,0,rad?cst_two_pi:360,rad?cst_two_pi/60:6,q,ratparam));
+
+    bool rad = angle_radian(contextptr), deg = angle_degree(contextptr);
+	  param_curves.push_back(makevecteur(tmp,t,0, rad?cst_two_pi:(deg ? 360 : 400), rad?cst_two_pi/60:(deg?6:rdiv(20,3)),q,ratparam)); //grad
+
 	} else {
 	  if (is_zero(coeffcst)){
 	    // 2 secant lines at (x0,y0)

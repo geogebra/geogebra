@@ -294,7 +294,8 @@ namespace giac {
   gen _acot(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (is_zero(args))
-      return angle_radian(contextptr)?cst_pi_over_2:90;
+      //grad
+      return angle_radian(contextptr)?cst_pi_over_2:(angle_degree(contextptr)?90:100);
 #if 0
     if (abs_calc_mode(contextptr)==38)
       return cst_pi_over_2-atan(args,contextptr);

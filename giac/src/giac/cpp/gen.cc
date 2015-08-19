@@ -3778,7 +3778,8 @@ namespace giac {
       imagpart=normal(a.im(contextptr),contextptr);
     if (realpart.type==_FLOAT_ && imagpart.type==_FLOAT_){
 #ifdef GIAC_HAS_STO_38	
-      return atan2f(realpart._FLOAT_val,imagpart._FLOAT_val,angle_radian(contextptr)?AMRad:AMDeg);
+      //grad
+      return atan2f(realpart._FLOAT_val,imagpart._FLOAT_val,angle_mode(contextptr));
 #else
       return atan2f(realpart._FLOAT_val,imagpart._FLOAT_val,angle_radian(contextptr));
 #endif
@@ -3806,11 +3807,15 @@ namespace giac {
   }
 
   gen arg(const gen & a,GIAC_CONTEXT){ 
-    if (angle_radian(contextptr)==0){
-      angle_radian(1,contextptr);
+    if (!angle_radian(contextptr)){
+      //grad
+      int mode = get_mode_set_radian(contextptr); //get current mode
       gen res=evalf(arg(a,contextptr),1,contextptr);
-      angle_radian(0,contextptr);
-      return 180*res/cst_pi;
+      angle_mode(mode,contextptr); //set back to either degree or grads
+      if(mode == 1) //if was in degrees
+        return 180*res/cst_pi;
+      else 
+        return 200 * res / cst_pi;
     }   
     if (a.is_symb_of_sommet(at_pow)){
       gen af=a._SYMBptr->feuille;
@@ -11045,7 +11050,10 @@ namespace giac {
       return s+("e"+print_INT_(ndigits));
     }
     sprintfdouble(s,form.c_str(),d);
-    if (sf || d>=1073741824 || d<=-1073741824)
+    // 1073741824=2^30
+    if (sf 
+	|| d>=1073741824 || d<=-1073741824
+	)
       return s;
     for (int i=0;s[i];++i){
       if (s[i]=='.' || s[i]==',' || s[i]=='e' || s[i]=='E')
@@ -12351,7 +12359,8 @@ namespace giac {
 #ifdef BCD
 	if (_CPLXptr->type==_FLOAT_ && (_CPLXptr+1)->type==_FLOAT_)
 #ifdef GIAC_HAS_STO_38	
-	  return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+print_FLOAT_(atan2f(_CPLXptr->_FLOAT_val,(_CPLXptr+1)->_FLOAT_val,angle_radian(contextptr)?AMRad:AMDeg),contextptr);
+    //grad
+	  return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+print_FLOAT_(atan2f(_CPLXptr->_FLOAT_val,(_CPLXptr+1)->_FLOAT_val,angle_radian(contextptr)?AMRad:(angle_degree(contextptr)?AMDeg:AMGrad)),contextptr);
 #else	
 	return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+print_FLOAT_(atan2f(_CPLXptr->_FLOAT_val,(_CPLXptr+1)->_FLOAT_val,angle_radian(contextptr)),contextptr);
 #endif
@@ -14576,8 +14585,9 @@ namespace giac {
 #ifndef GIAC_GGB
       if (is3d(last)){
 	//giac_renderer(last.print(&C).c_str());
-	giac_gen_renderer(g,&C);
-	return "Done";
+	int n=giac_gen_renderer(g,&C);
+	S="gl3d "+print_INT_(n);
+	return S.c_str();
       }
 #endif
       bool fullview=true;

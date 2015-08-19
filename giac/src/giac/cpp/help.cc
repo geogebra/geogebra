@@ -254,7 +254,7 @@ namespace giac {
       ofw << 'L' << '"' << output_quote(cmd) << '"' << ",";
       if (cmd.size()>16)
 	cmd=cmd.substr(0,16);
-      ofwindex << "{NULL,NULL, " << 'L' << '"' << output_quote(cmd) << '"' << ", HIDInherit }" ;
+      ofwindex << "{NULL,NULL, " << 'L' << '"' << output_quote(cmd) << '"' << ", HIDVoid }" ;
       std::vector<localized_string> & blabla = it->blabla;
       sort(blabla.begin(),blabla.end());
       int bs=int(blabla.size());

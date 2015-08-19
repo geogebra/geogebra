@@ -43,6 +43,7 @@ namespace giac {
 
   gen checkanglemode(GIAC_CONTEXT){
     if (!angle_radian(contextptr)) 
+      //grad
       return gensizeerr(gettext("This function works only in radian mode"));
     return 0;
   }
@@ -111,22 +112,39 @@ namespace giac {
       return g;
     return g*gen(180)/cst_pi;
   }
+  //grad (next few commands
+  gen angletorad(const gen & g,GIAC_CONTEXT){
+    if (angle_radian(contextptr)) 
+      return g;
+    else if(angle_degree(contextptr))
+    return g*deg2rad_e;
+    else
+      return g*grad2rad_e;
+  }
+  gen radtoangle(const gen & g,GIAC_CONTEXT){
+    if(angle_radian(contextptr))
+      return g;
+    else if(angle_degree(contextptr))
+    return g*gen(180)/cst_pi;
+    else
+      return g*gen(200)/cst_pi;
+  }
   gen sin2exp(const gen & e,GIAC_CONTEXT){
-    gen a=exp(cst_i*degtorad(e,contextptr),contextptr);
+    gen a=exp(cst_i*angletorad(e,contextptr),contextptr);
     return rdiv(a-inv(a,contextptr),plus_two*cst_i,contextptr);
   }
   gen cos2exp(const gen & e,GIAC_CONTEXT){
-    gen a=exp(cst_i*degtorad(e,contextptr),contextptr);
+    gen a=exp(cst_i*angletorad(e,contextptr),contextptr);
     return rdiv(a+inv(a,contextptr),plus_two,contextptr);
   }
   gen tan2exp(const gen & e,GIAC_CONTEXT){
-    gen a=pow(exp(cst_i*degtorad(e,contextptr),contextptr),2);
+    gen a=pow(exp(cst_i*angletorad(e,contextptr),contextptr),2);
     return rdiv(a-plus_one,cst_i*(a+plus_one),contextptr);
   }
 
   gen exp2sincos(const gen & e,GIAC_CONTEXT){
     gen a=re(e,contextptr),b=im(e,contextptr); 
-    return exp(a,contextptr)*(cos(radtodeg(b,contextptr),contextptr)+cst_i*sin(radtodeg(b,contextptr),contextptr));
+    return exp(a,contextptr)*(cos(radtoangle(b,contextptr),contextptr)+cst_i*sin(radtoangle(b,contextptr),contextptr));
   }
 
   gen tantosincos(const gen & e,GIAC_CONTEXT){
@@ -146,13 +164,19 @@ namespace giac {
   gen asintoacos(const gen & e,GIAC_CONTEXT){
     if (angle_radian(contextptr)) 
       return cst_pi_over_2-acos(e,contextptr);
-    else
+    else if(angle_degree(contextptr))
       return 90-acos(e,contextptr);
+    //grad
+    else
+      return 100 - acos(e, contextptr);
   }
 
   gen acostoasin(const gen & e,GIAC_CONTEXT){
     if (angle_radian(contextptr)) 
       return cst_pi_over_2-asin(e,contextptr);
+    else if(angle_degree(contextptr))
+      return 90-asin(e,0);
+    //grad
     else
       return 90-asin(e,0);
   }
@@ -174,17 +198,20 @@ namespace giac {
   }
 
   gen asin2ln(const gen & g_orig,GIAC_CONTEXT){
-    gen g=degtorad(g_orig,contextptr);
+    //grad
+    gen g=angletorad(g_orig,contextptr);
     return cst_i*ln(g+sqrt(pow(g,2)-1,contextptr),contextptr)+cst_pi_over_2;
   }
 
   gen acos2ln(const gen & g_orig,GIAC_CONTEXT){
-    gen g=degtorad(g_orig,contextptr);
+    //grad
+    gen g=angletorad(g_orig,contextptr);
     return -cst_i*ln(g+sqrt(pow(g,2)-1,contextptr),contextptr);
   }
 
   gen atan2ln(const gen & g_orig,GIAC_CONTEXT){
-    gen g=degtorad(g_orig,contextptr);
+    //grad
+    gen g=angletorad(g_orig,contextptr);
     return rdiv(cst_i*ln(rdiv(cst_i+g,cst_i-g),contextptr),plus_two,contextptr);
   }
 
@@ -989,6 +1016,7 @@ namespace giac {
   define_unary_function_ptr5( at_hyp2exp ,alias_at_hyp2exp,&__hyp2exp,0,true);
 
   gen sincos(const gen & e,GIAC_CONTEXT){
+    //grad
     if (angle_radian(contextptr)){
       gen tmp=subst(e,tan_tab,tan2sincos_tab,true,contextptr);
       tmp=_pow2exp(tmp,contextptr);
@@ -1013,6 +1041,7 @@ namespace giac {
   define_unary_function_ptr5( at_sincos ,alias_at_sincos,&__sincos,0,true);
 
   gen trig2exp(const gen & e,GIAC_CONTEXT){
+    //grad
     if (angle_radian(contextptr))
       return subst(e,sincostan_tab,trig2exp_tab,false,contextptr);
     else

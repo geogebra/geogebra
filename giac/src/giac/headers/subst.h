@@ -29,6 +29,9 @@ namespace giac {
   gen checkanglemode(GIAC_CONTEXT);
 
   polynome gen2poly(const gen & g,int s); 
+  //grad
+  gen angletorad(const gen & g,GIAC_CONTEXT);
+  gen radtoangle(const gen & g,GIAC_CONTEXT);
   gen degtorad(const gen & g,GIAC_CONTEXT);
   gen radtodeg(const gen & g,GIAC_CONTEXT);
   int findpos(const vecteur & v,const gen & g);

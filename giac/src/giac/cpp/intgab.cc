@@ -1621,7 +1621,8 @@ namespace giac {
   }
 
   static bool in_sumab(const gen & g,const gen & x,const gen & a_orig,const gen & b_orig,gen & res,bool testi,bool dopartfrac,GIAC_CONTEXT){
-    if (x.type!=_IDNT || angle_radian(contextptr)==false)
+    //grad
+    if (x.type!=_IDNT || !angle_radian(contextptr)) //if not in radians, exit
       return false;
     if (is_zero(g)){
       res=zero;

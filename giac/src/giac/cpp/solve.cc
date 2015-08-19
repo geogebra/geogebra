@@ -113,14 +113,20 @@ namespace giac {
   static gen one_tour(GIAC_CONTEXT){
     if (angle_radian(contextptr)) 
       return cst_two_pi;
-    else
+    else if(angle_degree(contextptr))
       return 360;
+    //grad
+    else
+      return 400;
   }
   static gen one_half_tour(GIAC_CONTEXT){
     if (angle_radian(contextptr)) 
       return cst_pi;
-    else
+    else if(angle_degree(contextptr))
       return 180;
+    //grad
+    else
+      return 200;
   }
   static gen isolate_exp(const gen & e,int isolate_mode,GIAC_CONTEXT){
     if (isolate_mode &1)
@@ -2380,8 +2386,20 @@ namespace giac {
       }
       if (v[1].type!=_VECT){
 	vecteur arg1l=lvarx(equal2diff(arg1),v[1]);
-	if (arg1l.size()>1)
-	  arg1=powneg2invpow(arg1,contextptr);
+	if (arg1l.size()>1){
+	  if (arg1.type==_VECT){
+	    arg1l.clear();
+	    for (int i=0;i<int(arg1._VECTptr->size());++i){
+	      gen tmp=(*arg1._VECTptr)[i];
+	      arg1l.push_back(is_inequation(tmp)?tmp:powneg2invpow(tmp,contextptr));
+	    }
+	    arg1=gen(arg1l,arg1.subtype);
+	  }
+	  else {
+	    if (!is_inequation(arg1))
+	      arg1=powneg2invpow(arg1,contextptr);
+	  }
+	}
       }
       if (is_equal(arg1) && arg1._SYMBptr->feuille.type==_VECT){
 	gen a1=arg1._SYMBptr->feuille[0];
@@ -3327,7 +3345,8 @@ namespace giac {
 	  ){
 	*logptr(contextptr) << gettext("Solving by bisection with change of variable x=tan(t) and t=-1.57..1.57. Try fsolve(equation,x=guess) for iterative solver or fsolve(equation,x=xmin..xmax) for bisection.") << endl;
 	gen eq=subst(v[0],v[1],tan(v[1],contextptr),false,contextptr);
-	v=makevecteur(eq,symb_equal(v[1],angle_radian(contextptr)?symb_interval(-1.57,1.57):symb_interval(-89.97,89.97)));
+  //grad
+	v=makevecteur(eq,symb_equal(v[1],angle_radian(contextptr)?symb_interval(-1.57,1.57):(angle_degree(contextptr)?symb_interval(-89.97,89.97):symb_interval(-99.97,99.97))));
 	gen res=in_fsolve(v,contextptr);
 	if (is_undef(res))
 	  return res;
@@ -5485,7 +5504,19 @@ namespace giac {
 
   static bool giac_gbasis(vectpoly & res,const gen & order_,environment * env,int modularcheck,bool & rur,GIAC_CONTEXT){
     if (res.empty()) return true;
-    int order=order_.val;
+    int order,lexvars=0;
+    if (order_.type==_VECT && order_._VECTptr->size()==2){
+      if (order_._VECTptr->front().type==_INT_ && order_._VECTptr->back().type==_INT_){
+	order=order_._VECTptr->front().val;
+	lexvars=order_._VECTptr->back().val;
+      }
+      else return false;
+    }
+    else {
+      if (order_.type!=_INT_)
+	return false;
+      order=order_.val;
+    }
     if (order==_PLEX_ORDER || order==0){
       // try first a 0-dim ideal with REVLEX and conversion
       vectpoly resrev(res),reslex;
@@ -5519,7 +5550,8 @@ namespace giac {
 #endif
 	 res.front().dim<=GROEBNER_VARS+1-(order!=_PLEX_ORDER)){
       vectpoly tmp;
-      gbasis8(res,order,tmp,env,modularcheck!=0,modularcheck>=2,rur,contextptr); 
+      order_t order_={order,lexvars};
+      gbasis8(res,order_,tmp,env,modularcheck!=0,modularcheck>=2,rur,contextptr); 
       int i;
       for (i=0;i<tmp.size();++i){
 	if (tmp[i].coord.empty())
@@ -5640,7 +5672,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     try {
 #endif
-      if (with_cocoa){
+      if (with_cocoa && order.type==_INT_){
 	// modular used as a synonym for with_f5
 	bool ok=modular?f5(res,order):cocoa_gbasis(res,order);
 	if (ok){
@@ -6505,7 +6537,11 @@ namespace giac {
     // change_monomial_order(p,order);
     // polynome res(env.moduloon?reduce(p,eqp.begin(),eqp.end(),&env):reducegb(p,eqp.begin(),eqp.end(),&env));
     gen C1;
+    if (debug_infolevel>1)
+      COUT << CLOCK() << "begin reduce poly #monomials " << p.coord.size() << endl;
     reduce(p,&eqp.front(),&eqp.front()+eqp.size(),p,C1,&env);
+    if (debug_infolevel>1)
+      COUT << CLOCK() << "end reduce poly #monomials " << p.coord.size() << endl;
     // gen C1(res.constant_term());
     if (env.moduloon){
       p=invmod(C1,env.modulo)*p;
@@ -6576,11 +6612,43 @@ namespace giac {
     if (!vecteur2vector_polynome(eq_in,l,eqp))
       return gensizeerr("Bad second argument, expecting a Groebner basis");
     change_monomial_order(eqp,order);
+#ifndef CAS38_DISABLED
+    vecteur red_in_(gen2vecteur(v[0])),deno(red_in_.size());
+    for (int i=0;i<int(red_in_.size());++i){
+      gen eq(e2r(red_in_[i],l,contextptr));
+      if (eq.type!=_FRAC) 
+	deno[i]=1;
+      else {
+	deno[i]=eq._FRACptr->den;
+	eq=eq._FRACptr->num;
+      }
+      red_in_[i]=eq;
+    }
+    vectpoly red_in,red_out;
+    if (!vecteur2vector_polynome(red_in_,l,red_in))
+      return gensizeerr("Bad first argument, expecting polynomial or list of polynomials");
+    change_monomial_order(red_in,order);
+    order_t order_={order.val,0};
+    environment env;
+    env.moduloon=false;
+    if (greduce8(red_in,eqp,order_,red_out,&env,contextptr)){
+      vecteur red_out_;
+      for (int i=0;i<int(red_out.size());++i)
+	red_out_.push_back(r2e(red_out[i],l,contextptr));
+      if (v[0].type==_VECT || red_out_.size()!=1)
+	return red_out_;
+      return red_out_.front();
+    }
+#endif
     if (v[0].type==_VECT){
       vecteur res(v[0]._VECTptr->size());
+      if (debug_infolevel>1)
+	COUT << CLOCK() << " begin reduce vector size " << res.size() << endl;
       for (unsigned i=0;i<v[0]._VECTptr->size();++i){
 	res[i]=greduce((*v[0]._VECTptr)[i],l,eqp,order,with_cocoa,contextptr);
       }
+      if (debug_infolevel>1)
+	COUT << CLOCK() << " end reduce vector size " << res.size() << endl;
       return res;
     }
     return greduce(v[0],l,eqp,order,with_cocoa,contextptr);
@@ -6611,7 +6679,6 @@ namespace giac {
       lvar((*args._VECTptr)[2],l);
     lvar(eqs,l); // add other vars after vars to eliminate
     vecteur remainvars(l.begin()+elim.size(),l.end());
-#if 1 
     if (!returngb && eqs.size()<=l.size()+3){
       // eliminate variables with linear dependency 
       // (in order to lower the number of vars, since <= 11 vars is handled faster)
@@ -6619,11 +6686,7 @@ namespace giac {
 	for (unsigned j=0;j<elim.size();++j){
 	  gen a,b;
 	  if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr),contextptr) && 
-#if 1
 	      is_zero(derive(a,l,contextptr),contextptr)
-#else
-	      is_zero(derive(a,remainvars,contextptr),contextptr)
-#endif
 	      ){
 	    // Warning: a is not identically 0 but may vanish for some values of elim...
 	    // eqs[i]=a*elim[j]+b
@@ -6639,9 +6702,31 @@ namespace giac {
 	}
       }
     }
+    vecteur linelim;
+#ifdef GIAC_GBASISLEX
+    if (!returngb && eqs.size()<=l.size()+3){
+      // eliminate variables with linear dependency 
+      // (in order to lower the number of vars, since <= 11 vars is handled faster)
+      // not faster
+      // Perhaps better: find revlex gbasis and do something similar to FGLM
+      for (unsigned i=0;i<eqs.size();++i){
+	for (unsigned j=0;j<elim.size();++j){
+	  gen a,b;
+	  if (!equalposcomp(linelim,elim[j]) && is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr),contextptr) 
+	      && is_zero(derive(a,remainvars,contextptr),contextptr)
+	      ){
+	    linelim.push_back(elim[j]);
+	  }
+	}
+      }
+    }
 #endif
+    // put linear dependent variables first
+    int lexvars=linelim.size();
+    lvar(elim,linelim);
+    elim=linelim;
     int es=int(elim.size()),rs=int(l.size()-elim.size()),neq=int(eqs.size());
-#if 0
+#if 0 
     // check if we should eliminate linear dependency with resultant
     // to fit inside 3/11 or 7/7 or 11/3
     if (!returngb && eqs.size()<=l.size()+3){
@@ -6684,43 +6769,45 @@ namespace giac {
 	    }
 	  }
 	}
-	// Choose lowest number of dependant equations in poselim
-	gen besteq(0),bestvar(0); int bestpos=-1,n0deps=-1;
-	for (int i=0;i<int(poselim.size());++i){
-	  gen curvar=elim[poselim[i]];
-	  gen curdiff=derive(eqs,curvar,contextptr);
-	  gen cur0deps=_count_eq(makesequence(0,curdiff),contextptr);
-	  if (cur0deps.type==_INT_ && cur0deps.val>n0deps && curdiff.type==_VECT){
-	    n0deps=cur0deps.val;
-	    bestvar=curvar;
-	    // find smallest total degree equation depending on bestvar
-	    bestpos=-1; besteq=0;
-	    int besttdeg=RAND_MAX;
-	    for (int j=0;j<int(curdiff._VECTptr->size());++j){
-	      if (is_zero((*curdiff._VECTptr)[j],contextptr)) continue;
-	      if (vtdeg[j]<besttdeg){
-		besttdeg=vtdeg[j];
-		besteq=eqs[j];
-		bestpos=j;
+	if (curdeg==1){
+	  // Choose lowest number of dependant equations in poselim
+	  gen besteq(0),bestvar(0); int bestpos=-1,n0deps=-1;
+	  for (int i=0;i<int(poselim.size());++i){
+	    gen curvar=elim[poselim[i]];
+	    gen curdiff=derive(eqs,curvar,contextptr);
+	    gen cur0deps=_count_eq(makesequence(0,curdiff),contextptr);
+	    if (cur0deps.type==_INT_ && cur0deps.val>n0deps && curdiff.type==_VECT){
+	      n0deps=cur0deps.val;
+	      bestvar=curvar;
+	      // find smallest total degree equation depending on bestvar
+	      bestpos=-1; besteq=0;
+	      int besttdeg=RAND_MAX;
+	      for (int j=0;j<int(curdiff._VECTptr->size());++j){
+		if (is_zero((*curdiff._VECTptr)[j],contextptr)) continue;
+		if (vtdeg[j]<besttdeg){
+		  besttdeg=vtdeg[j];
+		  besteq=eqs[j];
+		  bestpos=j;
+		}
 	      }
-	    }
-	  } 
+	    } 
+	  }
+	  // make resultant of all equations except posi with cureq, curvar
+	  vecteur neweq;
+	  for (int i=0;i<neq;++i){
+	    if (i==bestpos) continue;
+	    gen r=_resultant(makesequence(eqs[i],besteq,bestvar),contextptr);
+	    neweq.push_back(r);
+	  }
+	  vecteur newelim;
+	  for (int i=0;i<elim.size();++i){
+	    if (elim[i]!=bestvar)
+	      newelim.push_back(elim[i]);
+	  }
+	  // recursive call
+	  gen res=_eliminate(makesequence(neweq,newelim),contextptr);
+	  return res;
 	}
-	// make resultant of all equations except posi with cureq, curvar
-	vecteur neweq;
-	for (int i=0;i<neq;++i){
-	  if (i==bestpos) continue;
-	  gen r=_resultant(makesequence(eqs[i],besteq,bestvar),contextptr);
-	  neweq.push_back(r);
-	}
-	vecteur newelim;
-	for (int i=0;i<elim.size();++i){
-	  if (elim[i]!=bestvar)
-	    newelim.push_back(elim[i]);
-	}
-	// recursive call
-	gen res=_eliminate(makesequence(neweq,newelim),contextptr);
-	return res;
       }
     }
 #endif
@@ -6774,7 +6861,7 @@ namespace giac {
 	if (debug_infolevel)
 	  CERR << "eliminate revlex/revlex with " << order << " variables " << endl;
 	bool rur;
-	vectpoly eqpr(gbasis(eqp,order,false,modular,&env,rur,contextptr));
+	vectpoly eqpr(gbasis(eqp,makevecteur(order,lexvars),false,modular,&env,rur,contextptr));
 	vectpoly::const_iterator it=eqpr.begin(),itend=eqpr.end();
 	gb.reserve(itend-it);
 	for (;it!=itend;++it)
@@ -6796,7 +6883,7 @@ namespace giac {
     }
     if (returngb)
       return makevecteur(res,gb);
-#if 0 // 
+#if 0 // def GIAC_ELIMINATE1
     vecteur othervars=lidnt(res),addres;
     gen gres=_gbasis(makesequence(res,othervars),contextptr);
     if (gres.type==_VECT){
@@ -6807,7 +6894,7 @@ namespace giac {
 	  gen c=_content(makesequence(gb[i],elim),contextptr);
 	  c=_greduce(makesequence(c,res,othervars),contextptr);
 	  if (!lidnt(c).empty()){
-	    addres.push_back(makevecteur(c,ratnormal(gb[i]/c)));
+	    addres.push_back(c);
 	  }
 	}
       }

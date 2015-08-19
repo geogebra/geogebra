@@ -1428,8 +1428,14 @@ namespace giac {
 	      }
 	    }
 	  }
-	  if (!angle_radian(contextptr))
+    if(!angle_radian(contextptr))
+    {
+      if(angle_degree(contextptr))
 	    tmpatan=tmpatan*deg2rad_e;
+      //grad
+      else
+        tmpatan = tmpatan*grad2rad_e;
+    }
 	  tmpatan += residue;
 	  lnpart=lnpart+rdiv(r2e(atannum,lprime,contextptr),(r2e(alpha,lprime,contextptr))*sqrtdelta,contextptr)*tmpatan;
 	} // end else uselof
@@ -1723,23 +1729,32 @@ namespace giac {
   static gen int_sin(const gen & x,GIAC_CONTEXT){
     if (angle_radian(contextptr))
       return -cos(x,contextptr);
-    else
+    else if(angle_degree(contextptr))
       return -cos(x,contextptr)*gen(180)/cst_pi;
+    //grad
+    else
+      return -cos(x, contextptr)*gen(200) / cst_pi;
   }
 
   static gen int_cos(const gen & x,GIAC_CONTEXT){
     if (angle_radian(contextptr))
       return sin(x,contextptr);
-    else
+    else if(angle_degree(contextptr))
       return sin(x,contextptr)*gen(180)/cst_pi;
+    //grad
+    else
+      return sin(x, contextptr)*gen(200) / cst_pi;
   }
 
   static gen int_tan(const gen & x,GIAC_CONTEXT){
     gen g=-lnabs(cos(x,contextptr),contextptr);
     if (angle_radian(contextptr))
       return g;
-    else
+    else if(angle_degree(contextptr))
       return g*gen(180)/cst_pi;
+    //grad
+    else
+      return g*gen(200) / cst_pi;
   }
 
   static gen int_tanh(const gen & x,GIAC_CONTEXT){
@@ -1749,22 +1764,31 @@ namespace giac {
   static gen int_asin(const gen & x,GIAC_CONTEXT){
     if (angle_radian(contextptr))
       return x*asin(x,contextptr)+sqrt(1-pow(x,2),contextptr);
-    else
+    else if(angle_degree(contextptr))
       return x*asin(x,contextptr)*deg2rad_e+sqrt(1-pow(x,2),contextptr);
+    //grad
+    else
+      return x*asin(x, contextptr)*grad2rad_e + sqrt(1 - pow(x, 2), contextptr);
   }
 
   static gen int_acos(const gen & x,GIAC_CONTEXT){
     if (angle_radian(contextptr))
       return x*acos(x,contextptr)-sqrt(1-pow(x,2),contextptr);
-    else
+    else if(angle_degree(contextptr))
       return x*acos(x,contextptr)*deg2rad_e-sqrt(1-pow(x,2),contextptr);
+    //grad
+    else
+      return x*acos(x, contextptr)*grad2rad_e - sqrt(1 - pow(x, 2), contextptr);
   }
 
   static gen int_atan(const gen & x,GIAC_CONTEXT){
     if (angle_radian(contextptr)) 
       return x*atan(x,contextptr)-rdiv(ln(pow(x,2)+1,contextptr),plus_two,contextptr);
-    else
+    else if(angle_degree(contextptr))
       return x*atan(x,contextptr)*deg2rad_e-rdiv(ln(pow(x,2)+1,contextptr),plus_two,contextptr);
+    //grad
+    else
+      return x*atan(x, contextptr)*grad2rad_e - rdiv(ln(pow(x, 2) + 1, contextptr), plus_two, contextptr);
   }
 
   static const gen_op_context primitive_tab_primitive[]={giac::int_sin,giac::int_cos,giac::int_tan,giac::int_exp,giac::int_sinh,giac::int_cosh,giac::int_tanh,giac::int_asin,giac::int_acos,giac::int_atan,giac::xln_x};
@@ -3670,8 +3694,14 @@ namespace giac {
       a=atan(a,contextptr);
       b=atan(b,contextptr);
       gen res=intnum(makesequence(f,x,a,b),romberg_method,contextptr);
-      if (angle_radian(contextptr)==0)
-	res=deg2rad_d*res; 
+      if (!angle_radian(contextptr))
+      {
+	if(angle_degree(contextptr))
+          res=deg2rad_d*res; 
+        //grad
+        else 
+          res = grad2rad_d*res;
+      }
       return res;
     }
     a=a.evalf(1,contextptr);

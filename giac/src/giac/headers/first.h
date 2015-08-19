@@ -48,6 +48,8 @@
 #ifdef EMCC
 #define CERR std::cout
 extern "C" double emcctime(); 
+extern "C" int glinit(int,int,int,int,int);
+extern "C" void glcontext(int);
 #define CLOCK emcctime
 #else
 #define CERR std::cerr
@@ -226,6 +228,11 @@ typedef longlong ref_count_t;
 typedef int ref_count_t;
 #endif
 
+#ifdef WINSTORE
+//tw  **NOTE** this is pulled out of winnt.h!!! I don't know why it is not found there.
+//             there is some sort of interaction in windows ARM builds... 
+#define CP15_TPIDRURW          15, 0, 13,  0, 2         // Software Thread ID Register, User Read/Write
+#endif
 
 #ifndef __x86_64__
 #ifdef SMARTPTR64

@@ -544,6 +544,11 @@ namespace giac {
   extern const double deg2rad_d;
   extern const gen & rad2deg_g;
   extern const gen & deg2rad_g;
+  //grad
+  extern const double rad2grad_d;
+  extern const double grad2rad_d;
+  extern const gen & rad2grad_g;
+  extern const gen & grad2rad_g;
 
 #if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(__x86_64__)
   extern gen cst_two_pi;
@@ -574,6 +579,9 @@ namespace giac {
   extern gen minus_tan_5pi_12;
   extern gen rad2deg_e;
   extern gen deg2rad_e;
+  //grad
+  extern gen rad2grad_e;
+  extern gen grad2rad_e;
   extern const gen * const table_cos[];
   extern const gen * const table_tan[];
 #else
@@ -766,6 +774,19 @@ namespace giac {
   extern const alias_ref_symbolic deg2rad_e_symb ;
   extern const alias_gen alias_deg2rad_e;
   extern const gen & deg2rad_e ;
+
+  //grad
+  extern const alias_gen alias_rad2grad_e_tab[];
+  extern const alias_ref_vecteur rad2grad_e_refv;
+  extern const alias_ref_symbolic rad2grad_e_symb;
+  extern const alias_gen alias_rad2grad_e;
+  extern const gen & rad2grad_e;
+
+  extern const alias_gen alias_grad2rad_e_tab[];
+  extern const alias_ref_vecteur grad2rad_e_refv;
+  extern const alias_ref_symbolic grad2rad_e_symb;
+  extern const alias_gen alias_grad2rad_e;
+  extern const gen & grad2rad_e;
 
 
   extern const gen * const * table_cos;
