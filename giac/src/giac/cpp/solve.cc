@@ -6457,7 +6457,7 @@ namespace giac {
       alg_lvar(v[2],l); // ordering for remaining variables
     alg_lvar(v[0],l);
     if (l.front()._VECTptr->size()==15 && order.val==11)
-      l.front()._VECTptr->push_back(0);
+      l.front()._VECTptr->insert(l.front()._VECTptr->begin()+11,0);
     // convert eq to polynomial
     vecteur eq_in(*e2r(v[0],l,contextptr)._VECTptr);
     vectpoly eqp;
@@ -6658,7 +6658,7 @@ namespace giac {
   static define_unary_function_eval (__greduce,&_greduce,_greduce_s);
   define_unary_function_ptr5( at_greduce ,alias_at_greduce,&__greduce,0,true);
 
-  // eliminate/algsubs adapted from Reinhard Oldenburg user code
+  // eliminate/algsubs (very first version adapted from Reinhard Oldenburg user code)
   // eliminate(eqs,vars)
   gen _eliminate(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args._VECTptr->size()<2)
@@ -6820,7 +6820,9 @@ namespace giac {
 	if (!equalposcomp(elim,l[i]))
 	  break;
       }
-      if (1 ||(l.size()+3-(i%4)<=14)){
+      if (1 
+	  // ||(l.size()+3-(i%4)<=14)
+	  ){
 	for (;i%4<3;++i)
 	  l.insert(l.begin()+i,0);
 	if (l.size()>=16){
@@ -6828,7 +6830,7 @@ namespace giac {
 	  for (;i<lim;++i)
 	    l.insert(l.begin()+i,0);
 	}
-	if (l.size()==15) l.push_back(0); // insure that the fast algo in cocoa.cc is not called because it would fail
+	if (l.size()==15) l.insert(l.begin()+i,0); // insure that the fast algo in cocoa.cc is not called because it would fail
 	order = i; // double revlex ordering of type 3/7/11/16/32/64
 	l=vecteur(1,l);
 	alg_lvar(eqs,l);

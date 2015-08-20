@@ -435,6 +435,7 @@ namespace giac {
   }
 
   struct tdeg_t {
+    void dbgprint() const;
     // data
 #ifdef GIAC_64VARS
     union {
@@ -443,10 +444,10 @@ namespace giac {
 	short tdeg; // actually it's twice the total degree+1
 	short tdeg2;
 	order_t order_;
-	short * ui;
+	longlong * ui;
       };
     };
-    int front() const { if (tdeg % 2) return *(ui+2); else return order_.o==_PLEX_ORDER?tab[0]:tab[1];}
+    //int front() const { if (tdeg % 2) return (*(ui+1)) & 0xffff; else return order_.o==_PLEX_ORDER?tab[0]:tab[1];}
     tdeg_t(const tdeg_t & a){
       if (a.tab[0]%2){
 	tdeg=a.tdeg;
@@ -454,8 +455,6 @@ namespace giac {
 	order_=a.order_;
 	ui=a.ui;
 	++(*ui);
-	if (*ui==0) 
-	  ++(*(ui+1));
       }
       else {
 	longlong * ptr = (longlong *) tab;
@@ -468,59 +467,49 @@ namespace giac {
     }
     void compute_degs(){
       if (tab[0]%2){
-	short * ptr=ui+2;
+	longlong * ptr=ui+1;
 	tdeg=0;
 	int firstblock=order_.o;
 	if (firstblock!=_3VAR_ORDER && firstblock<_7VAR_ORDER)
 	  firstblock=order_.dim;
-	short * ptrend=ui+2+firstblock;
+	longlong * ptrend=ui+1+(firstblock+3)/4;
 	for (;ptr!=ptrend;++ptr){
-	  tdeg += *ptr;
+	  longlong x=*ptr;
+	  tdeg += ((x+(x>>16)+(x>>32)+(x>>48))&0xffff);
 	}
 	tdeg=2*tdeg+1;
 	tdeg2=0;
-	ptrend=ui+2+order_.dim;
+	ptrend=ui+1+(order_.dim+3)/4;
 	for (;ptr!=ptrend;++ptr){
-	  tdeg2 += *ptr;
+	  longlong x=*ptr;
+	  tdeg2 += ((x+(x>>16)+(x>>32)+(x>>48))&0xffff);
 	}
       }
     }
     ~tdeg_t(){
       if (tab[0]%2){
 	--(*ui);
-	if (*ui==0){
-	  if (*(ui+1)==0)
-	    free(ui);
-	  else
-	    --(*(ui+1));
-	}
+	if (*ui==0)
+	  free(ui);
       }
     }
     tdeg_t & operator = (const tdeg_t & a){
       if (tab[0] % 2){
 	--(*ui);
-	if (*ui==0){
-	  if (*(ui+1)==0)
-	    free(ui);
-	  else
-	    --(*(ui+1));
-	}
+	if (*ui==0)
+	  free(ui);
 	if (a.tab[0] % 2){
 	  tdeg=a.tdeg;
 	  tdeg2=a.tdeg2;
 	  order_=a.order_;
 	  ui=a.ui;
 	  ++(*ui);
-	  if (*ui==0)
-	    ++(*(ui+1));
 	  return *this;
 	}
       }
       else {
 	if (a.tab[0]%2){
 	  ++(*a.ui);
-	  if (*a.ui==0)
-	    ++(*(a.ui+1));
 	}
       }
       longlong * ptr = (longlong *) tab;
@@ -572,7 +561,7 @@ namespace giac {
     void get_tab(short * ptr) const {
 #ifdef GIAC_64VARS
       if (tab[0]%2){ // copy only 16 first
-	short * ptr_=ui+2;
+	short * ptr_=(short *)(ui+1);
 	for (unsigned i=0;i<=GROEBNER_VARS;++i)
 	  ptr[i]=ptr_[i];
 	return;
@@ -590,12 +579,29 @@ namespace giac {
     tdeg_t(const index_m & lm,order_t order){ 
 #ifdef GIAC_64VARS
       if (lm.size()>GROEBNER_VARS){
-	ui=(short *)malloc((order.dim+2)*sizeof(short));
-	short* ptr=ui;
+	ui=(longlong *)malloc((1+(order.dim+3)/4)*sizeof(longlong));
+	longlong* ptr=ui;
 	*ptr=1; ++ ptr;
-	*ptr=0; ++ ptr;
-	for (int i=0;i<lm.size();++ptr,++i){
-	  *ptr=lm[i];
+	for (int i=0;i<lm.size();){
+	  longlong x=lm[i];
+	  ++i;
+	  x <<= 16;
+	  if (i<lm.size())
+	    x += lm[i];
+	  ++i;
+	  x <<= 16;
+	  if (i<lm.size())
+	    x += lm[i];
+	  ++i;
+	  x <<= 16;
+	  if (i<lm.size())
+	    x += lm[i];
+#ifndef BIGENDIAN
+	  x = (x>>48) | (((x>>32)&0xffff)<<16) | (((x>>16)&0xffff)<<32) | ((x&0xfff)<<48);
+#endif
+	  *ptr = x;
+	  ++ptr;
+	  ++i;
 	}
 	if (order.o==_3VAR_ORDER || order.o>=_7VAR_ORDER){
 	  tdeg=2*nvar_total_degree(lm,order.o)+1;
@@ -717,9 +723,14 @@ namespace giac {
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
       os << "[";
-      const short * ptr=x.ui+2,*ptrend=ptr+x.order_.dim;
+      const longlong * ptr=x.ui+1,*ptrend=ptr+(x.order_.dim+3)/4;
       for (;ptr!=ptrend;++ptr){
-	os << *ptr << ",";
+	longlong x=*ptr;
+#ifdef BIGENDIAN
+	os << ((x>>48) &0xffff)<< "," << ((x>>32) & 0xffff) << "," << ((x>>16) & 0xffff) << "," << ((x) & 0xffff) << ",";
+#else
+	os << ((x) &0xffff)<< "," << ((x>>16) & 0xffff) << "," << ((x>>32) & 0xffff) << "," << ((x>>48) & 0xffff) << ",";
+#endif
       }
       return os << "]";
     }
@@ -735,9 +746,14 @@ namespace giac {
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
       os << "[";
-      const short * ptr=x.ui+2,*ptrend=ptr+x.order_.dim;
+      const longlong * ptr=x.ui+1,*ptrend=ptr+(x.order_.dim+3)/4;
       for (;ptr!=ptrend;++ptr){
-	os << *ptr << ",";
+	longlong x=*ptr;
+#ifdef BIGENDIAN
+	os << ((x>>48) &0xffff)<< "," << ((x>>32) & 0xffff) << "," << ((x>>16) & 0xffff) << "," << ((x) & 0xffff) << ",";
+#else
+	os << ((x) &0xffff)<< "," << ((x>>16) & 0xffff) << "," << ((x>>32) & 0xffff) << "," << ((x>>48) & 0xffff) << ",";
+#endif
       }
       return os << "]";
     }
@@ -749,19 +765,16 @@ namespace giac {
     return os << "]";
   }
 #endif
+  void tdeg_t::dbgprint() const { COUT << * this << endl; }
   tdeg_t operator + (const tdeg_t & x,const tdeg_t & y);
   tdeg_t & operator += (tdeg_t & x,const tdeg_t & y){ 
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      if (!y.tab[0]%2)
+      if (!y.tab[0]%2){
+	y.dbgprint();
 	COUT << "erreur" << endl;
+      }
       return x=x+y;
-      short * xptr=x.ui+2,*xend=xptr+x.order_.dim; const short * yptr=y.ui+2;
-      for (;xptr!=xend;++yptr,++xptr)
-	*xptr += *yptr;
-      x.tdeg += 2*(y.tdeg/2);
-      x.tdeg2 += y.tdeg2;
-      return x;
     }
 #endif    
 #if 1
@@ -785,10 +798,10 @@ namespace giac {
 	COUT << "erreur" << endl;
       tdeg_t res;
       res.order_=x.order_;
-      res.ui=(short *)malloc((x.order_.dim+2)*sizeof(short));
-      res.ui[0]=1; res.ui[1]=0;
-      const short * xptr=x.ui+2,*xend=xptr+x.order_.dim,*yptr=y.ui+2;
-      short * resptr=res.ui+2;
+      res.ui=(longlong *)malloc((x.order_.dim+7)/4*sizeof(longlong));
+      res.ui[0]=1; 
+      const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+3)/4,*yptr=y.ui+1;
+      longlong * resptr=res.ui+1;
       for (;xptr!=xend;++resptr,++yptr,++xptr)
 	*resptr=*xptr+*yptr;
       res.tdeg=1;
@@ -848,10 +861,10 @@ namespace giac {
 	COUT << "erreur" << endl;
       tdeg_t res;
       res.order_=x.order_;
-      res.ui=(short *)malloc((x.order_.dim+2)*sizeof(short));
-      res.ui[0]=1; res.ui[1]=0;
-      const short * xptr=x.ui+2,*xend=xptr+x.order_.dim,*yptr=y.ui+2;
-      short * resptr=res.ui+2;
+      res.ui=(longlong *)malloc((x.order_.dim+7)/4*sizeof(longlong));
+      res.ui[0]=1; 
+      const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+3)/4,*yptr=y.ui+1;
+      longlong * resptr=res.ui+1;
       for (;xptr!=xend;++resptr,++yptr,++xptr)
 	*resptr=*xptr-*yptr;
       res.tdeg=1;
@@ -881,7 +894,7 @@ namespace giac {
 	COUT << "erreur" << endl;
       if (x.tdeg!=y.tdeg || x.tdeg2!=y.tdeg2)
 	return false;
-      const short * xptr=x.ui+2,*xend=xptr+x.order_.dim,*yptr=y.ui+2;
+      const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+3)/4,*yptr=y.ui+1;
       for (;xptr!=xend;++yptr,++xptr){
 	if (*xptr!=*yptr)
 	  return false;
@@ -1157,44 +1170,101 @@ namespace giac {
       if (order.o>=_7VAR_ORDER || order.o==_3VAR_ORDER){
 #ifdef GIAC_GBASISLEX 
 	// if activated, check that poly8, polymod and zpolymod should be reordered
-	if (order.lex){
-	  index_t::const_iterator itx=x.i()->begin(),itxend=itx+order.lex,ity=y.i()->begin();
-	  for (;itx!=itxend;++ity,++itx){
-	    if (*itx!=*ity)
-	      return *itx>*ity;
-	  }
-	}
+	// FIXME
 #endif
 	if (x.tdeg!=y.tdeg) return x.tdeg>y.tdeg;
-	int n=x.order_.o;
-	const short * it1beg=x.ui+1,*it1=x.ui+1+n,*it2=y.ui+1+n;
+	int n=(x.order_.o+1)/4;
+	const longlong * it1beg=x.ui,*it1=x.ui+n,*it2=y.ui+n;
+	longlong a=0,b=0;
 	for (;it1!=it1beg;--it2,--it1){
-	  if (*it1!=*it2)
-	    return *it1<=*it2;
+	  a=*it1; b=*it2;
+	  if (a!=b)
+	    break;
+	}
+	if (a!=b){
+#ifdef BIGENDIAN
+	  if ( ((a)&0xffff) != ((b)&0xffff) )
+	    return ((a)&0xffff) <= ((b)&0xffff);
+	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
+	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
+	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
+	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
+	  return a <= b;
+#else
+	  if ( ((a>>48)) != ((b>>48)) )
+	    return (a>>48) <= (b>>48);
+	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
+	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
+	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
+	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
+	  return a <= b;
+#endif
 	}
 	if (x.tdeg2!=y.tdeg2)
 	  return x.tdeg2>=y.tdeg2;
-	it1beg=x.ui+1+n;
-	it1=x.ui+1+x.order_.dim;
-	it2=y.ui+1+x.order_.dim;
-	for (;it1!=it1beg;--it2,--it1){
-	  if (*it1!=*it2)
-	    return *it1<=*it2;
+	it1beg=x.ui+n;
+	it1=x.ui+(x.order_.dim+3)/4;
+	it2=y.ui+(x.order_.dim+3)/4;
+	for (a=0,b=0;it1!=it1beg;--it2,--it1){
+	  a=*it1; b=*it2;
+	  if (a!=b)
+	    break;
+	}
+	if (a!=b){
+#ifdef BIGENDIAN
+	  if ( ((a)&0xffff) != ((b)&0xffff) )
+	    return ((a)&0xffff) <= ((b)&0xffff);
+	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
+	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
+	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
+	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
+	  return a <= b;
+#else
+	  if ( ((a>>48)) != ((b>>48)) )
+	    return (a>>48) <= (b>>48);
+	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
+	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
+	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
+	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
+	  return a <= b;
+#endif
 	}
 	return true;
       }
       if (order.o==_REVLEX_ORDER){
 	if (x.tdeg!=y.tdeg) return x.tdeg>y.tdeg;
-	const short * it1beg=x.ui+1,*it1=x.ui+1+x.order_.dim,*it2=y.ui+1+y.order_.dim;
+	const longlong * it1beg=x.ui,*it1=x.ui+(x.order_.dim+3)/4,*it2=y.ui+(y.order_.dim+3)/4;
+	longlong a=0,b=0;
 	for (;it1!=it1beg;--it2,--it1){
-	  if (*it1!=*it2)
-	    return *it1<=*it2;
+	  a=*it1; b=*it2;
+	  if (a!=b)
+	    break;
+	}
+	if (a!=b){
+#ifdef BIGENDIAN
+	  if ( ((a)&0xffff) != ((b)&0xffff) )
+	    return ((a)&0xffff) <= ((b)&0xffff);
+	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
+	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
+	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
+	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
+	  return a <= b;
+#else
+	  if ( ((a>>48)) != ((b>>48)) )
+	    return (a>>48) <= (b>>48);
+	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
+	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
+	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
+	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
+	  return a <= b;
+#endif
 	}
 	return true;
       }
       if (order.o==_TDEG_ORDER && x.tdeg!=y.tdeg) 
 	return x.tdeg>y.tdeg;
-      const short * it1=x.ui+2,*it1end=x.ui+2+x.order_.dim,*it2=y.ui+2;
+      // FIXME plex might be wrong
+      const short * it1=(short *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(short *)(y.ui+1);
       for (;it1!=it1end;++it2,++it1){
 	if (*it1!=*it2)
 	  return *it1>=*it2;
@@ -1225,11 +1295,19 @@ namespace giac {
 	COUT << "erreur" << endl;
       if (x.tdeg<y.tdeg || x.tdeg2<y.tdeg2)
 	return false;
-      const short * it1=x.ui+2,*it1end=x.ui+2+x.order_.dim,*it2=y.ui+2;
+#if 0
+      const short * it1=(short *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(short *)(y.ui+1);
       for (;it1!=it1end;++it2,++it1){
 	if (*it1<*it2)
 	  return false;
       }
+#else
+      const longlong * it1=x.ui+1,*it1end=it1+(x.order_.dim+3)/4,*it2=y.ui+1;
+      for (;it1!=it1end;++it2,++it1){
+	if ((*it1-*it2) & 0x8000800080008000ULL)
+	  return false;
+      }
+#endif
       return true;
     }
 #endif
@@ -1255,10 +1333,10 @@ namespace giac {
       z=tdeg_t();
       z.tdeg=1;
       z.order_=x.order_;
-      z.ui=(short *)malloc((x.order_.dim+2)*sizeof(short));
-      z.ui[0]=1; z.ui[1]=0;
-      const short * xptr=x.ui+2,*xend=xptr+x.order_.dim,*yptr=y.ui+2;
-      short * resptr=z.ui+2;
+      z.ui=(longlong *)malloc((1+(x.order_.dim+3)/4)*sizeof(longlong));
+      z.ui[0]=1;
+      const short * xptr=(short *)(x.ui+1),*xend=xptr+4*((x.order_.dim+3)/4),*yptr=(short *)(y.ui+1);
+      short * resptr=(short *)(z.ui+1);
       for (;xptr!=xend;++resptr,++yptr,++xptr)
 	*resptr=*xptr>*yptr?*xptr:*yptr;
       z.tdeg=1;
@@ -1398,7 +1476,7 @@ namespace giac {
 #ifdef GIAC_64VARS
     if (x_.tab[0]%2){
       idx.resize(dim);
-      const short * ptr=x_.ui+2,*ptrend=ptr+dim;
+      const short * ptr=(short *)(x_.ui+1),*ptrend=ptr+dim;
       index_t::iterator target=idx.begin();
       for (;ptr!=ptrend;++target,++ptr)
 	*target=*ptr;
@@ -1462,7 +1540,7 @@ namespace giac {
     if (a.tab[0]%2){
       if (!b.tab[0]%2)
 	COUT << "erreur" << endl;
-      const short * xptr=a.ui+2,*xend=xptr+dim,*yptr=b.ui+2;
+      const short * xptr=(short *)(a.ui+1),*xend=xptr+dim,*yptr=(short *)(b.ui+1);
       for (;xptr!=xend;++yptr,++xptr){
 	if (*xptr && *yptr)
 	  return false;
@@ -1642,8 +1720,9 @@ namespace giac {
       os << it->g  ;
 #ifdef GIAC_64VARS
       if (it->u.tdeg%2){
-	short * i=it->u.ui+2;
-	for (int j=0;j<it->u.order_.dim;++j){
+	short * i=(short *)(it->u.ui+1);
+	int s=it->u.order_.dim;
+	for (int j=0;j<s;++j){
 	  t2=i[j];
 	  if (t2)
 	    os << "*x"<< j << "^" << t2  ;
@@ -2881,7 +2960,7 @@ namespace giac {
       os << it->g  ;
 #ifdef GIAC_64VARS
       if (it->u.tdeg%2){
-	short * i=it->u.ui+2;
+	short * i=(short *)(it->u.ui+1);
 	for (int j=0;j<it->u.order_.dim;++j){
 	  t2=i[j];
 	  if (t2)
@@ -8674,7 +8753,7 @@ namespace giac {
       os << it->g  ;
 #ifdef GIAC_64VARS
       if ((*p.expo)[it->u].tdeg%2){
-	short * i=(*p.expo)[it->u].ui;
+	short * i=(short *)((*p.expo)[it->u].ui+1);
 	for (int j=0;j<(*p.expo)[it->u].order_.dim;++j){
 	  t2=i[j];
 	  if (t2)
