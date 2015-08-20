@@ -1815,13 +1815,13 @@ SymbolicParametersBotanaAlgo {
 	private boolean setCoords2D(CoordSys coordSys) {
 		
 		if(coords2D == null){
-			coords2D = new Coords(4);
+			coords2D = new Coords(new double[] { x, y, z });
 		}
 
-		if (coordSys == null || coordSys == CoordSys.Identity3D) {
-			coords2D.set(1, inhomX);
-			coords2D.set(2, inhomY);
-			coords2D.set(3, 1);
+		if (coordSys == null) {
+			coords2D.set(1, x);
+			coords2D.set(2, y);
+			coords2D.set(3, z);
 		} else { // this should happen only when we try to put a 2D point on a
 					// 3D path (e.g. GeoConic3D)
 					// matrix for projection
@@ -1832,8 +1832,7 @@ SymbolicParametersBotanaAlgo {
 			if (tmpCoords == null) {
 				tmpCoords = new Coords(4);
 			}
-			getInhomCoordsInD3().projectPlaneInPlaneCoords(tmpMatrix4x4,
-					tmpCoords);
+			getCoordsInD3().projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords);
 			coords2D.setX(tmpCoords.getX());
 			coords2D.setY(tmpCoords.getY());
 			coords2D.setZ(tmpCoords.getW());
