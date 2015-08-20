@@ -1818,10 +1818,10 @@ SymbolicParametersBotanaAlgo {
 			coords2D = new Coords(new double[] { x, y, z });
 		}
 
-		if (coordSys == null) {
-			coords2D.set(1, x);
-			coords2D.set(2, y);
-			coords2D.set(3, z);
+		if (coordSys == null || coordSys == CoordSys.Identity3D) {
+			coords2D.set(1, x / z);
+			coords2D.set(2, y / z);
+			coords2D.set(3, 1);
 		} else { // this should happen only when we try to put a 2D point on a
 					// 3D path (e.g. GeoConic3D)
 					// matrix for projection
@@ -1833,9 +1833,10 @@ SymbolicParametersBotanaAlgo {
 				tmpCoords = new Coords(4);
 			}
 			getCoordsInD3().projectPlaneInPlaneCoords(tmpMatrix4x4, tmpCoords);
-			coords2D.setX(tmpCoords.getX());
-			coords2D.setY(tmpCoords.getY());
-			coords2D.setZ(tmpCoords.getW());
+			double w = tmpCoords.getW();
+			coords2D.setX(tmpCoords.getX() / w);
+			coords2D.setY(tmpCoords.getY() / w);
+			coords2D.setZ(1);
 
 			// check if point is included in the plane
 			return Kernel.isZero(tmpCoords.getZ());

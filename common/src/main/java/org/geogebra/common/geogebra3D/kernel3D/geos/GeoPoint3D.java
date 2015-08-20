@@ -400,7 +400,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			coords = getWillingCoords();
 		else
 			// use real coords
-			coords = getInhomCoordsInD3();
+			coords = getCoords();
 
 		// matrix for projection
 		if (tmpMatrix4x4 == null) {
@@ -425,9 +425,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			tmpCoordsLength3 = new Coords(3);
 		}
 
-		tmpCoordsLength3.setX(tmpCoords1.getX());
-		tmpCoordsLength3.setY(tmpCoords1.getY());
-		tmpCoordsLength3.setZ(tmpCoords1.getW());
+		double w = tmpCoords1.getW();
+		tmpCoordsLength3.setX(tmpCoords1.getX() / w);
+		tmpCoordsLength3.setY(tmpCoords1.getY() / w);
+		tmpCoordsLength3.setZ(1);
 
 		return Kernel.isZero(tmpCoords1.getZ());
 
