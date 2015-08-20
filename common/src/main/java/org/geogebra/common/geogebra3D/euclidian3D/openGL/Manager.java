@@ -21,7 +21,7 @@ abstract public class Manager {
 
 	public static enum Type { // quads and quad strips are not supported in
 								// gwtgl
-		TRIANGLE_STRIP, TRIANGLE_FAN, TRIANGLES, LINE_LOOP
+		TRIANGLE_STRIP, TRIANGLE_FAN, TRIANGLES, LINE_LOOP, LINE_STRIP
 	}
 
 	// geometries

@@ -980,11 +980,13 @@ public abstract class Renderer {
 
 	}
 
-	final public void drawCompletingCursor(double value, Coords color) {
+	final public void drawCompletingCursor(double value) {
 
 		initMatrix();
+		setLineWidth(PlotterCompletingCursor.WIDTH);
 		enableBlending();
-		geometryManager.getCompletingCursor().draw(value, color);
+		geometryManager.getCompletingCursor().drawCircle();
+		geometryManager.getCompletingCursor().drawCompleting(value);
 		disableBlending();
 		resetMatrix();
 

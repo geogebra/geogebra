@@ -56,6 +56,8 @@ public class RendererShadersElements extends RendererShaders {
 			return GLlocal.GL_TRIANGLES;
 		case LINE_LOOP:
 			return GLlocal.GL_LINE_LOOP;
+		case LINE_STRIP:
+			return GLlocal.GL_LINE_STRIP;
 		}
 
 		return 0;

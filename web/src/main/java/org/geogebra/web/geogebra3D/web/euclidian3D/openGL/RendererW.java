@@ -1531,6 +1531,8 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 			return WebGLRenderingContext.TRIANGLES;
 		case LINE_LOOP:
 			return WebGLRenderingContext.LINE_LOOP;
+		case LINE_STRIP:
+			return WebGLRenderingContext.LINE_STRIP;
 		}
 
 		return WebGLRenderingContext.TRIANGLES;

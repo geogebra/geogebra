@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCompletingCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
@@ -105,39 +106,60 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		super.drawCursor(renderer1);
 	}
 
-	static public Coords CompletingCursorColorGrabbing = new Coords(0f, 0.5f,
-			0f, 1f);
-	static public Coords CompletingCursorColorRelease = new Coords(1f, 0f, 0f,
-			1f);
+	static public enum CompletingCursor {
+		GRABBING, RELEASING, MOVING, NONE
+	};
 
 	private boolean drawCompletingCursor(Renderer renderer1) {
 
+		CompletingCursor completingCursorMode = CompletingCursor.NONE;
+		Coords origin;
+
+		// are we grabbing?
 		float completingDelay = hittedGeo.getCompletingDelay();
-
-		if (completingDelay > 0.5f && completingDelay <= 1f) {
+		if (completingDelay > PlotterCompletingCursor.START_DRAW
+				&& completingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
-			Coords origin = getCursor3D().getInhomCoordsInD3().copyVector();
-			toScreenCoords3D(origin);
-			tmpMatrix4x4_3.setOrigin(origin);
-			renderer1.setMatrix(tmpMatrix4x4_3);
-			renderer1.drawCompletingCursor(completingDelay,
-					CompletingCursorColorGrabbing);
-			return true;
+			origin = getCursor3D().getInhomCoordsInD3().copyVector();
+			drawCompletingCursor(renderer1, origin, CompletingCursor.GRABBING,
+					completingDelay);
+			return false;
 		}
 
+		// are we releasing?
 		completingDelay = stationaryCoords.getCompletingDelay();
-		if (completingDelay > 0.5f && completingDelay <= 1f) {
+		if (completingDelay > PlotterCompletingCursor.START_DRAW
+				&& completingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
-			Coords origin = stationaryCoords.getCurrentCoords().copyVector();
-			toScreenCoords3D(origin);
-			tmpMatrix4x4_3.setOrigin(origin);
-			renderer1.setMatrix(tmpMatrix4x4_3);
-			renderer1.drawCompletingCursor(completingDelay,
-					CompletingCursorColorRelease);
+			origin = stationaryCoords.getCurrentCoords().copyVector();
+			drawCompletingCursor(renderer1, origin, CompletingCursor.RELEASING,
+					1 - completingDelay);
 			return true;
 		}
+
+		// are we moving?
+		if (completingDelay >= 0
+				&& completingDelay <= PlotterCompletingCursor.START_DRAW) {
+			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
+			origin = stationaryCoords.getCurrentCoords().copyVector();
+			drawCompletingCursor(renderer1, origin, CompletingCursor.MOVING, 1);
+			return true;
+		}
+
+		origin = getCursor3D().getInhomCoordsInD3().copyVector();
+		drawCompletingCursor(renderer1, origin, CompletingCursor.NONE, 0);
 
 		return false;
+	}
+
+	private void drawCompletingCursor(Renderer renderer1, Coords origin,
+			CompletingCursor mode, float completingDelay) {
+
+		toScreenCoords3D(origin);
+		tmpMatrix4x4_3.setOrigin(origin);
+		renderer1.setMatrix(tmpMatrix4x4_3);
+		renderer1.drawCompletingCursor(completingDelay);
+
 	}
 
 	private CoordMatrix4x4 transparentMouseCursorMatrix = new CoordMatrix4x4();
