@@ -4,8 +4,10 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
@@ -112,15 +114,14 @@ public class EuclidianControllerInput3DCompanion extends
 						.updatePointDecorations((GeoPoint3D) ec.movedGeoPoint);
 			}
 
-			if (((EuclidianControllerInput3D) ec).input3D.getLeftButton()) {
+			if (((EuclidianControllerInput3D) ec).input3D.hasCompletedGrabbingDelay()) {
 				long time = System.currentTimeMillis();
 				StationaryCoords stationaryCoords = ((EuclidianViewInput3D) ec.view)
 						.getStationaryCoords();
 				stationaryCoords.setCoords(
 						ec.movedGeoPoint.getInhomCoordsInD3(), time);
 				if (stationaryCoords.hasLongDelay(time)) {
-					((EuclidianControllerInput3D) ec).input3D
-							.setLeftButtonPressed(false);
+					releaseGrabbing();
 				}
 			}
 		}
@@ -447,7 +448,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 			}
 
-			if (((EuclidianControllerInput3D) ec).input3D.getLeftButton()) {
+			if (((EuclidianControllerInput3D) ec).input3D.hasCompletedGrabbingDelay()) {
 
 				Coords p = Coords.createInhomCoorsInD3();
 				p.setValues(((EuclidianControllerInput3D) ec).mouse3DPosition,
@@ -459,12 +460,19 @@ public class EuclidianControllerInput3DCompanion extends
 						.getStationaryCoords();
 				stationaryCoords.setCoords(p, time);
 				if (stationaryCoords.hasLongDelay(time)) {
-					((EuclidianControllerInput3D) ec).input3D
-							.setLeftButtonPressed(false);
+					releaseGrabbing();
 				}
 			}
 
 		}
+	}
+
+	private void releaseGrabbing() {
+		((EuclidianControllerInput3D) ec).input3D
+				.setHasCompletedGrabbingDelay(false);
+		ec.getApplication().getSelectionManager().clearSelectedGeos(true);
+		ec.endOfWrapMouseReleased(new Hits(), false, false,
+				PointerEventType.TOUCH);
 	}
 
 	private Coords tmpCoordsInput3D1, tmpCoordsInput3D2, tmpCoordsInput3D3,

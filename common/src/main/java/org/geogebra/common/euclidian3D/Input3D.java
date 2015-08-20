@@ -118,13 +118,13 @@ public interface Input3D {
 	 * @param flag
 	 *            flag
 	 */
-	public void setLeftButtonPressed(boolean flag);
+	public void setHasCompletedGrabbingDelay(boolean flag);
 
 	/**
 	 * 
-	 * @return left button status
+	 * @return if hand input has completed grabbing delay
 	 */
-	public boolean getLeftButton();
+	public boolean hasCompletedGrabbingDelay();
 
 	/**
 	 * calc position of 3D mouse on 3D view

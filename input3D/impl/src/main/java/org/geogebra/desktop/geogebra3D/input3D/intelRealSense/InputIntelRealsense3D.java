@@ -205,12 +205,14 @@ public class InputIntelRealsense3D implements Input3D {
 		return !socket.hasTrackedHand();
 	}
 	
-	public void setLeftButtonPressed(boolean flag){
-		socket.setLeftButtonPressed(flag);
+	private boolean hasCompletedGrabbingDelay = false;
+
+	public void setHasCompletedGrabbingDelay(boolean flag){
+		hasCompletedGrabbingDelay = flag;
 	}
 	
-	public boolean getLeftButton(){
-		return socket.leftButton;
+	public boolean hasCompletedGrabbingDelay(){
+		return hasCompletedGrabbingDelay;
 	}
 	
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 

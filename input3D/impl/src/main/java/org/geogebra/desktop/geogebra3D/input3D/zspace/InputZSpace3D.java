@@ -183,12 +183,12 @@ public class InputZSpace3D implements Input3D {
 		return false;
 	}
 	
-	public void setLeftButtonPressed(boolean flag){
-		// not used for leo
+	public void setHasCompletedGrabbingDelay(boolean flag){
+		// not used
 	}
 	
-	public boolean getLeftButton(){
-		return socket.buttonLeft;
+	public boolean hasCompletedGrabbingDelay(){
+		return false;
 	}
 
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 

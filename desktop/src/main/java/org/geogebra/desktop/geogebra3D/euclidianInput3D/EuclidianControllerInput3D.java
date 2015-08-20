@@ -286,6 +286,19 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 						wasRightReleased = true;
 						wasLeftReleased = false;
 						wasThirdButtonReleased = true;
+					} else if (input3D.hasCompletedGrabbingDelay()) { // use
+																		// hand
+																		// dragging
+						if (wasLeftReleased) {
+							startMouse3DPosition.set(mouse3DPosition);
+							storeOrientation();
+						} else {
+							// no capture in desktop
+							wrapMouseDragged(mouseEvent, false);
+						}
+						wasRightReleased = true;
+						wasLeftReleased = false;
+						wasThirdButtonReleased = true;
 					} else {
 						// process button release
 						if (!wasRightReleased || !wasLeftReleased

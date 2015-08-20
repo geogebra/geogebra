@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
@@ -106,57 +105,63 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		super.drawCursor(renderer1);
 	}
 
-	static public enum CompletingCursor {
-		GRABBING, RELEASING, MOVING, NONE
-	};
-
 	private boolean drawCompletingCursor(Renderer renderer1) {
 
-		CompletingCursor completingCursorMode = CompletingCursor.NONE;
 		Coords origin;
 
 		// are we grabbing?
-		float completingDelay = hittedGeo.getCompletingDelay();
-		if (completingDelay > PlotterCompletingCursor.START_DRAW
-				&& completingDelay <= PlotterCompletingCursor.END_DRAW) {
+		float hittedGeoCompletingDelay = hittedGeo.getCompletingDelay();
+		if (hittedGeoCompletingDelay > PlotterCompletingCursor.START_DRAW
+				&& hittedGeoCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 			origin = getCursor3D().getInhomCoordsInD3().copyVector();
 			toScreenCoords3D(origin);
-			drawCompletingCursor(renderer1, origin, CompletingCursor.GRABBING,
-					completingDelay);
+			drawCompletingCursor(renderer1, origin,
+					hittedGeoCompletingDelay);
 			return false;
 		}
 
 		// are we releasing?
-		completingDelay = stationaryCoords.getCompletingDelay();
-		if (completingDelay > PlotterCompletingCursor.START_DRAW
-				&& completingDelay <= PlotterCompletingCursor.END_DRAW) {
+		float stationaryCoordsCompletingDelay = stationaryCoords
+				.getCompletingDelay();
+		if (stationaryCoordsCompletingDelay > PlotterCompletingCursor.START_DRAW
+				&& stationaryCoordsCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 			origin = stationaryCoords.getCurrentCoords().copyVector();
 			toScreenCoords3D(origin);
-			drawCompletingCursor(renderer1, origin, CompletingCursor.RELEASING,
-					1 - completingDelay);
+			drawCompletingCursor(renderer1, origin,
+					1 - stationaryCoordsCompletingDelay);
 			return true;
 		}
 
 		// are we moving?
-		if (completingDelay >= 0
-				&& completingDelay <= PlotterCompletingCursor.START_DRAW) {
+		if (stationaryCoordsCompletingDelay >= 0
+				&& stationaryCoordsCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 			origin = stationaryCoords.getCurrentCoords().copyVector();
 			toScreenCoords3D(origin);
-			drawCompletingCursor(renderer1, origin, CompletingCursor.MOVING, 1);
+			drawCompletingCursor(renderer1, origin, 1);
 			return true;
 		}
 
-		drawCompletingCursor(renderer1, mouse3DScreenPosition,
-				CompletingCursor.NONE, 0);
+		// are we over a moveable geo?
+		if (hittedGeo.getGeo() != null
+				&& hittedGeoCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
+			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
+			origin = getCursor3D().getInhomCoordsInD3().copyVector();
+			toScreenCoords3D(origin);
+			drawCompletingCursor(renderer1, origin, 0);
+			return false;
+		}
+
+		// nothing hitted
+		drawCompletingCursor(renderer1, mouse3DScreenPosition, 0);
 
 		return false;
 	}
 
 	private void drawCompletingCursor(Renderer renderer1, Coords origin,
-			CompletingCursor mode, float completingDelay) {
+			float completingDelay) {
 
 		tmpMatrix4x4_3.setOrigin(origin);
 		renderer1.setMatrix(tmpMatrix4x4_3);
@@ -351,18 +356,23 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		if (input3D.currentlyUseMouse2D()) {
 			return;
 		}
-
+		
 		// not moving a geo : see if user stays on the same hit to select it
 		if (input3D.useCompletingDelay()
 				&& getEuclidianController().getMoveMode() == EuclidianController.MOVE_NONE
-				&& !input3D.getLeftButton()) {
+				&& !input3D.hasCompletedGrabbingDelay()) {
 			long time = System.currentTimeMillis();
-			hittedGeo.setHitted(getHits3D(), time, mouse3DScreenPosition);
+			hittedGeo.setHitted(getHits3D().getTopHits()
+					.getFirstGeo6dofMoveable(), time, mouse3DScreenPosition);
 			// reset hits
-			getHits3D().init(hittedGeo.getGeo());
+			GeoElement geoToHit = hittedGeo.getGeo();
+			getHits3D().init(geoToHit);
+			updateCursor3D(getHits());
 			app.setMode(EuclidianConstants.MODE_MOVE);
 			if (hittedGeo.hasLongDelay(time)) {
-				input3D.setLeftButtonPressed(true);
+				input3D.setHasCompletedGrabbingDelay(true);
+				euclidianController.handleMovedElement(geoToHit,
+						false, PointerEventType.TOUCH);
 			}
 		}
 
@@ -392,40 +402,34 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			return (time - lastTime) * 8 > LONG_DELAY;
 		}
 
-		public void setHitted(Hits hits, long time, Coords mousePosition) {
+		public void setHitted(GeoElement newGeo, long time, Coords mousePosition) {
 			// App.debug("\nHittedGeo:\n"+getHits3D());
-			if (hits.isEmpty() || mousePosition == null) { // reinit geo
+			if (newGeo == null || mousePosition == null) { // reinit geo
 				if (forgetCurrent(time)) {
 					geo = null;
 					delay = -1;
 					// App.debug("\n -- geo = null");
 				}
 			} else {
-				GeoElement newGeo = hits.get(0);
-				if (newGeo.is6dofMoveable()) {
-					if (newGeo == geo) { // remember last time
-						// check if mouse has changed too much: reset the timer
-						int threshold = 30;// getCapturingThreshold(PointerEventType.TOUCH);
-						if (Math.abs(mousePosition.getX()
-								- startMousePosition.getX()) > threshold
-								|| Math.abs(mousePosition.getY()
-										- startMousePosition.getY()) > threshold
-								|| Math.abs(mousePosition.getZ()
-										- startMousePosition.getZ()) > threshold) {
-							startTime = time;
-							startMousePosition.setValues(mousePosition, 3);
-						} else {
-							lastTime = time;
-						}
-					} else if (geo == null || forgetCurrent(time)) { // change
-																		// geo
-						geo = newGeo;
+				if (newGeo == geo) { // remember last time
+					// check if mouse has changed too much: reset the timer
+					int threshold = 30;// getCapturingThreshold(PointerEventType.TOUCH);
+					if (Math.abs(mousePosition.getX()
+							- startMousePosition.getX()) > threshold
+							|| Math.abs(mousePosition.getY()
+									- startMousePosition.getY()) > threshold
+							|| Math.abs(mousePosition.getZ()
+									- startMousePosition.getZ()) > threshold) {
 						startTime = time;
 						startMousePosition.setValues(mousePosition, 3);
+					} else {
+						lastTime = time;
 					}
-				} else if (forgetCurrent(time)) {
-					geo = null;
-					delay = -1;
+				} else if (geo == null || forgetCurrent(time)) { // change
+					// geo
+					geo = newGeo;
+					startTime = time;
+					startMousePosition.setValues(mousePosition, 3);
 				}
 				// App.debug("\n "+(time-startTime)+"-- geo = "+geo);
 			}

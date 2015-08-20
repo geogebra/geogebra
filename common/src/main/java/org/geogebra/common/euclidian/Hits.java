@@ -19,10 +19,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Test;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -1002,6 +1002,20 @@ public class Hits extends ArrayList<GeoElement> {
 			 */
 			// Application.debug(s+"\n"+toString());
 		}
+	}
+
+	/**
+	 * 
+	 * @return first 6 degrees of freedom moveable geo
+	 */
+	public GeoElement getFirstGeo6dofMoveable() {
+		for (GeoElement geo : this) {
+			if (geo.is6dofMoveable()) {
+				return geo;
+			}
+		}
+
+		return null;
 	}
 
 }

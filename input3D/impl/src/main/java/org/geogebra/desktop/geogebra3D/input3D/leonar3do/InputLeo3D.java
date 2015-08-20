@@ -207,12 +207,12 @@ public class InputLeo3D implements Input3D {
 		return false;
 	}
 	
-	public void setLeftButtonPressed(boolean flag){
+	public void setHasCompletedGrabbingDelay(boolean flag) {
 		// not used for leo
 	}
 	
-	public boolean getLeftButton(){
-		return leoSocket.smallButton > 0.5;
+	public boolean hasCompletedGrabbingDelay(){
+		return false;
 	}
 
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
