@@ -25,8 +25,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.NoDragImage;
-import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
@@ -183,7 +183,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		oldWidth = 0;
 		oldHeight = 0;
 		// create options button
-		btnOptions = new MyToggleButton2(new NoDragImage(AppResources.INSTANCE.inputhelp_left_18x18().getSafeUri().asString(),18));
+		btnOptions = new MyToggleButton2(new NoDragImage(GuiResources.INSTANCE
+				.menu_icon_options().getSafeUri().asString(), 18));
 
 		btnOptions.addClickHandler(new ClickHandler() {
 
@@ -495,9 +496,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 			});
 			menu.addItem(miAsPicture);
 		}
-		
 		String image = "<img src=\""
-		        + AppResources.INSTANCE.export().getSafeUri().asString() + "\" >";
+				+ GuiResources.INSTANCE.menu_icons_file_export().getSafeUri()
+						.asString() + "\" >";
 		btnExport.addItem(image, true, menu);
 	
 	}
