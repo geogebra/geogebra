@@ -2161,6 +2161,7 @@ __GGB__keysVar.sk.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 oto\u010den\xfd s uhlom %1 okolo osi kolnej na %2 a prech\xe1dzaj\xfaci cez %3",
     "ASignificantFigure": "%0 signifik. obr.",
     "ASignificantFigures": "%0 signifik. obr.",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 a %1",
     "AandBareEqual": "%0 a %1 sa rovnaj\xfa",
     "AandBareLinearlyDependent": "%0 a %1 s\xfa line\xe1rne z\xe1visl\xe9",

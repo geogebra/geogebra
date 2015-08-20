@@ -2161,6 +2161,7 @@ __GGB__keysVar.fr.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 tourn\xe9 d'un angle %1 autour de l'axe perpendiculaire \xe0 %2 et passant par %3",
     "ASignificantFigure": "%0 significatif",
     "ASignificantFigures": "%0 significatifs",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 et %1",
     "AandBareEqual": "%0 et %1 sont \xe9gaux",
     "AandBareLinearlyDependent": "%0 et %1 sont colin\xe9aires",

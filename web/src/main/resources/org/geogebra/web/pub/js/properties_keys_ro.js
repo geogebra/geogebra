@@ -2161,6 +2161,7 @@ __GGB__keysVar.ro.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotit cu unghiul %1 \xeen jurul unei axe pependiculare cu %2 trec\xe2nd prin %3",
     "ASignificantFigure": "%0 Figur\u0103 semnificativ\u0103",
     "ASignificantFigures": "%0 Figuri semnificative",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 \u0219i %1",
     "AandBareEqual": "%0 \u015fi %1 sunt egale",
     "AandBareLinearlyDependent": "%0 \u015fi %1 sunt liniar dependente",

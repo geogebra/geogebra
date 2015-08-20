@@ -2161,6 +2161,7 @@ __GGB__keysVar.xh.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 ojikeleziswe nge dolo %1 xa uthelekisa nomgca ohlanganangqo no %2 kwaye odlula ku %3",
     "ASignificantFigure": "%0 Umzobo Obalulekileyo",
     "ASignificantFigures": "%0 Imizobo Ebalulekileyo",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 kunye %1",
     "AandBareEqual": "%0 kunyeno %1 bayalingana",
     "AandBareLinearlyDependent": "u %0 no %1 bayahlangana",

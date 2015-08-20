@@ -2161,6 +2161,7 @@ __GGB__keysVar.da.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 drejet med vinklen %1 om en akse vinkelret p\xe5 %2 gennem %3",
     "ASignificantFigure": "%0 betydende ciffer",
     "ASignificantFigures": "%0 betydende ciffre",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 og %1",
     "AandBareEqual": "%0 og %1 er ens",
     "AandBareLinearlyDependent": "%0 og %1 afh\xe6nger line\xe6rt",

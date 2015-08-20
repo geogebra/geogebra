@@ -2161,6 +2161,7 @@ __GGB__keysVar.vi.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 K\xfd hi\u1ec7u c\xf3 ngh\u0129a",
     "ASignificantFigures": "%0 Nh\u1eefng k\xfd hi\u1ec7u c\xf3 ngh\u0129a",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 v\xe0 %1",
     "AandBareEqual": "%0 v\xe0 %1 b\u1eb1ng nhau",
     "AandBareLinearlyDependent": "%0 v\xe0 %1 ph\u1ee5 thu\u1ed9c tuy\u1ebfn t\xednh nhau",

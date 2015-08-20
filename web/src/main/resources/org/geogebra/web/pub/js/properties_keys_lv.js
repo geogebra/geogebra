@@ -2161,6 +2161,7 @@ __GGB__keysVar.lv.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 pagriezti par le\u0146\u0137i %1 ap asi perpendikul\u0101ri %2 un ejot caur %3",
     "ASignificantFigure": "%0 Noz\u012bm\u012bga Fig\u016bra",
     "ASignificantFigures": "%0 Noz\u012bm\u012bgas Fig\u016bras",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 un %1",
     "AandBareEqual": "%0 un %1 ir vien\u0101di",
     "AandBareLinearlyDependent": "%0 un %1 ir line\u0101ri neatkar\u012bgi",

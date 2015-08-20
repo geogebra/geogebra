@@ -2161,6 +2161,7 @@ __GGB__keysVar.fa.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 \u062f\u0648\u0631\u0646 \u06cc\u0627\u0641\u062a\u0647 \u0628\u0627 %1 \u0639\u0645\u0648\u0648\u062f \u0628\u0631 \u0645\u062d\u0648\u0631 %2 \u06af\u0630\u0631\u0646\u062f\u0647 \u0627\u0632 %3",
     "ASignificantFigure": "%0 \u0631\u0642\u0645 \u0627\u0639\u0634\u0627\u0631\u06cc \u0645\u0639\u06cc\u0646",
     "ASignificantFigures": "%0 \u0631\u0642\u0645 \u0627\u0639\u0634\u0627\u0631\u06cc \u0645\u0639\u06cc\u0646",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 \u0648 %1",
     "AandBareEqual": "%0 \u0648 %1 \u0645\u0633\u0627\u0648\u06cc\u0646\u062f",
     "AandBareLinearlyDependent": "%0 \u0648 %1 \u0648\u0627\u0628\u0633\u062a\u0647 \u062e\u0637\u06cc \u0647\u0633\u062a\u0646\u062f",

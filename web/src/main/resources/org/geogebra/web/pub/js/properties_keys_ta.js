@@ -2161,6 +2161,7 @@ __GGB__keysVar.ta.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 \u0bae\u0bc1\u0b95\u0bcd\u0b95\u0bbf\u0baf \u0b89\u0bb0\u0bc1",
     "ASignificantFigures": "%0 \u0bae\u0bc1\u0b95\u0bcd\u0b95\u0bbf\u0baf \u0b89\u0bb0\u0bc1\u0b95\u0bcd\u0b95\u0bb3\u0bcd",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 and %1",
     "AandBareEqual": "%0 \u0bae\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0bcd %1 \u0b9a\u0bae\u0ba9\u0bbe\u0b95 \u0b89\u0bb3\u0bcd\u0bb3\u0ba4\u0bc1",
     "AandBareLinearlyDependent": "%0 \u0bae\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0bcd %1 \u0b8f\u0b95\u0baa\u0bb0\u0bbf\u0bae\u0bbe\u0ba3\u0bae\u0bc1\u0bb1\u0bc8\u0baf\u0bbe\u0baf\u0bcd\u0b9a\u0bcd \u0b9a\u0bbe\u0bb0\u0bcd\u0ba8\u0bcd\u0ba4\u0bc1\u0bb3\u0bcd\u0bb3\u0ba4\u0bc1",

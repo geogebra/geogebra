@@ -2161,6 +2161,7 @@ __GGB__keysVar.eo.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 signifa cifero",
     "ASignificantFigures": "%0 signifaj ciferoj",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 kaj %1",
     "AandBareEqual": "%0 kaj %1 estas egalaj",
     "AandBareLinearlyDependent": "%0 kaj %1 estas lineare dependaj",

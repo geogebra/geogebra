@@ -2161,6 +2161,7 @@ __GGB__keysVar.gl.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotado un \xe1ngulo %1 ao redor dun eixe perpendicular a %2 que pasa por %3",
     "ASignificantFigure": "%0 cifra significativa",
     "ASignificantFigures": "%0 cifras significativas",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 e %1",
     "AandBareEqual": "%0 e %1 son iguais",
     "AandBareLinearlyDependent": "%0 e %1 son linealmente dependentes",

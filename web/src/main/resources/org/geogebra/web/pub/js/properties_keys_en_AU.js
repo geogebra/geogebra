@@ -2161,6 +2161,7 @@ __GGB__keysVar.en_AU.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 Significant Figure",
     "ASignificantFigures": "%0 Significant Figures",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 and %1",
     "AandBareEqual": "%0 and %1 are equal",
     "AandBareLinearlyDependent": "%0 and %1 are linearly dependent",

@@ -2161,6 +2161,7 @@ __GGB__keysVar.ko.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%3 \uc744 \uc9c0\ub098\uba70, %2 \uc5d0 \uc218\uc9c1\uc778 \ucd95\uc5d0 \ub300\ud558\uc5ec, \uac01 %1 \uc5d0 \uc758\ud574 \ud68c\uc804\ub41c %0",
     "ASignificantFigure": "%0 \uc790\ub9ac \uc720\ud6a8\uc22b\uc790",
     "ASignificantFigures": "%0 \uc790\ub9ac \uc720\ud6a8\uc22b\uc790",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 \uadf8\ub9ac\uace0 %1",
     "AandBareEqual": "%0 \uc640(\uacfc) %1 \uc740(\ub294) \uac19\uc74c",
     "AandBareLinearlyDependent": "%0 \uc640(\uacfc) %1 \uc740(\ub294) \uc77c\ucc28\ub3c5\ub9bd",

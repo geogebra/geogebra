@@ -2161,6 +2161,7 @@ __GGB__keysVar.sv.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 roterad med vinkeln %1 runt en axel vinkelr\xe4t mot %2 genom %3",
     "ASignificantFigure": "%0 g\xe4llande siffra",
     "ASignificantFigures": "%0 g\xe4llande siffror",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 och %1",
     "AandBareEqual": "%0 och %1 \xe4r lika",
     "AandBareLinearlyDependent": "%0 och %1 \xe4r linj\xe4rt beroende",

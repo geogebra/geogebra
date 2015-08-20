@@ -2161,6 +2161,7 @@ __GGB__keysVar.es_ES.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotado por el \xe1ngulo %1 en torno a un eje perpendicular a %2 que pasa por %3",
     "ASignificantFigure": "%0 cifra significativa",
     "ASignificantFigures": "%0 cifras significativas",
+    "ATouchesB": "%0 es tangente a %1",
     "AandB": "%0 y %1",
     "AandBareEqual": "%0 y %1 son iguales",
     "AandBareLinearlyDependent": "%0 y %1 son linealmente dependientes",

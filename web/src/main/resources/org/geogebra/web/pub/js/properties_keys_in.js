@@ -2161,6 +2161,7 @@ __GGB__keysVar.in.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 Angka Penting",
     "ASignificantFigures": "%0 Angka Penting",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 dan %1",
     "AandBareEqual": "%0 dan %1 sama",
     "AandBareLinearlyDependent": "%0 dan %1 bebas linier",

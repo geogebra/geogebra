@@ -2161,6 +2161,7 @@ __GGB__keysVar.ms.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 diputar dengan sudut %1 pada paksi berserenjang dengan %2 dan melalui %3",
     "ASignificantFigure": "%0 Angka Bererti",
     "ASignificantFigures": "%0 Angka Bererti",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 dan %1",
     "AandBareEqual": "%0 dan %1 adalah sama",
     "AandBareLinearlyDependent": "%0 dan %1 bersandar secara linear",

@@ -2161,6 +2161,7 @@ __GGB__keysVar.pt_PT.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rota\xe7\xe3o de amplitude %1 de eixo perpendicular a %2 e contendo %3",
     "ASignificantFigure": "%0 Algarismo Significativo",
     "ASignificantFigures": "%0 Algarismos Significativos",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 e %1",
     "AandBareEqual": "%0 e %1 s\xe3o congruentes",
     "AandBareLinearlyDependent": "%0 s\xe3o %1 s\xe3o linearmente dependentes",

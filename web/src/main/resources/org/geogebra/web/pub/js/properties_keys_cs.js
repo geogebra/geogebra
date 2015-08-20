@@ -2161,6 +2161,7 @@ __GGB__keysVar.cs.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 oto\u010deno o \xfahel %1 okolo osy kolm\xe9 k rovin\u011b %2 a proch\xe1zej\xedc\xed bodem %3",
     "ASignificantFigure": "%0 platn\xe1 cifra",
     "ASignificantFigures": "%0 platn\xfdch cifer",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 a %1",
     "AandBareEqual": "%0 a %1 jsou stejn\xe9",
     "AandBareLinearlyDependent": "%0 a %1 jsou line\xe1rn\u011b z\xe1visl\xe9",

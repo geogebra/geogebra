@@ -2161,6 +2161,7 @@ __GGB__keysVar.is.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 sn\xfai\xf0 um horn %1 um \xe1s sem er hornr\xe9ttur \xe1 %2 og gengur gegnum %3",
     "ASignificantFigure": "%0 markver\xf0ur stafur",
     "ASignificantFigures": "%0 Markver\xf0ir stafir",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 og %1",
     "AandBareEqual": "%0 og %1 eru j\xf6fn",
     "AandBareLinearlyDependent": "%0 og %1 eru l\xednulega h\xe1\xf0",

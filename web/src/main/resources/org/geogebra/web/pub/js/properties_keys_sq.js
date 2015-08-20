@@ -2161,6 +2161,7 @@ __GGB__keysVar.sq.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 Shifer e Rendesishme",
     "ASignificantFigures": "%0 Shifra te Rendesishme",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 dhe %1",
     "AandBareEqual": "%0 dhe %1 te Barabarta",
     "AandBareLinearlyDependent": "%0 dhe %1 jane Linearisht te Varura",

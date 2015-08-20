@@ -2161,6 +2161,7 @@ __GGB__keysVar.lt.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 pasuktas kampu %1 apie a\u0161\u012f statmen\u0105 %2 per %3",
     "ASignificantFigure": "%0 svarbus skaitmuo",
     "ASignificantFigures": "%0 svarb\u016bs skaitmenys",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 ir %1",
     "AandBareEqual": "%0 lygus %1",
     "AandBareLinearlyDependent": "%0 ir %1 yra tiesi\u0161kai priklausomi",

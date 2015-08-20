@@ -2161,6 +2161,7 @@ __GGB__keysVar.sr.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotirano za ugao %1 koja je normalna na %2 i prolazi kroz %3",
     "ASignificantFigure": "%0 sigurna cifra",
     "ASignificantFigures": "%0 zna\u010dajnih cifara",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 i %1",
     "AandBareEqual": "%0 i %1 su jednaki",
     "AandBareLinearlyDependent": "%0 i %1 su linearno zavisni",

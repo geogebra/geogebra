@@ -2161,6 +2161,7 @@ __GGB__keysVar.hu.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 %1-val/-vel elforgatva a %2-ra/-re mer\u0151leges, %3-ra/-re illeszked\u0151 tengely k\xf6r\xfcl",
     "ASignificantFigure": "\xc9rt\xe9kes jegyek sz\xe1ma %0",
     "ASignificantFigures": "\xc9rt\xe9kes jegyek sz\xe1ma %0",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 \xe9s %1",
     "AandBareEqual": "%0 \xe9s %1 megegyeznek",
     "AandBareLinearlyDependent": "%0 \xe9s %1 line\xe1risan \xf6sszef\xfcgg\u0151k",

@@ -2161,6 +2161,7 @@ __GGB__keysVar.nl_BE.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 geroteerd over hoek %1 rond as loodrecht op %2 en gaande door %3",
     "ASignificantFigure": "%0 Beduidend cijfer",
     "ASignificantFigures": "%0 Beduidende cijfers",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 en %1",
     "AandBareEqual": "%0 en %1 zijn gelijkl",
     "AandBareLinearlyDependent": "%0 en %1 zijn lineair afhankelijk",

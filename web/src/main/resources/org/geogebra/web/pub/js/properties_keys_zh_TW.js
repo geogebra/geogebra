@@ -2161,6 +2161,7 @@ __GGB__keysVar.zh_TW.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "\u4ee5\u5782\u76f4\u65bc %2 \u4e14\u7d93\u904e %3 \u7684\u7dda\u70ba\u8ef8\uff0c\u5c07 %0 \u65cb\u8f49 %1 \u89d2",
     "ASignificantFigure": "%0 \u4f4d\u6709\u6548\u4f4d\u6578",
     "ASignificantFigures": "%0 \u4f4d\u6709\u6548\u4f4d\u6578",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 \u8207 %1",
     "AandBareEqual": "%0 \u548c %1 \u76f8\u7b49",
     "AandBareLinearlyDependent": "%0 \u548c %1 \u7dda\u6027\u76f8\u4f9d",

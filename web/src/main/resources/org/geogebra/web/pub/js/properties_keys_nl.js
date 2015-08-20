@@ -2161,6 +2161,7 @@ __GGB__keysVar.nl.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 Beduidend cijfer",
     "ASignificantFigures": "%0 Beduidende cijfers",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 en %1",
     "AandBareEqual": "%0 en %1 zijn gelijkl",
     "AandBareLinearlyDependent": "%0 en %1 zijn lineair afhankelijk",

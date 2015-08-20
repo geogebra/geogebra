@@ -2161,6 +2161,7 @@ __GGB__keysVar.tr.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%1 a\xe7\u0131s\u0131yla %3'den ge\xe7en ve %2'ye dik olan bir eksen etraf\u0131nda d\xf6nd\xfcr\xfclm\xfc\u015f %0",
     "ASignificantFigure": "%0 Dikkate al\u0131nan \u015eekil",
     "ASignificantFigures": "%0 Dikkate Al\u0131nan \u015eekiller",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 ve %1",
     "AandBareEqual": "%0 ve %1 e\u015fittir",
     "AandBareLinearlyDependent": "%0 ve %1 do\u011frusal ba\u011f\u0131ml\u0131d\u0131r",

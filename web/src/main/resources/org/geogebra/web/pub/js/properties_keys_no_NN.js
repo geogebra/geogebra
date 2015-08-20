@@ -2161,6 +2161,7 @@ __GGB__keysVar.no_NN.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotert med vinkelen %1 om ein akse vinkelrett p\xe5 %2 og gjennom %3",
     "ASignificantFigure": "%0 gjeldande siffer",
     "ASignificantFigures": "%0 gjeldande siffer",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 og %1",
     "AandBareEqual": "%0 og %1 er like",
     "AandBareLinearlyDependent": "%0 og %1 er line\xe6rt avhengige",

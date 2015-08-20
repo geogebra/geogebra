@@ -2161,6 +2161,7 @@ __GGB__keysVar.hr.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "Objekt %0 rotiran za kut %1 oko osi okomite na %2 i koja prolazi kroz %3",
     "ASignificantFigure": "%0 zna\u010dajna znamenka",
     "ASignificantFigures": "%0 zna\u010dajnih znamenki",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 i %1",
     "AandBareEqual": "%0 i %1 su jednaki",
     "AandBareLinearlyDependent": "%0 i %1 su linearno zavisni",

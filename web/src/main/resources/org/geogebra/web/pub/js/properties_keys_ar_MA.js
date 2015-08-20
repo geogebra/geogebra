@@ -2161,6 +2161,7 @@ __GGB__keysVar.ar_MA.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 \u0631\u0642\u0645 \u0630\u0627\u062a \u062f\u0644\u0627\u0644\u0629",
     "ASignificantFigures": "%0 \u0623\u0631\u0642\u0627\u0645 \u0630\u0627\u062a \u062f\u0644\u0627\u0644\u0629",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%1 & %0",
     "AandBareEqual": "%0 \u0648 %1 \u0645\u062a\u0633\u0627\u0648\u064a\u064a\u0646",
     "AandBareLinearlyDependent": "%0 \u0648%1 \u0644\u0647\u0645\u0627 \u062a\u0628\u0639\u064a\u0629 \u062e\u0637\u064a\u0629",

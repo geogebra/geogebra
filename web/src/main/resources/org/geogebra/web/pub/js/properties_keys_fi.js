@@ -2161,6 +2161,7 @@ __GGB__keysVar.fi.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 kierretty kulman %1 verran tason %2 suuntaisen akselin ymp\xe4ri, joka kulkee pisteen %3 kautta.",
     "ASignificantFigure": "%0 merkitsev\xe4\xe4 numeroa",
     "ASignificantFigures": "%0 merkitsev\xe4\xe4 numeroa",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 ja %1",
     "AandBareEqual": "%0 ja %1 ovat samat.",
     "AandBareLinearlyDependent": "%0 ja %1 riippuvat toisistaan lineaarisesti.",

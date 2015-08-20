@@ -2161,6 +2161,7 @@ __GGB__keysVar.pl.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 obr\xf3t o k\u0105t %1 wok\xf3\u0142 osi r\xf3wnoleg\u0142ej prostopad\u0142ej %2 przechodz\u0105cej przez %3",
     "ASignificantFigure": "%0 cyfra znacz\u0105ca",
     "ASignificantFigures": "%0 cyfry znacz\u0105ce",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 i %1",
     "AandBareEqual": "%0 i %1 s\u0105 r\xf3wne",
     "AandBareLinearlyDependent": "%0 i %1 s\u0105 liniowo zale\u017cne",

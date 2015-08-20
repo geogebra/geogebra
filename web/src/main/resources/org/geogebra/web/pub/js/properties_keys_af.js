@@ -2161,6 +2161,7 @@ __GGB__keysVar.af.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 Beduidende Syfer",
     "ASignificantFigures": "%0 Beduidende Syfers",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 and %1",
     "AandBareEqual": "%0 en%1 is gelyk",
     "AandBareLinearlyDependent": "%0 en%1 is line\xear afhanklik",

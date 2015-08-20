@@ -2161,6 +2161,7 @@ __GGB__keysVar.cy.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotated by angle %1 about an axis perpendicular to %2 and passing through %3",
     "ASignificantFigure": "%0 ffigur ystyrlon",
     "ASignificantFigures": "%0 ffigur ystyrlon",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 ag %1",
     "AandBareEqual": "%0 a %1 yn hafal",
     "AandBareLinearlyDependent": "%0 a %1 yn llinol ddibynnol",

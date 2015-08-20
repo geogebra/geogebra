@@ -2161,6 +2161,7 @@ __GGB__keysVar.de_AT.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 gedreht um Winkel %1 um eine Achse senkrecht zu %2 durch %3",
     "ASignificantFigure": "%0 signifikante Stelle",
     "ASignificantFigures": "%0 signifikante Stellen",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 und %1",
     "AandBareEqual": "%0 und %1 sind gleich",
     "AandBareLinearlyDependent": "%0 und %1 sind linear abh\xe4ngig",

@@ -2161,6 +2161,7 @@ __GGB__keysVar.sl.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 zasukana za kot %1 okrog osi, pravokotne na %2, ki poteka skozi %3",
     "ASignificantFigure": "%0 zna\u010dilno mesto",
     "ASignificantFigures": "%0 zna\u010dilnih mest",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 in %1",
     "AandBareEqual": "%0 in %1 sta ekvivalentna",
     "AandBareLinearlyDependent": "%0 in %1 sta linearno odvisna",

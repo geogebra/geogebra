@@ -2161,6 +2161,7 @@ __GGB__keysVar.bs.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 rotiran/a za ugao %1 oko ose normalne na %2 kroz %3",
     "ASignificantFigure": "%0 decimala",
     "ASignificantFigures": "%0 decimala/e",
+    "ATouchesB": "%0 touches %1",
     "AandB": "%0 i %1",
     "AandBareEqual": "%0 i %1 su podudarne",
     "AandBareLinearlyDependent": "%0 i %1 su linearno zavisni",
