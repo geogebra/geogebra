@@ -229,7 +229,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		movedGeoPoint = (GeoPointND) geo;
 
 		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
-		if ((algo != null) && (algo instanceof AlgoDynamicCoordinatesInterface)) {
+		if (algo instanceof AlgoDynamicCoordinatesInterface) {
 			movedGeoPoint = ((AlgoDynamicCoordinatesInterface) algo)
 					.getParentPoint();
 		}
