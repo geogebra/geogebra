@@ -121,6 +121,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				&& completingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 			origin = getCursor3D().getInhomCoordsInD3().copyVector();
+			toScreenCoords3D(origin);
 			drawCompletingCursor(renderer1, origin, CompletingCursor.GRABBING,
 					completingDelay);
 			return false;
@@ -132,6 +133,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				&& completingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 			origin = stationaryCoords.getCurrentCoords().copyVector();
+			toScreenCoords3D(origin);
 			drawCompletingCursor(renderer1, origin, CompletingCursor.RELEASING,
 					1 - completingDelay);
 			return true;
@@ -142,12 +144,13 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				&& completingDelay <= PlotterCompletingCursor.START_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 			origin = stationaryCoords.getCurrentCoords().copyVector();
+			toScreenCoords3D(origin);
 			drawCompletingCursor(renderer1, origin, CompletingCursor.MOVING, 1);
 			return true;
 		}
 
-		origin = getCursor3D().getInhomCoordsInD3().copyVector();
-		drawCompletingCursor(renderer1, origin, CompletingCursor.NONE, 0);
+		drawCompletingCursor(renderer1, mouse3DScreenPosition,
+				CompletingCursor.NONE, 0);
 
 		return false;
 	}
@@ -155,7 +158,6 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	private void drawCompletingCursor(Renderer renderer1, Coords origin,
 			CompletingCursor mode, float completingDelay) {
 
-		toScreenCoords3D(origin);
 		tmpMatrix4x4_3.setOrigin(origin);
 		renderer1.setMatrix(tmpMatrix4x4_3);
 		renderer1.drawCompletingCursor(completingDelay);
