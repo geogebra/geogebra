@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -226,6 +227,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setMovedGeoPoint(GeoElement geo) {
 
 		movedGeoPoint = (GeoPointND) geo;
+
+		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
+		if ((algo != null) && (algo instanceof AlgoDynamicCoordinatesInterface)) {
+			movedGeoPoint = ((AlgoDynamicCoordinatesInterface) algo)
+					.getParentPoint();
+		}
+
 		Coords coords = movedGeoPoint.getInhomCoordsInD3();
 
 		// sets the min/max values
