@@ -130,7 +130,7 @@ public class Browser {
 	}-*/;
 
 	public static boolean supportsSessionStorage() {
-		return (!Browser.isFirefox() && !Browser.isIE()) || Browser.isHTTP();
+		return !Browser.isIE() || Browser.isHTTP();
 	}
 
 	public static String normalizeURL(String thumb) {
