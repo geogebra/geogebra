@@ -487,7 +487,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	protected boolean movePoint(Coords rwTransVec, Coords endPosition) {
+	public boolean movePoint(Coords rwTransVec, Coords endPosition) {
 
 		boolean movedGeo = false;
 

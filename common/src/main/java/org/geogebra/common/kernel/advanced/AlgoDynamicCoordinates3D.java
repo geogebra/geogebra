@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.advanced;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -19,28 +20,28 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  *
  * @author Michael
  */
-public class AlgoDynamicCoordinates extends AlgoElement implements
+public class AlgoDynamicCoordinates3D extends AlgoElement implements
 		AlgoDynamicCoordinatesInterface {
 
-	private GeoNumberValue x, y; // input
-	private GeoPoint P; // input
-	private GeoPoint M; // output
+	private GeoNumberValue x, y, z; // input
+	private GeoPoint3D P; // input
+	private GeoPoint3D M; // output
 
-	public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P,
-			GeoNumberValue x, GeoNumberValue y) {
+	public AlgoDynamicCoordinates3D(Construction cons, String label,
+			GeoPoint3D arg, GeoNumberValue x, GeoNumberValue y, GeoNumberValue z) {
 		super(cons);
-		this.P = P;
+		this.P = arg;
 		this.x = x;
 		this.y = y;
+		this.z = z;
 		// create new Point
-		M = new GeoPoint(cons);
+		M = new GeoPoint3D(cons);
 		setInputOutput();
 
 		compute();
@@ -55,17 +56,18 @@ public class AlgoDynamicCoordinates extends AlgoElement implements
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[3];
+		input = new GeoElement[4];
 		input[0] = P;
 		input[1] = x.toGeoElement();
 		input[2] = y.toGeoElement();
+		input[3] = z.toGeoElement();
 
 		super.setOutputLength(1);
 		super.setOutput(0, M);
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint getPoint() {
+	public GeoPointND getPoint() {
 		return M;
 	}
 
@@ -79,20 +81,20 @@ public class AlgoDynamicCoordinates extends AlgoElement implements
 
 		double xCoord = x.getDouble();
 		double yCoord = y.getDouble();
+		double zCoord = z.getDouble();
 
 		if (Double.isNaN(xCoord) || Double.isInfinite(xCoord)
-				|| Double.isNaN(yCoord) || Double.isInfinite(yCoord)) {
+				|| Double.isNaN(yCoord) || Double.isInfinite(yCoord)
+				|| Double.isNaN(zCoord) || Double.isInfinite(zCoord)) {
 			P.setUndefined();
 			return;
 		}
 
-		M.setCoords(xCoord, yCoord, 1.0);
+		M.setCoords(xCoord, yCoord, zCoord, 1.0);
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
 		return getLoc().getPlain("DynamicCoordinatesOfA", P.getLabel(tpl));
 	}
 

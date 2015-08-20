@@ -6374,10 +6374,10 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (isGeoPoint()) {
 
 				if (getParentAlgorithm() instanceof AlgoDynamicCoordinatesInterface) {
-					final GeoPoint p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
+					final GeoPointND p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
 							.getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
-					geo = p;
+					geo = (GeoElement) p;
 				} else {
 					movedGeo = movePoint(rwTransVec, endPosition);
 				}
