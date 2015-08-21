@@ -46,11 +46,12 @@ public class EuclidianPen {
 	protected App app;
 	protected EuclidianView view;
 
-	protected double CIRCLE_MIN_DET = 0.95;
-	protected double CIRCLE_MAX_SCORE = 0.10;
-	protected double RECTANGLE_LINEAR_TOLERANCE = 0.20;
-	protected double POLYGON_LINEAR_TOLERANCE = 0.20;
-	protected double RECTANGLE_ANGLE_TOLERANCE = 15 * Math.PI / 180;
+	public double CIRCLE_MIN_DET = 0.95;
+	public double CIRCLE_MAX_SCORE = 0.10;
+	public double RECTANGLE_LINEAR_TOLERANCE = 0.20;
+	public double POLYGON_LINEAR_TOLERANCE = 0.20;
+	public double RECTANGLE_ANGLE_TOLERANCE = 15 * Math.PI / 180;
+	public double LINE_MAX_DET = 0.015;
 
 	public final GeoPolyLine DEFAULT_PEN_LINE;
 
@@ -80,7 +81,6 @@ public class EuclidianPen {
 	private int count = 0;
 	private int recognizer_queue_length = 0;
 	private int MAX_POLYGON_SIDES = 4;
-	private double LINE_MAX_DET = 0.015;
 	private double SLANT_TOLERANCE = 5 * Math.PI / 180;
 	private Inertia a = null;
 	private Inertia b = null;

@@ -10108,7 +10108,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	final public EuclidianPen getPen() {
+	public EuclidianPen getPen() {
 
 		if (pen == null) {
 			pen = new EuclidianPen(app, view);
