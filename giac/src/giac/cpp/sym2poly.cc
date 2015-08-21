@@ -967,7 +967,7 @@ namespace giac {
       vecteur Dl(l);
       if (embeddings && Dl[embeddings].type==_VECT)
 	Dl=*Dl[embeddings]._VECTptr;
-      if (!is_positive(r2e(D,Dl,contextptr),contextptr)){
+      if (is_positive(r2e(-D,Dl,contextptr),contextptr)){
 	D=-D;
 	if (d%2)
 	  S=-S;

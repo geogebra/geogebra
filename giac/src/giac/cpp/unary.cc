@@ -74,7 +74,7 @@ namespace giac {
   // global unary_function_abstract pointer, no reference count here
 
 #ifdef NO_UNARY_FUNCTION_COMPOSE
-  unary_function_ptr::unary_function_ptr(const unary_function_eval * myptr,int myquoted,int parser_token): _ptr(myptr){
+  unary_function_ptr::unary_function_ptr(const unary_function_eval * myptr,int myquoted,int parser_token): _ptr((size_t)myptr){
     if (myquoted)
       *((size_t *) &_ptr) |= 0x1;
     if (parser_token)
@@ -82,7 +82,7 @@ namespace giac {
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
   }
 
-  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token):_ptr((const unary_function_eval *)myptr) {     
+  unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token):_ptr((size_t)myptr) {     
     if (myquoted)
       *((size_t *) &_ptr) |= 0x1;
     if (parser_token)

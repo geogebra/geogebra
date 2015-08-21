@@ -4191,7 +4191,7 @@ namespace giac {
 	if (is_undef(tmpsto)) return tmpsto;
 	return a2;
       }
-      if (a2==at_real){
+      if (a2==at_real || a2==at_float){
 	a2=_DOUBLE_;
 	a2.subtype=1;
 	gen tmpsto=sto(gen(makevecteur(a2),_ASSUME__VECT),a1,contextptr);

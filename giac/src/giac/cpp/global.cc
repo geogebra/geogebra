@@ -4394,6 +4394,15 @@ unsigned int ConvertUTF8toUTF16 (
       size_t val = builtin_lexer_functions_[pos];
       unary_function_ptr * at_val = (unary_function_ptr *)val;
       g = at_val;
+      if (builtin_lexer_functions[pos]._FUNC_%2){
+#ifdef SMARTPTR64
+	unary_function_ptr tmp=*at_val;
+	tmp._ptr+=1;
+	g=tmp;
+#else
+	g._FUNC_ +=1;
+#endif // SMARTPTR64
+      }
       return true;
     }
 #else
@@ -5006,7 +5015,7 @@ unsigned int ConvertUTF8toUTF16 (
 	check38=false;
       if (s.size()==1){
 #ifdef GIAC_HAS_STO_38
-	if (s[0]>='a' && s[0]<='z'){
+	if (0 && s[0]>='a' && s[0]<='z'){
 	  index_status(contextptr)=1; 
 	  res=*tab_one_letter_idnt[s[0]-'a'];
 	  return T_SYMBOL;
@@ -5075,6 +5084,17 @@ unsigned int ConvertUTF8toUTF16 (
 	  size_t val=builtin_lexer_functions_[pos];
 	  unary_function_ptr * at_val=(unary_function_ptr *)val;
 	  res=at_val;
+#ifdef GIAC_HAS_STO_38
+	  if (builtin_lexer_functions[pos]._FUNC_%2){
+#ifdef SMARTPTR64
+	    unary_function_ptr tmp=*at_val;
+	    tmp._ptr+=1;
+	    res=tmp;
+#else
+	    res._FUNC_ +=1;
+#endif // SMARTPTR64
+	  }
+#endif // GIAC_HAS_STO_38
 #else // keep this code, required for the nspire otherwise evalf(pi)=reboot
 	  res=gen(int(builtin_lexer_functions_[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
 	  res=gen(*res._FUNCptr);

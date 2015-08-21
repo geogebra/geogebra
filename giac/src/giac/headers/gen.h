@@ -419,13 +419,14 @@ namespace giac {
   struct alias_unary_function_eval;
   struct unary_function_ptr {
 #ifdef NO_UNARY_FUNCTION_COMPOSE
-    const unary_function_eval * _ptr;
+    // const unary_function_eval * _ptr;
+    size_t _ptr;
     // int quoted; // will be used to avoid evaluation of args by eval
     // constructors
     // lexer_register is true to add dynamically the function name
     // to the list of functions names recognized by the lexer
     unary_function_ptr():_ptr(0) {} ;
-    unary_function_ptr(const unary_function_eval * myptr):_ptr(myptr) {} ;
+    unary_function_ptr(const unary_function_eval * myptr):_ptr((size_t)myptr) {} ;
     // unary_function_ptr(const unary_function_eval * myptr,int parser_token);
     unary_function_ptr(const unary_function_eval * myptr,int myquoted,int parser_token);
     // unary_function_ptr(const alias_unary_function_eval * myptr,int parser_token);

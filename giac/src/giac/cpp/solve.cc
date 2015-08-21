@@ -6827,8 +6827,15 @@ namespace giac {
 	  l.insert(l.begin()+i,0);
 	if (l.size()>=16){
 	  int lim=nextpow2(es);
+	  if (es<=11)
+	    lim=12;
+	  if (es<=7)
+	    lim=8;
+	  if (es<=3)
+	    lim=4;
 	  for (;i<lim;++i)
 	    l.insert(l.begin()+i,0);
+	  if (lim<16) i--;
 	}
 	if (l.size()==15) l.insert(l.begin()+i,0); // insure that the fast algo in cocoa.cc is not called because it would fail
 	order = i; // double revlex ordering of type 3/7/11/16/32/64
