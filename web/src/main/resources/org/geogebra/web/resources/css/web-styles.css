@@ -3623,9 +3623,6 @@ body.application[dir=rtl] .algebraOpenButton {
  	-webkit-box-sizing: border-box;
  }
 
-.avItem .gwt-TreeItem-selected {
-	background: #FFFFFF;
-}
 /* Colors will be overwritten in java code
 ** see: org.geogebra.web.web.gui.view.algebra.Marble.java
 */
