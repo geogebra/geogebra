@@ -276,4 +276,9 @@ public class InputLeo3D implements Input3D {
 	public boolean useHeadTracking() {
 		return true;
 	}
+
+	public boolean useHandGrabbing() {
+		return false;
+	}
+
 }

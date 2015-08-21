@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.commands.MyException;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -4009,6 +4010,29 @@ public abstract class App implements UpdateSelection {
 
 	public void updateKeyboard() {
 		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * handle space key hitted
+	 * 
+	 * @return true if key is consumed
+	 */
+	public boolean handleSpaceKey() {
+		ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
+		if (selGeos.size() == 1) {
+			if (selGeos.get(0).isGeoBoolean()) {
+				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
+				geoBool.setValue(!geoBool.getBoolean());
+				geoBool.updateRepaint();
+			} else {
+				selGeos.get(0).runClickScripts(null);
+			}
+
+			return true;
+		}
+
+		return false;
 
 	}
 }

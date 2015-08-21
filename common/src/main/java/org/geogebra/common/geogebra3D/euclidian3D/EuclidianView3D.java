@@ -4211,4 +4211,20 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public boolean usesInteriorRadiusToClip() {
 		return false;
 	}
+
+	/**
+	 * 
+	 * @return true if currently uses hand grabbing (3D input)
+	 */
+	public boolean useHandGrabbing() {
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return true if consumes space key hitted
+	 */
+	public boolean handleSpaceKey() {
+		return false;
+	}
 }

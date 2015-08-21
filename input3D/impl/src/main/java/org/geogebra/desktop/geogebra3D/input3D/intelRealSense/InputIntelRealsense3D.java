@@ -276,4 +276,8 @@ public class InputIntelRealsense3D implements Input3D {
 		return false;
 	}
 
+	public boolean useHandGrabbing() {
+		return true;
+	}
+
 }

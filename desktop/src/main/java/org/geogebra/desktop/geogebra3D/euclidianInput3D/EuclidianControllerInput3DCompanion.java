@@ -446,7 +446,10 @@ public class EuclidianControllerInput3DCompanion extends
 		}
 	}
 
-	private void releaseGrabbing() {
+	/**
+	 * release current grabbing
+	 */
+	public void releaseGrabbing() {
 		((EuclidianControllerInput3D) ec).input3D
 				.setHasCompletedGrabbingDelay(false);
 		ec.getApplication().getSelectionManager().clearSelectedGeos(true);

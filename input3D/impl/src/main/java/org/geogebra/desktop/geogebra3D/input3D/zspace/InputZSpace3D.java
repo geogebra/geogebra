@@ -253,4 +253,8 @@ public class InputZSpace3D implements Input3D {
 		return true;
 	}
 
+	public boolean useHandGrabbing() {
+		return false;
+	}
+
 }

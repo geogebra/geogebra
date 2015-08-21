@@ -470,8 +470,21 @@ public class App3D extends AppD {
 	}
 
 	
+	@Override
 	protected AppD newAppForTemplateOrInsertFile(){
 		return new App3D(new CommandLineArguments(null), new JPanel(), true);
+	}
+
+	@Override
+	public boolean handleSpaceKey() {
+
+		if (isEuclidianView3Dinited()) {
+			if (euclidianView3D.useHandGrabbing()) {
+				euclidianView3D.handleSpaceKey();
+			}
+		}
+
+		return super.handleSpaceKey();
 	}
 
 }

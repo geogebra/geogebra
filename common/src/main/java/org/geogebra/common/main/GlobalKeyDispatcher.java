@@ -219,21 +219,7 @@ public abstract class GlobalKeyDispatcher {
 		case SPACE:
 			// check not spreadsheet
 			if (!fromSpreadsheet) {
-
-				ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
-				if (selGeos.size() == 1) {
-					if (selGeos.get(0).isGeoBoolean()) {
-						GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
-						geoBool.setValue(!geoBool.getBoolean());
-						geoBool.updateRepaint();
-					} else {
-						selGeos.get(0).runClickScripts(null);
-					}
-
-					consumed = true;
-
-				}
-
+				consumed = app.handleSpaceKey();
 			}
 			break;
 

@@ -436,6 +436,19 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		}
 
 		/**
+		 * set hitted geo
+		 * 
+		 * @param newGeo
+		 *            hitted geo
+		 */
+		public void setHitted(GeoElement newGeo) {
+			geo = newGeo;
+			if (newGeo == null) {
+				delay = -1;
+			}
+		}
+
+		/**
 		 * 
 		 * @return current geo
 		 */
@@ -458,12 +471,16 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 			delay = time - startTime;
 			if (delay > LONG_DELAY) {
-				geo = null; // consume event
-				delay = -1;
+				consumeLongDelay();
 				return true;
 			}
 
 			return false;
+		}
+
+		public void consumeLongDelay() {
+			geo = null; // consume event
+			delay = -1;
 		}
 
 		public float getCompletingDelay() {
@@ -521,8 +538,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			if (startCoords.isDefined()) {
 				delay = time - startTime;
 				if (delay > LONG_DELAY) {
-					startCoords.setUndefined(); // consume event
-					delay = -1;
+					consumeLongDelay();
 					return true;
 				}
 			} else {
@@ -530,6 +546,14 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			}
 
 			return false;
+		}
+
+		/**
+		 * consume long delay (reset this)
+		 */
+		public void consumeLongDelay() {
+			startCoords.setUndefined(); // consume event
+			delay = -1;
 		}
 
 		public float getCompletingDelay() {
@@ -813,5 +837,39 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			super.setBackground(color);
 		}
 
+	}
+
+	@Override
+	public boolean useHandGrabbing() {
+		return input3D.useHandGrabbing() && !input3D.currentlyUseMouse2D();
+	}
+
+	@Override
+	public boolean handleSpaceKey(){
+		if (euclidianController.getMoveMode() == EuclidianController.MOVE_NONE) {
+
+			hittedGeo.setHitted(getHits3D().getTopHits()
+					.getFirstGeo6dofMoveable());
+			// reset hits
+			GeoElement geoToHit = hittedGeo.getGeo();
+			getHits3D().init(geoToHit);
+			updateCursor3D(getHits());
+			app.setMode(EuclidianConstants.MODE_MOVE);
+			if (geoToHit != null) {
+				hittedGeo.consumeLongDelay();
+				input3D.setHasCompletedGrabbingDelay(true);
+				euclidianController.handleMovedElement(geoToHit, false,
+						PointerEventType.TOUCH);
+				return true;
+			}
+
+			return false;
+		}
+
+		stationaryCoords.consumeLongDelay();
+		((EuclidianControllerInput3DCompanion) euclidianController
+				.getCompanion()).releaseGrabbing();
+
+		return true;
 	}
 }

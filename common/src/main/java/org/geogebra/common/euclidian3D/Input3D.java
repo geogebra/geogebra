@@ -241,4 +241,10 @@ public interface Input3D {
 	 */
 	public boolean useHeadTracking();
 
+	/**
+	 * 
+	 * @return true if input uses hand grabbing
+	 */
+	public boolean useHandGrabbing();
+
 }
