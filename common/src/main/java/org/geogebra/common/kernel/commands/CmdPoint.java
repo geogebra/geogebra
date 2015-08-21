@@ -39,15 +39,18 @@ public class CmdPoint extends CommandProcessor {
 			// Point[{1,2}] to create a point
 			if (arg[0].isGeoList()
 					&& ((GeoList) arg[0]).getGeoElementForPropertiesDialog()
-							.isGeoNumeric() && ((GeoList) arg[0]).size() == 2) {
-
-				AlgoPointsFromList algo = new AlgoPointsFromList(cons,
+							.isGeoNumeric()) {
+				if ((((GeoList) arg[0]).get(0).isGeoNumeric() && ((GeoList) arg[0]).size() == 2)
+						|| (((GeoList) arg[0]).get(0).isGeoList() && ((GeoList) ((GeoList) arg[0]).get(0)).size() == 2)) {
+					
+					AlgoPointsFromList algo = new AlgoPointsFromList(cons,
 						c.getLabels(), !cons.isSuppressLabelsActive(),
 						(GeoList) arg[0]);
 
-				GeoElement[] ret = algo.getPoints();
+					GeoElement[] ret = algo.getPoints();
 
-				return ret;
+					return ret;
+				}
 			} else if (arg[0].isPath()) {
 				GeoElement[] ret = { getAlgoDispatcher().Point(c.getLabel(),
 						(Path) arg[0], null) };

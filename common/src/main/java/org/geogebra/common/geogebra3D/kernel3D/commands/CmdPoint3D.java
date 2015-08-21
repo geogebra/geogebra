@@ -4,6 +4,7 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPointVector3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.algos.AlgoPointsFromList;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -51,8 +52,23 @@ public class CmdPoint3D extends CmdPoint {
 				}
 
 				throw argErr(app, c.getName(), geo0);
-			}
+			} else if (arg[0].isGeoList()
+					&& ((GeoList) arg[0]).getGeoElementForPropertiesDialog()
+							.isGeoNumeric()) {
+				if ((((GeoList) arg[0]).get(0).isGeoNumeric() && ((GeoList) arg[0])
+						.size() == 3)
+						|| (((GeoList) arg[0]).get(0).isGeoList() && ((GeoList) ((GeoList) arg[0])
+								.get(0)).size() == 3)) {
 
+					AlgoPointsFromList algo = new AlgoPointsFromList(cons,
+							c.getLabels(), !cons.isSuppressLabelsActive(),
+							(GeoList) arg[0]);
+
+					GeoElement[] ret = algo.getPoints3D();
+
+					return ret;
+				}
+			}
 		}
 
 		return super.process(c);
