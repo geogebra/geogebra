@@ -14,6 +14,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -802,6 +803,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	protected void drawPointAlready(GeoPoint3D point) {
+
+		if (input3D.currentlyUseMouse2D()) {
+			super.drawPointAlready(point);
+			return;
+		}
+
 		if (point.hasRegion()) {
 			super.drawPointAlready(point);
 		} else if (!point.hasPath()
@@ -866,10 +873,21 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			return false;
 		}
 
-		stationaryCoords.consumeLongDelay();
-		((EuclidianControllerInput3DCompanion) euclidianController
-				.getCompanion()).releaseGrabbing();
+		((EuclidianControllerInput3D) euclidianController).releaseGrabbing();
 
 		return true;
 	}
+
+	@Override
+	public void setMode(int mode, ModeSetter m) {
+
+		if (input3D.useHandGrabbing()
+				&& euclidianController.getMoveMode() != EuclidianController.MOVE_NONE) {
+			((EuclidianControllerInput3D) euclidianController)
+					.releaseGrabbing();
+		}
+
+		super.setMode(mode, m);
+	}
+
 }

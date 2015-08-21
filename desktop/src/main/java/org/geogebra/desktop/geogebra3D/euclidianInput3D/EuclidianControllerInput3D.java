@@ -644,8 +644,13 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	public void mousePressed(MouseEvent e) {
 		if (input3D.currentlyUseMouse2D()) {
 			super.mousePressed(e);
+		} else if (input3D.useHandGrabbing() && mode != MOVE_NONE) {
+			releaseGrabbing();
+			super.mousePressed(e);
 		}
 	}
+
+
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -658,6 +663,13 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	public void mouseMoved(MouseEvent e) {
 		if (input3D.currentlyUseMouse2D()) {
 			super.mouseMoved(e);
+		}
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if (input3D.currentlyUseMouse2D()) {
+			super.mouseDragged(e);
 		}
 	}
 
@@ -741,7 +753,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	@Override
 	public boolean cursor3DVisibleForCurrentMode(int cursorType) {
 		if (mode == EuclidianConstants.MODE_MOVE
-				&& !input3D.hasMouseDirection()) {
+				&& !input3D.hasMouseDirection()
+				&& !input3D.currentlyUseMouse2D()) {
 			return false;
 		}
 
@@ -787,4 +800,15 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		super.wrapMouseReleased(e);
 
 	}
+
+	/**
+	 * release hand grabbing
+	 */
+	protected void releaseGrabbing() {
+		((EuclidianViewInput3D) view3D).getStationaryCoords()
+				.consumeLongDelay();
+		((EuclidianControllerInput3DCompanion) getCompanion())
+				.releaseGrabbing();
+	}
+
 }
