@@ -579,7 +579,7 @@ namespace giac {
     tdeg_t(const index_m & lm,order_t order){ 
 #ifdef GIAC_64VARS
       if (lm.size()>GROEBNER_VARS){
-	ui=(longlong *)malloc((1+(order.dim+3)/4)*sizeof(longlong));
+	ui=(longlong *)malloc((1+(lm.size()+3)/4)*sizeof(longlong));
 	longlong* ptr=ui;
 	*ptr=1; ++ ptr;
 	for (int i=0;i<lm.size();){
@@ -1177,7 +1177,8 @@ namespace giac {
 	const longlong * it1beg=x.ui,*it1=x.ui+n,*it2=y.ui+n;
 	longlong a=0,b=0;
 	for (;it1!=it1beg;--it2,--it1){
-	  a=*it1; b=*it2;
+	  a=*it1; 
+	  b=*it2;
 	  if (a!=b)
 	    break;
 	}
@@ -1476,7 +1477,7 @@ namespace giac {
 #ifdef GIAC_64VARS
     if (x_.tab[0]%2){
       idx.resize(dim);
-      const short * ptr=(short *)(x_.ui+1),*ptrend=ptr+dim;
+      const short * ptr=(short *)(x_.ui+1),*ptrend=ptr+x_.order_.dim;
       index_t::iterator target=idx.begin();
       for (;ptr!=ptrend;++target,++ptr)
 	*target=*ptr;
@@ -9702,7 +9703,15 @@ namespace giac {
       if (debug_infolevel>1)
 	CERR << CLOCK() << " begin new iteration zmod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // mem clear: remove res[i] if i is not in G nor in B
-      vector<bool> clean(G.back(),true);
+      int Gmax=0;
+      for (unsigned i=0;i<int(G.size());++i){
+	if (G[i]>Gmax) Gmax=G[i];
+      }
+      for (unsigned i=0;i<int(B.size());++i){
+	if (B[i].first>Gmax) Gmax=B[i].first;
+	if (B[i].second>Gmax) Gmax=B[i].second;
+      }
+      vector<bool> clean(Gmax+1,true);
       vector<tdeg_t> Blcm(B.size());
       for (unsigned i=0;i<G.size();++i){
 	clean[G[i]]=false;

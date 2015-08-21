@@ -6389,10 +6389,10 @@ namespace giac {
 #if GROEBNER_VARS==15
     // split variables and parameters for revlex
     if (!l.empty() && l!=l0 && l0.size()<=64 && (order==_REVLEX_ORDER || order==_RUR_REVLEX)){
-      if (l.size()>11 || l0.size()>14){
+      if (l.size()>11 || (l0.size()+3-l.size()%4)>14){
 	if (l.size()<=11){
-	  while (l.size()<11) l.push_back(0);
-	  order=_11VAR_ORDER;
+	  while (l.size()<12) l.push_back(0);
+	  order=_11VAR_ORDER; // improve: could be less
 	}
 	else {
 	  int j=nextpow2(l.size());
@@ -6403,7 +6403,7 @@ namespace giac {
 	    l.push_back(0);
 	}
       }
-      else {
+      else { // l.size()<=11 and l0.size() small enough
 	// add fake variables
 	if (l.size()/4==0)
 	  order=_3VAR_ORDER;
@@ -6456,8 +6456,7 @@ namespace giac {
     if (s>2 && v[2].type==_VECT)
       alg_lvar(v[2],l); // ordering for remaining variables
     alg_lvar(v[0],l);
-    if (l.front()._VECTptr->size()==15 && order.val==11)
-      l.front()._VECTptr->insert(l.front()._VECTptr->begin()+11,0);
+    // if (l.front()._VECTptr->size()==15 && order.val==11) l.front()._VECTptr->insert(l.front()._VECTptr->begin()+11,0);
     // convert eq to polynomial
     vecteur eq_in(*e2r(v[0],l,contextptr)._VECTptr);
     vectpoly eqp;
@@ -6604,8 +6603,10 @@ namespace giac {
       if (equalposcomp(l0,l1[i]))
 	l.push_back(l1[i]);
     }
-    //int faken=revlex_parametrize(l,l0,order.val),lsize=l.size();
+    int faken=revlex_parametrize(l,l0,order.val),lsize=l.size();
     l=vecteur(1,l);
+    if (s>3 && v[3].type==_VECT)
+      alg_lvar(v[3],l); // ordering for remaining variables
     alg_lvar(makevecteur(v[0],v[1]),l);
     vecteur eq_in(*e2r(v[1],l,contextptr)._VECTptr);
     vectpoly eqp;
@@ -6957,6 +6958,16 @@ namespace giac {
   // in_ideal([Pi],[gb],[vars]) -> true/false
   gen _in_ideal(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen res=_greduce(args,contextptr);
+    if (res.type==_VECT){
+      vecteur v=*res._VECTptr;
+      for (int i=0;i<int(v.size());++i){
+	v[i]=is_zero(v[i])?1:0;
+      }
+      return v;
+    }
+    return is_zero(res);
+#if 0
     if (args.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur & v = *args._VECTptr;
@@ -7001,6 +7012,7 @@ namespace giac {
     if (res.type==_VECT && res._VECTptr->size()==1 && v[0].type!=_VECT)
       return res._VECTptr->front();
     return res;
+#endif
   }
   static const char _in_ideal_s []="in_ideal";
   static define_unary_function_eval (__in_ideal,&_in_ideal,_in_ideal_s);

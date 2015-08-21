@@ -1134,6 +1134,8 @@ namespace giac {
       gen a=args._VECTptr->front(),b=args._VECTptr->back();
       if (is_zero(b))
 	return a;
+      if (is_integer(a)&&is_integer(b))
+	return _irem(args,contextptr);
       if (a.type==_FLOAT_){
 	if (b.type==_FLOAT_)
 	  return fmod(a._FLOAT_val,b._FLOAT_val);
