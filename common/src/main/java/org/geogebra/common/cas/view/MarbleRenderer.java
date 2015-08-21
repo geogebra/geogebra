@@ -10,7 +10,7 @@ public interface MarbleRenderer {
 
 	/**
 	 * @param value
-	 *            true when the GeoElement should be ploted
+	 *            true when the GeoElement should be plotted
 	 */
 	void setMarbleValue(boolean value);
 

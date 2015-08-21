@@ -151,7 +151,7 @@ public interface Inspecting {
 			} else if (v instanceof Equation) {
 				ExpressionValue ev = ((Equation) v).getRHS().unwrap();
 				// TODO needs to have evaluatesTo..., also check for complex
-				if (!ev.evaluatesToNumber(true) && !ev.evaluatesToNumber(true)) {
+				if (!ev.evaluatesToNumber(true) && !ev.evaluatesTo3DVector()) {
 					return true;
 				}
 				type = 2;

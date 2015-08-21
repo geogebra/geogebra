@@ -524,8 +524,20 @@ public class RelationNumerical {
 					break;
 				}
 			}
+			boolean touch = false;
+			// check if we have one intersection point
+			if (points[0].isEqual(points[1])) {
+				touch = true;
+			}
 			// build relation string
-			str = intersectString(a, b, intersect);
+			// case one intersection point
+			if (touch) {
+				str = touchString(a, b, touch);
+			}
+			// case more than one intersection point
+			else {
+				str = intersectString(a, b, intersect);
+			}
 			register(true, null, str); // TODO: No symbolically supported.
 
 			// remove algorithm by removing one of its points
@@ -722,6 +734,36 @@ public class RelationNumerical {
 		// updated for better translation
 		if (intersects)
 			sb.append(loc.getPlain("AIntersectsWithB", a.getColoredLabel(),
+					b.getColoredLabel()));
+		else
+			sb.append(loc.getPlain("ADoesNotIntersectWithB",
+					a.getColoredLabel(), b.getColoredLabel()));
+		return sb.toString();
+	}
+
+	// "a touches b"
+	final private String touchString(GeoElement a, GeoElement b, boolean touches) {
+		return touchString(a, b, touches, loc);
+	}
+
+	/**
+	 * Internationalized string of "a touches b" (or not)
+	 * 
+	 * @param a
+	 *            first object
+	 * @param b
+	 *            second object
+	 * @param touches
+	 *            yes or no
+	 * @param loc
+	 *            locale
+	 * @return internationalized string
+	 */
+	final public static String touchString(GeoElement a, GeoElement b,
+			boolean touches, Localization loc) {
+		StringBuilder sb = new StringBuilder();
+		if (touches)
+			sb.append(loc.getPlain("ATouchesB", a.getColoredLabel(),
 					b.getColoredLabel()));
 		else
 			sb.append(loc.getPlain("ADoesNotIntersectWithB",
