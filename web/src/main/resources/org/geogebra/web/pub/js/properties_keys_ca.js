@@ -2161,7 +2161,7 @@ __GGB__keysVar.ca.plain = {
     "ARotatedByAngleBAboutPlaneCThroughD": "%0 girat un angle %1 respecte d'un eix perpendicular a %2 i que passa per %3",
     "ASignificantFigure": "%0 xifra significativa",
     "ASignificantFigures": "%0 xifres significatives",
-    "ATouchesB": "%0 touches %1",
+    "ATouchesB": "%0 \xe9s tangent a %1",
     "AandB": "%0 i %1",
     "AandBareEqual": "%0 i %1 s\xf3n iguals",
     "AandBareLinearlyDependent": "%0 i %1 s\xf3n linealment dependents",
