@@ -36,6 +36,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 			REDUCTION_LARGE // large
 	};
 
+	static private double INTERIOR_RADIUS_FACTOR = Math.sqrt(2);
+
 	static private int REDUCTION_LENGTH = 3;
 
 	/**
@@ -168,6 +170,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scale);
 
 		frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scale);
+		if (reductionIndex > 1) {
+			frustumInteriorRadius *= INTERIOR_RADIUS_FACTOR;
+		}
 
 		// double h = minMax[2][1]-minMax[2][0]; frustumRadius = h/2;
 
