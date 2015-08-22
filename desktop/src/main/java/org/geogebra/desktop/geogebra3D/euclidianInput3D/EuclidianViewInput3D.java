@@ -94,6 +94,11 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			if (drawCompletingCursor(renderer1)) {
 				return;
 			}
+
+			// draw mouse cursor at the same place
+			renderer1.drawMouseCursor();
+			return;
+
 		}
 
 		drawMouseCursor(renderer1, mouse3DScreenPosition);
