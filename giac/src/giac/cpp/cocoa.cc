@@ -887,13 +887,14 @@ namespace giac {
 #endif
     return res;
   }
-  bool operator == (const tdeg_t & x,const tdeg_t & y){ 
+  inline bool operator == (const tdeg_t & x,const tdeg_t & y){ 
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      if (!y.tab[0]%2)
-	COUT << "erreur" << endl;
       if (x.tdeg!=y.tdeg || x.tdeg2!=y.tdeg2)
 	return false;
+#ifdef DEBUG_SUPPORT
+      if (!y.tab[0]%2) COUT << "erreur" << endl;
+#endif
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+3)/4,*yptr=y.ui+1;
       for (;xptr!=xend;++yptr,++xptr){
 	if (*xptr!=*yptr)
@@ -1165,8 +1166,9 @@ namespace giac {
   inline bool tdeg_t_greater (const tdeg_t & x,const tdeg_t & y,order_t order){
 #ifdef GIAC_64VARS
     if (x.tdeg%2){
-      if (!y.tab[0]%2)
-	COUT << "erreur" << endl;
+#ifdef DEBUG_SUPPORT
+      if (!y.tab[0]%2) COUT << "erreur" << endl;
+#endif
       if (order.o>=_7VAR_ORDER || order.o==_3VAR_ORDER){
 #ifdef GIAC_GBASISLEX 
 	// if activated, check that poly8, polymod and zpolymod should be reordered
@@ -7640,6 +7642,58 @@ namespace giac {
     return 1;
   }
 
+  // a mod b = r/u with n and d<sqrt(b)/2
+  // a*u = r mod b -> a*u+b*v=r, Bezout with a and b
+  bool fracmod(int a,int b,int & n,int & d){
+    if (a<0){
+      if (!fracmod(-a,b,n,d))
+	return false;
+      n=-n;
+      return true;
+    }
+    int r=b,u=0; // v=1
+    int r1=a,u1=1,r2,u2,q; // v1=0
+    for (;double(2*r1)*r1>b;){
+      q=r/r1;
+      u2=u-q*u1;
+      r2=r-q*r1;
+      u=u1;
+      u1=u2;
+      r=r1;
+      r1=r2;
+    }
+    if (double(2*u1)*u1>b)
+      return false;
+    if (u1<0){ u1=-u1; r1=-r1; }
+    n=r1; d=u1;
+    return true;
+  }
+
+  // search for d such that d*P mod p has small coefficients
+  // call with d set to 1,
+  static bool findmultmod(const poly8 & P,int p,int & d){
+    int n,s=int(P.coord.size());
+    for (int i=0;i<s;++i){
+      int a=smod(longlong(P.coord[i].g.val)*d,p);
+      if (double(2*a)*a<p)
+	continue;
+      int d1=1;
+      if (!fracmod(a,p,n,d1) || double(2*d1)*d1>p){
+	COUT << "findmultmod failure " << a << " mod " << p << endl;
+	return false;
+      }
+      d=d*d1;
+    }
+    for (int i=0;i<s;++i){
+      int a=smod(longlong(P.coord[i].g.val)*d,p);
+      if (double(2*a)*a>=p){
+	COUT << "possible findmultmod failure " << P.coord[i].g.val << " " << d << " " << a << " " << p << endl;
+	//return false;
+      }
+    }
+    return true;
+  }
+
   static bool fracmod(const poly8 &P,const gen & p,
 	       mpz_t & d,mpz_t & d1,mpz_t & absd1,mpz_t &u,mpz_t & u1,mpz_t & ur,mpz_t & q,mpz_t & r,mpz_t &sqrtm,mpz_t & tmp,
 	       poly8 & Q){
@@ -10387,6 +10441,43 @@ namespace giac {
   }
 #endif
 
+  static bool check_initial_generators(vectpoly8 & res,const vectpoly8 & Wi,vector<unsigned> & G,double eps){
+    int initial=int(res.size());
+    if (debug_infolevel)
+      CERR << CLOCK() << " begin final check, checking " << initial << " generators" << endl;
+    poly8 tmp0,tmp1,tmp2;
+    vectpoly8 wtmp;
+    unsigned j=0,finalchecks=initial;
+    if (eps>0)
+      finalchecks=giacmin(2*Wi.front().dim,initial);
+    G.resize(Wi.size());
+    for (j=0;j<Wi.size();++j)
+      G[j]=j;
+    for (j=0;j<finalchecks;++j){
+      if (debug_infolevel)
+	CERR << "+";
+      sort(res[j].coord.begin(),res[j].coord.end(),tdeg_t_sort_t(res[j].order));
+      reduce(res[j],Wi,G,-1,wtmp,tmp0,tmp1,tmp2,0);
+      if (!tmp0.coord.empty()){
+	break;
+      }
+      if (debug_infolevel && (j%10==9))
+	CERR << j+1 << endl;
+    }
+    CERR << endl;
+    if (j!=finalchecks){
+      if (debug_infolevel){
+	CERR << CLOCK() << " final check failure, retrying with another prime " << endl;
+	CERR << "Non-zero remainder " << tmp0 << endl;
+	CERR << "checking res[j], " << j << "<" << initial << endl;
+	CERR << "res[j]=" << res[j] << endl;
+	CERR << "basis candidate " << Wi << endl;
+      }
+      return false;
+    }
+    return true;
+  }
+
   bool mod_gbasis(vectpoly8 & res,bool modularcheck,bool zdata,bool & rur,GIAC_CONTEXT){
     unsigned initial=unsigned(res.size());
     double eps=proba_epsilon(contextptr); int rechecked=0;
@@ -10653,6 +10744,59 @@ namespace giac {
 	  }
 	  if (jpos!=Wlast[i].size() || P[i].type==_INT_){
 	    // CERR << jpos << endl;
+	    if (eps>0 && P[i].type==_INT_){
+	      // check for non modular gb with early reconstruction */
+	      // first build a candidate in early with V[i]
+	      vectpoly8 early(V[i]);
+	      int d;
+	      for (jpos=0;jpos<early.size();++jpos){
+		d=1;
+		if (!findmultmod(early[jpos],P[i].val,d)){
+		  if (debug_infolevel>1)
+		    COUT << "early reconstr. failure pos " << jpos << " P=" << early[jpos] << " d=" << d << " modulo " << P[i].val << endl;
+		  break;
+		}
+		int s=int(early[jpos].coord.size());
+		for (int k=0;k<s;++k){
+		  early[jpos].coord[k].g=smod(longlong(early[jpos].coord[k].g.val)*d,P[i].val);
+		}
+	      }
+	      // then check
+	      if (jpos==early.size()){
+		for (jpos=0;jpos<early.size();++jpos){
+		  polymod tmp(gbmod[jpos]);
+		  smallmultmod(early[jpos].coord.front().g.val,tmp,p.val);
+		  if (!chk_equal_mod(early[jpos],tmp,p.val)){
+		    if (debug_infolevel>1)
+		      COUT << "early recons. failure jpos=" << jpos << " " << early[jpos] << " " << tmp << " modulo " << p.val << endl;
+		    break;
+		  }
+		}
+		rechecked=0; 
+		if (jpos==early.size() && check_initial_generators(res,early,G,eps)){
+		  if (debug_infolevel)
+		    CERR << CLOCK() << " end final check " << endl;
+		  swap(res,early);
+		  mpz_clear(zd);
+		  mpz_clear(zu);
+		  mpz_clear(zu1);
+		  mpz_clear(zd1);
+		  mpz_clear(zabsd1);
+		  mpz_clear(zsqrtm);
+		  mpz_clear(zq);
+		  mpz_clear(zur);
+		  mpz_clear(zr);
+		  mpz_clear(ztmp);
+#ifdef HAVE_LIBPTHREAD
+		  // finish other threads
+		  void * ptr_;
+		  for (;t<th;++t)
+		    pthread_join(tab[t],&ptr_);
+#endif
+		  return true;
+		}
+	      } // end jpos==early.size()
+	    }
 	    break; // find another prime
 	  }
 	  for (;jpos<V[i].size();++jpos){
@@ -10761,39 +10905,9 @@ namespace giac {
 #endif
 	    return true;
 	  }
-	  if (debug_infolevel)
-	    CERR << CLOCK() << " begin final check, checking " << initial << " generators" << endl;
 	  // first verify that the initial generators reduce to 0
-	  poly8 tmp0,tmp1,tmp2;
-	  vectpoly8 wtmp;
-	  unsigned j=0,finalchecks=initial;
-	  if (eps>0)
-	    finalchecks=giacmin(2*W[i].front().dim,initial);
-	  G.resize(W[i].size());
-	  for (j=0;j<W[i].size();++j)
-	    G[j]=j;
-	  for (j=0;j<finalchecks;++j){
-	    if (debug_infolevel)
-	      CERR << "+";
-	    sort(res[j].coord.begin(),res[j].coord.end(),tdeg_t_sort_t(res[j].order));
-	    reduce(res[j],W[i],G,-1,wtmp,tmp0,tmp1,tmp2,0);
-	    if (!tmp0.coord.empty()){
-	      break;
-	    }
-	    if (debug_infolevel && (j%10==9))
-	      CERR << j+1 << endl;
-	  }
-	  CERR << endl;
-	  if (j!=finalchecks){
-	    if (debug_infolevel){
-	      CERR << CLOCK() << " final check failure, retrying with another prime " << endl;
-	      CERR << "Non-zero remainder " << tmp0 << endl;
-	      CERR << "checking res[j], " << j << "<" << initial << endl;
-	      CERR << "res[j]=" << res[j] << endl;
-	      CERR << "basis candidate " << W[i] << endl;
-	    }
+	  if (!check_initial_generators(res,W[i],G,eps))
 	    continue;
-	  }
 	  if (int(W[i].size())<=GBASIS_DETERMINISTIC)
 	    eps=0;
 	  double eps2=std::pow(double(p.val),double(rechecked))*eps;
