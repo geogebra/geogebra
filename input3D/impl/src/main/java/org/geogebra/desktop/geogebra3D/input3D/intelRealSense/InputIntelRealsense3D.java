@@ -76,16 +76,6 @@ public class InputIntelRealsense3D implements Input3D {
 			mousePosition[1] = socket.birdY * factor;
 			mousePosition[2] = socket.birdZ * factor;
 			
-			// App.debug(socket.birdX + "," + socket.birdY);
-
-			/*
-			App.debug("\norientation"
-			+"\nx="+leoSocket.birdOrientationX
-			+"\ny="+leoSocket.birdOrientationY
-			+"\nz="+leoSocket.birdOrientationZ
-			+"\nw="+leoSocket.birdOrientationW
-			+"\nagnle="+(2*Math.acos(leoSocket.birdOrientationW)*180/Math.PI)+"");
-			*/
 			
 			// mouse position
 			mouseOrientation[0] = socket.birdOrientationX;

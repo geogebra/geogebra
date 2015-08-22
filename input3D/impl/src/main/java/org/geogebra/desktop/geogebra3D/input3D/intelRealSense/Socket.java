@@ -7,7 +7,9 @@ import intel.rssdk.PXCMHandConfiguration.AlertHandler;
 import intel.rssdk.PXCMHandConfiguration.GestureHandler;
 import intel.rssdk.PXCMHandData;
 import intel.rssdk.PXCMHandData.AlertType;
+import intel.rssdk.PXCMHandData.BodySideType;
 import intel.rssdk.PXCMHandData.GestureData;
+import intel.rssdk.PXCMHandData.IHand;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPoint4DF32;
@@ -24,7 +26,9 @@ import org.geogebra.common.main.App;
 public class Socket {
 
 
-	private static double SCREEN_REAL_DIM_FACTOR = 1 / 0.12;
+	private static double SCREEN_REAL_DIM_FACTOR = 1 / 0.1;
+	private static double SIDE_OFFSET = 0.75;
+	private static float DEPTH_ZERO = 0.4f;
 	private static int SAMPLES = 7;
 
 	public enum Gestures {PINCH, SPREAD, FIST};
@@ -61,6 +65,7 @@ public class Socket {
 		protected int samples;
 		protected int index;
 
+		protected BodySideType side;
 		
 		protected float[] worldX, worldY, worldZ;
 		
@@ -81,11 +86,11 @@ public class Socket {
 			handOrientationZ = new float[samples];
 			handOrientationW = new float[samples];
 			
-			
+			side = BodySideType.BODY_SIDE_UNKNOWN;
 
 		}
 
-		public abstract void addData(//float imx, float imy, 
+		public abstract void addData(IHand hand,
 				float wx, float wy, float wz, float ox, float oy, float oz, float ow);
 
 		public abstract double getWorldX();
@@ -101,6 +106,10 @@ public class Socket {
 		public abstract double getHandOrientationZ();
 
 		public abstract double getHandOrientationW();
+
+		public BodySideType getSide() {
+			return side;
+		}
 
 	}
 	
@@ -128,12 +137,15 @@ public class Socket {
 		}
 		
 		@Override
-		public void addData(//float imx, float imy, 
+		public void addData(IHand hand,
 				float wx, float wy, float wz,
 				float ox, float oy, float oz, float ow){
 			
 			
 			if (resetAllValues){
+
+				side = hand.QueryBodySide();
+
 				for (int i = 0 ; i < samples ; i++){
 					// reset all values
 					worldX[i] = wx;
@@ -159,6 +171,9 @@ public class Socket {
 				return;
 			}
 			
+			if (side == BodySideType.BODY_SIDE_UNKNOWN) {
+				side = hand.QueryBodySide();
+			}
 
 			
 			worldXSum -= worldX[index];
@@ -210,7 +225,7 @@ public class Socket {
 
 		@Override
 		public double getWorldZ(){
-			return (worldZSum / samples - 0.2f) * SCREEN_REAL_DIM_FACTOR;
+			return (worldZSum / samples - DEPTH_ZERO) * SCREEN_REAL_DIM_FACTOR;
 		}
 		
 
@@ -361,7 +376,7 @@ public class Socket {
 	
 	private void setAlert(int id, AlertType type){
 		
-		//App.debug("alert hand #"+id+" : "+type);
+		// App.debug("alert hand #" + id + " : " + type);
 		
 		if (handId == -1){ // no hand for now
 			if (type == AlertType.ALERT_HAND_INSIDE_BORDERS){
@@ -439,7 +454,8 @@ public class Socket {
 				
 				@Override
 				public void OnFiredAlert(intel.rssdk.PXCMHandData.AlertData data) {
-					//App.debug("alert : "+data.handId+", "+data.label.name());
+					// App.debug("alert : " + data.handId + ", "
+					// + data.label.name());
 					setAlert(data.handId, data.label);
 				}
 			};
@@ -449,7 +465,6 @@ public class Socket {
 			handConfig.Update();
 			
 			handData = handModule.CreateOutput();
-			
 			
 			connected = true;
 		}
@@ -489,41 +504,38 @@ public class Socket {
 		sts = handData.QueryHandData(PXCMHandData.AccessOrderType.ACCESS_ORDER_NEAR_TO_FAR, 0, hand);
 
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR) >= 0) {
-//			PXCMPointF32 image = hand.QueryMassCenterImage();
 			PXCMPoint3DF32 world = hand.QueryMassCenterWorld();
 			PXCMPoint4DF32 palmOrientation = hand.QueryPalmOrientation();
 
-			/*
-			System.out.println("Palm Center : ");
-			System.out.print("   Image Position: (" + image.x + "," +image.y + ")");
-			System.out.println("   World Position: (" + world.x + "," + world.y + "," + world.z + ")");
-			*/
-		
-			/*
-			birdX = -world.x * SCREEN_REAL_DIM_FACTOR;
-			birdY = world.y * SCREEN_REAL_DIM_FACTOR;
-			birdZ = (world.z-0.3) * SCREEN_REAL_DIM_FACTOR;
-			*/
 			
-			
-			
-			dataSampler.addData(
-					//image.x, image.y, 
+			dataSampler.addData(hand,
 					world.x, world.y, world.z,
 					palmOrientation.x, palmOrientation.y, palmOrientation.z, palmOrientation.w);
 			
-			
-			/*
-			hand2Dx = dataAverage.getImageX();
-			hand2Dy = dataAverage.getImageY();
-			hand2Dfactor = getScaleFactor(dataAverage.getImageScale());
-			*/
 			
 			birdX = dataSampler.getWorldX();
 			birdY = dataSampler.getWorldY();
 			birdZ = dataSampler.getWorldZ();
 			
+			// if (hasTrackedHand()) {
+			// App.debug("\nx, z = "
+			// + ((int) (100 * birdX / SCREEN_REAL_DIM_FACTOR)) + ","
+			// + ((int) (100 * birdZ / SCREEN_REAL_DIM_FACTOR)));
+			// }
 			
+
+			switch (dataSampler.getSide()) {
+			case BODY_SIDE_RIGHT:
+				birdX -= SIDE_OFFSET;
+				break;
+			case BODY_SIDE_LEFT:
+				birdX += SIDE_OFFSET;
+				break;
+			case BODY_SIDE_UNKNOWN:
+			default:
+				birdX -= SIDE_OFFSET;
+				break;
+			}
 			
 			birdOrientationX = dataSampler.getHandOrientationX();
 			birdOrientationY = dataSampler.getHandOrientationY();
