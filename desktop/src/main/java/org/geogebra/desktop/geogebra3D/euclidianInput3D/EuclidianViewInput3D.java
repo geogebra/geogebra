@@ -563,30 +563,43 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				4);
 		private long startTime;
 		private long delay;
+		private Coords newCoords = Coords.createInhomCoorsInD3();
 
 		public StationaryCoords() {
 			startCoords.setUndefined();
 			delay = -1;
 		}
 
-		public void setCoords(Coords coords, long time) {
+		public void setCoords(Coords start, Coords translation, long time) {
+			newCoords.setValues(start, 3);
+			newCoords.addInside(translation);
+			updateCoords(time);
+		}
+
+		public void setCoords(Coords start, long time) {
+			newCoords.setValues(start, 3);
+			updateCoords(time);
+		}
+
+		public void updateCoords(long time) {
 
 			if (startCoords.isDefined()) {
-				double distance = Math.abs(startCoords.getX() - coords.getX())
-						+ Math.abs(startCoords.getY() - coords.getY())
-						+ Math.abs(startCoords.getZ() - coords.getZ());
+				double distance = Math.abs(startCoords.getX()
+						- newCoords.getX())
+						+ Math.abs(startCoords.getY() - newCoords.getY())
+						+ Math.abs(startCoords.getZ() - newCoords.getZ());
 				// App.debug("\n -- "+(distance * ((EuclidianView3D)
 				// ec.view).getScale()));
 				if (distance * getScale() > 30) {
-					startCoords.set(coords);
+					startCoords.set(newCoords);
 					startTime = time;
 					delay = -1;
 					// App.debug("\n -- startCoords =\n"+startCoords);
 				} else {
-					currentCoords.set(coords);
+					currentCoords.set(newCoords);
 				}
 			} else {
-				startCoords.set(coords);
+				startCoords.set(newCoords);
 				startTime = time;
 				delay = -1;
 				// App.debug("\n -- startCoords =\n"+startCoords);

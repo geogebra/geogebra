@@ -29,8 +29,10 @@ public class Coords {
 	private boolean calcNorm = true;
 	private boolean calcSqNorm = true;
 	
-	/** origin 3D vector */
+	/** origin 3D point */
 	public static final Coords O = new Coords(0,0,0,1);
+	/** zero vector */
+	public static final Coords ZERO = new Coords(0, 0, 0, 0);
 	/** vx 3D vector */
 	public static final Coords VX = new Coords(1,0,0,0);
 	/** vy 3D vector */

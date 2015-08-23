@@ -43,6 +43,7 @@ public class EuclidianControllerInput3DCompanion extends
 		super(ec);
 	}
 
+
 	@Override
 	protected GeoPoint3D createNewFreePoint(boolean complex) {
 
@@ -429,15 +430,13 @@ public class EuclidianControllerInput3DCompanion extends
 
 			if (((EuclidianControllerInput3D) ec).input3D.hasCompletedGrabbingDelay()) {
 
-				Coords p = Coords.createInhomCoorsInD3();
-				p.setValues(((EuclidianControllerInput3D) ec).mouse3DPosition,
-						3);
-				((EuclidianView3D) ec.view).toSceneCoords3D(p);
-
 				long time = System.currentTimeMillis();
 				StationaryCoords stationaryCoords = ((EuclidianViewInput3D) ec.view)
 						.getStationaryCoords();
-				stationaryCoords.setCoords(p, time);
+				stationaryCoords
+						.setCoords(
+								((EuclidianControllerInput3D) ec).movedGeoPointStartCoords,
+								v, time);
 				if (stationaryCoords.hasLongDelay(time)) {
 					releaseGrabbing();
 				}
