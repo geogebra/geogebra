@@ -77,9 +77,13 @@ public final class MyMath {
 	 * @return csch(a)
 	 */
 	final public static double csch(double a) {
+
+		// don't change this, csch(0.000000000000000000000000000000001)
+		// **shoudn't** return NaN
 		if (a == 0) {
 			return Double.NaN;
 		}
+
 		return 1 / sinh(a);
 	}
 
