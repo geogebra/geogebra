@@ -45,8 +45,9 @@ public final class MyMath {
 	final public static double sgn(Kernel AbstracKernel, double a) {
 
 		// bugfix for graph f(x) = sgn(sqrt(1 - x))
-		if (Double.isNaN(a))
+		if (Double.isNaN(a)) {
 			return Double.NaN;
+		}
 
 		if (Kernel.isZero(a))
 			return 0.0;
@@ -57,19 +58,27 @@ public final class MyMath {
 	}
 
 	final public static double cosh(double a) {
-		return (Math.exp(a) + Math.exp(-a)) * 0.5;
+		return Math.cosh(a);
 	}
 
 	final public static double sinh(double a) {
-		return (Math.exp(a) - Math.exp(-a)) * 0.5;
+		return Math.sinh(a);
 	}
 
 	final public static double tanh(double a) {
-		double e = Math.exp(2.0 * a);
-		return (e - 1.0) / (e + 1.0);
+		return Math.tanh(a);
 	}
 
+	/**
+	 * csch(0) should return undefined not inf
+	 * 
+	 * @param a
+	 * @return csch(a)
+	 */
 	final public static double csch(double a) {
+		if (a == 0) {
+			return Double.NaN;
+		}
 		return 1 / sinh(a);
 	}
 
@@ -77,9 +86,15 @@ public final class MyMath {
 		return 1 / cosh(a);
 	}
 
+	/**
+	 * 
+	 * coth(0) should return undefined not inf
+	 * 
+	 * @param a
+	 * @return coth(a)
+	 */
 	final public static double coth(double a) {
-		double e = Math.exp(2.0 * a);
-		return (e + 1.0) / (e - 1.0);
+		return 1 / tanh(a);
 	}
 
 	final public static double acosh(double a) {
@@ -96,8 +111,9 @@ public final class MyMath {
 
 	final public static double csc(double a) {
 		double sin = Math.sin(a);
-		if (Kernel.isZero(sin))
+		if (Kernel.isZero(sin)) {
 			return Double.NaN;
+		}
 
 		return 1 / sin;
 	}
@@ -106,16 +122,18 @@ public final class MyMath {
 
 		// problem with eg sec(270deg)
 		double cos = Math.cos(a);
-		if (Kernel.isZero(cos))
+		if (Kernel.isZero(cos)) {
 			return Double.NaN;
+		}
 
 		return 1 / cos;
 	}
 
 	final public static double cot(double a) {
 		double sin = Math.sin(a);
-		if (Kernel.isZero(sin))
+		if (Kernel.isZero(sin)) {
 			return Double.NaN; // not infinity (1/0)
+		}
 		return Math.cos(a) / sin;
 	}
 
