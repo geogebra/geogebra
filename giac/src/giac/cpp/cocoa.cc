@@ -888,14 +888,14 @@ namespace giac {
     return res;
   }
   inline bool operator == (const tdeg_t & x,const tdeg_t & y){ 
+    longlong X=((longlong *) x.tab)[0];
+    if (X!= ((longlong *) y.tab)[0])
+      return false;
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      if (x.tdeg!=y.tdeg || x.tdeg2!=y.tdeg2)
-	return false;
-#ifdef DEBUG_SUPPORT
-      if (!y.tab[0]%2) COUT << "erreur" << endl;
-#endif
+      //if (x.ui==y.ui) return true;
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+3)/4,*yptr=y.ui+1;
+      //if (!x.tdeg){  xptr+=(x.order_.o+3)/4;  yptr+=(y.order_.o+3)/4; }
       for (;xptr!=xend;++yptr,++xptr){
 	if (*xptr!=*yptr)
 	  return false;
@@ -903,8 +903,7 @@ namespace giac {
       return true;
     }
 #endif    
-    return  ((longlong *) x.tab)[0] == ((longlong *) y.tab)[0] && 
-      ((longlong *) x.tab)[1] == ((longlong *) y.tab)[1] &&
+    return ((longlong *) x.tab)[1] == ((longlong *) y.tab)[1] &&
       ((longlong *) x.tab)[2] == ((longlong *) y.tab)[2] 
 #if GROEBNER_VARS>11
       &&  ((longlong *) x.tab)[3] == ((longlong *) y.tab)[3]
@@ -1164,20 +1163,19 @@ namespace giac {
   }
 
   inline bool tdeg_t_greater (const tdeg_t & x,const tdeg_t & y,order_t order){
+    short X=x.tdeg;
+    if (X!=y.tdeg) return X>y.tdeg; // since tdeg is tab[0] for plex
 #ifdef GIAC_64VARS
-    if (x.tdeg%2){
-#ifdef DEBUG_SUPPORT
-      if (!y.tab[0]%2) COUT << "erreur" << endl;
-#endif
+    if (X%2){
       if (order.o>=_7VAR_ORDER || order.o==_3VAR_ORDER){
 #ifdef GIAC_GBASISLEX 
 	// if activated, check that poly8, polymod and zpolymod should be reordered
 	// FIXME
 #endif
-	if (x.tdeg!=y.tdeg) return x.tdeg>y.tdeg;
 	int n=(x.order_.o+1)/4;
 	const longlong * it1beg=x.ui,*it1=x.ui+n,*it2=y.ui+n;
 	longlong a=0,b=0;
+#ifdef BIGENDIAN
 	for (;it1!=it1beg;--it2,--it1){
 	  a=*it1; 
 	  b=*it2;
@@ -1185,7 +1183,6 @@ namespace giac {
 	    break;
 	}
 	if (a!=b){
-#ifdef BIGENDIAN
 	  if ( ((a)&0xffff) != ((b)&0xffff) )
 	    return ((a)&0xffff) <= ((b)&0xffff);
 	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
@@ -1193,28 +1190,27 @@ namespace giac {
 	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
 	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
 	  return a <= b;
-#else
-	  if ( ((a>>48)) != ((b>>48)) )
-	    return (a>>48) <= (b>>48);
-	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
-	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
-	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
-	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
-	  return a <= b;
-#endif
 	}
+#else
+	for (;it1!=it1beg;--it2,--it1){
+	  a=*it1; 
+	  b=*it2;
+	  if (a!=b)
+	    return a<=b;
+	}
+#endif
 	if (x.tdeg2!=y.tdeg2)
 	  return x.tdeg2>=y.tdeg2;
 	it1beg=x.ui+n;
 	it1=x.ui+(x.order_.dim+3)/4;
 	it2=y.ui+(x.order_.dim+3)/4;
+#ifdef BIGENDIAN
 	for (a=0,b=0;it1!=it1beg;--it2,--it1){
 	  a=*it1; b=*it2;
 	  if (a!=b)
 	    break;
 	}
 	if (a!=b){
-#ifdef BIGENDIAN
 	  if ( ((a)&0xffff) != ((b)&0xffff) )
 	    return ((a)&0xffff) <= ((b)&0xffff);
 	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
@@ -1222,16 +1218,15 @@ namespace giac {
 	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
 	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
 	  return a <= b;
-#else
-	  if ( ((a>>48)) != ((b>>48)) )
-	    return (a>>48) <= (b>>48);
-	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
-	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
-	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
-	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
-	  return a <= b;
-#endif
 	}
+#else
+	for (;it1!=it1beg;--it2,--it1){
+	  a=*it1; 
+	  b=*it2;
+	  if (a!=b)
+	    return a<=b;
+	}
+#endif
 	return true;
       }
       if (order.o==_REVLEX_ORDER){
@@ -7679,16 +7674,19 @@ namespace giac {
 	continue;
       int d1=1;
       if (!fracmod(a,p,n,d1) || double(2*d1)*d1>p){
-	COUT << "findmultmod failure " << a << " mod " << p << endl;
+	if (debug_infolevel)
+	  COUT << "findmultmod failure " << a << " mod " << p << endl;
 	return false;
       }
       d=d*d1;
     }
-    for (int i=0;i<s;++i){
-      int a=smod(longlong(P.coord[i].g.val)*d,p);
-      if (double(2*a)*a>=p){
-	COUT << "possible findmultmod failure " << P.coord[i].g.val << " " << d << " " << a << " " << p << endl;
-	//return false;
+    if (debug_infolevel){
+      for (int i=0;i<s;++i){
+	int a=smod(longlong(P.coord[i].g.val)*d,p);
+	if (double(2*a)*a>=p){
+	  COUT << "possible findmultmod failure " << P.coord[i].g.val << " " << d << " " << a << " " << p << endl;
+	  //return false;
+	}
       }
     }
     return true;
@@ -9757,7 +9755,7 @@ namespace giac {
       if (debug_infolevel>1)
 	CERR << CLOCK() << " begin new iteration zmod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // mem clear: remove res[i] if i is not in G nor in B
-      int Gmax=0;
+      /* int Gmax=0;
       for (unsigned i=0;i<int(G.size());++i){
 	if (G[i]>Gmax) Gmax=G[i];
       }
@@ -9765,7 +9763,8 @@ namespace giac {
 	if (B[i].first>Gmax) Gmax=B[i].first;
 	if (B[i].second>Gmax) Gmax=B[i].second;
       }
-      vector<bool> clean(Gmax+1,true);
+      vector<bool> clean(Gmax+1,true); */
+      vector<bool> clean(G.back()+1,true); 
       vector<tdeg_t> Blcm(B.size());
       for (unsigned i=0;i<G.size();++i){
 	clean[G[i]]=false;
