@@ -4,11 +4,9 @@ import intel.rssdk.PXCMCapture;
 import intel.rssdk.PXCMCaptureManager;
 import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandConfiguration.AlertHandler;
-import intel.rssdk.PXCMHandConfiguration.GestureHandler;
 import intel.rssdk.PXCMHandData;
 import intel.rssdk.PXCMHandData.AlertType;
 import intel.rssdk.PXCMHandData.BodySideType;
-import intel.rssdk.PXCMHandData.GestureData;
 import intel.rssdk.PXCMHandData.IHand;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
@@ -459,7 +457,9 @@ public class Socket {
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)>=0) {
 			PXCMHandModule handModule = senseMgr.QueryHand(); 
 			PXCMHandConfiguration handConfig = handModule.CreateActiveConfiguration(); 
-			handConfig.EnableAllGestures();
+
+			// handConfig.EnableAllGestures();
+
 			handConfig.EnableAllAlerts();
 
 			// enables stabilizer and smoothing
@@ -468,14 +468,14 @@ public class Socket {
 			// status = handConfig.SetSmoothingValue(1);
 			// App.debug("SetSmoothingValue to 1: " + status.isSuccessful());
 			
-			GestureHandler handler = new GestureHandler() {
-				@Override
-				public void OnFiredGesture(GestureData data) {
-					//App.debug(""+data.name+" -- "+data.handId);
-					setGesture(data.handId, data.name);
-				}
-			};
-			handConfig.SubscribeGesture(handler);
+			// GestureHandler handler = new GestureHandler() {
+			// @Override
+			// public void OnFiredGesture(GestureData data) {
+			// //App.debug(""+data.name+" -- "+data.handId);
+			// setGesture(data.handId, data.name);
+			// }
+			// };
+			// handConfig.SubscribeGesture(handler);
 			
 			AlertHandler alertHandler = new AlertHandler() {
 				
