@@ -11,7 +11,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
 
 
 /**
- * controller with specific methods from leonar3do input system
+ * controller with specific methods from realsense input system
+ * 
  * @author mathieu
  *
  */
@@ -74,16 +75,16 @@ public class InputIntelRealsense3D implements Input3D {
 			// mouse position
 			// double factor = screenHalfWidth;
 			double factor = panelDimension.getWidth() / 2;
-			mousePosition[0] = socket.birdX * factor;
-			mousePosition[1] = socket.birdY * factor;
-			mousePosition[2] = socket.birdZ * factor;
+			mousePosition[0] = socket.handX * factor;
+			mousePosition[1] = socket.handY * factor;
+			mousePosition[2] = socket.handZ * factor;
 			
 			
 			// mouse position
-			mouseOrientation[0] = socket.birdOrientationX;
-			mouseOrientation[1] = socket.birdOrientationY;
-			mouseOrientation[2] = socket.birdOrientationZ;
-			mouseOrientation[3] = socket.birdOrientationW;
+			mouseOrientation[0] = socket.handOrientationX;
+			mouseOrientation[1] = socket.handOrientationY;
+			mouseOrientation[2] = socket.handOrientationZ;
+			mouseOrientation[3] = socket.handOrientationW;
 
 			
 			// right button
@@ -116,12 +117,6 @@ public class InputIntelRealsense3D implements Input3D {
 			App.debug("\nleft-right="+(rightEyePosition[0]-leftEyePosition[0])+"\nheight="+GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight());
 			*/
 			
-			/*
-			App.debug("\nbuttons"
-					+"\nbig = "+leoSocket.bigButton
-					+"\nright = "+isRightPressed
-					);
-					*/
 			
 			updateOccured = true;
 		}
