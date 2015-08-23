@@ -132,7 +132,7 @@ public class PlotterCompletingCursor {
 		manager.endGeometry();
 	}
 
-	private static float r = 0.25f, g = 0.25f, b = 0.25f, a = 0.75f;
+	private static float r = 0.25f, g = 0.25f, b = 0.25f, a = 0.5f;
 
 	public void drawCircle(boolean out) {
 		manager.color(0.5f, 0.5f, 0.5f, 0.5f);
@@ -147,13 +147,6 @@ public class PlotterCompletingCursor {
 
 		if (value <= 0f) {
 			return;
-		} else if (value >= 1f) {
-			manager.color(r, g, b, a);
-			if (out) {
-				manager.draw(indexCircleOut);
-			} else {
-				manager.draw(indexCircle);
-			}
 		}
 
 		int l = value > 1f ? longitude : (int) (longitude * value);
