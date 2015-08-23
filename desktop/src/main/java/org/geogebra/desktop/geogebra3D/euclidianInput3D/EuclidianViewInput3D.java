@@ -221,14 +221,14 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		if (input3D.getOutOfField() == OutOfField.NO) {
 			tmpMatrix4x4_3.setOrigin(origin);
 			renderer1.setMatrix(tmpMatrix4x4_3);
-			renderer1.drawCompletingCursor(completingDelay);
+			renderer1.drawCompletingCursor(completingDelay, false);
 			return false;
 		}
 
 		// draw warner
 		tmpMatrix4x4_3.setOrigin(origin);
 		renderer1.setMatrix(tmpMatrix4x4_3);
-		renderer1.drawCompletingCursor(completingDelay);
+		renderer1.drawCompletingCursor(completingDelay, true);
 		return true;
 
 		// App.debug("" + input3D.getOutOfField());
