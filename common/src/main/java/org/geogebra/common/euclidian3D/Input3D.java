@@ -17,6 +17,10 @@ public interface Input3D {
 		HAND, PEN
 	};
 
+	public enum OutOfField {
+		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES
+	}
+
 	/**
 	 * 
 	 * @return device type
@@ -97,6 +101,16 @@ public interface Input3D {
 	 * @return true if the input use a robot to controll 2D mouse
 	 */
 	public boolean useMouseRobot();
+
+	/**
+	 * 
+	 * @param view3D
+	 *            3D view
+	 * @param mouse3DPosition
+	 *            current 3D mouse position
+	 * @return true if input3D has mouse on 3D view
+	 */
+	public boolean hasMouse(EuclidianView3D view3D, Coords mouse3DPosition);
 
 	/**
 	 * 
@@ -246,5 +260,11 @@ public interface Input3D {
 	 * @return true if input uses hand grabbing
 	 */
 	public boolean useHandGrabbing();
+
+	/**
+	 * 
+	 * @return out of field type
+	 */
+	public OutOfField getOutOfField();
 
 }

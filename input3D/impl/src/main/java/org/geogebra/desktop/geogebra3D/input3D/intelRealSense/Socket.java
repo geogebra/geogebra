@@ -19,6 +19,8 @@ import intel.rssdk.pxcmStatus;
 
 import java.util.Arrays;
 
+import org.geogebra.common.euclidian3D.Input3D;
+import org.geogebra.common.euclidian3D.Input3D.OutOfField;
 import org.geogebra.common.main.App;
 
 
@@ -329,6 +331,8 @@ public class Socket {
 	
 	private int handId = -1;
 	
+	private Input3D.OutOfField handOut;
+
 	public void setGesture(int id, String name){
 		
 		//App.debug(id+" : "+name);
@@ -378,20 +382,38 @@ public class Socket {
 		
 		// App.debug("alert hand #" + id + " : " + type);
 		
-		if (handId == -1){ // no hand for now
+		if (handOut != OutOfField.NO) { // no hand for now
 			if (type == AlertType.ALERT_HAND_INSIDE_BORDERS){
 				App.debug("hand #"+id+" inside borders");
 				handId = id;
+				handOut = OutOfField.NO;
 				resetAllValues = true;
+			} else if (handId == id) {
+				switch (type) {
+				case ALERT_HAND_OUT_OF_BOTTOM_BORDER:
+					handOut = OutOfField.BOTTOM;
+					break;
+				case ALERT_HAND_OUT_OF_TOP_BORDER:
+					handOut = OutOfField.TOP;
+					break;
+				case ALERT_HAND_OUT_OF_LEFT_BORDER:
+					handOut = OutOfField.LEFT;
+					break;
+				case ALERT_HAND_OUT_OF_RIGHT_BORDER:
+					handOut = OutOfField.RIGHT;
+					break;
+				case ALERT_HAND_TOO_CLOSE:
+					handOut = OutOfField.NEAR;
+					break;
+				case ALERT_HAND_TOO_FAR:
+					handOut = OutOfField.FAR;
+					break;
+				}
 			}
 		}else if (handId == id){ // new alert from tracked hand
 			if (type == AlertType.ALERT_HAND_OUT_OF_BORDERS){
 				App.debug("hand #"+id+" out of borders");
-				handId = -1;
-				/*
-				leftButton = false;
-				rightButton = false;
-				*/
+				handOut = OutOfField.YES;
 			}
 		}
 		
@@ -466,6 +488,7 @@ public class Socket {
 			
 			handData = handModule.CreateOutput();
 			
+			handOut = OutOfField.YES;
 			connected = true;
 		}
 
@@ -592,7 +615,15 @@ public class Socket {
 	 * @return true if a hand is tracked
 	 */
 	public boolean hasTrackedHand() {
-		return handId >= 0;
+		return handOut == OutOfField.NO;
+	}
+
+	/**
+	 * 
+	 * @return out of field type
+	 */
+	public OutOfField getOutOfField() {
+		return handOut;
 	}
 
 

@@ -1415,6 +1415,14 @@ public abstract class Renderer {
 		return getWidth() * 2;
 	} // keep visible objects at twice center-to-right distance
 
+	public int getNear() {
+		return -getWidth();
+	}
+
+	public int getFar() {
+		return getWidth();
+	}
+
 	/**
 	 * for a line described by (o,v), return the min and max parameters to draw
 	 * the line

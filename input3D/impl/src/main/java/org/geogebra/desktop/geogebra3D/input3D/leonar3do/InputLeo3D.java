@@ -199,10 +199,14 @@ public class InputLeo3D implements Input3D {
 		return DeviceType.PEN;
 	}
 	
-	public boolean hasMouse(EuclidianView3D view3D){
+	public boolean hasMouse(EuclidianView3D view3D, Coords mouse3DPosition){
 		return view3D.hasMouse2D();
 	}
-	
+
+	public boolean hasMouse(EuclidianView3D view3D) {
+		return view3D.hasMouse2D();
+	}
+
 	public boolean currentlyUseMouse2D(){
 		return false;
 	}
@@ -279,6 +283,10 @@ public class InputLeo3D implements Input3D {
 
 	public boolean useHandGrabbing() {
 		return false;
+	}
+
+	public OutOfField getOutOfField() {
+		return OutOfField.NEVER;
 	}
 
 }

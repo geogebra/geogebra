@@ -58,6 +58,8 @@ public class InputIntelRealsense3D implements Input3D {
 		//App.error("height/2="+gd.getDisplayMode().getHeight()/2);
 		
 		
+		outOfField = OutOfField.YES;
+
 		socket = new Socket();
 	}
 	
@@ -187,10 +189,80 @@ public class InputIntelRealsense3D implements Input3D {
 		return DeviceType.HAND;
 	}
 	
-	public boolean hasMouse(EuclidianView3D view3D){
+	private OutOfField outOfField;
+
+	public boolean hasMouse(EuclidianView3D view3D, Coords mouse3DPosition){
+		OutOfField oof = socket.getOutOfField(); // this is camera field of view
+		if (oof == OutOfField.NO) {
+			// check if mouse is out and if we should keep same out of field
+			switch (outOfField) {
+			case RIGHT:
+				if (mouse3DPosition.getX() < view3D.getRenderer().getRight()) {
+					outOfField = OutOfField.NO;
+				}
+				break;
+			case LEFT:
+				if (mouse3DPosition.getX() > view3D.getRenderer().getLeft()) {
+					outOfField = OutOfField.NO;
+				}
+				break;
+			case TOP:
+				if (mouse3DPosition.getY() < view3D.getRenderer().getTop()) {
+					outOfField = OutOfField.NO;
+				}
+				break;
+			case BOTTOM:
+				if (mouse3DPosition.getY() > view3D.getRenderer().getBottom()) {
+					outOfField = OutOfField.NO;
+				}
+				break;
+			case FAR:
+				if (mouse3DPosition.getZ() < view3D.getRenderer().getFar()) {
+					outOfField = OutOfField.NO;
+				}
+				break;
+			case NEAR:
+				if (mouse3DPosition.getZ() > view3D.getRenderer().getNear()) {
+					outOfField = OutOfField.NO;
+				}
+				break;
+
+			}
+
+			// now check if we are indeed in the 3D view field
+			if (mouse3DPosition.getX() > view3D.getRenderer().getRight()) {
+				outOfField = OutOfField.RIGHT;
+			} else if (mouse3DPosition.getX() < view3D.getRenderer().getLeft()) {
+				outOfField = OutOfField.LEFT;
+			} else if (mouse3DPosition.getY() > view3D.getRenderer().getTop()) {
+				outOfField = OutOfField.TOP;
+			} else if (mouse3DPosition.getY() < view3D.getRenderer()
+					.getBottom()) {
+				outOfField = OutOfField.BOTTOM;
+			} else if (mouse3DPosition.getZ() > view3D.getRenderer().getFar()) {
+				outOfField = OutOfField.FAR;
+			} else if (mouse3DPosition.getZ() < view3D.getRenderer().getNear()) {
+				outOfField = OutOfField.NEAR;
+			}
+		} else {
+			// set out of field from socket
+			outOfField = oof;
+		}
+
+		// App.debug(((int) mouse3DPosition.getZ()) + ","
+		// + view3D.getRenderer().getNear() + "--"
+		// + view3D.getRenderer().getFar() + " , "
+		// + view3D.getScreenZOffset());
+
+		// App.debug(oof + "," + outOfField);
+
 		return socket.hasTrackedHand();
 	}
-	
+
+	public boolean hasMouse(EuclidianView3D view3D) {
+		return socket.hasTrackedHand();
+	}
+
 	public boolean currentlyUseMouse2D(){
 		return !socket.hasTrackedHand();
 	}
@@ -268,6 +340,10 @@ public class InputIntelRealsense3D implements Input3D {
 
 	public boolean useHandGrabbing() {
 		return true;
+	}
+
+	public OutOfField getOutOfField() {
+		return outOfField;
 	}
 
 }
