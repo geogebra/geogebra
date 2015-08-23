@@ -49,12 +49,13 @@ public final class MyMath {
 			return Double.NaN;
 		}
 
-		if (Kernel.isZero(a))
+		if (Kernel.isZero(a)) {
 			return 0.0;
-		else if (a > 0.0)
+		} else if (a > 0.0) {
 			return 1.0;
-		else
+		} else {
 			return -1.0;
+		}
 	}
 
 	final public static double cosh(double a) {
