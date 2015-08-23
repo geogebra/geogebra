@@ -914,15 +914,11 @@ namespace giac {
     return !(x==y);
   }
 
-  bool tdeg_t_revlex_greater (const tdeg_t & x,const tdeg_t & y){
+  static inline bool tdeg_t_revlex_greater (const tdeg_t & x,const tdeg_t & y){
 #ifdef GBASIS_SWAP
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
-    ulonglong X=*xtab, Y=*ytab;
-    if (X!=Y){
-      if ( (X & 0xffff) != (Y &0xffff))
-	return (X&0xffff)>=(Y&0xffff);
-      return X<=Y;
-    }
+    if (xtab[0]!=ytab[0]) // tdeg test already donne by caller
+      return xtab[0]<=ytab[0];
     if (xtab[1]!=ytab[1])
       return xtab[1]<=ytab[1];
     if (xtab[2]!=ytab[2])
@@ -1172,7 +1168,7 @@ namespace giac {
 	// if activated, check that poly8, polymod and zpolymod should be reordered
 	// FIXME
 #endif
-	int n=(x.order_.o+1)/4;
+	int n=(order.o+1)/4;
 	const longlong * it1beg=x.ui,*it1=x.ui+n,*it2=y.ui+n;
 	longlong a=0,b=0;
 #ifdef BIGENDIAN
@@ -1202,8 +1198,9 @@ namespace giac {
 	if (x.tdeg2!=y.tdeg2)
 	  return x.tdeg2>=y.tdeg2;
 	it1beg=x.ui+n;
-	it1=x.ui+(x.order_.dim+3)/4;
-	it2=y.ui+(x.order_.dim+3)/4;
+	n=(x.order_.dim+3)/4;
+	it1=x.ui+n;
+	it2=y.ui+n;
 #ifdef BIGENDIAN
 	for (a=0,b=0;it1!=it1beg;--it2,--it1){
 	  a=*it1; b=*it2;
@@ -1233,13 +1230,13 @@ namespace giac {
 	if (x.tdeg!=y.tdeg) return x.tdeg>y.tdeg;
 	const longlong * it1beg=x.ui,*it1=x.ui+(x.order_.dim+3)/4,*it2=y.ui+(y.order_.dim+3)/4;
 	longlong a=0,b=0;
+#ifdef BIGENDIAN
 	for (;it1!=it1beg;--it2,--it1){
 	  a=*it1; b=*it2;
 	  if (a!=b)
 	    break;
 	}
 	if (a!=b){
-#ifdef BIGENDIAN
 	  if ( ((a)&0xffff) != ((b)&0xffff) )
 	    return ((a)&0xffff) <= ((b)&0xffff);
 	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
@@ -1247,16 +1244,15 @@ namespace giac {
 	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
 	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
 	  return a <= b;
-#else
-	  if ( ((a>>48)) != ((b>>48)) )
-	    return (a>>48) <= (b>>48);
-	  if ( ((a>>32)&0xffff) != ((b>>32)&0xffff) )
-	    return ((a>>32)&0xffff) <= ((b>>32)&0xffff);
-	  if ( ((a>>16)&0xffff) != ((b>>16)&0xffff) )
-	    return ((a>>16)&0xffff) <= ((b>>16)&0xffff);
-	  return a <= b;
-#endif
 	}
+#else
+	for (;it1!=it1beg;--it2,--it1){
+	  a=*it1; 
+	  b=*it2;
+	  if (a!=b)
+	    return a<=b;
+	}
+#endif
 	return true;
       }
       if (order.o==_TDEG_ORDER && x.tdeg!=y.tdeg) 
@@ -1270,6 +1266,8 @@ namespace giac {
       return true;
     }
 #endif
+    if (order.o==_REVLEX_ORDER)
+      return tdeg_t_revlex_greater(x,y);
 #if GROEBNER_VARS==15
     if (order.o==_3VAR_ORDER)
       return tdeg_t_3var_greater(x,y);
@@ -1278,8 +1276,6 @@ namespace giac {
     if (order.o==_11VAR_ORDER)
       return tdeg_t_11var_greater(x,y);
 #endif
-    if (order.o==_REVLEX_ORDER)
-      return tdeg_t_revlex_greater(x,y);
     return tdeg_t_lex_greater(x,y);
   }
   inline bool tdeg_t_strictly_greater (const tdeg_t & x,const tdeg_t & y,order_t order){
@@ -9185,10 +9181,18 @@ namespace giac {
     v.assign(R.size(),0);
     std::vector<zmodint>::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtbeg=jt,jtend=R.end();
+    double nop1=R.size(); 
+    double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
+    bool dodicho=nop2<nop1;
     const std::vector<tdeg_t> & expo=*p.expo;
     if (shiftptr){
       for (;it!=itend;++it){
 	tdeg_t u=expo[it->u]+*shiftptr;
+	if (dodicho && dicho(jt,jtend,u,p.order)){
+	  v[jt-jtbeg]=it->g;
+	  ++jt;
+	  continue;
+	}	
 	for (;jt!=jtend;++jt){
 	  if (*jt==u){
 	    v[jt-jtbeg]=it->g;
@@ -9201,6 +9205,11 @@ namespace giac {
     else {
       for (;it!=itend;++it){
 	const tdeg_t & u=expo[it->u];
+	if (dodicho && dicho(jt,jtend,u,p.order)){
+	  v[jt-jtbeg]=it->g;
+	  ++jt;
+	  continue;
+	}	
 	for (;jt!=jtend;++jt){
 	  if (*jt==u){
 	    v[jt-jtbeg]=it->g;
@@ -9212,13 +9221,24 @@ namespace giac {
     }
   }
 
+  // dicho does not work here?
   void zmakelinesub(const zpolymod & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<modint> & v,int start,modint env){
     std::vector< zmodint >::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtbeg=jt,jtend=R.end();
     const std::vector<tdeg_t> & expo=*p.expo;
+    double nop1=R.size(); 
+    double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
+    bool dodicho=nop2<nop1;
     if (shiftptr){
       for (;it!=itend;++it){
 	tdeg_t u=expo[it->u]+*shiftptr;
+	if (dodicho && dicho(jt,jtend,u,p.order)){
+	  // v[jt-jtbeg] -= it->g;
+	  modint & vv=v[jt-jtbeg];
+	  vv = (vv-longlong(it->g))%env;
+	  ++jt;
+	  continue;
+	}
 	for (;jt!=jtend;++jt){
 	  if (*jt==u){
 	    // v[jt-jtbeg] -= it->g;
@@ -9233,6 +9253,13 @@ namespace giac {
     else {
       for (;it!=itend;++it){
 	const tdeg_t & u=expo[it->u];
+	if (dodicho && dicho(jt,jtend,u,p.order)){
+	  // v[jt-jtbeg] -= it->g;
+	  modint & vv=v[jt-jtbeg];
+	  vv = (vv-longlong(it->g))%env;
+	  ++jt;
+	  continue;
+	}
 	for (;jt!=jtend;++jt){
 	  if (*jt==u){
 	    // v[jt-jtbeg]-=it->g;
