@@ -161,7 +161,8 @@ model {
                 cppCompiler.define 'HAVE_CONFIG_H'
 
                 cppCompiler.args '-fexceptions'
-                cppCompiler.args '-Os' // size optimization
+                // cppCompiler.args '-Os' // size optimization
+		cppCompiler.args '-O2' // standard optimization (default)
                 cppCompiler.args '-I.'
 
                 linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
