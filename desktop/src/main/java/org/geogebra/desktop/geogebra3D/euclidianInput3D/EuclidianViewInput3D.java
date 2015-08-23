@@ -54,6 +54,10 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 		startPos = new Coords(4);
 		startPos.setW(1);
+
+		if (input3D.useCompletingDelay()) {
+			completingCursorOrigin = Coords.createInhomCoorsInD3();
+		}
 	}
 	
 	@Override
@@ -112,6 +116,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		super.drawCursor(renderer1);
 	}
 
+	private Coords completingCursorOrigin;
+
 	/**
 	 * 
 	 * @param renderer1
@@ -119,16 +125,15 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	 */
 	private boolean drawCompletingCursor(Renderer renderer1) {
 
-		Coords origin;
-
 		// are we grabbing?
 		float hittedGeoCompletingDelay = hittedGeo.getCompletingDelay();
 		if (hittedGeoCompletingDelay > PlotterCompletingCursor.START_DRAW
 				&& hittedGeoCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
-			origin = getCursor3D().getInhomCoordsInD3().copyVector();
-			toScreenCoords3D(origin);
-			return drawCompletingCursor(renderer1, origin,
+			completingCursorOrigin.setValues(
+					getCursor3D().getInhomCoordsInD3(), 3);
+			toScreenCoords3D(completingCursorOrigin);
+			return drawCompletingCursor(renderer1, completingCursorOrigin,
 					hittedGeoCompletingDelay);
 		}
 
@@ -138,9 +143,10 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		if (stationaryCoordsCompletingDelay > PlotterCompletingCursor.START_DRAW
 				&& stationaryCoordsCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
-			origin = stationaryCoords.getCurrentCoords().copyVector();
-			toScreenCoords3D(origin);
-			drawCompletingCursor(renderer1, origin,
+			completingCursorOrigin.setValues(
+					stationaryCoords.getCurrentCoords(), 3);
+			toScreenCoords3D(completingCursorOrigin);
+			drawCompletingCursor(renderer1, completingCursorOrigin,
 					1 - stationaryCoordsCompletingDelay);
 			return true;
 		}
@@ -149,9 +155,10 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		if (stationaryCoordsCompletingDelay >= 0
 				&& stationaryCoordsCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
-			origin = stationaryCoords.getCurrentCoords().copyVector();
-			toScreenCoords3D(origin);
-			drawCompletingCursor(renderer1, origin, 1);
+			completingCursorOrigin.setValues(
+					stationaryCoords.getCurrentCoords(), 3);
+			toScreenCoords3D(completingCursorOrigin);
+			drawCompletingCursor(renderer1, completingCursorOrigin, 1);
 			return true;
 		}
 
@@ -159,13 +166,15 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		if (hittedGeo.getGeo() != null
 				&& hittedGeoCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
-			origin = getCursor3D().getInhomCoordsInD3().copyVector();
-			toScreenCoords3D(origin);
-			return drawCompletingCursor(renderer1, origin, 0);
+			completingCursorOrigin.setValues(
+					getCursor3D().getInhomCoordsInD3(), 3);
+			toScreenCoords3D(completingCursorOrigin);
+			return drawCompletingCursor(renderer1, completingCursorOrigin, 0);
 		}
 
 		// nothing hitted
-		return drawCompletingCursor(renderer1, mouse3DScreenPosition, 0);
+		completingCursorOrigin.setValues(mouse3DScreenPosition, 3);
+		return drawCompletingCursor(renderer1, completingCursorOrigin, 0);
 
 	}
 
