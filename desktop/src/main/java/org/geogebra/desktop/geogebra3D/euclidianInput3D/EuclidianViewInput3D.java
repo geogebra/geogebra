@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.Input3D;
+import org.geogebra.common.euclidian3D.Input3D.OutOfField;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCompletingCursor;
@@ -111,6 +112,11 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		super.drawCursor(renderer1);
 	}
 
+	/**
+	 * 
+	 * @param renderer1
+	 * @return false if we need also the mouse cursor
+	 */
 	private boolean drawCompletingCursor(Renderer renderer1) {
 
 		Coords origin;
@@ -122,9 +128,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 			origin = getCursor3D().getInhomCoordsInD3().copyVector();
 			toScreenCoords3D(origin);
-			drawCompletingCursor(renderer1, origin,
+			return drawCompletingCursor(renderer1, origin,
 					hittedGeoCompletingDelay);
-			return false;
 		}
 
 		// are we releasing?
@@ -156,22 +161,68 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 			origin = getCursor3D().getInhomCoordsInD3().copyVector();
 			toScreenCoords3D(origin);
-			drawCompletingCursor(renderer1, origin, 0);
-			return false;
+			return drawCompletingCursor(renderer1, origin, 0);
 		}
 
 		// nothing hitted
-		drawCompletingCursor(renderer1, mouse3DScreenPosition, 0);
+		return drawCompletingCursor(renderer1, mouse3DScreenPosition, 0);
 
-		return false;
 	}
 
-	private void drawCompletingCursor(Renderer renderer1, Coords origin,
+	/**
+	 * @return false if we need also the mouse cursor
+	 */
+	private boolean drawCompletingCursor(Renderer renderer1, Coords origin,
 			float completingDelay) {
 
+		switch (input3D.getOutOfField()) {
+		case RIGHT:
+			origin.setX(renderer1.getRight());
+			origin.setY(0);
+			origin.setZ(0);
+			break;
+		case LEFT:
+			origin.setX(renderer1.getLeft());
+			origin.setY(0);
+			origin.setZ(0);
+			break;
+		case TOP:
+			origin.setX(0);
+			origin.setY(renderer1.getTop());
+			origin.setZ(0);
+			break;
+		case BOTTOM:
+			origin.setX(0);
+			origin.setY(renderer1.getBottom());
+			origin.setZ(0);
+			break;
+		case FAR:
+			origin.setX(0);
+			origin.setY(0);
+			origin.setZ(renderer1.getFar());
+			break;
+		case NEAR:
+			origin.setX(0);
+			origin.setY(0);
+			origin.setZ(renderer1.getNear());
+			break;
+		}
+
+		// draw at the mouse location
+		if (input3D.getOutOfField() == OutOfField.NO) {
+			tmpMatrix4x4_3.setOrigin(origin);
+			renderer1.setMatrix(tmpMatrix4x4_3);
+			renderer1.drawCompletingCursor(completingDelay);
+			return false;
+		}
+
+		// draw warner
 		tmpMatrix4x4_3.setOrigin(origin);
 		renderer1.setMatrix(tmpMatrix4x4_3);
 		renderer1.drawCompletingCursor(completingDelay);
+		return true;
+
+		// App.debug("" + input3D.getOutOfField());
 
 	}
 
