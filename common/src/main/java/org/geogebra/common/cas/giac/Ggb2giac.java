@@ -931,6 +931,11 @@ public class Ggb2giac {
 		p("Line.2",
 				"[[ggblinearg0:=%0],[ggblinearg1:=%1],when(is3dpoint(ggblinearg0),equation(cat(\"y=\",ggblinearg0,\"+t*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0)))),regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
 
+		p("Point.1",
+				"when(length(%0)==3,point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%0),ycoord(%0)))");
+		p("Point.2",
+				"when(length(%0)==3,{point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%1),ycoord(%1),zcoord(%1))},{point(xcoord(%0),ycoord(%0)),point(xcoord(%1),ycoord(%1))})");
+
 		// p("Midpoint.2",
 		// "[[ggbans:=factor((normal(convert(coordinates(midpoint(%0,%1)),25))))],"
 		// +
