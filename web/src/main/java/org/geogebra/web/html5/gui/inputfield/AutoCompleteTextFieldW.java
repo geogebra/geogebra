@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoTextField;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -1507,7 +1508,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// } else {
 
 		// #5371
-		if (hasDeferredFocus()) {
+		if (app.has(Feature.DRAW_INPUTBOXES_TO_CANVAS) && hasDeferredFocus()) {
 			Scheduler.get().scheduleDeferred(cmdDeferredFocus);
 		}
 		textField.setFocus(true);
