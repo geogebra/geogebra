@@ -69,14 +69,16 @@ public class GroupNameLabel extends Label
 	public void onMouseOver(MouseOverEvent evt) {
 		for (int i = 0; i < par.getChildCount(); i++)
 			if (par.getChild(i).getUserObject() instanceof GeoElement)
-				//((GeoElement)par.getChild(i).getUserObject()).setHighlighted(true);
-				par.getChild(i).getWidget().addStyleName("gwt-TreeItem-selected");
+				// ((GeoElement)par.getChild(i).getUserObject()).setHighlighted(true);
+				par.getChild(i).getWidget()
+						.addStyleName("gwt-TreeItem-selected");
 	}
 
 	public void onMouseOut(MouseOutEvent evt) {
 		for (int i = 0; i < par.getChildCount(); i++)
 			if (par.getChild(i).getUserObject() instanceof GeoElement)
-				//((GeoElement)par.getChild(i).getUserObject()).setHighlighted(false);
-				par.getChild(i).getWidget().removeStyleName("gwt-TreeItem-selected");
+				// ((GeoElement)par.getChild(i).getUserObject()).setHighlighted(false);
+				par.getChild(i).getWidget()
+						.removeStyleName("gwt-TreeItem-selected");
 	}
 }

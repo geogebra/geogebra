@@ -63,14 +63,12 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ErrorHandler;
-import org.geogebra.web.web.gui.dialog.options.model.ExtendedAVModel;
 import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
@@ -116,7 +114,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
 	private FixCheckboxPanel fixCheckboxPanel;
 	//Color picker
-	private ExtendedAVPanel avPanel;
 
 	// Style
 	// FillingPanel fillingPanel;
@@ -1222,12 +1219,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 	
-	private class ExtendedAVPanel extends CheckboxPanel {
-		public ExtendedAVPanel() {
-			super("show extended algebra view", loc);
-			setModel(new ExtendedAVModel(this));
-		}
-	}
+
 
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
@@ -1362,24 +1354,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		fixCheckboxPanel = new FixCheckboxPanel();
 		basicTab.add(fixCheckboxPanel.getWidget());
 
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			if (!isDefaults) {
-				avPanel = new ExtendedAVPanel();
-				checkboxPanel.add(avPanel.getWidget());
-			}
-
-			basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
-					tracePanel, labelPanel, fixPanel, auxPanel, animatingPanel,
-					bgImagePanel, reflexAnglePanel, rightAnglePanel,
-					listAsComboPanel, trimmedIntersectionLinesPanel,
-					allowOutlyingIntersectionsPanel, fixCheckboxPanel, avPanel));
-		} else {
-			basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
+		basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
 					tracePanel, labelPanel, fixPanel, auxPanel, animatingPanel,
 					bgImagePanel, reflexAnglePanel, rightAnglePanel,
 					listAsComboPanel, trimmedIntersectionLinesPanel,
 					allowOutlyingIntersectionsPanel, fixCheckboxPanel));
-		}
 
 	}
 
