@@ -884,7 +884,16 @@ namespace giac {
     if (x.tab[0]%2){
       if (!y.tab[0]%2)
 	COUT << "erreur" << endl;
-      res=x+y;
+      if (res.tab[0]%2 && res.ui[0]==1){
+	const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
+	longlong * resptr=res.ui+1;
+	for (;xptr!=xend;++resptr,++yptr,++xptr)
+	  *resptr=*xptr+*yptr;
+	res.tdeg=1;
+	res.compute_degs();
+      }
+      else
+	res=x+y;
       return;
     }
 #endif    
@@ -946,7 +955,13 @@ namespace giac {
     if (X!= ((longlong *) y.tab)[0])
       return false;
 #ifdef GIAC_64VARS
-    if (x.tab[0]%2){
+    if (
+#ifdef BIGENDIAN
+	x.tab[0]%2
+#else
+	X%2
+#endif
+	){
       //if (x.ui==y.ui) return true;
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
       //if (!x.tdeg){  xptr+=(x.order_.o+degratiom1)/degratio;  yptr+=(y.order_.o+degratiom1)/degratio; }
@@ -9303,8 +9318,9 @@ namespace giac {
     const vector<tdeg_t> & expo=*p.expo;
     unsigned pos=0;
     if (shiftptr){
+      tdeg_t u=R.front()+R.front(); // create a new memory slot
       for (;it!=itend;++it){
-	tdeg_t u=expo[it->u]+*shiftptr;
+	add(expo[it->u],*shiftptr,u,p.dim);
 #if 1
 	if (dodicho && dicho(jt,jtend,u,p.order)){
 	  pushsplit(v,pos,unsigned(jt-R.begin()));
