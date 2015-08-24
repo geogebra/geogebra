@@ -6391,8 +6391,13 @@ namespace giac {
     if (!l.empty() && l!=l0 && l0.size()<=64 && (order==_REVLEX_ORDER || order==_RUR_REVLEX)){
       if (l.size()>11 || (l0.size()+3-l.size()%4)>14){
 	if (l.size()<=11){
+#ifdef GIAC_CHARDEGTYPE
+	  while (l.size()<16) l.push_back(0);
+	  order=_16VAR_ORDER; // improve: could be less
+#else
 	  while (l.size()<12) l.push_back(0);
 	  order=_11VAR_ORDER; // improve: could be less
+#endif
 	}
 	else {
 	  int j=nextpow2(l.size());
@@ -6826,14 +6831,25 @@ namespace giac {
 	  ){
 	for (;i%4<3;++i)
 	  l.insert(l.begin()+i,0);
-	if (l.size()>=16){
+	if (l.size()>=
+#ifdef GIAC_CHARDEGTYPE
+	    15
+#else
+	    16
+#endif
+	    ){
 	  int lim=nextpow2(es);
+#ifdef GIAC_CHARDEGTYPE
+	  if (es<=7)
+	    lim=8;
+#else
 	  if (es<=11)
 	    lim=12;
 	  if (es<=7)
 	    lim=8;
 	  if (es<=3)
 	    lim=4;
+#endif
 	  for (;i<lim;++i)
 	    l.insert(l.begin()+i,0);
 	  if (lim<16) i--;
