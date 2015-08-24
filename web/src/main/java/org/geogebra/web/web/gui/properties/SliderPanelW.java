@@ -8,9 +8,12 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
+import org.geogebra.web.web.gui.dialog.options.CheckboxPanel;
+import org.geogebra.web.web.gui.dialog.options.model.ExtendedAVModel;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -57,6 +60,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	private boolean widthUnit = false;
 
+	private ExtendedAVPanel avPanel;
+
+	private class ExtendedAVPanel extends CheckboxPanel {
+		public ExtendedAVPanel() {
+			super("show slider in algebra view", app.getLocalization());
+			setModel(new ExtendedAVModel(this));
+		}
+	}
 
 	public SliderPanelW(AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
@@ -75,6 +86,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		positionPanel.setStyleName("optionsPanel");
 		sliderPanel.add(positionPanel);
 		animationPanel = new FlowPanel();
+
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			avPanel = new ExtendedAVPanel();
+		}
 
 		cbSliderFixed = new CheckBox();
 		cbSliderFixed.addClickHandler(new ClickHandler(){
@@ -199,6 +214,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	public OptionPanel updatePanel(Object[] geos) {
 		stepPanel.updatePanel(geos);
 		speedPanel.updatePanel(geos);
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			avPanel.updatePanel(geos);
+		}
 		return super.updatePanel(geos);
 	}
 	protected void applyMin() {
@@ -240,6 +258,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			mainPanel.add(sliderPanel);
 			mainPanel.add(animationPanel);
 		}
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			mainPanel.add(avPanel.getWidget());
+		}
 		setWidget(mainPanel);
 	}
 
@@ -269,6 +290,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 		stepPanel.setLabels();
 		speedPanel.setLabels();
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			avPanel.setLabels();
+		}
 	}
 
 	private NumberValue getNumberFromInput(final String inputText) {
