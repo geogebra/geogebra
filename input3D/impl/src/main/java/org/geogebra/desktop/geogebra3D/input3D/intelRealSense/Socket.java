@@ -424,21 +424,21 @@ public class Socket {
 	}
 	
 
-	public Socket() {
+	public Socket() throws Exception {
 
 		Log.debug("Try to connect realsense...");
 
 		// Create session
 		PXCMSession session = PXCMSession.CreateInstance();
 		if (session == null) {
-			Log.alert("Failed to create a session instance\n");
-			return;
+			throw new Exception(
+					"RealSense: Failed to create a session instance");
 		}
 
 		senseMgr = session.CreateSenseManager();
 		if (senseMgr == null) {
-			Log.alert("Failed to create a SenseManager instance\n");
-			return;
+			throw new Exception(
+					"RealSense: Failed to create a SenseManager instance");
 		}
 
 		PXCMCaptureManager captureMgr = senseMgr.QueryCaptureManager();
@@ -446,8 +446,7 @@ public class Socket {
 
 		sts = senseMgr.EnableHand(null);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0) {
-			Log.alert("Failed to enable HandAnalysis\n");
-			return;
+			throw new Exception("RealSense: Failed to enable HandAnalysis");
 		}
 
 		dataSampler = new DataAverage(SAMPLES);
@@ -497,8 +496,11 @@ public class Socket {
 			connected = true;
 		}
 
-		Log.debug("connected to RealSense: " + connected);
+		if (!connected) {
+			throw new Exception("RealSense: not connected");
+		}
 		
+		Log.debug("RealSense: connected");
 		
 	}
 

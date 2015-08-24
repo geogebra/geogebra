@@ -37,8 +37,10 @@ public class InputIntelRealsense3D implements Input3D {
 	
 	/**
 	 * constructor
+	 * 
+	 * @throws Exception
 	 */
-	public InputIntelRealsense3D() {
+	public InputIntelRealsense3D() throws Exception {
 		
 		// 3D mouse position
 		mousePosition = new double[3];
