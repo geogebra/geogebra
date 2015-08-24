@@ -41,8 +41,11 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 	 * 
 	 * @param appW
 	 */
-	public OnScreenKeyBoard(AppW appW) {
+	public OnScreenKeyBoard(AppW appW, boolean korean) {
 		super(true);
+		if (korean) {
+			addSupportedLocale(Language.Korean, "ko");
+		}
 		this.app = appW;
 		this.loc = (LocalizationW) app.getLocalization(); // TODO
 		addStyleName("KeyBoard");

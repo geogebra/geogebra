@@ -36,7 +36,6 @@ import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Language;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -1931,11 +1930,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
 			AppW appW = (AppW) app;
-			onScreenKeyboard = new OnScreenKeyBoard(appW);
 
-			if (appW.has(Feature.KOREAN_KEYBOARD)) {
-				onScreenKeyboard.addSupportedLocale(Language.Korean, "ko");
-			}
+			boolean korean = appW.has(Feature.KOREAN_KEYBOARD);
+			onScreenKeyboard = new OnScreenKeyBoard(appW, korean);
 		}
 		onScreenKeyboard.setUsed(false);
 		if (app.has(Feature.CAS_EDITOR)) {
