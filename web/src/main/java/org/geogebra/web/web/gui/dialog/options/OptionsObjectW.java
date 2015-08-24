@@ -26,8 +26,6 @@ import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
-import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
-import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.dialog.options.model.GroupModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import org.geogebra.common.gui.dialog.options.model.InterpolateImageModel;
@@ -59,10 +57,13 @@ import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
+import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -125,7 +126,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private LayerPanel layerPanel;
 	private TooltipPanel tooltipPanel;
 	private SelectionAllowedPanel selectionAllowedPanel;
-	private GraphicsViewLocationPanel graphicsViewLocationPanel;
+	private ViewLocationPanel graphicsViewLocationPanel;
 
 	//Decoration
 
@@ -1099,17 +1100,18 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-	private class GraphicsViewLocationPanel extends OptionPanel implements IGraphicsViewLocationListener {
-		GraphicsViewLocationModel model;
+	private class ViewLocationPanel extends OptionPanel implements IGraphicsViewLocationListener {
+		ViewLocationModel model;
 
 		private Label title;
 		CheckBox cbGraphicsView;
 		CheckBox cbGraphicsView2;
 		CheckBox cbGraphicsView3D;
 		CheckBox cbGraphicsViewForPlane;
+		CheckBox cbAlgebraView;
 
-		public GraphicsViewLocationPanel() {
-			model = new GraphicsViewLocationModel(app, this);
+		public ViewLocationPanel() {
+			model = new ViewLocationModel(app, this);
 			setModel(model);
 
 			title = new Label();
@@ -1117,6 +1119,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView2 = new CheckBox();
 			cbGraphicsView3D = new CheckBox();
 			cbGraphicsViewForPlane = new CheckBox();
+
 
 			cbGraphicsView.addClickHandler(new ClickHandler(){
 
@@ -1153,6 +1156,18 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				}
 			});
 
+			if (app.has(Feature.AV_EXTENSIONS)) {
+
+				cbAlgebraView = new CheckBox();
+				cbAlgebraView.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					model.applyToAlgebraView(cbAlgebraView.getValue());
+
+				}
+			});
+			}
 			FlowPanel mainPanel = new FlowPanel();
 			FlowPanel checkBoxPanel = new FlowPanel();
 			checkBoxPanel.setStyleName("optionsPanelIndent");
@@ -1160,6 +1175,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			checkBoxPanel.add(cbGraphicsView2);
 			checkBoxPanel.add(cbGraphicsView3D);
 			checkBoxPanel.add(cbGraphicsViewForPlane);
+			if (app.has(Feature.AV_EXTENSIONS)) {
+				checkBoxPanel.add(cbAlgebraView);
+			}
 			
 			mainPanel.add(title);
 			title.setStyleName("panelTitle");
@@ -1183,6 +1201,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				cbGraphicsViewForPlane.setValue(isSelected);
 				break;
 
+			case 4:
+				if (app.has(Feature.AV_EXTENSIONS)) {
+					cbAlgebraView.setValue(isSelected);
+				}
+				break;
+
 			}
 		}
 
@@ -1193,7 +1217,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView2.setText(localize("DrawingPad2"));
 			cbGraphicsView3D.setText(localize("GraphicsView3D"));
 			cbGraphicsViewForPlane.setText(localize("ExtraViews"));
-
+			if (app.has(Feature.AV_EXTENSIONS)) {
+				cbAlgebraView.setText(localize("Algebra"));
+			}
 		}
 
 		public void setCheckBox3DVisible(boolean flag) {
@@ -1204,6 +1230,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsViewForPlane.setVisible(flag);
 		}
 
+		// public void setCheckBoxAlgebraVisible(boolean flag) {
+		// if (app.has(Feature.AV_EXTENSIONS)) {
+		// cbAlgebraView.setVisible(flag);
+		// }
+		// }
 
 	}
 
@@ -1429,7 +1460,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		layerPanel = new LayerPanel();
 		tooltipPanel = new TooltipPanel();
 		selectionAllowedPanel = new SelectionAllowedPanel();
-		graphicsViewLocationPanel = new GraphicsViewLocationPanel();
+		graphicsViewLocationPanel = new ViewLocationPanel();
 
 		tab.add(showConditionPanel);
 		tab.add(colorFunctionPanel);

@@ -253,7 +253,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			addBlurHandler(new BlurHandler() {
 
 				public void onBlur(BlurEvent event) {
-					App.debug("BLUUUUUUR");
 					hide();
 				}
 			});
@@ -734,8 +733,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			createAnimPanel();
 			createMinMaxPanel();
-			contentPanel = new FlowPanel();
-			contentPanel.addStyleName("avItemContent");
+			createContentPanel();
 
 			addSpecial(ihtml);
 			contentPanel.add(LayoutUtil.panelRow(animPanel, sliderPanel,
@@ -743,6 +741,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			add(contentPanel);
 
 		}
+
+	}
+
+	private void createContentPanel() {
+		contentPanel = new FlowPanel();
+		contentPanel.addStyleName("avItemContent");
 
 	}
 
@@ -1205,7 +1209,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (geo instanceof GeoNumeric
 				&& (slider != null && sliderPanel != null) || sliderNeeded()) {
 			if (slider == null) {
-				contentPanel.clear();
+				if (contentPanel == null) {
+					createContentPanel();
+				} else {
+					contentPanel.clear();
+				}
 				addSpecial(ihtml);
 				initSlider();
 

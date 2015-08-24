@@ -2,21 +2,24 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
-public class GraphicsViewLocationModel extends OptionsModel {
+public class ViewLocationModel extends OptionsModel {
 	public interface IGraphicsViewLocationListener extends PropertyListener {
 		public void selectView(int index, boolean isSelected);
 		public void setCheckBox3DVisible(boolean flag);
 
 		public void setCheckBoxForPlaneVisible(boolean flag);
 
+		// public void setCheckBoxAlgebraVisible(boolean flag);
 	}
 	
 	private IGraphicsViewLocationListener listener;
 	private App app;
-	public GraphicsViewLocationModel(App app, IGraphicsViewLocationListener listener) {
+	public ViewLocationModel(App app, IGraphicsViewLocationListener listener) {
 		this.app = app;
 		this.listener = listener;
 		
@@ -28,26 +31,41 @@ public class GraphicsViewLocationModel extends OptionsModel {
 		boolean isInEV2 = false;
 		boolean isInEV3D = false;
 		boolean isInEVForPlane = false;
+		boolean isInAV = false;
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
-			if (geo.isVisibleInView(App.VIEW_EUCLIDIAN))
+			if (geo.isVisibleInView(App.VIEW_EUCLIDIAN)) {
 				isInEV = true;
-			if (geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
+			}
+
+			if (geo.isVisibleInView(App.VIEW_EUCLIDIAN2)) {
 				isInEV2 = true;
-			if (geo.isVisibleInView3D())
+			}
+
+			if (geo.isVisibleInView3D()) {
 				isInEV3D = true;
+			}
+
 			if (app.hasEuclidianViewForPlane()) {
 				if (geo.isVisibleInViewForPlane()) {
 					isInEVForPlane = true;
 				}
 			}
+
+			if (app.has(Feature.AV_EXTENSIONS) && geo.isAlgebraVisible()) {
+				isInAV = true;
+			}
+
 		}
 
 		listener.selectView(0, isInEV);
 		listener.selectView(1, isInEV2);
 		listener.selectView(2, isInEV3D);
 		listener.selectView(3, isInEVForPlane);
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			listener.selectView(4, isInAV);
+		}
 		
 	}
 
@@ -109,6 +127,26 @@ public class GraphicsViewLocationModel extends OptionsModel {
 		}
 	}
 
+	public void applyToAlgebraView(Boolean value) {
+		if (!app.has(Feature.AV_EXTENSIONS)) {
+			return;
+		}
+
+		AlgebraView av = app.getAlgebraView();
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			geo.setAlgebraVisible(value);
+			if (value) {
+				av.add(geo);
+			} else {
+				av.remove(geo);
+			}
+			geo.updateRepaint();
+
+		}
+
+	};
+
 	@Override
 	public boolean checkGeos() {
 		
@@ -133,6 +171,10 @@ public class GraphicsViewLocationModel extends OptionsModel {
 				go = false;
 			}
 		}
+
+		// if (app.has(Feature.AV_EXTENSIONS)) {
+		//
+		// }
 		return true;
 	}
 
@@ -145,6 +187,6 @@ public class GraphicsViewLocationModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 
 }

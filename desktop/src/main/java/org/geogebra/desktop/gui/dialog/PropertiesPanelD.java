@@ -91,8 +91,8 @@ import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
-import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel;
-import org.geogebra.common.gui.dialog.options.model.GraphicsViewLocationModel.IGraphicsViewLocationListener;
+import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
+import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
@@ -4975,7 +4975,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	private static final long serialVersionUID = 1L;
 
-	private GraphicsViewLocationModel model;
+	private ViewLocationModel model;
 
 	private JCheckBox cbGraphicsView, cbGraphicsView2, cbGraphicsView3D,
 			cbGraphicsViewForPlane;
@@ -4986,7 +4986,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 	public GraphicsViewLocationPanel(AppD app, PropertiesPanelD propPanel) {
 		this.app = app;
 		kernel = app.getKernel();
-		model = new GraphicsViewLocationModel(app, this);
+		model = new ViewLocationModel(app, this);
 
 		cbGraphicsView = new JCheckBox();
 		cbGraphicsView2 = new JCheckBox();
