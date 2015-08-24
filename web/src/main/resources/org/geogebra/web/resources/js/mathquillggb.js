@@ -2702,11 +2702,10 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     // and without it, the 3-character test case does
     // not seem to work! so put here, even if it seems
     // different order than in the Desktop case...
-    str = this.flattenKorean(str);
-
-    // as flattenKorean is not going to diminish
-    // the number of characters in the string,
-    // probably Okay to not have more checks here
+    str2 = this.flattenKorean(str);
+    if (str2.length) {
+      str = str2;
+    }
 
     var sb = "", c, c2;
     for (var i = 0; i < str.length - 1; i++) {
@@ -3117,6 +3116,21 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     } else if (cc >= 48 && cc <= 57) {
       // ASCII 0-9 maybe OK (?)
       this.common.GeoGebraSuggestionPopupCanShow = true;
+    } else {
+      // Korean characters also need checks for #5398
+      if ((c >= 0x1100) && (c <= 0x1112)) {
+    	// Korean lead char
+    	this.common.GeoGebraSuggestionPopupCanShow = true;
+      } else if ((c >= 0x1161) && (c <= 0x1175)) {
+    	// Korean vowel char
+    	this.common.GeoGebraSuggestionPopupCanShow = true;
+      } else if ((c >= 0x11a8) && (c <= 0x11c2)) {
+    	// Korean tail char
+    	this.common.GeoGebraSuggestionPopupCanShow = true;
+      } else if ((c >= 0xac00) && (c <= 0xd7af)) {
+    	// Korean multi char
+    	this.common.GeoGebraSuggestionPopupCanShow = true;
+      }
     }
   };
   _.onText = function(curs, ch) {
