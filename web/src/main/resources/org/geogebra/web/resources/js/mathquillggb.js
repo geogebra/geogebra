@@ -2583,66 +2583,131 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     var lead = 0;
     var vowel = 0;
     var tail = 0;
+    // ONLY merge really lead-vowel-tail combos!
     for (var i = 0; i < str.length; i++) {
-      var korean = false;
       var c = str.charCodeAt(i);
       if ((c >= 0x1100) && (c <= 0x1112)) {
-      //if (isKoreanLeadChar(c)) {
-        korean = true;
-        if (lead != 0) {
-          ret += this.appendKoreanChar(lead, vowel, tail);
-          lead = 0;
-          vowel = 0;
-          tail = 0;
-        }
-        lead = c;
-      }
-      if ((c >= 0x1161) && (c <= 0x1175)) {
+        //if (isKoreanLeadChar(c)) {
+  	    if ((lead == 0) && (vowel == 0) && (tail == 0)) {
+          lead = c;
+    	} else {
+    	  // in theory, it cannot happen that either
+    	  // vowel and tail are filled, while
+    	  // at the same time, lead is not!
+
+    	  // but it can happen that
+    	  // - only lead is filled:
+    	  if ((lead != 0) && (vowel == 0) && (tail == 0)) {
+    		ret += String.fromCharCode(lead);
+    		lead = c;
+    	  } else
+    	  // - lead & vowel is filled:
+    	  if ((lead != 0) && (vowel != 0) && (tail == 0)) {
+      		ret += String.fromCharCode(lead);
+      		ret += String.fromCharCode(vowel);
+      		lead = c;
+      		vowel = 0;
+      	  } else {
+      		// in other cases, we might need to flush c...
+      		// but in theory, there are no other cases!
+      	  }
+    	}
+      } else if ((c >= 0x1161) && (c <= 0x1175)) {
       //if (isKoreanVowelChar(c)) {
-        korean = true;
-        vowel = c;
-      }
-      if ((c >= 0x11a8) && (c <= 0x11c2)) {
+    	if (lead == 0) {
+    	  // comes in the wrong time, flush immediately
+    	  // as in theory it cannot happen that vowel or tail
+          // are there when lead is not...
+    	  ret += String.fromCharCode(c);
+    	} else if (vowel != 0) {
+    	  // comes in the wrong time, flush immediately everything!
+      	  ret += String.fromCharCode(lead);
+    	  ret += String.fromCharCode(vowel);
+    	  ret += String.fromCharCode(c);
+    	  lead = 0;
+    	  vowel = 0;
+    	  // tail is always 0
+    	} else {
+    	  // in this case, tail should be 0 in theory!
+          vowel = c;
+    	}
+      } else if ((c >= 0x11a8) && (c <= 0x11c2)) {
       //if (isKoreanTailChar(c)) {
-        korean = true;
-        tail = c;
-        ret += this.appendKoreanChar(lead, vowel, tail);
-        lead = 0;
-        vowel = 0;
-        tail = 0;
-      }
-      if (!korean) {
+    	// "tail always flushes"
+    	if ((lead != 0) && (vowel != 0)) {
+    	  tail = c;
+    	  ret += this.appendKoreanChar(lead, vowel, tail);
+    	  lead = 0;
+    	  vowel = 0;
+    	  tail = 0;
+    	} else if (lead == 0) {
+    	  // in this case, no vowel either, no tail
+    	  ret += String.fromCharCode(c);
+    	} else if (vowel == 0) {
+    	  // there is lead, so need to make it null
+    	  ret += String.fromCharCode(lead);
+    	  lead = 0;
+    	  ret += String.fromCharCode(c);
+    	}
+      } else {
+    	// ordinary character comes, flush!
+    	if (lead != 0) {
+    	  if (vowel != 0) {
+          	ret += String.fromCharCode(lead);
+            ret += String.fromCharCode(vowel);
+            lead = 0;
+            vowel = 0;
+    	  } else {
+          	ret += String.fromCharCode(lead);
+          	lead = 0;
+    	  }
+   	    }
+    	// if lead is 0, vowel and tail are also 0
         ret += String.fromCharCode(c);
-        // or str.charAt(i)
       }
     }
 
     // make sure last char done!
     if (lead != 0) {
-      ret += this.appendKoreanChar(lead, vowel, tail);
+      if (vowel != 0) {
+        ret += String.fromCharCode(lead);
+        ret += String.fromCharCode(vowel);
+      } else {
+    	ret += String.fromCharCode(lead);
+      }
+      // old school
+      //ret += this.appendKoreanChar(lead, vowel, tail);
     }
     return ret;
   };
   _.mergeKoreanDoubles = function(str2) {
-    var str = this.hangulJamo(str2);
+	var str = str2;
     // ported to JavaScript from Java: GeoGebra/common...
     // Korean.java / Korean.mergeDoubleCharacters(String)
-    //str = this.flattenKorean(str);
+
     if (str.length) {
-      if (str.length < 2) {
-        return str;
+      var str = this.hangulJamo(str);
+      if (str.length) {
+        if (str.length < 2) {
+          return str;
+        }
+      } else {
+    	return str;
       }
     } else {
       return str;
     }
-    //str = this.unflattenKorean(str);
-    //if (str.length) {
-    //  if (str.length < 2) {
-    //    return str;
-    //  }
-    //} else {
-    //  return str;
-    //}
+
+    // flattenKorean makes more characters from less,
+    // and without it, the 3-character test case does
+    // not seem to work! so put here, even if it seems
+    // different order than in the Desktop case...
+    str = this.flattenKorean(str);
+
+    // as flattenKorean is not going to diminish
+    // the number of characters in the string,
+    // probably Okay to not have more checks here
+
     var sb = "", c, c2;
     for (var i = 0; i < str.length - 1; i++) {
       var offset = 1;
@@ -2787,7 +2852,16 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
         sb += str.charAt(str.length - 1);
       }
     }
-    return sb;
+    str = sb;
+    if (str.length) {
+      if (str.length < 2) {
+        return str;
+      }
+    } else {
+      return str;
+    }
+    str = this.unflattenKorean(str);
+    return str;
   };
   _.maybeThisMaybeStyle = function() {
     var root = this;
