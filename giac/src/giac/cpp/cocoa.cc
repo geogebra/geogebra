@@ -1217,6 +1217,115 @@ namespace giac {
     if (X!=y.tdeg) return X>y.tdeg?1:0; // since tdeg is tab[0] for plex
 #ifdef GIAC_64VARS
     if (X%2){
+#if 1 && !defined BIGENDIAN && !defined GIAC_CHARDEGTYPE
+      longlong a=0,b=0;
+      const longlong * it1=x.ui,* it2=y.ui,*it1beg;
+      switch (order.o){
+      case _64VAR_ORDER:
+	a=it1[16]; 
+	b=it2[16];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[15]; 
+	b=it2[15];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[14]; 
+	b=it2[14];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[13]; 
+	b=it2[13];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[12]; 
+	b=it2[12];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[11]; 
+	b=it2[11];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[10]; 
+	b=it2[10];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[9]; 
+	b=it2[9];
+	if (a!=b)
+	  return a<=b?1:0;
+      case _32VAR_ORDER:
+	a=it1[8]; 
+	b=it2[8];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[7]; 
+	b=it2[7];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[6]; 
+	b=it2[6];
+	if (a!=b)
+	  return a<=b?1:0;
+	a=it1[5]; 
+	b=it2[5];
+	if (a!=b)
+	  return a<=b?1:0;
+      case _16VAR_ORDER:
+	a=it1[4]; 
+	b=it2[4];
+	if (a!=b)
+	  return a<=b?1:0;
+      case _11VAR_ORDER:
+	a=it1[3]; 
+	b=it2[3];
+	if (a!=b)
+	  return a<=b?1:0;
+      case _7VAR_ORDER:
+	a=it1[2]; 
+	b=it2[2];
+	if (a!=b)
+	  return a<=b?1:0;
+      case _3VAR_ORDER: 
+	a=it1[1]; 
+	b=it2[1];
+	if (a!=b)
+	  return a<=b?1:0;
+	if (x.tdeg2!=y.tdeg2)
+	  return x.tdeg2>y.tdeg2?1:0;
+	it1beg=it1+(x.order_.o+degratiom1)/degratio;
+	it1 += (x.order_.dim+degratiom1)/degratio;;
+	it2 += (x.order_.dim+degratiom1)/degratio;;
+	for (;;){
+	  a=*it1; 
+	  b=*it2;
+	  if (a!=b)
+	    return a<=b?1:0;
+	  --it2;--it1;
+	  if (it1<=it1beg)
+	    return 2;
+	}
+      case _REVLEX_ORDER:
+	it1beg=x.ui;
+	it1=x.ui+(x.order_.dim+degratiom1)/degratio;
+	it2=y.ui+(y.order_.dim+degratiom1)/degratio;
+	for (;it1!=it1beg;--it2,--it1){
+	  a=*it1; 
+	  b=*it2;
+	  if (a!=b)
+	    return a<=b?1:0;
+	}
+	return 2;
+      case _TDEG_ORDER: case _PLEX_ORDER: {
+	const degtype * it1=(degtype *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(degtype *)(y.ui+1);
+	for (;it1!=it1end;++it2,++it1){
+	  if (*it1!=*it2)
+	    return *it1>=*it2?1:0;
+	}
+	return 2;
+      }
+      } // end swicth
+#else // BIGENDIAN, GIAC_CHARDEGTYPE
       if (order.o>=_7VAR_ORDER || order.o==_3VAR_ORDER){
 #ifdef GIAC_GBASISLEX 
 	// if activated, check that poly8, polymod and zpolymod should be reordered
@@ -1281,7 +1390,7 @@ namespace giac {
 	return 2;
       }
       if (order.o==_REVLEX_ORDER){
-	if (x.tdeg!=y.tdeg) return x.tdeg>y.tdeg?1:0;
+	//if (x.tdeg!=y.tdeg) return x.tdeg>y.tdeg?1:0;
 	const longlong * it1beg=x.ui,*it1=x.ui+(x.order_.dim+degratiom1)/degratio,*it2=y.ui+(y.order_.dim+degratiom1)/degratio;
 	longlong a=0,b=0;
 #ifdef BIGENDIAN
@@ -1309,17 +1418,16 @@ namespace giac {
 #endif
 	return 2;
       }
-      if (order.o==_TDEG_ORDER && x.tdeg!=y.tdeg) 
-	return x.tdeg>y.tdeg?1:0;
-      // FIXME plex might be wrong
+      // plex and tdeg share the same code since total degree already checked
       const degtype * it1=(degtype *)(x.ui+1),*it1end=it1+x.order_.dim,*it2=(degtype *)(y.ui+1);
       for (;it1!=it1end;++it2,++it1){
 	if (*it1!=*it2)
 	  return *it1>=*it2?1:0;
       }
       return 2;
-    }
-#endif
+#endif // BIGENDIAN, GIAC_CHARDEGTYPE
+    } // end if X%2
+#endif // GIAC_64VARS
     if (order.o==_REVLEX_ORDER)
       return tdeg_t_revlex_greater(x,y);
 #if GROEBNER_VARS==15
