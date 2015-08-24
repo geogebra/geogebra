@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AutoCompleteDictionary;
+import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
@@ -170,6 +171,14 @@ public class EquationEditor {
 		updateCurrentWord(false);// compatibility should be preserved
 		String sub = this.curWord.toString();
 		if (sub != null && !"".equals(sub)) {
+			// for length check we also need flattenKorean
+			boolean korean = false;
+			if (app.getLocalization() != null) {
+				korean = "ko".equals(app.getLocalization().getLanguage());
+			}
+			if (korean) {
+				sub = Korean.flattenKorean(sub);
+			}
 			if (sub.length() < 2) {
 				// if there is only one letter typed,
 				// for any reason, this method should
@@ -190,13 +199,31 @@ public class EquationEditor {
 		// if (isEqualsRequired && !text.startsWith("="))
 		// return null;
 
+		boolean korean = false;
+		if (app.getLocalization() != null) {
+			korean = "ko".equals(app.getLocalization().getLanguage());
+		}
+
+		// start autocompletion only for words with at least two characters
+		// maybe this was also done in the Web case in MathQuillGGB, but
+		// it should not do harm to check it twice...
+		if (korean) {
+			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
+				completions = null;
+				return null;
+			}
+		} else if (curWord.length() < 2) {
+			completions = null;
+			return null;
+		}
+
 		String cmdPrefix = curWord.toString();
 
-		// if (korean) {
-		// completions = getDictionary().getCompletionsKorean(cmdPrefix);
-		// } else {
-		completions = getDictionary().getCompletions(cmdPrefix);
-		// }
+		if (korean) {
+			completions = getDictionary().getCompletionsKorean(cmdPrefix);
+		} else {
+			completions = getDictionary().getCompletions(cmdPrefix);
+		}
 
 		List<String> commandCompletions = getSyntaxes(completions);
 
