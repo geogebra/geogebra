@@ -9206,7 +9206,7 @@ namespace giac {
     unsigned guess=0;
     for (unsigned i=0;i<G.size();++i){
       q[i].clear();
-	  guess += unsigned(g[G[i]].coord.size());
+      guess += unsigned(g[G[i]].coord.size());
     }
     if (f.empty() || G.empty())
       return ;
@@ -9238,7 +9238,8 @@ namespace giac {
 	const zpolymod & gcurrent = g[G[current.i]];
 	if (current.gj<gcurrent.coord.size()-1){
 	  ++current.gj;
-	  current.u=q[current.i][current.qi]+(*gcurrent.expo)[gcurrent.coord[current.gj].u];
+	  //current.u=q[current.i][current.qi]+(*gcurrent.expo)[gcurrent.coord[current.gj].u];
+	  add(q[current.i][current.qi],(*gcurrent.expo)[gcurrent.coord[current.gj].u],current.u,dim);
 	  std::push_heap(H.begin(),H.end(),key);
 	}
 	else
@@ -9274,7 +9275,7 @@ namespace giac {
       // CERR << i << " " << q[i] << endl;
       // push in heap
       if (gGi.coord.size()>1){
-		  heap_t current = { i, unsigned(q[i].size()) - 1, 1, (*gGi.expo)[gGi.coord[1].u] + monom };
+	heap_t current = { i, unsigned(q[i].size()) - 1, 1, (*gGi.expo)[gGi.coord[1].u] + monom };
 	H.push_back(hashgcd_U(H_.size()));
 	H_.push_back(current);
 	key.ptr=&H_.front();
