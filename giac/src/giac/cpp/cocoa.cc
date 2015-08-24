@@ -9370,8 +9370,9 @@ namespace giac {
     bool dodicho=nop2<nop1;
     const std::vector<tdeg_t> & expo=*p.expo;
     if (shiftptr){
+      tdeg_t u=R.front()+R.front(); // create u with refcount 1
       for (;it!=itend;++it){
-	tdeg_t u=expo[it->u]+*shiftptr;
+	add(expo[it->u],*shiftptr,u,p.dim);
 	if (dodicho && dicho(jt,jtend,u,p.order)){
 	  v[jt-jtbeg]=it->g;
 	  ++jt;
@@ -9405,7 +9406,6 @@ namespace giac {
     }
   }
 
-  // dicho does not work here?
   void zmakelinesub(const zpolymod & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<modint> & v,int start,modint env){
     std::vector< zmodint >::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtbeg=jt,jtend=R.end();
@@ -9414,8 +9414,9 @@ namespace giac {
     double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
     bool dodicho=nop2<nop1;
     if (shiftptr){
+      tdeg_t u=R.front()+R.front();
       for (;it!=itend;++it){
-	tdeg_t u=expo[it->u]+*shiftptr;
+	add(expo[it->u],*shiftptr,u,p.dim);
 	if (dodicho && dicho(jt,jtend,u,p.order)){
 	  // v[jt-jtbeg] -= it->g;
 	  modint & vv=v[jt-jtbeg];
