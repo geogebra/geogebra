@@ -608,8 +608,8 @@ public class Ggb2giac {
 		// tlin() removed, see #3956
 		p("Simplify.1", "simplify(regroup(%0))");
 
-		p("Solutions.1", "ggbsort(normal(zeros(%0,x)))");
-		p("Solutions.2", "ggbsort(normal(zeros(%0,%1)))");
+		p("Solutions.1", "ggbsort(normal([op(solve(%0))]))");
+		p("Solutions.2", "ggbsort(normal([op(solve(%0,%1))]))");
 
 		// Root.1 and Solve.1 should be the same
 		String root1 = "ggbsort(normal([op(solve(%0))]))";
@@ -929,7 +929,7 @@ public class Ggb2giac {
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b
 		// don't want normal(), eg Line[(a,b),(c,d)]
 		p("Line.2",
-				"[[ggblinearg0:=%0],[ggblinearg1:=%1],when(is3dpoint(ggblinearg0),ggblinearg0+t*(ggblinearg1-ggblinearg0),regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
+				"[[ggblinearg0:=%0],[ggblinearg1:=%1],when(is3dpoint(ggblinearg0),equation(cat(\"y=\",ggblinearg0,\"+t*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0)))),regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
 
 		// p("Midpoint.2",
 		// "[[ggbans:=factor((normal(convert(coordinates(midpoint(%0,%1)),25))))],"

@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -303,7 +304,22 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// remove 'N'
 		sbCASCommand.setLength(sbCASCommand.length() - 1);
 		// add eg '3'
-		sbCASCommand.append(args.size());
+		boolean argIsList = false;
+		if (args.size() == 1 && args.get(0).isExpressionNode()
+				&& name.equals("Point")) {
+			ExpressionNode node = args.get(0);
+			if (node.isLeaf() && node.getLeft() instanceof MyList) {
+				if (((ExpressionNode) ((MyList) node.getLeft())
+						.getListElement(0)).getLeft().isNumberValue()) {
+					sbCASCommand.append(1);
+				} else {
+					sbCASCommand.append((((MyList) node.getLeft()).size()));
+					argIsList = true;
+				}
+			}
+		} else {
+			sbCASCommand.append(args.size());
+		}
 
 		boolean outsourced = false;
 		// check if there is support in the outsourced CAS (now SingularWS) for
@@ -427,17 +443,22 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					// get number after %
 					i++;
 					int pos = translation.charAt(i) - '0';
-					if (pos >= 0 && pos < args.size()) {
+					ExpressionValue ev;
+					if (argIsList) {
+						ev = ((MyList) args.get(0).getLeft())
+								.getListElement(pos);
+						sbCASCommand.append(toString(ev, symbolic, tpl));
+					} else if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
-						ExpressionValue ev = args.get(pos);
+						ev = args.get(pos);
 						sbCASCommand.append(toString(ev, symbolic, tpl));
 					} else {
 						// failed
 						sbCASCommand.append(ch);
 						sbCASCommand.append(translation.charAt(i));
 					}
-					// @ is a hack: only use the value if it does not contain ()
-					// to avoid (1,2)' in CAS
+				// @ is a hack: only use the value if it does not contain ()
+				// to avoid (1,2)' in CAS
 				} else if (ch == '@') {
 					// get number after %
 					i++;
