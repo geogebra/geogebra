@@ -76,4 +76,10 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener,
 
 	void prepareShowSymbolButton(boolean b);
 
+	/**
+	 * deferred focus for web
+	 */
+	boolean hasDeferredFocus();
+
+	void setDeferredFocus(boolean b);
 }

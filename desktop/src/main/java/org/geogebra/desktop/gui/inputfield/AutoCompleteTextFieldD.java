@@ -1051,4 +1051,11 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 		this.setShowSymbolTableIcon(b);
 	}
 
+	public boolean hasDeferredFocus() {
+		return false;
+	}
+
+	public void setDeferredFocus(boolean b) {
+	}
+
 }

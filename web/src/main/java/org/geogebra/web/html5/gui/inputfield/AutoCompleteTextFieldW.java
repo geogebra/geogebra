@@ -141,7 +141,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	boolean keyBoardModeText = false;
 
 	private int actualFontSize = 14;
-
+	private boolean deferredFocus = false;
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
 	 * given Application for autocomplete look up. A default model is created
@@ -1492,7 +1492,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		return geoUsedForInputBox != null;
 	}
 
-	Scheduler.ScheduledCommand deferredFocus = new Scheduler.ScheduledCommand() {
+	Scheduler.ScheduledCommand cmdDeferredFocus = new Scheduler.ScheduledCommand() {
 		public void execute() {
 			textField.setFocus(true);
 		}
@@ -1507,7 +1507,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// } else {
 
 		// #5371
-		// Scheduler.get().scheduleDeferred(deferredFocus);
+		if (hasDeferredFocus()) {
+			Scheduler.get().scheduleDeferred(cmdDeferredFocus);
+		}
 		textField.setFocus(true);
 
 		// }
@@ -1692,6 +1694,14 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public void ensureEditing() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean hasDeferredFocus() {
+		return deferredFocus;
+	}
+
+	public void setDeferredFocus(boolean b) {
+		deferredFocus = b;
 	}
 
 }

@@ -93,6 +93,7 @@ public class DrawTextField extends Drawable implements
 		ifListener = new InputFieldListener();
 		ifKeyListener = new InputFieldKeyListener();
 		textField = geoTextField.getTextField(view.getViewID(), this);// SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(),
+		textField.setDeferredFocus(true);
 		// view.getApplication(),
 		// this);
 		// this will be set in update(): textField.showPopupSymbolButton(true);
