@@ -9310,30 +9310,30 @@ namespace giac {
     }
   }
 
-  void zmakelinesplit(const zpolymod & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<shifttype> & v){
+  void zmakelinesplit(const zpolymod & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<shifttype> & v,vector<shifttype> * prevline){
     std::vector<zmodint>::const_iterator it=p.coord.begin(),itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtend=R.end();
     double nop1=R.size(); 
     double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
     bool dodicho=nop2<nop1;
     const vector<tdeg_t> & expo=*p.expo;
-    unsigned pos=0;
+    unsigned pos=0,Rpos=0;
     if (shiftptr){
       tdeg_t u=*shiftptr+*shiftptr; // create a new memory slot
-#if 0
-      if (dodicho){
-	std::vector<tdeg_t>::const_iterator kt=R.begin(),ktend=R.end();
-	dicho(kt,ktend,*shiftptr,p.order);
-	if (kt!=jtend) 
-	  jtend=kt+1;
-      }
-#endif
+      const shifttype * st=prevline?&prevline->front():0;
       for (;it!=itend;++it){
 	add(expo[it->u],*shiftptr,u,p.dim);
-	if (dodicho && dicho(jt,jtend,u,p.order)){
-	  pushsplit(v,pos,unsigned(jt-R.begin()));
-	  ++jt;
-	  continue;
+	if (dodicho){ 
+	  std::vector<tdeg_t>::const_iterator end=jtend;
+	  if (st){
+	    next_index(Rpos,st);
+	    end=R.begin()+Rpos;
+	  }
+	  if (dicho(jt,end,u,p.order)){
+	    pushsplit(v,pos,unsigned(jt-R.begin()));
+	    ++jt;
+	    continue;
+	  }
 	}
 	for (;jt!=jtend;++jt){
 	  if (*jt==u){
@@ -9563,14 +9563,32 @@ namespace giac {
       // copy coeffs of res[G[i]] in Mcoeff
       zcopycoeff(res[G[i]],Mcoeff[i]);
       // for each monomial of quo[i], find indexes and put in Mindex
-      std::vector< tdeg_t >::const_iterator jt=quo[i].begin(),jtend=quo[i].end();
-      for (;jt!=jtend;++j,++jt){
+      // Improvement idea: reverse order traversing quo[i]
+      // In zmakelinesplit locate res[G[i]].coord.u+*jt by dichotomoy 
+      // between position just calculated before and 
+      // and same position in previous Mindex
+#if 1
+      std::vector< tdeg_t >::const_iterator jt=quo[i].end()-1;
+      int quos=quo[i].size();
+      for (int k=quos-1;k>=0;--k,--jt){
+	zmakelinesplit(res[G[i]],&*jt,R,Mindex[j+k],k==quos-1?0:&Mindex[j+k+1]);
+      }
+      for (int k=0;k<quos;++j,++k){
 	coeffindex.push_back(coeffindex_t(N<=0xffff,i));
-	zmakelinesplit(res[G[i]],&*jt,R,Mindex[j]);
 	if (!coeffindex.back().b)
 	  coeffindex.back().b=checkshortshifts(Mindex[j]);
 	atrier.push_back(sparse_element(first_index(Mindex[j]),j));
       }
+#else
+      std::vector< tdeg_t >::const_iterator jt=quo[i].begin(),jtend=quo[i].end();
+      for (;jt!=jtend;++j,++jt){
+	coeffindex.push_back(coeffindex_t(N<=0xffff,i));
+	zmakelinesplit(res[G[i]],&*jt,R,Mindex[j],0);
+	if (!coeffindex.back().b)
+	  coeffindex.back().b=checkshortshifts(Mindex[j]);
+	atrier.push_back(sparse_element(first_index(Mindex[j]),j));
+      }
+#endif
     }
     if (debug_infolevel>1)
       CERR << CLOCK() << " end build Mindex/Mcoeff zf4mod" << endl;
