@@ -566,6 +566,15 @@ public interface Traversing {
 				return ev;
 			ExpressionNode en = (ExpressionNode) ev;
 			if (en.getOperation() == Operation.ARBCONST) {
+				if (en.getLeft().isExpressionNode()
+						&& en.getLeftTree().getLeft() instanceof NumberValue
+						&& en.getLeftTree().getRight() instanceof NumberValue
+						&& en.getLeftTree().getOperation() == Operation.PLUS) {
+					double d1 = en.getLeftTree().getLeft().evaluateDouble();
+					double d2 = en.getLeftTree().getRight().evaluateDouble();
+					MyDouble d = new MyDouble(en.getKernel(), d1 + d2);
+					return arbconst.nextConst(d);
+				}
 				return arbconst.nextConst((MyDouble) en.getLeft().unwrap());
 			}
 			if (en.getOperation() == Operation.ARBINT) {

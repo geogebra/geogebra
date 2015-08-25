@@ -817,7 +817,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (ret.indexOf("c_") > -1) {
 			nrOfReplacedConst++;
 			App.debug("replacing arbitrary constants in " + ret);
-			ret = ret.replaceAll("c_([0-9]*)", "arbconst(" + nrOfReplacedConst
+			ret = ret.replaceAll("c_([0-9]*)", "arbconst($1+"
+					+ nrOfReplacedConst
 					+ ")");
 		}
 
