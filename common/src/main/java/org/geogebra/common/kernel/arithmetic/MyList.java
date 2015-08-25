@@ -288,18 +288,18 @@ public class MyList extends ValidExpression implements ListValue,
 				listElements = this.invert().listElements;
 				power *= -1;
 				if (power == 1) {
-					MyList RHlist = (MyList) this.deepCopy(kernel);
+					MyList RHlist = this.deepCopy(kernel);
 					RHlist.setIdentityMatrix();
-					matrixMultiply((MyList) this.deepCopy(kernel), RHlist);
+					matrixMultiply(this.deepCopy(kernel), RHlist);
 					return;
 				}
 			}
 			if (power != 1) {
 
 				MyList LHlist, RHlist;
-				RHlist = (MyList) this.deepCopy(kernel);
+				RHlist = this.deepCopy(kernel);
 				while (power > 1.0) {
-					LHlist = (MyList) this.deepCopy(kernel);
+					LHlist = this.deepCopy(kernel);
 
 					matrixMultiply(LHlist, RHlist);
 					power--;
@@ -344,15 +344,17 @@ public class MyList extends ValidExpression implements ListValue,
 		matrixCols = -1;
 
 		// return empty list if sizes don't match
-		if (size == 0) {
+
+		if (needsExpand()) {
+			expand();
+			size = size();
+		}
+		if (size == 0 || (valueList != null && valueList.size() > size)) {
 			listElements.clear();
 			return;
 		}
-		int expandSize = valueList == null ? size : expandSize(this);
-		if (valueList != null && expandSize != expandSize(valueList)) {
-			listElements.clear();
-			return;
-		}
+
+
 
 		// temp ExpressionNode to do evaluation of single elements
 		ExpressionNode tempNode = new ExpressionNode(kernel,
@@ -361,7 +363,17 @@ public class MyList extends ValidExpression implements ListValue,
 
 		boolean b = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
-		int j = 0;
+
+		if (valueList != null && valueList.needsExpand()) {
+			valueList = valueList.deepCopy(kernel);
+			valueList.expand();
+		}
+		if (valueList != null && valueList.size() != size) {
+			listElements.clear();
+			return;
+
+		}
+
 		for (int i = 0; i < size; i++) {
 			// try {
 			// singleValue to apply to i-th element of this list
@@ -370,23 +382,9 @@ public class MyList extends ValidExpression implements ListValue,
 			// see #460
 			ExpressionValue singleValue = valueList == null ? value
 					.deepCopy(kernel) : valueList.getListElement(i);
-			AlgoElement algo = null;
-			if (listElements.get(i).unwrap().isGeoElement()) {
-				algo = ((GeoElement) listElements.get(i).unwrap())
-						.getParentAlgorithm();
-			}
-			if (algo != null && algo.getOutputLength() > 1
-					&& algo.hasSingleOutputType()) {
-				for (int k = 0; k < algo.getOutputLength(); k++) {
-					addResult(algo.getOutput(k), j, tempNode, singleValue,
-							right, tpl);
-					j++;
-				}
-			} else {
-				addResult(listElements.get(i), j, tempNode, singleValue, right,
+			addResult(listElements.get(i), i, tempNode, singleValue, right,
 						tpl);
-				j++;
-			}
+
 
 			// }
 			// catch (MyError err) {
@@ -404,23 +402,46 @@ public class MyList extends ValidExpression implements ListValue,
 
 	}
 
-	private int expandSize(MyList myList) {
-		int ret = myList.size();
-		int size = myList.size();
+	private boolean needsExpand() {
+		int size = size();
 		for (int i = 0; i < size; i++) {
-			if (myList.getListElement(i).unwrap().isGeoElement()) {
-				AlgoElement algo = ((GeoElement) myList.getListElement(i)
+			if (getListElement(i).unwrap().isGeoElement()) {
+				AlgoElement algo = ((GeoElement) getListElement(i)
 						.unwrap()).getParentAlgorithm();
 
 				if (algo != null && algo.getOutputLength() > 1
 						&& algo.hasSingleOutputType()) {
-					ret += algo.getOutputLength() - 1;
+					return true;
 				}
 			}
 		}
-		return ret;
+		return false;
 	}
 
+	private void expand() {
+		ArrayList<ExpressionValue> expElements = new ArrayList<ExpressionValue>();
+
+		for (int i = 0; i < listElements.size(); i++) {
+			AlgoElement algo = null;
+			ExpressionValue ev = getListElement(i).unwrap();
+			if (ev.isGeoElement()) {
+				algo = ((GeoElement) ev)
+						.getParentAlgorithm();
+
+			}
+			if (algo != null && algo.getOutputLength() > 1
+					&& algo.hasSingleOutputType()) {
+				for (int k = 0; k < algo.getOutputLength(); k++) {
+					if ((algo.getOutput(k).isDefined() || algo.getOutput(k) == ev)
+							&& !expElements.contains(algo.getOutput(k)))
+					expElements.add(algo.getOutput(k));
+				}
+			} else {
+				expElements.add(ev);
+			}
+		}
+		this.listElements = expElements;
+	}
 	private void addResult(ExpressionValue myValue, int j,
 			ExpressionNode tempNode,
 			ExpressionValue singleValue, boolean right, StringTemplate tpl) {
@@ -446,11 +467,8 @@ public class MyList extends ValidExpression implements ListValue,
 		if (!operationResult.isExpressionNode()) {
 			operationResult = new ExpressionNode(kernel, operationResult);
 		}
-		if (j < listElements.size()) {
-			listElements.set(j, operationResult);
-		} else {
-			listElements.add(operationResult);
-		}
+
+		listElements.set(j, operationResult);
 
 	}
 
@@ -795,7 +813,7 @@ public class MyList extends ValidExpression implements ListValue,
 		return false;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel1) {
+	public MyList deepCopy(Kernel kernel1) {
 		// copy arguments
 		int size = listElements.size();
 		MyList c = new MyList(kernel1, size());
@@ -848,7 +866,7 @@ public class MyList extends ValidExpression implements ListValue,
 	public MyList getMyList() {
 		if (isInTree()) {
 			// used in expression node tree: be careful
-			return (MyList) deepCopy(kernel);
+			return deepCopy(kernel);
 		}
 		// not used anywhere: reuse this object
 		return this;
