@@ -289,13 +289,14 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		if (getView3D().usesInteriorRadiusToClip()) {
-			setMinMax(getView3D().getCenter(), getView3D()
-					.getFrustumInteriorRadius());
-		} else {
+		if (getView3D().useClippingCube()) { // make sure the plane goes more
+												// than the clipping cube
 			setMinMax(getView3D().getClippingVertex(0), getView3D()
 					.getClippingVertex(1), getView3D().getClippingVertex(2),
 					getView3D().getClippingVertex(4));
+		} else { // use interior clipping cube radius
+			setMinMax(getView3D().getCenter(), getView3D()
+					.getFrustumInteriorRadius());
 		}
 
 	}

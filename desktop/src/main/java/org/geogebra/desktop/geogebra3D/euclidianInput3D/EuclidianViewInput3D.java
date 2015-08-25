@@ -895,10 +895,6 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		}
 	}
 
-	@Override
-	public boolean usesInteriorRadiusToClip() {
-		return true;
-	}
 
 	@Override
 	public void setDefaultRotAnimation() {

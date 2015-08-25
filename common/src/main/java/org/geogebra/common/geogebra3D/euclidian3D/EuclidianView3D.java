@@ -4206,13 +4206,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	/**
-	 * @return true if uses frustum interior radius to clip planes etc.
-	 */
-	public boolean usesInteriorRadiusToClip() {
-		return false;
-	}
-
-	/**
 	 * 
 	 * @return true if currently uses hand grabbing (3D input)
 	 */
