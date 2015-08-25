@@ -9319,16 +9319,22 @@ namespace giac {
     const vector<tdeg_t> & expo=*p.expo;
     unsigned pos=0;
     if (shiftptr){
-      tdeg_t u=R.front()+R.front(); // create a new memory slot
+      tdeg_t u=*shiftptr+*shiftptr; // create a new memory slot
+#if 0
+      if (dodicho){
+	std::vector<tdeg_t>::const_iterator kt=R.begin(),ktend=R.end();
+	dicho(kt,ktend,*shiftptr,p.order);
+	if (kt!=jtend) 
+	  jtend=kt+1;
+      }
+#endif
       for (;it!=itend;++it){
 	add(expo[it->u],*shiftptr,u,p.dim);
-#if 1
 	if (dodicho && dicho(jt,jtend,u,p.order)){
 	  pushsplit(v,pos,unsigned(jt-R.begin()));
 	  ++jt;
 	  continue;
 	}
-#endif
 	for (;jt!=jtend;++jt){
 	  if (*jt==u){
 	    pushsplit(v,pos,int(jt-R.begin()));

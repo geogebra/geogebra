@@ -2272,7 +2272,7 @@ namespace giac {
 	return rdiv(lnabs(f._VECTptr->back(),contextptr),a,contextptr);
       return f._VECTptr->back()*symbolic(at_NTHROOT,f)/(a+a/b);
     }
-#ifndef EMCC
+#if 1 // ndef EMCC // re-enabled Aug. 2015 for integrate(1/surd(x^2,3),x,-1,1)
     if (has_op(e,*at_surd) || has_op(e,*at_NTHROOT)){
       vecteur subst1,subst2;
       surd2pow(e,subst1,subst2,contextptr);

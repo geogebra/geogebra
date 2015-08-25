@@ -6909,6 +6909,8 @@ namespace giac {
 	    if (jt==jtend)
 	      gb.push_back(r2e(*it,l,contextptr));
 	  }
+	  if (debug_infolevel)
+	    COUT << CLOCK() << " end eliminate" << endl;
 	  return gb;
 	}
       }
