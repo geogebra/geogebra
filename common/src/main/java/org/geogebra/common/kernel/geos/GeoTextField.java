@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.algos.AlgoPointInRegion;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
@@ -217,7 +218,7 @@ public class GeoTextField extends GeoButton {
 		// for a simple number, round it to the textfield setting (if set)
 		if (linkedGeo.isGeoNumeric() && !linkedGeo.isGeoAngle() && (printDecimals > -1 || printFigures > -1)) {
 			try {
-				num = Double.parseDouble(inputText);
+				num = MyDouble.parseDouble(kernel.getLocalization(), inputText);
 				defineText = kernel.format(num,  tpl);
 				
 			} catch (Exception e) {
@@ -228,12 +229,20 @@ public class GeoTextField extends GeoButton {
 		}
 
 		try {
-			linkedGeo = kernel
-					.getAlgebraProcessor()
-					.changeGeoElementNoExceptionHandling(linkedGeo,
-							defineText, linkedGeo.isIndependent(), true); 
-			
-		}catch (MyError e1) {
+			if (linkedGeo instanceof GeoNumeric) {
+				num = kernel.getAlgebraProcessor().evaluateToDouble(inputText,
+						false);
+
+				// setValue -> avoid slider range changing
+				((GeoNumeric) linkedGeo).setValue(num);
+				linkedGeo.updateRepaint();
+
+			} else {
+				linkedGeo = kernel.getAlgebraProcessor()
+						.changeGeoElementNoExceptionHandling(linkedGeo,
+								defineText, linkedGeo.isIndependent(), true);
+			}
+		} catch (MyError e1) {
 			kernel.getApplication().showError(e1);
 			return;
 		} 
