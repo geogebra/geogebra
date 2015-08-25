@@ -23,6 +23,7 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -343,7 +344,12 @@ public class MyList extends ValidExpression implements ListValue,
 		matrixCols = -1;
 
 		// return empty list if sizes don't match
-		if (size == 0 || (valueList != null && size != valueList.size())) {
+		if (size == 0) {
+			listElements.clear();
+			return;
+		}
+		int expandSize = valueList == null ? size : expandSize(this);
+		if (valueList != null && expandSize != expandSize(valueList)) {
 			listElements.clear();
 			return;
 		}
@@ -355,6 +361,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 		boolean b = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
+		int j = 0;
 		for (int i = 0; i < size; i++) {
 			// try {
 			// singleValue to apply to i-th element of this list
@@ -363,31 +370,24 @@ public class MyList extends ValidExpression implements ListValue,
 			// see #460
 			ExpressionValue singleValue = valueList == null ? value
 					.deepCopy(kernel) : valueList.getListElement(i);
-
-			// apply operation using singleValue
-			if (right) {
-				// this operation value
-				tempNode.setLeft(listElements.get(i));
-				tempNode.setRight(singleValue);
+			AlgoElement algo = null;
+			if (listElements.get(i).unwrap().isGeoElement()) {
+				algo = ((GeoElement) listElements.get(i).unwrap())
+						.getParentAlgorithm();
+			}
+			if (algo != null && algo.getOutputLength() > 1
+					&& algo.hasSingleOutputType()) {
+				for (int k = 0; k < algo.getOutputLength(); k++) {
+					addResult(algo.getOutput(k), j, tempNode, singleValue,
+							right, tpl);
+					j++;
+				}
 			} else {
-				// value operation this
-				tempNode.setLeft(singleValue);
-				tempNode.setRight(listElements.get(i));
+				addResult(listElements.get(i), j, tempNode, singleValue, right,
+						tpl);
+				j++;
 			}
 
-			// evaluate operation
-
-			ExpressionValue operationResult = tempNode.evaluate(tpl);
-
-			// Application.debug("        tempNode : " + tempNode + ", result: "
-			// + operationResult);
-
-			// set listElement to operation result
-			if (!operationResult.isExpressionNode()) {
-				operationResult = new ExpressionNode(kernel, operationResult);
-			}
-
-			listElements.set(i, operationResult);
 			// }
 			// catch (MyError err) {
 			// err.printStackTrace();
@@ -401,6 +401,56 @@ public class MyList extends ValidExpression implements ListValue,
 		kernel.getConstruction().setSuppressLabelCreation(b);
 
 		// Application.debug("   gives : " + this);
+
+	}
+
+	private int expandSize(MyList myList) {
+		int ret = myList.size();
+		int size = myList.size();
+		for (int i = 0; i < size; i++) {
+			if (myList.getListElement(i).unwrap().isGeoElement()) {
+				AlgoElement algo = ((GeoElement) myList.getListElement(i)
+						.unwrap()).getParentAlgorithm();
+
+				if (algo != null && algo.getOutputLength() > 1
+						&& algo.hasSingleOutputType()) {
+					ret += algo.getOutputLength() - 1;
+				}
+			}
+		}
+		return ret;
+	}
+
+	private void addResult(ExpressionValue myValue, int j,
+			ExpressionNode tempNode,
+			ExpressionValue singleValue, boolean right, StringTemplate tpl) {
+		// apply operation using singleValue
+		if (right) {
+			// this operation value
+			tempNode.setLeft(myValue);
+			tempNode.setRight(singleValue);
+		} else {
+			// value operation this
+			tempNode.setLeft(singleValue);
+			tempNode.setRight(myValue);
+		}
+
+		// evaluate operation
+
+		ExpressionValue operationResult = tempNode.evaluate(tpl);
+
+		// Application.debug("        tempNode : " + tempNode + ", result: "
+		// + operationResult);
+
+		// set listElement to operation result
+		if (!operationResult.isExpressionNode()) {
+			operationResult = new ExpressionNode(kernel, operationResult);
+		}
+		if (j < listElements.size()) {
+			listElements.set(j, operationResult);
+		} else {
+			listElements.add(operationResult);
+		}
 
 	}
 
