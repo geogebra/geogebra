@@ -59,13 +59,17 @@ public class GeoGebraColorConstants {
 	public static final GColor MAROON = rgb(128, 0, 0);
 
 	/**
-	 * Brown: don't change: default Polygon color
-	 */
-	public static final GColor BROWN = rgb(153, 51, 0);
-	/**
 	 * Dark green: don't change: default Angle color
 	 */
-	public static final GColor DARKGREEN = rgb(0, 100, 0);
+	public static final GColor GGB_GREEN = rgb(0, 100, 0);
+	public static final GColor GGB_PURPLE = rgb(153, 51, 255);
+
+	public static final GColor GGB_RED = rgb(204, 0, 0);
+	public static final GColor GGB_VIOLET = rgb(244, 0, 153);
+
+	public static final GColor GGB_GRAY = rgb(102, 102, 102);
+	public static final GColor GGB_BROWN = rgb(153, 51, 0);
+	public static final GColor GGB_ORANGE = rgb(255, 85, 0);
 	/**
 	 * Light blue: don't change: default Point on path color
 	 */
@@ -165,9 +169,9 @@ public class GeoGebraColorConstants {
 
 		// dark primary
 		geogebraColor.put("maroon", MAROON);
-		geogebraColor.put("brown", BROWN);
+		geogebraColor.put("brown", GGB_BROWN);
 		geogebraColor.put("gold", GOLD);
-		geogebraColor.put("darkgreen", DARKGREEN);
+		geogebraColor.put("darkgreen", GGB_GREEN);
 		geogebraColor.put("lightblue", LIGHTBLUE);
 		geogebraColor.put("indigo", INDIGO);
 		geogebraColor.put("purple", PURPLE);
@@ -421,15 +425,16 @@ public class GeoGebraColorConstants {
 
 		GColor[] popupColors = new GColor[10];
 
-		popupColors[0] = rgb(0, 128, 0);
-		popupColors[1] = rgb(0, 128, 128);
-		popupColors[2] = rgb(0, 0, 255);
-		popupColors[3] = rgb(153, 51, 255);
-		popupColors[4] = rgb(244, 0, 153);
-		popupColors[5] = rgb(0, 0, 0);
-		popupColors[6] = rgb(102, 102, 102);
-		popupColors[7] = rgb(153, 51, 0);
-		popupColors[8] = rgb(204, 0, 0);
+		popupColors[0] = GGB_GREEN;
+		popupColors[1] = GColor.BLUE;
+		popupColors[2] = GGB_PURPLE;
+		popupColors[3] = GGB_VIOLET;// rgb(244, 0, 153);
+		popupColors[4] = GGB_RED;
+
+		popupColors[5] = GColor.BLACK;
+		popupColors[6] = GGB_GRAY;// rgb(102, 102, 102);
+		popupColors[7] = GGB_BROWN; // rgb(153, 51, 0);
+		popupColors[8] = GGB_ORANGE;// rgb(255, 85, 0);
 		popupColors[9] = null; // placeholder for (...) button
 		return popupColors;
 	}
@@ -467,7 +472,7 @@ public class GeoGebraColorConstants {
 			rgb(255, 102, 153),
 			rgb(255, 51, 102),
 			rgb(255, 0, 51),
-			rgb(204, 0, 0),
+			GGB_RED,
 			MAROON,
 			rgb(51, 0, 0),
 
@@ -490,7 +495,7 @@ public class GeoGebraColorConstants {
 			GOLD,
 			rgb(255, 204, 102),
 			rgb(204, 153, 0),
-			BROWN,
+			GGB_BROWN,
 			rgb(102, 51, 0),
 
 			// Row 4 YELLOW-GREEN ("LIME") related colors
@@ -512,7 +517,7 @@ public class GeoGebraColorConstants {
 			rgb(51, 255, 0),
 			rgb(0, 204, 0),
 			rgb(0, 153, 0),
-			DARKGREEN,
+			GGB_GREEN,
 			rgb(0, 51, 0),
 
 			// Row 6 CYAN related colors

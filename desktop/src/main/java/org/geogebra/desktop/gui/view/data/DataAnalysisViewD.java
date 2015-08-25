@@ -64,9 +64,9 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public static final Color HISTOGRAM_COLOR = org.geogebra.desktop.awt.GColorD
 			.getAwtColor(GColor.BLUE);
 	public static final Color BOXPLOT_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.CRIMSON);
+			.getAwtColor(GeoGebraColorConstants.GGB_RED);
 	public static final Color BARCHART_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.DARKGREEN);
+			.getAwtColor(GeoGebraColorConstants.GGB_GREEN);
 
 	public static final Color DOTPLOT_COLOR = org.geogebra.desktop.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.GRAY5);

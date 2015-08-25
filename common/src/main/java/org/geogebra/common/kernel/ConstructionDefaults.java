@@ -19,7 +19,6 @@ import java.util.Set;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -120,9 +119,13 @@ public class ConstructionDefaults {
 	/** default */
 	public static final int DEFAULT_LIST = 130;
 
-	private static final int[] colorSequence = new int[] { 0x008000, 0xCC0000,
-			0x0000FF, 0x9933FF, 0x008080, 0x000000, 0x666666,
-			0x993300 };
+	private static final GColor[] colorSequence = new GColor[] {
+			GeoGebraColorConstants.GGB_GREEN, GeoGebraColorConstants.GGB_RED,
+			GColor.BLUE, GeoGebraColorConstants.GGB_ORANGE,
+			GeoGebraColorConstants.GGB_PURPLE, GColor.BLACK,
+			GeoGebraColorConstants.GGB_GRAY,
+ GeoGebraColorConstants.GGB_BROWN };
+
 	// DEFAULT COLORs
 	// points
 	/** default color for points */
@@ -152,7 +155,7 @@ public class ConstructionDefaults {
 
 	// polygons
 	/** default color for polygons */
-	public static final GColor colPolygon = GeoGebraColorConstants.BROWN; // new
+	public static final GColor colPolygon = GeoGebraColorConstants.GGB_BROWN; // new
 																			// Color(153,
 																			// 51,
 																			// 0);
@@ -161,7 +164,7 @@ public class ConstructionDefaults {
 
 	// angles
 	/** default color for angles */
-	private static final GColor colAngle = GeoGebraColorConstants.DARKGREEN; // new
+	private static final GColor colAngle = GeoGebraColorConstants.GGB_GREEN; // new
 																				// Color(0,
 																				// 100,
 																				// 0);
@@ -179,7 +182,7 @@ public class ConstructionDefaults {
 	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
-	private static final GColor colList = GeoGebraColorConstants.DARKGREEN; // new
+	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN; // new
 																			// Color(0,
 																			// 110,
 																			// 0);
@@ -188,8 +191,7 @@ public class ConstructionDefaults {
 	/** default alpha for quadrics */
 	public static final float DEFAULT_QUADRIC_ALPHA = 0.75f;
 	/** default color for quadrics */
-	public static final GColor colQuadric = org.geogebra.common.factories.AwtFactory.prototype
-			.newColor(255, 0, 0);
+	public static final GColor colQuadric = GeoGebraColorConstants.GGB_RED;
 
 	/** preview color */
 	public static final GColor colPreview = GColor.DARK_GRAY;
@@ -998,7 +1000,7 @@ public class ConstructionDefaults {
 	private int colorIndex = 0;
 
 	public GColor getNextColor() {
-		GColor color = AwtFactory.prototype.newColor(colorSequence[colorIndex]);
+		GColor color = colorSequence[colorIndex];
 		colorIndex = (colorIndex + 1) % colorSequence.length;
 		return color;
 	}
