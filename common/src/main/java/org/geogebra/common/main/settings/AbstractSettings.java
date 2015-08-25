@@ -2,8 +2,6 @@ package org.geogebra.common.main.settings;
 
 import java.util.LinkedList;
 
-import org.geogebra.common.main.App;
-
 /**
  * Abstract base class for all setting objects. Provides functionality for
  * setting listeners and batching.
@@ -16,7 +14,7 @@ public abstract class AbstractSettings {
 	 * Running in batch mode: Only at the end of the batch mode listeners are
 	 * notified if settings changed.
 	 */
-	private boolean isBatch;
+	private int runningBatches;
 
 	/**
 	 * Remember is settings changed. Used in batch mode.
@@ -47,7 +45,7 @@ public abstract class AbstractSettings {
 	 */
 	protected final void settingChanged() {
 		// batch mode: just set flag to inform listeners at the end
-		if (isBatch) {
+		if (runningBatches > 0) {
 			settingsChanged = true;
 		}
 
@@ -63,7 +61,7 @@ public abstract class AbstractSettings {
 	 * Begin batch mode.
 	 */
 	public final void beginBatch() {
-		isBatch = true;
+		runningBatches++;
 		// settingsChanged = false;
 	}
 
@@ -71,18 +69,16 @@ public abstract class AbstractSettings {
 	 * End batch mode.
 	 */
 	public final void endBatch() {
-		if (!isBatch) {
-			App.debug("Settings: endBatch() called without beginBatch(). Maybe beginBatch() is missing?");
-		}
 
 		// notify listeners
-		if (settingsChanged) {
-			for (SettingListener listener : listeners) {
-				listener.settingsChanged(this);
+		if (runningBatches == 1) {
+			if (settingsChanged) {
+				for (SettingListener listener : listeners) {
+					listener.settingsChanged(this);
+				}
 			}
 		}
-
-		isBatch = false;
+		runningBatches--;
 	}
 
 	/**
