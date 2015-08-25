@@ -16,7 +16,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -51,6 +50,11 @@ public class EuclidianPen {
 	public double RECTANGLE_LINEAR_TOLERANCE = 0.20;
 	public double POLYGON_LINEAR_TOLERANCE = 0.20;
 	public double RECTANGLE_ANGLE_TOLERANCE = 15 * Math.PI / 180;
+
+	/**
+	 * decrease to allow lines that are not so straight
+	 * e.g. the sides for a polygons
+	 */
 	public double LINE_MAX_DET = 0.015;
 
 	public final GeoPolyLine DEFAULT_PEN_LINE;
@@ -632,8 +636,23 @@ public class EuclidianPen {
 		if (EuclidianPen.I_det(s) > CIRCLE_MIN_DET) {
 			score = this.score_circle(0, penPoints.size() - 1, s);
 			if (score < CIRCLE_MAX_SCORE) {
-				return this.makeACircle(EuclidianPen.center_x(s),
+				// create best fitting circle
+				GeoConic circle = this.makeACircle(EuclidianPen.center_x(s),
 						EuclidianPen.center_y(s), EuclidianPen.I_rad(s));
+
+				// midpoint
+				GeoPoint m = new GeoPoint(app.getKernel().getConstruction(), null, circle.getMidpoint().getX(),
+						circle.getMidpoint().getY(), 1.0);
+
+				// point on the circle
+				GeoPoint p = circle.getPointsOnConic(1).get(0);
+				p.setLabel(null);
+
+				// delete the circle that was created in makeACircle
+				circle.remove();
+
+				// create a new circle with midpoint and point
+				return app.getKernel().getAlgoDispatcher().Circle(null, m, p);
 			}
 		}
 
@@ -778,20 +797,20 @@ public class EuclidianPen {
 			return;
 		}
 
-		if (shape instanceof GeoConic && ((GeoConic) shape).isCircle()) {
-			String equation = shape
-					.getAlgebraDescription(StringTemplate.defaultTemplate);
-			try {
-				app.getKernel()
-						.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(equation,
-								true, false, true, true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			penPoints.clear();
-			return;
-		}
+//		if (shape instanceof GeoConic && ((GeoConic) shape).isCircle()) {
+//			String equation = shape
+//					.getAlgebraDescription(StringTemplate.defaultTemplate);
+//			try {
+//				app.getKernel()
+//						.getAlgebraProcessor()
+//						.processAlgebraCommandNoExceptionHandling(equation,
+//								true, false, true, true);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			penPoints.clear();
+//			return;
+//		}
 
 		// now check if it can be a function (increasing or decreasing x)
 
