@@ -112,7 +112,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	/** absolute screen location, true by default */
 	boolean hasAbsoluteScreenLocation = true;
 
-	private boolean autoStep = false;
+	private boolean autoStep = true;
 
 	/**
 	 * Creates new GeoNumeric
@@ -1488,7 +1488,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		num.setEuclidianVisible(visible);
 		num.setIntervalMin((GeoNumeric)defaultAngleOrNum.getIntervalMinObject());
 		num.setIntervalMax((GeoNumeric)defaultAngleOrNum.getIntervalMaxObject());
-		num.setAnimationStep(defaultAngleOrNum.getAnimationStep());
+		num.setAutoStep(true);
 		num.setAbsoluteScreenLocActive(true);
 		num.setAnimationType(defaultNum.getAnimationType());
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth());

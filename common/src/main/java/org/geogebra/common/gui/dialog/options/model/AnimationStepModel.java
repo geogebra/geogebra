@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
 
@@ -16,7 +17,7 @@ public class AnimationStepModel extends OptionsModel {
 	private boolean partOfSlider; 
 
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
-	
+
 	public AnimationStepModel(ITextFieldListener listener, App app) {
 		this.listener = listener;
 		kernel = app.getKernel();
@@ -48,7 +49,9 @@ public class AnimationStepModel extends OptionsModel {
 				listener.setText(
 						kernel.formatAngle(geo0.getAnimationStep(), highPrecision, ((GeoAngle)geo0).getAngleStyle() == AngleStyle.UNBOUNDED).toString());
 			} else {
-				listener.setText(stepGeo.getLabel(highPrecision));
+				boolean autostep = ((GeoNumeric) geo0).isAutoStep();
+				listener.setText(
+						autostep ? "" : stepGeo.getLabel(highPrecision));
 			}
 		} else {
 			listener.setText("");
@@ -71,20 +74,29 @@ public class AnimationStepModel extends OptionsModel {
 		}
 		return true;
 	}
-	
+
 	public void applyChanges(NumberValue value) {
-		if (value != null && !Double.isNaN(value.getDouble())) {
-			for (int i = 0; i < getGeosLength(); i++) {
-				GeoElement geo = getGeoAt(i);
+		boolean isNaN = value != null && Double.isNaN(value.getDouble());
+
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			if (geo.isGeoNumeric()) {
+				((GeoNumeric) geo).setAutoStep(isNaN);
+				if (!isNaN) {
+					geo.setAnimationStep(value);
+				}
+			} else if (value != null) {
 				geo.setAnimationStep(value);
-				geo.updateRepaint();
 			}
+			geo.updateRepaint();
 		}
 	}
+
 
 	public boolean isPartOfSlider() {
 		return partOfSlider;
 	}
+
 	public void setPartOfSlider(boolean partOfSlider) {
 		this.partOfSlider = partOfSlider;
 	}

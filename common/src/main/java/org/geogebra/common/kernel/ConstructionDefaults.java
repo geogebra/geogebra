@@ -410,6 +410,7 @@ public class ConstructionDefaults {
 		number.setIntervalMax(GeoNumeric.DEFAULT_SLIDER_MAX);
 		number.setIntervalMin(GeoNumeric.DEFAULT_SLIDER_MIN);
 		number.setAnimationStep(GeoNumeric.DEFAULT_SLIDER_INCREMENT);
+		number.setAutoStep(true);
 		number.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		number.setAlphaValue(DEFAULT_NUMBER_ALPHA);
 		number.setDefaultGeoType(DEFAULT_NUMBER);

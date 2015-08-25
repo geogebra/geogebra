@@ -265,7 +265,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		public void update() {
 			tfMin.setText("" + num.getIntervalMin());
 			tfMax.setText("" + num.getIntervalMax());
-			tfStep.setText("" + num.getAnimationStep());
+			tfStep.setText(num.isAutoStep() ? "" : "" + num.getAnimationStep());
 			setLabels();
 		}
 
