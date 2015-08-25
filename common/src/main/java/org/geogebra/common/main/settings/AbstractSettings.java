@@ -69,7 +69,9 @@ public abstract class AbstractSettings {
 	 * End batch mode.
 	 */
 	public final void endBatch() {
-
+		if (runningBatches <= 0) {
+			return;
+		}
 		// notify listeners
 		if (runningBatches == 1) {
 			if (settingsChanged) {
