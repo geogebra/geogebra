@@ -91,6 +91,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
 		        ColorPopupMenuButton.COLORSET_BGCOLOR, false);
+		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(false);
 		btnBgColor.setSelectedIndex(7);
 		btnBgColor.addActionListener(this);	

@@ -8,9 +8,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.util.GeoGebraIcon;
 import org.geogebra.web.web.gui.util.ImageOrText;
@@ -280,9 +282,16 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell) {
-				btnTextColor.getSelectedColor();
-				((GeoCasCell) geo)
-				        .setFontColor(btnTextColor.getSelectedColor());
+				GColor color = btnTextColor.getSelectedColor();
+				if (color == null) {
+					app.getSelectionManager().addSelectedGeo(geo);
+					((GuiManagerW) app.getGuiManager()).getPropertiesView(
+							OptionType.OBJECTS).setOptionPanel(
+							OptionType.OBJECTS, 3);
+					app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+					return;
+				}
+				((GeoCasCell) geo).setFontColor(color);
 				geo.updateRepaint();
 				needUndo = true;
 			}
