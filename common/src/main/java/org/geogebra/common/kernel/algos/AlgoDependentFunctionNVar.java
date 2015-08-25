@@ -15,9 +15,9 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.main.App;
 
@@ -59,8 +59,9 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 	AlgoDependentFunctionNVar(Construction cons, FunctionNVar fun) {
 		super(cons);		
 		this.fun = fun;
-		f = new GeoFunctionNVar(cons);
+		f = new GeoFunctionNVar(cons, false);
 		f.setFunction(fun);
+		fun.initFunction();
 		expression = fun.getExpression();
 		expContainsFunctions = AlgoDependentFunction
 				.containsFunctions(expression);
@@ -68,7 +69,6 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 			expandedFun = new FunctionNVar(fun, kernel);
 		}
 		setInputOutput(); // for AlgoElement
-
 		compute();
 		f.setConstructionDefaults();
 	}

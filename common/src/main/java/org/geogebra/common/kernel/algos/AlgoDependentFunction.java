@@ -84,7 +84,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	public AlgoDependentFunction(Construction cons, Function fun) {
 		super(cons);
 		this.fun = fun;
-		f = new GeoFunction(cons);
+		f = new GeoFunction(cons, false);
 		f.setFunction(fun);
 		f.initFunction();
 

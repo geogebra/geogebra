@@ -108,6 +108,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	public GeoFunctionNVar(Construction c, FunctionNVar f) {
 		this(c, false);
 		setFunction(f);
+		fun.initFunction();
 		if (fun != null)
 			isInequality = fun.initIneqs(this.getFunctionExpression(), this);
 

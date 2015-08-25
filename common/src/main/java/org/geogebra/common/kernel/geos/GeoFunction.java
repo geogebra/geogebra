@@ -111,6 +111,16 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 	}
 
+	public GeoFunction(Construction c, boolean setDefaults) {
+		super(c);
+
+		if (setDefaults) {
+			setConstructionDefaults(); // init visual settings
+		}
+		surfaceEvaluables = new TreeSet<SurfaceEvaluable>();
+
+	}
+
 	/**
 	 * Creates new function
 	 * 
