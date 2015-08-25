@@ -117,6 +117,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 						getSelectedColor(), null);
 			}
 		};
+		btnTextColor.setEnableTable(true);
 		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
