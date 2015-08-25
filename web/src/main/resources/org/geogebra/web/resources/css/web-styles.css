@@ -134,7 +134,7 @@
 	overflow: visible !important;
 }
 
-body.application,article {
+body.application,.GeoGebraFrame, .GeoGebraFrame span, .GeoGebraFrame td, .GeoGebraFrame th{
 	color: #666666;
 	font-size: 16px;
 }
