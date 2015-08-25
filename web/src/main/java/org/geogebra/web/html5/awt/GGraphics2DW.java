@@ -10,7 +10,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.GKey;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
@@ -130,15 +129,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 			return false;
 		});
 	}-*/;
-
-	public void draw3DRect(int x, int y, int width, int height, boolean raised) {
-		App.debug("draw3DRect: implementation needed");
-
-	}
-
-	public void fill3DRect(int x, int y, int width, int height, boolean raised) {
-		App.debug("fill3DRect: implementation needed");
-	}
 
 	private double[] coords = new double[6];
 
@@ -982,11 +972,6 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 	public void drawImage(MyImage img, int x, int y) {
 		context.drawImage(((MyImageW) img).getImage(), x, y);
 
-	}
-
-	// TODO: remove?
-	public void drawImage(GImage img, int x, int y) {
-		App.debug("drawImage: implementation needed");
 	}
 
 	public Integer getID() {

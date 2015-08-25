@@ -5,58 +5,6 @@ import java.util.Map;
 public interface GGraphics2D {
 
 	/**
-	 * Draws a 3-D highlighted outline of the specified rectangle. The edges of
-	 * the rectangle are highlighted so that they appear to be beveled and lit
-	 * from the upper left corner.
-	 * <p>
-	 * The colors used for the highlighting effect are determined based on the
-	 * current color. The resulting rectangle covers an area that is
-	 * <code>width&nbsp;+&nbsp;1</code> pixels wide by
-	 * <code>height&nbsp;+&nbsp;1</code> pixels tall. This method uses the
-	 * current <code>Color</code> exclusively and ignores the current
-	 * <code>Paint</code>.
-	 * 
-	 * @param x
-	 *            the x coordinate of the rectangle to be drawn.
-	 * @param y
-	 *            the y coordinate of the rectangle to be drawn.
-	 * @param width
-	 *            the width of the rectangle to be drawn.
-	 * @param height
-	 *            the height of the rectangle to be drawn.
-	 * @param raised
-	 *            a boolean that determines whether the rectangle appears to be
-	 *            raised above the surface or sunk into the surface.
-	 * @see java.awt.Graphics#fill3DRect
-	 */
-	public abstract void draw3DRect(int x, int y, int width, int height,
-			boolean raised);
-
-	/**
-	 * Paints a 3-D highlighted rectangle filled with the current color. The
-	 * edges of the rectangle are highlighted so that it appears as if the edges
-	 * were beveled and lit from the upper left corner. The colors used for the
-	 * highlighting effect and for filling are determined from the current
-	 * <code>Color</code>. This method uses the current <code>Color</code>
-	 * exclusively and ignores the current <code>Paint</code>.
-	 * 
-	 * @param x
-	 *            the x coordinate of the rectangle to be filled.
-	 * @param y
-	 *            the y coordinate of the rectangle to be filled.
-	 * @param width
-	 *            the width of the rectangle to be filled.
-	 * @param height
-	 *            the height of the rectangle to be filled.
-	 * @param raised
-	 *            a boolean value that determines whether the rectangle appears
-	 *            to be raised above the surface or etched into the surface.
-	 * @see java.awt.Graphics#draw3DRect
-	 */
-	public abstract void fill3DRect(int x, int y, int width, int height,
-			boolean raised);
-
-	/**
 	 * Strokes the outline of a <code>Shape</code> using the settings of the
 	 * current <code>Graphics2D</code> context. The rendering attributes applied
 	 * include the <code>Clip</code>, <code>Transform</code>, <code>Paint</code>
@@ -461,8 +409,6 @@ public interface GGraphics2D {
 
 	public abstract void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
-
-	public abstract void drawImage(GImage img, int x, int y);
 
 	public abstract void setAntialiasing();
 

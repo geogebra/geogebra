@@ -51,7 +51,6 @@ public class GBoxW extends org.geogebra.common.javax.swing.GBox {
 
 	@Override
 	public void setBounds(GRectangle rect) {
-		App.debug("implementation needed - just finishing"); // TODO
 		impl.setWidth(rect.getWidth() + "");
 		impl.setHeight(rect.getHeight() + "");
 

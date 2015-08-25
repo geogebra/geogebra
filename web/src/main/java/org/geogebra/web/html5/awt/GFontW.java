@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.awt;
 
-import org.geogebra.common.main.App;
 
 public class GFontW extends org.geogebra.common.awt.GFont {
 	public static final int BOLD = 1;
@@ -95,7 +94,6 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 	}
 
 	public GFontW deriveFont(String fontStyle2, final int newSize) {
-		App.debug("implementation needed or OK"); // TODO Auto-generated
 		GFontW f = new GFontW(fontStyle2);
 		f.setFontSize(newSize);
 		return f;
@@ -172,7 +170,6 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 
 	@Override
 	public org.geogebra.common.awt.GFont deriveFont(int i) {
-		App.debug("implementation needed or OK");
 		GFontW ret = new GFontW(fontStyle);
 		ret.setFontStyle(i);
 		ret.setFontSize(fontSize);
@@ -181,7 +178,6 @@ public class GFontW extends org.geogebra.common.awt.GFont {
 
 	@Override
 	public String getFontName() {
-		App.debug("implementation needed or OK");
 		return fontFamily;
 	}
 

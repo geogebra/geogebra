@@ -3074,8 +3074,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public boolean showAlgebraInput() {
-		App.debug("showAlgebraInput: implementation needed"); // TODO
-		// Auto-generated
 		return showAlgebraInput;
 	}
 
