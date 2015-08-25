@@ -76,7 +76,7 @@ public class AnimationStepModel extends OptionsModel {
 	}
 
 	public void applyChanges(NumberValue value) {
-		boolean isNaN = value != null && Double.isNaN(value.getDouble());
+		boolean isNaN = value == null || Double.isNaN(value.getDouble());
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);

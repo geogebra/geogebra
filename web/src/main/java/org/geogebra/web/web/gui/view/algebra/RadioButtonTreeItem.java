@@ -309,7 +309,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					num.setAutoStep(false);
 					num.setAnimationStep(getNumberFromInput(stepText));
 				}
-
+				num.update();
 				hide();
 			}
 		}
@@ -1220,6 +1220,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
 			slider.setStep(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
+			if (minMaxPanel != null) {
+				minMaxPanel.update();
+			}
 			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
 				sliderPanel.add(slider);
 				minMaxPanel.setVisible(false);
