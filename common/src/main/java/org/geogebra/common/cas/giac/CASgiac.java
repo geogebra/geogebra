@@ -116,6 +116,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	/** CAS parser */
 	public CASparser casParser;
 
+	static int nrOfReplacedConst = 0;
+
 	/**
 	 * Creates new Giac CAS
 	 * 
@@ -813,8 +815,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		if (ret.indexOf("c_") > -1) {
+			nrOfReplacedConst++;
 			App.debug("replacing arbitrary constants in " + ret);
-			ret = ret.replaceAll("c_([0-9]*)", "arbconst($1)");
+			ret = ret.replaceAll("c_([0-9]*)", "arbconst(" + nrOfReplacedConst
+					+ ")");
 		}
 
 		if (ret.indexOf("n_") > -1) {
