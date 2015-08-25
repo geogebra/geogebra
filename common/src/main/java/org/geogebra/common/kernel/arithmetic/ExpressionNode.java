@@ -3489,7 +3489,7 @@ kernel, left,
 				sb.append(tpl.leftSquareBracket());
 			} else {
 				sb.append("If");
-				sb.append(tpl.rightSquareBracket());
+				sb.append(tpl.leftSquareBracket());
 			}
 
 			MyList cond = (MyList) left;
