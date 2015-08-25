@@ -1061,7 +1061,8 @@ public class Polynomial implements Comparable<Polynomial> {
 			if (!variable.isFree()) {
 				dependentVariables.add(variable);
 			} else {
-				if (!substitutions.containsKey(variable)) {
+				if (substitutions == null
+						|| !substitutions.containsKey(variable)) {
 					freeVariables.add(variable);
 				}
 			}
