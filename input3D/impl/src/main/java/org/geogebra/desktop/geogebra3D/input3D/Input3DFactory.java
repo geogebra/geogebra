@@ -1,6 +1,7 @@
 package org.geogebra.desktop.geogebra3D.input3D;
 
 import org.geogebra.common.euclidian3D.Input3D;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
 
@@ -22,14 +23,19 @@ public class Input3DFactory {
 		// return null; // use this to switch off 3D input
 		//return new InputLeo3D(); //use this for Leonar3do input
 
+		long time = System.currentTimeMillis();
+
 		// check for realsense
 		try {
 			ret = new InputIntelRealsense3D();
 		} catch (Exception e) {
 			// no realsense camera
 			ret = null;
-			Log.debug("==================" + e.toString());
+			Log.debug(e.getMessage());
 		}
+
+		App.debug("============ checking 3D input time: "
+				+ (System.currentTimeMillis() - time) + " ms");
 
 		return ret;
 
