@@ -3470,9 +3470,6 @@ kernel, left,
 				} else {
 					sb.append("If");
 				}
-				if (stringType == StringType.LATEX) {
-					sb.append(" \\left");
-				}
 				sb.append(tpl.leftSquareBracket());
 				sb.append(leftStr);
 				sb.append(", ");
