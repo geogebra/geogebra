@@ -32,6 +32,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
@@ -49,7 +50,6 @@ import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
@@ -556,7 +556,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
     }
 
 	public void showAnimGifExportDialog() {
-		DialogBox dialog = new AnimationExportDialogW((AppW) app);
+		GDialogBox dialog = new AnimationExportDialogW((AppW) app);
 		dialog.center();
 		dialog.show();
 	}

@@ -12,11 +12,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
@@ -71,9 +71,9 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		wrappedPopup.show();
 
 		focus();
-		wrappedPopup.addCloseHandler(new CloseHandler<PopupPanel>() {
+		wrappedPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
-			public void onClose(CloseEvent<PopupPanel> event) {
+			public void onClose(CloseEvent<GPopupPanel> event) {
 				App.debug("MOST ZARNAK BEFELE");
 				editor = null;
 			}

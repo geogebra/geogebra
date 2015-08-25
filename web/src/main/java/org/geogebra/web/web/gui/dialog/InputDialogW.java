@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ErrorHandler;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -20,7 +21,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -37,7 +37,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	protected InputPanelW inputPanel;
 
 	protected Button btApply, btProperties, btCancel, btOK, btHelp;
-	protected DialogBox wrappedPopup;
+	protected GDialogBox wrappedPopup;
 
 	protected GeoElement geo;
 

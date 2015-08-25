@@ -18,6 +18,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -50,7 +51,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -132,9 +132,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		addCancelButton();
 
-		this.addCloseHandler(new CloseHandler<PopupPanel>() {
+		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
-			public void onClose(final CloseEvent<PopupPanel> event) {
+			public void onClose(final CloseEvent<GPopupPanel> event) {
 				app.setDefaultCursor();
 				dontSaveButton.setEnabled(true);
 				title.setEnabled(true);

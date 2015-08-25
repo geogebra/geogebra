@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.main.ErrorHandler;
 import org.geogebra.web.web.gui.browser.BrowseResources;
 import org.geogebra.web.web.gui.util.StandardButton;
@@ -21,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  * A DialogBox for Web
  *
  */
-public class DialogBoxW extends DialogBox {
+public class DialogBoxW extends GDialogBox {
 	
 	private ErrorHandler eh;
 	FastButton cancelButton;
