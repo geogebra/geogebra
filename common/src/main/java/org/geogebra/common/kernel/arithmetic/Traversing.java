@@ -438,7 +438,7 @@ public interface Traversing {
 							.getName(StringTemplate.defaultTemplate);
 					GeoNumeric slider = new GeoNumeric(
 							kernel.getConstruction(), name, 1);
-					GeoNumeric.setSliderFromDefault(slider, false);
+					GeoNumeric.setSliderFromDefault(slider, false, false);
 					App.debug("autocreating slider " + name);
 				}
 			}

@@ -383,7 +383,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			0.75, 1, 1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	private static final String MUL_SIGN = "\u00d7";
 	private static final String GTE_SIGN = "\u2264";
-	private static final String LTE_SIGN = "\u2265";
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -718,7 +717,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					((GeoNumeric) geo).getIntervalMax());
 			slider.setValue(((GeoNumeric) geo).getValue());
 			slider.setStep(geo.getAnimationStep());
-
 			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Double> event) {
@@ -768,7 +766,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		slider.setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
 				: width);
 	}
-
 	public void replaceXButtonDOM(TreeItem item) {
 		// in subclasses pButton will be added first!
 		// also, this method should be overridden in NewRadioButtonTreeItem
@@ -1630,7 +1627,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 							}
 						}
 					}
-
 					app.setScrollToShow(false);
 
 					addToHistory(input, latexx);
@@ -1669,6 +1665,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				// AV
 				newGeo[0].setAuxiliaryObject(false);
 			}
+
 
 		} catch (Exception ee) {
 			// TODO: better exception handling

@@ -1476,10 +1476,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 	
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
+		return setSliderFromDefault(num, isAngle, true);
+
+	}
+
+	public static GeoNumeric setSliderFromDefault(GeoNumeric num,
+			boolean isAngle, boolean visible) {
 		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(false);           
 		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);           
 		num.setSliderFixed(defaultNum.isSliderFixed());         
-		num.setEuclidianVisible(true);
+		num.setEuclidianVisible(visible);
 		num.setIntervalMin((GeoNumeric)defaultAngleOrNum.getIntervalMinObject());
 		num.setIntervalMax((GeoNumeric)defaultAngleOrNum.getIntervalMaxObject());
 		num.setAnimationStep(defaultAngleOrNum.getAnimationStep());
