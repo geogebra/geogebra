@@ -390,24 +390,33 @@ public final class ArticleElement extends Element {
 	}
 
 	private native float envScale(String type) /*-{
-		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/, style = $wnd
-				.getComputedStyle(this), transform, matches;
-		if (style) {
-					transform = @org.geogebra.web.html5.util.ArticleElement::getTransform(Lcom/google/gwt/core/client/JavaScriptObject;)(style),
-					matches = transform.match(matrixRegex);
-			if (matches && matches.length) {
-				if (type === "x") {
-					return $wnd.parseFloat(matches[1]);
-				} else {
-					return $wnd.parseFloat(matches[2]);
+		var current = this;
+		var sx = 1;
+		var sy = 1;
+
+		do {
+			var matrixRegex = /matrix\((-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+)\)/, style = $wnd
+					.getComputedStyle(current);
+			if (style) {
+				var transform = style.transform || style.webkitTransform
+						|| style.MozTransform || style.msTransform
+						|| style.oTransform || "";
+				var matches = transform.match(matrixRegex);
+				if (matches && matches.length) {
+
+					sx *= $wnd.parseFloat(matches[1]);
+					sy *= $wnd.parseFloat(matches[4]);
+				} else if (transform.indexOf("scale") === 0) {
+					var mul = $wnd.parseFloat(transform.substr(transform
+							.indexOf("(") + 1));
+					sx *= mul;
+					sy *= mul;
 				}
-			} else if (transform.indexOf("scale") === 0) {
-				return $wnd.parseFloat(transform
-						.substr(transform.indexOf("(") + 1));
 			}
 
-		}
-		return 1;
+			current = current.parentElement;
+		} while (current);
+		return type === "x" ? sx : sy;
 	}-*/;
 
 	/**
