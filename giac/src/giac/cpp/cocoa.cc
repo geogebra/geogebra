@@ -824,7 +824,7 @@ namespace giac {
   tdeg_t & operator += (tdeg_t & x,const tdeg_t & y){ 
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      if (!y.tab[0]%2){
+      if (!(y.tab[0]%2)){
 	y.dbgprint();
 	COUT << "erreur" << endl;
       }
@@ -848,7 +848,7 @@ namespace giac {
   tdeg_t operator + (const tdeg_t & x,const tdeg_t & y){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      if (!y.tab[0]%2)
+      if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
       tdeg_t res;
       res.order_=x.order_;
@@ -882,7 +882,7 @@ namespace giac {
   void add(const tdeg_t & x,const tdeg_t & y,tdeg_t & res,int dim){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      if (!y.tab[0]%2)
+      if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
       if (res.tab[0]%2 && res.ui[0]==1){
 	const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
@@ -920,7 +920,7 @@ namespace giac {
   tdeg_t operator - (const tdeg_t & x,const tdeg_t & y){ 
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      if (!y.tab[0]%2)
+      if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
       tdeg_t res;
       res.order_=x.order_;
@@ -1462,7 +1462,7 @@ namespace giac {
   bool tdeg_t_all_greater(const tdeg_t & x,const tdeg_t & y,order_t order){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
-      if (!y.tab[0]%2)
+      if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
       if (x.tdeg<y.tdeg || x.tdeg2<y.tdeg2)
 	return false;
@@ -1504,7 +1504,7 @@ namespace giac {
   void index_lcm(const tdeg_t & x,const tdeg_t & y,tdeg_t & z,order_t order){
 #ifdef GIAC_64VARS
     if (x.tdeg%2){
-      if (!y.tab[0]%2)
+      if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
       z=tdeg_t();
       z.tdeg=1;
@@ -1714,7 +1714,7 @@ namespace giac {
   bool disjoint(const tdeg_t & a,const tdeg_t & b,order_t order,short dim){
 #ifdef GIAC_64VARS
     if (a.tab[0]%2){
-      if (!b.tab[0]%2)
+      if (!(b.tab[0]%2))
 	COUT << "erreur" << endl;
       const degtype * xptr=(degtype *)(a.ui+1),*xend=xptr+dim,*yptr=(degtype *)(b.ui+1);
       for (;xptr!=xend;++yptr,++xptr){
