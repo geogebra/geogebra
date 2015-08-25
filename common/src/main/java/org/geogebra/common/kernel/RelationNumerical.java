@@ -276,30 +276,28 @@ public class RelationNumerical {
 	 * unequal)
 	 */
 	final private Set<Report> relation(GeoSegmentND a, GeoSegmentND b) {
-		Boolean bool = a.isEqual(b);
-		String str = equalityString((GeoElement) a, (GeoElement) b, bool);
-		register(bool, null, str);
-		// TODO: At the moment we don't have equality check for two segments,
-		// just
-		// for their length. Maybe we want to implement this someday.
-
-		// sb.append(getPlain("Length"));
-		// sb.append(": ");
-		// sb.append(relation((NumberValue) a, (NumberValue) b));
-
+		Boolean bool;
+		String str;
 		if (Kernel.isEqual(((NumberValue) a).getDouble(),
 				((NumberValue) b).getDouble())) {
-			str = loc.getPlain("AhasTheSameLengthAsB",
-					((GeoElement) a).getColoredLabel(),
-					((GeoElement) b).getColoredLabel());
-			bool = true;
+
+			if (a.isEqual(b)) {
+				register(true, RelationCommand.AreEqual,
+						equalityString((GeoElement) a, (GeoElement) b, true));
+			} else {
+				register(
+						true,
+						RelationCommand.AreCongruent,
+						congruentSegmentString((GeoElement) a, (GeoElement) b,
+								true, loc));
+			}
 		} else {
-			str = loc.getPlain("AdoesNothaveTheSameLengthAsB",
-					((GeoElement) a).getColoredLabel(),
-					((GeoElement) b).getColoredLabel());
-			bool = false;
+			register(
+					false,
+					null,
+					congruentSegmentString((GeoElement) a, (GeoElement) b,
+							false, loc));
 		}
-		register(bool, RelationCommand.AreCongruent, str);
 
 		// Checking parallelism:
 		bool = ((GeoLine) a).isParallel((GeoLine) b);
@@ -588,6 +586,31 @@ public class RelationNumerical {
 					b.getColoredLabel());
 		}
 		return loc.getPlain("AandBareNotEqual", a.getColoredLabel(),
+				b.getColoredLabel());
+	}
+
+	/**
+	 * Internationalized string of "a and b are congruent" (or not)
+	 * 
+	 * @param a
+	 *            first object
+	 * @param b
+	 *            second object
+	 * @param equal
+	 *            yes or no
+	 * @param loc
+	 *            locale
+	 * @return internationalized string
+	 */
+	final static public String congruentSegmentString(GeoElement a,
+			GeoElement b,
+			boolean equal, Localization loc) {
+		if (equal) {
+			return loc.getPlain("AhasTheSameLengthAsB", a.getColoredLabel(),
+					b.getColoredLabel());
+		}
+		return loc.getPlain("AdoesNothaveTheSameLengthAsB",
+				a.getColoredLabel(),
 				b.getColoredLabel());
 	}
 

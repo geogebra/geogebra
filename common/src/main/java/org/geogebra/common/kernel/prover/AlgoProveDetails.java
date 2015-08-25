@@ -246,6 +246,11 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 										(GeoLine) ndgc.getGeos()[0],
 										(GeoLine) ndgc.getGeos()[1], false,
 										getLoc());
+							} else if ("AreCongruent".equals(cond)) {
+								s = RelationNumerical.congruentSegmentString(
+										ndgc.getGeos()[0], ndgc.getGeos()[1],
+										false,
+										getLoc());
 							}
 						}
 						if (s == null || !relTool) {
