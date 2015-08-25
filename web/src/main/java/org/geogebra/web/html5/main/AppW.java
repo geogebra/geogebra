@@ -101,6 +101,7 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
+import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
 
@@ -144,8 +145,7 @@ public abstract class AppW extends App implements SetLabels {
 	private LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
-	private String uniqueId = null;// FIXME: generate new UUID: +
-	// UUID.randomUUID();
+	private String uniqueId = UUIDW.randomUUID().toString();
 	private int localID = -1;
 	private long syncStamp;
 	protected GoogleDriveOperation googleDriveOperation;
@@ -229,7 +229,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public final void resetUniqueId() {
-		uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
+		uniqueId = UUIDW.randomUUID().toString();
 		setTubeId(0);
 	}
 
