@@ -1670,7 +1670,7 @@ __GGB__keysVar.ta.menu = {
     "NullHypothesis": "Null Hypothesis",
     "NullHypothesis.short": "Null",
     "Number": "Number",
-    "Numeric": "Numeric",
+    "Numeric": "Numeric Evaluation",
     "Numeric.Help": "Numeric evaluation",
     "Objects": "Objects",
     "Offline": "Offline",

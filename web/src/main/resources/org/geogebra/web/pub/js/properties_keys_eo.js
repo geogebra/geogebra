@@ -1419,7 +1419,7 @@ __GGB__keysVar.eo.menu = {
     "EqualVariance": "Equal Variance",
     "Equation": "Ekvacio",
     "EstimatedValue": "Estimated Value",
-    "Evaluate": "Evaluate",
+    "Evaluate": "Symbolic Evaluation",
     "Evaluate.Help": "Exact evaluation",
     "Exercise.CreateNew": "New Exercise",
     "Exit": "\u0108esi",
