@@ -3486,6 +3486,11 @@ namespace giac {
   static define_unary_function_eval4_index (58,__union,&_union,_union_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_union ,alias_at_union ,&__union);
 
+  void chk_set(gen & a){
+    if (a.type==_VECT && a.subtype!=_SET__VECT){
+      vecteur av=*a._VECTptr; comprim(av); a=av;
+    }
+  }
   gen symb_intersect(const gen & args){
     return symbolic(at_intersect,args);
   }
@@ -3533,6 +3538,8 @@ namespace giac {
     }
 #endif
     if ( a.type==_VECT && b.type==_VECT){
+      chk_set(a);
+      chk_set(b);
       vecteur v;
       const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end();
       for (;it!=itend;++it){
@@ -3557,6 +3564,8 @@ namespace giac {
     gen a=args._VECTptr->front(),b=args._VECTptr->back();
     if ( (a.type!=_VECT) || (b.type!=_VECT))
       return gensizeerr(gettext("Minus"));
+    chk_set(a);
+    chk_set(b);
     vecteur v;
     const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end();
     for (;it!=itend;++it){

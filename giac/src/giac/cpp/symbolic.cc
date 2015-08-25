@@ -365,12 +365,14 @@ namespace giac {
 	return s;
 	// return s += (need?")\xe2\x81\xb2":"\xe2\x81\xb2");
       }
+#if 0
       if (pui==plus_two){
 	s += (argpar?"(":"");
 	add_print(s,arg,contextptr);
 	s += (argpar?")²":"²");
 	return s;
       }
+#endif
     }
     if (pui.type>_REAL && pui==plus_one_half){
       s += "sqrt(";

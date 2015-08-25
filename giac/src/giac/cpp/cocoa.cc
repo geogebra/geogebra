@@ -852,7 +852,7 @@ namespace giac {
 	COUT << "erreur" << endl;
       tdeg_t res;
       res.order_=x.order_;
-      res.ui=(longlong *)malloc(1+(x.order_.dim+degratiom1)/degratio*sizeof(longlong));
+      res.ui=(longlong *)malloc((1+(x.order_.dim+degratiom1)/degratio)*sizeof(longlong));
       res.ui[0]=1; 
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
       longlong * resptr=res.ui+1;
@@ -924,7 +924,7 @@ namespace giac {
 	COUT << "erreur" << endl;
       tdeg_t res;
       res.order_=x.order_;
-      res.ui=(longlong *)malloc(1+(x.order_.dim+degratiom1)/degratio*sizeof(longlong));
+      res.ui=(longlong *)malloc((1+(x.order_.dim+degratiom1)/degratio)*sizeof(longlong));
       res.ui[0]=1; 
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
       longlong * resptr=res.ui+1;
