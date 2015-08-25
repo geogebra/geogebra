@@ -52,7 +52,7 @@ public class MyArbitraryConstant {
 	 *            constant index (global)
 	 * @return real constant
 	 */
-	public ExpressionValue nextConst(MyDouble myDouble) {
+	public ExpressionValue nextConst(double myDouble) {
 		return nextConst(consts, ce.getConstruction().constsM, "c", myDouble);
 	}
 
@@ -61,7 +61,7 @@ public class MyArbitraryConstant {
 	 *            constant index (global)
 	 * @return integer constant
 	 */
-	public ExpressionValue nextInt(MyDouble myDouble) {
+	public ExpressionValue nextInt(double myDouble) {
 		return nextConst(ints, ce.getConstruction().intsM, "k", myDouble);
 	}
 
@@ -70,14 +70,14 @@ public class MyArbitraryConstant {
 	 *            constant index (global)
 	 * @return complex constant
 	 */
-	public ExpressionValue nextComplex(MyDouble myDouble) {
+	public ExpressionValue nextComplex(double myDouble) {
 		return nextConst(complexNumbers, ce.getConstruction().complexNumbersM,
 				"c", myDouble);
 	}
 
 	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2,
-			Map<Integer, GeoNumeric> map, String prefix, MyDouble myDouble) {
-		Integer index = new Integer((int) Math.round(myDouble.getDouble()));
+			Map<Integer, GeoNumeric> map, String prefix, double myDouble) {
+		Integer index = new Integer((int) Math.round(myDouble));
 		GeoNumeric found = map.get(index);
 		if (found != null)
 			return found;
