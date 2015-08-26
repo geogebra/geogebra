@@ -1462,13 +1462,17 @@ public enum Operation {
 				for (int i = 0; i < lv.size(); i++) {
 					ExpressionNode ith = (ExpressionNode) lv.getMyList()
 							.getListElement(i);
-					idx = 1 + (int) Math.round(ith.evaluateDouble());
+					idx = (int) Math.round(ith.evaluateDouble()) - 1;
 					if (i < lv.size() - 1) {
-						sublist = (GeoList) sublist.get(idx);
+						if (idx >= 0 && idx < sublist.size()) {
+							sublist = (GeoList) sublist.get(idx);
+						} else {
+							sublist = (GeoList) sublist.createTemplateElement();
+						}
 					}
 
 				}
-				if (idx >= 0) {
+				if (idx >= 0 && idx < sublist.size()) {
 					return sublist.get(idx).copyInternal(
 							sublist.getConstruction());
 				}

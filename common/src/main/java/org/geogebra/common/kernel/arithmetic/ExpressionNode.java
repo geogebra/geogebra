@@ -3160,18 +3160,6 @@ kernel, left,
 
 		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
-			sb.append(loc.getCommand("Element"));
-			sb.append(tpl.leftSquareBracket());
-			if (left.isGeoElement()) {
-				sb.append(((GeoElement) left).getLabel(tpl));
-			} else {
-				sb.append(leftStr);
-			}
-			sb.append(", ");
-			sb.append(((MyList) right).getListElement(0).toString(tpl));
-			sb.append(tpl.rightSquareBracket());
-			break;
-
 		case FUNCTION_NVAR:
 			if (valueForm) {
 				// TODO: avoid replacing of expressions in operationToString
