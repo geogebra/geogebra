@@ -1322,7 +1322,6 @@ public abstract class App implements UpdateSelection {
 			if (isUsingFullGui()) {
 				if ((getGuiManager() != null)
 						&& getGuiManager().hasAlgebraViewShowing()) {
-					App.debug("Algebra visible");
 					return getAlgebraView().isVisible() ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
 							: ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 				}
