@@ -71,8 +71,9 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 	@Override
 	public void onResize() {
-		// ignore super method
-
+		if (aview != null) {
+			aview.resize();
+		}
 	}
 
 	@Override

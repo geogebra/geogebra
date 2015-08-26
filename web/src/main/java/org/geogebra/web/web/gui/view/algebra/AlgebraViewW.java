@@ -45,12 +45,14 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AlgebraViewW extends Tree implements LayerView,
-		AlgebraView, OpenHandler<TreeItem>, SettingListener {
+AlgebraView,
+OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	/**
 	 * Flag for LaTeX rendering
 	 */
@@ -130,7 +132,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	public AlgebraController getAlgebraController() {
 		return algebraController;
 	}
-	 
+
 	public AlgebraViewW(AlgebraController algCtrl) {
 		super(new TreeImages());
 		App.debug("creating Algebra View");
@@ -221,13 +223,13 @@ public class AlgebraViewW extends Tree implements LayerView,
 		}
 	}
 
-    /**
+	/**
 	 * schedule a repaint
 	 */
 	public void doRepaint() {		
 		repaintScheduler.requestAnimationFrame(repaintCallback);
 	}
-	
+
 	public void doSpecialRepaint() {
 		repaintScheduler.requestAnimationFrame(specialRepaintCallback);
 	}
@@ -257,16 +259,16 @@ public class AlgebraViewW extends Tree implements LayerView,
 		waitForRepaint--;
 		return true;
 	}
-	
-	
+
+
 
 	public final void repaintView() {
 		app.ensureTimerRunning();
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
-    		waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
-    	}
+			waitForRepaint = TimerSystemW.ALGEBRA_LOOPS;
+		}
 	}
-	
+
 	/**
 	 * Make sure we repaint all updated objects in nodes that were collapsed before
 	 */
@@ -289,12 +291,12 @@ public class AlgebraViewW extends Tree implements LayerView,
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			
-			
-							
-				((RadioButtonTreeItem) node.getWidget()).updateOnNextRepaint();
-				repaintView();
-			
+
+
+
+			((RadioButtonTreeItem) node.getWidget()).updateOnNextRepaint();
+			repaintView();
+
 			/*
 			 * Cancel editing if the updated geo element has been edited, but
 			 * not otherwise because editing geos while animation is running
@@ -345,7 +347,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 					if (geo instanceof GeoNumeric
 							&& ti.getChild(j).getWidget() instanceof RadioButtonTreeItem) {
 						((RadioButtonTreeItem) ti.getChild(j).getWidget())
-								.repaint();
+						.repaint();
 
 						// TODO needed?
 						ti.setSelected(((GeoElement) geo).doHighlighting());
@@ -363,7 +365,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			Object geo = item.getChild(j).getUserObject();
 			if (geo instanceof GeoElement)
 				item.getChild(j).setSelected(
-				        ((GeoElement) geo).doHighlighting());
+						((GeoElement) geo).doHighlighting());
 		}
 	}
 
@@ -435,7 +437,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	public void setTreeMode(int mode) {
 		setTreeMode(intToMode(mode));
 	}
-	
+
 	public static SortMode intToMode(int mode){
 		switch (mode) {
 		case 0:
@@ -592,7 +594,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
 		setTreeMode(algebraSettings.getTreeMode());
 		showAuxiliaryObjectsSettings = algebraSettings
-		        .getShowAuxiliaryObjects();
+				.getShowAuxiliaryObjects();
 		setCollapsedNodes(algebraSettings.getCollapsedNodes());
 
 		settingsChanged = true;
@@ -683,7 +685,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 				rootType = new TreeItem();
 				// setUserObject(rootType, "");
 				typeNodesMap = new HashMap<String, TreeItem>(5);
-				
+
 			}
 
 			// always try to remove the auxiliary node
@@ -763,7 +765,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			for (Integer key : layerNodesMap.keySet()) {
 				node = layerNodesMap.get(key);
 				setUserObject(node, loc.getPlain("LayerA", key.toString())
-				        + "TODO" + key);
+						+ "TODO" + key);
 			}
 			break;
 		case ORDER:
@@ -797,7 +799,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			// do we have to create the parent node?
 			if (parent == null) {
 				String transTypeString = geo
-				        .translatedTypeStringForAlgebraView();
+						.translatedTypeStringForAlgebraView();
 				parent = new TreeItem(new InlineLabel(transTypeString));
 				setUserObject(parent, transTypeString);
 				typeNodesMap.put(typeString, parent);
@@ -807,10 +809,10 @@ public class AlgebraViewW extends Tree implements LayerView,
 				for (int i = 0; i < pos; i++) {
 					TreeItem child = getItem(i);
 					if (transTypeString.compareTo(child.toString()) < 0 || 
-									(child.getWidget() != null
-					                && this.inputPanelTreeItem != null
-					                && this.inputPanelTreeItem.getWidget() != null
-					                && child.getWidget().equals(this.inputPanelTreeItem.getWidget()))) {
+							(child.getWidget() != null
+							&& this.inputPanelTreeItem != null
+							&& this.inputPanelTreeItem.getWidget() != null
+							&& child.getWidget().equals(this.inputPanelTreeItem.getWidget()))) {
 						pos = i;
 						break;
 					}
@@ -856,7 +858,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 		return parent;
 	}
-	
+
 	/**
 	 * Assign element or element group to a given tree node
 	 * 
@@ -888,7 +890,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 					.getSafeUri()));
 		}
 	}
-	
+
 	/**
 	 * Remove this node from the model.
 	 * 
@@ -903,7 +905,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 		switch (treeMode) {
 		case TYPE:
 			String typeString = ((GeoElement) node.getUserObject())
-			        .getTypeStringForAlgebraView();
+			.getTypeStringForAlgebraView();
 			TreeItem parent = typeNodesMap.get(typeString);
 
 			// this has been the last node
@@ -941,17 +943,17 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 	private void add(GeoElement geo, int forceLayer) {
 		cancelEditing();
-		
+
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
-		        && geo.isSetAlgebraVisible()) {
+				&& geo.isSetAlgebraVisible()) {
 			if(this.dummy != null){
 				removeItem(this.dummy);
 				this.dummy = null;
 			}
 			// don't add auxiliary objects if the tree is categorized by type
 			if (!getTreeMode().equals(SortMode.DEPENDENCY)
-			        && !showAuxiliaryObjects() && geo.isAuxiliaryObject()) {
+					&& !showAuxiliaryObjects() && geo.isAuxiliaryObject()) {
 				return;
 			}
 
@@ -990,7 +992,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			if (node.getWidget() instanceof RadioButtonTreeItem
 					&& !(node.getWidget() instanceof NewRadioButtonTreeItem)) {
 				((RadioButtonTreeItem) node.getWidget())
-						.replaceXButtonDOM(node);
+				.replaceXButtonDOM(node);
 			}
 
 			if (isNodeTableEmpty()) {
@@ -1006,7 +1008,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 			}
 			nodeTable.put(geo, node);
-			
+
 			// ensure that the leaf with the new object is visible
 			parent.setState(true);
 		}
@@ -1066,7 +1068,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	 * @param mode
 	 */
 	final public static int getInsertPosition(TreeItem parent,
-	        GeoElement newGeo, SortMode mode) {
+			GeoElement newGeo, SortMode mode) {
 		// label of inserted geo
 		// String newLabel = newGeo.getLabel();
 
@@ -1119,7 +1121,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			int middle = (left + right) / 2;
 			TreeItem node = parent.getChild(middle);
 			String nodeLabel = ((GeoElement) node.getUserObject())
-			        .getLabelSimple();
+					.getLabelSimple();
 
 			int compare = GeoElement.compareLabels(geoLabel, nodeLabel);
 			if (compare < 0)
@@ -1159,7 +1161,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	}
 
 	private static boolean compare(GeoElement geo1, GeoElement geo2,
-	        SortMode mode) {
+			SortMode mode) {
 		switch (mode) {
 
 		case ORDER:
@@ -1169,8 +1171,8 @@ public class AlgebraViewW extends Tree implements LayerView,
 		default: // alphabetical
 
 			return GeoElement.compareLabels(
-			        geo1.getLabel(StringTemplate.defaultTemplate),
-			        geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
+					geo1.getLabel(StringTemplate.defaultTemplate),
+					geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
 
 		}
 
@@ -1204,23 +1206,23 @@ public class AlgebraViewW extends Tree implements LayerView,
 			this.styleBar.setLabels();
 		}
 	}
-	
+
 	public final GeoElement getLastSelectedGeo() {
-	    return lastSelectedGeo;
-    }
+		return lastSelectedGeo;
+	}
 
 	public final void setLastSelectedGeo(GeoElement geo) {
-	    lastSelectedGeo = geo;	    
-    }
-	
+		lastSelectedGeo = geo;	    
+	}
+
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	protected TreeItem inputPanelTreeItem;
@@ -1236,30 +1238,30 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 		// usually, inputPanel is here, but not in use (not attached)
 		boolean forceKeyboard = false;
-			boolean appletHack = false;
-			if (inputPanelLatex == null) {
-				inputPanelLatex = new NewRadioButtonTreeItem(kernel);
-				forceKeyboard = app.getArticleElement()
-						.getDataParamBase64String().length() == 0;
+		boolean appletHack = false;
+		if (inputPanelLatex == null) {
+			inputPanelLatex = new NewRadioButtonTreeItem(kernel);
+			forceKeyboard = app.getArticleElement()
+					.getDataParamBase64String().length() == 0;
 
-				appletHack = !App.isFullAppGui();
+			appletHack = !App.isFullAppGui();
+		} else {
+			inputPanelLatex.removeFromParent();
+		}
+		hideAlgebraInput();
+		this.inputPanelTreeItem = new TreeItem(inputPanelLatex);
+		inputPanelLatex.getElement().getParentElement()
+		.addClassName("NewRadioButtonTreeItemParent");
+		inputPanelLatex.replaceXButtonDOM();
+
+		if (appletHack) {
+			if (!isNodeTableEmpty()) {
+				AutoCompleteTextFieldW.showSymbolButtonIfExists(
+						inputPanelLatex, true);
 			} else {
-				inputPanelLatex.removeFromParent();
+				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
 			}
-			hideAlgebraInput();
-			this.inputPanelTreeItem = new TreeItem(inputPanelLatex);
-			inputPanelLatex.getElement().getParentElement()
-			        .addClassName("NewRadioButtonTreeItemParent");
-			inputPanelLatex.replaceXButtonDOM();
-
-			if (appletHack) {
-				if (!isNodeTableEmpty()) {
-					AutoCompleteTextFieldW.showSymbolButtonIfExists(
-							inputPanelLatex, true);
-				} else {
-					inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
-				}
-			}
+		}
 
 
 		showAlgebraInput(forceKeyboard);
@@ -1272,7 +1274,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			hideAlgebraInput();
 		}
 	}
-	
+
 	private void hideAlgebraInput() {
 		if (!isAlgebraInputVisible()) {
 			return;
@@ -1316,7 +1318,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 		inputPanelTreeItem = super.addItem(inputPanelLatex);
 		// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.getElement().getParentElement()
-				.addClassName("NewRadioButtonTreeItemParent");
+		.addClassName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.replaceXButtonDOM();
 		if (appletHack) {
 			if (!isNodeTableEmpty()) {
@@ -1331,21 +1333,21 @@ public class AlgebraViewW extends Tree implements LayerView,
 		if ((!app.getLocalization().getLanguage().equals("ko") || app
 				.has(Feature.KOREAN_KEYBOARD))
 				&& app.showView(App.VIEW_ALGEBRA)) {
-				if (forceKeyboard) {
-					Scheduler.get().scheduleDeferred(
-							new Scheduler.ScheduledCommand() {
-								public void execute() {
-									app.showKeyboard(inputPanelLatex, true);
-								}
-							});
-				}else if(suggestKeyboard){
+			if (forceKeyboard) {
+				Scheduler.get().scheduleDeferred(
+						new Scheduler.ScheduledCommand() {
+							public void execute() {
+								app.showKeyboard(inputPanelLatex, true);
+							}
+						});
+			}else if(suggestKeyboard){
 				app.getAppletFrame().showKeyboardOnFocus();
-				}
-
 			}
 
+		}
+
 	}
-	
+
 	private boolean isAlgebraInputVisible() {
 		return inputPanelTreeItem != null;
 	}
@@ -1355,13 +1357,13 @@ public class AlgebraViewW extends Tree implements LayerView,
 		// make sure the item is inserted before the inputPanel
 		if(isAlgebraInputVisible()){
 			removeItem(inputPanelTreeItem);
-	    }
+		}
 		super.addItem(item);
 		if (isAlgebraInputVisible()) {
 			super.addItem(inputPanelTreeItem);
 		}
 	}
-	
+
 	@Override
 	protected boolean isKeyboardNavigationEnabled(TreeItem ti) {
 		// keys should move the geos in the EV
@@ -1374,7 +1376,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	 * @return true if {@link #nodeTable} is empty
 	 */
 	public boolean isNodeTableEmpty() {
-		 return this.nodeTable.isEmpty();
+		return this.nodeTable.isEmpty();
 	}
 
 	public void setActiveTreeItem(RadioButtonTreeItem radioButtonTreeItem) {
@@ -1446,7 +1448,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
 			if ((!geo.isIndependent() && !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian))
 					|| !attached) // needed for F2 when Algebra
-			// View closed
+				// View closed
 			{
 				if (geo.isRedefineable()) {
 					app.getDialogManager().showRedefineDialog(geo, true);
@@ -1554,7 +1556,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					if (ti.getChild(j).getWidget() instanceof RadioButtonTreeItem) {
 						((RadioButtonTreeItem) ti.getChild(j).getWidget())
-								.updateOnNextRepaint();
+						.updateOnNextRepaint();
 
 					}
 				}
@@ -1562,5 +1564,25 @@ public class AlgebraViewW extends Tree implements LayerView,
 			}
 		}
 		this.repaintView();
+	}
+
+
+	public void resize() {
+		for (int i = 0; i < getItemCount(); i++) {
+			TreeItem ti = getItem(i);
+			if (ti.getWidget() instanceof RadioButtonTreeItem) {
+				((RadioButtonTreeItem) ti.getWidget()).onResize();
+			} else if (ti.getWidget() instanceof GroupHeader) {
+
+				for (int j = 0; j < ti.getChildCount(); j++) {
+					if (ti.getChild(j).getWidget() instanceof RadioButtonTreeItem) {
+						((RadioButtonTreeItem) ti.getChild(j).getWidget())
+						.onResize();
+
+					}
+				}
+
+			}
+		}
 	}
 }

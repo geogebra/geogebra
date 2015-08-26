@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TreeItem;
 
-public class GroupHeader extends FlowPanel{
+public class GroupHeader extends FlowPanel {
 	
 	protected GroupNameLabel il;
 	Image img;

@@ -752,7 +752,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void deferredResizeSlider() {
+		App.debug("[AVEX] deferredResize");
 		if (!avExtension || slider == null) {
+			App.debug("[AVEX] deferredResize Quits. slider is " + slider);
 			return;
 		}
 		Scheduler.get().scheduleDeferred(resizeSliderCmd);
