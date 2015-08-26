@@ -370,7 +370,7 @@ var manageTextarea = (function() {
     // TODO: Wondering why there is a target.bind both here and at the end...
     // It would be good to revise hard-to-understand MathQuillGGB code!
     // but key events may be necessary to remain for the ^ hat character in IE
-    target.bind('keydown keypress keyup', function() { checkTextarea(); });
+    target.bind('keydown keypress keyup input', function() { checkTextarea(); });
 
     //working on the paste event while commenting this out, Okay
     //target.bind('paste', function() { checkTextarea2(); });
@@ -381,8 +381,10 @@ var manageTextarea = (function() {
     // as the textarea should keep its focus, as far as I know,
     // and if not, then "focusout" should not be called before "paste" anyway
     //target.bind('input focusout', function() { checkTextarea2(); checkTextarea(); });
-    target.bind('input', function() { //checkTextarea2();//2
-    checkTextarea(); });
+    target.bind('input keyup', function() {
+      // does this need some more waiting in case of Korean characters?
+      checkTextareaFor(typedText);
+    });
 
 
     // -*- public methods -*- //
@@ -416,6 +418,8 @@ var manageTextarea = (function() {
 
     function popText(callback) {
       var text = textarea.val();
+
+      // is this too early, e.g. in case of Korean?
       if ((text !== undefined) && (text !== '')) {
     	// something really entered
     	//if (text === '^') {
