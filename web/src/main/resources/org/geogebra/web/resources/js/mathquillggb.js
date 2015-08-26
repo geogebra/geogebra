@@ -528,6 +528,12 @@ var manageTextarea = (function() {
 		//textarea[0].simulatedKeypress = true;
         // what about event order here? TODO: make sure it's perfect
 
+        var code = 0;
+        if (e.charCode) {
+          code = e.charCode;
+        } else {
+          code = e.which;
+        }
         // #5398 probably does not mind these lines being here
         // as it's mobile, disabled textarea case only, but still,
         // TODO you might want to check whether:
@@ -539,7 +545,7 @@ var manageTextarea = (function() {
         // search for "unixpapa key" but if these two lines will be
         // removed, maybe it will just work out-of-the-box, as we
         // also have a keydown event, which might change things
-        textarea.val(String.fromCharCode(e.charCode));
+        textarea.val(String.fromCharCode(code));
         textarea[0].simulatedKeypress = true;
 
         // but instead recreate the same event once again!
