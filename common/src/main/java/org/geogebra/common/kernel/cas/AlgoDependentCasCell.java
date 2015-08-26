@@ -77,6 +77,14 @@ public class AlgoDependentCasCell extends AlgoElement implements
 		} else {
 			GeoElement[] geos = new GeoElement[geoVars.size()];
 			input = geoVars.toArray(geos);
+			// If the cell contains circular definition, reload might cause
+			// stack overflow
+			for (int i = 0; i < input.length; i++) {
+				if (input[i] == casCell) {
+					input = new GeoElement[0];
+					return;
+				}
+			}
 		}
 
 	}
