@@ -1489,7 +1489,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	border-bottom: 1px solid #C6C6C6;
 }
 
-* Selector used for android chrome */
+/* Selector used for android chrome */
 .gwt-SplitLayoutPanel-Dragger-ACTIVE  {
 	background:#6161FF;
 	border-left: 1px solid #C6C6C6;
@@ -3629,11 +3629,11 @@ body.application[dir=rtl] .algebraOpenButton {
 ** see: org.geogebra.web.web.gui.view.algebra.Marble.java
 */
 .marble {
-	height: 14px;
-	width: 14px;
+	height: 18px;
+	width: 18px;
 	background-color: #6161FF;
 	border: 1px solid #000000;
-	border-radius: 14px;
+	border-radius: 18px;
 	margin-left: 10px;
 }
 .marble.elemHidden {
@@ -5619,6 +5619,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	padding:0px;
 }
 
+
 /* AV Extensions */ 
 
 .avItem .gwt-TreeItem-selected {
@@ -5628,7 +5629,6 @@ body.application[dir=rtl] .deleteAlgebra {
 .avItem .gwt-TreeItem-selected-av >* {
 	background: #CCCCFF;
 }
-
 .avItemContent {
 	width: 100%;
 }
@@ -5726,6 +5726,18 @@ body.application[dir=rtl] .deleteAlgebra {
 	border-radius: 12px;
 	-webkit-border-radius: 12px;
 	-moz-border-radius: 12px;
+}
+
+.avItemContent .optionsSlider .ui-slider .ui-slider-handle span {
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	
+	border: 1px solid #000000;
 }
 
 .avItemContent .optionsSlider .ui-slider-horizontal .ui-slider-handle {
