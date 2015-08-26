@@ -278,6 +278,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			playButton.setVisible(false);
 			sliderPanel.setVisible(false);
 			setVisible(true);
+			setOpenedMinMaxPanel(this);
 		}
 
 		private void hide() {
@@ -356,6 +357,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 
 	}
+
+	private static MinMaxPanel openedMinMaxPanel = null;
 	protected FlowPanel buttonPanel;
 	protected PushButton xButton;
 
@@ -1821,6 +1824,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
 		if (avExtension) {
+			if (minMaxPanel != null && openedMinMaxPanel != minMaxPanel) {
+				closeMinMaxPanel();
+			}
 			if (minMaxPanel != null && minMaxPanel.isVisible()) {
 
 				return;
@@ -1878,6 +1884,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		ToolTipManagerW.sharedInstance().showToolTip(null);
+
 	}
 
 	@Override
@@ -2399,6 +2406,19 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		geo.setAnimating(value);
 		geo.getKernel().getAnimatonManager().startAnimation();
 		showSpeedButtons(value);
+	}
+
+	public static void closeMinMaxPanel() {
+		if (openedMinMaxPanel == null) {
+			return;
+		}
+
+		openedMinMaxPanel.hide();
+		openedMinMaxPanel = null;
+	}
+
+	public static void setOpenedMinMaxPanel(MinMaxPanel panel) {
+		openedMinMaxPanel = panel;
 	}
 
 }

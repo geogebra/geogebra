@@ -200,6 +200,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			}
 		case Event.ONMOUSEDOWN:
 		case Event.ONTOUCHSTART:
+
 			app.closePopups();
 			// see this.setFocus(true) and this.addKeyDownHandler...
 			app.focusGained(AlgebraViewW.this, this.getElement());
@@ -955,7 +956,13 @@ public class AlgebraViewW extends Tree implements LayerView,
 			}
 
 			TreeItem parent, node;
-			node = new TreeItem();
+			node = new TreeItem() {
+				@Override
+				public void setSelected(boolean selected) {
+
+					super.setSelected(selected);
+				}
+			};
 
 			parent = getParentNode(geo, forceLayer);
 

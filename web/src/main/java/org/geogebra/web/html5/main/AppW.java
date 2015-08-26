@@ -104,6 +104,7 @@ import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -2517,6 +2518,10 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		ToolTipManagerW.hideAllToolTips();
 		popups.clear();
+
+		if (getKernel().getApplication().has(Feature.AV_EXTENSIONS)) {
+			RadioButtonTreeItem.closeMinMaxPanel();
+		}
 	}
 
 	public boolean wasPopupJustClosed() {

@@ -1114,6 +1114,8 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	background: #CCCCFF;
 }
 
+
+
 .gwt-TreeItem .gwt-RadioButton input,.gwt-TreeItem .gwt-CheckBox input {
 	margin-left: 0px;
 }
@@ -1487,7 +1489,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	border-bottom: 1px solid #C6C6C6;
 }
 
-/* Selector used for android chrome */
+* Selector used for android chrome */
 .gwt-SplitLayoutPanel-Dragger-ACTIVE  {
 	background:#6161FF;
 	border-left: 1px solid #C6C6C6;
@@ -5619,6 +5621,13 @@ body.application[dir=rtl] .deleteAlgebra {
 
 /* AV Extensions */ 
 
+.avItem .gwt-TreeItem-selected {
+	background: #CCCCFF;
+}
+
+.avItem .gwt-TreeItem-selected-av >* {
+	background: #CCCCFF;
+}
 
 .avItemContent {
 	width: 100%;
