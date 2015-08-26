@@ -8,7 +8,7 @@ import com.google.gwt.event.dom.client.DomEvent;
 public class InputDialogOpenURL extends InputDialogW{
 	
 	public InputDialogOpenURL(AppW app){
-		super(true);
+		super(true, app);
 		this.app = app;
 		
 		initString = "http://";

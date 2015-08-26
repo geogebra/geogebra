@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,6 +29,7 @@ public class AlertDialog extends DialogBoxW {
 	private App app;
 	
 	public AlertDialog(App app) {
+		super(((AppW) app).getPanel());
 		this.app = app;
 		setWidget(container = new VerticalPanel());
 		HorizontalPanel textPanel = new HorizontalPanel();

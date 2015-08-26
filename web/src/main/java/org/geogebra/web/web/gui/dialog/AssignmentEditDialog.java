@@ -45,7 +45,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	 */
 	public AssignmentEditDialog(App app, Assignment assignment,
 			ExerciseBuilderDialog exerciseBuilderDialog) {
-		super(false, false, null);
+		super(false, false, null, ((AppW) app).getPanel());
 
 		this.app = (AppW) app;
 		this.assignment = assignment;

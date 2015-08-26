@@ -20,6 +20,7 @@ import java.util.Iterator;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -90,8 +91,8 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 * Creates an empty decorated popup panel. A child widget must be added to
 	 * it before it is shown.
 	 */
-	public GDecoratedPopupPanel() {
-		this(false);
+	public GDecoratedPopupPanel(Panel root) {
+		this(false, root);
 	}
 
 	/**
@@ -102,8 +103,8 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 *            <code>true</code> if the popup should be automatically hidden
 	 *            when the user clicks outside of it
 	 */
-	public GDecoratedPopupPanel(boolean autoHide) {
-		this(autoHide, false);
+	public GDecoratedPopupPanel(boolean autoHide, Panel root) {
+		this(autoHide, false, root);
 	}
 
 	/**
@@ -117,8 +118,8 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 *            <code>true</code> if keyboard or mouse events that do not
 	 *            target the PopupPanel or its children should be ignored
 	 */
-	public GDecoratedPopupPanel(boolean autoHide, boolean modal) {
-		this(autoHide, modal, "popup");
+	public GDecoratedPopupPanel(boolean autoHide, boolean modal, Panel root) {
+		this(autoHide, modal, "popup", root);
 	}
 
 	/**
@@ -133,8 +134,9 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 * @param prefix
 	 *            the prefix applied to child style names
 	 */
-	GDecoratedPopupPanel(boolean autoHide, boolean modal, String prefix) {
-		super(autoHide, modal);
+	GDecoratedPopupPanel(boolean autoHide, boolean modal, String prefix,
+			Panel root) {
+		super(autoHide, modal, root);
 		String[] rowStyles = new String[] { prefix + "Top", prefix + "Middle",
 				prefix + "Bottom" };
 		decPanel = new GDecoratorPanel(rowStyles, 1);

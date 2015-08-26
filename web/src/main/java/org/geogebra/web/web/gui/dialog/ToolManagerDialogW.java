@@ -161,6 +161,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 
 	public ToolManagerDialogW(AppW app) {
+		super(app.getPanel());
 		setModal(true);
 		model = new ToolManagerDialogModel(app, this);
 

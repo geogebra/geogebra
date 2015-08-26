@@ -31,6 +31,7 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	int previewWidth;
 
 	public UploadImageDialog(AppW app, int previewWidth, int previewHeight) {
+		super(app.getPanel());
 		this.app = app;
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;

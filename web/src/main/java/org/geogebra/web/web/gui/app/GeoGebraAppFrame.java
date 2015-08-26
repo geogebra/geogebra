@@ -34,6 +34,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.HeaderPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -470,5 +471,9 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 
 	public double getKeyboardHeight() {
 		return this.frameLayout.getKeyboardHeight();
+	}
+
+	public Panel getPanel() {
+		return this.frameLayout;
 	}
 }

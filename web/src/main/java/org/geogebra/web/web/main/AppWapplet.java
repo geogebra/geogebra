@@ -54,6 +54,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AppWapplet extends AppWFull {
@@ -765,5 +766,9 @@ public class AppWapplet extends AppWFull {
 				sp.deferredOnResize();
 			}
 		}
+	}
+
+	public Panel getPanel() {
+		return frame;
 	}
 }

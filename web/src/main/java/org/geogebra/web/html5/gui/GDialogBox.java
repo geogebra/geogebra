@@ -45,6 +45,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.MouseListener;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -214,8 +215,8 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	 * Creates an empty dialog box. It should not be shown until its child
 	 * widget has been added using {@link #add(Widget)}.
 	 */
-	public GDialogBox() {
-		this(false);
+	public GDialogBox(Panel root) {
+		this(false, root);
 	}
 
 	/**
@@ -227,8 +228,8 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	 *            <code>true</code> if the dialog should be automatically hidden
 	 *            when the user clicks outside of it
 	 */
-	public GDialogBox(boolean autoHide) {
-		this(autoHide, true);
+	public GDialogBox(boolean autoHide, Panel root) {
+		this(autoHide, true, root);
 	}
 
 	/**
@@ -239,8 +240,8 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	 * @param captionWidget
 	 *            the widget that is the DialogBox's header.
 	 */
-	public GDialogBox(Caption captionWidget) {
-		this(false, true, captionWidget);
+	public GDialogBox(Caption captionWidget, Panel root) {
+		this(false, true, captionWidget, root);
 	}
 
 	/**
@@ -255,8 +256,8 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	 *            <code>true</code> if keyboard and mouse events for widgets not
 	 *            contained by the dialog should be ignored
 	 */
-	public GDialogBox(boolean autoHide, boolean modal) {
-		this(autoHide, modal, new CaptionImpl());
+	public GDialogBox(boolean autoHide, boolean modal, Panel root) {
+		this(autoHide, modal, new CaptionImpl(), root);
 	}
 
 	/**
@@ -275,8 +276,9 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	 * @param captionWidget
 	 *            the widget that is the DialogBox's header.
 	 */
-	public GDialogBox(boolean autoHide, boolean modal, Caption captionWidget) {
-		super(autoHide, modal, "dialog");
+	public GDialogBox(boolean autoHide, boolean modal, Caption captionWidget,
+			Panel root) {
+		super(autoHide, modal, "dialog", root);
 
 		assert captionWidget != null : "The caption must not be null";
 		captionWidget.asWidget().removeFromParent();

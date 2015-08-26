@@ -9,7 +9,7 @@ import com.google.gwt.event.dom.client.DomEvent;
 public class InputDialogImageURL extends InputDialogW{
 
 	public InputDialogImageURL(AppW app){
-		super(true);
+		super(true, app);
 		this.app = app;
 
 		initString = "http://";

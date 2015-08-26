@@ -39,7 +39,7 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 	 */
 	public AngleInputDialog(AppW app,  String message, String title, String initString,
 					boolean autoComplete, InputHandler handler, boolean modal) {
-		super(modal);
+		super(modal, app);
 		this.app = app;
 		inputHandler = handler;
 		this.initString = initString;

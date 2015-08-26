@@ -41,6 +41,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class AppWapplication extends AppWFull {
@@ -470,6 +471,7 @@ public class AppWapplication extends AppWFull {
 		}
 	}
 
+	@Override
 	public boolean isMenuShowing() {
 		return appFrame.isMenuOpen();
 	}
@@ -590,6 +592,7 @@ public class AppWapplication extends AppWFull {
 		        null, null);
 	}
 
+	@Override
 	public HasAppletProperties getAppletFrame() {
 		return appFrame;
 	}
@@ -599,5 +602,10 @@ public class AppWapplication extends AppWFull {
 	public void toggleShowConstructionProtocolNavigation(int id) {
 		super.toggleShowConstructionProtocolNavigation(id);
 		((GuiManagerW) this.guiManager).updateMenubar();
+	}
+
+	@Override
+	public Panel getPanel() {
+		return appFrame.getPanel();
 	}
 }

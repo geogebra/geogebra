@@ -25,7 +25,7 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 	private ColorChangeHandler handler;
 	
 	public ColorChooserDialog(AppW app, final GColor originalColor, final ColorChangeHandler handler) {
-		super(false, true, null);
+		super(false, true, null, app.getPanel());
 		this.app = app;
 		this.handler = handler;
 		final GDimensionW colorIconSizeW = new GDimensionW(20, 20);

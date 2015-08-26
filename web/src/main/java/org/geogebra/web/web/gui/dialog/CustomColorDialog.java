@@ -7,6 +7,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -144,6 +145,7 @@ public class CustomColorDialog extends DialogBoxW {
 	}
 
 	public CustomColorDialog(App app, ICustomColor listener) {
+		super(((AppW) app).getPanel());
 		this.app = app;
 		this.listener = listener;
 		loc = app.getLocalization();

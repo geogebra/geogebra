@@ -110,7 +110,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 	 *            Application
 	 */
 	public AnimationExportDialogW(AppW app) {
-		super();
+		super(app.getPanel());
 		this.app = app;
 		geoNumerics = new ArrayList<GeoElement>();
 		initGUI();

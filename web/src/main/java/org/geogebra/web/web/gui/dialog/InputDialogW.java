@@ -48,9 +48,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	protected FlowPanel btPanel;
 
 	
-	public InputDialogW(boolean modal) {
-
-		wrappedPopup = new DialogBoxW(false, modal, this);
+	public InputDialogW(boolean modal, AppW app) {
+		this.app = app;
+		wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel());
 	}
 
 	public InputDialogW(AppW app, String message, String title,
@@ -79,7 +79,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			boolean modal, final boolean selectInitText, GeoElement geo,
 			DialogType type) {
 
-		this(modal);
+		this(modal, app);
 
 		this.app = app;
 		this.geo = geo;

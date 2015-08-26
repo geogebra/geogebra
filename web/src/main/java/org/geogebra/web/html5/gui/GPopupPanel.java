@@ -47,8 +47,8 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasAnimation;
 import com.google.gwt.user.client.ui.KeyboardListenerCollection;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupListener;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SourcesPopupEvents;
 import com.google.gwt.user.client.ui.UIObject;
@@ -172,14 +172,17 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		private HandlerRegistration resizeRegistration;
 
+		private final Panel root;
+
 		/**
 		 * Create a new {@link ResizeAnimation}.
 		 *
 		 * @param panel
 		 *            the panel to affect
 		 */
-		public ResizeAnimation(GPopupPanel panel) {
+		public ResizeAnimation(GPopupPanel panel, Panel root) {
 			this.curPanel = panel;
+			this.root = root;
 		}
 
 		/**
@@ -238,7 +241,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 					}
 					impl.setClip(curPanel.getElement(),
 							getRectString(0, 0, 0, 0));
-					RootPanel.get().add(curPanel);
+					getRootPanel().add(curPanel);
 
 					// Wait for the popup panel and iframe to be attached before
 					// running
@@ -266,7 +269,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			if (!showing) {
 				maybeShowGlass();
 				if (!isUnloading) {
-					RootPanel.get().remove(curPanel);
+					getRootPanel().remove(curPanel);
 				}
 			}
 			impl.setClip(curPanel.getElement(), "rect(auto, auto, auto, auto)");
@@ -332,7 +335,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		private void maybeShowGlass() {
 			if (showing) {
 				if (curPanel.isGlassEnabled) {
-					Document.get().getBody().appendChild(curPanel.glass);
+					getRootPanel().getElement().appendChild(curPanel.glass);
 
 					resizeRegistration = Window
 							.addResizeHandler(curPanel.glassResizer);
@@ -341,7 +344,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 					glassShowing = true;
 				}
 			} else if (glassShowing) {
-				Document.get().getBody().removeChild(curPanel.glass);
+				getRootPanel().getElement().removeChild(curPanel.glass);
 
 				resizeRegistration.removeHandler();
 				resizeRegistration = null;
@@ -363,13 +366,17 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 					curPanel.setPopupPosition(curPanel.leftPosition,
 							curPanel.topPosition);
 				}
-				RootPanel.get().add(curPanel);
+				getRootPanel().add(curPanel);
 			} else {
 				if (!isUnloading) {
-					RootPanel.get().remove(curPanel);
+					getRootPanel().remove(curPanel);
 				}
 			}
 			curPanel.getElement().getStyle().setProperty("overflow", "visible");
+		}
+
+		private Panel getRootPanel() {
+			return root;
 		}
 	}
 
@@ -392,8 +399,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		public void onResize(ResizeEvent event) {
 			Style style = glass.getStyle();
 
-			int winWidth = Window.getClientWidth();
-			int winHeight = Window.getClientHeight();
+			int winWidth = getRootPanel().getOffsetWidth();
+			int winHeight = getRootPanel().getOffsetHeight();
 
 			// Hide the glass while checking the document size. Otherwise it
 			// would
@@ -402,14 +409,12 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			style.setWidth(0, Unit.PX);
 			style.setHeight(0, Unit.PX);
 
-			int width = Document.get().getScrollWidth();
-			int height = Document.get().getScrollHeight();
 
 			// Set the glass size to the larger of the window's client size or
 			// the
 			// document's scroll size.
-			style.setWidth(Math.max(width, winWidth), Unit.PX);
-			style.setHeight(Math.max(height, winHeight), Unit.PX);
+			style.setWidth(winWidth, Unit.PX);
+			style.setHeight(winHeight, Unit.PX);
 
 			// The size is set. Show the glass again.
 			style.setDisplay(Display.BLOCK);
@@ -452,17 +457,21 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 * The {@link ResizeAnimation} used to open and close the {@link PopupPanel}
 	 * s.
 	 */
-	private ResizeAnimation resizeAnimation = new ResizeAnimation(this);
+	private final ResizeAnimation resizeAnimation;
 
 	// The top style attribute in pixels
 	private int topPosition = -1;
+
+	private final Panel root;
 
 	/**
 	 * Creates an empty popup panel. A child widget must be added to it before
 	 * it is shown.
 	 */
-	public GPopupPanel() {
+	public GPopupPanel(Panel root) {
 		super();
+		this.root = root;
+		resizeAnimation = new ResizeAnimation(this, root);
 		super.getContainerElement().appendChild(impl.createElement());
 
 		// Default position of popup should be in the upper-left corner of the
@@ -473,6 +482,10 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		setStyleName(getContainerElement(), "popupContent");
 	}
 
+	protected Panel getRootPanel() {
+		return root;
+	}
+
 	/**
 	 * Creates an empty popup panel, specifying its "auto-hide" property.
 	 *
@@ -481,8 +494,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 *            when the user clicks outside of it or the history token
 	 *            changes.
 	 */
-	public GPopupPanel(boolean autoHide) {
-		this();
+	public GPopupPanel(boolean autoHide, Panel root) {
+		this(root);
 		this.autoHide = autoHide;
 		this.autoHideOnHistoryEvents = autoHide;
 	}
@@ -499,8 +512,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 *            <code>true</code> if keyboard or mouse events that do not
 	 *            target the PopupPanel or its children should be ignored
 	 */
-	public GPopupPanel(boolean autoHide, boolean modal) {
-		this(autoHide);
+	public GPopupPanel(boolean autoHide, boolean modal, Panel root) {
+		this(autoHide, root);
 		this.modal = modal;
 	}
 
@@ -554,8 +567,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		elem.getStyle().setPropertyPx("left", 0);
 		elem.getStyle().setPropertyPx("top", 0);
 
-		int left = (Window.getClientWidth() - getOffsetWidth()) >> 1;
-		int top = (Window.getClientHeight() - getOffsetHeight()) >> 1;
+		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
+		int top = (getRootPanel().getOffsetHeight() - getOffsetHeight()) >> 1;
 		setPopupPosition(Math.max(Window.getScrollLeft() + left, 0),
 				Math.max(Window.getScrollTop() + top, 0));
 
@@ -1168,9 +1181,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 * @param animation
 	 *            the animation to use for this popup
 	 */
-	void setAnimation(ResizeAnimation animation) {
-		resizeAnimation = animation;
-	}
+
 
 	/**
 	 * Set the type of animation to use when opening and closing the popup.

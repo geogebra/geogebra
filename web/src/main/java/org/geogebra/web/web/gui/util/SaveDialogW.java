@@ -115,7 +115,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            Creates a new GeoGebraFileChooser Window
 	 */
 	public SaveDialogW(final AppW app) {
-		super();
+		super(app.getPanel());
 		this.app = app;
 		this.addStyleName("GeoGebraFileChooser");
 		this.setGlassEnabled(true);

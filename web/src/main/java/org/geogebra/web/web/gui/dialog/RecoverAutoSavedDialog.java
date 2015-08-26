@@ -28,7 +28,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * @param app {@link AppW}
 	 */
 	public RecoverAutoSavedDialog(AppWapplication app) {
-		super();
+		super(app.getPanel());
 		this.addStyleName("RecoverAutoSavedDialog");
 		this.app = app;
 		initGUI();

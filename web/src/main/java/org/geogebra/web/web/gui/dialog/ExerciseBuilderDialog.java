@@ -151,7 +151,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *            application
 	 */
 	public ExerciseBuilderDialog(App app) {
-		super(false, false, null);
+		super(false, false, null, ((AppW) app).getPanel());
 
 		this.app = (AppW) app;
 		// exerciseBuilderHandler = new ExerciseBuilderDOMHandler();

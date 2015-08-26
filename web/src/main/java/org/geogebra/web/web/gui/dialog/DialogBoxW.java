@@ -33,8 +33,9 @@ public class DialogBoxW extends GDialogBox {
 	 * @param autoHide {@code true} if the dialog should be automatically hidden when the user clicks outside of it
 	 * @param modal {@code true}  if keyboard and mouse events for widgets not contained by the dialog should be ignored
 	 */
-	public DialogBoxW(boolean autoHide, boolean modal, ErrorHandler eh) {
-		super(autoHide, modal);
+	public DialogBoxW(boolean autoHide, boolean modal, ErrorHandler eh,
+			Panel root) {
+		super(autoHide, modal, root);
 		addResizeHandler();
 		this.addStyleName("DialogBox");
 		this.addStyleName("GeoGebraFrame");
@@ -45,8 +46,8 @@ public class DialogBoxW extends GDialogBox {
 	/**
 	 * creates a {@link DialogBox} with {@code autoHide = false} and {@code modal = true}.
 	 */
-	public DialogBoxW() {
-		this(false, true, null);
+	public DialogBoxW(Panel root) {
+		this(false, true, null, root);
 	}
 
 	/**

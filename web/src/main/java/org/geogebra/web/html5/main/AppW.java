@@ -126,6 +126,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -3432,6 +3433,10 @@ public abstract class AppW extends App implements SetLabels {
 
 	public boolean showToolBarHelp() {
 		return getArticleElement().getDataParamShowToolBarHelp(true);
+	}
+
+	public Panel getPanel() {
+		return RootPanel.get();
 	}
 
 }
