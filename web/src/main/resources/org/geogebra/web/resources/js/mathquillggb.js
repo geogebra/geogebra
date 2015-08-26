@@ -474,12 +474,13 @@ var manageTextarea = (function() {
       adjustFixedTextarea(rootJQ);
 
       handleKey();
-      if (textarea[0].doStopPropagation) {
-    	  textarea[0].doStopPropagation = false;
-    	  e.stopPropagation();
+
+      if (textarea[0].disabledTextarea) {
+    	// this can only happen in scenarios when
+    	// stopPropagation is useful here
+    	e.stopPropagation();
+    	// but preventDefault is not useful!
       }
-      //e.stopPropagation();
-      //return true;
     }
 
     function onKeypress(e) {
@@ -501,12 +502,86 @@ var manageTextarea = (function() {
       keypress = e;
 
       checkTextareaFor(typedText);
-      if (textarea[0].doStopPropagation) {
-    	  textarea[0].doStopPropagation = false;
-    	  e.stopPropagation();
+
+      if (textarea[0].disabledTextarea) {
+      	// this can only happen in scenarios when
+      	// stopPropagation is useful here
+      	e.stopPropagation();
+      	// but preventDefault is not useful!
       }
-      //e.stopPropagation();
-      //return true;
+    }
+    function onKeypressParent(e) {
+      // it is not harmful to call stopPropagation
+      // more times... here and in DrawEquationWeb
+      // note that this is NOT stopImmediatePropagation
+      e.stopPropagation();
+
+      if (textarea[0].disabledTextarea) {
+    	// bluetooth keyboard case for mobile devices!
+        // let's not bother with default actions either!
+        e.preventDefault();
+
+		// this will tell MathQuillGGB not to do keydown / handleKey
+		// as well, for a different key pressed earlier, BUT:
+        // when we simulate keydown as well as keypress,
+        // then we probably don't need simulatedKeypress
+		//textarea[0].simulatedKeypress = true;
+        // what about event order here? TODO: make sure it's perfect
+
+        // DrawEquationWeb here needs setting textarea.val
+        // to the charCode of the event, but that would
+        // ruin things! Instead, hope that it will happen
+        // in the keydown event default action or input event
+        // in timeout? or cannot simulated events fill the
+        // textarea value? That would make #5398:comment:127 switch
+
+        // but instead recreate the same event once again!
+        //var e2 = $.Event(e.type, e);
+        // and make sure not to clone preventDefault state,
+        // so maybe it's better to just clone some props
+        var e2 = $.Event(e.type, {
+        	keyCode : e.keyCode,
+			charCode : e.charCode,
+			which : e.which,
+			altKey : e.altKey,
+			ctrlKey : e.ctrlKey,
+			shiftKey : e.shiftKey
+        });
+        // and pass it to the textarea!
+        textarea.trigger(e2);
+        // because in theory the textarea is able to
+        // convert the event object to real key values
+        // especially in keypress, to real characters
+      }
+    }
+    function onKeydownParent(e) {
+      // it is not harmful to call stopPropagation
+      // more times... here and in DrawEquationWeb
+      // note that this is NOT stopImmediatePropagation
+      e.stopPropagation();
+      // in normal case, there is nothing more to do!
+      if (textarea[0].disabledTextarea) {
+    	// but in Android case this means bluetooth keyboard!
+        // let's not bother with default actions either!
+        e.preventDefault();
+        // but instead recreate the same event once again!
+        //var e2 = $.Event(e.type, e);
+        // and make sure not to clone preventDefault state,
+        // so maybe it's better to just clone some props
+        var e2 = $.Event(e.type, {
+        	keyCode : e.keyCode,
+			charCode : e.charCode,
+			which : e.which,
+			altKey : e.altKey,
+			ctrlKey : e.ctrlKey,
+			shiftKey : e.shiftKey
+        });
+        // and pass it to the textarea!
+        textarea.trigger(e2);
+        // because in theory the textarea is able to
+        // convert the event object to real key values
+        // especially in keypress, to real characters
+      }
     }
     function typedText() {
       if (checkTextarea2 !== noop) return;
@@ -574,6 +649,13 @@ var manageTextarea = (function() {
       copy: onCopy,
       paste: onPaste
     });
+
+    if (rootJQ !== noop) {
+      rootJQ.bind({
+        keydown: onKeydownParent,
+        keypress: onKeypressParent
+      });
+    }
 
     // -*- export public methods -*- //
     return {

@@ -1047,80 +1047,16 @@ public class DrawEquationWeb extends DrawEquation {
 							event.preventDefault();
 							return false;
 						})
-				.keypress(
-						function(event2) {
-
-							if ($wnd.$ggbQuery(elsecondInside).find('textarea')
-									.attr("disabled")) {
-								var code = 0;
-								if (event2.keyCode) {
-									code = event2.keyCode;
-								} else if (event2.which) {
-									code = event2.which;
-								}
-
-								if (code != 13) { // enter is handled in keyup
-									//keypress is needed for touch-devices which use an external keyboard
-									var textarea = $wnd.$ggbQuery(
-											elsecondInside).find('textarea');
-									textarea.val(String.fromCharCode(code));
-
-									// this will tell MathQuillGGB not to do keydown / handleKey
-									// as well, for a different key pressed earlier
-									textarea[0].simulatedKeypress = true;
-									textarea[0].doStopPropagation = true;
-
-									var evt = $wnd.$ggbQuery.Event("keypress",
-											{
-												charCode : code,
-												which : code,
-												altKey : false,
-												ctrlKey : false,
-												shiftKey : false
-											});
-									textarea.trigger(evt);
-								}
-							}
-							// the main reason of calling stopPropagation here
-							// is to prevent calling preventDefault later
-							// code style is not by me, but automatic formatting
-							event2.stopPropagation();
-						})
-				.keydown(
-						function(event3) {
-
-							//keydown is needed for "functional" buttons (e.g. arrow left/right, backspace) 
-							//of a touch-devices with an external keyboard
-
-							if ($wnd.$ggbQuery(elsecondInside).find('textarea')
-									.attr("disabled")) {
-								var code = 0;
-								if (event3.keyCode) {
-									code = event3.keyCode;
-								} else if (event3.which) {
-									code = event3.which;
-								}
-
-								if (code == 8 || code == 37 || code == 39) { //backspace, arrow left, arrow right
-									var textarea = $wnd.$ggbQuery(
-											elsecondInside).find('textarea');
-									// this will tell MathQuillGGB not to do keydown / handleKey
-									// as well, for a different key pressed earlier
-									textarea[0].simulatedKeypress = true;
-									textarea[0].doStopPropagation = true;
-									var evt = $wnd.$ggbQuery.Event("keydown", {
-										charCode : code,
-										which : code,
-										altKey : false,
-										ctrlKey : false,
-										shiftKey : false
-									});
-									textarea.trigger(evt);
-								}
-							}
-							// to prevent focus moving away
-							event3.stopPropagation();
-						})
+				.keypress(function(event2) {
+					// the main reason of calling stopPropagation here
+					// is to prevent calling preventDefault later
+					// code style is not by me, but automatic formatting
+					event2.stopPropagation();
+				})
+				.keydown(function(event3) {
+					// to prevent focus moving away
+					event3.stopPropagation();
+				})
 				.select(
 						function(event7) {
 							@org.geogebra.web.html5.main.DrawEquationWeb::scrollSelectionIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
@@ -1434,9 +1370,6 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 
 		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
-		if (textarea.attr("disabled")) {
-			textarea[0].doStopPropagation = true;
-		}
 		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
 			var evt = $wnd.$ggbQuery.Event("keydown", {
 				keyCode : keycode,
@@ -1477,9 +1410,6 @@ public class DrawEquationWeb extends DrawEquation {
 			// this will tell MathQuillGGB not to do keydown / handleKey
 			// as well, for a different key pressed earlier
 			textarea[0].simulatedKeypress = true;
-			if (textarea.attr("disabled")) {
-				textarea[0].doStopPropagation = true;
-			}
 			if (more) {
 				textarea[0].simulatedKeypressMore = true;
 			} else {
