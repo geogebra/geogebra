@@ -531,7 +531,7 @@ var manageTextarea = (function() {
         var code = 0;
         if (e.charCode) {
           code = e.charCode;
-        } else {
+        } else if (e.which) {
           code = e.which;
         }
         // #5398 probably does not mind these lines being here
