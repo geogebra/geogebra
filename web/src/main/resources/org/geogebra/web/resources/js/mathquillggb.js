@@ -475,7 +475,7 @@ var manageTextarea = (function() {
 
       handleKey();
 
-      if (textarea[0].disabledTextarea) {
+      if (textarea[0] && textarea[0].disabledTextarea) {
     	// this can only happen in scenarios when
     	// stopPropagation is useful here
     	e.stopPropagation();
@@ -503,7 +503,7 @@ var manageTextarea = (function() {
 
       checkTextareaFor(typedText);
 
-      if (textarea[0].disabledTextarea) {
+      if (textarea[0] && textarea[0].disabledTextarea) {
       	// this can only happen in scenarios when
       	// stopPropagation is useful here
       	e.stopPropagation();
@@ -516,7 +516,7 @@ var manageTextarea = (function() {
       // note that this is NOT stopImmediatePropagation
       e.stopPropagation();
 
-      if (textarea[0].disabledTextarea) {
+      if (textarea[0] && textarea[0].disabledTextarea) {
     	// bluetooth keyboard case for mobile devices!
         // let's not bother with default actions either!
         e.preventDefault();
@@ -528,12 +528,19 @@ var manageTextarea = (function() {
 		//textarea[0].simulatedKeypress = true;
         // what about event order here? TODO: make sure it's perfect
 
-        // DrawEquationWeb here needs setting textarea.val
-        // to the charCode of the event, but that would
-        // ruin things! Instead, hope that it will happen
-        // in the keydown event default action or input event
-        // in timeout? or cannot simulated events fill the
-        // textarea value? That would make #5398:comment:127 switch
+        // #5398 probably does not mind these lines being here
+        // as it's mobile, disabled textarea case only, but still,
+        // TODO you might want to check whether:
+        // - these two lines are required generally to fill textarea
+        // - these two lines are valid with all (e.g. Korean) chars
+        // ... the second point is probably not the case when we fill
+        // the textarea by program code, because we have textarea hacks
+        // just for this reason! to be more perfect than e.charCode/which!
+        // search for "unixpapa key" but if these two lines will be
+        // removed, maybe it will just work out-of-the-box, as we
+        // also have a keydown event, which might change things
+        textarea.val(String.fromCharCode(e.charCode));
+        textarea[0].simulatedKeypress = true;
 
         // but instead recreate the same event once again!
         //var e2 = $.Event(e.type, e);
@@ -560,7 +567,7 @@ var manageTextarea = (function() {
       // note that this is NOT stopImmediatePropagation
       e.stopPropagation();
       // in normal case, there is nothing more to do!
-      if (textarea[0].disabledTextarea) {
+      if (textarea[0] && textarea[0].disabledTextarea) {
     	// but in Android case this means bluetooth keyboard!
         // let's not bother with default actions either!
         e.preventDefault();
