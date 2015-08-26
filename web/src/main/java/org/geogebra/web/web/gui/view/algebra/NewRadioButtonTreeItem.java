@@ -577,7 +577,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	@Override
 	public void onFocus(FocusEvent event) {
 		super.onFocus(event);
-
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			RadioButtonTreeItem.closeMinMaxPanel();
+		}
 		// earlier this method was mainly called from setFocus,
 		// and now it is also called from there, but in an
 		// indirect way: first MathQuillGGB textarea gets focus,
