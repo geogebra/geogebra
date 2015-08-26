@@ -1824,7 +1824,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
 		if (avExtension) {
-			if (minMaxPanel != null && openedMinMaxPanel != minMaxPanel) {
+			if (minMaxPanel != null && ((openedMinMaxPanel != minMaxPanel)
+					|| (openedMinMaxPanel == minMaxPanel
+							&& !isWidgetHit(minMaxPanel, evt)))) {
 				closeMinMaxPanel();
 			}
 			if (minMaxPanel != null && minMaxPanel.isVisible()) {
@@ -1842,8 +1844,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			if (sliderPanel != null
 					&& sliderPanel.isVisible()
-					&& (isWidgetHit(sliderPanel.getWidget(0), evt) || isWidgetHit(
-							sliderPanel.getWidget(2), evt))) {
+					&& (isWidgetHit(slider.getWidget(0), evt)
+							|| isWidgetHit(slider.getWidget(2), evt))) {
 				minMaxPanel.show();
 				return;
 			}
