@@ -606,6 +606,6 @@ public class AppWapplication extends AppWFull {
 
 	@Override
 	public Panel getPanel() {
-		return appFrame.getPanel();
+		return appFrame == null ? RootPanel.get() : appFrame.getPanel();
 	}
 }
