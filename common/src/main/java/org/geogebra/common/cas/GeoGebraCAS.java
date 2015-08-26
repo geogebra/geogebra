@@ -2,8 +2,10 @@ package org.geogebra.common.cas;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.CASException;
@@ -17,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -37,6 +40,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private CASparser casParser;
 	private CASGenericInterface cas;
 
+	private ArrayList<String> varSwaps = new ArrayList<String>();
 	/**
 	 * Creates new CAS interface
 	 * 
@@ -496,6 +500,77 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 		}
 
+		// change variables to y and x for command SolveODE
+		if (name.equals("SolveODE")) {
+			Set<String> setOfDummyVars = new TreeSet<String>();
+			args.get(0).traverse(
+					DummyVariableCollector.getCollector(setOfDummyVars));
+			String newSbCASCommand = sbCASCommand.toString();
+			newSbCASCommand = newSbCASCommand.replaceAll("unicode39u", "'");
+			boolean changed = false;
+			Iterator<String> ite = setOfDummyVars.iterator();
+			while (ite.hasNext()) {
+				String currStr = ite.next();
+				if (currStr.contains("'")) {
+					String tmp = currStr.split("'")[0];
+					if (!tmp.equals("y")) {
+						newSbCASCommand = newSbCASCommand
+								.replaceAll(
+								"ggbtmpvar" + tmp, "y");
+						varSwaps.add(tmp + "->y");
+						changed = true;
+					}
+					setOfDummyVars.remove(currStr);
+					setOfDummyVars.remove(currStr + "'");
+					setOfDummyVars.remove(tmp);
+					if (setOfDummyVars.isEmpty()) {
+						return newSbCASCommand;
+					}
+					break;
+				}
+			}
+			int index = 0;
+			ite = setOfDummyVars.iterator();
+			while (ite.hasNext() && index < 2) {
+				if (changed) {
+					String currStr = ite.next();
+					if (!currStr.equals("x")) {
+						newSbCASCommand = newSbCASCommand
+							.replaceAll("ggbtmpvar" + currStr, "x");
+						varSwaps.add(currStr + "->x");
+					}
+					return newSbCASCommand;
+				}
+				if (setOfDummyVars.size() == 1 && args.size() == 2) {
+					String currStr = ite.next();
+					if (!currStr.equals("x") && !currStr.equals("y")) {
+						newSbCASCommand = newSbCASCommand
+							.replaceAll("ggbtmpvar" + currStr, "x");
+						varSwaps.add(currStr + "->x");
+					}
+					return newSbCASCommand;
+				}
+				if (index == 0) {
+					String currStr = ite.next();
+					if (!currStr.equals("x") && !currStr.equals("y")) {
+						newSbCASCommand = newSbCASCommand
+							.replaceAll("ggbtmpvar" + currStr, "y");
+						varSwaps.add(currStr + "->y");
+						index++;
+					}
+				} else if (index == 1) {
+					String currStr = ite.next();
+					if (!currStr.equals("x") && !currStr.equals("y")) {
+						newSbCASCommand = newSbCASCommand
+							.replaceAll("ggbtmpvar" + currStr, "x");
+						varSwaps.add(currStr + "->x");
+						index++;
+					}
+				}
+			}
+			return newSbCASCommand;
+		}
+
 		return sbCASCommand.toString();
 	}
 
@@ -556,6 +631,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	public void clearCache() {
 		getPolynomialCoeffsCache.clear();
+	}
+
+	public ArrayList<String> getVarSwaps() {
+		return varSwaps;
 	}
 
 }

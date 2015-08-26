@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Construction;
@@ -1745,6 +1747,18 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// compute the result using CAS
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE, arbconst, StringTemplate.numericNoLocal,
 						this, kernel);
+				// switch back the variable exchanges in result to command
+				// SolveODE
+				ArrayList<String> varSwaps = ((GeoGebraCAS) (kernel
+							.getGeoGebraCAS())).getVarSwaps();
+				if (!varSwaps.isEmpty()) {
+					for (String currStr : varSwaps) {
+						String[] swap = currStr.split("->");
+						result = result.replaceAll(swap[1], swap[0]);
+					}
+					((GeoGebraCAS) (kernel.getGeoGebraCAS())).getVarSwaps()
+								.clear();
+				}
 				// if KeepInput was used, return the input, except for the Substitute command
 				if(!isSubstitute && inputVE != null && isKeepInputUsed()) {
 					result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
