@@ -540,10 +540,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				listOfVars.append("," + currVar);
 			}
 		}
-		listOfVars = listOfVars.deleteCharAt(0);
-		newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)", ",{"
-				+ listOfVars.toString() + "})");
+
+		if (listOfVars.length() > 0) {
+			listOfVars = listOfVars.deleteCharAt(0);
+			newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)", ",{"
+					+ listOfVars.toString() + "})");
+		}
+
 		return newSbCASCommand;
+
 	}
 
 	private String switchVarsToSolveODE(final ArrayList<ExpressionNode> args,
