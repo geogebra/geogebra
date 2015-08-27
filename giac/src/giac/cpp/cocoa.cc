@@ -9504,7 +9504,7 @@ namespace giac {
     zleftright(res,B,leftshift,rightshift);
     f4buchbergerv.resize(B.size());
     zinfo_t info_tmp;
-	unsigned nonzero = unsigned(B.size());
+    unsigned nonzero = unsigned(B.size());
     zinfo_t * info_ptr=0;
     if (!learning && f4buchberger_info_position<f4buchberger_info.size()){
       info_ptr=&f4buchberger_info[f4buchberger_info_position];
@@ -9549,11 +9549,11 @@ namespace giac {
     Rtorem(R,info_ptr->rem,Rtoremv);
     const vector< vector<tdeg_t> > & quo = info_ptr->quo;
     //CERR << quo << endl;
-	unsigned N = unsigned(R.size()), i, j = 0;
+    unsigned N = unsigned(R.size()), i, j = 0;
     if (N==0) return 1;
     unsigned nrows=0;
     for (i=0;i<G.size();++i){
-		nrows += unsigned(quo[i].size());
+      nrows += unsigned(quo[i].size());
     }
     unsigned c=N;
     double sknon0=0;
@@ -9627,14 +9627,18 @@ namespace giac {
       firstpos[i]=atrier[i].val;
     }
     bool freemem=mem>4e7; // should depend on real memory available
+    double ratio=(mem/nrows)/N;
+    bool dense=ratio>0.01;
     if (debug_infolevel>1)
-      CERR << CLOCK() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << (mem/nrows)/N <<endl;
+      CERR << CLOCK() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << ratio <<endl;
     // CERR << "after sort " << Mindex << endl;
     // step3 reduce
     vector<modint> v(N);
     vector<modint2> v64(N);
 #ifdef __x86_64__
-    vector<int128_t> v128(N);
+    vector<int128_t> v128;
+    if (dense)
+      v128.resize(N);
 #endif
     if (N<nrows){
       CERR << "Error " << N << "," << nrows << endl;
@@ -9660,7 +9664,7 @@ namespace giac {
       // sub(v,v2,env);
       // CERR << v << endl;
 #ifdef __x86_64__
-      if (env<(1<<24)){
+      if (!dense || env<(1<<24)){
 	c=giacmin(c,reducef4buchbergersplit(v,Mindex,firstpos,Mcoeff,coeffindex,env,v64));
       }
       else {
