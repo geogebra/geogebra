@@ -1238,9 +1238,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
-		if (getAV().getSelectedGeoElement() == geo) {
-			getAV().selectRow(geo, true);
-		}
+		// if (getAV().getSelectedGeoElement() == geo) {
+		// getAV().selectRow(geo, true);
+		// }
 	}
 
 	private Canvas c;

@@ -1387,11 +1387,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				&& (!this.activeItem.commonEditingCheck())) {
 			// e.g. if setting it null, if this is edited,
 			// then the close button should still not be removed!
-			this.activeItem.removeCloseButton();
+			// this.activeItem.removeCloseButton();
 		}
 
 		if (activeItem != null && !sameItem) {
-			// selectRow(activeItem.getGeo(), false);
+			selectRow(activeItem.getGeo(), false);
 		}
 
 		this.activeItem = radioButtonTreeItem;
@@ -1407,13 +1407,24 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			return;
 		}
 		if (select) {
-			node.addStyleName("avSelectedRow");
+			selectNode(node);
 		} else {
 			node.removeStyleName("avSelectedRow");
 		}
 
 	}
 
+	private void selectNode(TreeItem node) {
+		TreeItem lastNode = nodeTable.get(lastSelectedGeo);
+		if (lastNode != null) {
+			node.removeStyleName("avSelectedRow");
+		}
+
+		if (node != null) {
+			node.addStyleName("avSelectedRow");
+		}
+
+	}
 	/**
 	 * @return {@link AlgebraStyleBarW}
 	 */
