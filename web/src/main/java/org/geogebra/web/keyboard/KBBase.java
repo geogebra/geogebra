@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.keyboardBase;
+package org.geogebra.web.keyboard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,16 +13,8 @@ import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.keyboard.KeyBoardButtonBase;
-import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
-import org.geogebra.web.keyboard.KeyPanelBase;
-import org.geogebra.web.keyboard.KeyboardConstants;
-import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
-import org.geogebra.web.keyboard.KeyboardLocalization;
-import org.geogebra.web.keyboard.KeyboardMode;
-import org.geogebra.web.keyboard.KeyboardResources;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;

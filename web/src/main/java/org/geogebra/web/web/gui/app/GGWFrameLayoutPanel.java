@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
+import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -21,7 +22,6 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;

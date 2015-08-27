@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
+import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.NewRadioButtonTreeItem;
 
@@ -124,12 +125,6 @@ public class TextFieldProcessing implements KeyboardListener {
 				}
 				break;
 			}
-		}
-	}
-
-	public void setKeyBoardUsed(boolean used) {
-		if (state == State.autoCompleteTextField) {
-			((AutoCompleteTextFieldW) field).setKeyBoardUsed(used);
 		}
 	}
 

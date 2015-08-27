@@ -1,20 +1,17 @@
-package org.geogebra.web.web.util.keyboard;
+package org.geogebra.web.keyboard;
 
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.Language;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
-import org.geogebra.web.keyboard.KeyBoardButtonBase;
-import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase;
-import org.geogebra.web.keyboard.KeyboardListener;
-import org.geogebra.web.keyboard.KeyboardMode;
 import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
-import org.geogebra.web.web.util.keyboardBase.KBBase;
+import org.geogebra.web.web.util.keyboard.TextFieldProcessing;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -24,38 +21,26 @@ import com.google.gwt.core.client.Scheduler;
 public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 
 	/**
-	 * set whether the keyboard is used at the moment or not
-	 * 
-	 * @param used
-	 *            whether the keyboard is used or not
-	 */
-	public void setUsed(boolean used) {
-		// TODO only required for AutoCompleteTextFieldW
-		if (this.processField instanceof TextFieldProcessing) {
-			((TextFieldProcessing) this.processField).setKeyBoardUsed(used
-					&& this.contentNumber.isVisible());
-		}
-	}
-
-	/**
 	 * should not be called; use getInstance instead
 	 * 
 	 * @param appW
 	 */
-	public OnScreenKeyBoard(AppW appW, boolean korean) {
+	public OnScreenKeyBoard(App app, boolean korean) {
 		super(true);
 		if (korean) {
 			addSupportedLocale(Language.Korean, "ko");
 		}
-		this.app = appW;
+		this.app = app;
 		this.loc = (LocalizationW) app.getLocalization(); // TODO
-		setHasKeyboard(appW);
 		addStyleName("KeyBoard");
 		createKeyBoard();
 		initAccentAcuteLetters();
 		initAccentGraveLetters();
 		initAccentCaronLetters();
 		initAccentCircumflexLetters();
+		if (app instanceof HasKeyboard) {
+			setHasKeyboard((HasKeyboard) app);
+		}
 	}
 
 	public void addSupportedLocale(Language gwtLang, String language) {
@@ -205,7 +190,6 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 			contentLetters.setVisible(false);
 			contentSpecialChars.setVisible(true);
 		}
-		setUsed(true);
 	}
 
 	/**
