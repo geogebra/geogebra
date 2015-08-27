@@ -178,7 +178,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	@Override
 	public void onBrowserEvent(Event event) {
 		if (event.getTypeInt() == Event.ONBLUR) {
-			setActiveTreeItem(null);
+			// setActiveTreeItem(null);
 		}
 
 		// as arrow keys are prevented in super.onBrowserEvent,
@@ -1387,7 +1387,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				&& (!this.activeItem.commonEditingCheck())) {
 			// e.g. if setting it null, if this is edited,
 			// then the close button should still not be removed!
-			// this.activeItem.removeCloseButton();
+			this.activeItem.removeCloseButton();
 		}
 
 		if (activeItem != null && !sameItem) {
