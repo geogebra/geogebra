@@ -10,19 +10,17 @@ import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
+import org.geogebra.web.keyboard.KeyboardLocalization;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.util.keyboard.KeyboardConstants;
 import org.geogebra.web.web.util.keyboard.KeyboardMode;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardButtonFunctionalBase.Action;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable.ArrowType;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -42,6 +40,7 @@ public class KBBase extends PopupPanel {
 	private static final int LOWER_HEIGHT = 350;
 
 	private HasKeyboard hasKeyboard;
+	private KeyboardLocalization localization;
 
 	/**
 	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,
@@ -311,6 +310,7 @@ public class KBBase extends PopupPanel {
 	 */
 	public KBBase(boolean autoHide) {
 		super(autoHide);
+		localization = new KeyboardLocalization();
 	}
 
 	@Override
@@ -375,7 +375,7 @@ public class KBBase extends PopupPanel {
 
 	private void updateHeight() {
 		if (hasKeyboard != null) {
-			hasKeyboard.updateKeyboardHeight();
+			// hasKeyboard.updateKeyboardHeight();
 		}
 	}
 
@@ -848,7 +848,7 @@ public class KBBase extends PopupPanel {
 					if (greekActive) {
 						greekActive = false;
 						switchABCGreek.setCaption(GREEK);
-						loadLang(this.keyboardLocale);
+						loadLanguage(keyboardLocale);
 					}
 					if (shiftIsDown) {
 						processShift();
@@ -1055,7 +1055,7 @@ public class KBBase extends PopupPanel {
 		setKeyboardMode(KeyboardMode.TEXT);
 		greekActive = true;
 		switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName());
-		loadLang(Language.Greek.localeGWT);
+		loadLanguage(Language.Greek.localeGWT);
 		if (shiftIsDown) {
 			processShift();
 		}
@@ -1086,29 +1086,6 @@ public class KBBase extends PopupPanel {
 		if (shiftIsDown) {
 			processShift();
 		}
-	}
-
-	/**
-	 * loads the javascript file and updates the keys to the given language
-	 * 
-	 * @param lang
-	 *            the language
-	 */
-	protected void loadLang(final String lang) {
-		ScriptLoadCallback callback = new ScriptLoadCallback() {
-
-			@Override
-			public void onLoad() {
-				updateKeys("lowerCase", lang);
-				setStyleName();
-			}
-		};
-		DynamicScriptElement script = (DynamicScriptElement) Document.get()
-				.createScriptElement();
-		script.setSrc(GWT.getModuleBaseURL() + "js/keyboard_" + lang + ".js");
-
-		script.addLoadHandler(callback);
-		Document.get().getBody().appendChild(script);
 	}
 
 	/**
@@ -1175,7 +1152,7 @@ public class KBBase extends PopupPanel {
 	 */
 	protected String getNewCaption(String key, String updateSection,
 			String language) {
-		return loc.getKey(key, updateSection, language);
+		return localization.getKey(key, updateSection, language);
 	}
 
 	/**
@@ -1247,7 +1224,7 @@ public class KBBase extends PopupPanel {
 		} else {
 			this.keyboardLocale = Language.English_US.localeGWT;
 		}
-		loadLang(this.keyboardLocale);
+		loadLanguage(keyboardLocale);
 	}
 
 	/**
@@ -1263,6 +1240,21 @@ public class KBBase extends PopupPanel {
 
 	public void setHasKeyboard(HasKeyboard hasKeyboard) {
 		this.hasKeyboard = hasKeyboard;
+	}
+
+	private ScriptLoadCallback createLanguageLoadedCallback(final String lang) {
+		return new ScriptLoadCallback() {
+
+			@Override
+			public void onLoad() {
+				updateKeys("lowerCase", lang);
+				setStyleName();
+			}
+		};
+	}
+
+	protected void loadLanguage(String language) {
+		localization.loadLang(language, createLanguageLoadedCallback(language));
 	}
 
 }

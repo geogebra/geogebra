@@ -100,7 +100,7 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 					if (greekActive) {
 						greekActive = false;
 						switchABCGreek.setCaption(GREEK);
-						loadLang(this.keyboardLocale);
+						loadLanguage(this.keyboardLocale);
 					}
 					if (shiftIsDown) {
 						processShift();
@@ -255,12 +255,6 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 		processField.updateForNewLanguage(loc);
 
 		checkStyle();
-	}
-
-	@Override
-	protected String getNewCaption(String key, String updateSection,
-			String language) {
-		return ((AppW) app).getKey(key, updateSection, language);
 	}
 
 	@Override
