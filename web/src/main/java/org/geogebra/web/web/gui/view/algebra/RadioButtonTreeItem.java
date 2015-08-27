@@ -764,7 +764,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		}
 
-		int width = getOffsetWidth() - animPanel.getOffsetWidth()
+		int width = ((AlgebraViewW) av).getOffsetWidth()
+				- animPanel.getOffsetWidth()
  - 2
 				* marblePanel.getOffsetWidth();
 		slider.setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
