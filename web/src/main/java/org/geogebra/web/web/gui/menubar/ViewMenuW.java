@@ -134,7 +134,8 @@ public class ViewMenuW extends GMenuBar {
 		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollection = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(),
-					app.getMenu("Data Collection"), true),
+ app
+							.getLocalization().getMenu("Sensors"), true),
 					new MenuCommand(app) {
 
 						@Override

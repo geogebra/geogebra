@@ -3888,7 +3888,6 @@ public abstract class App implements UpdateSelection {
 	
 	public final boolean has(Feature f) {
 		switch (f) {
-		case DATA_COLLECTION:
 		case ALL_LANGUAGES:
 		case AV_EXTENSIONS:
 		case EXERCISES:
@@ -3901,6 +3900,7 @@ public abstract class App implements UpdateSelection {
 		case LOG_AXES:
 		case DRAW_INPUTBOXES_TO_CANVAS:
 			return prerelease;
+		case DATA_COLLECTION:
 		case SEQUENTIAL_COLORS:
 		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:

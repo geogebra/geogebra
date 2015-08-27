@@ -1120,6 +1120,7 @@ kernel, left,
 				|| operation == Operation.ARG || operation == Operation.ALT) {
 			return false;
 		}
+
 		if (isLeaf()) {
 			return left.evaluatesToNonComplex2DVector();
 		}
@@ -1128,7 +1129,13 @@ kernel, left,
 				|| operation == Operation.CONJUGATE) {
 			return false;
 		}
-		boolean leftVector = left.evaluatesToNonComplex2DVector();
+		boolean leftVector;
+		if (operation == Operation.IF_ELSE) {
+			leftVector = ((MyNumberPair) left).getY()
+					.evaluatesToNonComplex2DVector();
+		} else {
+			leftVector = left.evaluatesToNonComplex2DVector();
+		}
 		boolean rightVector = right.evaluatesToNonComplex2DVector();
 		boolean ret = leftVector || rightVector;
 

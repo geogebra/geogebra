@@ -337,7 +337,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	private void addOrientation() {
 		this.orientation = new OrientationSetting(this.app, this,
-				"Orientation", "degree");
+				"Orientation", app.getLocalization().getMenu("DegreeUnit"));
 		this.sensors.add(this.orientation);
 		this.sensorSettings.add(this.orientation);
 	}
