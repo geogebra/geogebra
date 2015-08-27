@@ -620,7 +620,7 @@ public class Ggb2giac {
 		p("Root.1", root1);
 		p("Solve.1", root1);
 
-		p("Solve.2", "ggbsort(normal([op(solve(%0,%1))]))");
+		p("Solve.2", "flatten(ggbsort(normal([op(solve(%0,%1))])))");
 		p("SolveODE.1", "when((%0)[0]=='=',"
 				+ "normal(map(desolve(%0),x->y=x)[0])" + ","
 				// add y'= if it's missing
