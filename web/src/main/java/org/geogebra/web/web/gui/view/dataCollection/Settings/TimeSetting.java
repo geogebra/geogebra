@@ -32,7 +32,7 @@ public class TimeSetting extends SensorSetting {
 
 	@Override
 	protected void addContent() {
-		addRow(app.getMenu("Time") + ":", Types.TIMESTAMP);
-		addRow(app.getMenu("Count") + ":", Types.DATA_COUNT);
+		addRow(app.getMenu("Timestamp") + ":", Types.TIMESTAMP);
+		addRow(app.getMenu("DataCount") + ":", Types.DATA_COUNT);
 	}
 }

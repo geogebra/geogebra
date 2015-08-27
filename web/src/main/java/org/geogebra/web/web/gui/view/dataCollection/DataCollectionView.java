@@ -330,7 +330,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	}
 
 	private void addTime() {
-		this.time = new TimeSetting(this.app, this, "Time", "ms");
+		this.time = new TimeSetting(this.app, this, "ReceivedData", "ms");
 		this.sensors.add(this.time);
 		this.sensorSettings.add(this.time);
 	}
