@@ -49,7 +49,10 @@ public class AnimationStepModel extends OptionsModel {
 				listener.setText(
 						kernel.formatAngle(geo0.getAnimationStep(), highPrecision, ((GeoAngle)geo0).getAngleStyle() == AngleStyle.UNBOUNDED).toString());
 			} else {
-				boolean autostep = ((GeoNumeric) geo0).isAutoStep();
+				boolean autostep = false;
+				if (geo0.isGeoNumeric()) {
+					autostep = ((GeoNumeric) geo0).isAutoStep();
+				}
 				listener.setText(
 						autostep ? "" : stepGeo.getLabel(highPrecision));
 			}
