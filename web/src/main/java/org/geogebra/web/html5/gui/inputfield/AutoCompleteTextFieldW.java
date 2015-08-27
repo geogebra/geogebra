@@ -134,11 +134,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
 	        .compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
-	/**
-	 * whether or not the OnScreenKeyBoard is visible at the moment
-	 */
-	boolean keyboardUsed = false;
-
 	boolean keyBoardModeText = false;
 
 	private int actualFontSize = 14;
@@ -1649,10 +1644,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void setFocus(boolean b) {
 		textField.setFocus(b);
-	}
-
-	public void setKeyBoardUsed(boolean used) {
-		this.keyboardUsed = used;
 	}
 
 	@Override
