@@ -5,11 +5,11 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.browser.SignInButton;
 
 import com.google.gwt.dom.client.Element;

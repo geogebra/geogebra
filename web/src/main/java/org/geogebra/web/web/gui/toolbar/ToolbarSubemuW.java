@@ -1,12 +1,12 @@
 package org.geogebra.web.web.gui.toolbar;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 

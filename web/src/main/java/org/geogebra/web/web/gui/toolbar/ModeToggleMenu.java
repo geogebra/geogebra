@@ -6,13 +6,13 @@ import java.util.Vector;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 
 import com.google.gwt.dom.client.Element;

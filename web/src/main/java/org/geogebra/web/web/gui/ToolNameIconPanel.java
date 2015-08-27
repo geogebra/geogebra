@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;

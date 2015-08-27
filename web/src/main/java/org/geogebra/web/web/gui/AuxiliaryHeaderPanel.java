@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.browser.BrowseResources;
 import org.geogebra.web.web.gui.util.StandardButton;

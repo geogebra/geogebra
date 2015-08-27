@@ -7,6 +7,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;

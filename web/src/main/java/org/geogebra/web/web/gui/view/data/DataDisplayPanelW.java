@@ -18,6 +18,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Validation;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.gui.util.Slider;
@@ -26,7 +27,6 @@ import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.NoDragImage;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 

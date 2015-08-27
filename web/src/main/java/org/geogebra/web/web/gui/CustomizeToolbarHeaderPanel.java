@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
