@@ -7,7 +7,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
-import org.geogebra.web.keyboard.KeyBoardProcessable;
+import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.OnScreenKeyBoardBase;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
@@ -21,7 +21,7 @@ import com.google.gwt.user.client.Event;
  * manages the processing of the different types of widgets that
  * {@link OnScreenKeyBoardBase} can work with
  */
-public class TextFieldProcessingBase implements KeyBoardProcessable {
+public class TextFieldProcessingBase implements KeyboardListener {
 
 	protected MathKeyboardListener field;
 	protected State state = State.empty;

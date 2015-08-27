@@ -11,9 +11,9 @@ import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.keyboard.KeyBoardButtonBase;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase;
-import org.geogebra.web.keyboard.KeyBoardProcessable;
+import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.keyboard.KeyboardMode;
-import org.geogebra.web.keyboard.KeyBoardProcessable.ArrowType;
+import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
 import org.geogebra.web.web.util.keyboardBase.KBBase;
 
 import com.google.gwt.core.client.Scheduler;
@@ -169,8 +169,8 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 	 *            the text field connected to the keyboard
 	 */
 	public void setTextField(MathKeyboardListener textField) {
-		if (textField instanceof KeyBoardProcessable) {
-			this.processField = (KeyBoardProcessable) textField;
+		if (textField instanceof KeyboardListener) {
+			this.processField = (KeyboardListener) textField;
 		} else {
 			this.processField = new TextFieldProcessing();
 			((TextFieldProcessing) this.processField).setField(textField);

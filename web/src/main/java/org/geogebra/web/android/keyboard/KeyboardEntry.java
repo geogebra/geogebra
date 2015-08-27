@@ -5,7 +5,7 @@ import org.geogebra.web.android.AppStub;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
-import org.geogebra.web.keyboard.KeyBoardProcessable;
+import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.keyboard.OnScreenKeyBoardBase;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -38,7 +38,7 @@ public class KeyboardEntry implements EntryPoint, ScriptLoadCallback {
 
 	public void onLoad() {
 		UpdateKeyboardListenerStub listener = new UpdateKeyboardListenerStub();
-		KeyBoardProcessable processing = new KeyboardListener();
+		KeyboardListener processing = new NativeKeyboardListener();
 		OnScreenKeyBoardBase oskb = OnScreenKeyBoardBase.getInstance(listener,
 				app);
 		oskb.setProcessing(processing);

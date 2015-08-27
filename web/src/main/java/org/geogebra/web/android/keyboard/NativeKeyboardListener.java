@@ -1,9 +1,9 @@
 package org.geogebra.web.android.keyboard;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.keyboard.KeyBoardProcessable;
+import org.geogebra.web.keyboard.KeyboardListener;
 
-public class KeyboardListener implements KeyBoardProcessable {
+public class NativeKeyboardListener implements KeyboardListener {
 
 	public void setFocus(boolean focus) {
 		// ignored

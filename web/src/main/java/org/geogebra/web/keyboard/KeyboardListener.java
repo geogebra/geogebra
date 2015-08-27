@@ -6,7 +6,7 @@ import org.geogebra.common.main.Localization;
  * interface for classes that can receive input from the
  * {@link OnScreenKeyBoardBase}
  */
-public interface KeyBoardProcessable {
+public interface KeyboardListener {
 	
 	/**
 	 * arrow keys of the keyboard

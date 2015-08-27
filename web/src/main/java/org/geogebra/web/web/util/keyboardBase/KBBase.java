@@ -15,13 +15,13 @@ import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonBase;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase;
-import org.geogebra.web.keyboard.KeyBoardProcessable;
+import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.keyboard.KeyPanelBase;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardLocalization;
 import org.geogebra.web.keyboard.KeyboardMode;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
-import org.geogebra.web.keyboard.KeyBoardProcessable.ArrowType;
+import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
 import org.geogebra.web.web.css.GuiResources;
 
 import com.google.gwt.core.client.Scheduler;
@@ -180,7 +180,7 @@ public class KBBase extends PopupPanel {
 	protected HorizontalPanel contentNumber = new HorizontalPanel();
 	protected HorizontalPanel contentSpecialChars = new HorizontalPanel();
 	protected FlowPanel contentLetters = new FlowPanel();
-	public KeyBoardProcessable processField;
+	public KeyboardListener processField;
 	protected KeyboardMode mode = KeyboardMode.NUMBER;
 	protected KeyPanelBase letters;
 	protected KeyBoardButtonBase switchABCGreek;
@@ -903,7 +903,7 @@ public class KBBase extends PopupPanel {
 	 * @param processing
 	 *            the text field to be used
 	 */
-	public void setProcessing(KeyBoardProcessable processing) {
+	public void setProcessing(KeyboardListener processing) {
 		this.processField = processing;
 	}
 
