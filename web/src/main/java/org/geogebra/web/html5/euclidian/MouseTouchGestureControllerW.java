@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -296,6 +297,7 @@ public class MouseTouchGestureControllerW implements
 	}
 
 	public void handleLongTouch(int x, int y) {
+		App.debug("LONG TOUCH");
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
 		        ZeroOffset.instance);
 		event.setIsRightClick(true);
@@ -363,9 +365,11 @@ public class MouseTouchGestureControllerW implements
 			        targets.get(targets.length() - 1), this,
 			        event.getRelativeElement());
 			if (!ec.draggingBeyondThreshold) {
+				if (ec.isDraggingBeyondThreshold(1)) {
 				longTouchManager.rescheduleTimerIfRunning(
 				        (LongTouchHandler) ec, e.getX(),
 				        e.getY(), false);
+				}
 			} else {
 				longTouchManager.cancelTimer();
 			}

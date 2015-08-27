@@ -7578,9 +7578,13 @@ public abstract class EuclidianController {
 	}
 
 	public boolean isDraggingBeyondThreshold() {
+		return isDraggingBeyondThreshold(DRAG_THRESHOLD);
+	}
+
+	public boolean isDraggingBeyondThreshold(int threshold) {
 		return mouseLoc != null
-				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > DRAG_THRESHOLD || Math
-						.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD);
+				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > threshold || Math
+						.abs(mouseLoc.y - selectionStartPoint.y) > threshold);
 	}
 
 	/**
