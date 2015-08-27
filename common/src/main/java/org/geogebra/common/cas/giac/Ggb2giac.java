@@ -161,9 +161,19 @@ public class Ggb2giac {
 		// normal so f(x):=(x^2-1)/(x-1) -> x+1 (consistent with Reduce)
 		// regroup so that r*r^n -> r^(n+1)
 		// regroup/normal swapped for improved variable order eg x^2 + a*x + b
-		p("Evaluate.1", "regroup(normal(%0))");
-		// p("Evaluate.1", "%0");
 
+		p("Evaluate.1", "regroup(normal(%0))");
+
+		// idea for #5500
+		// p("Evaluate.1",
+		// "[[[ggbevalarg:=%0],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]], when(length(\"\"+ggbevalans)<length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1]");
+
+		p("TrigSimplify.1",
+				"[[[ggbtrigarg:=%0], [ggbsin:=trigsin(ggbtrigarg)], [ggbcos:=trigcos(ggbtrigarg)], [ggbtan:=trigtan(ggbtrigarg)], "
+						+ "[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"
+						+ "when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]");
+
+		
 		p("Expand.1", "normal(%0)");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
@@ -616,7 +626,7 @@ public class Ggb2giac {
 		p("Root.1", root1);
 		p("Solve.1", root1);
 
-		p("Solve.2", "flatten(ggbsort(normal([op(solve(%0,%1))])))");
+		p("Solve.2", "ggbsort(normal([op(solve(%0,%1))]))");
 		p("SolveODE.1", "when((%0)[0]=='=',"
 				+ "normal(map(desolve(%0),x->y=x)[0])" + ","
 				// add y'= if it's missing
