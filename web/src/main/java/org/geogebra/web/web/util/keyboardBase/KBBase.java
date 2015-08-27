@@ -15,14 +15,14 @@ import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonBase;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase;
-import org.geogebra.web.keyboard.KeyboardListener;
+import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
 import org.geogebra.web.keyboard.KeyPanelBase;
 import org.geogebra.web.keyboard.KeyboardConstants;
+import org.geogebra.web.keyboard.KeyboardListener;
+import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
 import org.geogebra.web.keyboard.KeyboardLocalization;
 import org.geogebra.web.keyboard.KeyboardMode;
-import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
-import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
-import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.keyboard.KeyboardResources;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -166,15 +166,17 @@ public class KBBase extends PopupPanel {
 	protected static final String PAGE_TWO_OF_TWO = "2/2";
 
 	// images of the buttons:
-	private final ImageResource SHIFT = GuiResources.INSTANCE.keyboard_shift();
-	private final ImageResource SHIFT_DOWN = GuiResources.INSTANCE
+	private final ImageResource SHIFT = KeyboardResources.INSTANCE
+			.keyboard_shift();
+	private final ImageResource SHIFT_DOWN = KeyboardResources.INSTANCE
 			.keyboard_shiftDown();
-	private final ImageResource ENTER = GuiResources.INSTANCE.keyboard_enter();
-	private final ImageResource BACKSPACE = GuiResources.INSTANCE
+	private final ImageResource ENTER = KeyboardResources.INSTANCE
+			.keyboard_enter();
+	private final ImageResource BACKSPACE = KeyboardResources.INSTANCE
 			.keyboard_backspace();
-	private final ImageResource ARROW_LEFT = GuiResources.INSTANCE
+	private final ImageResource ARROW_LEFT = KeyboardResources.INSTANCE
 			.keyboard_arrowLeft();
-	private final ImageResource ARROW_RIGHT = GuiResources.INSTANCE
+	private final ImageResource ARROW_RIGHT = KeyboardResources.INSTANCE
 			.keyboard_arrowRight();
 
 	protected HorizontalPanel contentNumber = new HorizontalPanel();
@@ -415,7 +417,7 @@ public class KBBase extends PopupPanel {
 	}
 
 	protected SimplePanel getCloseButton() {
-		NoDragImage image = new NoDragImage(GuiResources.INSTANCE
+		NoDragImage image = new NoDragImage(KeyboardResources.INSTANCE
 				.keyboard_close().getSafeUri().asString());
 		image.addStyleName("closeIcon");
 		SimplePanel closePanel = new SimplePanel(image);

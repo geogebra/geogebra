@@ -338,31 +338,6 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_parametric_curve.png")
 	ImageResource algebra_new_parametric();
-
-	// ONSCREENKEYBOARD
-	@Source("org/geogebra/web/web/gui/images/view_close.png")
-	ImageResource keyboard_close();
-
-	@Source("org/geogebra/web/web/gui/images/keyboard_shiftDown.png")
-	ImageResource keyboard_shiftDown();
-
-	@Source("org/geogebra/web/web/gui/images/keyboard_shift.png")
-	ImageResource keyboard_shift();
-
-	@Source("org/geogebra/web/web/gui/images/keyboard_backspace.png")
-	ImageResource keyboard_backspace();
-
-	@Source("org/geogebra/web/web/gui/images/keyboard_enter.png")
-	ImageResource keyboard_enter();
-
-	@Source("org/geogebra/web/web/gui/images/keyboard_arrowLeft.png")
-	ImageResource keyboard_arrowLeft();
-
-	@Source("org/geogebra/web/web/gui/images/keyboard_arrowRight.png")
-	ImageResource keyboard_arrowRight();
-
-	@Source("org/geogebra/web/web/gui/images/keyboard_open.png")
-	ImageResource keyboard_show();
 	
 	// DATA COLLECTION
 	@Source("org/geogebra/web/web/gui/images/datacollection_on.png")

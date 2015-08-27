@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
   <inherits name="com.google.gwt.resources.Resources" />
-  <inherits name='com.google.gwt.user.User'/> 
+  <inherits name='com.google.gwt.user.User'/>
   
   <!-- Specify the paths for translatable code                    -->
   <source path='keyboard'/>
+  <resource path='keyboard'/>
 </module>
