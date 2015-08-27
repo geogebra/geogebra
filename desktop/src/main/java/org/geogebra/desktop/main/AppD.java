@@ -66,6 +66,7 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -956,6 +957,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			String filename = args.getStringValue("giacJSONtests");
 
+			int count = 0;
+
+			ArrayList<String> errors = new ArrayList<String>();
+
 			// Open the file
 			FileInputStream fstream;
 			try {
@@ -969,8 +974,9 @@ public class AppD extends App implements KeyEventDispatcher {
 				while ((strLine = br.readLine()) != null
 						&& (strLine.indexOf("JSONSTART") == -1)) {
 					// Print the content on the console
-					System.out.println("IGNORE " + strLine);
+					//System.out.println("IGNORE " + strLine);
 				}
+				
 
 				while ((strLine = br.readLine()) != null
 						&& (strLine.indexOf("JSONEND") == -1)) {
@@ -981,9 +987,11 @@ public class AppD extends App implements KeyEventDispatcher {
 					if (strLine.endsWith(",")) {
 						strLine = strLine.substring(0, strLine.length() - 1);
 					}
-					System.out.println(strLine);
+					//System.out.println(strLine);
 
 					if (strLine.startsWith("{")) {
+						
+						count++;
 
 						JSONTokener tokener = new JSONTokener(strLine);
 						JSONObject response = new JSONObject(tokener);
@@ -1013,11 +1021,12 @@ public class AppD extends App implements KeyEventDispatcher {
 						result = result.replaceAll("c_[0-9]*", "c_0");
 
 						casResult = casResult.replaceAll(
-								"arbconst\\([0-9]*\\)",
+								"arbconst\\([+0-9]*\\)",
 								"c_0");
 
 						casResult = casResult.replaceAll(
-								"arbint\\(([0-9]*)\\)", "n_0");
+								"arbint\\(([+0-9]*)\\)",
+								"n_0");
 
 						String[] results = {result};
 						
@@ -1035,17 +1044,27 @@ public class AppD extends App implements KeyEventDispatcher {
 							}
 						}
 
-						if (OK || "RANDOM".equals(result)) {
-							System.err.println("OK");
+						if (OK || "GEOGEBRAERROR".equals(result)
+								|| "RANDOM".equals(result)) {
+							App.debug("OK " + count);
 						} else {
-							System.err.println("not OK");
-							System.err.println("cmd = " + command);
-							System.err.println("result = " + result);
-							System.err.println("casResult = "
-									+ casResultOriginal);
+
+							String error = "\n\nnot OK " + count + "\ncmd = "
+									+ command + "\ndesired result= " + result
+									+ "\nactual result = " + casResultOriginal;
+							
+							App.error(error);
+							errors.add(error);
+							
+							
+
 						}
 
 					}
+					
+					
+
+					
 
 
 				}
@@ -1054,6 +1073,14 @@ public class AppD extends App implements KeyEventDispatcher {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+
+			App.error("CAS TESTS ENDED. Total tests run = " + count
+					+ ". Failed = " + errors.size());
+
+			Iterator<String> it = errors.iterator();
+			while (it.hasNext()) {
+				System.out.println(it.next());
 			}
 
 			System.exit(0);
