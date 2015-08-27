@@ -1111,7 +1111,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }
 
 .gwt-Tree .gwt-TreeItem-selected {
-	background: #CCCCFF;
+	background: #FFFFFF;
 }
 
 
@@ -5621,10 +5621,6 @@ body.application[dir=rtl] .deleteAlgebra {
 
 
 /* AV Extensions */ 
-
-.avItem .gwt-TreeItem-selected {
-	background: #FFFFFF;
-}
 
 .avSelectedRow .gwt-TreeItem-selected {
 	background: #CCCCFF;
