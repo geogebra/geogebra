@@ -226,12 +226,19 @@ public class MyCellEditorW implements BaseCellEditor {
 		return success;
 	}
 
-	boolean stopCellEditing(int colOff, int rowOff) {
+	boolean stopCellEditing(int colOff, int rowOff, boolean editNext) {
 		allowProcessGeo = true;
 		boolean success = stopCellEditing();
 		moveSelectedCell(colOff, rowOff);
 		allowProcessGeo = false;
-		table.finishEditing();// ?
+		table.finishEditing(); // don't finish, we
+		if (editNext) {
+			table.setAllowEditing(true);
+			table.editCellAt(row + rowOff, column + colOff);
+			table.setAllowEditing(false);
+			autoCompleteTextField.getTextField().setFocus(true);
+		}
+
 		return success;
 	}
 
@@ -378,7 +385,7 @@ public class MyCellEditorW implements BaseCellEditor {
 					return;
 
 				// Application.debug("UP");
-				stopCellEditing(0, -1);
+				stopCellEditing(0, -1, false);
 				// ?//e.consume();
 				tabReturnCol = -1;
 				break;
@@ -392,7 +399,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				// tab moves right
 				if (tabReturnCol == -1)
 					tabReturnCol = column;
-				stopCellEditing(e.isShiftKeyDown() ? -1 : 1, 0);
+				stopCellEditing(e.isShiftKeyDown() ? -1 : 1, 0, false);
 				e.preventDefault();
 				break;
 
@@ -409,7 +416,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 					if (tabReturnCol != -1) {
 						int colOffset = tabReturnCol - column;
-						stopCellEditing(colOffset, 1);
+						stopCellEditing(colOffset, 1, true);
 					} else {
 
 						// TODO: in desktop this works with column, row + 1
@@ -423,7 +430,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 						// don't move down to cell below after <Enter> if it's
 						// fixed
-						stopCellEditing(0, moveDown ? 1 : 0);
+						stopCellEditing(0, moveDown ? 1 : 0, moveDown);
 
 					}
 				} else {
@@ -445,7 +452,7 @@ public class MyCellEditorW implements BaseCellEditor {
 					return;
 				}
 				// Application.debug("DOWN");
-				stopCellEditing(0, 1);
+				stopCellEditing(0, 1, false);
 				tabReturnCol = -1;
 				break;
 
@@ -455,7 +462,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				// Application.debug("LEFT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == 0) {
-					stopCellEditing(-1, 0);
+					stopCellEditing(-1, 0, false);
 				}
 				tabReturnCol = -1;
 				break;
@@ -466,7 +473,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				// Application.debug("RIGHT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == text.length()) {
-					stopCellEditing(1, 0);
+					stopCellEditing(1, 0, false);
 				}
 
 				tabReturnCol = -1;

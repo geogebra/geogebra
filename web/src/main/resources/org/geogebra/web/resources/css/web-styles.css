@@ -2118,12 +2118,12 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	
 }
 
-.SpreadsheetEditorCell input {
+.SpreadsheetEditorCell input, .SpreadsheetEditorCell input[type="text"] {
 	border-radius: 0px;
 	box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 	padding: 1px 1px;
-	box-shadow: 2px 2px 3px gray;
+	margin:-3px;	
 }
 
 .editorPanel {
@@ -2185,7 +2185,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	border-bottom: 0px;
 }
 
-.geogebraweb-table-spreadsheet.upperCorner {
+.geogebraweb-table-spreadsheet.upperCorner td {
 	background-color: #F8F8F8;
 	color: #F8F8F8 !important;
 }
