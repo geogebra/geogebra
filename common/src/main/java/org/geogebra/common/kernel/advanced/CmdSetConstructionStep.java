@@ -32,7 +32,7 @@ public class CmdSetConstructionStep extends CmdScripting {
 		switch (n) {
 
 		case 1:
-			double newStep = Math.round(arg[0].evaluateDouble());
+			double newStep = Math.round(arg[0].evaluateDouble() - 1);
 			int maxStep = cons.steps();
 			// eg SetConstructionStep[infinity] to set to end
 			if (newStep >= maxStep) {
@@ -40,6 +40,11 @@ public class CmdSetConstructionStep extends CmdScripting {
 			}
 
 			cons.setStep((int) newStep);
+
+			if (app.getGuiManager() != null) {
+				app.getGuiManager().updateNavBars();
+			}
+
 			return arg;
 
 		default:

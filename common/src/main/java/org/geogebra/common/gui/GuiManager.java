@@ -14,6 +14,7 @@ package org.geogebra.common.gui;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -444,6 +445,19 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
+
+	public void updateNavBars() {
+		if (constProtocolNavigationMap != null) {
+			Iterator<ConstructionProtocolNavigation> it = constProtocolNavigationMap
+					.values().iterator();
+
+			while (it.hasNext()) {
+				ConstructionProtocolNavigation navBar = it.next();
+				navBar.update();
+			}
+
+		}
+	}
 
 	/**
 	 * Returns the construction protocol navigation bar instance.

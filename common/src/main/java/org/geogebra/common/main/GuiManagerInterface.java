@@ -376,4 +376,9 @@ public interface GuiManagerInterface {
 	public String getToolImageURL(int mode, GeoImage geoImage);
 
 	public EuclidianViewInterfaceCommon getPlotPanelEuclidanView();
+
+	/**
+	 * redraw Navigation Bars if necessary (eg step changed)
+	 */
+	public void updateNavBars();
 }
