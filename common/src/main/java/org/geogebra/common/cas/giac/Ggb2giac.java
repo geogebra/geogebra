@@ -608,8 +608,8 @@ public class Ggb2giac {
 		// tlin() removed, see #3956
 		p("Simplify.1", "simplify(regroup(%0))");
 
-		p("Solutions.1", "ggbsort(normal([op(solve(%0))]))");
-		p("Solutions.2", "ggbsort(normal([op(solve(%0,%1))]))");
+		p("Solutions.1", "ggbsort(normal(zeros(%0,x)))");
+		p("Solutions.2", "ggbsort(normal(zeros(%0,%1)))");
 
 		// Root.1 and Solve.1 should be the same
 		String root1 = "ggbsort(normal([op(solve(%0))]))";
