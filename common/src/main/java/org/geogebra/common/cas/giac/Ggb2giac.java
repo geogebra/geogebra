@@ -168,12 +168,6 @@ public class Ggb2giac {
 		// p("Evaluate.1",
 		// "[[[ggbevalarg:=%0],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]], when(length(\"\"+ggbevalans)<length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1]");
 
-		p("TrigSimplify.1",
-				"[[[ggbtrigarg:=%0], [ggbsin:=trigsin(ggbtrigarg)], [ggbcos:=trigcos(ggbtrigarg)], [ggbtan:=trigtan(ggbtrigarg)], "
-						+ "[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"
-						+ "when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]");
-
-		
 		p("Expand.1", "normal(%0)");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
