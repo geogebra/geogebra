@@ -72,6 +72,8 @@ public class Socket {
 
 		protected BodySideType side;
 		
+		protected int leftSideCount, rightSideCount;
+
 		protected float[] worldX, worldY, worldZ;
 		
 		protected float[] handOrientationX, handOrientationY, handOrientationZ, handOrientationW;
@@ -91,7 +93,51 @@ public class Socket {
 			handOrientationZ = new float[samples];
 			handOrientationW = new float[samples];
 			
+			resetSide();
+
+		}
+
+		protected void resetSide() {
+			leftSideCount = 0;
+			rightSideCount = 0;
 			side = BodySideType.BODY_SIDE_UNKNOWN;
+		}
+
+		protected void addSideDetected(BodySideType type) {
+			if (type == BodySideType.BODY_SIDE_RIGHT) {
+				rightSideCount++;
+				if (rightSideCount > 10000) {
+					rightSideCount /= 10;
+					leftSideCount /= 10;
+				}
+				updateSide();
+			} else if (type == BodySideType.BODY_SIDE_LEFT) {
+				leftSideCount++;
+				if (leftSideCount > 10000) {
+					rightSideCount /= 10;
+					leftSideCount /= 10;
+				}
+				updateSide();
+			}
+		}
+
+		private void updateSide() {
+			if (side == BodySideType.BODY_SIDE_UNKNOWN) {
+				// check if we can decide side
+				if (rightSideCount > leftSideCount) {
+					side = BodySideType.BODY_SIDE_RIGHT;
+				} else if (rightSideCount < leftSideCount) {
+					side = BodySideType.BODY_SIDE_LEFT;
+				}
+			} else {
+				// check if we should decide side
+				if (rightSideCount > 2 * leftSideCount) {
+					side = BodySideType.BODY_SIDE_RIGHT;
+				} else if (2 * rightSideCount < leftSideCount) {
+					side = BodySideType.BODY_SIDE_LEFT;
+				}
+
+			}
 
 		}
 
@@ -149,7 +195,8 @@ public class Socket {
 			
 			if (resetAllValues){
 
-				side = hand.QueryBodySide();
+				resetSide();
+				addSideDetected(hand.QueryBodySide());
 
 				for (int i = 0 ; i < samples ; i++){
 					// reset all values
@@ -176,9 +223,7 @@ public class Socket {
 				return;
 			}
 			
-			if (side == BodySideType.BODY_SIDE_UNKNOWN) {
-				side = hand.QueryBodySide();
-			}
+			addSideDetected(hand.QueryBodySide());
 
 			
 			worldXSum -= worldX[index];
