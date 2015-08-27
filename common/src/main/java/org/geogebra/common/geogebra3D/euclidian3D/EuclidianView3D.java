@@ -3732,7 +3732,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public int getViewID() {
-		return App.VIEW_EUCLIDIAN3D;
+		return App.VIEW_EUCLIDIAN3D - evNo - 1;
 	}
 
 	private double projectionObliqueAngle = 30;
@@ -3817,8 +3817,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public int getEuclidianViewNo() {
-		// TODO Auto-generated method stub
-		return App.VIEW_EUCLIDIAN3D;
+		return getViewID();
 	}
 
 	// ////////////////////////////////////////

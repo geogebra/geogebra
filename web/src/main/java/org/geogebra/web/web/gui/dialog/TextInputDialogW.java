@@ -196,27 +196,26 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 						if (activeView.isEuclidianView3D()) {
 							// we need to add it to 3D view since by default
 							// it may not
-							t.addView(App.VIEW_EUCLIDIAN3D);
-							kernel.getApplication().getEuclidianView3D().add(t);
+							kernel.getApplication().addToViews3D(t);
 							app.removeFromEuclidianView(t);
 							t.setVisibleInViewForPlane(false);
 							kernel.getApplication().removeFromViewsForPlane(t);
 						} else if (activeView.isDefault2D()) {
-							t.removeView(App.VIEW_EUCLIDIAN3D);
 							if (kernel.getApplication()
 									.isEuclidianView3Dinited()) {
-								kernel.getApplication().getEuclidianView3D()
-										.remove(t);
+								kernel.getApplication().removeFromViews3D(t);
+							} else {
+								t.removeViews3D();
 							}
 							t.setVisibleInViewForPlane(false);
 							kernel.getApplication().removeFromViewsForPlane(t);
 						} else { // view for plane
 							app.removeFromEuclidianView(t);
-							t.removeView(App.VIEW_EUCLIDIAN3D);
 							if (kernel.getApplication()
 									.isEuclidianView3Dinited()) {
-								kernel.getApplication().getEuclidianView3D()
-										.remove(t);
+								kernel.getApplication().removeFromViews3D(t);
+							} else {
+								t.removeViews3D();
 							}
 						}
 					}

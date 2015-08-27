@@ -56,14 +56,15 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 				App.debug("[customize] view id for button is " + viewId);
 				ResourcePrototype res = null;
 				switch (viewId) {
-				case App.VIEW_EUCLIDIAN3D:
-					res = pr.menu_icon_graphics3D();
-					break;
 				case App.VIEW_DATA_ANALYSIS:
 					res = pr.menu_icon_probability();
 					break;
 				default:
-					res = panel.getIcon();
+					if (App.isView3D(viewId)) {
+						res = pr.menu_icon_graphics3D();
+					} else {
+						res = panel.getIcon();
+					}
 				}
 
 				final MyToggleButton2 btn = new MyToggleButton2(

@@ -72,19 +72,17 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	@Override
 	public void updateNavigationBar() {
 
-		if (app.getShowCPNavNeedsUpdate(App.VIEW_EUCLIDIAN3D)) {
+		if (app.getShowCPNavNeedsUpdate(id)) {
 			app.setShowConstructionProtocolNavigation(
-					app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D),
-					App.VIEW_EUCLIDIAN3D);
+					app.showConsProtNavigation(id), id);
 		}
-		if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D)
+		if (app.showConsProtNavigation(id)
 				&& consProtNav == null) {
 			this.addNavigationBar();
 		}
 		if (consProtNav != null) {
 			consProtNav.update();
-			consProtNav.setVisible(app
-					.showConsProtNavigation(App.VIEW_EUCLIDIAN3D));
+			consProtNav.setVisible(app.showConsProtNavigation(id));
 			euclidianpanel.onResize();
 		}
 	}
@@ -93,7 +91,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	
 	public void addNavigationBar(){
 		consProtNav = (ConstructionProtocolNavigationW)(app.getGuiManager()
-				.getConstructionProtocolNavigation(App.VIEW_EUCLIDIAN3D));
+				.getConstructionProtocolNavigation(id));
 		consProtNav.getImpl().addStyleName("consProtNav");
 		euclidianpanel.add(consProtNav.getImpl()); // may be invisible, but made visible later		
 		updateNavigationBar();

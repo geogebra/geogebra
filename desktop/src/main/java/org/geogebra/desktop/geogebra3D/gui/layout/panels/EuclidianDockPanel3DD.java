@@ -65,23 +65,21 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 					BorderLayout.CENTER);
 
 			consProtNav = (ConstructionProtocolNavigationD) app.getGuiManager()
-					.getConstructionProtocolNavigation(App.VIEW_EUCLIDIAN3D);
+					.getConstructionProtocolNavigation(id);
 
 			ConstructionProtocolSettings cps = app.getSettings()
 					.getConstructionProtocol();
 			consProtNav.settingsChanged(cps);
 			cps.addListener(consProtNav);
 
-			if (app.getShowCPNavNeedsUpdate(App.VIEW_EUCLIDIAN3D)) {
+			if (app.getShowCPNavNeedsUpdate(id)) {
 				app.setShowConstructionProtocolNavigation(
-						app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D),
-						App.VIEW_EUCLIDIAN3D);
+						app.showConsProtNavigation(id), id);
 			}
 			consProtNav.getImpl().setBorder(
 					BorderFactory
 							.createMatteBorder(1, 0, 0, 0, Color.lightGray));
-			consProtNav.getImpl().setVisible(
-					app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D));
+			consProtNav.getImpl().setVisible(app.showConsProtNavigation(id));
 
 			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be
 																	// invisible,

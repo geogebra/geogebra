@@ -102,10 +102,10 @@ public class ViewLocationModel extends OptionsModel {
 			EuclidianView3DInterface ev3D = app.getEuclidianView3D();
 
 			if (value) {
-				geo.addView(App.VIEW_EUCLIDIAN3D);
+				geo.addViews3D();
 				ev3D.add(geo);
 			} else {
-				geo.removeView(App.VIEW_EUCLIDIAN3D);
+				geo.removeViews3D();
 				ev3D.remove(geo);
 			}
 

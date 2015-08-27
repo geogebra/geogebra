@@ -6966,11 +6966,18 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param viewId view id
 	 */
 	final public void addView(final int viewId) {
-		if (viewId == App.VIEW_EUCLIDIAN3D) {
-			visibleInView3D = VisibleInView.TRUE;
+		if (App.isView3D(viewId)) {
+			addViews3D();
 		} else {
 			setVisibility(viewId, true);
 		}
+	}
+
+	/**
+	 * set visible in 3D views
+	 */
+	final public void addViews3D() {
+		visibleInView3D = VisibleInView.TRUE;
 	}
 
 	/**
@@ -6978,16 +6985,25 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param viewId view id
 	 */
 	public void removeView(final int viewId) {
-		if (viewId == App.VIEW_EUCLIDIAN3D) {
-			visibleInView3D = VisibleInView.FALSE;
+		if (App.isView3D(viewId)) {
+			removeViews3D();
 		} else {
 			setVisibility(viewId, false);
 		}
 	}
 	
 	/**
+	 * set not visible in 3D views
+	 */
+	final public void removeViews3D() {
+		visibleInView3D = VisibleInView.FALSE;
+	}
+
+	/**
 	 * Make this visible in given views
-	 * @param flags list of view ids
+	 * 
+	 * @param flags
+	 *            list of view ids
 	 */
 	public void setViewFlags(List<Integer> flags){
 		if(flags == null){

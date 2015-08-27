@@ -297,11 +297,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 			break;
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
-		case App.VIEW_EUCLIDIAN3D:
 			// handled elsewhere
 			break;
 		default:
-			App.error("Error attaching VIEW: " + viewId);
+			if (App.isView3D(viewId)) {
+				// handled elsewhere
+			} else {
+				App.error("Error attaching VIEW: " + viewId);
+			}
 		}
 	}
 
@@ -399,11 +402,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		case App.VIEW_EUCLIDIAN2:
 			App.debug("TODO: should we detach EV1/2?");
 			break;
-		case App.VIEW_EUCLIDIAN3D:
-			App.debug("TODO: should we detach EV3D?");
-			break;
 		default:
-			App.error("Error detaching VIEW: " + viewId);
+			if (App.isView3D(viewId)) {
+				App.debug("TODO: should we detach EV3D?");
+			} else {
+				App.error("Error detaching VIEW: " + viewId);
+			}
 		}
 	}
 

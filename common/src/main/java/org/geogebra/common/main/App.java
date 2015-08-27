@@ -134,6 +134,8 @@ public abstract class App implements UpdateSelection {
 	public static final int VIEW_FUNCTION_INSPECTOR = 128;
 	/** id for 3D view */
 	public static final int VIEW_EUCLIDIAN3D = 512;
+	/** id for 2nd 3D view */
+	public static final int VIEW_EUCLIDIAN3D_2 = 513;
 	/** let us break the pattern */
 	public static final int VIEW_EVENT_DISPATCHER = 42;
 	/**
@@ -2162,6 +2164,28 @@ public abstract class App implements UpdateSelection {
 		getEuclidianView1().remove(geo);
 	}
 
+	/**
+	 * Adds geo to 3D views
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void addToViews3D(GeoElement geo) {
+		geo.addViews3D();
+		getEuclidianView3D().add(geo);
+	}
+
+	/**
+	 * Removes geo from 3D views
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void removeFromViews3D(GeoElement geo) {
+		geo.removeViews3D();
+		getEuclidianView3D().remove(geo);
+	}
+
 	public abstract void setXML(String string, boolean b);
 
 	/**
@@ -4028,6 +4052,25 @@ public abstract class App implements UpdateSelection {
 				selGeos.get(0).runClickScripts(null);
 			}
 
+			return true;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * 
+	 * @param id
+	 *            view id
+	 * @return true if id is a 3D view id
+	 */
+	public static final boolean isView3D(int id) {
+		if (id == App.VIEW_EUCLIDIAN3D) {
+			return true;
+		}
+
+		if (id == App.VIEW_EUCLIDIAN3D_2) {
 			return true;
 		}
 

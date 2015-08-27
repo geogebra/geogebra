@@ -764,15 +764,13 @@ public class CopyPaste {
 						app.getEuclidianView2(1).remove(geo);
 					}
 					if (app.getEuclidianView3D() != null) {
-						geo.removeView(App.VIEW_EUCLIDIAN3D);
-						app.getEuclidianView3D().remove(geo);
+						app.removeFromViews3D(geo);
 					}
 				} else if (app.getActiveEuclidianView() == app
 						.getEuclidianView3D()) {
 					app.removeFromEuclidianView(geo);
 					if (app.getEuclidianView3D() != null) {
-						geo.addView(App.VIEW_EUCLIDIAN3D);
-						app.getEuclidianView3D().add(geo);
+						app.addToViews3D(geo);
 					}
 					if (app.hasEuclidianView2(1)) {
 						geo.removeView(App.VIEW_EUCLIDIAN2);
@@ -783,8 +781,7 @@ public class CopyPaste {
 					geo.addView(App.VIEW_EUCLIDIAN2);
 					app.getEuclidianView2(1).add(geo);
 					if (app.getEuclidianView3D() != null) {
-						geo.removeView(App.VIEW_EUCLIDIAN3D);
-						app.getEuclidianView3D().remove(geo);
+						app.removeFromViews3D(geo);
 					}
 				}
 

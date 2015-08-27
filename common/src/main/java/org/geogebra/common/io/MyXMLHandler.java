@@ -3686,11 +3686,11 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			if ((EVs & 4) == 4) { // bit 2
-				geo.addView(App.VIEW_EUCLIDIAN3D);
+				geo.addViews3D();
 			}
 
 			if ((EVs & 8) == 8) { // bit 3
-				geo.removeView(App.VIEW_EUCLIDIAN3D);
+				geo.removeViews3D();
 			}
 
 			if ((EVs & 16) == 16) { // bit 4

@@ -461,12 +461,12 @@ public class AppWapplet extends AppWFull {
 		case App.VIEW_ALGEBRA:
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
-		case App.VIEW_EUCLIDIAN3D:
 			this.getGlobalKeyDispatcher().InFocus = true;
 			break;
 		default:
-			if ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START)
-					&& (v.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END)) {
+			if (App.isView3D(v.getViewID())
+					|| ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (v
+							.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
 				this.getGlobalKeyDispatcher().InFocus = true;
 			}
 		}
