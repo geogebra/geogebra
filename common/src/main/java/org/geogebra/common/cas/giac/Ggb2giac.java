@@ -38,7 +38,7 @@ public class Ggb2giac {
 		p("Binomial.2", "simplify(binomial(%0,%1))");
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"
-						+ "if %3=true then binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2) else binomial(ggbbinarg0,ggbbinarg1,ggbbinarg2) fi][1]");
+						+ "if %3=true then binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2) else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]");
 
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 
