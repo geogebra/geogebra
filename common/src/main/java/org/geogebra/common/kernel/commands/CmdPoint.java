@@ -51,11 +51,13 @@ public class CmdPoint extends CommandProcessor {
 
 					return ret;
 				}
-			} else if (arg[0].isPath()) {
+			}
+			// no elseif to make sure we return something
+			if (arg[0].isPath()) {
 				GeoElement[] ret = { getAlgoDispatcher().Point(c.getLabel(),
 						(Path) arg[0], null) };
 				return ret;
-			} else
+			}
 				throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
