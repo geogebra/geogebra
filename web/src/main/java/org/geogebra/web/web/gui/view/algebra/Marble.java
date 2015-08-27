@@ -93,10 +93,9 @@ public class Marble extends SimplePanel
 	private void updateMarble(boolean value) {
 		if (value) {
 			// Filling color should be the same color but 30% opacity (77)
-			GColorW fillColor = new GColorW(gc.getGeo().getAlgebraColor().getRed(),
-											gc.getGeo().getAlgebraColor().getGreen(),
-											gc.getGeo().getAlgebraColor().getBlue(),
-											77);
+			GColorW fillColor = new GColorW(gc.getGeo().getAlgebraColor()
+					.getRGB());
+			fillColor.setAlpha(77);
 			this.getElement().getStyle().setBorderColor(GColor.getColorString(gc.getGeo().getAlgebraColor()));
 			this.getElement().getStyle().setBackgroundColor(GColor.getColorString(fillColor));
 		}

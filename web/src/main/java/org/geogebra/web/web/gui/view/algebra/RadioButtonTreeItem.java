@@ -561,6 +561,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		radio.setChecked(ge.isEuclidianVisible());
 
 		marblePanel = new FlowPanel();
+		marblePanel.addStyleName("marblePanel");
 		marblePanel.add(radio);
 		add(marblePanel);
 

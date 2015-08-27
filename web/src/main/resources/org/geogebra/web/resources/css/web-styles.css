@@ -1110,9 +1110,9 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: pointer;
 }
 
-.gwt-Tree .gwt-TreeItem-selected {
+/*.gwt-Tree .gwt-TreeItem-selected {
 	background: #FFFFFF;
-}
+}*/
 
 
 
@@ -3578,7 +3578,7 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 }
 .algebraView .avItem {
 	/*padding: 3px 10px !important;*/
-	padding: 1px 0px 0px 0px !important;
+	padding: 0px !important;
 }
 
 .elemHeading {
@@ -3624,17 +3624,70 @@ body.application[dir=rtl] .algebraOpenButton {
  	-moz-box-sizing: border-box;
  	-webkit-box-sizing: border-box;
  }
+ 
+.algebraView .avItem .AlgebraViewObjectStylebar {
+ 	top: 0px;
+ } 
+ 
+ .avItem .gwt-TreeItem {
+ 	padding: 0px;
+ 	padding-bottom: 1px;
+ }
+.avItem.avSelectedRow .gwt-TreeItem {
+	padding: 0px;
+	margin-top: -1px;
+	
+	border-top: 1px solid #6161FF;
+	border-bottom: 1px solid #6161FF;
+}
+
+.avItem.avSelectedRow .marblePanel  {
+		background-color: #CCCCFF;
+}
 
 /* Colors will be overwritten in java code
 ** see: org.geogebra.web.web.gui.view.algebra.Marble.java
 */
+.marblePanel {
+	padding: 3px 7px 3px 7px;
+	margin: 0px 3px 0px 0px !important;
+	position: absolute;
+	height: 100%;
+	
+	box-sizing: border-box;
+ 	-moz-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;
+}
+body.application[dir=rtl] .marblePanel {
+	margin: 0px 0px 0px 3px !important;
+}
+
+.avItem .marblePanel + * {
+	padding-left: 37px;
+	
+	box-sizing: border-box;
+ 	-moz-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;
+ 	
+ 	margin-right: 0px;
+}
+body.application[dir=rtl] .avItem .marblePanel + * {
+	padding-left: 0px;
+	padding-right: 37px;
+	
+	margin-left: 0px;
+}
+
 .marble {
 	height: 18px;
 	width: 18px;
 	background-color: #6161FF;
 	border: 1px solid #000000;
 	border-radius: 18px;
-	margin-left: 10px;
+	
+	position: relative;
+	top: 50%;
+	margin-top: -10px;
 }
 .marble.elemHidden {
 	background-color: #FFFFFF;
@@ -3792,16 +3845,7 @@ body.application[dir=rtl] .GeoGebraFrame .AlgebraViewObjectStylebar {
 	left: 0px;
 	border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 0px;
-}
-
-.GeoGebraFrame .avItem.XButtonPanelParent .AlgebraViewObjectStylebar {
-	border-top-left-radius: 5px;
-}
-body.application[dir=rtl] .GeoGebraFrame .avItem.XButtonPanelParent .AlgebraViewObjectStylebar {
-	border-top-right-radius: 5px;
-	border-top-left-radius: 0px;
-}
- 
+} 
 
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
@@ -5622,9 +5666,9 @@ body.application[dir=rtl] .deleteAlgebra {
 
 /* AV Extensions */ 
 
-.avSelectedRow .gwt-TreeItem-selected {
+/*.avSelectedRow .gwt-TreeItem-selected {
 	background: #CCCCFF;
-}
+}*/
 .avItemContent {
 	width: 100%;
 }
