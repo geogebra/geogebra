@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module rename-to='keyboard'>
+<module rename-to='android-keyboard'>
 
   <inherits name='org.geogebra.web.Html5'/>
   <!-- Specify the app entry point class.                         -->
@@ -19,8 +19,6 @@
   <replace-with class="org.geogebra.web.web.gui.applet.AppletFactory2D">
     <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
   </replace-with>
-  <!-- Compile only one permutation -->
-  
-  <add-linker name="sso" />
+    
   <collapse-all-properties />
 </module>
