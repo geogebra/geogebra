@@ -1133,6 +1133,8 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 							} else {
 								t.removeViews3D();
 							}
+							t.setVisibleInViewForPlane(true);
+							kernel.getApplication().addToViewsForPlane(t);
 						}
 					}
 

@@ -217,6 +217,8 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 							} else {
 								t.removeViews3D();
 							}
+							t.setVisibleInViewForPlane(true);
+							kernel.getApplication().addToViewsForPlane(t);
 						}
 					}
 
