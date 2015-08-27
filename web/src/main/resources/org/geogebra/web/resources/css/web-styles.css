@@ -5623,10 +5623,10 @@ body.application[dir=rtl] .deleteAlgebra {
 /* AV Extensions */ 
 
 .avItem .gwt-TreeItem-selected {
-	background: #CCCCFF;
+	background: #FFFFFF;
 }
 
-.avItem .gwt-TreeItem-selected-av >* {
+.avSelectedRow .gwt-TreeItem-selected {
 	background: #CCCCFF;
 }
 .avItemContent {

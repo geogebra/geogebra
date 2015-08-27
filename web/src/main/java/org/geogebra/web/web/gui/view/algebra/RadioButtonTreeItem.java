@@ -764,7 +764,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		}
 
-		int width = ((AlgebraViewW) av).getOffsetWidth()
+		int width = getAV().getOffsetWidth()
 				- animPanel.getOffsetWidth()
  - 2
 				* marblePanel.getOffsetWidth();
@@ -1236,6 +1236,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			} else if (marblePanel != null) {
 				sliderPanel.remove(slider);
 			}
+		}
+
+		if (getAV().getSelectedGeoElement() == geo) {
+			getAV().selectRow(geo, true);
 		}
 	}
 
@@ -1825,6 +1829,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	@Override
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
+		getAV().selectRow(geo, true);
 		if (avExtension) {
 			if (minMaxPanel != null && ((openedMinMaxPanel != minMaxPanel)
 					|| (openedMinMaxPanel == minMaxPanel
@@ -1863,6 +1868,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	}
 
+
+	private AlgebraViewW getAV() {
+		return (AlgebraViewW) av;
+	}
 
 	@Override
 	public void onMouseMove(MouseMoveEvent evt) {
@@ -2050,7 +2059,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private void onPointerUp(AbstractEvent event) {
 		if (commonEditingCheck()) {
 			if (newCreationMode) {
-				AlgebraStyleBarW styleBar = ((AlgebraViewW) av)
+				AlgebraStyleBarW styleBar = getAV()
 						.getStyleBar(false);
 				if (styleBar != null) {
 					styleBar.update(null);
@@ -2095,12 +2104,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// needed at the beginning of this method!
 		av.setFocus(true);
 
-		if (((AlgebraViewW) this.av).getStyleBar(false) != null) {
-			((AlgebraViewW) this.av).getStyleBar(false).update(this.getGeo());
+		AlgebraStyleBarW styleBar = getAV().getStyleBar(false);
+
+		if (styleBar != null) {
+			styleBar.update(this.getGeo());
 		}
 
 		// note that this is only called when we are not doing editing!
 		addDeleteButton();
+
 	}
 
 	/**
@@ -2114,7 +2126,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (!isThisEdited()) {
 				maybeSetPButtonVisibility(false);
 			}
-			((AlgebraViewW) this.av).setActiveTreeItem(this);
+			getAV().setActiveTreeItem(this);
+
 		}
 
 	}
@@ -2288,7 +2301,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				event.setData("text", "draggginggg");
 				event.getDataTransfer().setDragImage(getElement(), 10, 10);
 				event.stopPropagation();
-				((AlgebraViewW) av).dragStart(event, geo);
+				getAV().dragStart(event, geo);
 			}
 		}, DragStartEvent.getType());
 
