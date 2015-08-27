@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.keyboardBase;
+package org.geogebra.web.keyboard;
 
 public interface TextFieldProcessable {
 

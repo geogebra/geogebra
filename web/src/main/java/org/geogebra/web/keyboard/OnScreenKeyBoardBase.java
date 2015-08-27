@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.keyboardBase;
+package org.geogebra.web.keyboard;
 
 import java.util.HashMap;
 
@@ -7,6 +7,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Language;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
+import org.geogebra.web.web.util.keyboardBase.KBBase;
 
 /**
  * on screen keyboard containing mathematical symbols and formulas

@@ -2,6 +2,7 @@ package org.geogebra.web.web.util.keyboard;
 
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.util.keyboardBase.TextFieldProcessingBase;
 

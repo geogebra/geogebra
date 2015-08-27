@@ -1,7 +1,7 @@
 package org.geogebra.web.android.keyboard;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
+import org.geogebra.web.keyboard.KeyBoardProcessable;
 
 public class KeyboardListener implements KeyBoardProcessable {
 

@@ -9,11 +9,12 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
+import org.geogebra.web.keyboard.KeyBoardButtonBase;
+import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase;
+import org.geogebra.web.keyboard.KeyBoardProcessable;
+import org.geogebra.web.keyboard.KeyboardMode;
+import org.geogebra.web.keyboard.KeyBoardProcessable.ArrowType;
 import org.geogebra.web.web.util.keyboardBase.KBBase;
-import org.geogebra.web.web.util.keyboardBase.KeyBoardButtonBase;
-import org.geogebra.web.web.util.keyboardBase.KeyBoardButtonFunctionalBase;
-import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
-import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable.ArrowType;
 
 import com.google.gwt.core.client.Scheduler;
 

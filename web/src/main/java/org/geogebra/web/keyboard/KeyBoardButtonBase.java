@@ -1,8 +1,9 @@
-package org.geogebra.web.web.util.keyboardBase;
+package org.geogebra.web.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.web.util.keyboardBase.KBBase;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

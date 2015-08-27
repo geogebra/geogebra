@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.keyboard;
+package org.geogebra.web.keyboard;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 

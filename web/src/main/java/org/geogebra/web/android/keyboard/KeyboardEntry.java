@@ -5,8 +5,8 @@ import org.geogebra.web.android.AppStub;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
-import org.geogebra.web.web.util.keyboardBase.KeyBoardProcessable;
-import org.geogebra.web.web.util.keyboardBase.OnScreenKeyBoardBase;
+import org.geogebra.web.keyboard.KeyBoardProcessable;
+import org.geogebra.web.keyboard.OnScreenKeyBoardBase;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Window.Location;

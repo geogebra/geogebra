@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.keyboardBase;
+package org.geogebra.web.keyboard;
 
 import org.geogebra.common.main.Localization;
 

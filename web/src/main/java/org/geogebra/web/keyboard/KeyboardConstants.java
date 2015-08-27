@@ -1,6 +1,7 @@
-package org.geogebra.web.web.util.keyboard;
+package org.geogebra.web.keyboard;
 
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 /**
  * Contains Strings which are used for the {@link KeyBoardButton buttons} of the

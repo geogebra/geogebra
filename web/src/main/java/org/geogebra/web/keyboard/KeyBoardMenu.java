@@ -1,4 +1,6 @@
-package org.geogebra.web.web.util.keyboard;
+package org.geogebra.web.keyboard;
+
+import org.geogebra.web.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
