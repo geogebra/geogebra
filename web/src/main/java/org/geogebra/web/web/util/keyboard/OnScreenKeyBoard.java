@@ -48,6 +48,7 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 		}
 		this.app = appW;
 		this.loc = (LocalizationW) app.getLocalization(); // TODO
+		setHasKeyboard(appW);
 		addStyleName("KeyBoard");
 		createKeyBoard();
 		initAccentAcuteLetters();

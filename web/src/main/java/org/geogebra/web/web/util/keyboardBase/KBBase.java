@@ -9,12 +9,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.util.keyboard.HasKeyboard;
 import org.geogebra.web.web.util.keyboard.KeyboardConstants;
 import org.geogebra.web.web.util.keyboard.KeyboardMode;
 import org.geogebra.web.web.util.keyboardBase.KeyBoardButtonFunctionalBase.Action;
@@ -40,6 +40,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class KBBase extends PopupPanel {
 
 	private static final int LOWER_HEIGHT = 350;
+
+	private HasKeyboard hasKeyboard;
 
 	/**
 	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,
@@ -372,7 +374,9 @@ public class KBBase extends PopupPanel {
 	}
 
 	private void updateHeight() {
-		((AppW) app).updateKeyboardHeight();
+		if (hasKeyboard != null) {
+			hasKeyboard.updateKeyboardHeight();
+		}
 	}
 
 	/**
@@ -1255,6 +1259,10 @@ public class KBBase extends PopupPanel {
 
 	public void showOnFocus() {
 		this.keyboardWanted = true;
+	}
+
+	public void setHasKeyboard(HasKeyboard hasKeyboard) {
+		this.hasKeyboard = hasKeyboard;
 	}
 
 }

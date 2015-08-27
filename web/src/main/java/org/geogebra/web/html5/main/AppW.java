@@ -104,7 +104,7 @@ import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.view.algebra.RadioButtonTreeItem;
+import org.geogebra.web.web.util.keyboard.HasKeyboard;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -131,7 +131,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AppW extends App implements SetLabels {
+public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
