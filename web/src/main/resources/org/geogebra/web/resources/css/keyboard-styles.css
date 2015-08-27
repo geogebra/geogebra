@@ -83,7 +83,7 @@
 	margin: 0 auto;
 }
 
-.KeyBoardButton {
+.KeyBoard .KeyBoardButton {
 	padding: 10px;
 	height: 20px;
 	text-align: center;
@@ -93,6 +93,7 @@
 	border-radius: 5px;
 	background-color: #F8F8F8;
 	white-space: nowrap;
+	color: #000;
 }
 
 .lowerHeight .KeyBoardButton {
