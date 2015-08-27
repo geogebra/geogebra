@@ -1079,9 +1079,10 @@ namespace giac {
 	if (is_exactly_zero(Pr))
 	  vradius[i]=0;
 	else
-	  vradius[i]=n*sqrt(evalf_double(delta,1,context0),context0);
+	  vradius[i]=n*sqrt(accurate_evalf(delta,100),context0);
+	// problem with double underflow
 	if (!is_exactly_zero(vradius[i]))
-	  vradius[i]=min(epsg,pow(plus_two,int(std::log(vradius[i]._DOUBLE_val)/std::log(2.))+1),context0);
+	  vradius[i]=min(epsg,pow(plus_two,int(evalf_double(ln(vradius[i],context0),1,context0)._DOUBLE_val/std::log(2.))+1),context0);
 	if (debug_infolevel)
 	  CERR << clock() << " isolated " << r << " radius " << vradius[i] << endl;
 	if (nextconj){

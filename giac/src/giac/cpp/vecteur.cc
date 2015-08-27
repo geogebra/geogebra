@@ -11661,6 +11661,7 @@ namespace giac {
 	for (unsigned i=0;i<w.size();++i)
 	  ww[i]=r2e(w[i],lv,contextptr);
 	v=solve(horner(ww,tmpx),tmpx,complex_mode(contextptr),contextptr); 
+	v=*apply(v,recursive_normal,contextptr)._VECTptr;
 	if (v.size()!=w.size()-1){
 	  gen m0num=evalf(m0,1,contextptr);
 	  if (m0num.type==_VECT && lidnt(m0num).empty()){

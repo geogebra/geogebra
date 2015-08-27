@@ -1222,7 +1222,7 @@ namespace giac {
     }
     int eo=0;
     if (is_zero(gab) || is_zero(gm) ){
-      gm=subst(g,x,x+(a+b)/2,false,contextptr);
+      gm=subst(g0,x,x+(a+b)/2,false,contextptr);
       eo=is_even_odd(gm,x,contextptr);
     }
     if (eo==1){

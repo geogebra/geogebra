@@ -964,7 +964,21 @@ namespace giac {
 	){
       //if (x.ui==y.ui) return true;
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
-      //if (!x.tdeg){  xptr+=(x.order_.o+degratiom1)/degratio;  yptr+=(y.order_.o+degratiom1)/degratio; }
+#if 0 // ndef GIAC_CHARTABDEG
+      // dimension+3 is at least 16 otherwise the alternative code would be called
+      if (*xptr!=*yptr)
+	return false;
+      ++yptr,++xptr;
+      if (*xptr!=*yptr)
+	return false;
+      ++yptr,++xptr;
+      if (*xptr!=*yptr)
+	return false;
+      ++yptr,++xptr;
+      if (*xptr!=*yptr)
+	return false;
+      ++yptr,++xptr;
+#endif
       for (;xptr!=xend;++yptr,++xptr){
 	if (*xptr!=*yptr)
 	  return false;
@@ -9202,6 +9216,7 @@ namespace giac {
 #endif
     R.clear();
     rem.clear();
+    // if (G.size()>q.size()) q.clear();
     q.resize(G.size());
     unsigned guess=0;
     for (unsigned i=0;i<G.size();++i){
@@ -9296,6 +9311,7 @@ namespace giac {
   // dichotomic seach for jt->u==u in [jt,jtend[
   bool dicho(std::vector<tdeg_t>::const_iterator & jt,std::vector<tdeg_t>::const_iterator jtend,const tdeg_t & u,order_t order){
     if (*jt==u) return true;
+    if (jtend-jt<=6){ ++jt; return false; }// == test faster
     for (;;){
       std::vector<tdeg_t>::const_iterator j=jt+(jtend-jt)/2;
       if (j==jt)
@@ -9314,7 +9330,7 @@ namespace giac {
     std::vector<zmodint>::const_iterator it=p.coord.begin(),itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtend=R.end();
     double nop1=R.size(); 
-    double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
+    double nop2=2*p.coord.size()*std::log(nop1)/std::log(2.0);
     bool dodicho=nop2<nop1;
     const vector<tdeg_t> & expo=*p.expo;
     unsigned pos=0,Rpos=0;
@@ -9372,7 +9388,7 @@ namespace giac {
     std::vector<zmodint>::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtbeg=jt,jtend=R.end();
     double nop1=R.size(); 
-    double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
+    double nop2=2*p.coord.size()*std::log(nop1)/std::log(2.0);
     bool dodicho=nop2<nop1;
     const std::vector<tdeg_t> & expo=*p.expo;
     if (shiftptr){
@@ -9417,7 +9433,7 @@ namespace giac {
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtbeg=jt,jtend=R.end();
     const std::vector<tdeg_t> & expo=*p.expo;
     double nop1=R.size(); 
-    double nop2=4*p.coord.size()*std::log(nop1)/std::log(2.0);
+    double nop2=2*p.coord.size()*std::log(nop1)/std::log(2.0);
     bool dodicho=nop2<nop1;
     if (shiftptr){
       tdeg_t u=R.front()+R.front();

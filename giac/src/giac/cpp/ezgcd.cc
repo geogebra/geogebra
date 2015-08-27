@@ -552,8 +552,8 @@ namespace giac {
     // for deg from 1 to total_degree(pcur_adjusted)
     // P_i += (pcur_adjusted-product P_i) * U_j mod total_degree(k+1)
     for (int deg=1;deg<=Total;++deg){
-      polynome prod(P[0]);
-      for (int i=1;i<s;++i){
+      polynome prod(P[s-1]);
+      for (int i=s-2;i>=0;--i){
 	// reduce_poly(prod * P[i],b,deg+1,prod); // keep up to deg
 	tmp.coord.clear();
 	mulpoly(prod,P[i],tmp,0);

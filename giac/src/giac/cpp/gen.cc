@@ -10562,6 +10562,7 @@ namespace giac {
       }
       if (l>digits+delta)
 	digits=l-delta;
+#ifndef GIAC_HAS_STO_38
       if (digits>14){
 #ifdef HAVE_LIBMPFR
 	int nbits=digits2bits(digits);
@@ -10587,7 +10588,8 @@ namespace giac {
 	// rg.dbgprint();
 	if (!res)
 	  return rg;
-      }
+      } // end if (digits>14)
+#endif // GIAC_HAS_STO_38
       double d;
 #ifdef NSPIRE
       d=Strtod(s,&endchar);
