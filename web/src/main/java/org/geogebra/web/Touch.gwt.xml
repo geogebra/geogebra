@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='tablet'>
   <inherits name='org.geogebra.web.Html5'/>
+  <inherits name='org.geogebra.web.Keyboard'/>
 
   <!-- This was added to remove a compile error in a general case -->
   <define-property name="gwt.logging.popupHandler" values="DISABLED"/>
