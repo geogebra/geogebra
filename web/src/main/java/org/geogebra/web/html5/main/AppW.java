@@ -2519,9 +2519,7 @@ public abstract class AppW extends App implements SetLabels {
 		ToolTipManagerW.hideAllToolTips();
 		popups.clear();
 
-		if (getKernel().getApplication().has(Feature.AV_EXTENSIONS)) {
-			RadioButtonTreeItem.closeMinMaxPanel();
-		}
+		getAlgebraView().resetItems();
 	}
 
 	public boolean wasPopupJustClosed() {

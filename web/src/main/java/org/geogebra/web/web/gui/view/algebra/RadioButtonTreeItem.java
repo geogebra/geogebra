@@ -740,7 +740,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			contentPanel.add(LayoutUtil.panelRow(animPanel, sliderPanel,
 					minMaxPanel));
 			add(contentPanel);
-
 		}
 
 	}

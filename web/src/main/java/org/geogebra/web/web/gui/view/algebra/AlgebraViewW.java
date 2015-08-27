@@ -958,13 +958,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			}
 
 			TreeItem parent, node;
-			node = new TreeItem() {
-				@Override
-				public void setSelected(boolean selected) {
-
-					super.setSelected(selected);
-				}
-			};
+			node = new TreeItem();
 
 			parent = getParentNode(geo, forceLayer);
 
@@ -1583,6 +1577,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				}
 
 			}
+		}
+	}
+
+	public void resetItems() {
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			RadioButtonTreeItem.closeMinMaxPanel();
 		}
 	}
 }

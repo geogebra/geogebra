@@ -104,4 +104,6 @@ public interface AlgebraView extends View, SetLabels{
 	 * This is just used from Html5/Web, but interface is in Common
 	 */
 	public void setShowAlgebraInput(boolean b);
+
+	public void resetItems();
 }
