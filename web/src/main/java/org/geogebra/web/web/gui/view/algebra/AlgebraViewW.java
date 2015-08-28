@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.algebra;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
@@ -26,6 +27,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
@@ -1407,14 +1409,15 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			return;
 		}
 		if (select) {
-			selectNode(node);
+			selectNode(node, geo);
 		} else {
 			node.removeStyleName("avSelectedRow");
+			node.getElement().getStyle().clearBorderColor();
 		}
 
 	}
 
-	private void selectNode(TreeItem node) {
+	private void selectNode(TreeItem node, GeoElement geo) {
 		TreeItem lastNode = nodeTable.get(lastSelectedGeo);
 		if (lastNode != null) {
 			node.removeStyleName("avSelectedRow");
@@ -1422,6 +1425,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		if (node != null) {
 			node.addStyleName("avSelectedRow");
+			Style uiStyle = Dom
+					.querySelectorForElement(node.getElement(), "gwt-TreeItem")
+					.getStyle();
+			uiStyle.setBorderColor(
+					GColor.getColorString(geo.getAlgebraColor()));
+
 		}
 
 	}

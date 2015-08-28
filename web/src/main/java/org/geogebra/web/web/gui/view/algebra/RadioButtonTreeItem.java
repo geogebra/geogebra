@@ -49,6 +49,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -356,8 +357,37 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 
 
+
 	}
 
+	private class MarblePanel extends FlowPanel {
+		private static final int BACKGROUND_ALPHA = 60;
+		private Marble marble;
+
+		public MarblePanel(final GeoElement geo, SafeUri showUrl,
+				SafeUri hiddenUrl) {
+
+			marble = new Marble(showUrl, hiddenUrl, RadioButtonTreeItem.this);
+			marble.setStyleName("marble");
+			marble.setEnabled(geo.isEuclidianShowable());
+			marble.setChecked(geo.isEuclidianVisible());
+
+			addStyleName("marblePanel");
+			add(marble);
+
+		}
+
+		public void update() {
+			GColor gc = geo.getAlgebraColor();
+			GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
+					gc.getBlue(), BACKGROUND_ALPHA);
+			getElement().getStyle()
+					.setBackgroundColor(GColor.getColorString(color));
+			if (marble != null) {
+				marble.setChecked(geo.isEuclidianVisible());
+			}
+		}
+	}
 	private static MinMaxPanel openedMinMaxPanel = null;
 	protected FlowPanel buttonPanel;
 	protected PushButton xButton;
@@ -376,7 +406,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	protected SpanElement seMayLatex;
 	private final SpanElement seNoLatex;
 
-	private Marble radio;
 	InlineHTML ihtml;
 	GTextBox tb;
 	private boolean needsUpdate;
@@ -403,7 +432,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * this panel contains the marble (radio) and the play button for extended
 	 * slider entries
 	 */
-	private FlowPanel marblePanel;
+	private MarblePanel marblePanel;
 
 	private FlowPanel contentPanel;
 
@@ -552,17 +581,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		addStyleName("elem");
 		addStyleName("panelRow");
 
-		// setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		marblePanel = new MarblePanel(ge, showUrl, hiddenUrl);
 
-		radio = new Marble(showUrl, hiddenUrl, this);
-		radio.setStyleName("marble");
-		radio.setEnabled(ge.isEuclidianShowable());
-		radio.setChecked(ge.isEuclidianVisible());
-
-		marblePanel = new FlowPanel();
-		marblePanel.addStyleName("marblePanel");
-		marblePanel.add(radio);
 		add(marblePanel);
 
 		if (avExtension) {
@@ -752,9 +772,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private void deferredResizeSlider() {
-		App.debug("[AVEX] deferredResize");
 		if (!avExtension || slider == null) {
-			App.debug("[AVEX] deferredResize Quits. slider is " + slider);
 			return;
 		}
 		Scheduler.get().scheduleDeferred(resizeSliderCmd);
@@ -1203,8 +1221,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
-		if (radio != null) {
-			radio.setChecked(geo.isEuclidianVisible());
+		if (marblePanel != null) {
+			marblePanel.update();
 		}
 
 		updatePlayButton();
@@ -1234,9 +1252,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				minMaxPanel.setVisible(false);
 				playButton.setVisible(true);
 				updateSliderColor();
-			} else if (marblePanel != null) {
+			} else if (sliderPanel != null) {
 				sliderPanel.remove(slider);
 			}
+
 		}
 
 		// if (getAV().getSelectedGeoElement() == geo) {
