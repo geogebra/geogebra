@@ -206,7 +206,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		// Caption
 		FlowPanel connectionCaption = new FlowPanel();
 		connectionCaption.addStyleName("panelTitle");
-		this.connectionLabel = new Label("Connection with GeoGebra Data App");
+		this.connectionLabel = new Label(app.getMenu(DATA_CONNECTION));
 		connectionCaption.add(this.connectionLabel);
 		connection.add(connectionCaption);
 
@@ -243,7 +243,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		FlowPanel appIDpanel = new FlowPanel();
 		appIDpanel.addStyleName("rowContainer");
 		appIDpanel.addStyleName("sharingCodePanel");
-		this.appID = new Label("GeoGebra Data Sharing Code:");
+		this.appID = new Label(app.getMenu(this.DATA_SHARING_CODE));
 		this.appIDTextBox = new TextBox();
 		this.appIDTextBox.addStyleName("appIdTextBox");
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
