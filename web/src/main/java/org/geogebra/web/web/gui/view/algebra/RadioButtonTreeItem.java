@@ -138,9 +138,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class RadioButtonTreeItem extends FlowPanel implements
-		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
-		MouseUpHandler, MouseOverHandler, MouseOutHandler, GeoContainer,
-		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
+ DoubleClickHandler, ClickHandler, MouseMoveHandler,
+		MouseDownHandler, MouseUpHandler, MouseOverHandler, MouseOutHandler,
+		GeoContainer, MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
 		TouchEndHandler, LongTouchHandler, EquationEditorListener,
 		RequiresResize {
 
@@ -380,16 +380,15 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		public void setHighlighted(boolean selected) {
 			this.selected = selected;
 			if (selected) {
-			GColor gc = geo.getAlgebraColor();
-			GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
-					gc.getBlue(), BACKGROUND_ALPHA);
-			getElement().getStyle()
-					.setBackgroundColor(GColor.getColorString(color));
+				GColor gc = geo.getAlgebraColor();
+				GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
+						gc.getBlue(), BACKGROUND_ALPHA);
+				getElement().getStyle()
+						.setBackgroundColor(GColor.getColorString(color));
 				if (borderStyle != null) {
 					borderStyle.setBorderColor(
-						GColor.getColorString(geo.getAlgebraColor()));
+							GColor.getColorString(geo.getAlgebraColor()));
 				}
-
 			} else {
 				getElement().getStyle().clearBackgroundColor();
 				if (borderStyle != null) {
@@ -802,7 +801,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		int width = getAV().getOffsetWidth()
 				- animPanel.getOffsetWidth()
- - 2
+				- 2
 				* marblePanel.getOffsetWidth();
 		slider.setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
 				: width);
@@ -941,11 +940,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ClickStartHandler.init(playButton, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				boolean newValue = !(geo.isAnimating() && app.getKernel()
-						.getAnimatonManager().isRunning());
+				boolean newValue = !(geo.isAnimating()
+						&& app.getKernel().getAnimatonManager().isRunning());
 				geo.setAnimating(newValue);
-				playButton.setResource(newValue ? AppResources.INSTANCE
-						.nav_pause() : AppResources.INSTANCE.nav_play());
+				playButton.setResource(
+						newValue ? AppResources.INSTANCE.nav_pause()
+								: AppResources.INSTANCE.nav_play());
 				geo.updateRepaint();
 
 				// if (geo.isAnimating()) {
@@ -1318,7 +1318,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		} else {
 			if ("".equals(text0) || (text0 == null)) {
 				DrawEquationWeb
-						.updateEquationMathQuillGGB("", seMayLatex, true);
+.updateEquationMathQuillGGB("", seMayLatex,
+						true);
 			} else {
 				String text = DrawEquationWeb.inputLatexCosmetics(text0);
 				int tl = text.length();
@@ -1345,7 +1346,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (!avExtension) {
 			return;
 		}
-		
+
 
 		if (playButton != null) {
 			if (!hasGeoExtendedAV()) {
@@ -1752,7 +1753,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (avExtension
 				&& (isWidgetHit(animPanel, evt)
 						|| (minMaxPanel != null && minMaxPanel.isVisible()) || isWidgetHit(
-							marblePanel, evt))) {
+marblePanel, evt))) {
 			return;
 		}
 
@@ -1786,10 +1787,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	protected boolean shouldEditLaTeX() {
 		return (LaTeX || geo.isGeoPoint() || geo.isGeoNumeric())
-		// && !(geo.isGeoVector() && geo.isGeoElement3D())
+				// && !(geo.isGeoVector() && geo.isGeoElement3D())
 				&& (geo.isIndependent()
 						|| (geo.getParentAlgorithm() instanceof AlgoCurveCartesian) || geo
-							.isPointOnPath());
+.isPointOnPath());
 		// AlgoCurveCartesian3D is an instance of AlgoCurveCartesian too
 	}
 
@@ -2063,7 +2064,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					GeoElement geo2 = it.next();
 					if ((geo2.isAuxiliaryObject() == aux && aux)
 							|| (geo2.isAuxiliaryObject() == aux && geo2
-									.isIndependent() == ind)) {
+.isIndependent() == ind)) {
 
 						if (direction && geo2.equals(av.getLastSelectedGeo()))
 							selecting = !selecting;
@@ -2127,8 +2128,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 			// event.release();
 		} else
-		// tell selection listener about click
-		if (geo != null) {
+			// tell selection listener about click
+			if (geo != null) {
 			app.geoElementSelected(geo, false);
 		}
 
