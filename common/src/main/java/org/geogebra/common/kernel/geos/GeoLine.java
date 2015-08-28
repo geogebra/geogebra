@@ -870,18 +870,35 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		if(tpl.hasType(StringType.GIAC)){
+			double[] numbers = new double[3];
+			numbers[0] = x;
+			numbers[1] = y;
+			numbers[2] = z;
+			double gcd = kernel.gcd(numbers);
 			StringBuilder sb = getSbBuildValueString();
 			sb.setLength(0);
 			sb.append("(");
-			sb.append(kernel.format(x,tpl));
+			if (gcd != 1) {
+				sb.append(kernel.format(x / gcd, tpl));
+			} else {
+				sb.append(kernel.format(x, tpl));
+			}
 			sb.append(")*");
 			sb.append(tpl.printVariableName("x"));
 			sb.append("+(");
-			sb.append(kernel.format(y,tpl));
+			if (gcd != 1) {
+				sb.append(kernel.format(y / gcd, tpl));
+			} else {
+				sb.append(kernel.format(y, tpl));
+			}
 			sb.append(")*");
 			sb.append(tpl.printVariableName("y"));
 			sb.append('=');
-			sb.append(kernel.format(-z,tpl));
+			if (gcd != 1) {
+				sb.append(kernel.format(-z / gcd, tpl));
+			} else {
+				sb.append(kernel.format(-z, tpl));
+			}
 			return sb;
 		}
 		double[] P = new double[2];
@@ -936,6 +953,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[2] = z;
 			if (Kernel.isZero(x) || Kernel.isZero(y)) {
 				return kernel.buildExplicitLineEquation(g, vars, op,tpl);
+			}
+			if (kernel.getAlgebraProcessor().getDisableGcd()) {
+				return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
+						false, false, op, tpl);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
 					true, false, op,tpl);

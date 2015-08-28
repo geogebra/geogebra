@@ -1655,6 +1655,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			// evaluate in GeoGebra
 			ExpressionNode copy = ve.deepCopy(kernel).wrap();
 			copy.setLabel(ve.getLabel());
+			kernel.getAlgebraProcessor().setDisableGcd(true);
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
 					.doProcessValidExpression(copy);
 			

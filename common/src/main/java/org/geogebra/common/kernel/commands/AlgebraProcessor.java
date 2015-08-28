@@ -127,6 +127,8 @@ public class AlgebraProcessor {
 	/** command dispatcher */
 	protected final CommandDispatcher cmdDispatcher;
 
+	private boolean disableGcd = false;
+
 	/**
 	 * @param kernel
 	 *            kernel
@@ -2860,6 +2862,14 @@ public class AlgebraProcessor {
 		if (closeBracket == null)
 			closeBracket = new MyStringBuffer(kernel, ")");
 		return closeBracket;
+	}
+
+	public boolean getDisableGcd() {
+		return disableGcd;
+	}
+
+	public void setDisableGcd(boolean disableGcd) {
+		this.disableGcd = disableGcd;
 	}
 
 }
