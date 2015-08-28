@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.algebra;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
@@ -180,7 +179,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	@Override
 	public void onBrowserEvent(Event event) {
 		if (event.getTypeInt() == Event.ONBLUR) {
+			// if (selectedGeoElement == null) {
+			// App.debug("[AVEX] setActiveTreeItem(null)");
 			// setActiveTreeItem(null);
+			// }
 		}
 
 		// as arrow keys are prevented in super.onBrowserEvent,
@@ -872,9 +874,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public final void setUserObject(TreeItem ti, final Object ob) {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
-			ti.setWidget(RadioButtonTreeItem.create((GeoElement) ob,
+			RadioButtonTreeItem rb = RadioButtonTreeItem.create((GeoElement) ob,
 					AppResources.INSTANCE.shown().getSafeUri(),
-					AppResources.INSTANCE.hidden().getSafeUri()));
+					AppResources.INSTANCE.hidden().getSafeUri());
+
+			rb.setBorderStyle(
+					Dom.querySelectorForElement(ti.getElement(), "gwt-TreeItem")
+							.getStyle());
+			ti.setWidget(rb);
 			ti.addStyleName("avItem");
 			// ti.getElement().getStyle().setPadding(0, Unit.PX);
 
@@ -1412,7 +1419,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			selectNode(node, geo);
 		} else {
 			node.removeStyleName("avSelectedRow");
-			node.getElement().getStyle().clearBorderColor();
 		}
 
 	}
@@ -1428,12 +1434,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			node.addStyleName("avSelectedRow");
 			updateNodeColor(node, true);
 
-			Style uiStyle = Dom
-					.querySelectorForElement(node.getElement(), "gwt-TreeItem")
-					.getStyle();
-			uiStyle.setBorderColor(
-					GColor.getColorString(geo.getAlgebraColor()));
-
 		}
 
 	}
@@ -1445,7 +1445,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		Widget w = node.getWidget();
 		if (w instanceof RadioButtonTreeItem) {
-			((RadioButtonTreeItem) w).updateMarbleColor(selected);
+			((RadioButtonTreeItem) w).selectItem(selected, node);
 		}
 	}
 	/**

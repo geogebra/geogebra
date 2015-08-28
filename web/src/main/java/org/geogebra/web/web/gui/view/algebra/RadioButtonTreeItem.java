@@ -377,7 +377,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			update();
 		}
 
-		public void setBackground(boolean selected) {
+		public void setHighlighted(boolean selected) {
 			this.selected = selected;
 			if (selected) {
 			GColor gc = geo.getAlgebraColor();
@@ -385,10 +385,16 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					gc.getBlue(), BACKGROUND_ALPHA);
 			getElement().getStyle()
 					.setBackgroundColor(GColor.getColorString(color));
+				if (borderStyle != null) {
+					borderStyle.setBorderColor(
+						GColor.getColorString(geo.getAlgebraColor()));
+				}
 
 			} else {
 				getElement().getStyle().clearBackgroundColor();
-
+				if (borderStyle != null) {
+					borderStyle.clearBorderColor();
+				}
 			}
 		}
 
@@ -396,7 +402,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (marble != null) {
 				marble.setChecked(geo.isEuclidianVisible());
 			}
-			setBackground(selected);
+			setHighlighted(selected);
 		}
 	}
 	private static MinMaxPanel openedMinMaxPanel = null;
@@ -1941,6 +1947,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public long latestTouchEndTime = 0;
+	private Style borderStyle;
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
@@ -2473,8 +2480,18 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		openedMinMaxPanel = panel;
 	}
 
-	public void updateMarbleColor(boolean selected) {
-		marblePanel.setBackground(selected);
+	public void selectItem(boolean selected, TreeItem node) {
+		marblePanel.setHighlighted(selected);
+
+
+	}
+
+	public Style getBorderStyle() {
+		return borderStyle;
+	}
+
+	public void setBorderStyle(Style borderStyle) {
+		this.borderStyle = borderStyle;
 	}
 
 }
