@@ -1586,7 +1586,7 @@ __GGB__keysVar.fr.menu = {
     "Length.short": "n",
     "LessThanOrEqualToX": "\u2264 X",
     "License": "Licence",
-    "Light": "Lumi\xe8re",
+    "Light": "Luminosit\xe9",
     "Lightness": "Brillance",
     "LineBisector": "M\xe9diatrice",
     "LineBisector.Help": "2 points ou 1 segment [cr\xe9\xe9s]",
