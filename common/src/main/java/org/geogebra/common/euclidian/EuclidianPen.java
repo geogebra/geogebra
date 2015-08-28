@@ -1772,6 +1772,12 @@ public class EuclidianPen {
 		double offsetInitialPointX = 0;
 		double offsetInitialPointY = 0;
 
+		// in case the initialPoint cannot be used and can be deleted safely, delete it
+		if(!initialPoint.isIndependent() && deleteInitialPoint){
+			this.initialPoint.remove();
+			this.initialPoint = null;
+		}
+
 		for (i = 0; i < 4; ++i) {
 			x_first = view.toRealWorldCoordX(points[2 * i])
 					+ offsetInitialPointX;
