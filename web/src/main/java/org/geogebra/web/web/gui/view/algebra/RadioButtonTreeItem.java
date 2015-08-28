@@ -363,7 +363,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	private class MarblePanel extends FlowPanel {
 		private static final int BACKGROUND_ALPHA = 60;
 		private Marble marble;
-
+		private boolean selected = false;
 		public MarblePanel(final GeoElement geo, SafeUri showUrl,
 				SafeUri hiddenUrl) {
 
@@ -374,18 +374,29 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			addStyleName("marblePanel");
 			add(marble);
-
+			update();
 		}
 
-		public void update() {
+		public void setBackground(boolean selected) {
+			this.selected = selected;
+			if (selected) {
 			GColor gc = geo.getAlgebraColor();
 			GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
 					gc.getBlue(), BACKGROUND_ALPHA);
 			getElement().getStyle()
 					.setBackgroundColor(GColor.getColorString(color));
+
+			} else {
+				getElement().getStyle().clearBackgroundColor();
+
+			}
+		}
+
+		public void update() {
 			if (marble != null) {
 				marble.setChecked(geo.isEuclidianVisible());
 			}
+			setBackground(selected);
 		}
 	}
 	private static MinMaxPanel openedMinMaxPanel = null;
@@ -1846,6 +1857,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
+	public void update() {
+		// marblePanel.setBackground();
+	}
+
 	@Override
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
@@ -2456,6 +2471,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	public static void setOpenedMinMaxPanel(MinMaxPanel panel) {
 		openedMinMaxPanel = panel;
+	}
+
+	public void updateMarbleColor(boolean selected) {
+		marblePanel.setBackground(selected);
 	}
 
 }

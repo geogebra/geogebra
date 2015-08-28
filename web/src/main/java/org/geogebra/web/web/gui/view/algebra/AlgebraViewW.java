@@ -1420,11 +1420,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	private void selectNode(TreeItem node, GeoElement geo) {
 		TreeItem lastNode = nodeTable.get(lastSelectedGeo);
 		if (lastNode != null) {
+			updateNodeColor(lastNode, false);
 			node.removeStyleName("avSelectedRow");
 		}
 
 		if (node != null) {
 			node.addStyleName("avSelectedRow");
+			updateNodeColor(node, true);
+
 			Style uiStyle = Dom
 					.querySelectorForElement(node.getElement(), "gwt-TreeItem")
 					.getStyle();
@@ -1433,6 +1436,17 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		}
 
+	}
+
+	private void updateNodeColor(TreeItem node, boolean selected) {
+		if (node == null) {
+			return;
+		}
+
+		Widget w = node.getWidget();
+		if (w instanceof RadioButtonTreeItem) {
+			((RadioButtonTreeItem) w).updateMarbleColor(selected);
+		}
 	}
 	/**
 	 * @return {@link AlgebraStyleBarW}
@@ -1626,5 +1640,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		if (app.has(Feature.AV_EXTENSIONS)) {
 			RadioButtonTreeItem.closeMinMaxPanel();
 		}
+		// if (lastSelectedGeo != null) {
+		// selectRow(lastSelectedGeo, false);
+		// }
 	}
 }
