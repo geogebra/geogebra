@@ -1774,7 +1774,7 @@ kernel, left,
 				sb.append(")==(");
 				sb.append(rightStr);
 				// {1,2,3,3} union {} = {1,2,3}
-				sb.append(") union {},true,false");
+				sb.append(") union {},true,false)");
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
 						tpl, tpl.subsetSign());
@@ -1796,7 +1796,7 @@ kernel, left,
 				sb.append(leftStr);
 				sb.append("union {})<dim(");
 				sb.append(rightStr);
-				sb.append("union {}),true,false");
+				sb.append("union {}),true,false)");
 			} else {
 				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
 						tpl, tpl.strictSubsetSign());
