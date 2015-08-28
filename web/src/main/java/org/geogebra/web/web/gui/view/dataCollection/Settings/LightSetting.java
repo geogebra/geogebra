@@ -27,6 +27,6 @@ public class LightSetting extends SensorSetting {
 
 	@Override
 	protected void addContent() {
-		addRow(app.getMenu("Light") + ":", Types.LIGHT);
+		addRow("Light", Types.LIGHT);
 	}
 }

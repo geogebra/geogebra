@@ -27,6 +27,6 @@ public class ProxiSetting extends SensorSetting {
 
 	@Override
 	protected void addContent() {
-		addRow(app.getMenu("Proximity") + ":", Types.PROXIMITY);
+		addRow("Proximity", Types.PROXIMITY);
 	}
 }

@@ -55,6 +55,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		ChangeHandler, SettingListener {
 
+	/** caption of Tab */
+	private final String SENSORS = "Sensors";
 	private final String DATA_CONNECTION = "DataConnection";
 	private final String DATA_SHARING_CODE = "DataSharingCode";
 	private final String CONNECTION_FAILD = "DataConnectionFailed";
@@ -178,7 +180,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		addConnection();
 		addSettingsPanel();
 
-		this.tabPanel.add(this.dataCollectionTab, "Data Collection");
+		this.tabPanel.add(this.dataCollectionTab, app.getMenu(SENSORS));
 	}
 
 	private void addSettingsPanel() {
@@ -330,14 +332,14 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	}
 
 	private void addTime() {
-		this.time = new TimeSetting(this.app, this, "ReceivedData", "ms");
+		this.time = new TimeSetting(this.app, this, "ReceivedData", "");
 		this.sensors.add(this.time);
 		this.sensorSettings.add(this.time);
 	}
 
 	private void addOrientation() {
 		this.orientation = new OrientationSetting(this.app, this,
-				"Orientation", app.getLocalization().getMenu("DegreeUnit"));
+				"Orientation", "DegreeUnit");
 		this.sensors.add(this.orientation);
 		this.sensorSettings.add(this.orientation);
 	}
@@ -397,6 +399,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	@Override
 	public void setLabels() {
+		// we only have one tab
+		this.tabPanel.setTabText(0, app.getMenu(SENSORS));
 		this.appID.setText(this.app.getMenu(DATA_SHARING_CODE));
 		this.connectionLabel.setText(this.app.getMenu(DATA_CONNECTION));
 		this.connecting.setText(this.app.getMenu(CONNECTING));

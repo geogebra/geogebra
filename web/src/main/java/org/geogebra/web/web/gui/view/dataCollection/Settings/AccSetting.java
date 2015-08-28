@@ -28,8 +28,8 @@ public class AccSetting extends SensorSetting {
 
 	@Override
 	protected void addContent() {
-		addRow("x:", Types.ACCELEROMETER_X);
-		addRow("y:", Types.ACCELEROMETER_Y);
-		addRow("z:", Types.ACCELEROMETER_Z);
+		addRow("x", Types.ACCELEROMETER_X);
+		addRow("y", Types.ACCELEROMETER_Y);
+		addRow("z", Types.ACCELEROMETER_Z);
 	}
 }

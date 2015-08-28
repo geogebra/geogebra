@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.dataCollection.Settings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -23,10 +24,12 @@ import com.google.gwt.user.client.ui.ToggleButton;
 public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	private final String REAL_FREQUENCY = "Receiving data with about ";
 
-	private String captionString;
+	/** caption */
+	protected String captionString;
 	/** Panel with an image to show if sensor is on or off */
 	private SimplePanel sensorOnOff;
-	private Label captionLabel;
+	/** A label with the caption */
+	protected Label captionLabel;
 	/** button to collapse/expand settings for this sensor */
 	private ToggleButton collapse;
 
@@ -41,6 +44,12 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	FlowPanel dataValues;
 	/** the listBoxes */
 	private ArrayList<GeoListBox> listBoxes = new ArrayList<GeoListBox>();
+
+	/**
+	 * the label and string of the caption for translations after changing the
+	 * language
+	 */
+	protected HashMap<Label, String> rowCaptions = new HashMap<Label, String>();
 
 	protected AppW app;
 	private DataCollectionView view;
@@ -105,10 +114,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	private void addCaption() {
 		FlowPanel caption = new FlowPanel();
 		caption.addStyleName("panelTitle");
-
-		// TODO translations for units
-		this.captionLabel = new Label(app.getMenu(captionString) + " ("
-				+ this.unit + ")");
+		this.captionLabel = new Label();
+		updateCaptionLabel();
 
 		collapse = new ToggleButton(
 				new Image(GuiResources.INSTANCE.collapse()), new Image(
@@ -146,7 +153,9 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	protected void addRow(String rowCaption, Types type) {
 		FlowPanel container = new FlowPanel();
 		container.addStyleName("rowContainer");
-		container.add(new Label(rowCaption));
+		Label rowCaptionLabel = new Label();
+		container.add(rowCaptionLabel);
+		rowCaptions.put(rowCaptionLabel, rowCaption);
 
 		GeoListBox listBox = new GeoListBox(type, this, app,
 				this.view.getDataSettings());
@@ -156,6 +165,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 		container.add(listBox);
 		dataValues.add(container);
+		updateContent();
 	}
 
 	/**
@@ -235,13 +245,30 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		this.captionLabel.setText(app.getMenu(captionString) + " (" + this.unit
-				+ ")");
-
+		updateCaptionLabel();
 		// is null for TimeSetting
 		if (this.realFreqLabel != null) {
 			this.realFreqLabel.setText(REAL_FREQUENCY + this.realFreq + " Hz");
 		}
+		updateContent();
+	}
+
+	/**
+	 * update text of the content
+	 */
+	private void updateContent() {
+		for (Label label : this.rowCaptions.keySet()) {
+			label.setText(app.getMenu(this.rowCaptions.get(label)));
+		}
+	}
+
+	/**
+	 * sets the text of the {@link #captionLabel}
+	 */
+	protected void updateCaptionLabel() {
+		this.captionLabel.setText(app.getMenu(captionString) + " ("
+				+ app.getMenu(this.unit)
+				+ ")");
 	}
 
 	/**

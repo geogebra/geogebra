@@ -27,8 +27,8 @@ public class MagFieldSetting extends SensorSetting {
 
 	@Override
 	protected void addContent() {
-		addRow("x:", Types.MAGNETIC_FIELD_X);
-		addRow("y:", Types.MAGNETIC_FIELD_Y);
-		addRow("z:", Types.MAGNETIC_FIELD_Z);
+		addRow("x", Types.MAGNETIC_FIELD_X);
+		addRow("y", Types.MAGNETIC_FIELD_Y);
+		addRow("z", Types.MAGNETIC_FIELD_Z);
 	}
 }
