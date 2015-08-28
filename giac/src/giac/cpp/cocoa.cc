@@ -1242,8 +1242,8 @@ namespace giac {
   }
 
   inline int tdeg_t_greater (const tdeg_t & x,const tdeg_t & y,order_t order){
-    short X=x.tdeg;
-    if (X!=y.tdeg) return X>y.tdeg?1:0; // since tdeg is tab[0] for plex
+    short X=x.tab[0];
+    if (X!=y.tab[0]) return X>y.tab[0]?1:0; // since tdeg is tab[0] for plex
 #ifdef GIAC_64VARS
     if (X%2){
 #if 1 && !defined BIGENDIAN && !defined GIAC_CHARDEGTYPE
@@ -9628,7 +9628,7 @@ namespace giac {
     }
     bool freemem=mem>4e7; // should depend on real memory available
     double ratio=(mem/nrows)/N;
-    bool dense=ratio>0.01;
+    bool large=N>8000;
     if (debug_infolevel>1)
       CERR << CLOCK() << " Mindex sorted, rows " << nrows << " columns " << N << " terms " << mem << " ratio " << ratio <<endl;
     // CERR << "after sort " << Mindex << endl;
@@ -9637,7 +9637,7 @@ namespace giac {
     vector<modint2> v64(N);
 #ifdef __x86_64__
     vector<int128_t> v128;
-    if (dense)
+    if (!large)
       v128.resize(N);
 #endif
     if (N<nrows){
@@ -9664,7 +9664,7 @@ namespace giac {
       // sub(v,v2,env);
       // CERR << v << endl;
 #ifdef __x86_64__
-      if (!dense || env<(1<<24)){
+      if (large || env<(1<<24)){
 	c=giacmin(c,reducef4buchbergersplit(v,Mindex,firstpos,Mcoeff,coeffindex,env,v64));
       }
       else {
@@ -10087,11 +10087,11 @@ namespace giac {
 	    continue;
 	  if (f<firstdeg){
 	    firstdeg=f;
-	    smalltotdeg=Blcm[i].tdeg;
+	    smalltotdeg=Blcm[i].tab[0];
 	    continue;
 	  }
-	  if (Blcm[i].tdeg<smalltotdeg)
-	    smalltotdeg=Blcm[i].tdeg;
+	  if (Blcm[i].tab[0]<smalltotdeg)
+	    smalltotdeg=Blcm[i].tab[0];
 	}
 	vector<unsigned> smallposv;
 	for (unsigned i=0;i<B.size();++i){

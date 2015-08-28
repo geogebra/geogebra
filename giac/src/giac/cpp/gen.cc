@@ -578,7 +578,7 @@ namespace giac {
       bool signe=(i<0);
       if (signe)
 	i=-i;
-      unsigned int i1=i>>32;
+      unsigned int i1=sizeof(long)==4?0:i>>32;
       unsigned int i2=(unsigned int)i;
       mpz_set_ui(*_ZINTptr,i1);
       mpz_mul_2exp(*_ZINTptr,*_ZINTptr,32);
