@@ -576,6 +576,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 	protected void updateCircle() {
 		setShape(null);
+		boolean fullAngle = false;
 		// calc screen pixel of radius
 		radius = halfAxes[0] * view.getXscale();
 		yradius = halfAxes[1] * view.getYscale(); // radius scaled in y
@@ -729,6 +730,8 @@ public class DrawConic extends Drawable implements Previewable {
 				// to ensure drawing ...
 				angSt = 0.0d;
 				angEnd = 2 * Math.PI;
+				arcFiller = null;
+				fullAngle = true;
 			}
 
 			// set arc
@@ -738,7 +741,8 @@ public class DrawConic extends Drawable implements Previewable {
 					GArc2D.OPEN);
 
 			// set general path for filling the arc to screen borders
-			if (conic.getAlphaValue() > 0.0f || conic.isHatchingEnabled()) {
+			if ((conic.getAlphaValue() > 0.0f || conic.isHatchingEnabled())
+					&& !fullAngle) {
 				if (gp == null)
 					gp = new GeneralPathClipped(view);
 				else
