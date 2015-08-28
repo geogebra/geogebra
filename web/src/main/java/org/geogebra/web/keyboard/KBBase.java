@@ -373,7 +373,7 @@ public class KBBase extends PopupPanel {
 
 	private void updateHeight() {
 		if (hasKeyboard != null) {
-			// hasKeyboard.updateKeyboardHeight();
+			hasKeyboard.updateKeyboardHeight();
 		}
 	}
 
