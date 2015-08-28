@@ -1419,6 +1419,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			selectNode(node, geo);
 		} else {
 			node.removeStyleName("avSelectedRow");
+			updateNodeColor(node, false);
 		}
 
 	}
@@ -1640,8 +1641,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		if (app.has(Feature.AV_EXTENSIONS)) {
 			RadioButtonTreeItem.closeMinMaxPanel();
 		}
-		// if (lastSelectedGeo != null) {
-		// selectRow(lastSelectedGeo, false);
-		// }
+		if (lastSelectedGeo != null && !app.getSelectionManager()
+				.containsSelectedGeo(lastSelectedGeo)) {
+			TreeItem node = nodeTable.get(lastSelectedGeo);
+			updateNodeColor(node, false);
+			selectRow(lastSelectedGeo, false);
+
+		}
 	}
 }

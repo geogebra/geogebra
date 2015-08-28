@@ -1878,10 +1878,17 @@ marblePanel, evt))) {
 							&& !isWidgetHit(minMaxPanel, evt)))) {
 				closeMinMaxPanel();
 			}
+
 			if (minMaxPanel != null && minMaxPanel.isVisible()) {
 
 				return;
 			}
+
+			if (openedMinMaxPanel != minMaxPanel) {
+				getAV().selectRow(geo, false);
+
+			}
+
 			Object source = evt.getSource();
 			if (source == btnSpeedDown) {
 				animSpeedDown();
@@ -2475,6 +2482,7 @@ marblePanel, evt))) {
 
 		openedMinMaxPanel.hide();
 		openedMinMaxPanel = null;
+
 	}
 
 	public static void setOpenedMinMaxPanel(MinMaxPanel panel) {
