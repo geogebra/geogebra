@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 public abstract class SensorSetting extends FlowPanel implements SetLabels {
-	private final String REAL_FREQUENCY = "Receiving data with about ";
+	private final String REAL_FREQUENCY = "ActualFrequency";
 
 	/** caption */
 	protected String captionString;
@@ -96,8 +96,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	protected void addFrequencyPanel() {
 		this.realFreqContainer = new FlowPanel();
 		this.realFreqContainer.addStyleName("rowContainer");
-		// TODO translation
-		this.realFreqLabel = new Label(REAL_FREQUENCY + this.realFreq + " Hz");
+		this.realFreqLabel = new Label(app.getMenu(REAL_FREQUENCY) + ": "
+				+ this.realFreq);
 		this.realFreqContainer.add(this.realFreqLabel);
 		this.dataValues.add(this.realFreqContainer);
 		setRealFreqVisible(false);
@@ -248,7 +248,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		updateCaptionLabel();
 		// is null for TimeSetting
 		if (this.realFreqLabel != null) {
-			this.realFreqLabel.setText(REAL_FREQUENCY + this.realFreq + " Hz");
+			this.realFreqLabel.setText(app.getMenu(REAL_FREQUENCY) + ": "
+					+ this.realFreq);
 		}
 		updateContent();
 	}
@@ -279,7 +280,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 */
 	public void setRealFrequency(int freq) {
 		this.realFreq = freq;
-		this.realFreqLabel.setText(REAL_FREQUENCY + this.realFreq + " Hz");
+		this.realFreqLabel.setText(app.getMenu(REAL_FREQUENCY) + ": "
+				+ this.realFreq);
 	}
 
 	/**

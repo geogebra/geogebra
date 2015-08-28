@@ -20,7 +20,7 @@ public class GeoListBox extends ListBox {
 	 */
 	public enum DefaultEntries {
 		EMPTY_SELECTION(0, "- - -"), CREATE_NUMBER(1, "CreateNumber"), CREATE_DATA_FUNCTION(
-				2, "CreateDataFunction"), CREATE_LIST(3, "CreateList");
+				2, "CreateDataFunction"), CREATE_LIST(3, "CreateDataList");
 
 		private int index;
 		private String text;
