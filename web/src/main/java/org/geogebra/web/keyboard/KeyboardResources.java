@@ -3,6 +3,7 @@ package org.geogebra.web.keyboard;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.TextResource;
 
 public interface KeyboardResources extends ClientBundle {
 
@@ -32,5 +33,8 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/web/keyboard/images/keyboard_open.png")
 	ImageResource keyboard_show();
+
+	@Source("org/geogebra/web/keyboard/css/keyboard-styles.css")
+	TextResource keyboardStyle();
 
 }

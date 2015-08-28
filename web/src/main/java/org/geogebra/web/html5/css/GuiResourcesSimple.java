@@ -66,9 +66,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/css/jquery-ui.css")
 	TextResource jqueryStyle();
 
-	@Source("org/geogebra/web/resources/css/keyboard-styles.css")
-	TextResource keyboardStyle();
-
 	@Source("org/geogebra/common/icons/png/view_refresh.png")
 	ImageResource viewRefresh();
 
