@@ -6890,29 +6890,8 @@ namespace giac {
 	vectpoly eqpr(gbasis(eqp,makevecteur(order,lexvars),false,modular,&env,rur,contextptr));
 	vectpoly::const_iterator it=eqpr.begin(),itend=eqpr.end();
 	gb.reserve(itend-it);
-	if (returngb){
-	  for (;it!=itend;++it){
-	    gb.push_back(r2e(*it,l,contextptr));
-	  }
-	}
-	else {
-	  for (;it!=itend;++it){
-	    // keep *it if it does not depend on elim
-	    if (it->coord.empty())
-	      continue;
-	    const index_m & i=it->coord.front().index;
-	    index_t::const_iterator jt=i.begin(),jtend=jt+order;
-	    for (;jt!=jtend;++jt){
-	      if (*jt!=0)
-		break;
-	    }
-	    if (jt==jtend)
-	      gb.push_back(r2e(*it,l,contextptr));
-	  }
-	  if (debug_infolevel)
-	    COUT << CLOCK() << " end eliminate" << endl;
-	  return gb;
-	}
+	for (;it!=itend;++it) 
+	  gb.push_back(r2e(*it,l,contextptr));
       }
     }
 #endif
