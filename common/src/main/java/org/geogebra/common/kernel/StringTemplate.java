@@ -2883,10 +2883,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 							- 1) + ")";
 		}
 
-		// #5500 %] has a special meaning in Giac, eg [[a:=3%],a][1] doesn't
-		// work
+		// #5500 %], %%), %%%) have special meanings in Giac, eg [[a:=3%],a][1]
+		// doesn't work
+		// so wrap in brackets with a space just to make sure
 		if (originalString.endsWith("%")) {
-			return "(" + originalString + ")";
+			return "(" + originalString + " )";
 		}
 		// simple integer, no need to change
 		return originalString;
