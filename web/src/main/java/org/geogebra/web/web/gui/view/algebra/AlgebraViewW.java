@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
@@ -144,6 +145,18 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		this.addOpenHandler(this);
 		algCtrl.setView(this);
 		initGUI((AlgebraControllerW) algCtrl);
+		app.getSelectionManager()
+				.addSelectionListener(new GeoElementSelectionListener() {
+					public void geoElementSelected(GeoElement geo,
+							boolean addToSelection) {
+						updateSelection();
+						// if (lastSelectedGeo != null) {
+						// // selectRow(lastSelectedGeo, false);
+						// }
+						// selectRow(geo, true);
+						// setLastSelectedGeo(geo);
+					}
+				});
 	}
 
 	private void initGUI(AlgebraControllerW algCtrl) {
@@ -300,7 +313,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 			((RadioButtonTreeItem) node.getWidget()).updateOnNextRepaint();
 			repaintView();
-
 			/*
 			 * Cancel editing if the updated geo element has been edited, but
 			 * not otherwise because editing geos while animation is running
@@ -311,6 +323,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 					((RadioButtonTreeItem) node.getWidget()).cancelEditing();
 				}
 			}
+
+			selectRow(geo, app.getSelectionManager().containsSelectedGeo(geo));
 		}
 		GeoGebraProfiler.addAlgebra(System.currentTimeMillis()-start);
 	}
@@ -367,9 +381,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				((RadioButtonTreeItem) item.getChild(j).getWidget()).repaint();
 			}
 			Object geo = item.getChild(j).getUserObject();
-			if (geo instanceof GeoElement)
+			if (geo instanceof GeoElement) {
 				item.getChild(j).setSelected(
 						((GeoElement) geo).doHighlighting());
+
+			}
 		}
 	}
 
@@ -1256,7 +1272,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		inputPanelLatex.getElement().getParentElement()
 		.addClassName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.replaceXButtonDOM();
-
+		unselect(selectedGeoElement);
+		unselect(lastSelectedGeo);
+		;
 		if (appletHack) {
 			if (!isNodeTableEmpty()) {
 				AutoCompleteTextFieldW.showSymbolButtonIfExists(
@@ -1404,7 +1422,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 
 		this.activeItem = radioButtonTreeItem;
-
+		//
 		if (activeItem != null) {
 			selectRow(activeItem.getGeo(), true);
 		}
@@ -1421,7 +1439,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			node.removeStyleName("avSelectedRow");
 			updateNodeColor(node, false);
 		}
-
+		// updateSelection();
 	}
 
 	private void selectNode(TreeItem node, GeoElement geo) {
@@ -1546,9 +1564,15 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		for (int i = 0; i < getItemCount(); i++) {
 			if (!(getItem(i).getUserObject() instanceof GeoElement))
 				for (int j = 0; j < getItem(i).getChildCount(); j++) {
-					getItem(i).getChild(j).setSelected(false);
+					TreeItem item = getItem(i).getChild(j);
+					item.setSelected(false);
+					Widget w = item.getWidget();
+					if (w instanceof RadioButtonTreeItem) {
+						unselect(((RadioButtonTreeItem) w).getGeo());
+					}
 				}
 		}
+
 		selectedGeoElement = null;
 	}
 
@@ -1637,16 +1661,48 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 	}
 
+	public void updateSelection() {
+		for (int i = 0; i < getItemCount(); i++) {
+			TreeItem ti = getItem(i);
+			if (ti.getWidget() instanceof RadioButtonTreeItem) {
+				GeoElement geo = ((RadioButtonTreeItem) ti.getWidget())
+						.getGeo();
+				if (geo != null) {
+					selectRow(geo, geo.doHighlighting());
+				}
+
+			} else if (ti.getWidget() instanceof GroupHeader) {
+
+				for (int j = 0; j < ti.getChildCount(); j++) {
+					if (ti.getChild(j)
+							.getWidget() instanceof RadioButtonTreeItem) {
+						GeoElement geo = ((RadioButtonTreeItem) ti.getChild(j)
+								.getWidget()).getGeo();
+						if (geo != null) {
+							selectRow(geo, geo.doHighlighting());
+						}
+
+					}
+				}
+
+			}
+		}
+	}
+
+	private void unselect(GeoElement geo) {
+		if (geo == null) {
+			return;
+		}
+		TreeItem node = nodeTable.get(geo);
+		updateNodeColor(node, false);
+		selectRow(geo, false);
+
+	}
+
 	public void resetItems() {
 		if (app.has(Feature.AV_EXTENSIONS)) {
 			RadioButtonTreeItem.closeMinMaxPanel();
 		}
-		if (lastSelectedGeo != null && !app.getSelectionManager()
-				.containsSelectedGeo(lastSelectedGeo)) {
-			TreeItem node = nodeTable.get(lastSelectedGeo);
-			updateNodeColor(node, false);
-			selectRow(lastSelectedGeo, false);
-
-		}
+		updateSelection();
 	}
 }

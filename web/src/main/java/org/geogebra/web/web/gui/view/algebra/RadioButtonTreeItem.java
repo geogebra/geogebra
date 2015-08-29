@@ -1238,6 +1238,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
+
 		if (marblePanel != null) {
 			marblePanel.update();
 		}
@@ -1871,7 +1872,7 @@ marblePanel, evt))) {
 	@Override
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
-		getAV().selectRow(geo, true);
+		getAV().updateSelection();
 		if (avExtension) {
 			if (minMaxPanel != null && ((openedMinMaxPanel != minMaxPanel)
 					|| (openedMinMaxPanel == minMaxPanel
