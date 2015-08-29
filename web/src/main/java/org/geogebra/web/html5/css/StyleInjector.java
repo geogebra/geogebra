@@ -25,6 +25,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.HeadElement;
 import com.google.gwt.dom.client.StyleElement;
+import com.google.gwt.resources.client.TextResource;
 
 /**
  * Used to add stylesheets to the document. The one-argument versions of
@@ -241,6 +242,16 @@ public class StyleInjector {
 	 */
 	public static void flush() {
 		inject(true);
+	}
+
+	/**
+	 * Add a stylesheet to the document.
+	 * 
+	 * @param css
+	 *            the CSS contents of the stylesheet
+	 */
+	public static void inject(TextResource css) {
+		inject(css.getText());
 	}
 
 	/**

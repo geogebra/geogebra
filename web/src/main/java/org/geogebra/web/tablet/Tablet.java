@@ -7,10 +7,12 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.cas.giac.PNaCl;
+import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
+import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
 import org.geogebra.web.web.Web;
@@ -151,6 +153,7 @@ public class Tablet implements EntryPoint {
 
 		// public void onSuccess() {
 		ResourcesInjector.injectResources();
+		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		exportArticleTagRenderer();
 		// export other methods if needed
 		// call the registered methods if any
@@ -183,6 +186,7 @@ public class Tablet implements EntryPoint {
 		// GWT.runAsync(new RunAsyncCallback() {
 		// public void onSuccess() {
 		ResourcesInjector.injectResources();
+		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		createGeoGebraAppFrame();
 		// }
 

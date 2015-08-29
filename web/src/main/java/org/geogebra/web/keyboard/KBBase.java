@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
@@ -310,12 +309,6 @@ public class KBBase extends PopupPanel {
 	public KBBase(boolean autoHide) {
 		super(autoHide);
 		localization = new KeyboardLocalization();
-		injectResources();
-	}
-
-	private void injectResources() {
-		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle()
-				.getText());
 	}
 
 	@Override
@@ -369,13 +362,12 @@ public class KBBase extends PopupPanel {
 
 		if (app.getHeight() <= LOWER_HEIGHT && !isSmallKeyboard) {
 			this.addStyleName("lowerHeight");
-			updateHeight();
 			this.isSmallKeyboard = !this.isSmallKeyboard;
 		} else if (app.getHeight() > LOWER_HEIGHT && isSmallKeyboard) {
 			this.removeStyleName("lowerHeight");
-			updateHeight();
 			this.isSmallKeyboard = !this.isSmallKeyboard;
 		}
+		updateHeight();
 	}
 
 	private void updateHeight() {

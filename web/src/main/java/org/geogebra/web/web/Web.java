@@ -7,12 +7,14 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.cas.giac.PNaCl;
+import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
@@ -176,6 +178,8 @@ public class Web implements EntryPoint {
 
 		// public void onSuccess() {
 		ResourcesInjector.injectResources();
+		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
+
 		exportArticleTagRenderer();
 		// export other methods if needed
 		// call the registered methods if any
@@ -209,6 +213,7 @@ public class Web implements EntryPoint {
 
 		// public void onSuccess() {
 		ResourcesInjector.injectResources();
+		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		createGeoGebraAppFrame(new BrowserDevice());
 		// }
 
