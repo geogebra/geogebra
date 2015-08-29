@@ -11385,7 +11385,8 @@ namespace giac {
       if (calc_mode(contextptr)==1)
 	s="{";
       else
-	s="matrix[";//abs_calc_mode(contextptr)==38?"[":"matrix[";
+	// s="matrix[";
+	s=abs_calc_mode(contextptr)==38?"[":"matrix[";
       break;
     case _POLY1__VECT:
       s="poly1[";

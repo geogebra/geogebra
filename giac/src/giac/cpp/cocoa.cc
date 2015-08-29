@@ -848,8 +848,10 @@ namespace giac {
   tdeg_t operator + (const tdeg_t & x,const tdeg_t & y){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
+#ifdef DEBUG_SUPPORT
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
+#endif
       tdeg_t res;
       res.order_=x.order_;
       res.ui=(longlong *)malloc((1+(x.order_.dim+degratiom1)/degratio)*sizeof(longlong));
@@ -879,14 +881,22 @@ namespace giac {
 #endif
     return res;
   }
-  void add(const tdeg_t & x,const tdeg_t & y,tdeg_t & res,int dim){
+  inline void add(const tdeg_t & x,const tdeg_t & y,tdeg_t & res,int dim){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
+#ifdef DEBUG_SUPPORT
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
+#endif
       if (res.tab[0]%2 && res.ui[0]==1){
 	const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
 	longlong * resptr=res.ui+1;
+#ifndef GIAC_CHARDEGTYPE
+	*resptr=*xptr+*yptr;++resptr,++yptr,++xptr;
+	*resptr=*xptr+*yptr;++resptr,++yptr,++xptr;
+	*resptr=*xptr+*yptr;++resptr,++yptr,++xptr;
+	*resptr=*xptr+*yptr;++resptr,++yptr,++xptr;
+#endif
 	for (;xptr!=xend;++resptr,++yptr,++xptr)
 	  *resptr=*xptr+*yptr;
 	res.tdeg=1;
@@ -920,8 +930,10 @@ namespace giac {
   tdeg_t operator - (const tdeg_t & x,const tdeg_t & y){ 
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
+#ifdef DEBUG_SUPPORT
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
+#endif
       tdeg_t res;
       res.order_=x.order_;
       res.ui=(longlong *)malloc((1+(x.order_.dim+degratiom1)/degratio)*sizeof(longlong));
@@ -964,7 +976,7 @@ namespace giac {
 	){
       //if (x.ui==y.ui) return true;
       const longlong * xptr=x.ui+1,*xend=xptr+(x.order_.dim+degratiom1)/degratio,*yptr=y.ui+1;
-#if 0 // ndef GIAC_CHARTABDEG
+#ifndef GIAC_CHARTABDEG
       // dimension+3 is at least 16 otherwise the alternative code would be called
       if (*xptr!=*yptr)
 	return false;
@@ -1476,8 +1488,10 @@ namespace giac {
   bool tdeg_t_all_greater(const tdeg_t & x,const tdeg_t & y,order_t order){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
+#ifdef DEBUG_SUPPORT
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
+#endif
       if (x.tdeg<y.tdeg || x.tdeg2<y.tdeg2)
 	return false;
 #if 0
@@ -1488,6 +1502,20 @@ namespace giac {
       }
 #else
       const longlong * it1=x.ui+1,*it1end=it1+(x.order_.dim+degratiom1)/degratio,*it2=y.ui+1;
+#ifndef GIAC_CHARDEGTYPE
+      if ((*it1-*it2) & 0x8000800080008000ULL)
+	return false;
+      ++it2; ++it1;
+      if ((*it1-*it2) & 0x8000800080008000ULL)
+	return false;
+      ++it2; ++it1;
+      if ((*it1-*it2) & 0x8000800080008000ULL)
+	return false;
+      ++it2; ++it1;
+      if ((*it1-*it2) & 0x8000800080008000ULL)
+	return false;
+      ++it2; ++it1;
+#endif
       for (;it1!=it1end;++it2,++it1){
 #ifdef GIAC_CHARDEGTYPE
 	if ((*it1-*it2) & 0x8080808080808080ULL)
@@ -1518,8 +1546,10 @@ namespace giac {
   void index_lcm(const tdeg_t & x,const tdeg_t & y,tdeg_t & z,order_t order){
 #ifdef GIAC_64VARS
     if (x.tdeg%2){
+#ifdef DEBUG_SUPPORT
       if (!(y.tab[0]%2))
 	COUT << "erreur" << endl;
+#endif
       z=tdeg_t();
       z.tdeg=1;
       z.order_=x.order_;
@@ -1728,8 +1758,10 @@ namespace giac {
   bool disjoint(const tdeg_t & a,const tdeg_t & b,order_t order,short dim){
 #ifdef GIAC_64VARS
     if (a.tab[0]%2){
+#ifdef DEBUG_SUPPORT
       if (!(b.tab[0]%2))
 	COUT << "erreur" << endl;
+#endif
       const degtype * xptr=(degtype *)(a.ui+1),*xend=xptr+dim,*yptr=(degtype *)(b.ui+1);
       for (;xptr!=xend;++yptr,++xptr){
 	if (*xptr && *yptr)
@@ -5371,6 +5403,16 @@ namespace giac {
 	    }
 	  }
 	  else {
+	    for (;jt<jt_;){
+	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	    }
 	    for (;jt!=jtend;++jt){
 	      next_index(vt,it);
 	      // if (pos>v.size()) CERR << "error" <<endl;
@@ -5401,7 +5443,18 @@ namespace giac {
       }
       vector<modint>::iterator vt=v.begin(),vtend=v.end();
 #ifdef PSEUDO_MOD
-      for (vt=v.begin();vt!=vtend;++vt){
+      vt0=vtend-8;
+      for (vt=v.begin();vt<=vt0;){
+	if (*vt) *vt %= env; ++vt;
+	if (*vt) *vt %= env; ++vt;
+	if (*vt) *vt %= env; ++vt;
+	if (*vt) *vt %= env; ++vt;
+	if (*vt) *vt %= env; ++vt;
+	if (*vt) *vt %= env; ++vt;
+	if (*vt) *vt %= env; ++vt;
+	if (*vt) *vt %= env; ++vt;
+      }
+      for (;vt!=vtend;++vt){
 	if (*vt)
 	  *vt %= env;
       }
@@ -9634,7 +9687,9 @@ namespace giac {
     // CERR << "after sort " << Mindex << endl;
     // step3 reduce
     vector<modint> v(N);
-    vector<modint2> v64(N);
+    vector<modint2> v64;
+    if (!large)
+      v64.resize(N);
 #ifdef __x86_64__
     vector<int128_t> v128;
     if (!large)
