@@ -139,6 +139,10 @@ body.application,.GeoGebraFrame, .GeoGebraFrame span, .GeoGebraFrame td, .GeoGeb
 	font-size: 16px;
 }
 
+.mathquillggb-editable span,.mathquillggb-editable td{
+	color:black;
+}
+
 /* scroll overflow for minWidth*/
 /*.GeoGebraFrame .ggbdockpanelhack.wholePanel {
 	min-width: 760px;
