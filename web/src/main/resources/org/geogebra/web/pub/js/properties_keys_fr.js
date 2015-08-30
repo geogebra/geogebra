@@ -1170,7 +1170,7 @@ __GGB__keysVar.fr.menu = {
     "ANOVA": "AnalyseVariance",
     "About": "\xc0 propos de",
     "AboutLicense": "A propos / Licence",
-    "Accelerometer": "Acc\xe9l\xe9rom\xe8tre",
+    "Accelerometer": "Acc\xe9l\xe9ration",
     "Accents": "Accents",
     "AccentsExt": "Accents++",
     "ActionObjectTools": "InterActions",
