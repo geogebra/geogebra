@@ -56,6 +56,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.LowerCaseDictionary;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.SelectionTableD;
@@ -164,15 +165,20 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	}
 
 	private void createSyntaxPanel() {
-
-		helpTextPane = new JTextPane();
-		// helpTextArea.setText("");
-		helpTextPane.setEditable(false);
-		// helpTextArea.setMinimumSize(new Dimension(200,300));
-		helpTextPane.setBorder(BorderFactory.createEmptyBorder(8, 5, 2, 5));
-		helpTextPane.setBackground(bgColor);
 		JPanel p = new JPanel(new BorderLayout());
-		p.add(helpTextPane, BorderLayout.CENTER);
+		try {
+			// might throw NPE in Ubuntu
+			helpTextPane = new JTextPane();
+			// helpTextArea.setText("");
+			helpTextPane.setEditable(false);
+			// helpTextArea.setMinimumSize(new Dimension(200,300));
+			helpTextPane.setBorder(BorderFactory.createEmptyBorder(8, 5, 2, 5));
+			helpTextPane.setBackground(bgColor);
+			p.add(helpTextPane, BorderLayout.CENTER);
+		} catch (Exception e) {
+			Log.warn("no syntax panel");
+		}
+
 
 		p.setBorder(BorderFactory.createEmptyBorder());
 		JPanel titlePanel = new JPanel(new BorderLayout());
@@ -335,8 +341,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		syntaxLabel.setText(app.getPlain("Syntax"));
 		btnPaste.setText(app.getMenu("Paste"));
 		btnOnlineHelp.setText(app.getPlain("ShowOnlineHelp"));
-
-		helpTextPane.setText(null);
+		if (helpTextPane != null) {
+			helpTextPane.setText(null);
+		}
 		functionTable.populateModel(TableSymbols.getTranslatedFunctions(app));
 		functionTitleNode.setUserObject(app.getMenu("MathematicalFunctions"));
 		rootAllCommands.setUserObject(app.getMenu("AllCommands"));
@@ -350,7 +357,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 			renderer.update();
 		}
 		functionTable.updateFonts();
-		helpTextPane.setFont(app.getPlainFont());
+		if (helpTextPane != null) {
+			helpTextPane.setFont(app.getPlainFont());
+		}
 		titleLabel.setFont(app.getPlainFont());
 		syntaxLabel.setFont(app.getPlainFont());
 		this.validate();
