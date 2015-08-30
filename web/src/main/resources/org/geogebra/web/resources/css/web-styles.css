@@ -1110,9 +1110,9 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: pointer;
 }
 
-/*.gwt-Tree .gwt-TreeItem-selected {
-	background: #FFFFFF;
-}*/
+.gwt-Tree .gwt-TreeItem-selected {
+	background: #CCCCFF;
+}
 
 
 
@@ -5666,9 +5666,9 @@ body.application[dir=rtl] .deleteAlgebra {
 
 /* AV Extensions */ 
 
-/*.avSelectedRow .gwt-TreeItem-selected {
+.avSelectedRow .gwt-TreeItem-selected {
 	background: #CCCCFF;
-}*/
+}
 .avItemContent {
 	width: 100%;
 }

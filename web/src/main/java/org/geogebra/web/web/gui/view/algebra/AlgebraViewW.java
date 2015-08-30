@@ -34,6 +34,7 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -126,7 +127,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	private GeoElement selectedGeoElement;
 	private TreeItem selectedNode;
-
+	private boolean hasAvex=false; 
 	// private AlgebraHelperBar helperBar;
 
 	private AlgebraController algebraController;
@@ -143,8 +144,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.addOpenHandler(this);
+
+		hasAvex = app.has(Feature.AV_EXTENSIONS);
 		algCtrl.setView(this);
 		initGUI((AlgebraControllerW) algCtrl);
+		if (hasAvex) {
 		app.getSelectionManager()
 				.addSelectionListener(new GeoElementSelectionListener() {
 					public void geoElementSelected(GeoElement geo,
@@ -157,6 +161,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 						// setLastSelectedGeo(geo);
 					}
 				});
+		}
 	}
 
 	private void initGUI(AlgebraControllerW algCtrl) {
@@ -192,10 +197,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	@Override
 	public void onBrowserEvent(Event event) {
 		if (event.getTypeInt() == Event.ONBLUR) {
-			// if (selectedGeoElement == null) {
-			// App.debug("[AVEX] setActiveTreeItem(null)");
-			// setActiveTreeItem(null);
-			// }
+			if (hasAvex) {
+				
+			} else
+			if (selectedGeoElement == null) {
+				App.debug("[AVEX] setActiveTreeItem(null)");
+				setActiveTreeItem(null);
+			}
 		}
 
 		// as arrow keys are prevented in super.onBrowserEvent,
@@ -661,9 +669,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			// don't re-init anything
 			if (depNode == null || indNode == null || auxiliaryNode == null) {
 				// rootDependency = new TreeItem();
-				depNode = new TreeItem(); // dependent objects
-				indNode = new TreeItem();
-				auxiliaryNode = new TreeItem();
+				depNode = createTreeItem(); // dependent objects
+				indNode = createTreeItem();
+				auxiliaryNode = createTreeItem();
 
 			}
 
@@ -682,7 +690,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		case ORDER:
 			if (rootOrder == null) {
 				// both rootOrder and AlgebraView will have the Tree items
-				rootOrder = new TreeItem();
+				rootOrder = createTreeItem();
 			}
 			setUserObject(rootOrder, "");
 
@@ -702,7 +710,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		case TYPE:
 			// don't re-init anything
 			if (rootType == null) {
-				rootType = new TreeItem();
+				rootType = createTreeItem();
 				// setUserObject(rootType, "");
 				typeNodesMap = new HashMap<String, TreeItem>(5);
 
@@ -723,7 +731,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		case LAYER:
 			// don't re-init anything
 			if (rootLayer == null) {
-				rootLayer = new TreeItem();
+				rootLayer = createTreeItem();
 				layerNodesMap = new HashMap<Integer, TreeItem>(10);
 			}
 
@@ -820,7 +828,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			if (parent == null) {
 				String transTypeString = geo
 						.translatedTypeStringForAlgebraView();
-				parent = new TreeItem(new InlineLabel(transTypeString));
+				parent = createTreeItem(new InlineLabel(transTypeString));
 				setUserObject(parent, transTypeString);
 				typeNodesMap.put(typeString, parent);
 
@@ -878,6 +886,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		return parent;
 	}
+
 
 	/**
 	 * Assign element or element group to a given tree node
@@ -982,8 +991,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				return;
 			}
 
-			TreeItem parent, node;
-			node = new TreeItem();
+			TreeItem parent, node = createTreeItem();
 
 			parent = getParentNode(geo, forceLayer);
 
@@ -1031,6 +1039,36 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			// ensure that the leaf with the new object is visible
 			parent.setState(true);
 		}
+	}
+
+	private TreeItem createTreeItem() {
+		return hasAvex ? new TreeItem() {
+			@Override
+			public void setSelected(boolean selected) {
+				super.setSelected(selected);
+				Element w = Dom.querySelectorForElement(this.getElement(),
+						"gwt-TreeItem-selected");
+				if (w != null) {
+					w.getStyle().setBackgroundColor("#FFFFFF");
+				}
+
+			}
+		} : new TreeItem();
+	}
+
+	private TreeItem createTreeItem(Widget widget) {
+		return hasAvex ? new TreeItem(widget) {
+			@Override
+			public void setSelected(boolean selected) {
+				super.setSelected(selected);
+				Element w = Dom.querySelectorForElement(this.getElement(),
+						"gwt-TreeItem-selected");
+				if (w != null) {
+					w.getStyle().setBackgroundColor("#FFFFFF");
+				}
+
+			}
+		} : new TreeItem(widget);
 	}
 
 	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
@@ -1272,9 +1310,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		inputPanelLatex.getElement().getParentElement()
 		.addClassName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.replaceXButtonDOM();
-		unselect(selectedGeoElement);
-		unselect(lastSelectedGeo);
-		;
+		
+		if (hasAvex) {
+			unselect(selectedGeoElement);
+			unselect(lastSelectedGeo);
+		}
+		
 		if (appletHack) {
 			if (!isNodeTableEmpty()) {
 				AutoCompleteTextFieldW.showSymbolButtonIfExists(
@@ -1401,34 +1442,40 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void setActiveTreeItem(RadioButtonTreeItem radioButtonTreeItem) {
-		if (!app.has(Feature.AV_EXTENSIONS)
-				&& !app.has(Feature.DELETE_IN_ALGEBRA)) {
-			// if there is delete button in algebra view, let's allow this,
-			// or the alternative is to add the delete button when
-			// both AV_EXTENSIONS and DELETE_IN_ALGEBRA are true
-			return;
-		}
+		if (!hasAvex && !app.has(Feature.DELETE_IN_ALGEBRA)) {
+				// if there is delete button in algebra view, let's allow this,
+				// or the alternative is to add the delete button when
+				// both AV_EXTENSIONS and DELETE_IN_ALGEBRA are true
+				return;
+			}
+
+
+		
 		boolean sameItem = activeItem == radioButtonTreeItem;
-		if ((this.activeItem != null)
- && !sameItem
+		
+		if ((this.activeItem != null) && !sameItem
 				&& (!this.activeItem.commonEditingCheck())) {
 			// e.g. if setting it null, if this is edited,
 			// then the close button should still not be removed!
 			this.activeItem.removeCloseButton();
 		}
 
-		if (activeItem != null && !sameItem) {
+		if (hasAvex && activeItem != null && !sameItem) {
 			selectRow(activeItem.getGeo(), false);
 		}
 
 		this.activeItem = radioButtonTreeItem;
 		//
-		if (activeItem != null) {
+		if (hasAvex && activeItem != null) {
 			selectRow(activeItem.getGeo(), true);
 		}
 	}
 
 	public void selectRow(GeoElement geo, boolean select) {
+		if (!hasAvex) {
+			return;
+		}
+		
 		TreeItem node = nodeTable.get(geo);
 		if (node == null) {
 			return;
@@ -1443,6 +1490,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	private void selectNode(TreeItem node, GeoElement geo) {
+		if (!hasAvex) {
+			return;
+		}
+		
 		TreeItem lastNode = nodeTable.get(lastSelectedGeo);
 		if (lastNode != null) {
 			updateNodeColor(lastNode, false);
@@ -1458,6 +1509,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	private void updateNodeColor(TreeItem node, boolean selected) {
+		if (!hasAvex) {
+			return;
+		}
+		
 		if (node == null) {
 			return;
 		}
@@ -1567,7 +1622,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 					TreeItem item = getItem(i).getChild(j);
 					item.setSelected(false);
 					Widget w = item.getWidget();
-					if (w instanceof RadioButtonTreeItem) {
+					if (hasAvex && w instanceof RadioButtonTreeItem) {
 						unselect(((RadioButtonTreeItem) w).getGeo());
 					}
 				}
@@ -1643,6 +1698,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 
 	public void resize() {
+		if (!hasAvex) {
+			return;
+		}
+
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti.getWidget() instanceof RadioButtonTreeItem) {
@@ -1662,6 +1721,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void updateSelection() {
+		if (!hasAvex) {
+			return;
+		}
+
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti.getWidget() instanceof RadioButtonTreeItem) {
@@ -1690,6 +1753,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	private void unselect(GeoElement geo) {
+		if (!hasAvex) {
+			return;
+		}
+
 		if (geo == null) {
 			return;
 		}
@@ -1700,9 +1767,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void resetItems() {
-		if (app.has(Feature.AV_EXTENSIONS)) {
+		if (hasAvex) {
 			RadioButtonTreeItem.closeMinMaxPanel();
+			updateSelection();
 		}
-		updateSelection();
+
 	}
 }
