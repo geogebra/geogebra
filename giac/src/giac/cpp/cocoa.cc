@@ -11057,7 +11057,8 @@ namespace giac {
 	  }
 	  if (jpos!=Wlast[i].size() || P[i].type==_INT_){
 	    // CERR << jpos << endl;
-	    if (eps>0 && P[i].type==_INT_){
+	    // IMPROVE: make it work for rur!
+	    if (!rur && eps>0 && P[i].type==_INT_){
 	      // check for non modular gb with early reconstruction */
 	      // first build a candidate in early with V[i]
 	      vectpoly8 early(V[i]);
