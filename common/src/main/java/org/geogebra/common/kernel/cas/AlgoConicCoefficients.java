@@ -15,10 +15,10 @@ package org.geogebra.common.kernel.cas;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
  * Algorithm for coefficients of a conic
@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoConicCoefficients extends AlgoElement {
 
-	private GeoConic c; // input
+	private GeoConicND c; // input
 	private GeoList g; // output
 
 	/**
@@ -38,7 +38,7 @@ public class AlgoConicCoefficients extends AlgoElement {
 	 * @param c
 	 *            conic
 	 */
-	public AlgoConicCoefficients(Construction cons, String label, GeoConic c) {
+	public AlgoConicCoefficients(Construction cons, String label, GeoConicND c) {
 		super(cons);
 		this.c = c;
 
