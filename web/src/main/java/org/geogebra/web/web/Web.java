@@ -197,6 +197,8 @@ public class Web implements EntryPoint {
 	public static void loadAppletAsync() {
 		// GWT.runAsync(new RunAsyncCallback() {
 
+		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
+
 		// public void onSuccess() {
 		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 		// }
