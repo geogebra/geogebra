@@ -26,8 +26,90 @@ var $ = $ggbQuery;
   mqBlockId = 'mathquillggb-block-id',
   min = Math.min,
   max = Math.max;
-	
+
 function noop() {}
+
+function hangulJamo(str) {
+  var ret = "";
+  for (var ii = 0; ii < str.length; ii++) {
+    ret += toHangulJamoChars(str.charAt(ii));
+  }
+  return ret;
+}
+
+function toHangulJamoChars(kuc) {
+  switch (kuc) {
+    case '\u3131': return '\u1100';
+    case '\u3132': return '\u1101';
+    case '\u3134': return '\u1102';
+    case '\u3137': return '\u1103';
+    case '\u3138': return '\u1104';
+    case '\u3139': return '\u1105';
+    case '\u3141': return '\u1106';
+    case '\u3142': return '\u1107';
+    case '\u3143': return '\u1108';
+    case '\u3145': return '\u1109';
+    case '\u3146': return '\u110A';
+    case '\u3147': return '\u110B';
+    case '\u3148': return '\u110C';
+    case '\u3149': return '\u110D';
+    case '\u314A': return '\u110E';
+    case '\u314B': return '\u110F';
+    case '\u314C': return '\u1110';
+    case '\u314D': return '\u1111';
+    case '\u314E': return '\u1112';
+    case '\u314F': return '\u1161';
+    case '\u3150': return '\u1162';
+    case '\u3151': return '\u1163';
+    case '\u3152': return '\u1164';
+    case '\u3153': return '\u1165';
+    case '\u3154': return '\u1166';
+    case '\u3155': return '\u1167';
+    case '\u3156': return '\u1168';
+    case '\u3157': return '\u1169';
+    case '\u3158': return '\u116A';
+    case '\u3159': return '\u116B';
+    case '\u315A': return '\u116C';
+    case '\u315B': return '\u116D';
+    case '\u315C': return '\u116E';
+    case '\u315D': return '\u116F';
+    case '\u315E': return '\u1170';
+    case '\u315F': return '\u1171';
+    case '\u3160': return '\u1172';
+    case '\u3161': return '\u1173';
+    case '\u3162': return '\u1174';
+    case '\u3163': return '\u1175';
+    //(a lot of duplicates after here, ignore the repeats)
+    // \u3131 \u11A8 NOTE: different mapping?
+    // \u3132 \u11A9 NOTE: different mapping?
+    case '\u3133': return '\u11AA';
+    // \u3134 \u11AB NOTE: different mapping?
+    case '\u3135': return '\u11AC';
+    case '\u3136': return '\u11AD';
+    // \u3137 \u11AE NOTE: different mapping?
+    // \u3139 \u11AF NOTE: different mapping?
+    case '\u313A': return '\u11B0';
+    case '\u313B': return '\u11B1';
+    case '\u313C': return '\u11B2';
+    case '\u313D': return '\u11B3';
+    case '\u313E': return '\u11B4';
+    case '\u313F': return '\u11B5';
+    case '\u3140': return '\u11B6';
+    // \u3141 \u11B7 NOTE: different mapping?
+    // \u3142 \u11B8 NOTE: different mapping?
+    case '\u3144': return '\u11B9';
+    // \u3145 \u11BA NOTE: different mapping?
+    // \u3146 \u11BB NOTE: different mapping?
+    // \u3147 \u11BC NOTE: different mapping?
+    // \u3148 \u11BD NOTE: different mapping?
+    // \u314A \u11BE NOTE: different mapping?
+    // \u314B \u11BF NOTE: different mapping?
+    // \u314C \u11C0 NOTE: different mapping?
+    // \u314D \u11C1 NOTE: different mapping?
+    // \u314E \u11C2 NOTE: different mapping?
+    default: return kuc;
+  }
+}
 
 function adjustFixedTextarea(rootJQ) {
   // it would be good to call GWT's Element.getAbsoluteLeft,
@@ -370,7 +452,9 @@ var manageTextarea = (function() {
     // TODO: Wondering why there is a target.bind both here and at the end...
     // It would be good to revise hard-to-understand MathQuillGGB code!
     // but key events may be necessary to remain for the ^ hat character in IE
-    target.bind('keydown keypress keyup input', function() { checkTextarea(); });
+    target.bind('keydown keypress keyup', function() {
+      checkTextarea();
+    });
 
     //working on the paste event while commenting this out, Okay
     //target.bind('paste', function() { checkTextarea2(); });
@@ -381,7 +465,7 @@ var manageTextarea = (function() {
     // as the textarea should keep its focus, as far as I know,
     // and if not, then "focusout" should not be called before "paste" anyway
     //target.bind('input focusout', function() { checkTextarea2(); checkTextarea(); });
-    target.bind('input keyup', function() {
+    target.bind('input', function() {
       // does this need some more waiting in case of Korean characters?
       checkTextareaFor(typedText);
     });
@@ -479,6 +563,19 @@ var manageTextarea = (function() {
 
       handleKey();
 
+      if (e.keyCode) {
+    	if (e.keyCode === 229) {
+    	  // this means some kind of a Korean or other special key, they say
+    	  // for which keypress might not fire, so let's do its action
+    	  // earlier, and make sure keypress will really not fire, for
+    	  // more deterministic code...
+          checkTextareaFor(typedText);
+
+          // with preventDefault it's not good
+          //e.preventDefault();
+    	}
+      }
+
       if (textarea[0] && textarea[0].disabledTextarea) {
     	// this can only happen in scenarios when
     	// stopPropagation is useful here
@@ -488,6 +585,7 @@ var manageTextarea = (function() {
     }
 
     function onKeypress(e) {
+      // windower is like noop: are they visible here?
       if (textarea[0] && textarea[0].simulatedKeypress) {
         // of course, this case do not handleKey,
     	// maybe we could set keypress to null,
@@ -495,12 +593,38 @@ var manageTextarea = (function() {
     	// but it is not that important...
     	keydown = null;
         textarea[0].simulatedKeypress = false;
-      } else if (keydown && keypress) {
-        // call the key handler for repeated keypresses.
-        // This excludes keypresses that happen directly
-        // after keydown.  In that case, there will be
-        // no previous keypress, so we skip it here
-    	handleKey();
+      } else {
+          // they do it in a different way
+          //if (e.charCode) {
+              // (why) does this matter?
+              //keydown = null;
+
+              // Korean characters need this, for imperfect
+              // implementation of Windows native keyboard,
+    		  // or also it's build-in on-screen keyboard
+
+    		  //var cstr = String.fromCharCode(e.charCode);
+    		  //cstr = hangulJamo(cstr);
+    		  //var code = cstr.charCodeAt(0);
+    	      //if ((code >= 0x1100) && (code <= 0x1112)) {
+    	      //  textarea.val(cstr);
+    	      //} else if ((code >= 0x1161) && (code <= 0x1175)) {
+    	      //  textarea.val(cstr);
+              //} else if ((code >= 0x11a8) && (code <= 0x11c2)) {
+              //  textarea.val(cstr);
+              //} else if ((code >= 0xac00) && (code <= 0xd7af)) {
+              //  textarea.val(cstr);
+              //}
+    	  //}
+
+    	  if (keydown && keypress) {
+
+    		  // call the key handler for repeated keypresses.
+    		  // This excludes keypresses that happen directly
+    		  // after keydown.  In that case, there will be
+    		  // no previous keypress, so we skip it here
+    		  handleKey();
+    	  }
       }
 
       keypress = e;
@@ -571,6 +695,7 @@ var manageTextarea = (function() {
         // especially in keypress, to real characters
       }
     }
+
     function onKeydownParent(e) {
       // it is not harmful to call stopPropagation
       // more times... here and in DrawEquationWeb
@@ -680,6 +805,7 @@ var manageTextarea = (function() {
     };
   };
 }());
+
 var Parser = P(function(_, _super, Parser) {
   // The Parser object is a wrapper for a parser function.
   // Externally, you use one to parse a string by calling
@@ -2521,86 +2647,6 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     var latex2 = latex;
     newCursor.writeLatex(latex2);
   };
-  _.hangulJamo = function(str) {
-    var ret = "";
-    for (var ii = 0; ii < str.length; ii++) {
-      ret += this.toHangulJamoChars(str.charAt(ii));
-    }
-    return ret;
-  };
-  _.toHangulJamoChars = function(kuc) {
-    switch (kuc) {
-    case '\u3131': return '\u1100';
-    case '\u3132': return '\u1101';
-    case '\u3134': return '\u1102';
-    case '\u3137': return '\u1103';
-    case '\u3138': return '\u1104';
-    case '\u3139': return '\u1105';
-    case '\u3141': return '\u1106';
-    case '\u3142': return '\u1107';
-    case '\u3143': return '\u1108';
-    case '\u3145': return '\u1109';
-    case '\u3146': return '\u110A';
-    case '\u3147': return '\u110B';
-    case '\u3148': return '\u110C';
-    case '\u3149': return '\u110D';
-    case '\u314A': return '\u110E';
-    case '\u314B': return '\u110F';
-    case '\u314C': return '\u1110';
-    case '\u314D': return '\u1111';
-    case '\u314E': return '\u1112';
-    case '\u314F': return '\u1161';
-    case '\u3150': return '\u1162';
-    case '\u3151': return '\u1163';
-    case '\u3152': return '\u1164';
-    case '\u3153': return '\u1165';
-    case '\u3154': return '\u1166';
-    case '\u3155': return '\u1167';
-    case '\u3156': return '\u1168';
-    case '\u3157': return '\u1169';
-    case '\u3158': return '\u116A';
-    case '\u3159': return '\u116B';
-    case '\u315A': return '\u116C';
-    case '\u315B': return '\u116D';
-    case '\u315C': return '\u116E';
-    case '\u315D': return '\u116F';
-    case '\u315E': return '\u1170';
-    case '\u315F': return '\u1171';
-    case '\u3160': return '\u1172';
-    case '\u3161': return '\u1173';
-    case '\u3162': return '\u1174';
-    case '\u3163': return '\u1175';
-    //(a lot of duplicates after here, ignore the repeats)
-    // \u3131 \u11A8 NOTE: different mapping?
-    // \u3132 \u11A9 NOTE: different mapping?
-    case '\u3133': return '\u11AA';
-    // \u3134 \u11AB NOTE: different mapping?
-    case '\u3135': return '\u11AC';
-    case '\u3136': return '\u11AD';
-    // \u3137 \u11AE NOTE: different mapping?
-    // \u3139 \u11AF NOTE: different mapping?
-    case '\u313A': return '\u11B0';
-    case '\u313B': return '\u11B1';
-    case '\u313C': return '\u11B2';
-    case '\u313D': return '\u11B3';
-    case '\u313E': return '\u11B4';
-    case '\u313F': return '\u11B5';
-    case '\u3140': return '\u11B6';
-    // \u3141 \u11B7 NOTE: different mapping?
-    // \u3142 \u11B8 NOTE: different mapping?
-    case '\u3144': return '\u11B9';
-    // \u3145 \u11BA NOTE: different mapping?
-    // \u3146 \u11BB NOTE: different mapping?
-    // \u3147 \u11BC NOTE: different mapping?
-    // \u3148 \u11BD NOTE: different mapping?
-    // \u314A \u11BE NOTE: different mapping?
-    // \u314B \u11BF NOTE: different mapping?
-    // \u314C \u11C0 NOTE: different mapping?
-    // \u314D \u11C1 NOTE: different mapping?
-    // \u314E \u11C2 NOTE: different mapping?
-    default: return kuc;
-    }
-  };
   _.appendKoreanChar = function(lead, vowel, tail) {
 	// lead, vowel and tail are char codes
     var lead0 = lead - 0x1100 + 1;
@@ -2785,7 +2831,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     // Korean.java / Korean.mergeDoubleCharacters(String)
 
     if (str.length) {
-      var str = this.hangulJamo(str);
+      var str = hangulJamo(str);
       if (str.length) {
         if (str.length < 2) {
           return str;
