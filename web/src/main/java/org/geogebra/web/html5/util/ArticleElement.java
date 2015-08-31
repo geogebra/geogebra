@@ -522,15 +522,15 @@ public final class ArticleElement extends Element {
 			return;
 		}
 		double externalScale = getDataParamScale();
-		setAttribute("data-scalex", "" + (externalScale * envScale("x")));
-		setAttribute("data-scaley", "" + (externalScale * envScale("y")));
-
 		Element parent = this.getParentElement();
 		if (parent.getParentElement() != null
 		        && "applet_container".equals(parent.getParentElement().getId())) {
 			parent = parent.getParentElement();
 		}
 		Browser.scale(parent, externalScale, 0, 0);
+		setAttribute("data-scalex", "" + envScale("x"));
+		setAttribute("data-scaley", "" + envScale("y"));
+
 	}
 
 	public String getDataParamPrerelease() {
