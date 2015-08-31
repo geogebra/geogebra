@@ -3806,6 +3806,12 @@ namespace giac {
     std::vector< T_unsigned<modint,tdeg_t> >::const_iterator pt,ptend;
     unsigned i,rempos=0;
     TMP1.coord.clear();
+    unsigned Gs=G.size();
+    const order_t o=rem.order;
+    const tdeg_t ** resGi=(const tdeg_t **) malloc(Gs*sizeof(tdeg_t *));
+    for (unsigned i=0;i<Gs;++i){
+      resGi[i]=res[G[i]].coord.empty()?0:&res[G[i]].coord.front().u;
+    }
     for (unsigned count=0;;++count){
       ptend=rem.coord.end();
       // this branch search first in all leading coeff of G for a monomial 
@@ -3813,10 +3819,11 @@ namespace giac {
       pt=rem.coord.begin()+rempos;
       if (pt>=ptend)
 	break;
-      for (i=0;i<G.size();++i){
-	if (i==excluded || res[G[i]].coord.empty())
+      const tdeg_t &ptu=pt->u;
+      for (i=0;i<Gs;++i){
+	if (i==excluded || !resGi[i])
 	  continue;
-	if (tdeg_t_all_greater(pt->u,res[G[i]].coord.front().u,rem.order))
+	if (tdeg_t_all_greater(ptu,*resGi[i],o))
 	  break;
       }
       if (i==G.size()){ // no leading coeff of G is smaller than the current coeff of rem
@@ -3835,6 +3842,7 @@ namespace giac {
       smallmult(invmod(rem.coord.front().g,env),rem.coord,rem.coord,env);
       rem.coord.front().g=1;
     }
+    free(resGi);
   }
 
   static void reducemod(vectpolymod &resmod,modint env){
@@ -5443,7 +5451,7 @@ namespace giac {
       }
       vector<modint>::iterator vt=v.begin(),vtend=v.end();
 #ifdef PSEUDO_MOD
-      for (;vt!=vtend;++vt){
+      for (;vt!=vtend;++vt){ // or if (*vt) *vt %= env;
 	modint v=*vt;
 	if (v>-env && v<env)
 	  continue;
@@ -9235,13 +9243,14 @@ namespace giac {
   };
   
   bool operator < (const zsymb_data & z1,const zsymb_data & z2){
-#ifndef GIAC_DEG_FIRST
-    if (z1.terms!=z2.terms) return z2.terms>z1.terms;
-#endif
+#ifdef GIAC_DEG_FIRST
     if (z1.deg!=z2.deg)
       return tdeg_t_greater(z2.deg,z1.deg,z1.o);
-#ifdef GIAC_DEG_FIRST
     if (z1.terms!=z2.terms) return z2.terms>z1.terms;
+#else 
+    if (z1.terms!=z2.terms) return z2.terms>z1.terms;
+    if (z1.deg!=z2.deg)
+      return tdeg_t_greater(z1.deg,z2.deg,z1.o);
 #endif
     if (z1.pos!=z2.pos)
       return z2.pos>z1.pos;

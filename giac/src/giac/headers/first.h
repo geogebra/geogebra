@@ -86,6 +86,12 @@ int my_sprintf(char * s, const char * format, ...);
 #define my_ostream std::ostream
 #endif
 
+#if defined WIN32 && defined __x86_64__
+typedef longlong ref_count_t;
+#else
+typedef int ref_count_t;
+#endif
+
 #ifdef __x86_64__
 #define alias_type ulonglong
 #else
@@ -228,11 +234,6 @@ inline void swap_giac_double(double & a,double & b){ double c=a; a=b; b=c; }
 #define swap_giac_double(a,b) std::swap<giac_double>(a,b)
 #endif
 
-#if defined WIN32 && defined __x86_64__
-typedef longlong ref_count_t;
-#else
-typedef int ref_count_t;
-#endif
 
 #ifdef WINSTORE
 //tw  **NOTE** this is pulled out of winnt.h!!! I don't know why it is not found there.
