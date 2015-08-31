@@ -212,6 +212,9 @@ window.onload = function() {applet.inject('ggbApplet')};
 				var afterTime = +new Date();
 				var totalTime = afterTime - beforeTime;
 				
+				while (resultO.indexOf(" ") > -1) {
+					resultO = resultO.replace(" ","");
+				}
 				
 				
 				// replace c_23 with c_0
@@ -225,18 +228,20 @@ window.onload = function() {applet.inject('ggbApplet')};
 				//}
 				
 				
-				// replace arbint(23) with n_0
+				// replace arbint(23+1) with n_0
 				if (resultO.indexOf("arbint(") > -1 && resultO.indexOf("arbint(") == resultO.lastIndexOf("arbint(")) {
-					resultO = resultO.replace(/arbint\([0-9]+\)/g, "n_0");
+					resultO = resultO.replace(/arbint\([+0-9]+\)/g, "n_0");
 				} else {
-					resultO = resultO.replace(/arbint\(([0-9]+)\)/g, "n_$1");				
+					resultO = resultO.replace(/arbint\(([+0-9]+)\)/g, "n_$1");				
 				}
 				
 				// replace arbconst(23) with c_0
 				if (resultO.indexOf("arbconst(") > -1 && resultO.indexOf("arbconst(") == resultO.lastIndexOf("arbconst(")) {
-					resultO = resultO.replace(/arbconst\([0-9]+\)/g, "c_0");
+					resultO = resultO.replace(/arbconst\([+0-9]+\)/g, "c_0");
 				} else {
-					resultO = resultO.replace(/arbconst\(([0-9]+)\)/g, "c_$1");								
+					//resultO = resultO.replace(/arbconst\(([+0-9]+)\)/g, "c_$1");	
+					// replace arbconst(23+1) with c_23							
+					resultO = resultO.replace(/arbconst\(([0-9]+)\+[0-9]*\)/g, "c_$1");								
 				}
 				
 				if (resultO === "") {
@@ -258,9 +263,6 @@ window.onload = function() {applet.inject('ggbApplet')};
 				//	expectedResult = expectedResult.replace(" ","");
 				//}
 				
-				while (result.indexOf(" ") > -1) {
-					result = result.replace(" ","");
-				}
 				
 				// <p style="background-color:#FFFF00">
 				var color = correct(result, expectedResult);
