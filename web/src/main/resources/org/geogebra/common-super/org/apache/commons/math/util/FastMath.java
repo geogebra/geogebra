@@ -43,6 +43,44 @@ package org.apache.commons.math.util;
  */
 public class FastMath {
 
+	/** Constant: {@value} . */
+	private static final double F_1_3 = 1d / 3d;
+	/** Constant: {@value} . */
+	private static final double F_1_5 = 1d / 5d;
+	/** Constant: {@value} . */
+	private static final double F_1_7 = 1d / 7d;
+	/** Constant: {@value} . */
+	private static final double F_1_9 = 1d / 9d;
+	/** Constant: {@value} . */
+	private static final double F_1_11 = 1d / 11d;
+	/** Constant: {@value} . */
+	private static final double F_1_13 = 1d / 13d;
+	/** Constant: {@value} . */
+	private static final double F_1_15 = 1d / 15d;
+	/** Constant: {@value} . */
+	private static final double F_1_17 = 1d / 17d;
+	/** Constant: {@value} . */
+	private static final double F_3_4 = 3d / 4d;
+	/** Constant: {@value} . */
+	private static final double F_15_16 = 15d / 16d;
+	/** Constant: {@value} . */
+	private static final double F_13_14 = 13d / 14d;
+	/** Constant: {@value} . */
+	private static final double F_11_12 = 11d / 12d;
+	/** Constant: {@value} . */
+	private static final double F_9_10 = 9d / 10d;
+	/** Constant: {@value} . */
+	private static final double F_7_8 = 7d / 8d;
+	/** Constant: {@value} . */
+	private static final double F_5_6 = 5d / 6d;
+	/** Constant: {@value} . */
+	private static final double F_1_2 = 1d / 2d;
+	/** Constant: {@value} . */
+	private static final double F_1_4 = 1d / 4d;
+
+	/** StrictMath.log(Double.MAX_VALUE): {@value} */
+	private static final double LOG_MAX_VALUE = Math.log(Double.MAX_VALUE);
+
     /** Archimede's constant PI, ratio of circle circumference to diameter. */
     public static final double PI = 105414357.0 / 33554432.0 + 1.984187159361080883e-9;
 
@@ -286,15 +324,30 @@ public class FastMath {
           return x;
       }
 
-      if (x > 20.0) {
-          return exp(x)/2.0;
+		// cosh[z] = (exp(z) + exp(-z))/2
+
+		// for numbers with magnitude 20 or so,
+		// exp(-z) can be ignored in comparison with exp(z)
+
+		if (x > 20) {
+			if (x >= LOG_MAX_VALUE) {
+				// Avoid overflow (MATH-905).
+				final double t = exp(0.5 * x);
+				return (0.5 * t) * t;
+			} else {
+				return 0.5 * exp(x);
+			}
+		} else if (x < -20) {
+			if (x <= -LOG_MAX_VALUE) {
+				// Avoid overflow (MATH-905).
+				final double t = exp(-0.5 * x);
+				return (0.5 * t) * t;
+			} else {
+				return 0.5 * exp(-x);
+			}
       }
 
-      if (x < -20) {
-          return exp(-x)/2.0;
-      }
-
-      double hiPrec[] = new double[2];
+		final double hiPrec[] = new double[2];
       if (x < 0.0) {
           x = -x;
       }
@@ -341,12 +394,27 @@ public class FastMath {
           return x;
       }
 
-      if (x > 20.0) {
-          return exp(x)/2.0;
-      }
+		// sinh[z] = (exp(z) - exp(-z) / 2
 
-      if (x < -20) {
-          return -exp(-x)/2.0;
+		// for values of z larger than about 20,
+		// exp(-z) can be ignored in comparison with exp(z)
+
+		if (x > 20) {
+			if (x >= LOG_MAX_VALUE) {
+				// Avoid overflow (MATH-905).
+				final double t = exp(0.5 * x);
+				return (0.5 * t) * t;
+			} else {
+				return 0.5 * exp(x);
+			}
+		} else if (x < -20) {
+			if (x <= -LOG_MAX_VALUE) {
+				// Avoid overflow (MATH-905).
+				final double t = exp(-0.5 * x);
+				return (-0.5 * t) * t;
+			} else {
+				return -0.5 * exp(-x);
+			}
       }
 
       if (x == 0) {
@@ -451,6 +519,12 @@ public class FastMath {
       if (x != x) {
           return x;
       }
+
+		// tanh[z] = sinh[z] / cosh[z]
+		// = (exp(z) - exp(-z)) / (exp(z) + exp(-z))
+		// = (exp(2x) - 1) / (exp(2x) + 1)
+
+		// for magnitude > 20, sinh[z] == cosh[z] in double precision
 
       if (x > 20.0) {
           return 1.0;
@@ -572,7 +646,6 @@ public class FastMath {
      * @return inverse hyperbolic sine of a
      */
     public static double asinh(double a) {
-
         boolean negative = false;
         if (a < 0) {
             negative = true;
@@ -585,18 +658,48 @@ public class FastMath {
         } else {
             final double a2 = a * a;
             if (a > 0.097) {
-                absAsinh = a * (1 - a2 * (1 / 3.0 - a2 * (1 / 5.0 - a2 * (1 / 7.0 - a2 * (1 / 9.0 - a2 * (1.0 / 11.0 - a2 * (1.0 / 13.0 - a2 * (1.0 / 15.0 - a2 * (1.0 / 17.0) * 15.0 / 16.0) * 13.0 / 14.0) * 11.0 / 12.0) * 9.0 / 10.0) * 7.0 / 8.0) * 5.0 / 6.0) * 3.0 / 4.0) / 2.0);
+				absAsinh = a
+						* (1 - a2
+								* (F_1_3 - a2
+										* (F_1_5 - a2
+												* (F_1_7 - a2
+														* (F_1_9 - a2
+																* (F_1_11 - a2
+																		* (F_1_13 - a2
+																				* (F_1_15 - a2
+																						* F_1_17
+																						* F_15_16)
+																				* F_13_14)
+																		* F_11_12)
+																* F_9_10)
+														* F_7_8) * F_5_6)
+										* F_3_4) * F_1_2);
             } else if (a > 0.036) {
-                absAsinh = a * (1 - a2 * (1 / 3.0 - a2 * (1 / 5.0 - a2 * (1 / 7.0 - a2 * (1 / 9.0 - a2 * (1.0 / 11.0 - a2 * (1.0 / 13.0) * 11.0 / 12.0) * 9.0 / 10.0) * 7.0 / 8.0) * 5.0 / 6.0) * 3.0 / 4.0) / 2.0);
+				absAsinh = a
+						* (1 - a2
+								* (F_1_3 - a2
+										* (F_1_5 - a2
+												* (F_1_7 - a2
+														* (F_1_9 - a2
+																* (F_1_11 - a2
+																		* F_1_13
+																		* F_11_12)
+																* F_9_10)
+														* F_7_8) * F_5_6)
+										* F_3_4) * F_1_2);
             } else if (a > 0.0036) {
-                absAsinh = a * (1 - a2 * (1 / 3.0 - a2 * (1 / 5.0 - a2 * (1 / 7.0 - a2 * (1 / 9.0) * 7.0 / 8.0) * 5.0 / 6.0) * 3.0 / 4.0) / 2.0);
+				absAsinh = a
+						* (1 - a2
+								* (F_1_3 - a2
+										* (F_1_5 - a2
+												* (F_1_7 - a2 * F_1_9 * F_7_8)
+												* F_5_6) * F_3_4) * F_1_2);
             } else {
-                absAsinh = a * (1 - a2 * (1 / 3.0 - a2 * (1 / 5.0) * 3.0 / 4.0) / 2.0);
+				absAsinh = a * (1 - a2 * (F_1_3 - a2 * F_1_5 * F_3_4) * F_1_2);
             }
         }
 
         return negative ? -absAsinh : absAsinh;
-
     }
 
     /** Compute the inverse hyperbolic tangent of a number.
@@ -604,7 +707,6 @@ public class FastMath {
      * @return inverse hyperbolic tangent of a
      */
     public static double atanh(double a) {
-
         boolean negative = false;
         if (a < 0) {
             negative = true;
@@ -617,18 +719,36 @@ public class FastMath {
         } else {
             final double a2 = a * a;
             if (a > 0.087) {
-                absAtanh = a * (1 + a2 * (1.0 / 3.0 + a2 * (1.0 / 5.0 + a2 * (1.0 / 7.0 + a2 * (1.0 / 9.0 + a2 * (1.0 / 11.0 + a2 * (1.0 / 13.0 + a2 * (1.0 / 15.0 + a2 * (1.0 / 17.0)))))))));
+				absAtanh = a
+						* (1 + a2
+								* (F_1_3 + a2
+										* (F_1_5 + a2
+												* (F_1_7 + a2
+														* (F_1_9 + a2
+																* (F_1_11 + a2
+																		* (F_1_13 + a2
+																				* (F_1_15 + a2
+																						* F_1_17))))))));
             } else if (a > 0.031) {
-                absAtanh = a * (1 + a2 * (1.0 / 3.0 + a2 * (1.0 / 5.0 + a2 * (1.0 / 7.0 + a2 * (1.0 / 9.0 + a2 * (1.0 / 11.0 + a2 * (1.0 / 13.0)))))));
+				absAtanh = a
+						* (1 + a2
+								* (F_1_3 + a2
+										* (F_1_5 + a2
+												* (F_1_7 + a2
+														* (F_1_9 + a2
+																* (F_1_11 + a2
+																		* F_1_13))))));
             } else if (a > 0.003) {
-                absAtanh = a * (1 + a2 * (1.0 / 3.0 + a2 * (1.0 / 5.0 + a2 * (1.0 / 7.0 + a2 * (1.0 / 9.0)))));
+				absAtanh = a
+						* (1 + a2
+								* (F_1_3 + a2
+										* (F_1_5 + a2 * (F_1_7 + a2 * F_1_9))));
             } else {
-                absAtanh = a * (1 + a2 * (1.0 / 3.0 + a2 * (1.0 / 5.0)));
+				absAtanh = a * (1 + a2 * (F_1_3 + a2 * F_1_5));
             }
         }
 
         return negative ? -absAtanh : absAtanh;
-
     }
 
     /** Compute the signum of a number.
@@ -977,12 +1097,15 @@ public class FastMath {
     }
 
     /**
-     *  For x between 0 and 1, returns exp(x), uses extended precision
-     *  @param x argument of exponential
-     *  @param result placeholder where to place exp(x) split in two terms
-     *  for extra precision (i.e. exp(x) = result[0] + result[1]
-     *  @return exp(x)
-     */
+	 * For x between 0 and 1, returns exp(x), uses extended precision
+	 * 
+	 * @param x
+	 *            argument of exponential
+	 * @param result
+	 *            placeholder where to place exp(x) split in two terms for extra
+	 *            precision (i.e. exp(x) = result[0] + result[1]
+	 * @return exp(x)
+	 */
     private static double slowexp(final double x, final double result[]) {
         final double xs[] = new double[2];
         final double ys[] = new double[2];
@@ -3800,7 +3923,7 @@ public class FastMath {
      */
     public static float min(final float a, final float b) {
     	
-    	return Math.min(a, b);
+    	return Math.min(a,  b);
     	
     	/*
         if (a > b) {
@@ -3830,7 +3953,6 @@ public class FastMath {
     public static double min(final double a, final double b) {
     	
     	return Math.min(a, b);
-    	
     	/*
         if (a > b) {
             return b;
@@ -3848,7 +3970,7 @@ public class FastMath {
         if (bits == 0x8000000000000000L) {
             return a;
         }
-        return b;*/
+        return b; */
     }
 
     /** Compute the maximum of two values
@@ -3877,7 +3999,8 @@ public class FastMath {
     public static float max(final float a, final float b) {
     	
     	return Math.max(a, b);
-/*    
+    	
+    	/*
         if (a > b) {
             return a;
         }
@@ -3889,12 +4012,12 @@ public class FastMath {
             return Float.NaN;
         }
         // min(+0.0,-0.0) == -0.0 
-        // 0x80000000 == Float.floatToRawIntBits(-0.0d) 
+        // 0x80000000 == Float.floatToRawIntBits(-0.0d)
         int bits = Float.floatToRawIntBits(a);
         if (bits == 0x80000000) {
             return b;
         }
-        return a;*/
+        return a; */
     }
 
     /** Compute the maximum of two values
@@ -3904,8 +4027,7 @@ public class FastMath {
      */
     public static double max(final double a, final double b) {
     	
-    	return Math.max(a, b);
-    	
+    	return Math.max(a,  b);
     	/*
         if (a > b) {
             return a;
@@ -3994,10 +4116,10 @@ public class FastMath {
      * @param dividend the number to be divided
      * @param divisor the number by which to divide
      * @return the remainder, rounded
-     *
-    public static double IEEEremainder(double dividend, double divisor) {
-        return StrictMath.IEEEremainder(dividend, divisor); // TODO provide our own implementation
-    }*/
+     */
+    //public static double IEEEremainder(double dividend, double divisor) {
+    //    return StrictMath.IEEEremainder(dividend, divisor); // TODO provide our own implementation
+    //}
 
     /**
      * Returns the first argument with the sign of the second argument.
