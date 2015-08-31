@@ -231,7 +231,8 @@ public class ToolTipManagerW {
 		if (blockToolTip) {
 			return;
 		}
-
+		bottomInfoTipPanel.removeFromParent();
+		app.getPanel().add(bottomInfoTipPanel);
 		bottomInfoTipHTML.setHTML(text);
 
 		if (helpLabel != null) {
@@ -272,17 +273,16 @@ public class ToolTipManagerW {
 			// Helps to align the InfoTooltip in the center of the screen:
 
 			Style style = bottomInfoTipPanel.getElement().getStyle();
-			style.setLeft(app.getAbsLeft()
-					+ ((app.getWidth() - bottomInfoTipPanel.getOffsetWidth()))
+			style.setLeft(
+					((app.getWidth() - bottomInfoTipPanel.getOffsetWidth()))
 					/ 2, Unit.PX);
 
-			style.setTop(app.getAbsTop()
-					+ (app.getHeight() - (app.getAppletFrame()
+			style.setTop((app.getHeight() - (app.getAppletFrame()
 							.isKeyboardShowing() ? 250 : 70)), Unit.PX);
 		}
 		if (link == ToolTipLinkType.Help && helpLinkURL != null
 				&& helpLinkURL.length() > 0) {
-			scheduleHideBottom();
+			// scheduleHideBottom();
 		}
 	}
 

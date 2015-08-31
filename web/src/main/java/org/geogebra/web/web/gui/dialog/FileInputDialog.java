@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -9,10 +10,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class FileInputDialog extends PopupPanel implements ClickHandler {
+public class FileInputDialog extends GPopupPanel implements ClickHandler {
 	protected AppW app;
 	protected GeoPoint location;
 
@@ -20,7 +20,7 @@ public class FileInputDialog extends PopupPanel implements ClickHandler {
 	protected Button btCancel;
 
 	public FileInputDialog(AppW app, GeoPoint location) {
-		super(false, true);
+		super(false, true, app.getPanel());
 		this.app = app;
 		this.location = location;
 		// createGUI();

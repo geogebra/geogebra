@@ -1293,7 +1293,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		if (LocaleInfo.getCurrentLocale().isRTL()) { // RTL case
 
-			int textBoxAbsoluteLeft = relativeObject.getAbsoluteLeft();
+			int textBoxAbsoluteLeft = (relativeObject.getAbsoluteLeft() - root
+					.getAbsoluteLeft()) / getScale(root.getElement(), "x");
 
 			// Right-align the popup. Note that this computation is
 			// valid in the case where offsetWidthDiff is negative.
@@ -1344,7 +1345,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		} else { // LTR case
 
 			// Left-align the popup.
-			left = relativeObject.getAbsoluteLeft();
+			left = (relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
+					/ getScale(root.getElement(), "x");
 
 			// If the suggestion popup is not as wide as the text box, always
 			// align to
@@ -1384,7 +1386,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		// Calculate top position for the popup
 
-		int top = relativeObject.getAbsoluteTop();
+		int top = (relativeObject.getAbsoluteTop() - root.getAbsoluteTop())
+				/ getScale(root.getElement(), "y");
 
 		// Make sure scrolling is taken into account, since
 		// box.getAbsoluteTop() takes scrolling into account.
@@ -1415,6 +1418,16 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		}
 		setPopupPosition(left, top);
 	}
+
+	private static native int getScale(Element start, String dir) /*-{
+		while (start) {
+			if (start.getAttribute("data-scale" + dir)) {
+				return start.getAttribute("data-scale" + dir);
+			}
+			start = start.parentElement;
+		}
+		return 1;
+	}-*/;
 
 	/**
 	 * Preview the {@link NativePreviewEvent}.

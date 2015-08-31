@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ToolNameIconPanel;
 
@@ -40,7 +39,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class ToolCreationDialog extends DialogBoxW implements
 		GeoElementSelectionListener, ClickHandler, ToolInputOutputListener {
 
-	private App app;
+	private AppW app;
 	/**
 	 * The underlying ToolModel, managing all input and output lists
 	 */
@@ -69,7 +68,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	public ToolCreationDialog(App app) {
 		super(false, false, null, ((AppW) app).getPanel());
 		this.setGlassEnabled(false);
-		this.app = app;
+		this.app = (AppW) app;
 
 		createGUI();
 
@@ -359,7 +358,11 @@ public class ToolCreationDialog extends DialogBoxW implements
 		if (appToSave.getKernel().getMacro(commandName) != null) {
 			String[] options = { app.getPlain("Tool.Replace"),
 					app.getPlain("Tool.DontReplace") };
-			GOptionPaneW.INSTANCE.showOptionDialog(app, app.getLocalization()
+			app.getGuiManager()
+					.getOptionPane()
+					.showOptionDialog(
+							app,
+							app.getLocalization()
 					.getPlain("Tool.ReplaceQuestion", commandName), app
 					.getPlain("Question"), GOptionPane.CUSTOM_OPTION,
 					GOptionPane.QUESTION_MESSAGE, null, options,
@@ -395,12 +398,16 @@ public class ToolCreationDialog extends DialogBoxW implements
 		boolean success = toolModel.finish(appToSave, commandName, toolName,
 				toolHelp, showInToolBar, iconFileName);
 		if (success) {
-			GOptionPaneW.INSTANCE.showConfirmDialog(app,
+			app.getGuiManager()
+					.getOptionPane()
+					.showConfirmDialog(app,
 					app.getMenu("Tool.CreationSuccess"), app.getMenu("Info"),
 					GOptionPane.OK_OPTION, GOptionPane.INFORMATION_MESSAGE,
 					null);
 		} else {
-			GOptionPaneW.INSTANCE.showConfirmDialog(app, app
+			app.getGuiManager()
+					.getOptionPane()
+					.showConfirmDialog(app, app
 					.getPlain("Tool.NotCompatible"), app.getLocalization()
 					.getError("Error"), GOptionPane.OK_OPTION,
 					GOptionPane.ERROR_MESSAGE, null);

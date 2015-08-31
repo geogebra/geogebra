@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.move.ggtapi.models.Chapter;
@@ -14,7 +13,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -584,13 +582,6 @@ public class AppWapplication extends AppWFull {
 		copyFrom.select();
 		$doc.execCommand('copy');
 	}-*/;
-
-	@Override
-	public void showConfirmDialog(String title, String mess) {
-		GOptionPaneW.INSTANCE.showInputDialog(this, "", title, mess,
-		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
-		        null, null);
-	}
 
 	@Override
 	public HasAppletProperties getAppletFrame() {

@@ -33,8 +33,8 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.GDialogBox;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.LoadingApplication;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.AnimationExportDialogW;
@@ -52,7 +52,6 @@ import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 public class DialogManagerW extends DialogManager implements EventRenderable, LoadingApplication {
 
@@ -343,7 +342,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	public void refreshAndShowCurrentFileDescriptors(
 			String driveBase64FileName, String driveBase64description) {
 		if (googleFileDescriptors == null) {
-			googleFileDescriptors = new GoogleFileDescriptors();
+			googleFileDescriptors = new GoogleFileDescriptors(
+					((AppW) app).getPanel());
 		}
 		if (driveBase64FileName == null) {
 			googleFileDescriptors.hide();
@@ -354,7 +354,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 				return;
 			}
 			//Steffi: In SMART the getSignIn()-Method returns NULL
-			googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {
+			googleFileDescriptors
+					.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 
 				        @Override
 				        public void setPosition(int offsetWidth,
@@ -422,7 +423,10 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	 * @param text Alert message
 	 */
 	public void showAlertDialog(String text) {		
-		GOptionPaneW.INSTANCE.showConfirmDialog(app, text, "",
+		((AppW) app)
+				.getGuiManager()
+				.getOptionPane()
+				.showConfirmDialog(app, text, "",
 		        GOptionPane.OK_OPTION, GOptionPane.INFORMATION_MESSAGE, null);
 	}
 

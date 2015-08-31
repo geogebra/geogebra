@@ -29,7 +29,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.gui.ToolNameIconPanel;
@@ -232,7 +231,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			}
 			String[] options = { loc.getMenu("DeleteTool"),
 					loc.getMenu("DontDeleteTool") };
-			GOptionPaneW.INSTANCE.showOptionDialog(app, message, question,
+			app.getGuiManager()
+					.getOptionPane()
+					.showOptionDialog(app, message, question,
 					GOptionPane.CUSTOM_OPTION, GOptionPane.QUESTION_MESSAGE,
 					null, options, new AsyncOperation() {
 

@@ -4,7 +4,6 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -80,7 +79,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					String[] optionNames = { app.getMenu("Cancel"),
 					        app.getMenu("Exit") };
 
-					GOptionPaneW.INSTANCE.showOptionDialog(app, app.getMenu("ExitExamConfirm"), app.getMenu("ExitExamConfirmTitle"),
+					app.getGuiManager()
+							.getOptionPane()
+							.showOptionDialog(app,
+									app.getMenu("ExitExamConfirm"),
+									app.getMenu("ExitExamConfirmTitle"),
 					        GOptionPane.CUSTOM_OPTION, GOptionPane.WARNING_MESSAGE, null,
 					        optionNames, new AsyncOperation() {
 						        @Override

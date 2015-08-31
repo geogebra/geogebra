@@ -91,7 +91,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 		// do not redefine TouchStartHandlers, as they are
 		// simulate mouse events!
 
-		specialPopup = new ButtonPopupMenu() {
+		specialPopup = new ButtonPopupMenu(app.getPanel()) {
 			@Override
 			public void setVisible(boolean visible) {
 				super.setVisible(visible);

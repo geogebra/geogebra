@@ -7,7 +7,6 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
@@ -20,7 +19,6 @@ import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.HasAppletProperties;
@@ -741,12 +739,7 @@ public class AppWapplet extends AppWFull {
 		$doc.execCommand('copy');
 	}-*/;
 
-	@Override
-	public void showConfirmDialog(String title, String mess) {
-		GOptionPaneW.INSTANCE.showInputDialog(this, "", title, mess,
-				GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
-				null, null);
-	}
+
 
 	@Override
 	public void addToHeight(int i) {

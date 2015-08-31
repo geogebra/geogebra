@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.util;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -18,7 +19,6 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author G. Sturr
@@ -161,8 +161,9 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			}
 		});
 
-	    viewButton.getMyPopup().addCloseHandler(new CloseHandler<PopupPanel>() {
-			public void onClose(CloseEvent<PopupPanel> event) {
+		viewButton.getMyPopup().addCloseHandler(
+				new CloseHandler<GPopupPanel>() {
+					public void onClose(CloseEvent<GPopupPanel> event) {
 				ImageOrText icon = new ImageOrText(AppResources.INSTANCE.dots());
 				viewButton.setFixedIcon(icon);
 			}

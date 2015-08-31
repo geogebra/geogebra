@@ -361,7 +361,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public void addHistoryPopup(boolean isDownPopup) {
 
 		if (historyPopup == null)
-			historyPopup = new HistoryPopupW(this);
+			historyPopup = new HistoryPopupW(this, app.getPanel());
 
 		historyPopup.setDownPopup(isDownPopup);
 

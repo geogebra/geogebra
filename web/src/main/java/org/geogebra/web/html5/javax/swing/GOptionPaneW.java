@@ -5,6 +5,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,13 +14,14 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -27,7 +29,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * by the JOptionPane class.
  * 
  */
-public class GOptionPaneW extends DialogBox implements GOptionPane,
+public class GOptionPaneW extends GDialogBox implements GOptionPane,
 		ClickHandler {
 
 	private App app;
@@ -57,13 +59,22 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 	 * Singleton instance of GOptionPaneW. Provides entry point for all calls to
 	 * show a dialog or access getters/setters.
 	 */
+	@Deprecated
 	public static GOptionPaneW INSTANCE = new GOptionPaneW();
 
 	/**
 	 * A private constructor is used to force use of singleton instance.
+	 * 
+	 * @deprecated
 	 */
+	@Deprecated
 	private GOptionPaneW() {
-		super(false, true);
+		super(false, true, RootPanel.get());
+		createGUI();
+	}
+
+	public GOptionPaneW(Panel root) {
+		super(false, true, root);
 		createGUI();
 	}
 

@@ -11,6 +11,7 @@ import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.AlgebraInput;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
@@ -30,7 +31,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ToggleButton;
 
@@ -363,7 +363,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 			helpPanel.updateGUI();
 			setHelpPopup();
 		
-			helpPopup.setPopupPositionAndShow(new PositionCallback() {
+			helpPopup
+					.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 				public void setPosition(int offsetWidth, int offsetHeight) {
 					helpPopup.getElement().getStyle().setProperty("left", "auto");
 					helpPopup.getElement().getStyle().setProperty("top", "auto");

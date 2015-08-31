@@ -62,7 +62,7 @@ public class ExportMenuW extends MenuBar {
 						false);
 
 				((FileManagerW) app.getFileManager())
-						.showExportAsPictureDialog(url);
+						.showExportAsPictureDialog(url, app);
 			}
 		});
 		if(!app.getLAF().isTablet()){

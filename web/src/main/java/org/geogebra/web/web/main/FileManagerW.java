@@ -9,7 +9,6 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ggtapi.JSONparserGGT;
@@ -275,8 +274,10 @@ public class FileManagerW extends FileManager {
 		return true;
 	}
 	
-	public void showExportAsPictureDialog(final String url) {
-		GOptionPaneW.INSTANCE.showSaveDialog(getApp(),
+	public void showExportAsPictureDialog(final String url, AppW app) {
+		app.getGuiManager()
+				.getOptionPane()
+				.showSaveDialog(getApp(),
 				getApp().getPlain("ExportAsPicture"), "export.png", null,
 				new AsyncOperation() {
 

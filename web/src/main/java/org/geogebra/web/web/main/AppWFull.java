@@ -5,6 +5,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.OFFHandler;
+import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -220,5 +221,10 @@ public abstract class AppWFull extends AppW {
 
 	}
 
-
+	@Override
+	public void showConfirmDialog(String title, String mess) {
+		getOptionPane().showInputDialog(this, "", title, mess,
+				GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
+				null, null);
+	}
 }

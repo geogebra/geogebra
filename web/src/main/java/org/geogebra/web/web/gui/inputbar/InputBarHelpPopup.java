@@ -1,11 +1,11 @@
 package org.geogebra.web.web.gui.inputbar;
 
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
  * A popup panel, which holds the {@link InputBarHelpPanelW}
  *
  */
-public class InputBarHelpPopup extends PopupPanel {
+public class InputBarHelpPopup extends GPopupPanel {
 
 	private ToggleButton toggleButton;
 
@@ -21,7 +21,7 @@ public class InputBarHelpPopup extends PopupPanel {
 	 * @param app {@link AppW}
 	 */
 	public InputBarHelpPopup(AppW app, AutoCompleteTextFieldW field) {
-		super();
+		super(app.getPanel());
 		this.addStyleName("helpPopup");
 		this.setAutoHideEnabled(true);
 		((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel()).setInputField(field);

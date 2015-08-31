@@ -14,7 +14,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.web.gui.dialog.TextPreviewPanelW;
@@ -105,7 +104,11 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 									.getFontSizeMultiplier() * 100)
 							+ "%";
 
-					GOptionPaneW.INSTANCE.showInputDialog(app, app
+					app.getGuiManager()
+							.getOptionPane()
+							.showInputDialog(
+									app,
+									app
 							.getLocalization().getPlain("EnterPercentage"),
 							currentSize, null, new AsyncOperation() {
 

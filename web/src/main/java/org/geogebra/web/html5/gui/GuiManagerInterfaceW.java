@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
+import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 
@@ -118,4 +119,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void setPixelRatio(double ratio);
 
 	public String getTooltipURL(int mode);
+
+	public GOptionPaneW getOptionPane();
 }

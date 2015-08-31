@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -148,7 +149,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * creates a new {@link ButtonPopupMenu}
 	 */
 	private void createPopup() {
-		myPopup = new ButtonPopupMenu() {
+		myPopup = new ButtonPopupMenu(app.getPanel()) {
 			@Override
 			public void setVisible(boolean visible) {
 				super.setVisible(visible);
@@ -239,7 +240,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	/**
 	 * @return {@link PopupPanel}
 	 */
-	public PopupPanel getMyPopup() {
+	public GPopupPanel getMyPopup() {
 		return myPopup;
 	}
 

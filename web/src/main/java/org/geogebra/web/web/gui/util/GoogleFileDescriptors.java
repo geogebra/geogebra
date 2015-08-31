@@ -1,15 +1,17 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.web.html5.gui.GPopupPanel;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Panel;
 
 /**
  * @author gabor
  * Creates A google File descriptors for showing file informations from Google.
  *
  */
-public class GoogleFileDescriptors extends PopupPanel {
+public class GoogleFileDescriptors extends GPopupPanel {
 	
 	/**
 	 * creates an instance of GoogleFileDescriptors
@@ -20,8 +22,8 @@ public class GoogleFileDescriptors extends PopupPanel {
 	private String descriptionTitle = null;
 	private HorizontalPanel p = null;
 	
-	public GoogleFileDescriptors() {
-		super();
+	public GoogleFileDescriptors(Panel root) {
+		super(root);
 		add(p = new HorizontalPanel());
 		p.add(fileLabel = new Label("Opened file: "));
 		fileLabel.addStyleName("fileLabel");

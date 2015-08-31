@@ -1610,7 +1610,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		if (isExam()) {
 			String[] optionNames = { getMenu("StartExam") };
-			GOptionPaneW.INSTANCE.showOptionDialog(this,
+			getOptionPane()
+					.showOptionDialog(this,
 			        getMenu("WelcomeExam"), getMenu("GeoGebraExam"),
 			        GOptionPane.CUSTOM_OPTION, GOptionPane.INFORMATION_MESSAGE,
 			        null, optionNames, new AsyncOperation() {
@@ -1627,6 +1628,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				        }
 			        });
 		}
+	}
+
+	protected GOptionPaneW getOptionPane() {
+		// TODO Auto-generated method stub
+		return getGuiManager() == null ? getGuiManager().getOptionPane()
+				: new GOptionPaneW(getPanel());
 	}
 
 	@Override
@@ -2875,8 +2882,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		String[] optionNames = { getLocalization().getPlain("OK"),
 		        getLocalization().getPlain("ShowOnlineHelp") };
-
-		GOptionPaneW.INSTANCE.showOptionDialog(this, message, title,
+		getOptionPane().showOptionDialog(this, message, title,
 		        GOptionPane.CUSTOM_OPTION, GOptionPane.ERROR_MESSAGE, null,
 		        optionNames, new AsyncOperation() {
 			        @Override
@@ -2898,7 +2904,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public void showMessage(final String message) {
-		GOptionPaneW.INSTANCE.showConfirmDialog(null, message,
+		getOptionPane().showConfirmDialog(null, message,
 		        GeoGebraConstants.APPLICATION_NAME + " - " + getMenu("Info"),
 		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.INFORMATION_MESSAGE,
 		        null);
@@ -2916,7 +2922,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		String title = GeoGebraConstants.APPLICATION_NAME + " - "
 		        + getLocalization().getError("Error");
 
-		GOptionPaneW.INSTANCE.showConfirmDialog(this, msg, title,
+		getOptionPane().showConfirmDialog(this, msg, title,
 		        GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE, null);
 	}
 

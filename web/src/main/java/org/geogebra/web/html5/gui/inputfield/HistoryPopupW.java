@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.GWTKeycodes;
+import org.geogebra.web.html5.gui.GPopupPanel;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -11,9 +12,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Panel;
 
-public class HistoryPopupW extends PopupPanel implements ClickHandler,
+public class HistoryPopupW extends GPopupPanel implements ClickHandler,
         KeyUpHandler, ChangeHandler {
 
 	private AutoCompleteW textField;
@@ -21,8 +22,8 @@ public class HistoryPopupW extends PopupPanel implements ClickHandler,
 	private ListBox historyList;
 	private String originalTextEditorContent;
 
-	public HistoryPopupW(AutoCompleteW autoCompleteTextField) {
-
+	public HistoryPopupW(AutoCompleteW autoCompleteTextField, Panel root) {
+		super(root);
 		this.textField = autoCompleteTextField;
 
 		historyList = new ListBox();

@@ -150,6 +150,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private boolean inputBarSetFocusScheduled = false;
 	private boolean inputBarSetFocusAllowed = true;
 
+	private GOptionPaneW optionPane;
+
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
 		this.device = device;
@@ -1574,7 +1576,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		icon.getElement().getStyle()
 		        .setProperty("border", "3px solid steelblue");
 
-		GOptionPaneW.INSTANCE.showOptionDialog(app,
+		getOptionPane().showOptionDialog(app,
 		        loc.getPlain("CreateSlidersForA", s),
 		        loc.getPlain("CreateSliders"), GOptionPane.CUSTOM_OPTION,
 		        GOptionPane.INFORMATION_MESSAGE, icon, options, callback);
@@ -1582,6 +1584,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return false;
 	}
 
+
+	public GOptionPaneW getOptionPane() {
+		if (optionPane == null) {
+			optionPane = new GOptionPaneW(((AppW) app).getPanel());
+		}
+		return optionPane;
+	}
 
 	@Override
 	protected ConstructionProtocolNavigation newConstructionProtocolNavigation() {
@@ -1863,7 +1872,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void openFilePicker() {
 		String title = "".equals(app.getKernel().getConstruction().getTitle()) ? "geogebra.ggb"
 		        : (app.getKernel().getConstruction().getTitle() + ".ggb");
-		GOptionPaneW.INSTANCE.showSaveDialog(app, app.getPlain("Save"), title,
+		getOptionPane().showSaveDialog(app, app.getPlain("Save"), title,
 				null,
 				new AsyncOperation() {
 

@@ -167,7 +167,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			// pButton.addClickHandler(CancelEvents.instance);
 			// pButton.addMouseUpHandler(CancelEvents.instance);
 
-			specialPopup = new ButtonPopupMenu() {
+			specialPopup = new ButtonPopupMenu(app.getPanel()) {
 				@Override
 				public void setVisible(boolean visible) {
 					super.setVisible(visible);
@@ -704,7 +704,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	public void addHistoryPopup(boolean isDownPopup) {
 
 		if (historyPopup == null)
-			historyPopup = new HistoryPopupW(this);
+			historyPopup = new HistoryPopupW(this, app.getPanel());
 
 		historyPopup.setDownPopup(isDownPopup);
 

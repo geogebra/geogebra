@@ -2395,6 +2395,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	padding: 5px 50px;
 	display: inline-block;
 	cursor: default;
+	color: #FFFFFF;
 }
 
 .infoTooltip .manualLink {
