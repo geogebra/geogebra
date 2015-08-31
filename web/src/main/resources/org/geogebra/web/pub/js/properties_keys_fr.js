@@ -712,7 +712,7 @@ __GGB__keysVar.fr.command = {
     "RandomNormal": "Al\xe9aNormale",
     "RandomNormal.Syntax": "[ <Moyenne>, <\xc9cart-Type> ]",
     "RandomPointIn": "PointAuHasardDans",
-    "RandomPointIn.Syntax": "[ <Polygone> ]\n[ <Liste Points> ]\n[ <xMin>, <xMax>, <yMin>, <yMax> ]",
+    "RandomPointIn.Syntax": "[ <Polygone> ]\n[ <Point>, <Point>, <Point>, ... ]\n[ <xMin>, <xMax>, <yMin>, <yMax> ]",
     "RandomPoisson": "Al\xe9aPoisson",
     "RandomPoisson.Syntax": "[ <Moyenne> ]",
     "RandomPolynomial": "Polyn\xf4meAuHasard",
