@@ -400,7 +400,9 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 				return;
 			}
 
-			setPopupPosition(absX - dragStartX, absY - dragStartY);
+			setPopupPosition(absX - dragStartX
+					- getRootPanel().getAbsoluteLeft(), absY - dragStartY
+					- getRootPanel().getAbsoluteTop());
 		}
 	}
 
