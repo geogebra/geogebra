@@ -145,6 +145,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		RequiresResize {
 
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
+	private static final GColor CLEAR_COLOR = GColorW.WHITE;
 
 	public class PlayButton extends Image implements TimerListener {
 
@@ -390,9 +391,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 							GColor.getColorString(geo.getAlgebraColor()));
 				}
 			} else {
-				getElement().getStyle().clearBackgroundColor();
+				String strClearColor = GColor.getColorString(CLEAR_COLOR);
+				getElement().getStyle().setBackgroundColor(strClearColor);
 				if (borderStyle != null) {
-					borderStyle.clearBorderColor();
+					borderStyle.setBorderColor(strClearColor);
 				}
 			}
 		}
@@ -1880,14 +1882,15 @@ marblePanel, evt))) {
 				closeMinMaxPanel();
 			}
 
-			if (minMaxPanel != null && minMaxPanel.isVisible()) {
-
-				return;
-			}
-
 			if (openedMinMaxPanel != minMaxPanel) {
 				getAV().selectRow(geo, false);
 
+			}
+
+
+			if (minMaxPanel != null && minMaxPanel.isVisible()) {
+
+				return;
 			}
 
 			Object source = evt.getSource();
@@ -1906,6 +1909,8 @@ marblePanel, evt))) {
 				minMaxPanel.show();
 				return;
 			}
+
+			getAV().selectRow(geo, true);
 		}
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {

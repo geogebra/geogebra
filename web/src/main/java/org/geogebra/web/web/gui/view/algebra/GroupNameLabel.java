@@ -37,14 +37,18 @@ public class GroupNameLabel extends Label
 
 	TreeItem par;
 	SelectionManager selection;
+	private boolean hasAvex;
 
-	public GroupNameLabel(SelectionManager selection, TreeItem parent, String strlab) {
+	public GroupNameLabel(SelectionManager selection, TreeItem parent,
+			String strlab, boolean hasAvex) {
 		super(strlab);
 		this.selection = selection;
+		this.hasAvex = hasAvex;
 		par = parent;
 		addClickHandler(this);
 		addMouseOverHandler(this);
 		addMouseOutHandler(this);
+
 		this.setStyleName("elemHeadingName");
 	}
 
@@ -67,6 +71,10 @@ public class GroupNameLabel extends Label
 	}
 
 	public void onMouseOver(MouseOverEvent evt) {
+		if (hasAvex) {
+			return;
+		}
+
 		for (int i = 0; i < par.getChildCount(); i++)
 			if (par.getChild(i).getUserObject() instanceof GeoElement)
 				// ((GeoElement)par.getChild(i).getUserObject()).setHighlighted(true);
@@ -75,10 +83,15 @@ public class GroupNameLabel extends Label
 	}
 
 	public void onMouseOut(MouseOutEvent evt) {
+		if (hasAvex) {
+			return;
+		}
+
 		for (int i = 0; i < par.getChildCount(); i++)
-			if (par.getChild(i).getUserObject() instanceof GeoElement)
+			if (par.getChild(i).getUserObject() instanceof GeoElement) {
 				// ((GeoElement)par.getChild(i).getUserObject()).setHighlighted(false);
 				par.getChild(i).getWidget()
 						.removeStyleName("gwt-TreeItem-selected");
+			}
 	}
 }

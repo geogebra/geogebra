@@ -44,6 +44,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -134,6 +135,36 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	public AlgebraController getAlgebraController() {
 		return algebraController;
+	}
+
+
+	private class AVTreeItem extends TreeItem {
+		public AVTreeItem() {
+			super();
+		}
+
+		public AVTreeItem(Widget w) {
+			super(w);
+		}
+
+		public AVTreeItem(SafeHtml safeHtml) {
+			super(safeHtml);
+		}
+
+		@Override
+		public void setSelected(boolean selected) {
+			super.setSelected(selected);
+			if (!hasAvex) {
+				return;
+			}
+
+			Element w = Dom.querySelectorForElement(this.getElement(),
+					"gwt-TreeItem-selected");
+			if (w != null) {
+				w.getStyle().setBackgroundColor("#FFFFFF");
+			}
+
+		}
 	}
 
 	public AlgebraViewW(AlgebraController algCtrl) {
@@ -669,9 +700,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			// don't re-init anything
 			if (depNode == null || indNode == null || auxiliaryNode == null) {
 				// rootDependency = new TreeItem();
-				depNode = createTreeItem(); // dependent objects
-				indNode = createTreeItem();
-				auxiliaryNode = createTreeItem();
+				depNode = new AVTreeItem(); // dependent objects
+				indNode = new AVTreeItem();
+				auxiliaryNode = new AVTreeItem();
 
 			}
 
@@ -690,7 +721,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		case ORDER:
 			if (rootOrder == null) {
 				// both rootOrder and AlgebraView will have the Tree items
-				rootOrder = createTreeItem();
+				rootOrder = new AVTreeItem();
 			}
 			setUserObject(rootOrder, "");
 
@@ -710,7 +741,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		case TYPE:
 			// don't re-init anything
 			if (rootType == null) {
-				rootType = createTreeItem();
+				rootType = new AVTreeItem();
 				// setUserObject(rootType, "");
 				typeNodesMap = new HashMap<String, TreeItem>(5);
 
@@ -731,7 +762,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		case LAYER:
 			// don't re-init anything
 			if (rootLayer == null) {
-				rootLayer = createTreeItem();
+				rootLayer = new AVTreeItem();
 				layerNodesMap = new HashMap<Integer, TreeItem>(10);
 			}
 
@@ -828,7 +859,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			if (parent == null) {
 				String transTypeString = geo
 						.translatedTypeStringForAlgebraView();
-				parent = createTreeItem(new InlineLabel(transTypeString));
+				parent = new AVTreeItem(new InlineLabel(transTypeString));
 				setUserObject(parent, transTypeString);
 				typeNodesMap.put(typeString, parent);
 
@@ -857,7 +888,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			// do we have to create the parent node?
 			if (parent == null) {
 				String layerStr = loc.getPlain("LayerA", layer + "");
-				parent = new TreeItem(SafeHtmlUtils.fromString(layerStr));
+				parent = new AVTreeItem(SafeHtmlUtils.fromString(layerStr));
 
 				setUserObject(parent, layerStr);
 
@@ -921,7 +952,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob
 					.toString(), GuiResources.INSTANCE.algebra_tree_open()
 					.getSafeUri(), GuiResources.INSTANCE.algebra_tree_closed()
-					.getSafeUri()));
+.getSafeUri(),
+					hasAvex));
 		}
 	}
 
@@ -991,7 +1023,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				return;
 			}
 
-			TreeItem parent, node = createTreeItem();
+			TreeItem parent, node = new AVTreeItem();
 
 			parent = getParentNode(geo, forceLayer);
 
@@ -1041,35 +1073,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 	}
 
-	private TreeItem createTreeItem() {
-		return hasAvex ? new TreeItem() {
-			@Override
-			public void setSelected(boolean selected) {
-				super.setSelected(selected);
-				Element w = Dom.querySelectorForElement(this.getElement(),
-						"gwt-TreeItem-selected");
-				if (w != null) {
-					w.getStyle().setBackgroundColor("#FFFFFF");
-				}
-
-			}
-		} : new TreeItem();
-	}
-
-	private TreeItem createTreeItem(Widget widget) {
-		return hasAvex ? new TreeItem(widget) {
-			@Override
-			public void setSelected(boolean selected) {
-				super.setSelected(selected);
-				Element w = Dom.querySelectorForElement(this.getElement(),
-						"gwt-TreeItem-selected");
-				if (w != null) {
-					w.getStyle().setBackgroundColor("#FFFFFF");
-				}
-
-			}
-		} : new TreeItem(widget);
-	}
 
 	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
 		if (this.treeMode.equals(SortMode.LAYER)) {
