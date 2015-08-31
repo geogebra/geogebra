@@ -5443,20 +5443,11 @@ namespace giac {
       }
       vector<modint>::iterator vt=v.begin(),vtend=v.end();
 #ifdef PSEUDO_MOD
-      vt0=vtend-8;
-      for (vt=v.begin();vt<=vt0;){
-	if (*vt) *vt %= env; ++vt;
-	if (*vt) *vt %= env; ++vt;
-	if (*vt) *vt %= env; ++vt;
-	if (*vt) *vt %= env; ++vt;
-	if (*vt) *vt %= env; ++vt;
-	if (*vt) *vt %= env; ++vt;
-	if (*vt) *vt %= env; ++vt;
-	if (*vt) *vt %= env; ++vt;
-      }
       for (;vt!=vtend;++vt){
-	if (*vt)
-	  *vt %= env;
+	modint v=*vt;
+	if (v>-env && v<env)
+	  continue;
+	*vt = v % env;
       }
 #endif
     } // end else based on modulo size
@@ -9233,19 +9224,28 @@ namespace giac {
     }
   }
 
-#if 0
+#define GIAC_GBASIS_PERMUTATION
+
+#ifdef GIAC_GBASIS_PERMUTATION
   struct zsymb_data {
     unsigned pos;
-    unsigned tdeg;
+    tdeg_t deg;
+    order_t o;
     unsigned terms;
   };
   
   bool operator < (const zsymb_data & z1,const zsymb_data & z2){
-    if (z1.tdeg>z2.tdeg && z1.terms<=z2.terms)
-      return true;
-    if (z1.tdeg<z2.tdeg && z1.terms>=z2.terms)
-      return false;
-    return z1.pos<z2.pos;
+#ifndef GIAC_DEG_FIRST
+    if (z1.terms!=z2.terms) return z2.terms>z1.terms;
+#endif
+    if (z1.deg!=z2.deg)
+      return tdeg_t_greater(z2.deg,z1.deg,z1.o);
+#ifdef GIAC_DEG_FIRST
+    if (z1.terms!=z2.terms) return z2.terms>z1.terms;
+#endif
+    if (z1.pos!=z2.pos)
+      return z2.pos>z1.pos;
+    return false;
   }
 #endif
 
@@ -9256,13 +9256,13 @@ namespace giac {
     // do not use heap chain
     // ref Monaghan Pearce if g.size()==1
     // R is the list of all monomials
-#if 0
+#ifdef GIAC_GBASIS_PERMUTATION
     // First reorder G in order to use the "best" possible reductor
-    // This is done using the total degree of g[G[i]] (should be maximal)
+    // This is done using the ldegree of g[G[i]] (should be minmal)
     // and the number of terms (should be minimal)
     vector<zsymb_data> GG(G.size());
     for (unsigned i=0;i<G.size();++i){
-      zsymb_data zz={i,g[G[i]].ldeg.total_degree(order),g[G[i]].coord.size()};
+      zsymb_data zz={i,g[G[i]].ldeg,g[G[i]].order,g[G[i]].coord.size()};
       GG[i]=zz;
     }
     sort(GG.begin(),GG.end());
@@ -9321,8 +9321,11 @@ namespace giac {
       finish=true;
       unsigned ii;
       for (ii=0;ii<G.size();++ii){
+#ifdef GIAC_GBASIS_PERMUTATION
+	i=GG[ii].pos; // we can use any permutation of 0..G.size()-1 here
+#else
 	i=ii; 
-	//i=GG[ii].pos; // we can use any permutation of 0..G.size()-1 here
+#endif
 	if (i==excluded)
 	  continue;
 	const tdeg_t & deg=g[G[i]].ldeg;
@@ -9331,6 +9334,10 @@ namespace giac {
 	  if (tdeg_t_all_greater(m,deg,order))
 	    break;
 	}
+#ifdef GIAC_DEG_FIRST
+	else 
+	  ii=G.size()-1;
+#endif
       }
       if (ii==G.size()){
 	rem.push_back(m); // add to remainder
