@@ -266,5 +266,9 @@ public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
 
 	}
 
+	public final GeoPointND[] getPointsND() {
+		return points;
+	}
+
 	// TODO Consider locusequability
 }

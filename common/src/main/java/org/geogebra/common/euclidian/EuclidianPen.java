@@ -707,7 +707,7 @@ public class EuclidianPen {
 			// force a gap
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 
-			GeoPoint[] pts = getAlgoPolyline(lastAlgo).getPoints();
+			GeoPointND[] pts = getAlgoPolyline(lastAlgo).getPointsND();
 
 			newPts = new GeoPoint[penPoints2.size() + 1 + pts.length];
 

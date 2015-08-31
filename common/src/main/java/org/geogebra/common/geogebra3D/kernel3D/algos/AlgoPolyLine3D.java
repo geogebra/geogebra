@@ -114,10 +114,6 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 		getOutput(0).update();
 	}
 
-	public GeoPointND[] getPointsND() {
-		return points;
-	}
-
 	@Override
 	public void compute() {
 		if (geoList != null) {
