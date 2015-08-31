@@ -168,7 +168,8 @@ public class Ggb2giac {
 		// p("Evaluate.1",
 		// "[[[ggbevalarg:=%0],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]], when(length(\"\"+ggbevalans)<=length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1]");
 
-		p("Expand.1", "normal(%0)");
+		// split into real + imag #4522
+		p("Expand.1", "normal(real(%0)) + normal(i*im(%0))");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		p("Extremum.1",
