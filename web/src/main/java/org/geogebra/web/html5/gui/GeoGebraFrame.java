@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -15,7 +14,6 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.html5.util.debug.GeoGebraLogger;
-import org.geogebra.web.keyboard.KeyboardResources;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
@@ -420,7 +418,6 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 
 		// public void onSuccess() {
 		ResourcesInjector.injectResources();
-		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		// More testing is needed how can we use
 		// createApplicationSimple effectively
 		// if (ae.getDataParamGuiOff())

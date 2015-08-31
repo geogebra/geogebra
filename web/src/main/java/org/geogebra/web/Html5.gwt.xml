@@ -9,6 +9,7 @@
   <inherits name="org.scilab.forge.JLaTeXMath" />
   <inherits name='org.scilab.forge.JLaTeXMathGWT'/>
   <inherits name='org.geogebra.web.AppCacheLinker' />
+  <inherits name='org.geogebra.web.Keyboard' />
   
   <!-- Specify the paths for translatable code                    -->
   <source path='html5'/>

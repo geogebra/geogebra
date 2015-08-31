@@ -2,7 +2,6 @@
 <module rename-to='web3d'>
 
   <inherits name='org.geogebra.web.Html5'/>
-  <inherits name='org.geogebra.web.Keyboard'/>
   <!-- webGL -->
   <inherits name='com.googlecode.gwtgl.binding'/>
     

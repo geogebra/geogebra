@@ -2,7 +2,6 @@
 <module rename-to='web'>
 
   <inherits name='org.geogebra.web.Html5'/>
-  <inherits name='org.geogebra.web.Keyboard'/>
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.geogebra.web.web.Web'/>
