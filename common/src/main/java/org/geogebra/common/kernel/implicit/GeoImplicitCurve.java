@@ -44,7 +44,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Path, Translateable, Dilateable, Mirrorable,
 		ConicMirrorable, Transformable,
 		PointRotateable {
-
+	/**
+	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT]
+	 */
+	static final int[][] MOVE = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
 	private GeoFunctionNVar expression;
 	private FunctionNVar[] diffExp = new FunctionNVar[3];
 
@@ -796,8 +799,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		protected double fracY;
 		protected double scaleX;
 		protected double scaleY;
-
-		private final boolean DEBUG_GRID = false;
+		protected ArrayList<MyPoint> locusPoints;
 
 		public QuadTree() {
 
@@ -904,19 +906,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 			// add segment to locus
 			if (pts != null) {
-				List<MyPoint> locusPts = getLocus().getPoints();
-				locusPts.add(pts[0]);
-				locusPts.add(pts[1]);
-			}
-			if (DEBUG_GRID) {
-				pts = new MyPoint[5];
-				pts[0] = new MyPoint(x1, y1, false);
-				pts[1] = new MyPoint(x2, y1, true);
-				pts[2] = new MyPoint(x2, y2, true);
-				pts[3] = new MyPoint(x1, y2, true);
-				pts[4] = new MyPoint(x1, y1, true);
-				for (MyPoint p : pts)
-					getLocus().getPoints().add(p);
+				locusPoints.add(pts[0]);
+				locusPoints.add(pts[1]);
 			}
 		}
 
@@ -1064,6 +1055,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			this.h = height;
 			this.scaleX = slX;
 			this.scaleY = slY;
+			this.locusPoints = getLocus().getPoints();
 			this.updatePath();
 		}
 
@@ -1405,13 +1397,28 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		private int searchDepth;
 		private int stepMask;
 		private int steps;
-		private int next;
 		private int plotDepth;
-		private int[][][] grid;
+		private int maxPoints;
+		private int[][] grid;
+		private int[][] mark;
+		private int[][] points;
 		private int segmentCheckDepth;
-
+		private int currentX;
+		private int currentY;
+		private double[][] rect;
+		private double[] coordx;
+		private double[] coordy;
+		private boolean[][] status;
 		public ExperimentalQuadTree() {
-
+			int m = MAX_SEARCH_DEPTH + 2;
+			this.maxPoints = MAX_SEARCH_DEPTH * (MAX_SEARCH_DEPTH + 1);
+			this.points = new int[maxPoints][2];
+			grid = new int[m][m];
+			mark = new int[m][m];
+			rect = new double[m][m];
+			coordx = new double[m];
+			coordy = new double[m];
+			status = new boolean[m][m];
 		}
 
 		@Override
@@ -1434,32 +1441,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 			// max search depth
 			searchDepth = Math.min(hBits / MAX_GRID_SIZE, MAX_SEARCH_DEPTH);
-			segmentCheckDepth = Math.min(searchDepth << 2, plotDepth);
-
-			// App.debug("SEARCH_DEPTH = " + searchDepth + "; PLOT_DEPTH = "
-			// + plotDepth);
-			// initialize x and y fractions corresponding to PLOT_DEPTH
-			super.fracX = mx / plotDepth;
-			super.fracY = mx / plotDepth;
 
 			double frx = mx / searchDepth;
 			double fry = mx / searchDepth;
 
-			// set step size for search depth
-			steps = plotDepth / searchDepth;
-
-			// step mask to identify intersection
-			stepMask = steps - 1;
-
-			steps = Integer.numberOfTrailingZeros(steps);
-
-			grid = new int[2][searchDepth + 2][searchDepth + 2];
-
 			// allocate memory to memorize x and y coordinates at the search
 			// depth
-			double[] vertices = new double[searchDepth + 1];
-			double[] xcoords = new double[searchDepth + 1];
-			double[] ycoords = new double[searchDepth + 1];
+			int end = searchDepth + 1;
+			double[] vertices = new double[end];
+			double[] xcoords = new double[end];
+			double[] ycoords = new double[end];
 			double cur, prev;
 
 			for (int i = 0; i <= searchDepth; i++) {
@@ -1472,42 +1463,156 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			}
 
 			// initialize grid configuration at the search depth
-			for (int i = 1; i <= searchDepth; i++) {
+			int count = 0, top = 0, i, j, ni, nj, k;
+			for (i = 1; i <= searchDepth; i++) {
 				prev = evaluateImplicitCurve(xcoords[0], ycoords[i]);
-				for (int j = 1; j <= searchDepth; j++) {
+				mark[0][i] = mark[i][0] = mark[end][i] = mark[i][end] = 2;
+				for (j = 1; j <= searchDepth; j++) {
 					cur = evaluateImplicitCurve(xcoords[j], ycoords[i]);
 
-					grid[0][i][j] = edgeConfig(vertices[j - 1],
+					grid[i][j] = edgeConfig(vertices[j - 1],
 							vertices[j], cur, prev);
-
+					mark[i][j] = 0;
+					if (grid[i][j] != EMPTY) {
+						count++;
+						points[top][0] = i;
+						points[top++][1] = j;
+						mark[i][j] = 1;
+					}
 					vertices[j - 1] = prev;
 					prev = cur;
 				}
 				vertices[searchDepth] = prev;
 			}
 
-			// for the very first iteration we check that if a square grid has a
-			// segment, but in subsequent iteration we don't perform any check
-
-			int current = 0;
-			this.next = 1;
-			for (int k = 0; k < 4; k++) {
-				for (int i = 1; i <= searchDepth; i++) {
-					for (int j = 1; j <= searchDepth; j++) {
-						if (grid[current][i][j] != FINISHED
-								&& grid[current][i][j] != EMPTY) {
-							createTree((j - 1) << steps, (i - 1) << steps,
-									searchDepth << 1);
-							grid[next][i][j] = grid[current][i][j] = FINISHED;
-						}
-					}
-				}
-				// switch current and next value between 0 and 1
-				current = 1 - current;
-				next = 1 - next;
+			if (count <= 96) {
+				plotDepth <<= 2;
+			} else if (count <= 192) {
+				plotDepth <<= 1;
 			}
 
-			grid = null;
+			// set step size for search depth
+			steps = plotDepth / searchDepth;
+
+			// step mask to identify intersection
+			stepMask = steps - 1;
+
+			steps = Integer.numberOfTrailingZeros(steps);
+
+			super.fracX = mx / plotDepth;
+			super.fracY = mx / plotDepth;
+
+			segmentCheckDepth = Math.min(searchDepth << 2, plotDepth);
+
+			// for the very first iteration we check that if a square grid has a
+			// segment, but in subsequent iteration we don't perform any check
+			int rtop = maxPoints;
+			while (top != 0) {
+				i = points[--top][0];
+				j = points[top][1];
+				mark[i][j] = 2;
+				currentX = j;
+				currentY = i;
+				plot(xcoords[j - 1], ycoords[i - 1], frx, fry);
+				for (k = 0; k < 4; k++) {
+					ni = i + MOVE[k][0];
+					nj = j + MOVE[k][1];
+					if (mark[ni][nj] == 0 && grid[ni][nj] != EMPTY) {
+						mark[ni][nj] = 1;
+						points[--rtop][0] = ni;
+						points[rtop][1] = nj;
+					}
+				}
+				grid[i][j] = FINISHED;
+			}
+
+			if (rtop == maxPoints) {
+				return;
+			}
+			top = maxPoints - rtop;
+			if (top <= 96) {
+				plotDepth = searchDepth << 4;
+				segmentCheckDepth = plotDepth;
+			} else if (top <= 192) {
+				plotDepth = searchDepth << 4;
+				segmentCheckDepth = plotDepth >> 1;
+			} else {
+				segmentCheckDepth = Math.min(128, plotDepth);
+			}
+
+			steps = plotDepth / searchDepth;
+
+			// step mask to identify intersection
+			stepMask = steps - 1;
+
+			steps = Integer.numberOfTrailingZeros(steps);
+
+			super.fracX = mx / plotDepth;
+			super.fracY = mx / plotDepth;
+			
+			top = rtop;
+
+			while (top != maxPoints) {
+				i = points[top][0];
+				j = points[top++][1];
+				mark[i][j] = 2;
+				currentX = j;
+				currentY = i;
+				plot(xcoords[j - 1], ycoords[i - 1], frx, fry);
+				for (k = 0; k < 4; k++) {
+					ni = i + MOVE[k][0];
+					nj = j + MOVE[k][1];
+					if (mark[ni][nj] == 0 && grid[ni][nj] != EMPTY) {
+						mark[ni][nj] = 1;
+						points[--top][0] = ni;
+						points[top][1] = nj;
+					}
+				}
+				grid[i][j] = FINISHED;
+			}
+		}
+
+		private void plot(double x1, double y1, double w1, double h1) {
+			int size = plotDepth / searchDepth;
+			int inc = plotDepth / segmentCheckDepth;
+			double frx = w1 / size;
+			double fry = h1 / size;
+			coordx[0] = x1;
+			coordy[0] = y1;
+			for (int i = 1; i <= size; i++) {
+				coordx[i] = coordx[i - 1] + frx;
+				coordy[i] = coordy[i - 1] + fry;
+			}
+
+			for (int i = 0; i <= size; i++) {
+				for (int j = 0; j <= size; j++) {
+					status[i][j] = false;
+				}
+			}
+
+			for (int i = 0; i <= size; i += inc) {
+				rect[0][i] = evaluateImplicitCurve(coordx[i], y1);
+				status[0][i] = true;
+			}
+
+			double tl, tr, bl, br;
+			for (int i = inc, pi = 0; i <= size; i += inc) {
+				rect[i][0] = evaluateImplicitCurve(x1, coordy[i]);
+				status[i][0] = true;
+				for (int j = inc, pj = 0; j <= size; j += inc) {
+					rect[i][j] = evaluateImplicitCurve(coordx[j], coordy[i]);
+					status[i][j] = true;
+					tl = rect[pi][pj];
+					tr = rect[pi][j];
+					br = rect[i][j];
+					bl = rect[i][pj];
+					if (edgeConfig(tl, tr, br, bl) != EMPTY) {
+						plot(pj, pi, segmentCheckDepth);
+					}
+					pj = j;
+				}
+				pi = i;
+			}
 		}
 
 		private void createTree(int x1, int y1, int depth) {
@@ -1518,47 +1623,50 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			plot(x1, y1 | f, depth);
 		}
 
-		private void plot(int startX, int startY, int depth) {
+		private double checkAndEvaluate(int x1, int y1) {
+			if (!status[y1][x1]) {
+				status[y1][x1] = true;
+				rect[y1][x1] = evaluateImplicitCurve(coordx[x1], coordy[y1]);
+			}
+			return rect[y1][x1];
+		}
+
+		private void plot(int sx, int sy, int depth) {
 			if (depth < segmentCheckDepth) {
-				createTree(startX, startY, depth << 1);
+				createTree(sx, sy, depth << 1);
 				return;
 			}
 			// calculate the current fraction of the whole grid
 			int frac = plotDepth / depth;
-			int endX = startX + frac;
-			int endY = startY + frac;
-			
+			int ex = sx + frac;
+			int ey = sy + frac;
+			double tl = checkAndEvaluate(sx, sy);
+			double bl = checkAndEvaluate(sx, ey);
+			double tr = checkAndEvaluate(ex, sy);
+			double br = checkAndEvaluate(ex, ey);
+
 			// calculate all four coordinate based on current fraction, x
 			// and y coordinate
 			
-			double x1 = this.x + startX * fracX;
-			double x2 = this.x + endX * fracX;
-			double y1 = this.y + startY * fracY;
-			double y2 = this.y + endY * fracY;
-
-			if (hasSegment(x1, y1, x2, y2)) {
+			if (edgeConfig(tl, tr, br, bl) != EMPTY) {
 				if (depth == plotDepth) {
-					double tl = evaluateImplicitCurve(x1, y1);
-					double tr = evaluateImplicitCurve(x2, y1);
-					double br = evaluateImplicitCurve(x2, y2);
-					double bl = evaluateImplicitCurve(x1, y2);
-					addSegment(x1, y1, x2, y2, tl, tr, br, bl);
-					int j = 1 + (startX >> steps);
-					int i = 1 + (startY >> steps);
-					if ((startX & stepMask) == 0) {
-						grid[next][i][j - 1] |= intersect(tl, bl);
+					addSegment(coordx[sx], coordy[sy], coordx[ex], coordy[ey],
+							tl, tr, br, bl);
+
+					if ((sx & stepMask) == 0) {
+						grid[currentY][currentX - 1] |= intersect(tl, bl);
 					}
-					if ((endX & stepMask) == 0) {
-						grid[next][i][j + 1] |= intersect(tr, br);
+					if ((ex & stepMask) == 0) {
+						grid[currentY][currentX + 1] |= intersect(tr, br);
 					}
-					if ((startY & stepMask) == 0) {
-						grid[next][i - 1][j] |= intersect(tl, tr);
+					if ((sy & stepMask) == 0) {
+						grid[currentY - 1][currentX] |= intersect(tl, tr);
 					}
-					if ((endY & stepMask) == 0) {
-						grid[next][i + 1][j] |= intersect(bl, br);
+					if ((ey & stepMask) == 0) {
+						grid[currentY + 1][currentX] |= intersect(bl, br);
 					}
 				} else {
-					createTree(startX, startY, depth << 1);
+					createTree(sx, sy, depth << 1);
 				}
 			}
 		}

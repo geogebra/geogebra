@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import java.util.Iterator;
+
 import org.geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -30,6 +32,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	private int counter;
 	private boolean defined;
 	private MyPoint3D[] vertices;
+	private MyPoint3D[] normals;
 
 	/**
 	 * 
@@ -39,6 +42,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	public GeoTriangulatedSurface3D(Construction cons) {
 		super(cons);
 		this.vertices = new MyPoint3D[capacity];
+		this.normals = new MyPoint3D[capacity];
 	}
 
 	/**
@@ -78,14 +82,29 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	 *            z coordinate
 	 */
 	public void insertPoint(double x, double y, double z) {
+		insertPoint(new double[] { x, y, z }, new double[] { 0, 0, 0 });
+	}
+
+	/**
+	 * 
+	 * @param p
+	 *            coordinates of point {x, y, z}
+	 * @param n
+	 *            normal vector at point {x, y, z}
+	 */
+	public void insertPoint(double[] p, double[] n) {
 		ensureCapacity(current);
 		if (vertices[current] != null) {
-			vertices[current].x = x;
-			vertices[current].y = y;
-			vertices[current].z = z;
+			vertices[current].x = p[0];
+			vertices[current].y = p[1];
+			vertices[current].z = p[2];
 			vertices[current].lineTo = counter != 0;
+			normals[current].x = n[0];
+			normals[current].y = n[1];
+			normals[current].z = n[2];
 		} else {
-			vertices[current] = new MyPoint3D(x, y, z, counter != 0);
+			vertices[current] = new MyPoint3D(p[0], p[1], p[2], counter != 0);
+			normals[current] = new MyPoint3D(n[0], n[1], n[2], false);
 		}
 		++current;
 		++counter;
@@ -97,6 +116,9 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 			MyPoint3D[] temp = new MyPoint3D[capacity];
 			System.arraycopy(vertices, 0, temp, 0, size);
 			this.vertices = temp;
+			temp = new MyPoint3D[capacity];
+			System.arraycopy(normals, 0, temp, 0, size);
+			this.normals = temp;
 		}
 	}
 
@@ -126,6 +148,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	private static void copy(GeoTriangulatedSurface3D src,
 			GeoTriangulatedSurface3D dst) {
 		dst.vertices = copyOf(src.vertices);
+		dst.normals = copyOf(src.normals);
 		dst.current = src.current;
 		dst.capacity = src.capacity;
 		dst.restore = src.restore;
@@ -139,6 +162,14 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	 */
 	public MyPoint3D[] getPoints() {
 		return vertices;
+	}
+
+	/**
+	 * 
+	 * @return list of normals corresponding to points
+	 */
+	public MyPoint3D[] getNormals() {
+		return normals;
 	}
 
 	/**
@@ -214,10 +245,11 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	/**
 	 * An iterator to allow move forward about the current surface
 	 */
-	public static class SurfaceMover {
+	public static class SurfaceMover implements Iterator<Triangle> {
 		private final int size;
 		private int next;
 		private MyPoint3D[] points;
+		private MyPoint3D[] normals;
 		private Triangle current = new Triangle(new CoordsDouble3(0, 0, 0),
 				new CoordsDouble3(0, 0, 0), new CoordsDouble3(0, 0, 0));
 
@@ -228,7 +260,9 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		public SurfaceMover(GeoTriangulatedSurface3D surf) {
 			this.size = surf.size();
 			this.points = new MyPoint3D[this.size];
+			this.normals = new MyPoint3D[this.size];
 			System.arraycopy(surf.getPoints(), 0, this.points, 0, this.size);
+			System.arraycopy(surf.getNormals(), 0, this.normals, 0, this.size);
 			next = 2;
 		}
 
@@ -236,16 +270,15 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 			return next < size;
 		}
 
-
 		public Triangle next() {
 
-			MyPoint3D p1 = points[next];
-			MyPoint3D p2 = points[next - 1];
-			MyPoint3D p3 = points[next - 2];
+			set(current.v1, points[next]);
+			set(current.v2, points[next - 1]);
+			set(current.v3, points[next - 2]);
+			set(current.n1, normals[next]);
+			set(current.n2, normals[next - 1]);
+			set(current.n3, normals[next - 2]);
 
-			current.v1.set(p1.x, p1.y, p1.z);
-			current.v2.set(p2.x, p2.y, p2.z);
-			current.v3.set(p3.x, p3.y, p3.z);
 			next++;
 
 			if (next < size && !points[next].lineTo) {
@@ -254,24 +287,42 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 
 			return current;
 		}
+
+		private static void set(Coords3 c, MyPoint3D p) {
+			c.set(p.x, p.y, p.z);
+		}
+
 	}
 
 	/**
 	 * A lightweight class to represent coordinates of a 3D triangular surface
 	 */
 	public static class Triangle {
+		private static final Coords3 UNDEFINED = new CoordsDouble3();
 		/**
 		 * First vertex
 		 */
 		public Coords3 v1;
 		/**
+		 * Normal at first vertex
+		 */
+		public Coords3 n1;
+		/**
 		 * Second vertex
 		 */
 		public Coords3 v2;
 		/**
+		 * Normal at first vertex
+		 */
+		public Coords3 n2;
+		/**
 		 * Third vertex
 		 */
 		public Coords3 v3;
+		/**
+		 * Normal at first vertex
+		 */
+		public Coords3 n3;
 
 		/**
 		 * 
@@ -283,9 +334,33 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		 *            Coordinate of third vertex
 		 */
 		public Triangle(Coords3 c1, Coords3 c2, Coords3 c3) {
+			this(c1, c2, c3, UNDEFINED.copyVector(), UNDEFINED.copyVector(),
+					UNDEFINED.copyVector());
+		}
+
+		/**
+		 * 
+		 * @param c1
+		 *            Coordinate of first vertex
+		 * @param c2
+		 *            Coordinate of second vertex
+		 * @param c3
+		 *            Coordinate of third vertex
+		 * @param n1
+		 *            Normal at first vertex
+		 * @param n2
+		 *            Normal at second vertex
+		 * @param n3
+		 *            Normal at third vertex
+		 */
+		public Triangle(Coords3 c1, Coords3 c2, Coords3 c3, Coords3 n1,
+				Coords3 n2, Coords3 n3) {
 			this.v1 = c1;
 			this.v2 = c2;
 			this.v3 = c3;
+			this.n1 = n1;
+			this.n2 = n2;
+			this.n3 = n3;
 		}
 
 		@Override
@@ -294,9 +369,8 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		}
 
 		private static String toString(Coords3 c) {
-			return "";
-			// return String.format("(%.2f, %.2f, %.2f)", c.getXd(), c.getYd(),
-			// c.getZd());
+			return String.format("(%.2f, %.2f, %.2f)", c.getXd(), c.getYd(),
+					c.getZd());
 		}
 	}
 }

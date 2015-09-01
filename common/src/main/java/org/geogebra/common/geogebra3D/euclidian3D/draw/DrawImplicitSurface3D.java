@@ -47,22 +47,22 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	public void drawGeometryHidden(Renderer renderer) {
-		// do nothing
+		drawSurfaceGeometry(renderer);
 	}
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-		// unknown
+		drawGeometry(renderer);
 	}
 
 	@Override
 	protected boolean updateForItSelf() {
-		GeoImplicitSurface implicitSurface = (GeoImplicitSurface) getGeoElement();
+		GeoImplicitSurface geo = (GeoImplicitSurface) getGeoElement();
 		EuclidianView3D v3d = getView3D();
-		implicitSurface.updateSurface(new double[] { v3d.xmin, v3d.xmax,
+		geo.updateSurface(new double[] { v3d.xmin, v3d.xmax,
 				v3d.ymin, v3d.ymax, v3d.getZmin(), v3d.getZmax(),
 				v3d.getXscale(), v3d.getYscale(), v3d.getZscale() });
-		GeoTriangulatedSurface3D surf = implicitSurface.getSurface3D();
+		GeoTriangulatedSurface3D surf = geo.getSurface3D();
 		SurfaceMover surfaceMover = surf.getSurfaceMover();
 
 		if (!surfaceMover.hasNext()) {
@@ -76,13 +76,12 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 
 		s.start(getReusableSurfaceIndex());
 
-		while (surfaceMover.hasNext()) {
-			s.startTriangles();
+		s.startTriangles();
+		 while (surfaceMover.hasNext()) {
 			Triangle tri = surfaceMover.next();
-			s.triangle(tri.v1, tri.v2, tri.v3);
-			s.endGeometry();
-		}
-
+			s.triangle(tri.v1, tri.v2, tri.v3, tri.n1, tri.n2, tri.n3);
+		 }
+		s.endGeometry();
 		setGeometryIndex(s.end());
 		setSurfaceIndex(s.end());
 

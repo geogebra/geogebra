@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -147,7 +146,6 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 			derivFunc[0] = fn.getDerivativeNoCAS(x, 1);
 			derivFunc[1] = fn.getDerivativeNoCAS(y, 1);
 			derivFunc[2] = fn.getDerivativeNoCAS(z, 1);
-			debug(derivFunc[0].toString(StringTemplate.defaultTemplate));
 			this.hasDerivatives = true;
 		} catch (Exception ex) {
 			this.hasDerivatives = false;
@@ -186,7 +184,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		N.z = derivFunc[2].evaluate(normEval);
 		if (N.isDefined()) {
 			double mx = Math.max(Math.abs(N.x), Math.abs(N.y));
-			mx = Math.max(mx, Math.abs(z));
+			mx = Math.max(mx, Math.abs(N.z));
 			N.x = N.x / mx;
 			N.y = N.y / mx;
 			N.z = N.z / mx;
@@ -204,6 +202,40 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 	 */
 	public Coords3 evaluateNormalAt(Coords3 coords) {
 		return evaluateNormalAt(coords.getXd(), coords.getYd(), coords.getZd());
+	}
+
+	/**
+	 * Evaluate normal at coordinate c and store result in r
+	 * 
+	 * @param c
+	 *            coordinate where normal is to be evaluated
+	 * @param r
+	 *            coordinate where output normal vector is stored
+	 */
+	public void evaluateNormalAt(Coords c, Coords r) {
+		r.val[0] = 0;
+		r.val[1] = 0;
+		r.val[2] = 0;
+		if (!hasDerivatives) {
+			return;
+		}
+		double lt, rt, e = 1e-3, e2 = 2 * e;
+		normEval[0] = c.val[0];
+		normEval[1] = c.val[1];
+		normEval[2] = c.val[2];
+		r.val[0] = derivFunc[0].evaluate(normEval);
+		r.val[1] = derivFunc[1].evaluate(normEval);
+		r.val[2] = derivFunc[2].evaluate(normEval);
+		for (int i = 0; i < 3; i++) {
+			if (!Double.isFinite(r.val[i])) {
+				normEval[i] -= e;
+				lt = evaluateAt(normEval);
+				normEval[i] += e2;
+				rt = evaluateAt(normEval);
+				r.val[i] = (rt - lt) / e2;
+			}
+		}
+		r.normalize(true);
 	}
 
 	/**
@@ -401,7 +433,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		for(int i = 0; i < coords.length; i++) {
-			// sb.append(String.format("%.2f, ", coords[i]));
+			sb.append(String.format("%.2f, ", coords[i]));
 		}
 		sb.append("}");
 		return sb.toString();
@@ -416,28 +448,28 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		}
 
 		private final int[][] EDGE_TABLE = new int[][] { {}, // 0x00, 0xff
-				{ 0, 3, 4 }, // 0x01, 00000001
-				{ 0, 1, 5 }, // 0x02, 00000010
-				{ 1, 3, 4, 1, 4, 5 }, // 0x03, 00000011
+				{ 0, 4, 3 }, // 0x01, 00000001
+				{ 0, 5, 1 }, // 0x02, 00000010
+				{ 1, 3, 4, 4, 5, 1 }, // 0x03, 00000011
 				{ 1, 2, 6 }, // 0x04, 00000100
-				{ 0, 3, 4, 1, 2, 6 }, // 0x05, 00000101
-				{ 2, 5, 6, 0, 2, 5 }, // 0x06, 00000110
-				{ 4, 5, 6, 4, 6, 2, 2, 3, 4 }, // 0x07, 0x00000111
+				{ 0, 4, 3, 1, 2, 6 }, // 0x05, 00000101
+				{ 6, 5, 0, 0, 2, 6 }, // 0x06, 00000110
+				{ 6, 5, 4, 6, 4, 3, 3, 2, 6 }, // 0x07, 0x00000111
 				{ 2, 3, 7 }, // 0x08, 00001000
-				{ 0, 4, 7, 0, 2, 7 }, // 0x09, 00001001
-				{ 2, 3, 7, 0, 1, 5 }, // 0x0A, 00001010
-				{ 4, 5, 7, 2, 5, 7, 1, 2, 5 }, // 0x0B, 00001011
-				{ 1, 3, 6, 3, 6, 7 }, // 0x0C, 0x00001100
-				{ 4, 6, 7, 4, 6, 1, 4, 1, 0 }, // 0x0D, 0x00001101
-				{ 5, 6, 7, 0, 5, 7, 3, 7, 0 }, // 0x0E, 0x00001110
-				{ 4, 5, 7, 5, 6, 7 }, // 0x0F, 00001111
+				{ 0, 4, 7, 7, 2, 0 }, // 0x09, 00001001
+				{ 2, 3, 7, 0, 5, 1 }, // 0x0A, 00001010
+				{ 5, 4, 7, 7, 2, 1, 1, 5, 7 }, // 0x0B, 00001011
+				{ 1, 3, 7, 7, 6, 1 }, // 0x0C, 0x00001100
+				{ 4, 7, 6, 6, 1, 0, 0, 4, 6 }, // 0x0D, 0x00001101
+				{ 7, 6, 5, 5, 0, 3, 3, 7, 5 }, // 0x0E, 0x00001110
+				{ 5, 4, 7, 7, 6, 5 }, // 0x0F, 00001111
 				{ 4, 8, 11 }, // 0x10, 00010000
 				{ 0, 8, 11, 0, 3, 11 }, // 0x11, 00010001
 				{ 4, 8, 11, 0, 1, 5 }, // 0x12, 00010010
 				{ 1, 3, 11, 1, 8, 11, 1, 8, 5 }, // 0x13, 00010011
 				{ 4, 8, 11, 1, 2, 6 }, // 0x14, 00010100
 				{ 0, 8, 11, 0, 3, 11, 1, 2, 6 }, // 0x15, 00010101
-				{ 4, 8, 11, 2, 5, 6, 0, 2, 5 }, // 0x16, 00010110
+				{ 4, 8, 11, 2, 6, 5, 5, 0, 2 }, // 0x16, 00010110
 				{ 8, 5, 11, 8, 10, 11, 5, 2, 3, 5, 2, 6 }, // 0x17, 000010111
 				{ 4, 8, 11, 2, 3, 7 }, // 0x18, 00011000
 				{ 0, 2, 8, 2, 8, 11, 11, 2, 7 }, // 0x19, 00011001
@@ -466,7 +498,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 				{ 4, 5, 9, 4, 9, 11 }, // 0x30, 00110000
 				{ 3, 9, 11, 0, 3, 9, 0, 5, 9 }, // 0x31, 00110001
 				{ 1, 9, 11, 0, 1, 11, 0, 4, 11 }, // 0x32, 00110010
-				{ 1, 3, 9, 3, 9, 11 }, // 0x33, 00110011
+				{ 1, 9, 11, 11, 3, 1 }, // 0x33, 00110011
 				{ 4, 5, 9, 4, 9, 11, 1, 2, 6 }, // 0x34, 00110100
 				{ 3, 9, 11, 0, 3, 9, 0, 5, 9, 1, 2, 6 }, // 0x35, 00110101
 				{ 6, 8, 10, 4, 6, 8, 1, 4, 6, 1, 3, 4 }, // 0x36, 00110110
@@ -517,16 +549,16 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 				{ 6, 8, 10, 4, 6, 8, 1, 3, 4, 1, 4, 6 }, // 0x63, 01100011
 				{ 2, 8, 10, 1, 2, 8, 1, 5, 8 }, // 0x64, 01100100
 				{ 2, 8, 10, 1, 2, 8, 1, 5, 8, 0, 3, 4 }, // 0x65, 01100101
-				{ 0, 2, 8, 2, 8, 10 }, // 0x66, 01100110
+				{ 0, 2, 10, 0, 10, 8 }, // 0x66, 01100110
 				{ 2, 8, 10, 2, 3, 4, 2, 4, 8 }, // 0x67, 01100111
 				{ 5, 6, 10, 5, 8, 10, 2, 3, 7 }, // 0x68, 01101000
 				{ 0, 4, 7, 0, 2, 7, 5, 6, 10, 5, 8, 10 }, // 0x69, 01101001
 				{ 0, 8, 10, 0, 1, 6, 0, 6, 10, 2, 3, 7 }, // 0x6A, 01101010
-				{ 4, 8, 10, 4, 7, 10, 1, 2, 6 }, // 0x6B, 01101011
+				{ 4, 8, 10, 10, 7, 4, 1, 2, 6 }, // 0x6B, 01101011
 				{ 7, 8, 10, 5, 7, 8, 1, 3, 5, 3, 5, 7 }, // 0x6C, 01101100
-				{ 4, 8, 10, 4, 7, 10, 0, 1, 5 }, // 0x6D, 01101101
+				{ 4, 8, 10, 10, 7, 4, 0, 1, 5 }, // 0x6D, 01101101
 				{ 0, 8, 10, 0, 3, 10, 3, 7, 10 }, // 0x6E, 01101110
-				{ 4, 8, 10, 4, 7, 10 }, // 0x6F, 01101111
+				{ 4, 8, 10, 10, 7, 4 }, // 0x6F, 01101111
 				{ 4, 5, 6, 4, 6, 10, 4, 10, 11 }, // 0x70, 01110000
 				{ 3, 10, 11, 0, 3, 10, 0, 6, 10, 0, 5, 6 }, // 0x71, 01110001
 				{ 0, 1, 4, 1, 4, 6, 4, 6, 11, 6, 10, 11 }, // 0x72, 01110010
@@ -539,14 +571,14 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 				{ 7, 10, 11, 0, 5, 6, 0, 2, 6 }, // 0x79, 01111001
 				{ 7, 10, 11, 0, 3, 4, 1, 2, 6 }, // 0x7A, 01111010
 				{ 7, 10, 11, 1, 2, 6 }, // 0x7B, 01111011
-				{ 7, 10, 11, 1, 4, 5, 1, 3, 4 }, // 0x7C, 01111100
+				{ 7, 10, 11, 1, 5, 4, 4, 3, 1 }, // 0x7C, 01111100
 				{ 7, 10, 11, 0, 1, 5 }, // 0x7D, 01111101
 				{ 7, 10, 11, 0, 3, 4 }, // 0x7E, 01111110
 				{ 7, 10, 11 }, // 0x7F, 01111111
 				{ 7, 10, 11 }, // 0x80, 10000000
 				{ 7, 10, 11, 0, 3, 4 }, // 0x81, 10000001
 				{ 7, 10, 11, 0, 1, 5 }, // 0x82, 10000010
-				{ 7, 10, 11, 1, 4, 5, 1, 3, 4 }, // 0x83, 10000011
+				{ 7, 10, 11, 1, 5, 4, 4, 3, 1 }, // 0x83, 10000011
 				{ 7, 10, 11, 1, 2, 6 }, // 0x84, 10000100
 				{ 7, 10, 11, 0, 3, 4, 1, 2, 6 }, // 0x85, 10000101
 				{ 7, 10, 11, 0, 5, 6, 0, 2, 6 }, // 0x86, 10000110
@@ -559,16 +591,16 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 				{ 0, 1, 4, 1, 4, 11, 1, 6, 11, 6, 10, 11 }, // 0x8D, 10001101
 				{ 0, 3, 10, 3, 10, 11, 0, 5, 6, 0, 6, 10 }, // 0x8E, 10001110
 				{ 4, 5, 6, 4, 6, 10, 4, 10, 11 }, // 0x8F, 10001111
-				{ 4, 8, 10, 4, 7, 10 }, // 0x90, 10010000
+				{ 4, 8, 10, 10, 7, 4 }, // 0x90, 10010000
 				{ 0, 8, 10, 0, 3, 10, 3, 7, 10 }, // 0x91, 10010001
-				{ 4, 8, 10, 4, 7, 10, 0, 1, 5 }, // 0x92, 10010010
+				{ 4, 8, 10, 10, 7, 4, 0, 1, 5 }, // 0x92, 10010010
 				{ 1, 3, 5, 3, 5, 7, 4, 5, 7, 4, 7, 10 }, // 0x93, 10010011
-				{ 4, 8, 10, 4, 7, 10, 1, 2, 6 }, // 0x94, 10010100
+				{ 4, 8, 10, 10, 7, 4, 1, 2, 6 }, // 0x94, 10010100
 				{ 0, 8, 10, 0, 3, 10, 3, 7, 10, 1, 2, 6 }, // 0x95, 10010101
-				{ 0, 5, 6, 0, 2, 6, 4, 8, 10, 4, 7, 10 }, // 0x96, 10010110
+				{ 0, 5, 6, 0, 2, 6, 4, 8, 10, 10, 7, 4 }, // 0x96, 10010110
 				{ 5, 6, 10, 5, 8, 10, 2, 3, 7 }, // 0x97, 10010111
 				{ 2, 8, 10, 2, 3, 4, 2, 4, 8 }, // 0x98, 10011000
-				{ 0, 2, 8, 2, 8, 10 }, // 0x99, 10011001
+				{ 0, 8, 10, 10, 2, 0 }, // 0x99, 10011001
 				{ 2, 8, 10, 2, 3, 4, 2, 4, 8, 0, 1, 5 }, // 0x9A, 10011010
 				{ 2, 8, 10, 1, 2, 5, 2, 5, 8 }, // 0x9B, 10011011
 				{ 2, 3, 6, 3, 4, 6, 4, 6, 10, 4, 8, 10 }, // 0x9C, 10011100
@@ -603,7 +635,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 				{ 0, 2, 10, 0, 5, 9, 0, 9, 10 }, // 0xB9, 10111001
 				{ 0, 3, 4, 1, 2, 10, 1, 9, 10 }, // 0xBA, 10111010
 				{ 1, 2, 10, 1, 9, 10 }, // 0xBB, 10111011
-				{ 6, 9, 10, 1, 4, 5, 1, 3, 4 }, // 0xBC, 10111100
+				{ 6, 9, 10, 1, 5, 4, 4, 3, 1 }, // 0xBC, 10111100
 				{ 0, 1, 5, 6, 9, 10 }, // 0xBD, 10111101
 				{ 0, 3, 4, 6, 9, 10 }, // 0xBE, 10111110
 				{ 6, 9, 10 }, // 0xBF, 10111111
@@ -616,10 +648,10 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 				{ 0, 2, 7, 0, 5, 7, 5, 7, 11, 5, 9, 11 }, // 0xC6, 11000110
 				{ 4, 5, 9, 4, 9, 11, 2, 3, 7 }, // 0xC7, 11000111
 				{ 3, 9, 11, 2, 3, 9, 2, 6, 9 }, // 0xC8, 11001000
-				{ 0, 2, 4, 2, 4, 6, 4, 6, 11, 6, 9, 11 }, // 0xC9, 11001001
+				{ 0, 2, 4, 2, 4, 6, 4, 6, 11, 6, 9, 11 }, // 0xC9, 11001001n
 				{ 0, 1, 5, 3, 9, 11, 2, 3, 9, 2, 6, 9 }, // 0xCA, 11001010
 				{ 4, 5, 9, 4, 9, 11, 1, 2, 6 }, // 0xCB, 11001011
-				{ 1, 9, 11, 1, 3, 11 }, // 0xCC, 11001100
+				{ 1, 9, 11, 11, 3, 1 }, // 0xCC, 11001100
 				{ 1, 9, 11, 0, 1, 4, 1, 4, 11 }, // 0xCD, 11001101
 				{ 3, 9, 11, 0, 3, 9, 0, 5, 9 }, // 0xCE, 11001110
 				{ 4, 5, 9, 4, 9, 11 }, // 0xCF, 11001111
@@ -655,7 +687,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 				{ 0, 1, 5, 4, 8, 11 }, // 0xED, 11101101
 				{ 0, 8, 11, 0, 3, 11 }, // 0xEE, 11101110
 				{ 4, 8, 11 }, // 0xEF, 11101111
-				{ 4, 5, 6, 4, 6, 7 }, // 0xF0, 11110000
+				{ 4, 5, 6, 6, 7, 4 }, // 0xF0, 11110000
 				{ 5, 6, 7, 0, 5, 7, 0, 3, 7 }, // 0xF1, 11110001
 				{ 4, 6, 7, 0, 1, 6, 0, 4, 6 }, // 0xF2, 11110010
 				{ 1, 6, 7, 1, 3, 7 }, // 0xF3, 11110011
@@ -664,7 +696,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 				{ 0, 2, 4, 2, 4, 7 }, // 0xF6, 11110110
 				{ 2, 3, 7 }, // 0xF7, 11110111
 				{ 4, 5, 6, 4, 6, 2, 2, 3, 4 }, // 0xF8, 11111000
-				{ 0, 2, 5, 2, 5, 6 }, // 0xF9, 11111001
+				{ 6, 5, 0, 0, 2, 6 }, // 0xF9, 11111001
 				{ 0, 3, 4, 1, 2, 6 }, // 0xFA, 11111010
 				{ 1, 2, 6 }, // 0xFB, 11111011
 				{ 1, 5, 4, 1, 3, 4 }, // 0xFC, 11111100
@@ -689,7 +721,14 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 
 		protected GeoTriangulatedSurface3D surf;
 
-		private final double[] point = new double[3];
+		private final Coords p1 = new Coords(0, 0, 0);
+		private final Coords p2 = new Coords(0, 0, 0);
+		private final Coords p3 = new Coords(0, 0, 0);
+		private final Coords p4 = new Coords(0, 0, 0);
+		private final Coords p5 = new Coords(0, 0, 0);
+		private final Coords n1 = new Coords(0, 0, 0);
+		private final Coords n2 = new Coords(0, 0, 0);
+		private final Coords n3 = new Coords(0, 0, 0);
 
 		public void update(double[] bounds) {
 			this.x1 = bounds[0];
@@ -732,22 +771,31 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 
 		public void addSurface(Cube cube) {
 			int config = config(cube);
+			double det;
 			if (config != EMPTY_OR_INVALID) {
 				int[] edges = EDGE_TABLE[config];
 				int len = edges.length;
-
 				for (int i = 0; i < len; i += 3) {
 					surf.beginTriangulation();
 
-					cube.pointOfIntersection(edges[i], point);
-					surf.insertPoint(point[0], point[1], point[2]);
-
-					cube.pointOfIntersection(edges[i + 1], point);
-					surf.insertPoint(point[0], point[1], point[2]);
-
-					cube.pointOfIntersection(edges[i + 2], point);
-					surf.insertPoint(point[0], point[1], point[2]);
-
+					cube.pointOfIntersection(edges[i], p1.val);
+					cube.pointOfIntersection(edges[i + 1], p2.val);
+					cube.pointOfIntersection(edges[i + 2], p3.val);
+					p2.sub(p1, p4);
+					p3.sub(p1, p5);
+					evaluateNormalAt(p1, n1);
+					evaluateNormalAt(p2, n2);
+					evaluateNormalAt(p3, n3);
+					det = p4.crossProduct(p5).dotproduct(n1);
+					if (det < 0) {
+						surf.insertPoint(p1.val, n1.val);
+						surf.insertPoint(p2.val, n2.val);
+						surf.insertPoint(p3.val, n3.val);
+					} else {
+						surf.insertPoint(p1.val, n1.val);
+						surf.insertPoint(p3.val, n3.val);
+						surf.insertPoint(p2.val, n2.val);
+					}
 					surf.endTriangulation();
 				}
 			}
@@ -951,7 +999,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		 */
 		public int sign(int vertex) {
 			double v = eval(vertex);
-			if (MyDouble.isFinite(v)) {
+			if (Double.isFinite(v)) {
 				return v <= 0.0 ? 0 : 1;
 			}
 			return -1;
@@ -969,7 +1017,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		public boolean intersect(int v1, int v2) {
 			double e1 = eval(v1);
 			double e2 = eval(v2);
-			if (MyDouble.isFinite(e1) && MyDouble.isFinite(e2)) {
+			if (Double.isFinite(e1) && Double.isFinite(e2)) {
 				return (e1 <= 0.0 && e2 >= 0.0) || (e1 >= 0.0 && e2 <= 0.0);
 			}
 			return false;
