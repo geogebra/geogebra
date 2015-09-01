@@ -468,7 +468,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 			return sbTemp.toString();
 		}
-		return this.getLoc().getPlain("Undefined");
+		return "?";
 	}
 
 	// TODO remove and use super method (funX and funY should be removed in
@@ -486,7 +486,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return this.getLoc().getPlain("Undefined");
+		return "?";
 	}
 
 	/*

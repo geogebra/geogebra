@@ -4695,15 +4695,17 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Returns toValueString() if isDefined() ist true, else the translation of
 	 * "undefined" is returned
-	 * @param tpl string template
 	 * 
-	 * @return either value string or "undefined"
+	 * @param tpl
+	 *            string template
+	 * 
+	 * @return either value string or ?
 	 */
 	final public String toDefinedValueString(StringTemplate tpl) {
 		if (isDefined()) {
 			return toValueString(tpl);
 		}
-		return getLoc().getPlain("Undefined");
+		return "?";
 	}
 
 	/**
@@ -4846,7 +4848,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				strAlgebraDescription = toStringMinimal(tpl);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
-				sbAlgebraDesc.append(getLoc().getPlain("Undefined"));
+				sbAlgebraDesc.append("?");
 				strAlgebraDescription = sbAlgebraDesc.toString();
 			}
 
@@ -4873,7 +4875,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (isDefined() && !isInfinite()) {
 				strLaTeX = toLaTeXString(false,StringTemplate.latexTemplate);
 			} else {
-				strLaTeX = " \\text{" + getLoc().getPlain("Undefined") + "} ";
+				strLaTeX = "?";
 
 			}
 		}
@@ -6679,7 +6681,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) {
-				ret = " \\text{" + getLoc().getPlain("Undefined") + "} ";
+				ret = "?";
 			} else if ((Unicode.INFINITY + "").equals(ret)) {
 				ret = "\\infty";
 			} else if ((Unicode.MINUS_INFINITY + "").equals(ret)) {

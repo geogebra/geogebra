@@ -264,9 +264,9 @@ public class GeoTransferFunction extends GeoElement {
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined){
 			return originalFunction.toValueString(tpl);
-		} else {
-			return getLoc().getPlain("Undefined");
 		}
+
+		return "?";
 	}
 
 	@Override
@@ -294,7 +294,7 @@ public class GeoTransferFunction extends GeoElement {
 			}
 			return sb.toString();
 		}
-		return " \\text{" + kernel.getApplication().getPlain("Undefined") + "} ";
+		return "?";
 
 	}
 

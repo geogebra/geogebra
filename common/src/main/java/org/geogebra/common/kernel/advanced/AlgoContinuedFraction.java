@@ -174,7 +174,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 
 		} else {
 			text.setLaTeX(false, false);
-			text.setTextString(getLoc().getPlain("Undefined"));
+			text.setTextString("?");
 		}
 	}
 

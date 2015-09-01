@@ -803,7 +803,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (fun != null && isDefined()) {
 			return fun.toValueString(tpl);
 		}
-		return getLoc().getPlain("Undefined");
+		return "?";
 	}
 
 	/*
@@ -822,14 +822,14 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (fun != null && isDefined()) {
 			return fun.toOutputValueString(tpl);
 		}
-		return getLoc().getPlain("Undefined");
+		return "?";
 	}
 
 	public String toSymbolicString(StringTemplate tpl) {
 		if (fun != null && isDefined()) {
 			return fun.toString(tpl);
 		}
-		return getLoc().getPlain("Undefined");
+		return "?";
 	}
 
 	@Override
@@ -837,7 +837,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (fun != null && isDefined()) {
 			return fun.toLaTeXString(symbolic, tpl);
 		}
-		return " \\text{" + getLoc().getPlain("Undefined") + "} ";
+		return "?";
 	}
 
 	/**
@@ -2279,7 +2279,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			} else {
 
 				if (getFunction() == null) {
-					ret = getLoc().getPlain("Undefined");
+					ret = "?";
 				} else
 					ret = substituteNumbers ? getFunction().toValueString(tpl)
 							: getFunction().toString(tpl);
@@ -2300,7 +2300,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret))
-				ret = " \\text{"+getLoc().getPlain("Undefined") + "} ";
+				ret = "?";
 			else if ((Unicode.INFINITY + "").equals(ret))
 				ret = "\\infty";
 			else if ((Unicode.MINUS_INFINITY + "").equals(ret))

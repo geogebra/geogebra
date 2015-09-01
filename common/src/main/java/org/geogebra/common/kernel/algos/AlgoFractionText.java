@@ -91,7 +91,7 @@ public class AlgoFractionText extends AlgoElement {
 			text.setLaTeX(true, false);
 
 		} else {
-			text.setTextString(getLoc().getPlain("Undefined"));
+			text.setTextString("?");
 		}
 	}
 

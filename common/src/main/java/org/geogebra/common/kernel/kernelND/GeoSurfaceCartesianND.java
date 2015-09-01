@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -222,7 +221,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return getLoc().getPlain("Undefined");
+		return "?";
 	}	
 	
 	/**
@@ -245,7 +244,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return getLoc().getPlain("Undefined");
+		return "?";
 	}
 	
 	@Override
@@ -265,7 +264,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			sbTemp.append("\\end{array}\\right)");
 			return sbTemp.toString();
 		}
-		return getLoc().getPlain("Undefined");		
+		return "?";
 	}	
 	
 	@Override

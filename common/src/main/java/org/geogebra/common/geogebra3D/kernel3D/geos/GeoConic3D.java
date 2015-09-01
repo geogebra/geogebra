@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.Unicode;
 
@@ -339,11 +340,12 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 			break;
 
 		case CONIC_EMPTY:
-			sbBuildValueString.append(getLoc().getPlain("Undefined"));
+			sbBuildValueString.append("?");
 			break;
 
 		default:
-			sbBuildValueString.append("todo-GeoConic3D");
+			App.debug("unknown conic type");
+			sbBuildValueString.append("?");
 			break;
 		}
 

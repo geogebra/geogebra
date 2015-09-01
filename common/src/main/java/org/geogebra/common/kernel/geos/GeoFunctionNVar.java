@@ -415,20 +415,20 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined())
 			return fun.toValueString(tpl);
-		return getLoc().getPlain("Undefined");
+		return "?";
 	}
 
 	public String toSymbolicString(StringTemplate tpl) {
 		if (isDefined())
 			return fun.toString(tpl);
-		return getLoc().getPlain("Undefined");
+		return "?";
 	}
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (isDefined())
 			return fun.toLaTeXString(symbolic, tpl);
-		return " \\text{" + getLoc().getPlain("Undefined") + "} ";
+		return "?";
 	}
 
 	@Override
@@ -1040,7 +1040,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		} else {
 
 			if (getFunction() == null) {
-				ret = getLoc().getPlain("Undefined");
+				ret = "?";
 			} else
 				ret = substituteNumbers ? getFunction().toValueString(tpl)
 						: getFunction().toString(tpl);

@@ -29,9 +29,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.MyMathExact.MyDecimal;
 import org.geogebra.common.util.MyMathExact.MyDecimalMatrix;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -522,10 +522,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	private void appendUndefined(StringBuilder sb1, StringTemplate tpl,
 			double num1) {
-
-		// sb1.append("\\text{");
-		// sb1.append(app.getPlain("Undefined"));
-		// sb1.append("}");
 
 		// eg SurdText[1.23456789012345] returns 1.23456789012345
 		DrawEquation.appendNumber(sb1, tpl,

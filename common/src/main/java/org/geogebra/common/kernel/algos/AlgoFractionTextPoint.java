@@ -123,7 +123,7 @@ public class AlgoFractionTextPoint extends AlgoElement {
 			}
 
 		} else
-			text.setTextString(getLoc().getPlain("Undefined"));
+			text.setTextString("?");
 	}
 
 	@Override
