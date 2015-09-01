@@ -994,7 +994,7 @@ __GGB__keysVar.pt_PT.command = {
     "TrapezoidalSum.Syntax": "[ <Fun\xe7\xe3o>, <Valor Inicial-x>, <Valor Final-x>, <N\xfamero de Trap\xe9zios> ]",
     "TravelingSalesman": "CaixeiroViajante",
     "TravelingSalesman.Syntax": "[ <Lista de Pontos> ]",
-    "TriangleCenter": "PontosNot\xe1veisTri\xe2ngulo",
+    "TriangleCenter": "PontosNot\xe1veisdoTri\xe2ngulo",
     "TriangleCenter.Syntax": "[ <Ponto>, <Ponto>, <Ponto>, <N\xfamero> ]",
     "TriangleCurve": "Tri\xe2nguloCurva",
     "TriangleCurve.Syntax": "[ <Ponto>, <Ponto>, <Ponto>, <Equa\xe7\xe3o> ]",
