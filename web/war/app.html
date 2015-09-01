@@ -334,7 +334,7 @@ function insertScript(){
 			insertScript();
 			return;
 		}
-		else if(getURLparam("command") || getURLparam("state")){
+		else if(getURLparam("command") || getURLparam("state") || getURLparam("filename")){
 			perspective(false);
 			insertScript();
 			return;

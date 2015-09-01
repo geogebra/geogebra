@@ -259,7 +259,7 @@ public class AppWapplication extends AppWFull {
 
 		// allow eg ?command=A=(1,1);B=(2,2) in URL
 		String cmd = com.google.gwt.user.client.Window.Location
-		        .getParameter("command");
+				.getParameter("command");
 
 		if (cmd != null) {
 
@@ -268,10 +268,22 @@ public class AppWapplication extends AppWFull {
 			String[] cmds = cmd.split(";");
 			for (int i = 0; i < cmds.length; i++) {
 				getKernel().getAlgebraProcessor()
-				        .processAlgebraCommandNoExceptionsOrErrors(cmds[i],
-				                false);
+						.processAlgebraCommandNoExceptionsOrErrors(cmds[i],
+								false);
 			}
 		}
+
+		// allow eg
+		// http://web.geogebra.org/app/?filename=http://test.geogebra.org/~mike/milestones/ggbFiles/Ellipses.ggb
+		// in URL
+		String filename = com.google.gwt.user.client.Window.Location
+				.getParameter("filename");
+
+		if (filename != null) {
+			App.debug("loading file: " + filename);
+			GeoGebraAppFrame.fileLoader.getView().processFileName(filename);
+		}
+
 	}
 
 	private boolean first = true;
