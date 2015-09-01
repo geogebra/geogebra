@@ -34,7 +34,8 @@ eclipse.classpath.file.whenMerged { classpath ->
 
     // Unzip the native .jar files (which contain a .dll file):
     def realsense_java = project.configurations.compile.find { it.name.startsWith("libpxcclr") } 
-    def realsense_natives = project.configurations.runtime.findAll { it.name.startsWith("libpxcclr") } 
+    def realsense_natives = project.configurations.runtime.findAll { it.name.startsWith("libpxcclr") && \
+        it.name.contains('-natives-')} 
     def realsense_dir = realsense_java.getParent() 
     for (i in realsense_natives) {
         def realsense_native_path = i.getPath()
