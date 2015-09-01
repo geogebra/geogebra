@@ -7,7 +7,9 @@ __GGB__keyboard.el = {}
 
 __GGB__keyboard.el.lowerCase = {
 
-		"B0_0": "",
+		// \\varphi
+		"B0_0": "\u03D5",
+		
 		"B0_1": "\u03C2",
 		"B0_2": "\u03B5",
 		"B0_3": "\u03C1",
