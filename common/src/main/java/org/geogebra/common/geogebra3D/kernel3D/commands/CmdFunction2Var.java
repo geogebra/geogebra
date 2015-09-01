@@ -35,7 +35,7 @@ public class CmdFunction2Var extends CmdFunction {
 			// create local variable at position 3 and resolve arguments
 			arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 });
 
-			if ((ok[0] = arg[0] instanceof GeoNumberValue) // function
+			if ((ok[0] = (arg[0] instanceof GeoNumberValue || arg[0] instanceof GeoFunctionNVar)) // function
 					&& (ok[1] = arg[1].isGeoNumeric()) // first var
 					&& (ok[2] = arg[2] instanceof GeoNumberValue) // from
 					&& (ok[3] = arg[3] instanceof GeoNumberValue) // to
@@ -44,6 +44,22 @@ public class CmdFunction2Var extends CmdFunction {
 					&& (ok[6] = arg[6] instanceof GeoNumberValue) // to
 
 			) {
+				if (arg[0] instanceof GeoFunctionNVar) {
+					if ("x".equals(arg[1].getLabelSimple())) {
+						GeoElement[] ret = { kernelA.getManager3D()
+								.Function2Var(
+							c.getLabel(), (GeoFunctionNVar) arg[0],
+							(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
+							(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
+						return ret;
+					}
+					GeoElement[] ret = { kernelA.getManager3D().Function2Var(
+							c.getLabel(), (GeoFunctionNVar) arg[0],
+							(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
+							(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
+					return ret;
+
+				}
 				GeoElement[] ret = { kernelA.getManager3D().Function2Var(
 						c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],

@@ -128,7 +128,7 @@ public class Command extends ValidExpression implements
 		if (i >= args.size())
 			return null;
 
-		ExpressionValue ev = args.get(i).getLeft();
+		ExpressionValue ev = args.get(i).unwrap();
 		if (ev instanceof Variable)
 			return ((Variable) ev).getName(StringTemplate.defaultTemplate);
 		else if (ev instanceof GeoElement) {
@@ -136,8 +136,9 @@ public class Command extends ValidExpression implements
 			// so we may end up having a GeoElement object here
 			// return its name to use as local variable name
 			GeoElement geo = ((GeoElement) ev);
-			if (geo.isLabelSet())
+			if (geo.isLabelSet()) {
 				return ((GeoElement) ev).getLabelSimple();
+			}
 		} else if (ev instanceof FunctionVariable) {
 			return ((FunctionVariable) ev).getSetVarString();
 		} else if (ev instanceof Function) {
@@ -408,6 +409,11 @@ public class Command extends ValidExpression implements
 
 	public boolean isNumberValue() {
 		if (!allowEvaluationForTypeCheck) {
+			return false;
+		}
+		if ("Sequence".equals(name) || "Function".equals(name)
+				|| "IterationList".equals(name) || "Surface".equals(name)
+				|| "Curve".equals(name)) {
 			return false;
 		}
 		try {
