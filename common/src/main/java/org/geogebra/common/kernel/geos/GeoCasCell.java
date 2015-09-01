@@ -1746,13 +1746,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				expandedEvalVE = pointList ? wrapPointList(evalVE) : evalVE;
 				if(!(expandedEvalVE.isTopLevelCommand()) || !expandedEvalVE.getTopLevelCommand().getName().equals("Delete")) {
 					FunctionExpander fex = FunctionExpander.getCollector();
-					if (expandedEvalVE.getTopLevelCommand().getName()
-							.equals("Derivative")) {
-						// set flag for command derivative
-						// to not send random() to cas
-						// needed for #4072
-						fex.setIsTopCmdDerivate(true);
-					}
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
 				}
