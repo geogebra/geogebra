@@ -64,8 +64,12 @@ public class Unicode {
 	public static final char sigma = '\u03C3';
 	public static final char tau = '\u03C4';
 	public static final char upsilon = '\u03C5';
+
+	// \\varphi, curly
 	public static final char phi = '\u03C6';
-	public static final char phi_symbol = '\u03D5'; // "straight" phi
+	// \\phi "straight"
+	public static final char phi_symbol = '\u03D5';
+
 	public static final char chi = '\u03C7';
 	public static final char psi = '\u03C8';
 	public static final char omega = '\u03C9';

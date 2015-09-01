@@ -23,7 +23,7 @@ public class AltKeys {
 		LookupUpper.put('D', Unicode.Delta + "");
 		LookupLower.put('E', " " + Unicode.EULER_STRING + " ");
 		LookupUpper.put('E', " " + Unicode.EULER_STRING + " ");
-		LookupLower.put('F', Unicode.phi + "");
+		LookupLower.put('F', Unicode.phi_symbol + "");
 		LookupUpper.put('F', Unicode.Phi + "");
 		LookupLower.put('G', Unicode.gamma + "");
 		LookupUpper.put('G', Unicode.Gamma + "");
