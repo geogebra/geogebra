@@ -455,7 +455,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					} else if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
 						ev = args.get(pos);
-						sbCASCommand.append(toString(ev, symbolic, tpl));
+						// needed for #5506
+						if (name.equals("SolveODE")
+								&& ((ExpressionNode) ev).getLeft() instanceof MyList
+								&& args.size() > 2) {
+							sbCASCommand.append(toString(((MyList) (args
+									.get(pos).getLeft())).getListElement(0),
+									symbolic, tpl));
+						} else {
+							sbCASCommand.append(toString(ev, symbolic, tpl));
+						}
 					} else {
 						// failed
 						sbCASCommand.append(ch);
@@ -559,6 +568,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		String newSbCASCommand = sbCASCommand.toString();
 		newSbCASCommand = newSbCASCommand.replaceAll("unicode39u", "'");
 		boolean changed = false;
+		int index = 0;
 		Iterator<String> ite = setOfDummyVars.iterator();
 		while (ite.hasNext()) {
 			String currStr = ite.next();
@@ -569,6 +579,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 							+ tmp, "y");
 					varSwaps.add(tmp + "->y");
 					changed = true;
+				} else {
+					index++;
 				}
 				setOfDummyVars.remove(currStr);
 				setOfDummyVars.remove(currStr + "'");
@@ -579,7 +591,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				break;
 			}
 		}
-		int index = 0;
 		ite = setOfDummyVars.iterator();
 		while (ite.hasNext() && index < 2) {
 			if (changed) {
@@ -591,7 +602,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				}
 				return newSbCASCommand;
 			}
-			if (setOfDummyVars.size() == 1 && args.size() == 2) {
+			if (setOfDummyVars.size() == 1 // && args.size() == 2
+			) {
 				String currStr = ite.next();
 				if (!currStr.equals("x") && !currStr.equals("y")) {
 					newSbCASCommand = newSbCASCommand.replaceAll("ggbtmpvar"
