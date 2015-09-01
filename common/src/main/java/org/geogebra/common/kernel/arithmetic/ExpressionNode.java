@@ -1554,6 +1554,11 @@ kernel, left,
 			}
 		}
 
+		// if we don't have random, just a GeoNumeric
+		if (operation != Operation.RANDOM && left instanceof GeoNumeric) {
+			((GeoElement) left).setRandomGeo(false);
+		}
+
 		// expression node
 		String leftStr = left.toValueString(tpl);
 

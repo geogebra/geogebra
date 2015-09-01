@@ -954,6 +954,12 @@ public interface Traversing {
 	 */
 	public class FunctionExpander implements Traversing {
 
+		private boolean isTopCmdDerivate = false;
+
+		public void setIsTopCmdDerivate(boolean isTopCmdDerivate) {
+			this.isTopCmdDerivate = isTopCmdDerivate;
+		}
+
 		private ExpressionValue expand(GeoElement geo) {
 			if (geo instanceof FunctionalNVar)
 				return ((FunctionalNVar) geo).getFunctionExpression()
@@ -1068,6 +1074,13 @@ public interface Traversing {
 						en2 = en2.traverse(vr).wrap();
 						return en2;
 					}
+				}
+				// case we want to derive a function which contains random()
+				// do not send random() to cas
+				// #4072
+				else if (en.getOperation() == Operation.RANDOM
+						&& isTopCmdDerivate) {
+					return en.getLeft();
 				} else if (en.getOperation() == Operation.DERIVATIVE) {
 					// should not get there
 
