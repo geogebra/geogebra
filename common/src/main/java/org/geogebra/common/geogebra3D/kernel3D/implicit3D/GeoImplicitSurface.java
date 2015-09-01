@@ -434,7 +434,7 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		for(int i = 0; i < coords.length; i++) {
-			sb.append(String.format("%.2f, ", coords[i]));
+			sb.append(coords[i]);
 		}
 		sb.append("}");
 		return sb.toString();
