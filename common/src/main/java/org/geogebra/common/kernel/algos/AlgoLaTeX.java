@@ -128,8 +128,9 @@ public class AlgoLaTeX extends AlgoElement {
 		StringType formulaRendererType = kernel.getApplication()
 				.getPreferredFormulaRenderingType();
 
-		if (!geo.isDefined()
-				|| (substituteVars != null && !substituteVars.isDefined())
+		if (!geo.isDefined()){
+			text.setTextString("?");
+		} else if ((substituteVars != null && !substituteVars.isDefined())
 				|| showName != null && !showName.isDefined()) {
 			text.setTextString("");
 
