@@ -1,5 +1,5 @@
 #org.springsource.ide.eclipse.gradle.core.preferences.GradleImportPreferences
-#Tue Apr 14 09:50:45 CEST 2015
+#Fri Aug 28 10:46:31 CEST 2015
 addResourceFilters=true
 afterTasks=afterEclipseImport;
 beforeTasks=cleanEclipse;eclipse;
@@ -7,4 +7,4 @@ enableAfterTasks=true
 enableBeforeTasks=true
 enableDSLD=false
 enableDependendencyManagement=false
-projects=;common;desktop;ggbjdk;giac-jni;input3D/stub;jogl2;web;web/dev;
+projects=;common;desktop;ggbjdk;giac-jni;input3D/impl;jogl2;web;web/dev;

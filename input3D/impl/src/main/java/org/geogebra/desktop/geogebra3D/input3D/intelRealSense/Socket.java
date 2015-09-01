@@ -19,6 +19,7 @@ import java.util.Arrays;
 
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.euclidian3D.Input3D.OutOfField;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 
@@ -474,7 +475,12 @@ public class Socket {
 		Log.debug("Try to connect realsense...");
 
 		// Create session
-		PXCMSession session = PXCMSession.CreateInstance();
+		PXCMSession session = null;
+		try {
+			session = PXCMSession.CreateInstance();
+		} catch (Throwable e) {
+			App.error("RealSense: Failed to start session instance creation, maybe unsupported platform?");
+		}
 		if (session == null) {
 			throw new Exception(
 					"RealSense: Failed to create a session instance");

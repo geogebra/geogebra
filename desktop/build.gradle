@@ -37,7 +37,7 @@ List ext = [
 
 
 dependencies {
-	compile project(':common'), project(':jogl2'), project(':input3D:stub'), project(':giac-jni'), jlatexmath, ext, files(jfxrtLocation)
+	compile project(':common'), project(':jogl2'), project(':input3D:impl'), project(':giac-jni'), jlatexmath, ext, files(jfxrtLocation)
 
 	runtime "com.jogamp:jogl-all:$joglVersion:natives-linux-amd64",
         "com.jogamp:jogl-all:$joglVersion:natives-windows-i586",
