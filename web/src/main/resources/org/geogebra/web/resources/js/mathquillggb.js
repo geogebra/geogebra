@@ -5517,11 +5517,12 @@ LatexCmds.questeq = LatexCmds['\u225f'] =
 
 //why can't anybody agree on these
 LatexCmds.phi = //W3C or Unicode?
-LatexCmds['\u03c6'] =
-  bind(Variable,'\\phi ','&#981;', '\u03c6');
+LatexCmds['\u03d5'] =
+  bind(Variable,'\\phi ','&#981;', '\u03d5');
 
 LatexCmds.phiv = //Elsevier and 9573-13
 LatexCmds.varphi = //AMS and LaTeX
+LatexCmds['\u03c6'] =
   bind(Variable,'\\varphi ','&phi;', '\u03c6');// for GeoGebraWeb, the same as phi
 
 LatexCmds.epsilon = //W3C or Unicode?
