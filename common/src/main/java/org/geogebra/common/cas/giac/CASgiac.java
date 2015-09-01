@@ -808,6 +808,11 @@ public abstract class CASgiac implements CASGenericInterface {
 				}
 			}
 		}
+		
+		// #5099 GIAC_ERROR: string missing
+		if (ret.indexOf("Unable to solve differential equation") > 0) {
+			return "?";
+		}
 
 		if (ret.indexOf("integrate(") > -1) {
 			// eg Integral[sqrt(sin(x))]
