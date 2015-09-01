@@ -1240,6 +1240,10 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[{}⊆{}]", result:"true", notes:"#3385" },
 { cat:"Evaluate", cmd:"Evaluate[{a,b}⊆{a,b,c}]", result:"true", notes:"#3385" },
 { cat:"Evaluate", cmd:"Evaluate[{a,b,c}⊆{a,b,c}]", result:"true", notes:"#3385" },
+{ cat:"Evaluate", cmd:"Evaluate[{a,b,c}=={a,b,c}]", result:"true", notes:"#3385" },
+{ cat:"Evaluate", cmd:"Evaluate[{a,b,c}!={a,b,c}]", result:"false", notes:"#3385" },
+{ cat:"Evaluate", cmd:"Evaluate[{a,c,b}=={a,b,c}]", result:"false", notes:"#3385" },
+{ cat:"Evaluate", cmd:"Evaluate[{a,c,b}!={a,b,c}]", result:"true", notes:"#3385" },
 { cat:"Evaluate", cmd:"Evaluate[{}⊂{}]", result:"false", notes:"#3385" },
 { cat:"Evaluate", cmd:"Evaluate[{a,b}⊂{a,b,c}]", result:"true", notes:"#3385" },
 { cat:"Evaluate", cmd:"Evaluate[{a,b,c}⊂{a,b,c}]", result:"false", notes:"#3385" },
@@ -1592,7 +1596,6 @@ var __giac = [ {},
 { cat:"Denominator", cmd:"Denominator[(x^2-1)/(x+1)]", result:"x+1", notes:"cancelled down" },
 { cat:"Numerator", cmd:"Numerator[Simplify[1/x+x^2]]", result:"x³+1" },
 { cat:"Derivative", cmd:"Derivative[(t,sin(t))]", result:"(1,cos(t))" },
-{ cat:"SolveODE", cmd:"SolveODE[y''+y'+ pi y=0]", result:"y = c_0 ℯ^((x sqrt(-4 π + 1) - x) / 2) + c_1 ℯ^((-x sqrt(-4 π + 1) - x) / 2)" },
 { cat:"UnitPerpendicularVector", cmd:"UnitPerpendicularVector[{1,2}]", result:"((-2) / sqrt(5), 1 / sqrt(5))" },
 { cat:"UnitPerpendicularVector", cmd:"UnitPerpendicularVector[{1,2,3}]", result:"?" },
 { cat:"UnitPerpendicularVector", cmd:"UnitPerpendicularVector[{a,b,c}]", result:"?" },
@@ -1659,13 +1662,40 @@ var __giac = [ {},
 { cat: "Solve", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, c}]", result:"{{a = -b, c = 0}}", notes:"#3563" },
 { cat: "Solve", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, b, c}]", result:"{{a = -b, b = b, c = 0}}", notes:"#3563" },
 { cat: "Solve", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, c, b}]", result:"{{a = -b, c = 0, b = b}}", notes:"#3563" },
+{ cat: "Point", cmd:"Point[{1,2}]", result:"(1,2)", notes:"#4463" },
+{ cat: "Point", cmd:"Point[{1,2,3}]", result:"(1,2,3)", notes:"#4463" },
+{ cat: "SolveODE", cmd:"SolveODE[y'=2y,y,x]", result:"y=c_0ℯ^(2x)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[y'=2y]", result:"y=c_0ℯ^(2x)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[y'=a k y,y,x]", result:"y=c_0ℯ^(a k x)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[y'=a k y]", result:"y=c_0ℯ^(a k x)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[y'=k y]", result:"y=c_0ℯ^(k²/2)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[y'=k y, y, x]", result:"y=c_0ℯ^(k x)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[y'=-0.12*y,y,t]", result:"y=c_0ℯ^(-3t/25)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[T'=-0.12*T,T,t]", result:"T=c_0ℯ^(-3t/25)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[w'=2w, w, x, (0,1)]", result:"w=ℯ^(2x)", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[v' = v / w, v, w, (1, 2)]", result:"v=2w", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[v' = v / w, v, w, (1, 2), (0, 2)]", result:"v=2w", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[y' = y / x, y, x, (1, 2)]", result:"y=2x", notes:"#4151 #3607 #5472" },
+{ cat: "SolveODE", cmd:"SolveODE[v'=v / w, v, w]", result:"v = c_0 w", notes:"#3607" },
+{ cat: "SolveODE", cmd:"SolveODE[v'=v / w, v, w, (1,2)]", result:"v = 2 w", notes:"#3607" },
+{ cat: "SolveODE", cmd:"SolveODE[v''-3v'+2=w,v,w,(2,3),(1,2)]", result:"v=(-9w²ℯ³+30wℯ³-32(ℯ³)²+138ℯ³+32ℯ^(3w))/(54ℯ³)", notes:"#3607" },
+{ cat: "SolveODE", cmd:"SolveODE[y''+y'+ pi y=0]", result:"y = c_0 ℯ^((x sqrt(-4 π + 1) - x) / 2) + c_1 ℯ^((-x sqrt(-4 π + 1) - x) / 2)", notes:"#5099" },
+{ cat: "SolveODE", cmd:"SolveODE[y''+y'+ a y=0]", result:"", notes:"#5099" },
+{ cat: "SolveODE", cmd:"SolveODE[y''+y'+3.141 y=0]", result:"y=c_0 cos(7x sqrt(590)/100)ℯ^((-x)/2)+c_1ℯ^((-x)/2)sin(7x sqrt(590)/100)", notes:"#5099" },
+{ cat: "SolveODE", cmd:"SolveODE[pi y''=0]", result:"y=c_0 x+c_1", notes:"#5099" },
+{ cat: "SolveODE", cmd:"SolveODE[a y''=0]", result:"y=c_0 x+c_1", notes:"#5099" },
+{ cat: "SolveODE", cmd:"SolveODE[5 y''=0]", result:"y=c_0 x+c_1", notes:"#5099" },
+{ cat: "SolveODE", cmd:"SolveODE[y''=0,{(0,1), (1,3)}]", result:"y=2x+1", notes:"#5506" },
+{ cat: "SolveODE", cmd:"SolveODE[y''=0,{(0,1)}, {(1,3)}]", result:"y=3x+1", notes:"#5506" },
+{ cat: "SolveODE", cmd:"SolveODE[y''=0,(0,1), (1,3)]", result:"y=3x+1", notes:"#5506" },
+
+
+
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
-// http://dev.geogebra.org/trac/ticket/5472
-// Point[{1,2}]
-// Point[{1,2,3}]
-
+// http://dev.geogebra.org/trac/ticket/5508
+// ((((-(2))/(3))*({1, 2, 3}))-((1)/(3)))
 ];
 
 // giac/ggb bugs
@@ -1757,9 +1787,6 @@ var notSupported = [
 { cat:"CompleteSquare", cmd:"CompleteSquare[3x⁴ + x²] ", result:"3(x² + 1/6)²-1/12", notes:"not supported in Giac" },
 { cat:"Integral", cmd:"Integral[y'']", result:"y'+c_0" },
 { cat:"Integral", cmd:"Integral[p']", result:"c_0 + p" },
-{ cat:"SolveODE", cmd:"SolveODE[v'=v / w, v, w]", result:"v = c_0 w", notes:"#3607" },
-{ cat:"SolveODE", cmd:"SolveODE[v'=v / w, v, w, (1,2)]", result:"v = 2 w", notes:"#3607" },
-{ cat:"SolveODE", cmd:"SolveODE[v''-3v'+2=w,v,w,(2,3),(1,2)]", result:"v = (-9 w² ℯ^3 + 30w ℯ^3 - 32(ℯ^3)² + 138ℯ^3 + 32ℯ^(3w)) / (54ℯ^3)", notes:"#3607" },
 { cat:"Limit", cmd:"Limit[If[x>1,x^2,-2x], 1]", result:"?", notes:"need to use LimitAbove or LimitBelow for this" },
 { cat:"Solve", cmd:"Solve[cbrt(ℯ^x)>=ℯ^cbrt(x)]", result:"-3cbrt(3)<=x<=0 or x>=3cbrt(3)" },
 { cat:"Solve", cmd:"Solve[2a x - b <= 0,x]", result:"", notes:"need conditions on a,b to solve" },
