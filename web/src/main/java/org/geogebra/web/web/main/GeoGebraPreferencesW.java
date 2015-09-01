@@ -1,10 +1,8 @@
 package org.geogebra.web.web.main;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
-import org.geogebra.web.web.css.GuiResources;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -31,11 +29,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	public void loadXMLPreferences(final App app) {
 
-		if (app.has(Feature.AUTOMATIC_FONTSIZE)) {
-			app.setXML(GeoGebraPreferencesXML.getXML(), false);
-		} else {
-			app.setXML(GuiResources.INSTANCE.preferencesXML().getText(), false);
-		}
+		app.setXML(GeoGebraPreferencesXML.getXML(), false);
 	}
 
 	public void saveXMLPreferences(App app) {

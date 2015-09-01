@@ -57,10 +57,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/gif.worker.js")
 	TextResource gifWorkerJs();
 
-
-	@Source("org/geogebra/common/main/xml/default-preferences.xml")
-	TextResource preferencesXML();
-
 	// TOOLBAR
 	// Little triangles for tools with submenu
 	@Source("org/geogebra/common/icons/png/web/toolbar-further-tools-icon.png")

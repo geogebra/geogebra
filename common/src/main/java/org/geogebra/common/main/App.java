@@ -274,7 +274,10 @@ public abstract class App implements UpdateSelection {
 	// multiple EVs
 	private int maxLayerUsed = 0;
 
-	/** size of checkboxes, default in default-preferences.xml checkboxSize="26" */
+	/**
+	 * size of checkboxes, default in GeoGebraPreferencesXML.java
+	 * checkboxSize="26"
+	 */
 	private int booleanSize = 26;
 
 	/**

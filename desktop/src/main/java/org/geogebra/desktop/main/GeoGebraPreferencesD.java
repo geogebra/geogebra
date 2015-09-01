@@ -15,12 +15,10 @@ package org.geogebra.desktop.main;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Locale;
-import java.util.Scanner;
 import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.Log;
@@ -533,22 +531,6 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	private String getDefaultPreferences(App app) {
 
-		if (app.has(Feature.AUTOMATIC_FONTSIZE)) {
-			return GeoGebraPreferencesXML.getXML();
-		}
-
-		StringBuilder text = new StringBuilder();
-		String NL = System.getProperty("line.separator");
-		Scanner scanner = new Scanner(this.getClass().getResourceAsStream(
-				"/org/geogebra/common/main/xml/default-preferences.xml"), "UTF-8");
-		try {
-			while (scanner.hasNextLine()) {
-				text.append(scanner.nextLine() + NL);
-			}
-		} finally {
-			scanner.close();
-		}
-
-		return text.toString();
+		return GeoGebraPreferencesXML.getXML();
 	}
 }
