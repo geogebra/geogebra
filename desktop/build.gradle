@@ -78,14 +78,6 @@ run {
 		ant.copy(file:"$jogl_native_path", todir:"$jogl_dir")
 	}
 
-    // Doing the same for libpxcclr.
-	def realsense = project.configurations.compile.find { it.name.startsWith("libpxcclr") }
-	def realsense_natives = project.configurations.runtime.findAll { it.name.startsWith("libpxcclr") }
-	def realsense_dir = realsense.getParent()
-	for (i in realsense_natives) {
-		def realsense_native_path = i.getPath()
-		ant.copy(file:"$realsense_native_path", todir:"$realsense_dir")
-	}
 }
 
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
