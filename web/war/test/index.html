@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="web3d/appcache.nocache.manifest">
+<html>
 <head>
     <meta charset="utf-8" />
     <title>GeoGebra</title>
@@ -7,6 +7,8 @@
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <script type="text/javascript">
+var web3dpath = "web3d";
+
 // for IE9
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
@@ -20,7 +22,7 @@ fontactive: function(familyName, fvd) {},
             fontinactive: function(familyName, fvd) {},
             custom: {
                 families: ["geogebra-serif", "geogebra-sans-serif" ],
-                urls: [ "web3d/css/fonts.css?v=1.15" ]
+                urls: [ web3dpath+"/css/fonts.css?v=1.15" ]
             }
         };
 			
@@ -29,20 +31,22 @@ fontactive: function(familyName, fvd) {},
 	}
 	var loginAPI = "https://login.geogebra.org/api/";
 	var finalLang = null;
-	function perspective(id){		
+	function perspective(id){
 		if(e("ggw")){
 			e("ggw").className="geogebraweb";
 			if(id){
 				e("ggw").setAttribute("data-param-perspective",id);
 			}
 			var page = e("ggbPage");
-			page.style.display = "none";
-			if(window.web3d){
-				web3d();
+			// this verily matters, should hide every harmful "a button"
+			page.className ="verilyhidden";
+			if(window.ggbRerun){
+				window.ggbRerun();
 			}
 		}else{
+		    // app.html does not run into this branch, in theory
 			var page = e("ggbPage");
-			page.style.display = "none";
+			page.className = "verilyhidden";
 			var container = e("appletContainer");
 			container.style.visibility = "visible";
 			if(id){
@@ -192,7 +196,10 @@ fontactive: function(familyName, fvd) {},
 	}
 	function showInLang(lang){
 		document.body.parentNode.style.overflow = "auto";
-		e("ggbPage").style.display="";
+		// cancels out "verilyhidden" class
+		e("ggbPage").className="antihidden";
+        // cancels out initial page setup
+        //e("ggbPage").style.display="";
 		if(finalLang && finalLang != lang){
 			console.log("wrong lang");
 			return;
@@ -229,9 +236,11 @@ fontactive: function(familyName, fvd) {},
 				if(e("signIn")){
 					e("signIn").innerHTML="Sign in";
 				}
-				e("ggbPage").style.display="";
+				// cancels out verilyhidden class
+				e("ggbPage").className="antihidden";
+				// cancels out initial page setup
+				//e("ggbPage").style.display="";
 			}
-			
 		}
 	var langs = ["af",  "ar",  "ar_MA",  "ar_TN",  "bg",  "bs",  "ca",  "ca_XV",  "cs",  "cy",  "da", 
 	"de_AT",  "de",  "el",  "en_AU",  "en_GB",  "en",  "eo",  "es_ES",  "es",  "es_UY",  "et",  "eu", 
@@ -294,14 +303,14 @@ fontactive: function(familyName, fvd) {},
 				}
 				
 			}
-			l10n.setAttribute("src","web3d/js/properties_keys_"+lang+".js");
+			l10n.setAttribute("src",web3dpath+"/js/properties_keys_"+lang+".js");
 		}
 		
 		
 	}
 function insertScript(){
-var app = document.createElement("script");
-		app.setAttribute("src","web3d/web3d.nocache.js");
+        var app = document.createElement("script");
+		app.setAttribute("src",web3dpath+"/web3d.nocache.js");
 		document.head.appendChild(app);
 }
 	function checkLogin(){
@@ -340,10 +349,7 @@ var app = document.createElement("script");
 		window.setTimeout(showInEnglish, 1000);
 		switchLang(validLang(lang));
 		
-		
-		var app = document.createElement("script");
-		app.setAttribute("src","web3d/web3d.nocache.js");
-		document.head.appendChild(app);
+		insertScript();
 		
 		if(getCookie("SSID")){
 			checkCookie(getCookie("SSID"), lang);
@@ -367,7 +373,6 @@ document.isChromeWebapp = function isChromeWebapp() {
 		return false;
 	};
 </script>
-<script src="web3d/js/webfont.js?v=1.15"></script>
 
 
     <!-- Google Analytics (Start) -->
@@ -384,6 +389,14 @@ document.isChromeWebapp = function isChromeWebapp() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript';
 			ga.async = true;
 			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+		
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = web3dpath+'/js/webfont.js';
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(ga, s);
 		})();
@@ -515,6 +528,16 @@ a.button:focus {
 #ggbPage {
   background-color: #ffffff;
 }
+#ggbPage.verilyhidden {
+  display: none !important;
+  position: static !important;
+  visibility: hidden !important;
+}
+#ggbPage.verilyhidden * {
+  display: none !important;
+  position: static !important;
+  visibility: hidden !important;
+}
 .ggbPageContent {
   padding: 50px 30px;
   text-align: center;
@@ -588,7 +611,7 @@ z-index:501;
     </style>
 </head>
 <body dir="ltr" tabindex="-1" onload="checkLogin()">
-	<div id="ggbPage" style="display:none">
+	<div id="ggbPage" class="verilyhidden">
 
     <div id="ggbHeader">
         <div id="ggbHeaderContent" class="clearfix">
@@ -657,6 +680,6 @@ z-index:501;
 </div>
     <article id="ggw" data-param-showLogging="true" 
     data-param-useBrowserForJS="false"
-    data-param-app="true" data-param-prerelease="canary"></article>
+    data-param-app="true" data-param-prerelease="false"></article>
 </body>
 </html>
