@@ -292,7 +292,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters(P)) {
+		// #4405 if segment number changed during file loading (EV viewport)
+		// also don't use the new path update method
+		if (!getKernel().usePathAndRegionParameters(P) || cons.isFileLoading()) {
 			pointChanged(P);
 			return;
 		}
