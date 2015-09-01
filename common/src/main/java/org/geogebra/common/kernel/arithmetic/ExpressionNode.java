@@ -1419,9 +1419,20 @@ kernel, left,
 								.toValueString(tpl);
 					}
 				}
-				ret = ExpressionNode.operationToString(left, right, operation,
-						leftStr, rightStr, !symbolic, tpl, kernel);
-
+				// do not send random() to CAS
+				// #4072
+				if (operation == Operation.RANDOM) {
+					double d = left.evaluateDouble();
+					leftStr = kernel.format(d,
+							StringTemplate.defaultTemplate);
+					ret = ExpressionNode.operationToString(left, right,
+							operation, leftStr, rightStr, true, tpl,
+							kernel);
+				} else {
+					ret = ExpressionNode.operationToString(left, right,
+							operation, leftStr, rightStr, !symbolic, tpl,
+							kernel);
+				}
 			}
 		} finally {
 			// do nothing
