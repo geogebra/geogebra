@@ -227,8 +227,16 @@ public class AlgebraProcessor {
 				casCell.setLabelOfTwinGeo();
 				needsRedefinition = false;
 			} else {
+				boolean isInCons = cons.isInConstructionList(casCell);
+				// update output for existent casCell
+				// needed for #4118
+				if (isInCons) {
+					casCell.computeOutput();
+					casCell.setLabelOfTwinGeo();
+					needsRedefinition = false;
+				}
 				// free -> dependent, e.g. m := 7 -> m := c+2
-				if (casCell.isOutputEmpty() && !casCell.hasChildren()) {
+				else if (casCell.isOutputEmpty() && !casCell.hasChildren()) {
 					// this is a new casCell
 					cons.removeFromConstructionList(casCell);
 					KernelCAS.DependentCasCell(casCell);
