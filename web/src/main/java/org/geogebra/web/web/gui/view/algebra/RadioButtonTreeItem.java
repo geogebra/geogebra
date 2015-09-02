@@ -69,7 +69,6 @@ import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 
@@ -155,13 +154,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		@Override
 		public void onTimerStarted() {
-			playButton.setResource(AppResources.INSTANCE.nav_pause());
+			playButton.setResource(GuiResources.INSTANCE
+					.icons_play_pause_circle());
 			setAnimating(true);
 		}
 
 		@Override
 		public void onTimerStopped() {
-			playButton.setResource(AppResources.INSTANCE.nav_play());
+			playButton.setResource(GuiResources.INSTANCE.icons_play_circle());
 			setAnimating(false);
 		}
 
@@ -933,8 +933,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		}
 
-		ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
-				.nav_pause() : AppResources.INSTANCE.nav_play();
+		ImageResource imageresource = geo.isAnimating() ? GuiResources.INSTANCE
+				.icons_play_pause_circle() : GuiResources.INSTANCE
+				.icons_play_circle();
 		playButton = new PlayButton(imageresource);
 
 		ClickStartHandler.init(playButton, new ClickStartHandler() {
@@ -943,8 +944,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				boolean newValue = !(geo.isAnimating() && app.getKernel()
 						.getAnimatonManager().isRunning());
 				geo.setAnimating(newValue);
-				playButton.setResource(newValue ? AppResources.INSTANCE
-						.nav_pause() : AppResources.INSTANCE.nav_play());
+				playButton.setResource(newValue ? GuiResources.INSTANCE
+						.icons_play_pause_circle() : GuiResources.INSTANCE
+						.icons_play_circle());
 				geo.updateRepaint();
 
 				// if (geo.isAnimating()) {
@@ -960,13 +962,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		});
 
-		btnSpeedDown = new MyToggleButton2(AppResources.INSTANCE.nav_rewind());
+		btnSpeedDown = new MyToggleButton2(
+				GuiResources.INSTANCE.icons_play_rewind());
 		btnSpeedDown.setStyleName("avSpeedButton");
 
 		// btnSpeedDown.removeStyleName("MyToggleButton");
 
 		btnSpeedUp = new MyToggleButton2(
-				AppResources.INSTANCE.nav_fastforward());
+				GuiResources.INSTANCE.icons_play_fastforward());
 
 		btnSpeedUp.setStyleName("avSpeedButton");
 		// btnSpeedUp.removeStyleName("MyToggleButton");
@@ -1360,8 +1363,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			// TODO store actual icon and check before replacing it
 			playButtonValue = geo.isAnimating()
 					&& app.getKernel().getAnimatonManager().isRunning();
-			ImageResource newIcon = playButtonValue ? AppResources.INSTANCE
-					.nav_pause() : AppResources.INSTANCE.nav_play();
+			ImageResource newIcon = playButtonValue ? GuiResources.INSTANCE
+					.icons_play_pause_circle() : GuiResources.INSTANCE
+					.icons_play_circle();
 			playButton.setResource(newIcon);
 			showSpeedButtons(playButtonValue);
 		}
