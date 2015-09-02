@@ -764,7 +764,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * set EV to standard view
 	 */
 	protected void setEvStandardView() {
-		ev.setStandardView(true);
+		getView().setStandardView(true);
 	}
 
 	private void createColorBtn() {
@@ -1170,7 +1170,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			int si = btnChangeView.getSelectedIndex();
 			switch (si) {
 			case 0: // standard view
-				getView().setStandardView(true);
+				setEvStandardView();
 				break;
 			case 1: // show all objects
 				getView().setViewShowAllObjects(true);

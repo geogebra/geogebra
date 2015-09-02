@@ -18,7 +18,7 @@ public class EuclidianStyleBarForPlaneW extends EuclidianStyleBarW {
 
 	@Override
 	protected void setEvStandardView() {
-		EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion) ev
+		EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion) getView()
 				.getCompanion();
 		companion.updateCenterAndOrientationRegardingView();
 		companion.updateScaleRegardingView();
