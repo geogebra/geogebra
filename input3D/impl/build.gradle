@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'eclipse'
 
 project.setDescription('Parts of GeoGebra related to input devices (Leonar3Do, Intel RealSense, zSpace)')
 
