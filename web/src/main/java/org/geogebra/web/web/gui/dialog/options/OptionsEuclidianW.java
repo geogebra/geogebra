@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.dialog.options;
 
+import java.util.Collection;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -11,6 +13,7 @@ import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
+import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -408,17 +411,23 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 
 		void togglePlayButton() {
-			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
-					.getGuiManager().getConstructionProtocolNavigation();
-			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
+
+			Collection<ConstructionProtocolNavigation> cpns = app
+					.getGuiManager().getAllConstructionProtocolNavigations();
+			for (ConstructionProtocolNavigation cpn : cpns) {
+				cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
+			}
 			app.setUnsaved();
 			updateGUI();
+
 		}
 
 		void toggleConsProtButton() {
-			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
-					.getGuiManager().getConstructionProtocolNavigation();
-			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
+			Collection<ConstructionProtocolNavigation> cpns = app
+					.getGuiManager().getAllConstructionProtocolNavigations();
+			for (ConstructionProtocolNavigation cpn : cpns) {
+				cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
+			}
 			app.setUnsaved();
 			updateGUI();
 		}
