@@ -66,6 +66,10 @@ public class CASDragGestureListener implements DragGestureListener,
 
 		int row = table.rowAtPoint(dge.getDragOrigin());
 		GeoCasCell cell = table.getGeoCasCell(row);
+		// needed for #3972
+		if (cell.isError()) {
+			return;
+		}
 
 		geoLabelList.add(cell.getLabel(StringTemplate.defaultTemplate));
 		int cellnumber = cell.getRowNumber();
