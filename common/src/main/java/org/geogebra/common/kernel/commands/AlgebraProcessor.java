@@ -2134,15 +2134,29 @@ public class AlgebraProcessor {
 	 *             e.g. for invalid operation
 	 */
 	public final GeoElement[] processEquation(Equation equ) throws MyError {
-		if (equ.getLHS().unwrap() instanceof FunctionVariable
+		ExpressionValue lhs = equ.getLHS().unwrap();
+		//z = 7
+		if (lhs instanceof FunctionVariable
 				&& !equ.getRHS().containsFreeFunctionVariable(null)
 				&& !equ.getRHS().evaluatesToNumber(true)) {
-			equ.getRHS().setLabel(
-					equ.getLHS().toString(StringTemplate.defaultTemplate));
+			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+		}
+		// z(x) = sin(x), see #5484
+		if (lhs instanceof ExpressionNode
+				&& ((ExpressionNode)lhs).getOperation() == Operation.ZCOORD
+				&& ((ExpressionNode) lhs).getLeft().unwrap() instanceof FunctionVariable
+				) {
+			equ.getRHS().setLabel("z");
+			try {
+				return processValidExpression(equ.getRHS());
+			} catch (Exception e) {
+				e.printStackTrace();
+			
 			}
 		}
 		return processEquation(equ, kernel.getConstruction().isFileLoading());
