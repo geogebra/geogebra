@@ -335,6 +335,78 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_parametric_curve.png")
 	ImageResource algebra_new_parametric();
 	
+	// PLAY, PAUSE, REWIND, ETC. USED IN ALGEBRA VIEW AND IN NAVIGATION BAR
+	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
+	ImageResource icons_play_circle();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_play_circle_hover.png")
+	ImageResource icons_play_circle_hover();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle.png")
+	ImageResource icons_play_pause_circle();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
+	ImageResource icons_play_pause_circle_hover();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_skipback.png")
+	ImageResource icons_play_skipback();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_skipback_hover.png")
+	ImageResource icons_play_skipback_hover();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_rewind.png")
+	ImageResource icons_play_rewind();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_rewind_hover.png")
+	ImageResource icons_play_rewind_hover();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_fastforward.png")
+	ImageResource icons_play_fastforward();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_fastforward_hover.png")
+	ImageResource icons_play_fastforward_hover();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_skipforward.png")
+	ImageResource icons_play_skipforward();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_skipforward_hover.png")
+	ImageResource icons_play_skipforward_hover();
+
+	// PLAY, PAUSE, REWIND, ARROWS, CANCEL
+	// USED FOR BUTTON FILLINGS
+	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_down.png")
+	ImageResource icons_fillings_arrow_big_down();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_up.png")
+	ImageResource icons_fillings_arrow_big_up();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_left.png")
+	ImageResource icons_fillings_arrow_big_left();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_right.png")
+	ImageResource icons_fillings_arrow_big_right();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_fastforward.png")
+	ImageResource icons_fillings_fastforward();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_rewind.png")
+	ImageResource icons_fillings_rewind();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_skipback.png")
+	ImageResource icons_fillings_skipback();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_skipforward.png")
+	ImageResource icons_fillings_skipforward();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_play.png")
+	ImageResource icons_fillings_play();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_pause.png")
+	ImageResource icons_fillings_pause();
+
+	@Source("org/geogebra/common/icons_fillings/p18/filling_cancel.png")
+	ImageResource icons_fillings_cancel();
+
 	// DATA COLLECTION
 	@Source("org/geogebra/web/web/gui/images/datacollection_on.png")
 	ImageResource datacollection_on();
