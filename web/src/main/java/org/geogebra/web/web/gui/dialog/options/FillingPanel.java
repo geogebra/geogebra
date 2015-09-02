@@ -18,6 +18,7 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.FileInputDialog;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.OptionPanel;
@@ -369,19 +370,19 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnPanel = new FlowPanel();
 		iconList = new ArrayList<ImageResource>();
 		iconList.add(null); // for delete
-		AppResources res = AppResources.INSTANCE;
-		iconList.add(res.go_down());
-		iconList.add(res.go_up());
-		iconList.add(res.go_previous());
-		iconList.add(res.go_next());
-		iconList.add(res.nav_fastforward());
-		iconList.add(res.nav_rewind());
-		iconList.add(res.nav_skipback());
-		iconList.add(res.nav_skipforward());
-		iconList.add(res.nav_play());
-		iconList.add(res.nav_pause());
+		GuiResources res = GuiResources.INSTANCE;
+		iconList.add(res.icons_fillings_arrow_big_down());
+		iconList.add(res.icons_fillings_arrow_big_up());
+		iconList.add(res.icons_fillings_arrow_big_left());
+		iconList.add(res.icons_fillings_arrow_big_right());
+		iconList.add(res.icons_fillings_fastforward());
+		iconList.add(res.icons_fillings_rewind());
+		iconList.add(res.icons_fillings_skipback());
+		iconList.add(res.icons_fillings_skipforward());
+		iconList.add(res.icons_fillings_play());
+		iconList.add(res.icons_fillings_pause());
 
-		iconList.add(res.exit());
+		iconList.add(res.icons_fillings_cancel());
 
 		iconNameList = new ArrayList<String>();
 		for (ImageResource ir : iconList) {
