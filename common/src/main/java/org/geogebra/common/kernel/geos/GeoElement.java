@@ -1488,7 +1488,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			final boolean keepAdvanced) {
 	
 		euclidianVisible = geo.euclidianVisible;
-		
+		visibleInView3D = geo.visibleInView3D;
 		setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
 	}
 	
@@ -6999,6 +6999,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * set not visible in 3D views
 	 */
 	final public void removeViews3D() {
+		App.printStacktrace("");
 		visibleInView3D = VisibleInView.FALSE;
 	}
 
