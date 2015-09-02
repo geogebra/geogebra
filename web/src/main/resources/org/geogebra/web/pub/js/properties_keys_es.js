@@ -705,7 +705,7 @@ __GGB__keysVar.es.command = {
     "Random.SyntaxCAS": "[ <M\xednimo (n\xfamero o valor num\xe9rico)>, <M\xe1ximo (n\xfamero o valor num\xe9rico)> ]",
     "RandomBinomial": "BinomialAleatorio",
     "RandomBinomial.Syntax": "[ <N\xfamero de intentos>, <Probabilidad> ]",
-    "RandomDiscrete": "RandomDiscrete",
+    "RandomDiscrete": "AleatorioDiscreto",
     "RandomDiscrete.Syntax": "[ <Lista de n\xfameros>, <Lista de probabilidades (relativa)> ]",
     "RandomElement": "ElementoAleatorio",
     "RandomElement.Syntax": "[ <Lista> ]",

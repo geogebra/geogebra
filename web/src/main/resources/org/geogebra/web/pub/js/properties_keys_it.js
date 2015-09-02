@@ -1329,7 +1329,7 @@ __GGB__keysVar.it.menu = {
     "CreateDataList": "Crea lista",
     "CreateList": "Lista",
     "CreateList.Help": "Selezionare le celle, quindi fare clic sul pulsante dello strumento",
-    "CreateListGraphicsView": "Crea",
+    "CreateListGraphicsView": "Lista",
     "CreateListGraphicsView.Help": "Racchiudere gli oggetti in un rettangolo di selezione",
     "CreateListOfPoints": "Lista di punti",
     "CreateListOfPoints.Help": "Selezionare le celle, quindi fare clic sul pulsante dello strumento",
