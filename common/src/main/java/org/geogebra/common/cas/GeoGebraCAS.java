@@ -511,8 +511,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 
 		// change variables to y and x for command SolveODE
-		if (name.equals("SolveODE")) {
-			return switchVarsToSolveODE(args, sbCASCommand);
+		if (name.equals("SolveODE") && args.size() >= 2) {
+			return sbCASCommand.toString().replaceAll("unicode39u", "\'");
+			// return switchVarsToSolveODE(args, sbCASCommand);
 		} else if (name.equals("Solutions") && args.size() == 1) {
 			return switchVarsToSolutions(args, sbCASCommand);
 		}
@@ -558,79 +559,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		return newSbCASCommand;
 
-	}
-
-	private String switchVarsToSolveODE(final ArrayList<ExpressionNode> args,
-			StringBuilder sbCASCommand) {
-		Set<String> setOfDummyVars = new TreeSet<String>();
-		args.get(0).traverse(
-				DummyVariableCollector.getCollector(setOfDummyVars));
-		String newSbCASCommand = sbCASCommand.toString();
-		newSbCASCommand = newSbCASCommand.replaceAll("unicode39u", "'");
-		boolean changed = false;
-		int index = 0;
-		Iterator<String> ite = setOfDummyVars.iterator();
-		while (ite.hasNext()) {
-			String currStr = ite.next();
-			if (currStr.contains("'")) {
-				String tmp = currStr.split("'")[0];
-				if (!tmp.equals("y")) {
-					newSbCASCommand = newSbCASCommand.replaceAll("ggbtmpvar"
-							+ tmp, "y");
-					varSwaps.add(tmp + "->y");
-					changed = true;
-				} else {
-					index++;
-				}
-				setOfDummyVars.remove(currStr);
-				setOfDummyVars.remove(currStr + "'");
-				setOfDummyVars.remove(tmp);
-				if (setOfDummyVars.isEmpty()) {
-					return newSbCASCommand;
-				}
-				break;
-			}
-		}
-		ite = setOfDummyVars.iterator();
-		while (ite.hasNext() && index < 2) {
-			if (changed) {
-				String currStr = ite.next();
-				if (!currStr.equals("x")) {
-					newSbCASCommand = newSbCASCommand.replaceAll("ggbtmpvar"
-							+ currStr, "x");
-					varSwaps.add(currStr + "->x");
-				}
-				return newSbCASCommand;
-			}
-			if (setOfDummyVars.size() == 1 // && args.size() == 2
-			) {
-				String currStr = ite.next();
-				if (!currStr.equals("x") && !currStr.equals("y")) {
-					newSbCASCommand = newSbCASCommand.replaceAll("ggbtmpvar"
-							+ currStr, "x");
-					varSwaps.add(currStr + "->x");
-				}
-				return newSbCASCommand;
-			}
-			if (index == 0) {
-				String currStr = ite.next();
-				if (!currStr.equals("x") && !currStr.equals("y")) {
-					newSbCASCommand = newSbCASCommand.replaceAll("ggbtmpvar"
-							+ currStr, "y");
-					varSwaps.add(currStr + "->y");
-					index++;
-				}
-			} else if (index == 1) {
-				String currStr = ite.next();
-				if (!currStr.equals("x") && !currStr.equals("y")) {
-					newSbCASCommand = newSbCASCommand.replaceAll("ggbtmpvar"
-							+ currStr, "x");
-					varSwaps.add(currStr + "->x");
-					index++;
-				}
-			}
-		}
-		return newSbCASCommand;
 	}
 
 	final public boolean isCommandAvailable(final Command cmd) {
