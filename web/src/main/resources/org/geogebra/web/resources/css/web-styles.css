@@ -5796,3 +5796,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	top: -9px;
 	margin-left: -12px;
 }
+
+.ggbScreenshot .NewRadioButtonTreeItem{
+	overflow-x:hidden;
+}

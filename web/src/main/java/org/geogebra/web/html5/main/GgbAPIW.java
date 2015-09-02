@@ -38,6 +38,7 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -1011,5 +1012,24 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		gm.setGeneralToolBarDefinition(toolbarString);
 		gm.updateToolbar();
 	}
+	
+	public String getScreenshotURL(JavaScriptObject callback) {
+		return getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
+	}
+	
+	public native String getScreenshotURL(Element el, JavaScriptObject callback)/*-{
+		var canvas = document.createElement("canvas");
+		canvas.height = el.offsetHeight;
+		canvas.width = el.offsetWidth;
+		var context = canvas.getContext('2d');
+		el.className = el.className + " ggbScreenshot";
+		$wnd.domvas.toImage(el, function() {
+			// Look ma, I just converted this element to an image and can now to funky stuff!
+			context.drawImage(this, 0, 0);
+			el.className = el.className.replace(/\bggbScreenshot\b/, '');
+			callback(canvas.toDataURL());
+		});
+	}-*/;
+
 
 }
