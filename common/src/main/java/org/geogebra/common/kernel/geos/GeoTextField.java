@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.algos.AlgoPointInRegion;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
@@ -218,11 +217,14 @@ public class GeoTextField extends GeoButton {
 		// for a simple number, round it to the textfield setting (if set)
 		if (linkedGeo.isGeoNumeric() && !linkedGeo.isGeoAngle() && (printDecimals > -1 || printFigures > -1)) {
 			try {
-				num = MyDouble.parseDouble(kernel.getLocalization(), inputText);
+				// can be a calculation eg 1/2+3
+				// so use full GeoGebra parser
+				num = kernel.getAlgebraProcessor().evaluateToDouble(inputText,
+						false);
 				defineText = kernel.format(num,  tpl);
 				
 			} catch (Exception e) {
-				// user has entered eg 33deg, 4*3, 2^10, ?
+				// user has entered eg 33+
 				// do nothing
 				e.printStackTrace();
 			}
@@ -230,6 +232,8 @@ public class GeoTextField extends GeoButton {
 
 		try {
 			if (linkedGeo instanceof GeoNumeric) {
+				// can be a calculation eg 1/2+3
+				// so use full GeoGebra parser
 				num = kernel.getAlgebraProcessor().evaluateToDouble(inputText,
 						false);
 
