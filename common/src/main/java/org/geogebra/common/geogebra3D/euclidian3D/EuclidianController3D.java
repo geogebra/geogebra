@@ -1747,6 +1747,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void processRightPressFor3D(AbstractEvent event) {
 
 		if (viewHasHitsForMouseDragged()) {
+			// maybe needed if geo hitted is not moveable
+			processPressForRotate3D();
 			return;
 		}
 		temporaryMode = true;
