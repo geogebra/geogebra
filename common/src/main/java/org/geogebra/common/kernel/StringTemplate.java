@@ -1117,7 +1117,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		case GIAC:
 			// don't use isNumberValue(), isListValue as those lead to an
 			// evaluate()
-			if (left.evaluatesToList() && right instanceof NumberValue) {
+			if (left.evaluatesToList()
+					&& (right.evaluatesToNumber(false) || right instanceof NumberValue)) {
 				// eg {1,2,3} + 10
 				sb.append("map(");
 				sb.append(leftStr);
@@ -1127,7 +1128,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				// don't use isNumberValue(), isListValue as those lead to an
 				// evaluate()
-			} else if ((left instanceof NumberValue) && right.evaluatesToList()) {
+			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
+					&& right.evaluatesToList()) {
 				// eg 10 + {1,2,3}
 				sb.append("map(");
 				sb.append(rightStr);
@@ -1139,7 +1141,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// ExpressionNode can return true
 				// don't use isNumberValue(), isListValue as those lead to an
 				// evaluate()
-			} else if (left instanceof NumberValue
+			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
 					&& right.evaluatesToNonComplex2DVector()) {
 
 				// App.debug(leftStr+" "+left.getClass());
@@ -1157,7 +1159,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				// instanceof VectorValue rather than isVectorValue() as
 				// ExpressionNode can return true
-			} else if ((right instanceof NumberValue)
+			} else if ((right.evaluatesToNumber(false) || right instanceof NumberValue)
 					&& left.evaluatesToNonComplex2DVector()) {
 				// App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2) + 10
@@ -1172,7 +1174,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(')');
 
 				// don't use isNumberValue() as that leads to an evaluate()
-			} else if ((left instanceof NumberValue)
+			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
 				// App.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + (1,2,3)
@@ -1192,7 +1194,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				// don't use isNumberValue() as that leads to an evaluate()
 			} else if (left.evaluatesTo3DVector()
-					&& right instanceof NumberValue) {
+					&& (right.evaluatesToNumber(false) || right instanceof NumberValue)) {
 				// App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2,3) + 10
 				sb.append("((");
@@ -1460,7 +1462,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
 		case GIAC:
-			if (left.evaluatesToList() && right instanceof NumberValue) {
+			if (left.evaluatesToList()
+					&& (right.evaluatesToNumber(false) || right instanceof NumberValue)) {
 				// eg {1,2,3} + 10
 				sb.append("map(");
 				sb.append(leftStr);
@@ -1468,7 +1471,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(rightStr);
 				sb.append(")");
 
-			} else if ((left instanceof NumberValue) && right.evaluatesToList()) {
+			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
+					&& right.evaluatesToList()) {
 				// eg 10 + {1,2,3}
 				sb.append("map(");
 				sb.append(rightStr);
@@ -1476,7 +1480,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append("-ggx)");
 
-			} else if (left instanceof NumberValue
+			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
 					&& right.evaluatesToNonComplex2DVector()) {
 				// eg 10 - (1,2)
 				sb.append("point(");
@@ -1490,7 +1494,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(rightStr);
 				sb.append("[1]))");
 
-			} else if (right instanceof NumberValue
+			} else if ((right.evaluatesToNumber(false) || right instanceof NumberValue)
 					&& left.evaluatesToNonComplex2DVector()) {
 				// eg (1,2) - 10
 				sb.append("point(real(");
@@ -1503,7 +1507,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(rightStr);
 				sb.append("))");
 
-			} else if (left instanceof NumberValue
+			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
 				// eg 10 - (1,2,3)
 				sb.append("(");
@@ -1525,7 +1529,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// don't use isNumberValue(), isListValue as those lead to an
 				// evaluate()
 			} else if (left.evaluatesTo3DVector()
-					&& right instanceof NumberValue) {
+					&& (right.evaluatesToNumber(false) || right instanceof NumberValue)) {
 				// eg (1,2,3) - 10
 				sb.append("((");
 				sb.append(leftStr);
