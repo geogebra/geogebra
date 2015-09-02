@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
@@ -209,6 +210,7 @@ public class Kernel {
 
 	/** maximum CAS results cached */
 	public static int GEOGEBRA_CAS_CACHE_SIZE = 500;
+	private MySpecialDouble eulerConstant;
 
 	// print precision
 	public static final int STANDARD_PRINT_DECIMALS = 2;
@@ -4237,6 +4239,19 @@ public class Kernel {
 		}
 
 		return imaginaryUnit;
+	}
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @return E as MySpecialDouble
+	 */
+	public MySpecialDouble getEulerNumber() {
+		if (eulerConstant == null) {
+			eulerConstant = new MySpecialDouble(this, Math.E,
+					Unicode.EULER_STRING);
+		}
+		return eulerConstant;
 	}
 
 	/**

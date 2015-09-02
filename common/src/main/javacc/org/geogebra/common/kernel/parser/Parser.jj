@@ -1723,7 +1723,7 @@ ExpressionValue numVecVariable():
       // e for Euler constant
       if (c.image.equals("e") && kernel.lookupLabel(c.image) == null)
       {     
-        return MySpecialDouble.getEulerConstant(kernel);
+        return kernel.getEulerNumber();
       }
       // i for imaginary unit
       else if (c.image.equals("i") && kernel.lookupLabel(c.image) == null)
@@ -1815,20 +1815,18 @@ ExpressionValue myDouble():
     }
 |
     <EULER_GAMMA>
-    {
+    {	
          return new MySpecialDouble(kernel, 0.57721566490153286, Unicode.EULER_GAMMA_STRING);
     }
 |
     <E>
-    {
-      return new MySpecialDouble(kernel, Math.E, Unicode.EULER_STRING);
+    {    
+      return kernel.getEulerNumber();
     }
 |
    <IMAGINARY>
     {
-      GeoVec2D z = new GeoVec2D(kernel, 0, 1);
-      z.setMode(Kernel.COORD_COMPLEX);
-      return z;
+      return kernel.getImaginaryUnit();
     }         
  |
     <INFINITY>

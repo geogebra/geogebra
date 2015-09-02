@@ -104,7 +104,7 @@ public class MySpecialDouble extends MyDouble {
 	@Override
 	public ExpressionValue deepCopy(Kernel kernel1) {
 		if (isEulerConstant())
-			return getEulerConstant(kernel1);
+			return kernel1.getEulerNumber();
 
 		MySpecialDouble ret = new MySpecialDouble(this);
 		ret.kernel = kernel1;
@@ -118,18 +118,7 @@ public class MySpecialDouble extends MyDouble {
 		keepOriginalString = true;
 	}
 
-	/**
-	 * @param kernel
-	 *            kernel
-	 * @return E as MySpecialDouble
-	 */
-	public static MySpecialDouble getEulerConstant(Kernel kernel) {
-		if (eulerConstant == null) {
-			eulerConstant = new MySpecialDouble(kernel, Math.E,
-					Unicode.EULER_STRING);
-		}
-		return eulerConstant;
-	}
+
 
 	/**
 	 * @return true if this equals E (no tolerance)

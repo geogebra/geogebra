@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic.Variable;
@@ -198,7 +197,7 @@ public abstract class CommandProcessor {
 			localVarName = "e";
 			Variable localVar = new Variable(kernelA, localVarName);
 			c.traverse(Replacer.getReplacer(
-					MySpecialDouble.getEulerConstant(kernelA), localVar));
+kernelA.getEulerNumber(), localVar));
 		}
 
 		// add local variable name to construction
@@ -518,7 +517,8 @@ public abstract class CommandProcessor {
 				localVarName[i] = "e";
 				Variable localVar = new Variable(kernelA, localVarName[i]);
 				c.traverse(Replacer.getReplacer(
-						MySpecialDouble.getEulerConstant(kernelA), localVar));
+kernelA.getEulerNumber(),
+						localVar));
 			}
 
 		}
