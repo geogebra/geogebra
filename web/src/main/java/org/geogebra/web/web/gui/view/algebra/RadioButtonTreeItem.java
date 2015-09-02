@@ -138,9 +138,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class RadioButtonTreeItem extends FlowPanel implements
- DoubleClickHandler, ClickHandler, MouseMoveHandler,
-		MouseDownHandler, MouseUpHandler, MouseOverHandler, MouseOutHandler,
-		GeoContainer, MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
+		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
+		MouseUpHandler, MouseOverHandler, MouseOutHandler, GeoContainer,
+		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
 		TouchEndHandler, LongTouchHandler, EquationEditorListener,
 		RequiresResize {
 
@@ -173,6 +173,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	class AVField extends AutoCompleteTextFieldW {
 		private CancelListener listener;
+
 		public AVField(int columns, App app, CancelListener listener) {
 			super(columns, app);
 			this.listener = listener;
@@ -208,6 +209,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		private Label lblStep;
 		private GeoNumeric num;
 		private boolean tfPressed = false;
+
 		public MinMaxPanel() {
 			if (geo instanceof GeoNumeric) {
 				num = (GeoNumeric) geo;
@@ -249,7 +251,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				}
 			});
 
-
 			addMouseDownHandler(this);
 			addMouseUpHandler(this);
 			addBlurHandler(new BlurHandler() {
@@ -260,7 +261,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			});
 
 			update();
-
 
 		}
 
@@ -357,14 +357,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
-
-
 	}
 
 	private class MarblePanel extends FlowPanel {
 		private static final int BACKGROUND_ALPHA = 60;
 		private Marble marble;
 		private boolean selected = false;
+
 		public MarblePanel(final GeoElement geo, SafeUri showUrl,
 				SafeUri hiddenUrl) {
 
@@ -384,11 +383,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				GColor gc = geo.getAlgebraColor();
 				GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
 						gc.getBlue(), BACKGROUND_ALPHA);
-				getElement().getStyle()
-						.setBackgroundColor(GColor.getColorString(color));
+				getElement().getStyle().setBackgroundColor(
+						GColor.getColorString(color));
 				if (borderStyle != null) {
-					borderStyle.setBorderColor(
-							GColor.getColorString(geo.getAlgebraColor()));
+					borderStyle.setBorderColor(GColor.getColorString(geo
+							.getAlgebraColor()));
 				}
 			} else {
 				String strClearColor = GColor.getColorString(CLEAR_COLOR);
@@ -406,6 +405,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			setHighlighted(selected);
 		}
 	}
+
 	private static MinMaxPanel openedMinMaxPanel = null;
 	protected FlowPanel buttonPanel;
 	protected PushButton xButton;
@@ -445,7 +445,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	private FlowPanel sliderPanel;
 
-
 	/**
 	 * this panel contains the marble (radio) and the play button for extended
 	 * slider entries
@@ -484,7 +483,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	};
 	private MinMaxPanel minMaxPanel;
-
 
 	public void updateOnNextRepaint() {
 		this.needsUpdate = true;
@@ -646,8 +644,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			addSpecial(ihtml);
 		}
 
-
-
 		ihtml.getElement().appendChild(seNoLatex);
 
 		SpanElement se2 = DOM.createSpan().cast();
@@ -655,10 +651,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				"\u00A0\u00A0\u00A0\u00A0"));
 		ihtml.getElement().appendChild(se2);
 
-
 		// String text = "";
-		if (geo.isIndependent()
- || (avExtension && geo instanceof GeoBoolean)) {
+		if (geo.isIndependent() || (avExtension && geo instanceof GeoBoolean)) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 		} else {
 			switch (kernel.getAlgebraStyle()) {
@@ -702,6 +696,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
+		if (avExtension) {
+			buttonPanel.addStyleName("panelRow");
+
+		}
 		buttonPanel.setVisible(false);
 
 		xButton = new PushButton(new Image(
@@ -776,8 +774,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			createContentPanel();
 
 			addSpecial(ihtml);
-			contentPanel.add(LayoutUtil.panelRow(animPanel, sliderPanel,
-					minMaxPanel));
+			contentPanel.add(LayoutUtil.panelRow(sliderPanel, minMaxPanel));
 			add(contentPanel);
 		}
 
@@ -801,18 +798,20 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		}
 
-		int width = getAV().getOffsetWidth()
-				- animPanel.getOffsetWidth()
-				- 2
+		int width = getAV().getOffsetWidth() - animPanel.getOffsetWidth() - 2
 				* marblePanel.getOffsetWidth();
 		slider.setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
 				: width);
 	}
+
 	public void replaceXButtonDOM(TreeItem item) {
 		// in subclasses pButton will be added first!
 		// also, this method should be overridden in NewRadioButtonTreeItem
 		// buttonPanel.add(pButton);
 
+		if (avExtension && animPanel != null) {
+			buttonPanel.add(animPanel);
+		}
 		buttonPanel.add(xButton);
 		item.getElement().addClassName("XButtonPanelParent");
 		item.getElement().appendChild(buttonPanel.getElement());
@@ -922,7 +921,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		btnSpeedUp.setVisible(value);
 		lblSpeedValue.setVisible(value);
 		btnSpeedDown.setVisible(value);
-		sliderPanel.setVisible(!value);
 
 	}
 
@@ -942,12 +940,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ClickStartHandler.init(playButton, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				boolean newValue = !(geo.isAnimating()
-						&& app.getKernel().getAnimatonManager().isRunning());
+				boolean newValue = !(geo.isAnimating() && app.getKernel()
+						.getAnimatonManager().isRunning());
 				geo.setAnimating(newValue);
-				playButton.setResource(
-						newValue ? AppResources.INSTANCE.nav_pause()
-								: AppResources.INSTANCE.nav_play());
+				playButton.setResource(newValue ? AppResources.INSTANCE
+						.nav_pause() : AppResources.INSTANCE.nav_play());
 				geo.updateRepaint();
 
 				// if (geo.isAnimating()) {
@@ -968,7 +965,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		// btnSpeedDown.removeStyleName("MyToggleButton");
 
-
 		btnSpeedUp = new MyToggleButton2(
 				AppResources.INSTANCE.nav_fastforward());
 
@@ -980,12 +976,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		lblSpeedValue = new Label();
 		lblSpeedValue.addStyleName("speedValue");
 		animPanel = new FlowPanel();
-		animPanel.addStyleName("avSliderSpeedControlPanel");
-		animPanel.add(playButton);
+		animPanel.addStyleName("panelRow");
 		animPanel.add(btnSpeedDown);
 		animPanel.add(lblSpeedValue);
 		animPanel.add(btnSpeedUp);
+		animPanel.add(playButton);
 		showSpeedButtons(false);
+	//	buttonPanel.insert(animPanel, 0);
 	}
 
 	private void createMinMaxPanel() {
@@ -1240,7 +1237,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		}
 
-
 		if (marblePanel != null) {
 			marblePanel.update();
 		}
@@ -1321,8 +1317,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		} else {
 			if ("".equals(text0) || (text0 == null)) {
 				DrawEquationWeb
-.updateEquationMathQuillGGB("", seMayLatex,
-						true);
+						.updateEquationMathQuillGGB("", seMayLatex, true);
 			} else {
 				String text = DrawEquationWeb.inputLatexCosmetics(text0);
 				int tl = text.length();
@@ -1349,7 +1344,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (!avExtension) {
 			return;
 		}
-
 
 		if (playButton != null) {
 			if (!hasGeoExtendedAV()) {
@@ -1719,7 +1713,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				newGeo[0].setAuxiliaryObject(false);
 			}
 
-
 		} catch (Exception ee) {
 			// TODO: better exception handling
 			// GOptionPaneW.setCaller(inputField.getTextBox());// we have no
@@ -1756,7 +1749,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		if (avExtension
 				&& (isWidgetHit(animPanel, evt)
 						|| (minMaxPanel != null && minMaxPanel.isVisible()) || isWidgetHit(
-marblePanel, evt))) {
+							marblePanel, evt))) {
 			return;
 		}
 
@@ -1790,10 +1783,10 @@ marblePanel, evt))) {
 
 	protected boolean shouldEditLaTeX() {
 		return (LaTeX || geo.isGeoPoint() || geo.isGeoNumeric())
-				// && !(geo.isGeoVector() && geo.isGeoElement3D())
+		// && !(geo.isGeoVector() && geo.isGeoElement3D())
 				&& (geo.isIndependent()
 						|| (geo.getParentAlgorithm() instanceof AlgoCurveCartesian) || geo
-.isPointOnPath());
+							.isPointOnPath());
 		// AlgoCurveCartesian3D is an instance of AlgoCurveCartesian too
 	}
 
@@ -1874,19 +1867,17 @@ marblePanel, evt))) {
 	@Override
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
-		getAV().updateSelection();
 		if (avExtension) {
-			if (minMaxPanel != null && ((openedMinMaxPanel != minMaxPanel)
-					|| (openedMinMaxPanel == minMaxPanel
-							&& !isWidgetHit(minMaxPanel, evt)))) {
+			if (minMaxPanel != null
+					&& ((openedMinMaxPanel != minMaxPanel) || (openedMinMaxPanel == minMaxPanel && !isWidgetHit(
+							minMaxPanel, evt)))) {
 				closeMinMaxPanel();
 			}
 
-			if (openedMinMaxPanel != minMaxPanel) {
+			if (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel) {
 				getAV().selectRow(geo, false);
 
 			}
-
 
 			if (minMaxPanel != null && minMaxPanel.isVisible()) {
 
@@ -1896,21 +1887,24 @@ marblePanel, evt))) {
 			Object source = evt.getSource();
 			if (source == btnSpeedDown) {
 				animSpeedDown();
+				getAV().selectRow(geo, true);
 				return;
 			} else if (source == btnSpeedUp) {
 				animSpeedUp();
+				getAV().selectRow(geo, true);
 				return;
 			}
 
 			if (sliderPanel != null
 					&& sliderPanel.isVisible()
-					&& (isWidgetHit(slider.getWidget(0), evt)
-							|| isWidgetHit(slider.getWidget(2), evt))) {
+					&& (isWidgetHit(slider.getWidget(0), evt) || isWidgetHit(
+							slider.getWidget(2), evt))) {
 				minMaxPanel.show();
 				return;
 			}
 
 			getAV().selectRow(geo, true);
+			getAV().updateSelection();
 		}
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -1922,7 +1916,6 @@ marblePanel, evt))) {
 		onPointerUp(wrappedEvent);
 
 	}
-
 
 	private AlgebraViewW getAV() {
 		return (AlgebraViewW) av;
@@ -2077,7 +2070,7 @@ marblePanel, evt))) {
 					GeoElement geo2 = it.next();
 					if ((geo2.isAuxiliaryObject() == aux && aux)
 							|| (geo2.isAuxiliaryObject() == aux && geo2
-.isIndependent() == ind)) {
+									.isIndependent() == ind)) {
 
 						if (direction && geo2.equals(av.getLastSelectedGeo()))
 							selecting = !selecting;
@@ -2115,8 +2108,7 @@ marblePanel, evt))) {
 	private void onPointerUp(AbstractEvent event) {
 		if (commonEditingCheck()) {
 			if (newCreationMode) {
-				AlgebraStyleBarW styleBar = getAV()
-						.getStyleBar(false);
+				AlgebraStyleBarW styleBar = getAV().getStyleBar(false);
 				if (styleBar != null) {
 					styleBar.update(null);
 				}
@@ -2141,8 +2133,8 @@ marblePanel, evt))) {
 			}
 			// event.release();
 		} else
-			// tell selection listener about click
-			if (geo != null) {
+		// tell selection listener about click
+		if (geo != null) {
 			app.geoElementSelected(geo, false);
 		}
 
@@ -2497,7 +2489,6 @@ marblePanel, evt))) {
 
 	public void selectItem(boolean selected, TreeItem node) {
 		marblePanel.setHighlighted(selected);
-
 
 	}
 

@@ -31,8 +31,7 @@
 .GeoGebraFrame button {
 	border: none;
 	background: none;
-	padding: 0px;
-	margin: 0px;
+	padding: 0px;	margin: 0px;
 }
 
 /* .NewRadioButtonTreeItem, */
@@ -5697,7 +5696,7 @@ body.application[dir=rtl] .deleteAlgebra {
 
 .avItemContent .speedValue {
 	display: inline-block;
-	width: 30px;
+	width: 50px;
 	font-size: 12px;
 	text-align: center;
 }
