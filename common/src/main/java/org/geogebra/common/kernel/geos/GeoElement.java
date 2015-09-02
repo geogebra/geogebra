@@ -6999,7 +6999,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * set not visible in 3D views
 	 */
 	final public void removeViews3D() {
-		App.printStacktrace("");
 		visibleInView3D = VisibleInView.FALSE;
 	}
 
