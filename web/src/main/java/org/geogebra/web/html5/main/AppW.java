@@ -3172,6 +3172,17 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		stopCollectingRepaints();
 	}
 
+	/**
+	 * Resets the width of the Canvas converning the Width of its wrapper
+	 * (splitlayoutpanel center)
+	 *
+	 * @param width
+	 *            , height
+	 */
+	public void ggwGraphicsView3DDimChanged(int width, int height) {
+		// only used for 3D
+	}
+
 	@Override
 	public void ensureTimerRunning() {
 		this.getTimerSystem().ensureRunning();

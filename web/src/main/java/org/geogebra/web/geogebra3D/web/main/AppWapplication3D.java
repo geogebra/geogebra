@@ -211,4 +211,9 @@ public class AppWapplication3D extends AppWapplication {
 		return sb.toString();
 	}
 
+	@Override
+	public void ggwGraphicsView3DDimChanged(int width, int height) {
+		App3DW.ggwGraphicsView3DDimChanged(this, width, height);
+	}
+
 }

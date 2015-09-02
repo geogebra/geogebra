@@ -416,6 +416,13 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		this.updateCanvasColor();
 	}
 
+	public void setCoordinateSpaceSizeNoTransformNoColor(int width, int height) {
+		canvas.setCoordinateSpaceWidth(physicalPX(width));
+		canvas.setCoordinateSpaceHeight(physicalPX(height));
+		setWidth(width);
+		setHeight(height);
+	}
+
 	public int getOffsetWidth() {
 		int width = canvas.getOffsetWidth();
 		return width == 0 ? canvasWidth : width;

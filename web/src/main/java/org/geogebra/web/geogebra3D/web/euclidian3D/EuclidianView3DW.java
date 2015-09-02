@@ -39,6 +39,7 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -763,6 +764,31 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		// needed in applets; in app we might want to avoid this because panel
 		// resizing does the same.
 		this.resizeView();
+	}
+
+	public void synCanvasSize() {
+		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
+	}
+
+	public void setCoordinateSpaceSize(int width, int height) {
+
+		int oldWidth = g2p.getOffsetWidth();
+		int oldHeight = g2p.getOffsetHeight();
+		// no transform nor color set since it's a WebGL context
+		g2p.setCoordinateSpaceSizeNoTransformNoColor(width, height);
+		try {
+			((AppW) app).syncAppletPanelSize(width - oldWidth, height
+					- oldHeight, evNo);
+
+			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
+			g2p.getCanvas().getElement().getParentElement().getStyle()
+					.setWidth(width, Style.Unit.PX);
+			g2p.getCanvas().getElement().getParentElement().getStyle()
+					.setHeight(height, Style.Unit.PX);
+			getEuclidianController().calculateEnvironment();
+		} catch (Exception exc) {
+			App.debug("Problem with the parent element of the canvas");
+		}
 	}
 
 }

@@ -102,4 +102,31 @@ public class App3DW {
 		return new EuclidianView3DWnoWebGL(ec, settings);
 	}
 
+	/**
+	 * Resets the width of the Canvas converning the Width of its wrapper
+	 * (splitlayoutpanel center)
+	 * 
+	 * @param app
+	 *            application instance
+	 *
+	 * @param width
+	 *            new width
+	 * 
+	 * @param height
+	 *            new height
+	 */
+	static final public void ggwGraphicsView3DDimChanged(AppW app, int width,
+			int height) {
+		app.getSettings()
+				.getEuclidian(3)
+				.setPreferredSize(
+				org.geogebra.common.factories.AwtFactory.prototype
+						.newDimension(width, height));
+
+		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
+		view.synCanvasSize();
+		view.doRepaint2();
+		app.stopCollectingRepaints();
+	}
+
 }

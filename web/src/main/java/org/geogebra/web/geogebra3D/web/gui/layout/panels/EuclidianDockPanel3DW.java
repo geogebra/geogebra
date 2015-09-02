@@ -83,7 +83,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		if (consProtNav != null) {
 			consProtNav.update();
 			consProtNav.setVisible(app.showConsProtNavigation(id));
-			euclidianpanel.onResize();
+			updateEuclidianPanel();
 		}
 	}
 	
@@ -139,14 +139,13 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 				if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D)) {
 					h -= dockPanel.navHeight();
 				}
-
 				// TODO handle this better?
 				// exit if new size cannot be determined
 				if (h <= 0 || w <= 0) {
 					return;
 				}
 				if (h != oldHeight || w != oldWidth) {
-					app.ggwGraphicsViewDimChanged(w, h);
+					app.ggwGraphicsView3DDimChanged(w, h);
 					oldHeight = h;
 					oldWidth = w;
 				} else {
@@ -169,6 +168,35 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		public AbsolutePanel getAbsolutePanel() {
 			return absoluteEuclidianPanel;
         }
+	}
+
+	private int oldHeight = 0, oldWidth = 0;
+
+	private void updateEuclidianPanel() {
+
+		if (app != null) {
+
+			int h = getComponentInteriorHeight();
+			int w = getComponentInteriorWidth();
+			if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D)) {
+				h -= navHeight();
+			}
+			// TODO handle this better?
+			// exit if new size cannot be determined
+			if (h <= 0 || w <= 0) {
+				return;
+			}
+			if (h != oldHeight || w != oldWidth) {
+				app.ggwGraphicsView3DDimChanged(w, h);
+				oldHeight = h;
+				oldWidth = w;
+			} else {
+				// it's possible that the width/height didn't change but the
+				// position of EV did
+				app.getEuclidianView3D().getEuclidianController()
+						.calculateEnvironment();
+			}
+		}
 	}
 
 
