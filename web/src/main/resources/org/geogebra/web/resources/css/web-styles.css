@@ -3849,7 +3849,26 @@ body.application[dir=rtl] .GeoGebraFrame .AlgebraViewObjectStylebar {
 	left: 0px;
 	border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 0px;
-} 
+}
+
+.GeoGebraFrame .AlgebraViewObjectStylebar.smallStylebar {
+	padding: 2px 2px 2px 0px;
+}
+
+.GeoGebraFrame .AlgebraViewObjectStylebar > * {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.GeoGebraFrame .elemRow > * {
+	display: inline-block;
+	padding-left: 4px;
+	vertical-align: middle;
+}
+body.application[dir=rtl] .GeoGebraFrame .elemRow > * {
+	padding-left: 0px;
+	padding-right: 4px;
+}
 
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
 .GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
@@ -5692,16 +5711,48 @@ body.application[dir=rtl] .deleteAlgebra {
 
 .avSpeedButton {
 	display: inline;
+	cursor: pointer;
+	
+	width: 24px;
+}
+.avSpeedButton.hidden {
+	width: 0px;
+	overflow: hidden;
+	padding: 0px;
 }
 
-.avItemContent .speedValue {
+.GeoGebraFrame .avSpeedButton > * {
+	/* height is wrong otherwise */
+	float: left;
+}
+
+.GeoGebraFrame .AlgebraViewObjectStylebar .speedValue {
 	display: inline-block;
-	width: 50px;
-	font-size: 12px;
+	width: 40px;
+	font-size: 0.8em;
 	text-align: center;
 }
 
+.GeoGebraFrame .AlgebraViewObjectStylebar .speedValue.hidden {
+	width: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.GeoGebraFrame .slideIn {
+	-moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease; /* Safari */
+    transition: all 0.5s ease;
+}
+
 /* Options Slider */
+
+.GeoGebraFrame .optionsSlider {
+	display: block;
+	margin-top: 5px;
+}
 
 .avItemContent .optionsSlider .gwt-Label {
 	margin: 0px;

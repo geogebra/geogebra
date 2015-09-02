@@ -697,7 +697,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
 		if (avExtension) {
-			buttonPanel.addStyleName("panelRow");
+			buttonPanel.addStyleName("smallStylebar");
+			// buttonPanel.addStyleName("panelRow");
 
 		}
 		buttonPanel.setVisible(false);
@@ -918,9 +919,19 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 
 		setAnimationSpeed();
-		btnSpeedUp.setVisible(value);
-		lblSpeedValue.setVisible(value);
-		btnSpeedDown.setVisible(value);
+
+		if (value) {
+			btnSpeedUp.removeStyleName("hidden");
+			// lblSpeedValue.removeStyleName("hidden");
+			btnSpeedDown.removeStyleName("hidden");
+		} else {
+			btnSpeedUp.addStyleName("hidden");
+			// lblSpeedValue.addStyleName("hidden");
+			btnSpeedDown.addStyleName("hidden");
+		}
+		// btnSpeedUp.setVisible(value);
+		// lblSpeedValue.setVisible(value);
+		// btnSpeedDown.setVisible(value);
 
 	}
 
@@ -964,22 +975,32 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		btnSpeedDown = new MyToggleButton2(
 				GuiResources.INSTANCE.icons_play_rewind());
+		btnSpeedDown.getUpHoveringFace().setImage(
+				new Image(GuiResources.INSTANCE.icons_play_rewind_hover()));
+
 		btnSpeedDown.setStyleName("avSpeedButton");
+		btnSpeedDown.addStyleName("slideIn");
 
 		// btnSpeedDown.removeStyleName("MyToggleButton");
 
 		btnSpeedUp = new MyToggleButton2(
 				GuiResources.INSTANCE.icons_play_fastforward());
+		btnSpeedUp.getUpHoveringFace()
+				.setImage(
+						new Image(GuiResources.INSTANCE
+								.icons_play_fastforward_hover()));
 
 		btnSpeedUp.setStyleName("avSpeedButton");
+		btnSpeedUp.addStyleName("slideIn");
 		// btnSpeedUp.removeStyleName("MyToggleButton");
 
 		btnSpeedDown.addClickHandler(this);
 		btnSpeedUp.addClickHandler(this);
 		lblSpeedValue = new Label();
 		lblSpeedValue.addStyleName("speedValue");
+		lblSpeedValue.addStyleName("slideIn");
 		animPanel = new FlowPanel();
-		animPanel.addStyleName("panelRow");
+		animPanel.addStyleName("elemRow");
 		animPanel.add(btnSpeedDown);
 		animPanel.add(lblSpeedValue);
 		animPanel.add(btnSpeedUp);
