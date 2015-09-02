@@ -289,7 +289,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// axes color
 			colorLabel = new Label(app.getMenu("Color") + ":");
 
-			lblAxisLabelStyle = new Label(app.getMenu("LabelStyle"));
+			lblAxisLabelStyle = new Label(app.getPlain("LabelStyle"));
 			// show axis label bold checkbox
 			cbAxisLabelBold = new CheckBox(app.getPlain("Bold"));
 
