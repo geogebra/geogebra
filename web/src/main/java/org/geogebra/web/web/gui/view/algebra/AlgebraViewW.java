@@ -823,8 +823,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		case LAYER:
 			for (Integer key : layerNodesMap.keySet()) {
 				node = layerNodesMap.get(key);
-				setUserObject(node, loc.getPlain("LayerA", key.toString())
-						+ "TODO" + key);
+				setUserObject(node, loc.getPlain("LayerA", key.toString()));
 			}
 			break;
 		case ORDER:

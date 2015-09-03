@@ -183,6 +183,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		supportedModes.add(SortMode.DEPENDENCY);
 		supportedModes.add(SortMode.TYPE);
 		supportedModes.add(SortMode.ORDER);
+		supportedModes.add(SortMode.LAYER);
 
 		ImageOrText[] strTreeMode = getTreeModeStr();
 		if(treeModeButton == null){
