@@ -359,6 +359,99 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	}
 
+	private class AnimPanel extends FlowPanel implements ClickHandler {
+		private MyToggleButton2 btnSpeedDown;
+		private Label lblSpeedValue;
+		private MyToggleButton2 btnSpeedUp;
+		public AnimPanel() {
+			super();
+			addStyleName("elemRow");
+
+			btnSpeedDown = new MyToggleButton2(
+					GuiResources.INSTANCE.icons_play_rewind());
+			btnSpeedDown.getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE.icons_play_rewind_hover()));
+
+			btnSpeedDown.setStyleName("avSpeedButton");
+			btnSpeedDown.addStyleName("slideIn");
+
+			// btnSpeedDown.removeStyleName("MyToggleButton");
+
+			btnSpeedUp = new MyToggleButton2(
+					GuiResources.INSTANCE.icons_play_fastforward());
+			btnSpeedUp.getUpHoveringFace().setImage(new Image(
+					GuiResources.INSTANCE.icons_play_fastforward_hover()));
+
+			btnSpeedUp.setStyleName("avSpeedButton");
+			btnSpeedUp.addStyleName("slideIn");
+			// btnSpeedUp.removeStyleName("MyToggleButton");
+
+			btnSpeedDown.addClickHandler(this);
+			btnSpeedUp.addClickHandler(this);
+			lblSpeedValue = new Label();
+			lblSpeedValue.addStyleName("speedValue");
+			lblSpeedValue.addStyleName("slideIn");
+			setSpeedText(geo.getAnimationSpeed());
+			add(btnSpeedDown);
+			add(lblSpeedValue);
+			add(btnSpeedUp);
+			add(playButton);
+
+		}
+
+		public void showSpeedButtons(boolean value) {
+			if (value) {
+				btnSpeedUp.removeStyleName("hidden");
+				// lblSpeedValue.removeStyleName("hidden");
+				btnSpeedDown.removeStyleName("hidden");
+			} else {
+				btnSpeedUp.addStyleName("hidden");
+				// lblSpeedValue.addStyleName("hidden");
+				btnSpeedDown.addStyleName("hidden");
+			}
+		}
+
+		private void setSpeed() {
+
+			double speed = animSpeeds[speedIndex];
+			geo.setAnimationSpeed(speed);
+			setSpeedText(speed);
+		}
+
+		private void setSpeedText(double speed) {
+			lblSpeedValue.setText(speed + " " + MUL_SIGN);
+		}
+
+		public void onClick(ClickEvent event) {
+			Object source = event.getSource();
+			if (source == btnSpeedDown) {
+				speedDown();
+				getAV().selectRow(geo, true);
+				return;
+			} else if (source == btnSpeedUp) {
+				speedUp();
+				getAV().selectRow(geo, true);
+				return;
+			}
+		}
+
+		private void speedUp() {
+			if (speedIndex < animSpeeds.length - 1) {
+				speedIndex++;
+				setSpeed();
+			}
+		}
+
+		private void speedDown() {
+			if (speedIndex > 0) {
+				speedIndex--;
+				setSpeed();
+
+			}
+		}
+
+	}
+
 	private class MarblePanel extends FlowPanel {
 		private static final int BACKGROUND_ALPHA = 60;
 		private Marble marble;
@@ -467,15 +560,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 * whether the playButton currently shows a play or a pause icon
 	 */
 	private boolean playButtonValue;
-	private MyToggleButton2 btnSpeedDown;
-	private Label lblSpeedValue;
-	private MyToggleButton2 btnSpeedUp;
 
 	/**
 	 * panel to display animation related controls
 	 */
 
-	private FlowPanel animPanel;
+	private AnimPanel animPanel;
 	private ScheduledCommand resizeSliderCmd = new ScheduledCommand() {
 
 		public void execute() {
@@ -902,38 +992,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		setDraggable();
 	}
 
-	private void setAnimationSpeed() {
-		if (!avExtension) {
-			return;
-		}
 
-		double speed = animSpeeds[speedIndex];
-		geo.setAnimationSpeed(speed);
-		lblSpeedValue.setText(speed + " " + MUL_SIGN);
-		deferredResizeSlider();
-	}
-
-	private void showSpeedButtons(boolean value) {
-		if (!avExtension) {
-			return;
-		}
-
-		setAnimationSpeed();
-
-		if (value) {
-			btnSpeedUp.removeStyleName("hidden");
-			// lblSpeedValue.removeStyleName("hidden");
-			btnSpeedDown.removeStyleName("hidden");
-		} else {
-			btnSpeedUp.addStyleName("hidden");
-			// lblSpeedValue.addStyleName("hidden");
-			btnSpeedDown.addStyleName("hidden");
-		}
-		// btnSpeedUp.setVisible(value);
-		// lblSpeedValue.setVisible(value);
-		// btnSpeedDown.setVisible(value);
-
-	}
 
 	private void createAnimPanel() {
 		if (!avExtension) {
@@ -973,39 +1032,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		});
 
-		btnSpeedDown = new MyToggleButton2(
-				GuiResources.INSTANCE.icons_play_rewind());
-		btnSpeedDown.getUpHoveringFace().setImage(
-				new Image(GuiResources.INSTANCE.icons_play_rewind_hover()));
 
-		btnSpeedDown.setStyleName("avSpeedButton");
-		btnSpeedDown.addStyleName("slideIn");
-
-		// btnSpeedDown.removeStyleName("MyToggleButton");
-
-		btnSpeedUp = new MyToggleButton2(
-				GuiResources.INSTANCE.icons_play_fastforward());
-		btnSpeedUp.getUpHoveringFace()
-				.setImage(
-						new Image(GuiResources.INSTANCE
-								.icons_play_fastforward_hover()));
-
-		btnSpeedUp.setStyleName("avSpeedButton");
-		btnSpeedUp.addStyleName("slideIn");
-		// btnSpeedUp.removeStyleName("MyToggleButton");
-
-		btnSpeedDown.addClickHandler(this);
-		btnSpeedUp.addClickHandler(this);
-		lblSpeedValue = new Label();
-		lblSpeedValue.addStyleName("speedValue");
-		lblSpeedValue.addStyleName("slideIn");
-		animPanel = new FlowPanel();
-		animPanel.addStyleName("elemRow");
-		animPanel.add(btnSpeedDown);
-		animPanel.add(lblSpeedValue);
-		animPanel.add(btnSpeedUp);
-		animPanel.add(playButton);
-		showSpeedButtons(false);
+		animPanel = new AnimPanel();
+		animPanel.showSpeedButtons(false);
 	//	buttonPanel.insert(animPanel, 0);
 	}
 
@@ -1388,7 +1417,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 					.icons_play_pause_circle() : GuiResources.INSTANCE
 					.icons_play_circle();
 			playButton.setResource(newIcon);
-			showSpeedButtons(playButtonValue);
+			animPanel.showSpeedButtons(playButtonValue);
 		}
 	}
 
@@ -1870,20 +1899,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		event.stopPropagation();
 	}
 
-	private void animSpeedUp() {
-		if (speedIndex < animSpeeds.length - 1) {
-			speedIndex++;
-			setAnimationSpeed();
-		}
-	}
-
-	private void animSpeedDown() {
-		if (speedIndex > 0) {
-			speedIndex--;
-			setAnimationSpeed();
-
-		}
-	}
 
 	public void update() {
 		// marblePanel.setBackground();
@@ -1910,15 +1925,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 
 			Object source = evt.getSource();
-			if (source == btnSpeedDown) {
-				animSpeedDown();
-				getAV().selectRow(geo, true);
-				return;
-			} else if (source == btnSpeedUp) {
-				animSpeedUp();
-				getAV().selectRow(geo, true);
-				return;
-			}
+
 
 			if (sliderPanel != null
 					&& sliderPanel.isVisible()
@@ -2495,7 +2502,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 		geo.setAnimating(value);
 		geo.getKernel().getAnimatonManager().startAnimation();
-		showSpeedButtons(value);
+		animPanel.showSpeedButtons(value);
 	}
 
 	public static void closeMinMaxPanel() {
