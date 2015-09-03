@@ -5731,6 +5731,8 @@ body.application[dir=rtl] .deleteAlgebra {
 	width: 40px;
 	font-size: 0.8em;
 	text-align: center;
+	border: none;
+	outline: none;
 }
 
 .GeoGebraFrame .AlgebraViewObjectStylebar .speedValue.hidden {

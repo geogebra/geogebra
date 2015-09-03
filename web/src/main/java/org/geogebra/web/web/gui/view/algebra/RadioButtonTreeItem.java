@@ -361,8 +361,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	private class AnimPanel extends FlowPanel implements ClickHandler {
 		private MyToggleButton2 btnSpeedDown;
-		private Label lblSpeedValue;
+		private MyToggleButton2 btnSpeedValue;
 		private MyToggleButton2 btnSpeedUp;
+		private boolean speedButtons = false;
 		public AnimPanel() {
 			super();
 			addStyleName("elemRow");
@@ -388,12 +389,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			btnSpeedDown.addClickHandler(this);
 			btnSpeedUp.addClickHandler(this);
-			lblSpeedValue = new Label();
-			lblSpeedValue.addStyleName("speedValue");
-			lblSpeedValue.addStyleName("slideIn");
+			btnSpeedValue = new MyToggleButton2("");
+			btnSpeedValue.addStyleName("speedValue");
+			btnSpeedValue.addStyleName("slideIn");
+			btnSpeedValue.addClickHandler(this);
 			setSpeedText(geo.getAnimationSpeed());
 			add(btnSpeedDown);
-			add(lblSpeedValue);
+			add(btnSpeedValue);
 			add(btnSpeedUp);
 			add(playButton);
 
@@ -409,17 +411,17 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				// lblSpeedValue.addStyleName("hidden");
 				btnSpeedDown.addStyleName("hidden");
 			}
+			speedButtons = value;
 		}
 
 		private void setSpeed() {
-
 			double speed = animSpeeds[speedIndex];
 			geo.setAnimationSpeed(speed);
 			setSpeedText(speed);
 		}
 
 		private void setSpeedText(double speed) {
-			lblSpeedValue.setText(speed + " " + MUL_SIGN);
+			btnSpeedValue.setText(speed + " " + MUL_SIGN);
 		}
 
 		public void onClick(ClickEvent event) {
@@ -427,11 +429,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (source == btnSpeedDown) {
 				speedDown();
 				getAV().selectRow(geo, true);
-				return;
 			} else if (source == btnSpeedUp) {
 				speedUp();
 				getAV().selectRow(geo, true);
-				return;
+			} else if (source == btnSpeedValue) {
+				showSpeedButtons(!speedButtons);
+				getAV().selectRow(geo, true);
 			}
 		}
 
