@@ -238,6 +238,11 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	public void onPointerEventStart(AbstractEvent event) {
+
+		if (temporaryMode) {
+			App.debug("UNCHECK");
+			mtg.setComboboxFocused(false);
+		}
 		if ((app.getGuiManager() != null)
 		        && (getEvNo() != EuclidianView.EVNO_GENERAL || (view instanceof EuclidianViewForPlaneInterface))) {
 			// Probability calculator plot panel view should not set active
