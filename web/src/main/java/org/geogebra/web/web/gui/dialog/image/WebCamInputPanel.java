@@ -25,16 +25,24 @@ public class WebCamInputPanel extends VerticalPanel {
 
 	private void initGUI() {		
 		inputWidget = new SimplePanel();
-		video = populate(inputWidget.getElement(), app.getMenu("Webcam.Chrome"), app.getMenu("Webcam.Firefox"), app.getMenu("Webcam.Problem"));
+		video = populate(inputWidget.getElement(),
+				app.getMenu("Webcam.Chrome"), app.getMenu("Webcam.Firefox"),
+				app.getMenu("Webcam.Edge"), app.getMenu("Webcam.Problem"));
 
 		add(inputWidget);
 	}
 
-	private native Element populate(Element el, String messageChrome, String messageFirefox, String errorMessage) /*-{
+	private native Element populate(Element el, String messageChrome,
+			String messageFirefox, String messageEdge, String errorMessage) /*-{
 
 		el.style.position = "relative";
 		var message = ($wnd.navigator.mozGetUserMedia) ? messageFirefox
 				: messageChrome;
+
+		// check for Windows 10 Edge browser		
+		message = navigator.userAgent.indexOf("Edge") > -1 ? messageEdge
+				: message;
+
 		var ihtml = "<span style='position:absolute;width:213px;height:160px;text-align:center;'><br><br>"
 				+ message + "</span>\n";
 		ihtml += "<video width='213' height='160' autoplay><br><br>"
@@ -119,7 +127,9 @@ public class WebCamInputPanel extends VerticalPanel {
 	public void startVideo() {
 		stopVideo();
 		inputWidget.getElement().removeAllChildren();
-		video = populate(inputWidget.getElement(), app.getMenu("Webcam.Chrome"), app.getMenu("Webcam.Firefox"), app.getMenu("Webcam.Problem"));
+		video = populate(inputWidget.getElement(),
+				app.getMenu("Webcam.Chrome"), app.getMenu("Webcam.Firefox"),
+				app.getMenu("Webcam.Edge"), app.getMenu("Webcam.Problem"));
 
 	    
     }
