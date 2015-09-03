@@ -2118,6 +2118,7 @@ __GGB__keysVar.sk.menu = {
     "Volume.Help": "Vyber ihlan, hranol, gu\u013eu, ku\u017ee\u013e, valec, at\u010f.",
     "Webcam": "Webov\xe1 kamera",
     "Webcam.Chrome": "Prosim kliknite na 'Povoli\u0165' v pop-up p\xe1sme",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Pros\xedm kliknite na '\u0160\xedri\u0165 vybran\xfd n\xe1stroj' vo vyskakovacom okne",
     "Webcam.Problem": "Probl\xe9m komunik\xe1cie s webkamerou",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

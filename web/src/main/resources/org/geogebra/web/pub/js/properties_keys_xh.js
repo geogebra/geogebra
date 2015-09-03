@@ -2118,6 +2118,7 @@ __GGB__keysVar.xh.menu = {
     "Volume.Help": "Khetha ipyramid, iprism, isphere, icone, icylinder, etc.",
     "Webcam": "iWebcam",
     "Webcam.Chrome": "Nceda ucofe u 'Vumela' kwi pop-up bar",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Nceda ucofe u'Sherisha iDevise eKhethiweyo kwi pop-up",
     "Webcam.Problem": "Ingxaki ekusebenzisaneni neWebcam",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

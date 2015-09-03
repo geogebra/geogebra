@@ -2118,6 +2118,7 @@ __GGB__keysVar.sv.menu = {
     "Volume.Help": "V\xe4lj ett 3D-objekt, t.ex. en pyramid, kon, cylinder, klot, prisma etc.",
     "Webcam": "Webbkamera",
     "Webcam.Chrome": "Var sn\xe4ll och klicka p\xe5 'Till\xe5t' i meddelandelisten.",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Var sn\xe4ll och klicka p\xe5 'Dela vald enhet' i pop-upf\xf6nstret",
     "Webcam.Problem": "Problem med att kommunicera med webbkameran",
     "WelcomeExam": "V\xe4nta tills din l\xe4rare ber dig starta provet",

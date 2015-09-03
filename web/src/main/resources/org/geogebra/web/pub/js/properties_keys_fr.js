@@ -2118,6 +2118,7 @@ __GGB__keysVar.fr.menu = {
     "Volume.Help": "S\xe9lectionner une pyramide, un prisme, une sph\xe8re, un c\xf4ne, un cylindre, etc.",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Cliquer 'Autoriser' dans le bandeau qui s'est ouvert.",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Cliquer  'Partager le p\xe9riph\xe9rique s\xe9lectionn\xe9' dans le 'pop-up' apparu.",
     "Webcam.Problem": "Probl\xe8me de communication avec la cam\xe9ra.",
     "WelcomeExam": "Merci d'attendre que votre enseignant vous demande de commencer l'examen.",

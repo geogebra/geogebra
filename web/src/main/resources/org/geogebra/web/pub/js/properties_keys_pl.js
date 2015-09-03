@@ -2118,6 +2118,7 @@ __GGB__keysVar.pl.menu = {
     "Volume.Help": "Wybierz ostros\u0142up, graniastos\u0142up, kul\u0119, sto\u017cek, walec, itp",
     "Webcam": "Kamera",
     "Webcam.Chrome": "Prosz\u0119 klikn\u0105\u0107 \"Zezwalaj\" na pasku podr\u0119cznym",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Kliknij 'Udost\u0119pnij wybrane urz\u0105dzenie'",
     "Webcam.Problem": "Problem komunikacji z Kamer\u0105",
     "WelcomeExam": "Prosz\u0119 czeka\u0107, dop\xf3ki nauczyciel nie og\u0142osi rozpocz\u0119cia egzaminu.",

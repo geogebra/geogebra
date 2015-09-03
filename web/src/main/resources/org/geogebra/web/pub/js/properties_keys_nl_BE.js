@@ -2118,6 +2118,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Volume.Help": "Selecteer piramide, prisma, bol, kegel, cilinder, enz.",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Please click 'Allow' in the pop-up bar",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Please click 'Share Selected Device' in the pop-up",
     "Webcam.Problem": "Verbindingsprobleem met Webcam",
     "WelcomeExam": "Wacht tot jouw leerkracht toestemming geeft om de test te starten.",

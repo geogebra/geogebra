@@ -2118,6 +2118,7 @@ __GGB__keysVar.da.menu = {
     "Volume.Help": "V\xe6lg pyramide, prisme, kugle, kegle, cylinder, etc",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Klik venligst 'Tillad' i pop-up baren",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Tryk venligst 'Del valgte arkiv' i pop-up",
     "Webcam.Problem": "Problemer med kommunikationen med Webkameraet",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

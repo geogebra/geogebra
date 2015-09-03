@@ -2118,6 +2118,7 @@ __GGB__keysVar.gl.menu = {
     "Volume.Help": "Seleccione pir\xe1mide, prisma, esfera, cono, cilindro, etc.",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Por favor, faga clic en 'permitir' na barra emerxente",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Por favor faga clic en 'Compartir dispositivo seleccionado' no men\xfa emerxente.",
     "Webcam.Problem": "Rex\xedstrase un problema de comunicaci\xf3n coa c\xe1mara web.",
     "WelcomeExam": "Agrad\xe9cese a espera en tanto non se dea indicaci\xf3n de inicio do exame.",

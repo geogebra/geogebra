@@ -2118,6 +2118,7 @@ __GGB__keysVar.ms.menu = {
     "Volume.Help": "Pilih piramid, prisma, sfera, kon, silinder, dll.",
     "Webcam": "KameraWeb",
     "Webcam.Chrome": "Sila klik 'Allow' di bar 'pop-up'",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Sila klik 'Share Selected Device' di 'pop-up'",
     "Webcam.Problem": "Masalah menghubungi dengan Webcam",
     "WelcomeExam": "Sila tunggu sehingga guru minta anda mula peperiksaan.",

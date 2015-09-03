@@ -2118,6 +2118,7 @@ __GGB__keysVar.lt.menu = {
     "Volume.Help": "Pasirinkite piramid\u0119, prizm\u0119, sfer\u0105, k\u016bg\u012f, cilindr\u0105, ...",
     "Webcam": "Vaizdo kamera",
     "Webcam.Chrome": "Apustelkite 'Leisti' i\u0161\u0161okan\u010diame lauke",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Spustelkite 'Bendrinti \u012frengin\u012f' i\u0161\u0161okan\u010diame lauke",
     "Webcam.Problem": "I\u0161kilo sunkum\u0173 bandant prisijungti prie vaizdo kameros",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

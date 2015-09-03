@@ -2118,6 +2118,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Volume.Help": "G\xfala, has\xe1b, g\xf6mb, k\xfap, henger stb. kijel\xf6l\xe9se",
     "Webcam": "Webkamera",
     "Webcam.Chrome": "Kattintson az \"Enged\xe9lyez\xe9s\" gombra a felugr\xf3 ablakban.",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Kattintson a \"Kijel\xf6lt eszk\xf6z megoszt\xe1s\xe1\"-ra a felug\xf3 ablakban",
     "Webcam.Problem": "Probl\xe9ma a Webkamer\xe1val t\xf6rt\xe9n\u0151 kommunik\xe1ci\xf3val",
     "WelcomeExam": "A vizsga akkor kezdhet\u0151 meg, ha a tan\xe1r erre utas\xedt\xe1st ad.",

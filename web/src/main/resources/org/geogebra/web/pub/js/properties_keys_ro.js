@@ -2118,6 +2118,7 @@ __GGB__keysVar.ro.menu = {
     "Volume.Help": "Selecta\u021bi piramid\u0103, prisme, sfer\u0103, con, cilindru, etc",
     "Webcam": "Camer\u0103 web",
     "Webcam.Chrome": "V\u0103 rug\u0103m s\u0103 face\u021bi clic pe \"Permite\u021bi\" \xeen bara de pop-up",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "V\u0103 rug\u0103m s\u0103 face\u021bi clic pe \"Trimite\u021bi Dispozitiv selectat\" \xeen fereastra pop-up",
     "Webcam.Problem": "Probleme \xeen comunicarea cu camera video (webcam)",
     "WelcomeExam": "V\u0103 rug\u0103m s\u0103 a\u0219tepta\u021bi p\xe2n\u0103 c\xe2nd profesorul dvs. v\u0103 cere \xeenceperea examenului.",

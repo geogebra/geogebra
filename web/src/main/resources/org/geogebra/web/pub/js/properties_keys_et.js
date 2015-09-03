@@ -2118,6 +2118,7 @@ __GGB__keysVar.et.menu = {
     "Volume.Help": "Vali p\xfcramiid, prisma, kera, koonus, silinder, jne.",
     "Webcam": "Veebikaamera",
     "Webcam.Chrome": "Palun kl\xf5psake h\xfcpikreal valikule \"Luba\"",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Palun kl\xf5psake h\xfcpikreal valikule \"Jaga valitud vahend\"",
     "Webcam.Problem": "Ei saa veebikaameraga \xfchendust",
     "WelcomeExam": "Palun oodake kuni \xf5petaja annab loa alustada eksamit.",

@@ -2118,6 +2118,7 @@ __GGB__keysVar.eu.menu = {
     "Volume.Help": "Piramidea, prisma, esfera, konoa, zilindroa, etab. aukeratu",
     "Webcam": "Web-kamera",
     "Webcam.Chrome": "Mesedez, egin klik 'Baimendu' botoian, barra aterean",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Mesedez, egin klik 'Partekatu aukeratutako tresna', aterean",
     "Webcam.Problem": "Arazoak daude Webcamarekin komunikatzeko",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

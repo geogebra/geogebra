@@ -2118,6 +2118,7 @@ __GGB__keysVar.ca.menu = {
     "Volume.Help": "Seleccioneu una pir\xe0mide, un prisma, una esfera, un con, un cilindre, etc.",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Clique 'Permet' a la finestra emergent",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Cliqueu 'Compartir dispositiu seleccionat' a la finestra emergent",
     "Webcam.Problem": "Hi ha algun problema de comunicaci\xf3 amb la Webcam",
     "WelcomeExam": "Si us plau, espera a qu\xe8 el teu/la teva professor/a et demani que comencis l'examen.",

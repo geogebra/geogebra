@@ -2118,6 +2118,7 @@ __GGB__keysVar.is.menu = {
     "Volume.Help": "Velji\xf0 p\xedram\xedta, strending, k\xfalu, keilu, s\xedvalning osfrv.",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Please click 'Allow' in the pop-up bar",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Please click 'Share Selected Device' in the pop-up",
     "Webcam.Problem": "Problem communicating with the Webcam",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

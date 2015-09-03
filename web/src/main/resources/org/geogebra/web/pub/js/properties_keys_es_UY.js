@@ -2118,6 +2118,7 @@ __GGB__keysVar.es_UY.menu = {
     "Volume.Help": "Pir\xe1mide, esfera, prisma, cono, cilindro, etc.",
     "Webcam": "C\xe1mara web",
     "Webcam.Chrome": "Por favor, haga clic en 'Permitir' en la barra emergente",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Por favor, haga clic en 'Comparte dispositivo seleccionado' en el cuadro emergente",
     "Webcam.Problem": "Problema de comunicaci\xf3n con la c\xe1mara web",
     "WelcomeExam": "Por favor, aguarde a que d\xe9 inicio del examen.",

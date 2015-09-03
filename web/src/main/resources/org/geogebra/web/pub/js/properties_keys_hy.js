@@ -2118,6 +2118,7 @@ __GGB__keysVar.hy.menu = {
     "Volume.Help": "\u0538\u0576\u057f\u0580\u0565\u0584 \u0562\u0578\u0582\u0580\u0563, \u0570\u0561\u057f\u057e\u0561\u056e\u0561\u056f\u0578\u0572\u0574, \u0563\u0578\u0582\u0576\u0564, \u056f\u0578\u0576, \u0563\u056c\u0561\u0576 \u056f\u0561\u0574 \u0561\u0575\u056c \u057f\u0561\u0580\u0561\u056e\u0561\u056f\u0561\u0576 \u0574\u0561\u0580\u0574\u056b\u0576",
     "Webcam": "\u054e\u0565\u0562\u053f\u0561\u0574\u0565\u0580\u0561",
     "Webcam.Chrome": "Please click 'Allow' in the pop-up bar",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Please click 'Share Selected Device' in the pop-up",
     "Webcam.Problem": "Problem communicating with the Webcam",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

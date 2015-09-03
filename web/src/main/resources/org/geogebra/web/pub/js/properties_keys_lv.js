@@ -2118,6 +2118,7 @@ __GGB__keysVar.lv.menu = {
     "Volume.Help": "Izv\u0113lies piram\u012bdu, prizmu, sf\u0113ru, konusu, cilindru, utt.",
     "Webcam": "Web kamera",
     "Webcam.Chrome": "L\u016bdzu uzspiediet 'At\u013caut' Uznirsto\u0161aj\u0101 log\u0101",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "L\u016bdzu uzspiediet 'dal\u012bties ar izv\u0113l\u0113taj\u0101m ier\u012bc\u0113m' uznirsto\u0161aj\u0101 log\u0101",
     "Webcam.Problem": "Neizdodas savenoties ar web kameru",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

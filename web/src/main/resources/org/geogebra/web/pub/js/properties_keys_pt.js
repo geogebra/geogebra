@@ -2118,6 +2118,7 @@ __GGB__keysVar.pt.menu = {
     "Volume.Help": "Selecionar pir\xe2mide, prisma, esfera, cone, cilindro, etc.",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Por favor, clique em \"Permitir\" na janela de di\xe1logo",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Por favor, clique em \"Compartilhar Dispositivo Selecionado\" na janela de di\xe1logo",
     "Webcam.Problem": "Problema de comunica\xe7\xe3o com a Webcam",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

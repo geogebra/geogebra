@@ -2118,6 +2118,7 @@ __GGB__keysVar.sl.menu = {
     "Volume.Help": "Izberi piramido, prizmo, sfero, sto\u017eec, valj, itd.",
     "Webcam": "Spletna kamera",
     "Webcam.Chrome": "Klikni na 'Dovoli' v pojavnem oknu",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Klikni na 'Deli izbrano napravo' v pojavnem oknu",
     "Webcam.Problem": "Problem v komunikaciji s spletno kamero",
     "WelcomeExam": "Po\u010dakaj, dokler tu u\u010ditelj ne dolo\u010di za\u010detka re\u0161evanja nalog.",

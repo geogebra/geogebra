@@ -2118,6 +2118,7 @@ __GGB__keysVar.ar_MA.menu = {
     "Volume.Help": "Select pyramid, prism, sphere, cone, cylinder, etc.",
     "Webcam": "\u0643\u0627\u0645\u064a\u0631\u0627 \u0648\u0627\u0628",
     "Webcam.Chrome": "Please click 'Allow' in the pop-up bar",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Please click 'Share Selected Device' in the pop-up",
     "Webcam.Problem": "Problem communicating with the Webcam",
     "WelcomeExam": "Please wait until your teacher asks you to start the exam.",

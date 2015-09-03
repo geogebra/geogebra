@@ -2118,6 +2118,7 @@ __GGB__keysVar.fi.menu = {
     "Volume.Help": "Valitse kappale: pyramidi, prisma, pallo, kartio, lieri\xf6, ...",
     "Webcam": "Webkamera",
     "Webcam.Chrome": "Klikkaa \"Salli\" ponnahdusikkunassa",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Valitse 'Jaa valittu laite' ponnahdusikkunassa",
     "Webcam.Problem": "Ongelmia yhteydess\xe4 webkameraan",
     "WelcomeExam": "Odota kunnes opettaja pyyt\xe4\xe4 aloittamaan kokeen.",

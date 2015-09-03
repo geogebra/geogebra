@@ -2118,6 +2118,7 @@ __GGB__keysVar.no_NN.menu = {
     "Volume.Help": "Vel pyramide, prisme, kule, kjegle, sylinder, etc.",
     "Webcam": "Webkamera",
     "Webcam.Chrome": "Klikk 'Tillat' i hurtigmenyen",
+    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Klikk 'Del valde' eining i hurtigmenyen",
     "Webcam.Problem": "Problem med \xe5 kommunisere med webkameraet",
     "WelcomeExam": "Ver vennleg og vent til l\xe6raren ber deg om \xe5 starte pr\xf8va.",

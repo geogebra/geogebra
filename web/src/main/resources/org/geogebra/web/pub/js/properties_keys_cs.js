@@ -2118,6 +2118,7 @@ __GGB__keysVar.cs.menu = {
     "Volume.Help": "Vyberte jehlan, hranol, kouli, ku\u017eel, v\xe1lec apod.",
     "Webcam": "Webkamery",
     "Webcam.Chrome": "Klikn\u011bte pros\xedm na 'Povolit' na vyskakovac\xed li\u0161t\u011b.",
+    "Webcam.Edge": "Klikn\u011bte na 'Ano' v popup li\u0161t\u011b",
     "Webcam.Firefox": "Klikn\u011bte pros\xedm na 'Sd\xedlet vybran\xe9 za\u0159\xedzen\xed' ve vyskakovac\xedm okn\u011b.",
     "Webcam.Problem": "Nastal probl\xe9m p\u0159i komunikaci s kamerou",
     "WelcomeExam": "Po\u010dkejte pros\xedm, a\u017e d\xe1 u\u010ditel pokyn k zah\xe1jen\xed testu.",
