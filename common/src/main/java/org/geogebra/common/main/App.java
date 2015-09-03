@@ -2004,9 +2004,9 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * init the EuclidianView (and EuclidianView3D for 3D)
+	 * init the EuclidianView
 	 */
-	public void initEuclidianViews() {
+	final public void initEuclidianViews() {
 
 		euclidianController = newEuclidianController(kernel);
 		euclidianView = newEuclidianView(showAxes, showGrid);

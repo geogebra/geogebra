@@ -69,12 +69,13 @@ public class AppWapplication3D extends AppWapplication {
 
 	@Override
 	public boolean hasEuclidianView3D() {
-		return this.euclidianController3D != null;
+		return true;
 	}
 
 	@Override
 	public EuclidianView3DInterface getEuclidianView3D() {
 		if (this.euclidianView3D == null) {
+			euclidianController3D = App3DW.newEuclidianController3DW(kernel);
 			euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D,
 			        getSettings().getEuclidian(3));
 		}
@@ -84,16 +85,6 @@ public class AppWapplication3D extends AppWapplication {
 	@Override
 	public boolean isEuclidianView3Dinited() {
 		return euclidianView3D != null;
-	}
-
-	@Override
-	public void initEuclidianViews() {
-
-		super.initEuclidianViews();
-		euclidianController3D = App3DW.newEuclidianController3DW(kernel);
-		// euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D,
-		// getSettings().getEuclidian(3));
-
 	}
 
 	@Override

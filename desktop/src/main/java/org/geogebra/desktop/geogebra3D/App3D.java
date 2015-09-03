@@ -99,15 +99,8 @@ public class App3D extends AppD {
 		imageManager = new ImageManager3D(component);
 	}
 
-	/**
-	 * init the EuclidianView (and EuclidianView3D for 3D)
-	 */
-	@Override
-	public void initEuclidianViews() {
 
-		// init the 2D euclidian view
-		super.initEuclidianViews();
-
+	private void initEuclidianController3D() {
 		// init the 3D euclidian view (with perhaps a specific 3D input)
 		Input3D input3D = Input3DFactory.createInput3D();
 		if (input3D != null) {
@@ -125,7 +118,6 @@ public class App3D extends AppD {
 		} else {
 			euclidianController3D = new EuclidianController3DD(kernel);
 		}
-
 	}
 
 	@Override
@@ -186,6 +178,7 @@ public class App3D extends AppD {
 	@Override
 	public EuclidianView3D getEuclidianView3D() {
 		if (this.euclidianView3D == null) {
+			initEuclidianController3D();
 			if (euclidianController3D.hasInput3D()) {
 				euclidianView3D = new EuclidianViewInput3D(
 						euclidianController3D, getSettings().getEuclidian(3));
@@ -199,7 +192,7 @@ public class App3D extends AppD {
 
 	@Override
 	public boolean hasEuclidianView3D() {
-		return this.euclidianController3D != null;
+		return true;
 	}
 
 	@Override
