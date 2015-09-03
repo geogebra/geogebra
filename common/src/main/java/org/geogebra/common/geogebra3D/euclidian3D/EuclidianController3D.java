@@ -875,7 +875,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// we got the center point
 		if (selPoints() == 1) {
 			getDialogManager().showNumberInputDialogSpherePointRadius(
-					app.getMenu(getKernel().getModeText(mode)),
+					app.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPointsND()[0]);
 			return true;
 		}
@@ -898,7 +898,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
 			getDialogManager().showNumberInputDialogConeTwoPointsRadius(
-					app.getMenu(getKernel().getModeText(mode)), points[0],
+					app.getMenu(EuclidianConstants.getModeText(mode)),
+					points[0],
 					points[1]);
 			return true;
 		}
@@ -921,7 +922,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
 			getDialogManager().showNumberInputDialogCylinderTwoPointsRadius(
-					app.getMenu(getKernel().getModeText(mode)), points[0],
+					app.getMenu(EuclidianConstants.getModeText(mode)),
+					points[0],
 					points[1]);
 			return true;
 		}
@@ -1103,7 +1105,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selPoints() == 1 && selDirections() == 1) {
 			app.getDialogManager()
 					.showNumberInputDialogCirclePointDirectionRadius(
-							app.getMenu(getKernel().getModeText(mode)),
+							app.getMenu(EuclidianConstants.getModeText(mode)),
 							getSelectedPointsND()[0],
 							getSelectedDirections()[0]);
 
@@ -3737,7 +3739,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogRotate(
-					l10n.getMenu(getKernel().getModeText(mode)),
+					l10n.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPolygons(), getSelectedLinesND(), selGeos, this);
 
 			return null;

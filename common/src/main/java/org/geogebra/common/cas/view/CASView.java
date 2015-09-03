@@ -130,7 +130,8 @@ public abstract class CASView implements View, SetLabels {
 		if (m != ModeSetter.TOOLBAR)
 			return;
 
-		String command = kernel.getModeText(mode); // e.g. "Derivative"
+		String command = EuclidianConstants.getModeText(mode); // e.g.
+																// "Derivative"
 		boolean backToEvaluate = true;
 		switch (mode) {
 		case EuclidianConstants.MODE_CAS_EVALUATE:

@@ -66,6 +66,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.javax.swing.table.GAbstractTableModel;
@@ -1067,7 +1068,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 				} else {
 
-					String modeText = app.getKernel().getModeText(m);
+					String modeText = EuclidianConstants.getModeText(m);
 					gifFileName = "http://www.geogebra.org/icons/mode_"
 							+ modeText.toLowerCase(Locale.US) + "_32.gif";
 				}

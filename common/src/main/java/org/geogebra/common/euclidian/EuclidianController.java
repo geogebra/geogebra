@@ -3169,7 +3169,7 @@ public abstract class EuclidianController {
 		if (selPoints() == 1) {
 			// get length of segment
 			getDialogManager().showNumberInputDialogSegmentFixed(
-					l10n.getMenu(getKernel().getModeText(mode)),
+					l10n.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPointsND()[0]);
 
 			return true;
@@ -3195,7 +3195,7 @@ public abstract class EuclidianController {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogAngleFixed(
-					l10n.getMenu(getKernel().getModeText(mode)),
+					l10n.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedSegmentsND(), getSelectedPointsND(), selGeos,
 					this);
 
@@ -3954,7 +3954,7 @@ public abstract class EuclidianController {
 
 			getDialogManager()
 					.showNumberInputDialogRotate(
-							l10n.getMenu(getKernel().getModeText(mode)),
+							l10n.getMenu(EuclidianConstants.getModeText(mode)),
 							getSelectedPolygons(), getSelectedPointsND(),
 							selGeos, this);
 
@@ -3994,7 +3994,7 @@ public abstract class EuclidianController {
 
 			getDialogManager()
 					.showNumberInputDialogDilate(
-							l10n.getMenu(getKernel().getModeText(mode)),
+							l10n.getMenu(EuclidianConstants.getModeText(mode)),
 							getSelectedPolygons(), getSelectedPointsND(),
 							selGeos, this);
 
@@ -4371,7 +4371,7 @@ public abstract class EuclidianController {
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
 			getDialogManager().showNumberInputDialogRegularPolygon(
-					l10n.getMenu(getKernel().getModeText(mode)), this,
+					l10n.getMenu(EuclidianConstants.getModeText(mode)), this,
 					points[0], points[1]);
 			return true;
 		}
@@ -4754,7 +4754,7 @@ public abstract class EuclidianController {
 		// we got the center point
 		if (selPoints() == 1) {
 			getDialogManager().showNumberInputDialogCirclePointRadius(
-					l10n.getMenu(getKernel().getModeText(mode)),
+					l10n.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPointsND()[0], view);
 			return true;
 		}

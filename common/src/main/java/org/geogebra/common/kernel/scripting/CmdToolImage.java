@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -38,7 +39,7 @@ public class CmdToolImage extends CommandProcessor {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
-				String modeStr = StringUtil.toLowerCase(kernelA
+				String modeStr = StringUtil.toLowerCase(EuclidianConstants
 						.getModeText(mode));
 
 				if ("".equals(modeStr))

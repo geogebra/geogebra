@@ -16,7 +16,6 @@ import java.util.LinkedHashMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.geogebra3D.io.MyXMLHandler3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoElement3D;
@@ -141,88 +140,6 @@ public class Kernel3D extends Kernel {
 	@Override
 	public GeoSpace getSpace() {
 		return ((Construction3D) cons).getSpace();
-	}
-
-	/* *******************************************
-	 * Methods for EuclidianView/EuclidianView3D
-	 * *******************************************
-	 */
-
-	@Override
-	public String getModeText(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
-			return "ViewInFrontOf";
-
-		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-			return "PlaneThreePoint";
-
-		case EuclidianConstants.MODE_PLANE:
-			return "Plane";
-
-		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
-			return "OrthogonalPlane";
-
-		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			return "ParallelPlane";
-
-		case EuclidianConstants.MODE_CUBE:
-			return "Cube";
-
-		case EuclidianConstants.MODE_TETRAHEDRON:
-			return "Tetrahedron";
-
-		case EuclidianConstants.MODE_PRISM:
-			return "Prism";
-
-		case EuclidianConstants.MODE_EXTRUSION:
-			return "Extrusion";
-
-		case EuclidianConstants.MODE_CONIFY:
-			return "Conify";
-
-		case EuclidianConstants.MODE_PYRAMID:
-			return "Pyramid";
-
-		case EuclidianConstants.MODE_NET:
-			return "Net";
-
-		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-			return "SpherePointRadius";
-
-		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-			return "Sphere2";
-
-		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-			return "Cone";
-
-		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-			return "Cylinder";
-
-		case EuclidianConstants.MODE_ROTATEVIEW:
-			return "RotateView";
-
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:
-			return "CirclePointRadiusDirection";
-
-		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
-			return "CircleAxisPoint";
-
-		case EuclidianConstants.MODE_VOLUME:
-			return "Volume";
-
-		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
-			return "MirrorAtPlane";
-
-		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
-			return "RotateAroundLine";
-
-		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
-			return "OrthogonalThreeD";
-
-		default:
-			return super.getModeText(mode);
-		}
 	}
 
 	/* *******************************************

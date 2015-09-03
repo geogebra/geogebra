@@ -2904,7 +2904,7 @@ public abstract class App implements UpdateSelection {
 			}
 		} else {
 			// STANDARD TOOL
-			String modeText = getKernel().getModeText(mode);
+			String modeText = EuclidianConstants.getModeText(mode);
 			if (toolName) {
 				// tool name
 				ret = getMenu(modeText);

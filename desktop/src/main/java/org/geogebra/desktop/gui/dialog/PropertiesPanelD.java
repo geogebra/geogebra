@@ -91,8 +91,6 @@ import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
-import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
-import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
@@ -131,6 +129,8 @@ import org.geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOption
 import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
+import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
+import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -3088,19 +3088,23 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			imgFileNameList = new ArrayList<String>();
 			String imagePath = "/geogebra/gui/images/";
 
-			imgFileNameList.add(""); // for delete
-			imgFileNameList.add(imagePath + "go-down.png");
-			imgFileNameList.add(imagePath + "go-up.png");
-			imgFileNameList.add(imagePath + "go-previous.png");
-			imgFileNameList.add(imagePath + "go-next.png");
-			imgFileNameList.add(imagePath + "nav_fastforward.png");
-			imgFileNameList.add(imagePath + "nav_rewind.png");
-			imgFileNameList.add(imagePath + "nav_skipback.png");
-			imgFileNameList.add(imagePath + "nav_skipforward.png");
-			imgFileNameList.add("/geogebra/main/nav_play.png");
-			imgFileNameList.add("/geogebra/main/nav_pause.png");
+			// eg
+			// org/geogebra/common/icons_fillings/p18/filling_arrow_big_down.png
+			imagePath = "org/geogebra/common/icons_fillings/p18/";
 
-			imgFileNameList.add(imagePath + "exit.png");
+			imgFileNameList.add(""); // for delete
+			imgFileNameList.add(imagePath + "filling_arrow_big_down.png");
+			// imgFileNameList.add(imagePath + "go-up.png");
+			// imgFileNameList.add(imagePath + "go-previous.png");
+			// imgFileNameList.add(imagePath + "go-next.png");
+			// imgFileNameList.add(imagePath + "nav_fastforward.png");
+			// imgFileNameList.add(imagePath + "nav_rewind.png");
+			// imgFileNameList.add(imagePath + "nav_skipback.png");
+			// imgFileNameList.add(imagePath + "nav_skipforward.png");
+			// imgFileNameList.add("/geogebra/main/nav_play.png");
+			// imgFileNameList.add("/geogebra/main/nav_pause.png");
+			//
+			// imgFileNameList.add(imagePath + "exit.png");
 
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);

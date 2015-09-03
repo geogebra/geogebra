@@ -2044,7 +2044,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return getHelpURL(Help.GENERIC, "Custom_Tools");
 		}
 
-		return getHelpURL(Help.TOOL, app.getKernel().getModeText(mode));
+		return getHelpURL(Help.TOOL, EuclidianConstants.getModeText(mode));
 	}
 
 	public String getToolImageURL(int mode, GeoImage geoImage) {

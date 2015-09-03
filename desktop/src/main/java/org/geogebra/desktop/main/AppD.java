@@ -2271,7 +2271,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		} else {
 			// standard case
-			String modeText = getKernel().getModeText(mode);
+			String modeText = EuclidianConstants.getModeText(mode);
 			// bugfix for Turkish locale added Locale.US
 			String iconName = "mode_" + StringUtil.toLowerCase(modeText)
 					+ ".png";

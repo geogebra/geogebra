@@ -2550,7 +2550,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		} else {
 
-			modeTextInternal = app.getKernel().getModeText(mode);
+			modeTextInternal = EuclidianConstants.getModeText(mode);
 			icon = ((AppD) app).getToolBarImage("mode_" + modeTextInternal
 					+ ".png", Color.BLACK);
 		}
@@ -3256,7 +3256,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public String getToolImageURL(int mode, GeoImage gi) {
-		String modeStr = StringUtil.toLowerCase(kernel.getModeText(mode));
+		String modeStr = StringUtil.toLowerCase(EuclidianConstants
+				.getModeText(mode));
 		return app.getImageManager().createImage(
 				"/org/geogebra/common/icons_toolbar/p64/mode_" + modeStr
 						+ ".png", app);

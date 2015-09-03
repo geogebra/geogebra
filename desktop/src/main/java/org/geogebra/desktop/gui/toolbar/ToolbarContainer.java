@@ -32,6 +32,7 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
@@ -669,7 +670,7 @@ app.getScaledIcon(
 	 * @param mode
 	 */
 	private void resolveMouseListener(final int mode) {
-		final String modeName = app.getKernel().getModeText(mode);
+		final String modeName = EuclidianConstants.getModeText(mode);
 		if (modeNameLabel.getMouseListeners().length > 0)
 			modeNameLabel.removeMouseListener(helpMouseAdapter);
 		if (!("".equals(modeName))) {
