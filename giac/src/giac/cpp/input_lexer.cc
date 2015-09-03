@@ -2676,7 +2676,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 case 153:
 YY_RULE_SETUP
 #line 449 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
+index_status(yyextra)=0; if (xcas_mode(yyextra)==3){ (*yylval)=gen(at_sto,2); return TI_STO; } else return T_MAPSTO;
 	YY_BREAK
 case 154:
 YY_RULE_SETUP
@@ -5412,6 +5412,17 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	  }
 	}
 	if ( (unsigned char)s[i]==0xe2 && i<l-3 ){
+	  if ((unsigned char)s[i+1]==134 && (unsigned char)s[i+2]==146){
+	    // 0xe2 0x86 0x92
+	    ss += ' ';
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ss += ' ';
+	    continue;
+	  }
           if ((unsigned char)s[i+1]==0x89){ 
 	    ss += ' ';
 	    ss += s[i];

@@ -446,7 +446,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "_assign"                  index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return T_QUOTED_BINARY;
 "►"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 "▶"                index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
-"→"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
+"→"                    index_status(yyextra)=0; if (xcas_mode(yyextra)==3){ (*yylval)=gen(at_sto,2); return TI_STO; } else return T_MAPSTO;
 "=>"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 "=<"                    index_status(yyextra)=0; (*yylval)=gen(at_array_sto,2); return T_AFFECT;
 "@"{D}+                   index_status(yyextra)=1; yytext[0]='0'; (*yylval) = symb_double_deux_points(makevecteur(_IDNT_id_at,chartab2gen(yytext,yyextra))); return T_SYMBOL;
@@ -1074,6 +1074,17 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	  }
 	}
 	if ( (unsigned char)s[i]==0xe2 && i<l-3 ){
+	  if ((unsigned char)s[i+1]==134 && (unsigned char)s[i+2]==146){
+	    // 0xe2 0x86 0x92
+	    ss += ' ';
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ss += ' ';
+	    continue;
+	  }
           if ((unsigned char)s[i+1]==0x89){ 
 	    ss += ' ';
 	    ss += s[i];

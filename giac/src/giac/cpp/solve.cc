@@ -2247,8 +2247,7 @@ namespace giac {
     return g;
   }
 
-  gen _solve(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG && args.subtype==-1) return  args;
+  gen _solve_uncompressed(const gen & args,GIAC_CONTEXT){
     if (args.type==_VECT && !args._VECTptr->empty() && args._VECTptr->back()==at_equal){
       int x=calc_mode(contextptr);
       calc_mode(1,contextptr);
@@ -2468,6 +2467,16 @@ namespace giac {
       return gen(res,_LIST__VECT);
     gen vres=solvepostprocess(res,v[1],contextptr);
     return vres;
+  }
+  gen _solve(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen res=_solve_uncompressed(args,contextptr);
+    if (res.type==_VECT){
+      vecteur v=*res._VECTptr;
+      comprim(v);
+      res=gen(v,res.subtype);
+    }
+    return res;
   }
   static const char _solve_s []="solve";
   static define_unary_function_eval_quoted (__solve,&_solve,_solve_s);

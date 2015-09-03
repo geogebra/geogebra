@@ -1154,6 +1154,27 @@ namespace giac {
   static define_unary_function_eval (__ROUND,&giac::_round,_ROUND_s); 
   define_unary_function_ptr5( at_ROUND ,alias_at_ROUND,&__ROUND,0,T_UNARY_OP_38);
 
+  gen _INTERSECT(const gen & g,GIAC_CONTEXT){
+    return _intersect(g,contextptr);
+  }
+  static const char _INTERSECT_s[]="INTERSECT";
+  static define_unary_function_eval (__INTERSECT,&giac::_INTERSECT,_INTERSECT_s); 
+  define_unary_function_ptr5( at_INTERSECT ,alias_at_INTERSECT,&__INTERSECT,0,T_UNARY_OP_38);
+
+  gen _UNION(const gen & g,GIAC_CONTEXT){
+    return _union(g,contextptr);
+  }
+  static const char _UNION_s[]="UNION";
+  static define_unary_function_eval (__UNION,&giac::_UNION,_UNION_s); 
+  define_unary_function_ptr5( at_UNION ,alias_at_UNION,&__UNION,0,T_UNARY_OP_38);
+
+  gen _MINUS(const gen & g,GIAC_CONTEXT){
+    return _minus(g,contextptr);
+  }
+  static const char _MINUS_s[]="MINUS";
+  static define_unary_function_eval (__MINUS,&giac::_MINUS,_MINUS_s); 
+  define_unary_function_ptr5( at_MINUS ,alias_at_MINUS,&__MINUS,0,T_UNARY_OP_38);
+
   gen _trunc(const gen & args,GIAC_CONTEXT);
 
   static const char _TRUNCATE_s[]="TRUNCATE";

@@ -29,6 +29,9 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
   std::string printasconstant(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_INTERSECT;
+  extern const unary_function_ptr * const  at_MINUS;
+  extern const unary_function_ptr * const  at_UNION;
   extern const unary_function_ptr * const  at_rpn;
   gen _rpn(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_alg;

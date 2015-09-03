@@ -9845,6 +9845,18 @@ namespace giac {
     return 1;
   }
 
+  /*
+Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as follows:
+1. Criterion M holds for a pair (fi, fk) if ∃ j < k, such that
+   LCM{LM(fj),LM(fk)} properly divides LCM{LM(fi),LM(fk)}
+2. Criterion F holds for a pair (fi, fk) if ∃ j < i, such that
+   LCM{LM(fj),LM(fk)} = LCM{LM(fi),LM(fk)}.
+3. Criterion Bk holds for a pair (fi, fj) if ∃ j < k and
+   LM(fk) | LCM{LM(fi),LM(fj)},
+   LCM{LM(fi),LM(fk)} != LCM{LM(fi),LM(fj)}, and
+   LCM{LM(fi),LM(fj)} != LCM{LM(fj, fk)
+  */
+
   // oldG is the Gbasis before the first line of f4buchbergerv is added
   // otherwise we might miss some new pairs to be added
   // f:=(1387482169552326*s*t1*t2^2-25694114250969*s*t1*t2+240071563017*s*t1+579168836143704*t1*t2^2-10725348817476*t1*t2+100212766488*t1):;fb:=(-7035747399*s*t1^2*t2^2+118865637*s*t1^2*t2-793881*s*t1^2+118865637*s*t1*t2^2-1167858*s*t1*t2+1944*s*t1-1089126*s*t2^2+1944*s*t2+18*s-2936742966*t1^2*t2^2+49601160*t1^2*t2-328050*t1^2+49601160*t1*t2^2-485514*t1*t2+972*t1-446148*t2^2+972*t2+36):;rmp:=s^2+10*s+4:;gbasis([f,fb,rmp],[s,t1,t2],revlex);
@@ -9944,7 +9956,7 @@ namespace giac {
 	continue;
       }
     }
-    // B <- B union pairs(h,g) with g in C
+    // B <- B1 union pairs(h,g) with g in C
     for (unsigned i=0;i<C.size();++i){
       B1.push_back(pair<unsigned,unsigned>(pos,C[i]));
     }
@@ -10096,6 +10108,7 @@ namespace giac {
       vector<bool> clean(Gmax+1,true); */
       vector<bool> clean(G.back()+1,true); 
       vector<tdeg_t> Blcm(B.size());
+      vector<unsigned> nterms(B.size());
       for (unsigned i=0;i<G.size();++i){
 	clean[G[i]]=false;
       }
@@ -10103,6 +10116,7 @@ namespace giac {
 	clean[B[i].first]=false;
 	clean[B[i].second]=false;
 	index_lcm(res[B[i].first].ldeg,res[B[i].second].ldeg,Blcm[i],order);
+	nterms[i]=res[B[i].first].coord.size()+res[B[i].second].coord.size();
       }
       for (unsigned i=0;i<clean.size();++i){
 	if (clean[i] && res[i].coord.capacity()>1){
@@ -10151,28 +10165,30 @@ namespace giac {
 	  CERR << CLOCK() << " zpairs degrees " << firstdeg << "," << smalltotdeg << " #" << smallposv.size() << endl;
 #else
 	// find smallest lcm pair in B
-	unsigned smalltotdeg=RAND_MAX,firstdeg=RAND_MAX-1;
+	unsigned smallnterms=RAND_MAX,firstdeg=RAND_MAX-1;
 	for (unsigned i=0;i<B.size();++i){
 	  unsigned f=Blcm[i].total_degree(order);
 	  if (f>firstdeg)
 	    continue;
 	  if (f<firstdeg){
 	    firstdeg=f;
-	    smalltotdeg=Blcm[i].tab[0];
+	    smallnterms=nterms[i];
 	    continue;
 	  }
-	  if (Blcm[i].tab[0]<smalltotdeg)
-	    smalltotdeg=Blcm[i].tab[0];
+	  if (nterms[i]<smallnterms)
+	    smallnterms=nterms[i];
 	}
 	vector<unsigned> smallposv;
+	smallnterms *= 4;
 	for (unsigned i=0;i<B.size();++i){
 	  if (
-	      // Blcm[i].tdeg==smalltotdeg && 
-	      Blcm[i].total_degree(order)==firstdeg)
+	      // nterms[i]<=smallnterms && 
+	      Blcm[i].total_degree(order)==firstdeg){
 	    smallposv.push_back(i);
+	  }
 	}
 	if (debug_infolevel>1)
-	  CERR << CLOCK() << " zpairs total degrees " << firstdeg << "," << smalltotdeg << " #" << smallposv.size() << endl;
+	  CERR << CLOCK() << " zpairs min total degrees/nterms " << firstdeg << "," << smallnterms << " #" << smallposv.size() << endl;
 #endif
 	if (debug_infolevel>3)
 	  CERR << "pairs reduced " << B << " indices " << smallposv << endl;
