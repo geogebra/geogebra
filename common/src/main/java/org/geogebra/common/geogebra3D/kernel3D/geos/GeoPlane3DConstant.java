@@ -96,4 +96,9 @@ public class GeoPlane3DConstant extends GeoPlane3D implements
 	public boolean isRenameable() {
 		return false;
 	}
+
+	@Override
+	public boolean is6dofMoveable() {
+		return false;
+	}
 }
