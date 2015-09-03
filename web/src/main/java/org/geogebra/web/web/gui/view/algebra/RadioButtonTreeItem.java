@@ -154,15 +154,27 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		@Override
 		public void onTimerStarted() {
-			playButton.setResource(GuiResources.INSTANCE
+			setResource(GuiResources.INSTANCE
 					.icons_play_pause_circle());
 			setAnimating(true);
 		}
 
 		@Override
 		public void onTimerStopped() {
-			playButton.setResource(GuiResources.INSTANCE.icons_play_circle());
+			setResource(GuiResources.INSTANCE.icons_play_circle());
 			setAnimating(false);
+		}
+
+		public void update() {
+			// TODO store actual icon and check before replacing it
+
+			playButtonValue = geo.isAnimating()
+					&& app.getKernel().getAnimatonManager().isRunning();
+			ImageResource newIcon = playButtonValue
+					? GuiResources.INSTANCE.icons_play_pause_circle()
+					: GuiResources.INSTANCE.icons_play_circle();
+			setResource(newIcon);
+
 		}
 
 	}
@@ -277,14 +289,14 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		private void show() {
 			setAnimating(false);
-			playButton.setVisible(false);
+			// playButton.setVisible(false);
 			sliderPanel.setVisible(false);
 			setVisible(true);
 			setOpenedMinMaxPanel(this);
 		}
 
 		private void hide() {
-			playButton.setVisible(true);
+			// playButton.setVisible(true);
 			sliderPanel.setVisible(true);
 			deferredResizeSlider();
 			setVisible(false);
@@ -363,6 +375,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		private MyToggleButton2 btnSpeedDown;
 		private MyToggleButton2 btnSpeedValue;
 		private MyToggleButton2 btnSpeedUp;
+		private PlayButton btnPlay;
 		private boolean speedButtons = false;
 		public AnimPanel() {
 			super();
@@ -394,11 +407,63 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			btnSpeedValue.addStyleName("slideIn");
 			btnSpeedValue.addClickHandler(this);
 			setSpeedText(geo.getAnimationSpeed());
+			createPlayButton();
 			add(btnSpeedDown);
 			add(btnSpeedValue);
 			add(btnSpeedUp);
-			add(playButton);
+			add(btnPlay);
 
+		}
+
+		private void createPlayButton() {
+			ImageResource imageresource = geo.isAnimating()
+					? GuiResources.INSTANCE.icons_play_pause_circle()
+					: GuiResources.INSTANCE.icons_play_circle();
+			btnPlay = new PlayButton(imageresource);
+
+			ClickStartHandler.init(btnPlay, new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					boolean newValue = !(geo.isAnimating() && app.getKernel()
+							.getAnimatonManager().isRunning());
+					geo.setAnimating(newValue);
+					btnPlay.setResource(newValue
+							? GuiResources.INSTANCE.icons_play_pause_circle()
+							: GuiResources.INSTANCE.icons_play_circle());
+					geo.updateRepaint();
+
+					// if (geo.isAnimating()) {
+					// // geo.getKernel().getAnimatonManager().startAnimation();
+					// // showSpeedButtons(true);
+					// } else {
+					// showSpeedButtons(false);
+					//
+					// }
+					setAnimating(geo.isAnimating());
+
+				}
+			});
+
+		}
+
+		public void updatePlay() {
+			if (!avExtension) {
+				return;
+			}
+
+			if (btnPlay != null) {
+				if (!hasGeoExtendedAV()) {
+					setAnimating(false);
+					btnPlay.setVisible(false);
+
+					return;
+				}
+
+				btnPlay.setVisible(true);
+
+				btnPlay.update();
+				animPanel.showSpeedButtons(playButtonValue);
+			}
 		}
 
 		public void showSpeedButtons(boolean value) {
@@ -451,6 +516,11 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				setSpeed();
 
 			}
+		}
+
+		public void update() {
+			updatePlay();
+
 		}
 
 	}
@@ -552,7 +622,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	/**
 	 * start/pause slider animations
 	 */
-	PlayButton playButton = null;
 
 	/**
 	 * checkbox displaying boolean variables
@@ -1006,34 +1075,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		}
 
-		ImageResource imageresource = geo.isAnimating() ? GuiResources.INSTANCE
-				.icons_play_pause_circle() : GuiResources.INSTANCE
-				.icons_play_circle();
-		playButton = new PlayButton(imageresource);
-
-		ClickStartHandler.init(playButton, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				boolean newValue = !(geo.isAnimating() && app.getKernel()
-						.getAnimatonManager().isRunning());
-				geo.setAnimating(newValue);
-				playButton.setResource(newValue ? GuiResources.INSTANCE
-						.icons_play_pause_circle() : GuiResources.INSTANCE
-						.icons_play_circle());
-				geo.updateRepaint();
-
-				// if (geo.isAnimating()) {
-				// // geo.getKernel().getAnimatonManager().startAnimation();
-				// // showSpeedButtons(true);
-				// } else {
-				// showSpeedButtons(false);
-				//
-				// }
-				setAnimating(geo.isAnimating());
-				deferredResizeSlider();
-
-			}
-		});
 
 
 		animPanel = new AnimPanel();
@@ -1297,7 +1338,10 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			marblePanel.update();
 		}
 
-		updatePlayButton();
+		if (animPanel != null) {
+			animPanel.update();
+
+		}
 
 		if (geo instanceof GeoNumeric
 				&& (slider != null && sliderPanel != null) || sliderNeeded()) {
@@ -1322,7 +1366,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
 				sliderPanel.add(slider);
 				minMaxPanel.setVisible(false);
-				playButton.setVisible(true);
 				updateSliderColor();
 			} else if (sliderPanel != null) {
 				sliderPanel.remove(slider);
@@ -1396,33 +1439,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		return app.getFontSize() + 1;
 	}
 
-	void updatePlayButton() {
-		if (!avExtension) {
-			return;
-		}
 
-		if (playButton != null) {
-			if (!hasGeoExtendedAV()) {
-				setAnimating(false);
-				playButton.setVisible(false);
-
-				return;
-			}
-
-			playButton.setVisible(true);
-
-			// update the icon of the playButton (if animation is started/paused
-			// from another place)
-			// TODO store actual icon and check before replacing it
-			playButtonValue = geo.isAnimating()
-					&& app.getKernel().getAnimatonManager().isRunning();
-			ImageResource newIcon = playButtonValue ? GuiResources.INSTANCE
-					.icons_play_pause_circle() : GuiResources.INSTANCE
-					.icons_play_circle();
-			playButton.setResource(newIcon);
-			animPanel.showSpeedButtons(playButtonValue);
-		}
-	}
 
 	private void updateSliderColor() {
 		if (!avExtension) {
