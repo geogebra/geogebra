@@ -162,8 +162,10 @@ public class ImageManagerD extends ImageManager {
 	 * @return the image
 	 */
 	public Image getImageResourceGeoGebra(String name) {
-
-		Image img = getImageResource("/org/geogebra/desktop" + name);
+		Image img = getImageResource(name);
+		if (img == null) {
+			img = getImageResource("/org/geogebra/desktop" + name);
+		}
 
 		if (img == null) {
 			App.error("Image " + name + " not found");

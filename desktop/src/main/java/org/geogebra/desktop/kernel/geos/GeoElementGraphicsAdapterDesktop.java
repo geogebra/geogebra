@@ -17,6 +17,7 @@ public class GeoElementGraphicsAdapterDesktop extends GeoElementGraphicsAdapter 
 		app = (AppD) appl;
 	}
 
+	@Override
 	public MyImage getFillImage() {
 		if (image != null)
 			return image;
@@ -46,6 +47,7 @@ public class GeoElementGraphicsAdapterDesktop extends GeoElementGraphicsAdapter 
 		return image;
 	}
 
+	@Override
 	public void setImageFileName(String fileName) {
 
 		if (fileName.equals(this.imageFileName)) {

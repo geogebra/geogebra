@@ -1993,10 +1993,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public String getToolbarIconPath() {
 		if (maxIconSize <= 32) {
-			return "/gui/toolbar/images/";
+			return "/org/geogebra/common/icons_toolbar/p32/";
 		}
 
-		return "/gui/toolbar/images/64/";
+		return "/org/geogebra/common/icons_toolbar/p64/";
 
 	}
 
