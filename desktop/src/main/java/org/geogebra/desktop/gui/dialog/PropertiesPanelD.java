@@ -3088,23 +3088,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			imgFileNameList = new ArrayList<String>();
 			String imagePath = "/geogebra/gui/images/";
 
-			// eg
-			// org/geogebra/common/icons_fillings/p18/filling_arrow_big_down.png
-			imagePath = "org/geogebra/common/icons_fillings/p18/";
-
 			imgFileNameList.add(""); // for delete
-			imgFileNameList.add(imagePath + "filling_arrow_big_down.png");
-			// imgFileNameList.add(imagePath + "go-up.png");
-			// imgFileNameList.add(imagePath + "go-previous.png");
-			// imgFileNameList.add(imagePath + "go-next.png");
-			// imgFileNameList.add(imagePath + "nav_fastforward.png");
-			// imgFileNameList.add(imagePath + "nav_rewind.png");
-			// imgFileNameList.add(imagePath + "nav_skipback.png");
-			// imgFileNameList.add(imagePath + "nav_skipforward.png");
-			// imgFileNameList.add("/geogebra/main/nav_play.png");
-			// imgFileNameList.add("/geogebra/main/nav_pause.png");
-			//
-			// imgFileNameList.add(imagePath + "exit.png");
+			imgFileNameList.add(imagePath + "go-down.png");
+			imgFileNameList.add(imagePath + "go-up.png");
+			imgFileNameList.add(imagePath + "go-previous.png");
+			imgFileNameList.add(imagePath + "go-next.png");
+			imgFileNameList.add(imagePath + "nav_fastforward.png");
+			imgFileNameList.add(imagePath + "nav_rewind.png");
+			imgFileNameList.add(imagePath + "nav_skipback.png");
+			imgFileNameList.add(imagePath + "nav_skipforward.png");
+			imgFileNameList.add("/geogebra/main/nav_play.png");
+			imgFileNameList.add("/geogebra/main/nav_pause.png");
+
+			imgFileNameList.add(imagePath + "exit.png");
 
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
