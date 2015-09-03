@@ -25,22 +25,36 @@ public class WebsocketLogger extends SensorLogger {
 
 	public WebsocketLogger(Kernel kernel) {
 		this.kernel = kernel;
-		constructUrl();
 	}
 
 	private void constructUrl() {
+		boolean secure = false;
 		if (Window.Location.getProtocol().equals("https:")) {
-			this.websocket_url = "wss:"
-					+ GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL;
+			this.websocket_url = "wss:";
+			secure = true;
 		} else {
-			this.websocket_url = "ws:"
-					+ GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL;
+			this.websocket_url = "ws:";
+
 		}
+		if (SensorLogger.appID != null && SensorLogger.appID.indexOf(".") > -1) {
+			this.websocket_url += SensorLogger.appID + ":8080";
+		} else {
+			if (secure) {
+				this.websocket_url += GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL
+						+ ":"
+						+ GeoGebraConstants.DATA_LOGGING_WEBSOCKET_SECURE_PORT;
+			} else {
+				this.websocket_url += GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL
+						+ ":" + GeoGebraConstants.DATA_LOGGING_WEBSOCKET_PORT;
+			}
+		}
+		App.debug(this.websocket_url);
 	}
 
 	private void createConnection() {
 		if (this.connection == null
 		        || this.connection.getReadyState() != WebSocketConnection.OPEN) {
+			constructUrl();
 			this.connection = WebSocketFactory.create(this.websocket_url);
 			this.connection.onOpen(new OpenEventHandler() {
 

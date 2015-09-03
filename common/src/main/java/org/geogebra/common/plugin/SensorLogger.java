@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class SensorLogger {
@@ -132,6 +133,7 @@ public abstract class SensorLogger {
 				port = (int) ((GeoNumeric) geo).getValue();
 			} else if (type == Types.APP_ID) {
 				appID = ((GeoText) geo).getTextString();
+				App.debug(appID);
 			} else {
 				prepareRegister(type, geo, 0);
 				listeners.put(type, (GeoNumeric) geo);
