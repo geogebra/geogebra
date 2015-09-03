@@ -2106,6 +2106,11 @@ public class AppD extends App implements KeyEventDispatcher {
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
+	public ImageIcon getScaledIconCommon(String filename) {
+		ImageIcon icon = imageManager.getImageIcon(filename, null);
+		return scaleIcon(icon, getScaledIconSize());
+	}
+
 	public ImageIcon getScaledIcon(String filename, int iconSize) {
 		ImageIcon icon = imageManager.getImageIcon(
 				getMenuIconPath() + filename, null);

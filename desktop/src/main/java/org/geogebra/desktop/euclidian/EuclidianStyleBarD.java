@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -908,7 +907,7 @@ axesIcon, iconHeight);
 			 */
 		};
 		
-		ic = app.getScaledIcon("mode_showhidelabel.png");
+		ic = app.getScaledIconCommon("/org/geogebra/common/icons_toolbar/p64/mode_showhidelabel.png");
 		btnLabelStyle.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
 		btnLabelStyle.setStandardButton(true);
