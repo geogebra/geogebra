@@ -462,18 +462,25 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				btnPlay.setVisible(true);
 
 				btnPlay.update();
-				animPanel.showSpeedButtons(playButtonValue);
+				animPanel.showSpeedButtons(false);
+				showSpeedValue(playButtonValue);
+			}
+		}
+
+		private void showSpeedValue(boolean value) {
+			if (value) {
+				btnSpeedValue.removeStyleName("hidden");
+			} else {
+				btnSpeedValue.addStyleName("hidden");
 			}
 		}
 
 		public void showSpeedButtons(boolean value) {
 			if (value) {
 				btnSpeedUp.removeStyleName("hidden");
-				// lblSpeedValue.removeStyleName("hidden");
 				btnSpeedDown.removeStyleName("hidden");
 			} else {
 				btnSpeedUp.addStyleName("hidden");
-				// lblSpeedValue.addStyleName("hidden");
 				btnSpeedDown.addStyleName("hidden");
 			}
 			speedButtons = value;
@@ -498,8 +505,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				speedUp();
 				getAV().selectRow(geo, true);
 			} else if (source == btnSpeedValue) {
-				showSpeedButtons(!speedButtons);
-				getAV().selectRow(geo, true);
+				showSpeedButtons(true);
+				// getAV().selectRow(geo, true);
 			}
 		}
 
@@ -519,7 +526,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 
 		public void update() {
-			updatePlay();
+			// updatePlay();
 
 		}
 
