@@ -3304,7 +3304,7 @@ public class Kernel {
 			return "FitLine";
 
 		case EuclidianConstants.MODE_CREATE_LIST:
-			return "CreateListGraphicsView";
+			return "CreateList";
 
 		case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
 			return "ProbabilityCalculator";
