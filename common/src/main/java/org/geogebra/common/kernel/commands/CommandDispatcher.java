@@ -897,9 +897,11 @@ public abstract class CommandDispatcher {
 
 	public ExpressionValue simplifyCommand(Command c, boolean labelOutput) {
 		CommandProcessor cmdProc = getProcessor(c);
-		ExpressionValue simple = cmdProc.simplify(c);
-		if (simple != null) {
-			return simple;
+		if (cmdProc != null) {
+			ExpressionValue simple = cmdProc.simplify(c);
+			if (simple != null) {
+				return simple;
+			}
 		}
 		return process(cmdProc, c, labelOutput)[0];
 	}
