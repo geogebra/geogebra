@@ -406,8 +406,16 @@ public class Command extends ValidExpression implements
 	 * Type checking with evaluate Try to evaluate using GeoGebra if fails, try
 	 * with CAS else throw Exception
 	 */
-
 	public boolean isNumberValue() {
+		return evaluatesToNumber(false);
+	}
+
+	private Boolean isNumber = null;
+
+	public boolean evaluatesToNumber(boolean def) {
+		if (isNumber != null) {
+			return isNumber.booleanValue();
+		}
 		if (!allowEvaluationForTypeCheck) {
 			return false;
 		}
@@ -417,14 +425,17 @@ public class Command extends ValidExpression implements
 			return false;
 		}
 		try {
-			return evaluate(StringTemplate.defaultTemplate).isNumberValue();
+			isNumber = evaluate(StringTemplate.defaultTemplate).isNumberValue();
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
-			if (ev != null)
-				return ev.unwrap().isNumberValue();
+			if (ev != null) {
+				isNumber = ev.unwrap().evaluatesToNumber(def);
+				return isNumber == null ? def : isNumber.booleanValue();
+			}
 			throw ex;
 		}
+		return isNumber == null ? def : isNumber.booleanValue();
 	}
 
 	@Override
