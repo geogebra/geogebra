@@ -92,7 +92,9 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 	    		loc.setLabel(null);
 	    	}
 	    	if(camera){
-	    		app.imageDropHappened(name, data, "", loc, 640, 480);
+				app.imageDropHappened(name, data, "", loc,
+						webcamPanel.getCanvasWidth(),
+						webcamPanel.getCanvasHeight());
 	    	}else{
 	    		app.imageDropHappened(name, data, "", loc, 0, 0);
 	    	}
