@@ -3594,6 +3594,19 @@ namespace giac {
   }
   gen _dollar(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (abs_calc_mode(contextptr)==38){
+      int r,c;
+      if (iscell(args,r,c,contextptr)){
+	string s=symbolic(at_dollar,args).print(contextptr);
+	identificateur cellule(s);
+	return eval(cellule,1,contextptr);
+      }
+      if (args.type==_VECT && args._VECTptr->size()==2 && args._VECTptr->back().type==_INT_ && args._VECTptr->back().val>0){
+	string s=args._VECTptr->front().print(contextptr)+"$"+print_INT_(args._VECTptr->back().val);
+	identificateur cellule(s);
+	return eval(cellule,1,contextptr);
+      }
+    }
     vecteur vargs;
     if (args.type!=_VECT){
       identificateur tmp(" _t");

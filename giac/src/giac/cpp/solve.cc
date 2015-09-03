@@ -1606,6 +1606,8 @@ namespace giac {
 	return res;
       }
     }
+    if (expr.is_symb_of_sommet(at_neg))
+      expr=expr._SYMBptr->feuille;
     if (expr.is_symb_of_sommet(at_prod)){
       vecteur v=gen2vecteur(expr._SYMBptr->feuille),res;
       for (unsigned i=0;i<v.size();++i){
