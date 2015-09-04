@@ -2075,6 +2075,11 @@ public class Construction {
 		if ("self".equals(label1)) {
 			return this.selfGeo;
 		}
+		if ("undefined".equals(label1)) {
+			GeoNumeric n = new GeoNumeric(this);
+			n.setUndefined();
+			return n;
+		}
 		// try upper case version for spreadsheet label like a1
 		if (allowAutoCreate) {
 			if (StringUtil.isLetter(label1.charAt(0)) // starts with letter
