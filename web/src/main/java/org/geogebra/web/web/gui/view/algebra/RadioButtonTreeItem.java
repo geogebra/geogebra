@@ -412,7 +412,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			add(btnSpeedValue);
 			add(btnSpeedUp);
 			add(btnPlay);
-
+			showSpeedValue(false);
 		}
 
 		private void createPlayButton() {
@@ -424,21 +424,21 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			ClickStartHandler.init(btnPlay, new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					boolean newValue = !(geo.isAnimating() && app.getKernel()
+					boolean value = !(geo.isAnimating() && app.getKernel()
 							.getAnimatonManager().isRunning());
-					geo.setAnimating(newValue);
-					btnPlay.setResource(newValue
+					geo.setAnimating(value);
+					btnPlay.setResource(value
 							? GuiResources.INSTANCE.icons_play_pause_circle()
 							: GuiResources.INSTANCE.icons_play_circle());
 					geo.updateRepaint();
+					showSpeedButtons(false);
 
-					// if (geo.isAnimating()) {
-					// // geo.getKernel().getAnimatonManager().startAnimation();
-					// // showSpeedButtons(true);
-					// } else {
-					// showSpeedButtons(false);
-					//
-					// }
+					if (value) {
+						showSpeedValue(true);
+					} else {
+						showSpeedValue(false);
+
+					}
 					setAnimating(geo.isAnimating());
 
 				}
@@ -462,8 +462,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				btnPlay.setVisible(true);
 
 				btnPlay.update();
-				animPanel.showSpeedButtons(false);
-				showSpeedValue(playButtonValue);
 			}
 		}
 
@@ -505,8 +503,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				speedUp();
 				getAV().selectRow(geo, true);
 			} else if (source == btnSpeedValue) {
-				showSpeedButtons(true);
-				// getAV().selectRow(geo, true);
+				showSpeedButtons(!speedButtons);
+				getAV().selectRow(geo, true);
 			}
 		}
 
@@ -968,7 +966,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			return;
 		}
 
-		int width = getAV().getOffsetWidth() - animPanel.getOffsetWidth() - 2
+		int width = getAV().getOffsetWidth() - 2
 				* marblePanel.getOffsetWidth();
 		slider.setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
 				: width);
@@ -2529,7 +2527,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 		geo.setAnimating(value);
 		geo.getKernel().getAnimatonManager().startAnimation();
-		animPanel.showSpeedButtons(value);
 	}
 
 	public static void closeMinMaxPanel() {
