@@ -446,30 +446,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		}
 
-		public void updatePlay() {
-			if (!avExtension) {
-				return;
-			}
-
-			if (btnPlay != null) {
-				if (!hasGeoExtendedAV()) {
-					setAnimating(false);
-					btnPlay.setVisible(false);
-
-					return;
-				}
-
-				btnPlay.setVisible(true);
-
-				btnPlay.update();
-			}
-		}
-
 		private void showSpeedValue(boolean value) {
 			if (value) {
 				btnSpeedValue.removeStyleName("hidden");
 			} else {
 				btnSpeedValue.addStyleName("hidden");
+				showSpeedButtons(false);
 			}
 		}
 
@@ -504,7 +486,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				getAV().selectRow(geo, true);
 			} else if (source == btnSpeedValue) {
 				showSpeedButtons(!speedButtons);
-				getAV().selectRow(geo, true);
+				// getAV().selectRow(geo, true);
 			}
 		}
 
@@ -524,10 +506,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 
 		public void update() {
-			// updatePlay();
-
 		}
 
+		public void reset() {
+			showSpeedButtons(false);
+			showSpeedValue(geo.isAnimating());
+		}
 	}
 
 	private class MarblePanel extends FlowPanel {
@@ -1072,19 +1056,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 
 	private void createAnimPanel() {
-		if (!avExtension) {
-			return;
-		}
+		animPanel = avExtension && geo.isAnimatable() ? new AnimPanel() : null;
 
-		if (!geo.isAnimatable()) {
-			return;
-		}
-
-
-
-		animPanel = new AnimPanel();
-		animPanel.showSpeedButtons(false);
-	//	buttonPanel.insert(animPanel, 0);
 	}
 
 	private void createMinMaxPanel() {
@@ -2545,7 +2518,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	public void selectItem(boolean selected, TreeItem node) {
 		marblePanel.setHighlighted(selected);
-
+		if (selected == false && geo != getAV().getLastSelectedGeo()) {
+			animPanel.reset();
+		}
 	}
 
 	public Style getBorderStyle() {
