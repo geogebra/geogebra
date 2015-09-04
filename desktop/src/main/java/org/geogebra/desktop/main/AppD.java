@@ -1050,8 +1050,11 @@ public class AppD extends App implements KeyEventDispatcher {
 						} else {
 
 							String error = "\n\nnot OK " + count + "\ncmd = "
-									+ command + "\ndesired result= " + result
-									+ "\nactual result = " + casResultOriginal;
+									+ command + "\ndesired result= "
+									+ StringUtil.toJavaString(result)
+									+ "\nactual result = "
+									+ StringUtil
+											.toJavaString(casResultOriginal);
 							
 							App.error(error);
 							errors.add(error);

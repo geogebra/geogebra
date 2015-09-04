@@ -1401,4 +1401,61 @@ public class StringUtil {
 		}
 		return currentQuote;
 	}
+
+	final public static String toJavaString(String str) {
+		if (str == null) {
+			return null;
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		// convert every single character and append it to sb
+		int len = str.length();
+		for (int i = 0; i < len; i++) {
+			char c = str.charAt(i);
+			int code = c;
+
+			// standard characters have code 32 to 126
+			if ((code >= 32 && code <= 126)) {
+				switch (code) {
+				case '"':
+					// replace " with \"
+					sb.append("\\\"");
+					break;
+				case '\'':
+					// replace ' with \'
+					sb.append("\\'");
+					break;
+				case '\\':
+					// replace \ with \\
+					sb.append("\\\\");
+					break;
+
+				default:
+					// do not convert
+					sb.append(c);
+				}
+			}
+			// special characters
+			else {
+				switch (code) {
+				case 10: // CR
+					sb.append("\\n");
+					break;
+				case 13: // LF
+					sb.append("\\r");
+					break;
+
+				case 9: // replace TAB
+					sb.append("\\t"); // space
+					break;
+
+				default:
+					// convert special character to \u0123 format
+					sb.append(toHexString(c));
+				}
+			}
+		}
+		return sb.toString();
+	}
 }
