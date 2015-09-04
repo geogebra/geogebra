@@ -1548,7 +1548,7 @@ var __giac = [ {},
 { cat:"Dimension", cmd:"Dimension[{{1},{3}}]", result:"{2,1}" },
 { cat:"Dimension", cmd:"Dimension[(4,5,6)]", result:"3" },
 { cat:"Take", cmd:"Take[{{1,2},{3,4},{5,6},{7,8},{9,10}}, 2, 4]", result:" {{3, 4}, {5, 6}, {7, 8}} " },
-{ cat:"Line", cmd:"Line[(1,2,3),(10,20,30)]", result:"y = (1, 2, 3) + t (9, 18, 27)", notes:"#4803" },
+{ cat:"Line", cmd:"Line[(1,2,3),(10,20,30)]", result:"y = (1, 2, 3) + \u03BB (9, 18, 27)", notes:"#4803" },
 { cat:"Flatten", cmd:"Flatten[{2, 3, {5, 1}, {{2, 1, {3}}}}]", result:"{2, 3, 5, 1, 2, 1, 3}" },
 { cat:"Evaluate", cmd:"Evaluate[(1,2)+Vector[(10,20)]]", result:"(11,22)" },
 { cat:"Evaluate", cmd:"Evaluate[Vector[(1,2)]+(10,20)]", result:"(11,22)" },
@@ -1680,7 +1680,6 @@ var __giac = [ {},
 { cat: "SolveODE", cmd:"SolveODE[v'=v / w, v, w, (1,2)]", result:"v = 2 w", notes:"#3607" },
 { cat: "SolveODE", cmd:"SolveODE[v''-3v'+2=w,v,w,(2,3),(1,2)]", result:"v=(-9w²ℯ³+30wℯ³-32(ℯ³)²+138ℯ³+32ℯ^(3w))/(54ℯ³)", notes:"#3607" },
 { cat: "SolveODE", cmd:"SolveODE[y''+y'+ pi y=0]", result:"y = c_0 ℯ^((x sqrt(-4 π + 1) - x) / 2) + c_1 ℯ^((-x sqrt(-4 π + 1) - x) / 2)", notes:"#5099" },
-{ cat: "SolveODE", cmd:"SolveODE[y''+y'+ a y=0]", result:"", notes:"#5099" },
 { cat: "SolveODE", cmd:"SolveODE[y''+y'+3.141 y=0]", result:"y=c_0 cos(7x sqrt(590)/100)ℯ^((-x)/2)+c_1ℯ^((-x)/2)sin(7x sqrt(590)/100)", notes:"#5099" },
 { cat: "SolveODE", cmd:"SolveODE[pi y''=0]", result:"y=c_0 x+c_1", notes:"#5099" },
 { cat: "SolveODE", cmd:"SolveODE[a y''=0]", result:"y=c_0 x+c_1", notes:"#5099" },
@@ -1688,14 +1687,23 @@ var __giac = [ {},
 { cat: "SolveODE", cmd:"SolveODE[y''=0,{(0,1), (1,3)}]", result:"y=2x+1", notes:"#5506" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,{(0,1)}, {(1,3)}]", result:"y=3x+1", notes:"#5506" },
 { cat: "SolveODE", cmd:"SolveODE[y''=0,(0,1), (1,3)]", result:"y=3x+1", notes:"#5506" },
-
-
+{ cat: "Expand", cmd:"Expand[ί *(x- ί *y)+(x+ ί *y)]", result:"x + y + \u03AF x + \u03AF y", notes:"#4522" },
+{ cat: "Evaluate", cmd:"Evaluate[((((-(2))/(3))*({1, 2, 3}))-((1)/(3)))]", result:"{-1, (-5) / 3, (-7) / 3}", notes:"#5508" },
+{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
+{ cat: "Solve", cmd:"Solve[{-5 sqrt(-a² + b²) abs(b) abs(a² - b²) / b³},a]", result:"{a = b, a = -b}", notes:"" },
+{ cat: "Solve", cmd:"Solve[{sin(x)=1,x>0,x<pi}]",   result:"{x = 1 / 2 \u03C0}", notes:"#4146" },
+{ cat: "Solve", cmd:"Solve[{sin(x)=1,x>0,x<pi},x]", result:"{x = 1 / 2 \u03C0}", notes:"#4146" },
+{ cat: "Solve", cmd:"Solve[{sin(x)=1,x>0,x<10pi},x]", result:"{x = 1 / 2 \u03C0, x = 5 / 2 \u03C0, x = 9 / 2 \u03C0, x = 13 / 2 \u03C0, x = 17 / 2 \u03C0}", notes:"#4146" },
+{ cat: "Evaluate", cmd:"Evaluate[{{1,2},{3,4}} + {{1,2,3},{4,5,6},{7,8,9}}]", result:"{{2, 4, 3}, {7, 9, 6}, {7, 8, 9}}", notes:"different to Input Bar" },
+{ cat: "Evaluate", cmd:"SolveODE[y' = k*y,y,x]", result:"", notes:"#5099" },
+{ cat: "Evaluate", cmd:"SolveODE[y' = k*y", result:"TBD", notes:"maybe same as SolveODE[y' = k*y,y,x] #5099" },
+{ cat: "SolveODE", cmd:"SolveODE[y''+y'+ a y=0]", result:"TBD", notes:"#5099" },
+{ cat: "SolveODE", cmd:"SolveODE[y''+y'+ a y=0,y,x]", result:"TBD", notes:"#5099" },
 
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 // TODO: add these:
-// http://dev.geogebra.org/trac/ticket/5508
-// ((((-(2))/(3))*({1, 2, 3}))-((1)/(3)))
+// SolveODE[y' = k*y]
 ];
 
 // giac/ggb bugs
