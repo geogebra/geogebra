@@ -934,7 +934,15 @@ public class Ggb2giac {
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b
 		// don't want normal(), eg Line[(a,b),(c,d)]
 		p("Line.2",
-				"[[ggblinearg0:=%0],[ggblinearg1:=%1],when(is3dpoint(ggblinearg0),equation(cat(\"y=\",ggblinearg0,\"+t*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0)))),regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
+				"[[ggblinearg0:=%0],[ggblinearg1:=%1],"
+						+ "when(is3dpoint(ggblinearg0),"
+						+ "when(is3dpoint(ggblinearg1),"
+						// case Line[3dPoint,3dPoint]
+						+ "regroup(equation(cat(\"y=\",ggblinearg0,\"+\u03BB*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0))))),"
+						// case Line[3dPoint,Vect]
+						+ "equation(cat(\"y=\",ggblinearg0,\"+\u03BB*\",point(ggblinearg1[0],ggblinearg1[1],when(size(ggblinearg1) == 3,ggblinearg1[2],0))))),"
+						// case Line[2dPoint,2dPoint] or Line[2dPoint,Vector]
+						+ "regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
 
 		p("Point.1",
 				"when(length(%0)==3,point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%0),ycoord(%0)))");

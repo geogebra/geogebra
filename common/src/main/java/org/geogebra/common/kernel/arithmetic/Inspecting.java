@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -74,28 +75,51 @@ public interface Inspecting {
 	 */
 	public class UnplottableChecker implements Inspecting {
 
+		private boolean isOtherVar;
+		private int nrOfPoints;
 		private static int type, dim;
 
 		public boolean check(ExpressionValue v) {
 			switch (type) {
 			case 0: // first define the top type of our expression
+				isOtherVar = false;
+				nrOfPoints = 0;
 				break;
 			// Command
 			case 1:
 				return false;
 				// Equation
 			case 2:
+				if (v instanceof MyVec3DNode) {
+					nrOfPoints++;
+				} else if (v.isExpressionNode()
+						&& ((ExpressionNode) v).getLeft() instanceof GeoDummyVariable
+						&& ((ExpressionNode) v).getRight() instanceof MyVec3DNode) {
+					String str = ((ExpressionNode) v).getLeft().toString(
+							StringTemplate.defaultTemplate);
+					if (str.equals("\u03BB")) {
+						nrOfPoints++;
+					}
+				}
 				if (v instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
 					String varString = gdv
 							.toString(StringTemplate.defaultTemplate);
 					if (!varString.equals("x") && !varString.equals("y")
 							&& (dim < 3 || !varString.equals("z"))) {
+						if (varString.equals("\u03BB") && !isOtherVar
+								&& nrOfPoints == 2) {
+							return false;
+						}
+						isOtherVar = true;
 						GeoElement subst = gdv.getElementWithSameName();
 						if (subst != null && !subst.getSendValueToCas()) {
 							return false;
 						}
 						return true;
+					}
+					if (varString.equals("x") || varString.equals("z")) {
+						isOtherVar = true;
 					}
 
 				}
