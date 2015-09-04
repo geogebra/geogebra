@@ -107,7 +107,11 @@ public class App3D extends AppD {
 
 		if (!isApplet() && has(Feature.INTEL_REALSENSE)) {
 			// init the 3D euclidian view (with perhaps a specific 3D input)
-			input3D = Input3DFactory.createInput3D();
+			try {
+				input3D = Input3DFactory.createInput3D();
+			} catch (Throwable t) {
+				App.debug("Problem initializing RealSense " + t.toString());
+			}
 		}
 
 		if (input3D != null) {
