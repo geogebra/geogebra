@@ -2118,7 +2118,7 @@ __GGB__keysVar.tr.menu = {
     "Volume.Help": "Piramit, prizma, k\xfcre, koni, silindir vesaire se\xe7in",
     "Webcam": "Web Kameras\u0131",
     "Webcam.Chrome": "L\xfctfen men\xfcdeki '\u0130zin Ver' se\xe7ene\u011fini t\u0131klay\u0131n",
-    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
+    "Webcam.Edge": "L\xfctfen g\xf6r\xfcnen ara\xe7 \xe7ubu\u011funda 'Evet' t\u0131klay\u0131n\u0131z",
     "Webcam.Firefox": "L\xfctfen men\xfcdeki 'Se\xe7ilen Ayg\u0131t\u0131 Payla\u015f\u0131n' se\xe7ene\u011fini t\u0131klay\u0131n",
     "Webcam.Problem": "Webcam ile ileti\u015fimde sorun",
     "WelcomeExam": "\xd6\u011fretmeniniz sizden s\u0131nava ba\u015flaman\u0131z\u0131 isteyinceye kadar l\xfctfen bekleyiniz.",
