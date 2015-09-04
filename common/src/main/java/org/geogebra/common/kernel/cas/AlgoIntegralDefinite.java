@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootFunction;
-import org.geogebra.common.main.App;
 
 /**
  * Integral of a function (GeoFunction)
@@ -251,9 +250,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			n.setUndefined();
 			return;
 		}
-
-		App.debug("function = " + f);
-		App.error(" XXX" + f.includesFreehandOrData());
 
 		// check for equal bounds
 		double lowerLimit = a.getDouble();
