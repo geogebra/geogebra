@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -41,39 +42,42 @@ public class CmdSetVisibleInView extends CmdScripting {
 				int viewNo = (int) ((NumberValue) arg[1]).getDouble();
 
 				EuclidianViewInterfaceSlim ev = null;
+				boolean show = ((GeoBoolean) arg[2]).getBoolean();
 
+				int viewID;
 				switch (viewNo) {
 				case 1:
+					viewID = App.VIEW_EUCLIDIAN;
 					ev = app.getEuclidianView1();
 					break;
 				case 2:
-					if (!app.hasEuclidianView2(1))
-						break;
-					ev = app.getEuclidianView2(1);
+					viewID = App.VIEW_EUCLIDIAN2;
+					if (app.hasEuclidianView2(1)) {
+
+						ev = app.getEuclidianView2(1);
+					}
 					break;
 				case -1:
-					if (!app.hasEuclidianView3D())
-						break;
-					ev = app.getEuclidianView3D();
+					viewID = App.VIEW_EUCLIDIAN3D;
+					if (app.hasEuclidianView3D()) {
+						ev = app.getEuclidianView3D();
+					}
 					break;
 				default:
-					// do nothing
+					return arg;
 				}
 				
-
-				if (ev != null) {
-					boolean show = ((GeoBoolean) arg[2]).getBoolean();
-
-					if (show) {
-						geo.setEuclidianVisible(true);
-						geo.addView(ev.getViewID());
+				if (show) {
+					geo.setEuclidianVisible(true);
+					geo.addView(viewID);
+					if (ev != null) {
 						ev.add(geo);
-					} else {
-						geo.removeView(ev.getViewID());
+					}
+				} else {
+					geo.removeView(viewID);
+					if (ev != null) {
 						ev.remove(geo);
 					}
-
-					geo.updateRepaint();
 				}
 
 				return arg;
