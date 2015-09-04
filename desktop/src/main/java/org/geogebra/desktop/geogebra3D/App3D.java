@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
+import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
@@ -101,8 +102,14 @@ public class App3D extends AppD {
 
 
 	private void initEuclidianController3D() {
-		// init the 3D euclidian view (with perhaps a specific 3D input)
-		Input3D input3D = Input3DFactory.createInput3D();
+
+		Input3D input3D = null;
+
+		if (!isApplet() && has(Feature.INTEL_REALSENSE)) {
+			// init the 3D euclidian view (with perhaps a specific 3D input)
+			input3D = Input3DFactory.createInput3D();
+		}
+
 		if (input3D != null) {
 			switch (input3D.getDeviceType()) {
 			case HAND:
