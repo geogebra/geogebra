@@ -492,9 +492,7 @@ var manageTextarea = (function() {
     }
 
     function popTextForPaste(callback) {
-      //console.log('popTextForPaste');
       var text = textarea.val();
-      //console.log(text);
       textarea.val('');
       if (text) callback(text);
       checkTextarea2 = noop;
@@ -2474,17 +2472,15 @@ function createRoot(jQ, root, textbox, editable) {
       // FIXME HACK the parser in RootTextBlock needs to be moved to
       // Cursor::writeLatex or something so this'll work with
       // MathQuillGGB textboxes
-      if (text.slice(0,1) === '$' && text.slice(-1) === '$') {
+      if ((text.slice(0,1) === '$') && (text.slice(-1) === '$')) {
         text = text.slice(1, -1);
-      }
-      else {
+      } else {
         // We almost never want to paste TextBlock into MathQuillGGB,
     	// but when we do, it will look the same way without \\text too!
         //text = '\\text{' + text + '}';
       }
-
       var text3 = cursor.substQuotations(text);
-
+      text3 = cursor.fixabug(text3);
       cursor.writeLatexSafe(text3);
     }
   });
@@ -6876,6 +6872,14 @@ var Cursor = P(Point, function(_) {
     this.blink = function(){ jQ.toggleClass('blink'); }
 
     this.upDownCache = {};
+  };
+  _.fixabug = function(text) {
+    var str = text;
+    str = str.replace('{', '\\left\\{');
+    str = str.replace('\\\\left\\{', '\\left\\{');
+    str = str.replace('}', '\\right\\}');
+    str = str.replace('\\\\right\\}', '\\right\\}');
+    return str;
   };
   _.substQuotations = function(text) {
     // " either means '"' or '\\quotation{' / '}', so we have to convert
