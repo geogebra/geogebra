@@ -43,19 +43,21 @@ import org.geogebra.common.util.clipper.Point.DoublePoint;
 public abstract class AlgoPolygonOperation extends AlgoElement {
 
 	// input
-	private GeoPolygon inPoly0;
-	private GeoPolygon inPoly1;
+	protected GeoPolygon inPoly0;
+	protected GeoPolygon inPoly1;
 
 	// output
-	private OutputHandler<GeoPolygon> outputPolygons;
-	private OutputHandler<GeoPoint> outputPoints;
+	protected OutputHandler<GeoPolygon> outputPolygons;
+	protected OutputHandler<GeoPoint> outputPoints;
 	protected OutputHandler<GeoSegment> outputSegments;
 
 	private Path subject;
 	private Path clip;
 	private Paths solution;
 
-	private PolyOperation operationType;
+	protected PolyOperation operationType;
+
+	protected String[] labels;
 
 	/** operation type */
 	public enum PolyOperation {
@@ -70,6 +72,79 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	}
 
 	/**
+	 * special constructor without operation type for CmdDifference. after this
+	 * constructor initiatePolyOperation() must be called
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param inPoly0
+	 *            input polygon 1
+	 * @param inPoly1
+	 *            input polygon 2
+	 * 
+	 */
+	public AlgoPolygonOperation(Construction cons, String[] labels,
+			GeoPolygon inPoly0, GeoPolygon inPoly1) {
+
+		super(cons);
+
+		this.inPoly0 = inPoly0;
+		this.inPoly1 = inPoly1;
+
+		this.labels = labels;
+	}
+
+	/**
+	 * after the constructor with no operation type, this method should be
+	 * called for successful completion of the constructor
+	 * 
+	 * after calling this call setInputOutput() for setting input output
+	 * dependencies
+	 * 
+	 * @param operationType
+	 *            the enum type of operation INTERSECTION, UNION, DIFFERENCE,
+	 *            XOR
+	 */
+	public void initiatePolyOperation(PolyOperation operationType) {
+
+		this.operationType = operationType;
+
+		subject = new Path(inPoly0.getPointsLength());
+		clip = new Path(inPoly1.getPointsLength());
+		solution = new Paths();
+
+		createOutput();
+
+		setInputOutput();
+
+		compute();
+
+		// set labels
+		if (labels == null) {
+			outputPolygons.setLabels(null);
+			outputPoints.setLabels(null);
+			outputSegments.setLabels(null);
+		} else {
+			int labelsLength = labels.length;
+			if (labelsLength > 1) {
+				// set default
+				outputPolygons.setLabels(null);
+				outputSegments.setLabels(null);
+				outputPoints.setLabels(null);
+
+			} else if (labels != null && labels.length == 1
+					&& labels[0] != null && !labels[0].equals("")) {
+				outputPolygons.setIndexLabels(labels[0]);
+			}
+		}
+
+		update();
+	}
+
+	/**
+	 * common constructor
 	 * 
 	 * @param cons
 	 *            construction
@@ -90,6 +165,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	}
 
 	/**
+	 * common constructor with outputsizes
 	 * 
 	 * @param cons
 	 *            construction
@@ -113,6 +189,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		this.operationType = operationType;
 		this.inPoly0 = inPoly0;
 		this.inPoly1 = inPoly1;
+
+		this.labels = labels;
 
 		subject = new Path(inPoly0.getPointsLength());
 		clip = new Path(inPoly1.getPointsLength());
@@ -261,11 +339,12 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		}
 		cons.addToAlgorithmList(this);
 
+		setDependencies();
 	}
 
 
 	@Override
-	public final void compute() {
+	public void compute() {
 
 		// add subject polygon
 		subject.clear();

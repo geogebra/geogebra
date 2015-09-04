@@ -641,8 +641,8 @@ public class CmdIntersect extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				GeoElement[] ret = getAlgoDispatcher()
 						.IntersectNPFunctionPolygon(c.getLabels(),
-								((GeoFunctionable) arg[1]).getGeoFunction(),
-								(GeoPolygon) arg[0], (GeoPoint) arg[2]);
+								((GeoFunctionable) arg[0]).getGeoFunction(),
+								(GeoPolygon) arg[1], (GeoPoint) arg[2]);
 				return ret;
 			}
 			

@@ -2275,6 +2275,29 @@ public abstract class EuclidianController {
 					new String[] { null }, line, polygon);
 			return ret;
 		}
+
+		// polyLine and polyLine
+		else if (selPolyLines() >= 2) {
+			GeoPolyLine[] polylines = getSelectedPolyLines();
+			GeoElement[] ret = { null };
+			checkZooming();
+
+			ret = getAlgoDispatcher().IntersectPolyLines(new String[] { null },
+					polylines[0], polylines[1]);
+			return ret;
+		}
+
+		// polygon and polygon - both as boundary
+		else if (selPolygons() >= 2) {
+			GeoPolygon[] polygons = getSelectedPolygons();
+			GeoElement[] ret = { null };
+			checkZooming();
+
+			ret = getAlgoDispatcher().IntersectPolygons(new String[] { null },
+					polygons[0], polygons[1], false);
+			return ret;
+		}
+
 		// line and function
 		else if ((selLines() >= 1) && (selFunctions() >= 1)) {
 			GeoLine[] line = getSelectedLines();

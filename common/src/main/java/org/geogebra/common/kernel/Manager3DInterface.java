@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -9,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -622,6 +624,38 @@ public interface Manager3DInterface {
 
 	public GeoElement IntersectPlanes(String label, GeoPlaneND cs1,
 			GeoPlaneND cs2);
+
+	/**
+	 * intersect polygons (boundary)
+	 * 
+	 * @return intersect points
+	 */
+	public GeoElement[] IntersectionPoint(String[] labels, GeoPolygon3D poly0,
+			GeoPolygon3D poly1);
+
+	/**
+	 * intersect polygons (region)
+	 */
+	public GeoElement[] IntersectPolygons(String[] labels,
+			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1);
+
+	/**
+	 * Difference polygons (region)
+	 */
+	public GeoElement[] DifferencePolygons(String[] labels,
+			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1);
+
+	/**
+	 * Difference polygons or exclusive difference polygons (region)
+	 */
+	public GeoElement[] DifferencePolygons(String[] labels,
+			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, GeoBoolean exclusive);
+
+	/**
+	 * Union polygons (region)
+	 */
+	public GeoElement[] UnionPolygons(String[] labels, GeoPolygon3D inPoly0,
+			GeoPolygon3D inPoly1);
 
 	public GeoElement IntersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2);
 

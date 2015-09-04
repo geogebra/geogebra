@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -929,26 +930,14 @@ public class AlgoDispatcher {
 	}
 
 	/**
-	 * Xor[polygon,polygon]
+	 * Difference[polygon,polygon, boolean exclusive]
 	 * 
 	 * @author thilina
 	 */
-	final public GeoElement[] Xor(String[] labels, GeoPolygon poly0,
-			GeoPolygon poly1) {
-		AlgoPolygonXor algo = new AlgoPolygonXor(cons, labels, poly0, poly1);
-		GeoElement[] polygon = algo.getOutput();
-		return polygon;
-	}
-
-	/**
-	 * Xor[polygon, polygon] as region. This is used when loading saved files
-	 * 
-	 * @author thilina
-	 */
-	final public GeoElement[] Xor(String[] labels, GeoPolygon poly0,
-			GeoPolygon poly1, int[] outputSizes) {
-		AlgoPolygonXor algo = new AlgoPolygonXor(cons, labels, poly0, poly1,
-				outputSizes);
+	final public GeoElement[] Difference(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1, GeoBoolean exclusive) {
+		AlgoPolygonDifference algo = new AlgoPolygonDifference(cons, labels,
+				poly0, poly1, exclusive);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}
@@ -1053,7 +1042,6 @@ public class AlgoDispatcher {
 		AlgoIntersectPolyLines algo = new AlgoIntersectPolyLines(cons, labels,
 				g, p, false, false);
 		GeoElement[] points = algo.getOutput();
-		GeoElement el = points[100];
 		return algo.getOutput();
 	}
 

@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
@@ -5487,7 +5488,16 @@ public class MyXMLHandler implements DocHandler {
 					// we must check that we have Equation here as xAxis
 					// has also type "line" but is parsed as ExpressionNode
 				} else if (ve instanceof Equation) {
-					if (type.equals("line")) {
+					App.debug("EQUATION");
+					if (((Equation) ve).getLHS().unwrap() instanceof Variable
+							&& "X".equals(((Equation) ve).getLHS().toString(
+									StringTemplate.defaultTemplate))) {
+						App.debug("PARAM");
+						ve = kernel.getAlgebraProcessor()
+								.checkParametricEquationF(
+										((Equation) ve).getRHS(), ve);
+					}
+ else if (type.equals("line")) {
 						((Equation) ve).setForceLine();
 					} else if (type.equals("plane")) {
 						((Equation) ve).setForcePlane();

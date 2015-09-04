@@ -59,8 +59,10 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 
 		this(cons, func, poly, polyClosed);
 
-		setLabels(labels);
-		hasLabels = true;
+		if (!cons.isSuppressLabelsActive()) {
+			setLabels(labels);
+			hasLabels = true;
+		}
 
 		update();
 	}

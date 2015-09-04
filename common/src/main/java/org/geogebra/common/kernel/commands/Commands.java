@@ -57,7 +57,7 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_GEOMETRY), AreConcurrent(TABLE_GEOMETRY), AreCongruent(
 			TABLE_GEOMETRY), LocusEquation(
 			TABLE_GEOMETRY), Envelope(TABLE_GEOMETRY), Volume(TABLE_3D), Difference(
-			TABLE_GEOMETRY), Xor(TABLE_GEOMETRY),
+TABLE_GEOMETRY),
 
 	// =============================================================
 	// text

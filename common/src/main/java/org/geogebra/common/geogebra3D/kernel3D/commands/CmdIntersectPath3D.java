@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Kernel;
@@ -8,7 +9,6 @@ import org.geogebra.common.kernel.advanced.CmdIntersectPath;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -76,6 +76,15 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 						(GeoPlaneND) arg[1]) };
 				return ret;
 
+			}
+
+			// intersection 3D polygons
+			if ((ok[0] = (arg[0].isGeoPolygon()))
+					&& (ok[1] = (arg[1].isGeoPolygon()))) {
+				GeoElement[] result = kernelA.getManager3D().IntersectPolygons(
+						c.getLabels(), (GeoPolygon3D) arg[0],
+						(GeoPolygon3D) arg[1]);
+				return result;
 			}
 
 			// intersection plane/quadric

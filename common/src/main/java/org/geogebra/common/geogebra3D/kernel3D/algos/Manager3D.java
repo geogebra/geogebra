@@ -8,6 +8,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
@@ -47,6 +48,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -2133,4 +2135,66 @@ public class Manager3D implements Manager3DInterface {
 		return new AlgoLocusSlider3D(cons, label, Q, slider).getLocus();
 	}
 
+	/**
+	 * intersection of polygons 3D
+	 * 
+	 * @author thilina
+	 */
+	public GeoElement[] IntersectPolygons(String[] labels,
+			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
+
+		AlgoIntersectPathPolygons3D algo = new AlgoIntersectPathPolygons3D(
+				cons, labels, inPoly0, inPoly1);
+
+		return algo.getOutput();
+	}
+
+	/**
+	 * difference of polygons 3D
+	 * 
+	 * @author thilina
+	 */
+	public GeoElement[] DifferencePolygons(String[] labels,
+			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
+		AlgoDifferencePolygons3D algo = new AlgoDifferencePolygons3D(cons,
+				labels, inPoly0, inPoly1);
+		return algo.getOutput();
+	}
+
+	/**
+	 * exclusive or normal difference of polygons 3D,
+	 * 
+	 * @author thilina
+	 */
+
+	public GeoElement[] DifferencePolygons(String[] labels,
+			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, GeoBoolean exclusive) {
+		AlgoDifferencePolygons3D algo = new AlgoDifferencePolygons3D(cons,
+				labels, inPoly0, inPoly1, exclusive);
+		return algo.getOutput();
+	}
+
+	/**
+	 * Union of polygons 3D
+	 * 
+	 * @author thilina
+	 */
+	public GeoElement[] UnionPolygons(String[] labels, GeoPolygon3D inPoly0,
+			GeoPolygon3D inPoly1) {
+		AlgoUnionPolygons3D algo = new AlgoUnionPolygons3D(cons, labels,
+				inPoly0, inPoly1);
+		return algo.getOutput();
+	}
+
+	/**
+	 * Intersect points of polygons 3D
+	 * 
+	 * @author thilina
+	 */
+	public GeoElement[] IntersectionPoint(String[] labels, GeoPolygon3D poly0,
+			GeoPolygon3D poly1) {
+		AlgoIntersectPolygons3D algo = new AlgoIntersectPolygons3D(cons,
+				labels, poly0, poly1);
+		return algo.getOutput();
+	}
 }

@@ -270,6 +270,13 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case SetSpinSpeed:
 				return new CmdSetSpinSpeed(kernel);
 
+				// polygon operations
+			case Difference:
+				return new CmdDifference3D(kernel);
+
+			case Union:
+				return new CmdUnion3D(kernel);
+
 			default:
 				return super.commandTableSwitch(cmdName);
 			}

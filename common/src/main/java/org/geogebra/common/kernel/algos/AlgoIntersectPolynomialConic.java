@@ -132,7 +132,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			Coords midPoint = null;
 			double[] halfAxes = null;
 			double ellipseCirlcleFactor = 1.05;
-			double hyperParaBolaFactor = 05;
+			double hyperParaBolaFactor = 0.5;
 
 			// bounds of the ellipse:
 			// axx+byy+c+2dxy+2ex+2fy = b yy + (2dx + 2f)+(axx+2ex+c) has
@@ -166,7 +166,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 								* Math.abs(h.getMinParameter())),
 						new GeoNumeric(cons, h.getMaxParameter()
 								+ hyperParaBolaFactor
-								* Math.abs(h.getMaxParameter() * 0.5)));
+								* Math.abs(h.getMaxParameter())));
 
 				// Log.debug("interval(hyperbola/parabola): "
 				// + (h.getMinParameter() - Math.abs(h.getMinParameter()

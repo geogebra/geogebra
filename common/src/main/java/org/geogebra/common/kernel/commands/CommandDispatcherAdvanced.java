@@ -114,9 +114,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case Difference:
 			return !kernel.getApplication().has(Feature.POLYGON_OPS) ? null
 					: new CmdDifference(kernel);
-		case Xor:
-			return !kernel.getApplication().has(Feature.POLYGON_OPS) ? null
-					: new CmdXor(kernel);
 
 		case TaylorPolynomial:
 		case TaylorSeries:

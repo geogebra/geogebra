@@ -378,7 +378,6 @@ public abstract class CommandDispatcher {
 			case Direction:
 
 			case Difference:
-			case Xor:
 
 			case TaylorPolynomial:
 			case TaylorSeries:
