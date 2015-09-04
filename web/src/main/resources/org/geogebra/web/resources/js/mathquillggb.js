@@ -3927,7 +3927,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       var numRows = this['tableRow'];
       var numCols = this['tableCol'];
 
-      if (numRows > 2) {
+      if (numRows > 1) {
         if (this.ch[L] && this.ch[L].ch[R]) {
           // removing the last row is easy;
           this.ch[L].ch[R].remove();
@@ -4023,7 +4023,7 @@ var SomethingHTML = P(MathCommand, function(_, _super) {
       var numRows = this['tableRow'];
       var numCols = this['tableCol'];
 
-      if (numCols > 2) {
+      if (numCols > 1) {
 
         cursor.prependTo(this.ch[L]);
         // now the cursor is in the block of \\ggbtable,
