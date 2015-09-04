@@ -39,10 +39,10 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -1360,7 +1360,6 @@ Dilateable, Transformable, EuclidianViewCE {
 			//increase grid size for big screen, #1563
 			gridWidth = Math.min(60,Math.max(30,(int) (viewBounds[4]*(viewBounds[1]-viewBounds[0])/40)));
 			gridHeight = Math.min(60, Math.max(30,(int)(viewBounds[5] *(viewBounds[3]-viewBounds[2])/30)));
-			App.debug(gridWidth+"x"+gridHeight+","+(viewBounds[1]-viewBounds[0]));
 			updatePath(viewBounds[0], viewBounds[2], viewBounds[1]-viewBounds[0],
 					viewBounds[3]-viewBounds[2], 1./viewBounds[4]/viewBounds[5]);
 		}
