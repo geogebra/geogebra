@@ -22,21 +22,25 @@ public class UndoManagerW extends UndoManager {
 
 	protected class AppStateWeb implements AppState {
 		private String key;
+		private String xml;
 
 		AppStateWeb(String xmls) {
 			if (storage != null) {
 				storage.setItem(key = TEMP_STORAGE_PREFIX + nextKeyNum++, xmls);
+			} else {
+				xml = xmls;
 			}
 		}
 
 		public String getXML() {
 			if (storage == null) {
-				return null;
+				return xml;
 			}
 			return storage.getItem(key);
 		}
 
 		public void delete() {
+			xml = null;
 			if (storage != null) {
 				storage.removeItem(key);
 			}
@@ -127,7 +131,9 @@ public class UndoManagerW extends UndoManager {
 		try {
 			// load from file
 			String tempXML = ((AppStateWeb) info).getXML();
-
+			if (tempXML == null) {
+				App.error("Undo not supported.");
+			}
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
 
@@ -137,11 +143,11 @@ public class UndoManagerW extends UndoManager {
 			app.getScriptManager().enableListeners();
 
 		} catch (Exception e) {
-			System.err.println("setUndoInfo: " + e.toString());
 			e.printStackTrace();
 			restoreCurrentUndoInfo();
+			App.error("Undo exception:" + e.getMessage());
 		} catch (Error err) {
-			System.err.println("UndoManager.loadUndoInfo: " + err.toString());
+			App.error("Undo error:" + err.getMessage());
 		}
 	}
 }
