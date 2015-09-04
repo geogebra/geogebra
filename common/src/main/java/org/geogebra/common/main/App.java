@@ -3926,6 +3926,7 @@ public abstract class App implements UpdateSelection {
 		case TUBE_BETA:
 		case LOG_AXES:
 		case DRAW_INPUTBOXES_TO_CANVAS:
+		case INTEL_REALSENSE:
 			return prerelease;
 		case DATA_COLLECTION:
 		case SEQUENTIAL_COLORS:
