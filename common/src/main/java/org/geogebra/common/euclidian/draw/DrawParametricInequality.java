@@ -4,8 +4,8 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
-import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
@@ -143,7 +143,7 @@ class DrawParametricInequality extends Drawable {
 			border.evaluateCurve(ax);
 
 		}
-		if (this.geo.isLabelVisible()) {
+		if (this.geo.isLabelVisible() && labelPos != null) {
 			xLabel = labelPos.getX();
 			yLabel = labelPos.getY();
 			addLabelOffset();
