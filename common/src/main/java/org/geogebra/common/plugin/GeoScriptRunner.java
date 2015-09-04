@@ -31,12 +31,11 @@ public class GeoScriptRunner implements EventListener {
 			} else {
 				app.setBlockUpdateScripts(true);
 				script.run(evt);
+				app.setBlockUpdateScripts(false);
 			}
 		} catch (ScriptError e) {
 			app.showError(e.getScriptError());
-		} finally {
-			app.setBlockUpdateScripts(false);
-		}
+		} 
 	}
 
 	public void reset() {
