@@ -3091,4 +3091,16 @@ public class Construction {
 
 	}
 
+	public int getCASObjectNumber() {
+		int counter = 0;
+		for (ConstructionElement ce : ceList) {
+			if (ce instanceof GeoCasCell) {
+				++counter;
+			} else if (ce instanceof AlgoCasCellInterface) {
+				++counter;
+			}
+		}
+		return counter;
+	}
+
 }

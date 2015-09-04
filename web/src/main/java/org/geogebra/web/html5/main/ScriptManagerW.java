@@ -690,6 +690,10 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::checkSaved(Lcom/google/gwt/core/client/JavaScriptObject;)(path);
 		};
 
+		api.getCASObjectNumber = function(path) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCASObjectNumber()();
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 		// other methods from the Wiki (consider to implement here)

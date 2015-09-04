@@ -1527,4 +1527,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getVisible(objName, view);
 	}
 
+	@Override
+	public int getCASObjectNumber() {
+		return ggbApi.getCASObjectNumber();
+	}
+
 }

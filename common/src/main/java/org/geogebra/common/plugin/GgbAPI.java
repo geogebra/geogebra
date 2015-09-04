@@ -1352,4 +1352,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				: App.VIEW_EUCLIDIAN2);
 
 	}
+
+	public int getCASObjectNumber(){
+		return kernel.getConstruction().getCASObjectNumber();
+		
+	}
 }
