@@ -92,6 +92,10 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		return copyGeo;
 	}
 
+	public GeoElement getOrigGeo() {
+		return origGeo;
+	}
+
 	// copy geo
 	@Override
 	public final void compute() {
