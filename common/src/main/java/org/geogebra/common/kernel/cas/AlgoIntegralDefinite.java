@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootFunction;
+import org.geogebra.common.main.App;
 
 /**
  * Integral of a function (GeoFunction)
@@ -251,6 +252,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			return;
 		}
 
+		App.debug("function = " + f);
+		App.error(" XXX" + f.includesFreehandOrData());
+
 		// check for equal bounds
 		double lowerLimit = a.getDouble();
 		double upperLimit = b.getDouble();
@@ -265,7 +269,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		if (Double.isNaN(fa) || Double.isInfinite(fa) || Double.isNaN(fb)
 				|| Double.isInfinite(fb)) {
 			if (!this.evaluateNumerically && !evaluateOnly()
-					&& !f.isFreehandFunction()) {
+					&& !f.includesFreehandOrData()) {
 				computeSpecial();
 			} else {
 				n.setUndefined();
@@ -287,18 +291,20 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		 * -1 ] would be undefined (log(-1) - log(-2)) Integral[ 1/x^2, -1, 1 ]
 		 * would be defined (-2)
 		 */
-		if (symbIntegral != null && symbIntegral.isDefined()
-				&& !f.includesDivisionByVar()
-				&& !f.includesNonContinuousIntegral()) {
-			double val = symbIntegral.evaluate(upperLimit)
-					- symbIntegral.evaluate(lowerLimit);
-			n.setValue(val);
-			if (n.isDefined())
+		if (!f.includesFreehandOrData()) {
+			if (symbIntegral != null && symbIntegral.isDefined()
+					&& !f.includesDivisionByVar()
+					&& !f.includesNonContinuousIntegral()) {
+				double val = symbIntegral.evaluate(upperLimit)
+						- symbIntegral.evaluate(lowerLimit);
+				n.setValue(val);
+				if (n.isDefined())
+					return;
+			} else if (symbIntegral != null && symbIntegral.isDefined()
+					&& !this.evaluateNumerically) {
+				computeSpecial();
 				return;
-		} else if (symbIntegral != null && symbIntegral.isDefined()
-				&& !this.evaluateNumerically) {
-			computeSpecial();
-			return;
+			}
 		}
 
 		// numerical integration

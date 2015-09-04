@@ -674,6 +674,30 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * Returns true if this tree includes Freehand or DataFunction
+	 * 
+	 * 
+	 * @return true iff contains abs(), If[] etc
+	 */
+	final public boolean includesFreehandOrData() {
+		if (Operation.includesFreehandOrData(operation)) {
+			return true;
+		}
+
+		if (left.isExpressionNode()
+				&& ((ExpressionNode) left).includesFreehandOrData()) {
+			return true;
+		}
+
+		if ((right != null) && right.isExpressionNode()
+				&& ((ExpressionNode) right).includesFreehandOrData()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Replaces all Variable objects with the given varName in tree by the given
 	 * FunctionVariable object.
 	 * 

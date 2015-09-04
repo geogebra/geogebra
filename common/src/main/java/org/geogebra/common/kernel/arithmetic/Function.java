@@ -1087,6 +1087,18 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	/**
+	 * Decides whether function includes DataFunction, Freehand function
+	 * 
+	 * @return true if function includes DataFunction, Freehand
+	 */
+	public final boolean includesFreehandOrDataFunction() {
+		if (expression == null) {
+			return false;
+		}
+		return expression.includesFreehandOrData();
+	}
+
+	/**
 	 * Decides whether function includes eg If[], abs() function
 	 * 
 	 * @return true if function includes abs(), If[] etc

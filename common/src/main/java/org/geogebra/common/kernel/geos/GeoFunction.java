@@ -80,6 +80,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	// if the function includes a division by var, e.g. 1/x, 1/(2+x)
 	private boolean includesDivisionByVar = false;
 	private boolean includesNonContinuousIntegral = false;
+	private boolean includesFreehandOrDataFunction = false;
 
 	/** function may be limited to interval [a, b] */
 	protected boolean interval = false;
@@ -334,6 +335,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		fun = f;
 		//reset this for garbage collection, also the flag needs update for #5054
 		this.includesNonContinuousIntegralFun = null;
+		this.includesFreehandOrDataFun = null;
 		for (SurfaceEvaluable geo : surfaceEvaluables){
 			geo.resetDerivatives();
 		}
@@ -696,6 +698,21 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	 * 
 	 * @return true iff this function includes abs(), If[] etc
 	 */
+	final public boolean includesFreehandOrData() {
+		if (includesFreehandOrDataFun != fun) {
+			includesFreehandOrDataFun = fun;
+			includesFreehandOrDataFunction = fun != null
+					&& fun.includesFreehandOrDataFunction();
+		}
+		return includesFreehandOrDataFunction;
+	}
+
+	/**
+	 * Returns whether this function includes eg Freehand, DataFunction
+	 * functions
+	 * 
+	 * @return true iff this function includes abs(), If[] etc
+	 */
 	final public boolean includesNonContinuousIntegral() {
 		if (includesNonContinuousIntegralFun != fun) {
 			includesNonContinuousIntegralFun = fun;
@@ -705,6 +722,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		return includesNonContinuousIntegral;
 	}
 
+	private Function includesFreehandOrDataFun = null;
 	private Function includesNonContinuousIntegralFun = null;
 	private Function includesDivisionByVarFun = null;
 

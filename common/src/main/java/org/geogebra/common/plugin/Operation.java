@@ -1770,6 +1770,18 @@ public enum Operation {
 		return Operation.NO_OPERATION;
 	}
 
+	public static boolean includesFreehandOrData(Operation op) {
+		switch (op) {
+		case DATA:
+		case FREEHAND:
+
+			return true;
+		}
+
+		return false;
+
+	}
+
 	public static boolean integralIsNonContinuous(Operation op) {
 
 		switch (op) {
@@ -1795,6 +1807,8 @@ public enum Operation {
 		case PSI:
 		case IF:
 		case IF_ELSE:
+		case DATA:
+		case FREEHAND:
 
 			return true;
 		}
