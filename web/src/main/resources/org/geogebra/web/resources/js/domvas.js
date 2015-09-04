@@ -41,6 +41,7 @@
 				div.style.width=origChildren[i].offsetWidth+"px";
 				var url = origChildren[i].toDataURL();
 				div.style.backgroundImage="url("+url+")";
+				div.style.backgroundSize=div.style.width+" "+div.style.height;
 			}else{
 				copyCSS(child, origChildren[i]);
 			}

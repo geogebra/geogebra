@@ -127,16 +127,18 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		if (app.getGuiManager() != null
 				&& app.getGuiManager().getLayout().getDockManager()
 						.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
-			return ((EuclidianViewWInterface) app.getGuiManager()
+			return pngBase64(((EuclidianViewWInterface) app.getGuiManager()
 					.getPlotPanelEuclidanView()).getExportImageDataUrl(
-					exportScale, transparent).substring(
-					"data:image/png;base64,".length());
+					exportScale, transparent));
 		}
-		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(exportScale, transparent).substring(
-						"data:image/png;base64,".length());
+		return pngBase64(((EuclidianViewWInterface) app
+				.getActiveEuclidianView()).getExportImageDataUrl(exportScale,
+				transparent));
 	}
 
+	private static String pngBase64(String pngURL) {
+		return pngURL.substring("data:image/png;base64,".length());
+	}
 	public String getLaTeXBase64(String label, boolean value) {
 		Canvas c = Canvas.createIfSupported();
 		GeoElement geo = kernel.lookupLabel(label);
@@ -1013,11 +1015,12 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 		gm.updateToolbar();
 	}
 	
-	public String getScreenshotURL(JavaScriptObject callback) {
-		return getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
+	public void getScreenshotBase64(JavaScriptObject callback) {
+		getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
 	}
 	
-	public native String getScreenshotURL(Element el, JavaScriptObject callback)/*-{
+	public native void getScreenshotURL(Element el,
+			JavaScriptObject callback)/*-{
 		var canvas = document.createElement("canvas");
 		canvas.height = el.offsetHeight;
 		canvas.width = el.offsetWidth;
@@ -1027,7 +1030,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 			// Look ma, I just converted this element to an image and can now to funky stuff!
 			context.drawImage(this, 0, 0);
 			el.className = el.className.replace(/\bggbScreenshot\b/, '');
-			callback(canvas.toDataURL());
+			callback(@org.geogebra.web.html5.main.GgbAPIW::pngBase64(Ljava/lang/String;)(canvas.toDataURL()));
 		});
 	}-*/;
 
