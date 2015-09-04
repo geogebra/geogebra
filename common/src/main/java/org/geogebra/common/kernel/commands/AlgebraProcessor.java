@@ -314,7 +314,7 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private ValidExpression checkParametricEquationF(ValidExpression ve,
+	public ValidExpression checkParametricEquationF(ValidExpression ve,
 			ValidExpression fallback) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
@@ -1513,6 +1513,11 @@ public class AlgebraProcessor {
 			// redefine
 			else {
 				try {
+					if (!ret[0].isLabelSet()
+							&& ret[0].getParentAlgorithm() instanceof AlgoDependentGeoCopy) {
+						ret[0] = ((AlgoDependentGeoCopy) ret[0]
+								.getParentAlgorithm()).getOrigGeo();
+					}
 					// SPECIAL CASE: set value
 					// new and old object are both independent and have same
 					// type:
@@ -2520,6 +2525,7 @@ public class AlgebraProcessor {
 			// e.g. B1 = A1 where A1 is a GeoElement and B1 does not exist yet
 			// create a copy of A1
 			if (n.getLabel() != null || dollarLabelFound) {
+				App.debug(n.getLabel());
 				return processGeoCopy(n.getLabel(), n);
 			}
 		}
