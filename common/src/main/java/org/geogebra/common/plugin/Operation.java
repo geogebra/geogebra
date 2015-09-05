@@ -510,7 +510,7 @@ public enum Operation {
 						* (x2 - x))
 						/ (x2 - x1));
 			}
-			return ev.illegalArgument(lt, rt, "freehand(");
+			return ev.illegalArgument(lt, rt, "dataFunction(");
 		}
 	},
 	COS {
