@@ -2518,7 +2518,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	public void selectItem(boolean selected, TreeItem node) {
 		marblePanel.setHighlighted(selected);
-		if (selected == false && geo != getAV().getLastSelectedGeo()) {
+		if (selected == false && geo != getAV().getLastSelectedGeo()
+				&& animPanel != null) {
 			animPanel.reset();
 		}
 	}
