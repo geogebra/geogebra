@@ -2118,7 +2118,7 @@ __GGB__keysVar.it.menu = {
     "Volume.Help": "Selezionare una piramide, un prisma, una sfera, un cono, un cilindro, ecc.",
     "Webcam": "Webcam",
     "Webcam.Chrome": "Fare clic su 'Consenti' nella barra dell'avviso",
-    "Webcam.Edge": "Please click 'Yes' in the pop-up bar",
+    "Webcam.Edge": "Fare clic su 'S\xec' nella barra a comparsa",
     "Webcam.Firefox": "Fare clic su 'Condividi dispositivo selezionato' nella finestra di dialogo",
     "Webcam.Problem": "Problema di comunicazione con la webcam",
     "WelcomeExam": "Attendere finch\xe9 l'insegnante non comunica di iniziare l'esame.",
