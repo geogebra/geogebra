@@ -544,11 +544,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				zis.close();
 				dest.delete();
 
-				// Downloading license.txt:
-				filename = updateDir + File.separator + "license.txt";
-				dest = new File(filename);
-				url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_LICENSE);
-				DownloadManager.copyURLToFile(url, dest, app);
 			} catch (Exception e) {
 				App.error("Unsuccessful update");
 			}
