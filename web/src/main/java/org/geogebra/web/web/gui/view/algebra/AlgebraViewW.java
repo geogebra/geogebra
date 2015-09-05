@@ -34,7 +34,6 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -44,7 +43,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -128,7 +126,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	private GeoElement selectedGeoElement;
 	private TreeItem selectedNode;
-	private boolean hasAvex=false; 
+	private static boolean avex = false;
 	// private AlgebraHelperBar helperBar;
 
 	private AlgebraController algebraController;
@@ -138,34 +136,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 
-	private class AVTreeItem extends TreeItem {
-		public AVTreeItem() {
-			super();
-		}
-
-		public AVTreeItem(Widget w) {
-			super(w);
-		}
-
-		public AVTreeItem(SafeHtml safeHtml) {
-			super(safeHtml);
-		}
-
-		@Override
-		public void setSelected(boolean selected) {
-			super.setSelected(selected);
-			if (!hasAvex) {
-				return;
-			}
-
-			Element w = Dom.querySelectorForElement(this.getElement(),
-					"gwt-TreeItem-selected");
-			if (w != null) {
-				w.getStyle().setBackgroundColor("#FFFFFF");
-			}
-
-		}
-	}
 
 	public AlgebraViewW(AlgebraController algCtrl) {
 		super(new TreeImages());
@@ -176,10 +146,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		this.kernel = app.getKernel();
 		this.addOpenHandler(this);
 
-		hasAvex = app.has(Feature.AV_EXTENSIONS);
+		setAvex(app.has(Feature.AV_EXTENSIONS));
 		algCtrl.setView(this);
 		initGUI((AlgebraControllerW) algCtrl);
-		if (hasAvex) {
+		if (hasAvex()) {
 		app.getSelectionManager()
 				.addSelectionListener(new GeoElementSelectionListener() {
 					public void geoElementSelected(GeoElement geo,
@@ -228,7 +198,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	@Override
 	public void onBrowserEvent(Event event) {
 		if (event.getTypeInt() == Event.ONBLUR) {
-			if (hasAvex) {
+			if (hasAvex()) {
 				
 			} else
 			if (selectedGeoElement == null) {
@@ -952,7 +922,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 					.toString(), GuiResources.INSTANCE.algebra_tree_open()
 					.getSafeUri(), GuiResources.INSTANCE.algebra_tree_closed()
 .getSafeUri(),
-					hasAvex));
+					hasAvex()));
 		}
 	}
 
@@ -1313,7 +1283,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		.addClassName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.replaceXButtonDOM();
 		
-		if (hasAvex) {
+		if (hasAvex()) {
 			unselect(selectedGeoElement);
 			unselect(lastSelectedGeo);
 		}
@@ -1444,7 +1414,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void setActiveTreeItem(RadioButtonTreeItem radioButtonTreeItem) {
-		if (!hasAvex && !app.has(Feature.DELETE_IN_ALGEBRA)) {
+		if (!hasAvex() && !app.has(Feature.DELETE_IN_ALGEBRA)) {
 				// if there is delete button in algebra view, let's allow this,
 				// or the alternative is to add the delete button when
 				// both AV_EXTENSIONS and DELETE_IN_ALGEBRA are true
@@ -1462,19 +1432,19 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			this.activeItem.removeCloseButton();
 		}
 
-		if (hasAvex && activeItem != null && !sameItem) {
+		if (hasAvex() && activeItem != null && !sameItem) {
 			selectRow(activeItem.getGeo(), false);
 		}
 
 		this.activeItem = radioButtonTreeItem;
 		//
-		if (hasAvex && activeItem != null) {
+		if (hasAvex() && activeItem != null) {
 			selectRow(activeItem.getGeo(), true);
 		}
 	}
 
 	public void selectRow(GeoElement geo, boolean select) {
-		if (!hasAvex) {
+		if (!hasAvex()) {
 			return;
 		}
 		
@@ -1492,7 +1462,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	private void selectNode(TreeItem node, GeoElement geo) {
-		if (!hasAvex) {
+		if (!hasAvex()) {
 			return;
 		}
 		
@@ -1511,7 +1481,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	private void updateNodeColor(TreeItem node, boolean selected) {
-		if (!hasAvex) {
+		if (!hasAvex()) {
 			return;
 		}
 		
@@ -1624,7 +1594,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 					TreeItem item = getItem(i).getChild(j);
 					item.setSelected(false);
 					Widget w = item.getWidget();
-					if (hasAvex && w instanceof RadioButtonTreeItem) {
+					if (hasAvex() && w instanceof RadioButtonTreeItem) {
 						unselect(((RadioButtonTreeItem) w).getGeo());
 					}
 				}
@@ -1700,7 +1670,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 
 	public void resize() {
-		if (!hasAvex) {
+		if (!hasAvex()) {
 			return;
 		}
 
@@ -1723,7 +1693,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void updateSelection() {
-		if (!hasAvex) {
+		if (!hasAvex()) {
 			return;
 		}
 
@@ -1755,7 +1725,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	private void unselect(GeoElement geo) {
-		if (!hasAvex) {
+		if (!hasAvex()) {
 			return;
 		}
 
@@ -1769,10 +1739,18 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void resetItems() {
-		if (hasAvex) {
+		if (hasAvex()) {
 			RadioButtonTreeItem.closeMinMaxPanel();
 			updateSelection();
 		}
 
+	}
+
+	public static boolean hasAvex() {
+		return avex;
+	}
+
+	public static void setAvex(boolean avex) {
+		AlgebraViewW.avex = avex;
 	}
 }
