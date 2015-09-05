@@ -285,18 +285,19 @@ public class Ggb2giac {
 		// if they return different answers then a list with both values is
 		// returned.
 		// get the first element of the list to ignore the warning
+		// simplify() added to improve Integral[2*exp(0.5x),0,ln(4)]
 		p("Integral.3",
 				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)]],"
-						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans))][1]");
+				+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
 		p("Integral.4",
 				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2,%3)]],"
-						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans))][1]");
+						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
 		p("IntegralBetween.4",
 				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),x,%2,%3)]],"
-						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans))][1]");
+						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
 		p("IntegralBetween.5",
 				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),%2,%3,%4)]],"
-						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans))][1]");
+						+ "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
 
 		// need to wrap in coordinates() for
 		// Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
