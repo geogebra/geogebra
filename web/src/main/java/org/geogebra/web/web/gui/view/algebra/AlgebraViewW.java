@@ -62,7 +62,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	// protected AlgebraInputW inputPanel;
-	NewRadioButtonTreeItem inputPanelLatex;
+	InputTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
 	public boolean editing = false;
 	private GeoElement draggedGeo;
@@ -120,7 +120,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private StringBuilder sbXML;
 
-	private RadioButtonTreeItem activeItem;
+	private RadioTreeItem activeItem;
 
 	private GeoElement selectedGeoElement;
 	private TreeItem selectedNode;
@@ -316,7 +316,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		if (node != null) {
 
-			RadioButtonTreeItem item = RadioButtonTreeItem.as(node);
+			RadioTreeItem item = RadioTreeItem.as(node);
 
 			item.updateOnNextRepaint();
 			repaintView();
@@ -347,7 +347,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			TreeItem ti = getItem(i);
 			geo = getItem(i).getUserObject();
 			if (geo instanceof GeoElement) {
-				RadioButtonTreeItem.as(ti).repaint();
+				RadioTreeItem.as(ti).repaint();
 				ti.setSelected(((GeoElement) geo).doHighlighting());
 			} else if (ti.getWidget() instanceof GroupHeader) {				
 				((GroupHeader) ti.getWidget()).setText(ti.getUserObject().toString());
@@ -370,8 +370,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					geo = ti.getChild(j).getUserObject();
 					if (geo instanceof GeoNumeric
-							&& ti.getChild(j) instanceof RadioButtonTreeItem) {
-						RadioButtonTreeItem.as(ti.getChild(j))
+							&& ti.getChild(j) instanceof RadioTreeItem) {
+						RadioTreeItem.as(ti.getChild(j))
 						.repaint();
 
 						// TODO needed?
@@ -384,8 +384,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	private static void repaintChildren(TreeItem item) {
 		for (int j = 0; j < item.getChildCount(); j++) {
-			if (item.getChild(j) instanceof RadioButtonTreeItem) {
-				RadioButtonTreeItem.as(item.getChild(j)).repaint();
+			if (item.getChild(j) instanceof RadioTreeItem) {
+				RadioTreeItem.as(item.getChild(j)).repaint();
 			}
 			Object geo = item.getChild(j).getUserObject();
 			if (geo instanceof GeoElement) {
@@ -897,7 +897,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public final void setUserObject(TreeItem ti, final Object ob) {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
-			ti = RadioButtonTreeItem.create((GeoElement) ob,
+			ti = RadioTreeItem.create((GeoElement) ob,
 					AppResources.INSTANCE.shown().getSafeUri(),
 					AppResources.INSTANCE.hidden().getSafeUri());
 			ti.setUserObject(ob);
@@ -927,7 +927,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public final AVTreeItem createAVItem(final Object ob) {
 		AVTreeItem ti = null;
 		if (ob instanceof GeoElement) {
-			ti = RadioButtonTreeItem.create((GeoElement) ob,
+			ti = RadioTreeItem.create((GeoElement) ob,
 					AppResources.INSTANCE.shown().getSafeUri(),
 					AppResources.INSTANCE.hidden().getSafeUri());
 			ti.setUserObject(ob);
@@ -1046,9 +1046,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			// setUserObject(node, geo);
 
 			// item is already added
-			if (node instanceof RadioButtonTreeItem
-					&& !(node instanceof NewRadioButtonTreeItem)) {
-				RadioButtonTreeItem.as(node)
+			if (node instanceof RadioTreeItem
+					&& !(node instanceof InputTreeItem)) {
+				RadioTreeItem.as(node)
 				.replaceXButtonDOM(node);
 			}
 
@@ -1288,7 +1288,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	/**
 	 * @return the RadioButtonTreeItem containing the input-box
 	 */
-	public RadioButtonTreeItem getInputTreeItem() {
+	public RadioTreeItem getInputTreeItem() {
 		return inputPanelLatex;
 	}
 
@@ -1298,7 +1298,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		boolean forceKeyboard = false;
 		boolean appletHack = false;
 		if (inputPanelLatex == null) {
-			inputPanelLatex = new NewRadioButtonTreeItem(kernel);
+			inputPanelLatex = new InputTreeItem(kernel);
 			forceKeyboard = app.getArticleElement()
 					.getDataParamBase64String().length() == 0;
 
@@ -1368,7 +1368,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			forceKeyboard = forceKeyboard0
 					|| app.getArticleElement()
 					.getDataParamBase64String().length() == 0;
-			inputPanelLatex = new NewRadioButtonTreeItem(kernel);
+			inputPanelLatex = new InputTreeItem(kernel);
 
 			// open the keyboard (or show the keyboard-open-button) at
 			// when the application is started
@@ -1442,7 +1442,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		return this.nodeTable.isEmpty();
 	}
 
-	public void setActiveTreeItem(RadioButtonTreeItem radioButtonTreeItem) {
+	public void setActiveTreeItem(RadioTreeItem radioButtonTreeItem) {
 		if (!hasAvex() && !app.has(Feature.DELETE_IN_ALGEBRA)) {
 				// if there is delete button in algebra view, let's allow this,
 				// or the alternative is to add the delete button when
@@ -1482,7 +1482,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			return;
 		}
 		
-		RadioButtonTreeItem.as(node).selectItem(select);
+		RadioTreeItem.as(node).selectItem(select);
 
 	}
 
@@ -1565,8 +1565,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			// FIXMEWEB select and show node
 			editing = true;
 			setAnimationEnabled(false);
-			if (node instanceof RadioButtonTreeItem)
-				RadioButtonTreeItem.as(node).startEditing();
+			if (node instanceof RadioTreeItem)
+				RadioTreeItem.as(node).startEditing();
 		}
 	}
 
@@ -1584,8 +1584,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				for (int j = 0; j < getItem(i).getChildCount(); j++) {
 					TreeItem item = getItem(i).getChild(j);
 					item.setSelected(false);
-					if (hasAvex() && item instanceof RadioButtonTreeItem) {
-						unselect(RadioButtonTreeItem.as(item).getGeo());
+					if (hasAvex() && item instanceof RadioTreeItem) {
+						unselect(RadioTreeItem.as(item).getGeo());
 					}
 				}
 		}
@@ -1641,13 +1641,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public void setPixelRatio(double ratio) {
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
-			if (ti instanceof RadioButtonTreeItem) {
-				RadioButtonTreeItem.as(ti).updateOnNextRepaint();
+			if (ti instanceof RadioTreeItem) {
+				RadioTreeItem.as(ti).updateOnNextRepaint();
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
 				for (int j = 0; j < ti.getChildCount(); j++) {
-					if (ti.getChild(j) instanceof RadioButtonTreeItem) {
-						RadioButtonTreeItem.as(ti.getChild(j))
+					if (ti.getChild(j) instanceof RadioTreeItem) {
+						RadioTreeItem.as(ti.getChild(j))
 						.updateOnNextRepaint();
 
 					}
@@ -1666,13 +1666,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
-			if (ti instanceof RadioButtonTreeItem) {
-				RadioButtonTreeItem.as(ti).onResize();
+			if (ti instanceof RadioTreeItem) {
+				RadioTreeItem.as(ti).onResize();
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
 				for (int j = 0; j < ti.getChildCount(); j++) {
-					if (ti.getChild(j) instanceof RadioButtonTreeItem) {
-						RadioButtonTreeItem.as(ti.getChild(j)).onResize();
+					if (ti.getChild(j) instanceof RadioTreeItem) {
+						RadioTreeItem.as(ti.getChild(j)).onResize();
 
 					}
 				}
@@ -1688,8 +1688,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
-			if (ti instanceof RadioButtonTreeItem) {
-				GeoElement geo = RadioButtonTreeItem.as(ti).getGeo();
+			if (ti instanceof RadioTreeItem) {
+				GeoElement geo = RadioTreeItem.as(ti).getGeo();
 				if (geo != null) {
 					selectRow(geo, geo.doHighlighting());
 				}
@@ -1697,8 +1697,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
 				for (int j = 0; j < ti.getChildCount(); j++) {
-					if (ti.getChild(j) instanceof RadioButtonTreeItem) {
-						GeoElement geo = RadioButtonTreeItem.as(ti.getChild(j))
+					if (ti.getChild(j) instanceof RadioTreeItem) {
+						GeoElement geo = RadioTreeItem.as(ti.getChild(j))
 								.getGeo();
 						if (geo != null) {
 							selectRow(geo, geo.doHighlighting());
@@ -1720,14 +1720,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			return;
 		}
 		TreeItem node = nodeTable.get(geo);
-		RadioButtonTreeItem.as(node).selectItem(false);
+		RadioTreeItem.as(node).selectItem(false);
 		selectRow(geo, false);
 
 	}
 
 	public void resetItems() {
 		if (hasAvex()) {
-			RadioButtonTreeItem.closeMinMaxPanel();
+			RadioTreeItem.closeMinMaxPanel();
 			updateSelection();
 		}
 

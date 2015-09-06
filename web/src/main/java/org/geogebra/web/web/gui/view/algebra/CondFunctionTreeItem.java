@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  * 
  * File created by Arpad Fekete
  */
-public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
+public class CondFunctionTreeItem extends RadioTreeItem {
 
 	PushButton pButton;
 
@@ -31,7 +31,7 @@ public class CondFunRadioButtonTreeItem extends RadioButtonTreeItem {
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
 	 * situation (e.g. why not after NewRadioButtonTreeItem?)
 	 */
-	public CondFunRadioButtonTreeItem(final GeoElement ge, SafeUri showUrl,
+	public CondFunctionTreeItem(final GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
 		

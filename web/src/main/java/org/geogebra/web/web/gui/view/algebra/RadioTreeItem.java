@@ -137,9 +137,10 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * File created by Arpad Fekete
  * 
+ *
  */
 
-public class RadioButtonTreeItem extends AVTreeItem
+public class RadioTreeItem extends AVTreeItem
 		implements
 		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
 		MouseUpHandler, MouseOverHandler, MouseOutHandler, GeoContainer,
@@ -522,12 +523,11 @@ public class RadioButtonTreeItem extends AVTreeItem
 		private static final int BACKGROUND_ALPHA = 60;
 		private Marble marble;
 		private boolean selected = false;
-		private String bgColorStr;
 
 		public MarblePanel(final GeoElement geo, SafeUri showUrl,
 				SafeUri hiddenUrl) {
 
-			marble = new Marble(showUrl, hiddenUrl, RadioButtonTreeItem.this);
+			marble = new Marble(showUrl, hiddenUrl, RadioTreeItem.this);
 			marble.setStyleName("marble");
 			marble.setEnabled(geo.isEuclidianShowable());
 			marble.setChecked(geo.isEuclidianVisible());
@@ -540,7 +540,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 		public void setHighlighted(boolean selected) {
 			this.selected = selected;
 			getElement().getStyle().setBackgroundColor(
-					selected ? bgColorStr : CLEAR_COLOR_STR);
+					selected ? getBgColorString() : CLEAR_COLOR_STR);
 
 		}
 
@@ -549,12 +549,15 @@ public class RadioButtonTreeItem extends AVTreeItem
 				marble.setChecked(geo.isEuclidianVisible());
 			}
 
+			setHighlighted(selected);
+		}
+
+		private String getBgColorString() {
 			GColor gc = geo.getAlgebraColor();
 			GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
 					gc.getBlue(), BACKGROUND_ALPHA);
-			bgColorStr = GColor.getColorString(color);
+			return GColor.getColorString(color);
 
-			setHighlighted(selected);
 		}
 	}
 
@@ -694,16 +697,16 @@ public class RadioButtonTreeItem extends AVTreeItem
 		};
 	}
 
-	public static RadioButtonTreeItem create(GeoElement ge, SafeUri showUrl,
+	public static RadioTreeItem create(GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		if (ge.isMatrix()) {
-			return new MatrixRadioButtonTreeItem(ge, showUrl, hiddenUrl);
+			return new MatrixTreeItem(ge, showUrl, hiddenUrl);
 		} else if (ge.isGeoCurveCartesian()) {
-			return new ParCurveRadioButtonTreeItem(ge, showUrl, hiddenUrl);
+			return new ParCurveTreeItem(ge, showUrl, hiddenUrl);
 		} else if (ge.isGeoFunctionConditional()) {
-			return new CondFunRadioButtonTreeItem(ge, showUrl, hiddenUrl);
+			return new CondFunctionTreeItem(ge, showUrl, hiddenUrl);
 		}
-		return new RadioButtonTreeItem(ge, showUrl, hiddenUrl);
+		return new RadioTreeItem(ge, showUrl, hiddenUrl);
 	}
 
 	/**
@@ -717,7 +720,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 	 * @param hiddenUrl
 	 *            the marble to be shown when the GeoElement is invisible
 	 */
-	public RadioButtonTreeItem(final GeoElement ge, SafeUri showUrl,
+	public RadioTreeItem(final GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super();
 		main = new FlowPanel();
@@ -961,7 +964,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 	 * no marble, no input GeoElement here. But this will be called from
 	 * NewRadioButtonTreeItem(kernel), for there are many extras
 	 */
-	public RadioButtonTreeItem(Kernel kern) {
+	public RadioTreeItem(Kernel kern) {
 		super();
 		main = new FlowPanel();
 		setWidget(main);
@@ -1466,7 +1469,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 				public void onClickStart(int x, int y,
 						final PointerEventType type) {
 					app.getGuiManager().setOnScreenKeyboardTextField(
-							RadioButtonTreeItem.this);
+							RadioTreeItem.this);
 					// prevent that keyboard is closed on clicks (changing
 					// cursor position)
 					CancelEventTimer.keyboardSetVisible();
@@ -1490,7 +1493,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 				public void onClickStart(int x, int y,
 						final PointerEventType type) {
 					app.getGuiManager().setOnScreenKeyboardTextField(
-							RadioButtonTreeItem.this);
+							RadioTreeItem.this);
 					// prevent that keyboard is closed on clicks (changing
 					// cursor position)
 					CancelEventTimer.keyboardSetVisible();
@@ -1919,8 +1922,9 @@ public class RadioButtonTreeItem extends AVTreeItem
 				return;
 			}
 
+
 			selectItem(true);
-			getAV().updateSelection();
+
 		}
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -2120,6 +2124,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 			selection.addSelectedGeo(geo);
 			av.setLastSelectedGeo(geo);
 		}
+		getAV().updateSelection();
 	}
 
 	private void onPointerUp(AbstractEvent event) {
@@ -2138,6 +2143,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 			// update selection
 			if (geo == null) {
 				selection.clearSelectedGeos();
+				getAV().updateSelection();
 			} else {
 				selectGeo(event);
 
@@ -2510,11 +2516,13 @@ public class RadioButtonTreeItem extends AVTreeItem
 		}
 
 		if (selected) {
+			selection.addSelectedGeo(geo);
 			addStyleName("avSelectedRow");
 			border.setBorderColor(
 					GColor.getColorString(geo.getAlgebraColor()));
 
 		} else {
+			selection.removeSelectedGeo(geo);
 			border.setBorderColor(CLEAR_COLOR_STR);
 			removeStyleName("avSelectedRow");
 		}
@@ -2537,8 +2545,8 @@ public class RadioButtonTreeItem extends AVTreeItem
 	 *            TreeItem to be casted
 	 * @return Casted item to RadioButtonTreeItem
 	 */
-	public static RadioButtonTreeItem as(TreeItem item) {
-		return (RadioButtonTreeItem) item;
+	public static RadioTreeItem as(TreeItem item) {
+		return (RadioTreeItem) item;
 	}
 
 }

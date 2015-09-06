@@ -50,7 +50,7 @@ import com.google.gwt.user.client.ui.PushButton;
  * 
  * File created by Arpad Fekete
  */
-public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
+public class InputTreeItem extends RadioTreeItem implements
 		HasSymbolPopup, FocusHandler, BlurHandler {
 
 	// How large this number should be (e.g. place on the screen, or
@@ -67,7 +67,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	private Label piecewiseLabel, matrixLabel, curveLabel;
 
-	public NewRadioButtonTreeItem(Kernel kern) {
+	public InputTreeItem(Kernel kern) {
 		super(kern);
 
 		editor = new EquationEditor(app, this);
@@ -101,8 +101,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				DrawEquationWeb.stornoFormulaMathQuillGGB(
-				        NewRadioButtonTreeItem.this, seMayLatex);
-				NewRadioButtonTreeItem.this.setFocus(true);
+				        InputTreeItem.this, seMayLatex);
+				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
 				// event.preventDefault();
 			}
@@ -113,8 +113,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
 				DrawEquationWeb.stornoFormulaMathQuillGGB(
-						NewRadioButtonTreeItem.this, seMayLatex);
-				NewRadioButtonTreeItem.this.setFocus(true);
+						InputTreeItem.this, seMayLatex);
+				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
 				event.preventDefault();
 			}
@@ -207,7 +207,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					EuclidianStyleBarW.CURRENT_POP_UP = null;
 
 					// TODO: only create it in the input bar!!!
-					final GeoFunction fun = CondFunRadioButtonTreeItem
+					final GeoFunction fun = CondFunctionTreeItem
 							.createBasic(app.getKernel());
 					if (fun != null) {
 						// in theory, fun is never null, but what if?
@@ -219,7 +219,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 						};
 						tim.schedule(500);
 					}
-					updateGUIfocus(NewRadioButtonTreeItem.this, false);
+					updateGUIfocus(InputTreeItem.this, false);
 				}
 			}, ClickEvent.getType());
 			itemList.add(actual);
@@ -234,7 +234,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					EuclidianStyleBarW.CURRENT_POP_UP = null;
 
 					// TODO: only create it in the input bar!!!
-					final GeoList mat = MatrixRadioButtonTreeItem
+					final GeoList mat = MatrixTreeItem
 							.create2x2IdentityMatrix(app.getKernel());
 					// scheduleDeferred alone does not work well!
 					Timer tim2 = new Timer() {
@@ -254,7 +254,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					// 200ms is not enough, and as this is a good machine
 					// let us say that 500ms is just right, or maybe too little
 					// on slow machines -> shall we use scheduleDeferred too?
-					updateGUIfocus(NewRadioButtonTreeItem.this, false);
+					updateGUIfocus(InputTreeItem.this, false);
 				}
 			}, ClickEvent.getType());
 			itemList.add(actual);
@@ -269,7 +269,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					EuclidianStyleBarW.CURRENT_POP_UP = null;
 
 					// TODO: only create it in the input bar!!!
-					final GeoCurveCartesianND curve = ParCurveRadioButtonTreeItem
+					final GeoCurveCartesianND curve = ParCurveTreeItem
 							.createBasic(app.getKernel());
 					if (curve != null) {
 						// in theory, fun is never null, but what if?
@@ -281,7 +281,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 						};
 						tim.schedule(500);
 					}
-					updateGUIfocus(NewRadioButtonTreeItem.this, false);
+					updateGUIfocus(InputTreeItem.this, false);
 				}
 			}, ClickEvent.getType());
 			itemList.add(actual);
@@ -579,7 +579,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	public void onFocus(FocusEvent event) {
 		super.onFocus(event);
 		if (app.has(Feature.AV_EXTENSIONS)) {
-			RadioButtonTreeItem.closeMinMaxPanel();
+			RadioTreeItem.closeMinMaxPanel();
 		}
 		// earlier this method was mainly called from setFocus,
 		// and now it is also called from there, but in an

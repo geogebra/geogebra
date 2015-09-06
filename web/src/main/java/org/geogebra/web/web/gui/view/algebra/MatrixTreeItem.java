@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  * 
  * File created by Arpad Fekete
  */
-public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
+public class MatrixTreeItem extends RadioTreeItem {
 
 	PushButton pButton;
 	ButtonPopupMenu specialPopup;
@@ -42,7 +42,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
 	 * situation (e.g. why not after NewRadioButtonTreeItem?)
 	 */
-	public MatrixRadioButtonTreeItem(final GeoElement ge, SafeUri showUrl,
+	public MatrixTreeItem(final GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
 
@@ -222,7 +222,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
 				DrawEquationWeb.endEditingEquationMathQuillGGB(
-						MatrixRadioButtonTreeItem.this, seMayLatex);
+						MatrixTreeItem.this, seMayLatex);
 
 				if (wasEditing) {
 					av.startEditing(geo);
@@ -245,7 +245,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
 				DrawEquationWeb.endEditingEquationMathQuillGGB(
-						MatrixRadioButtonTreeItem.this, seMayLatex);
+						MatrixTreeItem.this, seMayLatex);
 
 				if (wasEditing) {
 					av.startEditing(geo);
@@ -268,7 +268,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
 				DrawEquationWeb.endEditingEquationMathQuillGGB(
-						MatrixRadioButtonTreeItem.this, seMayLatex);
+						MatrixTreeItem.this, seMayLatex);
 
 				if (wasEditing) {
 					av.startEditing(geo);
@@ -291,7 +291,7 @@ public class MatrixRadioButtonTreeItem extends RadioButtonTreeItem {
 				// in a permanent way, and in which case (wasEditing?)
 				// why not?
 				DrawEquationWeb.endEditingEquationMathQuillGGB(
-						MatrixRadioButtonTreeItem.this, seMayLatex);
+						MatrixTreeItem.this, seMayLatex);
 
 				if (wasEditing) {
 					av.startEditing(geo);

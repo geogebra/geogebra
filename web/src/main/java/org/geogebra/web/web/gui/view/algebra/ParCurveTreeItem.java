@@ -12,7 +12,7 @@ import com.google.gwt.safehtml.shared.SafeUri;
  * 
  * File created by Arpad Fekete
  */
-public class ParCurveRadioButtonTreeItem extends RadioButtonTreeItem {
+public class ParCurveTreeItem extends RadioTreeItem {
 
 	/**
 	 * Creating a SpecialRadioButtonTreeItem from existing construction as we
@@ -20,7 +20,7 @@ public class ParCurveRadioButtonTreeItem extends RadioButtonTreeItem {
 	 * RadioButtonTreeItem.create, which may call this constructor depending on
 	 * situation (e.g. why not after NewRadioButtonTreeItem?)
 	 */
-	public ParCurveRadioButtonTreeItem(GeoElement ge, SafeUri showUrl,
+	public ParCurveTreeItem(GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super(ge, showUrl, hiddenUrl);
 	}

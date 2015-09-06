@@ -12,7 +12,7 @@ import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
-import org.geogebra.web.web.gui.view.algebra.NewRadioButtonTreeItem;
+import org.geogebra.web.web.gui.view.algebra.InputTreeItem;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -83,7 +83,7 @@ public class TextFieldProcessing implements KeyboardListener {
 			state = State.empty;
 		} else if (field instanceof GTextBox) {
 			state = State.gTextBox;
-		} else if (field instanceof NewRadioButtonTreeItem) {
+		} else if (field instanceof InputTreeItem) {
 			state = State.newRadioButtonTreeItem;
 		} else if (field instanceof EquationEditorListener) {
 			state = State.equationEditorListener;
