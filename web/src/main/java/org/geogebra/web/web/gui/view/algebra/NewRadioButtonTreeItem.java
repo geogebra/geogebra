@@ -319,7 +319,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// why? web programming knowledge helps: we should add position:
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
 
-		add(buttonPanel);// dirty hack of adding it two times!
+		main.add(buttonPanel);// dirty hack of adding it two times!
 
 		if (pButton != null) {
 			this.buttonPanel.add(pButton);
@@ -402,7 +402,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void replaceXButtonDOM() {
-		getElement().getParentElement().appendChild(buttonPanel.getElement());
+		getWidget().getElement().getParentElement()
+				.appendChild(buttonPanel.getElement());
 		// Internet Explorer seems to also require this lately:
 		if (pButton != null) {
 			buttonPanel.getElement().appendChild(pButton.getElement());
@@ -788,6 +789,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			curveLabel.setText(app.getPlain("CurveCartesian"));
 			matrixLabel.setText(app.getMenu("Matrix"));
 		}
+	}
+
+	public void removeFromParent() {
+		main.removeFromParent();
 	}
 
 }

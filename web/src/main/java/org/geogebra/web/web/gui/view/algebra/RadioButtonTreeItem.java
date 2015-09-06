@@ -65,6 +65,7 @@ import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.css.GuiResources;
@@ -127,6 +128,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -136,7 +138,8 @@ import com.google.gwt.user.client.ui.Widget;
  * File created by Arpad Fekete
  */
 
-public class RadioButtonTreeItem extends FlowPanel implements
+public class RadioButtonTreeItem extends AVTreeItem
+		implements
 		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
 		MouseUpHandler, MouseOverHandler, MouseOutHandler, GeoContainer,
 		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
@@ -480,13 +483,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			Object source = event.getSource();
 			if (source == btnSpeedDown) {
 				speedDown();
-				getAV().selectRow(geo, true);
+				selectItem(true);
 			} else if (source == btnSpeedUp) {
 				speedUp();
-				getAV().selectRow(geo, true);
+				selectItem(true);
 			} else if (source == btnSpeedValue) {
 				showSpeedButtons(!speedButtons);
-				// getAV().selectRow(geo, true);
 			}
 		}
 
@@ -534,22 +536,17 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		public void setHighlighted(boolean selected) {
 			this.selected = selected;
+
 			if (selected) {
 				GColor gc = geo.getAlgebraColor();
 				GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
 						gc.getBlue(), BACKGROUND_ALPHA);
-				getElement().getStyle().setBackgroundColor(
+				getElement().getStyle()
+						.setBackgroundColor(
 						GColor.getColorString(color));
-				if (borderStyle != null) {
-					borderStyle.setBorderColor(GColor.getColorString(geo
-							.getAlgebraColor()));
-				}
 			} else {
 				String strClearColor = GColor.getColorString(CLEAR_COLOR);
 				getElement().getStyle().setBackgroundColor(strClearColor);
-				if (borderStyle != null) {
-					borderStyle.setBorderColor(strClearColor);
-				}
 			}
 		}
 
@@ -562,6 +559,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	private static MinMaxPanel openedMinMaxPanel = null;
+
+	protected FlowPanel main;
+
 	protected FlowPanel buttonPanel;
 	protected PushButton xButton;
 
@@ -737,6 +737,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public RadioButtonTreeItem(final GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super();
+		main = new FlowPanel();
+		setWidget(main);
 
 		geo = ge;
 		kernel = geo.getKernel();
@@ -745,12 +747,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		avExtension = app.has(Feature.AV_EXTENSIONS);
 
 		selection = app.getSelectionManager();
-		addStyleName("elem");
-		addStyleName("panelRow");
+		main.addStyleName("elem");
+		main.addStyleName("panelRow");
 
 		marblePanel = new MarblePanel(ge, showUrl, hiddenUrl);
 
-		add(marblePanel);
+		main.add(marblePanel);
 
 		if (avExtension) {
 
@@ -758,7 +760,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				// CheckBoxes
 				checkBox = new CheckBox();
 				checkBox.setValue(((GeoBoolean) geo).getBoolean());
-				add(checkBox);
+				main.add(checkBox);
 				checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 					@Override
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
@@ -777,16 +779,16 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		ihtml = new InlineHTML();
 
-		this.addDomHandler(this, DoubleClickEvent.getType());
-		this.addDomHandler(this, ClickEvent.getType());
-		this.addDomHandler(this, MouseMoveEvent.getType());
-		this.addDomHandler(this, MouseDownEvent.getType());
-		this.addDomHandler(this, MouseUpEvent.getType());
-		this.addDomHandler(this, MouseOverEvent.getType());
-		this.addDomHandler(this, MouseOutEvent.getType());
-		this.addDomHandler(this, TouchStartEvent.getType());
-		this.addDomHandler(this, TouchMoveEvent.getType());
-		this.addDomHandler(this, TouchEndEvent.getType());
+		main.addDomHandler(this, DoubleClickEvent.getType());
+		main.addDomHandler(this, ClickEvent.getType());
+		main.addDomHandler(this, MouseMoveEvent.getType());
+		main.addDomHandler(this, MouseDownEvent.getType());
+		main.addDomHandler(this, MouseUpEvent.getType());
+		main.addDomHandler(this, MouseOverEvent.getType());
+		main.addDomHandler(this, MouseOutEvent.getType());
+		main.addDomHandler(this, TouchStartEvent.getType());
+		main.addDomHandler(this, TouchMoveEvent.getType());
+		main.addDomHandler(this, TouchEndEvent.getType());
 
 		// Sliders
 		if (sliderNeeded()) {
@@ -873,12 +875,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 		});
 
-		add(buttonPanel);// dirty hack of adding it two times!
+		main.add(buttonPanel);// dirty hack of adding it two times!
 
 		// pButton should be added before xButton is added!
 		// also, the place of buttonPanel should also be changed!
 		// so these things are moved to replaceXbuttonDOM!
 		// buttonPanel.add(xButton);
+
 		deferredResizeSlider();
 
 	}
@@ -927,7 +930,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			addSpecial(ihtml);
 			contentPanel.add(LayoutUtil.panelRow(sliderPanel, minMaxPanel));
-			add(contentPanel);
+			main.add(contentPanel);
 		}
 
 	}
@@ -977,6 +980,9 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	 */
 	public RadioButtonTreeItem(Kernel kern) {
 		super();
+		main = new FlowPanel();
+		setWidget(main);
+
 		// this method is still not able to show an editing box!
 		newCreationMode = true;
 
@@ -1005,7 +1011,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		ihtml.addTouchStartHandler(this);
 		ihtml.addTouchMoveHandler(this);
 		ihtml.addTouchEndHandler(this);
-		add(ihtml);
+		main.add(ihtml);
 		ihtml.getElement().appendChild(se);
 		ihtml.getElement().addClassName("hasCursorPermanent");
 
@@ -1233,7 +1239,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 			return;
 		} else if (this.checkBox != null) {
-			remove(checkBox);
+			main.remove(checkBox);
 		}
 		if (av.isRenderLaTeX()
 				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
@@ -1351,9 +1357,6 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 		}
 
-		// if (getAV().getSelectedGeoElement() == geo) {
-		// getAV().selectRow(geo, true);
-		// }
 	}
 
 	private Canvas c;
@@ -1475,7 +1478,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
-			ClickStartHandler.init(this, new ClickStartHandler(false, false) {
+			ClickStartHandler.init(main, new ClickStartHandler(false, false) {
 				@Override
 				public void onClickStart(int x, int y,
 						final PointerEventType type) {
@@ -1499,7 +1502,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
 			CancelEventTimer.keyboardSetVisible();
-			ClickStartHandler.init(this, new ClickStartHandler(false, false) {
+			ClickStartHandler.init(main, new ClickStartHandler(false, false) {
 				@Override
 				public void onClickStart(int x, int y,
 						final PointerEventType type) {
@@ -1913,7 +1916,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 			}
 
 			if (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel) {
-				getAV().selectRow(geo, false);
+				selectItem(false);
 
 			}
 
@@ -1933,7 +1936,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				return;
 			}
 
-			getAV().selectRow(geo, true);
+			selectItem(true);
 			getAV().updateSelection();
 		}
 		// this 'if' should be the first one in every 'mouse' related method
@@ -1984,7 +1987,8 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public long latestTouchEndTime = 0;
-	private Style borderStyle;
+	private Style border;
+
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
@@ -2347,13 +2351,13 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				sliderPanel.add(slider);
 			}
 		} else if (checkBox != null) {
-			remove(checkBox);
+			main.remove(checkBox);
 			if (hasGeoExtendedAV()) {
-				add(checkBox);
+				main.add(checkBox);
 			}
-			add(w);
+			main.add(w);
 		} else {
-			add(w);
+			main.add(w);
 		}
 	}
 
@@ -2363,7 +2367,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	}
 
 	public void setDraggable() {
-		Widget draggableContent = this;
+		Widget draggableContent = main;
 		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoNumeric
 				&& slider != null) {
 			return;
@@ -2446,7 +2450,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 
 	@Override
 	public final Widget toWidget() {
-		return this;
+		return main;
 	}
 
 	@Override
@@ -2516,7 +2520,21 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		openedMinMaxPanel = panel;
 	}
 
-	public void selectItem(boolean selected, TreeItem node) {
+	public void selectItem(boolean selected) {
+		if (border == null) {
+			border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
+					.getStyle();
+		}
+
+		if (selected) {
+			addStyleName("avSelectedRow");
+			border.setBorderColor(
+					GColor.getColorString(geo.getAlgebraColor()));
+
+		} else {
+			border.setBorderColor(GColor.getColorString(CLEAR_COLOR));
+			removeStyleName("avSelectedRow");
+		}
 		marblePanel.setHighlighted(selected);
 		if (selected == false && geo != getAV().getLastSelectedGeo()
 				&& animPanel != null) {
@@ -2524,12 +2542,20 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
-	public Style getBorderStyle() {
-		return borderStyle;
+
+	public UIObject asWidget() {
+		return main.asWidget();
 	}
 
-	public void setBorderStyle(Style borderStyle) {
-		this.borderStyle = borderStyle;
+	/**
+	 * cast method with no 'instanceof' check.
+	 * 
+	 * @param item
+	 *            TreeItem to be casted
+	 * @return Casted item to RadioButtonTreeItem
+	 */
+	public static RadioButtonTreeItem as(TreeItem item) {
+		return (RadioButtonTreeItem) item;
 	}
 
 }
