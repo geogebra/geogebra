@@ -453,6 +453,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		private void showSpeedValue(boolean value) {
+			setSpeedText(geo.getAnimationSpeed());
 			if (value) {
 				btnSpeedValue.removeStyleName("hidden");
 			} else {
@@ -463,6 +464,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		public void showSpeedButtons(boolean value) {
 			if (value) {
+				setSpeedText(geo.getAnimationSpeed());
 				btnSpeedUp.removeStyleName("hidden");
 				btnSpeedDown.removeStyleName("hidden");
 			} else {
@@ -2516,13 +2518,11 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (selected) {
-			selection.addSelectedGeo(geo);
 			addStyleName("avSelectedRow");
 			border.setBorderColor(
 					GColor.getColorString(geo.getAlgebraColor()));
 
 		} else {
-			selection.removeSelectedGeo(geo);
 			border.setBorderColor(CLEAR_COLOR_STR);
 			removeStyleName("avSelectedRow");
 		}
@@ -2543,7 +2543,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * 
 	 * @param item
 	 *            TreeItem to be casted
-	 * @return Casted item to RadioButtonTreeItem
+	 * @return Casted item to RadioTreeItem
 	 */
 	public static RadioTreeItem as(TreeItem item) {
 		return (RadioTreeItem) item;
