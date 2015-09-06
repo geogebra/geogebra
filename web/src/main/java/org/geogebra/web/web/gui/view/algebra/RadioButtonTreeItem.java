@@ -136,6 +136,7 @@ import com.google.gwt.user.client.ui.Widget;
  * event handling which is copied from Desktop/AlgebraController.java
  *
  * File created by Arpad Fekete
+ * 
  */
 
 public class RadioButtonTreeItem extends AVTreeItem
@@ -147,7 +148,8 @@ public class RadioButtonTreeItem extends AVTreeItem
 		RequiresResize {
 
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
-	private static final GColor CLEAR_COLOR = GColorW.WHITE;
+	static final String CLEAR_COLOR_STR = GColor
+			.getColorString(GColorW.WHITE);
 
 	public class PlayButton extends Image implements TimerListener {
 
@@ -520,6 +522,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 		private static final int BACKGROUND_ALPHA = 60;
 		private Marble marble;
 		private boolean selected = false;
+		private String bgColorStr;
 
 		public MarblePanel(final GeoElement geo, SafeUri showUrl,
 				SafeUri hiddenUrl) {
@@ -536,24 +539,21 @@ public class RadioButtonTreeItem extends AVTreeItem
 
 		public void setHighlighted(boolean selected) {
 			this.selected = selected;
+			getElement().getStyle().setBackgroundColor(
+					selected ? bgColorStr : CLEAR_COLOR_STR);
 
-			if (selected) {
-				GColor gc = geo.getAlgebraColor();
-				GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
-						gc.getBlue(), BACKGROUND_ALPHA);
-				getElement().getStyle()
-						.setBackgroundColor(
-						GColor.getColorString(color));
-			} else {
-				String strClearColor = GColor.getColorString(CLEAR_COLOR);
-				getElement().getStyle().setBackgroundColor(strClearColor);
-			}
 		}
 
 		public void update() {
 			if (marble != null) {
 				marble.setChecked(geo.isEuclidianVisible());
 			}
+
+			GColor gc = geo.getAlgebraColor();
+			GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
+					gc.getBlue(), BACKGROUND_ALPHA);
+			bgColorStr = GColor.getColorString(color);
+
 			setHighlighted(selected);
 		}
 	}
@@ -639,23 +639,6 @@ public class RadioButtonTreeItem extends AVTreeItem
 		this.needsUpdate = true;
 	}
 
-	/*
-	 * private class RadioButtonHandy extends RadioButton { public
-	 * RadioButtonHandy() { super(DOM.createUniqueId()); }
-	 * 
-	 * @Override public void onBrowserEvent(Event event) {
-	 * 
-	 * if (av.isEditing()) return;
-	 * 
-	 * if (event.getTypeInt() == Event.ONCLICK) { // Part of
-	 * AlgebraController.mouseClicked in Desktop if
-	 * (Element.is(event.getEventTarget())) { if
-	 * (Element.as(event.getEventTarget()) == getElement().getFirstChild()) {
-	 * setValue(previouslyChecked = !previouslyChecked);
-	 * geo.setEuclidianVisible(!geo.isSetEuclidianVisible()); geo.update();
-	 * geo.getKernel().getApplication().storeUndoInfo();
-	 * geo.getKernel().notifyRepaint(); return; } } } } }
-	 */
 	private IndexHTMLBuilder getBuilder(final SpanElement se) {
 		return new IndexHTMLBuilder(false) {
 			Element sub = null;
@@ -2532,7 +2515,7 @@ public class RadioButtonTreeItem extends AVTreeItem
 					GColor.getColorString(geo.getAlgebraColor()));
 
 		} else {
-			border.setBorderColor(GColor.getColorString(CLEAR_COLOR));
+			border.setBorderColor(CLEAR_COLOR_STR);
 			removeStyleName("avSelectedRow");
 		}
 		marblePanel.setHighlighted(selected);
