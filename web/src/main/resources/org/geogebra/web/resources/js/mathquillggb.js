@@ -2479,8 +2479,13 @@ function createRoot(jQ, root, textbox, editable) {
     	// but when we do, it will look the same way without \\text too!
         //text = '\\text{' + text + '}';
       }
+      //console.log('paste 1:'+text);
       var text3 = cursor.substQuotations(text);
+      //console.log('paste 2:'+text3);
+      text3 = text3.split('\\space').join(' ');
+      //console.log('paste 3:'+text3);
       text3 = cursor.fixabug(text3);
+      //console.log('paste 4:'+text3);
       cursor.writeLatexSafe(text3);
     }
   });
@@ -6876,8 +6881,10 @@ var Cursor = P(Point, function(_) {
   _.fixabug = function(text) {
     var str = text;
     str = str.replace('{', '\\left\\{');
+    str = str.replace('\\left\\\\left\\{', '\\left\\{');
     str = str.replace('\\\\left\\{', '\\left\\{');
     str = str.replace('}', '\\right\\}');
+    str = str.replace('\\right\\\\right\\}', '\\right\\}');
     str = str.replace('\\\\right\\}', '\\right\\}');
     return str;
   };
