@@ -2347,6 +2347,13 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		return getParentAlgorithm() instanceof AlgoFunctionFreehand;
 	}
 
+	/**
+	 * @return whether this function is from DataFunction[]
+	 */
+	public boolean isDataFunction() {
+		return fun.getExpression().getOperation() == Operation.DATA;
+	}
+
 	public FunctionVariable[] getFunctionVariables() {
 		return fun.getFunctionVariables();
 	}
