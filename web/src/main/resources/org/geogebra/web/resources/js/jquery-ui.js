@@ -6,7 +6,7 @@
 (function( factory ) {
 	
 		// Browser globals
-	factory( jQuery || $ggbQuery );
+	factory( $ggbQuery || jQuery  );
 	
 }(function( $ ) {
 /*!
