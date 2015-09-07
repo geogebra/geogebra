@@ -623,7 +623,11 @@ public class Ggb2giac {
 				+ "flatten1(ggbsort(normal([op(solve(%0,%1))]))),"
 				+ "ggbsort(normal([op(solve(%0,%1))])))");
 		p("SolveODE.1", "when((%0)[0]=='=',"
-				+ "normal(map(desolve(%0),x->y=x)[0])" + ","
+						// case the equation contains only y and other variable
+						// as x, by default use for variable list y, x
+						// #5099
+						+ " when (size(lname(%0) intersect [x]) == 0 && size(lname(%0) intersect [y]) == 1 && size(lname(%0) minus [y]) > 0,normal(map(desolve(%0,x,y),x->y=x)[0]),normal(map(desolve(%0),x->y=x)[0]))"
+						+ ","
 				// add y'= if it's missing
 				+ "normal(map(desolve(y'=%0),x->y=x)[0])" + ")");
 		
