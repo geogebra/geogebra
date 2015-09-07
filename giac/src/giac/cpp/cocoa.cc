@@ -4984,6 +4984,7 @@ namespace giac {
       ++jt;
 #ifdef GIAC_SHORTSHIFTTYPE
       if (shortshifts){
+#if 0
 	if (jt<jt_){
 	  while (ulonglong(it)%4){
 	    wt += *it; ++it;;
@@ -4991,52 +4992,34 @@ namespace giac {
 	    ++jt;
 	  }
 	}
-	for (;jt<jt_;){
-#if 0
-	  register unsigned pos = *(unsigned *)it;
-	  wt += (pos & 0xffff);
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  wt += (pos >> 16);
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  it += 2;
-	  pos = *(unsigned *)it;
-	  wt += (pos & 0xffff);
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  wt += (pos >> 16);
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  it += 2;
-#else
-	  wt += *it; ++it;;
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  wt += *it; ++it;;
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  wt += *it; ++it;;
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  wt += *it; ++it;;
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;	
-	  wt += *it; ++it;;
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  wt += *it; ++it;;
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  wt += *it; ++it;;
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;
-	  wt += *it; ++it;;
-	  *wt -=modint2(c)*(*jt);
-	  ++jt;	
 #endif
+	for (;jt<jt_;){
+	  wt += *it; ++it;;
+	  *wt -=modint2(c)*(*jt);
+	  ++jt;
+	  wt += *it; ++it;;
+	  *wt -=modint2(c)*(*jt);
+	  ++jt;
+	  wt += *it; ++it;;
+	  *wt -=modint2(c)*(*jt);
+	  ++jt;
+	  wt += *it; ++it;;
+	  *wt -=modint2(c)*(*jt);
+	  ++jt;	
+	  wt += *it; ++it;;
+	  *wt -=modint2(c)*(*jt);
+	  ++jt;
+	  wt += *it; ++it;;
+	  *wt -=modint2(c)*(*jt);
+	  ++jt;
+	  wt += *it; ++it;;
+	  *wt -=modint2(c)*(*jt);
+	  ++jt;
+	  wt += *it; ++it;;
+	  *wt -=modint2(c)*(*jt);
+	  ++jt;	
 	}
-      }
+      } // if (shortshifts)
       else {
 	for (;jt<jt_;){
 	  next_index(wt,it);
@@ -5065,7 +5048,7 @@ namespace giac {
 	  ++jt;	
 	}
       }
-#else
+#else // GIAC_SHORTSHIFTTYPE
       for (;jt<jt_;){
 	v128[*it]-=modint2(c)*(*jt);
 	++it; ++jt;
@@ -5095,17 +5078,24 @@ namespace giac {
 #endif
       }
     }
+    unsigned res=v.size();
     for (vt=v.begin(),wt=v128.begin();vt!=vtend;++wt,++vt){
+      int128_t i=*wt;
+      if (i)
+	i %= env;
+      *vt = i;
+      if (i){
+	res=vt-v.begin();
+	break;
+      }
+    }
+    for (;vt!=vtend;++wt,++vt){
       if (*wt)
 	*vt = *wt % env;
       else
-	*vt=0;
+	*vt = 0;
     }
-    for (vt=v.begin();vt!=vtend;++vt){
-      if (*vt)
-	return vt-v.begin();
-    }
-    return v.size();
+    return res;
   }
 
   unsigned reducef4buchbergersplit64u(vector<modint> &v,const vector< vector<unsigned> > & M,vector< vector<modint> > & coeffs,vector<coeffindex_t> & coeffindex,modint env,vector<int128_t> & v128){
@@ -5264,7 +5254,7 @@ namespace giac {
 	const modint * jt=&mcoeff.front(),*jtend=jt+mcoeff.size(),*jt_=jtend-8;
 	// if (pos>v.size()) CERR << "error" <<endl;
 	// if (*jt!=1) CERR << "not normalized" << endl;
-	modint c=(modint2(invmod(*jt,env))*(*wt))%env;
+	modint c=(modint2(invmod(*jt,env))*(*wt % env))%env;
 	*wt=0;
 	if (!c)
 	  continue;
@@ -5451,12 +5441,22 @@ namespace giac {
       }
       vector<modint>::iterator vt=v.begin(),vtend=v.end();
 #ifdef PSEUDO_MOD
+      unsigned res=v.size();
+      for (;vt!=vtend;++vt){ // or if (*vt) *vt %= env;
+	if (!*vt) continue;
+	*vt %= env;
+	if (*vt){
+	  res=vt-v.begin();
+	  break;
+	}
+      }
       for (;vt!=vtend;++vt){ // or if (*vt) *vt %= env;
 	modint v=*vt;
 	if (v>-env && v<env)
 	  continue;
 	*vt = v % env;
       }
+      return res;
 #endif
     } // end else based on modulo size
     for (vt=v.begin();vt!=vtend;++vt){
@@ -5490,7 +5490,7 @@ namespace giac {
 	unsigned pos=*it;
 	// if (pos>v.size()) CERR << "error" <<endl;
 	// if (*jt!=1) CERR << "not normalized" << endl;
-	modint c=(modint2(invmod(*jt,env))*v64[pos])%env;
+	modint c=(modint2(invmod(*jt,env))*(v64[pos] % env))%env;
 	v64[pos]=0;
 	if (!c)
 	  continue;
@@ -5599,7 +5599,7 @@ namespace giac {
 	unsigned pos=*it;
 	// if (pos>v.size()) CERR << "error" <<endl;
 	// if (*jt!=1) CERR << "not normalized" << endl;
-	modint c=(modint2(invmod(*jt,env))*v64[pos])%env;
+	modint c=(modint2(invmod(*jt,env))*(v64[pos] % env))%env;
 	v64[pos]=0;
 	if (!c)
 	  continue;
@@ -10179,10 +10179,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	    smallnterms=nterms[i];
 	}
 	vector<unsigned> smallposv;
-	smallnterms *= 4;
+	smallnterms *= 5;
 	for (unsigned i=0;i<B.size();++i){
 	  if (
-	      // nterms[i]<=smallnterms && 
+	      //nterms[i]<=smallnterms && 
 	      Blcm[i].total_degree(order)==firstdeg){
 	    smallposv.push_back(i);
 	  }

@@ -564,6 +564,14 @@ namespace giac {
   static define_unary_function_eval (__nop,&_nop,_nop_s);
   define_unary_function_ptr5( at_nop ,alias_at_nop,&__nop,0,true);
 
+  gen _Nop(const gen & a,GIAC_CONTEXT){
+    if ( a.type==_STRNG &&  a.subtype==-1) return  a;
+    return a;
+  }
+  static const char _Nop_s []="Nop";
+  static define_unary_function_eval (__Nop,&_Nop,_Nop_s);
+  define_unary_function_ptr5( at_Nop ,alias_at_Nop,&__Nop,0,true);
+
   string printasinnerbloc(const gen & feuille,GIAC_CONTEXT){
     if ( (feuille.type==_SYMB) && feuille._SYMBptr->sommet==at_bloc)
       return printasinnerbloc(feuille._SYMBptr->feuille,contextptr);
@@ -8995,7 +9003,7 @@ namespace giac {
 
   gen _autosimplify(const gen & g,GIAC_CONTEXT){
     if (is_zero(g)){
-      autosimplify("nop",contextptr);
+      autosimplify("Nop",contextptr);
       return 1;
     }
     if (is_one(g)){

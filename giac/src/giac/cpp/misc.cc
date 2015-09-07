@@ -6188,6 +6188,20 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__Li,&_Li,_Li_s);
   define_unary_function_ptr5( at_Li ,alias_at_Li,&__Li,0,true);
 
+  gen _coth(const gen & args,GIAC_CONTEXT){
+    return inv(tanh(args,contextptr),contextptr);
+  }
+  static const char _coth_s []="coth";
+  static define_unary_function_eval (__coth,&_coth,_coth_s);
+  define_unary_function_ptr5( at_coth ,alias_at_coth,&__coth,0,true);
+
+  gen _acoth(const gen & args,GIAC_CONTEXT){
+    return atanh(inv(args,contextptr),contextptr);
+  }
+  static const char _acoth_s []="acoth";
+  static define_unary_function_eval (__acoth,&_acoth,_acoth_s);
+  define_unary_function_ptr5( at_acoth ,alias_at_acoth,&__acoth,0,true);
+
   gen _add_autosimplify(const gen & args,GIAC_CONTEXT){
     return eval(add_autosimplify(args,contextptr),eval_level(contextptr),contextptr);
   }

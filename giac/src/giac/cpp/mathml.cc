@@ -1353,6 +1353,7 @@ namespace giac {
   static string gen2mathmlfull(const gen & g,GIAC_CONTEXT){
     return string(mathml_preamble)+ingen2mathml(g,false,contextptr)+mathml_end+'\n';
   }
+  unsigned max_prettyprint_equation=5000;
   gen _mathml(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>1 && (*g._VECTptr)[1].type==_STRNG && *((*g._VECTptr)[1]._STRNGptr)!="Done"){
@@ -1360,6 +1361,9 @@ namespace giac {
       of << gen2mathmlfull(g._VECTptr->front(),contextptr) << endl;
       return plus_one;
     }
+    unsigned ta=taille(g,max_prettyprint_equation);
+    if (ta>max_prettyprint_equation)
+      return string2gen("Expression_too_large",false);
     if (g.type==_VECT && g._VECTptr->size()==2 && g._VECTptr->back().type==_INT_)
       return string2gen(ingen2mathml(g._VECTptr->front(),g._VECTptr->back().val,contextptr),false);
     if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>2 && g._VECTptr->back().type==_INT_){
