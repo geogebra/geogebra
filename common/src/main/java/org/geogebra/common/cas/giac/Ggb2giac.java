@@ -981,7 +981,10 @@ public class Ggb2giac {
 						+ ","
 						+
 						// Tangent[x-value, function]
-						"y=normal(subst(diff(ggbtanarg1,x),x=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,x=ggbtanarg0))"
+						// use lname(function) instead of x
+						// e.g. lname(sin(t)) = t
+						// needed for #5526
+						"y=normal(subst(diff(ggbtanarg1,lname(ggbtanarg1)[0]),lname(ggbtanarg1)[0]=ggbtanarg0)*(lname(ggbtanarg1)[0]-(ggbtanarg0))+subst(ggbtanarg1,lname(ggbtanarg1)[0]=ggbtanarg0))"
 						+ ")][1]");
 
 		// p("TangentThroughPoint.2",
