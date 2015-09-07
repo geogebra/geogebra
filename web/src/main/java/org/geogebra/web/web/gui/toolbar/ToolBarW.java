@@ -155,11 +155,12 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 			}
 			
 			if (!success && tmpMode !=getFirstMode()) {
-				mode = setMode(getFirstMode(), m);
+				tmpMode = setMode(getFirstMode(), m);
 
 			}
 
 			this.mode = tmpMode;
+			app.getKernel().notifyModeChanged(mode, ModeSetter.DOCK_PANEL);
 
 		}
 
