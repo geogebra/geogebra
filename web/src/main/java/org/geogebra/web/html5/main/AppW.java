@@ -1157,6 +1157,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	private ArrayList<FileLoadListener> fileLoadListeners = new ArrayList<FileLoadListener>();
 
+	/**
+	 * Notify listeners about loaded file, see
+	 * {@link #addFileLoadListener(FileLoadListener)}
+	 */
 	public final void notifyFileLoaded() {
 		for (FileLoadListener listener : fileLoadListeners) {
 			listener.onFileLoad();
@@ -1245,7 +1249,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return false;
 	}-*/;
 
-	public void openMaterial(String s, Runnable onError) {
+	/**
+	 * @param id
+	 *            material ID
+	 * @param onError
+	 *            callback for errors
+	 */
+	public void openMaterial(String id, Runnable onError) {
 		// TODO Auto-generated method stub
 
 	}
@@ -1311,8 +1321,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		allowSymbolTables = allowST;
 	}
 
-	/*
-	 * Return true, if alpha buttons may be visible in input boxes.
+	/**
+	 * @return true, if alpha buttons may be visible in input boxes.
 	 */
 	public boolean isAllowedSymbolTables() {
 		return allowSymbolTables;
@@ -1320,10 +1330,17 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	private boolean allowStyleBar = true;
 
+	/**
+	 * @param flag
+	 *            whether stylebar can be shown also when menubar is hidden
+	 */
 	public void setAllowStyleBar(boolean flag) {
 		allowStyleBar = flag;
 	}
 
+	/**
+	 * @return whether it's allowed to show stylebar even if menubar closed
+	 */
 	public boolean isStyleBarAllowed() {
 		return allowStyleBar;
 	}
@@ -1557,7 +1574,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * Opens the image file
 	 * 
 	 * @param fileToHandle
+	 *            javascript handle for the file
 	 * @param callback
+	 *            load callback
 	 * @return returns true, if fileToHandle image file, otherwise return false.
 	 *         Note that If the function returns true, it's don't mean, that the
 	 *         file opening was successful, and the opening finished already.
@@ -1728,7 +1747,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * Initializes Kernel, EuclidianView, EuclidianSettings, etc..
 	 * 
 	 * @param undoActive
+	 *            whether undo manager should be initialized
 	 * @param this_app
+	 *            app for creating kernel
 	 */
 	protected void initCoreObjects(final boolean undoActive, final App this_app) {
 		kernel = newKernel(this_app);
@@ -1832,6 +1853,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		preferredSize = size;
 	}
 
+	/**
+	 * @return element of the AppFrame / GeoGebraFrame
+	 */
 	public Element getFrameElement() {
 		// App.debug("getFrameElement() returns null, should be overridden by subclasses");
 		return null;
@@ -1899,6 +1923,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
+	/**
+	 * @return current look and feel
+	 */
 	public GLookAndFeelI getLAF() {
 		return laf;
 	}
@@ -1968,7 +1995,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	/**
-	 * initializes the google drive event flow
+	 * @return whether EV1 is the only visible view
 	 */
 
 	public boolean onlyGraphicsViewShowing() {

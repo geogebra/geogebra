@@ -447,14 +447,26 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		requestFocusInWindow();
 	}
 
+	/**
+	 * Gets the coordinate space width of the &lt;canvas&gt;.
+	 * 
+	 * @return the logical width
+	 */
 	@Override
 	public int getWidth() {
-		return this.g2p.getCoordinateSpaceWidth();
+		return (int) (this.g2p.getCoordinateSpaceWidth() / ((AppW) app)
+				.getPixelRatio());
 	}
 
+	/**
+	 * Gets the coordinate space height of the &lt;canvas&gt;.
+	 * 
+	 * @return the logical height
+	 */
 	@Override
 	public int getHeight() {
-		return this.g2p.getCoordinateSpaceHeight();
+		return (int) (this.g2p.getCoordinateSpaceHeight() / ((AppW) app)
+				.getPixelRatio());
 	}
 
 	@Override
