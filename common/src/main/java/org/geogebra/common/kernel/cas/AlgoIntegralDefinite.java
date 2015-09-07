@@ -22,7 +22,11 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.ListValue;
+import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -313,6 +317,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			// AbstractApplication.debug(n.getValue()+" "+numericIntegration(f,
 			// lowerLimit, upperLimit));
 
+		}
+		if (f.isDataFunction()) {
+
+			n.setValue(dataIntegration(f, lowerLimit, upperLimit));
+
 		} else {
 
 			// more accurate numeric-integration for polynomials
@@ -492,6 +501,159 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 		return Kernel.checkDecimalFraction(area) * multiplier;
 
+	}
+
+	/**
+	 * split the DataFunction into trapeziums to calculate the area
+	 * 
+	 * @param f2
+	 * @param lowerLimitUser
+	 * @param upperLimitUser
+	 * @return
+	 */
+	private static double dataIntegration(GeoFunction f2, double lowerLimitUser,
+			double upperLimitUser) {
+
+		int multiplier = 1;
+		double lowerLimit = lowerLimitUser;
+		double upperLimit = upperLimitUser;
+		if (lowerLimit > upperLimit) {
+			// swap a and b
+			double temp = lowerLimit;
+			lowerLimit = upperLimit;
+			upperLimit = temp;
+			multiplier = -1;
+		}
+
+		ExpressionNode exp = f2.getFunction().getExpression();
+		ExpressionValue rt = exp.getRight();
+
+
+		ListValue keyList = (ListValue) ((MyNumberPair) rt).getX();
+		ListValue valueList = (ListValue) ((MyNumberPair) rt).getY();
+
+		int n = keyList.size();
+
+		if (n < 1) {
+			return Double.NaN;
+		}
+		double max = keyList.getListElement(keyList.size() - 1)
+				.evaluateDouble();
+		double min = keyList.getListElement(0).evaluateDouble();
+		if (max < upperLimit || min > lowerLimit) {
+			return Double.NaN;
+		}
+
+		int start = 0;
+		int end = n;
+
+		// find (approx) start and end
+		// binary search would be more efficient
+		for (int i = 0; i < n; i++) {
+			double x = keyList.getListElement(i).evaluateDouble();
+
+			if (x < lowerLimit) {
+				start = i + 1;
+			}
+
+			if (x > upperLimit) {
+				end = i;
+				break;
+			}
+		}
+
+		double area = 0, x1, y1, x2, y2;
+
+		// special case: both endpoints are inside the same interval
+		if (start == end) {
+			x1 = lowerLimit;
+			x2 = upperLimit;
+			y1 = f2.evaluate(x1);
+			y2 = f2.evaluate(x2);
+
+			// area of trapezium
+			return trapeziumArea(x1, x2, y1, y2);
+
+		}
+
+		for (int i = start; i < end - 1; i++) {
+			x1 = keyList.getListElement(i).evaluateDouble();
+			x2 = keyList.getListElement(i + 1).evaluateDouble();
+			y1 = valueList.getListElement(i).evaluateDouble();
+			y2 = valueList.getListElement(i + 1).evaluateDouble();
+			// App.error("i = " + i + "x1 = " + x1 + " x2 = " + x2 + " y1 = " +
+			// y1
+			// + " y2 = " + y2 + " area = " + trapeziumArea(x1, x2, y1, y2));
+			// area of trapezium
+			area += trapeziumArea(x1, x2, y1, y2);
+
+		}
+
+		x1 = keyList.getListElement(start - 1).evaluateDouble();
+		x2 = keyList.getListElement(start).evaluateDouble();
+		y1 = valueList.getListElement(start - 1).evaluateDouble();
+		y2 = valueList.getListElement(start).evaluateDouble();
+
+		// if (lowerLimit < x1 || lowerLimit > x2) {
+		// App.error(
+		// "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+		// }
+		//
+		// App.error("start = " + start + " lowerLimit = " + lowerLimit + "x1 =
+		// "
+		// + x1 + " x2 = " + x2 + " y1 = " + y1 + " y2 = " + y2);
+
+		// interpolate
+		y1 = ((lowerLimit - x1) * y2 + y1 * (x2 - lowerLimit)) / (x2 - x1);
+		x1 = lowerLimit;
+		// area of trapezium
+		area += trapeziumArea(x1, x2, y1, y2);
+
+		// App.error("x1 = " + x1 + " x2 = " + x2 + " y1 = " + y1 + " y2 = " +
+		// y2
+		// + " area = " + trapeziumArea(x1, x2, y1, y2));
+
+		x1 = keyList.getListElement(end - 1).evaluateDouble();
+		x2 = keyList.getListElement(end).evaluateDouble();
+		y1 = valueList.getListElement(end - 1).evaluateDouble();
+		y2 = valueList.getListElement(end).evaluateDouble();
+
+		// if (upperLimit < x1 || upperLimit > x2) {
+		// App.error(
+		// "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+		// }
+		// App.error("end = " + end + " upperLimit = " + upperLimit + "x1 = " +
+		// x1
+		// + " x2 = " + x2 + " y1 = " + y1 + " y2 = " + y2 + " area = "
+		// + trapeziumArea(x1, x2, y1, y2));
+
+		// interpolate
+		x2 = upperLimit;
+		// area of trapezium
+		area += trapeziumArea(x1, x2, y1, y2);
+
+		// App.error("x1 = " + x1 + " x2 = " + x2 + " y1 = " + y1 + " y2 = " +
+		// y2);
+
+		return area * multiplier;
+
+	}
+
+	private static double trapeziumArea(double x1, double x2, double y1,
+			double y2) {
+		// not needed, gives the same answer!
+		// Substitute[(1 / 2 (y1 (p - x1) + y2 (-p + x2))),{p = (-x1 y2 + x2 y1)
+		// / (y1 - y2)}]-((x2 - x1) * (y1 + y2) / 2)
+		// if (Math.signum(y1) != Math.signum(y2)) {
+		// // interpolate
+		// // Solve[(x1-p)/y1=(x2-p)/y2,p]
+		// double p = (((-x1) * y2) + (x2 * y1)) / (y1 - y2);
+		// // 2 triangles
+		// App.error("old = " + (x2 - x1) * (y1 + y2) / 2);
+		// App.error("new = " + ((p - x1) * y1 + (x2 - p) * y2) / 2);
+		// return ((p - x1) * y1 + (x2 - p) * y2) / 2;
+		// }
+		return (x2 - x1) * (y1 + y2) / 2;
 	}
 
 	// private int maxstep;
