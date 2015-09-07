@@ -2681,25 +2681,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	/**
-	 * Gets particular setting for HTML export
-	 * 
-	 * @param key
-	 *            key
-	 * @return setting for given key
-	 */
-	final public String getSetting(String key) {
-		if (rbsettings == null) {
-			rbsettings = MyResourceBundle.loadSingleBundleFile(RB_SETTINGS);
-		}
-
-		try {
-			return rbsettings.getString(key);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
 	 * Shows localized help message
 	 * 
 	 * @param key

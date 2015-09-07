@@ -1419,11 +1419,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		sb.append("<meta keywords = \"");
 		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
 		sb.append(" export\">");
-		String css = ((AppD) app).getSetting("cssConstructionProtocol");
-		if (css != null) {
-			sb.append(css);
-			sb.append("\n");
-		}
+
+		sb.append("<style type=\"text/css\"><!--body { font-family:Arial,Helvetica,sans-serif; margin-left:40px }--></style>");
+
 		sb.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">");
 		sb.append("</head>\n");
 
