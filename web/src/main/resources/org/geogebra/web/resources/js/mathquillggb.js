@@ -2484,7 +2484,7 @@ function createRoot(jQ, root, textbox, editable) {
       //console.log('paste 2:'+text3);
       text3 = text3.split('\\space').join(' ');
       //console.log('paste 3:'+text3);
-      text3 = cursor.fixabug(text3);
+      //text3 = cursor.fixabug(text3);
       //console.log('paste 4:'+text3);
       cursor.writeLatexSafe(text3);
     }
