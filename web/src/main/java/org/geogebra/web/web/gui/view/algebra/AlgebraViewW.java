@@ -51,7 +51,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 public class AlgebraViewW extends Tree implements LayerView,
-AlgebraView,
+ AlgebraView,
 OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	/**
 	 * Flag for LaTeX rendering
@@ -110,7 +110,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	/* for SortMode.LAYER */
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
-	private GeoElement lastSelectedGeo = null;
 
 	// although Java also allowed protected, NewRadioButtonTreeItem can use
 	// package private
@@ -121,13 +120,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	private StringBuilder sbXML;
 
 	private RadioTreeItem activeItem;
-
-	private GeoElement selectedGeoElement;
 	private TreeItem selectedNode;
 	private static boolean avex = false;
 	// private AlgebraHelperBar helperBar;
 
 	private AlgebraController algebraController;
+	private AVSelectionController selectionCtrl;
 
 	public AlgebraController getAlgebraController() {
 		return algebraController;
@@ -143,6 +141,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.addOpenHandler(this);
+		this.selectionCtrl = AVSelectionController.get(app);
 
 		setAvex(app.has(Feature.AV_EXTENSIONS));
 		algCtrl.setView(this);
@@ -199,11 +198,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			if (hasAvex()) {
 				
 			} else
-			if (selectedGeoElement == null) {
+ if (selectionCtrl.getSelectedGeo() == null) {
 				App.debug("[AVEX] setActiveTreeItem(null)");
 				setActiveTreeItem(null);
 			}
 		}
+
 
 		// as arrow keys are prevented in super.onBrowserEvent,
 		// we need to handle arrow key events before that
@@ -1265,14 +1265,16 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 	}
 
+	@Override
 	public final GeoElement getLastSelectedGeo() {
-		return lastSelectedGeo;
+		return selectionCtrl.getLastSelectedGeo();
 	}
 
 	public final void setLastSelectedGeo(GeoElement geo) {
-		lastSelectedGeo = geo;	    
+		selectionCtrl.setLastSelectedGeo(geo);
 	}
 
+	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 
@@ -1313,8 +1315,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		inputPanelLatex.replaceXButtonDOM();
 		
 		if (hasAvex()) {
-			unselect(selectedGeoElement);
-			unselect(lastSelectedGeo);
+			unselect(selectionCtrl.getSelectedGeo());
+			unselect(selectionCtrl.getLastSelectedGeo());
 		}
 		
 		if (appletHack) {
@@ -1590,11 +1592,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				}
 		}
 
-		selectedGeoElement = null;
+		selectionCtrl.setSelectedGeo(null);
 	}
 
 	public GeoElement getSelectedGeoElement() {
-		return selectedGeoElement;
+		return selectionCtrl.getSelectedGeo();
 	}
 
 	/**

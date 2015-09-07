@@ -2463,7 +2463,8 @@ public class RadioTreeItem extends AVTreeItem
 			removeStyleName("avSelectedRow");
 		}
 		marblePanel.setHighlighted(selected);
-		if (selected == false && geo != getAV().getLastSelectedGeo()
+		if (selected == false
+				&& geo != AVSelectionController.get(app).getLastSelectedGeo()
 				&& animPanel != null) {
 			animPanel.reset();
 		}
