@@ -740,7 +740,6 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_ASSIGNMENT;
 			initExercise(attrs);
 		} else if ("construction".equals(eName)) {
-			// App.debug("parsing start" + System.currentTimeMillis());
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
 		} else if ("casSession".equals(eName)) {
@@ -2268,7 +2267,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			App.debug(e.getMessage() + ": " + e.getCause());
+			Log.warn(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2282,7 +2281,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			App.debug(e.getMessage() + ": " + e.getCause());
+			Log.warn(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2405,7 +2404,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			return true;
 		} catch (Exception e) {
-			App.debug(e.getMessage() + ": " + e.getCause());
+			Log.warn(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2426,7 +2425,7 @@ public class MyXMLHandler implements DocHandler {
 			app.setPreferredSize(size);
 			return true;
 		} catch (Exception e) {
-			App.debug(e.getMessage() + ": " + e.getCause());
+			Log.warn(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
 	}
@@ -2530,13 +2529,14 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		if ("perspective".equals(eName))
+		if ("perspective".equals(eName)) {
 			ok = handlePerspective(attrs);
-		else
-			App.debug("unknown tag in <perspectives>: " + eName);
-
-		if (!ok)
-			App.debug("error in <perspectives>: " + eName);
+		} else {
+			Log.warn("unknown tag in <perspectives>: " + eName);
+		}
+		if (!ok) {
+			Log.warn("error in <perspectives>: " + eName);
+		}
 	}
 
 	/**
@@ -3187,7 +3187,6 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CONSTRUCTION:
 			if ("construction".equals(eName)) {
 				// process start points at end of construction
-				App.debug("cons tag end" + System.currentTimeMillis());
 				processStartPointList();
 				processLinkedGeoList();
 				processShowObjectConditionList();

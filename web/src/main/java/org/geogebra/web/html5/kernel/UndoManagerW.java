@@ -6,6 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.storage.client.Storage;
@@ -49,11 +50,11 @@ public class UndoManagerW extends UndoManager {
 
 	public UndoManagerW(Construction cons) {
 		super(cons);
-		App.debug("trying to init storage");
 		if (Browser.supportsSessionStorage()) {
 			storage = Storage.getSessionStorageIfSupported();
+		} else {
+			Log.warn("Session storage not supported");
 		}
-		App.debug("storage done");
 	}
 
 	@Override
