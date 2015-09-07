@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.web.web.gui.view.algebra;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
@@ -573,7 +572,6 @@ public class RadioTreeItem extends AVTreeItem
 	GeoElement geo;
 	Kernel kernel;
 	protected AppW app;
-	private SelectionManager selection;
 	protected AlgebraView av;
 	private boolean avExtension;
 	private boolean LaTeX = false;
@@ -734,7 +732,6 @@ public class RadioTreeItem extends AVTreeItem
 		av = app.getAlgebraView();
 		avExtension = app.has(Feature.AV_EXTENSIONS);
 
-		selection = app.getSelectionManager();
 		main.addStyleName("elem");
 		main.addStyleName("panelRow");
 
@@ -977,7 +974,6 @@ public class RadioTreeItem extends AVTreeItem
 		kernel = kern;
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
-		selection = app.getSelectionManager();
 		this.setStyleName("elem");
 		this.addStyleName("NewRadioButtonTreeItem");
 
@@ -1812,7 +1808,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void onDoubleClickAction(boolean ctrl) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		selection.clearSelectedGeos();
+		AVSelectionController.get(app).clear();
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			if (!isThisEdited()) {
@@ -2066,68 +2062,6 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private void selectGeo(AbstractEvent event) {
-		// handle selecting geo
-		if (event.isControlDown()) {
-			selection.toggleSelectedGeo(geo);
-			if (selection.getSelectedGeos().contains(geo)) {
-				av.setLastSelectedGeo(geo);
-			}
-		} else if (event.isShiftDown() && av.getLastSelectedGeo() != null) {
-			boolean nowSelecting = true;
-			boolean selecting = false;
-			boolean aux = geo.isAuxiliaryObject();
-			boolean ind = geo.isIndependent();
-			boolean aux2 = av.getLastSelectedGeo().isAuxiliaryObject();
-			boolean ind2 = av.getLastSelectedGeo().isIndependent();
-
-			if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
-				Iterator<GeoElement> it = kernel.getConstruction()
-						.getGeoSetLabelOrder().iterator();
-				boolean direction = geo
-						.getLabel(StringTemplate.defaultTemplate).compareTo(
-								av.getLastSelectedGeo().getLabel(
-										StringTemplate.defaultTemplate)) < 0;
-
-				while (it.hasNext()) {
-					GeoElement geo2 = it.next();
-					if ((geo2.isAuxiliaryObject() == aux && aux)
-							|| (geo2.isAuxiliaryObject() == aux && geo2
-									.isIndependent() == ind)) {
-
-						if (direction && geo2.equals(av.getLastSelectedGeo()))
-							selecting = !selecting;
-						if (!direction && geo2.equals(geo))
-							selecting = !selecting;
-
-						if (selecting) {
-							selection.toggleSelectedGeo(geo2);
-							nowSelecting = selection.getSelectedGeos()
-									.contains(geo2);
-						}
-						if (!direction && geo2.equals(av.getLastSelectedGeo()))
-							selecting = !selecting;
-						if (direction && geo2.equals(geo))
-							selecting = !selecting;
-					}
-				}
-			}
-
-			if (nowSelecting) {
-				selection.addSelectedGeo(geo);
-				av.setLastSelectedGeo(geo);
-			} else {
-				selection.removeSelectedGeo(av.getLastSelectedGeo());
-				av.setLastSelectedGeo(null);
-			}
-		} else {
-			selection.clearSelectedGeos(false); // repaint will be done
-			// next step
-			selection.addSelectedGeo(geo);
-			av.setLastSelectedGeo(geo);
-		}
-		getAV().updateSelection();
-	}
 
 	private void onPointerUp(AbstractEvent event) {
 		if (commonEditingCheck()) {
@@ -2144,12 +2078,14 @@ public class RadioTreeItem extends AVTreeItem
 		(mode == EuclidianConstants.MODE_MOVE)) {
 			// update selection
 			if (geo == null) {
-				selection.clearSelectedGeos();
-				getAV().updateSelection();
+				AVSelectionController.get(app).clear();
 			} else {
-				selectGeo(event);
+				AVSelectionController.get(app).select(geo,
+						event.isControlDown(), event.isShiftDown());
 
 			}
+			getAV().updateSelection();
+
 		} else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
 			if (geo != null) {
