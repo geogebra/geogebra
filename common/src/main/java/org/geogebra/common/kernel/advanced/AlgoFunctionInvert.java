@@ -97,6 +97,10 @@ public class AlgoFunctionInvert extends AlgoElement {
 				oldFV.getSetVarString());
 		ExpressionNode newRoot = invert(root, oldFV, x, kernel);
 
+		if (newRoot == null) {// root not invertible
+			g.setUndefined();
+			return;
+		}
 		Function tempFun = new Function(newRoot, x);
 		tempFun.initFunction();
 		g.setDefined(true);
