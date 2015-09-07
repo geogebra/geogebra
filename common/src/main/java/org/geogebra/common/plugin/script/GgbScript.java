@@ -64,6 +64,13 @@ public class GgbScript extends Script {
 
 	public static String script2LocalizedScript(App app, String st) {
 		final String[] starr = splitScriptByCommands(st);
+		boolean isAssignment = false;
+		for (String string : starr) {
+			if (string.equals(":=")) {
+				isAssignment = true;
+				break;
+			}
+		}
 		final StringBuilder retone = new StringBuilder();
 		for (int i = 0; i < starr.length; i++) {
 			if ((i % 2) == 0 || isFunction(starr, i, app)) {
@@ -73,8 +80,13 @@ public class GgbScript extends Script {
 				retone.append(app.getFunction(starr[i]));
 			} else {
 				App.debug("NOT FUNCTION" + starr[i]);
-				retone.append(app.getLocalization().getCommand(
-						starr[i]));
+				// do not translate name of function
+				// see #4391
+				if (i == 1 && isAssignment) {
+					retone.append(starr[i]);
+				} else {
+					retone.append(app.getLocalization().getCommand(starr[i]));
+				}
 			}
 		}
 		return retone.toString();
@@ -99,6 +111,13 @@ public class GgbScript extends Script {
 	 */
 	public static String localizedScript2Script(App app, String st) {
 		final String[] starr = splitScriptByCommands(st);
+		boolean isAssignment = false;
+		for (String string : starr) {
+			if (string.equals(":=")) {
+				isAssignment = true;
+				break;
+			}
+		}
 		final StringBuilder retone = new StringBuilder();
 		for (int i = 0; i < starr.length; i++) {
 			if ((i % 2) == 0) {
@@ -107,11 +126,19 @@ public class GgbScript extends Script {
 				// allow English language command in French scripts
 				if (isFunction(starr, i, app)) {
 					retone.append(starr[i]);
-				} else if (app.getInternalCommand(starr[i]) != null) {
-					retone.append(app.getInternalCommand(starr[i]));
+				}
+				// do not translate function name
+				// e.g. for German panel in Gerade(t)
+				// do not translate Gerade to Line
+				// needed for #4391
+				else if (app.getInternalCommand(starr[i]) != null) {
+					if (i == 1 && isAssignment) {
+						retone.append(starr[i]);
+					} else {
+						retone.append(app.getInternalCommand(starr[i]));
+					}
 				} else if (app.getParserFunctions().getInternal(app, starr[i]) != null) {
-					retone.append(app.getParserFunctions()
-.getInternal(app,
+					retone.append(app.getParserFunctions().getInternal(app,
 							starr[i]));
 				} else {
 					// fallback for wrong call in English already
