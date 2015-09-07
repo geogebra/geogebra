@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -22,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianPenFreehand.ShapeType;
-import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -64,7 +62,7 @@ public class EuclidianControllerW extends EuclidianController implements
         MouseOverHandler, MouseWheelHandler, TouchStartHandler,
         TouchEndHandler, TouchMoveHandler, TouchCancelHandler,
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
-		HasOffsets, IsEuclidianController, DropHandler {
+		IsEuclidianController, DropHandler {
 
 
 
@@ -276,15 +274,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		return mtg.hitResetIcon();
 	}
 
-	@Override
-	public LinkedList<PointerEvent> getMouseEventPool() {
-		return mtg.getMouseEventPool();
-	}
 
-	@Override
-	public LinkedList<PointerEvent> getTouchEventPool() {
-		return mtg.getTouchEventPool();
-	}
 
 	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
@@ -321,15 +311,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.setComboboxFocused(flag);
 	}
 
-	@Override
-	public int touchEventX(int clientX) {
-		return mtg.touchEventX(clientX);
-	}
-
-	@Override
-	public int touchEventY(int clientY) {
-		return mtg.touchEventY(clientY);
-	}
 
 	/**
 	 * @return the multiplier that must be used to multiply the native event
@@ -347,20 +328,9 @@ public class EuclidianControllerW extends EuclidianController implements
 		return mtg.getScaleYMultiplier();
 	}
 
-	@Override
-	public int mouseEventX(int clientX) {
-		return mtg.mouseEventX(clientX);
-	}
-
-	@Override
-	public int mouseEventY(int clientY) {
-		return mtg.mouseEventY(clientY);
-	}
-
-	@Override
-	public int getEvID() {
-		return view.getViewID();
-	}
+	/*
+	 * @Override public int getEvID() { return view.getViewID(); }
+	 */
 
 	@Override
 	public void twoTouchMove(double x1d, double y1d, double x2d, double y2d) {
@@ -645,8 +615,8 @@ public class EuclidianControllerW extends EuclidianController implements
 			//double h = 2 * app.getFontSize();
 			int y = event.getNativeEvent().getClientY();
 
-			geo0.setRealWorldLoc(ev.toRealWorldCoordX(touchEventX(x)),
-			        ev.toRealWorldCoordY(touchEventY(y)));
+			geo0.setRealWorldLoc(ev.toRealWorldCoordX(mtg.touchEventX(x)),
+					ev.toRealWorldCoordY(mtg.touchEventY(y)));
 			geo0.updateRepaint();
 
 		}
