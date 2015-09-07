@@ -566,7 +566,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	private ArrayList<GeoPoint> pointsArray;
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		
 		GeoPolygon poly = (GeoPolygon) geo;
 		area = poly.area;

@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
@@ -148,7 +149,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		if (geo instanceof GeoCoordSys1D) {
 			if (!geo.isDefined())
 				setUndefined();

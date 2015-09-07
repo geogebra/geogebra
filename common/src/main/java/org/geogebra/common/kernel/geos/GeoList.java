@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
@@ -153,7 +154,7 @@ AngleProperties {
 	}
 
 	@Override
-	public void set(final GeoElement geo) {
+	public void set(final GeoElementND geo) {
 
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
 			// 1 -> first element

@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
@@ -1189,7 +1190,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		if (geo.isGeoPolyhedron()) {
 			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
 

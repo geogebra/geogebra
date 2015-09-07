@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.TextValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -139,13 +140,13 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		if(!geo.isGeoText())
 			return;
 		GeoText gt = (GeoText) geo;
 		// macro output: don't set start point
 		// but update to desired number format
-		if (cons != geo.cons && isAlgoMacroOutput()) {
+		if (cons != geo.getConstruction() && isAlgoMacroOutput()) {
 			if (!useSignificantFigures)
 				gt.setPrintDecimals(
 						printDecimals > -1 ? printDecimals : kernel

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LimitedPath;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.plugin.GeoClass;
@@ -198,7 +199,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		super.set(geo);
 		if (!geo.isGeoRay())
 			return;

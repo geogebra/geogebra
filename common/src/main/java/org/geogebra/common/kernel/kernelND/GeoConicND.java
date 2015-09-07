@@ -1113,7 +1113,7 @@ FromMeta
 	 * member vars of geo.
 	 */
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		if(geo instanceof GeoLine){
 			GeoLine line = (GeoLine) geo;
 			this.setCoeffs(0,0,0,line.getX(),line.getY(),line.getZ());

@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -134,7 +135,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	} 
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		if(geo.isGeoPoint()){
 			GeoPoint p= (GeoPoint) geo;
 			setCoords(p.getX()/p.getZ(), p.getY()/p.getZ(), 0.0d);
@@ -148,7 +149,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 		// don't set start point for macro output
 		// see AlgoMacro.initRay()
-		if (geo.cons != cons && isAlgoMacroOutput())
+		if (geo.getConstruction() != cons && isAlgoMacroOutput())
 			return;
 
 		try {

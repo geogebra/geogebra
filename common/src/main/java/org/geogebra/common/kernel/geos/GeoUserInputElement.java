@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 
 /**
@@ -96,7 +97,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 	}
 	
 	@Override
-	public void set(GeoElement geo){
+	public void set(GeoElementND geo) {
 		if (!(geo instanceof GeoUserInputElement))
 			return;
 		userInput=((GeoUserInputElement)geo).userInput;

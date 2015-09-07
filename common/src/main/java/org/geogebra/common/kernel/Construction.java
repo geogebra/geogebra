@@ -29,10 +29,12 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.prover.AlgoProve;
@@ -2453,7 +2455,7 @@ public class Construction {
 	 * @return created element
 	 */
 	protected GeoElement autoCreateGeoElement(String labelNew) {
-		GeoElement createdGeo = null;
+		GeoElementND createdGeo = null;
 		boolean fix = true;
 		boolean auxilliary = true;
 		String label = labelNew;
@@ -2503,7 +2505,7 @@ public class Construction {
 
 			// revert to previous label creation state
 			// setSuppressLabelCreation(oldSuppressLabelsActive);
-			return createdGeo;
+			return createdGeo.toGeoElement();
 		}
 
 		// check spreadsheet cells
@@ -2511,10 +2513,10 @@ public class Construction {
 		// of same type as above
 		createdGeo = GeoElementSpreadsheet.autoCreate(label, this);
 
-		return createdGeo;
+		return createdGeo.toGeoElement();
 	}
 
-	private GeoElement distanceOrProduct(String string, String string2) {
+	private GeoNumberValue distanceOrProduct(String string, String string2) {
 		GeoElement geo1 = kernel.lookupLabel(string);
 		if (geo1 != null && geo1.isGeoPoint()) {
 			GeoElement geo2 = kernel.lookupLabel(string2);
@@ -2530,7 +2532,8 @@ public class Construction {
 				ExpressionNode node = new ExpressionNode(kernel, geo1,
 						Operation.MULTIPLY, geo2);
 				AlgoDependentNumber algo = new AlgoDependentNumber(this,
-						null, node, false);
+ null,
+						node, false, null);
 				return algo.getNumber();				
 			}
 		}

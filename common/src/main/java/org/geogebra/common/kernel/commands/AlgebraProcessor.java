@@ -2563,7 +2563,8 @@ public class AlgebraProcessor {
 			else
 				ret[0] = new GeoNumeric(cons, label, value);
 		} else {
-			ret[0] = DependentNumber(label, n, isAngle);
+			ret[0] = DependentNumber(label, n, isAngle, evaluate)
+					.toGeoElement();
 		}
 
 		if (n.isForcedFunction()) {
@@ -2577,11 +2578,12 @@ public class AlgebraProcessor {
 	 * Number dependent on arithmetic expression with variables, represented by
 	 * a tree. e.g. t = 6z - 2
 	 */
-	final private GeoNumeric DependentNumber(String label, ExpressionNode root,
-			boolean isAngle) {
+	final private GeoNumberValue DependentNumber(String label,
+			ExpressionNode root,
+			boolean isAngle, ExpressionValue evaluate) {
 		AlgoDependentNumber algo = new AlgoDependentNumber(cons, label, root,
-				isAngle);
-		GeoNumeric number = algo.getNumber();
+				isAngle, evaluate);
+		GeoNumberValue number = algo.getNumber();
 		return number;
 	}
 

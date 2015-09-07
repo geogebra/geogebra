@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.Unicode;
 
@@ -235,7 +236,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoNumeric num = (GeoNumeric) geo;
 		setValue(num.getValue());
 	}

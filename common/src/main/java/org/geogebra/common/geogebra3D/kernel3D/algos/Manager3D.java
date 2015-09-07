@@ -1594,7 +1594,7 @@ public class Manager3D implements Manager3DInterface {
 
 		// create center and radius
 		GeoPointND center;
-		GeoNumeric radius;
+		GeoNumberValue radius;
 		switch (name) {
 		case Tetrahedron:
 		case Octahedron:

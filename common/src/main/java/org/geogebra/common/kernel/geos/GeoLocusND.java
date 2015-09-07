@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.PathMoverLocus;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoLocusSliderInterface;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.plugin.GeoClass;
@@ -70,7 +71,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 	abstract protected GeoLocusND<T> newGeoLocus();
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoLocusND<T> locus = (GeoLocusND<T>) geo;
 		defined = locus.defined;
 

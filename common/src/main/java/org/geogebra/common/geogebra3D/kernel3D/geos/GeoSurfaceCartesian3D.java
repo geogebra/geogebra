@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
@@ -14,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.plugin.GeoClass;
@@ -131,7 +131,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoSurfaceCartesian3D geoSurface = (GeoSurfaceCartesian3D) geo;
 
 		fun = new FunctionNVar[3];

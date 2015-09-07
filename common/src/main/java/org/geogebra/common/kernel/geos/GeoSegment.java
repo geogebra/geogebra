@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -154,7 +155,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}		
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		super.set(geo);		
 		if (!geo.isGeoSegment()) return;
 

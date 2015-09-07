@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
@@ -169,7 +170,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoCurveCartesian geoCurve = (GeoCurveCartesian) geo;
 
 		setFun(0, new Function(geoCurve.fun[0], this.kernel));
@@ -179,7 +180,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		this.isDefined = geoCurve.isDefined;
 
 		// macro OUTPUT
-		if (geo.cons != this.cons && isAlgoMacroOutput()) {
+		if (geo.getConstruction() != this.cons && isAlgoMacroOutput()) {
 			if (!geo.isIndependent()) {
 				// System.out.println("set " + this.label);
 				// System.out.println("   funX before: " +

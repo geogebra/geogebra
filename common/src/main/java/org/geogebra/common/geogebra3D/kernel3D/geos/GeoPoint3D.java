@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.Region3D;
@@ -827,7 +828,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 * public void set(GeoPointND P){ set((GeoElement) P); }
 	 */
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 
 		if (geo.isGeoPoint()) {
 			GeoPointND p = (GeoPointND) geo;
@@ -1234,11 +1235,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return (isDefined || showUndefinedInAlgebraView);
 	}
 
-	@Override
-	public void set(GeoPointND p) {
-		// TODO ambiguous with set(GeoElement geo)
-		this.set((GeoElement) p);
-	}
+
 
 	@Override
 	public void setParentAlgorithm(AlgoElement algorithm) {

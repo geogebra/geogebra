@@ -11,6 +11,8 @@ the Free Software Foundation.
 */
 package org.geogebra.common.kernel.kernelND;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -220,6 +222,7 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	//public Kernel getKernel();
 	public String getLabelSimple();
 
+	public void set(GeoElementND geo);
 	/**
 	 * Sets visibility if not given by condition to show object
 	 * 
@@ -227,4 +230,34 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 *            whether it should be visible
 	 */
 	public void setEuclidianVisibleIfNoConditionToShowObject(boolean visible);
+
+	boolean isGeoPoint();
+
+	boolean isGeoNumeric();
+
+	boolean isGeoButton();
+
+	String getRawCaption();
+
+	Construction getConstruction();
+
+	boolean isGeoPolyhedron();
+
+	List<Integer> getViewSet();
+
+	boolean isGeoSegment();
+
+	boolean isGeoPolygon();
+
+	boolean isGeoRay();
+
+	boolean isGeoConicPart();
+
+	boolean isGeoVector();
+
+	Object getGeoClassType();
+
+	void setAuxiliaryObject(boolean auxilliary);
+
+	void setFixed(boolean fix);
 }

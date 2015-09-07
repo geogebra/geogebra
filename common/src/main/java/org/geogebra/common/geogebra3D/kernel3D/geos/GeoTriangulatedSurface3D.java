@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -138,7 +139,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoTriangulatedSurface3D surf = (GeoTriangulatedSurface3D) geo;
 		copy(surf, this);
 	}

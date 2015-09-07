@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
@@ -158,7 +159,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 
 		// reset derivatives
 		fun1 = null;
@@ -180,7 +181,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		fun = new FunctionNVar(geoFun.getFunction(), kernel);
 		fun.fillVariables(oldVars);
 		// macro OUTPUT
-		if (geo.cons != cons && isAlgoMacroOutput()) {
+		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in its function's
 			// expression

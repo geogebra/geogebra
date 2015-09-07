@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  *
@@ -92,7 +93,7 @@ implements Traceable, CoordStyle {
     }        
     
     @Override
-	public void set(GeoElement geo) {    
+	public void set(GeoElementND geo) {
         GeoVec3D v = (GeoVec3D) geo;        
         setCoords(v.x, v.y, v.z);        
     }         

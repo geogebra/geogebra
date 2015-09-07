@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -136,12 +137,12 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoImage img = (GeoImage) geo;
 		setImageFileName(img.getGraphicsAdapter().getImageFileName());
 
 		// macro output: don't set corners
-		if (cons != geo.cons && isAlgoMacroOutput())
+		if (cons != geo.getConstruction() && isAlgoMacroOutput())
 			return;
 
 		// location settings

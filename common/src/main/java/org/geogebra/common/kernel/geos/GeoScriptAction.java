@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -60,7 +61,7 @@ public class GeoScriptAction extends GeoElement  {
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		if(!(geo instanceof GeoScriptAction))
 				throw new IllegalArgumentException();
 		action = ((GeoScriptAction)geo).action;

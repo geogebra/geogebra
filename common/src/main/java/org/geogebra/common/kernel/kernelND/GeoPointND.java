@@ -96,7 +96,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	/**
 	 * @param p copy algebraic properties from another point
 	 */
-	public void set(GeoPointND p);
+	// public void set(GeoPointND p);
 	
 	/**
 	 * @return string representation for XML if this is start point

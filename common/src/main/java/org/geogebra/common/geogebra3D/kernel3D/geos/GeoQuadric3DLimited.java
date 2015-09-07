@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
@@ -459,7 +460,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 
 		if (geo instanceof GeoQuadric3DLimited) {
 			GeoQuadric3DLimited quadric = (GeoQuadric3DLimited) geo;

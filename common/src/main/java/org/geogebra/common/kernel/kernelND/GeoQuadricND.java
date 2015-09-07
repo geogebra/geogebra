@@ -142,7 +142,7 @@ Traceable{
 	
 	
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoQuadricND quadric = (GeoQuadricND) geo;
 		if (quadric.hasChangeableCoordParentNumbers())
 			setChangeableCoordParent(quadric.changeableCoordParent.getNumber(),quadric.changeableCoordParent.getDirector());

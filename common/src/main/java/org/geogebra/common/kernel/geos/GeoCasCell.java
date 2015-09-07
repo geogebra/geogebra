@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -170,7 +171,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * GeoCasCell. Note that twinGeo is kept null.
 	 */
 	@Override
-	public void set(final GeoElement geo) {
+	public void set(final GeoElementND geo) {
 		//some dead code removed in r20927
 	}
 

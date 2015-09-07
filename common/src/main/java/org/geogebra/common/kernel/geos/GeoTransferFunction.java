@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.plugin.GeoClass;
@@ -169,7 +170,7 @@ public class GeoTransferFunction extends GeoElement {
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoTransferFunction gcf = (GeoTransferFunction) geo;
 		originalFunction = gcf.getFunction();
 		omegaStart = gcf.getOmega();

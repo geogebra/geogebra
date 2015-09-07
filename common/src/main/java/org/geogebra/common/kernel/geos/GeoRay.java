@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import org.geogebra.common.kernel.algos.AlgoRayPointVector;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.plugin.GeoClass;
@@ -80,7 +81,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	}
 	
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		super.set(geo);	
 		if (!geo.isGeoRay()) return;
 		

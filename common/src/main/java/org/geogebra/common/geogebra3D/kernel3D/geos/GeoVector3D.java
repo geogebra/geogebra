@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -157,14 +158,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		if (geo.isGeoVector()) {
 			GeoVectorND vec = (GeoVectorND) geo;
 			setCoords(vec.getCoordsInD3().get());
 
 			// don't set start point for macro output
 			// see AlgoMacro.initRay()
-			if (geo.cons != cons && isAlgoMacroOutput())
+			if (geo.getConstruction() != cons && isAlgoMacroOutput())
 				return;
 
 			try {

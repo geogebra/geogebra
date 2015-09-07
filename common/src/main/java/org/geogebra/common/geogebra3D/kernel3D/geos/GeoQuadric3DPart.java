@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -41,7 +42,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		super.set(geo);
 		GeoQuadric3DPart quadric = (GeoQuadric3DPart) geo;
 		setLimits(quadric.bottom, quadric.top);

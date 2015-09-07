@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Unicode;
@@ -55,7 +56,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		GeoInterval geoFun = (GeoInterval) geo;
 
 		if (geo == null || geoFun.fun == null) {
@@ -67,7 +68,7 @@ public class GeoInterval extends GeoFunction {
 		fun = new Function(geoFun.fun, kernel);
 
 		// macro OUTPUT
-		if (geo.cons != cons && isAlgoMacroOutput()) {
+		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in its function's
 			// expression

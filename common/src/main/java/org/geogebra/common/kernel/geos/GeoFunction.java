@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootFunction;
@@ -300,7 +301,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(GeoElementND geo) {
 		Function geoFun = geo == null ? null :
 			((GeoFunctionable) geo).getGeoFunction().getFunction();
 
@@ -313,7 +314,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		setFunction(new Function(geoFun, kernel));
 
 		// macro OUTPUT
-		if (geo.cons != cons && isAlgoMacroOutput()) {
+		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in its function's
 			// expression

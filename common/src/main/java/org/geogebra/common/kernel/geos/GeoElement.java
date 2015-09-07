@@ -839,7 +839,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geo
 	 *            geo to copy
 	 */
-	public abstract void set(GeoElement geo);
+	public abstract void set(GeoElementND geo);
 
 	/**
 	 * Returns false for undefined objects
