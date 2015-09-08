@@ -1288,9 +1288,12 @@ public class DrawConic extends Drawable implements Previewable {
 				g2.setColor(geo.getSelColor());
 				g2.draw(shape);
 			}
+
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
-			g2.draw(shape);
+			if (geo.getLineThickness() > 0) {
+				g2.draw(shape);
+			}
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());
 				g2.setColor(geo.getLabelColor());
@@ -1311,8 +1314,10 @@ public class DrawConic extends Drawable implements Previewable {
 	 *            graphic context
 	 */
 	protected void drawLines(org.geogebra.common.awt.GGraphics2D g2) {
-		drawLines[0].draw(g2);
-		drawLines[1].draw(g2);
+		if (geo.getLineThickness() > 0) {
+			drawLines[0].draw(g2);
+			drawLines[1].draw(g2);
+		}
 		if (conic.isInverseFill()) {
 			fill(g2, getShape(), false);
 		} else
@@ -1354,10 +1359,12 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		g2.setStroke(objStroke);
 		g2.setColor(getObjectColor());
-		if (hypLeftOnScreen)
-			g2.drawWithValueStrokePure(hypLeft);
-		if (hypRightOnScreen)
-			g2.drawWithValueStrokePure(hypRight);
+		if (geo.getLineThickness() > 0) {
+			if (hypLeftOnScreen)
+				g2.drawWithValueStrokePure(hypLeft);
+			if (hypRightOnScreen)
+				g2.drawWithValueStrokePure(hypRight);
+		}
 
 		if (labelVisible) {
 			g2.setFont(view.getFontConic());
