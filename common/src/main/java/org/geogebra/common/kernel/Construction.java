@@ -2512,7 +2512,9 @@ public class Construction {
 		// for missing spreadsheet cells, create object
 		// of same type as above
 		createdGeo = GeoElementSpreadsheet.autoCreate(label, this);
-
+		if (createdGeo == null) {
+			return null;
+		}
 		return createdGeo.toGeoElement();
 	}
 
