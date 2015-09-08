@@ -2832,6 +2832,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_OneVariable_3 () {
     t("Solve[3 - 5 / x = 7, x]", "{x = (-5) / 4}");
+		t("Solve[{sin(x)=1,x>0,x<pi}]", "{x = 1 / 2 * " + Unicode.PI_STRING
+				+ "}");
   }
 
   @Test
