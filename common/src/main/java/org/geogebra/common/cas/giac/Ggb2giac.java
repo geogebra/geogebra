@@ -170,7 +170,7 @@ public class Ggb2giac {
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		p("Extremum.1",
-				"[[[ggbextremumfun:=%0], [ggbans:=extrema(%0)]], seq(point(ggbans[j],ggbextremumfun(ggbans[j])),j,0,size(ggbans)-1) ][1]");
+				"[[[ggbextremumfun:=%0], [ggbans:=extrema(%0)]], seq(point(ggbans[j],normal(regroup(ggbextremumfun(ggbans[j])))),j,0,size(ggbans)-1) ][1]");
 
 		// factor over rationals
 		// add x so that Factor[(-k x^2 + 4k x + x^3)] gives a nicer answer
