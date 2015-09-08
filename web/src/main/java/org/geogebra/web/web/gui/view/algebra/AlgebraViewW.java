@@ -331,7 +331,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				}
 			}
 
-			selectRow(geo, app.getSelectionManager().containsSelectedGeo(geo));
 		}
 		GeoGebraProfiler.addAlgebra(System.currentTimeMillis()-start);
 	}
@@ -1464,7 +1463,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 
 		if (hasAvex() && activeItem != null && !sameItem) {
-			selectRow(activeItem.getGeo(), false);
+			// selectRow(activeItem.getGeo(), false);
 		}
 
 		this.activeItem = radioButtonTreeItem;
