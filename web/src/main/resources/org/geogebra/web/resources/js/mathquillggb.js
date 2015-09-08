@@ -2479,17 +2479,18 @@ function createRoot(jQ, root, textbox, editable) {
     	// but when we do, it will look the same way without \\text too!
         //text = '\\text{' + text + '}';
       }
+
       //console.log('paste 1:'+text);
       var text3 = cursor.substQuotations(text);
       //console.log('paste 2:'+text3);
 
-      // it seems space is OK to leave #5404
-      //text3 = text3.split('\\space').join(' ');
+      text3 = text3.split(' ').join('\\space ');
 
       //console.log('paste 3:'+text3);
 
       //text3 = cursor.fixabug(text3);
       //console.log('paste 4:'+text3);
+
       cursor.writeLatexSafe(text3);
     }
   });
