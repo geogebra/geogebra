@@ -775,6 +775,8 @@ __GGB__keysVar.ro.command = {
     "SDX.Syntax": "[ <List\u0103 de Puncte> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <List\u0103 de Puncte> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <List\u0103 de numere> ]\n[ <List\u0103 de puncte> ]",
     "SXY": "Sxy",

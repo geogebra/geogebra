@@ -775,6 +775,8 @@ __GGB__keysVar.ne.command = {
     "SDX.Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0941\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0941\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]\n[ <L\u092c\u093f\u0928\u094d\u0926\u0941\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
     "SXY": "Sxy",

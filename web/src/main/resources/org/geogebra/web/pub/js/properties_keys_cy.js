@@ -775,6 +775,8 @@ __GGB__keysVar.cy.command = {
     "SDX.Syntax": "[ <Rhestr Rhifau> ]",
     "SDY": "GSY",
     "SDY.Syntax": "[ <Rhestr Rhifau> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "SXX",
     "SXX.Syntax": "[ <Rhestr y rhifau>, <Rhestr y rhifau> ]\n[ <Rhestr y pwyntiau> ]",
     "SXY": "SXY",

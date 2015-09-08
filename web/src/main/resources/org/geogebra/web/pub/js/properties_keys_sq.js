@@ -775,6 +775,8 @@ __GGB__keysVar.sq.command = {
     "SDX.Syntax": "[ <Liste e Pikave> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <Liste e Pikave> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Liste Numrash> ]\n[ <Liste e Pikave> ]",
     "SXY": "Sxy",

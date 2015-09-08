@@ -775,6 +775,8 @@ __GGB__keysVar.ar_MA.command = {
     "SDX.Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0627\u0637> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0627\u0637> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0623\u0639\u062f\u0627\u062f> ]\n[ <\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0627\u0637> ]",
     "SXY": "Sxy",

@@ -775,6 +775,8 @@ __GGB__keysVar.eo.command = {
     "SDX.Syntax": "[ <Listo de Punktoj> ]",
     "SDY": "NormaDevioY",
     "SDY.Syntax": "[ <Listo de Punktoj> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Listo de Nombroj> ]\n[ <Listo de Punktoj> ]",
     "SXY": "Sxy",

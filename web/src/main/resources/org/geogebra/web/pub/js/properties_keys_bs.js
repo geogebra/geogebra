@@ -775,6 +775,8 @@ __GGB__keysVar.bs.command = {
     "SDX.Syntax": "[ <Lista ta\u010daka> ]",
     "SDY": "StandardnaDevY",
     "SDY.Syntax": "[ <Lista ta\u010daka> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "StandardnaDevXX",
     "SXX.Syntax": "[ <Lista brojeva> ]\n[ <Lista ta\u010daka> ]",
     "SXY": "StandardnaDevXY",

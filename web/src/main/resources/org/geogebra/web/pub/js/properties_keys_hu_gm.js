@@ -775,6 +775,8 @@ __GGB__keysVar.hu_gm.command = {
     "SDX.Syntax": "[ <Pontok list\xe1ja> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <Pontok list\xe1ja> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Sz\xe1mok list\xe1ja> ]\n[ <Pontok list\xe1ja> ]",
     "SXY": "Sxy",

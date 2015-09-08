@@ -775,6 +775,8 @@ __GGB__keysVar.sk.command = {
     "SDX.Syntax": "[ <Zoznam \u010d\xedsel> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <Zoznam \u010d\xedsel> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "SXX",
     "SXX.Syntax": "[ <Zoznam hodn\xf4t> ]\n[ <Zoznam bodov> ]",
     "SXY": "SXY",

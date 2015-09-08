@@ -775,6 +775,8 @@ __GGB__keysVar.ja.command = {
     "SDX.Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8> ]\n[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]",
     "SXY": "Sxy",

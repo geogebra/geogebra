@@ -775,6 +775,8 @@ __GGB__keysVar.hr.command = {
     "SDX.Syntax": "[ <lista to\u010daka> ]",
     "SDY": "StandardnaDevijacijaY",
     "SDY.Syntax": "[ <lista to\u010daka> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <lista brojeva> ]\n[ <lista to\u010daka> ]",
     "SXY": "Sxy",

@@ -775,6 +775,8 @@ __GGB__keysVar.gl.command = {
     "SDX.Syntax": "[ <Lista de puntos> ]",
     "SDY": "DTy",
     "SDY.Syntax": "[ <Lista de puntos> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Lista de n\xfameros> ]\n[ <Lista de puntos> ]",
     "SXY": "Sxy",

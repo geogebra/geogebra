@@ -775,6 +775,8 @@ __GGB__keysVar.ml.command = {
     "SDX.Syntax": "[ <List of Points> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <List of Points> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "SXY": "Sxy",

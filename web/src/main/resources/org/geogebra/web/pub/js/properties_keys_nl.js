@@ -775,6 +775,8 @@ __GGB__keysVar.nl.command = {
     "SDX.Syntax": "[ <Lijst met punten> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <Lijst met punten> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Lijst met getallen> ]\n[ <Lijst met punten> ]",
     "SXY": "Sxy",

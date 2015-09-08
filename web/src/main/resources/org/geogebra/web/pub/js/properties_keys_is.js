@@ -775,6 +775,8 @@ __GGB__keysVar.is.command = {
     "SDX.Syntax": "[ <Listi af punktum> ]",
     "SDY": "Sta\xf0alfr\xe1vikY",
     "SDY.Syntax": "[ <Listi af punktum> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "SXX",
     "SXX.Syntax": "[ <Listi af Punktum> ]\n[ <Listi af t\xf6lum>, <Listi af t\xf6lum> ]",
     "SXY": "SXY",

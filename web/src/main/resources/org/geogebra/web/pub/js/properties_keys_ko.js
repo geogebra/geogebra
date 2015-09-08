@@ -775,6 +775,8 @@ __GGB__keysVar.ko.command = {
     "SDX.Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "SDY": "Y\ud45c\uc900\ud3b8\ucc28",
     "SDY.Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8>, <\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "SXY": "Sxy",

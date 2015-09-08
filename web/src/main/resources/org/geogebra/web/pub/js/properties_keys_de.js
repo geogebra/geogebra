@@ -775,6 +775,8 @@ __GGB__keysVar.de.command = {
     "SDX.Syntax": "[ <Liste von Punkten> ]",
     "SDY": "StandardabweichungY",
     "SDY.Syntax": "[ <Liste von Punkten> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Liste von Zahlen> ]\n[ <Liste von Punkten> ]",
     "SXY": "Sxy",

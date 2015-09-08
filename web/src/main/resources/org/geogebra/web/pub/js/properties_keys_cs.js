@@ -775,6 +775,8 @@ __GGB__keysVar.cs.command = {
     "SDX.Syntax": "[ <Seznam bod\u016f> ]",
     "SDY": "SOY",
     "SDY.Syntax": "[ <Seznam bod\u016f> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Seznam \u010d\xedsel> ]\n[ <Seznam bod\u016f> ]",
     "SXY": "Sxy",

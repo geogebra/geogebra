@@ -775,6 +775,8 @@ __GGB__keysVar.fi.command = {
     "SDX.Syntax": "[ <Pistelista> ]",
     "SDY": "KeskihajontaY",
     "SDY.Syntax": "[ <Pistelista> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "VarianssiX",
     "SXX.Syntax": "[ <Pistelista> ]\n[ <Lukulista>, <Lukulista> ]",
     "SXY": "VarianssiXY",

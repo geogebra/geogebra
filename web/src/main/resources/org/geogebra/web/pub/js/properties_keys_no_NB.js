@@ -775,6 +775,8 @@ __GGB__keysVar.no_NB.command = {
     "SDX.Syntax": "[ <Liste med punkt> ]",
     "SDY": "StandardavvikY",
     "SDY.Syntax": "[ <Liste med punkt> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Liste med tall> ]\n[ <Liste med punkt> ]",
     "SXY": "Sxy",

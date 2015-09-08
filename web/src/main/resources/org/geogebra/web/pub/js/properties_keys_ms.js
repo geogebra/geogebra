@@ -775,6 +775,8 @@ __GGB__keysVar.ms.command = {
     "SDX.Syntax": "[ <Senarai Titik> ]",
     "SDY": "SisihanPiawaiY",
     "SDY.Syntax": "[ <Senarai Titik> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Senarai Nombor> ]\n[ <Senarai Titik> ]",
     "SXY": "Sxy",

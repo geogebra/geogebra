@@ -775,6 +775,8 @@ __GGB__keysVar.xh.command = {
     "SDX.Syntax": "[ <uLuhlu lwaManani> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <List of Points> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Uluhlu Lwamanani> ]\n[ <Uluhlu Lwamachaphaza> ]",
     "SXY": "Sxy",

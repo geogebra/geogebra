@@ -775,6 +775,8 @@ __GGB__keysVar.ka.command = {
     "SDX.Syntax": "[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d4\u10d1\u10d8\u10e1 \u10e1\u10d8\u10d0> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d4\u10d1\u10d8\u10e1 \u10e1\u10d8\u10d0> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <\u10e0\u10d8\u10ea\u10ee\u10d5\u10d4\u10d1\u10d8\u10e1 \u10e1\u10d8\u10d0> ]\n[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d4\u10d1\u10d8\u10e1 \u10e1\u10d8\u10d0> ]",
     "SXY": "Sxy",

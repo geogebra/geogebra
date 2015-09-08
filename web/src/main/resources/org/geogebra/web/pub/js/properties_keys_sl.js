@@ -775,6 +775,8 @@ __GGB__keysVar.sl.command = {
     "SDX.Syntax": "[ <seznam to\u010dk> ]",
     "SDY": "StandardniOdklonY",
     "SDY.Syntax": "[ <seznam to\u010dk> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "SXX",
     "SXX.Syntax": "[ <seznam \u0161tevil> ]\n[ <seznam to\u010dk> ]",
     "SXY": "SXY",

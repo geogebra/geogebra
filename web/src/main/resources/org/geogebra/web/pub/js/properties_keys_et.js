@@ -775,6 +775,8 @@ __GGB__keysVar.et.command = {
     "SDX.Syntax": "[ <Punktide loend> ]",
     "SDY": "Standardh\xe4lveY",
     "SDY.Syntax": "[ <Punktide loend> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Arvude loend> ]\n[ <Punktide loend> ]",
     "SXY": "Sxy",

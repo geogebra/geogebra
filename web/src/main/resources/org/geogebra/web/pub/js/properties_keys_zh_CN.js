@@ -775,6 +775,8 @@ __GGB__keysVar.zh_CN.command = {
     "SDX.Syntax": "[ <\u70b9\u5217> ]",
     "SDY": "\u7eb5\u5750\u6807\u6807\u51c6\u5dee",
     "SDY.Syntax": "[ <\u70b9\u5217> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <\u77e9\u9635> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <\u6570\u5b57\u5217\u8868> ]\n[ <\u70b9\u5217> ]",
     "SXY": "Sxy",

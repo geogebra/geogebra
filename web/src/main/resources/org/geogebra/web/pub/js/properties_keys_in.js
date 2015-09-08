@@ -775,6 +775,8 @@ __GGB__keysVar.in.command = {
     "SDX.Syntax": "[ <DaftarTitik> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <Daftar Titik> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Daftar Angka> ]\n[ <Daftar Titik> ]",
     "SXY": "Sxy",

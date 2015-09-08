@@ -775,6 +775,8 @@ __GGB__keysVar.es_UY.command = {
     "SDX.Syntax": "[ <Lista de puntos> ]",
     "SDY": "DEy",
     "SDY.Syntax": "[ <Lista de puntos> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Lista de n\xfameros> ]\n[ <Lista de puntos> ]",
     "SXY": "Sxy",

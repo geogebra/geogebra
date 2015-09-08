@@ -775,6 +775,8 @@ __GGB__keysVar.vi.command = {
     "SDX.Syntax": "[ <Danh s\xe1ch c\xe1c \u0111i\u1ec3m> ]",
     "SDY": "DoLechChuanY",
     "SDY.Syntax": "[ <Danh s\xe1ch c\xe1c \u0111i\u1ec3m> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Ph\u01b0\u01a1ngSaiXX",
     "SXX.Syntax": "[ <Danh s\xe1ch c\xe1c s\u1ed1> ]\n[ <Danh s\xe1ch c\xe1c \u0111i\u1ec3m> ]",
     "SXY": "PhuongSaiXY",

@@ -775,6 +775,8 @@ __GGB__keysVar.lt.command = {
     "SDX.Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "SXX",
     "SXX.Syntax": "[ <Skai\u010di\u0173 s\u0105ra\u0161as> ]\n[ <Ta\u0161k\u0173 s\u0105ra\u0161as> ]",
     "SXY": "Sxy",

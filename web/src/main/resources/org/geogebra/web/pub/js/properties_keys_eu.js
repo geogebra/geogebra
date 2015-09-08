@@ -775,6 +775,8 @@ __GGB__keysVar.eu.command = {
     "SDX.Syntax": "[ <Puntuen Zerrenda> ]",
     "SDY": "DesbiderapenEstandarraY",
     "SDY.Syntax": "[ <Puntuen Zerrenda> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Zenbakien Zerrenda> ]\n[ <Puntuen Zerrenda> ]",
     "SXY": "Sxy",

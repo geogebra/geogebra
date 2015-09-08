@@ -775,6 +775,8 @@ __GGB__keysVar.pl.command = {
     "SDX.Syntax": "[ <Lista Punkt\xf3w> ]",
     "SDY": "OdchylenieStandardoweY",
     "SDY.Syntax": "[ <Lista Punkt\xf3w> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "SXX",
     "SXX.Syntax": "[ <ListaLiczb> ]\n[ <ListaPunkt\xf3w> ]",
     "SXY": "SXY",

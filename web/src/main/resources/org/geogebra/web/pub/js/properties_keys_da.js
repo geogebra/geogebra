@@ -775,6 +775,8 @@ __GGB__keysVar.da.command = {
     "SDX.Syntax": "[ <Liste med Punkter> ]",
     "SDY": "StandarafvigelseY",
     "SDY.Syntax": "[ <Liste med Punkter> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "SXX",
     "SXX.Syntax": "[ <Liste med tal> ]\n[ <Liste med punkter> ]",
     "SXY": "SXY",

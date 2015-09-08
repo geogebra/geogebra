@@ -775,6 +775,8 @@ __GGB__keysVar.ca.command = {
     "SDX.Syntax": "[ <Llista de punts> ]",
     "SDY": "Desviaci\xf3Est\xe0ndardY",
     "SDY.Syntax": "[ <Llista de punts> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Llista de Punts> ]\n[ <Llista de Nombres>, <Llista de Nombres> ]",
     "SXY": "Sxy",

@@ -775,6 +775,8 @@ __GGB__keysVar.si.command = {
     "SDX.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2 \u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2 \u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <\u0dc3\u0d82\u0d9b\u0dca\u200d\u0dba\u0dcf \u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2 \u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]",
     "SXY": "Sxy",

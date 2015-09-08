@@ -775,6 +775,8 @@ __GGB__keysVar.tr.command = {
     "SDX.Syntax": "[ <Say\u0131 Listesi> ]",
     "SDY": "SSY",
     "SDY.Syntax": "[ <Say\u0131 Listesi> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Nokta Listesi> ]\n[ <Say\u0131 Listesi> ]",
     "SXY": "Sxy",

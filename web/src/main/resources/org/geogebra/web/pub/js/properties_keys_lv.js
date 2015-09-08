@@ -775,6 +775,8 @@ __GGB__keysVar.lv.command = {
     "SDX.Syntax": "[ <Punktu saraksts> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <Punktu Saraksts> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <Skait\u013cu saraksts> ]\n[ <Punktu Saraksts> ]",
     "SXY": "Sxy",

@@ -775,6 +775,8 @@ __GGB__keysVar.mr.command = {
     "SDX.Syntax": "[ <List of Points> ]",
     "SDY": "SDY",
     "SDY.Syntax": "[ <List of Points> ]",
+    "SVD": "SVD",
+    "SVD.Syntax": "[ <Matrix> ]",
     "SXX": "Sxx",
     "SXX.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e\u0902\u091a\u0940 \u092f\u093e\u0926\u0940> ]\n[ <\u092c\u093f\u0902\u0926\u0942\u0902\u091a\u0940 \u092f\u093e\u0926\u0940> ]",
     "SXY": "Sxy",
