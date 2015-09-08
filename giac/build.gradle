@@ -71,19 +71,19 @@ model {
         win32 {
             architecture 'i386'
             operatingSystem 'windows'
-    	    }
+        }
         win64 {
             architecture 'x64'
             operatingSystem 'windows'
-    	    }
-	linux_i686 { // this will be fixed in Gradle 2.4 (-> linux32)
+    	}
+        linux_i686 { // this will be fixed in Gradle 2.4 (-> linux32)
             architecture 'i386'
             operatingSystem 'linux'
-    	    }
-	linux64 {
+        }
+        linux64 {
             architecture 'x64'
             operatingSystem 'linux'
-    	    }
+        }
         osx_amd64 {
             architecture 'amd64'
             operatingSystem 'osx'
@@ -99,15 +99,14 @@ model {
             target('win64') {
                 cppCompiler.executable 'x86_64-w64-mingw32-g++'
                 linker.executable 'x86_64-w64-mingw32-g++'
-		// linker.withArguments { args -> args << "-m64" }
         	}
-    	    }
+        }
         clang(Clang) {
             target('osx_amd64') {
                 cppCompiler.executable 'clang'
                 linker.executable 'gcc'
         	}
-    	    }
+    	}
 	}
     components {
         // giac static libary
