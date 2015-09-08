@@ -778,9 +778,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 
 		currentFile = file;
-		if (currentFile != null) {
-			addToFileList(currentFile);
-		}
+
 
 		// if (!isIniting() && isUsingFullGui()) {
 		// updateTitle();
@@ -788,25 +786,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// }
 	}
 
-	public void addToFileList(Map<String, String> file) {
-		if (file == null) {
-			return;
-		}
-		// add or move fileName to front of list
-		fileList.remove(file);
-		fileList.addFirst(file);
-	}
 
-	public Map<String, String> getFromFileList(int i) {
-		if (fileList.size() > i) {
-			return fileList.get(i);
-		}
-		return null;
-	}
-
-	public int getFileListSize() {
-		return fileList.size();
-	}
 
 	public HashMap<String, String> getCurrentFile() {
 		return currentFile;
