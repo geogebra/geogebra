@@ -97,13 +97,13 @@ public class DrawSegment extends Drawable implements Previewable {
 
 		Coords A = view.getCoordsForView(s.getStartInhomCoords());
 		// check if in view
-		if (!Kernel.isZero(A.getZ())) {
+		if (!Kernel.isZero(A.getZ()) || !A.isFinite()) {
 			isVisible = false;
 			return;
 		}
 		Coords B = view.getCoordsForView(s.getEndInhomCoords());
 		// check if in view
-		if (!Kernel.isZero(B.getZ())) {
+		if (!Kernel.isZero(B.getZ()) || !B.isFinite()) {
 			isVisible = false;
 			return;
 		}

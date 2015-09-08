@@ -184,7 +184,7 @@ public class DrawLine extends Drawable implements Previewable {
 
 			Coords equation = g.getCartesianEquationVector(matrix);
 
-			if (equation == null) {
+			if (equation == null || !equation.isFinite()) {
 				isVisible = false;
 				return;
 			}

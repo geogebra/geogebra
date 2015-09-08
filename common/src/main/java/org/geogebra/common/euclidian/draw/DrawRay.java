@@ -101,7 +101,7 @@ public class DrawRay extends Drawable implements Previewable {
 		if (isVisible) {
 			// calc direction vector of ray in screen coords
 			Coords equation = ray.getCartesianEquationVector(view.getMatrix());
-			if (equation == null) {
+			if (equation == null || !equation.isFinite()) {
 				isVisible = false;
 				return;
 			}
