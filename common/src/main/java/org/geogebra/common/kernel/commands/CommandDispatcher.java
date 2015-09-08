@@ -487,6 +487,7 @@ public abstract class CommandDispatcher {
 			case Payment:
 			case FutureValue:
 			case PresentValue:
+			case SVD:
 				return getAdvancedDispatcher().dispatch(command, kernel);
 
 				// basic

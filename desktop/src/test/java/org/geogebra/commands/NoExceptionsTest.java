@@ -1746,6 +1746,11 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdSVD() {
+		t("SVD[ matrix1 ]");
+	}
+
+	@Test
 	public void cmdSecondAxis() {
 		t("MinorAxis[ c1 ]");
 	}

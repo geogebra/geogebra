@@ -677,6 +677,11 @@ public class Ggb2giac {
 		p("Sum.4",
 				"expand(subst(sum(subst(%0,%1,ggbsumvar@1),ggbsumvar@1,%2,%3), ggbsumvar@1, %1))");
 
+		// svd = singular value decomposition
+		// svd(M)=[U,S,V]
+		// such that M=U*diag(S)*tran(V)
+		p("Svd.1", "svd(%0)");
+
 		// GeoGebra counts elements from 1, giac from 0
 		// p("Take.3", "%0[%1-1..%2-1]");
 		p("Take.3",
