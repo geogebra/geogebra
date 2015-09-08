@@ -87,17 +87,17 @@ public class AlgoSimplifyText extends AlgoElement {
 
 		String ret = textIn.getTextString();
 		// ++ -> +
-		ret = ret.replaceAll("\\+\\+", "+");
+		ret = ret.replaceAll("\\+ *\\+", "+");
 		// -- -> +
-		ret = ret.replaceAll("--", "+");
+		ret = ret.replaceAll("- *-", "+");
 		// +- -> -
-		ret = ret.replaceAll("\\+-", "-");
+		ret = ret.replaceAll("\\+ *-", "-");
 		// -+ -> -
-		ret = ret.replaceAll("-\\+", "-");
+		ret = ret.replaceAll("- *\\+", "-");
 		// +1x -> +x
-		ret = ret.replaceAll("\\+1x", "+x");
+		ret = ret.replaceAll("\\+ *1 *x", "+x");
 		// -1x -> -x
-		ret = ret.replaceAll("-1x", "-x");
+		ret = ret.replaceAll("- *1 *x", "-x");
 
 		// replace "+" with " + "
 		// needs to be called twice for eg x+x+x+x
