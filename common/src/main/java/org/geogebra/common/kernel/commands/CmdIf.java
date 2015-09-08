@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
 import org.geogebra.common.kernel.algos.AlgoIf;
@@ -94,6 +95,10 @@ public class CmdIf extends CommandProcessor {
 				conditions.add((FunctionalNVar) arg[i]);
 				vars = vars > 1 ? vars : ((FunctionalNVar) arg[i])
 						.getFunctionVariables().length;
+				if ("y".equals(((FunctionalNVar) arg[i])
+						.getVarString(StringTemplate.defaultTemplate))) {
+					vars = Math.max(vars, 2);
+				}
 			} else {
 				throw argErr(app, c.getName(), arg[i]);
 			}
@@ -128,6 +133,10 @@ public class CmdIf extends CommandProcessor {
 			 * fn).getGeoFunction()); }
 			 */
 			functions.add(((GeoFunctionable) fn).getGeoFunction());
+			if ("y".equals(((GeoFunctionable) fn).getGeoFunction()
+					.getVarString(StringTemplate.defaultTemplate))) {
+				return Math.max(vars, 2);
+			}
 			return vars;
 		} else if (fn instanceof GeoFunctionNVar) {
 			functions.add((GeoFunctionNVar) fn);
@@ -157,12 +166,12 @@ public class CmdIf extends CommandProcessor {
 				throw argErr(app, c.getName(), current);
 			}
 			replaceVariables(c.getArgument(i + 1), varName, fv);
-			checkAdd(c, functions,
+			vars = checkAdd(c, functions,
 					(GeoElement) resolveFunction(c, i + 1, fv, vars), vars);
 		}
 		if (n % 2 == 1) {
 			replaceVariables(c.getArgument(n - 1), varName, fv);
-			checkAdd(c, functions,
+			vars = checkAdd(c, functions,
 					(GeoElement) resolveFunction(c, n - 1, fv, vars), vars);
 		}
 
@@ -191,7 +200,16 @@ public class CmdIf extends CommandProcessor {
 	final private GeoElement If(String label,
 			ArrayList<FunctionalNVar> conditions,
 			ArrayList<FunctionalNVar> functions, int vars) {
-		FunctionVariable[] fv = conditions.get(0).getFunctionVariables();
+		FunctionVariable[] fv;
+		if (vars == conditions.get(0).getFunctionVariables().length) {
+			fv = conditions.get(0).getFunctionVariables();
+		} else {
+			fv = new FunctionVariable[vars];
+			for (int i = 0; i < fv.length; i++) {
+				fv[i] = new FunctionVariable(kernelA, ((char) ('x' + i)) + "");
+			}
+		}
+
 		ExpressionNode expr;
 
 		boolean mayUseIndependent = true;
