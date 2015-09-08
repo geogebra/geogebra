@@ -619,7 +619,11 @@ public class ToolBar {
 
 				if (tokens[i].length() > 0) {
 					int mode = Integer.parseInt(tokens[i]);
-					menu.add(new Integer(mode));
+					// ignore modes 59 (record to spreadsheet) and 1011 (an old
+					// CAS mode)
+					if (mode != 59 && mode != 1011) {
+						menu.add(new Integer(mode));
+					}
 				}
 
 			}
