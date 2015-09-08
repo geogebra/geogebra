@@ -7889,4 +7889,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
+	public static GeoElement as(NumberValue val) {
+		return val == null ? null : val.toGeoElement();
+	}
+
 }

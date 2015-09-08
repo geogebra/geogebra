@@ -70,7 +70,7 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
-Dilateable, Transformable, EuclidianViewCE {
+		Dilateable, Transformable, EuclidianViewCE, GeoImplicit {
 	
 	private double[][] coeff;
 	private double[][] coeffSquarefree;
@@ -290,6 +290,11 @@ Dilateable, Transformable, EuclidianViewCE {
 
 	@Override
 	public boolean isGeoImplicitPoly() {
+		return true;
+	}
+
+	@Override
+	public boolean isGeoImplicitCurve() {
 		return true;
 	}
 

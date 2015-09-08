@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.Vector;
 
@@ -449,7 +448,7 @@ public abstract class App implements UpdateSelection {
 					commandDictCAS.addEntry(cmd);
 					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
 				}
-			} catch (MissingResourceException mre) {
+			} catch (Exception mre) {
 				commandDictCAS.addEntry(cmd);
 				subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
 			}

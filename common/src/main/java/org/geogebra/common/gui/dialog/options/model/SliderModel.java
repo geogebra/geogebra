@@ -98,7 +98,7 @@ public class SliderModel extends OptionsModel {
 				StringType.GEOGEBRA,
 				TEXT_FIELD_FRACTION_DIGITS, false);
 		if (equalMin) {
-			GeoElement min0 = num0.getIntervalMinObject();
+			GeoElement min0 = GeoElement.as(num0.getIntervalMinObject());
 			if (onlyAngles
 					&& (min0 == null || (!min0.isLabelSet() && min0
 							.isIndependent()))) {
@@ -111,7 +111,7 @@ public class SliderModel extends OptionsModel {
 		}
 
 		if (equalMax) {
-			GeoElement max0 = num0.getIntervalMaxObject();
+			GeoElement max0 = GeoElement.as(num0.getIntervalMaxObject());
 			if (onlyAngles
 					&& (max0 == null || (!max0.isLabelSet() && max0
 							.isIndependent())))

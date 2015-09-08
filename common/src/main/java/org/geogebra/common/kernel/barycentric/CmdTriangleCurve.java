@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -60,11 +60,11 @@ public class CmdTriangleCurve extends CommandProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoPoint())
-					&& (ok[3] = arg[3].isGeoImplicitPoly())) {
+					&& (ok[3] = arg[3].isGeoImplicitCurve())) {
 
 				AlgoTriangleCurve algo = new AlgoTriangleCurve(cons,
 						c.getLabel(), (GeoPoint) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2], (GeoImplicitPoly) arg[3], ta, tb, tc);
+						(GeoPoint) arg[2], (GeoImplicit) arg[3], ta, tb, tc);
 
 				GeoElement[] ret = { algo.getResult() };
 				clearLocal();

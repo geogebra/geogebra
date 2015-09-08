@@ -44,7 +44,7 @@ import org.geogebra.common.util.StringUtil;
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Path, Translateable, Dilateable, Mirrorable,
 		ConicMirrorable, Transformable,
-		PointRotateable {
+ PointRotateable, GeoImplicit {
 	/**
 	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT]
 	 */

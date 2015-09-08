@@ -12,8 +12,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.implicit.AlgoDependentImplicit;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -28,7 +29,7 @@ public class AlgoTriangleCurve extends AlgoElement implements
 		ExpressionNodeConstants {
 
 	private GeoPoint A, B, C; // input
-	private GeoImplicitPoly n; // number of curve
+	private GeoImplicit n; // number of curve
 	private GeoElement poly; // output
 	private Equation eq;
 	private GeoNumeric[] xcoef, ycoef, constant;
@@ -55,7 +56,7 @@ public class AlgoTriangleCurve extends AlgoElement implements
 	 *            variable "C"
 	 */
 	public AlgoTriangleCurve(Construction cons, String label, GeoPoint A,
-			GeoPoint B, GeoPoint C, GeoImplicitPoly e, GeoNumeric a,
+			GeoPoint B, GeoPoint C, GeoImplicit e, GeoNumeric a,
 			GeoNumeric b, GeoNumeric c) {
 		super(cons);
 		this.A = A;
@@ -63,12 +64,13 @@ public class AlgoTriangleCurve extends AlgoElement implements
 		this.C = C;
 		this.n = e;
 
-		AlgoDependentImplicitPoly d = (AlgoDependentImplicitPoly) n
-				.getParentAlgorithm();
+		AlgoElement d = n.getParentAlgorithm();
 		cons.removeFromConstructionList(d);
-		ExpressionNode lhs = (ExpressionNode) d.getEquation().getLHS()
+		ExpressionNode lhs = (ExpressionNode) ((AlgoDependentImplicit) d)
+				.getEquation().getLHS()
 				.deepCopy(kernel);
-		ExpressionNode rhs = (ExpressionNode) d.getEquation().getRHS()
+		ExpressionNode rhs = (ExpressionNode) ((AlgoDependentImplicit) d)
+				.getEquation().getRHS()
 				.deepCopy(kernel);
 		ExpressionNode[] abcExp = new ExpressionNode[3];
 		FunctionVariable x = new FunctionVariable(kernel, "x");

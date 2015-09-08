@@ -9,7 +9,8 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 /**
  * Dependent implicit polynomial (or line / conic)
  */
-public class AlgoDependentImplicitCurve extends AlgoElement {
+public class AlgoDependentImplicitCurve extends AlgoElement implements
+		AlgoDependentImplicit {
 
 
 	private Equation equation;

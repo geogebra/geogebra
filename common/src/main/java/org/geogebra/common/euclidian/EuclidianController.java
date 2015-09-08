@@ -7162,7 +7162,8 @@ public abstract class EuclidianController {
 				tempConic = new GeoConic(kernel.getConstruction());
 			}
 			tempConic.set(movedGeoConic);
-		} else if (movedGeoElement.isGeoImplicitCurve()) {
+		} else if (movedGeoElement.isGeoImplicitCurve()
+				&& !movedGeoElement.isGeoImplicitPoly()) {
 			moveMode = MOVE_IMPLICIT_CURVE;
 			movedGeoImplicitCurve = (GeoImplicitCurve) movedGeoElement;
 			view.setShowMouseCoords(false);

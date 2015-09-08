@@ -23,7 +23,8 @@ import org.geogebra.common.main.App;
 /**
  * Dependent implicit polynomial (or line / conic)
  */
-public class AlgoDependentImplicitPoly extends AlgoElement {
+public class AlgoDependentImplicitPoly extends AlgoElement implements
+		AlgoDependentImplicit {
 
 
 	private Equation equation;

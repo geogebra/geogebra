@@ -1368,10 +1368,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return interval min
 	 */
-	public GeoElement getIntervalMinObject() {
+	public NumberValue getIntervalMinObject() {
 		if (intervalMin == null)
 			return null;
-		return intervalMin.toGeoElement();
+		return intervalMin;
 	}
 
 	/**
@@ -1379,10 +1379,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return interval max
 	 */
-	public GeoElement getIntervalMaxObject() {
+	public NumberValue getIntervalMaxObject() {
 		if (intervalMax == null)
 			return null;
-		return intervalMax.toGeoElement();
+		return intervalMax;
 	}
 
 	@Override
@@ -1487,8 +1487,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);           
 		num.setSliderFixed(defaultNum.isSliderFixed());         
 		num.setEuclidianVisible(visible);
-		num.setIntervalMin((GeoNumeric)defaultAngleOrNum.getIntervalMinObject());
-		num.setIntervalMax((GeoNumeric)defaultAngleOrNum.getIntervalMaxObject());
+		num.setIntervalMin(defaultAngleOrNum.getIntervalMinObject());
+		num.setIntervalMax(defaultAngleOrNum.getIntervalMaxObject());
 		num.setAnimationStep(defaultAngleOrNum.getAnimationStep());
 		num.setAbsoluteScreenLocActive(true);
 		num.setAnimationType(defaultNum.getAnimationType());
