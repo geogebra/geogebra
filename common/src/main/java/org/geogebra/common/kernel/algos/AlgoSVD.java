@@ -137,6 +137,7 @@ public class AlgoSVD extends AlgoElement {
 		GeoList matrixUlist = matrix2list(U);
 		GeoList matrixSlist = matrix2list(S);
 		GeoList matrixVlist = matrix2list(V);
+		listOfMatrices.clear();
 		listOfMatrices.add(matrixUlist);
 		listOfMatrices.add(matrixSlist);
 		listOfMatrices.add(matrixVlist);
