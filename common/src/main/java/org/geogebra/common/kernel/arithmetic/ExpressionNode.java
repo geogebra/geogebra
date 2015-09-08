@@ -3203,6 +3203,13 @@ kernel, left,
 
 		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
+			if (tpl.hasCASType()) {
+				sb.append(leftStr);
+				sb.append("[(");
+				sb.append(rightStr);
+				sb.append(")-1]");
+				break;
+			}
 		case FUNCTION_NVAR:
 			if (valueForm) {
 				// TODO: avoid replacing of expressions in operationToString
