@@ -680,8 +680,10 @@ public class Ggb2giac {
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]
 		// such that M=U*diag(S)*tran(V)
+		// some messing around needed as Giac automatically completes U, V to
+		// orthogonal matrices
 		p("SVD.1",
-				"[[svdarg:=%0], {svd(svdarg)[0], diag(svd(svdarg)[1]), svd(svdarg)[2]}][1]");
+				"[[[svdarg:=%0], [svgdim:=dim(%0)], [svdresult:=svd(svdarg)],], {trn(trn(svdresult[0])[0..svgdim[1]-1]), diag(svdresult[1]), trn(trn(svdresult[2])[0..svgdim[0]-1])}][1]");
 
 		// GeoGebra counts elements from 1, giac from 0
 		// p("Take.3", "%0[%1-1..%2-1]");
