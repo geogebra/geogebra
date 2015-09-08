@@ -56,14 +56,16 @@ public class AlgoEllipseFociLength3D extends AlgoConicFociLength3D {
 		// direction is plane
 		if (orientation instanceof GeoCoordSys2D) {
 			return getLoc().getPlain(
-					"EllipseWithFociABandFirstAxisLengthCParallelToD",
+							conic.isHyperbola() ? "HyperbolaWithFociABandFirstAxisLengthCParallelToD"
+									: "EllipseWithFociABandFirstAxisLengthCParallelToD",
 					A.getLabel(tpl), B.getLabel(tpl),
 					a.toGeoElement().getLabel(tpl), orientation.getLabel(tpl));
 		}
 
 		// direction is line
 		return getLoc().getPlain(
-				"EllipseWithFociABandFirstAxisLengthCPerpendicularToD",
+						conic.isHyperbola() ? "HyperbolaWithFociABandFirstAxisLengthCPerpendicularToD"
+								: "EllipseWithFociABandFirstAxisLengthCPerpendicularToD",
 				A.getLabel(tpl), B.getLabel(tpl),
 				a.toGeoElement().getLabel(tpl), orientation.getLabel(tpl));
 	}
