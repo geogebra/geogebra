@@ -105,7 +105,7 @@ public class App3D extends AppD {
 
 		Input3D input3D = null;
 
-		if (!isApplet() && has(Feature.INTEL_REALSENSE)) {
+		if (AppD.WINDOWS && !isApplet() && has(Feature.INTEL_REALSENSE)) {
 			// init the 3D euclidian view (with perhaps a specific 3D input)
 			try {
 				input3D = Input3DFactory.createInput3D();
