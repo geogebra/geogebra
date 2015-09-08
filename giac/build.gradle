@@ -52,19 +52,19 @@ model {
         libs(PrebuiltLibraries) {
             mpfr {
                 binaries.withType(StaticLibraryBinary) {
-		    def arch = targetPlatform.architecture.name
-		    def os = targetPlatform.operatingSystem.name
+                    def arch = targetPlatform.architecture.name
+                    def os = targetPlatform.operatingSystem.name
                     staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libmpfr.a")
-            	    }
+            	}
     		}
             gmp {
                 binaries.withType(StaticLibraryBinary) {
-		    def arch = targetPlatform.architecture.name
-		    def os = targetPlatform.operatingSystem.name
+	                def arch = targetPlatform.architecture.name
+                    def os = targetPlatform.operatingSystem.name
                     staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libgmp.a")
-            	    }
+                }
         	}
-    	    }
+    	}
 	}
 
     platforms {
@@ -88,6 +88,10 @@ model {
             architecture 'amd64'
             operatingSystem 'osx'
 	    }
+        androideabi {
+            architecture 'armeabi'
+            operatingSystem 'android'
+        }
 	}
 
     toolChains {
@@ -107,11 +111,17 @@ model {
                 linker.executable 'gcc'
         	}
     	}
+        android(Gcc) {
+            target('androideabi') {
+                cppCompiler.executable 'arm-linux-androideabi-g++'
+                linker.executable 'arm-linux-androideabi-g++'
+            }
+        }
 	}
     components {
         // giac static libary
         giac(NativeLibrarySpec) {
-            binaries.all{ 
+            binaries.all { 
                 cppCompiler.define "GIAC_GGB"
                 cppCompiler.define "IN_GIAC"
                 cppCompiler.define "GIAC_GENERIC_CONSTANTS"
@@ -122,59 +132,59 @@ model {
                 cppCompiler.define "VERSION", '"1.1.3"'
                 cppCompiler.define "TIMEOUT"
         	}
-    	    }
+        }
 
         icas(NativeExecutableSpec) {
             binaries.all {
                 lib library: 'giac', linkage: 'static'
                 linker.args '-lgmp', '-lpthread'
         	}
-    	    }
+        }
 
         javagiac(NativeLibrarySpec) {
             targetPlatform 'win32'
             targetPlatform 'win64'
-	    targetPlatform 'linux_i686' // this will be fixed in Gradle 2.4 (-> linux32)
-	    targetPlatform 'linux64'
-	    targetPlatform 'osx_amd64'
+            targetPlatform 'linux_i686' // this will be fixed in Gradle 2.4 (-> linux32)
+            targetPlatform 'linux64'
+            targetPlatform 'osx_amd64'
 
             sources.cpp {
                 source {
                     srcDirs 'src/giac/cpp', 'src/jni/cpp'
                     exclude '**/first.cc', '**/firstcc.cc', '**/hello.cc', // consider removing them from SVN
-			'**/freeglut*.c*', '**/opengl.cc'
-            	    }
+                        '**/freeglut*.c*', '**/opengl.cc'
+            	}
                 exportedHeaders {
                     srcDirs 'src/giac/headers', 'src/jni/jdkHeaders'
-            	    }
+            	}
                 lib library: 'mpfr', linkage: 'static'
                 lib library: 'gmp', linkage: 'static'
         	}
 
             binaries.withType(SharedLibraryBinary) {
-		// Common settings for all platforms and architectures:
+                // Common settings for all platforms and architectures:
                 cppCompiler.define 'IN_GIAC'
                 cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
-		// Additional settings can be defined in config.h.
-		// They are automatically loaded if HAVE_CONFIG_H is defined below:
+                // Additional settings can be defined in config.h.
+                // They are automatically loaded if HAVE_CONFIG_H is defined below:
                 cppCompiler.define 'HAVE_CONFIG_H'
 
                 cppCompiler.args '-fexceptions'
                 // cppCompiler.args '-Os' // size optimization
-		cppCompiler.args '-O2' // standard optimization (default)
+                cppCompiler.args '-O2' // standard optimization (default)
                 cppCompiler.args '-I.'
 
                 linker.args "-I${java_home}/include", "-Isrc/jni/jdkHeaders"
 
-		// Architecture based settings:
+                // Architecture based settings:
                 if (targetPlatform.architecture.name == 'i386') {
                     cppCompiler.define 'SMARTPTR64'
                     cppCompiler.define 'SIZEOF_LONG', '8'
-            	    } else {
+            	} else {
                     cppCompiler.define 'SIZEOF_LONG', '4'
-            	    }
+            	}
 
-		// OS based settings:
+                // OS based settings:
                 if (targetPlatform.operatingSystem.name == 'windows') {
                     cppCompiler.define 'GIAC_MPQS'
                     cppCompiler.define '__MINGW_H'
@@ -185,39 +195,39 @@ model {
                     cppCompiler.define 'usleep',''
                     cppCompiler.define 'YY_NO_UNISTD_H'
 
-		    // This can be done to reduce size, but not necessary
-		    // if (targetPlatform.architecture.name == 'i386') {
-		    //	cppCompiler.args '-UHAVE_PTHREAD_H'
-		    //	}
+                    // This can be done to reduce size, but not necessary
+                    // if (targetPlatform.architecture.name == 'i386') {
+                    //	cppCompiler.args '-UHAVE_PTHREAD_H'
+                    //	}
 
-		    cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
-		    // Insert prebuilt libraries
+                    cppCompiler.args '-I', file('src/jni/jdkHeaders/win32').toString()
+                    // Insert prebuilt libraries
             	    linker.args '-Wl,--add-stdcall-alias'
             	    linker.args '-s' // stripping
 
-		    // Add libgcc and libstdc++ statically
-		    linker.args '-static-libgcc'
-		    linker.args '-static-libstdc++'
-		    // Statically link libpthread
-		    // linker.args '-Wl,-Bstatic', '-lstdc++', '-lpthread'
-		    // Or even better, everything
-		    linker.args '-static'
-		    }
+                    // Add libgcc and libstdc++ statically
+                    linker.args '-static-libgcc'
+                    linker.args '-static-libstdc++'
+                    // Statically link libpthread
+                    // linker.args '-Wl,-Bstatic', '-lstdc++', '-lpthread'
+                    // Or even better, everything
+                    linker.args '-static'
+                }
 
                 if (targetPlatform.operatingSystem.name == 'linux') {
                     cppCompiler.define 'HAVE_UNISTD_H'
 
-		    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
-		    cppCompiler.args '-fno-strict-aliasing' // maybe not needed
-		    cppCompiler.args '-DPIC' // maybe not needed
+                    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
+                    cppCompiler.args '-fno-strict-aliasing' // maybe not needed
+                    cppCompiler.args '-DPIC' // maybe not needed
 
-		    linker.args '-s' // stripping
+                    linker.args '-s' // stripping
 
-		    // Add libgcc and libstdc++ statically
-		    linker.args '-static-libgcc'
-		    linker.args '-static-libstdc++'
+                    // Add libgcc and libstdc++ statically
+                    linker.args '-static-libgcc'
+                    linker.args '-static-libstdc++'
 
-            	    }
+            	}
 
                 if (targetPlatform.operatingSystem.name == 'osx') {
                     cppCompiler.define 'HAVE_UNISTD_H'
@@ -228,21 +238,21 @@ model {
             	    cppCompiler.args '-isysroot', '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk'
             	    cppCompiler.args '-I/System/Library/Frameworks/CoreFoundation.framework/Headers'
 
-		    cppCompiler.args '-I', file('src/jni/jdkHeaders/darwin').toString()
+                    cppCompiler.args '-I', file('src/jni/jdkHeaders/darwin').toString()
 
-		    linker.args '-Wl,-search_paths_first'
-		    linker.args '-L', file('src/jni/prebuilt/osx/x86-64').toString()
+                    linker.args '-Wl,-search_paths_first'
+                    linker.args '-L', file('src/jni/prebuilt/osx/x86-64').toString()
 
-		    linker.args '-stdlib=libstdc++', '-lstdc++'
-		    linker.args '-lgmp', '-lmpfr', '-lpthread', '-dynamiclib'
-		    linker.args '-framework', 'Accelerate'
-		    linker.args '-framework', 'CoreFoundation'
-		    linker.args '-o', 'build/binaries/javagiacSharedLibrary/osx_amd64/libjavagiac.jnilib' // TODO: find a more elegant way
-		    }
-        	}
-    	    }
-	}
+                    linker.args '-stdlib=libstdc++', '-lstdc++'
+                    linker.args '-lgmp', '-lmpfr', '-lpthread', '-dynamiclib'
+                    linker.args '-framework', 'Accelerate'
+                    linker.args '-framework', 'CoreFoundation'
+                    linker.args '-o', 'build/binaries/javagiacSharedLibrary/osx_amd64/libjavagiac.jnilib' // TODO: find a more elegant way
+                }
+            }
+        }
     }
+}
 
 task run (dependsOn: 'icasExecutable', type: Exec) {
     description "Runs Giac's icas terminal"
