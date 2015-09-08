@@ -456,14 +456,14 @@ SymbolicParametersBotanaAlgo {
 			return false;
 
 		if (num1 instanceof GeoNumeric && num2 instanceof GeoNumeric) {
-			GeoElement maxObj1 = ((GeoNumeric) num1).getIntervalMaxObject()
-					.toGeoElement();
-			GeoElement maxObj2 = ((GeoNumeric) num2).getIntervalMaxObject()
-					.toGeoElement();
-			GeoElement minObj1 = ((GeoNumeric) num1).getIntervalMinObject()
-					.toGeoElement();
-			GeoElement minObj2 = ((GeoNumeric) num2).getIntervalMinObject()
-					.toGeoElement();
+			GeoElement maxObj1 = GeoElement.as(((GeoNumeric) num1)
+					.getIntervalMaxObject());
+			GeoElement maxObj2 = GeoElement.as(((GeoNumeric) num2)
+					.getIntervalMaxObject());
+			GeoElement minObj1 = GeoElement.as(((GeoNumeric) num1)
+					.getIntervalMinObject());
+			GeoElement minObj2 = GeoElement.as(((GeoNumeric) num2)
+					.getIntervalMinObject());
 			if (maxObj1 != null && maxObj1.isChildOrEqual((GeoElement) num2))
 				return false;
 			if (minObj1 != null && minObj1.isChildOrEqual((GeoElement) num2))
