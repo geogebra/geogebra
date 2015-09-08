@@ -89,7 +89,11 @@ model {
             operatingSystem 'osx'
 	    }
         androideabi {
-            architecture 'armeabi'
+            architecture 'arm'
+            operatingSystem 'android'
+        }
+        androidx86 {
+            architecture 'x86'
             operatingSystem 'android'
         }
 	}
@@ -115,6 +119,10 @@ model {
             target('androideabi') {
                 cppCompiler.executable 'arm-linux-androideabi-g++'
                 linker.executable 'arm-linux-androideabi-g++'
+            }
+            target('androidx86') {
+                cppCompiler.executable 'i686-linux-android-g++'
+                linker.executable 'i686-linux-android-g++'    
             }
         }
 	}
@@ -147,6 +155,8 @@ model {
             targetPlatform 'linux_i686' // this will be fixed in Gradle 2.4 (-> linux32)
             targetPlatform 'linux64'
             targetPlatform 'osx_amd64'
+            //targetPlatform 'androideabi'
+            //targetPlatform 'androidx86'
 
             sources.cpp {
                 source {
@@ -227,7 +237,24 @@ model {
                     linker.args '-static-libgcc'
                     linker.args '-static-libstdc++'
 
-            	}
+                }
+                if (targetPlatform.operatingSystem.name == 'android') {
+                    println "android"
+                    cppCompiler.define 'HAVE_UNISTD_H'
+
+                    cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
+                    cppCompiler.args '-fno-strict-aliasing' // maybe not needed
+                    cppCompiler.args '-DPIC' // maybe not needed
+
+                    linker.args '-s' // stripping
+
+                    // Add libgcc and libstdc++ statically
+                    linker.args '-static-libgcc'
+                    linker.args '-static-libstdc++'
+
+                    linker.args '-lm'
+
+                }
 
                 if (targetPlatform.operatingSystem.name == 'osx') {
                     cppCompiler.define 'HAVE_UNISTD_H'
