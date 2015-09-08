@@ -159,6 +159,10 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	@Override
 	public void set(GeoElementND geo) {
+		if(geo.isGeoPoint()){ 
+		 	 GeoPointND p= (GeoPointND) geo; 
+		 	setCoords(p.getCoordsInD3().get()); 
+		} else
 		if (geo.isGeoVector()) {
 			GeoVectorND vec = (GeoVectorND) geo;
 			setCoords(vec.getCoordsInD3().get());
