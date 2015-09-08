@@ -59,14 +59,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
         EventRenderable {
 
 	private enum Visibility {
-		Private(0), Shared(1), Public(2);
+		Private(0, "P"), Shared(1, "S"), Public(2, "O");
 
 		private int index;
 		private String token;
 
-		Visibility(int index) {
+		Visibility(int index, String tok) {
 			this.index = index;
-			this.token = createToken();
+			this.token = tok;
 		}
 
 		int getIndex() {
@@ -75,16 +75,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		String getToken() {
 			return this.token;
-		}
-
-		private String createToken() {
-			if (this.index == 2) {
-				return "O";
-			} else if (this.index == 1) {
-				return "S";
-			} else {
-				return "P";
-			}
 		}
 	}
 
