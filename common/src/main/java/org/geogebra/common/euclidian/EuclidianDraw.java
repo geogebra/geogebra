@@ -72,6 +72,7 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Factory class for drawables
@@ -157,6 +158,7 @@ public class EuclidianDraw {
 					// f = 1
 					geo.setEuclidianVisible(false);
 					geo.setEuclidianVisible(true);
+					geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 				}
 				d = new DrawSlider(ev, (GeoNumeric) geo);
 			} else {
@@ -185,6 +187,7 @@ public class EuclidianDraw {
 					// f = 1
 					geo.setEuclidianVisible(false);
 					geo.setEuclidianVisible(true);
+					geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 				}
 				d = new DrawSlider(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoSlope) {
@@ -225,6 +228,7 @@ public class EuclidianDraw {
 								.getObjectColor();
 						geo.setObjColor(col);
 						geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+						geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 					} else {
 						org.geogebra.common.awt.GColor col = consDef.getDefaultGeo(
 								ConstructionDefaults.DEFAULT_POLYGON)
