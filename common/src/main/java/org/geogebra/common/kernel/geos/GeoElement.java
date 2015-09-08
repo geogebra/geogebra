@@ -5558,7 +5558,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (isChangeable()) {
 			sb.append("\t<animation");
 			final String animStep = animationIncrement == null ? "1"
-					: getAnimationStepObject().toGeoElement().getLabel(tpl);
+					: getAnimationStepObject().getLabel(tpl);
 			sb.append(" step=\"");
 			StringUtil.encodeXML(sb, animStep);
 			sb.append("\"");
@@ -5740,7 +5740,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            new thickness
 	 */
 	public void setLineThickness(final int th) {
-		
 		lineThickness = Math.max(0, th);
 	}
 	

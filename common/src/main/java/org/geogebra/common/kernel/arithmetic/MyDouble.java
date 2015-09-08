@@ -1177,4 +1177,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 		return ret;
 	}
+
+	public String getLabel(StringTemplate tpl) {
+		return toValueString(tpl);
+	}
 }

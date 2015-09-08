@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.ToGeoElement;
 
 /**
@@ -48,4 +49,6 @@ public interface NumberValue extends ExpressionValue, ToGeoElement {
 	 * @return whether this value is defined or not
 	 */
 	public boolean isDefined();
+
+	public String getLabel(StringTemplate tpl);
 }

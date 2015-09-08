@@ -151,4 +151,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 	public void setDefined(boolean defined) {
 		this.isDefined = defined;
 	}
+
+	public String getLabel(StringTemplate tpl) {
+		return toValueString(tpl);
+	}
 }
