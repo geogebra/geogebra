@@ -680,7 +680,8 @@ public class Ggb2giac {
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]
 		// such that M=U*diag(S)*tran(V)
-		p("SVD.1", "svd(%0)");
+		p("SVD.1",
+				"[[svdarg:=%0], {svd(svdarg)[0], diag(svd(svdarg)[1]), svd(svdarg)[2]}][1]");
 
 		// GeoGebra counts elements from 1, giac from 0
 		// p("Take.3", "%0[%1-1..%2-1]");
