@@ -3210,6 +3210,9 @@ kernel, left,
 				sb.append(")-1]");
 				break;
 			}
+
+			// #1115
+			// no break
 		case FUNCTION_NVAR:
 			if (valueForm) {
 				// TODO: avoid replacing of expressions in operationToString
