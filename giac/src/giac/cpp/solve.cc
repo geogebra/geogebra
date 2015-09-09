@@ -2703,7 +2703,7 @@ namespace giac {
       if (fb.type!=_DOUBLE_)
 	continue;
       if (fb._DOUBLE_val==0){
-	res.push_back(fb);
+	res.push_back(b);
 	continue;
       }
       if (fa._DOUBLE_val*fb._DOUBLE_val>0)
@@ -2712,6 +2712,7 @@ namespace giac {
       if (iszero==1)
 	res=mergevecteur(res,addres);
     }
+    comprim(res);
     return res;
   }
 

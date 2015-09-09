@@ -907,7 +907,7 @@ namespace giac {
       return;
     }
 #endif    
-#ifdef GIAC_64VARS
+#if 0 // def GIAC_64VARS
     if (x.tab[0]%2){
       res = x;
       res += y;
@@ -10096,22 +10096,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	return false;
       if (debug_infolevel>1)
 	CERR << CLOCK() << " begin new iteration zmod, " << env << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
-      // mem clear: remove res[i] if i is not in G nor in B
-      /* int Gmax=0;
-      for (unsigned i=0;i<int(G.size());++i){
-	if (G[i]>Gmax) Gmax=G[i];
-      }
-      for (unsigned i=0;i<int(B.size());++i){
-	if (B[i].first>Gmax) Gmax=B[i].first;
-	if (B[i].second>Gmax) Gmax=B[i].second;
-      }
-      vector<bool> clean(Gmax+1,true); */
       vector<bool> clean(G.back()+1,true); 
-      vector<tdeg_t> Blcm(B.size());
-      vector<unsigned> nterms(B.size());
       for (unsigned i=0;i<G.size();++i){
 	clean[G[i]]=false;
       }
+      vector<tdeg_t> Blcm(B.size());
+      vector<unsigned> nterms(B.size());
       for (unsigned i=0;i<B.size();++i){
 	clean[B[i].first]=false;
 	clean[B[i].second]=false;
@@ -10206,7 +10196,18 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       }
       vectzpolymod f4buchbergerv; // collect all spolys
       int f4res=-1;
+#if 0 
+      unsigned Galls=G.back();
+      vector<unsigned> Gall;
+      Gall.reserve(Galls);
+      for (unsigned i=0;i<Galls;++i){
+	if (!clean[i])
+	  Gall.push_back(i);
+      }
+      f4res=zf4mod(res,Gall,env,smallposp,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,f4buchberger_info,f4buchberger_info_position,recomputeR);
+#else
       f4res=zf4mod(res,G,env,smallposp,f4buchbergerv,learning,learned_position,pairs_reducing_to_zero,f4buchberger_info,f4buchberger_info_position,recomputeR);
+#endif
       if (f4res==-1)
 	return false;
       if (f4res==0)

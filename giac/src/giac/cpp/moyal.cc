@@ -552,6 +552,8 @@ namespace giac {
       }
 #endif
     }
+    if (!is_positive(p,contextptr) || !is_greater(1,p,contextptr))
+      return gensizeerr(contextptr);
     return comb(n,k,contextptr)*pow(p,k,contextptr)*pow(1-p,n-k,contextptr);
   }
   gen _binomial(const gen & g,GIAC_CONTEXT){

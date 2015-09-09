@@ -1264,7 +1264,7 @@ namespace giac {
   }
 
   gen::gen(const unary_function_ptr * f,int nargs){
-#ifdef SMARTPTR64
+#if defined SMARTPTR64 
     * ((longlong * ) this) = longlong(new ref_unary_function_ptr(*f)) << 16;
 #else
     _FUNC_ = (size_t) (* (size_t*) f);
@@ -1312,7 +1312,7 @@ namespace giac {
 
   gen::~gen() {  
     if ( type>_DOUBLE_ && type!=_FLOAT_
-#if !defined SMARTPTR64 || defined STATIC_BUILTIN_LEXER_FUNCTIONS
+#if !defined SMARTPTR64 // || defined STATIC_BUILTIN_LEXER_FUNCTIONS
 	 && type!=_FUNC 
 #endif
 	 ){
@@ -1463,7 +1463,7 @@ namespace giac {
     if (a.type>_DOUBLE_ && a.type!=_FLOAT_ 
 #if defined SMARTPTR64 
 	&& (*((longlong *) &a) >> 16)
-#if defined STATIC_BUILTIN_LEXER_FUNCTIONS
+#if 0 // defined STATIC_BUILTIN_LEXER_FUNCTIONS
 	&& a.type!=_FUNC
 #endif
 #else
@@ -1499,7 +1499,7 @@ namespace giac {
     type=a.type;
     // Now we delete the target 
     if ( type_save>_DOUBLE_ && type_save!=_FLOAT_
-#if !defined SMARTPTR64 || defined STATIC_BUILTIN_LEXER_FUNCTIONS
+#if !defined SMARTPTR64 // || defined STATIC_BUILTIN_LEXER_FUNCTIONS
 	 && type_save!=_FUNC 
 #endif
 	 ){
