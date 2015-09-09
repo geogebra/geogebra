@@ -65,8 +65,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	@Override
 	public EuclidianView3DW getEuclidianView() {
 		// do NOT initialize the view if it wasn't done previously
-//		if (app != null && app.isEuclidianView3Dinited()) {
-		if (app != null) {
+		if (app != null && app.isEuclidianView3Dinited()) {
 			return (EuclidianView3DW) app.getEuclidianView3D();
 		}
 		return null;
@@ -148,7 +147,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 					return;
 				}
 				if (h != oldHeight || w != oldWidth) {
-					app.ggwGraphicsViewDimChanged(w, h);
 					app.ggwGraphicsView3DDimChanged(w, h);
 					oldHeight = h;
 					oldWidth = w;
@@ -178,29 +176,29 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	private void updateEuclidianPanel() {
 
-		if (app != null) {
-
-			int h = getComponentInteriorHeight();
-			int w = getComponentInteriorWidth();
-			if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D)) {
-				h -= navHeight();
-			}
-			// TODO handle this better?
-			// exit if new size cannot be determined
-			if (h <= 0 || w <= 0) {
-				return;
-			}
-			if (h != oldHeight || w != oldWidth) {
-				app.ggwGraphicsView3DDimChanged(w, h);
-				oldHeight = h;
-				oldWidth = w;
-			} else {
-				// it's possible that the width/height didn't change but the
-				// position of EV did
-				app.getEuclidianView3D().getEuclidianController()
-						.calculateEnvironment();
-			}
-		}
+		// if (app != null) {
+		//
+		// int h = getComponentInteriorHeight();
+		// int w = getComponentInteriorWidth();
+		// if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D)) {
+		// h -= navHeight();
+		// }
+		// // TODO handle this better?
+		// // exit if new size cannot be determined
+		// if (h <= 0 || w <= 0) {
+		// return;
+		// }
+		// if (h != oldHeight || w != oldWidth) {
+		// app.ggwGraphicsView3DDimChanged(w, h);
+		// oldHeight = h;
+		// oldWidth = w;
+		// } else {
+		// // it's possible that the width/height didn't change but the
+		// // position of EV did
+		// app.getEuclidianView3D().getEuclidianController()
+		// .calculateEnvironment();
+		// }
+		// }
 
 		euclidianpanel.onResize();
 	}
