@@ -118,7 +118,7 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 	@Override
 	public final void compute() {
 
-		try {
+		// try {
 
 			for (int i = 0; i < 4; i++) {
 				coeffs[i] = ev[i].evaluateDouble();
@@ -128,9 +128,9 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 			}
 
 			quadric.setMatrix(coeffs);
-		} catch (Throwable e) {
-			quadric.setUndefined();
-		}
+		// } catch (Throwable e) {
+		// quadric.setUndefined();
+		// }
 	}
 
 	@Override

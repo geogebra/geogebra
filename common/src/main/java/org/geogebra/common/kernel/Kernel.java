@@ -2023,6 +2023,16 @@ public class Kernel {
 				&& (y <= (x + STANDARD_PRECISION));
 	}
 
+	final public static boolean isRatioEqualTo1(double x, double y) {
+		if (x == y) {
+			return true;
+		}
+
+		double eps = STANDARD_PRECISION * Math.min(Math.abs(x), Math.abs(y));
+
+		return ((x - eps) <= y) && (y <= (x + eps));
+	}
+
 	final public static boolean isEqual(double x, double y, double eps) {
 		if (x == y) {
 			return true;

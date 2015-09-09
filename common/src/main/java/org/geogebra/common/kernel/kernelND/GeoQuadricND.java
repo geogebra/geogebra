@@ -550,8 +550,8 @@ Traceable{
 	/**
 	 * Updates eigenvectors
 	 */
-	protected void setEigenvectors(){
-		//do nothing,overriden in some classes
+	protected void setEigenvectors() {
+		// do nothing,overriden in some classes
 	}
 	
 	

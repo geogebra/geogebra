@@ -132,9 +132,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (!defined)
 			return;
 
-		// det of S lets us distinguish between
-		// parabolic and midpoint quadrics
-		// det(S) = A[0] * A[1] - A[3] * A[3]
+		// det of S
 		detS = matrix[0] * matrix[1] * matrix[2] - matrix[0] * matrix[6]
 				* matrix[6] - matrix[1] * matrix[5] * matrix[5] - matrix[2]
 				* matrix[4] * matrix[4] + 2 * matrix[4] * matrix[5] * matrix[6];
@@ -191,17 +189,24 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			eigenval[2] = eigenval[1];
 		}
 
-		// App.debug("\nnRoots = "+nRoots+"\n"+eigenval[0]+","+eigenval[1]+","+eigenval[2]);
+		App.debug("\nnRoots = " + nRoots + "\n" + eigenval[0] + ","
+				+ eigenval[1] + "," + eigenval[2]);
 
-		// degenerate ?
+		// degenerate ? (beta is det of 4x4 matrix)
 		double beta = matrix[7] * x + matrix[8] * y + matrix[9] * z + matrix[3];
 
-		// App.debug("beta = "+beta);
+		App.debug("beta = " + beta);
 
-		if (degenerate || Kernel.isZero(beta)) {
-			// TODO : degenerate
-			type = QUADRIC_NOT_CLASSIFIED;
-			App.printStacktrace("QUADRIC_NOT_CLASSIFIED");
+		if (degenerate) {
+			if (Kernel.isZero(beta)) {
+				type = QUADRIC_NOT_CLASSIFIED;
+				App.debug("QUADRIC_NOT_CLASSIFIED");
+			} else {
+				type = QUADRIC_NOT_CLASSIFIED;
+				App.debug("QUADRIC_NOT_CLASSIFIED");
+			}
+		} else if (Kernel.isZero(beta)) {
+			cone();
 		} else {
 			mu[0] = -eigenval[0] / beta;
 			mu[1] = -eigenval[1] / beta;
@@ -219,6 +224,65 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			}
 		}
 
+	}
+
+
+	private void cone() {
+
+		if (eigenval[0] > 0 && eigenval[1] > 0 && eigenval[2] > 0) {
+			empty();
+		} else if (eigenval[0] < 0 && eigenval[1] < 0 && eigenval[2] < 0) {
+			empty();
+		} else {
+			// set eigenvectors
+			setEigenvectors();
+
+			// check what vector has direction
+			int directionIndex, ellipseIndex0, ellipseIndex1;
+			if (eigenval[0] * eigenval[1] > 0) {
+				directionIndex = 2;
+				ellipseIndex0 = 0;
+				ellipseIndex1 = 1;
+			} else if (eigenval[0] * eigenval[2] > 0) {
+				directionIndex = 1;
+				ellipseIndex0 = 2;
+				ellipseIndex1 = 0;
+			} else {
+				directionIndex = 0;
+				ellipseIndex0 = 1;
+				ellipseIndex1 = 2;
+			}
+
+			// set direction
+			eigenvecND[2].setValues(eigenvec[directionIndex], 3);
+
+			// set others eigen vecs
+			eigenvecND[0].setValues(eigenvec[ellipseIndex0], 3);
+			eigenvecND[1].setValues(eigenvec[ellipseIndex1], 3);
+
+			// set halfAxes = radius
+			halfAxes[0] = Math.sqrt(-eigenval[directionIndex]
+					/ eigenval[ellipseIndex0]);
+			halfAxes[1] = Math.sqrt(-eigenval[directionIndex]
+					/ eigenval[ellipseIndex1]);
+			halfAxes[2] = 1;
+
+
+			// set the diagonal values
+			diagonal[0] = eigenval[ellipseIndex0];
+			diagonal[1] = eigenval[ellipseIndex1];
+			diagonal[2] = eigenval[directionIndex];
+			diagonal[3] = 0;
+
+			// set matrix
+			setMatrixFromEigen();
+
+			// eigen matrix
+			setEigenMatrix(halfAxes[0], halfAxes[1], 1);
+
+			// set type
+			type = QUADRIC_CONE;
+		}
 	}
 
 	private void ellipsoid() {
@@ -255,10 +319,121 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			}
 
 		} else { // ellipsoid
+
+			setEigenvectors();
+
 			// TODO
 			type = QUADRIC_NOT_CLASSIFIED;
-			App.printStacktrace("QUADRIC_NOT_CLASSIFIED");
+
 		}
+
+	}
+
+	@Override
+	protected void setEigenvectors() {
+		// App.debug("\neigen values: " + eigenval[0] + ","
+		// + eigenval[1] + ","
+		// + eigenval[2]);
+
+		if (eigenvec == null) {
+			eigenvec = new Coords[3];
+			for (int i = 0; i < 3; i++) {
+				eigenvec[i] = new Coords(3);
+			}
+		}
+
+
+		if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
+			// eigenval[2] of multiplicity 1
+			computeEigenVectorMultiplicity1(matrix, eigenval[2], eigenvec[2]);
+			eigenvec[2].normalize();
+			eigenvec[2].completeOrthonormal3(eigenvec[0], eigenvec[1]);
+		} else if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[2])) {
+			// eigenval[1] of multiplicity 1
+			computeEigenVectorMultiplicity1(matrix, eigenval[1], eigenvec[1]);
+			eigenvec[1].normalize();
+			eigenvec[1].completeOrthonormal3(eigenvec[2], eigenvec[0]);
+		} else if (Kernel.isRatioEqualTo1(eigenval[1], eigenval[2])) {
+			// eigenval[0] of multiplicity 1
+			computeEigenVectorMultiplicity1(matrix, eigenval[0], eigenvec[0]);
+			eigenvec[0].normalize();
+			eigenvec[0].completeOrthonormal3(eigenvec[1], eigenvec[2]);
+		} else {
+			// all eigenvalues of multiplicity 1
+			for (int i = 0; i < 2; i++) {
+				computeEigenVectorMultiplicity1(matrix, eigenval[i],
+						eigenvec[i]);
+			}
+			eigenvec[2].setCrossProduct(eigenvec[0], eigenvec[1]); // ensure
+																	// orientation
+
+			for (int i = 0; i < 3; i++) {
+				eigenvec[i].normalize();
+			}
+
+			// for (int i = 0; i < 3; i++) {
+			// for (int j = i + 1; j < 3; j++) {
+			// App.debug("dotproduct = "
+			// + eigenvec[i].dotproduct(eigenvec[j]));
+			// }
+			// }
+			//
+			// App.debug("orientation : "
+			// + eigenvec[0].crossProduct(eigenvec[1]).dotproduct(
+			// eigenvec[2]));
+		}
+
+
+
+		// String s = "";
+		// for (int i = 0; i < 3; i++) {
+		// Coords v = eigenvec[i];
+		// s += "\neigen vector #" + i + ": " + "{" + v.getX() + ","
+		// + v.getY() + "," + v.getZ() + "}";
+		// }
+		// App.debug(s);
+
+	}
+
+	// private static final String format(double v) {
+	// return "" + v;
+	// }
+	//
+	// private static final String subEFormat(double v, double e) {
+	// return "" + (v - e);
+	// }
+
+	private Coords[] eigenvec;
+
+	private static final void computeEigenVectorMultiplicity1(double[] m,
+			double mu, Coords v) {
+
+		// lines are dependents
+
+		// first try, result maybe 0 if lines 1 & 2 are dependent
+		v.set(m[5] * (m[1] - mu) - m[4] * m[6], m[6] * (m[0] - mu) - m[4]
+				* m[5], m[4] * m[4] - (m[0] - mu) * (m[1] - mu));
+
+		if (v.isZero()) {
+			// second try, result maybe 0 if lines 1 & 3 are dependent
+			v.set(m[5] * m[6] - m[4] * (m[2] - mu), (m[0] - mu) * (m[2] - mu)
+					- m[5] * m[5], m[4] * m[5] - m[6] * (m[0] - mu));
+
+			if (v.isZero()) {
+				// third try: lines 2 & 3 are not dependent, so line 1 equals 0
+				// (multiplicity 1)
+				v.set(1, 0, 0);
+			}
+		}
+
+		
+		// App.debug("\neigen value: " + mu + "\nmatrix - mu * Id:\n"
+		// + subEFormat(m[0], mu) + " " + format(m[4]) + " "
+		// + format(m[5]) + "\n" + format(m[4]) + " "
+		// + subEFormat(m[1], mu) + " " + format(m[6]) + "\n"
+		// + format(m[5]) + " " + format(m[6]) + " "
+		// + subEFormat(m[2], mu) + "\neigen vector:\n" + "{" + v.getX()
+		// + "," + v.getY() + "," + v.getZ() + "}");
 
 	}
 
@@ -371,12 +546,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setMidpoint(origin.get());
 
 		// set direction
-		eigenvecND[2] = direction;
+		eigenvecND[2].setValues(direction, 3);
 
 		// set others eigen vecs
-		Coords[] ee = direction.completeOrthonormal();
-		eigenvecND[0] = ee[0];
-		eigenvecND[1] = ee[1];
+		eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
 
 		// set halfAxes = radius
 		for (int i = 0; i < 2; i++)
@@ -430,12 +603,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setMidpoint(origin.get());
 
 		// set direction
-		eigenvecND[2] = direction;
+		eigenvecND[2].setValues(direction, 3);
 
 		// set others eigen vecs
-		Coords[] ee = direction.completeOrthonormal();
-		eigenvecND[0] = ee[0];
-		eigenvecND[1] = ee[1];
+		eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
 
 		// set halfAxes = radius
 		for (int i = 0; i < 2; i++)
@@ -501,6 +672,23 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "Cylinder";
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 			return "Cone";
+		case GeoQuadricNDConstants.QUADRIC_EMPTY:
+			return "EmptySet";
+		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
+		default:
+			return "Quadric";
+		}
+	}
+
+	@Override
+	public String getTypeStringForAlgebraView() {
+		switch (type) {
+		case GeoQuadricNDConstants.QUADRIC_SPHERE:
+			return "Sphere";
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+			return "Cylinder";
+		case GeoQuadricNDConstants.QUADRIC_CONE:
+			return "Cone";
 		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
 		default:
 			return "Quadric";
@@ -549,7 +737,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	protected boolean showInEuclidianView() {
-		return type != GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+		return type != GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED
+				&& type != GeoQuadricNDConstants.QUADRIC_EMPTY;
 	}
 
 	@Override

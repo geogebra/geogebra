@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -15,7 +14,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import org.geogebra.common.main.App;
 
 /**
  * Class for drawing quadrics.
@@ -227,33 +225,35 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				Coords ev1 = quadric.getEigenvec3D(0);
 				Coords ev2 = quadric.getEigenvec3D(1);
 				Coords ev3 = quadric.getEigenvec3D(2);
-				radius = quadric.getHalfAxis(0);
+				double r1 = quadric.getHalfAxis(0);
+				double r2 = quadric.getHalfAxis(1);
+
 				if (min * max < 0) {
 					if (getView3D().useClippingCube()) {
-						surface.cone(center, ev1, ev2, ev3, radius, 0,
+						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 								2 * Math.PI, min, 1f);
-						surface.cone(center, ev1, ev2, ev3, radius, 0,
+						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 								2 * Math.PI, max, 1f);
 					} else {
-						surface.cone(center, ev1, ev2, ev3, radius, 0,
+						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 								2 * Math.PI, min,
 								(float) ((-9 * min - max) / (min - max)));
-						surface.cone(center, ev1, ev2, ev3, radius, 0,
+						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 								2 * Math.PI, max,
 								(float) ((-9 * max - min) / (max - min)));
 					}
 				} else {
 					if (getView3D().useClippingCube()) {
-						surface.cone(center, ev1, ev2, ev3, radius, 0,
+						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 								2 * Math.PI, min, max, false, false);
 					} else {
 						double delta = (max - min) / 10;
-						surface.cone(center, ev1, ev2, ev3, radius, 0,
+						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 								2 * Math.PI, min + delta, max - delta, false,
 								false);
-						surface.cone(center, ev1, ev2, ev3, radius, 0,
+						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 								2 * Math.PI, min, min + delta, true, false);
-						surface.cone(center, ev1, ev2, ev3, radius, 0,
+						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 								2 * Math.PI, max - delta, max, false, true);
 					}
 				}

@@ -934,6 +934,26 @@ public class PlotterSurface {
 	public Coords cone(Coords center, Coords vx, Coords vy, Coords vz,
 			double radius, double start, double extent, double height,
 			float fading) {
+		return cone(center, vx, vy, vz, radius, radius, start, extent, height,
+				fading);
+	}
+
+	/**
+	 * @param center
+	 * @param vx
+	 * @param vy
+	 * @param vz
+	 * @param r1
+	 * @param r2
+	 * @param start
+	 * @param extent
+	 * @param height
+	 * @param fading
+	 * @return center of the bottom
+	 */
+	public Coords cone(Coords center, Coords vx, Coords vy, Coords vz,
+			double r1, double r2, double start, double extent, double height,
+			float fading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		int longitude = manager.getLongitudeDefault();
@@ -954,15 +974,25 @@ public class PlotterSurface {
 		center2.mulInside3(height);
 		center2.addInside(center);
 
-		double r = radius * -height;
-		tmpCoords.setMul(vz, radius);
+		double r1h = r1 * -height;
+		double r2h = r2 * -height;
+		if (height > 0) {
+			tmpCoords.setMul(vz, -r1 * r1h);
+		} else {
+			tmpCoords.setMul(vz, r1 * r1h);
+		}
 
 		for (int i = 0; i <= longitude; i++) {
-			u = (float) Math.cos(start + i * da);
-			v = (float) Math.sin(start + i * da);
+			u = (float) (Math.cos(start + i * da) * r1h);
+			v = (float) (Math.sin(start + i * da) * r2h);
 
 			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v));
-			n.setAdd(m, tmpCoords);
+			// n.setAdd(m, tmpCoords);
+			if (height > 0) {
+				n.setSub(tmpCoords, m);
+			} else {
+				n.setAdd(tmpCoords, m);
+			}
 			n.normalize();
 
 			// center of the triangle fan
@@ -977,7 +1007,7 @@ public class PlotterSurface {
 				manager.texture(0, 1);
 			}
 			manager.normal(n);
-			manager.vertex(tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, r)));
+			manager.vertex(tmpCoords2.setAdd(center2, m));
 		}
 
 		manager.endGeometry();
@@ -988,6 +1018,14 @@ public class PlotterSurface {
 
 	public void cone(Coords center, Coords vx, Coords vy, Coords vz,
 			double radius, double start, double extent, double min, double max,
+			boolean minFading, boolean maxFading) {
+		cone(center, vx, vy, vz, radius, radius, start, extent, min, max,
+				minFading, maxFading);
+	}
+
+	public void cone(Coords center, Coords vx, Coords vy, Coords vz,
+			double r1, double r2, double start, double extent, double min,
+			double max,
 			boolean minFading, boolean maxFading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
@@ -1006,19 +1044,20 @@ public class PlotterSurface {
 		center2.mulInside3(max);
 		center2.addInside(center);
 
-		double r1 = radius * min;
-		double r2 = radius * max;
+		double rmin = r1 * min;
+		double rmax = r1 * max;
+		double ratio = r2 / r1;
 
 		// ensure radius are positive and normals go outside
 		int sgn = 1;
 		if (max > 0) {
 			sgn = -1;
 		} else {
-			r1 *= -1;
-			r2 *= -1;
+			rmin *= -1;
+			rmax *= -1;
 		}
 
-		tmpCoords.setMul(vz, radius * sgn);
+		tmpCoords.setMul(vz, r1 * sgn);
 
 		boolean fading = minFading || maxFading;
 		if (!fading) {
@@ -1029,7 +1068,7 @@ public class PlotterSurface {
 			u = (float) Math.cos(start + i * da);
 			v = (float) Math.sin(start + i * da);
 
-			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v));
+			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v * ratio));
 			n.setAdd(m, tmpCoords);
 			n.normalize();
 
@@ -1042,7 +1081,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, r2)));
+			manager.vertex(tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, rmax)));
 
 			// point on bottom circle
 			if (fading) {
@@ -1053,7 +1092,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(tmpCoords2.setAdd(center1, tmpCoords3.setMul(m, r1)));
+			manager.vertex(tmpCoords2.setAdd(center1, tmpCoords3.setMul(m, rmin)));
 
 		}
 

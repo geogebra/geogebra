@@ -209,6 +209,22 @@ public class Coords {
 	}
 	
 	/**
+	 * set 3 first values
+	 * 
+	 * @param x
+	 *            first value
+	 * @param y
+	 *            second value
+	 * @param z
+	 *            third value
+	 */
+	public void set(double x, double y, double z) {
+		val[0] = x;
+		val[1] = y;
+		val[2] = z;
+	}
+
+	/**
 	 * set this values to v's
 	 * @param v coords
 	 * @param length length first values only are updated
@@ -1363,6 +1379,34 @@ public class Coords {
 		vn2.setW(0);
 		vn2.normalize();
 		
+	}
+
+	/**
+	 * Assume that "this" is a non-zero vector in 3-space. This method sets the
+	 * vectors vn1, vn2 (rows=3) so that (this, vn1, vn2) is a right-handed
+	 * orthonormal system.
+	 * 
+	 * @param vn1
+	 *            vector (length 3)
+	 * @param vn2
+	 *            vector (length 3)
+	 */
+	public void completeOrthonormal3(Coords vn1, Coords vn2) {
+
+		if (val[0] != 0) {
+			vn1.val[0] = -val[1];
+			vn1.val[1] = val[0];
+			vn1.val[2] = 0;
+			vn1.normalize();
+		} else {
+			vn1.val[0] = 1.0;
+			vn1.val[1] = 0.0;
+			vn1.val[2] = 0.0;
+		}
+
+		vn2.setCrossProduct(this, vn1);
+		vn2.normalize();
+
 	}
 
 	/**
