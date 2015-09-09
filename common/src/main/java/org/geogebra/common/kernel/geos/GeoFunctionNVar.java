@@ -1091,13 +1091,13 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		tmp[0] = u;
 		tmp[1] = v;
 
-		double val = fun1[0].evaluate(tmp);
+		double val = evaluateNormal(0);
 		if (Double.isNaN(val)) {
 			return setNormalFromNeighbours(p, u, v, n);
 		}
 		der1.setZ(val);
 
-		val = fun1[1].evaluate(tmp);
+		val = evaluateNormal(1);
 		if (Double.isNaN(val)) {
 			return setNormalFromNeighbours(p, u, v, n);
 		}
@@ -1108,6 +1108,13 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 
 		return true;
 
+	}
+
+	private double evaluateNormal(int index) {
+		if (fun1 == null) {
+			return Double.NaN;
+		}
+		return fun1[index].evaluate(tmp);
 	}
 
 	@Override
