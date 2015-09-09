@@ -189,13 +189,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			eigenval[2] = eigenval[1];
 		}
 
-		App.debug("\nnRoots = " + nRoots + "\n" + eigenval[0] + ","
-				+ eigenval[1] + "," + eigenval[2]);
-
 		// degenerate ? (beta is det of 4x4 matrix)
 		double beta = matrix[7] * x + matrix[8] * y + matrix[9] * z + matrix[3];
 
-		App.debug("beta = " + beta);
 
 		if (degenerate) {
 			if (Kernel.isZero(beta)) {
