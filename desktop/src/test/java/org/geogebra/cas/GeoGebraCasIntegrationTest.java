@@ -3167,6 +3167,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricEMP_2 () {
     t("Solve[(-3, 8) = (3, 2) + t * (5, 1) + s * (-1, 7), {t, s}]", "{{t = -1, s = 1}}");
+		t("Solve[{X=(t,t),X=(2s-1,3s+3)}]", "{{s = -4, t = -9}}");
   }
 
   @Test
