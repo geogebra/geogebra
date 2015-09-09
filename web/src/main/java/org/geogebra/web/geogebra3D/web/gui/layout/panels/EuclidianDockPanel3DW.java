@@ -65,7 +65,8 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	@Override
 	public EuclidianView3DW getEuclidianView() {
 		// do NOT initialize the view if it wasn't done previously
-		if (app != null && app.isEuclidianView3Dinited()) {
+//		if (app != null && app.isEuclidianView3Dinited()) {
+		if (app != null) {
 			return (EuclidianView3DW) app.getEuclidianView3D();
 		}
 		return null;
