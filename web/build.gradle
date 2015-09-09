@@ -59,7 +59,7 @@ gwt {
         // enableClosureCompiler = true;
         disableClassMetadata = true;
         disableCastChecking = true;
-        logLevel = 'SPAM';
+        //logLevel = 'SPAM';
         // style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
         // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
 	}
