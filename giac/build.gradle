@@ -239,21 +239,14 @@ model {
 
                 }
                 if (targetPlatform.operatingSystem.name == 'android') {
-                    println "android"
                     cppCompiler.define 'HAVE_UNISTD_H'
+                    cppCompiler.define 'NO_BSD'
 
                     cppCompiler.args '-I', file('src/jni/jdkHeaders/linux').toString()
                     cppCompiler.args '-fno-strict-aliasing' // maybe not needed
                     cppCompiler.args '-DPIC' // maybe not needed
 
                     linker.args '-s' // stripping
-
-                    // Add libgcc and libstdc++ statically
-                    linker.args '-static-libgcc'
-                    linker.args '-static-libstdc++'
-
-                    linker.args '-lm'
-
                 }
 
                 if (targetPlatform.operatingSystem.name == 'osx') {
