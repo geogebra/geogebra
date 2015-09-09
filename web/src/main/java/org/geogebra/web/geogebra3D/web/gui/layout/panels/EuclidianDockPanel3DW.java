@@ -199,6 +199,8 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 						.calculateEnvironment();
 			}
 		}
+
+		euclidianpanel.onResize();
 	}
 
 
