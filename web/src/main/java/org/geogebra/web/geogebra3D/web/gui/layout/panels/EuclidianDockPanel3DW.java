@@ -148,6 +148,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 					return;
 				}
 				if (h != oldHeight || w != oldWidth) {
+					app.ggwGraphicsViewDimChanged(w, h);
 					app.ggwGraphicsView3DDimChanged(w, h);
 					oldHeight = h;
 					oldWidth = w;
