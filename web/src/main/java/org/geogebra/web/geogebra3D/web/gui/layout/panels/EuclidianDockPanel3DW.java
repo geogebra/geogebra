@@ -85,7 +85,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		if (consProtNav != null) {
 			consProtNav.update();
 			consProtNav.setVisible(app.showConsProtNavigation(id));
-			// updateEuclidianPanel();
+			updateEuclidianPanel();
 			euclidianpanel.onResize();
 		}
 	}
