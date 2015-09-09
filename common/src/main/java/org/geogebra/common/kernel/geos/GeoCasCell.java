@@ -1966,6 +1966,24 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		});
 		cmd.getArgument(0).traverse(DummyVariableCollector.getCollector(set));
 		int n = en.unwrap() instanceof MyList ? ((MyList) en.unwrap()).getLength() : 1;
+		// for equation (t,t) = (2s-1,3s+3)
+		// make sure that we allow the correct number of variables
+		// needed for #5332
+		if (en.unwrap() instanceof Equation) {
+			// 2DVector -> allow 2 variables
+			if (((Equation) en.unwrap()).getLHS()
+						.evaluatesToNonComplex2DVector()
+				&& ((Equation) en.unwrap()).getRHS()
+						.evaluatesToNonComplex2DVector()) {
+				n = 2;
+			}
+			// 3DVector -> allow 3 variables
+			if (((Equation) en.unwrap()).getLHS().evaluatesTo3DVector()
+					&& ((Equation) en.unwrap()).getRHS().evaluatesTo3DVector()) {
+				n = 3;
+			}
+		}
+
 		MyList variables = new MyList(kernel, n);
 		int i = 0;
 		Iterator<String> ite = set.iterator();
