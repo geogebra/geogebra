@@ -50,7 +50,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected Widget loadComponent() {
-		EuclidianView3DW view = getEuclidianView();
+		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		view.setDockPanel(this);
 		euclidianpanel = (MyEuclidianViewPanel) view.getComponent();
 		return euclidianpanel;
