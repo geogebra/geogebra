@@ -86,7 +86,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 */
 	public EuclidianView3DW(EuclidianController3D ec, EuclidianSettings settings) {
 		super(ec, settings);
-
+		App.printStacktrace("3D created");
 		initBaseComponents(EVPanel, ec);
 
 		// initView(true);

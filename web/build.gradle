@@ -34,7 +34,8 @@ dependencies {
 		'com.googlecode:gwtgl:0.9.1',
 		'com.googlecode:gwtgl:0.9.1:sources',
 	    'org.scilab.forge:jlatexmath-gwt:20150618:all',
-	    'com.google.gwt:gwt-dev:2.7.0'
+	    'com.google.gwt:gwt-dev:2.7.0',
+	    'com.asual.lesscss:lesscss-engine:1.3.0'
 }
 
 def devModule = 'org.geogebra.web.Web3D'

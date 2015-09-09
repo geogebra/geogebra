@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.css;
 
+import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.LessResource;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
@@ -64,7 +66,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	TextResource mathquillggbCss();
 
 	@Source("org/geogebra/web/resources/css/web-styles.css")
-	TextResource modernStyle();
+	LessResource modernStyle();
 
 	@Source("org/geogebra/web/resources/css/jquery-ui.css")
 	TextResource jqueryStyle();

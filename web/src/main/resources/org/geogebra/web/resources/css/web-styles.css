@@ -285,7 +285,7 @@ input[type="text"]::-ms-clear {
 	cursor: default;
 	opacity: .5;
 	zoom: 1;
-	filter: alpha(opacity = 50);
+	filter: ~'alpha(opacity = 50)';
 }
 .gwt-Button[disabled="disabled"]:hover,
 .buttonPanel .button[disabled="disabled"]:hover,
@@ -774,7 +774,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
-	filter: alpha(opacity =       30);
+	filter: ~'alpha(opacity = 30)';
 	z-index: 100;
 }
 
@@ -1084,7 +1084,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: default !important;
 	opacity: .5;
 	zoom: 1;
-	filter: alpha(opacity =       50);
+	filter: ~'alpha(opacity = 50)';
 	background: none !important;
 }
 
@@ -2713,7 +2713,8 @@ body.application[dir=rtl] .button.redoButton {
 	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
 		rgb(247, 247, 247) 100% );
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(140,
-		150, 170) ), color-stop(1, rgb(247, 247, 247) ) ) );
+		150, 170) ), color-stop(1, rgb(247, 247, 247) ) );
+		
 }
 
 .dialogContent {
@@ -3748,7 +3749,8 @@ body.application[dir=rtl] .marble {
 	height: 16px;
 }
 
-#imageList li {margin-top 2px;
+#imageList li {
+	margin-top: 2px;
 	margin-bottom: 2px;
 }
 
@@ -3991,7 +3993,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 .propertiesStyleBar .selected,
 .propertiesStyleBar .gwt-MenuItem.selected:hover
 	{
-	background-image: -webkit-linear-gradient(left, #DCDCDC, #F8F8F8) );
+	background-image: -webkit-linear-gradient(left, #DCDCDC, #F8F8F8);
 	background-image: -moz-linear-gradient(left, #DCDCDC, #F8F8F8);
 	background-image: -ms-linear-gradient(left, #DCDCDC, #F8F8F8);
 	background-image: -o-linear-gradient(left, #DCDCDC, #F8F8F8);
@@ -4888,7 +4890,7 @@ PROVIDERS
 /** Material is unselected **/
 .materialListElement.unselected {
 	opacity: 0.2;
-	filter: alpha(opacity =     20);
+	filter: ~'alpha(opacity = 20)';
 }
 
 .materialListElement.unselected:hover {
