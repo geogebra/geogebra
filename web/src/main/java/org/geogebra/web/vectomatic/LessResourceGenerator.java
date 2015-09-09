@@ -19,7 +19,7 @@ package org.geogebra.web.vectomatic;
 
 import java.net.URL;
 
-import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.LessResource;
+import org.geogebra.web.html5.util.LessResource;
 
 import com.asual.lesscss.LessEngine;
 import com.asual.lesscss.LessException;

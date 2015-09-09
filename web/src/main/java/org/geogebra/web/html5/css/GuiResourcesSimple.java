@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.css;
 
-import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.LessResource;
+import org.geogebra.web.html5.util.LessResource;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
