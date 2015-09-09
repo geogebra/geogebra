@@ -280,7 +280,9 @@ TABLE_GEOMETRY),
 			TABLE_ENGLISH), RandomBetween(TABLE_ENGLISH), TaylorPolynomial(
 			TABLE_ENGLISH), AngleBisector(TABLE_ENGLISH), CircumcircularSector(
 			TABLE_ENGLISH), CircumcircularArc(TABLE_ENGLISH), CircularSector(
-			TABLE_ENGLISH), CircularArc(TABLE_ENGLISH),
+			TABLE_ENGLISH), CircularArc(TABLE_ENGLISH), Side(TABLE_ENGLISH),
+ DelaunayTriangulation(
+			TABLE_ENGLISH),
 
 	// =================================================================
 	// 3D
@@ -406,6 +408,10 @@ TABLE_GEOMETRY),
 			return Textfield;
 		case IntersectCircle:
 			return IntersectConic;
+		case Side:
+			return QuadricSide;
+		case DelaunayTriangulation:
+			return DelauneyTriangulation;
 		default:
 			break;
 		}
