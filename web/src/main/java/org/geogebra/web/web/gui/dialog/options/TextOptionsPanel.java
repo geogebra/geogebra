@@ -269,7 +269,9 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 			model.cancelEditGeo();
 			return null;
 		}
-
+		if (geos.length > 0 && geos[0] instanceof GeoText) {
+			btnLatex.setValue(((GeoText) geos[0]).isLaTeX());
+		}
 		getModel().updateProperties();
 		setLabels();
 		advancedPanel.updateGeoList();
