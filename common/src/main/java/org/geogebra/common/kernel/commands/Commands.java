@@ -412,6 +412,8 @@ TABLE_GEOMETRY),
 			return QuadricSide;
 		case DelaunayTriangulation:
 			return DelauneyTriangulation;
+		case IntersectionPaths:
+			return IntersectPath;
 		default:
 			break;
 		}
