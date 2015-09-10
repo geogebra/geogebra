@@ -19,7 +19,6 @@ import java.util.Arrays;
 
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.euclidian3D.Input3D.OutOfField;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 
@@ -37,7 +36,6 @@ public class Socket {
 	private static float DEPTH_ZERO = 0.4f;
 	private static int SAMPLES = 7;
 	
-	private static final String QUERY_REGISTERY_KEY = "reg query HKLM\\Software\\Intel\\RSSDK\\Components\\ivcam";
 
 	public enum Gestures {PINCH, SPREAD, FIST};
 
@@ -476,36 +474,6 @@ public class Socket {
 
 		Log.debug("Try to connect realsense...");
 		
-		int registeryQueryResult = 1; // inited to bad value (correct value = 0)
-		try{
-			Runtime runtime = Runtime.getRuntime();
-			Process p = runtime.exec(QUERY_REGISTERY_KEY);
-			p.waitFor();
-			registeryQueryResult = p.exitValue();
-			App.debug(QUERY_REGISTERY_KEY + " : " + registeryQueryResult);
-			// // get query result -- so we can check version
-			// try {
-			// BufferedReader reader = new BufferedReader(
-			// new InputStreamReader(p.getInputStream()));
-			// String line = "";
-			// try {
-			// while ((line = reader.readLine()) != null) {
-			// App.debug(line);
-			// }
-			// } finally {
-			// reader.close();
-			// }
-			// } catch (IOException ioe) {
-			// ioe.printStackTrace();
-			// }
-		} catch (Throwable e) {
-			throw new Exception("RealSense: No key for camera in registery");
-		}
-
-		if (registeryQueryResult != 0) {
-			throw new Exception("RealSense: No key for camera in registery");
-		}
-
 		// Create session
 		PXCMSession session = null;
 		try {
