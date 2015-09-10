@@ -3586,6 +3586,7 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	padding: 0px !important;
 }
 
+
 .elemHeading {
 	border-bottom: 1px solid #EDEDED;
 	position: relative;
@@ -3628,6 +3629,11 @@ body.application[dir=rtl] .algebraOpenButton {
  	box-sizing: border-box;
  	-moz-box-sizing: border-box;
  	-webkit-box-sizing: border-box;
+ }
+ 
+ .avItem .gwt-TreeItem,
+ .avItem .gwt-TreeItem-selected {
+ 	display: inline-block !important;
  }
  
 .algebraView .avItem .AlgebraViewObjectStylebar {
@@ -5855,3 +5861,4 @@ body.application[dir=rtl] .deleteAlgebra {
 .ggbScreenshot .InputTreeItem{
 	overflow-x:hidden;
 }
+

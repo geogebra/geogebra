@@ -900,20 +900,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 					AppResources.INSTANCE.shown().getSafeUri(),
 					AppResources.INSTANCE.hidden().getSafeUri());
 			ti.setUserObject(ob);
-
-			// ti.setBorderStyle(
-			// Dom.querySelectorForElement(ti.getElement(), "gwt-TreeItem")
-			// .getStyle());
 			ti.addStyleName("avItem");
-			// ti.getElement().getStyle().setPadding(0, Unit.PX);
-
-			// Workaround to make treeitem visual selection available
-			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
-					.getElement().getFirstChildElement(), "display",
-					"-moz-inline-box");
-			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
-					.getElement().getFirstChildElement(), "display",
-					"inline-block");
 		} else {
 			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob
 					.toString(), GuiResources.INSTANCE.algebra_tree_open()
@@ -930,21 +917,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 					AppResources.INSTANCE.shown().getSafeUri(),
 					AppResources.INSTANCE.hidden().getSafeUri());
 			ti.setUserObject(ob);
-
-			// ti.setBorderStyle(
-			// Dom.querySelectorForElement(ti.getElement(), "gwt-TreeItem")
-			// .getStyle());
 			ti.addStyleName("avItem");
-			// ti.getElement().getStyle().setPadding(0, Unit.PX);
 
-			// Workaround to make treeitem visual selection available
-			DOM.setStyleAttribute(
-					(com.google.gwt.user.client.Element) ti.getElement()
-							.getFirstChildElement(),
-					"display", "-moz-inline-box");
-			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
-					.getElement().getFirstChildElement(), "display",
-					"inline-block");
 		} else {
 			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti,
 					ob.toString(),
