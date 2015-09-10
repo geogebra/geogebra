@@ -1088,11 +1088,6 @@ public class GeoText extends GeoElement implements Locateable,
 		return alwaysFixed;
 	}
 
-	@Override
-	final public boolean isAuxiliaryObjectByDefault() {
-		return true;
-	}
-
 	public boolean justFontSize() {
 		return false;
 	}
