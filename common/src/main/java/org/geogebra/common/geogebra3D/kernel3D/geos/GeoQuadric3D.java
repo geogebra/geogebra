@@ -271,9 +271,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			diagonal[2] = eigenval[directionIndex];
 			diagonal[3] = 0;
 
-			// set matrix
-			setMatrixFromEigen();
-
 			// eigen matrix
 			setEigenMatrix(halfAxes[0], halfAxes[1], 1);
 
