@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -210,7 +211,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			if (detS < 0) {
 				// TODO : hyperboloid
 				type = QUADRIC_NOT_CLASSIFIED;
-				App.printStacktrace("QUADRIC_NOT_CLASSIFIED");
+				App.debug("QUADRIC_NOT_CLASSIFIED -- hyperboloid");
 			} else {
 				if (mu[0] > 0 && mu[1] > 0 && mu[2] > 0) {
 					ellipsoid();
@@ -678,6 +679,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public String getTypeStringForAlgebraView() {
+
+		if (getParentAlgorithm() != null
+				&& getParentAlgorithm() instanceof AlgoDependentQuadric3D) {
+			return "Quadric";
+		}
+
 		switch (type) {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			return "Sphere";
