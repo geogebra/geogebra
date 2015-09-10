@@ -22,9 +22,20 @@ public class CommandsTest extends Assert{
 	static AlgebraProcessor ap;
 
 	private static void  t(String input, String expected){
-		testSyntax(input,expected,app,ap);
+		testSyntax(input, new String[] { expected }, app, ap,
+				StringTemplate.xmlTemplate);
 	}
-	public static void testSyntax(String s,String expected,App app,AlgebraProcessor ap) {
+
+	public static void t(String s, String[] expected, StringTemplate tpl) {
+		testSyntax(s, expected, app, ap, tpl);
+	}
+
+	public static void t(String s, String[] expected) {
+		testSyntax(s, expected, app, ap, StringTemplate.xmlTemplate);
+	}
+
+	public static void testSyntax(String s, String[] expected, App app,
+			AlgebraProcessor ap, StringTemplate tpl) {
 		if(syntaxes==-1000){
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
@@ -59,10 +70,13 @@ public class CommandsTest extends Assert{
 		syntaxes--;
 		assertNull(t);
 		Assert.assertNotNull(s,result);
-		String actual = result[0].toValueString(StringTemplate.xmlTemplate);
-		Assert.assertEquals(s + ":"+actual, expected, actual);
+
+		Assert.assertEquals(s + " count:", expected.length, result.length);
+		for (int i = 0; i < expected.length; i++) {
+			String actual = result[i].toValueString(tpl);
+			Assert.assertEquals(s + ":" + actual, expected[i], actual);
+		}
 		System.out.print("+");
-		
 
 	}
 
@@ -131,7 +145,9 @@ public class CommandsTest extends Assert{
 	
 	@Test
 	public void cmdDataFunction(){
-		t("DataFunction[]", "DataFunction[{}, {}]");
+		t("DataFunction[]", "DataFunction[{}, {},x]");
+		t("DataFunction[]", new String[] { "DataFunction[x]" },
+				StringTemplate.defaultTemplate);
 	}
 	
 	@Test
@@ -139,6 +155,17 @@ public class CommandsTest extends Assert{
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(2,0),(0,2)]]", "false");
+	}
+
+	@Test
+	public void cmdIntersect() {
+		t("Intersect[3x=4y,Curve[5*sin(t),5*cos(t),t,0,6]]", new String[] {
+				"(4, 3)", "(-4, -3)" },
+				StringTemplate.editTemplate);
+		t("Intersect[x=y,x+y=2]", "(1, 1)");
+		t("Intersect[x=y,x^2+y^2=2]", new String[] { "(1, 1)", "(-1, -1)" });
+		t("Intersect[x=y,x^2+y^2=2, 1]", "(1, 1)");
+		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
 	}
 
 }
