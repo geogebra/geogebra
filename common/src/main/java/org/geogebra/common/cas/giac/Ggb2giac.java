@@ -62,7 +62,21 @@ public class Ggb2giac {
 		p("Coefficients.1", "when(is_polynomial(%0)," + "coeffs(%0)," + "{})");
 
 		p("Coefficients.2", "coeffs(%0,%1)");
-		p("CompleteSquare.1", "canonical_form(%0)");
+		p("CompleteSquare.1",
+		// calculate a and b from formula a^2 + 2ab + b^2
+		// e.g. for polynomial 3x^4 + x^2
+		// a^2 = 3x^4 -> a = sqrt(3)x^2
+		// b = x^2/(2a) -> b = sqrt(3)/6
+				"[[[ggbcpla:= simplify(abs(solve(ggbsort(%0)[1]=ggbcpla^2,ggbcpla)[0][2]))], [ggbcplb:=simplify(abs(solve(ggbsort(%0)[2]/(2*(simplify(abs(solve(ggbsort(%0)[1]=ggbcpla^2,ggbcpla)[0][2]))))=ggbcplb,ggbcplb)[0][2]))]] ,"
+						// case degree is 2
+						+ "when ( degree(%0) == 2 , canonical_form(%0), "
+						// works for polynomials with two part (e.g. 3x^4 + x^2)
+						+ " when ( degree(%0) > 2 && size(%0) == 2, "
+						// use formula (a + b)^2 - b^2
+						+ " when ( (%0)[0] == '+' && sign((%0)[2]) == 1, (ggbcpla+ggbcplb)^2-ggbcplb^2, "
+						// use formula (a - b)^2 - b^2
+						+ " when ( (%0)[0] == '+' && sign((%0)[2]) == -1 , (ggbcpla-ggbcplb)^2-ggbcplb^2 ,?)), ?))][1]");
+
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
 		p("Covariance.2", "covariance(%0,%1)");
 		p("Covariance.1", "normal(covariance(%0))");
