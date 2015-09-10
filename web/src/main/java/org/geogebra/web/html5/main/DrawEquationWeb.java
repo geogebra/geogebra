@@ -1843,11 +1843,11 @@ GeoContainer rbti,
 			// let's compare their places, and if the difference is little,
 			// scroll to the left/right!
 			if (joel.getAbsoluteLeft() - parentElement.getAbsoluteLeft() < 50) {
-				// NewRadioButtonTreeItem class in theory
+				// InputTreeItem class in theory
 				rbti.getElement().setScrollLeft(0);
 			} else if (parentElement.getAbsoluteRight()
 			        - joel.getAbsoluteRight() < 50) {
-				// NewRadioButtonTreeItem class in theory
+				// InputTreeItem class in theory
 				rbti.getElement().setScrollLeft(
 				        rbti.getElement().getScrollWidth()
 				                - rbti.getElement().getClientWidth());

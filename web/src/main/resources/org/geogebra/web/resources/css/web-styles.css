@@ -34,7 +34,7 @@
 	padding: 0px;	margin: 0px;
 }
 
-/* .NewRadioButtonTreeItem, */
+/* .InputTreeItem, */
 .GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem {
 	position: relative;
 }
@@ -56,7 +56,7 @@
 	position: relative !important;
 }
 
-.NewRadioButtonTreeItemParent {
+.InputTreeItemParent {
 	/* afaik, ::after is relative this this element this way */
 	position: relative !important;
 	display: block !important;
@@ -68,8 +68,8 @@
 	padding-top: 0px !important;
 }
 
-.NewRadioButtonTreeItemParent::after {
-	/* Hiding .NewRadioButtonTreeItem scrollbar by overlapping it! */
+.InputTreeItemParent::after {
+	/* Hiding .InputTreeItem scrollbar by overlapping it! */
 	/* a different solution would use clipping (i.e. overflow: hidden) */
 	/* with negative margins and/or relative positioning and/or */
 	/* and/or vertical-align and/or absolute positioning, */
@@ -91,7 +91,7 @@
 	background-color: white;
 }
 
-.NewRadioButtonTreeItem {
+.InputTreeItem {
 	overflow-x: scroll;
 	overflow-y: hidden;
 	direction: ltr;
@@ -104,7 +104,7 @@
 	background-color:white;
 }
 
-.NewRadioButtonTreeItem * {
+.InputTreeItem * {
 	/* some of its descendants would not naturally get it */
 	/* probably because of GWT or web-styles.css */
 	cursor: text !important;
@@ -3794,11 +3794,11 @@ body.application[dir=rtl] .imageCorner {
 	margin: 0px;
 }
 
-.NewRadioButtonTreeItem .hasCursorPermanent {
+.InputTreeItem .hasCursorPermanent {
 	border-color: #DCDCDC;
 }
 
-.NoHorizontalScroll .NewRadioButtonTreeItem .hasCursorPermanent {
+.NoHorizontalScroll .InputTreeItem .hasCursorPermanent {
 	border-color: #6161FF;
 }
 
@@ -3872,8 +3872,8 @@ body.application[dir=rtl] .GeoGebraFrame .elemRow > * {
 	padding-right: 4px;
 }
 
-.GeoGebraFrame .NewRadioButtonTreeItemParent .XButton,
-.GeoGebraFrame .NewRadioButtonTreeItemParent .XButtonNeighbour,
+.GeoGebraFrame .InputTreeItemParent .XButton,
+.GeoGebraFrame .InputTreeItemParent .XButtonNeighbour,
 .GeoGebraFrame .XButtonPanelParent .XButton,
 .GeoGebraFrame .XButtonPanelParent .XButtonNeighbour {
 	cursor: pointer;
@@ -3891,10 +3891,10 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown,
 .AutoCompleteTextFieldW .SymbolToggleButton.ShowSymbolButtonFocused,
-.NewRadioButtonTreeItemParent .XButton.shown,
-.NewRadioButtonTreeItemParent .XButton.ShowSymbolButtonFocused,
-.NewRadioButtonTreeItemParent .XButtonNeighbour.shown,
-.NewRadioButtonTreeItemParent .XButtonNeighbour.ShowSymbolButtonFocused,
+.InputTreeItemParent .XButton.shown,
+.InputTreeItemParent .XButton.ShowSymbolButtonFocused,
+.InputTreeItemParent .XButtonNeighbour.shown,
+.InputTreeItemParent .XButtonNeighbour.ShowSymbolButtonFocused,
 .XButtonPanelParent .XButton.shown,
 .XButtonPanelParent .XButton.ShowSymbolButtonFocused,
 .XButtonPanelParent .XButtonNeighbour.shown,
@@ -5852,6 +5852,6 @@ body.application[dir=rtl] .deleteAlgebra {
 	margin-left: -12px;
 }
 
-.ggbScreenshot .NewRadioButtonTreeItem{
+.ggbScreenshot .InputTreeItem{
 	overflow-x:hidden;
 }

@@ -84,7 +84,7 @@ public class TextFieldProcessing implements KeyboardListener {
 		} else if (field instanceof GTextBox) {
 			state = State.gTextBox;
 		} else if (field instanceof InputTreeItem) {
-			state = State.newRadioButtonTreeItem;
+			state = State.inputTreeItem;
 		} else if (field instanceof EquationEditorListener) {
 			state = State.equationEditorListener;
 		} else {
@@ -119,7 +119,7 @@ public class TextFieldProcessing implements KeyboardListener {
 				((GTextBox) field).setFocus(focus);
 				break;
 			case equationEditorListener:
-			case newRadioButtonTreeItem:
+			case inputTreeItem:
 				if (focus) {
 					((EquationEditorListener) field).setFocus(true, false);
 				}
@@ -162,7 +162,7 @@ public class TextFieldProcessing implements KeyboardListener {
 				((GTextBox) field).onBrowserEvent(Event.as(event2));
 				break;
 			case equationEditorListener:
-			case newRadioButtonTreeItem:
+			case inputTreeItem:
 				((EquationEditorListener) field).keyup(ENTER, false, false,
 						false);
 				break;
@@ -205,7 +205,7 @@ public class TextFieldProcessing implements KeyboardListener {
 				}
 				break;
 			case equationEditorListener:
-			case newRadioButtonTreeItem:
+			case inputTreeItem:
 				((EquationEditorListener) field).keydown(BACKSPACE, false,
 						false, false);
 				break;
@@ -254,7 +254,7 @@ public class TextFieldProcessing implements KeyboardListener {
 				}
 				break;
 			case equationEditorListener:
-			case newRadioButtonTreeItem:
+			case inputTreeItem:
 				switch (type) {
 				case left:
 					((EquationEditorListener) field).keydown(
@@ -295,7 +295,7 @@ public class TextFieldProcessing implements KeyboardListener {
 				insertAtEnd(text);
 				break;
 			case equationEditorListener:
-			case newRadioButtonTreeItem:
+			case inputTreeItem:
 				if (text.equals(KeyboardConstants.A_POWER_X)) {
 					if (((EquationEditorListener) field).getText().length() == 0) {
 						return;
@@ -415,7 +415,7 @@ public class TextFieldProcessing implements KeyboardListener {
 	@Override
 	public void scrollCursorIntoView() {
 		switch (state) {
-		case newRadioButtonTreeItem:
+		case inputTreeItem:
 		case equationEditorListener:
 			((EquationEditorListener) field).scrollCursorIntoView();
 			break;

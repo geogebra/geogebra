@@ -1979,8 +1979,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	/**
 	 * This is just a method for implementing the logic in
-	 * NewRadioButtonTreeItem.setFocus, because it might not be accessible at
-	 * early a time... I tried to do everything in one method to spare
+	 * InputTreeItem.setFocus, because it might not be accessible at early a
+	 * time... I tried to do everything in one method to spare
 	 * 
 	 * Comment copied from there (as earlier):
 	 * 

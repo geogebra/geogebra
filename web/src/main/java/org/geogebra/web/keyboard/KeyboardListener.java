@@ -17,7 +17,7 @@ public interface KeyboardListener {
 	}
 	
 	enum State {
-		empty, autoCompleteTextField, gTextBox, equationEditorListener, newRadioButtonTreeItem, other;
+		empty, autoCompleteTextField, gTextBox, equationEditorListener, inputTreeItem, other;
 	}
 
 	/** ASCII */

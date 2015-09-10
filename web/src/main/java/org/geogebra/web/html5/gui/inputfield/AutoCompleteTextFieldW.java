@@ -232,7 +232,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				}
 				super.onBrowserEvent(event);
 
-				// this insight has been learnt in NewRadioButtonTreeItem
+				// this insight has been learnt in InputTreeItem
 				// i.e. do not do it for some event types, e.g.
 				// at least in the following three cases:
 				if (event.getTypeInt() == Event.ONMOUSEMOVE
