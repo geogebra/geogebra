@@ -495,6 +495,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 					.getText()) {
 				newSelection = new GeoList(this.app.getKernel()
 						.getConstruction());
+				newSelection.setLabel(null);
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
 			}
