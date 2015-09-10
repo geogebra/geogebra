@@ -2712,8 +2712,8 @@ body.application[dir=rtl] .button.redoButton {
 		rgb(247, 247, 247) 100% );
 	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
 		rgb(247, 247, 247) 100% );
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(140,
-		150, 170) ), color-stop(1, rgb(247, 247, 247) ) );
+	/*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(140,
+		150, 170) ), color-stop(1, rgb(247, 247, 247) ) );*/
 		
 }
 
