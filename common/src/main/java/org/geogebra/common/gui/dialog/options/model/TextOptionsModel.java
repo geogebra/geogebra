@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
-import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -100,7 +99,6 @@ public class TextOptionsModel extends OptionsModel {
 
 	@Override
 	public void updateProperties() {
-
 		GeoElement geo = getGeoAt(0);
 		if (geo.isGeoTextField()) {
 			listener.setFontSizeVisibleOnly();
@@ -138,20 +136,22 @@ public class TextOptionsModel extends OptionsModel {
 			selItem = App.figuresLookup[figures];
 
 		listener.selectDecimalPlaces(selItem);
-		listener.setSecondLineVisible((getGeoAt(0).isIndependent() || (geo0 instanceof GeoList))
-);
+		listener.setSecondLineVisible((getGeoAt(0).isIndependent() || (geo0 instanceof GeoList)));
 
 		if (geo.isGeoTextField()) {
 			listener.setFontSizeVisibleOnly();
 		}
-
+		App.debug("UpdateText Properties Text");
 		GeoText text0 = getGeoTextAt(0);
 		if (text0 != null) {
-			if (text0.getParentAlgorithm() instanceof AlgoDependentText) {
-				listener.setEditorText(dTProcessor.buildDynamicTextList(text0));
-			} else {
-				listener.setEditorText(text0.getTextString());
-			}
+			/*
+			 * build the dynamic list even for independent texts to make sure
+			 * the initialization works
+			 */
+				ArrayList<DynamicTextElement> a = dTProcessor
+						.buildDynamicTextList(text0);
+				listener.setEditorText(a);
+
 		}
 		
 		listener.selectFontStyle(geo0.getFontStyle());
