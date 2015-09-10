@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.App;
@@ -299,6 +300,19 @@ public class Command extends ValidExpression implements
 			int size = args.size();
 			for (int i = 0; i < size; i++) {
 				sbToString.append(toString(args.get(i), symbolic, LaTeX, tpl));
+				// Integral[f,0,1]
+				// make sure that we add the parameter of the function too
+				if (name.equals("Integral") && getArgumentNumber() == 3) {
+					if (i == 0 && args.get(0).isExpressionNode()
+							&& args.get(0).getLeft() instanceof GeoCasCell) {
+						if (((GeoCasCell) args.get(0).getLeft())
+								.isAssignmentVariableDefined()) {
+							sbToString.append("("
+									+ ((GeoCasCell) args.get(0).getLeft())
+											.getFunctionVariable() + ")");
+						}
+					}
+				}
 				sbToString.append(',');
 			}
 			if (size > 0)
