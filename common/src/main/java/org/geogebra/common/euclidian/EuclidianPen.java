@@ -1796,7 +1796,7 @@ public class EuclidianPen {
 		double offsetInitialPointY = 0;
 
 		// in case the initialPoint cannot be used and can be deleted safely, delete it
-		if(!initialPoint.isIndependent() && deleteInitialPoint){
+		if(initialPoint != null && !initialPoint.isIndependent() && deleteInitialPoint){
 			this.initialPoint.remove();
 			this.initialPoint = null;
 		}
