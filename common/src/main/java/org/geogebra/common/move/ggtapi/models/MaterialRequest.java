@@ -178,7 +178,7 @@ public class MaterialRequest implements Request
 		req.filters = new Filters[] { Filters.author_url, Filters.type };
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
-		req.filterMap.put(Filters.author_url, userId+"");
+		req.filterMap.put(Filters.author_url, userId + "");
 		req.by = Order.relevance;
 		return req;
 	}
@@ -193,11 +193,28 @@ public class MaterialRequest implements Request
 		return req;
 	}
 
+	public static MaterialRequest forCurrentUserGgb(ClientInfo client) {
+		MaterialRequest req = new MaterialRequest(client);
+		req.filters = new Filters[] { Filters.type };
+		req.filterMap.put(Filters.type, "ggb");
+		req.by = Order.relevance;
+		return req;
+	}
+
 	public static MaterialRequest forFeatured(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.featured, Filters.type };
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
+		req.filterMap.put(Filters.featured, "true");
+		req.type = Type.desc;
+		return req;
+	}
+
+	public static MaterialRequest forFeaturedGgb(ClientInfo client) {
+		MaterialRequest req = new MaterialRequest(client);
+		req.filters = new Filters[] { Filters.featured, Filters.type};
+		req.filterMap.put(Filters.type, "ggb");
 		req.filterMap.put(Filters.featured, "true");
 		req.type = Type.desc;
 		return req;
