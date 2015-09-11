@@ -104,11 +104,16 @@ public class GeoText extends GeoElement implements Locateable,
 		// don't show in algebra view
 		// setAlgebraVisible(false);
 	}
+	
 	/**
 	 * Creates new geo text
-	 * @param c constructino
-	 * @param label label
-	 * @param value value of thisforrmula
+	 * 
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param value
+	 *            value of this formula
 	 */
 	public GeoText(Construction c, String label, String value) {
 		this(c, value);
