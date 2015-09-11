@@ -69,7 +69,9 @@ public class AlgoCompleteSquare extends AlgoElement {
 		if (!isQuadratic) {
 			if (algoCoef == null) {
 				algoCoef = new AlgoCoefficients(cons, f);
-				cons.removeFromConstructionList(algoCoef);
+				algoCoef.remove();
+			} else {
+				algoCoef.compute();
 			}
 			coefs = algoCoef.getResult();
 
