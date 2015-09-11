@@ -984,7 +984,7 @@ public class PlotterSurface {
 
 		int longitude = manager.getLongitudeDefault();
 
-		float u, v;
+		double u, v;
 
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
@@ -1002,23 +1002,20 @@ public class PlotterSurface {
 
 		double r1h = r1 * -height;
 		double r2h = r2 * -height;
-		if (height > 0) {
-			tmpCoords.setMul(vz, -r1 * r1h);
-		} else {
-			tmpCoords.setMul(vz, r1 * r1h);
-		}
+		double rr = r1 * r2;
 
 		for (int i = 0; i <= longitude; i++) {
-			u = (float) (Math.cos(start + i * da) * r1h);
-			v = (float) (Math.sin(start + i * da) * r2h);
+			u = Math.cos(start + i * da);
+			v = Math.sin(start + i * da);
 
-			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v));
-			// n.setAdd(m, tmpCoords);
-			if (height > 0) {
-				n.setSub(tmpCoords, m);
-			} else {
-				n.setAdd(tmpCoords, m);
-			}
+			m.setAdd(tmpCoords2.setMul(vx, u * r1h),
+					tmpCoords3.setMul(vy, v * r2h));
+
+			n.setMul(vx, r2 * u);
+			tmpCoords.setMul(vy, r1 * v);
+			n.addInside(tmpCoords);
+			tmpCoords.setMul(vz, rr);
+			n.addInside(tmpCoords);
 			n.normalize();
 
 			// center of the triangle fan
@@ -1083,7 +1080,7 @@ public class PlotterSurface {
 			rmax *= -1;
 		}
 
-		tmpCoords.setMul(vz, r1 * sgn);
+		double rr = r1 * r2 * sgn;
 
 		boolean fading = minFading || maxFading;
 		if (!fading) {
@@ -1095,8 +1092,14 @@ public class PlotterSurface {
 			v = (float) Math.sin(start + i * da);
 
 			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v * ratio));
-			n.setAdd(m, tmpCoords);
+
+			n.setMul(vx, r2 * u);
+			tmpCoords.setMul(vy, r1 * v);
+			n.addInside(tmpCoords);
+			tmpCoords.setMul(vz, rr);
+			n.addInside(tmpCoords);
 			n.normalize();
+
 
 			// point on top circle
 			if (fading) {
