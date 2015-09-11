@@ -77,7 +77,13 @@ public class Ggb2giac {
 						+ " when ( (%0)[0] == '+' && string((%0)[2][0]) != \"'-'\", (ggbcpla+ggbcplb)^2-ggbcplb^2 , "
 						// + "(ggbcpla+ggbcplb)^2-ggbcplb^2, "
 						// use formula (a - b)^2 - b^2
-						+ " when ( (%0)[0] == '+' && string((%0)[2][0]) == \"'-'\" , (ggbcpla-ggbcplb)^2-ggbcplb^2 ,?)), ?))][1]");
+						+ " when ( (%0)[0] == '+' && string((%0)[2][0]) == \"'-'\" , (ggbcpla-ggbcplb)^2-ggbcplb^2 ,?)), "
+						// works for polynomials with three part
+						// e.g. x^4+x^2+1
+						// preconditions: p*x^(2n) + q*x^n + r
+						// transform into p (x^n + q/2p)^2+(r - q * q / (p * 4))
+						+ "when ( size(%0) == 3 && odd(degree(ggbsort(%0)[1])) == 0 && degree(ggbsort(%0)[2]) == degree(ggbsort(%0)[1]) div 2 && type(ggbsort(%0)[3]) == DOM_INT, "
+						+ " [[ [n:=degree(ggbsort(%0)[1]) div 2] , [p:=coeffs(ggbsort(%0)[1])[0]] , [q:=coeffs(ggbsort(%0)[2])[0]] , [r:=coeffs(ggbsort(%0)[3])[0]]  ], equation(p*(lname(%0)[0]^n+simplify(q/2*p))^2+simplify(r-q*q/(p*4)))][1] , ?)))][1]");
 
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
 		p("Covariance.2", "covariance(%0,%1)");
