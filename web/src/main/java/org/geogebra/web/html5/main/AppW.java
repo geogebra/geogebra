@@ -3450,5 +3450,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public Panel getPanel() {
 		return RootPanel.get();
 	}
+	
+	public void setAltText() {
+		getEuclidianView1().setAltText();
+		if (hasEuclidianView2(1)) {
+			getEuclidianView2(1).setAltText();
+		}
+		if (isEuclidianView3Dinited()) {
+			getEuclidianView3D().setAltText();
+		}
+	}
 
 }

@@ -564,4 +564,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		Log.error("exportPaintPre unimplemented");
 
 	}
+
+	public void setAltText() {
+		// TODO Auto-generated method stub
+
+	}
 }

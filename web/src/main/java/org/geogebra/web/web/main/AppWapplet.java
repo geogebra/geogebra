@@ -431,6 +431,7 @@ public class AppWapplet extends AppWFull {
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
 		showStartTooltip();
+		setAltText();
 	}
 
 	private View focusedView;

@@ -333,7 +333,9 @@ public class GeoText extends GeoElement implements Locateable,
 	public void update() {
 
 		super.update();
-
+		if (getLabelSimple() != null && getLabelSimple().startsWith("altText")) {
+			kernel.getApplication().setAltText();
+		}
 		// if (needsUpdatedBoundingBox) {
 		// kernel.notifyUpdate(this);
 		// }

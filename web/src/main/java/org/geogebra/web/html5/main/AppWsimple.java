@@ -117,6 +117,7 @@ public class AppWsimple extends AppW {
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
  frame);
 		GeoGebraProfiler.getInstance().profileEnd();
+		setAltText();
 	}
 
 	private boolean hasFocus = false;

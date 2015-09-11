@@ -45,7 +45,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -603,11 +602,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	}
 
 	private void position() {
-		int left = (Window.getClientWidth() - getOffsetWidth()) >> 1;
-		int top = Math.min((Window.getClientHeight() - getOffsetHeight()) >> 1,
+		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
+		int top = Math.min(
+				(getRootPanel().getOffsetHeight() - getOffsetHeight()) >> 1,
 				100);
-		setPopupPosition(Math.max(Window.getScrollLeft() + left, 0),
-				Math.max(Window.getScrollTop() + top, 0));
+		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
 
 	}
 

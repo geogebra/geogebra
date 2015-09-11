@@ -18,6 +18,8 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.App;
+
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -569,8 +571,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
 		int top = (getRootPanel().getOffsetHeight() - getOffsetHeight()) >> 1;
-		setPopupPosition(Math.max(Window.getScrollLeft() + left, 0),
-				Math.max(Window.getScrollTop() + top, 0));
+		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
 
 		if (!initiallyShowing) {
 			setAnimationEnabled(initiallyAnimated);
@@ -939,6 +940,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 *            the top position, in pixels
 	 */
 	public void setPopupPosition(int left, int top) {
+		App.printStacktrace("POSITION" + top + "," + left);
 		// Save the position of the popup
 		leftPosition = left;
 		topPosition = top;

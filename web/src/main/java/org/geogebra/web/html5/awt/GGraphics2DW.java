@@ -1001,4 +1001,9 @@ public class GGraphics2DW implements org.geogebra.common.awt.GGraphics2D {
 		savedTransform = null;
 	}
 
+	public void setAltText(String altStr) {
+		canvas.getElement().setInnerText(altStr);
+
+	}
+
 }

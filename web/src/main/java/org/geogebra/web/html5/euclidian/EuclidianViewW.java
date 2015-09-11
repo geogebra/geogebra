@@ -19,9 +19,11 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -1226,6 +1228,18 @@ public class EuclidianViewW extends EuclidianView implements
 			this.updateBackground();
 			repaint();
 		}
+	}
+
+	public void setAltText() {
+		GeoElement alt = app.getKernel().lookupLabel("altText" + evNo);
+		if (alt == null) {
+			alt = app.getKernel().lookupLabel("altText");
+		}
+		if (alt instanceof GeoText) {
+			String altStr = ((GeoText) alt).getTextString();
+			g2p.setAltText(altStr);
+		}
+
 	}
 
 }

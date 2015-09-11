@@ -236,8 +236,9 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 				b.setCaption(loc.getPlain(captionPlain), true);
 			}
 		}
-
-		processField.updateForNewLanguage(loc);
+		if (processField != null) {
+			processField.updateForNewLanguage(loc);
+		}
 
 		checkStyle();
 	}

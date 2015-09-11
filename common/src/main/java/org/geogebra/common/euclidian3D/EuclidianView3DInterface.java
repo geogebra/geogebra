@@ -155,4 +155,6 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 
 	public void zoomRW(Coords boundsMin2, Coords boundsMax2);
 
+	public void setAltText();
+
 }

@@ -4080,4 +4080,9 @@ public abstract class App implements UpdateSelection {
 		return false;
 
 	}
+
+	public void setAltText() {
+		// ignored in desktop
+
+	}
 }

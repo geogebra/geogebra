@@ -15,6 +15,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -801,6 +803,21 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		} catch (Exception exc) {
 			App.debug("Problem with the parent element of the canvas");
 		}
+	}
+
+	public void setAltText() {
+		GeoElement alt = app.getKernel().lookupLabel("altText3D1");
+		if (alt == null) {
+			alt = app.getKernel().lookupLabel("altText3D");
+		}
+		if (alt == null) {
+			alt = app.getKernel().lookupLabel("altText");
+		}
+		if (alt instanceof GeoText) {
+			String altStr = ((GeoText) alt).getTextString();
+			g2p.setAltText(altStr);
+		}
+
 	}
 
 }

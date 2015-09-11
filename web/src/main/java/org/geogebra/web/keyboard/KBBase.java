@@ -1130,8 +1130,9 @@ public class KBBase extends PopupPanel {
 				b.setCaption(loc.getPlain(captionPlain), true);
 			}
 		}
-
-		processField.updateForNewLanguage(loc);
+		if (processField != null) {
+			processField.updateForNewLanguage(loc);
+		}
 
 		checkStyle();
 	}

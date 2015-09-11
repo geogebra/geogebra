@@ -328,6 +328,7 @@ public class AppWapplication extends AppWFull {
 		GeoGebraProfiler.getInstance().profileEnd();
 		((GGWToolBar) this.getToolbar()).updateToolbarPanel();
 		onOpenFile();
+		setAltText();
 	}
 
 	@Override
