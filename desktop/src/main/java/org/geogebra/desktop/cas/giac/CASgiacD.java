@@ -3,10 +3,6 @@ package org.geogebra.desktop.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
-
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.Evaluate;
@@ -21,6 +17,10 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
+
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
 
 /**
  * @author michael
@@ -284,8 +284,16 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		gen g = new gen(initString, C);
 		g.eval(1, C);
 
-		g = new gen(specialFunctions, C);
-		giac._eval(g, C);
+		// fix for problem with eg SolveODE[y''=0,{(0,1), (1,3)}]
+		// sending all at once doesn't work from
+		// http://dev.geogebra.org/trac/changeset/42719
+		// although problem appears only on one computer so far
+		// Windows 10 Preview Build 10532
+		String[] sf = specialFunctions.split(";");
+		for (int i = 0; i < sf.length; i++) {
+			g = new gen(sf[i], C);
+			giac._eval(g, C);
+		}
 
 		g = new gen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", C);
 		giac._eval(g, C);
