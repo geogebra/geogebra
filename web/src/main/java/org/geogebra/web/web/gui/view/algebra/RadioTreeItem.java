@@ -953,6 +953,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (avExtension && animPanel != null) {
 			buttonPanel.add(animPanel);
 		}
+
 		buttonPanel.add(xButton);
 		item.getElement().addClassName("XButtonPanelParent");
 		item.getElement().appendChild(buttonPanel.getElement());
@@ -1906,7 +1907,7 @@ public class RadioTreeItem extends AVTreeItem
 			}
 
 			if (minMaxPanel != null && minMaxPanel.isVisible()) {
-
+				selectItem(true);
 				return;
 			}
 
@@ -1918,6 +1919,7 @@ public class RadioTreeItem extends AVTreeItem
 					&& (isWidgetHit(slider.getWidget(0), evt) || isWidgetHit(
 							slider.getWidget(2), evt))) {
 				minMaxPanel.show();
+				selectItem(true);
 				return;
 			}
 
@@ -2133,12 +2135,16 @@ public class RadioTreeItem extends AVTreeItem
 	private void addDeleteButton() {
 
 		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
-			buttonPanel.setVisible(true);
-			if (!isThisEdited()) {
-				maybeSetPButtonVisibility(false);
-			}
-			getAV().setActiveTreeItem(this);
+			if (AVSelectionController.get(app).isSingleGeo()) {
+				buttonPanel.setVisible(true);
+				if (!isThisEdited()) {
+					maybeSetPButtonVisibility(false);
+				}
+				getAV().setActiveTreeItem(this);
 
+			} else {
+				getAV().removeCloseButton();
+			}
 		}
 
 	}

@@ -1427,9 +1427,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		
 		if ((this.activeItem != null) && !sameItem
 				&& (!this.activeItem.commonEditingCheck())) {
-			// e.g. if setting it null, if this is edited,
-			// then the close button should still not be removed!
-			this.activeItem.removeCloseButton();
+			removeCloseButton();
 		}
 
 		if (hasAvex() && activeItem != null && !sameItem
@@ -1444,6 +1442,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 	}
 
+	public void removeCloseButton() {
+		if (activeItem != null) {
+			activeItem.removeCloseButton();
+		}
+	}
 	public void selectRow(GeoElement geo, boolean select) {
 		if (!hasAvex()) {
 			return;

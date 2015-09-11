@@ -140,4 +140,8 @@ public class AVSelectionController {
 				.getGlobalKeyDispatcher();
 		return gk.getControlDown();
 	}
+
+	public boolean isSingleGeo() {
+		return selection.getSelectedGeos().size() == 1;
+	}
 }
