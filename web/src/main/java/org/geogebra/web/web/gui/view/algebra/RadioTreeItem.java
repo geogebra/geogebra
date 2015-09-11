@@ -2081,12 +2081,12 @@ public class RadioTreeItem extends AVTreeItem
 			// update selection
 			if (geo == null) {
 				AVSelectionController.get(app).clear();
+				getAV().updateSelection();
 			} else {
 				AVSelectionController.get(app).select(geo,
 						event.isControlDown(), event.isShiftDown());
 
 			}
-			getAV().updateSelection();
 
 		} else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click

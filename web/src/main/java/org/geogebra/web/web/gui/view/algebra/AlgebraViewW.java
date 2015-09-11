@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
@@ -145,20 +146,16 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		setAvex(app.has(Feature.AV_EXTENSIONS));
 		algCtrl.setView(this);
 		initGUI((AlgebraControllerW) algCtrl);
-		// if (hasAvex()) {
-		// app.getSelectionManager()
-		// .addSelectionListener(new GeoElementSelectionListener() {
-		// public void geoElementSelected(GeoElement geo,
-		// boolean addToSelection) {
-		// updateSelection();
-		// // if (lastSelectedGeo != null) {
-		// // // selectRow(lastSelectedGeo, false);
-		// // }
-		// // selectRow(geo, true);
-		// // setLastSelectedGeo(geo);
-		// }
-		// });
-		// }
+		if (hasAvex()) {
+			app.getSelectionManager()
+					.addSelectionListener(new GeoElementSelectionListener() {
+						public void geoElementSelected(GeoElement geo,
+								boolean addToSelection) {
+
+							updateSelection();
+						}
+					});
+		}
 	}
 
 	private void initGUI(AlgebraControllerW algCtrl) {

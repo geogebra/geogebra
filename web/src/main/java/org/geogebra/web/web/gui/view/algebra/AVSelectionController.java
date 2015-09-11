@@ -138,6 +138,6 @@ public class AVSelectionController {
 	public boolean isMultiSelect() {
 		GlobalKeyDispatcherW gk = (GlobalKeyDispatcherW) app
 				.getGlobalKeyDispatcher();
-		return gk.getShiftDown() || gk.getControlDown();
+		return gk.getControlDown();
 	}
 }
