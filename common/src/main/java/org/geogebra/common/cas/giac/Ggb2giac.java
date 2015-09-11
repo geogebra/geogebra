@@ -779,7 +779,7 @@ public class Ggb2giac {
 		p("TrigCombine.2",
 				"[[[ggbtrigarg0:=%0],[ggbtrigarg1:=%1]],when(ggbtrigarg1[0]=='sin',tcollectsin(normal(ggbtrigarg0)),when(ggbtrigarg1[0]=='tan',tcollect(normal(tan2sincos(ggbtrigarg0))),tcollect(normal(ggbtrigarg0))))][1]");
 
-		p("Union.2", "%0 union %1");
+		p("Union.2", "(%0) union (%1)");
 		p("Unique.1", "[op(set[op(%0)])]");
 		p("Variance.1", "normal(variance(%0))");
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
