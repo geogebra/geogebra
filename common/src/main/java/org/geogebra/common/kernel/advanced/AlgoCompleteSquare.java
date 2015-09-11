@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 
 public class AlgoCompleteSquare extends AlgoElement {
@@ -61,8 +60,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 		for (int i = 0; i < checkpoints.length; i++) {
 			double x = checkpoints[i];
 			if (!Kernel.isZero(p * x * x + q * x + r - f.evaluate(x))) {
-				App.debug(p + "," + q + "," + r + ","
-						+ (p * x * x + q * x + r - f.evaluate(x)));
+				// App.debug(p + "," + q + "," + r + ","
+				// + (p * x * x + q * x + r - f.evaluate(x)));
 				isQuadratic = false;
 			}
 		}
