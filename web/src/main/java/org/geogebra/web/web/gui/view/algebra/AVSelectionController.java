@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 public class AVSelectionController {
 	private GeoElement selectedGeo;
@@ -128,5 +129,15 @@ public class AVSelectionController {
 
 	public void clear() {
 		selection.clearSelectedGeos();
+	}
+
+	/**
+	 * 
+	 * @return if a multiselect is happening (with Shift or Control)
+	 */
+	public boolean isMultiSelect() {
+		GlobalKeyDispatcherW gk = (GlobalKeyDispatcherW) app
+				.getGlobalKeyDispatcher();
+		return gk.getShiftDown() || gk.getControlDown();
 	}
 }

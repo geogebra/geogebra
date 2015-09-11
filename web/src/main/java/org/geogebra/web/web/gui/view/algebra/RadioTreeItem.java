@@ -1974,6 +1974,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	public long latestTouchEndTime = 0;
 	private Style border;
+	private boolean selectedItem = false;
 
 
 	@Override
@@ -2448,7 +2449,12 @@ public class RadioTreeItem extends AVTreeItem
 		openedMinMaxPanel = panel;
 	}
 
+	public boolean isItemSelected() {
+		return selectedItem;
+	}
+
 	public void selectItem(boolean selected) {
+		selectedItem = selected;
 		if (border == null) {
 			border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
 					.getStyle();

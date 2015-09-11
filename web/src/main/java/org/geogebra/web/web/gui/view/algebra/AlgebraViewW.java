@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
@@ -146,20 +145,20 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		setAvex(app.has(Feature.AV_EXTENSIONS));
 		algCtrl.setView(this);
 		initGUI((AlgebraControllerW) algCtrl);
-		if (hasAvex()) {
-		app.getSelectionManager()
-				.addSelectionListener(new GeoElementSelectionListener() {
-					public void geoElementSelected(GeoElement geo,
-							boolean addToSelection) {
-							updateSelection();
-						// if (lastSelectedGeo != null) {
-						// // selectRow(lastSelectedGeo, false);
-						// }
-						// selectRow(geo, true);
-						// setLastSelectedGeo(geo);
-					}
-				});
-		}
+		// if (hasAvex()) {
+		// app.getSelectionManager()
+		// .addSelectionListener(new GeoElementSelectionListener() {
+		// public void geoElementSelected(GeoElement geo,
+		// boolean addToSelection) {
+		// updateSelection();
+		// // if (lastSelectedGeo != null) {
+		// // // selectRow(lastSelectedGeo, false);
+		// // }
+		// // selectRow(geo, true);
+		// // setLastSelectedGeo(geo);
+		// }
+		// });
+		// }
 	}
 
 	private void initGUI(AlgebraControllerW algCtrl) {
@@ -1426,7 +1425,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			}
 
 
-		
+
 		boolean sameItem = activeItem == radioButtonTreeItem;
 		
 		if ((this.activeItem != null) && !sameItem
@@ -1436,8 +1435,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			this.activeItem.removeCloseButton();
 		}
 
-		if (hasAvex() && activeItem != null && !sameItem) {
-			// selectRow(activeItem.getGeo(), false);
+		if (hasAvex() && activeItem != null && !sameItem
+				&& !AVSelectionController.get(app).isMultiSelect()) {
+			selectRow(activeItem.getGeo(), false);
 		}
 
 		this.activeItem = radioButtonTreeItem;
@@ -1657,17 +1657,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void updateSelection() {
-		if (!hasAvex()) {
+		if (!hasAvex() || AVSelectionController.get(app).isMultiSelect()) {
 			return;
 		}
 
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
-				GeoElement geo = RadioTreeItem.as(ti).getGeo();
-				if (geo != null) {
-					selectRow(geo, geo.doHighlighting());
-				}
+				RadioTreeItem.as(ti).update();
 
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
