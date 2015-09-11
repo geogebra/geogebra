@@ -75,7 +75,6 @@ public class AlgoCompleteSquare extends AlgoElement {
 			}
 			coefs = algoCoef.getResult();
 
-			App.debug(coefs.toValueString(StringTemplate.defaultTemplate));
 			degInt = coefs.size() - 1;
 			isQuadratic = coefs.isDefined() && coefs.get(0).isDefined();
 			for (int i = 1; i < degInt; i++) {
