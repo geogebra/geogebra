@@ -16,6 +16,107 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 	}
 
+	private int latitudeMin;
+	private int latitude;
+	private int latitudeMax;
+	private int latitudeMaxTop;
+	private int latitudeMaxBottom;
+	
+	private interface DrawSphereEllipsoid {
+		public void drawNCr(Coords normal);
+
+		public void drawNCrm(Coords normal);
+	}
+
+	private class DrawSphere implements DrawSphereEllipsoid {
+
+		private PlotterSurface surface;
+		private Coords center;
+		private double radius;
+
+		public DrawSphere() {
+		}
+
+		public void set(PlotterSurface surface, Coords center, double radius) {
+			this.surface = surface;
+			this.center = center;
+			this.radius = radius;
+		}
+
+		public void drawNCr(Coords normal) {
+			surface.drawNCr(normal, center, radius);
+		}
+
+		public void drawNCrm(Coords normal) {
+			surface.drawNCrm(normal, center, radius);
+		}
+	}
+
+	private class DrawEllipsoid implements DrawSphereEllipsoid {
+
+		private PlotterSurface surface;
+		private Coords center;
+		private Coords ev0, ev1, ev2;
+		private double r0, r1, r2;
+
+		private Coords c = Coords.createInhomCoorsInD3();
+		private Coords n = new Coords(4);
+		private Coords tmpCoords = new Coords(4);
+
+		public DrawEllipsoid() {
+		}
+
+		public void set(PlotterSurface surface, Coords center, Coords ev0,
+				Coords ev1, Coords ev2, double r0, double r1, double r2) {
+			this.surface = surface;
+			this.center = center;
+			this.ev0 = ev0;
+			this.ev1 = ev1;
+			this.ev2 = ev2;
+			this.r0 = r0;
+			this.r1 = r1;
+			this.r2 = r2;
+		}
+
+		public void drawNCr(Coords normal) {
+			c.setValues(center, 3);
+			tmpCoords.setMul(ev0, r0 * normal.getX());
+			c.addInside(tmpCoords);
+			tmpCoords.setMul(ev1, r1 * normal.getY());
+			c.addInside(tmpCoords);
+			tmpCoords.setMul(ev2, r2 * normal.getZ());
+			c.addInside(tmpCoords);
+
+			n.setMul(ev0, r1 * r2 * normal.getX());
+			tmpCoords.setMul(ev1, r0 * r2 * normal.getY());
+			n.addInside(tmpCoords);
+			tmpCoords.setMul(ev2, r0 * r1 * normal.getZ());
+			n.addInside(tmpCoords);
+			n.normalize();
+
+			surface.drawNV(n, c);
+		}
+
+		public void drawNCrm(Coords normal) {
+			c.setValues(center, 3);
+			tmpCoords.setMul(ev0, r0 * normal.getX());
+			c.addInside(tmpCoords);
+			tmpCoords.setMul(ev1, r1 * normal.getY());
+			c.addInside(tmpCoords);
+			tmpCoords.setMul(ev2, -r2 * normal.getZ());
+			c.addInside(tmpCoords);
+
+			n.setMul(ev0, r1 * r2 * normal.getX());
+			tmpCoords.setMul(ev1, r0 * r2 * normal.getY());
+			n.addInside(tmpCoords);
+			tmpCoords.setMul(ev2, -r0 * r1 * normal.getZ());
+			n.addInside(tmpCoords);
+			n.normalize();
+
+			surface.drawNV(n, c);
+		}
+	}
+
 	public PlotterSurfaceElements(Manager manager) {
 		super(manager);
 	}
@@ -24,12 +125,28 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	public void drawSphere(Coords center, double radius, int longitude,
 			double longitudeStart, int longitudeLength) {
 
+		setLatitudeLongitudeMinMax(center, radius, longitude);
+
+		if (drawSphere == null) {
+			drawSphere = new DrawSphere();
+		}
+		drawSphere.set(this, center, radius);
+
+		drawSphereEllipsoidNV(drawSphere, longitude, longitudeStart,
+				longitudeLength);
+
+		setSphereEllipsoidIndices(longitude, longitudeLength);
+	}
+
+	private void setLatitudeLongitudeMinMax(Coords center, double radius,
+			int longitude) {
+
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
 		// set texture to (0,0)
 		manager.setDummyTexture();
 
-		int latitude = longitude / 4;
+		latitude = longitude / 4;
 
 		// check which parts are visible (latitudes)
 		Coords o = manager.getView3D().getCenter();
@@ -39,14 +156,14 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		double zMin = o.getZ() - frustumRadius;
 		double zMax = o.getZ() + frustumRadius;
 
-		int latitudeMaxTop = 0;
+		latitudeMaxTop = 0;
 		latitudeMaxTop = latitude;
 		if (Kernel.isGreater(z + radius, zMax)) {
 			double angle = Math.asin((zMax - z) / radius);
 			latitudeMaxTop = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}
 
-		int latitudeMaxBottom = 0;
+		latitudeMaxBottom = 0;
 		latitudeMaxBottom = latitude;
 		if (Kernel.isGreater(zMin, z - radius)) {
 			double angle = Math.asin((z - zMin) / radius);
@@ -55,23 +172,32 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		// debug(latitudeMaxBottom+","+latitudeMaxTop);
 
-		int latitudeMax = Math.max(latitudeMaxTop, latitudeMaxBottom);
+		latitudeMax = Math.max(latitudeMaxTop, latitudeMaxBottom);
 		if (latitudeMax > latitude) {
 			latitudeMax = latitude;
 		}
 
-		int latitudeMin = 0; // start on equator
+		latitudeMin = 0; // start on equator
 		if (latitudeMaxTop < 0) { // start below equator
 			latitudeMin = -latitudeMaxTop;
 		} else if (latitudeMaxBottom < 0) { // start above equator
 			latitudeMin = -latitudeMaxBottom;
 		}
 
-		// check which parts are visible (longitudes)
+	}
+
+	private Coords n;
+
+	private DrawSphere drawSphere;
+
+
+	private void drawSphereEllipsoidNV(DrawSphereEllipsoid dse, int longitude,
+			double longitudeStart, int longitudeLength) {
 
 		// start drawing
-
-		Coords n = new Coords(4);
+		if (n == null) {
+			n = new Coords(4);
+		}
 
 		double[] cosSinV = new double[2];
 
@@ -90,7 +216,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		cosSin(latitudeMin, latitude, cosSinV);
 		for (int ui = 0; ui < longitudeLength; ui++) {
 			sphericalCoords(ui, longitude, longitudeStart, cosSinV, n);
-			drawNCr(n, center, radius);
+			dse.drawNCr(n);
 		}
 		
 		arrayIndex = 0;
@@ -130,10 +256,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				for (int ui = 0; ui < longitudeLength; ui += shift) {
 					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n);
 					if (drawTop) {// top vertices
-						drawNCr(n, center, radius);
+						dse.drawNCr(n);
 					}
 					if (drawBottom) {// bottom vertices
-						drawNCrm(n, center, radius);
+						dse.drawNCrm(n);
 					}
 				}
 
@@ -182,10 +308,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				for (int ui = 0; ui < longitudeLength; ui += shift) {
 					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n);
 					if (drawTop) {// top vertices
-						drawNCr(n, center, radius);
+						dse.drawNCr(n);
 					}
 					if (drawBottom) {// bottom vertices
-						drawNCrm(n, center, radius);
+						dse.drawNCrm(n);
 					}
 
 				}
@@ -233,7 +359,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 			if (drawTop) {
 
-				drawNCr(Coords.VZ, center, radius);
+				dse.drawNCr(Coords.VZ);
 				
 				if (longitudeLength == longitude) {
 					arrayIndex += 3 * lastLength;
@@ -246,7 +372,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			// south pole
 			if (drawBottom) {
 
-				drawNCrm(Coords.VZ, center, radius);
+				dse.drawNCrm(Coords.VZ);
 
 				if (longitudeLength == longitude) {
 					arrayIndex += 3 * lastLength;
@@ -259,6 +385,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		debug("==== arrayIndex (1) = " + arrayIndex);
 
+	}
+
+	private void setSphereEllipsoidIndices(int longitude, int longitudeLength) {
+
 
 		// ///////////////
 		// set indices
@@ -267,23 +397,22 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		arrayIndex = 0;
 
-		lastStartIndex = 0;
-		lastLength = (short) longitudeLength;
-		currentStartIndex = lastStartIndex;
-		currentLength = (short) longitudeLength;
+		short lastStartIndex = 0;
+		short lastLength = (short) longitudeLength;
+		short currentStartIndex = lastStartIndex;
+		short currentLength = (short) longitudeLength;
 
 		// both = 1 if only drawing up or down, both = 2 if drawing both
-		drawTop = true;
-		drawBottom = true;
-		lastBoth = 1;
-		both = 1;
+		boolean drawTop = true;
+		boolean drawBottom = true;
+		short lastBoth = 1;
+		short both = 1;
 
-		vi = latitudeMin + 1;
-		nextJump = (int) (latitude / Math.PI);
+		int vi = latitudeMin + 1;
+		int nextJump = (int) (latitude / Math.PI);
 		debug("latitude : " + latitude + " , latitude-nextJump : "
 				+ (latitude - nextJump));
-		next = 0;
-		shift = 1;
+		int next = 0;
 
 		while (next < latitudeMax) {
 
@@ -414,8 +543,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 			// jump
 			if (next > latitudeMin && next < latitudeMax) {
-
-				shift *= 2;
 
 				lastBoth = both;
 
@@ -627,6 +754,25 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		manager.endGeometry(arrayIndex,
 				TypeElement.SURFACE);
 
+	}
+
+	private DrawEllipsoid drawEllipsoid;
+
+	@Override
+	public void drawEllipsoid(Coords center, Coords ev0, Coords ev1,
+			Coords ev2, double r0, double r1, double r2, int longitude) {
+
+		double r = Math.max(r0, Math.max(r1, r2));
+		setLatitudeLongitudeMinMax(center, r, longitude);
+
+		if (drawEllipsoid == null) {
+			drawEllipsoid = new DrawEllipsoid();
+		}
+		drawEllipsoid.set(this, center, ev0, ev1, ev2, r0, r1, r2);
+
+		drawSphereEllipsoidNV(drawEllipsoid, longitude, 0, longitude);
+
+		setSphereEllipsoidIndices(longitude, longitude);
 	}
 
 	private int arrayIndex = 0;

@@ -226,6 +226,8 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 		}
 
+		private TypeElement oldType = TypeElement.NONE;
+
 		/**
 		 * bind the geometry to its GL buffer
 		 * 
@@ -245,19 +247,21 @@ public class ManagerShadersElementsGlobalBuffer extends
 					// need specific index if was sharing one
 					arrayI = null;
 				}
-				if (arrayI == null){
+				if (arrayI == null) {
 					arrayI = GLFactory.prototype.newBufferIndices();
 				}
 
 				indicesLength = getLength();
 
-				if (!indicesDone && arrayI.capacity() != indicesLength) {
+				if (!indicesDone || type != oldType
+						|| arrayI.capacity() < indicesLength) {
 					debug("NEW index buffer");
 					arrayI.allocate(indicesLength);
 					for (short i = 0; i < indicesLength; i++) {
 						arrayI.put(i);
 					}
 					arrayI.rewind();
+					indicesDone = true;
 				} else {
 					debug("keep same index buffer");
 				}
@@ -299,6 +303,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 			}
 
+			oldType = type;
 
 		}
 
@@ -339,7 +344,6 @@ public class ManagerShadersElementsGlobalBuffer extends
 		 * @return indices buffer with correct size
 		 */
 		public GLBufferIndices getBufferI(int size) {
-			indicesDone = true;
 			if (arrayI == null) {
 				arrayI = GLFactory.prototype.newBufferIndices();
 			}

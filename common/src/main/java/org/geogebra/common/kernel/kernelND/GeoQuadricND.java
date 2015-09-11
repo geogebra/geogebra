@@ -344,7 +344,7 @@ Traceable{
 				eccentricity = 0.0d;
 				// set first eigenvector and eigenvectors
 				setFirstEigenvector(new double[] {1,0});
-				setEigenvectors();
+				findEigenvectors();
 			}
 		} else if (Kernel.isZero(r)) { // radius == 0
 			singlePoint();			
@@ -550,7 +550,7 @@ Traceable{
 	/**
 	 * Updates eigenvectors
 	 */
-	protected void setEigenvectors() {
+	protected void findEigenvectors() {
 		// do nothing,overriden in some classes
 	}
 	

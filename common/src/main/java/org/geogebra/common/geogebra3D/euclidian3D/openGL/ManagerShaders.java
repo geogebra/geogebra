@@ -352,6 +352,7 @@ public class ManagerShaders extends Manager {
 		public void startGeometry(Type type) {
 			if (currentGeometryIndex < size()) {
 				currentGeometry = get(currentGeometryIndex);
+				currentGeometry.setType(type);
 			} else {
 				currentGeometry = newGeometry(type);
 				add(currentGeometry);

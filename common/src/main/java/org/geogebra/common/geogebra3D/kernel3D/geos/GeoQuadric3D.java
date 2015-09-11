@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -232,7 +233,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			empty();
 		} else {
 			// set eigenvectors
-			setEigenvectors();
+			findEigenvectors();
 
 			// check what vector has direction
 			int directionIndex, ellipseIndex0, ellipseIndex1;
@@ -314,17 +315,40 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		} else { // ellipsoid
 
-			setEigenvectors();
+			findEigenvectors();
 
-			// TODO
-			type = QUADRIC_NOT_CLASSIFIED;
+			// set eigen vecs
+			for (int i = 0; i < 3; i++) {
+				eigenvecND[i].setValues(eigenvec[i], 3);
+			}
+
+			// set halfAxes = radius
+			for (int i = 0; i < 3; i++) {
+				halfAxes[i] = Math.sqrt(1.0d / mu[i]);
+			}
+
+			// set the diagonal values
+			for (int i = 0; i < 3; i++) {
+				diagonal[i] = mu[i];
+			}
+			diagonal[3] = -1;
+
+			// eigen matrix
+			setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
+
+			// set type
+			if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+				type = QUADRIC_ELLIPSOID;
+			} else {
+				type = QUADRIC_NOT_CLASSIFIED;
+			}
 
 		}
 
 	}
 
 	@Override
-	protected void setEigenvectors() {
+	protected void findEigenvectors() {
 		// App.debug("\neigen values: " + eigenval[0] + ","
 		// + eigenval[1] + ","
 		// + eigenval[2]);
@@ -666,6 +690,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "Cylinder";
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 			return "Cone";
+		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
+			return "Ellipsoid";
 		case GeoQuadricNDConstants.QUADRIC_EMPTY:
 			return "EmptySet";
 		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
@@ -682,17 +708,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "Quadric";
 		}
 
-		switch (type) {
-		case GeoQuadricNDConstants.QUADRIC_SPHERE:
-			return "Sphere";
-		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-			return "Cylinder";
-		case GeoQuadricNDConstants.QUADRIC_CONE:
-			return "Cone";
-		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
-		default:
-			return "Quadric";
-		}
+		return getTypeString();
 	}
 
 	@Override
@@ -799,6 +815,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		switch (type) {
 		case QUADRIC_SPHERE:
+		case QUADRIC_ELLIPSOID:
 			point.setMulPoint(eigenMatrix, Math.cos(u) * Math.cos(v), Math.sin(u)
 					* Math.cos(v), Math.sin(v));
 			break;
@@ -830,10 +847,24 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return new Coords(Math.cos(u) * Math.cos(v), Math.sin(u)
 					* Math.cos(v), Math.sin(v), 0);
 
+		case QUADRIC_ELLIPSOID:
+			double r0 = getHalfAxis(0);
+			double r1 = getHalfAxis(1);
+			double r2 = getHalfAxis(2);
+			n = new Coords(4);
+			n.setMul(getEigenvec3D(0), r1 * r2 * Math.cos(u) * Math.cos(v));
+			tmpCoords.setMul(getEigenvec3D(1),
+					r0 * r2 * Math.sin(u) * Math.cos(v));
+			n.addInside(tmpCoords);
+			tmpCoords.setMul(getEigenvec3D(2), r0 * r1 * Math.sin(v));
+			n.addInside(tmpCoords);
+			n.normalize();
+			return n;
+
 		case QUADRIC_CONE:
 
 			double r = getHalfAxis(0);
-			double r2 = Math.sqrt(1 + r * r);
+			r2 = Math.sqrt(1 + r * r);
 			if (v < 0)
 				r = -r;
 
@@ -860,6 +891,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		switch (type) {
 		case QUADRIC_SPHERE:
+		case QUADRIC_ELLIPSOID:
 			switch (index) {
 			case 0: // u
 			default:
@@ -887,6 +919,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		switch (type) {
 		case QUADRIC_SPHERE:
+		case QUADRIC_ELLIPSOID:
 			switch (index) {
 			case 0: // u
 			default:
@@ -942,6 +975,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		switch (getType()) {
 		case QUADRIC_SPHERE:
+		case QUADRIC_ELLIPSOID: // eigenMatrix is dilated with half axes
 			parameters[0] = Math.atan2(y, x);
 			double r = Math.sqrt(x * x + y * y);
 			parameters[1] = Math.atan2(z, r);
@@ -1138,6 +1172,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private Coords getDirectionToCenter(Coords p) {
 		switch (getType()) {
 		case QUADRIC_SPHERE:
+		case QUADRIC_ELLIPSOID:
 			return getMidpoint3D().sub(p);
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
@@ -1206,15 +1241,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 		}
 
-		App.debug("before=\n" + P.getCoordsInD3());
+		// App.debug("before=\n" + P.getCoordsInD3());
 
 		RegionParameters rp = p.getRegionParameters();
-		App.debug("parameters=" + rp.getT1() + "," + rp.getT2());
+		// App.debug("parameters=" + rp.getT1() + "," + rp.getT2());
 		Coords coords = getPointInRegion(rp.getT1(), rp.getT2());
 		p.setCoords(coords, false);
 		p.updateCoords();
 
-		App.debug("after=\n" + P.getCoordsInD3());
+		// App.debug("after=\n" + P.getCoordsInD3());
 
 	}
 
@@ -1418,6 +1453,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				halfAxes[i] *= r;
 			}
 			break;
+		case QUADRIC_ELLIPSOID:
+			// half axis and diagonals
+			for (int i = 0; i < 3; i++) {
+				halfAxes[i] *= r;
+				diagonal[i] *= r;
+			}
+			break;
 		case QUADRIC_CONE:
 			// same diagonals and half axes for cone
 			break;
@@ -1441,6 +1483,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	public double getVolume() {
 		switch (getType()) {
 		case QUADRIC_SPHERE:
+		case QUADRIC_ELLIPSOID:
 			return volume;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
@@ -1453,6 +1496,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	public boolean hasFiniteVolume() {
 		switch (getType()) {
 		case QUADRIC_SPHERE:
+		case QUADRIC_ELLIPSOID:
 			return isDefined();
 		default:
 			return false;

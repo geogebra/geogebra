@@ -167,14 +167,17 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
+
+
 	@Override
 	protected boolean updateForItSelf() {
 		
 		Renderer renderer = getView3D().getRenderer();
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		PlotterSurface surface;
+		int type = quadric.getType();
 		
-		switch (quadric.getType()) {
+		switch (type) {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			Coords center = quadric.getMidpoint3D();
 			double radius = quadric.getHalfAxis(0);
@@ -194,6 +197,21 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				setSurfaceIndex(-1);
 			}
 			break;
+		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
+			center = quadric.getMidpoint3D();
+			double r0 = quadric.getHalfAxis(0);
+			double r1 = quadric.getHalfAxis(1);
+			double r2 = quadric.getHalfAxis(2);
+			surface = renderer.getGeometryManager().getSurface();
+			surface.start(getReusableSurfaceIndex());
+			scale = getView3D().getScale();
+			longitude = surface.calcSphereLongitudesNeeded(r0, scale);
+			Coords ev0 = quadric.getEigenvec3D(0);
+			Coords ev1 = quadric.getEigenvec3D(1);
+			Coords ev2 = quadric.getEigenvec3D(2);
+			surface.drawEllipsoid(center, ev0, ev1, ev2, r0, r1, r2, longitude);
+			setSurfaceIndex(surface.end());
+			break;
 
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 			surface = renderer.getGeometryManager().getSurface();
@@ -203,8 +221,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 						.getBottomParameter()
 						- ((GeoQuadric3DPart) quadric).getTopParameter();
 				Coords top = quadric.getMidpoint3D();
-				Coords ev1 = quadric.getEigenvec3D(0);
-				Coords ev2 = quadric.getEigenvec3D(1);
+				ev1 = quadric.getEigenvec3D(0);
+				ev2 = quadric.getEigenvec3D(1);
 				radius = quadric.getHalfAxis(0);
 				Coords bottomCenter = surface.cone(top, ev1, ev2, quadric.getEigenvec3D(2),
 						radius, 0, 2 * Math.PI, height, 1f);
@@ -222,11 +240,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				// max += delta;
 				// App.debug(min+","+max);
 				center = quadric.getMidpoint3D();
-				Coords ev1 = quadric.getEigenvec3D(0);
-				Coords ev2 = quadric.getEigenvec3D(1);
+				ev1 = quadric.getEigenvec3D(0);
+				ev2 = quadric.getEigenvec3D(1);
 				Coords ev3 = quadric.getEigenvec3D(2);
-				double r1 = quadric.getHalfAxis(0);
-				double r2 = quadric.getHalfAxis(1);
+				r1 = quadric.getHalfAxis(0);
+				r2 = quadric.getHalfAxis(1);
 
 				if (min * max < 0) {
 					if (getView3D().useClippingCube()) {
@@ -265,8 +283,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 
 			center = quadric.getMidpoint3D();
-			Coords ev1 = quadric.getEigenvec3D(0);
-			Coords ev2 = quadric.getEigenvec3D(1);
+			ev1 = quadric.getEigenvec3D(0);
+			ev2 = quadric.getEigenvec3D(1);
 			Coords ev3 = quadric.getEigenvec3D(2);
 			radius = quadric.getHalfAxis(0);
 
@@ -329,6 +347,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			setSurfaceIndex(-1);
 		}
 
+
 		return true;
 	}
 
@@ -385,8 +404,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	protected void updateForView() {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		int type = quadric.getType();
 
-		switch (quadric.getType()) {
+		switch (type) {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			if (getView3D().viewChangedByZoom()) {
 				Renderer renderer = getView3D().getRenderer();
@@ -435,6 +455,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 			}
 			break;
+		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
@@ -444,6 +465,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 			break;
 		}
+
 	}
 
 	@Override
@@ -468,6 +490,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
+		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			addToDrawable3DLists(lists, DRAW_TYPE_CLOSED_SURFACES_CURVED);
@@ -481,6 +504,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
+		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			removeFromDrawable3DLists(lists, DRAW_TYPE_CLOSED_SURFACES_CURVED);
@@ -576,6 +600,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		// TODO remove this
 		if (quadric.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_ELLIPSOID
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CONE) {
 			return false;

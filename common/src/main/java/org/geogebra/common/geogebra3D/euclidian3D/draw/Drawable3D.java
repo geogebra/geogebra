@@ -125,6 +125,9 @@ public abstract class Drawable3D extends DrawableND {
 	/** default thickness of lines of a 3D grid ... */
 	protected static final float GRID3D_THICKNESS = 0.005f;
 
+	/** value for surface / geometry index when not reusable */
+	protected static final int NOT_REUSABLE_INDEX = -1;
+
 	/** view3D */
 	private EuclidianView3D m_view3D;
 
@@ -450,7 +453,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	final protected int getReusableGeometryIndex() {
 		if (hasTrace()) {
-			return -1;
+			return NOT_REUSABLE_INDEX;
 		}
 
 		return getGeometryIndex();
@@ -471,7 +474,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	final protected int getReusableSurfaceIndex() {
 		if (hasTrace()) {
-			return -1;
+			return NOT_REUSABLE_INDEX;
 		}
 
 		return getSurfaceIndex();

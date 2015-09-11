@@ -261,7 +261,7 @@ FromMeta
 			// M is normalvector of double line
 			eigenvecX = -M.y;
 			eigenvecY = M.x;
-			setEigenvectors();
+			findEigenvectors();
 			halfAxes[0] = Double.POSITIVE_INFINITY;
 			halfAxes[1] = Double.POSITIVE_INFINITY;
 			mu[0] = 0.0; // line at infinity is not drawn
@@ -2352,7 +2352,7 @@ FromMeta
 	}
 	
 	@Override
-	final protected void setEigenvectors() {
+	final protected void findEigenvectors() {
 		// newly calculated first eigenvector = (eigenvecX, eigenvecY)
 		// old eigenvectors: eigenvec[0], eigenvec[1]        
 		// set direction of eigenvectors with respect to old values:
@@ -2576,7 +2576,7 @@ FromMeta
 		// single singlePoint and intersecting lines
 		//  if (Kernel.isZero(beta)) {
 		if (degenerate || Kernel.isZero(beta)) {
-			setEigenvectors();
+			findEigenvectors();
 			// single point or intersecting lines
 			mu[0] = eigenval[0] / eigenval[1];
 			if (Kernel.isZero(mu[0])) {
@@ -2657,7 +2657,7 @@ FromMeta
 			//sets eigen vecs parallel to Ox and Oy
 			eigenvecX = 1;
 			eigenvecY = 0;
-			setEigenvectors();
+			findEigenvectors();
 			
 			type = GeoConicNDConstants.CONIC_CIRCLE;
 			halfAxes[0] = Math.sqrt(1.0d / mu1[0]);
@@ -2678,7 +2678,7 @@ FromMeta
 				eigenvecX = -eigenvecY;
 				eigenvecY = temp;
 			}
-			setEigenvectors();
+			findEigenvectors();
 			
 			
 			type = GeoConicNDConstants.CONIC_ELLIPSE;
@@ -2711,7 +2711,7 @@ FromMeta
 			eigenvecX = -eigenvecY;
 			eigenvecY = temp;
 		}
-		setEigenvectors();
+		findEigenvectors();
 
 		mu1[0] = 1.0d / mu1[0];
 		mu1[1] = -1.0d / mu1[1];
@@ -2786,7 +2786,7 @@ FromMeta
 		}		
 
 		if (degenerate || Kernel.isZero(c.getX())) {
-			setEigenvectors();
+			findEigenvectors();
 			// b = T . (0, -c.y/lambda)
 			temp = c.getY() / lambda;
 			/*
@@ -2874,7 +2874,7 @@ FromMeta
 	    
 	    eigenvecX =  matrix[5];
     	eigenvecY = -matrix[4];
-    	setEigenvectors();
+    	findEigenvectors();
     	    	
 	    doubleLine();    			
 	}	
