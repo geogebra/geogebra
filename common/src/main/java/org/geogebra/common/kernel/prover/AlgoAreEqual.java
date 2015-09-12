@@ -46,7 +46,7 @@ public class AlgoAreEqual extends AlgoElement implements
 	 * @param inputElement2
 	 *            the second object
 	 */
-	public AlgoAreEqual(Construction cons, String label,
+	public AlgoAreEqual(Construction cons,
 			GeoElement inputElement1, GeoElement inputElement2) {
 		super(cons);
 		this.inputElement1 = inputElement1;
@@ -56,7 +56,13 @@ public class AlgoAreEqual extends AlgoElement implements
 
 		setInputOutput();
 		compute();
-		// outputBoolean.setLabel(label);
+
+	}
+
+	public AlgoAreEqual(Construction cons, String label,
+			GeoElement inputElement1, GeoElement inputElement2) {
+		this(cons, inputElement1, inputElement2);
+		outputBoolean.setLabel(label);
 	}
 
 	@Override

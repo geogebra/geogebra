@@ -47,7 +47,7 @@ public class AlgoArePerpendicular extends AlgoElement implements
 	 * @param inputLine2
 	 *            the second line
 	 */
-	public AlgoArePerpendicular(Construction cons, String label,
+	public AlgoArePerpendicular(Construction cons,
 			GeoElement inputLine1, GeoElement inputLine2) {
 		super(cons);
 		this.inputLine1 = (GeoLine) inputLine1;
@@ -57,7 +57,13 @@ public class AlgoArePerpendicular extends AlgoElement implements
 
 		setInputOutput();
 		compute();
-		// outputBoolean.setLabel(label);
+	}
+
+	public AlgoArePerpendicular(Construction cons, String label,
+			GeoElement inputLine1, GeoElement inputLine2) {
+
+		this(cons, inputLine1, inputLine2);
+		outputBoolean.setLabel(label);
 	}
 
 	@Override

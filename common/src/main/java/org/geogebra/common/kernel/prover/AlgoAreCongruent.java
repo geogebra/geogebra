@@ -53,7 +53,7 @@ public class AlgoAreCongruent extends AlgoElement implements
 	 * @param b
 	 *            the second object
 	 */
-	public AlgoAreCongruent(final Construction cons, final String label,
+	public AlgoAreCongruent(final Construction cons,
 			final GeoElement a, final GeoElement b) {
 		super(cons);
 		this.inputElement1 = a;
@@ -63,6 +63,13 @@ public class AlgoAreCongruent extends AlgoElement implements
 
 		setInputOutput();
 		compute();
+	}
+
+	public AlgoAreCongruent(final Construction cons, final String label,
+			final GeoElement a, final GeoElement b) {
+		this(cons, a, b);
+		outputBoolean.setLabel(label);
+
 	}
 
 	@Override

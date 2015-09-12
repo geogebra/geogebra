@@ -45,7 +45,7 @@ public class AlgoIsOnPath extends AlgoElement implements
 	 * @param inputLine
 	 *            the line
 	 */
-	public AlgoIsOnPath(final Construction cons, final String label,
+	public AlgoIsOnPath(final Construction cons,
 			final GeoPoint inputPoint, final Path inputPath) {
 		super(cons);
 		this.inputPoint = inputPoint;

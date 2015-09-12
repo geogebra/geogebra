@@ -56,17 +56,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	 */
 	private int processing = 0;
 
-	/**
-	 * Proves the given statement and gives some details in a list
-	 * 
-	 * @param cons
-	 *            The construction
-	 * @param label
-	 *            Label for the output
-	 * @param root
-	 *            Input statement
-	 */
-	public AlgoProveDetails(Construction cons, String label, GeoElement root) {
+	public AlgoProveDetails(Construction cons, GeoElement root) {
 		super(cons);
 		cons.addCASAlgo(this);
 		this.root = root;
@@ -77,9 +67,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		// compute value of dependent number
 		initialCompute();
 		compute();
-		list.setLabel(label);
 	}
-
 	/**
 	 * Proves the given statement and gives some details in a list
 	 * 
@@ -89,13 +77,27 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	 *            Label for the output
 	 * @param root
 	 *            Input statement
+	 */
+
+	public AlgoProveDetails(Construction cons, String label, GeoElement root) {
+		this(cons, root);
+		list.setLabel(label);
+	}
+
+	/**
+	 * Proves the given statement and gives some details in a list
+	 * 
+	 * @param cons
+	 *            The construction
+	 * @param root
+	 *            Input statement
 	 * @param relationTool
 	 *            true if output should be given for Relation Tool (which is
 	 *            more readable)
 	 */
-	public AlgoProveDetails(Construction cons, String label, GeoElement root,
+	public AlgoProveDetails(Construction cons, GeoElement root,
 			boolean relationTool) {
-		this(cons, label, root);
+		this(cons, root);
 		this.relTool = relationTool;
 	}
 

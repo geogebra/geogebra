@@ -132,21 +132,21 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		GeoElement right = (GeoElement) root.getRight();
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
 					left, right);
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
+			AlgoAreParallel algo = new AlgoAreParallel(cons,
  left, right);
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
@@ -163,21 +163,21 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		GeoElement right = (GeoElement) root.getRight();
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
 					left, right);
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, "",
+			AlgoAreParallel algo = new AlgoAreParallel(cons,
  left, right);
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
@@ -196,20 +196,20 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		GeoElement right = (GeoElement) root.getRight();
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
 					left, right);
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, "", left, right);
+			AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
@@ -227,20 +227,20 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		GeoElement right = (GeoElement) root.getRight();
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
 					left, right);
 			Polynomial[] ret = algo.getPolynomials();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, "", left, right);
+			AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
 			Polynomial[] ret = algo.getPolynomials();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
 			Polynomial[] ret = algo.getPolynomials();
 			algo.remove();
 			return ret;
@@ -558,27 +558,27 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			GeoElement right = (GeoElement) root.getRight();
 
 			if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "",
+				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
 						left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.PARALLEL)) {
-				AlgoAreParallel algo = new AlgoAreParallel(cons, "", left,
+				AlgoAreParallel algo = new AlgoAreParallel(cons, left,
 						right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-				AlgoAreCongruent algo = new AlgoAreCongruent(cons, "", left, right);
+				AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.IS_ELEMENT_OF)) {
-				AlgoIsOnPath algo = new AlgoIsOnPath(cons, "", (GeoPoint) left,
+				AlgoIsOnPath algo = new AlgoIsOnPath(cons, (GeoPoint) left,
 						(Path) right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				algo.remove();

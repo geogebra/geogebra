@@ -199,22 +199,22 @@ public class Relation {
 		try {
 			switch (command) {
 			case AreEqual:
-				ae = new AlgoAreEqual(cons, null, g1, g2);
+				ae = new AlgoAreEqual(cons, g1, g2);
 				break;
 			case AreCongruent:
-				ae = new AlgoAreCongruent(cons, null, g1, g2);
+				ae = new AlgoAreCongruent(cons, g1, g2);
 				break;
 			case AreParallel:
-				ae = new AlgoAreParallel(cons, null, g1, g2);
+				ae = new AlgoAreParallel(cons, g1, g2);
 				break;
 			case ArePerpendicular:
-				ae = new AlgoArePerpendicular(cons, null, g1, g2);
+				ae = new AlgoArePerpendicular(cons, g1, g2);
 				break;
 			case IsOnPath:
 				if ((g1 instanceof GeoPoint) && (g2 instanceof Path)) {
-					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g1, (Path) g2);
+					ae = new AlgoIsOnPath(cons, (GeoPoint) g1, (Path) g2);
 				} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
-					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g2, (Path) g1);
+					ae = new AlgoIsOnPath(cons, (GeoPoint) g2, (Path) g1);
 				}
 				break;
 			}
@@ -260,22 +260,22 @@ public class Relation {
 		try {
 			switch (command) {
 			case AreCongruent:
-				ae = new AlgoAreCongruent(cons, null, g1, g2);
+				ae = new AlgoAreCongruent(cons, g1, g2);
 				break;
 			case AreEqual:
-				ae = new AlgoAreEqual(cons, null, g1, g2);
+				ae = new AlgoAreEqual(cons, g1, g2);
 				break;
 			case AreParallel:
-				ae = new AlgoAreParallel(cons, null, g1, g2);
+				ae = new AlgoAreParallel(cons, g1, g2);
 				break;
 			case ArePerpendicular:
-				ae = new AlgoArePerpendicular(cons, null, g1, g2);
+				ae = new AlgoArePerpendicular(cons, g1, g2);
 				break;
 			case IsOnPath:
 				if ((g1 instanceof GeoPoint) && (g2 instanceof Path)) {
-					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g1, (Path) g2);
+					ae = new AlgoIsOnPath(cons, (GeoPoint) g1, (Path) g2);
 				} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
-					ae = new AlgoIsOnPath(cons, null, (GeoPoint) g2, (Path) g1);
+					ae = new AlgoIsOnPath(cons, (GeoPoint) g2, (Path) g1);
 				}
 				break;
 			}
@@ -290,7 +290,7 @@ public class Relation {
 			return ret;
 		}
 		root.setParentAlgorithm(ae);
-		AlgoProveDetails ap = new AlgoProveDetails(cons, null, root, true);
+		AlgoProveDetails ap = new AlgoProveDetails(cons, root, true);
 		ap.compute();
 		GeoElement[] o = ap.getOutput();
 

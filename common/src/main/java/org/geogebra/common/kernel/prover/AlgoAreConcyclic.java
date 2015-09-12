@@ -52,7 +52,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 	 * @param inputPoint4
 	 *            the forth point
 	 */
-	public AlgoAreConcyclic(Construction cons, String label,
+	public AlgoAreConcyclic(Construction cons,
 			GeoPoint inputPoint1, GeoPoint inputPoint2, GeoPoint inputPoint3,
 			GeoPoint inputPoint4) {
 		super(cons);
@@ -65,7 +65,13 @@ public class AlgoAreConcyclic extends AlgoElement implements
 
 		setInputOutput();
 		compute();
-		// outputBoolean.setLabel(label);
+	}
+
+	public AlgoAreConcyclic(Construction cons, String label,
+			GeoPoint inputPoint1, GeoPoint inputPoint2, GeoPoint inputPoint3,
+			GeoPoint inputPoint4) {
+		this(cons, inputPoint1, inputPoint2, inputPoint3, inputPoint4);
+		outputBoolean.setLabel(label);
 	}
 
 	@Override

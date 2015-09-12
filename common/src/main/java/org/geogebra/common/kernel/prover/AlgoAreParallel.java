@@ -47,7 +47,7 @@ public class AlgoAreParallel extends AlgoElement implements
 	 * @param inputLine2
 	 *            the second line
 	 */
-	public AlgoAreParallel(Construction cons, String label,
+	public AlgoAreParallel(Construction cons,
 			GeoElement inputLine1, GeoElement inputLine2) {
 		super(cons);
 		this.inputLine1 = (GeoLine) inputLine1;
@@ -57,7 +57,12 @@ public class AlgoAreParallel extends AlgoElement implements
 
 		setInputOutput();
 		compute();
-		// outputBoolean.setLabel(label);
+	}
+
+	public AlgoAreParallel(Construction cons, String label,
+			GeoElement inputLine1, GeoElement inputLine2) {
+		this(cons, inputLine1, inputLine2);
+		outputBoolean.setLabel(label);
 	}
 
 	@Override

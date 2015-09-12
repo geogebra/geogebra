@@ -48,7 +48,7 @@ public class AlgoAreConcurrent extends AlgoElement implements
 	 * @param inputLine3
 	 *            the third line
 	 */
-	public AlgoAreConcurrent(final Construction cons, final String label,
+	public AlgoAreConcurrent(final Construction cons,
 			final GeoLine inputLine1, final GeoLine inputLine2,
 			final GeoLine inputLine3) {
 		super(cons);
@@ -60,7 +60,13 @@ public class AlgoAreConcurrent extends AlgoElement implements
 
 		setInputOutput();
 		compute();
-		// outputBoolean.setLabel(label);
+	}
+
+	public AlgoAreConcurrent(final Construction cons, final String label,
+			final GeoLine inputLine1, final GeoLine inputLine2,
+			final GeoLine inputLine3) {
+		this(cons, inputLine1, inputLine2, inputLine3);
+		outputBoolean.setLabel(label);
 	}
 
 	@Override

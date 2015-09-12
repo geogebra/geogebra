@@ -47,7 +47,7 @@ public class AlgoAreCollinear extends AlgoElement implements
 	 * @param inputPoint3
 	 *            the third point
 	 */
-	public AlgoAreCollinear(final Construction cons, final String label,
+	public AlgoAreCollinear(final Construction cons,
 			final GeoPoint inputPoint1, final GeoPoint inputPoint2,
 			final GeoPoint inputPoint3) {
 		super(cons);
@@ -59,7 +59,13 @@ public class AlgoAreCollinear extends AlgoElement implements
 
 		setInputOutput();
 		compute();
-		// outputBoolean.setLabel(label);
+	}
+
+	public AlgoAreCollinear(final Construction cons, final String label,
+			final GeoPoint inputPoint1, final GeoPoint inputPoint2,
+			final GeoPoint inputPoint3) {
+		this(cons, inputPoint1, inputPoint2, inputPoint3);
+		outputBoolean.setLabel(label);
 	}
 
 	@Override
