@@ -1445,6 +1445,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public void removeCloseButton() {
 		if (activeItem != null) {
 			activeItem.removeCloseButton();
+			activeItem = null;
 		}
 	}
 	public void selectRow(GeoElement geo, boolean select) {

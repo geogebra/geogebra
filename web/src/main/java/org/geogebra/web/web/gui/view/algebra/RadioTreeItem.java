@@ -726,6 +726,9 @@ public class RadioTreeItem extends AVTreeItem
 		super();
 		main = new FlowPanel();
 		setWidget(main);
+		border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
+				.getStyle();
+
 
 		geo = ge;
 		kernel = geo.getKernel();
@@ -781,7 +784,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (sliderNeeded()) {
 			initSlider();
 		} else {
-			addSpecial(ihtml);
+			addAVEXWidget(ihtml);
 		}
 
 		ihtml.getElement().appendChild(seNoLatex);
@@ -890,23 +893,32 @@ public class RadioTreeItem extends AVTreeItem
 			geo.setEuclidianVisible(false);
 		}
 
+		final GeoNumeric num = (GeoNumeric) geo;
 		// if the geo still has no min/max, it should not be displayed with
 		// a slider (e.g. boxplots)
-		if (((GeoNumeric) geo).getIntervalMinObject() != null
-				&& ((GeoNumeric) geo).getIntervalMaxObject() != null) {
+		if (num.getIntervalMinObject() != null
+				&& num.getIntervalMaxObject() != null) {
 
-			slider = new SliderPanelW(((GeoNumeric) geo).getIntervalMin(),
-					((GeoNumeric) geo).getIntervalMax());
-			slider.setValue(((GeoNumeric) geo).getValue());
-			slider.setStep(geo.getAnimationStep());
+			slider = new SliderPanelW(num.getIntervalMin(),
+					num.getIntervalMax());
+
+			slider.setValue(num.getValue());
+
+			slider.setStep(num.getAnimationStep());
+
 			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Double> event) {
-					((GeoNumeric) geo).setValue(event.getValue());
+					num.setValue(event.getValue());
 					geo.updateCascade();
+					if (isAnotherMinMaxOpen()) {
+						closeMinMaxPanel();
+
+					}
+					updateSelection(false, false);
 					// updates other views (e.g. Euclidian)
+					// selectItem(true);
 					kernel.notifyRepaint();
-					selectItem(true);
 				}
 			});
 
@@ -916,7 +928,7 @@ public class RadioTreeItem extends AVTreeItem
 			createMinMaxPanel();
 			createContentPanel();
 
-			addSpecial(ihtml);
+			addAVEXWidget(ihtml);
 			contentPanel.add(LayoutUtil.panelRow(sliderPanel, minMaxPanel));
 			main.add(contentPanel);
 		}
@@ -971,6 +983,8 @@ public class RadioTreeItem extends AVTreeItem
 		super();
 		main = new FlowPanel();
 		setWidget(main);
+		border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
+				.getStyle();
 
 		// this method is still not able to show an editing box!
 		newCreationMode = true;
@@ -1218,7 +1232,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (this.checkBox != null
 				&& ((HasExtendedAV) geo).isShowingExtendedAV()) {
 			// adds the checkBox at the right side
-			addSpecial(ihtml);
+			addAVEXWidget(ihtml);
 
 			// reset the value of the checkBox
 			checkBox.setValue(((GeoBoolean) geo).getBoolean());
@@ -1323,7 +1337,7 @@ public class RadioTreeItem extends AVTreeItem
 				} else {
 					contentPanel.clear();
 				}
-				addSpecial(ihtml);
+				addAVEXWidget(ihtml);
 				initSlider();
 
 				getElement().setDraggable(Element.DRAGGABLE_FALSE);
@@ -1893,17 +1907,33 @@ public class RadioTreeItem extends AVTreeItem
 		// marblePanel.setBackground();
 	}
 
+	private boolean isAnotherMinMaxOpen() {
+		return (minMaxPanel != null && openedMinMaxPanel != minMaxPanel);
+	}
+
+	private boolean isClicketOutMinMax(ClickEvent evt) {
+		return (openedMinMaxPanel == minMaxPanel
+				&& !isWidgetHit(minMaxPanel, evt));
+	}
+
+
 	@Override
 	public void onClick(ClickEvent evt) {
 		evt.stopPropagation();
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
+				ZeroOffset.instance);
+		onPointerUp(wrappedEvent);
+
 		if (avExtension) {
-			if (minMaxPanel != null
-					&& ((openedMinMaxPanel != minMaxPanel) || (openedMinMaxPanel == minMaxPanel && !isWidgetHit(
-							minMaxPanel, evt)))) {
+			// Min max panel should be closed
+			if (isAnotherMinMaxOpen() || isClicketOutMinMax(evt) ) {
 				closeMinMaxPanel();
 			}
 
-			if (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel) {
+			if (isAnotherMinMaxOpen()) {
 				selectItem(false);
 
 			}
@@ -1918,7 +1948,8 @@ public class RadioTreeItem extends AVTreeItem
 
 			if (sliderPanel != null
 					&& sliderPanel.isVisible()) {
-				if 		 (isWidgetHit(slider.getWidget(0), evt) || isWidgetHit(
+				if (isWidgetHit(slider.getWidget(0), evt)
+						|| isWidgetHit(
 						slider.getWidget(2), evt)) {
 			minMaxPanel.show();
 		
@@ -1929,14 +1960,8 @@ public class RadioTreeItem extends AVTreeItem
 			selectItem(true);
 
 		}
-		// this 'if' should be the first one in every 'mouse' related method
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
 
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
-				ZeroOffset.instance);
-		onPointerUp(wrappedEvent);
+
 
 	}
 
@@ -2083,14 +2108,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (// !skipSelection &&
 		(mode == EuclidianConstants.MODE_MOVE)) {
 			// update selection
-			if (geo == null) {
-				AVSelectionController.get(app).clear();
-				getAV().updateSelection();
-			} else {
-				AVSelectionController.get(app).select(geo,
-						event.isControlDown(), event.isShiftDown());
-
-			}
+			updateSelection(event.isControlDown(), event.isShiftDown());
 
 		} else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
@@ -2125,9 +2143,16 @@ public class RadioTreeItem extends AVTreeItem
 			styleBar.update(this.getGeo());
 		}
 
-		// // note that this is only called when we are not doing editing!
-		// addDeleteButton();
+	}
 
+	private void updateSelection(boolean separated, boolean continous) {
+		if (geo == null) {
+			AVSelectionController.get(app).clear();
+			getAV().updateSelection();
+		} else {
+			AVSelectionController.get(app).select(geo, separated, continous);
+
+		}
 	}
 
 	/**
@@ -2136,19 +2161,22 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	private void addDeleteButton() {
 
-		if (app.has(Feature.DELETE_IN_ALGEBRA) && geo != null) {
-			if (AVSelectionController.get(app).isSingleGeo()) {
-				buttonPanel.setVisible(true);
-				if (!isThisEdited()) {
-					maybeSetPButtonVisibility(false);
-				}
-				getAV().setActiveTreeItem(this);
-
-			} else {
-				getAV().removeCloseButton();
-			}
+		if (!app.has(Feature.DELETE_IN_ALGEBRA) || geo == null) {
+			return;
 		}
 
+		if (AVSelectionController.get(app).isSingleGeo()) {
+			buttonPanel.setVisible(true);
+
+			if (!isThisEdited()) {
+					maybeSetPButtonVisibility(false);
+			}
+
+			getAV().setActiveTreeItem(this);
+
+		} else {
+			getAV().removeCloseButton();
+		}
 	}
 
 	protected void maybeSetPButtonVisibility(boolean bool) {
@@ -2166,18 +2194,6 @@ public class RadioTreeItem extends AVTreeItem
 			ev.mouseMovedOver(geo);
 		}
 
-		// highlight the geos
-		// getElement().getStyle().setBackgroundColor("rgb(200,200,245)");
-
-		// implemented by HTML title attribute on the label
-		// FIXME: geo.getLongDescription() doesn't work
-		// if (geo != null) {
-		// geo.getKernel().getApplication().setTooltipFlag();
-		// se.setTitle(geo.getLongDescription());
-		// geo.getKernel().getApplication().clearTooltipFlag();
-		// } else {
-		// se.setTitle("");
-		// }
 	}
 
 	private void onRightClick(int x, int y) {
@@ -2279,7 +2295,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * sliderPanel.remove(w); } }
 	 */
 
-	void addSpecial(Widget w) {
+	void addAVEXWidget(Widget w) {
 		if (geo != null && geo instanceof GeoNumeric && slider != null
 				&& sliderPanel != null) {
 			sliderPanel.remove(slider);
@@ -2465,19 +2481,16 @@ public class RadioTreeItem extends AVTreeItem
 		if (selectedItem == selected) {
 			return;
 		}
+
 		selectedItem = selected;
-		if (border == null) {
-			border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
-					.getStyle();
-		}
 
 		if (selected) {
 			addStyleName("avSelectedRow");
 			border.setBorderColor(
 					GColor.getColorString(geo.getAlgebraColor()));
 
-			// note that this is only called when we are not doing editing!
 			addDeleteButton();
+
 		} else {
 			border.setBorderColor(CLEAR_COLOR_STR);
 			removeStyleName("avSelectedRow");
