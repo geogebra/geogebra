@@ -754,6 +754,7 @@ public class RadioTreeItem extends AVTreeItem
 						geo.updateCascade();
 						// updates other views (e.g. Euclidian)
 						kernel.notifyRepaint();
+
 					}
 				});
 			}
@@ -905,6 +906,7 @@ public class RadioTreeItem extends AVTreeItem
 					geo.updateCascade();
 					// updates other views (e.g. Euclidian)
 					kernel.notifyRepaint();
+					selectItem(true);
 				}
 			});
 
@@ -1915,12 +1917,12 @@ public class RadioTreeItem extends AVTreeItem
 
 
 			if (sliderPanel != null
-					&& sliderPanel.isVisible()
-					&& (isWidgetHit(slider.getWidget(0), evt) || isWidgetHit(
-							slider.getWidget(2), evt))) {
-				minMaxPanel.show();
-				selectItem(true);
-				return;
+					&& sliderPanel.isVisible()) {
+				if 		 (isWidgetHit(slider.getWidget(0), evt) || isWidgetHit(
+						slider.getWidget(2), evt)) {
+			minMaxPanel.show();
+		
+			}
 			}
 
 
@@ -2123,8 +2125,8 @@ public class RadioTreeItem extends AVTreeItem
 			styleBar.update(this.getGeo());
 		}
 
-		// note that this is only called when we are not doing editing!
-		addDeleteButton();
+		// // note that this is only called when we are not doing editing!
+		// addDeleteButton();
 
 	}
 
@@ -2460,6 +2462,9 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void selectItem(boolean selected) {
+		if (selectedItem == selected) {
+			return;
+		}
 		selectedItem = selected;
 		if (border == null) {
 			border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
@@ -2471,6 +2476,8 @@ public class RadioTreeItem extends AVTreeItem
 			border.setBorderColor(
 					GColor.getColorString(geo.getAlgebraColor()));
 
+			// note that this is only called when we are not doing editing!
+			addDeleteButton();
 		} else {
 			border.setBorderColor(CLEAR_COLOR_STR);
 			removeStyleName("avSelectedRow");
