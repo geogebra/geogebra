@@ -303,7 +303,6 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		private void hide() {
-			// playButton.setVisible(true);
 			sliderPanel.setVisible(true);
 			deferredResizeSlider();
 			setVisible(false);
@@ -615,16 +614,12 @@ public class RadioTreeItem extends AVTreeItem
 	private FlowPanel sliderPanel;
 
 	/**
-	 * this panel contains the marble (radio) and the play button for extended
-	 * slider entries
+	 * this panel contains the marble (radio) button
 	 */
 	private MarblePanel marblePanel;
 
 	private FlowPanel contentPanel;
 
-	/**
-	 * start/pause slider animations
-	 */
 
 	/**
 	 * checkbox displaying boolean variables
@@ -721,8 +716,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Creates a new RadioButtonTreeItem for displaying/editing an existing
-	 * GeoElement
+	 * Creates a new RadioTreeItem for displaying/editing an existing GeoElement
 	 * 
 	 * @param ge
 	 *            the existing GeoElement to display/edit
@@ -851,9 +845,8 @@ public class RadioTreeItem extends AVTreeItem
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
 		if (avExtension) {
 			buttonPanel.addStyleName("smallStylebar");
-			// buttonPanel.addStyleName("panelRow");
-
 		}
+
 		buttonPanel.setVisible(false);
 
 		xButton = new PushButton(new Image(
@@ -921,16 +914,21 @@ public class RadioTreeItem extends AVTreeItem
 				public void onValueChange(ValueChangeEvent<Double> event) {
 					num.setValue(event.getValue());
 					geo.updateCascade();
-					if (isAnotherMinMaxOpen()) {
-						closeMinMaxPanel();
 
+
+					if (!geo.isAnimating()) {
+						if (isAnotherMinMaxOpen()) {
+							closeMinMaxPanel();
+						}
+
+						selectItem(true);
+						updateSelection(false, false);
 					}
-					updateSelection(false, false);
 					// updates other views (e.g. Euclidian)
-					// selectItem(true);
 					kernel.notifyRepaint();
 				}
 			});
+
 
 			sliderPanel = new FlowPanel();
 
@@ -1027,9 +1025,6 @@ public class RadioTreeItem extends AVTreeItem
 		ihtml.getElement().appendChild(se);
 		ihtml.getElement().addClassName("hasCursorPermanent");
 
-		// setCellVerticalAlignment(ihtml, HasVerticalAlignment.ALIGN_MIDDLE);
-		// setCellHorizontalAlignment(ihtml, HasHorizontalAlignment.ALIGN_LEFT);
-		// setCellWidth(ihtml, "100%");
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
 
 		// making room for the TitleBarPanel (top right of the AV)
@@ -1038,21 +1033,6 @@ public class RadioTreeItem extends AVTreeItem
 				"\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"));
 		ihtml.getElement().appendChild(se2);
 
-		// String text = "";
-		/*
-		 * if (geo.isIndependent()) {
-		 * geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se)); } else {
-		 * switch (kernel.getAlgebraStyle()) { case Kernel.ALGEBRA_STYLE_VALUE:
-		 * geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se)); break;
-		 * 
-		 * case Kernel.ALGEBRA_STYLE_DEFINITION: geo.addLabelTextOrHTML(
-		 * geo.getDefinitionDescription
-		 * (StringTemplate.defaultTemplate),getBuilder(se)); break;
-		 * 
-		 * case Kernel.ALGEBRA_STYLE_COMMAND: geo.addLabelTextOrHTML(
-		 * geo.getCommandDescription(StringTemplate.defaultTemplate),
-		 * getBuilder(se)); break; } }
-		 */
 		// if enabled, render with LaTeX
 		seNoLatex = se;
 		seNoLatex.addClassName("sqrtFontFix");
@@ -1063,15 +1043,14 @@ public class RadioTreeItem extends AVTreeItem
 			doUpdate();
 		}
 
-		// FIXME: geo.getLongDescription() doesn't work
-		// geo.getKernel().getApplication().setTooltipFlag();
-		// se.setTitle(geo.getLongDescription());
-		// geo.getKernel().getApplication().clearTooltipFlag();
 		longTouchManager = LongTouchManager.getInstance();
 		setDraggable();
 	}
 
 
+	// AV EXTENSIONS
+	//
+	// methods for AV Slider
 
 	private void createAnimPanel() {
 		animPanel = avExtension && geo.isAnimatable() ? new AnimPanel() : null;
@@ -1087,6 +1066,27 @@ public class RadioTreeItem extends AVTreeItem
 		minMaxPanel.setVisible(false);
 	}
 
+	private boolean isMinMaxPanelVisible() {
+		return (minMaxPanel != null && minMaxPanel.isVisible());
+	}
+
+	private boolean isAnotherMinMaxOpen() {
+		return (minMaxPanel != null && openedMinMaxPanel != minMaxPanel);
+	}
+
+	private boolean isClicketOutMinMax(ClickEvent evt) {
+		return (openedMinMaxPanel == minMaxPanel
+				&& !isWidgetHit(minMaxPanel, evt));
+	}
+
+	private void updateSliderColor() {
+		if (!avExtension) {
+			return;
+		}
+		slider.updateColor(geo.getAlgebraColor());
+	}
+
+	// END OF AV Slider methods
 	/**
 	 * Method to be overridden in NewRadioButtonTreeItem
 	 */
@@ -1151,9 +1151,6 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private boolean isMinMaxPanelVisible() {
-		return (minMaxPanel != null && minMaxPanel.isVisible());
-	}
 
 	/**
 	 * This method should be used to invoke a keypress on MathQuillGGB, e.g.
@@ -1434,12 +1431,6 @@ public class RadioTreeItem extends AVTreeItem
 
 
 
-	private void updateSliderColor() {
-		if (!avExtension) {
-			return;
-		}
-		slider.updateColor(geo.getAlgebraColor());
-	}
 
 	private void updateColor(SpanElement se) {
 		if (geo != null) {
@@ -1917,14 +1908,6 @@ public class RadioTreeItem extends AVTreeItem
 		// marblePanel.setBackground();
 	}
 
-	private boolean isAnotherMinMaxOpen() {
-		return (minMaxPanel != null && openedMinMaxPanel != minMaxPanel);
-	}
-
-	private boolean isClicketOutMinMax(ClickEvent evt) {
-		return (openedMinMaxPanel == minMaxPanel
-				&& !isWidgetHit(minMaxPanel, evt));
-	}
 
 
 	@Override
@@ -1965,7 +1948,6 @@ public class RadioTreeItem extends AVTreeItem
 		
 			}
 			}
-
 
 			selectItem(true);
 
@@ -2160,6 +2142,7 @@ public class RadioTreeItem extends AVTreeItem
 			AVSelectionController.get(app).clear();
 			getAV().updateSelection();
 		} else {
+			App.debug("uselect 2");
 			AVSelectionController.get(app).select(geo, separated, continous);
 
 		}
