@@ -68,7 +68,9 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 		// simplify constant integers, e.g. -1 * 300 becomes -300
 		root.simplifyConstantIntegers();
 		if (evaluate instanceof GeoNumberValue) {
-			number = (GeoNumberValue) evaluate;
+			// fix error with a=7, b = a renaming a instead of creating b
+			number = (GeoNumberValue) ((GeoNumberValue) evaluate)
+					.copyInternal(cons);
 		} else if (isAngle) {
 			number = new GeoAngle(cons);
 
