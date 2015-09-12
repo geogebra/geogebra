@@ -379,7 +379,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private class AnimPanel extends FlowPanel implements ClickHandler {
 		private MyToggleButton2 btnSpeedDown;
-		private MyToggleButton2 btnSpeedValue;
+		private PushButton btnSpeedValue;
 		private MyToggleButton2 btnSpeedUp;
 		private PlayButton btnPlay;
 		private boolean speedButtons = false;
@@ -408,7 +408,7 @@ public class RadioTreeItem extends AVTreeItem
 
 			btnSpeedDown.addClickHandler(this);
 			btnSpeedUp.addClickHandler(this);
-			btnSpeedValue = new MyToggleButton2("");
+			btnSpeedValue = new PushButton("");
 			btnSpeedValue.addStyleName("speedValue");
 			btnSpeedValue.addStyleName("slideIn");
 			btnSpeedValue.addClickHandler(this);
@@ -481,7 +481,12 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		private void setSpeedText(double speed) {
-			btnSpeedValue.setText(speed + " " + MUL_SIGN);
+			String speedStr = speed + " " + MUL_SIGN;
+			btnSpeedValue.getUpFace().setText(speedStr);
+			btnSpeedValue.getUpHoveringFace().setText(speedStr);
+			btnSpeedValue.getDownFace().setText(speedStr);
+			btnSpeedValue.getDownHoveringFace().setText(speedStr);
+			btnSpeedValue.setText(speedStr);
 		}
 
 		public void onClick(ClickEvent event) {
