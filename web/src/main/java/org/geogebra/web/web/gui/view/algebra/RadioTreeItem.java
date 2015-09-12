@@ -2184,9 +2184,9 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void onPointerMove(AbstractEvent event) {
-		if (commonEditingCheck())
+		if (avExtension || commonEditingCheck()) {
 			return;
-
+		}
 		// tell EuclidianView to handle mouse over
 		EuclidianViewInterfaceCommon ev = kernel.getApplication()
 				.getActiveEuclidianView();
