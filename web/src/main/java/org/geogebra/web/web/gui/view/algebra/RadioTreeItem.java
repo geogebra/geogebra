@@ -299,6 +299,7 @@ public class RadioTreeItem extends AVTreeItem
 			sliderPanel.setVisible(false);
 			setVisible(true);
 			setOpenedMinMaxPanel(this);
+			animPanel.setVisible(false);
 		}
 
 		private void hide() {
@@ -306,7 +307,7 @@ public class RadioTreeItem extends AVTreeItem
 			sliderPanel.setVisible(true);
 			deferredResizeSlider();
 			setVisible(false);
-
+			animPanel.setVisible(true);
 		}
 
 		public void keyReleased(KeyEvent e) {
@@ -460,6 +461,10 @@ public class RadioTreeItem extends AVTreeItem
 				btnSpeedValue.addStyleName("hidden");
 				showSpeedButtons(false);
 			}
+		}
+
+		public void showPlay(boolean value) {
+			btnPlay.setVisible(value);
 		}
 
 		public void showSpeedButtons(boolean value) {
@@ -2502,7 +2507,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 		marblePanel.setHighlighted(selected);
 		if (selected == false
-				&& geo != AVSelectionController.get(app).getLastSelectedGeo()
+				// && geo != AVSelectionController.get(app).getLastSelectedGeo()
 				&& animPanel != null) {
 			animPanel.reset();
 		}
