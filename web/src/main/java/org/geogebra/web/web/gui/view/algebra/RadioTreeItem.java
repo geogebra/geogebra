@@ -1812,17 +1812,18 @@ public class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		if (!avExtension && geo != null) {
-			ToolTipManagerW.sharedInstance()
-					.showToolTip(geo.getLongDescriptionHTML(true, true));
+		if (geo == null || (avExtension && isGeoASlider())) {
+			return;
 		}
+
+		ToolTipManagerW.sharedInstance()
+				.showToolTip(geo.getLongDescriptionHTML(true, true));
+
 	}
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
-		if (!avExtension) {
-			ToolTipManagerW.sharedInstance().showToolTip(null);
-		}
+		ToolTipManagerW.sharedInstance().showToolTip(null);
 	}
 
 	@Override
@@ -2464,7 +2465,9 @@ public class RadioTreeItem extends AVTreeItem
 		return (RadioTreeItem) item;
 	}
 
-
-
+	private boolean isGeoASlider() {
+		return slider != null;// geo.isGeoNumeric()
+		// && ((GeoNumeric) geo).isSlider();
+	}
 }
 
