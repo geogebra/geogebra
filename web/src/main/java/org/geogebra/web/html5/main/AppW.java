@@ -807,8 +807,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	private static final ArrayList<String> IMAGE_EXTENSIONS = new ArrayList<String>();
 	static {
+		// you might get png files saved with a tif, bmp, gif extension in old
+		// files
+		// after http://dev.geogebra.org/trac/changeset/42849 they should
+		// have the correct extension
+		IMAGE_EXTENSIONS.add("tif");
+		IMAGE_EXTENSIONS.add("tiff");
 		IMAGE_EXTENSIONS.add("bmp");
 		IMAGE_EXTENSIONS.add("gif");
+
 		IMAGE_EXTENSIONS.add("jpg");
 		IMAGE_EXTENSIONS.add("jpeg");
 		IMAGE_EXTENSIONS.add("png");
