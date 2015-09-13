@@ -4766,7 +4766,8 @@ unsigned int ConvertUTF8toUTF16 (
 #ifdef GIAC_HAS_STO_38
       const char * c=g._SYMBptr->sommet.ptr()->s;
 #else
-      const char * c=unlocalize(g._SYMBptr->sommet.ptr()->s).c_str();
+      string ss=unlocalize(g._SYMBptr->sommet.ptr()->s);
+      const char * c=ss.c_str();
 #endif
 #if 1
       if (dichotomic_search(do_not_autosimplify,sizeof(do_not_autosimplify)/sizeof(char*)-1,c)!=-1)

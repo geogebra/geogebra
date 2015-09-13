@@ -143,6 +143,8 @@ namespace giac {
     gen res=_laplace_(exact(args,contextptr),contextptr);
 #endif
     approx_mode(b,contextptr);
+    if (b || has_num_coeff(args))
+      res=simplifier(evalf(res,1,contextptr),contextptr);
     return res;
   }
   static const char _laplace_s []="laplace";

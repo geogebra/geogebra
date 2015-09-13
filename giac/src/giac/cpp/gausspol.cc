@@ -4897,10 +4897,16 @@ namespace giac {
       gen newp=re(p,context0)+the_ext*ip;
       if (newp.type!=_POLY)
 	return false;
-      lcmdeno(*newp._POLYptr,bn);
-      newp=bn*newp;
       vector< monomial<gen> >::iterator it=newp._POLYptr->coord.begin(),itend=newp._POLYptr->coord.end();
       for (;it!=itend;++it){
+	if (it->value.type==_EXT)
+	  it->value=ext_reduce(it->value);
+	if (it->value.type==_FRAC && it->value._FRACptr->num.type==_EXT)
+	  it->value=ext_reduce(it->value._FRACptr->num)/it->value._FRACptr->den;
+      }
+      lcmdeno(*newp._POLYptr,bn);
+      newp=bn*newp;
+      for (it=newp._POLYptr->coord.begin(),itend=newp._POLYptr->coord.end();it!=itend;++it){
 	if (it->value.type==_EXT){
 	  if (the_ext.type==_EXT){
 	    common_EXT(*(it->value._EXTptr+1),*(the_ext._EXTptr+1),0,context0);

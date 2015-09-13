@@ -5505,12 +5505,12 @@ namespace giac {
 	// adjust (guess?) nbits
 	gen g_=evalf_double(g,1,contextptr); // rough evalf
 	vecteur P=*p._VECTptr;
-	gen val;
+	gen val=0.0;
 	double err=0;
 	double absg=abs(g,contextptr)._DOUBLE_val;
 	for (int i=0;i<P.size();++i){
-	  err += abs(val,contextptr)._DOUBLE_val+absg;
-	  val = val*g+P[i];
+	  err += evalf_double(abs(val,contextptr),1,contextptr)._DOUBLE_val+absg;
+	  val = evalf_double(val*g+P[i],1,contextptr);
 	}
 	err=err/abs(val,contextptr)._DOUBLE_val;
 	int nbitsmore=std::ceil(std::log(err)/std::log(2));
