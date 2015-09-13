@@ -53,7 +53,6 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -100,10 +99,6 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -142,8 +137,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RadioTreeItem extends AVTreeItem
 		implements
-		DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
-		MouseUpHandler, MouseOverHandler, MouseOutHandler, GeoContainer,
+ DoubleClickHandler,
+		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
+ GeoContainer,
 		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
 		TouchEndHandler, LongTouchHandler, EquationEditorListener,
 		RequiresResize {
@@ -778,8 +774,6 @@ public class RadioTreeItem extends AVTreeItem
 		main.addDomHandler(this, MouseMoveEvent.getType());
 		main.addDomHandler(this, MouseDownEvent.getType());
 		main.addDomHandler(this, MouseUpEvent.getType());
-		main.addDomHandler(this, MouseOverEvent.getType());
-		main.addDomHandler(this, MouseOutEvent.getType());
 		main.addDomHandler(this, TouchStartEvent.getType());
 		main.addDomHandler(this, TouchMoveEvent.getType());
 		main.addDomHandler(this, TouchEndEvent.getType());
@@ -1016,8 +1010,6 @@ public class RadioTreeItem extends AVTreeItem
 		ihtml.addClickHandler(this);
 		ihtml.addMouseMoveHandler(this);
 		ihtml.addMouseDownHandler(this);
-		ihtml.addMouseOverHandler(this);
-		ihtml.addMouseOutHandler(this);
 		ihtml.addTouchStartHandler(this);
 		ihtml.addTouchMoveHandler(this);
 		ihtml.addTouchEndHandler(this);
@@ -1516,63 +1508,13 @@ public class RadioTreeItem extends AVTreeItem
 					CancelEventTimer.keyboardSetVisible();
 				}
 			});
-		} /*
-		 * else { removeSpecial(ihtml); tb = new GTextBox();
-		 * tb.setText(geo.getAlgebraDescriptionDefault()); addSpecial(tb); mout
-		 * = false; tb.setFocus(true); Scheduler.get().scheduleDeferred(new
-		 * Scheduler.ScheduledCommand() {
-		 * 
-		 * @Override public void execute() { tb.setFocus(true); } });
-		 * tb.addKeyDownHandler(new KeyDownHandler() {
-		 * 
-		 * @Override public void onKeyDown(KeyDownEvent kevent) { if
-		 * (kevent.getNativeKeyCode() == 13) { removeSpecial(tb);
-		 * addSpecial(ihtml); stopEditingSimple(tb.getText());
-		 * app.hideKeyboard(); } else if (kevent.getNativeKeyCode() == 27) {
-		 * removeSpecial(tb); addSpecial(ihtml); stopEditingSimple(null);
-		 * app.hideKeyboard(); } } }); tb.addBlurHandler(new BlurHandler() {
-		 * 
-		 * @Override public void onBlur(BlurEvent bevent) { if (mout &&
-		 * !blockBlur) { removeSpecial(tb); addSpecial(ihtml);
-		 * stopEditingSimple(null); } } }); tb.addMouseOverHandler(new
-		 * MouseOverHandler() {
-		 * 
-		 * @Override public void onMouseOver(MouseOverEvent moevent) { mout =
-		 * false; } }); tb.addMouseOutHandler(new MouseOutHandler() {
-		 * 
-		 * @Override public void onMouseOut(MouseOutEvent moevent) { mout =
-		 * true; tb.setFocus(true); } });
-		 * 
-		 * ClickStartHandler.init(tb, new ClickStartHandler(false, true) {
-		 * 
-		 * @Override public void onClickStart(int x, int y, final
-		 * PointerEventType type) {
-		 * app.getGuiManager().setOnScreenKeyboardTextField(tb); // prevent that
-		 * keyboard is closed on clicks (changing // cursor position)
-		 * CancelEventTimer.keyboardSetVisible(); } }); }
-		 */
+		}
 
 		scrollIntoView();
 
 		buttonPanel.setVisible(true);
 		maybeSetPButtonVisibility(true);
 	}
-
-	/*
-	 * public void stopEditingSimple(String newValue) {
-	 * 
-	 * removeCloseButton();
-	 * 
-	 * thisIsEdited = false; av.cancelEditing();
-	 * 
-	 * if (newValue != null) { if (geo != null) { boolean redefine =
-	 * !geo.isPointOnPath(); GeoElement geo2 = kernel.getAlgebraProcessor()
-	 * .changeGeoElement(geo, newValue, redefine, true); if (geo2 != null) geo =
-	 * geo2; } else { // TODO create new GeoElement } }
-	 * 
-	 * // maybe it's possible to enter something which is LaTeX // note: this
-	 * should be OK for independent GeoVectors too doUpdate(); }
-	 */
 
 	private static String stopCommon(String newValue0) {
 		String newValue = newValue0;
@@ -1972,20 +1914,6 @@ public class RadioTreeItem extends AVTreeItem
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
 				ZeroOffset.instance);
 		onPointerMove(wrappedEvent);
-	}
-
-	@Override
-	public void onMouseOver(MouseOverEvent event) {
-		if (geo != null) {
-			ToolTipManagerW.sharedInstance().showToolTip(
-					geo.getLongDescriptionHTML(true, true));
-		}
-	}
-
-	@Override
-	public void onMouseOut(MouseOutEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(null);
-
 	}
 
 	@Override
