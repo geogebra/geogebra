@@ -59,7 +59,11 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 			GeoQuadricND quadric1, GeoQuadricND quadric2) {
 
 		this(cons, quadric1, quadric2);
-		circle.setLabel(null);
+		if (labels != null && labels.length > 0) {
+			circle.setLabel(labels[0]);
+		} else {
+			circle.setLabel(null);
+		}
 
 	}
 
