@@ -391,8 +391,6 @@ public class RadioTreeItem extends AVTreeItem
 			btnSpeedDown.setStyleName("avSpeedButton");
 			btnSpeedDown.addStyleName("slideIn");
 
-			// btnSpeedDown.removeStyleName("MyToggleButton");
-
 			btnSpeedUp = new MyToggleButton2(
 					GuiResources.INSTANCE.icons_play_fastforward());
 			btnSpeedUp.getUpHoveringFace().setImage(new Image(
@@ -1924,6 +1922,7 @@ public class RadioTreeItem extends AVTreeItem
 	public long latestTouchEndTime = 0;
 	private Style border;
 	private boolean selectedItem = false;
+	private AVSelectionController selectionCtrl;
 
 
 	@Override
@@ -2086,7 +2085,8 @@ public class RadioTreeItem extends AVTreeItem
 			return;
 		}
 
-		if (AVSelectionController.get(app).isSingleGeo()) {
+		selectionCtrl = AVSelectionController.get(app);
+		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 			buttonPanel.setVisible(true);
 
 			if (!isThisEdited()) {

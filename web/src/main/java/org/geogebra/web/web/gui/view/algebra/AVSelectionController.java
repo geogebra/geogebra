@@ -144,4 +144,8 @@ public class AVSelectionController {
 	public boolean isSingleGeo() {
 		return selection.getSelectedGeos().size() == 1;
 	}
+
+	public boolean isEmpty() {
+		return selection.getSelectedGeos().isEmpty();
+	}
 }
