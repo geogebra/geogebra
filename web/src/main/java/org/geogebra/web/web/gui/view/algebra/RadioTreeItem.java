@@ -1922,7 +1922,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private AlgebraViewW getAV() {
+	protected AlgebraViewW getAV() {
 		return (AlgebraViewW) av;
 	}
 
@@ -2466,8 +2466,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private boolean isGeoASlider() {
-		return slider != null;// geo.isGeoNumeric()
-		// && ((GeoNumeric) geo).isSlider();
+		return slider != null;
 	}
 }
 
