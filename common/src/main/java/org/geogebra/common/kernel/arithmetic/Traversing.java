@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -438,8 +439,12 @@ public interface Traversing {
 							.getName(StringTemplate.defaultTemplate);
 					GeoNumeric slider = new GeoNumeric(
 							kernel.getConstruction(), name, 1);
-					GeoNumeric.setSliderFromDefault(slider, false, false);
-					App.debug("autocreating slider " + name);
+					boolean visible = !kernel.getApplication().has(
+							Feature.AV_EXTENSIONS)
+							|| !kernel.getApplication().showView(
+									App.VIEW_ALGEBRA);
+					GeoNumeric.setSliderFromDefault(slider, false, visible);
+
 				}
 			}
 
