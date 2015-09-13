@@ -52,10 +52,9 @@ public final class MyImageW implements MyImage {
 	}
 
 	public void drawSubimage(int x, int y, int width, int height, GGraphics2D g, int posX, int posY) {
-		((GGraphics2DW)g).getContext().drawImage(getCanvas().getCanvasElement(), 
-				x, y, width, height, posX, posY, width, height);;
-		
-		//return new GBufferedImageW(imageData);
+		((GGraphics2DW) g).getContext().drawImage(
+				getCanvas().getCanvasElement(), x, y, width, height, posX, posY,
+				width, height);
 	}
 
 	private Canvas getCanvas() {
