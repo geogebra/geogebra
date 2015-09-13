@@ -53,6 +53,7 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -99,6 +100,10 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -139,7 +144,7 @@ public class RadioTreeItem extends AVTreeItem
 		implements
  DoubleClickHandler,
 		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
- GeoContainer,
+		MouseOverHandler, MouseOutHandler, GeoContainer,
 		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
 		TouchEndHandler, LongTouchHandler, EquationEditorListener,
 		RequiresResize {
@@ -769,6 +774,8 @@ public class RadioTreeItem extends AVTreeItem
 
 		main.addDomHandler(this, DoubleClickEvent.getType());
 		main.addDomHandler(this, ClickEvent.getType());
+		main.addDomHandler(this, MouseOverEvent.getType());
+		main.addDomHandler(this, MouseOutEvent.getType());
 		main.addDomHandler(this, MouseMoveEvent.getType());
 		main.addDomHandler(this, MouseDownEvent.getType());
 		main.addDomHandler(this, MouseUpEvent.getType());
@@ -1006,6 +1013,8 @@ public class RadioTreeItem extends AVTreeItem
 		ihtml = new InlineHTML();
 		ihtml.addDoubleClickHandler(this);
 		ihtml.addClickHandler(this);
+		ihtml.addMouseOverHandler(this);
+		ihtml.addMouseOutHandler(this);
 		ihtml.addMouseMoveHandler(this);
 		ihtml.addMouseDownHandler(this);
 		ihtml.addTouchStartHandler(this);
@@ -1802,6 +1811,21 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	@Override
+	public void onMouseOver(MouseOverEvent event) {
+		if (!avExtension && geo != null) {
+			ToolTipManagerW.sharedInstance()
+					.showToolTip(geo.getLongDescriptionHTML(true, true));
+		}
+	}
+
+	@Override
+	public void onMouseOut(MouseOutEvent event) {
+		if (!avExtension) {
+			ToolTipManagerW.sharedInstance().showToolTip(null);
+		}
+	}
+
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 
 		event.stopPropagation();
@@ -2440,4 +2464,7 @@ public class RadioTreeItem extends AVTreeItem
 		return (RadioTreeItem) item;
 	}
 
+
+
 }
+
