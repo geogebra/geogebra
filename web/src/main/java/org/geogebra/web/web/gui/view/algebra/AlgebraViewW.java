@@ -1701,7 +1701,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public void resetItems() {
 		if (hasAvex()) {
 			RadioTreeItem.closeMinMaxPanel();
-			removeCloseButton();
 			updateSelection();
 		}
 
