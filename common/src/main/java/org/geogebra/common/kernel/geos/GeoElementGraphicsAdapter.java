@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles fill image of GeoElement
@@ -30,7 +32,21 @@ public abstract class GeoElementGraphicsAdapter {
 	 * @param fn new filename
 	 */
 	public void setImageFileNameOnly(String fn) {
-		imageFileName = fn;
+
+		int pos = fn.lastIndexOf('.');
+		String ext = StringUtil.toLowerCase(fn.substring(pos + 1));
+
+		if (!ext.equals("png") && !ext.equals("jpg") && !ext.equals("jpeg")
+				&& !ext.equals("svg")) {
+
+			// all bitmaps (except JPG) saved as PNG
+			// eg .TIFF
+			imageFileName = fn.substring(0, pos) + ".png";
+			Log.debug("changing image extension " + ext + " -> " + fn);
+		} else {
+
+			imageFileName = fn;
+		}
 	}
 
 	/**
