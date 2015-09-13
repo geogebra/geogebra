@@ -228,9 +228,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private void cone() {
 
 		if (eigenval[0] > 0 && eigenval[1] > 0 && eigenval[2] > 0) {
-			empty();
+			singlePoint();
 		} else if (eigenval[0] < 0 && eigenval[1] < 0 && eigenval[2] < 0) {
-			empty();
+			singlePoint();
 		} else {
 			// set eigenvectors
 			findEigenvectors();
@@ -694,6 +694,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "Ellipsoid";
 		case GeoQuadricNDConstants.QUADRIC_EMPTY:
 			return "EmptySet";
+		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
+			return "Point";
 		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
 		default:
 			return "Quadric";
