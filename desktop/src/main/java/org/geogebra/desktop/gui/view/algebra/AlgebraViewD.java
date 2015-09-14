@@ -1188,7 +1188,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		// only used in web
 	}
 
-	public void resetItems() {
+	public void resetItems(boolean clear) {
 		// TODO Auto-generated method stub
 
 	}
