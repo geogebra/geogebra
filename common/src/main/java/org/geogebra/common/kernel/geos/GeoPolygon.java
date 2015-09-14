@@ -1528,6 +1528,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		// find closest point on each segment
 		PathParameter pp = PI.getPathParameter();
+		if (segments != null) {
+
 		for (int i = 0; i < segments.length; i++) {
 			PI.setCoords2D(qx, qy, 1);
 			segments[i].pointChanged(PI);
@@ -1545,7 +1547,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 				param = i + pp.t;
 			}
 		}
-
+		}
 		PI.setCoords2D(resx, resy, resz);
 
 		pp.t = param;

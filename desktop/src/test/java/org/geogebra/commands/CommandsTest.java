@@ -26,6 +26,10 @@ public class CommandsTest extends Assert{
 				StringTemplate.xmlTemplate);
 	}
 
+	private static void t(String input, String expected, StringTemplate tpl) {
+		testSyntax(input, new String[] { expected }, app, ap, tpl);
+	}
+
 	public static void t(String s, String[] expected, StringTemplate tpl) {
 		testSyntax(s, expected, app, ap, tpl);
 	}
@@ -94,7 +98,8 @@ public class CommandsTest extends Assert{
 	@BeforeClass
 	public static void setupApp() {
 		app = new App3D(new CommandLineArguments(
-				new String[]{"--silent"}), new JFrame(), false);
+new String[] { "--silent",
+				"--prerelease" }), new JFrame(), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
 	    // Setting the general timeout to 11 seconds. Feel free to change this.
@@ -168,4 +173,90 @@ public class CommandsTest extends Assert{
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
 	}
 
+	@Test
+	public void cmdNumerator() {
+		t("Numerator[ (x + 2)/(x+1) ]", "x + 2");
+		t("Numerator[ 3/7 ]", "3");
+		t("Numerator[ 5/(-8) ]", "-5");
+		t("Numerator[ 2/0 ]", "1");
+	}
+
+	@Test
+	public void cmdDenominator() {
+		t("Denominator[ (x + 2)/(x+1) ]", "x + 1");
+		t("Denominator[ 3/7 ]", "7");
+		t("Denominator[ 5/(-8) ]", "8");
+		t("Denominator[ 2/0 ]", "0");
+	}
+
+	@Test
+	public void cmdMaximize() {
+		t("slider:=Slider[0,5]", "0");
+		t("Maximize[ 5-(3-slider)^2, slider ]", "3");
+		t("ptPath:=Point[(x-3)^2+(y-4)^2=25]", "(0, 0)",
+				StringTemplate.defaultTemplate);
+		t("Maximize[ y(ptPath), ptPath ]", "(3, 9)",
+				StringTemplate.defaultTemplate);
+	}
+
+	@Test
+	public void cmdMinimize() {
+		t("slider:=Slider[0,5]", "0");
+		t("Minimize[ 5+(3-slider)^2, slider ]", "3");
+		t("ptPath:=Point[(x-3)^2+(y-4)^2=25]", "(0, 0)",
+				StringTemplate.defaultTemplate);
+		t("Minimize[ y(ptPath), ptPath ]", "(3, -1)",
+				StringTemplate.defaultTemplate);
+	}
+
+	@Test
+	public void cmdIteration() {
+		t("Iteration[ x*2, 2, 5 ]", "64");
+		t("Iteration[ t*2, t, {(2,3)}, 5 ]", "(64, 96)");
+	}
+
+	@Test
+	public void cmdIterationList() {
+		t("IterationList[ x*2, 2, 5 ]", "{2, 4, 8, 16, 32, 64}");
+		t("IterationList[ a+b, a, b, {1,1}, 5 ]", "{1, 1, 2, 3, 5, 8}");
+	}
+
+	@Test
+	public void cmdImplicitSurface() {
+		t("ImplicitSurface[sin(x)+sin(y)+sin(z)]",
+				"sin(x) + sin(y) + sin(z) = 0");
+	}
+
+	@Test
+	public void cmdSetConstructionStep() {
+		app.setSaved();
+		app.clearConstruction();
+		t("cs=ConstructionStep[]", "1");
+		t("2", "2");
+		t("7", "7");
+		t("SetConstructionStep[2]", new String[] {});
+		t("cs", "2");
+		t("SetConstructionStep[1]", new String[] {});
+		t("cs", "1");
+		app.clearConstruction();
+	}
+
+	@Test
+	public void cmdSVD() {
+		t("SVD[ {{1}} ]", "{{{1}}, {{1}}, {{1}}}");
+	}
+
+	@Test
+	public void cmdDifference() {
+		t("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
+				new String[] { "3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
+						"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1" },
+				StringTemplate.defaultTemplate);
+		t("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
+				new String[] { "3", "3", "(3, 3)", "(1, 3)", "(1, 2)",
+						"(2, 2)", "(2, 1)", "(3, 1)", "(2, 1)", "(1, 1)",
+						"(1, 2)", "(0, 2)", "(0, 0)", "(2, 0)", "2", "1", "1",
+						"1", "1", "2", "1", "1", "1", "2", "2", "1" },
+				StringTemplate.defaultTemplate);
+	}
 }

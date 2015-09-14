@@ -551,11 +551,6 @@ public class NoExceptionsTest {
 
 	}
 
-	@Test
-	public void cmdDenominator() {
-		t("Denominator[ f1 ]");
-
-	}
 
 	@Test
 	public void cmdDerivative() {
@@ -1095,15 +1090,7 @@ public class NoExceptionsTest {
 		t("IsInteger[ n1 ]");
 	}
 
-	@Test
-	public void cmdIteration() {
-		t("Iteration[ f1, n1, n1 ]");
-	}
 
-	@Test
-	public void cmdIterationList() {
-		t("IterationList[ f1, n1, n1 ]");
-	}
 
 	@Test
 	public void cmdJoin() {
@@ -1243,10 +1230,7 @@ public class NoExceptionsTest {
 		t("Max[ n1, n1 ]");
 	}
 
-	@Test
-	public void cmdMaximize() {
-		t("Maximize[ nd, n2 ]");
-	}
+
 
 	@Test
 	public void cmdMean() {
@@ -1286,11 +1270,6 @@ public class NoExceptionsTest {
 		t("Min[ list1 ]");
 		t("Min[ list1, list1 ]");
 		t("Min[ n1, n1 ]");
-	}
-
-	@Test
-	public void cmdMinimize() {
-		t("Minimize[ nd, n2 ]");
 	}
 
 	@Test
@@ -1341,10 +1320,7 @@ public class NoExceptionsTest {
 		t("NSolveODE[ { twovar }, n2, { n5 }, n6 ]");
 	}
 
-	@Test
-	public void cmdNumerator() {
-		t("Numerator[ f1 ]");
-	}
+
 
 	/*@Test
 	public void cmdNyquist() {
@@ -1743,11 +1719,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSDY() {
 		t("SDY[ ptlist1 ]");
-	}
-
-	@Test
-	public void cmdSVD() {
-		t("SVD[ matrix1 ]");
 	}
 
 	@Test
