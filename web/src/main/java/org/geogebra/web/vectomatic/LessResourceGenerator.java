@@ -25,6 +25,7 @@ import com.asual.lesscss.LessEngine;
 import com.asual.lesscss.LessException;
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.TreeLogger;
+import com.google.gwt.core.ext.TreeLogger.Type;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.JMethod;
 import com.google.gwt.dev.util.Util;
@@ -69,6 +70,8 @@ public class LessResourceGenerator extends AbstractResourceGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		logger.log(Type.INFO, method.getName() + ":" + css.length(), null);
+
 		/*
 		 * if (getValidated(method)) { SVGValidator.validate(toWrite,
 		 * resource.toExternalForm(), logger, null); }

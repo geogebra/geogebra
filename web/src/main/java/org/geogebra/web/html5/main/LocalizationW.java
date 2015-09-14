@@ -7,6 +7,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.MyDictionary;
 
 import com.google.gwt.user.client.ui.RootPanel;
@@ -369,6 +371,10 @@ public final class LocalizationW extends Localization {
 		} else {
 			RootPanel.getBodyElement().setAttribute("dir", "ltr");
 		}
+		StyleInjector
+				.inject(rightToLeftReadingOrder ? GuiResourcesSimple.INSTANCE
+						.generalStyleRTL() : GuiResourcesSimple.INSTANCE
+						.generalStyleLTR());
 	}
 
 	@Override

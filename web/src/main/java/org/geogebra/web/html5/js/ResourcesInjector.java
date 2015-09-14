@@ -52,6 +52,9 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
 				.getText());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.generalStyleLTR()
+				.getText());
+
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.jqueryStyle()
 				.getText());
 
