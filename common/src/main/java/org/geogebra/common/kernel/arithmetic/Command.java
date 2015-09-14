@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.App;
@@ -226,8 +228,18 @@ public class Command extends ValidExpression implements
 				sbToString.append("\\int");
 				Set<GeoElement> vars = getArgument(0).getVariables();
 				String var = "x";
-				if (vars != null && !vars.isEmpty())
-					var = vars.iterator().next().toString(tpl);
+				if (vars != null && !vars.isEmpty()) {
+					Iterator<GeoElement> ite = vars.iterator();
+					while (ite.hasNext()) {
+						GeoElement geo = ite.next();
+						// make sure that we get from set the variable and not the
+						// function
+						// needed for TRAC-5364
+						if (geo instanceof GeoDummyVariable) {
+							var = geo.toString(tpl);
+						}
+					}
+				}
 				switch (getArgumentNumber()) {
 				case 1:
 					sbToString.append(" ");
