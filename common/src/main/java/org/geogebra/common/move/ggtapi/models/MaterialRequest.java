@@ -44,17 +44,17 @@ public class MaterialRequest implements Request
 	private static final String api = "1.1.0";
 	private Task task = Task.fetch;
 
-	private Fields[] fields = new Fields[]{Fields.id, Fields.title, Fields.type, Fields.timestamp, 
+	public Fields[] fields = new Fields[]{Fields.id, Fields.title, Fields.type, Fields.timestamp,
  Fields.author, Fields.author_id,
 			Fields.url, Fields.url_direct,
  Fields.thumbnail, Fields.featured,
 			Fields.likes, Fields.modified, Fields.visibility, Fields.favorite
 			};
-	private Filters[] filters = { Filters.search };
-	private Map<Filters,String> filterMap = new HashMap<Filters,String>();
-	private Order by = Order.relevance;
-	private Type type = Type.desc;
-	private int limit = GeoGebraTubeAPI.STANDARD_RESULT_QUANTITY;
+	public Filters[] filters = { Filters.search };
+	public Map<Filters,String> filterMap = new HashMap<Filters,String>();
+	public Order by = Order.relevance;
+	public Type type = Type.desc;
+	public int limit = GeoGebraTubeAPI.STANDARD_RESULT_QUANTITY;
 
 	private JSONObject requestJSON = new JSONObject();
 	private JSONObject apiJSON = new JSONObject();
@@ -188,7 +188,6 @@ public class MaterialRequest implements Request
 		req.filters = new Filters[] { Filters.type };
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
-
 		req.by = Order.relevance;
 		return req;
 	}
