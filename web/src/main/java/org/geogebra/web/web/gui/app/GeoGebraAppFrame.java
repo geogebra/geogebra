@@ -27,6 +27,8 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -181,6 +183,21 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 			}
 		}, TouchStartEvent.getType());
 		
+		addDomHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				event.stopPropagation();
+				CancelEventTimer.cancelMouseEvent();
+				int viewId = app.getGuiManager().getLayout().getDockManager()
+						.getFocusedViewId();
+				if (viewId != App.VIEW_ALGEBRA) {
+					App.debug("!!!!!!!!!!!!!CLEAR!!!!!!!!!");
+					app.getAlgebraView().resetItems(true);
+				}
+
+			}
+		}, ClickEvent.getType());
+
 		//make sure SMART widget has border when in app mode
 		if(laf.isSmart()){
 			RootLayoutPanel.get().getElement().addClassName("AppFrameParent");

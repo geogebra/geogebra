@@ -2540,7 +2540,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		ToolTipManagerW.hideAllToolTips();
 		popups.clear();
 
-		getAlgebraView().resetItems();
+		getAlgebraView().resetItems(false);
 	}
 
 	public boolean wasPopupJustClosed() {

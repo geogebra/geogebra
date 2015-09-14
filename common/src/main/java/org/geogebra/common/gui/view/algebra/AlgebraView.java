@@ -105,5 +105,5 @@ public interface AlgebraView extends View, SetLabels{
 	 */
 	public void setShowAlgebraInput(boolean b);
 
-	public void resetItems();
+	public void resetItems(boolean clear);
 }

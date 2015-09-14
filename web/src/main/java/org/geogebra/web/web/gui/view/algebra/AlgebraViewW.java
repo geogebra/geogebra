@@ -1662,6 +1662,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			return;
 		}
 
+		if (AVSelectionController.get(app).isEmpty()) {
+			removeCloseButton();
+		}
+
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
@@ -1698,10 +1702,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	}
 
-	public void resetItems() {
+	public void resetItems(boolean unselectAll) {
 		if (hasAvex()) {
 			RadioTreeItem.closeMinMaxPanel();
 			updateSelection();
+
 		}
 
 	}
