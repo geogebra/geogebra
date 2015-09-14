@@ -771,6 +771,7 @@ public class RadioTreeItem extends AVTreeItem
 		updateColor(seNoLatex);
 
 		ihtml = new InlineHTML();
+		ihtml.addStyleName("elemText");
 
 		main.addDomHandler(this, DoubleClickEvent.getType());
 		main.addDomHandler(this, ClickEvent.getType());

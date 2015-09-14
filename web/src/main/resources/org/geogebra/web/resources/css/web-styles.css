@@ -3608,13 +3608,14 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 }
 
 .elemHeadingName {
-	padding: 10px 10px 10px 36px;
+	padding: 10px 10px 10px 40px;
 }
 body.application[dir=rtl] .elemHeadingName {
-	padding: 10px 23px 10px 10px;
+	padding: 10px 40px 10px 10px;
 }
 
-.Tablet .elemHeadingName,.Tablet .gwt-InlineHTML {
+.Tablet .elemHeadingName,
+.Tablet .gwt-InlineHTML {
 	font-size: 115%;
 }
 
@@ -3651,6 +3652,20 @@ body.application[dir=rtl] .algebraOpenButton {
  	top: 0px;
  } 
  
+ .algebraView .panelRow > * {
+ 	margin: 0px;
+ }
+ 
+ .NewRadioButtonTreeItemParent {
+ 	/* AlgebraViewObjectStylebar was not at right position, needs position absolute */
+ 	position: absolute;
+ 	width: 100%;
+ }
+ 
+ .NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar .gwt-PushButton {
+ 	padding: 0px 0px 2px 5px;
+ }
+ 
  .avItem .gwt-TreeItem {
  	padding: 0px;
  	padding-bottom: 1px;
@@ -3672,7 +3687,7 @@ body.application[dir=rtl] .algebraOpenButton {
 */
 .marblePanel {
 	padding: 3px 7px 3px 7px;
-	margin: 0px 3px 0px 0px !important;
+	/*margin: 0px !important;*/
 	position: absolute;
 	height: 100%;
 	
@@ -3680,12 +3695,9 @@ body.application[dir=rtl] .algebraOpenButton {
  	-moz-box-sizing: border-box;
  	-webkit-box-sizing: border-box;
 }
-body.application[dir=rtl] .marblePanel {
-	margin: 0px 0px 0px 3px !important;
-}
 
 .avItem .marblePanel + * {
-	padding-left: 37px;
+	padding-left: 40px;
 	
 	box-sizing: border-box;
  	-moz-box-sizing: border-box;
@@ -3695,7 +3707,7 @@ body.application[dir=rtl] .marblePanel {
 }
 body.application[dir=rtl] .avItem .marblePanel + * {
 	padding-left: 0px;
-	padding-right: 37px;
+	padding-right: 40px;
 	
 	margin-left: 0px;
 }
@@ -3719,10 +3731,11 @@ body.application[dir=rtl] .avItem .marblePanel + * {
 	border: 1px solid #CCCCFF;
 }
 
-body.application[dir=rtl] .marble {
-	margin-right: 0px;
-	margin-left: 10px;
-} 
+.GeoGebraFrame .avItem .elemText {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	display: inline-block;
+}
 
 .GeoGebraFrame label {
 	display: inline;
@@ -3855,7 +3868,7 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 
 .GeoGebraFrame .AlgebraViewObjectStylebar {
 	position: absolute;
-	top: 1px;
+	top: 2px;
 	right: 0px;
 	z-index: 10;
 	padding: 4px 4px 2px 0px;
@@ -5713,6 +5726,8 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 .avItemContent {
 	width: 100%;
+	padding-top: 2px;
+	padding-bottom: 8px;
 }
 
 .avItemContent img {

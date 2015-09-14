@@ -25,8 +25,12 @@
   display: inline-block;
   /*padding-top: .075em;? for GeoGebra */
   /*we should use the same padding/margin as the cursor did*/
-  padding: 4px 5px;
-  margin: 2px 2px;
+  
+  /*removed by Steffi to avoid jumping when editing is started and stopped*/
+  /*padding: 4px 5px;
+  margin: 2px 2px;*/
+  margin-top: -1px;
+  margin-bottom: -1px;
   position: relative;
   z-index: 3;
 }
@@ -58,7 +62,7 @@
   	border-top: #6161FF solid 1px;
   	border-bottom: #6161FF solid 1px;
 	background: #FFFFFF;
-	padding: 4px 5px;
+	padding: 4px 10px;
 	box-sizing: border-box !important;
 	-moz-box-sizing: border-box !important;
 }
