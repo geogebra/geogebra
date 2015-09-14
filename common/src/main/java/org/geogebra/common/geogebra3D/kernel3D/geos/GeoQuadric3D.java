@@ -864,15 +864,22 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return n;
 
 		case QUADRIC_CONE:
-
-			double r = getHalfAxis(0);
-			r2 = Math.sqrt(1 + r * r);
-			if (v < 0)
-				r = -r;
-
-			n = getEigenvec3D(1).mul(Math.sin(u) / r2).add(
-					getEigenvec3D(0).mul(Math.cos(u) / r2).add(
-							getEigenvec3D(2).mul(-r / r2)));
+			r0 = getHalfAxis(0);
+			r1 = getHalfAxis(1);
+			double rr;
+			if (v < 0) {
+				rr = r0 * r1;
+			} else {
+				rr = -r0 * r1;
+			}
+			
+			n = new Coords(4);
+			n.setMul(getEigenvec3D(0), r1 * Math.cos(u));
+			tmpCoords.setMul(getEigenvec3D(1), r0 * Math.sin(u));
+			n.addInside(tmpCoords);
+			tmpCoords.setMul(getEigenvec3D(2), rr);
+			n.addInside(tmpCoords);
+			n.normalize();
 
 			return n;
 
