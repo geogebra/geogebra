@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -339,10 +340,10 @@ public class EuclidianViewW extends EuclidianView implements
 		c4.setWidth(width + "px");
 		c4.setHeight(height + "px");
 		g4copy = new org.geogebra.web.html5.awt.GGraphics2DW(c4);
-		this.app.exporting = true;
+		this.app.setExporting(ExportType.PNG);
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
-		this.app.exporting = false;
+		this.app.setExporting(ExportType.NONE);
 		return g4copy.getCanvas().toDataUrl();
 	}
 
@@ -354,7 +355,8 @@ public class EuclidianViewW extends EuclidianView implements
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 		GBufferedImageW img = new GBufferedImageW(width, height, 1, true);
-		exportPaint(new GGraphics2DW(img.getCanvas()), scale, transparency);
+		exportPaint(new GGraphics2DW(img.getCanvas()), scale, transparency,
+				ExportType.PNG);
 		return img;
 	}
 
@@ -365,7 +367,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            ratio of desired size and current size of the graphics
 	 */
 	public void exportPaint(Canvas canvas, double scale) {
-		exportPaint(new GGraphics2DW(canvas), scale, false);
+		exportPaint(new GGraphics2DW(canvas), scale, false, ExportType.PNG);
 	}
 
 	@Override

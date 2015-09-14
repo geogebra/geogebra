@@ -231,7 +231,11 @@ public abstract class App implements UpdateSelection {
 	protected boolean rightClickEnabled = true;
 
 	/** flag to test whether to draw Equations full resolution */
-	public boolean exporting = false;
+	public ExportType exportType = ExportType.NONE;
+
+	public enum ExportType {
+		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, EPS, EMF, PNG, SVG, PRINTING
+	};
 
 	private static String CASVersionString = "";
 
@@ -1947,7 +1951,15 @@ public abstract class App implements UpdateSelection {
 	public abstract GFont getPlainFontCommon();
 
 	public boolean isExporting() {
-		return exporting;
+		return exportType != ExportType.NONE;
+	}
+
+	public void setExporting(ExportType et) {
+		exportType = et;
+	}
+
+	public ExportType getExportType() {
+		return exportType;
 	}
 
 	/** whether toolbar should be visible */

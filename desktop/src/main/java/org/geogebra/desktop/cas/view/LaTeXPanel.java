@@ -112,7 +112,7 @@ public class LaTeXPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		if (app.exporting) {
+		if (app.isExporting()) {
 			app.getDrawEquation();
 			// draw full resolution image directly on g
 			app.getDrawEquation().drawEquation(app, null,

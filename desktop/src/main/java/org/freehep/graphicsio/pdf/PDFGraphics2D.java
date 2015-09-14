@@ -327,6 +327,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	public void writeHeader() throws IOException {
 		os = new PDFWriter(new BufferedOutputStream(ros), PDF_VERSION);
 
+
 		delayImageQueue = new PDFImageDelayQueue(os);
 		delayPaintQueue = new PDFPaintDelayQueue(os, delayImageQueue);
 

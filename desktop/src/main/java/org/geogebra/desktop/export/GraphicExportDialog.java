@@ -40,6 +40,7 @@ import javax.swing.SwingUtilities;
 
 import org.freehep.graphics2d.VectorGraphics;
 import org.freehep.graphicsio.AbstractVectorGraphicsIO;
+import org.freehep.graphicsio.FontConstants;
 import org.freehep.graphicsio.emf.EMFGraphics2D;
 import org.freehep.graphicsio.emf.EMFPlusGraphics2D;
 import org.freehep.graphicsio.pdf.PDFGraphics2D;
@@ -49,6 +50,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -235,10 +237,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			}
 		});
 
-		// if (selectedFormat()==Format.SVG ||
-		// selectedFormat()==Format.PDF)
-		// dpiPanel.add(textAsShapesCB);
-
 		cbTransparent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				transparent = cbTransparent.isSelected();
@@ -269,14 +267,15 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.add(textAsShapesCB);
 					psp.enableAbsoluteSize(true);
 					break;
-				case PDF:
 				case EPS:
+					textAsShapesCB.setEnabled(false);
+					// fall through
+				case PDF:
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);
 					dpiPanel.remove(cbEMFPlus);
 					dpiPanel.remove(cbTransparent);
 					dpiPanel.add(textAsShapesCB);
-					textAsShapesCB.setEnabled(false);
 					textAsShapesCB.setSelected(true);
 					psp.enableAbsoluteSize(false);
 					break;
@@ -867,7 +866,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					(int) (pixelWidth / exportScale),
 					(int) (pixelHeight / exportScale)), cmWidth, cmHeight);
 			// make sure LaTeX exported at hi res
-			app.exporting = true;
+			app.setExporting(ExportType.SVG);
 
 			g.startExport();
 			// export scale = 1 (change for SVG export in cm)
@@ -895,7 +894,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			app.exporting = false;
+			app.setExporting(ExportType.NONE);
 		}
 	}
 
@@ -931,7 +930,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 						pixelHeight));
 			}
 			g.startExport();
-			ev.exportPaint(g, exportScale);
+			ev.exportPaint(g, exportScale, ExportType.EMF);
 
 			g.endExport();
 
@@ -969,9 +968,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		// Upsilon
 		UserProperties props = (UserProperties) PDFGraphics2D
 				.getDefaultProperties();
+
+		// #TRAC-5292
 		props.setProperty(PDFGraphics2D.EMBED_FONTS, !textAsShapes);
-		// props.setProperty(PDFGraphics2D.EMBED_FONTS_AS,
-		// FontConstants.EMBED_FONTS_TYPE1);
+		props.setProperty(PDFGraphics2D.EMBED_FONTS_AS,
+				FontConstants.EMBED_FONTS_TYPE1);
 		props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
 		PDFGraphics2D.setDefaultProperties(props);
 
@@ -993,18 +994,25 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			g = new PDFGraphics2D(file, size);
 
+			// g.
+			//
+			// PDFRedundanceTracker tracker = new PDFRedundanceTracker(pdf);
+			// Font font = new Font("Impact", Font.PLAIN, 1000);
+			// FontRenderContext context = new FontRenderContext(null, true,
+			// true);
+			// FontEmbedder fe = PDFFontEmbedderType1.create(context, pdf,
+			// "MyFont", tracker);
+			// fe.includeFont(font, Lookup.getInstance().getTable("PDFLatin"),
+			// "F1");
+
 			((PDFGraphics2D) g).setPageSize(size);
 
-			// make sure LaTeX exported at hi res
-			app.exporting = true;
-
 			g.startExport();
-			ev.exportPaint(g, printingScale / factor);
+			ev.exportPaint(g, printingScale / factor, textAsShapes
+					? ExportType.PDF_TEXTASSHAPES : ExportType.PDF_EMBEDFONTS);
 			g.endExport();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} finally {
-			app.exporting = false;
 		}
 	}
 
@@ -1036,7 +1044,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					new FileOutputStream(file), 0, 0, pixelWidth, pixelHeight,
 					ColorMode.COLOR_RGB);
 			// draw to epsGraphics2D
-			ev.exportPaint(g, exportScale);
+			ev.exportPaint(g, exportScale, ExportType.EPS);
 			g.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -4934,14 +4935,16 @@ sb.toString(), getFontAxes(),
 	 * @param transparency
 	 *            states if export should be optimized for eps. Note: if this is
 	 *            set to false, no traces are drawn.
+	 * @param exportType
+	 *            SVG, PNG etc
 	 * 
 	 */
-	public void exportPaint(org.geogebra.common.awt.GGraphics2D g2d, double scale,
-			boolean transparency) {
-		getApplication().exporting = true;
+	public void exportPaint(org.geogebra.common.awt.GGraphics2D g2d,
+			double scale, boolean transparency, ExportType exportType) {
+		getApplication().setExporting(exportType);
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
-		getApplication().exporting = false;
+		getApplication().setExporting(ExportType.NONE);
 	}
 
 	/**

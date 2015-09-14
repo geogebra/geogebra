@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GBasicStrokeD;
@@ -391,7 +392,7 @@ public class EuclidianViewD extends EuclidianView implements
 			g2d.translate(0, h + 20);
 		}
 		double scale = (PRINTER_PIXEL_PER_CM / getXscale()) * printingScale;
-		exportPaint(g2d, scale);
+		exportPaint(g2d, scale, ExportType.PRINTING);
 
 		// clear page margins at bottom and right
 		double pagewidth = pageFormat.getWidth();
@@ -419,8 +420,9 @@ public class EuclidianViewD extends EuclidianView implements
 	 * @param scale
 	 *            ratio of desired size and current size of the graphics
 	 */
-	public void exportPaint(Graphics2D g2d, double scale) {
-		exportPaint(new GGraphics2DD(g2d), scale, false);
+	public void exportPaint(Graphics2D g2d, double scale,
+			ExportType exportType) {
+		exportPaint(new GGraphics2DD(g2d), scale, false, exportType);
 	}
 
 	@Override
@@ -518,7 +520,8 @@ public class EuclidianViewD extends EuclidianView implements
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 		BufferedImage img = createBufferedImage(width, height, transparency);
-		exportPaint(new GGraphics2DD(img.createGraphics()), scale, transparency);
+		exportPaint(new GGraphics2DD(img.createGraphics()), scale, transparency,
+				ExportType.PNG);
 		img.flush();
 		return img;
 	}

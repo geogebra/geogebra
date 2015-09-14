@@ -28,7 +28,7 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.util.ArrayList;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.desktop.gui.view.Gridable;
 
 public class PrintGridable implements Printable {
@@ -104,7 +104,7 @@ public class PrintGridable implements Printable {
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 		g2d.translate(-bounds.x, -bounds.y);
 		g2d.clipRect(bounds.x, bounds.y, bounds.width, bounds.height);
-		gridable.getApplication().exporting = true;
+		gridable.getApplication().setExporting(ExportType.PRINTING);
 		Component[][] comp = gridable.getPrintComponents();
 		int down = 0;
 		for (int i = 0; i < comp.length; i++) {
@@ -123,7 +123,7 @@ public class PrintGridable implements Printable {
 		g2d.setColor(Color.BLACK);
 		g2d.draw(bounds);
 
-		gridable.getApplication().exporting = false;
+		gridable.getApplication().setExporting(ExportType.NONE);
 		return Printable.PAGE_EXISTS;
 	}
 

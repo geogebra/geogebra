@@ -6,18 +6,27 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
 
 public class DrawAxis {
 	EuclidianView view;
+	private App app;
 
 	public DrawAxis(EuclidianView euclidianView) {
 		this.view = euclidianView;
+		this.app = view.getApplication();
 	}
 
 	protected void drawAxes(GGraphics2D g2) {
+
+		// TRAC-5292
+		// problem exporting to PDF
+		char minusSign = view.getApplication().getExportType()
+				.equals(ExportType.PDF_EMBEDFONTS) ? '-' : Unicode.nDash;
 
 		// xCrossPix: yAxis crosses the xAxis at this x pixel
 		double xCrossPix = view.getXAxisCrossingPixel();
@@ -207,7 +216,7 @@ public class DrawAxis {
 			double smallTickPix;
 			double tickStep = axesStep / 2;
 			double labelLengthMax = Math.max(
-view.estimateNumberWidth(rw,
+					view.estimateNumberWidth(rw,
 					view.getFontAxes()),
 					view.estimateNumberWidth(MyMath.nextMultiple(
 							view.getXmax(),
@@ -288,9 +297,7 @@ view.estimateNumberWidth(rw,
 				}
 			}
 
-			String crossAtStr = ""
-					+ view.kernel
-.formatPiE(view.axisCross[1],
+			String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[1],
 							view.axesNumberFormat[0],
 							StringTemplate.defaultTemplate);
 
@@ -325,7 +332,7 @@ view.estimateNumberWidth(rw,
 							// -0.0000000001
 							if (sb.charAt(0) == '-') {
 								// change minus sign (too short) to n-dash
-								sb.setCharAt(0, Unicode.nDash);
+								sb.setCharAt(0, minusSign);
 							}
 							if ((view.axesUnitLabels[0] != null)
 									&& !view.piAxisUnit[0]) {
@@ -454,9 +461,7 @@ view.estimateNumberWidth(rw,
 
 			// yAxisEnd
 
-			String crossAtStr = ""
-					+ view.kernel
-.formatPiE(view.axisCross[0],
+			String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[0],
 							view.axesNumberFormat[1],
 							StringTemplate.defaultTemplate);
 
@@ -475,7 +480,7 @@ view.estimateNumberWidth(rw,
 							// -0.0000000001
 							if (sb.charAt(0) == '-') {
 								// change minus sign (too short) to n-dash
-								sb.setCharAt(0, Unicode.nDash);
+								sb.setCharAt(0, minusSign);
 							}
 
 							if ((view.axesUnitLabels[1] != null)
@@ -508,10 +513,10 @@ view.estimateNumberWidth(rw,
 							view.drawString(g2, sb.toString(), x, y);
 							// measure width, so grid line can avoid it
 							// use same (max) for all labels
-							if (sb.charAt(0) == Unicode.nDash
+							if (sb.charAt(0) == minusSign
 									&& width > view.yLabelMaxWidthNeg) {
 								view.yLabelMaxWidthNeg = width;
-							} else if (sb.charAt(0) != Unicode.nDash
+							} else if (sb.charAt(0) != minusSign
 									&& width > view.yLabelMaxWidthPos) {
 								view.yLabelMaxWidthPos = width;
 							}
