@@ -2480,14 +2480,10 @@ function createRoot(jQ, root, textbox, editable) {
         //text = '\\text{' + text + '}';
       }
 
-      //console.log('paste 1:'+text);
       var text3 = cursor.substQuotations(text);
-      //console.log('paste 2:'+text3);
 
       //text3 = text3.split(' ').join('\\space ');
       text3 = text3.split(' ').join('\u2060');
-
-      //console.log('paste 3:'+text3);
 
       //text3 = cursor.fixabug(text3);
       //console.log('paste 4:'+text3);
@@ -3270,16 +3266,16 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       this.common.GeoGebraSuggestionPopupCanShow = true;
     } else {
       // Korean characters also need checks for #5398
-      if ((c >= 0x1100) && (c <= 0x1112)) {
+      if ((cc >= 0x1100) && (cc <= 0x1112)) {
     	// Korean lead char
     	this.common.GeoGebraSuggestionPopupCanShow = true;
-      } else if ((c >= 0x1161) && (c <= 0x1175)) {
+      } else if ((cc >= 0x1161) && (cc <= 0x1175)) {
     	// Korean vowel char
     	this.common.GeoGebraSuggestionPopupCanShow = true;
-      } else if ((c >= 0x11a8) && (c <= 0x11c2)) {
+      } else if ((cc >= 0x11a8) && (cc <= 0x11c2)) {
     	// Korean tail char
     	this.common.GeoGebraSuggestionPopupCanShow = true;
-      } else if ((c >= 0xac00) && (c <= 0xd7af)) {
+      } else if ((cc >= 0xac00) && (cc <= 0xd7af)) {
     	// Korean multi char
     	this.common.GeoGebraSuggestionPopupCanShow = true;
       }
@@ -4972,7 +4968,7 @@ var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _su
   };
 });
 
-LatexCmds.lbrace =
+LatexCmds.lbrace = LatexCmds['{'] =
 CharCmds['{'] = bind(Bracket, '{', '}', '\\{', '\\}');
 LatexCmds.langle =
 LatexCmds.lang = bind(Bracket, '&lang;','&rang;','\\langle ','\\rangle ');
@@ -4994,7 +4990,7 @@ var CloseBracket = P(Bracket, function(_, _super) {
   };
 });
 
-LatexCmds.rbrace =
+LatexCmds.rbrace = LatexCmds['}'] =
 CharCmds['}'] = bind(CloseBracket, '{','}','\\{','\\}');
 LatexCmds.rangle =
 LatexCmds.rang = bind(CloseBracket, '&lang;','&rang;','\\langle ','\\rangle ');
@@ -6898,12 +6894,43 @@ var Cursor = P(Point, function(_) {
   };
   _.fixabug = function(text) {
     var str = text;
-    str = str.replace('{', '\\left\\{');
-    str = str.replace('\\left\\\\left\\{', '\\left\\{');
-    str = str.replace('\\\\left\\{', '\\left\\{');
-    str = str.replace('}', '\\right\\}');
-    str = str.replace('\\right\\\\right\\}', '\\right\\}');
-    str = str.replace('\\\\right\\}', '\\right\\}');
+    var strarr = str.split('{');
+    var strfollow = new Array(strarr.length);
+    var lastchar, lastlen;
+    for (var cv = 0; cv < strarr.length; cv++) {
+      if (strarr[cv].length) {
+    	lastlen = strarr[cv].length;
+    	//lastchar = strarr[cv][lastlen - 1];
+    	lastchar = strarr[cv].charCodeAt(lastlen - 1);
+   		// cc is charCode
+   	    if (lastchar >= 65 && lastchar <= 90) {
+   	      // ASCII A-Z OK
+   	      strfollow[cv] = '{';
+   	    } else if (lastchar >= 97 && lastchar <= 122) {
+   	      // we shall also accept lowercase, as this method
+   	      // is also called from somewhere else!
+   	      strfollow[cv] = '{';
+   	    } else if (lastchar >= 48 && lastchar <= 57) {
+   	      // ASCII 0-9 maybe OK (?)
+          strfollow[cv] = '{';
+   	    } else {
+   	      // TODO: also check for Korean!
+   	      // else branch shall do the actual thing!
+   	      strfollow[cv] = '\\left\\{';
+   	      // instead of doing this globally:
+   	      //str = str.replace('{', '\\left\\{');
+   	      //str = str.replace('\\left\\\\left\\{', '\\left\\{');
+   	      //str = str.replace('\\\\left\\{', '\\left\\{');
+   	      //str = str.replace('}', '\\right\\}');
+   	      //str = str.replace('\\right\\\\right\\}', '\\right\\}');
+   	      //str = str.replace('\\\\right\\}', '\\right\\}');
+    	}
+   	    // but in case there 
+      } else {
+    	strfollow[cv] = '{';
+      }
+    }
+
     return str;
   };
   _.substQuotations = function(text) {
