@@ -791,6 +791,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }*/
 .gwt-PushButton-up,.gwt-PushButton-up-hovering,.gwt-PushButton-up-disabled
 	{ /*padding: 3px 5px 3px 5px;*/
+	cursor: pointer;
 	
 }
 /*.gwt-PushButton-up {
@@ -3202,11 +3203,21 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	border-top: 1px solid #EDEDED;
 	cursor: default;
 	display: table;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 3px;
 }
 
 .consProtNav .gwt-Label {
 	display: inline;
-	padding: 0px 5px;
+	padding: 0px 8px;
+}
+
+.consProtNav .gwt-PushButton {
+	padding: 0px 6px;
+	display: inline-block;
+	vertical-align: text-top;
 }
 
 .consProtNav img.gwt-Image {
@@ -3220,11 +3231,11 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	box-shadow: none;
 }
 
-.consProtNav .navbar_leftPanel button.gwt-Button, .consProtNav .navbar_btOpenWindow {
+/*.consProtNav .navbar_leftPanel button.gwt-Button {
 	padding: 3px;
 	width: 35px;
 	height: 25px;
-}
+}*/
 
 .consProtNav button:hover {
 	border-color: #9999FF;
@@ -3263,8 +3274,8 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .navbar_btOpenWindow {
 	position: absolute;
-	right: 0px;
-	top: 0px;
+	right: 2px;
+	top: 2px;
 }
 .consProtNav .navbar_btOpenWindow.consProtIsOpen, 
 .Tablet .consProtNav button.navbar_btOpenWindow.consProtIsOpen {

@@ -143,6 +143,41 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-tools-customize.png")
 	ImageResource menu_icon_tools_customize();
 
+	// Menu icons views and perspectives
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_algebra.png")
+	ImageResource menu_icon_algebra();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_cas.png")
+	ImageResource menu_icon_cas();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_construction_protocol.png")
+	ImageResource menu_icon_construction_protocol();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_graphics.png")
+	ImageResource menu_icon_graphics();
+
+	// @Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_graphics_extra.png")
+	// ImageResource menu_icon_graphics_extra();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_graphics2.png")
+	ImageResource menu_icon_graphics2();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_input_bar.png")
+	ImageResource menu_icon_input_bar();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_probability.png")
+	ImageResource menu_icon_probability();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_spreadsheet.png")
+	ImageResource menu_icon_spreadsheet();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/perspectives_algebra_3Dgraphics.png")
+	ImageResource menu_icon_3Dgraphics();
+
+	@Source("org/geogebra/common/icons_view_perspectives/p20/perspectives_geometry.png")
+	ImageResource menu_icon_geometry();
+
+
 	// OTHER MENUICONS
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-signed-in-m.png")
@@ -335,7 +370,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_parametric_curve.png")
 	ImageResource algebra_new_parametric();
 	
-	// PLAY, PAUSE, REWIND, ETC. USED IN ALGEBRA VIEW AND IN NAVIGATION BAR
+	// PLAY, PAUSE, REWIND, ETC. USED IN ALGEBRA VIEW, EV AND IN NAVIGATION BAR
 	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
 	ImageResource icons_play_circle();
 
@@ -371,6 +406,10 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons_play/p24/nav_skipforward_hover.png")
 	ImageResource icons_play_skipforward_hover();
+
+	// Show construction protocol icon in navigation bar
+	@Source("org/geogebra/common/icons_view_perspectives/p24/menu_view_construction_protocol.png")
+	ImageResource icons_view_construction_protocol_p24();
 
 	// PLAY, PAUSE, REWIND, ARROWS, CANCEL
 	// USED FOR BUTTON FILLINGS

@@ -6,7 +6,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.javax.swing.GPanelW;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.util.ImageOrText;
+import org.geogebra.web.web.gui.util.MyCJButton;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
@@ -16,10 +18,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 
 public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigation implements ClickHandler{
 
@@ -27,15 +29,23 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	private Label lbSteps;
 	ConstructionProtocolViewW prot;
 	private FlowPanel implPanel;
-	private Button btFirst;
-	private Button btLast;
-	private Button btPrev;
-	private Button btNext;
-	Button btPlay;
+	private PushButton btFirst;
+	private PushButton btLast;
+	private PushButton btPrev;
+	private PushButton btNext;
+	PushButton btPlay;
 	GSpinnerW spDelay;
 	private AutomaticPlayer player;
-	private Button btOpenWindow;
+	private MyCJButton btOpenWindow;
 	
+	final private Image playIcon = new Image(
+			GuiResources.INSTANCE.icons_play_circle());
+	final private Image playIconHover = new Image(
+			GuiResources.INSTANCE.icons_play_circle_hover());
+	final private Image pauseIcon = new Image(
+			GuiResources.INSTANCE.icons_play_pause_circle());
+	final private Image pauseIconHover = new Image(
+			GuiResources.INSTANCE.icons_play_pause_circle_hover());
 
 	public ConstructionProtocolNavigationW(AppW app){
 		implPanel = new FlowPanel();
@@ -52,10 +62,31 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	}
 	
 	public void initGUI(){
-		btFirst = new Button(getImageForIcon(AppResources.INSTANCE.nav_skipback().getSafeUri()).toString());
-		btLast = new Button(getImageForIcon(AppResources.INSTANCE.nav_skipforward().getSafeUri()).toString());
-		btPrev = new Button(getImageForIcon(AppResources.INSTANCE.nav_rewind().getSafeUri()).toString());
-		btNext = new Button(getImageForIcon(AppResources.INSTANCE.nav_fastforward().getSafeUri()).toString());	
+		btFirst = new PushButton(new Image(
+				GuiResources.INSTANCE.icons_play_skipback()));
+		btFirst.getUpHoveringFace().setImage(
+				new Image(
+				GuiResources.INSTANCE.icons_play_skipback_hover()));
+
+		btLast = new PushButton(new Image(
+				GuiResources.INSTANCE.icons_play_skipforward()));
+		btLast.getUpHoveringFace()
+				.setImage(
+						new Image(
+				GuiResources.INSTANCE.icons_play_skipforward_hover()));
+
+		btPrev = new PushButton(new Image(
+				GuiResources.INSTANCE.icons_play_rewind()));
+		btPrev.getUpHoveringFace().setImage(
+				new Image(
+				GuiResources.INSTANCE.icons_play_rewind_hover()));
+
+		btNext = new PushButton(new Image(
+				GuiResources.INSTANCE.icons_play_fastforward()));
+		btNext.getUpHoveringFace()
+				.setImage(
+						new Image(
+				GuiResources.INSTANCE.icons_play_fastforward_hover()));
 	
 		btFirst.addClickHandler(this);
 		btLast.addClickHandler(this);
@@ -71,7 +102,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		
 		playPanel = new GPanelW();
 		playPanel.setVisible(showPlayButton);
-		btPlay = new Button();	//will be initialized in setLabels()
+		btPlay = new PushButton(); // will be initialized in setLabels()
 		btPlay.addClickHandler(this);
 	
 		spDelay.addChangeHandler(new ChangeHandler(){
@@ -96,8 +127,11 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		implPanel.add(leftPanel);
 		implPanel.add(((GPanelW)playPanel).getImpl());
 		
-		btOpenWindow = new Button(getImageForIcon(
-				AppResources.INSTANCE.table().getSafeUri()).toString());
+		btOpenWindow = new MyCJButton();
+		btOpenWindow.setIcon(new ImageOrText(GuiResources.INSTANCE
+				.icons_view_construction_protocol_p24()));
+		// getImageForIcon(
+		// AppResources.INSTANCE.table().getSafeUri()).toString());
 		btOpenWindow.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -174,11 +208,21 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	@Override
     public void setLabels() {
 		if (btPlay != null){
-			String btPlayText = "<div class=\"gwt-Label\">"+app.getPlain((isPlaying)?"Pause":"Play")+"</div>";
-			Image playImage = getImageForIcon(
-					((isPlaying) ? AppResources.INSTANCE.nav_pause() : AppResources.INSTANCE.nav_play())
-					.getSafeUri());
-			btPlay.setHTML(playImage.toString()+btPlayText);
+			// String btPlayText =
+			// "<div class=\"gwt-Label\">"+app.getPlain((isPlaying)?"Pause":"Play")+"</div>";
+			// Image playImage = getImageForIcon(
+			// ((isPlaying) ? AppResources.INSTANCE.nav_pause() :
+			// AppResources.INSTANCE.nav_play())
+			// .getSafeUri());
+			// btPlay.setHTML(playImage.toString()+btPlayText);
+
+			if (isPlaying) {
+				btPlay.getUpFace().setImage(playIcon);
+				btPlay.getUpHoveringFace().setImage(playIconHover);
+			} else {
+				btPlay.getUpFace().setImage(pauseIcon);
+				btPlay.getUpHoveringFace().setImage(pauseIconHover);
+			}
 		}
 		if (btOpenWindow != null){
 			btOpenWindow.setTitle(app.getLocalization().getPlainTooltip("ConstructionProtocol"));
@@ -240,18 +284,22 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	
 	@Override
 	public void setButtonPlay() {
-		Image playImage = getImageForIcon(AppResources.INSTANCE.nav_play()
-				.getSafeUri());
-		btPlay.setHTML(playImage.toString() + "<div class=\"gwt-Label\">"
-				+ app.getPlain("Play") + "</div>");
+		// Image playImage = getImageForIcon(AppResources.INSTANCE.nav_play()
+		// .getSafeUri());
+		// btPlay.setHTML(playImage.toString() + "<div class=\"gwt-Label\">"
+		// + app.getPlain("Play") + "</div>");
+		btPlay.getUpFace().setImage(playIcon);
+		btPlay.getUpHoveringFace().setImage(playIconHover);
 	}
 
 	@Override
 	public void setButtonPause() {
-		Image playImage = getImageForIcon(AppResources.INSTANCE.nav_pause()
-				.getSafeUri());
-		btPlay.setHTML(playImage.toString() + "<div class=\"gwt-Label\">"
-				+ app.getPlain("Pause") + "</div>");
+		// Image playImage = getImageForIcon(AppResources.INSTANCE.nav_pause()
+		// .getSafeUri());
+		// btPlay.setHTML(playImage.toString() + "<div class=\"gwt-Label\">"
+		// + app.getPlain("Pause") + "</div>");
+		btPlay.getUpFace().setImage(pauseIcon);
+		btPlay.getUpHoveringFace().setImage(pauseIconHover);
 	}
 
 	private class AutomaticPlayer{
