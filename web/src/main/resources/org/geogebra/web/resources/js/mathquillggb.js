@@ -2484,7 +2484,8 @@ function createRoot(jQ, root, textbox, editable) {
       var text3 = cursor.substQuotations(text);
       //console.log('paste 2:'+text3);
 
-      text3 = text3.split(' ').join('\\space ');
+      //text3 = text3.split(' ').join('\\space ');
+      text3 = text3.split(' ').join('\u2060');
 
       //console.log('paste 3:'+text3);
 
@@ -5932,7 +5933,13 @@ LatexCmds.parallel = LatexCmds['\u2225'] =
 //so easiest is to change " " to "*" in RootMathBlock.onText...
 //so MathQuillGGB will not produce space in theory, but
 //space may still come from GeoGebraWeb and go back to there
-LatexCmds.space = bind(VanillaSymbol, '\\space ', '&nbsp;');
+
+//AND whoever puts \u2060 deserves changing it to space!
+// \s is Regexp treats nbsp, figure space and space the same way,
+// but still, the word-joiner character can be used for hacking 
+// (it was necessary for technical reasons, spaces in Quotations)
+//CharCmds['\u2060'] =
+LatexCmds['\u2060'] = LatexCmds.space = bind(VanillaSymbol, '\\space ', '&nbsp;');
 
 //arrows
 LatexCmds.longleftarrow = bind(VanillaSymbol, '\\longleftarrow ', '&#8592;');
@@ -6356,6 +6363,9 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
     	// but this is we are going to avoid (see other comments)
     	text2 = text2.replace(/\\}/g,'}');
 
+    	// this is also like replace, just better, change figure spaces
+        text2 = text2.split('\u2060').join(' ');
+
         // but it is a good question when this escaping
         // should have happened in case of parsing / pasting
         // so, to escape everything perfectly, then it
@@ -6557,12 +6567,15 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
       if (this.isEmpty()) cursor.insertAfter(this);
     }
   };
-  _.write = function(cursor, ch, replacedFragment) {
+  _.write = function(cursor, ch0, replacedFragment) {
     if (this.ctrlSeq === '\\textotherwise') {
       return false;
     }
 
     if (replacedFragment) replacedFragment.remove();
+
+    var ch = ch0;
+    ch = ch.split('\u2060').join(' ');
 
     // in GeoGebraWeb, $ should be accepted just like
     // any other character!
