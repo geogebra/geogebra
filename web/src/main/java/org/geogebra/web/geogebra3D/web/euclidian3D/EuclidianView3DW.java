@@ -815,7 +815,15 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 		if (alt instanceof GeoText) {
 			String altStr = ((GeoText) alt).getTextString();
-			g2p.setAltText(altStr);
+			if (renderer != null
+					&& ((RendererW) renderer).getGLCanvas() != null) {
+				((RendererW) renderer).getGLCanvas().getElement()
+						.setInnerText(altStr);
+
+			} else {
+				g2p.setAltText(altStr);
+			}
+
 		}
 
 	}
