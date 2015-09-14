@@ -259,13 +259,16 @@ public class EuclidianStyleBarStatic {
 		// arg = justifyArray[btnTableTextJustify.getSelectedIndex()];
 		arg = justifyArray[justifyIndex];
 		// if (this.btnTableTextLinesH.isSelected())
-		if (HisSelected)
+		if (HisSelected) {
 			arg += "_";
+		}
 		// if (this.btnTableTextLinesV.isSelected())
-		if (VisSelected)
+		if (VisSelected) {
 			arg += "|";
-		if (index > 0)
+		}
+		if (index > 0) {
 			arg += bracketArray2[index];
+		}
 		ArrayList<GeoElement> newGeos = new ArrayList<GeoElement>();
 
 		StringBuilder cmdText = new StringBuilder();
@@ -284,6 +287,8 @@ public class EuclidianStyleBarStatic {
 					StringTemplate.defaultTemplate, false));
 			cmdText.append(",\"");
 			cmdText.append(arg);
+			cmdText.append(
+					((AlgoTableText) geo.getParentAlgorithm()).getAlignment());
 			cmdText.append("\"]");
 
 			// use the new cmd to redefine the geo and save it to a list.

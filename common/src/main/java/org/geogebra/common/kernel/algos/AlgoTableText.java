@@ -57,8 +57,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 	// getters for style variables (used by EuclidianStyleBar)
 
-	public Alignment getAlignment() {
-		return alignment;
+	public char getAlignment() {
+		return alignment.equals(Alignment.VERTICAL) ? 'v' : 'h';
 	}
 
 	public boolean isVerticalLines() {
