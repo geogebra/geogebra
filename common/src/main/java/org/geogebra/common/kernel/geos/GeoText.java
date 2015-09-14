@@ -1313,7 +1313,9 @@ public class GeoText extends GeoElement implements Locateable,
 			// we need to force visibility in 3D view and views
 			// for plane
 			addViews3D();
-			kernel.getApplication().getEuclidianView3D().add(this);
+			if (kernel.getApplication().isEuclidianView3Dinited()) {
+				kernel.getApplication().getEuclidianView3D().add(this);
+			}
 			setVisibleInViewForPlane(true);
 			kernel.getApplication().addToViewsForPlane(this);
 		}
