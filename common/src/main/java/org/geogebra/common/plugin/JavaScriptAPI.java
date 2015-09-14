@@ -461,6 +461,11 @@ public interface JavaScriptAPI {
 	public void setMode(int mode);
 
 	/**
+	 * @return the current mode
+	 */
+	public int getMode();
+
+	/**
 	 * Registers a JavaScript function as an add listener for the applet's
 	 * construction. Whenever a new object is created in the GeoGebraApplet's
 	 * construction, the JavaScript function JSFunctionName is called using the

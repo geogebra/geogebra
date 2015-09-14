@@ -1532,4 +1532,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getCASObjectNumber();
 	}
 
+	public int getMode() {
+		return ggbApi.getMode();
+	}
+
 }

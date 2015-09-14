@@ -734,5 +734,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public int getCASObjectNumber() {
 		return getAppletImplementation().getCASObjectNumber();
 	}
+	
+	public int getMode(){
+		return getAppletImplementation().getMode();
+	}
 
 }

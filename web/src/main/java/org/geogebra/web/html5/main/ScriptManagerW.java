@@ -476,6 +476,10 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setMode(I)(mode);
 		};
 
+		api.getMode = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getMode()();
+		};
+
 		api.openMaterial = function(material) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::openMaterial(Ljava/lang/String;)(material);
 		};

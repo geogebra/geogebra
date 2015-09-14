@@ -718,6 +718,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.setMode(mode);
 	}
 
+	public synchronized int getMode() {
+		return app.getMode();
+	}
+
 	public synchronized int getLineStyle(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
