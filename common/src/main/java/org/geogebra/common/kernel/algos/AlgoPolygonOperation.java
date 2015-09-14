@@ -446,7 +446,7 @@ inPoly1.getPoint(i).getX(),
 					segment.setEndPoint(points[pointIndex + (i + 1)
 							% path.size()]);
 					segment.update();
-
+					segment.calcLength();
 					polyPoints[i] = points[pointIndex + i];
 
 					polySegments[i] = segment;
