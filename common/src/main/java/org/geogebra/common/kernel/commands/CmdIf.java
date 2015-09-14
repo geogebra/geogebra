@@ -181,17 +181,20 @@ public class CmdIf extends CommandProcessor {
 
 	private FunctionalNVar resolveFunction(Command c, int i,
 			FunctionVariable[] fv, int vars) {
-		c.getArgument(i).resolveVariables();
+		ExpressionNode arg = c.getArgument(i);
+		arg.resolveVariables();
 		// If we have a ready function rather than expression, just use it #4674
-		if (c.getArgument(i).unwrap() instanceof GeoFunction) {
-			return (GeoFunction) c.getArgument(i).unwrap();
+		if (arg.unwrap() instanceof GeoFunction
+				|| arg.unwrap() instanceof GeoFunctionNVar) {
+			return (FunctionalNVar) arg.unwrap();
 		}
+
 		if (vars < 2) {
 			return (GeoFunction) kernelA.getAlgebraProcessor().processFunction(
-					new Function(c.getArgument(i), fv[0]))[0];
+					new Function(arg, fv[0]))[0];
 		}
 		return (GeoFunctionNVar) kernelA.getAlgebraProcessor()
-				.processFunctionNVar(new FunctionNVar(c.getArgument(i), fv))[0];
+				.processFunctionNVar(new FunctionNVar(arg, fv))[0];
 	}
 
 	/**
