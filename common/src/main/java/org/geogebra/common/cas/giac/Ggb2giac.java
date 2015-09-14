@@ -67,17 +67,24 @@ public class Ggb2giac {
 		// e.g. for polynomial 3x^4 + x^2
 		// a^2 = 3x^4 -> a = sqrt(3)x^2
 		// b = x^2/(2a) -> b = sqrt(3)/6
-				"[[[ggbcpla:= when ( size(solve(ggbsort(%0)[1]=ggbcplaux^2,ggbcplaux)) == 2 && string(simplify(solve(ggbsort(%0)[1]=ggbcplaux^2,ggbcplaux))[0][2][0]) ==  \"'-'\" , simplify(solve(ggbsort(%0)[1]=ggbcplaux^2,ggbcplaux))[1][2] , simplify(solve(ggbsort(%0)[1]=ggbcplaux^2,ggbcplaux))[0][2] )],"
+		// simplify and abs needed for cases like -3x^4 = ggbcplaux^2
+				"[[[ggbcpla:= when ( size(solve(simplify(abs(ggbsort(%0)[1]))=ggbcplaux^2,ggbcplaux)) == 2 && string(solve(simplify(abs(ggbsort(%0)[1]))=ggbcplaux^2,ggbcplaux)[0][2][0]) ==  \"'-'\" , solve(simplify(abs(ggbsort(%0)[1]))=ggbcplaux^2,ggbcplaux)[1][2] , solve(simplify(abs(ggbsort(%0)[1]))=ggbcplaux^2,ggbcplaux)[0][2] )],"
 						+ " [ggbcplb:=simplify(abs(solve(ggbsort(%0)[2]/(2*(ggbcpla))=ggbcplb,ggbcplb)[0][2]))]] ,"
 						// case degree is 2
 						+ "when ( degree(%0) == 2 , canonical_form(%0), "
 						// works for polynomials with two part (e.g. 3x^4 + x^2)
 						+ " when ( degree(%0) > 2 && size(%0) == 2, "
 						// use formula (a + b)^2 - b^2
-						+ " when ( (%0)[0] == '+' && string((%0)[2][0]) != \"'-'\", (ggbcpla+ggbcplb)^2-ggbcplb^2 , "
-						// + "(ggbcpla+ggbcplb)^2-ggbcplb^2, "
+						// if the first term was negative than use -[(a - b)^2 -
+						// b^2]
+						+ " when ( (%0)[0] == '+' && string((%0)[2][0]) != \"'-'\", "
+						+ " when ( string(ggbsort(%0)[1][0]) == \"'-'\" , -((ggbcpla-ggbcplb)^2-ggbcplb^2), (ggbcpla+ggbcplb)^2-ggbcplb^2 ) , "
 						// use formula (a - b)^2 - b^2
-						+ " when ( (%0)[0] == '+' && string((%0)[2][0]) == \"'-'\" , (ggbcpla-ggbcplb)^2-ggbcplb^2 ,?)), "
+						// if the first term was negative than use -[(a + b)^2 -
+						// b^2]
+						+ " when ( (%0)[0] == '+' && string((%0)[2][0]) == \"'-'\" , "
+						+ " when ( string(ggbsort(%0)[1][0]) == \"'-'\" , -((ggbcpla+ggbcplb)^2-ggbcplb^2) , (ggbcpla-ggbcplb)^2-ggbcplb^2 ),"
+						+ "?)), "
 						// works for polynomials with three part
 						// e.g. x^4+x^2+1
 						// preconditions: p*x^(2n) + q*x^n + r
