@@ -6,6 +6,8 @@ import org.geogebra.web.web.gui.app.ShowKeyboardButton;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -51,7 +53,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 		return aview.getStyleBar(true);
 	}
 
-	public void setAlgebraView(AlgebraViewW av) {
+	public void setAlgebraView(final AlgebraViewW av) {
 		if (av != aview) {
 			if (aview != null && simplep != null) {
 				simplep.remove(aview);
@@ -61,7 +63,19 @@ public class AlgebraDockPanelW extends DockPanelW {
 			simplep = new SimplePanel(aview = av);
 			algebrap.add(simplep);
 			simplep.addStyleName("algebraSimpleP");
-			algebrap.addStyleName("algebraPanel");	
+			algebrap.addStyleName("algebraPanel");
+			algebrap.addDomHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					int bt = simplep.getAbsoluteTop()
+							+ simplep.getOffsetHeight();
+					if (event.getClientY() > bt) {
+						app.getSelectionManager().clearSelectedGeos();
+						av.resetItems(true);
+					}
+					;
+				}
+			}, ClickEvent.getType());
 		}
 	}
 

@@ -149,6 +149,7 @@ public class RadioTreeItem extends AVTreeItem
 		TouchEndHandler, LongTouchHandler, EquationEditorListener,
 		RequiresResize {
 
+	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
 	static final String CLEAR_COLOR_STR = GColor
 			.getColorString(GColorW.WHITE);
@@ -962,7 +963,8 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		int width = getAV().getOffsetWidth() - 2
-				* marblePanel.getOffsetWidth();
+ * marblePanel.getOffsetWidth()
+				+ SLIDER_EXT;
 		slider.setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
 				: width);
 	}

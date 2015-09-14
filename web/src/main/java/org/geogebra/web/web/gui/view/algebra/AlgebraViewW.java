@@ -1722,4 +1722,5 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public static void setAvex(boolean avex) {
 		AlgebraViewW.avex = avex;
 	}
+
 }
