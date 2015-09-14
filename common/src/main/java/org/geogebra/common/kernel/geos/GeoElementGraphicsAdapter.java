@@ -42,7 +42,8 @@ public abstract class GeoElementGraphicsAdapter {
 			// all bitmaps (except JPG) saved as PNG
 			// eg .TIFF
 			imageFileName = fn.substring(0, pos) + ".png";
-			Log.debug("changing image extension " + ext + " -> " + fn);
+			Log.debug(
+					"changing image extension " + ext + " -> " + imageFileName);
 		} else {
 
 			imageFileName = fn;
