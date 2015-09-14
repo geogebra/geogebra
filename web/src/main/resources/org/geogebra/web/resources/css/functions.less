@@ -1,0 +1,36 @@
+/** Created by stefanie.bogner
+*	14.09.2015
+*	contains functions for web
+**/
+
+/* Cross browser rounded corners */
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+  -khtml-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.box-sizing(@arg) {
+  box-sizing: @arg;
+  -webkit-box-sizing: @arg;
+  -moz-box-sizing: @arg;
+}
+
+/* Cross browser box shadow */
+.boxshadow(@shadow: 0 1px 3px rgba(0,0,0,.25)) {
+  -webkit-box-shadow: @shadow;
+  -moz-box-shadow: @shadow;
+  box-shadow: @shadow;
+}
+
+/* Gradient */
+.linear-gradient(@direction: left, @color1: #FFFFFF, @color2: #000000) {
+  background-color: @color1;
+  background-image: -webkit-linear-gradient(@direction, @color1, @color2);
+  background-image: -moz-linear-gradient(@direction, @color1, @color2);
+  background-image: -ms-linear-gradient(@direction, @color1, @color2);
+  background-image: -o-linear-gradient(@direction, @color1, @color2);
+  background-image: linear-gradient(@direction, @color1, @color2);
+  //filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr=@color1, endColorstr=@color2);
+}

@@ -68,6 +68,14 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/css/web-styles.css")
 	LessResource modernStyle();
 
+	// New less resources
+	@Source("org/geogebra/web/resources/css/general.ltr.less")
+	LessResource generalStyleLTR();
+
+	@Source("org/geogebra/web/resources/css/general.rtl.less")
+	LessResource generalStyleRTL();
+
+
 	@Source("org/geogebra/web/resources/css/jquery-ui.css")
 	TextResource jqueryStyle();
 
