@@ -31,10 +31,10 @@ import org.geogebra.common.kernel.algos.AlgoConicPartCircle;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import org.geogebra.common.kernel.algos.AlgoSemicircle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Traceable;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -327,7 +327,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 					g2.draw(shape);
 				}
 
-				g2.setPaint(geo.getObjectColor());
+				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(shape);
 
@@ -376,7 +376,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	protected final void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(shape);
 			break;

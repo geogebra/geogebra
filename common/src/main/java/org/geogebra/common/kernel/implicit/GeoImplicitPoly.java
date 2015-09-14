@@ -1819,5 +1819,11 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 		final public HitType getLastHitType(){
 			return HitType.ON_BOUNDARY;
 		}
+
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
+
 }
 

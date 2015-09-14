@@ -953,4 +953,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
+
 }
