@@ -393,17 +393,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 		double l = System.currentTimeMillis();
 		Object[] geos = activeGeoList.toArray();
-		App.debug("tabletext" + (System.currentTimeMillis() - l));
 		for (int i = 0; i < popupBtnList.length; i++) {
 			if (popupBtnList[i] != null) {// null pointer fix until necessary
 				popupBtnList[i].update(geos);
-				App.debug(i + "popup" + (System.currentTimeMillis() - l));
 			}
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
 			if (toggleBtnList[i] != null) {// null pointer fix until necessary
 				toggleBtnList[i].update(geos);
-				App.debug(i + "toggle" + (System.currentTimeMillis() - l));
 			}
 		}
 
