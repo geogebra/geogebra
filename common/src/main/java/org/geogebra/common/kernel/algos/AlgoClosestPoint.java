@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.PathAlgo;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
+public class AlgoClosestPoint extends AlgoElement implements FixedPathRegionAlgo {
 
 	private Path path; // input
 	protected GeoPointND point; // input

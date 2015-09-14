@@ -38,7 +38,7 @@ import org.geogebra.common.kernel.LocateableList;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.PathAlgo;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathOrPoint;
@@ -345,8 +345,8 @@ SymbolicParametersBotanaAlgo {
 			return true;
 
 		// make sure Point[circle, param] is not draggable
-		if (algo instanceof PathAlgo) {
-			return ((PathAlgo) algo).isChangeable() && !point.isFixed();
+		if (algo instanceof FixedPathRegionAlgo) {
+			return ((FixedPathRegionAlgo) algo).isChangeable() && !point.isFixed();
 		}
 
 		return !point.isFixed()

@@ -14,13 +14,15 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoClosestPointToRegion3D extends AlgoElement3D {
+public class AlgoClosestPointToRegion3D extends AlgoElement3D implements
+		FixedPathRegionAlgo {
 
 	private Region r;
 	private GeoPointND P;
@@ -83,6 +85,10 @@ public class AlgoClosestPointToRegion3D extends AlgoElement3D {
 		} else {
 			geoPointOnRegion.setUndefined();
 		}
+	}
+
+	public boolean isChangeable() {
+		return false;
 	}
 
 }

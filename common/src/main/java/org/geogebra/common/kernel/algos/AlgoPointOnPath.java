@@ -20,7 +20,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.PathAlgo;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
@@ -37,7 +37,7 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 
-public class AlgoPointOnPath extends AlgoElement implements PathAlgo,
+public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
 		RestrictionAlgoForLocusEquation {
 

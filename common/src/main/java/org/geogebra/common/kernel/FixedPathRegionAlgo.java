@@ -3,7 +3,7 @@ package org.geogebra.common.kernel;
 /**
  * Algo whose output is on path
  */
-public interface PathAlgo {
+public interface FixedPathRegionAlgo {
 
 	/**
 	 * Returns true iff the output can be moved
