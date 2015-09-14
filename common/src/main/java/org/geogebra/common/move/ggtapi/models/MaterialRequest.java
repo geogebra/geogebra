@@ -220,6 +220,14 @@ public class MaterialRequest implements Request
 		return req;
 	}
 
+	public static MaterialRequest searchGgb(ClientInfo client, String query) {
+		MaterialRequest req = new MaterialRequest(client);
+		req.filters = new Filters[] { Filters.search, Filters.type};
+		req.filterMap.put(Filters.search, query);
+		req.filterMap.put(Filters.type, "ggb");
+		return req;
+	}
+
 	public static MaterialRequest forBook(int id, ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.inbook, Filters.type };
