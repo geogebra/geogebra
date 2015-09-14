@@ -1371,6 +1371,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				Scheduler.get().scheduleDeferred(
 						new Scheduler.ScheduledCommand() {
 							public void execute() {
+								setActiveTreeItem(null);
 								app.showKeyboard(inputPanelLatex, true);
 							}
 						});
@@ -1413,7 +1414,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		return this.nodeTable.isEmpty();
 	}
 
-	public void setActiveTreeItem(RadioTreeItem radioButtonTreeItem) {
+	public void setActiveTreeItem(RadioTreeItem item) {
 		if (!hasAvex() && !app.has(Feature.DELETE_IN_ALGEBRA)) {
 				// if there is delete button in algebra view, let's allow this,
 				// or the alternative is to add the delete button when
@@ -1421,9 +1422,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				return;
 			}
 
+		if (hasAvex() && item == null) {
+			App.debug("[AVEX] setActiveItem(null)");
+			selectionCtrl.clear();
+		}
 
-
-		boolean sameItem = activeItem == radioButtonTreeItem;
+		boolean sameItem = activeItem == item;
 		
 		if ((this.activeItem != null) && !sameItem
 				&& (!this.activeItem.commonEditingCheck())) {
@@ -1435,7 +1439,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			selectRow(activeItem.getGeo(), false);
 		}
 
-		this.activeItem = radioButtonTreeItem;
+		this.activeItem = item;
 		//
 		if (hasAvex() && activeItem != null) {
 			selectRow(activeItem.getGeo(), true);

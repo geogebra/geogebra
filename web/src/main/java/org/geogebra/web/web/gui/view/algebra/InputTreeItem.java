@@ -514,6 +514,10 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void setFocus(boolean b, boolean scheduledVersion) {
+		if (AlgebraViewW.hasAvex() && b) {
+			app.getSelectionManager().clearSelectedGeos();
+			getAV().updateSelection();
+		}
 		if (scheduledVersion) {
 			// these booleans are for governing setFocus so that
 			// when it is called from a timeout or schedule, and
