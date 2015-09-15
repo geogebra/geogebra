@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.Cloner;
 
 
 /**
@@ -165,7 +166,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 //		Application.debug("p2="+p2);
 		
 		GeoImplicitPoly a=p1,b=p2;
-		
 		if (p1.getDegX()<p2.getDegX()){
 			a=p2;
 			b=p1;
@@ -174,6 +174,11 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		int m=a.getDegX();
 		int n=b.getDegX();
 		
+		if (n == 0) {
+			computeY(a, b);
+			return;
+		}
+
 		//calculate the reduced Sylvester matrix. Complexity will be O(mnpq + m^2nq^2 + n^3pq)
 		//where p=a.getDegY(), q=b.getDegY() 
 		//we should minimize m^2 n q^2 by choosing to use polyX or polyY univarType.
@@ -409,7 +414,42 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		setPoints(valPairs);
 
 	}
-	
+
+	/**
+	 * Computation for the special case when one polynomial is constant in x
+	 * 
+	 * @param a
+	 *            arbitrary implicit polynomial
+	 * @param b
+	 *            implicit polynomial with y terms only
+	 */
+	private void computeY(GeoImplicitPoly a, GeoImplicitPoly b) {
+		if (a.getDegX() == 0) {
+			valPairs.add(new double[] { Double.NaN, Double.NaN });
+			setPoints(valPairs);
+			return;
+
+		}
+		double roots[] = Cloner.clone(b.getCoeff()[0]);
+		// roots[0]-=0.001;
+		int nrRealRoots = 0;
+		if (roots.length > 1)
+			nrRealRoots = getNearRoots(roots, eqnSolver, 1E-5);
+		for (int i = 0; i < nrRealRoots; i++) {
+			PolynomialFunction tx = new PolynomialFunction(new double[] {
+					roots[i], 0 });
+			PolynomialFunction ty = new PolynomialFunction(
+					new double[] { 0, 1 });
+			double[] res = AlgoIntersectImplicitpolyPolyLine.lineIntersect(
+					a.getCoeff(), tx, ty).getCoefficients();
+			int xRoots = getNearRoots(res, eqnSolver, 1E-5);
+			for (int j = 0; j < xRoots; j++) {
+				valPairs.add(new double[] { res[j], roots[i] });
+			}
+		}
+		setPoints(valPairs);
+		
+	}
 	private static int getNearRoots(double[] roots,EquationSolverInterface solver, double epsilon){
 		PolynomialFunction poly=new PolynomialFunction(roots);
 		double[] rootsDerivative=poly.polynomialDerivative().getCoefficients();

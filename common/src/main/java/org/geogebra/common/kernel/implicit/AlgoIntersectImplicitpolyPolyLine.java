@@ -180,26 +180,32 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		double minT = tempSeg2.getMinParameter();
 
 		PolynomialFunction sum = null;
-		PolynomialFunction zs = null;
 		// Insert x and y (univariat)polynomials via the Horner-scheme
 		double[][] coeff = getImplicitPolynomial().getCoeff();
-		if (coeff != null)
-			for (int i = coeff.length - 1; i >= 0; i--) {
-				zs = new PolynomialFunction(
-						new double[] { coeff[i][coeff[i].length - 1] });
-				for (int j = coeff[i].length - 2; j >= 0; j--) {
-					zs = zs.multiply(ty)
-							.add(new PolynomialFunction(
-									new double[] { coeff[i][j] }));// y*zs+coeff[i][j];
-				}
-				if (sum == null)
-					sum = zs;
-				else
-					sum = sum.multiply(tx).add(zs);// sum*x+zs;
-			}
-
+		if (coeff != null) {
+			sum = lineIntersect(coeff, tx, ty);
+		}
 		setRootsPolynomialWithinRange(intersectCoords2, sum, minT, maxT);
 
+	}
+
+	public static PolynomialFunction lineIntersect(double[][] coeff,
+			PolynomialFunction tx, PolynomialFunction ty) {
+		PolynomialFunction sum = null;
+		PolynomialFunction zs = null;
+		for (int i = coeff.length - 1; i >= 0; i--) {
+			zs = new PolynomialFunction(
+					new double[] { coeff[i][coeff[i].length - 1] });
+			for (int j = coeff[i].length - 2; j >= 0; j--) {
+				zs = zs.multiply(ty).add(
+						new PolynomialFunction(new double[] { coeff[i][j] }));// y*zs+coeff[i][j];
+			}
+			if (sum == null)
+				sum = zs;
+			else
+				sum = sum.multiply(tx).add(zs);// sum*x+zs;
+		}
+		return sum;
 	}
 
 	private void setRootsPolynomialWithinRange(
