@@ -1008,6 +1008,62 @@ public class GeoGebraCasIntegrationTest {
     t("Coefficients[a^3 - 3 a^2 + 3 a, x]", "{a^(3) - 3 * a^(2) + 3 * a}");
   }
 
+	/* CompleteSquare */
+
+	@Test
+  public void CompleteSquare_0 () {
+		t("CompleteSquare[3 x^4 + x^2]", "3(x^2 + 1/6)^2 - 1/12");
+  }
+
+	@Test
+	public void CompleteSquare_1() {
+		t("CompleteSquare[x^4+x^2+1]", "(x^2 + 1 / 2)^2 + 3 / 4");
+	}
+
+	@Test
+	public void CompleteSquare_2() {
+		t("CompleteSquare[x^6+x^3]", "(x^3 + 1 / 2)^2 - 1 / 4");
+	}
+
+	@Test
+	public void CompleteSquare_3() {
+		t("CompleteSquare[x^6+x^3+1]", "(x^3 + 1 / 2)^2 + 3 / 4");
+	}
+
+	@Test
+	public void CompleteSquare_4() {
+		t("CompleteSquare[-9x^12-8x^6-9]", "-9 (x^6 + 4 / 9)^2 - 65 / 9");
+	}
+
+	@Test
+	public void CompleteSquare_5() {
+		t("CompleteSquare[(-6 x^18 - 9x^9 + 2)]", "-6 (x^9 + 3 / 4)^2 + 43 / 8");
+	}
+
+	@Test
+	public void CompleteSquare_6() {
+		t("CompleteSquare[(-6 x^2 - 9x + 2)]", "-6 (x + 3 / 4)^2 + 43 / 8");
+	}
+
+	@Test
+	public void CompleteSquare_7() {
+		t("CompleteSquare[-10x^7+3]", "?");
+	}
+
+	@Test
+	public void CompleteSquare_8() {
+		t("CompleteSquare[((-9) * x^(10)) + 4]", "-9 x^10 + 4");
+	}
+
+	@Test
+	public void CompleteSquare_9() {
+		t("CompleteSquare[-3x^2+5x+8]", "-3 (x - 5 / 6)^2 + 121 / 12");
+	}
+
+	@Test
+	public void CompleteSquare_10() {
+		t("CompleteSquare[3x^2+5x+8]", "3(x + 5 / 6)^2 + 71 / 12");
+	}
 
   /* CommonDenomiator */
 
