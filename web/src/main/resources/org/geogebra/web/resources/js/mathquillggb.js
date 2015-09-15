@@ -2480,12 +2480,18 @@ function createRoot(jQ, root, textbox, editable) {
         //text = '\\text{' + text + '}';
       }
 
+      //console.log('paste 1:'+text);
+
       var text3 = cursor.substQuotations(text);
+      
+      //console.log('paste 2:'+text3);
 
-      //text3 = text3.split(' ').join('\\space ');
       text3 = text3.split(' ').join('\u2060');
+      
+      //console.log('paste 3:'+text3);
+      
+      text3 = cursor.fixabug(text3);
 
-      //text3 = cursor.fixabug(text3);
       //console.log('paste 4:'+text3);
 
       cursor.writeLatexSafe(text3);
@@ -6896,44 +6902,58 @@ var Cursor = P(Point, function(_) {
   };
   _.fixabug = function(text) {
     var str = text;
-    var strarr = str.split('{');
-    var strfollow = new Array(strarr.length);
-    var lastchar, lastlen;
-    for (var cv = 0; cv < strarr.length; cv++) {
-      if (strarr[cv].length) {
-    	lastlen = strarr[cv].length;
-    	//lastchar = strarr[cv][lastlen - 1];
-    	lastchar = strarr[cv].charCodeAt(lastlen - 1);
-   		// cc is charCode
-   	    if (lastchar >= 65 && lastchar <= 90) {
-   	      // ASCII A-Z OK
-   	      strfollow[cv] = '{';
-   	    } else if (lastchar >= 97 && lastchar <= 122) {
-   	      // we shall also accept lowercase, as this method
-   	      // is also called from somewhere else!
-   	      strfollow[cv] = '{';
-   	    } else if (lastchar >= 48 && lastchar <= 57) {
-   	      // ASCII 0-9 maybe OK (?)
-          strfollow[cv] = '{';
-   	    } else {
-   	      // TODO: also check for Korean!
-   	      // else branch shall do the actual thing!
-   	      strfollow[cv] = '\\left\\{';
-   	      // instead of doing this globally:
-   	      //str = str.replace('{', '\\left\\{');
-   	      //str = str.replace('\\left\\\\left\\{', '\\left\\{');
-   	      //str = str.replace('\\\\left\\{', '\\left\\{');
-   	      //str = str.replace('}', '\\right\\}');
-   	      //str = str.replace('\\right\\\\right\\}', '\\right\\}');
-   	      //str = str.replace('\\\\right\\}', '\\right\\}');
+    var depth = 0;
+    var boolPerDepth = new Array();
+    boolPerDepth[0] = false;//does not make sense
+    var lastchar = '';
+    var ret = "";
+    while (str.length > 0) {
+      if (str.charAt(0) === '{') {
+    	str = str.substring(1);
+    	depth++;
+    	// maybe override later in this block
+    	boolPerDepth[depth] = false;
+        var lastcc = lastchar.charCodeAt(0);
+        if (lastcc >= 65 && lastcc <= 90) {
+          // ASCII A-Z OK
+          ret += '{';
+        } else if (lastcc >= 97 && lastcc <= 122) {
+          // we shall also accept lowercase, as this method
+          // is also called from somewhere else!
+          ret += '{';
+        } else if (lastcc >= 48 && lastcc <= 57) {
+          // ASCII 0-9 maybe OK (?)
+          ret += '{';
+        } else if (lastchar === '\\') {
+          // it might be \\left\\{ or just \\{
+          // in both cases, let's not add another "left"
+          ret += '{';
+        } else {
+          // TODO: also check for Korean!
+          // else branch shall do the actual thing!
+          ret += '\\left\\{';
+          boolPerDepth[depth] = true;
+        }
+    	lastchar = '{';
+      } else if (str.charAt(0) === '}') {
+    	str = str.substring(1);
+    	if (boolPerDepth[depth]) {
+    	  // means we need a \\right\\ added
+    	  ret += '\\right\\}';
+    	} else {
+    	  ret += '}';
     	}
-   	    // but in case there 
+      	// data for this depth is not reliable anyway
+      	boolPerDepth[depth] = false;
+    	depth--;
+    	lastchar = '}';
       } else {
-    	strfollow[cv] = '{';
+    	lastchar = str.substring(0,1);
+    	str = str.substring(1);
+    	ret += lastchar;
       }
     }
-
-    return str;
+    return ret;
   };
   _.substQuotations = function(text) {
     // " either means '"' or '\\quotation{' / '}', so we have to convert
