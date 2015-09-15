@@ -582,7 +582,7 @@ __GGB__keysVar.nl.command = {
     "NSolveODE.Syntax": "[ <List of Derivatives>, <Initial x-coordinate>, <List of Initial y-coordinates>, <Final x-coordinate> ]",
     "Name": "Naam",
     "Name.Syntax": "[ <Object> ]",
-    "Net": "Net",
+    "Net": "Ontvouwing",
     "Net.Syntax": "[ <Polyhedron>, <Number> ]\n[ <Polyhedron>, <Number>, <Face>, <Edge>, <Edge>, ... ]",
     "NextPrime": "Volgend_Priemgetal",
     "NextPrime.Syntax": "[ <Getal> ]",
