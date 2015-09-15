@@ -2486,8 +2486,29 @@ function createRoot(jQ, root, textbox, editable) {
       
       //console.log('paste 2:'+text3);
 
+      // this is not good, e.g. in Quotation we shall leave
+      // space intact... similarly, we cannot delete " "
+      // from anywhere, but just solve this double-space
+      // in another way, i.e. do not change it to \u2060
+      // if it is after another \space ...
+      //text3 = text3.split('\space ').join('\u2060');
+
       text3 = text3.split(' ').join('\u2060');
-      
+
+      // or it is also okay (and more easy) to change back
+      // as we don't want \space\u2060 anyway...
+      var text3b = '';
+      while (text3b !== text3) {
+        text3b = text3;
+        text3 = text3.split('\\space\u2060').join('\\space ');
+        // maybe these things may also happen
+        text3 = text3.split('\u2060\\space').join(' \\space');
+        // the same again?
+        // NOTE: it's not good to change more characters to less
+        // here, e.g. \u2060\u2060 to \u2060 because it would
+        // work wrongly in case of inside Quotations
+      }
+
       //console.log('paste 3:'+text3);
       
       text3 = cursor.fixabug(text3);
@@ -6908,6 +6929,10 @@ var Cursor = P(Point, function(_) {
     var lastchar = '';
     var ret = "";
     while (str.length > 0) {
+      // NOTE: this algorithm might not be perfect in some cases
+      // e.g. when there are single { and } in Quotation, etc.
+      // that is not a pair of anything, etc. so this needs to
+      // be tested more!
       if (str.charAt(0) === '{') {
     	str = str.substring(1);
     	depth++;
@@ -6926,8 +6951,16 @@ var Cursor = P(Point, function(_) {
           ret += '{';
         } else if (lastchar === '\\') {
           // it might be \\left\\{ or just \\{
-          // in both cases, let's not add another "left"
-          ret += '{';
+          // we need to add \\left in case or just \\{
+          if (ret.substr(-6) === '\\left\\') {
+            ret += '{';
+          } else {
+        	// in the end of ret, change \\ to \\left\\
+        	// which actually means just adding "left\\"
+        	// and in this iteration we also add "{"
+        	ret += 'left\\{';
+        	boolPerDepth[depth] = 51;
+          }
         } else {
           // TODO: also check for Korean!
           // else branch shall do the actual thing!
@@ -6937,9 +6970,11 @@ var Cursor = P(Point, function(_) {
     	lastchar = '{';
       } else if (str.charAt(0) === '}') {
     	str = str.substring(1);
-    	if (boolPerDepth[depth]) {
+    	if (boolPerDepth[depth] === true) {
     	  // means we need a \\right\\ added
     	  ret += '\\right\\}';
+    	} else if (boolPerDepth[depth] === 51) {
+    	  ret += 'right\\}';
     	} else {
     	  ret += '}';
     	}
