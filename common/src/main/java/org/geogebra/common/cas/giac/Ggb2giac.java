@@ -1010,14 +1010,14 @@ public class Ggb2giac {
 						+
 						// Tangent[point, function]
 						// just use x-coordinate real(%0[1])
-						"y=normal(subst(diff(ggbtanarg1,x),x=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,x=real(%0[1]))))"
+						"y=normal(subst(diff(ggbtanarg1,lname(ggbtanarg1)[0]),lname(ggbtanarg1)[0]=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,lname(ggbtanarg1)[0]=real(%0[1]))))"
 						+ ","
 						+
 						// Tangent[x-value, function]
 						// use lname(function) instead of x
 						// e.g. lname(sin(t)) = t
 						// needed for #5526
-						"y=normal(subst(diff(ggbtanarg1,lname(ggbtanarg1)[0]),lname(ggbtanarg1)[0]=ggbtanarg0)*(lname(ggbtanarg1)[0]-(ggbtanarg0))+subst(ggbtanarg1,lname(ggbtanarg1)[0]=ggbtanarg0))"
+						"y=normal(subst(diff(ggbtanarg1,lname(ggbtanarg1)[0]),lname(ggbtanarg1)[0]=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,lname(ggbtanarg1)[0]=ggbtanarg0))"
 						+ ")][1]");
 
 		// p("TangentThroughPoint.2",
