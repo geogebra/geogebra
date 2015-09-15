@@ -1,21 +1,46 @@
-This tutorial explains how to create linux -> android-eabi, android-x86 cross compilers and compile the giac library.
-The Kubuntu 14.04 system was used.
+This tutorial explains how to create linux -> android-eabi, android-x86
+cross compilers and compile the giac library. The tutorial has been
+tested on Kubuntu 14.04 and Ubuntu 14.10 systems.
 
-* Download Crystax NDK 10.2.1 from crystax.net/en/download
-* unpack the contents to ~/android-sdks/
-* set the enviroment variable NDK_DIR to ~/android-sdks/crystax-ndk-10.2.1/ and CC_DIR to ~/cross-compilers
-*    ARCH=arm
+Prerequisites
+-------------
 
-  * $NDK_DIR/build/tools/make-standalone-toolchain --ndk-dir=$NDK_DIR --arch=$ARCH --platform=android-21 --install-dir=$CC_DIR/$ARCH
-  * PATH=$CC_DIR/$ARCH/bin/:$PATH
-  
-  * (if needed) checkout gmp and mpf and make them with the following line
-      ./configure --host=arm-linux-androideabi --prefix=$CC_DIR/$ARCH/sysroot/usr && make && make install
+1. Download Crystax NDK 10.2.1 from https://crystax.net/en/download. You need about 2 GB free space.
 
-* repeat the process above for ARCH=x86
+2. Unpack the contents to ~/android-sdks/. Note that you need about 8 GB extra free space.
 
-* uncomment the following lines in build.gradle
-  //targetPlatform 'androideabi'
-  //targetPlatform 'androidx86'
+3. Set the enviroment variables:
 
-* call./gradlew :giac:androideabiJavagiacSharedLibrary :giac:androidx86JavagiacSharedLibrary  
+   $ NDK_DIR=~/android-sdks/crystax-ndk-10.2.1
+   $ CC_DIR=~/cross-compilers
+
+4. Set
+
+   $ ARCH=arm
+
+5. Run
+
+   $ $NDK_DIR/build/tools/make-standalone-toolchain.sh --ndk-dir=$NDK_DIR --arch=$ARCH --platform=android-21 --install-dir=$CC_DIR/$ARCH
+
+6. Type
+
+   $ export PATH=$CC_DIR/$ARCH/bin/:$PATH
+
+7. Optionally check out GMP and MPFR and make them with the following command:
+
+   $ ./configure --host=arm-linux-androideabi --prefix=$CC_DIR/$ARCH/sysroot/usr && make && make install
+
+8. Repeat the steps 4-7 above but instead of step 4 use
+
+   $ ARCH=x86
+
+Compilation
+-----------
+
+1. Make sure that the PATH variable is properly set (see step 6 above).
+
+2. Run
+
+   $ ./gradlew :giac:androideabiJavagiacSharedLibrary :giac:androidx86JavagiacSharedLibrary
+
+   in the parent folder (..) relative to this directory.

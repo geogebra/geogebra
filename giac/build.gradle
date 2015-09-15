@@ -122,7 +122,7 @@ model {
             }
             target('androidx86') {
                 cppCompiler.executable 'i686-linux-android-g++'
-                linker.executable 'i686-linux-android-g++'    
+                linker.executable 'i686-linux-android-g++'
             }
         }
 	}
@@ -155,8 +155,8 @@ model {
             targetPlatform 'linux_i686' // this will be fixed in Gradle 2.4 (-> linux32)
             targetPlatform 'linux64'
             targetPlatform 'osx_amd64'
-            //targetPlatform 'androideabi'
-            //targetPlatform 'androidx86'
+            targetPlatform 'androideabi'
+            targetPlatform 'androidx86'
 
             sources.cpp {
                 source {
