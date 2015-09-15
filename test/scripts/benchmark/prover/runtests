@@ -356,7 +356,7 @@ for i in `find -name '*.ggb' | sort`; do
   CELLCOLOR="green!10"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "${RESULT:0:$DIRNAMELENGTH}" != "$DIRNAME" ]; then
-   if [ "$RESULT" = "undefined" -o "$RESULT" = "" ]; then
+   if [ "$RESULT" = "undefined" -o "$RESULT" = "" -o "$RESULT" = "?" ]; then
     RESULTCLASS=" class=\"undefined\""
     CELLCOLOR="yellow!25"
    else
