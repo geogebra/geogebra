@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
+import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -143,7 +144,8 @@ public class TextOptionsModel extends OptionsModel {
 		}
 		App.debug("UpdateText Properties Text");
 		GeoText text0 = getGeoTextAt(0);
-		if (text0 != null) {
+		if (text0 != null
+				&& text0.getParentAlgorithm() instanceof AlgoDependentText) {
 			/*
 			 * build the dynamic list even for independent texts to make sure
 			 * the initialization works
