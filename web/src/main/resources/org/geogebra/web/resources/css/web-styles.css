@@ -234,6 +234,7 @@ input[type="text"]::-ms-clear {
 	cursor: pointer;
 	cursor: hand;
 	margin-left: 5px;
+	min-height: 0px;
 }
 
 .GeoGebraFrame .gwt-Button.minor {
