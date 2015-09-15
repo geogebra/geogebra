@@ -2927,4 +2927,30 @@ AngleProperties {
 		return get(0).copyInternal(cons);
 	}
 
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
+
+	@Override
+	public int getLineOpacity() {
+		return lineOpacity;
+	}
+
+	@Override
+	public void setLineOpacity(int lineOpacity) {
+		this.lineOpacity = lineOpacity;
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setLineOpacity(lineOpacity);
+			}
+		}
+	}
+
 }

@@ -435,7 +435,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/** line type for hidden parts (for 3D) */
 	public int lineTypeHidden = EuclidianStyleConstants.DEFAULT_LINE_TYPE_HIDDEN;
 	/** line opacity */
-	private int lineOpacity = 255;
+	protected int lineOpacity = 255;
 
 	/** decoration type */
 	public int decorationType = DECORATION_NONE;
