@@ -314,11 +314,11 @@ public class Command extends ValidExpression implements
 				sbToString.append(toString(args.get(i), symbolic, LaTeX, tpl));
 				// Integral[f,0,1]
 				// make sure that we add the parameter of the function too
-				if (name.equals("Integral") && getArgumentNumber() == 3) {
+				if (name.equals("Integral")) {
 					if (i == 0 && args.get(0).isExpressionNode()
 							&& args.get(0).getLeft() instanceof GeoCasCell) {
 						if (((GeoCasCell) args.get(0).getLeft())
-								.isAssignmentVariableDefined()) {
+								.isAssignmentVariableDefined() && args.get(0).getRight() == null) {
 							sbToString.append("("
 									+ ((GeoCasCell) args.get(0).getLeft())
 											.getFunctionVariable() + ")");

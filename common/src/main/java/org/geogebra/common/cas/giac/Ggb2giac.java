@@ -70,7 +70,6 @@ public class Ggb2giac {
 				// case px^(2n) + r
 						+ " [ [ [n:=degree(ggbsort(%0)[1]) div 2] , [p:=coeffs(ggbsort(%0)[1])[0]] , [r:=coeffs(ggbsort(%0)[2])[0]] ] , equation(p*(lname(%0)[0]^(2n))+r) ][1] , "
 						// case px^(2n) + qx^n
-						// TO DO tesztelni hogy n
 						+ " [ [ [n:=degree(ggbsort(%0)[1]) div 2] , [p:=coeffs(ggbsort(%0)[1])[0]] , [q:=coeffs(ggbsort(%0)[2])[0]] , [h:=-q/(2*p)] , [k:=(-q^2)/(4*p)] ] , when ( degree((%0)[2]) == n , equation(p*((lname(%0)[0])^n-h)^2+k) , ? ) ][1] ) ,"
 						// 2 terms with even degree
 						+ " ? ) , "

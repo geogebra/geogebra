@@ -1548,8 +1548,20 @@ kernel, left,
 			if (tpl.getStringType().equals(StringType.OGP)
 					&& expandForOGP(left)) {
 				leftStr = ((GeoElement) left).getCommandDescription(tpl);
-			} else
+			} else {
 				leftStr = ((GeoElement) left).getLabel(tpl);
+				// case left is a cell with a function
+				if (left instanceof GeoCasCell
+						&& ((GeoCasCell) left).isAssignmentVariableDefined()) {
+					String var = ((GeoCasCell) left).getFunctionVariable();
+					// append function variable to leftStr
+					if (((GeoCasCell) left).getAssignmentVariable().equals(
+							leftStr)
+							&& var != null) {
+						leftStr = leftStr + "(" + var + ")";
+					}
+				}
+			}
 		} else {
 			leftStr = left.toString(tpl);
 		}
@@ -1559,8 +1571,20 @@ kernel, left,
 				if (tpl.getStringType().equals(StringType.OGP)
 						&& expandForOGP(right)) {
 					rightStr = ((GeoElement) right).getCommandDescription(tpl);
-				} else
+				} else {
 					rightStr = ((GeoElement) right).getLabel(tpl);
+					// case right is a cell with a function
+					if (right instanceof GeoCasCell
+							&& ((GeoCasCell) right)
+									.isAssignmentVariableDefined()) {
+						String var = ((GeoCasCell) right).getFunctionVariable();
+						// append function variable to rightStr
+						if (((GeoCasCell) right).getAssignmentVariable()
+								.equals(rightStr) && var != null) {
+							rightStr = rightStr + "(" + var + ")";
+						}
+					}
+				}
 			} else {
 				rightStr = right.toString(tpl);
 			}
