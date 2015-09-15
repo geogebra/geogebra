@@ -544,6 +544,10 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
+		if (!isDefined()) {
+			curve.setUndefined();
+			return;
+		}
 		curve.setFromPolyLine(points, false);
 	}
 

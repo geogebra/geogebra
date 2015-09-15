@@ -2369,6 +2369,10 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
+		if (!isDefined()) {
+			curve.setUndefined();
+			return;
+		}
 		curve.setFromPolyLine(points, true);
 	}
 
