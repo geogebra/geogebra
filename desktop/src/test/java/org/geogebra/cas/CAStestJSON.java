@@ -97,7 +97,12 @@ public class CAStestJSON {
 				
 				testcases.put(cat, new HashMap<String,String>());
 			}
+				if (test.has("round")) {
+					testcases.get(cat).put(test.getString("cmd"),
+							test.getString("round"));
+				} else {
 			testcases.get(cat).put(test.getString("cmd"),test.getString("result"));
+			}
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -106,7 +111,8 @@ public class CAStestJSON {
 
 	}
 	
-	private static void ta (boolean tkiontki, String input, String expectedResult, String ... validResults) {
+	private static void ta(boolean tkiontki, String input,
+			String[] expectedResult, String... validResults) {
 	    String result;
 
 	    try {
@@ -147,24 +153,42 @@ public class CAStestJSON {
 
 	      result = t.getClass().getName() + ":" + t.getMessage() + sts;
 	    }
-	    try{
-	    assertThat(result, equalToIgnoreWhitespaces(logger, input, expectedResult, validResults));
-	    }catch(Throwable t){
-	    	if(!(t instanceof AssertionError) ){
-	    		t.printStackTrace();
-	    	}
-	    	Assert.assertEquals(result, expectedResult + " input:"+input);
+		for (int i = 0; i < expectedResult.length; i++) {
+			if ("RANDOM".equals(expectedResult[i])) {
+				return;
+			}
+			try {
+				result = result.replaceAll("c_[0-9]", "c_0")
+						.replaceAll("c_\\{[0-9]+\\}", "c_0")
+						.replace("arccos", "acos").replace("arctan", "atan")
+						.replace("NteWurzel", "nroot");
+				assertThat(
+						result,
+						equalToIgnoreWhitespaces(logger, input,
+								expectedResult[i].replaceAll("c_[0-9]", "c_0"),
+								validResults));
+			} catch (Throwable t) {
+				if (!(t instanceof AssertionError)) {
+					t.printStackTrace();
+				}
+				if (i == expectedResult.length - 1) {
+					Assert.assertEquals(result, expectedResult[0] + " input:"
+							+ input);
+				}
+			}
 	    }
 	  }
 	
 	private static void t (String input, String expectedResult) {
 		String[] validResults = expectedResult.split("\\|OR\\|");
-	    ta(false, input, validResults[0], validResults);
+		ta(false, input, validResults, validResults);
 	}
 	
 	private static void testCat(String name){
 		kernel.clearConstruction(true);
-		Assert.assertNotNull(testcases.get(name)); 
+		if (testcases.get(name) == null) {
+			return;
+		}
 		for(String cmd:testcases.get(name).keySet()){
 			t(cmd, testcases.get(name).get(cmd));
 		}
