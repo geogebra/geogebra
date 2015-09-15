@@ -3668,6 +3668,13 @@ public class GeoGebraCasIntegrationTest {
     s("SolveODE[y / x, y, x]", "y = c_INDEX * x");
   }
 
+	@Test
+	public void Solve_ODE_2() {
+		t("SolveODE[y''=0,{(0,1)}, {(1,3)}]", "y = 3 * x + 1");
+		t("SolveODE[y''=0,(0,1), (1,3)]", "y = 3 * x + 1");
+		t("SolveODE[y''=0,{(0,1), (1,3)}]", "y = 2 * x + 1");
+	}
+
 
   /* Substitute */
 
