@@ -357,10 +357,9 @@ public class RadioTreeItem extends AVTreeItem
 			event.preventDefault();
 			event.stopPropagation();
 
-			if (isWidgetHit(tfMin, event) || isWidgetHit(tfMax, event)
-					|| isWidgetHit(tfStep, event)) {
-				((AutoCompleteTextFieldW) event.getSource()).selectAll();
-			} else if (!tfPressed) {
+			if (!(selectAllOnFocus(tfMin, event)
+					|| selectAllOnFocus(tfMax, event)
+					|| selectAllOnFocus(tfStep, event))) {
 				apply();
 			}
 
@@ -370,13 +369,19 @@ public class RadioTreeItem extends AVTreeItem
 			event.preventDefault();
 			event.stopPropagation();
 
-			tfPressed = (isWidgetHit(tfMin, event) || isWidgetHit(tfMax, event) || isWidgetHit(
-					tfStep, event));
-			if (tfPressed) {
-				((AutoCompleteTextFieldW) event.getSource()).selectAll();
-			}
+			selectAllOnFocus(tfMin, event);
+			selectAllOnFocus(tfMax, event);
+			selectAllOnFocus(tfStep, event);
+
 		}
 
+		private boolean selectAllOnFocus(AVField avField, MouseEvent event) {
+			if (isWidgetHit(avField, event)) {
+				avField.selectAll();
+				return true;
+			}
+			return false;
+		}
 	}
 
 	private class AnimPanel extends FlowPanel implements ClickHandler {
@@ -2042,6 +2047,9 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	private void onPointerUp(AbstractEvent event) {
+		if (avExtension && isMinMaxPanelVisible()) {
+			return;
+		}
 		if (commonEditingCheck()) {
 			if (newCreationMode) {
 				AlgebraStyleBarW styleBar = getAV().getStyleBar(false);
