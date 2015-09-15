@@ -5759,6 +5759,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	height: 24px;
 	border: none;
 	outline: none;
+	cursor: pointer;
 }
 
 .GeoGebraFrame .avSpeedButton > * {
@@ -5779,6 +5780,10 @@ body.application[dir=rtl] .deleteAlgebra {
 	width: 0px;
 	padding: 0px;
 	overflow: hidden;
+}
+
+.GeoGebraFrame .AlgebraViewObjectStylebar .speedValue:hover {
+	color: #6161FF;
 }
 
 .GeoGebraFrame .slideIn {
