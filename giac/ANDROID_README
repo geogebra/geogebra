@@ -5,7 +5,7 @@ tested on Kubuntu 14.04 and Ubuntu 14.10 systems.
 Prerequisites
 -------------
 
-1. Download Crystax NDK 10.2.1 from https://crystax.net/en/download. You need about 2 GB free space.
+1. Download Crystax NDK 10.2.1 from https://crystax.net/en/download. You may need about 2 GB free space.
 
 2. Unpack the contents to ~/android-sdks/. Note that you need about 8 GB extra free space.
 
@@ -30,9 +30,13 @@ Prerequisites
 
    $ ./configure --host=arm-linux-androideabi --prefix=$CC_DIR/$ARCH/sysroot/usr && make && make install
 
+   This step requires additional 300-500 MB disk space.
+
 8. Repeat the steps 4-7 above but instead of step 4 use
 
    $ ARCH=x86
+
+9. Now you may remove the $NDK_DIR folder and save some disk space.
 
 Compilation
 -----------

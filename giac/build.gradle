@@ -115,6 +115,7 @@ model {
                 linker.executable 'gcc'
         	}
     	}
+	// Note: Make sure manually that these executables are on the PATH.
         android(Gcc) {
             target('androideabi') {
                 cppCompiler.executable 'arm-linux-androideabi-g++'
