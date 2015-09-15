@@ -24,7 +24,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -163,14 +162,15 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		// buttons
 		btApply = new Button(app.getPlain("Apply"));
 		btApply.addClickHandler(this);
-		btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
+		// btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(this);
-		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
+		// btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		bottomWidget.add(btApply);
 		bottomWidget.add(btCancel);
+		bottomWidget.add(btApply);
 	}
 
 	private void updateLabelField(GeoElement geo, boolean isInteger) {

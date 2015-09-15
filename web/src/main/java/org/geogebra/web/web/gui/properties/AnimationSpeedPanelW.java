@@ -37,13 +37,15 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
         FlowPanel mainPanel = new FlowPanel();
         FlowPanel speedPanel = new FlowPanel();
         FlowPanel repeatPanel = new FlowPanel();
-        speedPanel.setStyleName("optionsPanel");
-        repeatPanel.setStyleName("optionsPanel");
+		speedPanel.setStyleName("optionsPanel rows");
+		repeatPanel.setStyleName("optionsPanel rows");
         speedPanel.add(getLabel());
         speedPanel.add(tfAnimSpeed);
         repeatPanel.add(modeLabel);
         repeatPanel.add(getListBox());
-		mainPanel.add(LayoutUtil.panelRow(speedPanel, repeatPanel));
+		// mainPanel.add(LayoutUtil.panelRow(speedPanel, repeatPanel));
+		mainPanel.add(LayoutUtil.panelRowVertical(getLabel(), tfAnimSpeed));
+		mainPanel.add(LayoutUtil.panelRowVertical(modeLabel, getListBox()));
         setWidget(mainPanel);
 
         tfAnimSpeed.addKeyHandler(new KeyHandler(){

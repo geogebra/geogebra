@@ -134,6 +134,7 @@ public class GOptionPaneW extends GDialogBox implements GOptionPane,
 
 		btnCancel = new Button();
 		btnCancel.addClickHandler(this);
+		btnCancel.addStyleName("cancelBtn");
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("DialogButtonPanel");
@@ -179,6 +180,12 @@ public class GOptionPaneW extends GDialogBox implements GOptionPane,
 			for (int i = optionNames.length - 1; i >= 0; i--) {
 				optionButtons[i] = new Button(optionNames[i]);
 				optionButtons[i].addClickHandler(this);
+
+				// Styling of cancel button should be different
+				if (optionNames[i].equals(app.getMenu("Cancel"))) {
+					optionButtons[i].addStyleName("cancelBtn");
+				}
+
 				buttonPanel.add(optionButtons[i]);
 			}
 			break;

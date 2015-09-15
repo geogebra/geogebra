@@ -15,6 +15,16 @@ public class LayoutUtil {
 		return p;
 	}
 
+	public static FlowPanel panelRowVertical(IsWidget... widgets) {
+		FlowPanel p = new FlowPanel();
+		for (IsWidget widget : widgets) {
+			p.add(widget);
+		}
+		p.setStyleName("panelRow rows");
+
+		return p;
+	}
+
 	public static FlowPanel panelRowIndent(IsWidget... widgets) {
 		FlowPanel p = panelRow(widgets);
 		p.setStyleName("panelRowIndent");

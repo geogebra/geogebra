@@ -172,6 +172,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		btCancel = new Button();
 		btCancel.addClickHandler(this);
+		btCancel.addStyleName("cancelBtn");
 
 		btApply = new Button();
 		btApply.addClickHandler(this);
@@ -179,8 +180,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		// create button panel
 		btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
-		btPanel.add(btOK);
 		btPanel.add(btCancel);
+		btPanel.add(btOK);
 		// just tmp.
 		if (showApply) {
 			btPanel.add(btApply);

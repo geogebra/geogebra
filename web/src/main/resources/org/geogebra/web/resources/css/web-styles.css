@@ -190,6 +190,7 @@ input[type="text"]::-ms-clear {
 
 .GeoGebraFrame input[type="range"] { /*margin: 0px;*/
 	padding: 5px 0px;
+	margin: 0px 10px;
 }
 
 .gwt-TextBox-readonly,.gwt-TextArea-readonly {
@@ -772,9 +773,12 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }
 
 .gwt-PopupPanelGlass {
-	background-color: #000;
+	background-color: #FFF;
+	opacity: 0.7;
+	filter: ~'alpha(opacity = 70)';
+	/* background-color: #000;
 	opacity: 0.3;
-	filter: ~'alpha(opacity = 30)';
+	filter: ~'alpha(opacity = 30)'; */
 	z-index: 100;
 }
 
@@ -2690,20 +2694,30 @@ body.application[dir=rtl] .button.redoButton {
 /*#####################################################################################
 ###       DIALOGS
 #####################################################################################*/
-.DialogBox,.gwt-DialogBox {
+.DialogBox,
+.gwt-DialogBox {
 	z-index: 501;
-	box-shadow: 1px 1px 6px 1px #666666;
+	/*box-shadow: 1px 1px 6px 1px #666666;*/
+	
+	background-color: rgba(255,255,255,0.9);
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+	
+	padding: 15px;
 }
 
 .gwt-DialogBox .Caption {
 	cursor: default;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 	font-size: 110%;
-	padding: 10px;
-	text-align: center;
+	/*padding: 10px;*/
+	padding-bottom: 5px;
 	color: #333333;
-	border-bottom: 1px solid #CCCCCC;
-	background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
+	border-bottom: 1px solid #DCDCDC;
+	margin-bottom: 15px;
+	/*background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
 		rgb(247, 247, 247) 100% );
 	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%,
 		rgb(247, 247, 247) 100% );
@@ -2712,7 +2726,7 @@ body.application[dir=rtl] .button.redoButton {
 	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%,
 		rgb(247, 247, 247) 100% );
 	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
-		rgb(247, 247, 247) 100% );
+		rgb(247, 247, 247) 100% );*/
 	/*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(140,
 		150, 170) ), color-stop(1, rgb(247, 247, 247) ) );*/
 		
@@ -2720,29 +2734,38 @@ body.application[dir=rtl] .button.redoButton {
 
 .dialogContent {
 	color: #666666;
-	background-color: #F8F8F8;
-	padding: 0px;
+	/*background-color: #F8F8F8;*/
+	/*padding: 0px;
 	background-image: none;
 	border: none;
 	-webkit-border-radius: 0px;
 	-khtml-border-radius: 0px;
 	-moz-border-radius: 0px;
-	border-radius: 0px;
-	padding: 10px;
+	border-radius: 0px;*/
 }
 
 .dialogContent table {
 	width: 100%;
 }
 
-.dialogContent input[type="text"],.dialogContent select {
+.dialogContent input[type="text"],
+.dialogContent select {
 	margin-top: 5px;
 	margin-bottom: 10px;
-	width: 98%;
+	/* width: 98%; */
+	width: 100%;
 }
 
 .dialogContent textarea {
 	margin-top: 5px;
+}
+
+.dialogContent .optionsPanel > * {
+	margin: 3px 0px;
+}	
+.panelRow.rows > * {
+	width: 100%;
+	display: block;
 }
 
 .dialogContent .gwt-CheckBox {
@@ -2762,7 +2785,13 @@ body.application[dir=rtl] .dialogContent .gwt-CheckBox {
 }
 
 .Dialog-messagePanel img {
-	margin: 10px;
+	/* margin: 10px; */
+	margin-right: 10px;
+}
+body.application[dir=rtl] .Dialog-messagePanel img {
+	/* margin: 10px; */
+	margin-left: 10px;
+	margin-right: 0px;
 }
 
 .DialogRbPanel {
@@ -2798,6 +2827,61 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	padding-bottom: 10px;
 }
 
+.DialogBox .dialogToolIcon {
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid #DCDCDC;
+	background-color: #FFF;
+}
+
+.DialogBox .DialogButtonPanel .gwt-Button,
+.DialogBox .buttonPanel .saveButton,
+.DialogBox .buttonPanel .saveButton.button-up-disabled {
+	background-color: #6161FF;
+	color: #FFF;
+	font-size: 100%;
+	box-shadow: none;
+	font-weight: normal;
+}
+.DialogBox .DialogButtonPanel .gwt-Button:hover,
+.DialogBox .buttonPanel .saveButton:hover,
+.DialogBox .buttonPanel .saveButton.button-up-disabled:hover {
+	border: 1px solid #3333FF;
+}
+.DialogBox .DialogButtonPanel .gwt-Button:active,
+.DialogBox .buttonPanel .saveButton:active,
+.DialogBox .buttonPanel .saveButton.button-up-disabled:active {
+	box-shadow: 0 1px 1px rgba(0,0,0,0.2) inset;
+	border: 1px solid #3333FF;
+}
+
+.DialogBox .gwt-Button.cancelBtn,
+.DialogBox .button.cancelBtn,
+.DialogBox .gwt-Button.resetBtn,
+.DialogBox .button.resetBtn {
+	color: #666666;
+	border: none;
+	background: none;
+	text-decoration: underline;
+	padding: 5px 0;
+	margin: 0 10px;
+	
+	font-size: 100%;
+	box-shadow: none;
+	font-weight: normal;
+}
+.DialogBox .gwt-Button.cancelBtn:hover,
+.DialogBox .gwt-Button.cancelBtn:active,
+.DialogBox .button.cancelBtn:hover,
+.DialogBox .button.cancelBtn:active,
+.DialogBox .gwt-Button.resetBtn:hover,
+.DialogBox .gwt-Button.resetBtn:active,
+.DialogBox .button.resetBtn:hover,
+.DialogBox .button.resetBtn:active {
+	color: #6161FF;
+	border: none;
+}
+
 
 .TextInputDialog .gwt-ToggleButton {
 	padding-right: 6px;
@@ -2821,10 +2905,11 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	cursor: hand;
 }
 
-.GeoGebraFileChooser .buttonPanel .saveButton, .GeoGebraFileChooser .buttonPanel .saveButton.button-up-disabled {
+/* .GeoGebraFileChooser .buttonPanel .saveButton,
+.GeoGebraFileChooser .buttonPanel .saveButton.button-up-disabled {
 	background-color: #6161FF !important;
 	color: #FFFFFF;
-}
+} */
 
 /*-------- RECOVER AUTO SAVED DIALOG ------------*/
 
@@ -2864,6 +2949,9 @@ body.application[dir=rtl] .dialogContent .sliderWidthPanel div {
 
 .sliderDialog .dialogContent .gwt-TabPanelBottom {
 	min-height: 150px;
+	margin-bottom: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 /* ----------- BUTTON DIALOG -------------*/
@@ -2946,7 +3034,7 @@ body.application[dir=rtl] .GeoGebraFileChooser .titlePanel .gwt-Label {
 }
 
 .GeoGebraFileChooser .buttonPanel {
-	padding: 5px;
+	/* padding: 5px; */
 	float: right;
 }
 
@@ -4211,18 +4299,20 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 }
 
 .colorSlider {
-	margin-right: 10px;
-	display: table-row;
+	margin-right: 20px;
+	/* display: table-row; */
+	display: inline-block;
 }
 
-.colorSlider>* { /*display: inline-block;*/
-	display: table-cell;
+.colorSlider>* {
+	display: inline-block;
+	/* display: table-cell; */
 	vertical-align: middle;
 }
 
-.ColorDialog-content {
+/* .ColorDialog-content {
 	padding: 8px;
-}
+} */
 
 /*.CustomColorPreview {
 	align: center;

@@ -169,6 +169,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		// buttons
 		saveBtn.addClickHandler(this);
 		cancelBtn.addClickHandler(this);
+		cancelBtn.addStyleName("cancelBtn");
 
 		bottomPanel.setStyleName("DialogButtonPanel");
 

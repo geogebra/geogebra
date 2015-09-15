@@ -39,11 +39,13 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 		FlowPanel btnPanel = new FlowPanel();
 		btnOk = new Button();
 		btnCancel = new Button();
+		btnCancel.addStyleName("cancelBtn");
 		btnReset = new Button();
+		btnReset.addStyleName("resetBtn");
 		btnPanel.addStyleName("DialogButtonPanel");
-		btnPanel.add(btnOk);
 		btnPanel.add(btnCancel);
 		btnPanel.add(btnReset);
+		btnPanel.add(btnOk);
 		mainWidget.add(btnPanel);
 		
 		btnOk.addClickHandler(new ClickHandler() {

@@ -27,7 +27,7 @@ public class CustomColorDialog extends DialogBoxW {
     };
     
 	private static final int PREVIEW_HEIGHT = 40;
-	private static final int PREVIEW_WIDTH = 230;
+	private static final int PREVIEW_WIDTH = 258;
 	private ColorComponent red;
 	private ColorComponent green;
 	private ColorComponent blue;
@@ -179,11 +179,13 @@ public class CustomColorDialog extends DialogBoxW {
 		FlowPanel btnPanel = new FlowPanel();
 		btnOk = new Button();
 		btnCancel = new Button();
+		btnCancel.addStyleName("cancelBtn");
 		btnReset = new Button();
+		btnReset.addStyleName("resetBtn");
 		btnPanel.addStyleName("DialogButtonPanel");
-		btnPanel.add(btnOk);
 		btnPanel.add(btnCancel);
 		btnPanel.add(btnReset);
+		btnPanel.add(btnOk);
 		mainWidget.add(btnPanel);
 		
 		btnOk.addClickHandler(new ClickHandler() {

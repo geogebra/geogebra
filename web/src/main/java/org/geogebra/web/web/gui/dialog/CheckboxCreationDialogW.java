@@ -239,6 +239,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		});
 		
 		btCancel = new Button(loc.getPlain("Cancel"));
+		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
@@ -249,8 +250,8 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		btPanel = new FlowPanel();
 		btPanel.setStyleName("DialogButtonPanel");
 
-		btPanel.add(btApply);
 		btPanel.add(btCancel);
+		btPanel.add(btApply);
 
 		// Create the JOptionPane.
 		optionPane = new FlowPanel();

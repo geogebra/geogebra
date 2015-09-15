@@ -1573,8 +1573,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		final Image icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar
 		        .getMyIconResourceBundle().mode_slider_32()), 32);
-		icon.getElement().getStyle()
-		        .setProperty("border", "3px solid steelblue");
+		icon.addStyleName("dialogToolIcon");
+		// icon.getElement().getStyle()
+		// .setProperty("border", "3px solid steelblue");
 
 		getOptionPane().showOptionDialog(app,
 		        loc.getPlain("CreateSlidersForA", s),

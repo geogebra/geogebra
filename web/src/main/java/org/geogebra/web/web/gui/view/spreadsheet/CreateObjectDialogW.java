@@ -451,6 +451,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		btOK.addClickHandler(this);
 
 		btCancel = new Button();
+		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(this);
 
 		btApply = new Button();
