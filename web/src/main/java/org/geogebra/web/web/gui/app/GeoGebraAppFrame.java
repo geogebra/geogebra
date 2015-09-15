@@ -191,7 +191,6 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 				int viewId = app.getGuiManager().getLayout().getDockManager()
 						.getFocusedViewId();
 				if (viewId != App.VIEW_ALGEBRA) {
-					App.debug("!!!!!!!!!!!!!CLEAR!!!!!!!!!");
 					app.getAlgebraView().resetItems(true);
 				}
 

@@ -5755,6 +5755,12 @@ body.application[dir=rtl] .deleteAlgebra {
 	padding: 0px;
 }
 
+.avPlayButton {
+	height: 24px;
+	border: none;
+	outline: none;
+}
+
 .GeoGebraFrame .avSpeedButton > * {
 	/* height is wrong otherwise */
 	float: left;

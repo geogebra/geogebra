@@ -114,7 +114,6 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
@@ -154,38 +153,61 @@ public class RadioTreeItem extends AVTreeItem
 	static final String CLEAR_COLOR_STR = GColor
 			.getColorString(GColorW.WHITE);
 
-	public class PlayButton extends Image implements TimerListener {
+	public class PlayButton extends MyToggleButton2 implements TimerListener {
+		public PlayButton() {
+			super(GuiResources.INSTANCE.icons_play_circle(),
+					GuiResources.INSTANCE.icons_play_pause_circle());
+			getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE.icons_play_circle_hover()));
+			getDownHoveringFace().setImage(new Image(
+					GuiResources.INSTANCE.icons_play_pause_circle_hover()));
+			setStyleName("avPlayButton");
 
-		public PlayButton(ImageResource imageresource) {
-			super(imageresource);
 		}
 
 		@Override
 		public void onTimerStarted() {
-			setResource(GuiResources.INSTANCE
-					.icons_play_pause_circle());
 			setAnimating(true);
 		}
 
 		@Override
 		public void onTimerStopped() {
-			setResource(GuiResources.INSTANCE.icons_play_circle());
 			setAnimating(false);
 		}
-
-		public void update() {
-			// TODO store actual icon and check before replacing it
-
-			playButtonValue = geo.isAnimating()
-					&& app.getKernel().getAnimatonManager().isRunning();
-			ImageResource newIcon = playButtonValue
-					? GuiResources.INSTANCE.icons_play_pause_circle()
-					: GuiResources.INSTANCE.icons_play_circle();
-			setResource(newIcon);
-
-		}
-
 	}
+
+	// public class PlayButton extends Image implements TimerListener {
+	//
+	// public PlayButton(ImageResource imageresource) {
+	// super(imageresource);
+	// }
+	//
+	// @Override
+	// public void onTimerStarted() {
+	// setResource(GuiResources.INSTANCE
+	// .icons_play_pause_circle());
+	// setAnimating(true);
+	// }
+	//
+	// @Override
+	// public void onTimerStopped() {
+	// setResource(GuiResources.INSTANCE.icons_play_circle());
+	// setAnimating(false);
+	// }
+	//
+	// public void update() {
+	// // TODO store actual icon and check before replacing it
+	//
+	// playButtonValue = geo.isAnimating()
+	// && app.getKernel().getAnimatonManager().isRunning();
+	// ImageResource newIcon = playButtonValue
+	// ? GuiResources.INSTANCE.icons_play_pause_circle()
+	// : GuiResources.INSTANCE.icons_play_circle();
+	// setResource(newIcon);
+	//
+	// }
+	//
+	// }
 
 	interface CancelListener {
 		void cancel();
@@ -427,10 +449,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		private void createPlayButton() {
-			ImageResource imageresource = geo.isAnimating()
-					? GuiResources.INSTANCE.icons_play_pause_circle()
-					: GuiResources.INSTANCE.icons_play_circle();
-			btnPlay = new PlayButton(imageresource);
+			btnPlay = new PlayButton();
 
 			ClickStartHandler.init(btnPlay, new ClickStartHandler() {
 				@Override
@@ -438,9 +457,6 @@ public class RadioTreeItem extends AVTreeItem
 					boolean value = !(geo.isAnimating() && app.getKernel()
 							.getAnimatonManager().isRunning());
 					geo.setAnimating(value);
-					btnPlay.setResource(value
-							? GuiResources.INSTANCE.icons_play_pause_circle()
-							: GuiResources.INSTANCE.icons_play_circle());
 					geo.updateRepaint();
 					showSpeedButtons(false);
 
