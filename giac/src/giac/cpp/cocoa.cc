@@ -10055,7 +10055,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       smod(resmod[i],env);
   }
 
-  bool in_zgbasis(vectpolymod &resmod,unsigned ressize,vector<unsigned> & G,modint env,bool totdeg,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero,vector< zinfo_t > & f4buchberger_info,bool recomputeR){
+  bool in_zgbasis(vectpolymod &resmod,unsigned ressize,vector<unsigned> & G,modint env,bool totdeg,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero,vector< zinfo_t > & f4buchberger_info,bool recomputeR,bool eliminate_flag){
     unsigned cleared=0;
     unsigned learned_position=0,f4buchberger_info_position=0;
     bool learning=f4buchberger_info.empty();
@@ -10261,15 +10261,50 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       // CERR << added << endl;
     } // end main loop
     // convert back zpolymod to polymod
-    resmod.resize(res.size());
-    for (unsigned l=0;l<res.size();++l){
-      convert(res[l],resmod[l]);
+    // if eliminate_flag is true, keep only basis element that do not depend
+    // on variables to eliminate
+    if (eliminate_flag && (order.o==_3VAR_ORDER || order.o>=_7VAR_ORDER)){
+      resmod.clear();
+      resmod.reserve(res.size());
+      for (unsigned l=0;l<res.size();++l){
+	tdeg_t d=res[l].ldeg;
+#ifdef GIAC_64VARS
+	if (d.tab[0]%2){
+	  if (d.tab[0]/2)
+	    continue;
+	}
+	else {
+	  if (d.tdeg)
+	    continue;
+	}
+#else
+	if (d.tab[0])
+	  continue;
+#endif
+	resmod.resize(resmod.size()+1);
+	convert(res[l],resmod.back());
+      }
+      res.clear();
+      G.resize(resmod.size());
+      for (unsigned j=0; j<resmod.size();++j)
+	G[j]=j;
+      // final interreduce step2
+      polymod TMP1(order,dim);
+      for (unsigned j=0; j<resmod.size();++j){
+	reducesmallmod(resmod[j],resmod,G,j,env,TMP1,true);
+      }
     }
-    res.clear();
-    // final interreduce step2
-    polymod TMP1(order,dim);
-    for (unsigned j=0; j<G.size();++j){
-      reducesmallmod(resmod[G[j]],resmod,G,j,env,TMP1,true);
+    else {
+      resmod.resize(res.size());
+      for (unsigned l=0;l<res.size();++l){
+	convert(res[l],resmod[l]);
+      }
+      res.clear();
+      // final interreduce step2
+      polymod TMP1(order,dim);
+      for (unsigned j=0; j<G.size();++j){
+	reducesmallmod(resmod[G[j]],resmod,G,j,env,TMP1,true);
+      }
     }
     if (ressize<resmod.size())
       res.resize(ressize);
@@ -10285,12 +10320,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     return true;
   }
 
-  bool zgbasis(vectpoly8 & res8,vectpolymod &resmod,vector<unsigned> & G,modint env,bool totdeg,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero,vector< zinfo_t > & f4buchberger_info,bool recomputeR,bool convertpoly8){
+  bool zgbasis(vectpoly8 & res8,vectpolymod &resmod,vector<unsigned> & G,modint env,bool totdeg,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero,vector< zinfo_t > & f4buchberger_info,bool recomputeR,bool convertpoly8,bool eliminate_flag){
     for (unsigned i=0;i<resmod.size();++i)
       resmod[i].coord.clear();
     convert(res8,resmod,env);
     unsigned ressize = unsigned(res8.size());
-    bool b=in_zgbasis(resmod,ressize,G,env,totdeg,pairs_reducing_to_zero,f4buchberger_info,recomputeR);
+    bool b=in_zgbasis(resmod,ressize,G,env,totdeg,pairs_reducing_to_zero,f4buchberger_info,recomputeR,eliminate_flag);
     if (convertpoly8)
       convert(resmod,res8,env);
     return b;
@@ -10768,6 +10803,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     vector< info_t > * f4buchberger_info;
     vector< zinfo_t > * zf4buchberger_info;
     bool zdata;
+    bool eliminate_flag; // if true, for double revlex order returns only the gbasis part made of polynomials that do not depend on variables to eliminate
   };
   
   void * thread_gbasis(void * ptr_){
@@ -10775,7 +10811,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     ptr->G.clear();
     if (ptr->zdata){
       if (!zgbasis(ptr->current,ptr->resmod,ptr->G,ptr->p,true,
-		   ptr->reduceto0,*ptr->zf4buchberger_info,false,false))
+		   ptr->reduceto0,*ptr->zf4buchberger_info,false,false,ptr->eliminate_flag))
 	return 0;
     }
     else {
@@ -10824,7 +10860,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     return true;
   }
 
-  bool mod_gbasis(vectpoly8 & res,bool modularcheck,bool zdata,bool & rur,GIAC_CONTEXT){
+  bool mod_gbasis(vectpoly8 & res,bool modularcheck,bool zdata,bool & rur,GIAC_CONTEXT,bool eliminate_flag){
     unsigned initial=unsigned(res.size());
     double eps=proba_epsilon(contextptr); int rechecked=0;
     order_t order={0,0};
@@ -10910,6 +10946,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	gbasis_param[j].f4buchberger_info=&f4buchberger_info;
 	gbasis_param[j].zf4buchberger_info=&zf4buchberger_info;
 	gbasis_param[j].zdata=zdata;
+	gbasis_param[j].eliminate_flag=eliminate_flag;
 	if (count==1)
 	  gbasis_param[j].resmod.reserve(resmod.size());
 	bool res=true;
@@ -10931,11 +10968,11 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       // CERR << "write " << th << " " << p << endl;
 #ifdef GBASIS_F4BUCHBERGER 
       if (zdata){
-	if (!zgbasis(current,resmod,G,p.val,true,&reduceto0,zf4buchberger_info,false,false)){
+	if (!zgbasis(current,resmod,G,p.val,true,&reduceto0,zf4buchberger_info,false,false,eliminate_flag)){
 	  reduceto0.clear();
 	  zf4buchberger_info.clear();
 	  zf4buchberger_info.reserve(4*zf4buchberger_info.capacity());
-	  if (!zgbasis(current,resmod,G,p.val,true/*totaldeg*/,&reduceto0,zf4buchberger_info,false,false)){
+	  if (!zgbasis(current,resmod,G,p.val,true/*totaldeg*/,&reduceto0,zf4buchberger_info,false,false,eliminate_flag)){
 	    ok=false;
 	    break;
 	  }
@@ -11120,7 +11157,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 		  }
 		}
 		rechecked=0; 
-		if (jpos==early.size() && check_initial_generators(res,early,G,eps)){
+		if (jpos==early.size() && (eliminate_flag || check_initial_generators(res,early,G,eps))){
 		  if (debug_infolevel)
 		    CERR << CLOCK() << " end final check " << endl;
 		  swap(res,early);
@@ -11253,10 +11290,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	    return true;
 	  }
 	  // first verify that the initial generators reduce to 0
-	  if (!check_initial_generators(res,W[i],G,eps))
+	  if (!eliminate_flag && !check_initial_generators(res,W[i],G,eps))
 	    continue;
 	  if (int(W[i].size())<=GBASIS_DETERMINISTIC)
 	    eps=0;
+	  if (eliminate_flag && eps==0)
+	    eps=1e-7;
 	  double eps2=std::pow(double(p.val),double(rechecked))*eps;
 	  // recheck by computing gbasis modulo another prime
 	  if (eps2>0 && eps2<1)
@@ -11269,7 +11308,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	      termsmin = giacmin(termsmin,unsigned(W[i][k].coord.size()));
 	    }
 	    termsmin = 7*(2*termsmin-1);
-	    int epsp=mpz_sizeinbase(*P[i]._ZINTptr,10)-int(std::ceil(2*std::log10(terms)));
+	    int epsp=P[i].type==_ZINT?mpz_sizeinbase(*P[i]._ZINTptr,10):8-int(std::ceil(2*std::log10(terms)));
 	    if (epsp>termsmin)
 	      epsp=termsmin;
 	    *logptr(contextptr) << gettext("Running a probabilistic check for the reconstructed Groebner basis. If successfull, error probability is less than ") << eps << gettext(" and is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
@@ -11480,7 +11519,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     return false;
   }
   
-  bool gbasis8(const vectpoly & v,order_t & order,vectpoly & newres,environment * env,bool modularalgo,bool modularcheck,bool & rur,GIAC_CONTEXT){
+  bool gbasis8(const vectpoly & v,order_t & order,vectpoly & newres,environment * env,bool modularalgo,bool modularcheck,bool & rur,GIAC_CONTEXT,bool eliminate_flag){
     vectpoly8 res;
     vectpolymod resmod;
     vector<unsigned> G;
@@ -11494,7 +11533,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (mod_gbasis(res,modularcheck,
 		     //order.o==_REVLEX_ORDER /* zdata*/,
 		     !rur /* zdata*/,
-		     rur,contextptr)){
+		     rur,contextptr,eliminate_flag)){
 	newres=vectpoly(res.size(),polynome(v.front().dim,v.front()));
 	for (unsigned i=0;i<res.size();++i)
 	  res[i].get_polynome(newres[i]);
@@ -11506,7 +11545,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       if (!res.empty() && (res.front().order.o==_REVLEX_ORDER || res.front().order.o==_3VAR_ORDER || res.front().order.o==_7VAR_ORDER || res.front().order.o==_11VAR_ORDER)){
 	vector<zinfo_t> f4buchberger_info;
 	f4buchberger_info.reserve(256);
-	zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/);	
+	zgbasis(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,f4buchberger_info,false/* recomputeR*/,false /* don't compute res8*/,eliminate_flag);	
 	newres=vectpoly(G.size(),polynome(v.front().dim,v.front()));
 	for (unsigned i=0;i<G.size();++i)
 	  resmod[G[i]].get_polynome(newres[i]);
