@@ -4968,7 +4968,8 @@ var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _su
   };
 });
 
-LatexCmds.lbrace = LatexCmds['{'] =
+LatexCmds.lbrace =
+//LatexCmds['{'] =// this line would be harmful for matrices!
 CharCmds['{'] = bind(Bracket, '{', '}', '\\{', '\\}');
 LatexCmds.langle =
 LatexCmds.lang = bind(Bracket, '&lang;','&rang;','\\langle ','\\rangle ');
@@ -4990,7 +4991,8 @@ var CloseBracket = P(Bracket, function(_, _super) {
   };
 });
 
-LatexCmds.rbrace = LatexCmds['}'] =
+LatexCmds.rbrace =
+//LatexCmds['}'] =// this line would be harmful for matrices!
 CharCmds['}'] = bind(CloseBracket, '{','}','\\{','\\}');
 LatexCmds.rangle =
 LatexCmds.rang = bind(CloseBracket, '&lang;','&rang;','\\langle ','\\rangle ');
