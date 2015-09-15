@@ -844,6 +844,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	public void setFromPolyLine(GeoPointND[] points, boolean repeatLast) {
 		double coef = 0, coefY = 0;
 		double cumulative = 0, cumulativeY = 0;
+
+		if (points.length < 2) {
+			setUndefined();
+			return;
+		}
 		ExpressionNode enx = new ExpressionNode(this.kernel, new MyDouble(this.kernel,
 				points[0].getInhomCoordsInD2().getX()));
 		ExpressionNode eny = new ExpressionNode(this.kernel, new MyDouble(this.kernel,

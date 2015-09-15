@@ -108,9 +108,11 @@ public abstract class UndoManager {
 	 */
 	final public synchronized void restoreCurrentUndoInfo() {
 		app.getKernel().storeSelectedGeosNames();
-		loadUndoInfo(iterator.previous());
-		iterator.next();
-		updateUndoActions();
+		if (iterator != null) {
+			loadUndoInfo(iterator.previous());
+			iterator.next();
+			updateUndoActions();
+		}
 		app.getKernel().recallSelectedGeosNames();
 	}
 
