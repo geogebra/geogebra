@@ -518,7 +518,6 @@ public class Perspective {
 		sb.append("\" cmd=\"");
 		sb.append(getShowInputPanelCommands());
 		sb.append("\" top=\"");
-		App.debug("POSITION" + getInputPosition());
 		sb.append(getInputPosition() == InputPositon.top ? "true"
 				: (getInputPosition() == InputPositon.bottom ? "false"
 						: "algebra"));
