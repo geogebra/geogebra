@@ -2498,7 +2498,17 @@ function createRoot(jQ, root, textbox, editable) {
       // so it's probably better to add this to the substQuotations
       // method itself, implemented at the right places only...
 
-      var text3 = cursor.substQuotations(text3);
+      // before solving this method in a better way, we shall
+      // note that the input syntax can be quite different:
+      // output from MathQuillGGB actually has \" signs for the
+      // Quotation class and simple " signs for characters inside
+      // the quoted string. However, intuitively just the opposite
+      // shall be right, i.e. " signs for Quotation class and
+      // escaped \" characters for the characters inside the
+      // quoted string. Thus I think, it would be better to rethink
+      // the entire thing in connection with Quotations, also
+      // for JIRA ticket GGB-80, and this one TRAC-5058
+      text3 = cursor.substQuotations(text3);
 
       //console.log('paste 2:'+text3);
 
