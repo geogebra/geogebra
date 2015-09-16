@@ -535,6 +535,8 @@ public class RadioTreeItem extends AVTreeItem
 			this.selected = selected;
 			getElement().getStyle().setBackgroundColor(
 					selected ? getBgColorString() : CLEAR_COLOR_STR);
+			getElement().getStyle().setBorderColor(
+					selected ? getColorString() : CLEAR_COLOR_STR);
 
 		}
 
@@ -544,6 +546,13 @@ public class RadioTreeItem extends AVTreeItem
 			}
 
 			setHighlighted(selected);
+		}
+
+		private String getColorString() {
+			GColor gc = geo.getAlgebraColor();
+			GColorW color = new GColorW(gc.getRGB());
+			return GColor.getColorString(color);
+
 		}
 
 		private String getBgColorString() {

@@ -1091,7 +1091,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	opacity: .5;
 	zoom: 1;
 	filter: ~'alpha(opacity = 50)';
-	background: none !important;
+	/* background: none !important; */
 }
 
 .MyCanvasButton.disabled:hover {
@@ -2835,9 +2835,17 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	background-color: #FFF;
 }
 
+.DialogBox .DialogButtonPanel .gwt-Button.button-up-disabled,
+.DialogBox .buttonPanel .button.button-up-disabled,
+.DialogBox .buttonPanel .button.button-up-disabled:hover,
+.DialogBox .buttonPanel .button.button-up-disabled:active {
+	opacity: 0.3;
+    filter: alpha(opacity=30); /* For IE8 and earlier */
+    cursor: default;
+} 
+
 .DialogBox .DialogButtonPanel .gwt-Button,
-.DialogBox .buttonPanel .saveButton,
-.DialogBox .buttonPanel .saveButton.button-up-disabled {
+.DialogBox .buttonPanel .saveButton {
 	background-color: #6161FF;
 	color: #FFF;
 	font-size: 100%;
@@ -2845,13 +2853,11 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	font-weight: normal;
 }
 .DialogBox .DialogButtonPanel .gwt-Button:hover,
-.DialogBox .buttonPanel .saveButton:hover,
-.DialogBox .buttonPanel .saveButton.button-up-disabled:hover {
+.DialogBox .buttonPanel .saveButton:hover {
 	border: 1px solid #3333FF;
 }
 .DialogBox .DialogButtonPanel .gwt-Button:active,
-.DialogBox .buttonPanel .saveButton:active,
-.DialogBox .buttonPanel .saveButton.button-up-disabled:active {
+.DialogBox .buttonPanel .saveButton:active {
 	box-shadow: 0 1px 1px rgba(0,0,0,0.2) inset;
 	border: 1px solid #3333FF;
 }
@@ -3679,7 +3685,8 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 
 .algebraView>div {
 	padding: 0px !important;
-	margin-bottom: 10px;
+/* 	margin-bottom: 10px; */
+	margin-top: -2px;
 }
 .algebraView .avItem {
 	/*padding: 3px 10px !important;*/
@@ -3692,15 +3699,15 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	position: relative;
 }
 
-.algebraView div table+div {
+/* .algebraView div table+div {
 	margin-top: 5px;
-}
+} */
 
 .elemHeadingName {
-	padding: 10px 10px 10px 40px;
+	padding: 15px 10px 10px 40px;
 }
 body.application[dir=rtl] .elemHeadingName {
-	padding: 10px 40px 10px 10px;
+	padding: 15px 40px 10px 10px;
 }
 
 .Tablet .elemHeadingName,
@@ -3715,7 +3722,7 @@ body.application[dir=rtl] .elemHeadingName {
 
 .algebraOpenButton {
 	position: absolute;
-	top: 12px;
+	top: 17px;
 	left: 10px;
 }
 body.application[dir=rtl] .algebraOpenButton {
@@ -3768,7 +3775,8 @@ body.application[dir=rtl] .algebraOpenButton {
 }
 
 .avItem.avSelectedRow .marblePanel  {
-		background-color: #CCCCFF;
+	background-color: #CCCCFF;
+	border-right: 1px solid transparent;
 }
 
 /* Colors will be overwritten in java code
@@ -5898,7 +5906,6 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 .avItemContent .optionsSlider .gwt-Label:first-child {
 	padding-right: 15px;
-	padding-left: 3px;
 }
 .avItemContent .optionsSlider .gwt-Label:last-child {
 	padding-left: 15px;
