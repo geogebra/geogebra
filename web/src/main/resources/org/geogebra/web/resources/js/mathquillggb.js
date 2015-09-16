@@ -2510,9 +2510,9 @@ function createRoot(jQ, root, textbox, editable) {
       }
 
       //console.log('paste 3:'+text3);
-      
-      text3 = cursor.fixabug(text3);
+
       text3 = cursor.fix2bug(text3);
+      text3 = cursor.fixabug(text3);
 
       //console.log('paste 4:'+text3);
 
@@ -6931,7 +6931,7 @@ var Cursor = P(Point, function(_) {
     var ret = "";
     while (str.length > 0) {
       // NOTE: this algorithm might not be perfect in some cases
-      // e.g. when there are single { and } in Quotation, etc.
+      // e.g. when there are single ( and ) in Quotation, etc.
       // that is not a pair of anything, etc. so this needs to
       // be tested more!
       if (str.charAt(0) === '(') {
@@ -6960,6 +6960,23 @@ var Cursor = P(Point, function(_) {
       	// data for this depth is not reliable anyway
       	boolPerDepth[depth] = false;
     	depth--;
+      } else if (str.charAt(0) === '\\') {
+    	// if this is followed by a ( or ),
+    	// then let's ignore that anyway, because
+    	// it seems to be harmful for the code!
+      	lastchar = '\\';
+    	str = str.substring(1);
+    	if (str.length > 0) {
+    	  if (str.charAt(0) === '(' ||
+    		  str.charAt(0) === ')' ||
+    		  str.charAt(0) === '[' ||
+    		  str.charAt(0) === ']') {
+    		// in this case, do not add lastchar (ignore)
+    		// otherwise add it...
+    		continue;
+    	  }
+    	}
+    	ret += lastchar;
       } else {
     	lastchar = str.substring(0,1);
     	str = str.substring(1);
