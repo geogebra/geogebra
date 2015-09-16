@@ -140,19 +140,29 @@ public class AlgoLocusEquation extends AlgoElement {
         AlgoElement algo;
         
         Set<AlgoElement> visitedAlgos = new HashSet<AlgoElement>();
-        
-        boolean constructionIsFeasible = true;
-        
+
         // TODO some algos are done more than once.
         for(GeoPoint p : points){
             pequ = scope.getPoint(p);
             if(!pequ.isIndependent()){
                 addAlgoIfNotVisited(restrictions, p.getParentAlgorithm(), scope, visitedAlgos);
                 
-                if(p.getParentAlgorithm() != null && !p.getParentAlgorithm().isLocusEquable()) {
-                	constructionIsFeasible = false;
-                	break;
+				if (p.getParentAlgorithm() != null
+						&& !p.getParentAlgorithm().isLocusEquable()) {
+					App.debug("[LocusEquation] Infeasible dependent point: "
+							+ p.getParentAlgorithm());
+					return null;
                 }
+				for (Object predObj : p.getAllPredecessors()) {
+					GeoElement pred = (GeoElement) predObj;
+					// App.debug("[LocusEquation] Considering " + pred);
+					if (pred.getParentAlgorithm() != null
+							&& !pred.getParentAlgorithm().isLocusEquable()) {
+						App.debug("[LocusEquation] Infeasible predecessor: "
+								+ pred.getParentAlgorithm());
+						return null;
+					}
+				}
                 
                 //restrictions.addAll(scope.getRestrictionsFromAlgo(p.getParentAlgorithm()));
                 for(Object algoObj : p.getAlgorithmList()) {
@@ -163,15 +173,12 @@ public class AlgoLocusEquation extends AlgoElement {
             }
         }
         
-        if(constructionIsFeasible) {
-        	for(EquationAuxiliarSymbolicPoint p : scope.getAuxiliarSymbolicPoints()) {
-        		restrictions.addAll(p.getRestrictions());
-        	}
-        
-        	return new EquationSystem(restrictions,scope);
+		for (EquationAuxiliarSymbolicPoint p : scope
+				.getAuxiliarSymbolicPoints()) {
+			restrictions.addAll(p.getRestrictions());
         }
         
-        return null;
+		return new EquationSystem(restrictions, scope);
 	}
 	
 	/**
@@ -186,12 +193,12 @@ public class AlgoLocusEquation extends AlgoElement {
         if(!visitedAlgos.contains(algo)){
             visitedAlgos.add(algo);
             EquationList eqs = scope.getRestrictionsFromAlgo(algo);
-            App.debug("[LocusEqu] Restrictions init");
-            App.debug("[LocusEqu] Construction " + algo.getOutput()[0].toString(StringTemplate.defaultTemplate));
+			App.debug("[LocusEquation] Visiting algo "
+					+ algo.getOutput()[0]
+							.toString(StringTemplate.defaultTemplate));
             for(Equation eq : eqs) {
-            	App.debug(eq.toString());
+				App.debug("[LocusEquation] -> " + eq.toString() + " == 0");
             }
-            App.debug("[LocusEqu] Restrictions end");
             restrictions.addAll(eqs);
         }
     }
