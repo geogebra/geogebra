@@ -427,7 +427,7 @@ for i in `find -name '*.ggb' | sort`; do
   RESULTCLASS=${RESULTCLASSDATA[$j]}
   CELLCOLOR=${CELLCOLORDATA[$j]}
   RESULT=${RESULTDATA[$j]}
-  if [ "$RESULT" = undefined ]; then
+  if [ "$RESULT" = undefined -o "$RESULT" = "?" ]; then
    RESULT=""
    fi
   TIME=${TIMEDATA[$j]}
