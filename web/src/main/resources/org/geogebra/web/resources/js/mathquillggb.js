@@ -5498,8 +5498,6 @@ var VanillaSymbol = P(Symbol, function(_, _super) {
 //LatexCmds.rbrace = CharCmds['}'] =
 //  bind(VanillaSymbol, '\\rbrace ', '}');
 
-CharCmds[' '] = bind(VanillaSymbol, ' ', ' ');
-
 LatexCmds.prime = CharCmds["'"] = bind(VanillaSymbol, "'", '&prime;');
 
 // does not use Symbola font
@@ -5964,12 +5962,18 @@ LatexCmds.parallel = LatexCmds['\u2225'] =
 //so MathQuillGGB will not produce space in theory, but
 //space may still come from GeoGebraWeb and go back to there
 
+// Was there two kinds of space ??? In LaTeX, real space does not mean anything
+// important as CharCmds is not even parsed by LaTeX parser, AFAIK, so ignored
+CharCmds[' '] = bind(VanillaSymbol, ' ', ' ');
+
 //AND whoever puts \u2060 deserves changing it to space!
 // \s is Regexp treats nbsp, figure space and space the same way,
 // but still, the word-joiner character can be used for hacking 
 // (it was necessary for technical reasons, spaces in Quotations)
 //CharCmds['\u2060'] =
-LatexCmds['\u2060'] = LatexCmds.space = bind(VanillaSymbol, '\\space ', '&nbsp;');
+//LatexCmds['\u2060'] = LatexCmds.space = bind(VanillaSymbol, '\\space ', '&nbsp;');
+// the above syntax was not good when converting it to textual format, so instead:
+LatexCmds['\u2060'] = LatexCmds.space = bind(VanillaSymbol, '\\space ', '&nbsp;', ' ');
 
 //arrows
 LatexCmds.longleftarrow = bind(VanillaSymbol, '\\longleftarrow ', '&#8592;');
