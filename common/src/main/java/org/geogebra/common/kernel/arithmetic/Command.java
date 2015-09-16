@@ -26,10 +26,12 @@ import java.util.Set;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
@@ -232,10 +234,30 @@ public class Command extends ValidExpression implements
 					Iterator<GeoElement> ite = vars.iterator();
 					while (ite.hasNext()) {
 						GeoElement geo = ite.next();
-						// make sure that we get from set the variable and not the
+						// get function from construction
+						GeoElement geoFunc = getKernel()
+								.getConstruction()
+								.geoTableVarLookup(
+										geo.getLabel(StringTemplate.defaultTemplate));
+						// if input function was without parameter
+						// replace geoDummyVariable with function
+						if (geo instanceof GeoDummyVariable && geoFunc != null
+								&& geoFunc.isGeoFunction()) {
+							ExpressionNode funcNode = new ExpressionNode(
+									kernel, geoFunc, Operation.FUNCTION,
+									((GeoFunction) geoFunc)
+											.getFunctionVariables()[0]);
+							getArgument(0)
+									.traverse(
+											GeoDummyReplacer.getReplacer(
+													geo.getLabel(StringTemplate.defaultTemplate),
+													funcNode, true));
+						}
+						// make sure that we get from set the variable and not
+						// the
 						// function
 						// needed for TRAC-5364
-						if (geo instanceof GeoDummyVariable) {
+						if (geo instanceof GeoDummyVariable && geoFunc == null) {
 							var = geo.toString(tpl);
 						}
 					}
