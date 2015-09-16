@@ -2512,9 +2512,6 @@ function createRoot(jQ, root, textbox, editable) {
       //console.log('paste 3:'+text3);
       
       text3 = cursor.fixabug(text3);
-
-      // what about the case when the x^{x+2} syntax is right,
-      // this is like fix2bug called earlier than fixabug
       text3 = cursor.fix2bug(text3);
 
       //console.log('paste 4:'+text3);
@@ -6998,6 +6995,10 @@ var Cursor = P(Point, function(_) {
           ret += '{';
         } else if (lastcc >= 48 && lastcc <= 57) {
           // ASCII 0-9 maybe OK (?)
+          ret += '{';
+        } else if (lastchar === '^') {
+          // in this case the syntax is important to
+          // leave this intact, so:
           ret += '{';
         } else if (lastchar === '\\') {
           // it might be \\left\\{ or just \\{
