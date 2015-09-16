@@ -2513,6 +2513,10 @@ function createRoot(jQ, root, textbox, editable) {
       
       text3 = cursor.fixabug(text3);
 
+      // what about the case when the x^{x+2} syntax is right,
+      // this is like fix2bug called earlier than fixabug
+      text3 = cursor.fix2bug(text3);
+
       //console.log('paste 4:'+text3);
 
       cursor.writeLatexSafe(text3);
@@ -6920,6 +6924,52 @@ var Cursor = P(Point, function(_) {
     this.blink = function(){ jQ.toggleClass('blink'); }
 
     this.upDownCache = {};
+  };
+  _.fix2bug = function(text) {
+    var str = text;
+    var depth = 0;
+    var boolPerDepth = new Array();
+    boolPerDepth[0] = false;//does not make sense
+    var lastchar = '';
+    var ret = "";
+    while (str.length > 0) {
+      // NOTE: this algorithm might not be perfect in some cases
+      // e.g. when there are single { and } in Quotation, etc.
+      // that is not a pair of anything, etc. so this needs to
+      // be tested more!
+      if (str.charAt(0) === '(') {
+        str = str.substring(1);
+    	depth++;
+    	// maybe override later in this block
+    	boolPerDepth[depth] = false;
+    	if (lastchar === '^') {
+    	  ret += '{';
+    	  boolPerDepth[depth] = true;
+    	  lastchar = '{';
+    	} else {
+    	  ret += '(';
+    	  lastchar = '(';
+    	}
+      } else if (str.charAt(0) === ')') {
+    	str = str.substring(1);
+    	if (boolPerDepth[depth] === true) {
+    	  // means we need a \\right\\ added
+    	  ret += '}';
+      	  lastchar = '}';
+    	} else {
+    	  ret += ')';
+      	  lastchar = ')';
+    	}
+      	// data for this depth is not reliable anyway
+      	boolPerDepth[depth] = false;
+    	depth--;
+      } else {
+    	lastchar = str.substring(0,1);
+    	str = str.substring(1);
+    	ret += lastchar;
+      }
+    }
+    return ret;
   };
   _.fixabug = function(text) {
     var str = text;
