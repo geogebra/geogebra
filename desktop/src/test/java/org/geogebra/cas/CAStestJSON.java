@@ -75,11 +75,10 @@ public class CAStestJSON {
 			Log.debug("CAS: loading testcases");
 			String json = readFileAsString("../web/war/__giac.js");
 			Log.debug("CAS: parsing testcases");
-			Log.debug("CAS: testcases parsed"
-					+ json.substring("var __giac = ".length()));
+			Log.debug("CAS: testcases parsed");
 			JSONArray testsJSON = new JSONArray(
 					json.substring("var __giac = ".length()));
-
+			Assert.assertNotSame(0, testsJSON.length());
 			int i = 1;
 			while (i < testsJSON.length()) {
 				
@@ -129,7 +128,11 @@ public class CAStestJSON {
 
 	      boolean includesNumericCommand = false;
 	      HashSet<Command> commands = new HashSet<Command>();
-
+	      if(f.getInputVE() == null){
+				Assert.assertEquals("Input should be parsed", "GEOGEBRAERROR",
+						expectedResult[0]);
+				return;
+	      }
 	      f.getInputVE().traverse(CommandCollector.getCollector(commands));
 
 	      if (!commands.isEmpty()) {
@@ -161,6 +164,8 @@ public class CAStestJSON {
 				result = result.replaceAll("c_[0-9]", "c_0")
 						.replaceAll("c_\\{[0-9]+\\}", "c_0")
 						.replace("arccos", "acos").replace("arctan", "atan")
+						.replace("Wenn[", "If[")
+						.replace("arcsin", "asin")
 						.replace("NteWurzel", "nroot");
 				assertThat(
 						result,
