@@ -43,7 +43,6 @@ public class XmlTest {
 			validator.validate(xmlFile);
 			
 		} catch (Exception e) {
-			System.out.println(xml);
 			Assert.assertNull(e.getLocalizedMessage(), e);
 		}
 		

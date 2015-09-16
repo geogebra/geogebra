@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * by the JOptionPane class.
  * 
  */
-public class GOptionPaneW extends GDialogBox implements GOptionPane,
+public class GOptionPaneW extends GDialogBox implements
 		ClickHandler {
 
 	private App app;
@@ -333,7 +333,7 @@ public class GOptionPaneW extends GDialogBox implements GOptionPane,
 	 * Launches a confirm dialog.
 	 */
 	public int showConfirmDialog(App app, String message, String title,
-			int optionType, int messageType, Object icon) {
+			int optionType, int messageType, Image icon) {
 
 		this.app = app;
 		this.message = message;

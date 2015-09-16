@@ -1,7 +1,5 @@
 package org.geogebra.common.javax.swing;
 
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Interface for simple modal option dialogs. Modeled after the dialogs
@@ -53,76 +51,6 @@ public interface GOptionPane {
 	// Dialog launching methods
 	// ============================================
 
-	/**
-	 * Launches a confirm dialog.
-	 * 
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param optionType
-	 *            Determines default button options
-	 * @param messageType
-	 *            Determines default icon to display
-	 * @param icon
-	 *            Custom icon, if null default icon is used
-	 * @return
-	 */
-	public abstract int showConfirmDialog(App app, String message,
-			String title, int optionType, int messageType, Object icon);
 
-	/**
-	 * Launches a simple input dialog.
-	 * 
-	 * @param app
-	 * @param message
-	 * @param initialSelectionValue
-	 * @param icon
-	 *            Custom icon, if null no icon is displayed
-	 * @param handler
-	 *            The dialog result is returned in the parameter of the handler
-	 *            callback function as an array of two strings: <br>
-	 * 
-	 *            dialogResult[0] = returnOption (option button clicked)<br>
-	 *            dialogResult[1] = returnValue
-	 * 
-	 */
-	public abstract void showInputDialog(App app, String message,
-			String initialSelectionValue, Object icon, AsyncOperation handler);
-
-	/**
-	 * Launches a customizable option dialog.
-	 * 
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param optionType
-	 * @param messageType
-	 *            Determines default icon to display
-	 * @param icon
-	 *            Custom icon, if null default icon is used
-	 * @param optionNames
-	 *            Names for button options
-	 * @param handler
-	 *            The dialog result is returned in the parameter of the handler
-	 *            callback function as an array of two strings: <br>
-	 * 
-	 *            dialogResult[0] = returnOption (index of button clicked) <br>
-	 *            dialogResult[1] = returnValue (meaningless here) <br>
-	 * 
-	 */
-	public abstract void showOptionDialog(App app, String message,
-			String title, int optionType, int messageType, Object icon,
-			String[] optionNames, AsyncOperation handler);
-
-	// ============================================
-	// Getter/Setters
-	// ============================================
-
-	/**
-	 * @param enabled
-	 *            When enabled == true the background is darkened while a dialog
-	 *            is showing.
-	 */
-	public void setGlassEnabled(boolean enabled);
 
 }
