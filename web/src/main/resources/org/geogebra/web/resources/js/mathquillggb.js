@@ -2485,9 +2485,21 @@ function createRoot(jQ, root, textbox, editable) {
       }
 
       //console.log('paste 1:'+text);
+      var text3 = text;
 
-      var text3 = cursor.substQuotations(text);
-      
+      // in theory GeoGebraWeb handles the \" output from Quotation
+      // and after some other operation it converts it to simple "
+      // but it is not done here after copying, so we need to
+      // simply change \" to "; although neither is really perfect!
+      // BUT this must be done before substQuotations otherwise
+      // there is nothing to replace...
+      //text3 = text3.split('\\"').join('"');
+      // but after this part of the substQuotations perfection is gone!
+      // so it's probably better to add this to the substQuotations
+      // method itself, implemented at the right places only...
+
+      var text3 = cursor.substQuotations(text3);
+
       //console.log('paste 2:'+text3);
 
       // this is not good, e.g. in Quotation we shall leave
@@ -2514,11 +2526,19 @@ function createRoot(jQ, root, textbox, editable) {
       }
 
       //console.log('paste 3:'+text3);
+     
+      //console.log('paste 4:'+text3);
 
+      // --- the fix2bug and fixabug methods are not as good as
+      // --- the other methods before, but these are complex
+      // --- issues, see JIRA TRAC-5058 and GGB-80
       text3 = cursor.fix2bug(text3);
+      
+      //console.log('paste 5:'+text3);
+      
       text3 = cursor.fixabug(text3);
 
-      //console.log('paste 4:'+text3);
+      //console.log('paste 6:'+text3);
 
       cursor.writeLatexSafe(text3);
     }
@@ -7075,19 +7095,39 @@ var Cursor = P(Point, function(_) {
     var text3 = "";
     var inside1 = false;// inside \\quotation
     var inside2 = false;// inside " "
+    var lastchar = '';
     while (text2.length > 0) {
       if (text2.substring(0,1) === '"') {
         text2 = text2.substring(1);
         if (inside1) {
           text3 += '"';
+          lastchar = '"';
         } else if (inside2) {
+          if (lastchar === '\\') {
+          	// lastchar should not have happened,
+          	// let's erase the last char of text3
+        	//if (text3.length) {//comes from lastchar
+        	  text3 = text3.substring(0, text3.length - 1);
+        	//}
+          }
           text3 += '}';
           inside2 = false;
+          lastchar = '}';
         } else {
-          text3 += '\\quotation{';
+          if (lastchar === '\\') {
+        	// lastchar should not have happened,
+        	// let's erase the last char of text3
+        	// before adding \\quotation{, or
+        	// even better than that:
+        	text3 += 'quotation{';
+          } else {
+            text3 += '\\quotation{';
+          }
           inside2 = true;
+          lastchar = '{';
         }
       } else if ((text2.length >= 11) && (text2.substring(0,11) === '\\quotation{')) {
+        lastchar = '{';
         text2 = text2.substring(11);
         if (inside1) {
           text3 += '\\quotation{';
@@ -7099,6 +7139,7 @@ var Cursor = P(Point, function(_) {
           inside1 = true;
         }
       } else if (text2.substring(0,1) === '}') {
+        lastchar = '}';
         text2 = text2.substring(1);
         if (inside1) {
           // for better syntax, we need to escape this!
@@ -7120,9 +7161,9 @@ var Cursor = P(Point, function(_) {
           text3 += '}';
         }
       } else {
-        var char1 = text2.substring(0,1);
+        lastchar = text2.substring(0,1);
         text2 = text2.substring(1);
-        text3 += char1;
+        text3 += lastchar;
       }
     }
     return text3;
