@@ -62,6 +62,31 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/toolbar-further-tools-icon.png")
 	ImageResource toolbar_further_tools();
 
+	// HEADER MENU
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo.png")
+	ImageResource menu_header_redo();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo_hover.png")
+	ImageResource menu_header_redo_hover();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo.png")
+	ImageResource menu_header_undo();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo_hover.png")
+	ImageResource menu_header_undo_hover();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_open_search.png")
+	ImageResource menu_header_open_search();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_open_search_hover.png")
+	ImageResource menu_header_open_search_hover();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_open_menu.png")
+	ImageResource menu_header_open_menu();
+
+	@Source("org/geogebra/common/menu_header/p32/menu_open_menu_hover.png")
+	ImageResource menu_header_open_menu_hover();
+
 	// SMART MENUBAR
 
 	@Source("org/geogebra/common/icons/png/web/menuBarSubMenuIconRTL.png")
