@@ -6083,8 +6083,15 @@ LatexCmds.perp = LatexCmds.perpendicular = LatexCmds['\u22a5'] =
 LatexCmds.AA = LatexCmds.Angstrom = LatexCmds.angstrom =
   bind(VanillaSymbol,'\\text\\AA ','&#8491;');
 
+// why the degree sign is converted to the ring symbol (in exponent)?
+// degree: U+00B0 ring: U+2218
 LatexCmds.ring = LatexCmds.circ = LatexCmds.circle =
+// although the following syntax would paste back in a right way,
+// visually it's very different from degree sign, so unacceptable:
+//  bind(VanillaSymbol,'\\circ ','&#8728;', '\u2218');
+// so it still has to be solved how to convert this to text in a right way:
   bind(VanillaSymbol,'\\circ ','&#8728;');
+// in case it's inside a "power"
 
 LatexCmds.bull = LatexCmds.bullet = bind(VanillaSymbol,'\\bullet ','&bull;');
 
