@@ -45,6 +45,6 @@ Compilation
 
 2. Run
 
-   $ ./gradlew :giac:androideabiJavagiacSharedLibrary :giac:androidx86JavagiacSharedLibrary
+   $ ../gradlew androidAar
 
-   in the parent folder (..) relative to this directory.
+   in this directory.
