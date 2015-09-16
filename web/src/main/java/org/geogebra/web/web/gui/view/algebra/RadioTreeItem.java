@@ -134,7 +134,6 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * File created by Arpad Fekete
  * 
- *
  * 
  */
 
@@ -151,52 +150,6 @@ public class RadioTreeItem extends AVTreeItem
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
 	static final String CLEAR_COLOR_STR = GColor
 			.getColorString(GColorW.WHITE);
-
-	public class PlayButton extends MyToggleButton2 {
-		public PlayButton() {
-			super(GuiResources.INSTANCE.icons_play_circle(),
-					GuiResources.INSTANCE.icons_play_pause_circle());
-			getUpHoveringFace().setImage(
-					new Image(GuiResources.INSTANCE.icons_play_circle_hover()));
-			getDownHoveringFace().setImage(new Image(
-					GuiResources.INSTANCE.icons_play_pause_circle_hover()));
-			setStyleName("avPlayButton");
-
-		}
-	}
-
-	// public class PlayButton extends Image implements TimerListener {
-	//
-	// public PlayButton(ImageResource imageresource) {
-	// super(imageresource);
-	// }
-	//
-	// @Override
-	// public void onTimerStarted() {
-	// setResource(GuiResources.INSTANCE
-	// .icons_play_pause_circle());
-	// setAnimating(true);
-	// }
-	//
-	// @Override
-	// public void onTimerStopped() {
-	// setResource(GuiResources.INSTANCE.icons_play_circle());
-	// setAnimating(false);
-	// }
-	//
-	// public void update() {
-	// // TODO store actual icon and check before replacing it
-	//
-	// playButtonValue = geo.isAnimating()
-	// && app.getKernel().getAnimatonManager().isRunning();
-	// ImageResource newIcon = playButtonValue
-	// ? GuiResources.INSTANCE.icons_play_pause_circle()
-	// : GuiResources.INSTANCE.icons_play_circle();
-	// setResource(newIcon);
-	//
-	// }
-	//
-	// }
 
 	interface CancelListener {
 		void cancel();
@@ -399,7 +352,7 @@ public class RadioTreeItem extends AVTreeItem
 		private MyToggleButton2 btnSpeedDown;
 		private PushButton btnSpeedValue;
 		private MyToggleButton2 btnSpeedUp;
-		private PlayButton btnPlay;
+		private MyToggleButton2 btnPlay;
 		private boolean speedButtons = false;
 		private boolean play = false;
 		public AnimPanel() {
@@ -439,7 +392,14 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		private void createPlayButton() {
-			btnPlay = new PlayButton();
+			btnPlay = new MyToggleButton2(
+					GuiResources.INSTANCE.icons_play_circle(),
+					GuiResources.INSTANCE.icons_play_pause_circle());
+			btnPlay.getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE.icons_play_circle_hover()));
+			btnPlay.getDownHoveringFace().setImage(new Image(
+					GuiResources.INSTANCE.icons_play_pause_circle_hover()));
+			btnPlay.setStyleName("avPlayButton");
 
 			ClickStartHandler.init(btnPlay, new ClickStartHandler() {
 				@Override
