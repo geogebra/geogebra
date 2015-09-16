@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.TimerListener;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -153,7 +152,7 @@ public class RadioTreeItem extends AVTreeItem
 	static final String CLEAR_COLOR_STR = GColor
 			.getColorString(GColorW.WHITE);
 
-	public class PlayButton extends MyToggleButton2 implements TimerListener {
+	public class PlayButton extends MyToggleButton2 {
 		public PlayButton() {
 			super(GuiResources.INSTANCE.icons_play_circle(),
 					GuiResources.INSTANCE.icons_play_pause_circle());
@@ -163,16 +162,6 @@ public class RadioTreeItem extends AVTreeItem
 					GuiResources.INSTANCE.icons_play_pause_circle_hover()));
 			setStyleName("avPlayButton");
 
-		}
-
-		@Override
-		public void onTimerStarted() {
-			setAnimating(true);
-		}
-
-		@Override
-		public void onTimerStopped() {
-			setAnimating(false);
 		}
 	}
 
@@ -412,6 +401,7 @@ public class RadioTreeItem extends AVTreeItem
 		private MyToggleButton2 btnSpeedUp;
 		private PlayButton btnPlay;
 		private boolean speedButtons = false;
+		private boolean play = false;
 		public AnimPanel() {
 			super();
 			addStyleName("elemRow");
@@ -456,21 +446,27 @@ public class RadioTreeItem extends AVTreeItem
 				public void onClickStart(int x, int y, PointerEventType type) {
 					boolean value = !(geo.isAnimating() && app.getKernel()
 							.getAnimatonManager().isRunning());
+
 					geo.setAnimating(value);
+					setPlay(value);
 					geo.updateRepaint();
-					showSpeedButtons(false);
 
-					if (value) {
-						showSpeedValue(true);
-					} else {
-						showSpeedValue(false);
-
-					}
 					setAnimating(geo.isAnimating());
-
 				}
 			});
 
+		}
+
+		private void setPlay(boolean value) {
+			play = value;
+			showSpeedButtons(false);
+
+			if (value) {
+				showSpeedValue(true);
+			} else {
+				showSpeedValue(false);
+
+			}
 		}
 
 		private void showSpeedValue(boolean value) {
@@ -543,6 +539,12 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		public void update() {
+			if (geo.isAnimating() != play) {
+				App.debug("UPDATE PLAY: " + geo.isAnimating());
+				boolean v = geo.isAnimating();
+				setPlay(v);
+				btnPlay.setDown(v);
+			}
 		}
 
 		public void reset() {
