@@ -23,9 +23,15 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	 * @param a_geo
 	 */
 	public Drawable3DSurfaces(EuclidianView3D a_view3d, GeoElement a_geo) {
-		super(a_view3d, a_geo);
-		setPickingType(PickingType.SURFACE);
+		super(a_view3d);
+		init(a_geo);
 
+	}
+
+	@Override
+	protected void init(GeoElement a_plane3D) {
+		super.init(a_plane3D);
+		setPickingType(PickingType.SURFACE);
 	}
 
 	/**

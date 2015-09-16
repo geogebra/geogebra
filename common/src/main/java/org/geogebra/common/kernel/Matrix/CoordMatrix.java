@@ -1018,20 +1018,24 @@ public class CoordMatrix {
 	}
 	
 	
-	private interface PivotInterface {
+	static abstract private class PivotAbstract {
+		public PivotAbstract() {
+			//
+		}
+
 		/**
 		 * divide first value for last pivot step
 		 * @param index index for last pivot step
 		 * @param factor factor to divide
 		 */
-		public void divideFirst(int index, double factor);
+		abstract public void divideFirst(int index, double factor);
 		
 		/**
 		 * divide res value at step
 		 * @param step step index
 		 * @param value value to divide
 		 */
-		public void divideRes(int step, double value);
+		abstract public void divideRes(int step, double value);
 		
 		/**
 		 * sub value at step to value at l, multiplied by coef
@@ -1039,7 +1043,7 @@ public class CoordMatrix {
 		 * @param step line to sub
 		 * @param coef multiply factor
 		 */
-		public void subRes(int l, int step, double coef);
+		abstract public void subRes(int l, int step, double coef);
 
 		/**
 		 * calc sol at this index
@@ -1047,11 +1051,86 @@ public class CoordMatrix {
 		 * @param step step
 		 * @param matrix pivot matrix
 		 * @param stack column to compute
+		 * @param value TODO
 		 */
-		public void calcSol(int index, int step, double[][] matrix, ArrayList<Integer> stack);
+		abstract public void calcSol(int index, int step, double[][] matrix,
+				ArrayList<Integer> stack, double value);
+
+		public void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
+				int step, int index, double value) {
+
+			// divide step line by value in matrix and res
+			for (int i : stack) {
+				matrix[i][step] /= value;
+			}
+			divideRes(step, value);
+
+			// sub step line in each line above
+			for (int l = 0; l < step; l++) {
+				double coef = matrix[index][l];
+				for (int i : stack) {
+					matrix[i][l] -= coef * matrix[i][step];
+				}
+				subRes(l, step, coef);
+			}
+
+		}
 	}
 	
-	static private class PivotSolRes implements PivotInterface {
+	static private class PivotSolResDegenerate extends PivotSolRes {
+		public PivotSolResDegenerate() {
+			//
+		}
+
+		@Override
+		public void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
+				int step, int index, double value) {
+
+			if (Kernel.isZero(value)) {
+				// no non-zero value at this step: pass
+				return;
+			}
+
+			super.divideAndSub(matrix, stack, step, index, value);
+
+		}
+
+		@Override
+		public void divideFirst(int index, double factor) {
+
+			if (Kernel.isZero(factor)) {
+				if (Kernel.isZero(res[0])) {
+					sol[index] = 1; // arbitrary non-zero value
+				} else {
+					sol[index] = Double.NaN; // not possible
+				}
+			} else {
+				super.divideFirst(index, factor);
+			}
+
+		}
+
+		@Override
+		public void calcSol(int index, int step, double[][] matrix,
+				ArrayList<Integer> stack, double value) {
+			double s = res[step]; // value at (step, index) is 1
+			if (Kernel.isZero(value)) {
+				if (Kernel.isZero(s)) {
+					s = 1; // arbitrary non-zero value
+				} else {
+					s = Double.NaN; // not possible
+				}
+			}
+			for (int i : stack) {
+				s -= matrix[i][step] * sol[i]; // sub for non-zero matrix coeffs
+			}
+			sol[index] = s;
+
+		}
+
+	}
+
+	static private class PivotSolRes extends PivotAbstract {
 		
 		/**
 		 * solution vector
@@ -1064,32 +1143,36 @@ public class CoordMatrix {
 		public double[] res;
 		
 		public PivotSolRes(){
-			
+			super();
 		}
 		
+		@Override
 		public void divideFirst(int index, double factor){
 			sol[index] = res[0] / factor;
 		}
 		
+		@Override
 		public void divideRes(int step, double value){
 			res[step] /= value;
 		}
 		
+		@Override
 		public void subRes(int l, int step, double coef){
 			res[l] -= coef * res[step];
 		}
 
-		public void calcSol(int index, int step, double[][] matrix, ArrayList<Integer> stack){
+		@Override
+		public void calcSol(int index, int step, double[][] matrix, ArrayList<Integer> stack, double value){
 			double s = res[step]; // value at (step, index) is 1
 			for (int i : stack){
 				s -= matrix[i][step] * sol[i]; // sub for non-zero matrix coeffs
 			}
-			sol[index] = s;	
+			sol[index] = s;
 		}
 		
 	}
 	
-	static private class PivotInverseMatrix implements PivotInterface {
+	static private class PivotInverseMatrix extends PivotAbstract {
 		
 		public int columns;
 		
@@ -1101,6 +1184,7 @@ public class CoordMatrix {
 
 		}
 
+		@Override
 		public void divideFirst(int index, double factor){
 			for (int i = 0 ; i < columns ; i++){
 				inverse[i].set(index+1, matrixRes[i*columns] / factor);
@@ -1108,19 +1192,22 @@ public class CoordMatrix {
 			}
 		}
 		
+		@Override
 		public void divideRes(int step, double value){
 			for (int i = 0 ; i < columns ; i++){
 				matrixRes[step + i*columns] /= value;
 			}
 		}
 		
+		@Override
 		public void subRes(int l, int step, double coef){
 			for (int i = 0 ; i < columns ; i++){
 				matrixRes[l + i*columns] -= coef * matrixRes[step + i*columns];
 			}
 		}
 
-		public void calcSol(int index, int step, double[][] matrix, ArrayList<Integer> stack){
+		@Override
+		public void calcSol(int index, int step, double[][] matrix, ArrayList<Integer> stack, double value){
 			for (int j = 0 ; j < columns ; j++){
 				double s = matrixRes[step + j*columns]; // value at (step, index) is 1
 
@@ -1134,7 +1221,9 @@ public class CoordMatrix {
 	}
 	
 	private PivotSolRes pivotSolRes;
-	
+
+	private PivotSolResDegenerate pivotSolResDegenerate;
+
 	private PivotInverseMatrix pivotInverseMatrix;
 	
 	
@@ -1176,12 +1265,38 @@ public class CoordMatrix {
 	}
 	
 	/**
+	 * makes Gauss pivot about this matrix and compute sol so that this * sol =
+	 * ret
+	 * 
+	 * @param sol
+	 *            solution
+	 * @param res
+	 *            result
+	 */
+	public void pivotDegenerate(Coords sol, Coords res) {
+
+		updatePivotMatrix();
+
+		if (pivotSolResDegenerate == null) {
+			pivotSolResDegenerate = new PivotSolResDegenerate();
+		}
+		pivotSolResDegenerate.res = new double[res.getLength()];
+		for (int r = 0; r < rows; r++) {
+			pivotSolResDegenerate.res[r] = res.val[r];
+		}
+
+		pivotSolResDegenerate.sol = sol.val;
+
+		pivot(pivotMatrix, pivotSolResDegenerate);
+	}
+
+	/**
 	 * makes Gauss pivot about the matrix 
 	 * and compute sol so that matrix * sol = ret
 	 * @param matrix array of columns
 	 * @param psr pivot solution-result
 	 */
-	static final public void pivot(double[][] matrix, PivotInterface psr){
+	static final public void pivot(double[][] matrix, PivotAbstract psr) {
 		int size = matrix.length;
 		ArrayList<Integer> stack = new ArrayList<Integer>();
 		for (int i = size - 1 ; i >= 0 ; i--){
@@ -1193,7 +1308,7 @@ public class CoordMatrix {
 	 * one step Gauss pivot 
 	 *
 	 */
-	static final private void pivot(double[][] matrix, PivotInterface psr, 
+	static final private void pivot(double[][] matrix, PivotAbstract psr,
 			final int step, ArrayList<Integer> stack){
 		
 		// last step
@@ -1218,27 +1333,14 @@ public class CoordMatrix {
 			
 			
 			// divide step line by value in matrix and res
-			for (int i : stack){
-				matrix[i][step] /= value;
-			}
-			psr.divideRes(step, value);
-			
-			// sub step line in each line above
-			for (int l = 0 ; l < step ; l++){
-				double coef = matrix[index][l];
-				for (int i : stack){
-					matrix[i][l] -= coef * matrix[i][step];
-				}
-				psr.subRes(l, step, coef);
-			}
-			
+			psr.divideAndSub(matrix, stack, step, index, value);
 			
 			// remove current index and apply pivot at next step
 			stack.remove(stackIndex);
 			pivot(matrix, psr, step - 1, stack);
 			
 			// calc sol at this index
-			psr.calcSol(index, step, matrix, stack);
+			psr.calcSol(index, step, matrix, stack, value);
 			
 			// re-add current index for pivot caller
 			stack.add(index);
@@ -1449,6 +1551,18 @@ public class CoordMatrix {
 		
 	}
 	
+	/**
+	 * sub value at each diagonal coeff
+	 * 
+	 * @param value
+	 *            value
+	 */
+	public void subToDiagonal(double value) {
+		for (int i = 0; i < rows; i++) {
+			vectors[i].val[i] -= value;
+		}
+
+	}
 	
 	// /////////////////////////////////////////////////:
 	// testing the package

@@ -718,13 +718,26 @@ public class CoordSys {
 	
 
 
-	private void setDrawingMatrixFromMatrixOrthonormal(){
+	private void setDrawingMatrixFromMatrixOrthonormal() {
 
 		Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
 		CoordMatrix4x4.createOrthoToDirection(tmpCoords3, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
 
 	}
 	
+	/**
+	 * set matrix orthonormal from coordsys origin and vectors, and drawing
+	 * matrix from matrix orthonormal
+	 */
+	public void setMatrixOrthonormalAndDrawingMatrix() {
+		matrixOrthonormal.setOrigin(getOrigin());
+		matrixOrthonormal.setVx(getVx());
+		matrixOrthonormal.setVy(getVy());
+		matrixOrthonormal.setVz(getVz());
+
+		setDrawingMatrixFromMatrixOrthonormal();
+	}
+
 	private CoordMatrix tempMatrix3x3;
 
 	/**

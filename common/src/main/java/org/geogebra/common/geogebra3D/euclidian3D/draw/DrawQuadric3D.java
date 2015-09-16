@@ -9,6 +9,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -37,10 +38,19 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-		renderer.setLayer(getLayer());
-		renderer.getGeometryManager().draw(getSurfaceIndex());
-		renderer.setLayer(0);
+		switch (((GeoQuadric3D) getGeoElement()).getType()) {
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+			drawPlanes[0].drawGeometry(renderer);
+			drawPlanes[1].drawGeometry(renderer);
+			break;
+		default:
+			renderer.setLayer(getLayer());
+			renderer.getGeometryManager().draw(getSurfaceIndex());
+			renderer.setLayer(0);
+			break;
+		}
 	}
+
 
 	@Override
 	protected void drawSurfaceGeometry(Renderer renderer) {
@@ -343,12 +353,31 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			boundsMax.addInside(thickness);
 			break;
 
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+			initDrawPlanes(quadric);
+			drawPlanes[0].updateForItSelf();
+			drawPlanes[1].updateForItSelf();
+			break;
+
 		default:
 			setSurfaceIndex(-1);
 		}
 
 
 		return true;
+	}
+
+	private DrawPlane3D[] drawPlanes;
+
+	private void initDrawPlanes(GeoQuadric3D quadric) {
+		if (drawPlanes == null) {
+			drawPlanes = new DrawPlane3DForQuadrics[2];
+			GeoPlane3D[] planes = quadric.getPlanes();
+			drawPlanes[0] = new DrawPlane3DForQuadrics(getView3D(), planes[0],
+					quadric);
+			drawPlanes[1] = new DrawPlane3DForQuadrics(getView3D(), planes[1],
+					quadric);
+		}
 	}
 
 	/**
@@ -464,8 +493,33 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				updateForItSelf();
 			}
 			break;
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+			if (getView3D().viewChanged()) {
+				initDrawPlanes(quadric);
+				drawPlanes[0].updateForView();
+				drawPlanes[1].updateForView();
+				super.setWaitForUpdate();
+				break;
+			}
+
 		}
 
+	}
+
+	@Override
+	public void setWaitForUpdate() {
+
+		super.setWaitForUpdate();
+		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		int type = quadric.getType();
+
+		switch (type) {
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+			initDrawPlanes(quadric);
+			drawPlanes[0].setWaitForUpdate();
+			drawPlanes[1].setWaitForUpdate();
+			break;
+		}
 	}
 
 	@Override
@@ -590,6 +644,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}
+			return false;
 		}	
 		
 
@@ -597,6 +652,21 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 		
+		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES) {
+			if (drawPlanes[0].hit(hitting)) {
+				setZPick(drawPlanes[0].getZPickNear(),
+						drawPlanes[0].getZPickFar());
+				setPickingType(PickingType.SURFACE);
+				return true;
+			}
+			if (drawPlanes[1].hit(hitting)) {
+				setZPick(drawPlanes[1].getZPickNear(),
+						drawPlanes[1].getZPickFar());
+				setPickingType(PickingType.SURFACE);
+				return true;
+			}
+			return false;
+		}
 
 		// TODO remove this
 		if (quadric.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE

@@ -4,10 +4,12 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -139,7 +141,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				* matrix[6] - matrix[1] * matrix[5] * matrix[5] - matrix[2]
 				* matrix[4] * matrix[4] + 2 * matrix[4] * matrix[5] * matrix[6];
 		if (Kernel.isZero(detS)) {
-			type = QUADRIC_NOT_CLASSIFIED; // TODO
+			classifyNoMidpointQuadric();
 		} else {
 			classifyMidpointQuadric(degenerate);
 		}
@@ -147,6 +149,135 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// setAffineTransform();
 
 	}
+
+	private void classifyNoMidpointQuadric() {
+
+		// no midpoint, detS == 0
+
+		// set eigenvalues
+		eigenval[0] = -matrix[0] * matrix[1] - matrix[1] * matrix[2]
+				- matrix[2] * matrix[0] + matrix[4] * matrix[4] + matrix[5]
+				* matrix[5] + matrix[6] * matrix[6];
+		eigenval[1] = matrix[0] + matrix[1] + matrix[2];
+		eigenval[2] = -1;
+
+		int nRoots = cons.getKernel().getEquationSolver()
+				.solveQuadratic(eigenval, eigenval, Kernel.STANDARD_PRECISION);
+
+		if (nRoots == 1) {
+			eigenval[1] = eigenval[0];
+			nRoots++;
+		}
+
+		eigenval[2] = 0;
+
+		// App.debug("eigenvals = " + eigenval[0] + "," + eigenval[1] + ","
+		// + eigenval[2]);
+
+		// check if others eigenvalues are 0
+		if (Kernel.isZero(eigenval[0])) {
+			if (Kernel.isZero(eigenval[1])) {
+				// three eigenvalues = 0
+				if (Kernel.isZero(matrix[3])) {
+					// matrix is zero: undefined
+					defined = false;
+					type = GeoQuadricNDConstants.QUADRIC_WHOLE_SPACE;
+				} else {
+					// quadratic equation is 0 = 1: empty set
+					defined = false;
+					empty();
+				}
+			} else {
+				// two eigenvalues = 0
+				parallelPlanes(eigenval[1]);
+			}
+		} else if (Kernel.isZero(eigenval[1])) {
+			// two eigenvalues = 0
+			parallelPlanes(eigenval[0]);
+		} else {
+
+			CoordMatrix sm = getSymetricMatrix();
+
+			sm.pivotDegenerate(eigenvecND[2], Coords.ZERO);
+			eigenvecND[2].normalize();
+
+			type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+		}
+
+	}
+
+	private GeoPlane3D[] planes;
+
+	/**
+	 * 
+	 * @return planes (for degenerate cases)
+	 */
+	public GeoPlane3D[] getPlanes() {
+
+		if (planes == null) {
+			planes = new GeoPlane3D[2];
+			planes[0] = new GeoPlane3D(cons);
+			planes[1] = new GeoPlane3D(cons);
+		}
+
+		return planes;
+	}
+
+	private void parallelPlanes(double value) {
+
+		double m = -matrix[3] / value;
+		double shift;
+		if (Kernel.isZero(m)) {
+			shift = 0;
+		} else if (m > 0) {
+			shift = Math.sqrt(m);
+		} else { // m < 0
+			defined = false;
+			empty();
+			return;
+		}
+
+
+		// get main eigen vector
+		if (tmpMatrix4x4 == null) {
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		tmpMatrix4x4.set(getSymetricMatrix());
+		tmpMatrix4x4.subToDiagonal(value);
+
+		tmpMatrix4x4.pivotDegenerate(eigenvecND[2], Coords.ZERO);
+		eigenvecND[2].normalize();
+
+		eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
+
+		// update planes
+		getPlanes();
+
+		CoordSys cs = planes[0].getCoordSys();
+		cs.resetCoordSys();
+		tmpCoords.setMul(eigenvecND[2], -shift);
+		tmpCoords.setW(1);
+		cs.setOrigin(tmpCoords);
+		cs.setVx(eigenvecND[0]);
+		cs.setVy(eigenvecND[1]);
+		cs.setVz(eigenvecND[2]);
+		cs.setMatrixOrthonormalAndDrawingMatrix();
+		cs.setMadeCoordSys();
+
+		cs = planes[1].getCoordSys();
+		cs.resetCoordSys();
+		tmpCoords.setMul(eigenvecND[2], shift);
+		tmpCoords.setW(1);
+		cs.setOrigin(tmpCoords);
+		cs.setVx(eigenvecND[0]);
+		cs.setVy(eigenvecND[1]);
+		cs.setVz(eigenvecND[2]);
+		cs.setMatrixOrthonormalAndDrawingMatrix();
+		cs.setMadeCoordSys();
+
+		type = GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES;
+	}
+
 
 	private void classifyMidpointQuadric(boolean degenerate) {
 
@@ -696,6 +827,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "EmptySet";
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			return "Point";
+		case GeoQuadricNDConstants.QUADRIC_WHOLE_SPACE:
+			return "space";
 		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
 		default:
 			return "Quadric";
@@ -756,7 +889,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	protected boolean showInEuclidianView() {
 		return type != GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED
-				&& type != GeoQuadricNDConstants.QUADRIC_EMPTY;
+				&& type != GeoQuadricNDConstants.QUADRIC_EMPTY
+				&& type != GeoQuadricNDConstants.QUADRIC_WHOLE_SPACE;
 	}
 
 	@Override
@@ -832,6 +966,16 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			point.set(getMidpoint3D());
 			break;
 
+		case QUADRIC_PARALLEL_PLANES:
+			if (u < 1) { // -1 < u < 1: first plane
+				point.set(planes[0].evaluatePoint(
+						PathNormalizer.infFunction(u), v));
+			} else { // 1 < u < 3: second plane
+				point.set(planes[1].evaluatePoint(
+						PathNormalizer.infFunction(u - 2), v));
+			}
+			break;
+
 		default:
 			App.error(this + " has wrong type : " + type);
 			break;
@@ -889,6 +1033,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					getEigenvec3D(0).mul(Math.cos(u)));
 
 			return n;
+
+		case QUADRIC_PARALLEL_PLANES:
+			// the two planes have same normal
+			return planes[0].getDirectionInD3();
 
 		default:
 			return null;
@@ -996,6 +1144,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			parameters[1] = z;
 			break;
 
+		case QUADRIC_PARALLEL_PLANES:
+			coords.projectPlaneInPlaneCoords(planes[0].getCoordSys().getMatrixOrthonormal(), tmpCoords);
+			parameters[0] = PathNormalizer.inverseInfFunction(tmpCoords.getX());
+			parameters[1] = tmpCoords.getY();
+			break;
+			
 		default:
 			App.printStacktrace("TODO -- type: " + getType());
 			break;
@@ -1190,6 +1344,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			Coords eigenDir = new Coords(eigenCoords.getX(),
 					eigenCoords.getY(), 0, 0);
 			return eigenMatrix.mul(eigenDir).normalized().mul(-1);
+		case QUADRIC_PARALLEL_PLANES:
+			return planes[0].getDirectionInD3();
 		default:
 			return null;
 		}

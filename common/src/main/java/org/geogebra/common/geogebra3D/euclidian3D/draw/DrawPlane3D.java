@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Class for drawing 3D planes.
@@ -47,16 +48,42 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 */
 	public DrawPlane3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D) {
 
-		super(a_view3D, a_plane3D);
+		this(a_view3D, a_plane3D, null);
 
+	}
+
+	/**
+	 * Constructor for helpers
+	 * 
+	 * @param a_view3D
+	 * @param a_plane3D
+	 * @param geo2
+	 */
+	public DrawPlane3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D,
+			GeoElement geo2) {
+
+		super(a_view3D);
+		init(a_plane3D, geo2);
 		setMinMax();
+
+	}
+
+	/**
+	 * @param a_plane3D
+	 *            plane
+	 * @param geo2
+	 *            geo caller
+	 */
+	protected void init(GeoElement a_plane3D, GeoElement geo2) {
+
+		super.init(a_plane3D);
 
 	}
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
 
-		if (((GeoPlane3D) getGeoElement()).isPlateVisible())
+		if (getPlane().isPlateVisible())
 			drawPlate(renderer);
 
 	}
@@ -74,7 +101,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	@Override
 	public void drawGeometryHiding(Renderer renderer) {
-		GeoPlane3D plane = (GeoPlane3D) getGeoElement();
+		GeoPlane3D plane = getPlane();
 		if (plane.isPlateVisible()) {// || plane.isGridVisible())
 			drawPlate(renderer);
 			/*
@@ -122,13 +149,13 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 * @return true if grid is visible
 	 */
 	protected boolean isGridVisible() {
-		return ((GeoPlane3D) getGeoElement()).isGridVisible()
+		return getPlane().isGridVisible()
 				|| viewDirectionIsParallel;
 	}
 
 	@Override
 	protected boolean updateForItSelf() {
-		((GeoPlane3D) getGeoElement()).setGridCorners(minmaxXFinal[0],
+		getPlane().setGridCorners(minmaxXFinal[0],
 				minmaxYFinal[0], minmaxXFinal[1], minmaxYFinal[1]);
 		return updateGeometry();
 	}
@@ -143,7 +170,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	protected boolean updateGeometry() {
 
 		Renderer renderer = getView3D().getRenderer();
-		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
+		GeoPlane3D geo = getPlane();
 		CoordSys coordsys = geo.getCoordSys();
 
 		float xmin1 = (float) geo.getXmin(), xmax1 = (float) geo.getXmax(), xdelta1 = xmax1
@@ -300,6 +327,14 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		}
 
 	}
+	
+	/**
+	 * 
+	 * @return plane
+	 */
+	protected GeoPlane3D getPlane() {
+		return (GeoPlane3D) getGeoElement();
+	}
 
 	private Coords o = Coords.createInhomCoorsInD3();
 	private Coords tmpCoords1 = Coords.createInhomCoorsInD3(),
@@ -319,7 +354,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 */
 	private void setMinMax(Coords origin, Coords vx, Coords vy, Coords vz) {
 
-		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
+		GeoPlane3D geo = getPlane();
 
 		CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
 		origin.projectPlaneInPlaneCoords(m, o);
@@ -353,7 +388,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	private static final double INV_SQRT_2 = 1 / Math.sqrt(2);
 
 	private void setMinMax(Coords origin, double radius) {
-		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
+		GeoPlane3D geo = getPlane();
 
 		CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
 		origin.projectPlaneInPlaneCoords(m, o);
@@ -387,7 +422,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	private void checkViewDirectionIsParallel() {
-		if (Kernel.isZero(((GeoPlane3D) getGeoElement()).getCoordSys()
+		if (Kernel.isZero(getPlane().getCoordSys()
 				.getEquationVector().dotproduct(getView3D().getEyePosition()))) {
 			viewDirectionIsParallel = true;
 		} else {
@@ -414,7 +449,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return false;
 		}
 
-		GeoPlane3D plane = (GeoPlane3D) getGeoElement();
+		GeoPlane3D plane = getPlane();
 
 		// project hitting origin on plane
 		if (hitting.isSphere()) {
