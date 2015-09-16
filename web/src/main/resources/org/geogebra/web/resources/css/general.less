@@ -7,6 +7,50 @@
 
 @import "definitions.less";
 
+/**
+ * In order to maintain cross-browser compatibility, the following syntax is
+ * used to create IE6 specific style rules:
+ *    .gwt-Widget {
+ *      property: rule applies to all browsers
+ *      -property: rule applies only to IE6 (overrides previous rule)
+ *    }
+ *    * html .gwt-Widget {
+ *      property: rule applies to all versions of IE
+ *    }
+ */
+
 .GeoGebraFrame {
-	//background-color: pink;
+	background-color: @color-white;
+//	background-color: pink;
+	color: @color-grey;
+	font-size: 16px;
+	
+	body.application,
+	& span,
+	& td,
+	& th {
+		color: @color-grey;
+		font-size: 16px;
+	}
+	
+	& * {
+		box-sizing: content-box;
+		-webkit-box-sizing: content-box;
+	}
+	
+	& img {
+		vertical-align: baseline;
+	}
+	
+	.button {
+		cursor: pointer;
+		
+		&:button-up-disabled {
+			cursor: default;
+		}
+	}
 }
+
+// change import later!
+	@import "toolbar.less";
+//	@import "av.less";

@@ -34,6 +34,12 @@
   position: relative;
   z-index: 3;
 }
+
+.mathquillggb-editable span,
+.mathquillggb-editable td{
+	color:black;
+}
+
 .mathquillggb-editable .cursor {
   border-left: 1px solid black;
   margin-right: -1px;

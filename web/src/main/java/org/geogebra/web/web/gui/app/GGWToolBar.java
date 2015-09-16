@@ -219,7 +219,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		this.rightButtonPanel = new FlowPanel();
-		this.rightButtonPanel.setStyleName("smartButtonPanel");
+		this.rightButtonPanel.setStyleName("rightButtonPanel");
 
 		if (exam) {
 			// We directly read the parameters to show the intention.

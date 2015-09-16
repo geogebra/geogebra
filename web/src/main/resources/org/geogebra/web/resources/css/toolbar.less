@@ -1,0 +1,150 @@
+/** Created by stefanie.bogner
+*	16.09.2015
+*	contains styles for the toolbar in web
+* 	Everything in "toolbarPanel"
+* 
+*	Make sure everything is placed in .GeoGebraFrame!
+**/
+
+// only here for testing, remove later
+//@direction: ltr; // use `rtl` or `ltr`
+
+@import "definitions.less";
+
+.GeoGebraFrame {
+	
+	/*hack for toolbar submenu, that is isn't hidden by 
+	 dockpanel standard div styling (overflow:hidden) */
+	.ggbdockpanelhack > div {
+		overflow: visible !important;
+	}
+	
+	.toolbarPanel {
+		background-color: @color-lightgrey;
+		border-bottom: 1px solid @color-bordergrey;
+		.box-shadow(@shadow);
+		padding: 5px;
+		.box-sizing(border-box);
+		z-index: 100;
+		
+		.toolBPanel {
+			.float(left);
+			padding-top: 1px;
+			
+			ul {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			li.toolbar_item {
+				.margin(0px, 5px, 0px, 0px);
+				text-align: center;
+				position: relative;
+				width: 40px;
+				height: 40px;
+				display: block;
+				.float(left);
+				list-style-type: none;
+				cursor: pointer;
+			}
+			
+			.toolbar_button {
+				.border-radius(5px);
+				border: 1px solid @color-bordergrey;
+				background-color: @color-white;
+				padding: 3px;
+				width: 32px;
+				height: 32px;
+				
+				&[isSelected=false] {
+					border-color: @color-bordergrey;
+				}				
+				&:hover[isSelected=false],
+				&:focus[isSelected=false] {
+					border-color: @color-highlight;
+				}
+				&[isSelected=true] {
+					border: 2px solid @color-highlight;
+					padding: 2px;
+				}
+			}
+			
+			.toolbar_submenu {
+				position: absolute;
+				z-index: 501;
+				display: none;
+				
+				&.visible {
+					display: block;
+				}
+				
+				.submenuArrow {
+					position: absolute;
+					z-index: 300;
+					.left(4px);
+				}
+				
+				.submenuContent {
+					position: absolute;
+					top: 15px;	
+					z-index: 250;
+					.border-radius(10px);
+					padding-top: 3px !important;
+					background-color: @color-white-transparent-90-IE;
+					background-color: @color-white-transparent-90;
+					.box-shadow(@shadow-dark);
+					overflow-y: auto;
+					overflow-x: hidden;
+					
+					li {
+						white-space: nowrap;
+						list-style-type: none;
+						height: 32px;
+						padding: 5px 0px;
+						.text-align(left);
+						cursor: pointer;
+						
+						&:hover,
+						&:focus {
+							color: @color-darkgrey;
+							background-color: @color-bg-highlight;
+						}
+					}
+					
+					img {
+						.float(left);
+						padding-left: 5px;
+						padding-right: 5px;
+					}
+					
+					.gwt-Label {
+						.padding(7px, 10px, 0, 40px);
+					}
+				}
+			}
+		}
+		
+		.rightButtonPanel {
+			.float(right);
+			margin: 5px 0px;
+			
+			.button {
+				.margin(0px, 5px, 0px, 10px);
+//				cursor: pointer;
+				.float(left);
+				width: 30px;
+				height: 30px;
+				padding: 2px;
+			}
+			
+			// Make redo close to undo button
+			.button.redoButton {
+				.margin-left(0px);
+			}
+			
+			.selectedButton {
+				padding: 0px;
+			}
+		}
+	}
+}

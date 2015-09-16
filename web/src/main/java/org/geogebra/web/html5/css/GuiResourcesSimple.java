@@ -68,6 +68,13 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/css/web-styles.css")
 	LessResource modernStyle();
 
+	// New less resources for GEOGEBRA EXAM
+	@Source("org/geogebra/web/exam/css/exam.ltr.less")
+	LessResource examStyleLTR();
+
+	@Source("org/geogebra/web/exam/css/exam.rtl.less")
+	LessResource examStyleRTL();
+
 	// New less resources
 	@Source("org/geogebra/web/resources/css/general.ltr.less")
 	LessResource generalStyleLTR();
@@ -75,6 +82,47 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/css/general.rtl.less")
 	LessResource generalStyleRTL();
 
+	@Source("org/geogebra/web/resources/css/toolbar.ltr.less")
+	LessResource toolbarStyleLTR();
+
+	@Source("org/geogebra/web/resources/css/toolbar.rtl.less")
+	LessResource toolbarStyleRTL();
+
+
+	// don't include these anywhere!
+	// they are only here, because otherwise they are not compiled on browser
+	// refresh and then I cannot see the changes!
+	// ---------------------------------------------------------------
+	// @Source("org/geogebra/web/resources/css/functions.less")
+	// LessResource styleFunctions();
+	//
+	// @Source("org/geogebra/web/resources/css/directions.less")
+	// LessResource styleDirections();
+	//
+	// @Source("org/geogebra/web/resources/css/definitions.less")
+	// LessResource styleDefinitions();
+	//
+	// @Source("org/geogebra/web/resources/css/general.less")
+	// LessResource generalStyle();
+	//
+	// @Source("org/geogebra/web/resources/css/av.less")
+	// LessResource avStyle();
+	//
+	// @Source("org/geogebra/web/resources/css/av.ltr.less")
+	// LessResource avStyleLTR();
+	//
+	// @Source("org/geogebra/web/resources/css/av.rtl.less")
+	// LessResource avStyleRTL();
+
+	// @Source("org/geogebra/web/resources/css/toolbar.less")
+	// LessResource toolbarStyle();
+
+	// EXAM
+	// @Source("org/geogebra/web/exam/css/exam.less")
+	// LessResource examStyle();
+
+	// don't include files above
+	// -----------------------------------------------------------------
 
 	@Source("org/geogebra/web/resources/css/jquery-ui.css")
 	TextResource jqueryStyle();

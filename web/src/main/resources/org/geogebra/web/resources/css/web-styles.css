@@ -11,7 +11,10 @@
  *      property: rule applies to all versions of IE
  *    }
  */
-.GeoGebraFrame * {
+ 
+ 
+ 
+/* .GeoGebraFrame * {
 	box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 }
@@ -21,7 +24,10 @@
 }
 .GeoGebraFrame {
 	background-color: white;
-}
+} */
+
+
+
 /**
  * The reference theme can be used to determine when this style sheet has
  * loaded.  Create a hidden div element with absolute position, assign the style
@@ -31,7 +37,8 @@
 .GeoGebraFrame button {
 	border: none;
 	background: none;
-	padding: 0px;	margin: 0px;
+	padding: 0px;
+	margin: 0px;
 }
 
 /* .InputTreeItem, */
@@ -129,18 +136,24 @@
 
 /*hack for toolbar submenu, that is isn't hidden by 
  dockpanel standard div styling (overflow:hidden) */
-.ggbdockpanelhack>div {
+/* .ggbdockpanelhack>div {
 	overflow: visible !important;
-}
+} */
 
-body.application,.GeoGebraFrame, .GeoGebraFrame span, .GeoGebraFrame td, .GeoGebraFrame th{
+/* body.application,
+.GeoGebraFrame,
+.GeoGebraFrame span,
+.GeoGebraFrame td,
+.GeoGebraFrame th {
 	color: #666666;
 	font-size: 16px;
-}
+} */
 
-.mathquillggb-editable span,.mathquillggb-editable td{
+
+/* .mathquillggb-editable span,
+.mathquillggb-editable td{
 	color:black;
-}
+} */
 
 /* scroll overflow for minWidth*/
 /*.GeoGebraFrame .ggbdockpanelhack.wholePanel {
@@ -2416,7 +2429,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 /*#####################################################################################
 ###       TOOLBAR
 #####################################################################################*/
-.toolbarPanel {
+/* .toolbarPanel {
 	background-color: #F8F8F8;
 	border-bottom: 1px solid #DCDCDC;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
@@ -2424,26 +2437,26 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	z-index: 100;
-}
+} */
 
 .toolbarPanelExam {
 	background-color: #CCCCFF;
 }
 
-.GeoGebraFrame .toolbarPanel ul {
+/* .GeoGebraFrame .toolbarPanel ul {
 	margin: 0px;
 	padding: 0px;
-}
+} */
 
-.toolbar_mainItem {
+/* .toolbar_mainItem {
 	margin-right: 50px;
 }
 body.application[dir=rtl] .toolbar_mainItem {
 	margin-right: 0px;
 	margin-left: 50px;
-}
+} */
 
-.GeoGebraFrame li.toolbar_item {
+/* .GeoGebraFrame li.toolbar_item {
 	margin: 0px 5px 0px 0px;
 	text-align: center;
 	position: relative;
@@ -2457,9 +2470,9 @@ body.application[dir=rtl] .toolbar_mainItem {
 body.application[dir=rtl] .toolbar_item {
 	float: right;
 	margin: 0px 0px 0px 5px;
-}
+} */
 
-.toolbar_button {
+/* .toolbar_button {
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -2469,9 +2482,9 @@ body.application[dir=rtl] .toolbar_item {
 	padding: 3px;
 	width: 32px;
 	height: 32px;
-}
+} */
 
-.toolbar_button:hover[isSelected=false] {
+/* .toolbar_button:hover[isSelected=false] {
 	border-color: #9999FF;
 }
 
@@ -2482,7 +2495,7 @@ body.application[dir=rtl] .toolbar_item {
 
 .toolbar_button[isSelected=false] {
 	border-color: #DCDCDC;
-}
+} */
 
 /*.red_triangle {
 	position: relative;
@@ -2490,11 +2503,12 @@ body.application[dir=rtl] .toolbar_item {
 	height: 5px;
 	top: -19px;
 }*/
-.furtherToolsTriangle {
+
+/* .furtherToolsTriangle {
 	position: absolute;
 	bottom: -2px;
 	right: -2px;
-}
+} */
 
 table.AVmenuListContainer {
 	z-index: 501;
@@ -2550,7 +2564,7 @@ body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent .gwt-Label {
 }
 
 
-.toolbar_submenu {
+/* .toolbar_submenu {
 	position: absolute;
 	z-index: 501;
 	display: none;
@@ -2568,9 +2582,9 @@ body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent .gwt-Label {
 body.application[dir=rtl] .toolbar_submenu .submenuArrow {
 	left: auto;
 	right: 4px;
-}
+} */
 
-.toolbar_submenu .submenuContent {
+/* .toolbar_submenu .submenuContent {
 	position: absolute;
 	top: 15px;	
 	z-index: 250;
@@ -2578,15 +2592,15 @@ body.application[dir=rtl] .toolbar_submenu .submenuArrow {
 	-khtml-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-	/*padding: 5px;*/
+	padding: 5px;
 	padding-top: 3px !important;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	overflow-y:auto;
 	overflow-x:hidden;
-}
+} */
 
-.toolbar_submenu .submenuContent li {
+/* .toolbar_submenu .submenuContent li {
 	white-space: nowrap;
 	list-style-type: none;
 	height: 32px;
@@ -2596,33 +2610,33 @@ body.application[dir=rtl] .toolbar_submenu .submenuArrow {
 }
 body.application[dir=rtl] .toolbar_submenu .submenuContent li {
 	text-align: right;
-}
+} */
 
-.toolbar_submenu .submenuContent li:hover,
+/* .toolbar_submenu .submenuContent li:hover,
 .toolbar_submenu .submenuContent li:focus {
 	color: #333333;
 	background-color: #CCCCFF;
-}
+} */
 
-.toolbar_button:focus {
+/* .toolbar_button:focus {
 	border: 1px solid #6666FF;
-}
+} */
 
-.toolbar_submenu .submenuContent img {
+/* .toolbar_submenu .submenuContent img {
 	float: left;
 	padding-left: 5px;
 	padding-right: 5px;
 }
 body.application[dir=rtl] .toolbar_submenu .submenuContent img {
 	float: right;
-}
+} */
 
-.toolbar_submenu .submenuContent .gwt-Label {
+/* .toolbar_submenu .submenuContent .gwt-Label {
 	padding: 7px 10px 0 40px;
 }
 body.application[dir=rtl] .toolbar_submenu .submenuContent .gwt-Label {
 	padding: 7px 40px 0 10px;
-}
+} */
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {
 	width: 5px;
@@ -2652,7 +2666,7 @@ body.application[dir=rtl] .toolbar_submenu .submenuContent .gwt-Label {
 	margin: auto;
 }
 
-.toolBPanel {
+/* .toolBPanel {
 	float: left;
 	padding-top: 1px;
 }
@@ -2666,9 +2680,9 @@ body.application[dir=rtl] .toolBPanel {
 }
 body.application[dir=rtl] .smartButtonPanel {
 	float: left;
-}
+} */
 
-.smartButtonPanel .button {
+/* .smartButtonPanel .button {
 	margin: 0px 5px 0px 10px;
 	cursor: pointer;
 	float: left;
@@ -2678,17 +2692,17 @@ body.application[dir=rtl] .smartButtonPanel {
 body.application[dir=rtl] .smartButtonPanel .button {
 	float: right;
 	margin: 0px 10px 0px 5px;
-}
+} */
 
-.button.redoButton {
+/* .button.redoButton {
 	margin-left: 0px;
 }
 body.application[dir=rtl] .button.redoButton {
 	margin-left: 5px;
 	margin-right: 0px;
-}
+} */
 
-.smartButtonPanel .selectedButton {
+.rightButtonPanel .selectedButton {
 	padding: 0px;
 }
 
