@@ -1578,6 +1578,12 @@ kernel, left,
 			}
 		}
 
+		// needed for TRAC-4217
+		if (tpl.equals(StringTemplate.giacTemplate)
+				&& left instanceof GeoNumeric
+				&& ((GeoNumeric) left).getLabelSimple().startsWith("c_")) {
+			((GeoNumeric) left).setSendValueToCas(false);
+		}
 
 		// expression node
 		String leftStr = left.toValueString(tpl);
