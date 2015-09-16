@@ -1581,7 +1581,8 @@ kernel, left,
 		// needed for TRAC-4217
 		if (tpl.equals(StringTemplate.giacTemplate)
 				&& left instanceof GeoNumeric
-				&& ((GeoNumeric) left).getLabelSimple().startsWith("c_")) {
+				&& !(left instanceof GeoDummyVariable)
+				&& ((GeoElement) left).getLabelSimple().startsWith("c_")) {
 			((GeoNumeric) left).setSendValueToCas(false);
 		}
 
