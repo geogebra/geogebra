@@ -277,27 +277,27 @@ model {
 
 task androidCopyCrystaxSo (type: Exec) {
     description 'Copies Crystax .so files to the src/android folder.'
-    workingDir 'src/android'
+    workingDir 'android'
     commandLine './gradlew', 'copyCrystaxSo'
     }
 
 task androidCopyEabiLibjavagiacSo (dependsOn: 'androideabiJavagiacSharedLibrary', type: Copy) {
     description 'Copies libjavagiac.so files to the src/android folder.'
     from 'build/binaries/javagiacSharedLibrary/androideabi'
-    into 'src/android/src/main/jniLibs/armeabi-v7a'
+    into 'android/src/main/jniLibs/armeabi-v7a'
     include ('libjavagiac.so')
     }
 
 task androidCopyX86LibjavagiacSo (dependsOn: 'androidx86JavagiacSharedLibrary', type: Copy) {
     description 'Copies libjavagiac.so files to the src/android folder.'
     from 'build/binaries/javagiacSharedLibrary/androidx86'
-    into 'src/android/src/main/jniLibs/x86'
+    into 'android/src/main/jniLibs/x86'
     include ('libjavagiac.so')
     }
 
 task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo'], type: Exec) {
     description 'Creates .aar package'
-    workingDir 'src/android'
+    workingDir 'android'
     commandLine './gradlew', 'assemble'
     }
 
