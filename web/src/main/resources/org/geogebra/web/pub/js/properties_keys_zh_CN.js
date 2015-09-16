@@ -2750,7 +2750,7 @@ __GGB__keysVar.zh_CN.plain = {
     "SelectionAllowed": "\u5141\u8bb8\u9009\u62e9",
     "Semicircle": "\u534a\u5706",
     "SemicircleThroughAandB": "\u7ecf\u8fc7 %0 \u4e0e %1 \u7684\u534a\u5706",
-    "SendFeedback": "Send Feedback",
+    "SendFeedback": "\u53d1\u9001\u53cd\u9988",
     "SeveralVersionsOfA": "\u8bf7\u6ce8\u610f\uff0c\u6709\u51e0\u4e2a\u7248\u672c: %0",
     "SharedByA": "\u5206\u4eab\u8005: %0",
     "Show": "\u663e\u793a",
