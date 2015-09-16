@@ -2150,9 +2150,13 @@ function createRoot(jQ, root, textbox, editable) {
     var latex = '';
     if (cursor.selection) {
       latex = cursor.selection.fold('', function(latex, el) {
-        return latex + el.latex();
+        //return latex + el.latex();
+    	// new policy was asked in GeoGebra JIRA's TRAC-5058
+        return latex + el.text();
       });
-      latex = '$' + latex + '$';
+      //latex = '$' + latex + '$';
+      // this latex is actually text that can be interpreted
+      // as LaTeX as well, ideally (to paste it back)
     }
     textareaManager.select(latex);
   }
