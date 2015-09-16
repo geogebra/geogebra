@@ -2750,6 +2750,7 @@ __GGB__keysVar.bs.plain = {
     "SelectionAllowed": "Omogu\u0107i ozna\u010davanje",
     "Semicircle": "Polukru\u017enica",
     "SemicircleThroughAandB": "Polukru\u017enica odre\u0111ena s %0 i %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Napomena: Postoji nekoliko verzija: %0",
     "SharedByA": "Podijelio/la: %0",
     "Show": "Prika\u017ei",

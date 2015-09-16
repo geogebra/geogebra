@@ -2750,6 +2750,7 @@ __GGB__keysVar.is.plain = {
     "SelectionAllowed": "Val leyft",
     "Semicircle": "H\xe1lfhringur",
     "SemicircleThroughAandB": "H\xe1lfhringur gegnum %0 og %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "S\xfdna",

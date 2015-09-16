@@ -2750,6 +2750,7 @@ __GGB__keysVar.sq.plain = {
     "SelectionAllowed": "Selektimi Lejohet",
     "Semicircle": "Gjysem-Rreth",
     "SemicircleThroughAandB": "Gjysem-Rreth qe Kalon nga %0 dhe %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "Shfaq",

@@ -2750,6 +2750,7 @@ __GGB__keysVar.tl.plain = {
     "SelectionAllowed": "Pinapayagan ang Pamimili",
     "Semicircle": "Bahaging-bilog",
     "SemicircleThroughAandB": "Bahaging-bilog sa %0 at %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "Ipakita",

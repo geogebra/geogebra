@@ -2750,6 +2750,7 @@ __GGB__keysVar.sl.plain = {
     "SelectionAllowed": "Dovoljena izbira",
     "Semicircle": "Polkro\u017enica",
     "SemicircleThroughAandB": "Polkro\u017enica skozi %0 in %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Pazi, obstaja ve\u010d verzij: %0",
     "SharedByA": "Posredovano od: %0",
     "Show": "Prika\u017ei",

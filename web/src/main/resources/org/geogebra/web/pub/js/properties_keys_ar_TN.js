@@ -2750,6 +2750,7 @@ __GGB__keysVar.ar_TN.plain = {
     "SelectionAllowed": "\u0645\u062d\u062f\u0651\u062f",
     "Semicircle": "\u0646\u0635\u0641 \u062f\u0627\u0626\u0631\u0629",
     "SemicircleThroughAandB": "\u0646\u0635\u0641 \u062f\u0627\u0626\u0631\u0629 \u0645\u062d\u062f\u062f\u0629 \u0628\u0640 %0 \u0648 %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "%0\u062a\u0645 \u062a\u0634\u0634\u0631\u064a\u0643\u0647\u0627 \u0645\u0646 \u0637\u0631\u0641",
     "Show": "\u0625\u0638\u0647\u0627\u0631",

@@ -2750,6 +2750,7 @@ __GGB__keysVar.et.plain = {
     "SelectionAllowed": "Valimine lubatud",
     "Semicircle": "Poolringjoon",
     "SemicircleThroughAandB": "Poolringjoon punktidega %0 ja %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Eksisteerib mitu %0 versiooni",
     "SharedByA": "Jagas: %0",
     "Show": "N\xe4ita",

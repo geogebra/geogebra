@@ -2750,6 +2750,7 @@ __GGB__keysVar.pt_PT.plain = {
     "SelectionAllowed": "Sele\xe7\xe3o permitida",
     "Semicircle": "Semicircunfer\xeancia",
     "SemicircleThroughAandB": "Semicircunfer\xeancia de extremos %0 e %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note que existem v\xe1rias vers\xf5es de: %0",
     "SharedByA": "Partilhado por: %0",
     "Show": "Mostrar",

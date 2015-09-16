@@ -2750,6 +2750,7 @@ __GGB__keysVar.in.plain = {
     "SelectionAllowed": "Diperbolehkan Pemilihan",
     "Semicircle": "Setengah lingkaran",
     "SemicircleThroughAandB": "Setengah lingkaran melalui %0 dan %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "Tampilkan",

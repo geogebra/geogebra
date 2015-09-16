@@ -2750,6 +2750,7 @@ __GGB__keysVar.vi.plain = {
     "SelectionAllowed": "Cho ph\xe9p l\u1ef1a ch\u1ecdn",
     "Semicircle": "H\xecnh b\xe1n nguy\u1ec7t",
     "SemicircleThroughAandB": "H\xecnh b\xe1n nguy\u1ec7t qua %0 v\xe0 %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "Hi\u1ec3n th\u1ecb",

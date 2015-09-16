@@ -2750,6 +2750,7 @@ __GGB__keysVar.ji.plain = {
     "SelectionAllowed": "\u05d0\u05d5\u05d9\u05e1\u05d8\u05d9\u05d9\u05dc\u05e2\u05d5\u05d5\u05d3\u05d9\u05e7",
     "Semicircle": "\u05d4\u05d0\u05b7\u05dc\u05d1\u05e7\u05e8\u05f2\u05b7\u05d6",
     "SemicircleThroughAandB": "\u05d4\u05d0\u05b7\u05dc\u05d1\u05e7\u05e8\u05f2\u05b7\u05d6 \u05d3\u05d5\u05e8\u05da %0 \u05d0\u05d5\u05df %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "\u05d0\u05b7\u05e8\u05f2\u05b7\u05e0\u05d2\u05e2\u05d2\u05e2\u05d1\u05df \u05d3\u05d5\u05e8\u05da: %0",
     "Show": "\u05d5\u05d5\u05f2\u05b7\u05d6\u05df",

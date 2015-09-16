@@ -2750,6 +2750,7 @@ __GGB__keysVar.ca.plain = {
     "SelectionAllowed": "Habilita selecci\xf3",
     "Semicircle": "Semicircumfer\xe8ncia",
     "SemicircleThroughAandB": "Semicircumfer\xe8ncia amb %0 i %1 com extrems del di\xe0metre",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Tingueu en compte que hi ha diferents versions de: %0",
     "SharedByA": "Compartit per: %0",
     "Show": "Mostra",

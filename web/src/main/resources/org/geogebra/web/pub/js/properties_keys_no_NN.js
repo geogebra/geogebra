@@ -2750,6 +2750,7 @@ __GGB__keysVar.no_NN.plain = {
     "SelectionAllowed": "Vel med museklikk",
     "Semicircle": "Halvsirkel",
     "SemicircleThroughAandB": "Halvsirkel gjennom %0 og %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Merk at der er fleire versjonar av: %0",
     "SharedByA": "Delt av: %0",
     "Show": "Vis",

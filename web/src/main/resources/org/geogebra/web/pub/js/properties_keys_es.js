@@ -2750,6 +2750,7 @@ __GGB__keysVar.es.plain = {
     "SelectionAllowed": "Permitir seleccionar",
     "Semicircle": "Semicircunferencia",
     "SemicircleThroughAandB": "Semicircunferencia de %0 a %1",
+    "SendFeedback": "Enviar comentario",
     "SeveralVersionsOfA": "Hay que tener en cuenta que hay varias versiones de: %0",
     "SharedByA": "Compartido por: %0",
     "Show": "Muestra",

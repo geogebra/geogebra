@@ -2750,6 +2750,7 @@ __GGB__keysVar.ko.plain = {
     "SelectionAllowed": "\uc120\ud0dd \uac00\ub2a5",
     "Semicircle": "\ubc18\uc6d0",
     "SemicircleThroughAandB": "%0 \uc640(\uacfc) %1 \uc744(\ub97c) \uc9c0\ub098\ub294 \ubc18\uc6d0",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "\ub2e4\ub978 \ubc84\uc804 \ucc38\uc870: %0",
     "SharedByA": "%0 \ub2d8\uc5d0 \uc758\ud574 \uacf5\uc720\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",
     "Show": "\ubcf4\uc774\uae30",

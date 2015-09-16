@@ -2750,6 +2750,7 @@ __GGB__keysVar.ca_XV.plain = {
     "SelectionAllowed": "Habilita la selecci\xf3",
     "Semicircle": "Semicercle",
     "SemicircleThroughAandB": "Semicercle que passa per %0 i %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Tingueu en compte que hi ha diferents versions de: %0",
     "SharedByA": "Compartit per: %0",
     "Show": "Mostra",

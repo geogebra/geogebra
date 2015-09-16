@@ -2750,6 +2750,7 @@ __GGB__keysVar.lv.plain = {
     "SelectionAllowed": "Atlase At\u013cauta",
     "Semicircle": "Pusaplis",
     "SemicircleThroughAandB": "Pusaplis caur %0 un %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Dal\u012bties: %0",
     "Show": "R\u0101d\u012bt",

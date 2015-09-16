@@ -2750,6 +2750,7 @@ __GGB__keysVar.hu.plain = {
     "SelectionAllowed": "Kijel\xf6l\xe9s enged\xe9lyezett",
     "Semicircle": "F\xe9lk\xf6r",
     "SemicircleThroughAandB": "%0 \xe9s %1 \xe1ltal meghat\xe1rozott f\xe9lk\xf6r",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "T\xf6bb verzi\xf3 is l\xe9tezik %0-b\xf3l",
     "SharedByA": "Megosztotta: %0",
     "Show": "Mutat",

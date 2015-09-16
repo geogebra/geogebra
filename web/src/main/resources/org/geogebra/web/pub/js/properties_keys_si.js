@@ -2750,6 +2750,7 @@ __GGB__keysVar.si.plain = {
     "SelectionAllowed": "\u0dad\u0ddd\u0dbb\u0dcf\u0d9c\u0dd0\u0db1\u0dd3\u0db8\u0da7 \u0d89\u0da9\u0daf\u0dd3\u0db8",
     "Semicircle": "\u0d85\u0dbb\u0dca\u0db0\u0dc0\u0dd8\u0dad\u0dca\u0dad\u0dba",
     "SemicircleThroughAandB": "%0,%1 \u0dc4\u0dbb\u0dc4\u0dcf \u0d85\u0dbb\u0dca\u0db0\u0dc0\u0dd8\u0dad\u0dca\u0dad\u0dba",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "\u0db6\u0dd9\u0daf\u0dcf \u0d9c\u0dd0\u0db1\u0dd3\u0db8 : %0",
     "Show": "\u0db4\u0dd9\u0db1\u0dca\u0dc0\u0db1\u0dca\u0db1",

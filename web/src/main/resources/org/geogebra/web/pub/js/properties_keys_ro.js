@@ -2750,6 +2750,7 @@ __GGB__keysVar.ro.plain = {
     "SelectionAllowed": "Selec\u021bie permis\u0103",
     "Semicircle": "Semicerc",
     "SemicircleThroughAandB": "Semicerc prin %0 \u015fi %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Aten\u0163ie, sunt mai multe versiuni pentru: %0",
     "SharedByA": "\xcemp\u0103rt\u0103\u0219it de: %0",
     "Show": "Arat\u0103",

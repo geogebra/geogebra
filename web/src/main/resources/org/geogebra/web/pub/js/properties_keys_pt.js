@@ -2750,6 +2750,7 @@ __GGB__keysVar.pt.plain = {
     "SelectionAllowed": "Permitir Sele\xe7\xe3o",
     "Semicircle": "Semic\xedrculo",
     "SemicircleThroughAandB": "Semic\xedrculo passando por %0 e %1",
+    "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note que existem v\xe1rias vers\xf5es de %0",
     "SharedByA": "Compartilhado por: %0",
     "Show": "Exibir",
