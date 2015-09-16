@@ -6981,6 +6981,15 @@ var Cursor = P(Point, function(_) {
     	  ret += '{';
     	  boolPerDepth[depth] = true;
     	  lastchar = '{';
+    	//} else if (lastchar === '/') {
+        // maybe we could change a/(x+1) to
+    	// \frac{a}{x+1} here, but it would
+    	// be quite complex and we have to
+    	// rethink this method anyway, to avoid
+    	// bugs, so I think we can say that
+    	// this is ready the "dirty buggy way"
+    	// and we can start implementing the
+    	// "perfect" solution instead
     	} else {
     	  ret += '(';
     	  lastchar = '(';
