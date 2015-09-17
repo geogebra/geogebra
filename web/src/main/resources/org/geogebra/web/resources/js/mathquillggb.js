@@ -4477,14 +4477,13 @@ var SupSub = P(MathCommand, function(_, _super) {
       return this.ctrlSeq + '{' + (latex || ' ') + '}';
   };
   _.text = function() {
+    var ctr = '';
+    if (this.textTemplate[0]) {
+      ctr = this.textTemplate[0];
+    }
+    var tex = this.ch[L].text();
     if (this.ctrlSeq === '_') {
       // only do this for subscripts
-      var ctr = '';
-      if (this.textTemplate[0]) {
-        ctr = this.textTemplate[0];
-      }
-      var tex = this.ch[L].text();
-
       if (tex.length === 1) {
         return ctr + tex;
       } else if (tex[0] === '(' && tex.slice(-1) === ')') {
@@ -4492,6 +4491,12 @@ var SupSub = P(MathCommand, function(_, _super) {
       }
       return ctr + '{' + (tex || ' ') + '}';
 	}
+    var excl = ctr + tex;
+    if (excl === '^circ ') {
+      // special case: this should mean degree symbol instead!
+      return '\u00b0';
+    }
+    // instead of this:
     return _super.text.call(this);
   };
   _.redraw = function() {
