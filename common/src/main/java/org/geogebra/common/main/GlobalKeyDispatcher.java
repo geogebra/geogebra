@@ -787,7 +787,7 @@ public abstract class GlobalKeyDispatcher {
 		cd.setBlackWhiteMode(blackWhiteMode);
 
 		// change application font size
-		app.setFontSize(fontSize);
+		app.setFontSize(fontSize, true);
 		if (app.isUsingFullGui() && app.getGuiManager() != null)
 			app.getGuiManager().updateSpreadsheetColumnWidths();
 

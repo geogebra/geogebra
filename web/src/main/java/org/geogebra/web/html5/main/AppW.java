@@ -1752,12 +1752,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
 
 		fontManager = new FontManagerW();
-		setFontSize(16);
+		setFontSize(16, false);
 		initEuclidianViews();
 
 		initImageManager();
 
-		setFontSize(16);
+		setFontSize(16, true);
 		// setLabelDragsEnabled(false);
 
 		// make sure undo allowed
@@ -2343,6 +2343,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void updateUI() {
+		if (getGuiManager() != null) {
+			getGuiManager().setPixelRatio(getPixelRatio());
+		}
 		// App.debug("updateUI: implementation needed for GUI"); // TODO
 	}
 

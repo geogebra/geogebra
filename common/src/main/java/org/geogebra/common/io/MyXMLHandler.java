@@ -2451,7 +2451,8 @@ public class MyXMLHandler implements DocHandler {
 			// app.setEuclidianFontSize(euclidianSize, false);
 			// }
 
-			app.setFontSize(guiSize); // set gui font size and update all fonts
+			app.setFontSize(guiSize, true); // set gui font size and update all
+											// fonts
 			return true;
 		} catch (Exception e) {
 			return false;

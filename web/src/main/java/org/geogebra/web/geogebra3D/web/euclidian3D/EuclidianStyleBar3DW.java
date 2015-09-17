@@ -177,6 +177,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		@Override
 		protected void fireActionPerformed() {
+
 			getView().setRotContinueAnimation(0, getSliderValue() * 0.01);
 			if (getSliderValue() == 0) {
 				setIcon(playIcon);

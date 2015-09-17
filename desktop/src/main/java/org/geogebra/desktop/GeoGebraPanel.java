@@ -112,7 +112,7 @@ public class GeoGebraPanel extends JPanel {
 	 * Sets the font size of the GeoGebra user interface.
 	 */
 	public synchronized void setFontSize(int points) {
-		app.setFontSize(points);
+		app.setFontSize(points, true);
 	}
 
 	/**

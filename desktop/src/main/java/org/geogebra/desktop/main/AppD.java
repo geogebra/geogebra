@@ -924,7 +924,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		String fontSize = args.getStringValue("fontSize");
 		if (fontSize.length() > 0) {
-			setFontSize(Util.getValidFontSize(Integer.parseInt(fontSize)));
+			setFontSize(Util.getValidFontSize(Integer.parseInt(fontSize)), true);
 		}
 
 		boolean enableUndo = args.getBooleanValue("enableUndo", true);
@@ -1122,8 +1122,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 				// resetFonts() doesn't seem to work
 				// hack
-				setFontSize(getFontSize() + 2);
-				setFontSize(getFontSize() - 2);
+				setFontSize(getFontSize() + 2, true);
+				setFontSize(getFontSize() - 2, true);
 
 			} else {
 				App.debug("can't force font to be " + fontName + " (not found)");
@@ -2010,14 +2010,14 @@ public class AppD extends App implements KeyEventDispatcher {
 		super.setGUIFontSize(size);
 	}
 
-	public void setFontSize(int points) {
+	public void setFontSize(int points, boolean update) {
 
 		if (guiFontSize == -1) {
 			// set tool icon size between 32 and 64
 			setMaxIconSizeAsPt(points);
 		}
 
-		super.setFontSize(points, true);
+		super.setFontSize(points, update);
 	}
 
 	public void setMaxIconSizeAsPt(int points) {

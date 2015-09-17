@@ -2380,17 +2380,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Changes font size and resets fonts
-	 * 
-	 * @see #resetFonts()
-	 * @param points
-	 *            font size
-	 */
-	public void setFontSize(int points) {
-		setFontSize(points, true);
-	}
-
-	/**
 	 * Changes font size and possibly resets fonts
 	 * 
 	 * @param points
