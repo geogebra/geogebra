@@ -13,6 +13,9 @@ Prerequisites
   * Jenkins (suggested installation from http://pkg.jenkins-ci.org/debian/)
   * authbind (configure as described at http://stackoverflow.com/a/9331030 but use port 443 instead of 80)
   * xvfb (as standard Linux package)
+  * PhantomJS (from http://phantomjs.org/, see also http://phantomjs.org/build.html, version 2.0.0 is
+    the minimum requirement) if you are interested in testing the web version also (by default it is
+    included)
 
 Start Jenkins
 -------------
@@ -56,7 +59,9 @@ Configure Jenkins
     to Properties Content
 
   * At Build -> check Use Gradle Wrapper, and enter
-    ":desktop:installDist :web:clean :web:draftCompileGwt :web:draftSymlinkIntoWar" (without quotes) for Tasks
+    ":desktop:installDist :web:clean :web:draftCompileGwt :web:draftSymlinkIntoWar" (without quotes) for Tasks,
+    if you have less resources you may omit :web:clean to speed up compilation (but in some cases it may
+    be mandatory due to a bug in a Gradle plugin)
 
   * Click Add build step -> Execute shell, and enter "cd test/scripts/benchmark/prover && ./runtests-all && ./check-all"
     (without quotes) as Command
@@ -70,4 +75,3 @@ Running the benchmark
 ---------------------
 
 This should be automatic, but you can start a new build on demand also in Jenkins manually.
-

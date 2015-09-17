@@ -307,6 +307,10 @@ for i in `find -name '*.ggb' | sort`; do
 
   # Testing:
   if [ "$ENGINE" = "Web" ]; then
+   which $PHANTOMJS >/dev/null || {
+    echo "FATAL: PhantomJS is not found in $PHANTOMJS (>= 2.0.0 needed)"
+    exit 1
+    }
    test -d $ABSWEBDIR || {
     echo; echo "FATAL: folder $ABSWEBDIR does not exist. You have to compile web platform first."
     exit 1

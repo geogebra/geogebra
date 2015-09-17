@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Checks the output of runtests-all and reports if a regression occurred.
-# TODO: the numbers are outdated, fix needed.
 
 exitcode=0
 
@@ -17,21 +16,23 @@ for i in jar-paper giac-test ndg; do
  done
 
 read e1 e2 e2g e3a e3b a < tmp/jar-paper.summary.out
-if ((e1 < 30)); then r "jar-paper: Engine 1"; fi
-if ((e2 < 48)); then r "jar-paper: Engine 2"; fi
-if ((e2g < 42)); then r "jar-paper: Engine 2, Giac"; fi
-if ((e3a < 48)); then r "jar-paper: Engine 3a"; fi
-if ((e3b < 42)); then r "jar-paper: Engine 3b"; fi
-if ((a < 55)); then r "jar-paper: Auto"; fi
+if ((e1 < 33)); then r "jar-paper: Engine 1"; fi
+if ((e2 < 161)); then r "jar-paper: Engine 2"; fi
+if ((e2g < 116)); then r "jar-paper: Engine 2, Giac"; fi
+if ((e3a < 83)); then r "jar-paper: Engine 3a"; fi
+if ((e3b < 67)); then r "jar-paper: Engine 3b"; fi
+if ((a < 137)); then r "jar-paper: Auto"; fi
 
 read b bg ow a < tmp/ndg.summary.out
-if ((b < 44)); then r "ndg: Botana"; fi
-if ((bg < 42)); then r "ndg: BotanaGiac"; fi
-if ((ow < 48)); then r "ndg: OpenGeoProver Wu"; fi
-if ((a < 46)); then r "ndg: Auto"; fi
+if ((b < 144)); then r "ndg: Botana"; fi
+if ((bg < 144)); then r "ndg: BotanaGiac"; fi
+if ((ow < 85)); then r "ndg: OpenGeoProver Wu"; fi
+if ((a < 144)); then r "ndg: Auto"; fi
 
+# TODO: This seems not required, consider removing it.
+# Instead, check output of the Web tests.
 read b bg < tmp/giac-test.summary.out
-if ((b < 48)); then r "giac-test: Botana"; fi
-if ((bg < 42)); then r "giac-test: BotanaGiac"; fi
+if ((b < 161)); then r "giac-test: Botana"; fi
+if ((bg < 116)); then r "giac-test: BotanaGiac"; fi
 
 exit $exitcode
