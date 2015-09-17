@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.algos.AlgoSlope;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -107,7 +106,6 @@ public class DrawSlope extends Drawable {
 			gp.lineTo(xright, y - height);
 			// closePath important for clipping: #4048
 			gp.closePath();
-			Log.debug((view.getXscale() * slopeTriangleSize) / (0.0 + height));
 			// gp on screen?
 			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 				isVisible = false;
