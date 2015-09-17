@@ -4488,6 +4488,9 @@ var SupSub = P(MathCommand, function(_, _super) {
         return ctr + tex;
       } else if (tex[0] === '(' && tex.slice(-1) === ')') {
         return ctr + '{' + (tex.slice(1,-1) || ' ') + '}';
+      } else if (tex[0] === '{' && tex.slice(-1) === '}') {
+    	// log_{10}(x) case
+        return ctr + tex;
       }
       return ctr + '{' + (tex || ' ') + '}';
 	}
