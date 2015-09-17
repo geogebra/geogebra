@@ -2539,6 +2539,8 @@ function createRoot(jQ, root, textbox, editable) {
      
       //console.log('paste 4:'+text3);
 
+      //text3 = cursor.fix3bug(text3);
+
       // --- the fix2bug and fixabug methods are not as good as
       // --- the other methods before, but these are complex
       // --- issues, see JIRA TRAC-5058 and GGB-80
@@ -6974,6 +6976,72 @@ var Cursor = P(Point, function(_) {
     this.blink = function(){ jQ.toggleClass('blink'); }
 
     this.upDownCache = {};
+  };
+  _.fix3bug = function(text) {
+    // we shall change every a/b division to \frac{a}{b}
+    // in complex formulas this is complex, so needs parsing
+    // using depth is the easiest algorithm that comes to
+    // my mind again! just like in case of fix2bug, fixabug
+    // but NOTE TODO that it is probably not perfect in all cases!
+    // especially the case of Quotations shall be taken care of
+
+    var str = text;
+    var depth = 0;
+    var depthForEachCharacter = new Array();
+    var strPerDepth = new Array();
+    strPerDepth[0] = '';//ret
+    //var boolPerDepth = new Array();
+    //boolPerDepth[0] = false;//does not make sense
+    //var lastchar = '';
+    //var ret = "";
+    var lv;
+    for (lv = 0; lv < str.length; lv++) {
+      depthForEachCharacter[lv] = 0;
+    }
+    for (lv = 0; lv < str.length; lv++) {
+      // NOTE: this algorithm might not be perfect in some cases
+      // e.g. when there are single ( and ) in Quotation, etc.
+      // that is not a pair of anything, etc. so this needs to
+      // be tested more!
+      if (str.charAt(lv) === '(' ||
+    	  str.charAt(lv) === '[' ||
+    	  str.charAt(lv) === '{') {
+    	// when a closing sign comes, then at a right syntax
+    	// it should also correspond to the opening sign,
+    	// in theory, except cases I mentioned in NODE TODO
+      	depth++;
+    	//for (lv = 0; lv < depth; lv++) {
+      	//  strPerDepth[lv] += str.charAt(0);
+      	//}
+    	//strPerDepth[depth] = '';
+        //str = str.substring(1);
+      } else if (str.charAt(lv) === ')' ||
+    		     str.charAt(lv) === ']' ||
+    		     str.charAt(lv) === '}') {
+      	// when a closing sign comes, then at a right syntax
+      	// it should also correspond to the opening sign,
+      	// in theory, except cases I mentioned in NODE TODO
+
+    	// string is ready, we can check!
+    	// but we shall not check it more times!
+        // in theory, if the / is already replaced by
+    	// \frac{}{} here, then the same thing will not
+    	// bother again... but still, +-, inside is
+    	// causing difficulty...
+    	// whether there is / found here: 
+    	//strPerDepth[depth] = strPerDepth[depth];
+      	depth--;
+
+    	//str = str.substring(1);
+
+      } else {
+    	ret += str.charAt(lv);
+    	//lastchar = str.substring(0,1);
+    	//str = str.substring(1);
+    	//ret += lastchar;
+      }
+    }
+    return ret;
   };
   _.fix2bug = function(text) {
     var str = text;
