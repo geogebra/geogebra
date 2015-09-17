@@ -7075,7 +7075,7 @@ var Cursor = P(Point, function(_) {
         } else if (lastcc >= 48 && lastcc <= 57) {
           // ASCII 0-9 maybe OK (?)
           ret += '{';
-        } else if (lastchar === '^') {
+        } else if ((lastchar === '^') || (lastchar === '_')) {
           // in this case the syntax is important to
           // leave this intact, so:
           ret += '{';
