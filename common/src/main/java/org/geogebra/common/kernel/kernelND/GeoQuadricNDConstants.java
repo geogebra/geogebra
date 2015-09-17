@@ -46,6 +46,8 @@ public interface GeoQuadricNDConstants {
 	public static final int QUADRIC_WHOLE_SPACE = 33;
 	/** type : parallel planes */
 	public static final int QUADRIC_PARALLEL_PLANES = 34;
+	/** type : intersecting planes */
+	public static final int QUADRIC_INTERSECTING_PLANES = 35;
 	/** start mode: not set */
 	public static final int QUADRIC_NOT_SET = -1;
 

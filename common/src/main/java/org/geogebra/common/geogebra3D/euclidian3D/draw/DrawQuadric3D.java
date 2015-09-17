@@ -40,6 +40,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	public void drawGeometry(Renderer renderer) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 			drawPlanes[0].drawGeometry(renderer);
 			drawPlanes[1].drawGeometry(renderer);
 			break;
@@ -354,6 +355,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateForItSelf();
 			drawPlanes[1].updateForItSelf();
@@ -494,6 +496,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 			break;
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 			if (getView3D().viewChanged()) {
 				initDrawPlanes(quadric);
 				drawPlanes[0].updateForView();
@@ -515,6 +518,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		switch (type) {
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdate();
 			drawPlanes[1].setWaitForUpdate();
@@ -652,7 +656,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 		
-		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES) {
+		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES
+				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES) {
 			if (drawPlanes[0].hit(hitting)) {
 				setZPick(drawPlanes[0].getZPickNear(),
 						drawPlanes[0].getZPickFar());
