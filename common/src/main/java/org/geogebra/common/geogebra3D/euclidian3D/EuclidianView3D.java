@@ -1745,7 +1745,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			rotSpeed2 = 0.1;
 		else if (rotSpeed2 < -0.1)
 			rotSpeed2 = -0.1;
-
+		this.getSettings().setRotSpeed(0);
 		animatedContinueRot = true;
 		animatedRot = false;
 		animatedRotSpeed = -rotSpeed2;
@@ -4044,6 +4044,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		updateMatrix();
 		setViewChanged();
 		setWaitForUpdate();
+		if (evs.getRotSpeed() > 0) {
+			this.setRotContinueAnimation(0, evs.getRotSpeed());
+		}
 
 		if (styleBar != null) {
 			styleBar.updateGUI();

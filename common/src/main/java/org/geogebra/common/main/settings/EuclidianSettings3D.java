@@ -279,6 +279,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	
 	private boolean useLight = true;
 
+	private double rotSpeed;
 	
 	public void setUseLight(boolean flag){
 		if (useLight != flag) {
@@ -342,5 +343,13 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		this.zscale = scale;
 	}
 
+	public void setRotSpeed(double d) {
+		this.rotSpeed = d;
+
+	}
+
+	public double getRotSpeed() {
+		return rotSpeed;
+	}
 
 }
