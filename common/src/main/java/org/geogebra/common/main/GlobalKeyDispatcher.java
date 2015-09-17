@@ -586,6 +586,13 @@ public abstract class GlobalKeyDispatcher {
 			case MINUS:
 			case EQUALS:
 
+				// in Chrome and IE11, both the applet and the
+				// browser are zoomed
+				// even when the applet has focus
+				if (app.isHTML5Applet()) {
+					break;
+				}
+
 				// disable zooming in PEN mode
 				if (!EuclidianView.isPenMode(app.getActiveEuclidianView()
 						.getMode())) {
