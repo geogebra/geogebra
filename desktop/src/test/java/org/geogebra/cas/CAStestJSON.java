@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
@@ -142,9 +143,13 @@ public class CAStestJSON {
 	          includesNumericCommand = includesNumericCommand || ("Numeric".equals(cmdName) && cmd.getArgumentNumber() > 1);
 	        }
 	      }
-
+			if (f.getOutputValidExpression().unwrap() instanceof GeoElement) {
+				result = f.getOutputValidExpression().toValueString(
+						StringTemplate.testTemplateJSON);
+			} else {
 	      result = f.getOutputValidExpression() != null ? f.getOutputValidExpression().toString(
 	          includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplateJSON) : f.getOutput(StringTemplate.testTemplate);
+			}
 	    } catch (Throwable t) {
 	      String sts = "";
 	      StackTraceElement[] st = t.getStackTrace();
