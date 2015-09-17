@@ -231,7 +231,7 @@ public class CASTableCellW extends VerticalPanel {
 				this.outputPanel.clear();
 				this.outputPanel.add(DrawEquationWeb.paintOnCanvas(casCell,
 						eqstring, null, casCell.getKernel().getApplication()
-.getFontSize() + 1));
+								.getFontSizeWeb() + 1));
 			}
 
 		}

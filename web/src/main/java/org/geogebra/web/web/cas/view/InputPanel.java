@@ -79,7 +79,7 @@ public interface InputPanel extends IsWidget {
 				return;
 			}
 			DrawEquationWeb.paintOnCanvas(new GeoNumeric(app.getKernel()
-					.getConstruction()), laTeX, c, app.getFontSize());
+					.getConstruction()), laTeX, c, app.getFontSizeWeb());
 
 		}
 

@@ -299,7 +299,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(eqn);
 		if (app.has(Feature.JLM_IN_WEB)) {
 			DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
-					app.getFontSize());
+					app.getFontSizeWeb());
 
 		} else {
 			lblRegEquation.setText("");

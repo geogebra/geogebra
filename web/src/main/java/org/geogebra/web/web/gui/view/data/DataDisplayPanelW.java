@@ -701,7 +701,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(latex);
 		if (app.has(Feature.JLM_IN_WEB)) {
 			DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
-					app.getFontSize());
+					app.getFontSizeWeb());
 
 
 		} else {

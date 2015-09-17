@@ -153,7 +153,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 					.getLaTeXInput() : geo
 					.toString(StringTemplate.latexTemplate);
 		}
-		DrawEquationWeb.paintOnCanvas(geo, str, c, app.getFontSize());
+		DrawEquationWeb.paintOnCanvas(geo, str, c, app.getFontSizeWeb());
 		return c.toDataUrl().substring("data:image/png;base64,".length());
 	}
 

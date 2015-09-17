@@ -82,7 +82,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	private Widget getLatexHTML(String text, App app) {
 		if (app.has(Feature.JLM_IN_WEB)) {
 		Canvas c = DrawEquationWeb.paintOnCanvas(sample, text, null,
-				app.getFontSize());
+					app.getFontSizeWeb());
 			return c;
 		}
 		SpanElement se = DOM.createSpan().cast();

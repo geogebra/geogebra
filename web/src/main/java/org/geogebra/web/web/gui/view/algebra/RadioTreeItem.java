@@ -759,9 +759,11 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 		seNoLatex = DOM.createSpan().cast();
+
 		seNoLatex.addClassName("sqrtFontFix");
 		EquationEditor.updateNewStatic(seNoLatex);
 		updateColor(seNoLatex);
+		updateFont(seNoLatex);
 
 		ihtml = new InlineHTML();
 		ihtml.addStyleName("elemText");
@@ -869,6 +871,11 @@ public class RadioTreeItem extends AVTreeItem
 		// buttonPanel.add(xButton);
 
 		deferredResizeSlider();
+
+	}
+
+	private void updateFont(SpanElement seNoLatex2) {
+		seNoLatex2.getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 
 	}
 
@@ -1030,6 +1037,7 @@ public class RadioTreeItem extends AVTreeItem
 		// if enabled, render with LaTeX
 		seNoLatex = se;
 		seNoLatex.addClassName("sqrtFontFix");
+		seNoLatex.getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 		if (av.isRenderLaTeX()) {
 			this.needsUpdate = true;
 
@@ -1307,6 +1315,7 @@ public class RadioTreeItem extends AVTreeItem
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (!LaTeX) {
 				updateColor(seNoLatex);
+				updateFont(seNoLatex);
 			} else {
 				updateColor(seNoLatex);
 				if (!newCreationMode && app.has(Feature.JLM_IN_WEB)
@@ -1420,7 +1429,7 @@ public class RadioTreeItem extends AVTreeItem
 	 *         than app.getFontSize(), but +3 looked a bit too big
 	 */
 	private int getFontSize() {
-		return app.getFontSize() + 1;
+		return app.getFontSizeWeb() + 1;
 	}
 
 

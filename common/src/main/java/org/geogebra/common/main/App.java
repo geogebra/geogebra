@@ -4098,4 +4098,8 @@ public abstract class App implements UpdateSelection {
 		// ignored in desktop
 
 	}
+
+	public int getFontSizeWeb() {
+		return Math.max(getFontSize(), 14);
+	}
 }
