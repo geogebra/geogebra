@@ -82,6 +82,18 @@ public class CoordMatrix {
 	}
 
 	/**
+	 * create matrix composed with vectors
+	 * 
+	 * @param vectors
+	 *            vectors
+	 */
+	public CoordMatrix(Coords... vectors) {
+		this.vectors = vectors;
+		this.rows = vectors[0].getLength();
+		this.columns = vectors.length;
+	}
+
+	/**
 	 * creates an empty rows * columns matrix (all values set to 0)
 	 * 
 	 * @param rows
