@@ -98,7 +98,7 @@ public class CommandsTest extends Assert{
 	@BeforeClass
 	public static void setupApp() {
 		app = new App3D(new CommandLineArguments(
-new String[] { "--silent",
+				new String[] {
 				"--prerelease" }), new JFrame(), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
@@ -106,6 +106,32 @@ new String[] { "--silent",
 		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
 	}
 	
+
+
+	@Test
+	public void listArithmetic() {
+		t("{1,2,3}*2", "{2, 4, 6}");
+		t("{1,2,3}+3", "{4, 5, 6}");
+		t("list1:={1,2,3}", "{1, 2, 3}");
+		t("listF:={x, 2 * x,3 * x+1}", "{x, (2 * x), (3 * x) + 1}");
+		t("matrix1:={{1, 2, 3}, {2, 4, 6}, {3, 6, 9}}",
+				"{{1, 2, 3}, {2, 4, 6}, {3, 6, 9}}");
+		t("list1(1)", "1");
+		t("list1(4)", "NaN");
+		t("list1(0)", "NaN");
+		t("list1(-1)", "NaN");
+		t("list1(1,2)", "NaN");
+		t("listF(1)", "x");
+		t("listF(2)", "(2 * x)");
+		t("listF(2,7)", "14");
+		t("matrix1(2)", "{2, 4, 6}");
+		t("matrix1(-1)", "{NaN, NaN, NaN}");
+		t("matrix1(2,3)", "6");
+		t("matrix1(2,3,4)", "NaN");
+		t("matrix1(2,-1)", "NaN");
+		t("Delete[list1]", new String[] {});
+		t("Delete[matrix1]", new String[] {});
+	}
 	@Test
 	public void cmdMidpoint(){
 		t("Midpoint[(0,0),(2,2)]","(1, 1)");

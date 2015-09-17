@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoVec2D;
@@ -1451,7 +1452,6 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			// TODO not implemented #1115
-
 			// Application.debug(rt.getClass()+" "+rt.getClass());
 			if (lt instanceof GeoList && rt instanceof ListValue) {
 
@@ -1464,20 +1464,43 @@ public enum Operation {
 							.getListElement(i);
 					idx = (int) Math.round(ith.evaluateDouble()) - 1;
 					if (i < lv.size() - 1) {
+						GeoElement nextSublist;
 						if (idx >= 0 && idx < sublist.size()) {
-							sublist = (GeoList) sublist.get(idx);
+							nextSublist = sublist.get(idx);
 						} else {
-							sublist = (GeoList) sublist.createTemplateElement();
+							nextSublist = sublist
+									.createTemplateElement();
 						}
+						if (nextSublist instanceof GeoList) {
+							sublist = (GeoList) nextSublist;
+						} else if (i == lv.size() - 2
+								&& nextSublist instanceof GeoFunction) {
+
+							return new MyDouble(ev.getKernel(),
+									((GeoFunction) nextSublist).evaluate(lv
+											.getListElement(i + 1)
+											.evaluateDouble()));
+						} else {
+
+							return new MyDouble(ev.getKernel(), Double.NaN);
+						}
+
 					}
 
 				}
 				if (idx >= 0 && idx < sublist.size()) {
-					return sublist.get(idx).copyInternal(
+					GeoElement ret = sublist.get(idx).copyInternal(
 							sublist.getConstruction());
+					if (ret instanceof GeoFunction) {
+						return ((GeoFunction) ret).getFunction();
+					}
+					return ret;
 				}
 				GeoElement ret = sublist.createTemplateElement();
 				ret.setUndefined();
+				if (ret instanceof GeoFunction) {
+					return ((GeoFunction) ret).getFunction();
+				}
 				return ret;
 			}
 				return ev.illegalArgument(lt);
