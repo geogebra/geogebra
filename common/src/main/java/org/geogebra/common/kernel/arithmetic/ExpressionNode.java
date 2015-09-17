@@ -3212,9 +3212,24 @@ kernel, left,
 		case ELEMENT_OF:
 			if (tpl.hasCASType()) {
 				sb.append(leftStr);
-				sb.append("[(");
-				sb.append(rightStr);
-				sb.append(")-1]");
+				sb.append("[");
+				if (rightStr.startsWith("{")) {
+					ListValue list = (ListValue) right;
+					for (int i = 0; i < list.size(); i++) {
+						if (i != 0) {
+							sb.append(',');
+						}
+						sb.append("(");
+						sb.append(list.getListElement(i).toString(tpl));
+						sb.append(")-1");
+					}
+				} else {
+
+					sb.append("(");
+					sb.append(rightStr);
+					sb.append(")-1");
+				}
+				sb.append("]");
 				break;
 			}
 
