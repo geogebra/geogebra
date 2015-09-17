@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Checks the output of runtests-all and reports if a regression occurred.
+# TODO: the numbers are outdated, fix needed.
 
 exitcode=0
 

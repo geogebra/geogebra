@@ -1,0 +1,73 @@
+How to create a benchmarking server which periodically (daily) tests the prover subsystem in GeoGebra
+=====================================================================================================
+
+Prerequisites
+-------------
+
+* Ubuntu Linux 14.10 or Linux Mint 17.2 (other Linux systems may also work)
+
+* Superuser (sudo) privileges
+
+* The following extra packages:
+
+  * Jenkins (suggested installation from http://pkg.jenkins-ci.org/debian/)
+  * authbind (configure as described at http://stackoverflow.com/a/9331030 but use port 443 instead of 80)
+  * xvfb (as standard Linux package)
+
+Start Jenkins
+-------------
+
+* Change /etc/default/jenkins to use HTTPS_PORT=443 and update the script accordingly
+
+* You may need to add the jenkins user to the group shadow in /etc/group (bug in Jenkins ver. 1.629)
+
+* Restart Jenkins by entering
+
+  $ sudo service restart jenkins
+
+* Configure Jenkins and go to Configure Global Security -> Check Enable security,
+  Security Realm -> Select Unix user/group database, Authorization -> Logged-in users can do anything,
+  then Save
+
+Configure Jenkins
+-----------------
+
+* Log in as your normal Unix user at https://your.ip.address to Jenkins
+
+* Go to the Plugin/Update menu -> Available tab, and install the following plugins:
+
+  * Gradle plugin
+  * Xvfb plugin
+  * Environment injector plugin
+
+* Go to Configure System -> Xvfb installation -> Add Xvfb installation -> Name, enter xvfb-run
+
+* Create a New Item "GeoGebra-provertest" (without quotes, make sure that you don't use spaces in the name)
+  as a freestyle project, then
+
+  * Select Subversion as Version Control System and http://dev.geogebra.org/svn/trunk/geogebra as Repository URL
+
+  * At Build Triggers -> Poll SCM choose a cron-formatted schedule scenario, maybe "0 10 * * *" (without quotes)
+    to start building GeoGebra at 10:00 every day
+
+  * At Build Environment -> check Start Xvfb before the build, and shut it down after,
+    then enter 1024x768x24 for Xvfb setting. Next, check
+    Inject environment variables to the build process, and enter DEVMODULES=all
+    to Properties Content
+
+  * At Build -> check Use Gradle Wrapper, and enter
+    ":desktop:installDist :web:clean :web:draftCompileGwt :web:draftSymlinkIntoWar" (without quotes) for Tasks
+
+  * Click Add build step -> Execute shell, and enter "cd test/scripts/benchmark/prover && ./runtests-all && ./check-all"
+    (without quotes) as Command
+
+  * At Post-build Actions -> Archive the artifacts -> Files to archive enter
+    "test/scripts/benchmark/prover/html/**" (without quotes)
+
+  * Click Save
+
+Running the benchmark
+---------------------
+
+This should be automatic, but you can start a new build on demand also in Jenkins manually.
+
