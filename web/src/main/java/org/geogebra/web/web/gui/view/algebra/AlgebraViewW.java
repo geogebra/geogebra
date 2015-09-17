@@ -82,7 +82,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
 	 */
-	protected SortMode treeMode = SortMode.TYPE;
+	protected SortMode treeMode = SortMode.ORDER;
 
 	private boolean showAuxiliaryObjectsSettings = false;
 
@@ -168,7 +168,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		// initializes the tree model, important to set tree mode first to avoid
 		// inf. loop #3651
-		this.treeMode = intToMode(app.getSettings().getAlgebra().getTreeMode());
+		treeMode = intToMode(app.getSettings().getAlgebra().getTreeMode());
 		initModel();
 
 		setLabels();

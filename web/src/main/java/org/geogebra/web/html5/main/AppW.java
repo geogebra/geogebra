@@ -22,6 +22,7 @@ import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.AnimationManager;
@@ -1743,6 +1744,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		// init settings
 		settings = companion.newSettings();
+		if (has(Feature.AV_EXTENSIONS)) {
+			settings.getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
+		}
 		SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE = 200;
 		SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE = 200;
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
