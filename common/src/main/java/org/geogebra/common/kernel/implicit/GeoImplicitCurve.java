@@ -1441,7 +1441,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			plotDepth = hBits / MIN_GRID_SIZE;
 
 			// max search depth
-			searchDepth = Math.min(hBits / MAX_GRID_SIZE, MAX_SEARCH_DEPTH);
+			searchDepth = Math.max(1,
+					Math.min(hBits / MAX_GRID_SIZE, MAX_SEARCH_DEPTH));
 
 			double frx = mx / searchDepth;
 			double fry = mx / searchDepth;
