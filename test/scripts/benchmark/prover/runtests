@@ -13,7 +13,7 @@ HTML=html/index.html
 TEX=html/index.tex
 PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
-GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=http://dev.geogebra.org/trac/export/
+GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export/
 GEOGEBRAWEB_URL2=browser/trunk/geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 USEENGINES=0
