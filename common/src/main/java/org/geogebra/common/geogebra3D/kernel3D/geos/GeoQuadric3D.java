@@ -177,16 +177,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// check if others eigenvalues are 0
 		if (Kernel.isZero(eigenval[0])) {
 			if (Kernel.isZero(eigenval[1])) {
-				// three eigenvalues = 0
-				if (Kernel.isZero(matrix[3])) {
-					// matrix is zero: undefined
-					defined = false;
-					type = GeoQuadricNDConstants.QUADRIC_WHOLE_SPACE;
-				} else {
-					// quadratic equation is 0 = 1: empty set
-					defined = false;
-					empty();
-				}
+				// three eigenvalues = 0: one plane
+				type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 			} else {
 				// two eigenvalues = 0
 				twoZeroEigenvalues(eigenval[1]);
@@ -977,8 +969,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "EmptySet";
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			return "Point";
-		case GeoQuadricNDConstants.QUADRIC_WHOLE_SPACE:
-			return "space";
 		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
 		default:
 			return "Quadric";
@@ -1039,8 +1029,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	protected boolean showInEuclidianView() {
 		return type != GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED
-				&& type != GeoQuadricNDConstants.QUADRIC_EMPTY
-				&& type != GeoQuadricNDConstants.QUADRIC_WHOLE_SPACE;
+				&& type != GeoQuadricNDConstants.QUADRIC_EMPTY;
 	}
 
 	@Override
