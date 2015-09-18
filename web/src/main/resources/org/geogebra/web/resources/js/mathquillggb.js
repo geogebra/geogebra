@@ -7001,7 +7001,7 @@ var Cursor = P(Point, function(_) {
       depthForEachCharacter[lv] = 0;
     }
     // at first let's fill the array then comes the main algorithm
-    for (lv = 0; lv < str.length; lv++) {
+    for (lv = str.length - 1; lv >= 0; lv--) {
       // NOTE: this algorithm might not be perfect in some cases
       // e.g. when there are single ( and ) in Quotation, etc.
       // that is not a pair of anything, etc. so this needs to
@@ -7018,22 +7018,22 @@ var Cursor = P(Point, function(_) {
       } else if (str.charAt(lv) === ')' ||
     		     str.charAt(lv) === ']' ||
     		     str.charAt(lv) === '}') {
-      	// when a closing sign comes, then at a right syntax
-      	// it should also correspond to the opening sign,
-      	// in theory, except cases I mentioned in NODE TODO
+        // when a closing sign comes, then at a right syntax
+        // it should also correspond to the opening sign,
+        // in theory, except cases I mentioned in NODE TODO
 
     	// string is ready, we can check!
     	// but we shall not check it more times!
     	// so we can make a string for checking using
     	// the str string and depthForEachCharacter array
-    	// that will not change towards left
-    	checkstr = '';
-    	lv2 = lv - 1;
-    	firstTimePlaceholderBoolean = true;
-    	while (lv2 >= 0) {
+        // that will not change towards left
+        checkstr = '';
+        lv2 = lv + 1;
+        firstTimePlaceholderBoolean = true;
+        while (lv2 < str.length) {
     	  if (depthForEachCharacter[lv2] === depth) {
-    		checkstr = str.charAt(lv2) + checkstr;
-    		firstTimePlaceholderBoolean = true;
+            checkstr += str.charAt(lv2);
+            firstTimePlaceholderBoolean = true;
     	  } else if (depthForEachCharacter[lv2] > depth) {
     		// if depth is increasing, then we join these
     		// characters to one irrelevant symbol... or
@@ -7043,20 +7043,20 @@ var Cursor = P(Point, function(_) {
     		
     		// except one place...
     		if (firstTimePlaceholderBoolean) {
-    		  checkstr = 'X' + checkstr;
+    		  checkstr += 'X';
     		  firstTimePlaceholderBoolean = false;
     		} else {
-    		  checkstr = ' ' + checkstr;
+    		  checkstr += ' ';
     		}
     	  } else {
     		// only when depth is dimishing, we shall halt
     		break;
     	  }
-    	  lv2--;
+    	  lv2++;
     	}
     	firstTimePlaceholderBoolean = true;
 
-    	// now we have the checkstr in theory, in which
+        // now we have the checkstr in theory, in which
     	// we can replace a/b to \frac{a}{b} without problems
     	
         rightlimit = 0;
@@ -7090,11 +7090,11 @@ var Cursor = P(Point, function(_) {
           newS = '\\frac{' + a + '}{' + b + '}';
           // but... if we replace a/b by newS, then the
           // number of characters in checkstr will change!
-          // that's why the entire algorithm shall be
-          // rewritten to begin everything from the end
-          // of the strings!
+          // that's why the result should be gathered in
+          // a different return string AND indexes shall
+          // go from the ends of the strings towards their
+          // beginning...
         }
-    	
 
         // in theory, if the / is already replaced by
     	// \frac{}{} here, then the same thing will not
