@@ -1675,7 +1675,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
-				RadioTreeItem.as(ti).update();
+				GeoElement geo = RadioTreeItem.as(ti).getGeo();
+				if (geo != null) {
+					selectRow(geo, geo.doHighlighting());
+				}
 
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
