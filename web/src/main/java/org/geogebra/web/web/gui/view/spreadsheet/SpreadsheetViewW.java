@@ -679,7 +679,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void setRowHeightsFromSettings() {
 
 		// first set all row heights the same
-		int prefHeight = settings().preferredRowHeight();
+		int prefHeight = Math.max(settings().preferredRowHeight(),
+				(int) (app.getFontSizeWeb() * 1.5));
 		table.setRowHeight(prefHeight);
 
 		// now set custom row heights
