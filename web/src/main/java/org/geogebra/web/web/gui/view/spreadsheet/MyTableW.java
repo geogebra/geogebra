@@ -301,6 +301,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			        .setWidth(preferredColumnWidth, Style.Unit.PX);
 		}
 
+
 		// add cell renderer & editors
 		defaultTableCellRenderer = new MyCellRendererW(app, view, this,
 		        (CellFormat) getCellFormatHandler());
@@ -373,6 +374,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		registerListeners();
 		repaintAll();
+		for (int row = 0; row < this.getRowCount(); row++) {
+			ssGrid.getRowFormatter().getElement(row).getStyle()
+					.setHeight(app.getFontSizeWeb() * 1.5, Unit.PX);
+		}
 	}
 
 	private void registerListeners() {
@@ -2825,8 +2830,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void setPixelRatio(double ratio) {
-		for (int column = 0; column < this.getColumnCount(); column++) {
-			for (int row = 0; row < this.getRowCount(); row++) {
+		if (editor != null) {
+			editor.stopCellEditing();
+		}
+		for (int row = 0; row < this.getRowCount(); row++) {
+			ssGrid.getRowFormatter().getElement(row).getStyle()
+					.setHeight(app.getFontSizeWeb() * 1.5, Unit.PX);
+			syncRowHeaderHeight(row);
+			for (int column = 0; column < this.getColumnCount(); column++) {
 				if (ssGrid.getWidget(row, column) instanceof Canvas) {
 					this.updateTableCellValue(app.getSpreadsheetTableModel()
 							.getValueAt(row, column), row, column);

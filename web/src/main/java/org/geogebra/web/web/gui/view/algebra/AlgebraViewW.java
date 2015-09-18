@@ -34,6 +34,7 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -1624,7 +1625,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			if (ti instanceof RadioTreeItem) {
 				RadioTreeItem.as(ti).updateOnNextRepaint();
 			} else if (ti.getWidget() instanceof GroupHeader) {
-
+				ti.getWidget().getElement().getStyle()
+						.setFontSize(app.getFontSizeWeb(), Unit.PX);
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					if (ti.getChild(j) instanceof RadioTreeItem) {
 						RadioTreeItem.as(ti.getChild(j))

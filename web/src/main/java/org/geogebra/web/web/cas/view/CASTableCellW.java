@@ -14,6 +14,7 @@ import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -33,6 +34,7 @@ public class CASTableCellW extends VerticalPanel {
 	private String textBeforeEdit;
 	private AutoCompleteW textField;
 	private String outputText;
+	private Label commentLabel;
 
 	/**
 	 * Creates new graphical representation of CAS cell
@@ -81,9 +83,11 @@ public class CASTableCellW extends VerticalPanel {
 		}
 		outputPanel = new FlowPanel();
 		if (casCell != null) {
-			Label commentLabel = new Label();
+			commentLabel = new Label();
 			commentLabel.addStyleName("CAS_commentLabel");
 			commentLabel.setText(casCell.getCommandAndComment());
+			commentLabel.getElement().getStyle()
+					.setFontSize(app.getFontSizeWeb(), Unit.PX);
 			// commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
@@ -229,6 +233,15 @@ public class CASTableCellW extends VerticalPanel {
 					return;
 				}
 				this.outputPanel.clear();
+				if (this.commentLabel != null) {
+					this.commentLabel
+						.getElement()
+						.getStyle()
+						.setFontSize(
+								casCell.getKernel().getApplication()
+										.getFontSizeWeb(), Unit.PX);
+					this.outputPanel.add(this.commentLabel);
+				}
 				this.outputPanel.add(DrawEquationWeb.paintOnCanvas(casCell,
 						eqstring, null, casCell.getKernel().getApplication()
 								.getFontSizeWeb() + 1));

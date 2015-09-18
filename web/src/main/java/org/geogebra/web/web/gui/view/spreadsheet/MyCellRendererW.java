@@ -19,6 +19,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -102,6 +103,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		// Font style
 		fontStyle = (Integer) formatHandler.getCellFormat(column, row,
 		        CellFormat.FORMAT_FONTSTYLE);
+		s.setFontSize(app.getFontSizeWeb(), Unit.PX);
 		if (fontStyle == null) {
 			s.setFontStyle(Style.FontStyle.NORMAL);
 			s.setFontWeight(Style.FontWeight.NORMAL);
