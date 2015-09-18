@@ -13,7 +13,8 @@ HTML=html/index.html
 TEX=html/index.tex
 PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
-GEOGEBRAWEB_URL=https://web.geogebra.org/app/
+GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=http://dev.geogebra.org/trac/export/
+GEOGEBRAWEB_URL2=browser/trunk/geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 USEENGINES=0
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
@@ -262,7 +263,8 @@ for i in `find -name '*.ggb' | sort`; do
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  echo -n "$TEST;"
- echo "<tr><td class=\"ex\"><a href=\"$GEOGEBRAWEB_URL?filename=$TESTGGBURLBASE_GGBDIR/$i#\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
+ # TODO: change "latest" to current revision:
+ echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"${GEOGEBRAWEB_URL1}/latest/${GEOGEBRAWEB_URL2}/$i#\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
  if [ `expr ${#TEST} '>' 15` = 1 ]; then
   TEST=${TEST:0:10}\$\\ldots\$${TEST:(-2)}
