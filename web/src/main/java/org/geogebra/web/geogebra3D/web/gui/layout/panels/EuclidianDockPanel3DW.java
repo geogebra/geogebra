@@ -3,7 +3,6 @@ package org.geogebra.web.geogebra3D.web.gui.layout.panels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
-import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -21,7 +20,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	 */
 	public static final int DEFAULT_WIDTH = 480;
 	
-	MyEuclidianViewPanel euclidianpanel;
+	EuclidianPanel euclidianpanel;
 
 
 	/**
@@ -52,7 +51,8 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	protected Widget loadComponent() {
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		view.setDockPanel(this);
-		euclidianpanel = (MyEuclidianViewPanel) view.getComponent();
+		euclidianpanel = new EuclidianPanel(this,
+				(AbsolutePanel) view.getComponent());
 		return euclidianpanel;
 
 	}
@@ -126,10 +126,11 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		int oldHeight = 0;
 		int oldWidth = 0;
 		
-		public EuclidianPanel(EuclidianDockPanel3DW dockPanel) {
+		public EuclidianPanel(EuclidianDockPanel3DW dockPanel,
+				AbsolutePanel absolutePanel) {
 			super();
 			this.dockPanel = dockPanel;
-			add(absoluteEuclidianPanel = new AbsolutePanel());
+			add(absoluteEuclidianPanel = absolutePanel);
 			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
 		}
 
@@ -172,37 +173,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 			return absoluteEuclidianPanel;
         }
 	}
-
-	private int oldHeight = 0, oldWidth = 0;
-
-	private void updateEuclidianPanel() {
-
-		if (app != null) {
-
-			int h = getComponentInteriorHeight();
-			int w = getComponentInteriorWidth();
-			if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D)) {
-				h -= navHeight();
-			}
-			// TODO handle this better?
-			// exit if new size cannot be determined
-			if (h <= 0 || w <= 0) {
-				return;
-			}
-			if (h != oldHeight || w != oldWidth) {
-				app.ggwGraphicsView3DDimChanged(w, h);
-				oldHeight = h;
-				oldWidth = w;
-			} else {
-				// it's possible that the width/height didn't change but the
-				// position of EV did
-				app.getEuclidianView3D().getEuclidianController()
-						.calculateEnvironment();
-			}
-		}
-
-	}
-
 
 	public int navHeight() {
 	    if(this.consProtNav != null && this.consProtNav.getImpl().getOffsetHeight() != 0){

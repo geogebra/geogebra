@@ -15,6 +15,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
@@ -376,41 +377,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		@Override
 		public void onResize() {
 			super.onResize();
-			resizeView();
 			getEuclidianController().calculateEnvironment();
 		}
 
 	}
 
-	void resizeView() {
-		if (this.dockPanel == null) {
-			return;
-		}
-		app.getGuiManager().invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				int w = dockPanel.getComponentInteriorWidth();
-				int h = dockPanel.getComponentInteriorHeight();
-
-				// if non positive values, use frame bounds (e.g. when
-				// set
-				// perspective)
-				if (w <= 0 || h <= 0) {
-					// GRectangle r = dockPanel.getFrameBounds();
-					w = dockPanel.getEmbeddedDimWidth();
-					h = dockPanel.getEmbeddedDimHeight();
-				}
-
-				// App.debug("------------------ resize -----------------------");
-				// App.debug("w = "+w+" , h = "+h);
-				((RendererW) renderer).setPixelRatio(((AppW) app)
-						.getPixelRatio());
-				renderer.setView(0, 0, w, h);
-
-			}
-		});
-	}
 
 	private boolean readyToRender = false;
 
@@ -577,8 +548,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
+		if (renderer != null) {
+			((RendererW) renderer).setPixelRatio(((AppW) app).getPixelRatio());
+			renderer.setView(0, 0, preferredSize.getWidth(),
+					preferredSize.getHeight());
+		}
 		if (g2p != null && g2p.getContext() != null) {
 			g2p.setPreferredSize(preferredSize);
+
 			updateSize();
 			setReIniting(false);
 		}
@@ -775,9 +752,15 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void setPixelRatio(float pixelRatio) {
-		// needed in applets; in app we might want to avoid this because panel
-		// resizing does the same.
-		this.resizeView();
+		if (app == null || Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
+			return;
+		}
+		int realWidth = g2p.getOffsetWidth();
+		int realHeight = g2p.getOffsetHeight();
+		g2p.devicePixelRatio = pixelRatio;
+		if (realHeight > 0 && realWidth > 0) {
+			((AppW) app).ggwGraphicsView3DDimChanged(realWidth, realHeight);
+		}
 	}
 
 	public void synCanvasSize() {

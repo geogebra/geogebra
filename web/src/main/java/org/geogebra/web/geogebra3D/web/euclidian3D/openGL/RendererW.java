@@ -128,7 +128,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		});
 	}-*/;
 
-	private double ratio;
+	private double ratio = 1;
 
 	public void setPixelRatio(double ratio) {
 		this.ratio = ratio;
