@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -453,7 +454,9 @@ public class GeoTextField extends GeoButton {
 	public boolean isFixed() { 
 
 		// make sure dragging on touch gives focus to TextField 
-		if (kernel.getApplication().isHTML5Applet()) {
+		// TODO: remove totally
+		if (!kernel.getApplication().has(Feature.DRAW_INPUTBOXES_TO_CANVAS)
+				&& !kernel.getApplication().isHTML5Applet()) {
 			return false;
 		}
 
