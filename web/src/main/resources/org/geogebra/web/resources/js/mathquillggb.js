@@ -6996,7 +6996,7 @@ var Cursor = P(Point, function(_) {
     //boolPerDepth[0] = false;//does not make sense
     //var lastchar = '';
     //var ret = "";
-    var lv, lv2;
+    var lv, lv2, rightlimit, leftlimit, a, b, newS;
     for (lv = 0; lv < str.length; lv++) {
       depthForEachCharacter[lv] = 0;
     }
@@ -7058,7 +7058,43 @@ var Cursor = P(Point, function(_) {
 
     	// now we have the checkstr in theory, in which
     	// we can replace a/b to \frac{a}{b} without problems
-    	//...
+    	
+        rightlimit = 0;
+        leftlimit = 0;
+    	while ((lv2 = checkstr.indexOf('/', rightlimit)) !== -1) {
+    	  // at the two sides of / we shall go until "+", "-" or ","
+    	  leftlimit = lv2;
+    	  while (leftlimit >= 0) {
+    		if ((checkstr.charAt(leftlimit) === '+') ||
+    			(checkstr.charAt(leftlimit) === '-') ||
+    			(checkstr.charAt(leftlimit) === ',')) {
+    	      leftlimit++;
+    		  break;
+    		}
+    		leftlimit--;
+    	  }
+    	  rightlimit = lv2;
+    	  // maybe indexOf is quicker algorithm, but this
+    	  // is easier (takes less paid working time):
+          while (rightlimit < checkstr.length) {
+            if ((checkstr.charAt(rightlimit) === '+') ||
+                (checkstr.charAt(rightlimit) === '-') ||
+                (checkstr.charAt(rightlimit) === ',')) {
+      		  rightlimit--;
+      		  break;
+      		}
+      		rightlimit++;
+      	  }
+          a = checkstr.substring(leftlimit, lv2);
+          b = checkstr.substring(lv2 + 1, rightlimit + 1);
+          newS = '\\frac{' + a + '}{' + b + '}';
+          // but... if we replace a/b by newS, then the
+          // number of characters in checkstr will change!
+          // that's why the entire algorithm shall be
+          // rewritten to begin everything from the end
+          // of the strings!
+        }
+    	
 
         // in theory, if the / is already replaced by
     	// \frac{}{} here, then the same thing will not
