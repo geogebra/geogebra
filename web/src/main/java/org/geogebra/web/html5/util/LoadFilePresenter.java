@@ -1,9 +1,11 @@
 package org.geogebra.web.html5.util;
 
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -201,6 +203,9 @@ public class LoadFilePresenter {
 			if (xmlDef != null)
 				app.setXML(xmlDef, false);
 			app.getKernel().setElementDefaultAllowed(eda);
+			if (app.has(Feature.AV_EXTENSIONS)) {
+				app.getSettings().getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
+			}
 			// }
 		}
 		app.updateToolBar();

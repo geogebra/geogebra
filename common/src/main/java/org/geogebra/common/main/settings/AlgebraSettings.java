@@ -10,7 +10,7 @@ public class AlgebraSettings extends AbstractSettings {
 	private int treeMode = 1;
 
 	private boolean showAuxiliaryObjects = false;
-
+	private boolean modeChanged = false;
 	private int[] collapsedNodes = null;
 
 	public AlgebraSettings(LinkedList<SettingListener> listeners) {
@@ -85,6 +85,14 @@ public class AlgebraSettings extends AbstractSettings {
 		treeMode = 1;
 		showAuxiliaryObjects = false;
 		collapsedNodes = null;
+	}
+
+	public boolean isModeChanged() {
+		return modeChanged;
+	}
+
+	public void setModeChanged(boolean modeChanged) {
+		this.modeChanged = modeChanged;
 	}
 
 }

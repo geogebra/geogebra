@@ -51,6 +51,7 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.move.events.BaseEventPool;
@@ -626,7 +627,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public void loadGgbFile(HashMap<String, String> archiveContent)
 	        throws Exception {
+		AlgebraSettings algebraSettings = getSettings().getAlgebra();
+		
+		algebraSettings.setModeChanged(false);
+		
 		loadFile(archiveContent);
+		
+		if (algebraSettings.isModeChanged() == false) {
+			algebraSettings.setTreeMode(SortMode.TYPE.ordinal());
+		}
 	}
 
 	/**
@@ -1744,9 +1753,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		// init settings
 		settings = companion.newSettings();
-		if (has(Feature.AV_EXTENSIONS)) {
-			settings.getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
-		}
+		// if (has(Feature.AV_EXTENSIONS)) {
+		// settings.getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
+		// }
 		SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE = 200;
 		SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE = 200;
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());

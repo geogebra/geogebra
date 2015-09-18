@@ -356,6 +356,7 @@ public class MyXMLHandler implements DocHandler {
 		constMode = MODE_CONSTRUCTION;
 		hasGuiElement = false;
 
+
 		initKernelVars();
 
 		xmin.clear();
@@ -399,6 +400,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	final public void endDocument() throws SAXException {
+
 		if (mode == MODE_INVALID)
 			throw new SAXException(
 					loc.getPlain("XMLTagANotFound", "<geogebra>"));
@@ -5539,10 +5541,11 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAlgebraViewMode(LinkedHashMap<String, String> attrs) {
-
 		try {
 			int val = Integer.parseInt(attrs.get("val"));
 			app.getSettings().getAlgebra().setTreeMode(val);
+			app.getSettings().getAlgebra().setModeChanged(true);
+
 			return true;
 		} catch (Exception e) {
 			return false;
