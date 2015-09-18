@@ -376,6 +376,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				}
 
 				drawCornersAndCenters(surface);
+				endGeometry(surface);
 
 			}
 
@@ -395,10 +396,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					nextSplit[i].drawAsNextToSplit(surface);
 				}
 
+				endGeometry(surface);
 			}
 		}
 		
-		endGeometry(surface);
 
 		setSurfaceIndex(surface.end());
 	}
