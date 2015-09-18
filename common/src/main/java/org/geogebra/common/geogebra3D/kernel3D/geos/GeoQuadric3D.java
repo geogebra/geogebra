@@ -197,29 +197,51 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		} else {
 			// only one eigenvalue = 0
 
-			// get eigenvector for 0
-			findEigenvector(0, eigenvecND[2]);
-			eigenvecND[2].normalize();
+			// find eigenvectors
+			findEigenvector(eigenval[0], eigenvecND[0]);
+			eigenvecND[0].normalize();
+			findEigenvector(eigenval[1], eigenvecND[1]);
+			eigenvecND[1].normalize();
+			eigenvecND[2].setCrossProduct(eigenvecND[0], eigenvecND[1]);
+
+
+			// compute semi-diagonalized matrix
+			setSemiDiagonalizedMatrix();
+			// App.debug("\nsemi diag:\n" + semiDiagMatrix);
+
+			double x = semiDiagMatrix.get(1, 4);
+			double y = semiDiagMatrix.get(2, 4);
+			double z = semiDiagMatrix.get(3, 4);
+			double d = semiDiagMatrix.get(4, 4);
 
 			// check other eigenvalues
 			if (eigenval[0] * eigenval[1] > 0) {
-				if (Kernel.isZero(matrix[3])) {
-					// single line
-					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
-				}else if (eigenval[0] * matrix[3] > 0){
-					// empty set
-					defined = false;
-					empty();
-				} else {
-					// cylinder
-					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
-				}
+				// if (Kernel.isZero(matrix[3])) {
+				// // single line
+				// type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+				// }else if (eigenval[0] * matrix[3] > 0){
+				// // empty set
+				// defined = false;
+				// empty();
+				// } else {
+				// // cylinder
+				// type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+				// }
+
+				// TODO better check, after semi-diag
+				type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 			} else {
-				if (Kernel.isZero(matrix[3])) {
-					// intersecting planes
-					intersectingPlanes();
+				if (Kernel.isZero(z)) {
+					// cylinder
+					double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
+					if (Kernel.isZero(m)) {
+						// intersecting planes
+						intersectingPlanes(-x / eigenval[0], -y / eigenval[1]);
+					} else {
+						// empty or hyperbolic cylinder
+						type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+					}
 				} else {
-					// hyperbolic cylinder
 					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 				}
 			}
@@ -268,7 +290,23 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return planes;
 	}
 
-	private CoordMatrix eigenvecNDMatrix, tmpMatrix4x4bis;
+	private CoordMatrix eigenvecNDMatrix, semiDiagMatrix;
+
+	private void setSemiDiagonalizedMatrix() {
+		if (eigenvecNDMatrix == null) {
+			eigenvecNDMatrix = new CoordMatrix(eigenvecND[0], eigenvecND[1],
+					eigenvecND[2], Coords.O);
+		}
+		if (semiDiagMatrix == null) {
+			semiDiagMatrix = new CoordMatrix(4, 4);
+		}
+		eigenvecNDMatrix.transposeCopy(semiDiagMatrix);
+		if (tmpMatrix4x4 == null) {
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		tmpMatrix4x4.setMul(semiDiagMatrix, getSymetricMatrix());
+		semiDiagMatrix.setMul(tmpMatrix4x4, eigenvecNDMatrix);
+	}
 
 	private void twoZeroEigenvalues(double value) {
 
@@ -280,31 +318,19 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
 
 		// compute semi-diagonalized matrix
-		if (eigenvecNDMatrix == null) {
-			eigenvecNDMatrix = new CoordMatrix(eigenvecND[0], eigenvecND[1],
-					eigenvecND[2], Coords.O);
-		}
-		if (tmpMatrix4x4bis == null) {
-			tmpMatrix4x4bis = new CoordMatrix(4, 4);
-		}
-		eigenvecNDMatrix.transposeCopy(tmpMatrix4x4bis);
-		if (tmpMatrix4x4 == null) {
-			tmpMatrix4x4 = new CoordMatrix4x4();
-		}
-		tmpMatrix4x4.setMul(tmpMatrix4x4bis, getSymetricMatrix());
-		tmpMatrix4x4bis.setMul(tmpMatrix4x4, eigenvecNDMatrix);
+		setSemiDiagonalizedMatrix();
 
 		// App.debug("\n" + tmpMatrix4x4bis);
 
 		// check degree 1 coeffs
-		if (!Kernel.isZero(tmpMatrix4x4bis.get(1, 4))
-				|| !Kernel.isZero(tmpMatrix4x4bis.get(2, 4))) {
+		if (!Kernel.isZero(semiDiagMatrix.get(1, 4))
+				|| !Kernel.isZero(semiDiagMatrix.get(2, 4))) {
 			// parabolic cylinder
 			parabolicCylinder();
 		} else {
 			// parallel planes or empty
-			double a = tmpMatrix4x4bis.get(3, 4);
-			double b = tmpMatrix4x4bis.get(4, 4);
+			double a = semiDiagMatrix.get(3, 4);
+			double b = semiDiagMatrix.get(4, 4);
 
 			// get case
 			double c = a / value;
@@ -355,29 +381,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 	}
 
-	private Coords tmpCoords2, tmpCoords3;
+	private Coords tmpCoords2, tmpCoords3, tmpCoords4, tmpCoords5;
 
-	private void intersectingPlanes() {
+	private void intersectingPlanes(double dx, double dy) {
 
-		// get other eigenvectors
-		findEigenvector(eigenval[0], eigenvecND[0]);
-		eigenvecND[0].normalize();
-
-		eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
-
-
-		if (tmpMatrix4x4 == null) {
-			tmpMatrix4x4 = new CoordMatrix4x4();
-		}
-		tmpMatrix4x4.setVx(eigenvecND[0]);
-		tmpMatrix4x4.setVy(eigenvecND[1]);
-		tmpMatrix4x4.setVz(eigenvecND[2]);
-		tmpMatrix4x4.setOrigin(Coords.O);
-
-		CoordMatrix m1 = tmpMatrix4x4.inverse();
-		CoordMatrix m1t = m1.transposeCopy();
-		CoordMatrix m2 = m1t.mul(getSymetricMatrix().mul(m1));
-		App.debug("\n" + m2);
 
 		// update planes
 		getPlanes();
@@ -388,10 +395,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (tmpCoords3 == null) {
 			tmpCoords3 = new Coords(4);
 		}
+		if (tmpCoords4 == null) {
+			tmpCoords4 = new Coords(4);
+		}
+		if (tmpCoords5 == null) {
+			tmpCoords5 = new Coords(4);
+		}
+
+		tmpCoords4.setMul(eigenvecND[0], dx);
+		tmpCoords5.setMul(eigenvecND[1], dy);
+		tmpCoords4.addInside(tmpCoords5);
+		tmpCoords4.setW(1);
 
 		CoordSys cs = planes[0].getCoordSys();
 		cs.resetCoordSys();
-		cs.addPoint(Coords.O);
+		cs.addPoint(tmpCoords4);
 		cs.addVectorWithoutCheckMadeCoordSys(eigenvecND[2]);
 		tmpCoords.setMul(eigenvecND[0], Math.sqrt(-eigenval[1] / eigenval[0]));
 		tmpCoords2.setMul(eigenvecND[1], 1);
@@ -401,7 +419,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		cs = planes[1].getCoordSys();
 		cs.resetCoordSys();
-		cs.addPoint(Coords.O);
+		cs.addPoint(tmpCoords4);
 		cs.addVectorWithoutCheckMadeCoordSys(eigenvecND[2]);
 		tmpCoords3.setSub(tmpCoords, tmpCoords2);
 		cs.addVectorWithoutCheckMadeCoordSys(tmpCoords3);
