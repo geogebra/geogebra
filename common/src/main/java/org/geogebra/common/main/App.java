@@ -3925,10 +3925,10 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 		case TUBE_BETA:
 		case LOG_AXES:
-		case DRAW_INPUTBOXES_TO_CANVAS:
 		case INTEL_REALSENSE:
 		case DRAW_ELLIPSOID:
 			return prerelease;
+		case DRAW_INPUTBOXES_TO_CANVAS:
 		case DATA_COLLECTION:
 		case SEQUENTIAL_COLORS:
 		case INPUT_SHOWN_IN_INPUTBAR:
