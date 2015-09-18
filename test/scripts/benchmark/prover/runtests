@@ -4,7 +4,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.
-MY_VERSION=1.2
+MY_VERSION=1.3
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 TIMEOUT=20
@@ -13,8 +13,8 @@ HTML=html/index.html
 TEX=html/index.tex
 PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
-GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export/
-GEOGEBRAWEB_URL2=browser/trunk/geogebra/test/scripts/benchmark/prover
+GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export
+GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 USEENGINES=0
 PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
