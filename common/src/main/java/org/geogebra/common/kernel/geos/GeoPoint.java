@@ -32,13 +32,13 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.LocateableList;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathOrPoint;
@@ -50,8 +50,8 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDependentPoint;
-import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -341,12 +341,11 @@ SymbolicParametersBotanaAlgo {
 
 		// if we drag a AlgoDynamicCoordinates, we want its point to be dragged
 		AlgoElement algo = point.getParentAlgorithm();
-		if (algo != null && algo instanceof AlgoDynamicCoordinatesInterface)
-			return true;
 
 		// make sure Point[circle, param] is not draggable
 		if (algo instanceof FixedPathRegionAlgo) {
-			return ((FixedPathRegionAlgo) algo).isChangeable() && !point.isFixed();
+			return ((FixedPathRegionAlgo) algo).isChangeable(point)
+					&& !point.isFixed();
 		}
 
 		return !point.isFixed()
@@ -740,8 +739,12 @@ SymbolicParametersBotanaAlgo {
 		}
 
 		// region
-		if (hasRegion()) {
+		else if (hasRegion()) {
 			region.pointChangedForRegion(this);
+		} else if (getParentAlgorithm() != null) {
+			if (getParentAlgorithm() instanceof AlgoMacro) {
+				((AlgoMacro) getParentAlgorithm()).setCoords(this, x, y, z);
+			}
 		}
 
 		// this avoids multiple computations of inhomogeneous coords;

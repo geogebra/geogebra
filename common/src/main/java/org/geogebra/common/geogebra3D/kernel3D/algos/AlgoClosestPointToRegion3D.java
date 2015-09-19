@@ -87,7 +87,7 @@ public class AlgoClosestPointToRegion3D extends AlgoElement3D implements
 		}
 	}
 
-	public boolean isChangeable() {
+	public boolean isChangeable(GeoElement out) {
 		return false;
 	}
 

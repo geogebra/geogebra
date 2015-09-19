@@ -18,9 +18,9 @@ import java.util.HashSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
@@ -198,7 +198,7 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 		return getLoc().getPlain("PointOnA", input[0].getLabel(tpl));
 	}
 
-	public boolean isChangeable() {
+	public boolean isChangeable(GeoElement out) {
 		return param == null;
 	}
 

@@ -13,8 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.FixedPathRegionAlgo;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -128,7 +128,7 @@ public class AlgoClosestPoint extends AlgoElement implements FixedPathRegionAlgo
 				input[1].getLabel(tpl));
 	}
 
-	public boolean isChangeable() {
+	public boolean isChangeable(GeoElement out) {
 		return false;
 	}
 

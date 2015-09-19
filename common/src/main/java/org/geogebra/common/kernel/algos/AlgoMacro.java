@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -41,7 +44,8 @@ import org.geogebra.common.main.App;
  * @author Markus
  * @version
  */
-public class AlgoMacro extends AlgoElement implements AlgoMacroInterface {
+public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
+		FixedPathRegionAlgo {
 
 	private Macro macro;
 
@@ -57,6 +61,9 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface {
 																// efficiency,
 																// see
 																// getMacroConstructionState()
+
+	private boolean locked;
+
 
 	/**
 	 * Creates a new algorithm that applies a macro to the given input objects.
@@ -153,12 +160,33 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface {
 
 			// update all algorithms of macro-construction
 			macro.getMacroConstruction().updateAllAlgorithms();
+			boolean pointsChanged = false;
+			for (int i = 0; i < macroOutput.length; i++) {
+				GeoElement geoPoint = macroOutput[i];
 
+				if (geoPoint.isPointOnPath()) {
+					GeoPoint P = (GeoPoint) getOutput(i);
+					double t = P.getPathParameter().getT();
+					Path path = ((GeoPoint) geoPoint).getPath();
+					PathParameter pp = ((GeoPoint) geoPoint).getPathParameter();
+					// Application.debug(param.getDouble()+" "+path.getMinParameter()+" "+path.getMaxParameter());
+					pp.setT(t);
+					// Application.debug(pp.t);
+
+					path.pathChanged(P);
+					P.updateCoords();
+					pointsChanged = true;
+				}
+			}
+			if (pointsChanged) {
+				macro.getMacroConstruction().updateAllAlgorithms();
+			}
 			// set algo geos to macro geos state
 			getMacroConstructionState();
 
 		} catch (Exception e) {
 			App.debug("AlgoMacro compute():\n");
+			this.locked = false;
 			e.printStackTrace();
 			for (int i = 0; i < getOutputLength(); i++) {
 				getOutput(i).setUndefined();
@@ -201,6 +229,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface {
 	 * Sets algo geos to the current state of macro geos.
 	 */
 	final void getMacroConstructionState() {
+		this.locked = true;
 		// for efficiency: instead of lookups in macroToAlgoMap
 		// we use an array list algoOutputAndReferencedGeos with corresponding
 		// macro and algo geos
@@ -221,9 +250,11 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface {
 							.copy());
 				}
 
-			} else
+			} else {
 				algoGeo.setUndefined();
+			}
 		}
+		this.locked = false;
 	}
 
 	/**
@@ -546,6 +577,43 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface {
 			}
 		}
 		return myIndex < otherIndex;
+	}
+
+	public boolean isChangeable(GeoElement out) {
+		for (int i = 0; i < macroOutput.length; i++) {
+			if (getOutput(i) == out && macroOutput[i].isPointOnPath()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void setCoords(GeoPoint geoPoint, double x, double y, double z) {
+		if (this.locked) {
+			geoPoint.setCoords2D(x, y, z);
+			geoPoint.updateCoords();
+			return;
+		}
+		setMacroConstructionState();
+
+		// update all algorithms of macro-construction
+		macro.getMacroConstruction().updateAllAlgorithms();
+
+		// set algo geos to macro geos state
+		//
+		for (GeoElement me : macroToAlgoMap.keySet()) {
+			if (macroToAlgoMap.get(me) == geoPoint) {
+				GeoPoint mp = ((GeoPoint) me);
+				mp.setCoords(x, y, z);
+				mp.updateCascade();
+				geoPoint.setCoords2D(mp.getX(), mp.getY(), mp.getZ());
+				geoPoint.updateCoords();
+			}
+		}
+		macro.getMacroConstruction().updateAllAlgorithms();
+		getMacroConstructionState();
+		updateDependentGeos();
+
 	}
 
 	// TODO Consider locusequability

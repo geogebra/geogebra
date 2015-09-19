@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+
 /**
  * Algo whose output is on path
  */
@@ -10,6 +12,6 @@ public interface FixedPathRegionAlgo {
 	 * 
 	 * @return true iff the output can be moved
 	 */
-	public boolean isChangeable();
+	public boolean isChangeable(GeoElement out);
 
 }

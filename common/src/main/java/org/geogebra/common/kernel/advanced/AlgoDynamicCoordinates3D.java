@@ -98,5 +98,9 @@ public class AlgoDynamicCoordinates3D extends AlgoElement implements
 		return getLoc().getPlain("DynamicCoordinatesOfA", P.getLabel(tpl));
 	}
 
+	public boolean isChangeable(GeoElement out) {
+		return true;
+	}
+
 	// TODO Consider locusequability
 }
