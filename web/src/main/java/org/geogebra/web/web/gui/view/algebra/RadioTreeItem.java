@@ -2107,7 +2107,7 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	private void addDeleteButton() {
 
-		if (!app.has(Feature.DELETE_IN_ALGEBRA) || geo == null) {
+		if (geo == null) {
 			return;
 		}
 

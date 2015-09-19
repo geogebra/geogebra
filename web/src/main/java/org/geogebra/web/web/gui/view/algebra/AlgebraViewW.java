@@ -1417,12 +1417,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void setActiveTreeItem(RadioTreeItem item) {
-		if (!hasAvex() && !app.has(Feature.DELETE_IN_ALGEBRA)) {
-				// if there is delete button in algebra view, let's allow this,
-				// or the alternative is to add the delete button when
-				// both AV_EXTENSIONS and DELETE_IN_ALGEBRA are true
-				return;
-			}
 
 		if (hasAvex() && item == null) {
 			App.debug("[AVEX] setActiveItem(null)");
