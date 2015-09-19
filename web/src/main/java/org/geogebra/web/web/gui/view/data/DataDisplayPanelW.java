@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Validation;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -342,13 +341,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createImagePanel() {
 
 		imagePanel = new FlowPanel();
-		if (app.has(Feature.JLM_IN_WEB)) {
-			latexCanvas = Canvas.createIfSupported();
-			imagePanel.add(latexCanvas);
-		} else {
-			imageContainer = new Label();
-			imagePanel.add(imageContainer);
-		}
+		latexCanvas = Canvas.createIfSupported();
+		imagePanel.add(latexCanvas);
 		imagePanel.setStyleName("daImagePanel");
 
 	}
@@ -699,18 +693,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		btnExport.setVisible(false);
 		
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(latex);
-		if (app.has(Feature.JLM_IN_WEB)) {
-			DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
-					app.getFontSizeWeb());
-
-
-		} else {
-
-			imageContainer.setText("");
-			DrawEquationWeb.drawEquationAlgebraView(
-					imageContainer.getElement(), "\\mathrm {" + latexStr + "}",
-					true);
-		}
+		DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
+				app.getFontSizeWeb());
 
 		if (hasControlPanel) {
 			controlDecks.showWidget(STEM_IDX);
@@ -834,12 +818,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			getModel().updatePlot(false);
 		}
 
-		if (app.has(Feature.JLM_IN_WEB)) {
-			imagePanel.setPixelSize(width, height);
-
-		} else {
-			imageContainer.setPixelSize(width, height);
-		}
+		imagePanel.setPixelSize(width, height);
 		
 	}
 

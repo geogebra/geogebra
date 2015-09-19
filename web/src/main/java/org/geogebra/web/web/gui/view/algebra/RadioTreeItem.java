@@ -1270,7 +1270,7 @@ public class RadioTreeItem extends AVTreeItem
 				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String text = "";
 			if (geo != null) {
-				if (app.has(Feature.JLM_IN_WEB) && !newCreationMode) {
+				if (!newCreationMode) {
 					text = geo.getLaTeXAlgebraDescription(true,
 							StringTemplate.latexTemplate);
 				} else {
@@ -1332,8 +1332,7 @@ public class RadioTreeItem extends AVTreeItem
 				updateFont(seNoLatex);
 			} else {
 				updateColor(seNoLatex);
-				if (!newCreationMode && app.has(Feature.JLM_IN_WEB)
-						&& c != null) {
+				if (!newCreationMode && c != null) {
 					ihtml.getElement().replaceChild(seNoLatex,
 							c.getCanvasElement());
 				} else {
@@ -1388,7 +1387,7 @@ public class RadioTreeItem extends AVTreeItem
 	private Canvas c;
 
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
-		if (app.has(Feature.JLM_IN_WEB) && !forceMQ) {
+		if (!forceMQ) {
 			c = DrawEquationWeb.paintOnCanvas(geo, text0, c, getFontSize());
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
@@ -1418,24 +1417,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void updateLaTeX(String text0) {
-		if (app.has(Feature.JLM_IN_WEB)) {
-			c = DrawEquationWeb.paintOnCanvas(geo, text0, c, getFontSize());
-		} else {
-			if ("".equals(text0) || (text0 == null)) {
-				DrawEquationWeb
-						.updateEquationMathQuillGGB("", seMayLatex, true);
-			} else {
-				String text = DrawEquationWeb.inputLatexCosmetics(text0);
-				int tl = text.length();
-				text = DrawEquationWeb.stripEqnArray(text);
-				updateColor(seMayLatex);
-				DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{" + text
-						+ "}", seMayLatex, tl == text.length());
-				updateColor(seMayLatex);
-			}
-
-		}
-
+		c = DrawEquationWeb.paintOnCanvas(geo, text0, c, getFontSize());
 	}
 
 	/**
@@ -1468,8 +1450,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (!newCreationMode) {
 			// if (LaTeX) {
 			DrawEquationWeb.endEditingEquationMathQuillGGB(this, seMayLatex);
-			if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB)
-					&& c != null) {
+			if (!this.newCreationMode && c != null) {
 				this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 						seMayLatex);
 			}
@@ -1510,7 +1491,7 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			});
 		} else {
-			if (app.has(Feature.JLM_IN_WEB) && c != null) {
+			if (c != null) {
 				renderLatex(geo.getLaTeXAlgebraDescriptionWithFallback(true,
 						StringTemplate.latexTemplateMQ, true),
 						c.getCanvasElement(), true);
@@ -1598,7 +1579,7 @@ public class RadioTreeItem extends AVTreeItem
 
 			}
 		}
-		if (!this.newCreationMode && app.has(Feature.JLM_IN_WEB) && c != null
+		if (!this.newCreationMode && c != null
 				&& ihtml.getElement().isOrHasChild(seMayLatex)) {
 			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
 					seMayLatex);

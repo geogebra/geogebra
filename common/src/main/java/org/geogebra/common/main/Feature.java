@@ -19,8 +19,6 @@ public enum Feature {
 
 	SF_DRAG,
 
-	JLM_IN_WEB,
-
 	DELETE_IN_ALGEBRA,
 
 	INPUT_SHOWN_IN_INPUTBAR,

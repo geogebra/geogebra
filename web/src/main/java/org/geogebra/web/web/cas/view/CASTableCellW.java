@@ -63,16 +63,10 @@ public class CASTableCellW extends VerticalPanel {
 		if (casCell != null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				String eqstring = casCell.getLaTeXOutput();
-				if (!casCell.getKernel().getApplication()
-						.has(Feature.JLM_IN_WEB)) {
-					renderOld(outputLabel = new Label(), eqstring);
-				} else {
 
-					c = DrawEquationWeb.paintOnCanvas(casCell, eqstring,
-							null,
-									casCell.getKernel().getApplication()
-											.getFontSize() + 1);
-				}
+				c = DrawEquationWeb.paintOnCanvas(casCell, eqstring, null,
+						casCell.getKernel().getApplication().getFontSize() + 1);
+
 			} else {
 				outputLabel = renderPlain();
 			}
@@ -228,10 +222,7 @@ public class CASTableCellW extends VerticalPanel {
 		if (casCell != null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				String eqstring = casCell.getLaTeXOutput();
-				if (!casCell.getKernel().getApplication()
-						.has(Feature.JLM_IN_WEB)) {
-					return;
-				}
+
 				this.outputPanel.clear();
 				if (this.commentLabel != null) {
 					this.commentLabel

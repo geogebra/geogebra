@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing labels of 3D elements
@@ -120,12 +119,6 @@ public class DrawLabel3D {
 
 		if (text.length() == 0)
 			return;
-
-		if (isLatex(text) && !view.getApplication().has(Feature.JLM_IN_WEB)) {
-			// TODO remove this as soon as latex is gwt compatible
-			setIsVisible(false);
-			return;
-		}
 
 		this.color = new Coords((double) color.getRed() / 255,
 				(double) color.getGreen() / 255,

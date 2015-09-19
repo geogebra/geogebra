@@ -3935,7 +3935,6 @@ public abstract class App implements UpdateSelection {
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:
 		case SF_DRAG:
-		case JLM_IN_WEB:
 		case DELETE_IN_ALGEBRA:
 		case GL_ELEMENTS:
 		case AUTOMATIC_FONTSIZE:
@@ -3968,9 +3967,8 @@ public abstract class App implements UpdateSelection {
 	public final boolean isLatexMathQuillStyle(StringTemplate tpl) {
 		if (!isHTML5Applet()) {
 			return false;
-		} else if (!has(Feature.JLM_IN_WEB)) {
-			return true;
 		}
+
 		return tpl == StringTemplate.latexTemplateMQ;
 	}
 

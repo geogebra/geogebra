@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtil;
@@ -126,15 +125,9 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		// regression label panel
 		FlowPanel eqnPanel = new FlowPanel();
 
-		if (app.has(Feature.JLM_IN_WEB)) {
-			latexCanvas = Canvas.createIfSupported();
-			latexCanvas.setStyleName("daRegEquation");
-			eqnPanel.add(latexCanvas);
-		} else {
-			lblRegEquation = new Label();
-			lblRegEquation.setStyleName("daRegEquation");
-			eqnPanel.add(lblRegEquation);
-		}
+		latexCanvas = Canvas.createIfSupported();
+		latexCanvas.setStyleName("daRegEquation");
+		eqnPanel.add(latexCanvas);
 		ScrollPanel scroller = new ScrollPanel();
 		scroller.add(eqnPanel);
 
@@ -297,16 +290,8 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 		}
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(eqn);
-		if (app.has(Feature.JLM_IN_WEB)) {
-			DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
-					app.getFontSizeWeb());
-
-		} else {
-			lblRegEquation.setText("");
-			DrawEquationWeb.drawEquationAlgebraView(
-					lblRegEquation.getElement(), "\\mathrm {" + latexStr + "}",
-					true);
-		}
+		DrawEquationWeb.paintOnCanvas(sample, latexStr, latexCanvas,
+				app.getFontSizeWeb());
 		
 		updateGUI();
 	}

@@ -5,13 +5,9 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
@@ -37,7 +33,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.regexp.shared.MatchResult;
@@ -313,7 +308,7 @@ public class DrawEquationWeb extends DrawEquation {
 	        int x, int y, String latexString0, GFont font, boolean serif,
 	        final GColor fgColor, GColor bgColor, boolean useCache,
 			boolean updateAgain, final Runnable callback) {
-		if (app1.has(Feature.JLM_IN_WEB)) {
+
 			String eqstring = latexString0;
 
 			TeXIcon icon = createIcon(eqstring, font.getSize() + 3,
@@ -340,193 +335,7 @@ public class DrawEquationWeb extends DrawEquation {
 			((GGraphics2DW) g2).updateCanvasColor();
 			g3.maybeNotifyDrawingFinishedCallback();
 			return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
-		}
-		String latexString = latexString0;
 
-		if (latexString == null)
-			return null;
-
-		double rotateDegree = 0;
-
-		if (latexString.startsWith("\\rotatebox{")) {
-			// getting rotation degree...
-
-			// chop "\\rotatebox{"
-			latexString = latexString.substring(11);
-
-			// get value
-			int index = latexString.indexOf("}{ ");
-			rotateDegree = Double.parseDouble(latexString.substring(0, index));
-
-			// chop "}{"
-			latexString = latexString.substring(index + 3);
-
-			// chop " }"
-			latexString = latexString.substring(0, latexString.length() - 2);
-
-			if (latexString.startsWith("\\text{ ")) {
-				// chop "text", seems to prevent the sqrt sign showing
-				latexString = latexString.substring(7);
-				latexString = latexString
-				        .substring(0, latexString.length() - 3);
-
-				// put back "\\text{ " if it is not harmful
-				if (latexString.indexOf("{") <= 0
-				        && latexString.indexOf("\\") <= 0
-				        && latexString.indexOf("}") <= 0) {
-					// heuristics: no latex
-					latexString = "\\text{ " + latexString + " } ";
-				}
-			}
-		}
-
-		// which?
-		int fontSize = g2.getFont().getSize();
-		int fontSize2 = font.getSize();
-
-		boolean shouldPaintBackground = bgColor != null;
-
-		View view = ((GGraphics2DW) g2).getView();
-		if (view != null && view instanceof EuclidianView) {
-			if (((EuclidianView) view).getBackgroundCommon() == bgColor) {
-				shouldPaintBackground = false;
-			}
-		}
-
-		// the new way to draw an Equation (latex)
-		// no scriptloaded check yet (is it necessary?)
-
-		String eqstring = inputLatexCosmetics(latexString);
-
-		if (geo instanceof TextProperties) {
-			if ((((TextProperties) geo).getFontStyle() & GFont.ITALIC) == 0) {
-				// set to be not italic
-				eqstring = "\\mathrm{" + eqstring + "}";
-			} // else {
-			  // italics needed? Try this! (Testing needed...)
-			  // eqstring = "\\mathit{"+ eqstring +"}";
-			  // }
-			  // if ((((TextProperties)geo).getFontStyle() & GFont.BOLD) != 0) {
-			  // bold needed? Try this! (Testing needed...)
-			  // eqstring = "\\mathbf{"+ eqstring +"}";
-			  // }
-			if (!((TextProperties) geo).isSerifFont()) {
-				// forcing sans-serif
-				eqstring = "\\mathsf{" + eqstring + "}";
-			}
-		}
-
-		/*************************************************************************
-		 * If g2 is not painting in EV1 or EV2, then assume g2 is being used for
-		 * temporary drawing. In this case, the canvas associated with g2 does
-		 * not have a parent element so we cannot add HTML elements to it. To
-		 * handle this problem elements are instead drawn invisibly into either
-		 * EV1 or EV2.
-		 *************************************************************************/
-
-		boolean hasActualParent = ((GGraphics2DW) g2).getCanvas().isAttached();
-
-		// Set relative font size
-		int fontSizeR = 16;
-		if (fontSize <= 10)
-			fontSizeR = 10;
-
-		// Determine id string
-		String eqstringid = eqstring;
-		if (rotateDegree != 0) {
-			// adding rotateDegree again, just for the id
-			eqstringid = "\\rotatebox{" + rotateDegree + "}{ " + eqstring
-			        + " }";
-		}
-		eqstringid = "\\scaling{" + eqstringid + "}{ " + fontSize + "}";
-		eqstringid = eqstringid + "@" + geo.getID();
-
-		// Try to get an existing element that uses this id string.
-		// If no matching element exists a new element is created.
-		SpanElement ih = (SpanElement) elementManager.getElement(
-		        (GGraphics2DW) g2, eqstringid);
-
-		if (ih == null) {
-
-			// create a new latex element
-			ih = DOM.createSpan().cast();
-			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
-			ih.setDir("ltr");
-			int el = eqstring.length();
-			eqstring = stripEqnArray(eqstring);
-
-			// register the element with initial age = 0
-			elementManager
-			        .registerElement((GGraphics2DW) g2, ih, eqstringid, 0);
-
-			// draw it
-			Element parentElement = elementManager
-			        .getParentElement((GGraphics2DW) g2);
-			drawEquationMathQuillGGB(ih, eqstring, fontSize, fontSizeR,
-			        parentElement, true, el == eqstring.length(), true,
-			        rotateDegree, true);
-
-			if (updateAgain)
-				// set a flag that the kernel needs a new update
-				app1.getKernel().setUpdateAgain(true, geo);
-
-		} else {
-
-			// reset the element's age counter
-			elementManager.setElementAge((GGraphics2DW) g2, eqstringid, 0);
-		}
-
-		if (hasActualParent) {
-
-			// set position
-			ih.getStyle().setLeft(x, Style.Unit.PX);
-			ih.getStyle().setTop(y, Style.Unit.PX);
-
-			// as the background is usually (or always) the background of the
-			// canvas, it is better if this is transparent, because the grid
-			// should be shown just like in the Java version
-			if (shouldPaintBackground) {
-				// note: there was a bug when painting scaled formulas,
-				// so the background color should be set to ih's last child
-				if (ih.getLastChild() != null) {
-					Element ihc = ih.getLastChild().cast();
-					ihc.getStyle().setBackgroundColor(
-					        GColor.getColorString(bgColor));
-				} else {
-					ih.getStyle().setBackgroundColor(
-					        GColor.getColorString(bgColor));
-				}
-			}
-
-			if (fgColor != null)
-				ih.getStyle().setColor(GColor.getColorString(fgColor));
-		}
-
-		ih.getStyle().setDisplay(Style.Display.INLINE);
-
-		// get the dimensions
-		GDimension ret = null;
-		ret = new org.geogebra.web.html5.awt.GDimensionW(
-		        (int) Math.ceil(getScaledWidth(ih, true)),
-		        (int) Math.ceil(getScaledHeight(ih, true)));
-
-		// adjust dimensions for rotation
-		if (rotateDegree != 0) {
-			GDimension ret0 = new org.geogebra.web.html5.awt.GDimensionW(
-			        (int) Math.ceil(getScaledWidth(ih, false)),
-			        (int) Math.ceil(getScaledHeight(ih, false)));
-
-			GDimension corr = computeCorrection(ret, ret0, rotateDegree);
-
-			if (hasActualParent) {
-				// if it's not visible, leave at its previous place to prevent
-				// lag
-				ih.getStyle().setLeft(x - corr.getWidth(), Style.Unit.PX);
-				ih.getStyle().setTop(y - corr.getHeight(), Style.Unit.PX);
-			}
-		}
-
-		return ret;
 	}
 
 	private static void ensureJLMFactoryExists() {

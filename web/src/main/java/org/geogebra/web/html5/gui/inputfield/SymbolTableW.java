@@ -2,17 +2,13 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SymbolTableW extends FlexTable implements ClickHandler {
@@ -80,16 +76,9 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	}
 
 	private Widget getLatexHTML(String text, App app) {
-		if (app.has(Feature.JLM_IN_WEB)) {
 		Canvas c = DrawEquationWeb.paintOnCanvas(sample, text, null,
 					app.getFontSizeWeb());
-			return c;
-		}
-		SpanElement se = DOM.createSpan().cast();
-		DrawEquationWeb.drawEquationAlgebraView(se, "\\mathrm {" + text
-					+ "}", true);
-		return new InlineHTML(se.getInnerHTML());
-
+		return c;
 	}
 
 	public void onClick(ClickEvent event) {

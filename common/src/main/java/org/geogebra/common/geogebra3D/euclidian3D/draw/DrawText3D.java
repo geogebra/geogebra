@@ -9,7 +9,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 
 public class DrawText3D extends Drawable3DCurves {
 
@@ -48,15 +47,10 @@ public class DrawText3D extends Drawable3DCurves {
 
 		GeoText text = (GeoText) getGeoElement();
 
-		if (text.isLaTeX()
-				&& !getView3D().getApplication().has(Feature.JLM_IN_WEB)) {
-			// TODO remove this as soon as latex is gwt compatible
-			label.setIsVisible(false);
-		} else {
-			label.update(text.getTextString(), getFont(), getGeoElement()
-					.getBackgroundColor(), getGeoElement().getObjectColor(),
-					getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY());
-		}
+		label.update(text.getTextString(), getFont(),
+				getGeoElement().getBackgroundColor(),
+				getGeoElement().getObjectColor(), getLabelPosition(),
+				getLabelOffsetX(), -getLabelOffsetY());
 
 	}
 

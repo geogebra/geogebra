@@ -10,14 +10,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationWeb;
 import org.geogebra.web.html5.main.MyImageW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -28,12 +26,10 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -364,11 +360,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			return;
 		}
 
-		if (!app.has(Feature.JLM_IN_WEB)) {
-			oldRender(text, latex, row, column);
-			return;
-		}
-
 		Canvas c = null;
 		if (latex != null) {
 			Widget current = table.getWidget(row, column);
@@ -385,25 +376,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			DrawEquationWeb.paintOnCanvas(geo, latex, c, app.getFontSizeWeb());
 		}
 	}
-
-	private void oldRender(String text, String latex, int row, int column) {
-		if (latex == null) {
-			table.setText(row, column, text);
-		} else {
-			InlineHTML widg = new InlineHTML();
-			SpanElement wele = DOM.createSpan().cast();
-			wele.getStyle().setProperty("display", "-moz-inline-box");
-			wele.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			widg.getElement().appendChild(wele);
-
-			table.setWidget(row, column, widg);
-
-			DrawEquationWeb.drawEquationAlgebraView(wele, "\\mathrm {"
-					+ DrawEquationWeb.inputLatexCosmetics(latex)
-					+ "}", true);
-		}
-	}
-
 
 	public void onMouseDown(MouseDownEvent e) {
 		// TODO: maybe use CancelEvents.instance?
