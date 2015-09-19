@@ -155,10 +155,6 @@ public interface ExpressionValue {
 
 	/**
 	 * Resolve variables
-	 * 
-	 * @param forEquation
-	 *            true to resolve xx as polynomial rather than product of
-	 *            function variables
 	 */
 	public void resolveVariables();
 
@@ -226,6 +222,8 @@ public interface ExpressionValue {
 	/**
 	 * @param fv
 	 *            variable with respect to which the derivative is computed
+	 * @param kernel
+	 *            kernel
 	 * @return derivative
 	 */
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel);
@@ -233,6 +231,8 @@ public interface ExpressionValue {
 	/**
 	 * @param fv
 	 *            variable with respect to which the integral is computed
+	 * @param kernel
+	 *            kernel
 	 * @return integral
 	 */
 	ExpressionValue integral(FunctionVariable fv, Kernel kernel);
@@ -244,5 +244,8 @@ public interface ExpressionValue {
 	 */
 	boolean evaluatesToNumber(boolean def);
 
-	public Object getAssignmentOperator();
+	/**
+	 * @return : for equations, := by default
+	 */
+	public String getAssignmentOperator();
 }

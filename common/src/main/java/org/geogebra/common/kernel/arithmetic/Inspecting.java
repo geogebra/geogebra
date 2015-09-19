@@ -48,6 +48,10 @@ public interface Inspecting {
 		}
 	}
 
+	/**
+	 * Checks for presence of commands and derivatives
+	 *
+	 */
 	public enum ExtendedCommandFinder implements Inspecting {
 		/** singleton instance */
 		INSTANCE;
@@ -212,6 +216,8 @@ public interface Inspecting {
 		}
 
 		/**
+		 * @param dimension
+		 *            2 or 3: in how many dimensions can we plot a point
 		 * @return UnplottableChecker singleton instance
 		 */
 		public static UnplottableChecker getChecker(int dimension) {

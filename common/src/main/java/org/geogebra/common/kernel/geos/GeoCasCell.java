@@ -1697,6 +1697,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 	private ValidExpression expandedEvalVE;
 
+	/**
+	 * @return whether top level command is Substitute
+	 */
 	public boolean isSubstitute(){
 		Command cmd = evalVE.getTopLevelCommand();
 		return (cmd == null) ? false : "Substitute".equals(cmd.getName());
@@ -2003,7 +2006,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		return cmd.wrap();
 	}
 
-	private String lhs(ExpressionValue arg, String fallback) {
+	private static String lhs(ExpressionValue arg, String fallback) {
 		return arg.unwrap() instanceof Equation ? ((Equation)arg.unwrap()).getLHS().toString(StringTemplate.defaultTemplate) : fallback;
 		
 	}
@@ -2841,6 +2844,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		return HitType.ON_FILLING;
 	}
 
+	/**
+	 * @return input in LaTeX form
+	 */
 	public String getLaTeXInput() {
 
 		if (useAsText) {
@@ -2852,6 +2858,12 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						getAssignmentType())) : latexInput;
 	}
 
+	/**
+	 * Stores input only, no processing
+	 * 
+	 * @param latexInput
+	 *            LaTeX form of input
+	 */
 	public void setLaTeXInput(String latexInput) {
 		this.latexInput = latexInput;
 	}
@@ -2859,6 +2871,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	/**
 	 * Returns input, wrapped in used command if necessary
 	 */
+	@Override
 	public String getDefinitionDescription(StringTemplate tpl) {
 		return evalVE.toString(tpl);
 	}

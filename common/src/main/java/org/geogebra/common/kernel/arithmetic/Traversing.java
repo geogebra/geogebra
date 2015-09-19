@@ -113,6 +113,11 @@ public interface Traversing {
 		}
 	}
 
+	/**
+	 * Replaces all commands "ggbvect" by their first argument, sets the CAS
+	 * vector flag for future serialization
+	 *
+	 */
 	public class GgbVectRemover implements Traversing {
 
 		private static final GgbVectRemover remover = new GgbVectRemover();
@@ -138,6 +143,9 @@ public interface Traversing {
 			return ev;
 		}
 
+		/**
+		 * @return instance of this traversing
+		 */
 		public static GgbVectRemover getInstance() {
 			return remover;
 		}
@@ -210,6 +218,8 @@ public interface Traversing {
 		 *            variable name
 		 * @param replacement
 		 *            replacement object
+		 * @param replaceFVs
+		 *            whether function variables should be replaced also
 		 * @return replacer
 		 */
 		public static GeoDummyReplacer getReplacer(String varStr,
@@ -297,6 +307,8 @@ public interface Traversing {
 		 *            variable name
 		 * @param replacement
 		 *            replacement object
+		 * @param kernel
+		 *            kernel
 		 * @return replacer
 		 */
 		public static VariableReplacer getReplacer(String varStr,
@@ -417,6 +429,9 @@ public interface Traversing {
 
 		/**
 		 * Replaces undefined variables by sliders
+		 * 
+		 * @param kernel
+		 *            kernel
 		 * 
 		 */
 		public ReplaceUndefinedVariables(Kernel kernel) {

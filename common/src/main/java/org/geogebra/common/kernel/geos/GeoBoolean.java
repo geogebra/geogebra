@@ -197,12 +197,19 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
+	/**
+	 * Changes value to false. See also GeoBoolean.setUndefinedProverOnly()
+	 */
 	final public void setUndefined() {
 		// don't change this, needed for compatibility
 		// eg SetValue[a,?] sets it to false
 		value = false;
 	}
 
+	/**
+	 * Set the undefined flag. Normal algos should use setUndefined which
+	 * changes value to false.
+	 */
 	final public void setUndefinedProverOnly() {
 		// Needed for prover's yes/no/undefined trichotomy
 		isDefined = false; 
@@ -279,6 +286,14 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return isIndependent();
 	}
 
+	/**
+	 * @param x
+	 *            screen x
+	 * @param y
+	 *            screen y
+	 * @param forced
+	 *            set location even for fixed checkbox
+	 */
 	public void setAbsoluteScreenLoc(int x, int y, boolean forced) {
 		if (!forced && checkboxFixed) {
 			return;

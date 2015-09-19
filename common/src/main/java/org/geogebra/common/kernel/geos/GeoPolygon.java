@@ -139,6 +139,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * 
 	 * @param cons
 	 *            construction
+	 * @param isIntersection
+	 *            whether this is result of intersection; use different style in
+	 *            such case
 	 */
 	public GeoPolygon(Construction cons, boolean isIntersection) {
 		super(cons);

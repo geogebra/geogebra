@@ -70,10 +70,23 @@ public interface FunctionalNVar extends ExpressionValue {
 	 */
 	public void setLabel(String label);
 
+	/**
+	 * @return function variables
+	 */
 	public FunctionVariable[] getFunctionVariables();
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel();
 
+	/**
+	 * For GeoElements sets the usual defined flag, also works for
+	 * ValidExpressions
+	 * 
+	 * @param b
+	 *            whether this is defined
+	 */
 	public void setDefined(boolean b);
 
 }

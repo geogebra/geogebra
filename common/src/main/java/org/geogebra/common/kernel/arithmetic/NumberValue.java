@@ -50,5 +50,10 @@ public interface NumberValue extends ExpressionValue, ToGeoElement {
 	 */
 	public boolean isDefined();
 
+	/**
+	 * @param tpl
+	 *            output template
+	 * @return label for GeoElements, value for MyDouble
+	 */
 	public String getLabel(StringTemplate tpl);
 }

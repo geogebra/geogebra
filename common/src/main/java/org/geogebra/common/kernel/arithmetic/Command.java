@@ -38,7 +38,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -109,6 +108,9 @@ public class Command extends ValidExpression implements
 		}
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -213,6 +215,7 @@ public class Command extends ValidExpression implements
 		return toString(false, false, tpl);
 	}
 
+	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(symbolic, true, tpl);
 	}
@@ -394,6 +397,13 @@ public class Command extends ValidExpression implements
 
 	}
 
+	/**
+	 * Like evaluate, but does not necessarily produce GeoElement
+	 * 
+	 * @param tpl
+	 *            evaluation template
+	 * @return evaluation result
+	 */
 	public ExpressionValue simplify(StringTemplate tpl) {
 		// not yet evaluated: process command
 		ExpressionValue result = kernel.getAlgebraProcessor().simplifyCommand(
@@ -410,6 +420,7 @@ public class Command extends ValidExpression implements
 
 	}
 
+	@Override
 	public void resolveVariables() {
 		// standard case:
 		// nothing to do here: argument variables are resolved
@@ -428,6 +439,7 @@ public class Command extends ValidExpression implements
 
 	// rewritten to cope with {Root[f]}
 	// Michael Borcherds 2008-10-02
+	@Override
 	public boolean isConstant() {
 
 		// not yet evaluated: process command
@@ -445,6 +457,7 @@ public class Command extends ValidExpression implements
 
 	}
 
+	@Override
 	public boolean isLeaf() {
 		// return evaluate().isLeaf();
 		return true;
@@ -454,12 +467,14 @@ public class Command extends ValidExpression implements
 	 * Type checking with evaluate Try to evaluate using GeoGebra if fails, try
 	 * with CAS else throw Exception
 	 */
+	@Override
 	public boolean isNumberValue() {
 		return evaluatesToNumber(false);
 	}
 
 	private Boolean isNumber = null;
 
+	@Override
 	public boolean evaluatesToNumber(boolean def) {
 		if (isNumber != null) {
 			return isNumber.booleanValue();
@@ -538,6 +553,7 @@ public class Command extends ValidExpression implements
 		}
 	}
 
+	@Override
 	public ExpressionValue deepCopy(Kernel kernel1) {
 		Command c = new Command(kernel1, name, false);
 		// copy arguments
@@ -548,6 +564,7 @@ public class Command extends ValidExpression implements
 		return c;
 	}
 
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
@@ -555,6 +572,7 @@ public class Command extends ValidExpression implements
 		}
 	}
 
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> set = new HashSet<GeoElement>();
 		int size = args.size();
@@ -566,6 +584,7 @@ public class Command extends ValidExpression implements
 		return set;
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
@@ -631,6 +650,7 @@ public class Command extends ValidExpression implements
 		this.macro = macro;
 	}
 
+	@Override
 	final public boolean evaluatesTo3DVector() {
 		if (!allowEvaluationForTypeCheck) {
 			return false;
@@ -656,6 +676,7 @@ public class Command extends ValidExpression implements
 		return this;
 	}
 
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
@@ -683,6 +704,7 @@ public class Command extends ValidExpression implements
 		return false;
 	}
 
+	@Override
 	public ExpressionValue getItem(int i) {
 		return args.get(i);
 	}
@@ -718,6 +740,7 @@ public class Command extends ValidExpression implements
 		return outputSizes;
 	}
 
+	@Override
 	public int getLength() {
 		return getArgumentNumber();
 	}
@@ -742,10 +765,26 @@ public class Command extends ValidExpression implements
 		return replacements;
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 
+	/**
+	 * Helps pars x(expr) to either command, x-coord function or multiplication
+	 * by x.
+	 * 
+	 * @param en
+	 *            parameter
+	 * @param i
+	 *            coordinate (0=x,1=y,2=z);
+	 * @param mayCheck
+	 *            whether we may compute the command to find output type
+	 * @param undecided
+	 *            array to which we can push the result if not clear whether
+	 *            it's multiplication or function
+	 * @return parsed expression
+	 */
 	public static ExpressionNode xyzCAS(ExpressionNode en, int i, boolean mayCheck,ArrayList<ExpressionNode > undecided) {
 			Operation[] ops = new Operation[]{Operation.XCOORD, Operation.YCOORD, Operation.ZCOORD};
 			Kernel k = en.getKernel();
@@ -768,13 +807,18 @@ public class Command extends ValidExpression implements
 				en2 = new ExpressionNode(k,new FunctionVariable(k,funName+""),Operation.MULTIPLY_OR_FUNCTION,en);
 				undecided.add(en2);
 			}
-			Log.debug(en2);
 			//App.printStacktrace("");
 			return en2;
 	     
           
 	}
 
+	/**
+	 * Change command name, useful eg for processing Rotate as RotateText
+	 * 
+	 * @param string
+	 *            new name for this command
+	 */
 	public void setName(String string) {
 		this.name = string;
 	}

@@ -26,6 +26,9 @@ import org.geogebra.common.util.debug.Log;
 public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	private static final StringTemplate errorTemplate = StringTemplate.defaultTemplate;
 	private Localization l10n;
+	/**
+	 * Kernel used to create the results
+	 */
 	protected Kernel kernel;
 
 	/**
@@ -33,6 +36,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * 
 	 * @param l10n
 	 *            localization for errors
+	 * @param kernel
+	 *            kernel
 	 */
 	public ExpressionNodeEvaluator(Localization l10n, Kernel kernel) {
 		this.l10n = l10n;
@@ -85,6 +90,23 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return handleOp(operation, lt, rt, left, right, tpl, holdsLaTeXtext);
 	}
 
+	/**
+	 * @param op
+	 *            operation
+	 * @param lt
+	 *            left evaluated
+	 * @param rt
+	 *            right evaluated
+	 * @param left
+	 *            left expression
+	 * @param right
+	 *            right expression
+	 * @param tpl
+	 *            template for string ops
+	 * @param holdsLaTeX
+	 *            whether result should be latex
+	 * @return operation result
+	 */
 	protected ExpressionValue handleOp(Operation op, ExpressionValue lt,
 			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
 			StringTemplate tpl, boolean holdsLaTeX) {
@@ -120,7 +142,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            vector
 	 * @return list (matrix) * 2D vector / point
 	 */
-	final protected ExpressionValue multiply2D(MyList myList, int rows,
+	final static protected ExpressionValue multiply2D(MyList myList, int rows,
 			int cols, VectorValue rt) {
 
 		return multiply2D(myList, rows, cols, rt, rt.getVector());
@@ -139,7 +161,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            vector set to result
 	 * @return list (matrix) * 2D vector / point
 	 */
-	final protected ExpressionValue multiply2D(MyList myList, int rows,
+	final protected static ExpressionValue multiply2D(MyList myList, int rows,
 			int cols, VectorNDValue rt, GeoVec2D myVec) {
 
 		if ((rows == 2) && (cols == 2)) {
@@ -534,12 +556,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            first vector
 	 * @param ev2
 	 *            second vector
-	 * @param kernel
+	 * @param kernel0
 	 *            kernel
 	 * @return ev1*ev2 complex product
 	 */
 	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2,
-			Kernel kernel) {
+			Kernel kernel0) {
 		GeoVec2D vec = ((VectorValue) ev1).getVector();
 		GeoVec2D.complexMultiply(vec, ((VectorValue) ev2).getVector(), vec);
 		return vec;
@@ -551,13 +573,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            first vector
 	 * @param ev2
 	 *            second vector
-	 * @param kernel
+	 * @param kernel0
 	 *            kernel
 	 * @return ev1*ev2 inner product
 	 */
 	protected ExpressionValue innerProduct(VectorNDValue ev1,
-			VectorNDValue ev2, Kernel kernel) {
-		MyDouble num = new MyDouble(kernel);
+			VectorNDValue ev2, Kernel kernel0) {
+		MyDouble num = new MyDouble(kernel0);
 		GeoVec2D.inner(((VectorValue) ev1).getVector(),
 				((VectorValue) ev2).getVector(), num);
 		return num;
@@ -947,7 +969,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 	}
 
-	static double negPower(double base, ExpressionValue right) {
+	/**
+	 * @param base0
+	 *            base
+	 * @param right
+	 *            exponent, must be expression of the form a/b
+	 * @return base^exponent
+	 */
+	static double negPower(double base0, ExpressionValue right) {
+		double base = base0;
 		ExpressionNode node = (ExpressionNode) right;
 
 		// check if we have a/b with a and b integers
@@ -1000,6 +1030,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            function
 	 * @param rt
 	 *            value of variable
+	 * @param left
+	 *            left (function) before evaluation
 	 * @return value of function at given point
 	 */
 	public ExpressionValue handleFunction(ExpressionValue lt,
@@ -1352,6 +1384,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return num;
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}

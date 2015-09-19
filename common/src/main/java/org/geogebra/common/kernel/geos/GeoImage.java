@@ -181,6 +181,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	/**
 	 * Reloads images from internal image cache
+	 * 
+	 * @param kernel
+	 *            kernel for which we want to do the replacement
 	 */
 	public static void updateInstances(App kernel) {
 		for (int i = kernel.images.size() - 1; i >= 0; i--) {
@@ -217,12 +220,15 @@ public class GeoImage extends GeoElement implements Locateable,
 	/**
 	 * Tries to load the image using the given fileName.
 	 * 
-	 * @param fileName filename
+	 * @param fileName
+	 *            filename
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
 	 */
 	public void setImageFileName(String fileName, int width, int height) {
 
-		// this will be rewrited later during the refactoring - Arpad Fekete,
-		// 2011-12-01
 
 		if (fileName == null)
 			return;
@@ -240,7 +246,6 @@ public class GeoImage extends GeoElement implements Locateable,
 			pixelWidth = 0;
 			pixelHeight = 0;
 		}
-		// Michael Borcherds 2007-12-10 MD5 code moved to Application.java
 	}
 	
 	@Override

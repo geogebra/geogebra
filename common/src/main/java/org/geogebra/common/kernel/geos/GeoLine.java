@@ -875,7 +875,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			numbers[0] = x;
 			numbers[1] = y;
 			numbers[2] = z;
-			double gcd = kernel.gcd(numbers);
+			double gcd = Kernel.gcd(numbers);
 			StringBuilder sb = getSbBuildValueString();
 			sb.setLength(0);
 			sb.append("(");
@@ -1270,6 +1270,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * TODO never used ?
 	 * @return ":"
 	 */
+	@Override
 	public String getAssignmentOperator() {
 		return ": ";
 
@@ -1628,9 +1629,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * normalize coeffients so that
-	 * Intersect[ (x - 1.62010081566832)^2 + (y + 31.674457260881873)^2 = 0.028900000000021 ,  0.000158120368003x + 0.000144840828995y = -0.004331583710062 ]
-	 * works
+	 * normalize coeffients so that Intersect[ (x - 1.62010081566832)^2 + (y +
+	 * 31.674457260881873)^2 = 0.028900000000021 , 0.000158120368003x +
+	 * 0.000144840828995y = -0.004331583710062 ] works
+	 * 
+	 * @param ret
+	 *            output array
 	 * 
 	 * @return normalized coefficients x,y,z
 	 */
@@ -1683,6 +1687,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
 	public boolean isParametric() {
 		return getMode() == GeoLine.PARAMETRIC;
 	}

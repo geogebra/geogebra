@@ -47,6 +47,14 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 		this.kernel = kernel;
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param value
+	 *            true or false
+	 * @param defined
+	 *            whether it's defined
+	 */
 	public MyBoolean(Kernel kernel, boolean value, boolean defined) {
 		this(kernel, value);
 		this.isDefined = defined;
@@ -124,6 +132,9 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 		return toValueString(tpl);
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -144,10 +155,15 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 		return isDefined;
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 
+	/**
+	 * @param defined
+	 *            whether it's defined or not
+	 */
 	public void setDefined(boolean defined) {
 		this.isDefined = defined;
 	}

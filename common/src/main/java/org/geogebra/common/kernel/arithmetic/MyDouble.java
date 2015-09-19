@@ -222,6 +222,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		angleDim = 1;
 	}
 
+	/**
+	 * @return whether this is angle
+	 */
 	public boolean isAngle() {
 		return angleDim == 1;
 	}
@@ -372,6 +375,15 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		c.set(Math.pow(a.val, b.val));
 	}
 
+	/**
+	 * Like Math.pow, but Infinity ^ 0 -> NaN
+	 * 
+	 * @param a
+	 *            base
+	 * @param b
+	 *            exponent
+	 * @return power a^b
+	 */
 	final public static double pow(double a, double b) {
 		
 
@@ -596,6 +608,11 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		angleDim = 0;
 		return this;
 	}
+
+	/**
+	 * @param a
+	 *            difference to be added to value
+	 */
 	final public void add(double a){
 		val += a;
 	}
@@ -654,6 +671,13 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return this;
 	}
 
+	/**
+	 * For 12.34 round(1) rounds to 1 DP (yields 12.3), round(-1) yields 10
+	 * 
+	 * @param digits
+	 *            number of digits
+	 * @return rounded value
+	 */
 	final public MyDouble round(double digits) {
 		if (!Kernel.isInteger(digits)) {
 			set(Double.NaN);
@@ -1138,6 +1162,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return !Double.isNaN(d) && !Double.isInfinite(d);
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}

@@ -150,6 +150,13 @@ public class Variable extends ValidExpression {
 		return geo;
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param name
+	 *            variable name
+	 * @return interpretation, eg axxx -> a*x*x
+	 */
 	public static ExpressionValue replacement(Kernel kernel, String name) {
 		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
 		int[] exponents = new int[] { 0, 0, 0 };
@@ -232,6 +239,9 @@ public class Variable extends ValidExpression {
 		return toValueString(tpl);
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -255,6 +265,9 @@ public class Variable extends ValidExpression {
 		name = s;
 	}
 
+	/**
+	 * @return variable name
+	 */
 	public String getName() {
 		return name;
 	}
@@ -264,6 +277,7 @@ public class Variable extends ValidExpression {
 		return def;
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}

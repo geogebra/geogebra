@@ -36,7 +36,6 @@ public class MySpecialDouble extends MyDouble {
 	private boolean scientificNotation = false;
 	private boolean setFromOutside;
 
-	private static MySpecialDouble eulerConstant;
 
 	/**
 	 * @param kernel

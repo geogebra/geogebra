@@ -521,6 +521,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}

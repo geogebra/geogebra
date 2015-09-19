@@ -170,6 +170,8 @@ public class Term implements Comparable<Object>, Serializable {
 	 * 
 	 * @param number
 	 *            number to add
+	 * @param kernel
+	 *            kernel
 	 */
 	void addToCoefficient(ExpressionValue number, Kernel kernel) {
 		setCoefficient(add(coefficient, number, kernel));
@@ -226,6 +228,8 @@ public class Term implements Comparable<Object>, Serializable {
 	 * 
 	 * @param t
 	 *            multiplier
+	 * @param kernel
+	 *            kernel
 	 */
 	void multiply(Term t, Kernel kernel) {
 		setCoefficient(multiply(coefficient, t.coefficient, kernel));
@@ -248,6 +252,8 @@ public class Term implements Comparable<Object>, Serializable {
 	 * 
 	 * @param number
 	 *            multiplier
+	 * @param kernel
+	 *            kernel
 	 */
 	void multiply(ExpressionValue number, Kernel kernel) {
 		setCoefficient(multiply(coefficient, number, kernel));
@@ -304,6 +310,8 @@ public class Term implements Comparable<Object>, Serializable {
 	 * 
 	 * @param number
 	 *            divisor
+	 * @param kernel
+	 *            kernel
 	 */
 	void divide(ExpressionValue number, Kernel kernel) {
 		setCoefficient(divide(coefficient, number, kernel));

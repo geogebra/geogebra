@@ -121,10 +121,14 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return ev == this;
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}

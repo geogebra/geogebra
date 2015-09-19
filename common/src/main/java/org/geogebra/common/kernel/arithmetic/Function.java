@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 
@@ -31,7 +30,7 @@ import org.geogebra.common.plugin.Operation;
  * 
  * @author Markus Hohenwarter
  */
-public class Function extends FunctionNVar implements RealRootFunction,
+public class Function extends FunctionNVar implements
 		Functional, RealRootDerivFunction {
 
 	/** function expression */
@@ -311,15 +310,28 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		return node;
 	}
 
+	/**
+	 * translates in y-coordinate
+	 * 
+	 * @param vy
+	 *            y-coord difference
+	 */
 	final public void translateY(double vy) {
 		expression = translateY(expression, fVars, vy);
 
 	}
+	
 	/**
 	 * Shifts the function by vy up
 	 * 
+	 * @param expr
+	 *            original expression
+	 * @param fVars
+	 *            variables
+	 * 
 	 * @param vy
 	 *            vertical translation
+	 * @return translated expression
 	 */
 	final public static ExpressionNode translateY(ExpressionNode expr,
 			FunctionVariable[] fVars,
@@ -379,10 +391,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		if (n > 0) {
 			return new ExpressionNode(kernel, expression, Operation.PLUS,
 					new MyDouble(kernel, n));
-		} else {
-			return new ExpressionNode(kernel, expression,
-					Operation.MINUS, new MyDouble(kernel, -n));
 		}
+		return new ExpressionNode(kernel, expression, Operation.MINUS,
+				new MyDouble(kernel, -n));
 	}
 
 	/* ********************
@@ -840,6 +851,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * 
 	 * @param n
 	 *            order
+	 * @param fast
+	 *            true = don't use CAS
 	 * @return derivative
 	 */
 	final public Function getDerivative(int n, boolean fast) {
@@ -852,6 +865,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * 
 	 * @param n
 	 *            order
+	 * @param fast
+	 *            don't use CAS
 	 * @return derivative
 	 */
 	final public Function getDerivativeNoFractions(int n, boolean fast) {
@@ -1050,17 +1065,17 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	private class DerivFunction implements RealRootDerivFunction {
 
-		private Function fun, derivative;
+		private Function fun, realRootDerivative;
 		private double[] ret = new double[2];
 
 		DerivFunction(Function fun, Function derivative) {
 			this.fun = fun;
-			this.derivative = derivative;
+			this.realRootDerivative = derivative;
 		}
 
 		public double[] evaluateDerivFunc(double x) {
 			ret[0] = fun.evaluate(x);
-			ret[1] = derivative.evaluate(x);
+			ret[1] = realRootDerivative.evaluate(x);
 			return ret;
 		}
 
@@ -1069,7 +1084,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		}
 
 		public double evaluateDerivative(double x) {
-			return derivative.evaluate(x);
+			return realRootDerivative.evaluate(x);
 		}
 	}
 

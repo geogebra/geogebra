@@ -259,7 +259,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	 * @throws NoSymbolicParametersException
 	 *             - unhandled operations
 	 */
-	public void expressionNodeToPolynomial(ExpressionNode expNode,
+	public static void expressionNodeToPolynomial(ExpressionNode expNode,
 			PolynomialNode polyNode) throws NoSymbolicParametersException {
 		if (polyNode.getPoly() != null) {
 			return;

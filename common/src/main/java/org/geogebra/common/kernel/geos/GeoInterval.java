@@ -207,6 +207,18 @@ public class GeoInterval extends GeoFunction {
 		return false;
 	}
 
+	/**
+	 * Checks given node and updates the arrays
+	 * 
+	 * @param en
+	 *            expression
+	 * @param leftRightDouble
+	 *            bounds as doubles
+	 * @param leftRightStr
+	 *            bounds as string
+	 * @param leftRightInequalityChar
+	 *            inequality characters
+	 */
 	public static void updateBoundaries(ExpressionNode en, double[] leftRightDouble, String[] leftRightStr, char[] leftRightInequalityChar) {
 		
 		char leftInequality, rightInequality;

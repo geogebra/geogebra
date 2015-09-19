@@ -2875,6 +2875,15 @@ AngleProperties {
 		return HitType.ON_FILLING;
 	}
 	
+	/**
+	 * Add number to the end, use cache if possible. Assume all cached elements
+	 * are GeoNumerics.
+	 * 
+	 * @param value
+	 *            value
+	 * @param parent
+	 *            parent algo
+	 */
 	public void addNumber(double value, AlgoElement parent) {
 		GeoNumeric listElement;
 		if (size() < getCacheSize()) {
@@ -2892,6 +2901,19 @@ AngleProperties {
 		listElement.setValue(value);
 	}
 
+	/**
+	 * Add point to the end, use cache if possible. Assumes all cached elements
+	 * are points.
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 * @param parent
+	 *            parent algorithm of the new point
+	 */
 	public void addPoint(double x, double y, double z,
 			AlgoElement parent) {
 		GeoPoint listElement;
@@ -2915,6 +2937,9 @@ AngleProperties {
 		return isMatrix();
 	}
 
+	/**
+	 * @return element of the same type as other elements in this list
+	 */
 	public GeoElement createTemplateElement() {
 		if (size() == 0) {
 			if (getTypeStringForXML() != null) {

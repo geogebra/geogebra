@@ -133,6 +133,8 @@ public class Polynomial implements Serializable {
 	 * 
 	 * @param e
 	 *            addend
+	 * @param eq
+	 *            equation to get feedback when simplification fails
 	 */
 	void add(Polynomial e, Equation eq) {
 		for (int i = 0; i < e.length(); i++) {
@@ -307,6 +309,9 @@ public class Polynomial implements Serializable {
 	 * simplifies this Polynomial so that every variable only occurs once.
 	 * example: simplify() on { (4,"xxy"), (7,"xy"), (-84.0,"xx"), (3,"xy") })
 	 * changes the Polynomial to { (4,"xxy"), (10,"xy"), (-84.0,"xx") }
+	 * 
+	 * @param eq
+	 *            equation to get feedback when simplification fails
 	 */
 	void simplify(Equation eq) {
 		// Application.debug("simplify " + this);
@@ -558,6 +563,8 @@ public class Polynomial implements Serializable {
 	 *            operation
 	 * @param rt
 	 *            second parameter
+	 * @param equ
+	 *            equation to get feedback when simplification fails
 	 * @return result as polynomial
 	 */
 	Polynomial apply(Operation operation, Polynomial rt, Equation equ) {
@@ -592,6 +599,8 @@ public class Polynomial implements Serializable {
 	 *            operation
 	 * @param rt
 	 *            second parameter
+	 * @param equ
+	 *            equation to get feedback when simplification fails
 	 * @return result as polynomial
 	 */
 	Polynomial apply(Operation operation, ExpressionValue rt, Equation equ) {

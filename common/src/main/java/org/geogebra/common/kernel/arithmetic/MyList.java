@@ -323,10 +323,10 @@ public class MyList extends ValidExpression implements ListValue,
 
 			if (!right) {
 				LHlist = valueList;
-				RHlist = (MyList) this.deepCopy(kernel);
+				RHlist = this.deepCopy(kernel);
 			} else {
 				RHlist = valueList;
-				LHlist = (MyList) this.deepCopy(kernel);
+				LHlist = this.deepCopy(kernel);
 			}
 
 			boolean isMatrix = (LHlist.isMatrix() && RHlist.isMatrix());
@@ -793,6 +793,15 @@ public class MyList extends ValidExpression implements ListValue,
 		return listElements.get(i);
 	}
 
+	/**
+	 * Replaces element for given index, index must be within (0, length -1)
+	 * 
+	 * @param i
+	 *            index (0 based)
+	 * @param ev
+	 *            new value
+	 * @return old value
+	 */
 	public ExpressionValue setListElement(int i, ExpressionValue ev) {
 		return listElements.set(i, ev);
 	}
@@ -1097,6 +1106,9 @@ public class MyList extends ValidExpression implements ListValue,
 
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -1164,10 +1176,17 @@ public class MyList extends ValidExpression implements ListValue,
 		return listElements.size();
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 
+	/**
+	 * @param val
+	 *            value to be added to the end
+	 * @param offset
+	 *            number of elements to skip
+	 */
 	public void addQue(double val, int offset) {
 		if(listElements.size() < offset +1){
 			return;

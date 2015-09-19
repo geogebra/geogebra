@@ -253,6 +253,8 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	/**
 	 * Call this function to resolve variables and init the function. May throw
 	 * MyError (InvalidFunction).
+	 * 
+	 * @return whether this is a valid (numeric or boolean) function
 	 */
 	public boolean initFunction() {
 		// replace function variables in tree
@@ -332,7 +334,11 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 
 	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
 
-	/** Receives result of evaluate as input, hence may use instanceof */
+	/**
+	 * Receives result of evaluate as input, hence may use instanceof
+	 * 
+	 * @return whether this is a valid (numeric or boolean) function
+	 */
 	private boolean initType(ExpressionValue ev) {
 		if (ev instanceof BooleanValue) {
 			isBooleanFunction = true;
@@ -1071,13 +1077,14 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 
 	@Override
-	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel) {
-		return expression.derivative(fv, kernel);
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
+		return expression.derivative(fv, kernel0);
 	}
 
 	@Override
@@ -1085,6 +1092,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return expression.integral(fv, kernel0);
 	}
 	
+	@Override
 	public final boolean hasCoords(){
 		return expression.hasCoords();
 	}

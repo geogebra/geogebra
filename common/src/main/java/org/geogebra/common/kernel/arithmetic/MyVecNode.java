@@ -212,7 +212,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return sb.toString();
 	}
 
-	private void printReGiac(StringBuilder sb, ExpressionValue x2,
+	private static void printReGiac(StringBuilder sb, ExpressionValue x2,
 			boolean values, StringTemplate tpl) {
 		if (x2.unwrap() instanceof Command) {
 			sb.append("re(");
@@ -296,6 +296,9 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return toValueString(tpl);
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -327,6 +330,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		isCASVector = true;
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}

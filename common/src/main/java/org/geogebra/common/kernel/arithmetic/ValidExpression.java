@@ -173,6 +173,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * 
 	 * @param tpl
 	 *            String template
+	 * @param assignmentType
+	 *            assignment type
 	 * @return assignment in the form L:=R
 	 */
 	public String toAssignmentString(StringTemplate tpl, AssignmentType assignmentType) {
@@ -204,6 +206,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * 
 	 * @param tpl
 	 *            string template
+	 * @param assignmentType
+	 *            assignment type
 	 * @return assignment in LaTeX
 	 */
 	public final String toAssignmentLaTeXString(StringTemplate tpl, AssignmentType assignmentType) {
@@ -293,8 +297,9 @@ public abstract class ValidExpression implements ExpressionValue {
 		return (Function) ev;
 	}
 
-	@Override
+	@SuppressWarnings("deprecation")
 	@Deprecated
+	@Override
 	public final String toString() {
 		return toString(StringTemplate.defaultTemplate);
 	}
@@ -418,6 +423,9 @@ public abstract class ValidExpression implements ExpressionValue {
 				.toString(tpl);
 	}
 
+	/**
+	 * @return deep check for function variable
+	 */
 	public final boolean containsFunctionVariable() {
 		return this.inspect(new Inspecting() {
 
@@ -428,6 +436,11 @@ public abstract class ValidExpression implements ExpressionValue {
 		});
 	}
 	
+	/**
+	 * @param name
+	 *            variable name
+	 * @return deep check for function variable with given name
+	 */
 	public final boolean containsFunctionVariable(final String name) {
 		return this.inspect(new Inspecting() {
 
@@ -447,6 +460,13 @@ public abstract class ValidExpression implements ExpressionValue {
 		return this.isNumberValue();
 	}
 
+	/**
+	 * Unlike contains does not stop on lists and equations
+	 * 
+	 * @param needle
+	 *            subexpression
+	 * @return whether expression is included
+	 */
 	public boolean containsDeep(final ExpressionValue needle) {
 		return inspect(new Inspecting() {
 

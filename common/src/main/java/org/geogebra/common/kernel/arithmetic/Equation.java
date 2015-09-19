@@ -536,6 +536,9 @@ public class Equation extends ValidExpression {
 		return toValueString(tpl);
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -592,6 +595,10 @@ public class Equation extends ValidExpression {
 		return false;
 	}
 
+	/**
+	 * @param gn
+	 *            sub-expression with variable degree
+	 */
 	public void addVariableDegree(ExpressionValue gn) {
 		if (this.variableDegrees == null) {
 			this.variableDegrees = new ArrayList<ExpressionValue>();
@@ -599,14 +606,25 @@ public class Equation extends ValidExpression {
 		this.variableDegrees.add(gn);
 	}
 
+	/**
+	 * @return whether this has terms with variable degree (x^n)
+	 */
 	public boolean hasVariableDegree() {
 		return variableDegrees != null;
 	}
 
+	/**
+	 * @param b
+	 *            whether this may be polynomial
+	 */
 	public void setIsPolynomial(boolean b) {
 		this.isPolynomial = b;
 	}
 
+	/**
+	 * @return whether this is currently polynomial, ie whether all terms are
+	 *         x^t where t is either non-negative integer variable or constant
+	 */
 	public boolean isPolynomial() {
 		if (!isPolynomial) {
 			return false;
@@ -623,10 +641,15 @@ public class Equation extends ValidExpression {
 		return true;
 	}
 
+	/**
+	 * @return whether this may be polynomial, ie all terms are x^t but some t
+	 *         may be non-integer variable
+	 */
 	public boolean mayBePolynomial() {
 		return isPolynomial;
 	}
 
+	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}

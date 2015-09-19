@@ -576,15 +576,17 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	final public double distance(double x, double y) {     
+	final public double distance(double x0, double y0) {
 
-		double t = getParameter(x, y);
+		double t = getParameter(x0, y0);
 
 		// if t is outside the range [0,1] then the closest point is not on the Segment
-		if (t < 0) return startPoint.distance(x,y);
-		if (t > 1) return endPoint.distance(x,y);
+		if (t < 0)
+			return startPoint.distance(x0, y0);
+		if (t > 1)
+			return endPoint.distance(x0, y0);
 
-		return super.distance(x, y);
+		return super.distance(x0, y0);
 	}
 
 
@@ -655,7 +657,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	public void modifyInputPoints(GeoPointND P, GeoPointND Q){
 		AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) getParentAlgorithm();
-		algo.modifyInputPoints((GeoPoint) P, (GeoPoint) Q);    	
+		algo.modifyInputPoints(P, Q);
 	}
 
 

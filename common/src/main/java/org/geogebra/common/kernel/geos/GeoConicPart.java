@@ -365,8 +365,11 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 	/**
 	 * super method
+	 * 
 	 * @param P
+	 *            point
 	 * @param pp
+	 *            path parameter
 	 */
 	public void superPointChanged(Coords P, PathParameter pp) {
 		super.pointChanged(P, pp, true);
@@ -601,8 +604,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 			// create a new arc from the transformed circle using startPoint and
 			// endPoint
 			AlgoConicPartConicPoints algoResult = new AlgoConicPartConicPoints(
-					cons, transformedLabel, transformedCircle, (GeoPoint) points[1],
-					(GeoPoint) points[2], conic_part_type);
+					cons, transformedLabel, transformedCircle, points[1],
+					points[2], conic_part_type);
 			GeoConicPart conicPart = algoResult.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { conicPart, (GeoElement) points[0],
@@ -651,7 +654,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 					.getParentAlgorithm());
 
 			algo = new AlgoConicPartConicPoints(cons, transformedLabel, transformedConic,
-					(GeoPoint) points[0], (GeoPoint) points[1],
+ points[0], points[1],
 					conic_part_type);
 			GeoConicPart conicPart = algo.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
@@ -680,12 +683,12 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 						.getParentAlgorithm());
 				if (t.changesOrientation()) {
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,
-							transformedConic, (GeoPoint) points[0],
-							(GeoPoint) points[1], conic_part_type);
+							transformedConic, points[0], points[1],
+							conic_part_type);
 				} else
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,
-							transformedConic, (GeoPoint) points[1],
-							(GeoPoint) points[0], conic_part_type);
+							transformedConic, points[1], points[0],
+							conic_part_type);
 				GeoConicPart conicPart = ((AlgoConicPartConicPoints) algo)
 						.getConicPart();
 				conicPart.setVisualStyleForTransformations(this);

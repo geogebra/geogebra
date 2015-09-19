@@ -29,7 +29,10 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Locus of points
+ * 
  * @author Markus
+ * @param <T>
+ *            2D or 3D point type
  */
 public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implements Path, Traceable {
 
@@ -38,7 +41,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 
 	private boolean defined;
 
-	// coords of points on locus
+	/** coords of points on locus */
 	protected ArrayList<T> myPointList;
 
 	/**
@@ -205,6 +208,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 	 */
 	abstract protected double getChangingPointParameter(GeoSegmentND segment);
 
+	/**
+	 * @return closest point to changing point
+	 */
 	protected MyPoint getClosestPoint() {
 		
 		getClosestLine();
@@ -284,7 +290,13 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 	}
 
 	private double closestPointDist;
+	/**
+	 * index of point closest to changingPoint
+	 */
 	protected int closestPointIndex;
+	/**
+	 * parameter of point closest to changingPoint
+	 */
 	protected double closestPointParameter;
 
 	private boolean trace;
@@ -378,6 +390,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
