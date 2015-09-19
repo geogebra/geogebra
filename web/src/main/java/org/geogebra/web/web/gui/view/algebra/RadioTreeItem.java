@@ -725,6 +725,7 @@ public class RadioTreeItem extends AVTreeItem
 	public RadioTreeItem(final GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl) {
 		super();
+
 		main = new FlowPanel();
 		setWidget(main);
 		border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
@@ -736,6 +737,7 @@ public class RadioTreeItem extends AVTreeItem
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
 		avExtension = app.has(Feature.AV_EXTENSIONS);
+		selectionCtrl = getAV().getSelectionCtrl();
 
 		main.addStyleName("elem");
 		main.addStyleName("panelRow");
@@ -1014,6 +1016,7 @@ public class RadioTreeItem extends AVTreeItem
 		av = app.getAlgebraView();
 		this.setStyleName("elem");
 		this.addStyleName("NewRadioButtonTreeItem");
+		selectionCtrl = getAV().getSelectionCtrl();
 
 		// setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -1791,7 +1794,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void onDoubleClickAction(boolean ctrl) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		AVSelectionController.get(app).clear();
+		selectionCtrl.clear();
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			if (!isThisEdited()) {
@@ -2109,11 +2112,10 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void updateSelection(boolean separated, boolean continous) {
 		if (geo == null) {
-			AVSelectionController.get(app).clear();
+			selectionCtrl.clear();
 			getAV().updateSelection();
 		} else {
-			App.debug("uselect 2");
-			AVSelectionController.get(app).select(geo, separated, continous);
+			selectionCtrl.select(geo, separated, continous);
 
 		}
 	}
@@ -2128,7 +2130,6 @@ public class RadioTreeItem extends AVTreeItem
 			return;
 		}
 
-		selectionCtrl = AVSelectionController.get(app);
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 			buttonPanel.setVisible(true);
 

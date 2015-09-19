@@ -583,7 +583,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	public void onFocus(FocusEvent event) {
 		super.onFocus(event);
 		if (app.has(Feature.AV_EXTENSIONS)) {
-			AVSelectionController.get(app).clear();
+			getAV().getSelectionCtrl().clear();
 			RadioTreeItem.closeMinMaxPanel();
 		}
 		// earlier this method was mainly called from setFocus,

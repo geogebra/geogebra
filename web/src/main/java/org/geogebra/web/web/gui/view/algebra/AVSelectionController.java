@@ -15,14 +15,7 @@ public class AVSelectionController {
 	private SelectionManager selection;
 	private static AVSelectionController instance = null;
 
-	public static AVSelectionController get(App app) {
-		if (instance == null) {
-			instance = new AVSelectionController(app);
-		}
-		return instance;
-	}
-
-	private AVSelectionController(App app) {
+	public AVSelectionController(App app) {
 		this.app = app;
 		selection = app.getSelectionManager();
 		setLastSelectedGeo(null);

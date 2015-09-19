@@ -144,7 +144,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.addOpenHandler(this);
-		this.selectionCtrl = AVSelectionController.get(app);
+		selectionCtrl = new AVSelectionController(app);
 
 		setAvex(app.has(Feature.AV_EXTENSIONS));
 		algCtrl.setView(this);
@@ -197,8 +197,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			if (hasAvex()) {
 				
 			} else
- if (selectionCtrl.getSelectedGeo() == null) {
-				App.debug("[AVEX] setActiveTreeItem(null)");
+ if (getSelectionCtrl().getSelectedGeo() == null) {
 				setActiveTreeItem(null);
 			}
 		}
@@ -1239,11 +1238,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	@Override
 	public final GeoElement getLastSelectedGeo() {
-		return selectionCtrl.getLastSelectedGeo();
+		return getSelectionCtrl().getLastSelectedGeo();
 	}
 
 	public final void setLastSelectedGeo(GeoElement geo) {
-		selectionCtrl.setLastSelectedGeo(geo);
+		getSelectionCtrl().setLastSelectedGeo(geo);
 	}
 
 	@Override
@@ -1287,8 +1286,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		inputPanelLatex.replaceXButtonDOM();
 		
 		if (hasAvex()) {
-			unselect(selectionCtrl.getSelectedGeo());
-			unselect(selectionCtrl.getLastSelectedGeo());
+			unselect(getSelectionCtrl().getSelectedGeo());
+			unselect(getSelectionCtrl().getLastSelectedGeo());
 		}
 		
 		if (appletHack) {
@@ -1427,7 +1426,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		if (hasAvex() && item == null) {
 			App.debug("[AVEX] setActiveItem(null)");
-			selectionCtrl.clear();
+			getSelectionCtrl().clear();
 		}
 
 		boolean sameItem = activeItem == item;
@@ -1438,7 +1437,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 
 		if (hasAvex() && activeItem != null && !sameItem
-				&& !AVSelectionController.get(app).isMultiSelect()) {
+				&& !selectionCtrl.isMultiSelect()) {
 			selectRow(activeItem.getGeo(), false);
 		}
 
@@ -1573,11 +1572,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				}
 		}
 
-		selectionCtrl.setSelectedGeo(null);
+		getSelectionCtrl().setSelectedGeo(null);
 	}
 
 	public GeoElement getSelectedGeoElement() {
-		return selectionCtrl.getSelectedGeo();
+		return getSelectionCtrl().getSelectedGeo();
 	}
 
 	/**
@@ -1666,11 +1665,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	public void updateSelection() {
-		if (!hasAvex() || AVSelectionController.get(app).isMultiSelect()) {
+		if (!hasAvex() || selectionCtrl.isMultiSelect()) {
 			return;
 		}
 
-		if (AVSelectionController.get(app).isEmpty()) {
+		if (selectionCtrl.isEmpty()) {
 			removeCloseButton();
 		}
 
@@ -1736,6 +1735,18 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	public void setSliderCount(int sliderCount) {
 		this.sliderCount = sliderCount;
+	}
+
+
+
+	public AVSelectionController getSelectionCtrl() {
+		return selectionCtrl;
+	}
+
+
+
+	public void setSelectionCtrl(AVSelectionController selectionCtrl) {
+		this.selectionCtrl = selectionCtrl;
 	}
 
 }
