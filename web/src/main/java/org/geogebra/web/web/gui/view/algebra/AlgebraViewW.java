@@ -121,13 +121,15 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	private StringBuilder sbXML;
 
 	private RadioTreeItem activeItem;
-	private TreeItem selectedNode;
 	private static boolean avex = false;
 	// private AlgebraHelperBar helperBar;
 
 	private AlgebraController algebraController;
 	private AVSelectionController selectionCtrl;
 
+	// How many sliders are inserted with input box.
+	// Used to calculate automatic positions [GGB-55]
+	private int sliderCount = 0;
 	public AlgebraController getAlgebraController() {
 		return algebraController;
 	}
@@ -1726,6 +1728,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	public static void setAvex(boolean avex) {
 		AlgebraViewW.avex = avex;
+	}
+
+	public int getSliderCount() {
+		return sliderCount;
+	}
+
+	public void setSliderCount(int sliderCount) {
+		this.sliderCount = sliderCount;
 	}
 
 }
