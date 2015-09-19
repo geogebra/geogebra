@@ -156,7 +156,7 @@ public class ToolNameIconPanel extends JPanel {
 		}
 		{
 			labelIcon = new JLabel();
-			labelIcon.setIcon(app.getToolBarImage("mode_tool_32.png", null));
+			labelIcon.setIcon(app.getToolBarImage("mode_tool.png", null));
 			add(labelIcon, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.NONE,
 					new Insets(0, 0, 0, 0), 0, 0));
@@ -387,7 +387,7 @@ public class ToolNameIconPanel extends JPanel {
 			iconFileName = fileName;
 			labelIcon.setIcon(new ImageIcon(image.getImage()));
 		} else {
-			labelIcon.setIcon(app.getToolBarImage("mode_tool_32.png", null));
+			labelIcon.setIcon(app.getToolBarImage("mode_tool.png", null));
 			iconFileName = null;
 		}
 		updateMacro();
