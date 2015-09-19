@@ -471,9 +471,11 @@ public class DrawTextField extends Drawable implements
 		}
 
 
+		String text = geoTextField.getText();
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				geoTextField.getText().substring(0, geoTextField.getLength()),
+				text.substring(0,
+						Math.min(text.length(), geoTextField.getLength())),
 				textLeft, textBottom,
 				false, false);
 	}
