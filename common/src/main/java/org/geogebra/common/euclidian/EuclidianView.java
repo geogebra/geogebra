@@ -592,24 +592,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public boolean isZoomable() {
-		if ((xminObject != null)
-				&& (!((GeoNumeric) xminObject).isIndependent() || ((GeoNumeric) xminObject)
-						.isLabelSet())) {
+		if (!GeoNumeric.isChangeable(xminObject)) {
 			return false;
 		}
-		if ((xmaxObject != null)
-				&& (!((GeoNumeric) xmaxObject).isIndependent() || ((GeoNumeric) xmaxObject)
-						.isLabelSet())) {
+		if (!GeoNumeric.isChangeable(xmaxObject)) {
 			return false;
 		}
-		if ((yminObject != null)
-				&& (!((GeoNumeric) yminObject).isIndependent() || ((GeoNumeric) yminObject)
-						.isLabelSet())) {
+		if (!GeoNumeric.isChangeable(yminObject)) {
 			return false;
 		}
-		if ((ymaxObject != null)
-				&& (!((GeoNumeric) ymaxObject).isIndependent() || ((GeoNumeric) ymaxObject)
-						.isLabelSet())) {
+		if (!GeoNumeric.isChangeable(ymaxObject)) {
 			return false;
 		}
 		return true;

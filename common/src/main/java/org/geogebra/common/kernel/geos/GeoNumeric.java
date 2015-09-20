@@ -1593,16 +1593,31 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void extendMinMax(GeoElement geoElement) {
 		if (geoElement instanceof GeoNumeric) {
 			value = geoElement.evaluateDouble();
-			if (getIntervalMaxObject() != null) {
+			if (getIntervalMaxObject() != null
+					&& isChangeable(getIntervalMaxObject())) {
 				setMaxFrom(this);
 			}
 			value = geoElement.evaluateDouble();
-			if (getIntervalMinObject() != null) {
+			if (getIntervalMinObject() != null
+					&& isChangeable(getIntervalMinObject())) {
 				setMinFrom(this);
 			}
 		}
 
 	}
 
+	/**
+	 * @param val
+	 *            value
+	 * @return whether value is either not numeric or it's unlabeled independent
+	 *         numeric
+	 */
+	public static boolean isChangeable(NumberValue val) {
+		if (!(val instanceof GeoElement)) {
+			return true;
+		}
+		return ((GeoElement) val).isIndependent()
+				&& !((GeoElement) val).isLabelSet();
+	}
 
 }
