@@ -2709,6 +2709,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
+	public void exitAllCurrent() {
+		if (layout != null) {
+			layout.getDockManager().exitAllCurrent();
+		}
+	}
+
 	VirtualKeyboardListener currentKeyboardListener = null;
 
 	public VirtualKeyboardListener getCurrentKeyboardListener() {

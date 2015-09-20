@@ -3515,6 +3515,9 @@ public class AppD extends App implements KeyEventDispatcher {
 				appletImpl.showApplet();
 			} else {
 				frame.setVisible(false);
+				if(getGuiManager()!=null){
+					getGuiManager().exitAllCurrent();
+				}
 			}
 		}
 	}

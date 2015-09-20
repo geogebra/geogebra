@@ -44,4 +44,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	Component getInputHelpPanel();
 
 	void resetCasView();
+
+	void exitAllCurrent();
 }

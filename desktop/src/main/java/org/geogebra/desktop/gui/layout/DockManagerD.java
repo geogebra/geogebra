@@ -1516,4 +1516,14 @@ public class DockManagerD extends org.geogebra.common.gui.layout.DockManager
 		return num;
 	}
 
+	public void exitAllCurrent() {
+		App.debug("closing panels");
+		for (DockPanel d : this.dockPanels) {
+			if (d.getFrame() != null) {
+				d.getFrame().setVisible(false);
+			}
+		}
+
+	}
+
 }
