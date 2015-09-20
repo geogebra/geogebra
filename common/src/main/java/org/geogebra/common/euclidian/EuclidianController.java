@@ -8892,7 +8892,9 @@ public abstract class EuclidianController {
 				&& view.getHits().get(0) instanceof GeoTextField) {
 			view.requestFocusInWindow();
 		}
-		if (!scriptsHaveRun) {
+
+		// GeoTextField: click scripts run when user presses <Enter>
+		if (!scriptsHaveRun && !geo1.isGeoTextField()) {
 			scriptsHaveRun = true;
 			app.runScripts(geo1, (String) null);
 		}
