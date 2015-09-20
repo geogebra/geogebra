@@ -146,11 +146,6 @@ public class RadioTreeItem extends AVTreeItem
 		TouchEndHandler, LongTouchHandler, EquationEditorListener,
 		RequiresResize {
 
-	// To place sliders automatically on EV
-	// avoiding overlap [GGB-55]
-	private static final int SLIDER_X_GAP = 10;
-	private static final int SLIDER_Y_GAP = 30;
-
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
 	static final String CLEAR_COLOR_STR = GColor
@@ -896,8 +891,6 @@ public class RadioTreeItem extends AVTreeItem
 			return;
 		}
 
-		int sliderCount = getAV().getSliderCount() + 1;
-
 		final GeoNumeric num = (GeoNumeric) geo;
 
 		if (!geo.isEuclidianVisible()) {
@@ -905,9 +898,9 @@ public class RadioTreeItem extends AVTreeItem
 			// // -> initialize min/max etc.
 			geo.setEuclidianVisible(true);
 			geo.setEuclidianVisible(false);
-			num.setSliderLocation(sliderCount * SLIDER_X_GAP,
-					sliderCount * SLIDER_Y_GAP, true);
-			getAV().setSliderCount(sliderCount);
+
+			// GGB-55
+			num.setSliderLocation(0, 0, true);
 		}
 
 		// if the geo still has no min/max, it should not be displayed with
