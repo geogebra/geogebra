@@ -178,7 +178,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (Kernel.isZero(eigenval[0])) {
 			if (Kernel.isZero(eigenval[1])) {
 				// three eigenvalues = 0: one plane
-				type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+				getPlanes();
+				planes[0].setEquation(matrix[7], matrix[8], matrix[9],
+						matrix[3] / 2);
+				type = GeoQuadricNDConstants.QUADRIC_PLANE;
 			} else {
 				// two eigenvalues = 0
 				twoZeroEigenvalues(eigenval[1]);
@@ -969,6 +972,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "EmptySet";
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			return "Point";
+		case GeoQuadricNDConstants.QUADRIC_PLANE:
+			return "Plane";
 		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
 		default:
 			return "Quadric";
@@ -1114,6 +1119,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				point.set(planes[1].getCoordSys().getPoint(
 						PathNormalizer.infFunction(u - 2), v));
 			}
+			break;
+
+		case QUADRIC_PLANE:
+			point.set(planes[0].getCoordSys().getPoint(u, v));
 			break;
 
 		default:
@@ -1286,7 +1295,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			parameters[0] = PathNormalizer.inverseInfFunction(tmpCoords.getX());
 			parameters[1] = tmpCoords.getY();
 			break;
-			
+
+		case QUADRIC_PLANE:
+			coords.projectPlaneInPlaneCoords(planes[0].getCoordSys()
+					.getMatrixOrthonormal(), tmpCoords);
+			parameters[0] = PathNormalizer.inverseInfFunction(tmpCoords.getX());
+			parameters[1] = tmpCoords.getY();
+			break;
+
 		default:
 			App.printStacktrace("TODO -- type: " + getType());
 			break;
@@ -1499,6 +1515,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (type == QUADRIC_PARALLEL_PLANES
 				|| type == QUADRIC_INTERSECTING_PLANES) {
+			p.updateCoords2D(planes[0], true);
+			P.updateCoordsFrom2D(false, planes[0].getCoordSys());
+			RegionParameters rp = P.getRegionParameters();
+			rp.setT1(PathNormalizer.inverseInfFunction(rp.getT1()));
+			return;
+		}
+
+		if (type == QUADRIC_PLANE) {
 			p.updateCoords2D(planes[0], true);
 			P.updateCoordsFrom2D(false, planes[0].getCoordSys());
 			RegionParameters rp = P.getRegionParameters();
