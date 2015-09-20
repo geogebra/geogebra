@@ -530,7 +530,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(angle.getObjectColor());
+				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(shape);
 			}
