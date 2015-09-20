@@ -64,11 +64,6 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 	}
 
 	@Override
-	protected JComponent loadComponent() {
-		return view.getJPanel();
-	}
-
-	@Override
 	protected JComponent loadStyleBar() {
 		return (JComponent) view.getStyleBar();
 	}

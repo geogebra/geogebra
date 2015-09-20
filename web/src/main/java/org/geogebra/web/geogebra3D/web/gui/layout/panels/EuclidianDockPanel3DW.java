@@ -71,36 +71,22 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		return null;
 	}
 
-	@Override
-	public void updateNavigationBar() {
-
-		if (app.getShowCPNavNeedsUpdate(id)) {
-			app.setShowConstructionProtocolNavigation(
-					app.showConsProtNavigation(id), id);
-		}
-		if (app.showConsProtNavigation(id)
-				&& consProtNav == null) {
-			this.addNavigationBar();
-		}
-		if (consProtNav != null) {
-			consProtNav.update();
-			consProtNav.setVisible(app.showConsProtNavigation(id));
-			// updateEuclidianPanel();
-			euclidianpanel.onResize();
-		}
-	}
+	/*
+	 * @Override public void updateNavigationBar() {
+	 * 
+	 * if (app.getShowCPNavNeedsUpdate(id)) {
+	 * app.setShowConstructionProtocolNavigation(
+	 * app.showConsProtNavigation(id), id); } if (app.showConsProtNavigation(id)
+	 * && consProtNav == null) { this.addNavigationBar(); } if (consProtNav !=
+	 * null) { consProtNav.update();
+	 * consProtNav.setVisible(app.showConsProtNavigation(id)); //
+	 * updateEuclidianPanel(); euclidianpanel.onResize(); } }
+	 */
 	
 	private ConstructionProtocolNavigationW consProtNav;
 	
-	public void addNavigationBar(){
-		consProtNav = (ConstructionProtocolNavigationW)(app.getGuiManager()
-				.getConstructionProtocolNavigation(id));
-		consProtNav.getImpl().addStyleName("consProtNav");
-		euclidianpanel.add(consProtNav.getImpl()); // may be invisible, but made visible later		
-		updateNavigationBar();
-	}
 	
-	
+	@Override
 	public Panel getEuclidianPanel() {
 	    return euclidianpanel;
     }
@@ -173,13 +159,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 			return absoluteEuclidianPanel;
         }
 	}
-
-	public int navHeight() {
-	    if(this.consProtNav != null && this.consProtNav.getImpl().getOffsetHeight() != 0){
-	    	return this.consProtNav.getImpl().getOffsetHeight();
-	    }
-	    return 30;
-    }
 
 
 }

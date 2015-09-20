@@ -1,9 +1,5 @@
 package org.geogebra.desktop.geogebra3D.gui.layout.panels;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -11,9 +7,7 @@ import javax.swing.JPanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.desktop.geogebra3D.App3D;
-import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -54,42 +48,6 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	 * needed.
 	 */
 	private ConstructionProtocolNavigationD consProtNav;
-
-	@Override
-	protected JComponent loadComponent() {
-		if (panel == null) {
-			panel = new JPanel(new BorderLayout());
-
-			panel.add(
-					((EuclidianView3DD) app.getEuclidianView3D()).getJPanel(),
-					BorderLayout.CENTER);
-
-			consProtNav = (ConstructionProtocolNavigationD) app.getGuiManager()
-					.getConstructionProtocolNavigation(id);
-
-			ConstructionProtocolSettings cps = app.getSettings()
-					.getConstructionProtocol();
-			consProtNav.settingsChanged(cps);
-			cps.addListener(consProtNav);
-
-			if (app.getShowCPNavNeedsUpdate(id)) {
-				app.setShowConstructionProtocolNavigation(
-						app.showConsProtNavigation(id), id);
-			}
-			consProtNav.getImpl().setBorder(
-					BorderFactory
-							.createMatteBorder(1, 0, 0, 0, Color.lightGray));
-			consProtNav.getImpl().setVisible(app.showConsProtNavigation(id));
-
-			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be
-																	// invisible,
-																	// but made
-																	// visible
-																	// later
-		}
-
-		return panel;
-	}
 
 	@Override
 	protected JComponent loadStyleBar() {

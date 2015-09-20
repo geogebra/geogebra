@@ -143,11 +143,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	}
 
 	@Override
-	public void updateNavigationBar() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	protected Widget loadStyleBar() {
 		return (Widget) view.getStyleBar();
 	}

@@ -148,6 +148,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 		return this;
 	}
 
+	@Override
 	public AbsolutePanel getEuclidianPanel() {
 		return euclidianpanel;
 	}
@@ -157,9 +158,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 			return app.getEuclidianView2(idx);
 		return null;
 	}
-
-
-	public void updateNavigationBar() {}
 	
 	@Override
     public ResourcePrototype getIcon() {

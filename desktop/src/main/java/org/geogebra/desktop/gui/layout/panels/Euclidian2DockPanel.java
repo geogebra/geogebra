@@ -39,11 +39,6 @@ public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 	}
 
 	@Override
-	protected JComponent loadComponent() {
-		return app.getEuclidianView2(this.idx).getJPanel();
-	}
-
-	@Override
 	public EuclidianView getEuclidianView() {
 		return app.getEuclidianView2(this.idx);
 	}

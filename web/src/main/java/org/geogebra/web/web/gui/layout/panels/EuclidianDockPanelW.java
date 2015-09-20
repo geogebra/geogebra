@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -23,8 +22,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 	Canvas eview1 = null;// static foreground
 
-	private ConstructionProtocolNavigationW consProtNav;
 	
+
 	/**
 	 * This constructor is used by the Application
 	 * and by the other constructor
@@ -91,38 +90,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		return euclidianpanel;
 	}
 	
-	public void addNavigationBar(){
-		consProtNav = (ConstructionProtocolNavigationW)(app.getGuiManager()
-				.getConstructionProtocolNavigation(App.VIEW_EUCLIDIAN));
-		consProtNav.getImpl().addStyleName("consProtNav");
-		euclidianpanel.add(consProtNav.getImpl()); // may be invisible, but made
-													// visible later
-		updateNavigationBar();
-	}
 	
-	@Override
-	public void updateNavigationBar(){
-//		ConstructionProtocolSettings cps = app.getSettings()
-//		        .getConstructionProtocol();
-//		((ConstructionProtocolNavigationW) consProtNav).settingsChanged(cps);
-//		cps.addListener((ConstructionProtocolNavigation)consProtNav);
-
-		if (app.getShowCPNavNeedsUpdate(App.VIEW_EUCLIDIAN)) {
-			app.setShowConstructionProtocolNavigation(
-					app.showConsProtNavigation(App.VIEW_EUCLIDIAN),
-					App.VIEW_EUCLIDIAN);
-		}
-		if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN)
-				&& consProtNav == null) {
-			this.addNavigationBar();
-		}
-		if(consProtNav != null){
-			consProtNav.update();
-			consProtNav.setVisible(app
-					.showConsProtNavigation(App.VIEW_EUCLIDIAN));
-			euclidianpanel.onResize();
-		}
-	}
 	
 	class EuclidianPanel extends FlowPanel implements RequiresResize {
 
@@ -186,12 +154,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		}
 	}
 
-	public int navHeight() {
-	    if(this.consProtNav != null && this.consProtNav.getImpl().getOffsetHeight() != 0){
-	    	return this.consProtNav.getImpl().getOffsetHeight();
-	    }
-	    return 30;
-    }
+
 
 	@Override
 	protected Widget loadStyleBar() {
@@ -207,6 +170,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	    return eview1;
     }
 
+	@Override
 	public Panel getEuclidianPanel() {
 	    return euclidianpanel;
     }
