@@ -70,10 +70,7 @@ public class ExpressionNode extends ValidExpression implements
 	public boolean leaf = false;
 	private boolean brackets;
 
-	/** true if the expression contains only segments in even power */
-	private boolean trustable = false;
-	/** true if the expression contains / or * of segments */
-	private boolean halfTrustable = false;
+
 
 	/**
 	 * Creates dummy expression node
@@ -5911,54 +5908,38 @@ kernel, left,
 		return null;
 	}
 	
-	/**
-	 * @return trustable
-	 */
-	public boolean getTrustable() {
-		return this.trustable;
-	}
 
-	/**
-	 * @return halfTrustable
-	 */
-	public boolean getHalfTrustable() {
-		return halfTrustable;
-	}
-
-	/**
-	 * @param trustable
-	 *            - true if expression is trustable
-	 */
-	public void setTrustable(boolean trustable) {
-		this.trustable = trustable;
-	}
-
-	/**
-	 * @param halfTrustable
-	 *            - true if expression is half trustable
-	 */
-	public void setHalfTrustable(boolean halfTrustable) {
-		this.halfTrustable = halfTrustable;
-	}
 
 	/**
 	 * check if expression is trustable or halftrustable
 	 */
 	public void isTrustableExpression() {
+		if (trustCheck == null) {
+			trustCheck = new TrustCheck();
+		}
 		if (this.isExpressionNode()) {
 			// square of something is trustable
 			if (this.isVariableSquare()) {
-				setTrustable(true);
+				trustCheck.setTrustable(true);
 				return;
 			}
 			// halftrusted expression, eg. a/b
 			if (this.getLeft() instanceof Variable
 					&& this.getRight() instanceof Variable
 					&& (operation == Operation.MULTIPLY || operation == Operation.DIVIDE)) {
-				setHalfTrustable(true);
+				trustCheck.setHalfTrustable(true);
 				return;
 			}
 		}
+	}
+
+	private TrustCheck trustCheck;
+
+	public TrustCheck getTrustCheck() {
+		if (trustCheck == null) {
+			isTrustableExpression();
+		}
+		return trustCheck;
 	}
 
 	private boolean isVariableSquare() {
