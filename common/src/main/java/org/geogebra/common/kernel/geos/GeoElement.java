@@ -1012,8 +1012,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param color new color for this object
 	 */
 	public void setObjColor(final GColor color) {
-		
-		isColorSet = true;
+
+		isColorSet = !this.isDefaultGeo() || !this.isGeoNumeric();
 		objColor = color;
 		fillColor = color;
 		setAlphaValue(alphaValue);
