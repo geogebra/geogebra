@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -80,14 +81,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		ScrollPanel scrollPane = new ScrollPanel(table);
 		scrollPane.setStyleName("cpScrollPanel");
 		cpPanel.add(scrollPane);
-				
-		initGUI();
 		
 		addDragDropHandlers();
 		
 		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 		settingsChanged(cps);
 		cps.addListener(this);
+
+		initGUI();
 	}
 	
 	/**
@@ -296,7 +297,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
      * @param colsVisibility intended visibility of columns 
      */
 	private void setColsVisibility(boolean[] colsVisibility) {
-		//TODO
+
+		int k = Math.min(colsVisibility.length, data.columns.length);
+
+		for (int i = 0; i < k; i++) {
+			data.columns[i].setVisible(colsVisibility[i]);
+		}
+
 	}
 	
 	@Override
