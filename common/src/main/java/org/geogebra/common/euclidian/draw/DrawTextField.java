@@ -47,7 +47,7 @@ import org.geogebra.common.util.Unicode;
  * @author Michael
  */
 public class DrawTextField extends Drawable implements RemoveNeeded {
-	private static final int HIGHLIGTH_MARGIN = 2;
+	private static final int HIGHLIGHT_MARGIN = 2;
 	private static final int BOX_ROUND = 8;
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
@@ -451,9 +451,9 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 			if (latexLabel) {
 				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
 			} else {
-				int h = labelFontSize + HIGHLIGTH_MARGIN;
+				int h = labelFontSize + HIGHLIGHT_MARGIN;
 				g2.fillRect(xLabel, textBottom - h, labelSize.x,
-						h + HIGHLIGTH_MARGIN);
+						h + HIGHLIGHT_MARGIN);
 			}
 		}
 		g2.setPaint(geo.getObjectColor());
