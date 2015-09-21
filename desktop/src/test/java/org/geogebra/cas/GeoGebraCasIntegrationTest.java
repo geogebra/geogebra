@@ -372,19 +372,20 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void SimplificationOfTerms_PowerOfTwoVariables_1 () {
-    t("((a + b)^2) / c^2", "(a^(2) + b^(2) + 2 * a * b) / c^(2)");
+		t("((a + b)^2) / c^2", "(a + b)^(2) / c^(2)");
   }
 
   @Test
   public void SimplificationOfTerms_PowerOfTwoVariables_2 () {
-    t("((a + b) / (c + d))^2", "(a^(2) + b^(2) + 2 * a * b) / (c^(2) + d^(2) + 2 * c * d)");
+		t("((a + b) / (c + d))^2", "((a + b) / (c + d))^(2)");
   }
 
   /* Ordering of Powers */
 
   @Test
   public void SimplificationOfTerms_OrderingOfPowers_0 () {
-    t("(a^2 - 3 b) * (-3 a + 5 b^2)", "5 * a^(2)* b^(2) - 3 * a^(3) - 15 * b^(3) + 9 * a * b");
+		t("(a^2 - 3 b) * (-3 a + 5 b^2)",
+				"(a^(2) - 3 * b) * (5 * b^(2) - 3 * a)");
   }
 
   @Test
@@ -474,7 +475,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void SimplificationOfEquations_SeveralVariables_0 () {
-    t("(a - 7 x)^2 = b - 56 x y + c", "a^(2) + 49 * x^(2) - 14 * a * x = -56 * x * y + b + c");
+		t("(a - 7 x)^2 = b - 56 x y + c",
+				"(a - 7 * x)^(2) = -56 * x * y + b + c");
   }
 
   @Test
@@ -1012,37 +1014,38 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
   public void CompleteSquare_0 () {
-		t("CompleteSquare[3 x^4 + x^2]", "3(x^2 + 1/6)^2 - 1/12");
+		t("CompleteSquare[3 x^4 + x^2]", "3 * (x^(2) + 1 / 6)^(2) - 1 / 12");
   }
 
 	@Test
 	public void CompleteSquare_1() {
-		t("CompleteSquare[x^4+x^2+1]", "(x^2 + 1 / 2)^2 + 3 / 4");
+		t("CompleteSquare[x^4+x^2+1]", "(x^(2) + 1 / 2)^(2) + 3 / 4");
 	}
 
 	@Test
 	public void CompleteSquare_2() {
-		t("CompleteSquare[x^6+x^3]", "(x^3 + 1 / 2)^2 - 1 / 4");
+		t("CompleteSquare[x^6+x^3]", "(x^(3) + 1 / 2)^(2) - 1 / 4");
 	}
 
 	@Test
 	public void CompleteSquare_3() {
-		t("CompleteSquare[x^6+x^3+1]", "(x^3 + 1 / 2)^2 + 3 / 4");
+		t("CompleteSquare[x^6+x^3+1]", "(x^(3) + 1 / 2)^(2) + 3 / 4");
 	}
 
 	@Test
 	public void CompleteSquare_4() {
-		t("CompleteSquare[-9x^12-8x^6-9]", "-9 (x^6 + 4 / 9)^2 - 65 / 9");
+		t("CompleteSquare[-9x^12-8x^6-9]", "-9 * (x^(6) + 4 / 9)^(2) - 65 / 9");
 	}
 
 	@Test
 	public void CompleteSquare_5() {
-		t("CompleteSquare[(-6 x^18 - 9x^9 + 2)]", "-6 (x^9 + 3 / 4)^2 + 43 / 8");
+		t("CompleteSquare[(-6 x^18 - 9x^9 + 2)]",
+				"-6 * (x^(9) + 3 / 4)^(2) + 43 / 8");
 	}
 
 	@Test
 	public void CompleteSquare_6() {
-		t("CompleteSquare[(-6 x^2 - 9x + 2)]", "-6 (x + 3 / 4)^2 + 43 / 8");
+		t("CompleteSquare[(-6 x^2 - 9x + 2)]", "-6 * (x + 3 / 4)^(2) + 43 / 8");
 	}
 
 	@Test
@@ -1052,17 +1055,17 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void CompleteSquare_8() {
-		t("CompleteSquare[((-9) * x^(10)) + 4]", "-9 x^10 + 4");
+		t("CompleteSquare[((-9) * x^(10)) + 4]", "-9 * x^(10) + 4");
 	}
 
 	@Test
 	public void CompleteSquare_9() {
-		t("CompleteSquare[-3x^2+5x+8]", "-3 (x - 5 / 6)^2 + 121 / 12");
+		t("CompleteSquare[-3x^2+5x+8]", "-3 * (x - 5 / 6)^(2) + 121 / 12");
 	}
 
 	@Test
 	public void CompleteSquare_10() {
-		t("CompleteSquare[3x^2+5x+8]", "3(x + 5 / 6)^2 + 71 / 12");
+		t("CompleteSquare[3x^2+5x+8]", "3 * (x + 5 / 6)^(2) + 71 / 12");
 	}
 
   /* CommonDenomiator */
@@ -1120,7 +1123,9 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Cross_3 () {
-    t("(a, b, c)\u2297 (d, e, f)", "(b * f - c * e, -a * f + c * d, a * e - b * d)");
+		t("(a, b, c)\u2297 (d, e, f)",
+				"(b * f - c * e, c * d - a * f, a * e - b * d)",
+				"(b * f - c * e, -a * f + c * d, a * e - b * d)");
   }
 
   @Test
@@ -2829,7 +2834,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solutions_3 () {
-    t("Solutions[{2 * a^2 + 5 * a + 3 = b, a + b = 3}, {a, b}]", "{{-3, 6}, {0, 3}}");
+		t("Solutions[{2 * a^2 + 5 * a + 3 = b, a + b = 3}, {a, b}]",
+				"{{0, 3}, {-3, 6}}", "{{-3, 6}, {0, 3}}");
   }
 
 
@@ -3017,7 +3023,9 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_Several_1 () {
-    t("Solve[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]", "{{a = -3, b = 6}, {a = 0, b = 3}}");
+		t("Solve[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]",
+				"{{a = 0, b = 3}, {a = -3, b = 6}}",
+				"{{a = -3, b = 6}, {a = 0, b = 3}}");
   }
 
   @Test
@@ -3131,7 +3139,8 @@ public class GeoGebraCasIntegrationTest {
   }
   @Test
   public void Solve_Poly_Deg5 () {
-    t("Solve[(22a^5+135a^3)/125=1.75*1784/125,a]", "{a = 2.312054500480007}");
+		t("Solve[(22a^5+135a^3)/125=1.75*1784/125,a]", "{a = 2.31205450048}",
+				"{a = 2.312054500480007}");
   }
 
   /* Parametric Equations One Parameter */
@@ -3552,19 +3561,25 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricTD_3 () {
-    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t) := (3, 1, 2) + t (-2, 4, -6)",
+				"(3 - 2 * t, 1 + 4 * t, 2 - 6 * t)",
+				"(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("Solve[f(t) = (2, 3, -1), t]", "{t = 1 / 2}");
   }
 
   @Test
   public void Solve_ParametricTD_4 () {
-    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t) := (3, 1, 2) + t (-2, 4, -6)",
+				"(3 - 2 * t, 1 + 4 * t, 2 - 6 * t)",
+				"(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("Numeric[Solve[f(t) = (2, 3, -1), t]]", "{t = 0.5}");
   }
 
   @Test
   public void Solve_ParametricTD_5 () {
-    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t) := (3, 1, 2) + t (-2, 4, -6)",
+				"(3 - 2 * t, 1 + 4 * t, 2 - 6 * t)",
+				"(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
 		// Please note that the language is German. "L\u00f6se" is "Solve" in
 		// German.
     tk("Solve[f(t) = (2, 3, -1), t]", GermanSolve + "[f(t) = (2, 3, -1), t]");
@@ -3610,21 +3625,27 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricTD_12 () {
-    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t) := (3, 1, 2) + t (-2, 4, -6)",
+				"(-2 * t + 3, 4 * t + 1, -6 * t + 2)",
+				"(3 - 2 * t, 1 + 4 * t, 2 - 6 * t)");
     t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
     t("Solve[f(u) = g(v), {u, v}]", "{{u = 1 / 2, v = -1}}");
   }
 
   @Test
   public void Solve_ParametricTD_13 () {
-    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t) := (3, 1, 2) + t (-2, 4, -6)",
+				"(3 - 2 * t, 1 + 4 * t, 2 - 6 * t)",
+				"(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
     t("Numeric[Solve[f(u) = g(v), {u, v}]]", "{{u = 0.5, v = -1}}");
   }
 
   @Test
   public void Solve_ParametricTD_14 () {
-    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t) := (3, 1, 2) + t (-2, 4, -6)",
+				"(3 - 2 * t, 1 + 4 * t, 2 - 6 * t)",
+				"(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
 		// Please note that the language is German. "L\u00f6se" is "Solve" in
 		// German.
@@ -3633,21 +3654,27 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricTD_15 () {
-    t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)", "(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)",
+				"(3 - 2 * t + s, 1 + 4 * t, 2 - 6 * t)",
+				"(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (4, 7, -4) + t (1, 4, -3)", "(t + 4, 4 * t + 7, -3 * t - 4)");
     t("Solve[f(u, v) = g(w), {u, v, w}]", "{{u = 1 / 2, v = 1, w = -1}}");
   }
 
   @Test
   public void Solve_ParametricTD_16 () {
-    t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)", "(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)",
+				"(3 - 2 * t + s, 1 + 4 * t, 2 - 6 * t)",
+				"(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (4, 7, -4) + t (1, 4, -3)", "(t + 4, 4 * t + 7, -3 * t - 4)");
     t("Numeric[Solve[f(u, v) = g(w), {u, v, w}]]", "{{u = 0.5, v = 1, w = -1}}");
   }
 
   @Test
   public void Solve_ParametricTD_17 () {
-    t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)", "(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
+		t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)",
+				"(3 - 2 * t + s, 1 + 4 * t, 2 - 6 * t)",
+				"(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
     t("g(t) := (4, 7, -4) + t (1, 4, -3)", "(t + 4, 4 * t + 7, -3 * t - 4)");
 		// Please note that the language is German. "L\u00f6se" is "Solve" in
 		// German.
@@ -4024,7 +4051,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void UnitPerpendicularVector_1 () {
-    t("UnitPerpendicularVector[(a, b)]", "((-b) / sqrt(b * b + a * a), a / sqrt(b * b + a * a))");
+		t("UnitPerpendicularVector[(a, b)]",
+				"((-b) / sqrt(a^(2) + b^(2)), a / sqrt(a^(2) + b^(2)))");
   }
 
 
@@ -4381,7 +4409,8 @@ public class GeoGebraCasIntegrationTest {
         "(8 * sqrt(10) + 12) * x^(2) - 16 * x * y - (32 * sqrt(10) + 24) * x + (8 * sqrt(10) + 24) * y^(2) - (24 * sqrt(10) + 40) * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("f(x) := Element[Solve[c, y], 1]",
-        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
+				"(x * (-4 * sqrt(10) + 6) - sqrt(10) + 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) / (-6 * sqrt(10) - 22)",
+				"((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
         "(x * (-4 * sqrt(10) + 6) - sqrt(10) - 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) / (-6 * sqrt(10) - 22)");
     t("Solve[f'(x) = 0, x]",
     		"{x = (sqrt(sqrt(10) * 62 - 93) + 62) / 31}", "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
