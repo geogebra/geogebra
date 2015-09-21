@@ -17,7 +17,6 @@ import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
@@ -114,11 +113,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	@Override
 	public Canvas getCanvas() {
 		return eview1;
-	}
-
-	@Override
-	public AbsolutePanel getAbsolutePanel() {
-		return euclidianpanel.getAbsolutePanel();
 	}
 
 	@Override

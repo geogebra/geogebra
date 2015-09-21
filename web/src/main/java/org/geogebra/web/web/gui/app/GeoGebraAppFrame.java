@@ -23,7 +23,6 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.main.GDevice;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.NativeEvent;
@@ -279,16 +278,6 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		fileLoader.onPageLoad();
 	}
 	
-	/**
-	 * @return Canvas
-	 * 
-	 * Return the canvas in UiBinder of EuclidianView1.ui.xml
-	 */
-	public Canvas getEuclidianView1Canvas() {
-		
-		return frameLayout.getGGWGraphicsView().getEuclidianView1Wrapper().getCanvas();
-		//return ggwSplitLayoutPanel.getGGWGraphicsView().getEuclidianView1Wrapper().getCanvas();
-	}
 	
 	/**
 	 * @return AbsolutePanel

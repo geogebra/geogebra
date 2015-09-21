@@ -8,7 +8,6 @@ import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
@@ -85,7 +84,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	
 	
 	@Override
-	public Panel getEuclidianPanel() {
+	public EuclidianPanel getEuclidianPanel() {
 	    return euclidianpanel;
     }
 
@@ -97,12 +96,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		euclidianpanel.remove(w);
     }
 	
-    public AbsolutePanel getAbsolutePanel() {
-		return euclidianpanel.getAbsolutePanel();
-	}
-	
-	
-
 
 	@Override
 	public void calculateEnvironment() {

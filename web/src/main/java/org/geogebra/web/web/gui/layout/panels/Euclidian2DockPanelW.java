@@ -8,7 +8,6 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -90,10 +89,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 
 	public Canvas getCanvas() {
 	    return eview1;
-    }
-
-	public AbsolutePanel getAbsolutePanel() {
-		return euclidianpanel.getAbsolutePanel();
     }
 
 	public void onResize() {

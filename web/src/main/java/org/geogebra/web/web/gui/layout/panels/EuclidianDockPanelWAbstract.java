@@ -8,7 +8,6 @@ import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigation
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -77,6 +76,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 		consProtNav = (ConstructionProtocolNavigationW) (app.getGuiManager()
 				.getConstructionProtocolNavigation(id));
 		consProtNav.getImpl().addStyleName("consProtNav");
+		if (getEuclidianPanel() == null) {
+			loadComponent();
+		}
 		getEuclidianPanel().add(consProtNav.getImpl()); // may be invisible, but
 														// made
 													// visible later
@@ -177,7 +179,12 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 		}
 	}
 
-	protected abstract Panel getEuclidianPanel();
+	protected abstract EuclidianPanel getEuclidianPanel();
+
+	public final AbsolutePanel getAbsolutePanel() {
+		return getEuclidianPanel() == null ? null : getEuclidianPanel()
+				.getAbsolutePanel();
+	}
 
 	public abstract void calculateEnvironment();
 
