@@ -261,7 +261,7 @@ public class Command extends ValidExpression implements
 													geo.getLabel(StringTemplate.defaultTemplate),
 													funcNode, true));
 						}
-						// if we couldn't find the function in construction
+						// if we couldn't find the function
 						// just as GeoCasCell
 						if (geo instanceof GeoDummyVariable && geoCASCell != null && geoCASCell.isGeoCasCell()
 								&& ((GeoCasCell) geoCASCell).getInputVE() instanceof Function) {
@@ -269,11 +269,18 @@ public class Command extends ValidExpression implements
 									kernel, geo, Operation.FUNCTION,
 									((GeoCasCell) geoCASCell)
 											.getFunctionVariables()[0]);
-							getArgument(0)
+							String funcStr = getArgument(0).toString(
+									StringTemplate.defaultTemplate);
+							// geoDummyVariable wasn't already changed
+							if (!funcStr.contains("("
+									+ ((GeoCasCell) geoCASCell)
+											.getFunctionVariables()[0] + ")")) {
+								getArgument(0)
 									.traverse(
 											GeoDummyReplacer.getReplacer(
 													geo.getLabel(StringTemplate.defaultTemplate),
 													funcNode, true));
+							}
 						}
 						// make sure that we get from set the variable and not
 						// the
