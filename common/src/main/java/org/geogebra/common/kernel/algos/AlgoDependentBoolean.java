@@ -474,25 +474,28 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
+		TrustCheck leftCheck = null, rightCheck = null;
 		if (node.getLeft().isExpressionNode()) {
+			leftCheck = ((ExpressionNode) node.getLeft()).getTrustCheck();
 			traverseExpression((ExpressionNode) node.getLeft());
 		}
 		if (node.getRight().isExpressionNode()) {
+			rightCheck = ((ExpressionNode) node.getRight()).getTrustCheck();
 			traverseExpression((ExpressionNode) node.getRight());
 		}
 		TrustCheck nodeCheck = node.getTrustCheck();
 		// expression is trusted, if children are trusted
 		if (node.getLeft().isExpressionNode()
-				&& node.getLeftTree().getTrustCheck().getTrustable()
+ && leftCheck.getTrustable()
 				&& node.getRight().isExpressionNode()
-				&& node.getRightTree().getTrustCheck().getTrustable()) {
+				&& rightCheck.getTrustable()) {
 			nodeCheck.setTrustable(true);
 			return;
 		}
 		// case number with segment, eg. 2*a^2
 		if (node.getLeft() instanceof MyDouble
 				&& node.getRight().isExpressionNode()
-				&& node.getRightTree().getTrustCheck().getTrustable()
+				&& rightCheck.getTrustable()
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
 			nodeCheck.setTrustable(true);
@@ -501,7 +504,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		// case segment with number, eg. a^2*1,5
 		if (node.getRight() instanceof MyDouble
 				&& node.getLeft().isExpressionNode()
-				&& node.getLeftTree().getTrustCheck().getTrustable()) {
+				&& leftCheck.getTrustable()) {
 			nodeCheck.setTrustable(true);
 			return;
 		}
@@ -527,7 +530,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 		// h*j*2 or h*j*k halfTrusted
 		if (node.getLeft().isExpressionNode()
-				&& node.getLeftTree().getTrustCheck().getHalfTrustable()
+				&& leftCheck.getHalfTrustable()
 				&& node.getRight() instanceof NumberValue
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
@@ -535,7 +538,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 		// 2*h*j or k*h*j halfTrusted
 		if (node.getRight().isExpressionNode()
-				&& node.getRightTree().getTrustCheck().getHalfTrustable()
+				&& rightCheck.getHalfTrustable()
 				&& node.getLeft() instanceof NumberValue
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
@@ -544,8 +547,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		// h*j*k*l halfTrusted
 		if (node.getLeft().isExpressionNode()
 				&& node.getRight().isExpressionNode()
-				&& node.getLeftTree().getTrustCheck().getHalfTrustable()
-				&& node.getRightTree().getTrustCheck().getHalfTrustable()
+				&& leftCheck.getHalfTrustable()
+				&& rightCheck.getHalfTrustable()
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
 			nodeCheck.setHalfTrustable(true);

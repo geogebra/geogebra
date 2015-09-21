@@ -5924,8 +5924,10 @@ kernel, left,
 				return;
 			}
 			// halftrusted expression, eg. a/b
-			if (this.getLeft() instanceof Variable
-					&& this.getRight() instanceof Variable
+			if ((this.getLeft() instanceof Variable || this.getLeft()
+ instanceof GeoElement)
+					&& (this.getRight() instanceof Variable || this.getRight()
+ instanceof GeoElement)
 					&& (operation == Operation.MULTIPLY || operation == Operation.DIVIDE)) {
 				trustCheck.setHalfTrustable(true);
 				return;
@@ -5943,7 +5945,8 @@ kernel, left,
 	}
 
 	private boolean isVariableSquare() {
-		if ((this.getLeft() instanceof Variable || (this.getLeft()
+		if ((this.getLeft() instanceof Variable
+				|| this.getLeft() instanceof GeoElement || (this.getLeft()
 				.isExpressionNode() && this.getLeftTree().getLeft() instanceof Command))
 				&& this.getOperation() == Operation.POWER
 				&& this.getRight() instanceof NumberValue) {
