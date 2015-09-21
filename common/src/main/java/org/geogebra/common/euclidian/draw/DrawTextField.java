@@ -159,7 +159,7 @@ public class DrawTextField extends Drawable implements
 	 * @author Michael + Judit
 	 */
 	public class InputFieldListener extends
-			org.geogebra.common.euclidian.event.FocusListener {
+ org.geogebra.common.euclidian.event.FocusListener {
 
 		private String initialText;
 
@@ -209,7 +209,7 @@ public class DrawTextField extends Drawable implements
 	 * @author Michael + Judit
 	 */
 	public class InputFieldKeyListener implements
-			org.geogebra.common.euclidian.event.KeyHandler {
+ org.geogebra.common.euclidian.event.KeyHandler {
 
 		/**
 		 * Creates new listener
@@ -285,7 +285,8 @@ public class DrawTextField extends Drawable implements
 		if (length != oldLength) {
 			textField.setColumns(length);
 			textField
-					.prepareShowSymbolButton(length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
+.prepareShowSymbolButton(
+					length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
 
 			oldLength = length;
 		}
@@ -472,12 +473,13 @@ public class DrawTextField extends Drawable implements
 
 
 		String text = geoTextField.getText();
+		int truncIdx = geoTextField.getLinkedGeo() != null
+				? (int) (boxWidth / (g2.getFont().getSize() * 0.5)) + 1
+				: Math.min(text.length(), geoTextField.getLength());
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				text.substring(0,
-						Math.min(text.length(), geoTextField.getLength())),
-				textLeft, textBottom,
-				false, false);
+				text.substring(0, truncIdx), textLeft, textBottom, false,
+				false);
 	}
 
 	private void calculateBoxBounds(boolean latex) {
