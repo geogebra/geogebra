@@ -242,6 +242,11 @@ public class Command extends ValidExpression implements
 								.getConstruction()
 								.geoTableVarLookup(
 										geo.getLabel(StringTemplate.defaultTemplate));
+						GeoElement geoCASCell = getKernel()
+								.getConstruction()
+								.lookupLabel(
+										geo.getLabel(StringTemplate.defaultTemplate),
+										false);
 						// if input function was without parameter
 						// replace geoDummyVariable with function
 						if (geo instanceof GeoDummyVariable && geoFunc != null
@@ -256,11 +261,26 @@ public class Command extends ValidExpression implements
 													geo.getLabel(StringTemplate.defaultTemplate),
 													funcNode, true));
 						}
+						// if we couldn't find the function in construction
+						// just as GeoCasCell
+						if (geo instanceof GeoDummyVariable && geoCASCell != null && geoCASCell.isGeoCasCell()
+								&& ((GeoCasCell) geoCASCell).getInputVE() instanceof Function) {
+							ExpressionNode funcNode = new ExpressionNode(
+									kernel, geo, Operation.FUNCTION,
+									((GeoCasCell) geoCASCell)
+											.getFunctionVariables()[0]);
+							getArgument(0)
+									.traverse(
+											GeoDummyReplacer.getReplacer(
+													geo.getLabel(StringTemplate.defaultTemplate),
+													funcNode, true));
+						}
 						// make sure that we get from set the variable and not
 						// the
 						// function
 						// needed for TRAC-5364
-						if (geo instanceof GeoDummyVariable && geoFunc == null) {
+						if (geo instanceof GeoDummyVariable && geoFunc == null
+								&& geoCASCell == null) {
 							var = geo.toString(tpl);
 						}
 					}
