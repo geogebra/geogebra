@@ -101,14 +101,21 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		// this will be set in update(): textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
-		label = geo.getKernel().getApplication().getSwingFactory()
+
+		// TODO: remove field label totally when DRAW_INPUTBOXES_TO_CANVAS
+		// removed
+		if (!drawOnCanvas) {
+			label = geo.getKernel().getApplication().getSwingFactory()
 				.newJLabel("Label", false);
+		}
 
 		// label.setLabelFor(textField); <- next row
 		// textField.setLabel(label);
 
 		textField.setVisible(true);
-		label.setVisible(true);
+		if (label != null) {
+			label.setVisible(true);
+		}
 		// ((geogebra.gui.inputfield.AutoCompleteTextField)
 		// textField).addFocusListener(bl);
 		textField.addFocusListener(
@@ -276,7 +283,9 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		isVisible = geo.isEuclidianVisible();
 
 		textField.setVisible(drawOnCanvas ? false : isVisible);
-		label.setVisible(drawOnCanvas ? false : isVisible);
+		if (label != null) {
+			label.setVisible(drawOnCanvas ? false : isVisible);
+		}
 
 		box.setVisible(drawOnCanvas ? false : isVisible);
 		int length = geoTextField.getLength();
@@ -300,11 +309,15 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 				labelDesc = caption;// GeoElement.indicesToHTML(caption, true);
 
 			}
-			label.setText(labelDesc);
+			if (label != null) {
+				label.setText(labelDesc);
+			}
 		} else {
 			// put back to "" from " " so that the position is the same in
 			// ggb40 and ggb42
-			label.setText("");
+			if (label != null) {
+				label.setText("");
+			}
 		}
 
 		labelFontSize = (int) (view.getFontSize()
@@ -316,11 +329,13 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 				vFont.getStyle(), labelFontSize);
 
 		textField.setOpaque(true);
-		label.setOpaque(false);
+		if (label != null) {
+			label.setOpaque(false);
+			label.setFont(font);
+			label.setForeground(geo.getObjectColor());
+		}
 		textField.setFont(font);
-		label.setFont(font);
 		textField.setForeground(geo.getObjectColor());
-		label.setForeground(geo.getObjectColor());
 		GColor bgCol = geo.getBackgroundColor();
 		textField.setBackground(
 				bgCol != null ? bgCol : view.getBackgroundCommon());
