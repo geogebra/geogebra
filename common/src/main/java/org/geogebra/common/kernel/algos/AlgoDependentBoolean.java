@@ -452,7 +452,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	// procedure to traverse inorder the expression
-	private void traverseExpression(ExpressionNode node)
+	private TrustCheck traverseExpression(ExpressionNode node)
 			throws NoSymbolicParametersException {
 		if (node.getLeft().isGeoElement()
 				&& node.getLeft() instanceof GeoSegment) {
@@ -476,21 +476,20 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 		TrustCheck leftCheck = null, rightCheck = null;
 		if (node.getLeft().isExpressionNode()) {
-			leftCheck = ((ExpressionNode) node.getLeft()).getTrustCheck();
-			traverseExpression((ExpressionNode) node.getLeft());
+			leftCheck = traverseExpression((ExpressionNode) node.getLeft());
 		}
 		if (node.getRight().isExpressionNode()) {
-			rightCheck = ((ExpressionNode) node.getRight()).getTrustCheck();
-			traverseExpression((ExpressionNode) node.getRight());
+			rightCheck = traverseExpression((ExpressionNode) node.getRight());
 		}
-		TrustCheck nodeCheck = node.getTrustCheck();
+		TrustCheck nodeCheck = new TrustCheck();
+		node.isTrustableExpression(nodeCheck);
 		// expression is trusted, if children are trusted
 		if (node.getLeft().isExpressionNode()
  && leftCheck.getTrustable()
 				&& node.getRight().isExpressionNode()
 				&& rightCheck.getTrustable()) {
 			nodeCheck.setTrustable(true);
-			return;
+			return nodeCheck;
 		}
 		// case number with segment, eg. 2*a^2
 		if (node.getLeft() instanceof MyDouble
@@ -499,14 +498,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
 			nodeCheck.setTrustable(true);
-			return;
+			return nodeCheck;
 		}
 		// case segment with number, eg. a^2*1,5
 		if (node.getRight() instanceof MyDouble
 				&& node.getLeft().isExpressionNode()
 				&& leftCheck.getTrustable()) {
 			nodeCheck.setTrustable(true);
-			return;
+			return nodeCheck;
 		}
 		// * and / with number is trusted
 		if (node.getLeft() instanceof MyDouble
@@ -522,8 +521,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			if (node.getRight() instanceof MyDouble) {
 				double d = node.getRight().evaluateDouble();
 				if (Kernel.isInteger(d) && d % 2 == 0
-						&& node.getLeftTree().getTrustCheck()
-								.getHalfTrustable()) {
+						&& (node.getLeft() instanceof GeoElement
+								|| node.getLeft() instanceof Variable || (node
+								.getLeft().isExpressionNode() && leftCheck
+								.getHalfTrustable()))) {
 					nodeCheck.setTrustable(true);
 				}
 			}
@@ -553,6 +554,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 						.getOperation() == Operation.MULTIPLY)) {
 			nodeCheck.setHalfTrustable(true);
 		}
+		return nodeCheck;
 	}
 
 	public Polynomial[][] getBotanaPolynomials()
@@ -614,11 +616,11 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if ((root.getLeft().isExpressionNode() || root.getRight()
 				.isExpressionNode())
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			traverseExpression(root);
+			TrustCheck rootCheck = traverseExpression(root);
 			// we won't accept untrusted expressions
 			if (root.getLeftTree().isExpressionNode()
 					&& root.getRightTree().isExpressionNode()
-					&& !root.getTrustCheck().getTrustable()) {
+					&& !rootCheck.getTrustable()) {
 				throw new NoSymbolicParametersException(); // not safe
 															// expressions
 			}

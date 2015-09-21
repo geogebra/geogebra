@@ -104,7 +104,6 @@ public class ExpressionNode extends ValidExpression implements
 		} else { // set dummy value
 			setRight(new MyDouble(kernel, Double.NaN));
 		}
-		isTrustableExpression();
 	}
 
 	/**
@@ -5569,17 +5568,23 @@ kernel, left,
 	}
 
 	/**
-	 * @return whether the top-level operation is IF / IF_ELSE
+	 * @return whether the top-level operation is IF / IF_ELSE / IF_LIST
 	 */
 	public boolean isConditional() {
 		return operation == Operation.IF || operation == Operation.IF_ELSE
 				|| operation == Operation.IF_LIST;
 	}
 
+	/**
+	 * @return whether top level operation is IF / IF_ELSE
+	 */
 	public boolean isConditionalOldFashion() {
 		return operation == Operation.IF || operation == Operation.IF_ELSE;
 	}
 
+	/**
+	 * @return whether this contains any conditional operations
+	 */
 	public boolean isConditionalDeep() {
 		return isConditional()
 				|| (left instanceof ExpressionNode && ((ExpressionNode) left)
@@ -5652,23 +5657,50 @@ kernel, left,
 		return this.traverse(Traversing.CASCommandReplacer.replacer).wrap();
 	}
 
+	/**
+	 * @return whether this expression was wrapped in brackets when parsed
+	 */
 	public boolean hasBrackets() {
 		return brackets;
 	}
 
+	/**
+	 * Set the brackets flag, should be called from parser
+	 * 
+	 * @param brackets
+	 *            whether this expression was wrapped in brackets when parsed
+	 */
 	public void setBrackets(boolean brackets) {
 		this.brackets = brackets;
 	}
 
+	/**
+	 * Apply given unary operation on this node
+	 * 
+	 * @param operation2
+	 *            operation
+	 * @return expression node operation2(this)
+	 */
 	public ExpressionNode apply(Operation operation2) {
 		return new ExpressionNode(kernel, this, operation2, null);
 	}
 
+	/**
+	 * Apply given binary operation on this node and additional argument
+	 * 
+	 * @param operation2
+	 *            operation
+	 * @param arg
+	 *            second argument
+	 * @return expression node opertion2this,arg)
+	 */
 	public ExpressionNode apply(Operation operation2, ExpressionValue arg) {
 		return new ExpressionNode(kernel, this, operation2, arg);
 	}
 
 	/**
+	 * @param name
+	 *            variable name
 	 * @return whether this contains FVar that is not part of equation or list
 	 */
 	public boolean containsFreeFunctionVariable(String name) {
@@ -5731,6 +5763,12 @@ kernel, left,
 		return def;
 	}
 
+	/**
+	 * @return variables that must be defined in order for the result to be
+	 *         defined eg. d+If[a>0,b,c] has unconditional variable d
+	 * 
+	 * 
+	 */
 	public HashSet<GeoElement> getUnconditionalVars() {
 		// TODO Auto-generated method stub
 		if (!this.isConditionalDeep()) {
@@ -5754,6 +5792,12 @@ kernel, left,
 		}
 	}
 	
+	/**
+	 * @param parts
+	 *            output parameter
+	 * @param expandPlus
+	 *            whether to expand a/b+c/d to (ad+bc)/bd
+	 */
 	public void getFraction(ExpressionValue[] parts, boolean expandPlus){
 		ExpressionValue numL, numR, denL = null, denR = null;
 		if(left instanceof ExpressionNode){
@@ -5870,11 +5914,11 @@ kernel, left,
 		if (giacParsing) {
 			// (a)(b) in Giac is function application
 			if (left instanceof Variable) {
-				left = new Command(kernel,
+				Command ret = new Command(kernel,
 						left.toString(StringTemplate.defaultTemplate), true,
 						true);
-				((Command) left).addArgument(right.wrap());
-				return left;
+				ret.addArgument(right.wrap());
+				return ret;
 				// c*(a)(b) in Giac: function applied on right subtree
 			}
 		}
@@ -5912,11 +5956,11 @@ kernel, left,
 
 	/**
 	 * check if expression is trustable or halftrustable
+	 * 
+	 * @param trustCheck
+	 *            output parameter
 	 */
-	public void isTrustableExpression() {
-		if (trustCheck == null) {
-			trustCheck = new TrustCheck();
-		}
+	public void isTrustableExpression(TrustCheck trustCheck) {
 		if (this.isExpressionNode()) {
 			// square of something is trustable
 			if (this.isVariableSquare()) {
@@ -5935,14 +5979,8 @@ kernel, left,
 		}
 	}
 
-	private TrustCheck trustCheck;
 
-	public TrustCheck getTrustCheck() {
-		if (trustCheck == null) {
-			isTrustableExpression();
-		}
-		return trustCheck;
-	}
+
 
 	private boolean isVariableSquare() {
 		if ((this.getLeft() instanceof Variable
