@@ -46,8 +46,7 @@ import org.geogebra.common.util.Unicode;
  * 
  * @author Michael
  */
-public class DrawTextField extends Drawable implements
- RemoveNeeded {
+public class DrawTextField extends Drawable implements RemoveNeeded {
 	private static final int HIGHLIGTH_MARGIN = 2;
 	private static final int BOX_ROUND = 8;
 	// TODO: examine these two, why are they needed and why these values.
@@ -84,8 +83,8 @@ public class DrawTextField extends Drawable implements
 		this.view = view;
 		this.geoTextField = geo;
 		this.geo = geo;
-		drawOnCanvas = view.getApplication().has(
-				Feature.DRAW_INPUTBOXES_TO_CANVAS);
+		drawOnCanvas = view.getApplication()
+				.has(Feature.DRAW_INPUTBOXES_TO_CANVAS);
 		box = geo.getKernel().getApplication().getSwingFactory()
 				.createHorizontalBox(view.getEuclidianController());
 		// action listener for checkBox
@@ -112,8 +111,8 @@ public class DrawTextField extends Drawable implements
 		label.setVisible(true);
 		// ((geogebra.gui.inputfield.AutoCompleteTextField)
 		// textField).addFocusListener(bl);
-		textField.addFocusListener(AwtFactory.prototype
-				.newFocusListener(ifListener));
+		textField.addFocusListener(
+				AwtFactory.prototype.newFocusListener(ifListener));
 		// label.addMouseListener(bl);
 		// label.addMouseMotionListener(bl);
 		textField.addKeyHandler(ifKeyListener);
@@ -123,8 +122,6 @@ public class DrawTextField extends Drawable implements
 		box.add(textField);
 
 		view.add(box);
-
-
 
 		// Add mouse listeners to textField so that it becomes draggable
 		// on a right click. These listeners are registered first to prevent
@@ -158,8 +155,8 @@ public class DrawTextField extends Drawable implements
 	 * 
 	 * @author Michael + Judit
 	 */
-	public class InputFieldListener extends
- org.geogebra.common.euclidian.event.FocusListener {
+	public class InputFieldListener
+			extends org.geogebra.common.euclidian.event.FocusListener {
 
 		private String initialText;
 
@@ -203,13 +200,14 @@ public class DrawTextField extends Drawable implements
 	private void updateCanvas() {
 
 	}
+
 	/**
 	 * Listens to key events in this textfield
 	 * 
 	 * @author Michael + Judit
 	 */
-	public class InputFieldKeyListener implements
- org.geogebra.common.euclidian.event.KeyHandler {
+	public class InputFieldKeyListener
+			implements org.geogebra.common.euclidian.event.KeyHandler {
 
 		/**
 		 * Creates new listener
@@ -284,8 +282,7 @@ public class DrawTextField extends Drawable implements
 		int length = geoTextField.getLength();
 		if (length != oldLength) {
 			textField.setColumns(length);
-			textField
-.prepareShowSymbolButton(
+			textField.prepareShowSymbolButton(
 					length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
 
 			oldLength = length;
@@ -302,17 +299,16 @@ public class DrawTextField extends Drawable implements
 				oldCaption = caption;
 				labelDesc = caption;// GeoElement.indicesToHTML(caption, true);
 
-
 			}
 			label.setText(labelDesc);
 		} else {
-			// put back to "" from "   " so that the position is the same in
+			// put back to "" from " " so that the position is the same in
 			// ggb40 and ggb42
 			label.setText("");
 		}
 
-		labelFontSize = (int) (view.getFontSize() * geoTextField
-				.getFontSizeMultiplier());
+		labelFontSize = (int) (view.getFontSize()
+				* geoTextField.getFontSizeMultiplier());
 		App app = view.getApplication();
 
 		GFont vFont = view.getFont();
@@ -326,8 +322,8 @@ public class DrawTextField extends Drawable implements
 		textField.setForeground(geo.getObjectColor());
 		label.setForeground(geo.getObjectColor());
 		GColor bgCol = geo.getBackgroundColor();
-		textField.setBackground(bgCol != null ? bgCol : view
-				.getBackgroundCommon());
+		textField.setBackground(
+				bgCol != null ? bgCol : view.getBackgroundCommon());
 
 		textField.setFocusable(true);
 		textField.setEditable(true);
@@ -354,31 +350,28 @@ public class DrawTextField extends Drawable implements
 
 			@Override
 			public int getWidth() {
-				return (int) Math
-						.round(((view.getApplication().getFontSize() * geoTextField
-								.getFontSizeMultiplier()))
-								* geoTextField.getLength() * TF_WIDTH_FACTOR
-);
+				return (int) Math.round(((view.getApplication().getFontSize()
+						* geoTextField.getFontSizeMultiplier()))
+						* geoTextField.getLength() * TF_WIDTH_FACTOR);
 			}
 
 			@Override
 			public int getHeight() {
-				return (int) Math
-						.round(((view.getApplication().getFontSize() * geoTextField
-								.getFontSizeMultiplier())) * TF_HEIGHT_FACTOR)
-						+ TF_MARGIN;
+				return (int) Math.round(((view.getApplication().getFontSize()
+						* geoTextField.getFontSizeMultiplier()))
+						* TF_HEIGHT_FACTOR) + TF_MARGIN;
 
 			}
 		};
 	}
+
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (drawOnCanvas) {
 
 				drawOnCanvas(g2);
-			}
-			else {
+			} else {
 				if (geo.doHighlighting()) {
 					label.setOpaque(true);
 					label.setBackground(GColor.LIGHT_GRAY);
@@ -407,11 +400,9 @@ public class DrawTextField extends Drawable implements
 
 			drawTextField(g2);
 
-
 		}
 
 	}
-
 
 	private void drawTextField(GGraphics2D g2) {
 		boolean latexLabel = false;
@@ -461,8 +452,8 @@ public class DrawTextField extends Drawable implements
 				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
 			} else {
 				int h = labelFontSize + HIGHLIGTH_MARGIN;
-				g2.fillRect(xLabel, textBottom - h, labelSize.x, h
-						+ HIGHLIGTH_MARGIN);
+				g2.fillRect(xLabel, textBottom - h, labelSize.x,
+						h + HIGHLIGTH_MARGIN);
 			}
 		}
 		g2.setPaint(geo.getObjectColor());
@@ -470,7 +461,6 @@ public class DrawTextField extends Drawable implements
 		if (hasLabel) {
 			drawTextFieldLabel(g2);
 		}
-
 
 		String text = geoTextField.getText();
 		int truncIdx = geoTextField.getLinkedGeo() != null
@@ -504,8 +494,7 @@ public class DrawTextField extends Drawable implements
 	protected GDimension drawLatex(GGraphics2D g2, String text, int x, int y) {
 		App app = view.getApplication();
 		return app.getDrawEquation().drawEquation(app, geoTextField, g2, x, y,
-				text,
-				labelFont, false, geo.getObjectColor(),
+				text, labelFont, false, geo.getObjectColor(),
 				geo.getBackgroundColor(), false, false, null);
 	};
 
@@ -547,8 +536,8 @@ public class DrawTextField extends Drawable implements
 			int bottom = top + boxHeight;
 			//
 			res = (x > left && x < right && y > top && y < bottom)
-					|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel && y < yLabel
-							+ labelSize.y);
+					|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
+							&& y < yLabel + labelSize.y);
 			;
 			// if (res) {
 			// App.debug("[DrawTextFied] hit");
@@ -574,6 +563,7 @@ public class DrawTextField extends Drawable implements
 		}
 		box.setVisible(show);
 	}
+
 	@Override
 	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
 		App.debug("[DrawTextFied] isInside");
