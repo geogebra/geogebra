@@ -101,7 +101,7 @@ public class EuclidianViewW extends EuclidianView implements
 	AppW app = (AppW) super.app;
 
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
-	        downArrowImage;
+			downArrowImage, playImageHL, pauseImageHL;
 
 	protected EuclidianPanelWAbstract EVPanel;
 	private MsZoomer msZoomer;
@@ -956,18 +956,20 @@ public class EuclidianViewW extends EuclidianView implements
 		return resetImage;
 	}
 
-	private ImageElement getPlayImage() {
+	private ImageElement getPlayImage(boolean highlight) {
 		if (playImage == null) {
 			playImage = this.app.getPlayImage();
+			playImageHL = this.app.getPlayImageHover();
 		}
-		return playImage;
+		return highlight ? playImageHL : playImage;
 	}
 
-	private ImageElement getPauseImage() {
+	private ImageElement getPauseImage(boolean highlight) {
 		if (pauseImage == null) {
 			pauseImage = this.app.getPauseImage();
+			pauseImageHL = this.app.getPauseImageHover();
 		}
-		return pauseImage;
+		return highlight ? pauseImageHL : pauseImage;
 	}
 
 	@Override
@@ -977,8 +979,8 @@ public class EuclidianViewW extends EuclidianView implements
 			return false;
 		}
 
-		return kernel.needToShowAnimationButton() && (x <= 20)
-		        && (y >= (getHeight() - 20));
+		return kernel.needToShowAnimationButton() && (x <= 27)
+				&& (y >= (getHeight() - 27));
 	}
 
 	@Override
@@ -1047,23 +1049,13 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		}
 
-		final int x = 6;
-		final int y = getHeight() - 22;
-
-		if (highlightAnimationButtons) {
-			// draw filled circle to highlight button
-			g2.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
-		} else {
-			g2.setColor(org.geogebra.common.awt.GColor.LIGHT_GRAY);
-		}
-
-		g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic
-		        .getDefaultStroke());
+		final int x = 3;
+		final int y = getHeight() - 27;
 
 		// draw pause or play button
-		g2.drawRect(x - 2, y - 2, 18, 18);
-		final ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
-		        : getPlayImage();
+		final ImageElement img = kernel
+.isAnimationRunning() ? getPauseImage(highlightAnimationButtons)
+				: getPlayImage(highlightAnimationButtons);
 		if (img.getPropertyBoolean("complete")) {
 			((GGraphics2DW) g2).drawImage(img, x, y);
 		} else {

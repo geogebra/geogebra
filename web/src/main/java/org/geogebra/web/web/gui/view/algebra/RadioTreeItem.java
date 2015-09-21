@@ -49,6 +49,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.awt.GColorW;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -402,12 +403,14 @@ public class RadioTreeItem extends AVTreeItem
 
 		private void createPlayButton() {
 			btnPlay = new MyToggleButton2(
-					GuiResources.INSTANCE.icons_play_circle(),
-					GuiResources.INSTANCE.icons_play_pause_circle());
+					GuiResourcesSimple.INSTANCE.icons_play_circle(),
+					GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
 			btnPlay.getUpHoveringFace().setImage(
-					new Image(GuiResources.INSTANCE.icons_play_circle_hover()));
+					new Image(GuiResourcesSimple.INSTANCE
+							.icons_play_circle_hover()));
 			btnPlay.getDownHoveringFace().setImage(new Image(
-					GuiResources.INSTANCE.icons_play_pause_circle_hover()));
+GuiResourcesSimple.INSTANCE
+							.icons_play_pause_circle_hover()));
 			btnPlay.setStyleName("avPlayButton");
 
 			ClickStartHandler.init(btnPlay, new ClickStartHandler() {

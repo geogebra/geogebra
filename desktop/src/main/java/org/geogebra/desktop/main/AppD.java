@@ -2215,7 +2215,36 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public Image getPlayImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage("/main/nav_play.png").getImage();
+		return imageManager.getInternalImage(
+"/main/nav_play.png").getImage();
+	}
+
+	public Image getPlayImageCircle() {
+		// don't need to load gui jar as reset image is in main jar
+		return imageManager.getInternalImage(
+				"/org/geogebra/common/icons_play/p24/nav_play_circle.png")
+				.getImage();
+	}
+
+	public Image getPlayImageCircleHover() {
+		// don't need to load gui jar as reset image is in main jar
+		return imageManager.getInternalImage(
+						"/org/geogebra/common/icons_play/p24/nav_play_circle_hover.png")
+				.getImage();
+	}
+
+	public Image getPauseImageCircle() {
+		// don't need to load gui jar as reset image is in main jar
+		return imageManager.getInternalImage(
+				"/org/geogebra/common/icons_play/p24/nav_pause_circle.png")
+				.getImage();
+	}
+
+	public Image getPauseImageCircleHover() {
+		// don't need to load gui jar as reset image is in main jar
+		return imageManager.getInternalImage(
+						"/org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
+				.getImage();
 	}
 
 	public Image getPauseImage() {

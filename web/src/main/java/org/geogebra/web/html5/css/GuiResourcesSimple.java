@@ -14,11 +14,17 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/zipjs/deflate.js")
 	TextResource deflateJs();
 
-	@Source("org/geogebra/web/resources/images/nav_play.png")
-	ImageResource navPlay();
+	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
+	ImageResource icons_play_circle();
 
-	@Source("org/geogebra/web/resources/images/nav_pause.png")
-	ImageResource navPause();
+	@Source("org/geogebra/common/icons_play/p24/nav_play_circle_hover.png")
+	ImageResource icons_play_circle_hover();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle.png")
+	ImageResource icons_play_pause_circle();
+
+	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
+	ImageResource icons_play_pause_circle_hover();
 
 	@Source("org/geogebra/web/resources/js/mathquillggb.js")
 	TextResource mathquillggbJs();

@@ -2295,13 +2295,25 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public ImageElement getPlayImage() {
 		// don't need to load gui jar as reset image is in main jar
 		return getImageManager().getInternalImage(
-		        GuiResourcesSimple.INSTANCE.navPlay());
+				GuiResourcesSimple.INSTANCE.icons_play_circle());
 	}
 
 	public ImageElement getPauseImage() {
 		// don't need to load gui jar as reset image is in main jar
 		return getImageManager().getInternalImage(
-		        GuiResourcesSimple.INSTANCE.navPause());
+				GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
+	}
+
+	public ImageElement getPlayImageHover() {
+		// don't need to load gui jar as reset image is in main jar
+		return getImageManager().getInternalImage(
+				GuiResourcesSimple.INSTANCE.icons_play_circle_hover());
+	}
+
+	public ImageElement getPauseImageHover() {
+		// don't need to load gui jar as reset image is in main jar
+		return getImageManager().getInternalImage(
+				GuiResourcesSimple.INSTANCE.icons_play_pause_circle_hover());
 	}
 
 	// ============================================

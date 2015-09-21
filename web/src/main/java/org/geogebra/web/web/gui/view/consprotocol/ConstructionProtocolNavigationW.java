@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.consprotocol;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.javax.swing.GPanelW;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
 import org.geogebra.web.html5.main.AppW;
@@ -39,13 +40,13 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	private MyCJButton btOpenWindow;
 	
 	final private Image playIcon = new Image(
-			GuiResources.INSTANCE.icons_play_circle());
+			GuiResourcesSimple.INSTANCE.icons_play_circle());
 	final private Image playIconHover = new Image(
-			GuiResources.INSTANCE.icons_play_circle_hover());
+			GuiResourcesSimple.INSTANCE.icons_play_circle_hover());
 	final private Image pauseIcon = new Image(
-			GuiResources.INSTANCE.icons_play_pause_circle());
+			GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
 	final private Image pauseIconHover = new Image(
-			GuiResources.INSTANCE.icons_play_pause_circle_hover());
+			GuiResourcesSimple.INSTANCE.icons_play_pause_circle_hover());
 
 	public ConstructionProtocolNavigationW(AppW app){
 		implPanel = new FlowPanel();

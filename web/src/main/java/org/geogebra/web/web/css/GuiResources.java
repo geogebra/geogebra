@@ -417,17 +417,7 @@ public interface GuiResources extends ClientBundle {
 	ImageResource algebra_new_parametric();
 	
 	// PLAY, PAUSE, REWIND, ETC. USED IN ALGEBRA VIEW, EV AND IN NAVIGATION BAR
-	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
-	ImageResource icons_play_circle();
 
-	@Source("org/geogebra/common/icons_play/p24/nav_play_circle_hover.png")
-	ImageResource icons_play_circle_hover();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle.png")
-	ImageResource icons_play_pause_circle();
-
-	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
-	ImageResource icons_play_pause_circle_hover();
 
 	@Source("org/geogebra/common/icons_play/p24/nav_skipback.png")
 	ImageResource icons_play_skipback();

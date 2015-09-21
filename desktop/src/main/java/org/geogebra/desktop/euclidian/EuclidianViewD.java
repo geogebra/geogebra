@@ -105,6 +105,10 @@ public class EuclidianViewD extends EuclidianView implements
 	protected Image playImage;
 	/** pause image for animations */
 	protected Image pauseImage;
+	/** play image for animations */
+	protected Image playImageHL;
+	/** pause image for animations */
+	protected Image pauseImageHL;
 
 	// public Graphics2D lastGraphics2D;
 	/** default mouse cursor */
@@ -594,18 +598,20 @@ public class EuclidianViewD extends EuclidianView implements
 		return resetImage;
 	}
 
-	private Image getPlayImage() {
+	private Image getPlayImage(boolean highlight) {
 		if (playImage == null) {
-			playImage = getApplication().getPlayImage();
+			playImage = getApplication().getPlayImageCircle();
+			playImageHL = getApplication().getPlayImageCircleHover();
 		}
-		return playImage;
+		return highlight ? playImageHL : playImage;
 	}
 
-	private Image getPauseImage() {
+	private Image getPauseImage(boolean highlight) {
 		if (pauseImage == null) {
-			pauseImage = getApplication().getPauseImage();
+			pauseImage = getApplication().getPauseImageCircle();
+			pauseImageHL = getApplication().getPauseImageCircleHover();
 		}
-		return pauseImage;
+		return highlight ? pauseImageHL : pauseImage;
 	}
 
 	@Override
@@ -616,23 +622,21 @@ public class EuclidianViewD extends EuclidianView implements
 			return;
 		}
 
-		int x = 6;
-		int y = getHeight() - 22;
+		int x = 3;
+		int y = getHeight() - 27;
 
-		if (highlightAnimationButtons) {
-			// draw filled circle to highlight button
-			g2.setColor(org.geogebra.common.awt.GColor.DARK_GRAY);
-		} else {
-			g2.setColor(org.geogebra.common.awt.GColor.LIGHT_GRAY);
-		}
-
-		g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic
-				.getDefaultStroke());
-
-		// draw pause or play button
-		g2.drawRect(x - 2, y - 2, 18, 18);
-		Image img = kernel.isAnimationRunning() ? getPauseImage()
-				: getPlayImage();
+		/*
+		 * if (highlightAnimationButtons) { // draw filled circle to highlight
+		 * button g2.setColor(org.geogebra.common.awt.GColor.DARK_GRAY); } else
+		 * { g2.setColor(org.geogebra.common.awt.GColor.LIGHT_GRAY); }
+		 * 
+		 * g2.setStroke(org.geogebra.common.euclidian.EuclidianStatic
+		 * .getDefaultStroke());
+		 * 
+		 * // draw pause or play button g2.drawRect(x - 2, y - 2, 18, 18);
+		 */
+		Image img = kernel.isAnimationRunning() ? getPauseImage(highlightAnimationButtons)
+				: getPlayImage(highlightAnimationButtons);
 		GGraphics2DD.getAwtGraphics(g2).drawImage(img, x, y, null);
 	}
 
@@ -642,8 +646,8 @@ public class EuclidianViewD extends EuclidianView implements
 			return false;
 		}
 
-		return kernel.needToShowAnimationButton() && (x <= 20)
-				&& (y >= (getHeight() - 20));
+		return kernel.needToShowAnimationButton() && (x <= 27)
+				&& (y >= (getHeight() - 27));
 	}
 
 	public EuclidianController getEuclidianController() {
