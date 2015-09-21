@@ -5,7 +5,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -288,6 +287,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		if (gcv != null) if (gcv.length > 0)
 			setColsVisibility(gcv);
 
+		initGUI();
 //		update();
 		getData().initView();
 //		repaint();	
