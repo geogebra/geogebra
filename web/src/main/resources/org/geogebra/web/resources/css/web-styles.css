@@ -3705,6 +3705,10 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 .algebraView .avItem {
 	/*padding: 3px 10px !important;*/
 	padding: 0px !important;
+	z-index: 1;
+}
+.avItem.avSelectedRow {
+	z-index: 3;
 }
 
 
@@ -3756,11 +3760,12 @@ body.application[dir=rtl] .algebraOpenButton {
  .avItem .gwt-TreeItem,
  .avItem .gwt-TreeItem-selected {
  	display: inline-block !important;
+ 	background: none;
  }
  
-.algebraView .avItem .AlgebraViewObjectStylebar {
+/*.algebraView .avItem .AlgebraViewObjectStylebar {
  	top: 0px;
- } 
+ } */
  
  .algebraView .panelRow > * {
  	margin: 0px;
@@ -3770,6 +3775,7 @@ body.application[dir=rtl] .algebraOpenButton {
  	/* AlgebraViewObjectStylebar was not at right position, needs position absolute */
  	position: absolute;
  	width: 100%;
+ 	z-index: 4;
  }
  
  .NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar .gwt-PushButton {
@@ -3778,11 +3784,14 @@ body.application[dir=rtl] .algebraOpenButton {
  
  .avItem .gwt-TreeItem {
  	padding: 0px;
- 	padding-bottom: 1px;
+ 	/*padding-bottom: 1px;*/
+ 	margin-top: 1px;
+ 	border-top: 1px solid transparent;
+ 	border-bottom: 1px solid transparent;
  }
 .avItem.avSelectedRow .gwt-TreeItem {
 	padding: 0px;
-	margin-top: -1px;
+	/*margin-top: 1px;*/
 	
 	border-top: 1px solid #6161FF;
 	border-bottom: 1px solid #6161FF;
@@ -3790,21 +3799,23 @@ body.application[dir=rtl] .algebraOpenButton {
 
 .avItem.avSelectedRow .marblePanel  {
 	background-color: #CCCCFF;
-	border-right: 1px solid transparent;
+	/*border-right: 1px solid #DCDCDC;*/
 }
 
 /* Colors will be overwritten in java code
 ** see: org.geogebra.web.web.gui.view.algebra.Marble.java
 */
-.marblePanel {
-	padding: 3px 7px 3px 7px;
+.GeoGebraFrame .marblePanel {
 	/*margin: 0px !important;*/
 	position: absolute;
 	height: 100%;
+	border-right: 1px solid #DCDCDC;
+	padding: 1px 7px;
+	margin-top: -1px;
 	
-	box-sizing: border-box;
+	/*box-sizing: border-box;
  	-moz-box-sizing: border-box;
- 	-webkit-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;*/
 }
 
 .avItem .marblePanel + * {
@@ -3843,8 +3854,8 @@ body.application[dir=rtl] .avItem .marblePanel + * {
 }
 
 .GeoGebraFrame .avItem .elemText {
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding-top: 7px;
+	padding-bottom: 7px;
 	display: inline-block;
 }
 
@@ -5834,9 +5845,9 @@ body.application[dir=rtl] .deleteAlgebra {
 
 /* AV Extensions */ 
 
-.avSelectedRow .gwt-TreeItem-selected {
+/*.avSelectedRow .gwt-TreeItem-selected {
 	background: #CCCCFF;
-}
+}*/
 .avItemContent {
 	width: 100%;
 	padding-top: 2px;
@@ -5887,12 +5898,13 @@ body.application[dir=rtl] .deleteAlgebra {
 	text-align: center;
 	border: none;
 	outline: none;
+	overflow: hidden;
+	height: 19px;
 }
 
 .GeoGebraFrame .AlgebraViewObjectStylebar .speedValue.hidden {
 	width: 0px;
 	padding: 0px;
-	overflow: hidden;
 }
 
 .GeoGebraFrame .AlgebraViewObjectStylebar .speedValue:hover {
@@ -5900,11 +5912,11 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 .GeoGebraFrame .slideIn {
-	-moz-transition: all 0.5s ease;
-    -ms-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-	-webkit-transition: all 0.5s ease; /* Safari */
-    transition: all 0.5s ease;
+	-moz-transition: width 0.5s ease;
+    -ms-transition: width 0.5s ease;
+    -o-transition: width 0.5s ease;
+	-webkit-transition: width 0.5s ease; /* Safari */
+    transition: width 0.5s ease;
 }
 
 /* Options Slider */

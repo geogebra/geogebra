@@ -150,7 +150,10 @@ public class RadioTreeItem extends AVTreeItem
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
 	static final String CLEAR_COLOR_STR = GColor
-			.getColorString(GColorW.WHITE);
+.getColorString(new GColorW(
+			255, 255, 255, 0));
+	static final String CLEAR_COLOR_STR_BORDER = GColor
+			.getColorString(new GColorW(220, 220, 220));
 
 	interface CancelListener {
 		void cancel();
@@ -542,7 +545,7 @@ public class RadioTreeItem extends AVTreeItem
 			getElement().getStyle().setBackgroundColor(
 					selected ? getBgColorString() : CLEAR_COLOR_STR);
 			getElement().getStyle().setBorderColor(
-					selected ? getColorString() : CLEAR_COLOR_STR);
+					selected ? getColorString() : CLEAR_COLOR_STR_BORDER);
 
 		}
 
