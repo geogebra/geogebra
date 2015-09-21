@@ -883,7 +883,8 @@ public class RadioTreeItem extends AVTreeItem
 
 	private boolean sliderNeeded() {
 		return avExtension && geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV();
+				&& ((GeoNumeric) geo).isShowingExtendedAV()
+				&& geo.isIndependent();
 	}
 
 	private void initSlider() {
@@ -1358,14 +1359,20 @@ public class RadioTreeItem extends AVTreeItem
 
 				getElement().setDraggable(Element.DRAGGABLE_FALSE);
 			}
-			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
-			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
-			slider.setStep(geo.getAnimationStep());
-			slider.setValue(((GeoNumeric) geo).value);
-			if (minMaxPanel != null) {
-				minMaxPanel.update();
+			boolean hasMinMax = false;
+			if (((GeoNumeric) geo).getIntervalMaxObject() != null
+					&& ((GeoNumeric) geo).getIntervalMinObject() != null) {
+				hasMinMax = true;
+				slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
+				slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
+
+				slider.setStep(geo.getAnimationStep());
+				slider.setValue(((GeoNumeric) geo).value);
+				if (minMaxPanel != null) {
+					minMaxPanel.update();
+				}
 			}
-			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
+			if (hasMinMax && ((HasExtendedAV) geo).isShowingExtendedAV()) {
 				sliderPanel.add(slider);
 				minMaxPanel.setVisible(false);
 				updateSliderColor();

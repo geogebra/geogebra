@@ -18,8 +18,6 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
-
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -940,7 +938,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 *            the top position, in pixels
 	 */
 	public void setPopupPosition(int left, int top) {
-		App.printStacktrace("POSITION" + top + "," + left);
 		// Save the position of the popup
 		leftPosition = left;
 		topPosition = top;
