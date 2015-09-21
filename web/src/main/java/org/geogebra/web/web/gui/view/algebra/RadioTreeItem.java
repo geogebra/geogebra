@@ -1920,8 +1920,10 @@ public class RadioTreeItem extends AVTreeItem
 			}
 			}
 
-			selectItem(true);
-
+			if (!selectionCtrl.isSelectHandled()) {
+				selectItem(true);
+			}
+			
 		}
 
 
@@ -2045,6 +2047,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	private void onPointerUp(AbstractEvent event) {
+		selectionCtrl.setSelectHandled(false);
 		if (avExtension && isMinMaxPanelVisible()) {
 			return;
 		}
@@ -2104,7 +2107,10 @@ public class RadioTreeItem extends AVTreeItem
 			getAV().updateSelection();
 		} else {
 			selectionCtrl.select(geo, separated, continous);
-
+			if (separated && !selectionCtrl.contains(geo)) {
+				selectionCtrl.setSelectHandled(true);
+				getAV().selectRow(geo, false);
+			}
 		}
 	}
 

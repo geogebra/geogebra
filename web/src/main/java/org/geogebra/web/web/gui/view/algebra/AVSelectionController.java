@@ -9,19 +9,26 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 public class AVSelectionController {
+	public enum SelectMode {
+		Single, Toggle, Continuous, None
+	};
+
 	private GeoElement selectedGeo;
 	private GeoElement lastSelectedGeo;
 	private App app;
 	private SelectionManager selection;
-	private static AVSelectionController instance = null;
+	private boolean selectHandled;
+	private SelectMode lastMode;
 
 	public AVSelectionController(App app) {
 		this.app = app;
 		selection = app.getSelectionManager();
 		setLastSelectedGeo(null);
+		lastMode = SelectMode.None;
 	}
 
 	private void singleSelect(GeoElement geo) {
+		lastMode = SelectMode.Single;
 		selection.clearSelectedGeos(false); // repaint will be done
 		// next step
 		selection.addSelectedGeo(geo);
@@ -29,9 +36,13 @@ public class AVSelectionController {
 	}
 
 	private void toggleSelect(GeoElement geo) {
+		lastMode = SelectMode.Toggle;
 		selection.toggleSelectedGeo(geo);
-		if (selection.getSelectedGeos().contains(geo)) {
+		if (contains(geo)) {
 			setLastSelectedGeo(geo);
+		} else {
+			setLastSelectedGeo(null);
+
 		}
 	}
 
@@ -40,8 +51,13 @@ public class AVSelectionController {
 		boolean selecting = false;
 		boolean aux = geo.isAuxiliaryObject();
 		boolean ind = geo.isIndependent();
+
 		boolean aux2 = getLastSelectedGeo().isAuxiliaryObject();
 		boolean ind2 = getLastSelectedGeo().isIndependent();
+		if (lastMode != SelectMode.Continuous) {
+			selection.clearSelectedGeos(true);
+			selection.addSelectedGeo(getLastSelectedGeo());
+		}
 
 		if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
 			Iterator<GeoElement> it = app.getKernel().getConstruction()
@@ -75,7 +91,6 @@ public class AVSelectionController {
 		}
 
 		if (nowSelecting) {
-			selection.addSelectedGeo(geo);
 			setLastSelectedGeo(geo);
 		} else {
 			selection.removeSelectedGeo(getLastSelectedGeo());
@@ -98,6 +113,7 @@ public class AVSelectionController {
 		if (toggle) {
 			toggleSelect(geo);
 		} else if (continuous && getLastSelectedGeo() != null) {
+			selection.clearSelectedGeos();
 			continuousSelect(geo);
 		} else {
 			singleSelect(geo);
@@ -140,5 +156,25 @@ public class AVSelectionController {
 
 	public boolean isEmpty() {
 		return selection.getSelectedGeos().isEmpty();
+	}
+
+	public boolean isSelectHandled() {
+		return selectHandled;
+	}
+
+	public void setSelectHandled(boolean selectHandled) {
+		this.selectHandled = selectHandled;
+	}
+
+	public boolean contains(GeoElement geo) {
+		return selection.getSelectedGeos().contains(geo);
+	}
+
+	public SelectMode getLastMode() {
+		return lastMode;
+	}
+
+	public void setLastMode(SelectMode lastMode) {
+		this.lastMode = lastMode;
 	}
 }
