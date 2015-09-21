@@ -71,10 +71,10 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo_hover.png")
 	ImageResource menu_header_redo_hover();
 
-	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo.png")
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_undo.png")
 	ImageResource menu_header_undo();
 
-	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo_hover.png")
+	@Source("org/geogebra/common/menu_header/p32/menu_edit_undo_hover.png")
 	ImageResource menu_header_undo_hover();
 
 	@Source("org/geogebra/common/menu_header/p32/menu_open_search.png")

@@ -24,6 +24,11 @@
   box-shadow: @shadow;
 }
 
+.opacity(@opacity) {
+	opacity: @opacity/100;
+    filter: alpha(opacity=@opacity); /* For IE8 and earlier */
+}
+
 /* Gradient */
 .linear-gradient(@direction: left, @color1: #FFFFFF, @color2: #000000) {
   background-color: @color1;

@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
@@ -25,6 +26,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.TextDecoration;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -34,6 +37,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -62,8 +66,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	
 	private FlowPanel rightButtonPanel;
 	private StandardButton openSearchButton, openMenuButton;
-	StandardButton undoButton;
-	private StandardButton redoButton;
+	// private PushButton openSearchButton, openMenuButton;
+	PushButton undoButton;
+	private PushButton redoButton;
 	private boolean redoPossible = false;
 
 	/**
@@ -136,29 +141,60 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	private void addUndoPanel(){
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		//Image redoImage = new Image(GuiResources.INSTANCE.button_redo());
-		redoButton = new StandardButton(pr.button_redo(), null, 32);
+		// redoButton = new StandardButton(pr.button_redo(), null, 32);
 		//redoButton.getElement().appendChild(redoImage.getElement());
-		redoButton.addFastClickHandler(new FastClickHandler(){
+		// redoButton.addFastClickHandler(new FastClickHandler(){
+		// @Override
+		// public void onClick(Widget source) {
+		// app.getGuiManager().redo();
+		// app.hideKeyboard();
+		// }
+		// });
+
+		redoButton = new PushButton();
+		redoButton.getUpFace().setImage(
+				new Image(GuiResources.INSTANCE.menu_header_redo()));
+		redoButton.getUpHoveringFace().setImage(
+				new Image(GuiResources.INSTANCE.menu_header_redo_hover()));
+
+		redoButton.addClickHandler(new ClickHandler() {
 			@Override
-            public void onClick(Widget source) {
+			public void onClick(ClickEvent event) {
 				app.getGuiManager().redo();
 				app.hideKeyboard();
-            }
+			}
 		});
+
 		redoButton.addStyleName("redoButton");
 		//redoButton.getElement().addClassName("button");
 		redoButton.setTitle("Redo");
 		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
+
 		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
-		undoButton = new StandardButton(pr.button_undo(), null, 32);
+		// undoButton = new StandardButton(pr.button_undo(), null, 32);
 		//undoButton.getElement().appendChild(undoImage.getElement());
-		undoButton.addFastClickHandler(new FastClickHandler(){
+		// undoButton.addFastClickHandler(new FastClickHandler(){
+		// @Override
+		// public void onClick(Widget source) {
+		// app.getGuiManager().undo();
+		// app.hideKeyboard();
+		// }
+		// });
+
+		undoButton = new PushButton();
+		undoButton.getUpFace().setImage(
+				new Image(GuiResources.INSTANCE.menu_header_undo()));
+		undoButton.getUpHoveringFace().setImage(
+				new Image(GuiResources.INSTANCE.menu_header_undo_hover()));
+
+		undoButton.addClickHandler(new ClickHandler() {
 			@Override
-            public void onClick(Widget source) {
+			public void onClick(ClickEvent event) {
 				app.getGuiManager().undo();
 				app.hideKeyboard();
-            }
+			}
 		});
+
 		undoButton.addStyleName("undoButton");
 		//undoButton.getElement().addClassName("button");
 		undoButton.setTitle("Undo");
@@ -249,15 +285,35 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
 				app.getArticleElement().getDataParamApp()){
 		this.menuBarShowing = true;
-		openMenuButton = new StandardButton(pr.button_open_menu(),null,32);
-		openMenuButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-            public void onClick(Widget source) {
+			openMenuButton = new StandardButton(pr.button_open_menu(), null, 32);
+
+			openMenuButton.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick(Widget source) {
 					app.hideKeyboard();
 					app.closePopups();
 					GGWToolBar.this.app.toggleMenu();
-            }	
-		});
+				}
+			});
+
+			// Steffi wanted to have purple Image onHover (didn't work: Menu
+			// wouldn't close anymore)
+			//
+			// openMenuButton = new PushButton();
+			// openMenuButton.getUpFace().setImage(
+			// new Image(GuiResources.INSTANCE.menu_header_open_menu()));
+			// openMenuButton.getUpHoveringFace().setImage(
+			// new Image(GuiResources.INSTANCE
+			// .menu_header_open_menu_hover()));
+			// openMenuButton.addClickHandler(new ClickHandler() {
+			// @Override
+			// public void onClick(ClickEvent event) {
+			// app.hideKeyboard();
+			// app.closePopups();
+			// GGWToolBar.this.app.toggleMenu();
+			// }
+			// });
+
 		openMenuButton.addDomHandler(new KeyUpHandler(){
 			public void onKeyUp(KeyUpEvent event) {
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
@@ -273,13 +329,31 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}, KeyUpEvent.getType());
 
 		if (!exam && app.enableFileFeatures()) {
-			openSearchButton = new StandardButton(pr.button_open_search(),null,32);
-			openSearchButton.addFastClickHandler(new FastClickHandler() {
-				@Override
-				public void onClick(Widget source) {
-					app.openSearch(null);
-				}
-			});
+				openSearchButton = new StandardButton(pr.button_open_search(),
+						null, 32);
+				openSearchButton.addFastClickHandler(new FastClickHandler() {
+					@Override
+					public void onClick(Widget source) {
+						app.openSearch(null);
+					}
+				});
+			
+				// Steffi wanted purple Image onHover (didn't work)
+				//
+				// openSearchButton = new PushButton();
+				// openSearchButton.getUpFace().setImage(
+				// new Image(
+				// GuiResources.INSTANCE
+				// .menu_header_open_search()));
+				// openSearchButton.getUpHoveringFace().setImage(
+				// new Image(
+				// GuiResources.INSTANCE.menu_header_open_search_hover()));
+				// openSearchButton.addClickHandler(new ClickHandler() {
+				// @Override
+				// public void onClick(ClickEvent event) {
+				// app.openSearch(null);
+				// }
+				// });
 		
 			openSearchButton.addDomHandler(new KeyUpHandler(){
 				public void onKeyUp(KeyUpEvent event) {
@@ -820,7 +894,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 	public void selectMenuButton(int index) {
 		deselectButtons();
-		StandardButton focused = index == 0 ? this.openSearchButton : this.openMenuButton;
+		StandardButton focused = index == 0 ? this.openSearchButton
+				: this.openMenuButton;
 		if(focused != null){
 			focused.setFocus(true);
 			focused.getElement().addClassName("selectedButton");

@@ -82,11 +82,11 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/css/general.rtl.less")
 	LessResource generalStyleRTL();
 
-	@Source("org/geogebra/web/resources/css/toolbar.ltr.less")
-	LessResource toolbarStyleLTR();
+	@Source("org/geogebra/web/resources/css/headerbar.ltr.less")
+	LessResource headerbarStyleLTR();
 
-	@Source("org/geogebra/web/resources/css/toolbar.rtl.less")
-	LessResource toolbarStyleRTL();
+	@Source("org/geogebra/web/resources/css/headerbar.rtl.less")
+	LessResource headerbarStyleRTL();
 
 
 	// don't include these anywhere!
@@ -114,8 +114,8 @@ public interface GuiResourcesSimple extends ClientBundle {
 	// @Source("org/geogebra/web/resources/css/av.rtl.less")
 	// LessResource avStyleRTL();
 
-	// @Source("org/geogebra/web/resources/css/toolbar.less")
-	// LessResource toolbarStyle();
+	// @Source("org/geogebra/web/resources/css/headerbar.less")
+	// LessResource headerbarStyle();
 
 	// EXAM
 	// @Source("org/geogebra/web/exam/css/exam.less")

@@ -5,6 +5,9 @@
 *	Make sure everything is placed in .GeoGebraFrame!
 **/
 
+// only here for testing, remove later
+//@direction: ltr; // use `rtl` or `ltr`
+
 @import "definitions.less";
 
 /**
@@ -34,23 +37,25 @@
 	}
 	
 	& * {
-		box-sizing: content-box;
-		-webkit-box-sizing: content-box;
+		.box-sizing(content-box);
 	}
 	
 	& img {
 		vertical-align: baseline;
 	}
 	
-	.button {
+	.button,
+	.gwt-PushButton {
 		cursor: pointer;
 		
-		&:button-up-disabled {
+		&.button-up-disabled,
+		&.gwt-PushButton-up-disabled {
 			cursor: default;
+			.opacity(30);
 		}
 	}
 }
 
 // change import later!
-	@import "toolbar.less";
+	@import "headerbar.less";
 //	@import "av.less";

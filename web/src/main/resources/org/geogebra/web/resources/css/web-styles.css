@@ -63,7 +63,7 @@
 	position: relative !important;
 }
 
-.InputTreeItemParent {
+.GeoGebraFrame .InputTreeItemParent {
 	/* afaik, ::after is relative this this element this way */
 	position: relative !important;
 	display: block !important;
@@ -165,11 +165,11 @@
 /* end */
 
 .GeoGebraFrame input[type="text"],
-.gwt-TextBox,
+.GeoGebraFrame .gwt-TextBox,
 .GeoGebraFrame select,
 .GeoGebraFrame textarea,
-.gwt-TextArea,
-.gwt-SuggestBox,
+.GeoGebraFrame .gwt-TextArea,
+.GeoGebraFrame .gwt-SuggestBox,
 .GeoGebraFrame iframe.objectPropertiesTextEditor
 	{
 	border: #DCDCDC solid 1px;
@@ -807,11 +807,11 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
   border-radius: 2px;
   -moz-border-radius: 2px;
 }*/
-.gwt-PushButton-up,.gwt-PushButton-up-hovering,.gwt-PushButton-up-disabled
-	{ /*padding: 3px 5px 3px 5px;*/
+/*.gwt-PushButton-up,.gwt-PushButton-up-hovering,.gwt-PushButton-up-disabled
+	{ 
 	cursor: pointer;
 	
-}
+}*/
 /*.gwt-PushButton-up {
   border:1px solid #bbb;
   border-bottom: 1px solid #a0a0a0;
@@ -1351,7 +1351,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	border: 1px solid #DCDCDC;
 	border-top: none;
 }
-.objectPropertiesPanel {
+.GeoGebraFrame .objectPropertiesPanel {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -1469,7 +1469,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	color: #999999;
 }
 
-.gwt-SplitLayoutPanel-HDragger {
+.GeoGebraFrame .gwt-SplitLayoutPanel-HDragger {
 	cursor: col-resize;
 	background: #F8F8F8;
 	border-left: 1px solid #DCDCDC;
@@ -1483,7 +1483,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: default;
 }
 
-.gwt-SplitLayoutPanel-VDragger {
+.GeoGebraFrame .gwt-SplitLayoutPanel-VDragger {
 	cursor: row-resize;
 	background: #F8F8F8;
 	border-top: 1px solid #DCDCDC;
@@ -2299,7 +2299,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 /*#####################################################################################
 ###       ALGEBRA INPUT
 #####################################################################################*/
-.AlgebraInput {
+.GeoGebraFrame .AlgebraInput {
 	background-color: #F8F8F8;
 	border-top: 1px solid #DCDCDC;
 	display: table;
@@ -3303,7 +3303,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 /*#####################################################################################
 ###       NAVIGATION BAR
 #####################################################################################*/
-.consProtNav {
+.GeoGebraFrame .consProtNav {
 	position: absolute;
 	background-color: #F8F8F8;
 	width: 100%;
@@ -3715,6 +3715,8 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 .elemHeading {
 	border-bottom: 1px solid #EDEDED;
 	position: relative;
+	margin-bottom: -2px;
+	z-index: 3;
 }
 
 /* .algebraView div table+div {
@@ -3748,7 +3750,7 @@ body.application[dir=rtl] .algebraOpenButton {
 	right: 0;
 }
 
-.avItem,
+.GeoGebraFrame .avItem,
 .avItem .gwt-TreeItem,
 .avItem .gwt-TreeItem >* {
  	width: 100%;
@@ -3923,7 +3925,7 @@ body.application[dir=rtl] .imageCorner {
 }
 
 /*============ AutocompleteTextFieldW =======*/
-.AutoCompleteTextFieldW {
+.GeoGebraFrame .AutoCompleteTextFieldW {
 	box-sizing: border-box;
 	position: relative;
 }
@@ -4683,7 +4685,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 /*###################################################################################################################
 ###		OPEN SCREEN FROM TOUCH
 ###################################################################################################################*/
-.headerbar {
+.GeoGebraFrame .headerbar {
 	background-color: #F8F8F8;
 	border-bottom: 1px solid #EDEDED;
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
@@ -4877,7 +4879,7 @@ PROVIDERS
 }
 
 /* ++++++  MaterialListPanel   ++++++++ */
-.materialListPanel {
+.GeoGebraFrame .materialListPanel {
 	padding: 20px;
 	overflow-y: scroll;
 	box-sizing: border-box;
