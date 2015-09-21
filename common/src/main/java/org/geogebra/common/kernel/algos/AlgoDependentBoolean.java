@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolynomialNode;
+import org.geogebra.common.kernel.arithmetic.TrustCheck;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -479,12 +480,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (node.getRight().isExpressionNode()) {
 			traverseExpression((ExpressionNode) node.getRight());
 		}
+		TrustCheck nodeCheck = node.getTrustCheck();
 		// expression is trusted, if children are trusted
 		if (node.getLeft().isExpressionNode()
 				&& node.getLeftTree().getTrustCheck().getTrustable()
 				&& node.getRight().isExpressionNode()
 				&& node.getRightTree().getTrustCheck().getTrustable()) {
-			node.getTrustCheck().setTrustable(true);
+			nodeCheck.setTrustable(true);
 			return;
 		}
 		// case number with segment, eg. 2*a^2
@@ -493,21 +495,21 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				&& node.getRightTree().getTrustCheck().getTrustable()
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
-			node.getTrustCheck().setTrustable(true);
+			nodeCheck.setTrustable(true);
 			return;
 		}
 		// case segment with number, eg. a^2*1,5
 		if (node.getRight() instanceof MyDouble
 				&& node.getLeft().isExpressionNode()
 				&& node.getLeftTree().getTrustCheck().getTrustable()) {
-			node.getTrustCheck().setTrustable(true);
+			nodeCheck.setTrustable(true);
 			return;
 		}
 		// * and / with number is trusted
 		if (node.getLeft() instanceof MyDouble
 				|| node.getRight() instanceof MyDouble) {
 			if ((node.getOperation() == Operation.DIVIDE || node.getOperation() == Operation.MULTIPLY)) {
-				node.getTrustCheck().setTrustable(true);
+				nodeCheck.setTrustable(true);
 				 }
 		}
 		// case we have something in even power
@@ -519,7 +521,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				if (Kernel.isInteger(d) && d % 2 == 0
 						&& node.getLeftTree().getTrustCheck()
 								.getHalfTrustable()) {
-					node.getTrustCheck().setTrustable(true);
+					nodeCheck.setTrustable(true);
 				}
 			}
 		}
@@ -529,7 +531,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				&& node.getRight() instanceof NumberValue
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
-			node.getTrustCheck().setHalfTrustable(true);
+			nodeCheck.setHalfTrustable(true);
 		}
 		// 2*h*j or k*h*j halfTrusted
 		if (node.getRight().isExpressionNode()
@@ -537,7 +539,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				&& node.getLeft() instanceof NumberValue
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
-			node.getTrustCheck().setHalfTrustable(true);
+			nodeCheck.setHalfTrustable(true);
 		}
 		// h*j*k*l halfTrusted
 		if (node.getLeft().isExpressionNode()
@@ -546,7 +548,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				&& node.getRightTree().getTrustCheck().getHalfTrustable()
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
-			node.getTrustCheck().setHalfTrustable(true);
+			nodeCheck.setHalfTrustable(true);
 		}
 	}
 
