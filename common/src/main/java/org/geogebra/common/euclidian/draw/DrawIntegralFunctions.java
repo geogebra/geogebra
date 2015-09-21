@@ -171,7 +171,7 @@ public class DrawIntegralFunctions extends Drawable {
 								// appropriate
 
 			if (objStroke.getLineWidth() > 0) {
-				g2.setPaint(n.getObjectColor());
+				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.drawWithValueStrokePure(gp);
 			}

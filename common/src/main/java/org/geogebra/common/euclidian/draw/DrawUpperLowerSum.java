@@ -226,7 +226,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 			try {
 				if (geo.lineThickness > 0) {
-					g2.setPaint(sum.getObjectColor());
+					g2.setPaint(getObjectColor());
 					g2.setStroke(objStroke);
 					g2.draw(gp);
 				}

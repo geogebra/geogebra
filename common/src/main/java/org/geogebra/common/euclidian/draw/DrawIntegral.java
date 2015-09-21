@@ -17,8 +17,8 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
-import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -169,7 +169,7 @@ public class DrawIntegral extends Drawable {
 								// appropriate
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(n.getObjectColor());
+				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.drawWithValueStrokePure(gp);
 			}

@@ -262,7 +262,7 @@ public class DrawRay extends Drawable implements Previewable {
 
 	@Override
 	final public void drawTrace(org.geogebra.common.awt.GGraphics2D g2) {
-		g2.setPaint(geo.getObjectColor());
+		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		g2.draw(line);
 	}
@@ -332,7 +332,7 @@ public class DrawRay extends Drawable implements Previewable {
 
 	final public void drawPreview(org.geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(geo.getObjectColor());
+			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
 			g2.draw(line);
