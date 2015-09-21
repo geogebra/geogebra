@@ -1,6 +1,8 @@
 package org.geogebra.web.html5.util.sliderPanel;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.util.Dom;
@@ -22,13 +24,15 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	private SliderWI slider;
 	private Label minLabel;
 	private Label maxLabel;
+	private Kernel kernel;
 
-	public SliderPanelW(double min, double max) {
-		minLabel = new Label(String.valueOf(min));
+	public SliderPanelW(double min, double max, Kernel kernel) {
+		this.kernel = kernel;
+		minLabel = new Label(kernel.format(min, StringTemplate.defaultTemplate));
 		add(minLabel);
 		slider = new SliderWJquery(min, max);
 		add(slider);
-		maxLabel = new Label(String.valueOf(max));
+		maxLabel = new Label(kernel.format(max, StringTemplate.defaultTemplate));
 		add(maxLabel);
 		setStyleName("optionsSlider");
 	}
@@ -39,12 +43,12 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 
 	public void setMinimum(double min) {
 		slider.setMinimum(min);
-		minLabel.setText(String.valueOf(min));
+		minLabel.setText(kernel.format(min, StringTemplate.defaultTemplate));
 	}
 
 	public void setMaximum(double max) {
 		slider.setMaximum(max);
-		maxLabel.setText(String.valueOf(max));
+		maxLabel.setText(kernel.format(max, StringTemplate.defaultTemplate));
 	}
 
 	public void setStep(double step) {

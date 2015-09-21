@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -249,9 +250,12 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		public void update() {
-			tfMin.setText("" + num.getIntervalMin());
-			tfMax.setText("" + num.getIntervalMax());
-			tfStep.setText(num.isAutoStep() ? "" : "" + num.getAnimationStep());
+			tfMin.setText(kernel.format(num.getIntervalMin(),
+					StringTemplate.editTemplate));
+			tfMax.setText(kernel.format(num.getIntervalMax(),
+					StringTemplate.editTemplate));
+			tfStep.setText(num.isAutoStep() ? "" : kernel.format(
+					num.getAnimationStep(), StringTemplate.editTemplate));
 			setLabels();
 		}
 
@@ -272,7 +276,9 @@ public class RadioTreeItem extends AVTreeItem
 			sliderPanel.setVisible(true);
 			deferredResizeSlider();
 			setVisible(false);
-			animPanel.setVisible(true);
+			if (animPanel != null) {
+				animPanel.setVisible(true);
+			}
 		}
 
 		public void keyReleased(KeyEvent e) {
@@ -884,7 +890,8 @@ public class RadioTreeItem extends AVTreeItem
 	private boolean sliderNeeded() {
 		return avExtension && geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV()
-				&& geo.isIndependent();
+				&& geo.isIndependent()
+				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
 
 	private void initSlider() {
@@ -910,7 +917,7 @@ public class RadioTreeItem extends AVTreeItem
 				&& num.getIntervalMaxObject() != null) {
 
 			slider = new SliderPanelW(num.getIntervalMin(),
-					num.getIntervalMax());
+					num.getIntervalMax(), app.getKernel());
 
 			slider.setValue(num.getValue());
 
