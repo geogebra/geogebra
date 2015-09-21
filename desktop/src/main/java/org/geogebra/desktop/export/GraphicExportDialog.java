@@ -929,6 +929,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				g = new EMFGraphics2D(file, new Dimension(pixelWidth,
 						pixelHeight));
 			}
+
+			// fix problem with aspect ratio in eg MS Word
+			// https://community.oracle.com/thread/1264130
+			g.setDeviceIndependent(true);
+
 			g.startExport();
 			ev.exportPaint(g, exportScale, ExportType.EMF);
 
