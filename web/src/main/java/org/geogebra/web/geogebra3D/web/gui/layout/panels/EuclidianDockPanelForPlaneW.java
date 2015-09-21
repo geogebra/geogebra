@@ -18,7 +18,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
@@ -86,60 +85,10 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 			eview1 = Canvas.createIfSupported();
 			eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 			eview1.getElement().getStyle().setZIndex(0);
-			euclidianpanel.add(eview1);
+			euclidianpanel.getAbsolutePanel().add(eview1);
 		}
 
 		return euclidianpanel;
-	}
-
-	class EuclidianPanel extends AbsolutePanel implements RequiresResize {
-
-		EuclidianDockPanelForPlaneW dockPanel;
-
-		int oldHeight = 0;
-		int oldWidth = 0;
-
-		public EuclidianPanel(EuclidianDockPanelForPlaneW dockPanel) {
-			this.dockPanel = dockPanel;
-		}
-
-		@Override
-		public void onResize() {
-
-			if (app != null) {
-
-				int h = dockPanel.getComponentInteriorHeight();
-				int w = dockPanel.getComponentInteriorWidth();
-
-				// TODO handle this better?
-				// exit if new size cannot be determined
-				if (h <= 0 || w <= 0) {
-					return;
-				}
-
-				if (h != oldHeight || w != oldWidth) {
-
-					final EuclidianSettings settings = app.getSettings()
-					        .getEuclidianForPlane(
-					                ((GeoElement) view.getCompanion()
-					                        .getPlane()).getLabelSimple());
-					settings.setPreferredSize(org.geogebra.common.factories.AwtFactory.prototype
-					        .newDimension(w, h));
-
-					view.synCanvasSize();
-					view.doRepaint2();
-					app.stopCollectingRepaints();
-
-					oldHeight = h;
-					oldWidth = w;
-
-				} else {
-					// it's possible that the width/height didn't change but the
-					// position of EV did
-					view.getEuclidianController().calculateEnvironment();
-				}
-			}
-		}
 	}
 
 	@Override
@@ -169,11 +118,11 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 	@Override
 	public AbsolutePanel getAbsolutePanel() {
-		return euclidianpanel;
+		return euclidianpanel.getAbsolutePanel();
 	}
 
 	@Override
-	public AbsolutePanel getEuclidianPanel() {
+	public EuclidianPanel getEuclidianPanel() {
 		return euclidianpanel;
 	}
 
@@ -198,5 +147,27 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	@Override
 	public boolean hasPlane() {
 		return true;
+	}
+
+	@Override
+	public void calculateEnvironment() {
+		view.getEuclidianController().calculateEnvironment();
+
+	}
+
+	@Override
+	public void resizeView(int width, int height) {
+
+		final EuclidianSettings settings = app.getSettings()
+				.getEuclidianForPlane(
+						((GeoElement) view.getCompanion().getPlane())
+								.getLabelSimple());
+		settings.setPreferredSize(org.geogebra.common.factories.AwtFactory.prototype
+				.newDimension(width, height));
+
+		view.synCanvasSize();
+		view.doRepaint2();
+		app.stopCollectingRepaints();
+
 	}
 }

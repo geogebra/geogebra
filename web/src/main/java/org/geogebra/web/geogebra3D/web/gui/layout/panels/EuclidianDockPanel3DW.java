@@ -8,9 +8,7 @@ import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
@@ -104,61 +102,21 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	}
 	
 	
-	class EuclidianPanel extends FlowPanel implements RequiresResize {
 
-		EuclidianDockPanel3DW dockPanel;
-		AbsolutePanel absoluteEuclidianPanel;
 
-		int oldHeight = 0;
-		int oldWidth = 0;
-		
-		public EuclidianPanel(EuclidianDockPanel3DW dockPanel,
-				AbsolutePanel absolutePanel) {
-			super();
-			this.dockPanel = dockPanel;
-			add(absoluteEuclidianPanel = absolutePanel);
-			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
+	@Override
+	public void calculateEnvironment() {
+		if (app.isEuclidianView3Dinited()) {
+			app.getEuclidianView3D().getEuclidianController()
+					.calculateEnvironment();
 		}
 
-		public void onResize() {
-
-			if (app != null) {
-
-				int h = dockPanel.getComponentInteriorHeight();
-				int w = dockPanel.getComponentInteriorWidth();
-				if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN3D)) {
-					h -= dockPanel.navHeight();
-				}
-				// TODO handle this better?
-				// exit if new size cannot be determined
-				if (h <= 0 || w <= 0) {
-					return;
-				}
-				if (h != oldHeight || w != oldWidth) {
-					app.ggwGraphicsView3DDimChanged(w, h);
-					oldHeight = h;
-					oldWidth = w;
-				} else {
-					// it's possible that the width/height didn't change but the position of EV did
-					app.getEuclidianView3D().getEuclidianController()
-							.calculateEnvironment();
-				}
-			}
-		}
-
-		public void add(Widget w, int x, int y) {
-	        absoluteEuclidianPanel.add(w,x,y);
-        }
-
-		@Override
-        public boolean remove(Widget w) {
-			return absoluteEuclidianPanel.remove(w);
-        }
-
-		public AbsolutePanel getAbsolutePanel() {
-			return absoluteEuclidianPanel;
-        }
 	}
 
+	@Override
+	public void resizeView(int width, int height) {
+		app.ggwGraphicsView3DDimChanged(width, height);
+
+	}
 
 }

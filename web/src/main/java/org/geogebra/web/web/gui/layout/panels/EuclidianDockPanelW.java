@@ -10,9 +10,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements EuclidianPanelWAbstract{
@@ -92,60 +90,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	
 	
 	
-	class EuclidianPanel extends FlowPanel implements RequiresResize {
 
-		EuclidianDockPanelW dockPanel;
-		AbsolutePanel absoluteEuclidianPanel;
-
-		int oldHeight = 0;
-		int oldWidth = 0;
-		
-		public EuclidianPanel(EuclidianDockPanelW dockPanel) {
-			super();
-			this.dockPanel = dockPanel;
-			add(absoluteEuclidianPanel = new AbsolutePanel());
-			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
-		}
-
-		public void onResize() {
-
-			if (app != null) {
-
-				int h = dockPanel.getComponentInteriorHeight();
-				int w = dockPanel.getComponentInteriorWidth();
-				if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
-					h -= dockPanel.navHeight();
-				}
-
-				// TODO handle this better?
-				// exit if new size cannot be determined
-				if (h <= 0 || w <= 0) {
-					return;
-				}
-				if (h != oldHeight || w != oldWidth) {
-					app.ggwGraphicsViewDimChanged(w, h);
-					oldHeight = h;
-					oldWidth = w;
-				} else {
-					// it's possible that the width/height didn't change but the position of EV did
-					app.getEuclidianView1().getEuclidianController().calculateEnvironment();
-				}
-			}
-		}
-
-		public void add(Widget w, int x, int y) {
-	        absoluteEuclidianPanel.add(w,x,y);
-        }
-
-		@Override
-        public boolean remove(Widget w) {
-			return absoluteEuclidianPanel.remove(w);
-        }
-
-		public AbsolutePanel getAbsolutePanel() {
-			return absoluteEuclidianPanel;
-        }
-	}
 
 	public void reset() {
 		if (euclidianpanel != null) {
@@ -202,5 +147,16 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	@Override
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_graphics();
+	}
+
+	@Override
+	public void calculateEnvironment() {
+		app.getEuclidianView1().getEuclidianController().calculateEnvironment();
+
+	}
+
+	@Override
+	public void resizeView(int width, int height) {
+		app.ggwGraphicsViewDimChanged(width, height);
 	}
 }

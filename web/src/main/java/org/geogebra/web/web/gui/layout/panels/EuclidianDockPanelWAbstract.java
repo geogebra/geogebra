@@ -1,12 +1,16 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Abstract class for all "euclidian" panels. 
@@ -109,6 +113,74 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 		return 30;
 	}
 
+	public class EuclidianPanel extends FlowPanel implements RequiresResize {
+
+		EuclidianDockPanelWAbstract dockPanel;
+		AbsolutePanel absoluteEuclidianPanel;
+
+		int oldHeight = 0;
+		int oldWidth = 0;
+
+		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel) {
+			super();
+			this.dockPanel = dockPanel;
+			add(absoluteEuclidianPanel = new AbsolutePanel());
+			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
+		}
+
+		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel,
+				AbsolutePanel absPanel) {
+			super();
+			this.dockPanel = dockPanel;
+			add(absoluteEuclidianPanel = absPanel);
+			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
+		}
+
+		public void onResize() {
+
+			if (app != null) {
+
+				int h = dockPanel.getComponentInteriorHeight();
+				int w = dockPanel.getComponentInteriorWidth();
+				if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
+					h -= dockPanel.navHeight();
+				}
+
+				// TODO handle this better?
+				// exit if new size cannot be determined
+				if (h <= 0 || w <= 0) {
+					return;
+				}
+				if (h != oldHeight || w != oldWidth) {
+					dockPanel.resizeView(w, h);
+					oldHeight = h;
+					oldWidth = w;
+				} else {
+					// it's possible that the width/height didn't change but the
+					// position of EV did
+					dockPanel.calculateEnvironment();
+				}
+			}
+		}
+
+		public void add(Widget w, int x, int y) {
+			absoluteEuclidianPanel.add(w, x, y);
+		}
+
+		@Override
+		public boolean remove(Widget w) {
+			return absoluteEuclidianPanel.remove(w);
+		}
+
+		public AbsolutePanel getAbsolutePanel() {
+			return absoluteEuclidianPanel;
+		}
+	}
+
 	protected abstract Panel getEuclidianPanel();
+
+	public abstract void calculateEnvironment();
+
+	public abstract void resizeView(int width, int height);
 
 }

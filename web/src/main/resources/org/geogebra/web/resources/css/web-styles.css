@@ -3383,7 +3383,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .navbar_btOpenWindow {
 	position: absolute;
-	right: 2px;
+	right: 8px;
 	top: 2px;
 }
 .consProtNav .navbar_btOpenWindow.consProtIsOpen, 

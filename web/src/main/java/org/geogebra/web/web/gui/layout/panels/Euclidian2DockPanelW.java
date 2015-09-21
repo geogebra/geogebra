@@ -9,7 +9,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -57,7 +56,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 			eview1 = Canvas.createIfSupported();
 			eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 			eview1.getElement().getStyle().setZIndex(0);
-			euclidianpanel.add(eview1);
+			euclidianpanel.getAbsolutePanel().add(eview1);
 		}
 
 		// Euclidian2DockPanelW.loadComponent will be called lazy,
@@ -70,42 +69,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 		return euclidianpanel;
 	}
 	
-	class EuclidianPanel extends AbsolutePanel implements RequiresResize {
 
-		Euclidian2DockPanelW dockPanel;
-
-		int oldHeight = 0;
-		int oldWidth = 0;
-		
-		public EuclidianPanel(Euclidian2DockPanelW dockPanel) {
-			this.dockPanel = dockPanel;
-		}
-
-		public void onResize() {
-		
-			if (app != null) {
-
-				int h = dockPanel.getComponentInteriorHeight();
-				int w = dockPanel.getComponentInteriorWidth();
-
-				// TODO handle this better?
-				// exit if new size cannot be determined
-				if (h <= 0 || w <= 0) {
-					return;
-				}
-				if (h != oldHeight || w != oldWidth) {
-					app.ggwGraphicsView2DimChanged(w, h);
-					oldHeight = h;
-					oldWidth = w;
-				} else {
-					// it's possible that the width/height didn't change but the position of EV did
-					if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-						app.getEuclidianView2(1).getEuclidianController().calculateEnvironment();
-					}
-				}
-			}
-		}
-	}
 
 	public void reset() {
 		if (euclidianpanel != null) {
@@ -129,7 +93,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
     }
 
 	public AbsolutePanel getAbsolutePanel() {
-	    return euclidianpanel;
+		return euclidianpanel.getAbsolutePanel();
     }
 
 	public void onResize() {
@@ -149,7 +113,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 	}
 
 	@Override
-	public AbsolutePanel getEuclidianPanel() {
+	public EuclidianPanel getEuclidianPanel() {
 		return euclidianpanel;
 	}
 
@@ -162,5 +126,20 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 	@Override
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_graphics2();
+	}
+
+	@Override
+	public void calculateEnvironment() {
+		if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+			app.getEuclidianView2(1).getEuclidianController()
+					.calculateEnvironment();
+		}
+
+	}
+
+	@Override
+	public void resizeView(int width, int height) {
+		app.ggwGraphicsView2DimChanged(width, height);
+
 	}
 }
