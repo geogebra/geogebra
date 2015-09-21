@@ -43,7 +43,7 @@ __GGB__keyboard.ta.lowerCase = {
 		"B2_7": "\u0BAF",
 		"B2_8": "\u0BCA",
 		"B2_9": "\u0B83",
-		"B2_10": "",
+		"B2_10": "'",
 }
 
 
@@ -84,5 +84,5 @@ __GGB__keyboard.ta.shiftDown = {
 		"B2_7": "\u0BB6",
 		"B2_8": "\u0BB7",
 		"B2_9": "\u0BB8\u0BCD\u0BB0\u0BC0",
-		"B2_10": "",
+		"B2_10": "'",
 }

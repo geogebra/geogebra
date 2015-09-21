@@ -43,7 +43,7 @@ __GGB__keyboard.si.lowerCase = {
 		"B2_7": "\u0D9C",
 		"B2_8": "\u0D8F",
 		"B2_9": "\u0D91",
-		"B2_10": "",
+		"B2_10": "'",
 }
 
 __GGB__keyboard.si.shiftDown = {
@@ -83,5 +83,5 @@ __GGB__keyboard.si.shiftDown = {
 		"B2_7": "\u0D9D",
 		"B2_8": "\u0D9F",
 		"B2_9": "\u0DA6",
-		"B2_10": "",
+		"B2_10": "'",
 }
