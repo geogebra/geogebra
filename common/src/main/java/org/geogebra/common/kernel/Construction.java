@@ -2098,11 +2098,11 @@ public class Construction {
 		}
 
 		// look in CAS table too for label
-		// needed for TRAC-2719
-		geo = lookupCasCellLabel(label1);
-		if (geo != null) {
-			return geo;
-		}
+		// needed for TRAC-2719; causes GGB-100
+		// geo = lookupCasCellLabel(label1);
+		// if (geo != null) {
+		// return geo;
+		// }
 
 		// if we get here, nothing worked:
 		// possibly auto-create new GeoElement with that name
