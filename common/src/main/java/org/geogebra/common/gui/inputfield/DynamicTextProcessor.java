@@ -63,7 +63,9 @@ public class DynamicTextProcessor {
 					DynamicTextType.STATIC));
 			return dList;
 		}
-
+		if (!(geo.getParentAlgorithm() instanceof AlgoDependentText)) {
+			return null;
+		}
 		// if dependent text then get the root
 		ExpressionNode root = ((AlgoDependentText) geo.getParentAlgorithm())
 				.getRoot();
