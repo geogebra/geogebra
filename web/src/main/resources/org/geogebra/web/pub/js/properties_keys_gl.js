@@ -2676,6 +2676,7 @@ __GGB__keysVar.gl.plain = {
     "PlaneThroughAPerpendicularToB": "Plano ao trav\xe9s de %0 perpendicular a %1",
     "Play": "Reproducir",
     "PlayButton": "Bot\xf3n de reproduci\xf3n",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punto",
     "PointAplusB": "Punto %0 + %1",
     "PointDep": "Dependente",

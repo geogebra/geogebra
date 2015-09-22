@@ -2676,6 +2676,7 @@ __GGB__keysVar.sk.plain = {
     "PlaneThroughAPerpendicularToB": "Rovina cez %0, ktor\xe1 je kolm\xe1 na %1",
     "Play": "Prehr\xe1vanie",
     "PlayButton": "Tla\u010d\xedtko prehr\xe1vania",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Bod",
     "PointAplusB": "Bod %0 + %1",
     "PointDep": "Z\xe1visl\xfd",

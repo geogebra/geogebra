@@ -2676,6 +2676,7 @@ __GGB__keysVar.de.plain = {
     "PlaneThroughAPerpendicularToB": "Ebene durch %0 normal auf %1",
     "Play": "Abspielen",
     "PlayButton": "Schaltfl\xe4che \"Abspielen\"",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punkt",
     "PointAplusB": "Punkt %0 + %1",
     "PointDep": "Abh\xe4ngig",

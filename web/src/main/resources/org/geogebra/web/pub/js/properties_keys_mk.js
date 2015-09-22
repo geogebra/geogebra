@@ -2676,6 +2676,7 @@ __GGB__keysVar.mk.plain = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "\u0421\u0442\u0430\u0440\u0442\u0443\u0432\u0430\u0458",
     "PlayButton": "\u041a\u043e\u043f\u0447\u0435 \u0437\u0430 \u0441\u0442\u0430\u0440\u0442\u0443\u0432\u0430\u045a\u0435",
+    "PleaseWait": "Please wait\u2026",
     "Point": "\u0422\u043e\u0447\u043a\u0430",
     "PointAplusB": "\u0422\u043e\u0447\u043a\u0430 %0 + %1",
     "PointDep": "\u0417\u0430\u0432\u0438\u0441\u043d\u0430",

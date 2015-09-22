@@ -2676,6 +2676,7 @@ __GGB__keysVar.zh_TW.plain = {
     "PlaneThroughAPerpendicularToB": "\u901a\u904e %0 \u4e26\u5782\u76f4\u65bc %1 \u7684\u5e73\u9762",
     "Play": "\u64ad\u653e",
     "PlayButton": "\u986f\u793a\u300c\u64ad\u653e\u300d\u6309\u9215",
+    "PleaseWait": "Please wait\u2026",
     "Point": "\u9ede",
     "PointAplusB": "\u9ede %0 + %1",
     "PointDep": "\u61c9\u8b8a\u9ede",

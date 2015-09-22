@@ -2676,6 +2676,7 @@ __GGB__keysVar.eu.plain = {
     "PlaneThroughAPerpendicularToB": "%0-tik igarotzen den eta %1-(r)ekiko perpendikularra den planoa",
     "Play": "Erreproduzitu",
     "PlayButton": "Erreproduzitzeko botoia",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Puntua",
     "PointAplusB": "%0 + %1 puntua",
     "PointDep": "Mendekoa",

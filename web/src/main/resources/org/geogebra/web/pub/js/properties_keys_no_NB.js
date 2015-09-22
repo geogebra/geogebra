@@ -2676,6 +2676,7 @@ __GGB__keysVar.no_NB.plain = {
     "PlaneThroughAPerpendicularToB": "Plan gjennom %0 og vinkelrett p\xe5 %1",
     "Play": "Spill av",
     "PlayButton": "Avspillingsknapp",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punkt",
     "PointAplusB": "Punkt %0 + %1",
     "PointDep": "Avhengig",

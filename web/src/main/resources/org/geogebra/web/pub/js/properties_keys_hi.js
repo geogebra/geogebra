@@ -2676,6 +2676,7 @@ __GGB__keysVar.hi.plain = {
     "PlaneThroughAPerpendicularToB": "%0 \u0938\u0947 \u091c\u093e\u0928\u0947 \u0935\u093e\u0932\u093e %1 \u0938\u0947 \u0932\u0902\u092c\u0935\u0924 \u0924\u0932",
     "Play": "\u092a\u094d\u0932\u0947",
     "PlayButton": "\u092a\u094d\u0932\u0947 \u092c\u091f\u0928",
+    "PleaseWait": "Please wait\u2026",
     "Point": "\u092c\u093f\u0902\u0926\u0941",
     "PointAplusB": "\u092c\u093f\u0902\u0926\u0941 %0 + %1",
     "PointDep": "\u0928\u093f\u0930\u094d\u092d\u0930",

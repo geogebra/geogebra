@@ -2676,6 +2676,7 @@ __GGB__keysVar.ru.plain = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "\u041f\u0440\u043e\u0438\u0433\u0440\u0430\u0442\u044c",
     "PlayButton": "\u041a\u043d\u043e\u043f\u043a\u0430 \u043f\u0440\u043e\u0438\u0433\u0440\u044b\u0432\u0430\u043d\u0438\u044f",
+    "PleaseWait": "Please wait\u2026",
     "Point": "\u0422\u043e\u0447\u043a\u0430",
     "PointAplusB": "\u0422\u043e\u0447\u043a\u0430 %0 + %1",
     "PointDep": "\u0417\u0430\u0432\u0438\u0441\u0438\u043c\u0430\u044f",

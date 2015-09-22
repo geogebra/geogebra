@@ -2676,6 +2676,7 @@ __GGB__keysVar.sq.plain = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Luaj",
     "PlayButton": "Celsi Luaj",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Pike",
     "PointAplusB": "Pika %0 plus %1",
     "PointDep": "i Varur",

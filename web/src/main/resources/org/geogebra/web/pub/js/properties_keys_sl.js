@@ -2676,6 +2676,7 @@ __GGB__keysVar.sl.plain = {
     "PlaneThroughAPerpendicularToB": "Ravnina skozi %0 pravokotna na %1",
     "Play": "Za\u017eeni",
     "PlayButton": "Gumb za zagon",
+    "PleaseWait": "Please wait\u2026",
     "Point": "To\u010dka",
     "PointAplusB": "To\u010dka %0 + to\u010dka %1",
     "PointDep": "Odvisna",

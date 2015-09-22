@@ -2676,6 +2676,7 @@ __GGB__keysVar.sv.plain = {
     "PlaneThroughAPerpendicularToB": "Plan genom %0 vinkelr\xe4t mot %1",
     "Play": "Spela",
     "PlayButton": "Uppspelningsknapp",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punkt",
     "PointAplusB": "Punkt %0 + %1",
     "PointDep": "Beroende",

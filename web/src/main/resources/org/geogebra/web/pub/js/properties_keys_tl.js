@@ -2676,6 +2676,7 @@ __GGB__keysVar.tl.plain = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "I-play",
     "PlayButton": "Pindutan para i-play",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Point",
     "PointAplusB": "Point %0 + %1",
     "PointDep": "Umaasa",

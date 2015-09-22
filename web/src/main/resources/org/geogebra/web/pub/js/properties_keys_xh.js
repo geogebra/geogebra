@@ -2676,6 +2676,7 @@ __GGB__keysVar.xh.plain = {
     "PlaneThroughAPerpendicularToB": "iPleyini edlula ku %0 emeNgqo kunye no %1",
     "Play": "Dlala",
     "PlayButton": "iQhosha lokudlala",
+    "PleaseWait": "Please wait\u2026",
     "Point": "iChaphaza",
     "PointAplusB": "Ichaphaza u %0 + %1",
     "PointDep": "xhomekeke",

@@ -2676,6 +2676,7 @@ __GGB__keysVar.pt.plain = {
     "PlaneThroughAPerpendicularToB": "Plano passando por %0 perpendicular a %1",
     "Play": "Reproduzir",
     "PlayButton": "Bot\xe3o para reproduzir a constru\xe7\xe3o",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Ponto",
     "PointAplusB": "Ponto %0 + %1",
     "PointDep": "Dependente",

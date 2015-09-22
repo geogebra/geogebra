@@ -2676,6 +2676,7 @@ __GGB__keysVar.lv.plain = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Sp\u0113l\u0113t",
     "PlayButton": "Spel\u0113\u0161anas poga",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punkts",
     "PointAplusB": "Punkts %0 + %1",
     "PointDep": "Atkar\u012bgs",

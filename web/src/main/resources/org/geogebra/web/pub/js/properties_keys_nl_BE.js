@@ -2676,6 +2676,7 @@ __GGB__keysVar.nl_BE.plain = {
     "PlaneThroughAPerpendicularToB": "Vlak door %0 loodrecht op %1",
     "Play": "Afspelen",
     "PlayButton": "Knop voor afspelen",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punt",
     "PointAplusB": "Punt %0 + %1",
     "PointDep": "Afhankelijk",

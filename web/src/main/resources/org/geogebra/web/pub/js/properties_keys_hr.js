@@ -2676,6 +2676,7 @@ __GGB__keysVar.hr.plain = {
     "PlaneThroughAPerpendicularToB": "RAvnina kroz %0 okomita na %1",
     "Play": "Pokreni",
     "PlayButton": "Gumb za pokretanje",
+    "PleaseWait": "Please wait\u2026",
     "Point": "To\u010dka",
     "PointAplusB": "To\u010dka %0 + %1",
     "PointDep": "Zavisni",

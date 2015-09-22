@@ -2676,6 +2676,7 @@ __GGB__keysVar.bs.plain = {
     "PlaneThroughAPerpendicularToB": "Ravan odre\u0111ena ta\u010dkom %0 normalna na %1",
     "Play": "Pokreni",
     "PlayButton": "Dugme za pokretanje",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Ta\u010dka",
     "PointAplusB": "Ta\u010dka %0 + %1",
     "PointDep": "Zavisna",

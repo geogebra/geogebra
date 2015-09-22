@@ -2676,6 +2676,7 @@ __GGB__keysVar.da.plain = {
     "PlaneThroughAPerpendicularToB": "Plan gennem %0 vinkelret p\xe5 %1",
     "Play": "Spil",
     "PlayButton": "Spil knap",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punkt",
     "PointAplusB": "%0 + %1",
     "PointDep": "Afh\xe6ngig",

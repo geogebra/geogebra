@@ -2676,6 +2676,7 @@ __GGB__keysVar.cy.plain = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Chwarae",
     "PlayButton": "Botwm chwarae",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Pwynt",
     "PointAplusB": "Pwynt %0 + %1",
     "PointDep": "Dibynnol",

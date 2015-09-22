@@ -2676,6 +2676,7 @@ __GGB__keysVar.tr.plain = {
     "PlaneThroughAPerpendicularToB": "%1'e dik ve %0'dan ge\xe7en d\xfczlem",
     "Play": "\xc7al\u0131\u015ft\u0131r",
     "PlayButton": "\xc7al\u0131\u015ft\u0131r d\xfc\u011fmesi",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Nokta",
     "PointAplusB": "Nokta %0 + %1",
     "PointDep": "Ba\u011f\u0131ml\u0131",

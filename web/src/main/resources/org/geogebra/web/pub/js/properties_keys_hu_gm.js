@@ -2676,6 +2676,7 @@ __GGB__keysVar.hu_gm.plain = {
     "PlaneThroughAPerpendicularToB": "%0-n \xe1tmen\u0151 %1 -ra/re mer\u0151leges s\xedk",
     "Play": "Lej\xe1tsz\xe1s",
     "PlayButton": "Lej\xe1tsz\xe1s gomb",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Pont",
     "PointAplusB": "Pont %0+%1",
     "PointDep": "F\xfcgg\u0151",

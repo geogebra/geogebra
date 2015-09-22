@@ -2676,6 +2676,7 @@ __GGB__keysVar.pl.plain = {
     "PlaneThroughAPerpendicularToB": "P\u0142aszczyzna %0 prostopad\u0142a do %1",
     "Play": "Odtw\xf3rz",
     "PlayButton": "Przycisk odtwarzania",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punkt",
     "PointAplusB": "Punkt %0 + %1",
     "PointDep": "Zale\u017cny",

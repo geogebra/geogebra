@@ -2676,6 +2676,7 @@ __GGB__keysVar.fi.plain = {
     "PlaneThroughAPerpendicularToB": "Taso %0 l\xe4pi kohtisuorassa %1 vastaan",
     "Play": "K\xe4ynnist\xe4",
     "PlayButton": "K\xe4ynnist\xe4-painike",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Piste",
     "PointAplusB": "Piste %0 + %1",
     "PointDep": "Riippuva",

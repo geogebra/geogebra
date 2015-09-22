@@ -2676,6 +2676,7 @@ __GGB__keysVar.lt.plain = {
     "PlaneThroughAPerpendicularToB": "Plok\u0161tuma per %0 statmena %1",
     "Play": "Paleisti",
     "PlayButton": "Paleidimo mygtukas",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Ta\u0161kas",
     "PointAplusB": "Ta\u0161kas %0 + %1",
     "PointDep": "Priklausomas",

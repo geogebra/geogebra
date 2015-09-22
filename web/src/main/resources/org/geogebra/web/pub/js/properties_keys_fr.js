@@ -2676,6 +2676,7 @@ __GGB__keysVar.fr.plain = {
     "PlaneThroughAPerpendicularToB": "Plan par %0 perpendiculaire \xe0 %1",
     "Play": "Ex\xe9cuter",
     "PlayButton": "\"Ex\xe9cuter\"",
+    "PleaseWait": "Patienter svp \u2026",
     "Point": "Point",
     "PointAplusB": "Point %0 + %1",
     "PointDep": "D\xe9pendant",

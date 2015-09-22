@@ -2676,6 +2676,7 @@ __GGB__keysVar.ro.plain = {
     "PlaneThroughAPerpendicularToB": "Plan prin %0 perpendicular pe %1",
     "Play": "Start",
     "PlayButton": "Buton start",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Punct",
     "PointAplusB": "Punct %0+%1",
     "PointDep": "Dependent",

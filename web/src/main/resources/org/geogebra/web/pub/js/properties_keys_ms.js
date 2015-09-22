@@ -2676,6 +2676,7 @@ __GGB__keysVar.ms.plain = {
     "PlaneThroughAPerpendicularToB": "Satah melalui %0 serenjang dengan %1",
     "Play": "Main",
     "PlayButton": "Butang main",
+    "PleaseWait": "Please wait\u2026",
     "Point": "Titik",
     "PointAplusB": "Titik %0 + %1",
     "PointDep": "Bersandar",
