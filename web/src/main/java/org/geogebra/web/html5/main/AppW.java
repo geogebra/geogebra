@@ -1878,6 +1878,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 	}
 
+	/**
+	 * Set default cursor for whole body
+	 */
 	public void resetCursor() {
 		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 	}

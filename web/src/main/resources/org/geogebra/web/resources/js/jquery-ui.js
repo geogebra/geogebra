@@ -1551,14 +1551,14 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 
 	// returns the step-aligned value that val is closest to, between (inclusive) min and max
 	_trimAlignValue: function( val ) {
+		var step = ( this.options.step > 0 ) ? this.options.step : 1;		
 		if ( val <= this._valueMin() ) {
 			return this._valueMin();
 		}
-		if ( val >= this._valueMax() ) {
+		if ( val >= this._valueMax() - 0.5 * step) {
 			return this._valueMax();
 		}
-		var step = ( this.options.step > 0 ) ? this.options.step : 1,
-			valModStep = (val - this._valueMin()) % step,
+		var valModStep = (val - this._valueMin()) % step,
 			alignValue = val - valModStep;
 
 		if ( Math.abs(valModStep) * 2 >= step ) {
@@ -1571,12 +1571,7 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 	},
 
 	_calculateNewMax: function() {
-		var max = this.options.max,
-			min = this._valueMin(),
-			step = this.options.step,
-			aboveMin = Math.floor( ( +( max - min ).toFixed( this._precision() ) ) / step ) * step;
-		max = aboveMin + min;
-		this.max = parseFloat( max.toFixed( this._precision() ) );
+		this.max = this.options.max;
 	},
 
 	_precision: function() {

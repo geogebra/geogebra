@@ -1490,6 +1490,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		num.setIntervalMin(defaultAngleOrNum.getIntervalMinObject());
 		num.setIntervalMax(defaultAngleOrNum.getIntervalMaxObject());
 		num.setAnimationStep(defaultAngleOrNum.getAnimationStep());
+		num.setAutoStep(defaultAngleOrNum.isAutoStep());
 		num.setAbsoluteScreenLocActive(true);
 		num.setAnimationType(defaultNum.getAnimationType());
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth());
