@@ -452,6 +452,19 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						ev = ((MyList) args.get(0).getLeft())
 								.getListElement(pos);
 						sbCASCommand.append(toString(ev, symbolic, tpl));
+					} else if (name.equals("Solve") && pos == 2
+							&& args.size() == 3
+							&& args.get(2).getLeft() instanceof MyList) {
+						// case solve with list of assumptions
+						// append assume for each assumption
+						MyList list = (MyList) args.get(2).getLeft();
+						for (int k = 0; k < list.size(); k++) {
+							ev = list.getItem(k);
+							sbCASCommand.append(toString(ev, symbolic, tpl));
+							sbCASCommand.append("),assume(");
+						}
+						sbCASCommand.setLength(sbCASCommand.length() - 9);
+
 					} else if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
 						ev = args.get(pos);

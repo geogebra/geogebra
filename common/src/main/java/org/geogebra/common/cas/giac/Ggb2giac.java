@@ -643,6 +643,9 @@ public class Ggb2giac {
 		p("Solve.2", "when(size(%1) == 1,"
 				+ "flatten1(ggbsort(normal([op(solve(%0,%1))]))),"
 				+ "ggbsort(normal([op(solve(%0,%1))])))");
+		// solve with assumptions
+		p("Solve.3",
+				"(assume(%2),solve(%0,%1))[size(assume(%2),solve(%0,%1))-1]");
 		p("SolveODE.1", "when((%0)[0]=='=',"
 						// case the equation contains only y and other variable
 						// as x, by default use for variable list y, x
