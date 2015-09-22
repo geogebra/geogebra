@@ -557,7 +557,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void setForeground(GColor color) {
-		drawTextField.getLabel().setForeground(color);
 		textField.getElement().getStyle()
 		        .setColor(GColor.getColorString(color));
 	}
