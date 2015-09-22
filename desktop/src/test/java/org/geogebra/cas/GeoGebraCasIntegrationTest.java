@@ -4636,7 +4636,9 @@ public class GeoGebraCasIntegrationTest {
     // Depends on CASRundbrief_Figure4_0.
     t("f(t) := c * a^t", "a^(t) * c");
 
-    t("Solve[f(2) = 225, a]", "{a = -15 * sqrt(c) / c, a = 15 * sqrt(c) / c}");
+		t("Solve[f(2) = 225, a]",
+				"{a = 15 * sqrt(c) / c, a = -15 * sqrt(c) / c}",
+				"{a = -15 * sqrt(c) / c, a = 15 * sqrt(c) / c}");
   }
 
   /* Figure 5: "Computeralgebra und Geometrie" (Computer Algebra and Geometrics) */
@@ -4701,7 +4703,7 @@ public class GeoGebraCasIntegrationTest {
     // Depends on CASRundbrief_Figure5_2.
     t("g(x) := (x + 4) / 2", "1 / 2 * x + 2");
 
-    t("Intersect[f(x), g(x)]", "{(2, 3), (0, 2)}");
+		t("Intersect[f(x), g(x)]", "{(0, 2), (2, 3)}", "{(2, 3), (0, 2)}");
   }
 
   /* Figure 6: "Umgekehrte Kurvendiskussion" (Backward Curve Sketching) */
