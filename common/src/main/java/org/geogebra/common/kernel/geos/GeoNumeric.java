@@ -67,6 +67,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public static final int DEFAULT_SLIDER_THICKNESS = 10;
 
 	private static final double AUTO_STEP_MUL = 0.005;
+	private static final double AUTO_STEP_MUL_ANGLE = 0.0025;
 
 	public static final double AUTO_STEP = Double.NaN;
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
@@ -463,19 +464,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private double getAutoStepValue() {
 
 		if(isAngle()){
-			// default 360deg /10/20
-			App.debug("AUTOSTEP"
-					+ (intervalMax.getDouble() - intervalMin.getDouble())
-					* (180 / Math.PI)
-					+ ","
-					+ (getAnimationSpeed() * AUTO_STEP_MUL)
-					+ ","
-					+ ((intervalMax.getDouble() - intervalMin.getDouble())
-							* (180 / Math.PI) * getAnimationSpeed() * AUTO_STEP_MUL));
+			// default 360 *10/200 -> 2deg
 			return MyMath.nextPrettyNumber(
 					(intervalMax.getDouble() - intervalMin.getDouble())
 							* getAnimationSpeed() * (180 / Math.PI)
-							* AUTO_STEP_MUL, 0)
+							* AUTO_STEP_MUL_ANGLE, 0)
 					* (Math.PI / 180);
 		}
 		return MyMath.nextPrettyNumber(

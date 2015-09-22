@@ -72,6 +72,7 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -159,11 +160,16 @@ public class EuclidianDraw {
 					geo.setEuclidianVisible(false);
 					geo.setEuclidianVisible(true);
 					geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+					if (!geo.isColorSet()) {
+						geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+						geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+					}
 				}
 				d = new DrawSlider(ev, (GeoNumeric) geo);
 			} else {
 				d = ev.getCompanion().newDrawAngle((GeoAngle) geo);
 				if (geo.isDrawable()) {
+					App.debug("COLOR SET" + geo.isColorSet());
 					if (!geo.isColorSet()) {
 						org.geogebra.common.awt.GColor col = geo
 								.getConstruction()
@@ -172,10 +178,7 @@ public class EuclidianDraw {
 										ConstructionDefaults.DEFAULT_ANGLE)
 								.getObjectColor();
 						geo.setObjColor(col);
-						if (geo.isIndependent()) {
-							geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
-							geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
-						}
+
 					}
 				}
 			}
