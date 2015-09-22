@@ -486,17 +486,20 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		// : Math.min(text.length(), geoTextField.getLength());
 
 		GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				text.substring(0, getTruncIndex(text, g2.getFont())), textLeft,
+				text.substring(0, getTruncIndex(text, g2)), textLeft,
 				textBottom, false,
 				false);
 	}
 
-	private int getTruncIndex(String text, GFont font) {
+	private int getTruncIndex(String text, GGraphics2D g2) {
 		int idx = text.length();
-
-		while (StringUtil.prototype.estimateLength(text.substring(0, idx),
-				font) > boxWidth && idx > 0) {
+		int mt = g2.getFontRenderContext().measureTextWith(text, g2.getFont());
+		int width = boxWidth - g2.getFontRenderContext()
+				.measureTextWith("  " + Unicode.Alpha + "  ", g2.getFont());
+		while (mt > width && idx > 0) {
 			idx--;
+			mt = g2.getFontRenderContext()
+					.measureTextWith(text.substring(0, idx), g2.getFont());
 
 		}
 		return idx;
