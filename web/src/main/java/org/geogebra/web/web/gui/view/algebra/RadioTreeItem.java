@@ -2119,7 +2119,10 @@ GuiResourcesSimple.INSTANCE
 			if (separated && !selectionCtrl.contains(geo)) {
 				selectionCtrl.setSelectHandled(true);
 				getAV().selectRow(geo, false);
+			} else if (continous) {
+				getAV().updateSelection();
 			}
+
 		}
 	}
 

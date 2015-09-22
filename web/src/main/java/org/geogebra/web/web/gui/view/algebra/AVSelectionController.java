@@ -57,6 +57,7 @@ public class AVSelectionController {
 		if (lastMode != SelectMode.Continuous) {
 			selection.clearSelectedGeos(true);
 			selection.addSelectedGeo(getLastSelectedGeo());
+			selection.addSelectedGeo(geo);
 		}
 
 		if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
