@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.KeyEvent;
@@ -2070,24 +2069,24 @@ GuiResourcesSimple.INSTANCE
 			}
 			return;
 		}
-		int mode = app.getActiveEuclidianView().getMode();
-		if (// !skipSelection &&
-		(mode == EuclidianConstants.MODE_MOVE)) {
+		// int mode = app.getActiveEuclidianView().getMode();
+		// if (// !skipSelection &&
+		// (mode == EuclidianConstants.MODE_MOVE)) {
 			// update selection
 			updateSelection(event.isControlDown(), event.isShiftDown());
 
-		} else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			// let euclidianView know about the click
-			if (geo != null) {
-				app.getActiveEuclidianView().clickedGeo(geo,
-						event.isControlDown());
-			}
-			// event.release();
-		} else
-		// tell selection listener about click
-		if (geo != null) {
-			app.geoElementSelected(geo, false);
-		}
+		// } else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
+		// // let euclidianView know about the click
+		// if (geo != null) {
+		// app.getActiveEuclidianView().clickedGeo(geo,
+		// event.isControlDown());
+		// }
+		// // event.release();
+		// } else
+		// // tell selection listener about click
+		// if (geo != null) {
+		// app.geoElementSelected(geo, false);
+		// }
 
 		// Alt click: copy definition to input field
 		if (geo != null && event.isAltDown() && app.showAlgebraInput()) {
