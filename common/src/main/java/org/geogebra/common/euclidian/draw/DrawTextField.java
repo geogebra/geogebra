@@ -335,7 +335,10 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 			label.setForeground(geo.getObjectColor());
 		}
 		textField.setFont(font);
-		textField.setForeground(geo.getObjectColor());
+		if (geo != null) {
+			textField.setForeground(geo.getObjectColor());
+		}
+
 		GColor bgCol = geo.getBackgroundColor();
 		textField.setBackground(
 				bgCol != null ? bgCol : view.getBackgroundCommon());
@@ -478,13 +481,25 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		}
 
 		String text = geoTextField.getText();
-		int truncIdx = geoTextField.getLinkedGeo() != null
-				? (int) (boxWidth / (g2.getFont().getSize() * 0.5)) + 1
-				: Math.min(text.length(), geoTextField.getLength());
+		// int truncIdx = geoTextField.getLinkedGeo() != null
+		// ? (int) (boxWidth / (g2.getFont().getSize() * 0.5)) + 1
+		// : Math.min(text.length(), geoTextField.getLength());
 
-		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				text.substring(0, truncIdx), textLeft, textBottom, false,
+		GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+				text.substring(0, getTruncIndex(text, g2.getFont())), textLeft,
+				textBottom, false,
 				false);
+	}
+
+	private int getTruncIndex(String text, GFont font) {
+		int idx = text.length();
+
+		while (StringUtil.prototype.estimateLength(text.substring(0, idx),
+				font) > boxWidth && idx > 0) {
+			idx--;
+
+		}
+		return idx;
 	}
 
 	private void calculateBoxBounds(boolean latex) {
