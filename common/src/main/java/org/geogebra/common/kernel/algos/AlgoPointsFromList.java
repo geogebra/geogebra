@@ -263,6 +263,10 @@ public class AlgoPointsFromList extends AlgoElement {
 
 	// number is the number of current roots
 	private void updateLabels(int number) {
+		if(list == null || list.size() == 0){
+			return;
+		}
+
 		if ((list.get(0).isGeoNumeric() && list.size() == 2)
 				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 2)) {
 			if (initLabels) {
