@@ -3788,19 +3788,21 @@ body.application[dir=rtl] .algebraOpenButton {
  	padding: 0px;
  	/*padding-bottom: 1px;*/
  	margin-top: 1px;
- 	border-top: 1px solid transparent;
- 	border-bottom: 1px solid transparent;
+ 	border-top: 1px solid #DCDCDC;
+ 	border-bottom: 1px solid #DCDCDC;
+ 	background-color: transparent !important;
  }
 .avItem.avSelectedRow .gwt-TreeItem {
 	padding: 0px;
 	/*margin-top: 1px;*/
 	
-	border-top: 1px solid #6161FF;
-	border-bottom: 1px solid #6161FF;
+/* 	border-top: 1px solid #6161FF;
+	border-bottom: 1px solid #6161FF; */
 }
 
 .avItem.avSelectedRow .marblePanel  {
-	background-color: #CCCCFF;
+	/* background-color: #CCCCFF; */
+	background-color: #DCDCDC;
 	/*border-right: 1px solid #DCDCDC;*/
 }
 

@@ -544,10 +544,10 @@ GuiResourcesSimple.INSTANCE
 
 		public void setHighlighted(boolean selected) {
 			this.selected = selected;
-			getElement().getStyle().setBackgroundColor(
-					selected ? getBgColorString() : CLEAR_COLOR_STR);
-			getElement().getStyle().setBorderColor(
-					selected ? getColorString() : CLEAR_COLOR_STR_BORDER);
+			// getElement().getStyle().setBackgroundColor(
+			// selected ? getBgColorString() : CLEAR_COLOR_STR);
+			// getElement().getStyle().setBorderColor(
+			// selected ? getColorString() : CLEAR_COLOR_STR_BORDER);
 
 		}
 
@@ -2457,13 +2457,13 @@ GuiResourcesSimple.INSTANCE
 
 		if (selected) {
 			addStyleName("avSelectedRow");
-			border.setBorderColor(
-					GColor.getColorString(geo.getAlgebraColor()));
+			// border.setBorderColor(
+			// GColor.getColorString(geo.getAlgebraColor()));
 
 			addDeleteButton();
 
 		} else {
-			border.setBorderColor(CLEAR_COLOR_STR);
+			// border.setBorderColor(CLEAR_COLOR_STR);
 			removeStyleName("avSelectedRow");
 		}
 		marblePanel.setHighlighted(selected);
