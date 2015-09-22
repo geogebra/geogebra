@@ -639,6 +639,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		if (geo.isGeoNumeric()) {
 			slopeTriangleSize = ((GeoNumeric) geo).slopeTriangleSize;
+			autoStep = ((GeoNumeric) geo).autoStep;
 		}
 	}
 
