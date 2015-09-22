@@ -16,6 +16,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -387,9 +388,21 @@ public class EuclidianPen {
 		if (maxX < e.getX())
 			maxX = e.getX();
 
-		if (penPoints.size() == 0)
+		if (penPoints.size() == 0) {
+			if(initialPoint != null){
+				// also add the coordinates of the initialPoint to the penPoints
+				Coords c = initialPoint.getCoords();
+				// calculate the screen coordinates
+				int locationX = (int) (view.getXZero() + (c.getX() / view.getInvXscale()));
+				int locationY = (int) (view.getYZero() - (c.getY() / view.getInvYscale()));
+
+				GPoint p = new GPoint(locationX, locationY);
+				penPoints.add(p);
+				// draw a line between the initalPoint and the first point
+				drawPenPreviewLine(g2D, newPoint, p);
+			}
 			penPoints.add(newPoint);
-		else {
+		}else {
 			GPoint lastPoint = penPoints.get(penPoints.size() - 1);
 			drawPenPreviewLine(g2D, newPoint, lastPoint);
 			if (lastPoint.distance(newPoint) > 3)
