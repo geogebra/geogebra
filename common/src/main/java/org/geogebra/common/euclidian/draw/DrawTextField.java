@@ -494,9 +494,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 	private int getTruncIndex(String text, GGraphics2D g2) {
 		int idx = text.length();
 		int mt = g2.getFontRenderContext().measureTextWith(text, g2.getFont());
-		int width = boxWidth - g2.getFontRenderContext()
-				.measureTextWith("  " + Unicode.Alpha + "  ", g2.getFont());
-		while (mt > width && idx > 0) {
+		while (mt > boxWidth && idx > 0) {
 			idx--;
 			mt = g2.getFontRenderContext()
 					.measureTextWith(text.substring(0, idx), g2.getFont());
