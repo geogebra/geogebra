@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
@@ -25,14 +26,17 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	private Label minLabel;
 	private Label maxLabel;
 	private Kernel kernel;
+	private String[] parts = new String[2];
 
-	public SliderPanelW(double min, double max, Kernel kernel) {
+	public SliderPanelW(double min, double max, Kernel kernel, boolean degrees) {
 		this.kernel = kernel;
-		minLabel = new Label(kernel.format(min, StringTemplate.defaultTemplate));
+		minLabel = new Label();
 		add(minLabel);
 		slider = new SliderWJquery(min, max);
 		add(slider);
-		maxLabel = new Label(kernel.format(max, StringTemplate.defaultTemplate));
+		maxLabel = new Label();
+		setMinimum(min, degrees);
+		setMaximum(max, degrees);
 		add(maxLabel);
 		setStyleName("optionsSlider");
 	}
@@ -41,14 +45,33 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		return slider.getValue();
 	}
 
-	public void setMinimum(double min) {
+	public void setMinimum(double min, boolean degrees) {
 		slider.setMinimum(min);
-		minLabel.setText(kernel.format(min, StringTemplate.defaultTemplate));
+		printParts(minLabel, min, degrees);
 	}
 
-	public void setMaximum(double max) {
+	private void printParts(Label label, double val, boolean degrees) {
+		if (degrees) {
+			label.setText(kernel.formatAngle(val,
+					StringTemplate.defaultTemplate, true).toString());
+			return;
+		}
+		parts = StringTemplate.printLimitedWidth(val, kernel, parts);
+		if (parts[1] == null) {
+			label.setText(parts[0]);
+		} else {
+			label.setText(parts[0] + "\u00D7 10");
+			Element exponent = DOM.createElement("sup");
+			exponent.setInnerText(parts[1]);
+			label.getElement().appendChild(exponent);
+		}
+
+	}
+
+	public void setMaximum(double max, boolean degrees) {
 		slider.setMaximum(max);
-		maxLabel.setText(kernel.format(max, StringTemplate.defaultTemplate));
+		parts = StringTemplate.printLimitedWidth(max, kernel, parts);
+		printParts(maxLabel, max, degrees);
 	}
 
 	public void setStep(double step) {

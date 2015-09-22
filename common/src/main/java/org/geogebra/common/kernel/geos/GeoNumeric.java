@@ -294,7 +294,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if (Math.ceil(value) < 0) {
 				max = 0;
 			} else {
-				max = MyMath.nextPrettyNumber(value);
+				max = MyMath.nextPrettyNumber(value, 1);
 			}
 		}
 
@@ -307,7 +307,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if (Math.floor(value) > 0) {
 				min = 0;
 			} else {
-				min = -MyMath.nextPrettyNumber(Math.abs(value));
+				min = -MyMath.nextPrettyNumber(Math.abs(value), 1);
 			}
 		}
 		setIntervalMin(new MyDouble(kernel, min));
@@ -461,8 +461,26 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	private double getAutoStepValue() {
-		return (intervalMax.getDouble() - intervalMin.getDouble())
-				* getAnimationSpeed() * AUTO_STEP_MUL;
+
+		if(isAngle()){
+			// default 360deg /10/20
+			App.debug("AUTOSTEP"
+					+ (intervalMax.getDouble() - intervalMin.getDouble())
+					* (180 / Math.PI)
+					+ ","
+					+ (getAnimationSpeed() * AUTO_STEP_MUL)
+					+ ","
+					+ ((intervalMax.getDouble() - intervalMin.getDouble())
+							* (180 / Math.PI) * getAnimationSpeed() * AUTO_STEP_MUL));
+			return MyMath.nextPrettyNumber(
+					(intervalMax.getDouble() - intervalMin.getDouble())
+							* getAnimationSpeed() * (180 / Math.PI)
+							* AUTO_STEP_MUL, 0)
+					* (Math.PI / 180);
+		}
+		return MyMath.nextPrettyNumber(
+				(intervalMax.getDouble() - intervalMin.getDouble())
+						* getAnimationSpeed() * AUTO_STEP_MUL, 0);
 	}
 
 	/**
@@ -639,7 +657,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		if (geo.isGeoNumeric()) {
 			slopeTriangleSize = ((GeoNumeric) geo).slopeTriangleSize;
-			autoStep = ((GeoNumeric) geo).autoStep;
+			setAutoStep(((GeoNumeric) geo).autoStep);
 		}
 	}
 
@@ -1150,9 +1168,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		boolean ok = (getIntervalMin() <= getIntervalMax());
 		setIntervalMinActive(ok && okMin);
 		setIntervalMaxActive((ok && okMin && okMax)|| (getIntervalMin() == getIntervalMax() && okMin && okMax));
-		if (ok && okMin && okMax)
+		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
-		else if (okMin && okMax)
+		} else if (okMin && okMax)
 			setUndefined();
 		if(oldValue!=value){
 			updateCascade();

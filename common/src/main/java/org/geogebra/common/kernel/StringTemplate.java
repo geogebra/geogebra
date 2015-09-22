@@ -2905,4 +2905,22 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return this.allowPiHack;
 	}
 
+	public static String[] printLimitedWidth(double decimal, Kernel kernel,
+			String[] parts) {
+		if (Math.abs(decimal) < 1E3
+				&& (Math.abs(decimal) > 1E-3 || Kernel.isZero(decimal))) {
+			parts[0] = kernel.format(decimal, defaultTemplate);
+			parts[1] = null;
+			return parts;
+		}
+		StringTemplate stl = StringTemplate.printScientific(
+				StringType.GEOGEBRA, 2, false);
+
+		// returns string like 3456E-7
+		String str = kernel.format(decimal, stl);
+
+		String[] strs = str.split("E");
+		return strs;
+	}
+
 }

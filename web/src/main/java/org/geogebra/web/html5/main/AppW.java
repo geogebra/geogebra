@@ -769,6 +769,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	/**
+	 * Prepare for loading file
+	 */
 	public void beforeLoadFile() {
 		startCollectingRepaints();
 		// make sure the image manager will not wait for images from the *old*

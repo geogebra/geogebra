@@ -921,9 +921,11 @@ GuiResourcesSimple.INSTANCE
 		// a slider (e.g. boxplots)
 		if (num.getIntervalMinObject() != null
 				&& num.getIntervalMaxObject() != null) {
-
+			boolean degree = geo.isGeoAngle()
+					&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
 			slider = new SliderPanelW(num.getIntervalMin(),
-					num.getIntervalMax(), app.getKernel());
+					num.getIntervalMax(), app.getKernel(), degree);
+			updateSliderColor();
 
 			slider.setValue(num.getValue());
 
@@ -1376,8 +1378,10 @@ GuiResourcesSimple.INSTANCE
 			if (((GeoNumeric) geo).getIntervalMaxObject() != null
 					&& ((GeoNumeric) geo).getIntervalMinObject() != null) {
 				hasMinMax = true;
-				slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
-				slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
+				boolean degree = geo.isGeoAngle()
+						&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
+				slider.setMinimum(((GeoNumeric) geo).getIntervalMin(), degree);
+				slider.setMaximum(((GeoNumeric) geo).getIntervalMax(), degree);
 
 				slider.setStep(geo.getAnimationStep());
 				slider.setValue(((GeoNumeric) geo).value);

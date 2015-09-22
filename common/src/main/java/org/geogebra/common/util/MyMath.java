@@ -225,8 +225,8 @@ public final class MyMath {
 	 *            input number
 	 * @return closest bigger pretty integer
 	 */
-	public static double nextPrettyNumber(double t) {
-		if (t < 1)
+	public static double nextPrettyNumber(double t, double min) {
+		if (t < min)
 			return 1;
 		double pot = Math.pow(10, Math.floor(Math.log10(t)));
 		double n = t / pot;

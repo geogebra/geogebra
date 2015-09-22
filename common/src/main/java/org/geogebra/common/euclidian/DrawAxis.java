@@ -223,7 +223,7 @@ public class DrawAxis {
 									view.axesNumberingDistances[0]), view
 									.getFontAxes()));
 			int unitsPerLabelX = (int) MyMath.nextPrettyNumber(labelLengthMax
-					/ axesStep);
+					/ axesStep, 1);
 
 			if (pix < EuclidianView.SCREEN_BORDER) {
 				// big tick
@@ -439,7 +439,7 @@ public class DrawAxis {
 			double maxHeight = EuclidianView.estimateNumberHeight(view
 					.getFontAxes());
 			int unitsPerLabelY = (int) MyMath.nextPrettyNumber(maxHeight
-					/ axesStep);
+					/ axesStep, 1);
 
 			if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 				// big tick

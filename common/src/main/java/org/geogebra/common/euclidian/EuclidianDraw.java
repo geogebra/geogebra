@@ -172,6 +172,10 @@ public class EuclidianDraw {
 										ConstructionDefaults.DEFAULT_ANGLE)
 								.getObjectColor();
 						geo.setObjColor(col);
+						if (geo.isIndependent()) {
+							geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+							geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+						}
 					}
 				}
 			}
