@@ -4958,7 +4958,12 @@ public class MyXMLHandler implements DocHandler {
 			while (it.hasNext()) {
 				GeoExpPair pair = it.next();
 				NumberValue num = algProc.evaluateToNumeric(pair.exp, false);
+				if (pair.getGeo().isGeoNumeric()) {
+					((GeoNumeric) pair.getGeo()).setAutoStep(Double.isNaN(num
+							.getDouble()));
+				}
 				pair.getGeo().setAnimationStep(num);
+
 			}
 		} catch (Exception e) {
 			animationStepList.clear();
