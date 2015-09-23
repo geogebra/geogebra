@@ -3697,15 +3697,12 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 /* 	width: 100%; */
 }
 
-.algebraView>div {
-	padding: 0px !important;
-/* 	margin-bottom: 10px; */
-	margin-top: -2px;
-}
-.algebraView .avItem {
+
+.algebraView .avItem, .algebraView .avInputItem {
 	/*padding: 3px 10px !important;*/
 	padding: 0px !important;
 	z-index: 1;
+	margin-top: -2px;
 }
 .avItem.avSelectedRow {
 	z-index: 3;
@@ -3715,7 +3712,6 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 .elemHeading {
 	border-bottom: 1px solid #EDEDED;
 	position: relative;
-	margin-bottom: -2px;
 	z-index: 3;
 }
 

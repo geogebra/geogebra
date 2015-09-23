@@ -1280,6 +1280,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 		hideAlgebraInput();
 		this.inputPanelTreeItem = new TreeItem(inputPanelLatex.getWidget());
+		inputPanelTreeItem.addStyleName("avInputItem");
 		inputPanelLatex.getWidget().getElement().getParentElement()
 		.addClassName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.replaceXButtonDOM();
@@ -1351,6 +1352,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 
 		inputPanelTreeItem = super.addItem(inputPanelLatex.getWidget());
+		inputPanelTreeItem.addStyleName("avInputItem");
 		// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.getWidget().getElement().getParentElement()
 				.addClassName("NewRadioButtonTreeItemParent");

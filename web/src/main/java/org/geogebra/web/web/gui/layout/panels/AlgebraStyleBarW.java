@@ -208,7 +208,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 				public void fireActionPerformed(PopupMenuButton actionButton) {
 					// called if a object of the popup is clicked
 					int i = treeModeButton.getSelectedIndex();
-					app.getAlgebraView().setTreeMode(supportedModes.get(i));
+					app.getSettings().getAlgebra()
+							.setTreeMode(supportedModes.get(i).ordinal());
+					app.closePopups();
 				}
 			});
 		}
