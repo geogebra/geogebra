@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -17,7 +16,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
-import org.geogebra.web.web.gui.util.StandardButton;
+import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -39,7 +38,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
 
 public class GGWToolBar extends Composite implements RequiresResize,
         ToolBarInterface {
@@ -65,7 +63,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	private boolean menuBarShowing = false;
 	
 	private FlowPanel rightButtonPanel;
-	private StandardButton openSearchButton, openMenuButton;
+	private PushButton openSearchButton;
+	private MyToggleButton2 openMenuButton;
 	// private PushButton openSearchButton, openMenuButton;
 	PushButton undoButton;
 	private PushButton redoButton;
@@ -285,34 +284,33 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
 				app.getArticleElement().getDataParamApp()){
 		this.menuBarShowing = true;
-			openMenuButton = new StandardButton(pr.button_open_menu(), null, 32);
+			// openMenuButton = new StandardButton(pr.button_open_menu(), null,
+			// 32);
+			//
+			// openMenuButton.addFastClickHandler(new FastClickHandler() {
+			// @Override
+			// public void onClick(Widget source) {
+			// app.hideKeyboard();
+			// app.closePopups();
+			// GGWToolBar.this.app.toggleMenu();
+			// }
 
-			openMenuButton.addFastClickHandler(new FastClickHandler() {
+			openMenuButton = new MyToggleButton2(
+					GuiResources.INSTANCE.menu_header_open_menu(),
+					GuiResources.INSTANCE.menu_header_open_menu_hover());
+
+			openMenuButton.getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE
+							.menu_header_open_menu_hover()));
+
+			openMenuButton.addClickHandler(new ClickHandler() {
 				@Override
-				public void onClick(Widget source) {
+				public void onClick(ClickEvent event) {
 					app.hideKeyboard();
 					app.closePopups();
 					GGWToolBar.this.app.toggleMenu();
 				}
 			});
-
-			// Steffi wanted to have purple Image onHover (didn't work: Menu
-			// wouldn't close anymore)
-			//
-			// openMenuButton = new PushButton();
-			// openMenuButton.getUpFace().setImage(
-			// new Image(GuiResources.INSTANCE.menu_header_open_menu()));
-			// openMenuButton.getUpHoveringFace().setImage(
-			// new Image(GuiResources.INSTANCE
-			// .menu_header_open_menu_hover()));
-			// openMenuButton.addClickHandler(new ClickHandler() {
-			// @Override
-			// public void onClick(ClickEvent event) {
-			// app.hideKeyboard();
-			// app.closePopups();
-			// GGWToolBar.this.app.toggleMenu();
-			// }
-			// });
 
 		openMenuButton.addDomHandler(new KeyUpHandler(){
 			public void onKeyUp(KeyUpEvent event) {
@@ -329,31 +327,30 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}, KeyUpEvent.getType());
 
 		if (!exam && app.enableFileFeatures()) {
-				openSearchButton = new StandardButton(pr.button_open_search(),
-						null, 32);
-				openSearchButton.addFastClickHandler(new FastClickHandler() {
-					@Override
-					public void onClick(Widget source) {
-						app.openSearch(null);
-					}
-				});
-			
-				// Steffi wanted purple Image onHover (didn't work)
-				//
-				// openSearchButton = new PushButton();
-				// openSearchButton.getUpFace().setImage(
-				// new Image(
-				// GuiResources.INSTANCE
-				// .menu_header_open_search()));
-				// openSearchButton.getUpHoveringFace().setImage(
-				// new Image(
-				// GuiResources.INSTANCE.menu_header_open_search_hover()));
-				// openSearchButton.addClickHandler(new ClickHandler() {
+				// openSearchButton = new
+				// StandardButton(pr.button_open_search(),
+				// null, 32);
+				// openSearchButton.addFastClickHandler(new FastClickHandler() {
 				// @Override
-				// public void onClick(ClickEvent event) {
+				// public void onClick(Widget source) {
 				// app.openSearch(null);
 				// }
 				// });
+
+				openSearchButton = new PushButton();
+				openSearchButton.getUpFace().setImage(
+						new Image(GuiResources.INSTANCE
+								.menu_header_open_search()));
+				openSearchButton.getUpHoveringFace().setImage(
+						new Image(GuiResources.INSTANCE
+								.menu_header_open_search_hover()));
+
+				openSearchButton.addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+						app.openSearch(null);
+					}
+				});
 		
 			openSearchButton.addDomHandler(new KeyUpHandler(){
 				public void onKeyUp(KeyUpEvent event) {
@@ -894,11 +891,18 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 	public void selectMenuButton(int index) {
 		deselectButtons();
-		StandardButton focused = index == 0 ? this.openSearchButton
-				: this.openMenuButton;
-		if(focused != null){
-			focused.setFocus(true);
-			focused.getElement().addClassName("selectedButton");
+
+		// MyToggleButton2 focused = index == 0 ? this.openSearchButton
+		// : this.openMenuButton;
+		// if(focused != null){
+		// focused.setFocus(true);
+		// focused.getElement().addClassName("selectedButton");
+		// }
+
+		if (index == 0) {
+			this.openSearchButton.getElement().addClassName("selectedButton");
+		} else {
+			this.openMenuButton.getElement().addClassName("selectedButton");
 		}
 	    
     }
