@@ -2355,7 +2355,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			((AppD) app).updateContentPane();
 		}
 
-		if (app.getEuclidianView3D() != null) {
+		if (app.isEuclidianView3Dinited()) {
 			EuclidianView ev = (EuclidianView) app.getEuclidianView3D();
 			ev.updateFonts();
 			((EuclidianView3DInterface) ev).updateAllDrawables();
