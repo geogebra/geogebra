@@ -5,9 +5,6 @@
 *	Make sure everything is placed in .GeoGebraFrame!
 **/
 
-// only here for testing, remove later
-//@direction: ltr; // use `rtl` or `ltr`
-
 @import "definitions.less";
 
 /**
@@ -24,14 +21,13 @@
 
 .GeoGebraFrame {
 	background-color: @color-white;
-//	background-color: pink;
 	color: @color-grey;
 	font-size: 16px;
 	
 	body.application,
-	& span,
-	& td,
-	& th {
+	span,
+	td,
+	th {
 		color: @color-grey;
 		font-size: 16px;
 	}
@@ -40,12 +36,13 @@
 		.box-sizing(content-box);
 	}
 	
-	& img {
+	img {
 		vertical-align: baseline;
 	}
 	
 	.button,
-	.gwt-PushButton {
+	.gwt-PushButton,
+	.gwt-MenuItem {
 		cursor: pointer;
 		
 		&.button-up-disabled,
@@ -53,6 +50,58 @@
 			cursor: default;
 			.opacity(30);
 		}
+	}
+	
+	.gwt-MenuItem-disabled {
+		cursor: default;
+		.opacity(30);
+	}
+	
+	
+	
+	
+	.gwt-MenuBar {
+		cursor: default;
+		
+//		.gwt-MenuItem {
+//			cursor: default;
+//			font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+//		}
+
+		.gwt-MenuItem-selected {
+			background: #CCCCFF;
+		}
+	}	
+	
+	// Used for SMART Menu
+	.gwt-MenuBar-vertical {
+		table {
+			border-collapse: collapse;
+		}
+		
+		.subMenuIcon {
+			padding-right: 4px;
+		}
+		.subMenuIcon-selected {
+			background: #CCCCFF;
+		}
+		
+		.gwt-MenuItem {
+			.padding(2px, 40px, 2px, 1px);
+		}
+		
+		.gwt-MenuItemSeparator {
+			padding: 1px 0px;
+			
+			.menuSeparatorInner {
+				height: 0px;
+				padding: 0px;
+				border: 0px;
+				border-top: 1px solid @color-bordergrey;
+				overflow: hidden;
+			}
+		}
+			
 	}
 }
 

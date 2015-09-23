@@ -484,7 +484,7 @@ body.application[dir=rtl] .gwt-Label {
 	
 }
 
-.gwt-MenuBar {
+/* .gwt-MenuBar {
 	cursor: default;
 }
 
@@ -495,7 +495,7 @@ body.application[dir=rtl] .gwt-Label {
 
 .gwt-MenuBar .gwt-MenuItem-selected {
 	background: #CCCCFF;
-}
+} */
 
 /*.gwt-MenuBar-horizontal {
   background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
@@ -506,7 +506,8 @@ body.application[dir=rtl] .gwt-Label {
 	
 }
 
-.gwt-MenuBar .gwt-MenuItem-disabled,.gwt-MenuBar-horizontal .gwt-MenuItem-disabled
+.gwt-MenuBar .gwt-MenuItem-disabled,
+.gwt-MenuBar-horizontal .gwt-MenuItem-disabled
 	{
 	color: #DCDCDC;
 }
@@ -547,7 +548,7 @@ body[dir=ltr] .gwt-MenuBar-vertical {
 body[dir=rtl] .gwt-MenuBar-vertical {
 	margin-right: 0px;
 }*/
-.gwt-MenuBar-vertical table {
+/* .gwt-MenuBar-vertical table {
 	border-collapse: collapse;
 }
 
@@ -556,7 +557,7 @@ body[dir=rtl] .gwt-MenuBar-vertical {
 }
 
 body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
-	/*padding: 2px 1px 2px 40px;*/
+	padding: 2px 1px 2px 40px;
 	
 }
 
@@ -577,13 +578,13 @@ body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
 }
 
 body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
-	/*padding-left: 4px;*/
+	padding-left: 4px;
 	
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
 	background: #CCCCFF;
-}
+} */
 
 .gwt-MenuBarPopup {
 	margin: 0px 0px 0px 3px;
@@ -1652,13 +1653,13 @@ body[dir=rtl] .signIn {
 	left: 50px;
 }*/
 
-.menuContainer {
+/* .menuContainer {
 	left: auto !important;
-	top: 53px !important; /* should be equal to GLookAndFeelI.TOOLBAR_HEIGHT */
+	top: 53px !important; should be equal to GLookAndFeelI.TOOLBAR_HEIGHT
 	z-index: 100;
-}
+} */
 
-.ggbmenubarwrapper {
+/* .ggbmenubarwrapper {
 	width: 100%;
 	height: 100%;
 }
@@ -1675,9 +1676,9 @@ body[dir=rtl] .signIn {
 .menubarSMART .menuPanel {
 	width: 100%;
 	border-collapse: collapse;
-}
+} */
 
-.menubarSMART .gwt-MenuBar .gwt-MenuItem-selected {
+/* .menubarSMART .gwt-MenuBar .gwt-MenuItem-selected {
 	background: none;
 }
 .menubarSMART .gwt-MenuBar .gwt-MenuItem:hover,
@@ -1690,9 +1691,9 @@ body[dir=rtl] .signIn {
 	margin-top: 5px;
 	margin-bottom: 8px;
 	width: 100%;
-}
+} */
 
-.GeoGebraMenuBar .gwt-MenuItem {
+/* .GeoGebraMenuBar .gwt-MenuItem {
 	padding: 4px 5px 4px 35px;
 	position: relative;
 	display: block;
@@ -1709,10 +1710,10 @@ body[dir=rtl] .signIn {
 	position: absolute;
 	top: 4px;
 	left: 5px;
-}
+} */
 
 /* Submenus just for SMART */
-.GeoGebraMenuBar.subMenuLeftSide {
+/* .GeoGebraMenuBar.subMenuLeftSide {
 	right: 280px;
 	white-space: nowrap;
 	top: -5px;
@@ -1725,20 +1726,20 @@ body[dir=rtl] .signIn {
 	padding: 5px;
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-}
+} */
 
 /* Workaround due to GWT's bug, see ticket #4819 */
-.GeoGebraMenuBar.subMenuLeftSide.subMenuLeftSide2 {
+/* .GeoGebraMenuBar.subMenuLeftSide.subMenuLeftSide2 {
 	right: 10px;
-}
+} */
 
-.gwt-PopupPanel.subMenuLeftSidePopup {
+/* .gwt-PopupPanel.subMenuLeftSidePopup {
 	box-shadow: none;
 	padding: 0px;
 	border-radius: 0px;
-}
+} */
 
-.GeoGebraMenuBar.subMenuLeftSide .gwt-MenuItem {
+/* .GeoGebraMenuBar.subMenuLeftSide .gwt-MenuItem {
 	padding: 3px 10px;
 }
 
@@ -1746,26 +1747,26 @@ body[dir=rtl] .signIn {
 	position: absolute;
 	top: 3px;
 	right: -15px;
-}
+} */
 /*.gwt-PopupPanel .popupContent .subMenuLeftSide .arrowSubmenu {
 	display: none;
 }*/
-.GeoGebraMenuBar.subMenuLeftSide>table {
+/* .GeoGebraMenuBar.subMenuLeftSide>table {
 	margin: 0px;
 }
 
 .GeoGebraMenuBar.subMenuLeftSide input[type="radio"] {
 	margin: 0px 5px 0px 0px;
-}
+} */
 
-.GeoGebraMenuBar.subMenuLeftSide .RadioButtonMenuItem label {
+/* .GeoGebraMenuBar.subMenuLeftSide .RadioButtonMenuItem label {
 	color: #666666;
 	font-size: 100%;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-}
+} */
 
 /* for Tablets */
-.Tablet .menubarSMART {
+/* .Tablet .menubarSMART {
 	font-size: 115%;
 	line-height: 153%;
 }
@@ -1777,7 +1778,7 @@ body[dir=rtl] .signIn {
 .Tablet .menubarSMART .GeoGebraMenuBar .gwt-MenuItem .GeoGebraMenuImage
 	{
 	top: 8px;
-}
+} */
 
 /*#####################################################################################
 ###       CONTEXT MENU
@@ -2702,9 +2703,9 @@ body.application[dir=rtl] .button.redoButton {
 	margin-right: 0px;
 } */
 
-.rightButtonPanel .selectedButton {
+/* .rightButtonPanel .selectedButton {
 	padding: 0px;
-}
+} */
 
 /*#####################################################################################
 ###       DIALOGS
