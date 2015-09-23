@@ -462,7 +462,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	private double getAutoStepValue() {
-
+		if (intervalMin == null || intervalMax == null) {
+			return isAngle() ? Math.PI / 180 : 0.05;
+		}
 		if(isAngle()){
 			// default 360 *10/200 -> 2deg
 			return MyMath.nextPrettyNumber(
