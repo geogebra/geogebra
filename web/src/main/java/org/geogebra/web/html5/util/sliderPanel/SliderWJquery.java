@@ -42,6 +42,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 							"min" : min,
 							"max" : max,
 							"values" : [ val ],
+							"animate" : true,
 							"slide" : function(event, ui) {
 								that.@org.geogebra.web.html5.util.sliderPanel.SliderWJquery::slide(D)(ui.value)
 							}
