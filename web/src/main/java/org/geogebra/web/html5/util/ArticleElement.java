@@ -596,4 +596,8 @@ public final class ArticleElement extends Element {
 
 	}
 
+	public boolean disableHiRes3D() {
+		return "true".equals(getAttribute("data-param-disablehires3d"));
+	}
+
 }

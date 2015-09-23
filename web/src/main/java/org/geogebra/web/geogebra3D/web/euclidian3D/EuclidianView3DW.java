@@ -427,8 +427,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 */
 	@Override
 	public int getWidth() {
-		return (int) (this.g2p.getCoordinateSpaceWidth() / ((AppW) app)
-				.getPixelRatio());
+		return (int) (this.g2p.getCoordinateSpaceWidth() / getPixelRatio());
 	}
 
 	/**
@@ -438,8 +437,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 */
 	@Override
 	public int getHeight() {
-		return (int) (this.g2p.getCoordinateSpaceHeight() / ((AppW) app)
-				.getPixelRatio());
+		return (int) (this.g2p.getCoordinateSpaceHeight() / getPixelRatio());
 	}
 
 	@Override
@@ -549,7 +547,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
 		if (renderer != null) {
-			((RendererW) renderer).setPixelRatio(((AppW) app).getPixelRatio());
+			((RendererW) renderer).setPixelRatio(getPixelRatio());
 			renderer.setView(0, 0, preferredSize.getWidth(),
 					preferredSize.getHeight());
 		}
@@ -559,6 +557,13 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			updateSize();
 			setReIniting(false);
 		}
+	}
+
+	private double getPixelRatio() {
+		if (((AppW) app).getArticleElement().disableHiRes3D()) {
+			return 1;
+		}
+		return ((AppW) app).getPixelRatio();
 	}
 
 	@Override
@@ -752,6 +757,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void setPixelRatio(float pixelRatio) {
+		if (((AppW) app).getArticleElement().disableHiRes3D()) {
+			return;
+		}
 		if (app == null || Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
 			return;
 		}
