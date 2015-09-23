@@ -271,6 +271,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		super(ec, EVNO_3D, settings);
 
+		// don't remove, it's important we pick up when this class is created by
+		// mistake
+		Log.error(
+				"******************************************************************************");
+		Log.error(
+				"******************* 3D View being initialized ********************************");
+		Log.error(
+				"******************************************************************************");
+
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
 
