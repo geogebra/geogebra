@@ -410,7 +410,9 @@ public class ConstructionDefaults {
 		number.setIntervalMax(GeoNumeric.DEFAULT_SLIDER_MAX);
 		number.setIntervalMin(GeoNumeric.DEFAULT_SLIDER_MIN);
 		number.setAnimationStep(GeoNumeric.DEFAULT_SLIDER_INCREMENT);
-		number.setAutoStep(true);
+		if (cons.getApplication().has(Feature.AV_EXTENSIONS)) {
+			number.setAutoStep(true);
+		}
 		number.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		number.setAlphaValue(DEFAULT_NUMBER_ALPHA);
 		number.setDefaultGeoType(DEFAULT_NUMBER);
@@ -427,7 +429,9 @@ public class ConstructionDefaults {
 		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
 		angle.setDrawable(true, false);
 		angle.setDrawable(true, false);
-		// angle.setAutoStep(true);
+		if (cons.getApplication().has(Feature.AV_EXTENSIONS)) {
+			angle.setAutoStep(true);
+		}
 		angle.setArcSize(angleSize);
 		/*
 		 * we have to set min/max/increment/speed here because
