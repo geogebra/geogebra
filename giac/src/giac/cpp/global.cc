@@ -2605,7 +2605,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     return path.empty()?false:is_file_available((path+name).c_str());
   }
 
-  static string browser_command(const string & orig_file){
+  string browser_command(const string & orig_file){
 #if defined __MINGW_H || defined NSPIRE
     return "";
 #else
@@ -2727,13 +2727,14 @@ extern "C" void Sleep(unsigned int miliSecond);
     }
     ++i;
     string browsersub=browser.substr(i,bs-i);
+    if (s[0]!='\'') s='\''+s+'\'';
     if (browsersub=="mozilla" || browsersub=="mozilla-bin" || browsersub=="firefox" ){
       s="if ! "+browser+" -remote \"openurl("+s+")\" ; then "+browser+" "+s+" & fi &";
     }
     else
       s=browser+" "+s+" &";
 #endif
-    if (debug_infolevel)
+    //if (debug_infolevel)
       CERR << "// Running command:"+ s<<endl;
     return s;
 #endif // __MINGW_H
@@ -2745,7 +2746,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
 #ifdef WIN32
     string res=file;
-    if (file.size()>4 && file.substr(0,4)!="http"){
+    if (file.size()>4 && file.substr(0,4)!="http" && file.substr(0,4)!="file"){
       if (res[0]!='/')
 	res=giac_aide_dir()+res;
       // Remove # trailing part of URL

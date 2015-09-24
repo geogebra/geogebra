@@ -3773,6 +3773,21 @@ namespace giac {
     return 0;
   }
 
+  // workaround for intervals
+  static bool is_zero_or_contains(const gen & g,GIAC_CONTEXT){
+#ifdef NO_RTTI
+    return is_zero(g,contextptr);
+#else
+    if (is_zero(g,contextptr))
+      return true;
+    if (g.type!=_REAL)
+      return false;
+    if (real_interval * ptr=dynamic_cast<real_interval *>(g._REALptr))
+      return ptr->maybe_zero();
+    return false;
+#endif
+  }
+
   gen arg_CPLX(const gen & a,GIAC_CONTEXT){
     gen realpart=normal(a.re(contextptr),contextptr),
       imagpart=normal(a.im(contextptr),contextptr);
@@ -3784,13 +3799,13 @@ namespace giac {
       return atan2f(realpart._FLOAT_val,imagpart._FLOAT_val,angle_radian(contextptr));
 #endif
     }
-    if (is_zero(realpart,contextptr)){
-      if (is_zero(imagpart,contextptr))
+    if (is_zero_or_contains(realpart,contextptr)){
+      if (is_zero_or_contains(imagpart,contextptr))
 	return undef;
       return (cst_pi_over_2-atan(realpart/imagpart,contextptr))*sign(imagpart,contextptr);
     }
-    if (is_zero(imagpart,contextptr))
-      return (1-sign(realpart,contextptr))*cst_pi_over_2;
+    if (is_zero_or_contains(imagpart,contextptr))
+      return (1-sign(realpart,contextptr))*cst_pi_over_2+atan(imagpart/realpart,contextptr);
     if ( (realpart.type==_DOUBLE_ || realpart.type==_FLOAT_) || (imagpart.type==_DOUBLE_ || imagpart.type==_FLOAT_) )
       return eval(atan(rdiv(imagpart,realpart,contextptr),contextptr)+(1-sign(realpart,contextptr))*sign(imagpart,contextptr)*evalf_double(cst_pi_over_2,1,contextptr),1,contextptr);
     else
@@ -6822,7 +6837,7 @@ namespace giac {
       return inv(pow(base,-exponent),context0);
     }
     if (is_one(base))
-      return 1;
+      return base;
     if (is_minus_one(base))
       return exponent%2?-1:1;
     unsigned long int expo=exponent;

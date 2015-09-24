@@ -5344,7 +5344,7 @@ namespace giac {
     if (mode){ //not radians
       gen resd;
       if (has_evalf(res,resd,1,contextptr))
-	if(!mode) //are we in degrees
+	if(mode==1) //are we in degrees
 	  res= rad2deg_d*resd;
 	else
 	  res= rad2grad_d*resd;

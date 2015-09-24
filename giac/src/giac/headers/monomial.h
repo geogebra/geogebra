@@ -423,7 +423,9 @@ namespace giac {
       new_coord.clear();
       new_coord.reserve(a_end - a );
       for (;a!=a_end;++a){
-	new_coord.push_back(monomial<T>( ((*a).value) * fact , (*a).index) );
+	T tmp=((*a).value) * fact;
+	if (!is_zero(tmp))
+	  new_coord.push_back(monomial<T>( tmp , (*a).index) );
       }
     }
   }

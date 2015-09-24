@@ -2416,7 +2416,7 @@ namespace giac {
 	// solve(simplify(surd((5/10),570)^(x))=(8/10))
 	if (a2.type!=_VECT && !is_zero(a2) && (!lvarx(a1,v.back()).empty() || !lvarx(a2,v.back()).empty())){
 	  vecteur lv=lvarx(makevecteur(a1,a2),v.back());
-	  vecteur wpow=lop(lv,at_pow);
+	  vecteur wpow=lop(lvar(lop(lv,at_pow)),at_pow);
 	  vecteur w=mergevecteur(wpow,lop(lv,at_exp));
 	  if (!wpow.empty() || w.size()>1){
 	    arg1=ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr);
@@ -6314,7 +6314,7 @@ namespace giac {
 	  modular=tmp._VECTptr->back().val;
 	}
 	if (tmp.type==_VECT && tmp._VECTptr->front()==at_eliminate && tmp._VECTptr->back().type==_INT_){
-	  eliminate_flag=tmp._VECTptr->back().val;
+	  eliminate_flag=tmp._VECTptr->back().val!=0;
 	}
 	if (tmp.type==_VECT && tmp._VECTptr->front().type==_INT_ && tmp._VECTptr->back().type==_INT_){
 	  switch (tmp._VECTptr->front().val){
@@ -6418,7 +6418,7 @@ namespace giac {
 #endif
 	}
 	else {
-	  int j=nextpow2(l.size());
+	  int j=nextpow2(int(l.size()));
 	  if (j==16) order=_16VAR_ORDER;
 	  if (j==32) order=_32VAR_ORDER;
 	  if (j==64) order=_64VAR_ORDER;
@@ -6626,7 +6626,7 @@ namespace giac {
       if (equalposcomp(l0,l1[i]))
 	l.push_back(l1[i]);
     }
-    int faken=revlex_parametrize(l,l0,order.val),lsize=l.size();
+    int faken=revlex_parametrize(l,l0,order.val),lsize=int(l.size());
     l=vecteur(1,l);
     if (s>3 && v[3].type==_VECT)
       alg_lvar(v[3],l); // ordering for remaining variables
@@ -6636,6 +6636,7 @@ namespace giac {
     if (!vecteur2vector_polynome(eq_in,l,eqp))
       return gensizeerr("Bad second argument, expecting a Groebner basis");
     change_monomial_order(eqp,order);
+    reverse(eqp.begin(),eqp.end());
 #ifndef CAS38_DISABLED
     vecteur red_in_(gen2vecteur(v[0])),deno(red_in_.size());
     for (int i=0;i<int(red_in_.size());++i){
@@ -6693,7 +6694,7 @@ namespace giac {
     if (args._VECTptr->back()==at_lcoeff)
       returngb=2;
     bool with_f5=false,with_cocoa=false,eliminate_flag=epsilon(contextptr)!=0; int modular=1; gen o;
-    read_gbargs(*args._VECTptr,2,args._VECTptr->size(),o,with_cocoa,with_f5,modular,eliminate_flag);
+    read_gbargs(*args._VECTptr,2,int(args._VECTptr->size()),o,with_cocoa,with_f5,modular,eliminate_flag);
     vecteur eqs=gen2vecteur(remove_equal(args._VECTptr->front()));
     vecteur elim=gen2vecteur((*args._VECTptr)[1]);
     if (elim.empty())
@@ -6746,7 +6747,7 @@ namespace giac {
     }
 #endif
     // put linear dependent variables first
-    int lexvars=linelim.size();
+    int lexvars=int(linelim.size());
     lvar(elim,linelim);
     elim=linelim;
     int es=int(elim.size()),rs=int(l.size()-elim.size()),neq=int(eqs.size());
@@ -6868,7 +6869,7 @@ namespace giac {
 	  if (es<=3)
 	    lim=4;
 #endif
-	  for (;i<lim;++i)
+	  for (;int(i)<lim;++i)
 	    l.insert(l.begin()+i,0);
 	  if (lim<16) i--;
 	}

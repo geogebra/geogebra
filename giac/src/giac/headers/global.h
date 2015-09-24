@@ -882,6 +882,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   bool is_file_available(const char * ch);
   bool file_not_available(const char * ch);
   bool check_file_path(const std::string & s); // true if file is in path
+  std::string browser_command(const std::string & orig_file);
   bool system_browser_command(const std::string & file);
   // convert doc name to an absolute path name
   std::string absolute_path(const std::string & orig_file);

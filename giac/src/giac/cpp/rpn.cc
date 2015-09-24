@@ -3743,10 +3743,6 @@ namespace giac {
   static define_unary_function_eval(__tests,&_tests,_tests_s);
   define_unary_function_ptr5( at_tests ,alias_at_tests,&__tests,0,T_UNARY_OP_38);
 
-#ifdef GIAC_HAS_STO_38
-  gen aspen_choose(const vecteur & v,GIAC_CONTEXT);
-#endif
-
   gen _CHOOSE(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type!=_VECT || args._VECTptr->size()<3)
@@ -3760,9 +3756,7 @@ namespace giac {
 #ifdef NSPIRE
     return undef;
 #else
-#ifdef GIAC_HAS_STO_38
-    return aspen_choose(v,contextptr);
-#else
+#ifndef GIAC_HAS_STO_38
     vecteur res(3);
     res[2]=v[0];
     res[0]=v[1];
@@ -4236,7 +4230,7 @@ namespace giac {
     "MIN",
     // "MINREAL",
     "MKSA",
-    "MOD",
+//    "MOD", // removed as cas has MOD and mod (operator and function)
     // "MSGBOX",
     "NEG",
     "NORMALD",
@@ -4403,11 +4397,11 @@ namespace giac {
   define_unary_function_ptr5( at_ggb_ang ,alias_at_ggb_ang,&__ggb_ang,0,true);
 
 #ifdef GIAC_HAS_STO_38
-  gen aspen_ADigits(int i);
-  gen aspen_AFormat(int i);
-  gen aspen_AAngle(int i);
-  gen aspen_AComplex(int i);
-  gen aspen_ALanguage(int i);
+  gen aspen_HDigits(int i);
+  gen aspen_HFormat(int i);
+  gen aspen_HAngle(int i);
+  gen aspen_HComplex(int i);
+  gen aspen_HLanguage(int i);
 #endif
 
   gen _HDigits(const gen & g0,GIAC_CONTEXT){
@@ -4426,7 +4420,7 @@ namespace giac {
 	return gensizeerr(contextptr);
     }
 #ifdef GIAC_HAS_STO_38
-    return aspen_ADigits(g.val);
+    return aspen_HDigits(g.val);
 #else
     return _Digits(g,contextptr);
 #endif
@@ -4451,7 +4445,7 @@ namespace giac {
 	return gensizeerr(contextptr);
     }
 #ifdef GIAC_HAS_STO_38
-    return aspen_AFormat(g.val);
+    return aspen_HFormat(g.val);
 #else
     return _scientific_format(g,contextptr);
 #endif
@@ -4476,7 +4470,7 @@ namespace giac {
 	return gensizeerr(contextptr);
     }
 #ifdef GIAC_HAS_STO_38
-    return aspen_AAngle(g.val);
+    return aspen_HAngle(g.val);
 #else
     return _angle_radian(g-1,contextptr);
 #endif
@@ -4501,7 +4495,7 @@ namespace giac {
 	return gensizeerr(contextptr);
     }
 #ifdef GIAC_HAS_STO_38
-    return aspen_AComplex(g.val);
+    return aspen_HComplex(g.val);
 #else
     return _complex_mode(g,contextptr);
 #endif
@@ -4526,7 +4520,7 @@ namespace giac {
 	return gensizeerr(contextptr);
     }
 #ifdef GIAC_HAS_STO_38
-    return aspen_ALanguage(g.val);
+    return aspen_HLanguage(g.val);
 #else
     if (g==-1)
       return language(contextptr);
