@@ -193,12 +193,25 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			// only one eigenvalue = 0
 
 			// find eigenvectors
-			findEigenvector(eigenval[0], eigenvecND[0]);
-			eigenvecND[0].normalize();
-			findEigenvector(eigenval[1], eigenvecND[1]);
-			eigenvecND[1].normalize();
-			eigenvecND[2].setCrossProduct(eigenvecND[0], eigenvecND[1]);
+			if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
+				// find from eigenvalue = 0, since both others are equal
+				findEigenvector(eigenval[2], eigenvecND[2]);
+				eigenvecND[2].normalize();
+				eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
+			} else {
+				findEigenvector(eigenval[0], eigenvecND[0]);
+				eigenvecND[0].normalize();
+				findEigenvector(eigenval[1], eigenvecND[1]);
+				eigenvecND[1].normalize();
+				eigenvecND[2].setCrossProduct(eigenvecND[0], eigenvecND[1]);
+			}
 
+			// App.debug("\neigenvecND[0]=\n" + eigenvecND[0]
+			// + "\neigenvecND[1]=\n" + eigenvecND[1]
+			// + "\neigenvecND[2]=\n" + eigenvecND[2]);
+			//
+			// App.debug("\ndotproduct=" +
+			// eigenvecND[0].dotproduct(eigenvecND[1]));
 
 			// compute semi-diagonalized matrix
 			setSemiDiagonalizedMatrix();
@@ -211,20 +224,25 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 			// check other eigenvalues
 			if (eigenval[0] * eigenval[1] > 0) {
-				// if (Kernel.isZero(matrix[3])) {
-				// // single line
-				// type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
-				// }else if (eigenval[0] * matrix[3] > 0){
-				// // empty set
-				// defined = false;
-				// empty();
-				// } else {
-				// // cylinder
-				// type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
-				// }
+				if (Kernel.isZero(z)) {
+					// cylinder
+					double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
+					if (Kernel.isZero(m)) {
+						// single line
+						App.debug("single line:\n" + semiDiagMatrix);
+						type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+					} else if (eigenval[0] * m < 0) {
+						// empty
+						defined = false;
+						empty();
+					} else {
+						// cylinder
+						cylinder(-x / eigenval[0], -y / eigenval[1], m);
+					}
+				} else {
+					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+				}
 
-				// TODO better check, after semi-diag
-				type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 			} else {
 				if (Kernel.isZero(z)) {
 					// cylinder
@@ -265,7 +283,16 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		tmpMatrix3x3.set(2, 3, matrix[6]);
 		tmpMatrix3x3.set(3, 2, matrix[6]);
 
+		// App.debug("\n=================================\nvalue = " + value);
+
+		ret.setX(0);
+		ret.setY(0);
+		ret.setZ(0);
+		ret.setW(0);
 		tmpMatrix3x3.pivotDegenerate(ret, Coords.ZERO);
+
+		// App.debug("\nvalue = " + value + "\nmatrix = \n" + tmpMatrix3x3
+		// + "\nsol = \n" + ret);
 	}
 
 	private GeoPlane3D[] planes;
@@ -554,6 +581,31 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			// set type
 			type = QUADRIC_CONE;
 		}
+	}
+
+	private void cylinder(double x, double y, double m) {
+
+		// set midpoint
+		midpoint.set(Coords.O);
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[0], x));
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[1], y));
+
+		// set halfAxes = radius
+		halfAxes[0] = Math.sqrt(m / eigenval[0]);
+		halfAxes[1] = Math.sqrt(m / eigenval[1]);
+		halfAxes[2] = 1;
+
+		// set the diagonal values
+		diagonal[0] = eigenval[0];
+		diagonal[1] = eigenval[1];
+		diagonal[2] = eigenval[2];
+		diagonal[3] = 0;
+
+		// eigen matrix
+		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
+
+		// set type
+		type = QUADRIC_CYLINDER;
 	}
 
 	private void ellipsoid() {
@@ -1178,8 +1230,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		case QUADRIC_CYLINDER:
 
-			n = getEigenvec3D(1).mul(Math.sin(u)).add(
-					getEigenvec3D(0).mul(Math.cos(u)));
+			r0 = getHalfAxis(0);
+			r1 = getHalfAxis(1);
+
+			n = new Coords(4);
+			n.setMul(getEigenvec3D(0), r1 * Math.cos(u));
+			tmpCoords.setMul(getEigenvec3D(1), r0 * Math.sin(u));
+			n.addInside(tmpCoords);
+			n.normalize();
 
 			return n;
 
@@ -1284,7 +1342,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			break;
 
 		case QUADRIC_CONE:
-		case QUADRIC_CYLINDER:
+		case QUADRIC_CYLINDER: // eigenMatrix is dilated with half axes
 			parameters[0] = Math.atan2(y, x);
 			parameters[1] = z;
 			break;
@@ -1486,17 +1544,25 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 *         cylinder...)
 	 */
 	private Coords getDirectionToCenter(Coords p) {
+
 		switch (getType()) {
 		case QUADRIC_SPHERE:
 		case QUADRIC_ELLIPSOID:
-			return getMidpoint3D().sub(p);
+			tmpCoords.setSub(getMidpoint3D(), p);
+			return tmpCoords;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
-			Coords eigenCoords = eigenMatrix.solve(p);
+			eigenMatrix.pivotDegenerate(tmpCoords, p);
 			// project on eigen xOy plane
-			Coords eigenDir = new Coords(eigenCoords.getX(),
-					eigenCoords.getY(), 0, 0);
-			return eigenMatrix.mul(eigenDir).normalized().mul(-1);
+			tmpCoords.setZ(0);
+			tmpCoords.setW(0);
+			if (tmpCoords2 == null) {
+				tmpCoords2 = new Coords(4);
+			}
+			tmpCoords2.setMul(eigenMatrix, tmpCoords);
+			tmpCoords2.normalize();
+			tmpCoords2.mulInside(-1);
+			return tmpCoords2;
 		default:
 			return null;
 		}

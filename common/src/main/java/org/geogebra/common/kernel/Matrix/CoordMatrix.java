@@ -1008,6 +1008,21 @@ public class CoordMatrix {
 		
 	}
 	
+	/**
+	 * returns sol that makes this * sol = v
+	 * 
+	 * @param v
+	 *            vector
+	 * @param sol
+	 *            sol vector
+	 * @return solving vector
+	 */
+	public Coords solve(Coords v, Coords sol) {
+
+		pivot(sol, v);
+		return sol;
+
+	}
 	
 	static final public void solve(double[] sol, Coords res, Coords... columns){
 		
@@ -1042,6 +1057,17 @@ public class CoordMatrix {
 		 */
 		abstract public void divideFirst(int index, double factor);
 		
+		/**
+		 * perform the last pivot step
+		 * 
+		 * @param stack
+		 * @param matrix
+		 */
+		public void lastStep(ArrayList<Integer> stack, double[][] matrix) {
+			int index = stack.get(0);
+			divideFirst(index, matrix[index][0]);
+		}
+
 		/**
 		 * divide res value at step
 		 * @param step step index
@@ -1087,12 +1113,27 @@ public class CoordMatrix {
 			}
 
 		}
+
+		/**
+		 * handle all-zeros step in matrix
+		 * 
+		 * @param value
+		 *            value
+		 * @param step
+		 *            step
+		 * @return true if value is zero
+		 */
+		public boolean handleZeroValue(double value, int step) {
+			return false;
+		}
+
 	}
 	
 	static private class PivotSolResDegenerate extends PivotSolRes {
 		public PivotSolResDegenerate() {
-			//
 		}
+
+		private boolean[] nonZeroIndices;
 
 		@Override
 		public void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
@@ -1107,19 +1148,42 @@ public class CoordMatrix {
 
 		}
 
-		@Override
-		public void divideFirst(int index, double factor) {
+		/**
+		 * factor == 0, we need res == 0
+		 * 
+		 * @param index
+		 *            factor index
+		 */
+		private void divideFirst0(int index) {
 
-			if (Kernel.isZero(factor)) {
-				if (Kernel.isZero(res[0])) {
-					sol[index] = 1; // arbitrary non-zero value
-				} else {
-					sol[index] = Double.NaN; // not possible
-				}
+			if (Kernel.isZero(res[0])) {
+				sol[index] = 1; // arbitrary non-zero value
 			} else {
-				super.divideFirst(index, factor);
+				sol[index] = Double.NaN; // not possible
 			}
 
+		}
+
+		@Override
+		public void lastStep(ArrayList<Integer> stack, double[][] matrix) {
+			// String str = "\n++++++++++++ last step : ";
+			// for (int i : stack) {
+			// str += i + ", ";
+			// }
+			// App.debug(str);
+			int index0 = 0;
+			for (int index : stack) {
+				double factor = matrix[index][0];
+				if (!Kernel.isZero(factor)) {
+					divideFirst(index, factor);
+					nonZeroIndices[index] = true;
+					manageZeroSteps(); // set sol = 1 for zero steps
+					return;
+				}
+				index0 = index;
+			}
+			divideFirst0(index0);
+			manageZeroSteps(); // set sol = 1 for zero steps
 		}
 
 		@Override
@@ -1132,11 +1196,53 @@ public class CoordMatrix {
 				} else {
 					s = Double.NaN; // not possible
 				}
+			} else {
+				nonZeroIndices[index] = true;
 			}
+
+			// String str = "\n---- calcSol\nvalue = " + value + "\nstep = "
+			// + step + "\nindex = " + index + "\ns = " + s + "\nstack = ";
+
 			for (int i : stack) {
 				s -= matrix[i][step] * sol[i]; // sub for non-zero matrix coeffs
+				// str += i + ",";
 			}
 			sol[index] = s;
+
+			// str += "\nmatrix=\n";
+			// for (int i = 0 ; i < matrix.length;i++){
+			// for (int j = 0 ; j < matrix[i].length;j++){
+			// str += matrix[i][j] + " ";
+			// }
+			// str += "\n";
+			//
+			// }
+			//
+			// App.debug(str);
+
+		}
+
+
+		@Override
+		public boolean handleZeroValue(double value, int step) {
+			return Kernel.isZero(value);
+		}
+
+		public void init(int length) {
+			nonZeroIndices = new boolean[length];
+		}
+
+		private void manageZeroSteps() {
+
+			for (int i = 0; i < nonZeroIndices.length; i++) {
+				if (!nonZeroIndices[i]) {
+					if (Kernel.isZero(res[i])) {
+						sol[i] = 1; // arbitrary non-zero value
+					} else {
+						sol[i] = Double.NaN; // not possible
+					}
+				}
+			}
 
 		}
 
@@ -1292,6 +1398,7 @@ public class CoordMatrix {
 		if (pivotSolResDegenerate == null) {
 			pivotSolResDegenerate = new PivotSolResDegenerate();
 		}
+		pivotSolResDegenerate.init(pivotMatrix.length);
 		pivotSolResDegenerate.res = new double[res.getLength()];
 		for (int r = 0; r < rows; r++) {
 			pivotSolResDegenerate.res[r] = res.val[r];
@@ -1315,6 +1422,7 @@ public class CoordMatrix {
 			stack.add(i);
 		}
 		pivot(matrix, psr, size - 1, stack);
+		// psr.manageZeroSteps();
 	}
 	/**
 	 * one step Gauss pivot 
@@ -1323,39 +1431,46 @@ public class CoordMatrix {
 	static final private void pivot(double[][] matrix, PivotAbstract psr,
 			final int step, ArrayList<Integer> stack){
 		
+		// App.debug("XXXXX pivot : step = " + step);
+
 		// last step
 		if (step == 0){
-			int index = stack.get(0);
-			psr.divideFirst(index, matrix[index][0]);
-		
+			psr.lastStep(stack, matrix);
 		}else{
 			// look for the biggest value at step line
 			int stackIndex = 0;
 			int index = stack.get(0);
 			double value = matrix[index][step];
+			// App.debug("index = " + index + " , value = " + value);
 			for (int currentStackIndex = 1 ; currentStackIndex < stack.size() ; currentStackIndex++){
 				int currentIndex = stack.get(currentStackIndex);
 				double currentValue = matrix[currentIndex][step];
+				// App.debug("currentIndex = " + currentIndex
+				// + " , currentValue = " + currentValue);
 				if (Math.abs(currentValue) > Math.abs(value)){
 					stackIndex = currentStackIndex;
 					index = currentIndex;
 					value = currentValue;					
 				}
 			}
-			
-			
-			// divide step line by value in matrix and res
-			psr.divideAndSub(matrix, stack, step, index, value);
-			
-			// remove current index and apply pivot at next step
-			stack.remove(stackIndex);
-			pivot(matrix, psr, step - 1, stack);
-			
-			// calc sol at this index
-			psr.calcSol(index, step, matrix, stack, value);
-			
-			// re-add current index for pivot caller
-			stack.add(index);
+
+			if (psr.handleZeroValue(value, step)) {
+				// ignore this step
+				pivot(matrix, psr, step - 1, stack);
+			} else {
+				// divide step line by value in matrix and res
+				psr.divideAndSub(matrix, stack, step, index, value);
+
+				// remove current index and apply pivot at next step
+				stack.remove(stackIndex);
+				pivot(matrix, psr, step - 1, stack);
+
+				// calc sol at this index
+				psr.calcSol(index, step, matrix, stack, value);
+
+				// re-add current index for pivot caller
+				stack.add(index);
+			}
 			
 		}
 		

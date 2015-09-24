@@ -300,12 +300,12 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			ev1 = quadric.getEigenvec3D(0);
 			ev2 = quadric.getEigenvec3D(1);
 			Coords ev3 = quadric.getEigenvec3D(2);
-			radius = quadric.getHalfAxis(0);
 
 			surface = renderer.getGeometryManager().getSurface();
 			surface.start(getReusableSurfaceIndex());
 
 			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
+				radius = quadric.getHalfAxis(0);
 				longitude = renderer.getGeometryManager().getLongitude(radius, getView3D().getScale());
 				Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2 * Math.PI,
 						quadric.getMinParameter(1), quadric.getMaxParameter(1),
@@ -320,17 +320,21 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				double[] minmax = getMinMax();
 				double min = minmax[0];
 				double max = minmax[1];
+				r1 = quadric.getHalfAxis(0);
+				r2 = quadric.getHalfAxis(1);
+				radius = Math.max(r1, r2);
+
 				longitude = renderer.getGeometryManager().getLongitude(radius, getView3D().getScale());
 				if (getView3D().useClippingCube()) {
-					surface.cylinder(center, ev1, ev2, ev3, radius, 0,
+					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
 							2 * Math.PI, min, max, false, false, longitude);
 				} else {
 					double delta = (max - min) / 10;
-					surface.cylinder(center, ev1, ev2, ev3, radius, 0,
+					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
 							2 * Math.PI, min + delta, max - delta, false, false, longitude);
-					surface.cylinder(center, ev1, ev2, ev3, radius, 0,
+					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
 							2 * Math.PI, min, min + delta, true, false, longitude);
-					surface.cylinder(center, ev1, ev2, ev3, radius, 0,
+					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
 							2 * Math.PI, max - delta, max, false, true, longitude);
 				}
 

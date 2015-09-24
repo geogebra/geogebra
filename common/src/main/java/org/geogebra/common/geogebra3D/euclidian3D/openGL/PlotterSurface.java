@@ -1132,10 +1132,19 @@ public class PlotterSurface {
 	public Coords cylinder(Coords center, Coords vx, Coords vy, Coords vz,
 			double radius, double start, double extent, double min, double max,
 			boolean minFading, boolean maxFading, int longitude) {
+
+		return cylinder(center, vx, vy, vz, radius, radius, start, extent, min,
+				max, minFading, maxFading, longitude);
+	}
+
+	public Coords cylinder(Coords center, Coords vx, Coords vy, Coords vz,
+			double r1, double r2, double start, double extent, double min,
+			double max,
+			boolean minFading, boolean maxFading, int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 
-		float u, v;
+		float c, s;
 
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
@@ -1154,10 +1163,12 @@ public class PlotterSurface {
 		}
 
 		for (int i = 0; i <= longitude; i++) {
-			u = (float) Math.cos(start + i * da);
-			v = (float) Math.sin(start + i * da);
+			c = (float) Math.cos(start + i * da);
+			s = (float) Math.sin(start + i * da);
 
-			n.setAdd(tmpCoords.setMul(vx, u), tmpCoords2.setMul(vy, v));
+			n.setAdd(tmpCoords.setMul(vx, r2 * c),
+					tmpCoords2.setMul(vy, r1 * s));
+			n.normalize();
 
 			// point on top circle
 			if (fading) {
@@ -1167,8 +1178,12 @@ public class PlotterSurface {
 					manager.texture(0, 0);
 				}
 			}
+
+			tmpCoords3.setAdd(tmpCoords.setMul(vx, r1 * c),
+					tmpCoords2.setMul(vy, r2 * s));
+
 			manager.normal(n);
-			manager.vertex(tmpCoords.setAdd(center2, tmpCoords2.setMul(n, radius)));
+			manager.vertex(tmpCoords.setAdd(center2, tmpCoords3));
 			// point on bottom circle
 			if (fading) {
 				if (minFading) {
@@ -1178,7 +1193,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(tmpCoords.setAdd(center1, tmpCoords2.setMul(n, radius)));
+			manager.vertex(tmpCoords.setAdd(center1, tmpCoords3));
 
 		}
 

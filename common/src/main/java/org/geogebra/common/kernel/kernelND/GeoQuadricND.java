@@ -371,7 +371,6 @@ Traceable{
 	@Override
 	public void setUndefined() {
 		defined = false;
-		//type = GeoConic.CONIC_EMPTY;
 		empty();
 	}
 
