@@ -10,6 +10,7 @@ import javax.swing.AbstractAction;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -88,6 +89,7 @@ public class GuiManager3D extends GuiManagerD {
 				(getApp()).getScaledIcon("axes.gif")) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle axes
 				((App3D) getApp()).toggleAxis3D();
@@ -102,6 +104,7 @@ public class GuiManager3D extends GuiManagerD {
 				getApp().getScaledIcon("grid.gif")) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle grid
 				((App3D) getApp()).toggleGrid3D();
@@ -116,6 +119,7 @@ public class GuiManager3D extends GuiManagerD {
 				(getApp()).getScaledIcon("plane.gif")) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle plane
 				((App3D) getApp()).togglePlane();
@@ -169,6 +173,7 @@ public class GuiManager3D extends GuiManagerD {
 	 * @param p
 	 *            zoom point
 	 */
+	@Override
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
 			org.geogebra.common.awt.GPoint p) {
 		// clear highlighting and selections in views
@@ -266,5 +271,11 @@ public class GuiManager3D extends GuiManagerD {
 				((EuclidianView) view).getStyleBar().setLabels();
 
 		}
+	}
+
+	@Override
+	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
+		((App3DCompanion) app.getCompanion()).removeAllEuclidianViewForPlane();
+		return super.loadURL(urlString, suppressErrorMsg);
 	}
 }
