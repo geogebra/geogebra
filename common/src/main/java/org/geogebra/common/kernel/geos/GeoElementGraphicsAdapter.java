@@ -34,6 +34,13 @@ public abstract class GeoElementGraphicsAdapter {
 	public void setImageFileNameOnly(String fn) {
 
 		int pos = fn.lastIndexOf('.');
+
+		if (pos == -1) {
+			// eg "" when a button has no image
+			imageFileName = fn;
+			return;
+		}
+
 		String ext = StringUtil.toLowerCase(fn.substring(pos + 1));
 
 		if (!ext.equals("png") && !ext.equals("jpg") && !ext.equals("jpeg")
