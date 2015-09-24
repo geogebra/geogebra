@@ -231,7 +231,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 						cylinder(-x / eigenval[0], -y / eigenval[1], m);
 					}
 				} else {
-					// z = x²+y²
+					// z = xx+yy
 					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 				}
 
@@ -247,7 +247,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 						type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 					}
 				} else {
-					// z = x²-y²
+					// z = xx-yy
 					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 				}
 			}
