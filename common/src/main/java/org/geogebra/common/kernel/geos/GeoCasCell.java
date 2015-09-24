@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -2874,6 +2875,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	@Override
 	public String getDefinitionDescription(StringTemplate tpl) {
 		return evalVE.toString(tpl);
+	}
+
+	public ValueType getValueType() {
+		// TODO Auto-generated method stub
+		if (outputVE != null) {
+			return outputVE.getValueType();
+		}
+		return inputVE != null ? inputVE.getValueType() : ValueType.UNKNOWN;
 	}
 
 }

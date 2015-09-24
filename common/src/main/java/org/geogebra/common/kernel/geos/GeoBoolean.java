@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -451,5 +452,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.BOOLEAN;
 	}
 }

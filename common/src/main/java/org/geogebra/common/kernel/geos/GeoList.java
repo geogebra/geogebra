@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -2976,6 +2977,10 @@ AngleProperties {
 				geo.setLineOpacity(lineOpacity);
 			}
 		}
+	}
+
+	public ValueType getValueType() {
+		return ValueType.LIST;
 	}
 
 }

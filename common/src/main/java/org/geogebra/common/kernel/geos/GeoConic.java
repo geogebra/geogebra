@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -688,5 +689,9 @@ public class GeoConic extends GeoConicND implements
 		}	
 					
 		return false;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.EQUATION;
 	}
 }

@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -1785,6 +1786,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public boolean hasLineOpacity() {
 		return true;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.EQUATION;
 	}
 
 }

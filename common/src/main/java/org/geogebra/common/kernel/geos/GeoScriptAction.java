@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
@@ -115,6 +116,10 @@ public class GeoScriptAction extends GeoElement  {
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.NONE;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.VOID;
 	}
 		
 }

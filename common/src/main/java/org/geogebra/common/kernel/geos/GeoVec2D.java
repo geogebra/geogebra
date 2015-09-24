@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1205,8 +1206,9 @@ final public class GeoVec2D extends ValidExpression implements
 	}
 
 	@Override
-	final public boolean evaluatesToNonComplex2DVector() {
-		return this.mode != Kernel.COORD_COMPLEX;
+	final public ValueType getValueType() {
+		return this.mode != Kernel.COORD_COMPLEX ? ValueType.NONCOMPLEX2D
+				: ValueType.COMPLEX;
 	}
 
 	@Override

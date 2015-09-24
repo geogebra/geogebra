@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.TextValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -1319,6 +1320,10 @@ public class GeoText extends GeoElement implements Locateable,
 			setVisibleInViewForPlane(true);
 			kernel.getApplication().addToViewsForPlane(this);
 		}
+	}
+
+	public ValueType getValueType() {
+		return ValueType.TEXT;
 	}
 
 }

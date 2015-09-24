@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -783,6 +784,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	@Override
 	public boolean is6dofMoveable() {
 		return true;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.EQUATION;
 	}
 
 }

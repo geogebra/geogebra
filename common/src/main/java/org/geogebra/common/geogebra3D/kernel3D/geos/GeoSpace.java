@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -104,5 +105,9 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	@Override
 	final public HitType getLastHitType() {
 		return HitType.NONE;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.VOID;
 	}
 }

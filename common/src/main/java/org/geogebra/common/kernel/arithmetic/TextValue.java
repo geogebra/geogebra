@@ -20,4 +20,6 @@ public interface TextValue extends ExpressionValue {
 	 * @return this text as MyStringBuffer
 	 */
 	public MyStringBuffer getText();
+
+	public String getTextString();
 }

@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -68,9 +69,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	private static final double AUTO_STEP_MUL = 0.005;
 	private static final double AUTO_STEP_MUL_ANGLE = 0.0025;
-
+	/** placeholder for autostep */
 	public static final double AUTO_STEP = Double.NaN;
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
+	/** default slider width in pixels */
 	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
 	/** 
 	 * Default width of angle slider in pixels 
@@ -169,6 +171,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		setLabel(label);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param x
+	 *            value
+	 * @param extendedAV
+	 *            whether to show slider in AV
+	 */
 	public GeoNumeric(Construction c, String label, double x, boolean extendedAV) {
 		this(c, x);
 		setLabel(label);
@@ -1495,6 +1507,15 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	}
 
+	/**
+	 * @param num
+	 *            number to update
+	 * @param isAngle
+	 *            whether it's angle
+	 * @param visible
+	 *            visible in EV
+	 * @return num
+	 */
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num,
 			boolean isAngle, boolean visible) {
 		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(false);           
@@ -1633,6 +1654,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		}
 		return ((GeoElement) val).isIndependent()
 				&& !((GeoElement) val).isLabelSet();
+	}
+
+	public ValueType getValueType() {
+		return ValueType.NUMBER;
 	}
 
 }

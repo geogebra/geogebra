@@ -132,4 +132,13 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
+
+	@Override
+	public ValueType getValueType() {
+		return ValueType.TEXT;
+	}
+
+	public String getTextString() {
+		return sb.toString();
+	}
 }

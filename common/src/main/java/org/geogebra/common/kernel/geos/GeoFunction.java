@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -2839,6 +2840,10 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_BOUNDARY;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.FUNCTION;
 	}
 
 }

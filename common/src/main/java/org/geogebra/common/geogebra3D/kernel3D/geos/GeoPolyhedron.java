@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1994,6 +1995,10 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 	public double getDouble() {
 		return getVolume();
+	}
+
+	public ValueType getValueType() {
+		return ValueType.NUMBER;
 	}
 
 }

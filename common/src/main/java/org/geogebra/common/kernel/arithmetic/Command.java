@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
-import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -498,37 +497,45 @@ public class Command extends ValidExpression implements
 		return evaluatesToNumber(false);
 	}
 
-	private Boolean isNumber = null;
+	private ValueType lastType = null;
+
 
 	@Override
-	public boolean evaluatesToNumber(boolean def) {
-		if (isNumber != null) {
-			return isNumber.booleanValue();
+	public ValueType getValueType() {
+		if ("Sequence".equals(name) || "IterationList".equals(name)
+				|| "KeepIf".equals(name)) {
+			return ValueType.LIST;
 		}
+		if ("Function".equals(name)) {
+			return ValueType.FUNCTION;
+		}
+		if ("Surface".equals(name) || ("Curve".equals(name) && args.size() > 5)) {
+			return ValueType.PARAMETRIC3D;
+		}
+		if ("Curve".equals(name)) {
+			return ValueType.PARAMETRIC2D;
+		}
+		if (lastType != null) {
+			return lastType;
+		}
+
 		if (!allowEvaluationForTypeCheck) {
-			return false;
-		}
-		if ("Sequence".equals(name) || "Function".equals(name)
-				|| "IterationList".equals(name) || "Surface".equals(name)
-				|| "Curve".equals(name)) {
-			return false;
+			return ValueType.UNKNOWN;
 		}
 		try {
-			isNumber = evaluate(StringTemplate.defaultTemplate).isNumberValue();
+			lastType = evaluate(StringTemplate.defaultTemplate).getValueType();
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
 			if (ev != null) {
-				isNumber = ev.unwrap().evaluatesToNumber(def);
-				return isNumber == null ? def : isNumber.booleanValue();
+				lastType = ev.getValueType();
 			}
 			throw ex;
 		}
-		return isNumber == null ? def : isNumber.booleanValue();
+		return lastType;
 	}
 
-	@Override
-	public boolean evaluatesToNonComplex2DVector() {
+	public boolean evaluatesToNonComplex2DVectorX() {
 		if (!allowEvaluationForTypeCheck) {
 			return false;
 		}
@@ -615,8 +622,7 @@ public class Command extends ValidExpression implements
 		return ev == this;
 	}
 
-	@Override
-	public boolean evaluatesToList() {
+	public boolean evaluatesToListX() {
 		if ("x".equals(getName()) || "y".equals(getName())
 				|| "z".equals(getName()) || "If".equals(getName())) {
 			return this.getArgument(0).evaluatesToList();
@@ -674,22 +680,6 @@ public class Command extends ValidExpression implements
 	 */
 	public final void setMacro(Macro macro) {
 		this.macro = macro;
-	}
-
-	@Override
-	final public boolean evaluatesTo3DVector() {
-		if (!allowEvaluationForTypeCheck) {
-			return false;
-		}
-		try {
-			return evaluate(StringTemplate.defaultTemplate) instanceof Vector3DValue;
-		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
-					.evaluateToExpression(this, null, kernel);
-			if (ev != null)
-				return ev.unwrap() instanceof Vector3DValue;
-			throw ex;
-		}
 	}
 
 	@Override
@@ -848,5 +838,6 @@ public class Command extends ValidExpression implements
 	public void setName(String string) {
 		this.name = string;
 	}
+
 
 }

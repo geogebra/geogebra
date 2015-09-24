@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
@@ -309,5 +310,9 @@ public class GeoTransferFunction extends GeoElement {
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_BOUNDARY;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.PARAMETRIC2D;
 	}
 }

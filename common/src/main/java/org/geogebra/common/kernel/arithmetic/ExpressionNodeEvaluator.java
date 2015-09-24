@@ -927,6 +927,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// lt.toString(),
 			// "^", rt.toString() };
 			// throw new MyError(l10n, str);
+		} else if (lt instanceof TextValue && rt instanceof NumberValue) {
+			String txt = ((TextValue) lt).getTextString();
+			MyStringBuffer result = new MyStringBuffer(kernel, "");
+			for (int i = 0; i < rt.evaluateDouble(); i++) {
+				result.append(txt);
+			}
+			return result;
 		} else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			// if (!rt.isConstant()) {
 			// String [] str = new String[]{ "ExponentMustBeConstant",

@@ -863,11 +863,6 @@ public class MyList extends ValidExpression implements ListValue,
 		return varSet;
 	}
 
-	@Override
-	public boolean evaluatesToList() {
-		return true;
-	}
-
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
@@ -1203,6 +1198,11 @@ public class MyList extends ValidExpression implements ListValue,
 	@Override
 	public boolean evaluatesToMatrix() {
 		return isMatrix();
+	}
+
+	@Override
+	public ValueType getValueType() {
+		return ValueType.LIST;
 	}
 
 }

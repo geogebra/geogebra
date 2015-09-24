@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
@@ -105,5 +106,9 @@ public class GeoClippingCube3D extends GeoElement3D {
 	@Override
 	final public HitType getLastHitType() {
 		return HitType.NONE;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.VOID;
 	}
 }

@@ -654,4 +654,9 @@ public class Equation extends ValidExpression {
 		return new ExpressionNode(kernel, this);
 	}
 
+	@Override
+	public ValueType getValueType() {
+		return ValueType.EQUATION;
+	}
+
 } // end of class Equation

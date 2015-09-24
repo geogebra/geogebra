@@ -274,8 +274,9 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 
 	// could be vector or point
 	@Override
-	public boolean evaluatesToNonComplex2DVector() {
-		return this.mode != Kernel.COORD_COMPLEX;
+	public ValueType getValueType() {
+		return this.mode != Kernel.COORD_COMPLEX ? ValueType.NONCOMPLEX2D
+				: ValueType.COMPLEX;
 	}
 
 	// could be vector or point

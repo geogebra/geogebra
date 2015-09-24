@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
@@ -370,5 +371,9 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		private static String toString(Coords3 c) {
 			return "(" + c.getXd() + "," + c.getYd() + "" + c.getZd() + ")";
 		}
+	}
+
+	public ValueType getValueType() {
+		return ValueType.EQUATION;
 	}
 }

@@ -1097,4 +1097,9 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return expression.hasCoords();
 	}
 
+	@Override
+	public ValueType getValueType() {
+		return ValueType.FUNCTION;
+	}
+
 }

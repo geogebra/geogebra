@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -1823,6 +1824,10 @@ Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 	@Override
 	public boolean hasLineOpacity() {
 		return true;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.EQUATION;
 	}
 
 }

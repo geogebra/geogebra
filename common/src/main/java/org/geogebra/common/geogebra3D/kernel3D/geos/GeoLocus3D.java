@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -148,5 +149,9 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 	@Override
 	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.PARAMETRIC3D;
 	}
 }

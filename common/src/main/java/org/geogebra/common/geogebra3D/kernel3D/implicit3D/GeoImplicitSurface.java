@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -1140,5 +1141,9 @@ public class GeoImplicitSurface extends GeoElement3D implements Translateable,
 	@Override
 	public boolean isFillable() {
 		return true;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.PARAMETRIC3D;
 	}
 }

@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -727,6 +728,10 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	public boolean isParametric() {
 		return true;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.PARAMETRIC3D;
 	}
 
 }

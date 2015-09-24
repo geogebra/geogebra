@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -364,5 +365,9 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	public boolean isParametric() {
 		return true;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.PARAMETRIC3D;
 	}
 }

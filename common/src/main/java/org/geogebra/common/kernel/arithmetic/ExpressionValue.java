@@ -248,4 +248,6 @@ public interface ExpressionValue {
 	 * @return : for equations, := by default
 	 */
 	public String getAssignmentOperator();
+
+	public ValueType getValueType();
 }

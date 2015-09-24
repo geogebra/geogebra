@@ -171,4 +171,9 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 	public String getLabel(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
+
+	@Override
+	public ValueType getValueType() {
+		return ValueType.BOOLEAN;
+	}
 }

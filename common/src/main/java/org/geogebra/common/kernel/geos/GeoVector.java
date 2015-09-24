@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -996,6 +997,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_BOUNDARY;
+	}
+
+	public ValueType getValueType() {
+		return getMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
+				: ValueType.NONCOMPLEX2D;
 	}
 
 }

@@ -273,13 +273,13 @@ public class Variable extends ValidExpression {
 	}
 
 	@Override
-	public boolean evaluatesToNumber(boolean def) {
-		return def;
+	public ExpressionNode wrap() {
+		return new ExpressionNode(kernel, this);
 	}
 
 	@Override
-	public ExpressionNode wrap() {
-		return new ExpressionNode(kernel, this);
+	public ValueType getValueType() {
+		return ValueType.UNKNOWN;
 	}
 
 }

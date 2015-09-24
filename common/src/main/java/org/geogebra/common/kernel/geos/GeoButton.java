@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -352,6 +353,10 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_FILLING;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.VOID;
 	}
 
 }

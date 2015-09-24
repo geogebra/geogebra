@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -987,6 +988,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	@Override
 	public boolean hasLineOpacity() {
 		return true;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.PARAMETRIC2D;
 	}
 
 }

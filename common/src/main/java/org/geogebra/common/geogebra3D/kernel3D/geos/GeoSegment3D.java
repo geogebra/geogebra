@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -538,4 +539,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return false;
 	}
 
+	public ValueType getValueType() {
+		return ValueType.NUMBER;
+	}
 }

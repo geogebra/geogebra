@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Transformable;
@@ -1952,6 +1953,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.EQUATION;
 	}
 
 }

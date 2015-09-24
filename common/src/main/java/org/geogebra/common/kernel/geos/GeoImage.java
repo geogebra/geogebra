@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -979,6 +980,10 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_FILLING;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.VOID;
 	}
 
 }

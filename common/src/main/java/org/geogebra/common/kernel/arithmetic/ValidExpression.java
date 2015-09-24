@@ -384,25 +384,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 
-	public boolean evaluatesToText() {
-		return false;
-	}
 
-	public boolean evaluatesToList() {
-		return false;
-	}
-
-	public boolean evaluatesToNonComplex2DVector() {
-		return false;
-	}
-
-	public boolean evaluatesToVectorNotPoint() {
-		return false;
-	}
-
-	public boolean evaluatesTo3DVector() {
-		return false;
-	}
 
 	/**
 	 * print expression as value or geo label
@@ -457,8 +439,10 @@ public abstract class ValidExpression implements ExpressionValue {
 	/**
 	 * Here we just check for number values, overridden in ExpressionNode
 	 */
-	public boolean evaluatesToNumber(boolean def) {
-		return this.isNumberValue();
+	public final boolean evaluatesToNumber(boolean def) {
+		return getValueType() == ValueType.NUMBER
+				|| getValueType() == ValueType.BOOLEAN
+				|| (def && getValueType() == ValueType.UNKNOWN);
 	}
 
 	/**
@@ -477,12 +461,41 @@ public abstract class ValidExpression implements ExpressionValue {
 		});
 	}
 
-	public boolean evaluatesToMatrix() {
-		return false;
-	}
-
-	public String toString(GTemplate tpl) {
+	public final String toString(GTemplate tpl) {
 		return toString(tpl.getTemplate());
 	}
 
+	public final boolean evaluatesToNonComplex2DVector() {
+		// TODO Auto-generated method stub
+		return getValueType() == ValueType.NONCOMPLEX2D;
+	}
+
+	public boolean evaluatesToVectorNotPoint() {
+		return false;
+	}
+
+	public final boolean evaluatesTo3DVector() {
+		// TODO Auto-generated method stub
+		return getValueType() == ValueType.VECTOR3D;
+	}
+
+	public final boolean evaluatesToList() {
+		// TODO Auto-generated method stub
+		return getValueType() == ValueType.LIST;
+	}
+
+	public boolean evaluatesToMatrix() {
+		return getValueType() == ValueType.LIST && getListDepth() == 2;
+	}
+
+	protected int getListDepth() {
+		return 0;
+	}
+
+	public boolean evaluatesToText() {
+		// TODO Auto-generated method stub
+		return getValueType() == ValueType.TEXT;
+	}
+
+	public abstract ValueType getValueType();
 }

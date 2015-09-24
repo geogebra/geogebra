@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.Geo3DVec;
 import org.geogebra.common.main.MyParseError;
@@ -311,11 +312,6 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return ev == this;
 	}
 
-	@Override
-	final public boolean evaluatesTo3DVector() {
-		return true;
-	}
-
 	// could be vector or point?
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
@@ -384,6 +380,11 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 
 	public int getDimension() {
 		return 3;
+	}
+
+	@Override
+	public ValueType getValueType() {
+		return ValueType.VECTOR3D;
 	}
 
 }

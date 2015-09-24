@@ -1206,4 +1206,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public String getLabel(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
+
+	@Override
+	public ValueType getValueType() {
+		return ValueType.NUMBER;
+	}
 }

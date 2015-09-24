@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -311,6 +312,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		if (geo.hasLevelOfDetail()) {
 			levelOfDetail = ((SurfaceEvaluable) geo).getLevelOfDetail();
 		}
+	}
+
+	public ValueType getValueType() {
+		return ValueType.PARAMETRIC3D;
 	}
 
 

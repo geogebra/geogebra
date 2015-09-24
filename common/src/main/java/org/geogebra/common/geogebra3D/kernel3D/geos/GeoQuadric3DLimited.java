@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -796,6 +797,10 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 	@Override
 	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
+	}
+
+	public ValueType getValueType() {
+		return ValueType.NUMBER;
 	}
 
 }

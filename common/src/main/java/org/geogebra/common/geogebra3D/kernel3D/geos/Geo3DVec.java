@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -349,11 +350,6 @@ final public class Geo3DVec extends ValidExpression implements Vector3DValue,
 		return ev == this;
 	}
 
-	@Override
-	public boolean evaluatesTo3DVector() {
-		return true;
-	}
-
 	public double[] getPointAsDouble() {
 		return new double[] { getX(), getY(), getZ() };
 	}
@@ -564,6 +560,11 @@ final public class Geo3DVec extends ValidExpression implements Vector3DValue,
 
 	public double arg() {
 		return Math.atan2(y, x);
+	}
+
+	@Override
+	public ValueType getValueType() {
+		return ValueType.VECTOR3D;
 	}
 
 }

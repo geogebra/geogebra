@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -1690,5 +1691,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public boolean isParametric() {
 		return getMode() == GeoLine.PARAMETRIC;
+	}
+
+	public ValueType getValueType() {
+		return getMode() == GeoLine.PARAMETRIC ? ValueType.PARAMETRIC2D
+				: ValueType.EQUATION;
 	}
 }

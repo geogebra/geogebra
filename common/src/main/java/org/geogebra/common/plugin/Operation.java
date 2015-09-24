@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -1683,7 +1682,6 @@ public enum Operation {
 			}
 
 			MyList list = (MyList) lt.unwrap();
-			Log.debug(list);
 			if (list.size() == 3) {
 				return new MyVec3DNode(ev.getKernel(), MyList.getCell(list, 0,
 						0),
@@ -1838,4 +1836,6 @@ public enum Operation {
 
 		return false;
 	}
+
+
 }

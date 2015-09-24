@@ -69,7 +69,7 @@ public class ExpressionNode extends ValidExpression implements
 	/** for leaf mode */
 	public boolean leaf = false;
 	private boolean brackets;
-
+	private ExpressionValue resolve;
 
 
 	/**
@@ -1132,11 +1132,11 @@ kernel, left,
 		return left.isConstant() && right.isConstant();
 	}
 
-	/**
-	 * returns true, if no variable is a point (GeoPoint)
-	 */
-	@Override
-	final public boolean evaluatesToNonComplex2DVector() {
+	private ExpressionValue computeResolve() {
+		return new Resolution(ValueType.resolve(operation, left, right));
+	}
+
+	final public boolean evaluatesToNonComplex2DVectorX() {
 		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
 				|| operation == Operation.ZCOORD || operation == Operation.ABS
@@ -1200,8 +1200,7 @@ kernel, left,
 		return ret;
 	}
 
-	@Override
-	final public boolean evaluatesTo3DVector() {
+	final public boolean evaluatesTo3DVectorX() {
 		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
 				|| operation == Operation.ZCOORD) {
@@ -3761,8 +3760,8 @@ kernel, left,
 		return evaluate(StringTemplate.defaultTemplate).isNumberValue();
 	}
 
-	@Override
-	public boolean evaluatesToList() {
+	public boolean evaluatesToListX() {
+
 		if (isLeaf()) {
 			return left.evaluatesToList();
 		}
@@ -3791,6 +3790,13 @@ kernel, left,
 
 	@Override
 	public boolean evaluatesToMatrix() {
+		if (resolve == null) {
+			resolve = computeResolve();
+		}
+		return resolve.evaluatesToNonComplex2DVector();
+	}
+
+	public boolean evaluatesToMatrixX() {
 		if (isLeaf()) {
 			return left.evaluatesToMatrix();
 		}
@@ -3819,6 +3825,13 @@ kernel, left,
 
 	@Override
 	public boolean evaluatesToText() {
+		if (resolve == null) {
+			resolve = computeResolve();
+		}
+		return resolve.evaluatesToText();
+	}
+
+	public boolean evaluatesToTextX() {
 		// should be efficient as it is used in operationToString()
 		if (leaf) {
 			return left.evaluatesToText();
@@ -5726,8 +5739,8 @@ kernel, left,
 		return false;
 	}
 
-	@Override
-	public boolean evaluatesToNumber(boolean def) {
+	public boolean evaluatesToNumberX(boolean def) {
+
 		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
 				|| operation == Operation.ZCOORD || operation == Operation.ABS
@@ -5994,6 +6007,14 @@ kernel, left,
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public ValueType getValueType() {
+		if (resolve == null) {
+			resolve = computeResolve();
+		}
+		return ((Resolution) resolve).getValueType();
 	}
 
 }

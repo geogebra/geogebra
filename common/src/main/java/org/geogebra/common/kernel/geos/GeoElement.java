@@ -118,6 +118,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	// private static int geoElementID = Integer.MIN_VALUE;
 
+	/**
+	 * Default point labels
+	 */
 	protected static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
 			'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
 			'T', 'U', 'V', 'W', 'Z' };
@@ -806,9 +809,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			final GeoPointND[] points) {
 		final GeoPointND[] pointsCopy = new GeoPointND[points.length];
 		for (int i = 0; i < points.length; i++) {
-			pointsCopy[i] = (GeoPointND) ((GeoElement) points[i])
-					.copyInternal(cons);
-			((GeoElement) pointsCopy[i]).set((GeoElement) points[i]);
+			pointsCopy[i] = (GeoPointND) points[i].copyInternal(cons);
+			((GeoElement) pointsCopy[i]).set(points[i]);
 		}
 
 		return pointsCopy;
@@ -1366,7 +1368,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	/**
 	 * Compare drawing priority with another object
-	 * @param other the other object
+	 * 
+	 * @param other
+	 *            the other object
+	 * @param checkLastHitType
+	 *            whether hits on boundary should be preferred to hits on
+	 *            filling
 	 * @return whether this should be drawn fist
 	 */
 	public boolean drawBefore(GeoElement other, boolean checkLastHitType) {
@@ -1649,10 +1656,19 @@ public abstract class GeoElement extends ConstructionElement implements
 		isColorSet = geo.isColorSet();
 	}
 
+	/**
+	 * @return whether sequential color is used, makes sense only for default
+	 *         geos
+	 */
 	public boolean isSequentialColor() {
 		return this.sequentialColor;
 	}
 
+	/**
+	 * @param sequential
+	 *            whether sequential color is used, makes sense only for default
+	 *            geos
+	 */
 	public void setSequentialColor(boolean sequential) {
 		this.sequentialColor = sequential;
 	}
@@ -3508,10 +3524,17 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private boolean isEmptySpreadsheetCell = false;
 	
+	/**
+	 * @param isEmptySpreadsheetCell
+	 *            empty spreadsheet cell flag
+	 */
 	public void setEmptySpreadsheetCell(boolean isEmptySpreadsheetCell) {
 		this.isEmptySpreadsheetCell = isEmptySpreadsheetCell;
 	}
 
+	/**
+	 * @return empty spreadsheet cell flag
+	 */
 	public boolean isEmptySpreadsheetCell(){
 		return isEmptySpreadsheetCell;
 	}
@@ -4091,6 +4114,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		kernel.notifyRepaint();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Deprecated
 	@Override
 	final public String toString() {
@@ -4419,8 +4443,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Converts indices to HTML &lt;sub> tags if necessary.
 	 * 
-	 * @param text GGB string
-	 * @return html HTML string
+	 * @param text
+	 *            GGB string
+	 * @param builder
+	 *            indexed HTML builder
 	 */
 	public static void convertIndicesToHTML(final String text, IndexHTMLBuilder builder) {
 		// check for index
@@ -4433,9 +4459,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * @param desc description
-	 * @return 
-	 * @return label = description or label: description
+	 * @param desc
+	 *            description
+	 * @param builder
+	 *            builder for indexed strings
 	 */
 	final public void addLabelTextOrHTML(final String desc, IndexHTMLBuilder builder) {
 		String ret;
@@ -4712,8 +4739,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Returns algebraic representation of this GeoElement as Text. If this is
 	 * not possible (because there are indices in the representation) a HTML
-	 * string is returned.
-	 * Default template is used, caching is employed.
+	 * string is returned. Default template is used, caching is employed.
+	 * 
+	 * @param builder
+	 *            indexed HTML builder
 	 * 
 	 * @return algebraic representation of this GeoElement as Text
 	 */
@@ -4888,6 +4917,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * In RadioButtonTreeItem, we don't want to return null from
 	 * getLaTeXAlgebraDescription in case of GeoText, but return its simple
 	 * algebra description, which shall be (label="content") in theory
+	 * 
+	 * @param substituteNumbers
+	 *            whether to substitute variables
+	 * @param tpl
+	 *            template
+	 * @param fallback
+	 *            fallback text
+	 * @return LaTeX text
 	 */
 	public String getLaTeXAlgebraDescriptionWithFallback(
 			final boolean substituteNumbers, StringTemplate tpl,
@@ -5000,6 +5037,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		indicesToHTML(str, sbIndicesToHTML);
 		return sbIndicesToHTML.toString();
 	}
+
+	/**
+	 * @param str
+	 *            string with indices
+	 * @param sbIndicesToHTML
+	 *            indexed string build
+	 */
 	public static void indicesToHTML(final String str,
 			IndexHTMLBuilder sbIndicesToHTML) {
 
@@ -5204,6 +5248,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	}
 	
+	/**
+	 * Append object listener names to XML string builder
+	 * 
+	 * @param sb
+	 *            string builder
+	 */
 	protected void getListenerTagsXML(StringBuilder sb){
 		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
 		//updateListenerMap
@@ -5214,7 +5264,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 	
 	private void getListenerTagXML(StringBuilder sb, HashMap<GeoElement, String> map, String type){
-		if (map != null){;
+		if (map != null) {
 			String objectListener = map.get(this);
 			if (objectListener != null){
 				sb.append("\t<listener type=\""+type+"\" val=\"");
@@ -5486,6 +5536,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	}
 
+	/**
+	 * @param sb
+	 *            string builder
+	 */
 	protected void appendObjectColorXML(StringBuilder sb) {
 		sb.append("\t<objColor");
 		sb.append(" r=\"");
@@ -7856,6 +7910,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		return this.isNumberValue();
 	}
 
+	/**
+	 * @return whether it's tracing or not
+	 */
 	public boolean getTrace(){
 		return false;
 	}
@@ -7874,6 +7931,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	abstract public HitType getLastHitType();
 
+	/**
+	 * @return whether this evaluates to angle
+	 */
 	public final boolean isAngle() {
 		return getAngleDim() == 1;
 	}
