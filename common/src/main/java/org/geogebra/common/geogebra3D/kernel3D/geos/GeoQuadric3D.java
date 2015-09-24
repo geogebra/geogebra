@@ -117,22 +117,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 	}
 
-	/**
-	 * Update conic type and properties
-	 */
-	protected void classifyQuadric() {
-		classifyQuadric(false);
-	}
 
 	private double detS;
 
 	/**
-	 * @param degenerate
-	 *            true to allow classification as degenerate
+	 * Update quadric type and properties
 	 */
-	public void classifyQuadric(boolean degenerate) {
+	protected void classifyQuadric() {
 
-		defined = degenerate || checkDefined();
+		defined = checkDefined();
 		if (!defined)
 			return;
 
@@ -143,10 +136,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (Kernel.isZero(detS)) {
 			classifyNoMidpointQuadric();
 		} else {
-			classifyMidpointQuadric(degenerate);
+			classifyMidpointQuadric();
 		}
-
-		// setAffineTransform();
 
 	}
 
@@ -240,6 +231,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 						cylinder(-x / eigenval[0], -y / eigenval[1], m);
 					}
 				} else {
+					// z = x²+y²
 					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 				}
 
@@ -255,6 +247,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 						type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 					}
 				} else {
+					// z = x²-y²
 					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 				}
 			}
@@ -451,7 +444,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
-	private void classifyMidpointQuadric(boolean degenerate) {
+	private void classifyMidpointQuadric() {
 
 		// set midpoint
 		double x = (-matrix[1] * matrix[2] * matrix[7] + matrix[1] * matrix[5]
@@ -498,15 +491,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		double beta = matrix[7] * x + matrix[8] * y + matrix[9] * z + matrix[3];
 
 
-		if (degenerate) {
-			if (Kernel.isZero(beta)) {
-				type = QUADRIC_NOT_CLASSIFIED;
-				App.debug("QUADRIC_NOT_CLASSIFIED");
-			} else {
-				type = QUADRIC_NOT_CLASSIFIED;
-				App.debug("QUADRIC_NOT_CLASSIFIED");
-			}
-		} else if (Kernel.isZero(beta)) {
+		if (Kernel.isZero(beta)) {
 			cone();
 		} else {
 			mu[0] = -eigenval[0] / beta;
