@@ -41,13 +41,16 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 						{
 							"min" : min,
 							"max" : max,
-							"values" : [ val ],
 							"animate" : true,
+							"values" : [ val ],
 							"slide" : function(event, ui) {
 								that.@org.geogebra.web.html5.util.sliderPanel.SliderWJquery::slide(D)(ui.value)
+							},
+							"change.mode" : function(event, playing) {
+								that.@org.geogebra.web.html5.util.sliderPanel.SliderWJquery::moveKnob(Z)(playing.value)
 							}
 						});
-	}-*/;
+	}-*/ ;
 
 	private native void setRangeValue(Element range1, double val) /*-{
 		$wnd.$ggbQuery(range1).slider("values", [ val ]);
@@ -136,4 +139,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 		}
 	}
 
+	private void moveKnob(boolean value) {
+		App.debug("JQSlider move knob: " + value);
+	}
 }
