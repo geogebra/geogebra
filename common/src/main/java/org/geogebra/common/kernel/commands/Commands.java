@@ -310,10 +310,10 @@ TABLE_GEOMETRY),
 	// Turtle
 	// =============================================================
 
-	Turtle(TABLE_GEOGEBRA), TurtleForward(TABLE_GEOGEBRA), TurtleBack(
-			TABLE_GEOGEBRA), TurtleLeft(TABLE_GEOGEBRA), TurtleRight(
-			TABLE_GEOGEBRA), TurtleUp(TABLE_GEOGEBRA), TurtleDown(
-			TABLE_GEOGEBRA),
+	Turtle(TABLE_SCRIPTING), TurtleForward(TABLE_SCRIPTING), TurtleBack(
+			TABLE_SCRIPTING), TurtleLeft(TABLE_SCRIPTING), TurtleRight(
+			TABLE_SCRIPTING), TurtleUp(TABLE_SCRIPTING), TurtleDown(
+			TABLE_SCRIPTING),
 
 	// these are currently disabled (unfinished)
 	// change TABLE_ENGLISH when adding
