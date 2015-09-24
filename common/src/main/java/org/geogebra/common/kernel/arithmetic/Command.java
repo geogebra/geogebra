@@ -244,9 +244,8 @@ public class Command extends ValidExpression implements
 										geo.getLabel(StringTemplate.defaultTemplate));
 						GeoElement geoCASCell = getKernel()
 								.getConstruction()
-								.lookupLabel(
-										geo.getLabel(StringTemplate.defaultTemplate),
-										false);
+								.lookupCasCellLabel(
+										geo.getLabel(StringTemplate.defaultTemplate));
 						// if input function was without parameter
 						// replace geoDummyVariable with function
 						if (geo instanceof GeoDummyVariable && geoFunc != null
