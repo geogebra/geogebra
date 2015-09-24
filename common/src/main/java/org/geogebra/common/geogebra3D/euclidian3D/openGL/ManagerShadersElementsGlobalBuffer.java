@@ -399,7 +399,9 @@ public class ManagerShadersElementsGlobalBuffer extends
 	protected void removeGeometrySet(int index) {
 		GeometriesSetElementsGlobalBuffer set = (GeometriesSetElementsGlobalBuffer) geometriesSetList
 				.remove(index);
-		set.removeBuffers();
+		if (set != null) {
+			set.removeBuffers();
+		}
 		// App.debug("removeGeometrySet : " + index);
 	}
 
