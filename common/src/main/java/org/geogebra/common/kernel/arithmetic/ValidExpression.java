@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.arithmetic;
 import java.util.Set;
 import java.util.Vector;
 
+import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -478,6 +479,10 @@ public abstract class ValidExpression implements ExpressionValue {
 
 	public boolean evaluatesToMatrix() {
 		return false;
+	}
+
+	public String toString(GTemplate tpl) {
+		return toString(tpl.getTemplate());
 	}
 
 }

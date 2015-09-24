@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.algos;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -302,6 +303,8 @@ public abstract class ConstructionElement implements
 	 * @return e.g. "A=(1,2)"
 	 */
 	public abstract String toString(StringTemplate tpl);
+
+	public abstract String toString(GTemplate tpl);
 
 	/**
 	 * @return true iff this element can be used in locus equation construction.

@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
@@ -7891,6 +7892,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public static GeoElement as(NumberValue val) {
 		return val == null ? null : val.toGeoElement();
+	}
+
+	public String toString(GTemplate tpl) {
+		return toString(tpl.getTemplate());
 	}
 
 }

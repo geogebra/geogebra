@@ -25,6 +25,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
+import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1735,6 +1736,10 @@ public abstract class AlgoElement extends ConstructionElement implements
 			}
 		}
 		return false;
+	}
+
+	public String toString(GTemplate tpl) {
+		return toString(tpl.getTemplate());
 	}
 
 }
