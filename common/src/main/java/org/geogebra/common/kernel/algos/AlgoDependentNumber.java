@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
@@ -99,7 +100,9 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 	@Override
 	protected void setInputOutput() {
 		input = root.getGeoElementVariables();
-
+		if (input == null) {
+			input = new GeoElement[0];
+		}
 		setOutputLength(1);
 		setOutput(0, number.toGeoElement());
 		setDependencies(); // done by AlgoElement
