@@ -9,8 +9,17 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class Resolution implements ExpressionValue {
 
 	private ValueType type;
+	private int listDepth = 0;
 
-	public Resolution(ValueType type) {
+	public Resolution() {
+
+	}
+
+	public void setListDepth(int listDepth) {
+		this.listDepth = listDepth;
+	}
+
+	public void setType(ValueType type) {
 		this.type = type;
 	}
 
@@ -49,9 +58,8 @@ public class Resolution implements ExpressionValue {
 		return false;
 	}
 
-	public boolean evaluatesToMatrix() {
-		// TODO Auto-generated method stub
-		return false;
+	public int getListDepth() {
+		return listDepth;
 	}
 
 	public boolean evaluatesToText() {

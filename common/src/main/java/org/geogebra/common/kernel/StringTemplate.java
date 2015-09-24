@@ -2594,7 +2594,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					// App.debug(((ListValue)left).getListElement(0).evaluatesToList());
 
 					// if list && !matrix
-					if (left.evaluatesToList() && !left.evaluatesToMatrix()) {
+					if (left.evaluatesToList() && left.getListDepth() != 2) {
 						// make sure {1,2,3}^2 gives {1,4,9} rather than 14
 						sb.append(").^(");
 					} else {

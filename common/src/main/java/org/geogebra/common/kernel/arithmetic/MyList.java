@@ -1196,8 +1196,8 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	@Override
-	public boolean evaluatesToMatrix() {
-		return isMatrix();
+	public int getListDepth() {
+		return isMatrix() ? 2 : 1;
 	}
 
 	@Override

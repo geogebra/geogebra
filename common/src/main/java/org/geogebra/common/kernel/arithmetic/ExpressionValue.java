@@ -69,7 +69,7 @@ public interface ExpressionValue {
 	/**
 	 * @return whether this evaluates to a matrix
 	 */
-	public boolean evaluatesToMatrix();
+	public int getListDepth();
 
 	/**
 	 * @return whether this is instance of TextValue

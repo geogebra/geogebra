@@ -66,7 +66,7 @@ public class AlgoSVD extends AlgoElement {
 	@Override
 	public void compute() {
 		// get number of rows and columns
-		if (listOfLines.isDefined() && listOfLines.evaluatesToMatrix()) {
+		if (listOfLines.isDefined() && listOfLines.getListDepth() == 2) {
 			rows = listOfLines.size();
 			if (rows > 0 && listOfLines.get(0) instanceof GeoList) {
 				columns = ((GeoList) listOfLines.get(0)).size();

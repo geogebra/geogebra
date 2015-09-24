@@ -1133,7 +1133,9 @@ kernel, left,
 	}
 
 	private ExpressionValue computeResolve() {
-		return new Resolution(ValueType.resolve(operation, left, right));
+		Resolution res = new Resolution();
+		res.setType(ValueType.resolve(operation, left, right, res));
+		return res;
 	}
 
 	final public boolean evaluatesToNonComplex2DVectorX() {
@@ -3788,22 +3790,15 @@ kernel, left,
 		return false;
 	}
 
-	@Override
-	public boolean evaluatesToMatrix() {
-		if (resolve == null) {
-			resolve = computeResolve();
-		}
-		return resolve.evaluatesToNonComplex2DVector();
-	}
 
 	public boolean evaluatesToMatrixX() {
 		if (isLeaf()) {
-			return left.evaluatesToMatrix();
+			return left.wrap().evaluatesToMatrixX();
 		}
 		// eg. sin(list), f(list)
 		if (Operation.isSimpleFunction(operation)
 				|| operation == Operation.FUNCTION) {
-			return left.evaluatesToMatrix();
+			return left.wrap().evaluatesToMatrixX();
 		}
 		if (operation == Operation.IS_ELEMENT_OF
 				|| operation == Operation.IS_SUBSET_OF
@@ -3816,8 +3811,8 @@ kernel, left,
 				|| operation == Operation.FUNCTION_NVAR) {
 			return false;
 		}
-		if (left.evaluatesToMatrix()
-				|| (right != null && right.evaluatesToMatrix())) {
+		if (left.wrap().evaluatesToMatrix()
+				|| (right != null && right.wrap().evaluatesToMatrix())) {
 			return true;
 		}
 		return false;
@@ -6015,6 +6010,13 @@ kernel, left,
 			resolve = computeResolve();
 		}
 		return ((Resolution) resolve).getValueType();
+	}
+
+	public int getListDepth() {
+		if (resolve == null) {
+			resolve = computeResolve();
+		}
+		return ((Resolution) resolve).getListDepth();
 	}
 
 }

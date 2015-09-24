@@ -7946,8 +7946,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 	
-	public boolean evaluatesToMatrix() {
-		return false;
+	public int getListDepth() {
+		return 0;
 	}
 
 	public static GeoElement as(NumberValue val) {

@@ -16,7 +16,10 @@ public enum ValueType {
 	 * @return expected type
 	 */
 	public static ValueType resolve(Operation op, ExpressionValue left,
-			ExpressionValue right) {
+			ExpressionValue right, Resolution res) {
+		if (left != null) {
+			res.setListDepth(left.getListDepth());
+		}
 		switch (op) {
 		case PLUS:
 			if (right.evaluatesToText()) {
@@ -125,9 +128,9 @@ public enum ValueType {
 		case LOG10:
 		case LOG2:
 		case FUNCTION:
-		case FUNCTION_NVAR:
 			return ValueType.COMPLEX.check(left,
 					ValueType.LIST.check(left, ValueType.NUMBER));
+		case FUNCTION_NVAR:
 		case FREEHAND:
 		case DATA:
 		case ARBCONST:

@@ -643,25 +643,25 @@ public class Command extends ValidExpression implements
 	}
 
 	@Override
-	public boolean evaluatesToMatrix() {
+	public int getListDepth() {
 		if ("x".equals(getName()) || "y".equals(getName())
 				|| "z".equals(getName()) || "If".equals(getName())) {
-			return this.getArgument(0).evaluatesToMatrix();
+			return this.getArgument(0).getListDepth();
 		}
 		// There we might add more commands that evaluate to matrix
 		if ("Identity".equals(getName())) {
-			return true;
+			return 2;
 		}
 		if (!allowEvaluationForTypeCheck) {
-			return false;
+			return 0;
 		}
 		try {
-			return evaluate(StringTemplate.defaultTemplate) instanceof ListValue;
+			return evaluate(StringTemplate.defaultTemplate).getListDepth();
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
 			if (ev != null)
-				return ev.unwrap() instanceof ListValue;
+				return ev.unwrap().getListDepth();
 			throw ex;
 		}
 

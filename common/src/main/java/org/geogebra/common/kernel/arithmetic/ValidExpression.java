@@ -484,11 +484,11 @@ public abstract class ValidExpression implements ExpressionValue {
 		return getValueType() == ValueType.LIST;
 	}
 
-	public boolean evaluatesToMatrix() {
+	public final boolean evaluatesToMatrix() {
 		return getValueType() == ValueType.LIST && getListDepth() == 2;
 	}
 
-	protected int getListDepth() {
+	public int getListDepth() {
 		return 0;
 	}
 

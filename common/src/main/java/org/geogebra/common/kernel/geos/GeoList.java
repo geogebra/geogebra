@@ -2934,8 +2934,8 @@ AngleProperties {
 	}
 
 	@Override
-	public boolean evaluatesToMatrix() {
-		return isMatrix();
+	public int getListDepth() {
+		return isMatrix() ? 2 : 1;
 	}
 
 	/**
@@ -2982,5 +2982,6 @@ AngleProperties {
 	public ValueType getValueType() {
 		return ValueType.LIST;
 	}
+
 
 }
