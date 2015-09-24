@@ -1008,7 +1008,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		ret = printVariableName(getStringType(), label);
 
-		if (ret.length() == 1 && ret.equals("l") && hasType(StringType.LATEX)) {
+		if (ret != null && ret.length() == 1 && ret.equals("l")
+				&& hasType(StringType.LATEX)) {
 			ret = "\\ell";
 		}
 
