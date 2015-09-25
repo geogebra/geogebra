@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -157,7 +158,7 @@ public abstract class CommandProcessor {
 			return geos;
 		}
 		String[] str = { "IllegalArgument",
-				arg.toString(StringTemplate.defaultTemplate) };
+ ValidExpression.debugString(arg) };
 		throw new MyError(loc, str);
 	}
 

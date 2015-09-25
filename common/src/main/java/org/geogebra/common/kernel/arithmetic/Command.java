@@ -515,6 +515,13 @@ public class Command extends ValidExpression implements
 		if ("Curve".equals(name)) {
 			return ValueType.PARAMETRIC2D;
 		}
+		if ("Vector".equals(name) && (args.size() > 0)
+				&& args.get(0).getValueType() == ValueType.VECTOR3D) {
+			return ValueType.VECTOR3D;
+		}
+		if ("Vector".equals(name)) {
+			return ValueType.NONCOMPLEX2D;
+		}
 		if (lastType != null) {
 			return lastType;
 		}
@@ -524,13 +531,15 @@ public class Command extends ValidExpression implements
 		}
 		try {
 			lastType = evaluate(StringTemplate.defaultTemplate).getValueType();
-		} catch (MyError ex) {
+		} catch (Throwable ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
 			if (ev != null) {
 				lastType = ev.getValueType();
+			} else {
+			throw ex instanceof MyError ? (MyError) ex : new MyError(
+					kernel.getLocalization(), ex.getMessage());
 			}
-			throw ex;
 		}
 		return lastType;
 	}

@@ -17,14 +17,20 @@ import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -60,8 +66,8 @@ public class CAStestJSON {
 	
 	@BeforeClass
 	  public static void setupCas () {
-		app = new AppD(new CommandLineArguments(new String[] { "--giac" }), new JFrame(), false);
-
+		app = new AppD(new CommandLineArguments(new String[] { "--giac" }),
+				new JFrame(), false);
 	    // Set language to something else than English to test automatic translation.
 	    app.setLanguage(Locale.GERMANY);
 	    // app.fillCasCommandDict();
@@ -147,7 +153,11 @@ public class CAStestJSON {
 				result = f.getOutputValidExpression().toValueString(
 						StringTemplate.testTemplateJSON);
 			} else {
-	      result = f.getOutputValidExpression() != null ? f.getOutputValidExpression().toString(
+				result = f.getOutputValidExpression() != null ? f
+						.getOutputValidExpression()
+						.traverse(getGGBVectAdder())
+
+						.toString(
 	          includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplateJSON) : f.getOutput(StringTemplate.testTemplate);
 			}
 	    } catch (Throwable t) {
@@ -188,7 +198,22 @@ public class CAStestJSON {
 			}
 	    }
 	  }
-	
+
+	private static Traversing getGGBVectAdder() {
+		return new Traversing() {
+			public ExpressionValue process(ExpressionValue ev) {
+				if (ev.unwrap() instanceof MyVecNDNode
+						&& ((MyVecNDNode) ev.unwrap()).isCASVector()) {
+					return new Variable(kernel, "ggbvect").wrap().apply(
+							Operation.FUNCTION, ev);
+
+				}
+
+				return ev;
+			}
+		};
+
+	}
 	private static void t (String input, String expectedResult) {
 		String[] validResults = expectedResult.split("\\|OR\\|");
 		ta(false, input, validResults, validResults);
@@ -199,12 +224,25 @@ public class CAStestJSON {
 		if (testcases.get(name) == null) {
 			return;
 		}
-		for(String cmd:testcases.get(name).keySet()){
-			t(cmd, testcases.get(name).get(cmd));
+		HashMap<String, String> cases = testcases.get(name);
+		Assert.assertNotEquals(0, cases.size());
+		testcases.remove(name);
+		for (String cmd : cases.keySet()) {
+			t(cmd, cases.get(cmd));
 		}
-		Assert.assertNotEquals(0, testcases.get(name).size());
+
+
 	}
-	
+
+	@AfterClass
+	public static void checkAllCatsTested() {
+		StringBuilder sb = new StringBuilder("");
+		for (String cat : testcases.keySet()) {
+			sb.append(cat);
+			sb.append(',');
+		}
+		Assert.assertEquals(sb.toString(), "");
+	}
 	
 	@Test
 	public void testgeneral(){
@@ -597,6 +635,27 @@ public class CAStestJSON {
 	}
 
 	@Test
+	public void testPoint() {
+		testCat("Point");
+	}
+
+	@Test
+	public void testFunction() {
+		testCat("Function");
+	}
+
+	@Test
+	public void testSVD() {
+		testCat("SVD");
+	}
+
+	@Test
+	public void testSolveODE2() {
+		testCat("SolveODE2");
+	}
+
+
+	@Test
 	public void testOrthogonalVector(){
 		testCat("OrthogonalVector");
 	}
@@ -718,12 +777,47 @@ public class CAStestJSON {
 
 	@Test
 	public void testShuffle(){
-		//testCat("Shuffle");//TODO
+		testCat("Shuffle");// TODO
 	}
 
 	@Test
 	public void testSimplify(){
 		testCat("Simplify");
+	}
+
+	@Test
+	public void testSpare() {
+		testCat("spare");
+	}
+
+	@Test
+	public void testExtremum() {
+		testCat("Extremum");
+	}
+
+	@Test
+	public void testDegreeConst() {
+		testCat("DegreeConst");
+	}
+
+	@Test
+	public void testEvaluate2() {
+		testCat("Evaluate2");
+	}
+
+	@Test
+	public void testSolveLogic() {
+		testCat("SolveLogic");
+	}
+
+	@Test
+	public void testFactorExponential() {
+		testCat("FactorExponential");
+	}
+
+	@Test
+	public void testVector() {
+		testCat("Vector");
 	}
 
 	@Test

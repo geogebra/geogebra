@@ -5987,9 +5987,6 @@ kernel, left,
 		}
 	}
 
-
-
-
 	private boolean isVariableSquare() {
 		if ((this.getLeft() instanceof Variable
 				|| this.getLeft() instanceof GeoElement || (this.getLeft()
