@@ -1962,6 +1962,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
+		getLineStyleXML(sb);
+
 		/*
 		 * sb.append("\t<eigenvectors "); sb.append(" x0=\"" +
 		 * eigenvec[0].getX() + "\""); sb.append(" y0=\"" + eigenvec[0].getY() +

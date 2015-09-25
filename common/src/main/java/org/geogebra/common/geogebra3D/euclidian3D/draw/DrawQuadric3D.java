@@ -82,10 +82,12 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-		switch (((GeoQuadric3D) getGeoElement()).getType()) {
-		case GeoQuadricNDConstants.QUADRIC_LINE:
-			drawLine.drawOutline(renderer);
-		break;
+		if (isVisible()) {
+			switch (((GeoQuadric3D) getGeoElement()).getType()) {
+			case GeoQuadricNDConstants.QUADRIC_LINE:
+				drawLine.drawOutline(renderer);
+				break;
+			}
 		}
 
 	}
