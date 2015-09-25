@@ -46,6 +46,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
+import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -3684,7 +3686,12 @@ public abstract class App implements UpdateSelection {
 	 *
 	 * @return AlgoKimberlingWeightsInterface
 	 */
-	public abstract AlgoKimberlingWeightsInterface getAlgoKimberlingWeights();
+	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
+		if (kimberlingw != null) {
+			return kimberlingw;
+		}
+		return (kimberlingw = new AlgoKimberlingWeights());
+	}
 
 	/**
 	 * Needed for running part of AlgoKimberling async
@@ -3695,7 +3702,9 @@ public abstract class App implements UpdateSelection {
 	 * @param c
 	 * @return
 	 */
-	public abstract double kimberlingWeight(AlgoKimberlingWeightsParams kw);
+	public double kimberlingWeight(AlgoKimberlingWeightsParams kw) {
+		return getAlgoKimberlingWeights().weight(kw);
+	}
 
 	/**
 	 * This method is to be overridden in subclasses In Web, this can run in
@@ -3703,7 +3712,12 @@ public abstract class App implements UpdateSelection {
 	 *
 	 * @return AlgoCubicSwitchInterface
 	 */
-	public abstract AlgoCubicSwitchInterface getAlgoCubicSwitch();
+	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
+		if (cubicw != null) {
+			return cubicw;
+		}
+		return (cubicw = new AlgoCubicSwitch());
+	}
 
 	/**
 	 * Needed for running part of AlgoKimberling async
@@ -3714,12 +3728,14 @@ public abstract class App implements UpdateSelection {
 	 * @param c
 	 * @return
 	 */
-	public abstract String cubicSwitch(AlgoCubicSwitchParams kw);
+	public String cubicSwitch(AlgoCubicSwitchParams kw) {
+		return getAlgoCubicSwitch().getEquation(kw);
+	}
 
 	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
 
 	/**
-	 * Should lose focus on Web applets, ipmelment only where appropriate
+	 * Should lose focus on Web applets, implement only where appropriate
 	 */
 	public void loseFocus() {
 		App.debug("Should lose focus on Web applets, ipmelment (override) only where appropriate");

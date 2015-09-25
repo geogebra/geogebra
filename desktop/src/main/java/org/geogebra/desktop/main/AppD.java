@@ -128,16 +128,10 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
-import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.AlgoCubicSwitchInterface;
-import org.geogebra.common.main.AlgoCubicSwitchParams;
-import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
-import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.MyError;
@@ -5261,28 +5255,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public double getMillisecondTime() {
 		return System.nanoTime() / 1000000d;
-	}
-
-	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
-		if (kimberlingw != null) {
-			return kimberlingw;
-		}
-		return (kimberlingw = new AlgoKimberlingWeights());
-	}
-
-	public double kimberlingWeight(AlgoKimberlingWeightsParams kw) {
-		return getAlgoKimberlingWeights().weight(kw);
-	}
-
-	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
-		if (cubicw != null) {
-			return cubicw;
-		}
-		return (cubicw = new AlgoCubicSwitch());
-	}
-
-	public String cubicSwitch(AlgoCubicSwitchParams kw) {
-		return getAlgoCubicSwitch().getEquation(kw);
 	}
 
 	/**
