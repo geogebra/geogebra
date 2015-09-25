@@ -221,8 +221,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
 					if (Kernel.isZero(m)) {
 						// single line
-						App.debug("single line:\n" + semiDiagMatrix);
-						type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+						singleLine(-x / eigenval[0], -y / eigenval[1]);
 					} else if (eigenval[0] * m < 0) {
 						// empty
 						defined = false;
@@ -257,6 +256,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		}
 
+	}
+
+	private void singleLine(double x, double y) {
+		App.debug("single line:\n" + semiDiagMatrix);
+
+		// set midpoint
+		midpoint.set(Coords.O);
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[0], x));
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[1], y));
+
+		// set line
+		getLine();
+		line.setCoord(midpoint, eigenvecND[2]);
+
+		type = GeoQuadricNDConstants.QUADRIC_LINE;
 	}
 
 	private CoordMatrix tmpMatrix3x3;
@@ -304,6 +318,19 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		return planes;
+	}
+
+	private GeoLine3D line;
+
+	/**
+	 * 
+	 * @return line (for degenerate case)
+	 */
+	public GeoLine3D getLine() {
+		if (line == null) {
+			line = new GeoLine3D(cons);
+		}
+		return line;
 	}
 
 	private CoordMatrix eigenvecNDMatrix, semiDiagMatrix;
@@ -1012,6 +1039,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "Point";
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
 			return "Plane";
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			return "Line";
 		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
 		default:
 			return "Quadric";
@@ -1161,6 +1190,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		case QUADRIC_PLANE:
 			point.set(planes[0].getCoordSys().getPoint(u, v));
+			break;
+
+		case QUADRIC_LINE:
+			point.set(line.getPoint(u));
 			break;
 
 		default:
@@ -1345,6 +1378,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					.getMatrixOrthonormal(), tmpCoords);
 			parameters[0] = PathNormalizer.inverseInfFunction(tmpCoords.getX());
 			parameters[1] = tmpCoords.getY();
+			break;
+
+		case QUADRIC_LINE:
+			coords.projectLine(line.getStartInhomCoords(),
+					line.getDirectionInD3(), tmpCoords, parameters);
+			parameters[1] = 0;
 			break;
 
 		default:
@@ -1579,6 +1618,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			P.updateCoordsFrom2D(false, planes[0].getCoordSys());
 			RegionParameters rp = P.getRegionParameters();
 			rp.setT1(PathNormalizer.inverseInfFunction(rp.getT1()));
+			return;
+		}
+
+		if (type == QUADRIC_LINE) {
+			double t = line.getParamOnLine(P);
+			P.getRegionParameters().setT1(t);
+			// udpate point using pathChanged
+			P.setCoords(line.getPoint(t), false);
 			return;
 		}
 

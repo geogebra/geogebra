@@ -25,8 +25,35 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 */
 	public DrawLine3D(EuclidianView3D a_view3D, GeoLineND line) {
 
-		super(a_view3D, (GeoElement) line);
+		this(a_view3D, line, null);
 	}
+
+	/**
+	 * Constructor for helpers
+	 * 
+	 * @param a_view3D
+	 * @param line
+	 * @param geo2
+	 */
+	public DrawLine3D(EuclidianView3D a_view3D, GeoLineND line, GeoElement geo2) {
+
+		super(a_view3D);
+		init((GeoElement) line, geo2);
+
+	}
+
+	/**
+	 * @param line
+	 *            line
+	 * @param geo2
+	 *            geo caller
+	 */
+	protected void init(GeoElement line, GeoElement geo2) {
+
+		super.init(line);
+
+	}
+
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -56,7 +83,7 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 */
 	protected void updateDrawMinMax() {
 
-		GeoLineND line = (GeoLineND) getGeoElement();
+		GeoLineND line = getLine();
 
 		Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		Coords v = line.getPointInD(3, 1).getInhomCoordsInSameDimension()

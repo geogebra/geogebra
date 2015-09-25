@@ -50,6 +50,14 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 		super(a_view3D, selectedPoints, geo);
 	}
 
+	/**
+	 * 
+	 * @return line
+	 */
+	protected GeoLineND getLine() {
+		return (GeoLineND) getGeoElement();
+	}
+
 	@Override
 	protected void setPreviewableCoords(GeoPointND firstPoint,
 			GeoPointND secondPoint) {
@@ -60,7 +68,7 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 
 	@Override
 	protected Coords[] calcPoints() {
-		GeoLineND cs = (GeoLineND) getGeoElement();
+		GeoLineND cs = getLine();
 		double[] minmax = getDrawMinMax();
 		return new Coords[] {
 				cs.getPointInD(3, minmax[0]).getInhomCoordsInSameDimension(),

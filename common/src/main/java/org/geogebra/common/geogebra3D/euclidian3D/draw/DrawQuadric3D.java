@@ -47,6 +47,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
 			drawPlanes[0].drawGeometry(renderer);
 			break;
+
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			// not used: see drawOutline() and drawGeometryHidden()
+			break;
+
 		default:
 			renderer.setLayer(getLayer());
 			renderer.getGeometryManager().draw(getSurfaceIndex());
@@ -68,13 +73,41 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public void drawGeometryHidden(Renderer renderer) {
-		// TODO Auto-generated method stub
-
+		switch (((GeoQuadric3D) getGeoElement()).getType()) {
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			drawLine.drawGeometryHidden(renderer);
+			break;
+		}
 	}
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-		// no outline
+		switch (((GeoQuadric3D) getGeoElement()).getType()) {
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			drawLine.drawOutline(renderer);
+		break;
+		}
+
+	}
+
+	@Override
+	protected void drawGeometryForPicking(Renderer renderer, PickingType type) {
+		if (((GeoQuadric3D) getGeoElement()).getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
+			drawOutline(renderer);
+		} else {
+			drawGeometry(renderer);
+		}
+	}
+
+	@Override
+	protected void updateColors() {
+		super.updateColors();
+		switch (((GeoQuadric3D) getGeoElement()).getType()) {
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			initDrawLine((GeoQuadric3D) getGeoElement());
+			drawLine.updateColors();
+			break;
+		}
 	}
 
 	protected int longitude = 0;
@@ -373,6 +406,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			drawPlanes[0].updateForItSelf();
 			break;
 
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			initDrawLine(quadric);
+			drawLine.updateForItSelf();
+			break;
+
 		default:
 			setSurfaceIndex(-1);
 		}
@@ -391,6 +429,15 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					quadric);
 			drawPlanes[1] = new DrawPlane3DForQuadrics(getView3D(), planes[1],
 					quadric);
+		}
+	}
+
+	private DrawLine3D drawLine;
+
+	private void initDrawLine(GeoQuadric3D quadric) {
+		if (drawLine == null){
+			drawLine = new DrawLine3DForQuadrics(getView3D(),
+					quadric.getLine(), quadric);
 		}
 	}
 
@@ -525,6 +572,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				break;
 			}
 
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			initDrawLine(quadric);
+			drawLine.setWaitForUpdate();
+			break;
+
 		}
 
 	}
@@ -546,6 +598,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdate();
+			break;
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			initDrawLine(quadric);
+			drawLine.setWaitForUpdate();
 			break;
 		}
 	}
@@ -580,6 +636,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		default:
 			addToDrawable3DLists(lists, DRAW_TYPE_SURFACES);
 		}
+		addToDrawable3DLists(lists, DRAW_TYPE_CURVES);
 	}
 
 	@Override
@@ -594,6 +651,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		default:
 			removeFromDrawable3DLists(lists, DRAW_TYPE_SURFACES);
 		}
+		removeFromDrawable3DLists(lists, DRAW_TYPE_CURVES);
 	}
 
 	// //////////////////////////////
@@ -675,6 +733,15 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}	
 		
+
+		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
+			if (drawLine.hit(hitting)) {
+				setZPick(drawLine.getZPickNear(), drawLine.getZPickFar());
+				setPickingType(PickingType.POINT_OR_CURVE);
+				return true;
+			}
+			return false;
+		}
 
 		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
 			return false;
