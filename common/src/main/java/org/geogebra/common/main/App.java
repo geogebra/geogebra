@@ -45,7 +45,6 @@ import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -2691,18 +2690,6 @@ public abstract class App implements UpdateSelection {
 			boolean useTransparentCursorWhenDragging) {
 		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
 	}
-
-	/**
-	 * eg StringType.LATEX for desktop (JLaTeXMath) StringType.MATHML for web
-	 * (canvasmath)
-	 * 
-	 * eg AlgoFraction can output to LaTeX or MathML so can
-	 * FormulaText[sin(x/2)] but for text, eg FormulaText["\frac{a}{b}"],
-	 * FormulaText always needs a LaTeX renderer
-	 * 
-	 * @return string type for fomulas (LATEX, MATHML)
-	 */
-	public abstract StringType getPreferredFormulaRenderingType();
 
 	public void doAfterRedefine(GeoElement geo) {
 		if (getGuiManager() != null) {

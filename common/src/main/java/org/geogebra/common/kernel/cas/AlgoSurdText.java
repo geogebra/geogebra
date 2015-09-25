@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -86,8 +87,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		text = new GeoText(cons);
 
-		text.setFormulaType(kernel.getApplication()
-				.getPreferredFormulaRenderingType());
+		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text

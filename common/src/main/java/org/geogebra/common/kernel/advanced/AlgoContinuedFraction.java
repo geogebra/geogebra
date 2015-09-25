@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -50,8 +51,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		this.shorthand = shorthand;
 		text = new GeoText(cons);
 
-		text.setFormulaType(kernel.getApplication()
-				.getPreferredFormulaRenderingType());
+		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text

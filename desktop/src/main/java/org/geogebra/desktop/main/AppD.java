@@ -126,7 +126,6 @@ import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -4917,11 +4916,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public boolean isHTML5Applet() {
 		return false;
-	}
-
-	@Override
-	public StringType getPreferredFormulaRenderingType() {
-		return StringType.LATEX;
 	}
 
 	@SuppressWarnings("deprecation")

@@ -55,9 +55,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		sbp = new StringBuilder(50);
 		text = new GeoText(cons);
 
-		// coords in MathML not supported (have to use vectors/matrices)
 		text.setFormulaType(StringType.LATEX);
-		// text.setFormulaType(app.getPreferredFormulaRenderingType());
 
 		text.setLaTeX(true, false);
 

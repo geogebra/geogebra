@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -284,11 +283,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public Canvas getCanvas() {
 		return canvas;
-	}
-
-	@Override
-	public final StringType getPreferredFormulaRenderingType() {
-		return StringType.LATEX;
 	}
 
 	@Override

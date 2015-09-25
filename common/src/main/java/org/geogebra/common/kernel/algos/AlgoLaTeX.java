@@ -50,8 +50,7 @@ public class AlgoLaTeX extends AlgoElement {
 		this.showName = showName;
 		text = new GeoText(cons);
 
-		text.setFormulaType(kernel.getApplication()
-				.getPreferredFormulaRenderingType());
+		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		setInputOutput(); // for AlgoElement
@@ -71,8 +70,7 @@ public class AlgoLaTeX extends AlgoElement {
 		this.showName = null;
 		text = new GeoText(cons);
 
-		text.setFormulaType(kernel.getApplication()
-				.getPreferredFormulaRenderingType());
+		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text
@@ -124,10 +122,6 @@ public class AlgoLaTeX extends AlgoElement {
 		// whether to use a formula renderer
 		boolean useLaTeX = true;
 
-		// LaTeX or MathML
-		StringType formulaRendererType = kernel.getApplication()
-				.getPreferredFormulaRenderingType();
-
 		if (!geo.isDefined()){
 			text.setTextString("?");
 		} else if ((substituteVars != null && !substituteVars.isDefined())
@@ -151,7 +145,6 @@ public class AlgoLaTeX extends AlgoElement {
 				if (geo.isGeoCasCell()) {
 					text.setTextString(((GeoCasCell) geo)
 							.getOutput(StringTemplate.numericLatex));
-					formulaRendererType = StringType.LATEX;
 				} else {
 					text.setTextString(geo.getLaTeXAlgebraDescription(
 							substitute, tpl));
@@ -168,11 +161,9 @@ public class AlgoLaTeX extends AlgoElement {
 				if (geo.isGeoText()) {
 					// needed for eg Text commands eg FormulaText[Text[
 					text.setTextString(((GeoText) geo).getTextString());
-					formulaRendererType = StringType.LATEX;
 				} else if (geo.isGeoCasCell()) {
 					text.setTextString(((GeoCasCell) geo)
 							.getOutput(StringTemplate.numericLatex));
-					formulaRendererType = StringType.LATEX;
 				} else {
 					text.setTextString(geo.getFormulaString(tpl, substitute));
 				}
@@ -180,7 +171,7 @@ public class AlgoLaTeX extends AlgoElement {
 
 		}
 
-		text.setFormulaType(formulaRendererType);
+		text.setFormulaType(StringType.LATEX);
 
 		text.setLaTeX(useLaTeX, false);
 

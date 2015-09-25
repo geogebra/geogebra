@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -397,12 +396,6 @@ public class AppStub extends App {
 	public boolean isHTML5Applet() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public StringType getPreferredFormulaRenderingType() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

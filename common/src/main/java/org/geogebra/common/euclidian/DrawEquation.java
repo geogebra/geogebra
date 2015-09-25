@@ -26,7 +26,6 @@ public abstract class DrawEquation {
 			return StringType.MATHML;
 
 		default:
-			// should really be app.getPreferredFormulaRenderingType()
 			return StringType.LATEX;
 		}
 	}
