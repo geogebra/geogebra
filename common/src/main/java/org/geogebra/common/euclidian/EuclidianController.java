@@ -9239,7 +9239,6 @@ public abstract class EuclidianController {
 	}
 
 	public void wrapMouseReleasedND(final AbstractEvent event, boolean mayFocus) {
-		App.error("1");
 		int x = event.getX();
 		int y = event.getY();
 		boolean right = app.isRightClick(event);
