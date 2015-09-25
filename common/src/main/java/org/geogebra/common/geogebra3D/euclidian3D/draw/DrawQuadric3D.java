@@ -90,6 +90,64 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 		}
 
+		drawTracesOutline(renderer, false);
+
+	}
+
+	@Override
+	public void drawHidden(Renderer renderer) {
+		super.drawHidden(renderer);
+
+		drawTracesOutline(renderer, true);
+
+	}
+
+	@Override
+	protected void drawTracesOutline(Renderer renderer, boolean hidden) {
+
+		if ((((GeoQuadric3D) getGeoElement()).getType() != GeoQuadricNDConstants.QUADRIC_LINE || hidden)
+				&& drawLine != null) {
+			drawLine.drawTracesOutline(renderer, hidden);
+		}
+
+	}
+
+	@Override
+	protected void drawTracesNotTranspSurface(Renderer renderer) {
+		if (drawPlanes != null) {
+			drawPlanes[0].drawTracesNotTranspSurface(renderer);
+			if (drawPlanes[1] != null) {
+				drawPlanes[1].drawTracesNotTranspSurface(renderer);
+			}
+		}
+
+		super.drawTracesNotTranspSurface(renderer);
+	}
+
+	@Override
+	protected void drawTracesHidingSurface(Renderer renderer) {
+
+		if (drawPlanes != null) {
+			drawPlanes[0].drawTracesHidingSurface(renderer);
+			if (drawPlanes[1] != null) {
+				drawPlanes[1].drawTracesHidingSurface(renderer);
+			}
+		}
+
+		super.drawTracesHidingSurface(renderer);
+	}
+
+	@Override
+	protected void drawTracesTranspSurface(Renderer renderer) {
+		if (drawPlanes != null) {
+			drawPlanes[0].drawTracesTranspSurface(renderer);
+			if (drawPlanes[1] != null) {
+				drawPlanes[1].drawTracesTranspSurface(renderer);
+			}
+		}
+
+		super.drawTracesTranspSurface(renderer);
+
 	}
 
 	@Override
@@ -104,9 +162,23 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	protected void updateColors() {
 		super.updateColors();
-		switch (((GeoQuadric3D) getGeoElement()).getType()) {
+
+		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		switch (quadric.getType()) {
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+			initDrawPlanes(quadric);
+			drawPlanes[0].updateColors();
+			drawPlanes[1].updateColors();
+			break;
+
+		case GeoQuadricNDConstants.QUADRIC_PLANE:
+			initDrawPlanes(quadric);
+			drawPlanes[0].updateColors();
+			break;
+
 		case GeoQuadricNDConstants.QUADRIC_LINE:
-			initDrawLine((GeoQuadric3D) getGeoElement());
+			initDrawLine(quadric);
 			drawLine.updateColors();
 			break;
 		}
@@ -563,24 +635,24 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				drawPlanes[0].updateForView();
 				drawPlanes[1].updateForView();
 				super.setWaitForUpdate();
-				break;
 			}
+			break;
 
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
 			if (getView3D().viewChanged()) {
 				initDrawPlanes(quadric);
 				drawPlanes[0].updateForView();
 				super.setWaitForUpdate();
-				break;
 			}
+			break;
 
 		case GeoQuadricNDConstants.QUADRIC_LINE:
 			if (getView3D().viewChanged()) {
 				initDrawLine(quadric);
 				drawLine.updateForView();
 				super.setWaitForUpdate();
-				break;
 			}
+			break;
 
 		}
 
@@ -617,6 +689,50 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		super.setWaitForUpdateVisualStyle();
 
+	}
+
+	@Override
+	protected void recordTrace() {
+		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		switch (quadric.getType()) {
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+			initDrawPlanes(quadric);
+			drawPlanes[0].recordTrace();
+			drawPlanes[1].recordTrace();
+			break;
+
+		case GeoQuadricNDConstants.QUADRIC_PLANE:
+			initDrawPlanes(quadric);
+			drawPlanes[0].recordTrace();
+			break;
+
+		case GeoQuadricNDConstants.QUADRIC_LINE:
+			initDrawLine(quadric);
+			drawLine.recordTrace();
+			break;
+
+		default:
+			super.recordTrace();
+			break;
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChanged() {
+
+		if (drawPlanes != null) {
+			drawPlanes[0].clearTraceForViewChanged();
+			if (drawPlanes[1] != null) {
+				drawPlanes[1].clearTraceForViewChanged();
+			}
+		}
+
+		if (drawLine != null) {
+			drawLine.clearTraceForViewChanged();
+		}
+
+		super.clearTraceForViewChanged();
 	}
 
 	@Override
@@ -673,6 +789,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 		default:
 			addToDrawable3DLists(lists, DRAW_TYPE_SURFACES);
+			break;
 		}
 		addToDrawable3DLists(lists, DRAW_TYPE_CURVES);
 	}
@@ -688,6 +805,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 		default:
 			removeFromDrawable3DLists(lists, DRAW_TYPE_SURFACES);
+			break;
 		}
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CURVES);
 	}

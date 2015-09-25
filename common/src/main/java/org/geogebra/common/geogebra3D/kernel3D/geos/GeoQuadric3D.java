@@ -1662,8 +1662,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		App.debug(P.getRegionParameters().getT1() + ","
-				+ P.getRegionParameters().getT2());
 		if (!getKernel().usePathAndRegionParameters(P)
 				|| P.getRegionParameters().isNaN()) {
 			pointChangedForRegion(P);

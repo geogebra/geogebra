@@ -312,15 +312,15 @@ public abstract class Drawable3D extends DrawableND {
 		if (createdByDrawList())
 			return ((Drawable3D) getDrawListCreator()).hasTrace();
 
-		if (geo == null) {
+		if (getGeoElement() == null) {
 			return false;
 		}
 
-		if (!geo.isTraceable()) {
+		if (!getGeoElement().isTraceable()) {
 			return false;
 		}
 
-		return ((Traceable) geo).getTrace();
+		return ((Traceable) getGeoElement()).getTrace();
 	}
 
 	/**
@@ -1250,7 +1250,10 @@ public abstract class Drawable3D extends DrawableND {
 	private TraceIndex lastTraceIndex;
 	private ArrayList<TraceIndex> lastTraceIndices;
 
-	final protected void recordTrace() {
+	/**
+	 * record trace
+	 */
+	protected void recordTrace() {
 
 		if (!hasTrace()) {
 			return;
@@ -1294,7 +1297,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param hidden
 	 *            says if its hidden outline
 	 */
-	final protected void drawTracesOutline(Renderer renderer, boolean hidden) {
+	protected void drawTracesOutline(Renderer renderer, boolean hidden) {
 
 		if (trace == null) {
 			return;
@@ -1348,7 +1351,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param renderer
 	 *            renderer
 	 */
-	final protected void drawTracesTranspSurface(Renderer renderer) {
+	protected void drawTracesTranspSurface(Renderer renderer) {
 
 		if (trace == null) {
 			return;
@@ -1375,7 +1378,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param renderer
 	 *            renderer
 	 */
-	final protected void drawTracesHidingSurface(Renderer renderer) {
+	protected void drawTracesHidingSurface(Renderer renderer) {
 
 		if (trace == null) {
 			return;
@@ -1399,7 +1402,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param renderer
 	 *            renderer
 	 */
-	final protected void drawTracesNotTranspSurface(Renderer renderer) {
+	protected void drawTracesNotTranspSurface(Renderer renderer) {
 
 		if (trace == null) {
 			return;
