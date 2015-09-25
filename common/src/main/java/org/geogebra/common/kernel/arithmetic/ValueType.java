@@ -43,17 +43,22 @@ public enum ValueType {
 			}
 			return left.getValueType();
 		case MULTIPLY:
-			if (right.evaluatesToText()) {
-				return ValueType.TEXT;
+			ValueType rightType = right.getValueType();
+			if (rightType == ValueType.TEXT || rightType == ValueType.LIST) {
+				return rightType;
 			}
-			if (right.evaluatesToList()) {
-				return ValueType.LIST;
-			}
+
 			// scalar product
-			if (right.getValueType() == ValueType.NONCOMPLEX2D
-					&& left.getValueType() == ValueType.NONCOMPLEX2D) {
+			if ((rightType == ValueType.NONCOMPLEX2D || rightType == ValueType.VECTOR3D)
+					&& (left.getValueType() == ValueType.NONCOMPLEX2D || rightType == ValueType.VECTOR3D)) {
 				return ValueType.NUMBER;
 			}
+			// number * vector
+			if (rightType == ValueType.NONCOMPLEX2D
+					|| rightType == ValueType.VECTOR3D) {
+				return rightType;
+			}
+
 			return left.getValueType();
 		case DIVIDE:
 			if (right.evaluatesToList()) {
