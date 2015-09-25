@@ -1652,7 +1652,9 @@ var __giac = [ {},
 { cat: "Solve", cmd:"Solve[5*2^x=3^x]", result:"{x = (-ln(5)) / (ln(2) - ln(3))}", notes:"#2702" },
 { cat: "Solve", cmd:"Solve[2lg(x)+1=5]", result:"{x = 100}", notes:"#2702" },
 { cat: "Solve", cmd:"Solve[2lg(x+1)=lg(x+2)]", result:"{x = (sqrt(5) - 1) / 2}", notes:"#2702" },
-{ cat: "Solve", cmd:"Solve[lg(x^2-3x)=2lg(2)]", result:"{x = (-sqrt(4ℯ^(2ln(2)) + 9) + 3) / 2, x = (sqrt(4ℯ^(2ln(2)) + 9) + 3) / 2}", notes:"#2702" },
+{ cat: "Solve", cmd:"Solve[lg(x^2-3x)=2lg(2)]", result:"{x = -1, x = 4}", notes:"#2702" },
+{ cat: "Solve", cmd:"Solve[lg(x^2)-4*lg(x)=0]", result:"{x = 1}", notes:"#2702" },
+{ cat: "Solve", cmd:"Solve[lg(x^2)=4lg(x)]", result:"{x=1}", notes:"#2702" },
 { cat: "Solve", cmd:"Solve[lg(x+6)=2lg(x)]", result:"{x=3}", notes:"#2702" },
 { cat: "Solve", cmd:"Solve[{sin(x)=(5/10), x=y},{x, y}]", result:"{{x = 2n_3 π + 1 / 6 π, y = 2n_3 π + 1 / 6 π}, {x = 2n_3 π + 5 / 6 π, y = 2n_3 π + 5 / 6 π}}", notes:"#5073" },
 { cat: "Solve", cmd:"Solve[{x=y, sin(x)=(5/10)},{x, y}]", result:"{{x = 2n_3 π + 1 / 6 π, y = 2n_3 π + 1 / 6 π}, {x = 2n_3 π + 5 / 6 π, y = 2n_3 π + 5 / 6 π}}", notes:"#5073" },
@@ -1733,7 +1735,6 @@ var __giac = [ {},
 
 // giac/ggb bugs
 var bugs = [
-{ cat: "Solve", cmd:"Solve[lg(x^2)=4lg(x)]", result:"{x=1}", notes:"#2702" },
 { cat:"Numeric", cmd:"Numeric[Zeta(-0.29052115829613995+ ί *0.30570723126530347)]", result:"", notes:"gives answer in terms of Eta()" },
 { cat:"Integral", cmd:"Integral[exp(x^3)+x^2]", result:"?", notes:"gamma needs extending to negative numbers in GeoGebra" },
 { cat:"NSolutions", cmd:"NSolutions[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c=1,a=1}]", result:"", notes:"Bavarian 50-1.ggb" },
