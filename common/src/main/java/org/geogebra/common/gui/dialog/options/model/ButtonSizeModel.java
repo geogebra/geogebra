@@ -19,7 +19,12 @@ public class ButtonSizeModel extends OptionsModel {
 		this.listener = listener;
 	}
 	private GeoButton getButtonAt(int index) {
-		return (GeoButton)getObjectAt(index);
+		Object geo = getObjectAt(index);
+		if (geo instanceof GeoButton) {
+			return (GeoButton) geo;
+		}
+
+		return null;
 	}
 	
 	@Override
@@ -27,7 +32,10 @@ public class ButtonSizeModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoButton geo = getButtonAt(i);
 			
-			listener.updateSizes(geo.getWidth(), geo.getHeight(), geo.isFixed());
+			if (geo != null) {
+				listener.updateSizes(geo.getWidth(), geo.getHeight(),
+						geo.isFixed());
+			}
 		}
 	
 	}
@@ -40,12 +48,15 @@ public class ButtonSizeModel extends OptionsModel {
 	public void setSizesFromString(String strWidth, String strHeight, boolean isFixed) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoButton geo = getButtonAt(i);
-			geo.setFixedSize(isFixed);
-			if (isFixed) {
-				geo.setHeight(Integer.parseInt(strHeight));
-				geo.setWidth(Integer.parseInt(strWidth));
-			} else {
-				geo.setFixedSize(false);
+
+			if (geo != null) {
+				geo.setFixedSize(isFixed);
+				if (isFixed) {
+					geo.setHeight(Integer.parseInt(strHeight));
+					geo.setWidth(Integer.parseInt(strWidth));
+				} else {
+					geo.setFixedSize(false);
+				}
 			}
 		}		
 	}
@@ -53,8 +64,11 @@ public class ButtonSizeModel extends OptionsModel {
 	public void applyChanges(boolean isFixed) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoButton geo = getButtonAt(i);
-			geo.setFixedSize(isFixed);
-			listener.updateSizes(geo.getWidth(), geo.getHeight(), isFixed);
+
+			if (geo != null) {
+				geo.setFixedSize(isFixed);
+				listener.updateSizes(geo.getWidth(), geo.getHeight(), isFixed);
+			}
 		}
 	}
 
