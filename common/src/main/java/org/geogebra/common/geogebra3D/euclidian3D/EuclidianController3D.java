@@ -522,6 +522,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		case EuclidianView3D.PREVIEW_POINT_REGION:
+		case EuclidianView3D.PREVIEW_POINT_REGION_AS_PATH:
 			if (inRegionPossible) {
 				Region region = point.getRegion();
 				if (region == getKernel().getXOYPlane()) {

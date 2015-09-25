@@ -217,6 +217,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public static final int PREVIEW_POINT_DEPENDENT = 4;
 	/** already existing point under the cursor */
 	public static final int PREVIEW_POINT_ALREADY = 5;
+	/** region as path (e.g. quadric as line) point under the cursor */
+	public static final int PREVIEW_POINT_REGION_AS_PATH = 6;
 
 	private int cursor3DType = PREVIEW_POINT_NONE;
 
@@ -2302,17 +2304,18 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 				break;
 			case PREVIEW_POINT_PATH:
+			case PREVIEW_POINT_REGION_AS_PATH:
 				// use path drawing directions for the cross
 				t = 1 / getScale();
 
-				v = ((GeoElement) getCursor3D().getPath()).getMainDirection();
+				GeoElement path = getCursorPath();
+				v = path.getMainDirection();
 				CoordMatrix4x4.completeOrtho(v, tmpCoords1, tmpCoords2,
 						tmpMatrix4x4_2);
 
 				getCursor3D().getDrawingMatrix().setVx(
 						tmpMatrix4x4_2.getVx().normalized().mul(t));
-				t *= (10 + ((GeoElement) getCursor3D().getPath())
-						.getLineThickness());
+				t *= (10 + path.getLineThickness());
 				getCursor3D().getDrawingMatrix().setVy(
 						tmpMatrix4x4_2.getVy().mul(t));
 				getCursor3D().getDrawingMatrix().setVz(
@@ -2365,6 +2368,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// Application.debug("getCursor3DType()="+getCursor3DType());
 
+	}
+
+	private GeoElement getCursorPath() {
+		if (getCursor3DType() == PREVIEW_POINT_PATH) {
+			return (GeoElement) getCursor3D().getPath();
+		}
+
+		// PREVIEW_POINT_REGION_AS_PATH
+		return (GeoElement) getCursor3D().getRegion();
 	}
 
 	@Override
@@ -2559,12 +2571,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 						}
 						break;
 					case PREVIEW_POINT_REGION:
-						if (getEuclidianController().getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
+						if (getEuclidianController().getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
 							renderer1.drawViewInFrontOf();
-						else
+						} else {
 							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
+						}
 						break;
 					case PREVIEW_POINT_PATH:
+					case PREVIEW_POINT_REGION_AS_PATH:
 						if (getEuclidianController().getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
 							renderer1.drawViewInFrontOf();
 						else

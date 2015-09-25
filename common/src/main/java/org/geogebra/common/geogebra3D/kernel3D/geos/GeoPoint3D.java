@@ -64,6 +64,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.plugin.GeoClass;
@@ -1186,15 +1187,21 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public int getMoveMode() {
-		if (!isIndependent() || isFixed())
+		if (!isIndependent() || isFixed()) {
 			return MOVE_MODE_NONE;
-		else if (hasPath())
+		} else if (hasPath()) {
 			return MOVE_MODE_NONE; // too complicated to use MOVE_MODE_Z when
 									// not lines
-		else if (hasRegion())
+		} else if (hasRegion()) {
+			GeoElement geo = (GeoElement) region;
+			if (geo.isGeoQuadric()
+					&& ((GeoQuadric3D) geo).getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
+				return MOVE_MODE_NONE;
+			}
 			return MOVE_MODE_XY;
-		else
+		} else {
 			return moveMode;
+		}
 	}
 
 	/**

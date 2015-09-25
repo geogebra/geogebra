@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
@@ -12,6 +13,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -457,6 +459,8 @@ public class EuclidianController3DCompanion extends
 			if (checkPointCapturingXY(captureCoords)) {
 				point3D.setCoords(captureCoords, false);
 			}
+			
+			((EuclidianController3D) ec).view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION);
 
 		} else {
 
@@ -466,11 +470,19 @@ public class EuclidianController3DCompanion extends
 				point3D.setWillingCoords(tmpCoords1);
 				point3D.doRegion();
 			}
+			
+			GeoElement geo = (GeoElement) region;
+			if (geo.isGeoQuadric()
+					&& ((GeoQuadric3D) geo).getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
+				((EuclidianController3D) ec).view3D
+						.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION_AS_PATH);
+			} else {
+				((EuclidianController3D) ec).view3D
+						.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION);
+			}
 
 		}
 
-		((EuclidianController3D) ec).view3D
-				.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION);
 
 		if (!forPreviewable) {
 
