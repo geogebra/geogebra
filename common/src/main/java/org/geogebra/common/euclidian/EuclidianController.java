@@ -9292,7 +9292,7 @@ public abstract class EuclidianController {
 		transformCoordsOffset[0] = 0;
 		transformCoordsOffset[1] = 0;
 
-		if (this.textfieldJustFocused(x, y, type)) {
+		if (!event.isRightClick() && this.textfieldJustFocused(x, y, type)) {
 			return;
 		}
 
