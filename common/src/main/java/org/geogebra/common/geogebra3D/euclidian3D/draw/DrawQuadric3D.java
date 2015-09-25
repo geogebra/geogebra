@@ -586,30 +586,35 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public void setWaitForUpdateVisualStyle() {
-		super.setWaitForUpdateVisualStyle();
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		switch (quadric.getType()) {
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
-			setWaitForUpdate();
+			super.setWaitForUpdate();
 			break;
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
 		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdateVisualStyle();
 			drawPlanes[1].setWaitForUpdateVisualStyle();
+			super.setWaitForUpdate();
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdateVisualStyle();
+			super.setWaitForUpdate();
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_LINE:
 			initDrawLine(quadric);
 			drawLine.setWaitForUpdateVisualStyle();
+			super.setWaitForUpdate();
 			break;
 		}
+
+		super.setWaitForUpdateVisualStyle();
+
 	}
 
 	@Override
