@@ -259,7 +259,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	private void singleLine(double x, double y) {
-		App.debug("single line:\n" + semiDiagMatrix);
 
 		// set midpoint
 		midpoint.set(Coords.O);
@@ -2004,6 +2003,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	public ValueType getValueType() {
 		return ValueType.EQUATION;
+	}
+
+	@Override
+	public boolean showLineProperties() {
+		return type == GeoQuadricNDConstants.QUADRIC_LINE
+				|| type == GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
 	}
 
 }
