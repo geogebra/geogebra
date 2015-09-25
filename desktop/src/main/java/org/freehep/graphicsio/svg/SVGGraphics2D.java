@@ -543,6 +543,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		// draw shape
 		result.append(getPath(pi));
 
+		appendElementTitleAndDescription(result);
+
 		// close style
 		result.append("\n</g> <!-- drawing style -->");
 
@@ -644,11 +646,17 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			result.append(writer.toString());
 		}
 
-		result.append("\"/>");
+		result.append("\">");
+		appendElementTitleAndDescription(result);
+		result.append("</image>");
 
 		os.println(getTransformedString(
 				getTransform(),
 				getClippedString(getTransformedString(xform, result.toString()))));
+	}
+
+	protected void appendElementTitleAndDescription(StringBuffer ap) {
+		// over-ridden in SVGExtensions
 	}
 
 	/* 5.3. Strings */

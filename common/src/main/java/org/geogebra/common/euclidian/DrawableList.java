@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class DrawableList {
 	/** first drawable in the list */
-	Link head;
+	public Link head;
 	private Link tail;
 	private int size = 0;
 
@@ -222,9 +222,9 @@ public class DrawableList {
 		size = 0;
 	}
 
-	private class Link {
-		Drawable d;
-		Link next;
+	public class Link {
+		public Drawable d;
+		public Link next;
 
 		Link(Drawable a, Link n) {
 			d = a;

@@ -62,6 +62,7 @@ import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.DownloadManager;
 import org.geogebra.desktop.util.Util;
 
+
 /**
  * @author Markus Hohenwarter
  */
@@ -886,7 +887,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// need
 			{
 				g.startGroup("layer" + layer);
-				ev.drawLayers[layer].drawAll(new GGraphics2DD(g));
+
+				// ev.drawLayers[layer].drawAll(new GGraphics2DD(g));
+				g.drawAll(ev.drawLayers[layer], new GGraphics2DD(g));
+
 				g.endGroup("layer" + layer);
 			}
 
