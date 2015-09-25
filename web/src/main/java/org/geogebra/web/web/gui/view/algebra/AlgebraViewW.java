@@ -74,9 +74,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 	};
 
-	private AnimationScheduler.AnimationCallback specialRepaintCallback = new AnimationScheduler.AnimationCallback() {
+	private AnimationScheduler.AnimationCallback repaintSlidersCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
-			doRepaint3();
+			doRepaintSliders();
 		}
 	};
 
@@ -251,8 +251,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		repaintScheduler.requestAnimationFrame(repaintCallback);
 	}
 
-	public void doSpecialRepaint() {
-		repaintScheduler.requestAnimationFrame(specialRepaintCallback);
+	public void deferredRepaintSliders() {
+		repaintScheduler.requestAnimationFrame(repaintSlidersCallback);
 	}
 
 	/**
@@ -260,10 +260,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	 */
 	public boolean suggestRepaint(){
 
-		if (app.has(Feature.AV_EXTENSIONS)
-		// && waitForRepaint != TimerSystemW.REPAINT_FLAG) {
-		) {
-			doSpecialRepaint();
+		// repaint sliders as fast as possible
+		if (app.has(Feature.AV_EXTENSIONS)) {
+			deferredRepaintSliders();
 		}
 
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
@@ -356,27 +355,55 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 	}
 
+
 	/**
 	 * updates only GeoNumerics; used for animated
 	 */
-	protected void doRepaint3() {
-		Object geo;
+	protected void doRepaintSliders() {
+		switch (treeMode) {
+		case LAYER:
+			break;
+		case ORDER:
+			repaintSlidersOrder();
+			break;
+		case TYPE:
+			break;
+		case VIEW:
+			break;
+		case DEPENDENCY:
+			repaintSlidersDependent();
+			break;
+		default:
+
+			break;
+
+		}
+	}
+
+	private void repaintSlidersDependent() {
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti != null) {
 				for (int j = 0; j < ti.getChildCount(); j++) {
-					geo = ti.getChild(j).getUserObject();
-					if (geo instanceof GeoNumeric
-							&& ti.getChild(j) instanceof RadioTreeItem) {
-						RadioTreeItem.as(ti.getChild(j))
-						.repaint();
-
-						// TODO needed?
-						ti.setSelected(((GeoElement) geo).doHighlighting());
-					}
+					repaintSliderNode(ti.getChild(j));
 				}
 			}
 		}
+	}
+
+	private void repaintSlidersOrder() {
+		for (int j = 0; j < getItemCount(); j++) {
+			repaintSliderNode(getItem(j));
+		}
+	}
+
+	private void repaintSliderNode(TreeItem ti) {
+		GeoElement geo = (GeoElement) ti.getUserObject();
+		if (geo instanceof GeoNumeric && geo.isIndependent()
+				&& ti instanceof RadioTreeItem) {
+			RadioTreeItem.as(ti).repaint();
+			ti.setSelected(geo.doHighlighting());
+				}
 	}
 
 	private static void repaintChildren(TreeItem item) {
