@@ -103,6 +103,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		double w = width - minLabel.getOffsetWidth()
 				- maxLabel.getOffsetWidth();
 		slider.asWidget().getElement().getStyle().setWidth(w, Unit.PX);
+		SliderWJquery.as(slider).setAnimateMilisecs(w * 10);
 	}
 
 	public void updateColor(GColor color) {

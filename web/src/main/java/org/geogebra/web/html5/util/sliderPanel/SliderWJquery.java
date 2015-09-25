@@ -41,7 +41,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 						{
 							"min" : min,
 							"max" : max,
-							"animate" : true,
+							"animate" : 5000,
 							"values" : [ val ],
 							"slide" : function(event, ui) {
 								that.@org.geogebra.web.html5.util.sliderPanel.SliderWJquery::slide(D)(ui.value)
@@ -80,6 +80,9 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 		setProperty(range, "step", step);
 	}
 
+	public native void setAnimateMilisecs(double ms) /*-{
+		$wnd.$ggbQuery(range1).slider("option", "animate", "fast");
+	}-*/;
 
 	public HandlerRegistration addValueChangeHandler(
 			ValueChangeHandler<Double> handler) {
@@ -141,5 +144,9 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	private void moveKnob(boolean value) {
 		App.debug("JQSlider move knob: " + value);
+	}
+
+	public static SliderWJquery as(SliderWI obj) {
+		return (SliderWJquery) obj;
 	}
 }
