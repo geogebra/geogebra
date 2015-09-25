@@ -261,7 +261,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	public boolean suggestRepaint(){
 
 		if (app.has(Feature.AV_EXTENSIONS)
-				&& waitForRepaint != TimerSystemW.REPAINT_FLAG) {
+		// && waitForRepaint != TimerSystemW.REPAINT_FLAG) {
+		) {
 			doSpecialRepaint();
 		}
 
