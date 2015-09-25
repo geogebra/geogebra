@@ -2983,13 +2983,6 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	/**
-	 * @return country nme from GeoIP service
-	 * @throws Exception
-	 *             when GeoIP can't be reached
-	 */
-	public abstract String getCountryFromGeoIP() throws Exception;
-
 	private Random random = new Random();
 	private GeoScriptRunner geoScriptRunner;
 

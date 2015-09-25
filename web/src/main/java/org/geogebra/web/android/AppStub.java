@@ -442,12 +442,6 @@ public class AppStub extends App {
 	}
 
 	@Override
-	public String getCountryFromGeoIP() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean loadXML(String xml) throws Exception {
 		// TODO Auto-generated method stub
 		return false;

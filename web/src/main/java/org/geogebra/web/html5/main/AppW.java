@@ -2275,12 +2275,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
-	@Override
-	public String getCountryFromGeoIP() {
-		// currently only needed in Desktop
-		return null;
-	}
-
 	// ============================================
 	// IMAGES
 	// ============================================

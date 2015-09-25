@@ -85,7 +85,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 		if (app.getLocalization().propertiesFilesPresent()) {
 
 			ImageIcon flagIcon;
-			final String flagName = app.getFlagName(false);
+			final String flagName = app.getFlagName();
 
 			if (flag != null) {
 				flagIcon = flag;
@@ -108,7 +108,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 				new Thread(new Runnable() {
 					public void run() {
 
-						String geoIPflagname = app.getFlagName(true);
+						String geoIPflagname = app.getFlagName();
 
 						// fake for testing
 						// geoIPflagname = "wales.png";

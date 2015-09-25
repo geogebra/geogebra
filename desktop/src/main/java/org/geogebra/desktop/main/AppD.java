@@ -64,7 +64,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -2127,21 +2126,20 @@ public class AppD extends App implements KeyEventDispatcher {
 		int iconSize = getScaledIconSize();
 		return img.getImage().getScaledInstance(iconSize, iconSize, 0);
 	}
+	
 	/**
 	 * Attempt to return a flag to represent the current language
 	 * 
 	 * Not always possible to return a sensible value as there is not a 1-1
-	 * correspondance between countries & languages
+	 * correspondence between countries & languages
 	 * 
-	 * @param useGeoIP
-	 *            whether to look up the country using a GeoIP service
 	 * @return
 	 * 
 	 */
-	public String getFlagName(boolean useGeoIP) {
+	public String getFlagName() {
 
 		String country = Language.getCountry(this, getLocale().getLanguage(),
-				getLocale().getCountry(), useGeoIP);
+				getLocale().getCountry());
 
 		// http://stackoverflow.com/questions/10175658/is-there-a-simple-way-to-get-the-language-code-from-a-country-code-in-php
 		// http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
@@ -4960,16 +4958,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public CommandLineArguments getCommandLineArgs() {
 		return args;
-	}
-
-	@Override
-	public String getCountryFromGeoIP() throws Exception {
-		URL u = new URL("http://www.geogebra.org/geoip/");
-		URLConnection uc = u.openConnection();
-		uc.setReadTimeout(3000);
-		BufferedReader in;
-		in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-		return in.readLine(); // the last line will never get a "\n" on its end
 	}
 
 	/**

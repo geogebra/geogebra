@@ -1,7 +1,6 @@
 package org.geogebra.common.util;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Collection of which languages are official in which countries (only includes
@@ -443,8 +442,7 @@ public enum Language {
 	 *            2 letter country, eg GB
 	 * @return
 	 */
-	public static String getCountry(App app, String language, String country,
-			boolean useGeoIP) {
+	public static String getCountry(App app, String language, String country) {
 
 		Language lang = Language.getLanguage(language + country);
 
@@ -465,34 +463,6 @@ public enum Language {
 						&& l.countries[0].getISO().equals(country))
 					return l.countries[0].getISO();
 			}
-		}
-
-		if (useGeoIP) {
-
-			try {
-
-				if (countryFromGeoIP == null) {
-					countryFromGeoIP = app.getCountryFromGeoIP();
-				}
-
-				// countryFromGeoIP = "BE";
-
-				// fake for testing
-				// countryFromGeoIP="IR";
-
-				App.debug("country from GeoIP: " + countryFromGeoIP);
-
-				for (int i = 0; i < c.length; i++) {
-					// AbstractApplication.debug(c[i].getISO()+" "+countryFromGeoIP);
-					if (c[i].getISO().equals(countryFromGeoIP)) {
-						return countryFromGeoIP;
-					}
-				}
-			} catch (Exception e) {
-				Log.warn("Getting country code from geoip failed: "
-						+ e.getMessage());
-			}
-
 		}
 
 		// language isn't an official language for country, or error, so use

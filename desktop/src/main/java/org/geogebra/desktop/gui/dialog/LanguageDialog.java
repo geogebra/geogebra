@@ -162,7 +162,7 @@ public class LanguageDialog extends JDialog {
 
 			if (loc.locale.equals(currentLocale)) {
 				mi.setSelected(true);
-				lbl.setIcon(app.getFlagIcon(app.getFlagName(false)));
+				lbl.setIcon(app.getFlagIcon(app.getFlagName()));
 			} else {
 				lbl.setIcon(app.getEmptyIcon());
 			}
@@ -225,14 +225,14 @@ public class LanguageDialog extends JDialog {
 		// change en_GB into enGB
 		currentLocale = currentLocale.replaceAll("_", "");
 
-		ImageIcon ic = app.getFlagIcon(app.getFlagName(false));
+		ImageIcon ic = app.getFlagIcon(app.getFlagName());
 
 		for (Language loc : lblList.keySet()) {
 
 			if (ic != null && loc.locale.equals(currentLocale)) {
 
 				lblList.get(loc).setIcon(
-						app.getFlagIcon(app.getFlagName(false)));
+app.getFlagIcon(app.getFlagName()));
 			} else {
 				lblList.get(loc).setIcon(app.getEmptyIcon());
 			}
