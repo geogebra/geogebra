@@ -9197,13 +9197,13 @@ public abstract class EuclidianController {
 			}
 		}
 
-		if (this.mode == EuclidianConstants.MODE_JOIN
+		if (!event.isRightClick() && (this.mode == EuclidianConstants.MODE_JOIN
 				|| this.mode == EuclidianConstants.MODE_SEGMENT
 				|| this.mode == EuclidianConstants.MODE_RAY
 				|| this.mode == EuclidianConstants.MODE_VECTOR
 				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
 				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
-				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
+				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
 
 			if (withinPointSelectionDistance(startPosition, event)) {
 
@@ -9239,7 +9239,7 @@ public abstract class EuclidianController {
 	}
 
 	public void wrapMouseReleasedND(final AbstractEvent event, boolean mayFocus) {
-		
+		App.error("1");
 		int x = event.getX();
 		int y = event.getY();
 		boolean right = app.isRightClick(event);
