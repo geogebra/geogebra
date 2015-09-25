@@ -1656,7 +1656,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public int setToolbarMode(final int mode, ModeSetter m) {
 		if (toolbarPanel == null) {
-			return 0;
+			return mode;
 		}
 
 		final int ret = toolbarPanel.setMode(mode, m);
