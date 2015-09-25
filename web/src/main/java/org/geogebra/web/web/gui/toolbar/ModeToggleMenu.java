@@ -246,8 +246,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			}
 			return false;
 		}
-		
-		if(this.getItemList() == null){
+		boolean needsGUI = false;
+		if (getItemList() == null) {
 			if (menu.get(0) == mode){
 				
 				this.setCssToSelected();
@@ -257,14 +257,19 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			}
 			for(Integer i: this.menu){
 				if(i == mode){
-					return true;
+					needsGUI = true;
 				}
 			}
-			return false;
+			if (!needsGUI) {
+				return false;
+			}
+		}
+		if (needsGUI) {
+			buildGui();
 		}
 		
-		for (int i = 0; i < this.getItemList().getWidgetCount(); i++) {
-			Widget mi = this.getItemList().getWidget(i);
+		for (int i = 0; i < getItemList().getWidgetCount(); i++) {
+			Widget mi = getItemList().getWidget(i);
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);

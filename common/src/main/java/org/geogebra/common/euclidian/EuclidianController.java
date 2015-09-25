@@ -7848,7 +7848,7 @@ public abstract class EuclidianController {
 	protected boolean allowSelectionRectangle() {
 		switch (mode) {
 		case EuclidianConstants.MODE_ZOOM_IN:
-		case EuclidianConstants.MODE_ZOOM_OUT:
+			// case EuclidianConstants.MODE_ZOOM_OUT:
 			return true;
 		// move objects
 		case EuclidianConstants.MODE_MOVE:
@@ -8970,7 +8970,6 @@ public abstract class EuclidianController {
 
 		switch (mode) {
 		case EuclidianConstants.MODE_ZOOM_IN:
-		case EuclidianConstants.MODE_ZOOM_OUT:
 			processZoomRectangle();
 			break;
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
