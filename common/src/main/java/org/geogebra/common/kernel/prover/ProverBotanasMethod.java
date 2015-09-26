@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Prover;
@@ -248,58 +249,40 @@ public class ProverBotanasMethod {
 		return ret;
 	}
 
-	// formulate draw in readable format
+	// formulate draw in readable format, TODO: create translation keys
 	private static String getTextFormat(GeoElement statement) {
+		Localization loc = statement.getKernel().getLocalization();
 		ArrayList<String> freePoints = new ArrayList<String>();
-		ArrayList<String> constructions = new ArrayList<String>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+		StringBuilder hypotheses = new StringBuilder();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
 				freePoints.add(geo.getLabelSimple());
 			} else if (!(geo instanceof GeoNumeric)) {
-				StringBuilder construction = new StringBuilder();
-				construction.append(geo.getLabelSimple());
-				construction.append("+");
-				construction
-						.append(geo
-								.getDefinitionDescription(StringTemplate.noLocalDefault));
-				constructions.add(construction.toString());
+				String definition = geo
+						.getDefinitionDescription(StringTemplate.noLocalDefault);
+				String textLocalized = loc.getPlain("LetABeB",
+						geo.getLabelSimple(), definition);
+				hypotheses.append(textLocalized).append(".\n");
 			}
 		}
-		StringBuilder textStrBuilder = new StringBuilder();
-		textStrBuilder.append("Let ");
+		StringBuilder theoremText = new StringBuilder();
+		StringBuilder freePointsText = new StringBuilder();
+
 		for (String str : freePoints) {
-			textStrBuilder.append(str);
-			textStrBuilder.append(",");
+			freePointsText.append(str);
+			freePointsText.append(",");
 		}
-		textStrBuilder.deleteCharAt(textStrBuilder.length() - 1);
-		textStrBuilder.append(" be arbitrary points.");
-		textStrBuilder.append("\n");
-		for (String str : constructions) {
-			textStrBuilder.append("Let ");
-			String[] constructionDetails = str.split("\\+");
-			textStrBuilder.append(constructionDetails[0]);
-			textStrBuilder.append(" be ");
-			String firstLoweredChar = String.valueOf(
-					constructionDetails[1].charAt(0)).toLowerCase();
-			String strWithoutFirstChar = constructionDetails[1].substring(1);
-			constructionDetails[1] = firstLoweredChar + strWithoutFirstChar;
-			textStrBuilder.append(constructionDetails[1]);
-			textStrBuilder.append(".\n");
-		}
-		textStrBuilder.append("Prove that ");
-		String toProveStr = String.valueOf(statement.getAlgorithmList().get(0))
-				.substring(6);
-		toProveStr = toProveStr.replaceFirst("etails", "");
-		if (toProveStr.startsWith("[")) {
-			textStrBuilder.append(toProveStr.substring(1));
-		} else {
-			textStrBuilder.append(toProveStr);
-		}
-		textStrBuilder.deleteCharAt(textStrBuilder.length() - 1);
-		textStrBuilder.append(".");
-		return textStrBuilder.toString();
+		freePointsText.deleteCharAt(freePointsText.length() - 1);
+		theoremText.append(loc.getPlain("LetABeArbitraryPoints",
+						freePointsText.toString())).append(".\n");
+
+		theoremText.append(hypotheses);
+
+		String toProveStr = String.valueOf(statement.getParentAlgorithm());
+		theoremText.append(loc.getPlain("ProveThat", toProveStr)).append(".");
+		return theoremText.toString();
 	}
 
 	/**
@@ -343,7 +326,7 @@ public class ProverBotanasMethod {
 		boolean interpretFalseAsUndefined = false;
 
 		// write construction in readable format
-		App.debug(getTextFormat(statement));
+		// App.debug(getTextFormat(statement));
 
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
