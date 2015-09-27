@@ -24,7 +24,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class Decoder {
     public static final int BUFFER_SIZE = 2 * 1152;
@@ -212,7 +212,7 @@ public class Decoder {
                     break;
                 }
                 // TODO should not write directly
-				App.debug("Error at: " + name + " Frame: " + frame + " Error: "
+				Log.debug("Error at: " + name + " Frame: " + frame + " Error: "
 						+ e.toString());
                 // e.printStackTrace();
             } finally {
@@ -220,7 +220,7 @@ public class Decoder {
             }
         }
         if (error > 0) {
-            System.out.println("errors: " + error);
+			Log.debug("errors: " + error);
         }
         in.close();
         if (line != null) {
