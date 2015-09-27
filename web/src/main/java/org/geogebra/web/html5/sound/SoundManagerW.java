@@ -23,7 +23,7 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 	 */
 	public SoundManagerW(AppW app) {
 		this.app = app;
-		getMidiSound().setListener(this);
+		// getMidiSound().setListener(this);
 	}
 
 	public void pauseResumeSound(boolean b) {
@@ -35,7 +35,8 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 			int velocity) {
 
 		stopCurrentSound();
-		getMidiSound().playSequenceNote(instrument, note, velocity, duration);
+		// getMidiSound().playSequenceNote(instrument, note, velocity,
+		// duration);
 	}
 
 	public void playSequenceFromString(String string, int double1) {
@@ -86,16 +87,16 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 		
 	}
 
-	MidiSoundW getMidiSound() {
-		return MidiSoundW.INSTANCE;
-	}
+	// MidiSoundW getMidiSound() {
+	// return MidiSoundW.INSTANCE;
+	// }
 	
 	FunctionSoundW getFunctionSound() {
 		return FunctionSoundW.INSTANCE;
 	}
 
 	public void stopCurrentSound() {
-		getMidiSound().stop();
+		// getMidiSound().stop();
 	}
 
 	public void playFunction(GeoFunction geoFunction, double min, double max,
@@ -120,10 +121,10 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 	}-*/;
 
 	public void onError(int errorCode) {
-		if (errorCode == MidiSoundW.MIDI_ERROR_PORT) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(
-					"No valid MIDI output port was found.", true, (AppW) app);
-		}
+		// if (errorCode == MidiSoundW.MIDI_ERROR_PORT) {
+		// ToolTipManagerW.sharedInstance().showBottomMessage(
+		// "No valid MIDI output port was found.", true, (AppW) app);
+		// }
 	}
 
 	public void onInfo(String msg) {
