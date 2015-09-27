@@ -589,6 +589,9 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	}
 
 	public void setCoords(GeoPoint geoPoint, double x, double y, double z) {
+		if (!isChangeable(geoPoint)) {
+			return;
+		}
 		if (this.locked) {
 			geoPoint.setCoords2D(x, y, z);
 			geoPoint.updateCoords();
