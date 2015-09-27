@@ -67,13 +67,22 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 			url = url + "files/material-" + id + (fmtMp3 ? ".mp3" : ".mid");
 
 		} 
+
+		if (fmtMidi || url.endsWith(".mid") || url.endsWith(".midi")) {
+			App.debug("MIDI not supported");
+			return;
+		}
+
+		App.debug("playing URL as MP3: " + url);
+		playMP3(url);
+
 		// TODO check extension, play MIDI .mid files
 
-		if (url.endsWith(".mid") || url.endsWith(".midi")) {
-			getMidiSound().playMidiFile(url);
-		} else {
-			playMP3(url);
-		}
+		// if (url.endsWith(".mid") || url.endsWith(".midi")) {
+		// getMidiSound().playMidiFile(url);
+		// } else {
+		// playMP3(url);
+		// }
 		
 	}
 
