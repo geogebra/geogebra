@@ -5,11 +5,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -23,6 +18,11 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.sound.mp3transform.Decoder;
+
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * Class to handle GeoGebra sound features. Calls to midi and streaming audio
@@ -136,7 +136,8 @@ public class SoundManagerD implements org.geogebra.common.sound.SoundManager {
 			public void run() {
 
 				try {
-					if (fileName.startsWith("#") || fileName.endsWith(".mp3")) {
+					if (fileName.startsWith("#") || !(fileName.endsWith(".midi")
+							&& fileName.endsWith(".mid"))) {
 
 						InputStream is;
 

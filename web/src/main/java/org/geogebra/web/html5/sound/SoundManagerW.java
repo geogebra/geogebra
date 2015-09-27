@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.sound.SoundManager;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.sound.MidiSoundW.MidiSoundListenerW;
@@ -70,13 +69,10 @@ public class SoundManagerW implements SoundManager, MidiSoundListenerW {
 		} 
 		// TODO check extension, play MIDI .mid files
 
-		if (url.endsWith(".mp3")) {
-			playMP3(url);
-		} else if (url.endsWith(".mid")) {
+		if (url.endsWith(".mid") || url.endsWith(".midi")) {
 			getMidiSound().playMidiFile(url);
 		} else {
-			Log.warn("assuming MP3 or MID file: " + url);
-
+			playMP3(url);
 		}
 		
 	}
