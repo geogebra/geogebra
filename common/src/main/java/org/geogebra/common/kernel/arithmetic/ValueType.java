@@ -50,7 +50,8 @@ public enum ValueType {
 
 			// scalar product
 			if ((rightType == ValueType.NONCOMPLEX2D || rightType == ValueType.VECTOR3D)
-					&& (left.getValueType() == ValueType.NONCOMPLEX2D || rightType == ValueType.VECTOR3D)) {
+					&& (left.getValueType() == ValueType.NONCOMPLEX2D || left
+							.getValueType() == ValueType.VECTOR3D)) {
 				return ValueType.NUMBER;
 			}
 			// number * vector
@@ -58,7 +59,6 @@ public enum ValueType {
 					|| rightType == ValueType.VECTOR3D) {
 				return rightType;
 			}
-
 			return left.getValueType();
 		case DIVIDE:
 			if (right.evaluatesToList()) {
