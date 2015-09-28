@@ -1244,7 +1244,6 @@ GuiResourcesSimple.INSTANCE
 	}
 
 	public void repaint() {
-		needsUpdate = true;
 		if (needsUpdate
 				|| playButtonValue != (geo.isAnimating() && app.getKernel()
 						.getAnimatonManager().isRunning())) {
@@ -1389,7 +1388,8 @@ GuiResourcesSimple.INSTANCE
 					minMaxPanel.update();
 				}
 			}
-			if (hasMinMax && ((HasExtendedAV) geo).isShowingExtendedAV()) {
+			if (hasMinMax
+					&& ((HasExtendedAV) geo).isShowingExtendedAV()) {
 				sliderPanel.add(slider);
 				minMaxPanel.setVisible(false);
 				updateSliderColor();
@@ -1926,7 +1926,7 @@ GuiResourcesSimple.INSTANCE
 						|| isWidgetHit(
 						slider.getWidget(2), evt)) {
 			minMaxPanel.show();
-		
+					return;
 			}
 			}
 
