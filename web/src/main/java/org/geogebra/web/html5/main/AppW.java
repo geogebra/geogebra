@@ -24,7 +24,6 @@ import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
@@ -107,7 +106,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -3491,12 +3489,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (isEuclidianView3Dinited()) {
 			getEuclidianView3D().setAltText();
 		}
-	}
-
-	@Override
-	public GImageIcon wrapGetModeIcon(int mode) {
-		return new org.geogebra.web.web.javax.swing.GImageIconW(
-				GGWToolBar.getImageURL(mode, this));
 	}
 
 }
