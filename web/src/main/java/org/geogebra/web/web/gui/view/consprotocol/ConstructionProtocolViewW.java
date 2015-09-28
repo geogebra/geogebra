@@ -13,7 +13,9 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import org.geogebra.web.web.gui.util.StyleBarW;
+import org.geogebra.web.web.javax.swing.GImageIconW;
 
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -23,6 +25,7 @@ import com.google.gwt.event.dom.client.DragEndHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -198,7 +201,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		} else if ("Name".equals(title)) {
 			col = getColumnName();
 		} else if ("ToolbarIcon".equals(title)) {
-			// TODO
+			col = getColumnToolbarIcon();
 		} else if ("Definition".equals(title)) {
 			col = getColumnDefinition();
 		} else if ("Command".equals(title)) {
@@ -246,7 +249,39 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		};    
 		return nameColumn;
 	}
-	
+
+	private static class Base64ImageCell extends AbstractCell<String> {
+
+		public Base64ImageCell() {
+			super();
+		}
+
+		@Override
+		public void render(Context context, String value, SafeHtmlBuilder sb) {
+			if (value != null) {
+				sb.appendHtmlConstant("<img src=\"" + value + "\" />");
+			}
+		}
+	}
+
+	/*
+	 * Add a column to show the icon.
+	 */
+	private Column<RowData, String> getColumnToolbarIcon() {
+		Column<RowData, String> iconColumn = new Column<RowData, String>(
+				new Base64ImageCell()) {
+
+			@Override
+			public String getValue(RowData object) {
+				return ((GImageIconW) object.getToolbarIcon()).getImpl();
+			}
+
+
+		};
+		return iconColumn;
+	}
+
+
 	/*
 	 * Add a text column to show the definition.
 	 */
