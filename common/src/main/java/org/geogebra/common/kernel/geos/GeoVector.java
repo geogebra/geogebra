@@ -1004,4 +1004,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 				: ValueType.NONCOMPLEX2D;
 	}
 
+	public boolean hasLineOpacity() {
+		return true;
+	}
+
 }
