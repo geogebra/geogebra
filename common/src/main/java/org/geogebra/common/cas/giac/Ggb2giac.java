@@ -64,7 +64,9 @@ public class Ggb2giac {
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1", " when ( size(simplify(%0)) <= 3 , "
 				// case max 3 terms
-						+ " when ( size(simplify(%0)) == 2 , "
+				// hack for case like x^2 + x + 0.9
+				// needed for GGB-126
+						+ " when ( size(%0) == 2 && size(%0[2]) == 2 && (%0)[2][0] != '+' , "
 						// case 2 terms
 						+ " when ( odd(degree(%0)) == 0 , when ( degree((%0)[2]) == 0 , "
 				// case px^(2n) + r
