@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -1179,6 +1180,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& right.evaluatesTo3DVector()) {
 				// App.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + (1,2,3)
+				App.debug("lt number" + ValidExpression.debugString(left));
 				sb.append("((");
 				sb.append(rightStr);
 				sb.append(")[0]+");
@@ -1198,6 +1200,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& (right.evaluatesToNumber(false) || right instanceof NumberValue)) {
 				// App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2,3) + 10
+				App.debug("rt number" + ValidExpression.debugString(right));
 				sb.append("((");
 				sb.append(leftStr);
 				sb.append(")[0]+");
