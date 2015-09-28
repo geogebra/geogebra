@@ -1431,4 +1431,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public int navHeight() {
+		return 0;
+	}
 }

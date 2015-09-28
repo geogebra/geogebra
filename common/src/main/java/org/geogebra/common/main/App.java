@@ -3450,6 +3450,9 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public boolean showConsProtNavigation(int id) {
+		if (id == App.VIEW_CONSTRUCTION_PROTOCOL) {
+			return true;
+		}
 		if (showConsProtNavigation == null) {
 			return false;
 		}
