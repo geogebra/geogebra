@@ -42,6 +42,7 @@ public class CommandDispatcherDiscrete implements CommandDispatcherInterface {
 			return new CmdConvexHull(kernel);
 		case MinimumSpanningTree:
 			return new CmdMinimumSpanningTree(kernel);
+		case DelaunayTriangulation:
 		case DelauneyTriangulation:
 			return new CmdDelauneyTriangulation(kernel);
 		case TravelingSalesman:

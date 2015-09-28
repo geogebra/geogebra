@@ -220,7 +220,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case CylinderInfinite:
 				return new CmdCylinderInfinite(kernel); // removed for release
 														// candidate
-
+			case Side:
 			case QuadricSide:
 				return new CmdQuadricSide(kernel);
 			case Bottom:
@@ -244,7 +244,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 			case Rotate:
 				return new CmdRotate3D(kernel);
-
+			case Reflect:
 			case Mirror:
 				return new CmdMirror3D(kernel);
 
