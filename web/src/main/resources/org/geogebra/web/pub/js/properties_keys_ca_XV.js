@@ -2676,7 +2676,7 @@ __GGB__keysVar.ca_XV.plain = {
     "PlaneThroughAPerpendicularToB": "Pla per %0 perpendicular a %1",
     "Play": "Reprodu\xefx",
     "PlayButton": "Bot\xf3 de reproduir",
-    "PleaseWait": "Please wait\u2026",
+    "PleaseWait": "Espereu, si us plau...",
     "Point": "Punt",
     "PointAplusB": "Punt %0 + %1",
     "PointDep": "Dependent",
