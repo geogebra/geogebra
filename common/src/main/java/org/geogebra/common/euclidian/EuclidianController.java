@@ -8811,7 +8811,6 @@ public abstract class EuclidianController {
 			return;
 		}
 
-
 		if (app.isRightClick(event)) {
 			// ggb3D - for 3D rotation
 			processRightPressFor3D(event);
@@ -10010,11 +10009,11 @@ public abstract class EuclidianController {
 	protected void initNewMode(int newMode) {
 
 		// this should not happen in theory
-		if (app.getGuiManager() == null
-				&& newMode != EuclidianConstants.MODE_TRANSLATEVIEW
-				&& newMode != EuclidianConstants.MODE_MOVE)
-			return;
-
+		/*
+		 * if (app.getGuiManager() == null && newMode !=
+		 * EuclidianConstants.MODE_TRANSLATEVIEW && newMode !=
+		 * EuclidianConstants.MODE_MOVE) return;
+		 */
 		this.mode = newMode;
 		initShowMouseCoords();
 		// Michael Borcherds 2007-10-12

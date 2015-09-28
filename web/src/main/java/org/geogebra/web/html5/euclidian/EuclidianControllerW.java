@@ -238,7 +238,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void onPointerEventStart(AbstractEvent event) {
 
 		if (temporaryMode) {
-			App.debug("UNCHECK");
 			mtg.setComboboxFocused(false);
 		}
 		if ((app.getGuiManager() != null)
@@ -252,7 +251,11 @@ public class EuclidianControllerW extends EuclidianController implements
 			((GuiManagerInterfaceW) app.getGuiManager())
 			        .setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		} else {
-			setMode(EuclidianConstants.MODE_MOVE);
+			if (mode == EuclidianConstants.MODE_MOVE
+					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW
+					|| mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
+			setMode(mode);
+			}
 			// app.setMode(EuclidianConstants.MODE_MOVE);
 			// app.getGuiManager().updateToolbar();
 		}
