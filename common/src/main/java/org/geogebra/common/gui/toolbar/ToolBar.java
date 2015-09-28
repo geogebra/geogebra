@@ -586,53 +586,49 @@ public class ToolBar {
 	 * 
 	 * @return toolbar as nested Vector objects with Integers for the modes.
 	 *         Note: separators have negative values.
+	 * @throws NumberFormatException
+	 *             when non-integer is encountered
 	 */
+
+
 	public static Vector<ToolbarItem> parseToolbarString(String toolbarString)
 			throws NumberFormatException {
-		String[] tokens = toolbarString.replace(",", " , ").split(" ");
 		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
+		StringBuilder currentNumber = new StringBuilder();
 		Vector<Integer> menu = new Vector<Integer>();
-
-		for (int i = 0; i < tokens.length; i++) {
-			if (tokens[i].equals("|")) { // start new menu
-				if (menu.size() > 0)
+		for (int i = 0; i < toolbarString.length(); i++) {
+			char ch = toolbarString.charAt(i);
+			if ('0' <= ch && ch <= '9') {
+				currentNumber.append(ch);
+			} else if (ch == '|') {
+				flush(currentNumber, menu);
+				if (menu.size() > 0) {
 					toolbar.add(new ToolbarItem(menu));
-				menu = new Vector<Integer>();
-			} else if (tokens[i].equals("||")) { // separator between menus
-				// no separator anymore
-				// keep this for backward compatibility
-
-				if (menu.size() > 0)
-					toolbar.add(new ToolbarItem(menu));
-
-				// add separator between two menus
-				menu = new Vector<Integer>();
-				/*
-				 * // menu.add(SEPARATOR); // toolbar.add(menu); toolbar.add(new
-				 * ToolbarItem(SEPARATOR));
-				 * 
-				 * // start next menu menu = new Vector<Integer>();
-				 */
-			} else if (tokens[i].equals(",")) { // separator within menu
-				menu.add(SEPARATOR);
-			} else { // add mode to menu
-
-				if (tokens[i].length() > 0) {
-					int mode = Integer.parseInt(tokens[i]);
-					// ignore modes 59 (record to spreadsheet) and 1011 (an old
-					// CAS mode)
-					if (mode != 59 && mode != 1011) {
-						menu.add(new Integer(mode));
-					}
 				}
-
+				menu = new Vector<Integer>();
+			} else if (ch == ',') {
+				flush(currentNumber, menu);
+				menu.add(SEPARATOR);
+			} else {
+				flush(currentNumber, menu);
 			}
 		}
-
-		// add last menu to toolbar
-		if (menu.size() > 0)
+		flush(currentNumber, menu);
+		if (menu.size() > 0) {
 			toolbar.add(new ToolbarItem(menu));
+		}
 		return toolbar;
+	}
+
+	private static void flush(StringBuilder currentNumber, Vector<Integer> menu) {
+		if (currentNumber.length() > 0) {
+			int mode = Integer.parseInt(currentNumber.toString());
+			if (mode != 59 && mode != 1011) {
+				menu.addElement(mode);
+			}
+			currentNumber.setLength(0);
+		}
+
 	}
 
 }
