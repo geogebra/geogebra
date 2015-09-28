@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import java.util.Iterator;
 
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -47,6 +48,27 @@ public class AVSelectionController {
 	}
 
 	private void continuousSelect(GeoElement geo) {
+		SortMode sortMode = AlgebraViewW
+				.intToMode(app.getSettings().getAlgebra().getTreeMode());
+		switch (sortMode) {
+		case LAYER:
+			break;
+		case ORDER:
+			continuousOrder(geo);
+			break;
+		case TYPE:
+			break;
+		case VIEW:
+			break;
+		case DEPENDENCY:
+		default:
+			continuousDependent(geo);
+			break;
+
+		}
+	}
+
+	private void continuousDependent(GeoElement geo) {
 		boolean nowSelecting = true;
 		boolean selecting = false;
 		boolean aux = geo.isAuxiliaryObject();
@@ -54,11 +76,8 @@ public class AVSelectionController {
 
 		boolean aux2 = getLastSelectedGeo().isAuxiliaryObject();
 		boolean ind2 = getLastSelectedGeo().isIndependent();
-		if (lastMode != SelectMode.Continuous) {
-			selection.clearSelectedGeos(true);
-			selection.addSelectedGeo(getLastSelectedGeo());
-			selection.addSelectedGeo(geo);
-		}
+
+		ensureClearLastSelection(geo);
 
 		if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
 			Iterator<GeoElement> it = app.getKernel().getConstruction()
@@ -72,6 +91,62 @@ public class AVSelectionController {
 				if ((geo2.isAuxiliaryObject() == aux && aux)
 						|| (geo2.isAuxiliaryObject() == aux
 								&& geo2.isIndependent() == ind)) {
+
+					if (direction && geo2.equals(getLastSelectedGeo()))
+						selecting = !selecting;
+					if (!direction && geo2.equals(geo))
+						selecting = !selecting;
+
+					if (selecting) {
+						selection.toggleSelectedGeo(geo2);
+						nowSelecting = selection.getSelectedGeos()
+								.contains(geo2);
+					}
+					if (!direction && geo2.equals(getLastSelectedGeo()))
+						selecting = !selecting;
+					if (direction && geo2.equals(geo))
+						selecting = !selecting;
+				}
+			}
+		}
+
+		if (nowSelecting) {
+			setLastSelectedGeo(geo);
+		} else {
+			selection.removeSelectedGeo(getLastSelectedGeo());
+			setLastSelectedGeo(null);
+		}
+
+	}
+
+	private void ensureClearLastSelection(GeoElement geo) {
+		if (lastMode != SelectMode.Continuous) {
+			selection.clearSelectedGeos(true);
+			selection.addSelectedGeo(getLastSelectedGeo());
+			selection.addSelectedGeo(geo);
+		}
+
+	}
+
+	private void continuousOrder(GeoElement geo) {
+		boolean nowSelecting = true;
+		boolean selecting = false;
+		// boolean aux = geo.isAuxiliaryObject();
+		// boolean ind = geo.isIndependent();
+		//
+		// boolean aux2 = getLastSelectedGeo().isAuxiliaryObject();
+		// boolean ind2 = getLastSelectedGeo().isIndependent();
+		ensureClearLastSelection(geo);
+		if (true) {
+			Iterator<GeoElement> it = app.getKernel().getConstruction()
+					.getGeoSetConstructionOrder().iterator();
+			boolean direction = geo
+					.getConstructionIndex() < getLastSelectedGeo()
+							.getConstructionIndex();
+
+			while (it.hasNext()) {
+				GeoElement geo2 = it.next();
+				if (true) {
 
 					if (direction && geo2.equals(getLastSelectedGeo()))
 						selecting = !selecting;
