@@ -73,7 +73,6 @@ public class AlgebraDockPanelW extends DockPanelW {
 						app.getSelectionManager().clearSelectedGeos();
 						av.resetItems(true);
 					}
-					;
 				}
 			}, ClickEvent.getType());
 		}

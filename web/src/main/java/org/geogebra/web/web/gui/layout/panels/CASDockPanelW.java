@@ -47,29 +47,24 @@ public class CASDockPanelW extends DockPanelW {
 		sview.maybeOpenKeyboard(true);
 
 
-		return sview.getComponent();
+		return new InnerPanel(this, sview.getComponent());
 	}
 
-	public void onResize() {
-		super.onResize();
-		if (sview != null) {
-
-			int width = getComponentInteriorWidth();
-			int height = getComponentInteriorHeight();
-
-			// <= is needed because otherwise the width/height would
-			// be set to 0 (as getComponentInteriorWidth not being
-			// ready)
-			// so the style bar would be made invisible
-			if (width <= 0 || height <= 0) {
-				return;
-			}
-
-			sview.getComponent().setWidth(width + "px");
-			sview.getComponent().setHeight(height + "px");
-
-		}
-	}
+	/*
+	 * public void onResize() { super.onResize(); if (sview != null) {
+	 * 
+	 * int width = getComponentInteriorWidth(); int height =
+	 * getComponentInteriorHeight();
+	 * 
+	 * // <= is needed because otherwise the width/height would // be set to 0
+	 * (as getComponentInteriorWidth not being // ready) // so the style bar
+	 * would be made invisible if (width <= 0 || height <= 0) { return; }
+	 * 
+	 * sview.getComponent().setWidth(width + "px");
+	 * sview.getComponent().setHeight(height + "px");
+	 * 
+	 * } }
+	 */
 
 	public CASViewW getCAS() {
 		return sview;

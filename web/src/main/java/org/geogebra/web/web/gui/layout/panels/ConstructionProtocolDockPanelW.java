@@ -9,7 +9,6 @@ import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ConstructionProtocolDockPanelW extends DockPanelW{
@@ -18,26 +17,6 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 	private StyleBarW cpStyleBar;
 	private ConstructionProtocolNavigationW consProtNav;
 	private InnerPanel innerPanel;
-
-	public class InnerPanel extends FlowPanel implements RequiresResize {
-
-		private FlowPanel content;
-		private DockPanelW dock;
-
-		public InnerPanel(DockPanelW dock, FlowPanel cpPanel) {
-			this.content = cpPanel;
-			this.dock = dock;
-			add(cpPanel);
-		}
-
-		public void onResize() {
-			content.setHeight(
-(dock.getComponentInteriorHeight() - dock
-					.navHeight()) + "px");
-
-		}
-
-	}
 
 	public int navHeight() {
 		if (this.consProtNav != null
