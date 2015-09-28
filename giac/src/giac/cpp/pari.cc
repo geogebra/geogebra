@@ -748,7 +748,7 @@ namespace giac {
     for (int i=1;i<vs;i++)
       v[i]=v[i].eval(eval_level(contextptr),contextptr);
     vecteur vars(1,identificateur("O"));
-    lidnt(v,vars);
+    lidnt(v,vars,false);
     vars.erase(vars.begin());
     bool parse_all=false;
     long av=avma;

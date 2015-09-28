@@ -1225,7 +1225,7 @@ namespace giac {
       veq_not_singu[i]=ratnormal(veq_not_singu[i]);
     // Check if trig equations have introduced infinitely many solutions depending on add. param.
     vecteur eid=lidnt(e),eids=eid;
-    lidnt(evalf(veq_not_singu,1,contextptr),eids);
+    lidnt(evalf(veq_not_singu,1,contextptr),eids,false);
     gen singuf=evalf(singu,1,contextptr), veq_not_singuf=evalf(veq_not_singu,1,contextptr);
     if (singuf.type!=_VECT || veq_not_singuf.type!=_VECT || !is_numericv(*singuf._VECTptr) || !is_numericv(*veq_not_singuf._VECTptr)){
       if (eids.size()>eid.size())
@@ -1826,7 +1826,7 @@ namespace giac {
       // Check that expr at x=fullres is 0
       // Only if expr1 does not depend on other variables than x
       vecteur othervar(1,x),res;
-      lidnt(expr1,othervar);
+      lidnt(expr1,othervar,false);
       int pospi;
       if ((pospi=equalposcomp(othervar,cst_pi))) 
 	othervar.erase(othervar.begin()+pospi-1);
@@ -2262,7 +2262,7 @@ namespace giac {
     if (calc_mode(contextptr)==1){
       if (args.type==_VECT && args.subtype!=_SEQ__VECT){
 	vecteur w(1,cst_pi);
-	lidnt(args,w);
+	lidnt(args,w,false);
 	w.erase(w.begin());
 	return _solve(makesequence(args,w),contextptr);
       }
@@ -2788,7 +2788,7 @@ namespace giac {
     if (variable0.type!=_IDNT)
       return vecteur(1,gentypeerr(contextptr));
     vecteur l0(1,variable0);
-    lidnt(equation0,l0);
+    lidnt(equation0,l0,false);
     vecteur l1=gen2vecteur(eval(l0,1,contextptr));
     identificateur id_solve("aspen_x");
     gen variable(id_solve);
@@ -6465,15 +6465,15 @@ namespace giac {
     vecteur l1=*v[1]._VECTptr;
     vecteur l0;
     if (s>2 && v[2].type==_VECT)
-      lidnt(v[2],l0); // ordering for remaining variables
-    lidnt(v[0],l0);
+      lidnt(v[2],l0,true); // ordering for remaining variables
+    lidnt(v[0],l0,true);
     // remove variables not in args0
     vecteur l;
     for (unsigned i=0;i<l1.size();++i){
       if (equalposcomp(l0,l1[i]))
 	l.push_back(l1[i]);
     }
-    l0=lidnt(makevecteur(l,l0)); // this sorts l0 with l variables first
+    l0=lidnt_with_at(makevecteur(l,l0)); // this sorts l0 with l variables first
     int faken=revlex_parametrize(l,l0,order.val),lsize=int(l.size());
     l=vecteur(1,l);
     if (s>2 && v[2].type==_VECT)
@@ -6608,7 +6608,7 @@ namespace giac {
     if (s<2)
       return gentoofewargs("greduce");
     if (s<3)
-      v.push_back(lidnt(v[1]));
+      v.push_back(lidnt_with_at(v[1]));
     if (v[1].type!=_VECT) 
       v[1]=vecteur(1,v[1]);
     v[1]=remove_equal(v[1]);
@@ -6619,7 +6619,7 @@ namespace giac {
     bool with_f5=false,with_cocoa=false,eliminate_flag=false;
     int modular=1;
     read_gbargs(v,3,s,order,with_cocoa,with_f5,modular,eliminate_flag);
-    vecteur l1=gen2vecteur(v[2]),l0=lidnt(makevecteur(v[0],v[1]));
+    vecteur l1=gen2vecteur(v[2]),l0=lidnt_with_at(makevecteur(v[0],v[1]));
     // remove variables not in args0
     vecteur l;
     for (unsigned i=0;i<l1.size();++i){
@@ -6939,7 +6939,7 @@ namespace giac {
       gb=gen2vecteur(_gbasis(gen(makevecteur(eqs,l,change_subtype(order,_INT_GROEBNER)),_SEQ__VECT),contextptr));
     // keep in gb values that do not depend on elim
     for (unsigned i=0;i<gb.size();++i){
-      vecteur v=lidnt(gb[i]);
+      vecteur v=lidnt_with_at(gb[i]);
       if (is_zero(derive(v,elim,contextptr),contextptr)){
 	res.push_back(gb[i]);
       }
@@ -6950,16 +6950,16 @@ namespace giac {
     if (returngb)
       return makevecteur(res,gb);
 #if 0 // def GIAC_ELIMINATE1
-    vecteur othervars=lidnt(res),addres;
+    vecteur othervars=lidnt_with_at(res),addres;
     gen gres=_gbasis(makesequence(res,othervars),contextptr);
     if (gres.type==_VECT){
       res=*gres._VECTptr;
       for (unsigned i=0;i<gb.size();++i){
-	vecteur v=lidnt(gb[i]);
+	vecteur v=lidnt_with_at(gb[i]);
 	if (!is_zero(derive(v,elim,contextptr),contextptr)){
 	  gen c=_content(makesequence(gb[i],elim),contextptr);
 	  c=_greduce(makesequence(c,res,othervars),contextptr);
-	  if (!lidnt(c).empty()){
+	  if (!lidnt_with_at(c).empty()){
 	    addres.push_back(c);
 	  }
 	}
@@ -6967,7 +6967,7 @@ namespace giac {
     }
     return mergevecteur(res,addres);
 #endif
-    //return _gbasis(makesequence(res,lidnt(res)),contextptr);
+    //return _gbasis(makesequence(res,lidnt_with_at(res)),contextptr);
     return res;
   }
   static const char _eliminate_s []="eliminate";
@@ -6988,7 +6988,7 @@ namespace giac {
     term=gen2vecteur(_fxnd(lhs,contextptr));
     if (term.size()!=2) return gensizeerr(contextptr);
     gen eq1=term[0]-term[1]*rhs;
-    vecteur ids(lidnt(eq));
+    vecteur ids(lidnt_with_at(eq));
     vecteur sol;
     for (;!ids.empty();){
       sol=gen2vecteur(_eliminate(makevecteur(makevecteur(eq1,ee),ids),contextptr));
@@ -6997,7 +6997,7 @@ namespace giac {
       ids.pop_back();
     }
     gen solu=_solve(gen(makevecteur(sol,vecteur(1,idnt)),_SEQ__VECT),contextptr);
-    if (equalposcomp(lidnt(solu),idnt))
+    if (equalposcomp(lidnt_with_at(solu),idnt))
       return gensizeerr(gettext("Error solving equations. Check that your variables are purged"));
     if (solu.type!=_VECT)
       return gensizeerr(contextptr);

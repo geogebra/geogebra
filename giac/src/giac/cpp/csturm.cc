@@ -1302,7 +1302,7 @@ namespace giac {
     if (use_vas && vas(symb2poly_num(v[0],contextptr),a0,a1,isolation?1e300:eps,vas_res,true,contextptr))
       return vas_res;
     vecteur l,l0;
-    lidnt(p,l0);
+    lidnt(p,l0,false);
     if (l0.size()!=1)
       return gentypeerr(contextptr);
     l=alg_lvar(p);

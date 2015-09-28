@@ -217,8 +217,9 @@ namespace giac {
   gen _args(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_args;
 
+  vecteur lidnt_with_at(const gen & args);
   vecteur lidnt(const gen & args);
-  void lidnt(const gen & args,vecteur & res);
+  void lidnt(const gen & args,vecteur & res,bool with_at);
 
   gen _lname(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lname;

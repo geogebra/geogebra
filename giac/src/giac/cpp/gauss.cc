@@ -447,6 +447,8 @@ namespace giac {
     A=qxac(qp,x,contextptr);
     if (is_undef(A))
       return false;
+    if (numeric)
+      A=*evalf(A,1,contextptr)._VECTptr;
     //q=ax^2+2bxy+cy^2+2dx+2ey+f
     gen a=A[0][0];
     gen b=A[0][1]; 

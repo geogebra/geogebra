@@ -3826,58 +3826,67 @@ namespace giac {
   define_unary_function_ptr( at_args ,alias_at_args ,&__args);
   
   // static gen symb_lname(const gen & args){  return symbolic(at_lname,args);  }
-  static void lidnt(const vecteur & v,vecteur & res){
+  static void lidnt(const vecteur & v,vecteur & res,bool with_at){
     const_iterateur it=v.begin(),itend=v.end();
     for (;it!=itend;++it)
-      lidnt(*it,res);
+      lidnt(*it,res,with_at);
   }
 
   extern const unary_function_ptr * const  at_int;
 
-  void lidnt(const gen & args,vecteur & res){
+  void lidnt(const gen & args,vecteur & res,bool with_at){
     switch (args.type){
     case _IDNT:
       if (!equalposcomp(res,args))
 	res.push_back(args);
       break;
     case _SYMB:
+      if (with_at && args._SYMBptr->sommet==at_at){
+	res.push_back(args);
+	return;
+      }
       if (args._SYMBptr->sommet==at_program && args._SYMBptr->feuille.type==_VECT && args._SYMBptr->feuille._VECTptr->size()==3){
-	lidnt(args._SYMBptr->feuille._VECTptr->front(),res);
-	lidnt(args._SYMBptr->feuille._VECTptr->back(),res);
+	lidnt(args._SYMBptr->feuille._VECTptr->front(),res,with_at);
+	lidnt(args._SYMBptr->feuille._VECTptr->back(),res,with_at);
 	return;
       }
       if (args._SYMBptr->sommet==at_pnt && args._SYMBptr->feuille.type==_VECT && args._SYMBptr->feuille._VECTptr->size()==3){
-	lidnt(args._SYMBptr->feuille._VECTptr->front(),res);
-	lidnt((*args._SYMBptr->feuille._VECTptr)[1],res);
+	lidnt(args._SYMBptr->feuille._VECTptr->front(),res,with_at);
+	lidnt((*args._SYMBptr->feuille._VECTptr)[1],res,with_at);
 	return;
       }
       if ( (args._SYMBptr->sommet==at_integrate || args._SYMBptr->sommet==at_int || args._SYMBptr->sommet==at_sum) && args._SYMBptr->feuille.type==_VECT && args._SYMBptr->feuille._VECTptr->size()==4){
 	vecteur & v =*args._SYMBptr->feuille._VECTptr;
 	vecteur w(1,v[1]);
-	lidnt(v[0],w);
+	lidnt(v[0],w,with_at);
 	const_iterateur it=w.begin(),itend=w.end();
 	for (++it;it!=itend;++it)
-	  lidnt(*it,res);
-	lidnt(v[2],res);
-	lidnt(v.back(),res);
+	  lidnt(*it,res,with_at);
+	lidnt(v[2],res,with_at);
+	lidnt(v.back(),res,with_at);
 	return;
       }      
-      lidnt(args._SYMBptr->feuille,res);
+      lidnt(args._SYMBptr->feuille,res,with_at);
       break;
     case _VECT:
-      lidnt(*args._VECTptr,res);
+      lidnt(*args._VECTptr,res,with_at);
       break;
     }       
   }
   vecteur lidnt(const gen & args){
     vecteur res;
-    lidnt(args,res);
+    lidnt(args,res,false);
+    return res;
+  }
+  vecteur lidnt_with_at(const gen & args){
+    vecteur res;
+    lidnt(args,res,true);
     return res;
   }
   gen _lname(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     vecteur res=makevecteur(cst_pi,cst_euler_gamma);
-    lidnt(args,res);
+    lidnt(args,res,false);
     return vecteur(res.begin()+2,res.end());
   }
   static const char _lname_s []="lname";

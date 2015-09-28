@@ -320,6 +320,7 @@ namespace giac {
 	  return v.front();
 	}
       }
+      return gensizeerr("Bad pnt argument");
     }
     return e;
   }

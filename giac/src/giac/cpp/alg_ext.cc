@@ -1467,7 +1467,7 @@ namespace giac {
     if (w.empty() && debug_infolevel)
       *logptr(contextptr) << gettext("Warning: ") << df << gettext("=0: no solution found") << endl;
     vecteur wvar=makevecteur(cst_pi);
-    lidnt(w,wvar);
+    lidnt(w,wvar,false);
     if (wvar.size()>1)
       return undef;
     gen resmin=plus_inf;
