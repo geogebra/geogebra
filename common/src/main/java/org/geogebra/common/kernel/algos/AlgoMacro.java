@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.FixedPathRegionAlgo;
@@ -581,7 +582,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 
 	public boolean isChangeable(GeoElement out) {
 		for (int i = 0; i < macroOutput.length; i++) {
-			if (getOutput(i) == out && macroOutput[i].isPointOnPath()) {
+			if (getOutput(i) == out && macroOutput[i].isChangeable()) {
 				return true;
 			}
 		}
@@ -615,7 +616,13 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 		}
 		macro.getMacroConstruction().updateAllAlgorithms();
 		getMacroConstructionState();
-		updateDependentGeos();
+		ArrayList<GeoElement> outputList = new ArrayList<GeoElement>(
+				getOutputLength());
+		for (int i = 0; i < getOutputLength(); i++) {
+			outputList.add(getOutput(i));
+		}
+		GeoElement.updateCascade(outputList, new TreeSet<AlgoElement>(), true);
+		kernel.notifyRepaint();
 
 	}
 

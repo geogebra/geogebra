@@ -589,7 +589,7 @@ public class ToolBar {
 	 */
 	public static Vector<ToolbarItem> parseToolbarString(String toolbarString)
 			throws NumberFormatException {
-		String[] tokens = toolbarString.split(" ");
+		String[] tokens = toolbarString.replace(",", " , ").split(" ");
 		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
 		Vector<Integer> menu = new Vector<Integer>();
 
