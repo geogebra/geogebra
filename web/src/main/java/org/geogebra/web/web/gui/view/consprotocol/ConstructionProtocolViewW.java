@@ -201,7 +201,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		} else if ("Name".equals(title)) {
 			col = getColumnName();
 		} else if ("ToolbarIcon".equals(title)) {
-			col = getColumnToolbarIcon();
+			// col = getColumnToolbarIcon();
 		} else if ("Definition".equals(title)) {
 			col = getColumnDefinition();
 		} else if ("Command".equals(title)) {
