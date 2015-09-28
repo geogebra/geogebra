@@ -6990,7 +6990,13 @@ var Cursor = P(Point, function(_) {
     var depth = 0;
     var substrPerDepth = new Array();
     var depthsArray = new Array();
+    var numberOfUnclosedFromLeft = new Array();
+    var numberOfUnclosedFromRight = new Array();
     var depthsLast = 0;
+    substrPerDepth[depthsLast] = '';
+    depthsArray[depthsLast] = depth;//0,0
+    numberOfUnclosedFromLeft[depthsLast] = 0;// fill this later
+    numberOfUnclosedFromRight[depthsLast] = 0;// fill this later
     var lv;
     // at first let's fill the arrays then comes the main algorithm
     for (lv = 0; lv < str.length; lv++) {
@@ -7008,9 +7014,13 @@ var Cursor = P(Point, function(_) {
     	depthsLast++;
         substrPerDepth[depthsLast] = str.charAt(lv);
         depthsArray[depthsLast] = depth;
+        numberOfUnclosedFromLeft[depthsLast] = 0;// fill this later
+        numberOfUnclosedFromRight[depthsLast] = 0;// fill this later
       	depth++;
       	depthsLast++;
       	depthsArray[depthsLast] = depth;
+        numberOfUnclosedFromLeft[depthsLast] = 0;// fill this later
+        numberOfUnclosedFromRight[depthsLast] = 0;// fill this later
       } else if (str.charAt(lv) === ')' ||
     		     str.charAt(lv) === ']' ||
     		     str.charAt(lv) === '}') {
@@ -7018,9 +7028,13 @@ var Cursor = P(Point, function(_) {
        	depthsLast++;
         substrPerDepth[depthsLast] = str.charAt(lv);
         depthsArray[depthsLast] = depth;
+        numberOfUnclosedFromLeft[depthsLast] = 0;// fill this later
+        numberOfUnclosedFromRight[depthsLast] = 0;// fill this later
     	depth--;
     	depthsLast++;
     	depthsArray[depthsLast] = depth;
+        numberOfUnclosedFromLeft[depthsLast] = 0;// fill this later
+        numberOfUnclosedFromRight[depthsLast] = 0;// fill this later
       } else {
         substrPerDepth[depthsLast] += str.charAt(lv);
         // already registered in theory
@@ -7031,91 +7045,101 @@ var Cursor = P(Point, function(_) {
     // as input, based on these, we can replace strings, and
     // then join the arrays back together
 
-/*
-    // when a closing sign comes, then at a right syntax
-    // it should also correspond to the opening sign,
-    // in theory, except cases I mentioned in NODE TODO
+    var checkstr, lv2, firstTimePlaceholderBoolean;
+    //var lvsArray;
+    var leftlimit, rightlimit, a, b, newS;
+    for (lv = 0; lv < depthsArray.length; lv++) {
+      checkstr = substrPerDepth[lv];
+      depth = depthsArray[lv];
 
-	// string is ready, we can check!
-	// but we shall not check it more times!
-	// so we can make a string for checking using
-	// the str string and depthForEachCharacter array
-    checkstr = '';
-    lv2 = lv + 1;
-    firstTimePlaceholderBoolean = true;
-    while (lv2 < str.length) {
-	  if (depthForEachCharacter[lv2] === depth) {
-        checkstr += str.charAt(lv2);
-        firstTimePlaceholderBoolean = true;
-	  } else if (depthForEachCharacter[lv2] > depth) {
-		// if depth is increasing, then we join these
-		// characters to one irrelevant symbol... or
-		// to preserve the length of string and string
-		// indexes for making later replacements easier,
-		// it's better to put space at these places...
-		
-		// except one place...
-		if (firstTimePlaceholderBoolean) {
-		  checkstr += 'X';
-		  firstTimePlaceholderBoolean = false;
-		} else {
-		  checkstr += ' ';
-		}
-	  } else {
-		// only when depth is dimishing, we shall halt
-		break;
-	  }
-	  lv2++;
-	}
-	firstTimePlaceholderBoolean = true;
+      // maybe use this instead of keeping placeholders?
+      // numberOfUnclosedFromLeft, numberOfUnclosedFromRight
 
-    // now we have the checkstr in theory, in which
-	// we can replace a/b to \frac{a}{b} without problems
-	
-    rightlimit = 0;
-    leftlimit = 0;
-	while ((lv2 = checkstr.indexOf('/', rightlimit)) !== -1) {
-	  // at the two sides of / we shall go until "+", "-" or ","
-	  leftlimit = lv2;
-	  while (leftlimit >= 0) {
-		if ((checkstr.charAt(leftlimit) === '+') ||
-			(checkstr.charAt(leftlimit) === '-') ||
-			(checkstr.charAt(leftlimit) === ',')) {
-	      leftlimit++;
-		  break;
-		}
-		leftlimit--;
-	  }
-	  rightlimit = lv2;
-	  // maybe indexOf is quicker algorithm, but this
-	  // is easier (takes less paid working time):
-      while (rightlimit < checkstr.length) {
-        if ((checkstr.charAt(rightlimit) === '+') ||
-            (checkstr.charAt(rightlimit) === '-') ||
-            (checkstr.charAt(rightlimit) === ',')) {
-  		  rightlimit--;
-  		  break;
-  		}
-  		rightlimit++;
-  	  }
-      a = checkstr.substring(leftlimit, lv2);
-      b = checkstr.substring(lv2 + 1, rightlimit + 1);
-      newS = '\\frac{' + a + '}{' + b + '}';
-      // but... if we replace a/b by newS, then the
-      // number of characters in checkstr will change!
-      // that's why the result should be gathered in
-      // a different return string AND indexes shall
-      // go from the ends of the strings towards their
-      // beginning...
+      // now we shall check, whether this string is interrupted
+      // by some higher depth, and then the control returns
+      // to it later, because in that case we shall add that
+      // also to checkstr
+      /*
+      lv2 = lv + 1;
+      firstTimePlaceholderBoolean = true;
+      while (lv2 < depthsArray.length) {
+    	if (depthsArray[lv2] === depth) {
+          checkstr += substrPerDepth[lv2];
+          firstTimePlaceholderBoolean = true;
+        } else if (depthsArray[lv2] > depth) {
+    	  // if depth is increasing, then we join these
+    	  // characters to one irrelevant symbol... or
+    	  // to preserve the length of string and string
+    	  // indexes for making later replacements easier,
+    	  // it's better to put space at these places...
+
+    	  // except one place...
+    	  if (firstTimePlaceholderBoolean) {
+    	    checkstr += 'X';
+    	    firstTimePlaceholderBoolean = false;
+    	  } else {
+    	    checkstr += ' ';
+          }
+        } else {
+    	  // only when depth is dimishing, we shall halt
+    	  break;
+        }
+        lv2++;
+      }
+      firstTimePlaceholderBoolean = true;
+      // now checkstr has the same number of characters
+      // as if we put together corresponding substrPerDepth
+      // this shall be useful when doing replacements later!
+      
+      // maybe use no placeholders either?
+      */
+
+      // but run the following algorithm on checkstr as if
+      // it were ready, and remember if no +-, comes for the
+      // next depth! e.g. in lvsArray booleans?
+
+      // now we have the checkstr in theory, in which
+  	  // we can replace a/b to \frac{a}{b} without problems
+
+      /*
+      rightlimit = 0;
+      leftlimit = 0;
+  	  while ((lv2 = checkstr.indexOf('/', rightlimit)) !== -1) {
+  	    // at the two sides of / we shall go until "+", "-" or ","
+  	    leftlimit = lv2;
+  	    while (leftlimit >= 0) {
+          if ((checkstr.charAt(leftlimit) === '+') ||
+  		      (checkstr.charAt(leftlimit) === '-') ||
+  			  (checkstr.charAt(leftlimit) === ',')) {
+  	        leftlimit++;
+  		    break;
+  		  }
+  		  leftlimit--;
+  	    }
+  	    rightlimit = lv2;
+  	    // maybe indexOf is quicker algorithm, but this
+  	    // is easier (takes less paid working time):
+        while (rightlimit < checkstr.length) {
+          if ((checkstr.charAt(rightlimit) === '+') ||
+              (checkstr.charAt(rightlimit) === '-') ||
+              (checkstr.charAt(rightlimit) === ',')) {
+    		rightlimit--;
+    		break;
+    	  }
+    	  rightlimit++;
+        }
+        a = checkstr.substring(leftlimit, lv2);
+        b = checkstr.substring(lv2 + 1, rightlimit + 1);
+        newS = '\\frac{' + a + '}{' + b + '}';
+        // but... if we replace a/b by newS, then the
+        // number of characters in checkstr will change!
+        // that's why the result should be gathered in
+        // a different return string AND indexes shall
+        // go from the ends of the strings towards their
+        // beginning...
+      }
+      */
     }
-
-    // in theory, if the / is already replaced by
-	// \frac{}{} here, then the same thing will not
-	// bother again... but still, +-, inside is
-	// causing difficulty...
-	// whether there is / found here: 
-	//strPerDepth[depth] = strPerDepth[depth];
-*/
     return ret;
   };
   _.fix2bug = function(text) {
