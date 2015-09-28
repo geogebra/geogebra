@@ -521,24 +521,155 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (Kernel.isZero(beta)) {
 			cone();
 		} else {
-			mu[0] = -eigenval[0] / beta;
-			mu[1] = -eigenval[1] / beta;
-			mu[2] = -eigenval[2] / beta;
-			if (detS < 0) {
-				// TODO : hyperboloid
-				type = QUADRIC_NOT_CLASSIFIED;
-				App.debug("QUADRIC_NOT_CLASSIFIED -- hyperboloid");
-			} else {
-				if (mu[0] > 0 && mu[1] > 0 && mu[2] > 0) {
-					ellipsoid();
-				} else {
-					empty();
+			if (eigenval[0] > 0) {
+				if (eigenval[1] > 0) {
+					if (eigenval[2] > 0) { // xx+yy+zz=-beta
+						if (beta > 0) {
+							empty();
+						} else {
+							ellipsoid(beta);
+						}
+					} else { // xx+yy-zz=-beta
+						if (beta > 0) { // zz-xx-yy=1
+							hyperboloidTwoSheets(eigenval[2], eigenval[0],
+									eigenval[1], beta);
+						} else { // xx+yy-zz=1
+							hyperboloidOneSheet(eigenval[0], eigenval[1],
+									eigenval[2], beta);
+						}
+					}
+				} else { // eigenval[1] < 0
+					if (eigenval[2] > 0) { // xx-yy+zz=-beta
+						if (beta > 0) { // yy-zz-xx=1
+							hyperboloidTwoSheets(eigenval[1], eigenval[2],
+									eigenval[0], beta);
+						} else { // zz+xx-yy=1
+							hyperboloidOneSheet(eigenval[2], eigenval[0],
+									eigenval[1], beta);
+						}
+					} else {// xx-yy+zz=-beta
+						if (beta > 0) { // yy-zz-xx=1
+							hyperboloidTwoSheets(eigenval[1], eigenval[2],
+									eigenval[0], beta);
+						} else { // zz+xx-yy=1
+							hyperboloidOneSheet(eigenval[2], eigenval[0],
+									eigenval[1], beta);
+						}
+					}
+				}
+			} else { // eigenval[0] < 0
+				if (eigenval[1] > 0) {
+					if (eigenval[2] > 0) { // -xx+yy+zz=-beta
+						if (beta > 0) { // xx-yy-zz=1
+							hyperboloidTwoSheets(eigenval[0], eigenval[1],
+									eigenval[2], beta);
+						} else { // yy+zz-xx=1
+							hyperboloidOneSheet(eigenval[1], eigenval[2],
+									eigenval[0], beta);
+						}
+					} else { // -xx+yy-zz=-beta
+						if (beta > 0) { // zz+xx-yy=1
+							hyperboloidOneSheet(eigenval[2], eigenval[0],
+									eigenval[1], beta);
+						} else { // yy-zz-xx=1
+							hyperboloidTwoSheets(eigenval[1], eigenval[2],
+									eigenval[0], beta);
+						}
+					}
+				} else { // eigenval[1] < 0
+					if (eigenval[2] > 0) { // -xx-yy+zz=-beta
+						if (beta > 0) { // xx+yy-zz=1
+							hyperboloidOneSheet(eigenval[0], eigenval[1],
+									eigenval[2], beta);
+						} else { // zz-xx-yy=1
+							hyperboloidTwoSheets(eigenval[2], eigenval[0],
+									eigenval[1], beta);
+						}
+					} else { // -xx-yy-zz=-beta
+						if (beta > 0) {
+							ellipsoid(beta);
+						} else {
+							empty();
+						}
+					}
 				}
 			}
 		}
 
 	}
 
+	/**
+	 * xx+yy-zz=1
+	 * 
+	 * @param val0
+	 *            xx coef
+	 * @param val1
+	 *            yy coef
+	 * @param val2
+	 *            zz coef
+	 * @param beta
+	 *            constant coef
+	 */
+	private void hyperboloidOneSheet(double val0, double val1, double val2, double beta) {
+		// App.debug("hyperboloidOneSheet : " + val0 + "," + val1 + "," + val2);
+
+		eigenval[0] = val0;
+		eigenval[1] = val1;
+		eigenval[2] = val2;
+
+		// for (int i = 0; i < 3; i++) {
+		// App.debug("eigenval[" + i + "]=" + eigenval[i]);
+		// }
+
+		mu[0] = -eigenval[0] / beta;
+		mu[1] = -eigenval[1] / beta;
+		mu[2] = -eigenval[2] / beta;
+
+		// mu[2] can't be equal to mu[0] and mu[1] -- not same sign
+		findEigenvector(eigenval[2], eigenvecND[2]);
+		eigenvecND[2].normalize();
+
+		if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
+			// eigenval[0] == eigenval[1]
+			eigenvecND[2].completeOrthonormal3(eigenvecND[0], eigenvecND[1]);
+		} else {
+			findEigenvector(eigenval[0], eigenvecND[0]);
+			eigenvecND[0].normalize();
+			eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
+		}
+
+		// for (int i = 0; i < 3; i++) {
+		// App.debug("\neigenvecND[" + i + "]=\n" + eigenvecND[i]);
+		// }
+
+		// set halfAxes = radius
+		halfAxes[0] = Math.sqrt(1.0d / mu[0]);
+		halfAxes[1] = Math.sqrt(1.0d / mu[1]);
+		halfAxes[2] = Math.sqrt(-1.0d / mu[2]);
+
+		// set the diagonal values
+		for (int i = 0; i < 3; i++) {
+			diagonal[i] = mu[i];
+		}
+		diagonal[3] = -1;
+
+		// eigen matrix
+		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
+
+		// set type
+		if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+			type = QUADRIC_HYPERBOLOID_ONE_SHEET;
+		} else {
+			type = QUADRIC_NOT_CLASSIFIED;
+		}
+
+	}
+
+	private void hyperboloidTwoSheets(double val0, double val1, double val2, double beta) {
+		// App.debug("hyperboloidTwoSheets : " + val0 + "," + val1 + "," +
+		// val2);
+		type = QUADRIC_NOT_CLASSIFIED;
+	}
 
 	private void cone() {
 
@@ -620,7 +751,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		type = QUADRIC_CYLINDER;
 	}
 
-	private void ellipsoid() {
+	private void ellipsoid(double beta) {
+
+		mu[0] = -eigenval[0] / beta;
+		mu[1] = -eigenval[1] / beta;
+		mu[2] = -eigenval[2] / beta;
 
 		// sphere
 		if (Kernel.isEqual(mu[0] / mu[1], 1.0)
@@ -1890,6 +2025,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			}
 			break;
 		case QUADRIC_ELLIPSOID:
+		case QUADRIC_HYPERBOLOID_ONE_SHEET:
 			// half axis and diagonals
 			for (int i = 0; i < 3; i++) {
 				halfAxes[i] *= r;

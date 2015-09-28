@@ -426,6 +426,37 @@ public class PlotterSurface {
 		// implemented only with elements
 	}
 
+	/**
+	 * draw an ellipsoid
+	 * 
+	 * @param center
+	 *            center
+	 * @param ev0
+	 *            first eigenvector
+	 * @param ev1
+	 *            second eigenvector
+	 * @param ev2
+	 *            third eigenvector
+	 * @param r0
+	 *            first half axis
+	 * @param r1
+	 *            second half axis
+	 * @param r2
+	 *            third half axis
+	 * @param longitude
+	 *            longitude length for rendering
+	 * @param min
+	 *            minimum parameter for axis
+	 * @param max
+	 *            maximum parameter for axis
+	 */
+	public void drawHyperboloidOneSheet(Coords center, Coords ev0, Coords ev1,
+			Coords ev2, double r0, double r1, double r2, int longitude,
+			double min, double max) {
+
+		// implemented only with elements
+	}
+
 	private Coords[] coordsArray = new Coords[0];
 
 	/**

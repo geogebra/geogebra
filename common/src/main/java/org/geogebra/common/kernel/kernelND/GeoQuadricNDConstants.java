@@ -48,7 +48,10 @@ public interface GeoQuadricNDConstants {
 	public static final int QUADRIC_PARALLEL_PLANES = 34;
 	/** type : intersecting planes */
 	public static final int QUADRIC_INTERSECTING_PLANES = 35;
+	/** type: hyperboloid one sheet */
+	public static final int QUADRIC_HYPERBOLOID_ONE_SHEET = 36;
 	/** start mode: not set */
 	public static final int QUADRIC_NOT_SET = -1;
+
 
 }

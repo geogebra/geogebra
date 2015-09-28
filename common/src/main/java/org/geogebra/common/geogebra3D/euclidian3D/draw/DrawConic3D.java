@@ -94,10 +94,26 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 
 	}
 
-	private static double acosh(double x) {
+	/**
+	 * 
+	 * @param x
+	 *            value
+	 * @return acosh(x) if x>=1; 0 otherwise
+	 */
+	public static double acosh(double x) {
 		if (x <= 1)
 			return 0;
 		return Math.log(x + Math.sqrt(x * x - 1));
+	}
+
+	/**
+	 * 
+	 * @param x
+	 *            value
+	 * @return asinh(x)
+	 */
+	public static double asinh(double x) {
+		return Math.log(x + Math.sqrt(1 + x * x));
 	}
 
 	/* used for update */
