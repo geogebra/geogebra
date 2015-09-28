@@ -41,12 +41,42 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 
 	private GeoNumeric intF, intG;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            upper function
+	 * @param g
+	 *            lower function
+	 * @param a
+	 *            left bound
+	 * @param b
+	 *            right bound
+	 */
 	public AlgoIntegralFunctions(Construction cons, String label,
 			GeoFunction f, GeoFunction g, NumberValue a, NumberValue b) {
 		this(cons, label, f, g, a, b, null);
 		n.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            upper function
+	 * @param g
+	 *            lower function
+	 * @param a
+	 *            left bound
+	 * @param b
+	 *            right bound
+	 * @param evaluate
+	 *            true to evaluate, false = just shade
+	 */
 	public AlgoIntegralFunctions(Construction cons, String label,
 			GeoFunction f, GeoFunction g, NumberValue a, NumberValue b,
 			GeoBoolean evaluate) {
@@ -78,6 +108,18 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 		n.setLabel(label);
 	}
 
+	/**
+	 * @param f
+	 *            lower function
+	 * @param g
+	 *            upper function
+	 * @param a
+	 *            left bound
+	 * @param b
+	 *            right bound
+	 * @param evaluate
+	 *            true to evaluate, false = just shade
+	 */
 	public AlgoIntegralFunctions(GeoFunction f, GeoFunction g, MyDouble a,
 			MyDouble b, GeoBoolean evaluate) {
 		super(f.getConstruction(), false);
@@ -124,22 +166,37 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return integral result
+	 */
 	public GeoNumeric getIntegral() {
 		return n;
 	}
 
+	/**
+	 * @return upper function
+	 */
 	public GeoFunction getF() {
 		return f;
 	}
 
+	/**
+	 * @return lower function
+	 */
 	public GeoFunction getG() {
 		return g;
 	}
 
+	/**
+	 * @return left bound
+	 */
 	public NumberValue getA() {
 		return a;
 	}
 
+	/**
+	 * @return right bound
+	 */
 	public NumberValue getB() {
 		return b;
 	}

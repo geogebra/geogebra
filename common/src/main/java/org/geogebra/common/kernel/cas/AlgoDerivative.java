@@ -78,6 +78,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            variable (may be null)
 	 * @param order
 	 *            derivative order (may be null)
+	 * @param fast
+	 *            true to avoid CAS
 	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
 			GeoNumeric var, NumberValue order, boolean fast) {
@@ -90,6 +92,14 @@ public class AlgoDerivative extends AlgoCasBase {
 		compute();
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function to derive
+	 * @param fast
+	 *            true to avoid CAS
+	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
 			boolean fast) {
 		this(cons, f, null, null, fast);

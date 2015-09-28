@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootFunction;
+import org.geogebra.common.main.App;
 
 /**
  * Integral of a function (GeoFunction)
@@ -262,7 +263,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			n.setValue(0);
 			return;
 		}
-
+		App.debug(f.toString(StringTemplate.defaultTemplate));
 		// check if f(a) and f(b) are defined
 		double fa = f.evaluate(lowerLimit);
 		double fb = f.evaluate(upperLimit);
@@ -292,6 +293,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		 * would be defined (-2)
 		 */
 		if (!f.includesFreehandOrData()) {
+			if (algoCAS instanceof AlgoIntegral
+					&& !((AlgoIntegral) algoCAS).isComputedSymbolically()) {
+				algoCAS.compute();
+			}
 			if (symbIntegral != null && symbIntegral.isDefined()
 					&& !f.includesDivisionByVar()
 					&& !f.includesNonContinuousIntegral()) {
@@ -752,7 +757,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			return new AlgoIntegralDefinite((GeoFunction) f.copy(),
 					(NumberValue) a.deepCopy(kernel),
 					(NumberValue) b.deepCopy(kernel),
-					(GeoBoolean) evaluate.copy());
+ evaluate.copy());
 		return new AlgoIntegralDefinite((GeoFunction) f.copy(),
 				(NumberValue) a.deepCopy(kernel),
 				(NumberValue) b.deepCopy(kernel), null);

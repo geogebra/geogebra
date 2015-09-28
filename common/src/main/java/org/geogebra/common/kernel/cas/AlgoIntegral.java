@@ -33,6 +33,7 @@ public class AlgoIntegral extends AlgoCasBase {
 
 	private GeoNumeric var;
 	private boolean allowConstant;
+	private boolean computedSymbolically = true;
 
 	/**
 	 * @param cons
@@ -57,6 +58,8 @@ public class AlgoIntegral extends AlgoCasBase {
 	 *            function
 	 * @param var
 	 *            variable
+	 * @param allowConstant
+	 *            whether arbitrary constants are allowed
 	 */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
 			GeoNumeric var, boolean allowConstant) {
@@ -89,7 +92,7 @@ public class AlgoIntegral extends AlgoCasBase {
 
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
-
+		computedSymbolically = true;
 		if (f instanceof GeoFunction) {
 			Function inFun = ((GeoFunction) f).getFunction();
 
@@ -99,10 +102,12 @@ public class AlgoIntegral extends AlgoCasBase {
 
 				if (inFun == null) {
 					((GeoFunction) g).setDefined(false);
+					return;
 				}
 
 				((GeoFunction) g).setFunction(inFun);
 				((GeoFunction) g).setDefined(true);
+				computedSymbolically = false;
 				return;
 			}
 			// check if it's a polynomial
@@ -120,6 +125,7 @@ public class AlgoIntegral extends AlgoCasBase {
 
 				((GeoFunction) g).setFunction(funDeriv);
 				((GeoFunction) g).setDefined(true);
+				computedSymbolically = false;
 				return;
 			}
 		}
@@ -168,6 +174,14 @@ public class AlgoIntegral extends AlgoCasBase {
 		}
 
 		return sb.toString();
+	}
+
+	/**
+	 * @return true if this was done using CAS, false if polynomial shortcut or
+	 *         non-CAS integral was used
+	 */
+	public boolean isComputedSymbolically() {
+		return computedSymbolically;
 	}
 
 	// TODO Consider locusequability
