@@ -342,9 +342,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			r2 = quadric.getHalfAxis(2);
 			surface = renderer.getGeometryManager().getSurface();
 			surface.start(getReusableSurfaceIndex());
-			scale = getView3D().getScale();
-			radius = Math.max(r0, Math.max(r1, r2));
-			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 			ev0 = quadric.getEigenvec3D(0);
 			ev1 = quadric.getEigenvec3D(1);
 			ev2 = quadric.getEigenvec3D(2);
@@ -352,6 +349,12 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					Double.NEGATIVE_INFINITY };
 			getView3D().getMinIntervalOutsideClipping(minmax1, center,
 					ev2.mul(r2));
+			scale = getView3D().getScale();
+			// get radius at max
+			radius = Math.max(r0, r1)
+					* Math.max(Math.abs(minmax1[0]),
+							Math.max(Math.abs(minmax1[1]), 1)) / r2;
+			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 			double min = DrawConic3D.asinh(minmax1[0]);
 			double max = DrawConic3D.asinh(minmax1[1]);
 			surface.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1, r2,
