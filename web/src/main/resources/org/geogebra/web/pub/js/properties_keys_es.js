@@ -2273,7 +2273,7 @@ __GGB__keysVar.es.plain = {
     "CASTimedOut": "Plazo CAS expirado",
     "CASViewOnly": "\"%0\" es un comando exclusivo de la Vista CAS",
     "Cancel": "Cancela",
-    "Caption": "Subt\xedtulo",
+    "Caption": "T\xedtulo",
     "CartesianCoords": "Coordenadas cartesianas",
     "CartesianCoords3D": "Coordenadas cartesianas 3D",
     "CasCell": "Celda CAS",
