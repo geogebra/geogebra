@@ -982,6 +982,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			break;
 		case ORDER:
 			rootOrder.removeItem(node);
+			if (getItemCount() > 0 && getItem(0) instanceof AVTreeItem) {
+				((AVTreeItem) getItem(0)).setFirst(true);
+			}
 		}
 	}
 
@@ -1021,10 +1024,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 
 			TreeItem parent = getParentNode(geo, forceLayer);
-			TreeItem node = createAVItem(geo);
+			AVTreeItem node = createAVItem(geo);
 
 			// add node to model (alphabetically ordered)
 			int pos = getInsertPosition(parent, geo, treeMode);
+			if (pos == 0 && parent == rootOrder) {
+				node.setFirst(true);
+			}
 
 			if (pos == parent.getChildCount()) {
 				parent.addItem(node);
@@ -1123,28 +1129,38 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	 * 
 	 * @param mode
 	 */
-	final public static int getInsertPosition(TreeItem parent,
+	final public int getInsertPosition(TreeItem parent,
 			GeoElement newGeo, SortMode mode) {
 		// label of inserted geo
 		// String newLabel = newGeo.getLabel();
 
 		// standard case: binary search
 		int left = 0;
-		int right = parent.getChildCount();
-		if (right == 0)
+		int right = parent == rootOrder ? getItemCount() : parent
+				.getChildCount();
+		if (right == 0) {
 			return right;
-
+		}
 		// bigger then last?
-		TreeItem node = parent.getChild(parent.getChildCount() - 1);
+		TreeItem node = parent == rootOrder ? getItem(right - 1) : parent
+				.getChild(right - 1);
 		// String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
+		if (node.getUserObject() == null) {
+			if (right == 1) {
+				return 0;
+			}
+			node = parent == rootOrder ? getItem(right - 2) : parent
+					.getChild(right - 2);
+		}
 		GeoElement geo2 = ((GeoElement) node.getUserObject());
+
 		if (compare(newGeo, geo2, mode))
 			return right;
-
 		// binary search
 		while (right > left) {
 			int middle = (left + right) / 2;
-			node = parent.getChild(middle);
+			node = parent == rootOrder ? getItem(middle) : parent
+					.getChild(middle);
 			// nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 			geo2 = ((GeoElement) node.getUserObject());
 

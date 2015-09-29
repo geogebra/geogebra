@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AVTreeItem extends TreeItem {
-
+	protected boolean first = false;
 	public AVTreeItem() {
 		super();
 	}
@@ -33,6 +33,11 @@ public class AVTreeItem extends TreeItem {
 		if (w != null) {
 			w.getStyle().setBackgroundColor("#FFFFFF");
 		}
+
+	}
+
+	public void setFirst(boolean b) {
+		first = b;
 
 	}
 }

@@ -993,7 +993,7 @@ GuiResourcesSimple.INSTANCE
 		// in subclasses pButton will be added first!
 		// also, this method should be overridden in NewRadioButtonTreeItem
 		// buttonPanel.add(pButton);
-
+		setFirst(first);
 		if (avExtension && animPanel != null) {
 			buttonPanel.add(animPanel);
 		}
@@ -1001,6 +1001,15 @@ GuiResourcesSimple.INSTANCE
 		buttonPanel.add(xButton);
 		item.getElement().addClassName("XButtonPanelParent");
 		item.getElement().appendChild(buttonPanel.getElement());
+	}
+
+	@Override
+	public void setFirst(boolean first) {
+		super.setFirst(first);
+		if (buttonPanel != null) {
+			buttonPanel.getElement().getStyle()
+					.setRight(first ? 46 : 0, Unit.PX);
+		}
 	}
 
 	/**
