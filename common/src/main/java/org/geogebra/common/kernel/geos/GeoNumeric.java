@@ -303,11 +303,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	private void setMaxFrom(GeoNumeric num) {
 		double max = num.getIntervalMax();
-		if (Math.ceil(value) > max) {
+		if (value > max) {
+			App.debug(value + " OVERRIDES " + max);
 			if (Math.ceil(value) < 0) {
 				max = 0;
 			} else {
-				max = MyMath.nextPrettyNumber(value, 1);
+				max = MyMath.nextPrettyNumber(value, 0);
 			}
 		}
 
@@ -316,11 +317,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 	private void setMinFrom(GeoNumeric num) {
 		double min = num.getIntervalMin();
-		if (Math.floor(value) < min) {
+		if (value < min) {
 			if (Math.floor(value) > 0) {
 				min = 0;
 			} else {
-				min = -MyMath.nextPrettyNumber(Math.abs(value), 1);
+				min = -MyMath.nextPrettyNumber(Math.abs(value), 0);
 			}
 		}
 		setIntervalMin(new MyDouble(kernel, min));
