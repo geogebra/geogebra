@@ -507,7 +507,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		debug("longitude = " + longitude + " , longitudeLength = "
 				+ longitudeLength);
 
-		short lastStartIndex, lastLength, currentStartIndex, currentLength, lastBoth, both;
+		short lastLength, currentLength;
 		boolean drawTop, drawBottom;
 		int vi, nextJump, next;
 		short shift;
@@ -526,23 +526,12 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		arrayIndex = 0;
 
-		lastStartIndex = 0;
 		lastLength = (short) longitudeLength;
-		currentStartIndex = lastStartIndex;
 		currentLength = (short) longitudeLength;
 		
 		// both = 1 if only drawing up or down, both = 2 if drawing both
 		drawTop = true;
 		drawBottom = true;
-		lastBoth = 1;
-		both = 2;
-		if (dse.drawEquator()) {
-			both = 1; // we use the same vertices
-		} else {
-			if (latitudeMaxBottom <= 0 || latitudeMaxTop <= 0) {
-				both = 1;
-			}
-		}
 
 		vi = latitudeMin + 1;
 		nextJump = dse.initNextJump(latitude, longitude);
@@ -576,20 +565,9 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				}
 
 
-				lastBoth = both;
-				both = 0;
-				if (drawTop) {// top vertices
-					both++;
-				}
-				if (drawBottom) {// bottom vertices
-					both++;
-				}
+				debug("vi : " + vi);
 
-				debug("vi : " + vi + " -- both : " + both);
-
-				lastStartIndex = currentStartIndex;
 				lastLength = currentLength;
-				currentStartIndex += lastLength * lastBoth;
 
 
 				if (drawTop) {// top triangles
@@ -628,11 +606,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				}
 
-				lastBoth = both;
-
-				lastStartIndex = currentStartIndex;
 				lastLength = currentLength;
-				currentStartIndex += lastLength * lastBoth;
 				currentLength /= 2;
 
 				if (drawTop) {// top triangles
@@ -659,11 +633,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		}
 
-		lastBoth = both;
 
-		lastStartIndex = currentStartIndex;
 		lastLength = currentLength;
-		currentStartIndex += lastLength * lastBoth;
 
 
 		if (dse.drawPoles()) {
