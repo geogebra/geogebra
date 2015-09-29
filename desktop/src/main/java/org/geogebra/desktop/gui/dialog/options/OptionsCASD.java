@@ -137,7 +137,7 @@ public class OptionsCASD extends org.geogebra.common.gui.dialog.options.OptionsC
 	public void setLabels() {
 		timeoutLabel.setText(app.getPlain("CasTimeout"));
 		cbShowRoots.setText(app.getPlain("CASShowRationalExponentsAsRoots"));
-		cbShowNavigation.setText(app.getPlain("NavigationBar"));
+		cbShowNavigation.setText(app.getMenu("NavigationBar"));
 	}
 
 	/**

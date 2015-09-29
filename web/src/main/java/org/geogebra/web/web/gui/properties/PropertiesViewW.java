@@ -507,6 +507,9 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 		if (spreadsheetPanel != null) {
 			spreadsheetPanel.setLabels();
 		}
+		if (casPanel != null) {
+			casPanel.setLabels();
+		}
     }
 
 	@Override

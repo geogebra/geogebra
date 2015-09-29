@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.web.html5.main.AppW;
 
@@ -9,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
@@ -21,7 +23,14 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 	        cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
 	        cbAllowSpecialEditor, cbAllowToolTips, cbPrependCommands,
 	        cbEnableAutoComplete;
+	private CheckBox cbShowNavigation;
 
+	/**
+	 * @param app
+	 *            app
+	 * @param spreadsheetView
+	 *            spreadsheet view
+	 */
 	public OptionsSpreadsheetW(AppW app, View spreadsheetView) {
 		this.app = app;
 		createGUI();
@@ -49,6 +58,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		cbAllowToolTips = newCheckBox();
 		cbPrependCommands = newCheckBox();
 		cbEnableAutoComplete = newCheckBox();
+		cbShowNavigation = newCheckBox();
 
 		optionsPanel = new FlowPanel();
 		optionsPanel.addStyleName("objectPropertiesPanel");
@@ -62,11 +72,12 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 		// spacer
 		// layoutOptions.add(Box.createVerticalStrut(16));
-
+		optionsPanel.add(new HTML("<HR>"));
 		optionsPanel.add(cbAllowSpecialEditor);
 		optionsPanel.add(cbAllowToolTips);
 		optionsPanel.add(cbPrependCommands);
 		optionsPanel.add(cbEnableAutoComplete);
+		optionsPanel.add(cbShowNavigation);
 
 		setLabels();
 		updateGUI();
@@ -92,6 +103,8 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		updateCheckBox(cbAllowToolTips, settings().allowToolTips());
 		updateCheckBox(cbPrependCommands, settings().equalsRequired());
 		updateCheckBox(cbEnableAutoComplete, settings().isEnableAutoComplete());
+		updateCheckBox(cbShowNavigation,
+				app.showConsProtNavigation(App.VIEW_SPREADSHEET));
 	}
 
 	private static void updateCheckBox(CheckBox cb, boolean value) {
@@ -114,6 +127,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		cbAllowToolTips.setText(app.getMenu("AllowTooltips"));
 		cbPrependCommands.setText(app.getMenu("RequireEquals"));
 		cbEnableAutoComplete.setText(app.getMenu("UseAutoComplete"));
+		cbShowNavigation.setText(app.getMenu("NavigationBar"));
 	}
 
 	public void onClick(ClickEvent event) {
@@ -163,6 +177,10 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 		else if (source == cbEnableAutoComplete) {
 			settings().setEnableAutoComplete(cbEnableAutoComplete.getValue());
+		}
+
+		else if (source == cbShowNavigation) {
+			app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET);
 		}
 
 		updateGUI();

@@ -31,7 +31,7 @@ public class PropertiesStyleBarW extends
 		// Implemented types of the web
 			OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2,
 			OptionType.EUCLIDIAN_FOR_PLANE, OptionType.EUCLIDIAN3D,
-			OptionType.SPREADSHEET
+			OptionType.SPREADSHEET, OptionType.CAS
 	};
 	
 	private PropertiesViewW propertiesView;
@@ -82,9 +82,8 @@ public class PropertiesStyleBarW extends
 		buttonMap.get(OptionType.SPREADSHEET).setVisible(
 				app.getGuiManager().showView(App.VIEW_SPREADSHEET));
 //		
-//		buttonMap.get(OptionType.CAS).setVisible(
-//				app.getGuiManager()
-//						.showView(App.VIEW_CAS));
+		buttonMap.get(OptionType.CAS).setVisible(
+				app.getGuiManager().showView(App.VIEW_CAS));
     }
 
 
