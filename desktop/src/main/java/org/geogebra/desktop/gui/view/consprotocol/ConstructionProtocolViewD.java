@@ -12,7 +12,6 @@ package org.geogebra.desktop.gui.view.consprotocol;
 
  */
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -48,7 +47,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTable.PrintMode;
@@ -96,7 +94,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	private static Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
 
 	public JTable table;
-	public JPanel cpPanel;
+	// public JPanel cpPanel;
 
 	private TableColumn[] tableColumns;
 
@@ -107,7 +105,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	int dragIndex = -1; // dragged construction index
 	private int dropIndex = -1;
 
-	public ConstructionProtocolNavigationD protNavBar; // navigation bar of
+	// public ConstructionProtocolNavigationD protNavBar; // navigation bar of
 														// protocol window
 	private ConstructionProtocolViewD view = this;
 	public JScrollPane scrollPane;
@@ -115,7 +113,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	private AbstractAction exportHtmlAction, printPreviewAction;
 
 	public ConstructionProtocolViewD(final AppD app) {
-		cpPanel = new JPanel(new BorderLayout());
+		// cpPanel = new JPanel(new BorderLayout());
 
 		this.app = app;
 		kernel = app.getKernel();
@@ -162,7 +160,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		scrollPane = new JScrollPane(table);
 		scrollPane.getViewport().setBackground(Color.white);
-		cpPanel.add(scrollPane, BorderLayout.CENTER);
+		// cpPanel.add(scrollPane, BorderLayout.CENTER);
 
 		// clicking
 		ConstructionMouseListener ml = new ConstructionMouseListener();
@@ -178,13 +176,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		app.getGuiManager().registerConstructionProtocolView(this);
 
 		// navigation bar
-		protNavBar = new ConstructionProtocolNavigationD(app);
-		protNavBar.register(this);
-		protNavBar.setPlayButtonVisible(false);
-		protNavBar.setConsProtButtonVisible(false);
-		this.cpPanel.add(protNavBar.getImpl(), BorderLayout.SOUTH);
-		org.geogebra.desktop.util.Util.addKeyListenerToAll(protNavBar.getImpl(),
-				keyListener);
+		// protNavBar = new ConstructionProtocolNavigationD(app);
+		// protNavBar.register(this);
+		// protNavBar.setPlayButtonVisible(false);
+		// protNavBar.setConsProtButtonVisible(false);
+		// this.cpPanel.add(protNavBar.getImpl(), BorderLayout.SOUTH);
+		// org.geogebra.desktop.util.Util.addKeyListenerToAll(protNavBar.getImpl(),
+		// keyListener);
 
 		initGUI();
 		initActions();
@@ -200,8 +198,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		return app;
 	}
 
-	public JPanel getCpPanel() {
-		return cpPanel;
+	public JScrollPane getCpPanel() {
+		return scrollPane;
 	}
 
 	public int getConstructionIndex(int row) {
@@ -227,9 +225,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	@Override
 	public void updateNavigationBars() {
 		// update the navigation bar of the protocol window
-		if (protNavBar != null) {
-			protNavBar.update();
-		}
+
 
 		// update all registered navigation bars
 		int size = navigationBars.size();
@@ -240,7 +236,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	@Override
 	protected void repaint() {
-		cpPanel.repaint();
+		scrollPane.repaint();
 	}
 
 	/**
@@ -248,7 +244,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 */
 	public void initGUI() {
 		// setTitle(app.getPlain("ConstructionProtocol"));
-		cpPanel.setFont(((AppD) app).getPlainFont());
+		scrollPane.setFont(((AppD) app).getPlainFont());
 		// setMenuBar();
 		getStyleBar().setLabels();
 		// set header values (language may have changed)
@@ -260,7 +256,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		table.setFont(((AppD) app).getPlainFont());
 		((ConstructionTableData) data).updateAll();
 		getStyleBar().reinit();
-		protNavBar.updateIcons();
+		// protNavBar.updateIcons();
 	}
 
 	public void setUseColors(boolean flag) {
@@ -312,7 +308,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		} else {
 			((ConstructionTableData) data).detachView();
 		}
-		cpPanel.setVisible(flag);
+		scrollPane.setVisible(flag);
 	}
 
 	@Override
@@ -560,7 +556,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 					&& ((ob == table.getTableHeader()) || (ob == scrollPane))) {
 				ConstructionProtocolContextMenu contextMenu = new ConstructionProtocolContextMenu(
 						(AppD) app);
-				contextMenu.show(view.cpPanel, e.getPoint().x, e.getPoint().y);
+				contextMenu.show(view.scrollPane, e.getPoint().x,
+						e.getPoint().y);
 
 			}
 		}
@@ -663,9 +660,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				int pos = data.getColumnNumber(colData);
 				if (pos >= 0 && pos < lastPos)
 					model.moveColumn(lastPos, pos);
-				cpPanel.setSize(
-						cpPanel.getWidth() + column.getPreferredWidth(),
-						cpPanel.getHeight());
+				scrollPane.setSize(
+						scrollPane.getWidth() + column.getPreferredWidth(),
+						scrollPane.getHeight());
 
 				// show breakPointColumn => show all lines
 				if (isBreakPointColumn) {
@@ -683,7 +680,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 			// reinit view to update possible breakpoint changes
 			((ConstructionTableData) data).initView();
-			SwingUtilities.updateComponentTreeUI(view.cpPanel);
+			SwingUtilities.updateComponentTreeUI(view.scrollPane);
 		}
 	}
 
@@ -1313,7 +1310,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			data.notifyAddAll(kernel.getConstruction().getStep());
 
 			JFrame tempFrame = new JFrame();
-			tempFrame.add(this.cpPanel);
+			tempFrame.add(this.scrollPane);
 			tempFrame.pack();
 		}
 		int r = table.getPrintable(PrintMode.FIT_WIDTH, null, null).print(

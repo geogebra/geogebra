@@ -10,14 +10,13 @@ import javax.swing.JScrollPane;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
 import org.geogebra.desktop.main.AppD;
 
 /**
  * Dock panel for the algebra view.
  */
-public class AlgebraDockPanel extends DockPanel {
+public class AlgebraDockPanel extends NavigableDockPanel {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	
@@ -43,7 +42,7 @@ public class AlgebraDockPanel extends DockPanel {
 	}
 	
 	@Override
-	protected JComponent loadComponent() {	
+	protected JComponent getViewPanel() {
 		JScrollPane scrollPane = new JScrollPane((Component) app.getGuiManager().getAlgebraView());
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setBackground(Color.white);

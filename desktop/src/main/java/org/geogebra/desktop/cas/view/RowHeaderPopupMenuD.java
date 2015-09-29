@@ -41,7 +41,7 @@ public class RowHeaderPopupMenuD extends
 		rowHeaderPopupMenu = new JPopupMenu();
 		this.rowHeader = rowHeader;
 		this.table = table;
-		app = (AppD) table.getApplication();
+		app = table.getApplication();
 		initMenu();
 	}
 

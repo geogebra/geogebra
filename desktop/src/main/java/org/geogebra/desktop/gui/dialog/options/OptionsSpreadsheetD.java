@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetView;
 import org.geogebra.desktop.main.AppD;
@@ -49,6 +50,7 @@ public class OptionsSpreadsheetD extends
 			cbEnableAutoComplete;
 
 	private JPanel wrappedPanel;
+	private JCheckBox cbShowNavigation;
 
 	/**
 	 * Creates a new dialog for the properties of the spreadsheet view.
@@ -115,6 +117,9 @@ public class OptionsSpreadsheetD extends
 		cbEnableAutoComplete = new JCheckBox();
 		cbEnableAutoComplete.addActionListener(this);
 
+		cbShowNavigation = new JCheckBox();
+		cbShowNavigation.addActionListener(this);
+
 		optionsPanel.add(cbShowFormulaBar);
 		optionsPanel.add(cbShowGrid);
 		optionsPanel.add(cbShowColumnHeader);
@@ -129,6 +134,7 @@ public class OptionsSpreadsheetD extends
 		optionsPanel.add(cbAllowToolTips);
 		optionsPanel.add(cbPrependCommands);
 		optionsPanel.add(cbEnableAutoComplete);
+		optionsPanel.add(cbShowNavigation);
 
 		return optionsPanel;
 	}
@@ -150,6 +156,7 @@ public class OptionsSpreadsheetD extends
 		cbAllowToolTips.setText(app.getMenu("AllowTooltips"));
 		cbPrependCommands.setText(app.getMenu("RequireEquals"));
 		cbEnableAutoComplete.setText(app.getMenu("UseAutoComplete"));
+		cbShowNavigation.setText(app.getMenu("NavigationBar"));
 	}
 
 	/**
@@ -172,6 +179,8 @@ public class OptionsSpreadsheetD extends
 		updateCheckBox(cbAllowToolTips, settings().allowToolTips());
 		updateCheckBox(cbPrependCommands, settings().equalsRequired());
 		updateCheckBox(cbEnableAutoComplete, settings().isEnableAutoComplete());
+		updateCheckBox(cbShowNavigation,
+				app.showConsProtNavigation(App.VIEW_SPREADSHEET));
 
 	}
 
@@ -230,6 +239,10 @@ public class OptionsSpreadsheetD extends
 			settings().setEnableAutoComplete(cbEnableAutoComplete.isSelected());
 		}
 
+		else if (source == cbShowNavigation) {
+			app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET);
+		}
+
 		updateGUI();
 	}
 
@@ -267,6 +280,7 @@ public class OptionsSpreadsheetD extends
 		cbAllowToolTips.setFont(font);
 		cbPrependCommands.setFont(font);
 		cbEnableAutoComplete.setFont(font);
+		cbShowNavigation.setFont(font);
 
 	}
 

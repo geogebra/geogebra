@@ -4,11 +4,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
 
-public class ConstructionProtocolDockPanel extends DockPanel {
+public class ConstructionProtocolDockPanel extends NavigableDockPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +29,7 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 	}
 
 	@Override
-	protected JComponent loadComponent() {
+	protected JComponent getViewPanel() {
 		return ((ConstructionProtocolViewD)(app.getGuiManager().getConstructionProtocolView())).getCpPanel();
 	}
 

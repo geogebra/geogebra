@@ -7,13 +7,12 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.main.AppD;
 
 /**
  * Dock panel for the spreadsheet view.
  */
-public class SpreadsheetDockPanel extends DockPanel {
+public class SpreadsheetDockPanel extends NavigableDockPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -41,7 +40,7 @@ public class SpreadsheetDockPanel extends DockPanel {
 	}
 
 	@Override
-	protected JComponent loadComponent() {
+	protected JComponent getViewPanel() {
 		return getGuiManager().getSpreadsheetView().getViewContainer();
 	}
 

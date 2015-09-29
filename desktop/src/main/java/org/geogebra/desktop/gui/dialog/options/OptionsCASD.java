@@ -15,6 +15,7 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.desktop.main.AppD;
 
@@ -41,6 +42,7 @@ public class OptionsCASD extends org.geogebra.common.gui.dialog.options.OptionsC
 
 	/** show rational exponents as roots */
 	private JCheckBox cbShowRoots;
+	private JCheckBox cbShowNavigation;
 
 	private JPanel wrappedPanel;
 
@@ -82,10 +84,16 @@ public class OptionsCASD extends org.geogebra.common.gui.dialog.options.OptionsC
 		cbShowRoots.addActionListener(this);
 		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
 
+		cbShowNavigation = new JCheckBox();
+		cbShowNavigation.addActionListener(this);
+		cbShowNavigation.setSelected(casSettings.getShowExpAsRoots());
+
 		timeoutPanel.add(timeoutLabel);
 		timeoutPanel.add(cbTimeout);
+
 		panel.add(timeoutPanel);
 		panel.add(cbShowRoots);
+		panel.add(cbShowNavigation);
 
 		wrappedPanel.add(panel, BorderLayout.CENTER);
 		
@@ -102,6 +110,7 @@ public class OptionsCASD extends org.geogebra.common.gui.dialog.options.OptionsC
 		cbTimeout.setSelectedItem(MyXMLHandler.getTimeoutOption(casSettings
 				.getTimeoutMilliseconds() / 1000));
 		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
+		cbShowNavigation.setSelected(app.showConsProtNavigation(App.VIEW_CAS));
 	}
 
 	/**
@@ -112,6 +121,9 @@ public class OptionsCASD extends org.geogebra.common.gui.dialog.options.OptionsC
 		if (e.getSource() == cbTimeout) {
 			casSettings.setTimeoutMilliseconds(((Integer) cbTimeout
 					.getSelectedItem()) * 1000);
+		}
+		if (e.getSource() == cbShowNavigation) {
+			app.toggleShowConstructionProtocolNavigation(App.VIEW_CAS);
 		}
 		/** show rational exponents as roots */
 		if (e.getSource() == cbShowRoots) {
@@ -124,11 +136,8 @@ public class OptionsCASD extends org.geogebra.common.gui.dialog.options.OptionsC
 	 */
 	public void setLabels() {
 		timeoutLabel.setText(app.getPlain("CasTimeout"));
-		cbShowRoots.setText(app.getPlain("CASShowRationalExponentsAsRoots")); // TODO:
-																				// get
-																				// string
-																				// from
-																				// resources
+		cbShowRoots.setText(app.getPlain("CASShowRationalExponentsAsRoots"));
+		cbShowNavigation.setText(app.getPlain("NavigationBar"));
 	}
 
 	/**
@@ -157,6 +166,7 @@ public class OptionsCASD extends org.geogebra.common.gui.dialog.options.OptionsC
 		timeoutLabel.setFont(font);
 		cbShowRoots.setFont(font);
 		cbTimeout.setFont(font);
+		cbShowNavigation.setFont(font);
 	}
 	
 

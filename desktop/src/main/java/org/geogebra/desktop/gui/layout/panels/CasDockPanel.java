@@ -6,13 +6,12 @@ import javax.swing.JComponent;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.main.AppD;
 
 /**
  * Dock panel for the CAS view.
  */
-public class CasDockPanel extends DockPanel {
+public class CasDockPanel extends NavigableDockPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private AppD appCas;
@@ -40,7 +39,7 @@ public class CasDockPanel extends DockPanel {
 	}
 	
 	@Override
-	protected JComponent loadComponent() {
+	protected JComponent getViewPanel() {
 		return ((GuiManagerD)appCas.getGuiManager()).getCasView().getCASViewComponent();
 	}
 	
