@@ -250,6 +250,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		private int longitudeJumps;
 
+		private boolean fading;
+
 		private Coords c = Coords.createInhomCoorsInD3();
 		private Coords n = new Coords(4);
 		private Coords tmpCoords = new Coords(4);
@@ -258,7 +260,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 
 		public void set(PlotterSurface surface, Coords center, Coords ev0,
-				Coords ev1, Coords ev2, double r0, double r1, double r2) {
+				Coords ev1, Coords ev2, double r0, double r1, double r2,
+				boolean fading) {
 			this.surface = surface;
 			this.center = center;
 			this.ev0 = ev0;
@@ -268,12 +271,40 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			this.r1 = r1;
 			this.r2 = r2;
 
+			this.fading = fading;
+
 
 		}
+		
+		private double maxFadingStartTop, maxFadingEndTop, middleFading;
+		private double maxFadingStartBottom, maxFadingEndBottom;
+
 
 		public void setMinMax(double min, double max) {
-			this.min = min;
-			this.max = max;
+			if (min < 0) {
+				if (max > 0) {
+					this.min = 0;
+					this.max = Math.max(-min, max);
+				} else {
+					this.min = -max;
+					this.max = -min;
+				}
+			} else {
+				this.min = min;
+				this.max = max;
+			}
+
+			if (fading) {
+				double shMin = Math.sinh(min);
+				double shMax = Math.sinh(max);
+				middleFading = (shMax + shMin) / 2;
+				maxFadingStartTop = shMax * 0.9 + shMin * 0.1;
+				maxFadingEndTop = shMax;
+				maxFadingStartBottom = shMax * 0.1 + shMin * 0.9;
+				maxFadingEndBottom = shMin;
+			}
+
+			// App.debug(maxFading + "," + max);
 
 			// use asymptotic behavior of cosh() for (un)refine radius
 			jump = Math.log(2) / max;
@@ -281,49 +312,77 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 
 		public void drawNCr(Coords normal) {
+			
+			double z = normal.getZ();
+			
 			c.setValues(center, 3);
 			tmpCoords.setMul(ev0, -r0 * normal.getX());
 			c.addInside(tmpCoords);
 			tmpCoords.setMul(ev1, r1 * normal.getY());
 			c.addInside(tmpCoords);
-			tmpCoords.setMul(ev2, r2 * normal.getZ());
+			tmpCoords.setMul(ev2, r2 * z);
 			c.addInside(tmpCoords);
 
 			n.setMul(ev0, -r1 * r2 * normal.getX());
 			tmpCoords.setMul(ev1, r0 * r2 * normal.getY());
 			n.addInside(tmpCoords);
-			tmpCoords.setMul(ev2, -r0 * r1 * normal.getZ());
+			tmpCoords.setMul(ev2, -r0 * r1 * z);
 			n.addInside(tmpCoords);
 			n.normalize();
 
+			if (fading) {
+				if (z > middleFading) {
+					manager.texture(0, (z - maxFadingStartTop)
+							/ (maxFadingEndTop - maxFadingStartTop));
+				} else {
+					manager.texture(0, (z - maxFadingStartBottom)
+							/ (maxFadingEndBottom - maxFadingStartBottom));
+				}
+			}
 			surface.drawNV(n, c);
 		}
 
 		public void drawNCrm(Coords normal) {
+
+			double z = -normal.getZ();
+
 			c.setValues(center, 3);
 			tmpCoords.setMul(ev0, -r0 * normal.getX());
 			c.addInside(tmpCoords);
 			tmpCoords.setMul(ev1, r1 * normal.getY());
 			c.addInside(tmpCoords);
-			tmpCoords.setMul(ev2, -r2 * normal.getZ());
+			tmpCoords.setMul(ev2, r2 * z);
 			c.addInside(tmpCoords);
 
 			n.setMul(ev0, -r1 * r2 * normal.getX());
 			tmpCoords.setMul(ev1, r0 * r2 * normal.getY());
 			n.addInside(tmpCoords);
-			tmpCoords.setMul(ev2, r0 * r1 * normal.getZ());
+			tmpCoords.setMul(ev2, -r0 * r1 * z);
 			n.addInside(tmpCoords);
 			n.normalize();
 
+			if (fading) {
+				if (z < middleFading) {
+					manager.texture(0, (z - maxFadingStartBottom)
+							/ (maxFadingEndBottom - maxFadingStartBottom));
+				} else {
+					manager.texture(0, (z - maxFadingStartTop)
+							/ (maxFadingEndTop - maxFadingStartTop));
+				}
+			}
 			surface.drawNV(n, c);
 		}
 
 		public void computeRadiusAndZ(int vi, int latitudeLength, double[] rz) {
-			double v = min
-					+ ((double) (latitudeLength - vi - 1) / (latitudeLength - 2))
-					* (max - min);
+			double v = computeV(vi, latitudeLength);
 			rz[0] = Math.cosh(v);
 			rz[1] = Math.sinh(v);
+		}
+
+		private double computeV(int vi, int latitudeLength) {
+			return min
+					+ ((double) (latitudeLength - vi - 1) / (latitudeLength - 2))
+					* (max - min);
 		}
 
 		public boolean drawPoles() {
@@ -390,6 +449,9 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		startGeometry();
 
+		// set texture to (0,0)
+		manager.setDummyTexture();
+
 		setLatitudeMinMaxForEllipsoid(center, radius, longitude);
 
 		if (drawSphere == null) {
@@ -408,8 +470,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		// manager.getRenderer().setLineWidth(1);
 		// manager.startGeometry(Manager.Type.LINE_STRIP);
 
-		// set texture to (0,0)
-		manager.setDummyTexture();
 	}
 
 	private void setLatitudeMinMaxForEllipsoid(Coords center, double radius,
@@ -479,19 +539,16 @@ public class PlotterSurfaceElements extends PlotterSurface {
 												// drawn
 					}
 				}
-				// latitudeMaxTop = 0; // ends on equator
-				// latitudeMaxBottom = latitude / 2; // ends on equator
 				latitudeMax = latitude;
 				latitudeMin = 0;
-				// dhos.setMinMax(0, Math.min(-min, max));
-				dhos.setMinMax(0, Math.max(-min, max));
+				dhos.setMinMax(min, max);
 			} else {
 				// only bottom
 				latitudeMaxTop = latitude;
 				latitudeMaxBottom = 0;
 				latitudeMax = latitude;
 				latitudeMin = 0;
-				dhos.setMinMax(-max, -min);
+				dhos.setMinMax(min, max);
 			}
 		} else {
 			// only top
@@ -1085,6 +1142,9 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		startGeometry();
 
+		// set texture to (0,0)
+		manager.setDummyTexture();
+
 		double r = Math.max(r0, Math.max(r1, r2));
 		setLatitudeMinMaxForEllipsoid(center, r, longitude);
 
@@ -1103,15 +1163,20 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	@Override
 	public void drawHyperboloidOneSheet(Coords center, Coords ev0, Coords ev1,
 			Coords ev2, double r0, double r1, double r2, int longitude,
-			double min, double max) {
+			double min, double max, boolean fading) {
 
 		startGeometry();
+
+		if (!fading) {
+			manager.setDummyTexture();
+		}
 
 
 		if (drawHyperboloidOneSheet == null) {
 			drawHyperboloidOneSheet = new DrawHyperboloidOneSheet();
 		}
-		drawHyperboloidOneSheet.set(this, center, ev0, ev1, ev2, r0, r1, r2);
+		drawHyperboloidOneSheet.set(this, center, ev0, ev1, ev2, r0, r1, r2,
+				fading);
 
 		setLatitudeMinMaxForHyperboloid(min, max, drawHyperboloidOneSheet);
 

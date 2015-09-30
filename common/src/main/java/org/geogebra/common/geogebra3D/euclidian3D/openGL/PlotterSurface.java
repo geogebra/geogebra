@@ -449,10 +449,13 @@ public class PlotterSurface {
 	 *            minimum parameter for axis
 	 * @param max
 	 *            maximum parameter for axis
+	 * @param fading 
+	 *            if we need fading or not
+	 *           
 	 */
 	public void drawHyperboloidOneSheet(Coords center, Coords ev0, Coords ev1,
 			Coords ev2, double r0, double r1, double r2, int longitude,
-			double min, double max) {
+			double min, double max, boolean fading) {
 
 		// implemented only with elements
 	}

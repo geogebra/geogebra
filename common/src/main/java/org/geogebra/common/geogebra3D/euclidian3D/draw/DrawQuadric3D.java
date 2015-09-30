@@ -358,7 +358,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			double min = DrawConic3D.asinh(minmax1[0]);
 			double max = DrawConic3D.asinh(minmax1[1]);
 			surface.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1, r2,
-					longitude, min, max);
+					longitude, min, max, !getView3D().useClippingCube());
 			setSurfaceIndex(surface.end());
 			break;
 
