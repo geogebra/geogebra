@@ -713,7 +713,7 @@ public class Crossing {
         // Add roots
         bc = c.addBound(bound, bc, res1, rc1, minX, maxX, false, 0);
         bc = c.addBound(bound, bc, res2, rc2, minX, maxX, false, 1);
-        // Add extremal points`
+        // Add extremal points
         rc2 = c.solveExtrem(res2);
         bc = c.addBound(bound, bc, res2, rc2, minX, maxX, true, 2);
         // Add start and end
