@@ -128,7 +128,7 @@ __GGB__keysVar.es.command = {
     "BoxPlot": "DiagramaCaja",
     "BoxPlot.Syntax": "[ <Offset_y>, <Escala_y>, <Lista de datos brutos> ]\n[ <Offset_y>, <Escala_y>, <Lista de datos brutos>, <Atipicidades o no (true/false)> ]\n[ <Offset_y>, <Escala_y>, <Lista de datos>, <Lista de frecuencias>, <Atipicidades o no (true/false)> ]\n[ <Offset_y>, <Escala_y>, <Valor inicial>, <Q1>, <Mediana>, <Q3>, <Valor final> ]",
     "Button": "Bot\xf3n",
-    "Button.Syntax": "[ ]\n[ <Texto (subt\xedtulo)> ]",
+    "Button.Syntax": "[ ]\n[ <T\xedtulo> ]",
     "CFactor": "FactorC",
     "CFactor.SyntaxCAS": "[ <Expresi\xf3n> ]\n[ <Expresi\xf3n>, <Variable> ]",
     "CIFactor": "FactorizaCI",
