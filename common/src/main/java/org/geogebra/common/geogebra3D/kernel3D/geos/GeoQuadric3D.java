@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
@@ -1167,6 +1168,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "Cone";
 		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
 			return "Ellipsoid";
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
+			return "HyperboloidOneSheet";
 		case GeoQuadricNDConstants.QUADRIC_EMPTY:
 			return "EmptySet";
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
@@ -1300,6 +1303,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			point.setMulPoint(eigenMatrix, Math.cos(u) * Math.cos(v), Math.sin(u)
 					* Math.cos(v), Math.sin(v));
 			break;
+		case QUADRIC_HYPERBOLOID_ONE_SHEET:
+			double ch = Math.cosh(v);
+			point.setMulPoint(eigenMatrix, Math.cos(u) * ch, Math.sin(u) * ch,
+					Math.sinh(v));
+			break;
+
 		case QUADRIC_CONE:
 			double v2 = Math.abs(v);
 			point.setMulPoint(eigenMatrix, Math.cos(u) * v2, Math.sin(u) * v2, v);
@@ -1361,6 +1370,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			n.normalize();
 			return n;
 
+		case QUADRIC_HYPERBOLOID_ONE_SHEET:
+			r0 = getHalfAxis(0);
+			r1 = getHalfAxis(1);
+			r2 = getHalfAxis(2);
+			n = new Coords(4);
+			double ch = Math.cosh(v);
+			double sh = Math.sinh(v);
+			n.setMul(getEigenvec3D(0), r1 * r2 * Math.cos(u) * ch);
+			tmpCoords.setMul(getEigenvec3D(1), r0 * r2 * Math.sin(u) * ch);
+			n.addInside(tmpCoords);
+			tmpCoords.setMul(getEigenvec3D(2), -r0 * r1 * sh);
+			n.addInside(tmpCoords);
+			n.normalize();
+			return n;
+
 		case QUADRIC_CONE:
 			r0 = getHalfAxis(0);
 			r1 = getHalfAxis(1);
@@ -1412,6 +1436,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			case 1: // v
 				return -Math.PI / 2;
 			}
+		case QUADRIC_HYPERBOLOID_ONE_SHEET:
+			switch (index) {
+			case 0: // u
+			default:
+				return 0;
+			case 1: // v
+				return Double.NEGATIVE_INFINITY;
+			}
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
 			switch (index) {
@@ -1439,6 +1471,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				return 2 * Math.PI;
 			case 1: // v
 				return Math.PI / 2;
+			}
+
+		case QUADRIC_HYPERBOLOID_ONE_SHEET:
+			switch (index) {
+			case 0: // u
+			default:
+				return 2 * Math.PI;
+			case 1: // v
+				return Double.POSITIVE_INFINITY;
 			}
 
 		case QUADRIC_CONE:
@@ -1492,6 +1533,17 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			parameters[0] = Math.atan2(y, x);
 			double r = Math.sqrt(x * x + y * y);
 			parameters[1] = Math.atan2(z, r);
+			break;
+
+		case QUADRIC_HYPERBOLOID_ONE_SHEET: // eigenMatrix is dilated with half
+											// axes
+			parameters[0] = Math.atan2(y, x);
+			r = Math.sqrt(x * x + y * y);
+			if (Math.abs(z) >= r) {
+				parameters[1] = DrawConic3D.asinh(z); // TODO better projection
+			} else {
+				parameters[1] = Math.log((r + z) / (r - z)) / 2;
+			}
 			break;
 
 		case QUADRIC_CONE:
@@ -1708,6 +1760,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_SPHERE:
 		case QUADRIC_ELLIPSOID:
 			tmpCoords.setSub(getMidpoint3D(), p);
+			return tmpCoords;
+		case QUADRIC_HYPERBOLOID_ONE_SHEET:
+			p.projectLine(getMidpoint3D(), getEigenvec3D(2), tmpCoords);
+			tmpCoords.setSub(tmpCoords, p);
 			return tmpCoords;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:

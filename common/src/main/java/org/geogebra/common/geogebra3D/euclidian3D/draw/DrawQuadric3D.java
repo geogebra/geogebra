@@ -964,6 +964,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		// TODO remove this
 		if (quadric.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_ELLIPSOID
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CONE) {
 			return false;
