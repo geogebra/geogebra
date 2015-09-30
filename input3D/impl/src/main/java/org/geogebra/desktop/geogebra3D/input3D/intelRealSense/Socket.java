@@ -11,11 +11,10 @@ import intel.rssdk.PXCMHandData.IHand;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPoint4DF32;
+import intel.rssdk.PXCMPointF32;
 import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
-
-import java.util.Arrays;
 
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.euclidian3D.Input3D.OutOfField;
@@ -309,71 +308,6 @@ public class Socket {
 		
 	}
 	
-	private class DataMedian extends DataAverage{
-
-		public DataMedian(int samples){
-
-			super(samples);
-			
-			sortedArray = new float[samples];
-		}
-		
-		private float[] sortedArray;
-		
-		private float getMedian(float[] values){
-			
-			for (int i = 0 ; i < samples ; i++){
-				sortedArray[i] = values[i];
-			}
-			
-			Arrays.sort(sortedArray);
-			
-			return sortedArray[samples/2];
-			
-		}
-		
-		
-		@Override
-		public double getWorldX(){
-			return -getMedian(worldX) * SCREEN_REAL_DIM_FACTOR;
-		}
-		
-
-		@Override
-		public double getWorldY(){
-			return getMedian(worldY) * SCREEN_REAL_DIM_FACTOR;
-		}
-		
-
-		@Override
-		public double getWorldZ(){
-			return (getMedian(worldZ) - 0.2f) * SCREEN_REAL_DIM_FACTOR;
-		}
-		
-
-		@Override
-		public double getHandOrientationX(){
-			return - getMedian(handOrientationX);
-		}
-		
-
-		@Override
-		public double getHandOrientationY(){
-			return - getMedian(handOrientationY);
-		}
-		
-
-		@Override
-		public double getHandOrientationZ(){
-			return getMedian(handOrientationZ);
-		}
-		
-
-		@Override
-		public double getHandOrientationW(){
-			return getMedian(handOrientationW);
-		}
-	}
 	
 	
 	private Gestures gesture = Gestures.SPREAD;
@@ -586,6 +520,7 @@ public class Socket {
 		sts = handData.QueryHandData(PXCMHandData.AccessOrderType.ACCESS_ORDER_NEAR_TO_FAR, 0, hand);
 
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR) >= 0) {
+			PXCMPointF32 image = hand.QueryMassCenterImage();
 			PXCMPoint3DF32 world = hand.QueryMassCenterWorld();
 			PXCMPoint4DF32 palmOrientation = hand.QueryPalmOrientation();
 
