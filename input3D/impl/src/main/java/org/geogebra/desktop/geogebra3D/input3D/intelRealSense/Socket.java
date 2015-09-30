@@ -1,51 +1,42 @@
 package org.geogebra.desktop.geogebra3D.input3D.intelRealSense;
 
+import java.util.Arrays;
+
+import org.geogebra.common.main.App;
+
 import intel.rssdk.PXCMCapture;
 import intel.rssdk.PXCMCaptureManager;
 import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandConfiguration.AlertHandler;
-import intel.rssdk.PXCMHandData;
+import intel.rssdk.PXCMHandConfiguration.GestureHandler;
 import intel.rssdk.PXCMHandData.AlertType;
-import intel.rssdk.PXCMHandData.BodySideType;
-import intel.rssdk.PXCMHandData.IHand;
+import intel.rssdk.PXCMHandData.GestureData;
+import intel.rssdk.PXCMHandData;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPoint4DF32;
-import intel.rssdk.PXCMPointF32;
 import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
 
-import org.geogebra.common.euclidian3D.Input3D;
-import org.geogebra.common.euclidian3D.Input3D.OutOfField;
-import org.geogebra.common.util.debug.Log;
 
 
-/**
- * socket of realsense
- * 
- * @author mathieu
- *
- */
 public class Socket {
 
 
-	private static double SCREEN_REAL_DIM_FACTOR = 1 / 0.1;
-	private static double SIDE_OFFSET = 0.75;
-	private static float DEPTH_ZERO = 0.4f;
+	private static double SCREEN_REAL_DIM_FACTOR = 1/0.2;
 	private static int SAMPLES = 7;
-	
 
 	public enum Gestures {PINCH, SPREAD, FIST};
 
-	/** hand x position */
-	public double handX;
-	/** hand y position */
-	public double handY;
-	/** hand z position */
-	public double handZ;
+	/** bird x position */
+	public double birdX;
+	/** bird y position */
+	public double birdY;
+	/** bird z position */
+	public double birdZ;
 
-	public double handOrientationX, handOrientationY, handOrientationZ, handOrientationW;
+	public double birdOrientationX, birdOrientationY, birdOrientationZ, birdOrientationW;
 
 	public double leftEyeX, leftEyeY, leftEyeZ;
 	public double rightEyeX, rightEyeY, rightEyeZ;
@@ -56,7 +47,7 @@ public class Socket {
 	
 	public float hand2Dx, hand2Dy, hand2Dfactor;
 
-	/** says if it has got a message from realsense */
+	/** says if it has got a message from leo */
 	public boolean gotMessage = false;      
 
 	private PXCMSenseManager senseMgr;
@@ -70,10 +61,7 @@ public class Socket {
 		protected int samples;
 		protected int index;
 
-		protected BodySideType side;
 		
-		protected int leftSideCount, rightSideCount;
-
 		protected float[] worldX, worldY, worldZ;
 		
 		protected float[] handOrientationX, handOrientationY, handOrientationZ, handOrientationW;
@@ -93,55 +81,11 @@ public class Socket {
 			handOrientationZ = new float[samples];
 			handOrientationW = new float[samples];
 			
-			resetSide();
+			
 
 		}
 
-		protected void resetSide() {
-			leftSideCount = 0;
-			rightSideCount = 0;
-			side = BodySideType.BODY_SIDE_UNKNOWN;
-		}
-
-		protected void addSideDetected(BodySideType type) {
-			if (type == BodySideType.BODY_SIDE_RIGHT) {
-				rightSideCount++;
-				if (rightSideCount > 10000) {
-					rightSideCount /= 10;
-					leftSideCount /= 10;
-				}
-				updateSide();
-			} else if (type == BodySideType.BODY_SIDE_LEFT) {
-				leftSideCount++;
-				if (leftSideCount > 10000) {
-					rightSideCount /= 10;
-					leftSideCount /= 10;
-				}
-				updateSide();
-			}
-		}
-
-		private void updateSide() {
-			if (side == BodySideType.BODY_SIDE_UNKNOWN) {
-				// check if we can decide side
-				if (rightSideCount > leftSideCount) {
-					side = BodySideType.BODY_SIDE_RIGHT;
-				} else if (rightSideCount < leftSideCount) {
-					side = BodySideType.BODY_SIDE_LEFT;
-				}
-			} else {
-				// check if we should decide side
-				if (rightSideCount > 2 * leftSideCount) {
-					side = BodySideType.BODY_SIDE_RIGHT;
-				} else if (2 * rightSideCount < leftSideCount) {
-					side = BodySideType.BODY_SIDE_LEFT;
-				}
-
-			}
-
-		}
-
-		public abstract void addData(IHand hand,
+		public abstract void addData(//float imx, float imy, 
 				float wx, float wy, float wz, float ox, float oy, float oz, float ow);
 
 		public abstract double getWorldX();
@@ -157,10 +101,6 @@ public class Socket {
 		public abstract double getHandOrientationZ();
 
 		public abstract double getHandOrientationW();
-
-		public BodySideType getSide() {
-			return side;
-		}
 
 	}
 	
@@ -188,17 +128,12 @@ public class Socket {
 		}
 		
 		@Override
-		public void addData(IHand hand,
+		public void addData(//float imx, float imy, 
 				float wx, float wy, float wz,
 				float ox, float oy, float oz, float ow){
 			
 			
 			if (resetAllValues){
-
-				resetSide();
-				// addSideDetected(hand.QueryBodySide());
-				addSideDetected(BodySideType.BODY_SIDE_RIGHT);
-
 				for (int i = 0 ; i < samples ; i++){
 					// reset all values
 					worldX[i] = wx;
@@ -224,8 +159,6 @@ public class Socket {
 				return;
 			}
 			
-			// addSideDetected(hand.QueryBodySide());
-			addSideDetected(BodySideType.BODY_SIDE_RIGHT);
 
 			
 			worldXSum -= worldX[index];
@@ -277,7 +210,7 @@ public class Socket {
 
 		@Override
 		public double getWorldZ(){
-			return (worldZSum / samples - DEPTH_ZERO) * SCREEN_REAL_DIM_FACTOR;
+			return (worldZSum / samples - 0.2f) * SCREEN_REAL_DIM_FACTOR;
 		}
 		
 
@@ -310,14 +243,77 @@ public class Socket {
 		
 	}
 	
+	private class DataMedian extends DataAverage{
+
+		public DataMedian(int samples){
+
+			super(samples);
+			
+			sortedArray = new float[samples];
+		}
+		
+		private float[] sortedArray;
+		
+		private float getMedian(float[] values){
+			
+			for (int i = 0 ; i < samples ; i++){
+				sortedArray[i] = values[i];
+			}
+			
+			Arrays.sort(sortedArray);
+			
+			return sortedArray[samples/2];
+			
+		}
+		
+		
+		@Override
+		public double getWorldX(){
+			return -getMedian(worldX) * SCREEN_REAL_DIM_FACTOR;
+		}
+		
+
+		@Override
+		public double getWorldY(){
+			return getMedian(worldY) * SCREEN_REAL_DIM_FACTOR;
+		}
+		
+
+		@Override
+		public double getWorldZ(){
+			return (getMedian(worldZ) - 0.2f) * SCREEN_REAL_DIM_FACTOR;
+		}
+		
+
+		@Override
+		public double getHandOrientationX(){
+			return - getMedian(handOrientationX);
+		}
+		
+
+		@Override
+		public double getHandOrientationY(){
+			return - getMedian(handOrientationY);
+		}
+		
+
+		@Override
+		public double getHandOrientationZ(){
+			return getMedian(handOrientationZ);
+		}
+		
+
+		@Override
+		public double getHandOrientationW(){
+			return getMedian(handOrientationW);
+		}
+	}
 	
 	
 	private Gestures gesture = Gestures.SPREAD;
 	
 	private int handId = -1;
 	
-	private Input3D.OutOfField handOut;
-
 	public void setGesture(int id, String name){
 		
 		//App.debug(id+" : "+name);
@@ -365,40 +361,22 @@ public class Socket {
 	
 	private void setAlert(int id, AlertType type){
 		
-		// App.debug("alert hand #" + id + " : " + type);
+		//App.debug("alert hand #"+id+" : "+type);
 		
-		if (handOut != OutOfField.NO) { // no hand for now
+		if (handId == -1){ // no hand for now
 			if (type == AlertType.ALERT_HAND_INSIDE_BORDERS){
-				Log.debug("hand #" + id + " inside borders");
+				App.debug("hand #"+id+" inside borders");
 				handId = id;
-				handOut = OutOfField.NO;
 				resetAllValues = true;
-			} else if (handId == id) {
-				switch (type) {
-				case ALERT_HAND_OUT_OF_BOTTOM_BORDER:
-					handOut = OutOfField.BOTTOM;
-					break;
-				case ALERT_HAND_OUT_OF_TOP_BORDER:
-					handOut = OutOfField.TOP;
-					break;
-				case ALERT_HAND_OUT_OF_LEFT_BORDER:
-					handOut = OutOfField.LEFT;
-					break;
-				case ALERT_HAND_OUT_OF_RIGHT_BORDER:
-					handOut = OutOfField.RIGHT;
-					break;
-				case ALERT_HAND_TOO_CLOSE:
-					handOut = OutOfField.NEAR;
-					break;
-				case ALERT_HAND_TOO_FAR:
-					handOut = OutOfField.FAR;
-					break;
-				}
 			}
 		}else if (handId == id){ // new alert from tracked hand
 			if (type == AlertType.ALERT_HAND_OUT_OF_BORDERS){
-				Log.debug("hand #" + id + " out of borders");
-				handOut = OutOfField.YES;
+				App.debug("hand #"+id+" out of borders");
+				handId = -1;
+				/*
+				leftButton = false;
+				rightButton = false;
+				*/
 			}
 		}
 		
@@ -406,27 +384,21 @@ public class Socket {
 	}
 	
 
-	public Socket() throws Exception {
+	public Socket() {
 
-		Log.debug("Try to connect realsense...");
-		
+		App.debug("Try to connect realsense...");
+
 		// Create session
-		PXCMSession session = null;
-		try {
-			session = PXCMSession.CreateInstance();
-		} catch (Throwable e) {
-			throw new Exception(
-					"RealSense: Failed to start session instance creation, maybe unsupported platform?");
-		}
+		PXCMSession session = PXCMSession.CreateInstance();
 		if (session == null) {
-			throw new Exception(
-					"RealSense: Failed to create a session instance");
+			App.error("Failed to create a session instance\n");
+			return;
 		}
 
 		senseMgr = session.CreateSenseManager();
 		if (senseMgr == null) {
-			throw new Exception(
-					"RealSense: Failed to create a SenseManager instance");
+			App.error("Failed to create a SenseManager instance\n");
+			return;
 		}
 
 		PXCMCaptureManager captureMgr = senseMgr.QueryCaptureManager();
@@ -434,7 +406,8 @@ public class Socket {
 
 		sts = senseMgr.EnableHand(null);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0) {
-			throw new Exception("RealSense: Failed to enable HandAnalysis");
+			App.error("Failed to enable HandAnalysis\n");
+			return;
 		}
 
 		dataSampler = new DataAverage(SAMPLES);
@@ -444,32 +417,23 @@ public class Socket {
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)>=0) {
 			PXCMHandModule handModule = senseMgr.QueryHand(); 
 			PXCMHandConfiguration handConfig = handModule.CreateActiveConfiguration(); 
-
-			// handConfig.EnableAllGestures();
-
+			handConfig.EnableAllGestures();
 			handConfig.EnableAllAlerts();
-
-			// enables stabilizer and smoothing
-			// pxcmStatus status = handConfig.EnableStabilizer(true);
-			// App.debug("EnableStabilizer: " + status.isSuccessful());
-			// status = handConfig.SetSmoothingValue(1);
-			// App.debug("SetSmoothingValue to 1: " + status.isSuccessful());
 			
-			// GestureHandler handler = new GestureHandler() {
-			// @Override
-			// public void OnFiredGesture(GestureData data) {
-			// //App.debug(""+data.name+" -- "+data.handId);
-			// setGesture(data.handId, data.name);
-			// }
-			// };
-			// handConfig.SubscribeGesture(handler);
+			GestureHandler handler = new GestureHandler() {
+				@Override
+				public void OnFiredGesture(GestureData data) {
+					//App.debug(""+data.name+" -- "+data.handId);
+					setGesture(data.handId, data.name);
+				}
+			};
+			handConfig.SubscribeGesture(handler);
 			
 			AlertHandler alertHandler = new AlertHandler() {
 				
 				@Override
 				public void OnFiredAlert(intel.rssdk.PXCMHandData.AlertData data) {
-					// App.debug("alert : " + data.handId + ", "
-					// + data.label.name());
+					//App.debug("alert : "+data.handId+", "+data.label.name());
 					setAlert(data.handId, data.label);
 				}
 			};
@@ -480,15 +444,12 @@ public class Socket {
 			
 			handData = handModule.CreateOutput();
 			
-			handOut = OutOfField.YES;
+			
 			connected = true;
 		}
 
-		if (!connected) {
-			throw new Exception("RealSense: not connected");
-		}
+		App.debug("connected to RealSense: "+connected);
 		
-		Log.debug("RealSense: connected");
 		
 	}
 
@@ -497,7 +458,6 @@ public class Socket {
 
 
 	private boolean connected = false;
-
 
 
 
@@ -522,39 +482,64 @@ public class Socket {
 		sts = handData.QueryHandData(PXCMHandData.AccessOrderType.ACCESS_ORDER_NEAR_TO_FAR, 0, hand);
 
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR) >= 0) {
-			PXCMPointF32 image = hand.QueryMassCenterImage();
+//			PXCMPointF32 image = hand.QueryMassCenterImage();
 			PXCMPoint3DF32 world = hand.QueryMassCenterWorld();
 			PXCMPoint4DF32 palmOrientation = hand.QueryPalmOrientation();
 
+			/*
+			System.out.println("Palm Center : ");
+			System.out.print("   Image Position: (" + image.x + "," +image.y + ")");
+			System.out.println("   World Position: (" + world.x + "," + world.y + "," + world.z + ")");
+			*/
+		
+			/*
+			birdX = -world.x * SCREEN_REAL_DIM_FACTOR;
+			birdY = world.y * SCREEN_REAL_DIM_FACTOR;
+			birdZ = (world.z-0.3) * SCREEN_REAL_DIM_FACTOR;
+			*/
 			
-			dataSampler.addData(hand,
+			
+			
+			dataSampler.addData(
+					//image.x, image.y, 
 					world.x, world.y, world.z,
 					palmOrientation.x, palmOrientation.y, palmOrientation.z, palmOrientation.w);
 			
 			
-			handX = dataSampler.getWorldX();
-			handY = dataSampler.getWorldY();
-			handZ = dataSampler.getWorldZ();
+			/*
+			hand2Dx = dataAverage.getImageX();
+			hand2Dy = dataAverage.getImageY();
+			hand2Dfactor = getScaleFactor(dataAverage.getImageScale());
+			*/
 			
-
-			switch (dataSampler.getSide()) {
-			case BODY_SIDE_RIGHT:
-				handX -= SIDE_OFFSET;
+			birdX = dataSampler.getWorldX();
+			birdY = dataSampler.getWorldY();
+			birdZ = dataSampler.getWorldZ();
+			
+			
+			
+			birdOrientationX = dataSampler.getHandOrientationX();
+			birdOrientationY = dataSampler.getHandOrientationY();
+			birdOrientationZ = dataSampler.getHandOrientationZ();
+			birdOrientationW = dataSampler.getHandOrientationW();
+			
+			
+			/*
+			switch(gesture){
+			case PINCH:
+				smallButton = 1;
+				bigButton = 0;
 				break;
-			case BODY_SIDE_LEFT:
-				handX += SIDE_OFFSET;
+			case FIST:
+				smallButton = 0;
+				bigButton = 1;
 				break;
-			case BODY_SIDE_UNKNOWN:
 			default:
-				handX -= SIDE_OFFSET;
+				smallButton = 0;
+				bigButton = 0;
 				break;
 			}
-			
-			handOrientationX = dataSampler.getHandOrientationX();
-			handOrientationY = dataSampler.getHandOrientationY();
-			handOrientationZ = dataSampler.getHandOrientationZ();
-			handOrientationW = dataSampler.getHandOrientationW();
-			
+			*/
 
 			gotMessage = true;
 			
@@ -562,6 +547,16 @@ public class Socket {
 			gotMessage = false;
 		}
 
+		/*
+		// alerts
+		int nalerts = handData.QueryFiredAlertsNumber();
+		//System.out.println("# of alerts is " + nalerts);
+
+		// gestures
+		int ngestures = handData.QueryFiredGesturesNumber();
+		//System.out.println("# of gestures at frame is " + ngestures);
+		 
+		 */
 
 		senseMgr.ReleaseFrame();
 
@@ -578,24 +573,30 @@ public class Socket {
 	 * @return true if a hand is tracked
 	 */
 	public boolean hasTrackedHand() {
-		return handOut == OutOfField.NO;
-	}
-
-	/**
-	 * 
-	 * @return out of field type
-	 */
-	public OutOfField getOutOfField() {
-		return handOut;
+		return handId >= 0;
 	}
 
 
 
 	public void setLeftButtonPressed(boolean flag) {
 		leftButton = flag;	
+		App.debug("\nleftButton = "+leftButton);
 	}
 
 
+	
+	/*
+	private float getScaleFactor(float z){
+		App.debug(""+z);
+		// z should be between 0.2 and 0.6
+		// z = 0.5 >> far
+		// z = 0.3 >> near
+		
+		float z1 = (z - 0.3f)/0.2f;
+		
+		return 0.5f + z1 * 2.5f;
+	}
+	*/
 
 
 }
