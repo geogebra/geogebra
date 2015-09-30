@@ -313,7 +313,9 @@ public class ViewMenuApplicationD extends ViewMenuD {
 	 * @param visible
 	 */
 	public void updateCPView(boolean selected) {
-		cbConsprot.setSelected(selected);
+		if (cbConsprot != null) {
+			cbConsprot.setSelected(selected);
+		}
 	}
 
 }

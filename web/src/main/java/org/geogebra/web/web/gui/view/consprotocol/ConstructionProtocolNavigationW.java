@@ -48,13 +48,14 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	final private Image pauseIconHover = new Image(
 			GuiResourcesSimple.INSTANCE.icons_play_pause_circle_hover());
 
-	public ConstructionProtocolNavigationW(AppW app){
+	public ConstructionProtocolNavigationW(AppW app, int viewID) {
 		implPanel = new FlowPanel();
 		this.app = app;
 		
 		spDelay = new GSpinnerW();
 		
 		lbSteps = new Label();
+		this.viewID = viewID;
 		
 	}
 	
@@ -149,7 +150,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 
 			}
 		});
-		btOpenWindow.setVisible(showConsProtButton);
+		btOpenWindow.setVisible(isConsProtButtonVisible());
 		addPaddingPlayPanel(showConsProtButton);
 		btOpenWindow.addStyleName("navbar_btOpenWindow");
 		implPanel.add(btOpenWindow);
@@ -201,8 +202,8 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
     public void setConsProtButtonVisible(boolean flag) {
 		showConsProtButton = flag;	
 		if (btOpenWindow != null) {
-			btOpenWindow.setVisible(flag);
-			addPaddingPlayPanel(flag);
+			btOpenWindow.setVisible(isConsProtButtonVisible());
+			addPaddingPlayPanel(isConsProtButtonVisible());
 		}
     }
 

@@ -1594,9 +1594,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	protected ConstructionProtocolNavigation newConstructionProtocolNavigation() {
+	protected ConstructionProtocolNavigation newConstructionProtocolNavigation(
+			int id) {
 		ConstructionProtocolNavigationW cpn = new ConstructionProtocolNavigationW(
-				this.getApp());
+				this.getApp(), id);
 		if (constructionProtocolView != null) {
 			cpn.register(constructionProtocolView);
 		}

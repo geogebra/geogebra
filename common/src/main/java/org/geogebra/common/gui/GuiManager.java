@@ -480,7 +480,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		ConstructionProtocolNavigation constProtocolNavigation = constProtocolNavigationMap
 				.get(id);
 		if (constProtocolNavigation == null) {
-			constProtocolNavigation = newConstructionProtocolNavigation();
+			constProtocolNavigation = newConstructionProtocolNavigation(id);
 			constProtocolNavigationMap.put(id, constProtocolNavigation);
 		}
 
@@ -518,7 +518,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * 
 	 * @return new construction protocol navigation bar instance
 	 */
-	protected abstract ConstructionProtocolNavigation newConstructionProtocolNavigation();
+	protected abstract ConstructionProtocolNavigation newConstructionProtocolNavigation(
+			int viewID);
 
 	/**
 	 * Returns the default construction protocol navigation bar instance.

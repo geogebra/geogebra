@@ -3176,9 +3176,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 
-	protected ConstructionProtocolNavigation newConstructionProtocolNavigation() {
+	protected ConstructionProtocolNavigation newConstructionProtocolNavigation(
+			int viewID) {
 		ConstructionProtocolNavigationD cpn = new ConstructionProtocolNavigationD(
-				this.getApp());
+				this.getApp(), viewID);
 		if (constructionProtocolView != null) {
 			cpn.register(constructionProtocolView);
 		}

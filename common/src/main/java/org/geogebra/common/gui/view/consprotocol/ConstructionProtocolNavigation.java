@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.consprotocol;
 
 import org.geogebra.common.javax.swing.GPanel;
+import org.geogebra.common.main.App;
 
 /**
  * Navigation buttons for the construction protocol
@@ -25,6 +26,7 @@ public abstract class ConstructionProtocolNavigation{
 	public boolean isPlaying;
 
 	protected GPanel playPanel;
+	protected int viewID;
 
 	/**
 	 * Sets the visibility of the navigation bar.
@@ -52,7 +54,7 @@ public abstract class ConstructionProtocolNavigation{
 	 * @return whether button to show construction protocol is visible
 	 */
 	public boolean isConsProtButtonVisible() {
-		return showConsProtButton;
+		return showConsProtButton && viewID != App.VIEW_CONSTRUCTION_PROTOCOL;
 	}
 
 	/**

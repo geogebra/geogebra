@@ -72,15 +72,16 @@ public class ConstructionProtocolNavigationD extends
 	private JPanel implPanel;
 	private LocalizationD loc;
 	
+
 	/**
 	 * Creates a new navigation bar to step through the construction protocol.
 	 * @param app application
 	 */
-	public ConstructionProtocolNavigationD(AppD app) {
+	public ConstructionProtocolNavigationD(AppD app, int viewID) {
 		implPanel = new JPanel();
 		this.app = app;
 		this.loc = app.getLocalization();
-
+		this.viewID = viewID;
 		SpinnerModel model =
 	        new SpinnerNumberModel(2, //initial value
 	                               0.25, //min
@@ -118,7 +119,7 @@ public class ConstructionProtocolNavigationD extends
 	public void setConsProtButtonVisible(boolean flag) {
 		showConsProtButton = flag;	
 		if (btOpenWindow != null) {
-			btOpenWindow.setVisible(flag);
+			btOpenWindow.setVisible(isConsProtButtonVisible());
 		}
 	}
 	
@@ -198,8 +199,7 @@ public class ConstructionProtocolNavigationD extends
 				((GeoGebraMenuBar)(((GuiManagerD) app.getGuiManager()).getMenuBar())).updateCPView(true);
 			}				
 		});
-		
-		btOpenWindow.setVisible(showConsProtButton);
+		btOpenWindow.setVisible(isConsProtButtonVisible());
 		
 		// add panels together to center
 		implPanel.setLayout(new BoxLayout(this.implPanel, BoxLayout.LINE_AXIS));		
