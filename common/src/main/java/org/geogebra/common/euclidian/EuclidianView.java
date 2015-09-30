@@ -389,12 +389,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Sets the coord system to default
+	 * 
+	 * @param repaint
 	 */
-	public void setStandardCoordSystem() {
-		setStandardCoordSystem(true);
-	}
-
-	private void setStandardCoordSystem(boolean repaint) {
+	protected void setStandardCoordSystem(boolean repaint) {
 		setCoordSystem(XZERO_STANDARD, YZERO_STANDARD, SCALE_STANDARD,
 				SCALE_STANDARD, repaint);
 	}
@@ -4470,7 +4468,7 @@ sb.toString(), getFontAxes(),
 	 * @param storeUndo
 	 *            true to store undo infor
 	 */
-	public final void setStandardView(boolean storeUndo) {
+	public void setStandardView(boolean storeUndo) {
 		if (!isZoomable()) {
 			return;
 		}
