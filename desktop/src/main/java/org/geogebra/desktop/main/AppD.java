@@ -1996,8 +1996,12 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public void setGUIFontSize(int size) {
-		// set tool icon size between 32 and 64
-		setMaxIconSize(Math.max(32, size * 2));
+
+		// TRAC-4770
+		if (size != -1) {
+			// set tool icon size between 32 and 64
+			setMaxIconSize(Math.max(32, size * 2));
+		}
 
 		super.setGUIFontSize(size);
 	}
