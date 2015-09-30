@@ -76,7 +76,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		 *            latitude index
 		 * @return true if we draw top part at vi (normals and vertices)
 		 */
-		public boolean drawTopNV(int vi);
+		public boolean drawTop(int vi);
 
 		/**
 		 * 
@@ -84,23 +84,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		 *            latitude index
 		 * @return true if we draw bottom part at vi (normals and vertices)
 		 */
-		public boolean drawBottomNV(int vi);
+		public boolean drawBottom(int vi);
 
-		/**
-		 * 
-		 * @param vi
-		 *            latitude index
-		 * @return true if we draw top part at vi (indices)
-		 */
-		public boolean drawTopIndices(int vi);
-
-		/**
-		 * 
-		 * @param vi
-		 *            latitude index
-		 * @return true if we draw bottom part at vi (indices)
-		 */
-		public boolean drawBottomIndices(int vi);
 	}
 
 	private class DrawSphere implements DrawEllipticSurface {
@@ -146,21 +131,14 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			return true;
 		}
 
-		public boolean drawTopNV(int vi) {
+		public boolean drawTop(int vi) {
 			return vi < latitudeMaxTop;
 		}
 
-		public boolean drawBottomNV(int vi) {
+		public boolean drawBottom(int vi) {
 			return vi < latitudeMaxBottom;
 		}
 
-		public boolean drawTopIndices(int vi) {
-			return drawTopNV(vi);
-		}
-
-		public boolean drawBottomIndices(int vi) {
-			return drawBottomNV(vi);
-		}
 
 	}
 
@@ -248,21 +226,14 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			return true;
 		}
 
-		public boolean drawTopNV(int vi) {
+		public boolean drawTop(int vi) {
 			return vi < latitudeMaxTop;
 		}
 
-		public boolean drawBottomNV(int vi) {
+		public boolean drawBottom(int vi) {
 			return vi < latitudeMaxBottom;
 		}
 
-		public boolean drawTopIndices(int vi) {
-			return drawTopNV(vi);
-		}
-
-		public boolean drawBottomIndices(int vi) {
-			return drawBottomNV(vi);
-		}
 
 	}
 
@@ -398,21 +369,14 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			return false;
 		}
 
-		public boolean drawTopNV(int vi) {
+		public boolean drawTop(int vi) {
 			return vi >= latitudeMaxTop;
 		}
 
-		public boolean drawBottomNV(int vi) {
+		public boolean drawBottom(int vi) {
 			return vi >= latitudeMaxBottom;
 		}
 
-		public boolean drawTopIndices(int vi) {
-			return vi >= latitudeMaxTop;
-		}
-
-		public boolean drawBottomIndices(int vi) {
-			return vi >= latitudeMaxBottom;
-		}
 
 	}
 
@@ -606,8 +570,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			// until next jump
 			while (vi < next) {
 
-				drawTop = dse.drawTopNV(vi);
-				drawBottom = dse.drawBottomNV(vi);
+				drawTop = dse.drawTop(vi);
+				drawBottom = dse.drawBottom(vi);
 
 				dse.computeRadiusAndZ(vi, latitude, rz);
 				for (int ui = 0; ui < longitudeLength; ui += shift) {
@@ -780,8 +744,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				lastDrawTop = drawTop;
 				lastDrawBottom = drawBottom;
-				drawTop = dse.drawTopIndices(vi);
-				drawBottom = dse.drawBottomIndices(vi);
+				drawTop = dse.drawTop(vi);
+				drawBottom = dse.drawBottom(vi);
 
 				lastBoth = both;
 				both = 0;
