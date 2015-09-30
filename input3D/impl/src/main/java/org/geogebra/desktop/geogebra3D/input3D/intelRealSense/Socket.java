@@ -196,7 +196,8 @@ public class Socket {
 			if (resetAllValues){
 
 				resetSide();
-				addSideDetected(hand.QueryBodySide());
+				// addSideDetected(hand.QueryBodySide());
+				addSideDetected(BodySideType.BODY_SIDE_RIGHT);
 
 				for (int i = 0 ; i < samples ; i++){
 					// reset all values
@@ -223,7 +224,8 @@ public class Socket {
 				return;
 			}
 			
-			addSideDetected(hand.QueryBodySide());
+			// addSideDetected(hand.QueryBodySide());
+			addSideDetected(BodySideType.BODY_SIDE_RIGHT);
 
 			
 			worldXSum -= worldX[index];
