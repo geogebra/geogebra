@@ -595,7 +595,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		// set values
 		for (int i = 0; i < getPoints().length; i++) {
-			getPoint(i).set(poly.getPoint(i).toGeoElement());
+			getPointND(i).set(poly.getPointND(i), false);
 		}
 		
 

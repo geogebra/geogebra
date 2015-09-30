@@ -359,4 +359,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public void setMode(int mode);
 
 	public boolean movePoint(Coords rwTransVec, Coords endPosition);
+
+	public void set(GeoElementND pointND, boolean macroFeedback);
 }

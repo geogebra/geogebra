@@ -263,6 +263,10 @@ SymbolicParametersBotanaAlgo {
 
 	@Override
 	public void set(GeoElementND geo) {
+		set(geo, true);
+	}
+
+	public void set(GeoElementND geo, boolean macroFeedback) {
 		this.isDefined = geo.isDefined();
 		if (geo.isGeoPoint()) {
 			GeoPoint p = (GeoPoint) geo;
@@ -271,7 +275,7 @@ SymbolicParametersBotanaAlgo {
 				pathParameter.set(p.pathParameter);
 			}
 			animationValue = p.animationValue;
-			setCoords(p.x, p.y, p.z);
+			setCoords(p.x, p.y, p.z, macroFeedback);
 			setMode(p.toStringMode); // complex etc
 		} else if (geo.isGeoVector()) {
 			GeoVector v = (GeoVector) geo;
@@ -281,8 +285,8 @@ SymbolicParametersBotanaAlgo {
 			GeoNumeric v = (GeoNumeric) geo;
 			setCoords(v.getDouble(), 0, 1d);
 			setMode(Kernel.COORD_COMPLEX);
-		} else{
-			App.error(geo.getGeoClassType()+" invalid as point");
+		} else {
+			App.error(geo.getGeoClassType() + " invalid as point");
 			throw new IllegalArgumentException();
 		}
 	}
@@ -715,11 +719,16 @@ SymbolicParametersBotanaAlgo {
 		this.z = z;
 	}
 
+	@Override
+	final public void setCoords(double x, double y, double z) {
+		setCoords(x, y, z, true);
+	}
 	/**
 	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
 	 */
-	@Override
-	final public void setCoords(double x, double y, double z) {
+
+	final public void setCoords(double x, double y, double z,
+			boolean macroFeedback) {
 		// set coordinates
 		this.x = x;
 		this.y = y;
@@ -742,7 +751,7 @@ SymbolicParametersBotanaAlgo {
 		// region
 		else if (hasRegion()) {
 			region.pointChangedForRegion(this);
-		} else if (getParentAlgorithm() != null) {
+		} else if (getParentAlgorithm() != null && macroFeedback) {
 			if (getParentAlgorithm() instanceof AlgoMacro) {
 				((AlgoMacro) getParentAlgorithm()).setCoords(this, x, y, z);
 			}

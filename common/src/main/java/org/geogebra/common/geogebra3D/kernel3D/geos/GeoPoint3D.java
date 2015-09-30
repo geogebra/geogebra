@@ -831,7 +831,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	@Override
 	public void set(GeoElementND geo) {
+		set(geo, true);
+	}
 
+	public void set(GeoElementND geo, boolean macroFeedback) {
 		if (geo.isGeoPoint()) {
 			GeoPointND p = (GeoPointND) geo;
 			if (p.getPathParameter() != null) {
