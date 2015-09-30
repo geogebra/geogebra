@@ -22,7 +22,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	private int latitudeMaxTop;
 	private int latitudeMaxBottom;
 	
-	private interface DrawSphereEllipsoid {
+	private interface DrawEllipticSurface {
 		public void drawNCr(Coords normal);
 
 		public void drawNCrm(Coords normal);
@@ -103,7 +103,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		public boolean drawBottomIndices(int vi);
 	}
 
-	private class DrawSphere implements DrawSphereEllipsoid {
+	private class DrawSphere implements DrawEllipticSurface {
 
 		private PlotterSurface surface;
 		private Coords center;
@@ -164,7 +164,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private class DrawEllipsoid implements DrawSphereEllipsoid {
+	private class DrawEllipsoid implements DrawEllipticSurface {
 
 		private PlotterSurface surface;
 		private Coords center;
@@ -266,7 +266,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private class DrawHyperboloidOneSheet implements DrawSphereEllipsoid {
+	private class DrawHyperboloidOneSheet implements DrawEllipticSurface {
 
 		private PlotterSurface surface;
 		private Coords center;
@@ -433,10 +433,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 		drawSphere.set(this, center, radius);
 
-		drawSphereEllipsoidNV(drawSphere, longitude, longitudeStart,
+		drawNV(drawSphere, longitude, longitudeStart,
 				longitudeLength);
 
-		setSphereEllipsoidIndices(longitude, longitudeLength, drawSphere);
+		setIndices(longitude, longitudeLength, drawSphere);
 	}
 
 	private void startGeometry() {
@@ -494,10 +494,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private void setLatitudeMinMaxForHyperboloid(Coords center, double radius,
-			int longitude, double min, double max, DrawHyperboloidOneSheet dhos) {
+	private void setLatitudeMinMaxForHyperboloid(double min, double max,
+			DrawHyperboloidOneSheet dhos) {
 
-		latitude = 64;// longitude / 4;
+		latitude = 32; // 32 seems to be ok in any case
 
 		if (min < 0) {
 			if (max > 0) {
@@ -549,7 +549,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	private DrawSphere drawSphere;
 
 
-	private void drawSphereEllipsoidNV(DrawSphereEllipsoid dse, int longitude,
+	private void drawNV(DrawEllipticSurface dse, int longitude,
 			double longitudeStart, int longitudeLength) {
 
 		// start drawing
@@ -728,7 +728,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private void setSphereEllipsoidIndices(int longitude, int longitudeLength, DrawSphereEllipsoid dse) {
+	private void setIndices(int longitude, int longitudeLength, DrawEllipticSurface dse) {
 
 
 		// ///////////////
@@ -1129,9 +1129,9 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 		drawEllipsoid.set(this, center, ev0, ev1, ev2, r0, r1, r2);
 
-		drawSphereEllipsoidNV(drawEllipsoid, longitude, 0, longitude);
+		drawNV(drawEllipsoid, longitude, 0, longitude);
 
-		setSphereEllipsoidIndices(longitude, longitude, drawEllipsoid);
+		setIndices(longitude, longitude, drawEllipsoid);
 	}
 
 	private DrawHyperboloidOneSheet drawHyperboloidOneSheet;
@@ -1149,13 +1149,11 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 		drawHyperboloidOneSheet.set(this, center, ev0, ev1, ev2, r0, r1, r2);
 
-		double r = Math.max(r0, Math.max(r1, r2));
-		setLatitudeMinMaxForHyperboloid(center, r, longitude, min, max,
-				drawHyperboloidOneSheet);
+		setLatitudeMinMaxForHyperboloid(min, max, drawHyperboloidOneSheet);
 
-		drawSphereEllipsoidNV(drawHyperboloidOneSheet, longitude, 0, longitude);
+		drawNV(drawHyperboloidOneSheet, longitude, 0, longitude);
 
-		setSphereEllipsoidIndices(longitude, longitude, drawHyperboloidOneSheet);
+		setIndices(longitude, longitude, drawHyperboloidOneSheet);
 	}
 
 	private int arrayIndex = 0;
