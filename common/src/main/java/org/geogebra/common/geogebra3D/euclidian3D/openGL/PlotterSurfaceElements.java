@@ -74,17 +74,33 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		 * 
 		 * @param vi
 		 *            latitude index
-		 * @return true if we draw top part at vi
+		 * @return true if we draw top part at vi (normals and vertices)
 		 */
-		public boolean drawTop(int vi);
+		public boolean drawTopNV(int vi);
 
 		/**
 		 * 
 		 * @param vi
 		 *            latitude index
-		 * @return true if we draw bottom part at vi
+		 * @return true if we draw bottom part at vi (normals and vertices)
 		 */
-		public boolean drawBottom(int vi);
+		public boolean drawBottomNV(int vi);
+
+		/**
+		 * 
+		 * @param vi
+		 *            latitude index
+		 * @return true if we draw top part at vi (indices)
+		 */
+		public boolean drawTopIndices(int vi);
+
+		/**
+		 * 
+		 * @param vi
+		 *            latitude index
+		 * @return true if we draw bottom part at vi (indices)
+		 */
+		public boolean drawBottomIndices(int vi);
 	}
 
 	private class DrawSphere implements DrawSphereEllipsoid {
@@ -130,13 +146,22 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			return true;
 		}
 
-		public boolean drawTop(int vi) {
+		public boolean drawTopNV(int vi) {
 			return vi < latitudeMaxTop;
 		}
 
-		public boolean drawBottom(int vi) {
+		public boolean drawBottomNV(int vi) {
 			return vi < latitudeMaxBottom;
 		}
+
+		public boolean drawTopIndices(int vi) {
+			return drawTopNV(vi);
+		}
+
+		public boolean drawBottomIndices(int vi) {
+			return drawBottomNV(vi);
+		}
+
 	}
 
 	private class DrawEllipsoid implements DrawSphereEllipsoid {
@@ -223,12 +248,20 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			return true;
 		}
 
-		public boolean drawTop(int vi) {
+		public boolean drawTopNV(int vi) {
 			return vi < latitudeMaxTop;
 		}
 
-		public boolean drawBottom(int vi) {
+		public boolean drawBottomNV(int vi) {
 			return vi < latitudeMaxBottom;
+		}
+
+		public boolean drawTopIndices(int vi) {
+			return drawTopNV(vi);
+		}
+
+		public boolean drawBottomIndices(int vi) {
+			return drawBottomNV(vi);
 		}
 
 	}
@@ -340,6 +373,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			// return 0;
 			// }
 			// longitudeJumps = longitudeLength;
+			// App.debug(longitudeLength + "," + latitudeLength + "," + ret);
 			// return ret;
 			return 0;
 		}
@@ -364,12 +398,20 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			return false;
 		}
 
-		public boolean drawTop(int vi) {
-			return vi < latitudeMaxTop;
+		public boolean drawTopNV(int vi) {
+			return vi >= latitudeMaxTop;
 		}
 
-		public boolean drawBottom(int vi) {
-			return vi < latitudeMaxBottom;
+		public boolean drawBottomNV(int vi) {
+			return vi >= latitudeMaxBottom;
+		}
+
+		public boolean drawTopIndices(int vi) {
+			return vi >= latitudeMaxTop;
+		}
+
+		public boolean drawBottomIndices(int vi) {
+			return vi >= latitudeMaxBottom;
 		}
 
 	}
@@ -455,36 +497,50 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	private void setLatitudeMinMaxForHyperboloid(Coords center, double radius,
 			int longitude, double min, double max, DrawHyperboloidOneSheet dhos) {
 
-		latitude = longitude / 4;
+		latitude = 64;// longitude / 4;
 
 		if (min < 0) {
 			if (max > 0) {
-				latitudeMaxTop = latitude; // ends on equator
-				latitudeMaxBottom = latitude; // ends on equator
+				if (-min > max) {// more bottom than top
+					latitudeMaxTop = (int) (latitude * (1 - max / (-min)));
+					if (latitudeMaxTop == 1) {
+						latitudeMaxTop = 2; // ensure at least a strip is drawn
+					}
+					latitudeMaxBottom = 0;
+				} else { // more top than bottom
+					latitudeMaxTop = 0;
+					latitudeMaxBottom = (int) (latitude * (1 - (-min) / max));
+					if (latitudeMaxBottom == 1) {
+						latitudeMaxBottom = 2; // ensure at least a strip is
+												// drawn
+					}
+				}
+				// latitudeMaxTop = 0; // ends on equator
+				// latitudeMaxBottom = latitude / 2; // ends on equator
 				latitudeMax = latitude;
 				latitudeMin = 0;
 				// dhos.setMinMax(0, Math.min(-min, max));
 				dhos.setMinMax(0, Math.max(-min, max));
 			} else {
 				// only bottom
-				latitudeMaxTop = 0;
-				latitudeMaxBottom = latitude;
+				latitudeMaxTop = latitude;
+				latitudeMaxBottom = 0;
 				latitudeMax = latitude;
 				latitudeMin = 0;
 				dhos.setMinMax(-max, -min);
 			}
 		} else {
 			// only top
-			latitudeMaxTop = latitude;
-			latitudeMaxBottom = 0;
+			latitudeMaxTop = 0;
+			latitudeMaxBottom = latitude;
 			latitudeMax = latitude;
 			latitudeMin = 0;
 			dhos.setMinMax(min, max);
 		}
 
 		// App.debug("min=" + min + ", max=" + max + "," + latitudeMin + ","
-		// + latitudeMax + "," + latitudeMaxBottom
-		// + "," + latitudeMaxTop + "," + latitude);
+		// + latitudeMax + "," + latitudeMaxBottom + "," + latitudeMaxTop
+		// + "," + latitude);
 
 	}
 
@@ -550,8 +606,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			// until next jump
 			while (vi < next) {
 
-				drawTop = dse.drawTop(vi);
-				drawBottom = dse.drawBottom(vi);
+				drawTop = dse.drawTopNV(vi);
+				drawBottom = dse.drawBottomNV(vi);
 
 				dse.computeRadiusAndZ(vi, latitude, rz);
 				for (int ui = 0; ui < longitudeLength; ui += shift) {
@@ -690,6 +746,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		// both = 1 if only drawing up or down, both = 2 if drawing both
 		boolean drawTop = true;
 		boolean drawBottom = true;
+		boolean lastDrawTop = true;
+		boolean lastDrawBottom = true;
 		short lastBoth = 1;
 		short both = 2;
 		int vi = latitudeMin + 1;
@@ -697,7 +755,11 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			both = 1; // we use the same vertices
 		} else {
 			vi++; // we start after equator
-			if (latitudeMaxBottom <= 0 || latitudeMaxTop <= 0) {
+			if (latitudeMaxTop > 0) {
+				drawTop = false;
+				both = 1;
+			} else if (latitudeMaxBottom > 0) {
+				drawBottom = false;
 				both = 1;
 			}
 		}
@@ -716,8 +778,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			// until next jump
 			while (vi < next) {
 
-				drawTop = dse.drawTop(vi);
-				drawBottom = dse.drawBottom(vi);
+				lastDrawTop = drawTop;
+				lastDrawBottom = drawBottom;
+				drawTop = dse.drawTopIndices(vi);
+				drawBottom = dse.drawBottomIndices(vi);
 
 				lastBoth = both;
 				both = 0;
@@ -734,7 +798,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				lastLength = currentLength;
 				currentStartIndex += lastLength * lastBoth;
 
-				if (drawTop) {// top triangles
+				if (lastDrawTop && drawTop) {// top triangles
 					short currentIndex = currentStartIndex;
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
@@ -783,7 +847,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					currentStartIndex += 1;
 				}
 
-				if (drawBottom) {// bottom triangles
+				if (lastDrawBottom && drawBottom) {// bottom triangles
 					short currentIndex = currentStartIndex;
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
@@ -842,7 +906,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				currentStartIndex += lastLength * lastBoth;
 				currentLength /= 2;
 
-				if (drawTop) {// top triangles
+				if (lastDrawTop && drawTop) {// top triangles
 					short currentIndex = currentStartIndex;
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
@@ -903,7 +967,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 				}
 
-				if (drawBottom) {// bottom triangles
+				if (lastDrawBottom && drawBottom) {// bottom triangles
 					short currentIndex = currentStartIndex;
 					short lastIndex;
 					for (lastIndex = lastStartIndex; lastIndex < currentStartIndex
