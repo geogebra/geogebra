@@ -1492,11 +1492,11 @@ GuiResourcesSimple.INSTANCE
 		}
 	}
 
-	public void startEditing() {
+	public boolean startEditing(boolean substituteNumbers) {
 		// buttonPanel.setVisible(true);
 
 		if (isThisEdited()) {
-			return;
+			return true;
 		}
 
 		thisIsEdited = true;
@@ -1517,14 +1517,15 @@ GuiResourcesSimple.INSTANCE
 				}
 			});
 		} else {
-			if (c != null) {
-				renderLatex(geo.getLaTeXAlgebraDescriptionWithFallback(true,
-						StringTemplate.latexTemplateMQ, true),
-						c.getCanvasElement(), true);
-			} else if (!LaTeX) {
-				renderLatex(geo.getLaTeXAlgebraDescriptionWithFallback(true,
-						StringTemplate.latexTemplateMQ, true), seNoLatex, true);
+			Element old = LaTeX ? (c != null ? c.getCanvasElement()
+					: seMayLatex) : seNoLatex;
+			String text = geo.getLaTeXAlgebraDescriptionWithFallback(
+					substituteNumbers, StringTemplate.latexTemplateMQ, true);
+			if (text == null) {
+				return false;
 			}
+			renderLatex(text, old, true);
+
 			DrawEquationWeb.editEquationMathQuillGGB(this, seMayLatex, false);
 
 			app.getGuiManager().setOnScreenKeyboardTextField(this);
@@ -1546,6 +1547,7 @@ GuiResourcesSimple.INSTANCE
 
 		buttonPanel.setVisible(true);
 		maybeSetPButtonVisibility(true);
+		return true;
 	}
 
 	private static String stopCommon(String newValue0) {
@@ -2344,7 +2346,7 @@ GuiResourcesSimple.INSTANCE
 	@Override
 	public void ensureEditing() {
 		if (!isThisEdited()) {
-			startEditing();
+			startEditing(true);
 		}
 	}
 

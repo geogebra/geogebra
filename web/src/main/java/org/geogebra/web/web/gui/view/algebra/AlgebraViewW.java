@@ -1547,10 +1547,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		// open Object Properties for eg GeoImages
 		if (!geo.isAlgebraViewEditable()) {
-			// FIXMEWEB ArrayList<GeoElement> geos = new
-			// ArrayList<GeoElement>();
-			// FIXMEWEB geos.add(geo);
-			// FIXMEWEB app.getDialogManager().showPropertiesDialog(geos);
+			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+			geos.add(geo);
+			app.getDialogManager().showPropertiesDialog(geos);
 			return;
 		}
 
@@ -1560,7 +1559,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				// View closed
 			{
 				if (geo.isRedefineable()) {
-					app.getDialogManager().showRedefineDialog(geo, true);
+					redefine(geo);
 				}
 				return;
 			}
@@ -1571,7 +1570,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 					return;
 				} else if (geo.isRedefineable()
 						&& !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
-					app.getDialogManager().showRedefineDialog(geo, true);
+					redefine(geo);
 					return;
 				} else if (!(geo.getParentAlgorithm() instanceof AlgoCurveCartesian)) {
 					return;
@@ -1586,9 +1585,28 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			// FIXMEWEB select and show node
 			editing = true;
 			setAnimationEnabled(false);
-			if (node instanceof RadioTreeItem)
-				RadioTreeItem.as(node).startEditing();
+			if (node instanceof RadioTreeItem) {
+				RadioTreeItem.as(node).startEditing(true);
+			}
 		}
+	}
+
+	private void redefine(GeoElement geo) {
+		TreeItem node = nodeTable.get(geo);
+
+		if (node != null) {
+			cancelEditing();
+			// FIXMEWEB select and show node
+			editing = true;
+			setAnimationEnabled(false);
+			if (node instanceof RadioTreeItem) {
+				if (!RadioTreeItem.as(node).startEditing(false)) {
+					cancelEditing();
+					app.getDialogManager().showRedefineDialog(geo, true);
+				}
+			}
+		}
+
 	}
 
 	public void clearSelection() {

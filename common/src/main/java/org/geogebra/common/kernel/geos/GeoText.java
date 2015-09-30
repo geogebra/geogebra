@@ -373,13 +373,15 @@ public class GeoText extends GeoElement implements Locateable,
 		StringType printForm = tpl1.getStringType();
 
 		sbToString.setLength(0);
-		if (printForm.equals(StringType.LATEX))
+		if (printForm.equals(StringType.LATEX)
+				&& tpl1 != StringTemplate.latexTemplateMQ)
 			sbToString.append("\\text{``");
 		else
 			sbToString.append('\"');
 		if (str != null)
 			sbToString.append(str);
-		if (printForm.equals(StringType.LATEX))
+		if (printForm.equals(StringType.LATEX)
+				&& tpl1 != StringTemplate.latexTemplateMQ)
 			sbToString.append("''}");
 		else
 			sbToString.append('\"');

@@ -4930,6 +4930,20 @@ public abstract class GeoElement extends ConstructionElement implements
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean fallback) {
 		String ret = null;
+		if (!substituteNumbers) {
+			ret = getCommandDescription(tpl);
+		}
+		if (ret != null && ret.length() > 0) {
+			final char delimiter = getLabelDelimiter();
+			if (ret.indexOf(delimiter) < 0) {
+				ret = getAssignmentLHS(StringTemplate.editTemplate)
+						+ (delimiter == '=' ? " =" : delimiter) + " " + ret;
+			}
+			if (ret.indexOf('"') > -1) {
+				return null;
+			}
+			return ret;
+		}
 		if (!isDefined() || !isGeoText()) {
 			ret = getLaTeXAlgebraDescription(substituteNumbers, tpl);
 		}
