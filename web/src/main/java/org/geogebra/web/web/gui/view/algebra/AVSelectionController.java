@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import java.util.Iterator;
+import java.util.TreeSet;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.StringTemplate;
@@ -54,20 +55,40 @@ public class AVSelectionController {
 		case LAYER:
 			break;
 		case ORDER:
-			continuousOrder(geo);
+			continuous(geo,
+					app.getKernel().getConstruction()
+							.getGeoSetConstructionOrder(),
+					geo.getConstructionIndex() < getLastSelectedGeo()
+							.getConstructionIndex());
 			break;
 		case TYPE:
+			continuous(geo,
+					app.getKernel().getConstruction().getGeoSetLabelOrder(),
+					geo.getLabel(StringTemplate.defaultTemplate)
+							.compareTo(getLastSelectedGeo().getLabel(
+									StringTemplate.defaultTemplate)) < 0);
 			break;
 		case VIEW:
 			break;
 		case DEPENDENCY:
+
 		default:
 			continuousDependent(geo);
-			break;
-
 		}
+		setLastMode(SelectMode.Continuous);
 	}
 
+	private void continuous(GeoElement geo0, TreeSet<GeoElement> geoSet,
+			boolean direction) {
+		ensureClearLastSelection(geo0);
+
+		GeoElement geoFrom = direction ? geo0 : getLastSelectedGeo();
+		GeoElement geoTo = direction ? getLastSelectedGeo() : geo0;
+
+		for (GeoElement geo : geoSet.subSet(geoFrom, true, geoTo, true)) {
+			selection.toggleSelectedGeo(geo);
+		}
+	}
 	private void continuousDependent(GeoElement geo) {
 		boolean nowSelecting = true;
 		boolean selecting = false;
@@ -120,60 +141,31 @@ public class AVSelectionController {
 	}
 
 	private void ensureClearLastSelection(GeoElement geo) {
-		if (lastMode != SelectMode.Continuous) {
-			selection.clearSelectedGeos(true);
-			selection.addSelectedGeo(getLastSelectedGeo());
-			selection.addSelectedGeo(geo);
+		if (lastMode != SelectMode.Continuous || lastMode != SelectMode.None) {
+			selection.clearSelectedGeos();
 		}
 
 	}
 
-	private void continuousOrder(GeoElement geo) {
-		boolean nowSelecting = true;
-		boolean selecting = false;
-		// boolean aux = geo.isAuxiliaryObject();
-		// boolean ind = geo.isIndependent();
-		//
-		// boolean aux2 = getLastSelectedGeo().isAuxiliaryObject();
-		// boolean ind2 = getLastSelectedGeo().isIndependent();
-		ensureClearLastSelection(geo);
-		if (true) {
-			Iterator<GeoElement> it = app.getKernel().getConstruction()
-					.getGeoSetConstructionOrder().iterator();
-			boolean direction = geo
-					.getConstructionIndex() < getLastSelectedGeo()
-							.getConstructionIndex();
+	// private void continuousOrder(GeoElement geo) {
+	// ensureClearLastSelection(geo);
+	//
+	// boolean direction = geo.getConstructionIndex() < getLastSelectedGeo()
+	// .getConstructionIndex();
+	//
+	// GeoElement geoFrom = direction ? geo : getLastSelectedGeo();
+	// GeoElement geoTo = direction ? getLastSelectedGeo() : geo;
+	//
+	// SortedSet<GeoElement> geos = app.getKernel().getConstruction()
+	// .getGeoSetConstructionOrder()
+	// .subSet(geoFrom, true, geoTo, true);
+	//
+	// for (GeoElement geo1 : geos) {
+	// selection.toggleSelectedGeo(geo1);
+	// }
+	// }
 
-			while (it.hasNext()) {
-				GeoElement geo2 = it.next();
-				if (true) {
 
-					if (direction && geo2.equals(getLastSelectedGeo()))
-						selecting = !selecting;
-					if (!direction && geo2.equals(geo))
-						selecting = !selecting;
-
-					if (selecting) {
-						selection.toggleSelectedGeo(geo2);
-						nowSelecting = selection.getSelectedGeos()
-								.contains(geo2);
-					}
-					if (!direction && geo2.equals(getLastSelectedGeo()))
-						selecting = !selecting;
-					if (direction && geo2.equals(geo))
-						selecting = !selecting;
-				}
-			}
-		}
-
-		if (nowSelecting) {
-			setLastSelectedGeo(geo);
-		} else {
-			selection.removeSelectedGeo(getLastSelectedGeo());
-			setLastSelectedGeo(null);
-		}
-
-	}
 
 	/**
 	 * Selecting the GeoElement

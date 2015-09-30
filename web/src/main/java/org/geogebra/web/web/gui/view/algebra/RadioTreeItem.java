@@ -1104,10 +1104,10 @@ GuiResourcesSimple.INSTANCE
 	}
 
 	private boolean isAnotherMinMaxOpen() {
-		return (minMaxPanel != null && openedMinMaxPanel != minMaxPanel);
+		return (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel);
 	}
 
-	private boolean isClicketOutMinMax(ClickEvent evt) {
+	private boolean isClicketOutMinMax(MouseEvent<?> evt) {
 		return (openedMinMaxPanel == minMaxPanel
 				&& !isWidgetHit(minMaxPanel, evt));
 	}
@@ -1837,6 +1837,7 @@ GuiResourcesSimple.INSTANCE
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
+		App.debug("[AVMOUSE] over");
 		if (geo == null || (avExtension && isGeoASlider())) {
 			return;
 		}
@@ -1848,12 +1849,14 @@ GuiResourcesSimple.INSTANCE
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
+		App.debug("[AVMOUSE] out");
 		ToolTipManagerW.sharedInstance().showToolTip(null);
 	}
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-
+		App.debug("[AVMOUSE] down");
+		handleAVItem(event);
 		event.stopPropagation();
 		// int x = event.getClientX();
 		// int y = event.getClientY();
@@ -1890,6 +1893,7 @@ GuiResourcesSimple.INSTANCE
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
+		App.debug("[AVMOUSE] up");
 		event.stopPropagation();
 	}
 
@@ -1902,6 +1906,7 @@ GuiResourcesSimple.INSTANCE
 
 	@Override
 	public void onClick(ClickEvent evt) {
+		App.debug("[AVMOUSE] click");
 		evt.stopPropagation();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -1909,46 +1914,46 @@ GuiResourcesSimple.INSTANCE
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
 				ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
-
-		if (avExtension) {
-			// Min max panel should be closed
-			if (isAnotherMinMaxOpen() || isClicketOutMinMax(evt) ) {
-				closeMinMaxPanel();
-			}
-
-			if (isAnotherMinMaxOpen()) {
-				selectItem(false);
-
-			}
-
-			if (minMaxPanel != null && minMaxPanel.isVisible()) {
-				selectItem(true);
-				return;
-			}
-
-			Object source = evt.getSource();
-
-
-			if (sliderPanel != null
-					&& sliderPanel.isVisible()) {
-				if (isWidgetHit(slider.getWidget(0), evt)
-						|| isWidgetHit(
-						slider.getWidget(2), evt)) {
-			minMaxPanel.show();
-					return;
-			}
-			}
-
-			if (!selectionCtrl.isSelectHandled()) {
-				selectItem(true);
-			}
-			
-		}
+		// handleAVItem(evt);
 
 
 
 	}
 
+	private void handleAVItem(MouseEvent<?> evt) {
+		if (!avExtension) {
+			return;
+		}
+		// Min max panel should be closed
+		if (isAnotherMinMaxOpen() || isClicketOutMinMax(evt)) {
+			closeMinMaxPanel();
+		}
+
+		if (isAnotherMinMaxOpen()) {
+			selectItem(false);
+
+		}
+
+		if (minMaxPanel != null && minMaxPanel.isVisible()) {
+			selectItem(true);
+			return;
+		}
+
+		Object source = evt.getSource();
+
+		if (sliderPanel != null && sliderPanel.isVisible()) {
+			if (isWidgetHit(slider.getWidget(0), evt)
+					|| isWidgetHit(slider.getWidget(2), evt)) {
+				minMaxPanel.show();
+				return;
+			}
+		}
+
+		if (!selectionCtrl.isSelectHandled()) {
+			selectItem(true);
+		}
+
+	}
 	protected AlgebraViewW getAV() {
 		return (AlgebraViewW) av;
 	}
@@ -1957,6 +1962,7 @@ GuiResourcesSimple.INSTANCE
 	public void onMouseMove(MouseMoveEvent evt) {
 		if (sliderPanel == null) {
 			evt.stopPropagation();
+			return;
 		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -1979,6 +1985,7 @@ GuiResourcesSimple.INSTANCE
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
+		App.debug("[AVMOUSE] touchEnd");
 		if (sliderPanel != null) {
 			return;
 		}
@@ -2009,10 +2016,11 @@ GuiResourcesSimple.INSTANCE
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
+		App.debug("[AVMOUSE] touchMove");
+		event.stopPropagation();
 		if (sliderPanel != null) {
 			return;
 		}
-		event.stopPropagation();
 		// event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
@@ -2026,6 +2034,7 @@ GuiResourcesSimple.INSTANCE
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		App.debug("[AVMOUSE] touchStart");
 		if (sliderPanel != null) {
 			return;
 		}
@@ -2048,6 +2057,7 @@ GuiResourcesSimple.INSTANCE
 
 		if (event.isRightClick()) {
 			onRightClick(event.getX(), event.getY());
+			return;
 		} else if (commonEditingCheck()) {
 			if (!av.isEditing()) {
 				// e.g. Web.html might not be in editing mode
@@ -2061,7 +2071,10 @@ GuiResourcesSimple.INSTANCE
 				// put earlier, maybe it freezes afterwards?
 				setFocus(true);
 			}
+
 		}
+		updateSelection(event.isControlDown(), event.isShiftDown());
+
 	}
 
 
@@ -2083,7 +2096,7 @@ GuiResourcesSimple.INSTANCE
 		// if (// !skipSelection &&
 		// (mode == EuclidianConstants.MODE_MOVE)) {
 			// update selection
-			updateSelection(event.isControlDown(), event.isShiftDown());
+		// updateSelection(event.isControlDown(), event.isShiftDown());
 
 		// } else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 		// // let euclidianView know about the click
