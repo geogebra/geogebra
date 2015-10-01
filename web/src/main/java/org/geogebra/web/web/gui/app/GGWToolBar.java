@@ -241,24 +241,25 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		// wrapper to call the appropriate function from visibility.js
 		$wnd.visibilityEventMain();
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
-		$wnd.onblur = function() {
-			var e = $wnd.event;
-			console.log("Type = " + e.type);
-
+		$wnd.onblur = function(event) {
+			// Borrowed from http://www.quirksmode.org/js/events_properties.html
+			var e = event ? event : $wnd.event;
 			var targ;
-			if (e.target)
+			if (e.target) {
 				targ = e.target;
-			else if (e.srcElement)
+			} else if (e.srcElement) {
 				targ = e.srcElement;
-			if (targ.nodeType == 3) // defeat Safari bug
+			}
+			if (targ.nodeType == 3) { // defeat Safari bug
 				targ = targ.parentNode;
-
-			console.log("Target = " + targ + ", " + targ.id);
-
-			console.log("CurrentTarget = " + e.currentTarget + ", "
-					+ e.currentTarget.id);
-
-			$wnd.visChange();
+			}
+			console.log("Checking cheating: Type = " + e.type + ", Target = "
+					+ targ + ", " + targ.id + "CurrentTarget = "
+					+ e.currentTarget + ", " + e.currentTarget.id);
+			// The focusout event should not be caught:
+			if (e.type == "blur") {
+				$wnd.visChange();
+			}
 		};
 	}-*/;
 	
