@@ -288,7 +288,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
 
 		// set type
-		type = GeoQuadricNDConstants.QUADRIC_PARABOLOID;
+		if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+			type = QUADRIC_PARABOLOID;
+		} else {
+			type = QUADRIC_NOT_CLASSIFIED;
+		}
 	}
 
 	private void singleLine(double x, double y) {
