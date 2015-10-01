@@ -1107,9 +1107,9 @@ GuiResourcesSimple.INSTANCE
 		return (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel);
 	}
 
-	private boolean isClicketOutMinMax(MouseEvent<?> evt) {
+	private boolean isClicketOutMinMax(int x, int y) {
 		return (openedMinMaxPanel == minMaxPanel
-				&& !isWidgetHit(minMaxPanel, evt));
+				&& !isWidgetHit(minMaxPanel, x, y));
 	}
 
 	private void updateSliderColor() {
@@ -1826,10 +1826,14 @@ substituteNumbers,
 	}
 
 	private static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
+		return isWidgetHit(w, evt.getClientX(), evt.getClientY());
+
+	}
+
+	private static boolean isWidgetHit(Widget w, int x, int y) {
 		if (w == null) {
 			return false;
 		}
-		int x = evt.getClientX(), y = evt.getClientY();
 		int left = w.getAbsoluteLeft();
 		int top = w.getAbsoluteTop();
 		int right = left + w.getOffsetWidth();
@@ -1852,26 +1856,13 @@ substituteNumbers,
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
-		App.debug("[AVMOUSE] out");
 		ToolTipManagerW.sharedInstance().showToolTip(null);
 	}
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		App.debug("[AVMOUSE] down");
 		handleAVItem(event);
 		event.stopPropagation();
-		// int x = event.getClientX();
-		// int y = event.getClientY();
-		//
-		// if (isWidgetHit(btnSpeedDown, x, y)) {
-		// animSpeedDown();
-		// return;
-		// } else if (isWidgetHit(btnSpeedUp, x, y)) {
-		// animSpeedUp();
-		// return;
-		// }
-
 		if (commonEditingCheck()) {
 			// in newCreationMode, this is necessary after the
 			// MathQuillGGB gets its focusMathQuillGGB method...
@@ -1924,11 +1915,24 @@ substituteNumbers,
 	}
 
 	private void handleAVItem(MouseEvent<?> evt) {
+		handleAVItem(evt.getClientX(), evt.getClientY());
+	}
+
+	private void handleAVItem(TouchStartEvent evt) {
+		if (evt.getTouches().length() == 0) {
+			return;
+		}
+
+		Touch t = evt.getTouches().get(0);
+		handleAVItem(t.getClientX(), t.getClientY());
+	}
+
+	private void handleAVItem(int x, int y) {
 		if (!avExtension) {
 			return;
 		}
 		// Min max panel should be closed
-		if (isAnotherMinMaxOpen() || isClicketOutMinMax(evt)) {
+		if (isAnotherMinMaxOpen() || isClicketOutMinMax(x, y)) {
 			closeMinMaxPanel();
 		}
 
@@ -1942,11 +1946,9 @@ substituteNumbers,
 			return;
 		}
 
-		Object source = evt.getSource();
-
 		if (sliderPanel != null && sliderPanel.isVisible()) {
-			if (isWidgetHit(slider.getWidget(0), evt)
-					|| isWidgetHit(slider.getWidget(2), evt)) {
+			if (isWidgetHit(slider.getWidget(0), x, y)
+					|| isWidgetHit(slider.getWidget(2), x, y)) {
 				minMaxPanel.show();
 				return;
 			}
@@ -2041,6 +2043,7 @@ substituteNumbers,
 		if (sliderPanel != null) {
 			return;
 		}
+		handleAVItem(event);
 		// this would propagate the event to
 		// AlgebraView.onBrowserEvent... is this we want?
 		// probably no, as there is a stopPropagation
