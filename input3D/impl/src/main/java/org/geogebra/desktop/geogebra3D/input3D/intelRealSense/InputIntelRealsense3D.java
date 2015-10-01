@@ -77,16 +77,16 @@ public class InputIntelRealsense3D implements Input3D {
 			// mouse position
 			// double factor = screenHalfWidth;
 			double factor = panelDimension.getWidth() / 2;
-			mousePosition[0] = socket.birdX * factor;
-			mousePosition[1] = socket.birdY * factor;
-			mousePosition[2] = socket.birdZ * factor;
+			mousePosition[0] = socket.handX * factor;
+			mousePosition[1] = socket.handY * factor;
+			mousePosition[2] = socket.handZ * factor;
 			
 			
 			// mouse position
-			mouseOrientation[0] = socket.birdOrientationX;
-			mouseOrientation[1] = socket.birdOrientationY;
-			mouseOrientation[2] = socket.birdOrientationZ;
-			mouseOrientation[3] = socket.birdOrientationW;
+			mouseOrientation[0] = socket.handOrientationX;
+			mouseOrientation[1] = socket.handOrientationY;
+			mouseOrientation[2] = socket.handOrientationZ;
+			mouseOrientation[3] = socket.handOrientationW;
 
 			
 			// right button
@@ -167,20 +167,6 @@ public class InputIntelRealsense3D implements Input3D {
 	}
 
 
-//	@Override
-//	public float getMouse2DX(){
-//		return socket.hand2Dx;
-//	}
-//	
-//	@Override
-//	public float getMouse2DY(){
-//		return socket.hand2Dy;
-//	}
-//	
-//	@Override
-//	public float getMouse2DFactor(){
-//		return socket.hand2Dfactor;
-//	}
 	
 	public DeviceType getDeviceType(){
 		return DeviceType.HAND;
@@ -189,8 +175,7 @@ public class InputIntelRealsense3D implements Input3D {
 	private OutOfField outOfField;
 
 	public boolean hasMouse(EuclidianView3D view3D, Coords mouse3DPosition){
-		OutOfField oof = OutOfField.NO;// socket.getOutOfField(); // this is
-										// camera field of view
+		OutOfField oof = socket.getOutOfField(); // this is camera field of view
 		if (oof == OutOfField.NO) {
 			// check if mouse is out and if we should keep same out of field
 			switch (outOfField) {
