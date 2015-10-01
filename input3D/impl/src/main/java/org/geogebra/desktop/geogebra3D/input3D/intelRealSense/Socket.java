@@ -1,6 +1,5 @@
 package org.geogebra.desktop.geogebra3D.input3D.intelRealSense;
 
-import intel.rssdk.PXCMCapture;
 import intel.rssdk.PXCMCaptureManager;
 import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandConfiguration.AlertHandler;
@@ -10,7 +9,6 @@ import intel.rssdk.PXCMHandData.BodySideType;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPoint4DF32;
-import intel.rssdk.PXCMPointF32;
 import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
@@ -59,6 +57,7 @@ public class Socket {
 	private PXCMSenseManager senseMgr;
 	private pxcmStatus sts;
 	private PXCMHandData handData;
+	private PXCMHandData.IHand hand;
 	
 	private DataSampler dataSampler;
 	
@@ -430,6 +429,7 @@ public class Socket {
 			handConfig.Update();
 			
 			handData = handModule.CreateOutput();
+			hand = new PXCMHandData.IHand();
 			
 			handOut = OutOfField.YES;
 			connected = true;
@@ -464,16 +464,15 @@ public class Socket {
 			return false;
 		};
 
-		PXCMCapture.Sample sample = senseMgr.QueryHandSample();
+		// PXCMCapture.Sample sample = senseMgr.QueryHandSample();
 
 		// Query and Display Joint of Hand or Palm
 		handData.Update(); 
 
-		PXCMHandData.IHand hand = new PXCMHandData.IHand(); 
 		sts = handData.QueryHandData(PXCMHandData.AccessOrderType.ACCESS_ORDER_NEAR_TO_FAR, 0, hand);
 
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR) >= 0) {
-			PXCMPointF32 image = hand.QueryMassCenterImage();
+			// PXCMPointF32 image = hand.QueryMassCenterImage();
 			PXCMPoint3DF32 world = hand.QueryMassCenterWorld();
 			PXCMPoint4DF32 palmOrientation = hand.QueryPalmOrientation();
 			BodySideType handSide = hand.QueryBodySide();
