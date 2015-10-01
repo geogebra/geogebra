@@ -1950,6 +1950,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_PARABOLOID:
 			eigenMatrix.pivotDegenerate(tmpCoords, p);
 			// project on eigen xOy plane
+			// when we are already on axis, pick a direction "at random"
+			if (Kernel.isZero(tmpCoords.getX())
+					&& Kernel.isZero(tmpCoords.getY())) {
+				return getEigenvec3D(0).copyVector();
+			}
 			tmpCoords.setZ(0);
 			tmpCoords.setW(0);
 			if (tmpCoords2 == null) {
