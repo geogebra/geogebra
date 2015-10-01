@@ -242,6 +242,22 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		$wnd.visibilityEventMain();
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 		$wnd.onblur = function() {
+			var e = $wnd.event;
+			console.log("Type = " + e.type);
+
+			var targ;
+			if (e.target)
+				targ = e.target;
+			else if (e.srcElement)
+				targ = e.srcElement;
+			if (targ.nodeType == 3) // defeat Safari bug
+				targ = targ.parentNode;
+
+			console.log("Target = " + targ + ", " + targ.id);
+
+			console.log("CurrentTarget = " + e.currentTarget + ", "
+					+ e.currentTarget.id);
+
 			$wnd.visChange();
 		};
 	}-*/;
