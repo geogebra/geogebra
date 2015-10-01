@@ -2197,4 +2197,10 @@ public class Manager3D implements Manager3DInterface {
 				labels, poly0, poly1);
 		return algo.getOutput();
 	}
+
+	public GeoNumeric Distance(String label, GeoPlaneND a, GeoPlaneND b) {
+		AlgoDistancePlanes algo = new AlgoDistancePlanes(cons, label, a, b);
+
+		return algo.getDistance();
+	}
 }

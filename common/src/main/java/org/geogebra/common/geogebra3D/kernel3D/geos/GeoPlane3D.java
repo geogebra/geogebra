@@ -650,6 +650,31 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	public double distanceWithSign(GeoPlaneND P) {
+
+		if (tmpCoords1 == null) {
+			tmpCoords1 = new Coords(3);
+		}
+		if (tmpCoords2 == null) {
+			tmpCoords2 = new Coords(3);
+		}
+		tmpCoords2.setValues(getDirectionInD3(), 3);
+		tmpCoords2.normalize();
+
+		tmpCoords1.setValues(P.getDirectionInD3(), 3);
+		tmpCoords1.normalize();
+
+		if (!Kernel.isEqual(1, Math.abs(tmpCoords1.dotproduct(tmpCoords2)))) {
+			return 0;
+		}
+
+		tmpCoords1.setSub(P.getCoordSys().getOrigin(), getCoordSys()
+				.getOrigin());
+
+		return tmpCoords1.dotproduct(tmpCoords2);
+
+	}
+
 	// ///////////////////////////////////
 	// TRANSLATE
 	// ///////////////////////////////////

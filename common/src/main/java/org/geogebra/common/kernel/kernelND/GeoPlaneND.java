@@ -33,4 +33,6 @@ public interface GeoPlaneND extends GeoCoordSys2D{
 	 */
 	public Coords[] getNormalProjection(Coords coords);
 
+	public double distanceWithSign(GeoPlaneND h3d);
+
 }

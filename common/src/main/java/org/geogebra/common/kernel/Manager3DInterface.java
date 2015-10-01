@@ -669,6 +669,8 @@ public interface Manager3DInterface {
 
 	public GeoNumeric Distance(String label, GeoPointND point, GeoPlaneND plane);
 
+	public GeoNumeric Distance(String label, GeoPlaneND a, GeoPlaneND b);
+
 	/**
 	 * Angle named label between three points
 	 */

@@ -50,6 +50,13 @@ public class CmdDistance3D extends CmdDistance {
 							c.getLabel(), (GeoPointND) arg[1],
 							(GeoPlaneND) arg[0]) };
 				}
+
+				if (arg[1].isGeoPlane() && arg[0].isGeoPlane()) {
+
+					return new GeoElement[] { kernelA.getManager3D().Distance(
+							c.getLabel(), (GeoPlaneND) arg[1],
+							(GeoPlaneND) arg[0]) };
+				}
 			}
 
 			return super.process(c);
