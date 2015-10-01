@@ -217,9 +217,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 			// check other eigenvalues
 			if (eigenval[0] * eigenval[1] > 0) {
+				double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
 				if (Kernel.isZero(z)) {
 					// cylinder
-					double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
 					if (Kernel.isZero(m)) {
 						// single line
 						singleLine(-x / eigenval[0], -y / eigenval[1]);
@@ -233,7 +233,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					}
 				} else {
 					// z = xx+yy
-					type = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
+					if (z > 0) { // flip eigenvectors
+						eigenvecND[1].mulInside3(-1);
+						eigenvecND[2].mulInside3(-1);
+						y = -y;
+						z = -z;
+					}
+					paraboloid(-x / eigenval[0], -y / eigenval[1], z, m);
 				}
 
 			} else {
@@ -257,6 +263,32 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		}
 
+	}
+
+	private void paraboloid(double x, double y, double z, double m) {
+		
+		// set midpoint
+		midpoint.set(Coords.O);
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[0], x));
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[1], y));
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[2], m / (2 * z)));
+
+		// set halfAxes = radius
+		halfAxes[0] = Math.sqrt(-2 * z / eigenval[0]);
+		halfAxes[1] = Math.sqrt(-2 * z / eigenval[1]);
+		halfAxes[2] = 1;
+
+		// set the diagonal values
+		diagonal[0] = eigenval[0];
+		diagonal[1] = eigenval[1];
+		diagonal[2] = eigenval[2];
+		diagonal[3] = 0;
+
+		// eigen matrix
+		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
+
+		// set type
+		type = GeoQuadricNDConstants.QUADRIC_PARABOLOID;
 	}
 
 	private void singleLine(double x, double y) {
@@ -1220,6 +1252,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "HyperboloidOneSheet";
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
 			return "HyperboloidTwoSheets";
+		case GeoQuadricNDConstants.QUADRIC_PARABOLOID:
+			return "Paraboloid";
 		case GeoQuadricNDConstants.QUADRIC_EMPTY:
 			return "EmptySet";
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
@@ -1379,6 +1413,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					ch);
 			break;
 
+		case QUADRIC_PARABOLOID:
+			point.setMulPoint(eigenMatrix, Math.cos(u) * v, Math.sin(u) * v, v
+					* v);
+			break;
+
 		case QUADRIC_CONE:
 			double v2 = Math.abs(v);
 			point.setMulPoint(eigenMatrix, Math.cos(u) * v2, Math.sin(u) * v2, v);
@@ -1484,6 +1523,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			n.normalize();
 			return n;
 
+		case QUADRIC_PARABOLOID:
+			r0 = getHalfAxis(0);
+			r1 = getHalfAxis(1);
+			r2 = getHalfAxis(2);
+			n = new Coords(4);
+
+			n.setMul(getEigenvec3D(0), 2 * r1 * r2 * Math.cos(u) * v);
+			tmpCoords.setMul(getEigenvec3D(1), 2 * r0 * r2 * Math.sin(u) * v);
+			n.addInside(tmpCoords);
+			tmpCoords.setMul(getEigenvec3D(2), -r0 * r1);
+			n.addInside(tmpCoords);
+			n.normalize();
+			return n;
+
 		case QUADRIC_CONE:
 			r0 = getHalfAxis(0);
 			r1 = getHalfAxis(1);
@@ -1544,6 +1597,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			case 1: // v
 				return Double.NEGATIVE_INFINITY;
 			}
+		case QUADRIC_PARABOLOID:
+			switch (index) {
+			case 0: // u
+			default:
+				return 0;
+			case 1: // v
+				return 0;
+			}
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
 			switch (index) {
@@ -1583,6 +1644,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				return Double.POSITIVE_INFINITY;
 			}
 
+		case QUADRIC_PARABOLOID:
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
 			switch (index) {
@@ -1650,6 +1712,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			parameters[1] = z;
 			break;
 
+		case QUADRIC_PARABOLOID: // eigenMatrix is dilated with half axes
+			parameters[0] = Math.atan2(y, x);
+			r = Math.sqrt(x * x + y * y);
+			if (z < 0) {
+				parameters[1] = 0;
+			} else {
+				parameters[1] = Math.sqrt(z);
+			}
+			break;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER: // eigenMatrix is dilated with half axes
 			parameters[0] = Math.atan2(y, x);
@@ -1872,6 +1943,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return tmpCoords;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
+		case QUADRIC_PARABOLOID:
 			eigenMatrix.pivotDegenerate(tmpCoords, p);
 			// project on eigen xOy plane
 			tmpCoords.setZ(0);
