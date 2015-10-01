@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
@@ -474,11 +475,20 @@ public class ConstructionProtocolView {
 		 * View Implementation *
 		 ***********************/
 		public void add(GeoElement geo) {
-			if (!geo.isLabelSet() || geo.isGeoCasCell()
+			if ((!geo.isLabelSet() && !geo.isGeoCasCell())
 					|| (kernel.getConstruction().showOnlyBreakpoints() && !geo
 							.isConsProtocolBreakpoint()))
 				return;
-		
+			// if we already have twin geo, ignore CAS cell
+			if (geo.isGeoCasCell() && ((GeoCasCell) geo).getTwinGeo() != null
+					&& ((GeoCasCell) geo).getTwinGeo().isAlgebraVisible()) {
+				return;
+			}
+			// maybe the CAS cell is already in construction protocol (unclear
+			// if it may happen)
+			if (geo.getCorrespondingCasCell() != null) {
+				remove(geo.getCorrespondingCasCell());
+			}
 			RowData row = geoMap.get(geo); // lookup row for geo
 			if (row == null) { // new row
 				int index = geo.getConstructionIndex();

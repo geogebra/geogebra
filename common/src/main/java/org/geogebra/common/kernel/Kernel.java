@@ -703,6 +703,16 @@ public class Kernel {
 		if (cons.showOnlyBreakpoints()) {
 			cons.setStep(getPreviousBreakpoint(step));
 		} else {
+			ConstructionElement prev = cons.getConstructionElement(step);
+			/*
+			 * if (prev instanceof GeoElement && ((GeoElement)
+			 * prev).getCorrespondingCasCell() != null) { step--; }
+			 */
+			if (prev instanceof GeoCasCell
+					&& ((GeoCasCell) prev).getTwinGeo() != null
+					&& ((GeoCasCell) prev).getTwinGeo().isAlgebraVisible()) {
+
+			}
 			cons.setStep(step);
 		}
 	}
@@ -2399,10 +2409,18 @@ public class Kernel {
 		useInternalCommandNames = b;
 	}
 
+	/**
+	 * @return whether setDrawable() on numeric should make them visible as well
+	 */
 	public final boolean isAllowVisibilitySideEffects() {
 		return allowVisibilitySideEffects;
 	}
 
+	/**
+	 * @param allowVisibilitySideEffects
+	 *            whether setDrawable() on numeric should make them visible as
+	 *            well
+	 */
 	public final void setAllowVisibilitySideEffects(
 			boolean allowVisibilitySideEffects) {
 		this.allowVisibilitySideEffects = allowVisibilitySideEffects;
