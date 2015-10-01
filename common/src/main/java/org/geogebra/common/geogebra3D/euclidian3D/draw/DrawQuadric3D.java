@@ -288,6 +288,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
+	private double[] minmax;
 
 
 	@Override
@@ -345,19 +346,64 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			ev0 = quadric.getEigenvec3D(0);
 			ev1 = quadric.getEigenvec3D(1);
 			ev2 = quadric.getEigenvec3D(2);
-			double[] minmax1 = { Double.POSITIVE_INFINITY,
-					Double.NEGATIVE_INFINITY };
-			getView3D().getMinIntervalOutsideClipping(minmax1, center,
+			if (minmax == null) {
+				minmax = new double[2];
+			}
+			minmax[0] = Double.POSITIVE_INFINITY;
+			minmax[1] = Double.NEGATIVE_INFINITY;
+			getView3D().getMinIntervalOutsideClipping(minmax, center,
 					ev2.mul(r2));
 			scale = getView3D().getScale();
 			// get radius at max
 			radius = Math.max(r0, r1)
-					* Math.max(Math.abs(minmax1[0]),
-							Math.max(Math.abs(minmax1[1]), 1)) / r2;
+					* Math.max(Math.abs(minmax[0]),
+							Math.max(Math.abs(minmax[1]), 1)) / r2;
 			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
-			double min = DrawConic3D.asinh(minmax1[0]);
-			double max = DrawConic3D.asinh(minmax1[1]);
+			double min = DrawConic3D.asinh(minmax[0]);
+			double max = DrawConic3D.asinh(minmax[1]);
 			surface.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1, r2,
+					longitude, min, max, !getView3D().useClippingCube());
+			setSurfaceIndex(surface.end());
+			break;
+
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
+			center = quadric.getMidpoint3D();
+			r0 = quadric.getHalfAxis(0);
+			r1 = quadric.getHalfAxis(1);
+			r2 = quadric.getHalfAxis(2);
+			surface = renderer.getGeometryManager().getSurface();
+			surface.start(getReusableSurfaceIndex());
+			ev0 = quadric.getEigenvec3D(0);
+			ev1 = quadric.getEigenvec3D(1);
+			ev2 = quadric.getEigenvec3D(2);
+			if (minmax == null) {
+				minmax = new double[2];
+			}
+			minmax[0] = Double.POSITIVE_INFINITY;
+			minmax[1] = Double.NEGATIVE_INFINITY;
+			getView3D().getMinIntervalOutsideClipping(minmax, center,
+					ev2.mul(r2));
+			scale = getView3D().getScale();
+			// get radius at max
+			radius = Math.max(r0, r1)
+					* Math.max(Math.abs(minmax[0]),
+							Math.max(Math.abs(minmax[1]), 1)) / r2;
+			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
+			if (minmax[0] < -1) { // bottom exists
+				min = -DrawConic3D.acosh(-minmax[0]);
+			} else if (minmax[0] <= 1) { // top ends at pole
+				min = 0;
+			} else { // top pole is cut
+				min = DrawConic3D.acosh(minmax[0]);
+			}
+			if (minmax[1] > 1) { // top exists
+				max = DrawConic3D.acosh(minmax[1]);
+			} else if (minmax[1] >= -1) { // bottom ends at pole
+				max = 0;
+			} else { // bottom pole is cut
+				max = -DrawConic3D.acosh(-minmax[1]);
+			}
+			surface.drawHyperboloidTwoSheets(center, ev0, ev1, ev2, r0, r1, r2,
 					longitude, min, max, !getView3D().useClippingCube());
 			setSurfaceIndex(surface.end());
 			break;
@@ -651,6 +697,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			if (getView3D().viewChangedByZoom()
 					|| getView3D().viewChangedByTranslate()) {
@@ -965,6 +1012,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (quadric.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_ELLIPSOID
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CONE) {
 			return false;
