@@ -1451,7 +1451,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		latitude = 16; // 16 seems to be ok in any case
 
-		setLatitudeMinMaxForHyperboloid(min, max, drawHyperboloidOneSheet);
+		setLatitudeMinMaxForHyperboloid(min, max, drawHyperboloidTwoSheets);
 
 		drawNV(drawHyperboloidTwoSheets, longitude, 0, longitude);
 
