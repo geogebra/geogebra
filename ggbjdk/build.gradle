@@ -1,5 +1,7 @@
+project.setDescription('Platform independent supplementary files for graphics support')
+
 apply plugin: 'java'
 
 dependencies {
-	compile project(':common')
+    compile project(':common')
 }

@@ -1,3 +1,5 @@
+project.setDescription('Java Native Interface to connect Giac and GeoGebra')
+
 apply plugin: 'java'
 
 sourceCompatibility = 1.6
