@@ -3967,7 +3967,7 @@ public abstract class App implements UpdateSelection {
 			return false;
 		}
 
-		return tpl == StringTemplate.latexTemplateMQ;
+		return tpl.isMathQuill();
 	}
 
 	private int tubeID = 0;

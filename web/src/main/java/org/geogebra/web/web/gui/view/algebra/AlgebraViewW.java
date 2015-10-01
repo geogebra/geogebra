@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
+import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
@@ -1592,6 +1593,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	}
 
 	private void redefine(GeoElement geo) {
+		if (geo.getParentAlgorithm() instanceof AlgoDependentText) {
+			app.getDialogManager().showRedefineDialog(geo, true);
+		}
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {

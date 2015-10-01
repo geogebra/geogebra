@@ -373,18 +373,23 @@ public class GeoText extends GeoElement implements Locateable,
 		StringType printForm = tpl1.getStringType();
 
 		sbToString.setLength(0);
-		if (printForm.equals(StringType.LATEX)
-				&& tpl1 != StringTemplate.latexTemplateMQ)
+		if (tpl1.isMathQuill()) {
+			sbToString.append("\\quotation{");
+		} else if (printForm.equals(StringType.LATEX))
 			sbToString.append("\\text{``");
+
 		else
 			sbToString.append('\"');
 		if (str != null)
 			sbToString.append(str);
-		if (printForm.equals(StringType.LATEX)
-				&& tpl1 != StringTemplate.latexTemplateMQ)
+
+		if (tpl1.isMathQuill()) {
+			sbToString.append("}");
+		} else if (printForm.equals(StringType.LATEX)) {
 			sbToString.append("''}");
-		else
+		} else {
 			sbToString.append('\"');
+		}
 		return sbToString.toString();
 	}
 
@@ -395,7 +400,7 @@ public class GeoText extends GeoElement implements Locateable,
 			sbToString.append(label);
 			sbToString.append(" = ");
 		}
-		if (tpl1 == StringTemplate.latexTemplateMQ) {
+		if (tpl1.isMathQuill()) {
 			if (isLaTeXorMathML) {
 				sbToString.append("FormulaText[");
 			}

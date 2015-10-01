@@ -1520,7 +1520,8 @@ GuiResourcesSimple.INSTANCE
 			Element old = LaTeX ? (c != null ? c.getCanvasElement()
 					: seMayLatex) : seNoLatex;
 			String text = geo.getLaTeXAlgebraDescriptionWithFallback(
-					substituteNumbers, StringTemplate.latexTemplateMQ, true);
+substituteNumbers,
+							StringTemplate.latexTemplateMQedit, true);
 			if (text == null) {
 				return false;
 			}

@@ -2550,7 +2550,7 @@ function createRoot(jQ, root, textbox, editable) {
       
       text3 = cursor.fixabug(text3);
 
-      //console.log('paste 6:'+text3);
+      console.log('paste 6:'+text3);
 
       cursor.writeLatexSafe(text3);
     }

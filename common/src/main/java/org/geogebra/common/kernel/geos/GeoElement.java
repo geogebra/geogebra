@@ -4939,9 +4939,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				ret = getAssignmentLHS(StringTemplate.editTemplate)
 						+ (delimiter == '=' ? " =" : delimiter) + " " + ret;
 			}
-			if (ret.indexOf('"') > -1) {
-				return null;
-			}
+
 			return ret;
 		}
 		if (!isDefined() || !isGeoText()) {
