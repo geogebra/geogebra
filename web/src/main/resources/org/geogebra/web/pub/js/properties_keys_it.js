@@ -2651,7 +2651,7 @@ __GGB__keysVar.it.plain = {
     "Parabola": "Parabola",
     "ParabolaEquation": "y\xb2 = oppure x\xb2 =",
     "ParabolaWithFocusAandDirectrixB": "Parabola con fuoco %0 e direttrice %1",
-    "Paraboloid": "Paraboloid",
+    "Paraboloid": "Paraboloide",
     "ParallelLines": "Rette parallele",
     "ParallelProjection": "Proiezione parallela",
     "ParameterOfA": "Parametro di %0",
