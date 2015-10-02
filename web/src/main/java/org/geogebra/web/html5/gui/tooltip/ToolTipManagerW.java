@@ -282,7 +282,7 @@ public class ToolTipManagerW {
 		}
 		if (link == ToolTipLinkType.Help && helpLinkURL != null
 				&& helpLinkURL.length() > 0) {
-			// scheduleHideBottom();
+			scheduleHideBottom();
 		}
 	}
 
