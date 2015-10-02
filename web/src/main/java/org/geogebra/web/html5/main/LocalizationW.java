@@ -375,6 +375,10 @@ public final class LocalizationW extends Localization {
 				.inject(rightToLeftReadingOrder ? GuiResourcesSimple.INSTANCE
 						.generalStyleRTL() : GuiResourcesSimple.INSTANCE
 						.generalStyleLTR());
+		StyleInjector
+				.inject(rightToLeftReadingOrder ? GuiResourcesSimple.INSTANCE
+						.avStyleRTL() : GuiResourcesSimple.INSTANCE
+						.avStyleLTR());
 	}
 
 	@Override

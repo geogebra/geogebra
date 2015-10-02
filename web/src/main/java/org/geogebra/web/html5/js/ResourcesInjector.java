@@ -54,6 +54,8 @@ public class ResourcesInjector {
 				.getText());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.generalStyleLTR()
 				.getText());
+		StyleInjector
+				.inject(GuiResourcesSimple.INSTANCE.avStyleLTR().getText());
 
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.jqueryStyle()
 				.getText());

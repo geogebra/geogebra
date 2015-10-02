@@ -94,6 +94,12 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/css/headerbar.rtl.less")
 	LessResource headerbarStyleRTL();
 
+	@Source("org/geogebra/web/resources/css/av.ltr.less")
+	LessResource avStyleLTR();
+
+	@Source("org/geogebra/web/resources/css/av.rtl.less")
+	LessResource avStyleRTL();
+
 
 	// don't include these anywhere!
 	// they are only here, because otherwise they are not compiled on browser
