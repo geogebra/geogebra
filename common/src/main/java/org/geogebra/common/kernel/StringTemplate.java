@@ -220,6 +220,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public static StringTemplate editTemplate = new StringTemplate(
 			"editTemplate");
+
+	/**
+	 * for input bar; same as default, but adds some extra helper symbols
+	 */
+	public static StringTemplate editorTemplate = new StringTemplate(
+			"editorTemplate");
 	/**
 	 * For simplicity make this static now and see in the future whether we will
 	 * need more engines in one app
@@ -232,6 +238,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		editTemplate.allowMoreDigits = true;
 		editTemplate.hideLHS = true;
+
+		editorTemplate.sf = editTemplate.sf;
+		editorTemplate.nf = editTemplate.nf;
+		editorTemplate.allowMoreDigits = editTemplate.allowMoreDigits;
+		editorTemplate.hideLHS = editTemplate.hideLHS;
+
 	}
 	/**
 	 * Template for regression: uses 6 figures or 6 sig digits based on Kernel
@@ -2170,9 +2182,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// put parantheses around +, -, *
 			append(sb, leftStr, left, Operation.DIVIDE);
 			sb.append(" / ");
+			if (this == StringTemplate.editorTemplate) {
+				sb.append('\u200b');
+			}
 
 			// right wing
 			append(sb, rightStr, right, Operation.POWER); // not
+
+			if (this == StringTemplate.editorTemplate) {
+				sb.append('\u200b');
+			}
 			// +,
 			// -,
 			// *,

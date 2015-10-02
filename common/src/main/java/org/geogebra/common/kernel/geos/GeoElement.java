@@ -927,30 +927,36 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Returns the definition of this GeoElement for the input field, e.g. A1 =
 	 * 5, B1 = A1 + 2
-	 * 
+	 *
 	 * @return definition for input field
 	 */
 	public String getDefinitionForInputBar() {
+		return getDefinitionForInputBar(StringTemplate.editTemplate);
+	}
+
+	public String getDefinitionForEditor() {
+		return getDefinitionForInputBar(StringTemplate.editorTemplate);
+	}
+
+	private String getDefinitionForInputBar(StringTemplate stringTemplate) {
 		// for expressions like "3 = 2 A2 - A1"
 		// getAlgebraDescription() returns "3 = 5"
 		// so we need to use getCommandDescription() in those cases
 
-		String inputBarStr = getCommandDescription(StringTemplate.editTemplate);
+		String inputBarStr = getCommandDescription(stringTemplate);
 		if (!inputBarStr.equals("")) {
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
 			// beware correct vars for f(t) = t + a
 			final char delimiter = getLabelDelimiter();
 			if (inputBarStr.indexOf(delimiter) < 0) {
-				inputBarStr = getAssignmentLHS(StringTemplate.editTemplate)
+				inputBarStr = getAssignmentLHS(stringTemplate)
 						+ (delimiter == '=' ? " =" : delimiter) + " "
 						+ inputBarStr;
 			}
 		} else {
-			inputBarStr = getAlgebraDescription(StringTemplate.editTemplate);
+			inputBarStr = getAlgebraDescription(stringTemplate);
 		}
-
-		
 
 		return inputBarStr;
 	}
