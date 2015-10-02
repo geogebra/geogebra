@@ -11,6 +11,7 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 
@@ -18,15 +19,19 @@ import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEndEvent;
 import com.google.gwt.event.dom.client.DragEndHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
@@ -183,7 +188,33 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				String title = data.columns[i].getTitle();
 				Column<RowData, ?> col = getColumn(title);
 				if (col != null) {
-					table.addColumn(col, app.getPlain(title));
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					if ("No.".equals(title)) {
+						sb.append(SafeHtmlUtils.fromString(app.getPlain("No.")));
+					} else {
+						sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
+								+ app.getPlain(title) + "</div>"));
+						sb.append(AbstractImagePrototype.create(
+								GuiResources.INSTANCE.menu_dots_hover())
+								.getSafeHtml());
+
+					}
+					table.addColumn(col, sb.toSafeHtml());
+
+					table.addHandler(new ClickHandler() {
+
+						public void onClick(ClickEvent event) {
+							Element el = Element.as(event.getNativeEvent()
+									.getEventTarget());
+							Element imgElement = table.getElement()
+									.getElementsByTagName("img").getItem(0);
+							if (el.equals(imgElement)) {
+								// TODO popup
+								// Window.alert("yes!");
+							}
+						}
+
+					}, ClickEvent.getType());
 				}
 			}
 		}
