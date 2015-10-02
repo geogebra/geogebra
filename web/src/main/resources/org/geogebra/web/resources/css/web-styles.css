@@ -3513,6 +3513,14 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	max-width: 35px;
 }
 
+.cpTable th:LAST-CHILD div{
+	display: inline;
+}
+
+.cpTable th:LAST-CHILD img{
+	float: right;
+}
+
 .cpTable .isDragging {
 	background: #CCCCFF;
 	cursor: move;
