@@ -1103,6 +1103,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return googleDriveOperation;
 	}
 
+	public boolean openFile(JavaScriptObject fileToHandle,
+			JavaScriptObject callback) {
+		if (getArticleElement() != null) {
+			getArticleElement().setAttribute("data-param-perspective", "");
+		}
+		return doOpenFile(fileToHandle, callback);
+	}
 	/**
 	 * Opens the ggb or ggt file
 	 * 
@@ -1113,7 +1120,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 *         mean, that the file opening was successful, and the opening
 	 *         finished already.
 	 */
-	public native boolean openFile(JavaScriptObject fileToHandle,
+	public native boolean doOpenFile(JavaScriptObject fileToHandle,
 	        JavaScriptObject callback) /*-{
 		var ggbRegEx = /\.(ggb|ggt|csv|off)$/i;
 		if (!fileToHandle.name.toLowerCase().match(ggbRegEx))
