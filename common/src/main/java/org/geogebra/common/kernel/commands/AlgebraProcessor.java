@@ -655,7 +655,7 @@ public class AlgebraProcessor {
 					if (storeUndo && geoElements != null)
 						app.storeUndoInfo();
 				} catch (Throwable ex) {
-					ex.printStackTrace();
+					// ex.printStackTrace();
 					// do nothing
 				}
 
