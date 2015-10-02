@@ -2179,18 +2179,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 
 			// left wing
-			// put parantheses around +, -, *
+			// put parentheses around +, -, *
 			append(sb, leftStr, left, Operation.DIVIDE);
 			sb.append(" / ");
 			if (this == StringTemplate.editorTemplate) {
-				sb.append('\u200b');
+				sb.append(Unicode.ZERO_WIDTH_SPACE);
 			}
 
 			// right wing
 			append(sb, rightStr, right, Operation.POWER); // not
 
 			if (this == StringTemplate.editorTemplate) {
-				sb.append('\u200b');
+				sb.append(Unicode.ZERO_WIDTH_SPACE);
 			}
 			// +,
 			// -,
