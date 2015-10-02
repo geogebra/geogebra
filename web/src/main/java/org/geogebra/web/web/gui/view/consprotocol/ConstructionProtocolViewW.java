@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -182,6 +183,17 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		for(int i=0; i<colCount; i++){
 			table.removeColumn(0);
 		}		
+
+		int lastVisibleCol = data.getColumnCount() - 1;
+		
+		while (!data.columns[lastVisibleCol].isVisible()
+				|| "Command".equals(data.columns[lastVisibleCol].getTitle())
+				|| "Caption".equals(data.columns[lastVisibleCol].getTitle())
+				|| "Breakpoint"
+						.equals(data.columns[lastVisibleCol].getTitle())) {
+			lastVisibleCol--;
+			App.debug(lastVisibleCol + "");
+		}
 		
 		for (int i = 0; i < data.getColumnCount(); i++) {
 			if (data.columns[i].isVisible()) {
@@ -189,8 +201,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				Column<RowData, ?> col = getColumn(title);
 				if (col != null) {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
-					if ("No.".equals(title)) {
-						sb.append(SafeHtmlUtils.fromString(app.getPlain("No.")));
+					if (i != lastVisibleCol) {
+						sb.append(SafeHtmlUtils.fromString(app.getPlain(title)));
 					} else {
 						sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
 								+ app.getPlain(title) + "</div>"));
