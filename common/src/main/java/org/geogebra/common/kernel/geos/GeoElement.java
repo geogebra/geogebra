@@ -4415,7 +4415,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		}
-		return indicesToHTML(getLoc().translationFix(algoParent.toString(StringTemplate.defaultTemplate)),
+		return indicesToHTML(
+				getLoc().translationFix(
+						getDefinitionDescription(StringTemplate.defaultTemplate)),
 				addHTMLtag);
 	}
 
@@ -4853,7 +4855,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Default string template is used => caching can be employed
 	 * @return algebraic representation (e.g. coordinates, equation)
 	 */
-	final public String getAlgebraDescriptionDefault() {
+	public String getAlgebraDescriptionDefault() {
 		if (strAlgebraDescriptionNeedsUpdate) {
 			if (isDefined()) {
 				strAlgebraDescription = toString(StringTemplate.defaultTemplate);

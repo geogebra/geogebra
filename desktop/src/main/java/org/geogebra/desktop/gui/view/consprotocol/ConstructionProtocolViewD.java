@@ -222,17 +222,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			((ConstructionTableData) data).initView();
 	}
 
-	@Override
-	public void updateNavigationBars() {
-		// update the navigation bar of the protocol window
-
-
-		// update all registered navigation bars
-		int size = navigationBars.size();
-		for (int i = 0; i < size; i++) {
-			navigationBars.get(i).update();
-		}
-	}
 
 	@Override
 	protected void repaint() {

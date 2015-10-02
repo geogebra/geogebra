@@ -306,15 +306,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		}
 
 	}
-	
-	@Override
-	public void updateNavigationBars() {
-		// update all registered navigation bars
-		int size = navigationBars.size();
-		for (int i = 0; i < size; i++) {
-			navigationBars.get(i).update();
-		}
-	}
+
 	
 	@Override
 	public void scrollToConstructionStep() {

@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -164,12 +163,11 @@ public class AlgoDependentCasCell extends AlgoElement implements
 		if (input == null)
 			return null;
 		if (getCasCell() != null && getCasCell().getInputVE() != null) {
-			if (getCasCell().getInputVE().unwrap() instanceof Command) {
-				Command cmd = (Command) getCasCell().getInputVE().unwrap();
-				return cmd.toString(tpl);
+			if (getCasCell().getInputVE() != null) {
+				return getCasCell().getInputVE().toString(tpl);
 			}
 		}
-		return super.getCommandDescription(tpl);
+		return "super" + super.getCommandDescription(tpl);
 
 	}
 

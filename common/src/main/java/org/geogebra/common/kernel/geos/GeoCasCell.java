@@ -2327,6 +2327,20 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		return getLabel(tpl);
 	}
 
+	public String getAlgebraDescriptionDefault() {
+
+		if (isDefined()) {
+			return getOutput(StringTemplate.defaultTemplate);
+
+		}
+		final StringBuilder sbAlgebraDesc = new StringBuilder();
+		sbAlgebraDesc.append(label);
+		sbAlgebraDesc.append(' ');
+		sbAlgebraDesc.append(getLoc().getPlain("Undefined"));
+		return sbAlgebraDesc.toString();
+
+	}
+
 	@Override
 	public boolean isGeoCasCell() {
 		return true;
@@ -2874,6 +2888,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 */
 	@Override
 	public String getDefinitionDescription(StringTemplate tpl) {
+		if (evalVE.unwrap() instanceof Command
+				&& "Evaluate".equals(((Command) evalVE.unwrap()).getName())) {
+			return ((Command) evalVE.unwrap()).getArgument(0).toString(tpl);
+		}
 		return evalVE.toString(tpl);
 	}
 

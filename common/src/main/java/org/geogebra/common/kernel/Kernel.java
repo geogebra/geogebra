@@ -674,6 +674,13 @@ public class Kernel {
 		if (cons.showOnlyBreakpoints()) {
 			setConstructionStep(getNextBreakpoint(step));
 		} else {
+			ConstructionElement next = cons.getConstructionElement(step);
+
+			if (next instanceof GeoElement
+					&& ((GeoElement) next).getCorrespondingCasCell() != null) {
+				step++;
+			}
+
 			setConstructionStep(step);
 		}
 	}
@@ -711,7 +718,7 @@ public class Kernel {
 			if (prev instanceof GeoCasCell
 					&& ((GeoCasCell) prev).getTwinGeo() != null
 					&& ((GeoCasCell) prev).getTwinGeo().isAlgebraVisible()) {
-
+				step--;
 			}
 			cons.setStep(step);
 		}

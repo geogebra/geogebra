@@ -240,8 +240,12 @@ public class ConstructionProtocolView {
 		
 	}
 
-	protected void updateNavigationBars() {
-		App.debug("common/ContructionProtocolView.updateNavigationBars() not implemented");
+	public final void updateNavigationBars() {
+		// update all registered navigation bars
+		int size = navigationBars.size();
+		for (int i = 0; i < size; i++) {
+			navigationBars.get(i).update();
+		}
 	}
 
 	/**
@@ -411,6 +415,11 @@ public class ConstructionProtocolView {
 			for (int i = 0; i < size; i++) {
 				RowData rd = rowList.get(i);
 				if (rd.getGeo().getConstructionIndex() == step){
+					return rd.getIndex();
+				}
+				if (rd.getGeo().getCorrespondingCasCell() != null
+						&& rd.getGeo().getCorrespondingCasCell()
+								.getConstructionIndex() == step) {
 					return rd.getIndex();
 				}
 			}

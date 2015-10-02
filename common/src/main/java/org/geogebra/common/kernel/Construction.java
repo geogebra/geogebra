@@ -1732,7 +1732,7 @@ public class Construction {
 	 */
 	public void setStep(int s) {
 		// App.debug("setStep"+step+" "+s);
-
+		App.debug(step + " to" + s);
 		if (s == step || s < -1 || s >= ceList.size())
 			return;
 
@@ -1743,6 +1743,7 @@ public class Construction {
 		kernel.setNotifyConstructionProtocolViewAboutAddRemoveActive(false);
 
 		if (s < step) {
+			App.debug(step + " to" + s);
 			// we must go from high to low there as otherwise the CAS cells
 			// would
 			// rearrange their numbers meanwhile
