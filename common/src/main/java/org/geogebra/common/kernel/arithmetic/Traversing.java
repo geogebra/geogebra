@@ -457,7 +457,8 @@ public interface Traversing {
 					boolean visible = !kernel.getApplication().has(
 							Feature.AV_EXTENSIONS)
 							|| !kernel.getApplication().showView(
-									App.VIEW_ALGEBRA);
+									App.VIEW_ALGEBRA)
+							|| !kernel.getApplication().isHTML5Applet();
 					GeoNumeric.setSliderFromDefault(slider, false, visible);
 
 				}
