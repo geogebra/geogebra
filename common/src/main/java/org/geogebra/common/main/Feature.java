@@ -51,5 +51,7 @@ public enum Feature {
 
 	INTEL_REALSENSE,
 
-	DRAW_ELLIPSOID
+	DRAW_ELLIPSOID,
+	
+	CP_POPUP
 }

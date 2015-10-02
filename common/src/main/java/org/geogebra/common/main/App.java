@@ -3926,6 +3926,7 @@ public abstract class App implements UpdateSelection {
 		case LOG_AXES:
 		case INTEL_REALSENSE:
 		case DRAW_ELLIPSOID:
+		case CP_POPUP:
 			return prerelease;
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case DATA_COLLECTION:

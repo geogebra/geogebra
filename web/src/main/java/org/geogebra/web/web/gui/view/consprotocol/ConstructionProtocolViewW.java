@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -182,7 +183,23 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		int colCount = table.getColumnCount();
 		for(int i=0; i<colCount; i++){
 			table.removeColumn(0);
-		}		
+		}
+		
+		if (!app.has(Feature.CP_POPUP)) {  //old source inserted back here
+			for (int i = 0; i < data.getColumnCount(); i++) {
+				if (data.columns[i].isVisible()) {
+					String title = data.columns[i].getTitle();
+					Column<RowData, ?> col = getColumn(title);
+					if (col != null) {
+						table.addColumn(col, app.getPlain(title));
+					}
+				}
+			}
+			tableInit();
+			rowCountChanged();
+			return;
+		}
+				
 
 		int lastVisibleCol = data.getColumnCount() - 1;
 		
