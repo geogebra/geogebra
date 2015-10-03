@@ -216,7 +216,10 @@ public class GeoTextField extends GeoButton {
 		double num = Double.NaN;
 		
 		// for a simple number, round it to the textfield setting (if set)
-		if (linkedGeo.isGeoNumeric() && !linkedGeo.isGeoAngle() && (printDecimals > -1 || printFigures > -1)) {
+		if (linkedGeo.isGeoNumeric() && linkedGeo.isIndependent()
+				&& !linkedGeo.isGeoAngle()
+				&& (printDecimals > -1 || printFigures > -1)) {
+			App.error("1");
 			try {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
@@ -232,7 +235,7 @@ public class GeoTextField extends GeoButton {
 		}
 
 		try {
-			if (linkedGeo instanceof GeoNumeric) {
+			if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent()) {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
 				num = kernel.getAlgebraProcessor().evaluateToDouble(inputText,
