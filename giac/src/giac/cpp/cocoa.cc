@@ -6038,15 +6038,35 @@ namespace giac {
     }
   }
 
-  void zconvert(const vector<modint> & v,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used){
-    vector<modint>::const_iterator it=v.begin(),itend=v.end();
+  void zconvert_(vector<modint> & v,vector<modint> & lescoeffs,unsigned * bitmap,vector<used_t> & used){
+    vector<modint>::iterator it0=v.begin(),it=it0,itend=v.end(),itend4=itend-4;
     used_t * uit=&used.front();
-    for (unsigned i=0;it!=itend;++i,++it){
-      if (!*it)
-	continue;
+    for (;it<=itend4;++it){
+      if (!*it ){
+	++it;
+	if (!*it){
+	  ++it;
+	  if (!*it){
+	    ++it;
+	    if (!*it)
+	      continue;
+	  }
+	}
+      }
+      unsigned i=it-it0;
       *(uit+i)=1; // used[i]=1;
       bitmap[i>>5] |= (1<<(i&0x1f));
       lescoeffs.push_back(*it);
+      *it=0;
+    }
+    for (;it!=itend;++it){
+      if (!*it)
+	continue;
+      unsigned i=it-it0;
+      *(uit+i)=1; // used[i]=1;
+      bitmap[i>>5] |= (1<<(i&0x1f));
+      lescoeffs.push_back(*it);
+      *it=0;
     }
   }
 
@@ -6832,7 +6852,7 @@ namespace giac {
 	}
 #ifdef GIAC_Z
 	// zconvert(v,coeffit,bitmap,used); bitmap += (N>>5)+1;
-	zconvert(v,lescoeffs,bitmap,used); bitmap += (N>>5)+1;
+	zconvert_(v,lescoeffs,bitmap,used); bitmap += (N>>5)+1;
 #else
 	convert(v,SK[i],used);
 #endif
@@ -7296,7 +7316,7 @@ namespace giac {
 #endif // __x86_64__
       // zconvert(v,coeffit,bitmap,used); bitmap += (N>>5)+1;
       K[i].reserve(Kcols);
-      zconvert(v,K[i],bitmap,used); bitmap += (N>>5)+1;
+      zconvert_(v,K[i],bitmap,used); bitmap += (N>>5)+1;
       //CERR << v << endl << SK[i] << endl;
     } // end for (i=0;i<B.size();++i)
     Mindex.clear(); Muindex.clear();
@@ -9594,8 +9614,9 @@ namespace giac {
 
 
   void zmakeline(const zpolymod & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<modint> & v,int start=0){
-    v.resize(R.size()); 
-    v.assign(R.size(),0);
+    int Rs=int(R.size());
+    // if (v.size()!=Rs) v.resize(Rs); 
+    // v.assign(Rs,0);
     std::vector<zmodint>::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtbeg=jt,jtend=R.end();
     double nop1=double(R.size()); 
@@ -9766,7 +9787,7 @@ namespace giac {
     for (i=0;i<G.size();++i){
       nrows += unsigned(quo[i].size());
     }
-    unsigned c=N;
+    unsigned colonnes=N;
     double sknon0=0;
     vector<used_t> used(N,0);
     unsigned usedcount=0,zerolines=0;
@@ -9831,7 +9852,7 @@ namespace giac {
       swap(coeffindex1[i],coeffindex[atrier[i].pos]);
     }
     swap(Mindex,Mindex1);
-	nrows = unsigned(Mindex.size());
+    nrows = unsigned(Mindex.size());
     swap(coeffindex,coeffindex1);
     vector<unsigned> firstpos(atrier.size());
     for (i=0;i < atrier.size();++i){
@@ -9860,6 +9881,7 @@ namespace giac {
     unsigned Kcols=N-nrows;
     vector<unsigned> lebitmap(((N>>5)+1)*B.size());
     unsigned * bitmap=&lebitmap.front();
+    vector<modint> Ki; Ki.reserve(Kcols);
     for (i=0;i<B.size();++i){
       pair<unsigned,unsigned> bk=B[i];
       if (!learning && pairs_reducing_to_zero && learned_position<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[learned_position]){
@@ -9871,24 +9893,33 @@ namespace giac {
 	bitmap += tofill;
 	continue;
       }
+      // CERR << bk.first << " " << leftshift[i] << endl;
       zmakeline(res[bk.first],&leftshift[i],R,v,1);
+      // CERR << bk.second << " " << rightshift[i] << endl;
       zmakelinesub(res[bk.second],&rightshift[i],R,v,1,env);
       // CERR << v << endl << v2 << endl;
       // sub(v,v2,env);
       // CERR << v << endl;
 #ifdef __x86_64__
       if (large || env<(1<<24)){
-	c=giacmin(c,reducef4buchbergersplit(v,Mindex,firstpos,Mcoeff,coeffindex,env,v64));
+	colonnes=giacmin(colonnes,reducef4buchbergersplit(v,Mindex,firstpos,Mcoeff,coeffindex,env,v64));
       }
       else {
-	c=giacmin(c,reducef4buchbergersplit64(v,Mindex,firstpos,Mcoeff,coeffindex,env,v128));
+	colonnes=giacmin(colonnes,reducef4buchbergersplit64(v,Mindex,firstpos,Mcoeff,coeffindex,env,v128));
       }
 #else // __x86_64__
-	c=giacmin(c,reducef4buchbergersplit(v,Mindex,firstpos,Mcoeff,coeffindex,env,v64));
+      colonnes=giacmin(colonnes,reducef4buchbergersplit(v,Mindex,firstpos,Mcoeff,coeffindex,env,v64));
 #endif // __x86_64__
       // zconvert(v,coeffit,bitmap,used); bitmap += (N>>5)+1;
-      K[i].reserve(Kcols);
-      zconvert(v,K[i],bitmap,used); bitmap += (N>>5)+1;
+      Ki.clear();
+      zconvert_(v,Ki,bitmap,used); bitmap += (N>>5)+1;
+      size_t Kis=Ki.size();
+      if (Kis>Ki.capacity()*.8){
+	K[i].swap(Ki);
+	Ki.reserve(giacmin(Kcols,Kis*1.1));
+      }
+      else
+	K[i]=Ki;      
       //CERR << v << endl << SK[i] << endl;
     } // end for (i=0;i<B.size();++i)
     Mindex.clear();
@@ -9897,7 +9928,7 @@ namespace giac {
       info_ptr->R.swap(clearer);
     }
     if (debug_infolevel>1)
-      CERR << CLOCK() << " f4buchbergerv split reduced " << B.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+      CERR << CLOCK() << " f4buchbergerv split reduced " << B.size() << " polynoms over " << N << " monomials, start at " << colonnes << endl;
     for (i=0;i<N;++i)
       usedcount += (used[i]>0);
     if (debug_infolevel>1){
@@ -9917,7 +9948,7 @@ namespace giac {
     //CERR << K << endl;
     smallmodrref(K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
     //CERR << K << endl;
-	unsigned first0 = unsigned(pivots.size());
+    unsigned first0 = unsigned(pivots.size());
     if (first0<K.size() && learning){
       vector<modint> & tmpv=K[first0];
       for (i=0;i<tmpv.size();++i){
@@ -9925,7 +9956,7 @@ namespace giac {
 	  break;
       }
       if (i==tmpv.size()){
-		  unsigned Ksize = unsigned(K.size());
+	unsigned Ksize = unsigned(K.size());
 	K.resize(first0);
 	K.resize(Ksize);
       }

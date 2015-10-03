@@ -69,11 +69,11 @@ using namespace std;
 #endif
 
 #ifdef BESTA_OS
-unsigned int AspenGetNow(); 
+unsigned int PrimeGetNow(); 
 #endif
 
 #ifdef RTOS_THREADX 
-u32 AspenGetNow();
+u32 PrimeGetNow();
 extern "C" uint32_t mainThreadStack[];
 #else
 #undef clock
@@ -3083,7 +3083,7 @@ namespace giac {
     }
     else {
 #if defined RTOS_THREADX || defined BESTA_OS
-      int t=AspenGetNow();
+      int t=PrimeGetNow();
 #else
       int t=int(time(NULL));
 #endif

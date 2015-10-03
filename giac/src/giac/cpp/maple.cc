@@ -66,7 +66,7 @@ using namespace std;
 
 
 #ifdef GIAC_HAS_STO_38
-  TMillisecs AspenGetNow();
+  TMillisecs PrimeGetNow();
 #endif
 
 #if defined(EMCC) && !defined(PNACL)
@@ -365,7 +365,7 @@ namespace giac {
     return makevecteur(double(u1)/CLOCKS_PER_SEC,fin.tv_sec-debut.tv_sec+(fin.tv_usec-debut.tv_usec)/1e6);
 #endif
 #ifdef GIAC_HAS_STO_38
-   int t1=AspenGetNow(),t2;
+   int t1=PrimeGetNow(),t2;
 #endif
 #ifdef _RUSAGE
     struct rusage tmp1,tmp2,tmpc1,tmpc2;
@@ -386,7 +386,7 @@ namespace giac {
 	eval(a,level,contextptr);
       }
 #ifdef GIAC_HAS_STO_38
-      t2=AspenGetNow();
+      t2=PrimeGetNow();
       delta=(t2-t1)/1000.;
 #else // GIAC_HAS_STO_38
 #ifdef _RUSAGE

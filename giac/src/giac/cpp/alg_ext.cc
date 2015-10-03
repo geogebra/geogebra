@@ -90,7 +90,7 @@ namespace giac {
     pthread_mutex_unlock(&rootof_mutex);
   }
 #else
-  static int rootof_trylock(){ return true; }
+  static int rootof_trylock(){ return 0; }
   static void rootof_unlock(){ } 
 
 #endif

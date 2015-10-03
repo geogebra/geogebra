@@ -2156,7 +2156,11 @@ namespace giac {
     }
     else {
       int epsbits=-std::log(eps)/std::log(2.);
-      if (int(crystalball.size())==deg && dkw(v_accurate,crystalball,nbits,eps)){
+      if (int(crystalball.size())==deg 
+#ifndef EMCC
+	  && dkw(v_accurate,crystalball,nbits,eps)
+#endif
+	  ){
 	proot_cache(v,eps,crystalball);
 	return crystalball;
       }
