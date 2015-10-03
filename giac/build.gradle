@@ -256,7 +256,7 @@ model {
             	    cppCompiler.define 'NO_SCANDIR'
             	    cppCompiler.define 'gettext', ''
             	    cppCompiler.args '-mmacosx-version-min=10.6'
-            	    cppCompiler.args '-isysroot', '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk'
+            	    cppCompiler.args '-isysroot', '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk'
             	    cppCompiler.args '-I/System/Library/Frameworks/CoreFoundation.framework/Headers'
 
                     cppCompiler.args '-I', file('src/jni/jdkHeaders/darwin').toString()
