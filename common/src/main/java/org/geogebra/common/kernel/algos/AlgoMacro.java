@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Locateable;
@@ -626,6 +627,11 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 
 	}
 
+	@Override
+	public int getRelatedModeID() {
+		return kernel.getMacroID(macro)
+				+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
+	}
 	// TODO Consider locusequability
 
 }

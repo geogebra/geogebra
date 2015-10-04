@@ -163,6 +163,7 @@ public class CASTableW extends Grid implements CASTable {
 
 	public void deleteRow(int rowNumber) {
 		removeRow(rowNumber);
+		resetRowNumbers(rowNumber);
 	}
 
 	public void setRow(int rowNumber, GeoCasCell casCell) {

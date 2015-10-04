@@ -59,6 +59,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		initGUI();
 		setTooltips();
 		addStyleName("CASStyleBar");
+		optionType = OptionType.CAS;
 	}
 
 	private void initGUI() {
@@ -69,6 +70,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		add(btnItalic);
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
+		addMenuButton();
 		addViewButton();
 		updateStyleBar();
 	}
