@@ -2699,7 +2699,7 @@ __GGB__keysVar.ja.plain = {
     "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "\u6298\u308c\u7dda",
     "Polygon": "\u591a\u89d2\u5f62",
-    "PolygonA": "\u591a\u9762\u4f53 %0",
+    "PolygonA": "\u591a\u89d2\u5f62 %0",
     "PolygonAParallelToB": "%1 \u306b\u5e73\u884c\u306a\u591a\u89d2\u5f62 %0",
     "PositiveDirectionOnly": "\u6b63\u306e\u5411\u304d\u306e\u307f",
     "PositiveValuesFollowTheView": "Positive values follow the view",
