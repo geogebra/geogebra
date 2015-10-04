@@ -3968,7 +3968,7 @@ public abstract class App implements UpdateSelection {
 			return false;
 		}
 
-		return tpl.isMathQuill();
+		return tpl != null && tpl.isMathQuill();
 	}
 
 	private int tubeID = 0;
