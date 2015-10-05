@@ -1582,6 +1582,7 @@ kernel, left,
 		if (tpl.equals(StringTemplate.giacTemplate)
 				&& left instanceof GeoNumeric
 				&& !(left instanceof GeoDummyVariable)
+				&& ((GeoElement) left).getLabelSimple() != null
 				&& ((GeoElement) left).getLabelSimple().startsWith("c_")) {
 			((GeoNumeric) left).setSendValueToCas(false);
 		}
