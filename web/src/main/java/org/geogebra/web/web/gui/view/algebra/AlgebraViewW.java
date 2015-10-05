@@ -263,7 +263,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 		// repaint sliders as fast as possible
 		if (app.has(Feature.AV_EXTENSIONS)) {
-			deferredRepaintSliders();
+			if (isShowing()) {
+				deferredRepaintSliders();
+			}
 		}
 
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
