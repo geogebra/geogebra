@@ -187,12 +187,17 @@ public class CAStestJSON {
 						equalToIgnoreWhitespaces(logger, input,
 								expectedResult[i].replaceAll("c_[0-9]", "c_0"),
 								validResults));
+				return;
 			} catch (Throwable t) {
-				if (!(t instanceof AssertionError)) {
+				// if (!(t instanceof AssertionError)) {
 					t.printStackTrace();
-				}
+				// }
 				if (i == expectedResult.length - 1) {
-					Assert.assertEquals(result, expectedResult[0] + " input:"
+					Assert.assertEquals(result,
+							(expectedResult[0] == null ? "null"
+									: expectedResult[0].replaceAll("c_[0-9]",
+											"c_0"))
+									+ " input:"
 							+ input);
 				}
 			}
@@ -241,7 +246,7 @@ public class CAStestJSON {
 			sb.append(cat);
 			sb.append(',');
 		}
-		Assert.assertEquals(sb.toString(), "");
+		Assert.assertEquals(sb.toString(), "SLOW,");
 	}
 	
 	@Test
@@ -1178,6 +1183,31 @@ public class CAStestJSON {
 	@Test
 	public void testXXEvaluate(){
 		testCat("XXEvaluate");
+	}
+
+	@Test
+	public void testSolveAssume() {
+		testCat("SolveAssume");
+	}
+
+	@Test
+	public void testNSolve2() {
+		testCat("NSolve2");
+	}
+
+	@Test
+	public void testSolveTrig() {
+		testCat("SolveTrig");
+	}
+
+	@Test
+	public void testSolveUnderdetermined() {
+		testCat("SolveUnderdetermined");
+	}
+
+	@Test
+	public void testSolveIneq() {
+		testCat("SolveIneq");
 	}
 
 
