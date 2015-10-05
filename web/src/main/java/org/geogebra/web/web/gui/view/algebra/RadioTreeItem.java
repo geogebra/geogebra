@@ -2049,7 +2049,8 @@ substituteNumbers,
 		// probably no, as there is a stopPropagation
 		// in the onMouseDown method as well...
 		event.stopPropagation();
-		event.preventDefault();
+		// Do NOT prevent default, kills scrolling on touch
+		// event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.scheduleTimer(this, x, y);
