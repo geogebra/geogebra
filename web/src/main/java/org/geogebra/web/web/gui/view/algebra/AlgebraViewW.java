@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
@@ -364,17 +365,19 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	 */
 	protected void doRepaintSliders() {
 		switch (treeMode) {
-		case LAYER:
-			break;
+
 		case ORDER:
 			repaintSlidersOrder();
 			break;
-		case TYPE:
-			break;
 		case VIEW:
+		case TYPE:
+		case LAYER:
+			for (int i = 0; i < getItemCount(); i++) {
+				repaintSlidersDependent(getItem(i));
+			}
 			break;
 		case DEPENDENCY:
-			repaintSlidersDependent();
+			repaintSlidersDependent(this.indNode);
 			break;
 		default:
 
@@ -383,13 +386,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		}
 	}
 
-	private void repaintSlidersDependent() {
-		for (int i = 0; i < getItemCount(); i++) {
-			TreeItem ti = getItem(i);
-			if (ti != null) {
-				for (int j = 0; j < ti.getChildCount(); j++) {
-					repaintSliderNode(ti.getChild(j));
-				}
+	private void repaintSlidersDependent(TreeItem ti) {
+		if (ti != null) {
+			for (int j = 0; j < ti.getChildCount(); j++) {
+				repaintSliderNode(ti.getChild(j));
 			}
 		}
 	}
@@ -402,11 +402,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	private void repaintSliderNode(TreeItem ti) {
 		GeoElement geo = (GeoElement) ti.getUserObject();
-		if (geo instanceof GeoNumeric && geo.isIndependent()
+		if ((geo instanceof GeoNumeric || geo instanceof GeoBoolean)
+				&& geo.isIndependent()
 				&& ti instanceof RadioTreeItem) {
 			RadioTreeItem.as(ti).repaint();
 			ti.setSelected(geo.doHighlighting());
 				}
+
 	}
 
 	private static void repaintChildren(TreeItem item) {
