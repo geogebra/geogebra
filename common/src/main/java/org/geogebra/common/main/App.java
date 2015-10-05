@@ -45,8 +45,6 @@ import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
-import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -3666,18 +3664,17 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * This method is to be overridden in subclasses In Web, this can run in
 	 * asyncronous mode
+	 * 
+	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 *
 	 * @return AlgoKimberlingWeightsInterface
 	 */
-	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
-		if (kimberlingw != null) {
-			return kimberlingw;
-		}
-		return (kimberlingw = new AlgoKimberlingWeights());
-	}
+	public abstract AlgoKimberlingWeightsInterface getAlgoKimberlingWeights();
 
 	/**
 	 * Needed for running part of AlgoKimberling async
+	 * 
+	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 * 
 	 * @param k
 	 * @param a
@@ -3685,25 +3682,22 @@ public abstract class App implements UpdateSelection {
 	 * @param c
 	 * @return
 	 */
-	public double kimberlingWeight(AlgoKimberlingWeightsParams kw) {
-		return getAlgoKimberlingWeights().weight(kw);
-	}
+	public abstract double kimberlingWeight(AlgoKimberlingWeightsParams kw);
 
 	/**
 	 * This method is to be overridden in subclasses In Web, this can run in
 	 * asyncronous mode
+	 * 
+	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 *
 	 * @return AlgoCubicSwitchInterface
 	 */
-	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
-		if (cubicw != null) {
-			return cubicw;
-		}
-		return (cubicw = new AlgoCubicSwitch());
-	}
+	public abstract AlgoCubicSwitchInterface getAlgoCubicSwitch();
 
 	/**
 	 * Needed for running part of AlgoKimberling async
+	 * 
+	 * ** MUST STAY AS ABSTRACT OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	 * 
 	 * @param k
 	 * @param a
@@ -3711,9 +3705,7 @@ public abstract class App implements UpdateSelection {
 	 * @param c
 	 * @return
 	 */
-	public String cubicSwitch(AlgoCubicSwitchParams kw) {
-		return getAlgoCubicSwitch().getEquation(kw);
-	}
+	public abstract String cubicSwitch(AlgoCubicSwitchParams kw);
 
 	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
 
