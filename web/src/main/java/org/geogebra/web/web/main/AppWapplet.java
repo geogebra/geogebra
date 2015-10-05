@@ -37,9 +37,7 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
-import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.helper.ObjectPool;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
@@ -339,11 +337,7 @@ public class AppWapplet extends AppWFull {
 						@Override
 						public void onClickStart(int x, int y,
 								final PointerEventType type) {
-							AlgebraStyleBarW styleBar = ((AlgebraViewW) getView(App.VIEW_ALGEBRA))
-									.getStyleBar(false);
-							if (styleBar != null) {
-								styleBar.update(null);
-							}
+							updateAVStylebar();
 
 							if (!CancelEventTimer.cancelKeyboardHide()) {
 								Timer timer = new Timer() {

@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
@@ -152,7 +151,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    		}
 	    	}
 	    });
-	    App.debug("HAS EXPORT"+app.getLAF().exportSupported());
 		if (app.getLAF().exportSupported()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 				        .menu_icons_file_export()

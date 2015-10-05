@@ -19,9 +19,9 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
@@ -77,11 +77,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		ClickStartHandler.init(dockPanel, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, final PointerEventType type) {
-				AlgebraStyleBarW styleBar = ((AlgebraViewW) app
-						.getView(App.VIEW_ALGEBRA)).getStyleBar(false);
-				if (styleBar != null) {
-					styleBar.update(null);
-				}
+				((AppWFull) app).updateAVStylebar();
 
 				if (!CancelEventTimer.cancelKeyboardHide()) {
 					Timer timer = new Timer() {

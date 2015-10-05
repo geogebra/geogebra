@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -20,7 +21,9 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
@@ -226,5 +229,15 @@ public abstract class AppWFull extends AppW {
 		getOptionPane().showInputDialog(this, "", title, mess,
 				GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
 				null, null);
+	}
+
+	public void updateAVStylebar() {
+		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
+			AlgebraStyleBarW styleBar = ((AlgebraViewW) getView(App.VIEW_ALGEBRA))
+					.getStyleBar(false);
+			if (styleBar != null) {
+				styleBar.update(null);
+			}
+		}
 	}
 }
