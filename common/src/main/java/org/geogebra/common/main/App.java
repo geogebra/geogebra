@@ -14,10 +14,12 @@ import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.euclidian.DrawEquation;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -4038,12 +4040,18 @@ public abstract class App implements UpdateSelection {
 	public boolean handleSpaceKey() {
 		ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
 		if (selGeos.size() == 1) {
-			if (selGeos.get(0).isGeoBoolean()) {
+			GeoElement geo = selGeos.get(0);
+			if (geo.isGeoBoolean()) {
 				GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
 				geoBool.setValue(!geoBool.getBoolean());
 				geoBool.updateRepaint();
+			} else if (geo.isGeoTextField()) {
+				Drawable d = (Drawable) getActiveEuclidianView()
+						.getDrawableFor(geo);
+				((DrawTextField) d).showIntputField(true);
 			} else {
-				selGeos.get(0).runClickScripts(null);
+
+				geo.runClickScripts(null);
 			}
 
 			return true;
