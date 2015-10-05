@@ -51,7 +51,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public boolean exportSupported() {
-		return false;
+		return true;
 	}
 
 	@Override
