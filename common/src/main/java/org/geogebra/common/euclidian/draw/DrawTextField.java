@@ -469,9 +469,8 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 			if (latexLabel) {
 				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
 			} else {
-				int h = labelFontSize + HIGHLIGHT_MARGIN;
-				g2.fillRect(xLabel, textBottom - h, labelSize.x,
-						h + HIGHLIGHT_MARGIN);
+				g2.fillRect(xLabel, yLabel + ((boxHeight - getH()) / 2),
+						labelSize.x, getH() + HIGHLIGHT_MARGIN);
 			}
 		}
 		g2.setPaint(geo.getObjectColor());
@@ -491,13 +490,17 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 				false);
 	}
 
+	private int getH() {
+		return (int) (labelFontSize * 1.2 + HIGHLIGHT_MARGIN);
+
+	}
 	private int getTruncIndex(String text, GGraphics2D g2) {
 		int idx = text.length();
-		int mt = g2.getFontRenderContext().measureTextWith(text, g2.getFont());
+		int mt = g2.getFontRenderContext().measureTextWidth(text, g2.getFont());
 		while (mt > boxWidth && idx > 0) {
 			idx--;
 			mt = g2.getFontRenderContext()
-					.measureTextWith(text.substring(0, idx), g2.getFont());
+					.measureTextWidth(text.substring(0, idx), g2.getFont());
 
 		}
 		return idx;
@@ -530,7 +533,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 	};
 
 	private int getTextBottom() {
-		return (prefSize.getHeight() / 2) + labelFontSize / 2 - 2;
+		return (prefSize.getHeight() / 2) + (int) (labelFontSize * 0.4);
 	}
 
 	private void drawTextFieldLabel(GGraphics2D g2) {
