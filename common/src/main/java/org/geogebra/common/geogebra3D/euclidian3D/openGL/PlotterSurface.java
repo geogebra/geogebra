@@ -526,6 +526,38 @@ public class PlotterSurface {
 		// implemented only with elements
 	}
 
+	/**
+	 * draw a paraboloid
+	 * 
+	 * @param center
+	 *            center
+	 * @param ev0
+	 *            first eigenvector
+	 * @param ev1
+	 *            second eigenvector
+	 * @param ev2
+	 *            third eigenvector
+	 * @param r
+	 *            half axis
+	 * @param min
+	 *            minimum parameter for quadric axis
+	 * @param max
+	 *            maximum parameter for quadric axis
+	 * @param lineMin
+	 *            minimum parameter for line axis
+	 * @param lineMax
+	 *            maximum parameter for line axis
+	 * @param fading
+	 *            if we need fading or not
+	 * 
+	 */
+	public void drawParabolicCylinder(Coords center, Coords ev0, Coords ev1,
+			Coords ev2, double r, double min, double max,
+			double lineMin, double lineMax, boolean fading) {
+
+		// implemented only with elements
+	}
+
 	private Coords[] coordsArray = new Coords[0];
 
 	/**
@@ -974,9 +1006,18 @@ public class PlotterSurface {
 
 	}
 
-	private Coords m = new Coords(4);
-	private Coords tmpCoords = new Coords(4), tmpCoords2 = new Coords(4),
-			tmpCoords3 = new Coords(4), center1 = new Coords(4), center2 = new Coords(4), n = new Coords(4);
+	protected Coords m = new Coords(4);
+	protected Coords tmpCoords = new Coords(4);
+
+	protected Coords tmpCoords2 = new Coords(4);
+
+	protected Coords tmpCoords3 = new Coords(4);
+
+	protected Coords center1 = new Coords(4);
+
+	protected Coords center2 = new Coords(4);
+
+	private Coords n = new Coords(4);
 
 	/**
 	 * @param center

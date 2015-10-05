@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 /**
  * Class for drawing quadrics.
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
@@ -411,7 +411,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			center = quadric.getMidpoint3D();
 			r0 = quadric.getHalfAxis(0);
 			r1 = quadric.getHalfAxis(1);
-			r2 = quadric.getHalfAxis(2);
 			surface = renderer.getGeometryManager().getSurface();
 			surface.start(getReusableSurfaceIndex());
 			ev0 = quadric.getEigenvec3D(0);
@@ -422,8 +421,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 			minmax[0] = Double.POSITIVE_INFINITY;
 			minmax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(minmax, center,
-					ev2.mul(r2));
+			getView3D().getMinIntervalOutsideClipping(minmax, center, ev2);
 			if (minmax[1] < 0) {
 				// nothing to draw
 				setSurfaceIndex(surface.end());
@@ -440,6 +438,42 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 				surface.drawParaboloid(center, ev0, ev1, ev2, r0, r1,
 						longitude, min, max, !getView3D().useClippingCube());
+				setSurfaceIndex(surface.end());
+			}
+			break;
+
+		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
+			center = quadric.getMidpoint3D();
+			r2 = quadric.getHalfAxis(2);
+			surface = renderer.getGeometryManager().getSurface();
+			surface.start(getReusableSurfaceIndex());
+			ev0 = quadric.getEigenvec3D(0);
+			ev1 = quadric.getEigenvec3D(1);
+			ev2 = quadric.getEigenvec3D(2);
+			if (minmax == null) {
+				minmax = new double[2];
+			}
+			minmax[0] = Double.POSITIVE_INFINITY;
+			minmax[1] = Double.NEGATIVE_INFINITY;
+			getView3D().getMinIntervalOutsideClipping(minmax, center, ev0);
+			if (minmax[1] < 0) {
+				// nothing to draw
+				setSurfaceIndex(surface.end());
+			} else {
+				scale = getView3D().getScale();
+				// get radius at max
+				if (minmax[0] <= 0) {
+					min = 0;
+				} else {
+					min = Math.sqrt(minmax[0]);
+				}
+				max = Math.sqrt(minmax[1]);
+				minmax[0] = Double.POSITIVE_INFINITY;
+				minmax[1] = Double.NEGATIVE_INFINITY;
+				getView3D().getMinIntervalOutsideClipping(minmax, center, ev1);
+				surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2, min,
+						max, minmax[0], minmax[1], !getView3D()
+								.useClippingCube());
 				setSurfaceIndex(surface.end());
 			}
 			break;
@@ -735,6 +769,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
 		case GeoQuadricNDConstants.QUADRIC_PARABOLOID:
+		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			if (getView3D().viewChangedByZoom()
 					|| getView3D().viewChangedByTranslate()) {
@@ -1051,6 +1086,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_PARABOLOID
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CONE) {
 			return false;

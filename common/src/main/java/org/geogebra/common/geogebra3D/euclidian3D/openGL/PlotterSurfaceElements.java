@@ -1484,6 +1484,274 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		setIndices(longitude, longitude, drawParaboloid);
 	}
 
+	private double maxFadingStartTop, maxFadingEndTop, middleFading,
+			maxFadingStartBottom, maxFadingEndBottom;
+
+	@Override
+	public void drawParabolicCylinder(Coords center, Coords ev0, Coords ev1,
+			Coords ev2, double r, double min, double max,
+			double lineMin, double lineMax, boolean fading) {
+
+		center1.setAdd(center, tmpCoords.setMul(ev1, lineMin));
+		center2.setAdd(center, tmpCoords.setMul(ev1, lineMax));
+		
+		if (n == null) {
+			n = new Coords(4);
+		}
+
+		double lineFading = 0;
+		if (fading) {
+			if (Kernel.isZero(min)) {
+				maxFadingEndTop = max * max;
+				maxFadingStartTop = maxFadingEndTop * 0.9;
+				middleFading = -1;
+				maxFadingStartBottom = 0;
+				maxFadingEndBottom = 0;
+			} else {
+				double min2 = min * min;
+				double max2 = max * max;
+				middleFading = (min2 + max2) / 2;
+				maxFadingStartTop = max2 * 0.9 + min2 * 0.1;
+				maxFadingEndTop = max2;
+				maxFadingStartBottom = max2 * 0.1 + min2 * 0.9;
+				maxFadingEndBottom = min2;
+			}
+
+			lineFading = -8; // TODO preferences
+		}
+
+		latitude = 16;
+		
+		// set geometry
+		startGeometry();
+
+		if (min == 0) {
+			n.setMul(ev0, -1);
+
+			if (fading) {
+				manager.texture(1, 0);
+			}
+			drawNV(n, center1);
+
+			if (fading) { // we need an intermediate vertex for texture
+				manager.texture(lineFading, 0);
+				drawNV(n, center);
+			}
+
+			if (fading) {
+				manager.texture(1, 0);
+			}
+			drawNV(n, center2);
+		}
+
+		for (int vi = 1; vi <= latitude; vi++) {
+			double v = min + ((max - min) * vi) / latitude;
+			double z = v * v;
+			double zFading = 0;
+			if (fading) {
+				if (z > middleFading) {
+					zFading = (z - maxFadingStartTop)
+							/ (maxFadingEndTop - maxFadingStartTop);
+				} else {
+					zFading = (z - maxFadingStartBottom)
+							/ (maxFadingEndBottom - maxFadingStartBottom);
+				}
+			}
+
+			tmpCoords2.setMul(ev2, r * v);
+			tmpCoords3.setMul(ev0, z);
+
+			// v > 0
+			tmpCoords.setMul(ev0, -r);
+			n.setMul(ev2, 2 * v);
+			n.setAdd(tmpCoords, n);
+			n.normalize();
+
+			m.setAdd(center1, tmpCoords2);
+			m.setAdd(m, tmpCoords3);
+			if (fading) {
+				manager.texture(1, zFading);
+			}
+			drawNV(n, m);
+
+			if (fading) {
+				m.setAdd(center, tmpCoords2);
+				m.setAdd(m, tmpCoords3);
+				manager.texture(lineFading, zFading);
+				drawNV(n, m);
+			}
+
+			m.setAdd(center2, tmpCoords2);
+			m.setAdd(m, tmpCoords3);
+			if (fading) {
+				manager.texture(1, zFading);
+			}
+			drawNV(n, m);
+
+			// v < 0
+			n.setMul(ev2, -2 * v);
+			n.setAdd(tmpCoords, n);
+			n.normalize();
+
+			m.setSub(center1, tmpCoords2);
+			m.setAdd(m, tmpCoords3);
+			if (fading) {
+				manager.texture(1, zFading);
+			}
+			drawNV(n, m);
+
+			if (fading) {
+				m.setSub(center, tmpCoords2);
+				m.setAdd(m, tmpCoords3);
+				manager.texture(lineFading, zFading);
+				drawNV(n, m);
+			}
+
+			m.setSub(center2, tmpCoords2);
+			m.setAdd(m, tmpCoords3);
+			if (fading) {
+				manager.texture(1, zFading);
+			}
+			drawNV(n, m);
+
+		}
+
+
+		// set indices
+		if (min == 0) {
+			arrayIndex = latitude * 12;
+		} else {
+			arrayIndex = (latitude - 1) * 12;
+		}
+		if (fading) {
+			arrayIndex *= 2;
+		}
+		arrayI = manager.getCurrentGeometryIndices(arrayIndex);
+
+		short index = 0;
+
+		if (fading) {
+			if (min == 0) {
+				arrayI.put(index);
+				arrayI.put((short) (index + 3));
+				arrayI.put((short) (index + 1));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 3));
+				arrayI.put((short) (index + 4));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 4));
+				arrayI.put((short) (index + 2));
+
+				arrayI.put((short) (index + 2));
+				arrayI.put((short) (index + 4));
+				arrayI.put((short) (index + 5));
+
+
+				arrayI.put(index);
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 6));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 7));
+				arrayI.put((short) (index + 6));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 2));
+				arrayI.put((short) (index + 7));
+
+				arrayI.put((short) (index + 2));
+				arrayI.put((short) (index + 8));
+				arrayI.put((short) (index + 7));
+
+				index += 3;
+			}
+			for (int vi = 1; vi < latitude; vi++) {
+				arrayI.put(index);
+				arrayI.put((short) (index + 6));
+				arrayI.put((short) (index + 1));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 6));
+				arrayI.put((short) (index + 7));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 7));
+				arrayI.put((short) (index + 2));
+
+				arrayI.put((short) (index + 2));
+				arrayI.put((short) (index + 7));
+				arrayI.put((short) (index + 8));
+
+				arrayI.put((short) (index + 3));
+				arrayI.put((short) (index + 4));
+				arrayI.put((short) (index + 9));
+
+				arrayI.put((short) (index + 4));
+				arrayI.put((short) (index + 10));
+				arrayI.put((short) (index + 9));
+
+				arrayI.put((short) (index + 4));
+				arrayI.put((short) (index + 5));
+				arrayI.put((short) (index + 10));
+
+				arrayI.put((short) (index + 5));
+				arrayI.put((short) (index + 11));
+				arrayI.put((short) (index + 10));
+
+				index += 6;
+
+			}
+		} else {
+			if (min == 0) {
+				arrayI.put(index);
+				arrayI.put((short) (index + 2));
+				arrayI.put((short) (index + 1));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 2));
+				arrayI.put((short) (index + 3));
+
+				arrayI.put(index);
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 4));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 5));
+				arrayI.put((short) (index + 4));
+
+				index += 2;
+			}
+			for (int vi = 1; vi < latitude; vi++) {
+				arrayI.put(index);
+				arrayI.put((short) (index + 4));
+				arrayI.put((short) (index + 1));
+
+				arrayI.put((short) (index + 1));
+				arrayI.put((short) (index + 4));
+				arrayI.put((short) (index + 5));
+
+				arrayI.put((short) (index + 2));
+				arrayI.put((short) (index + 3));
+				arrayI.put((short) (index + 6));
+
+				arrayI.put((short) (index + 3));
+				arrayI.put((short) (index + 7));
+				arrayI.put((short) (index + 6));
+
+				index += 4;
+
+			}
+		}
+
+		arrayI.rewind();
+
+
+		manager.endGeometry(arrayIndex, TypeElement.SURFACE);
+
+	}
+
 	private int arrayIndex = 0;
 	private GLBufferIndices arrayI;
 
