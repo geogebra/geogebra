@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -1360,5 +1361,26 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public int getCASObjectNumber(){
 		return kernel.getConstruction().getCASObjectNumber();
 		
+	}
+
+	/**
+	 * If there are Macros or an Exercise present in the current file this can
+	 * be used to check if parts of the construction are equivalent to the
+	 * Macros in the file. <br>
+	 * It will return the overall Fraction of the Exercise.<br>
+	 * This is the sum of all the Fractions in the Assignment or 1 if one of the
+	 * Assignments has a fraction of 100 and no negative fractions are present.
+	 * Use {@link #getExerciseResult()} to get the fractions of each Assignment.
+	 * If you don't want that a standard exercise (using all the Macros in the
+	 * Construction and setting each fraction to 100) will be created, check if
+	 * this is a Exercise with {@link #isExercise()} first. <br>
+	 * 
+	 * @return the overall fraction of the Exercise
+	 * 
+	 */
+	public float getExerciseFraction() {
+		Exercise ex = kernel.getExercise();
+		ex.checkExercise();
+		return ex.getFraction();
 	}
 }

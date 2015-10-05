@@ -616,5 +616,7 @@ public interface JavaScriptAPI {
 	public void setPerspective(String s);
 
 	public int getCASObjectNumber();
+	
+	public float getExerciseFraction();
 
 }

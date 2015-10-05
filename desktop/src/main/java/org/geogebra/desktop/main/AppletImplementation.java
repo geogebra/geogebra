@@ -1536,4 +1536,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getMode();
 	}
 
+	public float getExerciseFraction() {
+		return ggbApi.getExerciseFraction();
+	}
+
 }

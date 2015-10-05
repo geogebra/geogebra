@@ -679,7 +679,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getExerciseFraction = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getExerciseFraction()();
+			return ggbAPI.@org.geogebra.common.plugin.GgbAPI::getExerciseFraction()();
 		};
 
 		api.isExercise = function() {

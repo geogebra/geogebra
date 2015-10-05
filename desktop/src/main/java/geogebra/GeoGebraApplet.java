@@ -739,4 +739,8 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().getMode();
 	}
 
+	public float getExerciseFraction() {
+		return getAppletImplementation().getMode();
+	}
+
 }
