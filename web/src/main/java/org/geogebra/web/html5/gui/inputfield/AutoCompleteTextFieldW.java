@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawTextField;
@@ -81,6 +82,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public interface InsertHandler {
 		void onInsert(String text);
 	}
+
+	private static final int BOX_ROUND = 8;
 
 	private AppW app;
 	private Localization loc;
@@ -1695,4 +1698,16 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		deferredFocus = b;
 	}
 
+	@Override
+	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
+			int width,
+			int height) {
+		g2.setPaint(bgColor);
+		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+
+		// TF Rectangle
+		g2.setPaint(GColor.LIGHT_GRAY);
+		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+
+	}
 }

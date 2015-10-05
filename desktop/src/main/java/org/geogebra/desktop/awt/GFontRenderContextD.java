@@ -15,4 +15,5 @@ public class GFontRenderContextD extends org.geogebra.common.awt.GFontRenderCont
 		return ((GFontRenderContextD) frc).impl;
 	}
 
+
 }

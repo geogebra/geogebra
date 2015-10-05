@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.event.FocusListener;
@@ -1058,4 +1059,17 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 	public void setDeferredFocus(boolean b) {
 	}
 
+	@Override
+	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
+			int width,
+			int height) {
+		g2.setPaint(bgColor);
+		g2.fillRect(left, top, width, height - 2);
+
+		// TF Rectangle
+		g2.setPaint(GColor.LIGHT_GRAY);
+
+		g2.drawRect(left, top, width, height - 2);
+
+	}
 }

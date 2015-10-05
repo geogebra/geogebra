@@ -48,7 +48,6 @@ import org.geogebra.common.util.Unicode;
  */
 public class DrawTextField extends Drawable implements RemoveNeeded {
 	private static final int HIGHLIGHT_MARGIN = 2;
-	private static final int BOX_ROUND = 8;
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
 	private static final double TF_WIDTH_FACTOR = 0.81;
@@ -443,7 +442,6 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 			calculateBoxBounds();
 		}
 
-		int boxRound = BOX_ROUND;
 		int textLeft = boxLeft + 2;
 		int textBottom = boxTop + getTextBottom();
 
@@ -452,17 +450,10 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
 				boxHeight - 3);
 		box.setBounds(labelRectangle);
-
-		// Backround
-		GColor bgColor = geo.getBackgroundColor();
-		g2.setPaint(bgColor != null ? bgColor : view.getBackgroundCommon());
-		g2.fillRoundRect(boxLeft, boxTop, boxWidth, boxHeight, boxRound,
-				boxRound);
-
-		// TF Rectangle
-		g2.setPaint(GColor.LIGHT_GRAY);
-		g2.drawRoundRect(boxLeft, boxTop, boxWidth, boxHeight, boxRound,
-				boxRound);
+		GColor bgColor = geo.getBackgroundColor() != null
+				? geo.getBackgroundColor() : view.getBackgroundCommon();
+		textField.drawBounds(g2, bgColor, boxLeft, boxTop,
+				boxWidth, boxHeight);
 
 		// Label highlight
 		if (hasLabel && geo.doHighlighting()) {

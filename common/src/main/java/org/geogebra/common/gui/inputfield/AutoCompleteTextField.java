@@ -2,6 +2,7 @@ package org.geogebra.common.gui.inputfield;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.javax.swing.GLabel;
@@ -82,4 +83,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener,
 	boolean hasDeferredFocus();
 
 	void setDeferredFocus(boolean b);
+
+	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
+			int width, int height);
 }
