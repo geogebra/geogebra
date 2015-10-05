@@ -135,6 +135,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			}
 		};
 		btnColor.addPopupHandler(this);
+		btnColor.setEnableTable(true);
 	}
 
 	public void update(GeoElement selectedItem) {

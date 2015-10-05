@@ -887,7 +887,7 @@ GuiResourcesSimple.INSTANCE
 
 	}
 
-	private void updateFont(SpanElement seNoLatex2) {
+	private void updateFont(Element seNoLatex2) {
 		seNoLatex2.getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 
 	}
@@ -1279,6 +1279,8 @@ GuiResourcesSimple.INSTANCE
 
 			// reset the label text
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
+			updateFont(seNoLatex);
+			updateColor(seNoLatex);
 			return;
 		} else if (this.checkBox != null) {
 			main.remove(checkBox);
@@ -1457,7 +1459,7 @@ GuiResourcesSimple.INSTANCE
 
 
 
-	private void updateColor(SpanElement se) {
+	private void updateColor(Element se) {
 		if (geo != null) {
 			se.getStyle()
 					.setColor(GColor.getColorString(geo.getAlgebraColor()));
