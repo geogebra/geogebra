@@ -120,11 +120,10 @@ public class Assignment {
 		Iterator<GeoElement> it = sortedSet.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			for (GeoElement macroOut : macro.getMacroOutput()) {
-				if (macroOut.getClass().equals(geo.getClass())) {
-					TreeSet<GeoElement> allPredecessors = geo
-							.getAllPredecessors();
-					if (!allPredecessors.isEmpty()) {
+			TreeSet<GeoElement> allPredecessors = geo.getAllPredecessors();
+			if (!allPredecessors.isEmpty()) {
+				for (GeoElement macroOut : macro.getMacroOutput()) {
+					if (macroOut.getClass().equals(geo.getClass())) {
 						possibleOutputGeos.add(geo);
 					}
 				}
