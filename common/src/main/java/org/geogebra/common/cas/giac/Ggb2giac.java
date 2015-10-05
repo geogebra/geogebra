@@ -642,9 +642,13 @@ public class Ggb2giac {
 		p("Root.1", root1);
 		p("Solve.1", root1);
 
-		p("Solve.2", "when(size(%1) == 1,"
+		p("Solve.2",
+		// Solve[<Equation in x>,<assumption>]
+		// GGB-134
+				"when ( type(%0) == DOM_SYMBOLIC && type(%1) == DOM_SYMBOLIC , (assume(%1),solve(%0,x))[size(assume(%2),solve(%0,x))-1] , "
+						+ "when(size(%1) == 1,"
 				+ "flatten1(ggbsort(normal([op(solve(%0,%1))]))),"
-				+ "ggbsort(normal([op(solve(%0,%1))])))");
+						+ "ggbsort(normal([op(solve(%0,%1))]))) )");
 		// solve with assumptions
 		p("Solve.3",
 				"(assume(%2),solve(%0,%1))[size(assume(%2),solve(%0,%1))-1]");
