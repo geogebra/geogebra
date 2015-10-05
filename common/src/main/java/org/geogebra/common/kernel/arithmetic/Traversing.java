@@ -501,6 +501,10 @@ public interface Traversing {
 			if (ev instanceof Variable) {
 				Variable v = (Variable) ev;
 				String name = v.getName(StringTemplate.defaultTemplate);
+				if (v.getKernel().getApplication().getParserFunctions()
+						.isReserved(name)) {
+					return ev;
+				}
 				ExpressionValue ret;
 				ret = v.getKernel().lookupLabel(name);
 				if (ret == null) {
