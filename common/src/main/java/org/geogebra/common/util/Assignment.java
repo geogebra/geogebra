@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.main.App;
 
@@ -183,7 +184,7 @@ public class Assignment {
 				for (int i = 0; i < possibleOutputPermutation.length
 						&& (!partRes.contains(Result.WRONG)); i++) {
 					checkEqualityOfGeos(input, macroOutput[i],
-							possibleOutputPermutation[i], partRes);
+							possibleOutputPermutation, i, partRes);
 				}
 				algoMacro.remove();
 				solutionFound = !partRes.contains(Result.WRONG)
@@ -214,11 +215,13 @@ public class Assignment {
 	}
 
 	private void checkEqualityOfGeos(GeoElement[] input,
-			GeoElement macroOutput, GeoElement possibleOutput,
+			GeoElement macroOutput, GeoElement possibleOutput[], int i,
 			TreeSet<Result> partRes) {
 		GeoElement saveInput;
+		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
+				possibleOutput);
 		partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
-				macroOutput, possibleOutput).getBoolean() ? Result.CORRECT
+				macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
 				: Result.WRONG);
 		// if (macro.getKernel().getApplication().has(Feature.EXERCISES)) {
 		// GeoElement root = new GeoBoolean(macro.getKernel()
@@ -249,11 +252,15 @@ public class Assignment {
 				saveInput = input[j].copy();
 				input[j].randomizeForProbabilisticChecking();
 				input[j].updateCascade();
+				if (mayAdjustMoveableOutputs) {
+					mayAdjustMoveableOutputs = adjustMoveableOutputs(
+							macroOutput, possibleOutput);
+				}
 				// partRes.add(algoEqual.getResult().getBoolean() ?
 				// Result.CORRECT
 				// : Result.WRONG_AFTER_RANDOMIZE);
 				partRes.add(ExpressionNodeEvaluator.evalEquals(
-						macro.getKernel(), macroOutput, possibleOutput)
+						macro.getKernel(), macroOutput, possibleOutput[i])
 						.getBoolean() ? Result.CORRECT
 						: Result.WRONG_AFTER_RANDOMIZE);
 				callsToEqual++;
@@ -262,6 +269,34 @@ public class Assignment {
 			}
 			j++;
 		}
+	}
+
+	/**
+	 * If some macro outputs are moveable (eg. point on path), push them close
+	 * to the corresponding possible outputs (within given path/region
+	 * constraint)
+	 * 
+	 * @param macroOutput
+	 *            sample macro output
+	 * @param possibleOutput
+	 *            possible outputs
+	 * @return whether an output was changeable
+	 */
+	private static boolean adjustMoveableOutputs(GeoElement macroOutput,
+			GeoElement[] possibleOutput) {
+		boolean ret = false;
+		AlgoMacro algo = (AlgoMacro) macroOutput.getParentAlgorithm();
+		int size = algo.getOutputLength();
+		for (int i = 0; i < size; i++) {
+			if (algo.isChangeable(algo.getOutput(i))
+					&& possibleOutput[i] instanceof GeoPoint) {
+				GeoPoint pt = (GeoPoint) possibleOutput[i];
+				algo.setCoords((GeoPoint) algo.getOutput(i), pt.getX(),
+						pt.getY(), pt.getZ());
+				ret = true;
+			}
+		}
+		return ret;
 	}
 
 	private static TreeSet<GeoElement> getAllPredecessors(
