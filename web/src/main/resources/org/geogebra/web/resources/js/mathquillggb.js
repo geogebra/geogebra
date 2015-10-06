@@ -573,8 +573,10 @@ var manageTextarea = (function() {
           //e.preventDefault();
     	}
       }
-
-      if (textarea[0] && textarea[0].disabledTextarea) {
+      if (textarea[0].doStopPropagation) { 
+    	 textarea[0].doStopPropagation = false; 
+    	e.stopPropagation(); 
+      } else if (textarea[0] && textarea[0].disabledTextarea) {
     	// this can only happen in scenarios when
     	// stopPropagation is useful here
     	e.stopPropagation();
@@ -629,7 +631,10 @@ var manageTextarea = (function() {
 
       checkTextareaFor(typedText);
 
-      if (textarea[0] && textarea[0].disabledTextarea) {
+      if (textarea[0].doStopPropagation) { 
+     	 textarea[0].doStopPropagation = false; 
+     	e.stopPropagation(); 
+       } else if (textarea[0] && textarea[0].disabledTextarea) {
       	// this can only happen in scenarios when
       	// stopPropagation is useful here
       	e.stopPropagation();
