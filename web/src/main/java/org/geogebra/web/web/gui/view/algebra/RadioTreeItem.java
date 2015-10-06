@@ -69,6 +69,7 @@ import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 
@@ -2354,6 +2355,13 @@ substituteNumbers,
 	public void ensureEditing() {
 		if (!isThisEdited()) {
 			startEditing(true);
+
+			if (av != null && ((AlgebraViewW) av).isNodeTableEmpty()) {
+				((AlgebraDockPanelW) app.getGuiManager().getLayout()
+						.getDockManager().getPanel(App.VIEW_ALGEBRA))
+						.showStyleBarPanel(false);
+			}
+
 		}
 	}
 
