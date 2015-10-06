@@ -1629,6 +1629,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public boolean textfieldClicked(int x, int y, PointerEventType type) {
 		DrawableIterator it = allDrawableList.getIterator();
+		if (getEuclidianController().isDraggingBeyondThreshold()) {
+			return false;
+		}
 		while (it.hasNext()) {
 			Drawable d = it.next();
 			if ((d instanceof DrawTextField)
