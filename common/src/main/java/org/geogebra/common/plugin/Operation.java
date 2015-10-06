@@ -1464,6 +1464,9 @@ public enum Operation {
 					idx = (int) Math.round(ith.evaluateDouble()) - 1;
 					if (i < lv.size() - 1) {
 						GeoElement nextSublist;
+						if (idx < 0) {
+							idx = sublist.size() + 1 + idx;
+						}
 						if (idx >= 0 && idx < sublist.size()) {
 							nextSublist = sublist.get(idx);
 						} else {
@@ -1486,6 +1489,9 @@ public enum Operation {
 
 					}
 
+				}
+				if (idx < 0) {
+					idx = sublist.size() + 1 + idx;
 				}
 				if (idx >= 0 && idx < sublist.size()) {
 					GeoElement ret = sublist.get(idx).copyInternal(
