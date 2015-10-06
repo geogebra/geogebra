@@ -69,6 +69,8 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 		bottomPanel.add(cancelBtn = new Button(""));
 		insertBtn.setEnabled(false);
 
+		cancelBtn.addStyleName("cancelBtn");
+
 		bottomPanel.setStyleName("DialogButtonPanel");
 		addStyleName("GeoGebraPopup");
 		addStyleName("image");

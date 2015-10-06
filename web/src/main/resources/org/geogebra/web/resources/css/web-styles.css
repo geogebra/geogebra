@@ -2859,22 +2859,29 @@ body.application[dir=rtl] .DialogButtonPanel button {
     cursor: default;
 } 
 
-.DialogBox .DialogButtonPanel .gwt-Button,
-.DialogBox .buttonPanel .saveButton {
+.DialogBox .gwt-Button,
+.DialogBox .saveButton {
 	background-color: #6161FF;
+	border: 1px solid #6161FF;
 	color: #FFF;
 	font-size: 100%;
 	box-shadow: none;
 	font-weight: normal;
+	margin-left: 15px;
 }
-.DialogBox .DialogButtonPanel .gwt-Button:hover,
-.DialogBox .buttonPanel .saveButton:hover {
-	border: 1px solid #3333FF;
+.DialogBox .gwt-Button:hover,
+.DialogBox .saveButton:hover {
+	/*border: 1px solid #3333FF;*/
+	background-color: #CCCCFF;
+	color: #6161FF;
 }
-.DialogBox .DialogButtonPanel .gwt-Button:active,
-.DialogBox .buttonPanel .saveButton:active {
-	box-shadow: 0 1px 1px rgba(0,0,0,0.2) inset;
-	border: 1px solid #3333FF;
+.DialogBox .gwt-Button:active,
+.DialogBox .saveButton:active {
+	/* box-shadow: 0 1px 1px rgba(0,0,0,0.2) inset; */
+	box-shadow: 0 1px 3px 0 rgba(51, 51, 255, 0.5) inset;
+	/*border: 1px solid #3333FF;*/
+	background-color: #CCCCFF;
+	color: #6161FF;
 }
 
 .DialogBox .gwt-Button.cancelBtn,
@@ -2886,7 +2893,6 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	background: none;
 	text-decoration: underline;
 	padding: 5px 0;
-	margin: 0 10px;
 	
 	font-size: 100%;
 	box-shadow: none;
@@ -2901,6 +2907,7 @@ body.application[dir=rtl] .DialogButtonPanel button {
 .DialogBox .button.resetBtn:hover,
 .DialogBox .button.resetBtn:active {
 	color: #6161FF;
+	background-color: none;
 	border: none;
 }
 

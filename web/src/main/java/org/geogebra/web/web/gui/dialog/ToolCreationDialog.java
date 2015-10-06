@@ -274,9 +274,9 @@ public class ToolCreationDialog extends DialogBoxW implements
 		btCancel.addClickHandler(this);
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		bottomWidget.add(btCancel);
 		bottomWidget.add(btBack);
 		bottomWidget.add(btNext);
+		bottomWidget.add(btCancel);
 	}
 
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {

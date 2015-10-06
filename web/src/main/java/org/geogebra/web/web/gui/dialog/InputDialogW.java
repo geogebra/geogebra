@@ -180,8 +180,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		// create button panel
 		btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
-		btPanel.add(btCancel);
 		btPanel.add(btOK);
+		btPanel.add(btCancel);
 		// just tmp.
 		if (showApply) {
 			btPanel.add(btApply);

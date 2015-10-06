@@ -1568,8 +1568,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	        final AsyncOperation callback) {
 		final Localization loc = ((AppW) app).getLocalization();
 
-		final String[] options = { loc.getPlain("CreateSliders"),
-		        app.getMenu("Cancel") };
+		final String[] options = { app.getMenu("Cancel"),
+				loc.getPlain("CreateSliders") };
 
 		final Image icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar
 		        .getMyIconResourceBundle().mode_slider_32()), 32);
