@@ -6038,6 +6038,6 @@ body.application[dir=rtl] .deleteAlgebra {
 .ggbScreenshot .InputTreeItem{
 	overflow-x:hidden;
 }
-.cpScrollPanel td{
+.GeoGebraFrame .cpScrollPanel td{
 	color:inherit;
 }
