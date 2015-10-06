@@ -1099,6 +1099,9 @@ namespace giac {
 	  gen b=e0._SYMBptr->feuille[1];
 	  b=limit(b,x,testval,0,contextptr);
 	  test=e0._SYMBptr->sommet(gen(makevecteur(a,b),_SEQ__VECT),contextptr);
+	  if (is_undef(test))
+	    a=limit(e0._SYMBptr->feuille[0]-e0._SYMBptr->feuille[1],x,testval,0,contextptr);
+	  test=e0._SYMBptr->sommet(gen(makevecteur(a,0),_SEQ__VECT),contextptr);
 	}
 	if (is_undef(test))
 	  return vecteur(1,gensizeerr(gettext("Unable to check test at x=")+test.print()));

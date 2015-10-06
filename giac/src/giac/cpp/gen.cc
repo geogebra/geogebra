@@ -7558,6 +7558,7 @@ namespace giac {
   }
 
   gen operator !(const gen & a){
+    if (is_undef(a)) return a;
     switch (a.type){
     case _INT_: case _ZINT: case _CPLX: case _DOUBLE_: case _FLOAT_:
       return change_subtype(is_zero(a,context0),_INT_BOOLEAN);
@@ -7972,6 +7973,7 @@ namespace giac {
       return 0;
     }
     gen g=!superieur_strict(b,a,contextptr);
+    if (is_undef(g)) return g;
     if (g.type==_INT_)
       return g;
     return symb_superieur_egal(a,b);

@@ -5493,142 +5493,152 @@ namespace giac {
 	}
 #endif // def GIAC_SHORTSHIFTTYPE
       }
-      for (vt=v.begin(),wt=v64.begin();vt!=vtend;++wt,++vt){
-	if (*wt)
-	  *vt = *wt % env;
-	else
-	  *vt=0;
-      }
-    }
-    else { // large modulo
-#ifdef PSEUDO_MOD
-      int nbits=sizeinbase2(env);
-      unsigned invmodulo=((1ULL<<(2*nbits)))/env+1;
-#endif
-      for (;fit!=fitend;++fit){
-	if (*(vt0+*fit)==0)
-	  continue;
-	unsigned i=unsigned(fit-fit0);
-	const vector<modint> & mcoeff=coeffs[coeffindex[i].u];
-	bool shortshifts=coeffindex[i].b;
-	vector<modint>::const_iterator jt=mcoeff.begin(),jtend=mcoeff.end(),jt_=jt-8;
-	if (jt==jtend)
-	  continue;
-	const vector<shifttype> & mindex=M[i];
-	const shifttype * it=&mindex.front();
-	unsigned pos=0;
-	next_index(pos,it);
-	vt=v.begin()+pos;
-	// if (pos>v.size()) CERR << "error" <<endl;
-	modint c=(modint2(invmod(*jt,env))*(*vt))%env;
-	*vt=0;
-	if (!c)
-	  continue;
-	++jt;
-#ifdef PSEUDO_MOD
-	if (env<(1<<29)){
-	  c=-c;
-#ifdef GIAC_SHORTSHIFTTYPE
-	  if (shortshifts){
-	    for (;jt<jt_;){
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	      ++jt;
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	      ++jt;
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	      ++jt;
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	      ++jt;
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	      ++jt;
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	      ++jt;
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	      ++jt;
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	      ++jt;
-	    }
-	    for (;jt!=jtend;++jt){
-	      vt += *it; ++it;
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	    }
-	  }
-	  else {
-	    for (;jt<jt_;){
-	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
-	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
-	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
-	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
-	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
-	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
-	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
-	      next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
-	    }
-	    for (;jt!=jtend;++jt){
-	      next_index(vt,it);
-	      // if (pos>v.size()) CERR << "error" <<endl;
-	      pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
-	    }
-	  }
-	  continue;
-#else
-	  for (;jt!=jtend;++jt){
-	    // if (pos>v.size()) CERR << "error" <<endl;
-	    pseudo_mod(v[*it],c,*jt,env,invmodulo,nbits);
-	    ++it;
-	  }
-	  continue;
-#endif // GIAC_SHORTSHIFTTYPES
-	} // end if env<1<<29
-#endif // PSEUDOMOD
-	for (;jt!=jtend;++jt){
-#ifdef GIAC_SHORTSHIFTTYPE
-	  next_index(vt,it);
-	  *vt = (*vt-modint2(c)*(*jt))%env;
-#else
-	  modint &x=v[*it];
-	  ++it;
-	  x=(x-modint2(c)*(*jt))%env;
-#endif
-	}
-      }
-      vector<modint>::iterator vt=v.begin(),vtend=v.end();
-#ifdef PSEUDO_MOD
       unsigned res=v.size();
-      for (;vt!=vtend;++vt){ // or if (*vt) *vt %= env;
-	if (!*vt) continue;
-	*vt %= env;
-	if (*vt){
+      for (vt=v.begin(),wt=v64.begin();vt!=vtend;++wt,++vt){
+	modint2 i=*wt;
+	if (i)
+	  i %= env;
+	*vt = i;
+	if (i){
 	  res=vt-v.begin();
 	  break;
 	}
       }
-      for (;vt!=vtend;++vt){ // or if (*vt) *vt %= env;
-	modint v=*vt;
-	if (v>-env && v<env)
-	  continue;
-	*vt = v % env;
+      for (;vt!=vtend;++wt,++vt){
+	if (*wt)
+	  *vt = *wt % env;
+	else
+	  *vt = 0;
       }
       return res;
+    }
+#ifdef PSEUDO_MOD
+    int nbits=sizeinbase2(env);
+    unsigned invmodulo=((1ULL<<(2*nbits)))/env+1;
 #endif
-    } // end else based on modulo size
+    for (;fit!=fitend;++fit){
+      if (*(vt0+*fit)==0)
+	continue;
+      unsigned i=unsigned(fit-fit0);
+      const vector<modint> & mcoeff=coeffs[coeffindex[i].u];
+      bool shortshifts=coeffindex[i].b;
+      vector<modint>::const_iterator jt=mcoeff.begin(),jtend=mcoeff.end(),jt_=jt-8;
+      if (jt==jtend)
+	continue;
+      const vector<shifttype> & mindex=M[i];
+      const shifttype * it=&mindex.front();
+      unsigned pos=0;
+      next_index(pos,it);
+      vt=v.begin()+pos;
+      // if (pos>v.size()) CERR << "error" <<endl;
+      modint c=(modint2(invmod(*jt,env))*(*vt))%env;
+      *vt=0;
+      if (!c)
+	continue;
+      ++jt;
+#ifdef PSEUDO_MOD
+      if (env<(1<<29)){
+	c=-c;
+#ifdef GIAC_SHORTSHIFTTYPE
+	if (shortshifts){
+	  for (;jt<jt_;){
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	    ++jt;
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	    ++jt;
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	    ++jt;
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	    ++jt;
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	    ++jt;
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	    ++jt;
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	    ++jt;
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	    ++jt;
+	  }
+	  for (;jt!=jtend;++jt){
+	    vt += *it; ++it;
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	  }
+	}
+	else {
+	  for (;jt<jt_;){
+	    next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	    next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	    next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	    next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	    next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	    next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	    next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	    next_index(vt,it); pseudo_mod(*vt,c,*jt,env,invmodulo,nbits); ++jt;
+	  }
+	  for (;jt!=jtend;++jt){
+	    next_index(vt,it);
+	    // if (pos>v.size()) CERR << "error" <<endl;
+	    pseudo_mod(*vt,c,*jt,env,invmodulo,nbits);
+	  }
+	}
+	continue;
+#else
+	for (;jt!=jtend;++jt){
+	  // if (pos>v.size()) CERR << "error" <<endl;
+	  pseudo_mod(v[*it],c,*jt,env,invmodulo,nbits);
+	  ++it;
+	}
+	continue;
+#endif // GIAC_SHORTSHIFTTYPES
+      } // end if env<1<<29
+#endif // PSEUDOMOD
+      for (;jt!=jtend;++jt){
+#ifdef GIAC_SHORTSHIFTTYPE
+	next_index(vt,it);
+	*vt = (*vt-modint2(c)*(*jt))%env;
+#else
+	modint &x=v[*it];
+	++it;
+	x=(x-modint2(c)*(*jt))%env;
+#endif
+      }
+    }
+    vt=v.begin();vtend=v.end();
+#ifdef PSEUDO_MOD
+    unsigned res=v.size();
+    for (;vt!=vtend;++vt){ // or if (*vt) *vt %= env;
+      if (!*vt) continue;
+      *vt %= env;
+      if (*vt){
+	res=vt-v.begin();
+	break;
+      }
+    }
+    for (;vt!=vtend;++vt){ // or if (*vt) *vt %= env;
+      modint v=*vt;
+      if (v>-env && v<env)
+	continue;
+      *vt = v % env;
+    }
+    return res;
+#endif
     for (vt=v.begin();vt!=vtend;++vt){
       if (*vt)
 	return unsigned(vt-v.begin());
