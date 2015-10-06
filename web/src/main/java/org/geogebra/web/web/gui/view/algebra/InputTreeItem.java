@@ -626,7 +626,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	 * @param blurtrue
 	 *            : whether we are in blurred mode
 	 */
-	void updateGUIfocus(Object source, boolean blurtrue) {
+	protected void updateGUIfocus(Object source, boolean blurtrue) {
 		// deselects current selection
 		((AlgebraViewW) av).setActiveTreeItem(null);
 
