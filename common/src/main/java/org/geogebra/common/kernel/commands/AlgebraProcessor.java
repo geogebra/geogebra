@@ -740,7 +740,7 @@ public class AlgebraProcessor {
 									// which can throw the
 									// processAlgebraInputCommandNoExceptionHandling
 									// function?
-									if ("0".equals(dialogResult[0])) {
+									if ("1".equals(dialogResult[0])) {
 										// insertStarIfNeeded(undefinedVariables,
 										// ve2, fvX2);
 										replaceUndefinedVariables(ve2);
