@@ -1060,8 +1060,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				RadioTreeItem.as(node)
 				.replaceXButtonDOM(node);
 			}
-
-			if (isNodeTableEmpty()) {
+			boolean wasEmpty = isNodeTableEmpty();
+			nodeTable.put(geo, node);
+			if (wasEmpty) {
 				// this is for the case "add" is called after
 				// the input panel exists; the other case
 				// is done elsewhere, when it is created...
@@ -1073,7 +1074,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				}
 
 			}
-			nodeTable.put(geo, node);
+
 
 			// ensure that the leaf with the new object is visible
 			parent.setState(true);
@@ -1156,6 +1157,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 			}
 			node = parent == rootOrder ? getItem(right - 2) : parent
 					.getChild(right - 2);
+			right--;
 		}
 		GeoElement geo2 = ((GeoElement) node.getUserObject());
 
