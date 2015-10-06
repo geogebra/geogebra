@@ -346,9 +346,9 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static native double getScaledWidth(Element el, boolean inside) /*-{
 		var ell = el;
-		if (el.lastChild) {//elsecond
+		if (el.lastChild) {//elSecond
 			ell = el.lastChild;
-			if (ell.lastChild && inside) {//elsecondInside 
+			if (ell.lastChild && inside) {//elSecondInside 
 				ell = ell.lastChild;
 			}
 		}
@@ -365,9 +365,9 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static native double getScaledHeight(Element el, boolean inside) /*-{
 		var ell = el;
-		if (el.lastChild) {//elsecond
+		if (el.lastChild) {//elSecond
 			ell = el.lastChild;
-			if (ell.lastChild && inside) {//elsecondInside 
+			if (ell.lastChild && inside) {//elSecondInside 
 				ell = ell.lastChild;
 			}
 		}
@@ -436,7 +436,7 @@ public class DrawEquationWeb extends DrawEquation {
 			el.appendChild(elfirst);
 		}
 
-		var elsecond = $doc.createElement("div");
+		var elSecond = $doc.createElement("div");
 
 		if (addOverlay) {
 			var elthirdBefore = $doc.createElement("span");
@@ -446,17 +446,17 @@ public class DrawEquationWeb extends DrawEquation {
 			elthirdBefore.style.bottom = "0px";
 			elthirdBefore.style.left = "0px";
 			elthirdBefore.style.right = "0px";
-			elsecond.appendChild(elthirdBefore);
+			elSecond.appendChild(elthirdBefore);
 		}
 
-		var elsecondInside = $doc.createElement("span");
-		elsecondInside.innerHTML = htmlt;
+		var elSecondInside = $doc.createElement("span");
+		elSecondInside.innerHTML = htmlt;
 
 		if (fontSizeRel != 0) {
-			elsecond.style.fontSize = fontSizeRel + "px";
+			elSecond.style.fontSize = fontSizeRel + "px";
 		}
-		elsecond.appendChild(elsecondInside);
-		el.appendChild(elsecond);
+		elSecond.appendChild(elSecondInside);
+		el.appendChild(elSecond);
 
 		if (!visible) {
 			el.style.visibility = "hidden";
@@ -465,29 +465,29 @@ public class DrawEquationWeb extends DrawEquation {
 		parentElement.appendChild(el);
 
 		if (noEqnArray) {
-			$wnd.$ggbQuery(elsecondInside).mathquillggb();
+			$wnd.$ggbQuery(elSecondInside).mathquillggb();
 
 			// Make sure the length of brackets and square roots are OK
-			elsecondInside.timeoutId = $wnd.setTimeout(function() {
-				$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', htmlt);
+			elSecondInside.timeoutId = $wnd.setTimeout(function() {
+				$wnd.$ggbQuery(elSecondInside).mathquillggb('latex', htmlt);
 			}, 500);
 
 			// it's not ok for IE8, but it's good for ie9 and above
 			//$doc.addEventListener('readystatechange', function() {
 			//	if ($doc.readyState === 'complete' ||
 			//		$doc.readyState === 'loaded') {
-			//		$wnd.$ggbQuery(elsecond).mathquillggb('latex', htmlt);
+			//		$wnd.$ggbQuery(elSecond).mathquillggb('latex', htmlt);
 			//	}
 			//}, false);
 		} else {
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('eqnarray');
+			$wnd.$ggbQuery(elSecondInside).mathquillggb('eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
 			//			$wnd.setTimeout(function() {
 			//				// TODO: this needs more testing,
 			//				// also for the editing of it
-			//				//$wnd.$ggbQuery(elsecond).mathquillggb('latex', htmlt);
-			//				$wnd.$ggbQuery(elsecond).mathquillggb('eqnarray');
+			//				//$wnd.$ggbQuery(elSecond).mathquillggb('latex', htmlt);
+			//				$wnd.$ggbQuery(elSecond).mathquillggb('eqnarray');
 			//			});
 		}
 
@@ -495,33 +495,33 @@ public class DrawEquationWeb extends DrawEquation {
 			// floating point division in JavaScript!
 			var sfactor = "scale(" + (fontSize / fontSizeRel) + ")";
 
-			elsecond.style.transform = sfactor;
-			elsecond.style.MozTransform = sfactor;
-			elsecond.style.MsTransform = sfactor;
-			elsecond.style.OTransform = sfactor;
-			elsecond.style.WebkitTransform = sfactor;
+			elSecond.style.transform = sfactor;
+			elSecond.style.MozTransform = sfactor;
+			elSecond.style.MsTransform = sfactor;
+			elSecond.style.OTransform = sfactor;
+			elSecond.style.WebkitTransform = sfactor;
 
-			elsecond.style.transformOrigin = "0px 0px";
-			elsecond.style.MozTransformOrigin = "0px 0px";
-			elsecond.style.MsTransformOrigin = "0px 0px";
-			elsecond.style.OTransformOrigin = "0px 0px";
-			elsecond.style.WebkitTransformOrigin = "0px 0px";
+			elSecond.style.transformOrigin = "0px 0px";
+			elSecond.style.MozTransformOrigin = "0px 0px";
+			elSecond.style.MsTransformOrigin = "0px 0px";
+			elSecond.style.OTransformOrigin = "0px 0px";
+			elSecond.style.WebkitTransformOrigin = "0px 0px";
 		}
 
 		if (rotateDegree != 0) {
 			var rfactor = "rotate(-" + rotateDegree + "deg)";
 
-			elsecondInside.style.transform = rfactor;
-			elsecondInside.style.MozTransform = rfactor;
-			elsecondInside.style.MsTransform = rfactor;
-			elsecondInside.style.OTransform = rfactor;
-			elsecondInside.style.WebkitTransform = rfactor;
+			elSecondInside.style.transform = rfactor;
+			elSecondInside.style.MozTransform = rfactor;
+			elSecondInside.style.MsTransform = rfactor;
+			elSecondInside.style.OTransform = rfactor;
+			elSecondInside.style.WebkitTransform = rfactor;
 
-			elsecondInside.style.transformOrigin = "center center";
-			elsecondInside.style.MozTransformOrigin = "center center";
-			elsecondInside.style.MsTransformOrigin = "center center";
-			elsecondInside.style.OTransformOrigin = "center center";
-			elsecondInside.style.WebkitTransformOrigin = "center center";
+			elSecondInside.style.transformOrigin = "center center";
+			elSecondInside.style.MozTransformOrigin = "center center";
+			elSecondInside.style.MsTransformOrigin = "center center";
+			elSecondInside.style.OTransformOrigin = "center center";
+			elSecondInside.style.WebkitTransformOrigin = "center center";
 
 			if (addOverlay) {
 				elthirdBefore.style.transform = rfactor;
@@ -737,8 +737,8 @@ public class DrawEquationWeb extends DrawEquation {
 	 */
 	public static native void showOrHideSuggestions(GeoContainer rbti,
 			Element parentElement) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var querr = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var querr = elSecond.lastChild;
 
 		if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
 			// when the suggestions should pop up, we make them pop up,
@@ -772,24 +772,24 @@ public class DrawEquationWeb extends DrawEquation {
 
 		elfirst.style.display = 'none';
 
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
 
-		var elsecondInside = elsecond.lastChild;
+		var elSecondInside = elSecond.lastChild;
 
 		// if we go to editing mode, this timer is not relevant any more,
 		// and also harmful in case it runs after editing mode is set
-		if (elsecondInside.timeoutId) {
-			$wnd.clearTimeout(elsecondInside.timeoutId);
+		if (elSecondInside.timeoutId) {
+			$wnd.clearTimeout(elSecondInside.timeoutId);
 		}
-		if (elsecondInside.timeoutId2) {
-			$wnd.clearTimeout(elsecondInside.timeoutId2);
+		if (elSecondInside.timeoutId2) {
+			$wnd.clearTimeout(elSecondInside.timeoutId2);
 		}
 
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').mathquillggb(
+		$wnd.$ggbQuery(elSecondInside).mathquillggb('revert').mathquillggb(
 				'editable').focus();
 
 		if (newCreationMode) {
-			if (elsecondInside.keyDownEventListenerAdded) {
+			if (elSecondInside.keyDownEventListenerAdded) {
 				// event listeners are already added
 				return;
 			}
@@ -798,10 +798,10 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 
 		$wnd
-				.$ggbQuery(elsecondInside)
+				.$ggbQuery(elSecondInside)
 				.keyup(
 						function(event) {
-							// in theory, the textarea inside elsecondInside will be
+							// in theory, the textarea inside elSecondInside will be
 							// selected, and it will capture other key events before
 							// these execute
 
@@ -859,7 +859,7 @@ public class DrawEquationWeb extends DrawEquation {
 				.keypress(
 						function(event2) {
 
-							if ($wnd.$ggbQuery(elsecondInside).find('textarea')
+							if ($wnd.$ggbQuery(elSecondInside).find('textarea')
 									.attr("disabled")) {
 								var code = 0;
 								if (event2.keyCode) {
@@ -871,7 +871,7 @@ public class DrawEquationWeb extends DrawEquation {
 								if (code != 13) { // enter is handled in keyup
 									//keypress is needed for touch-devices which use an external keyboard
 									var textarea = $wnd.$ggbQuery(
-											elsecondInside).find('textarea');
+											elSecondInside).find('textarea');
 									textarea.val(String.fromCharCode(code));
 
 									// this will tell MathQuillGGB not to do keydown / handleKey
@@ -901,7 +901,7 @@ public class DrawEquationWeb extends DrawEquation {
 							//keydown is needed for "functional" buttons (e.g. arrow left/right, backspace)
 							//of a touch-devices with an external keyboard
 
-							if ($wnd.$ggbQuery(elsecondInside).find('textarea')
+							if ($wnd.$ggbQuery(elSecondInside).find('textarea')
 									.attr("disabled")) {
 								var code = 0;
 								if (event3.keyCode) {
@@ -912,7 +912,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 								if (code == 8 || code == 37 || code == 39) { //backspace, arrow left, arrow right
 									var textarea = $wnd.$ggbQuery(
-											elsecondInside).find('textarea');
+											elSecondInside).find('textarea');
 									// this will tell MathQuillGGB not to do keydown / handleKey
 									// as well, for a different key pressed earlier
 									textarea[0].simulatedKeypress = true;
@@ -937,7 +937,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		if (!newCreationMode) {
 			// not being sure whether we need these in not-new-creation mode
-			$wnd.$ggbQuery(elsecondInside).mousedown(function(event4) {
+			$wnd.$ggbQuery(elSecondInside).mousedown(function(event4) {
 				event4.stopPropagation();
 			}).mouseup(function(event41) {
 				event41.stopPropagation();
@@ -960,7 +960,7 @@ public class DrawEquationWeb extends DrawEquation {
 				if (code == 38) {//up-arrow
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
 					// so let's change it:
-					delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+					delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 
 					@org.geogebra.web.html5.main.DrawEquationWeb::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, false);
 					event.stopPropagation();
@@ -969,7 +969,7 @@ public class DrawEquationWeb extends DrawEquation {
 				} else if (code == 40) {//down-arrow
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
 					// so let's change it:
-					delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+					delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 
 					@org.geogebra.web.html5.main.DrawEquationWeb::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, true);
 					event.stopPropagation();
@@ -980,7 +980,7 @@ public class DrawEquationWeb extends DrawEquation {
 				if (captureSuccess) {
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
 					// so let's change it: (it should not be true for pi, o and i!)
-					delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+					delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 
 					// to prevent MathQuillGGB adding other kind of Alt-shortcuts,
 					// e.g. unlaut a besides our alpha, or more accurately,
@@ -990,10 +990,10 @@ public class DrawEquationWeb extends DrawEquation {
 					return false;
 				}
 			}
-			if (elsecondInside.addEventListener) {//IE9 OK
+			if (elSecondInside.addEventListener) {//IE9 OK
 				// event capturing before the event handlers of MathQuillGGB
-				elsecondInside.addEventListener("keydown", keydownfun, true);
-				elsecondInside.keyDownEventListenerAdded = true;
+				elSecondInside.addEventListener("keydown", keydownfun, true);
+				elSecondInside.keyDownEventListenerAdded = true;
 			}
 
 			// Also switching off the AV horizontal scrollbar when this has focus
@@ -1001,9 +1001,9 @@ public class DrawEquationWeb extends DrawEquation {
 			// but for the blur() event this did not work, so moved this code to
 			// mathquillggb.js, textarea.focus and blur handlers - "NoHorizontalScroll"
 			// style in web-styles.css... but at least set newCreationMode here!
-			elsecondInside.newCreationMode = true;
+			elSecondInside.newCreationMode = true;
 
-			var textareaJQ = $wnd.$ggbQuery(elsecondInside).find('textarea');
+			var textareaJQ = $wnd.$ggbQuery(elSecondInside).find('textarea');
 			if (textareaJQ && textareaJQ.length) {
 				var textareaDOM = textareaJQ[0];
 				// we don't know whether we're in touch mode until the user first taps to focus/blur
@@ -1031,7 +1031,7 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 			// as disabledTextarea might be updated, add this anyway, but check for it in the handlers
 			$wnd
-					.$ggbQuery(elsecondInside)
+					.$ggbQuery(elSecondInside)
 					.blur(
 							function(eee) {
 								if (textareaDOM.disabledTextarea) {
@@ -1168,14 +1168,14 @@ public class DrawEquationWeb extends DrawEquation {
 	 */
 	public static native void triggerPaste(Element parentElement, String str) /*-{
 		var elfirst = parentElement.firstChild.firstChild;
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		if (elsecondInside.GeoGebraSuggestionPopupCanShow) {
-			delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+		if (elSecondInside.GeoGebraSuggestionPopupCanShow) {
+			delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 		}
 
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('simpaste', str);
+		$wnd.$ggbQuery(elSecondInside).mathquillggb('simpaste', str);
 	}-*/;
 
 	/**
@@ -1184,10 +1184,10 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void addNewRowToMatrix(Element parentElement) /*-{
 		if (parentElement) {
 			//var elfirst = parentElement.firstChild.firstChild;
-			var elsecond = parentElement.firstChild.firstChild.nextSibling;
-			var elsecondInside = elsecond.lastChild;
+			var elSecond = parentElement.firstChild.firstChild.nextSibling;
+			var elSecondInside = elSecond.lastChild;
 
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixsize', 1);
+			$wnd.$ggbQuery(elSecondInside).mathquillggb('matrixsize', 1);
 		}
 	}-*/;
 
@@ -1197,10 +1197,10 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void addNewColToMatrix(Element parentElement) /*-{
 		if (parentElement) {
 			//var elfirst = parentElement.firstChild.firstChild;
-			var elsecond = parentElement.firstChild.firstChild.nextSibling;
-			var elsecondInside = elsecond.lastChild;
+			var elSecond = parentElement.firstChild.firstChild.nextSibling;
+			var elSecondInside = elSecond.lastChild;
 
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixsize', 3);
+			$wnd.$ggbQuery(elSecondInside).mathquillggb('matrixsize', 3);
 		}
 	}-*/;
 
@@ -1210,10 +1210,10 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void removeColFromMatrix(Element parentElement) /*-{
 		if (parentElement) {
 			//var elfirst = parentElement.firstChild.firstChild;
-			var elsecond = parentElement.firstChild.firstChild.nextSibling;
-			var elsecondInside = elsecond.lastChild;
+			var elSecond = parentElement.firstChild.firstChild.nextSibling;
+			var elSecondInside = elSecond.lastChild;
 
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixsize', 4);
+			$wnd.$ggbQuery(elSecondInside).mathquillggb('matrixsize', 4);
 		}
 	}-*/;
 
@@ -1223,10 +1223,10 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void removeRowFromMatrix(Element parentElement) /*-{
 		if (parentElement) {
 			//var elfirst = parentElement.firstChild.firstChild;
-			var elsecond = parentElement.firstChild.firstChild.nextSibling;
-			var elsecondInside = elsecond.lastChild;
+			var elSecond = parentElement.firstChild.firstChild.nextSibling;
+			var elSecondInside = elSecond.lastChild;
 
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('matrixsize', 2);
+			$wnd.$ggbQuery(elSecondInside).mathquillggb('matrixsize', 2);
 		}
 	}-*/;
 
@@ -1235,14 +1235,14 @@ public class DrawEquationWeb extends DrawEquation {
 			Element parentElement,
 	        int keycode, boolean altk, boolean ctrlk, boolean shiftk) /*-{
 		var elfirst = parentElement.firstChild.firstChild;
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		if (elsecondInside.GeoGebraSuggestionPopupCanShow) {
-			delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+		if (elSecondInside.GeoGebraSuggestionPopupCanShow) {
+			delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 		}
 
-		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
+		var textarea = $wnd.$ggbQuery(elSecondInside).find('textarea');
 		if (textarea.attr("disabled")) {
 			textarea[0].doStopPropagation = true;
 		}
@@ -1271,14 +1271,14 @@ public class DrawEquationWeb extends DrawEquation {
 			Element parentElement,
 	        int charcode, boolean altk, boolean ctrlk, boolean shiftk, boolean more) /*-{
 		var elfirst = parentElement.firstChild.firstChild;
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		if (elsecondInside.GeoGebraSuggestionPopupCanShow) {
-			delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+		if (elSecondInside.GeoGebraSuggestionPopupCanShow) {
+			delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 		}
 
-		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
+		var textarea = $wnd.$ggbQuery(elSecondInside).find('textarea');
 		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
 			// MathQuillGGB will actually look for the character here
 			textarea.val(String.fromCharCode(charcode));
@@ -1318,14 +1318,14 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void triggerKeyUp(Element parentElement, int keycode,
 	        boolean altk, boolean ctrlk, boolean shiftk) /*-{
 		var elfirst = parentElement.firstChild.firstChild;
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		if (elsecondInside.GeoGebraSuggestionPopupCanShow) {
-			delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+		if (elSecondInside.GeoGebraSuggestionPopupCanShow) {
+			delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 		}
 
-		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
+		var textarea = $wnd.$ggbQuery(elSecondInside).find('textarea');
 		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
 			var evt = $wnd.$ggbQuery.Event("keyup", {
 				keyCode : keycode,
@@ -1369,14 +1369,14 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static native void newFormulaCreatedMathQuillGGB(GeoContainer rbti,
 			Element parentElement) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var thisjq = $wnd.$ggbQuery(elSecondInside);
 		var latexq = thisjq.mathquillggb('text');
 		var latexx = thisjq.mathquillggb('latex');
 
-		//elsecond.previousSibling.style.display = "block"; // this does not apply here!!
+		//elSecond.previousSibling.style.display = "block"; // this does not apply here!!
 
 		@org.geogebra.web.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Ljava/lang/String;Ljava/lang/String;)(rbti,parentElement,latexq,latexx);
 
@@ -1387,15 +1387,15 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void stornoFormulaMathQuillGGB(GeoContainer rbti,
 	        Element parentElement) /*-{
 		// in theory, this is only called from new formula creation mode!!!
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
-		elsecondInside.innerHTML = '';
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
+		$wnd.$ggbQuery(elSecondInside).mathquillggb('revert');
+		elSecondInside.innerHTML = '';
+		$wnd.$ggbQuery(elSecondInside).mathquillggb('latex', '');
+		$wnd.$ggbQuery(elSecondInside).mathquillggb('editable').focus();
 
-		var textareaJQ = $wnd.$ggbQuery(elsecondInside).find('textarea');
+		var textareaJQ = $wnd.$ggbQuery(elSecondInside).find('textarea');
 		if (textareaJQ && textareaJQ.length) {
 			var textareaDOM = textareaJQ[0];
 			// see comments at DrawEquationWeb.editEquationMathQuillGGB, at the end
@@ -1420,16 +1420,16 @@ public class DrawEquationWeb extends DrawEquation {
 			String newFormula, boolean shallfocus) /*-{
 		// this method must not freeze, otherwise the historyPopup would not
 		// get focus! It is necessary, however, to get focus
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
-		elsecondInside.innerHTML = newFormula;
+		$wnd.$ggbQuery(elSecondInside).mathquillggb('revert');
+		elSecondInside.innerHTML = newFormula;
 
 		//console.log(newFormula);
 
 		// note: we use this from historyPopup, so it should not ask focus!
-		var whattofocus = $wnd.$ggbQuery(elsecondInside).mathquillggb(
+		var whattofocus = $wnd.$ggbQuery(elSecondInside).mathquillggb(
 				'editable');
 		if (shallfocus) {
 			whattofocus.focus();
@@ -1438,18 +1438,18 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static native String getActualEditedValue(Element parentElement,
 			boolean asLaTeX) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var thisjq = $wnd.$ggbQuery(elSecondInside);
 		return thisjq.mathquillggb(asLaTeX ? 'latex' : 'text');
 	}-*/;
 
 	public static native int getCaretPosInEditedValue(Element parentElement) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var thisjq = $wnd.$ggbQuery(elSecondInside);
 		var str1 = thisjq.mathquillggb('text');
 		var str2 = thisjq.mathquillggb('textpluscursor');
 		var inx = 0;
@@ -1463,10 +1463,10 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void writeLatexInPlaceOfCurrentWord(GeoContainer rbti,
 	        Element parentElement, String latex, String currentWord,
 	        boolean command) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var thisjq = $wnd.$ggbQuery(elSecondInside);
 		var eqstring = latex;
 
 		if ((eqstring === null) || (eqstring === undefined)) {
@@ -1504,7 +1504,7 @@ public class DrawEquationWeb extends DrawEquation {
 		// this does not work, why?
 		// make sure the length of brackets (e.g. Quotation marks) are Okay
 		//$wnd.setTimeout(function() {
-		//	$wnd.$ggbQuery(elsecondInside).mathquillggb('redraw');
+		//	$wnd.$ggbQuery(elSecondInside).mathquillggb('redraw');
 		//}, 500);
 
 		if (rbti) {
@@ -1535,13 +1535,13 @@ public class DrawEquationWeb extends DrawEquation {
 	private static native void escEditingEquationMathQuillGGB(
 GeoContainer rbti,
 	        Element parentElement) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
 
-		var elsecondInside = elsecond.lastChild;
-		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var elSecondInside = elSecond.lastChild;
+		var thisjq = $wnd.$ggbQuery(elSecondInside);
 
 		var latexq = null;
-		elsecond.previousSibling.style.display = "block";
+		elSecond.previousSibling.style.display = "block";
 		@org.geogebra.web.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
 		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
@@ -1549,12 +1549,12 @@ GeoContainer rbti,
 	public static native void endEditingEquationMathQuillGGB(
 GeoContainer rbti,
 	        Element parentElement) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var thisjq = $wnd.$ggbQuery(elSecondInside);
 		var latexq = thisjq.mathquillggb('text');
-		elsecond.previousSibling.style.display = "block";
+		elSecond.previousSibling.style.display = "block";
 		var rett = @org.geogebra.web.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;)(rbti,latexq);
 		if (!rett) {
 			// redefinition did not succeed
@@ -1563,12 +1563,12 @@ GeoContainer rbti,
 	}-*/;
 
 	public static native String getMathQuillContent(Element parentElement) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var thisjq = $wnd.$ggbQuery(elSecondInside);
 		var latexq = thisjq.mathquillggb('text');
-		elsecond.previousSibling.style.display = "block";
+		elSecond.previousSibling.style.display = "block";
 
 		thisjq.mathquillggb('revert').mathquillggb();
 		return latexq;
@@ -1592,36 +1592,36 @@ GeoContainer rbti,
 	public static native void updateEquationMathQuillGGB(String htmlt,
 	        Element parentElement, boolean noEqnArray) /*-{
 
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
 		if (noEqnArray) {
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').html(htmlt)
+			$wnd.$ggbQuery(elSecondInside).mathquillggb('revert').html(htmlt)
 					.mathquillggb();
 
 			// Make sure the length of brackets and square roots are OK
-			elsecondInside.timeoutId2 = $wnd.setTimeout(function() {
-				$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', htmlt);
+			elSecondInside.timeoutId2 = $wnd.setTimeout(function() {
+				$wnd.$ggbQuery(elSecondInside).mathquillggb('latex', htmlt);
 			});
 		} else {
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').html(htmlt)
+			$wnd.$ggbQuery(elSecondInside).mathquillggb('revert').html(htmlt)
 					.mathquillggb('eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
 			//			$wnd.setTimeout(function() {
 			//				// TODO: needs testing
-			//				//$wnd.$ggbQuery(elsecond).mathquillggb('latex', htmlt);
-			//				$wnd.$ggbQuery(elsecond).mathquillggb('eqnarray');
+			//				//$wnd.$ggbQuery(elSecond).mathquillggb('latex', htmlt);
+			//				$wnd.$ggbQuery(elSecond).mathquillggb('eqnarray');
 			//			});
 		}
 	}-*/;
 
 	public static native JavaScriptObject grabCursorForScrollIntoView(
 	        Element parentElement) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
 
-		var jQueryObject = $wnd.$ggbQuery(elsecondInside).find('.cursor');
+		var jQueryObject = $wnd.$ggbQuery(elSecondInside).find('.cursor');
 		if ((jQueryObject !== undefined) && (jQueryObject.length > 0)) {
 			return jQueryObject[0];
 		}
