@@ -1063,13 +1063,14 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width,
 			int height) {
+
 		g2.setPaint(bgColor);
-		g2.fillRect(left, top, width, height - 2);
+		g2.fillRect(left - 1, top - 1, width - 1, height - 4);
 
 		// TF Rectangle
 		g2.setPaint(GColor.LIGHT_GRAY);
 
-		g2.drawRect(left, top, width, height - 2);
+		g2.drawRect(left - 1, top - 1, width - 1, height - 4);
 
 	}
 }
