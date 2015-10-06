@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Algorithm for the Sequence[ expression of var, var, from-value, to-value,
@@ -161,6 +162,8 @@ public class AlgoSequence extends AlgoElement {
 		if (isSimple) {
 			input = new GeoElement[1];
 			input[0] = var_to_geo;
+			list.setTypeStringForXML(StringUtil.toLowerCase(var_to_geo
+					.getGeoClassType().xmlName));
 		} else {
 			// make sure that x(Element[list,1]) will work even if the output
 			// list's length is zero
@@ -272,7 +275,7 @@ public class AlgoSequence extends AlgoElement {
 		if (last_to < to)
 			for (int k = (int) last_to; k < to; k++)
 				if (k >= 0)
-					list.addNumber(k + 1, this);
+					list.addNumber(k + 1, null);
 		if (last_to > to)
 			for (int k = (int) last_to; k > to; k--)
 				if (k >= 1) {
