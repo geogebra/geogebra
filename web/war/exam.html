@@ -2,6 +2,28 @@
 <html><head><meta charset="utf-8"/><title>GeoGebraExam</title>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
+<script>
+web3dpath="web3d";
+WebFontConfig = {
+        loading: function() {},
+        active: function() {},
+        inactive: function() {},
+fontloading: function(familyName, fvd) {},
+fontactive: function(familyName, fvd) {},
+        fontinactive: function(familyName, fvd) {},
+        custom: {
+            families: ["geogebra-serif", "geogebra-sans-serif" ],
+            urls: [ web3dpath+"/css/fonts.css?v=1.15" ]
+        }
+    };
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript';
+	ga.async = true;
+	ga.src = web3dpath+'/js/webfont.js';
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(ga, s);
+})();
+</script>
 <script type="text/javascript" src="web3d/web3d.nocache.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>body { -ms-touch-action: none; }</style>
