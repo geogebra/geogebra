@@ -18,7 +18,7 @@ function getHiddenProp(){
 }
 
 // use the property name to generate the prefixed event name
-function visibilityEventMain() {
+function visibilityEventMain(visChange) {
 	var visProp = getHiddenProp();
 	if (visProp) {
 		var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
@@ -26,11 +26,3 @@ function visibilityEventMain() {
 	}
 }
 
-// Style when the student puts GeoGebraExam into offline mode ("cheating")
-function visChange() {
-	var timer = document.getElementById("timer"); 
-	if (timer.started) {
-		timer.style.backgroundColor = "red";
-		timer.style.color = "white";
-	}
-}

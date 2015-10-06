@@ -69,6 +69,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	PushButton undoButton;
 	private PushButton redoButton;
 	private boolean redoPossible = false;
+	private boolean cheating = false;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -218,6 +219,10 @@ public class GGWToolBar extends Composite implements RequiresResize,
 				if (!timer.getElement().getPropertyBoolean("started")) {
 					timer.setText("0:00");
 				} else {
+					if (cheating) {
+						timer.getElement().getStyle().setBackgroundColor("red");
+						timer.getElement().getStyle().setColor("white");
+					}
 					long start = ((long) timer.getElement().getPropertyInt(
 					        "start")) * 1000;
 					int secs = (int) ((timestamp - start) / 1000);
@@ -237,9 +242,17 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		visibilityEventMain();
 	}
 
-	private static native void visibilityEventMain() /*-{
+	private void startCheating() {
+		cheating = true;
+	}
+
+	private native void visibilityEventMain() /*-{
 		// wrapper to call the appropriate function from visibility.js
-		$wnd.visibilityEventMain();
+		var that = this;
+		var visChange = function() {
+			that.@org.geogebra.web.web.gui.app.GGWToolBar::startCheating()()
+		};
+		$wnd.visibilityEventMain(visChange);
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 		$wnd.onblur = function(event) {
 			// Borrowed from http://www.quirksmode.org/js/events_properties.html
@@ -258,7 +271,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 					+ e.currentTarget + ", " + e.currentTarget.id);
 			// The focusout event should not be caught:
 			if (e.type == "blur") {
-				$wnd.visChange();
+				visChange();
 			}
 		};
 	}-*/;
