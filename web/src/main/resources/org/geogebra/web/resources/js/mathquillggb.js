@@ -573,10 +573,8 @@ var manageTextarea = (function() {
           //e.preventDefault();
     	}
       }
-      if (textarea[0].doStopPropagation) { 
-    	 textarea[0].doStopPropagation = false; 
-    	e.stopPropagation(); 
-      } else if (textarea[0] && textarea[0].disabledTextarea) {
+
+      if (textarea[0] && textarea[0].disabledTextarea) {
     	// this can only happen in scenarios when
     	// stopPropagation is useful here
     	e.stopPropagation();
@@ -631,10 +629,7 @@ var manageTextarea = (function() {
 
       checkTextareaFor(typedText);
 
-      if (textarea[0].doStopPropagation) { 
-     	 textarea[0].doStopPropagation = false; 
-     	e.stopPropagation(); 
-       } else if (textarea[0] && textarea[0].disabledTextarea) {
+      if (textarea[0] && textarea[0].disabledTextarea) {
       	// this can only happen in scenarios when
       	// stopPropagation is useful here
       	e.stopPropagation();
@@ -659,11 +654,9 @@ var manageTextarea = (function() {
 		//textarea[0].simulatedKeypress = true;
         // what about event order here? TODO: make sure it's perfect
 
-        var code = 0;
-        if (e.charCode) {
-          code = e.charCode;
-        } else if (e.which) {
-          code = e.which;
+        var code = e.charCode || e.which || 0;
+        if(code == 13){
+        	return;
         }
         // #5398 probably does not mind these lines being here
         // as it's mobile, disabled textarea case only, but still,
@@ -708,7 +701,10 @@ var manageTextarea = (function() {
       if (textarea[0] && textarea[0].disabledTextarea) {
     	// but in Android case this means bluetooth keyboard!
         // let's not bother with default actions either!
-        e.preventDefault();
+    	var code = e.keyCode || e.which || 0;
+    	if(code == 8 || code == 37 || code == 39){
+    		e.preventDefault();
+    	}
         // but instead recreate the same event once again!
         //var e2 = $.Event(e.type, e);
         // and make sure not to clone preventDefault state,
