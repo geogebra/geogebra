@@ -810,14 +810,17 @@ public class DrawEquationWeb extends DrawEquation {
 							// will be zero, that's why we should not leave the default
 							// value of "var code" at 13, but it should be 0 instead
 							// never mind, as this method only does something for 13 and 27
-							var code = 0;
 							// otherwise, MathQuill still listens to keypress which will
 							// capture the &oacute;
+							var code = event.keyCode || event.which || 0;
 
-							if (event.keyCode) {
-								code = event.keyCode;
-							} else if (event.which) {
-								code = event.which;
+							if (event.keyCode == 0) {
+								var textarea = $wnd.$ggbQuery(elSecondInside)
+										.find('textarea');
+								if (textarea.attr("disabled")) {
+									code = textarea[0].lastPressCode || 0;
+									textarea[0].lastPressCode = 0;
+								}
 							}
 							if (code == 13) {//enter
 								if (newCreationMode) {

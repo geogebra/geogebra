@@ -653,8 +653,9 @@ var manageTextarea = (function() {
         // then we probably don't need simulatedKeypress
 		//textarea[0].simulatedKeypress = true;
         // what about event order here? TODO: make sure it's perfect
-
+        
         var code = e.charCode || e.which || 0;
+        textarea[0].lastPressCode = code;
         if(code == 13){
         	return;
         }
