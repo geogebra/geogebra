@@ -4748,7 +4748,8 @@ namespace giac {
     if ((f.type==_SYMB) && (f._SYMBptr->sommet==at_cercle))
       return distance2cp(ee,cercle2curve(f,contextptr),contextptr);
     vecteur v(*e._VECTptr);
-    gen projete=subst(v[0],v[1],projection(ee,f,contextptr),false,contextptr);
+    gen p=projection(ee,f,contextptr);
+    gen projete=subst(v[0],v[1],p,false,contextptr);
     return distance2pp(projete,f,contextptr);
   }
 
@@ -5650,6 +5651,8 @@ namespace giac {
       if (w.size()>6 && !is_undef(w[6]))
 	w06=w[6];
       gen res=_limit(makesequence(w06,w[1],t),contextptr);
+      if (has_num_coeff(t))
+	res=evalf(res,1,contextptr);
       if (res.type==_VECT && res._VECTptr->size()==2)
 	res=res._VECTptr->front()+cst_i*res._VECTptr->back();
       return res;

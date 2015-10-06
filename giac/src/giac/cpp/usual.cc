@@ -6842,6 +6842,8 @@ namespace giac {
 	return is_strictly_positive(rg,context0); // ok
       return true;
     }
+    if (g.type==_FRAC)
+      return true;
     if (g.type==_SYMB)
       return need_parenthesis(g._SYMBptr->sommet);
     if (g.type!=_FUNC)
@@ -6849,7 +6851,7 @@ namespace giac {
     unary_function_ptr & u=*g._FUNCptr;
     if (u==at_pow || u==at_division || u==at_prod)
       return false;
-    if (u==at_neg || u==at_minus || u==at_and || u==at_et || u==at_ou || u==at_oufr || u==at_xor || u==at_same || u==at_equal || u==at_equal2 || u==at_superieur_egal || u==at_superieur_strict || u==at_inferieur_egal || u==at_inferieur_strict)
+    if (u==at_neg || u==at_inv || u==at_minus || u==at_and || u==at_et || u==at_ou || u==at_oufr || u==at_xor || u==at_same || u==at_equal || u==at_equal2 || u==at_superieur_egal || u==at_superieur_strict || u==at_inferieur_egal || u==at_inferieur_strict)
       return true;
     if (!u.ptr()->printsommet)
       return false;

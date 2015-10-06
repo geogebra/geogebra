@@ -3660,10 +3660,11 @@ namespace giac {
   }
 
   // p - a*q shifted mod m -> r
-  void smallmultsubmod(const polymod & p,unsigned pos,modint a,const polymod & q,const tdeg_t & shift,polymod & r,modint m){
+  void smallmultsubmodshift(const polymod & p,unsigned pos,modint a,const polymod & q,const tdeg_t & shift,polymod & r,modint m){
     r.coord.clear();
     r.coord.reserve(p.coord.size()+q.coord.size());
-    vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin()+pos,itend=p.coord.end(),jt=q.coord.begin(),jtend=q.coord.end();
+    vector< T_unsigned<modint,tdeg_t> >::const_iterator it0=p.coord.begin(),it=it0+pos,itend=p.coord.end(),jt=q.coord.begin(),jtend=q.coord.end();
+    // for (;it0!=it;++it0){ r.coord.push_back(*it0); }
     tdeg_t v=shift+shift; // new memory slot
     int dim=p.dim;
     for (;jt!=jtend;++jt){
@@ -3768,7 +3769,7 @@ namespace giac {
 	// Gpos=i; // assumes basis element in G are sorted wrt >
       }
       else
-	smallmultsubmod(rem,0,smod(modint2(a)*invmod(b,env),env),res[G[i]],pt->u-res[G[i]].coord.front().u,TMP2,env);
+	smallmultsubmodshift(rem,0,smod(modint2(a)*invmod(b,env),env),res[G[i]],pt->u-res[G[i]].coord.front().u,TMP2,env);
       swap(rem.coord,TMP2.coord);
     }
     if (!rem.coord.empty() && rem.coord.front().g!=1){
@@ -3829,7 +3830,7 @@ namespace giac {
     if (lcm==qi)
       smallmultsubmod(TMP1,smod(modint2(a)*invmod(b,env),env),TMP2,res,env);
     else
-      smallmultsubmod(TMP1,0,smod(modint2(a)*invmod(b,env),env),TMP2,lcm-qi,res,env);
+      smallmultsubmodshift(TMP1,0,smod(modint2(a)*invmod(b,env),env),TMP2,lcm-qi,res,env);
     if (!res.coord.empty() && res.coord.front().g!=1){
       smallmultmod(invmod(res.coord.front().g,env),res,env);
       res.coord.front().g=1;
@@ -3851,7 +3852,7 @@ namespace giac {
       if (pt>=p.coord.end())
 	break;
       if (pt->u==u){
-	smallmultsubmod(p,0,smod(modint2(pt->g)*invg,env),q,pt->u-u,TMP2,env);
+	smallmultsubmodshift(p,0,smod(modint2(pt->g)*invg,env),q,pt->u-u,TMP2,env);
 	swap(p.coord,TMP2.coord);
 	break;
       }
@@ -3860,8 +3861,8 @@ namespace giac {
 	// TMP1.coord.push_back(*pt);
 	continue;
       }
-      smallmultsubmod(p,0,smod(modint2(pt->g)*invg,env),q,pt->u-u,TMP2,env);
-      // smallmultsubmod(p,rempos,smod(modint2(pt->g)*invmod(g,env),env),q,pt->u-u,TMP2,env);
+      smallmultsubmodshift(p,0,smod(modint2(pt->g)*invg,env),q,pt->u-u,TMP2,env);
+      // smallmultsubmodshift(p,rempos,smod(modint2(pt->g)*invmod(g,env),env),q,pt->u-u,TMP2,env);
       rempos=0; 
       swap(p.coord,TMP2.coord);
     }
@@ -3882,6 +3883,16 @@ namespace giac {
     unsigned terms;
     int age;
   };
+
+  bool tri (const zsymb_data & z1,const zsymb_data & z2){
+    if (z1.terms!=z2.terms) 
+      return z1.terms<z2.terms;
+    int d1=z1.deg.total_degree(z1.o),d2=z2.deg.total_degree(z2.o);
+    if (d1!=d2) return d1<d2;
+    if (z1.pos!=z2.pos)
+      return z2.pos>z1.pos;
+    return false;
+  }
   
   bool operator < (const zsymb_data & z1,const zsymb_data & z2){
 #ifdef GIAC_DEG_FIRST
@@ -3901,7 +3912,7 @@ namespace giac {
     return false;
   }
 
-  void reducesmallmod(polymod & rem,const vectpolymod & res,const vector<unsigned> & G,unsigned excluded,modint env,polymod & TMP1,bool normalize){
+  void reducesmallmod(polymod & rem,const vectpolymod & res,const vector<unsigned> & G,unsigned excluded,modint env,polymod & TMP1,bool normalize,bool belowonly=false){
     std::vector< T_unsigned<modint,tdeg_t> >::const_iterator pt,ptend;
     unsigned i,rempos=0;
     TMP1.coord.clear();
@@ -3919,7 +3930,7 @@ namespace giac {
       zsymb_data tmp={Gi,cur.coord.empty()?0:cur.coord.front().u,o,cur.coord.size(),0};
       zsGi[i]=tmp;
     }
-    sort(zsGi.begin(),zsGi.end());
+    sort(zsGi.begin(),zsGi.end(),tri);
 #else
     const tdeg_t ** resGi=(const tdeg_t **) malloc(Gs*sizeof(tdeg_t *));
     for (unsigned i=0;i<Gs;++i){
@@ -3940,9 +3951,9 @@ namespace giac {
 	if (zs.terms && zs.pos!=excluded && tdeg_t_all_greater(ptu,zs.deg,o))
 	  break;
       }
-#else
+#else // GIAC_GBASIS_PERMUTATION2
       if (excluded<Gs){
-	const tdeg_t ** resGi_=resGi,**resGiend=resGi+excluded;
+	const tdeg_t ** resGi_=belowonly?resGi+excluded:resGi,**resGiend=resGi+excluded;
 	for (;resGi_<resGiend;++resGi_){
 	  if (!*resGi_)
 	    continue;
@@ -3977,7 +3988,7 @@ namespace giac {
 	}
 	i=resGi_-resGi;
       }
-#endif
+#endif // GIAC_GBASIS_PERMUTATION2
       if (i==G.size()){ // no leading coeff of G is smaller than the current coeff of rem
 	++rempos;
 	// if (small0) TMP1.coord.push_back(*pt);
@@ -3989,7 +4000,7 @@ namespace giac {
       int Gi=G[i];
 #endif
       modint a(pt->g),b(res[Gi].coord.front().g);
-      smallmultsubmod(rem,0,smod(a*modint2(invmod(b,env)),env),res[Gi],pt->u-res[Gi].coord.front().u,TMP1,env);
+      smallmultsubmodshift(rem,0,smod(a*modint2(invmod(b,env)),env),res[Gi],pt->u-res[Gi].coord.front().u,TMP1,env);
       // smallmultsub(rem,rempos,smod(a*invmod(b,env->modulo),env->modulo).val,res[G[i]],pt->u-res[G[i]].coord.front().u,TMP2,env->modulo.val);
       // rempos=0; // since we have removed the beginning of rem (copied in TMP1)
       swap(rem.coord,TMP1.coord);
@@ -9612,7 +9623,6 @@ namespace giac {
     }
   }
 
-
   void zmakeline(const zpolymod & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<modint> & v,int start=0){
     int Rs=int(R.size());
     // if (v.size()!=Rs) v.resize(Rs); 
@@ -9660,6 +9670,108 @@ namespace giac {
     }
   }
 
+  void zmakelinesub(const zpolymod & p,const tdeg_t * leftshift,const zpolymod & q,const tdeg_t * rightshift,const vector<tdeg_t> & R,vector<modint> & v,int start,modint env){
+    std::vector< zmodint >::const_iterator pt=p.coord.begin()+start,ptend=p.coord.end();
+    std::vector< zmodint >::const_iterator qt=q.coord.begin()+start,qtend=q.coord.end();
+    std::vector<tdeg_t>::const_iterator jt=R.begin(),jtbeg=jt,jtend=R.end();
+    const std::vector<tdeg_t> & pexpo=*p.expo;
+    const std::vector<tdeg_t> & qexpo=*q.expo;
+    double nop1=double(R.size()); 
+    double nop2=2*p.coord.size()*std::log(nop1)/std::log(2.0);
+    bool dodicho=nop2<nop1;
+    int dim=p.dim;
+    order_t order=p.order;
+    if (leftshift && rightshift){
+      tdeg_t ul=R.front()+R.front();
+      tdeg_t ur=R.front()+R.front();
+      bool updatep=true,updateq=true;
+      for (;pt!=ptend && qt!=qtend;){
+	if (updatep){
+	  add(pexpo[pt->u],*leftshift,ul,dim);
+	  updatep=false;
+	}
+	if (updateq){
+	  add(qexpo[qt->u],*rightshift,ur,dim);
+	  updateq=false;
+	}
+	if (tdeg_t_greater(ul,ur,order)){
+	  if (dodicho && dicho(jt,jtend,ul,order)){
+	    if (ul==ur){
+	      v[jt-jtbeg] = (pt->g-longlong(qt->g))%env;
+	      ++jt; ++pt; ++qt;
+	      updatep=updateq=true;
+	      continue;
+	    }
+	    v[jt-jtbeg] = pt->g;
+	    ++jt; ++pt;
+	    updatep=true;
+	    continue;
+	  }
+	  for (;jt!=jtend;++jt){
+	    if (*jt==ul){
+	      if (ul==ur){
+		v[jt-jtbeg] = (pt->g-longlong(qt->g))%env;
+		++jt; ++pt; ++qt;
+		updatep=updateq=true;
+	      }
+	      else {
+		v[jt-jtbeg] = pt->g;
+		++jt; ++pt;
+		updatep=true;
+	      }
+	      break;
+	    }
+	  }
+	  continue;
+	} // end if ul>=ur
+	if (dodicho && dicho(jt,jtend,ur,order)){
+	  v[jt-jtbeg] = -qt->g;
+	  ++jt; ++qt;
+	  updateq=true;
+	  continue;
+	}
+	for (;jt!=jtend;++jt){
+	  if (*jt==ur){
+	    v[jt-jtbeg] = -qt->g;
+	    ++jt; ++qt;
+	    updateq=true;
+	    break;
+	  }
+	}
+      } // for (pt!=ptend && qt!=qtend)
+      for (;pt!=ptend;){
+	add(pexpo[pt->u],*leftshift,ul,dim);
+	if (dodicho && dicho(jt,jtend,ul,order)){
+	  v[jt-jtbeg] = pt->g;
+	  ++jt; ++pt;
+	  continue;
+	}
+	for (;jt!=jtend;++jt){
+	  if (*jt==ul){
+	    v[jt-jtbeg] = pt->g;
+	    ++jt; ++pt;
+	    break;
+	  }
+	}
+      } 
+      for (;qt!=qtend;){
+	add(qexpo[qt->u],*rightshift,ur,dim);
+	if (dodicho && dicho(jt,jtend,ur,order)){
+	  v[jt-jtbeg] = -qt->g;
+	  ++jt; ++qt;
+	  continue;
+	}
+	for (;jt!=jtend;++jt){
+	  if (*jt==ur){
+	    v[jt-jtbeg] = -qt->g;
+	    ++jt; ++qt;
+	    break;
+	  }
+	}
+      } 
+    }
+  }
+
   void zmakelinesub(const zpolymod & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,vector<modint> & v,int start,modint env){
     std::vector< zmodint >::const_iterator it=p.coord.begin()+start,itend=p.coord.end();
     std::vector<tdeg_t>::const_iterator jt=R.begin(),jtbeg=jt,jtend=R.end();
@@ -9674,7 +9786,10 @@ namespace giac {
 	if (dodicho && dicho(jt,jtend,u,p.order)){
 	  // v[jt-jtbeg] -= it->g;
 	  modint & vv=v[jt-jtbeg];
-	  vv = (vv-longlong(it->g))%env;
+	  if (vv)
+	    vv = (vv-longlong(it->g))%env;
+	  else
+	    vv=-it->g;
 	  ++jt;
 	  continue;
 	}
@@ -9682,7 +9797,10 @@ namespace giac {
 	  if (*jt==u){
 	    // v[jt-jtbeg] -= it->g;
 	    modint & vv=v[jt-jtbeg];
-	    vv = (vv-longlong(it->g))%env;
+	    if (vv)
+	      vv = (vv-longlong(it->g))%env;
+	    else
+	      vv = -it->g;
 	    ++jt;
 	    break;
 	  }
@@ -9711,6 +9829,86 @@ namespace giac {
       }
     }
   }
+
+#if 0
+  void zcollect_interreduce(const vectzpolymod & res,vector< unsigned > & G,vector<tdeg_t> & allf4buchberger){
+    int start=0;
+    vector<heap_tt> Ht;
+    heap_tt heap_elem;
+    vector<heap_tt_ptr> H; 
+    Ht.reserve(2*G.size()+1);
+    H.reserve(2*G.size());
+    unsigned s=0;
+    order_t keyorder={_REVLEX_ORDER,0};
+    for (unsigned i=0;i<G.size();++i){
+      const zpolymod & p=res[G[i]];
+      keyorder=p.order;
+      if (int(p.coord.size())>start){
+	s = giacmax(s, unsigned(p.coord.size()));
+	Ht.push_back(heap_tt(true,i,start,(*p.expo)[p.coord[start].u]));
+	H.push_back(heap_tt_ptr(&Ht.back()));
+      }
+    }
+    allf4buchberger.reserve(s); // int(s*std::log(1+H.size())));
+    compare_heap_tt_ptr key(keyorder);
+    make_heap(H.begin(),H.end(),key);
+    while (!H.empty()){
+      // push root node of the heap in allf4buchberger
+      heap_tt & current = *H.front().ptr;
+      if (allf4buchberger.empty() || allf4buchberger.back()!=current.u)
+	allf4buchberger.push_back(current.u);
+      ++current.polymodpos;
+      unsigned vpos;
+      vpos=G[current.f4buchbergervpos];
+      if (current.polymodpos>=res[vpos].coord.size()){
+	std::pop_heap(H.begin(),H.end(),key);
+	H.pop_back();
+	continue;
+      }
+      const zpolymod & resvpos=res[vpos];
+      current.u=(*resvpos.expo)[resvpos.coord[current.polymodpos].u];
+      // push_back &current into heap so that pop_heap will bubble out the
+      // modified root node (initialization will exchange two identical pointers)
+      H.push_back(heap_tt_ptr(&current));
+      std::pop_heap(H.begin(),H.end(),key);
+      H.pop_back();
+    }
+  }
+
+  void zinterreduce_convert(vectzpolymod & res,vector< unsigned > & G,int env,vectpolymod & resmod){
+    if (res.empty()){ resmod.clear(); return; }
+    order_t order=res.front().order;
+    int dim=res.front().dim;
+    vector<tdeg_t> all,q,rem;
+    zcollect_interreduce(res,G,all);
+    // This does not work because we must also zsymbolic_preprocess all and reduce
+    // by res * shift in quotient
+    int Gs=int(G.size()),cols=int(all.size());
+    vector< vector<modint> > M(Gs,vector<modint>(cols));
+    for (unsigned i=0;i<Gs;++i){
+      zmakeline(res[G[i]],0,all,M[Gs-i-1],0);
+    }
+    vecteur pivots; vector<int> permutation,maxrankcols; longlong idet;
+    //CERR << M << endl;
+    smallmodrref(M,pivots,permutation,maxrankcols,idet,0,Gs,0,cols,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    //CERR << M << endl;
+    resmod.resize(res.size());
+    for (unsigned i=0;i<Gs;++i){
+      vector<modint> & v=M[i];
+      polymod & r=resmod[G[Gs-permutation[i]-1]];
+      r.order=order; r.dim=dim;
+      vector< T_unsigned<modint,tdeg_t> > & p=r.coord;
+      p.clear();
+      p.reserve(cols);
+      for (unsigned j=0;j<cols;++j){
+	modint vj=v[j];
+	if (vj!=0){
+	  p.push_back(T_unsigned<modint,tdeg_t>(vj,all[j]));
+	}
+      }
+    }
+  }
+#endif
 
   void Rtorem(const vector<tdeg_t> & R,const vector<tdeg_t> & rem,vector<unsigned> & v){
     v.resize(R.size());
@@ -9893,10 +10091,14 @@ namespace giac {
 	bitmap += tofill;
 	continue;
       }
+#if 0
+      zmakelinesub(res[bk.first],&leftshift[i],res[bk.second],&rightshift[i],R,v,1,env);
+#else
       // CERR << bk.first << " " << leftshift[i] << endl;
       zmakeline(res[bk.first],&leftshift[i],R,v,1);
       // CERR << bk.second << " " << rightshift[i] << endl;
       zmakelinesub(res[bk.second],&rightshift[i],R,v,1,env);
+#endif
       // CERR << v << endl << v2 << endl;
       // sub(v,v2,env);
       // CERR << v << endl;
@@ -10056,7 +10258,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     // -> if g leading monomial is not disjoint from h leading monomial
     //    keep it only if lcm of leading monomial is not divisible by another one
 #if 1
-	unsigned tmpsize = unsigned(G.size());
+    unsigned tmpsize = unsigned(G.size());
     vector<tdeg_t> tmp(tmpsize);
     for (unsigned i=0;i<tmpsize;++i){
       index_lcm(h0,res[G[i]].ldeg,tmp[i],order); 
@@ -10283,6 +10485,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	index_lcm(res[B[i].first].ldeg,res[B[i].second].ldeg,Blcm[i],order);
 	nterms[i]=res[B[i].first].coord.size()+res[B[i].second].coord.size();
       }
+#if 1
       for (unsigned i=0;i<clean.size();++i){
 	if (clean[i] && res[i].coord.capacity()>1){
 	  cleared += int(res[i].coord.capacity())-1;
@@ -10290,6 +10493,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  clearer.coord.swap(res[i].coord);
 	}
       }
+#endif
       vector< pair<unsigned,unsigned> > smallposp;
       if (B.size()<=GBASIS_F4BUCHBERGER)
 	swap(smallposp,B);      
@@ -10472,22 +10676,27 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     }
     else {
       resmod.resize(res.size());
+#if 0 // does not fully inter-reduce 
+      zinterreduce_convert(res,G,env,resmod);
+#else
       for (unsigned l=0;l<res.size();++l){
 	convert(res[l],resmod[l]);
       }
       res.clear();
       // final interreduce step2
+      // by construction resmod[G[j]] is already interreduced by resmod[G[k]] for k<j
       polymod TMP1(order,dim);
-      for (unsigned j=0; j<G.size();++j){
-	reducesmallmod(resmod[G[j]],resmod,G,j,env,TMP1,true);
+      for (int j=int(G.size())-1; j>=0;--j){
+	reducesmallmod(resmod[G[j]],resmod,G,j,env,TMP1,true,true);
       }
+#endif
     }
     if (ressize<resmod.size())
       res.resize(ressize);
     if (debug_infolevel>1){
       unsigned t=0;
       for (unsigned i=0;i<res.size();++i)
-		  t += unsigned(res[i].coord.size());
+	t += unsigned(res[i].coord.size());
       CERR << CLOCK() << " total number of monomials in res " << t << endl;
       CERR << "Number of monomials cleared " << cleared << endl;
     }
@@ -10618,7 +10827,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     res.coord.clear();
     polymod tmp(b.order,b.dim);
     for (unsigned i=0;i<b.coord.size();++i){
-      smallmultsubmod(res,0,(-b.coord[i].g) % p,a,b.coord[i].u,tmp,p);
+      smallmultsubmodshift(res,0,(-b.coord[i].g) % p,a,b.coord[i].u,tmp,p);
       tmp.coord.swap(res.coord);
     }
   }
