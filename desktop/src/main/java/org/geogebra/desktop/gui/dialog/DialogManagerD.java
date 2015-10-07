@@ -126,7 +126,6 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 
 	@Override
 	public void showPropertiesDialog() {
-		app.debug("showPropertiesDialog(null)");
 		showPropertiesDialog(null);
 	}
 
@@ -141,9 +140,9 @@ public class DialogManagerD extends org.geogebra.common.main.DialogManager {
 	@Override
 	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
 
-		app.debug("showPropertiesDialog(type, geos)");
-		if (!((AppD) app).letShowPropertiesDialog())
+		if (!((AppD) app).letShowPropertiesDialog()) {
 			return;
+		}
 
 		// get PropertiesView
 		PropertiesView pv = (PropertiesView) ((GuiManagerD) app.getGuiManager())

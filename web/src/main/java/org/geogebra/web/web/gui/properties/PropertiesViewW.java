@@ -424,9 +424,7 @@ org.geogebra.common.gui.view.properties.PropertiesView implements RequiresResize
 
 	@Override
 	protected void updateTitleBar() {
-		app.debug("updateTitleBar()");
 		updatePropertiesGUI();
-		// TODO Auto-generated method stub
 
 	}
 
