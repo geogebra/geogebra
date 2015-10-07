@@ -1017,7 +1017,7 @@ public class Ggb2giac {
 		// p("PolyLine.N", "open_polygon(%)");
 
 		p("Tangent.2",
-				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1]],when((%0)[0]=='pnt',"
+				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x]) == 0,lname(ggbtanarg1)[0],x)]],when((%0)[0]=='pnt',"
 						+ "when((ggbtanarg1)[0]=='=',"
 						+
 						// Tangent[conic/implicit, point on curve]
@@ -1025,14 +1025,14 @@ public class Ggb2giac {
 						+
 						// Tangent[point, function]
 						// just use x-coordinate real(%0[1])
-						"y=normal(subst(diff(ggbtanarg1,lname(ggbtanarg1)[0]),lname(ggbtanarg1)[0]=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,lname(ggbtanarg1)[0]=real(%0[1]))))"
+						"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,ggbtanvar=real(%0[1]))))"
 						+ ","
 						+
 						// Tangent[x-value, function]
 						// use lname(function) instead of x
 						// e.g. lname(sin(t)) = t
 						// needed for #5526
-						"y=normal(subst(diff(ggbtanarg1,lname(ggbtanarg1)[0]),lname(ggbtanarg1)[0]=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,lname(ggbtanarg1)[0]=ggbtanarg0))"
+						"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,ggbtanvar=ggbtanarg0))"
 						+ ")][1]");
 
 		// p("TangentThroughPoint.2",
