@@ -98,7 +98,7 @@ public enum Operation {
 				return bool;
 			}
 			return ev.illegalBinary(lt, rt, "IllegalBoolean",
-					ExpressionNodeConstants.strNOT);
+					ExpressionNodeConstants.strOR);
 		}
 	},
 	AND {
@@ -120,7 +120,7 @@ public enum Operation {
 				return bool;
 			}
 			return ev.illegalBinary(lt, rt, "IllegalBoolean",
-					ExpressionNodeConstants.strNOT);
+					ExpressionNodeConstants.strAND);
 		}
 	},
 	AND_INTERVAL {
