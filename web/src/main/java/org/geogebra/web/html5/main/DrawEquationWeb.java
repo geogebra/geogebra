@@ -38,6 +38,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DrawEquationWeb extends DrawEquation {
 
@@ -1526,7 +1528,7 @@ GeoContainer rbti,
 	        Element parentElement, boolean noEqnArray) /*-{
 
 		var elSecond = parentElement.firstChild.firstChild.nextSibling;
-		var elSecondInside = elSecond.lastChild;
+		var elSecondInside = elSecond.lastChild.firstChild;
 
 		if (noEqnArray) {
 			$wnd.$ggbQuery(elSecondInside).mathquillggb('revert').html(htmlt)
@@ -1645,7 +1647,7 @@ GeoContainer rbti,
 
 		Element joel = Element.as(jo);
 		joel.scrollIntoView();
-
+		Widget w = ((TreeItem) rbti).getWidget();
 		// Note: the following hacks should only be made in
 		// new creation mode! so boolean introduced...
 		if (newCreationMode) {
@@ -1656,29 +1658,28 @@ GeoContainer rbti,
 			// scroll to the left/right!
 			if (joel.getAbsoluteLeft() - parentElement.getAbsoluteLeft() < 50) {
 				// InputTreeItem class in theory
-				rbti.getElement().setScrollLeft(0);
+				w.getElement().setScrollLeft(0);
 			} else if (parentElement.getAbsoluteRight()
 			        - joel.getAbsoluteRight() < 50) {
 				// InputTreeItem class in theory
-				rbti.getElement().setScrollLeft(
-				        rbti.getElement().getScrollWidth()
-				                - rbti.getElement().getClientWidth());
+				w.getElement().setScrollLeft(w.getElement().getScrollWidth()
+						- w.getElement().getClientWidth());
 			} else if (joel.getAbsoluteLeft()
-			        - rbti.getElement().getAbsoluteLeft() < 50) {
+					- w.getElement().getAbsoluteLeft() < 50) {
 				// we cannot show the "X" sign all the time anyway!
 				// but it would be good not to keep the cursor on the
 				// edge...
 				// so if it is around the edge by now, scroll!
-				rbti.getElement().setScrollLeft(
-				        rbti.getElement().getScrollLeft() - 50
+				w.getElement()
+						.setScrollLeft(w.getElement().getScrollLeft() - 50
 				                + joel.getAbsoluteLeft()
-				                - rbti.getElement().getAbsoluteLeft());
-			} else if (rbti.getElement().getAbsoluteRight()
+								- w.getElement().getAbsoluteLeft());
+			} else if (w.getElement().getAbsoluteRight()
 			        - joel.getAbsoluteRight() < 50) {
 				// similarly
-				rbti.getElement().setScrollLeft(
-				        rbti.getElement().getScrollLeft() + 50
-				                - rbti.getElement().getAbsoluteRight()
+				w.getElement()
+						.setScrollLeft(w.getElement().getScrollLeft() + 50
+								- w.getElement().getAbsoluteRight()
 				                + joel.getAbsoluteRight());
 			}
 		}
