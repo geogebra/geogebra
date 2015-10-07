@@ -656,7 +656,7 @@ public class Ggb2giac {
 		// accepted input
 		// Solve[<equation>,<variable>,<assumption>]
 		// or Solve[<equation>,<variable>,<list of assumptions>]
-				"when(type(%0) == DOM_SYMBOLIC && type(%1) == DOM_IDENT && (type(%2) == DOM_SYMBOLIC || type(%2) == DOM_LIST) , "
+				"when(type(%0) == DOM_SYMBOLIC && type(%1) == DOM_IDENT , "
 						+ "(assume(%2),solve(%0,%1))[size(assume(%2),solve(%0,%1))-1] , ? )");
 		p("SolveODE.1", "when((%0)[0]=='=',"
 						// case the equation contains only y and other variable
