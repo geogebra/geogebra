@@ -28,7 +28,7 @@ public class MaterialRequest implements Request
 
 	public enum Filters
 	{
-		id, title, search, type, description, timestamp, author, author_url, language, featured, likes, inbook, inws, tags;
+		id, title, search, type, description, timestamp, author, author_url, language, featured, likes, inbook, inws;
 	}
 
 	public enum Order
