@@ -3909,7 +3909,6 @@ public abstract class App implements UpdateSelection {
 	public final boolean has(Feature f) {
 		switch (f) {
 		case ALL_LANGUAGES:
-		case AV_EXTENSIONS:
 		case EXERCISES:
 		case IMPLICIT_CURVES:
 		case KOREAN_KEYBOARD:
@@ -3922,6 +3921,7 @@ public abstract class App implements UpdateSelection {
 		case DRAW_ELLIPSOID:
 		case CP_POPUP:
 			return prerelease;
+		case AV_EXTENSIONS:
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case DATA_COLLECTION:
 		case SEQUENTIAL_COLORS:
