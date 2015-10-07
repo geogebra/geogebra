@@ -106,6 +106,9 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.layout.DockManagerW;
+import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -1627,27 +1630,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * Pops up a welcome message for the exam mode.
 	 */
 	public void examWelcome() {
-
-		if (isExam()) {
-			String[] optionNames = { getMenu("StartExam") };
-			getOptionPane()
-					.showOptionDialog(this,
-			        getMenu("WelcomeExam"), getMenu("GeoGebraExam"),
-			        GOptionPane.CUSTOM_OPTION, GOptionPane.INFORMATION_MESSAGE,
-			        null, optionNames, new AsyncOperation() {
-				        @Override
-				        public void callback(Object obj) {
-					        DivElement divID = (DivElement) Document.get()
-					                .getElementById("timer");
-					        divID.setPropertyBoolean("started", true);
-					        Date date = new Date();
-					        final long start = date.getTime();
-					        // We need to set seconds, otherwise it does not fit
-					        // into int.
-					        divID.setPropertyInt("start", (int) (start / 1000));
-				        }
-			        });
-		}
 	}
 
 	protected GOptionPaneW getOptionPane() {

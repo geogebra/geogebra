@@ -1,5 +1,7 @@
 package org.geogebra.web.web.main;
 
+import java.util.Date;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
@@ -8,11 +10,13 @@ import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
@@ -27,6 +31,8 @@ import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 
 public abstract class AppWFull extends AppW {
@@ -240,4 +246,43 @@ public abstract class AppWFull extends AppW {
 			}
 		}
 	}
+	
+	@Override
+	public void examWelcome(){
+
+		if (isExam()) {
+			String[] optionNames = { getMenu("StartExam") };
+			getOptionPane()
+					.showOptionDialog(this,
+			        getMenu("WelcomeExam"), getMenu("GeoGebraExam"),
+			        GOptionPane.CUSTOM_OPTION, GOptionPane.INFORMATION_MESSAGE,
+			        null, optionNames, new AsyncOperation() {
+				        @Override
+				        public void callback(Object obj) {
+					        DivElement divID = (DivElement) Document.get()
+					                .getElementById("timer");
+					        divID.setPropertyBoolean("started", true);
+					        Date date = new Date();
+					        final long start = date.getTime();
+					        // We need to set seconds, otherwise it does not fit
+					        // into int.
+					        divID.setPropertyInt("start", (int) (start / 1000));
+
+							DockPanelW dp = ((DockManagerW) getGuiManager()
+									.getLayout().getDockManager())
+									.getPanelForKeyboard();
+							if (dp != null
+									&& dp.getKeyboardListener() instanceof GeoContainer) { // dp.getKeyboardListener().setFocus(true);
+								((GeoContainer) dp.getKeyboardListener())
+										.stopEditing(null);
+								dp.getKeyboardListener().ensureEditing();
+
+
+							}
+
+				        }
+			        });
+		}
+	}
+
 }
