@@ -10,7 +10,6 @@ import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -22,6 +21,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -32,6 +32,13 @@ import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class AppWFull extends AppW {
 
@@ -255,30 +262,43 @@ public abstract class AppWFull extends AppW {
 
 		if (isExam() && examStartTime < 0) {
 			String[] optionNames = { getMenu("StartExam") };
-			getOptionPane()
-					.showOptionDialog(this,
-			        getMenu("WelcomeExam"), getMenu("GeoGebraExam"),
-			        GOptionPane.CUSTOM_OPTION, GOptionPane.INFORMATION_MESSAGE,
-			        null, optionNames, new AsyncOperation() {
-				        @Override
-				        public void callback(Object obj) {
-					        Date date = new Date();
-							examStartTime = date.getTime();
+			final DialogBoxW box = new DialogBoxW(false, true, null, getPanel());
+			VerticalPanel mainWidget = new VerticalPanel();
+			FlowPanel btnPanel = new FlowPanel();
 
-							DockPanelW dp = ((DockManagerW) getGuiManager()
-									.getLayout().getDockManager())
-									.getPanelForKeyboard();
-							if (dp != null
-									&& dp.getKeyboardListener() instanceof GeoContainer) { // dp.getKeyboardListener().setFocus(true);
-								((GeoContainer) dp.getKeyboardListener())
-										.stopEditing(null);
-								dp.getKeyboardListener().ensureEditing();
+			Button btnOk = new Button();
+			mainWidget.add(btnPanel);
+			btnPanel.add(btnOk);
+			btnOk.setText(getMenu("OK"));
+			mainWidget.add(new Label(getMenu("WelcomeExam")));
+			mainWidget.add(btnPanel);
+			box.setWidget(mainWidget);
+			box.getCaption().setText(getMenu("GeoGebraExam"));
+			box.center();
 
+			btnOk.addClickHandler(new ClickHandler() {
 
-							}
+				public void onClick(ClickEvent event) {
+					Date date = new Date();
+					examStartTime = date.getTime();
 
-				        }
-			        });
+					DockPanelW dp = ((DockManagerW) getGuiManager().getLayout()
+							.getDockManager()).getPanelForKeyboard();
+					if (dp != null
+							&& dp.getKeyboardListener() instanceof GeoContainer) { // dp.getKeyboardListener().setFocus(true);
+						((GeoContainer) dp.getKeyboardListener())
+								.stopEditing(null);
+						dp.getKeyboardListener().ensureEditing();
+
+					}
+					box.hide();
+
+				}
+			});
+			if (Location.getHost() != null) {
+				return;
+			}
+
 		}
 	}
 
