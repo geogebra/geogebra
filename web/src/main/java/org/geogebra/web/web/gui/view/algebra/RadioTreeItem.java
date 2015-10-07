@@ -202,9 +202,9 @@ public class RadioTreeItem extends AVTreeItem
 			if (geo instanceof GeoNumeric) {
 				num = (GeoNumeric) geo;
 			}
-			tfMin = new AVField(2, app, this);
-			tfMax = new AVField(2, app, this);
-			tfStep = new AVField(2, app, this);
+			tfMin = new AVField(4, app, this);
+			tfMax = new AVField(4, app, this);
+			tfStep = new AVField(4, app, this);
 			lblValue = new Label(GTE_SIGN + " "
 					+ geo.getCaption(StringTemplate.defaultTemplate) + " "
 					+ GTE_SIGN);
