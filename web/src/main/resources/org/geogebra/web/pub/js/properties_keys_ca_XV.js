@@ -2501,6 +2501,8 @@ __GGB__keysVar.ca_XV.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Hip\xe8rbola de focus %0 i %1 que passa per %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "Hip\xe8rbola de focus %0 i %1 amb l'eix principal de longitud %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hiperboloide d'una fulla",
     "HyperboloidTwoSheets": "Hiperboloide de dues fulles",
     "Icosahedron": "Icosaedre",

@@ -2501,6 +2501,8 @@ __GGB__keysVar.eo.plain = {
     "HyperbolaEquation": "(x \u2212 m)\xb2 / a\xb2 \u2212 (y \u2212 n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Hyperbola with foci %0, %1 passing through %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "Hyperbola with foci %0, %1 and first axis' length %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Dudekedro",

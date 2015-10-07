@@ -2501,6 +2501,8 @@ __GGB__keysVar.fr.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Hyperbole de foyers %0 et %1 passant par %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "Conique \xe0 centre de foyers %0 et %1 et de demi axe principal de longueur %2",
+    "HyperbolicCylinder": "Cylindre hyperbolique",
+    "HyperbolicParaboloid": "Parabolo\xefde hyperbolique",
     "HyperboloidOneSheet": "Hyperbolo\xefde \xe0 une nappe",
     "HyperboloidTwoSheets": "Hyperbolo\xefde \xe0 deux nappes",
     "Icosahedron": "Icosa\xe8dre",

@@ -2501,6 +2501,8 @@ __GGB__keysVar.sk.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Hyperbola s ohniskami %0, %1 cez bod %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "Hyperbola s ohniskami %0, %1 a d\u013a\u017ekou %2 hlavnej osi",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Ikoza\xe9der",

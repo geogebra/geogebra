@@ -2501,6 +2501,8 @@ __GGB__keysVar.gl.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Hip\xe9rbole con focos %0, %1 pasando por %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "Hip\xe9rbole con focos %0, %1 e a lonxitude do semi-eixe principal %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Icosaedro",

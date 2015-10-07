@@ -2501,6 +2501,8 @@ __GGB__keysVar.is.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Brei\xf0bogi gegnum %2 me\xf0 brennipunkta \xed %0, %1",
     "HyperbolaWithFociABandFirstAxisLengthC": "Brei\xf0bogi me\xf0 brennipunkta \xed %0, %1 og lang\xe1s af lengd %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Tv\xedtugfl\xf6tungur",

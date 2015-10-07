@@ -2501,6 +2501,8 @@ __GGB__keysVar.pl.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Hiperbola z ogniskami %0, %1 przechodz\u0105ca przez %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "Hiperbola z ogniskami %0, %1 i osi wielkiej %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Dwudziesto\u015bcian",

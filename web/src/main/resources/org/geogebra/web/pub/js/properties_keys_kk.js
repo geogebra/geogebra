@@ -2501,6 +2501,8 @@ __GGB__keysVar.kk.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "\u0424\u043e\u043a\u0443\u0441\u0442\u0430\u0440\u044b %0, %1 \u0431\u043e\u043b\u0430\u0442\u044b\u043d, %2 \u043d\u04af\u043a\u0442\u0435\u043b\u0435\u0440\u0456 \u0430\u0440\u049b\u044b\u043b\u044b \u04e9\u0442\u0435\u0442\u0456\u043d \u0433\u0438\u043f\u0435\u0440\u0431\u043e\u043b\u0430",
     "HyperbolaWithFociABandFirstAxisLengthC": "\u0424\u043e\u043a\u0443\u0441\u0442\u0430\u0440\u044b %0, %1\u0436\u04d9\u043d\u0435 \u0431\u0456\u0440\u0456\u043d\u0448\u0456 \u043e\u0441\u044c\u0442\u0456\u04a3 \u04b1\u0437\u044b\u043d\u0434\u044b\u0493\u044b %2 \u0431\u043e\u043b\u0430\u0442\u044b\u043d \u0433\u0438\u043f\u0435\u0440\u0431\u043e\u043b\u0430",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Icosahedron",

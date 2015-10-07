@@ -2501,6 +2501,8 @@ __GGB__keysVar.ar_MA.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "\u0642\u0637\u0639 \u0632\u0627\u0626\u062f \u0628\u0626\u0631\u062a\u064a\u0647 %0 \u0648 %1 \u0648\u064a\u0645\u0631 \u0645\u0646 %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "\u0642\u0637\u0639 \u0632\u0627\u0626\u062f \u0628\u0626\u0631\u062a\u064a\u0647 %0 \u0648 %1 \u0645\u062d\u0648\u0631\u0647 %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Icosahedron",

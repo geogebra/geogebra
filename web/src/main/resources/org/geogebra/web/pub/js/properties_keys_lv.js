@@ -2501,6 +2501,8 @@ __GGB__keysVar.lv.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Hiperbola ar fokusu %0, %1 iet caur %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "Hiperbola ar fokusu %0, %1 un asu garumu %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Icosahedron",

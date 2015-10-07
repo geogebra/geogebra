@@ -2501,6 +2501,8 @@ __GGB__keysVar.ru.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "\u0413\u0438\u043f\u0435\u0440\u0431\u043e\u043b\u0430 \u043f\u043e \u0444\u043e\u043a\u0443\u0441\u0430\u043c %0, %1 \u0438 \u0442\u043e\u0447\u043a\u0435 %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "\u0413\u0438\u043f\u0435\u0440\u0431\u043e\u043b\u0430 \u043f\u043e \u0444\u043e\u043a\u0443\u0441\u0430\u043c %0, %1 \u0438 \u0431\u043e\u043b\u044c\u0448\u043e\u0439 \u043f\u043e\u043b\u0443\u043e\u0441\u044c\u044e \u0434\u043b\u0438\u043d\u043e\u0439 %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Icosahedron",

@@ -2501,6 +2501,8 @@ __GGB__keysVar.ji.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "\u05d4\u05d9\u05e4\u05bc\u05e2\u05e8\u05d1\u05d0\u05b8\u05dc\u05e2 \u05de\u05d9\u05d8 \u05e4\u05bf\u05d0\u05b8\u05e7\u05d5\u05e1\u05df %0, %1 \u05d3\u05d5\u05e8\u05da %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "\u05d4\u05d9\u05e4\u05bc\u05e2\u05e8\u05d1\u05d0\u05b8\u05dc\u05e2 \u05de\u05d9\u05d8 \u05e4\u05bf\u05d0\u05b8\u05e7\u05d5\u05e1\u05df %0, %1 \u05d0\u05d5\u05df \u05dc\u05e2\u05e0\u05d2 \u05e4\u05bf\u05d5\u05df \u05e2\u05e8\u05e9\u05d8\u05df \u05d0\u05b7\u05e7\u05e1 %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Icosahedron",

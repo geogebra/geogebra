@@ -2501,6 +2501,8 @@ __GGB__keysVar.fi.plain = {
     "HyperbolaEquation": "(x - m)\xb2 / a\xb2 - (y - n)\xb2 / b\xb2 = 1",
     "HyperbolaWithFociABPassingThroughC": "Hyperbeli, jonka polttopisteet ovat %0 ja %1 ja joka kulkee %2:n kautta",
     "HyperbolaWithFociABandFirstAxisLengthC": "Hyperbeli, jonka polttopisteet ovat %0 ja %1 ja jonka isoakselin pituus on %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Ikosaedri",

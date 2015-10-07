@@ -2501,6 +2501,8 @@ __GGB__keysVar.sq.plain = {
     "HyperbolaEquation": "Ekuacion Hiperbole",
     "HyperbolaWithFociABPassingThroughC": "Hiperbola me Vatra %0, %1 qe Kalon nga %2",
     "HyperbolaWithFociABandFirstAxisLengthC": "Hiperbola me Vatra %0, %1 dhe Gjysem-Bosht te Madh %2",
+    "HyperbolicCylinder": "Hyperbolic Cylinder",
+    "HyperbolicParaboloid": "Hyperbolic Paraboloid",
     "HyperboloidOneSheet": "Hyperboloid of one sheet",
     "HyperboloidTwoSheets": "Hyperboloid of two sheets",
     "Icosahedron": "Icosahedron",
