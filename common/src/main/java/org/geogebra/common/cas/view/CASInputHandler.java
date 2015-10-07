@@ -1,6 +1,7 @@
 package org.geogebra.common.cas.view;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
@@ -34,6 +35,10 @@ public class CASInputHandler {
 		this.casView = view;
 		kernel = view.getApp().getKernel();
 		consoleTable = view.getConsoleTable();
+	}
+
+	public CASView getCasView() {
+		return casView;
 	}
 
 	/**
@@ -463,6 +468,7 @@ public class CASInputHandler {
 	 */
 	public boolean processRowThenEdit(int selRow, boolean startEditing) {
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
+		Vector<Vector<String>> vector = casView.getSubstData().get(selRow);
 		boolean success;
 		boolean isLastRow = consoleTable.getRowCount() <= selRow + 1;
 		if (!cellValue.isError() && !cellValue.isUseAsText()) {

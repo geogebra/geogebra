@@ -126,6 +126,27 @@ public abstract class CASSubDialog {
 				addVariables(var, vars);
 			}
 		}
+
+		boolean firstSubst = true;
+		Vector<Vector<String>> lastData = getCASView().getSubstData().get(
+				editRow);
+		HashSet<String> lastVars = new HashSet<String>();
+		HashSet<Vector<String>> lastSubsts = new HashSet<Vector<String>>();
+		if (lastData != null && !lastData.isEmpty()) {
+			for (int i = 0; i < lastData.size() - 1; i++) {
+				lastSubsts.add(lastData.get(i));
+			}
+			String lastEqVarsStr = lastData.get(lastData.size() - 1).get(0);
+			String[] lastEqVars = lastEqVarsStr.split(",");
+			for (String s : lastEqVars) {
+				lastVars.add(s);
+			}
+			if (lastData.get(lastData.size() - 1).get(1)
+					.equals(String.valueOf(editRow))) {
+				firstSubst = false;
+			}
+		}
+
 		Vector<String> row;
 		data = new Vector<Vector<String>>(vars.size() + 1);
 		Iterator<GeoElement> iter = vars.iterator();
@@ -141,7 +162,17 @@ public abstract class CASSubDialog {
 			}
 			if (i == data.size() || !data.get(i).firstElement().equals(nextVar)) {
 				row.add(nextVar);
-				row.add("");
+				if (!firstSubst && lastVars.contains(nextVar)) {
+					Iterator<Vector<String>> it = lastSubsts.iterator();
+					while (it.hasNext()) {
+						Vector<String> vector = it.next();
+						if (vector.get(0).equals(nextVar)) {
+							row.add(vector.get(1));
+						}
+					}
+				} else {
+					row.add("");
+				}
 				data.insertElementAt(row, i);
 			}
 		}
@@ -172,8 +203,12 @@ public abstract class CASSubDialog {
 		// create substitution list
 		StringBuilder substList = new StringBuilder("{");
 		StringBuilder substComment = new StringBuilder();
+		Vector<Vector<String>> curData = new Vector<Vector<String>>(data.size());
+		StringBuilder inputEq = new StringBuilder();
+		inputEq.append(evalText + ",");
 		for (int i = 0; i < data.size(); i++) {
 			String fromExpr = data.get(i).get(0).trim();
+			inputEq.append(fromExpr + ",");
 			String toExpr = data.get(i).get(1).trim();
 			if (!fromExpr.equals("") && !toExpr.equals("")) {
 				if (substList.length() > 1) {
@@ -190,8 +225,14 @@ public abstract class CASSubDialog {
 				substComment.append('=');
 				substComment.append(toExpr);
 			}
+			curData.add(data.get(i));
 		}
 		substList.append('}');
+		Vector<String> line = new Vector<String>(2);
+		line.add(inputEq.toString().substring(0,
+				inputEq.toString().length() - 2));
+		line.add(String.valueOf(editRow));
+		curData.set(curData.size() - 1, line);
 
 		if ("{}".equals(substList.toString()))
 			return false;
@@ -211,6 +252,7 @@ public abstract class CASSubDialog {
 
 		try {
 			GeoCasCell currCell = table.getGeoCasCell(editRow);
+			getCASView().getSubstData().set(editRow, curData);
 			currCell.setProcessingInformation(prefix, subCmd, postfix);
 			currCell.setEvalCommand("Substitute");
 			currCell.setEvalComment(substComment.toString());

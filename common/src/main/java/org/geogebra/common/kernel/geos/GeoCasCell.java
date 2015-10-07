@@ -1603,6 +1603,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	public void updateCascade() {
 		update();
 		Log.debug("updating"+getLabel(StringTemplate.defaultTemplate));
+
 		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
 			ignoreTwinGeoUpdate = true;
 			twinGeo.update();

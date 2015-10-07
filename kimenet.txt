@@ -1,0 +1,137 @@
+Starting Gradle daemon
+Starting daemon process: workingDir = C:\Users\csilla\.gradle\daemon\2.3, daemonArgs: [C:\Program Files\Java\jdk1.7.0_51\bin\java.exe, -XX:MaxPermSize=256m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx1024m, -Dfile.encoding=windows-1252, -Duser.country=US, -Duser.language=en, -Duser.variant, -cp, C:\Users\csilla\.gradle\wrapper\dists\gradle-2.3-bin\a48v6zq5mdp1uyn9rwlj56945\gradle-2.3\lib\gradle-launcher-2.3.jar, org.gradle.launcher.daemon.bootstrap.GradleDaemon, 2.3, C:\Users\csilla\.gradle\daemon, 10800000, bf576e82-7ec2-4948-9a17-14592e6f6a1d, -XX:MaxPermSize=256m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx1024m, -Dfile.encoding=windows-1252, -Duser.country=US, -Duser.language=en, -Duser.variant]
+Starting process 'Gradle build daemon'. Working directory: C:\Users\csilla\.gradle\daemon\2.3 Command: C:\Program Files\Java\jdk1.7.0_51\bin\java.exe -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx1024m -Dfile.encoding=windows-1252 -Duser.country=US -Duser.language=en -Duser.variant -cp C:\Users\csilla\.gradle\wrapper\dists\gradle-2.3-bin\a48v6zq5mdp1uyn9rwlj56945\gradle-2.3\lib\gradle-launcher-2.3.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 2.3 C:\Users\csilla\.gradle\daemon 10800000 bf576e82-7ec2-4948-9a17-14592e6f6a1d -XX:MaxPermSize=256m -XX:+HeapDumpOnOutOfMemoryError -Xmx1024m -Dfile.encoding=windows-1252 -Duser.country=US -Duser.language=en -Duser.variant
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 1.872 secs.
+Connected to daemon DaemonInfo{pid=4884, address=[f1909be0-a270-42ab-a0dc-04502dfed790 port:51628, addresses:[/127.0.0.1, /0:0:0:0:0:0:0:1]], idle=false, context=DefaultDaemonContext[uid=bf576e82-7ec2-4948-9a17-14592e6f6a1d,javaHome=C:\Program Files\Java\jdk1.7.0_51,daemonRegistryDir=C:\Users\csilla\.gradle\daemon,pid=4884,idleTimeout=10800000,daemonOpts=-XX:MaxPermSize=256m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx1024m,-Dfile.encoding=windows-1252,-Duser.country=US,-Duser.language=en,-Duser.variant]}. Dispatching request Build{id=f01b2ae3-5e74-47df-8df9-c7d0b9ace53a.1, currentDir=D:\GeoGebra\geogebra}.
+The client will now receive all logging from the daemon (pid: 4884). The daemon log file: C:\Users\csilla\.gradle\daemon\2.3\daemon-4884.out.log
+Starting build in new daemon [memory: 954.7 MB]
+Executing build with daemon context: DefaultDaemonContext[uid=bf576e82-7ec2-4948-9a17-14592e6f6a1d,javaHome=C:\Program Files\Java\jdk1.7.0_51,daemonRegistryDir=C:\Users\csilla\.gradle\daemon,pid=4884,idleTimeout=10800000,daemonOpts=-XX:MaxPermSize=256m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx1024m,-Dfile.encoding=windows-1252,-Duser.country=US,-Duser.language=en,-Duser.variant]
+Starting Build
+Settings evaluated using settings file 'D:\GeoGebra\geogebra\settings.gradle'.
+Projects loaded. Root project using build file 'D:\GeoGebra\geogebra\build.gradle'.
+Included projects: [root project 'geogebra', project ':common', project ':desktop', project ':ggbjdk', project ':giac-jni', project ':input3D', project ':jogl2', project ':test', project ':web', project ':input3D:impl', project ':input3D:stub', project ':web:dev']
+Parallel execution is an incubating feature.
+Evaluating root project 'geogebra' using build file 'D:\GeoGebra\geogebra\build.gradle'.
+Evaluating project ':common' using build file 'D:\GeoGebra\geogebra\common\build.gradle'.
+Evaluating project ':desktop' using build file 'D:\GeoGebra\geogebra\desktop\build.gradle'.
+Evaluating project ':jogl2' using build file 'D:\GeoGebra\geogebra\jogl2\build.gradle'.
+Evaluating project ':input3D:impl' using build file 'D:\GeoGebra\geogebra\input3D\impl\build.gradle'.
+Evaluating project ':giac-jni' using build file 'D:\GeoGebra\geogebra\giac-jni\build.gradle'.
+Evaluating project ':ggbjdk' using build file 'D:\GeoGebra\geogebra\ggbjdk\build.gradle'.
+Evaluating project ':input3D' using empty build file.
+Evaluating project ':test' using empty build file.
+Evaluating project ':web' using build file 'D:\GeoGebra\geogebra\web\build.gradle'.
+Evaluating project ':web:dev' using build file 'D:\GeoGebra\geogebra\web\dev\build.gradle'.
+Evaluating project ':input3D:stub' using build file 'D:\GeoGebra\geogebra\input3D\stub\build.gradle'.
+All projects evaluated.
+Selected primary task ':web:draftRun' from project :web
+Tasks to be executed: [task ':web:cleanWar', task ':common:compileJavacc', task ':common:compileJava', task ':common:processResources', task ':common:classes', task ':common:jar', task ':ggbjdk:compileJava', task ':ggbjdk:processResources', task ':ggbjdk:classes', task ':ggbjdk:jar', task ':web:dev:compileJava', task ':web:dev:processResources', task ':web:dev:classes', task ':web:dev:jar', task ':web:compileJava', task ':web:processResources', task ':web:draftCompileGwt', task ':web:draftDeployIntoWar', task ':web:draftRun']
+Using 2 parallel executor threads
+:web:cleanWar (Thread[Daemon worker,5,main]) started.
+:common:compileJavacc (Thread[Task worker,5,main]) started.
+:web:cleanWar
+:common:compileJavacc
+Executing task ':web:cleanWar' (up-to-date check took 0.016 secs) due to:
+  Task has not declared any outputs.
+Invalidating in-memory cache of D:\GeoGebra\geogebra\.gradle\2.3\taskArtifacts\fileSnapshots.bin
+Invalidating in-memory cache of D:\GeoGebra\geogebra\.gradle\2.3\taskArtifacts\outputFileStates.bin
+Invalidating in-memory cache of D:\GeoGebra\geogebra\.gradle\2.3\taskArtifacts\fileHashes.bin
+Invalidating in-memory cache of D:\GeoGebra\geogebra\.gradle\2.3\taskArtifacts\taskArtifacts.bin
+:web:cleanWar (Thread[Daemon worker,5,main]) completed. Took 0.187 secs.
+:ggbjdk:processResources (Thread[Daemon worker,5,main]) started.
+:ggbjdk:processResources
+Skipping task ':ggbjdk:processResources' as it has no source files.
+:ggbjdk:processResources UP-TO-DATE
+:ggbjdk:processResources (Thread[Daemon worker,5,main]) completed. Took 0.016 secs.
+:web:dev:compileJava (Thread[Daemon worker,5,main]) started.
+:web:dev:compileJava
+Skipping task ':web:dev:compileJava' as it is up-to-date (took 0.28 secs).
+:web:dev:compileJava UP-TO-DATE
+:web:dev:compileJava (Thread[Daemon worker,5,main]) completed. Took 0.28 secs.
+:web:dev:processResources (Thread[Daemon worker,5,main]) started.
+:web:dev:processResources
+Skipping task ':common:compileJavacc' as it is up-to-date (took 0.436 secs).
+:web:dev:processResources UP-TO-DATE
+:common:compileJavacc (Thread[Task worker,5,main]) completed. Took 0.483 secs.
+:common:compileJava (Thread[Task worker,5,main]) started.
+:common:compileJava
+Skipping task ':web:dev:processResources' as it is up-to-date (took 0.047 secs).
+:common:compileJava UP-TO-DATE
+:web:dev:processResources (Thread[Daemon worker,5,main]) completed. Took 0.063 secs.
+:web:dev:classes (Thread[Daemon worker,5,main]) started.
+:web:dev:classes
+Skipping task ':web:dev:classes' as it has no actions.
+:web:dev:classes UP-TO-DATE
+:web:dev:classes (Thread[Daemon worker,5,main]) completed. Took 0.0 secs.
+:web:dev:jar (Thread[Daemon worker,5,main]) started.
+:web:dev:jar
+Skipping task ':web:dev:jar' as it is up-to-date (took 0.031 secs).
+:web:dev:jar UP-TO-DATE
+:web:dev:jar (Thread[Daemon worker,5,main]) completed. Took 0.031 secs.
+:web:processResources (Thread[Daemon worker,5,main]) started.
+:web:processResources
+Skipping task ':web:processResources' as it is up-to-date (took 1.673 secs).
+:web:processResources UP-TO-DATE
+:web:processResources (Thread[Daemon worker,5,main]) completed. Took 1.689 secs.
+Skipping task ':common:compileJava' as it is up-to-date (took 7.478 secs).
+:web:cleanWar UP-TO-DATE
+:common:compileJava (Thread[Task worker,5,main]) completed. Took 7.494 secs.
+:common:processResources (Thread[Task worker,5,main]) started.
+:common:processResources
+Skipping task ':common:processResources' as it is up-to-date (took 1.969 secs).
+:common:processResources UP-TO-DATE
+:common:processResources (Thread[Task worker,5,main]) completed. Took 1.984 secs.
+:common:classes (Thread[Task worker,5,main]) started.
+:common:classes
+Skipping task ':common:classes' as it has no actions.
+:common:classes UP-TO-DATE
+:common:classes (Thread[Task worker,5,main]) completed. Took 0.016 secs.
+:common:jar (Thread[Task worker,5,main]) started.
+:common:jar
+Skipping task ':common:jar' as it is up-to-date (took 1.232 secs).
+:common:jar UP-TO-DATE
+:common:jar (Thread[Task worker,5,main]) completed. Took 1.232 secs.
+:ggbjdk:compileJava (Thread[Task worker,5,main]) started.
+:ggbjdk:compileJava
+Skipping task ':ggbjdk:compileJava' as it is up-to-date (took 0.153 secs).
+:ggbjdk:compileJava UP-TO-DATE
+:ggbjdk:compileJava (Thread[Task worker,5,main]) completed. Took 0.185 secs.
+:ggbjdk:classes (Thread[Task worker,5,main]) started.
+:ggbjdk:classes
+Skipping task ':ggbjdk:classes' as it has no actions.
+:ggbjdk:classes UP-TO-DATE
+:ggbjdk:classes (Thread[Task worker,5,main]) completed. Took 0.002 secs.
+:ggbjdk:jar (Thread[Task worker,5,main]) started.
+:ggbjdk:jar
+Skipping task ':ggbjdk:jar' as it is up-to-date (took 0.02 secs).
+:ggbjdk:jar UP-TO-DATE
+:ggbjdk:jar (Thread[Task worker,5,main]) completed. Took 0.025 secs.
+:web:compileJava (Thread[Task worker,5,main]) started.
+:web:compileJava
+Skipping task ':web:compileJava' as it is up-to-date (took 2.598 secs).
+:web:compileJava UP-TO-DATE
+:web:compileJava (Thread[Task worker,5,main]) completed. Took 2.603 secs.
+:web:draftCompileGwt (Thread[Task worker,5,main]) started.
+:web:draftCompileGwt
+Skipping task ':web:draftCompileGwt' as it is up-to-date (took 0.359 secs).
+:web:draftCompileGwt UP-TO-DATE
+:web:draftCompileGwt (Thread[Task worker,5,main]) completed. Took 0.359 secs.
+:web:draftDeployIntoWar (Thread[Task worker,5,main]) started.
+:web:draftDeployIntoWar
+Executing task ':web:draftDeployIntoWar' (up-to-date check took 0.047 secs) due to:
+  Output file D:\GeoGebra\geogebra\web\war\web3d\js\properties_keys_bg.js has been removed.
+  Output file D:\GeoGebra\geogebra\web\war\web3d\js\keyboard_el.js has been removed.
+  Output file D:\GeoGebra\geogebra\web\war\web3d\font\fonts\latin\jlm_jlmtt10.js has been removed.
+:web:draftDeployIntoWar (Thread[Task worker,5,main]) completed. Took 1.22 secs.
+:web:draftRun (Thread[Task worker,5,main]) started.
+:web:draftRun
+Executing task ':web:draftRun' (up-to-date check took 0.0 secs) due to:
+  Task has not declared any outputs.
+:web:draftRun (Thread[Task worker,5,main]) completed. Took 1.417 secs.
+
+BUILD SUCCESSFUL
+
+Total time: 36.405 secs
+Stopped 0 compiler daemon(s).
+Received result DaemonCommandResult[type=Success, value=null] from daemon DaemonInfo{pid=4884, address=[f1909be0-a270-42ab-a0dc-04502dfed790 port:51628, addresses:[/127.0.0.1, /0:0:0:0:0:0:0:1]], idle=false, context=DefaultDaemonContext[uid=bf576e82-7ec2-4948-9a17-14592e6f6a1d,javaHome=C:\Program Files\Java\jdk1.7.0_51,daemonRegistryDir=C:\Users\csilla\.gradle\daemon,pid=4884,idleTimeout=10800000,daemonOpts=-XX:MaxPermSize=256m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx1024m,-Dfile.encoding=windows-1252,-Duser.country=US,-Duser.language=en,-Duser.variant]}.
