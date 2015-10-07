@@ -1,8 +1,5 @@
 package org.geogebra.common.cas.view;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
@@ -43,8 +40,6 @@ public abstract class CASView implements View, SetLabels {
 	 * @return application
 	 */
 	public abstract App getApp();
-
-	public abstract ArrayList<Vector<Vector<String>>> getSubstData();
 
 	/**
 	 * Shows dialog for substitution tool
@@ -231,7 +226,6 @@ public abstract class CASView implements View, SetLabels {
 				|| getConsoleTable().getGeoCasCell(rows - 1)
 						.isInConstructionList()) {
 			GeoCasCell casCell = new GeoCasCell(kernel.getConstruction());
-			getSubstData().add(null);
 			getConsoleTable().insertRow(rows, casCell, false);
 		}
 	}
@@ -365,7 +359,6 @@ public abstract class CASView implements View, SetLabels {
 			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]);
 			if (casCell != null) {
 				casCell.remove();
-				removeCellsSubstDialog(i);
 				undoNeeded = true;
 			}
 		}
@@ -375,8 +368,6 @@ public abstract class CASView implements View, SetLabels {
 
 		return undoNeeded;
 	}
-
-	public abstract void removeCellsSubstDialog(int i);
 
 	/**
 	 * returns latex from selected cells

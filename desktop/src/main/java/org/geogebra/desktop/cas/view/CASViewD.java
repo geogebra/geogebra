@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListSelectionModel;
@@ -50,8 +49,6 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	final private AppD app;
 	final private RowHeaderD rowHeader;
-
-	private ArrayList<Vector<Vector<String>>> substData = new ArrayList<Vector<Vector<String>>>();
 
 	/** stylebar */
 	CASStyleBar styleBar;
@@ -222,11 +219,6 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		});
 	}
 
-	@Override
-	public void removeCellsSubstDialog(int i) {
-		substData.remove(i);
-	}
-
 	/**
 	 * Make sure this view knows whether substitute dialog is open
 	 * 
@@ -370,10 +362,5 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	public void resetCursor() {
 		CASTable table = getConsoleTable();
 		table.stopEditing();
-	}
-
-	@Override
-	public ArrayList<Vector<Vector<String>>> getSubstData() {
-		return substData;
 	}
 }
