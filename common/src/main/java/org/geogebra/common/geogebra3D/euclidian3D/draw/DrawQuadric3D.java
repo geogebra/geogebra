@@ -478,6 +478,55 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 			break;
 
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
+			center = quadric.getMidpoint3D();
+			r0 = quadric.getHalfAxis(0);
+			r1 = quadric.getHalfAxis(1);
+			surface = renderer.getGeometryManager().getSurface();
+			surface.start(getReusableSurfaceIndex());
+			ev0 = quadric.getEigenvec3D(0);
+			ev1 = quadric.getEigenvec3D(1);
+			ev2 = quadric.getEigenvec3D(2);
+			if (minmax == null) {
+				minmax = new double[2];
+			}
+			minmax[0] = Double.POSITIVE_INFINITY;
+			minmax[1] = Double.NEGATIVE_INFINITY;
+			getView3D().getMinIntervalOutsideClipping(minmax, center,
+					ev0.mul(r0));
+			scale = getView3D().getScale();
+			if (minmax[0] < -1) { // bottom exists
+				min = -DrawConic3D.acosh(-minmax[0]);
+			} else if (minmax[0] <= 1) { // top ends at pole
+				min = 0;
+			} else { // top pole is cut
+				min = DrawConic3D.acosh(minmax[0]);
+			}
+			if (minmax[1] > 1) { // top exists
+				max = DrawConic3D.acosh(minmax[1]);
+			} else if (minmax[1] >= -1) { // bottom ends at pole
+				max = 0;
+			} else { // bottom pole is cut
+				max = -DrawConic3D.acosh(-minmax[1]);
+			}
+			minmax[0] = Double.POSITIVE_INFINITY;
+			minmax[1] = Double.NEGATIVE_INFINITY;
+			getView3D().getMinIntervalOutsideClipping(minmax, center, ev2);
+			if (min < 0) {
+				surface.drawHyperbolicCylinder(center, ev0.mul(-1),
+						ev1.mul(-1), ev2, r0, r1, -max, -min, minmax[0],
+						minmax[1], !getView3D()
+								.useClippingCube());
+			}
+			if (max > 0) {
+				surface.drawHyperbolicCylinder(center, ev0, ev1, ev2, r0, r1,
+						min, max, minmax[0], minmax[1], !getView3D()
+								.useClippingCube());
+			}
+			setSurfaceIndex(surface.end());
+
+			break;
+
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 			surface = renderer.getGeometryManager().getSurface();
 			surface.start(getReusableSurfaceIndex());
@@ -770,6 +819,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
 		case GeoQuadricNDConstants.QUADRIC_PARABOLOID:
 		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			if (getView3D().viewChangedByZoom()
 					|| getView3D().viewChangedByTranslate()) {
@@ -1087,6 +1137,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_PARABOLOID
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CONE) {
 			return false;
