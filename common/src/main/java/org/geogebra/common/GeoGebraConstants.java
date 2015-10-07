@@ -121,7 +121,7 @@ public interface GeoGebraConstants {
 	// public static final String
 	// GGW_ABOUT_LICENSE_URL="http://www.geogebra.org/download/license.txt";
 	/** license URL */
-	public static final String GGW_ABOUT_LICENSE_URL = "http://www.geogebra.org/info/?action=AboutLicense";
+	public static final String GGW_ABOUT_LICENSE_URL = "https://www.geogebra.org/info/?action=AboutLicense";
 
 	// //////////////////////////////////////////////////////////////////////////
 	// AUTHENTICATING WITH GOOGLE
