@@ -31,8 +31,6 @@ import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 
 public abstract class AppWFull extends AppW {
@@ -246,11 +244,16 @@ public abstract class AppWFull extends AppW {
 			}
 		}
 	}
-	
+
+	long examStartTime = -1;
+
+	public long getExamStart() {
+		return examStartTime;
+	}
 	@Override
 	public void examWelcome(){
 
-		if (isExam()) {
+		if (isExam() && examStartTime < 0) {
 			String[] optionNames = { getMenu("StartExam") };
 			getOptionPane()
 					.showOptionDialog(this,
@@ -259,14 +262,8 @@ public abstract class AppWFull extends AppW {
 			        null, optionNames, new AsyncOperation() {
 				        @Override
 				        public void callback(Object obj) {
-					        DivElement divID = (DivElement) Document.get()
-					                .getElementById("timer");
-					        divID.setPropertyBoolean("started", true);
 					        Date date = new Date();
-					        final long start = date.getTime();
-					        // We need to set seconds, otherwise it does not fit
-					        // into int.
-					        divID.setPropertyInt("start", (int) (start / 1000));
+							examStartTime = date.getTime();
 
 							DockPanelW dp = ((DockManagerW) getGuiManager()
 									.getLayout().getDockManager())

@@ -18,6 +18,7 @@ import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -206,7 +207,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	}
 
 	// timer for GeoGebraExam
-	private void addTimer() {
+	private Label getTimer() {
 		final Label timer = new Label();
 		timer.getElement().setClassName("timer");
 		timer.getElement().setId("timer");
@@ -216,15 +217,14 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (!timer.getElement().getPropertyBoolean("started")) {
+				if (((AppWFull) app).getExamStart() < 0) {
 					timer.setText("0:00");
 				} else {
 					if (cheating) {
 						timer.getElement().getStyle().setBackgroundColor("red");
 						timer.getElement().getStyle().setColor("white");
 					}
-					long start = ((long) timer.getElement().getPropertyInt(
-					        "start")) * 1000;
+					long start = ((AppWFull) app).getExamStart();
 					int secs = (int) ((timestamp - start) / 1000);
 					int mins = secs / 60;
 					secs -= mins * 60;
@@ -237,9 +237,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 				AnimationScheduler.get().requestAnimationFrame(this);
 			}
 		});
-
-		rightButtonPanel.add(timer);
 		visibilityEventMain();
+		return timer;
+
 	}
 
 	private void startCheating() {
@@ -305,7 +305,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 				no3d.getElement().setClassName("timer");
 				rightButtonPanel.add(no3d);
 			}
-			addTimer();
+			rightButtonPanel.add(getTimer());
 		}
 
 		if(app.getLAF().undoRedoSupported()){
