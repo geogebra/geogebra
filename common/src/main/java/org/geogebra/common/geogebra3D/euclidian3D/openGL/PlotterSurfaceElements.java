@@ -2029,6 +2029,86 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
+	@Override
+	public void drawHyperbolicParaboloid(Coords center, Coords ev0, Coords ev1,
+			Coords ev2, double r0, double r1, double min0, double max0,
+			double min1, double max1, boolean fading) {
+
+		latitude = 64;
+
+		startGeometry();
+
+		if (n == null) {
+			n = new Coords(4);
+		}
+
+		for (int ui = 0; ui <= latitude; ui++) {
+			double u = min0 + ui * (max0 - min0) / latitude;
+			tmpCoords.setMul(ev0, u);
+			tmpCoords.setAdd(center, tmpCoords);
+			tmpCoords3.setMul(ev0, 2 * r0 * u);
+			double uFading = 0;
+			if (fading) {
+				if (ui < latitude / 2) {
+					uFading = 1 - ui * 20.0 / latitude;
+				} else {
+					uFading = 1 - (latitude - ui) * 20.0 / latitude;
+				}
+			}
+			for (int vi = 0; vi <= latitude; vi++) {
+				double v = min1 + vi * (max1 - min1) / latitude;
+				tmpCoords2.setMul(ev1, v);
+				m.setAdd(tmpCoords, tmpCoords2);
+				tmpCoords2.setMul(ev2, r0 * u * u + r1 * v * v);
+				m.setAdd(m, tmpCoords2);
+
+				n.setMul(ev1, 2 * r0 * u);
+				n.setAdd(n, tmpCoords3);
+				n.setAdd(n, Coords.VZm);
+				n.normalize();
+
+				if (fading) {
+					double vFading;
+					if (vi < latitude / 2) {
+						vFading = 1 - vi * 20.0 / latitude;
+					} else {
+						vFading = 1 - (latitude - vi) * 20.0 / latitude;
+					}
+					manager.texture(uFading, vFading);
+				}
+
+				drawNV(n, m);
+			}
+
+		}
+
+		// set indices
+		arrayIndex = latitude * latitude * 6;
+		arrayI = manager.getCurrentGeometryIndices(arrayIndex);
+
+		short uIndex = 0;
+		for (int ui = 0; ui < latitude; ui++) {
+			for (int vi = 0; vi < latitude; vi++) {
+				arrayI.put((short) (uIndex + vi));
+				arrayI.put((short) (uIndex + vi + 1));
+				arrayI.put((short) (uIndex + latitude + 1 + vi));
+
+				arrayI.put((short) (uIndex + latitude + 1 + vi));
+				arrayI.put((short) (uIndex + vi + 1));
+				arrayI.put((short) (uIndex + latitude + 1 + vi + 1));
+			}
+			uIndex += latitude + 1;
+
+		}
+
+		arrayI = manager.getCurrentGeometryIndices(arrayIndex);
+
+		arrayI.rewind();
+
+		manager.endGeometry(arrayIndex, TypeElement.SURFACE);
+
+	}
+
 	private int arrayIndex = 0;
 	private GLBufferIndices arrayI;
 

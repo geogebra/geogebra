@@ -442,6 +442,33 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 			break;
 
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID:
+			center = quadric.getMidpoint3D();
+			r0 = quadric.getHalfAxis(0);
+			r1 = quadric.getHalfAxis(1);
+			surface = renderer.getGeometryManager().getSurface();
+			surface.start(getReusableSurfaceIndex());
+			ev0 = quadric.getEigenvec3D(0);
+			ev1 = quadric.getEigenvec3D(1);
+			ev2 = quadric.getEigenvec3D(2);
+			if (minmax == null) {
+				minmax = new double[2];
+			}
+			minmax[0] = Double.POSITIVE_INFINITY;
+			minmax[1] = Double.NEGATIVE_INFINITY;
+			getView3D().getMinIntervalOutsideClipping(minmax, center, ev0);
+			double xmin = minmax[0];
+			double xmax = minmax[1];
+			minmax[0] = Double.POSITIVE_INFINITY;
+			minmax[1] = Double.NEGATIVE_INFINITY;
+			getView3D().getMinIntervalOutsideClipping(minmax, center, ev1);
+			double ymin = minmax[0];
+			double ymax = minmax[1];
+			surface.drawHyperbolicParaboloid(center, ev0, ev1, ev2, r0, r1,
+					xmin, xmax, ymin, ymax, !getView3D().useClippingCube());
+			setSurfaceIndex(surface.end());
+			break;
+
 		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
 			center = quadric.getMidpoint3D();
 			r2 = quadric.getHalfAxis(2);
@@ -818,6 +845,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
 		case GeoQuadricNDConstants.QUADRIC_PARABOLOID:
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID:
 		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
@@ -1136,6 +1164,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_PARABOLOID
+				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER

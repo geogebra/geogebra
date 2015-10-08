@@ -527,6 +527,40 @@ public class PlotterSurface {
 	}
 
 	/**
+	 * draw an hyperbolic paraboloid
+	 * 
+	 * @param center
+	 *            center
+	 * @param ev0
+	 *            first eigenvector
+	 * @param ev1
+	 *            second eigenvector
+	 * @param ev2
+	 *            third eigenvector
+	 * @param r0
+	 *            first half axis
+	 * @param r1
+	 *            second half axis
+	 * @param min0
+	 *            minimum parameter for first axis
+	 * @param max0
+	 *            maximum parameter for first axis
+	 * @param min1
+	 *            minimum parameter for second axis
+	 * @param max1
+	 *            maximum parameter for second axis
+	 * @param fading
+	 *            if we need fading or not
+	 * 
+	 */
+	public void drawHyperbolicParaboloid(Coords center, Coords ev0, Coords ev1,
+			Coords ev2, double r0, double r1, double min0, double max0,
+			double min1, double max1, boolean fading) {
+
+		// implemented only with elements
+	}
+
+	/**
 	 * draw a parabolic cylinder
 	 * 
 	 * @param center
