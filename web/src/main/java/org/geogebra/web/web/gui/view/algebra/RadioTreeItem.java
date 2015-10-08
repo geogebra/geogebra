@@ -69,6 +69,7 @@ import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 
@@ -190,14 +191,13 @@ public class RadioTreeItem extends AVTreeItem
 
 	private class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
+		private static final int MINMAX_MIN_WIDHT = 326;
 		private AVField tfMin;
 		private AVField tfMax;
 		private AVField tfStep;
 		private Label lblValue;
 		private Label lblStep;
 		private GeoNumeric num;
-		private boolean tfPressed = false;
-
 		public MinMaxPanel() {
 			if (geo instanceof GeoNumeric) {
 				num = (GeoNumeric) geo;
@@ -266,9 +266,17 @@ public class RadioTreeItem extends AVTreeItem
 			lblStep.setText(app.getPlain("Step"));
 		}
 
+		private AlgebraDockPanelW getAlgebraDockPanel() {
+			return (AlgebraDockPanelW) app
+					.getGuiManager()
+					.getLayout()
+					.getDockManager().getPanel(App.VIEW_ALGEBRA);
+
+		}
+
 		private void show() {
 			setAnimating(false);
-			// playButton.setVisible(false);
+			expandSize();
 			sliderPanel.setVisible(false);
 			setVisible(true);
 			setOpenedMinMaxPanel(this);
@@ -276,6 +284,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		private void hide() {
+
 			sliderPanel.setVisible(true);
 			deferredResizeSlider();
 			setVisible(false);
@@ -284,6 +293,31 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 
+		public void expandSize() {
+			if (getAV().getOriginalWidth() != null) {
+				return;
+			}
+			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+			int w = avDockPanel.asWidget().getOffsetWidth();
+			if (w < MINMAX_MIN_WIDHT) {
+				getAV().setOriginalWidth(w);
+				avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, MINMAX_MIN_WIDHT);
+				avDockPanel.deferredOnResize();
+			} else {
+				getAV().setOriginalWidth(null);
+			}
+		}
+
+		public void restoreSize() {
+			Integer w = getAV().getOriginalWidth();
+			if (w != null) {
+				AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+				avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel,
+ w);
+				avDockPanel.deferredOnResize();
+				getAV().setOriginalWidth(null);
+			}
+		}
 		public void keyReleased(KeyEvent e) {
 			if (e.isEnterKey()) {
 				apply();
@@ -1910,10 +1944,6 @@ substituteNumbers,
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
 				ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
-		// handleAVItem(evt);
-
-
-
 	}
 
 	private void handleAVItem(MouseEvent<?> evt) {
@@ -1933,9 +1963,12 @@ substituteNumbers,
 		if (!avExtension) {
 			return;
 		}
+		boolean minMaxLabelsHit = sliderPanel != null
+				&& (isWidgetHit(slider.getWidget(0), x, y)
+						|| isWidgetHit(slider.getWidget(2), x, y));
 		// Min max panel should be closed
 		if (isAnotherMinMaxOpen() || isClicketOutMinMax(x, y)) {
-			closeMinMaxPanel();
+			closeMinMaxPanel(!minMaxLabelsHit);
 		}
 
 		if (isAnotherMinMaxOpen()) {
@@ -1949,8 +1982,8 @@ substituteNumbers,
 		}
 
 		if (sliderPanel != null && sliderPanel.isVisible()) {
-			if (isWidgetHit(slider.getWidget(0), x, y)
-					|| isWidgetHit(slider.getWidget(2), x, y)) {
+
+			if (minMaxLabelsHit) {
 				minMaxPanel.show();
 				return;
 			}
@@ -2101,24 +2134,6 @@ substituteNumbers,
 			}
 			return;
 		}
-		// int mode = app.getActiveEuclidianView().getMode();
-		// if (// !skipSelection &&
-		// (mode == EuclidianConstants.MODE_MOVE)) {
-			// update selection
-		// updateSelection(event.isControlDown(), event.isShiftDown());
-
-		// } else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-		// // let euclidianView know about the click
-		// if (geo != null) {
-		// app.getActiveEuclidianView().clickedGeo(geo,
-		// event.isControlDown());
-		// }
-		// // event.release();
-		// } else
-		// // tell selection listener about click
-		// if (geo != null) {
-		// app.geoElementSelected(geo, false);
-		// }
 
 		// Alt click: copy definition to input field
 		if (geo != null && event.isAltDown() && app.showAlgebraInput()) {
@@ -2472,8 +2487,16 @@ substituteNumbers,
 	}
 
 	public static void closeMinMaxPanel() {
+		closeMinMaxPanel(true);
+	}
+
+	public static void closeMinMaxPanel(boolean resizeNeeded) {
 		if (openedMinMaxPanel == null) {
 			return;
+		}
+
+		if (resizeNeeded) {
+			openedMinMaxPanel.restoreSize();
 		}
 
 		openedMinMaxPanel.hide();

@@ -69,6 +69,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 	private AlgebraStyleBarW styleBar;
 	public boolean editing = false;
 	private GeoElement draggedGeo;
+	// to store width if original was thiner than needed.
+	private Integer originalWidth = null;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -1804,6 +1806,18 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 
 	public void setSelectionCtrl(AVSelectionController selectionCtrl) {
 		this.selectionCtrl = selectionCtrl;
+	}
+
+	/*
+	 * Gets the original width before AV expansion to restore original width
+	 * after.
+	 */
+	public Integer getOriginalWidth() {
+		return originalWidth;
+	}
+
+	public void setOriginalWidth(Integer oldWidth) {
+		this.originalWidth = oldWidth;
 	}
 
 }
