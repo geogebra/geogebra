@@ -17,11 +17,11 @@ public class InnerPanel extends FlowPanel implements RequiresResize {
 			add(cpPanel);
 		}
 
-		public void onResize() {
-			content.setHeight(
-(dock.getComponentInteriorHeight() - dock
-					.navHeight()) + "px");
-
+	public void onResize() {
+		int height = dock.getComponentInteriorHeight() - dock.navHeight();
+		if (height > 0) {
+			content.setHeight(height + "px");
 		}
-
 	}
+
+}
