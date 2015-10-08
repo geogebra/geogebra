@@ -2,7 +2,6 @@ package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -119,7 +118,7 @@ public class GPopupMenuW extends org.geogebra.common.javax.swing.GPopupMenu
 
 		if (newPoz || !Kernel.isEqual(1, app.getArticleElement().getScaleX())) {
 			popupPanel.setPopupPosition(left, top);
-			App.debug(left + "x" + top);
+			// App.debug(left + "x" + top);
 		}
 	}
 
@@ -322,6 +321,10 @@ public class GPopupMenuW extends org.geogebra.common.javax.swing.GPopupMenu
 	public void addItem(GCheckBoxMenuItem item) {
 		addItem(item.getMenuItem());
 
+	}
+
+	public void addItem(String s, ScheduledCommand c) {
+		addItem(new MenuItem(s, c));
 	}
 
 	public void hide() {

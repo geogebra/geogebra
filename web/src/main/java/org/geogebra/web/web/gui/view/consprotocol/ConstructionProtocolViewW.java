@@ -1,8 +1,8 @@
 package org.geogebra.web.web.gui.view.consprotocol;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -14,16 +14,14 @@ import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
-import org.geogebra.web.web.gui.util.ButtonPopupMenu;
-import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.SelectionTableW;
 import org.geogebra.web.web.gui.util.StyleBarW;
+import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,7 +29,6 @@ import com.google.gwt.event.dom.client.DragEndEvent;
 import com.google.gwt.event.dom.client.DragEndHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -41,6 +38,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
@@ -62,7 +60,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	protected Element draggedRow;
 	/** index of dragged row **/
 	protected int dragIndex;
-	ButtonPopupMenu cp_popup;
+	GPopupMenuW popupMenu;
 
 
 	/**
@@ -185,7 +183,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		return table;
 	}
 
-	private void initGUI(){
+	void initGUI() {
 		//remove all columns if there are
 		int colCount = table.getColumnCount();
 		for(int i=0; i<colCount; i++){
@@ -208,17 +206,19 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		}
 				
 
-		int lastVisibleCol = data.getColumnCount() - 1;
+		int lastVisibleColData = data.getColumnCount() - 1;
 		
-		while (!data.columns[lastVisibleCol].isVisible()
-				|| "Command".equals(data.columns[lastVisibleCol].getTitle())
-				|| "Caption".equals(data.columns[lastVisibleCol].getTitle())
+		while (!data.columns[lastVisibleColData].isVisible()
+				|| "ToolbarIcon"
+						.equals(data.columns[lastVisibleColData].getTitle())
+				|| "Command".equals(data.columns[lastVisibleColData].getTitle())
+				|| "Caption".equals(data.columns[lastVisibleColData].getTitle())
 				|| "Breakpoint"
-						.equals(data.columns[lastVisibleCol].getTitle())) {
-			lastVisibleCol--;
+						.equals(data.columns[lastVisibleColData].getTitle())) {
+			lastVisibleColData--;
 		}
 		
-		createPopupMenu();
+		initPopupMenu();
 		
 		for (int i = 0; i < data.getColumnCount(); i++) {
 			if (data.columns[i].isVisible()) {
@@ -228,10 +228,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 					sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
 							+ app.getPlain(title) + "</div>"));
-					if (i != 0 && i != lastVisibleCol) {
+					if (i != 0 && i != lastVisibleColData) {
+						sb.append(SafeHtmlUtils
+								.fromSafeConstant("<div title = " + title + ">"));
 						sb.append(AbstractImagePrototype.create(
 								GuiResources.INSTANCE.dockbar_close())
 								.getSafeHtml());
+						sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 					} else if (i != 0) {
 						sb.append(SafeHtmlUtils.fromSafeConstant("<div id = \"CP_popupImage\">"));
 						sb.append(AbstractImagePrototype.create(
@@ -240,48 +243,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 						sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 
 					}
+					col.setDataStoreName(title);
 					table.addColumn(col, sb.toSafeHtml());
-
-					table.addHandler(new ClickHandler() {
-
-						public void onClick(ClickEvent event) {
-							Element el = Element.as(event.getNativeEvent()
-									.getEventTarget());
-							Element imgElement = DOM
-									.getElementById("CP_popupImage")
-									.getElementsByTagName("img").getItem(0);
-							if (el.equals(imgElement)) {
-								
-								// TODO: prevent creating popup creating more times...
-								event.stopPropagation();
-								event.preventDefault();
-								DOM.eventCancelBubble(
-										DOM.eventGetCurrentEvent(), true);
-
-								if (cp_popup != null) {
-									if (EuclidianStyleBarW.CURRENT_POP_UP != cp_popup
-											|| !((AppW) app)
-													.wasPopupJustClosed()) {
-										if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-											EuclidianStyleBarW.CURRENT_POP_UP
-													.hide();
-										}
-										EuclidianStyleBarW.CURRENT_POP_UP = cp_popup;
-
-										((AppW) app).registerPopup(cp_popup);
-										cp_popup.showRelativeTo(table);
-										cp_popup.getFocusPanel().getElement()
-												.focus();
-									} else {
-										cp_popup.setVisible(false);
-										EuclidianStyleBarW.CURRENT_POP_UP = null;
-									}
-								}
-
-							}
-						}
-
-					}, ClickEvent.getType());
 				}
 			}
 		}
@@ -289,10 +252,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		rowCountChanged();
 	}
 
-	protected void createPopupMenu() {
+	protected void initPopupMenu() {
 		int k0 = 0;
-		String[] tableColumns = {};
-		// boolean[] show = {};
+		final String[] tableColumns = {};
+		int lastVisibleColData = -1;
+		int visibleCols = 0;
 		for (int k = 0; k < data.getColumnCount(); k++) {
 			ColumnData colData = data.getColumns()[k];
 			// On web there is no all columns yet, so temporary must hide
@@ -302,53 +266,77 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 					&& !"ToolbarIcon".equals(colData.getTitle())
 					&& !"Command".equals(colData.getTitle())
 					&& !"Caption".equals(colData.getTitle())
-					&& !"Breakpoint".equals(colData.getTitle())
-			// && !colData.isVisible()
-			) {
-				tableColumns[k0] = colData.getTranslatedTitle();
-				k0++;
-			}
-		}
-
-		cp_popup = new ButtonPopupMenu(((AppW) app).getPanel()) {
-			@Override
-			public void setVisible(boolean visible) {
-				super.setVisible(visible);
-
-				// if another button is pressed only the visibility is
-				// changed,
-				// by firing the event we can react as if it was closed
-				CloseEvent.fire(this, this, false);
-			}
-
-			@Override
-			public void hide() {
-				super.hide();
-				if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
-					EuclidianStyleBarW.CURRENT_POP_UP = null;
+					&& !"Breakpoint".equals(colData.getTitle())) {
+				if (colData.isVisible()) {
+					lastVisibleColData = k;
+					visibleCols++;
+				} else {
+					tableColumns[k0] = colData.getTranslatedTitle();
+					k0++;
 				}
 			}
-		};
-		cp_popup.setAutoHideEnabled(true);
-
-		ImageOrText[] menuitems = {};
-		menuitems[0] = new ImageOrText(app.getMenu("Close"));
-		menuitems[0].setResource(GuiResources.INSTANCE.dockbar_close());
-
-		// placeholder for the separator (needs to be != null)
-		menuitems[1] = new ImageOrText("");
-		FlowPanel separator = new FlowPanel();
-		separator.addStyleName("Separator");
-		
-		for (int i = 0; i < tableColumns.length; i++) {
-			menuitems[2 + i] = new ImageOrText(tableColumns[i]);
 		}
-		
-		SelectionTableW selTable = new SelectionTableW(menuitems, menuitems.length, 1,
-				SelectionTable.MODE_TEXT);
-		selTable.setWidget(1, 0, separator);
 
-		cp_popup.getPanel().add(selTable);
+		popupMenu = new GPopupMenuW((AppW) app);
+		ScheduledCommand com;
+
+		if (visibleCols > 1) {
+			final int n = lastVisibleColData;
+			com = new ScheduledCommand() {
+				public void execute() {
+					data.columns[n].setVisible(false);
+					initGUI();
+				}
+			};
+			popupMenu.addItem(new MenuItem(app.getMenu("Close"), com));
+		}
+
+		if (tableColumns.length > 0) {
+			if (visibleCols > 1) {
+				popupMenu.addSeparator();
+			}
+			
+			for (int i = 0; i < tableColumns.length; i++) {
+
+				final int j = i;
+				com = new ScheduledCommand() {
+
+					public void execute() {
+						data.columns[data
+								.getColumnNumberByTitle(tableColumns[j])]
+								.setVisible(true);
+						initGUI();
+					}
+				};
+
+				popupMenu.addItem(tableColumns[i], com);
+			}
+		}
+
+		table.addHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				Element el = Element
+						.as(event.getNativeEvent().getEventTarget());
+				Element imgElement = DOM.getElementById("CP_popupImage")
+						.getElementsByTagName("img").getItem(0);
+				if (el.equals(imgElement)) {
+
+					popupMenu.show(new GPoint(event.getClientX(), event
+							.getClientY()));
+				} else if ("img".equals(el.getTagName().toLowerCase())) {
+					String colTitle = el.getParentElement().getAttribute(
+							"title");
+					if (colTitle != null) {
+						data.columns[data.getColumnNumberByTitle(colTitle)]
+								.setVisible(false);
+						table.removeColumn(getColumnByTitle(colTitle));
+						initPopupMenu();
+					}
+				}
+			}
+
+		}, ClickEvent.getType());
 
 	}
 
@@ -617,6 +605,20 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				row.updateAll();
 			}
 		}
+	}
+
+	public Column<RowData, ?> getColumnByTitle(String t) {
+		if (t == null){
+			return null;
+		}
+		Column<RowData, ?> col;
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			col = table.getColumn(i);
+			if (t.equals(col.getDataStoreName())) {
+				return col;
+			}
+		}
+		return null;
 	}
 
 	/**

@@ -471,6 +471,20 @@ public class ConstructionProtocolView {
 			return pos;
 		}
 
+		public int getColumnNumberByTitle(String t) {
+			if (t == null) {
+				return -1;
+			}
+			String title;
+			for (int i = 0; i < columns.length; i++) {
+				title = columns[i].getTitle();
+				if (t.equals(title)) {
+					return i;
+				}
+			}
+			return -1;
+		}
+
 		public boolean isCellEditable(int nRow, int nCol) {
 			
 			if((this.columns[nCol].getTitle()).equals("Caption")){ 
