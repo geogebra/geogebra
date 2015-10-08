@@ -2,10 +2,10 @@ package org.geogebra.web.web.gui.view.consprotocol;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -14,7 +14,11 @@ import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
+import org.geogebra.web.web.gui.util.ButtonPopupMenu;
+import org.geogebra.web.web.gui.util.ImageOrText;
+import org.geogebra.web.web.gui.util.SelectionTableW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 
 import com.google.gwt.cell.client.Cell;
@@ -27,11 +31,13 @@ import com.google.gwt.event.dom.client.DragEndEvent;
 import com.google.gwt.event.dom.client.DragEndHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -56,6 +62,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	protected Element draggedRow;
 	/** index of dragged row **/
 	protected int dragIndex;
+	ButtonPopupMenu cp_popup;
 
 
 	/**
@@ -209,8 +216,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				|| "Breakpoint"
 						.equals(data.columns[lastVisibleCol].getTitle())) {
 			lastVisibleCol--;
-			App.debug(lastVisibleCol + "");
 		}
+		
+		createPopupMenu();
 		
 		for (int i = 0; i < data.getColumnCount(); i++) {
 			if (data.columns[i].isVisible()) {
@@ -218,14 +226,18 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				Column<RowData, ?> col = getColumn(title);
 				if (col != null) {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
-					if (i != lastVisibleCol) {
-						sb.append(SafeHtmlUtils.fromString(app.getPlain(title)));
-					} else {
-						sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
-								+ app.getPlain(title) + "</div>"));
+					sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
+							+ app.getPlain(title) + "</div>"));
+					if (i != 0 && i != lastVisibleCol) {
 						sb.append(AbstractImagePrototype.create(
-								GuiResources.INSTANCE.menu_dots_hover())
+								GuiResources.INSTANCE.dockbar_close())
 								.getSafeHtml());
+					} else if (i != 0) {
+						sb.append(SafeHtmlUtils.fromSafeConstant("<div id = \"CP_popupImage\">"));
+						sb.append(AbstractImagePrototype.create(
+								GuiResources.INSTANCE.menu_dots())
+								.getSafeHtml());
+						sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 
 					}
 					table.addColumn(col, sb.toSafeHtml());
@@ -235,11 +247,37 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 						public void onClick(ClickEvent event) {
 							Element el = Element.as(event.getNativeEvent()
 									.getEventTarget());
-							Element imgElement = table.getElement()
+							Element imgElement = DOM
+									.getElementById("CP_popupImage")
 									.getElementsByTagName("img").getItem(0);
 							if (el.equals(imgElement)) {
-								// TODO popup
-								// Window.alert("yes!");
+								
+								// TODO: prevent creating popup creating more times...
+								event.stopPropagation();
+								event.preventDefault();
+								DOM.eventCancelBubble(
+										DOM.eventGetCurrentEvent(), true);
+
+								if (cp_popup != null) {
+									if (EuclidianStyleBarW.CURRENT_POP_UP != cp_popup
+											|| !((AppW) app)
+													.wasPopupJustClosed()) {
+										if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
+											EuclidianStyleBarW.CURRENT_POP_UP
+													.hide();
+										}
+										EuclidianStyleBarW.CURRENT_POP_UP = cp_popup;
+
+										((AppW) app).registerPopup(cp_popup);
+										cp_popup.showRelativeTo(table);
+										cp_popup.getFocusPanel().getElement()
+												.focus();
+									} else {
+										cp_popup.setVisible(false);
+										EuclidianStyleBarW.CURRENT_POP_UP = null;
+									}
+								}
+
 							}
 						}
 
@@ -249,6 +287,69 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		}
 		tableInit();
 		rowCountChanged();
+	}
+
+	protected void createPopupMenu() {
+		int k0 = 0;
+		String[] tableColumns = {};
+		// boolean[] show = {};
+		for (int k = 0; k < data.getColumnCount(); k++) {
+			ColumnData colData = data.getColumns()[k];
+			// On web there is no all columns yet, so temporary must hide
+			// some
+			// column on stylebar too
+			if (!"No.".equals(colData.getTitle())
+					&& !"ToolbarIcon".equals(colData.getTitle())
+					&& !"Command".equals(colData.getTitle())
+					&& !"Caption".equals(colData.getTitle())
+					&& !"Breakpoint".equals(colData.getTitle())
+			// && !colData.isVisible()
+			) {
+				tableColumns[k0] = colData.getTranslatedTitle();
+				k0++;
+			}
+		}
+
+		cp_popup = new ButtonPopupMenu(((AppW) app).getPanel()) {
+			@Override
+			public void setVisible(boolean visible) {
+				super.setVisible(visible);
+
+				// if another button is pressed only the visibility is
+				// changed,
+				// by firing the event we can react as if it was closed
+				CloseEvent.fire(this, this, false);
+			}
+
+			@Override
+			public void hide() {
+				super.hide();
+				if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
+					EuclidianStyleBarW.CURRENT_POP_UP = null;
+				}
+			}
+		};
+		cp_popup.setAutoHideEnabled(true);
+
+		ImageOrText[] menuitems = {};
+		menuitems[0] = new ImageOrText(app.getMenu("Close"));
+		menuitems[0].setResource(GuiResources.INSTANCE.dockbar_close());
+
+		// placeholder for the separator (needs to be != null)
+		menuitems[1] = new ImageOrText("");
+		FlowPanel separator = new FlowPanel();
+		separator.addStyleName("Separator");
+		
+		for (int i = 0; i < tableColumns.length; i++) {
+			menuitems[2 + i] = new ImageOrText(tableColumns[i]);
+		}
+		
+		SelectionTableW selTable = new SelectionTableW(menuitems, menuitems.length, 1,
+				SelectionTable.MODE_TEXT);
+		selTable.setWidget(1, 0, separator);
+
+		cp_popup.getPanel().add(selTable);
+
 	}
 
 	public Column<RowData, ?> getColumn(String title) {

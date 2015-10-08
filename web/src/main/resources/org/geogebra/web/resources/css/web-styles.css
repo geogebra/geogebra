@@ -3520,11 +3520,11 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	max-width: 35px;
 }
 
-.cpTable th:LAST-CHILD div{
+.cpTable th div{
 	display: inline;
 }
 
-.cpTable th:LAST-CHILD img{
+.cpTable th img{
 	float: right;
 }
 

@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
@@ -24,7 +25,7 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 			App.VIEW_CONSTRUCTION_PROTOCOL, 	// view id
 			"ConstructionProtocol", 					// view title phrase 
 			null,	// toolbar string
-			true,					// style bar?
+				!app.has(Feature.CP_POPUP), // style bar?
 			7,						// menu order
 			'L' // ctrl-shift-L
 		);
