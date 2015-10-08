@@ -302,6 +302,12 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			// It may be possible that 3D is not supported from technical
 			// reasons (e.g. the graphics card is problematic), but in such
 			// cases we don't want to show that here.
+			int maxButtons = getMaxButtons();
+			if (maxButtons > 16.5) {
+				Label examLabel = new Label("GeoGebraExam");
+				examLabel.getElement().setClassName("timer");
+				rightButtonPanel.add(examLabel);
+			}
 			if (!app.getExam().isCASAllowed()) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()
@@ -975,20 +981,36 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	 	        return; 
          }
 		 
-		 int extraButtons = 0;
+		int maxButtons = getMaxButtons();
+		if (maxButtons > 0) {
+			toolbars.get(0).setMaxButtons(maxButtons);
+		}
+		if (app.isExam()) {
+			updateActionPanel();
+		}
+
+	}
+
+	private int getMaxButtons() {
+		int extraButtons = 0;
 		 if(app.getLAF().undoRedoSupported()){
-			 extraButtons = 2;
+			extraButtons = 90;
 		 }
 		 if(app.showMenuBar()){
-			 extraButtons += 2;
+			extraButtons += 90;
 		 }
-		 int maxButtons = ( (int)app.getWidth() - extraButtons * 45 - 15) /45;
-		 if(maxButtons > 0){
-			 toolbars.get(0).setMaxButtons(maxButtons);
-		 }
-		 
-    }
-	
+		if (app.isExam()) {
+			extraButtons += 20;
+			if (!app.getExam().is3DAllowed()) {
+				extraButtons += 55;
+			}
+			if (!app.getExam().isCASAllowed()) {
+				extraButtons += 55;
+			}
+		}
+		return ((int) app.getWidth() - extraButtons - 15) / 45;
+	}
+
 	/**
 	 * @return the Element object of the open menu button
 	 */
