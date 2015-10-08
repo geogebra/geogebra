@@ -85,7 +85,6 @@ import org.geogebra.web.web.gui.view.algebra.AlgebraContextMenuW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
-import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
@@ -1340,10 +1339,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			}
 		}
 
-/*
-		if (constructionProtocolView != null)
-			((ConstructionProtocolViewW) constructionProtocolView).initGUI();
-*/
 		// set the labelling of the panels
 		// titles on the top of their style bars
 		if (getLayout() != null && getLayout().getDockManager() != null) {
