@@ -1000,7 +1000,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			extraButtons += 90;
 		 }
 		if (app.isExam()) {
-			extraButtons += 20;
+			extraButtons += 30;
 			if (!app.getExam().is3DAllowed()) {
 				extraButtons += 55;
 			}
