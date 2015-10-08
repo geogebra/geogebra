@@ -215,27 +215,26 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (app.getExam().getStart() < 0) {
-					timer.setText("0:00");
-				} else {
+
 					if (app.getExam().isCheating()) {
 						timer.getElement().getStyle().setBackgroundColor("red");
 						timer.getElement().getStyle().setColor("white");
 					}
-					long start = app.getExam().getStart();
-					int secs = (int) ((timestamp - start) / 1000);
-					int mins = secs / 60;
-					secs -= mins * 60;
-					String secsS = secs + "";
-					if (secs < 10) {
-						secsS = "0" + secsS;
-					}
-					timer.setText(mins + ":" + secsS);
-				}
+
+				timer.setText(app.getExam().timeToString(
+						System.currentTimeMillis()));
+
 				AnimationScheduler.get().requestAnimationFrame(this);
 			}
 		});
 		visibilityEventMain();
+		timer.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				app.showMessage(app.getExam().getLog());
+
+			}
+		});
 		return timer;
 
 	}
@@ -244,13 +243,20 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		app.getExam().startCheating();
 	}
 
+	private void stopCheating() {
+		app.getExam().stopCheating();
+	}
+
 	private native void visibilityEventMain() /*-{
 		// wrapper to call the appropriate function from visibility.js
 		var that = this;
-		var visChange = function() {
+		var startCheating = function() {
 			that.@org.geogebra.web.web.gui.app.GGWToolBar::startCheating()()
 		};
-		$wnd.visibilityEventMain(visChange);
+		var stopCheating = function() {
+			that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
+		};
+		$wnd.visibilityEventMain(startCheating, stopCheating);
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 		$wnd.onblur = function(event) {
 			// Borrowed from http://www.quirksmode.org/js/events_properties.html
@@ -269,9 +275,10 @@ public class GGWToolBar extends Composite implements RequiresResize,
 					+ e.currentTarget + ", " + e.currentTarget.id);
 			// The focusout event should not be caught:
 			if (e.type == "blur") {
-				visChange();
+				startCheating();
 			}
 		};
+		$wnd.onfocus = stopCheating;
 	}-*/;
 	
 

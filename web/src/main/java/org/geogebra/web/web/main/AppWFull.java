@@ -310,9 +310,8 @@ public abstract class AppWFull extends AppW {
 							.getDockManager()).getPanelForKeyboard();
 					if (dp != null
 							&& dp.getKeyboardListener() instanceof GeoContainer) { // dp.getKeyboardListener().setFocus(true);
-						((GeoContainer) dp.getKeyboardListener())
-								.stopEditing(null);
-						dp.getKeyboardListener().ensureEditing();
+
+						showKeyboard(dp.getKeyboardListener(), true);
 
 					}
 					box.hide();

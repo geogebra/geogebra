@@ -17,12 +17,26 @@ function getHiddenProp(){
     return null;
 }
 
+function isHidden() {
+    var prop = getHiddenProp();
+    if (!prop) return false;
+    
+    return document[prop];
+}
+
 // use the property name to generate the prefixed event name
-function visibilityEventMain(visChange) {
+function visibilityEventMain(startCheating, stopCheating) {
 	var visProp = getHiddenProp();
 	if (visProp) {
 		var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
-		document.addEventListener(evtname, visChange);
+		document.addEventListener(evtname, function(){
+			if(document[visProp]){
+				startCheating();
+			}else{
+				stopCheating();
+			}
+		});
+		
 	}
 }
 

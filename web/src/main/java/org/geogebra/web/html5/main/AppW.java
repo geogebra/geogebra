@@ -2925,9 +2925,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public void showMessage(final String message) {
-		getOptionPane().showConfirmDialog(null, message,
+		getOptionPane().showConfirmDialog(this, message,
 		        GeoGebraConstants.APPLICATION_NAME + " - " + getMenu("Info"),
-		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.INFORMATION_MESSAGE,
+				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
 		        null);
 	}
 

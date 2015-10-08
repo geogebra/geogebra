@@ -1325,7 +1325,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		if (inputPanelLatex == null) {
 			inputPanelLatex = new InputTreeItem(kernel);
 			forceKeyboard = app.getArticleElement()
-					.getDataParamBase64String().length() == 0;
+.getDataParamBase64String()
+					.length() == 0
+					&& app.getExam() == null;
 
 			appletHack = !App.isFullAppGui();
 		} else {
@@ -1392,8 +1394,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		if (inputPanelLatex == null) {
 			suggestKeyboard = true;
 			forceKeyboard = forceKeyboard0
-					|| app.getArticleElement()
-					.getDataParamBase64String().length() == 0;
+					|| (app.getArticleElement().getDataParamBase64String()
+							.length() == 0 && app.getExam() == null);
 			inputPanelLatex = new InputTreeItem(kernel);
 
 			// open the keyboard (or show the keyboard-open-button) at
@@ -1424,19 +1426,22 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 				.has(Feature.KOREAN_KEYBOARD))
 				&& app.showView(App.VIEW_ALGEBRA)) {
 			if (forceKeyboard) {
-				Scheduler.get().scheduleDeferred(
-						new Scheduler.ScheduledCommand() {
-							public void execute() {
-								setActiveTreeItem(null);
-								app.showKeyboard(inputPanelLatex, true);
-							}
-						});
+				doShowKeyboard();
 			}else if(suggestKeyboard){
 				app.getAppletFrame().showKeyboardOnFocus();
 			}
 
 		}
 
+	}
+
+	private void doShowKeyboard() {
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				setActiveTreeItem(null);
+				app.showKeyboard(inputPanelLatex, true);
+			}
+		});
 	}
 
 	private boolean isAlgebraInputVisible() {
