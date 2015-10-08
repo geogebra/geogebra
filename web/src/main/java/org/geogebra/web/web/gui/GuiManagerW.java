@@ -793,6 +793,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	public void updateToolbarActions() {
+		if (getToolbarPanel() != null) {
+			getToolbarPanel().updateActionPanel();
+		}
+	}
+
 	@Override
 	public void updateAlgebraInput() {
 		App.debug("Implementation needed...");

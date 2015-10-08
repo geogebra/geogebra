@@ -6,6 +6,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExamEnvironment;
 import org.geogebra.web.web.gui.browser.MaterialListElement;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -40,10 +41,6 @@ public class GLookAndFeel implements GLookAndFeelI{
 	public boolean isSmart() {
 		return false;
 	}
-
-	public boolean isExam() {
-	    return false;
-    }
 	
 	public boolean isTablet() {
 		return false;
@@ -142,6 +139,11 @@ public class GLookAndFeel implements GLookAndFeelI{
 	@Override
 	public boolean supportsLocalSave() {
 		return false;
+	}
+
+	public ExamEnvironment getExam() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

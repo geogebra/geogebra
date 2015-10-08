@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -106,9 +105,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.View;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.layout.DockManagerW;
-import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -116,7 +112,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
@@ -2629,7 +2624,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 
 		if (viewID == App.VIEW_CAS) {
-			return !getArticleElement().getDataParamNoCAS();
+			return getExam() == null || getExam().isCASAllowed();
 		}
 
 		return viewID != App.VIEW_EUCLIDIAN3D;
@@ -3297,7 +3292,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public boolean isExam() {
-		return getLAF() != null && getLAF().isExam();
+		return getLAF() != null && getLAF().getExam() != null;
 	}
 
 	public void setCloseBrowserCallback(Runnable runnable) {
@@ -3478,6 +3473,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (isEuclidianView3Dinited()) {
 			getEuclidianView3D().setAltText();
 		}
+	}
+
+	public ExamEnvironment getExam() {
+		return getLAF() == null ? null : getLAF().getExam();
 	}
 
 }

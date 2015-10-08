@@ -121,4 +121,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public String getTooltipURL(int mode);
 
 	public GOptionPaneW getOptionPane();
+
+	public void updateToolbarActions();
 }

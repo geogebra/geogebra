@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.laf;
 
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExamEnvironment;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -21,6 +22,7 @@ public class ExamLookAndFeel extends GLookAndFeel{
 	public static final int PHONE_SEARCH_PANEL_HEIGHT = 57;
 	private HandlerRegistration windowClosingHandler;
 	private HandlerRegistration windowCloseHandler;
+	private ExamEnvironment exam;
 	
 	@Override
 	public MainMenu getMenuBar(AppW app) {
@@ -40,8 +42,11 @@ public class ExamLookAndFeel extends GLookAndFeel{
 	}
 	
 	@Override
-	public boolean isExam() {
-		return true;
+	public ExamEnvironment getExam() {
+		if (exam == null) {
+			exam = new ExamEnvironment();
+		}
+		return exam;
 	}
 	
 	/**

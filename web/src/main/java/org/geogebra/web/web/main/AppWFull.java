@@ -36,6 +36,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -242,6 +243,9 @@ public abstract class AppWFull extends AppW {
 				null, null);
 	}
 
+	/**
+	 * Updates the stylebar in Algebra View
+	 */
 	public void updateAVStylebar() {
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
 			AlgebraStyleBarW styleBar = ((AlgebraViewW) getView(App.VIEW_ALGEBRA))
@@ -252,16 +256,11 @@ public abstract class AppWFull extends AppW {
 		}
 	}
 
-	long examStartTime = -1;
 
-	public long getExamStart() {
-		return examStartTime;
-	}
 	@Override
 	public void examWelcome(){
 
-		if (isExam() && examStartTime < 0) {
-			String[] optionNames = { getMenu("StartExam") };
+		if (isExam() && getExam().getStart() < 0) {
 			final DialogBoxW box = new DialogBoxW(false, true, null, getPanel());
 			VerticalPanel mainWidget = new VerticalPanel();
 			FlowPanel btnPanel = new FlowPanel();
@@ -269,8 +268,32 @@ public abstract class AppWFull extends AppW {
 			Button btnOk = new Button();
 			mainWidget.add(btnPanel);
 			btnPanel.add(btnOk);
-			btnOk.setText(getMenu("OK"));
+			btnOk.setText(getMenu("StartExam"));
 			mainWidget.add(new Label(getMenu("WelcomeExam")));
+			final CheckBox cas = new CheckBox("CAS");
+			final CheckBox allow3D = new CheckBox("3D");
+			mainWidget.add(cas);
+			mainWidget.add(allow3D);
+			cas.setValue(true);
+			allow3D.setValue(true);
+			getExam().setCASAllowed(cas.getValue());
+			getExam().set3DAllowed(allow3D.getValue());
+			getGuiManager().updateToolbarActions();
+			cas.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					getExam().setCASAllowed(cas.getValue());
+					getGuiManager().updateToolbarActions();
+				}
+			});
+			allow3D.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					getExam().set3DAllowed(allow3D.getValue());
+					getGuiManager().updateToolbarActions();
+
+				}
+			});
 			mainWidget.add(btnPanel);
 			box.setWidget(mainWidget);
 			box.getCaption().setText(getMenu("GeoGebraExam"));
@@ -280,8 +303,9 @@ public abstract class AppWFull extends AppW {
 
 				public void onClick(ClickEvent event) {
 					Date date = new Date();
-					examStartTime = date.getTime();
-
+					getExam().setStart(date.getTime());
+					getGuiManager().updateToolbarActions();
+					getGuiManager().updateMenubar();
 					DockPanelW dp = ((DockManagerW) getGuiManager().getLayout()
 							.getDockManager()).getPanelForKeyboard();
 					if (dp != null

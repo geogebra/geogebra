@@ -18,7 +18,6 @@ import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
-import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -70,7 +69,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	PushButton undoButton;
 	private PushButton redoButton;
 	private boolean redoPossible = false;
-	private boolean cheating = false;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -217,14 +215,14 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (((AppWFull) app).getExamStart() < 0) {
+				if (app.getExam().getStart() < 0) {
 					timer.setText("0:00");
 				} else {
-					if (cheating) {
+					if (app.getExam().isCheating()) {
 						timer.getElement().getStyle().setBackgroundColor("red");
 						timer.getElement().getStyle().setColor("white");
 					}
-					long start = ((AppWFull) app).getExamStart();
+					long start = app.getExam().getStart();
 					int secs = (int) ((timestamp - start) / 1000);
 					int mins = secs / 60;
 					secs -= mins * 60;
@@ -243,7 +241,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	}
 
 	private void startCheating() {
-		cheating = true;
+		app.getExam().startCheating();
 	}
 
 	private native void visibilityEventMain() /*-{
@@ -280,25 +278,31 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel(){
 
-		boolean exam = app.isExam();
+
 
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		this.rightButtonPanel = new FlowPanel();
 		this.rightButtonPanel.setStyleName("rightButtonPanel");
+		updateActionPanel();
+		toolBarPanel.add(rightButtonPanel);
+	}
 
+	public void updateActionPanel() {
+		rightButtonPanel.clear();
+		boolean exam = app.isExam();
 		if (exam) {
 			// We directly read the parameters to show the intention.
 			// It may be possible that 3D is not supported from technical
 			// reasons (e.g. the graphics card is problematic), but in such
 			// cases we don't want to show that here.
-			if (app.getArticleElement().getDataParamNoCAS()) {
+			if (!app.getExam().isCASAllowed()) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
 				nocas.getElement().setClassName("timer");
 				rightButtonPanel.add(nocas);
 			}
-			if (app.getArticleElement().getDataParamNo3D()) {
+			if (!app.getExam().is3DAllowed()) {
 				Label no3d = new Label("3D");
 				no3d.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
@@ -400,9 +404,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 		this.rightButtonPanel.add(openMenuButton);
 		}
-		toolBarPanel.add(rightButtonPanel);	
+
 	}
-	
+
 	/**
 	 * Update toolbars.
 	 */
