@@ -107,7 +107,7 @@ public class ViewMenuW extends GMenuBar {
 				};
 				timer.schedule(0);
 			}
-		});
+		}, true);
 		addItem(inputBarItem.getMenuItem());
 
 		consProtNav = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
@@ -128,13 +128,12 @@ public class ViewMenuW extends GMenuBar {
 
 
 			}
-		});
+		}, true);
 		addItem(consProtNav.getMenuItem());
 
 		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollection = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-					AppResources.INSTANCE.empty().getSafeUri().asString(),
- app
+					AppResources.INSTANCE.empty().getSafeUri().asString(), app
 							.getLocalization().getMenu("Sensors"), true),
 					new MenuCommand(app) {
 
@@ -148,7 +147,7 @@ public class ViewMenuW extends GMenuBar {
 									.showView(App.VIEW_DATA_COLLECTION));
 							app.toggleMenu();
 						}
-					});
+					}, true);
 			addItem(dataCollection.getMenuItem());
 		}
 
@@ -187,7 +186,7 @@ public class ViewMenuW extends GMenuBar {
 						};
 						timer.schedule(0);
 					}
-				});
+				}, true);
 		items.put(e.getID(), newItem);
 		addItem(newItem.getMenuItem());
 	}

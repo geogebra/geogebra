@@ -125,7 +125,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					public void execute() {
 						showObjectCmd();
 					}
-				});
+				}, true);
 				cbItem.setSelected(geo.isSetEuclidianVisible());
 				wrappedPopup.addItem(cbItem);
 
@@ -140,7 +140,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					public void execute() {
 						showLabelCmd();
 					}
-				});
+				}, true);
 				cbItem.setSelected(isLabelShown());
 				wrappedPopup.addItem(cbItem);
 			}
@@ -155,7 +155,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					        public void execute() {
 						        traceCmd();
 					        }
-				        });
+						}, true);
 				cbItem.setSelected(((Traceable) geo).getTrace());
 				wrappedPopup.addItem(cbItem);
 			}
@@ -178,7 +178,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 							recordToSpreadSheetCmd();
 							// App.debug("not ported yet recordToSpreadSheetCmd();");
 						}
-					});
+					}, true);
 					cbItem.setSelected(geo.getSpreadsheetTrace());
 					wrappedPopup.addItem(cbItem);
 				}
@@ -192,7 +192,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					public void execute() {
 						animationCmd();
 					}
-				});
+				}, true);
 				cbItem.setSelected(((Animatable) geo).isAnimating()
 				        && app.getKernel().getAnimatonManager().isRunning());
 				wrappedPopup.addItem(cbItem);
@@ -209,7 +209,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					        public void execute() {
 						        showObjectAuxiliaryCmd();
 					        }
-				        });
+						}, true);
 				cbItem.setSelected(geo.isAuxiliaryObject());
 				wrappedPopup.addItem(cbItem);
 
@@ -226,7 +226,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					public void execute() {
 						fixObjectCmd();
 					}
-				});
+				}, true);
 				cbItem.setSelected(geo.isFixed());
 				wrappedPopup.addItem(cbItem);
 			} else if (geo.isGeoNumeric()) {
@@ -240,7 +240,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						        public void execute() {
 							        fixObjectNumericCmd(num);
 						        }
-					        });
+							}, true);
 					cbItem.setSelected(num.isSlider());
 					wrappedPopup.addItem(cbItem);
 				}
@@ -252,7 +252,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					public void execute() {
 						fixCheckboxCmd();
 					}
-				});
+				}, true);
 				cbItem.setSelected(geo.isFixed());
 				wrappedPopup.addItem(cbItem);
 			}

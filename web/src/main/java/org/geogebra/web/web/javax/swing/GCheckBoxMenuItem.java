@@ -1,9 +1,12 @@
 package org.geogebra.web.web.javax.swing;
 
+import org.geogebra.common.main.App;
+
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuItem;
 
 public class GCheckBoxMenuItem {
@@ -11,7 +14,7 @@ public class GCheckBoxMenuItem {
 	CheckBox checkBox;
 	MenuItem menuItem;
 	HorizontalPanel itemPanel;
-
+	
 	// public GCheckBoxMenuItem(SafeHtml html, final ScheduledCommand cmd) {
 	// super(html, cmd);
 	// checkBox = new CheckBox(html);
@@ -22,13 +25,8 @@ public class GCheckBoxMenuItem {
 	// setHTML(checkBox.toString());
 	// }
 
-	public GCheckBoxMenuItem(String html, final ScheduledCommand cmd) {
-		// ScheduledCommand cmd2 = new ScheduledCommand(){
-		// public void execute() {
-		// cmd.execute();
-		// checkBox.setValue(!checkBox.getValue());
-		// }
-		// };
+	public GCheckBoxMenuItem(String text, final ScheduledCommand cmd,
+			boolean isHtml) {
 
 		// It's didn't work, becase when I clicked on the label of the checkbox,
 		// the command of menuitem didn't run, so I added the html-string for
@@ -39,11 +37,13 @@ public class GCheckBoxMenuItem {
 		checkBox = new CheckBox();
 		itemPanel = new HorizontalPanel();
 		itemPanel.add(checkBox);
-		// App.debug("html: " + html);
-		// HTML htmlWidget = new HTML(html);
-		// App.debug("htmlWidget:");
-		// App.debug(htmlWidget.toString());
-		itemPanel.add(new HTML(html));
+		if (isHtml == true) {
+			itemPanel.add(new HTML(text));
+		} else {
+			itemPanel.add(new Label(text));
+		}
+
+
 		menuItem = new MenuItem(itemPanel.toString(), true, cmd);
 	}
 

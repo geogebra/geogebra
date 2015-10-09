@@ -237,7 +237,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		String htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE
 		        .axes().getSafeUri().asString(), app.getMenu("Axes"));
 		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString,
-		        ((AppW) app).getGuiManager().getShowAxesAction());
+				((AppW) app).getGuiManager().getShowAxesAction(), true);
 
 		cbShowAxes.setSelected(app.getActiveEuclidianView().getShowXaxis()
 		        && (app.getActiveEuclidianView().getShowYaxis()));
@@ -251,7 +251,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE.grid()
 		        .getSafeUri().asString(), app.getMenu("Grid"));
 		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
-		        ((AppW) app).getGuiManager().getShowGridAction());
+				((AppW) app).getGuiManager().getShowGridAction(), true);
 		cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid());
 		wrappedPopup.addItem(cbShowGrid);
 
@@ -267,7 +267,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		String htmlString = MainMenu.getMenuBarHtml(AppResources.INSTANCE
 				.empty().getSafeUri().asString(), app.getMenu("NavigationBar"));
 		GCheckBoxMenuItem cbShowConstructionStep = new GCheckBoxMenuItem(
-				htmlString, showConstructionStepCommand);
+				htmlString, showConstructionStepCommand, true);
 		cbShowConstructionStep.setSelected(app.showConsProtNavigation(app
 				.getActiveEuclidianView().getViewID()));
 		wrappedPopup.addItem(cbShowConstructionStep);

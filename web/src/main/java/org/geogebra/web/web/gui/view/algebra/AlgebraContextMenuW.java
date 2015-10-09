@@ -50,7 +50,10 @@ public class AlgebraContextMenuW implements AttachedToDOM{
 		};     
 		
 		GCheckBoxMenuItem cbShowAuxiliary = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
-				StyleBarResources.INSTANCE.auxiliary().getSafeUri().asString(), app.getPlain("AuxiliaryObject")), showAuxiliaryAction);
+			StyleBarResources.INSTANCE.auxiliary()
+						.getSafeUri().asString(),
+						app.getPlain("AuxiliaryObject")), showAuxiliaryAction,
+				true);
 		
 		cbShowAuxiliary.setSelected(app.showAuxiliaryObjects());
 		

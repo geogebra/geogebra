@@ -16,6 +16,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import org.geogebra.web.web.gui.util.StyleBarW;
+import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.cell.client.Cell;
@@ -61,6 +62,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/** index of dragged row **/
 	protected int dragIndex;
 	GPopupMenuW popupMenu;
+	GCheckBoxMenuItem miShowOnlyBreakpoints = null;
 
 
 	/**
@@ -312,6 +314,24 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				popupMenu.addItem(tableColumns[i], com);
 			}
 		}
+
+		popupMenu.addSeparator();
+		miShowOnlyBreakpoints = new GCheckBoxMenuItem(
+				app
+				.getLocalization().getPlain("ShowOnlyBreakpoints"),
+				new ScheduledCommand() {
+
+					public void execute() {
+						showOnlyBreakpointsAction();
+						miShowOnlyBreakpoints.setSelected(app.getKernel()
+								.getConstruction().showOnlyBreakpoints());
+					}
+
+				}, true);
+		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction()
+				.showOnlyBreakpoints());
+		popupMenu.addItem(miShowOnlyBreakpoints);
+		
 
 		table.addHandler(new ClickHandler() {
 

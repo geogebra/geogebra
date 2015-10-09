@@ -130,9 +130,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction().showOnlyBreakpoints());
 		miShowOnlyBreakpoints.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				app.getKernel().getConstruction().setShowOnlyBreakpoints(!app.getKernel().getConstruction().showOnlyBreakpoints());
-				((ConstructionTableData) cpView.getData()).initView();
-				cpView.getCpPanel().repaint();
+				cpView.showOnlyBreakpointsAction();
 			}
 		});
 		btnOptions.addPopupMenuItem(miShowOnlyBreakpoints);

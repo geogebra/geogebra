@@ -19,7 +19,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 
 public class ConstructionProtocolView {
 	
-	protected App app;
+	public App app;
 	public Kernel kernel;
 	public ConstructionTableData data;
 	protected boolean isViewAttached;
@@ -708,6 +708,14 @@ public class ConstructionProtocolView {
 		return sb.toString();
 	}
 	
-	
+	public void showOnlyBreakpointsAction() {
+		app.getKernel()
+				.getConstruction()
+				.setShowOnlyBreakpoints(
+						!app.getKernel().getConstruction()
+								.showOnlyBreakpoints());
+		getData().initView();
+		repaint();
+	}
 	
 }
