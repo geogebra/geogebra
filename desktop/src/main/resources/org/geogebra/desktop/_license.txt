@@ -25,8 +25,8 @@ DEVELOPERS
   * Stefan Lizelfelner (Austria 2013-)
   * Bernard Parisse (France 2013-)
   * Peter Rathgeb (Austria 2015-)
+  * Csilla Solyom-Gecse (Austria 2015-)
   * Christoph Stadlbauer (Austria 2011-)
-  * George Sturr (USA 2009-)
   * Melanie Tomaschko (Austria 2011-)
   * Wolfgang Kuellinger (Austria 2015-)
 
@@ -66,6 +66,7 @@ CONTRIBUTORS
   * Christian Schott (Germany 2011-13)
   * Neel Shah (India 2012)
   * Florian Sonner (Germany 2008-2012)
+  * George Sturr (USA 2009-2015)
   * Don Sun (USA 2011)
   * Kai Chung Tam (USA 2011-12)
   * Sara Arjona Tellez (Spain 2011)
