@@ -3878,6 +3878,7 @@ public abstract class App implements UpdateSelection {
 		case INTEL_REALSENSE:
 		case DRAW_ELLIPSOID:
 		case CP_POPUP:
+		case EXAM:
 			return prerelease;
 		case AV_EXTENSIONS:
 		case DRAW_INPUTBOXES_TO_CANVAS:

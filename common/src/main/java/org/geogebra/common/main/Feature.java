@@ -53,5 +53,7 @@ public enum Feature {
 
 	DRAW_ELLIPSOID,
 	
-	CP_POPUP
+	CP_POPUP,
+
+	EXAM
 }
