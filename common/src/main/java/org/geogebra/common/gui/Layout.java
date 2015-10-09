@@ -25,8 +25,13 @@ public abstract class Layout {
 	/**
 	 * Initialize the default perspectives
 	 * 
+	 * @param app
+	 *            app
+	 * @param AVpercent
+	 *            algebra width (relative to screen width, eg 0.2)
+	 * 
 	 */
-	protected static void initializeDefaultPerspectives(App app,
+	public static void initializeDefaultPerspectives(App app,
 			double AVpercent) {
 		int n = 6;
 
