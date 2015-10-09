@@ -198,6 +198,7 @@ public class RadioTreeItem extends AVTreeItem
 		private Label lblValue;
 		private Label lblStep;
 		private GeoNumeric num;
+		private boolean keepOpen = false;
 		public MinMaxPanel() {
 			if (geo instanceof GeoNumeric) {
 				num = (GeoNumeric) geo;
@@ -279,12 +280,19 @@ public class RadioTreeItem extends AVTreeItem
 			expandSize();
 			sliderPanel.setVisible(false);
 			setVisible(true);
+			setKeepOpen(true);
 			setOpenedMinMaxPanel(this);
 			animPanel.setVisible(false);
 		}
 
-		private void hide() {
+		public void hide(boolean restore) {
+			if (restore) {
+				restoreSize();
+			}
+			hide();
+		}
 
+		public void hide() {
 			sliderPanel.setVisible(true);
 			deferredResizeSlider();
 			setVisible(false);
@@ -340,7 +348,7 @@ public class RadioTreeItem extends AVTreeItem
 					num.setAnimationStep(getNumberFromInput(stepText));
 				}
 				num.update();
-				hide();
+				hide(true);
 			}
 		}
 
@@ -363,6 +371,10 @@ public class RadioTreeItem extends AVTreeItem
 		public void onMouseUp(MouseUpEvent event) {
 			event.preventDefault();
 			event.stopPropagation();
+			if (isKeepOpen()) {
+				setKeepOpen(false);
+				return;
+			}
 
 			if (!(selectAllOnFocus(tfMin, event)
 					|| selectAllOnFocus(tfMax, event)
@@ -388,6 +400,14 @@ public class RadioTreeItem extends AVTreeItem
 				return true;
 			}
 			return false;
+		}
+
+		public boolean isKeepOpen() {
+			return keepOpen;
+		}
+
+		public void setKeepOpen(boolean keepOpen) {
+			this.keepOpen = keepOpen;
 		}
 	}
 
@@ -2490,16 +2510,12 @@ substituteNumbers,
 		closeMinMaxPanel(true);
 	}
 
-	public static void closeMinMaxPanel(boolean resizeNeeded) {
+	public static void closeMinMaxPanel(boolean restore) {
 		if (openedMinMaxPanel == null) {
 			return;
 		}
 
-		if (resizeNeeded) {
-			openedMinMaxPanel.restoreSize();
-		}
-
-		openedMinMaxPanel.hide();
+		openedMinMaxPanel.hide(restore);
 		openedMinMaxPanel = null;
 
 	}
