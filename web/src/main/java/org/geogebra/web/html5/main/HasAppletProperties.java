@@ -97,4 +97,6 @@ public interface HasAppletProperties {
 	public void updateKeyboardHeight();
 
 	public double getKeyboardHeight();
+
+	public void remove();
 }

@@ -481,4 +481,9 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	public Panel getPanel() {
 		return this.frameLayout;
 	}
+
+	public void remove() {
+		this.removeFromParent();
+
+	}
 }

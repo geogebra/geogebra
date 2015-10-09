@@ -22,7 +22,6 @@ import org.geogebra.common.util.Exercise;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
@@ -910,7 +909,7 @@ public class GgbAPIW extends org.geogebra.common.plugin.GgbAPI {
 	 * it remove the style elements injected by the applet too.
 	 */
 	public void removeApplet() {
-		((GeoGebraFrame) ((AppW) app).getAppletFrame()).remove();
+		((AppW) app).getAppletFrame().remove();
 	}
 
 	public void showTooltip(String tooltip) {

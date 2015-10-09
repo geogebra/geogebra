@@ -51,6 +51,9 @@ public class GLookAndFeel implements GLookAndFeelI{
 	 * overridden for SMART and TOUCH - they don't use a windowClosingHandler
 	 */
 	public void addWindowClosingHandler(final AppW app) {
+		if (app.getExam() == null) {
+			return;
+		}
 		// popup when the user wants to exit accidentally
         this.windowClosingHandler = Window.addWindowClosingHandler(new Window.ClosingHandler() {
             public void onWindowClosing(ClosingEvent event) {

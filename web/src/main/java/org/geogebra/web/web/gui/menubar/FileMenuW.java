@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.Feature;
@@ -66,8 +67,22 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return false;
 	}-*/;
 
-	native void exitExam() /*-{
-		$wnd.close();
+	native boolean exitExam() /*-{
+		if ($wnd.ggbExamClosed) {
+			$wnd.ggbExamClosed();
+			return true;
+		}
+		$wnd.toggleFullScreen(false);
+		return false;
+	}-*/;
+
+	native boolean startExam() /*-{
+		if ($wnd.ggbExamStarted) {
+			$wnd.ggbExamStarted();
+			return true;
+		}
+		$wnd.toggleFullScreen(true);
+		return false;
 	}-*/;
 	
 	private void initActions() {
@@ -88,13 +103,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 									app.getMenu("ExitExamConfirmTitle"),
 					        GOptionPane.CUSTOM_OPTION, GOptionPane.WARNING_MESSAGE, null,
 					        optionNames, new AsyncOperation() {
-						        @Override
-						        public void callback(Object obj) {
-						        	String[] dialogResult = (String[])obj;
-							        if ("1".equals(dialogResult[0])) {
-							        	exitExam();
-							        }
-						        }
+										@Override
+										public void callback(Object obj) {
+											String[] dialogResult = (String[]) obj;
+											if ("1".equals(dialogResult[0])) {
+												if (!exitExam()) {
+													app.getExam().exit();
+												app.showMessage(app.getExam()
+														.getLog());
+												}
+											}
+										}
 					        });
 				}
 			});
@@ -188,11 +207,15 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return new Runnable() {
 
 			public void run() {
+				startExam();
 				app.setExam(new ExamEnvironment());
+				Layout.initializeDefaultPerspectives(app, 0.2);
+				app.getLAF().removeWindowClosingHandler();
 				app.fileNew();
+				app.fireViewsChangedEvent();
 				app.getGuiManager().setGeneralToolBarDefinition(
 						ToolBar.getAllToolsNoMacros(true, true));
-				app.updateToolBar();
+				app.getGgbApi().setPerspective("1");
 				app.getGuiManager().resetMenu();
 				app.examWelcome();
 

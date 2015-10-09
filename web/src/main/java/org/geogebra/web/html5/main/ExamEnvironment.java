@@ -11,7 +11,8 @@ public class ExamEnvironment {
 	private boolean supports3D, supportsCAS;
 	long examStartTime = -1;
 	private LinkedList<Long> cheatingTimes = null;
-	private LinkedList<Boolean> cheatingEvents = null;;
+	private LinkedList<Boolean> cheatingEvents = null;
+	private long closed = -1;
 
 	public long getStart() {
 		return examStartTime;
@@ -91,6 +92,12 @@ public class ExamEnvironment {
 				sb.append("\n");
 			}
 		}
+		if (closed > 0) {
+			sb.append("Exam finished");
+			sb.append(' ');
+			sb.append(DateTimeFormat.getFormat("dd. MM. yyyy, HH:mm:ss")
+					.format(new Date(examStartTime)));
+		}
 		return sb.toString();
 	}
 
@@ -106,5 +113,9 @@ public class ExamEnvironment {
 			secsS = "0" + secsS;
 		}
 		return mins + ":" + secsS;
+	}
+
+	public void exit() {
+		this.closed = System.currentTimeMillis();
 	}
 }

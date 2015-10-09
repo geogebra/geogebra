@@ -8,6 +8,7 @@ import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
@@ -46,6 +47,9 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected Widget loadComponent() {
+		if (!app.supportsView(App.VIEW_EUCLIDIAN3D)) {
+			return new FlowPanel();
+		}
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		view.setDockPanel(this);
 		euclidianpanel = new EuclidianPanel(this,
@@ -56,6 +60,9 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected Widget loadStyleBar() {
+		if (getEuclidianView() == null) {
+			return super.loadStyleBar();
+		}
 		return (Widget) getEuclidianView().getStyleBar();
 	}
 
