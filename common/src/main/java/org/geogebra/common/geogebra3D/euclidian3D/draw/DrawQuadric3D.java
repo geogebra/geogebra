@@ -1108,6 +1108,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		
+		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED
+				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_NOT_SET) {
+			return false;
+		}
+
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_SINGLE_POINT) {
 			if (DrawPoint3D.hit(hitting, quadric.getMidpoint3D(), this, quadric.getLineThickness(), project,
 					parameters, false)){
@@ -1158,19 +1163,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 
-		// TODO remove this
-		if (quadric.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_ELLIPSOID
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_PARABOLOID
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CONE) {
-			return false;
-		}
 
 		quadric.getProjections(null, hitting.origin,
 				hitting.direction, p1, p2);
