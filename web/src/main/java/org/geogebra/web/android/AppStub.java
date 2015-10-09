@@ -224,18 +224,6 @@ public class AppStub extends App {
 	}
 
 	@Override
-	public String getUniqueId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setUniqueId(String uniqueId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void resetUniqueId() {
 		// TODO Auto-generated method stub
 

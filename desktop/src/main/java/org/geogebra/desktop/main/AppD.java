@@ -4709,17 +4709,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
-	private String uniqueId = "" + UUID.randomUUID();
-
-	@Override
-	public String getUniqueId() {
-		return uniqueId;
-	}
-
-	@Override
-	public void setUniqueId(String uniqueId) {
-		this.uniqueId = uniqueId;
-	}
 
 	@Override
 	public void resetUniqueId() {

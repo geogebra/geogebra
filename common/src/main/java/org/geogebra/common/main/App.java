@@ -1738,9 +1738,15 @@ public abstract class App implements UpdateSelection {
 		return settings;
 	}
 
-	public abstract String getUniqueId();
+	protected String uniqueId;
 
-	public abstract void setUniqueId(String uniqueId);
+	public final void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+
+	public final String getUniqueId() {
+		return uniqueId;
+	}
 
 	public abstract void resetUniqueId();
 
@@ -3729,6 +3735,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	public App() {
 		companion = newAppCompanion();
+		resetUniqueId();
 	}
 
 	public SensorLogger getSensorLogger() {

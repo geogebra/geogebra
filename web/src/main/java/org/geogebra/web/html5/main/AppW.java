@@ -146,7 +146,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
-	private String uniqueId = UUIDW.randomUUID().toString();
 	private int localID = -1;
 	private long syncStamp;
 	protected GoogleDriveOperation googleDriveOperation;
@@ -220,16 +219,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			getGuiManager().setPixelRatio(getPixelRatio());
 		}
 
-	}
-
-	@Override
-	public final String getUniqueId() {
-		return uniqueId;
-	}
-
-	@Override
-	public final void setUniqueId(String uniqueId) {
-		this.uniqueId = uniqueId;
 	}
 
 	@Override
