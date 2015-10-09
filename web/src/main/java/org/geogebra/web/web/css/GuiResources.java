@@ -1,5 +1,7 @@
 package org.geogebra.web.web.css;
 
+import org.geogebra.web.html5.util.LessResource;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
@@ -494,4 +496,11 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/web/gui/images/expand24.png")
 	ImageResource expand();
+
+	// New less resources for GEOGEBRA EXAM
+	@Source("org/geogebra/web/exam/css/exam.ltr.less")
+	LessResource examStyleLTR();
+
+	@Source("org/geogebra/web/exam/css/exam.rtl.less")
+	LessResource examStyleRTL();
 }

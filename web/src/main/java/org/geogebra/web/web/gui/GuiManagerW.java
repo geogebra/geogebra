@@ -1332,11 +1332,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (toolbarPanel != null && toolbarPanel.getToolBar() != null) {
 			toolbarPanel.getToolBar().buildGui();
 		}
-		final GGWMenuBar bar = getObjectPool().getGgwMenubar();
-		if (bar != null && bar.getMenubar() != null) {
-			bar.removeMenus();
-			bar.init((AppW) app);
-		}
+		resetMenu();
 
 		if (constProtocolNavigationMap != null) {
 			for (ConstructionProtocolNavigation constProtocolNavigation : constProtocolNavigationMap
@@ -1364,6 +1360,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (browseGUIwasLoaded()) {
 			getBrowseView().setLabels();
 		}
+	}
+
+	public void resetMenu() {
+		final GGWMenuBar bar = getObjectPool().getGgwMenubar();
+		if (bar != null && bar.getMenubar() != null) {
+			bar.removeMenus();
+			bar.init((AppW) app);
+		}
+
 	}
 
 	@Override
