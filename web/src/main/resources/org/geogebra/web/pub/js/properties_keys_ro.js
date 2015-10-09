@@ -2781,6 +2781,7 @@ __GGB__keysVar.ro.plain = {
     "ShowOnlineHelp": "Afi\u015fare ajutor online",
     "ShowOnlyBreakpoints": "Arat\u0103 doar puncte intrerupte",
     "ShowOutliers": "Arat\u0103 valorile aberante",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Afi\u015fare bar\u0103 titlu",
     "ShowTrace": "Afi\u015fare urme",
     "ShowTrimmed": "Afi\u015fare linii de intersec\u021bie",

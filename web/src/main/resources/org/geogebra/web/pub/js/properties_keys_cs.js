@@ -2781,6 +2781,7 @@ __GGB__keysVar.cs.plain = {
     "ShowOnlineHelp": "Zobrazit online n\xe1pov\u011bdu",
     "ShowOnlyBreakpoints": "Zobrazit jen body zastaven\xed",
     "ShowOutliers": "Zobrazit odlehl\xe9",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Zobrazit z\xe1hlav\xed",
     "ShowTrace": "Zobrazit stopu",
     "ShowTrimmed": "Zobrazit \xfaseky prot\xednaj\xedc\xedch se \u010dar",

@@ -2781,6 +2781,7 @@ __GGB__keysVar.pt.plain = {
     "ShowOnlineHelp": "Exibir Ajuda Online",
     "ShowOnlyBreakpoints": "Exibir Somente Pontos de Parada",
     "ShowOutliers": "Exibir Valores Discrepantes",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Exibir Barra de T\xedtulo",
     "ShowTrace": "Exibir Rastro",
     "ShowTrimmed": "Exibir interse\xe7\xe3o parcial",

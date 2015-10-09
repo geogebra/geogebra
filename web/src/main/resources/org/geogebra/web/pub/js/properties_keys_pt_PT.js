@@ -2781,6 +2781,7 @@ __GGB__keysVar.pt_PT.plain = {
     "ShowOnlineHelp": "Mostrar Ajuda Online",
     "ShowOnlyBreakpoints": "Mostrar s\xf3 Pontos de Quebra",
     "ShowOutliers": "Mostrar Outliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Mostrar o T\xedtulo das Folhas",
     "ShowTrace": "Mostrar Tra\xe7o",
     "ShowTrimmed": "Mostrar linhas de interse\xe7\xe3o",

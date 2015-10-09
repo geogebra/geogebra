@@ -2781,6 +2781,7 @@ __GGB__keysVar.sq.plain = {
     "ShowOnlineHelp": "Shfaq Ndihmen Online",
     "ShowOnlyBreakpoints": "Shfaq vetem Pikat Keputese",
     "ShowOutliers": "Shfaq ato jashte grupit",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Shfaq Kornizen e Titullit",
     "ShowTrace": "Shfaq Gjurme",
     "ShowTrimmed": "Shfaq drejtezat nderprerese te krasitura",

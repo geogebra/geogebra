@@ -2781,6 +2781,7 @@ __GGB__keysVar.da.plain = {
     "ShowOnlineHelp": "Vis online hj\xe6lp",
     "ShowOnlyBreakpoints": "Vis kun stoppunkter",
     "ShowOutliers": "Vis Outliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Vis titel bj\xe6lke",
     "ShowTrace": "Vis spor",
     "ShowTrimmed": "Vis tilpassede sk\xe6ringslinjer",

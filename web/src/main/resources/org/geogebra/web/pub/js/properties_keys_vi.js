@@ -2781,6 +2781,7 @@ __GGB__keysVar.vi.plain = {
     "ShowOnlineHelp": "Hi\u1ec3n th\u1ecb tr\u1ee3 gi\xfap tr\u1ef1c tuy\u1ebfn",
     "ShowOnlyBreakpoints": "Ch\u1ec9 hi\u1ec7n th\u1ecb \u0111i\u1ec3m ng\u1eaft",
     "ShowOutliers": "Hi\u1ec3n th\u1ecb c\xe1c gi\xe1 tr\u1ecb b\u1ea5t th\u01b0\u1eddng",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Hi\u1ec3n th\u1ecb thanh ti\xeau \u0111\u1ec1",
     "ShowTrace": "Hi\u1ec3n th\u1ecb d\u1ea5u v\u1ebft khi di chuy\u1ec3n",
     "ShowTrimmed": "Hi\u1ec3n th\u1ecb giao \u0111i\u1ec3m c\xe1c \u0111\u01b0\u1eddng th\u1eb3ng",

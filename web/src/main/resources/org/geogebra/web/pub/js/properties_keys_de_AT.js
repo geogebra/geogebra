@@ -2781,6 +2781,7 @@ __GGB__keysVar.de_AT.plain = {
     "ShowOnlineHelp": "Online Hilfe anzeigen",
     "ShowOnlyBreakpoints": "Nur Haltepunkte anzeigen",
     "ShowOutliers": "Ausrei\xdfer anzeigen",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Titelleiste anzeigen",
     "ShowTrace": "Spur anzeigen",
     "ShowTrimmed": "Gek\xfcrzte Schnittgeraden anzeigen",

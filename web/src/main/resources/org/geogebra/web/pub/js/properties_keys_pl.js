@@ -2781,6 +2781,7 @@ __GGB__keysVar.pl.plain = {
     "ShowOnlineHelp": "Poka\u017c Pomoc online",
     "ShowOnlyBreakpoints": "Poka\u017c tylko punkty przerwania",
     "ShowOutliers": "Poka\u017c zarysy",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Poka\u017c pasek tytu\u0142u",
     "ShowTrace": "Poka\u017c \u015blad",
     "ShowTrimmed": "Poka\u017c przecinaj\u0105ce si\u0119 proste",

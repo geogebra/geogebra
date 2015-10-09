@@ -2781,6 +2781,7 @@ __GGB__keysVar.sr.plain = {
     "ShowOnlineHelp": "Prika\u017ei Online Pomo\u0107",
     "ShowOnlyBreakpoints": "Prika\u017ei samo kontrolne ta\u010dke",
     "ShowOutliers": "Poka\u017ei podatke koji ispadaju",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Prika\u017ei naslovni red",
     "ShowTrace": "Prika\u017ei trag",
     "ShowTrimmed": "Prika\u017ei skra\u0107ene linije preseka",

@@ -2781,6 +2781,7 @@ __GGB__keysVar.hr.plain = {
     "ShowOnlineHelp": "Poka\u017ei pomo\u0107 na Mre\u017ei",
     "ShowOnlyBreakpoints": "Poka\u017ei samo kontrolne to\u010dke",
     "ShowOutliers": "Poka\u017ei str\u0161e\u0107e podatke",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Poka\u017ei traku za naslov",
     "ShowTrace": "Poka\u017ei trag",
     "ShowTrimmed": "Poka\u017ei dijelove crta oko sjeci\u0161ta",

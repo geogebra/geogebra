@@ -2781,6 +2781,7 @@ __GGB__keysVar.ko.plain = {
     "ShowOnlineHelp": "\uc628\ub77c\uc778 \ub3c4\uc6c0\ub9d0 \ubcf4\uc774\uae30",
     "ShowOnlyBreakpoints": "\uc911\ub2e8\uc810\ub9cc \ubcf4\uc774\uae30",
     "ShowOutliers": "\uadf9\ub2e8\uce58 \ubcf4\uae30",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "\uc81c\ubaa9\ubc14 \ubcf4\uc774\uae30",
     "ShowTrace": "\uc790\ucde8 \ubcf4\uc774\uae30",
     "ShowTrimmed": "\uc798\ub824\uc9c4 \uad50\uc120 \ubcf4\uc774\uae30",

@@ -2781,6 +2781,7 @@ __GGB__keysVar.is.plain = {
     "ShowOnlineHelp": "S\xfdna hj\xe1lp \xe1 vef",
     "ShowOnlyBreakpoints": "S\xfdna bara rofsta\xf0i",
     "ShowOutliers": "S\xfdna Outliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "S\xfdna titilr\xf6nd",
     "ShowTrace": "S\xfdna sl\xf3\xf0",
     "ShowTrimmed": "S\xfdna stuttar skur\xf0l\xednur (kross)",

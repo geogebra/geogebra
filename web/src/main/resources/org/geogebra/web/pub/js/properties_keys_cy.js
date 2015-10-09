@@ -2781,6 +2781,7 @@ __GGB__keysVar.cy.plain = {
     "ShowOnlineHelp": "Dangos cymorth ar-lein",
     "ShowOnlyBreakpoints": "Dangos y torbwyntiau'n unig",
     "ShowOutliers": "Show Outliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Dangos y Bar Testun",
     "ShowTrace": "Dangos y olin",
     "ShowTrimmed": "Dangos llinellau croestoriad cwta",

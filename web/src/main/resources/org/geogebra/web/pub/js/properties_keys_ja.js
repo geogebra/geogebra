@@ -2781,6 +2781,7 @@ __GGB__keysVar.ja.plain = {
     "ShowOnlineHelp": "\u30aa\u30f3\u30e9\u30a4\u30f3\u30d8\u30eb\u30d7\u3092\u8868\u793a",
     "ShowOnlyBreakpoints": "\u30d6\u30ec\u30fc\u30af\u30dd\u30a4\u30f3\u30c8\u306e\u307f\u8868\u793a",
     "ShowOutliers": "\u306f\u305a\u308c\u5024\u3092\u8868\u793a",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "\u30bf\u30a4\u30c8\u30eb\u30d0\u30fc\u3092\u8868\u793a",
     "ShowTrace": "\u6b8b\u50cf\u306e\u8868\u793a",
     "ShowTrimmed": "\u30c8\u30ea\u30e0\u3055\u308c\u305f\u5171\u7dda\u3092\u8868\u793a",

@@ -2781,6 +2781,7 @@ __GGB__keysVar.ca.plain = {
     "ShowOnlineHelp": "Mostra l'ajuda en l\xednia",
     "ShowOnlyBreakpoints": "Mostra nom\xe9s els punts d'interrupci\xf3",
     "ShowOutliers": "Mostra valors at\xedpics",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Mostra la barra de t\xedtol",
     "ShowTrace": "Activa el tra\xe7",
     "ShowTrimmed": "Mostra un retall de la intersecci\xf3",

@@ -2781,6 +2781,7 @@ __GGB__keysVar.sv.plain = {
     "ShowOnlineHelp": "Visa online-hj\xe4lp",
     "ShowOnlyBreakpoints": "Visa endast brytpunkter",
     "ShowOutliers": "Visa uteliggare separat",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Visa namnlisten",
     "ShowTrace": "Visa sp\xe5r",
     "ShowTrimmed": "Visa korta sk\xe4rningslinjer",

@@ -2781,6 +2781,7 @@ __GGB__keysVar.gl.plain = {
     "ShowOnlineHelp": "Exp\xf3n axuda en li\xf1a",
     "ShowOnlyBreakpoints": "Amosar s\xf3 os puntos de pausa",
     "ShowOutliers": "Mostrar os valores at\xedpicos",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Exp\xf3n barra de t\xedtulo",
     "ShowTrace": "Amosar rastro",
     "ShowTrimmed": "Amosa intersecci\xf3n en prolongaci\xf3ns",

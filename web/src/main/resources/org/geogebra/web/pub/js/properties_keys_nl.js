@@ -2781,6 +2781,7 @@ __GGB__keysVar.nl.plain = {
     "ShowOnlineHelp": "Toon Online Help",
     "ShowOnlyBreakpoints": "Enkel stoppunten tonen",
     "ShowOutliers": "Toon uitschieters",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Toon titelbalk",
     "ShowTrace": "Spoor tonen",
     "ShowTrimmed": "Toon ingekorte snijlijnen",

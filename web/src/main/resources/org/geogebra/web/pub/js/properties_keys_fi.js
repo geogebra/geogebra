@@ -2781,6 +2781,7 @@ __GGB__keysVar.fi.plain = {
     "ShowOnlineHelp": "N\xe4yt\xe4 online-ohje",
     "ShowOnlyBreakpoints": "N\xe4yt\xe4 vain katkoskohdat",
     "ShowOutliers": "N\xe4yt\xe4 poikkeavat havainnot",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "N\xe4yt\xe4 otsikkopalkki",
     "ShowTrace": "N\xe4yt\xe4 j\xe4lki",
     "ShowTrimmed": "N\xe4yt\xe4 lyhennetyt leikkaavat viivat",

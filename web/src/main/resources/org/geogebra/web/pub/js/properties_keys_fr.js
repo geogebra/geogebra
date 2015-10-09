@@ -2781,6 +2781,7 @@ __GGB__keysVar.fr.plain = {
     "ShowOnlineHelp": "Afficher Aide en Ligne",
     "ShowOnlyBreakpoints": "Ne montrer que les points d'arr\xeat",
     "ShowOutliers": "Afficher les valeurs aberrantes",
+    "ShowSliderInAlgebraView": "Afficher Curseur dans Alg\xe8bre",
     "ShowTitleBar": "Afficher Barre de titres",
     "ShowTrace": "Afficher la trace",
     "ShowTrimmed": "Afficher trac\xe9s d'intersections",

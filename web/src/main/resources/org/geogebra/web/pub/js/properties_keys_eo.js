@@ -2781,6 +2781,7 @@ __GGB__keysVar.eo.plain = {
     "ShowOnlineHelp": "Show Online Help",
     "ShowOnlyBreakpoints": "Show Only Breakpoints",
     "ShowOutliers": "Montri distantojn",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Montri titolan breton",
     "ShowTrace": "Montri spuron",
     "ShowTrimmed": "Show trimmed intersection lines",

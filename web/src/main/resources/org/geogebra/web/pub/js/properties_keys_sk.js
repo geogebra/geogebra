@@ -2781,6 +2781,7 @@ __GGB__keysVar.sk.plain = {
     "ShowOnlineHelp": "uk\xe1za\u0165 on-line n\xe1povedu",
     "ShowOnlyBreakpoints": "Uk\xe1\u017e len body lomu",
     "ShowOutliers": "Uk\xe1za\u0165 od\u013eahl\xe9 hodnoty",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "uk\xe1za\u0165 z\xe1hlavie",
     "ShowTrace": "Zobrazi\u0165 stopu",
     "ShowTrimmed": "Zobrazi\u0165 upraven\xe9 priese\u010dk\xedky priamok",

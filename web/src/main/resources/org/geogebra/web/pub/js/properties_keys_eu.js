@@ -2781,6 +2781,7 @@ __GGB__keysVar.eu.plain = {
     "ShowOnlineHelp": "Erakutsi laguntza linean",
     "ShowOnlyBreakpoints": "Erakutsi eten-puntuak bakarrik",
     "ShowOutliers": "Erakutsi aukerak",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Erakutsi titulu-barra",
     "ShowTrace": "Erakutsi Arrastoa",
     "ShowTrimmed": "Erakutsi ebaki-puntua luzapenetan",

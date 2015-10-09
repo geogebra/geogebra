@@ -2781,6 +2781,7 @@ __GGB__keysVar.lv.plain = {
     "ShowOnlineHelp": "R\u0101d\u012bt Tie\u0161saistes pal\u012bdz\u012bbu",
     "ShowOnlyBreakpoints": "R\u0101d\u012bt tikai l\u016bzuma punktus",
     "ShowOutliers": "R\u0101d\u012bt Netipisko",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "R\u0101d\u012bt Nosaukumu joslu",
     "ShowTrace": "R\u0101d\u012bt tras\u0113jumu",
     "ShowTrimmed": "R\u0101d\u012bt trimmed krustiskas taisnes",

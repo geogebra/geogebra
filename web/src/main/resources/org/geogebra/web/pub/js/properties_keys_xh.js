@@ -2781,6 +2781,7 @@ __GGB__keysVar.xh.plain = {
     "ShowOnlineHelp": "Bonisa uncedo oluOnlayni",
     "ShowOnlyBreakpoints": "Bonisa iiBreakpoints zodwa",
     "ShowOutliers": "Bonisa iiOutliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Bonisa iTitle Bar",
     "ShowTrace": "Bonisa iTrace",
     "ShowTrimmed": "Show trimmed intersection lines",

@@ -2781,6 +2781,7 @@ __GGB__keysVar.mr.plain = {
     "ShowOnlineHelp": "Show Online Help",
     "ShowOnlyBreakpoints": "\u092b\u0915\u094d\u0924 \u0916\u0902\u0921\u092c\u093f\u0902\u0926\u0942 (breakpoints) \u0926\u093e\u0916\u0935\u093e",
     "ShowOutliers": "Show Outliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Show Title Bar",
     "ShowTrace": "\u0918\u091f\u0915\u092e\u093e\u0930\u094d\u0917 (trace) \u0926\u093e\u0916\u0935\u093e",
     "ShowTrimmed": "Show trimmed intersection lines",

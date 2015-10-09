@@ -2781,6 +2781,7 @@ __GGB__keysVar.tr.plain = {
     "ShowOnlineHelp": "\xc7evirim i\xe7i yard\u0131m\u0131 g\xf6ster",
     "ShowOnlyBreakpoints": "Sadece Duraklama Noktalar\u0131n\u0131 g\xf6ster",
     "ShowOutliers": "\xc7izgi d\u0131\u015f\u0131ndakileri G\xf6ster",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Ba\u015fl\u0131k \xe7ubu\u011funu g\xf6ster",
     "ShowTrace": "\u0130zi g\xf6ster",
     "ShowTrimmed": "K\u0131rp\u0131lm\u0131\u015f kesi\u015fim do\u011frular\u0131n\u0131 g\xf6ster",

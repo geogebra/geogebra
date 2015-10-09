@@ -2781,6 +2781,7 @@ __GGB__keysVar.et.plain = {
     "ShowOnlineHelp": "N\xe4ita onlain abi",
     "ShowOnlyBreakpoints": "N\xe4ita ainult katkestuspunkte",
     "ShowOutliers": "N\xe4ita erijuhte/h\xe4lbijaid",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "N\xe4ita tiitelriba",
     "ShowTrace": "N\xe4ita j\xe4lge",
     "ShowTrimmed": "N\xe4ita k\xe4rbitud l\xf5ikuvaid sirgeid",

@@ -2781,6 +2781,7 @@ __GGB__keysVar.tl.plain = {
     "ShowOnlineHelp": "Ipakita ang Tulong sa Internet",
     "ShowOnlyBreakpoints": "Ipakita lang ang mga Breakpoint",
     "ShowOutliers": "Ipakita ang Outliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Ipakita ang Title Bar",
     "ShowTrace": "Ipakita ang Bakas",
     "ShowTrimmed": "Ipakita ang pinutol na linyang nagtagpo",

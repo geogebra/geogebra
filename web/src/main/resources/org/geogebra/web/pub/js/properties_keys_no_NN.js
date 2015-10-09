@@ -2781,6 +2781,7 @@ __GGB__keysVar.no_NN.plain = {
     "ShowOnlineHelp": "Vis Hjelp online",
     "ShowOnlyBreakpoints": "Vis berre etappepunkt",
     "ShowOutliers": "Vis punkt utanfor",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Vis overskriftslinje",
     "ShowTrace": "Vis spor",
     "ShowTrimmed": "Vis skjeringslinjer (kryss)",

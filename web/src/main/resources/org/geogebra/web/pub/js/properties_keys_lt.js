@@ -2781,6 +2781,7 @@ __GGB__keysVar.lt.plain = {
     "ShowOnlineHelp": "Rodyti pagalb\u0105 internete",
     "ShowOnlyBreakpoints": "Rodyti tik tr\u016bkio ta\u0161kus",
     "ShowOutliers": "Rodyti skirtukus",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Rodyti pavadinimo juost\u0105",
     "ShowTrace": "Rodyti p\u0117dsak\u0105",
     "ShowTrimmed": "Rodyti apkirptas susikirtimo tieses",

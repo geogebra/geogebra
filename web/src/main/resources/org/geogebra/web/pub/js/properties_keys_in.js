@@ -2781,6 +2781,7 @@ __GGB__keysVar.in.plain = {
     "ShowOnlineHelp": "Tampilkan Bantuan Online",
     "ShowOnlyBreakpoints": "Tampilkan Hanya Titik Hentinya",
     "ShowOutliers": "Tampilkan Pencilan",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Tampilkan Batang Judul",
     "ShowTrace": "Tampilkan Jejak",
     "ShowTrimmed": "Tampilkan garis perpotongan terpangkas",

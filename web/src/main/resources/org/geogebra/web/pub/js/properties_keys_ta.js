@@ -2781,6 +2781,7 @@ __GGB__keysVar.ta.plain = {
     "ShowOnlineHelp": "Show Online Help",
     "ShowOnlyBreakpoints": "\u0bae\u0bc1\u0bb1\u0bbf\u0bb5\u0bc1\u0baa\u0bcd\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf\u0b95\u0bb3\u0bc8 \u0bae\u0b9f\u0bcd\u0b9f\u0bc1\u0bae\u0bcd \u0b95\u0bbe\u0b9f\u0bcd\u0b9f\u0bc1\u0b95",
     "ShowOutliers": "Show Outliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Show Title Bar",
     "ShowTrace": "\u0ba4\u0b9f\u0ba4\u0bcd\u0ba4\u0bc8\u0b95\u0bcd \u0b95\u0bbe\u0b9f\u0bcd\u0b9f\u0bc1\u0b95",
     "ShowTrimmed": "Show trimmed intersection lines",

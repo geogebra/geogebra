@@ -2781,6 +2781,7 @@ __GGB__keysVar.hu.plain = {
     "ShowOnlineHelp": "Online s\xfag\xf3 mutat\xe1sa",
     "ShowOnlyBreakpoints": "Csak a t\xf6r\xe9spontok mutat\xe1sa",
     "ShowOutliers": "Kiugr\xf3 \xe9rt\xe9kek mutat\xe1sa",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "C\xedmsor mutat\xe1sa",
     "ShowTrace": "Nyomvonal mutat\xe1sa",
     "ShowTrimmed": "Metsz\xe9svonal kiemel\xe9se",

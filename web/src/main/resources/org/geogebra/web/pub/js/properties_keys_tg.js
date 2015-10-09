@@ -2781,6 +2781,7 @@ __GGB__keysVar.tg.plain = {
     "ShowOnlineHelp": "Show Online Help",
     "ShowOnlyBreakpoints": "Show Only Breakpoints",
     "ShowOutliers": "Show Outliers",
+    "ShowSliderInAlgebraView": "Show slider in Algebra View",
     "ShowTitleBar": "Show Title Bar",
     "ShowTrace": "Show Trace",
     "ShowTrimmed": "Show trimmed intersection lines",
