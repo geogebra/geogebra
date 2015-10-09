@@ -6138,7 +6138,7 @@ public abstract class EuclidianController {
 				param = yRW - getStartPointY();
 			}
 		}
-		// make sure we don't show eg 5.2 for slider <-5,5> in the hit treshold
+		// make sure we don't show eg 5.2 for slider <-5,5> in the hit threshold
 		param = Math.max(0, Math.min(movedSlider.getSliderWidth(), param));
 		param = (param * (max - min)) / movedSlider.getSliderWidth();
 
@@ -6171,15 +6171,20 @@ public abstract class EuclidianController {
 			return val;
 		}
 
+		double ret;
+
 		if (val > movedSlider.getValue()) {
-			return Math.min(
+			ret = Math.min(
 					movedSlider.getValue() + movedSlider.getAnimationStep(),
 					movedSlider.getIntervalMax());
+		} else {
+
+			ret = Math.max(
+					movedSlider.getValue() - movedSlider.getAnimationStep(),
+					movedSlider.getIntervalMin());
 		}
 
-		return Math.max(
-				movedSlider.getValue() - movedSlider.getAnimationStep(),
-				movedSlider.getIntervalMin());
+		return Kernel.checkDecimalFraction(ret);
 	}
 
 	/**
@@ -6190,6 +6195,7 @@ public abstract class EuclidianController {
 
 		double newVal = getSliderValue(movedGeoNumeric, click);
 		double oldVal = movedGeoNumeric.getValue();
+		App.debug(newVal + " " + oldVal);
 
 		// don't set the value unless needed
 		// (causes update)
