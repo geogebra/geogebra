@@ -64,7 +64,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	private class ExtendedAVPanel extends CheckboxPanel {
 		public ExtendedAVPanel() {
-			super("show slider in algebra view", app.getLocalization());
+			super("ShowSliderInAlgebraView", app.getLocalization());
 			setModel(new ExtendedAVModel(this));
 		}
 	}
