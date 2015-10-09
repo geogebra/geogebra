@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
  * Minimal interface for Euclidian view
@@ -206,4 +207,6 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	public int getSliderOffsetY();
 
 	public double getMinPixelDistance();
+
+	public EuclidianSettings getSettings();
 }

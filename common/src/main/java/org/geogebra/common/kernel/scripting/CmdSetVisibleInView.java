@@ -7,8 +7,10 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
  * SetVisibleInView
@@ -59,14 +61,22 @@ public class CmdSetVisibleInView extends CmdScripting {
 					break;
 				case -1:
 					viewID = App.VIEW_EUCLIDIAN3D;
-					if (app.hasEuclidianView3D()) {
+					if (app.isEuclidianView3Dinited()) {
 						ev = app.getEuclidianView3D();
 					}
 					break;
 				default:
 					return arg;
 				}
-				
+				if (geo instanceof GeoAxisND) {
+
+					EuclidianSettings evs = app.getSettings().getEuclidian(
+							viewNo < 0 ? 3 : viewNo);
+
+					evs.setShowAxis(((GeoAxisND) geo).getType(), show);
+					geo.updateRepaint();
+					return arg;
+				}
 				if (show) {
 					geo.setEuclidianVisible(true);
 					geo.addView(viewID);
