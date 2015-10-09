@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MaxSizeHashMap;
@@ -309,6 +310,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.setLength(sbCASCommand.length() - 1);
 		// add eg '3'
 		boolean argIsList = false;
+		boolean isAssumeInEqus = false;
+		MyList equsForArgs = new MyList(this.app.getKernel());
+		StringBuilder assumesForArgs = new StringBuilder();
 		if (args.size() == 1 && args.get(0).isExpressionNode()
 				&& name.equals("Point")) {
 			ExpressionNode node = args.get(0);
@@ -321,7 +325,115 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					argIsList = true;
 				}
 			}
+		}
+		// case solve with list of equations
+		else if (name.equals("Solve") && args.size() == 2
+				&& args.get(0).getLeft() instanceof MyList) {
+			// get list of equations from args
+			MyList listOfEqus = (MyList) args.get(0).getLeft();
+			// case Solve[ <List of Equations>, <List of Variables> ]
+			if (args.get(1).getLeft() instanceof MyList) {
+				// get list of parameters
+				MyList listOfVars = (MyList) args.get(1).getLeft();
+				for (int k = 0; k < listOfEqus.size(); k++) {
+					// get vars of current equation
+					HashSet<GeoElement> varsInEqu = listOfEqus
+							.getListElement(k).getVariables();
+					Iterator<GeoElement> it = varsInEqu.iterator();
+					boolean contains = false;
+					// check if current equation contains other vars as
+					// parameters
+					while (it.hasNext()) {
+						GeoElement var = it.next();
+						for (int i = 0; i < listOfVars.size(); i++) {
+							if (listOfVars
+									.getListElement(i)
+									.toString(StringTemplate.defaultTemplate)
+									.equals(var
+											.toString(StringTemplate.defaultTemplate))) {
+								contains = true;
+								break;
+							}
+						}
+						if (contains) {
+							break;
+						}
+					}
+					// if contains other vars as parameters
+					// that means that the current equation is an assumption
+					if (!contains) {
+						if (!isAssumeInEqus) {
+							isAssumeInEqus = true;
+							// call Solve.3
+							sbCASCommand.append(3);
+						}
+						// add current equation to assumptions
+						ExpressionValue ev = listOfEqus.getListElement(k);
+						assumesForArgs.append(toString(ev, symbolic, tpl)
+								+ "),assume(");
+					}
+					// we found an equation which should be solved
+					else {
+						// add current equation to list of equations
+						ExpressionValue ev = listOfEqus.getListElement(k);
+						equsForArgs.addListElement(ev);
+					}
+				}
+			}
+			// case Solve[ <List of Equations>, <Variable> ]
+			else if (args.get(1).getLeft() instanceof GeoDummyVariable) {
+				// get parameter
+				GeoDummyVariable var = (GeoDummyVariable) args.get(1).getLeft();
+				for (int k=0;k<listOfEqus.size();k++) {
+					// get current equation
+					HashSet<GeoElement> varsInEqu = listOfEqus
+							.getListElement(k).getVariables();
+					Iterator<GeoElement> it = varsInEqu.iterator();
+					boolean contains = false;
+					// check if current equation contains only var which is not
+					// the parameter
+					while (it.hasNext()) {
+						GeoElement currVar = it.next();
+						if (currVar
+								.toString(StringTemplate.defaultTemplate)
+								.equals(var
+										.toString(StringTemplate.defaultTemplate))) {
+							contains = true;
+							break;
+						}
+					}
+					// the current equation is an assumption
+					if (!contains) {
+						if (!isAssumeInEqus) {
+							isAssumeInEqus = true;
+							// call Solve.3
+							sbCASCommand.append(3);
+						}
+						// add current equation to assumptions
+						ExpressionValue ev = listOfEqus.getListElement(k);
+						assumesForArgs.append(toString(ev, symbolic, tpl)
+								+ "),assume(");
+					}
+					// the current equation is an equation which should be
+					// solved
+					else {
+						// add current equation to the list of equations
+						ExpressionValue ev = listOfEqus.getListElement(k);
+						equsForArgs.addListElement(ev);
+					}
+				}
+			}
 		} else {
+			sbCASCommand.append(args.size());
+		}
+
+		// remove unwanted part from list of assumptions
+		// remove: ",assume("
+		if (isAssumeInEqus) {
+			assumesForArgs.setLength(assumesForArgs.length() - 9);
+		}
+		// if nr of arguments wasn't appended, append it
+		else if (sbCASCommand.toString().equals("Solve.")) {
 			sbCASCommand.append(args.size());
 		}
 
@@ -452,7 +564,26 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						ev = ((MyList) args.get(0).getLeft())
 								.getListElement(pos);
 						sbCASCommand.append(toString(ev, symbolic, tpl));
-					} else if (name.equals("Solve") && pos == 2
+					} else if (name.equals("Solve")) {
+						// case we have assumptions in equation list
+						if (isAssumeInEqus && args.size() != 3) {
+							// append list of equations
+							if (pos == 0) {
+								sbCASCommand.append(toString(equsForArgs,
+										symbolic, tpl));
+							}
+							// append list of assumptions
+							else if (pos == 2) {
+								sbCASCommand.append(assumesForArgs.toString());
+							}
+							// append list of variables
+							else {
+								ev = args.get(pos);
+								sbCASCommand
+										.append(toString(ev, symbolic, tpl));
+							}
+						}
+						else if (pos == 2
 							&& args.size() == 3
 							&& args.get(2).getLeft() instanceof MyList) {
 						// case solve with list of assumptions
@@ -464,7 +595,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 							sbCASCommand.append("),assume(");
 						}
 						sbCASCommand.setLength(sbCASCommand.length() - 9);
-
+						} else if (pos >= 0 && pos < args.size()) {
+							ev = args.get(pos);
+							sbCASCommand.append(toString(ev, symbolic, tpl));
+						}
 					} else if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
 						ev = args.get(pos);

@@ -645,18 +645,19 @@ public class Ggb2giac {
 		p("Solve.2",
 		// Solve[<Equation in x>,<assumption>]
 		// GGB-134
-				"when ( type(%0) == DOM_SYMBOLIC && type(%1) == DOM_SYMBOLIC , (assume(%1),solve(%0,x))[size(assume(%2),solve(%0,x))-1] , "
+				"when ( type(%0) == DOM_SYMBOLIC && type(%1) == DOM_SYMBOLIC , (assume(%1),solve(%0,x))[size(assume(%1),solve(%0,x))-1] , "
 						// if input equation was only x, interpret as x=0
-						+ "when ( type(%0) == DOM_IDENT && type(%1) == DOM_SYMBOLIC && %0 == 'x', (assume(%1),solve(%0=0,x))[size(assume(%2),solve(%0=0,x))-1] ,"
-						+ "when( size(%1) == 1,"
+						+ "when ( type(%0) == DOM_IDENT && type(%1) == DOM_SYMBOLIC && %0 == 'x', (assume(%1),solve(%0=0,x))[size(assume(%1),solve(%0=0,x))-1] ,"
+						+ "when ( size(%1) == 1,"
 				+ "flatten1(ggbsort(normal([op(solve(%0,%1))]))),"
 						+ "ggbsort(normal([op(solve(%0,%1))])) ) ) )");
 		// solve with assumptions
 		p("Solve.3",
 		// accepted input
 		// Solve[<equation>,<variable>,<assumption>]
-		// or Solve[<equation>,<variable>,<list of assumptions>]
-				"when(type(%0) == DOM_SYMBOLIC && type(%1) == DOM_IDENT , "
+		// or Solve[<list of equations>,<list of variable>,<list of
+		// assumptions>]
+				"when( (type(%0) == DOM_SYMBOLIC || type(%0) == DOM_LIST) && (type(%1) == DOM_IDENT || type(%1) == DOM_LIST) , "
 						+ "(assume(%2),solve(%0,%1))[size(assume(%2),solve(%0,%1))-1] , ? )");
 		p("SolveODE.1", "when((%0)[0]=='=',"
 						// case the equation contains only y and other variable
