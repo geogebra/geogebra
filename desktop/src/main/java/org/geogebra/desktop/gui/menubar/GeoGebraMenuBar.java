@@ -612,12 +612,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append(" ");
 		sb.append(app.getVersionString());
 
-		if (app.getApplet() != null)
+		if (app.getApplet() != null) {
 			sb.append(" Applet");
-		else if (AppD.isWebstartDebug())
-			sb.append(" Debug");
-		else if (AppD.isWebstart())
-			sb.append(" Webstart");
+		}
 	}
 
 	public static void copyDebugInfoToClipboard(AppD app) {

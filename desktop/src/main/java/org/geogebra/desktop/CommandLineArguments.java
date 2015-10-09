@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.main.AppD;
 
 /**
  * Class to parse command line arguments. A list of possible arguments for
@@ -60,31 +59,10 @@ public class CommandLineArguments {
 				// http://jars.geogebra.org/webstart/4.2/jnlp/geogebra-42.jnlp
 				// no -- or - prefix, therefore a filename
 
-				if (cmdArgs[i].indexOf(',') > -1 && AppD.isWebstart()) {
-					// process multiple files from eg
-					// javaws -open "language=en,file1.ggb,file2.ggb"
-					// http://jars.geogebra.org/webstart/4.2/jnlp/geogebra-42.jnlp
-					String[] files = cmdArgs[i].split(",");
-					for (int j = 0; j < files.length; j++) {
-						if (files[j].indexOf('=') > -1) { // check for eg
-															// language=de
-							int equalSignIndex = files[j].lastIndexOf('=');
 
-							if (equalSignIndex > -1) {
-								args.put(files[j].substring(0, equalSignIndex),
-										files[j].substring(equalSignIndex + 1));
-							} else {
-								args.put(files[j], "");
-							}
-						} else {
-							addFile(files[j]);
+				cmdArgs[i] = cmdArgs[i].replaceAll("%20", " ");
+				addFile(cmdArgs[i]);
 
-						}
-					}
-				} else {
-					cmdArgs[i] = cmdArgs[i].replaceAll("%20", " ");
-					addFile(cmdArgs[i]);
-				}
 			} else {
 				App.debug("unknown argument " + cmdArgs[i]);
 			}

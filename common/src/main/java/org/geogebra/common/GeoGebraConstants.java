@@ -39,7 +39,7 @@ public interface GeoGebraConstants {
 	// This is used for checking whether a major update exists (monthly):
 	public static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
 
-	public static final String INSTALLERS_URL = "http://www.geogebra.org/installers";
+	public static final String INSTALLERS_URL = "https://www.geogebra.org/installers";
 	// public static final String INSTALLERS_URL = IS_PRE_RELEASE ?
 	// "http://download.geogebra.org/installers/5.0"
 	// : "http://www.geogebra.org/installers";
@@ -58,7 +58,7 @@ public interface GeoGebraConstants {
 	public static final String GGT_XSD_FILENAME = "ggt.xsd";
 	// URLs
 	/** URL of GeoGebraWeb main js file */
-	public static final String GEOGEBRA_HTML5_BASE = "http://www.geogebra.org/web/"
+	public static final String GEOGEBRA_HTML5_BASE = "https://www.geogebra.org/web/"
 			+ SHORT_VERSION_STRING + "/web/web.nocache.js";
 	/** URL of GeoGebraWeb zip file */
 	// public static final String GEOGEBRAWEB_ZIP_URL =
@@ -76,31 +76,17 @@ public interface GeoGebraConstants {
 			+ "geogebra-jars.zip";
 	/** update directory, typically on Windows */
 	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.0\\jars\\update";
-	/**
-	 * online license file, generated from trunk --- FIXME: create a per version
-	 * file
-	 */
-	public final static String GEOGEBRA_ONLINE_LICENSE = "http://www.geogebra.org/info/gui-_license.txt";
-	/** URL of GeoGebra Webstart (to check whether we are running webstart) */
-	public final static String GEOGEBRA_ONLINE_WEBSTART_BASE = "http://www.geogebra.org/webstart/"
-			+ SHORT_VERSION_STRING + "/";
-	/**
-	 * URL of GeoGebra Webstart (to check whether we are running debug webstart)
-	 */
-	public final static String GEOGEBRA_ONLINE_WEBSTART_BASE_ALTERNATIVE = "http://jars.geogebra.org/webstart/"
-			+ SHORT_VERSION_STRING + "/";
-	/** URL of loading gif */
-	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
+
 	/** GeoGebra URL */
-	public final static String GEOGEBRA_WEBSITE = "http://www.geogebra.org/";
+	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
 	/** 4.2 desktop bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "http://www.geogebra.org/bugs/?v=5.0";
+	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://www.geogebra.org/bugs/?v=5.0";
 	/** web bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_WEB = "http://www.geogebra.org/bugs/?v=web";
+	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://www.geogebra.org/bugs/?v=web";
 	/** GeoGebraTube URL */
-	public final static String GEOGEBRATUBE_WEBSITE = "http://tube.geogebra.org/";
+	public final static String GEOGEBRATUBE_WEBSITE = "https://tube.geogebra.org/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
-	public final static String GEOGEBRATUBE_WEBSITE_BETA = "http://tube-beta.geogebra.org/";
+	public final static String GEOGEBRATUBE_WEBSITE_BETA = "https://tube-beta.geogebra.org/";
 	/** max possible heap space for applets in MB */
 	public final static int MAX_HEAP_SPACE = 1024;
 
@@ -115,11 +101,8 @@ public interface GeoGebraConstants {
 	/** Splash timeout in miliseconds */
 	public static final int SPLASH_DIALOG_DELAY = 1000;
 	/** team page URL */
-	public static final String GGW_ABOUT_TEAM_URL = "http://www.geogebra.org/team";
-	// public static final String
-	// GGW_ABOUT_LICENSE_URL="http://dev.geogebra.org/trac/browser/trunk/geogebra/desktop/geogebra/gui/_license.txt";
-	// public static final String
-	// GGW_ABOUT_LICENSE_URL="http://www.geogebra.org/download/license.txt";
+	public static final String GGW_ABOUT_TEAM_URL = "https://www.geogebra.org/team";
+
 	/** license URL */
 	public static final String GGW_ABOUT_LICENSE_URL = "https://www.geogebra.org/info/?action=AboutLicense";
 
@@ -138,9 +121,6 @@ public interface GeoGebraConstants {
 	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
 	public static final String GOOGLE_TEST_CLIENT_ID = "300173001758.apps.googleusercontent.com";
 	public static final String SKYDRIVE_CLIENT_ID = "00000000440E9093";
-	public static final String SKYDRIVE_REDIRECT_URI = "http://www.geogebra.org/web/test50/web/html/windowslive.html";
-	public static final String SKYDRIVE_PROXY_URL = "html/skydriveproxy.php";
-	public static final String SKYDRIVE_API_URL = "https://js.live.net/v5.0/en/wl.js";
 
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.
@@ -150,12 +130,7 @@ public interface GeoGebraConstants {
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
-	public static final String APPENGINE_REDIRECT_URL = "http://geogebraweb.appspot.com";
-	public static final String APPENGINE_TEST_URL = "http://127.0.0.1:8888/";
-	public static final String GEOIP_URL = "http://www.geogebra.org/geoip/geoip_json.php";
-	public static final String GGT_FORGOT_PWD_URL = "http://www.geogebra.org/forum/ucp.php?mode=sendpassword";
-	public static final String GGT_REGISTER_URL = "http://www.geogebra.org/forum/ucp.php?mode=register";
-	public static final String FORUM_URL = "http://www.geogebra.org/forum/";
+	public static final String FORUM_URL = "https://forum.geogebra.org/";
 	public static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	public static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	public static final String WEB_CUSTOM_HTML_ELEMENT_NAME = "geogebra-web";
@@ -165,7 +140,7 @@ public interface GeoGebraConstants {
 	public static final String DATA_LOGGING_WEBSOCKET_PORT = "80";
 	public static final String DATA_LOGGING_WEBSOCKET_SECURE_PORT = "443";
 
-	public static final String QUICKSTART_URL = "http://tube.geogebra.org/student/b308593";
+	public static final String QUICKSTART_URL = "https://tube.geogebra.org/student/b308593";
 
 	public static int[] VALID_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28, 32, 48 };
 

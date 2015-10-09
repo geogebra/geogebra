@@ -1148,7 +1148,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private void setVersionCheckAllowed(String versionCheckAllow) {
 
-		if (isApplet() || isWebstart()) {
+		if (isApplet()) {
 			versionCheckAllowed = false;
 			return;
 		}
@@ -1283,7 +1283,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public boolean getVersionCheckAllowed() {
 
-		if (isApplet() || isWebstart()) {
+		if (isApplet()) {
 			return false;
 		}
 
@@ -4058,31 +4058,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 
-	}
-
-	final public static boolean isWebstart() {
-		if (codebase == null) {
-			initCodeBase();
-		}
-		return codebase.toString().startsWith(
-				GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE)
-				|| codebase
-						.toString()
-						.startsWith(
-								GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE_ALTERNATIVE);
-	}
-
-	final public static boolean isWebstartDebug() {
-		if (codebase == null) {
-			initCodeBase();
-		}
-		return codebase.toString().startsWith(
-				GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE + "debug")
-				|| codebase
-						.toString()
-						.startsWith(
-								GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE_ALTERNATIVE
-										+ "debug");
 	}
 
 	final public static boolean hasFullPermissions() {
