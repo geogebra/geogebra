@@ -74,12 +74,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/css/web-styles.css")
 	LessResource modernStyle();
 
-	// New less resources for GEOGEBRA EXAM
-	@Source("org/geogebra/web/exam/css/exam.ltr.less")
-	LessResource examStyleLTR();
 
-	@Source("org/geogebra/web/exam/css/exam.rtl.less")
-	LessResource examStyleRTL();
 
 	// New less resources
 	@Source("org/geogebra/web/resources/css/general.ltr.less")

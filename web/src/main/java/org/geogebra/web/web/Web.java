@@ -16,7 +16,6 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.web.gui.laf.ExamLookAndFeel;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.web.gui.laf.SmartLookAndFeel;
@@ -311,10 +310,6 @@ public class Web implements EntryPoint {
 			if ("office"
 					.equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
 				return new OfficeLookAndFeel();
-			}
-
-			if ("exam".equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
-				return new ExamLookAndFeel();
 			}
 		}
 		return new GLookAndFeel();

@@ -23,6 +23,7 @@ public class ResourcesInjector {
 	 */
 	public static String CLASSNAME = "ggw_resource";
 	private static boolean resourcesInjected = false;
+	private static boolean isRTL = false;
 
 	/**
 	 */
@@ -52,10 +53,7 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
 				.getText());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.generalStyleLTR()
-				.getText());
-		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.avStyleLTR().getText());
+		injectLTRstyles();
 
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.jqueryStyle()
 				.getText());
@@ -82,6 +80,14 @@ public class ResourcesInjector {
 		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.gifJs());
 		JavaScriptInjector
 		        .inject(GuiResourcesSimple.INSTANCE.realsenseinfoJs());
+
+	}
+
+	private static void injectLTRstyles() {
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.generalStyleLTR()
+				.getText());
+		StyleInjector
+				.inject(GuiResourcesSimple.INSTANCE.avStyleLTR().getText());
 
 	}
 

@@ -40,8 +40,12 @@ public class ExamEnvironment {
 	public void startCheating() {
 		if (getStart() > 0) {
 			initLists();
-			cheatingTimes.add(System.currentTimeMillis());
-			cheatingEvents.add(true);
+			if (cheatingEvents.size() == 0
+					|| !cheatingEvents.get(cheatingEvents.size() - 1)
+							.booleanValue()) {
+				cheatingTimes.add(System.currentTimeMillis());
+				cheatingEvents.add(true);
+			}
 			App.debug("STARTED CHEATING");
 		}
 
@@ -82,8 +86,8 @@ public class ExamEnvironment {
 			for(int i = 0; i < cheatingTimes.size(); i++){
 				sb.append(timeToString(cheatingTimes.get(i)));
 				sb.append(' ');
-				sb.append(cheatingEvents.get(i) ? "CHEATING ALERT: application left"
-						: "application entered again");
+				sb.append(cheatingEvents.get(i) ? "CHEATING ALERT: exam left"
+						: "exam active again");
 				sb.append("\n");
 			}
 		}

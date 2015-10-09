@@ -123,4 +123,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public GOptionPaneW getOptionPane();
 
 	public void updateToolbarActions();
+
+	public void resetMenu();
 }

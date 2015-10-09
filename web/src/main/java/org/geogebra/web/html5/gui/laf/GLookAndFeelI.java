@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.laf;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamEnvironment;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
@@ -47,5 +46,4 @@ public interface GLookAndFeelI {
 
 	boolean isEmbedded();
 
-	ExamEnvironment getExam();
 }

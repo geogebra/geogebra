@@ -192,6 +192,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super();
 		setPrerelease(ae.getDataParamPrerelease());
+		if (ae.getDataParamPerspective().startsWith("exam")) {
+			exam = new ExamEnvironment();
+			ae.setAttribute("data-param-perspective", "");
+		}
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = ae;
 		this.laf = laf;
@@ -2466,6 +2470,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	};
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
+	private ExamEnvironment exam;
 
 	@Override
 	public void createNewWindow() {
@@ -3292,7 +3297,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public boolean isExam() {
-		return getLAF() != null && getLAF().getExam() != null;
+		return exam != null;
 	}
 
 	public void setCloseBrowserCallback(Runnable runnable) {
@@ -3476,7 +3481,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public ExamEnvironment getExam() {
-		return getLAF() == null ? null : getLAF().getExam();
+		return exam;
+	}
+
+	public void setExam(ExamEnvironment exam) {
+		this.exam = exam;
+
 	}
 
 }
