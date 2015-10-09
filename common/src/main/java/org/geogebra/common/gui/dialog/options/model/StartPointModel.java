@@ -120,7 +120,6 @@ public class StartPointModel extends MultipleOptionsModel {
 				geo.getParentAlgorithm() instanceof AlgoVector) {
 			valid = false;
 		}
-		App.debug("VALID" + geo + ":" + valid);
 		return valid;
 	}
 }
