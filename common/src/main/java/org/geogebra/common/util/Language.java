@@ -40,7 +40,6 @@ public enum Language {
 			true,
 			"arMA",
 			"ar_MA",
-			"ar",
 			Unicode.LeftToRightMark
 					+ "Arabic (Morocco)"
 					+ Unicode.LeftToRightMark
@@ -55,7 +54,6 @@ public enum Language {
 			true,
 			"arTN",
 			"ar_TN",
-			"ar",
 			Unicode.LeftToRightMark
 					+ "Arabic (Tunisia)"
 					+ Unicode.LeftToRightMark
@@ -88,15 +86,15 @@ public enum Language {
 			"Catalan / Catal\u00E0", "catalonia"),
 	// fudge to get right flag
 
-	Valencian(Unicode.CURRENCY_EURO, null, true, "caXV", "ca_XV", "ca",
+	Valencian(Unicode.CURRENCY_EURO, null, true, "caXV", "ca_XV",
 			"Catalan (Valencia) / Catal\u00E0 (Valenci\u00E0)", "valencia"),
 	// fudge to get right flag
 
-	Chinese_Simplified(null, "\u984F", true, "zhCN", "zh_CN", "zh",
+	Chinese_Simplified(null, "\u984F", true, "zhCN", "zh_CN",
 			"Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Country.China,
 			Country.Singapore),
 			
-	Chinese_Traditional(null, "\u984F", true, "zhTW", "zh",
+	Chinese_Traditional(null, "\u984F", true, "zhTW",
 			"zh_TW", "Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587",
 			Country.TaiwanProvinceofChina),
 
@@ -115,7 +113,7 @@ public enum Language {
 			"Dutch / Nederlands (The Netherlands)",
 			Country.Netherlands, Country.Suriname),
 
-	Dutch_Belgium(Unicode.CURRENCY_EURO, null, true, "nlBE", "nl_BE", "nl",
+	Dutch_Belgium(Unicode.CURRENCY_EURO, null, true, "nlBE", "nl_BE",
 			"Dutch / Nederlands (Belgium)",
 			Country.Belgium),
 
@@ -139,11 +137,11 @@ public enum Language {
 			Country.TrinidadTobago, Country.Tuvalu, Country.Uganda,
 			Country.Vanuatu, Country.Zambia, Country.Zimbabwe),
 
-	English_UK(Unicode.CURRENCY_POUND, null, true, "enGB", "en_GB", "en",
+	English_UK(Unicode.CURRENCY_POUND, null, true, "enGB", "en_GB",
 			"English (UK)",
 			Country.UnitedKingdom),
 
-	English_Australia(Unicode.CURRENCY_DOLLAR, null, true, "enAU", "en_AU", "en",
+	English_Australia(Unicode.CURRENCY_DOLLAR, null, true, "enAU", "en_AU",
 			"English (Australia)",
 			Country.Australia),
 
@@ -153,7 +151,7 @@ public enum Language {
 	Estonian(Unicode.CURRENCY_EURO, null, true, "et", "et",
 			"Estonian / Eesti keel", Country.Estonia),
 
-	Filipino(null, null, true, "tl", "tl", "fil", "Filipino", Country.Philippines),
+	Filipino(null, null, true, "tl", "tl", "Filipino", Country.Philippines),
 
 	Finnish(Unicode.CURRENCY_EURO, null, true, "fi", "fi", "Finnish / Suomi",
 			Country.Finland),
@@ -188,14 +186,14 @@ public enum Language {
 			Country.Liechtenstein, Country.Luxembourg, Country.Switzerland,
 			Country.Belgium),
 
-	German_Austria(Unicode.CURRENCY_EURO, null, true, "deAT", "de_AT", "de",
+	German_Austria(Unicode.CURRENCY_EURO, null, true, "deAT", "de_AT",
 			"German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
 
 	Greek(Unicode.CURRENCY_EURO, null, true, "el", "el",
 			"Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC",
 			Country.Greece, Country.Cyprus),
 
-	Hebrew(Unicode.CURRENCY_SHEKEL, "\u05d9", true, "iw", "iw", "he",
+	Hebrew(Unicode.CURRENCY_SHEKEL, "\u05d9", true, "iw", "iw",
 			"Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA",
 			Country.Israel),
 
@@ -214,7 +212,7 @@ public enum Language {
 	Icelandic(null, null, true, "is", "is", "Icelandic / \u00CDslenska",
 			Country.Iceland),
 
-	Indonesian(null, null, true, "in", "in", "id", "Indonesian / Bahasa Indonesia",
+	Indonesian(null, null, true, "in", "in", "Indonesian / Bahasa Indonesia",
 			Country.Indonesia),
 
 	Italian(Unicode.CURRENCY_EURO, null, true, "it", "it",
@@ -275,11 +273,11 @@ public enum Language {
 	Nepalese(Unicode.CURRENCY_RUPEE, "\u0947", true, "ne", "ne",
 			"Nepalese / \u0928\u0947\u092A\u093E\u0932\u0940", Country.Nepal),
 
-	Norwegian_Bokmal(null, null, true, "noNO", "no_NB", "nb",
+	Norwegian_Bokmal(null, null, true, "noNO", "no_NB",
 			"Norwegian / Bokm\u00e5l",
 			Country.Norway),
 
-	Norwegian_Nynorsk(null, null, true, "noNONY", "no_NN", "nn",
+	Norwegian_Nynorsk(null, null, true, "noNONY", "no_NN",
 			"Norwegian / Nynorsk",
 			Country.Norway),
 
@@ -294,7 +292,7 @@ public enum Language {
 	Portuguese_Brazil(null, null, true, "pt", "pt",
 			"Portuguese (Brazil) / Portugu\u00EAs (Brasil)", Country.Brazil),
 
-	Portuguese_Portugal(Unicode.CURRENCY_EURO, null, true, "ptPT", "pt_PT", "pt",
+	Portuguese_Portugal(Unicode.CURRENCY_EURO, null, true, "ptPT", "pt_PT",
 			"Portuguese (Portugal) / Portugu\u00EAs (Portugal)",
 			Country.Portugal, Country.Mozambique, Country.Angola,
 			Country.CapeVerde, Country.GuineaBissau, Country.SaoTomePrincipe,
@@ -336,11 +334,11 @@ public enum Language {
 			Country.Panama, Country.Paraguay, Country.Ecuador, Country.Peru,
 			Country.Venezuela, Country.PuertoRico),
 
-	Spanish_UY(Unicode.CURRENCY_DOLLAR, null, true, "esUY", "es_UY", "es",
+	Spanish_UY(Unicode.CURRENCY_DOLLAR, null, true, "esUY", "es_UY",
 			"Spanish / Espa\u00F1ol (Uruguay)",
 			Country.Uruguay),
 
-	Spanish_ES(Unicode.CURRENCY_EURO, null, true, "esES", "es_ES", "es",
+	Spanish_ES(Unicode.CURRENCY_EURO, null, true, "esES", "es_ES",
 			"Spanish / Espa\u00F1ol (Espa\u00F1a)", Country.Spain),
 
 	Swedish(Unicode.CURRENCY_EURO, null, true, "sv", "sv", "Swedish / Svenska",
@@ -381,7 +379,7 @@ public enum Language {
 			"wales"), 
 			// fudge to get right flag
 
-	Yiddish(Unicode.CURRENCY_SHEKEL, "\u05d9\u05b4", true, "ji", "ji", "yi",
+	Yiddish(Unicode.CURRENCY_SHEKEL, "\u05d9\u05b4", true, "ji", "ji",
 			"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9", Country.Israel);
 
 	// Interlingua(null, true, "ia", "ia", "Interlingua",
@@ -389,8 +387,6 @@ public enum Language {
 
 	public String localeGWT;
 	public String locale;
-	// language code specified by ISO639-1
-	public String localeISO6391;
 	public String name;
 	// official counties which speak that language
 	public Country[] countries;
@@ -410,38 +406,29 @@ public enum Language {
 	 *            currently not used
 	 */
 	Language(String currency, String testChar, boolean fullyTranslated,
-			 String locale,
-			 String localeISO6391,
-			 String localeGWT, String name, String flagName, Country... countries) {
+			String locale, String localeGWT, String name, Country... countries) {
 		this.currency = currency == null ? "$" : currency;
 		this.locale = locale;
-		this.localeISO6391 = localeISO6391;
 		this.localeGWT = localeGWT;
 		this.name = name;
 		this.countries = countries;
+		this.flagName = null;
+		this.fullyTranslated = fullyTranslated;
+		this.testChar = testChar;
+
+	}
+
+	Language(String currency, String testChar, boolean fullyTranslated,
+			String locale, String localeGWT, String name, String flagName) {
+		this.currency = currency == null ? "$" : currency;
+		this.locale = locale;
+		this.localeGWT = localeGWT;
+		this.name = name;
+		this.countries = null;
 		this.flagName = flagName;
 		this.fullyTranslated = fullyTranslated;
 		this.testChar = testChar;
-	}
 
-	Language(String currency, String testChar, boolean fullyTranslated,
-			 String locale,
-			 String localeISO6391,
-			 String localeGWT, String name, Country... countries) {
-		this(currency, testChar, fullyTranslated, locale, localeISO6391, localeGWT, null, name, countries);
-	}
-
-	Language(String currency, String testChar, boolean fullyTranslated,
-			 String locale,
-			 String localeISO6391,
-			 String localeGWT, String name, String flagName) {
-		this(currency, testChar, fullyTranslated, locale, localeISO6391, localeGWT, name, flagName, null);
-	}
-
-	Language(String currency, String testChar, boolean fullyTranslated,
-			 String locale,
-			 String localeGWT, String name, Country... countries) {
-		this(currency, testChar, fullyTranslated, locale, locale, localeGWT, name, null, countries);
 	}
 
 	private static String countryFromGeoIP = null;
