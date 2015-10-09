@@ -6138,23 +6138,14 @@ public abstract class EuclidianController {
 				param = yRW - getStartPointY();
 			}
 		}
-		App.debug("param = " + param);
-		App.debug("movedSlider.getSliderWidth() = "
-				+ movedSlider.getSliderWidth());
-		App.debug("max = " + max);
-		App.debug("min = " + min);
 
 		// make sure we don't show eg 5.2 for slider <-5,5> in the hit threshold
 		param = Math.max(0, Math.min(movedSlider.getSliderWidth(), param));
-		App.debug("param = " + param);
 		param = (param * (max - min)) / movedSlider.getSliderWidth();
-		App.debug("param = " + param);
 
 		// round to animation step scale
 		param = Kernel.roundToScale(param, movedSlider.getAnimationStep());
-		App.debug("param = " + param);
 		double val = min + param;
-		App.debug("val = " + val);
 
 		if (movedSlider.getAnimationStep() > Kernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
@@ -6193,13 +6184,6 @@ public abstract class EuclidianController {
 					movedSlider.getValue() - movedSlider.getAnimationStep(),
 					movedSlider.getIntervalMin());
 		}
-
-		App.debug("ret = " + ret);
-		App.debug("movedSlider.getValue() = " + movedSlider.getValue());
-		App.debug("movedSlider.getAnimationStep() = "
-				+ movedSlider.getAnimationStep());
-		App.debug("movedSlider.getIntervalMin() = "
-				+ movedSlider.getIntervalMin());
 
 		return Kernel.checkDecimalFraction(ret);
 	}
