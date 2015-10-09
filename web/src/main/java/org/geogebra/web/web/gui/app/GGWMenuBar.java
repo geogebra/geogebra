@@ -6,7 +6,6 @@ import org.geogebra.web.web.gui.menubar.MainMenu;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class GGWMenuBar extends Composite {
 	
@@ -25,7 +24,7 @@ public class GGWMenuBar extends Composite {
 	
 	public void init(AppW app) {
 		menubar = (MainMenu) app.getLAF().getMenuBar(app);
-		ggbmenubarwrapper.add((Widget) menubar);
+		ggbmenubarwrapper.add(menubar);
 	}
 	
 	public MainMenu getMenubar() {

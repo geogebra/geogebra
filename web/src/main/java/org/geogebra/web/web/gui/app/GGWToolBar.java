@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -25,6 +26,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.TextDecoration;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -205,7 +207,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	}
 
 	// timer for GeoGebraExam
-	private Label getTimer() {
+	private FlowPanel getTimer() {
 		final Label timer = new Label();
 		timer.getElement().setClassName("timer");
 		timer.getElement().setId("timer");
@@ -228,14 +230,21 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			}
 		});
 		visibilityEventMain();
-		timer.addClickHandler(new ClickHandler() {
+
+		FlowPanel fp = new FlowPanel();
+		fp.add(timer);
+		Image info = new Image(GuiResourcesSimple.INSTANCE.dialog_info()
+				.getSafeUri());
+		fp.add(info);
+		info.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		fp.addDomHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				app.showMessage(app.getExam().getLog());
 
 			}
-		});
-		return timer;
+		}, ClickEvent.getType());
+		return fp;
 
 	}
 
