@@ -161,14 +161,6 @@ public abstract class DrawEquation {
 	/**
 	 * @param app
 	 *            application
-	 * @param b
-	 *            true to use Java fonts
-	 */
-	public abstract void setUseJavaFontsForLaTeX(App app, boolean b);
-
-	/**
-	 * @param app
-	 *            application
 	 * @param geo
 	 *            geo
 	 * @param g2

@@ -311,8 +311,6 @@ public abstract class App implements UpdateSelection {
 	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_NONE
 	 */
 	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
-	/** whether Java fonts shall be used in LaTeX formulas */
-	public boolean useJavaFontsForLaTeX = false;
 
 	/** kernel */
 	protected Kernel kernel;
@@ -323,13 +321,6 @@ public abstract class App implements UpdateSelection {
 
 	protected SelectionManager selection;
 
-	/**
-	 * @return whether Java fonts shall be used by JLatexMath (no effect in Web)
-	 * */
-	public boolean useJavaFontsForLaTeX() {
-		return useJavaFontsForLaTeX;
-
-	}
 
 	/**
 	 * @return capturing threshold
@@ -2547,13 +2538,6 @@ public abstract class App implements UpdateSelection {
 			sb.append("\"");
 
 			sb.append("/>\n");
-		}
-
-		if (!asPreference) {
-			sb.append("\t<graphicsSettings");
-			sb.append(" javaLatexFonts=\"");
-			sb.append(useJavaFontsForLaTeX());
-			sb.append("\"/>\n");
 		}
 
 		getConsProtocolXML(sb);

@@ -1903,11 +1903,6 @@ public class MyXMLHandler implements DocHandler {
 				ok = handleFont(app, attrs);
 			break;
 
-		case 'g':
-			if ("graphicsSettings".equals(eName))
-				ok = handleGraphicsSettings(attrs);
-			break;
-
 		case 'm':
 			if ("menuFont".equals(eName))
 				ok = handleMenuFont(app, attrs);
@@ -2266,20 +2261,6 @@ public class MyXMLHandler implements DocHandler {
 				app.getSettings().getLayout().setAllowStyleBar(allowStyleBar);
 			}
 
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.warn(e.getMessage() + ": " + e.getCause());
-			return false;
-		}
-	}
-
-	private boolean handleGraphicsSettings(LinkedHashMap<String, String> attrs) {
-		try {
-			if ("true".equals(attrs.get("javaLatexFonts")))
-				app.getDrawEquation().setUseJavaFontsForLaTeX(app, true);
-			else if ("false".equals(attrs.get("javaLatexFonts")))
-				app.getDrawEquation().setUseJavaFontsForLaTeX(app, false);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

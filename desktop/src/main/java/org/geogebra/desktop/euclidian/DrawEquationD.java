@@ -257,20 +257,6 @@ public class DrawEquationD extends DrawEquation {
 		return new Dimension(width, height);
 	}
 
-
-
-	public void setUseJavaFontsForLaTeX(final App app, final boolean b) {
-		if (b != app.useJavaFontsForLaTeX) {
-			app.useJavaFontsForLaTeX = b;
-			final String serifFont = b ? "Serif" : null;
-			final String sansSerifFont = b ? "Sans Serif" : null;
-			TeXFormula.registerExternalFont(Character.UnicodeBlock.BASIC_LATIN,
-					sansSerifFont, serifFont);
-			JLaTeXMathCache.clearCache();
-			app.getKernel().notifyRepaint();
-		}
-	}
-
 	final public org.geogebra.common.awt.GDimension drawEquation(final App app,
 			final GeoElement geo, final org.geogebra.common.awt.GGraphics2D g2,
 			final int x, final int y, final String text,

@@ -68,10 +68,6 @@ public class DrawEquationWeb extends DrawEquation {
 		$wnd.cvm.box.init(moduleBaseURL);
 	}-*/;
 
-	public void setUseJavaFontsForLaTeX(App app, boolean b) {
-		// not relevant for web
-	}
-
 	public static String inputLatexCosmetics(String eqstringin) {
 
 		if (eqstringin == null) {
