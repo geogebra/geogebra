@@ -10,6 +10,7 @@ import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -20,6 +21,7 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -32,13 +34,13 @@ import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class AppWFull extends AppW {
@@ -261,6 +263,9 @@ public abstract class AppWFull extends AppW {
 	public void examWelcome(){
 
 		if (isExam() && getExam().getStart() < 0) {
+			Localization loc = getLocalization();
+			StyleInjector
+					.inject(GuiResources.INSTANCE.examStyleLTR().getText());
 			final DialogBoxW box = new DialogBoxW(false, true, null, getPanel());
 			VerticalPanel mainWidget = new VerticalPanel();
 			FlowPanel btnPanel = new FlowPanel();
@@ -268,10 +273,13 @@ public abstract class AppWFull extends AppW {
 			Button btnOk = new Button();
 			mainWidget.add(btnPanel);
 			btnPanel.add(btnOk);
-			btnOk.setText(getMenu("StartExam"));
-			mainWidget.add(new Label(getMenu("WelcomeExam")));
-			final CheckBox cas = new CheckBox("CAS");
-			final CheckBox allow3D = new CheckBox("3D");
+			btnOk.setText(loc.getMenu("StartExam"));
+			// mainWidget.add(new Label(getMenu("WelcomeExam")));
+			final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
+			cas.addStyleName("examCheckbox");
+			final CheckBox allow3D = new CheckBox(
+					loc.getMenu("Perspective.3DGraphics"));
+			allow3D.addStyleName("examCheckbox");
 			mainWidget.add(cas);
 			mainWidget.add(allow3D);
 			cas.setValue(true);
@@ -298,7 +306,7 @@ public abstract class AppWFull extends AppW {
 			box.setWidget(mainWidget);
 			box.getCaption().setText(getMenu("GeoGebraExam"));
 			box.center();
-
+			btnOk.addStyleName("examStartButton");
 			btnOk.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {

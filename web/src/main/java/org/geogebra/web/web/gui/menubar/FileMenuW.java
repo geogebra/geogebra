@@ -1,9 +1,12 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExamEnvironment;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -158,7 +161,21 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			        true, new ExportMenuW(app));
 
 		}
+		if (app.has(Feature.EXAM)) {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_icons_file_export().getSafeUri().asString(),
+					app.getMenu("StartExam"), true), true,
+					new MenuCommand(app) {
 
+						@Override
+						public void doExecute() {
+							((DialogManagerW) app.getDialogManager())
+									.getSaveDialog().showIfNeeded(
+											getExamCallback());
+
+						}
+					});
+		}
 	    app.getNetworkOperation().getView().add(this);
 	    
 	    if (!app.getNetworkOperation().isOnline()) {
@@ -166,6 +183,22 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    }
 	}
 
+	Runnable getExamCallback() {
+
+		return new Runnable() {
+
+			public void run() {
+				app.setExam(new ExamEnvironment());
+				app.fileNew();
+				app.getGuiManager().setGeneralToolBarDefinition(
+						ToolBar.getAllToolsNoMacros(true, true));
+				app.updateToolBar();
+				app.getGuiManager().resetMenu();
+				app.examWelcome();
+
+			}
+		};
+	}
 	/**
 	 * @param online wether the application is online
 	 * renders a the online - offline state of the FileMenu
