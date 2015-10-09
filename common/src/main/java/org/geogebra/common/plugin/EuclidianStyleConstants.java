@@ -21,7 +21,7 @@ public class EuclidianStyleConstants {
 
 	public static final int RIGHT_ANGLE_STYLE_L = 3; // Belgian style
 
-	public static final int DEFAULT_POINT_SIZE = 3;
+	public static final int DEFAULT_POINT_SIZE = 5;
 
 	public static final int DEFAULT_LINE_THICKNESS = 2;
 
