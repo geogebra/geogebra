@@ -140,19 +140,16 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class RadioTreeItem extends AVTreeItem
-		implements
- DoubleClickHandler,
+ implements DoubleClickHandler,
 		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
-		MouseOverHandler, MouseOutHandler, GeoContainer,
-		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
-		TouchEndHandler, LongTouchHandler, EquationEditorListener,
-		RequiresResize {
+		MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
+		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
+		EquationEditorListener, RequiresResize {
 
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
 	static final String CLEAR_COLOR_STR = GColor
-.getColorString(new GColorW(
-			255, 255, 255, 0));
+			.getColorString(new GColorW(255, 255, 255, 0));
 	static final String CLEAR_COLOR_STR_BORDER = GColor
 			.getColorString(new GColorW(220, 220, 220));
 
@@ -166,6 +163,7 @@ public class RadioTreeItem extends AVTreeItem
 		public AVField(int columns, App app, CancelListener listener) {
 			super(columns, app);
 			this.listener = listener;
+			setDeferredFocus(true);
 		}
 
 		@Override
@@ -275,7 +273,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		}
 
-		private void show() {
+		public void show() {
 			setAnimating(false);
 			expandSize();
 			sliderPanel.setVisible(false);
@@ -408,6 +406,14 @@ public class RadioTreeItem extends AVTreeItem
 
 		public void setKeepOpen(boolean keepOpen) {
 			this.keepOpen = keepOpen;
+		}
+
+		public void setMinFocus() {
+			tfMin.requestFocus();
+		}
+
+		public void setMaxFocus() {
+			tfMax.requestFocus();
 		}
 	}
 
@@ -1062,7 +1068,8 @@ GuiResourcesSimple.INSTANCE
 		super.setFirst(first);
 		if (buttonPanel != null) {
 			buttonPanel.getElement().getStyle()
-					.setRight(first ? 46 : 0, Unit.PX);
+.setRight(first ? 46 : 0,
+					Unit.PX);
 		}
 	}
 
@@ -1576,8 +1583,8 @@ GuiResourcesSimple.INSTANCE
 			Element old = LaTeX ? (c != null ? c.getCanvasElement()
 					: seMayLatex) : seNoLatex;
 			String text = geo.getLaTeXAlgebraDescriptionWithFallback(
-substituteNumbers,
-							StringTemplate.latexTemplateMQedit, true);
+					substituteNumbers, StringTemplate.latexTemplateMQedit,
+					true);
 			if (text == null) {
 				return false;
 			}
@@ -1840,7 +1847,7 @@ substituteNumbers,
 		if (avExtension
 				&& (isWidgetHit(animPanel, evt)
 						|| (minMaxPanel != null && minMaxPanel.isVisible()) || isWidgetHit(
-							marblePanel, evt))) {
+marblePanel, evt))) {
 			return;
 		}
 
@@ -1874,10 +1881,10 @@ substituteNumbers,
 
 	protected boolean shouldEditLaTeX() {
 		return (LaTeX || geo.isGeoPoint() || geo.isGeoNumeric())
-		// && !(geo.isGeoVector() && geo.isGeoElement3D())
+				// && !(geo.isGeoVector() && geo.isGeoElement3D())
 				&& (geo.isIndependent()
 						|| (geo.getParentAlgorithm() instanceof AlgoCurveCartesian) || geo
-							.isPointOnPath());
+.isPointOnPath());
 		// AlgoCurveCartesian3D is an instance of AlgoCurveCartesian too
 	}
 
@@ -1983,12 +1990,14 @@ substituteNumbers,
 		if (!avExtension) {
 			return;
 		}
-		boolean minMaxLabelsHit = sliderPanel != null
-				&& (isWidgetHit(slider.getWidget(0), x, y)
-						|| isWidgetHit(slider.getWidget(2), x, y));
+
+		boolean minHit = sliderPanel != null
+				&& isWidgetHit(slider.getWidget(0), x, y);
+		boolean maxHit = sliderPanel != null
+				&& isWidgetHit(slider.getWidget(2), x, y);
 		// Min max panel should be closed
 		if (isAnotherMinMaxOpen() || isClicketOutMinMax(x, y)) {
-			closeMinMaxPanel(!minMaxLabelsHit);
+			closeMinMaxPanel(!(minHit || maxHit));
 		}
 
 		if (isAnotherMinMaxOpen()) {
@@ -2003,8 +2012,14 @@ substituteNumbers,
 
 		if (sliderPanel != null && sliderPanel.isVisible()) {
 
-			if (minMaxLabelsHit) {
+			if (minHit || maxHit) {
 				minMaxPanel.show();
+				if (minHit) {
+					minMaxPanel.setMinFocus();
+				} else if (maxHit) {
+					minMaxPanel.setMaxFocus();
+				}
+
 				return;
 			}
 		}
@@ -2207,7 +2222,7 @@ substituteNumbers,
 			buttonPanel.setVisible(true);
 
 			if (!isThisEdited()) {
-					maybeSetPButtonVisibility(false);
+				maybeSetPButtonVisibility(false);
 			}
 
 			getAV().setActiveTreeItem(this);
