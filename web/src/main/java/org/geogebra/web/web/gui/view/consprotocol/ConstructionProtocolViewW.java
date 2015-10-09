@@ -295,7 +295,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 		if (tableColumns.length > 0) {
 			if (visibleCols > 1) {
-				popupMenu.addSeparator();
+				popupMenu.addVerticalSeparator();
 			}
 			
 			for (int i = 0; i < tableColumns.length; i++) {
@@ -315,7 +315,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 		}
 
-		popupMenu.addSeparator();
+		popupMenu.addVerticalSeparator();
+
 		miShowOnlyBreakpoints = new GCheckBoxMenuItem(
 				app
 				.getLocalization().getPlain("ShowOnlyBreakpoints"),

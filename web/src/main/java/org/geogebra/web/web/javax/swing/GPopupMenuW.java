@@ -23,6 +23,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -158,6 +159,12 @@ public class GPopupMenuW extends org.geogebra.common.javax.swing.GPopupMenu
 
 	public void addSeparator() {
 		popupMenu.addSeparator();
+	}
+
+	public void addVerticalSeparator() {
+		MenuItemSeparator separator = new MenuItemSeparator();
+		separator.getElement().getFirstChildElement().setClassName("Separator");
+		popupMenu.addSeparator(separator);
 	}
 
 	private void addHideCommandFor(MenuItem item) {
