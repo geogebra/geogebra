@@ -303,11 +303,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			// reasons (e.g. the graphics card is problematic), but in such
 			// cases we don't want to show that here.
 			int maxButtons = getMaxButtons();
-			if (maxButtons > 16.5) {
-				Label examLabel = new Label("GeoGebraExam");
-				examLabel.getElement().setClassName("timer");
-				rightButtonPanel.add(examLabel);
-			}
+
 			if (!app.getExam().isCASAllowed()) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()
@@ -984,9 +980,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		int maxButtons = getMaxButtons();
 		if (maxButtons > 0) {
 			toolbars.get(0).setMaxButtons(maxButtons);
-		}
-		if (app.isExam()) {
-			updateActionPanel();
 		}
 
 	}
