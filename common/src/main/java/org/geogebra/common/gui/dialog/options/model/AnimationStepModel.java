@@ -78,7 +78,10 @@ public class AnimationStepModel extends OptionsModel {
 		return true;
 	}
 
-	public void applyChanges(NumberValue value) {
+	public void applyChanges(String text) {
+		NumberValue value = text.length() == 0 ? null : kernel
+				.getAlgebraProcessor().evaluateToNumeric(
+				text, true);
 		boolean isNaN = value == null || Double.isNaN(value.getDouble());
 
 		for (int i = 0; i < getGeosLength(); i++) {

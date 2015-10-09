@@ -90,8 +90,8 @@ public class AnimationStepPanel extends JPanel implements ActionListener,
 	}
 
 	private void doActionPerformed() {
-		model.applyChanges(kernel.getAlgebraProcessor().evaluateToNumeric(
-				tfAnimStep.getText(), true));
+
+		model.applyChanges(tfAnimStep.getText());
 		updatePanel(model.getGeos());
 	}
 

@@ -56,8 +56,7 @@ implements ITextFieldListener {
 	}
 
 	private void doActionPerformed() {
-		model.applyChanges(kernel.getAlgebraProcessor().evaluateToNumeric(
-				tfAnimStep.getText(),true));
+		model.applyChanges(tfAnimStep.getText());
 		//update(model.getGeos());
 	}
 
