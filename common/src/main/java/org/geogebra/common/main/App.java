@@ -1829,26 +1829,6 @@ public abstract class App implements UpdateSelection {
 
 	private boolean scriptingDisabled = false;
 
-	// default changed for ggb42 (consistent with the rest of the sotfware
-	// world)
-	private boolean reverseMouseWheel = true;
-
-	/**
-	 * @return true for scroll up = zoom in
-	 */
-	public boolean isMouseWheelReversed() {
-		return reverseMouseWheel;
-	}
-
-	/**
-	 * @param b
-	 *            true for normal scrolling (scrol up = zoom in), false for
-	 *            oposite setting
-	 */
-	public void reverseMouseWheel(boolean b) {
-		reverseMouseWheel = b;
-	}
-
 	/**
 	 * @param size
 	 *            preferred size
@@ -2509,12 +2489,6 @@ public abstract class App implements UpdateSelection {
 		sb.append("<gui>\n");
 
 		getWindowLayoutXML(sb, asPreference);
-		// just save mouse settings as preference
-		if (asPreference) {
-			sb.append("\t<mouse reverseWheel=\"");
-			sb.append(isMouseWheelReversed());
-			sb.append("\"/>\n");
-		}
 
 		sb.append("\t<font ");
 		sb.append(" size=\"");

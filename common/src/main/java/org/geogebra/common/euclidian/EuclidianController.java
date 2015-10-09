@@ -9758,7 +9758,7 @@ public abstract class EuclidianController {
 			xFactor = 1.5;
 		}
 
-		double reverse = app.isMouseWheelReversed() ? -1 : 1;
+		double reverse = -1;
 
 		double factor = ((delta * reverse) > 0) ? EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 				* xFactor

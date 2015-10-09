@@ -1906,8 +1906,6 @@ public class MyXMLHandler implements DocHandler {
 		case 'm':
 			if ("menuFont".equals(eName))
 				ok = handleMenuFont(app, attrs);
-			else if ("mouse".equals(eName))
-				ok = handleMouse(app, attrs);
 			break;
 
 		case 'l':
@@ -2485,14 +2483,6 @@ public class MyXMLHandler implements DocHandler {
 		} catch (Exception e) {
 			return false;
 		}
-	}
-
-	private static boolean handleMouse(App app,
-			LinkedHashMap<String, String> attrs) {
-		app.reverseMouseWheel("true".equals(attrs.get("reverseWheel")));
-
-		return true;
-
 	}
 
 	private static boolean handleLabelingStyle(App app,

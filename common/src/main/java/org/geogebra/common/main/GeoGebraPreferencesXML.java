@@ -34,7 +34,6 @@ public class GeoGebraPreferencesXML {
 				+ "\" />"
 				+ "<settings ignoreDocument=\"false\" showTitleBar=\"true\" />"
 				+ "<labelingStyle  val=\"0\"/>"
-				+ "<mouse reverseWheel=\"true\"/>"
 				+ "<font  size=\""
 
 				// dynamic bit!
