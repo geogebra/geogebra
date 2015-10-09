@@ -197,6 +197,7 @@ public class RadioTreeItem extends AVTreeItem
 		private Label lblStep;
 		private GeoNumeric num;
 		private boolean keepOpen = false;
+		private boolean focusRequested = false;
 		public MinMaxPanel() {
 			if (geo instanceof GeoNumeric) {
 				num = (GeoNumeric) geo;
@@ -234,6 +235,11 @@ public class RadioTreeItem extends AVTreeItem
 			tfStep.addFocusHandler(new FocusHandler() {
 
 				public void onFocus(FocusEvent event) {
+					if (focusRequested) {
+						event.preventDefault();
+						event.stopPropagation();
+						return;
+					}
 					tfStep.selectAll();
 				}
 			});
@@ -367,12 +373,18 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		public void onMouseUp(MouseUpEvent event) {
-			event.preventDefault();
-			event.stopPropagation();
 			if (isKeepOpen()) {
 				setKeepOpen(false);
 				return;
 			}
+
+			if (focusRequested) {
+				focusRequested = false;
+				return;
+			}
+
+			event.preventDefault();
+			event.stopPropagation();
 
 			if (!(selectAllOnFocus(tfMin, event)
 					|| selectAllOnFocus(tfMax, event)
@@ -410,10 +422,12 @@ public class RadioTreeItem extends AVTreeItem
 
 		public void setMinFocus() {
 			tfMin.requestFocus();
+			focusRequested = true;
 		}
 
 		public void setMaxFocus() {
 			tfMax.requestFocus();
+			focusRequested = true;
 		}
 	}
 
