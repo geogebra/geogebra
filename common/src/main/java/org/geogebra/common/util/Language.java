@@ -65,7 +65,8 @@ public enum Language {
 	// Azerbaijani(null, null, false, "az", "az", "Azerbaijani",
 	// Country.Azerbaijan),
 
-	Basque(Unicode.CURRENCY_EURO, null, true, "eu", "eu", "Basque / Euskara",
+	Basque(Unicode.CURRENCY_EURO, null, true, "eu", "eu", "eu",
+			"Basque / Euskara",
 			"basque"),
 	// fudge to get right flag
 
@@ -82,11 +83,11 @@ public enum Language {
 			"Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A",
 			Country.Bulgaria),
 
-	Catalan(Unicode.CURRENCY_EURO, null, true, "ca", "ca",
+	Catalan(Unicode.CURRENCY_EURO, null, true, "ca", "ca", "ca",
 			"Catalan / Catal\u00E0", "catalonia"),
 	// fudge to get right flag
 
-	Valencian(Unicode.CURRENCY_EURO, null, true, "caXV", "ca_XV",
+	Valencian(Unicode.CURRENCY_EURO, null, true, "caXV", "ca_XV", "ca",
 			"Catalan (Valencia) / Catal\u00E0 (Valenci\u00E0)", "valencia"),
 	// fudge to get right flag
 
@@ -168,7 +169,7 @@ public enum Language {
 			Country.Djibouti, Country.Luxembourg, Country.Vanuatu,
 			Country.Seychelles, Country.Monaco),
 
-	Galician(Unicode.CURRENCY_EURO, null, true, "gl", "gl",
+	Galician(Unicode.CURRENCY_EURO, null, true, "gl", "gl", "gl",
 			"Galician / Galego", "Galician"),
 	// fudge to get right flag
 
@@ -375,7 +376,7 @@ public enum Language {
 			"Vietnamese / Ti\u1EBFng Vi\u1EC7t",
 			Country.VietNam),
 
-	Welsh(null, null, true, "cy", "cy", "Welsh / Cymraeg",
+	Welsh(null, null, true, "cy", "cy", "cy", "Welsh / Cymraeg",
 			"wales"), 
 			// fudge to get right flag
 
@@ -387,6 +388,7 @@ public enum Language {
 
 	public String localeGWT;
 	public String locale;
+	public String localeISO6391;
 	public String name;
 	// official counties which speak that language
 	public Country[] countries;
@@ -406,29 +408,23 @@ public enum Language {
 	 *            currently not used
 	 */
 	Language(String currency, String testChar, boolean fullyTranslated,
-			String locale, String localeGWT, String name, Country... countries) {
+			String locale, String localeGWT, String localeISO6391, String name,
+			String flagName, Country... countries) {
 		this.currency = currency == null ? "$" : currency;
 		this.locale = locale;
 		this.localeGWT = localeGWT;
 		this.name = name;
 		this.countries = countries;
-		this.flagName = null;
-		this.fullyTranslated = fullyTranslated;
-		this.testChar = testChar;
-
-	}
-
-	Language(String currency, String testChar, boolean fullyTranslated,
-			String locale, String localeGWT, String name, String flagName) {
-		this.currency = currency == null ? "$" : currency;
-		this.locale = locale;
-		this.localeGWT = localeGWT;
-		this.name = name;
-		this.countries = null;
+		this.localeISO6391 = localeISO6391;
 		this.flagName = flagName;
 		this.fullyTranslated = fullyTranslated;
 		this.testChar = testChar;
+	}
 
+	Language(String currency, String testChar, boolean fullyTranslated,
+			String locale, String localeGWT, String name, Country... countries) {
+		this(currency, testChar, fullyTranslated, locale, localeGWT, locale,
+				name, null, countries);
 	}
 
 	private static String countryFromGeoIP = null;
