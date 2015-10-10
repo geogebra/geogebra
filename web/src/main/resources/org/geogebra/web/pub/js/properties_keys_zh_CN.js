@@ -2781,7 +2781,7 @@ __GGB__keysVar.zh_CN.plain = {
     "ShowOnlineHelp": "\u5728\u7ebf\u5e2e\u52a9",
     "ShowOnlyBreakpoints": "\u4ec5\u663e\u793a\u65ad\u70b9",
     "ShowOutliers": "\u663e\u793a\u5f02\u5e38\u503c",
-    "ShowSliderInAlgebraView": "Show slider in Algebra View",
+    "ShowSliderInAlgebraView": "\u5728\u4ee3\u6570\u533a\u663e\u793a\u6ed1\u52a8\u6761",
     "ShowTitleBar": "\u663e\u793a\u6807\u9898\u680f",
     "ShowTrace": "\u663e\u793a\u8e2a\u8ff9",
     "ShowTrimmed": "\u4ec5\u663e\u793a\u76f8\u4ea4\u76f4\u7ebf\u5728\u4ea4\u70b9\u9644\u8fd1\u7684\u90e8\u5206",
