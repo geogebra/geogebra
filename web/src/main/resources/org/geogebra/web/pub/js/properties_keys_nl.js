@@ -1890,7 +1890,7 @@ __GGB__keysVar.nl.menu = {
     "Share": "Broncode kopi\xebren",
     "ShareDialogDescription": "Send via email, upload to GeoGebraTube or other repositories.",
     "ShareDialogTitle": "Share Construction",
-    "Shared": "Shared",
+    "Shared": "Gedeeld",
     "Show": "Toon",
     "ShowAtTop": "Toon bovenaan",
     "ShowAxesGrid": "Toon assen en rooster",
