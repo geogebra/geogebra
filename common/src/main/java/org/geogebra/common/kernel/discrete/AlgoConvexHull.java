@@ -130,6 +130,10 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 			return;
 		}
 
+		if (vl.size() == 0) {
+			locus.setUndefined();
+			return;
+		}
 
 		List<GPoint2D.Double> edge = JarvisMarch2D.convexHull(vl);
 		 
