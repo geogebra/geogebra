@@ -344,7 +344,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 		 * @return indices buffer with correct size
 		 */
 		public GLBufferIndices getBufferI(int size) {
-			if (arrayI == null) {
+			if (arrayI == null || hasSharedIndexBuffer) {
 				arrayI = GLFactory.prototype.newBufferIndices();
 			}
 			arrayI.allocate(size);

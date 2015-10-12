@@ -1,9 +1,11 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePlanes;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -77,6 +79,10 @@ public class DrawAngle3D extends Drawable3DCurves {
 			v1 = new Coords(4), v2 = new Coords(4), center = Coords
 					.createInhomCoorsInD3();
 
+	private double size, angleValue, offset;
+
+	private boolean show90degrees;
+
 	@Override
 	protected boolean updateForItSelf() {
 
@@ -88,16 +94,16 @@ public class DrawAngle3D extends Drawable3DCurves {
 		Renderer renderer = getView3D().getRenderer();
 
 		GeoAngle angle = (GeoAngle) getGeoElement();
-		double a = angle.getDouble();
+		angleValue = angle.getDouble();
 
-		if (Kernel.isZero(a)) { // nothing to display
+		if (Kernel.isZero(angleValue)) { // nothing to display
 			setGeometryIndex(-1);
 			setSurfaceIndex(-1);
 			angleVisible = false;
 			return true;
 		}
 
-		double size = angle.getArcSize() / getView3D().getScale();
+		size = angle.getArcSize() / getView3D().getScale();
 		double labelRadius = 1;
 
 		angleVisible = true;
@@ -150,7 +156,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			}
 
 			vn2.setCrossProduct(vn, v1);
-			double a2 = a / 2;
+			double a2 = angleValue / 2;
 			labelCenter.setAdd(tmpCoords.setMul(v1, Math.cos(a2)),
 					labelCenter.setMul(v2, Math.sin(a2)));
 
@@ -166,9 +172,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 			labelCenter.addInside(center);
 
 			// 90degrees
-			boolean show90degrees = getView3D().getApplication().rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
+			show90degrees = getView3D().getApplication().rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 					&& angle.isEmphasizeRightAngle()
-					&& Kernel.isEqual(a, Kernel.PI_HALF);
+					&& Kernel.isEqual(angleValue, Kernel.PI_HALF);
 
 			// outline
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();
@@ -182,6 +188,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				switch (getView3D().getRightAngleStyle()) {
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 					size *= 0.7071067811865;
+					offset = 0;
 					brush.setAffineTexture(0.5f, 0.25f);
 					// segments
 					if (tmpCoords2 == null) {
@@ -200,7 +207,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
 					// arc
 					brush.setAffineTexture(0f, 0f);
-					brush.arc(center, v1, v2, size, 0, a, 60);
+					brush.arc(center, v1, v2, size, 0, angleValue, 60);
 					brush.setAffineTexture(0.5f, 0.25f);
 					// segments
 					brush.segment(center, tmpCoords.setAdd(center,
@@ -216,7 +223,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
 					size *= 0.7071067811865;
-					double offset = size * 0.4;
+					offset = size * 0.4;
 					brush.setAffineTexture(0.5f, 0.25f);
 					// segments
 					if (tmpCoords2 == null) {
@@ -239,7 +246,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			} else {
 				// arc
 				brush.setAffineTexture(0f, 0f);
-				brush.arc(center, v1, vn2, size, 0, a, 60);
+				brush.arc(center, v1, vn2, size, 0, angleValue, 60);
 				brush.setAffineTexture(0.5f, 0.25f);
 				// segments
 				brush.segment(center,
@@ -259,7 +266,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 					break;
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
 					surface.start(getReusableSurfaceIndex());
-					surface.ellipsePart(center, v1, v2, size, size, 0, a);
+					surface.ellipsePart(center, v1, v2, size, size, 0, angleValue);
 					setSurfaceIndex(surface.end());
 					break;
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
@@ -268,7 +275,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				}
 			} else {
 				surface.start(getReusableSurfaceIndex());
-				surface.ellipsePart(center, v1, vn2, size, size, 0, a);
+				surface.ellipsePart(center, v1, vn2, size, size, 0, angleValue);
 				setSurfaceIndex(surface.end());
 			}
 
@@ -384,6 +391,64 @@ public class DrawAngle3D extends Drawable3DCurves {
 	@Override
 	protected float getLabelOffsetY() {
 		return super.getLabelOffsetY() + 5;
+	}
+
+	@Override
+	public boolean hit(Hitting hitting) {
+
+		if (waitForReset) { // prevent NPE
+			return false;
+		}
+
+		if (!angleVisible) {
+			return false;
+		}
+
+
+		hitting.origin.projectPlaneInPlaneCoords(v1, vn2, hitting.direction,
+				center, tmpCoords);
+
+		if (Kernel.isZero(tmpCoords.getW())) {
+			return false;
+		}
+
+		double x = tmpCoords.getX();
+		double y = tmpCoords.getY();
+
+		if (show90degrees) {
+			switch (getView3D().getRightAngleStyle()) {
+			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
+			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
+				if (x < offset || x > size + offset || y < offset
+						|| y > size + offset) {
+					return false;
+				}
+				double z = tmpCoords.getZ();
+				setZPick(z, z);
+				setPickingType(PickingType.POINT_OR_CURVE);
+				return true;
+			}
+		}
+
+		double d = Math.sqrt(x * x + y * y);
+		if (d > size) {
+			return false;
+		}
+
+		double a = Math.atan2(y, x);
+		if (a < 0) {
+			a += Math.PI * 2;
+		}
+		if (a > angleValue) {
+			return false;
+		}
+
+		double z = tmpCoords.getZ();
+
+		setZPick(z, z);
+		setPickingType(PickingType.POINT_OR_CURVE);
+
+		return true;
 	}
 
 }
