@@ -888,6 +888,9 @@ var mouse = $.widget("ui.mouse", {
 					event.stopImmediatePropagation();
 					return false;
 				}
+				if(that._mouseCancel){
+					that._mouseCancel();
+				}
 			});
 
 		this.started = false;

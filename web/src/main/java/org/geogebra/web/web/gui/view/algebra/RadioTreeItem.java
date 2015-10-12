@@ -1476,7 +1476,9 @@ GuiResourcesSimple.INSTANCE
 			}
 			if (hasMinMax
 					&& ((HasExtendedAV) geo).isShowingExtendedAV()) {
-				sliderPanel.add(slider);
+				if (!slider.isAttached()) {
+					sliderPanel.add(slider);
+				}
 				minMaxPanel.setVisible(false);
 				updateSliderColor();
 			} else if (sliderPanel != null) {
