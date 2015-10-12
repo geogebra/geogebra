@@ -18,7 +18,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -46,7 +45,7 @@ import org.geogebra.common.util.Unicode;
  * 
  * @author Michael
  */
-public class DrawTextField extends Drawable implements RemoveNeeded {
+public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	private static final int HIGHLIGHT_MARGIN = 2;
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
@@ -70,7 +69,6 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 	private KeyHandler ifKeyListener;
 	private GBox box;
 
-	private boolean drawOnCanvas;
 
 	/**
 	 * @param view
@@ -82,8 +80,8 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		this.view = view;
 		this.geoTextField = geo;
 		this.geo = geo;
-		drawOnCanvas = view.getApplication()
-				.has(Feature.DRAW_INPUTBOXES_TO_CANVAS);
+		setDrawingOnCanvas(
+				view.getApplication().has(Feature.DRAW_INPUTBOXES_TO_CANVAS));
 		box = geo.getKernel().getApplication().getSwingFactory()
 				.createHorizontalBox(view.getEuclidianController());
 		// action listener for checkBox
@@ -91,7 +89,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		ifListener = new InputFieldListener();
 		ifKeyListener = new InputFieldKeyListener();
 		textField = geoTextField.getTextField(view.getViewID(), this);// SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(),
-		if (drawOnCanvas) {
+		if (isDrawingOnCanvas()) {
 			textField.setDeferredFocus(true);
 		}
 
@@ -103,7 +101,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 
 		// TODO: remove field label totally when DRAW_INPUTBOXES_TO_CANVAS
 		// removed
-		if (!drawOnCanvas) {
+		if (!isDrawingOnCanvas()) {
 			label = geo.getKernel().getApplication().getSwingFactory()
 				.newJLabel("Label", false);
 		}
@@ -122,7 +120,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		// label.addMouseListener(bl);
 		// label.addMouseMotionListener(bl);
 		textField.addKeyHandler(ifKeyListener);
-		if (!drawOnCanvas) {
+		if (!isDrawingOnCanvas()) {
 			box.add(label);
 		}
 		box.add(textField);
@@ -196,7 +194,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 			if (!textField.getText().equals(initialText)) {
 				geoTextField.textObjectUpdated(textField);
 				geoTextField.textSubmitted();
-				if (drawOnCanvas) {
+				if (isDrawingOnCanvas()) {
 					draw(view.getGraphicsForPen());
 				}
 			}
@@ -233,7 +231,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 				// Force focus removal in IE
 				textField.setFocus(false);
 				getView().requestFocusInWindow();
-				if (drawOnCanvas) {
+				if (isDrawingOnCanvas()) {
 					textField.setVisible(false);
 					draw(view.getGraphicsForPen());
 					geoTextField.setText(textField.getText());
@@ -281,12 +279,12 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
 
-		textField.setVisible(drawOnCanvas ? false : isVisible);
+		textField.setVisible(isDrawingOnCanvas() ? false : isVisible);
 		if (label != null) {
-			label.setVisible(drawOnCanvas ? false : isVisible);
+			label.setVisible(isDrawingOnCanvas() ? false : isVisible);
 		}
 
-		box.setVisible(drawOnCanvas ? false : isVisible);
+		box.setVisible(isDrawingOnCanvas() ? false : isVisible);
 		int length = geoTextField.getLength();
 		if (length != oldLength) {
 			textField.setColumns(length);
@@ -356,7 +354,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
-		if (!drawOnCanvas) {
+		if (!isDrawingOnCanvas()) {
 			draw(view.getGraphicsForPen());
 		}
 	}
@@ -385,7 +383,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-			if (drawOnCanvas) {
+			if (isDrawingOnCanvas()) {
 
 				drawOnCanvas(g2);
 			} else {
@@ -554,7 +552,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
 		boolean res = false;
-		if (drawOnCanvas) {
+		if (isDrawingOnCanvas()) {
 			int left = xLabel;
 			int top = boxTop;
 			int right = left + labelSize.x + boxWidth;
@@ -574,7 +572,7 @@ public class DrawTextField extends Drawable implements RemoveNeeded {
 	}
 
 	public void showIntputField(boolean show) {
-		if (!drawOnCanvas) {
+		if (!isDrawingOnCanvas()) {
 			return;
 		}
 		if (show) {
