@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Unicode;
 
 /**
@@ -49,6 +50,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
 	private org.geogebra.common.javax.swing.GLabel label;
 	private org.geogebra.common.javax.swing.GBox box;
+	private boolean drawOnCanvas;
 
 	/**
 	 * Creates new drawable list
@@ -62,36 +64,49 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		this.view = view;
 		this.geoList = geoList;
 		geo = geoList;
+		drawOnCanvas = view.getApplication()
+				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS);
 
 		reset();
 
 		update();
 	}
 
+	private void resetWidgets() {
+		if (label == null) {
+			label = view.getApplication().getSwingFactory().newJLabel("Label",
+					true);
+			label.setVisible(true);
+		}
+
+		if (comboBox == null) {
+			comboBox = geoList.getComboBox(view.getViewID());
+			comboBox.setVisible(true);
+			comboBox.addActionListener(AwtFactory.prototype
+					.newActionListener(new DrawList.ActionListener()));
+		}
+
+		if (box == null) {
+			box = view.getApplication().getSwingFactory()
+					.createHorizontalBox(view.getEuclidianController());
+			box.add(label);
+			box.add(comboBox);
+		}
+		view.add(box);
+	}
+
+	private void resetOnCanvas() {
+
+	}
+
 	private void reset() {
 
 		if (geoList.drawAsComboBox()) {
-
-			if (label == null) {
-				label = view.getApplication().getSwingFactory()
-						.newJLabel("Label", true);
-				label.setVisible(true);
+			if (drawOnCanvas) {
+				resetOnCanvas();
+			} else {
+				resetWidgets();
 			}
-
-			if (comboBox == null) {
-				comboBox = geoList.getComboBox(view.getViewID());
-				comboBox.setVisible(true);
-				comboBox.addActionListener(AwtFactory.prototype
-						.newActionListener(new DrawList.ActionListener()));
-			}
-
-			if (box == null) {
-				box = view.getApplication().getSwingFactory()
-						.createHorizontalBox(view.getEuclidianController());
-				box.add(label);
-				box.add(comboBox);
-			}
-			view.add(box);
 
 		} else {
 
@@ -256,6 +271,11 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		if (geoList.drawAsComboBox()) {
+			if (drawOnCanvas) {
+				drawOnCanvas(g2);
+				return;
+			}
+
 			if (isVisible) {
 				if (geo.doHighlighting()) {
 					label.setOpaque(true);
@@ -285,6 +305,13 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 				}
 			}
 		}
+	}
+
+	/*
+	 * Draws the list and its label directly on canvas
+	 */
+	final public void drawOnCanvas(org.geogebra.common.awt.GGraphics2D g2) {
+
 	}
 
 	/**

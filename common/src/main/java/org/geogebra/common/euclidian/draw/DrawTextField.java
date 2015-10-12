@@ -12,6 +12,7 @@
 
 package org.geogebra.common.euclidian.draw;
 
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -27,7 +28,6 @@ import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -46,7 +46,6 @@ import org.geogebra.common.util.Unicode;
  * @author Michael
  */
 public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
-	private static final int HIGHLIGHT_MARGIN = 2;
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
 	private static final double TF_WIDTH_FACTOR = 0.81;
@@ -67,7 +66,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	// ButtonListener bl;
 	private InputFieldListener ifListener;
 	private KeyHandler ifKeyListener;
-	private GBox box;
 
 
 	/**
@@ -263,18 +261,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 	private int oldLength = 0;
 
-	private GDimension prefSize;
-
-	private GFont labelFont;
-
-	private GPoint labelSize = new GPoint(0, 0);
-
-	private int labelFontSize;
-	private int boxLeft;
-	private int boxTop;
-	private int boxWidth;
-	private int boxHeight;
-
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
@@ -317,13 +303,13 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 			}
 		}
 
-		labelFontSize = (int) (view.getFontSize()
-				* geoTextField.getFontSizeMultiplier());
+		setLabelFontSize((int) (view.getFontSize()
+				* geoTextField.getFontSizeMultiplier()));
 		App app = view.getApplication();
 
 		GFont vFont = view.getFont();
 		GFont font = app.getFontCanDisplay(textField.getText(), false,
-				vFont.getStyle(), labelFontSize);
+				vFont.getStyle(), getLabelFontSize());
 
 		textField.setOpaque(true);
 		if (label != null) {
@@ -349,17 +335,18 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 
-		prefSize = box.getPreferredSize();
+		setPreferredSize(box.getPreferredSize());
 
-		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
-				prefSize.getHeight());
+		labelRectangle.setBounds(xLabel, yLabel, getPreferredSize().getWidth(),
+				getPreferredSize().getHeight());
 		box.setBounds(labelRectangle);
 		if (!isDrawingOnCanvas()) {
 			draw(view.getGraphicsForPen());
 		}
 	}
 
-	final public GDimension getPrefSize() {
+	@Override
+	public GDimension getPreferredSize() {
 		// TODO: eliminate magic numbers
 		return new GDimension() {
 
@@ -384,8 +371,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (isDrawingOnCanvas()) {
-
-				drawOnCanvas(g2);
+				drawOnCanvas(g2, geoTextField.getText());
 			} else {
 				if (geo.doHighlighting()) {
 					label.setOpaque(true);
@@ -398,48 +384,10 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
-	final public void drawOnCanvas(org.geogebra.common.awt.GGraphics2D g2) {
-		App app = view.getApplication();
-		prefSize = getPrefSize();
 
-		GFont vFont = view.getFont();
-		labelFont = app.getFontCanDisplay(textField.getText(), false,
-				vFont.getStyle(), labelFontSize);
-
-		g2.setFont(labelFont);
-		g2.setStroke(EuclidianStatic.getDefaultStroke());
-
-		g2.setPaint(geo.getObjectColor());
-
-		if (geo.isVisible()) {
-
-			drawTextField(g2);
-
-		}
-
-	}
-
-	private void drawTextField(GGraphics2D g2) {
-		boolean latexLabel = false;
-		boolean hasLabel = geo.isLabelVisible();
-		if (hasLabel) {
-			latexLabel = isLatexString(labelDesc);
-			// no drawing, just measuring.
-			if (latexLabel) {
-				GDimension d = drawLatex(g2, labelDesc, xLabel, yLabel);
-				labelSize.x = d.getWidth();
-				labelSize.y = d.getHeight();
-			} else {
-				labelSize = EuclidianStatic
-
-				.drawIndexedString(view.getApplication(), g2, labelDesc, 0, 0,
-						false, false, false);
-			}
-			calculateBoxBounds(latexLabel);
-		} else {
-			calculateBoxBounds();
-		}
-
+	@Override
+	protected void drawWidget(GGraphics2D g2) {
+		boolean latexLabel = measureLabel(g2, geoTextField);
 		int textLeft = boxLeft + 2;
 		int textBottom = boxTop + getTextBottom();
 
@@ -453,19 +401,12 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		textField.drawBounds(g2, bgColor, boxLeft, boxTop,
 				boxWidth, boxHeight);
 
-		// Label highlight
-		if (hasLabel && geo.doHighlighting()) {
-			if (latexLabel) {
-				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
-			} else {
-				g2.fillRect(xLabel, yLabel + ((boxHeight - getH()) / 2),
-						labelSize.x, getH() + HIGHLIGHT_MARGIN);
-			}
-		}
+		highlightLabel(g2, latexLabel);
+
 		g2.setPaint(geo.getObjectColor());
 
-		if (hasLabel) {
-			drawTextFieldLabel(g2);
+		if (geo.isLabelVisible()) {
+			drawLabel(g2, geoTextField);
 		}
 
 		String text = geoTextField.getText();
@@ -479,10 +420,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 				false);
 	}
 
-	private int getH() {
-		return (int) (labelFontSize * 1.2 + HIGHLIGHT_MARGIN);
 
-	}
 	private int getTruncIndex(String text, GGraphics2D g2) {
 		int idx = text.length();
 		int mt = g2.getFontRenderContext().measureTextWidth(text, g2.getFont());
@@ -495,48 +433,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		return idx;
 	}
 
-	private void calculateBoxBounds(boolean latex) {
-		boxLeft = xLabel + labelSize.x + 2;
-		boxTop = latex ? yLabel + (labelSize.y - prefSize.getHeight()) / 2
-				: yLabel;
-		boxWidth = prefSize.getWidth();
-		boxHeight = prefSize.getHeight();
-	}
 
-	private void calculateBoxBounds() {
-		boxLeft = xLabel + 2;
-		boxTop = yLabel;
-		boxWidth = prefSize.getWidth();
-		boxHeight = prefSize.getHeight();
-	}
-
-	public static boolean isLatexString(String text) {
-		return text.startsWith("$") && text.trim().endsWith("$");
-	}
-
-	protected GDimension drawLatex(GGraphics2D g2, String text, int x, int y) {
-		App app = view.getApplication();
-		return app.getDrawEquation().drawEquation(app, geoTextField, g2, x, y,
-				text, labelFont, false, geo.getObjectColor(),
-				geo.getBackgroundColor(), false, false, null);
-	};
-
-	private int getTextBottom() {
-		return (prefSize.getHeight() / 2) + (int) (labelFontSize * 0.4);
-	}
-
-	private void drawTextFieldLabel(GGraphics2D g2) {
-
-		if (isLatexString(labelDesc)) {
-			drawLatex(g2, labelDesc, xLabel, yLabel);
-		} else {
-			g2.setPaint(geo.getObjectColor());
-
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-					labelDesc, xLabel, yLabel + getTextBottom(), false, false);
-		}
-
-	}
 
 	/**
 	 * Removes button from view again
@@ -545,31 +442,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		view.remove(box);
 	}
 
-	/**
-	 * was this object clicked at? (mouse pointer location (x,y) in screen
-	 * coords)
-	 */
-	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
-		boolean res = false;
-		if (isDrawingOnCanvas()) {
-			int left = xLabel;
-			int top = boxTop;
-			int right = left + labelSize.x + boxWidth;
-			int bottom = top + boxHeight;
-			//
-			res = (x > left && x < right && y > top && y < bottom)
-					|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
-							&& y < yLabel + labelSize.y);
-			;
-			// if (res) {
-			// App.debug("[DrawTextFied] hit");
-			// }
-		} else {
-			res = box.getBounds().contains(x, y);
-		}
-		return res;
-	}
+
 
 	public void showIntputField(boolean show) {
 		if (!isDrawingOnCanvas()) {
