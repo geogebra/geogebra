@@ -529,6 +529,7 @@ public class ProverBotanasMethod {
 			if (algo instanceof AlgoDependentBoolean) {
 				Operation operation = ((AlgoDependentBoolean) algo)
 						.getOperation();
+				boolean trustable = ((AlgoDependentBoolean) algo).isTrustable();
 				if (operation == Operation.IS_ELEMENT_OF) {
 					if (algo.input[0] instanceof GeoConic
 							&& (((GeoConic) algo.input[0]).isEllipse() || ((GeoConic) algo.input[0])
@@ -540,8 +541,8 @@ public class ProverBotanasMethod {
 						interpretTrueAsUndefined = true;
 					}
 				} else if (operation == Operation.EQUAL_BOOLEAN) {
-					if (algo.input[0] instanceof GeoAngle
-							&& algo.input[1] instanceof GeoAngle) {
+					if ((algo.input[0] instanceof GeoAngle && algo.input[1] instanceof GeoAngle)
+							|| !trustable) {
 						interpretTrueAsUndefined = true;
 					}
 				}

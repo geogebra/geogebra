@@ -58,6 +58,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	private ArrayList<Polynomial> extraPolys = new ArrayList<Polynomial>();
 	private int nrOfMaxDecimals;
 
+	private boolean trustable = true;
+
 	private ExpressionNode root; // input
 	private GeoBoolean bool; // output
 
@@ -621,8 +623,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			if (root.getLeftTree().isExpressionNode()
 					&& root.getRightTree().isExpressionNode()
 					&& !rootCheck.getTrustable()) {
-				throw new NoSymbolicParametersException(); // not safe
-															// expressions
+				trustable = false;
+				// not safe
+				// expressions
 			}
 			Polynomial[][] ret = null;
 			return ret;
@@ -632,6 +635,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	// TODO Consider locusequability
+
+	/**
+	 * @return true - if root contains segment squares false - otherwise
+	 */
+
+	public boolean isTrustable() {
+		return trustable;
+	}
 
 	/**
 	 * @return input expression
