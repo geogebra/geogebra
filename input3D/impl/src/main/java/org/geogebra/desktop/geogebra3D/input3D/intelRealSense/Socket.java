@@ -27,10 +27,22 @@ import org.geogebra.common.util.debug.Log;
 public class Socket {
 
 
-	private static double SCREEN_REAL_DIM_FACTOR = 1 / 0.1;
-	private static double SIDE_OFFSET = 0.75;
-	private static float DEPTH_ZERO = 0.4f;
-	private static int SAMPLES = 7;
+	/**
+	 * factor screen / real world
+	 */
+	static double SCREEN_REAL_DIM_FACTOR = 1 / 0.1;
+	/**
+	 * right/left side offset
+	 */
+	static double SIDE_OFFSET = 0.75;
+	/**
+	 * origin point depth
+	 */
+	static float DEPTH_ZERO = 0.4f;
+	/**
+	 * samples used for average
+	 */
+	static int SAMPLES = 7;
 	
 
 	/** hand x position */
@@ -40,17 +52,24 @@ public class Socket {
 	/** hand z position */
 	public double handZ;
 
-	public double handOrientationX, handOrientationY, handOrientationZ, handOrientationW;
+	public double handOrientationX, handOrientationY, handOrientationZ,
+			handOrientationW;
 
 	public double leftEyeX, leftEyeY, leftEyeZ;
 	public double rightEyeX, rightEyeY, rightEyeZ;
 	public double glassesCenterX, glassesCenterY, glassesCenterZ;
-	public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
+	public double glassesOrientationX, glassesOrientationY,
+			glassesOrientationZ, glassesOrientationW;
 
-	public boolean rightButton = false, leftButton = false;
+	/**
+	 * right button state
+	 */
+	public boolean rightButton = false;
+	/**
+	 * left button state
+	 */
+	public boolean leftButton = false;
 	
-	public float hand2Dx, hand2Dy, hand2Dfactor;
-
 	/** says if it has got a message from realsense */
 	public boolean gotMessage = false;      
 
@@ -72,7 +91,7 @@ public class Socket {
 
 		protected float[] worldX, worldY, worldZ;
 		
-		protected float[] handOrientationX, handOrientationY, handOrientationZ, handOrientationW;
+		protected float[] orientationX, orientationY, orientationZ, orientationW;
 		
 		public DataSampler(int samples){
 			this.samples = samples;
@@ -84,10 +103,10 @@ public class Socket {
 			worldZ = new float[samples];
 			
 			
-			handOrientationX = new float[samples];
-			handOrientationY = new float[samples];
-			handOrientationZ = new float[samples];
-			handOrientationW = new float[samples];
+			orientationX = new float[samples];
+			orientationY = new float[samples];
+			orientationZ = new float[samples];
+			orientationW = new float[samples];
 			
 			resetSide();
 
@@ -199,10 +218,10 @@ public class Socket {
 					worldX[i] = wx;
 					worldY[i] = wy;
 					worldZ[i] = wz;
-					handOrientationX[i] = ox;
-					handOrientationY[i] = oy;
-					handOrientationZ[i] = oz;
-					handOrientationW[i] = ow;
+					orientationX[i] = ox;
+					orientationY[i] = oy;
+					orientationZ[i] = oz;
+					orientationW[i] = ow;
 				}
 				
 				worldXSum = wx * samples;
@@ -235,20 +254,20 @@ public class Socket {
 			worldZSum += worldZ[index];
 			
 			
-			handOrientationXSum -= handOrientationX[index];
-			handOrientationYSum -= handOrientationY[index];
-			handOrientationZSum -= handOrientationZ[index];
-			handOrientationWSum -= handOrientationW[index];
+			handOrientationXSum -= orientationX[index];
+			handOrientationYSum -= orientationY[index];
+			handOrientationZSum -= orientationZ[index];
+			handOrientationWSum -= orientationW[index];
 
-			handOrientationX[index] = ox;
-			handOrientationY[index] = oy;
-			handOrientationZ[index] = oz;
-			handOrientationW[index] = ow;
+			orientationX[index] = ox;
+			orientationY[index] = oy;
+			orientationZ[index] = oz;
+			orientationW[index] = ow;
 
-			handOrientationXSum += handOrientationX[index];
-			handOrientationYSum += handOrientationY[index];
-			handOrientationZSum += handOrientationZ[index];
-			handOrientationWSum += handOrientationW[index];
+			handOrientationXSum += orientationX[index];
+			handOrientationYSum += orientationY[index];
+			handOrientationZSum += orientationZ[index];
+			handOrientationWSum += orientationW[index];
 
 			index++;
 			if (index >= samples){
@@ -311,9 +330,20 @@ public class Socket {
 	private Input3D.OutOfField handOut;
 
 	
-	private boolean resetAllValues = false;
+	/**
+	 * says if we need to reset all values
+	 */
+	boolean resetAllValues = false;
 	
-	private void setAlert(int id, AlertType type){
+	/**
+	 * cam set alert, this updates the hand in/out status
+	 * 
+	 * @param id
+	 *            hand id
+	 * @param type
+	 *            alert type
+	 */
+	void setAlert(int id, AlertType type) {
 		
 		// App.debug("alert hand #" + id + " : " + type);
 		
@@ -356,6 +386,12 @@ public class Socket {
 	}
 	
 
+	/**
+	 * Create a "Socket" for realsense camera
+	 * 
+	 * @throws Exception
+	 *             when fails
+	 */
 	public Socket() throws Exception {
 
 		Log.debug("Try to connect realsense...");
@@ -388,38 +424,19 @@ public class Socket {
 		}
 
 		dataSampler = new DataAverage(SAMPLES);
-		//dataSampler = new DataMedian(SAMPLES);
 
 		sts = senseMgr.Init();
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)>=0) {
 			PXCMHandModule handModule = senseMgr.QueryHand(); 
 			PXCMHandConfiguration handConfig = handModule.CreateActiveConfiguration(); 
 
-			// handConfig.EnableAllGestures();
 
 			handConfig.EnableAllAlerts();
 
-			// enables stabilizer and smoothing
-			// pxcmStatus status = handConfig.EnableStabilizer(true);
-			// App.debug("EnableStabilizer: " + status.isSuccessful());
-			// status = handConfig.SetSmoothingValue(1);
-			// App.debug("SetSmoothingValue to 1: " + status.isSuccessful());
-			
-			// GestureHandler handler = new GestureHandler() {
-			// @Override
-			// public void OnFiredGesture(GestureData data) {
-			// //App.debug(""+data.name+" -- "+data.handId);
-			// setGesture(data.handId, data.name);
-			// }
-			// };
-			// handConfig.SubscribeGesture(handler);
-			
 			AlertHandler alertHandler = new AlertHandler() {
 				
 				@Override
 				public void OnFiredAlert(intel.rssdk.PXCMHandData.AlertData data) {
-					// App.debug("alert : " + data.handId + ", "
-					// + data.label.name());
 					setAlert(data.handId, data.label);
 				}
 			};
@@ -452,6 +469,11 @@ public class Socket {
 
 
 
+	/**
+	 * get data from camera
+	 * 
+	 * @return true if data have been produced
+	 */
 	public boolean getData(){
 
 		if (!connected)
@@ -462,9 +484,8 @@ public class Socket {
 			gotMessage = false;
 			senseMgr.ReleaseFrame();
 			return false;
-		};
+		}
 
-		// PXCMCapture.Sample sample = senseMgr.QueryHandSample();
 
 		// Query and Display Joint of Hand or Palm
 		handData.Update(); 
@@ -472,7 +493,6 @@ public class Socket {
 		sts = handData.QueryHandData(PXCMHandData.AccessOrderType.ACCESS_ORDER_NEAR_TO_FAR, 0, hand);
 
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR) >= 0) {
-			// PXCMPointF32 image = hand.QueryMassCenterImage();
 			PXCMPoint3DF32 world = hand.QueryMassCenterWorld();
 			PXCMPoint4DF32 palmOrientation = hand.QueryPalmOrientation();
 			BodySideType handSide = hand.QueryBodySide();
@@ -513,11 +533,7 @@ public class Socket {
 			gotMessage = false;
 		}
 
-
 		senseMgr.ReleaseFrame();
-
-		
-
 
 		return true;
 	}
@@ -542,6 +558,12 @@ public class Socket {
 
 
 
+	/**
+	 * set left button status
+	 * 
+	 * @param flag
+	 *            status
+	 */
 	public void setLeftButtonPressed(boolean flag) {
 		leftButton = flag;	
 	}
