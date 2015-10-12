@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import org.geogebra.common.main.App;
 
 /**
  * Class for drawing quadrics.
@@ -1311,8 +1310,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private boolean isPossibleU(double u) {
 
-		App.debug("u:" + uMinMax[0] + "/" + u + "/" + uMinMax[1]);
-
 		if (u < uMinMax[0]) {
 			return false;
 		}
@@ -1323,8 +1320,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	private boolean isPossibleV(double v) {
-
-		App.debug("v:" + vMinMax[0] + "/" + v + "/" + vMinMax[1]);
 
 		if (v < vMinMax[0]) {
 			return false;
