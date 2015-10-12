@@ -3347,6 +3347,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 				return false;
 
+			case EuclidianConstants.MODE_ANGLE:
+				point = view3D.getCursor3D();
+				if (point.hasPath()) {
+					return false;
+				}
+				if (point.hasRegion()) {
+					return false;
+				}
+				return true;
+
 			default:
 				return false;
 			}
