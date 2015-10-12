@@ -209,7 +209,7 @@ public class RadioTreeItem extends AVTreeItem
 					+ geo.getCaption(StringTemplate.defaultTemplate) + " "
 					+ GTE_SIGN);
 			lblStep = new Label(app.getPlain("Step"));
-			addStyleName("panelRow");
+			addStyleName("minMaxPanel");
 			add(tfMin);
 			add(lblValue);
 			add(tfMax);

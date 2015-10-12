@@ -4235,7 +4235,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	border-bottom: 1px solid #CCCCFF;
 }
 
-.checkBoxPanel,.panelRow,.panelRowIndent,.panelIndent,.listBoxPanel,.optionsInput,.optionsPanel,.optionsPanel .optionsPanelIndent,.propertiesTab .sliderIntervalPanel,.propertiesTab .sliderWidthPanel
+.checkBoxPanel,.panelRow,.panelRowIndent,.panelIndent,.listBoxPanel,.optionsInput,.optionsPanel,.optionsPanel .optionsPanelIndent,.propertiesTab .sliderIntervalPanel,.propertiesTab .sliderWidthPanel,.minMaxPanel
 	{
 	display: block;
 }
@@ -4249,7 +4249,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	margin-bottom: 10px;
 }
 
-.checkBoxPanel>*,.panelRow>*,.listBoxPanel>*,.panelRowIndent>*,.propertiesTab .gwt-CheckBox>*,.panelRowCell>*,.panelRowCell>*,.optionsPanel>*,.optionsPanelIndent>*,.optionsPanelCell>*,.propertiesTab .sliderIntervalPanel>*,.propertiesTab .sliderWidthPanel>*,.textOptionsToolBar>*,.BackgroundColorPanel>*
+.checkBoxPanel>*,.panelRow>*,.listBoxPanel>*,.panelRowIndent>*,.propertiesTab .gwt-CheckBox>*,.panelRowCell>*,.panelRowCell>*,.optionsPanel>*,.optionsPanelIndent>*,.optionsPanelCell>*,.propertiesTab .sliderIntervalPanel>*,.propertiesTab .sliderWidthPanel>*,.textOptionsToolBar>*,.BackgroundColorPanel>*,.minMaxPanel>*
 	{
 	display: inline-block;
 	vertical-align: middle;
@@ -6034,6 +6034,15 @@ body.application[dir=rtl] .deleteAlgebra {
 	top: -9px;
 	margin-left: -12px;
 }
+
+.minMaxPanel>* {
+	margin: 0px;
+}
+.minMaxPanel .gwt-Label {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
 
 .ggbScreenshot .InputTreeItem{
 	overflow-x:hidden;
