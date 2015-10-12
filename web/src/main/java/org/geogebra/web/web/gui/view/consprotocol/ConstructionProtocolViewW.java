@@ -342,9 +342,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				Element imgElement = DOM.getElementById("CP_popupImage")
 						.getElementsByTagName("img").getItem(0);
 				if (el.equals(imgElement)) {
-
-					popupMenu.show(new GPoint(event.getClientX(), event
-							.getClientY()));
+					popupMenu.show(new GPoint(el.getAbsoluteLeft(), el
+							.getAbsoluteBottom()));
 				} else if ("img".equals(el.getTagName().toLowerCase())) {
 					String colTitle = el.getParentElement().getAttribute(
 							"title");
