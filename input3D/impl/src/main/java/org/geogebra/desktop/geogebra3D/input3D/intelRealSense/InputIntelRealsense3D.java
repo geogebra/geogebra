@@ -31,9 +31,6 @@ public class InputIntelRealsense3D implements Input3D {
 	private double screenHalfWidth;
 	
 	
-	private double[] glassesPosition;
-	
-	private double eyeSeparation;
 	
 	/**
 	 * constructor
@@ -47,9 +44,6 @@ public class InputIntelRealsense3D implements Input3D {
 		
 		// 3D mouse orientation
 		mouseOrientation = new double[4];
-		
-		// glasses position
-		glassesPosition = new double[3];
 		
 		
 		// screen dimensions
@@ -97,27 +91,6 @@ public class InputIntelRealsense3D implements Input3D {
 			
 			
 			
-			// eye separation
-			eyeSeparation = (socket.leftEyeX - socket.rightEyeX) * screenHalfWidth;
-
-			// glasses position
-			glassesPosition[0] = socket.leftEyeX * screenHalfWidth + eyeSeparation/2;
-			glassesPosition[1] = socket.leftEyeY * screenHalfWidth;
-			glassesPosition[2] = socket.leftEyeZ * screenHalfWidth;
-
-			/*
-			App.debug("\nleft eye"
-					+"\nx="+leftEyePosition[0]
-					+"\ny="+leftEyePosition[1]
-					+"\nz="+leftEyePosition[2]
-				    +
-					"\nright eye"
-					+"\nx="+rightEyePosition[0]
-					+"\ny="+rightEyePosition[1]
-					+"\nz="+rightEyePosition[2]);
-					
-			App.debug("\nleft-right="+(rightEyePosition[0]-leftEyePosition[0])+"\nheight="+GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight());
-			*/
 			
 			
 			updateOccured = true;
@@ -151,11 +124,11 @@ public class InputIntelRealsense3D implements Input3D {
 	}
 
 	public double[] getGlassesPosition(int i){
-		return glassesPosition;
+		return null; // not implemented yet
 	}
 	
 	public double getEyeSeparation(){
-		return eyeSeparation;
+		return 0; // not implemented yet
 	}
 	
 	public boolean useInputDepthForHitting(){

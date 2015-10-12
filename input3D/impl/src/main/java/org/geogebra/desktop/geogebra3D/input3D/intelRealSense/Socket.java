@@ -52,14 +52,22 @@ public class Socket {
 	/** hand z position */
 	public double handZ;
 
-	public double handOrientationX, handOrientationY, handOrientationZ,
-			handOrientationW;
-
-	public double leftEyeX, leftEyeY, leftEyeZ;
-	public double rightEyeX, rightEyeY, rightEyeZ;
-	public double glassesCenterX, glassesCenterY, glassesCenterZ;
-	public double glassesOrientationX, glassesOrientationY,
-			glassesOrientationZ, glassesOrientationW;
+	/**
+	 * hand orientation vector (x value)
+	 */
+	public double handOrientationX;
+	/**
+	 * hand orientation vector (y value)
+	 */
+	public double handOrientationY;
+	/**
+	 * hand orientation vector (z value)
+	 */
+	public double handOrientationZ;
+	/**
+	 * hand orientation vector (w value)
+	 */
+	public double handOrientationW;
 
 	/**
 	 * right button state
