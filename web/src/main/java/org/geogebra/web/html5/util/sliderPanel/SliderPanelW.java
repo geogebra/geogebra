@@ -27,6 +27,9 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	private Label maxLabel;
 	private Kernel kernel;
 	private String[] parts = new String[2];
+	private Double currentMin = null;
+	private Double currentMax = null;
+	private Double currentStep = null;
 
 	public SliderPanelW(double min, double max, Kernel kernel, boolean degrees) {
 		this.kernel = kernel;
@@ -46,8 +49,11 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void setMinimum(double min, boolean degrees) {
-		slider.setMinimum(min);
-		printParts(minLabel, min, degrees);
+		if (currentMin == null || !Kernel.isEqual(currentMin, min)) {
+			currentMin = min;
+			slider.setMinimum(min);
+			printParts(minLabel, min, degrees);
+		}
 	}
 
 	private void printParts(Label label, double val, boolean degrees) {
@@ -69,13 +75,18 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void setMaximum(double max, boolean degrees) {
-		slider.setMaximum(max);
-		parts = StringTemplate.printLimitedWidth(max, kernel, parts);
-		printParts(maxLabel, max, degrees);
+		if (currentMax == null || !Kernel.isEqual(currentMax, max)) {
+			currentMax = max;
+			slider.setMaximum(max);
+			printParts(maxLabel, max, degrees);
+		}
 	}
 
 	public void setStep(double step) {
-		slider.setStep(step);
+		if (currentStep == null || !Kernel.isEqual(currentStep, step)) {
+			currentStep = step;
+			slider.setStep(step);
+		}
 	}
 
 	public GDimensionW getPreferredSize() {
