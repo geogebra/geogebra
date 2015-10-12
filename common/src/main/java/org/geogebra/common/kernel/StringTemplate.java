@@ -103,6 +103,26 @@ public class StringTemplate implements ExpressionNodeConstants {
 		latexTemplate.setType(StringType.LATEX);
 	}
 
+	/**
+	 * JLaTeXMath latex template
+	 */
+	public static final StringTemplate latexTemplateJLM = new StringTemplate(
+			"latexTemplate") {
+
+		@Override
+		public String escapeString(String string) {
+			String value = string
+					.replaceAll("\\\\", "\\\\backslash ")
+					.replaceAll("([&%$#{}_])", "\\\\$1")
+					.replaceAll("~", "\u223C ")
+					.replaceAll("\\^", "\\\\^{\\ } ");
+			return value;
+		}
+	};
+	static {
+		latexTemplateJLM.setType(StringType.LATEX);
+	}
+
 	public static final StringTemplate latexTemplateCAS = new StringTemplate(
 			"latexTemplate");
 	static {
@@ -2978,6 +2998,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public boolean isMathQuill() {
 		return false;
+	}
+
+	public String escapeString(String string) {
+		return string;
 	}
 
 }

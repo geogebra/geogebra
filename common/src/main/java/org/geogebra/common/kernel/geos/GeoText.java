@@ -420,8 +420,9 @@ public class GeoText extends GeoElement implements Locateable,
 			}
 		} else {
 			sbToString.append('\"');
-			if (str != null)
-				sbToString.append(str);
+			if (str != null) {
+				sbToString.append(tpl1.escapeString(str));
+			}
 			sbToString.append('\"');
 		}
 		return sbToString.toString();
