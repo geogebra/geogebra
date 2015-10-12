@@ -54,6 +54,11 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	private Path subject;
 	private Path clip;
 	private Paths solution;
+	/**
+	 * whether labels were suppressed during constructor; in such case never
+	 * label outputs.
+	 **/
+	private boolean silent;
 
 	protected PolyOperation operationType;
 
@@ -94,6 +99,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		this.inPoly1 = inPoly1;
 
 		this.labels = labels;
+		silent = cons.isSuppressLabelsActive();
 	}
 
 	/**
@@ -195,12 +201,14 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		subject = new Path(inPoly0.getPointsLength());
 		clip = new Path(inPoly1.getPointsLength());
 		solution = new Paths();
+		silent = cons.isSuppressLabelsActive();
 
 		createOutput();
 
 		setInputOutput();
-
-		compute();
+		// We do compute() TWICE in the constructor (for some reason)
+		// for this one we don't have the labels set yet, so do it silently
+		compute(false);
 
 		// set labels
 		if (labels == null) {
@@ -209,6 +217,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			outputSegments.setLabels(null);
 		} else {
 			int labelsLength = labels.length;
+
 			if (labelsLength > 1) {
 				// App.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
 				if (outputSizes != null) {
@@ -345,6 +354,10 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 	@Override
 	public void compute() {
+		compute(!silent);
+	}
+
+	public void compute(boolean updateLabels) {
 
 		// add subject polygon
 		subject.clear();
@@ -421,8 +434,9 @@ inPoly1.getPoint(i).getX(),
 					pointCount++;
 				}
 			}
-			
-			outputPoints.updateLabels();
+			if (updateLabels) {
+				outputPoints.updateLabels();
+			}
 
 			GeoPoint[] points = new GeoPoint[pointCount];
 			points = outputPoints.getOutput(points);
@@ -461,9 +475,10 @@ inPoly1.getPoint(i).getX(),
 				polygon.setSegments(polySegments);
 				polygon.calcArea();
 			}
-
-			outputSegments.updateLabels();
-			outputPolygons.updateLabels();
+			if (updateLabels) {
+				outputSegments.updateLabels();
+				outputPolygons.updateLabels();
+			}
 
 		}
 
