@@ -1796,6 +1796,11 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		return true;
 	}
 
+	@Override
+	public Hitting getHitting() {
+		return hitting;
+	}
+
 	public void setCenter(Coords center) {
 		float[] c = center.get4ForGL();
 		// set radius info

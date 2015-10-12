@@ -12,6 +12,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
+import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -1108,6 +1109,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		
+		quadric.resetLastHittedParameters();
+
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED
 				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_NOT_SET) {
 			return false;
@@ -1138,19 +1141,44 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES
 				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES) {
-			if (drawPlanes[0].hit(hitting)) {
-				setZPick(drawPlanes[0].getZPickNear(),
-						drawPlanes[0].getZPickFar());
-				setPickingType(PickingType.SURFACE);
-				return true;
+			double z1 = Double.NEGATIVE_INFINITY, z2 = Double.NEGATIVE_INFINITY;
+			if (drawPlanes[0].hit(hitting, p1, project)) {
+				z1 = drawPlanes[0].getZPickNear();
 			}
-			if (drawPlanes[1].hit(hitting)) {
-				setZPick(drawPlanes[1].getZPickNear(),
-						drawPlanes[1].getZPickFar());
-				setPickingType(PickingType.SURFACE);
-				return true;
+			if (drawPlanes[1].hit(hitting, p2, project)) {
+				z2 = drawPlanes[1].getZPickNear();
 			}
-			return false;
+
+			int planeIndex = 0;
+
+			// keep highest value (closest to eye)
+			if (z1 < z2) {
+				z1 = z2;
+				planeIndex = 1;
+			}
+
+			// if both negative infinity : not hitted
+			if (Double.isInfinite(z1)) {
+				quadric.resetLastHittedParameters();
+				return false;
+			}
+
+			// project with ortho matrix to get correct parameters
+			hitting.origin.projectPlaneThruVIfPossible(
+					quadric.getPlanes()[planeIndex].getCoordSys()
+							.getMatrixOrthonormal(), hitting.direction, p1,
+					project);
+
+			parameters1[0] = PathNormalizer.inverseInfFunction(project.getX())
+					+ 2 * planeIndex;
+			parameters1[1] = project.getY();
+			quadric.setLastHittedParameters(parameters1);
+
+			// hitted
+			setZPick(z1, z1);
+			setPickingType(PickingType.SURFACE);
+			return true;
+
 		}
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PLANE) {
@@ -1164,8 +1192,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 
-		quadric.getProjections(null, hitting.origin,
-				hitting.direction, p1, p2);
+		quadric.getProjections(null, hitting.origin, hitting.direction, p1,
+				parameters1, p2, parameters2);
 		
 		double z1 = Double.NEGATIVE_INFINITY, z2 = Double.NEGATIVE_INFINITY;
 
@@ -1194,10 +1222,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		// keep highest value (closest to eye)
 		if (z1 < z2){
 			z1 = z2;
+			quadric.setLastHittedParameters(parameters2);
+		} else {
+			quadric.setLastHittedParameters(parameters1);
 		}
 		
 		// if both negative infinity : not hitted
 		if (Double.isInfinite(z1)){
+			quadric.resetLastHittedParameters();
 			return false;
 		}
 		
@@ -1212,6 +1244,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	private Coords project = Coords.createInhomCoorsInD3(), p1 = Coords.createInhomCoorsInD3(), p2 = Coords.createInhomCoorsInD3();
 
 	private double[] parameters = new double[2];
+	private double[] parameters1 = new double[2];
+	private double[] parameters2 = new double[2];
 
 
 	@Override

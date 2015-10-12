@@ -1009,10 +1009,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			diagonal[3] = -r * r;
 
 			// eigen matrix
-			eigenMatrix.setOrigin(getMidpoint3D());
-			for (int i = 1; i <= 3; i++) {
-				eigenMatrix.set(i, i, getHalfAxis(i - 1));
-			}
+			setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		} else { // ellipsoid
 
@@ -1635,9 +1632,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		switch (type) {
 		case QUADRIC_SPHERE:
-			return new Coords(Math.cos(u) * Math.cos(v), Math.sin(u)
-					* Math.cos(v), Math.sin(v), 0);
-
 		case QUADRIC_ELLIPSOID:
 			double r0 = getHalfAxis(0);
 			double r1 = getHalfAxis(1);
@@ -1785,6 +1779,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			n.normalize();
 
 			return n;
+
+		case QUADRIC_PARALLEL_PLANES:
+			return planes[0].getDirectionInD3();
+
+		case QUADRIC_INTERSECTING_PLANES:
+			if (u > 1) {
+				return planes[1].getDirectionInD3();
+			}
+			return planes[0].getDirectionInD3();
 
 		default:
 			return null;
@@ -1989,6 +1992,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				parameters[1] = 0;
 			} else {
 				parameters[1] = Math.sqrt(x);
+				if (z<0){
+					parameters[1] *= -1;
+				}
 			}
 			break;
 
@@ -2042,6 +2048,22 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]),
 				new Coords(tmpDouble2) };
 
+	}
+
+	/**
+	 * get normal projection of coords, set the projection in ret and parameters
+	 * 
+	 * @param coords
+	 *            coords
+	 * @param ret
+	 *            projection
+	 * @param parameters
+	 *            parameters
+	 */
+	public void getNormalProjection(Coords coords, Coords ret,
+			double[] parameters) {
+		getNormalProjectionParameters(coords, parameters);
+		evaluatePoint(parameters[0], parameters[1], ret);
 	}
 
 	/**
@@ -2130,7 +2152,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	
 	
 	public void getProjections(Coords oldCoords, Coords willingCoords,
-			Coords willingDirection, Coords p1, Coords p2) {
+			Coords willingDirection, Coords p1, double[] parameters1,
+			Coords p2, double[] parameters2) {
 
 		// compute intersection
 		CoordMatrix qm = getSymetricMatrix();
@@ -2159,18 +2182,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			double t2 = (-b + Math.sqrt(Delta)) / a;
 			
 			tmpCoords.setAdd(willingCoords, tmpCoords.setMul(willingDirection, t1));
-			getNormalProjectionParameters(tmpCoords, tmpDouble2);
-			checkParameters(tmpDouble2);
-			evaluatePoint(tmpDouble2[0], tmpDouble2[1], p1);
+			getNormalProjectionParameters(tmpCoords, parameters1);
+			checkParameters(parameters1);
+			evaluatePoint(parameters1[0], parameters1[1], p1);
 			
 			tmpCoords.setAdd(willingCoords, tmpCoords.setMul(willingDirection, t2));
-			getNormalProjectionParameters(tmpCoords, tmpDouble2);
-			checkParameters(tmpDouble2);
-			evaluatePoint(tmpDouble2[0], tmpDouble2[1], p2);
+			getNormalProjectionParameters(tmpCoords, parameters2);
+			checkParameters(parameters2);
+			evaluatePoint(parameters2[0], parameters2[1], p2);
 
 		}else{
 			// get closest point (in some "eigen coord sys")
-			p1.set(getNormalProjection(willingCoords.add(willingDirection.mul(-b / a)))[0]);
+			getNormalProjection(
+					tmpCoords.setAdd(willingCoords,
+							tmpCoords.setMul(willingDirection, -b / a)), p1,
+					parameters1);
 			p2.setUndefined();
 		}
 
@@ -2179,6 +2205,29 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 	
 	
+	private double[] lastHittedParameters = null;
+
+	/**
+	 * reset last hitted parameters
+	 */
+	public void resetLastHittedParameters(){
+		lastHittedParameters = null;
+	}
+
+	/**
+	 * set last hitted parameters
+	 * 
+	 * @param parameters
+	 *            parameters
+	 */
+	public void setLastHittedParameters(double[] parameters) {
+		lastHittedParameters = parameters;
+	}
+
+	private boolean hasLastHittedParameters() {
+		return lastHittedParameters != null;
+	}
+
 	/**
 	 * check parameters are possible parameters; modify it if not
 	 * @param parameters parameters
@@ -2249,13 +2298,19 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			tmpCoords2.mulInside(-1);
 			return tmpCoords2;
 		case QUADRIC_PARABOLIC_CYLINDER:
-			return getEigenvec3D(2).copyVector(); // back to "plane axis"
+			tmpCoords.setSub(getMidpoint3D(), p);
+			if (tmpCoords.dotproduct(getEigenvec3D(2)) > 0) {
+				return getEigenvec3D(2).copyVector(); // back to "plane axis"
+			}
+			return getEigenvec3D(2).mul(-1); // back to "plane axis"
 		case QUADRIC_HYPERBOLIC_CYLINDER:
-			// TODO flip regarding point location
+			tmpCoords.setSub(getMidpoint3D(), p);
+			if (tmpCoords.dotproduct(getEigenvec3D(0)) > 0) {
+				return getEigenvec3D(0).copyVector(); // back to "plane axis"
+			}
 			return getEigenvec3D(0).mul(-1); // back to "plane axis"
 		case QUADRIC_HYPERBOLIC_PARABOLOID:
-			// TODO flip regarding point location
-			return getEigenvec3D(2).mul(-1); // back to "base plane"
+			return getEigenvec3D(2).copyVector(); // back to "base plane"
 		default:
 			return null;
 		}
@@ -2272,14 +2327,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 		}
 
-		if (type == QUADRIC_PARALLEL_PLANES
-				|| type == QUADRIC_INTERSECTING_PLANES) {
-			p.updateCoords2D(planes[0], true);
-			P.updateCoordsFrom2D(false, planes[0].getCoordSys());
-			RegionParameters rp = P.getRegionParameters();
-			rp.setT1(PathNormalizer.inverseInfFunction(rp.getT1()));
-			return;
-		}
 
 		if (type == QUADRIC_PLANE) {
 			p.updateCoords2D(planes[0], true);
@@ -2300,30 +2347,105 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 		}
 
-		Coords willingCoords;
-		if (p.hasWillingCoords()) {
-			willingCoords = p.getWillingCoords().copyVector();
+		if (hasLastHittedParameters()) {
+			// use last hitted parameters
+			RegionParameters rp = p.getRegionParameters();
+			rp.setT1(lastHittedParameters[0]);
+			rp.setT2(lastHittedParameters[1]);
+			rp.setNormal(evaluateNormal(rp.getT1(),rp.getT2()));
+			evaluatePoint(rp.getT1(), rp.getT2(), p.getCoords());
+			p.updateCoords();
 			p.setWillingCoordsUndefined();
-		} else {
-			willingCoords = P.getCoordsInD3();
-		}
-
-		Coords willingDirection;
-		if (p.hasWillingDirection()) {
-			willingDirection = p.getWillingDirection().copyVector();
 			p.setWillingDirectionUndefined();
+			resetLastHittedParameters();
 		} else {
-			willingDirection = getDirectionToCenter(willingCoords);
+
+			if (type == QUADRIC_PARALLEL_PLANES
+					|| type == QUADRIC_INTERSECTING_PLANES) {
+
+				Coords coords, direction;
+
+				if (p.hasWillingCoords()) { // use willing coords
+					coords = p.getWillingCoords();
+				} else {
+					// use real coords
+					coords = p.getCoords();
+				}
+
+				GeoPlane3D plane = planes[0];
+				CoordMatrix planeMatrix = plane.getCoordSys()
+						.getMatrixOrthonormal();
+				if (!p.hasWillingDirection()) { // use normal direction for
+					// projection
+					direction = planeMatrix.getVz();
+				} else { // use willing direction for projection
+					direction = p.getWillingDirection();
+				}
+
+				coords.projectPlaneInPlaneCoords(planeMatrix.getVx(),
+						planeMatrix.getVy(), direction,
+						planeMatrix.getOrigin(), tmpCoords);
+				
+				double t1Shift = 0;
+
+				if (!Kernel.isZero(tmpCoords.getZ())){
+					plane = planes[1];
+					planeMatrix = plane.getCoordSys().getMatrixOrthonormal();
+					if (!p.hasWillingDirection()) { // use normal direction for
+						// projection
+						direction = planeMatrix.getVz();
+					}
+
+					coords.projectPlaneInPlaneCoords(planeMatrix.getVx(),
+							planeMatrix.getVy(), direction,
+							planeMatrix.getOrigin(), tmpCoords);
+
+					t1Shift = 2;
+				}
+
+
+				p.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY()),
+						false);
+				RegionParameters rp = P.getRegionParameters();
+				rp.setT1(PathNormalizer.inverseInfFunction(tmpCoords.getX())
+						+ t1Shift);
+				rp.setT2(tmpCoords.getY());
+				rp.setNormal(plane.getDirectionInD3());
+
+				p.setWillingCoordsUndefined();
+				p.setWillingDirectionUndefined();
+
+				return;
+			}
+
+			Coords willingCoords;
+			if (p.hasWillingCoords()) {
+				willingCoords = p.getWillingCoords().copyVector();
+				p.setWillingCoordsUndefined();
+			} else {
+				willingCoords = P.getCoordsInD3();
+			}
+
+			Coords willingDirection;
+			if (p.hasWillingDirection()) {
+				willingDirection = p.getWillingDirection().copyVector();
+				p.setWillingDirectionUndefined();
+			} else {
+				willingDirection = getDirectionToCenter(willingCoords);
+			}
+
+
+			Coords[] coords = getProjection(null, willingCoords,
+					willingDirection);
+
+
+			RegionParameters rp = p.getRegionParameters();
+			rp.setT1(coords[1].get(1));
+			rp.setT2(coords[1].get(2));
+			rp.setNormal(evaluateNormal(coords[1].get(1), coords[1].get(2)));
+			p.setCoords(coords[0], false);
+			p.updateCoords();
 		}
-
-		Coords[] coords = getProjection(null, willingCoords, willingDirection);
-
-		RegionParameters rp = p.getRegionParameters();
-		rp.setT1(coords[1].get(1));
-		rp.setT2(coords[1].get(2));
-		rp.setNormal(evaluateNormal(coords[1].get(1), coords[1].get(2)));
-		p.setCoords(coords[0], false);
-		p.updateCoords();
 
 	}
 

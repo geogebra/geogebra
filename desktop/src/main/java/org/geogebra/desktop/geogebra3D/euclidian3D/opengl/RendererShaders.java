@@ -1459,6 +1459,11 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
+	public Hitting getHitting() {
+		return hitting;
+	}
+
+	@Override
 	public void setCenter(Coords center) {
 		float[] c = center.get4ForGL();
 		// set radius info

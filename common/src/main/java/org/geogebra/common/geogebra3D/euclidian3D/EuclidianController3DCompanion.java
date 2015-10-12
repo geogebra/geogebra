@@ -1,7 +1,9 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -14,6 +16,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -62,6 +65,7 @@ public class EuclidianController3DCompanion extends
 
 				((EuclidianController3D) ec)
 						.setMouseInformation(movedGeoPoint3D);
+				hitRegion(movedGeoPoint3D);
 				movedGeoPoint3D.doRegion();
 
 				boolean changed = false;
@@ -424,6 +428,23 @@ public class EuclidianController3DCompanion extends
 
 	private Coords captureCoords = Coords.createInhomCoorsInD3();
 
+	private void hitRegion(GeoPoint3D point3D) {
+		if (((EuclidianController3D) ec).view3D.getRenderer()
+				.useLogicalPicking()) {
+			DrawableND d = ((EuclidianController3D) ec).view3D
+					.getDrawableND((GeoElement) point3D.getRegion());
+			if (d != null) {
+				Hitting hitting = ((EuclidianController3D) ec).view3D
+						.getRenderer().getHitting();
+				hitting.setOriginDirectionThreshold(point3D.getWillingCoords(),
+						point3D.getWillingDirection(),
+						App.DEFAULT_THRESHOLD);
+				// try to set the parameters from drawable hit process
+				((Drawable3D) d).hit(hitting);
+			}
+		}
+	}
+
 	/**
 	 * create a new region point or update the preview point
 	 */
@@ -436,6 +457,7 @@ public class EuclidianController3DCompanion extends
 		point3D.setRegion(region);
 
 		((EuclidianController3D) ec).setMouseInformation(point3D);
+		hitRegion(point3D);
 		point3D.doRegion();
 		point3D.setMoveNormalDirection(point3D.getRegionParameters()
 				.getNormal());

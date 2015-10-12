@@ -440,6 +440,10 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	@Override
 	public boolean hit(Hitting hitting) {
+		return hit(hitting, tmpCoords1, tmpCoords2);
+	}
+
+	public boolean hit(Hitting hitting, Coords tmpCoords1, Coords tmpCoords2) {
 
 		if (waitForReset) { // prevent NPE
 			return false;

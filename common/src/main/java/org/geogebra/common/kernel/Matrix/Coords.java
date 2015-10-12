@@ -757,23 +757,30 @@ public class Coords {
 	}
 	
 	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o, Coords globalCoords, Coords inPlaneCoords) {
-		
+		projectPlane(vx, vy, vz, o, globalCoords.val, inPlaneCoords.val);
+	}
+
+	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
+			double[] globalCoords, double[] inPlaneCoords) {
+
 		if (Kernel.isEqual(
 				(vx.crossProduct(vy)).dotproduct(vz), 0,
 				Kernel.STANDARD_PRECISION)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
-			// Application.printStacktrace("infinity");
-			inPlaneCoords.setX(0);
-			inPlaneCoords.setY(0);
-			inPlaneCoords.setZ(-1);
-			inPlaneCoords.setW(0);
-			globalCoords.set(vz);
+			inPlaneCoords[0] = 0; // x
+			inPlaneCoords[1] = 0; // y
+			inPlaneCoords[2] = -1; // z
+			inPlaneCoords[3] = 0; // w
+			globalCoords[0] = vz.getX(); // x
+			globalCoords[1] = vz.getY(); // y
+			globalCoords[2] = vz.getZ(); // z
+			globalCoords[3] = vz.getW(); // w
 			return;
 		}
 		
 		// direction is not parallel to the plane
-		projectPlaneNoCheck(vx, vy, vz, o, globalCoords.val, inPlaneCoords.val);
+		projectPlaneNoCheck(vx, vy, vz, o, globalCoords, inPlaneCoords);
 
 	}
 	

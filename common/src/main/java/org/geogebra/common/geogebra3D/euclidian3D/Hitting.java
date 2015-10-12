@@ -67,6 +67,23 @@ public class Hitting {
 	}
 
 	/**
+	 * set origin, direction, threshold
+	 * 
+	 * @param origin
+	 *            origin
+	 * @param direction
+	 *            direction
+	 * @param threshold
+	 *            threshold
+	 */
+	public void setOriginDirectionThreshold(Coords origin, Coords direction,
+			int threshold) {
+		this.origin = origin;
+		this.direction = direction;
+		this.threshold = threshold;
+	}
+
+	/**
 	 * set hits
 	 */
 	protected void setHits() {
