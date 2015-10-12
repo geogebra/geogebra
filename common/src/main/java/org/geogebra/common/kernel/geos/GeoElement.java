@@ -4235,6 +4235,17 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
+	final public void addPredecessorsToSet(final TreeSet<GeoElement> set,
+			final Inspecting check) {
+		if (algoParent == null) {
+			if (check.check(this)) {
+				set.add(this);
+			}
+		} else { // parent algo
+			algoParent.addPredecessorsToSet(set, check);
+		}
+	}
+
 	/**
 	 * @return set of all predecessor that can be randomized
 	 */

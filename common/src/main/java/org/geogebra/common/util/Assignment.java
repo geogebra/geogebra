@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Test;
@@ -301,27 +303,24 @@ public class Assignment {
 
 	private static TreeSet<GeoElement> getAllPredecessors(
 			GeoElement[] possibleOutputPermutation,
-			HashSet<Test> uniqueInputTypes) {
+			final HashSet<Test> uniqueInputTypes) {
 
 		TreeSet<GeoElement> possibleInputGeos = new TreeSet<GeoElement>();
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleOutputPermutation[i].addPredecessorsToSet(
-					possibleInputGeos, false);
+					possibleInputGeos, new Inspecting() {
+
+						public boolean check(ExpressionValue v) {
+							return ((GeoElement) v).labelSet
+									&& uniqueInputTypes.contains(Test
+											.getSpecificTest(v));
+						}
+					});
 		}
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleInputGeos.remove(possibleOutputPermutation[i]);
 		}
 
-		Iterator<GeoElement> it = possibleInputGeos.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (!geo.labelSet) {
-				possibleInputGeos.remove(geo);
-			}
-			if (!uniqueInputTypes.contains(Test.getSpecificTest(geo))) {
-				possibleInputGeos.remove(geo);
-			}
-		}
 		return possibleInputGeos;
 	}
 

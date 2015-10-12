@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -804,7 +805,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if (removed)
 			return;
 		removed = true;
-
 		cons.removeFromConstructionList(this);
 		cons.removeFromAlgorithmList(this);
 
@@ -1052,6 +1052,20 @@ public abstract class AlgoElement extends ConstructionElement implements
 					set.add(parent);
 				}
 				parent.addPredecessorsToSet(set, onlyIndependent);
+			}
+		}
+	}
+
+	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
+			Inspecting check) {
+		for (int i = 0; i < input.length; i++) {
+			GeoElement parent = input[i];
+
+			if (!set.contains(parent)) {
+				if (check.check(parent)) {
+					set.add(parent);
+				}
+				parent.addPredecessorsToSet(set, check);
 			}
 		}
 	}
