@@ -434,6 +434,7 @@ public class ProverBotanasMethod {
 				return ProofResult.UNKNOWN;
 			}
 		}
+		App.debug("Hypotheses have been processed.");
 		updateBotanaVarsInv(statement);
 		try {
 			boolean interpretTrueAsUndefined = false;
