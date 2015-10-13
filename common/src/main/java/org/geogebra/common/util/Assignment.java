@@ -222,6 +222,8 @@ public class Assignment {
 			GeoElement macroOutput, GeoElement possibleOutput[], int i,
 			TreeSet<Result> partRes) {
 		GeoElement saveInput;
+		// TODO Check if we really need to call adjustMoveableOutputs with all
+		// possibleOutpurs ie.the array
 		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
 				possibleOutput);
 		partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
@@ -251,20 +253,25 @@ public class Assignment {
 		// : Result.WRONG);
 		callsToEqual++;
 		int j = 0;
-		while (j < input.length && !partRes.contains(Result.WRONG)) {
-			if (input[j].isRandomizable()) {
-				mayAdjustMoveableOutputs = doProbabilisticChecking(input[j],
-						macroOutput, possibleOutput,
-						i, partRes, mayAdjustMoveableOutputs);
-			} else {
-				input[j].addRandomizablePredecessorsToSet(randomizeablePredecessors);
-				for (GeoElement geo : randomizeablePredecessors) {
-					mayAdjustMoveableOutputs = doProbabilisticChecking(geo,
-							macroOutput, possibleOutput, i, partRes,
+		if (!partRes.contains(Result.WRONG)) {
+			while (j < input.length
+					&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
+				if (input[j].isRandomizable()) {
+					mayAdjustMoveableOutputs = doProbabilisticChecking(
+							input[j], macroOutput, possibleOutput, i, partRes,
 							mayAdjustMoveableOutputs);
+				} else {
+					input[j].addRandomizablePredecessorsToSet(randomizeablePredecessors);
+					for (int k = 0; k < randomizeablePredecessors.size()
+							&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE); k++) {
+						mayAdjustMoveableOutputs = doProbabilisticChecking(
+								randomizeablePredecessors.pollFirst(),
+								macroOutput, possibleOutput, i, partRes,
+								mayAdjustMoveableOutputs);
+					}
 				}
+				j++;
 			}
-			j++;
 		}
 	}
 
