@@ -121,13 +121,6 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 
 	private void updateWidgets() {
-		isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
-		// textField.setVisible(isVisible);
-		// label.setVisible(isVisible);
-		box.setVisible(isVisible);
-		if (!isVisible) {
-			return;
-		}
 
 		// eg size changed etc
 		geoList.rebuildComboxBoxIfNecessary(comboBox);
@@ -192,6 +185,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			setLabelFontSize((int) (view.getFontSize()
 					* geoList.getFontSizeMultiplier()));
 
+			isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
+			// textField.setVisible(isVisible);
+			// label.setVisible(isVisible);
+
+			if (!isVisible) {
+				return;
+			}
 			if (isDrawingOnCanvas()) {
 				xLabel = geo.labelOffsetX;
 				yLabel = geo.labelOffsetY;
@@ -203,6 +203,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 						getPreferredSize().getHeight());
 				box.setBounds(labelRectangle);
 			} else {
+				box.setVisible(isVisible);
 				updateWidgets();
 			}
 		} else {
@@ -296,10 +297,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
-		if (geoList.drawAsComboBox()) {
+		if (isVisible && geoList.drawAsComboBox()) {
 			if (isDrawingOnCanvas()) {
 				drawOnCanvas(g2, "");
-				// return;
+				return;
 			}
 
 			if (isVisible) {
