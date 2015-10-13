@@ -378,4 +378,8 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	    
     }
 
+	public String getImageURL(int mode) {
+		return GGWToolBar.getImageURL(mode, app);
+	}
+
 }

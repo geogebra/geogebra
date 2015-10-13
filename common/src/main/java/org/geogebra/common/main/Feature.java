@@ -55,5 +55,7 @@ public enum Feature {
 	
 	CP_POPUP,
 
+	CP_NEW_COLUMNS,
+
 	EXAM
 }

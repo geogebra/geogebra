@@ -2071,4 +2071,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return fn;
 	}
 
+	public String getToolImageURL(int mode, AppW app) {
+		return GGWToolBar.getImageURL(mode, app);
+	}
+
 }

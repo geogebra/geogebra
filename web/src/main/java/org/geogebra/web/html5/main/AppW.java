@@ -23,6 +23,7 @@ import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
@@ -88,6 +89,7 @@ import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
+import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.kernel.AnimationManagerW;
@@ -3467,6 +3469,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (isEuclidianView3Dinited()) {
 			getEuclidianView3D().setAltText();
 		}
+	}
+
+	@Override
+	public GImageIcon wrapGetModeIcon(int mode) {
+		return new GImageIconW(this.getToolbar().getImageURL(mode));
 	}
 
 	public ExamEnvironment getExam() {

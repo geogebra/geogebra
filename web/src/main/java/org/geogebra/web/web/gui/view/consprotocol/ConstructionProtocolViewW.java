@@ -12,6 +12,7 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
@@ -19,6 +20,7 @@ import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -209,16 +211,29 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 		int lastVisibleColData = data.getColumnCount() - 1;
 		
-		while (!data.columns[lastVisibleColData].isVisible()
-				|| "ToolbarIcon"
-						.equals(data.columns[lastVisibleColData].getTitle())
-				|| "Command".equals(data.columns[lastVisibleColData].getTitle())
-				|| "Caption".equals(data.columns[lastVisibleColData].getTitle())
-				|| "Breakpoint"
-						.equals(data.columns[lastVisibleColData].getTitle())) {
-			lastVisibleColData--;
+		if (app.has(Feature.CP_NEW_COLUMNS)) {
+			while (!data.columns[lastVisibleColData].isVisible()
+					|| "Command".equals(data.columns[lastVisibleColData]
+							.getTitle())
+					|| "Caption".equals(data.columns[lastVisibleColData]
+							.getTitle())
+					|| "Breakpoint".equals(data.columns[lastVisibleColData]
+							.getTitle())) {
+				lastVisibleColData--;
+			}
+		} else {
+			while (!data.columns[lastVisibleColData].isVisible()
+					|| "ToolbarIcon".equals(data.columns[lastVisibleColData]
+							.getTitle())
+					|| "Command".equals(data.columns[lastVisibleColData]
+							.getTitle())
+					|| "Caption".equals(data.columns[lastVisibleColData]
+							.getTitle())
+					|| "Breakpoint".equals(data.columns[lastVisibleColData]
+							.getTitle())) {
+				lastVisibleColData--;
+			}
 		}
-		
 		initPopupMenu();
 		
 		for (int i = 0; i < data.getColumnCount(); i++) {
@@ -268,7 +283,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			// some
 			// column on stylebar too
 			if (!"No.".equals(colData.getTitle())
-					&& !"ToolbarIcon".equals(colData.getTitle())
+					&& (!"ToolbarIcon".equals(colData.getTitle()) || app
+							.has(Feature.CP_NEW_COLUMNS))
 					&& !"Command".equals(colData.getTitle())
 					&& !"Caption".equals(colData.getTitle())
 					&& !"Breakpoint".equals(colData.getTitle())) {
@@ -344,7 +360,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		} else if ("Name".equals(title)) {
 			col = getColumnName();
 		} else if ("ToolbarIcon".equals(title)) {
-			// col = getColumnToolbarIcon();
+			if (app.has(Feature.CP_NEW_COLUMNS)) {
+				col = getColumnToolbarIcon();
+			}
 		} else if ("Definition".equals(title)) {
 			col = getColumnDefinition();
 		} else if ("Command".equals(title)) {
@@ -375,6 +393,38 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 		return idColumn;
 		
+	}
+
+
+	private static class Base64ImageCell extends AbstractCell<String> {
+		public Base64ImageCell() {
+			super();
+		}
+
+		@Override
+		public void render(Context context, String value, SafeHtmlBuilder sb) {
+			if (value != null) {
+				sb.appendHtmlConstant("<img src=\"" + value + "\" />");
+			}
+		}
+	}
+
+	/*
+	 * Add a text column to show the name.
+	 */
+	private static Column<RowData, String> getColumnToolbarIcon() {
+		Column<RowData, String> iconColumn = new Column<RowData, String>(
+				new Base64ImageCell()) {
+
+			@Override
+			public String getValue(RowData object) {
+				if (object.getToolbarIcon() == null) {
+					return null;
+				}
+				return ((GImageIconW) object.getToolbarIcon()).getImpl();
+			}
+		};
+		return iconColumn;
 	}
 
 	/*
