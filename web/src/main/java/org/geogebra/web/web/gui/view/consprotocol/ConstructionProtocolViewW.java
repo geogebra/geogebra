@@ -39,7 +39,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
@@ -255,10 +254,26 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	}
 
 	protected void initPopupMenu() {
-		int k0 = 0;
-		final String[] tableColumns = {};
-		int lastVisibleColData = -1;
-		int visibleCols = 0;
+
+		popupMenu = new GPopupMenuW((AppW) app);
+		ScheduledCommand com;
+
+		// Maybe we don't want close the last column with three-dot menu, so
+		// temporary I don't fix this
+		// if (visibleCols > 1) {
+		// final int n = lastVisibleColData;
+		// com = new ScheduledCommand() {
+		// public void execute() {
+		// data.columns[n].setVisible(false);
+		// initGUI();
+		// }
+		// };
+		// popupMenu.addItem(new MenuItem(app.getMenu("Close"), com));
+		// }
+
+		popupMenu.addVerticalSeparator();
+
+		boolean hasColInPopup = false;
 		for (int k = 0; k < data.getColumnCount(); k++) {
 			ColumnData colData = data.getColumns()[k];
 			// On web there is no all columns yet, so temporary must hide
@@ -269,53 +284,24 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 					&& !"Command".equals(colData.getTitle())
 					&& !"Caption".equals(colData.getTitle())
 					&& !"Breakpoint".equals(colData.getTitle())) {
-				if (colData.isVisible()) {
-					lastVisibleColData = k;
-					visibleCols++;
-				} else {
-					tableColumns[k0] = colData.getTranslatedTitle();
-					k0++;
+				if (!colData.isVisible()) {
+					final int j = k;
+					com = new ScheduledCommand() {
+						public void execute() {
+							data.columns[j].setVisible(true);
+							initGUI();
+						}
+					};
+					popupMenu
+							.addItem(data.columns[j].getTranslatedTitle(), com);
+					hasColInPopup = true;
 				}
 			}
 		}
 
-		popupMenu = new GPopupMenuW((AppW) app);
-		ScheduledCommand com;
-
-		if (visibleCols > 1) {
-			final int n = lastVisibleColData;
-			com = new ScheduledCommand() {
-				public void execute() {
-					data.columns[n].setVisible(false);
-					initGUI();
-				}
-			};
-			popupMenu.addItem(new MenuItem(app.getMenu("Close"), com));
+		if (hasColInPopup) {
+			popupMenu.addVerticalSeparator();
 		}
-
-		if (tableColumns.length > 0) {
-			if (visibleCols > 1) {
-				popupMenu.addVerticalSeparator();
-			}
-			
-			for (int i = 0; i < tableColumns.length; i++) {
-
-				final int j = i;
-				com = new ScheduledCommand() {
-
-					public void execute() {
-						data.columns[data
-								.getColumnNumberByTitle(tableColumns[j])]
-								.setVisible(true);
-						initGUI();
-					}
-				};
-
-				popupMenu.addItem(tableColumns[i], com);
-			}
-		}
-
-		popupMenu.addVerticalSeparator();
 
 		miShowOnlyBreakpoints = new GCheckBoxMenuItem(
 				app
