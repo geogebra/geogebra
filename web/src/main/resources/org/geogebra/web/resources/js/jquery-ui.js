@@ -1237,6 +1237,9 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 		if ( allowed === false ) {
 			return false;
 		}
+		var currentVal = this._values(index);
+		var nextVal = currentVal > normValue ? currentVal - this.options.step : currentVal + this.options.step;
+		
 		this._mouseSliding = true;
 
 		this._handleIndex = index;
@@ -1257,7 +1260,7 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 		};
 
 		if ( !this.handles.hasClass( "ui-state-hover" ) ) {
-			this._slide( event, index, normValue );
+			this._slide( event, index, nextVal );
 		}
 		this._animateOff = true;
 		return true;
