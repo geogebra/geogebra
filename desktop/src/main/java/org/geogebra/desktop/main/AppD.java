@@ -115,6 +115,7 @@ import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.OFFHandler;
@@ -175,6 +176,7 @@ import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.layout.DockPanel;
+import org.geogebra.desktop.gui.util.DropDownListD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.kernel.AnimationManagerD;
@@ -5459,5 +5461,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		return getScaledInternalImage(name);
 	}
 
+	public DropDownList newDropDownList() {
+		return new DropDownListD();
+	};
 
 }

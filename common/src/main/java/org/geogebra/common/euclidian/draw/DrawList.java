@@ -28,6 +28,7 @@ import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.event.ActionEvent;
 import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -52,7 +53,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
 	private org.geogebra.common.javax.swing.GLabel label;
 	private org.geogebra.common.javax.swing.GBox box;
-
+	private DropDownList dropDown = null;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -68,6 +69,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		setDrawingOnCanvas(view.getApplication()
 				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS));
 
+		if (isDrawingOnCanvas()) {
+			dropDown = view.getApplication().newDropDownList();
+		}
 		reset();
 
 		update();
@@ -504,12 +508,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		box.setBounds(labelRectangle);
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
-		// textField.drawBounds(g2, bgColor, boxLeft, boxTop,
-		// boxWidth, boxHeight);
-		// g2.setPaint(GColor.RED);
-		// g2.drawRect((int) labelRectangle.getX(), (int) labelRectangle.getY(),
-		// (int) labelRectangle.getWidth(),
-		// (int) labelRectangle.getHeight());
+
+		dropDown.drawSelected(geo, g2, bgColor, boxLeft, boxTop, boxWidth,
+				boxHeight);
+
 		g2.setPaint(GColor.LIGHT_GRAY);
 		highlightLabel(g2, latexLabel);
 
@@ -518,6 +520,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (geo.isLabelVisible()) {
 			drawLabel(g2, geoList, labelText);
 		}
+
 
 	}
 
