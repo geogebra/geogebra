@@ -2781,7 +2781,7 @@ __GGB__keysVar.es_UY.plain = {
     "ShowOnlineHelp": "Expone ayuda en l\xednea",
     "ShowOnlyBreakpoints": "Solo puntos de interrupci\xf3n",
     "ShowOutliers": "Muestra valores at\xedpicos",
-    "ShowSliderInAlgebraView": "Show slider in Algebra View",
+    "ShowSliderInAlgebraView": "Mostrar deslizador en Vista algebraica",
     "ShowTitleBar": "Expone barra de t\xedtulo",
     "ShowTrace": "Muestra rastro",
     "ShowTrimmed": "Muestra intersecci\xf3n acotada",
