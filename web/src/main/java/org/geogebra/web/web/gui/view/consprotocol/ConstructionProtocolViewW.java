@@ -216,8 +216,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		
 		if (app.has(Feature.CP_NEW_COLUMNS)) {
 			while (!data.columns[lastVisibleColData].isVisible()
-					|| "Command".equals(data.columns[lastVisibleColData]
-							.getTitle())
 					|| "Caption".equals(data.columns[lastVisibleColData]
 							.getTitle())
 					|| "Breakpoint".equals(data.columns[lastVisibleColData]
@@ -297,7 +295,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			if (!"No.".equals(colData.getTitle())
 					&& (!"ToolbarIcon".equals(colData.getTitle()) || app
 							.has(Feature.CP_NEW_COLUMNS))
-					&& !"Command".equals(colData.getTitle())
+					&& (!"Command".equals(colData.getTitle()) || app
+							.has(Feature.CP_NEW_COLUMNS))
 					&& !"Caption".equals(colData.getTitle())
 					&& !"Breakpoint".equals(colData.getTitle())) {
 				if (!colData.isVisible()) {
@@ -379,7 +378,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		} else if ("Definition".equals(title)) {
 			col = getColumnDefinition();
 		} else if ("Command".equals(title)) {
-			// TODO
+			if (app.has(Feature.CP_NEW_COLUMNS)) {
+				col = getColumnCommand();
+			}
 		} else if ("Value".equals(title)) {
 			col = getColumnValue();
 		} else if ("Caption".equals(title)) {
@@ -395,7 +396,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/*
 	 * Add a number column to show the id.
 	 */
-	public Column<RowData, Number> getColumnId() {
+	private static Column<RowData, Number> getColumnId() {
 	    Cell<Number> idCell = new NumberCell();
 	    Column<RowData, Number> idColumn = new Column<RowData, Number>(idCell) {
 	      @Override
@@ -443,7 +444,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/*
 	 * Add a text column to show the name.
 	 */
-	private Column<RowData, SafeHtml> getColumnName() {
+	private static Column<RowData, SafeHtml> getColumnName() {
 		Column<RowData, SafeHtml> nameColumn = new Column<RowData, SafeHtml>(
 		        new SafeHtmlCell()) {
 			
@@ -460,7 +461,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/*
 	 * Add a text column to show the definition.
 	 */
-	private Column<RowData, SafeHtml> getColumnDefinition() {
+	private static Column<RowData, SafeHtml> getColumnDefinition() {
 		Column<RowData, SafeHtml> defColumn = new Column<RowData, SafeHtml>(
 		        new SafeHtmlCell()) {
 			
@@ -476,7 +477,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	/*
 	 * Add a text column to show the value.
 	 */
-	private Column<RowData, SafeHtml> getColumnValue() {
+	private static Column<RowData, SafeHtml> getColumnValue() {
 		Column<RowData, SafeHtml> valColumn = new Column<RowData, SafeHtml>(
 		        new SafeHtmlCell()) {
 
@@ -489,6 +490,21 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		return valColumn;
 	}
 	
+	/*
+	 * Add a text column to show the command.
+	 */
+	private static Column<RowData, SafeHtml> getColumnCommand() {
+		Column<RowData, SafeHtml> defColumn = new Column<RowData, SafeHtml>(
+				new SafeHtmlCell()) {
+
+			@Override
+			public SafeHtml getValue(RowData object) {
+				return SafeHtmlUtils.fromTrustedString(object.getCommand());
+			}
+
+		};
+		return defColumn;
+	}
 
 	public void settingsChanged(AbstractSettings settings) {
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings)settings;
