@@ -7624,7 +7624,8 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	protected void handleMouseDragged(boolean repaint, AbstractEvent event) {
+	protected final void handleMouseDragged(boolean repaint,
+			AbstractEvent event, boolean manual) {
 		startCollectingMinorRepaints();
 		if (!draggingBeyondThreshold && isDraggingBeyondThreshold()) {
 			draggingBeyondThreshold = true;
@@ -7711,7 +7712,7 @@ public abstract class EuclidianController {
 		case MOVE_NUMERIC:
 			// view.incrementTraceRow(); // for spreadsheet/trace
 
-			moveNumeric(repaint, false);
+			moveNumeric(repaint, !manual);
 			break;
 
 		case MOVE_SLIDER:
@@ -8278,7 +8279,7 @@ public abstract class EuclidianController {
 					mouseLoc.y = (int) Math.round(lastMouseLoc.y + (i * dy));
 					calcRWcoords();
 
-					handleMouseDragged(false, event);
+					handleMouseDragged(false, event, startCapture);
 				}
 
 				// set endpoint of mouse movement if we are not already there
@@ -8295,7 +8296,7 @@ public abstract class EuclidianController {
 				updatePastePreviewPosition();
 			}
 		}
-		handleMouseDragged(true, event);
+		handleMouseDragged(true, event, startCapture);
 	}
 
 	private void translateHitsByVector(PointerEventType type) {

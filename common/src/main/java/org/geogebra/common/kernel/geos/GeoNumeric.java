@@ -67,7 +67,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	/** sliders */
 	public static final int DEFAULT_SLIDER_THICKNESS = 10;
 
-	private static final double AUTO_STEP_MUL = 0.0005;
+	private static final double AUTO_STEP_MUL = 0.0025;
 	private static final double AUTO_STEP_MUL_ANGLE = 0.0025;
 	/** placeholder for autostep */
 	public static final double AUTO_STEP = Double.NaN;
