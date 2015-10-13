@@ -129,6 +129,10 @@ public class View {
 		return ((ArticleElement) container).getDataParamAllowSymbolTable();
 	}
 
+	public boolean getDataParamErrorDialogsActive() {
+		return ((ArticleElement) container).getDataParamErrorDialogsActive();
+	}
+
 	public String getDataParamPerspective() {
 		return ((ArticleElement) container).getDataParamPerspective();
 	}

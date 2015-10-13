@@ -42,6 +42,7 @@ public class LoadFilePresenter {
 		boolean fileOpened = true;
 		boolean specialPerspective = false;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
+		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
 		if (isReloadDataInStorage()) {
 			// do nothing here - everything done in isReloadDataInStorage()
 			// function

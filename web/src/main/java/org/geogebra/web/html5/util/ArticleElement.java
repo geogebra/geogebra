@@ -600,4 +600,9 @@ public final class ArticleElement extends Element {
 		return "true".equals(getAttribute("data-param-disablehires3d"));
 	}
 
+	public boolean getDataParamErrorDialogsActive() {
+		return !"false"
+				.equals(this.getAttribute("data-param-errorDialogsActive"));
+	}
+
 }
