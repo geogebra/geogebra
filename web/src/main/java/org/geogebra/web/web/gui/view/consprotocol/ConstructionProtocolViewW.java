@@ -97,6 +97,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		cpPanel.add(scrollPane);
 		
 		addDragDropHandlers();
+		if (app.has(Feature.CP_POPUP)) {
+			this.addHeaderClickHandler();
+		}
 		
 		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 		settingsChanged(cps);
@@ -331,8 +334,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction()
 				.showOnlyBreakpoints());
 		popupMenu.addItem(miShowOnlyBreakpoints);
-		
 
+	}
+
+	private void addHeaderClickHandler() {
 		table.addHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -359,7 +364,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 
 		}, ClickEvent.getType());
-
 	}
 
 	public Column<RowData, ?> getColumn(String title) {
