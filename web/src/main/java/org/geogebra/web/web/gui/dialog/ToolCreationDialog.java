@@ -115,9 +115,9 @@ public class ToolCreationDialog extends DialogBoxW implements
 
 		if (flag) {
 			app.setMoveMode();
-			app.setSelectionListenerMode(this);
+			app.getSelectionManager().addSelectionListener(this);
 		} else {
-			app.setSelectionListenerMode(null);
+			app.getSelectionManager().removeSelectionListener(this);
 		}
 	}
 
