@@ -22,6 +22,8 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -217,8 +219,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		if (app.has(Feature.CP_NEW_COLUMNS)) {
 			while (!data.columns[lastVisibleColData].isVisible()
 					|| "Caption".equals(data.columns[lastVisibleColData]
-							.getTitle())
-					|| "Breakpoint".equals(data.columns[lastVisibleColData]
 							.getTitle())) {
 				lastVisibleColData--;
 			}
@@ -298,7 +298,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 					&& (!"Command".equals(colData.getTitle()) || app
 							.has(Feature.CP_NEW_COLUMNS))
 					&& !"Caption".equals(colData.getTitle())
-					&& !"Breakpoint".equals(colData.getTitle())) {
+					&& (!"Breakpoint".equals(colData.getTitle()) || app
+							.has(Feature.CP_NEW_COLUMNS))) {
 				if (!colData.isVisible()) {
 					final int j = k;
 					com = new ScheduledCommand() {
@@ -386,7 +387,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		} else if ("Caption".equals(title)) {
 			// TODO
 		} else { // if ("Breakpoint".equals(title)) {
-			// TODO
+			if (app.has(Feature.CP_NEW_COLUMNS)) {
+				col = getColumnBreakpoint();
+			}
 		}
 		
 		return col;
@@ -424,7 +427,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	}
 
 	/*
-	 * Add a text column to show the name.
+	 * Add a column to show the toolbar icon.
 	 */
 	private static Column<RowData, String> getColumnToolbarIcon() {
 		Column<RowData, String> iconColumn = new Column<RowData, String>(
@@ -494,7 +497,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	 * Add a text column to show the command.
 	 */
 	private static Column<RowData, SafeHtml> getColumnCommand() {
-		Column<RowData, SafeHtml> defColumn = new Column<RowData, SafeHtml>(
+		Column<RowData, SafeHtml> commandColumn = new Column<RowData, SafeHtml>(
 				new SafeHtmlCell()) {
 
 			@Override
@@ -503,7 +506,37 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 
 		};
-		return defColumn;
+		return commandColumn;
+	}
+
+	/*
+	 * Add a text column to show the breakpoints.
+	 */
+	private Column<RowData, Boolean> getColumnBreakpoint() {
+		Column<RowData, Boolean> col = new Column<RowData, Boolean>(
+				new CheckboxCell()) {
+
+			@Override
+			public Boolean getValue(RowData object) {
+				return object.getGeo().isConsProtocolBreakpoint();
+			}
+
+		};
+
+		col.setFieldUpdater(new FieldUpdater<RowData, Boolean>() {
+
+			public void update(int index, RowData object, Boolean value) {
+				object.getGeo().setConsProtocolBreakpoint(value);
+				// TODO if value is false, it's needed to remove the clicked
+				// row.
+				// This don't work:
+				// if (!value) initGUI();
+				// Don't forget update the navbar too.
+			}
+
+		});
+
+		return col;
 	}
 
 	public void settingsChanged(AbstractSettings settings) {
