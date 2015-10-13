@@ -337,11 +337,34 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 *            direction of the line
 	 * @return interval to draw the line
 	 */
-	public double[] getIntervalClipped(double[] minmax, Coords o, Coords v) {
+	public double[] getIntervalClippedLarge(double[] minmax, Coords o, Coords v) {
 
 		for (int i = 1; i <= 3; i++) {
 			double min = (minMaxLarge[i - 1][0] - o.get(i)) / v.get(i);
 			double max = (minMaxLarge[i - 1][1] - o.get(i)) / v.get(i);
+			updateInterval(minmax, min, max);
+		}
+
+		return minmax;
+	}
+
+	/**
+	 * for a line described by (o,v), return the min and max parameters to draw
+	 * the line
+	 * 
+	 * @param minmax
+	 *            initial interval
+	 * @param o
+	 *            origin of the line
+	 * @param v
+	 *            direction of the line
+	 * @return interval to draw the line
+	 */
+	public double[] getIntervalClipped(double[] minmax, Coords o, Coords v) {
+
+		for (int i = 1; i <= 3; i++) {
+			double min = (minMax[i - 1][0] - o.get(i)) / v.get(i);
+			double max = (minMax[i - 1][1] - o.get(i)) / v.get(i);
 			updateInterval(minmax, min, max);
 		}
 

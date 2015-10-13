@@ -1,6 +1,8 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Kernel;
@@ -8,8 +10,10 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -2519,7 +2523,116 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	
+	@Override
+	public boolean hit(Hitting hitting) {
+
+		if (waitForReset) { // prevent NPE
+			return false;
+		}
+
+		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
+			return false;
+		}
+
+
+		// if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
+		// double[] minmax = new double[] { Double.NEGATIVE_INFINITY,
+		// Double.POSITIVE_INFINITY };
+		// getView3D().getIntervalClipped(minmax, hitting.origin,
+		// hitting.direction);
+		// double x0 = hitting.origin.getX() + hitting.direction.getX()
+		// * minmax[0];
+		// double y0 = hitting.origin.getY() + hitting.direction.getY()
+		// * minmax[0];
+		// double z0 = hitting.origin.getZ() + hitting.direction.getZ()
+		// * minmax[0];
+		// double x1 = hitting.origin.getX() + hitting.direction.getX()
+		// * minmax[1];
+		// double y1 = hitting.origin.getY() + hitting.direction.getY()
+		// * minmax[1];
+		// double z1 = hitting.origin.getZ() + hitting.direction.getZ()
+		// * minmax[1];
+		// App.debug("\n" + x0 + "," + y0 + "," + z0 + "\n" + x1 + "," + y1
+		// + ","
+		// + z1);
+		//
+		//
+		// GeoFunctionNVar geoF = (GeoFunctionNVar) surfaceGeo;
+		//
+		// double[][] xyzf = new double[3][];
+		//
+		// double[] xyzf0 = new double[4];
+		// setXYZ(geoF, x0, y0, z0, xyzf0);
+		//
+		// double[] xyzf1 = new double[4];
+		// setXYZ(geoF, x1, y1, z1, xyzf1);
+		//
+		// if (isLessZ(xyzf0)) {
+		// if (isLessZ(xyzf1)) {
+		// return false;
+		// }
+		// xyzf[DICHO_FIRST] = xyzf0;
+		// xyzf[DICHO_LAST] = xyzf1;
+		// } else {
+		// if (!isLessZ(xyzf1)) {
+		// return false;
+		// }
+		//
+		// xyzf[DICHO_FIRST] = xyzf1;
+		// xyzf[DICHO_LAST] = xyzf0;
+		// }
+		//
+		// xyzf[DICHO_MID] = new double[4];
+		// for (int i = 0; i < 10; i++) {
+		// stepDicho(geoF, xyzf);
+		// }
+		//
+		// App.debug("\npoint:\n" + xyzf[DICHO_MID][0] + "\n"
+		// + xyzf[DICHO_MID][1] + "\n" + xyzf[DICHO_MID][2]);
+		//
+		//
+		// }
+
+		return false;
+
+	}
 	
+
+	private static int DICHO_FIRST = 0, DICHO_LAST = 1, DICHO_MID = 2;
+
+	private static boolean isLessZ(double[] xyzf) {
+		return xyzf[2] < xyzf[3];
+	}
+
+	private static void setXYZ(GeoFunctionNVar geoF, double x, double y,
+			double z, double[] xyzf) {
+		xyzf[0] = x;
+		xyzf[1] = y;
+		xyzf[2] = z;
+		xyzf[3] = geoF.evaluate(xyzf);
+	}
+
+	private static void stepDicho(GeoFunctionNVar geoF, double[][] xyzf) {
+		setXYZ(geoF, (xyzf[DICHO_FIRST][0] + xyzf[DICHO_LAST][0]) / 2,
+				(xyzf[DICHO_FIRST][1] + xyzf[DICHO_LAST][1]) / 2,
+				(xyzf[DICHO_FIRST][2] + xyzf[DICHO_LAST][2]) / 2,
+				xyzf[DICHO_MID]);
+
+		App.debug("\n" + xyzf[DICHO_FIRST][2] + "/" + xyzf[DICHO_LAST][2]
+				+ " >> " + xyzf[DICHO_MID][2]);
+
+		if (isLessZ(xyzf[DICHO_MID])) {
+			double[] tmp = xyzf[DICHO_FIRST];
+			xyzf[DICHO_FIRST] = xyzf[DICHO_MID];
+			xyzf[DICHO_MID] = tmp;
+		} else {
+			double[] tmp = xyzf[DICHO_LAST];
+			xyzf[DICHO_LAST] = xyzf[DICHO_MID];
+			xyzf[DICHO_MID] = tmp;
+
+		}
+	}
+
 //	private static abstract class PlotterOrCounter{
 //		
 //		

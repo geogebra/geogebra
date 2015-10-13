@@ -3900,6 +3900,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
+	public double[] getIntervalClippedLarge(double[] minmax, Coords o, Coords v) {
+		return clippingCubeDrawable.getIntervalClippedLarge(minmax, o, v);
+	}
+
 	public double[] getIntervalClipped(double[] minmax, Coords o, Coords v) {
 		return clippingCubeDrawable.getIntervalClipped(minmax, o, v);
 	}

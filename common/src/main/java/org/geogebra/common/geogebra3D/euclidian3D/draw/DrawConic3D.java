@@ -229,7 +229,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 	 */
 	protected double[] getLineMinMax(int i) {
 
-		return getView3D().getIntervalClipped(
+		return getView3D().getIntervalClippedLarge(
 				new double[] { Double.NEGATIVE_INFINITY,
 						Double.POSITIVE_INFINITY }, m, d);
 	}

@@ -125,7 +125,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			center.setW(1);
 			if (algo instanceof AlgoAnglePlanes) { // draw angle at center of
 													// the screen
-				double[] minmax = getView3D().getIntervalClipped(
+				double[] minmax = getView3D().getIntervalClippedLarge(
 						new double[] { Double.NEGATIVE_INFINITY,
 								Double.POSITIVE_INFINITY }, center, vn);
 				center.setAdd(center,

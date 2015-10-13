@@ -89,7 +89,7 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 		Coords v = line.getPointInD(3, 1).getInhomCoordsInSameDimension()
 				.sub(o);
 
-		double[] minmax = getView3D().getIntervalClipped(
+		double[] minmax = getView3D().getIntervalClippedLarge(
 				new double[] { Double.NEGATIVE_INFINITY,
 						Double.POSITIVE_INFINITY }, o, v);
 
