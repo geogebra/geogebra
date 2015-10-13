@@ -94,7 +94,10 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		}
 
 		public void remove(GeoElement geo) {
-			remove(geos.lastIndexOf(geo));
+			int idx = geos.lastIndexOf(geo);
+			if (idx > 0) {
+				remove(geos.lastIndexOf(geo));
+			}
         }
 		
 		public void remove(int idx) {
@@ -141,11 +144,12 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	private LocalizationW loc;
 
 	/**
-	 * Input Dialog for a GeoText object
+	 * Input Dialog for a GeoBoolean object Make this *not* modal to allow
+	 * adding geos by clicking in EV
 	 */
 	public CheckboxCreationDialogW(AppW app, GPoint loc2,
 			GeoBoolean geoBoolean) {
-		super(app.getPanel());
+		super(false, false, null, app.getPanel());
 		this.app = app;
 		this.loc = (LocalizationW) app.getLocalization();
 		this.location = loc2;
@@ -275,6 +279,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		}
 	}
 
+
 	private void apply() {
 		// create new GeoBoolean
 		if (geoBoolean == null) {
@@ -319,11 +324,16 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	@Override
 	public void setVisible(boolean flag) {
 		if (!isModal()) {
-			if (flag) { // set old mode again
+
+			if (flag) {
+				app.setMoveMode();
+				app.getSelectionManager().addSelectionListener(this);
 			} else {
+				app.getSelectionManager().removeSelectionListener(this);
 				app.setSelectionListenerMode(null);
 				app.setMode(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 			}
+
 		}
 		super.setVisible(flag);
 	}

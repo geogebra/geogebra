@@ -67,7 +67,6 @@ public class ToolCreationDialog extends DialogBoxW implements
 
 	public ToolCreationDialog(App app) {
 		super(false, false, null, ((AppW) app).getPanel());
-		this.setGlassEnabled(false);
 		this.app = (AppW) app;
 
 		createGUI();

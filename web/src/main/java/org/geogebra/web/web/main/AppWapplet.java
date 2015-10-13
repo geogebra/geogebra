@@ -22,7 +22,6 @@ import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.URL;
-import org.geogebra.web.web.gui.CustomizeToolbarGUI;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.LanguageGUI;
 import org.geogebra.web.web.gui.MyHeaderPanel;
@@ -205,7 +204,6 @@ public class AppWapplet extends AppWFull {
 												// variable
 	private HorizontalPanel splitPanelWrapper = null;
 
-	private CustomizeToolbarGUI ct;
 
 	@Override
 	public void buildApplicationPanel() {
@@ -434,13 +432,6 @@ public class AppWapplet extends AppWFull {
 		return focusedView != null;
 	}
 
-	@Override
-	protected CustomizeToolbarGUI getCustomizeToolbarGUI() {
-		if (this.ct == null) {
-			this.ct = new CustomizeToolbarGUI(this);
-		}
-		return this.ct;
-	}
 
 	@Override
 	public void setCustomToolBar() {

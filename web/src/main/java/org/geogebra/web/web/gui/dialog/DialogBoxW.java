@@ -39,7 +39,7 @@ public class DialogBoxW extends GDialogBox {
 		addResizeHandler();
 		this.addStyleName("DialogBox");
 		this.addStyleName("GeoGebraFrame");
-		this.setGlassEnabled(true);
+		this.setGlassEnabled(modal);
 		this.eh = eh;
 	}
 	

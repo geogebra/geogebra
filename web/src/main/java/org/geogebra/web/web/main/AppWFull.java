@@ -24,6 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.CustomizeToolbarGUI;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -179,6 +180,7 @@ public abstract class AppWFull extends AppW {
 
 	// maybe this is unnecessary, just I did not want to make error here
 	boolean infiniteLoopPreventer = false;
+	private CustomizeToolbarGUI ct;
 
 	@Override
 	public void focusGained(View v, Element el) {
@@ -365,6 +367,14 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public ToolBarInterface getToolbar() {
 		return getAppletFrame().getToolbar();
+	}
+
+	@Override
+	protected CustomizeToolbarGUI getCustomizeToolbarGUI() {
+		if (this.ct == null) {
+			this.ct = new CustomizeToolbarGUI(this);
+		}
+		return this.ct;
 	}
 
 }

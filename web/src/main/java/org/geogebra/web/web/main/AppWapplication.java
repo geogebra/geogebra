@@ -11,11 +11,9 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.URL;
-import org.geogebra.web.web.gui.CustomizeToolbarGUI;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.LanguageGUI;
@@ -45,13 +43,11 @@ public class AppWapplication extends AppWFull {
 
 	private final int AUTO_SAVE_PERIOD = 60000;
 	private GeoGebraAppFrame appFrame = null;
-	private GuiManagerInterfaceW guiManager = null;
 	private ObjectPool objectPool;
 	// TODO remove GUI stuff from appW
 	private LanguageGUI lg;
 	private AuthenticationModelW authenticationModel = null;
 	private boolean menuInited = false;
-	private CustomizeToolbarGUI ct;
 	protected final GDevice device;
 	private boolean macroRestored;
 	/********************************************************
@@ -473,15 +469,6 @@ public class AppWapplication extends AppWFull {
 		return this.lg;
 	}
 
-	@Override
-	protected CustomizeToolbarGUI getCustomizeToolbarGUI() {
-		if (this.ct == null) {
-			this.ct = new CustomizeToolbarGUI(this);
-		}
-		return this.ct;
-	}
-
-
 
 	@Override
 	public void set1rstMode() {
@@ -578,7 +565,7 @@ public class AppWapplication extends AppWFull {
 	@Override
 	public void toggleShowConstructionProtocolNavigation(int id) {
 		super.toggleShowConstructionProtocolNavigation(id);
-		((GuiManagerW) this.guiManager).updateMenubar();
+		getGuiManager().updateMenubar();
 	}
 
 	@Override
