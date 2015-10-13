@@ -234,6 +234,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				lastVisibleColData--;
 			}
 		}
+
+		// (k==3) if there are at least 3 columns in the CP.
+		int k = 0;
+		for (int i = 0; i <= lastVisibleColData && k < 3; i++) {
+			if (data.columns[i].isVisible()) {
+				k++;
+			}
+		}
+
 		initPopupMenu();
 		
 		for (int i = 0; i < data.getColumnCount(); i++) {
@@ -244,7 +253,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 					sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
 							+ app.getPlain(title) + "</div>"));
-					if (i != 0) {
+					if (i != 0 && k == 3) {
 						sb.append(SafeHtmlUtils
 								.fromSafeConstant("<div title = " + title + ">"));
 						sb.append(AbstractImagePrototype.create(
