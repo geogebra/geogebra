@@ -1,8 +1,5 @@
 package org.geogebra.web.web.cas.view;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
 import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
@@ -179,17 +176,5 @@ public class CASViewW extends CASView {
 					app.getGuiManager().getTooltipURL(mode),
 					ToolTipLinkType.Help, app);
 		}
-	}
-
-	@Override
-	public ArrayList<Vector<Vector<String>>> getSubstData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void removeCellsSubstDialog(int i) {
-		// TODO Auto-generated method stub
-
 	}
 }

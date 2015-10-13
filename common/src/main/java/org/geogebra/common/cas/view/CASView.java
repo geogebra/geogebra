@@ -33,6 +33,8 @@ public abstract class CASView implements View, SetLabels {
 	protected Kernel kernel;
 	/** input handler */
 	protected CASInputHandler casInputHandler;
+	// list of last substitutions
+	private ArrayList<Vector<Vector<String>>> substData = null;
 
 	/**
 	 * @return CAS table
@@ -45,7 +47,12 @@ public abstract class CASView implements View, SetLabels {
 	public abstract App getApp();
 
 	// list of last substitutions
-	public abstract ArrayList<Vector<Vector<String>>> getSubstData();
+	public final ArrayList<Vector<Vector<String>>> getSubstData() {
+		if (substData == null) {
+			substData = new ArrayList<Vector<Vector<String>>>();
+		}
+		return substData;
+	}
 
 	/**
 	 * Shows dialog for substitution tool
@@ -490,6 +497,10 @@ public abstract class CASView implements View, SetLabels {
 	 * @param i
 	 *            - nr of cell in table
 	 */
-	public abstract void removeCellsSubstDialog(int i);
+	public final void removeCellsSubstDialog(int i) {
+		if (substData != null) {
+			substData.remove(i);
+		}
+	}
 
 }
