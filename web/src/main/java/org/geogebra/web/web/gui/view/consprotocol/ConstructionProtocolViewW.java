@@ -229,14 +229,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 					sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
 							+ app.getPlain(title) + "</div>"));
-					if (i != 0 && i != lastVisibleColData) {
+					if (i != 0) {
 						sb.append(SafeHtmlUtils
 								.fromSafeConstant("<div title = " + title + ">"));
 						sb.append(AbstractImagePrototype.create(
 								GuiResources.INSTANCE.dockbar_close())
 								.getSafeHtml());
 						sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
-					} else if (i != 0) {
+					}
+					if (i == lastVisibleColData) {
 						sb.append(SafeHtmlUtils.fromSafeConstant("<div id = \"CP_popupImage\">"));
 						sb.append(AbstractImagePrototype.create(
 								GuiResources.INSTANCE.menu_dots())
@@ -257,19 +258,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 		popupMenu = new GPopupMenuW((AppW) app);
 		ScheduledCommand com;
-
-		// Maybe we don't want close the last column with three-dot menu, so
-		// temporary I don't fix this
-		// if (visibleCols > 1) {
-		// final int n = lastVisibleColData;
-		// com = new ScheduledCommand() {
-		// public void execute() {
-		// data.columns[n].setVisible(false);
-		// initGUI();
-		// }
-		// };
-		// popupMenu.addItem(new MenuItem(app.getMenu("Close"), com));
-		// }
 
 		popupMenu.addVerticalSeparator();
 
@@ -327,9 +315,12 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 						.as(event.getNativeEvent().getEventTarget());
 				Element imgElement = DOM.getElementById("CP_popupImage")
 						.getElementsByTagName("img").getItem(0);
-				if (el.equals(imgElement)) {
+
+				if (el.equals(imgElement)) { // three-dot menu
 					popupMenu.show(new GPoint(el.getAbsoluteLeft(), el
 							.getAbsoluteBottom()));
+
+					// X image for closing the columns
 				} else if ("img".equals(el.getTagName().toLowerCase())) {
 					String colTitle = el.getParentElement().getAttribute(
 							"title");
@@ -337,7 +328,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 						data.columns[data.getColumnNumberByTitle(colTitle)]
 								.setVisible(false);
 						table.removeColumn(getColumnByTitle(colTitle));
-						initPopupMenu();
+						initGUI();
 					}
 				}
 			}
