@@ -121,7 +121,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 
 	private void updateWidgets() {
-
+		if (!isVisible) {
+			return;
+		}
 		// eg size changed etc
 		geoList.rebuildComboxBoxIfNecessary(comboBox);
 
@@ -189,10 +191,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			// textField.setVisible(isVisible);
 			// label.setVisible(isVisible);
 
-			if (!isVisible) {
-				return;
-			}
+
 			if (isDrawingOnCanvas()) {
+				if (!isVisible) {
+					return;
+				}
+
 				xLabel = geo.labelOffsetX;
 				yLabel = geo.labelOffsetY;
 
