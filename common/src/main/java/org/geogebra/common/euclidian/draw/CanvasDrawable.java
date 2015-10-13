@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.javax.swing.GBox;
@@ -14,7 +15,7 @@ public abstract class CanvasDrawable extends Drawable {
 	private static final int HIGHLIGHT_MARGIN = 2;
 	private boolean drawingOnCanvas;
 	private GFont labelFont;
-	private GPoint labelSize = new GPoint(0, 0);
+	GPoint labelSize = new GPoint(0, 0);
 	private int labelFontSize;
 	GBox box;
 	GDimension preferredSize;
@@ -45,20 +46,21 @@ public abstract class CanvasDrawable extends Drawable {
 				false, null);
 	};
 	
-	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0) {
+	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,
+			String text) {
 		boolean latex = false;
 		if (geo.isLabelVisible()) {
-			latex = isLatexString(labelDesc);
+			latex = isLatexString(text);
 			// no drawing, just measuring.
 			if (latex) {
-				GDimension d = drawLatex(g2, geo0, getLabelFont(), labelDesc,
+				GDimension d = drawLatex(g2, geo0, getLabelFont(), text,
 						xLabel, yLabel);
 				labelSize.x = d.getWidth();
 				labelSize.y = d.getHeight();
 			} else {
 				setLabelSize(EuclidianStatic
 
-				.drawIndexedString(view.getApplication(), g2, labelDesc, 0, 0,
+				.drawIndexedString(view.getApplication(), g2, text, 0, 0,
 						false, false, false));
 			}
 			calculateBoxBounds(latex);
@@ -68,7 +70,7 @@ public abstract class CanvasDrawable extends Drawable {
 		return latex;
 	}
 
-	private void calculateBoxBounds(boolean latex) {
+	protected void calculateBoxBounds(boolean latex) {
 		boxLeft = xLabel + labelSize.x + 2;
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredSize().getHeight()) / 2
@@ -77,7 +79,7 @@ public abstract class CanvasDrawable extends Drawable {
 		boxHeight = getPreferredSize().getHeight();
 	}
 
-	private void calculateBoxBounds() {
+	protected void calculateBoxBounds() {
 		boxLeft = xLabel + 2;
 		boxTop = yLabel;
 		boxWidth = getPreferredSize().getWidth();
@@ -105,15 +107,16 @@ public abstract class CanvasDrawable extends Drawable {
 
 	}
 
-	protected void drawLabel(GGraphics2D g2, GeoElement geo0) {
+	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
 
-		if (isLatexString(labelDesc)) {
-			drawLatex(g2, geo0, getLabelFont(), labelDesc, xLabel, yLabel);
+		if (isLatexString(text)) {
+			drawLatex(g2, geo0, getLabelFont(), text, xLabel, yLabel);
 		} else {
 			g2.setPaint(geo.getObjectColor());
 
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-					labelDesc, xLabel, yLabel + getTextBottom(), false, false);
+ text,
+					xLabel, yLabel + getTextBottom(), false, false);
 		}
 
 	}
@@ -147,7 +150,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		boolean res = false;
 		if (isDrawingOnCanvas()) {
 			int left = xLabel;
@@ -159,9 +162,9 @@ public abstract class CanvasDrawable extends Drawable {
 					|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
 							&& y < yLabel + labelSize.y);
 			;
-			// if (res) {
-			// App.debug("[DrawTextFied] hit");
-			// }
+			if (res) {
+				App.debug("[CD] hit");
+			}
 		} else {
 			res = box.getBounds().contains(x, y);
 		}
@@ -198,4 +201,33 @@ public abstract class CanvasDrawable extends Drawable {
 	public void setPreferredSize(GDimension preferredSize) {
 		this.preferredSize = preferredSize;
 	}
+
+	@Override
+	public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+		return rect.contains(labelRectangle);
+	}
+
+	@Override
+	public boolean intersectsRectangle(GRectangle rect) {
+		return box.getBounds().intersects(rect);
+	}
+
+	/**
+	 * Returns false
+	 */
+	@Override
+	public boolean hitLabel(int x, int y) {
+		return false;
+	}
+
+	@Override
+	final public GeoElement getGeoElement() {
+		return geo;
+	}
+
+	@Override
+	final public void setGeoElement(GeoElement geo) {
+		this.geo = geo;
+	}
+
 }

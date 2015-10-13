@@ -18,7 +18,6 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -387,7 +386,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
-		boolean latexLabel = measureLabel(g2, geoTextField);
+		boolean latexLabel = measureLabel(g2, geoTextField, labelDesc);
 		int textLeft = boxLeft + 2;
 		int textBottom = boxTop + getTextBottom();
 
@@ -406,7 +405,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		g2.setPaint(geo.getObjectColor());
 
 		if (geo.isLabelVisible()) {
-			drawLabel(g2, geoTextField);
+			drawLabel(g2, geoTextField, labelDesc);
 		}
 
 		String text = geoTextField.getText();
@@ -460,34 +459,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		box.setVisible(show);
 	}
 
-	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
-		App.debug("[DrawTextFied] isInside");
-		return rect.contains(labelRectangle);
-	}
-
-	@Override
-	public boolean intersectsRectangle(GRectangle rect) {
-		return box.getBounds().intersects(rect);
-	}
-
-	/**
-	 * Returns false
-	 */
-	@Override
-	public boolean hitLabel(int x, int y) {
-		return false;
-	}
-
-	@Override
-	final public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
-	final public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
 
 	/**
 	 * @param str

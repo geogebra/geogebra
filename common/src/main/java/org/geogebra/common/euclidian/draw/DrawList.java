@@ -19,6 +19,8 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -38,19 +40,18 @@ import org.geogebra.common.util.Unicode;
  * 
  * @author Markus Hohenwarter
  */
-public final class DrawList extends Drawable implements RemoveNeeded {
+public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	/** coresponding list as geo */
 	GeoList geoList;
 	// private ArrayList drawables = new ArrayList();
 	private DrawListArray drawables;
 	private boolean isVisible;
 
-	private String oldCaption;
+	private String oldCaption = "";
 	/** combobox */
 	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
 	private org.geogebra.common.javax.swing.GLabel label;
 	private org.geogebra.common.javax.swing.GBox box;
-	private boolean drawOnCanvas;
 
 	/**
 	 * Creates new drawable list
@@ -64,8 +65,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		this.view = view;
 		this.geoList = geoList;
 		geo = geoList;
-		drawOnCanvas = view.getApplication()
-				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS);
+		setDrawingOnCanvas(view.getApplication()
+				.has(Feature.DRAW_DROPDOWNLISTS_TO_CANVAS));
 
 		reset();
 
@@ -96,13 +97,15 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	private void resetOnCanvas() {
+		box = view.getApplication().getSwingFactory()
+				.createHorizontalBox(view.getEuclidianController());
 
 	}
 
 	private void reset() {
 
 		if (geoList.drawAsComboBox()) {
-			if (drawOnCanvas) {
+			if (isDrawingOnCanvas()) {
 				resetOnCanvas();
 			} else {
 				resetWidgets();
@@ -116,69 +119,92 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		}
 	}
 
+
+	private void updateWidgets() {
+		isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
+		// textField.setVisible(isVisible);
+		// label.setVisible(isVisible);
+		box.setVisible(isVisible);
+		if (!isVisible) {
+			return;
+		}
+
+		// eg size changed etc
+		geoList.rebuildComboxBoxIfNecessary(comboBox);
+
+		label.setText(getLabelText());
+		if (!geo.isLabelVisible()) {
+			label.setText("");
+		}
+
+		int fontSize = (int) (view.getFontSize()
+				* geoList.getFontSizeMultiplier());
+		App app = view.getApplication();
+
+		org.geogebra.common.awt.GFont vFont = view.getFont();
+		org.geogebra.common.awt.GFont font = app.getFontCanDisplay(
+				comboBox.getItemAt(0).toString(), false, vFont.getStyle(),
+				fontSize);
+
+		label.setOpaque(false);
+		comboBox.setFont(font);
+		label.setFont(font);
+		comboBox.setForeground(geo.getObjectColor());
+		label.setForeground(geo.getObjectColor());
+		org.geogebra.common.awt.GColor bgCol = geo.getBackgroundColor();
+		comboBox.setBackground(
+				bgCol != null ? bgCol : view.getBackgroundCommon());
+
+		comboBox.setFocusable(true);
+		comboBox.setEditable(false);
+
+		box.validate();
+
+		xLabel = geo.labelOffsetX;
+		yLabel = geo.labelOffsetY;
+		org.geogebra.common.awt.GDimension prefSize = box.getPreferredSize();
+		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
+				prefSize.getHeight());
+		box.setBounds(labelRectangle);
+
+	}
+
+	private String getLabelText() {
+		// don't need to worry about labeling options, just check if caption
+		// set or not
+
+		if (geo.getRawCaption() != null) {
+			String caption = geo.getCaption(StringTemplate.defaultTemplate);
+			oldCaption = caption;
+			return caption;
+		}
+
+		// make sure there's something to drag
+		return Unicode.NBSP + Unicode.NBSP + Unicode.NBSP;
+
+	}
+
 	@Override
 	final public void update() {
 
 		if (geoList.drawAsComboBox()) {
-			isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
-			// textField.setVisible(isVisible);
-			// label.setVisible(isVisible);
-			box.setVisible(isVisible);
-			if (!isVisible) {
-				return;
-			}
 
-			// eg size changed etc
-			geoList.rebuildComboxBoxIfNecessary(comboBox);
+			setLabelFontSize((int) (view.getFontSize()
+					* geoList.getFontSizeMultiplier()));
 
-			// don't need to worry about labeling options, just check if caption
-			// set or not
-			if (geo.getRawCaption() != null) {
-				// get caption to show r
-				String caption = geo.getCaption(StringTemplate.defaultTemplate);
-				if (!caption.equals(oldCaption)) {
-					oldCaption = caption;
-					labelDesc = GeoElement.indicesToHTML(caption, true);
-				}
-				label.setText(labelDesc);
+			if (isDrawingOnCanvas()) {
+				xLabel = geo.labelOffsetX;
+				yLabel = geo.labelOffsetY;
+
+				setPreferredSize(box.getPreferredSize());
+
+				labelRectangle.setBounds(xLabel, yLabel,
+						getPreferredSize().getWidth(),
+						getPreferredSize().getHeight());
+				box.setBounds(labelRectangle);
 			} else {
-				// make sure there's something to drag
-				label.setText(Unicode.NBSP + Unicode.NBSP + Unicode.NBSP);
+				updateWidgets();
 			}
-
-			if (!geo.isLabelVisible()) {
-				label.setText("");
-			}
-
-			int fontSize = (int) (view.getFontSize() * geoList
-					.getFontSizeMultiplier());
-			App app = view.getApplication();
-
-			org.geogebra.common.awt.GFont vFont = view.getFont();
-			org.geogebra.common.awt.GFont font = app
-					.getFontCanDisplay(comboBox.getItemAt(0).toString(), false,
-							vFont.getStyle(), fontSize);
-
-			label.setOpaque(false);
-			comboBox.setFont(font);
-			label.setFont(font);
-			comboBox.setForeground(geo.getObjectColor());
-			label.setForeground(geo.getObjectColor());
-			org.geogebra.common.awt.GColor bgCol = geo.getBackgroundColor();
-			comboBox.setBackground(bgCol != null ? bgCol : view
-					.getBackgroundCommon());
-
-			comboBox.setFocusable(true);
-			comboBox.setEditable(false);
-
-			box.validate();
-
-			xLabel = geo.labelOffsetX;
-			yLabel = geo.labelOffsetY;
-			org.geogebra.common.awt.GDimension prefSize = box.getPreferredSize();
-			labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
-					prefSize.getHeight());
-			box.setBounds(labelRectangle);
 		} else {
 			isVisible = geoList.isEuclidianVisible();
 			if (!isVisible)
@@ -271,9 +297,9 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	@Override
 	final public void draw(org.geogebra.common.awt.GGraphics2D g2) {
 		if (geoList.drawAsComboBox()) {
-			if (drawOnCanvas) {
-				drawOnCanvas(g2);
-				return;
+			if (isDrawingOnCanvas()) {
+				drawOnCanvas(g2, "");
+				// return;
 			}
 
 			if (isVisible) {
@@ -307,13 +333,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		}
 	}
 
-	/*
-	 * Draws the list and its label directly on canvas
-	 */
-	final public void drawOnCanvas(org.geogebra.common.awt.GGraphics2D g2) {
-
-	}
-
 	/**
 	 * Returns whether any one of the list items is at the given screen
 	 * position.
@@ -322,9 +341,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	final public boolean hit(int x, int y, int hitThreshold) {
 
 		if (geoList.drawAsComboBox()) {
-			// App.debug(x + ", " + y + ": " + box.getBounds().getX() + ", " +
-			// box.getBounds().getY());
-			return box.getBounds().contains(x, y);
+			return isDrawingOnCanvas() ? super.hit(x, y, hitThreshold)
+					: box.getBounds().contains(x, y);
 		}
 
 		int size = drawables.size();
@@ -338,10 +356,10 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public boolean isInside(org.geogebra.common.awt.GRectangle rect) {
+	public boolean isInside(GRectangle rect) {
 
 		if (geoList.drawAsComboBox()) {
-			return rect.contains(labelRectangle);
+			return super.isInside(labelRectangle);
 		}
 
 		int size = drawables.size();
@@ -357,7 +375,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		if (geoList.drawAsComboBox()) {
-			return box.getBounds().intersects(rect);
+			return super.intersectsRectangle(rect);
 		}
 
 		int size = drawables.size();
@@ -375,7 +393,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	@Override
 	final public org.geogebra.common.awt.GRectangle getBounds() {
 		if (geoList.drawAsComboBox()) {
-			return null;
+			return isDrawingOnCanvas() ? box.getBounds() : null;
+
 		}
 
 		if (!geo.isEuclidianVisible())
@@ -402,28 +421,28 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 	}
 
-	/**
-	 * Returns false
-	 */
-	@Override
-	public boolean hitLabel(int x, int y) {
-		if (geoList.drawAsComboBox()) {
-			return false;
-		}
-
-		return super.hitLabel(x, y);
-
-	}
-
-	@Override
-	final public GeoElement getGeoElement() {
-		return geo;
-	}
-
-	@Override
-	final public void setGeoElement(GeoElement geo) {
-		this.geo = geo;
-	}
+	// /**
+	// * Returns false
+	// */
+	// @Override
+	// public boolean hitLabel(int x, int y) {
+	// if (geoList.drawAsComboBox()) {
+	// return false;
+	// }
+	//
+	// return super.hitLabel(x, y);
+	//
+	// }
+	//
+	// @Override
+	// final public GeoElement getGeoElement() {
+	// return geo;
+	// }
+	//
+	// @Override
+	// final public void setGeoElement(GeoElement geo) {
+	// this.geo = geo;
+	// }
 
 	/**
 	 * Listens to events in this combobox
@@ -464,6 +483,77 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		reset();
 
 		update();
+	}
+
+	@Override
+	protected void drawWidget(GGraphics2D g2) {
+		String labelText = getLabelText();
+		boolean latexLabel = measureLabel(g2, geoList, labelText);
+		int textLeft = boxLeft + 2;
+		int textBottom = boxTop + getTextBottom();
+
+		// TF Bounds
+
+		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
+				boxHeight - 3);
+		box.setBounds(labelRectangle);
+		GColor bgColor = geo.getBackgroundColor() != null
+				? geo.getBackgroundColor() : view.getBackgroundCommon();
+		// textField.drawBounds(g2, bgColor, boxLeft, boxTop,
+		// boxWidth, boxHeight);
+		// g2.setPaint(GColor.RED);
+		// g2.drawRect((int) labelRectangle.getX(), (int) labelRectangle.getY(),
+		// (int) labelRectangle.getWidth(),
+		// (int) labelRectangle.getHeight());
+		g2.setPaint(GColor.LIGHT_GRAY);
+		highlightLabel(g2, latexLabel);
+
+		g2.setPaint(geo.getObjectColor());
+
+		if (geo.isLabelVisible()) {
+			drawLabel(g2, geoList, labelText);
+		}
+
+	}
+
+	@Override
+	protected void calculateBoxBounds(boolean latex) {
+		boxLeft = xLabel + labelSize.x + 2;
+		boxTop = latex
+				? yLabel + (labelSize.y - getPreferredSize().getHeight()) / 2
+				: yLabel;
+		boxWidth = getPreferredSize().getWidth();
+		boxHeight = getPreferredSize().getHeight();
+	}
+
+	@Override
+	protected void calculateBoxBounds() {
+		boxLeft = xLabel + 2;
+		boxTop = yLabel;
+		boxWidth = getPreferredSize().getWidth();
+		boxHeight = getPreferredSize().getHeight();
+	}
+
+	@Override
+	public GDimension getPreferredSize() {
+		// TODO: eliminate magic numbers
+		return new GDimension() {
+
+			@Override
+			public int getWidth() {
+				return (int) Math.round(((view.getApplication().getFontSize()
+						* geoList.getFontSizeMultiplier()))
+						* 4);
+			}
+
+			@Override
+			public int getHeight() {
+				return (int) Math.round(((view.getApplication().getFontSize()
+						* geoList.getFontSizeMultiplier()))
+ * 2);
+
+			}
+		};
 	}
 
 }
