@@ -21,7 +21,6 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -229,7 +228,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				// PathParameter tempPathParameter = getTempPathparameter();
 				// tempPathParameter.set(getPathParameter());
 				path.pointChanged(this);
-				
+
 				// make sure animation starts from the correct place
 				animationValue = PathNormalizer.toNormalizedPathParameter(
 						getPathParameter().t, path.getMinParameter(),
@@ -1246,8 +1245,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return (isDefined || showUndefinedInAlgebraView);
 	}
 
-
-
 	@Override
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		super.setParentAlgorithm(algorithm);
@@ -1818,89 +1815,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// TODO: if geo instanceof GeoPoint...
 	}
 
-	/**
-	 * @param geo
-	 *            possibly incident geo
-	 * @return true iff incident
-	 */
-	public boolean addIncidenceWithProbabilisticChecking(GeoElement geo) {
-		boolean incident = false;
-
-		// check if this is currently on geo
-		if (geo.isGeoPoint() && this.isEqual(geo) || geo.isPath()
-				&& ((Path) geo).isOnPath(this, Kernel.STANDARD_PRECISION)) {
-
-			incident = true;
-
-			// get all "randomizable" predecessors of this and geo
-			TreeSet<GeoElement> pred = this.getAllRandomizablePredecessors();
-			ArrayList<GeoElement> predList = new ArrayList<GeoElement>();
-			TreeSet<AlgoElement> tmpSet = GeoElement.getTempSet();
-
-			predList.addAll(pred);
-			pred.addAll(geo.getAllRandomizablePredecessors());
-
-			// store parameters of current construction
-			Iterator<GeoElement> it = pred.iterator();
-			while (it.hasNext()) {
-				GeoElement predGeo = it.next();
-				predGeo.storeClone();
-			}
-
-			// alter parameters of construction and test if this is still on
-			// geo. Do it N times
-			for (int i = 0; i < 5; ++i) {
-				it = pred.iterator();
-				while (it.hasNext()) {
-					GeoElement predGeo = it.next();
-					predGeo.randomizeForProbabilisticChecking();
-				}
-
-				GeoElement.updateCascadeUntil(predList,
-						new TreeSet<AlgoElement>(), this.algoParent);
-				GeoElement.updateCascadeUntil(predList,
-						new TreeSet<AlgoElement>(), geo.getParentAlgorithm());
-				/*
-				 * if (!this.isFixed()) this.updateCascade(); if
-				 * (!geo.isFixed()) geo.updateCascade();
-				 */
-
-				if (geo.isGeoPoint()) {
-					if (!this.isEqual(geo))
-						incident = false;
-				} else if (geo.isPath()) {
-					if (!((Path) geo).isOnPath(this, Kernel.STANDARD_PRECISION))
-						incident = false;
-				} else {
-					incident = false;
-				}
-				if (!incident)
-					break;
-			}
-
-			// recover parameters of current construction
-			it = pred.iterator();
-			while (it.hasNext()) {
-				GeoElement predGeo = it.next();
-				if (!predGeo.isIndependent()) {
-					GeoElement.updateCascadeUntil(predList, tmpSet,
-							predGeo.getParentAlgorithm());
-				}
-				predGeo.recoverFromClone();
-			}
-
-			GeoElement.updateCascade(predList, tmpSet, false);
-
-			// if all of the cases are good, add incidence
-			if (incident)
-				addIncidence(geo, false);
-			else
-				addNonIncidence(geo);
-		}
-
-		return incident;
-	}
-
 	@Override
 	public boolean evaluatesTo3DVector() {
 		return true;
@@ -1922,12 +1836,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
-	
-	
-	
+
 	@Override
 	public void translate(Coords v0) {
-		
+
 		if (tmpCoords2 == null) {
 			tmpCoords2 = new Coords(4);
 		}
@@ -1939,20 +1851,19 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public boolean doAnimationStep(double frameRate) {
 		return GeoPoint.doAnimationStep(frameRate, this, path);
 	}
-	
-	
+
 	@Override
 	public boolean isAnimatable() {
 		return isPointOnPath() && isChangeable();
 	}
-	
+
 	private double animationValue;
-	
-	public double getAnimationValue(){
+
+	public double getAnimationValue() {
 		return animationValue;
 	}
-	
-	public void setAnimationValue(double val){
+
+	public void setAnimationValue(double val) {
 		animationValue = val;
 	}
 

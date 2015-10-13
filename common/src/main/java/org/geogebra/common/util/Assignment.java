@@ -83,6 +83,7 @@ public class Assignment {
 
 	private Test[] inputTypes;
 	private HashSet<Test> uniqueInputTypes;
+	private TreeSet<GeoElement> randomizeablePredecessors;
 
 	/**
 	 * @param macro
@@ -93,6 +94,7 @@ public class Assignment {
 		inputTypes = macro.getInputTypes();
 
 		uniqueInputTypes = new HashSet<Test>(Arrays.asList(inputTypes));
+		randomizeablePredecessors = new TreeSet<GeoElement>();
 
 		fractionForResult = new HashMap<Result, Float>();
 		hintForResult = new HashMap<Result, String>();
@@ -251,26 +253,43 @@ public class Assignment {
 		int j = 0;
 		while (j < input.length && !partRes.contains(Result.WRONG)) {
 			if (input[j].isRandomizable()) {
-				saveInput = input[j].copy();
-				input[j].randomizeForProbabilisticChecking();
-				input[j].updateCascade();
-				if (mayAdjustMoveableOutputs) {
-					mayAdjustMoveableOutputs = adjustMoveableOutputs(
-							macroOutput, possibleOutput);
+				mayAdjustMoveableOutputs = doProbabilisticChecking(input[j],
+						macroOutput, possibleOutput,
+						i, partRes, mayAdjustMoveableOutputs);
+			} else {
+				input[j].addRandomizablePredecessorsToSet(randomizeablePredecessors);
+				for (GeoElement geo : randomizeablePredecessors) {
+					mayAdjustMoveableOutputs = doProbabilisticChecking(geo,
+							macroOutput, possibleOutput, i, partRes,
+							mayAdjustMoveableOutputs);
 				}
-				// partRes.add(algoEqual.getResult().getBoolean() ?
-				// Result.CORRECT
-				// : Result.WRONG_AFTER_RANDOMIZE);
-				partRes.add(ExpressionNodeEvaluator.evalEquals(
-						macro.getKernel(), macroOutput, possibleOutput[i])
-						.getBoolean() ? Result.CORRECT
-						: Result.WRONG_AFTER_RANDOMIZE);
-				callsToEqual++;
-				input[j].set(saveInput);
-				input[j].updateCascade();
 			}
 			j++;
 		}
+	}
+
+	private boolean doProbabilisticChecking(GeoElement geoToRandomize,
+			GeoElement macroOutput, GeoElement[] possibleOutput, int i,
+			TreeSet<Result> partRes, boolean mayAdjustMoveableOutputs) {
+		boolean mayAdjustMoveableOutputsL = mayAdjustMoveableOutputs;
+		GeoElement saveInput;
+		saveInput = geoToRandomize.copy();
+		geoToRandomize.randomizeForProbabilisticChecking();
+		geoToRandomize.updateCascade();
+		if (mayAdjustMoveableOutputs) {
+			mayAdjustMoveableOutputsL = adjustMoveableOutputs(macroOutput,
+					possibleOutput);
+		}
+		// partRes.add(algoEqual.getResult().getBoolean() ?
+		// Result.CORRECT
+		// : Result.WRONG_AFTER_RANDOMIZE);
+		partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
+				macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
+				: Result.WRONG_AFTER_RANDOMIZE);
+		callsToEqual++;
+		geoToRandomize.set(saveInput);
+		geoToRandomize.updateCascade();
+		return mayAdjustMoveableOutputsL;
 	}
 
 	/**

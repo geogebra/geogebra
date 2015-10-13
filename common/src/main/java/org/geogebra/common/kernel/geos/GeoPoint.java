@@ -86,11 +86,10 @@ import org.geogebra.common.util.Unicode;
  * 
  * @author Markus
  */
-public class GeoPoint extends GeoVec3D implements VectorValue,
-PathOrPoint, Mirrorable, Dilateable,
-MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
-Transformable, SymbolicParametersAlgo,
-SymbolicParametersBotanaAlgo {
+public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
+		Mirrorable, Dilateable, MatrixTransformable, ConicMirrorable,
+		GeoPointND, Animatable, Transformable, SymbolicParametersAlgo,
+		SymbolicParametersBotanaAlgo {
 
 	// don't set point size here as this would overwrite
 	// setConstructionDefaults()
@@ -113,11 +112,11 @@ SymbolicParametersBotanaAlgo {
 
 	/** inhomogeneous x-coord */
 	public double inhomX;
-	/** inhomogeneous y-coord*/
+	/** inhomogeneous y-coord */
 	public double inhomY;
 	private boolean isInfinite, isDefined;
 	private boolean showUndefinedInAlgebraView = true;
-	private Variable variableCoordinate1=null, variableCoordinate2=null;
+	private Variable variableCoordinate1 = null, variableCoordinate2 = null;
 	private Variable[] botanaVars;
 
 	// list of Locateables (GeoElements) that this point is start point of
@@ -127,26 +126,30 @@ SymbolicParametersBotanaAlgo {
 	/**
 	 * create an undefined GeoPoint
 	 * 
-	 * @param c construction
+	 * @param c
+	 *            construction
 	 */
 	public GeoPoint(Construction c) {
 		this(c, false);
 	}
+
 	public GeoPoint(Construction c, int coordMode) {
 		this(c, false, coordMode);
 	}
 
-	public GeoPoint(Construction c, boolean isHelpere) {		
+	public GeoPoint(Construction c, boolean isHelpere) {
 		this(c, isHelpere, Kernel.COORD_CARTESIAN);
 	}
 
 	/**
-	 * @param c construction
-	 * @param isHelper if is helper point, then don't set construction defaults, etc.
+	 * @param c
+	 *            construction
+	 * @param isHelper
+	 *            if is helper point, then don't set construction defaults, etc.
 	 */
 	public GeoPoint(Construction c, boolean isHelper, int coordMode) {
-		super(c);	
-		if (!isHelper){
+		super(c);
+		if (!isHelper) {
 			setMode(coordMode);
 			setConstructionDefaults();
 			setAnimationType(ANIMATION_INCREASING);
@@ -157,11 +160,16 @@ SymbolicParametersBotanaAlgo {
 	/**
 	 * Creates new GeoPoint
 	 * 
-	 * @param c construction
-	 * @param label label
-	 * @param x homogeneous x-coord
-	 * @param y homogeneous y-coord
-	 * @param z homogeneous z-coord
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param x
+	 *            homogeneous x-coord
+	 * @param y
+	 *            homogeneous y-coord
+	 * @param z
+	 *            homogeneous z-coord
 	 */
 	public GeoPoint(Construction c, String label, double x, double y, double z) {
 		this(c, x, y, z);
@@ -171,10 +179,14 @@ SymbolicParametersBotanaAlgo {
 	/**
 	 * Creates new GeoPoint
 	 * 
-	 * @param c construction
-	 * @param x homogeneous x-coord
-	 * @param y homogeneous y-coord
-	 * @param z homogeneous z-coord
+	 * @param c
+	 *            construction
+	 * @param x
+	 *            homogeneous x-coord
+	 * @param y
+	 *            homogeneous y-coord
+	 * @param z
+	 *            homogeneous z-coord
 	 */
 	public GeoPoint(Construction c, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor
@@ -182,10 +194,14 @@ SymbolicParametersBotanaAlgo {
 		setAnimationType(ANIMATION_INCREASING);
 		this.setIncidenceList(null);
 	}
+
 	/**
 	 * Creates point on path
-	 * @param c construction
-	 * @param path path
+	 * 
+	 * @param c
+	 *            construction
+	 * @param path
+	 *            path
 	 */
 	public GeoPoint(Construction c, Path path) {
 		super(c);
@@ -195,9 +211,12 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * Creates point in region 
-	 * @param c construction
-	 * @param region region
+	 * Creates point in region
+	 * 
+	 * @param c
+	 *            construction
+	 * @param region
+	 *            region
 	 */
 	public GeoPoint(Construction c, Region region) {
 		super(c);
@@ -209,6 +228,7 @@ SymbolicParametersBotanaAlgo {
 	public void setZero() {
 		setCoords(0, 0, 1);
 	}
+
 	/**
 	 * Sets path parameter to null
 	 */
@@ -249,7 +269,9 @@ SymbolicParametersBotanaAlgo {
 
 	/**
 	 * Copy constructor
-	 * @param point point to copy
+	 * 
+	 * @param point
+	 *            point to copy
 	 */
 	public GeoPoint(GeoPoint point) {
 		super(point.cons);
@@ -339,7 +361,9 @@ SymbolicParametersBotanaAlgo {
 
 	/**
 	 * static method for used in GeoPoint3D
-	 * @param point point
+	 * 
+	 * @param point
+	 *            point
 	 * @return true if point is Changeable
 	 */
 	public static final boolean isPointChangeable(GeoElement point) {
@@ -354,7 +378,8 @@ SymbolicParametersBotanaAlgo {
 		}
 
 		return !point.isFixed()
-				&& (point.isIndependent() || point.isPointOnPath() || point.isPointInRegion());
+				&& (point.isIndependent() || point.isPointOnPath() || point
+						.isPointInRegion());
 	}
 
 	@Override
@@ -381,10 +406,10 @@ SymbolicParametersBotanaAlgo {
 			// radius
 			double radius = MyMath.length(endPosition.getX(),
 					endPosition.getY());
-			if(xvar instanceof GeoNumeric){
+			if (xvar instanceof GeoNumeric) {
 				((GeoNumeric) xvar).setValue(radius);
 			}
-			if(yvar instanceof GeoNumeric){
+			if (yvar instanceof GeoNumeric) {
 				// angle
 				double angle = Kernel.convertToAngleValue(Math.atan2(
 						endPosition.getY(), endPosition.getX()));
@@ -394,10 +419,12 @@ SymbolicParametersBotanaAlgo {
 						&& (angle < ((GeoNumeric) yvar).getIntervalMin() || angle > ((GeoNumeric) yvar)
 								.getIntervalMax())) {
 					// use angle value closest to closest border
-					double minDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMin()));
+					double minDiff = Math.abs((angle - ((GeoNumeric) yvar)
+							.getIntervalMin()));
 					if (minDiff > Math.PI)
 						minDiff = Kernel.PI_2 - minDiff;
-					double maxDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMax()));
+					double maxDiff = Math.abs((angle - ((GeoNumeric) yvar)
+							.getIntervalMax()));
 					if (maxDiff > Math.PI)
 						maxDiff = Kernel.PI_2 - maxDiff;
 
@@ -415,7 +442,7 @@ SymbolicParametersBotanaAlgo {
 
 			double newXval = xvar.getDouble() - inhomX + endPosition.getX();
 			double newYval = yvar.getDouble() - inhomY + endPosition.getY();
-			//only change if GeoNumeric
+			// only change if GeoNumeric
 			if (xvar instanceof GeoNumeric) {
 				((GeoNumeric) xvar).setValue(newXval);
 			}
@@ -426,12 +453,12 @@ SymbolicParametersBotanaAlgo {
 		}
 
 		if (xvar instanceof GeoNumeric) {
-			addChangeableCoordParentNumberToUpdateList((GeoNumeric)xvar, updateGeos,
-					tempMoveObjectList);
+			addChangeableCoordParentNumberToUpdateList((GeoNumeric) xvar,
+					updateGeos, tempMoveObjectList);
 		}
 		if (yvar instanceof GeoNumeric) {
-			addChangeableCoordParentNumberToUpdateList((GeoNumeric)yvar, updateGeos,
-					tempMoveObjectList);
+			addChangeableCoordParentNumberToUpdateList((GeoNumeric) yvar,
+					updateGeos, tempMoveObjectList);
 		}
 
 		return true;
@@ -478,17 +505,19 @@ SymbolicParametersBotanaAlgo {
 				return false;
 		}
 
-		boolean ret = (num1 instanceof MyDouble || ((GeoNumeric)num1).isChangeable()) &&
-				(num2 instanceof MyDouble || ((GeoNumeric)num2).isChangeable());
+		boolean ret = (num1 instanceof MyDouble || ((GeoNumeric) num1)
+				.isChangeable())
+				&& (num2 instanceof MyDouble || ((GeoNumeric) num2)
+						.isChangeable());
 
 		return ret;
 	}
 
 	/**
-	 * Returns an array of GeoNumeric/MyDouble objects that directly control this point's
-	 * coordinates. For point P = (a, b) the array [a, b] is returned, for P =
-	 * (x(A) + c, d + y(A)) the array [c, d] is returned, for P = (x(A) + c,
-	 * y(A)) the array [c, null] is returned.
+	 * Returns an array of GeoNumeric/MyDouble objects that directly control
+	 * this point's coordinates. For point P = (a, b) the array [a, b] is
+	 * returned, for P = (x(A) + c, d + y(A)) the array [c, d] is returned, for
+	 * P = (x(A) + c, y(A)) the array [c, null] is returned.
 	 * 
 	 * for (a,1), [GeoNumeric, MyDouble] is returned
 	 * 
@@ -524,16 +553,19 @@ SymbolicParametersBotanaAlgo {
 						NumberValue yNum = getCoordNumber(ycoord,
 								!hasPolarParentNumbers);
 
-						if (xNum instanceof GeoNumeric && yNum instanceof GeoNumeric) {
+						if (xNum instanceof GeoNumeric
+								&& yNum instanceof GeoNumeric) {
 							GeoNumeric xvar = (GeoNumeric) xNum;
 							GeoNumeric yvar = (GeoNumeric) yNum;
-							if (!xcoord.contains(yvar) && !ycoord.contains(xvar)) { // avoid
+							if (!xcoord.contains(yvar)
+									&& !ycoord.contains(xvar)) { // avoid
 								// (a,a)
 								changeableCoordNumbers.add(xvar);
 								changeableCoordNumbers.add(yvar);
 							}
 
-						} else if ((xNum instanceof GeoNumeric && yNum instanceof MyDouble) || (yNum instanceof GeoNumeric && xNum instanceof MyDouble)) {
+						} else if ((xNum instanceof GeoNumeric && yNum instanceof MyDouble)
+								|| (yNum instanceof GeoNumeric && xNum instanceof MyDouble)) {
 							// eg (a,3)
 							changeableCoordNumbers.add(xNum);
 							changeableCoordNumbers.add(yNum);
@@ -579,8 +611,9 @@ SymbolicParametersBotanaAlgo {
 				}
 			}
 
-			GeoElement geo = kernel.lookupLabel(
-					ev.isGeoElement() ? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate) : ev
+			GeoElement geo = kernel
+					.lookupLabel(ev.isGeoElement() ? ((GeoElement) ev)
+							.getLabel(StringTemplate.defaultTemplate) : ev
 							.toString(StringTemplate.defaultTemplate));
 			if (geo != null && geo.isGeoNumeric()) {
 				return (GeoNumeric) geo;
@@ -644,7 +677,8 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param p path restricting this point
+	 * @param p
+	 *            path restricting this point
 	 */
 	public void setPath(Path p) {
 		path = p;
@@ -657,9 +691,12 @@ SymbolicParametersBotanaAlgo {
 			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
 		}
 	}
+
 	/**
 	 * Increments path parameter
-	 * @param a increment
+	 * 
+	 * @param a
+	 *            increment
 	 */
 	public void addToPathParameter(double a) {
 		PathParameter parameter = getPathParameter();
@@ -723,6 +760,7 @@ SymbolicParametersBotanaAlgo {
 	final public void setCoords(double x, double y, double z) {
 		setCoords(x, y, z, true);
 	}
+
 	/**
 	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
 	 */
@@ -767,32 +805,33 @@ SymbolicParametersBotanaAlgo {
 				PathParameter parameter = getPathParameter();
 				PathParameter tempParameter = getTempPathparameter();
 				parameter.set(tempParameter);
-			}else{ // store current path parameter (needed e.g. on file loading)
+			} else { // store current path parameter (needed e.g. on file
+						// loading)
 				PathParameter tempParameter = getTempPathparameter();
 				tempParameter.set(getPathParameter());
 			}
 		}
 
 	}
-	
-    @Override
-	protected void setUndefinedCoords(){
-    	
-    	// set coordinates
-    	this.x = Double.NaN;
-    	this.y = Double.NaN;
-    	this.z = Double.NaN;
-    	
-    	inhomX = Double.NaN;
+
+	@Override
+	protected void setUndefinedCoords() {
+
+		// set coordinates
+		this.x = Double.NaN;
+		this.y = Double.NaN;
+		this.z = Double.NaN;
+
+		inhomX = Double.NaN;
 		inhomY = Double.NaN;
 
-    	// undefined and on path: remember old path parameter
-    	if (path != null) {
-    		PathParameter parameter = getPathParameter();
-    		PathParameter tempParameter = getTempPathparameter();
-    		parameter.set(tempParameter);
-    	}
-    }
+		// undefined and on path: remember old path parameter
+		if (path != null) {
+			PathParameter parameter = getPathParameter();
+			PathParameter tempParameter = getTempPathparameter();
+			parameter.set(tempParameter);
+		}
+	}
 
 	public void setCoords(Coords v, boolean doPathOrRegion) {
 
@@ -856,8 +895,10 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param r radius
-	 * @param phi phase
+	 * @param r
+	 *            radius
+	 * @param phi
+	 *            phase
 	 */
 	final public void setPolarCoords(double r, double phi) {
 		setCoords(r * Math.cos(phi), r * Math.sin(phi), 1.0d);
@@ -870,7 +911,9 @@ SymbolicParametersBotanaAlgo {
 
 	/**
 	 * Sets coords to (x,y,1)
-	 * @param v vector (x,y)
+	 * 
+	 * @param v
+	 *            vector (x,y)
 	 */
 	final public void setCoords(GeoVec2D v) {
 		setCoords(v.getX(), v.getY(), 1.0);
@@ -883,48 +926,50 @@ SymbolicParametersBotanaAlgo {
 	// Michael Borcherds 2008-04-30
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		return isEqual(geo,Kernel.STANDARD_PRECISION);
+		return isEqual(geo, Kernel.STANDARD_PRECISION);
 	}
 
 	/**
-	 * Checks whether geo is a point and whether it's same as this with given precision
-	 * @param geo element
-	 * @param eps precision
+	 * Checks whether geo is a point and whether it's same as this with given
+	 * precision
+	 * 
+	 * @param geo
+	 *            element
+	 * @param eps
+	 *            precision
 	 * @return whether the two points are equal with given precision
 	 */
-	final public boolean isEqual(GeoElement geo,double eps) {
+	final public boolean isEqual(GeoElement geo, double eps) {
 
 		if (!geo.isGeoPoint())
 			return false;
 
-		if (geo.isGeoElement3D()){
-			return geo.isEqual(this); //do the 3D test
+		if (geo.isGeoElement3D()) {
+			return geo.isEqual(this); // do the 3D test
 		}
-		
+
 		return isEqualPoint2D((GeoPoint) geo);
 
 	}
-	
-	public boolean isEqualPointND(GeoPointND geo){
-		if (geo.isGeoElement3D()){
-			return geo.isEqualPointND(this); //do the 3D test
+
+	public boolean isEqualPointND(GeoPointND geo) {
+		if (geo.isGeoElement3D()) {
+			return geo.isEqualPointND(this); // do the 3D test
 		}
-		
+
 		return isEqualPoint2D((GeoPoint) geo);
 	}
 
-
-	private boolean isEqualPoint2D(GeoPoint P){
+	private boolean isEqualPoint2D(GeoPoint P) {
 
 		if (!(isDefined() && P.isDefined()))
 			return false;
 
 		// both finite
-		if (isFinite() && P.isFinite()){
+		if (isFinite() && P.isFinite()) {
 			return Kernel.isEqual(inhomX, P.inhomX)
 					&& Kernel.isEqual(inhomY, P.inhomY);
-		}
-		else if (isInfinite() && P.isInfinite())
+		} else if (isInfinite() && P.isInfinite())
 			return linDep(P);
 		else
 			return false;
@@ -941,7 +986,9 @@ SymbolicParametersBotanaAlgo {
 
 	/**
 	 * Gets polar coords of this point
-	 * @param res array to store results
+	 * 
+	 * @param res
+	 *            array to store results
 	 */
 	final public void getPolarCoords(double[] res) {
 		res[0] = MyMath.length(inhomX, inhomY);
@@ -954,13 +1001,14 @@ SymbolicParametersBotanaAlgo {
 	final public double getInhomX() {
 		return inhomX;
 	}
+
 	/**
 	 * @return inhomogeneous Y
 	 */
 	final public double getInhomY() {
 		return inhomY;
 	}
-	
+
 	/**
 	 * @return inhomogeneous Z (in 3D space)
 	 */
@@ -985,11 +1033,13 @@ SymbolicParametersBotanaAlgo {
 	final public double distance(GeoPoint P) {
 		return MyMath.length(P.inhomX - inhomX, P.inhomY - inhomY);
 	}
-	
+
 	/**
 	 * 
-	 * @param x x coord
-	 * @param y y coord
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
 	 * @return distance between this and (x,y)
 	 */
 	final public double distance(double x, double y) {
@@ -998,8 +1048,11 @@ SymbolicParametersBotanaAlgo {
 
 	/**
 	 * Convenience method to tell whether these two points are in the same place
-	 * @param P first point
-	 * @param Q second point
+	 * 
+	 * @param P
+	 *            first point
+	 * @param Q
+	 *            second point
 	 * @return true if they are in the same place
 	 */
 	final public static boolean samePosition(GeoPoint P, GeoPoint Q) {
@@ -1009,7 +1062,9 @@ SymbolicParametersBotanaAlgo {
 	/**
 	 * returns the square distance of this point and P (may return infinty or
 	 * NaN).
-	 * @param P other point
+	 * 
+	 * @param P
+	 *            other point
 	 * @return square distance to other point
 	 */
 	final public double distanceSqr(GeoPoint P) {
@@ -1019,9 +1074,12 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param A first point
-	 * @param B second point
-	 * @param C third point
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
 	 * @return whether the three points A, B and C are collinear.
 	 */
 	public static boolean collinear(GeoPoint A, GeoPoint B, GeoPoint C) {
@@ -1045,8 +1103,11 @@ SymbolicParametersBotanaAlgo {
 	/**
 	 * Calcs determinant of P and Q. Note: no test for defined or infinite is
 	 * done here.
-	 * @param P first point
-	 * @param Q second point
+	 * 
+	 * @param P
+	 *            first point
+	 * @param Q
+	 *            second point
 	 * @return determinant
 	 */
 	public static final double det(GeoPoint P, GeoPoint Q) {
@@ -1057,9 +1118,13 @@ SymbolicParametersBotanaAlgo {
 	 * Returns the affine ratio for three collinear points A, B and C. The ratio
 	 * is lambda with C = A + lambda * AB, i.e. lambda = AC/AB. Note: the
 	 * collinearity is not checked in this method.
-	 * @param A A
-	 * @param B B
-	 * @param C C
+	 * 
+	 * @param A
+	 *            A
+	 * @param B
+	 *            B
+	 * @param C
+	 *            C
 	 * @return lambda = AC/AB.
 	 */
 	public static final double affineRatio(GeoPoint A, GeoPoint B, GeoPoint C) {
@@ -1095,15 +1160,16 @@ SymbolicParametersBotanaAlgo {
 	final public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		double temp = (1 - r);
-		setCoords(r * x + temp * S.getX() * z,
-				r * y + temp * S.getY() * z, z);
+		setCoords(r * x + temp * S.getX() * z, r * y + temp * S.getY() * z, z);
 	}
 
 	/**
 	 * dilate from O
-	 * @param r ratio
+	 * 
+	 * @param r
+	 *            ratio
 	 */
-	final public void dilate(double r){
+	final public void dilate(double r) {
 		setCoords(r * x, r * y, z);
 	}
 
@@ -1121,7 +1187,7 @@ SymbolicParametersBotanaAlgo {
 	/**
 	 * rotate this point by angle phi around Q
 	 */
-	final public void rotate(NumberValue phiValue,  Coords point) {
+	final public void rotate(NumberValue phiValue, Coords point) {
 		Coords Q = point;
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
@@ -1132,8 +1198,8 @@ SymbolicParametersBotanaAlgo {
 		setCoords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin
 				+ (y - qy) * cos + qy, z);
 	}
-	
-	final public void rotate(NumberValue phiValue,  GeoPointND point) {
+
+	final public void rotate(NumberValue phiValue, GeoPointND point) {
 		rotate(phiValue, point.getInhomCoords());
 	}
 
@@ -1214,19 +1280,25 @@ SymbolicParametersBotanaAlgo {
 		sbToString.setLength(0);
 		sbToString.append(label);
 
-		addEqualSignToString(sbToString, toStringMode, tpl.getCoordStyle(kernel.getCoordStyle()));
+		addEqualSignToString(sbToString, toStringMode,
+				tpl.getCoordStyle(kernel.getCoordStyle()));
 
 		sbToString.append(buildValueString(tpl).toString());
 		return sbToString.toString();
 	}
-	
+
 	/**
 	 * add "=" or not for "A=(...)"
-	 * @param sbToString string build
-	 * @param toStringMode point string mode
-	 * @param coordStyle point coord style
+	 * 
+	 * @param sbToString
+	 *            string build
+	 * @param toStringMode
+	 *            point string mode
+	 * @param coordStyle
+	 *            point coord style
 	 */
-	static final public void addEqualSignToString(StringBuilder sbToString, int toStringMode, int coordStyle){
+	static final public void addEqualSignToString(StringBuilder sbToString,
+			int toStringMode, int coordStyle) {
 		if (toStringMode == Kernel.COORD_COMPLEX) {
 			sbToString.append(" = ");
 		} else {
@@ -1267,7 +1339,7 @@ SymbolicParametersBotanaAlgo {
 			return sbBuildValueString.toString();
 		}
 		sbBuildValueString
-		.append(regrFormat(inhomX) + " " + regrFormat(inhomY));
+				.append(regrFormat(inhomX) + " " + regrFormat(inhomY));
 		return sbBuildValueString.toString();
 	}
 
@@ -1276,10 +1348,10 @@ SymbolicParametersBotanaAlgo {
 
 		switch (tpl.getStringType()) {
 		case GIAC:
-			
+
 			String xStr = kernel.format(getInhomX(), tpl);
 			String yStr = kernel.format(getInhomY(), tpl);
-			
+
 			if (toStringMode == Kernel.COORD_COMPLEX) {
 				sbBuildValueString.append("(");
 				sbBuildValueString.append(xStr);
@@ -1303,38 +1375,47 @@ SymbolicParametersBotanaAlgo {
 			return sbBuildValueString;
 		}
 
-		if (getMode()==Kernel.COORD_CARTESIAN_3D){
-			buildValueStringCoordCartesian3D(kernel, tpl, getInhomX(), getInhomY(), 0, sbBuildValueString);
-		}else if (getMode()==Kernel.COORD_SPHERICAL){	
-			buildValueStringCoordSpherical(kernel, tpl, getInhomX(), getInhomY(), 0, sbBuildValueString);
-		}else{
-			buildValueString(kernel, tpl, toStringMode, getInhomX(), getInhomY(), sbBuildValueString);
+		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
+			buildValueStringCoordCartesian3D(kernel, tpl, getInhomX(),
+					getInhomY(), 0, sbBuildValueString);
+		} else if (getMode() == Kernel.COORD_SPHERICAL) {
+			buildValueStringCoordSpherical(kernel, tpl, getInhomX(),
+					getInhomY(), 0, sbBuildValueString);
+		} else {
+			buildValueString(kernel, tpl, toStringMode, getInhomX(),
+					getInhomY(), sbBuildValueString);
 		}
 
 		return sbBuildValueString;
 	}
 
-
 	/**
-	 * @param kernel kernel
-	 * @param tpl string template
-	 * @param x x-coord
-	 * @param y y-coord
-	 * @param z z-coord
-	 * @param sbBuildValueString string builder
+	 * @param kernel
+	 *            kernel
+	 * @param tpl
+	 *            string template
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 * @param sbBuildValueString
+	 *            string builder
 	 */
-	public static final void buildValueStringCoordCartesian3D(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sbBuildValueString) {
-		if(tpl.hasType(StringType.GIAC)){
-		
-			
-				sbBuildValueString.append("point(");
-				sbBuildValueString.append(kernel.format(x, tpl));
-				sbBuildValueString.append(',');
-				sbBuildValueString.append(kernel.format(y, tpl));
-				sbBuildValueString.append(',');
-				sbBuildValueString.append(kernel.format(z, tpl));
-				sbBuildValueString.append(")");
-			
+	public static final void buildValueStringCoordCartesian3D(Kernel kernel,
+			StringTemplate tpl, double x, double y, double z,
+			StringBuilder sbBuildValueString) {
+		if (tpl.hasType(StringType.GIAC)) {
+
+			sbBuildValueString.append("point(");
+			sbBuildValueString.append(kernel.format(x, tpl));
+			sbBuildValueString.append(',');
+			sbBuildValueString.append(kernel.format(y, tpl));
+			sbBuildValueString.append(',');
+			sbBuildValueString.append(kernel.format(z, tpl));
+			sbBuildValueString.append(")");
+
 			return;
 		}
 		sbBuildValueString.append('(');
@@ -1351,13 +1432,14 @@ SymbolicParametersBotanaAlgo {
 
 		sbBuildValueString.append(')');
 	}
-	
+
 	/**
 	 * @param kernel
 	 * @param tpl
 	 * @return separator for cartesian coords
 	 */
-	public static final String buildValueStringSeparator(Kernel kernel, StringTemplate tpl){
+	public static final String buildValueStringSeparator(Kernel kernel,
+			StringTemplate tpl) {
 		String separator;
 		switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 		case Kernel.COORD_STYLE_AUSTRIAN:
@@ -1365,57 +1447,72 @@ SymbolicParametersBotanaAlgo {
 			break;
 
 		default:
-			separator = Character.toString(kernel.getLocalization().unicodeComma);
+			separator = Character
+					.toString(kernel.getLocalization().unicodeComma);
 		}
-		if(tpl.hasCASType()){
+		if (tpl.hasCASType()) {
 			separator = ",";
 		}
 		return separator;
 	}
 
-
 	/**
-	 * @param kernel kernel
-	 * @param tpl string template
-	 * @param x x-coord
-	 * @param y y-coord
-	 * @param z z-coord
-	 * @param sbBuildValueString string builder
+	 * @param kernel
+	 *            kernel
+	 * @param tpl
+	 *            string template
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 * @param sbBuildValueString
+	 *            string builder
 	 */
-	public static final void buildValueStringCoordSpherical(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sbBuildValueString) {
+	public static final void buildValueStringCoordSpherical(Kernel kernel,
+			StringTemplate tpl, double x, double y, double z,
+			StringBuilder sbBuildValueString) {
 
 		double lengthXY = MyMath.length(x, y);
 
 		sbBuildValueString.append('(');
-		sbBuildValueString.append(kernel.format(
-				MyMath.length(lengthXY, z), tpl));
+		sbBuildValueString
+				.append(kernel.format(MyMath.length(lengthXY, z), tpl));
 		sbBuildValueString.append("; ");
-		sbBuildValueString.append(kernel.formatAngle(
-				Math.atan2(y, x), tpl, false));
+		sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), tpl,
+				false));
 		sbBuildValueString.append("; ");
-		sbBuildValueString.append(kernel.formatAngle(
-				Math.atan2(z, lengthXY), tpl, true));
+		sbBuildValueString.append(kernel.formatAngle(Math.atan2(z, lengthXY),
+				tpl, true));
 		sbBuildValueString.append(')');
 
 	}
 
 	/**
-	 * @param kernel kernel
-	 * @param tpl string template
-	 * @param toStringMode Kernel.POLAR, Kernel.CARTESIAN, ...
-	 * @param x x-coord
-	 * @param y y-coord
-	 * @param sbBuildValueString string builder
+	 * @param kernel
+	 *            kernel
+	 * @param tpl
+	 *            string template
+	 * @param toStringMode
+	 *            Kernel.POLAR, Kernel.CARTESIAN, ...
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param sbBuildValueString
+	 *            string builder
 	 */
-	public static final void buildValueString(Kernel kernel, StringTemplate tpl, int toStringMode, double x, double y, StringBuilder sbBuildValueString) {
+	public static final void buildValueString(Kernel kernel,
+			StringTemplate tpl, int toStringMode, double x, double y,
+			StringBuilder sbBuildValueString) {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
 			sbBuildValueString.append('(');
-			sbBuildValueString.append(kernel.format(
-					MyMath.length(x, y), tpl));
+			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
 			sbBuildValueString.append("; ");
-			sbBuildValueString.append(kernel.formatAngle(
-					Math.atan2(y, x), tpl, false));
+			sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), tpl,
+					false));
 			sbBuildValueString.append(')');
 			break;
 
@@ -1423,7 +1520,7 @@ SymbolicParametersBotanaAlgo {
 			// if (!isI) { // return just "i" for special i
 			sbBuildValueString.append(kernel.format(x, tpl));
 			sbBuildValueString.append(" ");
-			kernel.formatSignedCoefficient(y,sbBuildValueString, tpl);
+			kernel.formatSignedCoefficient(y, sbBuildValueString, tpl);
 			// }
 			sbBuildValueString.append(Unicode.IMAGINARY);
 			break;
@@ -1437,7 +1534,8 @@ SymbolicParametersBotanaAlgo {
 				break;
 
 			default:
-				sbBuildValueString.append(kernel.getLocalization().unicodeComma);
+				sbBuildValueString
+						.append(kernel.getLocalization().unicodeComma);
 				sbBuildValueString.append(" ");
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
@@ -1469,8 +1567,9 @@ SymbolicParametersBotanaAlgo {
 		if (((algo = getParentAlgorithm()) instanceof AlgoPointOnPath)) {
 
 			// write parameter just for GeoCurveCartesian/GeoCurveCartesian3D
-			// as curve may cross itself so just coords doesn't determine unique pos
-			if (((AlgoPointOnPath)algo).getPath() instanceof GeoCurveCartesianND) {
+			// as curve may cross itself so just coords doesn't determine unique
+			// pos
+			if (((AlgoPointOnPath) algo).getPath() instanceof GeoCurveCartesianND) {
 				sb.append("\t<curveParam");
 				sb.append(" t=\"");
 				sb.append(getPathParameter().t);
@@ -1535,8 +1634,7 @@ SymbolicParametersBotanaAlgo {
 			sb.append(" z=\"" + z + "\"");
 		} else {
 			sb.append("exp=\"");
-			StringUtil
-			.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
+			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
 
 			sb.append("\"");
 		}
@@ -1570,19 +1668,21 @@ SymbolicParametersBotanaAlgo {
 	public void update() {
 		super.update();
 		/*
-		App.debug("");
-		System.out.print("point: " + this.getLabel(StringTemplate.defaultTemplate) + " = " + this.toString(StringTemplate.defaultTemplate) + "\n" + "il: ");
-		if (this.incidenceList!=null) {
-		for (int i=0; i<this.incidenceList.size(); i++) {
-			System.out.print(incidenceList.get(i).getLabel(StringTemplate.defaultTemplate) + " = " + incidenceList.get(i).toString(StringTemplate.defaultTemplate) + " ");
-		}}
-		System.out.println();
+		 * App.debug(""); System.out.print("point: " +
+		 * this.getLabel(StringTemplate.defaultTemplate) + " = " +
+		 * this.toString(StringTemplate.defaultTemplate) + "\n" + "il: "); if
+		 * (this.incidenceList!=null) { for (int i=0;
+		 * i<this.incidenceList.size(); i++) {
+		 * System.out.print(incidenceList.get
+		 * (i).getLabel(StringTemplate.defaultTemplate) + " = " +
+		 * incidenceList.get(i).toString(StringTemplate.defaultTemplate) + " ");
+		 * }} System.out.println();
 		 */
 
 		// update all registered locatables (they have this point as start
 		// point)
 		if (locateableList != null) {
-			GeoElement.updateCascadeLocation(locateableList,cons);
+			GeoElement.updateCascadeLocation(locateableList, cons);
 		}
 	}
 
@@ -1740,7 +1840,8 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param a_region region restricting this point
+	 * @param a_region
+	 *            region restricting this point
 	 */
 	public void setRegion(Region a_region) {
 		region = a_region;
@@ -1761,27 +1862,27 @@ SymbolicParametersBotanaAlgo {
 
 	// may be used when 2D point is put on 3D path
 	public void updateCoordsFrom2D(boolean doPathOrRegion, CoordSys coordsys) {
-		if (coordsys != null){
+		if (coordsys != null) {
 			updateCoords2D();
 			setCoords(coordsys.getPoint(getX2D(), getY2D()), doPathOrRegion);
 		}
-		
+
 	}
-	
+
 	public void updateCoordsFrom2D(boolean doPathOrRegion) {
-		//3D only
+		// 3D only
 	}
-	
 
 	public Coords getInhomCoords() {
-		if(inhomCoords2D == null){
-			inhomCoords2D = new Coords(new double[] { inhomX, inhomY});
-		}else{
+		if (inhomCoords2D == null) {
+			inhomCoords2D = new Coords(new double[] { inhomX, inhomY });
+		} else {
 			this.inhomCoords2D.set(1, inhomX);
 			this.inhomCoords2D.set(2, inhomY);
 		}
 		return inhomCoords2D;
 	}
+
 	private Coords coords2D;
 	private Coords inhomCoords3D, inhomCoords2D;
 
@@ -1795,44 +1896,43 @@ SymbolicParametersBotanaAlgo {
 			return null;
 		}
 	}
-	
-	public Coords getInhomCoordsInD3(){
-		if(inhomCoords3D == null){
-			inhomCoords3D = new Coords(new double[] { inhomX, inhomY, 0, 1});
-		}else{
+
+	public Coords getInhomCoordsInD3() {
+		if (inhomCoords3D == null) {
+			inhomCoords3D = new Coords(new double[] { inhomX, inhomY, 0, 1 });
+		} else {
 			this.inhomCoords3D.set(1, inhomX);
 			this.inhomCoords3D.set(2, inhomY);
 		}
 		return inhomCoords3D;
 	}
-	
-	public Coords getInhomCoordsInD2(){
+
+	public Coords getInhomCoordsInD2() {
 		return getInhomCoords();
 	}
 
-
 	private CoordMatrix4x4 tmpMatrix4x4;
-	
+
 	private Coords tmpCoords;
-	
-	public Coords getCoordsInD2IfInPlane(CoordSys coordSys){
-		
+
+	public Coords getCoordsInD2IfInPlane(CoordSys coordSys) {
+
 		if (setCoords2D(coordSys)) {
 			return coords2D;
 		}
 
 		return null;
 	}
-	
-	public Coords getCoordsInD2(CoordSys coordSys) { 
-		
+
+	public Coords getCoordsInD2(CoordSys coordSys) {
+
 		setCoords2D(coordSys);
 		return coords2D;
 	}
-		
+
 	private boolean setCoords2D(CoordSys coordSys) {
-		
-		if(coords2D == null){
+
+		if (coords2D == null) {
 			coords2D = new Coords(new double[] { x, y, z });
 		}
 
@@ -1862,15 +1962,15 @@ SymbolicParametersBotanaAlgo {
 
 		return true;
 	}
-	
-	public Coords getCoordsInD2(){
+
+	public Coords getCoordsInD2() {
 		return getCoordsInD2(null);
 	}
-	
-	public Coords getCoordsInD3(){
+
+	public Coords getCoordsInD3() {
 		return new Coords(x, y, 0, z);
 	}
-	
+
 	public Coords getCoordsInD(int dimension) {
 		switch (dimension) {
 		case 2:
@@ -1916,17 +2016,22 @@ SymbolicParametersBotanaAlgo {
 	public void pointChanged(GeoPointND p) {
 		pointChanged(p, x, y, z);
 	}
-	
+
 	/**
 	 * do pointChanged for (x,y,z) 2D coords
-	 * @param p point
-	 * @param x x coord
-	 * @param y y coord
-	 * @param z z inhom coord
+	 * 
+	 * @param p
+	 *            point
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param z
+	 *            z inhom coord
 	 */
-	public static void pointChanged(GeoPointND p, double x, double y, double z){
+	public static void pointChanged(GeoPointND p, double x, double y, double z) {
 		p.setCoords2D(x, y, z);
-		p.updateCoordsFrom2D(false,null);
+		p.updateCoordsFrom2D(false, null);
 
 		p.getPathParameter().setT(0);
 
@@ -1955,22 +2060,23 @@ SymbolicParametersBotanaAlgo {
 	public PathMover createPathMover() {
 		return null;
 	}
-	
-	public double getAnimationValue(){
+
+	public double getAnimationValue() {
 		return animationValue;
 	}
-	
-	public void setAnimationValue(double val){
+
+	public void setAnimationValue(double val) {
 		animationValue = val;
 	}
-	
+
 	/**
 	 * @param frameRate
 	 * @param p
 	 * @param path
 	 * @return whether the value of this number was changed
 	 */
-	static public boolean doAnimationStep(double frameRate, GeoPointND p, Path path) {
+	static public boolean doAnimationStep(double frameRate, GeoPointND p,
+			Path path) {
 		PathParameter pp = p.getPathParameter();
 		GeoElement geo = (GeoElement) p;
 
@@ -1979,8 +2085,7 @@ SymbolicParametersBotanaAlgo {
 
 		// compute animation step based on speed and frame rates
 		double intervalWidth = 1;
-		double step = intervalWidth
-				* geo.getAnimationSpeed()
+		double step = intervalWidth * geo.getAnimationSpeed()
 				* geo.getAnimationDirection()
 				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 
@@ -2052,7 +2157,7 @@ SymbolicParametersBotanaAlgo {
 	// ///////////////////////////////////////
 
 	public void switchMoveMode(int mode) {
-		//3D only
+		// 3D only
 	}
 
 	public int getMoveMode() {
@@ -2089,7 +2194,7 @@ SymbolicParametersBotanaAlgo {
 
 	// needed for GeoPointND interface for 3D, do nothing
 	public void setCoords(double x, double y, double z, double w) {
-		//3D only
+		// 3D only
 	}
 
 	@Override
@@ -2131,10 +2236,11 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param list list of objects incident by construction
+	 * @param list
+	 *            list of objects incident by construction
 	 */
 	public void setIncidenceList(ArrayList<GeoElement> list) {
-		if (list==null)
+		if (list == null)
 			incidenceList = new ArrayList<GeoElement>();
 		else
 			incidenceList = new ArrayList<GeoElement>(list);
@@ -2148,6 +2254,7 @@ SymbolicParametersBotanaAlgo {
 		incidenceList = new ArrayList<GeoElement>();
 		incidenceList.add(this);
 	}
+
 	/**
 	 * Resets the list of object that are not incident by construction
 	 */
@@ -2159,7 +2266,8 @@ SymbolicParametersBotanaAlgo {
 	 * add geo to incidenceList of this, and also add this to pointsOnConic
 	 * (when geo is a conic) or to pointsOnLine (when geo is a line)
 	 * 
-	 * @param geo incident object
+	 * @param geo
+	 *            incident object
 	 */
 	public void addIncidence(GeoElement geo, boolean isStartPoint) {
 		if (incidenceList == null)
@@ -2178,7 +2286,9 @@ SymbolicParametersBotanaAlgo {
 
 	/**
 	 * Add non-incident object
-	 * @param geo object thatisnot incident by construction
+	 * 
+	 * @param geo
+	 *            object thatisnot incident by construction
 	 */
 	public void addNonIncidence(GeoElement geo) {
 		if (nonIncidenceList == null)
@@ -2188,7 +2298,8 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param geo incident geo tobe removed
+	 * @param geo
+	 *            incident geo tobe removed
 	 */
 	public final void removeIncidence(GeoElement geo) {
 		if (incidenceList != null)
@@ -2201,92 +2312,18 @@ SymbolicParametersBotanaAlgo {
 		// TODO: if geo instanceof GeoPoint...
 	}
 
-	/**
-	 * @param geo possibly incident geo
-	 * @return true iff incident
-	 */
-	public boolean addIncidenceWithProbabilisticChecking(GeoElement geo) {
-		boolean incident = false;
-
-		// check if this is currently on geo
-		if (geo.isGeoPoint() && this.isEqual(geo) || geo.isPath()
-				&& ((Path) geo).isOnPath(this, Kernel.STANDARD_PRECISION)) {
-
-			incident = true;
-
-			// get all "randomizable" predecessors of this and geo
-			TreeSet<GeoElement> pred = this.getAllRandomizablePredecessors();
-			ArrayList<GeoElement> predList = new ArrayList<GeoElement>();
-			TreeSet<AlgoElement> tmpSet = GeoElement.getTempSet();
-
-			predList.addAll(pred);
-			pred.addAll(geo.getAllRandomizablePredecessors());
-
-			// store parameters of current construction
-			Iterator<GeoElement> it = pred.iterator();
-			while (it.hasNext()) {
-				GeoElement predGeo = it.next();
-				predGeo.storeClone();
-			}
-
-			// alter parameters of construction and test if this is still on
-			// geo. Do it N times
-			for (int i = 0; i < 5; ++i) {
-				it = pred.iterator();
-				while (it.hasNext()) {
-					GeoElement predGeo = it.next();
-					predGeo.randomizeForProbabilisticChecking();
-				}
-
-				GeoElement.updateCascadeUntil(predList,
-						new TreeSet<AlgoElement>(), this.algoParent);
-				GeoElement.updateCascadeUntil(predList,
-						new TreeSet<AlgoElement>(), geo.algoParent);
-				/*
-				 * if (!this.isFixed()) this.updateCascade(); if
-				 * (!geo.isFixed()) geo.updateCascade();
-				 */
-
-				if (geo.isGeoPoint()) {
-					if (!this.isEqual(geo))
-						incident = false;
-				} else if (geo.isPath()) {
-					if (!((Path) geo).isOnPath(this, Kernel.STANDARD_PRECISION))
-						incident = false;
-				} else {
-					incident = false;
-				}
-				if (!incident)
-					break;
-			}
-
-			// recover parameters of current construction
-			it = pred.iterator();
-			while (it.hasNext()) {
-				GeoElement predGeo = it.next();
-				if (!predGeo.isIndependent()) {
-					GeoElement.updateCascadeUntil(predList, tmpSet,
-							predGeo.algoParent);
-				}
-				predGeo.recoverFromClone();
-			}
-
-			GeoElement.updateCascade(predList, tmpSet, false);
-
-
-			// if all of the cases are good, add incidence
-			if (incident)
-				addIncidence(geo, false);
-			else
-				addNonIncidence(geo);
-		}
-
-		return incident;
-	}
-
 	@Override
 	public boolean isRandomizable() {
-		return isChangeable();
+		// if we drag a AlgoDynamicCoordinates, we want its point to be dragged
+		AlgoElement algo = getParentAlgorithm();
+
+		// make sure Point[circle, param] is not draggable
+		// TODO Check if we really want this
+		if (algo instanceof FixedPathRegionAlgo) {
+			return ((FixedPathRegionAlgo) algo).isChangeable(this);
+		}
+
+		return isIndependent() || isPointOnPath() || isPointInRegion();
 	}
 
 	@Override
@@ -2308,7 +2345,8 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param x homegenous x-coord
+	 * @param x
+	 *            homegenous x-coord
 	 */
 	public void setX(double x) {
 		this.x = x;
@@ -2316,7 +2354,8 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param y homogeneous y-coord
+	 * @param y
+	 *            homogeneous y-coord
 	 */
 	public void setY(double y) {
 		this.y = y;
@@ -2324,7 +2363,8 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	/**
-	 * @param z homogeneous z-coord
+	 * @param z
+	 *            homogeneous z-coord
 	 */
 	public void setZ(double z) {
 		this.z = z;
@@ -2334,43 +2374,29 @@ SymbolicParametersBotanaAlgo {
 	// protected String[] spreadsheetColumnHeadings = null;
 
 	@Override
-	public void updateColumnHeadingsForTraceValues(){
+	public void updateColumnHeadingsForTraceValues() {
 		resetSpreadsheetColumnHeadings();
 
-
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText( 
-						new ExpressionNode(kernel,
- kernel.getAlgebraProcessor().getXBracket(), // "x("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
- kernel.getAlgebraProcessor()
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
+				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS, kernel.getAlgebraProcessor()
 								.getCloseBracket())))); // ")"
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText(
-						new ExpressionNode(kernel,
- kernel.getAlgebraProcessor().getYBracket(), // "y("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
- kernel.getAlgebraProcessor()
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
+				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS, kernel.getAlgebraProcessor()
 								.getCloseBracket())))); // ")"
-
 
 	}
 
-
 	@Override
-	public TraceModesEnum getTraceModes(){
+	public TraceModesEnum getTraceModes() {
 		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
 
-
 	@Override
-	public String getTraceDialogAsValues(){
+	public String getTraceDialogAsValues() {
 		String name = getLabelTextOrHTML(false);
 
 		StringBuilder sb = new StringBuilder();
@@ -2384,7 +2410,8 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	@Override
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(
+			ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = new GeoNumeric(cons, inhomX);
 		spreadsheetTraceList.add(xx);
 		if (isPolar()) {
@@ -2401,7 +2428,8 @@ SymbolicParametersBotanaAlgo {
 		return new SymbolicParameters(this);
 	}
 
-	public void getFreeVariables(HashSet<Variable> variables) throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
 
 		// if this is a free point
 		if (algoParent == null) {
@@ -2419,30 +2447,30 @@ SymbolicParametersBotanaAlgo {
 			return;
 		}
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
-			((SymbolicParametersAlgo) algoParent).getFreeVariables(
-					variables);
+			((SymbolicParametersAlgo) algoParent).getFreeVariables(variables);
 			return;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public int[] getDegrees() throws NoSymbolicParametersException{
+	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (algoParent == null) {
-			GeoElement[] fixedElements = AbstractProverReciosMethod.getFixedPoints();
-			if (fixedElements != null){
+			GeoElement[] fixedElements = AbstractProverReciosMethod
+					.getFixedPoints();
+			if (fixedElements != null) {
 				boolean isContained = false;
-				for (GeoElement ge:fixedElements){
-					if (ge.equals(this)){
+				for (GeoElement ge : fixedElements) {
+					if (ge.equals(this)) {
 						isContained = true;
 					}
 				}
 				if (isContained) {
-					int[] result={0,0,0};
+					int[] result = { 0, 0, 0 };
 					return result;
 				}
 			}
 
-			int[] result={1,1,0};
+			int[] result = { 1, 1, 0 };
 			return result;
 		}
 		if (algoParent instanceof SymbolicParametersAlgo) {
@@ -2453,7 +2481,7 @@ SymbolicParametersBotanaAlgo {
 
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
-					throws NoSymbolicParametersException {
+			throws NoSymbolicParametersException {
 		if (algoParent == null) {
 			BigInteger[] result = new BigInteger[3];
 			result[0] = values.get(variableCoordinate1);
@@ -2480,7 +2508,8 @@ SymbolicParametersBotanaAlgo {
 			if (variableCoordinate2 == null) {
 				variableCoordinate2 = new Variable(this);
 			}
-			Polynomial[] ret = {new Polynomial(variableCoordinate1), new Polynomial(variableCoordinate2), new Polynomial(1)};
+			Polynomial[] ret = { new Polynomial(variableCoordinate1),
+					new Polynomial(variableCoordinate2), new Polynomial(1) };
 			return ret;
 		}
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
@@ -2490,8 +2519,10 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	public Variable[] getBotanaVars(GeoElement geo) {
-		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
+		if (algoParent != null
+				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaVars(this);
 		}
 
 		if (algoParent == null) {
@@ -2499,7 +2530,8 @@ SymbolicParametersBotanaAlgo {
 				botanaVars = new Variable[2];
 				botanaVars[0] = new Variable(true);
 				botanaVars[1] = new Variable(true);
-				App.debug("Free point " + geo.getLabelSimple() + "(" + botanaVars[0] + "," + botanaVars[1] + ")");
+				App.debug("Free point " + geo.getLabelSimple() + "("
+						+ botanaVars[0] + "," + botanaVars[1] + ")");
 			}
 		}
 
@@ -2508,8 +2540,10 @@ SymbolicParametersBotanaAlgo {
 
 	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
+		if (algoParent != null
+				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaPolynomials(this);
 		}
 		return null; // Here maybe an exception should be thrown...?
 	}
@@ -2518,10 +2552,7 @@ SymbolicParametersBotanaAlgo {
 		return 2;
 	}
 
-
-
-
-	public double distanceToPath(PathOrPoint path1){
+	public double distanceToPath(PathOrPoint path1) {
 		return path1.toGeoElement().distance(this);
 	}
 
@@ -2530,23 +2561,22 @@ SymbolicParametersBotanaAlgo {
 	}
 
 	public void setLocateableList(LocateableList locateableList) {
-		this.locateableList = locateableList;	
+		this.locateableList = locateableList;
 	}
 
-	public void setCoordsFromPoint(GeoPointND point){
+	public void setCoordsFromPoint(GeoPointND point) {
 		setCoords((GeoPoint) point);
 	}
-	
-	
-	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint){
+
+	public void set(double param1, double param2, MyPoint leftPoint,
+			MyPoint rightPoint) {
 		x = param2 * leftPoint.x + param1 * rightPoint.x;
 		y = param2 * leftPoint.y + param1 * rightPoint.y;
 		z = 1.0;
 	}
 
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 
