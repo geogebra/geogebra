@@ -43,7 +43,8 @@ public class DataImport {
 
 		String[][] data;
 
-		if (isCSV) {
+		// ignore isCSV parameter, just check for <Tab> \t
+		if (source.indexOf('\t') == -1) {
 			// convert the given string into a 2D array defined by comma
 			// delimiters
 			data = parseCSVdata(source);
@@ -53,22 +54,39 @@ public class DataImport {
 			data = parseTabData(source);
 		}
 
-		// traverse the 2D array to prepare strings for the spreadsheet
+		int maxLength = 0;
 		for (int i = 0; i < data.length; i++) {
-			for (int k = 0; k < data[i].length; k++) {
-
-				// prevent empty string conversion to "null"
-				if (data[i][k].length() == 0) {
-					data[i][k] = " ";
-				}
-
-				// remove localized number formatting
-				// e.g. 3,400 ---> 3400 or 3,4567 --> 3.4567
-				data[i][k] = adjustNumberString(data[i][k]);
+			if (data[i].length > maxLength) {
+				maxLength = data[i].length;
 			}
 		}
 
-		return data;
+		// copy the data into new array
+		// so that we return an array with all rows the same length
+		String[][] dataRet = new String[data.length][maxLength];
+
+		// traverse the 2D array to prepare strings for the spreadsheet
+		for (int i = 0; i < data.length; i++) {
+			for (int k = 0; k < maxLength; k++) {
+
+				if (data[i].length > k) {
+
+					// prevent empty string conversion to "null"
+					if (data[i][k].length() == 0) {
+						data[i][k] = " ";
+					}
+
+					// remove localized number formatting
+					// e.g. 3,400 ---> 3400 or 3,4567 --> 3.4567
+					dataRet[i][k] = adjustNumberString(data[i][k]);
+
+				} else {
+					dataRet[i][k] = " ";
+				}
+			}
+		}
+
+		return dataRet;
 
 	}
 
