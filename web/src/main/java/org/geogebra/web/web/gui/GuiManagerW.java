@@ -14,6 +14,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -93,6 +94,7 @@ import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 import org.geogebra.web.web.helper.ObjectPool;
 import org.geogebra.web.web.html5.AttachedToDOM;
+import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
 
@@ -640,7 +642,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (strCustomToolbarDefinition != null) {
 			// Application.debug("before: " + strCustomToolbarDefinition +
 			// ",  delete " + mode);
-
 			strCustomToolbarDefinition = strCustomToolbarDefinition.replaceAll(
 			        Integer.toString(mode), "");
 
@@ -670,15 +671,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			return;
 		}
-
-		if (strCustomToolbarDefinition != null) {
-			int macroNum = kernel.getMacroNumber();
-			strCustomToolbarDefinition = strCustomToolbarDefinition + " | "
-			        + mode;
-			for (int i = 1; i < macroNum; i++) {
-				int m = kernel.getMacroID(kernel.getMacro(i));
-				strCustomToolbarDefinition += ", " + mode;
-			}
+		boolean currentNeedsUpdate = false;
+		if (generalToolbarDefinition != null) {
+			generalToolbarDefinition = ToolBar.addMode(
+					generalToolbarDefinition, mode);
+		}
+		if (currentNeedsUpdate) {
+			strCustomToolbarDefinition = generalToolbarDefinition;
 		}
 	}
 
@@ -835,6 +834,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return algebraView;
 	}
 
+	/**
+	 * Make sure algebra controller exists
+	 */
 	protected void initAlgebraController() {
 		if (algebraController == null) {
 			algebraController = new AlgebraControllerW(app.getKernel());
@@ -1517,6 +1519,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return;
 		}
 		generalToolbarDefinition = toolBarDefinition;
+		App.printStacktrace("TBD SET GENERAL " + toolBarDefinition);
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
@@ -1637,8 +1640,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void showToolBar(final boolean show) {
-		if (((AppWapplet) app).getToolbar() != null) {
-			((AppWapplet) app).getToolbar().setVisible(show);
+		if (((AppWFull) app).getToolbar() != null) {
+			((AppWFull) app).getToolbar().setVisible(show);
 		} else {
 			((AppWapplet) app).getAppletFrame().attachToolbar((AppW) app);
 		}
@@ -1647,8 +1650,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	/**
 	 * @param show
-	 * 
-	 *            wheter to show algebra input or not
+	 *            whether to show algebra input or not
 	 */
 	@Override
 	public void showAlgebraInput(final boolean show) {

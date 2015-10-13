@@ -35,6 +35,7 @@ import javax.swing.JSplitPane;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.layout.DockComponent;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
@@ -1633,7 +1634,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	}
 
 	public void addToToolbar(int mode) {
-		this.toolbarString = toolbarString + " | " + mode;
+		this.toolbarString = ToolBar.addMode(toolbarString, mode);
 
 	}
 

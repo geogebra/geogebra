@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.layout;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
@@ -1375,7 +1376,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	public void addToToolbar(int mode) {
-		this.toolbarString = toolbarString + " | " + mode;
+		this.toolbarString = ToolBar.addMode(toolbarString, mode);
 	    
     }
 

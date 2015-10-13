@@ -631,4 +631,24 @@ public class ToolBar {
 
 	}
 
+	public static String addMode(String toolbarString, int mode) {
+		int pos = toolbarString.lastIndexOf('|');
+		if(pos > 0){
+			String after = toolbarString.substring(pos +1).trim();
+			int digits = (EuclidianConstants.MACRO_MODE_ID_OFFSET + "")
+					.length();
+			boolean mayStartWithMacro = after.length() >= digits;
+			for (int i = 0; i < digits && mayStartWithMacro; i++) {
+				if (after.charAt(i) > '9' || after.charAt(i) < '0') {
+					mayStartWithMacro = false;
+				}
+			}
+			if (mayStartWithMacro) {
+				String before = toolbarString.substring(0, pos).trim();
+				return before + " | " + mode + " " + after;
+			}
+		}
+		return toolbarString + " | " + mode;
+	}
+
 }

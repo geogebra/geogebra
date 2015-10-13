@@ -18,6 +18,7 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
+import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
@@ -38,6 +39,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
 	private GGWToolBar ggwToolBar = null;
+	private GGWMenuBar ggwMenuBar;
 
 	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf) {
 		super(laf);
@@ -426,5 +428,19 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	public GGWToolBar getToolbar() {
 		return ggwToolBar;
+	}
+
+	public void setMenuHeight(boolean linearInputbar) {
+		// TODO in app mode we need to change menu height when inputbar is
+		// visible
+	}
+
+	public GGWMenuBar getMenuBar(AppW app) {
+		if (ggwMenuBar == null) {
+			ggwMenuBar = new GGWMenuBar();
+			((GuiManagerW) app.getGuiManager()).getObjectPool().setGgwMenubar(
+					ggwMenuBar);
+		}
+		return ggwMenuBar;
 	}
 }

@@ -7,11 +7,10 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
 
 public class DialogManager3DW extends DialogManagerW{
-	public DialogManager3DW(App app) {
+	public DialogManager3DW(AppW app) {
 	    super(app);
     }
 

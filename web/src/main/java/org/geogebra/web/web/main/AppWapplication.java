@@ -1,34 +1,19 @@
 package org.geogebra.web.web.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.move.ggtapi.models.Chapter;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.URL;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
-import org.geogebra.web.web.gui.LanguageGUI;
-import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
-import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
-import org.geogebra.web.web.helper.ObjectPool;
 import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
-import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
-import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
-import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
@@ -43,9 +28,7 @@ public class AppWapplication extends AppWFull {
 
 	private final int AUTO_SAVE_PERIOD = 60000;
 	private GeoGebraAppFrame appFrame = null;
-	private ObjectPool objectPool;
 	// TODO remove GUI stuff from appW
-	private LanguageGUI lg;
 	private AuthenticationModelW authenticationModel = null;
 	private boolean menuInited = false;
 	protected final GDevice device;
@@ -95,7 +78,6 @@ public class AppWapplication extends AppWFull {
 			RootPanel.getBodyElement().addClassName("application");
 		}
 		appFrame.app = this;
-		this.objectPool = new ObjectPool();
 		App.useFullAppGui = true;
 		this.useFullGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
@@ -146,7 +128,8 @@ public class AppWapplication extends AppWFull {
 		if (getFileManager().isAutoSavedFileAvailable()
 		        && this.getArticleElement().getDataParamTubeID().length() == 0
 		        && this.getArticleElement().getDataParamBase64String().length() == 0
-		        && this.getArticleElement().getDataParamJSON().length() == 0) {
+				&& this.getArticleElement().getDataParamJSON().length() == 0
+				&& this.getExam() == null) {
 			((DialogManagerW) getDialogManager())
 			        .showRecoverAutoSavedDialog(this);
 		} else {
@@ -215,10 +198,6 @@ public class AppWapplication extends AppWFull {
 		super.setUnsaved();
 		getLAF().addWindowClosingHandler(this);
 	}
-
-
-
-
 
 	@Override
 	protected final void afterCoreObjectsInited() {
@@ -322,7 +301,8 @@ public class AppWapplication extends AppWFull {
 				sp.deferredOnResize();
 			}
 		}
-		appFrame.setMenuHeight(getInputPosition() == InputPositon.bottom);
+		getAppletFrame().setMenuHeight(
+				getInputPosition() == InputPositon.bottom);
 	}
 
 	@Override
@@ -404,28 +384,6 @@ public class AppWapplication extends AppWFull {
 	}
 
 	@Override
-	public DialogManager getDialogManager() {
-		if (dialogManager == null) {
-			dialogManager = new DialogManagerW(this);
-			if (getGoogleDriveOperation() != null) {
-				((GoogleDriveOperationW) getGoogleDriveOperation()).getView()
-				        .add((DialogManagerW) dialogManager);
-			}
-		}
-		return dialogManager;
-	}
-
-	@Override
-	public Element getFrameElement() {
-		return appFrame.getElement();
-	}
-
-	@Override
-	public void showBrowser(HeaderPanel bg) {
-		appFrame.showBrowser(bg);
-	}
-
-	@Override
 	public void toggleMenu() {
 		if (!this.menuInited) {
 			appFrame.getMenuBar().init(this);
@@ -457,115 +415,8 @@ public class AppWapplication extends AppWFull {
 	}
 
 	@Override
-	public void openSearch(String query) {
-		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
-	}
-
-	@Override
-	public LanguageGUI getLanguageGUI() {
-		if (this.lg == null) {
-			this.lg = new LanguageGUI(this);
-		}
-		return this.lg;
-	}
-
-
-	@Override
-	public void set1rstMode() {
-		GGWToolBar.set1rstMode(this);
-	}
-
-	@Override
-	protected void initGoogleDriveEventFlow() {
-
-		googleDriveOperation = new GoogleDriveOperationW(this);
-		String state = URL.getQueryParameterAsString("state");
-		if (getNetworkOperation().isOnline() && state != null
-		        && !"".equals(state)) {
-			googleDriveOperation.initGoogleDriveApi();
-		}
-
-	}
-
-	@Override
-	public final FileManagerI getFileManager() {
-		if (this.fm == null) {
-			this.fm = this.device.createFileManager(this);
-		}
-		return this.fm;
-	}
-
-	@Override
-	protected void updateTreeUI() {
-		((ZoomSplitLayoutPanel) getSplitLayoutPanel()).forceLayout();
-		// updateComponentTreeUI();
-	}
-
-	@Override
-	public void setLabels() {
-		super.setLabels();
-		if (this.lg != null) {
-			this.lg.setLabels();
-		}
-	}
-
-	@Override
-	public void openMaterial(String s, final Runnable onError) {
-		((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI()).getItem(
-		        s, new MaterialCallback() {
-
-			        @Override
-			        public void onLoaded(final List<Material> parseResponse,
-			                ArrayList<Chapter> meta) {
-				        if (parseResponse.size() == 1) {
-					        Material material = parseResponse.get(0);
-					        material.setSyncStamp(parseResponse.get(0)
-					                .getModified());
-					        getGgbApi().setBase64(material.getBase64());
-					        setActiveMaterial(material);
-				        } else {
-					        onError.run();
-				        }
-			        }
-
-			        @Override
-			        public void onError(Throwable error) {
-				        onError.run();
-			        }
-		        });
-
-	}
-
-	@Override
-	public boolean isOffline() {
-		return device.isOffline(this);
-	}
-
-	@Override
-	public boolean isSelectionRectangleAllowed() {
-		return true;
-	}
-
-	@Override
-	public native void copyBase64ToClipboardChromeWebAppCase(String str) /*-{
-		// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
-		// although it's strange that .contentEditable is not set to true
-		var copyFrom = @org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
-		copyFrom.value = str;
-		copyFrom.select();
-		$doc.execCommand('copy');
-	}-*/;
-
-	@Override
 	public HeaderPanelDeck getAppletFrame() {
 		return appFrame;
-	}
-	
-	
-	@Override
-	public void toggleShowConstructionProtocolNavigation(int id) {
-		super.toggleShowConstructionProtocolNavigation(id);
-		getGuiManager().updateMenubar();
 	}
 
 	@Override

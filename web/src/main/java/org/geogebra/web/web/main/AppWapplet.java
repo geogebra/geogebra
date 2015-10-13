@@ -9,7 +9,6 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -18,26 +17,15 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.URL;
-import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.LanguageGUI;
-import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
-import org.geogebra.web.web.gui.app.GGWMenuBar;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
-import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.web.helper.ObjectPool;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
-import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -45,11 +33,13 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Full-featured GeoGebra instance that needs part of the screen only.
+ */
 public class AppWapplet extends AppWFull {
 
 
@@ -57,22 +47,26 @@ public class AppWapplet extends AppWFull {
 	// Event flow operations - are these needed in AppWapplet?
 
 	// private LogInOperation loginOperation;
-	private GGWMenuBar ggwMenuBar;
+
 
 	private int spWidth;
 	private int spHeight;
 	private boolean menuShowing = false;
 	private boolean menuInited = false;
-	private ObjectPool objectPool;
-	// TODO remove GUI stuff from appW
-	private LanguageGUI lg;
+
 	private GeoGebraFrameBoth frame;
 
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
 	 * @param ae
+	 *            article element
 	 * @param gf
+	 *            frame
+	 * @param dimension
+	 *            3 for 3d, 2 otherwise
+	 * @param laf
+	 *            look and feel
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf, int dimension,
 			GLookAndFeel laf) {
@@ -84,12 +78,19 @@ public class AppWapplet extends AppWFull {
 	 * 
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
+	 * @param ae
+	 *            article element
+	 * @param gf
+	 *            frame
+	 * @param dimension
+	 *            3 for 3d, 2 otherwise
+	 * @param laf
+	 *            look and feel
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
 			final boolean undoActive, int dimension, GLookAndFeel laf) {
 		super(ae, dimension, laf);
 		this.frame = gf;
-		this.objectPool = new ObjectPool();
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 
@@ -127,29 +128,11 @@ public class AppWapplet extends AppWFull {
 		}
 	}
 
-	public GGWMenuBar getMenuBar() {
-		if (ggwMenuBar == null) {
-			ggwMenuBar = new GGWMenuBar();
-			((GuiManagerW) getGuiManager()).getObjectPool().setGgwMenubar(
-					ggwMenuBar);
-		}
-		return ggwMenuBar;
-	}
+
 
 	@Override
 	public GeoGebraFrameBoth getAppletFrame() {
 		return frame;
-	}
-
-
-
-	
-
-	/**
-	 * @return a GuiManager for GeoGebraWeb
-	 */
-	protected GuiManagerW newGuiManager() {
-		return new GuiManagerW(AppWapplet.this, new BrowserDevice());
 	}
 
 	@Override
@@ -168,7 +151,7 @@ public class AppWapplet extends AppWFull {
 
 	}
 
-	public void buildSingleApplicationPanel() {
+	private void buildSingleApplicationPanel() {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget) getEuclidianViewpanel());
@@ -253,7 +236,7 @@ public class AppWapplet extends AppWFull {
 		frame.attachGlass();
 	}
 
-	public void refreshSplitLayoutPanel() {
+	private void refreshSplitLayoutPanel() {
 		if (frame != null && frame.getWidgetCount() != 0
 				&& frame.getWidgetIndex(getSplitLayoutPanel()) == -1
 				&& frame.getWidgetIndex(oldSplitLayoutPanel) != -1) {
@@ -265,6 +248,9 @@ public class AppWapplet extends AppWFull {
 		}
 	}
 
+	/**
+	 * Attach algebra input
+	 */
 	public void attachAlgebraInput() {
 		// inputbar's width varies,
 		// so it's probably good to regenerate every time
@@ -276,7 +262,7 @@ public class AppWapplet extends AppWFull {
 	}
 
 
-	public void attachSplitLayoutPanel() {
+	private void attachSplitLayoutPanel() {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 
 		if (oldSplitLayoutPanel != null) {
@@ -285,7 +271,7 @@ public class AppWapplet extends AppWFull {
 
 				splitPanelWrapper.add(oldSplitLayoutPanel);
 				if (this.menuShowing) {
-					splitPanelWrapper.add(getMenuBar());
+					splitPanelWrapper.add(frame.getMenuBar(this));
 				}
 				frame.add(splitPanelWrapper);
 
@@ -305,7 +291,8 @@ public class AppWapplet extends AppWFull {
 								Timer timer = new Timer() {
 									@Override
 									public void run() {
-										frame.keyBoardNeeded(false, null);
+										getAppletFrame().keyBoardNeeded(false,
+												null);
 									}
 								};
 								timer.schedule(0);
@@ -461,13 +448,7 @@ public class AppWapplet extends AppWFull {
 		}
 	}
 
-	@Override
-	public DialogManager getDialogManager() {
-		if (dialogManager == null) {
-			dialogManager = new DialogManagerW(this);
-		}
-		return dialogManager;
-	}
+
 
 	/**
 	 * Check if just the euclidian view is visible in the document just loaded.
@@ -476,7 +457,7 @@ public class AppWapplet extends AppWFull {
 	 */
 	private boolean isJustEuclidianVisible() {
 		if (tmpPerspectives == null) {
-			return true; // throw new OperationNotSupportedException();
+			return true;
 		}
 
 		Perspective docPerspective = null;
@@ -488,7 +469,7 @@ public class AppWapplet extends AppWFull {
 		}
 
 		if (docPerspective == null) {
-			return true; // throw new OperationNotSupportedException();
+			return true;
 		}
 
 		boolean justEuclidianVisible = false;
@@ -506,23 +487,14 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public Element getFrameElement() {
-		return frame.getElement();
-	}
-
-	@Override
 	public void updateCenterPanel(boolean b) {
 
-		// int left = this.oldSplitLayoutPanel.getAbsoluteLeft();
-		// int top = this.oldSplitLayoutPanel.getAbsoluteLeft();
 		buildApplicationPanel();
 		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
 		// we need relative position to make sure the menubar / toolbar are not
-		// hiddn
+		// hidden
 		this.oldSplitLayoutPanel.getElement().getStyle()
 				.setPosition(Position.RELATIVE);
-
-		// TODO
 
 	}
 
@@ -563,15 +535,15 @@ public class AppWapplet extends AppWFull {
 		if (!this.menuShowing) {
 			this.menuShowing = true;
 			if (!menuInited) {
-				this.getMenuBar().init(this);
+				frame.getMenuBar(this).init(this);
 				this.menuInited = true;
 			}
-			this.splitPanelWrapper.add(this.getMenuBar());
+			this.splitPanelWrapper.add(frame.getMenuBar(this));
 			this.oldSplitLayoutPanel.setPixelSize(
 					this.oldSplitLayoutPanel.getOffsetWidth()
 							- GLookAndFeel.MENUBAR_WIDTH,
 					this.oldSplitLayoutPanel.getOffsetHeight());
-			this.getMenuBar().setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
+			frame.getMenuBar(this).setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
 					this.oldSplitLayoutPanel.getOffsetHeight());
 			this.getGuiManager().refreshDraggingViews();
 			oldSplitLayoutPanel.getElement().getStyle()
@@ -592,7 +564,7 @@ public class AppWapplet extends AppWFull {
 						+ GLookAndFeel.MENUBAR_WIDTH,
 				this.oldSplitLayoutPanel.getOffsetHeight());
 
-		this.splitPanelWrapper.remove(this.getMenuBar());
+		this.splitPanelWrapper.remove(frame.getMenuBar(this));
 		oldSplitLayoutPanel.getElement().getStyle()
 				.setOverflow(Overflow.VISIBLE);
 		if (this.getGuiManager() != null
@@ -616,101 +588,12 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public void showBrowser(HeaderPanel bg) {
-		frame.showBrowser(bg);
-	}
-
-	@Override
-	public void openSearch(String query) {
-		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
-	}
-
-	@Override
-	public LanguageGUI getLanguageGUI() {
-		if (this.lg == null) {
-			this.lg = new LanguageGUI(this);
-		}
-		return this.lg;
-	}
-
-	@Override
-	public void set1rstMode() {
-		GGWToolBar.set1rstMode(this);
-	}
-
-	@Override
-	protected void initGoogleDriveEventFlow() {
-
-		googleDriveOperation = new GoogleDriveOperationW(this);
-		String state = URL.getQueryParameterAsString("state");
-		if (getNetworkOperation().isOnline() && state != null
-				&& !"".equals(state)) {
-			googleDriveOperation.initGoogleDriveApi();
-		}
-
-	}
-
-	@Override
-	protected void updateTreeUI() {
-
-		((ZoomSplitLayoutPanel) getSplitLayoutPanel()).forceLayout();
-		// updateComponentTreeUI();
-
-	}
-
-	@Override
-	public FileManagerI getFileManager() {
-		if (this.fm == null) {
-			this.fm = new FileManagerW(this);
-		}
-		return this.fm;
-	}
-
-	@Override
-	public void setLabels() {
-		super.setLabels();
-		if (this.lg != null) {
-			lg.setLabels();
-		}
-	}
-
-	@Override
-	public boolean isSelectionRectangleAllowed() {
-		return getToolbar() != null;
-	}
-
-	@Override
-	public native void copyBase64ToClipboardChromeWebAppCase(String str) /*-{
-		// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
-		// although it's strange that .contentEditable is not set to true
-		var copyFrom = @org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
-		copyFrom.value = str;
-		copyFrom.select();
-		$doc.execCommand('copy');
-	}-*/;
-
-
-
-	@Override
 	public void addToHeight(int i) {
 		this.spHeight += i;
 	}
 
-	public void updateViewSizes() {
-		getEuclidianViewpanel().deferredOnResize();
-		if (hasEuclidianView2(1)) {
-			((GuiManagerW) getGuiManager()).getEuclidianView2DockPanel(1)
-					.deferredOnResize();
-		}
-		if (getGuiManager().hasSpreadsheetView()) {
-			DockPanel sp = getGuiManager().getLayout().getDockManager()
-					.getPanel(App.VIEW_SPREADSHEET);
-			if (sp != null) {
-				sp.deferredOnResize();
-			}
-		}
-	}
 
+	@Override
 	public Panel getPanel() {
 		return frame;
 	}

@@ -63,6 +63,7 @@ import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.VirtualKeyboardListener;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.Construction;
@@ -2497,15 +2498,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			panel.updateToolbar();
 			return;
 		}
-		if (strCustomToolbarDefinition != null) {
-			int macroNum = kernel.getMacroNumber();
-			strCustomToolbarDefinition = strCustomToolbarDefinition + " | "
-					+ mode;
-			for (int i = 1; i < macroNum; i++) {
-				int m = kernel.getMacroID(kernel.getMacro(i));
-				strCustomToolbarDefinition += ", " + mode;
-			}
-		}
+		strCustomToolbarDefinition = ToolBar.addMode(
+				strCustomToolbarDefinition, mode);
+
 	}
 
 	public void showURLinBrowser(URL url) {

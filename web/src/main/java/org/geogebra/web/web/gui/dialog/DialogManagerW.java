@@ -48,6 +48,7 @@ import org.geogebra.web.web.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.web.main.AppWapplication;
 import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
+import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
@@ -60,8 +61,12 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	protected UploadImageDialog imageDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
 	
-	public DialogManagerW(App app) {
-		super(app);		
+	public DialogManagerW(AppW app) {
+		super(app);
+		if (app.getGoogleDriveOperation() != null) {
+			((GoogleDriveOperationW) app.getGoogleDriveOperation()).getView()
+					.add(this);
+		}
 	}
 
 	@Override

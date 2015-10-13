@@ -1946,14 +1946,14 @@ public class AlgebraProcessor {
 		return -1;
 	}
 
-	private ExpressionNode expr(ExpressionValue ev) {
+	protected ExpressionNode expr(ExpressionValue ev) {
 		if (ev == null) {
 			return new ExpressionNode(kernel, 0);
 		}
 		return ev.wrap();
 	}
 
-	private boolean getTrigCoeffs(ExpressionNode cx, ExpressionValue[] coefX,
+	protected boolean getTrigCoeffs(ExpressionNode cx, ExpressionValue[] coefX,
 			ExpressionNode scale, GeoElement var) {
 		boolean childrenOK = true;
 		if (cx.getOperation() == Operation.PLUS) {
