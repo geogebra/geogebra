@@ -117,6 +117,11 @@ import com.google.gwt.regexp.shared.RegExp;
  */
 public class AlgebraProcessor {
 
+	/**
+	 * String code returned from the dialog if the user wants to create a new slider
+	 */
+	public static final String CREATE_SLIDER = "1";
+
 	/** kernel */
 	protected final Kernel kernel;
 	/** construction */
@@ -740,7 +745,7 @@ public class AlgebraProcessor {
 									// which can throw the
 									// processAlgebraInputCommandNoExceptionHandling
 									// function?
-									if ("1".equals(dialogResult[0])) {
+									if (CREATE_SLIDER.equals(dialogResult[0])) {
 										// insertStarIfNeeded(undefinedVariables,
 										// ve2, fvX2);
 										replaceUndefinedVariables(ve2);
