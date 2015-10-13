@@ -69,6 +69,8 @@ public class Assignment {
 			0.375f, 0.4f, 0.5f, 0.6f, 0.625f, (2f / 3), 0.7f, 0.75f, 0.8f,
 			(5f / 6), 0.875f, 0.9f, 1f };
 
+	private Inspecting geoInspector;
+
 	private Macro macro;
 
 	private HashMap<Result, Float> fractionForResult;
@@ -98,6 +100,15 @@ public class Assignment {
 
 		fractionForResult = new HashMap<Result, Float>();
 		hintForResult = new HashMap<Result, String>();
+
+		geoInspector = new Inspecting() {
+
+			public boolean check(ExpressionValue v) {
+				return ((GeoElement) v).labelSet
+						&& uniqueInputTypes.contains(Test.getSpecificTest(v));
+			}
+
+		};
 
 		res = Result.UNKNOWN;
 	}
@@ -159,7 +170,7 @@ public class Assignment {
 		TreeSet<Result> partRes = new TreeSet<Result>();
 		while (possibleOutputPermutation != null && res != Result.CORRECT) {
 			TreeSet<GeoElement> possibleInputGeos = getAllPredecessors(
-					possibleOutputPermutation, uniqueInputTypes);
+					possibleOutputPermutation, geoInspector);
 			if (possibleInputGeos.size() < macro.getInputTypes().length) {
 				res = Result.NOT_ENOUGH_INPUTS;
 			} else {
@@ -180,7 +191,8 @@ public class Assignment {
 
 		input = inputPermutationUtil.next();
 		boolean solutionFound = false;
-		while (input != null && !solutionFound) {
+		while (input != null && !solutionFound
+				&& !(res == Result.WRONG_AFTER_RANDOMIZE)) {
 			partRes.clear();
 			if (areTypesOK(input)) {
 				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input);
@@ -328,20 +340,12 @@ public class Assignment {
 	}
 
 	private static TreeSet<GeoElement> getAllPredecessors(
-			GeoElement[] possibleOutputPermutation,
-			final HashSet<Test> uniqueInputTypes) {
+			GeoElement[] possibleOutputPermutation, Inspecting geoInspector) {
 
 		TreeSet<GeoElement> possibleInputGeos = new TreeSet<GeoElement>();
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleOutputPermutation[i].addPredecessorsToSet(
-					possibleInputGeos, new Inspecting() {
-
-						public boolean check(ExpressionValue v) {
-							return ((GeoElement) v).labelSet
-									&& uniqueInputTypes.contains(Test
-											.getSpecificTest(v));
-						}
-					});
+					possibleInputGeos, geoInspector);
 		}
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleInputGeos.remove(possibleOutputPermutation[i]);
