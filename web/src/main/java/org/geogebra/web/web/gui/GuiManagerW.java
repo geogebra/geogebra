@@ -1630,7 +1630,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (getObjectPool().getGgwMenubar() != null) {
 			getObjectPool().getGgwMenubar().setVisible(show);
 		} else {
-			((AppWapplet) app).attachMenubar();
+			((AppWapplet) app).getAppletFrame().attachMenubar((AppW) app);
 		}
 		((AppW) app).closePopups();
 	}
@@ -1640,7 +1640,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (((AppWapplet) app).getToolbar() != null) {
 			((AppWapplet) app).getToolbar().setVisible(show);
 		} else {
-			((AppWapplet) app).attachToolbar();
+			((AppWapplet) app).getAppletFrame().attachToolbar((AppW) app);
 		}
 		((AppW) app).closePopups();
 	}

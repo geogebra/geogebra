@@ -2468,10 +2468,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// TODO implement it ?
 	}
 
-	public boolean menubarRestricted() {
-		return true;
-	}
-
 	public String getDataParamId() {
 		return getArticleElement().getDataParamId();
 

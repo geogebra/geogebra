@@ -12,13 +12,12 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.main.FileManagerI;
-import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.URL;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.LanguageGUI;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -221,27 +220,9 @@ public class AppWapplication extends AppWFull {
 		getLAF().addWindowClosingHandler(this);
 	}
 
-	@Override
-	public GuiManagerInterfaceW getGuiManager() {
-		return guiManager;
-	}
 
-	@Override
-	public void initGuiManager() {
-		// this should not be called from AppWsimple!
-		setWaitCursor();
-		guiManager = newGuiManager();
-		getGuiManager().setLayout(new org.geogebra.web.web.gui.layout.LayoutW(this));
-		getGuiManager().initialize();
-		setDefaultCursor();
-	}
 
-	/**
-	 * @return a GuiManager for GeoGebraWeb
-	 */
-	protected GuiManagerW newGuiManager() {
-		return new GuiManagerW(AppWapplication.this, this.device);
-	}
+
 
 	@Override
 	protected final void afterCoreObjectsInited() {
@@ -349,11 +330,6 @@ public class AppWapplication extends AppWFull {
 	}
 
 	@Override
-	public boolean menubarRestricted() {
-		return false;
-	}
-
-	@Override
 	public void buildApplicationPanel() {
 		updateCenterPanel(true);
 	}
@@ -418,10 +394,7 @@ public class AppWapplication extends AppWFull {
 		getAppFrame().onResize();
 	}
 
-	@Override
-	public ToolBarInterface getToolbar() {
-		return getAppFrame().getGGWToolbar();
-	}
+
 
 	@Override
 	public void loadURL_GGB(String ggburl) {
@@ -597,7 +570,7 @@ public class AppWapplication extends AppWFull {
 	}-*/;
 
 	@Override
-	public HasAppletProperties getAppletFrame() {
+	public HeaderPanelDeck getAppletFrame() {
 		return appFrame;
 	}
 	
@@ -611,5 +584,10 @@ public class AppWapplication extends AppWFull {
 	@Override
 	public Panel getPanel() {
 		return RootPanel.get();
+	}
+
+	@Override
+	protected GDevice getDevice() {
+		return device;
 	}
 }

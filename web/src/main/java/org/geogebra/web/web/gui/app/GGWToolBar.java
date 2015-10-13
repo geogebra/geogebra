@@ -218,10 +218,10 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			@Override
 			public void execute(double timestamp) {
 
-					if (app.getExam().isCheating()) {
-						timer.getElement().getStyle().setBackgroundColor("red");
-						timer.getElement().getStyle().setColor("white");
-					}
+				if (app.getExam().isCheating()) {
+					getElement().getStyle().setBackgroundColor("red");
+					getElement().getStyle().setColor("white");
+				}
 
 				timer.setText(app.getExam().timeToString(
 						System.currentTimeMillis()));
@@ -249,11 +249,15 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	}
 
 	private void startCheating() {
-		app.getExam().startCheating();
+		if (app.getExam() != null) {
+			app.getExam().startCheating();
+		}
 	}
 
 	private void stopCheating() {
-		app.getExam().stopCheating();
+		if (app.getExam() != null) {
+			app.getExam().stopCheating();
+		}
 	}
 
 	private native void visibilityEventMain() /*-{
@@ -306,12 +310,12 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	public void updateActionPanel() {
 		rightButtonPanel.clear();
 		boolean exam = app.isExam();
+		setStyleName("examToolbar", exam);
 		if (exam) {
 			// We directly read the parameters to show the intention.
 			// It may be possible that 3D is not supported from technical
 			// reasons (e.g. the graphics card is problematic), but in such
 			// cases we don't want to show that here.
-			int maxButtons = getMaxButtons();
 
 			if (!app.getExam().isCASAllowed()) {
 				Label nocas = new Label("CAS");
@@ -1030,4 +1034,5 @@ getFirstMode(),
 		        ModeSetter.DOCK_PANEL);
 	    
     }
+
 }

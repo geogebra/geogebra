@@ -4,9 +4,11 @@ import org.geogebra.common.kernel.ModeSetter;
 
 public interface ToolBarInterface {
 
-	public abstract int setMode(int mode, ModeSetter m);
+	public int setMode(int mode, ModeSetter m);
 
-	public abstract String getImageURL(int mode);
+	public String getImageURL(int mode);
+
+	public void setVisible(boolean show);
 
 
 }

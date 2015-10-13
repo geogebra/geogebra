@@ -85,6 +85,21 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return false;
 	}-*/;
 	
+	private void exitAndResetExam() {
+		if (!exitExam()) {
+			app.getExam().exit();
+			app.showMessage(app.getExam().getLog());
+			app.setExam(null);
+			Layout.initializeDefaultPerspectives(app, 0.2);
+			app.getLAF().addWindowClosingHandler(app);
+			app.fireViewsChangedEvent();
+			app.getGuiManager().updateToolbarActions();
+			app.getGuiManager().setGeneralToolBarDefinition(
+					ToolBar.getAllToolsNoMacros(true, false));
+			app.getGuiManager().resetMenu();
+		}
+	}
+
 	private void initActions() {
 
 		if (app.isExam()) {
@@ -107,11 +122,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 										public void callback(Object obj) {
 											String[] dialogResult = (String[]) obj;
 											if ("1".equals(dialogResult[0])) {
-												if (!exitExam()) {
-													app.getExam().exit();
-												app.showMessage(app.getExam()
-														.getLog());
-												}
+												exitAndResetExam();
 											}
 										}
 					        });

@@ -214,7 +214,9 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		app.closePopups();
 		if (isMenuOpen() &&
 				!Dom.eventTargetsElement(event, getGGWMenuBar().getElement()) &&
-				!Dom.eventTargetsElement(event, getGGWToolbar().getOpenMenuButtonElement()) &&
+ !Dom.eventTargetsElement(event, getToolbar()
+						.getOpenMenuButtonElement())
+				&&
 				!frameLayout.getGlassPane().isDragInProgress()) {
 			app.toggleMenu();
 		}
@@ -294,7 +296,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	/**
 	 * @return GGWToolbar the Toolbar container
 	 */
-	public GGWToolBar getGGWToolbar() {
+	public GGWToolBar getToolbar() {
 	    return ggwToolBar;
     }
 	

@@ -18,6 +18,7 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
+import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
@@ -36,6 +37,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
+	private GGWToolBar ggwToolBar = null;
 
 	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf) {
 		super(laf);
@@ -402,5 +404,27 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	public double getKeyboardHeight() {
 		return keyboardShowing ? keyboardHeight : 0;
+	}
+
+	public void attachMenubar(AppW app) {
+		if (ggwToolBar == null) {
+			ggwToolBar = new GGWToolBar();
+			ggwToolBar.init(app);
+			insert(ggwToolBar, 0);
+		}
+		ggwToolBar.attachMenubar();
+	}
+
+	public void attachToolbar(AppW app) {
+		// reusing old toolbar is probably a good decision
+		if (ggwToolBar == null) {
+			ggwToolBar = new GGWToolBar();
+			ggwToolBar.init(app);
+		}
+		insert(ggwToolBar, 0);
+	}
+
+	public GGWToolBar getToolbar() {
+		return ggwToolBar;
 	}
 }

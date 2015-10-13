@@ -16,12 +16,10 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrame;
-import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.URL;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
@@ -55,13 +53,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AppWapplet extends AppWFull {
 
-	private GuiManagerInterfaceW guiManager = null;
+
 
 	// Event flow operations - are these needed in AppWapplet?
 
 	// private LogInOperation loginOperation;
 	private GGWMenuBar ggwMenuBar;
-	private GGWToolBar ggwToolBar = null;
+
 	private int spWidth;
 	private int spHeight;
 	private boolean menuShowing = false;
@@ -140,25 +138,13 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public HasAppletProperties getAppletFrame() {
+	public GeoGebraFrameBoth getAppletFrame() {
 		return frame;
 	}
 
-	@Override
-	public GuiManagerInterfaceW getGuiManager() {
-		return guiManager;
-	}
 
-	@Override
-	public void initGuiManager() {
-		// this should not be called from AppWsimple!
-		setWaitCursor();
-		guiManager = newGuiManager();
-		getGuiManager().setLayout(
-				new org.geogebra.web.web.gui.layout.LayoutW(this));
-		getGuiManager().initialize();
-		setDefaultCursor();
-	}
+
+	
 
 	/**
 	 * @return a GuiManager for GeoGebraWeb
@@ -241,14 +227,14 @@ public class AppWapplet extends AppWFull {
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
 		if (articleElement.getDataParamShowMenuBar(showMenuBar)) {
-			attachMenubar();
+			frame.attachMenubar(this);
 		}
 
 		// showToolBar should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
 		if (articleElement.getDataParamShowToolBar(showToolBar)) {
-			attachToolbar();
+			frame.attachToolbar(this);
 		}
 		if (this.getInputPosition() == InputPositon.top
 				&& articleElement
@@ -291,28 +277,6 @@ public class AppWapplet extends AppWFull {
 				.setInputFieldWidth(this.appletWidth);
 	}
 
-	public void attachMenubar() {
-		if (ggwToolBar == null) {
-			ggwToolBar = new GGWToolBar();
-			ggwToolBar.init(this);
-			frame.insert(ggwToolBar, 0);
-		}
-		ggwToolBar.attachMenubar();
-	}
-
-	public void attachToolbar() {
-		// reusing old toolbar is probably a good decision
-		if (ggwToolBar == null) {
-			ggwToolBar = new GGWToolBar();
-			ggwToolBar.init(this);
-		}
-		frame.insert(ggwToolBar, 0);
-	}
-
-	@Override
-	public GGWToolBar getToolbar() {
-		return ggwToolBar;
-	}
 
 	public void attachSplitLayoutPanel() {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
@@ -758,5 +722,10 @@ public class AppWapplet extends AppWFull {
 
 	public Panel getPanel() {
 		return frame;
+	}
+
+	@Override
+	protected GDevice getDevice() {
+		return new BrowserDevice();
 	}
 }

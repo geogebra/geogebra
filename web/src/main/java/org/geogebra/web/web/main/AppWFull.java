@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.opencsv.CSVException;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -23,6 +25,7 @@ import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -46,7 +49,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public abstract class AppWFull extends AppW {
 
 	private DataCollection dataCollection;
-
+	private GuiManagerInterfaceW guiManager = null;
 	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(ae, dimension, laf);
 	}
@@ -80,6 +83,31 @@ public abstract class AppWFull extends AppW {
 	public void updateKeyBoardField(MathKeyboardListener field) {
 		getGuiManager().setOnScreenKeyboardTextField(field);
 	}
+
+	@Override
+	public final GuiManagerInterfaceW getGuiManager() {
+		return guiManager;
+	}
+
+	@Override
+	public final void initGuiManager() {
+		// this should not be called from AppWsimple!
+		setWaitCursor();
+		guiManager = newGuiManager();
+		getGuiManager().setLayout(
+				new org.geogebra.web.web.gui.layout.LayoutW(this));
+		getGuiManager().initialize();
+		setDefaultCursor();
+	}
+
+	/**
+	 * @return a GuiManager for GeoGebraWeb
+	 */
+	protected GuiManagerW newGuiManager() {
+		return new GuiManagerW(AppWFull.this, getDevice());
+	}
+
+	protected abstract GDevice getDevice();
 
 	@Override
 	public void hideKeyboard() {
@@ -331,6 +359,12 @@ public abstract class AppWFull extends AppW {
 			}
 
 		}
+	}
+
+	public abstract HeaderPanelDeck getAppletFrame();
+	@Override
+	public ToolBarInterface getToolbar() {
+		return getAppletFrame().getToolbar();
 	}
 
 }
