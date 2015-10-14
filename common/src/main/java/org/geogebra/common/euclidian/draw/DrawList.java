@@ -77,8 +77,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		update();
 	}
 
-	private void resetWidgets() {
-		if (label == null) {
+	private void resetComboBox() {
+		if (!isDrawingOnCanvas() && label == null) {
 			label = view.getApplication().getSwingFactory().newJLabel("Label",
 					true);
 			label.setVisible(true);
@@ -86,7 +86,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		if (comboBox == null) {
 			comboBox = geoList.getComboBox(view.getViewID());
-			comboBox.setVisible(true);
+			comboBox.setVisible(!isDrawingOnCanvas());
 			comboBox.addActionListener(AwtFactory.prototype
 					.newActionListener(new DrawList.ActionListener()));
 		}
@@ -94,27 +94,18 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (box == null) {
 			box = view.getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
-			box.add(label);
+			if (!isDrawingOnCanvas()) {
+				box.add(label);
+			}
 			box.add(comboBox);
 		}
 		view.add(box);
 	}
 
-	private void resetOnCanvas() {
-		box = view.getApplication().getSwingFactory()
-				.createHorizontalBox(view.getEuclidianController());
-
-	}
-
 	private void reset() {
 
 		if (geoList.drawAsComboBox()) {
-			if (isDrawingOnCanvas()) {
-				resetOnCanvas();
-			} else {
-				resetWidgets();
-			}
-
+			resetComboBox();
 		} else {
 
 			if (drawables == null) {
