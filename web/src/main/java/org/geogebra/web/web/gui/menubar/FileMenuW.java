@@ -207,7 +207,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				ExamEnvironment.toggleFullscreen(true);
 				app.setExam(new ExamEnvironment());
 				Layout.initializeDefaultPerspectives(app, 0.2);
-				app.getLAF().removeWindowClosingHandler();
 				app.fileNew();
 				app.fireViewsChangedEvent();
 				app.getGuiManager().setGeneralToolBarDefinition(

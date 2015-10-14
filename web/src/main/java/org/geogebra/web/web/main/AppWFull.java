@@ -337,6 +337,7 @@ public abstract class AppWFull extends AppW {
 			getExam().setCASAllowed(cas.getValue());
 			getExam().set3DAllowed(allow3D.getValue());
 			getGuiManager().updateToolbarActions();
+			getLAF().removeWindowClosingHandler();
 			cas.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
