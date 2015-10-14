@@ -363,12 +363,34 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	public double[] getIntervalClipped(double[] minmax, Coords o, Coords v) {
 
 		for (int i = 1; i <= 3; i++) {
-			double min = (minMax[i - 1][0] - o.get(i)) / v.get(i);
-			double max = (minMax[i - 1][1] - o.get(i)) / v.get(i);
-			updateInterval(minmax, min, max);
+			updateInterval(minmax, o, v, i, minMax[i - 1][0], minMax[i - 1][1]);
 		}
 
 		return minmax;
+	}
+
+	/**
+	 * intersect minmax interval with interval for (o,v)_index between boundsMin
+	 * and boundsMax
+	 * 
+	 * @param minmax
+	 *            interval to update
+	 * @param o
+	 *            origin
+	 * @param v
+	 *            direction
+	 * @param index
+	 *            x/y/z
+	 * @param boundsMin
+	 *            min for bounds
+	 * @param boundsMax
+	 *            max for bounds
+	 */
+	public static void updateInterval(double[] minmax, Coords o, Coords v,
+			int index, double boundsMin, double boundsMax) {
+		double min = (boundsMin - o.get(index)) / v.get(index);
+		double max = (boundsMax - o.get(index)) / v.get(index);
+		updateInterval(minmax, min, max);
 	}
 
 	/**
