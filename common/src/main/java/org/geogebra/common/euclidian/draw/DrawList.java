@@ -54,6 +54,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private org.geogebra.common.javax.swing.GLabel label;
 	private org.geogebra.common.javax.swing.GBox box;
 	private DropDownList dropDown = null;
+	private int maxLength = 4;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -116,19 +117,22 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 
 	private void updateWidgets() {
+		isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
+		int fontSize = (int) (view.getFontSize()
+				* geoList.getFontSizeMultiplier());
+		if (isDrawingOnCanvas()) {
+			setLabelFontSize(fontSize);
+		}
+		box.setVisible(isVisible);
+
 		if (!isVisible) {
 			return;
 		}
+
 		// eg size changed etc
 		geoList.rebuildComboxBoxIfNecessary(comboBox);
+		labelDesc = getLabelText();
 
-		label.setText(getLabelText());
-		if (!geo.isLabelVisible()) {
-			label.setText("");
-		}
-
-		int fontSize = (int) (view.getFontSize()
-				* geoList.getFontSizeMultiplier());
 		App app = view.getApplication();
 
 		org.geogebra.common.awt.GFont vFont = view.getFont();
@@ -136,11 +140,19 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				comboBox.getItemAt(0).toString(), false, vFont.getStyle(),
 				fontSize);
 
-		label.setOpaque(false);
+		if (!isDrawingOnCanvas()) {
+			label.setText(labelDesc);
+
+			if (!geo.isLabelVisible()) {
+				label.setText("");
+			}
+			label.setOpaque(false);
+			label.setFont(font);
+			label.setForeground(geo.getObjectColor());
+		}
+
 		comboBox.setFont(font);
-		label.setFont(font);
 		comboBox.setForeground(geo.getObjectColor());
-		label.setForeground(geo.getObjectColor());
 		org.geogebra.common.awt.GColor bgCol = geo.getBackgroundColor();
 		comboBox.setBackground(
 				bgCol != null ? bgCol : view.getBackgroundCommon());
@@ -165,9 +177,17 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		if (geo.getRawCaption() != null) {
 			String caption = geo.getCaption(StringTemplate.defaultTemplate);
-			oldCaption = caption;
-			return caption;
-		}
+			if (isDrawingOnCanvas()) {
+				oldCaption = caption;
+				return caption;
+
+			} else if (!caption.equals(oldCaption)) {
+					oldCaption = caption;
+				labelDesc = GeoElement.indicesToHTML(caption, true);
+				}
+			return labelDesc;
+			}
+
 
 		// make sure there's something to drag
 		return Unicode.NBSP + Unicode.NBSP + Unicode.NBSP;
@@ -178,33 +198,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	final public void update() {
 
 		if (geoList.drawAsComboBox()) {
-
-			setLabelFontSize((int) (view.getFontSize()
-					* geoList.getFontSizeMultiplier()));
-
-			isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
-			// textField.setVisible(isVisible);
-			// label.setVisible(isVisible);
-
-
-			if (isDrawingOnCanvas()) {
-				if (!isVisible) {
-					return;
-				}
-
-				xLabel = geo.labelOffsetX;
-				yLabel = geo.labelOffsetY;
-
-				setPreferredSize(box.getPreferredSize());
-
-				labelRectangle.setBounds(xLabel, yLabel,
-						getPreferredSize().getWidth(),
-						getPreferredSize().getHeight());
-				box.setBounds(labelRectangle);
-			} else {
-				box.setVisible(isVisible);
 				updateWidgets();
-			}
 		} else {
 			isVisible = geoList.isEuclidianVisible();
 			if (!isVisible)
@@ -487,6 +481,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
+		maxLength = 2;
+		for (int i = 0; i < geoList.size(); i++) {
+			String item = geoList.get(i)
+					.toValueString(StringTemplate.defaultTemplate);
+			// App.debug("[DropDownList] " + item);
+			if (maxLength < item.length()) {
+				maxLength = item.length();
+			}
+		}
+
 		String labelText = getLabelText();
 		boolean latexLabel = measureLabel(g2, geoList, labelText);
 		int textLeft = boxLeft + 2;
@@ -500,7 +504,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
 
-		dropDown.drawSelected(geo, g2, bgColor, boxLeft, boxTop, boxWidth,
+		dropDown.drawSelected(geoList, g2, bgColor,
+ boxLeft, boxTop, boxWidth,
 				boxHeight);
 
 		g2.setPaint(GColor.LIGHT_GRAY);
@@ -542,7 +547,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			public int getWidth() {
 				return (int) Math.round(((view.getApplication().getFontSize()
 						* geoList.getFontSizeMultiplier()))
-						* 4);
+ * maxLength);
 			}
 
 			@Override
