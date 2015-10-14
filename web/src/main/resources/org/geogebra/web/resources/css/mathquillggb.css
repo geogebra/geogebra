@@ -35,6 +35,7 @@
   z-index: 3;
 }
 
+.GeoGebraFrame .mathquillggb-editable var,
 .GeoGebraFrame .mathquillggb-editable span,
 .GeoGebraFrame .mathquillggb-editable td{
 	color:black;
