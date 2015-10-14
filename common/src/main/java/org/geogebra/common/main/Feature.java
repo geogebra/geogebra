@@ -51,7 +51,7 @@ public enum Feature {
 
 	INTEL_REALSENSE,
 
-	DRAW_ELLIPSOID,
+	ALL_QUADRICS,
 	
 	SURFACE_IS_REGION,
 

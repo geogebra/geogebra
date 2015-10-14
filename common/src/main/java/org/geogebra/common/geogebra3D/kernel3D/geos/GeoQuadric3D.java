@@ -290,7 +290,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
 
 		// set type
-		if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
 			type = QUADRIC_PARABOLOID;
 		} else {
 			type = QUADRIC_NOT_CLASSIFIED;
@@ -505,7 +505,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		// set type
-		if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
 			type = QUADRIC_PARABOLIC_CYLINDER;
 		} else {
 			type = QUADRIC_NOT_CLASSIFIED;
@@ -560,7 +560,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
 
 		// set type
-		if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
 			type = QUADRIC_HYPERBOLIC_CYLINDER;
 		} else {
 			type = QUADRIC_NOT_CLASSIFIED;
@@ -593,7 +593,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(1, 1, 1);
 
 		// set type
-		if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
 			type = QUADRIC_HYPERBOLIC_PARABOLOID;
 		} else {
 			type = QUADRIC_NOT_CLASSIFIED;
@@ -835,7 +835,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		// set type
-		if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
 			type = QUADRIC_HYPERBOLOID_ONE_SHEET;
 		} else {
 			type = QUADRIC_NOT_CLASSIFIED;
@@ -890,7 +890,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		// set type
-		if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
 			type = QUADRIC_HYPERBOLOID_TWO_SHEETS;
 		} else {
 			type = QUADRIC_NOT_CLASSIFIED;
@@ -1035,7 +1035,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 			// set type
-			if (kernel.getApplication().has(Feature.DRAW_ELLIPSOID)) {
+			if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
 				type = QUADRIC_ELLIPSOID;
 			} else {
 				type = QUADRIC_NOT_CLASSIFIED;
