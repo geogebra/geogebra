@@ -194,7 +194,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		if (app.has(Feature.EXAM)) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 					.menu_icons_file_export().getSafeUri().asString(),
-					app.getMenu("StartExam"), true), true,
+							app.getMenu("EnterExamMode"), true),
+					true,
 					new MenuCommand(app) {
 
 						@Override
