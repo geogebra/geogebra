@@ -30,6 +30,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
@@ -1324,10 +1325,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		boolean appletHack = false;
 		if (inputPanelLatex == null) {
 			inputPanelLatex = new InputTreeItem(kernel);
-			forceKeyboard = app.getArticleElement()
-.getDataParamBase64String()
-					.length() == 0
-					&& app.getExam() == null;
+			forceKeyboard = GuiManagerW.mayForceKeyboard(app);
 
 			appletHack = !App.isFullAppGui();
 		} else {
@@ -1393,9 +1391,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize {
 		boolean suggestKeyboard = false;
 		if (inputPanelLatex == null) {
 			suggestKeyboard = true;
-			forceKeyboard = forceKeyboard0
-					|| (app.getArticleElement().getDataParamBase64String()
-							.length() == 0 && app.getExam() == null);
+			forceKeyboard = forceKeyboard0 || GuiManagerW.mayForceKeyboard(app);
 			inputPanelLatex = new InputTreeItem(kernel);
 
 			// open the keyboard (or show the keyboard-open-button) at

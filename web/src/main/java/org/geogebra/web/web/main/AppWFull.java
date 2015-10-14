@@ -26,6 +26,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExamEnvironment;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -154,12 +155,13 @@ public abstract class AppWFull extends AppW {
 					// dp.getKeyboardListener().setFocus(true);
 					dp.getKeyboardListener().ensureEditing();
 					dp.getKeyboardListener().setFocus(true, true);
-					if (AppWFull.this.isKeyboardNeeded()) {
+					if (isKeyboardNeeded()
+							&& (getExam() == null || getExam().getStart() > 0)) {
 						getAppletFrame().showKeyBoard(true,
 								dp.getKeyboardListener(), true);
 					}
 				}
-				if (!AppWFull.this.isKeyboardNeeded()) {
+				if (!isKeyboardNeeded()) {
 					getAppletFrame().showKeyBoard(false, null, true);
 				}
 
@@ -358,6 +360,7 @@ public abstract class AppWFull extends AppW {
 			btnOk.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
+					ExamEnvironment.toggleFullscreen(true);
 					Date date = new Date();
 					getExam().setStart(date.getTime());
 					getGuiManager().updateToolbarActions();

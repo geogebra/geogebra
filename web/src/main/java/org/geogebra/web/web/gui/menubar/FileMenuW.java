@@ -67,26 +67,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return false;
 	}-*/;
 
-	native boolean exitExam() /*-{
-		if ($wnd.ggbExamClosed) {
-			$wnd.ggbExamClosed();
-			return true;
-		}
-		$wnd.toggleFullScreen(false);
-		return false;
-	}-*/;
 
-	native boolean startExam() /*-{
-		if ($wnd.ggbExamStarted) {
-			$wnd.ggbExamStarted();
-			return true;
-		}
-		$wnd.toggleFullScreen(true);
-		return false;
-	}-*/;
 	
+
 	private void exitAndResetExam() {
-		if (!exitExam()) {
+		if (!ExamEnvironment.toggleFullscreen(false)) {
 			app.getExam().exit();
 			app.showMessage(app.getExam().getLog());
 			app.setExam(null);
@@ -219,7 +204,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return new Runnable() {
 
 			public void run() {
-				startExam();
+				ExamEnvironment.toggleFullscreen(true);
 				app.setExam(new ExamEnvironment());
 				Layout.initializeDefaultPerspectives(app, 0.2);
 				app.getLAF().removeWindowClosingHandler();
@@ -229,6 +214,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						ToolBar.getAllToolsNoMacros(true, true));
 				app.getGgbApi().setPerspective("1");
 				app.getGuiManager().resetMenu();
+
 				app.examWelcome();
 
 			}

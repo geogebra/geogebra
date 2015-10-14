@@ -118,4 +118,13 @@ public class ExamEnvironment {
 	public void exit() {
 		this.closed = System.currentTimeMillis();
 	}
+
+	public native static boolean toggleFullscreen(boolean full) /*-{
+		if ($wnd.ggbExamMode) {
+			$wnd.ggbExamMode(full);
+			return true;
+		}
+		$wnd.toggleFullScreen(full);
+		return false;
+	}-*/;
 }

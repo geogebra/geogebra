@@ -2077,4 +2077,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return GGWToolBar.getImageURL(mode, app);
 	}
 
+	public static boolean mayForceKeyboard(AppW app) {
+		return app.getArticleElement().getDataParamBase64String().length() == 0
+				&& (app.getExam() == null || app.getExam().getStart() > 0);
+	}
+
 }
