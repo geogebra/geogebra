@@ -1583,7 +1583,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				.isEuclidianVisible()
 				|| (geo.isGeoText() && ((GeoText) geo)
 						.isNeedsUpdatedBoundingBox()) || (geo.isGeoAngle() && geo
-				.getParentAlgorithm() instanceof AlgoAngle)))
+.getParentAlgorithm() instanceof AlgoAngle))
+				|| geo.isGeoList())
 				|| geo.isVisibleInView(App.VIEW_FUNCTION_INSPECTOR);
 	}
 
