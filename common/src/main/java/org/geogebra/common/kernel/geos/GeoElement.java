@@ -5876,6 +5876,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
+	public boolean isRegion3D() {
+		return isGeoElement3D();
+	}
+
 	/**
 	 * 
 	 * @return true if the geo is drawable in 3D view

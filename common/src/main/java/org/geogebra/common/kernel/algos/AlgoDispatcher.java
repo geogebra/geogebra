@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.main.App;
 
 public class AlgoDispatcher {
 
@@ -752,6 +753,8 @@ public class AlgoDispatcher {
 	final public GeoPoint PointIn(String label, Region region, double x,
 			double y, boolean addToConstruction, boolean complex,
 			boolean coords2D) {
+
+		App.printStacktrace("");
 		boolean oldMacroMode = false;
 		if (!addToConstruction) {
 			oldMacroMode = cons.isSuppressLabelsActive();

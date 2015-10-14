@@ -711,89 +711,250 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 
 	@Override
 	public boolean isRegion() {
-		return isBooleanFunction();
+		return isBooleanFunction() || isRegion3D();
 	}
 
 	public boolean isInRegion(GeoPointND P) {
-		P.updateCoords2D();
-		return isInRegion(P.getX2D(), P.getY2D());
+		if (isBooleanFunction()) {
+			P.updateCoords2D();
+			return isInRegion(P.getX2D(), P.getY2D());
+		}
+		
+		// 2 var function
+		Coords coords = P.getInhomCoordsInD3();
+		tmp[0] = coords.getX();
+		tmp[1] = coords.getY();
+		double z = fun.evaluate(tmp);
+		return Kernel.isEqual(coords.getZ(), z);
+
 	}
 
 	public boolean isInRegion(double x0, double y0) {
 		return fun.evaluateBoolean(new double[] { x0, y0 });
+
 	}
 
 	private GeoPoint helper;
 	public void pointChangedForRegion(GeoPointND P) {
-		if (!((GeoPoint) P).isDefined())
-			return;
-		RegionParameters rp = P.getRegionParameters();
-		if (!isInRegion(P)) {
-			double bestX = rp.getT1(), bestY = rp.getT2(), myX = P.getX2D(), myY = P
-					.getY2D();
-			double bestDist = (bestY - myY) * (bestY - myY) + (bestX - myX)
-					* (bestX - myX);
-			if (Kernel.isZero(bestDist)) { // not the best distance, since P is
-											// not in region
-				bestDist = Double.POSITIVE_INFINITY;
-			}
 
-			IneqTree ineqs = getIneqs();
-			int size = ineqs.getSize();
-			for (int i = 0; i < size; i++) {
-				Inequality in = ineqs.get(i);
-				double px = 0, py = 0;
-				if (in.getType() == IneqType.INEQUALITY_PARAMETRIC_Y) {
-					px = P.getX2D();
-					py = in.getFunBorder().evaluate(px);
-					py += in.isAboveBorder() ? STRICT_INEQ_OFFSET
-							: -STRICT_INEQ_OFFSET;
-				} else if (in.getType() == IneqType.INEQUALITY_PARAMETRIC_X) {
-					py = P.getY2D();
-					px = in.getFunBorder().evaluate(py);
-					px += in.isAboveBorder() ? STRICT_INEQ_OFFSET
-							: -STRICT_INEQ_OFFSET;
-				} else if (in.getType() == IneqType.INEQUALITY_LINEAR) {
-					double a = in.getLineBorder().getX();
-					double b = in.getLineBorder().getY();
-					double c = in.getLineBorder().getZ();
-					px = (-a * c + b * b * P.getX2D() - a * b * P.getY2D())
-							/ (a * a + b * b);
-					py = (-b * c - a * b * P.getX2D() + a * a * P.getY2D())
-							/ (a * a + b * b);
-					py -= in.isAboveBorder() ? STRICT_INEQ_OFFSET
-							: -STRICT_INEQ_OFFSET;
-				} else if (in.getType() == IneqType.INEQUALITY_CONIC) {
-					if(helper == null){
-						helper = new GeoPoint(cons);
+		if (isBooleanFunction()) {
+			if (!((GeoElement) P).isDefined())
+				return;
+			RegionParameters rp = P.getRegionParameters();
+			if (!isInRegion(P)) {
+				double bestX = rp.getT1(), bestY = rp.getT2(), myX = P.getX2D(), myY = P
+						.getY2D();
+				double bestDist = (bestY - myY) * (bestY - myY) + (bestX - myX)
+						* (bestX - myX);
+				if (Kernel.isZero(bestDist)) { // not the best distance, since P
+												// is
+					// not in region
+					bestDist = Double.POSITIVE_INFINITY;
+				}
+
+				IneqTree ineqs = getIneqs();
+				int size = ineqs.getSize();
+				for (int i = 0; i < size; i++) {
+					Inequality in = ineqs.get(i);
+					double px = 0, py = 0;
+					if (in.getType() == IneqType.INEQUALITY_PARAMETRIC_Y) {
+						px = P.getX2D();
+						py = in.getFunBorder().evaluate(px);
+						py += in.isAboveBorder() ? STRICT_INEQ_OFFSET
+								: -STRICT_INEQ_OFFSET;
+					} else if (in.getType() == IneqType.INEQUALITY_PARAMETRIC_X) {
+						py = P.getY2D();
+						px = in.getFunBorder().evaluate(py);
+						px += in.isAboveBorder() ? STRICT_INEQ_OFFSET
+								: -STRICT_INEQ_OFFSET;
+					} else if (in.getType() == IneqType.INEQUALITY_LINEAR) {
+						double a = in.getLineBorder().getX();
+						double b = in.getLineBorder().getY();
+						double c = in.getLineBorder().getZ();
+						px = (-a * c + b * b * P.getX2D() - a * b * P.getY2D())
+								/ (a * a + b * b);
+						py = (-b * c - a * b * P.getX2D() + a * a * P.getY2D())
+								/ (a * a + b * b);
+						py -= in.isAboveBorder() ? STRICT_INEQ_OFFSET
+								: -STRICT_INEQ_OFFSET;
+					} else if (in.getType() == IneqType.INEQUALITY_CONIC) {
+						if (helper == null) {
+							helper = new GeoPoint(cons);
+						}
+						helper.setCoordsFromPoint(P);
+						helper.setPath(in.getConicBorder());
+						in.getConicBorder().pointChanged(helper);
+
+						px = helper.getX() / helper.getZ();
+						py = helper.getY() / helper.getZ();
 					}
-					helper.setCoordsFromPoint(P);
-					helper.setPath(in.getConicBorder());
-					in.getConicBorder().pointChanged(helper);
+					double myDist = (py - myY) * (py - myY) + (px - myX)
+							* (px - myX);
+					if ((myDist < bestDist) && isInRegion(px, py)) {
+						bestDist = myDist;
+						bestX = px;
+						bestY = py;
+					}
+				}
+				if (isInRegion(bestX, bestY)) {
+					rp.setT1(bestX);
+					rp.setT2(bestY);
+					((GeoPoint) P).setCoords(bestX, bestY, 1);
+				} else
+					tryLocateInEV(P);
 
-					px = helper.getX() / helper.getZ();
-					py = helper.getY() / helper.getZ();
-				}
-				double myDist = (py - myY) * (py - myY) + (px - myX)
-						* (px - myX);
-				if ((myDist < bestDist) && isInRegion(px, py)) {
-					bestDist = myDist;
-					bestX = px;
-					bestY = py;
-				}
+			} else {
+				rp.setT1(P.getX2D());
+				rp.setT2(P.getY2D());
 			}
-			if (isInRegion(bestX, bestY)) {
-				rp.setT1(bestX);
-				rp.setT2(bestY);
-				((GeoPoint) P).setCoords(bestX, bestY, 1);
-			} else
-				tryLocateInEV(P);
-
 		} else {
-			rp.setT1(P.getX2D());
-			rp.setT2(P.getY2D());
+			// 2 var function
+			Coords coords = P.getInhomCoordsInD3();
+			if (hasLastHitParameters()) {
+				int step = 0;
+				do {
+					stepDicho();
+					step++;
+				} while (step < DICHO_MAX_STEP && isTooFar(xyzf[DICHO_MID]));
+
+				coords.setX(xyzf[DICHO_MID][0]);
+				coords.setY(xyzf[DICHO_MID][1]);
+				coords.setZ(xyzf[DICHO_MID][3]);
+			} else {
+				tmp[0] = coords.getX();
+				tmp[1] = coords.getY();
+				double z = fun.evaluate(tmp);
+				coords.setZ(z);
+			}
+
+			RegionParameters rp = P.getRegionParameters();
+			rp.setT1(coords.getX());
+			rp.setT2(coords.getY());
+			Coords n = new Coords(4);
+			evaluateNormal(coords.getX(), coords.getY(), n);
+			rp.setNormal(n);
+			P.setCoords(coords, false);
+			P.updateCoords();
+
+			resetLastHitParameters();
 		}
 
+	}
+
+	@Override
+	public boolean isRegion3D() {
+		return getVarNumber() == 2 && kernel.getApplication().useShaders();
+	}
+
+	private boolean hasLastHitParameters = false;
+
+	private double[][] xyzf;
+
+	/**
+	 * 
+	 * @return xyzf arrays for dichotomy
+	 */
+	public double[][] getXYZF() {
+		if (xyzf == null) {
+			xyzf = new double[3][];
+			xyzf[DICHO_FIRST] = new double[4];
+			xyzf[DICHO_LAST] = new double[4];
+			xyzf[DICHO_MID] = new double[4];
+		}
+
+		return xyzf;
+	}
+
+	/**
+	 * reset last hitted parameters
+	 */
+	public void resetLastHitParameters() {
+		hasLastHitParameters = false;
+	}
+
+
+	/**
+	 * set last hitted parameters
+	 * 
+	 * @param swap
+	 *            says if we have to swap first/last
+	 * 
+	 */
+	public void setLastHitParameters(boolean swap) {
+		if (swap) {
+			double[] xyzfTmp = xyzf[DICHO_FIRST];
+			xyzf[DICHO_FIRST] = xyzf[DICHO_LAST];
+			xyzf[DICHO_LAST] = xyzfTmp;
+		}
+		hasLastHitParameters = true;
+	}
+
+	private boolean hasLastHitParameters() {
+		return hasLastHitParameters;
+	}
+
+	public static int DICHO_FIRST = 0, DICHO_LAST = 1, DICHO_MID = 2;
+
+	static private int DICHO_MAX_STEP = 20;
+
+	private static boolean isTooFar(double[] xyzf) {
+		return !Kernel
+				.isEqual(xyzf[2], xyzf[3], Kernel.STANDARD_PRECISION_SQRT);
+	}
+
+	/**
+	 * 
+	 * @param xyzf
+	 *            x, y, z, f(x,y) values
+	 * @return true if z < f
+	 */
+	public static boolean isLessZ(double[] xyzf) {
+		return xyzf[2] < xyzf[3];
+	}
+
+	/**
+	 * set x, y, z, f(x,y) values to xyzf
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param z
+	 *            z coord
+	 * @param xyzf
+	 *            set values
+	 */
+	public void setXYZ(double x, double y,
+			double z, double[] xyzf) {
+		xyzf[0] = x;
+		xyzf[1] = y;
+		xyzf[2] = z;
+		xyzf[3] = evaluate(xyzf);
+	}
+
+	/**
+	 * do a dichotomy step
+	 */
+	public void stepDicho() {
+		setXYZ((xyzf[DICHO_FIRST][0] + xyzf[DICHO_LAST][0]) / 2,
+				(xyzf[DICHO_FIRST][1] + xyzf[DICHO_LAST][1]) / 2,
+				(xyzf[DICHO_FIRST][2] + xyzf[DICHO_LAST][2]) / 2,
+				xyzf[DICHO_MID]);
+
+		// App.debug("\n" + (xyzf[DICHO_FIRST][3] - xyzf[DICHO_FIRST][2]) + "/"
+		// + (xyzf[DICHO_LAST][3] - xyzf[DICHO_LAST][2]) + " >> "
+		// + (xyzf[DICHO_MID][3] - xyzf[DICHO_MID][2]));
+
+		if (isLessZ(xyzf[DICHO_MID])) {
+			double[] tmp = xyzf[DICHO_FIRST];
+			xyzf[DICHO_FIRST] = xyzf[DICHO_MID];
+			xyzf[DICHO_MID] = tmp;
+		} else {
+			double[] tmp = xyzf[DICHO_LAST];
+			xyzf[DICHO_LAST] = xyzf[DICHO_MID];
+			xyzf[DICHO_MID] = tmp;
+
+		}
 	}
 
 	/**
@@ -1108,6 +1269,31 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		n.setNormalizedIfPossible(normal);
 
 		return true;
+
+	}
+
+	/**
+	 * evaluate normal in (x, y) coords (for 2 var function)
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param n
+	 *            normal vector
+	 */
+	public void evaluateNormal(double x, double y, Coords n) {
+		tmp[0] = x;
+		tmp[1] = y;
+
+		double val = evaluateNormal(0);
+		der1.setZ(val);
+
+		val = evaluateNormal(1);
+		der2.setZ(val);
+
+		n.setCrossProduct(der1, der2);
+		n.normalize();
 
 	}
 

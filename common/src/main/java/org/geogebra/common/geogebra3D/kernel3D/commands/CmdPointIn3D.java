@@ -18,7 +18,7 @@ public class CmdPointIn3D extends CmdPointIn {
 	@Override
 	protected GeoElement[] pointIn(String label, Region region) {
 
-		if (region.isGeoElement3D()) {
+		if (region.isRegion3D()) {
 			GeoElement[] ret = { (GeoElement) kernelA.getManager3D().Point3DIn(
 					label, region, false) };
 			return ret;

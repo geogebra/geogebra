@@ -2205,27 +2205,27 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 	
 	
-	private double[] lastHittedParameters = null;
+	private double[] lastHitParameters = null;
 
 	/**
-	 * reset last hitted parameters
+	 * reset last hit parameters
 	 */
-	public void resetLastHittedParameters(){
-		lastHittedParameters = null;
+	public void resetLastHitParameters() {
+		lastHitParameters = null;
 	}
 
 	/**
-	 * set last hitted parameters
+	 * set last hit parameters
 	 * 
 	 * @param parameters
 	 *            parameters
 	 */
-	public void setLastHittedParameters(double[] parameters) {
-		lastHittedParameters = parameters;
+	public void setLastHitParameters(double[] parameters) {
+		lastHitParameters = parameters;
 	}
 
-	private boolean hasLastHittedParameters() {
-		return lastHittedParameters != null;
+	private boolean hasLastHitParameters() {
+		return lastHitParameters != null;
 	}
 
 	/**
@@ -2347,17 +2347,17 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 		}
 
-		if (hasLastHittedParameters()) {
+		if (hasLastHitParameters()) {
 			// use last hitted parameters
 			RegionParameters rp = p.getRegionParameters();
-			rp.setT1(lastHittedParameters[0]);
-			rp.setT2(lastHittedParameters[1]);
+			rp.setT1(lastHitParameters[0]);
+			rp.setT2(lastHitParameters[1]);
 			rp.setNormal(evaluateNormal(rp.getT1(),rp.getT2()));
 			evaluatePoint(rp.getT1(), rp.getT2(), p.getCoords());
 			p.updateCoords();
 			p.setWillingCoordsUndefined();
 			p.setWillingDirectionUndefined();
-			resetLastHittedParameters();
+			resetLastHitParameters();
 		} else {
 
 			if (type == QUADRIC_PARALLEL_PLANES

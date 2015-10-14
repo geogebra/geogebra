@@ -529,7 +529,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					point3D = getNewPointFree(point);
 					ret = point3D;
 					pointCreated = point3D;
-				} else if (((GeoElement) region).isGeoElement3D()) {
+				} else if (((GeoElement) region).isRegion3D()) {
 					Coords coords = point.getCoords();
 					point3D = (GeoPoint3D) getKernel().getManager3D()
 							.Point3DIn(null, region, coords, true, false);

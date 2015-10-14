@@ -52,6 +52,10 @@ public class CmdPoint3D extends CmdPoint {
 				}
 
 				throw argErr(app, c.getName(), geo0);
+			} else if (geo0.isRegion3D() && !geo0.isPath()) {
+				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
+						.Point3DIn(c.getLabel(), (Region) arg[0], false) };
+				return ret;
 			} else if (arg[0].isGeoList()
 					&& ((GeoList) arg[0]).getGeoElementForPropertiesDialog()
 							.isGeoNumeric()) {

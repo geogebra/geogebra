@@ -229,7 +229,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	public GeoPointND PointIn(String label, Region region, Coords coords,
 			boolean addToConstruction, boolean complex, boolean coords2D) {
 
-		if (region.isGeoElement3D()) {
+		if (region.isRegion3D()) {
 			return getManager3D().Point3DIn(label, region, coords,
 					addToConstruction, coords2D);
 		}

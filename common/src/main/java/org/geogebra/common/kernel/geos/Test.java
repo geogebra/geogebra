@@ -12,6 +12,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -430,7 +431,13 @@ Test {
 	REGION3D {
 		@Override
 		public boolean check(Object ob) {
-			return ob instanceof Region3D;
+			if (ob instanceof Region3D) {
+				return true;
+			}
+			if (ob instanceof Region) {
+				return ((GeoElement) ob).isRegion3D();
+			}
+			return false;
 		}
 	},
 

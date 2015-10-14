@@ -1148,7 +1148,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		
-		quadric.resetLastHittedParameters();
+		quadric.resetLastHitParameters();
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED
 				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_NOT_SET) {
@@ -1198,7 +1198,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 			// if both negative infinity : not hitted
 			if (Double.isInfinite(z1)) {
-				quadric.resetLastHittedParameters();
+				quadric.resetLastHitParameters();
 				return false;
 			}
 
@@ -1211,7 +1211,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			parameters1[0] = PathNormalizer.inverseInfFunction(project.getX())
 					+ 2 * planeIndex;
 			parameters1[1] = project.getY();
-			quadric.setLastHittedParameters(parameters1);
+			quadric.setLastHitParameters(parameters1);
 
 			// hitted
 			setZPick(z1, z1);
@@ -1263,14 +1263,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		// keep highest value (closest to eye)
 		if (z1 < z2){
 			z1 = z2;
-			quadric.setLastHittedParameters(parameters2);
+			quadric.setLastHitParameters(parameters2);
 		} else {
-			quadric.setLastHittedParameters(parameters1);
+			quadric.setLastHitParameters(parameters1);
 		}
 		
 		// if both negative infinity : not hitted
 		if (Double.isInfinite(z1)){
-			quadric.resetLastHittedParameters();
+			quadric.resetLastHitParameters();
 			return false;
 		}
 		

@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -2523,6 +2522,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	
+	final private static int HIT_SAMPLES = 10;
+	final private static double DELTA_SAMPLES = 1.0 / HIT_SAMPLES;
+
 	@Override
 	public boolean hit(Hitting hitting) {
 
@@ -2535,171 +2537,79 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 
-		// if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
-		// double[] minmax = new double[] { Double.NEGATIVE_INFINITY,
-		// Double.POSITIVE_INFINITY };
-		// getView3D().getIntervalClipped(minmax, hitting.origin,
-		// hitting.direction);
-		// double x0 = hitting.origin.getX() + hitting.direction.getX()
-		// * minmax[0];
-		// double y0 = hitting.origin.getY() + hitting.direction.getY()
-		// * minmax[0];
-		// double z0 = hitting.origin.getZ() + hitting.direction.getZ()
-		// * minmax[0];
-		// double x1 = hitting.origin.getX() + hitting.direction.getX()
-		// * minmax[1];
-		// double y1 = hitting.origin.getY() + hitting.direction.getY()
-		// * minmax[1];
-		// double z1 = hitting.origin.getZ() + hitting.direction.getZ()
-		// * minmax[1];
-		// App.debug("\n" + x0 + "," + y0 + "," + z0 + "\n" + x1 + "," + y1
-		// + ","
-		// + z1);
-		//
-		//
-		// GeoFunctionNVar geoF = (GeoFunctionNVar) surfaceGeo;
-		//
-		// double[][] xyzf = new double[3][];
-		//
-		// double[] xyzf0 = new double[4];
-		// setXYZ(geoF, x0, y0, z0, xyzf0);
-		//
-		// double[] xyzf1 = new double[4];
-		// setXYZ(geoF, x1, y1, z1, xyzf1);
-		//
-		// if (isLessZ(xyzf0)) {
-		// if (isLessZ(xyzf1)) {
-		// return false;
-		// }
-		// xyzf[DICHO_FIRST] = xyzf0;
-		// xyzf[DICHO_LAST] = xyzf1;
-		// } else {
-		// if (!isLessZ(xyzf1)) {
-		// return false;
-		// }
-		//
-		// xyzf[DICHO_FIRST] = xyzf1;
-		// xyzf[DICHO_LAST] = xyzf0;
-		// }
-		//
-		// xyzf[DICHO_MID] = new double[4];
-		// for (int i = 0; i < 10; i++) {
-		// stepDicho(geoF, xyzf);
-		// }
-		//
-		// App.debug("\npoint:\n" + xyzf[DICHO_MID][0] + "\n"
-		// + xyzf[DICHO_MID][1] + "\n" + xyzf[DICHO_MID][2]);
-		//
-		//
-		// }
+		if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
+
+			GeoFunctionNVar geoF = (GeoFunctionNVar) surfaceGeo;
+
+			hitting.calculateClippedValues();
+			if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
+											// clipping box
+				resetLastHitParameters(geoF);
+				return false;
+			}
+
+			double[][] xyzf = geoF.getXYZF();
+
+
+			// compute samples from xyz0 to xyz1, try to find consecutive +/-
+			geoF.setXYZ(hitting.x0, hitting.y0, hitting.z0,
+					xyzf[GeoFunctionNVar.DICHO_LAST]);
+			boolean isLessZ0 = false, isLessZ1;
+			isLessZ1 = GeoFunctionNVar
+					.isLessZ(xyzf[GeoFunctionNVar.DICHO_LAST]);
+
+			for (int i = 1; i <= HIT_SAMPLES; i++) {
+				double[] tmp = xyzf[GeoFunctionNVar.DICHO_FIRST];
+				xyzf[GeoFunctionNVar.DICHO_FIRST] = xyzf[GeoFunctionNVar.DICHO_LAST];
+				xyzf[GeoFunctionNVar.DICHO_LAST] = tmp;
+				double t = i * DELTA_SAMPLES;
+				geoF.setXYZ(hitting.x0 * (1 - t) + hitting.x1 * t, hitting.y0
+						* (1 - t) + hitting.y1 * t, hitting.z0 * (1 - t)
+						+ hitting.z1 * t, xyzf[GeoFunctionNVar.DICHO_LAST]);
+				isLessZ0 = isLessZ1;
+				isLessZ1 = GeoFunctionNVar
+						.isLessZ(xyzf[GeoFunctionNVar.DICHO_LAST]);
+				if (isLessZ0 ^ isLessZ1) {
+					break; // found
+				}
+			}
+
+
+			// set - as first value, + as second value, or return false
+			if (isLessZ0) {
+				if (isLessZ1) {
+					resetLastHitParameters(geoF);
+					return false;
+				}
+				setLastHitParameters(geoF, false);
+				return true;
+			}
+
+			if (isLessZ1) {
+				setLastHitParameters(geoF, true);
+				return true;
+			}
+
+			resetLastHitParameters(geoF);
+			return false;
+
+		}
 
 		return false;
 
 	}
 	
 
-	private static int DICHO_FIRST = 0, DICHO_LAST = 1, DICHO_MID = 2;
-
-	private static boolean isLessZ(double[] xyzf) {
-		return xyzf[2] < xyzf[3];
+	private static void setLastHitParameters(GeoFunctionNVar geoF,
+			boolean swap) {
+		geoF.setLastHitParameters(swap);
 	}
 
-	private static void setXYZ(GeoFunctionNVar geoF, double x, double y,
-			double z, double[] xyzf) {
-		xyzf[0] = x;
-		xyzf[1] = y;
-		xyzf[2] = z;
-		xyzf[3] = geoF.evaluate(xyzf);
+	private static void resetLastHitParameters(GeoFunctionNVar geoF) {
+		geoF.resetLastHitParameters();
 	}
 
-	private static void stepDicho(GeoFunctionNVar geoF, double[][] xyzf) {
-		setXYZ(geoF, (xyzf[DICHO_FIRST][0] + xyzf[DICHO_LAST][0]) / 2,
-				(xyzf[DICHO_FIRST][1] + xyzf[DICHO_LAST][1]) / 2,
-				(xyzf[DICHO_FIRST][2] + xyzf[DICHO_LAST][2]) / 2,
-				xyzf[DICHO_MID]);
 
-		App.debug("\n" + xyzf[DICHO_FIRST][2] + "/" + xyzf[DICHO_LAST][2]
-				+ " >> " + xyzf[DICHO_MID][2]);
 
-		if (isLessZ(xyzf[DICHO_MID])) {
-			double[] tmp = xyzf[DICHO_FIRST];
-			xyzf[DICHO_FIRST] = xyzf[DICHO_MID];
-			xyzf[DICHO_MID] = tmp;
-		} else {
-			double[] tmp = xyzf[DICHO_LAST];
-			xyzf[DICHO_LAST] = xyzf[DICHO_MID];
-			xyzf[DICHO_MID] = tmp;
-
-		}
-	}
-
-//	private static abstract class PlotterOrCounter{
-//		
-//		
-//		/**
-//		 * draw triangle with surface plotter
-//		 * 
-//		 * @param p0
-//		 *            first point
-//		 * @param n0
-//		 *            first point normal
-//		 * 
-//		 * @param c1
-//		 *            second point
-//		 * @param c2
-//		 *            third point
-//		 */
-//		abstract public void drawTriangle(Coords p0, Coords n0, Corner c1, Corner c2);
-//		
-//		/**
-//		 * 
-//		 * @param c0 first point
-//		 * @param c1
-//		 *            second point
-//		 * @param c2
-//		 *            third point
-//		 */
-//		final public void drawTriangle(Corner c0, Corner c1, Corner c2) {
-//			
-//			drawTriangle(c0.p, c0.normal, c1, c2);
-//
-//		}
-//	}
-//	
-//	private static abstract class Plotter extends PlotterOrCounter{
-//		
-//		
-//		private PlotterSurface surface;
-//		
-//		final public void setSurface(PlotterSurface surface){
-//			this.surface = surface;
-//		}
-//
-//		@Override
-//		final public void drawTriangle(Coords p0, Coords n0, Corner c1, Corner c2) {
-//
-//			surface.normalDirect(n0);
-//			surface.vertexDirect(p0);
-//			surface.normalDirect(c2.normal);
-//			surface.vertexDirect(c2.p);
-//			surface.normalDirect(c1.normal);
-//			surface.vertexDirect(c1.p);
-//
-//		}
-//	}
-//	
-//	private static abstract class Counter extends PlotterOrCounter{
-//		
-//		
-//
-//		@Override
-//		final public void drawTriangle(Coords p0, Coords n0, Corner c1, Corner c2) {
-//
-//
-//
-//		}
-//		
-//	
-//	}
 	
 }

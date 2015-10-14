@@ -56,14 +56,55 @@ public class Hitting {
 	public void setHits(GPoint mouseLoc, int threshold) {
 
 		view.setCenteredPosition(mouseLoc, pos);
-
-		origin = view.getHittingOrigin(mouseLoc);
-		direction = view.getHittingDirection();
-
-		this.threshold = threshold;
+		setOriginDirectionThreshold(view.getHittingOrigin(mouseLoc),
+				view.getHittingDirection(), threshold);
 
 		setHits();
 
+	}
+
+	private boolean clippedValuesUpdated;
+
+	public double x0, y0, z0, x1, y1, z1;
+
+	private double[] minmax;
+
+	/**
+	 * calculate clipped x, y, z values if not already updated
+	 * 
+	 */
+	public void calculateClippedValues() {
+
+		if (clippedValuesUpdated) {
+			return;
+		}
+
+		if (minmax == null) {
+			minmax = new double[2];
+		}
+		minmax[0] = Double.NEGATIVE_INFINITY;
+		minmax[1] = Double.POSITIVE_INFINITY;
+		view.getIntervalClipped(minmax, origin, direction);
+		x0 = origin.getX() + direction.getX()
+				* minmax[0];
+		y0 = origin.getY() + direction.getY()
+				* minmax[0];
+		z0 = origin.getZ() + direction.getZ()
+				* minmax[0];
+		x1 = origin.getX() + direction.getX()
+				* minmax[1];
+		y1 = origin.getY() + direction.getY()
+				* minmax[1];
+		z1 = origin.getZ() + direction.getZ()
+				* minmax[1];
+
+		if ((x1 - x0) * direction.getX() < 0
+				|| (y1 - y0) * direction.getY() < 0
+				|| (z1 - z0) * direction.getZ() < 0) {
+			x0 = Double.NaN;
+		}
+
+		clippedValuesUpdated = true;
 	}
 
 	/**
@@ -81,6 +122,9 @@ public class Hitting {
 		this.origin = origin;
 		this.direction = direction;
 		this.threshold = threshold;
+
+		// we need to update clipped values
+		clippedValuesUpdated = false;
 	}
 
 	/**
