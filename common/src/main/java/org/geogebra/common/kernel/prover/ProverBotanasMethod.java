@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.StringTemplate;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.PolynomialNode;
+import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -481,6 +483,160 @@ public class ProverBotanasMethod {
 						}
 						if (list.getListElement(0).isExpressionNode()) {
 							root = (ExpressionNode) list.getListElement(0);
+						}
+						// case giac output has form A^2-B^2
+						if (cas.getCurrentCAS()
+								.evaluateRaw(
+										"size("
+												+ root.toString(StringTemplate.giacTemplate)
+												+ ")").equals("2")) {
+							// get variables of giac output
+							HashSet<GeoElement> giacOutputVars = root
+									.getVariables();
+							if (giacOutputVars.size() == 2) {
+								Iterator<GeoElement> giacVarIt = giacOutputVars
+										.iterator();
+								GeoElement geo1 = giacVarIt.next();
+								GeoElement geo2 = giacVarIt.next();
+								// copy the expression of giac output
+								ExpressionNode copyRoot = (ExpressionNode) root
+										.deepCopy(statement.getKernel());
+								// replace first var with 1
+								copyRoot.traverse(GeoDummyReplacer.getReplacer(
+										geo1.getLabel(StringTemplate.defaultTemplate),
+										new ExpressionNode(statement
+												.getKernel(), 1), true));
+								// get solution of expression
+								String solutionGeo2 = cas
+										.getCurrentCAS()
+										.evaluateRaw(
+												"ggbsort(normal(zeros("
+														+ copyRoot
+																.toString(StringTemplate.giacTemplate)
+														+ "=0,"
+														+ geo2.toString(StringTemplate.giacTemplate)
+														+ ")))");
+								// skip { and }
+								solutionGeo2 = solutionGeo2.substring(1,
+										solutionGeo2.length() - 1);
+								// split solution list
+								String[] solutionList = solutionGeo2.split(",");
+								// parse solutions into expression
+								// needed e.g. 1/2 solution
+								ValidExpression validSol1 = (statement
+										.getKernel().getGeoGebraCAS())
+										.getCASparser()
+										.parseGeoGebraCASInputAndResolveDummyVars(
+												solutionList[0],
+												statement.getKernel(), null);
+								ValidExpression validSol2 = (statement
+										.getKernel().getGeoGebraCAS())
+										.getCASparser()
+										.parseGeoGebraCASInputAndResolveDummyVars(
+												solutionList[1],
+												statement.getKernel(), null);
+								double geo2sol1 = validSol1.evaluateDouble();
+								double geo2sol2 = validSol2.evaluateDouble();
+								// make sure we use the positive root
+								if (geo2sol1 < 0) {
+									geo2sol1 = geo2sol2;
+								}
+								// substitution list
+								// e.g. [a,v7],[b,v8]
+								// where a name of segment and v7 the variable
+								ArrayList<Vector<String>> substitutions = ((AlgoDependentBoolean) algo)
+										.getVarSubstListOfSegs();
+								// copy input expression
+								ExpressionNode statementRootCopy = (ExpressionNode) ((AlgoDependentBoolean) algo)
+										.getExpression().deepCopy(
+												statement.getKernel());
+								// result after substitution of solutions into
+								// input expression
+								// using e.g. subst(2a=b,{a=1,b=2})
+								String substOutput = new String();
+								// case 2 segments
+								if (substitutions.size() == 2) {
+										// first segment in subtst list is 1 and
+										// second segment is geo2sol1
+										if (substitutions
+												.get(0)
+												.get(1)
+												.equals(geo1
+														.toString(StringTemplate.defaultTemplate))) {
+											// list of substitutions
+											StringBuilder substListStr = new StringBuilder();
+											substListStr.append("{ggbtmpvar"
+													+ substitutions.get(0).get(
+															0)
+													+ "="
+													+ 1
+													+ ",ggbtmpvar"
+													+ substitutions.get(1).get(
+															0) + "=" + geo2sol1
+													+ "}");
+											substOutput = cas
+													.getCurrentCAS()
+													.evaluateRaw(
+															"subst("
+																	+ statementRootCopy
+																			.getLeftTree()
+																			.toString(
+																					StringTemplate.giacTemplate)
+																	+ "="
+																	+ statementRootCopy
+																			.getRightTree()
+																			.toString(
+																					StringTemplate.giacTemplate)
+																	+ ","
+																	+ substListStr
+																			.toString()
+																	+ ")");
+
+										}
+										// first segment in subtst list is
+										// geo2sol1 and
+										// second segment is 1
+										else {
+											// list of substitutions
+											StringBuilder substListStr = new StringBuilder();
+											substListStr.append("{ggbtmpvar"
+													+ substitutions.get(0).get(
+															0)
+													+ "="
+													+ geo2sol1
+													+ ",ggbtmpvar"
+													+ substitutions.get(1).get(
+															0) + "=" + 1 + "}");
+											substOutput = cas
+													.getCurrentCAS()
+													.evaluateRaw(
+															"subst("
+																	+ statementRootCopy
+																			.getLeftTree()
+																			.toString(
+																					StringTemplate.giacTemplate)
+																	+ "="
+																	+ statementRootCopy
+																			.getRightTree()
+																			.toString(
+																					StringTemplate.giacTemplate)
+																	+ ","
+																	+ substListStr
+																			.toString()
+																	+ ")");
+										}
+								}
+								// check if equation is true
+								// e.g. 2=2
+								if (cas.getCurrentCAS()
+										.evaluateRaw(
+												"evalb(" + substOutput + ")")
+										.equals("0")) {
+									return ProofResult.FALSE;
+								}
+								((AlgoDependentBoolean) algo)
+										.setTrustable(true);
+							}
 						}
 						((AlgoDependentBoolean) algo).buildPolynomialTree(root,
 							polyRoot);

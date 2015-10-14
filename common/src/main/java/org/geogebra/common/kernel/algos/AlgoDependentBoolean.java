@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -57,6 +58,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	private Variable[] botanaVars;
 	private ArrayList<Polynomial> extraPolys = new ArrayList<Polynomial>();
 	private int nrOfMaxDecimals;
+	// substitution list of segments with variables
+	private ArrayList<Vector<String>> varSubstListOfSegs;
 
 	private boolean trustable = true;
 
@@ -262,7 +265,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	 * @throws NoSymbolicParametersException
 	 *             - unhandled operations
 	 */
-	public static void expressionNodeToPolynomial(ExpressionNode expNode,
+	public void expressionNodeToPolynomial(ExpressionNode expNode,
 			PolynomialNode polyNode) throws NoSymbolicParametersException {
 		if (polyNode.getPoly() != null) {
 			return;
@@ -645,6 +648,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	/**
+	 * @param trustable
+	 *            -
+	 */
+	public void setTrustable(boolean trustable) {
+		this.trustable = trustable;
+	}
+
+	/**
 	 * @return input expression
 	 */
 	public ExpressionNode getExpression() {
@@ -664,10 +675,16 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public String getStrForGiac() {
 		String[] labels = new String[allSegmentsFromExpression.size()];
 		botanaVars = new Variable[allSegmentsFromExpression.size()];
+		varSubstListOfSegs = new ArrayList<Vector<String>>();
 		int index = 0;
 		for (GeoSegment segment : allSegmentsFromExpression) {
 			labels[index] = segment.getLabel(StringTemplate.giacTemplate);
 			botanaVars[index] = new Variable();
+			Vector<String> subst = new Vector<String>(2);
+			// collect substitution of segments with variables
+			subst.add(segment.getLabel(StringTemplate.defaultTemplate));
+			subst.add(botanaVars[index].toString());
+			varSubstListOfSegs.add(subst);
 			Variable[] thisSegBotanaVars = segment.getBotanaVars(segment);
 			Polynomial s = new Polynomial(botanaVars[index]);
 			Polynomial currPoly = s.multiply(s).subtract(
@@ -702,6 +719,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	 */
 	public ArrayList<Polynomial> getExtraPolys() {
 		return extraPolys;
+	}
+
+	/**
+	 * @return substitution list of segments with variables
+	 */
+	public ArrayList<Vector<String>> getVarSubstListOfSegs() {
+		return varSubstListOfSegs;
 	}
 
 }
