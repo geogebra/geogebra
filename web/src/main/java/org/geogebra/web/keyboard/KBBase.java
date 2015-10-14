@@ -684,7 +684,7 @@ public class KBBase extends PopupPanel {
 		addButton(Unicode.INFINITY + "", index, secondPageChars);
 		addButton(Unicode.QUESTEQ, index, secondPageChars);
 		addButton(Unicode.NOTEQUAL, index, secondPageChars);
-		addButton("&", index, secondPageChars);
+		addButton("#", index, secondPageChars);
 
 		// fill second row
 		index++;
