@@ -252,8 +252,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				Column<RowData, ?> col = getColumn(title);
 				if (col != null) {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					String headerTitle = ("ToolbarIcon".equals(title)) ? "Icon"
+							: title;
 					sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
-							+ app.getPlain(title) + "</div>"));
+							+ app.getPlain(headerTitle) + "</div>"));
 					if (i != 0 && k == 3) {
 						sb.append(SafeHtmlUtils
 								.fromSafeConstant("<div title = " + title + ">"));
