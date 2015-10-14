@@ -506,6 +506,20 @@ public class CmdIntersect extends CommandProcessor {
 				return new GeoElement[] { IntersectPolynomialConicSingle(
 						c.getLabel(), (GeoFunction) arg[1], (GeoConic) arg[0],
 						(GeoNumberValue) arg[2]) };
+			// implicitPoly - Line
+			else if ((ok[0] = (arg[0].isGeoImplicitPoly()))
+					&& (ok[1] = (arg[1].isGeoLine()))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+				return new GeoElement[] { IntersectImplicitpolyLineSingle(
+						c.getLabel(), (GeoImplicitPoly) arg[0],
+						(GeoLine) arg[1], (GeoNumberValue) arg[2]) };
+			} else if ((ok[1] = (arg[1].isGeoImplicitPoly()))
+					&& (ok[0] = (arg[0].isGeoLine()))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+				return new GeoElement[] { IntersectImplicitpolyLineSingle(
+						c.getLabel(), (GeoImplicitPoly) arg[1],
+						(GeoLine) arg[0], (GeoNumberValue) arg[2]) };
+			}
 			// ImplicitPoly - Functionable
 			// TODO decide polynomial before CAS loaded
 			else if ((ok[0] = (arg[0].isGeoImplicitPoly()))
@@ -544,19 +558,7 @@ public class CmdIntersect extends CommandProcessor {
 
 				return new GeoElement[] { ret };
 			}
-			// implicitPoly - Line
-			else if ((ok[0] = (arg[0].isGeoImplicitPoly()))
-					&& (ok[1] = (arg[1].isGeoLine()))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue)))
-				return new GeoElement[] { IntersectImplicitpolyLineSingle(
-						c.getLabel(), (GeoImplicitPoly) arg[0],
-						(GeoLine) arg[1], (GeoNumberValue) arg[2]) };
-			else if ((ok[1] = (arg[1].isGeoImplicitPoly()))
-					&& (ok[0] = (arg[0].isGeoLine()))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue)))
-				return new GeoElement[] { IntersectImplicitpolyLineSingle(
-						c.getLabel(), (GeoImplicitPoly) arg[1],
-						(GeoLine) arg[0], (GeoNumberValue) arg[2]) };
+
 			// implicitPoly - implicitPoly
 			else if ((ok[0] = (arg[0].isGeoImplicitPoly()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))
