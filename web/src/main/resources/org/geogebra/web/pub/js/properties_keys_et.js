@@ -1425,6 +1425,7 @@ __GGB__keysVar.et.menu = {
     "EndProbabilityOf": ")",
     "English": "Inglise keel",
     "EnterAppletAddress": "Sisestage GeoGebra apleti veebiaadress",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "Sisestage veebiaadress",
     "EqualVariance": "V\xf5rdne dispersioon",
     "Equation": "V\xf5rrand",

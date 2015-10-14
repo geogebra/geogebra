@@ -1425,6 +1425,7 @@ __GGB__keysVar.ug.menu = {
     "EndProbabilityOf": ")",
     "English": "\u0626\u0649\u0646\u06af\u0649\u0644\u0649\u0632\u0686\u06d5",
     "EnterAppletAddress": "GGB Applet \u062a\u0648\u0631 \u0626\u0627\u062f\u0631\u06d0\u0633\u0649\u0646\u0649 \u0643\u0649\u0631\u06af\u06c8\u0632\u06c8\u06ad",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "\u062a\u0648\u0631 \u0626\u0627\u062f\u0631\u06d0\u0633\u0649\u0646\u0649 \u0643\u0649\u0631\u06af\u06c8\u0632\u06c8\u06ad",
     "EqualVariance": "\u062a\u06d5\u06ad \u067e\u06d5\u0631\u0642\u0644\u0649\u0642",
     "Equation": "\u062a\u06d5\u06ad\u0644\u0649\u0643",

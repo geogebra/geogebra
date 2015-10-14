@@ -1425,6 +1425,7 @@ __GGB__keysVar.ko.menu = {
     "EndProbabilityOf": ")",
     "English": "\uc601\uc5b4",
     "EnterAppletAddress": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc560\ud50c\ub9bf\uc758 \uc6f9 \uc8fc\uc18c\ub97c \uc785\ub825\ud558\uc138\uc694.",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "\uc6f9 \uc8fc\uc18c\ub97c \uc785\ub825\ud558\uc138\uc694.",
     "EqualVariance": "\ub3d9\uc77c\ud55c \ubd84\uc0b0",
     "Equation": "\ubc29\uc815\uc2dd",

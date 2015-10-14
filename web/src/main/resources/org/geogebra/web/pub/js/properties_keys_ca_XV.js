@@ -1425,6 +1425,7 @@ __GGB__keysVar.ca_XV.menu = {
     "EndProbabilityOf": ")",
     "English": "Angl\xe9s",
     "EnterAppletAddress": "Introdu\xefu l\u2019adre\xe7a de la miniaplicaci\xf3 del GeoGebra",
+    "EnterExamMode": "Entra en \"Mode examen\"",
     "EnterWebAddress": "Introdu\xefu l\u2019adre\xe7a del web",
     "EqualVariance": "Vari\xe0ncia igual",
     "Equation": "Equaci\xf3",

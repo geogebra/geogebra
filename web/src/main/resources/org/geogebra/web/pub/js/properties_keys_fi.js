@@ -1425,6 +1425,7 @@ __GGB__keysVar.fi.menu = {
     "EndProbabilityOf": ")",
     "English": "Englanti",
     "EnterAppletAddress": "Kirjoita GeoGebra-appletin verkko-osoite",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "Kirjoita verkko-osoite",
     "EqualVariance": "Yht\xe4l\xe4inen varianssi",
     "Equation": "Yht\xe4l\xf6",

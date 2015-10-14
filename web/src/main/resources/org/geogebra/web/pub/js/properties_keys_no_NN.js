@@ -1425,6 +1425,7 @@ __GGB__keysVar.no_NN.menu = {
     "EndProbabilityOf": ")",
     "English": "Engelsk",
     "EnterAppletAddress": "Skriv inn webadresse for GeoGebra-applet",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "Skriv inn webadresse",
     "EqualVariance": "Lik varians",
     "Equation": "Likning",

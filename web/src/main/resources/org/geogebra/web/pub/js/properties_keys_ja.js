@@ -1425,6 +1425,7 @@ __GGB__keysVar.ja.menu = {
     "EndProbabilityOf": ")",
     "English": "\u82f1\u8a9e",
     "EnterAppletAddress": "GeoGebra\u30a2\u30d7\u30ec\u30c3\u30c8\u306e\u30a6\u30a7\u30d6\u30a2\u30c9\u30ec\u30b9\u3092\u5165\u529b",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "\u30a6\u30a7\u30d6\u30a2\u30c9\u30ec\u30b9\u3092\u5165\u529b",
     "EqualVariance": "\u7b49\u5206\u6563",
     "Equation": "\u7b49\u5f0f",

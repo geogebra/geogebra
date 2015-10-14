@@ -1425,6 +1425,7 @@ __GGB__keysVar.hu.menu = {
     "EndProbabilityOf": ")",
     "English": "English",
     "EnterAppletAddress": "GeoGebra applet webc\xedm\xe9nek megad\xe1sa",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "Webc\xedm megad\xe1sa",
     "EqualVariance": "Egyenl\u0151 variancia",
     "Equation": "Egyenlet",

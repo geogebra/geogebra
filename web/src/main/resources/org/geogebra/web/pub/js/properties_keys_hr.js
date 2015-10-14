@@ -1425,6 +1425,7 @@ __GGB__keysVar.hr.menu = {
     "EndProbabilityOf": ")",
     "English": "Engleski",
     "EnterAppletAddress": "Unesite internet adresu GeoGebrinog apleta",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "Unesite internet adresu",
     "EqualVariance": "Jednaka varijanca",
     "Equation": "Jednad\u017eba",

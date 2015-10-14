@@ -1425,6 +1425,7 @@ __GGB__keysVar.fr.menu = {
     "EndProbabilityOf": ")",
     "English": "Anglais",
     "EnterAppletAddress": "Entrer l'adresse Web de l'appliquette GeoGebra",
+    "EnterExamMode": "Entrer en \"Mode Examen\"",
     "EnterWebAddress": "Entrer l'adresse Web",
     "EqualVariance": "Variance",
     "Equation": "\xc9quation",

@@ -1425,6 +1425,7 @@ __GGB__keysVar.cs.menu = {
     "EndProbabilityOf": ")",
     "English": "Angli\u010dtina",
     "EnterAppletAddress": "Zadat webovou adresu GeoGebra appletu",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "Zadat webovou adresu",
     "EqualVariance": "Rovnom\u011brn\xfd rozptyl",
     "Equation": "Rovnice",

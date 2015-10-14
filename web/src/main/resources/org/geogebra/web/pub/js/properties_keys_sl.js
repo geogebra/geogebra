@@ -1425,6 +1425,7 @@ __GGB__keysVar.sl.menu = {
     "EndProbabilityOf": ")",
     "English": "Angle\u0161ki",
     "EnterAppletAddress": "Vnesi spletni naslov GeoGebra apleta",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "Vnesi spletni naslov",
     "EqualVariance": "Enakovredna varianca",
     "Equation": "Ena\u010dba",

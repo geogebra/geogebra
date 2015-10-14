@@ -1425,6 +1425,7 @@ __GGB__keysVar.is.menu = {
     "EndProbabilityOf": ")",
     "English": "Enska",
     "EnterAppletAddress": "Gefi\xf0 vefsl\xf3\xf0 fyrir GeoGebru sm\xe1forrit",
+    "EnterExamMode": "Enter \"Exam Mode\"",
     "EnterWebAddress": "Gefi\xf0 vefsl\xf3\xf0",
     "EqualVariance": "J\xf6fn dreifni",
     "Equation": "Jafna",
