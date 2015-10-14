@@ -3888,8 +3888,9 @@ public abstract class App implements UpdateSelection {
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
 		case EXAM:
-			// case DRAW_DROPDOWNLISTS_TO_CANVAS:
 			return prerelease;
+		case DRAW_DROPDOWNLISTS_TO_CANVAS:
+			return canary;
 		case AV_EXTENSIONS:
 		case DRAW_INPUTBOXES_TO_CANVAS:
 		case DATA_COLLECTION:
