@@ -53,6 +53,8 @@ public enum Feature {
 
 	DRAW_ELLIPSOID,
 	
+	SURFACE_IS_REGION,
+
 	CP_POPUP,
 
 	CP_NEW_COLUMNS,

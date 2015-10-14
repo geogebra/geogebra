@@ -3885,6 +3885,7 @@ public abstract class App implements UpdateSelection {
 		case LOG_AXES:
 		case INTEL_REALSENSE:
 		case DRAW_ELLIPSOID:
+		case SURFACE_IS_REGION:
 		case CP_POPUP:
 		case CP_NEW_COLUMNS:
 		case EXAM:
