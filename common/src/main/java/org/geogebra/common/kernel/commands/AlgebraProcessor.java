@@ -126,7 +126,7 @@ public class AlgebraProcessor {
 	protected final Kernel kernel;
 	/** construction */
 	protected final Construction cons;
-	final App app;
+	protected final App app;
 	private final Localization loc;
 	private final ParserInterface parser;
 	/** command dispatcher */

@@ -12,11 +12,13 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoCurveCartesian3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
@@ -31,6 +33,8 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.MyMath;
 
 public class AlgebraProcessor3D extends AlgebraProcessor {
 
@@ -215,6 +219,49 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			ExpressionValue[] coefX = new ExpressionValue[5];
 			ExpressionValue[] coefY = new ExpressionValue[5];
 			ExpressionValue[] coefZ = new ExpressionValue[5];
+
+			if (app.has(Feature.FREE_3DCONICS)
+					&& getTrigCoeffs(cx, coefX,
+							new ExpressionNode(kernel, 1.0), loc)
+					&& getTrigCoeffs(cy, coefY,
+							new ExpressionNode(kernel, 1.0), loc)
+							&& getTrigCoeffs(cz, coefZ,
+									new ExpressionNode(kernel, 1.0), loc)) {
+				boolean constant = true;
+				for (int i = 0; i < coefX.length; i++) {
+					coefX[i] = expr(coefX[i]);
+					coefY[i] = expr(coefY[i]);
+					coefZ[i] = expr(coefZ[i]);
+					constant = constant && coefX[i].isConstant()
+							&& coefY[i].isConstant() && coefZ[i].isConstant();
+				}
+				CoordSys cs = new CoordSys(2);
+
+				double mx = coefX[0].evaluateDouble(), my = coefY[0]
+						.evaluateDouble(), mz = coefZ[0].evaluateDouble();
+
+				double vx = coefX[1].evaluateDouble(), vy = coefY[1]
+						.evaluateDouble(), vz = coefZ[1].evaluateDouble();
+
+				double wx = coefX[2].evaluateDouble(), wy = coefY[2]
+						.evaluateDouble(), wz = coefZ[2].evaluateDouble();
+
+				double major = MyMath.length(vx, vy, vz);
+				double minor = MyMath.length(wx, wy, wz);
+				if (constant && Kernel.isEqual(major, minor)
+						&& Kernel.isZero(vx * wx + wy * vy + wz * vz)) {
+					cs.resetCoordSys();
+					cs.addPoint(new Coords(mx, my, mz, 1));
+					cs.addVector(new Coords(vx, vy, vz).normalize());
+					cs.addVector(new Coords(wx, wy, wz).normalize());
+					cs.makeOrthoMatrix(false, false);
+					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
+					conic.setCoordSys(cs);
+					conic.setSphereND(new Coords(0, 0), major);
+
+					return new GeoElement[] { conic };
+				}
+			}
 			for (int i = 0; i < coefX.length; i++) {
 				coefX[i] = new ExpressionNode(kernel, 0);
 				coefY[i] = new ExpressionNode(kernel, 0);

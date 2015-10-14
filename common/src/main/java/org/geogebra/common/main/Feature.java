@@ -57,5 +57,7 @@ public enum Feature {
 
 	CP_NEW_COLUMNS,
 
-	EXAM
+	EXAM,
+
+	FREE_3DCONICS
 }

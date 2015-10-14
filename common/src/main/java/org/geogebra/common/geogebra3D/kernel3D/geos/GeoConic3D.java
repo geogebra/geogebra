@@ -463,8 +463,28 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+		if (getCoordSys() != null && isIndependent()) {
+
+			Coords v0 = getCoordSys().getV(0);
+			Coords v1 = getCoordSys().getV(1);
+			Coords origin = getCoordSys().getOrigin();
+			
+			sb.append("\t<coords ");
+			sb.append(" ox=\"" + origin.get(1) + "\"");
+			sb.append(" oy=\"" + origin.get(2) + "\"");
+			sb.append(" oz=\"" + origin.get(3) + "\"");
+			sb.append(" ow=\"" + origin.get(4) + "\"");
+			sb.append(" vx=\"" + v0.get(1) + "\"");
+			sb.append(" vy=\"" + v0.get(2) + "\"");
+			sb.append(" vz=\"" + v0.get(3) + "\"");
+			sb.append(" wx=\"" + v1.get(1) + "\"");
+			sb.append(" wy=\"" + v1.get(2) + "\"");
+			sb.append(" wz=\"" + v1.get(3) + "\"");
+
+			sb.append("/>\n");
+		}
 		// curve thickness and type
+		super.getXMLtags(sb);
 		getLineStyleXML(sb);
 
 	}
