@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.event.ActionEvent;
@@ -42,6 +43,8 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
+	private static final int TEXT_GAP_X = 5;
+	private static final int GAP_X = 10;
 	/** coresponding list as geo */
 	GeoList geoList;
 	// private ArrayList drawables = new ArrayList();
@@ -482,18 +485,22 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
 		maxLength = 2;
+		String selectedText = "";
 		for (int i = 0; i < geoList.size(); i++) {
 			String item = geoList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
-			// App.debug("[DropDownList] " + item);
+			if (i == geoList.getSelectedIndex()) {
+				selectedText = item;
+			}
 			if (maxLength < item.length()) {
 				maxLength = item.length();
+
 			}
 		}
 
 		String labelText = getLabelText();
 		boolean latexLabel = measureLabel(g2, geoList, labelText);
-		int textLeft = boxLeft + 2;
+		int textLeft = boxLeft + TEXT_GAP_X;
 		int textBottom = boxTop + getTextBottom();
 
 		// TF Bounds
@@ -517,12 +524,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			drawLabel(g2, geoList, labelText);
 		}
 
+		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+				selectedText, textLeft, textBottom, false, false);
 
 	}
 
 	@Override
 	protected void calculateBoxBounds(boolean latex) {
-		boxLeft = xLabel + labelSize.x + 2;
+		boxLeft = xLabel + labelSize.x + GAP_X;
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredSize().getHeight()) / 2
 				: yLabel;
@@ -532,7 +541,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void calculateBoxBounds() {
-		boxLeft = xLabel + 2;
+		boxLeft = xLabel + GAP_X;
 		boxTop = yLabel;
 		boxWidth = getPreferredSize().getWidth();
 		boxHeight = getPreferredSize().getHeight();
@@ -554,7 +563,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			public int getHeight() {
 				return (int) Math.round(((view.getApplication().getFontSize()
 						* geoList.getFontSizeMultiplier()))
- * 2);
+ * 1.6);
 
 			}
 		};
