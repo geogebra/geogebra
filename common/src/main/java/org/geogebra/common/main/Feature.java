@@ -55,6 +55,8 @@ public enum Feature {
 	
 	SURFACE_IS_REGION,
 
+	SHADERS_IN_DESKTOP,
+
 	CP_POPUP,
 
 	CP_NEW_COLUMNS,
