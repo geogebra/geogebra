@@ -23,14 +23,15 @@ fontactive: function(familyName, fvd) {},
 	var s = document.getElementsByTagName('script')[0];
 	s.parentNode.insertBefore(ga, s);
 })();
-function ggbExamClosed(){
-	window.close();
+function ggbExamMode(exam){
+	if(!exam){
+		window.close();
+	}
 }
 </script>
 <script type="text/javascript" src="web3d/web3d.nocache.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>body { -ms-touch-action: none; }</style>
-</head></div>
-<article class="geogebraweb" data-param-showLogging="true" data-param-app="true" data-param-prerelease="false" data-param-perspective="exam"
-data-param-nocas="true" data-param-no3d="false" data-param-language="de_AT"></article>
+</head><body>
+<article class="geogebraweb" data-param-showLogging="true" data-param-app="true" data-param-prerelease="false" data-param-perspective="exam" data-param-language="de_AT"></article>
 </body></html>
