@@ -79,7 +79,7 @@ public class EuclidianControllerD extends
 	public void mouseDragged(MouseEvent e) {
 		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
 		// no capture in desktop
-		wrapMouseDragged(event, false);
+		wrapMouseDragged(event, true);
 		event.release();
 	}
 
