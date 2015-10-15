@@ -359,7 +359,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	final public boolean hit(int x, int y, int hitThreshold) {
 
 		if (geoList.drawAsComboBox()) {
-			return isDrawingOnCanvas() ? super.hit(x, y, hitThreshold)
+			return isDrawingOnCanvas()
+					? super.hit(x, y, hitThreshold) || ctrlRect.contains(x, y)
 					: box.getBounds().contains(x, y);
 		}
 
@@ -549,10 +550,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	private void drawControl(GGraphics2D g2) {
 		g2.setPaint(GColor.BLACK);
-		int left = boxLeft + getPreferredSize().getWidth()
-				- TRIANGLE_CONTROL_WIDTH;
-		ctrlRect.setBounds(left, boxTop, TRIANGLE_CONTROL_WIDTH, boxHeight);
-		g2.drawRect(left, boxTop, TRIANGLE_CONTROL_WIDTH, boxHeight);
+		int width = boxHeight;
+		int left = boxLeft + boxWidth - boxHeight;
+
+		ctrlRect.setBounds(left, boxTop, width, boxHeight);
+		g2.drawRect(left, boxTop, width, boxHeight);
 	}
 
 	@Override
@@ -662,7 +664,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private int getTriangleControlWidth() {
-		return TRIANGLE_CONTROL_WIDTH;
+		return (int) ctrlRect.getWidth();
 	}
 
 	int getMultipliedFontSize() {
