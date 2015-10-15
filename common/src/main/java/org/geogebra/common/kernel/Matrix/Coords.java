@@ -224,10 +224,14 @@ public class Coords {
 		val[2] = z;
 	}
 
+
 	/**
 	 * set this values to v's
-	 * @param v coords
-	 * @param length length first values only are updated
+	 * 
+	 * @param v
+	 *            coords
+	 * @param length
+	 *            length first values only are updated
 	 */
 	public void setValues(Coords v, int length){
 		for (int i = 0; i < length; i++){
@@ -448,6 +452,23 @@ public class Coords {
 		int len = Math.min(getLength(), v.getLength());
 		double res = 0;
 		for (int i = 0; i < len; i++)
+			res += val[i] * v.val[i];
+		return res;
+	}
+
+	/**
+	 * returns dot product this * v in dimension 3
+	 * <p>
+	 * If this={x1,x2,x3} and v={x'1,x'2,x'3}, the dot product is
+	 * x1*x'1+x2*x'2+x3*x'3
+	 * 
+	 * @param v
+	 *            vector multiplied with
+	 * @return value of the dot product
+	 */
+	public double dotproduct3(Coords v) {
+		double res = 0;
+		for (int i = 0; i < 3; i++)
 			res += val[i] * v.val[i];
 		return res;
 	}

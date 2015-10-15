@@ -98,7 +98,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			matrix[i] = coeffs[i];
 		}
 
-		classifyQuadric();
+		if (!kernel.getConstruction().isFileLoading()) {
+			// will be done at XML end, by setMatrixFromXML()
+			classifyQuadric();
+		}
 	}
 
 	/**
@@ -186,6 +189,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			// only one eigenvalue = 0
 
 			// find eigenvectors
+			if (tmpCoords2 == null) {
+				tmpCoords2 = new Coords(4);
+			}
+			if (tmpCoords3 == null) {
+				tmpCoords3 = new Coords(4);
+			}
+			tmpCoords.setValues(eigenvecND[0], 3);
+			tmpCoords2.setValues(eigenvecND[2], 3);
+
 			if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
 				// find from eigenvalue = 0, since both others are equal
 				findEigenvector(eigenval[2], eigenvecND[2]);
@@ -199,16 +211,41 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				eigenvecND[2].setCrossProduct(eigenvecND[0], eigenvecND[1]);
 			}
 
-			// App.debug("\neigenvecND[0]=\n" + eigenvecND[0]
-			// + "\neigenvecND[1]=\n" + eigenvecND[1]
-			// + "\neigenvecND[2]=\n" + eigenvecND[2]);
-			//
-			// App.debug("\ndotproduct=" +
-			// eigenvecND[0].dotproduct(eigenvecND[1]));
+			// check eigenvec continuity
+			boolean reverse = false;
+			if (tmpCoords2.dotproduct3(eigenvecND[2]) < 0) { // reverse
+				eigenvecND[2].mulInside3(-1);
+				reverse = true;
+			}
+			double dot0 = tmpCoords.dotproduct3(eigenvecND[0]);
+			double dot1 = tmpCoords.dotproduct3(eigenvecND[1]);
+			if (Math.abs(dot0) < Math.abs(dot1)) { // swap
+				double e = eigenval[0];
+				eigenval[0] = eigenval[1];
+				eigenval[1] = e;
+				tmpCoords.setValues(eigenvecND[0], 3);
+				eigenvecND[0].setValues(eigenvecND[1], 3);
+				eigenvecND[1].setValues(tmpCoords, 3);
+				reverse = !reverse;
+				dot0 = dot1;
+			}
+
+			if (reverse) {
+				if (dot0 < 0) { // flip first
+					eigenvecND[0].mulInside3(-1);
+				} else { // flip second
+					eigenvecND[1].mulInside3(-1);
+				}
+			} else {
+				if (dot0 < 0) { // flip first and second
+					eigenvecND[0].mulInside3(-1);
+					eigenvecND[1].mulInside3(-1);
+				}
+			}
+
 
 			// compute semi-diagonalized matrix
 			setSemiDiagonalizedMatrix();
-			// App.debug("\nsemi diag:\n" + semiDiagMatrix);
 
 			double x = semiDiagMatrix.get(1, 4);
 			double y = semiDiagMatrix.get(2, 4);
@@ -233,12 +270,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					}
 				} else {
 					// z = xx+yy
-					if (z > 0) { // flip eigenvectors
-						eigenvecND[1].mulInside3(-1);
-						eigenvecND[2].mulInside3(-1);
-						y = -y;
-						z = -z;
-					}
 					paraboloid(-x / eigenval[0], -y / eigenval[1], z, m);
 				}
 
@@ -276,9 +307,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		midpoint.addInside(tmpCoords.setMul(eigenvecND[2], m / (2 * z)));
 
 		// set halfAxes = radius
-		halfAxes[0] = Math.sqrt(-2 * z / eigenval[0]);
-		halfAxes[1] = Math.sqrt(-2 * z / eigenval[1]);
-		halfAxes[2] = 1;
+		halfAxes[0] = Math.sqrt(Math.abs(2 * z / eigenval[0]));
+		halfAxes[1] = Math.sqrt(Math.abs(2 * z / eigenval[1]));
+		if (z < 0) {
+			halfAxes[2] = 1;
+		} else {
+			halfAxes[2] = -1;
+		}
 
 		// set the diagonal values
 		diagonal[0] = eigenval[0];
@@ -287,7 +322,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		diagonal[3] = 0;
 
 		// eigen matrix
-		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
+		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
 
 		// set type
 		if (kernel.getApplication().has(Feature.ALL_QUADRICS)) {
@@ -924,9 +959,34 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			}
 
 			// set direction
+			tmpCoords.setValues(eigenvecND[2], 3);
 			eigenvecND[2].setValues(eigenvec[directionIndex], 3);
+			if (tmpCoords.dotproduct3(eigenvecND[2]) < 0) { // check continuity
+				eigenvecND[2].mulInside3(-1);
+				int index = ellipseIndex0;
+				ellipseIndex0 = ellipseIndex1;
+				ellipseIndex1 = index;
+			}
 
 			// set others eigen vecs
+			tmpCoords.setValues(eigenvecND[0], 3);
+			double dot0 = tmpCoords.dotproduct3(eigenvec[ellipseIndex0]);
+			double dot1 = tmpCoords.dotproduct3(eigenvec[ellipseIndex1]);
+			if (Math.abs(dot0) < Math.abs(dot1)) {
+				int index = ellipseIndex0;
+				ellipseIndex0 = ellipseIndex1;
+				ellipseIndex1 = index;
+				if (dot1 < 0) {
+					eigenvec[ellipseIndex0].mulInside3(-1);
+				} else {
+					eigenvec[ellipseIndex1].mulInside3(-1);
+				}
+			} else {
+				if (dot0 < 0) {
+					eigenvec[ellipseIndex0].mulInside3(-1);
+					eigenvec[ellipseIndex1].mulInside3(-1);
+				}
+			}
 			eigenvecND[0].setValues(eigenvec[ellipseIndex0], 3);
 			eigenvecND[1].setValues(eigenvec[ellipseIndex1], 3);
 
@@ -2754,13 +2814,17 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		getLineStyleXML(sb);
 
-		/*
-		 * sb.append("\t<eigenvectors "); sb.append(" x0=\"" +
-		 * eigenvec[0].getX() + "\""); sb.append(" y0=\"" + eigenvec[0].getY() +
-		 * "\""); sb.append(" z0=\"1.0\""); sb.append(" x1=\"" +
-		 * eigenvec[1].getX() + "\""); sb.append(" y1=\"" + eigenvec[1].getY() +
-		 * "\""); sb.append(" z1=\"1.0\""); sb.append("/>\n");
-		 */
+		sb.append("\t<eigenvectors ");
+		sb.append(" x0=\"" + eigenvecND[0].getX() + "\"");
+		sb.append(" y0=\"" + eigenvecND[0].getY() + "\"");
+		sb.append(" z0=\"" + eigenvecND[0].getZ() + "\"");
+		sb.append(" x1=\"" + eigenvecND[1].getX() + "\"");
+		sb.append(" y1=\"" + eigenvecND[1].getY() + "\"");
+		sb.append(" z1=\"" + eigenvecND[1].getZ() + "\"");
+		sb.append(" x2=\"" + eigenvecND[2].getX() + "\"");
+		sb.append(" y2=\"" + eigenvecND[2].getY() + "\"");
+		sb.append(" z2=\"" + eigenvecND[2].getZ() + "\"");
+		sb.append("/>\n");
 
 		// matrix must be saved after eigenvectors
 		// as only <matrix> will cause a call to classifyConic()
@@ -2778,6 +2842,19 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		 * default : sb.append("\t<eqnStyle style=\"implicit\"/>\n"); }
 		 */
 
+	}
+
+	final public void setEigenvectors(double x0, double y0, double z0,
+			double x1, double y1, double z1, double x2, double y2, double z2) {
+
+		eigenvecND[0].set(x0, y0, z0);
+		eigenvecND[1].set(x1, y1, z1);
+		eigenvecND[2].set(x2, y2, z2);
+
+		// compute dependent quadric again to ensure eigenvalues are correct
+		if (algoParent != null && algoParent instanceof AlgoDependentQuadric3D) {
+			algoParent.compute();
+		}
 	}
 
 	/**

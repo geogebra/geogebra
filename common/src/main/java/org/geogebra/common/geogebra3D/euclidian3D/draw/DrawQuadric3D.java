@@ -420,6 +420,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			ev0 = quadric.getEigenvec3D(0);
 			ev1 = quadric.getEigenvec3D(1);
 			ev2 = quadric.getEigenvec3D(2);
+			if (quadric.getHalfAxis(2) < 0) {
+				ev0 = ev0.mul(-1);
+				ev2 = ev2.mul(-1);
+			}
 			if (vMinMax == null) {
 				vMinMax = new double[2];
 			}

@@ -5054,7 +5054,7 @@ public class MyXMLHandler implements DocHandler {
 	 * e.toString()); } dynamicCoordinatesList.clear(); }
 	 */
 
-	private boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
+	protected boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoConic())) {
 			App.error(
 					"wrong element type for <eigenvectors>: " + geo.getClass());
