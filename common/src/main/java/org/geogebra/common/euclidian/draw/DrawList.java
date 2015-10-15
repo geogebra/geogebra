@@ -43,6 +43,11 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
+	private static final int OPTIONBOX_TEXT_MARGIN_BOTTOM = 10;
+	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 15;
+	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
+	private static final int OPTIONBOX_GAP = 5;
+	private static final double MUL_FONT_HEIGHT = 1.6;
 	private static final int TEXT_GAP_X = 5;
 	private static final int GAP_X = 10;
 	/** coresponding list as geo */
@@ -530,6 +535,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 				selectedText, textLeft, textBottom, false, false);
 
+		drawOptions(g2);
 	}
 
 	@Override
@@ -550,6 +556,55 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		boxHeight = getPreferredSize().getHeight();
 	}
 
+	private void drawOptions(GGraphics2D g2) {
+
+		g2.setPaint(GColor.WHITE);
+		int optHeight = drawOptionLines(g2, 0, 0)
+				+ OPTIONBOX_TEXT_MARGIN_BOTTOM;
+		int optTop = boxTop + boxHeight + OPTIONBOX_GAP;
+
+		g2.fillRect(boxLeft, optTop, boxWidth, optHeight);
+
+		g2.setPaint(GColor.LIGHT_GRAY);
+		g2.drawRect(boxLeft, optTop, boxWidth, optHeight);
+
+		g2.setPaint(geo.getObjectColor());
+
+		int textLeft = boxLeft + OPTIONBOX_TEXT_MARGIN_LEFT;
+		int rowTop = optTop + OPTIONBOX_TEXT_MARGIN_TOP;
+		drawOptionLines(g2, textLeft, rowTop);
+	}
+
+	private int drawOptionLines(GGraphics2D g2, int left, int top) {
+		int height = 0;
+		int rowTop = top;
+		int fontHeight = getMultipliedFontSize();
+		for (int i = 0; i < geoList.size(); i++) {
+			String text = geoList.get(i)
+					.toValueString(StringTemplate.defaultTemplate);
+			if (isLatexString(text)) {
+				GDimension d = drawLatex(g2, geoList, getLabelFont(), text,
+						left, rowTop);
+				rowTop += d.getHeight();
+				height += d.getHeight();
+
+			} else {
+				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+						text, left,
+						rowTop, false, false);
+				rowTop += fontHeight;
+				height += fontHeight;
+
+			}
+		}
+		return height;
+	}
+
+	int getMultipliedFontSize() {
+		return (int) Math.round(((view.getApplication().getFontSize()
+				* geoList.getFontSizeMultiplier())));
+	}
+
 	@Override
 	public GDimension getPreferredSize() {
 		// TODO: eliminate magic numbers
@@ -557,16 +612,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			@Override
 			public int getWidth() {
-				return (int) Math.round(((view.getApplication().getFontSize()
-						* geoList.getFontSizeMultiplier()))
- * maxLength);
+				return getMultipliedFontSize() * maxLength;
 			}
 
 			@Override
 			public int getHeight() {
-				return (int) Math.round(((view.getApplication().getFontSize()
-						* geoList.getFontSizeMultiplier()))
- * 1.6);
+				return (int) (getMultipliedFontSize() * MUL_FONT_HEIGHT);
 
 			}
 		};
@@ -574,14 +625,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void showWidget() {
-		App.debug("[CandvasDrawable] combo show");
-		comboBox.setVisible(true);
 	}
 
 	@Override
 	protected void hideWidget() {
-		App.debug("[CandvasDrawable] combo hide");
-		comboBox.setVisible(false);
 	}
 
 }
