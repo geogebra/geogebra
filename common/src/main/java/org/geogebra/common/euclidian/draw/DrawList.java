@@ -51,6 +51,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final double MUL_FONT_HEIGHT = 1.6;
 	private static final int LABEL_COMBO_GAP = 10;
+	private static final int TEXT_CENTER = -1;
 	/** coresponding list as geo */
 	GeoList geoList;
 	// private ArrayList drawables = new ArrayList();
@@ -570,11 +571,12 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		drawOptionLines(g2, textLeft, rowTop);
 	}
 
-	private int drawTextLine(GGraphics2D g2, int left, int top, String text) {
+	private int drawTextLine(GGraphics2D g2, int textLeft, int top,
+			String text) {
 		int w = 0;
 		int h = 0;
+		int left = textLeft;
 		int fontHeight = getMultipliedFontSize();
-
 		if (isLatexString(text)) {
 			GDimension d = drawLatex(g2, geoList, getLabelFont(), text, left,
 					top);
@@ -582,10 +584,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			h = d.getHeight();
 
 		} else {
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-					left, top, false, false);
 			w = g2.getFontRenderContext().measureTextWidth(text,
 					getLabelFont());
+			if (left == TEXT_CENTER) {
+				left = boxLeft + (boxWidth - w) / 2;
+			}
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
+					left, top, false, false);
 
 			h = fontHeight;
 
@@ -606,7 +611,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 					.toValueString(StringTemplate.defaultTemplate);
 
 
-			int h = drawTextLine(g2, left, rowTop, text);
+			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text);
 			optionsHeight += h;
 			rowTop += h;
 			if (i == geoList.getSelectedIndex()) {
