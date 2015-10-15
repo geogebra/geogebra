@@ -243,6 +243,5 @@ public abstract class CanvasDrawable extends Drawable {
 		} else {
 			hideWidget();
 		}
-		box.setVisible(show);
 	}
 }

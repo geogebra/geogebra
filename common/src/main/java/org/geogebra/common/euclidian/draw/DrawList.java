@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.event.ActionEvent;
 import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.util.DropDownList;
+import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -58,7 +59,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	// private ArrayList drawables = new ArrayList();
 	private DrawListArray drawables;
 	private boolean isVisible;
-
+	private boolean optionsVisible = false;
 	private String oldCaption = "";
 	/** combobox */
 	org.geogebra.common.javax.swing.AbstractJComboBox comboBox;
@@ -70,6 +71,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int optionsWidth;
 	private String selectedText;
 	private int selectedHeight;
+	private GBox ctrlBox;
+	private GRectangle ctrlRect;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -87,6 +90,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 		if (isDrawingOnCanvas()) {
 			dropDown = view.getApplication().newDropDownList();
+			ctrlBox = geo.getKernel().getApplication().getSwingFactory()
+					.createHorizontalBox(view.getEuclidianController());
+			ctrlRect = ctrlBox.getBounds();
 		}
 		reset();
 
@@ -535,7 +541,18 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 		drawTextLine(g2, textLeft, textBottom, selectedText);
 
-		drawOptions(g2);
+		drawControl(g2);
+		if (optionsVisible) {
+			drawOptions(g2);
+		}
+	}
+
+	private void drawControl(GGraphics2D g2) {
+		g2.setPaint(GColor.BLACK);
+		int left = boxLeft + getPreferredSize().getWidth()
+				- TRIANGLE_CONTROL_WIDTH;
+		ctrlRect.setBounds(left, boxTop, TRIANGLE_CONTROL_WIDTH, boxHeight);
+		g2.drawRect(left, boxTop, TRIANGLE_CONTROL_WIDTH, boxHeight);
 	}
 
 	@Override
@@ -673,10 +690,23 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void showWidget() {
+
 	}
 
 	@Override
 	protected void hideWidget() {
+	}
+
+	public void onControlClick(int x, int y) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+
+		if (ctrlRect.contains(x, y)) {
+			optionsVisible = !optionsVisible;
+			geo.updateRepaint();
+		}
+
 	}
 
 }

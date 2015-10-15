@@ -1641,6 +1641,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					((CanvasDrawable) d).setWidgetVisible(true);
+					if (d instanceof DrawList) {
+						((DrawList) d).onControlClick(x, y);
+					}
 					return true;
 				}
 

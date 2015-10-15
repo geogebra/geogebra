@@ -472,11 +472,13 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		if (!view.getEuclidianController().isTemporaryMode()) {
 			textField.requestFocus();
 		}
+		box.setVisible(true);
 	}
 
 	@Override
 	protected void hideWidget() {
 		// App.debug("[CandvasDrawable] TextField hide");
 		textField.setVisible(false);
+		box.setVisible(false);
 	}
 }
