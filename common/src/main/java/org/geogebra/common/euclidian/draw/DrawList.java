@@ -18,6 +18,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
@@ -56,7 +59,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private static final int TEXT_CENTER = -1;
 	/** coresponding list as geo */
 	GeoList geoList;
-	// private ArrayList drawables = new ArrayList();
+	private List<GRectangle> optionItems = new ArrayList<GRectangle>();
 	private DrawListArray drawables;
 	private boolean isVisible;
 	private boolean optionsVisible = false;
@@ -73,6 +76,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private int selectedHeight;
 	private GBox ctrlBox;
 	private GRectangle ctrlRect;
+	private GRectangle optionsRect;
+	private GBox optionsBox;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -93,6 +98,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			ctrlBox = geo.getKernel().getApplication().getSwingFactory()
 					.createHorizontalBox(view.getEuclidianController());
 			ctrlRect = ctrlBox.getBounds();
+			optionsBox = geo.getKernel().getApplication().getSwingFactory()
+					.createHorizontalBox(view.getEuclidianController());
+			optionsRect = optionsBox.getBounds();
 		}
 		reset();
 
@@ -361,6 +369,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (geoList.drawAsComboBox()) {
 			return isDrawingOnCanvas()
 					? super.hit(x, y, hitThreshold) || ctrlRect.contains(x, y)
+							|| (optionsVisible && optionsRect.contains(x, y))
 					: box.getBounds().contains(x, y);
 		}
 
@@ -587,7 +596,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		g2.setPaint(GColor.WHITE);
 		int optHeight = optionsHeight + OPTIONBOX_TEXT_MARGIN_BOTTOM;
 		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
-
+		optionsRect.setBounds(boxLeft, optTop, boxWidth, optHeight);
 		g2.fillRect(boxLeft, optTop, boxWidth, optHeight);
 
 		g2.setPaint(GColor.LIGHT_GRAY);
@@ -644,6 +653,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private void drawOptionLines(GGraphics2D g2, int left, int top) {
 		optionsWidth = 0;
 		optionsHeight = 0;
+		optionItems.clear();
 		int rowTop = top;
 		for (int i = 0; i < geoList.size(); i++) {
 			String text = geoList.get(i)
@@ -656,6 +666,11 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				selectedText = text;
 				selectedHeight = h;
 			}
+			GBox b = geo.getKernel().getApplication().getSwingFactory()
+					.createHorizontalBox(view.getEuclidianController());
+			GRectangle rect = b.getBounds();
+			rect.setBounds(boxLeft, rowTop, boxWidth, h);
+			optionItems.add(rect);
 			optionsHeight += h + OPTIONSBOX_ITEM_GAP;
 			rowTop += h + OPTIONSBOX_ITEM_GAP;
 
@@ -699,6 +714,16 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	protected void hideWidget() {
 	}
 
+	private int getOptionAt(int x, int y) {
+		int idx = 0;
+		for (GRectangle rect : optionItems) {
+			if (rect.contains(x, y)) {
+				return idx;
+			}
+			idx++;
+		}
+		return -1;
+	}
 	public void onControlClick(int x, int y) {
 		if (!isDrawingOnCanvas()) {
 			return;
@@ -707,8 +732,20 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		if (ctrlRect.contains(x, y)) {
 			optionsVisible = !optionsVisible;
 			geo.updateRepaint();
-		}
+		} else if (optionsRect.contains(x, y)) {
+			App.debug("Options is hit!");
+			int idx = getOptionAt(x, y);
+			if (idx == -1) {
+				App.debug("Option not found");
+				return;
+			}
+			String text = geoList.get(idx)
+					.toValueString(StringTemplate.defaultTemplate);
+			App.debug("Option selected: " + text);
+			optionsVisible = false;
+			geoList.setSelectedIndex(idx, true);
 
+		}
 	}
 
 }
