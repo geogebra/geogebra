@@ -1782,6 +1782,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			} catch (Exception e) {
 				App.error("GeoCasCell.computeOutput(), CAS eval: " + evalVE
 						+ "\n\t " + e);
+				e.printStackTrace();
 				success = false;
 				ce = new CASException(e);
 			}

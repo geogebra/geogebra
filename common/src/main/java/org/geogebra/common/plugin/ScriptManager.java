@@ -73,6 +73,8 @@ public abstract class ScriptManager implements EventListener {
 		case PASTE_ELMS_COMPLETE:
 		case DELETE_GEOS:
 		case LOGIN:
+		case SET_MODE:
+		case SHOW_NAVIGATION_BAR:
 			callClientListeners(clientListeners, evt);
 			break;
 		// TODO case CLEAR

@@ -346,8 +346,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLaTeXBase64(Ljava/lang/String;Z)(objName, !!value);
 		};
 
-		api.getCommandString = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCommandString(Ljava/lang/String;)(objName);
+		api.getCommandString = function(objName, localize) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCommandString(Ljava/lang/String;Z)(objName, typeof localize === 'undefined' ? true : localize);
 		};
 
 		api.getXcoord = function(objName) {
@@ -450,6 +450,10 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.setAxesVisible = function(xVisible, yVisible) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxesVisible(ZZ)(xVisible,yVisible);
+		};
+
+		api.getGridVisible = function(view) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getGridVisible(I)(view || 1);
 		};
 
 		api.setGridVisible = function(flag) {

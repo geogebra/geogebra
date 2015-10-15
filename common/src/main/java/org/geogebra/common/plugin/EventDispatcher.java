@@ -29,6 +29,7 @@ public class EventDispatcher implements ClientView {
 
 	/**
 	 * @param app
+	 *            application
 	 */
 	public EventDispatcher(App app) {
 		this.app = app;
@@ -91,6 +92,12 @@ public class EventDispatcher implements ClientView {
 		dispatchEvent(new Event(evtType, geo));
 	}
 
+	/**
+	 * @param evtType
+	 *            event type
+	 * @param geos
+	 *            multiple targets
+	 */
 	public void dispatchBulkEvent(EventType evtType, ArrayList<GeoElement> geos) {
 		dispatchEvent(new Event(evtType, null, null, geos));
 	}
@@ -145,7 +152,7 @@ public class EventDispatcher implements ClientView {
 	}
 
 	public void setMode(int mode, ModeSetter m) {
-		// TODO Could be useful?
+		this.dispatchEvent(new Event(EventType.SET_MODE, null, mode + ""));
 
 	}
 
@@ -155,11 +162,6 @@ public class EventDispatcher implements ClientView {
 
 	public boolean hasFocus() {
 		return false;
-	}
-
-	public void repaint() {
-		// Ignore
-
 	}
 
 	public boolean isShowing() {

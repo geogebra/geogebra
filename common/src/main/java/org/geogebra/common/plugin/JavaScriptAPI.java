@@ -369,6 +369,11 @@ public interface JavaScriptAPI {
 	public String getCommandString(String objName);
 
 	/**
+	 * Returns the command of the object with the given name as a string.
+	 */
+	public String getCommandString(String objName, boolean localize);
+
+	/**
 	 * Returns the x-coord of the object with the given name. Note: returns 0 if
 	 * the object is not a point or a vector.
 	 */
@@ -433,6 +438,10 @@ public interface JavaScriptAPI {
 	 * Shows or hides the coordinate grid in the graphics window.
 	 */
 	public void setGridVisible(boolean flag);
+
+	public boolean getGridVisible(int view);
+
+	public boolean getGridVisible();
 
 	/**
 	 * Returns an array with all object names.

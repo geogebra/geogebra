@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.UserAwarenessListener;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -865,6 +864,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return geo.getCommandDescription(StringTemplate.defaultTemplate);
 	}
 
+	public synchronized String getCommandString(String objName, boolean localize) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null)
+			return "";
+		return geo
+				.getCommandDescription(localize ? StringTemplate.defaultTemplate
+						: StringTemplate.noLocalDefault);
+	}
+
 	/**
 	 * Returns the x-coord of the object with the given name. Note: returns 0 if
 	 * the object is not a point or a vector.
@@ -1176,14 +1184,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return ret.evaluateDouble();
 	}
 
-	public void addUserAwarenessListener(UserAwarenessListener listener) {
-		this.kernel.addUserAwarenessListener(listener);
-	}
-
-	public void removeUserAwarenessListener(UserAwarenessListener listener) {
-		this.kernel.removeUserAwarenessListener(listener);
-	}
-
 	/**
 	 * Cast undo
 	 */
@@ -1363,6 +1363,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return geo.isVisibleInView(view == -1 ? App.VIEW_EUCLIDIAN3D
 				: (view == 1 ? App.VIEW_EUCLIDIAN : App.VIEW_EUCLIDIAN2));
 
+	}
+
+	public boolean getGridVisible() {
+		return getGridVisible(1);
+	}
+	public boolean getGridVisible(int view) {
+		if (view < -1 || view > 2 || view == 0) {
+			return false;
+		}
+		EuclidianSettings evs = app.getSettings().getEuclidian(
+				view < 0 ? 3 : view);
+		return evs.getShowGrid();
 	}
 
 	public int getCASObjectNumber(){

@@ -1540,4 +1540,16 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getExerciseFraction();
 	}
 
+	public String getCommandString(String objName, boolean localize) {
+		return ggbApi.getCommandString(objName, localize);
+	}
+
+	public boolean getGridVisible(int view) {
+		return ggbApi.getGridVisible(view);
+	}
+
+	public boolean getGridVisible() {
+		return ggbApi.getGridVisible();
+	}
+
 }

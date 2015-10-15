@@ -153,6 +153,7 @@ public class Kernel {
 	protected boolean addingPolygon = false;
 	protected GeoElement newPolygon;
 	protected ArrayList<GeoElement> deleteList;
+	// TODO merge with clientListeners
 	protected ArrayList<UserAwarenessListener> userAwarenessListeners;
 	/** Construction */
 	protected Construction cons;
@@ -3664,18 +3665,6 @@ public class Kernel {
 
 	public boolean isViewReiniting() {
 		return viewReiniting;
-	}
-
-	/* *******************************************************
-	 * methods for managing user awareness listeners
-	 * ******************************************************
-	 */
-	public void addUserAwarenessListener(UserAwarenessListener listener) {
-		this.userAwarenessListeners.add(listener);
-	}
-
-	public void removeUserAwarenessListener(UserAwarenessListener listener) {
-		this.userAwarenessListeners.remove(listener);
 	}
 
 	/*

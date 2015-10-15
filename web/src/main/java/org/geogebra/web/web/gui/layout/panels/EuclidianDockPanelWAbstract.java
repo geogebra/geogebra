@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -144,7 +143,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 
 				int h = dockPanel.getComponentInteriorHeight();
 				int w = dockPanel.getComponentInteriorWidth();
-				if (app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
+				if (app.showConsProtNavigation(dockPanel.getViewId())) {
 					h -= dockPanel.navHeight();
 				}
 

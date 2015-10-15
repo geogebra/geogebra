@@ -5,7 +5,8 @@ public enum EventType {
 			"remove"), RENAME("rename"), RENAME_COMPLETE("renameComplete"), ADD_POLYGON(
 			"addPolygon"), ADD_POLYGON_COMPLETE("addPolygonComplete"), MOVING_GEOS(
 			"movingGeos"), MOVED_GEOS("movedGeos"), PASTE_ELMS("pasteElms"), PASTE_ELMS_COMPLETE(
-			"pasteElmsComplete"), DELETE_GEOS("deleteGeos"), LOGIN("login");
+			"pasteElmsComplete"), DELETE_GEOS("deleteGeos"), LOGIN("login"), SET_MODE(
+			"setMode"), SHOW_NAVIGATION_BAR("showNavigationBar");
 
 	private String eventName;
 

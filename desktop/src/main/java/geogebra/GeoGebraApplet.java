@@ -743,4 +743,16 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().getExerciseFraction();
 	}
 
+	public String getCommandString(String objName, boolean localize) {
+		return getAppletImplementation().getCommandString(objName, localize);
+	}
+
+	public boolean getGridVisible(int view) {
+		return getAppletImplementation().getGridVisible(view);
+	}
+
+	public boolean getGridVisible() {
+		return getAppletImplementation().getGridVisible();
+	}
+
 }

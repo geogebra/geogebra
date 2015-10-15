@@ -63,6 +63,7 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoScriptRunner;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -3501,7 +3502,7 @@ public abstract class App implements UpdateSelection {
 	 *            true to show navigation bar
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag) {
-
+		dispatchEvent(new Event(EventType.SHOW_NAVIGATION_BAR, null, flag + ""));
 		if (!flag) {
 			setHideConstructionProtocolNavigation();
 		} else {
@@ -3548,7 +3549,8 @@ public abstract class App implements UpdateSelection {
 			}
 		}
 		showConsProtNavigation.put(id, flag);
-
+		dispatchEvent(new Event(EventType.SHOW_NAVIGATION_BAR, null, "[" + flag
+				+ "," + id + "]"));
 		if (getGuiManager() != null) {
 			getGuiManager().setShowConstructionProtocolNavigation(flag, id);
 			setShowConstProtNavigationNeedsUpdate(id, false);
