@@ -493,34 +493,39 @@ public class ProverBotanasMethod {
 							// get variables of giac output
 							HashSet<GeoElement> giacOutputVars = root
 									.getVariables();
-							if (giacOutputVars.size() == 2) {
+							if (giacOutputVars != null) {
 								Iterator<GeoElement> giacVarIt = giacOutputVars
 										.iterator();
-								GeoElement geo1 = giacVarIt.next();
-								GeoElement geo2 = giacVarIt.next();
+								// reserve first var
+								GeoElement geo = giacVarIt.next();
 								// copy the expression of giac output
 								ExpressionNode copyRoot = (ExpressionNode) root
 										.deepCopy(statement.getKernel());
-								// replace first var with 1
-								copyRoot.traverse(GeoDummyReplacer.getReplacer(
-										geo1.getLabel(StringTemplate.defaultTemplate),
-										new ExpressionNode(statement
-												.getKernel(), 1), true));
-								// get solution of expression
-								String solutionGeo2 = cas
+								while (giacVarIt.hasNext()) {
+									// iterate through vars
+									GeoElement currGeo = giacVarIt.next();
+									// replace current var with 1
+									copyRoot.traverse(GeoDummyReplacer.getReplacer(
+											currGeo.getLabel(StringTemplate.defaultTemplate),
+											new ExpressionNode(statement
+													.getKernel(), 1), true));
+								}
+								// get solution of expression with reserved var
+								// parameter
+								String solutionGeo = cas
 										.getCurrentCAS()
 										.evaluateRaw(
 												"ggbsort(normal(zeros("
 														+ copyRoot
 																.toString(StringTemplate.giacTemplate)
 														+ "=0,"
-														+ geo2.toString(StringTemplate.giacTemplate)
+														+ geo.toString(StringTemplate.giacTemplate)
 														+ ")))");
 								// skip { and }
-								solutionGeo2 = solutionGeo2.substring(1,
-										solutionGeo2.length() - 1);
+								solutionGeo = solutionGeo.substring(1,
+										solutionGeo.length() - 1);
 								// split solution list
-								String[] solutionList = solutionGeo2.split(",");
+								String[] solutionList = solutionGeo.split(",");
 								// parse solutions into expression
 								// needed e.g. 1/2 solution
 								ValidExpression validSol1 = (statement
@@ -535,11 +540,11 @@ public class ProverBotanasMethod {
 										.parseGeoGebraCASInputAndResolveDummyVars(
 												solutionList[1],
 												statement.getKernel(), null);
-								double geo2sol1 = validSol1.evaluateDouble();
-								double geo2sol2 = validSol2.evaluateDouble();
+								double geoSol1 = validSol1.evaluateDouble();
+								double geoSol2 = validSol2.evaluateDouble();
 								// make sure we use the positive root
-								if (geo2sol1 < 0) {
-									geo2sol1 = geo2sol2;
+								if (geoSol1 < 0) {
+									geoSol1 = geoSol2;
 								}
 								// substitution list
 								// e.g. [a,v7],[b,v8]
@@ -554,27 +559,27 @@ public class ProverBotanasMethod {
 								// input expression
 								// using e.g. subst(2a=b,{a=1,b=2})
 								String substOutput = new String();
-								// case 2 segments
-								if (substitutions.size() == 2) {
-										// first segment in subtst list is 1 and
-										// second segment is geo2sol1
-										if (substitutions
-												.get(0)
-												.get(1)
-												.equals(geo1
-														.toString(StringTemplate.defaultTemplate))) {
-											// list of substitutions
-											StringBuilder substListStr = new StringBuilder();
-											substListStr.append("{ggbtmpvar"
-													+ substitutions.get(0).get(
-															0)
-													+ "="
-													+ 1
-													+ ",ggbtmpvar"
-													+ substitutions.get(1).get(
-															0) + "=" + geo2sol1
-													+ "}");
-											substOutput = cas
+								if (substitutions != null) {
+									Iterator<Vector<String>> itSubst = substitutions.iterator();
+									// list of substitutions
+									StringBuilder substListStr = new StringBuilder();
+									substListStr.append("{");
+									while (itSubst.hasNext()) {
+										Vector<String> currSubst = itSubst.next();
+										// reserved var substitute with
+										// calculated solution
+										if (currSubst.get(1).equals(geo.toString(StringTemplate.defaultTemplate))) {
+											substListStr.append("ggbtmpvar"+currSubst.get(0)+"="+geoSol1+",");
+										} else {
+											// everything else substitute with 1
+											substListStr.append("ggbtmpvar"+currSubst.get(0)+"=1,");
+										}
+									}
+									// cut unwanted ","
+									substListStr.setLength(substListStr.length()-1);
+									substListStr.append("}");
+									// call giac substitution
+									substOutput = cas
 													.getCurrentCAS()
 													.evaluateRaw(
 															"subst("
@@ -591,40 +596,6 @@ public class ProverBotanasMethod {
 																	+ substListStr
 																			.toString()
 																	+ ")");
-
-										}
-										// first segment in subtst list is
-										// geo2sol1 and
-										// second segment is 1
-										else {
-											// list of substitutions
-											StringBuilder substListStr = new StringBuilder();
-											substListStr.append("{ggbtmpvar"
-													+ substitutions.get(0).get(
-															0)
-													+ "="
-													+ geo2sol1
-													+ ",ggbtmpvar"
-													+ substitutions.get(1).get(
-															0) + "=" + 1 + "}");
-											substOutput = cas
-													.getCurrentCAS()
-													.evaluateRaw(
-															"subst("
-																	+ statementRootCopy
-																			.getLeftTree()
-																			.toString(
-																					StringTemplate.giacTemplate)
-																	+ "="
-																	+ statementRootCopy
-																			.getRightTree()
-																			.toString(
-																					StringTemplate.giacTemplate)
-																	+ ","
-																	+ substListStr
-																			.toString()
-																	+ ")");
-										}
 								}
 								// check if equation is true
 								// e.g. 2=2
