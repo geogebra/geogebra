@@ -43,6 +43,7 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
+	private static final int OPTIONSBOX_ITEM_GAP = 5;
 	private static final int TRIANGLE_CONTROL_WIDTH = 20;
 	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_TEXT_MARGIN_BOTTOM = 10;
@@ -529,6 +530,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		// Draw the selected line
+		if (isLatexString(selectedText)) {
+			textBottom = boxTop + COMBO_TEXT_MARGIN;
+		}
 		drawTextLine(g2, textLeft, textBottom, selectedText);
 
 		drawOptions(g2);
@@ -550,6 +554,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		boxTop = yLabel;
 		boxWidth = getPreferredSize().getWidth();
 		boxHeight = getPreferredSize().getHeight();
+	}
+
+	protected int getTextBottom() {
+
+		return isLatexString(selectedText) ? boxHeight - selectedHeight / 2
+				: (getPreferredSize().getHeight() / 2)
+						+ (int) (getLabelFontSize() * 0.4);
 	}
 
 	private void drawOptions(GGraphics2D g2) {
@@ -621,12 +632,14 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 
 			int h = drawTextLine(g2, TEXT_CENTER, rowTop, text);
-			optionsHeight += h;
-			rowTop += h;
+
 			if (i == geoList.getSelectedIndex()) {
 				selectedText = text;
 				selectedHeight = h;
 			}
+			optionsHeight += h + OPTIONSBOX_ITEM_GAP;
+			rowTop += h + OPTIONSBOX_ITEM_GAP;
+
 		}
 		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
 	}
