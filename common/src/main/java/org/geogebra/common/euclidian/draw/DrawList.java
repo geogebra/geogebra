@@ -43,13 +43,14 @@ import org.geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends CanvasDrawable implements RemoveNeeded {
+	private static final int TRIANGLE_CONTROL_WIDTH = 20;
+	private static final int COMBO_TEXT_MARGIN = 5;
 	private static final int OPTIONBOX_TEXT_MARGIN_BOTTOM = 10;
 	private static final int OPTIONBOX_TEXT_MARGIN_TOP = 15;
 	private static final int OPTIONBOX_TEXT_MARGIN_LEFT = 5;
-	private static final int OPTIONBOX_GAP = 5;
+	private static final int OPTIONBOX_COMBO_GAP = 5;
 	private static final double MUL_FONT_HEIGHT = 1.6;
-	private static final int TEXT_GAP_X = 5;
-	private static final int GAP_X = 10;
+	private static final int LABEL_COMBO_GAP = 10;
 	/** coresponding list as geo */
 	GeoList geoList;
 	// private ArrayList drawables = new ArrayList();
@@ -63,6 +64,10 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private org.geogebra.common.javax.swing.GBox box;
 	private DropDownList dropDown = null;
 	private int maxLength = 4;
+	private int optionsHeight;
+	private int optionsWidth;
+	private String selectedText;
+	private int selectedHeight;
 	/**
 	 * Creates new drawable list
 	 * 
@@ -492,23 +497,13 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
-		maxLength = 2;
-		String selectedText = "";
-		for (int i = 0; i < geoList.size(); i++) {
-			String item = geoList.get(i)
-					.toValueString(StringTemplate.defaultTemplate);
-			if (i == geoList.getSelectedIndex()) {
-				selectedText = item;
-			}
-			if (maxLength < item.length()) {
-				maxLength = item.length();
-
-			}
-		}
+		// just measuring
+		g2.setPaint(GColor.WHITE);
+		drawOptionLines(g2, 0, 0);
 
 		String labelText = getLabelText();
 		boolean latexLabel = measureLabel(g2, geoList, labelText);
-		int textLeft = boxLeft + TEXT_GAP_X;
+		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
 		int textBottom = boxTop + getTextBottom();
 
 		// TF Bounds
@@ -532,25 +527,26 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			drawLabel(g2, geoList, labelText);
 		}
 
-		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-				selectedText, textLeft, textBottom, false, false);
+		// EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+		// selectedText, textLeft, textBottom, false, false);
+		drawTextLine(g2, textLeft, textBottom, selectedText);
 
 		drawOptions(g2);
 	}
 
 	@Override
 	protected void calculateBoxBounds(boolean latex) {
-		boxLeft = xLabel + labelSize.x + GAP_X;
+		boxLeft = xLabel + labelSize.x + LABEL_COMBO_GAP;
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredSize().getHeight()) / 2
 				: yLabel;
 		boxWidth = getPreferredSize().getWidth();
-		boxHeight = getPreferredSize().getHeight();
+		boxHeight = selectedHeight + 2 * COMBO_TEXT_MARGIN;
 	}
 
 	@Override
 	protected void calculateBoxBounds() {
-		boxLeft = xLabel + GAP_X;
+		boxLeft = xLabel + LABEL_COMBO_GAP;
 		boxTop = yLabel;
 		boxWidth = getPreferredSize().getWidth();
 		boxHeight = getPreferredSize().getHeight();
@@ -559,9 +555,8 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	private void drawOptions(GGraphics2D g2) {
 
 		g2.setPaint(GColor.WHITE);
-		int optHeight = drawOptionLines(g2, 0, 0)
-				+ OPTIONBOX_TEXT_MARGIN_BOTTOM;
-		int optTop = boxTop + boxHeight + OPTIONBOX_GAP;
+		int optHeight = optionsHeight + OPTIONBOX_TEXT_MARGIN_BOTTOM;
+		int optTop = boxTop + boxHeight + OPTIONBOX_COMBO_GAP;
 
 		g2.fillRect(boxLeft, optTop, boxWidth, optHeight);
 
@@ -575,29 +570,55 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		drawOptionLines(g2, textLeft, rowTop);
 	}
 
-	private int drawOptionLines(GGraphics2D g2, int left, int top) {
-		int height = 0;
-		int rowTop = top;
+	private int drawTextLine(GGraphics2D g2, int left, int top, String text) {
+		int w = 0;
+		int h = 0;
 		int fontHeight = getMultipliedFontSize();
+
+		if (isLatexString(text)) {
+			GDimension d = drawLatex(g2, geoList, getLabelFont(), text, left,
+					top);
+			w = d.getWidth();
+			h = d.getHeight();
+
+		} else {
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
+					left, top, false, false);
+			w = g2.getFontRenderContext().measureTextWidth(text,
+					getLabelFont());
+
+			h = fontHeight;
+
+		}
+
+		if (w > optionsWidth) {
+			optionsWidth = w;
+		}
+		return h;
+	}
+
+	private void drawOptionLines(GGraphics2D g2, int left, int top) {
+		optionsWidth = 0;
+		optionsHeight = 0;
+		int rowTop = top;
 		for (int i = 0; i < geoList.size(); i++) {
 			String text = geoList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
-			if (isLatexString(text)) {
-				GDimension d = drawLatex(g2, geoList, getLabelFont(), text,
-						left, rowTop);
-				rowTop += d.getHeight();
-				height += d.getHeight();
 
-			} else {
-				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-						text, left,
-						rowTop, false, false);
-				rowTop += fontHeight;
-				height += fontHeight;
 
+			int h = drawTextLine(g2, left, rowTop, text);
+			optionsHeight += h;
+			rowTop += h;
+			if (i == geoList.getSelectedIndex()) {
+				selectedText = text;
+				selectedHeight = h;
 			}
 		}
-		return height;
+		optionsWidth += 2 * COMBO_TEXT_MARGIN + getTriangleControlWidth();
+	}
+
+	private int getTriangleControlWidth() {
+		return TRIANGLE_CONTROL_WIDTH;
 	}
 
 	int getMultipliedFontSize() {
@@ -612,7 +633,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			@Override
 			public int getWidth() {
-				return getMultipliedFontSize() * maxLength;
+				return optionsWidth;// getMultipliedFontSize() * maxLength;
 			}
 
 			@Override
