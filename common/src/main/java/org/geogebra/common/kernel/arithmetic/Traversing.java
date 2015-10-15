@@ -458,7 +458,7 @@ public interface Traversing {
 							Feature.AV_EXTENSIONS)
 							|| !kernel.getApplication().showView(
 									App.VIEW_ALGEBRA)
-							|| !kernel.getApplication().isHTML5Applet();
+							|| kernel.getApplication().showAutoCreatedSlidersInEV();
 					GeoNumeric.setSliderFromDefault(slider, false, visible);
 
 				}

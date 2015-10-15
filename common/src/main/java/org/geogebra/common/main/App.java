@@ -4064,4 +4064,11 @@ public abstract class App implements UpdateSelection {
 	public DropDownList newDropDownList() {
 		return null;
 	};
+
+	/**
+	 * @return if sliders are displayed in the AV
+	 */
+	public boolean showAutoCreatedSlidersInEV() {
+		return true;
+	}
 }
