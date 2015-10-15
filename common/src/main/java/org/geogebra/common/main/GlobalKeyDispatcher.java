@@ -788,7 +788,9 @@ public abstract class GlobalKeyDispatcher {
 		ConstructionDefaults cd = app.getKernel().getConstruction()
 				.getConstructionDefaults();
 		cd.setDefaultLineThickness(cd.getDefaultLineThickness() + incr);
-		cd.setDefaultPointSize(cd.getDefaultPointSize() + incr);
+		cd.setDefaultPointSize(cd.getDefaultPointSize() + incr,
+				cd.getDefaultDependentPointSize()
+				+ incr);
 		cd.setDefaultAngleSize(cd.getDefaultAngleSize() + angleSizeIncr);
 		// blackWhiteMode: set defaults for new GeoElements
 		cd.setBlackWhiteMode(blackWhiteMode);

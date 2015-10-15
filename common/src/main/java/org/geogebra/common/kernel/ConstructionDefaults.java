@@ -223,6 +223,7 @@ public class ConstructionDefaults {
 
 	private int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+	private int dependentPointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
 	private int angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private float filling = DEFAULT_POLYGON_ALPHA;
 
@@ -263,7 +264,6 @@ public class ConstructionDefaults {
 		// free point
 		GeoPoint freePoint = new GeoPoint(cons);
 		// freePoint.setLocalVariableLabel(app.getPlain("Point") + strFree);
-		freePoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		freePoint.setLocalVariableLabel("Point" + strFree);
 		freePoint.setObjColor(colPoint);
@@ -274,18 +274,16 @@ public class ConstructionDefaults {
 		// dependent point
 		GeoPoint depPoint = new GeoPoint(cons);
 		// depPoint.setLocalVariableLabel(app.getPlain("Point") + strDependent);
-		depPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point" + strDependent);
 		depPoint.setObjColor(colDepPoint);
-		depPoint.setPointSize(pointSize);
+		depPoint.setPointSize(dependentPointSize);
 		depPoint.setDefaultGeoType(DEFAULT_POINT_DEPENDENT);
 		defaultGeoElements.put(DEFAULT_POINT_DEPENDENT, depPoint);
 
 		// point on path
 		GeoPoint pathPoint = new GeoPoint(cons);
 		// pathPoint.setLocalVariableLabel(app.getPlain("PointOn"));
-		pathPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("PointOn");
 		pathPoint.setObjColor(colPathPoint);
@@ -296,16 +294,15 @@ public class ConstructionDefaults {
 		// point in region
 		GeoPoint regionPoint = new GeoPoint(cons);
 		// regionPoint.setLocalVariableLabel(app.getPlain("PointOn"));
-		regionPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("PointInRegion");
 		regionPoint.setObjColor(colRegionPoint);
+		regionPoint.setPointSize(pointSize);
 		regionPoint.setDefaultGeoType(DEFAULT_POINT_IN_REGION);
 		defaultGeoElements.put(DEFAULT_POINT_IN_REGION, regionPoint);
 
 		// complex number (handled like a point)
 		GeoPoint complexPoint = new GeoPoint(cons);
-		complexPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		complexPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		complexPoint.setLocalVariableLabel("PointOn");
 		complexPoint.setObjColor(colComplexPoint);
@@ -827,11 +824,12 @@ public class ConstructionDefaults {
 	public void resetDefaults() {
 		lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+		dependentPointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
 		angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 		filling = DEFAULT_POLYGON_ALPHA;
 
 		setDefaultLineThickness(lineThickness);
-		setDefaultPointSize(pointSize);
+		setDefaultPointSize(pointSize, dependentPointSize);
 		setDefaultAngleSize(angleSize);
 		setDefaultFilling(filling);
 	}
@@ -850,6 +848,14 @@ public class ConstructionDefaults {
 	 */
 	public int getDefaultPointSize() {
 		return pointSize;
+	}
+
+	/**
+	 * 
+	 * @return current default point size
+	 */
+	public int getDefaultDependentPointSize() {
+		return dependentPointSize;
 	}
 
 	/**
@@ -882,12 +888,16 @@ public class ConstructionDefaults {
 	}
 
 	/**
-	 * @param pointSize0
-	 *            new default point size
+	 * @param pointSizeDraggable
+	 *            new default point size for free / semi-free points
+	 * @param pointSizeDependent
+	 *            new default point size for dependent points
 	 */
-	public void setDefaultPointSize(int pointSize0) {
+	public void setDefaultPointSize(int pointSizeDraggable,
+			int pointSizeDependent) {
 
-		this.pointSize = Math.max(pointSize0, 1);
+		this.pointSize = Math.max(pointSizeDraggable, 1);
+		this.dependentPointSize = Math.max(pointSizeDependent, 1);
 
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
@@ -895,7 +905,10 @@ public class ConstructionDefaults {
 
 			switch (geo.getGeoClassType()) {
 			case POINT:
-				((GeoPoint) geo).setPointSize(this.pointSize);
+
+				((GeoPoint) geo).setPointSize(geo.isMoveable() ? this.pointSize
+						: this.dependentPointSize);
+
 				break;
 
 			case LIST:

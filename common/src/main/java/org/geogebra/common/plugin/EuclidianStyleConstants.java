@@ -21,7 +21,15 @@ public class EuclidianStyleConstants {
 
 	public static final int RIGHT_ANGLE_STYLE_L = 3; // Belgian style
 
+	/**
+	 * size for draggable points ie free points and point on path/region
+	 */
 	public static final int DEFAULT_POINT_SIZE = 5;
+
+	/**
+	 * size for non-draggable points eg intersections
+	 */
+	public static final int DEFAULT_POINT_SIZE_DEPENDENT = 3;
 
 	public static final int DEFAULT_LINE_THICKNESS = 2;
 
