@@ -161,10 +161,7 @@ public abstract class CanvasDrawable extends Drawable {
 			res = (x > left && x < right && y > top && y < bottom)
 					|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
 							&& y < yLabel + labelSize.y);
-			;
-			if (res) {
-				App.debug("[CD] hit");
-			}
+
 		} else {
 			res = box.getBounds().contains(x, y);
 		}

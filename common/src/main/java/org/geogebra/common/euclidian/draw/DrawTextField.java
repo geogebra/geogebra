@@ -185,6 +185,9 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		 */
 		public void focusLost(FocusEvent e) {
 			getView().getEuclidianController().textfieldHasFocus(false);
+			if (isDrawingOnCanvas()) {
+				hideWidget();
+			}
 
 			// make sure (expensive) update doesn't happen unless needed
 			// also caused problems when Object Properties opened
@@ -464,7 +467,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void showWidget() {
-		App.debug("[CandvasDrawable] TextField show");
+		// App.debug("[CandvasDrawable] TextField show");
 		textField.setVisible(true);
 		if (!view.getEuclidianController().isTemporaryMode()) {
 			textField.requestFocus();
@@ -473,7 +476,7 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void hideWidget() {
-		App.debug("[CandvasDrawable] TextField hide");
+		// App.debug("[CandvasDrawable] TextField hide");
 		textField.setVisible(false);
 	}
 }
