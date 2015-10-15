@@ -16,6 +16,8 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Test;
+import org.geogebra.common.kernel.prover.AlgoAreCongruent;
+import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.main.App;
 
 /**
@@ -69,6 +71,14 @@ public class Assignment {
 			0.375f, 0.4f, 0.5f, 0.6f, 0.625f, (2f / 3), 0.7f, 0.75f, 0.8f,
 			(5f / 6), 0.875f, 0.9f, 1f };
 
+	/**
+	 * Possible values for CheckOperations
+	 */
+	public final static String[] CHECK_OPERATIONS = { "==", "AreEqual",
+			"AreCongruent" };
+
+	private String checkOp;
+
 	private Inspecting geoInspector;
 
 	private Macro macro;
@@ -87,6 +97,12 @@ public class Assignment {
 	private HashSet<Test> uniqueInputTypes;
 	private TreeSet<GeoElement> randomizeablePredecessors;
 
+	private Construction cons;
+
+	private AlgoAreEqual algoEqual;
+
+	private AlgoAreCongruent algoCongruent;
+
 	/**
 	 * @param macro
 	 *            the macro (user defined tool) corresponding to the assignment
@@ -100,6 +116,7 @@ public class Assignment {
 
 		fractionForResult = new HashMap<Result, Float>();
 		hintForResult = new HashMap<Result, String>();
+		checkOp = "==";
 
 		geoInspector = new Inspecting() {
 
@@ -116,12 +133,13 @@ public class Assignment {
 	/**
 	 * Exhaustive Testing of the Assignment
 	 * 
-	 * @param cons
+	 * @param construction
 	 *            the construction object of the kernel
 	 * 
 	 * @return {@link Result} of the check
 	 */
-	public Result checkAssignment(Construction cons) {
+	public Result checkAssignment(Construction construction) {
+		this.cons = construction;
 		res = Result.UNKNOWN;
 		callsToEqual = 0;
 		callsToCheckTypes = 0;
@@ -148,7 +166,7 @@ public class Assignment {
 		if (macro.getMacroOutput().length > possibleOutputGeos.size()) {
 			res = Result.WRONG_OUTPUT_TYPE;
 		} else {
-			checkCorrectness(possibleOutputGeos, cons);
+			checkCorrectness(possibleOutputGeos);
 		}
 		App.debug("Checking on " + macro.getToolName()
 				+ " completed. Comparisons of Objects: " + callsToEqual);
@@ -159,8 +177,7 @@ public class Assignment {
 		return res;
 	}
 
-	private void checkCorrectness(TreeSet<GeoElement> possibleOutputGeos,
-			Construction cons) {
+	private void checkCorrectness(TreeSet<GeoElement> possibleOutputGeos) {
 
 		PermutationOfGeOElementsUtil outputPermutationUtil = new PermutationOfGeOElementsUtil(
 				possibleOutputGeos.toArray(new GeoElement[0]),
@@ -174,14 +191,14 @@ public class Assignment {
 			if (possibleInputGeos.size() < macro.getInputTypes().length) {
 				res = Result.NOT_ENOUGH_INPUTS;
 			} else {
-				checkPermutationsOfInputs(cons, possibleOutputPermutation,
-						partRes, possibleInputGeos);
+				checkPermutationsOfInputs(possibleOutputPermutation, partRes,
+						possibleInputGeos);
 			}
 			possibleOutputPermutation = outputPermutationUtil.next();
 		}
 	}
 
-	private void checkPermutationsOfInputs(Construction cons,
+	private void checkPermutationsOfInputs(
 			GeoElement[] possibleOutputPermutation, TreeSet<Result> partRes,
 			TreeSet<GeoElement> possibleInputGeos) {
 		GeoElement[] input;
@@ -232,14 +249,25 @@ public class Assignment {
 	private void checkEqualityOfGeos(GeoElement[] input,
 			GeoElement macroOutput, GeoElement possibleOutput[], int i,
 			TreeSet<Result> partRes) {
-		GeoElement saveInput;
 		// TODO Check if we really need to call adjustMoveableOutputs with all
 		// possibleOutputs ie.the array
 		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
 				possibleOutput);
-		partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
-				macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
-				: Result.WRONG);
+		if (checkOp.equals("==")) {
+			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
+					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
+					: Result.WRONG);
+		} else if (checkOp.equals("AreEqual")) {
+			algoEqual = new AlgoAreEqual(cons, macroOutput,
+					possibleOutput[i]);
+			partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+					: Result.WRONG);
+		} else if (checkOp.equals("AreCongruent")) {
+			algoCongruent = new AlgoAreCongruent(cons, macroOutput,
+					possibleOutput[i]);
+			partRes.add(algoCongruent.getResult().getBoolean() ? Result.CORRECT
+					: Result.WRONG);
+		}
 		callsToEqual++;
 		int j = 0;
 		if (!partRes.contains(Result.WRONG)) {
@@ -279,9 +307,17 @@ public class Assignment {
 		// partRes.add(algoEqual.getResult().getBoolean() ?
 		// Result.CORRECT
 		// : Result.WRONG_AFTER_RANDOMIZE);
-		partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
-				macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
-				: Result.WRONG_AFTER_RANDOMIZE);
+		if (checkOp.equals("==")) {
+			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
+					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
+					: Result.WRONG_AFTER_RANDOMIZE);
+		} else if (checkOp.equals("AreEqual")) {
+			partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
+					: Result.WRONG);
+		} else if (checkOp.equals("AreCongruent")) {
+			partRes.add(algoCongruent.getResult().getBoolean() ? Result.CORRECT
+					: Result.WRONG);
+		}
 		callsToEqual++;
 		geoToRandomize.set(saveInput);
 		geoToRandomize.updateCascade();
@@ -513,6 +549,8 @@ public class Assignment {
 		StringUtil.encodeXML(sb, macro.getToolName());
 		sb.append("\" commandName=\"");
 		StringUtil.encodeXML(sb, macro.getCommandName());
+		sb.append("\" checkOperation=\"");
+		StringUtil.encodeXML(sb, getCheckOperation());
 		sb.append("\">\n");
 
 		if (hasHint() || hasFraction()) {
@@ -547,6 +585,14 @@ public class Assignment {
 	 */
 	public void setMacro(Macro newTool) {
 		macro = newTool;
+	}
+
+	public String getCheckOperation() {
+		return checkOp;
+	}
+
+	public void setCheckOperation(String checkOp) {
+		this.checkOp = checkOp;
 	}
 }
 

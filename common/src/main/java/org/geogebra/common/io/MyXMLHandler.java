@@ -2844,6 +2844,13 @@ public class MyXMLHandler implements DocHandler {
 			m = kernel.getMacro(name.replace(" ", ""));
 		}
 		assignment = exercise.addAssignment(m);
+
+		String op = attrs.get("checkOperation");
+		if (op == null) {
+			assignment.setCheckOperation("==");
+		} else {
+			assignment.setCheckOperation(op);
+		}
 	}
 
 	private void endExerciseElement(String eName) {

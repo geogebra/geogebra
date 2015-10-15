@@ -175,8 +175,9 @@ public class Exercise {
 		for (int i = 0; i < assignments.size() && res; i++) {
 			res = assignments.get(i).getTool()
 					.equals(app.getKernel().getAllMacros().get(i))
-					&& !(assignments.get(i).hasHint() || assignments.get(i)
-							.hasFraction());
+					&& !(assignments.get(i).hasHint()
+							|| assignments.get(i).hasFraction() || !assignments
+							.get(i).getCheckOperation().equals("=="));
 		}
 		return res;
 	}

@@ -7,14 +7,19 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.event.logical.shared.AttachEvent.Handler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -82,6 +87,9 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
 		mainWidget.add(hintsAndFractiosforResult);
 
+		mainWidget.add(new Label(app.getLocalization().getCommand("Command")));
+		mainWidget.add(getCheckOpLB(assignment));
+
 		mainWidget.add(bottomWidget = new FlowPanel());
 		bottomWidget.setStyleName("DialogButtonPanel");
 
@@ -90,6 +98,37 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		bottomWidget.add(btApply);
+	}
+
+	private ListBox getCheckOpLB(final Assignment assignment1) {
+		final ListBox checkOperation = new ListBox();
+		checkOperation.setMultipleSelect(false);
+		for (String op : Assignment.CHECK_OPERATIONS) {
+			checkOperation.addItem(app.getLocalization().getCommand(op), op);
+		}
+
+		checkOperation.addChangeHandler(new ChangeHandler() {
+
+			public void onChange(ChangeEvent event) {
+				assignment1.setCheckOperation(checkOperation
+						.getValue(checkOperation.getSelectedIndex()));
+			}
+		});
+
+		checkOperation.addAttachHandler(new Handler() {
+
+			public void onAttachOrDetach(AttachEvent event) {
+				int index = 0;
+				while (index < Assignment.CHECK_OPERATIONS.length
+						&& Assignment.CHECK_OPERATIONS[index] != assignment1
+								.getCheckOperation()) {
+					index++;
+				}
+				checkOperation.setSelectedIndex(index);
+			}
+		});
+
+		return checkOperation;
 	}
 
 	private void createHintsAndFractionsTable() {
