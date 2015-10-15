@@ -191,8 +191,7 @@ public class Assignment {
 
 		input = inputPermutationUtil.next();
 		boolean solutionFound = false;
-		while (input != null && !solutionFound
-				&& !(res == Result.WRONG_AFTER_RANDOMIZE)) {
+		while (input != null && !solutionFound) {
 			partRes.clear();
 			if (areTypesOK(input)) {
 				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input);
@@ -235,34 +234,12 @@ public class Assignment {
 			TreeSet<Result> partRes) {
 		GeoElement saveInput;
 		// TODO Check if we really need to call adjustMoveableOutputs with all
-		// possibleOutpurs ie.the array
+		// possibleOutputs ie.the array
 		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
 				possibleOutput);
 		partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
 				macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
 				: Result.WRONG);
-		// if (macro.getKernel().getApplication().has(Feature.EXERCISES)) {
-		// GeoElement root = new GeoBoolean(macro.getKernel()
-		// .getConstruction());
-		// AlgoAreEqual algoEqual = new AlgoAreEqual(macro.getKernel()
-		// .getConstruction(), null, macroOutput, possibleOutput);
-		// root.setParentAlgorithm(algoEqual);
-		// AlgoProve ap = new AlgoProve(macro.getKernel().getConstruction(),
-		// null, root);
-		// ap.compute();
-		// GeoElement[] o = ap.getOutput();
-		// GeoBoolean ans = ((GeoBoolean) o[0]);
-		//
-		// if (ans.isDefined()) {
-		// App.debug("Proveresult: " + ans.getBoolean());
-		// } else {
-		// App.debug("Proveresult: Undefined");
-		// }
-		// root.remove();
-		// o[0].remove();
-		// }
-		// partRes.add(algoEqual.getResult().getBoolean() ? Result.CORRECT
-		// : Result.WRONG);
 		callsToEqual++;
 		int j = 0;
 		if (!partRes.contains(Result.WRONG)) {
@@ -579,7 +556,7 @@ public class Assignment {
  * Utility Class to permute the array of GeoElements
  * 
  * @author Eyal Schneider, http://stackoverflow.com/a/2799190
- * @author Adaption: Christoph Reinisch
+ * @author Adaption: Christoph Stadlbauer
  */
 class PermutationOfGeOElementsUtil {
 	private GeoElement[] arr;
