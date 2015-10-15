@@ -500,7 +500,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 	protected void drawWidget(GGraphics2D g2) {
 		// just measuring
 		g2.setPaint(GColor.WHITE);
-		drawOptionLines(g2, 0, 0);
+		drawOptionLines(g2, NO_DRAW, NO_DRAW);
 
 		String labelText = getLabelText();
 		boolean latexLabel = measureLabel(g2, geoList, labelText);
@@ -528,8 +528,7 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 			drawLabel(g2, geoList, labelText);
 		}
 
-		// EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-		// selectedText, textLeft, textBottom, false, false);
+		// Draw the selected line
 		drawTextLine(g2, textLeft, textBottom, selectedText);
 
 		drawOptions(g2);
@@ -578,8 +577,18 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 		int left = textLeft;
 		int fontHeight = getMultipliedFontSize();
 		if (isLatexString(text)) {
-			GDimension d = drawLatex(g2, geoList, getLabelFont(), text, left,
-					top);
+			GDimension d = null;
+			if (left == TEXT_CENTER) {
+				g2.setPaint(GColor.WHITE);
+				d = drawLatex(g2, geoList, getLabelFont(), text, NO_DRAW,
+						NO_DRAW);
+				left = boxLeft + (boxWidth - d.getWidth()) / 2;
+				g2.setPaint(geo.getObjectColor());
+
+			}
+
+			d = drawLatex(g2, geoList, getLabelFont(), text, left, top);
+
 			w = d.getWidth();
 			h = d.getHeight();
 

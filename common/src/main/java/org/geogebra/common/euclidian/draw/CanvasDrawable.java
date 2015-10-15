@@ -13,6 +13,8 @@ import org.geogebra.common.main.App;
 
 public abstract class CanvasDrawable extends Drawable {
 	private static final int HIGHLIGHT_MARGIN = 2;
+	public static final int NO_DRAW = Integer.MIN_VALUE;
+
 	private boolean drawingOnCanvas;
 	private GFont labelFont;
 	GPoint labelSize = new GPoint(0, 0);
@@ -54,13 +56,14 @@ public abstract class CanvasDrawable extends Drawable {
 			// no drawing, just measuring.
 			if (latex) {
 				GDimension d = drawLatex(g2, geo0, getLabelFont(), text,
-						xLabel, yLabel);
+						NO_DRAW, NO_DRAW);
 				labelSize.x = d.getWidth();
 				labelSize.y = d.getHeight();
 			} else {
 				setLabelSize(EuclidianStatic
 
-				.drawIndexedString(view.getApplication(), g2, text, 0, 0,
+				.drawIndexedString(view.getApplication(), g2, text, NO_DRAW,
+						NO_DRAW,
 						false, false, false));
 			}
 			calculateBoxBounds(latex);
