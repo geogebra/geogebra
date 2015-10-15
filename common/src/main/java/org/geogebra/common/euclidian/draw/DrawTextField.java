@@ -441,25 +441,6 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 		view.remove(box);
 	}
 
-
-
-	public void showIntputField(boolean show) {
-		if (!isDrawingOnCanvas()) {
-			return;
-		}
-		if (show) {
-			textField.setVisible(true);
-			if (!view.getEuclidianController().isTemporaryMode()) {
-				textField.requestFocus();
-			}
-
-		} else {
-			textField.setVisible(false);
-		}
-		box.setVisible(show);
-	}
-
-
 	/**
 	 * @param str
 	 *            input string
@@ -479,5 +460,20 @@ public class DrawTextField extends CanvasDrawable implements RemoveNeeded {
 	 */
 	public GLabel getLabel() {
 		return label;
+	}
+
+	@Override
+	protected void showWidget() {
+		App.debug("[CandvasDrawable] TextField show");
+		textField.setVisible(true);
+		if (!view.getEuclidianController().isTemporaryMode()) {
+			textField.requestFocus();
+		}
+	}
+
+	@Override
+	protected void hideWidget() {
+		App.debug("[CandvasDrawable] TextField hide");
+		textField.setVisible(false);
 	}
 }

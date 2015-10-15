@@ -230,4 +230,19 @@ public abstract class CanvasDrawable extends Drawable {
 		this.geo = geo;
 	}
 
+	protected abstract void showWidget();
+
+	protected abstract void hideWidget();
+
+	public void setWidgetVisible(boolean show) {
+		if (!isDrawingOnCanvas()) {
+			return;
+		}
+		if (show) {
+			showWidget();
+		} else {
+			hideWidget();
+		}
+		box.setVisible(show);
+	}
 }

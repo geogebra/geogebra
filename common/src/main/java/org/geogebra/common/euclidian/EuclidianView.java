@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawButton;
 import org.geogebra.common.euclidian.draw.DrawConic;
@@ -31,7 +32,6 @@ import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
-import org.geogebra.common.euclidian.draw.DrawTextField;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
@@ -1635,16 +1635,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if ((d instanceof DrawTextField)
+			if ((d instanceof CanvasDrawable)
 					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d
 							.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
-					((DrawTextField) d).showIntputField(true);
+					((CanvasDrawable) d).setWidgetVisible(true);
 					return true;
-				} else {
-					((DrawTextField) d).showIntputField(false);
 				}
+
+				((CanvasDrawable) d).setWidgetVisible(false);
+
+
 			}
 		}
 

@@ -125,6 +125,9 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 				* geoList.getFontSizeMultiplier());
 		if (isDrawingOnCanvas()) {
 			setLabelFontSize(fontSize);
+			if (geo.doHighlighting() == false) {
+				hideWidget();
+			}
 		}
 		box.setVisible(isVisible);
 
@@ -567,6 +570,18 @@ public final class DrawList extends CanvasDrawable implements RemoveNeeded {
 
 			}
 		};
+	}
+
+	@Override
+	protected void showWidget() {
+		App.debug("[CandvasDrawable] combo show");
+		comboBox.setVisible(true);
+	}
+
+	@Override
+	protected void hideWidget() {
+		App.debug("[CandvasDrawable] combo hide");
+		comboBox.setVisible(false);
 	}
 
 }
