@@ -38,8 +38,10 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 
@@ -1345,16 +1347,21 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	public boolean getVisible(String label, int view) {
-		if (view < 1 || view > 2) {
+		if (view < -1 || view > 2 || view == 0) {
 			return false;
 		}
 		GeoElement geo = kernel.lookupLabel(label);
+		if (geo instanceof GeoAxisND) {
+			EuclidianSettings evs = app.getSettings().getEuclidian(
+					view < 0 ? 3 : view);
+			return evs.getShowAxis(((GeoAxisND) geo).getType());
+		}
 		if (geo == null) {
 			return false;
 		}
 
-		return geo.isVisibleInView(view == 1 ? App.VIEW_EUCLIDIAN
-				: App.VIEW_EUCLIDIAN2);
+		return geo.isVisibleInView(view == -1 ? App.VIEW_EUCLIDIAN3D
+				: (view == 1 ? App.VIEW_EUCLIDIAN : App.VIEW_EUCLIDIAN2));
 
 	}
 
