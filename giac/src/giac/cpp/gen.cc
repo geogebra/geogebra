@@ -3677,8 +3677,12 @@ namespace giac {
     if (!complex_mode(contextptr)){ 
       if (u==at_ln)
 	return real_abs(s,contextptr);
-      if (!has_i(s) && (u==at_exp || u==at_sqrt))
-	return s;
+      if (!has_i(s)){
+	if (u==at_exp || u==at_sqrt)
+	  return s;
+	if (u==at_pow && f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->back()==plus_one_half)
+	  return s;
+      }
     }
     else {
       if (do_lnabs(contextptr) && u==at_ln)
