@@ -337,28 +337,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				MyList listOfVars = (MyList) args.get(1).getLeft();
 				for (int k = 0; k < listOfEqus.size(); k++) {
 					// get vars of current equation
-					HashSet<GeoElement> varsInEqu = listOfEqus
-							.getListElement(k).getVariables();
-					Iterator<GeoElement> it = varsInEqu.iterator();
-					boolean contains = false;
-					// check if current equation contains other vars as
-					// parameters
-					while (it.hasNext()) {
-						GeoElement var = it.next();
-						for (int i = 0; i < listOfVars.size(); i++) {
-							if (listOfVars
-									.getListElement(i)
-									.toString(StringTemplate.defaultTemplate)
-									.equals(var
-											.toString(StringTemplate.defaultTemplate))) {
-								contains = true;
-								break;
-							}
-						}
-						if (contains) {
-							break;
-						}
-					}
+
+					// 2 = 2 should be handled as equation, not assumption
+					boolean contains = isEquation(listOfEqus.getListElement(k),
+							listOfVars);
+
 					// if contains other vars as parameters
 					// that means that the current equation is an assumption
 					if (!contains) {
@@ -666,6 +649,37 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private static boolean isEquation(ExpressionValue listElement,
+			MyList listOfVars) {
+		// TODO Auto-generated method stub
+		boolean contains = true;
+		HashSet<GeoElement> varsInEqu = listElement.getVariables();
+		if (varsInEqu != null) {
+			contains = false;
+			Iterator<GeoElement> it = varsInEqu.iterator();
+
+			// check if current equation contains other vars as
+			// parameters
+			while (it.hasNext()) {
+				GeoElement var = it.next();
+				for (int i = 0; i < listOfVars.size(); i++) {
+					if (listOfVars
+							.getListElement(i)
+							.toString(StringTemplate.defaultTemplate)
+							.equals(var
+									.toString(StringTemplate.defaultTemplate))) {
+						contains = true;
+						break;
+					}
+				}
+				if (contains) {
+					break;
+				}
+			}
+		}
+		return contains;
 	}
 
 	private static String switchVarsToSolutions(ArrayList<ExpressionNode> args,
