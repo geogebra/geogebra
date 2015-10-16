@@ -395,7 +395,7 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 
 	public void uploadWorksheet(ArrayList<Macro> macros) {
 		// create new exporter
-		org.geogebra.desktop.export.GeoGebraTubeExportDesktop exporter = new org.geogebra.desktop.export.GeoGebraTubeExportDesktop(
+		org.geogebra.desktop.export.GeoGebraTubeExportD exporter = new org.geogebra.desktop.export.GeoGebraTubeExportD(
 				app);
 
 		exporter.uploadWorksheet(macros);

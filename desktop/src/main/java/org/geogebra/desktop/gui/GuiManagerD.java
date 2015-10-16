@@ -87,7 +87,7 @@ import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.export.pstricks.PstricksFrame;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -1087,7 +1087,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 
-		Component invoker = ((EuclidianViewInterfaceDesktop) view).getJPanel();
+		Component invoker = ((EuclidianViewInterfaceD) view).getJPanel();
 
 		if (!geos.isEmpty() && app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
@@ -2988,7 +2988,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 			EuclidianViewInterfaceCommon view,
 			org.geogebra.common.awt.GPoint mouseLoc) {
 		showPopupMenu(selectedGeos,
-				((EuclidianViewInterfaceDesktop) view).getJPanel(), mouseLoc);
+				((EuclidianViewInterfaceD) view).getJPanel(), mouseLoc);
 
 	}
 

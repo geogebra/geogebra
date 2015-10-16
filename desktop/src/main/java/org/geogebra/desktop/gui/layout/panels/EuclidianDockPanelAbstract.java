@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.layout.DockPanel;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 
@@ -105,7 +105,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel implements or
 			panel = new JPanel(new BorderLayout());
 
 			panel.add(
-((EuclidianViewInterfaceDesktop) getEuclidianView())
+((EuclidianViewInterfaceD) getEuclidianView())
 					.getJPanel(),
 					BorderLayout.CENTER);
 

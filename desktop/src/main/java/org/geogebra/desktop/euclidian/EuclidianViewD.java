@@ -63,7 +63,7 @@ import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.MyImageD;
@@ -75,7 +75,7 @@ import org.geogebra.desktop.main.AppD;
  * @author Markus Hohenwarter
  */
 public class EuclidianViewD extends EuclidianView implements
-		EuclidianViewInterfaceDesktop, Printable {
+		EuclidianViewInterfaceD, Printable {
 
 	/**
 	 * Rendering hints for the graphics

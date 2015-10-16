@@ -31,10 +31,10 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExportDesktop extends
+public class GeoGebraTubeExportD extends
 		org.geogebra.common.export.GeoGebraTubeExport {
 
-	public GeoGebraTubeExportDesktop(App app) {
+	public GeoGebraTubeExportD(App app) {
 		super(app);
 	}
 

@@ -39,7 +39,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextField;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -202,7 +202,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 					exportToEVAction);
 			((PlotPanelEuclidianViewD) plotPanel).setMouseEnabled(true, true);
 			((PlotPanelEuclidianViewD) plotPanel).setMouseMotionEnabled(true);
-			((EuclidianViewInterfaceDesktop) plotPanel).setBorder(BorderFactory
+			((EuclidianViewInterfaceD) plotPanel).setBorder(BorderFactory
 					.createEmptyBorder());
 
 			// plot label panel
@@ -214,7 +214,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			// plot panel with label field below
 			plotPanelPlus = new JPanel(new BorderLayout());
 			plotPanelPlus.add(
-					((EuclidianViewInterfaceDesktop) plotPanel).getJPanel(),
+					((EuclidianViewInterfaceD) plotPanel).getJPanel(),
 					BorderLayout.CENTER);
 			plotPanelPlus.add(plotLabelPanel, BorderLayout.SOUTH);
 

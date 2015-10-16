@@ -64,7 +64,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.gui.FileDropTargetListener;
@@ -936,7 +936,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						File file = new File(filename + i + "." + extension);
 
 						GraphicExportDialog.export(extension,
-								(EuclidianViewInterfaceDesktop) ev, file,
+								(EuclidianViewInterfaceD) ev, file,
 								transparent, dpi, exportScale, textAsShapes,
 								useEMFplus, pixelWidth, pixelHeight, app);
 

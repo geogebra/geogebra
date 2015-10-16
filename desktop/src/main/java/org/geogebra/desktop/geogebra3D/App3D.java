@@ -43,7 +43,7 @@ import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.GLFactoryD;
@@ -404,7 +404,7 @@ public class App3D extends AppD {
 				maxY / getEuclidianView1().getSelectedHeight());
 
 		if (this.euclidianView3D == null) {
-			return ((EuclidianViewInterfaceDesktop) getActiveEuclidianView())
+			return ((EuclidianViewInterfaceD) getActiveEuclidianView())
 					.getExportImage(scale);
 		}
 
@@ -415,7 +415,7 @@ public class App3D extends AppD {
 					.getExportImage();
 		}
 
-		return ((EuclidianViewInterfaceDesktop) getActiveEuclidianView())
+		return ((EuclidianViewInterfaceD) getActiveEuclidianView())
 				.getExportImage(scale);
 	}
 

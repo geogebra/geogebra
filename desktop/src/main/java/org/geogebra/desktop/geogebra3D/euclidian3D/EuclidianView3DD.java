@@ -36,7 +36,7 @@ import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.EuclidianViewJPanel;
 import org.geogebra.desktop.euclidian.MyZoomerD;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererD;
@@ -53,7 +53,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  */
 public class EuclidianView3DD extends EuclidianView3D implements
-		EuclidianViewInterfaceDesktop {
+		EuclidianViewInterfaceD {
 
 	/** Java component for this view */
 	protected EuclidianViewJPanel evjpanel;

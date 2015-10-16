@@ -161,8 +161,8 @@ import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
-import org.geogebra.desktop.export.GeoGebraTubeExportDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
+import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.FactoryD;
@@ -2876,7 +2876,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// Minimal applet case: return only the center panel with the EV
 		applicationPanel.add(
-				((EuclidianViewInterfaceDesktop) euclidianView).getJPanel(),
+				((EuclidianViewInterfaceD) euclidianView).getJPanel(),
 				BorderLayout.CENTER);
 		centerPanel.add(applicationPanel, BorderLayout.CENTER);
 		return applicationPanel;
@@ -3304,7 +3304,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		mainComp.setCursor(waitCursor);
 
 		if (euclidianView != null) {
-			((EuclidianViewInterfaceDesktop) getActiveEuclidianView())
+			((EuclidianViewInterfaceD) getActiveEuclidianView())
 					.setCursor(waitCursor);
 		}
 
@@ -4844,7 +4844,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public void uploadToGeoGebraTube() {
-		GeoGebraTubeExportDesktop ggbtube = new GeoGebraTubeExportDesktop(this);
+		GeoGebraTubeExportD ggbtube = new GeoGebraTubeExportD(this);
 		ggbtube.uploadWorksheet(null);
 	}
 

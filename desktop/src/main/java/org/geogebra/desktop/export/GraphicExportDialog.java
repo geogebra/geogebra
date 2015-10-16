@@ -55,7 +55,7 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.epsgraphics.ColorMode;
 import org.geogebra.desktop.gui.util.FileTransferable;
 import org.geogebra.desktop.main.AppD;
@@ -139,11 +139,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		initGUI();
 	}
 
-	private EuclidianViewInterfaceDesktop getEuclidianView() {
+	private EuclidianViewInterfaceD getEuclidianView() {
 		if (specifiedEuclidianView != null) {
 			return specifiedEuclidianView;
 		}
-		return (EuclidianViewInterfaceDesktop) app.getActiveEuclidianView();
+		return (EuclidianViewInterfaceD) app.getActiveEuclidianView();
 	}
 
 	@Override
@@ -787,7 +787,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		try {
 			// draw graphics view into image
-			EuclidianViewInterfaceDesktop ev = getEuclidianView();
+			EuclidianViewInterfaceD ev = getEuclidianView();
 
 			exportPNG(ev, file, transparent, getDPI(), exportScale, exportToClipboard);
 
@@ -1079,7 +1079,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param exportToClipboard says if exports to clipboard
 	 * 	
 	 */
-	public static void exportPNG(EuclidianViewInterfaceDesktop ev, File file,
+	public static void exportPNG(EuclidianViewInterfaceD ev, File file,
 			boolean transparent, int dpi, double exportScale, boolean exportToClipboard) {
 		
 		ev.exportImagePNG(exportScale, transparent, dpi, file, exportToClipboard);
@@ -1087,7 +1087,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	}
 
 	public static void export(String extension,
-			EuclidianViewInterfaceDesktop ev, File file,
+			EuclidianViewInterfaceD ev, File file,
 			boolean transparent, int dpi, double exportScale,
 			boolean textAsShapes, boolean useEMFplus, int pixelWidth,
 			int pixelHeight, AppD app) {

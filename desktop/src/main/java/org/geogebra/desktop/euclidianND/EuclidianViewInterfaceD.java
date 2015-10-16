@@ -15,7 +15,7 @@ import org.geogebra.common.euclidian.EuclidianController;
  * @author matthieu
  *
  */
-public interface EuclidianViewInterfaceDesktop {
+public interface EuclidianViewInterfaceD {
 
 	/**
 	 * @return mouse position

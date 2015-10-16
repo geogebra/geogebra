@@ -6,16 +6,16 @@ import java.util.Locale;
 
 import org.geogebra.common.util.NumberFormatAdapter;
 
-public class NumberFormatDesktop extends DecimalFormat implements
+public class NumberFormatD extends DecimalFormat implements
 		NumberFormatAdapter {
 	private static final long serialVersionUID = 1L;
 
-	public NumberFormatDesktop() {
+	public NumberFormatD() {
 		super();
 		this.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 	}
 
-	public NumberFormatDesktop(String pattern, int i) {
+	public NumberFormatD(String pattern, int i) {
 		super(pattern);
 		setMaximumFractionDigits(i);
 		this.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));

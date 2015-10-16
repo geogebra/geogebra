@@ -2,7 +2,7 @@ package org.geogebra.desktop.factories;
 
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.ScientificFormatAdapter;
-import org.geogebra.desktop.util.NumberFormatDesktop;
+import org.geogebra.desktop.util.NumberFormatD;
 import org.geogebra.desktop.util.ScientificFormat;
 
 public class FormatFactoryD extends org.geogebra.common.factories.FormatFactory {
@@ -14,7 +14,7 @@ public class FormatFactoryD extends org.geogebra.common.factories.FormatFactory 
 
 	@Override
 	public NumberFormatAdapter getNumberFormat(int digits) {
-		NumberFormatDesktop ret = new NumberFormatDesktop();
+		NumberFormatD ret = new NumberFormatD();
 		ret.setMaximumFractionDigits(digits);
 		ret.setGroupingUsed(false);
 		return ret;
@@ -22,6 +22,6 @@ public class FormatFactoryD extends org.geogebra.common.factories.FormatFactory 
 
 	@Override
 	public NumberFormatAdapter getNumberFormat(String s, int i) {
-		return new NumberFormatDesktop(s, i);
+		return new NumberFormatD(s, i);
 	}
 }

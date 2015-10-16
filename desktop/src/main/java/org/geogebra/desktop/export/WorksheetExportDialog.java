@@ -118,7 +118,7 @@ public class WorksheetExportDialog extends JDialog {
 						if (kernelChanged)
 							app.storeUndoInfo();
 
-						GeoGebraTubeExportDesktop ggtExport = new GeoGebraTubeExportDesktop(
+						GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(
 								app);
 						ggtExport.uploadWorksheet(null);
 

@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
@@ -183,7 +183,7 @@ public class GuiManager3D extends GuiManagerD {
 		ContextMenuGraphicsWindow3DD popupMenu = new ContextMenuGraphicsWindow3DD(
 				getApp(), p.x, p.y);
 		popupMenu.getWrappedPopup().show(
-				((EuclidianViewInterfaceDesktop) view).getJPanel(), p.x, p.y);
+				((EuclidianViewInterfaceD) view).getJPanel(), p.x, p.y);
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class GuiManager3D extends GuiManagerD {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
 
-		Component invoker = ((EuclidianViewInterfaceDesktop) view).getJPanel();
+		Component invoker = ((EuclidianViewInterfaceD) view).getJPanel();
 
 		Point screenPos = (invoker == null) ? new Point(0, 0) : invoker
 				.getLocationOnScreen();

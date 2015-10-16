@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceDesktop;
+import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.view.data.PlotPanelEuclidianViewD;
@@ -128,7 +128,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		// give the drop target (this EV) the view focus
 		requestViewFocus();
 
-		Point mousePos = ((EuclidianViewInterfaceDesktop) ev)
+		Point mousePos = ((EuclidianViewInterfaceD) ev)
 				.getMousePosition();
 
 		// ------------------------------------------
