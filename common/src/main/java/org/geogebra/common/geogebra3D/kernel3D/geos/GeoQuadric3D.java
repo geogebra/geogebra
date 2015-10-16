@@ -905,6 +905,18 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			type = QUADRIC_NOT_CLASSIFIED;
 		}
 	}
+	
+	private void completeOrthonormalRatioEqualTo1(Coords ev0, Coords ev1,
+			Coords ev2) {
+		// try to keep ev2
+		tmpCoords.setCrossProduct(ev2, ev0);
+		if (!tmpCoords.isZero()) {
+			ev1.setValues(tmpCoords, 3);
+			ev1.normalize();
+		} // else ev1 and ev2 are already orthogonal
+		ev0.setCrossProduct(ev1, ev2);
+		ev0.normalize();
+	}
 
 	private void setHyperboloidEigenvectors() {
 		// mu[2] can't be equal to mu[0] and mu[1] -- not same sign
@@ -917,14 +929,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
 			// eigenval[0] == eigenval[1]
-			// try to keep eigenvecND[0]
-			tmpCoords.setCrossProduct(eigenvecND[2], eigenvecND[0]);
-			if (!tmpCoords.isZero()) {
-				eigenvecND[1].setValues(tmpCoords, 3);
-				eigenvecND[1].normalize();
-			} // else eigenvecND[1] and eigenvecND[2] are already orthogonal
-			eigenvecND[0].setCrossProduct(eigenvecND[1], eigenvecND[2]);
-			eigenvecND[0].normalize();
+			completeOrthonormalRatioEqualTo1(eigenvecND[0], eigenvecND[1],
+					eigenvecND[2]);
 		} else {
 			tmpCoords.setValues(eigenvecND[0], 3);
 			findEigenvector(eigenval[0], eigenvecND[0]);
@@ -1282,17 +1288,23 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			// eigenval[2] of multiplicity 1
 			computeEigenVectorMultiplicity1(matrix, eigenval[2], eigenvec[2]);
 			eigenvec[2].normalize();
-			eigenvec[2].completeOrthonormal3(eigenvec[0], eigenvec[1]);
+			completeOrthonormalRatioEqualTo1(eigenvec[0], eigenvec[1],
+					eigenvec[2]);
+			// eigenvec[2].completeOrthonormal3(eigenvec[0], eigenvec[1]);
 		} else if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[2])) {
 			// eigenval[1] of multiplicity 1
 			computeEigenVectorMultiplicity1(matrix, eigenval[1], eigenvec[1]);
 			eigenvec[1].normalize();
-			eigenvec[1].completeOrthonormal3(eigenvec[2], eigenvec[0]);
+			completeOrthonormalRatioEqualTo1(eigenvec[2], eigenvec[0],
+					eigenvec[1]);
+			// eigenvec[1].completeOrthonormal3(eigenvec[2], eigenvec[0]);
 		} else if (Kernel.isRatioEqualTo1(eigenval[1], eigenval[2])) {
 			// eigenval[0] of multiplicity 1
 			computeEigenVectorMultiplicity1(matrix, eigenval[0], eigenvec[0]);
 			eigenvec[0].normalize();
-			eigenvec[0].completeOrthonormal3(eigenvec[1], eigenvec[2]);
+			completeOrthonormalRatioEqualTo1(eigenvec[1], eigenvec[2],
+					eigenvec[0]);
+			// eigenvec[0].completeOrthonormal3(eigenvec[1], eigenvec[2]);
 		} else {
 			// all eigenvalues of multiplicity 1
 			for (int i = 0; i < 2; i++) {
