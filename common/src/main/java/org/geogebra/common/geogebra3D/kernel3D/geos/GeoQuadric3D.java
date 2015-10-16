@@ -838,18 +838,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		mu[1] = -eigenval[1] / beta;
 		mu[2] = -eigenval[2] / beta;
 
-		// mu[2] can't be equal to mu[0] and mu[1] -- not same sign
-		findEigenvector(eigenval[2], eigenvecND[2]);
-		eigenvecND[2].normalize();
-
-		if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
-			// eigenval[0] == eigenval[1]
-			eigenvecND[2].completeOrthonormal3(eigenvecND[0], eigenvecND[1]);
-		} else {
-			findEigenvector(eigenval[0], eigenvecND[0]);
-			eigenvecND[0].normalize();
-			eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
-		}
+		setHyperboloidEigenvectors();
 
 		// for (int i = 0; i < 3; i++) {
 		// App.debug("\neigenvecND[" + i + "]=\n" + eigenvecND[i]);
@@ -893,22 +882,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		mu[1] = -eigenval[1] / beta;
 		mu[2] = -eigenval[2] / beta;
 
-		// mu[2] can't be equal to mu[0] and mu[1] -- not same sign
-		findEigenvector(eigenval[2], eigenvecND[2]);
-		eigenvecND[2].normalize();
-
-		if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
-			// eigenval[0] == eigenval[1]
-			eigenvecND[2].completeOrthonormal3(eigenvecND[0], eigenvecND[1]);
-		} else {
-			findEigenvector(eigenval[0], eigenvecND[0]);
-			eigenvecND[0].normalize();
-			eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
-		}
-
-		// for (int i = 0; i < 3; i++) {
-		// App.debug("\neigenvecND[" + i + "]=\n" + eigenvecND[i]);
-		// }
+		setHyperboloidEigenvectors();
 
 		// set halfAxes = radius
 		halfAxes[0] = Math.sqrt(-1.0d / mu[0]);
@@ -929,6 +903,50 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			type = QUADRIC_HYPERBOLOID_TWO_SHEETS;
 		} else {
 			type = QUADRIC_NOT_CLASSIFIED;
+		}
+	}
+
+	private void setHyperboloidEigenvectors() {
+		// mu[2] can't be equal to mu[0] and mu[1] -- not same sign
+		tmpCoords.setValues(eigenvecND[2], 3);
+		findEigenvector(eigenval[2], eigenvecND[2]);
+		eigenvecND[2].normalize();
+		if (tmpCoords.dotproduct3(eigenvecND[2]) < 0) {
+			eigenvecND[2].mulInside3(-1);
+		}
+
+		if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
+			// eigenval[0] == eigenval[1]
+			// try to keep eigenvecND[0]
+			tmpCoords.setCrossProduct(eigenvecND[2], eigenvecND[0]);
+			if (!tmpCoords.isZero()) {
+				eigenvecND[1].setValues(tmpCoords, 3);
+				eigenvecND[1].normalize();
+			} // else eigenvecND[1] and eigenvecND[2] are already orthogonal
+			eigenvecND[0].setCrossProduct(eigenvecND[1], eigenvecND[2]);
+			eigenvecND[0].normalize();
+		} else {
+			tmpCoords.setValues(eigenvecND[0], 3);
+			findEigenvector(eigenval[0], eigenvecND[0]);
+			eigenvecND[0].normalize();
+			eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
+			double dot0 = tmpCoords.dotproduct3(eigenvecND[0]);
+			double dot1 = tmpCoords.dotproduct3(eigenvecND[1]);
+			if (Math.abs(dot1) > Math.abs(dot0)) { // swap
+				tmpCoords.setValues(eigenvecND[0], 3);
+				eigenvecND[0].setValues(eigenvecND[1], 3);
+				eigenvecND[1].setValues(tmpCoords, 3);
+				if (dot1 < 0) { // reverse
+					eigenvecND[0].mulInside3(-1);
+				} else {
+					eigenvecND[1].mulInside3(-1);
+				}
+			} else {
+				if (dot0 < 0) { // reverse
+					eigenvecND[0].mulInside3(-1);
+					eigenvecND[1].mulInside3(-1);
+				}
+			}
 		}
 	}
 
@@ -1039,13 +1057,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private void ellipsoid(double beta) {
 
-		mu[0] = -eigenval[0] / beta;
-		mu[1] = -eigenval[1] / beta;
-		mu[2] = -eigenval[2] / beta;
 
 		// sphere
-		if (Kernel.isEqual(mu[0] / mu[1], 1.0)
-				&& Kernel.isEqual(mu[0] / mu[2], 1.0)) {
+		if (Kernel.isEqual(eigenval[0] / eigenval[1], 1.0)
+				&& Kernel.isEqual(eigenval[0] / eigenval[2], 1.0)) {
+
+			mu[0] = -eigenval[0] / beta;
+			mu[1] = -eigenval[1] / beta;
+			mu[2] = -eigenval[2] / beta;
 
 			double r = Math.sqrt(1.0d / mu[0]);
 
@@ -1076,9 +1095,149 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			findEigenvectors();
 
 			// set eigen vecs
-			for (int i = 0; i < 3; i++) {
-				eigenvecND[i].setValues(eigenvec[i], 3);
+			boolean reverse = false;
+			double dot0 = eigenvecND[0].dotproduct3(eigenvec[0]);
+			double dot1 = eigenvecND[0].dotproduct3(eigenvec[1]);
+			double dot2 = eigenvecND[0].dotproduct3(eigenvec[2]);
+			if (Math.abs(dot1) > Math.abs(dot0)) {
+				if (Math.abs(dot2) > Math.abs(dot1)) {
+					// |dot2| > |dot1| & |dot0|: set ND0 to 2
+					eigenvecND[0].setValues(eigenvec[2], 3);
+					double tmp = eigenval[0];
+					eigenval[0] = eigenval[2];
+					if (dot2 < 0) { // reverse
+						eigenvecND[0].mulInside3(-1);
+						reverse = true;
+					}
+					dot0 = eigenvecND[1].dotproduct3(eigenvec[0]);
+					dot1 = eigenvecND[1].dotproduct3(eigenvec[1]);
+					if (Math.abs(dot1) > Math.abs(dot0)) {// set ND1 to 1
+						eigenvecND[1].setValues(eigenvec[1], 3);
+						// set ND2 to 0 (last one)
+						eigenvecND[2].setValues(eigenvec[0], 3);
+						eigenval[2] = tmp;
+						dot0 = dot1;
+						reverse = !reverse;
+					} else {// set ND1 to 0
+						eigenvecND[1].setValues(eigenvec[0], 3);
+						// set ND2 to 1 (last one)
+						eigenvecND[2].setValues(eigenvec[1], 3);
+						eigenval[2] = eigenval[1];
+						eigenval[1] = tmp;
+					}
+					if (dot0 < 0) { // reverse
+						eigenvecND[1].mulInside3(-1);
+						reverse = !reverse;
+					}
+					if (reverse) { // set direct coord sys
+						eigenvecND[2].mulInside3(-1);
+					}
+				} else {
+					// |dot1| > |dot2| & |dot0|: set ND0 to 1
+					eigenvecND[0].setValues(eigenvec[1], 3);
+					double tmp = eigenval[0];
+					eigenval[0] = eigenval[1];
+					if (dot1 < 0) { // reverse
+						eigenvecND[0].mulInside3(-1);
+						reverse = true;
+					}
+					dot0 = eigenvecND[1].dotproduct3(eigenvec[0]);
+					dot2 = eigenvecND[1].dotproduct3(eigenvec[2]);
+					if (Math.abs(dot2) > Math.abs(dot0)) {// set ND1 to 2
+						eigenvecND[1].setValues(eigenvec[2], 3);
+						// set ND2 to 0 (last one)
+						eigenvecND[2].setValues(eigenvec[0], 3);
+						eigenval[1] = eigenval[2];
+						eigenval[2] = tmp;
+						dot0 = dot2;
+					} else {// set ND1 to 0
+						eigenvecND[1].setValues(eigenvec[0], 3);
+						eigenval[1] = tmp;
+						// set ND2 to 2 (last one)
+						eigenvecND[2].setValues(eigenvec[2], 3);
+						reverse = !reverse;
+					}
+					if (dot0 < 0) { // reverse
+						eigenvecND[1].mulInside3(-1);
+						reverse = !reverse;
+					}
+					if (reverse) { // set direct coord sys
+						eigenvecND[2].mulInside3(-1);
+					}
+				}
+			} else {
+				if (Math.abs(dot2) > Math.abs(dot0)) {
+					// |dot2| > |dot1| & |dot0|: set ND0 to 2
+					eigenvecND[0].setValues(eigenvec[2], 3);
+					double tmp = eigenval[0];
+					eigenval[0] = eigenval[2];
+					if (dot2 < 0) { // reverse
+						eigenvecND[0].mulInside3(-1);
+						reverse = true;
+					}
+					dot0 = eigenvecND[1].dotproduct3(eigenvec[0]);
+					dot1 = eigenvecND[1].dotproduct3(eigenvec[1]);
+					if (Math.abs(dot1) > Math.abs(dot0)) {// set ND1 to 1
+						eigenvecND[1].setValues(eigenvec[1], 3);
+						// set ND2 to 0 (last one)
+						eigenvecND[2].setValues(eigenvec[0], 3);
+						eigenval[2] = tmp;
+						dot0 = dot1;
+						reverse = !reverse;
+					} else {// set ND1 to 0
+						eigenvecND[1].setValues(eigenvec[0], 3);
+						// set ND2 to 1 (last one)
+						eigenvecND[2].setValues(eigenvec[1], 3);
+						eigenval[2] = eigenval[1];
+						eigenval[1] = tmp;
+					}
+					if (dot0 < 0) { // reverse
+						eigenvecND[1].mulInside3(-1);
+						reverse = !reverse;
+					}
+					if (reverse) { // set direct coord sys
+						eigenvecND[2].mulInside3(-1);
+					}
+				} else {
+					// |dot0| > |dot2| & |dot1|: set ND0 to 0
+					eigenvecND[0].setValues(eigenvec[0], 3);
+					if (dot0 < 0) { // reverse
+						eigenvecND[0].mulInside3(-1);
+						reverse = true;
+					}
+					dot1 = eigenvecND[1].dotproduct3(eigenvec[1]);
+					dot2 = eigenvecND[1].dotproduct3(eigenvec[2]);
+					if (Math.abs(dot2) > Math.abs(dot1)) {// set ND1 to 2
+						eigenvecND[1].setValues(eigenvec[2], 3);
+						// set ND2 to 1 (last one)
+						eigenvecND[2].setValues(eigenvec[1], 3);
+						double tmp = eigenval[1];
+						eigenval[1] = eigenval[2];
+						eigenval[2] = tmp;
+						reverse = !reverse;
+						dot1 = dot2;
+					} else {// set ND1 to 1
+						eigenvecND[1].setValues(eigenvec[1], 3);
+						// set ND2 to 2 (last one)
+						eigenvecND[2].setValues(eigenvec[2], 3);
+					}
+					if (dot1 < 0) { // reverse
+						eigenvecND[1].mulInside3(-1);
+						reverse = !reverse;
+					}
+					if (reverse) { // set direct coord sys
+						eigenvecND[2].mulInside3(-1);
+					}
+				}
 			}
+			// for (int i = 0; i < 3; i++) {
+			// eigenvecND[i].setValues(eigenvec[i], 3);
+			// }
+
+			// mu
+			mu[0] = -eigenval[0] / beta;
+			mu[1] = -eigenval[1] / beta;
+			mu[2] = -eigenval[2] / beta;
 
 			// set halfAxes = radius
 			for (int i = 0; i < 3; i++) {
