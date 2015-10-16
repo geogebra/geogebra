@@ -147,6 +147,7 @@ import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -1606,8 +1607,8 @@ public class AppD extends App implements KeyEventDispatcher {
 								}
 							}
 						}
-					} else if (ext.equals(FILE_EXT_HTM)
-							|| ext.equals(FILE_EXT_HTML)) {
+					} else if (ext.equals(FileExtensions.HTM.ext)
+							|| ext.equals(FileExtensions.HTML.ext)) {
 						loadBase64File(new File(fileArgument));
 						success = true;
 					} else {

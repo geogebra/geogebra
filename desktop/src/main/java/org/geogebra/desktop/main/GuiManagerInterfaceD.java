@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.util.FileExtensions;
 
 public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
@@ -13,7 +14,8 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	String getToolbarDefinition();
 
-	File showSaveDialog(String fileExtension, File currentFile, String string,
+	File showSaveDialog(FileExtensions fileExtension, File currentFile,
+			String string,
 			boolean b, boolean c);
 
 	void removeFromToolbarDefinition(int i);

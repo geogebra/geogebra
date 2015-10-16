@@ -24,6 +24,7 @@ import javax.swing.JTextArea;
 import org.geogebra.common.export.pstricks.ExportSettings;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.main.AppD;
 
 abstract public class ExportFrame extends JFrame implements ExportSettings {
@@ -64,7 +65,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	private GeoGebraExport ggb;
 	private Localization loc;
 	ListenKey listenKey;
-	protected String fileExtension = AppD.FILE_EXT_TEX;
+	protected FileExtensions fileExtension = FileExtensions.TEX;
 	protected String fileExtensionMsg = "TeX ";
 
 	// definition of the behaviour of the textValues corresponding

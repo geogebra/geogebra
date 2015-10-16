@@ -39,6 +39,7 @@ import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogLi
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.gui.ToolNameIconPanel;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -372,7 +373,7 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 
 		File file = app.getGuiManager()
 				.showSaveDialog(
-						AppD.FILE_EXT_GEOGEBRA_TOOL,
+				FileExtensions.GEOGEBRA_TOOL,
 						null,
 						GeoGebraConstants.APPLICATION_NAME + " "
 								+ loc.getMenu("Tools"), true, false);

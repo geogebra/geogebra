@@ -18,6 +18,8 @@ import java.util.Locale;
 
 import javax.swing.filechooser.FileFilter;
 
+import org.geogebra.common.util.FileExtensions;
+
 /**
  * A convenience implementation of FileFilter that filters out all files except
  * for those type extensions that it knows about.
@@ -40,7 +42,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 
 	// changed to ArrayList as we need an ordered list (want .ggb first)
 	// Michael Borcherds 2010-03-04
-	private ArrayList<String> filters = null;
+	private ArrayList<FileExtensions> filters = null;
 
 	private String description = null;
 	private String fullDescription = null;
@@ -53,7 +55,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 * @see #addExtension
 	 */
 	public MyFileFilter() {
-		filters = new ArrayList<String>();
+		filters = new ArrayList<FileExtensions>();
 	}
 
 	/**
@@ -64,7 +66,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 *            either "ext" or ".ext"
 	 * @see #addExtension
 	 */
-	public MyFileFilter(String extension) {
+	public MyFileFilter(FileExtensions extension) {
 		this(extension, null);
 	}
 
@@ -81,7 +83,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 *
 	 * @see #addExtension
 	 */
-	public MyFileFilter(String extension, String description) {
+	public MyFileFilter(FileExtensions extension, String description) {
 		this();
 		if (extension != null)
 			addExtension(extension);
@@ -100,7 +102,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 *
 	 * @see #addExtension
 	 */
-	public MyFileFilter(String[] filters) {
+	public MyFileFilter(FileExtensions[] filters) {
 		this(filters, null);
 	}
 
@@ -116,7 +118,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 *
 	 * @see #addExtension
 	 */
-	public MyFileFilter(String[] filters, String description) {
+	public MyFileFilter(FileExtensions[] filters, String description) {
 		this();
 		for (int i = 0; i < filters.length; i++) {
 			// add filters one by one
@@ -180,14 +182,12 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 * @param extension
 	 *            either ".ext" or "ext"
 	 */
-	public void addExtension(String extension) {
+	public void addExtension(FileExtensions extension) {
 		if (filters == null) {
-			filters = new ArrayList<String>(5);
+			filters = new ArrayList<FileExtensions>(5);
 		}
-		if (extension.indexOf(".") > -1) {
-			extension = extension.substring(0, extension.lastIndexOf("."));
-		}
-		filters.add(extension.toLowerCase(Locale.US));
+
+		filters.add(extension);
 		fullDescription = null;
 	}
 
@@ -283,7 +283,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 * 
 	 * @return first extension (without ".")
 	 */
-	public String getExtension() {
+	public FileExtensions getExtension() {
 		return filters.get(0);
 	}
 }

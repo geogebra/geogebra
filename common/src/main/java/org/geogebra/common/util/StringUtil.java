@@ -1473,6 +1473,12 @@ public class StringUtil {
 		return toLowerCase(fileName.substring(dotPos + 1));
 	}
 
+	public static FileExtensions getFileExtensionEnum(String fileName) {
+		String ext = getFileExtension(fileName);
+
+		return FileExtensions.get(ext);
+	}
+
 	/**
 	 * @param fileName
 	 *            eg "file.gif"

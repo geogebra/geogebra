@@ -10,7 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import org.geogebra.common.export.pstricks.GeoGebraToPgf;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.FileExtensions;
 
 public class PgfFrame extends ExportFrame {
 	private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@ public class PgfFrame extends ExportFrame {
 
 	public PgfFrame(final GeoGebraToPgf ggb2pgf) {
 		super(ggb2pgf, "GeneratePgf");
-		fileExtension = AppD.FILE_EXT_TEX;
+		fileExtension = FileExtensions.TEX;
 		fileExtensionMsg = "TeX ";
 		initGui();
 	}

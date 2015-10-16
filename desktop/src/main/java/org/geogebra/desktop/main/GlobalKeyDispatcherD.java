@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.KeyCodes;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -293,7 +294,7 @@ public class GlobalKeyDispatcherD extends
 			if (((AppD) app).isSaved() || ((AppD) app).saveCurrentFile()) {
 
 				MyFileFilter fileFilter = new MyFileFilter();
-				fileFilter.addExtension("ggb");
+				fileFilter.addExtension(FileExtensions.GEOGEBRA);
 
 				File[] options = ((AppD) app).getCurrentPath().listFiles(
 						fileFilter);

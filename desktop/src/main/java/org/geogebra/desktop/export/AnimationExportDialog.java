@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.AnimatedGifEncoder;
 import org.geogebra.desktop.main.AppD;
@@ -187,7 +188,7 @@ public class AnimationExportDialog extends JDialog {
 		app.getKernel().getAnimatonManager().stopAnimation();
 
 		File file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
-				"gif", // change to Application.FILE_EXT_GIF
+				FileExtensions.GIF,
 				null, app.getPlain("gif") + " " + app.getMenu("Files"), true,
 				false);
 

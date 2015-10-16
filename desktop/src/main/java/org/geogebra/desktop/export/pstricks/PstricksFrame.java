@@ -9,7 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.FileExtensions;
 
 /**
  * @author Le Coq Loic
@@ -21,7 +21,7 @@ public class PstricksFrame extends ExportFrame {
 	public PstricksFrame(final GeoGebraToPstricks ggb2pst) {
 		super(ggb2pst, "GeneratePstricks");
 		initGui();
-		fileExtension = AppD.FILE_EXT_TEX;
+		fileExtension = FileExtensions.TEX;
 		fileExtensionMsg = "TeX ";
 	}
 

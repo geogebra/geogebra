@@ -36,6 +36,7 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
@@ -253,7 +254,8 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		File file, pngFile = null;
 		File dir = null;
 		prot.setUseColors(useColors);
-		dir = ((GuiManagerD) app.getGuiManager()).showSaveDialog("", null,
+		dir = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
+				FileExtensions.HTML, null,
 				app.getPlain("Directories"), false, true);
 		if (dir == null)
 			return;

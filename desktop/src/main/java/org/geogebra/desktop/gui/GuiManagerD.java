@@ -79,6 +79,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Base64;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.CommandLineArguments;
@@ -1484,12 +1485,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 								.getCurrentImagePath());
 
 						MyFileFilter fileFilter = new MyFileFilter();
-						fileFilter.addExtension("jpg");
-						fileFilter.addExtension("jpeg");
-						fileFilter.addExtension("png");
-						fileFilter.addExtension("gif");
-						fileFilter.addExtension("bmp");
-						fileFilter.addExtension("svg");
+						fileFilter.addExtension(FileExtensions.JPG);
+						fileFilter.addExtension(FileExtensions.JPEG);
+						fileFilter.addExtension(FileExtensions.PNG);
+						fileFilter.addExtension(FileExtensions.GIF);
+						fileFilter.addExtension(FileExtensions.BMP);
+						fileFilter.addExtension(FileExtensions.SVG);
 						fileFilter.setDescription(app.getPlain("Image"));
 						fileChooser.resetChoosableFileFilters();
 						fileChooser.setFileFilter(fileFilter);
@@ -1599,9 +1600,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileChooser.setCurrentDirectory(((AppD) app).getCurrentImagePath());
 
 			MyFileFilter fileFilter = new MyFileFilter();
-			fileFilter.addExtension("txt");
-			fileFilter.addExtension("csv");
-			fileFilter.addExtension("dat");
+			fileFilter.addExtension(FileExtensions.TXT);
+			fileFilter.addExtension(FileExtensions.CSV);
+			fileFilter.addExtension(FileExtensions.DAT);
 
 			// fileFilter.setDescription(app.getPlain("Image"));
 			fileChooser.resetChoosableFileFilters();
@@ -1713,9 +1714,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 		}
 
-		String[] fileExtensions;
+		FileExtensions[] fileExtensions;
 		String[] fileDescriptions;
-		fileExtensions = new String[] { AppD.FILE_EXT_GEOGEBRA };
+		fileExtensions = new FileExtensions[] { FileExtensions.GEOGEBRA };
 		fileDescriptions = new String[] { GeoGebraConstants.APPLICATION_NAME
 				+ " " + app.getMenu("Files") };
 		File file = showSaveDialog(fileExtensions,
@@ -1729,20 +1730,20 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return success;
 	}
 
-	public File showSaveDialog(String fileExtension, File selectedFile,
+	public File showSaveDialog(FileExtensions fileExtension, File selectedFile,
 			String fileDescription, boolean promptOverwrite, boolean dirsOnly) {
 
 		if (selectedFile == null) {
 			selectedFile = removeExtension(((AppD) app).getCurrentFile());
 		}
 
-		String[] fileExtensions = { fileExtension };
+		FileExtensions[] fileExtensions = { fileExtension };
 		String[] fileDescriptions = { fileDescription };
 		return showSaveDialog(fileExtensions, selectedFile, fileDescriptions,
 				promptOverwrite, dirsOnly);
 	}
 
-	public File showSaveDialog(final String[] fileExtensions,
+	public File showSaveDialog(final FileExtensions[] fileExtensions,
 			File selectedFile, String[] fileDescriptions,
 			boolean promptOverwrite, boolean dirsOnly) {
 		boolean done = false;
@@ -1752,7 +1753,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				|| fileDescriptions == null) {
 			return null;
 		}
-		String fileExtension = fileExtensions[0];
+		FileExtensions fileExtension = fileExtensions[0];
 
 		/**************************************************************
 		 * Mac OS X related code to work around JFileChooser problem on
@@ -1763,7 +1764,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				NSSavePanel panel = new NSSavePanel();
 				String result = panel.saveDialog(app.getMenu("Save"),
-						fileExtension);
+						fileExtension.ext);
 				file = new File(result);
 				done = true;
 
@@ -1824,7 +1825,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		// set selected file
 		if (selectedFile != null) {
-			fileExtension = StringUtil.getFileExtension(selectedFile.getName());
+			fileExtension = StringUtil
+					.getFileExtensionEnum(selectedFile.getName());
 			int i = 0;
 			while (i < fileExtensions.length
 					&& !fileExtension.equals(fileExtensions[i])) {
@@ -1920,11 +1922,18 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return file;
 	}
 
+	public static File addExtension(File file, FileExtensions fileExtension) {
+		return addExtension(file, fileExtension.ext);
+	}
+
 	public static File addExtension(File file, String fileExtension) {
-		if (file == null)
+		if (file == null) {
 			return null;
-		if (StringUtil.getFileExtension(file.getName()).equals(fileExtension))
+		}
+		if (StringUtil.getFileExtension(file.getName())
+.equals(fileExtension)) {
 			return file;
+		}
 		return new File(file.getParentFile(), // path
 				file.getName() + '.' + fileExtension); // filename
 	}
@@ -1993,9 +2002,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						return (name.endsWith("." + AppD.FILE_EXT_GEOGEBRA)
 								|| name.endsWith("."
 										+ AppD.FILE_EXT_GEOGEBRA_TOOL)
-								|| name.endsWith("." + AppD.FILE_EXT_HTM)
-								|| name.endsWith("." + AppD.FILE_EXT_HTML) || name
-								.endsWith("." + AppD.FILE_EXT_OFF));
+								|| name.endsWith("." + FileExtensions.HTM.ext)
+								|| name.endsWith("." + FileExtensions.HTML.ext)
+								|| name.endsWith("." + AppD.FILE_EXT_OFF));
 					}
 				});
 				fd.setTitle(app.getMenu("Load"));
@@ -2033,26 +2042,26 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			// GeoGebra File Filter
 			MyFileFilter fileFilter = new MyFileFilter();
-			fileFilter.addExtension(AppD.FILE_EXT_GEOGEBRA);
-			fileFilter.addExtension(AppD.FILE_EXT_GEOGEBRA_TOOL);
-			fileFilter.addExtension(AppD.FILE_EXT_HTML);
-			fileFilter.addExtension(AppD.FILE_EXT_HTM);
+			fileFilter.addExtension(FileExtensions.GEOGEBRA);
+			fileFilter.addExtension(FileExtensions.GEOGEBRA_TOOL);
+			fileFilter.addExtension(FileExtensions.HTML);
+			fileFilter.addExtension(FileExtensions.HTM);
 			fileFilter.setDescription(GeoGebraConstants.APPLICATION_NAME
 					+ app.getMenu("Files"));
 			fileChooser.resetChoosableFileFilters();
 			fileChooser.addChoosableFileFilter(fileFilter);
 
 			MyFileFilter insertFilter = new MyFileFilter();
-			insertFilter.addExtension(AppD.FILE_EXT_GEOGEBRA);
+			insertFilter.addExtension(FileExtensions.GEOGEBRA);
 			insertFilter.setDescription(app.getMenu("InsertFile"));
 			fileChooser.addChoosableFileFilter(insertFilter);
 
 			MyFileFilter templateFilter = new MyFileFilter();
-			templateFilter.addExtension(AppD.FILE_EXT_GEOGEBRA);
+			templateFilter.addExtension(FileExtensions.GEOGEBRA);
 			templateFilter.setDescription(app.getMenu("ApplyTemplate"));
 			fileChooser.addChoosableFileFilter(templateFilter);
 
-			MyFileFilter offFilter = new MyFileFilter(AppD.FILE_EXT_OFF);
+			MyFileFilter offFilter = new MyFileFilter(FileExtensions.OFF);
 			// TODO: Localization
 			offFilter.setDescription("OFF file");
 			fileChooser.addChoosableFileFilter(offFilter);
@@ -2091,7 +2100,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					File file0 = files[i];
 
 					if (!file0.exists()) {
-						file0 = addExtension(file0, AppD.FILE_EXT_GEOGEBRA);
+						file0 = addExtension(file0, FileExtensions.GEOGEBRA);
 					}
 
 					((AppD) app).applyTemplate(file0);
@@ -2110,7 +2119,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					File file0 = files[i];
 
 					if (!file0.exists()) {
-						file0 = addExtension(file0, AppD.FILE_EXT_GEOGEBRA);
+						file0 = addExtension(file0, FileExtensions.GEOGEBRA);
 					}
 
 					((AppD) app).insertFile(file0);
@@ -2128,7 +2137,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					File file0 = files[i];
 					
 					if (!file0.exists()) {
-						file0 = addExtension(file0, AppD.FILE_EXT_OFF);
+						file0 = addExtension(file0, FileExtensions.OFF);
 					}
 
 				}
@@ -2146,11 +2155,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public synchronized void doOpenFiles(File[] files,
 			boolean allowOpeningInThisInstance) {
-		doOpenFiles(files, allowOpeningInThisInstance, AppD.FILE_EXT_GEOGEBRA);
+		doOpenFiles(files, allowOpeningInThisInstance, FileExtensions.GEOGEBRA);
 	}
 
 	public synchronized void doOpenFiles(File[] files,
-			boolean allowOpeningInThisInstance, String extension) {
+			boolean allowOpeningInThisInstance, FileExtensions extension) {
 		htmlLoaded = false;
 		// there are selected files
 		if (files != null) {
@@ -2161,26 +2170,26 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				if (!file.exists()) {
 					file = addExtension(file, extension);
-					if (extension.equals(AppD.FILE_EXT_GEOGEBRA)
+					if (extension.equals(FileExtensions.GEOGEBRA)
 							&& !file.exists()) {
 						file = addExtension(removeExtension(file),
-								AppD.FILE_EXT_GEOGEBRA_TOOL);
+								FileExtensions.GEOGEBRA_TOOL);
 					}
 					if (extension.equals(AppD.FILE_EXT_GEOGEBRA)
 							&& !file.exists()) {
 						file = addExtension(removeExtension(file),
-								AppD.FILE_EXT_HTML);
+								FileExtensions.HTML);
 					}
 					if (extension.equals(AppD.FILE_EXT_GEOGEBRA)
 							&& !file.exists()) {
 						file = addExtension(removeExtension(file),
-								AppD.FILE_EXT_HTM);
+								FileExtensions.HTM);
 					}
 
 					if (extension.equals(AppD.FILE_EXT_GEOGEBRA)
 							&& !file.exists()) {
 						file = addExtension(removeExtension(file),
-								AppD.FILE_EXT_OFF);
+								FileExtensions.OFF);
 					}
 
 					if (!file.exists()) {

@@ -51,6 +51,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -606,7 +607,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// NB pasting into WordPad *won't* work with this method
 			file = new File(tempDir + "geogebra.eps");
 		} else {
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_EPS, null,
+			file = app.getGuiManager().showSaveDialog(FileExtensions.EPS, null,
 					app.getPlain("eps") + " " + app.getMenu("Files"), true,
 					false);
 
@@ -643,7 +644,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.emf");
 		} else {
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_EMF, null,
+			file = app.getGuiManager().showSaveDialog(FileExtensions.EMF, null,
 					app.getPlain("emf") + " " + app.getMenu("Files"), true,
 					false);
 			// Michael Borcherds 2008-03-02 END
@@ -683,7 +684,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.pdf");
 		} else {
 			// Michael Borcherds 2008-03-02 END
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_PDF, null,
+			file = app.getGuiManager().showSaveDialog(FileExtensions.PDF, null,
 					app.getPlain("pdf") + " " + app.getMenu("Files"), true,
 					false);
 		}
@@ -726,7 +727,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.svg");
 		} else {
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_SVG, null,
+			file = app.getGuiManager().showSaveDialog(FileExtensions.SVG, null,
 					app.getPlain("svg") + " " + app.getMenu("Files"), true,
 					false);
 		}
@@ -775,7 +776,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.png");
 		} else {
-			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_PNG, null,
+			file = app.getGuiManager().showSaveDialog(FileExtensions.PNG, null,
 					app.getPlain("png") + " " + app.getMenu("Files"), true,
 					false);
 		}
