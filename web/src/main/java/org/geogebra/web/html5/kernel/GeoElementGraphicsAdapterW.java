@@ -2,7 +2,9 @@ package org.geogebra.web.html5.kernel;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.StringUtil;
 
 public class GeoElementGraphicsAdapterW extends
         org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
@@ -57,19 +59,20 @@ public class GeoElementGraphicsAdapterW extends
 
 	@Override
 	public void convertToSaveableFormat() {
+
 		if ("".equals(imageFileName)) {
 			return;
 		}
-		int dotIndex = imageFileName.lastIndexOf('.');
-		String ext = imageFileName.substring(dotIndex + 1).toLowerCase();
-		if ("png".equals(ext) || "svg".equals(ext)) {
+
+		FileExtensions ext = StringUtil.getFileExtensionEnum(imageFileName);
+
+		if (ext.isAllowedImage()) {
 			return;
 		}
-		int index = imageFileName.lastIndexOf('/');
-		int extDotLength = dotIndex < 0 ? 0 : ext.length() + 1;
-		String fn = imageFileName.substring(index + 1, imageFileName.length()
-		        - extDotLength)
-		        + ".png";
+
+		String fn = StringUtil.changeFileExtension(imageFileName,
+				FileExtensions.PNG);
+
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		imageFileName = md5e.encrypt(fn) + "/" + fn;
 	}
