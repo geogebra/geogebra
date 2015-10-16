@@ -119,16 +119,18 @@ public class CommandsTest extends Assert{
 		t("list1(1)", "1");
 		t("list1(4)", "NaN");
 		t("list1(0)", "NaN");
-		t("list1(-1)", "NaN");
+		t("list1(-1)", "3");
+		t("list1(-5)", "NaN");
 		t("list1(1,2)", "NaN");
 		t("listF(1)", "x");
 		t("listF(2)", "(2 * x)");
 		t("listF(2,7)", "14");
 		t("matrix1(2)", "{2, 4, 6}");
-		t("matrix1(-1)", "{NaN, NaN, NaN}");
+		t("matrix1(-1)", "{3, 6, 9}");
+		t("matrix1(-5)", "{NaN, NaN, NaN}");
 		t("matrix1(2,3)", "6");
 		t("matrix1(2,3,4)", "NaN");
-		t("matrix1(2,-1)", "NaN");
+		t("matrix1(2,-1)", "6");
 		t("Delete[list1]", new String[] {});
 		t("Delete[matrix1]", new String[] {});
 	}
