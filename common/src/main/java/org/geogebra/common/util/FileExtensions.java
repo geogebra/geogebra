@@ -1,15 +1,22 @@
 package org.geogebra.common.util;
 
 public enum FileExtensions {
+
+	// only these 4 PNG/JPG/JPEG/SVG are allowed image formats in .ggb files
+	// all others are converted to PNG
 	PNG("png", true),
 
-	GIF("gif", true),
+	JPG("jpg", true),
 
-	EPS("eps", false),
+	JPEG("jpeg", true),
 
-	SVG("svg", false),
+	SVG("svg", true),
 
 	BMP("bmp", true),
+
+	GIF("gif", false),
+
+	EPS("eps", false),
 
 	PDF("pdf", false),
 
@@ -31,21 +38,17 @@ public enum FileExtensions {
 
 	DAT("dat", false),
 
-	JPG("jpg", true),
-
-	JPEG("jpeg", true),
-
 	UNKNOWN("?", false),
 
 	GEOGEBRA("ggb", false),
 
 	GEOGEBRA_TOOL("ggt", false);
 
-	public boolean bitmap;
+	public boolean allowedImage;
 	public String ext;
 
-	private FileExtensions(String extension, boolean bitmap) {
-		this.bitmap = bitmap;
+	private FileExtensions(String extension, boolean allowedImage) {
+		this.allowedImage = allowedImage;
 		this.ext = extension;
 
 	}
@@ -64,6 +67,10 @@ public enum FileExtensions {
 
 		return UNKNOWN;
 
+	}
+
+	public boolean isAllowedImage() {
+		return allowedImage;
 	}
 
 }

@@ -33,7 +33,9 @@ import java.util.Hashtable;
 import javax.swing.ImageIcon;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
 
@@ -135,15 +137,32 @@ public class ImageManagerD extends ImageManager {
 
 	public void addExternalImage(String fileName, MyImageD img) {
 		if (fileName != null && img != null) {
+
+			// GIF saved as PNG in .ggb files so need to change extension
+			FileExtensions ext = StringUtil.getFileExtensionEnum(fileName);
+			if (!ext.isAllowedImage()) {
+				fileName = StringUtil.changeFileExtension(fileName,
+						FileExtensions.PNG);
+			}
+
+			fileName = fileName.replace(".GIF", ".png");
 			App.debug("storing " + fileName + " " + img.isSVG());
 			externalImageTable.put(fileName, img);
 		}
 	}
 
 	public static MyImageD getExternalImage(String fileName) {
+
+		// GIF saved as PNG in .ggb files so need to change extension
+		FileExtensions ext = StringUtil.getFileExtensionEnum(fileName);
+		if (!ext.isAllowedImage()) {
+			fileName = StringUtil.changeFileExtension(fileName,
+					FileExtensions.PNG);
+		}
+
 		App.debug("retreiving filename = " + fileName);
 		MyImageD ret = externalImageTable.get(fileName);
-		App.debug((ret == null) + "");
+		// App.debug("(ret == null)" + (ret == null));
 		return ret;
 	}
 

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -33,22 +34,14 @@ public abstract class GeoElementGraphicsAdapter {
 	 */
 	public void setImageFileNameOnly(String fn) {
 
-		int pos = fn.lastIndexOf('.');
+		FileExtensions ext = StringUtil.getFileExtensionEnum(fn);
 
-		if (pos == -1) {
-			// eg "" when a button has no image
-			imageFileName = fn;
-			return;
-		}
-
-		String ext = StringUtil.toLowerCase(fn.substring(pos + 1));
-
-		if (!ext.equals("png") && !ext.equals("jpg") && !ext.equals("jpeg")
-				&& !ext.equals("svg")) {
+		if (!ext.isAllowedImage()) {
 
 			// all bitmaps (except JPG) saved as PNG
 			// eg .TIFF
-			imageFileName = fn.substring(0, pos) + ".png";
+			imageFileName = StringUtil.changeFileExtension(fn,
+					FileExtensions.PNG);
 			Log.debug(
 					"changing image extension " + ext + " -> " + imageFileName);
 		} else {

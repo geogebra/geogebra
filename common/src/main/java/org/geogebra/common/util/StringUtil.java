@@ -1499,16 +1499,17 @@ public class StringUtil {
 	/**
 	 * @param fileName
 	 *            eg "file.gif"
-	 * @param ext
-	 *            eg ".png"
+	 * @param extension
+	 *            eg PNG
 	 * @return changes eg "file.gif" to "file.png"
 	 */
-	public static String changeFileExtension(String fileName, String ext) {
+	public static String changeFileExtension(String fileName,
+			FileExtensions extension) {
 		if (fileName == null) {
 			return null;
 		}
 
-		return removeFileExtension(fileName) + "." + ext;
+		return removeFileExtension(fileName) + "." + extension.ext;
 	}
 
 }
